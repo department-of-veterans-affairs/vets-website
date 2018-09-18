@@ -11,19 +11,19 @@ const props = {
 };
 
 describe('<ButtonPrint>', () => {
-  it('should render correctly', () => {
+  test('should render correctly', () => {
     const tree = SkinDeep.shallowRender(<ButtonPrint {...props}/>);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
-  it('should have the expected classname', () => {
+  test('should have the expected classname', () => {
     const tree = SkinDeep.shallowRender(<ButtonPrint {...props}/>);
 
     expect(tree.props.className).to.equal('msg-btn-print');
   });
 
-  it('should handle click action properly', () => {
+  test('should handle click action properly', () => {
     const onClick = sinon.spy();
     const buttonPrint = ReactTestUtils.renderIntoDocument(
       <ButtonPrint

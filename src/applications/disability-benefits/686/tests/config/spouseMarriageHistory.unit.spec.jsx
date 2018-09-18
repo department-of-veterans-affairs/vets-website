@@ -12,7 +12,7 @@ describe('686 spouse marriage history', () => {
   const schema = marriageHistory.schema.properties.spouseMarriages.items;
   const depends = marriageHistory.depends;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -33,7 +33,7 @@ describe('686 spouse marriage history', () => {
     expect(form.find('#root_dateOfMarriage-label').text()).to.contain('Jane Doe');
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -49,7 +49,7 @@ describe('686 spouse marriage history', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with valid data and add another', () => {
+  test('should submit with valid data and add another', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -73,9 +73,12 @@ describe('686 spouse marriage history', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('depends should return true if married and spouse was married before', () => {
-    const result = depends({ maritalStatus: 'Married', 'view:spouseMarriedBefore': true });
+  test(
+    'depends should return true if married and spouse was married before',
+    () => {
+      const result = depends({ maritalStatus: 'Married', 'view:spouseMarriedBefore': true });
 
-    expect(result).to.be.true;
-  });
+      expect(result).to.be.true;
+    }
+  );
 });

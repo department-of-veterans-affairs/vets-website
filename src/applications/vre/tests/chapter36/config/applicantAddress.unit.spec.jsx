@@ -8,7 +8,7 @@ import formConfig from '../../../chapter36/config/form.js';
 
 describe('VRE chapter 36 applicant address', () => {
   const { schema, uiSchema } = formConfig.chapters.contactInformation.pages.applicantAddress;
-  it('renders applicant address form', () => {
+  test('renders applicant address form', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -21,7 +21,7 @@ describe('VRE chapter 36 applicant address', () => {
     expect(form.find('select').length).to.equal(2);
   });
 
-  it('does not submit without required info', () => {
+  test('does not submit without required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -39,7 +39,7 @@ describe('VRE chapter 36 applicant address', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('submits with required info', () => {
+  test('submits with required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

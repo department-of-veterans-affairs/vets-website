@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 describe('Burials document upload', () => {
   const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.documentUpload;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -21,7 +21,7 @@ describe('Burials document upload', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(1);
   });
 
-  it('should render death certificate field', () => {
+  test('should render death certificate field', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -36,7 +36,7 @@ describe('Burials document upload', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(2);
   });
 
-  it('should render receipts field', () => {
+  test('should render receipts field', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -53,7 +53,7 @@ describe('Burials document upload', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(1);
   });
 
-  it('should render DD214 warning if no tours of duty provided', () => {
+  test('should render DD214 warning if no tours of duty provided', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -68,7 +68,7 @@ describe('Burials document upload', () => {
     expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(1);
   });
 
-  it('should not render DD214 warning if tours of duty provided', () => {
+  test('should not render DD214 warning if tours of duty provided', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -84,7 +84,7 @@ describe('Burials document upload', () => {
     expect(formDOM.querySelectorAll('.usa-alert')).to.be.empty;
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -108,7 +108,7 @@ describe('Burials document upload', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

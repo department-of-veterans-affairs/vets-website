@@ -35,19 +35,19 @@ const defaultProps = {
 };
 
 describe('<EnrollmentHistory>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<EnrollmentHistory {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
 
-  it('should show enrollments if veteran is eligible', () => {
+  test('should show enrollments if veteran is eligible', () => {
     const tree = SkinDeep.shallowRender(<EnrollmentHistory {...defaultProps}/>);
     expect(tree.subTree('EnrollmentPeriod')).to.exist;
     expect(tree.dive(['.section-header']).text()).to.equal('Enrollment History');
   });
 
-  it('should not show enrollments if veteran is not eligible', () => {
+  test('should not show enrollments if veteran is not eligible', () => {
     const props = {
       enrollmentData: {
         veteranIsEligible: false,
@@ -63,13 +63,13 @@ describe('<EnrollmentHistory>', () => {
     expect(tree.subTree('.section-header')).to.be.false;
   });
 
-  it('should show history may be incorrect warning', () => {
+  test('should show history may be incorrect warning', () => {
     const tree = SkinDeep.shallowRender(<EnrollmentHistory {...defaultProps}/>);
     const featureBoxes = tree.dive(['.feature']).everySubTree('h4');
     expect(featureBoxes[0].text()).to.equal('Does something look wrong in your enrollment history?');
   });
 
-  it('should show no enrollment history warning', () => {
+  test('should show no enrollment history warning', () => {
     const props = {
       enrollmentData: {
         veteranIsEligible: true,

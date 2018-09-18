@@ -18,7 +18,7 @@ const initialState = {
 };
 
 describe('filter reducer', () => {
-  it('should change filter successfully', () => {
+  test('should change filter successfully', () => {
     const state = filterReducer(
       initialState,
       {

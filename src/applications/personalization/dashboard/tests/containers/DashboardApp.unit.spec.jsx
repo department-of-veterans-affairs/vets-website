@@ -24,23 +24,23 @@ describe('<DashboardApp>', () => {
     localStorage.getItem.restore();
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<DashboardApp {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.be.ok;
   });
 
-  it('should render verification state if LOA != 3', () => {
+  test('should render verification state if LOA != 3', () => {
     const tree = SkinDeep.shallowRender(<DashboardApp profile={{ loa: { current: 1 } }}/>);
     expect(tree.toString()).to.contain('Verify your identity to access more Vets.gov tools and features');
   });
 
-  it('should render MVI warning state if status not OK', () => {
+  test('should render MVI warning state if status not OK', () => {
     const tree = SkinDeep.shallowRender(<DashboardApp profile={{ loa: { current: 3 }, status: 'ERROR' }}/>);
     expect(tree.toString()).to.contain('We’re having trouble matching your information to our Veteran records');
   });
 
-  it('should not render warnings if information available', () => {
+  test('should not render warnings if information available', () => {
     const props = {
       profile: {
         loa: {

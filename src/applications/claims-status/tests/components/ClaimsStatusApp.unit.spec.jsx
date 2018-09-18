@@ -7,7 +7,7 @@ import backendServices from '../../../../platform/user/profile/constants/backend
 import { ClaimsStatusApp, AppContent } from '../../containers/ClaimsStatusApp';
 
 describe('<ClaimsStatusApp>', () => {
-  it('should render children and login view', () => {
+  test('should render children and login view', () => {
     const tree = SkinDeep.shallowRender(
       <ClaimsStatusApp
         available
@@ -21,7 +21,7 @@ describe('<ClaimsStatusApp>', () => {
     expect(tree.subTree('RequiredLoginView').props.serviceRequired).to.eql([backendServices.EVSS_CLAIMS, backendServices.APPEALS_STATUS]);
     expect(tree.subTree('RequiredLoginView').props.verify).to.be.true;
   });
-  it('should render children', () => {
+  test('should render children', () => {
     const tree = SkinDeep.shallowRender(
       <AppContent
         available

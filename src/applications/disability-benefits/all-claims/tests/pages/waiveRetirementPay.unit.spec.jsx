@@ -8,7 +8,7 @@ import formConfig from '../../config/form';
 describe('Service Pay', () => {
   const { schema, uiSchema } = formConfig.chapters.veteranDetails.pages.waiveRetirementPay;
 
-  it('should render two radio options by default', () => {
+  test('should render two radio options by default', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -21,7 +21,7 @@ describe('Service Pay', () => {
     expect(form.find('input[type="radio"]').length).to.equal(2);
   });
 
-  it('should submit when an option is selected', () => {
+  test('should submit when an option is selected', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -38,7 +38,7 @@ describe('Service Pay', () => {
     expect(onSubmit.calledOnce).to.be.true;
   });
 
-  it('should fail to submit when neither option is selected', () => {
+  test('should fail to submit when neither option is selected', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

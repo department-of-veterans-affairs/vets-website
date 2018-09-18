@@ -42,7 +42,7 @@ const initialState = {
 const folderKey = (folderName) => _.kebabCase(folderName);
 
 describe('folders reducer', () => {
-  it('should create a folder', () => {
+  test('should create a folder', () => {
     const folder = folders.data[4].attributes;
     const newState = foldersReducer(initialState, {
       type: CREATE_FOLDER_SUCCESS,
@@ -52,7 +52,7 @@ describe('folders reducer', () => {
     expect(Array.from(newState.data.items.values())).to.contain(folder);
   });
 
-  it('should delete a folder', () => {
+  test('should delete a folder', () => {
     const state = {
       data: {
         items: new Map([
@@ -75,7 +75,7 @@ describe('folders reducer', () => {
       .to.contain(state.data.items.get('test-folder-789'));
   });
 
-  it('should set a folder fetched from the server', () => {
+  test('should set a folder fetched from the server', () => {
     const folder = { data: folders.data[0] };
     const newState = foldersReducer(initialState, {
       type: FETCH_FOLDER_SUCCESS,
@@ -93,7 +93,7 @@ describe('folders reducer', () => {
       .to.eql(folder.data.attributes);
   });
 
-  it('should set folders fetched from the server', () => {
+  test('should set folders fetched from the server', () => {
     const newState = foldersReducer(initialState, {
       type: FETCH_FOLDERS_SUCCESS,
       data: folders
@@ -103,21 +103,21 @@ describe('folders reducer', () => {
       .to.eql(folders.data.map(folder => folder.attributes));
   });
 
-  it('should open and close the folder navigation', () => {
+  test('should open and close the folder navigation', () => {
     let newState = foldersReducer(initialState, { type: TOGGLE_FOLDER_NAV });
     expect(newState.ui.nav.visible).to.be.true;
     newState = foldersReducer(newState, { type: TOGGLE_FOLDER_NAV });
     expect(newState.ui.nav.visible).to.be.false;
   });
 
-  it('should expand and collapse managed folders', () => {
+  test('should expand and collapse managed folders', () => {
     let newState = foldersReducer(initialState, { type: TOGGLE_MANAGED_FOLDERS });
     expect(newState.ui.nav.foldersExpanded).to.be.true;
     newState = foldersReducer(newState, { type: TOGGLE_MANAGED_FOLDERS });
     expect(newState.ui.nav.foldersExpanded).to.be.false;
   });
 
-  it('should increment the count of Drafts after saving a new draft', () => {
+  test('should increment the count of Drafts after saving a new draft', () => {
     const newState = foldersReducer({
       data: { items: new Map([['drafts', { count: 1 }]]) }
     }, {
@@ -128,18 +128,21 @@ describe('folders reducer', () => {
     expect(newState.data.items.get('drafts').count).to.equal(2);
   });
 
-  it('should not increment the count of Drafts after re-saving a draft', () => {
-    const newState = foldersReducer({
-      data: { items: new Map([['drafts', { count: 1 }]]) }
-    }, {
-      type: SAVE_DRAFT_SUCCESS,
-      message: { body: 'testing 123' },
-      isSavedDraft: true
-    });
-    expect(newState.data.items.get('drafts').count).to.equal(1);
-  });
+  test(
+    'should not increment the count of Drafts after re-saving a draft',
+    () => {
+      const newState = foldersReducer({
+        data: { items: new Map([['drafts', { count: 1 }]]) }
+      }, {
+        type: SAVE_DRAFT_SUCCESS,
+        message: { body: 'testing 123' },
+        isSavedDraft: true
+      });
+      expect(newState.data.items.get('drafts').count).to.equal(1);
+    }
+  );
 
-  it('should update folder counts after moving a message', () => {
+  test('should update folder counts after moving a message', () => {
     const newState = foldersReducer({
       data: {
         currentItem: { attributes: folders.data[4].attributes },

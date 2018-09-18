@@ -8,7 +8,7 @@ import formConfig from '../../config/form.js';
 
 describe('Burials veteran information', () => {
   const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -21,7 +21,7 @@ describe('Burials veteran information', () => {
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(10);
   });
 
-  it('should show errors when required fields are empty', () => {
+  test('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -37,7 +37,7 @@ describe('Burials veteran information', () => {
     expect(onSubmit.called).not.to.be.true;
   });
 
-  it('should require one of ssn or file number', () => {
+  test('should require one of ssn or file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -57,7 +57,7 @@ describe('Burials veteran information', () => {
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
   });
 
-  it('should submit when all required fields are filled in', () => {
+  test('should submit when all required fields are filled in', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

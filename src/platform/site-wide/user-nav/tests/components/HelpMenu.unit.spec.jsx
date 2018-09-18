@@ -12,7 +12,7 @@ describe('<HelpMenu>', () => {
 
   const tree = SkinDeep.shallowRender(<HelpMenu {...props}/>);
 
-  it('should render', () => {
+  test('should render', () => {
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });

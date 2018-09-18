@@ -13,7 +13,7 @@ const hooks = {
 describe('initDismissedAnnouncements', () => {
   beforeEach(hooks.beforeEach);
 
-  it('returns dismissed announcements from localStorage', () => {
+  test('returns dismissed announcements from localStorage', () => {
     let result = announcementActions.initDismissedAnnouncements();
     expect(result).to.be.deep.equal({
       type: announcementActions.INIT_DISMISSED_ANNOUNCEMENTS,
@@ -34,7 +34,7 @@ describe('initDismissedAnnouncements', () => {
 describe('dismissAnnouncement', () => {
   beforeEach(hooks.beforeEach);
 
-  it('adds dismissed announcements into localStorage', () => {
+  test('adds dismissed announcements into localStorage', () => {
     let result = announcementActions.dismissAnnouncement('dummy');
     expect(result).to.be.deep.equal({
       type: announcementActions.DISMISS_ANNOUNCEMENT,

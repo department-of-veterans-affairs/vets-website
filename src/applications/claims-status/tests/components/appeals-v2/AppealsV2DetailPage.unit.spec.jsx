@@ -8,12 +8,12 @@ import { mockData } from '../../../utils/helpers';
 describe('<AppealsV2DetailPage/>', () => {
   const defaultProps = { appeal: mockData.data[0] };
 
-  it('renders', () => {
+  test('renders', () => {
     const wrapper = shallow(<AppealsV2DetailPage {...defaultProps}/>);
     expect(wrapper.type()).to.equal('div');
   });
 
-  it('renders the <Issues/> component', () => {
+  test('renders the <Issues/> component', () => {
     const wrapper = shallow(<AppealsV2DetailPage {...defaultProps}/>);
     expect(wrapper.find('Issues').length).to.equal(1);
   });

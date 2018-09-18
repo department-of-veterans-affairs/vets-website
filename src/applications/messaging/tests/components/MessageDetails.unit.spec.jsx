@@ -18,13 +18,13 @@ const props = {
 };
 
 describe('MessageDetails', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<MessageDetails {...props}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
 
-  it('should show the correct data', () => {
+  test('should show the correct data', () => {
     const tree = SkinDeep.shallowRender(<MessageDetails {...props}/>);
 
     const rows = tree.dive(['.messaging-message-details', 'table', 'tbody']).everySubTree('tr');
@@ -40,7 +40,7 @@ describe('MessageDetails', () => {
     expect(rows[5].dive(['td']).text()).to.equal(props.attrs.subject);
   });
 
-  it('should not show anything with sent date when not available', () => {
+  test('should not show anything with sent date when not available', () => {
     const tree = SkinDeep.shallowRender(
       <MessageDetails {...props} attrs={{ ...props.attrs, sentDate: null }}/>
     );
@@ -56,7 +56,7 @@ describe('MessageDetails', () => {
     expect(rows[4].dive(['th']).text()).to.equal('Subject Line:');
   });
 
-  it('should show or hide details when toggled', () => {
+  test('should show or hide details when toggled', () => {
     const details = ReactTestUtils.renderIntoDocument(
       <MessageDetails {...props}/>
     );

@@ -12,19 +12,19 @@ const props = {
 };
 
 describe('<ModalAttachments>', () => {
-  it('should render correctly', () => {
+  test('should render correctly', () => {
     const tree = SkinDeep.shallowRender(<ModalAttachments {...props}/>);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
-  it('should render the expected child elements', () => {
+  test('should render the expected child elements', () => {
     const tree = SkinDeep.shallowRender(<ModalAttachments {...props}/>);
 
     expect(tree.subTree('Modal')).to.be.ok;
   });
 
-  it('should render the expected text in child elements', () => {
+  test('should render the expected text in child elements', () => {
     const tree = SkinDeep.shallowRender(<ModalAttachments {...props}/>);
 
     expect(tree.dive(['Modal']).subTree('h3').text()).to.equal(props.title);

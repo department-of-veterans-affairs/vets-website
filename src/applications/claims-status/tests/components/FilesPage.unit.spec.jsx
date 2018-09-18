@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import { FilesPage } from '../../containers/FilesPage';
 
 describe('<FilesPage>', () => {
-  it('should render notification', () => {
+  test('should render notification', () => {
     const claim = {};
 
     const tree = SkinDeep.shallowRender(
@@ -17,7 +17,7 @@ describe('<FilesPage>', () => {
     );
     expect(tree.props.message).not.to.be.null;
   });
-  it('should hide requested files when closed', () => {
+  test('should hide requested files when closed', () => {
     const claim = {
       attributes: {
         open: false,
@@ -31,7 +31,7 @@ describe('<FilesPage>', () => {
 
     expect(tree.subTree('RequestedFilesInfo')).to.be.false;
   });
-  it('should show requested files when open', () => {
+  test('should show requested files when open', () => {
     const claim = {
       attributes: {
         open: true,
@@ -45,7 +45,7 @@ describe('<FilesPage>', () => {
 
     expect(tree.subTree('RequestedFilesInfo')).not.to.be.false;
   });
-  it('should render ask va to decide component', () => {
+  test('should render ask va to decide component', () => {
     const claim = {
       id: 1,
       attributes: {
@@ -69,7 +69,7 @@ describe('<FilesPage>', () => {
     );
     expect(tree.everySubTree('AskVAToDecide')).not.to.be.empty;
   });
-  it('should display turned in docs', () => {
+  test('should display turned in docs', () => {
     const claim = {
       attributes: {
         eventsTimeline: [
@@ -91,7 +91,7 @@ describe('<FilesPage>', () => {
     );
     expect(tree.everySubTree('SubmittedTrackedItem').length).to.equal(1);
   });
-  it('should display additional evidence docs', () => {
+  test('should display additional evidence docs', () => {
     const claim = {
       attributes: {
         eventsTimeline: [
@@ -110,7 +110,7 @@ describe('<FilesPage>', () => {
     );
     expect(tree.everySubTree('AdditionalEvidenceItem').length).to.equal(1);
   });
-  it('should show never received docs as tracked items', () => {
+  test('should show never received docs as tracked items', () => {
     const claim = {
       attributes: {
         eventsTimeline: [
@@ -141,7 +141,7 @@ describe('<FilesPage>', () => {
     expect(tree.everySubTree('SubmittedTrackedItem').length).to.equal(2);
     expect(tree.everySubTree('AdditionalEvidenceItem')).to.be.empty;
   });
-  it('should clear alert', () => {
+  test('should clear alert', () => {
     const claim = {
       attributes: {
         eventsTimeline: []
@@ -163,7 +163,7 @@ describe('<FilesPage>', () => {
     tree.subTree('ClaimDetailLayout').props.clearNotification();
     expect(clearNotification.called).to.be.true;
   });
-  it('should clear notification when leaving', () => {
+  test('should clear notification when leaving', () => {
     const claim = {
       attributes: {
         eventsTimeline: []

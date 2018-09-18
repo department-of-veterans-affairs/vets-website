@@ -16,7 +16,7 @@ describe('5490 schema tests', () => {
     .forEach((file) => {
       const contents = JSON.parse(fs.readFileSync(path.join(__dirname, file), 'utf8'));
       const submitData = JSON.parse(transform(formConfig, contents)).educationBenefitsClaim.form;
-      it(`should validate ${file}`, () => {
+      test(`should validate ${file}`, () => {
         const result = v.validate(
           JSON.parse(submitData),
           fullSchema5490
@@ -30,7 +30,7 @@ describe('5490 schema tests', () => {
       // Expect the data to be what's found in expected-data/${file}
       // TODO: Switch back to .includes() when NodeJS gets updated on Jenkins
       if (expectedDataFiles.indexOf(file) !== -1) {
-        it(`submitted data for ${file} should match expected data`, () => {
+        test(`submitted data for ${file} should match expected data`, () => {
           // Parse and re-stringify to mimify spaces, etc.
           const expectedData = JSON.parse(fs.readFileSync(path.join(__dirname, 'expected-data', file), 'utf8'));
           expect(submitData).to.equal(JSON.stringify(expectedData));

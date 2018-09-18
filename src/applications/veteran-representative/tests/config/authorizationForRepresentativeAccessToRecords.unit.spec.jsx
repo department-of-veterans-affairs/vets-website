@@ -8,7 +8,7 @@ import formConfig from '../../config/form.js';
 
 describe('authorization for representative access to records', () => {
   const { schema, uiSchema } = formConfig.chapters.authorizationForRepresentativeAccessToRecords.pages.authorizationForRepresentativeAccessToRecords;
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -20,7 +20,7 @@ describe('authorization for representative access to records', () => {
     expect(form.find('input[type="checkbox"]').length).to.equal(1);
   });
 
-  it('should continue without any check boxes filled in', () => {
+  test('should continue without any check boxes filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

@@ -21,7 +21,7 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     submissionStatus: submissionStatuses.succeeded
   };
 
-  it('should render', () => {
+  test('should render', () => {
     const tree = shallow(<ConfirmationPage {...defaultProps}/>);
 
     expect(tree.find('.confirmation-page-title').render().text()).to.equal('Your claim has been submitted.');
@@ -36,30 +36,36 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     expect(tree.find('.disability-list').render().text()).to.not.contain(initialData.disabilities[1].name);
   });
 
-  it('should render 4142 helper text when 4142 option selected for any disability', () => {
-    const newProps = _.set('disabilities[0][view:uploadPrivateRecords]', 'no', defaultProps);
+  test(
+    'should render 4142 helper text when 4142 option selected for any disability',
+    () => {
+      const newProps = _.set('disabilities[0][view:uploadPrivateRecords]', 'no', defaultProps);
 
-    const wrapper = shallow(<ConfirmationPage {...newProps}/>);
-    expect(wrapper.render().text()).to.contain(
-      'you’ll need to fill out an Authorization to Disclose Information to the VA (VA Form 21-4142).'
-    );
-  });
+      const wrapper = shallow(<ConfirmationPage {...newProps}/>);
+      expect(wrapper.render().text()).to.contain(
+        'you’ll need to fill out an Authorization to Disclose Information to the VA (VA Form 21-4142).'
+      );
+    }
+  );
 
-  it('should not render 4142 helper text when 4142 option not selected for any disability', () => {
-    const newProps = _.set('disabilities[0][view:uploadPrivateRecords]', 'yes', defaultProps);
+  test(
+    'should not render 4142 helper text when 4142 option not selected for any disability',
+    () => {
+      const newProps = _.set('disabilities[0][view:uploadPrivateRecords]', 'yes', defaultProps);
 
-    const wrapper = shallow(<ConfirmationPage {...newProps}/>);
-    expect(wrapper.render().text()).to.not.contain(
-      'you’ll need to fill out an Authorization to Disclose Information to the VA (VA Form 21-4142).'
-    );
-  });
+      const wrapper = shallow(<ConfirmationPage {...newProps}/>);
+      expect(wrapper.render().text()).to.not.contain(
+        'you’ll need to fill out an Authorization to Disclose Information to the VA (VA Form 21-4142).'
+      );
+    }
+  );
 
-  it('should render a confirmation number', () => {
+  test('should render a confirmation number', () => {
     const wrapper = shallow(<ConfirmationPage {...defaultProps}/>);
     expect(wrapper.render().text()).to.contain(defaultProps.claimId);
   });
 
-  it('should render a formatted full name', () => {
+  test('should render a formatted full name', () => {
     const fullName = {
       first: 'Sally',
       middle: 'Ruth',
@@ -73,19 +79,19 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     expect(wrapper.render().text()).to.contain(`${first} ${middle} ${last} ${suffix}`);
   });
 
-  it('should render a formatted submission date', () => {
+  test('should render a formatted submission date', () => {
     const wrapper = shallow(<ConfirmationPage {...defaultProps}/>);
     expect(wrapper.render().text()).to.contain('April 12, 2018');
   });
 
-  it('should render a success message', () => {
+  test('should render a success message', () => {
     const wrapper = shallow(<ConfirmationPage {...defaultProps}/>);
     const text = wrapper.render().text();
     expect(text).to.contain('Claim ID number');
     expect(text).to.contain(defaultProps.claimId);
   });
 
-  it('should render a "check later" message', () => {
+  test('should render a "check later" message', () => {
     const wrapper = shallow(<ConfirmationPage {...defaultProps} submissionStatus={submissionStatuses.retry}/>);
     const text = wrapper.render().text();
     expect(text).to.contain('Please allow 24 hours');
@@ -93,7 +99,7 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     expect(text).to.contain(defaultProps.jobId);
   });
 
-  it('should render a failure message', () => {
+  test('should render a failure message', () => {
     const wrapper = shallow(<ConfirmationPage {...defaultProps} submissionStatus={submissionStatuses.failed}/>);
     const text = wrapper.render().text();
     expect(text).to.not.contain('Please allow 24 hours');

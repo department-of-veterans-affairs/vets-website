@@ -4,7 +4,7 @@ import claimsList from '../../reducers/claims-list';
 import { SET_CLAIMS, FILTER_CLAIMS, SORT_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE } from '../../actions';
 
 describe('Claims list reducer', () => {
-  it('should populate the claims list', () => {
+  test('should populate the claims list', () => {
     const claims = Array(12).fill({
       attributes: {
         phaseChangeDate: '2010-01-01'
@@ -25,7 +25,7 @@ describe('Claims list reducer', () => {
     });
     expect(state.claims).to.deep.equal(claims);
   });
-  it('should set the sort property', () => {
+  test('should set the sort property', () => {
     const previousState = {
       sortProperty: 'dateFiled'
     };
@@ -35,7 +35,7 @@ describe('Claims list reducer', () => {
     });
     expect(state.sortProperty).to.equal('phaseChangeDate');
   });
-  it('should sort by id secondarily', () => {
+  test('should sort by id secondarily', () => {
     const claims = [
       {
         id: 2,
@@ -60,7 +60,7 @@ describe('Claims list reducer', () => {
 
     expect(state.visibleList[0].id).to.equal(1);
   });
-  it('should sort null dates after others', () => {
+  test('should sort null dates after others', () => {
     const claims = [
       {
         id: 2,
@@ -85,7 +85,7 @@ describe('Claims list reducer', () => {
 
     expect(state.visibleList[0].id).to.equal(2);
   });
-  it('should sort by date received with null dates after others', () => {
+  test('should sort by date received with null dates after others', () => {
     const claims = [
       {
         id: 1,
@@ -116,38 +116,41 @@ describe('Claims list reducer', () => {
     const sortedClaims = [claims[2], claims[0], claims[1]];
     expect(state.visibleList).to.deep.equal(sortedClaims);
   });
-  it('should sort by claim type with null types converted to disability claim', () => {
-    const claims = [
-      {
-        id: 1,
-        attributes: {
-          claimType: 'Pension'
+  test(
+    'should sort by claim type with null types converted to disability claim',
+    () => {
+      const claims = [
+        {
+          id: 1,
+          attributes: {
+            claimType: 'Pension'
+          }
+        },
+        {
+          id: 2,
+          attributes: {
+            claimType: null
+          }
+        },
+        {
+          id: 3,
+          attributes: {
+            claimType: 'Compensation'
+          }
         }
-      },
-      {
-        id: 2,
-        attributes: {
-          claimType: null
-        }
-      },
-      {
-        id: 3,
-        attributes: {
-          claimType: 'Compensation'
-        }
-      }
-    ];
-    const previousState = {
-      visibleList: claims
-    };
-    const state = claimsList(previousState, {
-      type: SORT_CLAIMS,
-      sortProperty: 'claimType'
-    });
-    const sortedClaims = [claims[2], claims[1], claims[0]];
-    expect(state.visibleList).to.deep.equal(sortedClaims);
-  });
-  it('should filter out closed claims', () => {
+      ];
+      const previousState = {
+        visibleList: claims
+      };
+      const state = claimsList(previousState, {
+        type: SORT_CLAIMS,
+        sortProperty: 'claimType'
+      });
+      const sortedClaims = [claims[2], claims[1], claims[0]];
+      expect(state.visibleList).to.deep.equal(sortedClaims);
+    }
+  );
+  test('should filter out closed claims', () => {
     const claims = [
       {
         id: 2,
@@ -174,7 +177,7 @@ describe('Claims list reducer', () => {
     expect(state.visibleList[0].id).to.equal(2);
   });
 
-  it('should filter out open claims', () => {
+  test('should filter out open claims', () => {
     const claims = [
       {
         id: 2,
@@ -201,7 +204,7 @@ describe('Claims list reducer', () => {
     expect(state.visibleList[0].id).to.equal(1);
   });
 
-  it('should maintain the sort when filtering', () => {
+  test('should maintain the sort when filtering', () => {
     const claims = [
       {
         id: 1,
@@ -245,7 +248,7 @@ describe('Claims list reducer', () => {
     expect(state.visibleList).to.deep.equal(sortedClaims);
   });
 
-  it('should change the claims list page', () => {
+  test('should change the claims list page', () => {
     const claims = Array(12).fill(4);
     const previousState = {
       visibleList: claims,
@@ -262,7 +265,7 @@ describe('Claims list reducer', () => {
     expect(state.page).to.equal(2);
   });
 
-  it('should toggle modal flag', () => {
+  test('should toggle modal flag', () => {
     const state = claimsList({}, {
       type: SHOW_CONSOLIDATED_MODAL,
       visible: true
@@ -270,7 +273,7 @@ describe('Claims list reducer', () => {
 
     expect(state.consolidatedModal).to.be.true;
   });
-  it('should turn off 30 day notice flag', () => {
+  test('should turn off 30 day notice flag', () => {
     const state = claimsList({
       show30DayNotice: true
     }, {

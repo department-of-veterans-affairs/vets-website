@@ -17,7 +17,7 @@ const props = {
 };
 
 describe('<ReplyForm>', () => {
-  it('should render correctly', () => {
+  test('should render correctly', () => {
     const tree = SkinDeep.shallowRender(
       <ReplyForm {...props}/>
     );
@@ -25,7 +25,7 @@ describe('<ReplyForm>', () => {
     expect(tree.getRenderOutput()).to.exist;
   });
 
-  it('should have the expected id', () => {
+  test('should have the expected id', () => {
     const tree = SkinDeep.shallowRender(
       <ReplyForm {...props}/>
     );

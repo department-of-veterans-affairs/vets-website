@@ -9,7 +9,7 @@ import formConfig from '../../../feedback-tool/config/form';
 describe('feedback tool applicant info', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
 
-  it('should render myself', () => {
+  test('should render myself', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -24,7 +24,7 @@ describe('feedback tool applicant info', () => {
     expect(form.find('select').length).to.equal(3);
   });
 
-  it('should render someone else', () => {
+  test('should render someone else', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -39,7 +39,7 @@ describe('feedback tool applicant info', () => {
     expect(form.find('select').length).to.equal(2);
   });
 
-  it('should not submit without required information for myself', () => {
+  test('should not submit without required information for myself', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -57,7 +57,7 @@ describe('feedback tool applicant info', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should not submit without required information for someone else', () => {
+  test('should not submit without required information for someone else', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -75,7 +75,7 @@ describe('feedback tool applicant info', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with required information for myself', () => {
+  test('should submit with required information for myself', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -99,7 +99,7 @@ describe('feedback tool applicant info', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should submit with required information for someone else', () => {
+  test('should submit with required information for someone else', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

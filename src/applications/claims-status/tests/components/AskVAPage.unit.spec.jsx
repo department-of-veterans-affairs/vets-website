@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import { AskVAPage } from '../../containers/AskVAPage';
 
 describe('<AskVAPage>', () => {
-  it('should render disabled button', () => {
+  test('should render disabled button', () => {
     const router = {
       push: sinon.spy()
     };
@@ -21,7 +21,7 @@ describe('<AskVAPage>', () => {
     expect(router.push.called).to.be.false;
   });
 
-  it('should render enabled button', () => {
+  test('should render enabled button', () => {
     const router = {
       push: sinon.spy()
     };
@@ -39,7 +39,7 @@ describe('<AskVAPage>', () => {
     expect(tree.everySubTree('button')[0].props.disabled).to.be.null;
   });
 
-  it('should render disabled submitting button', () => {
+  test('should render disabled submitting button', () => {
     const router = {
       push: sinon.spy()
     };
@@ -58,7 +58,7 @@ describe('<AskVAPage>', () => {
     expect(tree.everySubTree('button')[0].text()).to.equal('Submitting...');
   });
 
-  it('should submit request', () => {
+  test('should submit request', () => {
     const router = {
       push: sinon.spy()
     };
@@ -76,7 +76,7 @@ describe('<AskVAPage>', () => {
     tree.subTree('button').props.onClick();
     expect(submitRequest.called).to.be.true;
   });
-  it('should update claims and redirect after success', () => {
+  test('should update claims and redirect after success', () => {
     const router = {
       push: sinon.spy()
     };

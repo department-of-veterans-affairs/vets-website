@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 import IdentityFieldsWarning from '../../components/IdentityFieldsWarning';
 
 describe('<IdentifyFieldsWarning>', () => {
-  it('should render prefill message', () => {
+  test('should render prefill message', () => {
     const tree = shallow(
       <IdentityFieldsWarning
         formData={{
@@ -17,7 +17,7 @@ describe('<IdentifyFieldsWarning>', () => {
 
     expect(tree.find('PrefillMessage').exists()).to.be.true;
   });
-  it('should render warning', () => {
+  test('should render warning', () => {
     const tree = shallow(
       <IdentityFieldsWarning
         formData={{
@@ -29,7 +29,7 @@ describe('<IdentifyFieldsWarning>', () => {
 
     expect(tree.find('.usa-alert-warning').exists()).to.be.true;
   });
-  it('should render nothing', () => {
+  test('should render nothing', () => {
     const tree = shallow(
       <IdentityFieldsWarning
         formData={{

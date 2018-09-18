@@ -6,7 +6,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import asyncLoader from '../../ui/asyncLoader';
 
 describe('asyncLoader', () => {
-  it('should display loading indicator while waiting', () => {
+  test('should display loading indicator while waiting', () => {
     const Component = asyncLoader(() => {
       return new Promise(f => f);
     }, 'Test loading');
@@ -17,7 +17,7 @@ describe('asyncLoader', () => {
     expect(pageDOM.textContent).to.contain('Test loading');
   });
 
-  it('should display component returned from promise', (done) => {
+  test('should display component returned from promise', (done) => {
     const promise = Promise.resolve(() => {
       return <div>Test component</div>;
     });

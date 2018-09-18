@@ -17,7 +17,7 @@ import {
 } from '../../actions';
 
 describe('Uploads reducer', () => {
-  it('should reset uploads state', () => {
+  test('should reset uploads state', () => {
     const state = uploads({
       things: null
     }, {
@@ -28,7 +28,7 @@ describe('Uploads reducer', () => {
     expect(state.files).to.be.empty;
   });
 
-  it('should add a file', () => {
+  test('should add a file', () => {
     const state = uploads({
       files: []
     }, {
@@ -42,7 +42,7 @@ describe('Uploads reducer', () => {
     expect(state.files[0].file.name).to.equal('test');
   });
 
-  it('remove a file', () => {
+  test('remove a file', () => {
     const state = uploads({
       files: [
         { name: 'test1' },
@@ -57,7 +57,7 @@ describe('Uploads reducer', () => {
     expect(state.files[0].name).to.equal('test1');
   });
 
-  it('set state as uploading', () => {
+  test('set state as uploading', () => {
     const uploader = {};
     const state = uploads({
     }, {
@@ -72,7 +72,7 @@ describe('Uploads reducer', () => {
     expect(state.uploader).to.eql(uploader);
   });
 
-  it('set uploader in state', () => {
+  test('set uploader in state', () => {
     const uploader = {};
     const state = uploads({
     }, {
@@ -83,7 +83,7 @@ describe('Uploads reducer', () => {
     expect(state.uploader).to.eql(uploader);
   });
 
-  it('set upload progress', () => {
+  test('set upload progress', () => {
     const state = uploads({
     }, {
       type: SET_PROGRESS,
@@ -93,7 +93,7 @@ describe('Uploads reducer', () => {
     expect(state.progress).to.equal(0.5);
   });
 
-  it('set upload error', () => {
+  test('set upload error', () => {
     const state = uploads({
     }, {
       type: SET_UPLOAD_ERROR
@@ -104,7 +104,7 @@ describe('Uploads reducer', () => {
     expect(state.uploader).to.be.null;
   });
 
-  it('set upload done', () => {
+  test('set upload done', () => {
     const state = uploads({
     }, {
       type: DONE_UPLOADING
@@ -115,7 +115,7 @@ describe('Uploads reducer', () => {
     expect(state.uploader).to.be.null;
   });
 
-  it('update form field', () => {
+  test('update form field', () => {
     const state = uploads({
     }, {
       type: UPDATE_FIELD,
@@ -129,7 +129,7 @@ describe('Uploads reducer', () => {
     expect(state.uploadField.value).to.equal('test');
   });
 
-  it('toggle mail or fax modal', () => {
+  test('toggle mail or fax modal', () => {
     const state = uploads({
     }, {
       type: SHOW_MAIL_OR_FAX,
@@ -139,7 +139,7 @@ describe('Uploads reducer', () => {
     expect(state.showMailOrFax).to.be.true;
   });
 
-  it('cancel upload', () => {
+  test('cancel upload', () => {
     const state = uploads({
     }, {
       type: CANCEL_UPLOAD
@@ -149,7 +149,7 @@ describe('Uploads reducer', () => {
     expect(state.uploader).to.be.null;
   });
 
-  it('dirty fields', () => {
+  test('dirty fields', () => {
     const state = uploads({
       uploadField: {
         value: 'test',

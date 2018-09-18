@@ -10,7 +10,7 @@ const definitions = formConfig.defaultDefinitions;
 
 describe('Pensions applicantInformation', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -23,7 +23,7 @@ describe('Pensions applicantInformation', () => {
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(9);
   });
-  it('should require one of ssn or file number', () => {
+  test('should require one of ssn or file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -42,7 +42,7 @@ describe('Pensions applicantInformation', () => {
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
   });
-  it('should submit with no errors with all required fields filled in', () => {
+  test('should submit with no errors with all required fields filled in', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

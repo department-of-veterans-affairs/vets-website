@@ -84,13 +84,13 @@ const props = {
 };
 
 describe('<ClaimsAppealsWidget>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<ClaimsAppealsWidget {...props}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.be.ok;
   });
 
-  it('should render claims and appeals', () => {
+  test('should render claims and appeals', () => {
     const tree = SkinDeep.shallowRender(<ClaimsAppealsWidget {...props}/>);
     const appealListItem = tree.subTree('AppealListItem');
     expect(appealListItem).to.be.ok;
@@ -99,7 +99,7 @@ describe('<ClaimsAppealsWidget>', () => {
     expect(claimListItem).to.be.ok;
   });
 
-  it('should render empty state properly', () => {
+  test('should render empty state properly', () => {
     const tree = SkinDeep.shallowRender(<ClaimsAppealsWidget {...{ claimsAppealsList: [] }}/>);
     const emptyState = tree.dive(['p']);
     expect(emptyState.text()).to.have.string('We don’t have any new updates for you right now.');

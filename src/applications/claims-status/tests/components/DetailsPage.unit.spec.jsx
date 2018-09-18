@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { DetailsPage } from '../../containers/DetailsPage';
 
 describe('<DetailsPage>', () => {
-  it('should render contention list', () => {
+  test('should render contention list', () => {
     const claim = {
       attributes: {
         contentionList: [
@@ -22,7 +22,7 @@ describe('<DetailsPage>', () => {
     expect(tree.subTree('.claim-detail-list').text()).to.contain('Condition 1Condition 2');
   });
 
-  it('should render not available with an empty contention list', () => {
+  test('should render not available with an empty contention list', () => {
     const claim = {
       attributes: {
         contentionList: []

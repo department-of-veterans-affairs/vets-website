@@ -6,7 +6,7 @@ import { RateLimiter } from '../RateLimiter';
 
 describe('<RateLimiter>', () => {
 
-  it('should display limited content when under threshold', (done) => {
+  test('should display limited content when under threshold', (done) => {
     window.sessionStorage.setItem('app_rateLimitDisabled', false);
     window.settings = {
       app: {
@@ -43,7 +43,7 @@ describe('<RateLimiter>', () => {
     });
 
   });
-  it('should display loading indicator when waiting for profile', () => {
+  test('should display loading indicator when waiting for profile', () => {
     window.settings = {
       app: {
         rateLimitAuthed: 0,
@@ -75,7 +75,7 @@ describe('<RateLimiter>', () => {
     expect(tree.find('LoadingIndicator').exists()).to.be.true;
     // expect(window.sessionStorage.setItem.called).to.be.false; HACK: cannot mock session storage (https://github.com/facebook/jest/issues/6798)
   });
-  it('should display real content when over threshold', () => {
+  test('should display real content when over threshold', () => {
     window.settings = {
       app: {
         rateLimitAuthed: 1,
@@ -106,7 +106,7 @@ describe('<RateLimiter>', () => {
     expect(tree.text()).to.contain('Real content');
     // expect(window.sessionStorage.setItem.called).to.be.true; HACK: cannot mock session storage (https://github.com/facebook/jest/issues/6798)
   });
-  it('should display real content when bypassLimit returns true', () => {
+  test('should display real content when bypassLimit returns true', () => {
     window.settings = {
       app: {
         rateLimitAuthed: 0,
@@ -137,42 +137,45 @@ describe('<RateLimiter>', () => {
 
     expect(tree.text()).to.contain('Real content');
   });
-  it('should display real content when disabled through session storage', (done) => {
-    window.sessionStorage.setItem('app_rateLimitDisabled', 'true');
-    window.settings = {
-      app: {
-        rateLimitAuthed: 0,
-        rateLimitUnauthed: 0
-      }
-    };
-
-    const state = {
-      user: {
-        profile: {
-          loading: true
-        },
-        login: {
-          currentlyLoggedIn: false
+  test(
+    'should display real content when disabled through session storage',
+    (done) => {
+      window.sessionStorage.setItem('app_rateLimitDisabled', 'true');
+      window.settings = {
+        app: {
+          rateLimitAuthed: 0,
+          rateLimitUnauthed: 0
         }
-      }
-    };
+      };
 
-    const tree = mount(
-      <RateLimiter
-        id="app"
-        state={state}
-        bypassLimit={() => false}
-        renderLimitedContent={() => <div>Limited content</div>}>
-        <div>Real content</div>
-      </RateLimiter>
-    );
-    process.nextTick(() => {
+      const state = {
+        user: {
+          profile: {
+            loading: true
+          },
+          login: {
+            currentlyLoggedIn: false
+          }
+        }
+      };
 
-      tree.update();
-      expect(tree.text()).to.contain('Real content');
-      done();
-    });
-  });
+      const tree = mount(
+        <RateLimiter
+          id="app"
+          state={state}
+          bypassLimit={() => false}
+          renderLimitedContent={() => <div>Limited content</div>}>
+          <div>Real content</div>
+        </RateLimiter>
+      );
+      process.nextTick(() => {
+
+        tree.update();
+        expect(tree.text()).to.contain('Real content');
+        done();
+      });
+    }
+  );
   beforeEach(() => {
     window.sessionStorage.clear();
   });

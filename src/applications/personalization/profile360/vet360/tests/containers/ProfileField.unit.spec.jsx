@@ -44,12 +44,12 @@ describe('<Vet360ProfileField/>', () => {
     };
   });
 
-  it('renders the Content prop', () => {
+  test('renders the Content prop', () => {
     component = enzyme.shallow(<Vet360ProfileField {...props}/>);
     expect(component.find('Content'), 'the Content was rendered').to.have.lengthOf(1);
   });
 
-  it('conditional render based on existence of data', () => {
+  test('conditional render based on existence of data', () => {
     const isEmptyProps = {
       ...props,
       isEmpty: true,
@@ -60,7 +60,7 @@ describe('<Vet360ProfileField/>', () => {
     expect(component.html(), 'the add-button was rendered instead of the Content').to.contain('button');
   });
 
-  it('renders the EditModal prop', () => {
+  test('renders the EditModal prop', () => {
     props.isEditing = true;
     sinon.spy(props, 'EditModal');
 
@@ -75,7 +75,7 @@ describe('<Vet360ProfileField/>', () => {
     expect(args, 'All props were passed to the EditModal constructor').to.have.all.keys(Object.keys(props));
   });
 
-  it('renders the edit link', () => {
+  test('renders the edit link', () => {
     component = enzyme.shallow(<Vet360ProfileField {...props}/>);
 
     let onEditClick = component.find('Vet360ProfileFieldHeading').props().onEditClick;

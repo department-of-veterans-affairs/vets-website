@@ -8,7 +8,7 @@ import formConfig from '../../config/form.js';
 
 describe('Pensions dependent list', () => {
   const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.dependents;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -21,7 +21,7 @@ describe('Pensions dependent list', () => {
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(2);
   });
 
-  it('should render dependent list', () => {
+  test('should render dependent list', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -36,7 +36,7 @@ describe('Pensions dependent list', () => {
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(9);
   });
 
-  it('should show errors when required fields are empty', () => {
+  test('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -52,25 +52,28 @@ describe('Pensions dependent list', () => {
     expect(onSubmit.called).not.to.be.true;
   });
 
-  it('should show errors when required fields are empty and has dependents', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        onSubmit={onSubmit}
-        data={{}}
-        uiSchema={uiSchema}/>
-    );
-    const formDOM = getFormDOM(form);
-    formDOM.fillData('#root_view\\:hasDependentsYes', 'Y');
-    formDOM.submitForm(form);
+  test(
+    'should show errors when required fields are empty and has dependents',
+    () => {
+      const onSubmit = sinon.spy();
+      const form = ReactTestUtils.renderIntoDocument(
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          onSubmit={onSubmit}
+          data={{}}
+          uiSchema={uiSchema}/>
+      );
+      const formDOM = getFormDOM(form);
+      formDOM.fillData('#root_view\\:hasDependentsYes', 'Y');
+      formDOM.submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
-    expect(onSubmit.called).not.to.be.true;
-  });
+      expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
+      expect(onSubmit.called).not.to.be.true;
+    }
+  );
 
-  it('should add another dependent', () => {
+  test('should add another dependent', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -94,7 +97,7 @@ describe('Pensions dependent list', () => {
       .to.contain('Jane Doe');
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

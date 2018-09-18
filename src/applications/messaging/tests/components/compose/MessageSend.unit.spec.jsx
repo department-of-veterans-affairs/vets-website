@@ -19,19 +19,19 @@ const props = {
 };
 
 describe('<MessageSend>', () => {
-  it('should render correctly', () => {
+  test('should render correctly', () => {
     const tree = SkinDeep.shallowRender(<MessageSend {...props}/>);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
-  it('should have the expected classname', () => {
+  test('should have the expected classname', () => {
     const tree = SkinDeep.shallowRender(<MessageSend {...props}/>);
 
     expect(tree.props.className).to.equal('msg-send-group');
   });
 
-  it('should handle attachments change success correctly', () => {
+  test('should handle attachments change success correctly', () => {
     // mock window to get past conditionals in change handler
     global.window = { File: true, FileList: true };
     const domEvent = {
@@ -56,7 +56,7 @@ describe('<MessageSend>', () => {
     expect(onAttachmentUpload.calledWith(domEvent.target.files)).to.be.true;
   });
 
-  it('should handle attachments change error for too many files', () => {
+  test('should handle attachments change error for too many files', () => {
     // mock window to get past conditionals in change handler
     global.window = { File: true, FileList: true };
     const domEvent = {
@@ -85,7 +85,7 @@ describe('<MessageSend>', () => {
     expect(onAttachmentsError.calledWith({ type: 'tooMany' })).to.be.true;
   });
 
-  it('should handle attachments change error for files too large', () => {
+  test('should handle attachments change error for files too large', () => {
     // mock window to get past conditionals in change handler
     global.window = { File: true, FileList: true };
     const domEvent = {

@@ -7,7 +7,7 @@ import {
 
 describe('Helpers unit tests', () => {
   describe('isActivePage', () => {
-    it('matches against data', () => {
+    test('matches against data', () => {
       const page = {
         depends: { testData: 'Y' }
       };
@@ -19,7 +19,7 @@ describe('Helpers unit tests', () => {
 
       expect(result).to.be.true;
     });
-    it('false with mismatched data', () => {
+    test('false with mismatched data', () => {
       const page = {
         depends: { testData: 'Y' }
       };
@@ -31,7 +31,7 @@ describe('Helpers unit tests', () => {
 
       expect(result).to.be.false;
     });
-    it('matches using function', () => {
+    test('matches using function', () => {
       const matcher = sinon.stub().returns(true);
       const page = {
         depends: matcher
@@ -45,7 +45,7 @@ describe('Helpers unit tests', () => {
       expect(result).to.be.true;
       expect(matcher.calledWith(data)).to.be.true;
     });
-    it('matches against array', () => {
+    test('matches against array', () => {
       const page = {
         depends: [
           { testData: 'N' },

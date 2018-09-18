@@ -8,7 +8,7 @@ import formConfig from '../../../chapter31/config/form.js';
 
 describe('VRE chapter 31 veteran information', () => {
   const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranInformation;
-  it('renders veteran information fields', () => {
+  test('renders veteran information fields', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -24,7 +24,7 @@ describe('VRE chapter 31 veteran information', () => {
     expect(form.find('select').length).to.equal(3);
   });
 
-  it('does not submit without required veteran information', () => {
+  test('does not submit without required veteran information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -43,7 +43,7 @@ describe('VRE chapter 31 veteran information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('submits with only required information with ssn', () => {
+  test('submits with only required information with ssn', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -69,7 +69,7 @@ describe('VRE chapter 31 veteran information', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('submits with only required information with va file number', () => {
+  test('submits with only required information with va file number', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

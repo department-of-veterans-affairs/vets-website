@@ -10,7 +10,7 @@ import {
 import { recipients } from '../messaging-helpers';
 
 describe('recipients reducer', () => {
-  it('should have no data when it fails to load recipients', () => {
+  test('should have no data when it fails to load recipients', () => {
     const state = recipientsReducer(undefined, {
       type: FETCH_RECIPIENTS_FAILURE
     });
@@ -18,7 +18,7 @@ describe('recipients reducer', () => {
     expect(state.data).to.be.null;
   });
 
-  it('should populate the list of possible recipients on success', () => {
+  test('should populate the list of possible recipients on success', () => {
     const state = recipientsReducer(undefined, {
       type: FETCH_RECIPIENTS_SUCCESS,
       recipients

@@ -23,7 +23,7 @@ describe('686 dependent info', () => {
       ]
     };
   };
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
@@ -36,7 +36,7 @@ describe('686 dependent info', () => {
     expect(form.find('input').length).to.equal(2);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -52,7 +52,7 @@ describe('686 dependent info', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit form if child lives with applicant', () => {
+  test('should submit form if child lives with applicant', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -70,21 +70,24 @@ describe('686 dependent info', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should expand address info if child does not live with applicant', () => {
-    const form = mount(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        schema={schema}
-        data={dependentData()}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
-    );
-    selectRadio(form, 'root_childInHousehold', 'N');
-    expect(form.find('input').length).to.equal(8);
-  });
+  test(
+    'should expand address info if child does not live with applicant',
+    () => {
+      const form = mount(
+        <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+          schema={schema}
+          data={dependentData()}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}/>
+      );
+      selectRadio(form, 'root_childInHousehold', 'N');
+      expect(form.find('input').length).to.equal(8);
+    }
+  );
 
-  it('should submit form with required fields filled', () => {
+  test('should submit form with required fields filled', () => {
     const props = dependentData();
     props.dependents[0].childInHousehold = false;
     const onSubmit = sinon.spy();

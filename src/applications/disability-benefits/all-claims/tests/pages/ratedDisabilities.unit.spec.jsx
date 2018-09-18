@@ -9,7 +9,7 @@ import initialData from '../initialData.js';
 describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
   const { schema, uiSchema } = formConfig.chapters.disabilities.pages.ratedDisabilities;
 
-  it('renders the rated disabilities selection field', () => {
+  test('renders the rated disabilities selection field', () => {
     const form = mount(<DefinitionTester
       definitions={formConfig.defaultDefinitions}
       schema={schema}
@@ -20,7 +20,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     expect(form.find('input[type="checkbox"]').length).to.equal(initialData.ratedDisabilities.length);
   });
 
-  it('successfully submits when at least one condition is selected', () => {
+  test('successfully submits when at least one condition is selected', () => {
     const form = mount(<DefinitionTester
       definitions={formConfig.defaultDefinitions}
       schema={schema}
@@ -34,7 +34,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     expect(form.find('.usa-input-error').length).to.equal(0);
   });
 
-  it('successfully submits when no conditions selected', () => {
+  test('successfully submits when no conditions selected', () => {
     const form = mount(<DefinitionTester
       definitions={formConfig.defaultDefinitions}
       schema={schema}
@@ -46,7 +46,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     expect(form.find('.usa-input-error').length).to.equal(0);
   });
 
-  it('renders the information about each disability', () => {
+  test('renders the information about each disability', () => {
     const form = mount(<DefinitionTester
       definitions={formConfig.defaultDefinitions}
       schema={schema}

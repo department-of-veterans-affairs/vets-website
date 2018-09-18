@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import ClaimsDecision from '../../components/ClaimsDecision';
 
 describe('<ClaimsDecision>', () => {
-  it('should render message without date sentence', () => {
+  test('should render message without date sentence', () => {
     const date = null;
     const tree = SkinDeep.shallowRender(
       <ClaimsDecision
@@ -14,7 +14,7 @@ describe('<ClaimsDecision>', () => {
 
     expect(tree.text()).not.to.contain('We finished reviewing your claim');
   });
-  it('should render message with date sentence', () => {
+  test('should render message with date sentence', () => {
     const date = '2010-03-01';
     const tree = SkinDeep.shallowRender(
       <ClaimsDecision

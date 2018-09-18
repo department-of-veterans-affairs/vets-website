@@ -27,13 +27,13 @@ const props = {
 };
 
 describe('<Prescription>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<Prescription {...props}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.be.ok;
   });
 
-  it('should display a loading screen', () => {
+  test('should display a loading screen', () => {
     const tree = SkinDeep.shallowRender(
       <Prescription {...props } loading prescription={null}/>
     );
@@ -43,7 +43,7 @@ describe('<Prescription>', () => {
     expect(tree.subTree('ContactCard')).to.be.false;
   });
 
-  it('should display loader if prescription doesn\'t match route', () => {
+  test('should display loader if prescription doesn\'t match route', () => {
     // Loading prop may not necessarily be true depending on race conditions
     // potentially caused by quickly loading pages of different prescriptions.
     const tree = SkinDeep.shallowRender(
@@ -55,7 +55,7 @@ describe('<Prescription>', () => {
     expect(tree.subTree('ContactCard')).to.be.false;
   });
 
-  it('should display an error message', () => {
+  test('should display an error message', () => {
     const tree = SkinDeep.shallowRender(
       <Prescription {...props } prescription={null}/>
     );
@@ -65,13 +65,13 @@ describe('<Prescription>', () => {
     expect(tree.subTree('ContactCard')).to.be.false;
   });
 
-  it('should not display loader or error if there is a prescription', () => {
+  test('should not display loader or error if there is a prescription', () => {
     const tree = SkinDeep.shallowRender(<Prescription {...props}/>);
     expect(tree.subTree('LoadingIndicator')).to.be.false;
     expect(tree.subTree('.rx-loading-error')).to.be.false;
   });
 
-  it('should render header and details if there is a prescription', () => {
+  test('should render header and details if there is a prescription', () => {
     const tree = SkinDeep.shallowRender(<Prescription {...props}/>);
     expect(tree.dive(['h1']).text()).to.equal(item.attributes.prescriptionName);
   });

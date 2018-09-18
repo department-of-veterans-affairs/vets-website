@@ -18,7 +18,7 @@ function setFetchResponse(stub, data) {
 describe('Pensions helpers', () => {
   const FileHelp = fileHelp;
   describe('fileHelp', () => {
-    it('should render', () => {
+    test('should render', () => {
       const formData = {
         'view:aidAttendance': true
       };
@@ -30,7 +30,7 @@ describe('Pensions helpers', () => {
       expect(tree.text()).to.contain('Please upload all doc');
       expect(tree.everySubTree('li').length).to.equal(2);
     });
-    it('should show disabled child bullet', () => {
+    test('should show disabled child bullet', () => {
       const formData = {
         dependents: [{
           disabled: true
@@ -43,7 +43,7 @@ describe('Pensions helpers', () => {
 
       expect(tree.everySubTree('li').length).to.equal(3);
     });
-    it('should show school child bullet', () => {
+    test('should show school child bullet', () => {
       const formData = {
         dependents: [{
           attendingCollege: true
@@ -65,7 +65,7 @@ describe('Pensions helpers', () => {
         createObjectURL: sinon.stub().returns('test')
       };
     });
-    it('should reject if initial request fails', () => {
+    test('should reject if initial request fails', () => {
       mockFetch(new Error('fake error'), false);
       const formConfig = {
         chapters: {}
@@ -82,7 +82,7 @@ describe('Pensions helpers', () => {
         expect(err.message).to.equal('fake error');
       });
     });
-    it('should resolve if polling state is success', () => {
+    test('should resolve if polling state is success', () => {
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), {
         data: {
@@ -119,7 +119,7 @@ describe('Pensions helpers', () => {
         expect(res).to.deep.equal(response);
       });
     });
-    it('should reject if polling state is failed', () => {
+    test('should reject if polling state is failed', () => {
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), {
         data: {

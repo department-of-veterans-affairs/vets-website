@@ -16,12 +16,12 @@ const props = {
 describe('ManageFolders', () => {
   const tree = SkinDeep.shallowRender(<ManageFolders {...props}/>);
 
-  it('should render', () => {
+  test('should render', () => {
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
 
-  it('should show the correct folders', () => {
+  test('should show the correct folders', () => {
     const rows = tree.dive(['table', 'tbody']).everySubTree('tr');
     props.folders.forEach((folder, index) => {
       const cells = rows[index].everySubTree('td');

@@ -14,25 +14,25 @@ const props = {
 };
 
 describe('<MessageCategory>', () => {
-  it('should render correctly', () => {
+  test('should render correctly', () => {
     const tree = SkinDeep.shallowRender(<MessageCategory {...props}/>);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
-  it('should have the expected classname', () => {
+  test('should have the expected classname', () => {
     const tree = SkinDeep.shallowRender(<MessageCategory {...props}/>);
 
     expect(tree.props.className).to.equal(props.cssClass);
   });
 
-  it('should render the expected select element', () => {
+  test('should render the expected select element', () => {
     const tree = SkinDeep.shallowRender(<MessageCategory {...props}/>);
 
     expect(tree.subTree('ErrorableSelect')).to.be.ok;
   });
 
-  it('should pass props to child select element', () => {
+  test('should pass props to child select element', () => {
     const tree = SkinDeep.shallowRender(<MessageCategory {...props}/>);
 
     expect(tree.subTree('ErrorableSelect').props.options).to.equal(props.categories);

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import mountWidgets from '../static-page-widgets';
 
 describe('static page widget', () => {
-  it('should display a spinner', () => {
+  test('should display a spinner', () => {
     const widget = {
       root: 'testRoot',
       spinner: true,
@@ -18,7 +18,7 @@ describe('static page widget', () => {
     expect(document.querySelector('#testRoot .loading-indicator-message').textContent).to.equal(widget.loadingMessage);
   });
 
-  it('should replace loading message with slow loading message', (done) => {
+  test('should replace loading message with slow loading message', (done) => {
     const widget = {
       root: 'testRoot',
       spinner: true,
@@ -37,7 +37,7 @@ describe('static page widget', () => {
     }, 600);
   });
 
-  it('should show error message after timing out', (done) => {
+  test('should show error message after timing out', (done) => {
     const widget = {
       root: 'testRoot',
       spinner: true,
@@ -55,7 +55,7 @@ describe('static page widget', () => {
     }, 600);
   });
 
-  it('should not show error message if content replaced by React', (done) => {
+  test('should not show error message if content replaced by React', (done) => {
     const widget = {
       root: 'testRoot',
       spinner: true,
@@ -75,7 +75,7 @@ describe('static page widget', () => {
     }, 600);
   });
 
-  it('should skip mounting if hidden in prod', () => {
+  test('should skip mounting if hidden in prod', () => {
     const widget = {
       root: 'testRoot',
       spinner: true,

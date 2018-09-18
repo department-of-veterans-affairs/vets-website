@@ -9,7 +9,7 @@ import formConfig from '../../config/form.js';
 
 describe('Burials claimant contact information', () => {
   const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.claimantContactInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -21,7 +21,7 @@ describe('Burials claimant contact information', () => {
 
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(8);
   });
-  it('should render official position', () => {
+  test('should render official position', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -37,7 +37,7 @@ describe('Burials claimant contact information', () => {
 
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(10);
   });
-  it('should show errors when required fields are empty', () => {
+  test('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -52,7 +52,7 @@ describe('Burials claimant contact information', () => {
     expect((formDOM.querySelectorAll('.usa-input-error')).length).to.equal(4);
     expect(onSubmit.called).not.to.be.true;
   });
-  it('should submit when all required fields are filled in', () => {
+  test('should submit when all required fields are filled in', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

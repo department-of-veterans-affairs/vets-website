@@ -4,14 +4,14 @@ import claimSync from '../../reducers/claim-sync';
 import { SET_CLAIMS, SET_CLAIM_DETAIL, SET_CLAIMS_UNAVAILABLE, SET_UNAUTHORIZED } from '../../actions';
 
 describe('Claim sync reducer', () => {
-  it('should set unavailable', () => {
+  test('should set unavailable', () => {
     const state = claimSync(undefined, {
       type: SET_CLAIMS_UNAVAILABLE
     });
 
     expect(state.available).to.be.false;
   });
-  it('should set unauthorized', () => {
+  test('should set unauthorized', () => {
     const state = claimSync(undefined, {
       type: SET_UNAUTHORIZED
     });
@@ -19,7 +19,7 @@ describe('Claim sync reducer', () => {
     expect(state.authorized).to.be.false;
   });
 
-  it('should set out of sync', () => {
+  test('should set out of sync', () => {
     const state = claimSync(undefined, {
       type: SET_CLAIM_DETAIL,
       claim: {
@@ -36,7 +36,7 @@ describe('Claim sync reducer', () => {
     expect(state.available).to.be.true;
     expect(state.authorized).to.be.true;
   });
-  it('should set in sync', () => {
+  test('should set in sync', () => {
     const state = claimSync(undefined, {
       type: SET_CLAIM_DETAIL,
       claim: {
@@ -53,7 +53,7 @@ describe('Claim sync reducer', () => {
     expect(state.available).to.be.true;
     expect(state.authorized).to.be.true;
   });
-  it('should set out of sync on list request', () => {
+  test('should set out of sync on list request', () => {
     const state = claimSync(undefined, {
       type: SET_CLAIMS,
       claims: [
@@ -72,7 +72,7 @@ describe('Claim sync reducer', () => {
     expect(state.available).to.be.true;
     expect(state.authorized).to.be.true;
   });
-  it('should set in sync on list request', () => {
+  test('should set in sync on list request', () => {
     const state = claimSync(undefined, {
       type: SET_CLAIMS,
       claims: [

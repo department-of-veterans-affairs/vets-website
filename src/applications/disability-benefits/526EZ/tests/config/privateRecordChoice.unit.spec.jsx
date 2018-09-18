@@ -9,7 +9,7 @@ import initialData from '../schema/initialData.js';
 
 describe('Disability benefits 526EZ private record choice', () => {
   const { schema, uiSchema, arrayPath } = formConfig.chapters.supportingEvidence.pages.privateRecordChoice;
-  it('renders private record choice form', () => {
+  test('renders private record choice form', () => {
     const form = mount(<DefinitionTester
       arrayPath={arrayPath}
       pagePerItemIndex={0}
@@ -23,7 +23,7 @@ describe('Disability benefits 526EZ private record choice', () => {
     expect(form.find('input').length).to.equal(2);
   });
 
-  it('should fill in private record choice', () => {
+  test('should fill in private record choice', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

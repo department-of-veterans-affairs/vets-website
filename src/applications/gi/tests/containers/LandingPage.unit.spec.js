@@ -10,13 +10,13 @@ import reducer from '../../reducers';
 const defaultProps = createCommonStore(reducer).getState();
 
 describe('<LandingPage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<LandingPage {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
-  it('should handleSubmit correctly', () => {
+  test('should handleSubmit correctly', () => {
     const props = {
       ...defaultProps,
       router: { push: sinon.spy() },

@@ -48,7 +48,7 @@ describe('selectAnnouncement', () => {
     };
   });
 
-  it('returns undefined when there is no announcement', () => {
+  test('returns undefined when there is no announcement', () => {
     const emptyConfig = {
       announcements: []
     };
@@ -60,20 +60,23 @@ describe('selectAnnouncement', () => {
     expect(result).to.be.undefined;
   });
 
-  it('selects an announcement based on path and configuration', () => {
+  test('selects an announcement based on path and configuration', () => {
     const result = selectors.selectAnnouncement(state, config, '/some-route-3/');
     expect(result.name).to.be.equal('dummy3');
   });
 
-  it('returns null when a matched annoucement has been dismissed', () => {
+  test('returns null when a matched annoucement has been dismissed', () => {
     state.announcements.dismissed.push('dummy3');
     const result = selectors.selectAnnouncement(state, config, '/some-route-3/');
     expect(result).to.be.null;
   });
 
-  it('bypasses disabled announcements and looks instead for the next match', () => {
-    const result = selectors.selectAnnouncement(state, config, '/some-route-6/');
-    expect(result.name).to.be.equal('dummy6', '"disabled dummy6" preceded "dummy6" but was ignored because of the disabled flag.');
-  });
+  test(
+    'bypasses disabled announcements and looks instead for the next match',
+    () => {
+      const result = selectors.selectAnnouncement(state, config, '/some-route-6/');
+      expect(result.name).to.be.equal('dummy6', '"disabled dummy6" preceded "dummy6" but was ignored because of the disabled flag.');
+    }
+  );
 
 });

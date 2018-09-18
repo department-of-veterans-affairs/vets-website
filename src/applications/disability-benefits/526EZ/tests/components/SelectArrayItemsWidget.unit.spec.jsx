@@ -33,51 +33,54 @@ describe('<SelectArrayItemsWidget>', () => {
     };
   });
 
-  it('should render a list of check boxes', () => {
+  test('should render a list of check boxes', () => {
     const wrapper = shallow(<SelectArrayItemsWidget {...defaultProps}/>);
     expect(wrapper.find('input[type="checkbox"]').length).to.equal(defaultProps.value.length);
   });
 
-  it('should render a custom label component for the checkboxes', () => {
+  test('should render a custom label component for the checkboxes', () => {
     const wrapper = shallow(<SelectArrayItemsWidget {...defaultProps}/>);
     expect(wrapper.find('labelElement').length).to.equal(defaultProps.value.length);
   });
 
-  it('should pass the custom label the form data for that item', () => {
+  test('should pass the custom label the form data for that item', () => {
     const wrapper = shallow(<SelectArrayItemsWidget {...defaultProps}/>);
     wrapper.find('labelElement').forEach((element, index) => {
       expect(element.props()).to.eql(defaultProps.value[index]);
     });
   });
 
-  it('should call onChange with the toggled the selected property when the checkbox is toggled', () => {
-    const wrapper = mount(<SelectArrayItemsWidget {...defaultProps}/>);
-    wrapper.find('.form-checkbox').forEach((element, index) => {
-      onChangeSpy.reset();
+  test(
+    'should call onChange with the toggled the selected property when the checkbox is toggled',
+    () => {
+      const wrapper = mount(<SelectArrayItemsWidget {...defaultProps}/>);
+      wrapper.find('.form-checkbox').forEach((element, index) => {
+        onChangeSpy.reset();
 
-      // Grab the default "checked" state
-      // Note: Using `get` because that's what the widget uses
-      const initiallySelected = get(selectedPropName, element.props());
+        // Grab the default "checked" state
+        // Note: Using `get` because that's what the widget uses
+        const initiallySelected = get(selectedPropName, element.props());
 
-      // "Click" the option
-      // .simulate('click') wasn't calling the onChange handler for some reason
-      element.find('input').first().props().onChange({ target: { checked: !initiallySelected } });
+        // "Click" the option
+        // .simulate('click') wasn't calling the onChange handler for some reason
+        element.find('input').first().props().onChange({ target: { checked: !initiallySelected } });
 
-      // Check that it changed
-      expect(onChangeSpy.callCount).to.equal(1);
-      expect(onChangeSpy.firstCall.args[0][index])
-        .to.eql({ ...defaultProps.value[index], selected: !initiallySelected });
+        // Check that it changed
+        expect(onChangeSpy.callCount).to.equal(1);
+        expect(onChangeSpy.firstCall.args[0][index])
+          .to.eql({ ...defaultProps.value[index], selected: !initiallySelected });
 
-      // "Click" the option
-      element.find('input').first().props().onChange({ target: { checked: !!initiallySelected } });
+        // "Click" the option
+        element.find('input').first().props().onChange({ target: { checked: !!initiallySelected } });
 
-      // Check that it changed back
-      // Note: Because we're not actually re-rendering, it doesn't exactly "change back," but it's probably
-      //  a close enough approximation to not worry about it.
-      expect(onChangeSpy.callCount).to.equal(2);
-      expect(onChangeSpy.secondCall.args[0][index])
-        .to.eql({ ...defaultProps.value[index], selected: !!initiallySelected });
-    });
-  });
+        // Check that it changed back
+        // Note: Because we're not actually re-rendering, it doesn't exactly "change back," but it's probably
+        //  a close enough approximation to not worry about it.
+        expect(onChangeSpy.callCount).to.equal(2);
+        expect(onChangeSpy.secondCall.args[0][index])
+          .to.eql({ ...defaultProps.value[index], selected: !!initiallySelected });
+      });
+    }
+  );
 });
 

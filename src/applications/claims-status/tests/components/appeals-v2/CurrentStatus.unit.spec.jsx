@@ -10,12 +10,12 @@ const defaultProps = {
 };
 
 describe('<CurrentStatus/>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const wrapper = shallow(<CurrentStatus {...defaultProps}/>);
     expect(wrapper.type()).to.equal('div');
   });
 
-  it('should render title and description from passed in props', () => {
+  test('should render title and description from passed in props', () => {
     const props = {
       title: 'The Chicago Regional Office is reviewing your appeal',
       description: (

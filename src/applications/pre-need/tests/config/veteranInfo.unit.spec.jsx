@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 describe('Pre-need veteran information', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.veteranInformation;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -21,7 +21,7 @@ describe('Pre-need veteran information', () => {
     expect(form.find('select').length).to.equal(1);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -37,7 +37,7 @@ describe('Pre-need veteran information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with required information', () => {
+  test('should submit with required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -56,7 +56,7 @@ describe('Pre-need veteran information', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should submit with all info', () => {
+  test('should submit with all info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

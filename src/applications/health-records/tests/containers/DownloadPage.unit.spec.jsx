@@ -21,14 +21,14 @@ const props = () => {
 };
 
 describe('<DownloadPage>', () => {
-  it('should render success state correctly', () => {
+  test('should render success state correctly', () => {
     const wrapper = shallow(<DownloadPage {...props()}/>);
     const alertBox = wrapper.find('AlertBox');
     expect(alertBox.exists()).to.be.true;
     expect(alertBox.prop('status')).to.equal('success');
   });
 
-  it('should render refresh error correctly', () => {
+  test('should render refresh error correctly', () => {
     const errorProps = Object.assign({}, props());
     errorProps.refresh.statuses.failed.push({ id: 0 });
     const wrapper = shallow(<DownloadPage {...errorProps}/>);
@@ -37,7 +37,7 @@ describe('<DownloadPage>', () => {
     expect(alertBox.prop('status')).to.equal('warning');
   });
 
-  it('should render report generation error correctly', () => {
+  test('should render report generation error correctly', () => {
     const errorProps = Object.assign({}, props());
     errorProps.form.ready = false;
     const wrapper = shallow(<DownloadPage {...errorProps}/>);
@@ -46,7 +46,7 @@ describe('<DownloadPage>', () => {
     expect(alertBox.prop('status')).to.equal('error');
   });
 
-  it('should render generic skipped update warning correctly', () => {
+  test('should render generic skipped update warning correctly', () => {
     const errorProps = Object.assign({}, props());
     errorProps.refresh.statuses.incomplete.push({ id: 0 });
     const wrapper = shallow(<DownloadPage {...errorProps}/>);
@@ -56,7 +56,7 @@ describe('<DownloadPage>', () => {
     expect(alertBox.prop('headline')).to.equal('Parts of your health record may not be current.');
   });
 
-  it('should render skipped update warning for specific categories', () => {
+  test('should render skipped update warning for specific categories', () => {
     const extractTypes = [
       'ImagingStudy',
       'ChemistryHematology',

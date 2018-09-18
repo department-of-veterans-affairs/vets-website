@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import formReducer from '../../reducers/form';
 
 describe('form reducer', () => {
-  it('should set the start date', () => {
+  test('should set the start date', () => {
     const state = formReducer(undefined, {
       type: 'START_DATE_CHANGED',
       date: 'start date'
@@ -12,7 +12,7 @@ describe('form reducer', () => {
     expect(state.dateRange.start).to.equal('start date');
   });
 
-  it('should set the end date', () => {
+  test('should set the end date', () => {
     const state = formReducer(undefined, {
       type: 'END_DATE_CHANGED',
       date: 'end date'
@@ -21,7 +21,7 @@ describe('form reducer', () => {
     expect(state.dateRange.end).to.equal('end date');
   });
 
-  it('should set the date option', () => {
+  test('should set the date option', () => {
     const state = formReducer(undefined, {
       type: 'DATE_OPTION_CHANGED',
       dateOption: '1yr'
@@ -30,7 +30,7 @@ describe('form reducer', () => {
     expect(state.dateOption).to.equal('1yr');
   });
 
-  it('should toggle a report type', () => {
+  test('should toggle a report type', () => {
     const state = formReducer({
       reportTypes: {
         test1: false,
@@ -48,7 +48,7 @@ describe('form reducer', () => {
     expect(state.reportTypes.test3).to.be.true;
   });
 
-  it('should toggle all report types', () => {
+  test('should toggle all report types', () => {
     const state = formReducer({
       reportTypes: {
         test1: false,
@@ -65,7 +65,7 @@ describe('form reducer', () => {
     expect(state.reportTypes.test3).to.be.true;
   });
 
-  it('should set ready state to true on form success', () => {
+  test('should set ready state to true on form success', () => {
     const state = formReducer(undefined, {
       type: 'FORM_SUCCESS'
     });
@@ -73,7 +73,7 @@ describe('form reducer', () => {
     expect(state.ready).to.be.true;
   });
 
-  it('should set ready state to false on form success', () => {
+  test('should set ready state to false on form success', () => {
     const state = formReducer(undefined, {
       type: 'FORM_FAILURE'
     });

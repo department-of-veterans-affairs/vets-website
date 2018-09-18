@@ -8,7 +8,7 @@ import formConfig from '../../config/form';
 
 describe('Pensions general military history', () => {
   const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.general;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -20,7 +20,7 @@ describe('Pensions general military history', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(3);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -38,7 +38,7 @@ describe('Pensions general military history', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should reveal name fields', () => {
+  test('should reveal name fields', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -66,7 +66,7 @@ describe('Pensions general military history', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should add another name', () => {
+  test('should add another name', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -106,7 +106,7 @@ describe('Pensions general military history', () => {
     expect(formDOM.querySelector('.va-growable-background').textContent)
       .to.contain('Jane Doe, Jr.');
   });
-  it('should require combat after 9/11 question', () => {
+  test('should require combat after 9/11 question', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -135,7 +135,7 @@ describe('Pensions general military history', () => {
   });
 
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

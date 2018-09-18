@@ -18,22 +18,22 @@ describe('<IntroPage/>', () => {
     serviceAvailability: SERVICE_AVAILABILITY_STATES.up
   };
 
-  it('should call getServiceAvailability()', () => {
+  test('should call getServiceAvailability()', () => {
     shallow(<IntroPage {...defaultProps}/>);
     expect(getServiceAvailability.callCount).to.equal(1);
   });
 
-  it('should render a LoadingIndicator', () => {
+  test('should render a LoadingIndicator', () => {
     const wrapper = shallow(<IntroPage {...defaultProps} serviceAvailability={SERVICE_AVAILABILITY_STATES.pending}/>);
     expect(wrapper.find('LoadingIndicator')).to.have.lengthOf(1);
   });
 
-  it('should render a link to /status', () => {
+  test('should render a link to /status', () => {
     const wrapper = shallow(<IntroPage {...defaultProps}/>);
     expect(wrapper.find('Link').first().props().to).to.equal('status');
   });
 
-  it('should render an alert when GIBS status down', () => {
+  test('should render an alert when GIBS status down', () => {
     const wrapper = shallow(<IntroPage {...defaultProps} serviceAvailability={SERVICE_AVAILABILITY_STATES.down}/>);
     expect(wrapper.find('.usa-alert')).to.have.lengthOf(1);
   });

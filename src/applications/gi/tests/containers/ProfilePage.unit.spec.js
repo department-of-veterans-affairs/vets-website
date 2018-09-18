@@ -9,13 +9,13 @@ import reducer from '../../reducers';
 const defaultProps = createCommonStore(reducer).getState();
 
 describe('<ProfilePage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<ProfilePage {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
-  it('should show LoadingState when profile is fetching', () => {
+  test('should show LoadingState when profile is fetching', () => {
     const inProgressProps = {
       ...defaultProps,
       profile: { inProgress: true }

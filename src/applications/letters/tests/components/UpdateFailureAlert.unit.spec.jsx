@@ -16,7 +16,7 @@ const defaultProps = {
 };
 
 describe('<UpdateFailureAlert>', () => {
-  it('should render address and warning', () => {
+  test('should render address and warning', () => {
     // Have to wrap the stateless (function) component in <div></div> so renderIntoDocument() is happy
     const tree = ReactTestUtils.renderIntoDocument(<div><UpdateFailureAlert {...defaultProps}/></div>);
     const component = getFormDOM(tree);

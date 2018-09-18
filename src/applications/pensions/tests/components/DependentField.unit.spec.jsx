@@ -5,7 +5,7 @@ import SkinDeep from 'skin-deep';
 import DependentField from '../../components/DependentField';
 
 describe('Pensions DependentField', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(
       <DependentField
         id="id"

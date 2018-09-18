@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 describe('Pre-need sponsor information', () => {
   const { schema, uiSchema } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -21,7 +21,7 @@ describe('Pre-need sponsor information', () => {
     expect(form.find('select').length).to.equal(4);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -37,7 +37,7 @@ describe('Pre-need sponsor information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with required information', () => {
+  test('should submit with required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -63,7 +63,7 @@ describe('Pre-need sponsor information', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should reveal date of death question', () => {
+  test('should reveal date of death question', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

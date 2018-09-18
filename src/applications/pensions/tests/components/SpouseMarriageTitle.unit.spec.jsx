@@ -5,7 +5,7 @@ import SkinDeep from 'skin-deep';
 import SpouseMarriageTitle from '../../components/SpouseMarriageTitle';
 
 describe('Pensions SpouseMarriageTitle', () => {
-  it('should render first marriage title', () => {
+  test('should render first marriage title', () => {
     const tree = SkinDeep.shallowRender(
       <SpouseMarriageTitle
         id="id"
@@ -14,7 +14,7 @@ describe('Pensions SpouseMarriageTitle', () => {
 
     expect(tree.text()).to.contain('Spouse’s first marriage');
   });
-  it('should render marriage title with number value', () => {
+  test('should render marriage title with number value', () => {
     const tree = SkinDeep.shallowRender(
       <SpouseMarriageTitle
         id="id"

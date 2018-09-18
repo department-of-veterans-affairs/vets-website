@@ -19,7 +19,7 @@ const props = {
 };
 
 describe('<ModalCreateFolder>', () => {
-  it('should render correctly', () => {
+  test('should render correctly', () => {
     const tree = SkinDeep.shallowRender(
       <ModalCreateFolder {...props}/>
     );
@@ -27,7 +27,7 @@ describe('<ModalCreateFolder>', () => {
     expect(tree.getRenderOutput()).to.exist;
   });
 
-  it('should render expected output', () => {
+  test('should render expected output', () => {
     const tree = SkinDeep.shallowRender(
       <ModalCreateFolder {...props}/>
     );
@@ -37,7 +37,7 @@ describe('<ModalCreateFolder>', () => {
     expect(tree.dive(['Modal']).subTree('.va-modal-button-group')).to.be.ok;
   });
 
-  it('should show loading indicator when loading', () => {
+  test('should show loading indicator when loading', () => {
     const tree = SkinDeep.shallowRender(
       <ModalCreateFolder {...props} loading/>
     );

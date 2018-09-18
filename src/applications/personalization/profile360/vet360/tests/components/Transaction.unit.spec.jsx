@@ -17,7 +17,7 @@ describe('<Vet360Transaction/>', () => {
     };
   });
 
-  it('renders', () => {
+  test('renders', () => {
     const component = enzyme.shallow(
       <Vet360Transaction {...props}>
         <div>Children</div>

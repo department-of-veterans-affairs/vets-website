@@ -21,7 +21,7 @@ describe('<AcceptTermsPrompt>', () => {
     window.scrollTo = () => {};
   });
 
-  it('should be an empty div if there is no content', () => {
+  test('should be an empty div if there is no content', () => {
     const tree = SkinDeep.shallowRender(
       <AcceptTermsPrompt
         terms={{}}/>
@@ -29,7 +29,7 @@ describe('<AcceptTermsPrompt>', () => {
     expect(tree.toString()).to.equal('<div />');
   });
 
-  it('should call onAccept correctly', () => {
+  test('should call onAccept correctly', () => {
     const acceptTermsPrompt = ReactTestUtils.renderIntoDocument(
       <AcceptTermsPrompt {...defaultProps}/>
     );
@@ -38,7 +38,7 @@ describe('<AcceptTermsPrompt>', () => {
     expect(defaultProps.onAccept.calledWith('mhvac')).to.be.true;
   });
 
-  it('submit button should be disabled by default', () => {
+  test('submit button should be disabled by default', () => {
     const tree = SkinDeep.shallowRender(
       <AcceptTermsPrompt {...defaultProps}/>
     );
@@ -48,7 +48,7 @@ describe('<AcceptTermsPrompt>', () => {
     expect(submitButton.props.disabled).to.be.true;
   });
 
-  it('submit button should be enabled if state is valid', () => {
+  test('submit button should be enabled if state is valid', () => {
     const acceptTermsPrompt = ReactTestUtils.renderIntoDocument(
       <AcceptTermsPrompt {...defaultProps}/>
     );

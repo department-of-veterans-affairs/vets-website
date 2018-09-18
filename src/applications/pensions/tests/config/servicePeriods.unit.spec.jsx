@@ -8,7 +8,7 @@ import formConfig from '../../config/form';
 
 describe('Pensions service periods', () => {
   const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.servicePeriods;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -20,7 +20,7 @@ describe('Pensions service periods', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(7);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -38,45 +38,51 @@ describe('Pensions service periods', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should display warning if the veteran did not serve during a wartime period', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
-    );
+  test(
+    'should display warning if the veteran did not serve during a wartime period',
+    () => {
+      const onSubmit = sinon.spy();
+      const form = ReactTestUtils.renderIntoDocument(
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}/>
+      );
 
-    const formDOM = getFormDOM(form);
+      const formDOM = getFormDOM(form);
 
-    formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
-    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_from', '1983-1-1');
-    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_to', '1984-1-1');
+      formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
+      formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_from', '1983-1-1');
+      formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_to', '1984-1-1');
 
-    expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(1);
-  });
+      expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(1);
+    }
+  );
 
-  it('should not display warning if the veteran did serve during a wartime period', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
-    );
+  test(
+    'should not display warning if the veteran did serve during a wartime period',
+    () => {
+      const onSubmit = sinon.spy();
+      const form = ReactTestUtils.renderIntoDocument(
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}/>
+      );
 
-    const formDOM = getFormDOM(form);
+      const formDOM = getFormDOM(form);
 
-    formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
-    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_from', '1995-1-1');
-    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_to', '2004-1-1');
+      formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
+      formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_from', '1995-1-1');
+      formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_to', '2004-1-1');
 
-    expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(0);
-  });
+      expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(0);
+    }
+  );
 
-  it('should add another service period', () => {
+  test('should add another service period', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -100,7 +106,7 @@ describe('Pensions service periods', () => {
       .to.contain('Army');
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

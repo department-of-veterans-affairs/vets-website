@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import ClaimComplete from '../../components/ClaimComplete';
 
 describe('<ClaimComplete>', () => {
-  it('should render message', () => {
+  test('should render message', () => {
     const date = '2010-03-01';
     const tree = SkinDeep.shallowRender(
       <ClaimComplete

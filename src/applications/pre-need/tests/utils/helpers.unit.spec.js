@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 describe('Preneed helpers', () => {
   describe('transform', () => {
-    it('should remove view fields', () => {
+    test('should remove view fields', () => {
       const data = JSON.parse(transform({}, {
         data: {
           application: {
@@ -17,7 +17,7 @@ describe('Preneed helpers', () => {
       expect(data.application['view:testing']).to.be.undefined;
     });
 
-    it('should populate service name', () => {
+    test('should populate service name', () => {
       const data = JSON.parse(transform({}, {
         data: {
           application: {
@@ -33,7 +33,7 @@ describe('Preneed helpers', () => {
       expect(data.application.veteran.serviceName).to.equal(data.application.veteran.currentName);
     });
 
-    it('should remove partial addresses', () => {
+    test('should remove partial addresses', () => {
       const data = JSON.parse(transform({}, {
         data: {
           application: {

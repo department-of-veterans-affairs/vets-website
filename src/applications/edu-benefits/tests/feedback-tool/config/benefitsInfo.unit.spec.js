@@ -9,7 +9,7 @@ import formConfig from '../../../feedback-tool/config/form';
 describe('feedback tool benefits info', () => {
   const { schema, uiSchema } = formConfig.chapters.benefitsInformation.pages.benefitsInformation;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -21,7 +21,7 @@ describe('feedback tool benefits info', () => {
     expect(form.find('input').length).to.equal(11);
   });
 
-  it('should not submit without required information', () => {
+  test('should not submit without required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -36,7 +36,7 @@ describe('feedback tool benefits info', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with required information', () => {
+  test('should submit with required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

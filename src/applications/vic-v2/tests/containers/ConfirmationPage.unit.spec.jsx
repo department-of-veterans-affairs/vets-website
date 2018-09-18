@@ -21,7 +21,7 @@ const form = {
 };
 
 describe('<ConfirmationPage>', () => {
-  it('should render unverified', () => {
+  test('should render unverified', () => {
     const tree = shallow(
       <ConfirmationPage form={form} userSignedIn/>
     );
@@ -30,7 +30,7 @@ describe('<ConfirmationPage>', () => {
     expect(tree.text()).to.contain('We process applications and print cards in the order we receive them.');
     expect(tree.text()).to.contain('We’ll send you emails updating you on the status of your application. You can also print this page for your records.');
   });
-  it('should render not signed in', () => {
+  test('should render not signed in', () => {
     const tree = shallow(
       <ConfirmationPage form={_.set('data.verified', true, form)}/>
     );

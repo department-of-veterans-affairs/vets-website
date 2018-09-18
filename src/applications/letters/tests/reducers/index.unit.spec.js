@@ -56,41 +56,41 @@ const benefitSummaryOptionData = {
 };
 
 describe('letters reducer', () => {
-  it('should not modify state if an unrecognized action is passed', () => {
+  test('should not modify state if an unrecognized action is passed', () => {
     const state = reduce({ type: 'FOO_BAR' });
 
     expect(state).to.deep.equal(initialState);
   });
 
-  it('should handle failure to fetch letters', () => {
+  test('should handle failure to fetch letters', () => {
     const state = reduce({ type: GET_LETTERS_FAILURE });
 
     expect(state.letters).to.be.empty;
     expect(state.lettersAvailability).to.equal(AVAILABILITY_STATUSES.unavailable);
   });
 
-  it('should handle backend service error', () => {
+  test('should handle backend service error', () => {
     const state = reduce({ type: BACKEND_SERVICE_ERROR });
 
     expect(state.letters).to.be.empty;
     expect(state.lettersAvailability).to.equal(AVAILABILITY_STATUSES.backendServiceError);
   });
 
-  it('should handle backend authentication error', () => {
+  test('should handle backend authentication error', () => {
     const state = reduce({ type: BACKEND_AUTHENTICATION_ERROR });
 
     expect(state.letters).to.be.empty;
     expect(state.lettersAvailability).to.equal(AVAILABILITY_STATUSES.backendAuthenticationError);
   });
 
-  it('should handle invalid address', () => {
+  test('should handle invalid address', () => {
     const state = reduce({ type: INVALID_ADDRESS_PROPERTY });
 
     expect(state.letters).to.be.empty;
     expect(state.lettersAvailability).to.equal(AVAILABILITY_STATUSES.invalidAddressProperty);
   });
 
-  it('should handle a successful request for letters', () => {
+  test('should handle a successful request for letters', () => {
     const state = reduce(
       {
         type: GET_LETTERS_SUCCESS,
@@ -116,7 +116,7 @@ describe('letters reducer', () => {
     expect(state.lettersAvailability).to.equal(AVAILABILITY_STATUSES.available);
   });
 
-  it('should handle failure to fetch benefit summary options', () => {
+  test('should handle failure to fetch benefit summary options', () => {
     const state = reduce({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE });
 
     expect(state.benefitInfo).to.be.empty;
@@ -124,7 +124,7 @@ describe('letters reducer', () => {
     expect(state.optionsAvailable).to.be.false;
   });
 
-  it('should handle a successful request for benefit summary options', () => {
+  test('should handle a successful request for benefit summary options', () => {
     const state = reduce(
       {
         type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
@@ -137,7 +137,7 @@ describe('letters reducer', () => {
     expect(state.optionsAvailable).to.be.true;
   });
 
-  it('should update benefit summary request options', () => {
+  test('should update benefit summary request options', () => {
     const state = reduce(
       {
         type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
@@ -149,7 +149,7 @@ describe('letters reducer', () => {
     // TODO: Test what makes it to requestOptions when we have a firmer grasp of the business logic
   });
 
-  it('should handle a successful request for the address', () => {
+  test('should handle a successful request for the address', () => {
     const state = reduce(
       {
         type: GET_ADDRESS_SUCCESS,
@@ -172,14 +172,14 @@ describe('letters reducer', () => {
     expect(state.canUpdate).to.be.true;
   });
 
-  it('should handle failure to fetch the address', () => {
+  test('should handle failure to fetch the address', () => {
     const state = reduce({ type: GET_ADDRESS_FAILURE });
 
     expect(state.address).to.be.empty;
     expect(state.addressAvailability).to.equal(AVAILABILITY_STATUSES.unavailable);
   });
 
-  it('should handle successful request for the countries', () => {
+  test('should handle successful request for the countries', () => {
     const countries = ['USA', 'France', 'India'];
     const state = reduce(
       {
@@ -198,7 +198,7 @@ describe('letters reducer', () => {
     expect(state.countriesAvailable).to.be.true;
   });
 
-  it('should handle an empty response for the countries', () => {
+  test('should handle an empty response for the countries', () => {
     const state = reduce(
       {
         type: GET_ADDRESS_COUNTRIES_SUCCESS,
@@ -216,14 +216,14 @@ describe('letters reducer', () => {
     expect(state.countriesAvailable).to.be.false;
   });
 
-  it('should handle failure to fetch countries', () => {
+  test('should handle failure to fetch countries', () => {
     const state = reduce({ type: GET_ADDRESS_COUNTRIES_FAILURE });
 
     expect(state.countries).to.be.empty;
     expect(state.countriesAvailable).to.be.false;
   });
 
-  it('should handle successful request for the states', () => {
+  test('should handle successful request for the states', () => {
     const states = ['IL', 'MA', 'DC'];
     const state = reduce(
       {
@@ -242,7 +242,7 @@ describe('letters reducer', () => {
     expect(state.statesAvailable).to.be.true;
   });
 
-  it('should handle empty response for the states', () => {
+  test('should handle empty response for the states', () => {
     const state = reduce(
       {
         type: GET_ADDRESS_STATES_SUCCESS,
@@ -260,7 +260,7 @@ describe('letters reducer', () => {
     expect(state.statesAvailable).to.be.false;
   });
 
-  it('should handle failure to fetch states', () => {
+  test('should handle failure to fetch states', () => {
     const state = reduce({ type: GET_ADDRESS_STATES_FAILURE });
 
     expect(state.states).to.be.empty;
@@ -268,13 +268,13 @@ describe('letters reducer', () => {
   });
 
 
-  it('should handle a letter eligibility error', () => {
+  test('should handle a letter eligibility error', () => {
     const state = reduce({ type: LETTER_ELIGIBILITY_ERROR });
 
     expect(state.lettersAvailability).to.equal(AVAILABILITY_STATUSES.letterEligibilityError);
   });
 
-  it('should handle updating a benefit summary request option', () => {
+  test('should handle updating a benefit summary request option', () => {
     const state = reduce(
       {
         type: UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
@@ -286,7 +286,7 @@ describe('letters reducer', () => {
     expect(state.requestOptions.foo).to.equal('bar');
   });
 
-  it('should handle downloading a pdf', () => {
+  test('should handle downloading a pdf', () => {
     const state = reduce(
       {
         type: GET_LETTER_PDF_DOWNLOADING,
@@ -297,7 +297,7 @@ describe('letters reducer', () => {
     expect(state.letterDownloadStatus.foo).to.equal(DOWNLOAD_STATUSES.downloading);
   });
 
-  it('should handle successfully downloading a pdf', () => {
+  test('should handle successfully downloading a pdf', () => {
     const state = reduce(
       {
         type: GET_LETTER_PDF_SUCCESS,
@@ -308,7 +308,7 @@ describe('letters reducer', () => {
     expect(state.letterDownloadStatus.foo).to.equal(DOWNLOAD_STATUSES.success);
   });
 
-  it('should handle failing to download a pdf', () => {
+  test('should handle failing to download a pdf', () => {
     const state = reduce(
       {
         type: GET_LETTER_PDF_FAILURE,
@@ -319,13 +319,13 @@ describe('letters reducer', () => {
     expect(state.letterDownloadStatus.foo).to.equal(DOWNLOAD_STATUSES.failure);
   });
 
-  it('should handle save address pending', () => {
+  test('should handle save address pending', () => {
     const state = reduce({ type: SAVE_ADDRESS_PENDING });
 
     expect(state.savePending).to.be.true;
   });
 
-  it('should handle successfully saving an address', () => {
+  test('should handle successfully saving an address', () => {
     const state = reduce(
       {
         type: SAVE_ADDRESS_SUCCESS,
@@ -337,7 +337,7 @@ describe('letters reducer', () => {
     expect(state.savePending).to.be.false;
   });
 
-  it('should handle failing to save an address', () => {
+  test('should handle failing to save an address', () => {
     const state = reduce(
       {
         type: SAVE_ADDRESS_FAILURE,
@@ -349,12 +349,12 @@ describe('letters reducer', () => {
     expect(state.saveAddressError).to.be.true;
   });
 
-  it('should handle editing and address', () => {
+  test('should handle editing and address', () => {
     const state = reduce({ type: START_EDITING_ADDRESS });
     expect(state.isEditingAddress).to.be.true;
   });
 
-  it('should handle cancelling editing and address', () => {
+  test('should handle cancelling editing and address', () => {
     const state = reduce({ type: CANCEL_EDITING_ADDRESS });
     expect(state.isEditingAddress).to.be.false;
   });

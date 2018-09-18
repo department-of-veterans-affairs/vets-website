@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 describe('686 dependent info', () => {
   const { schema, uiSchema } = formConfig.chapters.unMarriedChildren.pages.dependents;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -20,7 +20,7 @@ describe('686 dependent info', () => {
     expect(form.find('input').length).to.equal(2);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -34,7 +34,7 @@ describe('686 dependent info', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit form if applicant has no dependents', () => {
+  test('should submit form if applicant has no dependents', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -52,7 +52,7 @@ describe('686 dependent info', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should expand dependent info if applicant has dependents', () => {
+  test('should expand dependent info if applicant has dependents', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -65,7 +65,7 @@ describe('686 dependent info', () => {
     expect(form.find('input').length).to.equal(6);
   });
 
-  it('should submit form with all required fills filled', () => {
+  test('should submit form with all required fills filled', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -86,7 +86,7 @@ describe('686 dependent info', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should add another dependent', () => {
+  test('should add another dependent', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

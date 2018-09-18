@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import alertReducer from '../../reducers/alert';
 
 describe('alert reducer', () => {
-  it('should open the alert', () => {
+  test('should open the alert', () => {
     const state = alertReducer({ visible: false, }, {
       type: 'OPEN_ALERT',
       content: 'testing',
@@ -15,7 +15,7 @@ describe('alert reducer', () => {
     expect(state.status).to.eql('success');
   });
 
-  it('should close the alert', () => {
+  test('should close the alert', () => {
     const state = alertReducer({ visible: true }, {
       type: 'CLOSE_ALERT'
     });
@@ -23,17 +23,17 @@ describe('alert reducer', () => {
     expect(state.visible).to.be.false;
   });
 
-  it('should dismiss alerts when loading preferences', () => {
+  test('should dismiss alerts when loading preferences', () => {
     const state = alertReducer(undefined, { type: 'RX_LOADING_PREFERENCES' });
     expect(state.visible).to.be.false;
   });
 
-  it('should dismiss alerts when saving preferences', () => {
+  test('should dismiss alerts when saving preferences', () => {
     const state = alertReducer(undefined, { type: 'RX_SAVING_PREFERENCES' });
     expect(state.visible).to.be.false;
   });
 
-  it('should alert an error for failing to save preferences', () => {
+  test('should alert an error for failing to save preferences', () => {
     const state = alertReducer({
       visible: false,
       content: '',
@@ -48,7 +48,7 @@ describe('alert reducer', () => {
     expect(state.status).to.eql('error');
   });
 
-  it('should alert success for successfully saving preferences', () => {
+  test('should alert success for successfully saving preferences', () => {
     const state = alertReducer({
       visible: false,
       content: '',
@@ -60,7 +60,7 @@ describe('alert reducer', () => {
     expect(state.status).to.eql('success');
   });
 
-  it('should alert an error for a failed refill', () => {
+  test('should alert an error for a failed refill', () => {
     const state = alertReducer({
       visible: false,
       content: '',
@@ -75,7 +75,7 @@ describe('alert reducer', () => {
     expect(state.status).to.eql('error');
   });
 
-  it('should alert a success for a successful refill', () => {
+  test('should alert a success for a successful refill', () => {
     const state = alertReducer({
       visible: false,
       content: '',

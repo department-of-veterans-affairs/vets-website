@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import AdditionalEvidenceItem from '../../components/AdditionalEvidenceItem';
 
 describe('<AdditionalEvidenceItem>', () => {
-  it('should render additional evidence item', () => {
+  test('should render additional evidence item', () => {
     const item = {
       uploadDate: '2010-01-01',
       type: 'other_documents_list',
@@ -23,7 +23,7 @@ describe('<AdditionalEvidenceItem>', () => {
     expect(tree.subTree('.submission-description').text()).contain('Type: Test Type');
     expect(tree.everySubTree('.submission-date')).not.to.be.empty;
   });
-  it('should render additional evidence item without date', () => {
+  test('should render additional evidence item without date', () => {
     const item = {
       date: null,
       uploadDate: null,

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import prescriptionsReducer from '../../reducers/prescriptions.js';
 
 describe('prescriptions reducer', () => {
-  it('should show a loading screen for active', () => {
+  test('should show a loading screen for active', () => {
     const state = prescriptionsReducer(
       { active: { loading: false } },
       { type: 'LOADING_ACTIVE' }
@@ -11,7 +11,7 @@ describe('prescriptions reducer', () => {
     expect(state.active.loading).to.be.true;
   });
 
-  it('should show a loading screen for history', () => {
+  test('should show a loading screen for history', () => {
     const state = prescriptionsReducer(
       { history: { loading: false } },
       { type: 'LOADING_HISTORY' }
@@ -19,7 +19,7 @@ describe('prescriptions reducer', () => {
     expect(state.history.loading).to.be.true;
   });
 
-  it('should show a loading screen for detail', () => {
+  test('should show a loading screen for detail', () => {
     const state = prescriptionsReducer(
       { detail: { loading: false } },
       { type: 'LOADING_DETAIL' }
@@ -27,7 +27,7 @@ describe('prescriptions reducer', () => {
     expect(state.detail.loading).to.be.true;
   });
 
-  it('should handle failure to fetch a prescription', () => {
+  test('should handle failure to fetch a prescription', () => {
     const state = prescriptionsReducer(
       { currentItem: { id: 123 } },
       { type: 'LOAD_PRESCRIPTION_FAILURE' }
@@ -36,7 +36,7 @@ describe('prescriptions reducer', () => {
     expect(state.detail.loading).to.be.false;
   });
 
-  it('should handle failure to fetch active prescriptions', () => {
+  test('should handle failure to fetch active prescriptions', () => {
     const state = prescriptionsReducer({
       items: ['123', '456', '789']
     }, {
@@ -47,7 +47,7 @@ describe('prescriptions reducer', () => {
     expect(state.active.loading).to.be.false;
   });
 
-  it('should handle failure to fetch prescriptions history', () => {
+  test('should handle failure to fetch prescriptions history', () => {
     const state = prescriptionsReducer({
       items: ['123', '456', '789']
     }, {
@@ -57,7 +57,7 @@ describe('prescriptions reducer', () => {
     expect(state.history.loading).to.be.false;
   });
 
-  it('should handle a successful request for active prescriptions', () => {
+  test('should handle a successful request for active prescriptions', () => {
     const state = prescriptionsReducer({
       items: null
     }, {
@@ -79,7 +79,7 @@ describe('prescriptions reducer', () => {
     expect(state.active.loading).to.be.false;
   });
 
-  it('should handle a successful request for prescriptions history', () => {
+  test('should handle a successful request for prescriptions history', () => {
     const state = prescriptionsReducer({
       items: null
     }, {
@@ -103,7 +103,7 @@ describe('prescriptions reducer', () => {
     expect(state.history.loading).to.be.false;
   });
 
-  it('should handle a successful refill', () => {
+  test('should handle a successful refill', () => {
     const state = {
       items: [
         {
@@ -139,7 +139,7 @@ describe('prescriptions reducer', () => {
     expect(newState.items[1].attributes.refillStatus).to.eql('submitted');
   });
 
-  it('should sort active prescriptions by prescription name', () => {
+  test('should sort active prescriptions by prescription name', () => {
     const state = {
       items: [
         {
@@ -174,7 +174,7 @@ describe('prescriptions reducer', () => {
     expect(newState.items[2].id).to.equal(1);
   });
 
-  it('should sort active prescriptions by facility name', () => {
+  test('should sort active prescriptions by facility name', () => {
     const state = {
       items: [
         {
@@ -209,7 +209,7 @@ describe('prescriptions reducer', () => {
     expect(newState.items[2].id).to.equal(1);
   });
 
-  it('should sort active prescriptions by last submit date', () => {
+  test('should sort active prescriptions by last submit date', () => {
     const state = {
       items: [
         {

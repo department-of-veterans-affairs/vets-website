@@ -18,18 +18,18 @@ const props = {
 };
 
 describe('<Details>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<Details {...props}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.be.ok;
   });
 
-  it('should render details', () => {
+  test('should render details', () => {
     const tree = SkinDeep.shallowRender(<Details {...props}/>);
     expect(tree.dive(['#rx-info'])).to.be.ok;
   });
 
-  it('should render a contact card', () => {
+  test('should render a contact card', () => {
     const tree = SkinDeep.shallowRender(<Details {...props}/>);
     const contactCard = tree.subTree('ContactCard');
     expect(contactCard).to.be.ok;

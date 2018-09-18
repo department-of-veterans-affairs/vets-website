@@ -10,7 +10,7 @@ const definitions = formConfig.defaultDefinitions;
 
 describe('Pensions aidAttendance', () => {
   const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.aidAttendance;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -24,7 +24,7 @@ describe('Pensions aidAttendance', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(0);
     expect(formDOM.querySelectorAll('.usa-alert-info').length).to.equal(2);
   });
-  it('should submit', () => {
+  test('should submit', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

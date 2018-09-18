@@ -8,7 +8,7 @@ import formConfig from '../../config/form.js';
 
 describe('Burials plot allowance', () => {
   const { schema, uiSchema, depends } = formConfig.chapters.benefitsSelection.pages.plotAllowance;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -21,7 +21,7 @@ describe('Burials plot allowance', () => {
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(5);
   });
 
-  it('should show errors when required fields are empty', () => {
+  test('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -37,7 +37,7 @@ describe('Burials plot allowance', () => {
     expect(onSubmit.called).not.to.be.true;
   });
 
-  it('should show state cemetery field', () => {
+  test('should show state cemetery field', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -53,7 +53,7 @@ describe('Burials plot allowance', () => {
     expect(formDOM.querySelector('#root_stateCemeteryYes')).not.to.be.null;
   });
 
-  it('should show actual govt contribution text field', () => {
+  test('should show actual govt contribution text field', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -69,7 +69,7 @@ describe('Burials plot allowance', () => {
     expect(formDOM.querySelector('#root_amountGovtContribution')).not.to.be.null;
   });
 
-  it('should submit when all required fields are filled in', () => {
+  test('should submit when all required fields are filled in', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -92,7 +92,7 @@ describe('Burials plot allowance', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should show page only if plotAllowance was chosen', () => {
+  test('should show page only if plotAllowance was chosen', () => {
     expect(depends({
       'view:claimedBenefits': {
         plotAllowance: true

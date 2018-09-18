@@ -1,18 +1,15 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
-import chaiAsPromised from 'chai-as-promised';
-import chai, { expect } from 'chai';
+import { expect } from 'chai';
 
 import ErrorableSelect from '../../components/ErrorableSelect';
-
-chai.use(chaiAsPromised);
 
 describe('<ErrorableSelect>', () => {
   const testValue = '';
   const options = [{ value: 1, label: 'first' }, { value: 2, label: 'second' }];
 
-  it('ensure value changes propagate', () => {
+  test('ensure value changes propagate', () => {
     let errorableSelect;
 
     const updatePromise = new Promise((resolve, _reject) => {
@@ -28,7 +25,7 @@ describe('<ErrorableSelect>', () => {
     return expect(updatePromise).to.eventually.eql('1');
   });
 
-  it('no error styles when errorMessage undefined', () => {
+  test('no error styles when errorMessage undefined', () => {
     const tree = SkinDeep.shallowRender(
       <ErrorableSelect label="my label" options={options} value={testValue} onValueChange={(_update) => {}}/>);
 
@@ -48,7 +45,7 @@ describe('<ErrorableSelect>', () => {
     expect(selects[0].props['aria-describedby']).to.be.undefined;
   });
 
-  it('has error styles when errorMessage is set', () => {
+  test('has error styles when errorMessage is set', () => {
     const tree = SkinDeep.shallowRender(
       <ErrorableSelect label="my label" options={options} errorMessage="error message" value={testValue} onValueChange={(_update) => {}}/>);
 
@@ -70,14 +67,14 @@ describe('<ErrorableSelect>', () => {
     expect(selects[0].props['aria-describedby']).to.equal(errorMessages[0].props.id);
   });
 
-  it('required=false does not have required asterisk', () => {
+  test('required=false does not have required asterisk', () => {
     const tree = SkinDeep.shallowRender(
       <ErrorableSelect label="my label" options={options} value={testValue} onValueChange={(_update) => {}}/>);
 
     expect(tree.everySubTree('label')[0].text()).to.equal('my label');
   });
 
-  it('required=true has required asterisk', () => {
+  test('required=true has required asterisk', () => {
     const tree = SkinDeep.shallowRender(
       <ErrorableSelect label="my label" options={options} required value={testValue} onValueChange={(_update) => {}}/>);
 
@@ -85,7 +82,7 @@ describe('<ErrorableSelect>', () => {
     expect(label[0].text()).to.equal('my label*');
   });
 
-  it('label attribute propagates', () => {
+  test('label attribute propagates', () => {
     const tree = SkinDeep.shallowRender(
       <ErrorableSelect label="my label" options={options} value={testValue} onValueChange={(_update) => {}}/>);
 

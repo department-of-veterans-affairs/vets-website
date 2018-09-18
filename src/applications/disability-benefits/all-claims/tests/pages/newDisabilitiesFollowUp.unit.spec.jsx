@@ -8,7 +8,7 @@ import formConfig from '../../config/form';
 describe('New disabilities follow up info', () => {
   const { schema, uiSchema, arrayPath } = formConfig.chapters.disabilities.pages.newDisabilityFollowUp;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -31,7 +31,7 @@ describe('New disabilities follow up info', () => {
     expect(form.find('select').length).to.equal(2);
   });
 
-  it('should render primary disabilities', () => {
+  test('should render primary disabilities', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -57,7 +57,7 @@ describe('New disabilities follow up info', () => {
     expect(form.find('select').first().find('option').length).to.equal(2);
   });
 
-  it('should render primary description question', () => {
+  test('should render primary description question', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -82,7 +82,7 @@ describe('New disabilities follow up info', () => {
     expect(form.find('textarea').length).to.equal(1);
   });
 
-  it('should submit when data filled in', () => {
+  test('should submit when data filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

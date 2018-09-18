@@ -19,26 +19,26 @@ const props = {
 };
 
 describe('<MessageWriteGroup>', () => {
-  it('should render correctly', () => {
+  test('should render correctly', () => {
     const tree = SkinDeep.shallowRender(<MessageWriteGroup {...props}/>);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
-  it('should have the expected classname if no error', () => {
+  test('should have the expected classname if no error', () => {
     const tree = SkinDeep.shallowRender(<MessageWriteGroup {...props}/>);
 
     expect(tree.props.className).to.equal('msg-write-group msg-field');
   });
 
-  it('should have the expected classname if there is an error', () => {
+  test('should have the expected classname if there is an error', () => {
     const tree = SkinDeep.shallowRender(<MessageWriteGroup {...props} errorMessage="errorMessage"/>);
 
     expect(tree.props.className).to.equal('msg-write-group msg-field msg-compose-error usa-input-error');
   });
 
 
-  it('should render the expected child elements', () => {
+  test('should render the expected child elements', () => {
     const tree = SkinDeep.shallowRender(<MessageWriteGroup {...props}/>);
 
     expect(tree.subTree('MessageWrite')).to.be.ok;

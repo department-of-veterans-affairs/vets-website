@@ -38,7 +38,7 @@ describe('VIC helpers:', () => {
         createObjectURL: sinon.stub().returns('test')
       };
     });
-    it('should reject if initial request fails', () => {
+    test('should reject if initial request fails', () => {
       mockFetch(new Error('fake error'), false);
       const formConfig = {
         chapters: {}
@@ -58,7 +58,7 @@ describe('VIC helpers:', () => {
         expect(err.message).to.equal('fake error');
       });
     });
-    it('should resolve if polling state is success', () => {
+    test('should resolve if polling state is success', () => {
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), {
         data: {
@@ -100,7 +100,7 @@ describe('VIC helpers:', () => {
         });
       });
     });
-    it('should reject if polling state is failed', () => {
+    test('should reject if polling state is failed', () => {
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), {
         data: {
@@ -141,7 +141,7 @@ describe('VIC helpers:', () => {
         expect(err.message).to.equal('vets_server_error_vic: status failed');
       });
     });
-    it('should resolve with image request', () => {
+    test('should resolve with image request', () => {
       mockFetch();
       setFetchBlobResponse(global.fetch.onFirstCall(), {});
       setFetchResponse(global.fetch.onSecondCall(), {
@@ -182,7 +182,7 @@ describe('VIC helpers:', () => {
         });
       });
     });
-    it('should resolve with failed image request', () => {
+    test('should resolve with failed image request', () => {
       mockFetch();
       setFailedBlobResponse(global.fetch.onFirstCall(), 'Error');
       setFetchResponse(global.fetch.onSecondCall(), {
@@ -224,7 +224,7 @@ describe('VIC helpers:', () => {
     });
   });
   describe('prefillTransformer', () => {
-    it('should do nothing if there is no branch list', () => {
+    test('should do nothing if there is no branch list', () => {
       const formData = {};
       const pages = {};
       const metadata = {};
@@ -242,7 +242,7 @@ describe('VIC helpers:', () => {
       expect(result.pages).to.equal(pages);
       expect(result.metadata).to.equal(metadata);
     });
-    it('should set serviceBranch to first branch and enum to list', () => {
+    test('should set serviceBranch to first branch and enum to list', () => {
       const formData = {
         serviceBranches: ['A', 'F']
       };
@@ -270,7 +270,7 @@ describe('VIC helpers:', () => {
       expect(result.formData.serviceBranch).to.equal(formData.serviceBranches[0]);
       expect(result.formData.serviceBranches).to.be.undefined;
     });
-    it('should filter out invalid branches', () => {
+    test('should filter out invalid branches', () => {
       const formData = {
         serviceBranches: ['A', 'B']
       };
@@ -298,7 +298,7 @@ describe('VIC helpers:', () => {
       expect(result.formData.serviceBranch).to.equal(formData.serviceBranches[0]);
       expect(result.formData.serviceBranches).to.be.undefined;
     });
-    it('should leave full list when no valid branches', () => {
+    test('should leave full list when no valid branches', () => {
       const formData = {
         serviceBranches: ['B']
       };
@@ -326,7 +326,7 @@ describe('VIC helpers:', () => {
       expect(result.formData.serviceBranch).to.be.undefined;
       expect(result.formData.serviceBranches).to.be.undefined;
     });
-    it('should set id proofed flag and original user data', () => {
+    test('should set id proofed flag and original user data', () => {
       const formData = {
         veteranFullName: {
           first: 'Test'
@@ -356,7 +356,7 @@ describe('VIC helpers:', () => {
     });
   });
   describe('transform', () => {
-    it('should remove identity fields', () => {
+    test('should remove identity fields', () => {
       const form = {
         data: {
           processAsIdProofed: true,
@@ -378,7 +378,7 @@ describe('VIC helpers:', () => {
       expect(result.veteranSocialSecurityNumber).to.be.undefined;
       expect(result.veteranFullName).to.be.undefined;
     });
-    it('should process as anonymous if fields are different', () => {
+    test('should process as anonymous if fields are different', () => {
       const form = {
         data: {
           processAsIdProofed: true,

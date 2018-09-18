@@ -17,7 +17,7 @@ describe('<Vet360EditModalActionButtons/>', () => {
     };
   });
 
-  it('renders correctly when delete enabled', () => {
+  test('renders correctly when delete enabled', () => {
     const component = enzyme.shallow(
       <Vet360EditModalActionButtons {...props}>
         <p>Children</p>
@@ -31,7 +31,7 @@ describe('<Vet360EditModalActionButtons/>', () => {
     expect(component.find('.usa-button-secondary.button-link'), 'renders delete button').to.have.lengthOf(1);
   });
 
-  it('renders correctly when delete triggered', () => {
+  test('renders correctly when delete triggered', () => {
     const component = enzyme.shallow(
       <Vet360EditModalActionButtons {...props}>
         <p>Children</p>
@@ -51,7 +51,7 @@ describe('<Vet360EditModalActionButtons/>', () => {
     expect(component.find('.usa-button-secondary.button-link'), 'hide delete button').to.have.lengthOf(0);
   });
 
-  it('renders correctly when delete disabled', () => {
+  test('renders correctly when delete disabled', () => {
     const component = enzyme.shallow(
       <Vet360EditModalActionButtons {...props}>
         <p>Children</p>

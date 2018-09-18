@@ -23,7 +23,7 @@ describe('686 dependent info', () => {
       ]
     };
   };
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
@@ -36,7 +36,7 @@ describe('686 dependent info', () => {
     expect(form.find('input').length).to.equal(8);
   });
 
-  it('should show disabled if child is less than 18 years old', () => {
+  test('should show disabled if child is less than 18 years old', () => {
     const props = dependentData();
     props.dependents[0].childDateOfBirth = '1-10-2010';
     const form = mount(
@@ -51,7 +51,7 @@ describe('686 dependent info', () => {
     expect(form.find('input').length).to.equal(7);
   });
 
-  it('should not show disabled or inSchool if child is older than 23', () => {
+  test('should not show disabled or inSchool if child is older than 23', () => {
     const props = dependentData();
     props.dependents[0].childDateOfBirth = '1-10-1986';
     const form = mount(
@@ -66,7 +66,7 @@ describe('686 dependent info', () => {
     expect(form.find('input').length).to.equal(6);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -83,7 +83,7 @@ describe('686 dependent info', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit form with required fields filled', () => {
+  test('should submit form with required fields filled', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -103,7 +103,7 @@ describe('686 dependent info', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should expand view:stepChildCondition if stepChild is selected', () => {
+  test('should expand view:stepChildCondition if stepChild is selected', () => {
     const form = mount(
       <DefinitionTester
         data={dependentData()}
@@ -118,7 +118,7 @@ describe('686 dependent info', () => {
     expect(form.find('input').length).to.equal(10);
   });
 
-  it('should expand info boxes if child is in school and disabled', () => {
+  test('should expand info boxes if child is in school and disabled', () => {
     const form = mount(
       <DefinitionTester
         data={dependentData()}

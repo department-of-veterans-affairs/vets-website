@@ -10,13 +10,13 @@ import reducer from '../../reducers';
 const defaultProps = createCommonStore(reducer).getState();
 
 describe('<SearchPage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<SearchPage {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
-  it('should render LoadingIndicator', () => {
+  test('should render LoadingIndicator', () => {
     const props = {
       ...defaultProps,
       search: {
@@ -28,7 +28,7 @@ describe('<SearchPage>', () => {
     expect(tree.subTree('LoadingIndicator')).to.be.ok;
   });
 
-  it('should call expected actions when mounted', () => {
+  test('should call expected actions when mounted', () => {
     const props = {
       ...defaultProps,
       fetchSearchResults: sinon.spy(),

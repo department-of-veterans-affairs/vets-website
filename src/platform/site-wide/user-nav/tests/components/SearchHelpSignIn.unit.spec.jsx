@@ -29,20 +29,20 @@ describe('<SearchHelpSignIn>', () => {
     global.window.location.pathname = '/';
   });
 
-  it('should present login links when not logged in', () => {
+  test('should present login links when not logged in', () => {
     const wrapper = shallow(
       <SearchHelpSignIn {...defaultProps}/>
     );
     expect(wrapper.find('.sign-in-link')).to.have.lengthOf(2);
   });
 
-  it('should render <SignInProfileMenu/> when logged in', () => {
+  test('should render <SignInProfileMenu/> when logged in', () => {
     const signedInProps = merge(defaultProps, { isLoggedIn: true });
     const wrapper = shallow(<SearchHelpSignIn {...signedInProps}/>);
     expect(wrapper.find('SignInProfileMenu').exists()).to.be.true;
   });
 
-  it('should display email for an LOA1 user without a firstname', () => {
+  test('should display email for an LOA1 user without a firstname', () => {
     const loa1Props = merge(defaultProps, {
       isLoggedIn: true,
       profile: {

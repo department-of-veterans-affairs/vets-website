@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import ClaimsListItem from '../../components/ClaimsListItem';
 
 describe('<ClaimsListItem>', () => {
-  it('should not show any flags', () => {
+  test('should not show any flags', () => {
     const claim = {
       id: 1,
       attributes: {
@@ -22,7 +22,7 @@ describe('<ClaimsListItem>', () => {
     );
     expect(tree.subTree('.communications').text()).to.equal('');
   });
-  it('should show closed status', () => {
+  test('should show closed status', () => {
     const claim = {
       id: 1,
       attributes: {
@@ -36,7 +36,7 @@ describe('<ClaimsListItem>', () => {
     );
     expect(tree.subTree('.status').text()).to.equal('Status: Closed');
   });
-  it('should show the status', () => {
+  test('should show the status', () => {
     const claim = {
       id: 1,
       attributes: {
@@ -50,7 +50,7 @@ describe('<ClaimsListItem>', () => {
     );
     expect(tree.subTree('.status').text()).to.equal('Status: Initial review');
   });
-  it('should show development letter flag', () => {
+  test('should show development letter flag', () => {
     const claim = {
       id: 1,
       attributes: {
@@ -67,7 +67,7 @@ describe('<ClaimsListItem>', () => {
     );
     expect(tree.subTree('.communications').text()).to.contain('We sent you a development letter');
   });
-  it('should show decision letter flag', () => {
+  test('should show decision letter flag', () => {
     const claim = {
       id: 1,
       attributes: {
@@ -84,7 +84,7 @@ describe('<ClaimsListItem>', () => {
     );
     expect(tree.subTree('.communications').text()).to.contain('We sent you a decision letter');
   });
-  it('should show items needed flag', () => {
+  test('should show items needed flag', () => {
     const claim = {
       id: 1,
       attributes: {
@@ -101,7 +101,7 @@ describe('<ClaimsListItem>', () => {
     );
     expect(tree.subTree('.communications').text()).to.contain('Items need attention');
   });
-  it('should hide flags when complete', () => {
+  test('should hide flags when complete', () => {
     const claim = {
       id: 1,
       attributes: {

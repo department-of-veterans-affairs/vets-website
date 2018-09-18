@@ -38,7 +38,7 @@ const props = {
 };
 
 describe('<MoveTo>', () => {
-  it('should render correctly', () => {
+  test('should render correctly', () => {
     const tree = SkinDeep.shallowRender(
       <MoveTo {...props}/>
     );
@@ -46,14 +46,14 @@ describe('<MoveTo>', () => {
     expect(tree.getRenderOutput()).to.exist;
   });
 
-  it('should have the expected classname', () => {
+  test('should have the expected classname', () => {
     const tree = SkinDeep.shallowRender(
       <MoveTo {...props}/>
     );
     expect(tree.props.className).to.equal('msg-move-to');
   });
 
-  it('should open create folder modal correctly', () => {
+  test('should open create folder modal correctly', () => {
     const onCreateFolder = sinon.spy();
 
     const moveTo = ReactTestUtils.renderIntoDocument(
@@ -66,7 +66,7 @@ describe('<MoveTo>', () => {
     expect(onCreateFolder.calledWith(props.messageId)).to.be.true;
   });
 
-  it('should handle choose folder correctly', () => {
+  test('should handle choose folder correctly', () => {
     const onChooseFolder = sinon.spy();
 
     const moveTo = ReactTestUtils.renderIntoDocument(

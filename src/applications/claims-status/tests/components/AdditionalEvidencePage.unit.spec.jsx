@@ -7,14 +7,14 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { AdditionalEvidencePage } from '../../containers/AdditionalEvidencePage';
 
 describe('<AdditionalEvidencePage>', () => {
-  it('should render loading div', () => {
+  test('should render loading div', () => {
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidencePage
         loading/>
     );
     expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
   });
-  it('should render upload error alert', () => {
+  test('should render upload error alert', () => {
     const claim = {
       id: 1,
       attributes: {}
@@ -32,7 +32,7 @@ describe('<AdditionalEvidencePage>', () => {
     );
     expect(tree.subTree('Notification')).not.to.be.false;
   });
-  it('should clear upload error when leaving', () => {
+  test('should clear upload error when leaving', () => {
     const claim = {
       id: 1,
       attributes: {}
@@ -54,7 +54,7 @@ describe('<AdditionalEvidencePage>', () => {
     tree.getMountedInstance().componentWillUnmount();
     expect(clearNotification.called).to.be.true;
   });
-  it('should not clear notification after completed upload', () => {
+  test('should not clear notification after completed upload', () => {
     const claim = {
       id: 1,
       attributes: {}
@@ -77,7 +77,7 @@ describe('<AdditionalEvidencePage>', () => {
     tree.getMountedInstance().componentWillUnmount();
     expect(clearNotification.called).to.be.false;
   });
-  it('should handle submit files', () => {
+  test('should handle submit files', () => {
     const files = [];
     const claim = {
       id: 1,
@@ -93,7 +93,7 @@ describe('<AdditionalEvidencePage>', () => {
     tree.subTree('AddFilesForm').props.onSubmit();
     expect(onSubmit.calledWith(1, null, files)).to.be.true;
   });
-  it('should reset uploads and set title on mount', () => {
+  test('should reset uploads and set title on mount', () => {
     const claim = {
       id: 1,
       attributes: {}
@@ -113,7 +113,7 @@ describe('<AdditionalEvidencePage>', () => {
     expect(document.title).to.equal('Additional Evidence');
     expect(resetUploads.called).to.be.true;
   });
-  it('should set details and go to files page if complete', () => {
+  test('should set details and go to files page if complete', () => {
     const claim = {
       id: 1,
       attributes: {}

@@ -8,7 +8,7 @@ import formConfig from '../../../chapter31/config/form.js';
 
 describe('VRE chapter 31 work information', () => {
   const { schema, uiSchema } = formConfig.chapters.workInformation.pages.workInformation;
-  it('renders work information form', () => {
+  test('renders work information form', () => {
     const form = mount(<DefinitionTester
       definitions={formConfig.defaultDefinitions}
       schema={schema}
@@ -20,7 +20,7 @@ describe('VRE chapter 31 work information', () => {
     expect(form.find('input').length).to.equal(2);
   });
 
-  it('renders job information form when working is true', () => {
+  test('renders job information form when working is true', () => {
     const form = mount(<DefinitionTester
       definitions={formConfig.defaultDefinitions}
       schema={schema}
@@ -35,7 +35,7 @@ describe('VRE chapter 31 work information', () => {
     expect(form.find('select').length).to.equal(2);
   });
 
-  it('submits with required information', () => {
+  test('submits with required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -54,7 +54,7 @@ describe('VRE chapter 31 work information', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('does not submit without required information', () => {
+  test('does not submit without required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

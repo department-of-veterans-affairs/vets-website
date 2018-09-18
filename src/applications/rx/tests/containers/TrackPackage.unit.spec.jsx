@@ -11,13 +11,13 @@ const props = {
 };
 
 describe('<TrackPackage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<TrackPackage {...props}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.be.ok;
   });
 
-  it('should render tracking info when available', () => {
+  test('should render tracking info when available', () => {
     const tree = SkinDeep.shallowRender(<TrackPackage {...props}/>);
     expect(tree.dive(['.rx-tab-explainer']).text()).to.equal(
       'Tracking information for each order expires 30 days after shipment.'
@@ -47,14 +47,14 @@ describe('<TrackPackage>', () => {
     });
   });
 
-  it('should show a message when tracking info is not yet available', () => {
+  test('should show a message when tracking info is not yet available', () => {
     const tree = SkinDeep.shallowRender(<TrackPackage isPending items={[]}/>);
     expect(tree.dive(['.rx-tab-explainer']).text()).to.equal(
       'You recently submitted a refill, and the tracking information isn’t available yet.'
     );
   });
 
-  it('should show a message when tracking info has expired', () => {
+  test('should show a message when tracking info has expired', () => {
     const tree = SkinDeep.shallowRender(<TrackPackage items={[]}/>);
     expect(tree.dive(['.rx-tab-explainer']).text()).to.equal(
       'Your prescription shipped more than 30 days ago, and tracking information is no longer available.'

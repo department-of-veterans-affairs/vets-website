@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 describe('686 applicant information', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -21,7 +21,7 @@ describe('686 applicant information', () => {
     expect(form.find('select').length).to.equal(1);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -35,7 +35,7 @@ describe('686 applicant information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit form if applicant is veteran', () => {
+  test('should submit form if applicant is veteran', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -55,7 +55,7 @@ describe('686 applicant information', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should expand spouse description if relationship is spouse', () => {
+  test('should expand spouse description if relationship is spouse', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -68,7 +68,7 @@ describe('686 applicant information', () => {
     expect(form.find('.schemaform-radio-indent').length).to.equal(1);
   });
 
-  it('should expand child description if relationship is child', () => {
+  test('should expand child description if relationship is child', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -81,7 +81,7 @@ describe('686 applicant information', () => {
     expect(form.find('.schemaform-radio-indent').length).to.equal(1);
   });
 
-  it('should expand other description if relationship is other', () => {
+  test('should expand other description if relationship is other', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}

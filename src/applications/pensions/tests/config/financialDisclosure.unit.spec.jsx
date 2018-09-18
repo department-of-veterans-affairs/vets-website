@@ -29,7 +29,7 @@ describe('Pensions financial disclosure', () => {
       };
     }
 
-    it('should render', () => {
+    test('should render', () => {
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
           schema={schema}
@@ -45,7 +45,7 @@ describe('Pensions financial disclosure', () => {
     });
 
     if (!namePath.startsWith('spouse')) {
-      it('should render title on review page', () => {
+      test('should render title on review page', () => {
         const form = ReactTestUtils.renderIntoDocument(
           <DefinitionTester
             reviewMode
@@ -61,7 +61,7 @@ describe('Pensions financial disclosure', () => {
       });
     }
 
-    it('should submit empty form', () => {
+    test('should submit empty form', () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
@@ -80,7 +80,7 @@ describe('Pensions financial disclosure', () => {
       expect(onSubmit.called).to.be.true;
     });
 
-    it('should add another source', () => {
+    test('should add another source', () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
@@ -124,7 +124,7 @@ describe('Pensions financial disclosure', () => {
       expect(onSubmit.called).to.be.true;
     });
 
-    it('should add and remove another source', () => {
+    test('should add and remove another source', () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester

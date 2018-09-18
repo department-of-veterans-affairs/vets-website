@@ -37,7 +37,7 @@ describe('<CopyMailingAddress/>', () => {
       };
     });
 
-    it('returns the required props', () => {
+    test('returns the required props', () => {
       const mailingAddress = { city: 'some city' };
 
       state.user.profile.vet360[FIELD_NAMES.MAILING_ADDRESS] = mailingAddress;
@@ -50,7 +50,7 @@ describe('<CopyMailingAddress/>', () => {
       expect(result.checked).to.be.false;
     });
 
-    it('returns checked as true when addresses are equal', () => {
+    test('returns checked as true when addresses are equal', () => {
       state.user.profile.vet360[FIELD_NAMES.MAILING_ADDRESS] = {
         addressLine1: '1493 Martin Luther King Rd',
         addressLine2: 'string',

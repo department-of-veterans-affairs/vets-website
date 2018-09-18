@@ -6,7 +6,7 @@ import ClaimsListItemV2 from '../../../components/appeals-v2/ClaimsListItemV2';
 
 
 describe('<ClaimsListItemV2>', () => {
-  it('should not show any flags', () => {
+  test('should not show any flags', () => {
     const claim = {
       id: 1,
       attributes: {
@@ -20,7 +20,7 @@ describe('<ClaimsListItemV2>', () => {
     expect(tree.find('.communications').text()).to.equal('');
   });
 
-  it('should show closed status', () => {
+  test('should show closed status', () => {
     const claim = {
       id: 1,
       attributes: {
@@ -31,7 +31,7 @@ describe('<ClaimsListItemV2>', () => {
     expect(tree.find('.status-circle + p').first().text()).to.equal('Status: Closed');
   });
 
-  it('should show the status', () => {
+  test('should show the status', () => {
     const claim = {
       id: 1,
       attributes: {
@@ -42,7 +42,7 @@ describe('<ClaimsListItemV2>', () => {
     expect(tree.find('.status-circle + p').first().text()).to.equal('Status: Initial review');
   });
 
-  it('should show development letter flag', () => {
+  test('should show development letter flag', () => {
     const claim = {
       id: 1,
       attributes: {
@@ -56,7 +56,7 @@ describe('<ClaimsListItemV2>', () => {
     expect(tree.find('.communications').text()).to.contain('We sent you a development letter');
   });
 
-  it('should show decision letter flag', () => {
+  test('should show decision letter flag', () => {
     const claim = {
       id: 1,
       attributes: {
@@ -70,7 +70,7 @@ describe('<ClaimsListItemV2>', () => {
     expect(tree.find('.communications').text()).to.contain('We sent you a decision letter');
   });
 
-  it('should show items needed flag', () => {
+  test('should show items needed flag', () => {
     const claim = {
       id: 1,
       attributes: {
@@ -84,7 +84,7 @@ describe('<ClaimsListItemV2>', () => {
     expect(tree.find('.communications').text()).to.contain('Items need attention');
   });
 
-  it('should hide flags when complete', () => {
+  test('should hide flags when complete', () => {
     const claim = {
       id: 1,
       attributes: {
@@ -98,7 +98,7 @@ describe('<ClaimsListItemV2>', () => {
     expect(tree.find('.communications').text()).to.equal('');
   });
 
-  it('should render a status circle with the `open` class', () => {
+  test('should render a status circle with the `open` class', () => {
     const claim = {
       id: 1,
       attributes: {
@@ -112,7 +112,7 @@ describe('<ClaimsListItemV2>', () => {
     expect(circle.hasClass('closed')).to.be.false;
   });
 
-  it('should render a status circle with the `closed` class', () => {
+  test('should render a status circle with the `closed` class', () => {
     const claim = {
       id: 1,
       attributes: {
@@ -126,7 +126,7 @@ describe('<ClaimsListItemV2>', () => {
     expect(circle.hasClass('closed')).to.be.true;
   });
 
-  it('should render a link to the claim status page', () => {
+  test('should render a link to the claim status page', () => {
     const claim = {
       id: 1,
       attributes: {

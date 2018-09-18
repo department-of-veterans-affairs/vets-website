@@ -56,13 +56,13 @@ const props = {
 };
 
 describe('Folder', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<Folder {...props}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
-  it('should show a loading screen', () => {
+  test('should show a loading screen', () => {
     const tree = SkinDeep.shallowRender(
       <Folder {...props } loading={{ folder: true }}/>
     );
@@ -72,7 +72,7 @@ describe('Folder', () => {
     expect(tree.subTree('SortableTable')).to.be.false;
   });
 
-  it('should show an error message without a reload', () => {
+  test('should show an error message without a reload', () => {
     const tree = SkinDeep.shallowRender(
       <Folder {...props } attributes={{}}/>
     );
@@ -83,7 +83,7 @@ describe('Folder', () => {
     expect(tree.subTree('SortableTable')).to.be.false;
   });
 
-  it('should show an error message with a reload', () => {
+  test('should show an error message with a reload', () => {
     const tree = SkinDeep.shallowRender(
       <Folder
         {...props }
@@ -97,7 +97,7 @@ describe('Folder', () => {
     expect(tree.subTree('SortableTable')).to.be.false;
   });
 
-  it('should say that there are no messages in the folder', () => {
+  test('should say that there are no messages in the folder', () => {
     const tree = SkinDeep.shallowRender(
       <Folder
         {...props }
@@ -117,7 +117,7 @@ describe('Folder', () => {
     expect(tree.subTree('SortableTable')).to.be.false;
   });
 
-  it('should say that no messages were found through search', () => {
+  test('should say that no messages were found through search', () => {
     const tree = SkinDeep.shallowRender(
       <Folder
         {...props }
@@ -137,7 +137,7 @@ describe('Folder', () => {
     expect(tree.subTree('SortableTable')).to.be.false;
   });
 
-  it('should show folder controls and messages', () => {
+  test('should show folder controls and messages', () => {
     const tree = SkinDeep.shallowRender(
       <Folder {...props }/>
     );
@@ -149,7 +149,7 @@ describe('Folder', () => {
     expect(tree.subTree('SortableTable')).to.not.be.false;
   });
 
-  it('should show messages found through search', () => {
+  test('should show messages found through search', () => {
     const tree = SkinDeep.shallowRender(
       <Folder
         {...props }

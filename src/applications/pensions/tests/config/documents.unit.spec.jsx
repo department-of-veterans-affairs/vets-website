@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 describe('Pensions document upload', () => {
   const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.documentUpload;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -22,7 +22,7 @@ describe('Pensions document upload', () => {
   });
 
 
-  it('should submit empty form', () => {
+  test('should submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -40,7 +40,7 @@ describe('Pensions document upload', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

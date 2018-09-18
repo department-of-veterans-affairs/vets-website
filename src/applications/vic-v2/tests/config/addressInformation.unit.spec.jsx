@@ -8,7 +8,7 @@ import formConfig from '../../config/form.js';
 
 describe('VIC address information', () => {
   const { schema, uiSchema } = formConfig.chapters.contactInformation.pages.addressInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -21,7 +21,7 @@ describe('VIC address information', () => {
     expect(form.find('select').length).to.equal(2);
   });
 
-  it('should not submit without required info', () => {
+  test('should not submit without required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -38,7 +38,7 @@ describe('VIC address information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with all info filled in', () => {
+  test('should submit with all info filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -58,7 +58,7 @@ describe('VIC address information', () => {
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
-  it('should submit without state if allowed', () => {
+  test('should submit without state if allowed', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -78,7 +78,7 @@ describe('VIC address information', () => {
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
-  it('should not submit with invalid postal code', () => {
+  test('should not submit with invalid postal code', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

@@ -13,7 +13,7 @@ describe('feedback tool school info', () => {
   const { schema, uiSchema } = formConfig.chapters.schoolInformation.pages.schoolInformation;
   _.unset(uiSchema, 'educationDetails.school.view:searchSchoolSelect');
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -37,7 +37,7 @@ describe('feedback tool school info', () => {
     expect(form.find('input').length).to.equal(7);
   });
 
-  it('should render international address fields', () => {
+  test('should render international address fields', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -56,7 +56,7 @@ describe('feedback tool school info', () => {
     expect(form.find('input').length).to.equal(8);
   });
 
-  it('should not submit without required information', () => {
+  test('should not submit without required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -85,31 +85,34 @@ describe('feedback tool school info', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should not submit without required international address information', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        data={{
-          educationDetails: {
-            school: {
-              'view:searchSchoolSelect': {
-                'view:manualSchoolEntryChecked': true
+  test(
+    'should not submit without required international address information',
+    () => {
+      const onSubmit = sinon.spy();
+      const form = mount(
+        <DefinitionTester
+          schema={schema}
+          data={{
+            educationDetails: {
+              school: {
+                'view:searchSchoolSelect': {
+                  'view:manualSchoolEntryChecked': true
+                }
               }
             }
-          }
-        }}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
-    );
+          }}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}/>
+      );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
-    expect(onSubmit.called).to.be.false;
-  });
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error').length).to.equal(3);
+      expect(onSubmit.called).to.be.false;
+    }
+  );
 
-  it('should submit with required information', () => {
+  test('should submit with required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

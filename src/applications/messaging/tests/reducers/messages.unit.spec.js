@@ -21,7 +21,7 @@ import {
 import { draft, message, thread } from '../messaging-helpers';
 
 describe('messages reducer', () => {
-  it('should reset thread while loading', () => {
+  test('should reset thread while loading', () => {
     const state = messagesReducer({
       data: {
         message: 'message4',
@@ -72,7 +72,7 @@ describe('messages reducer', () => {
     expect(replyDetailsCollapsed).to.be.true;
   });
 
-  it('should add draft attachments', () => {
+  test('should add draft attachments', () => {
     let state = messagesReducer({
       data: { draft: { attachments: [] } }
     }, {
@@ -92,7 +92,7 @@ describe('messages reducer', () => {
     expect(state.data.draft.attachments).to.contain('file3');
   });
 
-  it('should clear the draft', () => {
+  test('should clear the draft', () => {
     const state = messagesReducer({
       data: {
         draft: {
@@ -114,7 +114,7 @@ describe('messages reducer', () => {
     expect(subject.value).to.equal('Prescription Request');
   });
 
-  it('should delete draft attachments', () => {
+  test('should delete draft attachments', () => {
     const state = messagesReducer({
       data: { draft: { attachments: ['file1', 'file2', 'file3'] } }
     }, {
@@ -127,7 +127,7 @@ describe('messages reducer', () => {
     expect(state.data.draft.attachments).to.contain('file3');
   });
 
-  it('should handle a successful fetch of a thread message', () => {
+  test('should handle a successful fetch of a thread message', () => {
     const state = messagesReducer({
       data: {
         thread: [
@@ -147,7 +147,7 @@ describe('messages reducer', () => {
     });
   });
 
-  it('should handle a successful fetch of a message and its thread', () => {
+  test('should handle a successful fetch of a message and its thread', () => {
     const state = messagesReducer({
       data: {
         message: null,
@@ -188,7 +188,7 @@ describe('messages reducer', () => {
       .to.eql(new Set(thread.data.map(msg => msg.attributes.messageId)));
   });
 
-  it('should handle a successful fetch of a new message draft', () => {
+  test('should handle a successful fetch of a new message draft', () => {
     const state = messagesReducer({
       data: {
         message: null,
@@ -229,7 +229,7 @@ describe('messages reducer', () => {
     expect(state.ui.messagesCollapsed.size).to.equal(0);
   });
 
-  it('should handle a successful fetch of a reply draft', () => {
+  test('should handle a successful fetch of a reply draft', () => {
     const state = messagesReducer({
       data: {
         message: null,
@@ -272,7 +272,7 @@ describe('messages reducer', () => {
       .to.eql(new Set(thread.data.map(msg => msg.attributes.messageId)));
   });
 
-  it('should collapse and expand a message', () => {
+  test('should collapse and expand a message', () => {
     let state = messagesReducer({
       ui: { messagesCollapsed: new Set() }
     }, {
@@ -296,7 +296,7 @@ describe('messages reducer', () => {
     expect(state.ui.messagesCollapsed.has(2)).to.be.true;
   });
 
-  it('should collapse all messages in the thread', () => {
+  test('should collapse all messages in the thread', () => {
     const state = messagesReducer({
       data: { thread: thread.data.map(msg => msg.attributes).reverse() },
       ui: { messagesCollapsed: new Set() }
@@ -310,7 +310,7 @@ describe('messages reducer', () => {
     });
   });
 
-  it('should expand all messages in the thread', () => {
+  test('should expand all messages in the thread', () => {
     const state = messagesReducer({
       data: { thread: thread.data.map(msg => msg.attributes).reverse() },
       ui: { messagesCollapsed: new Set(thread.data.map(msg => +msg.id)) }
@@ -320,7 +320,7 @@ describe('messages reducer', () => {
     expect(state.ui.messagesCollapsed.size).to.equal(0);
   });
 
-  it('should expand all messages in the thread if any are collapsed', () => {
+  test('should expand all messages in the thread if any are collapsed', () => {
     const state = messagesReducer({
       data: { thread: thread.data.map(msg => msg.attributes).reverse() },
       ui: {
@@ -335,7 +335,7 @@ describe('messages reducer', () => {
     expect(state.ui.messagesCollapsed.size).to.equal(0);
   });
 
-  it('should toggle the thread form', () => {
+  test('should toggle the thread form', () => {
     let state = messagesReducer({
       ui: { formVisible: false }
     }, {
@@ -348,7 +348,7 @@ describe('messages reducer', () => {
     expect(state.ui.formVisible).to.be.true;
   });
 
-  it('should toggle the reply details', () => {
+  test('should toggle the reply details', () => {
     let state = messagesReducer({
       ui: { replyDetailsCollapsed: false }
     }, {
@@ -361,7 +361,7 @@ describe('messages reducer', () => {
     expect(state.ui.replyDetailsCollapsed).to.be.true;
   });
 
-  it('should toggle the move button', () => {
+  test('should toggle the move button', () => {
     let state = messagesReducer({
       ui: { moveToOpened: false }
     }, {
@@ -374,7 +374,7 @@ describe('messages reducer', () => {
     expect(state.ui.moveToOpened).to.be.true;
   });
 
-  it('should update the draft', () => {
+  test('should update the draft', () => {
     let state = messagesReducer({
       data: { draft: {} }
     }, {

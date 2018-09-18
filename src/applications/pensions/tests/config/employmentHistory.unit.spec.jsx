@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 
 describe('Pensions employment history', () => {
   const { depends, schema, uiSchema } = formConfig.chapters.workHistory.pages.employmentHistory;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -21,7 +21,7 @@ describe('Pensions employment history', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(2);
   });
 
-  it('should expand to show all questions', () => {
+  test('should expand to show all questions', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -35,7 +35,7 @@ describe('Pensions employment history', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(18);
   });
 
-  it('should should have no required fields if "no" is selected', () => {
+  test('should should have no required fields if "no" is selected', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -50,7 +50,7 @@ describe('Pensions employment history', () => {
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -69,7 +69,7 @@ describe('Pensions employment history', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should add another job', () => {
+  test('should add another job', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -106,7 +106,7 @@ describe('Pensions employment history', () => {
     expect(formDOM.querySelector('.va-growable-background').textContent)
       .to.contain('Smith');
   });
-  it('depends should return true if under 65', () => {
+  test('depends should return true if under 65', () => {
     const result = depends(
       {
         veteranDateOfBirth: moment().startOf('day').subtract(64, 'years').format('YYYY-MM-DD')
@@ -115,7 +115,7 @@ describe('Pensions employment history', () => {
 
     expect(result).to.be.true;
   });
-  it('depends should return false if 65', () => {
+  test('depends should return false if 65', () => {
     const result = depends(
       {
         veteranDateOfBirth: moment().startOf('day').subtract(65, 'years').format('YYYY-MM-DD')

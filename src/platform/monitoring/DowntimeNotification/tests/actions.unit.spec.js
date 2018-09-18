@@ -36,7 +36,7 @@ describe('getScheduledDowntime', () => {
     fetchResponse.json = () => {};
   });
 
-  it('dispatches the correct actions and maps the data correctly', (done) => {
+  test('dispatches the correct actions and maps the data correctly', (done) => {
     const actionCreator = getScheduledDowntime();
     const description = 'This is a description';
     const startTime = new Date().toISOString();

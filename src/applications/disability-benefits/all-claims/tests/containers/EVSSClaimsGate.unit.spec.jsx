@@ -21,7 +21,7 @@ describe('EVSSClaimsGate', () => {
     }
   };
 
-  it('should not gate the form on the intro page', () => {
+  test('should not gate the form on the intro page', () => {
     const tree = mount(
       <EVSSClaimsGate
         user={disallowedUser}
@@ -32,7 +32,7 @@ describe('EVSSClaimsGate', () => {
     expect(tree.text()).to.equal('It worked!');
   });
 
-  it('should render a RequiredLoginView', () => {
+  test('should render a RequiredLoginView', () => {
     const tree = shallow(
       <EVSSClaimsGate
         user={allowedUser}

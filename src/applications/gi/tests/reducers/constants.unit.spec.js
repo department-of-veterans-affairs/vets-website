@@ -8,7 +8,7 @@ const initialState = {
 };
 
 describe('constants reducer', () => {
-  it('should handle fetch starting', () => {
+  test('should handle fetch starting', () => {
     const state = constantsReducer(
       initialState,
       {
@@ -19,7 +19,7 @@ describe('constants reducer', () => {
     expect(state.inProgress).to.eql(true);
   });
 
-  it('should handle fetch failed', () => {
+  test('should handle fetch failed', () => {
     const state = constantsReducer(
       { inProgress: true },
       {
@@ -34,7 +34,7 @@ describe('constants reducer', () => {
     expect(state.errorMessage).to.eql('error');
   });
 
-  it('should handle fetch succeeded', () => {
+  test('should handle fetch succeeded', () => {
     const state = constantsReducer(
       { inProgress: true },
       {

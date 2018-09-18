@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import TabNav from '../../components/TabNav';
 
 describe('<TabNav>', () => {
-  it('should render three tabs', () => {
+  test('should render three tabs', () => {
     const tree = SkinDeep.shallowRender(
       <TabNav
         id={1}/>

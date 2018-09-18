@@ -43,7 +43,7 @@ describe('526 -- fetchPaymentInformation', () => {
   });
 
 
-  it('should fetch payment information from the api', () => {
+  test('should fetch payment information from the api', () => {
     mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -55,7 +55,7 @@ describe('526 -- fetchPaymentInformation', () => {
     expect(global.fetch.called).to.be.true;
   });
 
-  it('should display masked payment information', (done) => {
+  test('should display masked payment information', (done) => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}

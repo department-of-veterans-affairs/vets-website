@@ -33,7 +33,7 @@ const props = {
 describe('Compose', () => {
   const tree = SkinDeep.shallowRender(<Compose {...props}/>);
 
-  it('should render', () => {
+  test('should render', () => {
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });

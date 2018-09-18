@@ -10,7 +10,7 @@ describe('Schemaform <RoutedSavablePage>', () => {
     pathname: '/testing/0'
   };
 
-  it('should include SaveLink and SaveStatus', () => {
+  test('should include SaveLink and SaveStatus', () => {
     const route = {
       pageConfig: {
         pageKey: 'testPage',
@@ -52,7 +52,7 @@ describe('Schemaform <RoutedSavablePage>', () => {
     expect(tree.find('SaveFormLink').exists()).to.be.true;
   });
 
-  it('should auto save on change', () => {
+  test('should auto save on change', () => {
     const route = {
       pageConfig: {
         pageKey: 'testPage',

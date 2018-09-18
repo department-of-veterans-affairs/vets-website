@@ -15,18 +15,18 @@ describe('User navigation selectors', () => {
       }
     };
 
-    it('should return email', () => {
+    test('should return email', () => {
       const result = selectUserGreeting(state);
       expect(result).to.equal('test@test.gov');
     });
 
-    it('should return session name', () => {
+    test('should return session name', () => {
       conditionalStorage().setItem('userFirstName', 'Joe');
       const result = selectUserGreeting(state);
       expect(result).to.equal('Joe');
     });
 
-    it('should return profile name', () => {
+    test('should return profile name', () => {
       conditionalStorage().setItem('userFirstName', 'Joe');
       const result = selectUserGreeting(
         set('user.profile.userFullName.first', 'Jane', state)

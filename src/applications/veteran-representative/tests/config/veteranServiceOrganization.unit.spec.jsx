@@ -8,7 +8,7 @@ import formConfig from '../../config/form.js';
 
 describe('veteran service organization information', () => {
   const { schema, uiSchema } = formConfig.chapters.veteranServiceOrganization.pages.veteranServiceOrganization;
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -20,7 +20,7 @@ describe('veteran service organization information', () => {
     expect(form.find('input').length).to.equal(4);
   });
 
-  it('should not submit without required info', () => {
+  test('should not submit without required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -37,7 +37,7 @@ describe('veteran service organization information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should continue with all info filled in', () => {
+  test('should continue with all info filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

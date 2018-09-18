@@ -25,7 +25,7 @@ const form = {
 };
 
 describe('<ConfirmationPage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(
       <ConfirmationPage form={form}/>
     );

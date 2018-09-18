@@ -19,20 +19,20 @@ const defaultProps = {
 };
 
 describe('<DownloadLetters>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<DownloadLetters {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
 
-  it('should render button when at /confirm-address', () => {
+  test('should render button when at /confirm-address', () => {
     const tree = SkinDeep.shallowRender(<DownloadLetters {...defaultProps}/>);
     const stepHeader = tree.dive(['StepHeader']);
     const button = stepHeader.subTree('button');
     expect(button).to.exist;
   });
 
-  it('should navigate to /letter-list when button is clicked', () => {
+  test('should navigate to /letter-list when button is clicked', () => {
     const component = ReactTestUtils.renderIntoDocument(<DownloadLetters {...defaultProps}/>);
     const button = ReactTestUtils.findRenderedDOMComponentWithClass(component, 'view-letters-button');
     ReactTestUtils.Simulate.click(button);

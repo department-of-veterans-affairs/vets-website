@@ -13,7 +13,7 @@ const addressSchema = {
 };
 
 describe('Schemaform definition address', () => {
-  it('should render address', () => {
+  test('should render address', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
     const form = mount(
@@ -36,7 +36,7 @@ describe('Schemaform definition address', () => {
     expect(selects.first().find('option').everyWhere(n => !!n.props().value)).to.be.true;
   });
 
-  it('should have required inputs if required', () => {
+  test('should have required inputs if required', () => {
     const s = schema(addressSchema, true);
     const uis = uiSchema();
     const form = mount(
@@ -52,7 +52,7 @@ describe('Schemaform definition address', () => {
     expect(requiredInputs.length).to.not.equal(0);
   });
 
-  it('should update labels and state selection conditionally', () => {
+  test('should update labels and state selection conditionally', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
     const form = mount(
@@ -94,7 +94,7 @@ describe('Schemaform definition address', () => {
     expect(form.find('input#root_state').exists()).to.be.true;
   });
 
-  it('should update address field', () => {
+  test('should update address field', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
     const form = mount(
@@ -108,7 +108,7 @@ describe('Schemaform definition address', () => {
     expect(form.find('input#root_street').props().value).to.equal('123 street');
   });
 
-  it('should update country field in empty address', () => {
+  test('should update country field in empty address', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
     const form = mount(
@@ -122,7 +122,7 @@ describe('Schemaform definition address', () => {
     expect(form.find('select#root_country').props().value).to.equal('CAN');
   });
 
-  it('should require state for non-required addresses with other info', () => {
+  test('should require state for non-required addresses with other info', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
     const form = mount(

@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 import { ConfirmationPage } from '../../../chapter31/containers/ConfirmationPage';
 
 describe('VRE Chapter 31 <ConfirmationPage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const form = {
       submission: {
         response: {

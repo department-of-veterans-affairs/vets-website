@@ -27,13 +27,13 @@ const defaultProps = {
 };
 
 describe('<Address>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<Address {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
 
-  it('should change the city and state fields for a military address', () => {
+  test('should change the city and state fields for a military address', () => {
     const militaryFields = {
       type: 'MILITARY',
       city: 'APO',
@@ -53,7 +53,7 @@ describe('<Address>', () => {
     expect(form.getElement('select[name="state"]').value).to.contain('AE');
   });
 
-  it('should call onInput with correct args when user types in input', () => {
+  test('should call onInput with correct args when user types in input', () => {
     const onInputSpy = sinon.spy();
     const props = { ...defaultProps, onInput: onInputSpy };
     const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
@@ -65,7 +65,7 @@ describe('<Address>', () => {
     expect(onInputSpy.calledWith('addressOne', addressLine1)).to.be.true;
   });
 
-  it('should populate country dropdown with countries prop', () => {
+  test('should populate country dropdown with countries prop', () => {
     const component = ReactTestUtils.renderIntoDocument(<Address {...defaultProps}/>);
     const form = getFormDOM(component);
 
@@ -77,7 +77,7 @@ describe('<Address>', () => {
     expect(countryNames).to.eql(defaultProps.countries);
   });
 
-  it('should add military state codes to the state dropdown', () => {
+  test('should add military state codes to the state dropdown', () => {
     const component = ReactTestUtils.renderIntoDocument(<Address {...defaultProps}/>);
     const form = getFormDOM(component);
 
@@ -90,25 +90,28 @@ describe('<Address>', () => {
     });
   });
 
-  it('should populate state dropdown with only military state codes if the city is a military city', () => {
-    const props = cloneDeep(defaultProps);
-    props.address.type = ADDRESS_TYPES.military;
-    props.address.city = 'APO';
+  test(
+    'should populate state dropdown with only military state codes if the city is a military city',
+    () => {
+      const props = cloneDeep(defaultProps);
+      props.address.type = ADDRESS_TYPES.military;
+      props.address.city = 'APO';
 
-    const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
-    const form = getFormDOM(component);
+      const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
+      const form = getFormDOM(component);
 
-    const statesElement = form.getElement('[name="state"]');
-    const stateNames = Array.from(statesElement.options).map(o => o.value);
+      const statesElement = form.getElement('[name="state"]');
+      const stateNames = Array.from(statesElement.options).map(o => o.value);
 
-    // The dropdown has an option for blank; clear it out before comparing
-    stateNames.shift();
+      // The dropdown has an option for blank; clear it out before comparing
+      stateNames.shift();
 
-    // Check to make sure only military state codes are present
-    expect(stateNames).to.eql(Array.from(MILITARY_STATES));
-  });
+      // Check to make sure only military state codes are present
+      expect(stateNames).to.eql(Array.from(MILITARY_STATES));
+    }
+  );
 
-  it('should hide state and zip fields when USA isn\'t selected', () => {
+  test('should hide state and zip fields when USA isn\'t selected', () => {
     const props = cloneDeep(defaultProps);
     props.address.countryName = 'Somewhere';
 
@@ -121,7 +124,7 @@ describe('<Address>', () => {
     expect(() => form.getElement('[name="postalCode"]')).to.throw();
   });
 
-  it('should render error messages', () => {
+  test('should render error messages', () => {
     const errorMessages = {
       addressOne: 'Please enter a street address',
       countryName: 'Please enter a valid country', // Nonsense!
@@ -143,7 +146,7 @@ describe('<Address>', () => {
     });
   });
 
-  it('should show state name for domestic addresses', () => {
+  test('should show state name for domestic addresses', () => {
     // default is domestic
     const component = ReactTestUtils.renderIntoDocument(<Address {...defaultProps}/>);
     const tree = getFormDOM(component);
@@ -154,7 +157,7 @@ describe('<Address>', () => {
   });
 
   // This is functionally the same as the above...
-  it('should show military state code text for military address', () => {
+  test('should show military state code text for military address', () => {
     const props = cloneDeep(defaultProps);
     props.address.stateCode = 'AA';
 
@@ -166,7 +169,7 @@ describe('<Address>', () => {
     expect(stateName).to.equal('Armed Forces Americas (AA)');
   });
 
-  it('should should show only city for international addresses', () => {
+  test('should should show only city for international addresses', () => {
     const props = cloneDeep(defaultProps);
     // Okay, so what we _really_ care about is the country being !== 'USA' because
     //  the type can be military (with country === 'USA') and we still want to show

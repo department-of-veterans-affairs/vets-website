@@ -21,12 +21,12 @@ const initialState = {
 };
 
 describe('compose reducer', () => {
-  it('should delete a new message', () => {
+  test('should delete a new message', () => {
     const newState = composeReducer(initialState, { type: DELETE_COMPOSE_MESSAGE });
     expect(newState).to.eql(initialState);
   });
 
-  it('should add attachments to a new message', () => {
+  test('should add attachments to a new message', () => {
     const fileSet = ['test1.txt', 'test2.gif'];
     const newState = composeReducer(initialState, {
       type: ADD_COMPOSE_ATTACHMENTS,
@@ -36,7 +36,7 @@ describe('compose reducer', () => {
     expect(newState.message.attachments).to.eql(fileSet);
   });
 
-  it('should maintain a growing list of attachments for a new message', () => {
+  test('should maintain a growing list of attachments for a new message', () => {
     let newState = composeReducer(initialState, {
       type: ADD_COMPOSE_ATTACHMENTS,
       files: ['test1.png', 'test2.txt']
@@ -53,7 +53,7 @@ describe('compose reducer', () => {
     expect(newState.message.attachments).to.contain('test3.jpg');
   });
 
-  it('should delete attachments from a new message', () => {
+  test('should delete attachments from a new message', () => {
     const attachmentsState = Object.assign({}, initialState, {
       message: {
         attachments: [
@@ -82,7 +82,7 @@ describe('compose reducer', () => {
     expect(newState.message.attachments).to.contain('test1');
   });
 
-  it('should set the recipient for a new message', () => {
+  test('should set the recipient for a new message', () => {
     const recipient = makeField('0');
     const newState = composeReducer(initialState, {
       type: SET_MESSAGE_FIELD,
@@ -93,7 +93,7 @@ describe('compose reducer', () => {
     expect(newState.message.recipient).to.eql(recipient);
   });
 
-  it('should set the category for a new message', () => {
+  test('should set the category for a new message', () => {
     const category = makeField('APPOINTMENTS');
     const newState = composeReducer(initialState, {
       type: SET_MESSAGE_FIELD,
@@ -104,7 +104,7 @@ describe('compose reducer', () => {
     expect(newState.message.category).to.eql(category);
   });
 
-  it('should set the subject for a new message', () => {
+  test('should set the subject for a new message', () => {
     const subject = makeField('Message Title');
     const newState = composeReducer(initialState, {
       type: SET_MESSAGE_FIELD,
@@ -115,7 +115,7 @@ describe('compose reducer', () => {
     expect(newState.message.subject).to.eql(subject);
   });
 
-  it('should set the text for a new message', () => {
+  test('should set the text for a new message', () => {
     const text = makeField('This is the message body.');
     const newState = composeReducer(initialState, {
       type: SET_MESSAGE_FIELD,

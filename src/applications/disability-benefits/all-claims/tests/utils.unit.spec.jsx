@@ -11,7 +11,7 @@ import {
 
 describe('526 helpers', () => {
   describe('hasGuardOrReservePeriod', () => {
-    it('should return true when reserve period present', () => {
+    test('should return true when reserve period present', () => {
       const formData = {
         servicePeriods: [{
           serviceBranch: 'Air Force Reserve',
@@ -25,7 +25,7 @@ describe('526 helpers', () => {
       expect(hasGuardOrReservePeriod(formData)).to.be.true;
     });
 
-    it('should return true when national guard period present', () => {
+    test('should return true when national guard period present', () => {
       const formData = {
         servicePeriods: [{
           serviceBranch: 'Air National Guard',
@@ -39,7 +39,7 @@ describe('526 helpers', () => {
       expect(hasGuardOrReservePeriod(formData)).to.be.true;
     });
 
-    it('should return false when no reserves or guard period present', () => {
+    test('should return false when no reserves or guard period present', () => {
       const formData = {
         servicePeriods: [{
           serviceBranch: 'Air Force',
@@ -53,7 +53,7 @@ describe('526 helpers', () => {
       expect(hasGuardOrReservePeriod(formData)).to.be.false;
     });
 
-    it('should return false when no service history present', () => {
+    test('should return false when no service history present', () => {
       const formData = {};
 
       expect(hasGuardOrReservePeriod(formData)).to.be.false;
@@ -61,7 +61,7 @@ describe('526 helpers', () => {
   });
 
   describe('reservesGuardDescription', () => {
-    it('should pick the most recent service branch', () => {
+    test('should pick the most recent service branch', () => {
       const form = {
         formData: {
           servicePeriods: [{
@@ -92,7 +92,7 @@ describe('526 helpers', () => {
       expect(renderedText).to.contain('Marine Corps Reserve');
     });
 
-    it('should return null when no service periods present', () => {
+    test('should return null when no service periods present', () => {
       const form = {
         formData: {}
       };
@@ -102,7 +102,7 @@ describe('526 helpers', () => {
   });
 
   describe('isInFuture', () => {
-    it('adds an error when entered date is today or earlier', () => {
+    test('adds an error when entered date is today or earlier', () => {
       const addError = sinon.spy();
       const errors = { addError };
       const fieldData = '2018-04-12';
@@ -111,7 +111,7 @@ describe('526 helpers', () => {
       expect(addError.calledOnce).to.be.true;
     });
 
-    it('does not add an error when the entered date is in the future', () => {
+    test('does not add an error when the entered date is in the future', () => {
       const addError = sinon.spy();
       const errors = { addError };
       const fieldData = '2099-04-12';
@@ -122,16 +122,19 @@ describe('526 helpers', () => {
   });
 
   describe('getDisabilityName', () => {
-    it('should return string with each word capitalized when name supplied', () => {
-      expect(getDisabilityName('some disability - some detail')).to.equal('Some Disability - Some Detail');
-    });
-    it('should return Unknown Condition with undefined name', () => {
+    test(
+      'should return string with each word capitalized when name supplied',
+      () => {
+        expect(getDisabilityName('some disability - some detail')).to.equal('Some Disability - Some Detail');
+      }
+    );
+    test('should return Unknown Condition with undefined name', () => {
       expect(getDisabilityName()).to.equal('Unknown Condition');
     });
-    it('should return Unknown Condition when input is empty string', () => {
+    test('should return Unknown Condition when input is empty string', () => {
       expect(getDisabilityName('')).to.equal('Unknown Condition');
     });
-    it('should return Unknown Condition when name is not a string', () => {
+    test('should return Unknown Condition when name is not a string', () => {
       expect(getDisabilityName(249481)).to.equal('Unknown Condition');
     });
   });

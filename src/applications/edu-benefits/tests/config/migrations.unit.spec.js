@@ -16,7 +16,7 @@ const migrations5495 = formConfig5495.migrations;
 
 describe('EDU migrations', () => {
   describe('first migration', () => {
-    it('should remove urlPrefix from returnUrl', () => {
+    test('should remove urlPrefix from returnUrl', () => {
       const data1990 = {
         formId: formConfig1990.formId,
         metadata: {

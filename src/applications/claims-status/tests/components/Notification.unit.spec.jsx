@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import Notification from '../../components/Notification';
 
 describe('<Notification>', () => {
-  it('should render success class', () => {
+  test('should render success class', () => {
     const tree = SkinDeep.shallowRender(
       <Notification
         title="Testing title"
@@ -16,7 +16,7 @@ describe('<Notification>', () => {
     expect(tree.text()).to.contain('Testing title');
     expect(tree.everySubTree('.usa-alert-success')).not.to.be.empty;
   });
-  it('should render error class', () => {
+  test('should render error class', () => {
     const tree = SkinDeep.shallowRender(
       <Notification
         title="Testing title"

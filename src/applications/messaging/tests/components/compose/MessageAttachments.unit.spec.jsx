@@ -18,25 +18,25 @@ const props = {
 };
 
 describe('<MessageAttachments>', () => {
-  it('should render correctly', () => {
+  test('should render correctly', () => {
     const tree = SkinDeep.shallowRender(<MessageAttachments {...props}/>);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
-  it('should have the expected classname', () => {
+  test('should have the expected classname', () => {
     const tree = SkinDeep.shallowRender(<MessageAttachments {...props}/>);
 
     expect(tree.props.className).to.equal(`msg-attachments ${props.cssClass}`);
   });
 
-  it('should render attachments', () => {
+  test('should render attachments', () => {
     const tree = SkinDeep.shallowRender(<MessageAttachments {...props}/>);
 
     expect(tree.subTree('MessageUploadedAttachment')).to.be.ok;
   });
 
-  it('should handle deletion correctly', () => {
+  test('should handle deletion correctly', () => {
     const onClose = sinon.spy();
     const messageAttachments = ReactTestUtils.renderIntoDocument(
       <MessageAttachments

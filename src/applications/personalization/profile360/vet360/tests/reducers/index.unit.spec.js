@@ -4,7 +4,7 @@ import vet360 from '../../reducers';
 import * as VET360 from '../../constants';
 
 describe('vet360 reducer', () => {
-  it('should return array of transaction data', () => {
+  test('should return array of transaction data', () => {
     const state = vet360({}, {
       type: 'VET360_TRANSACTIONS_FETCH_SUCCESS',
       data: [1, 2, 3]
@@ -18,7 +18,7 @@ describe('vet360 reducer', () => {
     ]);
   });
 
-  it('should set pending transaction', () => {
+  test('should set pending transaction', () => {
     const state = vet360({}, {
       type: 'VET360_TRANSACTION_REQUESTED',
       fieldName: 'fieldName',
@@ -33,7 +33,7 @@ describe('vet360 reducer', () => {
     });
   });
 
-  it('should set pending transaction failure', () => {
+  test('should set pending transaction failure', () => {
     const state = vet360({
       fieldTransactionMap: {
         fieldName: {
@@ -56,7 +56,7 @@ describe('vet360 reducer', () => {
     });
   });
 
-  it('should set pending transaction success', () => {
+  test('should set pending transaction success', () => {
     const state = vet360({
       fieldTransactionMap: {
         fieldName: {
@@ -88,7 +88,7 @@ describe('vet360 reducer', () => {
     });
   });
 
-  it('should set transaction update request', () => {
+  test('should set transaction update request', () => {
     const state = vet360({ transactionsAwaitingUpdate: [] }, {
       type: 'VET360_TRANSACTION_UPDATE_REQUESTED',
       transaction: {
@@ -104,7 +104,7 @@ describe('vet360 reducer', () => {
     expect(state.transactionsAwaitingUpdate[0]).to.eql(111);
   });
 
-  it('should set updated transaction request success', () => {
+  test('should set updated transaction request success', () => {
     const state = vet360({
       transactions: [{
         data: {
@@ -132,7 +132,7 @@ describe('vet360 reducer', () => {
     expect(state.transactions[0].data.attributes.transactionId).to.eql(111);
   });
 
-  it('should set updated transaction request failure', () => {
+  test('should set updated transaction request failure', () => {
     const state = vet360({
       transactions: [{
         data: {
@@ -161,7 +161,7 @@ describe('vet360 reducer', () => {
     expect(state.metadata.mostRecentErroredTransactionId).to.eql(111);
   });
 
-  it('should set transaction update failed', () => {
+  test('should set transaction update failed', () => {
     const state = vet360({ transactionsAwaitingUpdate: [111] }, {
       type: 'VET360_TRANSACTION_UPDATE_FAILED',
       transaction: {
@@ -176,7 +176,7 @@ describe('vet360 reducer', () => {
     expect(state.transactionsAwaitingUpdate.length).to.eql(0);
   });
 
-  it('should set transaction cleared', () => {
+  test('should set transaction cleared', () => {
     const state = vet360({
       transactions: [{
         data: {
@@ -203,7 +203,7 @@ describe('vet360 reducer', () => {
     expect(state.transactions.length).to.eql(0);
   });
 
-  it('should set transaction request cleared', () => {
+  test('should set transaction request cleared', () => {
     const state = vet360({
       fieldTransactionMap: {
         fieldName: 'name'
@@ -216,7 +216,7 @@ describe('vet360 reducer', () => {
     expect(state.fieldTransactionMap.name).to.eql(undefined);
   });
 
-  it('should update profile form fields', () => {
+  test('should update profile form fields', () => {
     const state = vet360({}, {
       type: 'UPDATE_PROFILE_FORM_FIELD',
       field: 'fieldName',
@@ -230,7 +230,7 @@ describe('vet360 reducer', () => {
     });
   });
 
-  it('should open modal', () => {
+  test('should open modal', () => {
     const state = vet360({}, {
       type: 'OPEN_MODAL',
       modal: 'modalName'

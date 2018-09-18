@@ -15,17 +15,17 @@ const defaultProps = {
 };
 
 describe('<NextEvent/>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const wrapper = shallow(<NextEvent {...defaultProps}/>);
     expect(wrapper.type()).to.equal('li');
   });
 
-  it('should render a separator when prop true', () => {
+  test('should render a separator when prop true', () => {
     const wrapper = shallow(<NextEvent {...defaultProps}/>);
     expect(wrapper.find('.sidelines').length).to.equal(1);
   });
 
-  it('should not render a separator when prop false', () => {
+  test('should not render a separator when prop false', () => {
     const props = { ...defaultProps, showSeparator: false };
     const wrapper = shallow(<NextEvent {...props}/>);
     expect(wrapper.find('.sidelines').length).to.equal(0);

@@ -17,13 +17,13 @@ const defaultProps = {
 };
 
 describe('<AddressContent/>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<AddressContent { ...defaultProps }/>);
     const header = tree.subTree('p').text();
     expect(header).to.contain('Downloaded documents will list your address as:');
   });
 
-  it('should render an <UpdateFailureAlert/> if address save fails', () => {
+  test('should render an <UpdateFailureAlert/> if address save fails', () => {
     const props = { ...defaultProps, saveError: true };
     const tree = SkinDeep.shallowRender(<AddressContent { ...props }/>);
     const updateFailureAlert = tree.dive(['UpdateFailureAlert']);
@@ -33,7 +33,7 @@ describe('<AddressContent/>', () => {
     expect(updateFailureHeader).to.contain('Address update unsuccessful');
   });
 
-  it('should render an <AddressBlock/> if there is no save error', () => {
+  test('should render an <AddressBlock/> if there is no save error', () => {
     const tree = SkinDeep.shallowRender(<AddressContent { ...defaultProps }/>);
     const addressBlock = tree.dive(['AddressBlock']);
     const addressHelpText = addressBlock.subTree('p').text();

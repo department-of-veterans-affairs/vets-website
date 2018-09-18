@@ -31,14 +31,14 @@ const initialState = {
 };
 
 describe('modals reducer', () => {
-  it('should open and close the delete confirmation modal', () => {
+  test('should open and close the delete confirmation modal', () => {
     let newState = modalsReducer(initialState, { type: TOGGLE_CONFIRM_DELETE });
     expect(newState.deleteConfirm.visible).to.be.true;
     newState = modalsReducer(newState, { type: TOGGLE_CONFIRM_DELETE });
     expect(newState.deleteConfirm.visible).to.be.false;
   });
 
-  it('should open an error modal for attachments that are too big', () => {
+  test('should open an error modal for attachments that are too big', () => {
     const newState = modalsReducer(initialState, {
       type: OPEN_ATTACHMENTS_MODAL,
       error: { type: 'tooLarge' }
@@ -48,7 +48,7 @@ describe('modals reducer', () => {
       .to.eql(composeMessage.errors.attachments.tooLarge);
   });
 
-  it('should open an error modal for too many attachments', () => {
+  test('should open an error modal for too many attachments', () => {
     const newState = modalsReducer(initialState, {
       type: OPEN_ATTACHMENTS_MODAL,
       error: { type: 'tooMany' }
@@ -58,20 +58,20 @@ describe('modals reducer', () => {
       .to.eql(composeMessage.errors.attachments.tooMany);
   });
 
-  it('should close the attachments error modal', () => {
+  test('should close the attachments error modal', () => {
     const state = { attachments: { visible: true } };
     const newState = modalsReducer(state, { type: CLOSE_ATTACHMENTS_MODAL });
     expect(newState.attachments).to.eql(initialState.attachments);
   });
 
-  it('should open the create folder modal (not for moving a message)', () => {
+  test('should open the create folder modal (not for moving a message)', () => {
     const newState = modalsReducer(initialState, { type: OPEN_CREATE_FOLDER });
     expect(newState.createFolder.visible).to.be.true;
     expect(newState.createFolder.newFolderName).to.eql(makeField(''));
     expect(newState.createFolder.messageId).to.be.undefined;
   });
 
-  it('should open the create folder modal (for moving a message)', () => {
+  test('should open the create folder modal (for moving a message)', () => {
     const messageId = 12345;
     const newState = modalsReducer(initialState, {
       type: OPEN_CREATE_FOLDER,
@@ -82,13 +82,13 @@ describe('modals reducer', () => {
     expect(newState.createFolder.messageId).to.eql(messageId);
   });
 
-  it('should close the create folder modal', () => {
+  test('should close the create folder modal', () => {
     const state = { createFolder: { visible: true } };
     const newState = modalsReducer(state, { type: CLOSE_CREATE_FOLDER });
     expect(newState.createFolder).to.eql(initialState.createFolder);
   });
 
-  it('should set the new folder name in the create folder modal', () => {
+  test('should set the new folder name in the create folder modal', () => {
     const state = {
       createFolder: {
         visible: true,

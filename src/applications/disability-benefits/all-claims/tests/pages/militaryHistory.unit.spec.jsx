@@ -8,7 +8,7 @@ import formConfig from '../../config/form';
 describe('Military history', () => {
   const { schema, uiSchema } = formConfig.chapters.veteranDetails.pages.militaryHistory;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -22,7 +22,7 @@ describe('Military history', () => {
     expect(form.find('select').length).to.equal(5);
   });
 
-  it('should fail to submit when no data is filled out', () => {
+  test('should fail to submit when no data is filled out', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -39,7 +39,7 @@ describe('Military history', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should add another service period', () => {
+  test('should add another service period', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -60,7 +60,7 @@ describe('Military history', () => {
     expect(form.find('.va-growable-background').first().text()).to.contain('Army');
   });
 
-  it('should submit when data filled in', () => {
+  test('should submit when data filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

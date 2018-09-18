@@ -58,7 +58,7 @@ describe('ConfirmationPoll', () => {
     global.fetch = originalFetch;
   });
 
-  it('should make an api call after mounting', () => {
+  test('should make an api call after mounting', () => {
     mockApiRequest(successResponse.response);
     shallow(<ConfirmationPoll/>);
     expect(global.fetch.calledOnce).to.be.true;
@@ -77,7 +77,7 @@ describe('ConfirmationPoll', () => {
     }, 50);
   });
 
-  it('should render the confirmation page', (done) => {
+  test('should render the confirmation page', (done) => {
     mockApiRequest(successResponse.response);
     const tree = shallow(<ConfirmationPoll {...defaultProps} pollRate={10}/>);
     setTimeout(() => {

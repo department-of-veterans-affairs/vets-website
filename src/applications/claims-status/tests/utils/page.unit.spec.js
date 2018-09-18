@@ -3,7 +3,7 @@ import { isTab, setFocus, setPageFocus } from '../../utils/page';
 
 describe('Page utils:', () => {
   describe('isTab', () => {
-    it('should detect tab urls', () => {
+    test('should detect tab urls', () => {
       expect(isTab('testing/details')).to.be.true;
       expect(isTab('testing/files')).to.be.true;
       expect(isTab('testing/status')).to.be.true;
@@ -11,7 +11,7 @@ describe('Page utils:', () => {
     });
   });
   describe('setFocus', () => {
-    it('should focus on element', () => {
+    test('should focus on element', () => {
       const mainDiv = document.createElement('div');
       mainDiv.setAttribute('id', 'main');
       document.body.appendChild(mainDiv);
@@ -22,7 +22,7 @@ describe('Page utils:', () => {
     });
   });
   describe('setPageFocus', () => {
-    it('should focus on selector', () => {
+    test('should focus on selector', () => {
       const div = document.createElement('div');
       div.classList.add('testing');
       document.body.appendChild(div);

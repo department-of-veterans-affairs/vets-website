@@ -31,14 +31,14 @@ const props = {
 };
 
 describe('MessageSearchAdvanced', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<MessageSearchAdvanced {...props}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
     expect(tree.subTree('.msg-search-advanced-toggle')).to.not.be.false;
   });
 
-  it('should display a form when expanded', () => {
+  test('should display a form when expanded', () => {
     const tree = SkinDeep.shallowRender(
       <MessageSearchAdvanced {...props} isVisible/>
     );
@@ -46,7 +46,7 @@ describe('MessageSearchAdvanced', () => {
     expect(tree.subTree('.msg-search-advanced-toggle')).to.not.be.false;
   });
 
-  it('should search by recipient instead of sender', () => {
+  test('should search by recipient instead of sender', () => {
     const tree = SkinDeep.shallowRender(
       <MessageSearchAdvanced {...props} hasRecipientField isVisible/>
     );

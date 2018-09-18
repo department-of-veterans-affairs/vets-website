@@ -30,12 +30,12 @@ const defaultProps = {
 };
 
 describe('<VeteranBenefitSummaryLetter>', () => {
-  it('renders', () => {
+  test('renders', () => {
     const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...defaultProps}/>);
     expect(tree.type).to.equal('div');
   });
 
-  it('should show benefit info options', () => {
+  test('should show benefit info options', () => {
     const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...defaultProps}/>);
     const rows = tree.dive(['div', '#benefitInfoTable', 'tbody']).everySubTree('tr');
     expect(rows[0].dive(['th', 'input'])).not.to.be.empty;
@@ -45,12 +45,12 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     expect(rows[1].dive(['td', '#hasChapter35EligibilityLabel'])).not.to.be.empty;
   });
 
-  it('should show service info options', () => {
+  test('should show service info options', () => {
     const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...defaultProps}/>);
     expect(tree.subTree('#militaryService')).not.to.be.empty;
   });
 
-  it('renders error and hides benefit table if options not available', () => {
+  test('renders error and hides benefit table if options not available', () => {
     const props = _.set('optionsAvailable', false, defaultProps);
     const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...props}/>);
     const headerText = tree.dive(['.feature', 'h4']).text();
@@ -58,7 +58,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     expect(tree.subTree('#benefitInfoTable')).to.be.false;
   });
 
-  it('maps each service entry to its own table row', () => {
+  test('maps each service entry to its own table row', () => {
     const navyService = [{
       branch: 'NAVY',
       characterOfService: 'UNCHARACTERIZED',
@@ -74,7 +74,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     expect(serviceRows.length).to.equal(doubleService.length);
   });
 
-  it('handles check and uncheck events', () => {
+  test('handles check and uncheck events', () => {
     const oldWindow = _.cloneDeep(global.window);
     global.window = {
       dataLayer: [],
@@ -123,7 +123,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     global.window = _.cloneDeep(oldWindow);
   });
 
-  it('Does not render dependent options for veterans', () => {
+  test('Does not render dependent options for veterans', () => {
     const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...defaultProps}/>);
     const benefitInfoRows = tree.dive(['div', '#benefitInfoTable', 'tbody']).everySubTree('tr');
     benefitInfoRows.forEach((row) => {

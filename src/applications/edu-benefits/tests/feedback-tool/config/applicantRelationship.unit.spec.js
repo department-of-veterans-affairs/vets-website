@@ -9,7 +9,7 @@ import formConfig from '../../../feedback-tool/config/form';
 describe('feedback tool applicant info', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantRelationship;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -21,7 +21,7 @@ describe('feedback tool applicant info', () => {
     expect(form.find('input').length).to.equal(3);
   });
 
-  it('should not submit without required information', () => {
+  test('should not submit without required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -36,7 +36,7 @@ describe('feedback tool applicant info', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with required information', () => {
+  test('should submit with required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -52,7 +52,7 @@ describe('feedback tool applicant info', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should render myself', () => {
+  test('should render myself', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -66,7 +66,7 @@ describe('feedback tool applicant info', () => {
     expect(form.find('input').length).to.equal(3);
   });
 
-  it('should render someone else', () => {
+  test('should render someone else', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -80,7 +80,7 @@ describe('feedback tool applicant info', () => {
     expect(form.find('input').length).to.equal(3);
   });
 
-  it('should render anonymous', () => {
+  test('should render anonymous', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

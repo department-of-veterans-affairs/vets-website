@@ -4,26 +4,26 @@ import { makeField } from '../../../../platform/forms/fields';
 import preferencesReducer from '../../reducers/preferences';
 
 describe('preferencesducer', () => {
-  it('should update when fetching preferences', () => {
+  test('should update when fetching preferences', () => {
     const state = preferencesReducer(undefined, {
       type: 'RX_LOADING_PREFERENCES'
     });
     expect(state.loading).to.be.true;
   });
 
-  it('should update when saving preferences', () => {
+  test('should update when saving preferences', () => {
     const state = preferencesReducer(undefined, {
       type: 'RX_SAVING_PREFERENCES'
     });
     expect(state.saving).to.be.true;
   });
 
-  it('should handle failure to load preferences', () => {
+  test('should handle failure to load preferences', () => {
     const state = preferencesReducer(undefined, { type: 'RX_FETCH_PREFERENCES_FAILURE' });
     expect(state.loading).to.be.false;
   });
 
-  it('should handle successfully loading preferences', () => {
+  test('should handle successfully loading preferences', () => {
     const state = preferencesReducer(undefined, {
       type: 'RX_FETCH_PREFERENCES_SUCCESS',
       preferences: {
@@ -36,12 +36,12 @@ describe('preferencesducer', () => {
     expect(state.loading).to.be.false;
   });
 
-  it('should handle failure to save preferences', () => {
+  test('should handle failure to save preferences', () => {
     const state = preferencesReducer(undefined, { type: 'RX_SAVE_PREFERENCES_FAILURE' });
     expect(state.saving).to.be.false;
   });
 
-  it('should handle successfully saving preferences', () => {
+  test('should handle successfully saving preferences', () => {
     const state = preferencesReducer({
       email: makeField('test@vets.gov'),
       flag: makeField('true')
@@ -57,7 +57,7 @@ describe('preferencesducer', () => {
     expect(state.saving).to.be.false;
   });
 
-  it('should set notification email', () => {
+  test('should set notification email', () => {
     const state = preferencesReducer(undefined, {
       type: 'RX_SET_NOTIFICATION_EMAIL',
       email: makeField('test@vets.gov', true)
@@ -66,7 +66,7 @@ describe('preferencesducer', () => {
     expect(state.email.dirty).to.be.true;
   });
 
-  it('should set notification flag', () => {
+  test('should set notification flag', () => {
     const state = preferencesReducer(undefined, {
       type: 'RX_SET_NOTIFICATION_FLAG',
       flag: makeField('false', true)

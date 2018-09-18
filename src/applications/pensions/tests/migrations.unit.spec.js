@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import migrations from '../migrations';
 
 describe('Pension migrations', () => {
-  it('should set url to service history if validation error', () => {
+  test('should set url to service history if validation error', () => {
     const { formData, metadata } = migrations[0]({
       formData: {
         servicePeriods: [{
@@ -21,7 +21,7 @@ describe('Pension migrations', () => {
     expect(metadata.returnUrl).to.equal('/military/history');
     expect(formData).to.be.an('object');
   });
-  it('should set url to marriage page if dates are invalid', () => {
+  test('should set url to marriage page if dates are invalid', () => {
     const { formData, metadata } = migrations[0]({
       formData: {
         marriages: [{
@@ -39,7 +39,7 @@ describe('Pension migrations', () => {
     expect(metadata.returnUrl).to.equal('/household/marriages/0');
     expect(formData).to.be.an('object');
   });
-  it('should set url to spouse marriage page if dates are invalid', () => {
+  test('should set url to spouse marriage page if dates are invalid', () => {
     const { formData, metadata } = migrations[0]({
       formData: {
         spouseMarriages: [{
@@ -55,7 +55,7 @@ describe('Pension migrations', () => {
     expect(metadata.returnUrl).to.equal('/household/spouse-marriages/0');
     expect(formData).to.be.an('object');
   });
-  it('should leave return url alone if no validation issues are found', () => {
+  test('should leave return url alone if no validation issues are found', () => {
     const { formData, metadata } = migrations[0]({
       formData: {
         spouseMarriages: [{
@@ -83,7 +83,7 @@ describe('Pension migrations', () => {
     expect(metadata.returnUrl).to.equal('test');
     expect(formData).to.be.an('object');
   });
-  it('should leave return url alone if no matching data exists', () => {
+  test('should leave return url alone if no matching data exists', () => {
     const { formData, metadata } = migrations[0]({
       formData: {
         veteranDateOfBirth: '2013-01-01'
@@ -96,7 +96,7 @@ describe('Pension migrations', () => {
     expect(metadata.returnUrl).to.equal('test');
     expect(formData).to.be.an('object');
   });
-  it('should set url to address page if zip is bad', () => {
+  test('should set url to address page if zip is bad', () => {
     const { formData, metadata } = migrations[1]({
       formData: {
         veteranAddress: {
@@ -112,7 +112,7 @@ describe('Pension migrations', () => {
     expect(metadata.returnUrl).to.equal('/additional-information/contact');
     expect(formData).to.be.an('object');
   });
-  it('should set url to applicant info page if file number is bad', () => {
+  test('should set url to applicant info page if file number is bad', () => {
     const { formData, metadata } = migrations[2]({
       formData: {
         vaFileNumber: '2312311'
@@ -125,7 +125,7 @@ describe('Pension migrations', () => {
     expect(metadata.returnUrl).to.equal('/applicant/information');
     expect(formData).to.be.an('object');
   });
-  it('should set url to spouse info page if file number is bad', () => {
+  test('should set url to spouse info page if file number is bad', () => {
     const { formData, metadata } = migrations[2]({
       formData: {
         vaFileNumber: '2312311',

@@ -31,19 +31,19 @@ const mockSessionStorage = () => {
 describe('<UpdatePage>', () => {
   beforeEach(mockSessionStorage);
 
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<UpdatePage {...props}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
 
-  it('should correctly redirect when update is complete', () => {
+  test('should correctly redirect when update is complete', () => {
     const tree = SkinDeep.shallowRender(<UpdatePage {...props}/>);
     tree.getMountedInstance().componentDidUpdate();
     expect(props.submitForm.called).to.be.true;
   });
 
-  it('should correctly redirect when skip update is clicked', () => {
+  test('should correctly redirect when skip update is clicked', () => {
     const tree = SkinDeep.shallowRender(<UpdatePage {...props}/>);
     tree.subTree('Link').props.onClick({ preventDefault: () => {} });
     expect(props.submitForm.called).to.be.true;

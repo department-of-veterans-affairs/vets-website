@@ -10,7 +10,7 @@ describe('VIC document upload', () => {
   const page = formConfig.chapters.documentUpload.pages.dd214Upload;
   const { schema, uiSchema } = page;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -23,7 +23,7 @@ describe('VIC document upload', () => {
   });
 
 
-  it('should not submit without required info', () => {
+  test('should not submit without required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -40,7 +40,7 @@ describe('VIC document upload', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('it should reject an invalid file', () => {
+  test('it should reject an invalid file', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -62,7 +62,7 @@ describe('VIC document upload', () => {
   });
 
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = mount(<DefinitionTester
       schema={schema}
@@ -85,7 +85,7 @@ describe('VIC document upload', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should parse doc response', () => {
+  test('should parse doc response', () => {
     const parseResponse = uiSchema.dd214['ui:options'].parseResponse;
 
     expect(parseResponse({

@@ -6,7 +6,7 @@ import moment from 'moment';
 import ClosedClaimMessage from '../../components/ClosedClaimMessage';
 
 describe('<ClosedClaimMessage>', () => {
-  it('should render closed claims within 30 days', () => {
+  test('should render closed claims within 30 days', () => {
     const claims = [
       {
         id: 1,
@@ -23,7 +23,7 @@ describe('<ClosedClaimMessage>', () => {
 
     expect(tree.everySubTree('.usa-alert')).not.to.be.empty;
   });
-  it('should not render closed claims at 30 days', () => {
+  test('should not render closed claims at 30 days', () => {
     const claims = [
       {
         id: 1,
@@ -40,7 +40,7 @@ describe('<ClosedClaimMessage>', () => {
 
     expect(tree.everySubTree('.usa-alert')).to.be.empty;
   });
-  it('should render nothing when no closed claims', () => {
+  test('should render nothing when no closed claims', () => {
     const claims = [
       {
         id: 1,

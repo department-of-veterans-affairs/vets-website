@@ -19,20 +19,20 @@ const defaultProps = {
 
 describe('<FeedbackForm/>', () => {
 
-  it('should render', () => {
+  test('should render', () => {
     const wrapper = enzyme.shallow(<FeedbackForm {...defaultProps}/>);
     const text = wrapper.text();
     expect(text.includes('Tell us what you think')).to.be.true;
   });
 
-  it('should render with an error message', () => {
+  test('should render with an error message', () => {
     const errorMessage = { title: 'An error', description: 'An error description' };
     const props = { ...defaultProps, errorMessage };
     const wrapper = enzyme.shallow(<FeedbackForm {...props}/>);
     expect(wrapper.find(AlertBox)).to.have.lengthOf(1);
   });
 
-  it('submits the form information', () => {
+  test('submits the form information', () => {
     const sendFeedback = sinon.spy();
     const props = { ...defaultProps, sendFeedback };
     const wrapper = enzyme.shallow(<FeedbackForm {...props}/>);

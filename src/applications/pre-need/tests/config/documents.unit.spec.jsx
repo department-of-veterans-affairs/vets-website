@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 describe('Pre-need attachments', () => {
   const { schema, uiSchema } = formConfig.chapters.supportingDocuments.pages.supportingDocuments;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -22,7 +22,7 @@ describe('Pre-need attachments', () => {
   });
 
 
-  it('should submit empty form', () => {
+  test('should submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -40,7 +40,7 @@ describe('Pre-need attachments', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should not submit without attachment id', () => {
+  test('should not submit without attachment id', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -64,7 +64,7 @@ describe('Pre-need attachments', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

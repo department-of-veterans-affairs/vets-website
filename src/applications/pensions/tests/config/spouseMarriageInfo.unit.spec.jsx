@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 describe('Pensions spouse info', () => {
   const { schema, uiSchema, depends } = formConfig.chapters.householdInformation.pages.spouseInfo;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -31,7 +31,7 @@ describe('Pensions spouse info', () => {
     expect(formDOM.querySelector('label[for="root_spouseSocialSecurityNumber"]').textContent).to.contain('Jane Doe');
   });
 
-  it('should render spouse address and contrib fields', () => {
+  test('should render spouse address and contrib fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -58,7 +58,7 @@ describe('Pensions spouse info', () => {
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(10);
   });
 
-  it('should render file number', () => {
+  test('should render file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -82,7 +82,7 @@ describe('Pensions spouse info', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -100,7 +100,7 @@ describe('Pensions spouse info', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -126,7 +126,7 @@ describe('Pensions spouse info', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('depends should return true if married', () => {
+  test('depends should return true if married', () => {
     const result = depends({ maritalStatus: 'Married' });
 
     expect(result).to.be.true;

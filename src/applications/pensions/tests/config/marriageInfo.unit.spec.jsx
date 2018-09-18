@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 describe('Pensions marriage info', () => {
   const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.marriageInfo;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -21,7 +21,7 @@ describe('Pensions marriage info', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(5);
   });
 
-  it('should render marriage count', () => {
+  test('should render marriage count', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -41,7 +41,7 @@ describe('Pensions marriage info', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -59,7 +59,7 @@ describe('Pensions marriage info', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

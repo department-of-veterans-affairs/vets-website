@@ -8,7 +8,7 @@ import formConfig from '../../../chapter36/config/form.js';
 
 describe('VRE chapter 36 veteran information', () => {
   const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranInformation;
-  it('renders veteran information fields', () => {
+  test('renders veteran information fields', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -24,23 +24,26 @@ describe('VRE chapter 36 veteran information', () => {
     expect(form.find('select').length).to.equal(3);
   });
 
-  it('renders veteran date of death field when view:isVeteran is false', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          'view:isVeteran': false
-        }}
-        formData={{}}
-        uiSchema={uiSchema}/>
-    );
+  test(
+    'renders veteran date of death field when view:isVeteran is false',
+    () => {
+      const form = mount(
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={{
+            'view:isVeteran': false
+          }}
+          formData={{}}
+          uiSchema={uiSchema}/>
+      );
 
-    expect(form.find('input').length).to.equal(7);
-    expect(form.find('select').length).to.equal(5);
-  });
+      expect(form.find('input').length).to.equal(7);
+      expect(form.find('select').length).to.equal(5);
+    }
+  );
 
-  it('renders veteran gender when view:isVeteran is true', () => {
+  test('renders veteran gender when view:isVeteran is true', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -56,7 +59,7 @@ describe('VRE chapter 36 veteran information', () => {
     expect(form.find('select').length).to.equal(3);
   });
 
-  it('does not submit without required veteran information', () => {
+  test('does not submit without required veteran information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -75,7 +78,7 @@ describe('VRE chapter 36 veteran information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('submits with only required information with ssn', () => {
+  test('submits with only required information with ssn', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -102,7 +105,7 @@ describe('VRE chapter 36 veteran information', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('submits with only required information with va file number', () => {
+  test('submits with only required information with va file number', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

@@ -29,17 +29,20 @@ function setFetchFailure(stub, data) {
 
 describe('beneficiaryZIPCodeChanged', () => {
   beforeEach(() => mockFetch());
-  it('should return BENEFICIARY_ZIP_CODE_CHANGED when zip code is no valid for submission', () => {
-    const actualAction = beneficiaryZIPCodeChanged('1111');
+  test(
+    'should return BENEFICIARY_ZIP_CODE_CHANGED when zip code is no valid for submission',
+    () => {
+      const actualAction = beneficiaryZIPCodeChanged('1111');
 
-    const expectedAction = {
-      type: 'BENEFICIARY_ZIP_CODE_CHANGED',
-      beneficiaryZIP: '1111'
-    };
-    expect(expectedAction).to.eql(actualAction);
-  });
+      const expectedAction = {
+        type: 'BENEFICIARY_ZIP_CODE_CHANGED',
+        beneficiaryZIP: '1111'
+      };
+      expect(expectedAction).to.eql(actualAction);
+    }
+  );
 
-  it('should dispatch started and success actions', (done) => {
+  test('should dispatch started and success actions', (done) => {
     const payload = {
       data: {
         attributes: {
@@ -69,7 +72,7 @@ describe('beneficiaryZIPCodeChanged', () => {
     }, 0);
   });
 
-  it('should dispatch started and failed actions', (done) => {
+  test('should dispatch started and failed actions', (done) => {
     const payload = {
       errors: [{
         title: 'error'
@@ -104,7 +107,7 @@ describe('beneficiaryZIPCodeChanged', () => {
 
 describe('fetchProfile', () => {
   beforeEach(() => mockFetch());
-  it('should dispatch a started and success action', (done) => {
+  test('should dispatch a started and success action', (done) => {
     const institutionPayload = {
       meta: {
         version: 1
@@ -152,69 +155,75 @@ describe('fetchProfile', () => {
     }, 0);
   });
 
-  it('should dispatch a started and failed action when the institution call fails', (done) => {
-    const payload = {
-      errors: [{
-        title: 'error'
-      }]
-    };
-    setFetchFailure(global.fetch.onFirstCall(), payload);
+  test(
+    'should dispatch a started and failed action when the institution call fails',
+    (done) => {
+      const payload = {
+        errors: [{
+          title: 'error'
+        }]
+      };
+      setFetchFailure(global.fetch.onFirstCall(), payload);
 
-    const dispatch = sinon.spy();
+      const dispatch = sinon.spy();
 
-    fetchProfile('12345')(dispatch);
+      fetchProfile('12345')(dispatch);
 
-    expect(dispatch.firstCall.calledWith({
-      type: FETCH_PROFILE_STARTED,
-    })).to.be.true;
-
-    setTimeout(() => {
-      const {
-        type,
-        err
-      } = dispatch.secondCall.args[0];
-      expect(type).to.eql(FETCH_PROFILE_FAILED);
-      expect(err instanceof Error).to.be.true;
-      done();
-    }, 0);
-  });
-
-  it('should dispatch a started and success action when the zip code rates call fails', (done) => {
-    const institutionPayload = {
-      meta: {
-        version: 1
-      },
-      data: {
-        attributes: {
-          mha_rate: 300, // eslint-disable-line camelcase
-          mha_name: 'New York, NY' // eslint-disable-line camelcase
-        }
-      }
-    };
-    const ZIPPayload = {
-      errors: [{
-        title: 'error'
-      }]
-    };
-    setFetchResponse(global.fetch.onFirstCall(), institutionPayload);
-    setFetchFailure(global.fetch.onSecondCall(), ZIPPayload);
-
-    const dispatch = sinon.spy();
-
-    fetchProfile('12345')(dispatch);
-
-    expect(dispatch.firstCall.calledWith({
-      type: FETCH_PROFILE_STARTED,
-    })).to.be.true;
-
-    setTimeout(() => {
-      expect(dispatch.secondCall.calledWith({
-        type: FETCH_PROFILE_SUCCEEDED,
-        payload: institutionPayload,
-        zipRatesPayload: ZIPPayload,
+      expect(dispatch.firstCall.calledWith({
+        type: FETCH_PROFILE_STARTED,
       })).to.be.true;
-      done();
-    }, 0);
-  });
+
+      setTimeout(() => {
+        const {
+          type,
+          err
+        } = dispatch.secondCall.args[0];
+        expect(type).to.eql(FETCH_PROFILE_FAILED);
+        expect(err instanceof Error).to.be.true;
+        done();
+      }, 0);
+    }
+  );
+
+  test(
+    'should dispatch a started and success action when the zip code rates call fails',
+    (done) => {
+      const institutionPayload = {
+        meta: {
+          version: 1
+        },
+        data: {
+          attributes: {
+            mha_rate: 300, // eslint-disable-line camelcase
+            mha_name: 'New York, NY' // eslint-disable-line camelcase
+          }
+        }
+      };
+      const ZIPPayload = {
+        errors: [{
+          title: 'error'
+        }]
+      };
+      setFetchResponse(global.fetch.onFirstCall(), institutionPayload);
+      setFetchFailure(global.fetch.onSecondCall(), ZIPPayload);
+
+      const dispatch = sinon.spy();
+
+      fetchProfile('12345')(dispatch);
+
+      expect(dispatch.firstCall.calledWith({
+        type: FETCH_PROFILE_STARTED,
+      })).to.be.true;
+
+      setTimeout(() => {
+        expect(dispatch.secondCall.calledWith({
+          type: FETCH_PROFILE_SUCCEEDED,
+          payload: institutionPayload,
+          zipRatesPayload: ZIPPayload,
+        })).to.be.true;
+        done();
+      }, 0);
+    }
+  );
   afterEach(() => resetFetch());
 });

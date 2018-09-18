@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 
 describe('Pensions Reserve and National Guard', () => {
   const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.powAndSeverance;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -21,7 +21,7 @@ describe('Pensions Reserve and National Guard', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(4);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -39,7 +39,7 @@ describe('Pensions Reserve and National Guard', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should reveal unit fields', () => {
+  test('should reveal unit fields', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -61,7 +61,7 @@ describe('Pensions Reserve and National Guard', () => {
     expect(formDOM.querySelectorAll('input, select').length).to.equal(10);
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

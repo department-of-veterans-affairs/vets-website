@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import KeywordSearch from '../../components/search/KeywordSearch';
 
 describe('<KeywordSearch>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = mount(
       <KeywordSearch
         label="test"
@@ -25,7 +25,7 @@ describe('<KeywordSearch>', () => {
     expect(input.props().value).to.equal('hello');
   });
 
-  it('should open suggestion list when input is filled with text', () => {
+  test('should open suggestion list when input is filled with text', () => {
     const onChange = sinon.spy();
     const tree = mount(
       <KeywordSearch
@@ -51,7 +51,7 @@ describe('<KeywordSearch>', () => {
     expect(suggestions.length).to.equal(2);
   });
 
-  it('should call on select when an suggestion is selected', () => {
+  test('should call on select when an suggestion is selected', () => {
     const onChange = sinon.spy();
     const onFilterChange = sinon.spy();
     const tree = mount(

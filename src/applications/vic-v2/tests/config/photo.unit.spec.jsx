@@ -9,7 +9,7 @@ import formConfig from '../../config/form.js';
 describe('VIC photo upload', () => {
   const page = formConfig.chapters.documentUpload.pages.photoUpload;
   const { schema, uiSchema } = page;
-  it('should render', (done) => {
+  test('should render', (done) => {
     window.addEventListener = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -26,7 +26,7 @@ describe('VIC photo upload', () => {
     });
   });
 
-  it('should not submit without required info', () => {
+  test('should not submit without required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -43,7 +43,7 @@ describe('VIC photo upload', () => {
   });
 
   // Sighted path
-  it('it should reject an invalid file', (done) => {
+  test('it should reject an invalid file', (done) => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -65,7 +65,7 @@ describe('VIC photo upload', () => {
     });
   });
 
-  it('should parse doc response', () => {
+  test('should parse doc response', () => {
     const parseResponse = uiSchema.photo['ui:options'].parseResponse;
 
     expect(parseResponse({

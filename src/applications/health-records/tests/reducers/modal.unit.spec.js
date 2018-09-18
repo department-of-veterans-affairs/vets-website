@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import modalReducer from '../../reducers/modal';
 
 describe('modal reducer', () => {
-  it('should close modal', () => {
+  test('should close modal', () => {
     const state = modalReducer(undefined, {
       type: 'MODAL_CLOSED'
     });
@@ -11,7 +11,7 @@ describe('modal reducer', () => {
     expect(state.visible).to.be.false;
   });
 
-  it('should open modal', () => {
+  test('should open modal', () => {
     const state = modalReducer(undefined, {
       type: 'MODAL_OPENED',
       title: 'Title',

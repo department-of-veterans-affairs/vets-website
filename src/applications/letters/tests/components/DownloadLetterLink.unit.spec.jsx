@@ -14,19 +14,19 @@ const defaultProps = {
 };
 
 describe('<DownloadLetterLink>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const component = ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...defaultProps}/>);
     const tree = getFormDOM(component);
     expect(tree.getElement('div')).to.not.be.null;
   });
 
-  it('should show download button', () => {
+  test('should show download button', () => {
     const component = ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...defaultProps}/>);
     const tree = getFormDOM(component);
     expect(tree.getElement('button').textContent).to.equal('Download Letter');
   });
 
-  it('should call getLetterPdf when clicked', () => {
+  test('should call getLetterPdf when clicked', () => {
     const oldWindow = global.window;
     global.window = {
       dataLayer: [],
@@ -48,7 +48,7 @@ describe('<DownloadLetterLink>', () => {
     global.window = oldWindow;
   });
 
-  it('should update button when status is downloading', () => {
+  test('should update button when status is downloading', () => {
     const props = Object.assign({}, defaultProps, { downloadStatus: DOWNLOAD_STATUSES.downloading });
     const component = ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...props}/>);
     const tree = getFormDOM(component);
@@ -58,7 +58,7 @@ describe('<DownloadLetterLink>', () => {
     expect(button.disabled).to.be.true;
   });
 
-  it('should show success message', () => {
+  test('should show success message', () => {
     const props = Object.assign({}, defaultProps, { downloadStatus: DOWNLOAD_STATUSES.success });
     const component = ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...props}/>);
     const tree = getFormDOM(component);
@@ -67,7 +67,7 @@ describe('<DownloadLetterLink>', () => {
     expect(heading.textContent).to.equal('Your letter has successfully downloaded.');
   });
 
-  it('should show failure message', () => {
+  test('should show failure message', () => {
     const props = Object.assign({}, defaultProps, { downloadStatus: DOWNLOAD_STATUSES.failure });
     const component = ReactTestUtils.renderIntoDocument(<DownloadLetterLink {...props}/>);
     const tree = getFormDOM(component);

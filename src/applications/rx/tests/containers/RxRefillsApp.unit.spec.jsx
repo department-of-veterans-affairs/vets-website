@@ -9,7 +9,7 @@ import createCommonStore from '../../../../platform/startup/store';
 const store = createCommonStore(reducer);
 
 describe('<RxRefillsApp>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const mockRoutes = [{ path: '/fake' }];
     const tree = SkinDeep.shallowRender(<RxRefillsApp store={store} location={{ pathname: '/blah' }} route={{ childRoutes: mockRoutes }}/>);
     const vdom = tree.getRenderOutput();

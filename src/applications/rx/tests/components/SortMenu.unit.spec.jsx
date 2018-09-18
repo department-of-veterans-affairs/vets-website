@@ -34,12 +34,12 @@ const props = {
 };
 
 describe('<SortMenu>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<SortMenu {...props}/>);
     expect(tree.getRenderOutput()).to.exist;
   });
 
-  it('should render the correct options', () => {
+  test('should render the correct options', () => {
     const tree = SkinDeep.shallowRender(<SortMenu {...props}/>).dive(['select']);
     const options = tree.everySubTree('option');
     expect(options).to.have.length(props.options.length);
@@ -50,7 +50,7 @@ describe('<SortMenu>', () => {
     });
   });
 
-  it('should render the sort links for string-based sorts', () => {
+  test('should render the sort links for string-based sorts', () => {
     const tree = SkinDeep.shallowRender(<SortMenu {...props}/>).dive(['ul']);
     const links = tree.everySubTree('li');
     expect(links).to.have.length(2);
@@ -58,7 +58,7 @@ describe('<SortMenu>', () => {
     expect(links[1].text()).to.equal('Z-A');
   });
 
-  it('should render the sort links for date-based sorts', () => {
+  test('should render the sort links for date-based sorts', () => {
     const tree = SkinDeep.shallowRender(
       <SortMenu
         {...props}
@@ -73,14 +73,14 @@ describe('<SortMenu>', () => {
     expect(links[1].text()).to.equal('Oldest to Newest');
   });
 
-  it('should set the string-based ascending order link to active', () => {
+  test('should set the string-based ascending order link to active', () => {
     const tree = SkinDeep.shallowRender(<SortMenu {...props}/>);
     const activeLink = tree.subTree('.rx-sort-active');
     expect(activeLink).to.be.ok;
     expect(activeLink.text()).to.equal('A-Z');
   });
 
-  it('should set the string-based descending order link to active', () => {
+  test('should set the string-based descending order link to active', () => {
     const tree = SkinDeep.shallowRender(
       <SortMenu
         {...props}
@@ -94,7 +94,7 @@ describe('<SortMenu>', () => {
     expect(activeLink.text()).to.equal('Z-A');
   });
 
-  it('should set the date-based ascending order link to active', () => {
+  test('should set the date-based ascending order link to active', () => {
     const tree = SkinDeep.shallowRender(
       <SortMenu
         {...props}
@@ -108,7 +108,7 @@ describe('<SortMenu>', () => {
     expect(activeLink.text()).to.equal('Oldest to Newest');
   });
 
-  it('should set the date-based descending order link to active', () => {
+  test('should set the date-based descending order link to active', () => {
     const tree = SkinDeep.shallowRender(
       <SortMenu
         {...props}
@@ -122,7 +122,7 @@ describe('<SortMenu>', () => {
     expect(activeLink.text()).to.equal('Newest to Oldest');
   });
 
-  it('should trigger handleChange correctly', () => {
+  test('should trigger handleChange correctly', () => {
     const onChange = sinon.spy();
 
     const sortMenu = ReactTestUtils.renderIntoDocument(
@@ -139,7 +139,7 @@ describe('<SortMenu>', () => {
     expect(onChange.calledWith('refillSubmitDate', 'DESC')).to.be.true;
   });
 
-  it('should trigger handleClick correctly', () => {
+  test('should trigger handleClick correctly', () => {
     const onClick = sinon.spy();
 
     const sortMenu = ReactTestUtils.renderIntoDocument(

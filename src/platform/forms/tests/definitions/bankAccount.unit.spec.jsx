@@ -9,7 +9,7 @@ import uiSchema from '../../definitions/bankAccount';
 import { bankAccount } from 'vets-json-schema/dist/definitions.json';
 
 describe('Schemaform definition bankAccount', () => {
-  it('should render bankAccount', () => {
+  test('should render bankAccount', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={bankAccount}
@@ -27,7 +27,7 @@ describe('Schemaform definition bankAccount', () => {
     expect(inputs[2].id).to.equal('root_accountNumber');
     expect(inputs[3].id).to.equal('root_routingNumber');
   });
-  it('should render bankAccount with routing number error', () => {
+  test('should render bankAccount with routing number error', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={bankAccount}

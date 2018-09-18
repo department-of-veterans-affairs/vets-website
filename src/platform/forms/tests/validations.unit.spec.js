@@ -20,7 +20,7 @@ import {
 
 describe('Validations unit tests', () => {
   describe('isValidSSN', () => {
-    it('accepts ssns of the right one including "invalid" test ones', () => {
+    test('accepts ssns of the right one including "invalid" test ones', () => {
       expect(isValidSSN('111-22-1234')).to.be.true;
 
       // SSNs have certain invalid versions. These are useful for tests so not
@@ -34,7 +34,7 @@ describe('Validations unit tests', () => {
       expect(isValidSSN('111111112')).to.be.true;
     });
 
-    it('rejects invalid ssn format', () => {
+    test('rejects invalid ssn format', () => {
       // Disallow empty.
       expect(isValidSSN('')).to.be.false;
 
@@ -70,7 +70,7 @@ describe('Validations unit tests', () => {
   });
 
   describe('isValidDate', () => {
-    it('validate february separately cause its a special snowflake', () => {
+    test('validate february separately cause its a special snowflake', () => {
       // feb 28 should work always.
       expect(isValidDate('28', '2', '2015')).to.be.true;
 
@@ -90,14 +90,14 @@ describe('Validations unit tests', () => {
       expect(isValidDate('0', '2', '2016')).to.be.false;
     });
 
-    it('validate future dates', () => {
+    test('validate future dates', () => {
       // future dates are bad.
       expect(isValidDate('1', '1', '2050')).to.be.false;
     });
   });
 
   describe('isValidDateRange', () => {
-    it('validates if to date is after from date', () => {
+    test('validates if to date is after from date', () => {
       const fromDate = {
         day: {
           value: '3',
@@ -128,7 +128,7 @@ describe('Validations unit tests', () => {
       };
       expect(isValidDateRange(fromDate, toDate)).to.be.true;
     });
-    it('does not validate to date is before from date', () => {
+    test('does not validate to date is before from date', () => {
       const fromDate = {
         day: {
           value: '3',
@@ -159,7 +159,7 @@ describe('Validations unit tests', () => {
       };
       expect(isValidDateRange(fromDate, toDate)).to.be.false;
     });
-    it('does validate with partial dates', () => {
+    test('does validate with partial dates', () => {
       const fromDate = {
         day: {
           value: '3',
@@ -193,7 +193,7 @@ describe('Validations unit tests', () => {
   });
 
   describe('isValidPartialMonthYearRange', () => {
-    it('should validate partial range', () => {
+    test('should validate partial range', () => {
       const fromDate = {
         month: {
           value: '2'
@@ -214,7 +214,7 @@ describe('Validations unit tests', () => {
 
       expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.true;
     });
-    it('should not validate invalid range', () => {
+    test('should not validate invalid range', () => {
       const fromDate = {
         month: {
           value: '2'
@@ -235,7 +235,7 @@ describe('Validations unit tests', () => {
 
       expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.false;
     });
-    it('should validate same date range', () => {
+    test('should validate same date range', () => {
       const fromDate = {
         month: {
           value: '2'
@@ -256,7 +256,7 @@ describe('Validations unit tests', () => {
 
       expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.true;
     });
-    it('should validate year only range', () => {
+    test('should validate year only range', () => {
       const fromDate = {
         month: {
           value: ''
@@ -280,15 +280,15 @@ describe('Validations unit tests', () => {
   });
 
   describe('isValidCurrentOrPastDate', () => {
-    it('should validate past date', () => {
+    test('should validate past date', () => {
       expect(isValidCurrentOrPastDate('2', '2', '2000')).to.be.true;
     });
-    it('should validate current date', () => {
+    test('should validate current date', () => {
       expect(isValidCurrentOrPastDate(moment().date().toString(),
         (moment().month() + 1).toString(),
         moment().year().toString())).to.be.true;
     });
-    it('should not validate date in future', () => {
+    test('should not validate date in future', () => {
       expect(isValidCurrentOrPastDate((moment().date() + 1).toString(),
         (moment().month() + 1).toString(),
         moment().year().toString())).to.be.false;
@@ -296,7 +296,7 @@ describe('Validations unit tests', () => {
   });
 
   describe('isValidName', () => {
-    it('correctly validates name', () => {
+    test('correctly validates name', () => {
       expect(isValidName('Test')).to.be.true;
       expect(isValidName('abc')).to.be.true;
       expect(isValidName('Jean-Pierre')).to.be.true;
@@ -312,7 +312,7 @@ describe('Validations unit tests', () => {
   });
 
   describe('isBlank', () => {
-    it('correctly validates blank values', () => {
+    test('correctly validates blank values', () => {
       expect(isBlank('')).to.be.true;
 
       expect(isBlank('something')).to.be.false;
@@ -320,7 +320,7 @@ describe('Validations unit tests', () => {
   });
 
   describe('isNotBlank', () => {
-    it('correctly validates blank values', () => {
+    test('correctly validates blank values', () => {
       expect(isNotBlank('Test')).to.be.true;
       expect(isNotBlank('abc')).to.be.true;
       expect(isNotBlank('123')).to.be.true;
@@ -331,7 +331,7 @@ describe('Validations unit tests', () => {
   });
 
   describe('isValidMonetaryValue', () => {
-    it('validates monetary values', () => {
+    test('validates monetary values', () => {
       expect(isValidMonetaryValue('100')).to.be.true;
       expect(isValidMonetaryValue('1.99')).to.be.true;
       expect(isValidMonetaryValue('1000')).to.be.true;
@@ -344,14 +344,14 @@ describe('Validations unit tests', () => {
   });
 
   describe('isValidDateOver17', () => {
-    it('validates turning 17 today', () => {
+    test('validates turning 17 today', () => {
       const date = moment().startOf('day').subtract(17, 'years');
       expect(isValidDateOver17(date.date().toString(),
         (date.month() + 1).toString(),
         date.year().toString())).to.be.true;
     });
 
-    it('does not validate turning 17 tomorrow', () => {
+    test('does not validate turning 17 tomorrow', () => {
       const date = moment().startOf('day').subtract(17, 'years').add(1, 'days');
       expect(isValidDateOver17(date.date().toString(),
         (date.month() + 1).toString(),
@@ -359,36 +359,36 @@ describe('Validations unit tests', () => {
     });
   });
   describe('isValidPartialDate', () => {
-    it('should validate complete date', () => {
+    test('should validate complete date', () => {
       expect(isValidPartialDate('5', '10', '2010')).to.be.true;
     });
-    it('should validate empty date', () => {
+    test('should validate empty date', () => {
       expect(isValidPartialDate('', '', '')).to.be.true;
     });
-    it('should validate month year date', () => {
+    test('should validate month year date', () => {
       expect(isValidPartialDate('', '10', '2050')).to.be.true;
     });
-    it('should validate month day date', () => {
+    test('should validate month day date', () => {
       expect(isValidPartialDate('10', '10', '')).to.be.true;
     });
-    it('should validate day year date', () => {
+    test('should validate day year date', () => {
       expect(isValidPartialDate('20', '', '2010')).to.be.true;
     });
-    it('should validate day date', () => {
+    test('should validate day date', () => {
       expect(isValidPartialDate('20', '', '')).to.be.true;
     });
-    it('should validate year date', () => {
+    test('should validate year date', () => {
       expect(isValidPartialDate('', '', '2010')).to.be.true;
     });
-    it('should not validate year before 1900', () => {
+    test('should not validate year before 1900', () => {
       expect(isValidPartialDate('', '', '1899')).to.be.false;
     });
-    it('should not validate year more than 100 years in future', () => {
+    test('should not validate year more than 100 years in future', () => {
       expect(isValidPartialDate('', '', moment().add(101, 'year').year())).to.be.false;
     });
   });
   describe('validateCustomFormComponent', () => {
-    it('should return object validation results', () => {
+    test('should return object validation results', () => {
       const validation = {
         valid: false,
         message: 'Test'
@@ -396,7 +396,7 @@ describe('Validations unit tests', () => {
 
       expect(validateCustomFormComponent(validation)).to.equal(validation);
     });
-    it('should return passing object validation results', () => {
+    test('should return passing object validation results', () => {
       const validation = {
         valid: true,
         message: 'Test'
@@ -405,7 +405,7 @@ describe('Validations unit tests', () => {
       expect(validateCustomFormComponent(validation).valid).to.be.true;
       expect(validateCustomFormComponent(validation).message).to.be.null;
     });
-    it('should return array validation results', () => {
+    test('should return array validation results', () => {
       const validation = [
         {
           valid: true,
@@ -421,26 +421,26 @@ describe('Validations unit tests', () => {
     });
   });
   describe('isValidPartialMonthYear', () => {
-    it('should validate month and year', () => {
+    test('should validate month and year', () => {
       expect(isValidPartialMonthYear('2',
         (moment().add(5, 'year').year()).toString())).to.be.true;
     });
-    it('should not validate bad year', () => {
+    test('should not validate bad year', () => {
       expect(isValidPartialMonthYear('2', '2500')).to.be.false;
     });
-    it('should not validate bad month', () => {
+    test('should not validate bad month', () => {
       expect(isValidPartialMonthYear('20', '2001')).to.be.false;
     });
   });
   describe('isValidPartialMonthYearInPast', () => {
-    it('should validate month and year in past', () => {
+    test('should validate month and year in past', () => {
       expect(isValidPartialMonthYearInPast('2', '2001')).to.be.true;
     });
-    it('should validate month and year that is current', () => {
+    test('should validate month and year that is current', () => {
       expect(isValidPartialMonthYearInPast(moment().add(1, 'month').month().toString(),
         moment().year().toString())).to.be.true;
     });
-    it('should not validate month and year that is in the future', () => {
+    test('should not validate month and year that is in the future', () => {
       expect(isValidPartialMonthYearInPast('2',
         (moment().add(2, 'year').year()).toString())).to.be.false;
     });

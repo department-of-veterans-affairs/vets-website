@@ -37,27 +37,27 @@ const props = {
 const currentHeadingSelector = '#current-as-of';
 
 describe('<UserInfoSection>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<UserInfoSection {...props}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
   describe('showCurrentAsOfAlert is falsey', () => {
-    it('should omit the "current as of" date', () => {
+    test('should omit the "current as of" date', () => {
       const currentAsOfProps = _.merge({}, props, { showCurrentAsOfAlert: false });
       const tree = SkinDeep.shallowRender(<UserInfoSection {...currentAsOfProps}/>);
       expect(tree.subTree(currentHeadingSelector)).to.be.false;
     });
 
-    it('should omit the "current as of" date', () => {
+    test('should omit the "current as of" date', () => {
       const tree = SkinDeep.shallowRender(<UserInfoSection {...props}/>);
       expect(tree.subTree(currentHeadingSelector)).to.be.false;
     });
   });
 
   describe('showCurrentAsOfAlert is truthy', () => {
-    it('should display the "current as of" date', () => {
+    test('should display the "current as of" date', () => {
       const currentAsOfProps = _.merge({}, props, { showCurrentAsOfAlert: true });
       const tree = SkinDeep.shallowRender(<UserInfoSection {...currentAsOfProps}/>);
       expect(tree.subTree(currentHeadingSelector)).to.not.be.false;
@@ -65,13 +65,13 @@ describe('<UserInfoSection>', () => {
   });
 
   describe('veteran eligibility', () => {
-    it('should show benefit information if eligible', () => {
+    test('should show benefit information if eligible', () => {
       const tree = SkinDeep.shallowRender(<UserInfoSection {...props}/>);
       const benefitLevel = tree.subTree('#benefit-level');
       expect(benefitLevel).to.not.be.false;
     });
 
-    it('should show not qualified message if not eligible', () => {
+    test('should show not qualified message if not eligible', () => {
       const newProps = {
         enrollmentData: {
           veteranIsEligible: false,
@@ -93,7 +93,7 @@ describe('<UserInfoSection>', () => {
 
   describe('percentageBenefit is not provided', () => {
     // TODO: handle corrupt data department-of-veterans-affairs/vets.gov-team#3782
-    it('should display "unavailable"', () => {
+    test('should display "unavailable"', () => {
       const tree = SkinDeep.shallowRender(<UserInfoSection {...props}/>);
       const benefitLevel = tree.subTree('#benefit-level');
       expect(benefitLevel).to.not.be.false;
@@ -102,14 +102,14 @@ describe('<UserInfoSection>', () => {
   });
 
   describe('should display delimitingDate', () => {
-    it('should display the delimiting date', () => {
+    test('should display the delimiting date', () => {
       const tree = SkinDeep.shallowRender(<UserInfoSection {...props}/>);
       const benefitEndDate = tree.subTree('.benefit-end-date');
       expect(benefitEndDate).to.not.be.false;
       expect(benefitEndDate.text()).to.contain('You have until');
     });
 
-    it('should not display the delimiting date if active duty', () => {
+    test('should not display the delimiting date if active duty', () => {
       const newProps = {
         enrollmentData: {
           veteranIsEligible: true,

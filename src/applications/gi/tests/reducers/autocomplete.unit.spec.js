@@ -11,7 +11,7 @@ const initialState = {
 };
 
 describe('autocomplete reducer', () => {
-  it('should change autocomplete term', () => {
+  test('should change autocomplete term', () => {
     const state = autocompleteReducer(
       { ...initialState, facilityCode: 'code' },
       {
@@ -24,7 +24,7 @@ describe('autocomplete reducer', () => {
     expect(state.searchTerm).to.eql('newSearchTerm');
   });
 
-  it('should start autocomplete correctly', () => {
+  test('should start autocomplete correctly', () => {
     const state = autocompleteReducer(
       initialState,
       {
@@ -36,7 +36,7 @@ describe('autocomplete reducer', () => {
     expect(state.suggestions).to.eql([]);
   });
 
-  it('should handle autocomplete failure', () => {
+  test('should handle autocomplete failure', () => {
     const state = autocompleteReducer(
       { inProgress: true },
       {
@@ -53,7 +53,7 @@ describe('autocomplete reducer', () => {
     expect(state.errorMessage).to.eql('error');
   });
 
-  it('should handle autocomplete success', () => {
+  test('should handle autocomplete success', () => {
     const state = autocompleteReducer(
       { ...initialState, searchTerm: 'searchTerm', inProgress: true },
       {
@@ -86,7 +86,7 @@ describe('autocomplete reducer', () => {
     expect(state.inProgress).to.eql(false);
   });
 
-  it('should handle search starting', () => {
+  test('should handle search starting', () => {
     const state = autocompleteReducer(
       initialState,
       {

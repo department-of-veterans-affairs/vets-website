@@ -8,7 +8,7 @@ import formConfig from '../../config/form.js';
 
 describe('claimant information', () => {
   const { schema, uiSchema } = formConfig.chapters.claimantInformation.pages.claimantInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -21,7 +21,7 @@ describe('claimant information', () => {
     expect(form.find('select').length).to.equal(6);
   });
 
-  it('should not continue without required info', () => {
+  test('should not continue without required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -38,7 +38,7 @@ describe('claimant information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should continue with all info filled in', () => {
+  test('should continue with all info filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

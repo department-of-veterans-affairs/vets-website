@@ -14,19 +14,19 @@ const props = {
 };
 
 describe('<GlossaryLink>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<GlossaryLink {...props}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
-  it('should have the expected className', () => {
+  test('should have the expected className', () => {
     const tree = SkinDeep.shallowRender(<GlossaryLink {...props}/>);
 
     expect(tree.props.className).to.equal('rx-trigger');
   });
 
-  it('should call onClick correctly', () => {
+  test('should call onClick correctly', () => {
     const onClick = sinon.spy();
 
     const glossaryLink = ReactTestUtils.renderIntoDocument(
@@ -39,7 +39,7 @@ describe('<GlossaryLink>', () => {
     expect(onClick.calledWith([glossary.Prescription[0]])).to.be.true;
   });
 
-  it('should show the expected text in the button', () => {
+  test('should show the expected text in the button', () => {
     const tree = SkinDeep.shallowRender(<GlossaryLink {...props}/>);
 
     expect(tree.subTree('button').text()).to.equal('Active');

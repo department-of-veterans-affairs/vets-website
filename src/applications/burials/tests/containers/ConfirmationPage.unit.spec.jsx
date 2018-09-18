@@ -5,7 +5,7 @@ import SkinDeep from 'skin-deep';
 import { ConfirmationPage } from '../../containers/ConfirmationPage';
 
 describe('<ConfirmationPage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const form = {
       data: {
         claimantFullName: {
@@ -59,7 +59,7 @@ describe('<ConfirmationPage>', () => {
     expect(tree.everySubTree('p')[1].text()).to.contain('We may contact you for more information or documents.');
     expect(tree.everySubTree('p')[8].text()).to.contain('VA Regional Office');
   });
-  it('should render', () => {
+  test('should render', () => {
     const form = {
       data: {
         claimantFullName: {

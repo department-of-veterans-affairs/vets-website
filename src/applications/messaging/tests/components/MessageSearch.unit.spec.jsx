@@ -31,25 +31,25 @@ const props = {
 };
 
 describe('MessageSearch', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<MessageSearch {...props}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
-  it('should show basic search', () => {
+  test('should show basic search', () => {
     const tree = SkinDeep.shallowRender(<MessageSearch {...props }/>);
     expect(tree.subTree('.msg-search-simple-wrap')).to.not.be.false;
   });
 
-  it('should not show basic search when showing advanced search', () => {
+  test('should not show basic search when showing advanced search', () => {
     const tree = SkinDeep.shallowRender(
       <MessageSearch {...props } isAdvancedVisible/>
     );
     expect(tree.subTree('.msg-search-simple-wrap')).to.be.false;
   });
 
-  it('should submit basic search when advanced is hidden', () => {
+  test('should submit basic search when advanced is hidden', () => {
     const params = {
       dateRange: {
         start: null,
@@ -80,7 +80,7 @@ describe('MessageSearch', () => {
     })).to.be.true;
   });
 
-  it('should submit advanced search when advanced is visible', () => {
+  test('should submit advanced search when advanced is visible', () => {
     const params = {
       dateRange: {
         start: null,

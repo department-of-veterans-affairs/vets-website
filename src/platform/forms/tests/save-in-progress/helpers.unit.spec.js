@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { createRoutesWithSaveInProgress } from '../../save-in-progress/helpers';
 
 describe('createRoutes', () => {
-  it('should create routes with save enabled', () => {
+  test('should create routes with save enabled', () => {
     const formConfig = {
       chapters: {
         firstChapter: {

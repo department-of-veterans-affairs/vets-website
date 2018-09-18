@@ -14,29 +14,29 @@ describe('<PrintPage/>', () => {
 
   afterEach(() => pushSpy.reset());
 
-  it('should render', () => {
+  test('should render', () => {
     const wrapper = shallow(<PrintPage {...defaultProps}/>, { disableLifecycleMethods: true });
     expect(wrapper.type()).to.equal('div');
   });
 
-  it('renders a UserInfoSection child', () => {
+  test('renders a UserInfoSection child', () => {
     const wrapper = shallow(<PrintPage {...defaultProps}/>, { disableLifecycleMethods: true });
     expect(wrapper.find('UserInfoSection').length).to.equal(1);
   });
 
-  it('should render a print button', () => {
+  test('should render a print button', () => {
     const wrapper = shallow(<PrintPage {...defaultProps}/>, { disableLifecycleMethods: true });
     const printButton = wrapper.find('.usa-button-primary');
     expect(printButton.length).to.equal(1);
   });
 
-  it('should render a back to statement button', () => {
+  test('should render a back to statement button', () => {
     const wrapper = shallow(<PrintPage {...defaultProps}/>, { disableLifecycleMethods: true });
     const backButton = wrapper.find('.usa-button-secondary');
     expect(backButton.length).to.equal(1);
   });
 
-  it('should fire a print request when print button clicked', () => {
+  test('should fire a print request when print button clicked', () => {
     const oldPrint = global.window.print;
     const printSpy = sinon.spy();
     global.window.print = printSpy;
@@ -48,11 +48,14 @@ describe('<PrintPage/>', () => {
     global.window.print = oldPrint;
   });
 
-  it('should navigate to statement when back to statement button clicked', () => {
-    const wrapper = shallow(<PrintPage {...defaultProps}/>, { disableLifecycleMethods: true });
-    const backButton = wrapper.find('.usa-button-secondary');
-    expect(pushSpy.notCalled).to.be.true;
-    backButton.simulate('click');
-    expect(pushSpy.calledOnce).to.be.true;
-  });
+  test(
+    'should navigate to statement when back to statement button clicked',
+    () => {
+      const wrapper = shallow(<PrintPage {...defaultProps}/>, { disableLifecycleMethods: true });
+      const backButton = wrapper.find('.usa-button-secondary');
+      expect(pushSpy.notCalled).to.be.true;
+      backButton.simulate('click');
+      expect(pushSpy.calledOnce).to.be.true;
+    }
+  );
 });

@@ -16,7 +16,7 @@ function setFetchResponse(stub, data) {
 }
 
 describe('<PhotoPreview>', () => {
-  it('should render preview with src', () => {
+  test('should render preview with src', () => {
     const tree = shallow(
       <PhotoPreview
         id="guid"
@@ -27,7 +27,7 @@ describe('<PhotoPreview>', () => {
     expect(tree.find('img').props().src).to.equal('testing');
   });
 
-  it('should fetch file metadata and update', (done) => {
+  test('should fetch file metadata and update', (done) => {
     mockFetch();
     const response = new Blob();
     setFetchResponse(global.fetch.onFirstCall(), response);
@@ -62,7 +62,7 @@ describe('<PhotoPreview>', () => {
     expect(tree.find('LoadingIndicator').exists()).to.be.true;
   });
 
-  it('should render no photo chosen', () => {
+  test('should render no photo chosen', () => {
     const tree = shallow(
       <PhotoPreview/>
     );
@@ -70,7 +70,7 @@ describe('<PhotoPreview>', () => {
     expect(tree.text()).to.contain('No photo chosen');
   });
 
-  it('should render processing message', () => {
+  test('should render processing message', () => {
     const tree = shallow(
       <PhotoPreview
         isLoggedIn

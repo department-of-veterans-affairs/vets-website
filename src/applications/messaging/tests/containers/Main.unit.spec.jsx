@@ -40,7 +40,7 @@ const props = {
 describe('Main', () => {
   const tree = SkinDeep.shallowRender(<Main {...props}/>);
 
-  it('should render', () => {
+  test('should render', () => {
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });

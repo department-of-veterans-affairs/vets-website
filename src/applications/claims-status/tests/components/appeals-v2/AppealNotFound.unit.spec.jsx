@@ -4,17 +4,17 @@ import { expect } from 'chai';
 import AppealNotFound from '../../../components/appeals-v2/AppealNotFound';
 
 describe('<AppealNotFound/>', () => {
-  it('renders', () => {
+  test('renders', () => {
     const wrapper = shallow(<AppealNotFound/>);
     expect(wrapper.type()).to.equal('div');
   });
 
-  it('renders a heading', () => {
+  test('renders a heading', () => {
     const wrapper = shallow(<AppealNotFound/>);
     expect(wrapper.find('h1').length).to.equal(1);
   });
 
-  it('renders a React Router link back to claims page', () => {
+  test('renders a React Router link back to claims page', () => {
     const wrapper = shallow(<AppealNotFound/>);
     expect(wrapper.find('Link').length).to.equal(1);
   });

@@ -37,45 +37,48 @@ const amendments = [
 ];
 
 describe('<EnrollmentPeriod>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<EnrollmentPeriod {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
 
-  it('should display enrollment data', () => {
+  test('should display enrollment data', () => {
     const tree = SkinDeep.shallowRender(<EnrollmentPeriod {...defaultProps}/>);
     // Capitalization is taken care of by css styling
     expect(tree.subTree('.facility').text()).to.contain('central city university');
   });
 
-  it('should not show change history there are no amendments', () => {
+  test('should not show change history there are no amendments', () => {
     const tree = SkinDeep.shallowRender(<EnrollmentPeriod {...defaultProps}/>);
     expect(tree.subTree('.usa-accordion')).to.be.false;
   });
 
-  it('should show change history if there are amendments', () => {
+  test('should show change history if there are amendments', () => {
     const props = _.merge({}, defaultProps, { enrollment: { amendments } });
     const tree = SkinDeep.shallowRender(<EnrollmentPeriod {...props}/>);
     expect(tree.subTree('.usa-accordion')).not.to.be.false;
   });
 
-  it('should not show change history contents when panel is collapsed', () => {
+  test('should not show change history contents when panel is collapsed', () => {
     const props = _.merge({}, defaultProps, { enrollment: { amendments } });
     const tree = SkinDeep.shallowRender(<EnrollmentPeriod {...props}/>);
     expect(tree.subTree('.usa-accordion-content')).to.be.false;
   });
 
-  it('should show or hide change history contents when panel is expanded or collapsed', () => {
-    const props = _.merge({}, defaultProps, { enrollment: { amendments } });
-    const tree = SkinDeep.shallowRender(<EnrollmentPeriod {...props}/>);
+  test(
+    'should show or hide change history contents when panel is expanded or collapsed',
+    () => {
+      const props = _.merge({}, defaultProps, { enrollment: { amendments } });
+      const tree = SkinDeep.shallowRender(<EnrollmentPeriod {...props}/>);
 
-    // Expand
-    tree.getMountedInstance().toggleHistory();
-    expect(tree.subTree('.usa-accordion-content')).not.to.be.false;
+      // Expand
+      tree.getMountedInstance().toggleHistory();
+      expect(tree.subTree('.usa-accordion-content')).not.to.be.false;
 
-    // Collapse
-    tree.getMountedInstance().toggleHistory();
-    expect(tree.subTree('.usa-accordion-content')).to.be.false;
-  });
+      // Collapse
+      tree.getMountedInstance().toggleHistory();
+      expect(tree.subTree('.usa-accordion-content')).to.be.false;
+    }
+  );
 });

@@ -9,7 +9,7 @@ import formConfig from '../../../feedback-tool/config/form';
 describe('feedback tool applicant info', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.serviceInformation;
 
-  it('should render', () => {
+  test('should render', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -27,7 +27,7 @@ describe('feedback tool applicant info', () => {
     expect(form.find('select').length).to.equal(5);
   });
 
-  it('should submit without any information', () => {
+  test('should submit without any information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

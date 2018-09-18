@@ -20,7 +20,7 @@ describe('Child address page', () => {
       }
     ]
   };
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         arrayPath={arrayPath}
@@ -35,7 +35,7 @@ describe('Child address page', () => {
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(2);
   });
 
-  it('should render address fields', () => {
+  test('should render address fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         arrayPath={arrayPath}
@@ -52,7 +52,7 @@ describe('Child address page', () => {
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(13);
   });
 
-  it('should show errors when required fields are empty', () => {
+  test('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -70,7 +70,7 @@ describe('Child address page', () => {
     expect(onSubmit.called).not.to.be.true;
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

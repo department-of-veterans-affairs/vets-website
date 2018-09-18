@@ -11,7 +11,7 @@ describe('Pensions marriage history', () => {
   const uiSchema = marriageHistory.uiSchema.marriages.items;
   const schema = marriageHistory.schema.properties.marriages.items;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -26,7 +26,7 @@ describe('Pensions marriage history', () => {
   describe('hideIf current marriage', () => {
     const hideIfCurrentMarriage = marriageHistory.uiSchema.marriages.items['view:pastMarriage']['ui:options'].hideIf;
 
-    it('hides if married and last', () => {
+    test('hides if married and last', () => {
       const result = hideIfCurrentMarriage({
         maritalStatus: 'Married',
         marriages: [{}]
@@ -35,7 +35,7 @@ describe('Pensions marriage history', () => {
       expect(result).to.be.true;
     });
 
-    it('does not hide if married and not last', () => {
+    test('does not hide if married and not last', () => {
       const result = hideIfCurrentMarriage({
         maritalStatus: 'Married',
         marriages: [{}, {}]
@@ -44,7 +44,7 @@ describe('Pensions marriage history', () => {
       expect(result).to.be.false;
     });
 
-    it('does not hide if not married', () => {
+    test('does not hide if not married', () => {
       const result = hideIfCurrentMarriage({
         marriages: [{}]
       }, 0);
@@ -55,15 +55,15 @@ describe('Pensions marriage history', () => {
 
   describe('page title', () => {
     const pageTitle = marriageHistory.title;
-    it('uses word for index', () => {
+    test('uses word for index', () => {
       expect(pageTitle({}, { pagePerItemIndex: 0 })).to.equal('First marriage');
     });
-    it('uses number when at index ten or greater', () => {
+    test('uses number when at index ten or greater', () => {
       expect(pageTitle({}, { pagePerItemIndex: 10 })).to.equal('Marriage 11');
     });
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -81,7 +81,7 @@ describe('Pensions marriage history', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

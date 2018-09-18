@@ -12,13 +12,13 @@ const props = {
 };
 
 describe('<MessageAttachmentsViewItem>', () => {
-  it('should render correctly', () => {
+  test('should render correctly', () => {
     const tree = SkinDeep.shallowRender(<MessageAttachmentsViewItem {...props}/>);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
-  it('should have the expected default icon classname', () => {
+  test('should have the expected default icon classname', () => {
     const tree = SkinDeep.shallowRender(<MessageAttachmentsViewItem {...props}/>);
 
     expect(tree.subTree('i').props.className).to.equal('fa fa-paperclip msg-attachment-icon');

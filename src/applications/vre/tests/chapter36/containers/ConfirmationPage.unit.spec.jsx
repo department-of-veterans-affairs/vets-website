@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 import { ConfirmationPage } from '../../../chapter36/containers/ConfirmationPage';
 
 describe('VRE Chapter 36 <ConfirmationPage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const form = {
       submission: {
         response: {
@@ -30,7 +30,7 @@ describe('VRE Chapter 36 <ConfirmationPage>', () => {
     expect(tree.find('p').at(0).text()).to.contain('We’ve received your application.');
   });
 
-  it('should render applicant name', () => {
+  test('should render applicant name', () => {
     const form = {
       submission: {
         response: {

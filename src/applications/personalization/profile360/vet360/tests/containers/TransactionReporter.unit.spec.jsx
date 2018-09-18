@@ -16,29 +16,35 @@ describe('<Vet360ProfileField/>', () => {
     };
   });
 
-  it('renders nothing when there are no successful or errored transactions', () => {
-    const component = enzyme.shallow(
-      <Vet360TransactionReporter {...props}/>
-    );
-    expect(component.text()).to.be.equal('');
-  });
+  test(
+    'renders nothing when there are no successful or errored transactions',
+    () => {
+      const component = enzyme.shallow(
+        <Vet360TransactionReporter {...props}/>
+      );
+      expect(component.text()).to.be.equal('');
+    }
+  );
 
-  it('renders a success or error component when there are success or errored transactions', () => {
-    props.erroredTransactions = [
-      { data: { attributes: { transactionId: 'transaction_2' } } }
-    ];
+  test(
+    'renders a success or error component when there are success or errored transactions',
+    () => {
+      props.erroredTransactions = [
+        { data: { attributes: { transactionId: 'transaction_2' } } }
+      ];
 
-    props.mostRecentErroredTransaction = props.erroredTransactions[0];
+      props.mostRecentErroredTransaction = props.erroredTransactions[0];
 
-    const component = enzyme.shallow(
-      <Vet360TransactionReporter {...props}/>
-    );
+      const component = enzyme.shallow(
+        <Vet360TransactionReporter {...props}/>
+      );
 
-    const vet360TransactionErrorBanner  = component.find('Vet360TransactionErrorBanner');
-    expect(vet360TransactionErrorBanner, 'the errored transaction rendered').to.have.lengthOf(1);
-  });
+      const vet360TransactionErrorBanner  = component.find('Vet360TransactionErrorBanner');
+      expect(vet360TransactionErrorBanner, 'the errored transaction rendered').to.have.lengthOf(1);
+    }
+  );
 
-  it('calls clearTransaction on each errored transaction', () => {
+  test('calls clearTransaction on each errored transaction', () => {
     props.clearTransaction = sinon.stub();
     props.erroredTransactions = [
       { data: { attributes: { transactionId: 'transaction_1' } } },

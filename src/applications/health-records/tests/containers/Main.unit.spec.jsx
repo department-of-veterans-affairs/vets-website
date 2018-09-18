@@ -19,7 +19,7 @@ const props = {
 };
 
 describe('<Main>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(
       wrapWithRouterContext(<Main {...props}/>)
     );
@@ -27,7 +27,7 @@ describe('<Main>', () => {
     expect(vdom).to.exist;
   });
 
-  it('submit button should be enabled if form is valid', () => {
+  test('submit button should be enabled if form is valid', () => {
     const tree = SkinDeep.shallowRender(
       wrapWithRouterContext(<Main {...props}/>)
     );

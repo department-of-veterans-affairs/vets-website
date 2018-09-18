@@ -3,7 +3,7 @@ import { prefillTransformer } from '../../1990/helpers.jsx';
 
 describe('1990 helpers', () => {
   describe('prefillTransformer', () => {
-    it('should do nothing if no contact info is updated', () => {
+    test('should do nothing if no contact info is updated', () => {
       const formData = {};
       const pages = {};
       const metadata = {};
@@ -18,7 +18,7 @@ describe('1990 helpers', () => {
       expect(result.formData).to.eql(formData);
 
     });
-    it('should set the email', () => {
+    test('should set the email', () => {
       const formData = {
         email: 'test@foo.com'
       };
@@ -35,7 +35,7 @@ describe('1990 helpers', () => {
       const result = prefillTransformer(pages, formData, metadata, state);
       expect(result.formData['view:otherContactInfo'].email).to.eql(formData.email);
     });
-    it('should set the homePhone', () => {
+    test('should set the homePhone', () => {
       const formData = {
         homePhone: '999'
       };
@@ -52,7 +52,7 @@ describe('1990 helpers', () => {
       const result = prefillTransformer(pages, formData, metadata, state);
       expect(result.formData['view:otherContactInfo'].homePhone).to.eql(formData.homePhone);
     });
-    it('should set the mobilePhone', () => {
+    test('should set the mobilePhone', () => {
       const formData = {
         mobilePhone: '999'
       };

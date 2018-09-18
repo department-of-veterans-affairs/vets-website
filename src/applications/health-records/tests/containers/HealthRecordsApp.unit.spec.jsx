@@ -19,7 +19,7 @@ const props = {
 describe('<HealthRecordsApp>', () => {
   const tree = SkinDeep.shallowRender(<HealthRecordsApp {...props}/>);
 
-  it('should render', () => {
+  test('should render', () => {
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });

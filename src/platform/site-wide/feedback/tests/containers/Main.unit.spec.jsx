@@ -24,12 +24,12 @@ const defaultProps = {
 
 describe('<Main/>', () => {
 
-  it('should render with DefaultView', () => {
+  test('should render with DefaultView', () => {
     const wrapper = enzyme.shallow(<Main {...defaultProps}/>);
     expect(wrapper.find(DefaultView)).to.have.lengthOf(1);
   });
 
-  it('should render FeedbackForm with correct props', () => {
+  test('should render FeedbackForm with correct props', () => {
     const sendFeedback = sinon.spy();
     const formValues = { description: 'test', email: 'test@test.com' };
     const overrides = { formIsVisible: true, formValues, sendFeedback };
@@ -49,7 +49,7 @@ describe('<Main/>', () => {
     expect(calledWith).to.contain.all.keys('description', 'email');
   });
 
-  it('should render FeedbackSubmitted', () => {
+  test('should render FeedbackSubmitted', () => {
     const props = { ...defaultProps, feedbackReceived: true };
     const wrapper = enzyme.shallow(<Main {...props}/>);
     expect(wrapper.find(FeedbackSubmitted)).to.have.lengthOf(1);

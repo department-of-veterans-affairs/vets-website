@@ -8,7 +8,7 @@ import formConfig from '../../config/form';
 
 describe('Pensions contact information', () => {
   const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.contactInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -20,7 +20,7 @@ describe('Pensions contact information', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(11);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -38,7 +38,7 @@ describe('Pensions contact information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

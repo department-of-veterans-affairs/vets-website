@@ -9,7 +9,7 @@ import createCommonStore from '../../../../platform/startup/store';
 const store = createCommonStore(reducer);
 
 describe('MessagingApp', () => {
-  it('should render', () => {
+  test('should render', () => {
     const mockRoutes = [{ path: '/test' }];
     const app = (
       <MessagingApp

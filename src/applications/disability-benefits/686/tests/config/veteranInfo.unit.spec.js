@@ -18,7 +18,7 @@ describe('686 veteran information', () => {
       'view:relationshipToVet': '2'
     };
   };
-  it('should render if applicant is veteran', () => {
+  test('should render if applicant is veteran', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -29,7 +29,7 @@ describe('686 veteran information', () => {
     expect(form.find('input').length).to.equal(2);
   });
 
-  it('should render if applicant is not veteran', () => {
+  test('should render if applicant is not veteran', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -41,7 +41,7 @@ describe('686 veteran information', () => {
     expect(form.find('select').length).to.equal(1);
   });
 
-  it('should expand VA file number if noSSN is checked', () => {
+  test('should expand VA file number if noSSN is checked', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -53,7 +53,7 @@ describe('686 veteran information', () => {
     expect(form.find('input').length).to.equal(6);
   });
 
-  it('should not submit empty form if applicant is veteran', () => {
+  test('should not submit empty form if applicant is veteran', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -68,7 +68,7 @@ describe('686 veteran information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should not submit empty form if applicant is not veteran', () => {
+  test('should not submit empty form if applicant is not veteran', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -83,7 +83,7 @@ describe('686 veteran information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit form if applicant is veteran', () => {
+  test('should submit form if applicant is veteran', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -101,7 +101,7 @@ describe('686 veteran information', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should submit form if applicant is not veteran', () => {
+  test('should submit form if applicant is not veteran', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

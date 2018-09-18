@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import { ClaimStatusPage } from '../../containers/ClaimStatusPage';
 
 describe('<ClaimStatusPage>', () => {
-  it('should render page with no alerts and a timeline', () => {
+  test('should render page with no alerts and a timeline', () => {
     const claim = {
       attributes: {
         phase: 2,
@@ -31,7 +31,7 @@ describe('<ClaimStatusPage>', () => {
     expect(tree.subTree('ClaimsDecision')).to.be.false;
     expect(tree.subTree('ClaimsTimeline')).not.to.be.false;
   });
-  it('should not render a timeline when closed', () => {
+  test('should not render a timeline when closed', () => {
     const claim = {
       attributes: {
         phase: 2,
@@ -56,7 +56,7 @@ describe('<ClaimStatusPage>', () => {
     expect(tree.subTree('ClaimComplete')).not.to.be.false;
     expect(tree.subTree('ClaimsTimeline')).to.be.false;
   });
-  it('should not render ClaimComplete with decision letter', () => {
+  test('should not render ClaimComplete with decision letter', () => {
     const claim = {
       attributes: {
         phase: 2,
@@ -81,7 +81,7 @@ describe('<ClaimStatusPage>', () => {
     expect(tree.subTree('ClaimComplete')).to.be.false;
     expect(tree.subTree('ClaimsTimeline')).to.be.false;
   });
-  it('should render need files from you component', () => {
+  test('should render need files from you component', () => {
     const claim = {
       attributes: {
         phase: 2,
@@ -104,7 +104,7 @@ describe('<ClaimStatusPage>', () => {
     );
     expect(tree.subTree('NeedFilesFromYou')).not.to.be.false;
   });
-  it('should not render need files from you when closed', () => {
+  test('should not render need files from you when closed', () => {
     const claim = {
       attributes: {
         phase: 2,
@@ -127,30 +127,33 @@ describe('<ClaimStatusPage>', () => {
     );
     expect(tree.subTree('NeedFilesFromYou')).to.be.false;
   });
-  it('should not render files needed from you when decision letter sent', () => {
-    const claim = {
-      attributes: {
-        phase: 2,
-        documentsNeeded: true,
-        decisionLetterSent: true,
-        open: true,
-        waiverSubmitted: true,
-        eventsTimeline: [
-          {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED'
-          }
-        ]
-      }
-    };
+  test(
+    'should not render files needed from you when decision letter sent',
+    () => {
+      const claim = {
+        attributes: {
+          phase: 2,
+          documentsNeeded: true,
+          decisionLetterSent: true,
+          open: true,
+          waiverSubmitted: true,
+          eventsTimeline: [
+            {
+              type: 'still_need_from_you_list',
+              status: 'NEEDED'
+            }
+          ]
+        }
+      };
 
-    const tree = SkinDeep.shallowRender(
-      <ClaimStatusPage
-        claim={claim}/>
-    );
-    expect(tree.subTree('NeedFilesFromYou')).to.be.false;
-  });
-  it('should render claims decision alert', () => {
+      const tree = SkinDeep.shallowRender(
+        <ClaimStatusPage
+          claim={claim}/>
+      );
+      expect(tree.subTree('NeedFilesFromYou')).to.be.false;
+    }
+  );
+  test('should render claims decision alert', () => {
     const claim = {
       attributes: {
         phase: 5,
@@ -172,7 +175,7 @@ describe('<ClaimStatusPage>', () => {
     );
     expect(tree.everySubTree('ClaimsDecision')).not.to.be.empty;
   });
-  it('should not render timeline without a phase', () => {
+  test('should not render timeline without a phase', () => {
     const claim = {
       attributes: {
         phase: null,
@@ -194,7 +197,7 @@ describe('<ClaimStatusPage>', () => {
     );
     expect(tree.everySubTree('ClaimsTimeline')).to.be.empty;
   });
-  it('should render empty content when loading', () => {
+  test('should render empty content when loading', () => {
     const claim = {
     };
 
@@ -205,7 +208,7 @@ describe('<ClaimStatusPage>', () => {
     );
     expect(tree.props.children).to.be.null;
   });
-  it('should render notification', () => {
+  test('should render notification', () => {
     const claim = {};
 
     const tree = SkinDeep.shallowRender(
@@ -216,7 +219,7 @@ describe('<ClaimStatusPage>', () => {
     );
     expect(tree.props.message).not.to.be.null;
   });
-  it('should clear alert', () => {
+  test('should clear alert', () => {
     const claim = {
       attributes: {
         eventsTimeline: []
@@ -238,7 +241,7 @@ describe('<ClaimStatusPage>', () => {
     tree.subTree('ClaimDetailLayout').props.clearNotification();
     expect(clearNotification.called).to.be.true;
   });
-  it('should clear notification when leaving', () => {
+  test('should clear notification when leaving', () => {
     const claim = {
       attributes: {
         eventsTimeline: []

@@ -12,7 +12,7 @@ describe('Pensions spouse marriage history', () => {
   const schema = marriageHistory.schema.properties.spouseMarriages.items;
   const depends = marriageHistory.depends;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -24,7 +24,7 @@ describe('Pensions spouse marriage history', () => {
     expect(formDOM.querySelectorAll('input,select').length).to.equal(19);
   });
 
-  it('should render labels with spouse name', () => {
+  test('should render labels with spouse name', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -47,15 +47,15 @@ describe('Pensions spouse marriage history', () => {
 
   describe('page title', () => {
     const pageTitle = marriageHistory.title;
-    it('uses word for index', () => {
+    test('uses word for index', () => {
       expect(pageTitle({}, { pagePerItemIndex: 0 })).to.equal('Spouse’s first marriage');
     });
-    it('uses number when at index ten or greater', () => {
+    test('uses number when at index ten or greater', () => {
       expect(pageTitle({}, { pagePerItemIndex: 10 })).to.equal('Spouse marriage 11');
     });
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -73,7 +73,7 @@ describe('Pensions spouse marriage history', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -105,7 +105,7 @@ describe('Pensions spouse marriage history', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('depends should return true if married', () => {
+  test('depends should return true if married', () => {
     const result = depends({ maritalStatus: 'Married' });
 
     expect(result).to.be.true;

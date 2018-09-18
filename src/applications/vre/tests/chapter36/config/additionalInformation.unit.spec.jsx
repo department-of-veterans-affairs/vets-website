@@ -8,7 +8,7 @@ import formConfig from '../../../chapter36/config/form.js';
 
 describe('VRE chapter 36 applicant additional information', () => {
   const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.additionalInformation;
-  it('renders Veteran view', () => {
+  test('renders Veteran view', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -23,7 +23,7 @@ describe('VRE chapter 36 applicant additional information', () => {
     expect(form.find('input').length).to.equal(4);
   });
 
-  it('renders spouse view', () => {
+  test('renders spouse view', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -43,7 +43,7 @@ describe('VRE chapter 36 applicant additional information', () => {
     expect(form.find('select').length).to.equal(1);
   });
 
-  it('renders surviving spouse view', () => {
+  test('renders surviving spouse view', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -64,7 +64,7 @@ describe('VRE chapter 36 applicant additional information', () => {
   });
 
 
-  it('submits without info', () => {
+  test('submits without info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

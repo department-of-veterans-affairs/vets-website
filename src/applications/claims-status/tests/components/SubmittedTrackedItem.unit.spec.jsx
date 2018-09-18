@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import SubmittedTrackedItem from '../../components/SubmittedTrackedItem';
 
 describe('<SubmittedTrackedItem>', () => {
-  it('should render submitted item with no docs', () => {
+  test('should render submitted item with no docs', () => {
     const item = {
       trackedItemId: 1,
       displayName: 'Request 1',
@@ -25,7 +25,7 @@ describe('<SubmittedTrackedItem>', () => {
     expect(tree.subTree('.submitted-file-list-item').text()).to.contain('Submitted');
     expect(tree.everySubTree('.submission-item')).to.be.empty;
   });
-  it('should render item with doc', () => {
+  test('should render item with doc', () => {
     const item = {
       trackedItemId: 1,
       displayName: 'Request 1',
@@ -50,7 +50,7 @@ describe('<SubmittedTrackedItem>', () => {
     expect(tree.everySubTree('.submission-description')[1].text()).contain('File: testfile.pdf');
     expect(tree.everySubTree('.submission-description')[1].text()).contain('Type: Test Type');
   });
-  it('should render item with multiple docs', () => {
+  test('should render item with multiple docs', () => {
     const item = {
       trackedItemId: 1,
       displayName: 'Request 1',
@@ -78,7 +78,7 @@ describe('<SubmittedTrackedItem>', () => {
     // two docs plus one description
     expect(tree.everySubTree('.submission-description').length).to.equal(item.documents.length + 1);
   });
-  it('should render reviewed item', () => {
+  test('should render reviewed item', () => {
     const item = {
       trackedItemId: 1,
       displayName: 'Request 1',
@@ -101,7 +101,7 @@ describe('<SubmittedTrackedItem>', () => {
 
     expect(tree.subTree('.submitted-file-list-item').text()).to.contain('Reviewed by VA');
   });
-  it('should render no longer needed item by type', () => {
+  test('should render no longer needed item by type', () => {
     const item = {
       trackedItemId: 1,
       displayName: 'Request 1',
@@ -120,7 +120,7 @@ describe('<SubmittedTrackedItem>', () => {
 
     expect(tree.subTree('.submitted-file-list-item').text()).to.contain('No longer needed');
   });
-  it('should render no longer needed item by status', () => {
+  test('should render no longer needed item by status', () => {
     const item = {
       trackedItemId: 1,
       displayName: 'Request 1',

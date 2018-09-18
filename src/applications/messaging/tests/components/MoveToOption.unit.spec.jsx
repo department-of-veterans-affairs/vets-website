@@ -10,19 +10,19 @@ const props = {
 };
 
 describe('<MoveToOption>', () => {
-  it('should render correctly', () => {
+  test('should render correctly', () => {
     const tree = SkinDeep.shallowRender(<MoveToOption {...props}/>);
 
     expect(tree.getRenderOutput()).to.be.ok;
   });
 
-  it('should render the expected input field', () => {
+  test('should render the expected input field', () => {
     const tree = SkinDeep.shallowRender(<MoveToOption {...props}/>);
 
     expect(tree.subTree('.msg-hidden-radio')).to.be.ok;
   });
 
-  it('should render the expected label text', () => {
+  test('should render the expected label text', () => {
     const tree = SkinDeep.shallowRender(<MoveToOption {...props}/>);
 
     expect(tree.subTree('.msg-move-to-label').text()).to.equal('Folder');

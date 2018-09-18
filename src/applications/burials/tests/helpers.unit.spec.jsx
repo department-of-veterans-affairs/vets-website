@@ -22,7 +22,7 @@ describe('Burials helpers', () => {
         createObjectURL: sinon.stub().returns('test')
       };
     });
-    it('should reject if initial request fails', () => {
+    test('should reject if initial request fails', () => {
       mockFetch(new Error('fake error'), false);
       const formConfig = {
         chapters: {}
@@ -39,7 +39,7 @@ describe('Burials helpers', () => {
         expect(err.message).to.equal('fake error');
       });
     });
-    it('should resolve if polling state is success', () => {
+    test('should resolve if polling state is success', () => {
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), {
         data: {
@@ -76,7 +76,7 @@ describe('Burials helpers', () => {
         expect(res).to.deep.equal(response);
       });
     });
-    it('should reject if polling state is failed', () => {
+    test('should reject if polling state is failed', () => {
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), {
         data: {

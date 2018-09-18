@@ -8,18 +8,21 @@ import {
 
 describe('Pension validation', () => {
   describe('validateAfterMarriageDate', () => {
-    it('should add error if date of marriage is after date of separation', () => {
-      const errors = {
-        addError: sinon.spy()
-      };
+    test(
+      'should add error if date of marriage is after date of separation',
+      () => {
+        const errors = {
+          addError: sinon.spy()
+        };
 
-      validateAfterMarriageDate(errors, '2014-01-01', { dateOfMarriage: '2016-01-01' });
+        validateAfterMarriageDate(errors, '2014-01-01', { dateOfMarriage: '2016-01-01' });
 
-      expect(errors.addError.called).to.be.true;
-    });
+        expect(errors.addError.called).to.be.true;
+      }
+    );
   });
   describe('validateServiceBirthDates', () => {
-    it('should add error if date entered is before birth date', () => {
+    test('should add error if date entered is before birth date', () => {
       const errors = {
         activeServiceDateRange: {
           from: {

@@ -19,7 +19,7 @@ describe('Disability benefits 526EZ reservesNationalGuardService', () => {
     waiveVABenefitsToRetainTrainingPay: false
   };
 
-  it('renders reserves national guard service form', () => {
+  test('renders reserves national guard service form', () => {
     const onSubmit = sinon.spy();
     const form = mount(<DefinitionTester
       onSubmit={onSubmit}
@@ -33,7 +33,7 @@ describe('Disability benefits 526EZ reservesNationalGuardService', () => {
     expect(form.find('input[type="radio"]').length).to.equal(2);
   });
 
-  it('requires title 10 dates when title 10 activation indicated', () => {
+  test('requires title 10 dates when title 10 activation indicated', () => {
     const formData = _.merge(defaultFormData, { 'view:isTitle10Activated': true });
     const onSubmit = sinon.spy();
     const form = mount(<DefinitionTester
@@ -50,7 +50,7 @@ describe('Disability benefits 526EZ reservesNationalGuardService', () => {
 
   });
 
-  it('does not submit without all required info', () => {
+  test('does not submit without all required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(<DefinitionTester
       onSubmit={onSubmit}
@@ -65,7 +65,7 @@ describe('Disability benefits 526EZ reservesNationalGuardService', () => {
     expect(form.find('.usa-input-error-message').length).to.equal(4);
   });
 
-  it('does submit with all required info', () => {
+  test('does submit with all required info', () => {
     const formData = _.merge(defaultFormData, {
       'view:isTitle10Activated': true,
       title10Activation: {

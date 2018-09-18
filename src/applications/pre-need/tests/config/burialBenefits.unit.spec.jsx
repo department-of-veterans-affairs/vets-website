@@ -47,7 +47,7 @@ describe('Pre-need burial benefits', () => {
   beforeEach(mockFetch);
   const { schema, uiSchema } = formConfig.chapters.burialBenefits.pages.burialBenefits;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -59,7 +59,7 @@ describe('Pre-need burial benefits', () => {
   });
 
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -75,7 +75,7 @@ describe('Pre-need burial benefits', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should fill in currently buried persons list', () => {
+  test('should fill in currently buried persons list', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -94,7 +94,7 @@ describe('Pre-need burial benefits', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should fill in desired cemetery', (done) => {
+  test('should fill in desired cemetery', (done) => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -123,7 +123,7 @@ describe('Pre-need burial benefits', () => {
     });
   });
 
-  it('should add another currently buried person', () => {
+  test('should add another currently buried person', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -147,7 +147,7 @@ describe('Pre-need burial benefits', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should fill cemetery for currently buried person', (done) => {
+  test('should fill cemetery for currently buried person', (done) => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

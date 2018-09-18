@@ -16,27 +16,27 @@ const props = {
 };
 
 describe('<EmailNotifications>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<EmailNotifications {...props}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.be.ok;
   });
 
-  it('should show a loading screen when getting preferences', () => {
+  test('should show a loading screen when getting preferences', () => {
     const tree = SkinDeep.shallowRender(
       <EmailNotifications {...props } isLoadingPreferences/>
     );
     expect(tree.subTree('LoadingIndicator')).to.be.ok;
   });
 
-  it('should show a loading screen when saving preferences', () => {
+  test('should show a loading screen when saving preferences', () => {
     const tree = SkinDeep.shallowRender(
       <EmailNotifications {...props } isSavingPreferences/>
     );
     expect(tree.subTree('LoadingIndicator')).to.be.ok;
   });
 
-  it('should disable save button when nothing has changed', () => {
+  test('should disable save button when nothing has changed', () => {
     const tree = SkinDeep.shallowRender(
       <EmailNotifications {...props }/>
     );
@@ -46,41 +46,47 @@ describe('<EmailNotifications>', () => {
     expect(formButtons.subTree('.usa-button-secondary')).to.not.be.ok;
   });
 
-  it('should enable save button and show cancel button if email is modified', () => {
-    const tree = SkinDeep.shallowRender(
-      <EmailNotifications
-        {...props }
-        preferences={{
-          emailAddress: makeField('new.test@vets.gov', true),
-          frequency: makeField('none')
-        }}/>
-    );
-    const formButtons = tree.dive(['.msg-notifications-save']);
-    const saveButton = formButtons.dive(['.usa-button']);
-    const cancelButton = formButtons.dive(['.usa-button-secondary']);
-    expect(saveButton.text()).to.eql('Save changes');
-    expect(saveButton.props.disabled).to.be.false;
-    expect(cancelButton.text()).to.eql('Cancel');
-  });
+  test(
+    'should enable save button and show cancel button if email is modified',
+    () => {
+      const tree = SkinDeep.shallowRender(
+        <EmailNotifications
+          {...props }
+          preferences={{
+            emailAddress: makeField('new.test@vets.gov', true),
+            frequency: makeField('none')
+          }}/>
+      );
+      const formButtons = tree.dive(['.msg-notifications-save']);
+      const saveButton = formButtons.dive(['.usa-button']);
+      const cancelButton = formButtons.dive(['.usa-button-secondary']);
+      expect(saveButton.text()).to.eql('Save changes');
+      expect(saveButton.props.disabled).to.be.false;
+      expect(cancelButton.text()).to.eql('Cancel');
+    }
+  );
 
-  it('should enable save button and show cancel button if frequency is modified', () => {
-    const tree = SkinDeep.shallowRender(
-      <EmailNotifications
-        {...props }
-        preferences={{
-          emailAddress: makeField('test@vets.gov'),
-          frequency: makeField('daily', true)
-        }}/>
-    );
-    const formButtons = tree.dive(['.msg-notifications-save']);
-    const saveButton = formButtons.dive(['.usa-button']);
-    const cancelButton = formButtons.dive(['.usa-button-secondary']);
-    expect(saveButton.text()).to.eql('Save changes');
-    expect(saveButton.props.disabled).to.be.false;
-    expect(cancelButton.text()).to.eql('Cancel');
-  });
+  test(
+    'should enable save button and show cancel button if frequency is modified',
+    () => {
+      const tree = SkinDeep.shallowRender(
+        <EmailNotifications
+          {...props }
+          preferences={{
+            emailAddress: makeField('test@vets.gov'),
+            frequency: makeField('daily', true)
+          }}/>
+      );
+      const formButtons = tree.dive(['.msg-notifications-save']);
+      const saveButton = formButtons.dive(['.usa-button']);
+      const cancelButton = formButtons.dive(['.usa-button-secondary']);
+      expect(saveButton.text()).to.eql('Save changes');
+      expect(saveButton.props.disabled).to.be.false;
+      expect(cancelButton.text()).to.eql('Cancel');
+    }
+  );
 
-  it('should hide frequency suboptions when notifications are off', () => {
+  test('should hide frequency suboptions when notifications are off', () => {
     const tree = SkinDeep.shallowRender(
       <EmailNotifications {...props }/>
     );
@@ -89,7 +95,7 @@ describe('<EmailNotifications>', () => {
     expect(tree.subTree('ErrorableRadioButtons')).to.not.be.ok;
   });
 
-  it('should show frequency suboptions when notifications are on', () => {
+  test('should show frequency suboptions when notifications are on', () => {
     const tree = SkinDeep.shallowRender(
       <EmailNotifications
         {...props }
@@ -103,7 +109,7 @@ describe('<EmailNotifications>', () => {
     expect(tree.subTree('ErrorableRadioButtons').props.value.value).to.eql('each_message');
   });
 
-  it('should hide email input if notifications are off', () => {
+  test('should hide email input if notifications are off', () => {
     const tree = SkinDeep.shallowRender(<EmailNotifications {...props }/>);
     expect(tree.subTree('ErrorableTextInput')).to.not.be.ok;
   });

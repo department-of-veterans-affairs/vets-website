@@ -44,20 +44,20 @@ describe('Schemaform: ReviewCardField', () => {
   };
 
 
-  it('sould render', () => {
+  test('sould render', () => {
     const wrapper = shallow(<ReviewCardField {...defaultProps}/>);
     expect(wrapper.type()).to.equal('div');
   });
 
 
-  it('should throw an error if no viewComponent is found', () => {
+  test('should throw an error if no viewComponent is found', () => {
     expect(() => {
       shallow(<ReviewCardField {...defaultProps} uiSchema={{}}/>);
     }).to.throw('viewComponent');
   });
 
 
-  it('should throw an error if schema type is not object or array', () => {
+  test('should throw an error if schema type is not object or array', () => {
     expect(() => {
       shallow(<ReviewCardField {...defaultProps} schema={{ type: 'string' }}/>);
     }).to.throw('Unknown schema type');
@@ -65,14 +65,14 @@ describe('Schemaform: ReviewCardField', () => {
 
 
   // Also tests that it renders a custom component
-  it('should start in view mode', () => {
+  test('should start in view mode', () => {
     const wrapper = shallow(<ReviewCardField {...defaultProps}/>);
     expect(wrapper.find('viewComponent').length).to.equal(1);
     expect(wrapper.find('.input-section').length).to.equal(0);
   });
 
 
-  it('should start in edit mode', () => {
+  test('should start in edit mode', () => {
     const errorSchema = {
       field1: { __errors: ['Arbitrary error string here'] },
       field2: { __errors: [] }
@@ -83,13 +83,13 @@ describe('Schemaform: ReviewCardField', () => {
   });
 
 
-  it('should pass formData the custom view component', () => {
+  test('should pass formData the custom view component', () => {
     const wrapper = shallow(<ReviewCardField {...defaultProps}/>);
     expect(wrapper.find('viewComponent').props()).to.eql({ formData: defaultProps.formData });
   });
 
 
-  it('should transition to edit mode', () => {
+  test('should transition to edit mode', () => {
     const wrapper = shallow(<ReviewCardField {...defaultProps}/>);
     expect(wrapper.find('viewComponent').length).to.equal(1);
 
@@ -100,7 +100,7 @@ describe('Schemaform: ReviewCardField', () => {
   });
 
 
-  it('should transition to view mode', () => {
+  test('should transition to view mode', () => {
     // Not sure how to be not duplicate an existing test here
     const wrapper = shallow(<ReviewCardField {...defaultProps}/>);
     expect(wrapper.find('viewComponent').length).to.equal(1);
@@ -117,29 +117,35 @@ describe('Schemaform: ReviewCardField', () => {
   });
 
 
-  it('should not transition to view mode if there are validation errors', () => {
-    // Start with errors
-    const errorSchema = {
-      field1: { __errors: ['Arbitrary error string here'] },
-      field2: { __errors: [] }
-    };
-    const wrapper = mount(<ReviewCardField {...defaultProps} errorSchema={errorSchema}/>);
-    expect(wrapper.find('viewComponent').length).to.equal(0);
-    expect(wrapper.find('.input-section').length).to.equal(1);
+  test(
+    'should not transition to view mode if there are validation errors',
+    () => {
+      // Start with errors
+      const errorSchema = {
+        field1: { __errors: ['Arbitrary error string here'] },
+        field2: { __errors: [] }
+      };
+      const wrapper = mount(<ReviewCardField {...defaultProps} errorSchema={errorSchema}/>);
+      expect(wrapper.find('viewComponent').length).to.equal(0);
+      expect(wrapper.find('.input-section').length).to.equal(1);
 
-    // Try to go back to viewing
-    wrapper.find('.update-button').simulate('click');
-    expect(wrapper.find('.input-section').length).to.equal(1);
-    expect(wrapper.find('viewComponent').length).to.equal(0);
+      // Try to go back to viewing
+      wrapper.find('.update-button').simulate('click');
+      expect(wrapper.find('.input-section').length).to.equal(1);
+      expect(wrapper.find('viewComponent').length).to.equal(0);
 
-    // Also check that the validation error is rendered while we're at it
-    expect(wrapper.text()).to.contain('Arbitrary error string here');
-  });
+      // Also check that the validation error is rendered while we're at it
+      expect(wrapper.text()).to.contain('Arbitrary error string here');
+    }
+  );
 
 
-  it('should render the appropriate field in reviewMode according to the data type', () => {
-    const props = set('formContext.onReviewPage', true, defaultProps);
-    const tree = shallow(<ReviewCardField {...props}/>);
-    expect(tree.find('ObjectField').length).to.equal(1);
-  });
+  test(
+    'should render the appropriate field in reviewMode according to the data type',
+    () => {
+      const props = set('formContext.onReviewPage', true, defaultProps);
+      const tree = shallow(<ReviewCardField {...props}/>);
+      expect(tree.find('ObjectField').length).to.equal(1);
+    }
+  );
 });

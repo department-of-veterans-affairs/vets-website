@@ -8,7 +8,7 @@ import formConfig from '../../../chapter36/config/form.js';
 
 describe('VRE chapter 36 dependent information', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.dependentInformation;
-  it('should render dependent information fields', () => {
+  test('should render dependent information fields', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -20,7 +20,7 @@ describe('VRE chapter 36 dependent information', () => {
     expect(form.find('input').length).to.equal(9);
   });
 
-  it('should submit without information', () => {
+  test('should submit without information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

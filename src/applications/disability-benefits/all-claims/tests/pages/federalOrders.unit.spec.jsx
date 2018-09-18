@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 describe('Federal orders info', () => {
   const { schema, uiSchema } = formConfig.chapters.veteranDetails.pages.federalOrders;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -22,7 +22,7 @@ describe('Federal orders info', () => {
     expect(form.find('input').length).to.equal(2);
   });
 
-  it('should render activation fields', () => {
+  test('should render activation fields', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -38,7 +38,7 @@ describe('Federal orders info', () => {
     expect(form.find('select').length).to.equal(4);
   });
 
-  it('should fail to submit when no data is filled out', () => {
+  test('should fail to submit when no data is filled out', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -55,7 +55,7 @@ describe('Federal orders info', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit when data filled in', () => {
+  test('should submit when data filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

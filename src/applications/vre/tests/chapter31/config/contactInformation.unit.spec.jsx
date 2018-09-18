@@ -8,7 +8,7 @@ import formConfig from '../../../chapter31/config/form.js';
 
 describe('VRE chapter 31 contact information', () => {
   const { schema, uiSchema } = formConfig.chapters.contactInformation.pages.contactInformation;
-  it('renders contact information form', () => {
+  test('renders contact information form', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -20,7 +20,7 @@ describe('VRE chapter 31 contact information', () => {
     expect(form.find('input').length).to.equal(4);
   });
 
-  it('submits with info', () => {
+  test('submits with info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -42,7 +42,7 @@ describe('VRE chapter 31 contact information', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('does not submit with non matching email addresses', () => {
+  test('does not submit with non matching email addresses', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

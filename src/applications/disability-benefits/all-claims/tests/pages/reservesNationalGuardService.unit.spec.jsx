@@ -8,7 +8,7 @@ import formConfig from '../../config/form';
 describe('Reserve information', () => {
   const { schema, uiSchema } = formConfig.chapters.veteranDetails.pages.reservesNationalGuardService;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -22,7 +22,7 @@ describe('Reserve information', () => {
     expect(form.find('select').length).to.equal(6);
   });
 
-  it('should fail to submit when no data is filled out', () => {
+  test('should fail to submit when no data is filled out', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -39,7 +39,7 @@ describe('Reserve information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit when data filled in', () => {
+  test('should submit when data filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

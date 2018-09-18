@@ -23,7 +23,7 @@ describe('Child information page', () => {
       ]
     };
   };
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         arrayPath={arrayPath}
@@ -38,7 +38,7 @@ describe('Child information page', () => {
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(8);
   });
 
-  it('should show errors when required fields are empty', () => {
+  test('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -56,7 +56,7 @@ describe('Child information page', () => {
     expect(onSubmit.called).not.to.be.true;
   });
 
-  it('should not require ssn if noSSN is checked', () => {
+  test('should not require ssn if noSSN is checked', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -77,7 +77,7 @@ describe('Child information page', () => {
     expect(onSubmit.called).not.to.be.true;
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -101,7 +101,7 @@ describe('Child information page', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should ask if the child is in school', () => {
+  test('should ask if the child is in school', () => {
     const data = Object.assign({}, dependentData());
     data.dependents[0].childDateOfBirth = moment().subtract(19, 'years').toString();
 
@@ -121,7 +121,7 @@ describe('Child information page', () => {
     expect(formDOM.querySelector('#root_attendingCollegeYes')).to.not.be.null;
   });
 
-  it('should ask if the child is disabled', () => {
+  test('should ask if the child is disabled', () => {
     const data = Object.assign({}, dependentData());
     data.dependents[0].childDateOfBirth = moment().subtract(19, 'years').toString();
 

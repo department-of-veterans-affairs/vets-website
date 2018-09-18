@@ -141,37 +141,40 @@ describe('526 helpers', () => {
         standardClaim: false
       }
     };
-    it('should return stringified, transformed data for submit', () => {
+    test('should return stringified, transformed data for submit', () => {
       expect(transform(null, formData)).to.deep.equal(JSON.stringify(transformedData));
     });
   });
   describe('validateDisability', () => {
-    it('should reject invalid disability data', () => {
+    test('should reject invalid disability data', () => {
       expect(validateDisability(invalidDisability)).to.equal(false);
     });
-    it('should accept valid disability data', () => {
+    test('should accept valid disability data', () => {
       expect(validateDisability(validDisability)).to.equal(true);
     });
   });
   describe('transformDisabilities', () => {
-    it('should create a list of disabilities with disabilityActionType set to INCREASE', () => {
-      expect(transformDisabilities([invalidDisability])).to.deep.equal([validDisability]);
-    });
-    it('should return an empty array when given undefined input', () => {
+    test(
+      'should create a list of disabilities with disabilityActionType set to INCREASE',
+      () => {
+        expect(transformDisabilities([invalidDisability])).to.deep.equal([validDisability]);
+      }
+    );
+    test('should return an empty array when given undefined input', () => {
       expect(transformDisabilities(undefined)).to.deep.equal([]);
     });
-    it('should remove ineligible disabilities', () => {
+    test('should remove ineligible disabilities', () => {
       const ineligibleDisability = _.omit(invalidDisability, 'ratingPercentage');
       expect(transformDisabilities([ineligibleDisability])).to.deep.equal([]);
     });
   });
   describe('addPhoneEmailToCard', () => {
-    it('should return formData when veteran property does not exist', () => {
+    test('should return formData when veteran property does not exist', () => {
       const formData = { disabilities: {} };
       const newFormData = addPhoneEmailToCard(formData);
       expect(newFormData).to.equal(formData);
     });
-    it('should return a new object with correctly-modified formData', () => {
+    test('should return a new object with correctly-modified formData', () => {
       const formData = { disabilities: {}, veteran: { primaryPhone: '1234567890', emailAddress: 'a@b.c' } };
       const newFormData = addPhoneEmailToCard(formData);
       expect(newFormData).to.not.equal(formData);
@@ -199,7 +202,7 @@ describe('526 helpers', () => {
       }
     };
 
-    it('adds obligation dates to the top level formData', () => {
+    test('adds obligation dates to the top level formData', () => {
       expect(transformObligationDates(formData)).to.deep.equal({
         obligationTermOfServiceDateRange: {
           from: dateRange.from,
@@ -207,17 +210,17 @@ describe('526 helpers', () => {
         }
       });
     });
-    it('returns original form data if reserves data is missing', () => {
+    test('returns original form data if reserves data is missing', () => {
       const newFormData = { someOtherProperty: 'someOtherValue' };
       expect(transformObligationDates(newFormData)).to.equal(newFormData);
     });
   });
   describe('prefillTransformer', () => {
-    it('should transform prefilled disabilities', () => {
+    test('should transform prefilled disabilities', () => {
       const { formData: transformedPrefill } = prefillTransformer([], prefilledData);
       expect(transformedPrefill.disabilities[0].disabilityActionType).to.equal('INCREASE');
     });
-    it('should add phone and email to phoneEmailCard', () => {
+    test('should add phone and email to phoneEmailCard', () => {
       const pages = [];
       const formData = initialData;
       const metadata = {};
@@ -228,14 +231,14 @@ describe('526 helpers', () => {
       const newForm = prefillTransformer(pages, formData, metadata);
       expect(newForm.formData.veteran.phoneEmailCard).to.deep.equal(transformedPhoneEmail);
     });
-    it('should return original data when no disabilities returned', () => {
+    test('should return original data when no disabilities returned', () => {
       const pages = [];
       const formData = _.omit(initialData, 'disabilities');
       const metadata = {};
 
       expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({ pages, formData, metadata });
     });
-    it('should return original data if disabilities is not an array', () => {
+    test('should return original data if disabilities is not an array', () => {
       const clonedData = _.cloneDeep(initialData);
       const pages = [];
       const formData = _.set(clonedData, 'disabilities', { someProperty: 'value' });
@@ -243,13 +246,16 @@ describe('526 helpers', () => {
 
       expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({ pages, formData, metadata });
     });
-    it('should transform prefilled data when disability name has special chars', () => {
-      const newName = '//()';
-      const dataClone = _.set(_.cloneDeep(initialData), 'disabilities[0].name', newName);
-      const prefill = prefillTransformer([], dataClone, {});
-      expect(prefill.formData.disabilities[0].name).to.equal(newName);
-    });
-    it('should put obligation dates into the parent level', () => {
+    test(
+      'should transform prefilled data when disability name has special chars',
+      () => {
+        const newName = '//()';
+        const dataClone = _.set(_.cloneDeep(initialData), 'disabilities[0].name', newName);
+        const prefill = prefillTransformer([], dataClone, {});
+        expect(prefill.formData.disabilities[0].name).to.equal(newName);
+      }
+    );
+    test('should put obligation dates into the parent level', () => {
       const dateRange = {
         from: '2015-05-07',
         to: '2018-05-07'
@@ -290,26 +296,32 @@ describe('526 helpers', () => {
       }
     ];
 
-    it('should return true when at least one disability has 4142 selected', () => {
-      expect(get4142Selection(fullDisabilities)).to.equal(true);
-    });
+    test(
+      'should return true when at least one disability has 4142 selected',
+      () => {
+        expect(get4142Selection(fullDisabilities)).to.equal(true);
+      }
+    );
 
-    it('should return false when disability not selected for increase', () => {
+    test('should return false when disability not selected for increase', () => {
       const disabilities = fullDisabilities.slice(1, 2);
       expect(get4142Selection(disabilities)).to.equal(false);
     });
 
-    it('should return false when disability has upload PMR selected', () => {
+    test('should return false when disability has upload PMR selected', () => {
       const disabilities = fullDisabilities.slice(2, 3);
       expect(get4142Selection(disabilities)).to.equal(false);
     });
 
-    it('should return false when disability has no PMR supporting evidence', () => {
-      const disabilities = fullDisabilities.slice(3);
-      expect(get4142Selection(disabilities)).to.equal(false);
-    });
+    test(
+      'should return false when disability has no PMR supporting evidence',
+      () => {
+        const disabilities = fullDisabilities.slice(3);
+        expect(get4142Selection(disabilities)).to.equal(false);
+      }
+    );
 
-    it('should return false when no disabilities have 4142 selected', () => {
+    test('should return false when no disabilities have 4142 selected', () => {
       const disabilities = fullDisabilities.slice(1);
       expect(get4142Selection(disabilities)).to.equal(false);
     });
@@ -336,22 +348,22 @@ describe('526 helpers', () => {
       global.fetch = originalFetch;
     });
 
-    it('should not call the api if the input length is < 3', () => {
+    test('should not call the api if the input length is < 3', () => {
       queryForFacilities('12');
       expect(global.fetch.called).to.be.false;
     });
 
-    it('should call the api if the input length is >= 3', () => {
+    test('should call the api if the input length is >= 3', () => {
       queryForFacilities('123');
       expect(global.fetch.called).to.be.true;
     });
 
-    it('should call the api with the input', () => {
+    test('should call the api with the input', () => {
       queryForFacilities('asdf');
       expect(global.fetch.firstCall.args[0]).to.contain('/facilities/suggested?type%5B%5D=health&type%5B%5D=dod_health&name_part=asdf');
     });
 
-    it('should return the mapped data for autosuggest if successful', () => {
+    test('should return the mapped data for autosuggest if successful', () => {
       // Doesn't matter what we call this with since our stub will always return the same thing
       const requestPromise = queryForFacilities('asdf');
       return requestPromise.then(result => {
@@ -362,7 +374,7 @@ describe('526 helpers', () => {
       });
     });
 
-    it('should return an empty array if unsuccesful', () => {
+    test('should return an empty array if unsuccesful', () => {
       global.fetch.resolves({ ok: false });
       // Doesn't matter what we call this with since our stub will always return the same thing
       const requestPromise = queryForFacilities('asdf');
@@ -374,7 +386,7 @@ describe('526 helpers', () => {
   });
 
   describe('getReservesGuardData', () => {
-    it('gets reserve & national guard data when available', () => {
+    test('gets reserve & national guard data when available', () => {
       const formData = {
         unitName: 'Alpha Bravo',
         obligationTermOfServiceDateRange: {
@@ -386,7 +398,7 @@ describe('526 helpers', () => {
 
       expect(getReservesGuardData(formData)).to.deep.equal(formData);
     });
-    it('get title 10 data when available', () => {
+    test('get title 10 data when available', () => {
       const formData = {
         unitName: 'Alpha Bravo',
         obligationTermOfServiceDateRange: {
@@ -403,7 +415,7 @@ describe('526 helpers', () => {
 
       expect(getReservesGuardData(formData)).to.deep.equal(_.omit(formData, 'view:isTitle10Activated'));
     });
-    it('returns null when some required data is missing', () => {
+    test('returns null when some required data is missing', () => {
       const formData = {
         obligationTermOfServiceDateRange: {
           from: '2012-02-02',

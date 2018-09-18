@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import ClaimDetailLayout from '../../components/ClaimDetailLayout';
 
 describe('<ClaimDetailLayout>', () => {
-  it('should render loading indicator', () => {
+  test('should render loading indicator', () => {
     const tree = SkinDeep.shallowRender(
       <ClaimDetailLayout
         loading/>
@@ -13,7 +13,7 @@ describe('<ClaimDetailLayout>', () => {
 
     expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
   });
-  it('should render sync warning', () => {
+  test('should render sync warning', () => {
     const claim = {
       attributes: {
         contentionList: [
@@ -30,7 +30,7 @@ describe('<ClaimDetailLayout>', () => {
     );
     expect(tree.everySubTree('ClaimSyncWarning')).not.to.be.empty;
   });
-  it('should render contention list', () => {
+  test('should render contention list', () => {
     const claim = {
       attributes: {
         contentionList: [
@@ -47,7 +47,7 @@ describe('<ClaimDetailLayout>', () => {
 
     expect(tree.subTree('.claim-contentions').text()).to.contain('Condition 1, Condition 2');
   });
-  it('should render see all link if long contention list', () => {
+  test('should render see all link if long contention list', () => {
     const claim = {
       id: 5,
       attributes: {
@@ -69,7 +69,7 @@ describe('<ClaimDetailLayout>', () => {
     expect(tree.subTree('.claim-contentions').text()).to.contain('Condition 1, Condition 2, Condition 3');
     expect(tree.subTree('.claim-contentions').subTree('Link').props.to).to.equal('your-claims/5/details');
   });
-  it('should render not available if no contention list', () => {
+  test('should render not available if no contention list', () => {
     const claim = {
       attributes: {
         contentionList: [
@@ -84,7 +84,7 @@ describe('<ClaimDetailLayout>', () => {
 
     expect(tree.subTree('.claim-contentions').text()).to.contain('Not available');
   });
-  it('should render adding details info if open', () => {
+  test('should render adding details info if open', () => {
     const claim = {
       attributes: {
         open: true,
@@ -103,7 +103,7 @@ describe('<ClaimDetailLayout>', () => {
 
     expect(tree.everySubTree('AddingDetails')).not.to.be.empty;
   });
-  it('should not render adding details info if closed', () => {
+  test('should not render adding details info if closed', () => {
     const claim = {
       attributes: {
         open: false,
@@ -122,7 +122,7 @@ describe('<ClaimDetailLayout>', () => {
 
     expect(tree.everySubTree('AddingDetails')).to.be.empty;
   });
-  it('should render normal info', () => {
+  test('should render normal info', () => {
     const claim = {
       attributes: {
         claimType: 'Compensation',
@@ -146,7 +146,7 @@ describe('<ClaimDetailLayout>', () => {
     expect(tree.everySubTree('AddingDetails')).to.be.empty;
     expect(tree.everySubTree('.child-content')).not.to.be.empty;
   });
-  it('should render message', () => {
+  test('should render message', () => {
     const claim = {
       attributes: {
         contentionList: [

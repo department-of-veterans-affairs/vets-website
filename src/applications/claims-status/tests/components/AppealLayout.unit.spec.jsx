@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import AppealLayout from '../../components/AppealLayout';
 
 describe('<AppealLayout>', () => {
-  it('should render breadcrumbs and children', () => {
+  test('should render breadcrumbs and children', () => {
     const tree = SkinDeep.shallowRender(
       <AppealLayout>
         Testing

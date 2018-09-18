@@ -28,14 +28,14 @@ const defaultProps = {
 };
 
 describe('<LettersApp>', () => {
-  it('should render AppContent', () => {
+  test('should render AppContent', () => {
     const tree = SkinDeep.shallowRender(<LettersApp {...defaultProps}/>);
     // div() throws an exception if it can't find the selector
     expect(tree.dive(['AppContent'])).to.not.be.null;
   });
 
   describe('<AppContent>', () => {
-    it('should render children if data available', () => {
+    test('should render children if data available', () => {
       const tree = SkinDeep.shallowRender(
         <AppContent isDataAvailable>
           <span>Rendered!</span>
@@ -44,7 +44,7 @@ describe('<LettersApp>', () => {
       expect(tree.text()).to.equal('Rendered!');
     });
 
-    it('should display error message if data is not available', () => {
+    test('should display error message if data is not available', () => {
       const tree = SkinDeep.shallowRender(
         <AppContent isDataAvailable={false}>
           <span>Rendered!</span>

@@ -5,7 +5,7 @@ import SkinDeep from 'skin-deep';
 import createDisclosureTitle from '../../components/DisclosureTitle';
 
 describe('Pensions DisclosureTitle', () => {
-  it('should render', () => {
+  test('should render', () => {
     const DisclosureTitle = createDisclosureTitle('test', 'Blah blah');
 
     const tree = SkinDeep.shallowRender(
@@ -18,7 +18,7 @@ describe('Pensions DisclosureTitle', () => {
     expect(tree.text()).to.contain('Blah blah');
   });
 
-  it('should render spouse name', () => {
+  test('should render spouse name', () => {
     const DisclosureTitle = createDisclosureTitle('spouse', 'Blah blah');
 
     const tree = SkinDeep.shallowRender(

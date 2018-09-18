@@ -15,7 +15,7 @@ describe('pre-need schema tests', () => {
     .forEach((file) => {
       const contents = JSON.parse(fs.readFileSync(path.join(__dirname, file), 'utf8'));
       const submitData = transform(formConfig, contents);
-      it(`should validate ${file}`, () => {
+      test(`should validate ${file}`, () => {
         const result = v.validate(
           JSON.parse(submitData),
           fullSchemaPreNeed

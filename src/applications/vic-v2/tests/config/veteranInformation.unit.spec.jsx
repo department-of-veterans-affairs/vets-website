@@ -8,7 +8,7 @@ import formConfig from '../../config/form.js';
 
 describe('VIC veteran information', () => {
   const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -21,7 +21,7 @@ describe('VIC veteran information', () => {
     expect(form.find('select').length).to.equal(4);
   });
 
-  it('should not submit without required info', () => {
+  test('should not submit without required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -38,7 +38,7 @@ describe('VIC veteran information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with all info filled in', () => {
+  test('should submit with all info filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

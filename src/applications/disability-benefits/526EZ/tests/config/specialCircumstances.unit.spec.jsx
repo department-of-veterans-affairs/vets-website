@@ -17,7 +17,7 @@ describe('Disability benefits 526EZ special circumstances', () => {
     }
   };
 
-  it('renders special circumstances form', () => {
+  test('renders special circumstances form', () => {
     const onSubmit = sinon.spy();
     const form = mount(<DefinitionTester
       onSubmit={onSubmit}
@@ -31,7 +31,7 @@ describe('Disability benefits 526EZ special circumstances', () => {
     expect(form.find('input[type="radio"]').length).to.equal(2);
   });
 
-  it('should not submit form without required fields', () => {
+  test('should not submit form without required fields', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -48,7 +48,7 @@ describe('Disability benefits 526EZ special circumstances', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit form when veteran indicates not homeless', () => {
+  test('should submit form when veteran indicates not homeless', () => {
     const onSubmit = sinon.spy();
     const formData = {
       veteran: {
@@ -73,33 +73,36 @@ describe('Disability benefits 526EZ special circumstances', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should submit form when veteran indicates they are homeless but have no POC', () => {
-    const onSubmit = sinon.spy();
-    const formData = {
-      veteran: {
-        homelessness: {
-          isHomeless: true,
-          pointOfContact: {}
+  test(
+    'should submit form when veteran indicates they are homeless but have no POC',
+    () => {
+      const onSubmit = sinon.spy();
+      const formData = {
+        veteran: {
+          homelessness: {
+            isHomeless: true,
+            pointOfContact: {}
+          }
         }
-      }
-    };
+      };
 
-    const form = mount(
-      <DefinitionTester
-        onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={formData}
-        formData={{}}
-        uiSchema={uiSchema}/>
-    );
+      const form = mount(
+        <DefinitionTester
+          onSubmit={onSubmit}
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={formData}
+          formData={{}}
+          uiSchema={uiSchema}/>
+      );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-  });
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error').length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    }
+  );
 
-  it('should not submit form when veteran indicates only POC name', () => {
+  test('should not submit form when veteran indicates only POC name', () => {
     const onSubmit = sinon.spy();
     const formData = {
       veteran: {
@@ -127,7 +130,7 @@ describe('Disability benefits 526EZ special circumstances', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should not submit form when veteran indicates only POC phone', () => {
+  test('should not submit form when veteran indicates only POC phone', () => {
     const onSubmit = sinon.spy();
     const formData = {
       veteran: {
@@ -155,7 +158,7 @@ describe('Disability benefits 526EZ special circumstances', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit form when veteran indicates all required POC info', () => {
+  test('should submit form when veteran indicates all required POC info', () => {
     const onSubmit = sinon.spy();
     const formData = {
       veteran: {

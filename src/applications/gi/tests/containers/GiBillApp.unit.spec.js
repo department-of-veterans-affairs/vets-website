@@ -9,13 +9,13 @@ import reducer from '../../reducers';
 const defaultProps = createCommonStore(reducer).getState();
 
 describe('<GiBillApp>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<GiBillApp {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
-  it('should render LoadingIndicator', () => {
+  test('should render LoadingIndicator', () => {
     const props = {
       ...defaultProps,
       constants: {

@@ -7,7 +7,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { DocumentRequestPage } from '../../containers/DocumentRequestPage';
 
 describe('<DocumentRequestPage>', () => {
-  it('should render loading div', () => {
+  test('should render loading div', () => {
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
         loading/>
@@ -15,7 +15,7 @@ describe('<DocumentRequestPage>', () => {
     expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
     expect(tree.everySubTree('.claim-container')).to.be.empty;
   });
-  it('should render upload error alert', () => {
+  test('should render upload error alert', () => {
     const trackedItem = {
       type: 'still_need_from_you_list',
     };
@@ -35,7 +35,7 @@ describe('<DocumentRequestPage>', () => {
     );
     expect(tree.subTree('Notification')).not.to.be.false;
   });
-  it('should clear upload error when leaving', () => {
+  test('should clear upload error when leaving', () => {
     const claim = {
       id: 1,
       attributes: {}
@@ -61,7 +61,7 @@ describe('<DocumentRequestPage>', () => {
     tree.getMountedInstance().componentWillUnmount();
     expect(clearNotification.called).to.be.true;
   });
-  it('should not clear notification after completed upload', () => {
+  test('should not clear notification after completed upload', () => {
     const claim = {
       id: 1,
       attributes: {}
@@ -88,7 +88,7 @@ describe('<DocumentRequestPage>', () => {
     tree.getMountedInstance().componentWillUnmount();
     expect(clearNotification.called).to.be.false;
   });
-  it('should render due date info', () => {
+  test('should render due date info', () => {
     const trackedItem = {
       type: 'still_need_from_you_list',
       suspenseDate: '2010-05-10'
@@ -105,7 +105,7 @@ describe('<DocumentRequestPage>', () => {
     expect(tree.subTree('DueDate')).not.to.be.false;
     expect(tree.subTree('DueDate').props.date).to.eql(trackedItem.suspenseDate);
   });
-  it('should render optional upload alert', () => {
+  test('should render optional upload alert', () => {
     const trackedItem = {
       type: 'still_need_from_others_list',
       suspenseDate: '2010-05-10'
@@ -121,7 +121,7 @@ describe('<DocumentRequestPage>', () => {
     );
     expect(tree.subTree('.optional-upload')).not.to.be.false;
   });
-  it('should handle submit files', () => {
+  test('should handle submit files', () => {
     const trackedItem = {
       type: 'still_need_from_you_list',
       suspenseDate: '2010-05-10'
@@ -140,7 +140,7 @@ describe('<DocumentRequestPage>', () => {
     tree.subTree('AddFilesForm').props.onSubmit();
     expect(onSubmit.called).to.be.true;
   });
-  it('should reset uploads and set title on mount', () => {
+  test('should reset uploads and set title on mount', () => {
     const trackedItem = {
       type: 'still_need_from_you_list',
       displayName: 'Testing'
@@ -165,7 +165,7 @@ describe('<DocumentRequestPage>', () => {
     expect(document.title).to.equal('Request for Testing');
     expect(resetUploads.called).to.be.true;
   });
-  it('should set details and go to files page if complete', () => {
+  test('should set details and go to files page if complete', () => {
     const trackedItem = {
       type: 'still_need_from_you_list',
       displayName: 'Testing'

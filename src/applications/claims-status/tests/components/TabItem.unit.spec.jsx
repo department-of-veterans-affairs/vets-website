@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { TabItem } from '../../components/TabItem';
 
 describe('<TabItem>', () => {
-  it('should render tab', () => {
+  test('should render tab', () => {
     const tree = SkinDeep.shallowRender(
       <TabItem
         shortcut={1}
@@ -17,7 +17,7 @@ describe('<TabItem>', () => {
     expect(tree.subTree('IndexLink').props.to).to.equal('Some path');
   });
 
-  it('should use id if present', () => {
+  test('should use id if present', () => {
     const tree = SkinDeep.shallowRender(
       <TabItem
         shortcut={1}

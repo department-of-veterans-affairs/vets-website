@@ -54,21 +54,21 @@ const excludedForms = new Set([
 
 describe('profile helpers:', () => {
   describe('formTitles', () => {
-    it('should have title information for each verified form', () => {
+    test('should have title information for each verified form', () => {
       sipEnabledForms.forEach(form => {
         expect(formTitles[form]).to.exist;
       });
     });
   });
   describe('formLinks', () => {
-    it('should have link information for each verified form', () => {
+    test('should have link information for each verified form', () => {
       sipEnabledForms.forEach(form => {
         expect(formLinks[form]).to.exist;
       });
     });
   });
   describe('sipEnabledForms', () => {
-    it('should include all and only SIP enabled forms', () => {
+    test('should include all and only SIP enabled forms', () => {
       const configs = [
         fullSchema1010ez,
         fullSchema686,
@@ -95,9 +95,12 @@ describe('profile helpers:', () => {
     });
   });
   describe('handleIncompleteInformation', () => {
-    it('should push error into window if a form is missing title or link information', () => {
-      expect(isSIPEnabledForm('missingInfoForm')).to.be.false;
-    });
+    test(
+      'should push error into window if a form is missing title or link information',
+      () => {
+        expect(isSIPEnabledForm('missingInfoForm')).to.be.false;
+      }
+    );
   });
 });
 

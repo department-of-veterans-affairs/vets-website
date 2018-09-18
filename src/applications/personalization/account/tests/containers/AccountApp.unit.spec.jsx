@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { AccountApp } from '../../containers/AccountApp';
 
 describe('<AccountApp>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<AccountApp/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.be.ok;

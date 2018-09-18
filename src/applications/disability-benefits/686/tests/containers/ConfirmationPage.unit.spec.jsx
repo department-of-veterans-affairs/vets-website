@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 import { ConfirmationPage } from '../../containers/ConfirmationPage';
 
 describe('686 <ConfirmationPage>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const form = {
       submission: {
         response: {
@@ -34,7 +34,7 @@ describe('686 <ConfirmationPage>', () => {
     expect(tree.find('p').first().text()).to.contain('We process applications in the order we receive them.');
   });
 
-  it('should render without the response properties', () => {
+  test('should render without the response properties', () => {
 
     const form = {
       submission: {

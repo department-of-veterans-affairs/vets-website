@@ -11,7 +11,7 @@ import { makeField } from '../../../../platform/forms/fields';
 import preferencesReducer from '../../reducers/preferences';
 
 describe('preferencesducer', () => {
-  it('should handle successfully loading preferences', () => {
+  test('should handle successfully loading preferences', () => {
     const state = preferencesReducer(undefined, {
       type: SM_FETCH_PREFERENCES_SUCCESS,
       preferences: {
@@ -23,7 +23,7 @@ describe('preferencesducer', () => {
     expect(state.frequency.value).to.eql('daily');
   });
 
-  it('should handle successfully saving preferences', () => {
+  test('should handle successfully saving preferences', () => {
     const state = preferencesReducer({
       emailAddress: makeField('test@vets.gov'),
       frequency: makeField('daily')
@@ -38,7 +38,7 @@ describe('preferencesducer', () => {
     expect(state.frequency.value).to.eql('daily');
   });
 
-  it('should set notification email', () => {
+  test('should set notification email', () => {
     const state = preferencesReducer(undefined, {
       type: SM_SET_NOTIFICATION_EMAIL,
       email: makeField('test@vets.gov', true)
@@ -47,7 +47,7 @@ describe('preferencesducer', () => {
     expect(state.emailAddress.dirty).to.be.true;
   });
 
-  it('should set notification frequency', () => {
+  test('should set notification frequency', () => {
     const state = preferencesReducer(undefined, {
       type: SM_SET_NOTIFICATION_FREQUENCY,
       frequency: makeField('each_message', true)

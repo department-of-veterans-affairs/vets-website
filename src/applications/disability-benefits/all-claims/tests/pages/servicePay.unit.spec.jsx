@@ -8,7 +8,7 @@ import formConfig from '../../config/form';
 describe('Service Pay', () => {
   const { schema, uiSchema } = formConfig.chapters.veteranDetails.pages.servicePay;
 
-  it('should render two radio options by default', () => {
+  test('should render two radio options by default', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -21,7 +21,7 @@ describe('Service Pay', () => {
     expect(form.find('input[type="radio"]').length).to.equal(2);
   });
 
-  it("should submit when 'no' option is selected", () => {
+  test("should submit when 'no' option is selected", () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -38,24 +38,27 @@ describe('Service Pay', () => {
     expect(onSubmit.calledOnce).to.be.true;
   });
 
-  it("should fail to submit when 'Yes' option selected and no branch provided", () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{ 'view:hasMilitaryRetiredPay': true }}
-        formData={{}}
-        onSubmit={onSubmit}/>
-    );
+  test(
+    "should fail to submit when 'Yes' option selected and no branch provided",
+    () => {
+      const onSubmit = sinon.spy();
+      const form = mount(
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{ 'view:hasMilitaryRetiredPay': true }}
+          formData={{}}
+          onSubmit={onSubmit}/>
+      );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-  });
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    }
+  );
 
-  it('should submit when all info provided', () => {
+  test('should submit when all info provided', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

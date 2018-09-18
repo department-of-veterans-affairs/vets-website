@@ -10,7 +10,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
     pathname: '/testing/0'
   };
 
-  it('should render save links and downtime component', () => {
+  test('should render save links and downtime component', () => {
     const setData = sinon.spy();
     const onSubmit = sinon.spy();
     const router = {
@@ -95,7 +95,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
     expect(tree.find('withRouter(Connect(SubmitController))').exists()).to.be.true;
   });
 
-  it('should auto save after change', () => {
+  test('should auto save after change', () => {
     const formConfig = {
       chapters: {
         chapter1: {
@@ -238,7 +238,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
         location={location}/>
     );
 
-    it('should not be displayed when service is up', () => {
+    test('should not be displayed when service is up', () => {
       const submit = shallow(tree.instance().renderDowntime(
         { status: 'up' },
         <span className="not-down"/>
@@ -248,7 +248,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       expect(submit.find('AlertBox').exists()).to.be.false;
     });
 
-    it('should be displayed when service is down', () => {
+    test('should be displayed when service is down', () => {
       const submit = shallow(tree.instance().renderDowntime(
         { status: 'down' },
         <span className="not-down"/>

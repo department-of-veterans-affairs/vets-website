@@ -9,23 +9,23 @@ describe('<DurationCard/>', () => {
     cardDescription: 'Hey There, this is some text',
   };
 
-  it('should render', () => {
+  test('should render', () => {
     const wrapper = shallow(<DurationCard {...defaultProps}/>);
     expect(wrapper.type()).to.equal('div');
   });
 
-  it('should not render if no duration text passed in', () => {
+  test('should not render if no duration text passed in', () => {
     const wrapper = shallow(<DurationCard/>);
     expect(wrapper.type()).to.equal(null);
   });
 
-  it('should render a passed in durationText string', () => {
+  test('should render a passed in durationText string', () => {
     const wrapper = shallow(<DurationCard {...defaultProps}/>);
     const renderedDuration = wrapper.find('.number').render().text();
     expect(renderedDuration).to.equal(defaultProps.durationText);
   });
 
-  it('should render a passed in cardDescription string', () => {
+  test('should render a passed in cardDescription string', () => {
     const wrapper = shallow(<DurationCard {...defaultProps}/>);
     const renderedDescription = wrapper.find('.description').render().text();
     expect(renderedDescription).to.contain(defaultProps.cardDescription);

@@ -8,7 +8,7 @@ import formConfig from '../../config/form.js';
 
 describe('Burials veteran burial information', () => {
   const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.burialInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -21,7 +21,7 @@ describe('Burials veteran burial information', () => {
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(10);
   });
 
-  it('should show errors when required fields are empty', () => {
+  test('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -37,7 +37,7 @@ describe('Burials veteran burial information', () => {
     expect(onSubmit.called).not.to.be.true;
   });
 
-  it('should show other text field', () => {
+  test('should show other text field', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -54,7 +54,7 @@ describe('Burials veteran burial information', () => {
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(3);
   });
 
-  it('should submit when all required fields are filled in', () => {
+  test('should submit when all required fields are filled in', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -76,7 +76,7 @@ describe('Burials veteran burial information', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should show warning if death date was more than 2 years ago', () => {
+  test('should show warning if death date was more than 2 years ago', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

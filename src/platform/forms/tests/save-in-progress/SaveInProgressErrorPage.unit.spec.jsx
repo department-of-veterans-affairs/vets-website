@@ -39,7 +39,7 @@ describe('<SaveInProgressErrorPage>', () => {
     idme: '/mockLoginUrl'
   };
 
-  it('should render the no auth error', () => {
+  test('should render the no auth error', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <SaveInProgressErrorPage
         updateLogInUrls={f => f}
@@ -55,7 +55,7 @@ describe('<SaveInProgressErrorPage>', () => {
     expect(findDOM.querySelector('.usa-button-secondary').textContent).to.contain('Back');
     expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain('Sign In');
   });
-  it('should render the unrecoverable failure error', () => {
+  test('should render the unrecoverable failure error', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <SaveInProgressErrorPage
         updateLogInUrls={f => f}
@@ -70,7 +70,7 @@ describe('<SaveInProgressErrorPage>', () => {
     expect(findDOM.querySelector('.usa-alert').textContent).to.contain('We’re sorry. Something went wrong when we tried to find your application');
     expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain('Back');
   });
-  it('should render the recoverable failure error', () => {
+  test('should render the recoverable failure error', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <SaveInProgressErrorPage
         updateLogInUrls={f => f}
@@ -86,7 +86,7 @@ describe('<SaveInProgressErrorPage>', () => {
     expect(findDOM.querySelector('.usa-button-secondary').textContent).to.contain('Back');
     expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain('Continue Your Application');
   });
-  it('should go back', () => {
+  test('should go back', () => {
     const fetchFormStatusSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <SaveInProgressErrorPage
@@ -104,7 +104,7 @@ describe('<SaveInProgressErrorPage>', () => {
     expect(router.goBack.called).to.be.true;
     expect(fetchFormStatusSpy.calledWith(LOAD_STATUSES.notAttempted));
   });
-  it('should attempt to fetch the form again', () => {
+  test('should attempt to fetch the form again', () => {
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <SaveInProgressErrorPage
@@ -121,7 +121,7 @@ describe('<SaveInProgressErrorPage>', () => {
     ReactTestUtils.Simulate.click(button);
     expect(fetchSpy.called).to.be.true;
   });
-  it('should call remove form if user was starting over', () => {
+  test('should call remove form if user was starting over', () => {
     const fetchSpy = sinon.spy();
     const removeSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(

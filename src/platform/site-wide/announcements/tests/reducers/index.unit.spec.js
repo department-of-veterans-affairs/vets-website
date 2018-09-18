@@ -12,12 +12,12 @@ describe('announcementsReducer', () => {
     action = { type: 'NOT_RELEVANT' };
   });
 
-  it('defaults isInitialized to false', () => {
+  test('defaults isInitialized to false', () => {
     const newState = reducer(state, action);
     expect(newState.isInitialized).to.be.false;
   });
 
-  it('flips isInitialized to true when the init action is dispatched', () => {
+  test('flips isInitialized to true when the init action is dispatched', () => {
     action = {
       type: announcementActions.INIT_DISMISSED_ANNOUNCEMENTS,
       dismissedAnnouncements: ['dummy']
@@ -27,7 +27,7 @@ describe('announcementsReducer', () => {
     expect(newState.dismissed).to.be.deep.equal(['dummy']);
   });
 
-  it('adds dismissed announcements into state', () => {
+  test('adds dismissed announcements into state', () => {
     action = {
       type: announcementActions.DISMISS_ANNOUNCEMENT,
       announcement: 'dummy'

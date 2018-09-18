@@ -8,7 +8,7 @@ import uiSchema from '../../definitions/fullName';
 import { fullName as schema } from 'vets-json-schema/dist/definitions.json';
 
 describe('Schemaform definition fullName', () => {
-  it('should render fullName', () => {
+  test('should render fullName', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}

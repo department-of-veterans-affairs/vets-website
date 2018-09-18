@@ -26,18 +26,18 @@ const defaultProps = {
 };
 
 describe('<LetterList>', () => {
-  it('renders', () => {
+  test('renders', () => {
     const tree = SkinDeep.shallowRender(<LetterList {...defaultProps}/>);
     expect(tree.type).to.equal('div');
   });
 
-  it('renders collapsible panels for each letter', () => {
+  test('renders collapsible panels for each letter', () => {
     const tree = SkinDeep.shallowRender(<LetterList {...defaultProps}/>);
     const collapsibles = tree.everySubTree('CollapsiblePanel');
     expect(collapsibles.length).to.equal(3);
   });
 
-  it('passes the right title prop for each panel', () => {
+  test('passes the right title prop for each panel', () => {
     const component = SkinDeep.shallowRender(<LetterList {...defaultProps}/>);
     const panels = component.everySubTree('CollapsiblePanel');
     defaultProps.letters.forEach((letter, index) => {
@@ -46,7 +46,7 @@ describe('<LetterList>', () => {
     });
   });
 
-  it('renders DL buttons for all letters in list', () => {
+  test('renders DL buttons for all letters in list', () => {
     const component = SkinDeep.shallowRender(<LetterList {...defaultProps}/>);
 
     const checkButtonInPanel = (panel) => {
@@ -61,7 +61,7 @@ describe('<LetterList>', () => {
 
   });
 
-  it('does not render DL button for BSL if !optionsAvailable', () => {
+  test('does not render DL button for BSL if !optionsAvailable', () => {
     const assertButtonUndefined = (panel) => {
       const renderedPanel = panel.getRenderOutput();
       const downloadButton = renderedPanel.props.children[1]; // 0 content 1 DL link 2 BSL instrct
@@ -78,25 +78,28 @@ describe('<LetterList>', () => {
       .forEach(assertButtonUndefined);
   });
 
-  it('renders DL button for non-benefit-summary letters if !optionsAvailable', () => {
-    const checkButtonInPanel = (panel) => {
-      const renderedPanel = panel.getRenderOutput();
-      const downloadButton = renderedPanel.props.children[1]; // 0 content 1 DL link 2 BSL instrct
-      expect(downloadButton.type.displayName).to.equal('Connect(DownloadLetterLink)');
-    };
+  test(
+    'renders DL button for non-benefit-summary letters if !optionsAvailable',
+    () => {
+      const checkButtonInPanel = (panel) => {
+        const renderedPanel = panel.getRenderOutput();
+        const downloadButton = renderedPanel.props.children[1]; // 0 content 1 DL link 2 BSL instrct
+        expect(downloadButton.type.displayName).to.equal('Connect(DownloadLetterLink)');
+      };
 
-    const isNotBSL = (panel) => (panel.props.panelName !== defaultProps.letters[1].name);
+      const isNotBSL = (panel) => (panel.props.panelName !== defaultProps.letters[1].name);
 
-    const props = { ...defaultProps, optionsAvailable: false };
-    const component = SkinDeep.shallowRender(<LetterList {...props}/>);
+      const props = { ...defaultProps, optionsAvailable: false };
+      const component = SkinDeep.shallowRender(<LetterList {...props}/>);
 
-    component
-      .everySubTree('CollapsiblePanel')
-      .filter(isNotBSL)
-      .forEach(checkButtonInPanel);
-  });
+      component
+        .everySubTree('CollapsiblePanel')
+        .filter(isNotBSL)
+        .forEach(checkButtonInPanel);
+    }
+  );
 
-  it('renders eligibility error when letters not available', () => {
+  test('renders eligibility error when letters not available', () => {
     const props = { ...defaultProps, lettersAvailability: AVAILABILITY_STATUSES.letterEligibilityError };
     const component = SkinDeep.shallowRender(<LetterList {...props}/>);
     const eligibilityMessage = component.subTree('.usa-alert-text').text();

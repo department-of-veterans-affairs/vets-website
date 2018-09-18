@@ -6,7 +6,7 @@ import { VetsDotGov, mapStateToProps } from '../../containers/VetsDotGov';
 
 describe('VetsDotGov', () => {
 
-  it('renders children when brandConsolidationEnabled is false', () => {
+  test('renders children when brandConsolidationEnabled is false', () => {
     const state = {
       buildSettings: {
         brandConsolidationEnabled: false
@@ -25,7 +25,7 @@ describe('VetsDotGov', () => {
     expect(wrapper.html()).to.contain('Vets.Gov Only');
   });
 
-  it('does not render children when brandConsolidationEnabled is true', () => {
+  test('does not render children when brandConsolidationEnabled is true', () => {
     const state = {
       buildSettings: {
         brandConsolidationEnabled: true

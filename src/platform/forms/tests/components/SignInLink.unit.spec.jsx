@@ -45,7 +45,7 @@ describe('<SignInLink>', () => {
   // afterEach(teardown);
 
   const toggleLoginModal = sinon.spy();
-  it('should render', () => {
+  test('should render', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <div>
         <SignInLink
@@ -59,7 +59,7 @@ describe('<SignInLink>', () => {
     expect(link).to.exist;
     expect(link.textContent).to.equal('Sign in');
   });
-  it('should render as a button', () => {
+  test('should render as a button', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <div>
         <SignInLink
@@ -72,7 +72,7 @@ describe('<SignInLink>', () => {
 
     expect(findDOM.querySelectorAll('button').length).to.equal(1);
   });
-  it('should attempt to login', () => {
+  test('should attempt to login', () => {
     setup();
     const tree = ReactTestUtils.renderIntoDocument(
       <div>

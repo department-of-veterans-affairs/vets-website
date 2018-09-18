@@ -39,7 +39,7 @@ describe('auth URL helpers', () => {
   describe('when able to open a window', () => {
     afterEach(resetFetch);
 
-    it('should open a window to an error page', (done) => {
+    test('should open a window to an error page', (done) => {
       mockApiRequest({ error: 'Couldn\'t find url' }, false);
       login('idme').then(popup => {
         expect(windowOpen.calledOnce).to.be.true;
@@ -48,7 +48,7 @@ describe('auth URL helpers', () => {
       }).catch(done);
     });
 
-    it('should open a window for signup', (done) => {
+    test('should open a window for signup', (done) => {
       mockApiRequest({ url: 'signup-url' });
       signup().then(popup => {
         expect(windowOpen.calledOnce).to.be.true;
@@ -57,7 +57,7 @@ describe('auth URL helpers', () => {
       }).catch(done);
     });
 
-    it('should open a window for login', (done) => {
+    test('should open a window for login', (done) => {
       mockApiRequest({ url: 'login-url' });
       login('idme').then(popup => {
         expect(windowOpen.calledOnce).to.be.true;
@@ -66,7 +66,7 @@ describe('auth URL helpers', () => {
       }).catch(done);
     });
 
-    it('should open a window for logout', (done) => {
+    test('should open a window for logout', (done) => {
       mockApiRequest({ url: 'logout-url' });
       logout().then(popup => {
         expect(windowOpen.calledOnce).to.be.true;
@@ -75,7 +75,7 @@ describe('auth URL helpers', () => {
       }).catch(done);
     });
 
-    it('should open a window for mfa', (done) => {
+    test('should open a window for mfa', (done) => {
       mockApiRequest({ url: 'mfa-url' });
       mfa().then(popup => {
         expect(windowOpen.calledOnce).to.be.true;
@@ -84,7 +84,7 @@ describe('auth URL helpers', () => {
       }).catch(done);
     });
 
-    it('should open a window for verify', (done) => {
+    test('should open a window for verify', (done) => {
       mockApiRequest({ url: 'verify-url' });
       verify().then(popup => {
         expect(window.open.calledOnce).to.be.true;
@@ -94,7 +94,7 @@ describe('auth URL helpers', () => {
     });
   });
 
-  it('should handle failure to open window', (done) => {
+  test('should handle failure to open window', (done) => {
     global.window.open = sinon.stub().returns(null);
     const mockRaven = sinon.stub(Raven, 'captureMessage');
     login('idme').catch(error => {

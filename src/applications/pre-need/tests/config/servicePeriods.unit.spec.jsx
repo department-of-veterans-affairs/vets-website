@@ -8,7 +8,7 @@ import formConfig from '../../config/form';
 
 describe('Pre-need service periods', () => {
   function servicePeriodsTests({ schema, uiSchema }, inputCount = 4) {
-    it('should render', () => {
+    test('should render', () => {
       const form = mount(
         <DefinitionTester
           schema={schema}
@@ -20,7 +20,7 @@ describe('Pre-need service periods', () => {
       expect(form.find('select').length).to.equal(5);
     });
 
-    it('should not submit empty form', () => {
+    test('should not submit empty form', () => {
       const onSubmit = sinon.spy();
       const form = mount(
         <DefinitionTester
@@ -36,7 +36,7 @@ describe('Pre-need service periods', () => {
       expect(onSubmit.called).to.be.false;
     });
 
-    it('should add another service period', () => {
+    test('should add another service period', () => {
       const onSubmit = sinon.spy();
       const form = mount(
         <DefinitionTester
@@ -63,7 +63,7 @@ describe('Pre-need service periods', () => {
       expect(form.find('.va-growable-background').first().text()).to.contain('Allied Forces');
     });
 
-    it('should submit with valid data', () => {
+    test('should submit with valid data', () => {
       const onSubmit = sinon.spy();
       const form = mount(
         <DefinitionTester

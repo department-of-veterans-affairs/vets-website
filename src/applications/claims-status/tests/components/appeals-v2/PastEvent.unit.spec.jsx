@@ -11,7 +11,7 @@ describe('<PastEvent', () => {
     date: 'June 01, 2015'
   };
 
-  it('should render an <li/>', () => {
+  test('should render an <li/>', () => {
     const wrapper = shallow(<PastEvent {...defaultProps}/>);
     expect(wrapper.type()).to.equal('li');
   });

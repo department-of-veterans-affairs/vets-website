@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 describe('686 spouse info', () => {
   const { schema, uiSchema, depends } = formConfig.chapters.currentSpouseInfo.pages.spouseInfo;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -30,7 +30,7 @@ describe('686 spouse info', () => {
     expect(form.find('#root_spouseSocialSecurityNumber-label').text()).to.contain('Jane Doe');
   });
 
-  it('should render spouse address and contrib fields', () => {
+  test('should render spouse address and contrib fields', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -58,7 +58,7 @@ describe('686 spouse info', () => {
     expect(form.find('.usa-input-error').length).to.equal(8);
   });
 
-  it('should render file number', () => {
+  test('should render file number', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -83,7 +83,7 @@ describe('686 spouse info', () => {
     expect(form.find('select').length).to.equal(2);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -99,7 +99,7 @@ describe('686 spouse info', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -121,7 +121,7 @@ describe('686 spouse info', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('depends should return true if married', () => {
+  test('depends should return true if married', () => {
     const result = depends({ maritalStatus: 'Married' });
 
     expect(result).to.be.true;

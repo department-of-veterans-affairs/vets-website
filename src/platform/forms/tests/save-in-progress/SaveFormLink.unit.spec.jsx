@@ -34,7 +34,7 @@ describe('Schemaform <SaveFormLink>', () => {
   //  prop requirements; they're only passed to LoginModal which we test elsewhere
   const saveInProgressForm = sinon.spy();
   const toggleLoginModalSpy = sinon.spy();
-  it('should render save message when not logged in', () => {
+  test('should render save message when not logged in', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
         user={user}
@@ -44,7 +44,7 @@ describe('Schemaform <SaveFormLink>', () => {
 
     expect(tree.text()).to.contain('Save and finish this application later');
   });
-  it('should render finish message when logged in', () => {
+  test('should render finish message when logged in', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
         user={loggedInUser}
@@ -53,18 +53,21 @@ describe('Schemaform <SaveFormLink>', () => {
 
     expect(tree.text()).to.contain('Finish this application later');
   });
-  it('should render expired message when not logged in and noAuth status', () => {
-    const tree = SkinDeep.shallowRender(
-      <SaveFormLink
-        user={user}
-        form={_.assign(form, { savedStatus: SAVE_STATUSES.noAuth })}
-        toggleLoginModal={toggleLoginModalSpy}/>
-    );
+  test(
+    'should render expired message when not logged in and noAuth status',
+    () => {
+      const tree = SkinDeep.shallowRender(
+        <SaveFormLink
+          user={user}
+          form={_.assign(form, { savedStatus: SAVE_STATUSES.noAuth })}
+          toggleLoginModal={toggleLoginModalSpy}/>
+      );
 
-    expect(tree.text()).to.contain('Sorry, you’re signed out.');
-    expect(tree.subTree('a')).not.to.be.null;
-  });
-  it('should render save message when logged in', () => {
+      expect(tree.text()).to.contain('Sorry, you’re signed out.');
+      expect(tree.subTree('a')).not.to.be.null;
+    }
+  );
+  test('should render save message when logged in', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
         user={loggedInUser}
@@ -74,7 +77,7 @@ describe('Schemaform <SaveFormLink>', () => {
 
     expect(tree.text()).to.contain('Finish this application later');
   });
-  it('should show error message', () => {
+  test('should show error message', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
         user={user}
@@ -85,7 +88,7 @@ describe('Schemaform <SaveFormLink>', () => {
     expect(tree.text()).to.contain('Something went wrong');
     expect(tree.subTree('button').text()).to.contain('Save and finish this application later');
   });
-  it('should show client error message', () => {
+  test('should show client error message', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
         user={user}
@@ -96,7 +99,7 @@ describe('Schemaform <SaveFormLink>', () => {
     expect(tree.text()).to.contain('connect to Vets.gov');
     expect(tree.subTree('button').text()).to.contain('Save and finish this application later');
   });
-  it('should call saveInProgressForm if logged in', () => {
+  test('should call saveInProgressForm if logged in', () => {
     saveInProgressForm.reset(); // Just because it's good practice for a shared spy
     const tree = ReactTestUtils.renderIntoDocument(
       // Wrapped in a div because I SaveFormLink only returns an anchor and I

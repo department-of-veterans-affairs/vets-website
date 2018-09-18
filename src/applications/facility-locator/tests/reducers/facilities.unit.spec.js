@@ -9,7 +9,7 @@ const INITIAL_STATE = {
 };
 
 describe('facilities reducer', () => {
-  it('should handle fetching a single facility', () => {
+  test('should handle fetching a single facility', () => {
     const state = facilitiesReducer(INITIAL_STATE, {
       type: 'FETCH_VA_FACILITY',
       payload: {
@@ -20,7 +20,7 @@ describe('facilities reducer', () => {
     expect(state.selectedFacility).to.eql({ name: 'selectedFacility' });
   });
 
-  it('should handle fetching a list of facilities', () => {
+  test('should handle fetching a list of facilities', () => {
     const state = facilitiesReducer(INITIAL_STATE, {
       type: 'FETCH_VA_FACILITIES',
       payload: {
@@ -40,7 +40,7 @@ describe('facilities reducer', () => {
     expect(state.pagination.currentPage).to.eql(1);
   });
 
-  it('should handle failure case', () => {
+  test('should handle failure case', () => {
     const state = facilitiesReducer(INITIAL_STATE, {
       type: 'SEARCH_FAILED',
     });

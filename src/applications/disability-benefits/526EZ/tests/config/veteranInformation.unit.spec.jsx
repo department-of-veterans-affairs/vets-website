@@ -10,7 +10,7 @@ describe.skip('526EZ veteran information', () => {
   const page = formConfig.chapters.veteranDetails.pages.veteranInformation;
   const { schema, uiSchema } = page;
 
-  it('should submit without validation errors', () => {
+  test('should submit without validation errors', () => {
     const onSubmit = sinon.spy();
     const form = mount(<DefinitionTester
       definitions={formConfig.defaultDefinitions}

@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import UploadStatus from '../../components/UploadStatus';
 
 describe('<UploadStatus>', () => {
-  it('should render single file needed', () => {
+  test('should render single file needed', () => {
     const tree = SkinDeep.shallowRender(
       <UploadStatus
         files={1}
@@ -16,7 +16,7 @@ describe('<UploadStatus>', () => {
     expect(tree.subTree('h4').text()).to.contain('Uploading 1 file');
     expect(tree.subTree('ProgressBar').props.percent).to.equal(50);
   });
-  it('should call onCancel', () => {
+  test('should call onCancel', () => {
     const onCancel = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <UploadStatus

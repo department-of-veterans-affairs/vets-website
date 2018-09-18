@@ -20,14 +20,14 @@ describe('brand-consolidation/feature-flag', () => {
     window.settings = windowSettings;
   });
 
-  it('renders Vets.gov when the feature-flag is false', () => {
+  test('renders Vets.gov when the feature-flag is false', () => {
     window.settings = { brandConsolidationEnabled: false };
 
     const component = enzyme.shallow(<SharedComponent/>);
     expect(component.text()).to.be.equal('Vets.gov');
   });
 
-  it('renders VA.gov when the feature-flag is true', () => {
+  test('renders VA.gov when the feature-flag is true', () => {
     window.settings = { brandConsolidationEnabled: true };
 
     const component = enzyme.shallow(<SharedComponent/>);

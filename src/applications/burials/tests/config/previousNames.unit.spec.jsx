@@ -9,7 +9,7 @@ import formConfig from '../../config/form.js';
 
 describe('Burial military history previous names', () => {
   const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.previousNames;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -21,7 +21,7 @@ describe('Burial military history previous names', () => {
     expect(formDOM.querySelectorAll('input, select').length).to.equal(2);
   });
 
-  it('should submit an empty completed form', () => {
+  test('should submit an empty completed form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -39,7 +39,7 @@ describe('Burial military history previous names', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should not submit a partially completed form', () => {
+  test('should not submit a partially completed form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -59,7 +59,7 @@ describe('Burial military history previous names', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should reveal name fields', () => {
+  test('should reveal name fields', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -76,7 +76,7 @@ describe('Burial military history previous names', () => {
     expect(formDOM.querySelectorAll('input, select').length).to.equal(6);
   });
 
-  it('should add another name', () => {
+  test('should add another name', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -99,7 +99,7 @@ describe('Burial military history previous names', () => {
       .to.contain('Jane Doe, Jr.');
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

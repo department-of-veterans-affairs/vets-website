@@ -9,7 +9,7 @@ import formConfig from '../../config/form.js';
 
 describe('Burial military history service periods', () => {
   const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.servicePeriods;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -21,7 +21,7 @@ describe('Burial military history service periods', () => {
     expect(formDOM.querySelectorAll('input, select').length).to.equal(11);
   });
 
-  it('should display DD214 notification', () => {
+  test('should display DD214 notification', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -33,7 +33,7 @@ describe('Burial military history service periods', () => {
     expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(1);
   });
 
-  it('should submit an empty completed form', () => {
+  test('should submit an empty completed form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

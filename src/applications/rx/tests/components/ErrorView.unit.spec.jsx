@@ -11,13 +11,13 @@ const props = {
 };
 
 describe('<ErrorView>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<ErrorView {...props}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
-  it('should render children when there are no errors', () => {
+  test('should render children when there are no errors', () => {
     // mock out window location object
     global.window = { location: { reload: () => {} } };
     const errorView = ReactTestUtils.renderIntoDocument(
@@ -31,7 +31,7 @@ describe('<ErrorView>', () => {
     expect(children[0].id).to.equal('children');
   });
 
-  it('should render children when errors are non-blocking', () => {
+  test('should render children when errors are non-blocking', () => {
     // mock out window location object
     global.window = { location: { reload: () => {} } };
     const nonBlockingErrors = [{ code: 'RX000' }];
@@ -46,7 +46,7 @@ describe('<ErrorView>', () => {
     expect(children[0].id).to.equal('children');
   });
 
-  it('should render alert errors as expected', () => {
+  test('should render alert errors as expected', () => {
     const alertErrors = [
       { code: 'RX101' }
     ];
@@ -55,7 +55,7 @@ describe('<ErrorView>', () => {
     expect(errorView.subTree('AlertBox')).to.be.ok;
   });
 
-  it('should render non-alert errors correctly', () => {
+  test('should render non-alert errors correctly', () => {
     const errors = [
       { code: 'RX135' }
     ];

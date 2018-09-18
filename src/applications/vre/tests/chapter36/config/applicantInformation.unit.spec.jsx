@@ -8,7 +8,7 @@ import formConfig from '../../../chapter36/config/form.js';
 
 describe('VRE chapter 36 applicant information', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -20,7 +20,7 @@ describe('VRE chapter 36 applicant information', () => {
     expect(form.find('input').length).to.equal(2);
   });
 
-  it('should render applicant fields', () => {
+  test('should render applicant fields', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -34,7 +34,7 @@ describe('VRE chapter 36 applicant information', () => {
     expect(form.find('input').length).to.equal(10);
     expect(form.find('select').length).to.equal(1);
   });
-  it('should not submit without required info', () => {
+  test('should not submit without required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -51,7 +51,7 @@ describe('VRE chapter 36 applicant information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should not submit without required applicant info', () => {
+  test('should not submit without required applicant info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -69,7 +69,7 @@ describe('VRE chapter 36 applicant information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with required info filled in', () => {
+  test('should submit with required info filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

@@ -8,12 +8,12 @@ const defaultProps = {
 };
 
 describe('<AppealsV2TabNav/>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const wrapper = shallow(<AppealsV2TabNav {...defaultProps}/>);
     expect(wrapper.type()).to.equal('div');
   });
 
-  it('should render 2 tabs: Status and Detail', () => {
+  test('should render 2 tabs: Status and Detail', () => {
     const wrapper = mount(<AppealsV2TabNav {...defaultProps}/>);
     const tabs = wrapper.find('li.appeals-tabs-item');
     const statusTab = wrapper.findWhere(c => c.type() === 'li' && c.text() === 'Status');

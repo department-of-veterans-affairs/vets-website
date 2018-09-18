@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import Breadcrumbs from '../../components/Breadcrumbs';
 
 describe('<Breadcrumbs>', () => {
-  it('should render first two items', () => {
+  test('should render first two items', () => {
     const tree = SkinDeep.shallowRender(
       <Breadcrumbs>
         <li>Testing</li>

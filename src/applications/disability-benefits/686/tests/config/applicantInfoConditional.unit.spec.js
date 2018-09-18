@@ -13,7 +13,7 @@ describe('686 applicant information', () => {
       'view:relationshipToVet': '2'
     };
   };
-  it('should render if relationshipToVet is not veteran', () => {
+  test('should render if relationshipToVet is not veteran', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -25,7 +25,7 @@ describe('686 applicant information', () => {
     expect(form.find('select').length).to.equal(2);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -40,7 +40,7 @@ describe('686 applicant information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit form with all fields filled out properly', () => {
+  test('should submit form with all fields filled out properly', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

@@ -11,7 +11,7 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 describe('Edu personId', () => {
   const uiSchema = personId.uiSchema('veteran', 'view:noSSN');
   const schema = personId.schema({ definitions: commonDefinitions });
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -24,7 +24,7 @@ describe('Edu personId', () => {
     expect(inputs.length).to.equal(2);
   });
 
-  it('should conditionally require SSN or file number', () => {
+  test('should conditionally require SSN or file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         formData={{}}
@@ -53,7 +53,7 @@ describe('Edu personId', () => {
     expect(formDOM.querySelector('.usa-input-error #root_veteranSocialSecurityNumber')).to.be.null;
     expect(formDOM.querySelector('.usa-input-error #root_vaFileNumber')).not.to.be.null;
   });
-  it('should submit with no errors when required field is filled', () => {
+  test('should submit with no errors when required field is filled', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

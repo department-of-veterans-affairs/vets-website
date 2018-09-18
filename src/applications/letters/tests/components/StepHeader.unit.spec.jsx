@@ -11,13 +11,13 @@ const defaultProps = {
 };
 
 describe('<StepHeader>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<StepHeader {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
 
-  it('should format step header', () => {
+  test('should format step header', () => {
     const tree = SkinDeep.shallowRender(<StepHeader {...defaultProps}/>);
     expect(tree.subTree('.form-process-step').text()).to.equal('3');
     expect(tree.subTree('.form-process-total').text()).to.equal('of 6');

@@ -8,7 +8,7 @@ import formConfig from '../../config/form';
 
 describe('Pre-need applicant contact information', () => {
   const { schema, uiSchema } = formConfig.chapters.contactInformation.pages.applicantContactInformation;
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -20,7 +20,7 @@ describe('Pre-need applicant contact information', () => {
     expect(form.find('select').length).to.equal(2);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -36,7 +36,7 @@ describe('Pre-need applicant contact information', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with valid data', () => {
+  test('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

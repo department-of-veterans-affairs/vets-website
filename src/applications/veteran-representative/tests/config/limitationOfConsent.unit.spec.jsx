@@ -8,7 +8,7 @@ import formConfig from '../../config/form.js';
 
 describe('limitation of consent', () => {
   const { schema, uiSchema } = formConfig.chapters.limitationOfConsent.pages.limitationOfConsent;
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -20,7 +20,7 @@ describe('limitation of consent', () => {
     expect(form.find('input[type="checkbox"]').length).to.equal(4);
   });
 
-  it('should continue without any check boxes filled in', () => {
+  test('should continue without any check boxes filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

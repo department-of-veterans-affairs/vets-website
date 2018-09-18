@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import searchReducer from '../../reducers/search';
 
 describe('search reducer', () => {
-  it('should toggle filters', () => {
+  test('should toggle filters', () => {
     const state = searchReducer(
       { filterOpened: false },
       {
@@ -14,7 +14,7 @@ describe('search reducer', () => {
     expect(state.filterOpened).to.eql(true);
   });
 
-  it('should set search inProgress', () => {
+  test('should set search inProgress', () => {
     const state = searchReducer(
       { inProgress: false },
       {
@@ -25,7 +25,7 @@ describe('search reducer', () => {
     expect(state.inProgress).to.eql(true);
   });
 
-  it('should set correct state on failure', () => {
+  test('should set correct state on failure', () => {
     const state = searchReducer(
       { inProgress: true },
       {
@@ -40,7 +40,7 @@ describe('search reducer', () => {
     expect(state.errorMessage).to.eql('error message');
   });
 
-  it('should set correct state on success', () => {
+  test('should set correct state on success', () => {
     const state = searchReducer(
       { inProgress: true },
       {

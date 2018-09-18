@@ -6,7 +6,7 @@ import SkinDeep from 'skin-deep';
 import { ApplicationStatus } from '../../save-in-progress/ApplicationStatus';
 
 describe('schemaform <ApplicationStatus>', () => {
-  it('should render loading', () => {
+  test('should render loading', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
         formId="21P-527EZ"
@@ -18,7 +18,7 @@ describe('schemaform <ApplicationStatus>', () => {
 
     expect(tree.subTree('LoadingIndicator')).to.not.be.false;
   });
-  it('should render apply button', () => {
+  test('should render apply button', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
         formId="21P-527EZ"
@@ -35,7 +35,7 @@ describe('schemaform <ApplicationStatus>', () => {
 
     expect(tree.subTree('.usa-button-primary').text()).to.equal('Apply for benefit');
   });
-  it('should render saved form', () => {
+  test('should render saved form', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
         formId="21P-527EZ"
@@ -57,7 +57,7 @@ describe('schemaform <ApplicationStatus>', () => {
     expect(tree.subTree('.usa-button-primary').text()).to.equal('Continue Your Application');
     expect(tree.subTree('.form-title').text()).to.contain('application in progress');
   });
-  it('should not render expired form', () => {
+  test('should not render expired form', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
         formId="21P-527EZ"
@@ -80,7 +80,7 @@ describe('schemaform <ApplicationStatus>', () => {
     expect(tree.subTree('.usa-alert-info')).to.be.false;
     expect(tree.subTree('.usa-button-primary').text()).to.equal('Apply for benefit');
   });
-  it('should render saved form from ids', () => {
+  test('should render saved form from ids', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
         formIds={new Set(['22-1990'])}
@@ -104,7 +104,7 @@ describe('schemaform <ApplicationStatus>', () => {
     expect(tree.subTree('.usa-button-primary').text()).to.equal('Continue Your Application');
     expect(tree.subTree('.form-title').text()).to.contain('application in progress');
   });
-  it('should render multiple forms message', () => {
+  test('should render multiple forms message', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
         formIds={new Set(['22-1990', '22-1995'])}

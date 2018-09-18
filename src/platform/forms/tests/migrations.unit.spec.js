@@ -60,7 +60,7 @@ const excludedForms = new Set([
 ]);
 
 describe('form migrations:', () => {
-  it('should check all forms', () => {
+  test('should check all forms', () => {
     const allFormIds = Object.keys(schemas).filter(formId => !excludedForms.has(formId));
     const reformattedIds = mappedIds.slice(0);
     reformattedIds.splice(0, 1, '1010ez');
@@ -69,7 +69,7 @@ describe('form migrations:', () => {
     expect(allFormIds).to.deep.equal(mappedIds);
     expect(includedFormIds).to.deep.equal(reformattedIds);
   });
-  it('should have a length equal to the version number', () => {
+  test('should have a length equal to the version number', () => {
     configs.forEach(form => {
       if (form.migrations || form.version > 0) {
         expect(form.migrations.length).to.equal(form.version);

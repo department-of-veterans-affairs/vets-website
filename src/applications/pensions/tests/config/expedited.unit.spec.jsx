@@ -10,7 +10,7 @@ const definitions = formConfig.defaultDefinitions;
 
 describe('Pensions expedited', () => {
   const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.expedited;
-  it('should render', () => {
+  test('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -23,7 +23,7 @@ describe('Pensions expedited', () => {
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(2);
   });
-  it('should render warning on Yes', () => {
+  test('should render warning on Yes', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -36,7 +36,7 @@ describe('Pensions expedited', () => {
     formDOM.fillData('#root_noRapidProcessingYes', 'Y');
     expect(formDOM.querySelector('.usa-alert-info').textContent).to.contain('will be submitted as');
   });
-  it('should render warning on No', () => {
+  test('should render warning on No', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -49,7 +49,7 @@ describe('Pensions expedited', () => {
     formDOM.fillData('#root_noRapidProcessingNo', 'N');
     expect(formDOM.querySelector('.usa-alert-info').textContent).to.contain('doesn’t qualify');
   });
-  it('should submit', () => {
+  test('should submit', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

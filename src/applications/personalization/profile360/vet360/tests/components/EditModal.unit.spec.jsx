@@ -27,7 +27,7 @@ describe('<Vet360EditModal/>', () => {
     };
   });
 
-  it('renders with the correct props', () => {
+  test('renders with the correct props', () => {
     const initialFormValues = { someField: 'someFieldValue' };
 
     sinon.stub(props, 'getInitialFormValues').returns(initialFormValues);

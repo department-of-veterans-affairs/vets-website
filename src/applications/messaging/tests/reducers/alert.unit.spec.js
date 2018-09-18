@@ -31,7 +31,7 @@ const initialState = {
 };
 
 describe('alert reducer', () => {
-  it('should open a general alert', () => {
+  test('should open a general alert', () => {
     const newState = alertReducer(initialState, {
       type: OPEN_ALERT,
       status: 'success',
@@ -42,7 +42,7 @@ describe('alert reducer', () => {
     expect(newState.content).to.eql('test');
   });
 
-  it('should close an alert', () => {
+  test('should close an alert', () => {
     const openState = {
       content: 'test',
       status: 'success',
@@ -54,7 +54,7 @@ describe('alert reducer', () => {
     expect(newState.content).to.eql('');
   });
 
-  it('should replace a previous, unclosed alert with a new alert', () => {
+  test('should replace a previous, unclosed alert with a new alert', () => {
     let newState = alertReducer(initialState, {
       type: OPEN_ALERT,
       status: 'error',
@@ -76,7 +76,7 @@ describe('alert reducer', () => {
     expect(newState.content).to.eql('test2');
   });
 
-  it('should not alert if the flag to disable it is set', () => {
+  test('should not alert if the flag to disable it is set', () => {
     const newState = alertReducer(initialState, {
       type: OPEN_ALERT,
       status: 'error',
@@ -86,7 +86,7 @@ describe('alert reducer', () => {
     expect(newState.visible).to.be.false;
   });
 
-  it('should alert when creating a folder succeeds', () => {
+  test('should alert when creating a folder succeeds', () => {
     const folder = folders.data[0].attributes;
     const newState = alertReducer(initialState, {
       type: CREATE_FOLDER_SUCCESS,
@@ -99,13 +99,13 @@ describe('alert reducer', () => {
     expect(link.text()).to.eql(folder.name);
   });
 
-  it('should alert when creating a folder fails', () => {
+  test('should alert when creating a folder fails', () => {
     const newState = alertReducer(initialState, { type: CREATE_FOLDER_FAILURE });
     expect(newState.visible).to.be.true;
     expect(newState.status).to.eql('error');
   });
 
-  it('should alert when deleting a folder succeeds', () => {
+  test('should alert when deleting a folder succeeds', () => {
     const folder = folders.data[0].attributes;
     const newState = alertReducer(initialState, {
       type: DELETE_FOLDER_SUCCESS,
@@ -118,25 +118,25 @@ describe('alert reducer', () => {
     expect(content.text()).to.be.string(`You have successfully deleted ${folder.name}`);
   });
 
-  it('should alert when deleting a folder fails', () => {
+  test('should alert when deleting a folder fails', () => {
     const newState = alertReducer(initialState, { type: DELETE_FOLDER_FAILURE });
     expect(newState.visible).to.be.true;
     expect(newState.status).to.eql('error');
   });
 
-  it('should alert when deleting a message succeeds', () => {
+  test('should alert when deleting a message succeeds', () => {
     const newState = alertReducer(initialState, { type: DELETE_MESSAGE_SUCCESS });
     expect(newState.visible).to.be.true;
     expect(newState.status).to.eql('success');
   });
 
-  it('should alert when deleting a message fails', () => {
+  test('should alert when deleting a message fails', () => {
     const newState = alertReducer(initialState, { type: DELETE_MESSAGE_FAILURE });
     expect(newState.visible).to.be.true;
     expect(newState.status).to.eql('error');
   });
 
-  it('should alert when moving a message succeeds', () => {
+  test('should alert when moving a message succeeds', () => {
     const folder = folders.data[0].attributes;
     const newState = alertReducer(initialState, {
       type: MOVE_MESSAGE_SUCCESS,
@@ -149,13 +149,13 @@ describe('alert reducer', () => {
     expect(link.text()).to.eql(folder.name);
   });
 
-  it('should alert when moving a message fails', () => {
+  test('should alert when moving a message fails', () => {
     const newState = alertReducer(initialState, { type: MOVE_MESSAGE_FAILURE });
     expect(newState.visible).to.be.true;
     expect(newState.status).to.eql('error');
   });
 
-  it('should alert when saving a draft succeeds', () => {
+  test('should alert when saving a draft succeeds', () => {
     const message = draft.data.attributes;
     const newState = alertReducer(initialState, {
       type: SAVE_DRAFT_SUCCESS,
@@ -168,13 +168,13 @@ describe('alert reducer', () => {
     expect(link.props.to).to.eql(`/drafts/${message.messageId}`);
   });
 
-  it('should alert when saving a draft fails', () => {
+  test('should alert when saving a draft fails', () => {
     const newState = alertReducer(initialState, { type: SAVE_DRAFT_FAILURE });
     expect(newState.visible).to.be.true;
     expect(newState.status).to.eql('error');
   });
 
-  it('should alert when failing to save preferences', () => {
+  test('should alert when failing to save preferences', () => {
     const state = alertReducer(initialState, {
       type: SM_SAVE_PREFERENCES_FAILURE,
       errors: [{ title: 'Email address is invalid' }]
@@ -183,14 +183,14 @@ describe('alert reducer', () => {
     expect(state.status).to.eql('error');
   });
 
-  it('should alert when successfully saving preferences', () => {
+  test('should alert when successfully saving preferences', () => {
     const state = alertReducer(initialState, { type: SM_SAVE_PREFERENCES_SUCCESS });
     expect(state.visible).to.be.true;
     expect(state.status).to.eql('success');
   });
 
 
-  it('should alert when sending a message succeeds', () => {
+  test('should alert when sending a message succeeds', () => {
     const message = draft.data.attributes;
     const newState = alertReducer(initialState, {
       type: SEND_MESSAGE_SUCCESS,
@@ -203,7 +203,7 @@ describe('alert reducer', () => {
     expect(link.props.to).to.eql(`/sent/${message.messageId}`);
   });
 
-  it('should alert when sending a message fails', () => {
+  test('should alert when sending a message fails', () => {
     const newState = alertReducer(initialState, { type: SEND_MESSAGE_FAILURE });
     expect(newState.visible).to.be.true;
     expect(newState.status).to.eql('error');

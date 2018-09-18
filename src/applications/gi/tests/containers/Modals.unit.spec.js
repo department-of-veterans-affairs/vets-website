@@ -9,7 +9,7 @@ import reducer from '../../reducers';
 const defaultProps = createCommonStore(reducer).getState();
 
 describe('<Modals>', () => {
-  it('should render', () => {
+  test('should render', () => {
     const tree = SkinDeep.shallowRender(<Modals {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;

@@ -28,7 +28,7 @@ describe('Pensions', () => {
       };
     }
 
-    it('should render', () => {
+    test('should render', () => {
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
           schema={schema}
@@ -43,7 +43,7 @@ describe('Pensions', () => {
       expect(formDOM.querySelector('.pensions-disclosure-name').textContent).to.contain('Jane Doe');
     });
 
-    it('should reveal expenses fields', () => {
+    test('should reveal expenses fields', () => {
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
           schema={schema}
@@ -59,7 +59,7 @@ describe('Pensions', () => {
     });
 
     if (!namePath.startsWith('spouse')) {
-      it('should render title on review page', () => {
+      test('should render title on review page', () => {
         const form = ReactTestUtils.renderIntoDocument(
           <DefinitionTester
             reviewMode
@@ -75,7 +75,7 @@ describe('Pensions', () => {
       });
     }
 
-    it('should not submit empty form', () => {
+    test('should not submit empty form', () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
@@ -94,7 +94,7 @@ describe('Pensions', () => {
       expect(onSubmit.called).to.be.false;
     });
 
-    it('should add another expense', () => {
+    test('should add another expense', () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester
@@ -120,7 +120,7 @@ describe('Pensions', () => {
         .to.contain('$12');
     });
 
-    it('should submit with valid data', () => {
+    test('should submit with valid data', () => {
       const onSubmit = sinon.spy();
       const form = ReactTestUtils.renderIntoDocument(
         <DefinitionTester

@@ -39,7 +39,7 @@ const initialState = {
 };
 
 describe('search reducer', () => {
-  it('should set end date for advanced search', () => {
+  test('should set end date for advanced search', () => {
     const today = moment().startOf('day');
     let newState = searchReducer(initialState, {
       type: SET_ADVSEARCH_END_DATE,
@@ -59,7 +59,7 @@ describe('search reducer', () => {
       .to.eql(weekAgo.endOf('day').toString());
   });
 
-  it('should set start date for advanced search', () => {
+  test('should set start date for advanced search', () => {
     const today = moment().startOf('day');
     let newState = searchReducer(initialState, {
       type: SET_ADVSEARCH_START_DATE,
@@ -79,24 +79,24 @@ describe('search reducer', () => {
       .to.eql(weekAgo.toString());
   });
 
-  it('should toggle advanced search', () => {
+  test('should toggle advanced search', () => {
     let newState = searchReducer(initialState, { type: TOGGLE_ADVANCED_SEARCH });
     expect(newState.advanced.visible).to.be.true;
     newState = searchReducer(newState, { type: TOGGLE_ADVANCED_SEARCH });
     expect(newState.advanced.visible).to.be.false;
   });
 
-  it('should open advanced search', () => {
+  test('should open advanced search', () => {
     const newState = searchReducer({ advanced: { visible: false } }, { type: OPEN_ADVANCED_SEARCH });
     expect(newState.advanced.visible).to.be.true;
   });
 
-  it('should close advanced search', () => {
+  test('should close advanced search', () => {
     const newState = searchReducer({ advanced: { visible: true } }, { type: CLOSE_ADVANCED_SEARCH });
     expect(newState.advanced.visible).to.be.false;
   });
 
-  it('should set search params', () => {
+  test('should set search params', () => {
     const fromFieldQuery = makeField('Clinician 1', true);
     let newState = searchReducer(initialState, {
       type: SET_SEARCH_PARAM,
@@ -128,7 +128,7 @@ describe('search reducer', () => {
     expect(newState.params.subject.exact).to.eql(true);
   });
 
-  it('should set search params when folder loads with filters', () => {
+  test('should set search params when folder loads with filters', () => {
     const senderName = 'Veteran';
     const recipientName = 'Clinician';
     const subject = 'Testing 123';
@@ -159,7 +159,7 @@ describe('search reducer', () => {
     expect(newState.params.subject.exact).to.be.false;
   });
 
-  it('should clear search params when folder loads without filters', () => {
+  test('should clear search params when folder loads without filters', () => {
     const newState = searchReducer({
       params: {
         dateRange: {

@@ -8,7 +8,7 @@ import formConfig from '../../config/form';
 describe('Add new disabilities', () => {
   const { schema, uiSchema } = formConfig.chapters.disabilities.pages.addDisabilities;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -21,7 +21,7 @@ describe('Add new disabilities', () => {
     expect(form.find('input').length).to.equal(2);
   });
 
-  it('should render autosuggest', () => {
+  test('should render autosuggest', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -36,7 +36,7 @@ describe('Add new disabilities', () => {
     expect(form.find('input').length).to.equal(3);
   });
 
-  it('should add another disability', () => {
+  test('should add another disability', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -58,7 +58,7 @@ describe('Add new disabilities', () => {
     expect(form.find('.va-growable-background').first().text()).to.contain('Abnormal Heart');
   });
 
-  it('should submit when data filled in', () => {
+  test('should submit when data filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

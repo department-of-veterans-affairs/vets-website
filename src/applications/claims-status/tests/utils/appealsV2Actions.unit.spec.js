@@ -41,7 +41,7 @@ describe('getAppealsV2', () => {
   beforeEach(setup);
   afterEach(teardown);
 
-  it('dispatches FETCH_APPEALS_PENDING', (done) => {
+  test('dispatches FETCH_APPEALS_PENDING', (done) => {
     const thunk = getAppealsV2();
     const dispatch = sinon.spy();
     thunk(dispatch)
@@ -51,7 +51,7 @@ describe('getAppealsV2', () => {
       }).then(done, done);
   });
 
-  it('dispatches FETCH_APPEALS_SUCCESS', (done) => {
+  test('dispatches FETCH_APPEALS_SUCCESS', (done) => {
     const thunk = getAppealsV2();
     const dispatch = sinon.spy();
     thunk(dispatch)
@@ -70,17 +70,20 @@ describe('getAppealsV2', () => {
   };
 
   Object.keys(appealsErrors).forEach((code) => {
-    it(`Dispatches ${appealsErrors[code]} when GET fails with ${code}`, (done) => {
-      global.fetch.returns(Promise.reject({
-        errors: [{ status: `${code}` }],
-      }));
-      const thunk = getAppealsV2();
-      const dispatch = sinon.spy();
-      thunk(dispatch)
-        .then(() => {
-          const action = dispatch.secondCall.args[0];
-          expect(action.type).to.equal(appealsErrors[code]);
-        }).then(done, done);
-    });
+    test(
+      `Dispatches ${appealsErrors[code]} when GET fails with ${code}`,
+      (done) => {
+        global.fetch.returns(Promise.reject({
+          errors: [{ status: `${code}` }],
+        }));
+        const thunk = getAppealsV2();
+        const dispatch = sinon.spy();
+        thunk(dispatch)
+          .then(() => {
+            const action = dispatch.secondCall.args[0];
+            expect(action.type).to.equal(appealsErrors[code]);
+          }).then(done, done);
+      }
+    );
   });
 });

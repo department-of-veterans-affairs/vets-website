@@ -12,7 +12,7 @@ describe('<CropperController>', () => {
     jest.spyOn(window, 'requestAnimationFrame').mockImplementation(cb => cb());
   });
   afterEach(() => window.requestAnimationFrame.mockRestore());
-  it('should render', () => {
+  test('should render', () => {
     const tree = shallow(
       <CropperController src="test"/>
     );
@@ -20,7 +20,7 @@ describe('<CropperController>', () => {
     expect(tree.find('MoveRotateButton').length).to.equal(6);
     expect(tree.find('.cropper-control').length).to.equal(4);
   });
-  it('should rotate', () => {
+  test('should rotate', () => {
     const tree = shallow(
       <CropperController src="test"/>
     );
@@ -66,7 +66,7 @@ describe('<CropperController>', () => {
     tree.find('MoveRotateButton').at(5).props().onClick();
     expect(cropper.rotate.calledWith(90)).to.be.true;
   });
-  it('should zoom on button click', () => {
+  test('should zoom on button click', () => {
     const tree = shallow(
       <CropperController src="test"/>
     );
@@ -113,7 +113,7 @@ describe('<CropperController>', () => {
     tree.find('.cropper-control').at(1).props().onClick();
     expect(cropper.zoom.calledWith(0.1)).to.be.true;
   });
-  it('should not zoom outside of boundaries', () => {
+  test('should not zoom outside of boundaries', () => {
     const tree = shallow(
       <CropperController src="test"/>
     );
@@ -140,7 +140,7 @@ describe('<CropperController>', () => {
     expect(cropper.zoomTo.calledWith(3)).to.be.true;
     expect(event.preventDefault.called).to.be.true;
   });
-  it('should update instance after zooming', () => {
+  test('should update instance after zooming', () => {
     const tree = shallow(
       <CropperController src="test"/>
     );
@@ -235,7 +235,7 @@ describe('<CropperController>', () => {
         zoomMin: 0.5
       });
     });
-    it('up without warning', () => {
+    test('up without warning', () => {
       tree.find('MoveRotateButton').at(0).props().onClick();
 
       const state = tree.state();
@@ -243,7 +243,7 @@ describe('<CropperController>', () => {
       expect(state.warningMessage).to.eql('');
       expect(cropper.setCanvasData.firstCall.args[0].top).to.eql(5);
     });
-    it('down without warning', () => {
+    test('down without warning', () => {
       tree.find('MoveRotateButton').at(1).props().onClick();
 
       const state = tree.state();
@@ -251,7 +251,7 @@ describe('<CropperController>', () => {
       expect(state.warningMessage).to.eql('');
       expect(cropper.setCanvasData.firstCall.args[0].top).to.eql(15);
     });
-    it('left without warning', () => {
+    test('left without warning', () => {
       tree.find('MoveRotateButton').at(2).props().onClick();
 
       const state = tree.state();
@@ -259,7 +259,7 @@ describe('<CropperController>', () => {
       expect(state.warningMessage).to.eql('');
       expect(cropper.setCanvasData.firstCall.args[0].left).to.eql(5);
     });
-    it('right without warning', () => {
+    test('right without warning', () => {
       tree.find('MoveRotateButton').at(3).props().onClick();
 
       const state = tree.state();
@@ -267,7 +267,7 @@ describe('<CropperController>', () => {
       expect(state.warningMessage).to.eql('');
       expect(cropper.setCanvasData.firstCall.args[0].left).to.eql(15);
     });
-    it('up with warning', () => {
+    test('up with warning', () => {
       cropper.getCanvasData = () => {
         return {
           top: -51,
@@ -291,7 +291,7 @@ describe('<CropperController>', () => {
 
       expect(state.warningMessage).to.contain('farther up');
     });
-    it('down with warning', () => {
+    test('down with warning', () => {
       cropper.getCanvasData = () => {
         return {
           top: 0,
@@ -315,7 +315,7 @@ describe('<CropperController>', () => {
 
       expect(state.warningMessage).to.contain('farther down');
     });
-    it('left with warning', () => {
+    test('left with warning', () => {
       cropper.getCanvasData = () => {
         return {
           top: -5,
@@ -339,7 +339,7 @@ describe('<CropperController>', () => {
 
       expect(state.warningMessage).to.contain('farther left');
     });
-    it('right with warning', () => {
+    test('right with warning', () => {
       cropper.getCanvasData = () => {
         return {
           top: -5,
@@ -363,7 +363,7 @@ describe('<CropperController>', () => {
 
       expect(state.warningMessage).to.contain('farther right');
     });
-    it('right with in frame warning', () => {
+    test('right with in frame warning', () => {
       cropper.getCanvasData = () => {
         return {
           top: 0,
@@ -388,7 +388,7 @@ describe('<CropperController>', () => {
       expect(state.warningMessage).to.contain('within the square frame');
     });
   });
-  it('should set crop box on ready', () => {
+  test('should set crop box on ready', () => {
     const tree = shallow(
       <CropperController src="test"/>
     );
@@ -431,7 +431,7 @@ describe('<CropperController>', () => {
       height: 240
     });
   });
-  it('should stop resize listener when unmounting', () => {
+  test('should stop resize listener when unmounting', () => {
     const tree = shallow(
       <CropperController src="test"/>
     );
@@ -442,7 +442,7 @@ describe('<CropperController>', () => {
     expect(window.removeEventListener.firstCall.args[0]).to.equal('resize');
     expect(instance.deboundedDetectWidth).to.be.null;
   });
-  it('crop start should prevent default on disallowed actions', () => {
+  test('crop start should prevent default on disallowed actions', () => {
     const tree = shallow(
       <CropperController src="test"/>
     );
@@ -458,7 +458,7 @@ describe('<CropperController>', () => {
 
     expect(event.preventDefault.called).to.be.true;
   });
-  it('crop start should not prevent default on allowed actions', () => {
+  test('crop start should not prevent default on allowed actions', () => {
     const tree = shallow(
       <CropperController src="test"/>
     );
@@ -474,7 +474,7 @@ describe('<CropperController>', () => {
 
     expect(event.preventDefault.called).to.be.false;
   });
-  it('should call onPhotoCropped when done', () => {
+  test('should call onPhotoCropped when done', () => {
     const onPhotoCropped = sinon.spy();
     const tree = shallow(
       <CropperController src="test" onPhotoCropped={onPhotoCropped}/>
@@ -499,7 +499,7 @@ describe('<CropperController>', () => {
 
     expect(onPhotoCropped.calledWith(blob)).to.be.true;
   });
-  it('should zoom on slider change', () => {
+  test('should zoom on slider change', () => {
     const tree = shallow(
       <CropperController src="test"/>
     );

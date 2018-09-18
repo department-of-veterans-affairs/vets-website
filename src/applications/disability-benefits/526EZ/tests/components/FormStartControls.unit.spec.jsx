@@ -6,7 +6,7 @@ import { shallow } from 'enzyme';
 import FormStartControls from '../../components/FormStartControls';
 
 describe('526 <FormStartControls>', () => {
-  it('should render unauthenticated view', () => {
+  test('should render unauthenticated view', () => {
     const authenticate = sinon.spy();
     const tree = shallow(
       <FormStartControls
@@ -29,7 +29,7 @@ describe('526 <FormStartControls>', () => {
     expect(tree.find('.usa-alert').text()).to.contain('sign in and verify your account');
     expect(authenticate.called).to.be.true;
   });
-  it('should render authenticated view', () => {
+  test('should render authenticated view', () => {
     const tree = shallow(
       <FormStartControls
         route={{
@@ -50,7 +50,7 @@ describe('526 <FormStartControls>', () => {
     expect(tree.find('.usa-alert').text()).to.contain('To apply for a disability increase, you’ll need to verify your account');
     expect(tree.find('a').text()).to.contain('Verify Your Identity');
   });
-  it('should render verified view', () => {
+  test('should render verified view', () => {
     const tree = shallow(
       <FormStartControls
         route={{

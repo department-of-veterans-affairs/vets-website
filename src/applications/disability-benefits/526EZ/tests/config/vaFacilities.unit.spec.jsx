@@ -20,7 +20,7 @@ describe('Disability benefits 526EZ VA facility', () => {
   });
 
   const { schema, uiSchema, arrayPath } = formConfig.chapters.supportingEvidence.pages.vaFacilities;
-  it('renders VA facility form', () => {
+  test('renders VA facility form', () => {
     const form = mount(<DefinitionTester
       arrayPath={arrayPath}
       pagePerItemIndex={0}
@@ -35,7 +35,7 @@ describe('Disability benefits 526EZ VA facility', () => {
     expect(form.find('input').length).to.equal(4); // facility name, from/to years, city
   });
 
-  it('should add a VA facility', () => {
+  test('should add a VA facility', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -69,7 +69,7 @@ describe('Disability benefits 526EZ VA facility', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should validate the treatmentCenterName', () => {
+  test('should validate the treatmentCenterName', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -94,7 +94,7 @@ describe('Disability benefits 526EZ VA facility', () => {
     expect(form.find('.usa-input-error-message').first().text()).to.contain('100 characters');
   });
 
-  it('validates that state is military type if city is military type', () => {
+  test('validates that state is military type if city is military type', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -131,7 +131,7 @@ describe('Disability benefits 526EZ VA facility', () => {
     expect(form.find('.usa-input-error-message').length).to.equal(1);
   });
 
-  it('validates that city is military type if state is military type', () => {
+  test('validates that city is military type if state is military type', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -168,7 +168,7 @@ describe('Disability benefits 526EZ VA facility', () => {
     expect(form.find('.usa-input-error-message').length).to.equal(1);
   });
 
-  it('expands state when country is USA', () => {
+  test('expands state when country is USA', () => {
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
@@ -202,24 +202,27 @@ describe('Disability benefits 526EZ VA facility', () => {
     expect(form.find('select#root_treatments_0_treatmentCenterAddress_state').length).to.equal(1);
   });
 
-  it('does not submit (and renders error messages) when no fields touched', () => {
-    const submit = sinon.spy();
+  test(
+    'does not submit (and renders error messages) when no fields touched',
+    () => {
+      const submit = sinon.spy();
 
-    const form = mount(<DefinitionTester
-      arrayPath={arrayPath}
-      pagePerItemIndex={0}
-      definitions={formConfig.defaultDefinitions}
-      schema={schema}
-      data={initialData}
-      formData={initialData}
-      uiSchema={uiSchema}/>
-    );
+      const form = mount(<DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={initialData}
+        formData={initialData}
+        uiSchema={uiSchema}/>
+      );
 
-    form.find('form').simulate('submit');
-    expect(submit.called).to.be.false;
-    expect(form.find('.usa-input-error-message').length).to.equal(2); // name, 'from' date
+      form.find('form').simulate('submit');
+      expect(submit.called).to.be.false;
+      expect(form.find('.usa-input-error-message').length).to.equal(2); // name, 'from' date
 
-    expect(form.find('select').length).to.equal(6); // from/to months, days; country, state
-    expect(form.find('input').length).to.equal(4); // facility name, from/to years, city
-  });
+      expect(form.find('select').length).to.equal(6); // from/to months, days; country, state
+      expect(form.find('input').length).to.equal(4); // facility name, from/to years, city
+    }
+  );
 });

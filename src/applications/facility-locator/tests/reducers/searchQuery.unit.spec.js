@@ -24,7 +24,7 @@ const INITIAL_STATE = {
 };
 
 describe('search query reducer', () => {
-  it('should handle search started', () => {
+  test('should handle search started', () => {
     const state = searchQueryReducer(INITIAL_STATE, {
       type: 'SEARCH_STARTED',
     });
@@ -33,7 +33,7 @@ describe('search query reducer', () => {
     expect(state.inProgress).to.eql(true);
   });
 
-  it('should handle fetching list of facilities', () => {
+  test('should handle fetching list of facilities', () => {
     const state = searchQueryReducer({
       inProgress: true,
       error: true,
@@ -47,7 +47,7 @@ describe('search query reducer', () => {
     expect(state.searchBoundsInProgress).to.eql(false);
   });
 
-  it('should handle fetching single facility', () => {
+  test('should handle fetching single facility', () => {
     const state = searchQueryReducer({
       error: true,
       inProgress: true,
@@ -59,7 +59,7 @@ describe('search query reducer', () => {
     expect(state.inProgress).to.eql(false);
   });
 
-  it('should handle search failed', () => {
+  test('should handle search failed', () => {
     const state = searchQueryReducer({
       error: false,
       inProgress: true,
@@ -71,7 +71,7 @@ describe('search query reducer', () => {
     expect(state.inProgress).to.eql(false);
   });
 
-  it('should handle search query updated', () => {
+  test('should handle search query updated', () => {
     const state = searchQueryReducer({
       error: true,
     }, {

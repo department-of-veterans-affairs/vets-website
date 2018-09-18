@@ -8,7 +8,7 @@ import formConfig from '../../../chapter36/config/form.js';
 
 describe('VRE chapter 36 applicant military history', () => {
   const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.militaryHistory;
-  it('renders military question', () => {
+  test('renders military question', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -21,7 +21,7 @@ describe('VRE chapter 36 applicant military history', () => {
     expect(form.find('input').length).to.equal(2);
   });
 
-  it('renders military history fields if has service', () => {
+  test('renders military history fields if has service', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -37,7 +37,7 @@ describe('VRE chapter 36 applicant military history', () => {
     expect(form.find('select').length).to.equal(5);
   });
 
-  it('does not submit without required info', () => {
+  test('does not submit without required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -55,7 +55,7 @@ describe('VRE chapter 36 applicant military history', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('submits with required info', () => {
+  test('submits with required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

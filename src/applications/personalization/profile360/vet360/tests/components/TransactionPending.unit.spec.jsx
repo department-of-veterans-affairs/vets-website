@@ -15,7 +15,7 @@ describe('<Vet360TransactionPending/>', () => {
     };
   });
 
-  it('renders', (done) => {
+  test('renders', (done) => {
     const component = enzyme.shallow(
       <Vet360TransactionPending {...props}/>
     );

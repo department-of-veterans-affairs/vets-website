@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 describe('Pre-need sponsor military name', () => {
   const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.sponsorMilitaryName;
 
-  it('should render', () => {
+  test('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -20,7 +20,7 @@ describe('Pre-need sponsor military name', () => {
     expect(form.find('input').length).to.equal(2);
   });
 
-  it('should not submit empty form', () => {
+  test('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -36,7 +36,7 @@ describe('Pre-need sponsor military name', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with required fields filled in', () => {
+  test('should submit with required fields filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -53,7 +53,7 @@ describe('Pre-need sponsor military name', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should reveal name fields', () => {
+  test('should reveal name fields', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -69,7 +69,7 @@ describe('Pre-need sponsor military name', () => {
     expect(form.find('select').length).to.equal(1);
   });
 
-  it('should submit with all info filled in', () => {
+  test('should submit with all info filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

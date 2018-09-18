@@ -54,7 +54,7 @@ const props = {
 };
 
 describe('<FolderNav>', () => {
-  it('should render correctly', () => {
+  test('should render correctly', () => {
     const tree = SkinDeep.shallowRender(
       <FolderNav {...props}/>
     );
@@ -62,14 +62,14 @@ describe('<FolderNav>', () => {
     expect(tree.getRenderOutput()).to.exist;
   });
 
-  it('should have the expected classname', () => {
+  test('should have the expected classname', () => {
     const tree = SkinDeep.shallowRender(
       <FolderNav {...props}/>
     );
     expect(tree.props.className).to.equal('messaging-folder-nav usa-sidenav-list');
   });
 
-  it('should render correct actions', () => {
+  test('should render correct actions', () => {
     const tree = SkinDeep.shallowRender(
       <FolderNav {...props}/>
     );
@@ -77,21 +77,21 @@ describe('<FolderNav>', () => {
     expect(tree.subTree('ButtonCreateFolder')).to.be.ok;
   });
 
-  it('should have the correct number of folders when collapsed', () => {
+  test('should have the correct number of folders when collapsed', () => {
     const tree = SkinDeep.shallowRender(
       <FolderNav {...props}/>
     );
     expect(tree.everySubTree('.messaging-folder-nav-link').length).to.equal(4);
   });
 
-  it('should have the correct number of folders when expanded', () => {
+  test('should have the correct number of folders when expanded', () => {
     const tree = SkinDeep.shallowRender(
       <FolderNav {...props} isExpanded/>
     );
     expect(tree.everySubTree('.messaging-folder-nav-link').length).to.equal(6);
   });
 
-  it('should render the custom folders section when expected', () => {
+  test('should render the custom folders section when expected', () => {
     const tree = SkinDeep.shallowRender(
       <FolderNav {...props}/>
     );
@@ -99,7 +99,7 @@ describe('<FolderNav>', () => {
     expect(tree.subTree('.messaging-folder-subnav')).to.be.false;
   });
 
-  it('should render the list of custom folders when expanded', () => {
+  test('should render the list of custom folders when expanded', () => {
     const tree = SkinDeep.shallowRender(
       <FolderNav {...props} isExpanded/>
     );

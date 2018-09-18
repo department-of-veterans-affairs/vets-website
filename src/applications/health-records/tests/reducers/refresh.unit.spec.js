@@ -8,12 +8,12 @@ const createExtractStatus = (status, lastUpdated = moment()) => ({
 });
 
 describe('refresh reducer', () => {
-  it('should be loading when starting initial refresh', () => {
+  test('should be loading when starting initial refresh', () => {
     const state = refreshReducer(undefined, { type: 'INITIAL_LOADING' });
     expect(state.loading).to.be.true;
   });
 
-  it('should reset when starting initial refresh', () => {
+  test('should reset when starting initial refresh', () => {
     const state = refreshReducer({
       statuses: {
         failed: [createExtractStatus('ERROR')],
@@ -30,12 +30,12 @@ describe('refresh reducer', () => {
     expect(state.errors).to.have.lengthOf(0);
   });
 
-  it('should handle successful refresh', () => {
+  test('should handle successful refresh', () => {
     const state = refreshReducer(undefined, { type: 'INITIAL_REFRESH_SUCCESS' });
     expect(state.loading).to.be.false;
   });
 
-  it('should handle failed refresh', () => {
+  test('should handle failed refresh', () => {
     const state = refreshReducer(undefined, {
       type: 'INITIAL_REFRESH_FAILURE',
       errors: [{ code: '500' }]
@@ -45,7 +45,7 @@ describe('refresh reducer', () => {
     expect(state.errors[0].code).to.equal('500');
   });
 
-  it('should update statuses when refresh polling', () => {
+  test('should update statuses when refresh polling', () => {
     const now = moment();
 
     let state = refreshReducer(undefined, {

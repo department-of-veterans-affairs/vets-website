@@ -44,7 +44,7 @@ const props = {
 describe('Thread', () => {
   const tree = SkinDeep.shallowRender(<Thread {...props}/>);
 
-  it('should render', () => {
+  test('should render', () => {
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });

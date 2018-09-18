@@ -9,7 +9,7 @@ import initialData from '../schema/initialData.js';
 
 describe('Disability benefits 526EZ evidence type', () => {
   const { schema, uiSchema, arrayPath } = formConfig.chapters.supportingEvidence.pages.evidenceType;
-  it('renders evidence type form', () => {
+  test('renders evidence type form', () => {
     const onSubmit = sinon.spy();
     const form = mount(<DefinitionTester
       arrayPath={arrayPath}
@@ -25,7 +25,7 @@ describe('Disability benefits 526EZ evidence type', () => {
     expect(form.find('input').length).to.equal(5);
   });
 
-  it('should fill in evidence type information', () => {
+  test('should fill in evidence type information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -48,7 +48,7 @@ describe('Disability benefits 526EZ evidence type', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should not allow submission if no evidence types selected', () => {
+  test('should not allow submission if no evidence types selected', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

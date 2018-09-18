@@ -9,23 +9,23 @@ const defaultProps = {
 };
 
 describe('<AlertsList/>', () => {
-  it('renders', () => {
+  test('renders', () => {
     const wrapper = shallow(<AlertsList {...defaultProps}/>);
     expect(wrapper.type()).to.equal('div');
   });
 
-  it('should render all alerts', () => {
+  test('should render all alerts', () => {
     const wrapper = shallow(<AlertsList {...defaultProps}/>);
     const alertsList = wrapper.find('Alert');
     expect(alertsList.length).to.equal(defaultProps.alerts.length);
   });
 
-  it('should return null if alerts prop missing', () => {
+  test('should return null if alerts prop missing', () => {
     const wrapper = shallow(<AlertsList/>);
     expect(wrapper.type()).to.equal(null);
   });
 
-  it('should return null if alerts array empty', () => {
+  test('should return null if alerts array empty', () => {
     const props = { alerts: [] };
     const wrapper = shallow(<AlertsList {...props}/>);
     expect(wrapper.type()).to.equal(null);
