@@ -377,8 +377,9 @@
 
   .vet-toolbar {
     .va-dropdown {
-      margin-left: -2rem;
-      width: 128px;
+      span {
+        white-space: nowrap;
+      }
     }
   }
 
