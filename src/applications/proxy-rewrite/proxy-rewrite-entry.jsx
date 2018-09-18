@@ -74,6 +74,10 @@ document.addEventListener('DOMContentLoaded', (_e) => {
     require('../../platform/site-wide/legacy/mega-menu.js');
   }
 
+  // set up sizes for rem
+  document.documentElement.style.fontSize = '10px';
+  document.getElementsByTagName('body')[0].style.fontSize = '12px';
+
   startUserNavWidget(commonStore, 'va-gov-login-root');
   startMegaMenuWidget(commonStore);
   startMobileMenuButton(commonStore);
