@@ -23,11 +23,6 @@ function getWebpackEntryPoints(manifests) {
   }, {});
 }
 
-function getRoutes(manifests) {
-  return manifests.filter(m => !m.noRouting)
-    .map(m => m.rootUrl);
-}
-
 function displayApplications() {
   const root = path.join(__dirname, '../..');
   getAppManifests(root)
