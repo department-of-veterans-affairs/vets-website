@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Replacing Damaged Clothing
+title: VA Clothing Allowance for Veterans with Certain Disabilities
 display_title: Clothing Allowance
 description: Find out if you qualify for a VA clothing allowance if your clothing has been damaged because of a skin medicine or medical device you need for a service-connected condition. 
 concurrence: incomplete
