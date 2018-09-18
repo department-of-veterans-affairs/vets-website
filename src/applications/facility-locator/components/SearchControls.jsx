@@ -105,7 +105,7 @@ class SearchControls extends Component {
     return (
       <div className="search-controls-container clearfix">
         <form className="row" onSubmit={this.handleSubmit}>
-          <div className="columns medium-4">
+          <div className="columns medium-3-5">
             <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
               Search near
             </label>
@@ -117,15 +117,15 @@ class SearchControls extends Component {
               value={currentQuery.searchString}
               title="Your location: Street, City, State or Zip"/>
           </div>
-          <div className="columns medium-4">
+          <div className="columns medium-3-5">
             <FacilityTypeDropdown
               facilityType={this.props.currentQuery.facilityType}
               onChange={this.handleFacilityTypeChange}/>
           </div>
-          <div className="columns medium-3">
+          <div className="columns medium-3-4">
             {this.renderServiceTypeDropdown()}
           </div>
-          <div className="columns medium-1">
+          <div className="columns medium-1-2">
             <input type="submit" value="Search"/>
           </div>
         </form>

@@ -290,10 +290,14 @@
   }
 
   .search-controls-container {
-    padding: 1.5rem 1rem;
+    padding: 1.4rem 0.9rem;
     border: solid thin $color-gray-lightest;
     margin-bottom: 2rem;
     background: $color-gray-lightest;
+
+    .medium-1-2 { width: 10%!important; padding-top: 1px; }
+    .medium-3-4 { width: 28%!important; }
+    .medium-3-5 { width: 31%!important; }
 
     select:disabled {
       background: $color-gray-lightest;
