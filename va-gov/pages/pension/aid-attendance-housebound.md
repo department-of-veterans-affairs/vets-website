@@ -42,7 +42,7 @@ There are 2 ways you can get this benefit:
 #### Write to your Pension Management Center (PMC)
 
 You can write to the PMC for your state. <br>
-[Find your PMC](/pension/pension-management-center/). 
+[Find your PMC](/pension/pension-management-centers/). 
 
 Include this information: 
 - Evidence, like a doctor’s report, that shows you need Aid and Attendance or Housebound care, or VA Form 21-2680  (Examination for Housebound Status or Permanent Need for Regular Aid and Attendance), which your doctor can fill out. <br>

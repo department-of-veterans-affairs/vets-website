@@ -7,16 +7,16 @@ order: 3
 relatedlinks:
   - heading: Loan Options
     links:
-    - url: /housing-assistance/home-loans/loan-options/purchase-loan/
+    - url: /housing-assistance/home-loans/loan-types/purchase-loan/
       title: Purchase Loan
       description: Find out how to get a VA-backed purchase loan to buy a home.
-    - url: /housing-assistance/home-loans/loan-options/nadl/
+    - url: /housing-assistance/home-loans/loan-types/native-american-direct-loan/
       title: Native American Direct Loan (NADL)
       description: Find out if you can get a NADL loan to buy, build, or improve a home on Federal Trust Land.
-    - url: /housing-assistance/home-loans/loan-options/irrrl/
+    - url: /housing-assistance/home-loans/loan-types/interest-rate-reduction-loan/
       title: Interest Rate Reduction Refinance Loan (IRRRL)
       description: Find out how to get an IRRRL loan to refinance an existing loan.
-    - url: /housing-assistance/home-loans/loan-options/cash-out-refinance/
+    - url: /housing-assistance/home-loans/loan-types/cash-out-loan/
       title: Cash-Out Refinance Loan
       description: Learn how to get cash from your home equity to pay off debts, pay for school, or take care of other needs.
 ---

@@ -7,7 +7,7 @@ import DefaultView from '../components/DefaultView';
 import FeedbackForm from '../components/FeedbackForm';
 import FeedbackSubmitted from '../components/FeedbackSubmitted';
 
-const veteranIdCard = '/veteran-id-card/';
+const veteranIdCard = '/records/get-veteran-id-cards/';
 
 function Main(props) {
   if (document.location.pathname === veteranIdCard) return null;
