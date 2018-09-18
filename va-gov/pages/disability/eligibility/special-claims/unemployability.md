@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Being Unable to Work (Individual Unemployability)
+title: VA Individual Unemployability (Veterans Who Can't Work Due to a Disability)
 display_title: Unemployability
 description: Find out if you can get VA disability compensation because of a service-connected disability that's left you unable to work (called "individual unemployability"). 
 concurrence: complete
