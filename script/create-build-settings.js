@@ -22,23 +22,32 @@ function getBuildSettings(options) {
  */
 function createBuildSettings(options) {
   return (files, metalsmith, done) => {
-    const appRootUrls = {};
+    const applications = {};
 
     for (const fileName of Object.keys(files)) {
       const file = files[fileName];
       const {
-        entryname: entryName,
-        path = fileName
+        entryname: entryName
       } = file;
 
-      if (entryName) continue;
+      if (!entryName) continue;
 
-      appRootUrls[entryName] = appRootUrls[entryName] || [];
-      appRootUrls[entryName].push(path);
+      const validTypes = ['string', 'boolean', 'number'];
+      const frontmatter = {};
+
+      for (const dataKey of Object.keys(file)) {
+        const data = file[dataKey];
+        if (validTypes.includes(typeof data)) {
+          frontmatter[dataKey] = data;
+        }
+      }
+
+      applications[entryName] = applications[entryName] || [];
+      applications[entryName].push(frontmatter);
     }
 
     const settings = getBuildSettings(options);
-    settings.appRootUrls = appRootUrls;
+    settings.applications = applications;
 
     options.settings = settings;
 
