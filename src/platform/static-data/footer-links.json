@@ -114,14 +114,14 @@
   {
     "column": 2,
     "href": "https://www.va.gov/statedva.htm",
-    "order": "10",
+    "order": 10,
     "target": null,
     "title": "State Veterans Affairs Offices"
   },
   {
     "column": 2,
     "href": "#",
-    "order": "11",
+    "order": 11,
     "target": null,
     "title": "Print Your VA Welcome Kit"
   },
@@ -275,35 +275,35 @@
   {
     "column": "bottom_rail",
     "href": "https://www.va.gov/transparency/",
-    "order": "10",
+    "order": 10,
     "target": null,
     "title": "Transparency"
   },
   {
     "column": "bottom_rail",
     "href": "https://www.usa.gov",
-    "order": "11",
+    "order": 11,
     "target": "_blank",
     "title": "USA.gov"
   },
   {
     "column": "bottom_rail",
     "href": "https://www.va.gov/webpolicylinks.asp",
-    "order": "12",
+    "order": 12,
     "target": null,
     "title": "Web Policies"
   },
   {
     "column": "bottom_rail",
     "href": "https://www.va.gov/accountability/",
-    "order": "13",
+    "order": 13,
     "target": null,
     "title": "Whistleblower Rights and Protections"
   },
   {
     "column": "bottom_rail",
     "href": "https://www.whitehouse.gov",
-    "order": "14",
+    "order": 14,
     "target": "_blank",
     "title": "White House"
   }
