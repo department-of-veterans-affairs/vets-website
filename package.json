@@ -108,6 +108,7 @@
     "eslint": "^4.4.1",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-jsx-a11y": "5.1",
+    "eslint-plugin-mocha": "^5.2.0",
     "eslint-plugin-no-unsafe-innerhtml": "^1.0.14",
     "eslint-plugin-react": "^7.2.1",
     "eslint-plugin-scanjs-rules": "^0.1.4",
@@ -218,7 +219,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^1.4.12",
+    "@department-of-veterans-affairs/formation": "^1.4.14",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "blob-polyfill": "^2.0.20171115",
@@ -241,7 +242,7 @@
     "text-loader": "^0.0.1",
     "url-search-params": "^0.10.0",
     "us-forms-system": "https://github.com/usds/us-forms-system.git#84887dc7cb0ccee2ae2c8156b5664697c2850b1d",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d54fb77b1f18bc29e231bb4506510f38cc6f61c6",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#72e8eb31c05789c9e01f607aa24bdfe75d9ce4a0",
     "webpack-bundle-analyzer": "^2.11.1"
   }
 }

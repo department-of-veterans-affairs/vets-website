@@ -22,6 +22,27 @@ const searchToolSchoolAddressFields = get(
   fullSchema
 );
 
+// The flags to add to formData that will indicate if a page is prefilled or not
+// These flags will be used for each form page's call to
+// conditionalPrefillMessage()
+export const PREFILL_FLAGS = {
+  // if formData.fullName is set:
+  APPLICANT_INFORMATION: 'view:applicantInformationWasPrefilled',
+  // if formData.serviceBranch or formData.serviceDateRange is set:
+  SERVICE_INFORMATION: 'view:serviceInformationWasPrefilled',
+  // if formData.address or formData.phone or formData.applicantEmail is set:
+  CONTACT_INFORMATION: 'view:contactInformationWasPrefilled',
+};
+
+// For a given PREFILL_FLAG, what data needs to exist in the prefilled data for
+// that flag to be set to `true`? ie, what prefill data needs to exist for a
+// given page to be considered prefilled?
+const prefillFlagsToFieldsMap = {
+  [PREFILL_FLAGS.APPLICANT_INFORMATION]: ['fullName'],
+  [PREFILL_FLAGS.SERVICE_INFORMATION]: ['serviceBranch', 'serviceDateRange'],
+  [PREFILL_FLAGS.CONTACT_INFORMATION]: ['address', 'phone', 'applicantEmail'],
+};
+
 export function fetchInstitutions({ institutionQuery, page, onDone, onError }) {
   const fetchUrl = appendQuery('/gi/institutions/search', {
     name: institutionQuery,
@@ -180,6 +201,47 @@ export function recordApplicantRelationship({ formData: { onBehalfOf } }) {
 }
 
 /**
+ * Provides an issue example label and description with the provided text
+ * @param {string} Label text
+ * @param {string} Example text
+ */
+export const getIssueLabel = (labelText, exampleText) => {
+  return (<div>
+    {labelText}<br/>
+    <span><i>{exampleText}</i></span>
+  </div>);
+};
+
+export const transcriptReleaseLabel = getIssueLabel('Release of transcripts', 'The school won’t release your transcripts.');
+
+export const recruitingLabel = getIssueLabel('Recruiting or marketing practices', 'The school made inaccurate claims about the quality of its education or its school requirements.');
+
+export const studentLoansLabel = getIssueLabel('Student loan', 'The school didn’t provide you total a cost of your school loan.');
+
+export const qualityLabel = getIssueLabel('Quality of education', 'The school doesn’t have qualified teachers.');
+
+export const creditTransferLabel = getIssueLabel('Transfer of credits', 'The school isn’t accredited for transfer of credits.');
+
+export const accreditationLabel = getIssueLabel('Accreditation', 'The school is unable to get or keep accreditation.');
+
+export const jobOpportunitiesLabel = getIssueLabel('Post-graduation job opportunity', 'The school made promises to you about job placement or salary after graduation.');
+
+export const gradePolicyLabel = getIssueLabel('Grade policy', 'The school didn’t give you a copy of its grade policy or it changed its grade policy in the middle of the year.');
+
+export const refundIssuesLabel = getIssueLabel('Refund issues', 'The school won’t refund your GI Bill payment.');
+
+export const financialIssuesLabel = getIssueLabel('Financial concern', 'The school is charging you a higher tuition or extra fees.');
+
+export const changeInDegreeLabel = getIssueLabel('Change in degree plan or requirements', 'The school added new hour or course requirements after you enrolled.');
+
+export function issueUIDescription({ formContext }) {
+  if (!formContext) { // HACK: due to https://github.com/usds/us-forms-system/issues/260
+    return <div>Please note, below the topics are examples of what the feedback could include.</div>;
+  }
+  return null;
+}
+
+/*
  * A helper that takes data from the SchoolSelectField back end and transforms
  * it to a valid format as specified by the FEEDBACK-TOOL's
  * educationDetails.school.address schema.
@@ -210,5 +272,47 @@ export function transformSearchToolAddress({ address1, address2, address3, city,
     state: state && state.slice(0, searchToolSchoolAddressFields.state.maxLength),
     postalCode: zip && zip.slice(0, searchToolSchoolAddressFields.postalCode.maxLength),
   };
+}
 
+function addPrefilledFlagsToFormData(formData) {
+  const newFormData = { ...formData };
+  Object.keys(prefillFlagsToFieldsMap).forEach(flag => {
+    if (prefillFlagsToFieldsMap[flag].some(field => get(field, formData))) {
+      newFormData[flag] = true;
+    }
+  });
+  return newFormData;
+}
+
+export function prefillTransformer(pages, formData, metadata) {
+  const newFormData = addPrefilledFlagsToFormData(formData);
+  return { metadata, formData: newFormData, pages };
+}
+
+/**
+ * Checks if the `prefillFlag` is set on the `data.formData`. If it is, returns
+ * the React Component created by the `messageComponentCreator`
+ *
+ * @param {string} prefillFlag - The key to look for on the form data
+ * @param {Object} data - Data object from form config
+ * @param {React Component} messageComponent - The React component to render
+ * @returns {React Component|null}
+ */
+export function conditionallyShowPrefillMessage(
+  prefillFlag,
+  data,
+  messageComponent,
+) {
+  if (data.formData[prefillFlag]) {
+    return messageComponent(data);
+  }
+  return null;
+}
+
+export function validateMatch(field1, field2, fieldType) {
+  return function matchValidator(errors, formData) {
+    if (formData[field1] !== formData[field2]) {
+      errors[field2].addError(`Please ensure your ${fieldType} entries match`);
+    }
+  };
 }
