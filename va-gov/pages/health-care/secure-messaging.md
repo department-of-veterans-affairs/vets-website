@@ -7,7 +7,8 @@ description:
 concurrence:
 lastupdate: 2018-08-22
 collection: healthCare
-order:
+spoke: Manage Benefits
+order: 8
 children:
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
@@ -62,7 +63,7 @@ You can use this tool if you meet all of the requirements listed below.
 [Find out how to apply for VA health care](/health-care/how-to-apply/).
 
 **And you must have one of these free accounts:**
-- A premium **My Health<em>e</em>Vet** account, **or**
+- A premium **My HealtheVet** account, **or**
 - A **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
 
@@ -76,7 +77,7 @@ Please see the blue sign-in module above to learn more about signing in, creatin
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h2 itemprop="name">How does secure messaging work within My Health<em>e</em>Vet?</h2>
+<h2 itemprop="name">How does secure messaging work within My HealtheVet?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
@@ -146,7 +147,7 @@ If you print or download any messages, you’ll need to take responsibility for 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can get answers to your questions about this tool within our My Health*e*Vet web portal. <br>
+You can get answers to your questions about this tool within our My HealtheVet web portal. <br>
 [Read secure messaging FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#smGeneralFAQ).
 
 </div>

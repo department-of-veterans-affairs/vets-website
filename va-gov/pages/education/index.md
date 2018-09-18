@@ -15,7 +15,7 @@ promo:
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: https://benefits.va.gov/TAP/index.asp
+    - url: https://www.benefits.va.gov/TAP/index.asp
       title: <b>Transition Assistance Program (VA TAP)</b>
       description: Learn about VA benefits available to you and your family as you transition out of active-duty, National Guard, or Reserve service.
     - url: "#"
@@ -58,7 +58,7 @@ social:
           icon: fa-facebook
         - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
           label: Veterans Benefits YouTube
-          icon: fa-youtube  
+          icon: fa-youtube
 ---
 
 <p class="va-introtext">
@@ -84,27 +84,22 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   <h2>Get GI Bill&reg; and Other Education Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>About GI Bill Benefits</b></a>
+    <a href="/education/about-gi-bill-benefits/"><b>About GI Bill Benefits</b></a>
     <p>Learn how the GI Bill works and explore your options to pay for school or training.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Eligibility</b></a>
+    <a href="/education/eligibility/"><b>Eligibility</b></a>
     <p>See if you're eligible for GI Bill or other VA education benefits.
   </div>
 
   <div class="link">
-    <a href="#"><b>How to Apply</b></a>
+    <a href="/education/how-to-apply/"><b>How to Apply</b></a>
     <p>Learn how to prepare and apply for the GI Bill or other VA education and training benefits. </p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Apply Online for GI Bill Benefits</b></a>
-    <p>Get help finding the right form and apply online now.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>After You Apply</b></a>
+    <a href="/education/after-you-apply/"><b>After You Apply</b></a>
     <p>Find out when to expect a decision from us on your application and what to do next.</p>
   </div>
 
@@ -114,12 +109,12 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="#"><b>VA Education Benefits for Dependents and Survivors</b></a>
+    <a href="/education/survivor-dependent-benefits/"><b>VA Education Benefits for Dependents and Survivors</b></a>
     <p>Find out if you're eligible for Veteran dependent or survivor education benefits through a GI Bill program.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Other Educational Assistance Programs</b></a>
+    <a href="/education/other-va-education-benefits/"><b>Other Educational Assistance Programs</b></a>
     <p>If you're a Guardsman, Reservist, or Veteran who doesn't qualify for the Post-9/11 GI Bill, see if you're eligible for other VA education benefits.</p>
   </div>
 </section>
@@ -138,17 +133,17 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="#"><b>Check Your Post-9/11 GI Bill Benefits</b></a>
+    <a href="/education/check-post-9-11-gi-bill-benefit-status/"><b>Check Your Post-9/11 GI Bill Benefits</b></a>
     <p>See how much of your GI Bill benefits you have left to help pay for school or training.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Transfer Post-9/11 GI Bill Benefits</b></a>
+    <a href="/education/transfer-post-9-11-gi-bill-benefits/"><b>Transfer Post-9/11 GI Bill Benefits</b></a>
     <p>Transfer your unused Post-9/11 GI Bill Benefits to your spouse or other dependents.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Change Your GI Bill School or Program</b></a>
+    <a href="/education/change-gi-bill-benefits/"><b>Change Your GI Bill School or Program</b></a>
     <p>Request a change to use a different GI Bill program or to transfer your benefits to a new school or training program.</p>
   </div>
 
@@ -167,32 +162,27 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
     <p>If your school closed or your program ended because of a change in VA regulations or a new law, apply to have your GI Bill benefits restored.</p>
   </div>
 
-  <div class="link">
-    <a href="#"><b>Opt Out of Information Sharing with Schools</b></a>
-    <p>Find out how to opt out of sharing your VA education eligibility and benefits information with schools.</p>
-  </div>
-
 </section>
 
 <section class='usa-grid'>
   <div class="va-h-ruled--stars"></div>
-</section>  
+</section>
 
 <section id="more" class="merger-majorlinks">
   <h2>More Information and Resources</h2>
 
   <div class="link">
-    <a href="#"><b>GI Bill Comparison Tool</b></a>
+    <a href="/education/gi-bill-school-comparison-tool/"><b>GI Bill Comparison Tool</b></a>
     <p>Learn about VA education benefits programs and compare GI Bill benefits by school.</p>
   </div>
 
   <div class="link">
-    <a href="https://benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp"><b>Post-9/11 GI Bill and Other VA Education Benefits Rates</b></a>
+    <a href="/education/benefit-rates/"><b>Post-9/11 GI Bill and Other VA Education Benefits Rates</b></a>
     <p>View rate tables for the Post-9/11 GI Bill and other Veterans education benefits programs.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>How to Choose GI Bill Approved Schools</b></a>
+    <a href="/education/choosing-a-school/"><b>How to Choose GI Bill Approved Schools</b></a>
     <p>Get links to VA and non-VA resources for guidance in choosing a college or training program.</p>
   </div>
 
@@ -202,14 +192,14 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://benefits.va.gov/gibill/resources/education_resources/debt_info.asp"><b>VA Education Debt and GI Bill Overpayment</b></a>
+    <a href="https://www.benefits.va.gov/gibill/resources/education_resources/debt_info.asp"><b>VA Education Debt and GI Bill Overpayment</b></a>
     <p>Get answers to frequently asked questions about GI Bill overpayments and VA education debt management.</p>
   </div>
 
   <div class="link">
     <a href="https://www.benefits.va.gov/gibill/contact_us.asp"><b>GI Bill Questions and Customer Help</b></a>
     <p>Contact us to ask questions and get help with your benefits online or by phone.</p>
-  </div>  
+  </div>
 
   <div class="link">
     <a href="https://www.benefits.va.gov/GIBILL/Feedback.asp"><b>GI Bill School Feedback Tool</b></a>

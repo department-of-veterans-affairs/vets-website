@@ -10,16 +10,16 @@ order: 5
 majorlinks:
   - heading:
     links:
-    - url: /education/tools-programs/education-career-counseling/
+    - url: /careers-employment/education-and-career-counseling/
       title: Educational and Career Counseling
       description: If you’re leaving active service soon, find out how to get free educational and career counseling (also called Chapter 36).
-    - url: /education/tools-programs/careerscope/
+    - url: /education/careerscope-skills-assessment/
       title: CareerScope®
       description: Use CareerScope to help you figure out the best career path for you when you leave active service.
-    - url: /education/tools-programs/principles-excellence-program/
+    - url: /education/choosing-a-school/principles-of-excellence/
       title: Principles of Excellence Program
       description: Learn about the guidelines for schools that get federal funding through programs such as the GI Bill.
-    - url: /education/tools-programs/locate-a-school/
+    - url: /education/choosing-a-school/
       title: Locate a School
       description: Find out which schools you can use your VA education benefits at before you apply. 
 ---

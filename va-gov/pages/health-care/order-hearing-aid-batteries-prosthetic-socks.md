@@ -7,7 +7,8 @@ description:
 concurrence:
 lastupdate: 2018-08-22
 collection: healthCare
-order: 11
+spoke: Manage Benefits
+order: 12
 children:
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
@@ -19,9 +20,9 @@ Find out if you may be eligible to order free hearing aid batteries or prostheti
 
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You'll need to sign in before you can order hearing aid batteries or prosthetic socks online.</h4>
-    <p class="usa-alert-text">
-      <button class="usa-button-primary">Sign In or Create an Account</button>
+    <h4 class="usa-alert-heading">You’ll need to sign in to eBenefits to order hearing aid batteries or prosthetic socks online.</h4>
+  <p class="usa-alert-text">To use this feature, you'll need a premium <b>DS Logon</b> account. Your MyHealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>
+      <button class="usa-button-primary">Go to eBenefits to Order Items Online</button>
     </p>
   </div>
 </div>

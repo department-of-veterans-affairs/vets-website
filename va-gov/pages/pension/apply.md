@@ -37,7 +37,7 @@ Find out how to apply for a tax-free Veterans pension.
 </div>
 
 <div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for Veterans Pension Benefits</a>
+  <a class="usa-button-primary va-button-primary" href="/pension/apply-for-veteran-pension-form-21p-527ez">Apply for Veterans Pension Benefits</a>
 </div>
 
 
@@ -57,7 +57,7 @@ Bring your application to a regional benefit office near you. <br>
 
 **With the help of a trained professional** <br>
 You can work with a trained professional called an accredited representative to get help applying for VA pension benefits. <br> 
-[Get help filing your claim](/disability-benefits/apply/help/).
+[Get help filing your claim](/disability/get-help-filing-claim/).
 
 
 
@@ -82,12 +82,12 @@ Download, fill out, and submit an Intent to File a Claim for Compensation and/or
 Turn in your form in any of these ways:
 
 - Mail it to the Pension Management Center (PMC) for your state. <br>
-[Find your PMC](/pension/pension-management-center/).
+[Find your PMC](/pension/pension-management-centers/).
 
 - Turn it in at a regional benefit office near you. <br>
 [Find a regional benefit office](/facilities/).
 
 - Work with a trained professional called an accredited representative to get help applying for VA pension benefits. <br>
-[Get help filing a claim](/disability-benefits/apply/help/).
+[Get help filing a claim](/disability/get-help-filing-claim/).
 
 </br>
