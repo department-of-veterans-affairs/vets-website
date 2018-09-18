@@ -5,7 +5,7 @@ import startApp from '../../platform/startup';
 
 import routes from './routes';
 import reducer from './reducer';
-import manifest from './manifest.json';
+import manifest from './manifest';
 
 let rootUrl = manifest.rootUrl;
 if (window.location.pathname.indexOf('healthcare/') >= 0) {
