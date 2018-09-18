@@ -2,7 +2,7 @@ import React from 'react';
 import groupBy from 'lodash/groupBy';
 import orderBy from 'lodash/orderBy';
 import links from '../../../static-data/footer-links.json';
-import { isWideScreen } from '../../../utilities/accessibility/index';
+import { isWideScreen, isEnter } from '../../../utilities/accessibility/index';
 
 export class Main extends React.Component {
   constructor(props) {
@@ -31,6 +31,11 @@ export class Main extends React.Component {
       )}
     </ul>
   )
+  handleKeyPress = (e) => {
+    if (isEnter(e)) {
+      this.openModal();
+    }
+  }
   buildContact = () => {
     let innerClassName = '';
     let buttonEnabled = '';
@@ -57,7 +62,7 @@ export class Main extends React.Component {
             <li className="usa-accordion-content" id="veteran-crisis" aria-hidden="true">
               <ul className="va-footer-links">
                 <li>
-                  <a role="button" tabIndex="0" onClick={this.openModal} >Veterans Crisis Line</a>
+                  <a role="button" tabIndex="0" onClick={this.openModal} onKeyPress={this.handleKeyPress} >Veterans Crisis Line</a>
                 </li>
               </ul>
             </li>
@@ -83,7 +88,7 @@ export class Main extends React.Component {
           </h4>
         </li>
         <li>
-          <a role="button" tabIndex="0" onClick={this.openModal} >Veterans Crisis Line</a>
+          <a role="button" tabIndex="0" onClick={this.openModal}  onKeyPress={this.handleKeyPress} >Veterans Crisis Line</a>
         </li>
         <li id="footer-vcl">
           <h4 className="va-footer-linkgroup-title">
