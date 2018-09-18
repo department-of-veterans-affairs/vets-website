@@ -14,14 +14,14 @@ function isJson(response) {
  * @param {string} resource - The URL to fetch. If it starts with a leading "/"
  * it will be appended to the baseUrl. Otherwise it will be used as an absolute
  * URL.
- * @param {Object} optionalSettings - Custom settings you want to apply to
+ * @param {Object} [{}] optionalSettings - Custom settings you want to apply to
  * the fetch request. Will be mixed with, and potentially override, the
  * defaultSettings
  * @param {Function} success - Callback to execute after successfully resolving
  * the initial fetch request.
  * @param {Function} error - Callback to execute if the fetch fails to resolve.
  */
-export function apiRequest(resource, optionalSettings, success, error) {
+export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}/v0`;
   const url = resource[0] === '/'
     ? [baseUrl, resource].join('')
