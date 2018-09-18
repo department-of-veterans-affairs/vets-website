@@ -21,8 +21,7 @@ relatedlinks:
 If you qualify for VA health care, you’ll receive coverage for the services you need to help you get—and stay—healthy. Learn more about your health care benefits.
 
 </div>
-
-<div itemscope itemtype="http://schema.org/Question">
+<div class="feature" markdown="1" itemscope itemtype="http://schema.org/Question">
 <h3 itemprop="name">What care and services does VA health care cover?</h3>
 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">	
