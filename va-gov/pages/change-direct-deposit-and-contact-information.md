@@ -52,9 +52,12 @@ Change your direct deposit and contact information for certain VA benefits onlin
 <li>Address</li>
 <li>Phone number</li>
 </ul>
-  
-<ul>  
+</div>
+
+<div itemprop="text">
+     
 <b>And you'll need your:</b>
+<ul> 
 <li>Routing number</li>
 <li>Account number</li>
 </ul>
