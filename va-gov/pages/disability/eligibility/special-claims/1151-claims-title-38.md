@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Title 38 U.S.C. 1151 Claims 
+title: VA Title 38 U.S.C. 1151 Claims
 display_title: Title 38 U.S.C. 1151 Claims
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
