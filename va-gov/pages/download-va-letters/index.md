@@ -2,7 +2,7 @@
 title: Download VA Benefit Letters and Documents
 display title: Download VA Benefit Letters
 layout: page-breadcrumbs.html
-template: level2-index
+template: detail-page
 ---
 
 <div id='main'>
