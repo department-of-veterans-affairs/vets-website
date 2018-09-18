@@ -17,10 +17,7 @@ let oldWindow;
 
 const fakeWindow = () => {
   oldWindow = global.window;
-  windowOpen = sinon.stub().returns({
-    focus: f => f,
-    location: ''
-  });
+  windowOpen = sinon.spy(window, 'open');
   global.window = {
     open: windowOpen,
     dataLayer: []
@@ -28,8 +25,16 @@ const fakeWindow = () => {
 };
 
 describe('auth URL helpers', () => {
+  beforeAll(() => {
+    window.open = () => {
+      return { focus: sinon.spy() };
+    };
+  });
   beforeEach(fakeWindow);
-  afterEach(() => { global.window = oldWindow; });
+  afterEach(() => {
+    global.window = oldWindow;
+    windowOpen.restore();
+  });
 
   describe('when able to open a window', () => {
     afterEach(resetFetch);
@@ -82,7 +87,7 @@ describe('auth URL helpers', () => {
     it('should open a window for verify', (done) => {
       mockApiRequest({ url: 'verify-url' });
       verify().then(popup => {
-        expect(windowOpen.calledOnce).to.be.true;
+        expect(window.open.calledOnce).to.be.true;
         expect(popup.location).to.eq('verify-url');
         done();
       }).catch(done);

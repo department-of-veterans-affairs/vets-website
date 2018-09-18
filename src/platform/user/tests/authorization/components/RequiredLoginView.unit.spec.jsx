@@ -14,13 +14,14 @@ describe('<RequiredLoginView>', () => {
   const initialSetup = () => {
     conditionalStorage().setItem('userToken', 'abcdefg');
     oldWindow = global.window;
+    window.location.replace = redirectFunc;
 
-    global.window = {
-      pathname: '',
-      location: {
-        replace: redirectFunc,
-      },
-    };
+    // global.window = {
+    //   pathname: '',
+    //   location: {
+    //     replace: redirectFunc,
+    //   },
+    // };
   };
 
   const teardown = () => {
@@ -169,7 +170,7 @@ describe('<RequiredLoginView>', () => {
       it('should prompt for verification', () => {
         const { tree } = setup({ user: loa1User });
         tree.getMountedInstance().componentDidUpdate();
-        expect(redirectFunc.calledWith(sinon.match('/verify'))).to.be.true;
+        expect(window.location.replace.calledWith(sinon.match('/verify'))).to.be.true;
       });
     });
 
@@ -208,7 +209,7 @@ describe('<RequiredLoginView>', () => {
     it('should prompt for login', () => {
       const { tree } = setup({ user: anonymousUser });
       tree.getMountedInstance().componentDidUpdate();
-      expect(redirectFunc.calledWith(sinon.match('/'))).to.be.true;
+      expect(window.location.replace.calledWith(sinon.match('/'))).to.be.true;
     });
   });
 });
