@@ -110,12 +110,6 @@ smith.use(layouts({
   pattern: '**/*.{md,html}'
 }));
 
-// TODO(awong): This URL needs to change based on target environment.
-smith.use(sitemap({
-  hostname: 'https://www.vets.gov',
-  omitIndex: true
-}));
-
 // Pages can contain an "alias" property in their metadata, which is processed into
 // separate pages that will each redirect to the original page.
 smith.use(createRedirects(BUILD_OPTIONS));
@@ -148,6 +142,12 @@ if (BUILD_OPTIONS.watch) {
     smith.use(checkBrokenLinks(BUILD_OPTIONS));
   }
 }
+
+// TODO(awong): This URL needs to change based on target environment.
+smith.use(sitemap({
+  hostname: 'https://www.vets.gov',
+  omitIndex: true
+}));
 
 /* eslint-disable no-console */
 smith.build((err) => {
