@@ -68,6 +68,11 @@ import {
   schema as claimExamsInfoSchema
 } from './claimExamsInfo';
 
+import {
+  uiSchema as homelessOrAtRiskUISchema,
+  schema as homelessOrAtRiskSchema
+} from './homelessOrAtRisk';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema
@@ -136,4 +141,9 @@ export const paymentInformation = {
 export const claimExamsInfo = {
   uiSchema: claimExamsInfoUIschema,
   schema: claimExamsInfoSchema
+};
+
+export const homelessOrAtRisk = {
+  uiSchema: homelessOrAtRiskUISchema,
+  schema: homelessOrAtRiskSchema
 };

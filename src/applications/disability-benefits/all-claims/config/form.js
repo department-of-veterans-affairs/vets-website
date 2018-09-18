@@ -29,7 +29,8 @@ import {
   addDisabilities,
   newDisabilityFollowUp,
   paymentInformation,
-  claimExamsInfo
+  claimExamsInfo,
+  homelessOrAtRisk
 } from '../pages';
 
 import fullSchema from './schema';
@@ -206,6 +207,12 @@ const formConfig = {
           path: 'payment-information',
           uiSchema: paymentInformation.uiSchema,
           schema: paymentInformation.schema
+        },
+        homelessOrAtRisk: {
+          title: 'Housing situation',
+          path: 'housing-situation',
+          uiSchema: homelessOrAtRisk.uiSchema,
+          schema: homelessOrAtRisk.schema
         }
       }
     }
