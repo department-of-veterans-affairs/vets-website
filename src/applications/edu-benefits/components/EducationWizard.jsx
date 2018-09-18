@@ -2,7 +2,9 @@ import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
 
+import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/ErrorableRadioButtons';
+import { URLMap } from '../config/bc-urls';
 
 const levels = [
   ['newBenefit'],
@@ -23,10 +25,11 @@ export default class EducationWizard extends React.Component {
   }
 
   getButton(form) {
+    const url = isBrandConsolidationEnabled() ? URLMap[form] : `/education/apply-for-education-benefits/application/${form}`;
     return (
       <a
         id="apply-now-link"
-        href={`/education/apply-for-education-benefits/application/${form}`}
+        href={url}
         className="usa-button va-button-primary">
         Apply Now
       </a>
