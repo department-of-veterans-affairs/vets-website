@@ -6,9 +6,9 @@ import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
 import {
-  OTHER,
-  HOMELESS,
-  AT_RISK
+  HOMELESSNESS_TYPES,
+  AT_RISK_HOUSING_TYPES,
+  HOMELESS_HOUSING_TYPES
 } from '../../constants';
 
 describe('Homeless or At Risk Info', () => {
@@ -36,7 +36,7 @@ describe('Homeless or At Risk Info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          homelessOrAtRisk: 'No'
+          homelessOrAtRisk: HOMELESSNESS_TYPES.notHomeless
         }}
         formData={{}}
         onSubmit={onSubmit}/>
@@ -56,7 +56,7 @@ describe('Homeless or At Risk Info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          homelessOrAtRisk: HOMELESS
+          homelessOrAtRisk: HOMELESSNESS_TYPES.homeless
         }}
         formData={{}}
         onSubmit={onSubmit}/>
@@ -76,7 +76,7 @@ describe('Homeless or At Risk Info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          homelessOrAtRisk: AT_RISK
+          homelessOrAtRisk: HOMELESSNESS_TYPES.atRisk
         }}
         formData={{}}
         onSubmit={onSubmit}/>
@@ -96,9 +96,9 @@ describe('Homeless or At Risk Info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          homelessOrAtRisk: HOMELESS,
+          homelessOrAtRisk: HOMELESSNESS_TYPES.homeless,
           'view:isHomeless': {
-            homelessHousingSituation: OTHER,
+            homelessHousingSituation: HOMELESS_HOUSING_TYPES.other,
             needToLeaveHousing: true
           },
         }}
@@ -120,9 +120,9 @@ describe('Homeless or At Risk Info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          homelessOrAtRisk: AT_RISK,
+          homelessOrAtRisk: HOMELESSNESS_TYPES.atRisk,
           'view:isHomeless': {
-            homelessHousingSituation: OTHER,
+            homelessHousingSituation: AT_RISK_HOUSING_TYPES.other,
             needToLeaveHousing: true
           },
         }}
@@ -144,9 +144,9 @@ describe('Homeless or At Risk Info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          homelessOrAtRisk: AT_RISK,
+          homelessOrAtRisk: HOMELESSNESS_TYPES.atRisk,
           'view:isAtRisk': {
-            atRiskHousingSituation: 'losingHousing'
+            atRiskHousingSituation: AT_RISK_HOUSING_TYPES.losingHousing
           },
           homelessnessContact: {
             name: 'John Smith'
@@ -170,9 +170,9 @@ describe('Homeless or At Risk Info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          homelessOrAtRisk: AT_RISK,
+          homelessOrAtRisk: HOMELESSNESS_TYPES.atRisk,
           'view:isAtRisk': {
-            atRiskHousingSituation: 'losingHousing'
+            atRiskHousingSituation: AT_RISK_HOUSING_TYPES.losingHousing
           },
           homelessnessContact: {
             phoneNumber: '1234567890'
@@ -196,9 +196,9 @@ describe('Homeless or At Risk Info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          homelessOrAtRisk: HOMELESS,
+          homelessOrAtRisk: HOMELESSNESS_TYPES.homeless,
           'view:isHomeless': {
-            homelessHousingSituation: OTHER,
+            homelessHousingSituation: HOMELESS_HOUSING_TYPES.other,
             otherHomelessHousing: 'No housing',
             needToLeaveHousing: true
           },

@@ -108,7 +108,21 @@ export const PENDING = 'PENDING';
 export const RESOLVED = 'RESOLVED';
 export const REJECTED = 'REJECTED';
 
-// Homeless housing situation and homelessness status
-export const OTHER = 'other';
-export const AT_RISK = 'atRisk';
-export const HOMELESS = 'homeless';
+export const HOMELESSNESS_TYPES = {
+  atRisk: 'atRisk',
+  homeless: 'homeless',
+  notHomeless: 'no'
+};
+
+export const AT_RISK_HOUSING_TYPES = {
+  losingHousing: 'losingHousing',
+  leavingShelter: 'leavingShelter',
+  other: 'other'
+};
+
+export const HOMELESS_HOUSING_TYPES = {
+  shelter: 'shelter',
+  notShelter: 'notShelter',
+  anotherPerson: 'anotherPerson',
+  other: 'other'
+};
