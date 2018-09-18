@@ -110,10 +110,6 @@ smith.use(layouts({
   pattern: '**/*.{md,html}'
 }));
 
-// Pages can contain an "alias" property in their metadata, which is processed into
-// separate pages that will each redirect to the original page.
-smith.use(createRedirects(BUILD_OPTIONS));
-
 /*
 Add nonce attribute with substition string to all inline script tags
 Convert onclick event handles into nonced script tags
@@ -148,6 +144,10 @@ smith.use(sitemap({
   hostname: 'https://www.vets.gov',
   omitIndex: true
 }));
+
+// Pages can contain an "alias" property in their metadata, which is processed into
+// separate pages that will each redirect to the original page.
+smith.use(createRedirects(BUILD_OPTIONS));
 
 /* eslint-disable no-console */
 smith.build((err) => {
