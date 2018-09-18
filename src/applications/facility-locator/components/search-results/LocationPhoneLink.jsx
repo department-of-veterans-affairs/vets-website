@@ -15,7 +15,6 @@ const LocationPhoneLink = ({ location }) => {
       </div>
     );
   }
-  
 
   const { attributes: { phone } } = location;
   return (
@@ -45,8 +44,6 @@ const renderPhoneNumber = (title, subTitle = null, phone, icon = 'fw', altPhone)
     </div>
   );
 };
-
-
 
 LocationPhoneLink.propTypes = {
   location: PropTypes.object,
