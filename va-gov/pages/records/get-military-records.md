@@ -7,7 +7,7 @@ concurrence:
 plainlanguage: 
 collection: records
 children: 
-order:
+order: 1
 relatedlinks:
   - heading: Other Records Information
     links:
@@ -42,6 +42,7 @@ Find out how to access to your military records, including your DD214, through o
     </p>
   </div>
 </div>
+
 <div itemscope itemtype="http://schema.org/Question">
 
 <h2 itemprop="name">What can I do with this tool?</h2>
@@ -71,6 +72,8 @@ You can view, review, and print documents from your Official Military Personnel 
 </div>
 </div>
 
+<div itemscope itemtype="http://schema.org/Question">
+
 <h2 itemprop="name">What kind of account do I need to use this tool?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
@@ -84,13 +87,16 @@ If you don’t have a premium DS Logon account, find out how to create or upgrad
 </div>
 </div>
 
+<div itemscope itemtype="http://schema.org/Question">
+
 <h2 itemprop="name">Are there other ways to get my military service records?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
 Yes. 
 
-**You can request your military records by:**
+<b>You can request your military records by:</b>
+
 <ul>
   <li>Submitting a request through the eVetsRec.gov website</li>
   <li>Mailing or faxing sing a Request Pertaining to Military Records (Standard Form SF 180) to the National Personnel Records Center (NPRC)</li>
@@ -98,7 +104,7 @@ Yes.
   <li>Visiting the NPRC in St. Louis, MO in person</li>
   <li>Contacting your state or county Veterans agency</li>
   <li>Hiring an independent researcher</li>
-  </ul>
+</ul>
   
 Visit the National Archives website to learn more about requesting your military service records. <br>
 <a href="https://www.archives.gov/veterans/military-service-records">Get details for different ways to request your military records</a>.
@@ -106,6 +112,8 @@ Visit the National Archives website to learn more about requesting your military
 </div>
 </div>
 </div>
+
+<div itemscope itemtype="http://schema.org/Question">
 
 <h3 itemprop="name">How do I request someone else's military records?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -126,7 +134,7 @@ Call our National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800
   <li>Visiting the NPRC in St. Louis, MO in person</li>
   <li>Contacting your state or county Veterans agency</li>
   <li>Hiring an independent researcher</li>
-  </ul>
+</ul>
   
 <b>You may be considered the next of kin if you're the Veteran's:</b>
 <ul>
@@ -134,19 +142,17 @@ Call our National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800
   <li>Parent, <b>or</b></li>
   <li>Child, <b>or</b></li>
   <li>Sibling
+</ul>
 
-Visit the National Archives website to learn more about requesting your military service records. <br>
-
+Visit the National Archives website to learn more about requesting military service records. <br>
 <a href="https://www.archives.gov/personnel-records-center/ompf-access">Find out how to access records as the next of kin</a>.
 
 <h4>If you're looking for the records of a Veteran and you're not the Veteran's next of kin</h4>
 
-You can order a copy of the Veteran's military records if the Veteran was discharged more than 62 years ago. The National Archives makes all records open to the public 62 years after discharge. <br>
-
+<b>If the Veteran was discharged more than 62 years ago, you can order a copy of their military records. The National Archives makes all records open to the public 62 years after discharge. <br>
 <a href="https://www.archives.gov/personnel-records-center/military-personnel/ompf-archival-requests">Learn how to access archived records</a>. <br>
 
-If the Veteran was discharged less than 62 years ago, you may be able to request limited information from their Official Military Personnel File. <br>
-
+<b>If the Veteran was discharged less than 62 years ago,</b> you may be able to request limited information from their Official Military Personnel File. <br>
 <a href="https://www.archives.gov/personnel-records-center/ompf-access-public">Find out about general public access to military records</a>.
 
 </div>
