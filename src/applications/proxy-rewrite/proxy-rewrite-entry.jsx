@@ -4,7 +4,8 @@ import createCommonStore from '../../platform/startup/store';
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
 
-// import startUserNavWidget from '../../platform/site-wide/user-nav';
+import startUserNavWidget from '../../platform/site-wide/user-nav';
+import addMenuListeners from '../../platform/site-wide/accessible-menus';
 import startMegaMenuWidget from '../../platform/site-wide/mega-menu';
 import startMobileMenuButton from '../../platform/site-wide/mobile-menu-button';
 import startPreviewSiteAlert from '../../platform/site-wide/preview-site-alert';
@@ -17,6 +18,7 @@ import startVAFooter from '../../platform/site-wide/va-footer';
 // Find native header, footer, etc based on page path
 const DEPRECATED_SELECTOR_CONFIG = [
   { path: /\/health\/.*/, selector: 'header.row.main-header-wrap, div#footer-effect' },
+  { path: /health/, selector: 'header.row.main-header-wrap, div#footer-effect' },
 ];
 
 let deprecatedSelector;
@@ -63,7 +65,16 @@ document.addEventListener('DOMContentLoaded', (_e) => {
 // Mount react components
 const commonStore = createCommonStore();
 document.addEventListener('DOMContentLoaded', (_e) => {
-  // startUserNavWidget(commonStore);
+  if (document.querySelector('#vetnav-menu') !== null) {
+    addMenuListeners(document.querySelector('#vetnav-menu'), true);
+  }
+
+  // New navigation menu
+  if (document.querySelector('#vetnav')) {
+    require('../../platform/site-wide/legacy/mega-menu.js');
+  }
+
+  startUserNavWidget(commonStore, 'va-gov-login-root');
   startMegaMenuWidget(commonStore);
   startMobileMenuButton(commonStore);
   startPreviewSiteAlert(commonStore);
