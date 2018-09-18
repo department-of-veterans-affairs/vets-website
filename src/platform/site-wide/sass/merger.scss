@@ -1070,6 +1070,12 @@
         text-decoration: underline;
       }
       .usa-accordion-content {
+        h4:first-child {
+          margin-top: 0px;
+        }
+        section:last-child {
+          margin-bottom: 0px;
+        }
         > section, > h4 {
           margin: 1.5em auto;
         }
