@@ -93,6 +93,7 @@ import {
   validateDate,
 } from 'us-forms-system/lib/js/validation';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
+import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
 
 const {
   treatments,
@@ -263,6 +264,7 @@ const formConfig = {
                   primaryPhone: {
                     'ui:title': 'Phone number',
                     'ui:widget': PhoneNumberWidget,
+                    'ui:reviewWidget': PhoneNumberReviewWidget,
                     'ui:options': {
                       widgetClassNames: 'va-input-medium-large',
                     },

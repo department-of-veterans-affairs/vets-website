@@ -406,5 +406,59 @@ describe('data utils (lodash replacements)', () => {
       }, 200);
     });
   });
+
+  describe('unset', () => {
+    it('remove item at path', () => {
+      const o = {
+        a: 'a',
+        b: { c: 'c' },
+        k: { a: { y: 'f' } },
+        g: ['h', 'i', 'j']
+      };
+
+      const newObj = _.unset('b.c', o);
+      expect(newObj.b.c).to.be.undefined;
+      // Expect everything else to be equal
+      Object.keys(o).forEach(key => {
+        if (key !== 'b') {
+          expect(o[key]).to.eql(newObj[key]);
+        }
+      });
+    });
+
+    it('remove item at first level', () => {
+      const o = {
+        a: 'a',
+        b: { c: 'c' },
+        k: { a: { y: 'f' } },
+        g: ['h', 'i', 'j']
+      };
+
+      const newObj = _.unset('b', o);
+      expect(newObj.b).to.be.undefined;
+      // Expect everything else to be equal
+      Object.keys(o).forEach(key => {
+        if (key !== 'b') {
+          expect(o[key]).to.eql(newObj[key]);
+        }
+      });
+    });
+
+    it('unchanged if path does not exist', () => {
+      const o = {
+        a: 'a',
+        b: { c: 'c' },
+        k: { a: { y: 'f' } },
+        g: ['h', 'i', 'j']
+      };
+
+      const newObj = _.unset('g.c', o);
+      expect(newObj).to.eql(o);
+      // Expect everything else to be equal
+      Object.keys(o).forEach(key => {
+        expect(o[key]).to.eql(newObj[key]);
+      });
+    });
+  });
 });
 

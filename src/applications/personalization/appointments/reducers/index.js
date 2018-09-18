@@ -1,5 +1,3 @@
-import _ from 'lodash/fp';
-
 import {
   FETCH_APPOINTMENTS,
   FETCH_APPOINTMENTS_SUCCESS,
@@ -14,14 +12,17 @@ const initialState = {
 export default function appointments(state = initialState, action) {
   switch (action.type) {
     case FETCH_APPOINTMENTS:
-      return _.set('loading', true, state);
+      return {
+        ...state,
+        loading: true
+      };
     case FETCH_APPOINTMENTS_SUCCESS:
-      return _.assign(state, {
+      return Object.assign({}, state, {
         data: action.data,
         loading: false
       });
     case FETCH_APPOINTMENTS_FAILURE:
-      return _.assign(state, {
+      return Object.assign({}, state, {
         error: action.error,
         loading: false
       });
