@@ -4,21 +4,21 @@
     "href": "https://www.va.gov/homeless/",
     "order": "1",
     "target": "",
-    "title": "For Homeless Veterans"
+    "title": "Homeless Veterans"
   },
   {
     "column": "1",
     "href": "https://www.va.gov/womenvet/",
     "order": "2",
     "target": "",
-    "title": "For Women Veterans"
+    "title": "Women Veterans"
   },
   {
     "column": "1",
     "href": "https://www.va.gov/centerforminorityveterans/",
     "order": "3",
     "target": "",
-    "title": "For Minority Veterans"
+    "title": "Minority Veterans"
   },
   {
     "column": "1",

@@ -24,7 +24,7 @@ export class Main extends React.Component {
   openModal = () => {
     this.setState({ modalOpen: true });
   }
-  generateLinkItems = (column, direction = 'desc') => (
+  generateLinkItems = (column, direction = 'asc') => (
     <ul className="va-footer-links">
       {orderBy(this.linkObj[column], 'order', direction).map(link =>
         <li key={`${link.column}-${link.order}`}><a href={link.href} target={link.target}>{link.title}</a></li>
@@ -57,8 +57,7 @@ export class Main extends React.Component {
             <li className="usa-accordion-content" id="veteran-crisis" aria-hidden="true">
               <ul className="va-footer-links">
                 <li>
-                  <a onClick={this.openModal} >Veterans Crisis Line</a>
-                  <a >Veterans Crisis Line</a>
+                  <a role="button" tabIndex="0" onClick={this.openModal} >Veterans Crisis Line</a>
                 </li>
               </ul>
             </li>
@@ -70,26 +69,21 @@ export class Main extends React.Component {
               </h4>
             </li>
             <li className={innerClassName} id="veteran-contact" aria-hidden="true">
-              <ul className="va-footer-links">
-                <li><a href="#">Find a VA Location</a></li>
-                <li><a href="#">Submit a Help Request</a></li>
-                <li><a href="#">Go to VA Help Center</a></li>
-                <li><a href="#">Call Us</a></li>
-              </ul>
+              {this.generateLinkItems('4')}
             </li>
           </ul>
         </div>
       );
     }
     return (
-      <ul className="va-footer-linkgroup usa-width-one-fourth" id="veteran-crisis" aria-hidden="true">
+      <ul className="va-footer-linkgroup usa-width-one-fourth" id="veteran-crisis" >
         <li>
           <h4 className="va-footer-linkgroup-title">
               In Crisis? Get Help Now
           </h4>
         </li>
         <li>
-          <a onClick={this.openModal} >Veterans Crisis Line</a>
+          <a role="button" tabIndex="0" onClick={this.openModal} >Veterans Crisis Line</a>
         </li>
         <li id="footer-vcl">
           <h4 className="va-footer-linkgroup-title">
@@ -97,12 +91,7 @@ export class Main extends React.Component {
           </h4>
         </li>
         <li id="veteran-contact" aria-hidden="true">
-          <ul className="va-footer-links">
-            <li><a href="#">Find a VA Location</a></li>
-            <li><a href="#">Submit a Help Request</a></li>
-            <li><a href="#">Go to VA Help Center</a></li>
-            <li><a href="#">Call Us</a></li>
-          </ul>
+          {this.generateLinkItems('4')}
         </li>
       </ul>
     );
