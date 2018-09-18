@@ -38,7 +38,7 @@ function compileAssets(buildOptions) {
       if (err) throw err;
       convertPathsMiddleware(files, metalsmith, done);
     });
-  }
+  };
 }
 
 function watchAssets(buildOptions) {
@@ -46,14 +46,14 @@ function watchAssets(buildOptions) {
     const convertPathsMiddleware = convertPathsToRelative(buildOptions);
     const apps = getEntryPoints(buildOptions);
     const webpackConfig = generateWebpackConfig(buildOptions, apps);
-    const webpackDevServerConfig = generateWebpackDevConfig(buildOptions, manifests);
+    const webpackDevServerConfig = generateWebpackDevConfig(buildOptions);
     const webpackMiddleware = webpackDevServerPlugin(webpackConfig, webpackDevServerConfig);
 
     webpackMiddleware(files, metalsmith, (err) => {
       if (err) throw err;
       convertPathsMiddleware(files, metalsmith, done);
     });
-  }
+  };
 }
 
 module.exports = {

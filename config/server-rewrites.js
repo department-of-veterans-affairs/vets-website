@@ -10,7 +10,7 @@ function getRoutes(buildSettings) {
     contentFiles
       // .filter(file => file.production)
       .map(file => file.path)
-      .forEach(path => routes.push(`/${path}`));
+      .forEach(filePath => routes.push(`/${filePath}`));
   }
 
   return routes;

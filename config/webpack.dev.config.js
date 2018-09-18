@@ -2,7 +2,7 @@ const {
   getRoutes
 } = require('./server-rewrites');
 
-function generateWebpackDevConfig(buildOptions, manifests) {
+function generateWebpackDevConfig(buildOptions) {
   const appRewrites = getRoutes(buildOptions.settings).map(url => {
     return {
       from: `^${url}(.*)`,
