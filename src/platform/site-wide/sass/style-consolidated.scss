@@ -2,6 +2,8 @@ $font-path: "~uswds/src/fonts";
 $image-path: "~uswds/src/img";
 
 .consolidated {
+  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+
   @import "~@department-of-veterans-affairs/formation/sass/core";
 
   @import "modules/m-footer";

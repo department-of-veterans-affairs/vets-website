@@ -1,5 +1,5 @@
 export default `
-<header class="header">
+<header class="header merger">
   <div class="incompatible-browser-warning">
     <div class="row full">
       <div class="small-12">
