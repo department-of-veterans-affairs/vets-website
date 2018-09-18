@@ -1,9 +1,9 @@
 const template = (source) => `
 ${source}
 (() => {
-  if (module.exports.receiveMetadata) {
+  if (module.exports.receiveContentProps) {
     const metadata = window.settings.applications[module.exports.entryName];
-    module.exports.receiveMetadata(...metadata);
+    module.exports.receiveContentProps(...metadata);
   }
 })();
 `;
