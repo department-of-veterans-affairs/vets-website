@@ -8,7 +8,8 @@ import {
   SEARCH_FAILED,
   FETCH_LOCATION_DETAIL,
   FETCH_LOCATIONS,
-  SEARCH_COMPLETE,
+  FETCH_SERVICES,
+  FETCH_SERVICES_DONE,
 } from '../utils/actionTypes';
 import { LocationType, BOUNDING_RADIUS } from '../constants';
 import LocatorApi from '../api';
@@ -38,8 +39,8 @@ export const fetchVAFacility = (id, location = null) => {
     dispatch({
       type: SEARCH_STARTED,
       payload: {
-        active: true,
-      },
+        active: true
+      }
     });
 
     return LocatorApi.fetchVAFacility(id)
@@ -49,6 +50,29 @@ export const fetchVAFacility = (id, location = null) => {
 };
 
 /**
+ * Gets the details of a single Community Care Provider
+ * 
+ * @param {string} id The NPI/Tax ID of a specific provider
+ */
+export const fetchProviderDetail = (id) => {
+  return (dispatch) => {
+    dispatch({
+      type: SEARCH_STARTED,
+      payload: {
+        active: true
+      }
+    });
+
+    return LocatorApi.fetchProviderDetail(id)
+      .then(data => dispatch({ type: FETCH_LOCATION_DETAIL, payload: data }))
+      .catch(error => dispatch({ type: SEARCH_FAILED, error }));
+  };
+};
+
+/**
+ * Find which locations exist within the given bounding box's area.
+ * 
+ * Allows for filtering on location types and services provided.
  * 
  * @param {{bounds: number[], facilityType: string, serviceType: string, page: number}} 
  */
@@ -174,10 +198,10 @@ export const genBBoxFromAddress = (query) => {
 };
 
 export const getProviderSvcs = () => {
-  return (dispatch) => {
-    dispatch({ type: SEARCH_STARTED });
+  return async (dispatch) => {
+    dispatch({ type: FETCH_SERVICES });
 
-    return LocatorApi.getProviderSvcs()
+    const results = await LocatorApi.getProviderSvcs()
       .then(
         (data) => {
           if (data.errors) {
@@ -185,12 +209,15 @@ export const getProviderSvcs = () => {
             return [];
           }
           // Great Success!
-          dispatch({ type: SEARCH_COMPLETE });
+          dispatch({ type: FETCH_SERVICES_DONE });
           return data;
         }
       )
       .catch(
         (error) => dispatch({ type: SEARCH_FAILED, error })
       );
+
+    return results;
   };
+
 };

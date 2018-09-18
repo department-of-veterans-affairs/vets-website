@@ -2,13 +2,19 @@ import environment from '../../../../platform/utilities/environment';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { hasMilitaryRetiredPay } from '../validations';
+import {
+  hasMilitaryRetiredPay,
+  hasRatedDisabilities
+} from '../validations';
 
 import {
-  hasGuardOrReservePeriod
+  hasGuardOrReservePeriod,
+  getDisabilityName,
+  prefillTransformer
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
+import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
 import {
   alternateNames,
   servicePay,
@@ -17,20 +23,33 @@ import {
   separationTrainingPay,
   reservesNationalGuardService,
   federalOrders,
-  prisonerOfWar
+  prisonerOfWar,
+  ratedDisabilities,
+  contactInformation,
+  addDisabilities,
+  newDisabilityFollowUp,
+  paymentInformation
 } from '../pages';
 
 import fullSchema from './schema';
+
+const ptsdDisabilityIds = new Set([
+  5420,
+  7290,
+  9010,
+  9011
+]);
 
 const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
   trackingPrefix: 'disability-526EZ-',
-  formId: '21-526EZ-all-claims',
+  // formId: '21-526EZ-all-claims',
+  formId: '21-526EZ', // To test prefill, we'll use the 526 increase form ID for now
   version: 1,
   migrations: [],
-  // prefillTransformer,
+  prefillTransformer,
   prefillEnabled: true,
   verifyRequiredPrefill: true,
   savedFormMessages: {
@@ -107,6 +126,74 @@ const formConfig = {
           path: 'review-veteran-details/military-service-history/pow',
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema
+        }
+      }
+    },
+    disabilities: {
+      title: 'Disabilities', // this probably needs to change
+      pages: {
+        disabilitiesOrientation: {
+          title: '',
+          path: 'disabilities/orientation',
+          uiSchema: { 'ui:description': disabilitiesOrientation },
+          schema: { type: 'object', properties: {} }
+        },
+        ratedDisabilities: {
+          title: 'Existing Conditions (Rated Disabilities)',
+          path: 'disabilities/rated-disabilities',
+          depends: hasRatedDisabilities,
+          uiSchema: ratedDisabilities.uiSchema,
+          schema: ratedDisabilities.schema
+        },
+        newDisabilities: {
+          title: 'New disabilities',
+          path: 'new-disabilities',
+          uiSchema: {
+            'ui:title': 'New disabilities',
+            'ui:description': 'Now we’ll ask you about your new service-connected disabilities or conditions.'
+          },
+          schema: { type: 'object', properties: {} }
+        },
+        addDisabilities: {
+          title: 'Add a new disability',
+          path: 'new-disabilities/add',
+          uiSchema: addDisabilities.uiSchema,
+          schema: addDisabilities.schema
+        },
+        followUpDesc: {
+          title: 'Follow-up questions',
+          depends: (form) => form['view:newDisabilities'] === true,
+          path: 'new-disabilities/follow-up',
+          uiSchema: {
+            'ui:description': 'Now we’re going to ask you some follow-up questions about each of your disabilities. We’ll go through them one by one.'
+          },
+          schema: { type: 'object', properties: {} }
+        },
+        newDisabilityFollowUp: {
+          title: (formData) => getDisabilityName(formData.condition),
+          path: 'new-disabilities/follow-up/:index',
+          showPagePerItem: true,
+          itemFilter: (item) => !ptsdDisabilityIds.has(item.diagnosticCode),
+          arrayPath: 'newDisabilities',
+          uiSchema: newDisabilityFollowUp.uiSchema,
+          schema: newDisabilityFollowUp.schema
+        },
+      }
+    },
+    additionalInformation: {
+      title: 'Additional information',
+      pages: {
+        contactInformation: {
+          title: 'Veteran contact information',
+          path: 'contact-information',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema
+        },
+        paymentInformation: {
+          title: 'Payment information',
+          path: 'payment-information',
+          uiSchema: paymentInformation.uiSchema,
+          schema: paymentInformation.schema
         }
       }
     }

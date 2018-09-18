@@ -19,16 +19,22 @@ const LocationInfoBlock = ({ location, currentLocation }) => {
 
   return (
     <div>
-      <Link to={`facility/${location.id}`}>
-        <h5>{name}</h5>
-      </Link>
-      { isProvider ?
+      { isProvider ? (
         <span>
-          <h6>{location.attributes.orgName}</h6>
+          <Link to={`provider/${location.id}`}>
+            <h5>{name}</h5>
+          </Link>
+          { location.attributes.orgName && <h6>{location.attributes.orgName}</h6> }
           <ProviderServiceDescription provider={location}/>
-        </span> :
-        <FacilityTypeDescription location={location}/>
-      }
+        </span>
+      ) : (
+        <span>
+          <Link to={`facility/${location.id}`}>
+            <h5>{name}</h5>
+          </Link>
+          <FacilityTypeDescription location={location}/>
+        </span>
+      )}
       <p>
         <LocationAddress location={location}/>
       </p>

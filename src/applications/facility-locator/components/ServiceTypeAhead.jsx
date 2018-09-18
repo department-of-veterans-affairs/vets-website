@@ -1,9 +1,16 @@
 /* eslint-disable no-use-before-declare */
 /* eslint-disable react/sort-comp */
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+
+// These are added in by Downshift so linting error needs to be ignored
+/* eslint-disable jsx-a11y/label-has-for */
+/* eslint-disable react/jsx-key */
 import React, { Component } from 'react';
 import { func } from 'prop-types';
 import { connect } from 'react-redux';
-import Autosuggest from 'react-autosuggest-ie11-compatible';
+import Downshift from 'downshift';
+import classNames from 'classnames';
 import { getProviderSvcs } from '../actions';
 
 class ServiceTypeAhead extends Component {
@@ -11,8 +18,6 @@ class ServiceTypeAhead extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: '',
-      suggestions: [],
       services: []
     };
   }
@@ -26,73 +31,78 @@ class ServiceTypeAhead extends Component {
     this.setState({ services });
   }
 
-  onChange = (event, { newValue }) => {
-    this.setState({ input: newValue });
-  };
-
-  /**
-   * Handles the filtering of the services list based on what
-   * the user has typed into the input field.
-   * 
-   * @param {string} value Text as entered by the user
-   */
-  updateSuggestions = ({ value }) => {
-    const normalVal = value.trim().toLowerCase();
-    const { services } = this.state;
-
-    const suggestions = (normalVal.length === 0)
-      ? []
-      : services.filter(s => {
-        return s.Name.trim().toLowerCase().includes(normalVal);
-      });
-
-    this.setState({ suggestions });
+  handleOnSelect = (selectedItem) => {
+    this.props.onSelect({
+      target: {
+        value: selectedItem.Name.trim()
+      }
+    });
   }
 
-  /**
-   * Handles any custom rendering of the service suggestion in
-   * the typeahead's dropdown view
-   * 
-   * @param {Object} suggestion A single service object
-   */
-  renderSuggestion = (suggestion) => {
-    return (
-      <ul className="dropdown" role="listbox">{suggestion.Name.trim()}</ul>
-    );
-  }
-
-  clearSuggestions = () => {
-    this.setState({ suggestions: [] });
-  };
+  optionClasses = (selected) => classNames(
+    'dropdown-option',
+    { selected }
+  )
 
   render() {
-    const inputElemProps = {
-      placeholder: 'Like primary care, cardiology',
-      value: this.state.input,
-      onChange: this.onChange
-    };
+    const { services } = this.state;
+    const renderService = (s) => { return (s && s.Name) ? s.Name.trim() : ''; };
 
     return (
-      <div className="columns medium-3">
-        <label htmlFor="service-type-dropdown">
-          Service type (optional)
-        </label>
-        <Autosuggest
-          suggestions={this.state.suggestions}
-          onSuggestionsFetchRequested={this.updateSuggestions}
-          onSuggestionsClearRequested={this.clearSuggestions}
-          getSuggestionValue={ (suggestion) => suggestion.Name.trim() }
-          shouldRenderSuggestions={ (value) => value.trim().length >= 2 }
-          onSuggestionSelected={this.props.onSelect}
-          renderSuggestion={this.renderSuggestion}
-          inputProps={inputElemProps}/>
-      </div>
+      <Downshift onChange={this.handleOnSelect} itemToString={renderService}>
+        {
+          ({
+            getInputProps,
+            getItemProps,
+            getLabelProps,
+            isOpen,
+            inputValue,
+            highlightedIndex,
+            selectedItem
+          }) => (
+            <div>
+              <label { ...getLabelProps() }>
+                Service type (optional)
+              </label>
+              <span id="service-typeahead">
+                <input { ...getInputProps({ placeholder: 'Like primary care, cardiology' }) }/>
+                { (isOpen && inputValue.length >= 2)
+                  ? <div className="dropdown" role="listbox">
+                      { services
+                        .filter(svc =>
+                          inputValue.length >= 2 &&
+                          svc.Name.trim().toLowerCase().includes(inputValue.toLowerCase())
+                        )
+                        .map((svc, index) => (
+                          <div key={svc.Name}
+                            { ...getItemProps({
+                                item: svc,
+                                className: this.optionClasses(index === highlightedIndex),
+                                role: 'option',
+                                'aria-selected': index === highlightedIndex
+                              })
+                            }
+                            style={{ fontWeight: selectedItem === svc ? 'bold' : 'normal' }}>
+                            {renderService(svc)}
+                          </div>
+                        ))
+                      }
+                    </div>
+                  : null
+                }
+              </span>
+            </div>
+          )
+        }
+      </Downshift>
     );
+
   }
 }
 
 ServiceTypeAhead.propTypes = {
   onSelect: func.isRequired,
+  getProviderSvcs: func.isRequired,
 };
 
 const mapDispatch = { getProviderSvcs };

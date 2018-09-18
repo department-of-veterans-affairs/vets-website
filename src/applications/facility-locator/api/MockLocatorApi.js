@@ -61,7 +61,23 @@ class MockLocatorApi {
         } else {
           reject(`Facility with given ID '${id}' not found!`);
         }
-    } else {
+      } else {
+        reject('No facility ID or invalid ID specified!');
+      }
+    });
+  }
+
+  static fetchProviderDetail(id) {
+    return new Promise( (resolve, reject) => {
+
+      if (id && typeof id === 'string') {
+        const location = facilityData.data.filter(data => data.id === id);
+        if (location && location.length > 0) {
+          resolve(location[0]);
+        } else {
+          reject(`Facility with given ID '${id}' not found!`);
+        }
+      } else {
         reject('No facility ID or invalid ID specified!');
       }
     });
@@ -821,7 +837,7 @@ export const facilityData = {
         orgName: 'Jones Family Medicine',
         specialty: [{
           name: 'Family Medicine',
-          desc: '...stuff...'
+          desc: 'Family Medicine is the medical specialty which is concerned with the total health care of the individual and the family. It is the specialty in breadth which integrates the biological, clinical, and behavioral sciences. The scope of family medicine is not limited by age, sex, organ system, or disease entity.'
         }],
         address: {
           street: '820 Chesapeake Street, Southeast',
@@ -854,11 +870,11 @@ export const facilityData = {
         orgName: null,
         specialty: [{
           name: 'Dentistry',
-          desc: '...stuff...'
+          desc: "A dentist is a person qualified by a doctorate in dental surgery (D.D.S.) or dental medicine (D.M.D.), licensed by the state to practice dentistry, and practicing within the scope of that license.  There is no difference between the two degrees: dentists who have a DMD or DDS have the same education.  Universities have the prerogative to determine what degree is awarded.  Both degrees use the same curriculum requirements set by the American Dental Association's Commission on Dental Accreditation.  Generally, three or more years of undergraduate education plus four years of dental school is required to graduate and become a general dentist.  State licensing boards accept either degree as equivalent, and both degrees allow licensed individuals to practice the same scope of general dentistry.  Additional post-graduate training is required to become a dental specialist."
         },
         {
           name: 'Orthodontist',
-          desc: 'Braces and schtuff...'
+          desc: 'That area of dentistry concerned with the supervision, guidance and correction of the growing or mature dentofacial structures, including those conditions that require movement of teeth or correction of malrelationships and malformations of their related structures and the adjustment of relationships between and among teeth and facial bones by the application of forces and/or the stimulation and redirection of functional forces within the craniofacial complex.  Major responsibilities of orthodontic practice include the diagnosis, prevention, interception and treatment of all forms of malocclusion of the teeth and associated alterations in their surrounding structures; the design, application and control of functional and corrective appliances; and the guidance of the dentition and its supporting structures to attain and maintain optimum occlusal relations in physiologic and esthetic harmony among facial and cranial structures.'
         }],
         address: {
           street: '1500 Franklin Street Northeast',

@@ -22,7 +22,7 @@ describe('Disability benefits 526EZ evidence type', () => {
       uiSchema={uiSchema}/>
     );
 
-    expect(form.find('input').length).to.equal(3);
+    expect(form.find('input').length).to.equal(5);
   });
 
   it('should fill in evidence type information', () => {

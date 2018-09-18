@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Raven from 'raven-js';
 
 import {
   getDefaultFormState,
@@ -126,13 +127,34 @@ export default class ReviewCardField extends React.Component {
 
 
   getReviewView = (title) => {
-    const ViewComponent = this.props.uiSchema['ui:options'].viewComponent;
+    if (this.props.formContext.onReviewPage) {
+      // Check the data type and use the appropriate review field
+      const dataType = this.props.schema.type;
+      if (dataType === 'object') {
+        const { ObjectField } = this.props.registry.fields;
+        return <ObjectField {...this.props}/>;
+      } else if (dataType === 'array') {
+        const { ArrayField } = this.props.registry.fields;
+        return <ArrayField {...this.props}/>;
+      }
 
+      // Not having the right type should have been caught in the constructor, but...
+      Raven.captureMessage('ReviewCardField-bad-type-on-review', {
+        extra: `Expected object or array, got ${dataType}`
+      });
+      // Fall back to the ViewComponent
+    }
+
+    const ViewComponent = this.props.uiSchema['ui:options'].viewComponent;
     return (
       <div className="review-card">
         <div className="review-card--header">
           <h4 className="review-card--title">{title}</h4>
-          <button className="usa-button-secondary edit-button" onClick={this.startEditing}>Edit</button>
+          <button
+            className="usa-button-secondary edit-button"
+            onClick={this.startEditing}
+            aria-label={`Edit ${title}`}>Edit
+          </button>
         </div>
         <div className="review-card--body">
           <ViewComponent formData={this.props.formData}/>
