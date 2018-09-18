@@ -196,7 +196,7 @@ Each claim is different, but it usually takes us about 3 to 4 months to process 
 
 [See our most recent estimate for the average number of days to complete a claim](/disability/how-to-file-claim/#days-to-complete-claim).
 
-[Sign in to Vets.gov to track your claim](/track-claims/).
+[Sign in to VA.gov to track your claim](/track-claims/).
 
 </div>
 </li>
