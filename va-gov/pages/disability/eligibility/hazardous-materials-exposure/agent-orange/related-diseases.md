@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Related Diseases
+title: Agent Orange Diseases
 description: Find out what cancers and other illnesses we believe are caused by Agent Orange--and if you can get VA disability compensation if you have one or more of these illnesses. 
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: detail-page
