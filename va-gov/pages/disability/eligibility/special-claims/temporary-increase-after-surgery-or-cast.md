@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Recovery from Surgery or an Immobilizing Disability (Convalescence)
+title: Temporary Disability Rating After Surgery or Getting a Cast
 display_title: Increase after Surgery or Cast
 description: Find out if you can get a temporary 100% disability rating and VA convalescence pay (sometimes called "back pay") because of a surgery or service-connected disability that's left you unable to move. 
 concurrence: complete
