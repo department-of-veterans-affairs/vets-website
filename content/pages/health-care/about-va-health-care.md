@@ -45,6 +45,8 @@ You should also know that being signed up for VA health care meets your Affordab
 
 </div>
 </div>
+</div>
+
 
 <div itemscope itemtype="http://schema.org/Question">
 <h3 itemprop="name">What if I’m just separating from active duty and don’t know where to start?</h3>
