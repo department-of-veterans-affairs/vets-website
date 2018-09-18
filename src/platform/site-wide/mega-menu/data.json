@@ -13,20 +13,16 @@
                                 "href": "/health-care/about-va-health-benefits/"
                             },
                             {
-                                "text": "Eligibility",
-                                "href": "/health-care/eligibility/"
-                            },
-                            {
                                 "text": "How to Apply",
                                 "href": "/health-care/how-to-apply/"
                             },
                             {
-                                "text": "Apply Now for Health Care",
-                                "href": "/health-care/apply-for-health-care-form-10-10ez"
-                            },
-                            {
                                 "text": "Family and Caregiver Health Benefits",
                                 "href": "/health-care/family-caregiver-benefits/"
+                            },
+                            {
+                                "text": "Apply Now for Health Care",
+                                "href": "/health-care/apply-for-health-care-form-10-10ez"
                             }
                         ]
                     },
@@ -517,20 +513,20 @@
                         "title": "Get Your Records",
                         "links": [
                             {
-                                "text": "Apply for a Veteran ID Card",
-                                "href": "#"
-                            },
-                            {
                                 "text": "Get Your VA Medical Records (Blue Button)",
-                                "href": "#"
+                                "href": "/health-care/get-medical-records/"
                             },
                             {
                                 "text": "Download Your VA Benefit Letters",
-                                "href": "#"
+                                "href": "/records/download-va-letters/"
                             },
                             {
                                 "text": "Apply for a Home Loan COE",
                                 "href": "#"
+                            },
+                            {
+                                "text": "Apply for a Veteran ID Card",
+                                "href": "/records/get-veteran-id-cards/"
                             }
                         ]
                     },
@@ -539,19 +535,20 @@
                         "links": [
                             {
                                 "text": "Request Your Military Records (DD214)",
-                                "href": "#"
+                                "href": "/records/get-military-service-records/"
                             },
                             {
                                 "text": "How to Apply for a Discharge Upgrade",
-                                "href": "#"
+                                "href": "/records/discharge-upgrade/"
                             },
                             {
                                 "text": "View Your VA Payment History",
-                                "href": "https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
+                                "href": ""
                             },
                             {
                                 "text": "Search Historical Military Records (National Archives)",
-                                "href": "https://www.archives.gov/"
+                                "href": "https://www.archives.gov/",
+                                "target": "_blank"
                             }
                         ]
                     },
@@ -582,31 +579,31 @@
               "links": [
                   {
                       "text": "Veterans Health Administration",
-                      "href": "https://va.gov/health/"
+                      "href": "https://www.va.gov/health/"
                   },
                   {
                       "text": "Veterans Benefits Administration",
-                      "href": "https://benefits.va.gov/benefits/"
+                      "href": "https://www.benefits.va.gov/benefits/"
                   },
                   {
                       "text": "National Cemetery Administration",
-                      "href": "https://cem.va.gov"
+                      "href": "https://www.cem.va.gov"
                   },
                   {
                       "text": "VA Leadership",
-                      "href": "https://va.gov/opa/bios/index.asp"
+                      "href": "https://www.va.gov/opa/bios/index.asp"
                   },
                   {
                       "text": "Public Affairs",
-                      "href": "https://va.gov/OPA/index.asp"
+                      "href": "https://www.va.gov/OPA/index.asp"
                   },
                   {
                       "text": "Congressional Affairs",
-                      "href": "https://va.gov/oca/index.asp"
+                      "href": "https://www.va.gov/oca/index.asp"
                   },
                   {
                       "text": "All VA Offices and Organizations",
-                      "href": "https://va.gov/landing_organizations.htm"
+                      "href": "https://www.va.gov/landing_organizations.htm"
                   }
               ]
           },
@@ -615,35 +612,35 @@
               "links": [
                   {
                       "text": "Health Research",
-                      "href": "https://research.va.gov"
+                      "href": "https://www.research.va.gov"
                   },
                   {
                       "text": "Public Health",
-                      "href": "https://publichealth.va.gov"
+                      "href": "https://www.publichealth.va.gov"
                   },
                   {
                       "text": "Veterans Choice Program",
-                      "href": "https://va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp"
+                      "href": "https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp"
                   },
                   {
                       "text": "VA Open Data",
-                      "href": "https://data.va.gov"
+                      "href": "https://www.data.va.gov"
                   },
                   {
                       "text": "Veterans Analysis and Statistics",
-                      "href": "https://va.gov/VETDATA/index.asp"
+                      "href": "https://www.va.gov/VETDATA/index.asp"
                   },
                   {
                       "text": "Appeals Modernization",
-                      "href": "https://benefits.va.gov/benefits/appeals.asp"
+                      "href": "https://www.benefits.va.gov/benefits/appeals.asp"
                   },
                   {
                       "text": "VA Center for Innovation",
-                      "href": "https://innovation.va.gov"
+                      "href": "https://www.innovation.va.gov"
                   },
                   {
                       "text": "Recovery Act",
-                      "href": "https://va.gov/recovery/"
+                      "href": "https://www.va.gov/recovery/"
                   }
               ]
           },
@@ -652,15 +649,15 @@
               "links": [
                   {
                       "text": "VA Mission, Vision, and Values",
-                      "href": "https://va.gov/ABOUT_VA/index.asp"
+                      "href": "https://www.va.gov/ABOUT_VA/index.asp"
                   },
                   {
                       "text": "History of VA",
-                      "href": "https://va.gov/about_va/vahistory.asp"
+                      "href": "https://www.va.gov/about_va/vahistory.asp"
                   },
                   {
                       "text": "VA Plans, Budget, and Performance",
-                      "href": "https://va.gov/performance/"
+                      "href": "https://www.va.gov/performance/"
                   },
                   {
                       "text": "National Cemetery History Program",

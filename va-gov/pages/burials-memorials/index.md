@@ -128,7 +128,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
    <div class="link">
-    <a href="https://www.cem.va.gov/cem/cems/index.asp"><b>Find a National, State, or Tribal Government Veterans Cemetery</b></a>
+    <a href="https://www.cem.va.gov/cems/listcem.asp"><b>Find a National, State, or Tribal Government Veterans Cemetery</b></a>
     <p>Search for national, state, or tribal government Veterans cemeteries.</p>
   </div>
 
@@ -162,7 +162,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
     <p>View current survivor benefit rates for parents.</p>
 
   <div class="link">
-    <a href="https://www.archives.gov/veterans/replace-medals.html"><b>Replace Medals, Awards, and Decorations</b></a>
+    <a href="https://www.archives.gov/veterans/replace-medals" target="_blank"><b>Replace Medals, Awards, and Decorations</b></a>
     <p>Visit the National Archives website to find out how to request replacement medals, awards, and decorations.</p>
 
   <div class="link">

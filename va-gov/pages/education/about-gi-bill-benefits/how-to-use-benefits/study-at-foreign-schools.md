@@ -4,7 +4,7 @@ template: detail-page
 title: Foreign Programs
 plainlanguage: 11-28-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
-order: 1
+order: 2
 aliases:
   - /education/gi-bill/foreign-programs/
 ---

@@ -44,7 +44,7 @@ Find out if you qualify for:
 
 - [Survivors’ and Dependents’ Assistance
 (education and training opportunities, plus help paying for school)](/education/survivor-dependent-benefits/)<br>
-- [Free educational and career counseling services](/education/tools-programs/education-career-counseling/)<br>
+- [Free educational and career counseling services](/careers-employment/education-and-career-counseling/)<br>
 - [Work study (a part-time job while you're in school)](/education/about-gi-bill-benefits/how-to-use-benefits/work-study/)<br>
 
 [Use the GI Bill Comparison Tool to see what benefits you’ll get at different schools](/education/gi-bill-school-comparison-tool).<br>
@@ -68,10 +68,10 @@ If you’re the spouse or surviving spouse of a Servicemember or Veteran, you ma
 - Workshops focused on building resumes and cover letters as well as networking and interviewing skills
 - Entrepreneurship training to help you start your own business
 
-[Explore resources for military and Veteran family members](/employment/job-seekers/family-members/).
+[Explore resources for military and Veteran family members](/careers-employment/family-resources/).
 
 **Looking for career and employment information on behalf of a Servicemember or Veteran?**<br>
-[Learn about career and employment benefits for Servicemembers and Veterans](/employment/).
+[Learn about career and employment benefits for Servicemembers and Veterans](/careers-employment/).
 
 <span id="voc-rehab">
 
@@ -85,21 +85,21 @@ Benefits may include educational and vocational (job) counseling, plus help with
 - Mapping out a career path
 - Planning the best use of your VA benefits
 
-[Find out if you qualify for counseling and how to apply](/employment/vocational-rehab-and-employment/family-members/).
+[Find out if you qualify for counseling and how to apply](/careers-employment/dependent-benefits/).
 
 **Looking for VR&E information on behalf of a Servicemember or Veteran?**<br>
-[Learn about VR&E benefits for Servicemembers and Veterans](/employment/vocational-rehab-and-employment/).
+[Learn about VR&E benefits for Servicemembers and Veterans](/careers-employment/vocational-rehabilitation/).
 <!-- should be /vocational-rehab-and-employment/ -->
 
 <span id="life-insurance">
 
 ### Life Insurance
 
-If you’re the spouse or dependent child of a Servicemember, you may qualify for term life insurance coverage through our Family Servicemembers’ Group Life Insurance (FSGLI). [Find out if you qualify for FSGLI and how to apply](/life-insurance/options-and-eligibility/fsgli/).
+If you’re the spouse or dependent child of a Servicemember, you may qualify for term life insurance coverage through our Family Servicemembers’ Group Life Insurance (FSGLI). [Find out if you qualify for FSGLI and how to apply](/life-insurance/options-eligibility/fsgli/).
 
 If you have FSGLI coverage, you can also get free, professional financial planning and online will preparation services. [Access beneficiary financial counseling and online will preparation](http://www.benefits.va.gov/insurance/bfcs.asp).
 
-If you or your Servicemember or Veteran has a terminal illness, you may be able to get your life insurance benefits early. Having a terminal illness means you have an illness that can’t be cured and will likely result in death within a short period of time. [Learn about accelerated claims for terminally ill policyholders](/life-insurance/disabled-and-terminally-ill/).
+If you or your Servicemember or Veteran has a terminal illness, you may be able to get your life insurance benefits early. Having a terminal illness means you have an illness that can’t be cured and will likely result in death within a short period of time. [Learn about accelerated claims for terminally ill policyholders](/life-insurance/totally-disabled-or-terminally-ill/).
 
 **Looking for life insurance information on behalf of a Servicemember or Veteran?**<br>
 [Learn about life insurance benefits for Servicemembers and Veterans](/life-insurance/).
@@ -141,14 +141,14 @@ If you’re the surviving spouse, child, or parent of a Servicemember who died w
 ### Housing Assistance
 
 If you’re the surviving spouse of a Veteran, we may be able to help you build, buy, improve, or refinance a home.
-[Learn how VA-backed home loans work](/housing-assistance/home-loans/loan-options/).<br>
+[Learn how VA-backed home loans work](/housing-assistance/home-loans/loan-types/).<br>
 [Find out if you qualify to get a Certificate of Eligibility (COE) for a VA-backed home loan](/housing-assistance/home-loans/eligibility/).<br>
-[Find out how to apply for a COE—and what to do next to get a VA-backed home loan](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).<br>
+[Find out how to apply for a COE—and what to do next to get a VA-backed home loan](/housing-assistance/home-loans/how-to-apply/).<br>
 
 If you have a VA-backed home loan and you’re having trouble making your mortgage payments, we may be able to help you avoid foreclosure and keep your home. [Find out how we can help you avoid foreclosure](/housing-assistance/home-loans/trouble-making-payments/). 
 
 **Looking for information about buying, building, or making changes to a home to help a Veteran with disabilities?**<br>
-[Learn about adaptive housing grants](/housing-assistance/adaptive-housing-grants/).
+[Learn about adaptive housing grants](/housing-assistance/disability-housing-grants/).
 <br>
 
 <span id="caregiver-support">

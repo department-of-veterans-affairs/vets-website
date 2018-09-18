@@ -55,7 +55,7 @@ Fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form
 [Download VA Form 21-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf). 
 
 Mail it to the Pension Management Center (PMC) for your state. <br>
-[Find your PMC](/pension/pension-management-center/). 
+[Find your PMC](/pension/pension-management-centers/). 
 
 #### In person
 
