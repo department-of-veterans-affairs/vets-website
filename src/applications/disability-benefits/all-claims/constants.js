@@ -90,3 +90,39 @@ export const MILITARY_STATE_LABELS = [
 
 export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
 export const USA = 'USA';
+
+export const ADDRESS_TYPES = {
+  mailingAddress: 'mailingAddress',
+  forwardingAddress: 'forwardingAddress'
+};
+
+export const accountTitleLabels = {
+  CHECKING: 'Checking Account',
+  SAVINGS: 'Savings Account',
+  NOBANK: 'No Bank Account'
+};
+
+export const NOBANK = 'NOBANK';
+
+export const PENDING = 'PENDING';
+export const RESOLVED = 'RESOLVED';
+export const REJECTED = 'REJECTED';
+
+export const HOMELESSNESS_TYPES = {
+  atRisk: 'atRisk',
+  homeless: 'homeless',
+  notHomeless: 'no'
+};
+
+export const AT_RISK_HOUSING_TYPES = {
+  losingHousing: 'losingHousing',
+  leavingShelter: 'leavingShelter',
+  other: 'other'
+};
+
+export const HOMELESS_HOUSING_TYPES = {
+  shelter: 'shelter',
+  notShelter: 'notShelter',
+  anotherPerson: 'anotherPerson',
+  other: 'other'
+};

@@ -99,10 +99,6 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
   {% include "content/includes/modal.html" %}
 {% endif %}
 
-{% if buildtype === 'staging' %}
-  <script src="/js/foresee/staging.js"></script>
-{% endif %}
-
 <!-- htmllint attr-bans="[]" -->
 {% if buildtype === 'development' %}
   <script>
@@ -149,6 +145,8 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 })();
 </script>
 {% endif %}
+
+{% include "content/includes/survey-tools.html" %}
 
 </body>
 </html>

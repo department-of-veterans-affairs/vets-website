@@ -6,9 +6,10 @@ import dateUI from 'us-forms-system/lib/js/definitions/date';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import {
   ReservesGuardDescription,
-  title10DatesRequired,
   isInFuture
 } from '../../all-claims/utils';
+
+import { title10DatesRequired } from '../helpers';
 
 const { reservesNationalGuardService } = fullSchema526EZ.properties.serviceInformation.properties;
 

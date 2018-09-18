@@ -23,12 +23,10 @@ export const checkLaterMessage = (jobId) => (
   </div>
 );
 
-export const errorMessage = (jobId) => (
+export const errorMessage = () => (
   <div>
-    <p>We’re sorry. Something went wrong on our end when we tried to submit your application. For help, please call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a>, Monday – Friday, 8:00 a.m. – 9:00 a.m. (ET).</p>
-    <strong>Confirmation number</strong>
-    <div>{jobId}</div>
-    <br/>
+    <p>We're sorry. Something went wrong on our end when we tried to submit your application. For help submitting your claim, please call VA Benefits Call Center at <a href="tel:18008271000">1-800-827-1000</a>, Monday – Friday, 8:30 a.m. – 4:30 p.m. (ET). Or, you can get in touch with your nearest Veterans Service Officer (VSO).</p>
+    <p><a href="/disability-benefits/apply/help/">Contact your nearest VSO.</a></p>
   </div>
 );
 

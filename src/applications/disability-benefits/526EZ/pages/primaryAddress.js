@@ -5,8 +5,9 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
+import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
 
-import ReviewCardField from '../components/ReviewCardField';
+import ReviewCardField from '../../all-claims/components/ReviewCardField';
 
 import {
   PrimaryAddressViewField,
@@ -14,8 +15,9 @@ import {
   contactInfoDescription,
   contactInfoUpdateHelp,
   phoneEmailViewField
-} from '../helpers';
+} from '../../all-claims/content/contactInformation';
 import  {
+  ADDRESS_TYPES,
   MILITARY_CITIES,
   MILITARY_STATE_LABELS,
   MILITARY_STATE_VALUES,
@@ -23,10 +25,11 @@ import  {
   STATE_VALUES,
   USA,
 } from '../../all-claims/constants';
-import  {
-  ADDRESS_TYPES
-} from '../constants';
 
+// These validators are staying in the increase-only form because most of them
+// rely on the data structure of the increase-only form. The all-claims form
+// has a different structure so it's easier to just keep the validations separate
+// and delete these when the time comes
 function isValidZIP(value) {
   if (value !== null) {
     return /^\d{5}(?:(?:[-\s])?\d{4})?$/.test(value);
@@ -177,6 +180,7 @@ export const uiSchema = {
       primaryPhone: {
         'ui:title': 'Phone number',
         'ui:widget': PhoneNumberWidget,
+        'ui:reviewWidget': PhoneNumberReviewWidget,
         'ui:errorMessages': {
           pattern: 'Phone numbers must be 10 digits (dashes allowed)'
         },

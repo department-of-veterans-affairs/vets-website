@@ -9,6 +9,7 @@ import {
 
 import {
   hasGuardOrReservePeriod,
+  getDisabilityName,
   prefillTransformer
 } from '../utils';
 
@@ -23,10 +24,22 @@ import {
   reservesNationalGuardService,
   federalOrders,
   prisonerOfWar,
-  ratedDisabilities
+  ratedDisabilities,
+  contactInformation,
+  addDisabilities,
+  newDisabilityFollowUp,
+  paymentInformation,
+  homelessOrAtRisk,
 } from '../pages';
 
 import fullSchema from './schema';
+
+const ptsdDisabilityIds = new Set([
+  5420,
+  7290,
+  9010,
+  9011
+]);
 
 const formConfig = {
   urlPrefix: '/',
@@ -132,6 +145,62 @@ const formConfig = {
           depends: hasRatedDisabilities,
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema
+        },
+        newDisabilities: {
+          title: 'New disabilities',
+          path: 'new-disabilities',
+          uiSchema: {
+            'ui:title': 'New disabilities',
+            'ui:description': 'Now we’ll ask you about your new service-connected disabilities or conditions.'
+          },
+          schema: { type: 'object', properties: {} }
+        },
+        addDisabilities: {
+          title: 'Add a new disability',
+          path: 'new-disabilities/add',
+          uiSchema: addDisabilities.uiSchema,
+          schema: addDisabilities.schema
+        },
+        followUpDesc: {
+          title: 'Follow-up questions',
+          depends: (form) => form['view:newDisabilities'] === true,
+          path: 'new-disabilities/follow-up',
+          uiSchema: {
+            'ui:description': 'Now we’re going to ask you some follow-up questions about each of your disabilities. We’ll go through them one by one.'
+          },
+          schema: { type: 'object', properties: {} }
+        },
+        newDisabilityFollowUp: {
+          title: (formData) => getDisabilityName(formData.condition),
+          path: 'new-disabilities/follow-up/:index',
+          showPagePerItem: true,
+          itemFilter: (item) => !ptsdDisabilityIds.has(item.diagnosticCode),
+          arrayPath: 'newDisabilities',
+          uiSchema: newDisabilityFollowUp.uiSchema,
+          schema: newDisabilityFollowUp.schema
+        },
+      }
+    },
+    additionalInformation: {
+      title: 'Additional information',
+      pages: {
+        contactInformation: {
+          title: 'Veteran contact information',
+          path: 'contact-information',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema
+        },
+        paymentInformation: {
+          title: 'Payment information',
+          path: 'payment-information',
+          uiSchema: paymentInformation.uiSchema,
+          schema: paymentInformation.schema
+        },
+        homelessOrAtRisk: {
+          title: 'Housing situation',
+          path: 'housing-situation',
+          uiSchema: homelessOrAtRisk.uiSchema,
+          schema: homelessOrAtRisk.schema
         }
       }
     }
