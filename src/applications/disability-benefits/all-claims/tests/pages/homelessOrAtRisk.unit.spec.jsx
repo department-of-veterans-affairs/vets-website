@@ -5,7 +5,13 @@ import { DefinitionTester } from '../../../../../platform/testing/unit/schemafor
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
-describe('Federal orders info', () => {
+import {
+  OTHER,
+  HOMELESS,
+  AT_RISK
+} from '../../constants';
+
+describe('Homeless or At Risk Info', () => {
   const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.homelessOrAtRisk;
 
   it('should render', () => {
@@ -50,7 +56,7 @@ describe('Federal orders info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          homelessOrAtRisk: 'homeless'
+          homelessOrAtRisk: HOMELESS
         }}
         formData={{}}
         onSubmit={onSubmit}/>
@@ -70,7 +76,7 @@ describe('Federal orders info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          homelessOrAtRisk: 'atRisk'
+          homelessOrAtRisk: AT_RISK
         }}
         formData={{}}
         onSubmit={onSubmit}/>
@@ -81,7 +87,7 @@ describe('Federal orders info', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should require housing input when other housing option selected', () => {
+  it('should require homeless housing input when other selected', () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
@@ -90,9 +96,33 @@ describe('Federal orders info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          homelessOrAtRisk: 'homeless',
+          homelessOrAtRisk: HOMELESS,
           'view:isHomeless': {
-            homelessHousingSituation: 'Other',
+            homelessHousingSituation: OTHER,
+            needToLeaveHousing: true
+          },
+        }}
+        formData={{}}
+        onSubmit={onSubmit}/>
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('should require at risk housing input when other option selected', () => {
+    const onSubmit = sinon.spy();
+
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          homelessOrAtRisk: AT_RISK,
+          'view:isHomeless': {
+            homelessHousingSituation: OTHER,
             needToLeaveHousing: true
           },
         }}
@@ -114,9 +144,9 @@ describe('Federal orders info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          homelessOrAtRisk: 'atRisk',
+          homelessOrAtRisk: AT_RISK,
           'view:isAtRisk': {
-            atRiskHousingSituation: 'I’m losing my housing in 30 days.'
+            atRiskHousingSituation: 'losingHousing'
           },
           homelessnessContact: {
             name: 'John Smith'
@@ -140,9 +170,9 @@ describe('Federal orders info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          homelessOrAtRisk: 'atRisk',
+          homelessOrAtRisk: AT_RISK,
           'view:isAtRisk': {
-            atRiskHousingSituation: 'I’m losing my housing in 30 days.'
+            atRiskHousingSituation: 'losingHousing'
           },
           homelessnessContact: {
             phoneNumber: '1234567890'
@@ -166,10 +196,10 @@ describe('Federal orders info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          homelessOrAtRisk: 'homeless',
+          homelessOrAtRisk: HOMELESS,
           'view:isHomeless': {
-            homelessHousingSituation: 'Other',
-            otherHomelessHousing: 'An airplane',
+            homelessHousingSituation: OTHER,
+            otherHomelessHousing: 'No housing',
             needToLeaveHousing: true
           },
           homelessnessContact: {
