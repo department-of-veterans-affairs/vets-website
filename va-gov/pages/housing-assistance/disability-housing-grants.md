@@ -2,8 +2,11 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Adaptive Housing Grants
+display_title: Housing Grants
 concurrence:
-order: 2
+order: 1
+spoke: Disability Housing Grants
+children: disabilityHousingGrants
 aliases:
   - /housing-assistance/adaptive-housing-grants/
 ---
@@ -47,7 +50,7 @@ You may be able to get an SHA grant if you’re using the grant money to buy, bu
   - The loss or loss of use of both hands
   - Certain severe burns
   - Certain respiratory or breathing injuries
-  
+
 For FY 2018, you may be able to get up to 3 grants—for a total of up to $16,217—through the SHA grant program.
 
 <br>
@@ -69,7 +72,7 @@ You may be able to get a Temporary Residence Adaptation (TRA) grant if you meet 
 
 ### How do I get an SAH, SHA, or TRA grant?
 
-You’ll need to apply for a grant. 
+You’ll need to apply for a grant.
 
 **You can apply in 1 of 3 ways:**
 

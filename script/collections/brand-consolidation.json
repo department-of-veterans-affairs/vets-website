@@ -379,21 +379,38 @@
     "pattern": "housing-assistance/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Housing Assistance"
+      "name": "Housing Assistance",
+      "spokes": ["VA Home Loans", "Disability Housing Grants"]
     }
   },
   "housingHomeLoans": {
     "pattern": "housing-assistance/home-loans/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Home Loans"
+      "name": "Home Loans",
+      "icon": "fa-home"
     }
   },
   "housingVALoans": {
     "pattern": "housing-assistance/home-loans/loan-types/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Loan Options"
+      "name": "Loan Options",
+      "icon": "fa-home"
+    }
+  },
+  "housingNativeAmericanDLoan": {
+    "pattern": "housing-assistance/home-loans/loan-types/native-american-direct-loan/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "icon": "fa-home"
+    }
+  },
+  "disabilityHousingGrants": {
+    "pattern": "housing-assistance/disability-housing-grants/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "icon": "fa-home"
     }
   },
   "lifeInsurance": {

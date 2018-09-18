@@ -2,8 +2,10 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Home Loans
-concurrence: 
+display_title: VA Backed Home Loans
+concurrence:
 children: housingHomeLoans
+spoke: VA Home Loans
 order: 1
 majorlinks:
   - heading:
