@@ -6,6 +6,7 @@ display_title: Eligibility
 concurrence:
 order: 1
 children: pensionEligibility
+spoke: Get Benefits
 widgets:
   - root: react-applicationStatus
     timeout: 20
