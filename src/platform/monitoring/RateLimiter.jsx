@@ -26,7 +26,7 @@ export class RateLimiter extends React.Component {
     const randomizer = Math.random();
 
     this.state = {
-      rateLimitDisabled: window.sessionStorage.getItem(`${props.id}_rateLimitDisabled`),
+      rateLimitDisabled: JSON.parse(window.sessionStorage.getItem(`${props.id}_rateLimitDisabled`)),
       passedUnauthedRateLimit: randomizer < rateLimitUnauthed,
       passedAuthedRateLimit: randomizer < rateLimitAuthed
     };
@@ -48,7 +48,7 @@ export class RateLimiter extends React.Component {
       (state.user.login.currentlyLoggedIn && passedAuthedRateLimit) ||
       (!state.user.login.currentlyLoggedIn && passedUnauthedRateLimit)
     )) {
-      window.sessionStorage.setItem(`${id}_rateLimitDisabled`, 'true');
+      window.sessionStorage.setItem(`${id}_rateLimitDisabled`, true);
     }
   }
 
@@ -62,7 +62,6 @@ export class RateLimiter extends React.Component {
     const passedRateLimit = state.user.login.currentlyLoggedIn
       ? this.state.passedAuthedRateLimit
       : this.state.passedUnauthedRateLimit;
-
     if (passedRateLimit || this.state.rateLimitDisabled || (bypassLimit && bypassLimit(state))) {
       return children;
     }
