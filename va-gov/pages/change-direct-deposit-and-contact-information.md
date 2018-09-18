@@ -41,16 +41,18 @@ Change your direct deposit and contact information for certain VA benefits onlin
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h2 itemprop="name">What information will I need to change my direct deposit information?</h2>
+<h2 itemprop="name">What banking information will I need to get started?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-<b>You’ll need your bank:</b>
+<b>You’ll need your bank's:</b>
 
 <ul>
 <li>Name</li>
 <li>Address</li>
 <li>Phone number</li>
+  
+<b>And you'll need your:</b>
 <li>Routing number</li>
 <li>Account number</li>
 
@@ -64,7 +66,7 @@ Change your direct deposit and contact information for certain VA benefits onlin
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Yes. You can also change your information by mail or phone.
+Yes. You can change your information by mail or phone.
 
 <h3>By mail</h3>
 
