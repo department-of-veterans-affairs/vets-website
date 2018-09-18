@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Birth Defects (Spina Bifida)
+title: Birth Defects (Spina Bifida) Linked to Agent Orange
 display_title: Birth Defects
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asbestos.asp
