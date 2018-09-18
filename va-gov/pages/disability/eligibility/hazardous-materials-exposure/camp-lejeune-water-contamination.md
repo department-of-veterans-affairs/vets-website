@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Contaminated Drinking Water at Camp Lejeune
+title: Health Issues Related to Camp Lejeune Water Contamination
 display_title: Camp Lejeune Water Contamination
 source: http://benefits.va.gov/compensation/claims-postservice-exposures-camp_lejeune_water.asp
 template: detail-page
