@@ -51,11 +51,13 @@ Change your direct deposit and contact information for certain VA benefits onlin
 <li>Name</li>
 <li>Address</li>
 <li>Phone number</li>
+</ul>
   
 <ul>  
 <b>And you'll need your:</b>
 <li>Routing number</li>
 <li>Account number</li>
+</ul>
 
 </div>
 </div>
