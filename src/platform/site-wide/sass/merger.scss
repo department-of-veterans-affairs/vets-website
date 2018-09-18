@@ -466,6 +466,10 @@
     }
 
     #mega-menu {
+      margin-top: 1em;
+      #vetnav {
+        min-height: unset;
+      }
       .login-container {
         position: relative;
         top: -50px;
