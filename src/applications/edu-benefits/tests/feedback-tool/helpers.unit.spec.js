@@ -15,6 +15,8 @@ import {
 function setFetchResponse(stub, data) {
   const response = new Response();
   response.ok = true;
+  // So `apiRequest`'s `isJson` helper works. Should this mock be more robust?
+  response.headers.get = () => 'application/json';
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
