@@ -12,11 +12,12 @@ import {
   transformSearchToolAddress,
 } from '../../feedback-tool/helpers';
 
-function setFetchResponse(stub, data) {
+function setFetchResponse(stub, data, headers = {}) {
   const response = new Response();
   response.ok = true;
-  // So `apiRequest`'s `isJson` helper works. Should this mock be more robust?
-  response.headers.get = () => 'application/json';
+  response.headers.get = headerID => {
+    return headers[headerID] || null;
+  };
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
@@ -136,30 +137,42 @@ describe('feedback-tool helpers:', () => {
         });
     });
     it('should resolve if polling state is success', () => {
-      mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), {
-        data: {
-          attributes: {
-            guid: 'test'
-          }
-        }
-      });
-      setFetchResponse(global.fetch.onSecondCall(), {
-        data: {
-          attributes: {
-            state: 'pending'
-          }
-        }
-      });
       const parsedResponse = {};
-      setFetchResponse(global.fetch.onThirdCall(), {
-        data: {
-          attributes: {
-            state: 'success',
-            parsedResponse
+      mockFetch();
+      setFetchResponse(
+        global.fetch.onFirstCall(),
+        {
+          data: {
+            attributes: {
+              guid: 'test'
+            }
           }
-        }
-      });
+        },
+        { 'Content-Type': 'application/json' }
+      );
+      setFetchResponse(
+        global.fetch.onSecondCall(),
+        {
+          data: {
+            attributes: {
+              state: 'pending'
+            }
+          }
+        },
+        { 'Content-Type': 'application/json' }
+      );
+      setFetchResponse(
+        global.fetch.onThirdCall(),
+        {
+          data: {
+            attributes: {
+              state: 'success',
+              parsedResponse
+            }
+          }
+        },
+        { 'Content-Type': 'application/json' }
+      );
       const formConfig = {
         chapters: {}
       };
@@ -173,27 +186,39 @@ describe('feedback-tool helpers:', () => {
     });
     it('should reject if polling state is failed', () => {
       mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), {
-        data: {
-          attributes: {
-            guid: 'test'
+      setFetchResponse(
+        global.fetch.onFirstCall(),
+        {
+          data: {
+            attributes: {
+              guid: 'test'
+            }
           }
-        }
-      });
-      setFetchResponse(global.fetch.onSecondCall(), {
-        data: {
-          attributes: {
-            state: 'pending'
+        },
+        { 'Content-Type': 'application/json' }
+      );
+      setFetchResponse(
+        global.fetch.onSecondCall(),
+        {
+          data: {
+            attributes: {
+              state: 'pending'
+            }
           }
-        }
-      });
-      setFetchResponse(global.fetch.onThirdCall(), {
-        data: {
-          attributes: {
-            state: 'failed'
+        },
+        { 'Content-Type': 'application/json' }
+      );
+      setFetchResponse(
+        global.fetch.onThirdCall(),
+        {
+          data: {
+            attributes: {
+              state: 'failed'
+            }
           }
-        }
-      });
+        },
+        { 'Content-Type': 'application/json' }
+      );
       const formConfig = {
         chapters: {}
       };
