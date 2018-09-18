@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Non-Hodgkin's Lymphoma
+title: Non-Hodgkin's Lymphoma Linked to Agent Orange
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 template: detail-page
