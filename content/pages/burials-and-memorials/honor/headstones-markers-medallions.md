@@ -20,6 +20,7 @@ To honor the military service of a deceased Veteran, we may provide a headstone,
 - Any Veteran buried in an unmarked grave who served before September 7, 1980
 - Any Veteran buried in an unmarked grave who served for 24 months or longer, or who died while on active duty (including training) after September 7, 1980
 - An eligible spouse or other family member buried in a national cemetery, state/tribal Veterans cemetery, military post cemetery, or military base cemetery
+
 **Note**: Spouses and dependents buried in a private cemetery aren't eligible for these memorial items.
 
 <br>
