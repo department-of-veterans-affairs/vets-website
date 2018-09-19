@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Gulf War Illness
+title: Gulf War Illness 
 display_title: Gulf War Illness SW Asia
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-gulfwar.asp
