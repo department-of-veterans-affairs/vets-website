@@ -17,7 +17,7 @@ majorlinks:
       title: Flight Training
       description: Find out how your VA education benefits can help pay for flight training.
     - url: /education/advanced-training-and-certifications/test-fees
-      title: Testing Fees
+      title: Get Paid Back for Test Fees
       description: If you paid for tests to become a licensed or certified professional, or to apply to college or a training course, find out if you can get paid back for the cost of the tests.
 ---
 
