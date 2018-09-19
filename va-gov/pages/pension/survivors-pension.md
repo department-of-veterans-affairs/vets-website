@@ -2,9 +2,11 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: How to Apply for a Survivors Pension
-concurrence: "" 
+display_title: Survivors Pension
+concurrence: ""
 children: pensionSurvivors
-order: 4
+spoke: Get Benefits
+order: 5
 ---
 
 <div class="va-introtext">
@@ -45,22 +47,22 @@ You may be able to get this benefit if you’re unmarried and you meet at least 
 
 </div>
 
-### How do I apply? 
+### How do I apply?
 
 You can apply in any of these ways:
 
 #### By mail
 
 Fill out an Application for DIC, Death Pension, and/or Accrued Benefits (VA Form 21-534EZ). <br>
-[Download VA Form 21-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf). 
+[Download VA Form 21-534EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-534EZ-ARE.pdf).
 
 Mail it to the Pension Management Center (PMC) for your state. <br>
-[Find your PMC](/pension/pension-management-centers/). 
+[Find your PMC](/pension/pension-management-centers/).
 
 #### In person
 
 Bring your application to a regional benefit office near you. <br>
-[Find a regional benefit office](/facilities/). 
+[Find a regional benefit office](/facilities/).
 
 
 #### With the help of a trained professional
