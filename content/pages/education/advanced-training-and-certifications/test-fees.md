@@ -88,7 +88,7 @@ If you’re a Veteran or Servicemember and you qualify for the GI Bill, we may p
   
 <div id="licensing-certification-get-benefits" class="usa-accordion-content">  
   
-First, fill out an Application for Reimbursement of Licensing or Certification Test Fees (VA Form 22-0803). <br>
+You’ll need to fill out an Application for Reimbursement of Licensing or Certification Test Fees (VA Form 22-0803). <br>
 [Download VA Form 22-0803](https://www.vba.va.gov/pubs/forms/VBA-22-0803-ARE.pdf). 
 
 **Note:** You’ll need to turn in proof of payment with your application. Proof of payment can be a receipt showing you paid the testing fee.
@@ -107,11 +107,11 @@ Then, either upload your completed form to the GI Bill site or mail it to the ne
 
 <div id="national-testing-get-benefits" class="usa-accordion-content">
 
-First, fill out an Application for Reimbursement of National Exam Fee (VA Form 22-0810). <br>
+You’ll need to fill out an Application for Reimbursement of National Exam Fee (VA Form 22-0810). <br>
 [Download VA Form 22-0810](https://www.vba.va.gov/pubs/forms/VBA-22-0810-ARE.pdf).
 
 Then, mail your completed form to the nearest VA regional processing office. <br>
-[Find the address of the nearest VA regional processing office](https://www.benefits.va.gov/gibill/regional_processing.asp).
+[Find the nearest VA regional processing office](https://www.benefits.va.gov/gibill/regional_processing.asp).
 
 
 **Please note:**
@@ -120,7 +120,6 @@ Then, mail your completed form to the nearest VA regional processing office. <br
 
 </div>
 </li>
-</ul>
 </div>
 
 
