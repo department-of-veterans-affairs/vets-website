@@ -15,7 +15,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="GI Bill® School Feedback Tool"/>
+        <FormTitle title="GI Bill® School Other Words Feedback Tool"/>
         <p>If you have an issue or complaint about a school or training facility that’s eligible to receive GI Bill benefits, you can submit feedback to VA. You can submit feedback to us if your school isn’t following the Principles of Excellence guidelines or if you have any other concerns or issues you’d like to raise with us.</p>
         <p>You can choose to submit your feedback anonymously or on behalf of someone else. We share all information with the school, but if you submit feedback anonymously we won’t share your name with the school.</p>
         <p>Get started right now by filling out a short form. Follow the steps below.</p>
