@@ -11,7 +11,7 @@ order: 1
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-Find out how to apply for a Specially Adapted Housing (SAH) or Special Home Adaptation (SHA) Grant on our eBenefits website. You can also check the status of an open SAH claim on the site.
+Find out how to apply for a Specially Adapted Housing (SAH) or Special Home Adaptation (SHA) grant on our eBenefits website. You can also check the status of an open SAH claim on the site.
 
 </div>
 
@@ -20,7 +20,7 @@ Find out how to apply for a Specially Adapted Housing (SAH) or Special Home Adap
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 <ul>
-<li><a href="/housing-assistance/disability-housing-grants/">Find out if you’re eligible for an SAH or SHA Grant</a>.</li> 
+<li><a href="/housing-assistance/disability-housing-grants/">Find out if you’re eligible for an SAH or SHA grant</a>.</li> 
 <li>Make sure you have the information listed below that you’ll need to fill out an  Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555).</li> 
 </div>
 </div>
@@ -33,7 +33,7 @@ Find out how to apply for a Specially Adapted Housing (SAH) or Special Home Adap
  <b>You'll need your:</b>
 <ul>
 <li>Social Security number</li>
-<li>Your VA file or claim number (if you have one)</li>
+<li>VA file or claim number (if you have one)</li>
 </ul>
 
 
@@ -66,22 +66,22 @@ Mail the completed application to your nearest regional loan center. <br>
 If you have trouble accessing the form, call us toll-free at <a href="tel:+18008271000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET). Ask to have a claim form mailed to you.
 
 <h4>In person</h4>
-Fill out VA Form 26-4555 and bring it to your nearest VA regional benefit office.
+Fill out an Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555). <br>
+[Download VA Form 26-4555](https://www.vba.va.gov/pubs/forms/VBA-26-4555-ARE.pdf). <br>
 
-<b>To find a regional benefit office near you:</b>
-<ul>
-<li><a href="/facilities/">Use our online locator tool</a>.</li>
-<li>Or, call us at <a href="tel:+18008271000">1-800-827-1000</a>.</li>
-</ul>
+Bring the completed application to your nearest VA regional benefit office. <br>
+<a href="/facilities/">Find a regional benefit office near you</a>.
+
+Or call us at <a href="tel:+18008271000">1-800-827-1000</a>.
+
 </div>
 </div>
 
 <h2 itemprop="name">What if I need help with my application?</h2>
 <div itemprop="itemListElement">
 
-<ul>
-<li><a href="mailto:sahinfo.vbaco@va.gov">Email a Specially Adapted Housing (SAH) staff member</a>.</li>
- <li>Or, call an SAH staff member at <a href="tel:+18778273702">1-877-827-3702</a>.</li>
+<a href="mailto:sahinfo.vbaco@va.gov">Email a Specially Adapted Housing (SAH) staff member</a>.
+Or call an SAH staff member at <a href="tel:+18778273702">1-877-827-3702</a>.
 </div>
 </div>
 
