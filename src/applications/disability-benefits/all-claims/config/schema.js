@@ -1045,6 +1045,54 @@ const schema = {
     },
     primaryPhone: {
       $ref: '#/definitions/phone'
+    },
+    homelessOrAtRisk: {
+      type: 'string',
+      'enum': [
+        'no',
+        'homeless',
+        'atRisk'
+      ]
+    },
+    homelessHousingSituation: {
+      type: 'string',
+      'enum': [
+        'shelter',
+        'notShelter',
+        'anotherPerson',
+        'other'
+      ]
+    },
+    otherHomelessHousing: {
+      type: 'string'
+    },
+    needToLeaveHousing: {
+      type: 'boolean'
+    },
+    atRiskHousingSituation: {
+      type: 'string',
+      'enum': [
+        'losingHousing',
+        'leavingShelter',
+        'other'
+      ]
+    },
+    otherAtRiskHousing: {
+      type: 'string'
+    },
+    homelessnessContact: {
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string',
+          minLength: 1,
+          maxLength: 100,
+          pattern: "([a-zA-Z0-9-/']+( ?))*$"
+        },
+        phoneNumber: {
+          $ref: '#/definitions/phone'
+        }
+      }
     }
   }
 };

@@ -118,7 +118,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/gi_bill_feedbacks',
   submit,
-  trackingPrefix: 'gi_bill_feedback',
+  trackingPrefix: 'edu-feedback-tool-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: 'FEEDBACK-TOOL',
