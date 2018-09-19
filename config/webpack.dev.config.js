@@ -1,9 +1,10 @@
-const {
-  getRoutes
-} = require('./manifest-helpers');
+const appSettings = require('./parse-app-settings');
 
-function generateWebpackDevConfig(buildOptions, manifests) {
-  const appRewrites = getRoutes(manifests).map(url => {
+function generateWebpackDevConfig(buildOptions) {
+  appSettings.parseFromBuildOptions(buildOptions);
+
+  const routes = appSettings.getAllApplicationRoutes();
+  const appRewrites = routes.map(url => {
     return {
       from: `^${url}(.*)`,
       to: `${url}/`

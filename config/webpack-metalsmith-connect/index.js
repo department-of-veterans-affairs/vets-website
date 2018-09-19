@@ -27,9 +27,13 @@ function getEntryPoints(buildOptions) {
   return getWebpackEntryPoints(manifestsToBuild);
 }
 
-function connectToMetalsmith(buildOptions, webpackMiddleware) {
-  const convertPathsMiddleware = convertPathsToRelative(buildOptions);
+function compileAssets(buildOptions) {
   return (files, metalsmith, done) => {
+    const convertPathsMiddleware = convertPathsToRelative(buildOptions);
+    const apps = getEntryPoints(buildOptions);
+    const webpackConfig = generateWebpackConfig(buildOptions, apps);
+    const webpackMiddleware = webpackPlugin(webpackConfig);
+
     webpackMiddleware(files, metalsmith, (err) => {
       if (err) throw err;
       convertPathsMiddleware(files, metalsmith, done);
@@ -37,19 +41,19 @@ function connectToMetalsmith(buildOptions, webpackMiddleware) {
   };
 }
 
-function compileAssets(buildOptions) {
-  const apps = getEntryPoints(buildOptions);
-  const webpackConfig = generateWebpackConfig(buildOptions, apps);
-  const webpackMiddleware = webpackPlugin(webpackConfig);
-  return connectToMetalsmith(buildOptions, webpackMiddleware);
-}
-
 function watchAssets(buildOptions) {
-  const apps = getEntryPoints(buildOptions);
-  const webpackConfig = generateWebpackConfig(buildOptions, apps);
-  const webpackDevServerConfig = generateWebpackDevConfig(buildOptions, manifests);
-  const webpackMiddleware = webpackDevServerPlugin(webpackConfig, webpackDevServerConfig);
-  return connectToMetalsmith(buildOptions, webpackMiddleware);
+  return (files, metalsmith, done) => {
+    const convertPathsMiddleware = convertPathsToRelative(buildOptions);
+    const apps = getEntryPoints(buildOptions);
+    const webpackConfig = generateWebpackConfig(buildOptions, apps);
+    const webpackDevServerConfig = generateWebpackDevConfig(buildOptions);
+    const webpackMiddleware = webpackDevServerPlugin(webpackConfig, webpackDevServerConfig);
+
+    webpackMiddleware(files, metalsmith, (err) => {
+      if (err) throw err;
+      convertPathsMiddleware(files, metalsmith, done);
+    });
+  };
 }
 
 module.exports = {
