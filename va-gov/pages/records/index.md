@@ -69,8 +69,8 @@ Access your VA records and documents online to manage your health and benefits.
   </div>
 
   <div class="link">
-    <a href="/records/get-veteran-id-cards/vic"><b>Apply for a Veteran ID Card</b></a>
-    <p>Apply for a printed Veteran ID Card (VIC) that you can use instead of your DD214 to get discounts on goods and services offered to Veterans.</p>
+    <a href="/records/get-veteran-id-cards/"><b>Get Veteran ID Cards</b></a>
+    <p>Find out how to get different types of identification cards to show your military status or your enrollment in VA health care or the VA Choice program.</p>
   </div>
 
   <div class="link">
@@ -79,8 +79,8 @@ Access your VA records and documents online to manage your health and benefits.
   </div>
 
   <div class="link">
-    <a href="/housing-assistance/home-loans/how-to-apply/"><b>Find Out How to Apply for a VA Home Loan Certificate of Eligibility</b></a>
-    <p>Get instructions for how to apply for your Certificate of Eligibility (COE), which confirms for your lender that you qualify for a VA-backed home loan. Then you can choose your loan type to learn about the rest of the loan application process.</p>
+    <a href="/housing-assistance/home-loans/how-to-apply/"><b>Find Out How to Apply for a VA Home Loan COE</b></a>
+    <p>Get instructions for how to apply for your VA home loan Certificate of Eligibility (COE). Your COE confirms for your lender that you qualify for a VA-backed home loan. Then choose your loan type to learn about the rest of the loan application process.</p>
   </div>
 
   <div class="link">
