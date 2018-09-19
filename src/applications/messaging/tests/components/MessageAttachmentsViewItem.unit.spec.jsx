@@ -24,10 +24,13 @@ describe('<MessageAttachmentsViewItem>', () => {
     expect(tree.subTree('i').props.className).to.equal('fa fa-paperclip msg-attachment-icon');
   });
 
-  // TODO: debug test
-  xit('should handle download correctly when URL is provided', () => {
+  test('should handle download correctly when URL is provided', () => {
     // mock out apiRequest function
-    const windowOpen = sinon.spy();
+    window.open = () => {
+      return { focus: sinon.spy() };
+    };
+    const windowOpen = sinon.spy(window, 'open');
+
     global.window = { open: windowOpen };
 
     const messageAttachmentsViewItem = ReactTestUtils.renderIntoDocument(
@@ -39,5 +42,7 @@ describe('<MessageAttachmentsViewItem>', () => {
     messageAttachmentsViewItem.downloadAttachment({ preventDefault: () => {} });
 
     expect(windowOpen.calledWith(props.url, '_blank')).to.be.true;
+    windowOpen.restore();
+
   });
 });

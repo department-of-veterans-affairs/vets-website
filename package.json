@@ -128,6 +128,8 @@
     "ismobilejs": "^0.4.0",
     "isomorphic-fetch": "^2.2.1",
     "jest": "^23.6.0",
+    "jest-environment-jsdom": "^23.4.0",
+    "jest-environment-jsdom-global": "^1.1.0",
     "jsdom": "^11.1.0",
     "jsonschema": "^1.1.1",
     "leaflet": "^1.0.3",

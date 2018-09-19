@@ -100,7 +100,7 @@ describe('<SignInLink>', () => {
   // TODO: While this _does_ test that the function is called, it doesn't test
   //  that the function is called _at the right time_. We should circle back to
   //  this and fix that.
-  xit('should call onLogin after a successful login', () => {
+  test('should call onLogin after a successful login', () => {
     setup();
     const loginSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(

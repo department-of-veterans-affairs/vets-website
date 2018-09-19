@@ -44,8 +44,7 @@ describe('selectors', () => {
 
   describe('selectIsVet360AvailableForUser', ()  => {
     beforeEach(hooks.beforeEach);
-    // TODO: debug test
-    xit('returns true if vet660 is found in the profile.services list or when the environment is localhost', () => {
+    test('returns true if vet660 is found in the profile.services list or when the environment is localhost', () => {
       const old = { document: global.document };
       global.document = {
         location: {
@@ -56,7 +55,10 @@ describe('selectors', () => {
       let result = selectors.selectIsVet360AvailableForUser(state);
       expect(result, 'returns true when on localhost so the local mock Vet360 will run').to.be.true;
 
-      global.document.location.hostname = 'staging.vets.gov';
+      jsdom.reconfigure({ // eslint-disable-line no-undef
+        url: 'https://staging.vets.gov/'
+      });
+
       result = selectors.selectIsVet360AvailableForUser(state);
       expect(result, 'returns true when the environment is not localhost but Vet360 is in the profile services array').to.be.true;
 
@@ -212,8 +214,8 @@ describe('selectVet360InitializationStatus', () => {
   afterEach(() => {
     global.document = old.document;
   });
-  // TODO: debug test
-  xit('returns UNINITIALIZED if Vet360 is not found in the services array and there is not an associated transaction', () => {
+
+  test('returns UNINITIALIZED if Vet360 is not found in the services array and there is not an associated transaction', () => {
     state.user.profile.services = [];
     const result = selectors.selectVet360InitializationStatus(state);
     expect(result.status).to.be.equal(VET360_INITIALIZATION_STATUS.UNINITALIZED);
@@ -223,8 +225,8 @@ describe('selectVet360InitializationStatus', () => {
     const result = selectors.selectVet360InitializationStatus(state);
     expect(result.status).to.be.equal(VET360_INITIALIZATION_STATUS.INITIALIZED);
   });
-  // TODO: debug test
-  xit('returns INITIALIZING if there is an ongoing transaction', () => {
+
+  test('returns INITIALIZING if there is an ongoing transaction', () => {
     const transactionId = 'transaction_1';
     state.user.profile.services = [];
     state.vet360.transactions = [
@@ -234,8 +236,8 @@ describe('selectVet360InitializationStatus', () => {
     const result = selectors.selectVet360InitializationStatus(state);
     expect(result.status).to.be.equal(VET360_INITIALIZATION_STATUS.INITIALIZING);
   });
-  // TODO: debug test
-  xit('returns INITIALIZATION_FAILURE if there is a failed transaction', () => {
+
+  test('returns INITIALIZATION_FAILURE if there is a failed transaction', () => {
     const transactionId = 'transaction_1';
     state.user.profile.services = [];
     state.vet360.transactions = [
