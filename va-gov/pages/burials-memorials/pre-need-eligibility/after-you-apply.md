@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: After You Apply for a Pre-need Eligibility Determination
 display_title: After You Apply
-order: 2
+order: 3
 majorlinks:
   - heading:
     links:
@@ -82,7 +82,7 @@ No. If you qualify for burial in a VA national cemetery, you’ll receive burial
 
 After your death, the person arranging your burial can also request additional honors and memorials. [Learn more about honors and memorials](/burials-memorials/memorial-items/).
 
-If you're a Veteran, your surviving spouse or other family members may also qualify for survivor benefits, including help paying for funeral costs. [Learn more about survivor benefits](/burials-and-memorials/survivor-and-dependent-benefits/).
+If you're a Veteran, your surviving spouse or other family members may also qualify for survivor benefits, including help paying for funeral costs. [Learn more about survivor benefits](/burials-memorials/dependency-indemnity-compensation/).
 
 <br>
 

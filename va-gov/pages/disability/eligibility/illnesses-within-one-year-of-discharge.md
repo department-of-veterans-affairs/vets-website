@@ -1,15 +1,15 @@
 ---
 layout: page-breadcrumbs.html
 title: Disabilities That Appear Within 1 Year After Discharge
-display_title: Disabilities Within 1 Year After Discharge
+display_title: Illnesses within 1 Year of Discharge
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page
-order: 3
+order: 4
 relatedlinks:
   - heading: More information about filing disability claims
     links:
-    - url: /disability/how-to-file-a-claim/evidence-needed/fully-developed-claims/
+    - url: /disability/how-to-file-claim/evidence-needed/fully-developed-claims/
       title: Fully Developed Claim
       description: "File a fully developed claim and get a faster decision on your disability benefits claim."
     - url: /disability/how-to-file-claim/
@@ -18,7 +18,7 @@ relatedlinks:
     - url: /disability/get-help-filing-claim/
       title: Get Help Filing Your Claim
       description: "Learn how an accredited representative with a Veterans Service Organization can help you file a disability claim."
-    - url: /disability/how-to-file-a-claim/when-to-file/pre-discharge-claim/
+    - url: /disability/how-to-file-claim/when-to-file/pre-discharge-claim/
       title: Pre-discharge Claim
       description: "If you have a disability and you’re in pre-discharge status right now, you can file a pre-discharge disability claim 180 to 90 days before you leave the military."
     - url: /disability/about-disability-ratings/effective-date/

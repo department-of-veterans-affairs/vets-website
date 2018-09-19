@@ -2,16 +2,18 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Plan a Burial for a Family Member
-display_title:
+display_title: Plan a Burial
 collection: burials
-order: 3
+children: burialsPlanABurial
+spoke: Plan a Burial
+order: 7
 relatedlinks:
   - heading: Other helpful information
     links:
-    - url: /burials-and-memorials/what-to-expect-at-a-funeral/
+    - url: /burials-memorials/what-to-expect-at-military-funeral/
       title: What to Expect at a Funeral
       description: Find out what will happen to help you prepare for this day.
-    - url: /burials-and-memorials/survivor-and-dependent-benefits/
+    - url: /burials-memorials/dependency-indemnity-compensation/
       title: Burial Allowances and Survivor Compensation
       description: Find out if you can get help paying for funeral costs or tax-free monetary benefits.
 aliases:
@@ -34,7 +36,7 @@ When a Servicemember or Veteran, spouse, or dependent child dies, the person who
 
 To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director can call the National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800-535-1117</a> to request a burial.
 
-You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/).
+You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a memorial service](/burials-memorials/what-to-expect-at-military-funeral/).
 
 <br>
 

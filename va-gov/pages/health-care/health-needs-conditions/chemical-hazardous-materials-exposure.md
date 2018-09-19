@@ -5,7 +5,7 @@ title: Chemical or Hazardous Material Exposure
 display_title: Exposure to Hazardous Materials
 concurrence: complete
 lastupdate: 2017-06-28
-order: 5
+order: 6
 aliases:
   - /health-care/health-conditions/exposure-to-hazardous-materials/
 relatedlinks:
@@ -69,7 +69,7 @@ Shrapnel and other metals (some containing chemicals) can stay in your body afte
 <br>
 [Learn more about toxic embedded fragments](https://www.publichealth.va.gov/exposures/toxic_fragments/index.asp).
 <br>
-[Learn more about disability benefits for certain conditions](/disability-benefits/conditions/).
+[Learn more about disability benefits for certain conditions](/disability/eligibility/).
 
 <br>
 
@@ -79,7 +79,7 @@ Explosions can cause concussions and traumatic brain injury (TBI), an injury to 
 <br>
 [Learn more about TBI](https://www.publichealth.va.gov/exposures/traumatic-brain-injury.asp).
 <br>
-[Learn more about disability benefits for conditions like TBI](/disability-benefits/conditions/).
+[Learn more about disability benefits for conditions like TBI](/disability/eligibility/).
 
 <br>
 
@@ -89,7 +89,7 @@ Health problems, like skin cancer in frostbite scars or pain, tingling, or numbn
 <br>
 [Learn more about cold injuries](https://www.publichealth.va.gov/exposures/cold-injuries/index.asp).
 <br>
-[Learn more about disability benefits for certain conditions](/disability-benefits/conditions/).
+[Learn more about disability benefits for certain conditions](/disability/eligibility/).
 
 <br>
 
@@ -115,7 +115,7 @@ Vietnam-era Veterans are at risk for Hepatitis C, an infectious disease that can
 <br>
 [Learn more about Hepatitis C](https://www.hepatitis.va.gov/patient/hcv/index.asp).
 <br>
-[Learn more about disability benefits for certain conditions](/disability-benefits/conditions/).
+[Learn more about disability benefits for certain conditions](/disability/eligibility/).
 
 <br>
 
@@ -125,7 +125,7 @@ Some vaccines and medicines used during service may have side effects.
 <br>
 [Learn more about these vaccines and medicines](https://www.publichealth.va.gov/exposures/vaccinations-medications.asp).
 <br>
-[Learn more about disability benefits for certain conditions](/disability-benefits/conditions/).
+[Learn more about disability benefits for certain conditions](/disability/eligibility/).
 
 <br>
 
@@ -135,7 +135,7 @@ Rabies is a serious disease that’s transmitted through the bite or saliva of a
 <br>
 [Learn more about rabies](https://www.publichealth.va.gov/exposures/rabies/index.asp).
 <br>
-[Learn more about disability benefits for certain conditions](/disability-benefits/conditions/).
+[Learn more about disability benefits for certain conditions](/disability/eligibility/).
 
 <br>
 
@@ -145,7 +145,7 @@ Health problems, like heat stroke, heat exhaustion, and sunburn, can be caused b
 <br>
 [Learn more about heat injuries](https://www.publichealth.va.gov/exposures/heat-injuries/index.asp).
 <br>
-[Learn more about disability benefits for certain conditions](/disability-benefits/conditions/).
+[Learn more about disability benefits for certain conditions](/disability/eligibility/).
 
 <br>
 

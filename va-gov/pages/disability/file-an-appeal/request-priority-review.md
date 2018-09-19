@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Request a Priority Review
 display_title: Request a Priority Review
-order: 1
+order: 2
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
 aliases:

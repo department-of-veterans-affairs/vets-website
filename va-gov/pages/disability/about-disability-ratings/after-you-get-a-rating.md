@@ -1,12 +1,13 @@
 ---
 layout: page-breadcrumbs.html
 title: What to Expect after You Get a Disability Rating
-display_title: After You Get a Disability Rating
+display_title: After You Get a Rating
 description: After you receive your VA disability rating, find out when you'll get your first VA disability check (sometimes called "VA disability back pay") and what to do if you disagree with your rating.
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
 aliases:
   - /disability-benefits/after-you-apply/what-happens-after-rating/
+order: 2
 ---
 
 <div itemscope itemtype="http://schema.org/FAQPage">

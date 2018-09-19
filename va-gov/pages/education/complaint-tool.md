@@ -6,7 +6,6 @@ concurrence: complete
 plainlanguage: 12-02-16 certified in compliance with the Plain Writing Act
 collection: education
 children: educationWorkLearn
-order: 7
 majorlinks:
   - heading:
     links:
@@ -18,13 +17,13 @@ majorlinks:
       description: Find out how to get money to cover books, supplies, and housing while learning a trade through an apprenticeship.
     - url: /education/about-gi-bill-benefits/how-to-use-benefits/co-op-training/
       title: Co-op Training
-      description: Find out if you qualify for educational benefits if you’re part of a university or college co-op program. 
+      description: Find out if you qualify for educational benefits if you’re part of a university or college co-op program.
     - url: /education/about-gi-bill-benefits/how-to-use-benefits/non-college-degree-programs/
       title: Non-College Degree Programs
-      description: Find out how to use the GI Bill benefit to help pay for a specific training program. 
+      description: Find out how to use the GI Bill benefit to help pay for a specific training program.
     - url: /education/work-learn/non-traditional/
       title: Non-Traditional Options
-      description: Learn how you can use the GI Bill benefit to help pay for other types of educational programs. 
+      description: Learn how you can use the GI Bill benefit to help pay for other types of educational programs.
 ---
 
 <div class="va-introtext">

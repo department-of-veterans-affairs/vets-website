@@ -42,7 +42,7 @@ private: true
           <a href="/disability/how-to-file-claim/">How do I apply for disability benefits?</a>
         </li>
         <li>
-          <a href="/education/apply-for-education-benefits/">How do I apply for education benefits?</a>
+          <a href="/education/how-to-apply/">How do I apply for education benefits?</a>
         </li>
         <li>
           <a href="/education/gi-bill-school-comparison-tool">What education benefits are available by school?</a>

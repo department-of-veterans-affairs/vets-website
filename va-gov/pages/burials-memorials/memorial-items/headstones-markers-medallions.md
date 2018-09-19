@@ -2,8 +2,10 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Headstones, Markers, Niche Covers, and Medallions
+display_title: Headstones, Markers or Medallions
 order: 1
 concurrence: incomplete
+children: burialsHeadstoneMarkersMedallions
 aliases:
   - /burials-and-memorials/honor/headstones-markers-medallions/
 ---

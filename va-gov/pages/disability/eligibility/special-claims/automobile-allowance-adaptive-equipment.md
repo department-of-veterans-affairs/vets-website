@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Automobile Allowance and Adaptive Equipment
+title: Auto Allowance and Adaptive Equipment
 concurrence: incomplete
 plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: detail-page

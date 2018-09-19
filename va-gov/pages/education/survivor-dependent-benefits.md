@@ -7,6 +7,7 @@ concurrence: incomplete
 plainlanguage: 12-02-16 certified in compliance with the Plain Writing Act
 children: educationGIBillSurvivors
 order: 7
+spoke: Get Benefits
 aliases:
   - /education/gi-bill/survivors-dependent-assistance/
 ---
@@ -30,7 +31,7 @@ If you’re a dependent spouse or child—or the surviving spouse or child—of 
 - Is missing in action or was captured in the line of duty by a hostile force, **or**
 -	Was detained (held) by force while in the line of duty by a foreign government or power, **or**
 -	Is in the hospital or getting outpatient treatment for a service-connected permanent and total disability, and is likely to be discharged for that disability. A service-connected permanent and total disability is a disability resulting from your service that doesn’t go away.
-  
+
 **You may qualify for education benefits if you’re the child or spouse of a Veteran** and one of the below descriptions is true of the Veteran.
 
 **One of these must be true. The Veteran:**
@@ -47,7 +48,7 @@ If you’re a dependent who doesn’t meet the above criteria, you may still qua
 - Qualified dependents
 </div>
 
-### What benefits can I get? 
+### What benefits can I get?
 
 - Education and training
 - Money for tuition
@@ -59,7 +60,7 @@ If you’re a dependent who doesn’t meet the above criteria, you may still qua
 ### How do I get these benefits?
 
 You’ll need to apply. <br>
-[Apply for education benefits](/education/apply-for-education-benefits).
+[Apply for education benefits](/education/how-to-apply/).
 
 There are 2 main GI Bill programs offering educational assistance to survivors and dependents of Veterans:
 
@@ -68,7 +69,7 @@ There are 2 main GI Bill programs offering educational assistance to survivors a
 - The Survivors' and Dependents' Educational Assistance (DEA) program offers education and training to qualified dependents of Veterans who are permanently and totally disabled because of a service-related condition or who died while on active duty or as a result of a service-related condition. <br>
 [Get more information about the DEA program](/education/survivor-dependent-benefits/dependents-education-assistance/).
 
-**Note:** You may qualify for both the Fry Scholarship and the DEA program, but you can use only one of them. You’ll have to pick one when you apply. Once you’ve made this decision, you can’t switch to the other program. 
+**Note:** You may qualify for both the Fry Scholarship and the DEA program, but you can use only one of them. You’ll have to pick one when you apply. Once you’ve made this decision, you can’t switch to the other program.
 
 
 <div class="va-table-overflow">

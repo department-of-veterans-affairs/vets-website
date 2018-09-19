@@ -1,12 +1,13 @@
 ---
 layout: page-breadcrumbs.html
 title: After You Apply for Disability Benefits
-display_title: After You Apply
+display_title: After You File Your Claim
 description: Find out what happens after you file your VA disability claim, including how long you'll wait for a decision and what steps we take before the preparation for notification.
 order: 3
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
 children: disabilityAfterYouApply
+spoke: Get Benefits
 majorlinks:
   - heading: More information about disability ratings and payments
     links:
@@ -19,7 +20,7 @@ majorlinks:
 relatedlinks:
   - heading: Other VA benefits you may want to explore
     links:
-    - url: /employment/vocational-rehab-and-employment/
+    - url: /careers-employment/vocational-rehabilitation/
       title: Vocational Rehabilitation and Employment (VR&E)
       description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
 aliases:

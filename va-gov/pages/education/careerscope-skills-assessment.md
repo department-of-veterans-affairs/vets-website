@@ -29,5 +29,4 @@ You can access our education and training resources:
 [Use the GI Bill Comparison Tool](/education/gi-bill-school-comparison-tool).
 
 - Learn about what to consider when choosing a school. <br>
-[Read our guide to choosing a school](https://www.benefits.va.gov/gibill/choosing_a_school.asp). 
-
+[Read our guide to choosing a school](https://www.benefits.va.gov/gibill/choosing_a_school.asp).

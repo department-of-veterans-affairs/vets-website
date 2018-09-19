@@ -1,11 +1,11 @@
 ---
 layout: page-breadcrumbs.html
 title: Agent Orange Registry Health Exam for Veterans
-display_title: Agent Orange Registry Health Exam
+display_title: Registry Health Exam
 concurrence: incomplete
 plainlanguage: 10-26-16 certified in compliance with the Plain Language Act
 template: detail-page
-order: 10
+order: 1
 aliases:
   - /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/
 ---

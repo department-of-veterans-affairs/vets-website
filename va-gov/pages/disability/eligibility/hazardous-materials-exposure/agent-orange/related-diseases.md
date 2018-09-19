@@ -1,10 +1,10 @@
 ---
 layout: page-breadcrumbs.html
-title: Agent Orange-Related Illnesses
+title: Related Diseases
 description: Find out what cancers and other illnesses we believe are caused by Agent Orange--and if you can get VA disability compensation if you have one or more of these illnesses. 
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: detail-page
-order: 8
+order: 2
 aliases:
   - /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/
 ---
@@ -40,4 +40,4 @@ We believe that contact with Agent Orange, a toxic chemical used to clear trees 
 
 If you have an illness you think is caused by contact with Agent Orange—and you don’t see it listed here—you can still apply for benefits. You’ll need to show that you have a disability and include a doctor’s report or a hospital report stating that your illness is believed to be caused by contact with Agent Orange.
 
-[Apply for benefits](https://www.vets.gov/disability/how-to-file-claim/).
+[Apply for benefits](/disability/how-to-file-claim/).

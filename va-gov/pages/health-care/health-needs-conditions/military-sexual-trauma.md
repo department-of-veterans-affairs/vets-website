@@ -2,11 +2,11 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Military Sexual Trauma (MST)
-display_title:
+display_title: Military Sexual Trauma
 description: If you're a Veteran who experienced military sexual trauma (MST) while serving, find out if you can get VA health care benefits and services to help you recover.
 concurrence: complete
 lastupdate: 2017-06-28
-order: 3
+order: 4
 aliases:
   - /health-care/health-conditions/military-sexual-trauma/
 relatedlinks:

@@ -4,7 +4,7 @@ template: detail-page
 title: Tutorial Assistance
 plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
-order: 12
+order: 5
 aliases:
   - /education/gi-bill/tutorial-assistance/
 ---
