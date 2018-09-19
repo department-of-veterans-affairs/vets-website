@@ -73,16 +73,8 @@ You can get education benefits if you were honorably discharged and you meet the
 ### Who’s covered?
 
 Veterans
-</div>
 
 ### What benefits can I get?
-
-Money for tuition or training
-
------
-
-### How do I get these benefits?
-[Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
 
 You may get up to 36 months of education benefits. We pay the benefits monthly and the amount depends on the following factors:
 
@@ -92,7 +84,7 @@ You may get up to 36 months of education benefits. We pay the benefits monthly a
 - Whether you qualify for a college fund or kicker
 - How much you have paid into the $600 Buy-Up program
 
-#### Related funding or training programs that fall under MGIB-AD
+#### We'll cover these types of training, programs, and fees
 
 - [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
 - [Co-op training](/education/work-learn/co-op-training/)
@@ -100,14 +92,16 @@ You may get up to 36 months of education benefits. We pay the benefits monthly a
 - [Flight training](/education/advanced-training-and-certifications/flight-training/)
 - [Independent and distance learning](/education/work-learn/non-traditional/independent-distance-learning/)
 - [Undergraduate and graduate degree programs](/education/gi-bill/higher-learning/)
-- [Licensing and certification reimbursement](/education/advanced-training-and-certifications/licensing-certification/)
+- [Test fees](/education/advanced-training-and-certifications/test-fees)
 - [Non-college degree programs (technical or vocational courses)](/education/work-learn/non-college-degree-program/)
-- [National testing reimbursement](/education/advanced-training-and-certifications/national-testing-program/)
 - [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
 - [Tuition Assistance Top-Up](/education/gi-bill/tuition-assistance/)
 - [Tutorial Assistance](/education/gi-bill/tutorial-assistance/)
 - [Accelerated payments for high-tech programs](/education/work-learn/non-traditional/accelerated-payments/)
 - [$600 Buy-Up program](/education/gi-bill/buy-up-program/): While on active duty, you can pay into this program up to a maximum (the highest amount allowed) of $600 to get increased monthly benefits. If you pay the maximum amount, you can qualify for up to $5,400 in added GI Bill benefits.
+
+### How do I get these benefits?
+[Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
 
 [Use the GI Bill Comparison Tool to compare benefits at schools](/gi-bill-comparison-tool/). <br>
 [Read the Montgomery GI Bill Active Duty pamphlet](https://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf).
