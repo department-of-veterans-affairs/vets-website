@@ -14,10 +14,10 @@ Find out how to view your payment history for VA benefits.
 
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You’ll need to sign in to eBenefits to change your direct deposit and contact information online.</h4>
+    <h4 class="usa-alert-heading">You’ll need to sign in to eBenefits to view your payment history.</h4>
   <p class="usa-alert-text"><br>
     To use this feature, you'll need a premium <b>DS Logon</b> account. Your MyHealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>
-      <button class="usa-button-primary">Go to eBenefits to Change Your Information</button>
+      <button class="usa-button-primary">Go to eBenefits</button>
     </p>
   </div>
 </div>
@@ -32,11 +32,12 @@ Find out how to view your payment history for VA benefits.
 <ul>
 <li>Disability compensation</li>
 <li>Pension benefits</li>
-<li>GI Bill or other education benefits</li>
+<li>Education benefits</li>
 </ul>
 
 <b>If you're the survivor of a Veteran or Servicemember, you can view a history of your past payments for:</b>
-<ul>Survivors pension benefits
+<ul>
+<li>Survivors pension benefits</li>
 <li>Survivors' and Dependents' Education Assistance (Chapter 35 benefits)</li>
 <li>Dependency and Indemnity Compensation (DIC)</li>
 
@@ -50,7 +51,9 @@ Find out how to view your payment history for VA benefits.
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If your decision notice shows at least a 10% disability rating, you’ll get your first payment within 15 days. We’ll pay you either by direct deposit or check. If you don’t get a payment after 15 days, please call the Veterans Help Line at 1-800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
+If your decision notice shows at least a 10% disability rating, you’ll get your first payment within 15 days. We’ll pay you either by direct deposit or check. 
+
+If you don’t get a payment after 15 days, please call the Veterans Help Line at <a href="tel:+18008271000">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
 
 </div>
 </div>
@@ -62,8 +65,8 @@ If your decision notice shows at least a 10% disability rating, you’ll get you
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can change your information in 1 of 2 ways:
-<a href="/change-direct-deposit-and-contact-information/">Change your information online</a>, <b>or</b>
+<b>You can change your information in 1 of 2 ways:</b><br>
+<a href="/change-direct-deposit-and-contact-information/">Change your information online</a>, <b>or</b> <br
 <a href="/facilities/">Contact your nearest VA regional benefit office or eligibility office</a>.
 
 </div>
@@ -78,10 +81,10 @@ You can change your information in 1 of 2 ways:
 
 Yes. It’s important to update your information with us if you change your marital status, have a baby, adopt a child, or experience any other life change that could affect your rating or payment.
 
-<b>If you have a disability rating of 30% or higher,</b> you may be able to add eligible dependents to your VA disability compensation to get a higher payment (also called a "benefit rate").
+<b>If you have a disability rating of 30% or higher</b>, you may be able to add eligible dependents to your VA disability compensation to get a higher payment (also called a "benefit rate"). <br>
 <a href="https://www.benefits.va.gov/compensation/add-dependents.asp">Find out how to add eligible dependents</a>.
 
-If your disability gets worse, you can file a claim for an increase in benefits.
+<b>If your disability gets worse</b>, you can file a claim for an increase in benefits. <br>
 <a href="/disability-benefits/increase-claims-testing/">File for a VA disability increase</a>.
 
 </div>
