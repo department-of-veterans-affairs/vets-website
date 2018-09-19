@@ -64,22 +64,21 @@ describe('ConfirmationPoll', () => {
     expect(global.fetch.calledOnce).to.be.true;
   });
 
-  // TODO: debug test
-  xit('should continue to make api calls until the response is not pending', (done) => {
+  test('should continue to make api calls until the response is not pending', (done) => {
     mockMultipleApiRequests([pendingResponse, pendingResponse, successResponse, failureResponse]);
     // TODO: Figure out why this is causing an error in the console even though the test passes
     //  It may have something to do with unmounting the component before a `setState` goes through
-    mount(<ConfirmationPoll pollRate={10}/>);
+    shallow(<ConfirmationPoll pollRate={10}/>);
     // Should stop after the first success
     setTimeout(() => {
       expect(global.fetch.callCount).to.equal(3);
       done();
-    }, 50);
+    }, 500);
   });
 
   test('should render the confirmation page', (done) => {
     mockApiRequest(successResponse.response);
-    const tree = shallow(<ConfirmationPoll {...defaultProps} pollRate={10}/>);
+    const tree = mount(<ConfirmationPoll {...defaultProps} pollRate={10}/>);
     setTimeout(() => {
       // Without this update, it wasn't catching the last render even though the function was running first
       tree.update();
@@ -94,6 +93,6 @@ describe('ConfirmationPoll', () => {
         submittedAt: defaultProps.submittedAt
       });
       done();
-    }, 500);
+    }, 50);
   });
 });
