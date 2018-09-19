@@ -1,4 +1,4 @@
-/** 
+/**
  * Utilities for testing forms built with our schema based form library
  */
 
@@ -41,7 +41,7 @@ function getDefaultData(schema) {
  * to render as a pagePerItem page
  * @property {number} pagePerItemIndex When simulating a page per item form page,
  * this is the index for the item to render.
- * @property {boolean} reviewMode Renders the form in review mode if true 
+ * @property {boolean} reviewMode Renders the form in review mode if true
  * @property {function} onSubmit Will be called if a form is submitted
  * @property {function} onFileUpload Will be called if a file upload is triggered
  */
@@ -305,7 +305,7 @@ export function selectRadio(form, fieldName, value) {
  * given date string.
  *
  * @param {Enzyme} form The enzyme object that contains a form
- * @param {string} partialId The id for the date field, without the month/day/year prefix 
+ * @param {string} partialId The id for the date field, without the month/day/year prefix
  * @param {string} dateString The date to fill in the input
  */
 export function fillDate(form, partialId, dateString) {
