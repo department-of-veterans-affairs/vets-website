@@ -20,22 +20,22 @@ export const claimExamsFAQ = (
       </p>
     </CollapsiblePanel>
     <CollapsiblePanel panelName="How we schedule exams">
-    <p>
-      The staff at your local VA medical center will contact you to schedule your
-      exam. An exam scheduler will make two attempts to contact you by phone to
-      find a time that works for you. The phone number they’ll call you from will
-      look like this:<br/>
-      NNN-NNN-XXXX<br/>
-      If they’re unable to reach you by phone, they’ll schedule an appointment
-      for you and send you a letter by mail with the date and time of your exam.
-    </p>
-  </CollapsiblePanel>
-  <CollapsiblePanel panelName="What if I need to reschedule my exam appointment?">
       <p>
-        If you can’t make it your exam, let us know right away. You can most
-        likely reschedule, but this may delay a decision on your claim. If you
-        need to reschedule your exam, please call <a href="tel:1-800-827-1000">
-        1-800-827-1000</a>.
+        The staff at your local VA medical center will contact you to schedule your
+        exam. An exam scheduler will make two attempts to contact you by phone to
+        find a time that works for you. The phone number they’ll call you from will
+        look like this:<br/>
+        NNN-NNN-XXXX<br/>
+        If they’re unable to reach you by phone, they’ll schedule an appointment
+        for you and send you a letter by mail with the date and time of your exam.
+      </p>
+    </CollapsiblePanel>
+    <CollapsiblePanel panelName="What if I need to reschedule my exam appointment?">
+      <p>
+          If you can’t make it your exam, let us know right away. You can most
+          likely reschedule, but this may delay a decision on your claim. If you
+          need to reschedule your exam, please call <a href="tel:1-800-827-1000">
+          1-800-827-1000</a>.
       </p>
     </CollapsiblePanel>
   </div>
