@@ -38,7 +38,6 @@ import {
   transform,
   prefillTransformer,
   supportingEvidenceOrientation,
-  evidenceTypeHelp,
   disabilityNameTitle,
   vaMedicalRecordsIntro,
   privateMedicalRecordsIntro,
@@ -71,6 +70,8 @@ import {
   disabilityOption,
   disabilitiesClarification
 } from '../../all-claims/content/ratedDisabilities';
+
+import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
 
 import { requireOneSelected } from '../validations';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
