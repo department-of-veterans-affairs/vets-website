@@ -60,6 +60,8 @@ function createBuildSettings(options) {
       contents: `window.settings = ${JSON.stringify(settings, null, ' ')};`
     };
 
+    options.settings = settings;
+
     done();
   };
 }
