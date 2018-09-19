@@ -1,5 +1,5 @@
 ---
-title: Apply for increased disability benefits
+title: Apply for a VA Disability Increase
 display_title: File for Increased Disability
 entryname: 526EZ-claims-increase
 layout: page-react.html
