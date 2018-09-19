@@ -1,20 +1,6 @@
 /* eslint-disable no-console */
 const find = require('find');
 const path = require('path');
-const fs = require('fs');
-
-function convertUrlToMarkdownPath(root, url) {
-  let contentPath = path.join(root, './content/pages', url);
-  if (fs.existsSync(`${contentPath}.md`)) {
-    contentPath = `${contentPath}.md`;
-  } else {
-    contentPath = `${contentPath}/index.md`;
-  }
-
-  return contentPath
-    .replace(path.join(root, './content/pages'), '')
-    .replace(/^\//, '');
-}
 
 function getAppManifests(root) {
   return find.fileSync(/manifest\.json$/, path.join(root, './src/applications'))
@@ -24,9 +10,6 @@ function getAppManifests(root) {
 
       manifest.filePath = file;
       manifest.entryFile = path.relative(root, path.join(path.dirname(file), manifest.entryFile));
-      if (manifest.rootUrl) {
-        manifest.contentPage = convertUrlToMarkdownPath(root, manifest.rootUrl);
-      }
 
       return manifest;
     });
@@ -46,7 +29,7 @@ function getRoutes(manifests) {
 }
 
 function displayApplications() {
-  const root = path.join(__dirname, '..');
+  const root = path.join(__dirname, '../..');
   getAppManifests(root)
     .forEach(manifest => {
       console.log(manifest.appName);
