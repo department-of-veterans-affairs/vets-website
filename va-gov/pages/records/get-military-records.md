@@ -121,7 +121,7 @@ Visit the National Archives website to learn more about requesting your military
 
 <h4>If you're a family member planning a burial for a Veteran in a VA national cemetery</h4>
 
-Call our National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800-535-1117</a>. We can help you get the Veteran's DD214 or other discharge documents needed.
+Call our National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800-535-1117</a>. We can help you get the Veteran's DD214 or other discharge documents needed. <br>
 <a href="https://www.vets.gov/burials-and-memorials/burial-planning/">Get more guidance for planning a burial</a>.
 
 <h4>If you're the next of kin of a Veteran who has passed away</h4>
@@ -138,7 +138,7 @@ Call our National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800
   
 <b>You may be considered the next of kin if you're the Veteran's:</b>
 <ul>
-  <li>Surviving spouse who hasn't remarried, <br>or</b></li>
+  <li>Surviving spouse who hasn't remarried, <b>or</b></li>
   <li>Parent, <b>or</b></li>
   <li>Child, <b>or</b></li>
   <li>Sibling
@@ -149,7 +149,7 @@ Visit the National Archives website to learn more about requesting military serv
 
 <h4>If you're looking for the records of a Veteran and you're not the Veteran's next of kin</h4>
 
-<b>If the Veteran was discharged more than 62 years ago, you can order a copy of their military records. The National Archives makes all records open to the public 62 years after discharge. <br>
+<b>If the Veteran was discharged more than 62 years ago</b>, you can order a copy of their military records. The National Archives makes all records open to the public 62 years after discharge. <br>
 <a href="https://www.archives.gov/personnel-records-center/military-personnel/ompf-archival-requests">Learn how to access archived records</a>. <br>
 
 <b>If the Veteran was discharged less than 62 years ago,</b> you may be able to request limited information from their Official Military Personnel File. <br>
