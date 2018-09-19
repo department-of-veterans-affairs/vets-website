@@ -80,7 +80,7 @@ Or call us at <a href="tel:+18008271000">1-800-827-1000</a>.
 <h2 itemprop="name">What if I need help with my application?</h2>
 <div itemprop="itemListElement">
 
-<a href="mailto:sahinfo.vbaco@va.gov">Email a Specially Adapted Housing (SAH) staff member</a>.
+<a href="mailto:sahinfo.vbaco@va.gov">Email a Specially Adapted Housing (SAH) staff member</a>. <br>
 Or call an SAH staff member at <a href="tel:+18778273702">1-877-827-3702</a>.
 </div>
 </div>
