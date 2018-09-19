@@ -9,12 +9,12 @@ import {
 
 // import {
 //   FETCH_APPEALS_PENDING,
-  // USER_FORBIDDEN_ERROR,
-  // RECORD_NOT_FOUND_ERROR,
-  // VALIDATION_ERROR,
-  // BACKEND_SERVICE_ERROR,
-  // FETCH_APPEALS_ERROR,
-  // AVAILABLE
+// USER_FORBIDDEN_ERROR,
+// RECORD_NOT_FOUND_ERROR,
+// VALIDATION_ERROR,
+// BACKEND_SERVICE_ERROR,
+// FETCH_APPEALS_ERROR,
+// AVAILABLE
 // } from '../utils/appeals-v2-helpers';
 
 const initialState = {
@@ -36,13 +36,13 @@ const initialState = {
 //   //     ]
 //   //   }
 //   // ];
-// 
+//
 //   return _.orderBy([appeal => {
 //     const dates = appeal.events.map(e => moment(e.date).unix());
 //     const latestDate = dates.reduce((latest, date) => {
 //       return date > latest ? date : latest;
 //     }, 0);
-// 
+//
 //     return latestDate;
 //   }], 'desc', list);
 // }
@@ -72,7 +72,7 @@ export default function appealsReducer(state = initialState, action) {
       return _.set('available', true, state);
     case SET_APPEALS_UNAVAILABLE: // Appeals v1
       return _.set('available', false, state);
-    // Following are reducers for Appeals v2 error states  
+    // Following are reducers for Appeals v2 error states
     // case USER_FORBIDDEN_ERROR:
     //   return _.merge(state, {
     //     appealsLoading: false,
