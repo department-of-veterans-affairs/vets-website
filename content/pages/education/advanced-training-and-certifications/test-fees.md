@@ -120,6 +120,7 @@ Then, mail your completed form to the nearest VA regional processing office. <br
 
 </div>
 </li>
+</ul>
 </div>
 
 
