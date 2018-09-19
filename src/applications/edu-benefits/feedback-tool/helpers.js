@@ -10,6 +10,7 @@ import environment from '../../../platform/utilities/environment';
 import recordEvent from '../../../platform/monitoring/record-event';
 import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 
+import { trackingPrefix } from './config/form';
 import UserInteractionRecorder from '../components/UserInteractionRecorder';
 
 const { get } = dataUtils;
@@ -22,6 +23,27 @@ const searchToolSchoolAddressFields = get(
   fullSchema
 );
 
+// The flags to add to formData that will indicate if a page is prefilled or not
+// These flags will be used for each form page's call to
+// conditionalPrefillMessage()
+export const PREFILL_FLAGS = {
+  // if formData.fullName is set:
+  APPLICANT_INFORMATION: 'view:applicantInformationWasPrefilled',
+  // if formData.serviceBranch or formData.serviceDateRange is set:
+  SERVICE_INFORMATION: 'view:serviceInformationWasPrefilled',
+  // if formData.address or formData.phone or formData.applicantEmail is set:
+  CONTACT_INFORMATION: 'view:contactInformationWasPrefilled',
+};
+
+// For a given PREFILL_FLAG, what data needs to exist in the prefilled data for
+// that flag to be set to `true`? ie, what prefill data needs to exist for a
+// given page to be considered prefilled?
+const prefillFlagsToFieldsMap = {
+  [PREFILL_FLAGS.APPLICANT_INFORMATION]: ['fullName'],
+  [PREFILL_FLAGS.SERVICE_INFORMATION]: ['serviceBranch', 'serviceDateRange'],
+  [PREFILL_FLAGS.CONTACT_INFORMATION]: ['address', 'phone', 'applicantEmail'],
+};
+
 export function fetchInstitutions({ institutionQuery, page, onDone, onError }) {
   const fetchUrl = appendQuery('/gi/institutions/search', {
     name: institutionQuery,
@@ -33,7 +55,8 @@ export function fetchInstitutions({ institutionQuery, page, onDone, onError }) {
     fetchUrl,
     null,
     payload => onDone(payload),
-    error => onError(error));
+    error => onError(error)
+  );
 }
 
 export function transform(formConfig, form) {
@@ -64,10 +87,12 @@ function checkStatus(guid) {
       }
 
       return Promise.reject(res);
-    }).catch(res => {
+    })
+    .catch(res => {
       if (res instanceof Error) {
         Raven.captureException(res);
         Raven.captureMessage('vets_gi_bill_feedbacks_poll_client_error');
+        recordEvent({ event: `${trackingPrefix}submission-failed` });
 
         // keep polling because we know they submitted earlier
         // and this is likely a network error
@@ -90,6 +115,7 @@ function pollStatus(guid, onDone, onError) {
         } else if (res.data.attributes.state === 'success') {
           onDone(res.data.attributes.parsedResponse);
         } else {
+          recordEvent({ event: `${trackingPrefix}submission-failed` });
           // needs to start with this string to get the right message on the form
           throw new Error(`vets_server_error_gi_bill_feedbacks: status ${res.data.attributes.state}`);
         }
@@ -98,57 +124,56 @@ function pollStatus(guid, onDone, onError) {
   }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
 }
 
-
 export function submit(form, formConfig) {
-  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
-    'Content-Type': 'application/json',
-    'X-Key-Inflection': 'camel',
+    'Content-Type': 'application/json'
   };
 
-  if (userToken) {
-    headers.Authorization = `Token token=${userToken}`;
-  }
-
   const body = transform(formConfig, form);
-  return fetch(`${environment.API_URL}/v0/gi_bill_feedbacks`, {
+  const apiRequestOptions = {
     method: 'POST',
     headers,
     body
-  }).then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(res);
-  }).then(json => {
+  };
+
+  const onSuccess = json => {
     const guid = json.data.attributes.guid;
     return new Promise((resolve, reject) => {
       pollStatus(guid,
         response => {
-          recordEvent({
-            event: `${formConfig.trackingPrefix}-submission-successful`,
-          });
+          recordEvent({ event: `${formConfig.trackingPrefix}submission-successful` });
           return resolve(response);
-        }, error => reject(error));
+        },
+        error => reject(error)
+      );
     });
-  }).catch(respOrError => {
+  };
+
+  const onFailure = respOrError => {
     if (respOrError instanceof Response) {
       if (respOrError.status === 429) {
         const error = new Error('vets_throttled_error_gi_bill_feedbacks');
         error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
-
+        recordEvent({ event: `${formConfig.trackingPrefix}submission-failed` });
         return Promise.reject(error);
       }
     }
     return Promise.reject(respOrError);
-  });
+  };
+
+  return apiRequest(
+    '/gi_bill_feedbacks',
+    apiRequestOptions,
+    onSuccess,
+    onFailure
+  );
 }
 
 /**
  * The base object all the onBehalfOf tracking event objects extend
  */
 const baseOnBehalfOfEventObject = {
-  event: 'edu-complaint-tool-applicant-selection'
+  event: `${trackingPrefix}applicant-selection`
 };
 
 /**
@@ -251,5 +276,47 @@ export function transformSearchToolAddress({ address1, address2, address3, city,
     state: state && state.slice(0, searchToolSchoolAddressFields.state.maxLength),
     postalCode: zip && zip.slice(0, searchToolSchoolAddressFields.postalCode.maxLength),
   };
+}
 
+function addPrefilledFlagsToFormData(formData) {
+  const newFormData = { ...formData };
+  Object.keys(prefillFlagsToFieldsMap).forEach(flag => {
+    if (prefillFlagsToFieldsMap[flag].some(field => get(field, formData))) {
+      newFormData[flag] = true;
+    }
+  });
+  return newFormData;
+}
+
+export function prefillTransformer(pages, formData, metadata) {
+  const newFormData = addPrefilledFlagsToFormData(formData);
+  return { metadata, formData: newFormData, pages };
+}
+
+/**
+ * Checks if the `prefillFlag` is set on the `data.formData`. If it is, returns
+ * the React Component created by the `messageComponentCreator`
+ *
+ * @param {string} prefillFlag - The key to look for on the form data
+ * @param {Object} data - Data object from form config
+ * @param {React Component} messageComponent - The React component to render
+ * @returns {React Component|null}
+ */
+export function conditionallyShowPrefillMessage(
+  prefillFlag,
+  data,
+  messageComponent,
+) {
+  if (data.formData[prefillFlag]) {
+    return messageComponent(data);
+  }
+  return null;
+}
+
+export function validateMatch(field1, field2, fieldType) {
+  return function matchValidator(errors, formData) {
+    if (formData[field1] !== formData[field2]) {
+      errors[field2].addError(`Please ensure your ${fieldType} entries match`);
+    }
+  };
 }

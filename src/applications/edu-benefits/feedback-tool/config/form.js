@@ -3,7 +3,7 @@ import React from 'react';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import { validateBooleanGroup, validateMatch } from 'us-forms-system/lib/js/validation';
+import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
@@ -18,20 +18,24 @@ import SchoolSelectField from '../components/SchoolSelectField.jsx';
 import GetFormHelp from '../../components/GetFormHelp';
 
 import {
-  transform,
-  submit,
+  accreditationLabel,
+  changeInDegreeLabel,
+  conditionallyShowPrefillMessage,
+  creditTransferLabel,
+  financialIssuesLabel,
+  gradePolicyLabel,
+  jobOpportunitiesLabel,
+  PREFILL_FLAGS,
+  prefillTransformer,
+  qualityLabel,
   recordApplicantRelationship,
   recruitingLabel,
-  accreditationLabel,
-  financialIssuesLabel,
+  refundIssuesLabel,
   studentLoansLabel,
-  jobOpportunitiesLabel,
-  changeInDegreeLabel,
-  qualityLabel,
-  gradePolicyLabel,
+  submit,
   transcriptReleaseLabel,
-  creditTransferLabel,
-  refundIssuesLabel
+  transform,
+  validateMatch,
 } from '../helpers';
 
 const {
@@ -114,12 +118,13 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/gi_bill_feedbacks',
   submit,
-  trackingPrefix: 'gi_bill_feedback',
+  trackingPrefix: 'edu-feedback-tool-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: 'FEEDBACK-TOOL',
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   defaultDefinitions: {
     date,
     dateRange,
@@ -178,7 +183,7 @@ const formConfig = {
           title: 'Applicant Information',
           depends: isNotAnonymous,
           uiSchema: {
-            'ui:description': PrefillMessage,
+            'ui:description': data => conditionallyShowPrefillMessage(PREFILL_FLAGS.APPLICANT_INFORMATION, data, PrefillMessage),
             fullName: _.merge(fullNameUI, {
               prefix: {
                 'ui:title': 'Prefix',
@@ -221,7 +226,7 @@ const formConfig = {
           title: 'Service Information',
           depends: isVeteranOrServiceMember,
           uiSchema: {
-            'ui:description': PrefillMessage,
+            'ui:description': data => conditionallyShowPrefillMessage(PREFILL_FLAGS.SERVICE_INFORMATION, data, PrefillMessage),
             serviceBranch: {
               'ui:title': 'Branch of service',
             },
@@ -244,7 +249,7 @@ const formConfig = {
           title: 'Contact Information',
           depends: (formData) => formData.onBehalfOf !== anonymous,
           uiSchema: {
-            'ui:description': PrefillMessage,
+            'ui:description': data => conditionallyShowPrefillMessage(PREFILL_FLAGS.CONTACT_INFORMATION, data, PrefillMessage),
             address: {
               street: {
                 'ui:title': 'Address line 1'
@@ -253,18 +258,28 @@ const formConfig = {
                 'ui:title': 'Address line 2'
               },
               city: {
-                'ui:title': 'City'
+                'ui:title': 'City',
+                'ui:errorMessages': {
+                  required: 'Please fill in a valid city'
+                }
               },
               state: {
-                'ui:title': 'State'
+                'ui:title': 'State',
+                'ui:errorMessages': {
+                  required: 'Please fill in a valid state'
+                }
               },
               country: {
-                'ui:title': 'Country'
+                'ui:title': 'Country',
+                'ui:errorMessages': {
+                  required: 'Please fill in a valid country'
+                },
               },
               postalCode: {
                 'ui:title': 'Postal code',
                 'ui:errorMessages': {
-                  pattern: 'Please enter a valid 5 digit postal code'
+                  pattern: 'Please fill in a valid 5-digit postal code',
+                  required: 'Please fill in a valid 5-digit postal code',
                 },
                 'ui:options': {
                   widgetClassNames: 'va-input-medium-large',
@@ -272,18 +287,20 @@ const formConfig = {
               }
             },
             'ui:validations': [
-              validateMatch('applicantEmail', 'view:applicantEmailConfirmation')
+              validateMatch('applicantEmail', 'view:applicantEmailConfirmation', 'email')
             ],
             applicantEmail: {
               'ui:title': 'Email address',
               'ui:errorMessages': {
-                pattern: 'Please put your email in this format x@x.xxx'
+                pattern: 'Please put your email in this format x@x.xxx',
+                required: 'Please put your email in this format x@x.xxx',
               }
             },
             'view:applicantEmailConfirmation': {
               'ui:title': 'Re-enter email address',
               'ui:errorMessages': {
-                pattern: 'Please enter a valid email address'
+                pattern: 'Please put your email in this format x@x.xxx',
+                required: 'Please put your email in this format x@x.xxx',
               }
             },
             phone: phoneUI('Phone number')
