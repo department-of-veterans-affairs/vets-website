@@ -3,7 +3,7 @@ const find = require('find');
 const path = require('path');
 
 function getAppManifests(root) {
-  return find.fileSync(/manifest\.json$/, path.join(root, './src/applications'))
+  return find.fileSync(/manifest\.(json|js)$/, path.join(root, './src/applications'))
     .map(file => {
       // eslint-disable-next-line import/no-dynamic-require
       const manifest = require(file);
@@ -23,11 +23,6 @@ function getWebpackEntryPoints(manifests) {
   }, {});
 }
 
-function getRoutes(manifests) {
-  return manifests.filter(m => !m.noRouting)
-    .map(m => m.rootUrl);
-}
-
 function displayApplications() {
   const root = path.join(__dirname, '../..');
   getAppManifests(root)
@@ -42,6 +37,5 @@ function displayApplications() {
 module.exports = {
   displayApplications,
   getWebpackEntryPoints,
-  getRoutes,
   getAppManifests
 };
