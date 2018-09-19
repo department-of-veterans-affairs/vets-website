@@ -37,6 +37,5 @@ function displayApplications() {
 module.exports = {
   displayApplications,
   getWebpackEntryPoints,
-  getRoutes,
   getAppManifests
 };
