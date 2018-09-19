@@ -39,7 +39,7 @@ You may get up to $368 per month in compensation (payments).
 
 ### What's covered under MGIB-SR education benefits?
 
-We'll cover these types of training, programs, and fees:
+We'll help you pay for these types of training, programs, and fees:
 
 - [Undergraduate and graduate degree programs](/education/gi-bill/higher-learning/)
 - [Co-op training](/education/work-learn/co-op-training/)
