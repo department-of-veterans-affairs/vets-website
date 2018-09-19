@@ -11,7 +11,8 @@ import {
   queryForFacilities,
   transform,
   transformObligationDates,
-  getReservesGuardData
+  getReservesGuardData,
+  transformProviderFacility
 } from '../helpers.jsx';
 import maximalData from './schema/maximal-test';
 import initialData from './schema/initialData.js';
@@ -140,6 +141,7 @@ describe('526 helpers', () => {
         },
         standardClaim: false,
         form4142: {
+          limitedConsent: true,
           providerFacility: [
             {
               providerFacilityName: 'Provider',
@@ -153,8 +155,8 @@ describe('526 helpers', () => {
                 street: '1234 test rd',
                 city: 'Testville',
                 postalCode: '12345',
-                country: 'United States',
-                state: 'Arizona'
+                country: 'USA',
+                state: 'AZ'
               }
             },
             {
@@ -169,12 +171,11 @@ describe('526 helpers', () => {
                 street: '1234 test rd',
                 city: 'Testville',
                 postalCode: '12345',
-                country: 'United States',
-                state: 'California'
+                country: 'USA',
+                state: 'AZ'
               }
             }
-          ],
-          limitedConsent: true
+          ]
         }
       }
     };
@@ -450,6 +451,47 @@ describe('526 helpers', () => {
       };
 
       expect(getReservesGuardData(formData)).to.equal(null);
+    });
+  });
+  describe('transformProviderFacility', () => {
+    const providerFacility = {
+      providerFacility: [
+        {
+          providerFacilityName: 'Provider',
+          treatmentDateRange: {
+            from: '2010-02-03',
+            to: '2012-03-05'
+          },
+          providerFacilityAddress: {
+            street: '1234 test rd',
+            city: 'Testville',
+            postalCode: '12345',
+            country: 'USA',
+            state: 'AZ'
+          }
+        }
+      ]
+    };
+
+    it('changes the date range from an object to an array of objects', () => {
+      expect(transformProviderFacility(providerFacility)).to.deep.equal({
+        providerFacility: [
+          {
+            providerFacilityName: 'Provider',
+            treatmentDateRange: [{
+              from: '2010-02-03',
+              to: '2012-03-05'
+            }],
+            providerFacilityAddress: {
+              street: '1234 test rd',
+              city: 'Testville',
+              postalCode: '12345',
+              country: 'USA',
+              state: 'AZ'
+            }
+          }
+        ]
+      });
     });
   });
 });
