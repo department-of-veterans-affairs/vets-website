@@ -362,7 +362,7 @@ describe('526 helpers', () => {
       });
     });
 
-    it('should return an empty array if unsuccesful', () => {
+    it('should return an empty array if unsuccessful', () => {
       global.fetch.resolves({ ok: false });
       // Doesn't matter what we call this with since our stub will always return the same thing
       const requestPromise = queryForFacilities('asdf');

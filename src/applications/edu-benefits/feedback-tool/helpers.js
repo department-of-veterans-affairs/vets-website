@@ -55,7 +55,8 @@ export function fetchInstitutions({ institutionQuery, page, onDone, onError }) {
     fetchUrl,
     null,
     payload => onDone(payload),
-    error => onError(error));
+    error => onError(error)
+  );
 }
 
 export function transform(formConfig, form) {
@@ -86,7 +87,8 @@ function checkStatus(guid) {
       }
 
       return Promise.reject(res);
-    }).catch(res => {
+    })
+    .catch(res => {
       if (res instanceof Error) {
         Raven.captureException(res);
         Raven.captureMessage('vets_gi_bill_feedbacks_poll_client_error');
@@ -122,38 +124,32 @@ function pollStatus(guid, onDone, onError) {
   }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
 }
 
-
 export function submit(form, formConfig) {
-  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
-    'Content-Type': 'application/json',
-    'X-Key-Inflection': 'camel',
+    'Content-Type': 'application/json'
   };
 
-  if (userToken) {
-    headers.Authorization = `Token token=${userToken}`;
-  }
-
   const body = transform(formConfig, form);
-  return fetch(`${environment.API_URL}/v0/gi_bill_feedbacks`, {
+  const apiRequestOptions = {
     method: 'POST',
     headers,
     body
-  }).then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(res);
-  }).then(json => {
+  };
+
+  const onSuccess = json => {
     const guid = json.data.attributes.guid;
     return new Promise((resolve, reject) => {
       pollStatus(guid,
         response => {
           recordEvent({ event: `${formConfig.trackingPrefix}submission-successful` });
           return resolve(response);
-        }, error => reject(error));
+        },
+        error => reject(error)
+      );
     });
-  }).catch(respOrError => {
+  };
+
+  const onFailure = respOrError => {
     if (respOrError instanceof Response) {
       if (respOrError.status === 429) {
         const error = new Error('vets_throttled_error_gi_bill_feedbacks');
@@ -163,7 +159,14 @@ export function submit(form, formConfig) {
       }
     }
     return Promise.reject(respOrError);
-  });
+  };
+
+  return apiRequest(
+    '/gi_bill_feedbacks',
+    apiRequestOptions,
+    onSuccess,
+    onFailure
+  );
 }
 
 /**
