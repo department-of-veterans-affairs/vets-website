@@ -1,3 +1,7 @@
+import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
+import { validateBooleanIfEvidence } from '../validations';
+import get from '../../../../platform/utilities/data/get';
+
 import {
   evidenceTypeHelp,
   noEvidenceDescription
@@ -12,14 +16,24 @@ export const uiSchema = {
     'ui:options': {
       expandUnder: 'view:hasEvidence'
     },
+    'ui:required': (formData) => get('view:hasEvidence', formData, false),
     'view:selectableEvidenceTypes': {
       'ui:title': ' ',
       'ui:description': 'What type of evidence do you want to submit with your claim?',
+      'ui:required': (formData) => get('view:hasEvidence', formData, false),
+      'ui:validations': [{
+        validator: validateBooleanIfEvidence,
+        options: { wrappedValidator: validateBooleanGroup }
+      }],
+      'ui:errorMessages': {
+        atLeastOne: 'Please select at least one type of supporting evidence'
+      },
       'view:hasVAMedicalRecords': { 'ui:title': 'VA medical records' },
       'view:hasPrivateMedicalRecords': { 'ui:title': 'Private medical records' },
       'view:hasOtherEvidence': { 'ui:title': 'Supporting (lay) statements or other evidence' }
     },
     'view:evidenceTypeHelp': {
+      'ui:title': ' ',
       'ui:description': evidenceTypeHelp
     }
   },
@@ -37,7 +51,8 @@ export const schema = {
   type: 'object',
   properties: {
     'view:hasEvidence': {
-      type: 'boolean'
+      type: 'boolean',
+      'default': true
     },
     'view:hasEvidenceFollowUp': {
       type: 'object',

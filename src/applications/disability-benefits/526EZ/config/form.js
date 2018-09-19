@@ -360,9 +360,7 @@ const formConfig = {
                   },
                   'ui:validations': [{
                     validator: validateBooleanIfEvidence,
-                    options: {
-                      wrappedValidator: validateBooleanGroup
-                    }
+                    options: { wrappedValidator: validateBooleanGroup }
                   }],
                   'ui:errorMessages': {
                     atLeastOne: 'Please select at least one type of supporting evidence'
