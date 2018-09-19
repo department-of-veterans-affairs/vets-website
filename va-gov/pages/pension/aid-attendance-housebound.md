@@ -54,7 +54,7 @@ Include this information:
 #### Apply in person
 
 You can bring your information to a regional benefit office near you. <br>
-[Find a regional benefit office](/facilities/).
+[Find a regional benefit office](/find-locations).
 
 ### How long does it take VA to make a decision?
 
