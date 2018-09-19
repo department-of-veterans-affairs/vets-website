@@ -31,7 +31,7 @@ You can get education benefits if you meet the requirements listed below.
 
 ### What benefits can I get?
 
-We’ll give you up to $368 per month in compensation (payments) for these types of training:
+You may get up to $368 per month in compensation (payments) for these types of training, programs, and fees:
 
 - [Undergraduate and graduate degree programs](/education/gi-bill/higher-learning/)
 - [Co-op training](/education/work-learn/co-op-training/)
@@ -39,9 +39,8 @@ We’ll give you up to $368 per month in compensation (payments) for these types
 - [Flight training](/education/advanced-training-and-certifications/flight-training/)
 - [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
 - [High-tech training](/education/work-learn/non-traditional/accelerated-payments/) for Reservists in non-degree educational programs lasting two years or less
-- [Licensing and certification tests](/education/advanced-training-and-certifications/licensing-certification/)
+- [Test fees](/education/advanced-training-and-certifications/test-fees)
 - [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
-- [Certain entrance examinations (national testing)](/education/advanced-training-and-certifications/national-testing-program/)
 - [Correspondence courses](/education/work-learn/non-traditional/correspondence-training/)
 - In some cases:
   - Remedial courses (classes some students must take to build up their basic skills in math, reading, or English before they can take regular college courses),
