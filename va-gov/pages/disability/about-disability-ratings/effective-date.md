@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Effective Date of Disability
+title: Disability Compensation Effective Date
 display_title: Effective Dates
 description: Learn how we decide the effective date, or the date you'll start getting VA disability compensation (sometimes called "VA disability back pay").
 concurrence: complete
