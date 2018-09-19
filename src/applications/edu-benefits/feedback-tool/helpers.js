@@ -10,9 +10,10 @@ import environment from '../../../platform/utilities/environment';
 import recordEvent from '../../../platform/monitoring/record-event';
 import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 
-import { trackingPrefix } from './config/form';
+import feedbackToolFormConfig from './config/form';
 import UserInteractionRecorder from '../components/UserInteractionRecorder';
 
+const { trackingPrefix }  = feedbackToolFormConfig;
 const { get } = dataUtils;
 const domesticSchoolAddressFields = get(
   'properties.educationDetails.properties.school.properties.address.anyOf[0].properties',
