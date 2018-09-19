@@ -1,13 +1,16 @@
-import { evidenceTypeHelp } from '../content/evidenceTypes';
+import {
+  evidenceTypeHelp,
+  noEvidenceDescription
+} from '../content/evidenceTypes';
 
 export const uiSchema = {
-  hasEvidence: {
+  'view:hasEvidence': {
     'ui:title': 'Do you have any evidence that you’d like to submit with your claim?',
     'ui:widget': 'yesNo'
   },
   'view:hasEvidenceFollowUp': {
     'ui:options': {
-      expandUnder: 'hasEvidence'
+      expandUnder: 'view:hasEvidence'
     },
     'view:selectableEvidenceTypes': {
       'ui:title': ' ',
@@ -19,13 +22,21 @@ export const uiSchema = {
     'view:evidenceTypeHelp': {
       'ui:description': evidenceTypeHelp
     }
+  },
+  'view:noEvidenceFollowUp': {
+    'ui:title': ' ',
+    'ui:description': noEvidenceDescription,
+    'ui:options': {
+      expandUnder: 'view:hasEvidence',
+      expandUnderCondition: false
+    }
   }
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    hasEvidence: {
+    'view:hasEvidence': {
       type: 'boolean'
     },
     'view:hasEvidenceFollowUp': {
@@ -44,6 +55,10 @@ export const schema = {
           properties: {}
         }
       }
+    },
+    'view:noEvidenceFollowUp': {
+      type: 'object',
+      properties: {}
     }
   }
 };
