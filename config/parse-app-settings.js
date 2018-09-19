@@ -37,8 +37,9 @@ const parsedAppSettings = {
     const routes = [];
 
     for (const entryName of Object.keys(applicationSettings)) {
-      const contentFiles = applicationSettings[entryName];
-      contentFiles
+      const contentProps = applicationSettings[entryName].contentProps;
+
+      contentProps
         .map(file => file.path)
         .forEach(filePath => routes.push(`/${filePath}`));
     }

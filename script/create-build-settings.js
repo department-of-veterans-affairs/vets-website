@@ -12,7 +12,8 @@ function getBuildSettings(options) {
     vic: {
       rateLimitAuthed: 1,
       rateLimitUnauthed: 1
-    }
+    },
+    applications: {}
   };
 }
 
@@ -22,7 +23,7 @@ function getBuildSettings(options) {
  */
 function createBuildSettings(options) {
   return (files, metalsmith, done) => {
-    const applications = {};
+    const settings = getBuildSettings(options);
 
     for (const fileName of Object.keys(files)) {
       const file = files[fileName];
@@ -42,14 +43,15 @@ function createBuildSettings(options) {
         }
       }
 
-      applications[entryName] = applications[entryName] || [];
-      applications[entryName].push(frontmatter);
+      let application = settings.applications[entryName];
+      if (!application) {
+        application = {};
+        settings.applications[entryName] = application;
+      }
+
+      application.contentProps = application.contentProps || [];
+      application.contentProps.push(frontmatter);
     }
-
-    const settings = getBuildSettings(options);
-    settings.applications = applications;
-
-    options.settings = settings;
 
     const settingsPath = 'js/settings.js';
 
