@@ -91,7 +91,7 @@ You may get up to 36 months of education benefits. We'll pay the benefits monthl
 
 ### What's covered under MGIB-AD education benefits?
 
-We'll cover these types of training, programs, and fees:
+We'll help you pay for these types of training, programs, and fees:
 
 - [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
 - [Co-op training](/education/work-learn/co-op-training/)
