@@ -8,6 +8,7 @@ import recordEvent from '../../../platform/monitoring/record-event';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import localStorage from '../../../platform/utilities/storage/localStorage';
+import FacilityLocatorManifest from '../../facility-locator/manifest.json';
 
 export class AuthApp extends React.Component {
   constructor(props) {
@@ -107,7 +108,7 @@ export class AuthApp extends React.Component {
               Please check the information you entered and make sure it matches the information in your records. If you feel you’ve entered your information correctly, and it’s still not matching, please contact your nearest VA medical center. Let them know you need to verify the information in your records, and update it as needed. The operator, or a patient advocate, can connect with you with the right person who can help.
             </p>
             <p>
-              <a href="/facilities/?facilityType=health&page=1&zoomLevel=7">
+              <a href={`${FacilityLocatorManifest.rootUrl}/?facilityType=health&page=1&zoomLevel=7`}>
                 Find your nearest VA medical center.
               </a>
             </p>

@@ -2,6 +2,8 @@ const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const Auth = require('../../../platform/testing/e2e/auth');
 const HCA_ROOT = require('../../hca/manifest.json');
+const One995Manifest = require('../../edu-benefits/1995/manifest.json');
+const PensionsManifest = require('../../pensions/manifest.json');
 
 function testStatus(client, page, url) {
   client
@@ -89,16 +91,16 @@ module.exports = E2eHelpers.createE2eTest(
     testStatus(client, '/health-care/', `${HCA_ROOT}/resume'`);
     testStatus(client, '/health-care/eligibility', `${HCA_ROOT}/resume'`);
 
-    testStatus(client, '/pension/apply', '/pension/application/527EZ/resume');
-    testStatus(client, '/pension/', '/pension/application/527EZ/resume');
-    testStatus(client, '/pension/eligibility', '/pension/application/527EZ/resume');
+    testStatus(client, '/pension/apply', `${PensionsManifest.rootUrl}/resume`);
+    testStatus(client, '/pension/', `${PensionsManifest.rootUrl}/resume`);
+    testStatus(client, '/pension/eligibility', `${PensionsManifest.rootUrl}/resume`);
 
     testStatus(client, '/burials-and-memorials/', '/burials-and-memorials/application/530/resume');
     testStatus(client, '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs', '/burials-and-memorials/application/530/resume');
 
-    testStatus(client, '/education/apply', '/education/apply-for-education-benefits/application/1995/resume');
-    testStatus(client, '/education/', '/education/apply-for-education-benefits/application/1995/resume');
-    testStatus(client, '/education/eligibility', '/education/apply-for-education-benefits/application/1995/resume');
+    testStatus(client, '/education/apply', `${One995Manifest.rootUrl}/resume`);
+    testStatus(client, '/education/', `${One995Manifest.rootUrl}/resume`);
+    testStatus(client, '/education/eligibility', `${One995Manifest.rootUrl}/resume`);
     client.end();
   }
 );

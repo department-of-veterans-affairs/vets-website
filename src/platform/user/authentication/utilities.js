@@ -6,6 +6,7 @@ import { apiRequest } from '../../utilities/api';
 import environment from '../../utilities/environment';
 
 import brandConsolidation from '../../brand-consolidation';
+import AuthManifest from '../../../applications/auth/manifest.json';
 
 let successRelay = 'vetsgov';
 if (brandConsolidation.isEnabled()) {
@@ -45,7 +46,7 @@ function popup(popupUrl, clickedEvent, openedEvent) {
       popupUrl,
       null,
       ({ url }) => { popupWindow.location = url; },
-      () => { popupWindow.location = `${environment.BASE_URL}/auth/login/callback`; }
+      () => { popupWindow.location = `${environment.BASE_URL}${AuthManifest.rootUrl}`; }
     ).then(() => popupWindow);
   }
 

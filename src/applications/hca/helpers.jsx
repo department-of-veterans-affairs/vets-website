@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash/fp';
 import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+import FacilityLocatorManifest from '../facility-locator/manifest.json';
 
 import {
   stringifyFormReplacer,
@@ -48,7 +49,7 @@ export function transform(formConfig, form) {
 
 export const facilityHelp = (
   <div>
-    <div>OR <a href="/facilities" target="_blank">Find locations with the VA Facility Locator</a></div>
+    <div>OR <a href={FacilityLocatorManifest.rootUrl} target="_blank">Find locations with the VA Facility Locator</a></div>
     <br/>
     If you’re looking for medical care outside the continental U.S. or Guam, you’ll need to sign up for our Foreign Medical Program. <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp" target="_blank">Learn more about the Foreign Medical Program</a>.
     <br/>

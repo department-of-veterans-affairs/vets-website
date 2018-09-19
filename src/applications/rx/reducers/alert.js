@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import MessagingManifest from '../../messaging/manifest.json';
 
 const initialState = {
   content: '',
@@ -45,7 +46,7 @@ export default function alert(state = initialState, action) {
         content: (
           <div>
             <h4 className="usa-alert-heading">Prescription refill unsuccessful</h4>
-            <p>We couldn’t process this request. Please try again or <a href="/health-care/secure-messaging">message your provider</a>.</p>
+            <p>We couldn’t process this request. Please try again or <a href={MessagingManifest.rootUrl}>message your provider</a>.</p>
           </div>
         ),
         status: 'error',

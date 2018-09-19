@@ -27,6 +27,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import ClaimsListItem from '../components/ClaimsListItem';
 import AppealListItem from '../components/AppealsListItemV2';
+import ClaimsManifest from '../../../claims-status/manifest.json';
 
 function recordDashboardClick(product) {
   return () => {
@@ -159,7 +160,7 @@ class ClaimsAppealsWidget extends React.Component {
           </DowntimeNotification>
           {this.renderErrorMessages()}
           {content}
-          <p><Link href="/track-claims" onClick={recordDashboardClick('view-all-claims')}>View all your claims and appeals</Link>.</p>
+          <p><Link href={ClaimsManifest.rootUrl} onClick={recordDashboardClick('view-all-claims')}>View all your claims and appeals</Link>.</p>
         </div>
       </div>
     );

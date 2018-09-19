@@ -4,6 +4,7 @@ const EduHelpers = require('../1990/edu-helpers');
 const Edu5495Helpers = require('./edu-5495-helpers');
 const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
+const Five495Manifest = require('../../5495/manifest.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -11,7 +12,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Ensure introduction page renders.
     client
-      .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/5495`)
+      .url(`${E2eHelpers.baseUrl}${Five495Manifest.rootUrl}`)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for education benefits: Vets.gov')
       .waitForElementVisible('.usa-button-primary', Timeouts.slow)

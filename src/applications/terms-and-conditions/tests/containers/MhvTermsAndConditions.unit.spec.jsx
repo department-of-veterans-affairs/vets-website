@@ -5,6 +5,7 @@ import { set } from 'lodash/fp';
 import sinon from 'sinon';
 
 import { MhvTermsAndConditions } from '../../containers/MhvTermsAndConditions';
+import RXManifest from '../../../rx/manifest.json';
 
 describe('<MhvTermsAndConditions>', () => {
   const props = {
@@ -88,7 +89,7 @@ describe('<MhvTermsAndConditions>', () => {
   });
 
   it('should redirect after acceptance if there is a redirect URL', () => {
-    const newProps = set('location.query.tc_redirect', '/health-care/refill-track-prescriptions', props);
+    const newProps = set('location.query.tc_redirect', RXManifest.rootUrl, props);
     const wrapper = shallow(<MhvTermsAndConditions {...newProps}/>);
     wrapper.setState({ isSubmitted: true });
     wrapper.setProps({ accepted: true });
@@ -114,4 +115,3 @@ describe('<MhvTermsAndConditions>', () => {
     expect(wrapper.find('#agreement-checkbox').exists()).to.be.false;
   });
 });
-

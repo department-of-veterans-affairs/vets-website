@@ -6,6 +6,7 @@ import ProgressBar from '@department-of-veterans-affairs/formation/ProgressBar';
 import { scrollAndFocus } from '../../../platform/utilities/ui';
 import PhotoPreview from '../components/PhotoPreview';
 import CropperController from '../components/CropperController';
+import VeteranIdCardManifest from '../../veteran-id-card/manifest.json';
 
 const MIN_SIZE = 350;
 
@@ -339,7 +340,7 @@ export default class PhotoField extends React.Component {
                 We’ve run into a problem.
                 <p>{errorMessage}</p>
               </div>
-              <a href="/records/get-veteran-id-cards/how-to-upload-photo" target="_blank">
+              <a href={`${VeteranIdCardManifest.rootUrl}/how-to-upload-photo`} target="_blank">
                 Learn more about uploading a photo for your Veteran ID Card
               </a>
             </div>}

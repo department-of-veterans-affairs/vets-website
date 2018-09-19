@@ -6,10 +6,11 @@ import sinon from 'sinon';
 
 import backendServices from '../../../../user/profile/constants/backendServices';
 import { MHVApp } from '../../../authorization/containers/MHVApp';
+import RXManifest from '../../../../../applications/rx/manifest.json';
 
 describe('<MHVApp>', () => {
   const props = {
-    location: { pathname: '/health-care/refill-track-prescriptions', query: {} },
+    location: { pathname: RXManifest.rootUrl, query: {} },
     mhvAccount: {
       accountLevel: null,
       accountState: null,

@@ -4,12 +4,13 @@ const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 const PageHelpers = require('./complaint-tool-helpers');
 const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
+const GIBillSchoolFeedback = require('../../complaint-tool/manifest.json');
 
 module.exports = E2eHelpers.createE2eTest((client) => {
   PageHelpers.initApplicationSubmitMock();
 
   client
-    .url(`${E2eHelpers.baseUrl}/education/gi-bill-school-feedback`)
+    .url(`${E2eHelpers.baseUrl}${GIBillSchoolFeedback.rootUrl}`)
     .waitForElementVisible('body', Timeouts.normal)
     .assert.title('GI Bill® School Feedback Tool: Vets.gov')
     .waitForElementVisible('.schemaform-title', Timeouts.slow)

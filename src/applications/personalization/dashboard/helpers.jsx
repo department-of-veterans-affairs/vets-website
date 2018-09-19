@@ -1,4 +1,16 @@
 import Raven from 'raven-js';
+import Five26EZManifest from '../../disability-benefits/526EZ/manifest.json';
+import Zero993Manifest from '../../edu-benefits/0993/manifest.json';
+import One990Manifest from '../../edu-benefits/1990/manifest.json';
+import One990EManifest from '../../edu-benefits/1990e/manifest.json';
+import One990NManifest from '../../edu-benefits/1990n/manifest.json';
+import One995Manifest from '../../edu-benefits/1995/manifest.json';
+import Five490Manifest from '../../edu-benefits/5490/manifest.json';
+import Five495Manifest from '../../edu-benefits/5495/manifest.json';
+import HCAManifest from '../../hca/manifest.json';
+import PensionsManifest from '../../pensions/manifest.json';
+import PreNeedManifest from '../../pre-need/manifest.json';
+import VICV2manifest from '../../vic-v2/manifest.json';
 
 export const formBenefits = {
   '21-526EZ': 'increased disability compensation',
@@ -33,19 +45,19 @@ export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
 }, {});
 
 export const formLinks = {
-  '21-526EZ': '/disability-benefits/apply/form-526-disability-claim/',
-  '21P-527EZ': '/pension/application/527EZ/',
+  '21-526EZ': Five26EZManifest.rootUrl,
+  '21P-527EZ': PensionsManifest.rootUrl,
   '21P-530': '/burials-and-memorials/application/530/',
-  '1010ez': '/health-care/apply-for-health-care-form-10-10ez',
-  '22-0993': '/education/opt-out-information-sharing/opt-out-form-0993/',
-  '22-1990': '/education/apply-for-education-benefits/application/1990/',
-  '22-1990E': '/education/apply-for-education-benefits/application/1990E/',
-  '22-1990N': '/education/apply-for-education-benefits/application/1990N/',
-  '22-1995': '/education/apply-for-education-benefits/application/1995/',
-  '22-5490': '/education/apply-for-education-benefits/application/5490/',
-  '22-5495': '/education/apply-for-education-benefits/application/5495/',
-  '40-10007': '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/',
-  VIC: '/records/get-veteran-id-cards/',
+  '1010ez': HCAManifest.rootUrl,
+  '22-0993': Zero993Manifest.rootUrl,
+  '22-1990': One990Manifest.rootUrl,
+  '22-1990E': One990EManifest.rootUrl,
+  '22-1990N': One990NManifest.rootUrl,
+  '22-1995': One995Manifest.rootUrl,
+  '22-5490': Five490Manifest.rootUrl,
+  '22-5495': Five495Manifest.rootUrl,
+  '40-10007': PreNeedManifest.rootUrl,
+  VIC: VICV2manifest.rootUrl,
   'complaint-tool': '/education/complaint-tool/form',
   '21-686C': '/disability-benefits/686/dependent-status/'
 };

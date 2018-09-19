@@ -20,6 +20,7 @@ import {
 } from '../helpers.jsx';
 import maximalData from './schema/maximal-test';
 import initialData from './schema/initialData.js';
+import FacilityLocatorManifest from '../../../facility-locator/manifest.json';
 
 describe('526 helpers', () => {
   const prefilledData = _.cloneDeep(initialData);
@@ -378,7 +379,7 @@ describe('526 helpers', () => {
 
     it('should call the api with the input', () => {
       queryForFacilities('asdf');
-      expect(global.fetch.firstCall.args[0]).to.contain('/facilities/suggested?type%5B%5D=health&type%5B%5D=dod_health&name_part=asdf');
+      expect(global.fetch.firstCall.args[0]).to.contain(`${FacilityLocatorManifest.rootUrl}/suggested?type%5B%5D=health&type%5B%5D=dod_health&name_part=asdf`);
     });
 
     it('should return the mapped data for autosuggest if successful', () => {

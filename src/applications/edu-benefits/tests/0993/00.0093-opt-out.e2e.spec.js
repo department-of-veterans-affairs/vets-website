@@ -4,6 +4,7 @@ const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 const PageHelpers = require('./0993-helpers');
 const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
+const Zero993Manifest = require('../../0993/manifest.json');
 
 module.exports = E2eHelpers.createE2eTest((client) => {
   PageHelpers.initApplicationSubmitMock('0993');
@@ -12,7 +13,7 @@ module.exports = E2eHelpers.createE2eTest((client) => {
   FormsTestHelpers.overrideFormsScrolling(client);
 
   client
-    .url(`${E2eHelpers.baseUrl}/education/opt-out-information-sharing/opt-out-form-0993/`)
+    .url(`${E2eHelpers.baseUrl}${Zero993Manifest.rootUrl}/`)
     .waitForElementVisible('body', Timeouts.normal);
 
   // Claimant information

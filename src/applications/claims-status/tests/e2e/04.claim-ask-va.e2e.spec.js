@@ -2,6 +2,7 @@ const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 const DisabilityHelpers = require('./claims-status-helpers');
 const Auth = require('../../../../platform/testing/e2e/auth');
+const ClaimsManifest =  require('../../manifest.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -13,7 +14,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     DisabilityHelpers.initAskVAMock(token);
 
-    Auth.logIn(token, client, '/track-claims', 3)
+    Auth.logIn(token, client, ClaimsManifest.rootUrl, 3)
       .waitForElementVisible('.claim-list-item-container', Timeouts.slow);
 
     client

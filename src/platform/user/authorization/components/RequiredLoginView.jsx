@@ -8,10 +8,11 @@ import SystemDownView from '@department-of-veterans-affairs/formation/SystemDown
 
 import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 import backendServices from '../../profile/constants/backendServices';
+import VerifyManifest from '../../../../applications/verify/manifest.json';
 
 const nextQuery = { next: window.location.pathname };
 const signInUrl = appendQuery('/', nextQuery);
-const verifyUrl = appendQuery('/verify', nextQuery);
+const verifyUrl = appendQuery(VerifyManifest.rootUrl, nextQuery);
 
 class RequiredLoginView extends React.Component {
   componentDidMount() {

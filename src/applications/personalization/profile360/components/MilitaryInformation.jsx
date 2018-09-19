@@ -10,6 +10,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation/Additional
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import recordEvent from '../../../../platform/monitoring/record-event';
+import FacilityLocatorManifest from '../../../facility-locator/manifest.json';
 
 class MilitaryInformationContent extends React.Component {
   componentDidMount() {
@@ -32,7 +33,7 @@ class MilitaryInformationContent extends React.Component {
             content={<div>
               <h3>We can’t access your military information</h3>
               <p>We’re sorry. We can’t find your Department of Defense (DoD) ID. We need this to access your military service records. Please call us at 1-800-827-1000, or visit your nearest VA regional benefit office and request to be added to the Defense Enrollment Eligibility Reporting System (DEERS).</p>
-              <a href="/facilities">Find your nearest VA regional benefit office</a>.
+              <a href={FacilityLocatorManifest.rootUrl}>Find your nearest VA regional benefit office</a>.
               <p>You can also request to be added to DEERS through our online customer help center.</p>
               <a href="https://iris.custhelp.va.gov/app/answers/detail/a_id/3036/~/not-registered-in-deers%2C-or-received-and-error-message-while-trying-to">Get instructions from our help center</a>.
             </div>}/>

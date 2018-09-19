@@ -1,4 +1,5 @@
 import React from 'react';
+import VeteranIdCardManifest from '../../veteran-id-card/manifest.json';
 
 export default function PhotoDescription() {
   return (
@@ -19,7 +20,7 @@ export default function PhotoDescription() {
         <img className="example-photo" alt="placeholder" src="/img/example-photo-1.png"/>
         <img className="example-photo" alt="placeholder" src="/img/example-photo-2.png"/>
         <p>
-          <a href="/records/get-veteran-id-cards/how-to-upload-photo" target="_blank">Learn more about uploading a photo for your Veteran ID Card</a>.
+          <a href={`${VeteranIdCardManifest.rootUrl}/how-to-upload-photo`} target="_blank">Learn more about uploading a photo for your Veteran ID Card</a>.
         </p>
       </div>
     </div>

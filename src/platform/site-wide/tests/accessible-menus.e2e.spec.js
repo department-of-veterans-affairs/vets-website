@@ -1,9 +1,12 @@
 const E2eHelpers = require('../../testing/e2e/helpers');
 const Timeouts = require('../../testing/e2e/timeouts.js');
+const FacilityLocatorManifest = require('../../../applications/facility-locator/manifest.json');
+const HCAManifest = require('../../../applications/hca/manifest.json');
+const RXManifest = require('../../../applications/rx/manifest.json');
 
 const exploreButton = '#vetnav-menu button[aria-controls="vetnav-explore"]';
 const benefitsButton = '#vetnav-menu button[aria-controls="vetnav-benefits"]';
-const facilitiesLink = '#vetnav-menu a[href="/facilities/"]';
+const facilitiesLink = `#vetnav-menu a[href="${FacilityLocatorManifest.url}/"]`;
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -84,7 +87,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Health care sub menu items
     const hcFirstItem = '#vetnav-healthcare a[href="/health-care/"]';
     const hcSecondItem = '#vetnav-healthcare a[href="/health-care/eligibility/"]';
-    const hcLastItem = '#vetnav-healthcare a[href="/health-care/apply-for-health-care-form-10-10ez"]';
+    const hcLastItem = `#vetnav-healthcare a[href="${HCAManifest.rootUrl}"]`;
 
     // Disability menu items
     // const disFirstItem = '#vetnav-disability a[href="/disability-benefits/"]';
@@ -148,7 +151,7 @@ module.exports = E2eHelpers.createE2eTest(
 
 
     // -- Non-sub menu buttons -- //
-    const prescriptionsLink = 'a[href="/health-care/refill-track-prescriptions"]';
+    const prescriptionsLink = `a[href="${RXManifest.rootUrl}"]`;
 
     client.click(benefitsButton);
 
@@ -225,4 +228,3 @@ module.exports = E2eHelpers.createE2eTest(
 
     client.end();
   });
-

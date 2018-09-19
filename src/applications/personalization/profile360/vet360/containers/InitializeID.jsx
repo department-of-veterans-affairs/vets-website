@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import Profile360Manifest from '../../manifest.json';
 
 import {
   INIT_VET360_ID,
@@ -47,7 +48,7 @@ class InitializeVet360ID extends React.Component {
     if (this.props.transactionRequest.isPending) return;
 
     const { transactionId } = this.props.transaction.data.attributes;
-    const initializationTransactionRefreshRoute = `/profile/person/status/${transactionId}`;
+    const initializationTransactionRefreshRoute = `${Profile360Manifest.rootUrl}/person/status/${transactionId}`;
     this.props.refreshTransaction(this.props.transaction, ANALYTICS_FIELD_MAP.INIT_VET360_ID, initializationTransactionRefreshRoute);
   }
 

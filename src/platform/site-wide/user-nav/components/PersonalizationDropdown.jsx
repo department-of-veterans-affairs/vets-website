@@ -3,6 +3,8 @@ import React from 'react';
 import { logout } from '../../../user/authentication/utilities';
 import dashboardManifest from '../../../../applications/personalization/dashboard/manifest.json';
 import recordEvent from '../../../../platform/monitoring/record-event';
+import accountManifest from '../../../../applications/personalization/account/manifest.json';
+import Profile360Manifest from '../../../../applications/personalization/profile360/manifest.json';
 
 
 const LEFT_CLICK = 1;
@@ -35,8 +37,8 @@ class PersonalizationDropdown extends React.Component {
   render() {
     return (
       <ul>
-        <li><a href="/profile" onClick={() => { recordEvent({ event: 'nav-user', 'nav-user-section': 'profile' });}}>Profile</a> <NewBadge/></li>
-        <li><a href="/account" onClick={() => { recordEvent({ event: 'nav-user', 'nav-user-section': 'account' });}}>Account</a> <NewBadge/></li>
+        <li><a href={Profile360Manifest.rootUrl} onClick={() => { recordEvent({ event: 'nav-user', 'nav-user-section': 'profile' });}}>Profile</a> <NewBadge/></li>
+        <li><a href={accountManifest.rootUrl} onClick={() => { recordEvent({ event: 'nav-user', 'nav-user-section': 'account' });}}>Account</a> <NewBadge/></li>
         <li><a href="#" onClick={logout}>Sign Out</a></li>
       </ul>
     );

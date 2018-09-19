@@ -1,4 +1,6 @@
 import conditionalStorage from '../../platform/utilities/storage/conditionalStorage';
+import MessagingManifest from '../../applications/messaging/manifest.json';
+import RXManifest from '../../applications/rx/manifest.json';
 
 const lowerEnvironments = [
   'development',
@@ -11,9 +13,9 @@ const lowerEnvironments = [
 const mhvDomain = lowerEnvironments.includes(__BUILDTYPE__) ? 'https://mhv-syst.myhealth.va.gov' : 'https://www.myhealth.va.gov';
 
 const urlMap = {
-  '/health-care/secure-messaging/': `${mhvDomain}/mhv-portal-web/secure-messaging`,
+  [`${MessagingManifest.url}/`]: `${mhvDomain}/mhv-portal-web/secure-messaging`,
 
-  '/health-care/refill-track-prescriptions/': `${mhvDomain}/mhv-portal-web/web/myhealthevet/refill-prescriptions`,
+  [`${RXManifest.rootUrl}/`]: `${mhvDomain}/mhv-portal-web/web/myhealthevet/refill-prescriptions`,
 
   '/health-care/schedule-view-va-appointments/': `${mhvDomain}/mhv-portal-web/web/myhealthevet/scheduling-a-va-appointment`,
 

@@ -1,11 +1,12 @@
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const FacilityHelpers = require('./facility-helpers');
+const FacilityLocatorManifest =  require('../manifest.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
     client
-      .url(`${E2eHelpers.baseUrl}/facilities/`);
+      .url(`${E2eHelpers.baseUrl}${FacilityLocatorManifest.rootUrl}/`);
 
     E2eHelpers.overrideSmoothScrolling(client);
     FacilityHelpers.initApplicationMock();

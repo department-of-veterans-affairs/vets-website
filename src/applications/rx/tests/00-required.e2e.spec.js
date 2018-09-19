@@ -4,6 +4,7 @@ const RxHelpers = require('./rx-helpers');
 const Auth = require('../../../platform/testing/e2e/auth');
 const AccountCreationHelpers = require('../../../platform/testing/e2e/account-creation-helpers');
 const MESSAGING_ROOT = require('../../messaging/manifest.json').rootUrl;
+const RXManifest =  require('../../rx/manifest.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -13,7 +14,7 @@ module.exports = E2eHelpers.createE2eTest(
     AccountCreationHelpers.initMHVTermsMocks(token);
 
     // Ensure active page renders
-    Auth.logIn(token, client, '/health-care/refill-track-prescriptions', 3)
+    Auth.logIn(token, client, RXManifest.rootUrl, 3)
       .assert.title('Refill Prescriptions: Vets.gov')
       .waitForElementVisible('#rx-active', Timeouts.normal)
       .axeCheck('.main');
@@ -73,7 +74,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Ensure history card renders
     client
-      .click('.va-nav-breadcrumbs a[href="/health-care/refill-track-prescriptions"]')
+      .click(`.va-nav-breadcrumbs a[href="${RXManifest.rootUrl}"]`)
       .waitForElementVisible('#rx-active', Timeouts.slow)
       .click('.va-tabs li:last-child a')
       .waitForElementVisible('#rx-history', Timeouts.normal)

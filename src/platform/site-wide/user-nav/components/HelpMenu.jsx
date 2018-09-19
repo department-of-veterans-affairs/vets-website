@@ -4,6 +4,7 @@ import React from 'react';
 import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
 import IconHelp from '@department-of-veterans-affairs/formation/IconHelp';
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
+import FacilityLocatorManifest from '../../../../applications/facility-locator/manifest.json';
 
 class HelpMenu extends React.Component {
   render() {
@@ -14,7 +15,7 @@ class HelpMenu extends React.Component {
     if (isBrandConsolidationEnabled()) {
       dropDownContents = (
         <div>
-          <p><a href="https://preview.va.gov/facilities/">Find a VA Location</a></p>
+          <p><a href={`https://preview.va.gov${FacilityLocatorManifest.rootUrl}/`}>Find a VA Location</a></p>
           <p><a href="#">Submit a Help Request</a></p>
           <p><a href="#">Go to VA Help Center</a></p>
           <p><a href="#">Call Us </a></p>

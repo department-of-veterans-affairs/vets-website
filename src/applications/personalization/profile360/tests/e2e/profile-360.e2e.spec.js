@@ -3,6 +3,7 @@ const Timeouts = require('../../../../../platform/testing/e2e/timeouts');
 const createMockEndpoint = require('../../../../../platform/testing/e2e/mock-helpers');
 const Auth = require('../../../../../platform/testing/e2e/auth');
 const routes = require('./routes.json');
+const Profile360Manifest = require('../../manifest.json');
 
 function runEmailTest(browser, fieldName = 'email', initialValue = 'veteran@gmail.com') {
   const fieldWrapper = `[data-field-name="${fieldName}"]`;
@@ -77,7 +78,7 @@ function begin(browser) {
     createMockRoutes(token)
       .then(() => {
         // Login to access the Profile
-        Auth.logIn(token, browser, '/profile', 3)
+        Auth.logIn(token, browser, Profile360Manifest.rootUrl, 3)
           .waitForElementVisible('.va-profile-wrapper', Timeouts.slow);
 
         E2eHelpers.overrideSmoothScrolling(browser);

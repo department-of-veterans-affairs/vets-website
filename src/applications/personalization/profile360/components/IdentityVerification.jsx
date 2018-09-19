@@ -1,5 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+import VerifyManifest from '../../../verify/manifest.json';
 
 export default function IdentityVerification({ learnMoreClick, faqClick, verifyClick }) {
   return (
@@ -27,7 +28,7 @@ export default function IdentityVerification({ learnMoreClick, faqClick, verifyC
           </AdditionalInfo>
         </div>
         <br/>
-        <a className="usa-button-primary va-button-primary" href="/verify" onClick={verifyClick}>
+        <a className="usa-button-primary va-button-primary" href={VerifyManifest.rootUrl} onClick={verifyClick}>
           <img alt="ID.me" src="/img/signin/idme-icon-white.svg"/><strong> Verify with ID.me</strong>
         </a>
         <h4>What if I’m having trouble verifying my identity?</h4>

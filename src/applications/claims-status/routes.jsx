@@ -15,11 +15,12 @@ import ClaimEstimationPage from './containers/ClaimEstimationPage';
 import AppealsV2StatusPage from './containers/AppealsV2StatusPage';
 import AppealsV2DetailPage from './containers/AppealsV2DetailPage';
 import AppealInfo from './containers/AppealInfo';
+import ClaimsManifest from './manifest.json';
 
 const routes = [
   <Redirect
-    key="/track-claims/your-claims"
-    from="/disability-benefits/track-claims*"
+    key={`${ClaimsManifest.rootUrl}/your-claims`}
+    from={`/disability-benefits${ClaimsManifest.rootUrl}*`}
     to="/your-claims"/>,
   <Route
     component={YourClaimsPageV2}

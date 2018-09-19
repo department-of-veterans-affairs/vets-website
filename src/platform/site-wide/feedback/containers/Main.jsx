@@ -6,8 +6,9 @@ import { revealForm, setFormValues, sendFeedback, clearError } from '../actions'
 import DefaultView from '../components/DefaultView';
 import FeedbackForm from '../components/FeedbackForm';
 import FeedbackSubmitted from '../components/FeedbackSubmitted';
+import VeteranIdCardManifest from '../../../../applications/veteran-id-card/manifest.json';
 
-const veteranIdCard = '/records/get-veteran-id-cards/';
+const veteranIdCard = `${VeteranIdCardManifest.rootUrl}/`;
 
 function Main(props) {
   if (document.location.pathname === veteranIdCard) return null;

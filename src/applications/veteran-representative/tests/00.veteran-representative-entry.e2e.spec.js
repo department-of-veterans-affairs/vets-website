@@ -4,12 +4,13 @@ const PageHelpers = require('./veteran-representative-helpers');
 const testData = require('./schema/maximal-test.json');
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const FormsTestHelpers = require('../../../platform/testing/e2e/form-helpers');
+const VeteranRepManifest =  require('../manifest.json');
 
 const runTest = E2eHelpers.createE2eTest(client => {
   PageHelpers.initApplicationSubmitMock();
 
   client
-    .url(`${E2eHelpers.baseUrl}/veteran-representative`)
+    .url(`${E2eHelpers.baseUrl}${VeteranRepManifest.rootUrl}`)
     .waitForElementVisible('body', Timeouts.normal)
     .assert.title('Appoint VSO as representative: Vets.gov')
     .waitForElementVisible('.schemaform-title', Timeouts.slow)

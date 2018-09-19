@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import Raven from 'raven-js';
+import AuthManifest from '../../../applications/auth/manifest.json';
 
 import {
   login,
@@ -38,7 +39,7 @@ describe('auth URL helpers', () => {
       mockApiRequest({ error: 'Couldn\'t find url' }, false);
       login('idme').then(popup => {
         expect(windowOpen.calledOnce).to.be.true;
-        expect(popup.location).to.include('/auth/login/callback');
+        expect(popup.location).to.include(AuthManifest.rootUrl);
         done();
       }).catch(done);
     });
