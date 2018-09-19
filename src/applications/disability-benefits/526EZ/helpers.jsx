@@ -491,7 +491,7 @@ const claimsIntakeAddress = (
   </p>
 );
 
-export const patientAcknowledgmentText = (
+export const patientAcknowledgementText = (
   <AdditionalInfo triggerText="Read the full text.">
     <h4>PATIENT AUTHORIZATION:</h4>
     <p>
@@ -531,7 +531,7 @@ export const patientAcknowledgmentText = (
       In accordance with 38 C.F.R. §3.159(c), "VA will not pay any fees
       charged by a custodian to provide records requested."
     </p>
-    <h4>PATIENT ACKNOWLEDGMENT:</h4>
+    <h4>PATIENT ACKNOWLEDGEMENT:</h4>
     <p>
       I HEREBY AUTHORIZE the sources listed in Section IV, to release
       any information that may have been obtained in connection with

@@ -68,7 +68,7 @@ import {
   getlimitedConsentTitle,
   validateBooleanIfEvidence,
   privateRecordsChoiceHelp,
-  patientAcknowledgmentText
+  patientAcknowledgementText
 } from '../helpers';
 
 import {
@@ -609,15 +609,15 @@ const formConfig = {
                     },
                   },
                 },
-                'view:patientAcknowledgment': {
-                  'ui:title': 'Patient Acknowledgment',
-                  'ui:description': patientAcknowledgmentText,
+                'view:patientAcknowledgement': {
+                  'ui:title': 'Patient Acknowledgement',
+                  'ui:description': patientAcknowledgementText,
                   'ui:options': {
                     expandUnder: 'view:uploadPrivateRecords',
                     expandUnderCondition: 'no',
                   },
                   'view:acknowledgment': {
-                    'ui:title': 'Patient Acknowledgment',
+                    'ui:title': 'Patient Acknowledgement',
                     'ui:required': (formData, index) => (_.get(`disabilities[${index}].view:patientAcknowledgement.view:acknowledgement`, formData.disabilities)),
                   },
                 },
@@ -640,7 +640,7 @@ const formConfig = {
                       type: 'string',
                       'enum': ['yes', 'no'],
                     },
-                    'view:patientAcknowledgment': {
+                    'view:patientAcknowledgement': {
                       type: 'object',
                       properties: {
                         'view:acknowledgment': {
