@@ -80,7 +80,7 @@ Access your VA records and documents online to manage your health and benefits.
 
   <div class="link">
     <a href="/housing-assistance/home-loans/how-to-apply/"><b>Find Out How to Apply for a VA Home Loan Certificate of Eligibility</b></a>
-    <p>Get instructions for how to apply for your Certificate of Eligibility (COE), which confirms for your lender that you qualify for a VA-backed home loan. Then choose your loan type to learn about the rest of the loan application process.</p>
+    <p>Get instructions for how to apply for your Certificate of Eligibility (COE), which confirms for your lender that you qualify for a VA-backed home loan. Then you can choose your loan type to learn about the rest of the loan application process.</p>
   </div>
 
   <div class="link">
@@ -90,7 +90,7 @@ Access your VA records and documents online to manage your health and benefits.
 
   <div class="link">
     <a href="#"><b>View Your VA Payment History</b></a>
-    <p>Check the status of your VA disability and pension payments. You can also see certain survivor benefits.</p>
+    <p>Check the status of your VA disability, pension, and education benefits payments. You can also see payments for certain survivor benefits.</p>
   </div>
 
   <div class="link">
