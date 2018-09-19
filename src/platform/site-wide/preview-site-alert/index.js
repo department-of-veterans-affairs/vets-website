@@ -21,5 +21,5 @@ export default function startPreviewSiteAlert(store) {
     <Provider store={store}>
       <Main/>
     </Provider>
-  ), document.getElementById('preview-site-alert'));
+  ), document.getElementById('site-alert'));
 }
