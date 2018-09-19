@@ -499,26 +499,26 @@ export const patientAcknowledgementText = (
       oral, and electronic interchange) of: All my medical records;
       including information related to my ability to perform tasks of
       daily living. This includes specific permission to release:
-      <ol>
-        <li>All records and other information regarding my treatment,
-          hospitalization, and outpatient care for my impairment(s)
-          including, but not limited to:
-          <ul>
-            <li>Psychological, psychiatric, or other mental impairment(s)
-              excluding "psychotherapy notes" as defined in 45 C.F.R. §164.501,</li>
-            <li>Drug abuse, alcoholism, or other substance abuse,</li>
-            <li>Sickle cell anemia,</li>
-            <li>Records which may indicate the presence of a communicable
-              or non-communicable disease; and tests for or records of HIV/AIDS,</li>
-            <li>Gene-related impairments (including genetic test results)</li>
-          </ul>
-        </li>
-        <li>Information about how my impairment(s) affects my ability to
-          complete tasks and activities of daily living, and affects my ability to work.</li>
-        <li>Information created within 12 months after the date this authorization
-          is signed in Item 11, as well as past information.</li>
-      </ol>
     </p>
+    <ol>
+      <li>All records and other information regarding my treatment,
+        hospitalization, and outpatient care for my impairment(s)
+        including, but not limited to:
+        <ul>
+          <li>Psychological, psychiatric, or other mental impairment(s)
+            excluding "psychotherapy notes" as defined in 45 C.F.R. §164.501,</li>
+          <li>Drug abuse, alcoholism, or other substance abuse,</li>
+          <li>Sickle cell anemia,</li>
+          <li>Records which may indicate the presence of a communicable
+            or non-communicable disease; and tests for or records of HIV/AIDS,</li>
+          <li>Gene-related impairments (including genetic test results)</li>
+        </ul>
+      </li>
+      <li>Information about how my impairment(s) affects my ability to
+        complete tasks and activities of daily living, and affects my ability to work.</li>
+      <li>Information created within 12 months after the date this authorization
+        is signed in Item 11, as well as past information.</li>
+    </ol>
     <p>
       YOU SHOULD NOT COMPLETE THIS FORM UNLESS YOU WANT THE VA TO
       OBTAIN PRIVATE TREATMENT RECORDS ON YOUR BEHALF. IF YOU HAVE
