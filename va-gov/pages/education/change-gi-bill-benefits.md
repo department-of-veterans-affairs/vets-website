@@ -47,7 +47,7 @@ You'll need to submit a Dependent's Request for Change of Program or Place of Tr
 
 <b>You'll also need basic information about your:</b>
 - Service history
-- Education or training plans and goals 
+- Education or training plans and goals
 - Current or former school or training program and the new school or training program you plan to attend
 
 <b>If you're the dependent of a Veteran or Servicemember, you'll also need that person's:</b>
@@ -58,7 +58,7 @@ You'll need to submit a Dependent's Request for Change of Program or Place of Tr
 
 <h2>Are there other ways to submit my request?</h2>
 
-Yes. Follow the steps below to submit your request by mail, in person, or with the help of a trained professional. 
+Yes. Follow the steps below to submit your request by mail, in person, or with the help of a trained professional.
 
 <h3>By mail</h3>
 
@@ -76,6 +76,6 @@ Go to a VA regional benefit office and ask a staff member to help you.<br>
 Or work with your school’s certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 
 <h3>With the help of a trained professional</h3>
-You can work with a trained professional called an accredited representative to get help requesting a change to your benefits.<br> 
-[Get help submitting your request](/disability-benefits/apply/help/index.html).
+You can work with a trained professional called an accredited representative to get help requesting a change to your benefits.<br>
+[Get help submitting your request](/disability/get-help-filing-claim/).
 

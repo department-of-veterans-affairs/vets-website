@@ -379,21 +379,39 @@
     "pattern": "housing-assistance/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Housing Assistance"
+      "name": "Housing Assistance",
+      "spokes": ["VA Home Loans", "Disability Housing Grants"],
+      "icon": "fa-home"
     }
   },
   "housingHomeLoans": {
     "pattern": "housing-assistance/home-loans/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Home Loans"
+      "name": "Home Loans",
+      "icon": "fa-home"
     }
   },
   "housingVALoans": {
-    "pattern": "housing-assistance/home-loans/loan-options/*.md",
+    "pattern": "housing-assistance/home-loans/loan-types/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Loan Options"
+      "name": "Loan Options",
+      "icon": "fa-home"
+    }
+  },
+  "housingNativeAmericanDLoan": {
+    "pattern": "housing-assistance/home-loans/loan-types/native-american-direct-loan/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "icon": "fa-home"
+    }
+  },
+  "disabilityHousingGrants": {
+    "pattern": "housing-assistance/disability-housing-grants/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "icon": "fa-home"
     }
   },
   "lifeInsurance": {
@@ -404,7 +422,7 @@
     }
   },
   "lifeInsuranceOptions": {
-    "pattern": "life-insurance/options-and-eligibility/*.md",
+    "pattern": "life-insurance/options-eligibility/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Options"
@@ -432,7 +450,7 @@
     }
   },
   "pensionApplication": {
-    "pattern": "pension/apply/*.md",
+    "pattern": "pension/how-to-apply/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "How to Apply"
@@ -450,6 +468,15 @@
     "sortBy": "order",
     "metadata": {
       "name": "Servicemember & Veteran Programs"
+    }
+  },
+  "records": {
+    "pattern": "records/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "icon": "fa-id-card",
+      "name": "Records",
+      "spokes": ["Get Records"]
     }
   }
 }

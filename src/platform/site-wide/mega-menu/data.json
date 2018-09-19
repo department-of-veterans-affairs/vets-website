@@ -298,10 +298,6 @@
                                 "href": "#"
                             },
                             {
-                                "text": "File an Appeal",
-                                "href": "#"
-                            },
-                            {
                                 "text": "Change Your Direct Deposit and Contact Information",
                                 "href": "#"
                             }
@@ -513,20 +509,20 @@
                         "title": "Get Your Records",
                         "links": [
                             {
-                                "text": "Apply for a Veteran ID Card",
-                                "href": "#"
-                            },
-                            {
                                 "text": "Get Your VA Medical Records (Blue Button)",
-                                "href": "#"
+                                "href": "/health-care/get-medical-records/"
                             },
                             {
                                 "text": "Download Your VA Benefit Letters",
-                                "href": "#"
+                                "href": "/records/download-va-letters/"
                             },
                             {
                                 "text": "Apply for a Home Loan COE",
                                 "href": "#"
+                            },
+                            {
+                                "text": "Apply for a Veteran ID Card",
+                                "href": "/records/get-veteran-id-cards/"
                             }
                         ]
                     },
@@ -535,19 +531,20 @@
                         "links": [
                             {
                                 "text": "Request Your Military Records (DD214)",
-                                "href": "#"
+                                "href": "/records/get-military-service-records/"
                             },
                             {
                                 "text": "How to Apply for a Discharge Upgrade",
-                                "href": "#"
+                                "href": "/records/discharge-upgrade/"
                             },
                             {
                                 "text": "View Your VA Payment History",
-                                "href": "https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
+                                "href": ""
                             },
                             {
                                 "text": "Search Historical Military Records (National Archives)",
-                                "href": "https://www.archives.gov/"
+                                "href": "https://www.archives.gov/",
+                                "target": "_blank"
                             }
                         ]
                     },

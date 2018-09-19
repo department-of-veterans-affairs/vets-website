@@ -11,7 +11,7 @@ order: 5
 relatedlinks:
   - heading: Other VA benefits you may want to explore
     links:
-    - url: /employment/vocational-rehab-and-employment/
+    - url: /careers-employment/vocational-rehabilitation/
       title: Vocational Rehabilitation and Employment (VR&E)
       description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
 ---
@@ -31,12 +31,12 @@ Getting a degree, certificate, or other professional license can help you make a
 
 ### What should I do while I wait?
 
-The transition from military to civilian life can be challenging. We offer tools and counseling programs to help you make the most of your educational options. [Learn about educational and career couseling](/education/tools-programs/education-career-counseling/).
+The transition from military to civilian life can be challenging. We offer tools and counseling programs to help you make the most of your educational options. [Learn about educational and career couseling](/careers-employment/education-and-career-counseling/).
 
 ### What happens after I apply?
 
 You’ll get a Certificate of Eligibility (COE), or award letter, in the mail if we've approved your application. Bring this to the VA certifying official at your school.
 
-You can also start looking at future careers and job opportunities. [Learn about career-development resources](/employment/).
+You can also start looking at future careers and job opportunities. [Learn about career-development resources](/careers-employment/).
 
 <div markdown="0"><br></div>
