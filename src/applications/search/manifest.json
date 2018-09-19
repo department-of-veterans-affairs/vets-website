@@ -1,0 +1,8 @@
+{
+  "appName": "Search",
+  "entryFile": "./search-entry.jsx",
+  "entryName": "search",
+  "rootUrl": "/search",
+  "production": true,
+  "contentPage": "search/index.md"
+}
