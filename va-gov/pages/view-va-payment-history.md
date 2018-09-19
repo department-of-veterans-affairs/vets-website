@@ -66,7 +66,7 @@ If you don’t get a payment after 15 days, please call the Veterans Help Line a
 <div itemprop="text">
 
 <b>You can change your information in 1 of 2 ways:</b><br>
-<a href="/change-direct-deposit-and-contact-information/">Change your information online</a>, <b>or</b> <br
+<a href="/change-direct-deposit-and-contact-information/">Change your information online</a>, <b>or</b> <br>
 <a href="/facilities/">Contact your nearest VA regional benefit office or eligibility office</a>.
 
 </div>
