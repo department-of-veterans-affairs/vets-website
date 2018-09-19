@@ -51,7 +51,7 @@ Find out how to view your payment history for VA benefits.
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If your decision notice shows at least a 10% disability rating, you’ll get your first payment within 15 days. We’ll pay you either by direct deposit or check. 
+If your decision notice shows at least a 10% disability rating, you’ll get your first payment within 15 days. 
 
 If you don’t get a payment after 15 days, please call the Veterans Help Line at <a href="tel:+18008271000">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
 
