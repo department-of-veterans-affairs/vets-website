@@ -1,9 +1,10 @@
-const {
-  getRoutes
-} = require('./server-rewrites');
+const appSettings = require('./parse-app-settings');
 
 function generateWebpackDevConfig(buildOptions) {
-  const appRewrites = getRoutes(buildOptions.settings).map(url => {
+  appSettings.parseFromBuildOptions(buildOptions);
+
+  const routes = appSettings.getAllApplicationRoutes();
+  const appRewrites = routes.map(url => {
     return {
       from: `^${url}(.*)`,
       to: `${url}/`

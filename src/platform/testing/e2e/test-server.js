@@ -10,7 +10,7 @@ const express = require('express');
 const fallback = require('express-history-api-fallback');
 const path = require('path');
 const morgan = require('morgan');
-const { getAppRoutesFromGeneratedSettingsFile } = require('../../../../config/server-rewrites');
+const appSettings = require('../../../../config/parse-app-settings');
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
@@ -29,7 +29,8 @@ if (options.unexpected && options.unexpected.length !== 0) {
 const app = express();
 
 const root = path.resolve(__dirname, `../../../../build/${options.buildtype}`);
-const routes = getAppRoutesFromGeneratedSettingsFile(root);
+appSettings.parseFromBuildDir(root);
+const routes = appSettings.getAllApplicationRoutes();
 
 app.use(morgan('combined', { skip: (req, _res) => { return req.path.match(/(css|js|gif|jpg|png|svg)$/); } }));
 app.use(express.static(root));
