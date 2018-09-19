@@ -69,7 +69,6 @@ You can change your information in 1 of 2 ways:
 </div>
 </div>
 </div>
-</div>
 
 <div itemscope itemtype="http://schema.org/Question">
 
@@ -77,12 +76,14 @@ You can change your information in 1 of 2 ways:
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-It’s important to update your information with us if you change your marital status, give birth to or adopt a new child, or experience any other life change that could affect your rating or payment.
+Yes. It’s important to update your information with us if you change your marital status, have a baby, adopt a child, or experience any other life change that could affect your rating or payment.
 
-If you want to add...[to fill in]
+<b>If you have a disability rating of 30% or higher,</b> you may be able to add eligible dependents to your VA disability compensation to get a higher payment (also called a "benefit rate").
+<a href="https://www.benefits.va.gov/compensation/add-dependents.asp">Find out how to add eligible dependents</a>.
 
 If your disability gets worse, you can file a claim for an increase in benefits.
 <a href="/disability-benefits/increase-claims-testing/">File for a VA disability increase</a>.
+
 </div>
 </div>
 </div>
