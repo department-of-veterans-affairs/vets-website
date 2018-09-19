@@ -141,20 +141,16 @@ module.exports = {
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  testMatch: [
-    '**/tests/**/?(*.)unit.spec.js?(x)',
-    '**/disability-benefits/**/?(*.)unit.spec.js?(x)', // TODO: debug one disabled test
-    '**/messaging/**/?(*.)unit.spec.js?(x)', // TODO: debug one disabled test
-    '**/personalization/**/?(*.)unit.spec.js?(x)', // TODO: debug 4 disabled tests
-  ],
+  // testMatch: [],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  // testPathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '.yalc'
+  ],
 
   // The regexp pattern Jest uses to detect test files
-  // testRegex: "",
+  testRegex: 'src/*\\/.*\\.unit\\.spec\\.jsx?$',
 
   // This option allows the use of a custom results processor
   // testResultsProcessor: null,
