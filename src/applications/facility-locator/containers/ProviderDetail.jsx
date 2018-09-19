@@ -101,7 +101,7 @@ class ProviderDetail extends Component {
               <h4 className="highlight">About Community Care</h4>
               <div>
                 <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp"
-                  rel="noopener noreferrer" target="_blank" className="cc-info-link">
+                  rel="noopener noreferrer" target="_blank" className="about-cc-link">
                   What's Community Care and am I eligible?
                 </a>
               </div>

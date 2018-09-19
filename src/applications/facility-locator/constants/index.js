@@ -7,7 +7,8 @@
 
 export const LocationType = {
   VA_FACILITIES: 'va_facilities',
-  CC_PROVIDER: 'cc_provider'
+  CC_PROVIDER: 'cc_provider',
+  ALL: 'all'
 };
 
 export const FacilityType = {

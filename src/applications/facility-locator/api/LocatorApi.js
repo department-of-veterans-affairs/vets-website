@@ -53,7 +53,7 @@ class LocatorApi {
   }
 
   static fetchProviderDetail(id) {
-    const url = `${api.baseUrl}/ccp/detail/${id}`;
+    const url = `${api.baseUrl}/ccp/${id}`;
 
     return new Promise( (resolve, reject) => {
       fetch(url, api.settings)
