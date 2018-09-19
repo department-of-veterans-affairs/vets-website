@@ -93,7 +93,7 @@ You’ll need to fill out an Application for Reimbursement of Licensing or Certi
 
 **Note:** You’ll need to turn in proof of payment with your application. Proof of payment can be a receipt showing you paid the testing fee.
 
-Then, either upload your completed form to the GI Bill site or mail it to the nearest VA regional processing office. <br>
+Then, either upload your completed form to the GI Bill website or mail it to the nearest VA regional processing office. <br>
 [Upload your completed application to the GI Bill website](https://gibill.custhelp.va.gov/app/utils/login_form/).<br>
 [Find the nearest VA regional processing office](https://www.benefits.va.gov/gibill/regional_processing.asp).
 </div>
@@ -120,7 +120,7 @@ Then, mail your completed form to the nearest VA regional processing office. <br
 
 </div>
 </li>
-</div>
+
 
 
 
