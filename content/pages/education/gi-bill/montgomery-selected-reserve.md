@@ -31,7 +31,15 @@ You can get education benefits if you meet the requirements listed below.
 
 ### What benefits can I get?
 
-You may get up to $368 per month in compensation (payments) for these types of training, programs, and fees:
+You may get up to $368 per month in compensation (payments).
+
+### How do I get these benefits?
+
+[Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
+
+### What's covered under MGIB-SR education benefits?
+
+We'll cover these types of training, programs, and fees:
 
 - [Undergraduate and graduate degree programs](/education/gi-bill/higher-learning/)
 - [Co-op training](/education/work-learn/co-op-training/)
@@ -47,16 +55,7 @@ You may get up to $368 per month in compensation (payments) for these types of t
   - Deficiency courses (classes some student must take in order to be admitted to a certain college)
   - Refresher courses (brief courses that help people review and improve their knowledge in a certain subject area)
 
-
 [See current payment rates](https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
-
-
-------
-
-
-### How do I get these benefits?
-
-[Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
 
 ### Get more information
 - [Ask questions on the GI Bill customer service page](http://gibill.custhelp.com/). You can also search frequently asked questions.
