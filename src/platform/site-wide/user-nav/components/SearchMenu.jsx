@@ -36,7 +36,7 @@ class SearchMenu extends React.Component {
         <div className="va-flex">
           <input autoComplete="off" ref="searchField" className="usagov-search-autocomplete" id="query" name="query" type="text"/>
           <button type="submit">
-            <IconSearch color="#fff" focusable={false} role="presentation"/>
+            <IconSearch color="#fff" role="presentation"/>
             <span className="usa-sr-only">Search</span>
           </button>
         </div>
@@ -50,7 +50,7 @@ class SearchMenu extends React.Component {
       'va-dropdown-trigger'
     );
 
-    const icon = <IconSearch color="#fff" focusable={false} role="presentation"/>;
+    const icon = <IconSearch color="#fff" role="presentation"/>;
 
     return (
       <DropDownPanel

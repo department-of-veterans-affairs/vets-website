@@ -8,7 +8,7 @@ import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-fl
 class HelpMenu extends React.Component {
   render() {
     const buttonText = isBrandConsolidationEnabled() ? 'Contact Us' : 'Help';
-    const icon = <IconHelp color="#fff" focusable={false} role="presentation"/>;
+    const icon = <IconHelp color="#fff" role="presentation"/>;
     let dropDownContents;
 
     if (isBrandConsolidationEnabled()) {
