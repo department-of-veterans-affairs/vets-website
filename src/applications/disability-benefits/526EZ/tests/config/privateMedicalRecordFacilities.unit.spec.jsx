@@ -1,5 +1,5 @@
 import React from 'react';
-// import { expect } from 'chai';
+import { expect } from 'chai';
 // import sinon from 'sinon';
 import { mount } from 'enzyme';
 
@@ -16,19 +16,19 @@ describe('Disability benefits 4142 provider medical records facility information
     arrayPath
   } = formConfig.chapters.supportingEvidence.pages.privateMedicalRecordRelease;
 
-  it('should render 4142 form', () => {
-    // const form = mount(
-    //   <DefinitionTester
-    //     arrayPath={arrayPath}
-    //     pagePerItemIndex={0}
-    //     definitions={formConfig.defaultDefinitions}
-    //     schema={schema}
-    //     data={initialData}
-    //     uiSchema={uiSchema}/>
-    // );
+  it.skip('should render 4142 form', () => {
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={initialData}
+        uiSchema={uiSchema}/>
+    );
 
     // Commented out until the form is fully moved over
-    // expect(form);
+    expect(form);
     // expect(form.find('input').length).to.equal(9);
     // expect(form.find('select').length).to.equal(6);
   });
