@@ -19,8 +19,8 @@ relatedlinks:
       description: Find out which Veteran ID cards you may need, and how to request them. 
     - url: /records/download-va-letters/
       title: Download Your VA Benefit Letters
-      description: Download a copy of letters like your eligibility or award letter for certain benefits.
-    - url: /records/download-va-letters/
+      description: Download a copy of letters like your award letter for certain benefits.
+    - url: /records/discharge-upgrade/
       title: Learn How to Apply for a Discharge Upgrade
       description: Answer a series of questions to get step-by-step instructions on how to apply for a discharge upgrade or correction. If your discharge gets upgraded, you'll be eligible for the VA benefits you earned during your period of service.
  
@@ -107,7 +107,7 @@ Yes.
 </ul>
   
 Visit the National Archives website to learn more about requesting your military service records. <br>
-<a href="https://www.archives.gov/veterans/military-service-records">Get details for different ways to request your military records</a>.
+<a href="https://www.archives.gov/veterans/military-service-records">Get instructions for different ways to request your records</a>.
 
 </div>
 </div>
@@ -115,13 +115,13 @@ Visit the National Archives website to learn more about requesting your military
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">How do I request someone else's military records?</h3>
+<h2 itemprop="name">How do I request someone else's military records?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
 <h4>If you're a family member planning a burial for a Veteran in a VA national cemetery</h4>
 
-Call our National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800-535-1117</a>. We can help you get the Veteran's DD214 or other discharge documents needed. <br>
+Call our National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800-535-1117</a>. We can help you get the Veteran's DD214 or other discharge documents you may need. <br>
 <a href="https://www.vets.gov/burials-and-memorials/burial-planning/">Get more guidance for planning a burial</a>.
 
 <h4>If you're the next of kin of a Veteran who has passed away</h4>
