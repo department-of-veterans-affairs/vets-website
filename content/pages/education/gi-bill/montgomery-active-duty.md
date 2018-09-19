@@ -74,6 +74,8 @@ You can get education benefits if you were honorably discharged and you meet the
 
 Veterans
 
+</div>
+
 ### What benefits can I get?
 
 You may get up to 36 months of education benefits. We pay the benefits monthly and the amount depends on the following factors:
