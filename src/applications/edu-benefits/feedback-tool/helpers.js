@@ -6,9 +6,7 @@ import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 import dataUtils from '../../../platform/utilities/data/index';
 import { apiRequest } from '../../../platform/utilities/api';
-import environment from '../../../platform/utilities/environment';
 import recordEvent from '../../../platform/monitoring/record-event';
-import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 
 import { trackingPrefix } from './config/form';
 import UserInteractionRecorder from '../components/UserInteractionRecorder';
@@ -69,26 +67,13 @@ export function transform(formConfig, form) {
 }
 
 function checkStatus(guid) {
-  const userToken = conditionalStorage().getItem('userToken');
-  const headers = {
-    'Content-Type': 'application/json',
-    'X-Key-Inflection': 'camel',
-  };
+  const headers = { 'Content-Type': 'application/json' };
 
-  if (userToken) {
-    headers.Authorization = `Token token=${userToken}`;
-  }
-  return fetch(`${environment.API_URL}/v0/gi_bill_feedbacks/${guid}`, {
-    headers
-  })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject(res);
-    })
-    .catch(res => {
+  return apiRequest(
+    `/gi_bill_feedbacks/${guid}`,
+    { headers },
+    null,
+    res => {
       if (res instanceof Error) {
         Raven.captureException(res);
         Raven.captureMessage('vets_gi_bill_feedbacks_poll_client_error');
@@ -101,7 +86,8 @@ function checkStatus(guid) {
 
       // if we get here, it's likely that we hit a server error
       return Promise.reject(res);
-    });
+    }
+  );
 }
 
 const POLLING_INTERVAL = 1000;
@@ -125,10 +111,7 @@ function pollStatus(guid, onDone, onError) {
 }
 
 export function submit(form, formConfig) {
-  const headers = {
-    'Content-Type': 'application/json'
-  };
-
+  const headers = { 'Content-Type': 'application/json' };
   const body = transform(formConfig, form);
   const apiRequestOptions = {
     method: 'POST',
