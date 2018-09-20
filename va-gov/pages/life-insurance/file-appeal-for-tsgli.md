@@ -4,9 +4,9 @@ template: detail-page
 title: File an Appeal for Traumatic Injury Protection Life Insurance (TSGLI)
 display_title: File a TSGLI Appeal
 collection: lifeInsurance
-lastupdate: 
-spoke: 
-order: 
+lastupdate:
+spoke:
+order:
 aliases:
 
 ---
@@ -56,7 +56,7 @@ Or you can request a paper form in either of these ways. Contact:
 You may need to send other documents with your form if either of these is true:
 
 <h3>If you have new evidence or documents to support your appeal</h3>
-Please send this in with your form. Evidence may include documents like a doctor’s report, police report, or supporting statement from someone familiar with your condition or situation. 
+Please send this in with your form. Evidence may include documents like a doctor’s report, police report, or supporting statement from someone familiar with your condition or situation.
 
 <b>Be sure to point out what's new:</b>
 <ul>
@@ -78,10 +78,10 @@ You’ll need to include copies of the letters confirming your status, such as a
 <h2 itemprop="name">How long do I have to file my appeal?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-  
+
 Your denial letter will tell you low long you have to file your appeal.
 
-In general, you’ll need to submit your appeal request form to your branch’s TSGLI or Appeal office within 1 year of the date your claim was denied. 
+In general, you’ll need to submit your appeal request form to your branch’s TSGLI or Appeal office within 1 year of the date your claim was denied.
 </div>
 </div>
 </div>
@@ -103,7 +103,7 @@ Send your appeal to your branch of service by mail, fax, or email. You’ll find
 <div itemprop="text">
 
 You’ll need to complete an Application for TSGLI Benefits (SGLV-8600).<br>
-<a href="https://www.benefits.va.gov/INSURANCE/forms/TSGLIForm.htm">Download Form SGLV-8600</a>.
+<a onclick="event.preventDefault(); window.open(this.href, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');" href="https://www.benefits.va.gov/INSURANCE/forms/TSGLIForm.htm">Download Form SGLV-8600</a>.
 
 </div>
 </div>
@@ -114,7 +114,7 @@ You’ll need to complete an Application for TSGLI Benefits (SGLV-8600).<br>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Your branch of service TSGLI office, or its higher appeal authority, will make the decision on your appeal. 
+Your branch of service TSGLI office, or its higher appeal authority, will make the decision on your appeal.
 
 They'll decide your appeal based on the information you provide, including your TSGLI Appeal Request Form and any supporting evidence or documents. Then, they'll send their decision to the Office of Servicemembers’ Group Life Insurance (OSGLI). You'll hear from the OSGLI about the decision and next steps.
 
