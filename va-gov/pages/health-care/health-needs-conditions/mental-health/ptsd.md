@@ -80,7 +80,7 @@ Our National Center for PTSD is the world leader in PTSD research, education, an
 - Special residential (live-in) or inpatient care programs—found in each region of the U.S.—help Veterans with severe PTSD symptoms who have trouble doing normal daily activities (like going to work).
 - Providers offer added PTSD care in some of our large community-based outpatient clinics. <br />
 
-[Find a VA medical center or clinic near you](/facilities/).
+[Find a VA medical center or clinic near you](/find-locations).
 
 <br>
 
@@ -97,7 +97,7 @@ Once you’ve signed up:
 - **If you have a VA primary care provider,** talk to them about your concerns. Your provider can help you figure out if you have PTSD—and can offer treatment and support as needed.
 - **If you don’t have a VA primary care provider or have never been seen in a VA hospital or clinic:**
   - Call our general information hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, **or**
-  - [Contact your local VA medical center](/facilities/), **or**
+  - [Contact your local VA medical center](/find-locations), **or**
   - [Contact a VA PTSD program near you](https://www.va.gov/directory/guide/PTSD.asp).
 
 <br>
@@ -106,7 +106,7 @@ Once you’ve signed up:
 ### What if I don’t have VA health benefits?
 
 You may still be able to get care:
-- **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/).
+- **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/find-locations).
 - **If you’re homeless or at risk of becoming homeless:**
   - Visit our website to learn about VA programs for Veterans who are homeless. [Learn about our homelessness programs](https://www.va.gov/homeless/).
   - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
