@@ -154,7 +154,6 @@ We’ll help you pay for these types of training, programs, and fees:
 - [Undergraduate and graduate degrees](/education/gi-bill/higher-learning/)
 - [Test fees](/education/advanced-training-and-certifications/test-fees/)
 - [Vocational/technical training and non-college degree programs](/education/work-learn/non-college-degree-program/)
-- [National testing reimbursement](/education/advanced-training-and-certifications/national-testing-program/)
 - [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
 - [Tuition Assistance Top-Up](/education/gi-bill/tuition-assistance/)
 - [Tutorial Assistance](/education/gi-bill/tutorial-assistance/)
