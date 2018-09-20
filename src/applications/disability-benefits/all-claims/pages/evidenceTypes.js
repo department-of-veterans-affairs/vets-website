@@ -18,9 +18,8 @@ export const uiSchema = {
     },
     'ui:required': (formData) => get('view:hasEvidence', formData, false),
     'view:selectableEvidenceTypes': {
-      'ui:title': ' ',
-      'ui:description': 'What type of evidence do you want to submit with your claim?',
-      'ui:required': (formData) => get('view:hasEvidence', formData, false),
+      'ui:title': 'What type of evidence do you want to submit with your claim?',
+      'ui:options': { showFieldLabel: true },
       'ui:validations': [{
         validator: validateBooleanIfEvidence,
         options: { wrappedValidator: validateBooleanGroup }
@@ -28,6 +27,7 @@ export const uiSchema = {
       'ui:errorMessages': {
         atLeastOne: 'Please select at least one type of supporting evidence'
       },
+      'ui:required': (formData) => get('view:hasEvidence', formData, false),
       'view:hasVAMedicalRecords': { 'ui:title': 'VA medical records' },
       'view:hasPrivateMedicalRecords': { 'ui:title': 'Private medical records' },
       'view:hasOtherEvidence': { 'ui:title': 'Supporting (lay) statements or other evidence' }
@@ -49,10 +49,10 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
+  required: ['view:hasEvidence'],
   properties: {
     'view:hasEvidence': {
       type: 'boolean',
-      'default': true
     },
     'view:hasEvidenceFollowUp': {
       type: 'object',
