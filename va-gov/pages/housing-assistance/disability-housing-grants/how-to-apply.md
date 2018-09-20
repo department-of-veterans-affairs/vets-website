@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: How to Apply for a Specially Adapted Housing (SAH) Grant
-display title: How to Apply
+display_title: How to Apply
 collection: housingAssistanceDisabilityHousingGrants
 concurrence:
 order: 1
