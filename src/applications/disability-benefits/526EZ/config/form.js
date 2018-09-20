@@ -749,7 +749,7 @@ const formConfig = {
                           'ui:title': 'Street 2',
                           'ui:errorMessages': {
                             pattern:
-                              'Street address must be less than 20 characters.'
+                              'Street address 2 must be less than 6 characters.'
                           }
                         },
                         city: {
@@ -855,7 +855,8 @@ const formConfig = {
                       type: 'boolean'
                     },
                     limitedConsent: {
-                      type: 'string'
+                      type: 'string',
+                      maxLength: 83
                     },
                     'view:privateRecordsChoiceHelp': {
                       type: 'object',
