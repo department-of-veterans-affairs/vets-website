@@ -11,7 +11,7 @@ import ServicePeriodView from '../../../../platform/forms/components/ServicePeri
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import {
   schema as addressSchema,
-  uiSchema as addressUI,
+  uiSchema as addressUI
 } from '../../../../platform/forms/definitions/address';
 
 import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
@@ -24,7 +24,7 @@ import ConfirmationPoll from '../components/ConfirmationPoll';
 
 import {
   uiSchema as primaryAddressUiSchema,
-  schema as primaryAddressSchema,
+  schema as primaryAddressSchema
 } from '../pages/primaryAddress';
 
 import treatmentAddressUiSchema from '../pages/treatmentAddress';
@@ -38,7 +38,7 @@ import PrivateProviderTreatmentView from '../../4142/components/PrivateProviderT
 
 import {
   uiSchema as reservesNationalGuardUISchema,
-  schema as reservesNationalGuardSchema,
+  schema as reservesNationalGuardSchema
 } from '../pages/reservesNationalGuardService';
 
 import SelectArrayItemsWidget from '../../all-claims/components/SelectArrayItemsWidget';
@@ -65,10 +65,12 @@ import {
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
-  getlimitedConsentTitle,
+  limitedConsentTitle,
   validateBooleanIfEvidence,
   privateRecordsChoiceHelp,
-  patientAcknowledgmentText
+  patientAcknowledgmentText,
+  limitedConsentTextTitle,
+  limitedConsentDescription
 } from '../helpers';
 
 import {
@@ -76,7 +78,6 @@ import {
   countries,
   states,
   stateNames,
-  limitedConsentDescription,
   validateZIP
 } from '../../4142/helpers';
 
@@ -84,23 +85,27 @@ import { hasGuardOrReservePeriod } from '../../all-claims/utils';
 
 import {
   disabilityOption,
-  disabilitiesClarification,
+  disabilitiesClarification
 } from '../../all-claims/content/ratedDisabilities';
 
 import { requireOneSelected } from '../validations';
 import {
   validateBooleanGroup,
-  validateDate,
+  validateDate
 } from 'us-forms-system/lib/js/validation';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
 import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
 
 const {
   treatments,
-  serviceInformation: { properties: { servicePeriods } },
+  serviceInformation: {
+    properties: { servicePeriods }
+  },
   standardClaim,
-  veteran: { properties: { homelessness } },
-  attachments: uploadSchema,
+  veteran: {
+    properties: { homelessness }
+  },
+  attachments: uploadSchema
 } = fullSchema526EZ.properties;
 
 const {
@@ -112,7 +117,7 @@ const {
   dateRangeFromRequired,
   dateRangeAllRequired,
   disabilities,
-  vaTreatmentCenterAddress,
+  vaTreatmentCenterAddress
 } = fullSchema526EZ.definitions;
 
 const FIFTY_MB = 52428800;
@@ -131,7 +136,7 @@ const formConfig = {
   savedFormMessages: {
     notFound: 'Please start over to apply for disability claims increase.',
     noAuth:
-      'Please sign in again to resume your application for disability claims increase.',
+      'Please sign in again to resume your application for disability claims increase.'
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,
@@ -148,7 +153,7 @@ const formConfig = {
     dateRange,
     dateRangeFromRequired,
     dateRangeAllRequired,
-    disabilities,
+    disabilities
   },
   title: 'Apply for increased disability compensation',
   subTitle: 'Form 21-526EZ',
@@ -161,18 +166,18 @@ const formConfig = {
           title: 'Veteran Information', // TODO: Figure out if this is even necessary
           path: 'veteran-information',
           uiSchema: {
-            'ui:description': veteranInfoDescription,
+            'ui:description': veteranInfoDescription
           },
           schema: {
             type: 'object',
-            properties: {},
-          },
+            properties: {}
+          }
         },
         primaryAddress: {
           title: 'Address information',
           path: 'veteran-details/address-information',
           uiSchema: primaryAddressUiSchema,
-          schema: primaryAddressSchema,
+          schema: primaryAddressSchema
         },
         militaryHistory: {
           title: 'Military service history',
@@ -185,22 +190,22 @@ const formConfig = {
               'ui:options': {
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
-                reviewMode: true,
+                reviewMode: true
               },
               items: {
                 serviceBranch: {
-                  'ui:title': 'Branch of service',
+                  'ui:title': 'Branch of service'
                 },
                 dateRange: dateRangeUI(
                   'Service start date',
                   'Service end date',
-                  'End of service must be after start of service',
-                ),
-              },
+                  'End of service must be after start of service'
+                )
+              }
             },
             'view:militaryHistoryNote': {
-              'ui:description': editNote('service history'),
-            },
+              'ui:description': editNote('service history')
+            }
           },
           schema: {
             type: 'object',
@@ -208,10 +213,10 @@ const formConfig = {
               servicePeriods,
               'view:militaryHistoryNote': {
                 type: 'object',
-                properties: {},
-              },
-            },
-          },
+                properties: {}
+              }
+            }
+          }
         },
         reservesNationalGuardService: {
           title: 'Reserves and National Guard Service',
@@ -219,13 +224,13 @@ const formConfig = {
             'review-veteran-details/military-service-history/reserves-national-guard',
           depends: hasGuardOrReservePeriod,
           uiSchema: reservesNationalGuardUISchema,
-          schema: reservesNationalGuardSchema,
+          schema: reservesNationalGuardSchema
         },
         paymentInformation: {
           title: 'Payment Information',
           path: 'payment-information',
           uiSchema: paymentInfoUiSchema,
-          schema: paymentInfoSchema,
+          schema: paymentInfoSchema
         },
         specialCircumstances: {
           title: 'Special Circumstances',
@@ -237,55 +242,55 @@ const formConfig = {
                 isHomeless: {
                   'ui:title':
                     'Are you homeless or at risk of becoming homeless?',
-                  'ui:widget': 'yesNo',
+                  'ui:widget': 'yesNo'
                 },
                 pointOfContact: {
                   'ui:description':
                     'Please provide the name and number of a person we should call if we need to get in touch with you.',
                   'ui:options': {
-                    expandUnder: 'isHomeless',
+                    expandUnder: 'isHomeless'
                   },
                   pointOfContactName: {
                     'ui:title': 'Name of person we should contact',
                     'ui:errorMessages': {
                       pattern:
-                        "Full names can only contain letters, numbers, spaces, dashes ('-'), and forward slashes ('/')",
+                        "Full names can only contain letters, numbers, spaces, dashes ('-'), and forward slashes ('/')"
                     },
                     'ui:required': formData => {
                       const {
-                        homelessness: homelessOrAtRisk,
+                        homelessness: homelessOrAtRisk
                       } = formData.veteran;
                       if (homelessOrAtRisk.isHomeless !== true) {
                         return false;
                       }
                       return !!homelessOrAtRisk.pointOfContact.primaryPhone;
-                    },
+                    }
                   },
                   primaryPhone: {
                     'ui:title': 'Phone number',
                     'ui:widget': PhoneNumberWidget,
                     'ui:reviewWidget': PhoneNumberReviewWidget,
                     'ui:options': {
-                      widgetClassNames: 'va-input-medium-large',
+                      widgetClassNames: 'va-input-medium-large'
                     },
                     'ui:errorMessages': {
                       pattern:
-                        'Phone numbers must be 10 digits (dashes allowed)',
+                        'Phone numbers must be 10 digits (dashes allowed)'
                     },
                     'ui:required': formData => {
                       const {
-                        homelessness: homelessOrAtRisk,
+                        homelessness: homelessOrAtRisk
                       } = formData.veteran;
                       if (homelessOrAtRisk.isHomeless !== true) {
                         return false;
                       }
                       return !!homelessOrAtRisk.pointOfContact
                         .pointOfContactName;
-                    },
-                  },
-                },
-              },
-            },
+                    }
+                  }
+                }
+              }
+            }
           },
           schema: {
             type: 'object',
@@ -293,13 +298,13 @@ const formConfig = {
               veteran: {
                 type: 'object',
                 properties: {
-                  homelessness,
-                },
-              },
-            },
-          },
-        },
-      },
+                  homelessness
+                }
+              }
+            }
+          }
+        }
+      }
     },
     ratedDisabilities: {
       title: 'Rated Disabilities',
@@ -316,8 +321,8 @@ const formConfig = {
               'ui:validations': [
                 {
                   options: { selectedPropName: 'view:selected' },
-                  validator: requireOneSelected,
-                },
+                  validator: requireOneSelected
+                }
               ],
               // Need a "blank" title to show the validation error message but not the property name (disabilities)
               'ui:title': ' ',
@@ -325,12 +330,12 @@ const formConfig = {
                 showFieldLabel: 'label',
                 label: disabilityOption,
                 widgetClassNames: 'widget-outline',
-                keepInPageOnReview: true,
-              },
+                keepInPageOnReview: true
+              }
             },
             'view:disabilitiesClarification': {
-              'ui:description': disabilitiesClarification,
-            },
+              'ui:description': disabilitiesClarification
+            }
           },
           schema: {
             type: 'object',
@@ -338,12 +343,12 @@ const formConfig = {
               disabilities,
               'view:disabilitiesClarification': {
                 type: 'object',
-                properties: {},
-              },
-            },
-          },
-        },
-      },
+                properties: {}
+              }
+            }
+          }
+        }
+      }
     },
     supportingEvidence: {
       title: 'Supporting Evidence',
@@ -352,15 +357,15 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/orientation',
           uiSchema: {
-            'ui:description': supportingEvidenceOrientation,
+            'ui:description': supportingEvidenceOrientation
           },
           schema: {
             type: 'object',
-            properties: {},
-          },
+            properties: {}
+          }
         },
         evidenceType: {
-          title: (formData) => `${formData.name} supporting evidence`,
+          title: formData => `${formData.name} supporting evidence`,
           path: 'supporting-evidence/:index/evidence-type',
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
@@ -370,44 +375,53 @@ const formConfig = {
               items: {
                 'ui:title': disabilityNameTitle,
                 'view:hasEvidence': {
-                  'ui:title': 'Do you have any evidence that you would like to submit with your claim?',
+                  'ui:title':
+                    'Do you have any evidence that you would like to submit with your claim?',
                   'ui:description': '',
-                  'ui:widget': 'yesNo',
+                  'ui:widget': 'yesNo'
                 },
                 'view:selectableEvidenceTypes': {
                   'ui:options': {
                     // Only way to get access to the disability info like 'name' within this nested schema
-                    updateSchema: (form, schema, uiSchema, index) => ({ title: getEvidenceTypesDescription(form, index) }),
+                    updateSchema: (form, schema, uiSchema, index) => ({
+                      title: getEvidenceTypesDescription(form, index)
+                    }),
                     showFieldLabel: true,
                     hideIf: (formData, index) => {
-                      return !_.get(`disabilities[${index}].view:hasEvidence`, formData, true);
+                      return !_.get(
+                        `disabilities[${index}].view:hasEvidence`,
+                        formData,
+                        true
+                      );
                     }
                   },
-                  'ui:validations': [{
-                    validator: validateBooleanIfEvidence,
-                    options: {
-                      wrappedValidator: validateBooleanGroup
+                  'ui:validations': [
+                    {
+                      validator: validateBooleanIfEvidence,
+                      options: {
+                        wrappedValidator: validateBooleanGroup
+                      }
                     }
-                  }],
+                  ],
                   'ui:errorMessages': {
                     atLeastOne:
-                      'Please select at least one type of supporting evidence',
+                      'Please select at least one type of supporting evidence'
                   },
                   'view:vaMedicalRecords': {
-                    'ui:title': 'VA medical records',
+                    'ui:title': 'VA medical records'
                   },
                   'view:privateMedicalRecords': {
-                    'ui:title': 'Private medical records',
+                    'ui:title': 'Private medical records'
                   },
                   'view:otherEvidence': {
                     'ui:title': 'Lay statements or other evidence'
-                  },
+                  }
                 },
                 'view:evidenceTypeHelp': {
-                  'ui:description': evidenceTypeHelp,
-                },
-              },
-            },
+                  'ui:description': evidenceTypeHelp
+                }
+              }
+            }
           },
           schema: {
             type: 'object',
@@ -425,25 +439,25 @@ const formConfig = {
                       type: 'object',
                       properties: {
                         'view:vaMedicalRecords': {
-                          type: 'boolean',
+                          type: 'boolean'
                         },
                         'view:privateMedicalRecords': {
-                          type: 'boolean',
+                          type: 'boolean'
                         },
                         'view:otherEvidence': {
-                          type: 'boolean',
-                        },
-                      },
+                          type: 'boolean'
+                        }
+                      }
                     },
                     'view:evidenceTypeHelp': {
                       type: 'object',
-                      properties: {},
-                    },
-                  },
-                },
-              },
-            },
-          },
+                      properties: {}
+                    }
+                  }
+                }
+              }
+            }
+          }
         },
         vaMedicalRecordsIntro: {
           title: '',
@@ -453,18 +467,16 @@ const formConfig = {
           arrayPath: 'disabilities',
           depends: (formData, index) =>
             _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:vaMedicalRecords`,
-              formData,
+              `disabilities.${index}.view:selectableEvidenceTypes.view:vaMedicalRecords`,
+              formData
             ),
           uiSchema: {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
-                'ui:description': vaMedicalRecordsIntro,
-              },
-            },
+                'ui:description': vaMedicalRecordsIntro
+              }
+            }
           },
           schema: {
             type: 'object',
@@ -473,11 +485,11 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  properties: {},
-                },
-              },
-            },
-          },
+                  properties: {}
+                }
+              }
+            }
+          }
         },
         vaFacilities: {
           title: '',
@@ -487,10 +499,8 @@ const formConfig = {
           arrayPath: 'disabilities',
           depends: (formData, index) =>
             _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:vaMedicalRecords`,
-              formData,
+              `disabilities.${index}.view:selectableEvidenceTypes.view:vaMedicalRecords`,
+              formData
             ),
           uiSchema: {
             disabilities: {
@@ -500,7 +510,7 @@ const formConfig = {
                 treatments: {
                   'ui:options': {
                     itemName: 'Facility',
-                    viewField: treatmentView,
+                    viewField: treatmentView
                   },
                   items: {
                     treatmentCenterName: autoSuggestUiSchema(
@@ -509,26 +519,26 @@ const formConfig = {
                       {
                         'ui:options': {
                           queryForResults: true,
-                          freeInput: true,
+                          freeInput: true
                         },
                         'ui:errorMessages': {
                           // If the maxLength changes, we'll want to update the message too
                           maxLength:
                             'Please enter a name with fewer than 100 characters.',
-                          pattern: 'Please enter a valid name.',
-                        },
-                      },
+                          pattern: 'Please enter a valid name.'
+                        }
+                      }
                     ),
                     treatmentDateRange: dateRangeUI(
                       'Date of first treatment (This date doesn’t have to be exact.)',
                       'Date of last treatment (This date doesn’t have to be exact.)',
-                      'Date of last treatment must be after date of first treatment',
+                      'Date of last treatment must be after date of first treatment'
                     ),
-                    treatmentCenterAddress: treatmentAddressUiSchema,
-                  },
-                },
-              },
-            },
+                    treatmentCenterAddress: treatmentAddressUiSchema
+                  }
+                }
+              }
+            }
           },
           schema: {
             type: 'object',
@@ -539,12 +549,12 @@ const formConfig = {
                   type: 'object',
                   required: ['treatments'],
                   properties: {
-                    treatments,
-                  },
-                },
-              },
-            },
-          },
+                    treatments
+                  }
+                }
+              }
+            }
+          }
         },
         privateMedicalRecordsIntro: {
           title: '',
@@ -554,18 +564,16 @@ const formConfig = {
           arrayPath: 'disabilities',
           depends: (formData, index) =>
             _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
-              formData,
+              `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+              formData
             ),
           uiSchema: {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
-                'ui:description': privateMedicalRecordsIntro,
-              },
-            },
+                'ui:description': privateMedicalRecordsIntro
+              }
+            }
           },
           schema: {
             type: 'object',
@@ -574,11 +582,11 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  properties: {},
-                },
-              },
-            },
-          },
+                  properties: {}
+                }
+              }
+            }
+          }
         },
         privateRecordChoice: {
           title: '',
@@ -588,10 +596,8 @@ const formConfig = {
           arrayPath: 'disabilities',
           depends: (formData, index) =>
             _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
-              formData,
+              `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+              formData
             ),
           uiSchema: {
             disabilities: {
@@ -605,27 +611,31 @@ const formConfig = {
                   'ui:options': {
                     labels: {
                       yes: 'Yes',
-                      no: 'No, please get them from my doctor',
-                    },
-                  },
+                      no: 'No, please get them from my doctor'
+                    }
+                  }
                 },
                 'view:patientAcknowledgment': {
                   'ui:title': 'Patient Acknowledgment',
                   'ui:description': patientAcknowledgmentText,
                   'ui:options': {
                     expandUnder: 'view:uploadPrivateRecords',
-                    expandUnderCondition: 'no',
+                    expandUnderCondition: 'no'
                   },
                   'view:acknowledgment': {
                     'ui:title': 'Patient Acknowledgment',
-                    'ui:required': (formData, index) => (_.get(`disabilities[${index}].view:patientAcknowledgement.view:acknowledgement`, formData.disabilities)),
-                  },
+                    'ui:required': (formData, index) =>
+                      _.get(
+                        `disabilities[${index}].view:patientAcknowledgement.view:acknowledgement`,
+                        formData.disabilities
+                      )
+                  }
                 },
                 'view:privateRecordsChoiceHelp': {
-                  'ui:description': privateRecordsChoiceHelp,
-                },
-              },
-            },
+                  'ui:description': privateRecordsChoiceHelp
+                }
+              }
+            }
           },
           schema: {
             type: 'object',
@@ -638,7 +648,7 @@ const formConfig = {
                   properties: {
                     'view:uploadPrivateRecords': {
                       type: 'string',
-                      'enum': ['yes', 'no'],
+                      'enum': ['yes', 'no']
                     },
                     'view:patientAcknowledgment': {
                       type: 'object',
@@ -651,13 +661,13 @@ const formConfig = {
                     },
                     'view:privateRecordsChoiceHelp': {
                       type: 'object',
-                      properties: {},
+                      properties: {}
                     }
-                  },
-                },
-              },
-            },
-          },
+                  }
+                }
+              }
+            }
+          }
         },
         privateMedicalRecordRelease: {
           title: 'Private Medical Records Release',
@@ -667,15 +677,13 @@ const formConfig = {
           arrayPath: 'disabilities',
           depends: (formData, index) => {
             const hasRecords = _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
-              formData,
+              `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+              formData
             );
             const requestsRecords =
               _.get(
                 `disabilities.${index}.view:uploadPrivateRecords`,
-                formData,
+                formData
               ) === 'no';
             return hasRecords && requestsRecords;
           },
@@ -684,34 +692,48 @@ const formConfig = {
               items: {
                 'ui:description': recordReleaseDescription,
                 'ui:title': disabilityNameTitle,
-                limitedConsent: {
+                'view:limitedConsent': {
                   'ui:options': {
-                    // Only way to get access to the disability info like 'name' within this nested schema. Similar to ln 381
-                    updateSchema: (form, schema, uiSchema, index) => ({ title: getlimitedConsentTitle(form, index) })
+                    updateSchema: () => ({
+                      title: limitedConsentTitle
+                    })
+                  }
+                },
+                limitedConsent: {
+                  'ui:title': limitedConsentTextTitle,
+                  'ui:options': {
+                    expandUnder: 'view:limitedConsent',
+                    expandUnderCondition: true
+                  },
+                  'ui:required': (formData, index) => {
+                    return _.get(
+                      `disabilities.${index}.view:limitedConsent`,
+                      formData
+                    );
                   }
                 },
                 'view:privateRecordsChoiceHelp': {
-                  'ui:description': limitedConsentDescription,
+                  'ui:description': limitedConsentDescription
                 },
                 providerFacility: {
                   'ui:options': {
                     itemName: 'Provider',
                     viewField: PrivateProviderTreatmentView,
-                    hideTitle: true,
+                    hideTitle: true
                   },
                   items: {
                     providerFacilityName: {
                       'ui:title': 'Name of private provider or hospital',
                       'ui:errorMessages': {
                         pattern:
-                          'Provider name must be less than 100 characters.',
-                      },
+                          'Provider name must be less than 100 characters.'
+                      }
                     },
                     'ui:validations': [validateDate],
                     treatmentDateRange: dateRangeUI(
                       'Approximate date of first treatment',
                       'Approximate date of last treatment',
-                      'End of treatment must be after start of treatment',
+                      'End of treatment must be after start of treatment'
                     ),
                     providerFacilityAddress: Object.assign(
                       addressUI('', false),
@@ -720,43 +742,43 @@ const formConfig = {
                           'ui:title': 'Street',
                           'ui:errorMessages': {
                             pattern:
-                              'Street address must be less than 20 characters.',
-                          },
+                              'Street address must be less than 20 characters.'
+                          }
                         },
                         street2: {
                           'ui:title': 'Street 2',
                           'ui:errorMessages': {
                             pattern:
-                              'Street address must be less than 20 characters.',
-                          },
+                              'Street address must be less than 20 characters.'
+                          }
                         },
                         city: {
                           'ui:title': 'City',
                           'ui:errorMessages': {
                             pattern:
-                              'Please provide a valid city. Must be at least 1 character.',
-                          },
+                              'Please provide a valid city. Must be at least 1 character.'
+                          }
                         },
                         state: {
-                          'ui:title': 'State',
+                          'ui:title': 'State'
                         },
                         postalCode: {
                           'ui:title': 'Postal Code',
                           'ui:options': {
-                            widgetClassNames: 'usa-input-medium',
+                            widgetClassNames: 'usa-input-medium'
                           },
                           'ui:validations': [
                             {
-                              validator: validateZIP,
-                            },
-                          ],
-                        },
-                      },
-                    ),
-                  },
-                },
-              },
-            },
+                              validator: validateZIP
+                            }
+                          ]
+                        }
+                      }
+                    )
+                  }
+                }
+              }
+            }
           },
           schema: {
             type: 'object',
@@ -773,19 +795,19 @@ const formConfig = {
                         properties: {
                           providerFacilityName: {
                             type: 'string',
-                            pattern: '^(.{1,100})$',
+                            pattern: '^(.{1,100})$'
                           },
                           treatmentDateRange: {
                             type: 'object',
                             properties: {
                               from: {
-                                $ref: '#/definitions/date',
+                                $ref: '#/definitions/date'
                               },
                               to: {
-                                $ref: '#/definitions/date',
-                              },
+                                $ref: '#/definitions/date'
+                              }
                             },
-                            required: ['from', 'to'],
+                            required: ['from', 'to']
                           },
                           providerFacilityAddress: Object.assign(
                             addressSchema(fullSchema4142, true),
@@ -794,68 +816,68 @@ const formConfig = {
                                 street: {
                                   minLength: 1,
                                   maxLength: 50,
-                                  type: 'string',
+                                  type: 'string'
                                 },
                                 street2: {
                                   minLength: 1,
                                   maxLength: 5,
-                                  type: 'string',
+                                  type: 'string'
                                 },
                                 city: {
                                   minLength: 1,
                                   maxLength: 51,
-                                  type: 'string',
+                                  type: 'string'
                                 },
                                 postalCode: {
-                                  type: 'string',
+                                  type: 'string'
                                 },
                                 country: {
                                   type: 'string',
                                   'enum': countries,
                                   'default': 'USA'
-
                                 },
                                 state: {
                                   type: 'string',
                                   'enum': states,
-                                  enumNames: stateNames,
-                                },
-                              },
-                            },
-                          ),
+                                  enumNames: stateNames
+                                }
+                              }
+                            }
+                          )
                         },
                         required: [
                           'providerFacilityName',
-                          'providerFacilityAddress',
-                        ],
-                      },
+                          'providerFacilityAddress'
+                        ]
+                      }
+                    },
+                    'view:limitedConsent': {
+                      type: 'boolean'
                     },
                     limitedConsent: {
-                      type: 'boolean',
+                      type: 'string'
                     },
                     'view:privateRecordsChoiceHelp': {
                       type: 'object',
-                      properties: {},
-                    },
-                  },
-                },
-              },
-            },
-          },
+                      properties: {}
+                    }
+                  }
+                }
+              }
+            }
+          }
         },
         recordUpload: {
           title: 'Upload your private medical records',
           depends: (formData, index) => {
             const hasRecords = _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
-              formData,
+              `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+              formData
             );
             const uploadRecords =
               _.get(
                 `disabilities.${index}.view:uploadPrivateRecords`,
-                formData,
+                formData
               ) === 'yes';
             return hasRecords && uploadRecords;
           },
@@ -883,14 +905,14 @@ const formConfig = {
                       'bmp',
                       'tif',
                       'tiff',
-                      'txt',
+                      'txt'
                     ],
                     maxSize: FIFTY_MB,
                     createPayload: file => {
                       const payload = new FormData();
                       payload.append(
                         'supporting_evidence_attachment[file_data]',
-                        file,
+                        file
                       );
 
                       return payload;
@@ -898,24 +920,24 @@ const formConfig = {
                     parseResponse: (response, file) => {
                       return {
                         name: file.name,
-                        confirmationCode: response.data.attributes.guid,
+                        confirmationCode: response.data.attributes.guid
                       };
                     },
                     // this is the uiSchema passed to FileField for the attachmentId schema
                     // FileField requires this name be used
                     attachmentSchema: {
-                      'ui:title': 'Document type',
+                      'ui:title': 'Document type'
                     },
                     // this is the uiSchema passed to FileField for the name schema
                     // FileField requires this name be used
                     attachmentName: {
-                      'ui:title': 'Document name',
-                    },
+                      'ui:title': 'Document name'
+                    }
                   }),
-                  { 'ui:description': documentDescription },
-                ),
-              },
-            },
+                  { 'ui:description': documentDescription }
+                )
+              }
+            }
           },
           schema: {
             type: 'object',
@@ -926,21 +948,19 @@ const formConfig = {
                   type: 'object',
                   required: ['privateRecords'],
                   properties: {
-                    privateRecords: uploadSchema,
-                  },
-                },
-              },
-            },
-          },
+                    privateRecords: uploadSchema
+                  }
+                }
+              }
+            }
+          }
         },
         documentUpload: {
           title: 'Lay statements or other evidence',
           depends: (formData, index) =>
             _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:otherEvidence`,
-              formData,
+              `disabilities.${index}.view:selectableEvidenceTypes.view:otherEvidence`,
+              formData
             ),
           path: 'supporting-evidence/:index/additionalDocuments',
           showPagePerItem: true,
@@ -966,14 +986,14 @@ const formConfig = {
                       'bmp',
                       'tif',
                       'tiff',
-                      'txt',
+                      'txt'
                     ],
                     maxSize: FIFTY_MB,
                     createPayload: file => {
                       const payload = new FormData();
                       payload.append(
                         'supporting_evidence_attachment[file_data]',
-                        file,
+                        file
                       );
 
                       return payload;
@@ -981,24 +1001,24 @@ const formConfig = {
                     parseResponse: (response, file) => {
                       return {
                         name: file.name,
-                        confirmationCode: response.data.attributes.guid,
+                        confirmationCode: response.data.attributes.guid
                       };
                     },
                     // this is the uiSchema passed to FileField for the attachmentId schema
                     // FileField requires this name be used
                     attachmentSchema: {
-                      'ui:title': 'Document type',
+                      'ui:title': 'Document type'
                     },
                     // this is the uiSchema passed to FileField for the name schema
                     // FileField requires this name be used
                     attachmentName: {
-                      'ui:title': 'Document name',
-                    },
+                      'ui:title': 'Document name'
+                    }
                   }),
-                  { 'ui:description': additionalDocumentDescription },
-                ),
-              },
-            },
+                  { 'ui:description': additionalDocumentDescription }
+                )
+              }
+            }
           },
           schema: {
             type: 'object',
@@ -1009,18 +1029,19 @@ const formConfig = {
                   type: 'object',
                   required: ['additionalDocuments'],
                   properties: {
-                    additionalDocuments: uploadSchema,
-                  },
-                },
-              },
-            },
-          },
+                    additionalDocuments: uploadSchema
+                  }
+                }
+              }
+            }
+          }
         },
         evidenceSummary: {
-          title: (formData) => `${formData.name} evidence summary`,
+          title: formData => `${formData.name} evidence summary`,
           path: 'supporting-evidence/:index/evidence-summary',
           showPagePerItem: true,
-          itemFilter: (item) => (_.get('view:hasEvidence', item) && _.get('view:selected', item)),
+          itemFilter: item =>
+            _.get('view:hasEvidence', item) && _.get('view:selected', item),
           arrayPath: 'disabilities',
           uiSchema: {
             disabilities: {
@@ -1037,13 +1058,13 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  properties: {},
-                },
-              },
-            },
-          },
-        },
-      },
+                  properties: {}
+                }
+              }
+            }
+          }
+        }
+      }
     },
     additionalInformation: {
       title: 'Additional Information',
@@ -1061,20 +1082,21 @@ const formConfig = {
                 yesNoReverse: true,
                 labels: {
                   Y: 'Yes, I have uploaded all my supporting documents.',
-                  N: 'No, I have some extra information that I will submit to VA later.'
+                  N:
+                    'No, I have some extra information that I will submit to VA later.'
                 }
               }
             },
             'view:fdcWarning': {
               'ui:description': FDCWarning,
               'ui:options': {
-                hideIf: (formData) => _.get('standardClaim', formData)
+                hideIf: formData => _.get('standardClaim', formData)
               }
             },
             'view:noFDCWarning': {
               'ui:description': noFDCWarning,
               'ui:options': {
-                hideIf: (formData) => !_.get('standardClaim', formData)
+                hideIf: formData => !_.get('standardClaim', formData)
               }
             }
           },
@@ -1084,18 +1106,18 @@ const formConfig = {
               standardClaim,
               'view:fdcWarning': {
                 type: 'object',
-                properties: {},
+                properties: {}
               },
               'view:noFDCWarning': {
                 type: 'object',
-                properties: {},
-              },
-            },
-          },
-        },
-      },
-    },
-  },
+                properties: {}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 };
 
 export default formConfig;
