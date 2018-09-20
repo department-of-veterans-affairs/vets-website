@@ -221,8 +221,6 @@
     "fast-levenshtein": "^2.0.6",
     "file-loader": "^1.1.11",
     "local-storage-fallback": "^4.1.1",
-    "modernizr": "^3.6.0",
-    "modernizr-loader": "^1.0.1",
     "nyc": "^11.1.0",
     "prop-types": "^15.6.1",
     "react-cropper": "^1.0.1",

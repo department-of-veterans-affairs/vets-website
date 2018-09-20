@@ -5,9 +5,6 @@
 
 import 'babel-polyfill';
 
-// Adds classes to html element that we use
-import 'modernizr';
-
 import './canvas-toBlob';
 
 // Edge 14's fetch implementation throws TypeMismatchErrors seemingly without

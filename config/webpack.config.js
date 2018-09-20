@@ -4,7 +4,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const path = require('path');
 const webpack = require('webpack');
 
 require('babel-polyfill');
@@ -16,11 +15,9 @@ const globalEntryFiles = {
   polyfills: './src/platform/polyfills/preModernBrowserPolyfills.js',
   vendor: [
     './src/platform/polyfills',
-    'history',
     'react',
     'react-dom',
     'react-redux',
-    'react-router',
     'redux',
     'redux-thunk',
     'raven-js'
@@ -62,13 +59,6 @@ const configGenerator = (options, apps) => {
               cacheDirectory: '.babelcache'
               // Also see .babelrc
             }
-          }
-        },
-        {
-          // Modernizr is used in some of the styles
-          test: /modernizrrc\.js/,
-          use: {
-            loader: 'modernizr-loader'
           }
         },
         {
@@ -128,9 +118,6 @@ const configGenerator = (options, apps) => {
       noParse: [/mapbox\/vendor\/promise.js$/],
     },
     resolve: {
-      alias: {
-        modernizr$: path.resolve(__dirname, './modernizrrc.js')
-      },
       extensions: ['.js', '.jsx']
     },
     optimization: {
