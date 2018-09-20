@@ -2,10 +2,12 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: World War II Veterans Health Issues
-display_title: 
+display_title: World War II
 concurrence: complete
 lastupdate: 2017-06-28
 order: 7
+aliases:
+  - /health-care/health-conditions/conditions-related-to-service-era/world-war-ii/
 relatedlinks:
   - heading: More information about your benefits
     links:
@@ -33,10 +35,10 @@ If you served during World War II—anytime between September 1, 1939, and Septe
 You may be at risk of illnesses or injuries caused by:
 
 - **[Noise](http://www.publichealth.va.gov/exposures/noise/index.asp):** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
-- **[Ionizing Radiation](/disability-benefits/conditions/exposure-to-hazardous-materials/radiation-exposure/):** A type of radiation exposure from atmospheric and underground nuclear weapons tests
+- **[Ionizing Radiation](/disability/eligibility/hazardous-materials-exposure/ionizing-radiation/):** A type of radiation exposure from atmospheric and underground nuclear weapons tests
 - **[Occupational (job-related) hazards](http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp):** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
 - **[Extreme cold](http://www.publichealth.va.gov/exposures/cold-injuries/index.asp):** Health problems (like skin cancer in frostbite scars or pain, tingling, or numbness, in the fingers and toes) caused by the effects of cold climates. You’re at higher risk if you served during the Battle of the Bulge, conducted from December 1944 through January 1945 under conditions of extreme cold.
-- **[Mustard gas](/disability-benefits/conditions/exposure-to-hazardous-materials/mustard-gas/):** An odorless, poisonous gas used during combat in World Wars I and II 
+- **[Mustard gas](/disability/eligibility/hazardous-materials-exposure/mustard-gas-lewisite/):** An odorless, poisonous gas used during combat in World Wars I and II
 
 </div>
 
@@ -59,7 +61,7 @@ Ask your local VA environmental health coordinator about getting a free Ionizing
 
 <li class="process-step list-three">
 
-Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service. [Learn more about disability benefits](/disability-benefits/).
+Find out if you can get disability compensation (monthly payments) and other benefits if you have an illness or injury caused—or made worse—by your active-duty service. [Learn more about disability benefits](/disability/).
 
 </li>
 </ol>

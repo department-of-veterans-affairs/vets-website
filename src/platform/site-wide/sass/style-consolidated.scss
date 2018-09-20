@@ -6,7 +6,7 @@ $image-path: "~uswds/src/img";
 
   @import "~@department-of-veterans-affairs/formation/sass/core";
 
-  @import "../../site-wide/va-gov-user-nav/sass/user-nav";
+  @import "../../site-wide/user-nav/sass/user-nav";
 
   @import "modules/m-footer";
 
@@ -20,7 +20,7 @@ $image-path: "~uswds/src/img";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-megamenu";
   @import "modules/m-search";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-loading-indicator";
-  @import "modules/m-vet-nav";
+  @import "modules/m-vet-nav-px";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-print";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-dropdown";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-overlay";

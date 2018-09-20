@@ -70,7 +70,7 @@ export default `
       </a>
     </div>
     <div id="va-nav-controls"></div>
-    <div id="va-gov-login-root" class="vet-toolbar"></div>
+    <div id="login-root" class="vet-toolbar"></div>
   </div>
   <div class="usa-grid">
     <div id="menu-rule" class="usa-one-whole"></div>

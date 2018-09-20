@@ -6,6 +6,8 @@ display_title:
 concurrence: complete
 lastupdate: 2018-02-13
 order: 1
+aliases:
+  - /health-care/family-caregiver-health-benefits/CHAMPVA/
 ---
 
 <div class="va-introtext">

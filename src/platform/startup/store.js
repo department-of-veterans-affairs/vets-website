@@ -11,7 +11,18 @@ import announcements from '../site-wide/announcements/reducers';
 import navigation from '../site-wide/user-nav/reducers';
 import login from '../user/authentication/reducers';
 import profile from '../user/profile/reducers';
+import buildSettings from '../monitoring/BuildSettings/reducer';
 import megaMenu from '../site-wide/mega-menu/reducers';
+
+import isBrandConsolidationEnabled from '../brand-consolidation/feature-flag';
+
+let brandConsolidatedReducers = null;
+
+if (isBrandConsolidationEnabled()) {
+  brandConsolidatedReducers = {
+    megaMenu
+  };
+}
 
 /**
  * Reducer object containing all of the site-wide reducers
@@ -23,7 +34,8 @@ export const commonReducer = {
   feedback,
   scheduledDowntime,
   announcements,
-  megaMenu
+  buildSettings,
+  ...brandConsolidatedReducers
 };
 
 /**
