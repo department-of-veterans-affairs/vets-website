@@ -107,3 +107,22 @@ export const NOBANK = 'NOBANK';
 export const PENDING = 'PENDING';
 export const RESOLVED = 'RESOLVED';
 export const REJECTED = 'REJECTED';
+
+export const HOMELESSNESS_TYPES = {
+  atRisk: 'atRisk',
+  homeless: 'homeless',
+  notHomeless: 'no'
+};
+
+export const AT_RISK_HOUSING_TYPES = {
+  losingHousing: 'losingHousing',
+  leavingShelter: 'leavingShelter',
+  other: 'other'
+};
+
+export const HOMELESS_HOUSING_TYPES = {
+  shelter: 'shelter',
+  notShelter: 'notShelter',
+  anotherPerson: 'anotherPerson',
+  other: 'other'
+};
