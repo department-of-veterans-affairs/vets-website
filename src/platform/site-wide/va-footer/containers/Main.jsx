@@ -192,7 +192,7 @@ export class Main extends React.Component {
           </div>
           <div className="usa-grid footer-links">
             <ul>
-              {orderBy(this.linkObj.bottom_rail, 'order', 'desc').map(link => {
+              {orderBy(this.linkObj.bottom_rail, 'order', 'asc').map(link => {
                 return (<li key={`${link.order}`}><a href={link.href} target={link.target}>{link.title}</a>{' | '}</li>);
               })}
             </ul>
