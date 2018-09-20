@@ -74,7 +74,7 @@ export default `
   </div>
   <div class="usa-grid">
     <div id="menu-rule" class="usa-one-whole"></div>
-    <div id="mega-menu"></div> <!-- for the mega-menu, but if you add the ID the css breaks rn -->
+    <div id="mega-menu"></div>
   </div>
 </header>
 `;
