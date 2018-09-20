@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: VA Automobile Allowance and Adaptive Equipment
+display_title: Auto Allowance and Adaptive Equipment
 concurrence: incomplete
 plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: detail-page
