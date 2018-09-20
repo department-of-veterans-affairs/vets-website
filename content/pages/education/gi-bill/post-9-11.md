@@ -142,7 +142,11 @@ The benefit amount depends on which school you go to, how much active-duty servi
 </div>
 
 
-### What’s covered under Post-9/11 GI Bill benefits?
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">What’s covered under Post-9/11 GI Bill benefits?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
 We’ll help you pay for these types of training, programs, and fees:
 
