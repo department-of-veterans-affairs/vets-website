@@ -8,6 +8,7 @@ import './legacy/menu';  // Used in the footer.
 import './usa-banner-toggle';
 import './accessible-VCL-modal';
 import './moment-setup';
+import { addMetricsObserver, shouldCaptureMetrics } from '../monitoring/metrics';
 import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
@@ -25,6 +26,11 @@ import brandConsolidation from '../brand-consolidation';
  * @param {Store} commonStore The Redux store being used by this application
  */
 export default function startSitewideComponents(commonStore) {
+  if (shouldCaptureMetrics) {
+    console.log('Metrics Capture Enabled!');
+    addMetricsObserver();
+  }
+
   if (document.querySelector('#vetnav-menu') !== null) {
     addMenuListeners(document.querySelector('#vetnav-menu'), true);
   }
