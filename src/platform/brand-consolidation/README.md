@@ -54,6 +54,8 @@ export default function  SomeComponent() {
 }
 ```
 
+Even though the Brand Consolidation work currently lives on its own branch, we should leverage that feature flag so as not to increase our technical debt for the eventual merge to `master`. If possible, we should write each change to be completely compatible with both branches.
+
 ## Zenhub
 To filter to issues concering FE engineers on the brand-consolidation project, filter using the `brand-consolidation`, `front end`, and possibly `Hydra` labels.
 
