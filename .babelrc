@@ -4,7 +4,7 @@
     ["env", {
       "targets": {
         "uglify": true,
-        //"browsers": ["Chrome 60", "Firefox 57", "iOS 9", "Edge 14", "ChromeAndroid 64", "Safari 10", "ie 11"]
+        /* "browsers": ["Chrome 60", "Firefox 57", "iOS 9", "Edge 14", "ChromeAndroid 64", "Safari 10", "ie 11"] */
         "browsers": ["Chrome 61", "Firefox 60", "iOS 11", "Edge 16", "ChromeAndroid 67", "Safari 11"]
       },
       "useBuiltIns": true,
