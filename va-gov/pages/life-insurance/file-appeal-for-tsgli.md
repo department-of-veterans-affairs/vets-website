@@ -20,7 +20,7 @@ Find out how to file an appeal if you disagree with the decision on your claim f
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Look at the denial letter you received from your branch of service. Your letter will tell you how to file your appeal, and if you should use the TSGLI Appeal Request Form (Form SGLV 8600A).
+The denial letter you received from your branch of service tells you how to file your appeal—and if you should use the TSGLI Appeal Request Form (Form SGLV 8600A).
 
 </div>
 </div>
@@ -34,12 +34,14 @@ Look at the denial letter you received from your branch of service. Your letter 
 You can download the form now.<br>
 <a href="https://www.benefits.va.gov/INSURANCE/forms/SGLV_8600A_ed2017-01.pdf">Download Form SGLV 8600A</a>.
 
-Or, you can request a paper form by contacting:
+Or you can request a paper form in either of these ways. Contact:
 
 <ul>
-  <li>Your service department, <b>or</b><br>
+  <li>Your service department <br>
   <a href="https://www.benefits.va.gov/INSURANCE/popups/TSGLIPOC.htm">Find your department's point of contact</a>.</li>
-<li>The Office of Servicemembers’ Group Life Insurance. You can reach the office by phone at <a href="tel:+18004191473">1-800-419-1473</a> or by email at <a href="mailto:osgli.claims@prudential.com">osgli.claims@prudential.com</a>.</li>
+<li>The Office of Servicemembers’ Group Life Insurance <br>
+  Call <a href="tel:+18004191473">1-800-419-1473</a>, <b>or</b> 
+  Email <a href="mailto:osgli.claims@prudential.com">osgli.claims@prudential.com</a></li>
 </ul>
 
 </div>
@@ -51,7 +53,7 @@ Or, you can request a paper form by contacting:
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-This will depend on whether you have any new evidence or documentation to support your appeal, or if you're filing an appeal for a Veteran as their guardian, power of attorney, or military trustee.
+It depends on your situation. You may need to send other documents with your form.
 
 <h3>If you have new evidence or documentation to support your appeal</h3>
 You can send this along with your form. Evidence may include documents like a doctor’s report, police report, or supporting statement from someone familiar with your condition or situation. 
