@@ -598,6 +598,9 @@ const formConfig = {
                 },
                 attachmentSchema: {
                   'ui:title': 'What kind of document is this?'
+                },
+                attachmentName: {
+                  'ui:title': 'Document name'
                 }
               })
             }
@@ -610,7 +613,11 @@ const formConfig = {
                 properties: {
                   preneedAttachments: _.merge(preneedAttachments, {
                     items: {
+                      required: ['name', 'attachmentId'],
                       properties: {
+                        name: {
+                          maxLength: 50
+                        },
                         attachmentId: {
                           'enum': [
                             '1',
