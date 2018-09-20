@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Agent Orange Exposure on Thailand Military Bases
+display_title: Thailand Military Bases
 concurrence: incomplete
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: detail-page
