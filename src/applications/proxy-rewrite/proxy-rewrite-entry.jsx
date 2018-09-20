@@ -4,6 +4,8 @@ import createCommonStore from '../../platform/startup/store';
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
 
+import { initBanner } from '../../platform/site-wide/usa-banner-toggle';
+
 import startUserNavWidget from '../../platform/site-wide/user-nav';
 import addMenuListeners from '../../platform/site-wide/accessible-menus';
 import startMegaMenuWidget from '../../platform/site-wide/mega-menu';
@@ -77,6 +79,9 @@ document.addEventListener('DOMContentLoaded', (_e) => {
   // set up sizes for rem
   document.documentElement.style.fontSize = '10px';
   document.getElementsByTagName('body')[0].style.fontSize = '12px';
+
+  // init toggleBanner
+  initBanner();
 
   startUserNavWidget(commonStore);
   startMegaMenuWidget(commonStore);

@@ -2,7 +2,7 @@
  * Adds event handler to show/hide the USA site banner
  */
 
-function initBanner() {
+export function initBanner() {
 
   const toggleButton = document.querySelector('#usa-banner-toggle');
 
