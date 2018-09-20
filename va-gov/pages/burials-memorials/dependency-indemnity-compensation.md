@@ -108,3 +108,4 @@ First you’ll need to fill out an application for benefits. The application you
 
 - Go to a VA regional benefit office and get help from a VA employee. <br>
 [Find a local VA office](/find-locations).
+
