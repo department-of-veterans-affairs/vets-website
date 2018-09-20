@@ -8,9 +8,12 @@ import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 import fullFormConfig from '../config/form';
 import { submit, prefillTransformer, transform } from '../helpers';
 
-function setFetchResponse(stub, data) {
+function setFetchResponse(stub, data, headers = {}) {
   const response = new Response();
   response.ok = true;
+  response.headers.get = headerID => {
+    return headers[headerID] || null;
+  };
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
@@ -60,29 +63,41 @@ describe('VIC helpers:', () => {
     });
     it('should resolve if polling state is success', () => {
       mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), {
-        data: {
-          attributes: {
-            guid: 'test'
+      setFetchResponse(
+        global.fetch.onFirstCall(),
+        {
+          data: {
+            attributes: {
+              guid: 'test'
+            }
           }
-        }
-      });
-      setFetchResponse(global.fetch.onSecondCall(), {
-        data: {
-          attributes: {
-            state: 'pending'
+        },
+        { 'Content-Type': 'application/json' }
+      );
+      setFetchResponse(
+        global.fetch.onSecondCall(),
+        {
+          data: {
+            attributes: {
+              state: 'pending'
+            }
           }
-        }
-      });
+        },
+        { 'Content-Type': 'application/json' }
+      );
       const response = {};
-      setFetchResponse(global.fetch.onThirdCall(), {
-        data: {
-          attributes: {
-            state: 'success',
-            response
+      setFetchResponse(
+        global.fetch.onThirdCall(),
+        {
+          data: {
+            attributes: {
+              state: 'success',
+              response
+            }
           }
-        }
-      });
+        },
+        { 'Content-Type': 'application/json' }
+      );
       const formConfig = {
         chapters: {}
       };
@@ -102,27 +117,39 @@ describe('VIC helpers:', () => {
     });
     it('should reject if polling state is failed', () => {
       mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), {
-        data: {
-          attributes: {
-            guid: 'test'
+      setFetchResponse(
+        global.fetch.onFirstCall(),
+        {
+          data: {
+            attributes: {
+              guid: 'test'
+            }
           }
-        }
-      });
-      setFetchResponse(global.fetch.onSecondCall(), {
-        data: {
-          attributes: {
-            state: 'pending'
+        },
+        { 'Content-Type': 'application/json' }
+      );
+      setFetchResponse(
+        global.fetch.onSecondCall(),
+        {
+          data: {
+            attributes: {
+              state: 'pending'
+            }
           }
-        }
-      });
-      setFetchResponse(global.fetch.onThirdCall(), {
-        data: {
-          attributes: {
-            state: 'failed'
+        },
+        { 'Content-Type': 'application/json' }
+      );
+      setFetchResponse(
+        global.fetch.onThirdCall(),
+        {
+          data: {
+            attributes: {
+              state: 'failed'
+            }
           }
-        }
-      });
+        },
+        { 'Content-Type': 'application/json' }
+      );
       const formConfig = {
         chapters: {}
       };
@@ -144,29 +171,41 @@ describe('VIC helpers:', () => {
     it('should resolve with image request', () => {
       mockFetch();
       setFetchBlobResponse(global.fetch.onFirstCall(), {});
-      setFetchResponse(global.fetch.onSecondCall(), {
-        data: {
-          attributes: {
-            guid: 'test'
+      setFetchResponse(
+        global.fetch.onSecondCall(),
+        {
+          data: {
+            attributes: {
+              guid: 'test'
+            }
           }
-        }
-      });
-      setFetchResponse(global.fetch.onThirdCall(), {
-        data: {
-          attributes: {
-            state: 'pending'
+        },
+        { 'Content-Type': 'application/json' }
+      );
+      setFetchResponse(
+        global.fetch.onThirdCall(),
+        {
+          data: {
+            attributes: {
+              state: 'pending'
+            }
           }
-        }
-      });
+        },
+        { 'Content-Type': 'application/json' }
+      );
       const response = {};
-      setFetchResponse(global.fetch.onCall(3), {
-        data: {
-          attributes: {
-            state: 'success',
-            response
+      setFetchResponse(
+        global.fetch.onCall(3),
+        {
+          data: {
+            attributes: {
+              state: 'success',
+              response
+            }
           }
-        }
-      });
+        },
+        { 'Content-Type': 'application/json' }
+      );
       const formConfig = {
         chapters: {}
       };
@@ -185,22 +224,30 @@ describe('VIC helpers:', () => {
     it('should resolve with failed image request', () => {
       mockFetch();
       setFailedBlobResponse(global.fetch.onFirstCall(), 'Error');
-      setFetchResponse(global.fetch.onSecondCall(), {
-        data: {
-          attributes: {
-            guid: 'test'
+      setFetchResponse(
+        global.fetch.onSecondCall(),
+        {
+          data: {
+            attributes: {
+              guid: 'test'
+            }
           }
-        }
-      });
+        },
+        { 'Content-Type': 'application/json' }
+      );
       const response = {};
-      setFetchResponse(global.fetch.onCall(2), {
-        data: {
-          attributes: {
-            state: 'success',
-            response
+      setFetchResponse(
+        global.fetch.onCall(2),
+        {
+          data: {
+            attributes: {
+              state: 'success',
+              response
+            }
           }
-        }
-      });
+        },
+        { 'Content-Type': 'application/json' }
+      );
       const formConfig = {
         chapters: {}
       };
