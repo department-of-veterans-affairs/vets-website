@@ -5,8 +5,6 @@ layout: page-react.html
 description: Use your VA education benefits to pay for college or training programs. Find out which documents you’ll need to apply for benefits, and start your online application today.
 aliases:
   - /education/apply-for-gi-bill-form-1990
-spoke: Get Benefits
-order: 4
 hideFromSidebar: true
 ---
 <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs"

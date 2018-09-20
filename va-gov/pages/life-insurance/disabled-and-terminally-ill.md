@@ -33,7 +33,7 @@ You may be able to keep your coverage for up to 2 years after the date you left 
 - Within 2 years of your separation date, **and**
 - Totally disabled or have certain conditions
 
-[Find out if you qualify for the SGLI Disability Extension—and how to apply](/life-insurance/options-and-eligibility/sgli/#extension).
+[Find out if you qualify for the SGLI Disability Extension—and how to apply](/life-insurance/options-eligibility/sgli/#extension).
 
 <br>
 
