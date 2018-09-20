@@ -142,13 +142,9 @@ The benefit amount depends on which school you go to, how much active-duty servi
 </div>
 
 
-<div itemscope itemtype="http://schema.org/Question">
+### What’s covered under Post-9/11 GI Bill benefits?
 
-<h4 itemprop="name">Types of training</h4>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
-
-You can use these types of programs and courses under the Post-9/11 GI Bill:
+We’ll help you pay for these types of training, programs, and fees:
 
 - [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
 - [Co-op training](/education/work-learn/co-op-training/)
@@ -156,7 +152,7 @@ You can use these types of programs and courses under the Post-9/11 GI Bill:
 - [Flight training](/education/advanced-training-and-certifications/flight-training/)
 - [Independent and distance learning](/education/work-learn/non-traditional/independent-distance-learning/)
 - [Undergraduate and graduate degrees](/education/gi-bill/higher-learning/)
-- [Licensing and certification reimbursement](/education/advanced-training-and-certifications/licensing-certification/)
+- [Test fees](/education/advanced-training-and-certifications/test-fees/)
 - [Vocational/technical training and non-college degree programs](/education/work-learn/non-college-degree-program/)
 - [National testing reimbursement](/education/advanced-training-and-certifications/national-testing-program/)
 - [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
