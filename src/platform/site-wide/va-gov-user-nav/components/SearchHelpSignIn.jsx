@@ -51,7 +51,7 @@ class SearchHelpSignIn extends React.Component {
 
     return (
       <div className="sign-in-links">
-        <button className={buttonClasses}>Sign In</button>
+        <button className={buttonClasses} onClick={this.handleSignInSignUp}>Sign In</button>
       </div>
     );
   }
