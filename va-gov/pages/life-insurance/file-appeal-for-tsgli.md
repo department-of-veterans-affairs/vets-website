@@ -56,7 +56,7 @@ Or you can request a paper form in either of these ways. Contact:
 You may need to send other documents with your form if either of these is true:
 
 <h3>If you have new evidence or documents to support your appeal</h3>
-Send it in with your form. Evidence may include documents like a doctor’s report, police report, or supporting statement from someone familiar with your condition or situation. 
+Please send this in with your form. Evidence may include documents like a doctor’s report, police report, or supporting statement from someone familiar with your condition or situation. 
 
 <b>Be sure to point out what's new:</b>
 <ul>
@@ -64,7 +64,7 @@ Send it in with your form. Evidence may include documents like a doctor’s repo
 <li>Highlight any new evidence in your medical records.</li>
 </ul>
 
-<b>Note:</b> Submit only the new evidence or documents that support your appeal. Please don't resend documents you sent before. If you send everything again, it'll delay your appeal.
+<b>Please submit only the new evidence or documents that support your appeal.</b> If you resend documents we've already received from you, it'll delay your appeal.
 
 
 <h3>If you’re filing an appeal as a guardian, power of attorney, or military trustee</h3>
