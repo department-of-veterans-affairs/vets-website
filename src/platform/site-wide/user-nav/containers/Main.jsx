@@ -32,6 +32,7 @@ const DASHBOARD_URL = dashboardManifest.rootUrl;
 export class Main extends React.Component {
   componentDidMount() {
     window.addEventListener('message', this.setToken);
+    this.bindModalTriggers();
     this.bindNavbarLinks();
 
     // In some cases this component is mounted on a url that is part of the login process and doesn't need to make another
@@ -83,6 +84,12 @@ export class Main extends React.Component {
     if (shouldRedirect) {
       window.location.replace(redirectUrl);
     }
+  }
+
+  bindModalTriggers = () => {
+    const triggers = document.querySelectorAll('.signin-signup-modal-trigger');
+    const openLoginModal = () => this.props.toggleLoginModal(true);
+    triggers.forEach(t => t.addEventListener('click', openLoginModal));
   }
 
   bindNavbarLinks = () => {

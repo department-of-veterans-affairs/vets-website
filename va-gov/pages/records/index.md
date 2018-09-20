@@ -59,22 +59,22 @@ Access your VA records and documents online to manage your health and benefits.
   <h2>Get Your Records and Documents</h2>
 
   <div class="link">
-    <a href=#><b>Apply for a Veteran ID Card</b></a>
-    <p>Apply for a printed Veteran ID Card (VIC) that you can use instead of your DD214 to get discounts on goods and services offered to Veterans.</p>
-  </div>
-
-  <div class="link">
-    <a href=#><b>Request Your Military Records (DD214)</b></a>
+    <a href="/records/get-military-service-records/"><b>Request Your Military Records (DD214)</b></a>
     <p>View and print documents from your official military personnel file (including your DD214).</p>
   </div>
 
   <div class="link">
-    <a href=#><b>Get Your VA Medical Records (called VA Blue Button)</b></a>
+    <a href=/health-care/get-medical-records/><b>Get Your VA Medical Records (called VA Blue Button)</b></a>
     <p>Set up your personal health record and download medical records, reports, and images to share with your VA and non-VA doctors.</p>
+  </div>
+  
+  <div class="link">
+    <a href="/records/get-veteran-id-cards/"><b>Apply for a Veteran ID Card</b></a>
+    <p>Apply for a printed Veteran ID Card (VIC) that you can use instead of your DD214 to get discounts on goods and services offered to Veterans.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Download Your VA Benefit Letters</b></a>
+    <a href="/records/download-va-letters/"><b>Download Your VA Benefit Letters</b></a>
     <p>Download a copy of letters like your eligibility or award letter for certain benefits.</p>
   </div>
 
@@ -84,17 +84,17 @@ Access your VA records and documents online to manage your health and benefits.
   </div>
 
   <div class="link">
-    <a href="#"><b>Learn How to Apply for a Discharge Upgrade</b></a>
+    <a href="/records/discharge-upgrade/"><b>Learn How to Apply for a Discharge Upgrade</b></a>
     <p>Answer a series of questions to get step-by-step instructions on how to apply for a discharge upgrade or correction. If your discharge gets upgraded, you'll be eligible for the VA benefits you earned during your period of service.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Payment History</b></a>
+    <a href="#"><b>View Your VA Payment History</b></a>
     <p>Check the status of your VA disability and pension payments. You can also see certain survivor benefits.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.archives.gov/"><b>Search Historical Military Records (National Archives)</b></a>
+    <a href="https://www.archives.gov/" target="_blank"><b>Search Historical Military Records (National Archives)</b></a>
     <p>Visit the National Archives website to research military records from the Revolutionary War to the present.</p>
   </div>
 

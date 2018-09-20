@@ -20,8 +20,8 @@ Find out how to apply for a Specially Adapted Housing (SAH) or Special Home Adap
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 <ul>
-<li><a href="/housing-assistance/disability-housing-grants/">Find out if you’re eligible for an SAH or SHA Grant</a>.</li> 
-<li>Make sure you have the information listed below that you’ll need to fill out an  Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555).</li> 
+<li><a href="/housing-assistance/disability-housing-grants/">Find out if you’re eligible for an SAH or SHA Grant</a>.</li>
+<li>Make sure you have the information listed below that you’ll need to fill out an  Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555).</li>
 </div>
 </div>
 </div>
@@ -50,9 +50,9 @@ You’ll need to sign in to eBenefits with your <b>DS Logon</b> basic or premium
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=sah-grant">Go to eBenefits to Apply</a></div>
 </div>
- 
+
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
- 
+
 <h3 itemprop="name">You can also apply:</h3>
 <div itemprop="itemListElement">
 

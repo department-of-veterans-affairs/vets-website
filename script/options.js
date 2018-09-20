@@ -66,7 +66,6 @@ function applyEnvironmentOverrides(options) {
 
     case 'vagovdev':
     case 'vagovstaging':
-    case 'devpreview':
     case 'preview':
       options['brand-consolidation-enabled'] = true;
       break;

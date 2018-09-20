@@ -17,7 +17,7 @@ majorlinks:
     - url: /education/
       title: Education and Training
       description: Apply for and manage your GI Bill and other education benefits to help pay for college and training programs.
-    - url: /housing/
+    - url: /housing-assistance/
       title: Housing Assistance
       description: Find out if you're eligible for VA home loan programs to help you buy, build, repair, or keep a home. If you have a service-connected disability, see if you qualify for a housing grant to help you live more independently.
     - url: /careers-employment/
