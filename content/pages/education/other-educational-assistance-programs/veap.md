@@ -40,6 +40,8 @@ You’ll need to apply. <br>
 
 ### What’s covered under VEAP education benefits?
 
+We’ll help you pay for these types of training, programs, and fees:
+
 - [Undergraduate and graduate degree programs](/education/gi-bill/higher-learning/)
 - [Co-op training](/education/work-learn/co-op-training/)
 - [Non-college degree programs (technical or vocational courses)](/education/work-learn/non-college-degree-program/)
