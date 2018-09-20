@@ -38,16 +38,15 @@ Money for tuition
 You’ll need to apply. <br>
 [Apply for benefits](/education/apply-for-education-benefits/). 
 
-You can use VEAP benefits for these programs:
+### What’s covered under VEAP education benefits?
 
 - [Undergraduate and graduate degree programs](/education/gi-bill/higher-learning/)
 - [Co-op training](/education/work-learn/co-op-training/)
 - [Non-college degree programs (technical or vocational courses)](/education/work-learn/non-college-degree-program/)
 - [Flight training](/education/advanced-training-and-certifications/flight-training/)
 - [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
-- [Licensing and certification tests](/education/advanced-training-and-certifications/licensing-certification/)
+- [Test fees](/education/advanced-training-and-certifications/test-fees/)
 - [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
-- [Certain entrance examinations (national testing)](/education/advanced-training-and-certifications/national-testing-program/)
 - [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
 - In some cases:
   - Remedial courses (classes some students must take to build up their basic skills in math, reading, or English before they can take regular college courses),
