@@ -407,7 +407,7 @@
       "icon": "fa-home"
     }
   },
-  "disabilityHousingGrants": {
+  "housingAssistanceDisabilityHousingGrants": {
     "pattern": "housing-assistance/disability-housing-grants/*.md",
     "sortBy": "order",
     "metadata": {
