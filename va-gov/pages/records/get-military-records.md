@@ -13,13 +13,13 @@ relatedlinks:
     links:
     - url: /health-care/get-medical-records/
       title: Get Your VA Medical Records Online
-      description: Set up your personal health record and download medical records, reports, and images to share with your VA and non-VA doctors.
+      description: Set up your personal health record, and download medical records, reports, and images to share with your VA and non-VA doctors.
     - url: /records/get-veteran-id-cards/
       title: Get Veteran ID Cards
       description: Find out which Veteran ID cards you may need, and how to request them. 
     - url: /records/download-va-letters/
       title: Download Your VA Benefit Letters
-      description: Download a copy of letters like your award letter for certain benefits.
+      description: Download copies of letters, like your award letter, for certain benefits.
     - url: /records/discharge-upgrade/
       title: Learn How to Apply for a Discharge Upgrade
       description: Answer a series of questions to get step-by-step instructions on how to apply for a discharge upgrade or correction. If your discharge gets upgraded, you'll be eligible for the VA benefits you earned during your period of service.
@@ -29,7 +29,7 @@ relatedlinks:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-Find out how to access to your military records, including your DD214, through our eBenefits Website. 
+Find out how to access to your military records, including your DD214, through our eBenefits website. 
 
 </div>
 
@@ -49,16 +49,16 @@ Find out how to access to your military records, including your DD214, through o
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can view, review, and print documents from your Official Military Personnel File. 
+You can review and print documents from your Official Military Personnel File. 
 
-<b>This includes your:</b>
+<b>You can access your:</b>
 <ul>
   <li>DD214</li>
   <li>Report of Separation</li>
   <li>Other release papers</li>
 </ul>
 
-<b>This may also include documents with information about aspects of your service, such as your:</b>
+<b>You may also be able to access documents with information about aspects of your service, such as your:</b>
 <ul>
   <li>Duty stations and assignments</li>
   <li>Training, qualifications, and performance</li>
@@ -91,19 +91,17 @@ If you don’t have a premium DS Logon account, find out how to create or upgrad
 
 <h2 itemprop="name">Are there other ways to get my military service records?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
+<div itemprop="text"> 
 
-Yes. 
-
-<b>You can request your military records by:</b>
+<b>Yes. You can request your military records in any of these ways:</b>
 
 <ul>
-  <li>Submitting a request through the eVetsRec.gov website</li>
-  <li>Mailing or faxing sing a Request Pertaining to Military Records (Standard Form SF 180) to the National Personnel Records Center (NPRC)</li>
-  <li>Writing a letter to the NPRC</li>
-  <li>Visiting the NPRC in St. Louis, MO in person</li>
-  <li>Contacting your state or county Veterans agency</li>
-  <li>Hiring an independent researcher</li>
+  <li>Submit a request through the eVetsRec.gov website</li>
+  <li>Mail or fax a Request Pertaining to Military Records (Standard Form SF 180) to the National Personnel Records Center (NPRC)</li>
+  <li>Write a letter to the NPRC</li>
+  <li>Visit the NPRC in St. Louis, Missouri, in person</li>
+  <li>Contact your state or county Veterans agency</li>
+  <li>Hire an independent researcher</li>
 </ul>
   
 Visit the National Archives website to learn more about requesting your military service records. <br>
@@ -122,21 +120,21 @@ Visit the National Archives website to learn more about requesting your military
 <h4>If you're a family member planning a burial for a Veteran in a VA national cemetery</h4>
 
 Call our National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800-535-1117</a>. We can help you get the Veteran's DD214 or other discharge documents you may need. <br>
-<a href="https://www.vets.gov/burials-and-memorials/burial-planning/">Get more guidance for planning a burial</a>.
+<a href="https://www.vets.gov/burials-and-memorials/burial-planning/">Get more information about planning a burial</a>.
 
 <h4>If you're the next of kin of a Veteran who has passed away</h4>
 
-<b>You can request a copy of the Veteran's military records by:</b>
+<b>You can request a copy of the Veteran's military records in any of these ways:</b>
 <ul>
-  <li>Submitting a request through the eVetsRec.gov website</li>
-  <li>Mailing or faxing sing a Request Pertaining to Military Records (Standard Form SF 180) to the National Personnel Records Center (NPRC)</li>
-  <li>Writing a letter to the NPRC</li>
-  <li>Visiting the NPRC in St. Louis, MO in person</li>
-  <li>Contacting your state or county Veterans agency</li>
-  <li>Hiring an independent researcher</li>
+  <li>Submit a request through the eVetsRec.gov website</li>
+  <li>Mail or fax a Request Pertaining to Military Records (Standard Form SF 180) to the National Personnel Records Center (NPRC)</li>
+  <li>Write a letter to the NPRC</li>
+  <li>Visit the NPRC in St. Louis, Missouri, in person</li>
+  <li>Contact your state or county Veterans agency</li>
+  <li>Hire an independent researcher</li>
 </ul>
   
-<b>You may be considered the next of kin if you're the Veteran's:</b>
+<b>You may be considered the next of kin if you're related to the Veteran in any of these ways:</b>
 <ul>
   <li>Surviving spouse who hasn't remarried, <b>or</b></li>
   <li>Parent, <b>or</b></li>
@@ -147,9 +145,9 @@ Call our National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800
 Visit the National Archives website to learn more about requesting military service records. <br>
 <a href="https://www.archives.gov/personnel-records-center/ompf-access">Find out how to access records as the next of kin</a>.
 
-<h4>If you're looking for the records of a Veteran and you're not the Veteran's next of kin</h4>
+<h4>If you're not the Veteran's next of kin</h4>
 
-<b>If the Veteran was discharged more than 62 years ago</b>, you can order a copy of their military records. The National Archives makes all records open to the public 62 years after discharge. <br>
+<b>If the Veteran was discharged more than 62 years ago,</b> you can order a copy of their military records. The National Archives opens all records to the public 62 years after discharge. <br>
 <a href="https://www.archives.gov/personnel-records-center/military-personnel/ompf-archival-requests">Learn how to access archived records</a>. <br>
 
 <b>If the Veteran was discharged less than 62 years ago,</b> you may be able to request limited information from their Official Military Personnel File. <br>
