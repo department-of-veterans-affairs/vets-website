@@ -101,10 +101,10 @@ First you’ll need to fill out an application for benefits. The application you
 #### You can apply for this benefit in any of these ways:
 
 - Mail the form to the Pension Management Center (PMC) for your state. <br>
-[Find your PMC](/pension/pension-management-center/).
+[Find your PMC](/pension/pension-management-centers/).
 
 - Work with an accredited representative. <br>
 [Get help filing your claim](/disability/get-help-filing-claim/).
 
 - Go to a VA regional benefit office and get help from a VA employee. <br>
-[Find a local VA office](/facilities/).
+[Find a local VA office](/find-locations).

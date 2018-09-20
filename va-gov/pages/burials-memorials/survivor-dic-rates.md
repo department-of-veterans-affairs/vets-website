@@ -1,7 +1,7 @@
 ---
 title: Survivor DIC Rates
-href: https://www.benefits.va.gov/COMPENSATION/types-dependency_and_indemnity.asp
-order: 12
+href: https://www.benefits.va.gov/Compensation/current_rates_dic.asp
+order: 2
 collection: burials
 spoke: More Resources
 ---

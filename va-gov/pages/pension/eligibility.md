@@ -6,6 +6,7 @@ display_title: Eligibility
 concurrence:
 order: 1
 children: pensionEligibility
+spoke: Get Benefits
 widgets:
   - root: react-applicationStatus
     timeout: 20
@@ -29,7 +30,7 @@ You may be able to get pension benefits if you meet the requirements listed belo
 
 - You didn't receive a dishonorable discharge, **and**
 - Your yearly family income and net worth meet certain limits set by Congress. Your net worth includes all personal property you own (except your house, your car, and most home furnishings), minus any debt you owe. Your net worth includes the net worth of your spouse. <br>
-[Find out about Veterans pension rates](/pension/rates/).
+[Find out about Veterans pension rates](/pension/veterans-pension-rates/).
 
 
 **And at least one of these must be true about your service. You:**
@@ -64,13 +65,13 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 **There are 2 ways you can try to qualify:**
 
-[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
-[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
+[Find out how to apply for a discharge upgrade](/records/discharge-upgrade/).<br/>
+[Learn about the VA Character of Discharge review process](/records/discharge-upgrade/#other-options).
 
 </div>
 
 <div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ/">Apply for Veterans Pension Benefits</a>
+  <a class="usa-button-primary va-button-primary" href="/pension/apply-for-veteran-pension-form-21p-527ez">Apply for Veterans Pension Benefits</a>
 </div>
 
 [Find out how to apply for a survivors pension](/pension/survivors-pension/). <br>

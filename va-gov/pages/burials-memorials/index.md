@@ -128,7 +128,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
    <div class="link">
-    <a href="https://www.cem.va.gov/cems/listcem.asp" target="_blank"><b>Find a National, State, or Tribal Government Veterans Cemetery</b></a>
+    <a href="https://www.cem.va.gov/cems/listcem.asp"><b>Find a National, State, or Tribal Government Veterans Cemetery</b></a>
     <p>Search for national, state, or tribal government Veterans cemeteries.</p>
   </div>
 

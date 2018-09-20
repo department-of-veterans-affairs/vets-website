@@ -3,9 +3,10 @@ layout: page-breadcrumbs.html
 title: What to Expect at a Memorial Service
 template: detail-page
 collection: burials
-order: 7
+order: 8
 alias:
   - /burials-memorials/what-to-expect-at-military-funeral/
+spoke: More Resources
 ---
 
 <div class="va-introtext">

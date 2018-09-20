@@ -8,6 +8,9 @@
     }
   }
 
+  #va-header-logo-menu {
+    align-items: center;
+  }
   $color-primary-lightest: #e1f3f8;
 
   @import 'iconography';
@@ -75,19 +78,10 @@
         width: 200%;
       }
     }
-
     //TODO: add this to formation
-    .column-one {
       .mm-links {
         padding: 5px 0px;
       }
-    }
-
-    .column-two {
-      .mm-links {
-        padding: 5px 0px;
-      }
-    }
   }
 
   #menu-rule {
@@ -384,8 +378,9 @@
 
   .vet-toolbar {
     .va-dropdown {
-      margin-left: -2rem;
-      width: 128px;
+      span {
+        white-space: nowrap;
+      }
     }
   }
 
@@ -483,14 +478,18 @@
     }
 
     #mega-menu {
+      margin-top: 1em;
+      #vetnav {
+        min-height: unset;
+      }
       .login-container {
         position: relative;
         top: -50px;
       }
     }
-
     #menu-rule {
       border-bottom: 0;
+      padding-bottom: 0px;
     }
 
     #vetnav-controls {
@@ -511,13 +510,16 @@
 
     .usa-banner {
       padding-left: .5em;
+      .usa-banner-content {
+        padding-bottom: 2.3rem;
+        padding-top: 4rem;
+      }
     }
 
     .va-header-logo-wrapper {
       width: 55%;
       float: left;
       margin-right: 10px;
-      margin-bottom: 1em;
 
       a {
         width: 100%;
@@ -531,7 +533,6 @@
     }
 
     .vet-toolbar {
-      margin-bottom: .5em;
       margin-left: -10px;
 
       .sign-in-nav {
@@ -544,6 +545,7 @@
           padding-left: .75em;
 
           .va-button-link {
+            font-weight: 600;
             -webkit-font-smoothing: antialiased;
           }
         }
@@ -554,7 +556,7 @@
         width: auto;
 
         .va-dropdown-trigger {
-          font-weight: normal;
+          font-weight: 600;
           padding-left: 0;
           margin-right: 1.75em;
           background-position: right 1.5rem center;
@@ -683,6 +685,7 @@
 
         button {
           border-top: 3px solid transparent;
+          border-bottom: 3px solid transparent;
           color: #fff;
           cursor: pointer;
           display: block;
@@ -723,13 +726,12 @@
 
   // tablet
   @media (min-width: 768px) and (max-width: $large-screen) and (orientation: portrait) {
-
     .va-header-logo-wrapper {
       margin-bottom: 0;
     }
 
     .vet-toolbar {
-      flex: 0 1 35.5rem;
+      flex: 0 1 30.5rem;
       padding-left: 2em;
 
       .profile-nav {
@@ -814,11 +816,12 @@
   }
 
   @media (min-width: 768px) and (max-width: $large-screen) and (orientation: landscape){
-
+    #va-header-logo-menu {
+      align-items: center;
+    }
     .vet-toolbar {
       flex: 0 1 25.5rem;
     }
-
     #hub-internal {
       .usa-width-one-half {
         min-height: 300px;
@@ -1008,7 +1011,6 @@
         }
       }
     }
-
     .fa {
       position: relative;
       color: $color-white;
@@ -1049,6 +1051,9 @@
       }
     }
   }
+  button.va-modal-close > i.fa.fa-close{
+        color: $color-black;
+  }
 
   .usa-accordion-button {
     background-color: white;
@@ -1056,10 +1061,44 @@
     border-bottom: 1px solid $color-gray-lighter;
     background-size: 1.1rem;
   }
+  .usa-accordion-button-dark {
+    background-color: $color-gray-lightest;
+  }
+
 
   .usa-accordion {
     & > li {
       margin-bottom: -1px;
+    }
+  }
+  .usa-accordion-bordered {
+    &.social {
+      a {
+        text-decoration: underline;
+      }
+      .usa-accordion-content {
+        h4:first-child {
+          margin-top: 0px;
+        }
+        section:last-child {
+          margin-bottom: 0px;
+        }
+        > section, > h4 {
+          margin: 1.5em auto;
+        }
+        ul > h4 {
+          margin: 1em auto;
+        }
+        ul > li {
+          margin: 1em auto;
+            &:last-child {
+              margin: unset;
+            }
+        }
+      }
+      .usa-accordion-button {
+        border: none;
+      }
     }
   }
 
@@ -1078,4 +1117,21 @@
   .hub-links-container {
     min-height: 250px;
   }
+  .va-crisis-panel {
+    h3 {
+      color: $color-black;
+    }
+    p {
+      color: $color-black;
+    }
+  }
+}
+.usa-accordion-bordered {
+  .fa {
+    color: $color-link-default;
+  }
+}
+
+[class^="vetnav-controller"] {
+  position: relative !important;
 }

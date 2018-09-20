@@ -4,7 +4,7 @@ template: detail-page
 title: About Disability Housing Grants for Veterans
 display title: Housing Grants
 children: housingAssistanceDisabilityHousingGrants
-lastupdate: 
+lastupdate:
 order: 2
 aliases:
   - /housing-assistance/adaptive-housing-grants/
@@ -51,7 +51,7 @@ You may be able to get an SHA grant if you’re using the grant money to buy, bu
 - The loss or loss of use of both hands
 - Certain severe burns
 - Certain respiratory or breathing injuries
-  
+
 For FY 2018, you may be able to get up to 3 grants—for a total of up to $16,217—through the SHA grant program.
 
 <div class="feature" markdown=“1”>
@@ -78,6 +78,6 @@ You can apply online right now by going to our eBenefits website.
 You’ll need to sign in to eBenefits with your <b>DS Logon</b> basic or premium account. If you don’t have a <b>DS Logon</b> account, you can register for one on the site.
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=sah-grant">Go to eBenefits to Apply</a>
- 
+
 <br>
 <a href="/housing-assistance/disability-housing-grants/how-to-apply/">Learn more about how to apply for a housing grant</a>.

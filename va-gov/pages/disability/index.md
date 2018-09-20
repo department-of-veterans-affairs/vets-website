@@ -10,12 +10,12 @@ icon: handshake
 promo:
   - image: /img/megamenu/disability-illustration.png
     heading: Decision Ready Claims (DRC) Program
-    url: "#"
+    url: "/disability/how-to-file-claim/evidence-needed/decision-ready-claims/"
     description: Find out if you can use the DRC program to get a decision on your claim in 30 days or less.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: "#"
+    - url: "/disability/how-to-file-claim/evidence-needed/decision-ready-claims/"
       title: <b>Disability Housing Grants for Veterans</b>
       description: Find out how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.
     - url:  https://www.benefits.va.gov/fiduciary/index.asp

@@ -86,7 +86,7 @@ You may also need more information in certain cases:
 You'll need to tell us:
 
  - The cemetery where you'd prefer the deceased to be buried <br />
- [Find a VA national cemetery](/facilities/).<br />
+ [Find a VA national cemetery](/find-locations).<br />
  [Find a state Veterans cemetery](https://www.cem.va.gov/grants/veterans_cemeteries.asp).
  - The type of burial you'd like for the deceased (casket or cremation) and the size of the casket or cremation urn
  - [The type of gravesite memorial you'd like to help honor the deceased (such as a headstone or marker)](/burials-memorials/memorial-items/headstones-markers-medallions/)

@@ -44,7 +44,7 @@ export const formLinks = {
   '22-5490': '/education/apply-for-education-benefits/application/5490/',
   '22-5495': '/education/apply-for-education-benefits/application/5495/',
   '40-10007': '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/',
-  VIC: '/veteran-id-card/apply/',
+  VIC: '/records/get-veteran-id-cards/',
   '21-686C': '/disability-benefits/686/dependent-status/'
 };
 
