@@ -64,7 +64,7 @@ Access your VA records and documents online to manage your health and benefits.
   </div>
 
   <div class="link">
-    <a href=#><b>Request Your Military Records (DD214)</b></a>
+    <a href=/records/get-military-records/><b>Get Your Military Records (DD214)</b></a>
     <p>View and print documents from your official military personnel file (including your DD214).</p>
   </div>
 
