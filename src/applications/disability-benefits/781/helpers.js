@@ -13,7 +13,7 @@ export const introductionText = (
     </p>
     <ul>
       <li>Call the Veterans Crisis Line at <a href="tel:1-800-273-8255">1-800-273-8255</a> and press 1, <strong>**or**</strong></li>
-      <li>Visit the <a href="https://need.a.link">Veterans Crisis Line</a> to start a confidential chat online, <strong>**or**</strong></li>
+      <li>Visit the <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Veterans Crisis Line</a> to start a confidential chat online, <strong>**or**</strong></li>
       <li>Send a text message to <a href="sms:838255">838255</a>.</li>
     </ul>
     <p>
