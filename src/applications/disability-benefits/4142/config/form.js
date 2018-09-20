@@ -1,9 +1,9 @@
 import _ from 'lodash/fp';
 
 // Example of an imported schema:
-// import fullSchema4142 from '../21-4142-schema.json';
+import fullSchema4142 from '../21-4142-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
-import fullSchema4142 from 'vets-json-schema/dist/21-4142-schema.json';
+// import fullSchema4142 from 'vets-json-schema/dist/21-4142-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
@@ -33,6 +33,13 @@ const {
 } = fullSchema4142.definitions;
 
 import {
+  ptsdChoice,
+  ptsdSecondaryChoice,
+  uploadPtsd,
+  uploadPtsdSecondary
+} from '../pages';
+
+import {
   recordHelp,
   recordReleaseDescription,
   aboutPrivateMedicalRecords,
@@ -40,7 +47,7 @@ import {
   recordReleaseSummary,
   disabilityNameTitle,
   validateZIP,
-  transform,
+  transform
 } from '../helpers';
 
 import { validateDate } from 'us-forms-system/lib/js/validation';
@@ -116,6 +123,37 @@ const formConfig = {
           },
         }, // THIS IS NOT A REAL PAGE; WILL BE THROWN OUT IN 526 INTEGRATION TODO
       },
+    },
+    ptsdDisability: {
+      title: 'Disability Details',
+      pages: {
+        ptsdChoice: {
+          path: 'ptsdChoice',
+          title: 'Disability Details',
+          uiSchema: ptsdChoice.uiSchema,
+          schema: ptsdChoice.schema
+        },
+        uploadPtsd: {
+          path: 'upload-781',
+          title: 'Disability Details',
+          depends: (form) => form['view:uploadPtsdChoice'] === 'upload',
+          uiSchema: uploadPtsd.uiSchema,
+          schema: uploadPtsd.schema
+        },
+        ptsdSecondaryChoice: {
+          path: 'ptsdSecondaryChoice',
+          title: 'Disability Details',
+          uiSchema: ptsdSecondaryChoice.uiSchema,
+          schema: ptsdSecondaryChoice.schema
+        },
+        uploadPtsdSecondary: {
+          path: 'upload-781a',
+          title: 'Disability Details',
+          depends: (form) => form['view:uploadPtsdSecondaryChoice'] === 'upload',
+          uiSchema: uploadPtsdSecondary.uiSchema,
+          schema: uploadPtsdSecondary.schema
+        }
+      }
     },
     treatmentHistory: {
       title: 'Supporting Evidence',
