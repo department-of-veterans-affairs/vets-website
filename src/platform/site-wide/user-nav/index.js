@@ -17,10 +17,10 @@ import Main from './containers/Main';
  *
  * @param {Redux.Store} store The common store used on the site
  */
-export default function startUserNavWidget(store, containerId = 'login-root') {
+export default function startUserNavWidget(store) {
   startReactApp((
     <Provider store={store}>
       <Main/>
     </Provider>
-  ), document.getElementById(containerId));
+  ), document.getElementById('login-root'));
 }

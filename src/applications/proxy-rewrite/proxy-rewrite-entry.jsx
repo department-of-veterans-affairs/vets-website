@@ -9,7 +9,7 @@ import addMenuListeners from '../../platform/site-wide/accessible-menus';
 import startMegaMenuWidget from '../../platform/site-wide/mega-menu';
 import startMobileMenuButton from '../../platform/site-wide/mobile-menu-button';
 import startPreviewSiteAlert from '../../platform/site-wide/preview-site-alert';
-import startVAGovUserNavWidget from '../../platform/site-wide/va-gov-user-nav';
+// import startVAGovUserNavWidget from '../../platform/site-wide/va-gov-user-nav';
 // import startLRNHealthCarWidget from '../../platform/site-wide/left-rail-navs/health-care';
 import startFeedbackWidget from '../../platform/site-wide/feedback';
 // import startAnnouncementWidget from '../../platform/site-wide/announcements';
@@ -78,11 +78,11 @@ document.addEventListener('DOMContentLoaded', (_e) => {
   document.documentElement.style.fontSize = '10px';
   document.getElementsByTagName('body')[0].style.fontSize = '12px';
 
-  startUserNavWidget(commonStore, 'va-gov-login-root');
+  startUserNavWidget(commonStore);
   startMegaMenuWidget(commonStore);
   startMobileMenuButton(commonStore);
   startPreviewSiteAlert(commonStore);
-  startVAGovUserNavWidget(commonStore);
+  // startVAGovUserNavWidget(commonStore);
   // startLRNHealthCarWidget(commonStore);
   startFeedbackWidget(commonStore);
   // startAnnouncementWidget(commonStore);
