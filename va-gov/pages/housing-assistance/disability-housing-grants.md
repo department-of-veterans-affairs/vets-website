@@ -6,6 +6,7 @@ display_title: Housing Grants
 children: housingAssistanceDisabilityHousingGrants
 lastupdate:
 order: 2
+spoke: Disability Housing Grants
 aliases:
   - /housing-assistance/adaptive-housing-grants/
 concurrence:
