@@ -229,7 +229,7 @@
                             },
                             {
                                 "text": "Find a Job",
-                                "href": "https://dol.gov/veterans/findajob/",
+                                "href": "https://www.dol.gov/veterans/findajob/",
                                 "target": "_blank"
                             },
                             {
@@ -303,7 +303,8 @@
                         },
                         "link": {
                             "text": "Get Your Pension Payments Electronically",
-                            "href": "https://www.godirect.gov/gpw"
+                            "href": "https://www.godirect.gov/gpw",
+                            "target": "_blank"
                         },
                         "description": "Sign up for direct deposit or a pre-paid debit card."
                     },
@@ -322,14 +323,16 @@
                             {
                                 "text": "About VA Home Loan Options",
                                 "href": "/housing-assistance/home-loans/"
-                            },
-                            {
-                                "text": "How to Apply for your COE",
-                                "href": "/housing-assistance/home-loans/how-to-apply/"
+
                             },
                             {
                                 "text": "Check Your Appeal Status",
                                 "href": "#"
+                            },
+                            {
+                                "text": "How to Apply for Your COE",
+                                "href": "/housing-assistance/home-loans/how-to-apply/"
+
                             }
                         ]
                     },
@@ -544,7 +547,7 @@
                         },
                         "link": {
                             "text": "Veteran ID Card",
-                            "href": "#"
+                            "href": "/records/get-veteran-id-cards/"
                         },
                         "description": "Apply for your Veteran ID Card to get Veteran discounts on goods and services."
                     },
