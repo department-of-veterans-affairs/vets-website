@@ -13,6 +13,7 @@ import conditionalStorage from '../../../platform/utilities/storage/conditionalS
 import UserInteractionRecorder from '../components/UserInteractionRecorder';
 
 export const trackingPrefix = 'edu-feedback-tool-';
+
 const { get } = dataUtils;
 const domesticSchoolAddressFields = get(
   'properties.educationDetails.properties.school.properties.address.anyOf[0].properties',
