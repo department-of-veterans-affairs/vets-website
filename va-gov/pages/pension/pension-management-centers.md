@@ -3,7 +3,8 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Pension Management Centers
 concurrence: ""
-order: 6
+order: 5
+spoke: More Resources
 aliases:
   - /pension/pension-management-center/
 ---
