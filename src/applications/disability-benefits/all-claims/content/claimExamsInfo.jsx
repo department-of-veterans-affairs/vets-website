@@ -6,36 +6,35 @@ export const claimExamsDescription = (
     After we review your disability claim and supporting evidence, we may ask
     you to have a claim exam (also known as a C&P exam) if we need more
     information to decide your claim. We’ll use the results of this exam, in
-    addition to your supporting evidence, to rate your disability.
+    addition to your evidence, to rate your disability and make a decision on
+    your claim.
   </p>
 );
 
 export const claimExamsFAQ = (
   <div>
-    <CollapsiblePanel panelName="Does everyone who files a claim need to have a VA claim exam?">
+    <CollapsiblePanel
+      panelName="Does everyone who files a disability claim need to have a claim exam?"
+      startOpen>
       <p>
         No. We’ll ask you to have a claim exam only if we need more information
-        to decide your claim. If you need to have an exam, you should receive
-        your first call within XX days.
+        to decide your claim. If you’ve provided enough supporting evidence for
+        your claimed disability, we won’t ask you to have a claim exam.
       </p>
     </CollapsiblePanel>
-    <CollapsiblePanel panelName="How we schedule exams">
+    <CollapsiblePanel panelName="How will you contact me if I need to have an exam?">
       <p>
-        The staff at your local VA medical center will contact you to schedule your
-        exam. An exam scheduler will make two attempts to contact you by phone to
-        find a time that works for you. The phone number they’ll call you from will
-        look like this:<br/>
-        NNN-NNN-XXXX<br/>
-        If they’re unable to reach you by phone, they’ll schedule an appointment
-        for you and send you a letter by mail with the date and time of your exam.
+        The staff at your local VA medical center will contact you to schedule
+        your exam. They’ll either send you a letter by mail with the date and
+        time of your exam, or call you to find a time that works for you.
       </p>
     </CollapsiblePanel>
     <CollapsiblePanel panelName="What if I need to reschedule my exam appointment?">
       <p>
-          If you can’t make it your exam, let us know right away. You can most
-          likely reschedule, but this may delay a decision on your claim. If you
-          need to reschedule your exam, please call <a href="tel:1-800-827-1000">
-          1-800-827-1000</a>.
+          If you can’t make it to your scheduled exam, let us know right away.
+          You can most likely reschedule, but this may delay a decision on your
+          claim. If you need to reschedule your exam, please
+          call <a href="tel:1-800-827-1000">1-800-827-1000</a>.
       </p>
     </CollapsiblePanel>
   </div>
