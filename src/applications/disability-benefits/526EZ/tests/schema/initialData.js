@@ -1,7 +1,7 @@
 export default {
   fullName: {
     first: 'Sally',
-    last: 'Alphonse'
+    last: 'Alphonse',
   },
   socialSecurityNumber: '234234234',
   vaFileNumber: '345345345',
@@ -11,7 +11,7 @@ export default {
     accountType: 'CHECKING',
     accountNumber: '234234234',
     routingNumber: '234234234',
-    bankName: 'Local bank'
+    bankName: 'Local bank',
   },
   veteran: {
     primaryPhone: '2342342342',
@@ -22,17 +22,17 @@ export default {
       city: 'Detroit',
       state: 'MI',
       zipCode: '234563453',
-      addressLine1: '234 Maple St.'
-    }
+      addressLine1: '234 Maple St.',
+    },
   },
   servicePeriods: [
     {
       serviceBranch: 'Army',
       dateRange: {
         from: '1990-02-02',
-        to: '2010-03-04'
-      }
-    }
+        to: '2010-03-04',
+      },
+    },
   ],
   disabilities: [
     {
@@ -44,9 +44,25 @@ export default {
       specialIssues: [
         {
           code: 'TRM',
-          name: 'Personal Trauma PTSD'
-        }
-      ]
+          name: 'Personal Trauma PTSD',
+        },
+      ],
+      providerFacility: [
+        {
+          providerFacilityName: 'Another Provider',
+          treatmentDateRange: {
+            from: '2010-03-04',
+            to: '2012-02-03',
+          },
+          providerFacilityAddress: {
+            street: '1234 test rd',
+            city: 'Testville',
+            country: 'USA',
+            state: 'AZ',
+            postalCode: '12345',
+          },
+        },
+      ],
     },
     {
       diagnosticCode: 5678,
@@ -54,7 +70,7 @@ export default {
       ratedDisabilityId: '1231231',
       ratingPercentage: 0,
       ratingDecisionId: '63456',
-      specialIssues: []
-    }
-  ]
+      specialIssues: [],
+    },
+  ],
 };
