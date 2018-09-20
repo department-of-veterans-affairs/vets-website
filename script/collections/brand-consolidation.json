@@ -396,7 +396,7 @@
     "pattern": "housing-assistance/home-loans/loan-types/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Loan Options",
+      "name": "Loan Types",
       "icon": "fa-home"
     }
   },
@@ -404,13 +404,15 @@
     "pattern": "housing-assistance/home-loans/loan-types/native-american-direct-loan/*.md",
     "sortBy": "order",
     "metadata": {
+      "name": "Loan Types",
       "icon": "fa-home"
     }
   },
-  "disabilityHousingGrants": {
+  "housingAssistanceDisabilityHousingGrants": {
     "pattern": "housing-assistance/disability-housing-grants/*.md",
     "sortBy": "order",
     "metadata": {
+      "name": "Disability Housing Grants",
       "icon": "fa-home"
     }
   },
