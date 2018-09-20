@@ -6,6 +6,8 @@ $image-path: "~uswds/src/img";
 
   @import "~@department-of-veterans-affairs/formation/sass/core";
 
+  @import "../../site-wide/va-gov-user-nav/sass/user-nav";
+
   @import "modules/m-footer";
 
   // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
