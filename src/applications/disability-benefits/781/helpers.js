@@ -1,7 +1,23 @@
 import React from 'react';
 
-export const directDepositWarning = (
-  <div className="pension-dd-warning">
-    The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit. If you don’t have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="http://www.usdirectexpress.com" target="_blank">www.usdirectexpress.com</a> or by telephone at <a href="tel:8003331795" target="_blank">1-800-333-1795</a>. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at <a href="tel:8882242950" target="_blank">1-888-224-2950</a>. They will address any questions or concerns you may have and encourage your participation in EFT.
+export const introductionText = (
+  <div>
+    <p>
+      We'll now ask you questions about the stressful event or events related to your PTSD. We understand that some of the questions maybe difficult to answer. The information you provide here will help us understand you situation and research your claim.
+    </p>
+    <p>
+      As you go through these questions, your responses will be saved. So, if you need to take a break and come back to your application, your information will be here for you.
+    </p>
+    <p>
+      Keep in mind, if you are in crisis, we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7. To connect with a Veterans Crisis Line responder any time day or night:
+    </p>
+    <ul>
+      <li>Call the Veterans Crisis Line at <a href="tel:1-800-273-8255">1-800-273-8255</a> and press 1, <strong>**or**</strong></li>
+      <li>Visit the <a href="https://need.a.link">Veterans Crisis Line</a> to start a confidential chat online, <strong>**or**</strong></li>
+      <li>Send a text message to <a href="sms:838255">838255</a>.</li>
+    </ul>
+    <p>
+      Support for the deaf and hearing-impaired is also available.
+    </p>
   </div>
 );
