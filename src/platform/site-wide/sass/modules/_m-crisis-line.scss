@@ -1,3 +1,7 @@
+div#modal-crisisline {
+  z-index: 99999991;
+}
+
 .va-crisis-line {
   @include media($medium-large-screen) {
     position: absolute;
