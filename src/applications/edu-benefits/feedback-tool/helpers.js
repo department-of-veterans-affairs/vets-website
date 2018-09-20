@@ -10,6 +10,7 @@ import environment from '../../../platform/utilities/environment';
 import recordEvent from '../../../platform/monitoring/record-event';
 import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 
+import { trackingPrefix } from './config/form';
 import UserInteractionRecorder from '../components/UserInteractionRecorder';
 
 const { get } = dataUtils;
@@ -54,7 +55,8 @@ export function fetchInstitutions({ institutionQuery, page, onDone, onError }) {
     fetchUrl,
     null,
     payload => onDone(payload),
-    error => onError(error));
+    error => onError(error)
+  );
 }
 
 export function transform(formConfig, form) {
@@ -85,10 +87,12 @@ function checkStatus(guid) {
       }
 
       return Promise.reject(res);
-    }).catch(res => {
+    })
+    .catch(res => {
       if (res instanceof Error) {
         Raven.captureException(res);
         Raven.captureMessage('vets_gi_bill_feedbacks_poll_client_error');
+        recordEvent({ event: `${trackingPrefix}submission-failed` });
 
         // keep polling because we know they submitted earlier
         // and this is likely a network error
@@ -111,6 +115,7 @@ function pollStatus(guid, onDone, onError) {
         } else if (res.data.attributes.state === 'success') {
           onDone(res.data.attributes.parsedResponse);
         } else {
+          recordEvent({ event: `${trackingPrefix}submission-failed` });
           // needs to start with this string to get the right message on the form
           throw new Error(`vets_server_error_gi_bill_feedbacks: status ${res.data.attributes.state}`);
         }
@@ -119,57 +124,56 @@ function pollStatus(guid, onDone, onError) {
   }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
 }
 
-
 export function submit(form, formConfig) {
-  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
-    'Content-Type': 'application/json',
-    'X-Key-Inflection': 'camel',
+    'Content-Type': 'application/json'
   };
 
-  if (userToken) {
-    headers.Authorization = `Token token=${userToken}`;
-  }
-
   const body = transform(formConfig, form);
-  return fetch(`${environment.API_URL}/v0/gi_bill_feedbacks`, {
+  const apiRequestOptions = {
     method: 'POST',
     headers,
     body
-  }).then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(res);
-  }).then(json => {
+  };
+
+  const onSuccess = json => {
     const guid = json.data.attributes.guid;
     return new Promise((resolve, reject) => {
       pollStatus(guid,
         response => {
-          recordEvent({
-            event: `${formConfig.trackingPrefix}-submission-successful`,
-          });
+          recordEvent({ event: `${formConfig.trackingPrefix}submission-successful` });
           return resolve(response);
-        }, error => reject(error));
+        },
+        error => reject(error)
+      );
     });
-  }).catch(respOrError => {
+  };
+
+  const onFailure = respOrError => {
     if (respOrError instanceof Response) {
       if (respOrError.status === 429) {
         const error = new Error('vets_throttled_error_gi_bill_feedbacks');
         error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
-
+        recordEvent({ event: `${formConfig.trackingPrefix}submission-failed` });
         return Promise.reject(error);
       }
     }
     return Promise.reject(respOrError);
-  });
+  };
+
+  return apiRequest(
+    '/gi_bill_feedbacks',
+    apiRequestOptions,
+    onSuccess,
+    onFailure
+  );
 }
 
 /**
  * The base object all the onBehalfOf tracking event objects extend
  */
 const baseOnBehalfOfEventObject = {
-  event: 'edu-complaint-tool-applicant-selection'
+  event: `${trackingPrefix}applicant-selection`
 };
 
 /**
