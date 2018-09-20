@@ -460,15 +460,15 @@
       "icon": "fa-money"
     }
   },
-  "vre": {
-    "pattern": "employment/vocational-rehab-and-employment/*md",
+  "careersEmployment": {
+    "pattern": "careers-employment/*md",
     "sortBy": "order",
     "metadata": {
-      "name": "Vocational Rehab &amp; Employment"
+      "name": "Careers and Employment"
     }
   },
   "vreServiceDisabled": {
-    "pattern": "employment/vocational-rehab-and-employment/service-disabled/*md",
+    "pattern": "careers-employment/vocational-rehabilitation/pragrams/*md",
     "sortBy": "order",
     "metadata": {
       "name": "Servicemember & Veteran Programs"

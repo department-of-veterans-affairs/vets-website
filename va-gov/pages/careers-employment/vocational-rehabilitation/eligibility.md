@@ -2,8 +2,10 @@
 layout: page-breadcrumbs.html
 title: VR&E Eligibility
 display_title: Eligibility
-order: 1
+order: 2
 template: detail-page
+collection: careersEmployment
+spoke: Get Benefits
 majorlinks:
   - heading: More information about VR&E benefits and services
     links:
