@@ -1,3 +1,27 @@
+/*
+ * This file contains polyfills for browsers that don't support
+ * the "nomodule" script attribute. These are generally older browsers
+ * like IE 11 that need more polyfills than the more common, newer versions
+ * of evergreen browsers
+ *
+ */
+
+// This section is for custom polyfills that we need
+import 'classlist-polyfill'; // DOM element classList support.
+
+/*
+ * This section is all of the core-js polyfills we need.
+ *
+ * To recreate this list: 
+ *
+ * 1. Switch the list of browsers in babelrc to the full, older list
+ * 2. Set debug to true in babelrc
+ * 3. Run a build and get the list of polyfills included in babel-polyfill from the terminal output
+ * 4. Switch the browsers list back to the newer list and run another build
+ * 5. Remove the polyfills listed in the second list from the first
+ * 6. Now you have the full list and you can format them into import statements with some
+ *   regex work
+ */
 import 'core-js/modules/es6.typed.array-buffer'; // {"ie":"11","ios":"9"}
 import 'core-js/modules/es6.typed.int8-array'; // {"ie":"11","ios":"9"}
 import 'core-js/modules/es6.typed.uint8-array'; // {"ie":"11","ios":"9"}
