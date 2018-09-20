@@ -87,8 +87,10 @@ Or call an SAH staff member at <a href="tel:+18778273702">1-877-827-3702</a>.
 
 <h2 itemprop="name">What happens after I apply?</h2>
 <div itemprop="itemListElement">
-We’ll process your claim and send you a letter with our decision. You can check the status of your claim by signing in to eBenefits. <br>
-<a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=sah-grant">Go to eBenefits to check your claim status</a>.
+We’ll process your claim and send you a letter with our decision. 
+
+You can check the status of your claim by signing in to VA.gov. <br>
+<a href="https://preview.va.gov/claim-or-appeal-status/">Find out how to check your claim status</a>.
 
 </div>
 </div>
