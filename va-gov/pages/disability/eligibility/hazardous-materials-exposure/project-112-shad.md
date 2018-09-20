@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Chemical and Biological Exposure Through Project 112 or Project SHAD
+display_title: Project 112/SHAD
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-project_112_shad.asp
 plainlanguage: 10-21-16 certified in compliance with the Plain Language Act
 template: detail-page
