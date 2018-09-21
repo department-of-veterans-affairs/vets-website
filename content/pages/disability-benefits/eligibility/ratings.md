@@ -17,7 +17,6 @@ Find out how we determine your disability rating.
 
 We assign you a disability rating based on the severity of your disability. We use this rating to determine your compensation rate.
 
-For each disability claim, we assign a severity rating from 0% to 100% in 10% increments (for example, 10%, 20%, 30%).
 
 ### What does VA use to decide my disability rating?
 
@@ -50,5 +49,5 @@ Yes. We may increase your monthly payments if one or more of these is true for y
 
 ### Is there anything else that might affect my compensation amount?
 
-Yes. If you receive military retirement pay, disability severance pay, or separation incentive payments, your compensation may end up being less than it otherwise would be.
+Yes. If you receive military retirement pay, disability severance pay, or separation pay, your compensation may end up being less than it otherwise would be.
 
