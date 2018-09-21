@@ -214,5 +214,10 @@ We can support you in all stages of your job search—from returning to work wit
     <a href="#"><b>External Links and Resources</b></a>
     <p>Get links to more resources outside of VA that can help you in your job search.</p>
   </div>
+  
+  <div class="link">
+    <a href="/careers-employment/family-resources/"><b>Resources for Family Members</b></a>
+    <p>Access valuable career resources for spouses and other family members of Veterans and Servicemembers.</p>
+  </div>  
 
 </section>
