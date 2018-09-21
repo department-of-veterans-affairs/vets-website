@@ -611,34 +611,7 @@ const formConfig = {
               application: {
                 type: 'object',
                 properties: {
-                  preneedAttachments: _.merge(preneedAttachments, {
-                    items: {
-                      required: ['name', 'attachmentId'],
-                      properties: {
-                        name: {
-                          maxLength: 50
-                        },
-                        attachmentId: {
-                          'enum': [
-                            '1',
-                            '2',
-                            '3',
-                            // '4',
-                            '5',
-                            '6'
-                          ],
-                          enumNames: [
-                            'Discharge',
-                            'Marriage related',
-                            'Dependent related',
-                            // 'VA preneed form',
-                            'Letter',
-                            'Other'
-                          ]
-                        }
-                      }
-                    }
-                  })
+                  preneedAttachments
                 }
               }
             }
