@@ -6,7 +6,7 @@ layout: page-react.html
 entryname: gi
 collection: education
 order: 1
-aliases:
-  - /gi-bill-comparison-tool
 spoke: More Resources
+order: 4
 ---
+

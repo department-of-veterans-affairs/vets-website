@@ -9,6 +9,6 @@ id="va-breadcrumbs">
   <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
     <li><a href="/">Home</a></li>
     <li><a href="/education/">Education</a></li>
-    <li><a aria-current="page" href="/education/information-sharing-opt-out/opt-out-form-0993/">Opt out of sharing your information with schools</a></li>
+    <li><a aria-current="page" href="/education/opt-out-information-sharing/opt-out-form-0993">Opt out of sharing your information with schools</a></li>
   </ul>
 </nav>

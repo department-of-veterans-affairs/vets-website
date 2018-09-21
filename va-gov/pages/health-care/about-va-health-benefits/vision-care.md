@@ -41,7 +41,7 @@ If you qualify for VA health care benefits, you may be able to get some or all o
 Yes. If you have VA health care benefits, we’ll cover your routine eye exams and preventive vision testing (like testing for glaucoma).
 
 **To schedule an eye exam**, talk to your VA primary care provider or contact your nearest VA medical center or clinic. <br>
-[Find a VA medical center near you](/find-locations).
+[Find a VA medical center near you](/facilities/).
 
 **If you’re a blind or low vision Veteran**, you may be able to get more advanced vision care and rehabilitation services. <br>
 [Find out if you qualify for blind and low vision Veteran services](/health-care/about-va-health-benefits/vision-care/blind-low-vision-rehab-services/).
@@ -78,7 +78,7 @@ We’ll cover the cost of your eyeglasses if you meet at least one of the requir
 - Vision and/or hearing loss (called dual sensory impairment) that’s severe enough to interfere with your ability to take an active role in your own health care—and eyeglasses would help to reduce the impact of your impairment
 
 For more information, contact the prosthetic representative at your nearest VA medical center or clinic. <br>
-[Find a VA health facility near you](/find-locations).
+[Find a VA health facility near you](/facilities/).
 
 <br>
 

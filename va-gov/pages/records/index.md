@@ -89,7 +89,7 @@ Access your VA records and documents online to manage your health and benefits.
   </div>
 
   <div class="link">
-    <a href="/records/discharge-upgrade/"><b>Learn How to Apply for a Discharge Upgrade</b></a>
+    <a href="/discharge-upgrade-instructions/"><b>Learn How to Apply for a Discharge Upgrade</b></a>
     <p>Answer a series of questions to get step-by-step instructions on how to apply for a discharge upgrade or correction. If your discharge gets upgraded, you'll be eligible for the VA benefits you earned during your period of service.</p>
   </div>
 

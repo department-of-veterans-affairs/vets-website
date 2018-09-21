@@ -22,7 +22,7 @@
                             },
                             {
                                 "text": "Apply Now for Health Care",
-                                "href": "/health-care/apply-for-health-care-form-10-10ez"
+                                "href": "/health-care/apply/application"
                             }
                         ]
                     },
@@ -97,7 +97,7 @@
                             },
                             {
                                 "text": "File for a VA Disability Increase",
-                                "href": "/disability/file-for-increase-form-21-526ez/"
+                                "href": "/disability-benefits/apply/form-526-disability-claim/"
                             },
                             {
                                 "text": "File an Appeal",
@@ -105,7 +105,7 @@
                             },
                             {
                                 "text": "Add or Remove a Dependent",
-                                "href": "/disability/add-remove-dependent/"
+                                "href": "#"
                             },
                             {
                                 "text": "Upload Evidence to Support Your Claim",
@@ -279,7 +279,7 @@
                             },
                             {
                                 "text": "Apply Now for a Veterans Pension",
-                                "href": "/pension/apply-for-veteran-pension-form-21p-527ez/"
+                                "href": "/pension/application/527EZ"
                             }
                         ]
                     },
@@ -527,7 +527,7 @@
                             },
                             {
                                 "text": "How to Apply for a Discharge Upgrade",
-                                "href": "/records/discharge-upgrade/"
+                                "href": "/discharge-upgrade-instructions"
                             },
                             {
                                 "text": "View Your VA Payment History",

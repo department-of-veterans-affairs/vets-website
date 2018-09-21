@@ -122,7 +122,7 @@ You can’t refill some medicines, like certain pain medication and narcotics. Y
 Our mail order pharmacy will send your prescriptions to the address we have on file for you. We ship to all addresses in the United States and its territories. We don’t ship prescriptions to foreign countries.
 
 **Important note:** If you change your address within My HealtheVet, it does **not** change your address for prescription shipments. Please contact the VA health facility where you get care to have them update your address on file. <br>
-[Find your VA health facility](/find-locations).
+[Find your VA health facility](/facilities).
 
 </div>
 </div>
