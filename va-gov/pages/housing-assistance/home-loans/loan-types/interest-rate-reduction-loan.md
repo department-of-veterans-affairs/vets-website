@@ -3,8 +3,8 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Interest Rate Reduction Refinance Loan (IRRRL)
 display_title: Interest Rate Reduction Refinance Loan
-concurrence: 
-order: 3
+concurrence:
+order: 4
 aliases:
   - /housing-assistance/home-loans/loan-options/irrrl/
 ---
@@ -45,7 +45,7 @@ On a no-down-payment loan, you can borrow up to the FannieMae/FreddieMac conform
 
 You’ll want to keep closing costs in mind when refinancing a loan, as they can add up to thousands of dollars. Before you decide to refinance, divide your closing costs by how much you expect to save every month by refinancing to see if it’s worth it. While your lender can advise you on the costs and benefits of the transaction, you’ll want to be sure you understand what you’re getting into. <br>
 [Visit the Consumer Financial Protection Bureau for more information](https://www.consumerfinance.gov/owning-a-home/). <br />
-[Download the Bureau’s home loan toolkit](http://files.consumerfinance.gov/f/201503_cfpb_your-home-loan-toolkit-web.pdf). 
+[Download the Bureau’s home loan toolkit](http://files.consumerfinance.gov/f/201503_cfpb_your-home-loan-toolkit-web.pdf).
 
 <br>
 

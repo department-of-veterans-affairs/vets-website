@@ -2,9 +2,10 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: How to Apply for a Veterans Pension
-display_title: How to Apply for a Veterans Pension
+display_title: How to Apply
 concurrence: ""
 order: 2
+spoke: Get Benefits
 children: pensionApplication
 widgets:
   - root: react-applicationStatus
@@ -17,7 +18,7 @@ aliases:
 
 <div class="va-introtext">
 
-Find out how to apply for a tax-free Veterans pension. 
+Find out how to apply for a tax-free Veterans pension.
 
 </div>
 
@@ -46,7 +47,7 @@ Find out how to apply for a tax-free Veterans pension.
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h4 itemprop="name">You can also apply:</h4>
 <div itemprop="itemListElement">
-  
+
 
   **By mail** <br>
 Apply by mail using an Application for Pension (VA Form 21P-527EZ). <br>
@@ -54,11 +55,11 @@ Apply by mail using an Application for Pension (VA Form 21P-527EZ). <br>
 
 **In person** <br>
 Bring your application to a regional benefit office near you. <br>
-[Find a regional benefit office](/facilities/).
+[Find a regional benefit office](/find-locations).
 
 
 **With the help of a trained professional** <br>
-You can work with a trained professional called an accredited representative to get help applying for VA pension benefits. <br> 
+You can work with a trained professional called an accredited representative to get help applying for VA pension benefits. <br>
 [Get help filing your claim](/disability/get-help-filing-claim/).
 
 
@@ -74,7 +75,7 @@ It depends. We process claims in the order we receive them, unless a claim requi
 
 ### If I start my pension application, does VA consider this "intent to file"?
 
-No. Simply starting your pension application doesn’t show your intent to file. You'll need to submit an intent to file form, which sets the effective date (the day you can start getting your benefits). Then you can focus on gathering supporting documents to turn in with your pension application. If you submit an intent to file before you file your claim, you may be able to get retroactive payments (money you'll get starting from your effective date). 
+No. Simply starting your pension application doesn’t show your intent to file. You'll need to submit an intent to file form, which sets the effective date (the day you can start getting your benefits). Then you can focus on gathering supporting documents to turn in with your pension application. If you submit an intent to file before you file your claim, you may be able to get retroactive payments (money you'll get starting from your effective date).
 
 ### How do I submit an intent to file form?
 
@@ -87,7 +88,7 @@ Turn in your form in any of these ways:
 [Find your PMC](/pension/pension-management-centers/).
 
 - Turn it in at a regional benefit office near you. <br>
-[Find a regional benefit office](/facilities/).
+[Find a regional benefit office](/find-locations).
 
 - Work with a trained professional called an accredited representative to get help applying for VA pension benefits. <br>
 [Get help filing a claim](/disability/get-help-filing-claim/).

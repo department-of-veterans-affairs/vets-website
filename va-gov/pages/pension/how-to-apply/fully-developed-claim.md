@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Fully Developed Claim Program
 concurrence:
-order: 2
+order: 1
 aliases:
   - /pension/apply/fully-developed-claim/
 ---
@@ -53,7 +53,7 @@ If a person or agency refuses to turn over the evidence, asks for money for the 
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="evidence-must-show">What should the evidence show to support my claim?</button>
 <div id="evidence-must-show" class="usa-accordion-content">
 
-<h4>If you’re claiming non-service-connected pension benefits</h4> 
+<h4>If you’re claiming non-service-connected pension benefits</h4>
 
 The evidence must show that you meet the requirements listed below.
 
@@ -65,8 +65,8 @@ Your net worth and income are within certain limits.
 
 - Served on active duty for any length of time during a period of war and were discharged due to a service-connected disability, **or**
 - Started on active duty before September 8, 1980, and you served at least 90 days (either all at one time or combined over time) on active duty with at least 1 day being during wartime, **or**
-- Started on active duty after September 7, 1980, and you served at least 2 years or the full period for which you were called or ordered to active duty, with at least 1 day being during wartime. Some exceptions may apply to this longer minimum service requirement. 
- 
+- Started on active duty after September 7, 1980, and you served at least 2 years or the full period for which you were called or ordered to active duty, with at least 1 day being during wartime. Some exceptions may apply to this longer minimum service requirement.
+
 **And at least one of these must also be true about your current situation. You:**
 
 - Are at least 65 years old, **or**
@@ -99,7 +99,7 @@ The evidence must show that you meet at least one of the requirements listed bel
   - Single permanent disability that’s 100% disabling, and you’re confined to your home, **or**
   - Disability (rated 60% or higher) in addition to the disability that qualifies you for a pension
 
-<h4>If you’re claiming benefits for a disabled child</h4> 
+<h4>If you’re claiming benefits for a disabled child</h4>
 
 The evidence must show that the child, before turning 18 years old, became unable to support themselves due to a mental or physical disability.
 
@@ -111,7 +111,7 @@ The evidence must show that the child, before turning 18 years old, became unabl
 
 #### FDC Program
 
-Under the FDC program, we’ll handle the evidence-gathering steps listed below. 
+Under the FDC program, we’ll handle the evidence-gathering steps listed below.
 
 **We'll:**
 
@@ -165,9 +165,9 @@ You’ll need to turn in the information and evidence as soon as you can.
 <div id="where-to-send" class="usa-accordion-content">
 
 [Fill out an Application for Pension (VA Form 21P-527EZ)](/pension/apply-for-veteran-pension-form-21p-527ez). <br>
-When you file your claim, you'll be able to upload all supporting documents and evidence, like your income information and any medical records related to your claim. 
+When you file your claim, you'll be able to upload all supporting documents and evidence, like your income information and any medical records related to your claim.
 
-   
+
 </div>
 </li>
 <li>

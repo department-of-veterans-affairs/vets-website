@@ -3,7 +3,8 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Aid and Attendance Benefits and Housebound Allowance
 concurrence: ""
-order: 3
+spoke: Get Benefits
+order: 4
 ---
 
 <div class="va-introtext">
@@ -25,13 +26,13 @@ If you need help with your daily activities, or you’re housebound, you may qua
 - You are a patient in a nursing home due to the loss of mental or physical abilities related to a disability, **or**
 - Your eyesight is limited (even with glasses or contact lenses you have only 5/200 or less in both eyes; or concentric contraction of the visual field to 5 degrees or less)
 
-**You may qualify for Housebound benefits** if you get a VA pension and you spend most of your time in your home because of a permanent disability (a disability that doesn’t go away). 
+**You may qualify for Housebound benefits** if you get a VA pension and you spend most of your time in your home because of a permanent disability (a disability that doesn’t go away).
 
 **Note:** You can’t get Aid and Attendance benefits and Housebound benefits at the same time.
 
 #### Who’s covered:
 - Qualified Veterans
-- Qualified surviving spouses 
+- Qualified surviving spouses
 
 </div>
 
@@ -42,20 +43,19 @@ There are 2 ways you can get this benefit:
 #### Write to your Pension Management Center (PMC)
 
 You can write to the PMC for your state. <br>
-[Find your PMC](/pension/pension-management-centers/). 
+[Find your PMC](/pension/pension-management-centers/).
 
-Include this information: 
+Include this information:
 - Evidence, like a doctor’s report, that shows you need Aid and Attendance or Housebound care, or VA Form 21-2680  (Examination for Housebound Status or Permanent Need for Regular Aid and Attendance), which your doctor can fill out. <br>
-[Download VA Form 21-2680](https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf). 
+[Download VA Form 21-2680](https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf).
 - Details about what you normally do during the day and how you get places
-- Details that help show what kind of illness, injury, or mental or physical disability affects your ability to do things, like take a bath, on your own 
+- Details that help show what kind of illness, injury, or mental or physical disability affects your ability to do things, like take a bath, on your own
 
 #### Apply in person
 
 You can bring your information to a regional benefit office near you. <br>
-[Find a regional benefit office](/facilities/). 
+[Find a regional benefit office](/find-locations).
 
 ### How long does it take VA to make a decision?
 
 It depends. We process claims in the order we receive them, unless a claim requires priority processing.
-

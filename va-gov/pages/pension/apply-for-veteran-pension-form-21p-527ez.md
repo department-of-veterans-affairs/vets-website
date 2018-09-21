@@ -1,7 +1,10 @@
 ---
 title: Apply for pension benefits
+display_title: Apply Now
 entryname: pensions
 layout: page-react.html
+spoke: Get Benefits
+order: 3
 aliases:
   - /pension/application/527EZ
 ---

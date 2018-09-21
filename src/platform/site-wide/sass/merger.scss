@@ -129,9 +129,10 @@
 
   // we'll need to rewrite this at some point once we have business rules
   // TODO: this leaves a background space since the box is too wide
-  [href^="http"], [rel="external"] {
+  [href^="http"]:not(.usa-button-primary), [rel="external"] {
     background-image: none;
     padding-right: 0px;
+
   }
 
   #homepage-hub {
@@ -377,8 +378,9 @@
 
   .vet-toolbar {
     .va-dropdown {
-      margin-left: -2rem;
-      width: 128px;
+      span {
+        white-space: nowrap;
+      }
     }
   }
 
@@ -476,6 +478,10 @@
     }
 
     #mega-menu {
+      margin-top: 1em;
+      #vetnav {
+        min-height: unset;
+      }
       .login-container {
         position: relative;
         top: -50px;
@@ -679,6 +685,7 @@
 
         button {
           border-top: 3px solid transparent;
+          border-bottom: 3px solid transparent;
           color: #fff;
           cursor: pointer;
           display: block;
@@ -856,7 +863,7 @@
   }
 
   .va-crisis-line {
-    top: 122px;
+    top: 169px;
     z-index: 2;
   }
 
@@ -1110,6 +1117,14 @@
 
   .hub-links-container {
     min-height: 250px;
+  }
+  .va-crisis-panel {
+    h3 {
+      color: $color-black;
+    }
+    p {
+      color: $color-black;
+    }
   }
 }
 .usa-accordion-bordered {

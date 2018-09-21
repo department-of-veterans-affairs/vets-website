@@ -64,7 +64,7 @@ If you disagree with your disability rating, you can file an appeal. You’ll ne
 - **For Education Benefits:** You can get VA support for college or job training under special programs. Or, talk with a VA education counselor to find out what benefits you may be able to get. [Learn about education benefits](/education/).
 - **For Dependent Benefits:** If you’re 30% or more disabled due to a disability caused by service in the military, you can get financial support and benefits for your qualified dependents. There are 2 ways to register:
   - [Register through eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation), or
-  - [Register through your local VA office](/facilities/).
+  - [Register through your local VA office](/find-locations).
 - **For Other Benefits:** Check with your local or state VA offices for other benefits you may be able to get—like help with buying a home or making changes to your home to make it more accessible, or help with getting a job. [Find a VA office near you](https://www.va.gov/statedva.htm).
 
 </div>
@@ -93,4 +93,4 @@ It’s important to update your information with VA when you have a new address,
 
 Update your information in 1 of 2 ways:
 - [Make the change directly in eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation), **or**
-- [Contact your local VA office or eligibility office](/facilities/)
+- [Contact your local VA office or eligibility office](/find-locations)
