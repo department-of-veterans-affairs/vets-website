@@ -60,7 +60,7 @@ We’ll give you up to $368 per month in compensation (payments) for these types
 
 ### How do I get these benefits?
 
-[Apply online now](/education/apply-for-education-benefits/application/1990introduction).
+[Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
 
 ### Get more information
 - [Ask questions on the GI Bill customer service page](http://gibill.custhelp.com/). You can also search frequently asked questions.
