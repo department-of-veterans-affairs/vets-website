@@ -5,6 +5,8 @@ title: File an Appeal for Traumatic Injury Protection Life Insurance (TSGLI)
 display_title: File a TSGLI Appeal
 collection: lifeInsurance
 lastupdate:
+order: 6
+spoke: Manage Benefits
 spoke:
 order:
 aliases:
