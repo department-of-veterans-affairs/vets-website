@@ -141,8 +141,8 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a href="#"><b>Resources for Family Members</b></a>
-    <p>Access valuable career resources for spouses and other family members of Veterans and Servicemembers.
+    <a href="/careers-employment/dependent-benefits/"><b>Support for Dependent Family Members</b></a>
+    <p>See if you're eligible for educational and vocational counseling as the dependent spouse or child of a Veteran or Servicemember.
   </div>
 
 </section>
