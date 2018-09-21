@@ -2,8 +2,10 @@
 layout: page-breadcrumbs.html
 template: topic-landing
 title: Resources for Military and Veteran Family Members
-display_title: Resources for Family Members
+display_title: Family Resources
 concurrence: complete
+order: 6
+spoke: More Resources
 aliases:
   - /employment/job-seekers/family-members/
 ---

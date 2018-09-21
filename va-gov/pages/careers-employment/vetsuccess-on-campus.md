@@ -1,9 +1,10 @@
 ---
+template: detail-page
 layout: page-breadcrumbs.html
 title: VetSuccess on Campus
 source: http://www.benefits.va.gov/vocrehab/vsoc.asp
-template: detail-page
-order: 6
+order: 2
+spoke: More Resources
 relatedlinks:
   - heading: More information about VR&E benefits and services
     links:

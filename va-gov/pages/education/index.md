@@ -148,7 +148,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="#"><b>Change Your VA Direct Deposit Information</b></a>
+    <a href="/change-direct-deposit-and-contact-information/"><b>Change Your VA Direct Deposit Information</b></a>
     <p>Find out how to change your GI Bill direct deposit and contact information.</p>
   </div>
 
