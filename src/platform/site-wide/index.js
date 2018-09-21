@@ -12,7 +12,6 @@ import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
 import startMobileMenuButton from './mobile-menu-button';
-import startPreviewSiteAlert from './preview-site-alert';
 import startLRNHealthCareWidget from './left-rail-navs/health-care';
 import startFeedbackWidget from './feedback';
 import startAnnouncementWidget from './announcements';
@@ -47,7 +46,6 @@ export default function startSitewideComponents(commonStore) {
   startUserNavWidget(commonStore);
   startMegaMenuWidget(commonStore);
   startMobileMenuButton(commonStore);
-  startPreviewSiteAlert(commonStore);
   startFeedbackWidget(commonStore);
   startAnnouncementWidget(commonStore);
   startLRNHealthCareWidget(commonStore);

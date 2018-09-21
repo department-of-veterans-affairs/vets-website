@@ -62,7 +62,7 @@ Mail it to the Pension Management Center (PMC) for your state. <br>
 #### In person
 
 Bring your application to a regional benefit office near you. <br>
-[Find a regional benefit office](/facilities/).
+[Find a regional benefit office](/find-locations).
 
 
 #### With the help of a trained professional
@@ -72,4 +72,4 @@ You can work with a trained professional called an accredited representative to 
 
 ### How long does it take VA to make a decision?
 
-It depends. We process claims in the order we received them, unless a claim requires priority processing.   
+It depends. We process claims in the order we received them, unless a claim requires priority processing.

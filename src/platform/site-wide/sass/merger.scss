@@ -129,9 +129,10 @@
 
   // we'll need to rewrite this at some point once we have business rules
   // TODO: this leaves a background space since the box is too wide
-  [href^="http"], [rel="external"] {
+  [href^="http"]:not(.usa-button-primary), [rel="external"] {
     background-image: none;
     padding-right: 0px;
+
   }
 
   #homepage-hub {
@@ -862,7 +863,7 @@
   }
 
   .va-crisis-line {
-    top: 122px;
+    top: 169px;
     z-index: 2;
   }
 
@@ -1115,6 +1116,14 @@
 
   .hub-links-container {
     min-height: 250px;
+  }
+  .va-crisis-panel {
+    h3 {
+      color: $color-black;
+    }
+    p {
+      color: $color-black;
+    }
   }
 }
 .usa-accordion-bordered {
