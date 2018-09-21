@@ -7,8 +7,6 @@ collection: lifeInsurance
 lastupdate:
 order: 6
 spoke: Manage Benefits
-spoke:
-order:
 aliases:
 
 ---
