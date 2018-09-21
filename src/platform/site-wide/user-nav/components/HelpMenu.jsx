@@ -14,10 +14,10 @@ class HelpMenu extends React.Component {
     if (isBrandConsolidationEnabled()) {
       dropDownContents = (
         <div>
-          <p><a href="https://preview.va.gov/facilities/">Find a VA Location</a></p>
-          <p><a href="#">Submit a Help Request</a></p>
-          <p><a href="#">Go to VA Help Center</a></p>
-          <p><a href="#">Call Us </a></p>
+          <p><a href="/find-locations">Find a VA Location</a></p>
+          <p><a href="https://iris.custhelp.va.gov/app/ask ">Submit a Help Request</a></p>
+          <p><a href="https://iris.custhelp.va.gov ">Go to VA Help Center</a></p>
+          <p><a href="https://iris.custhelp.va.gov/app/answers/detail/a_id/1703 ">Call Us </a></p>
         </div>
       );
     } else {

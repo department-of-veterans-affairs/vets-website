@@ -2,6 +2,6 @@
   "appName": "1010ez Health Care Application form",
   "entryFile": "./hca-entry.jsx",
   "entryName": "hca",
-  "rootUrl": "/health-care/apply-for-health-care-form-10-10ez",
+  "rootUrl": "/health-care/apply/application",
   "production": true
 }

@@ -16,7 +16,7 @@ const data = [
       },
       {
         text: 'Apply Now for Health Care',
-        href: '/health-care/apply-for-health-care-form-10-10ez'
+        href: '/health-care/apply/application'
       },
       {
         text: 'Family and Caregiver Benefits',

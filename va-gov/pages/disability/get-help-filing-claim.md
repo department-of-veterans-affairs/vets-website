@@ -22,9 +22,9 @@ relatedlinks:
     - url: /disability/about-disability-ratings/
       title: How VA Assigns Disability Ratings
       description: Find out how we assign ratings for service-connected disabilities.
-    - url: /disability/eligibility/illnesses-within-one-year-of-discharge/
+    - url: /disability/eligibility/illnesses-within-one-year-of-discharge/ 
       title: Disabilities That Appear Within 1 Year After Discharge
-      description: Find out if you're eligible for disability compensation for a disability that appeared within a year after you were discharged from service.
+      description: Find out if you're eligible for disability compensation for a disability that appeared within a year after you were discharged from service.      
 aliases:
   - /disability-benefits/apply/help/
 spoke: More Resources
@@ -134,7 +134,7 @@ You'll need to either use eBenefits or fill out a form and mail it in.
 [Download VA Form 21-22a](https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf).
 
 If you're filling out one of the forms, you'll need to mail it to your nearest VA regional office. Please speak to the service organization or representative before you send your request. <br>
-[Find a VA regional office near you](/find-locations).
+[Find a VA regional office near you](/facilities/).
 
 </div>
 </div>

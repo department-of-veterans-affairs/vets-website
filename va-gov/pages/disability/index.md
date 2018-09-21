@@ -120,7 +120,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
     </div>
 
   <div class="link">
-    <a href="/disability/file-for-increase-form-21-526ez/"><b>File for a VA Disability Increase</b></a>
+    <a href="/disability-benefits/apply/form-526-disability-claim"><b>File for a VA Disability Increase</b></a>
     <p>If your service-connected disability has gotten worse, find out how to file a claim to increase your disability rating.</p>
     </div>
 
@@ -130,7 +130,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="/disability/add-remove-dependent/"><b>Add or Remove a Dependent</b></a>
+    <a href="#"><b>Add or Remove a Dependent</b></a>
     <p>Find out how and when to add a dependent spouse, child, or parent to your VA disability benefits. Also learn how to remove a dependent from your benefits.</p>
   </div>
 
@@ -145,7 +145,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="#"><b>Change Your VA Direct Deposit and Contact Information</b></a>
+    <a href="/change-direct-deposit-and-contact-information/"><b>Change Your VA Direct Deposit and Contact Information</b></a>
     <p>Find out how to change your direct deposit information online.</p>
   </div>
 

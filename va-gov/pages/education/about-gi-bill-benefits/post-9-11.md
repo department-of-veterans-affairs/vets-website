@@ -177,7 +177,7 @@ You can use these types of programs and courses under the Post-9/11 GI Bill:
 <div itemprop="text">
 
 - Compare benefits by school. <br>
-[Use the GI Bill Comparison Tool](/education/gi-bill-school-comparison-tool).
+[Use the GI Bill Comparison Tool](/gi-bill-comparison-tool).
 - [See the current payment rates for the Post-9/11 GI Bill](/education/benefit-rates/).
 - [Read the Post-9/11 GI Bill pamphlet](https://www.benefits.va.gov/gibill/docs/pamphlets/ch33_pamphlet.pdf).
 - [See Frequently Asked Questions (FAQ)](https://gibill.custhelp.com/app/answers/list).
