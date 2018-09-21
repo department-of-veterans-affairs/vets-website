@@ -5,6 +5,7 @@ title: Veterans’ Group Life Insurance (VGLI)
 display_title: Veterans’ Group (VGLI)
 concurrence: 
 order: 4
+children: lifeInsuranceVGLI
 relatedlinks:
   - heading: More information about your benefits
     links:
