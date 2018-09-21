@@ -451,13 +451,12 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) =>
-            _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:vaMedicalRecords`,
-              formData,
-            ),
+          depends: (formData, index) => _.get(
+            `disabilities.${
+              index
+            }.view:selectableEvidenceTypes.view:vaMedicalRecords`,
+            formData,
+          ),
           uiSchema: {
             disabilities: {
               items: {
@@ -485,13 +484,12 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) =>
-            _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:vaMedicalRecords`,
-              formData,
-            ),
+          depends: (formData, index) => _.get(
+            `disabilities.${
+              index
+            }.view:selectableEvidenceTypes.view:vaMedicalRecords`,
+            formData,
+          ),
           uiSchema: {
             disabilities: {
               items: {
@@ -552,13 +550,12 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) =>
-            _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
-              formData,
-            ),
+          depends: (formData, index) => _.get(
+            `disabilities.${
+              index
+            }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+            formData,
+          ),
           uiSchema: {
             disabilities: {
               items: {
@@ -586,13 +583,12 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) =>
-            _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
-              formData,
-            ),
+          depends: (formData, index) => _.get(
+            `disabilities.${
+              index
+            }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+            formData,
+          ),
           uiSchema: {
             disabilities: {
               items: {
@@ -680,8 +676,7 @@ const formConfig = {
               }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
               formData,
             );
-            const requestsRecords =
-              _.get(
+            const requestsRecords = _.get(
                 `disabilities.${index}.view:uploadPrivateRecords`,
                 formData,
               ) === 'no';
@@ -860,8 +855,7 @@ const formConfig = {
               }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
               formData,
             );
-            const uploadRecords =
-              _.get(
+            const uploadRecords = _.get(
                 `disabilities.${index}.view:uploadPrivateRecords`,
                 formData,
               ) === 'yes';
@@ -943,13 +937,12 @@ const formConfig = {
         },
         documentUpload: {
           title: 'Lay statements or other evidence',
-          depends: (formData, index) =>
-            _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:otherEvidence`,
-              formData,
-            ),
+          depends: (formData, index) => _.get(
+            `disabilities.${
+              index
+            }.view:selectableEvidenceTypes.view:otherEvidence`,
+            formData,
+          ),
           path: 'supporting-evidence/:index/additionalDocuments',
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
