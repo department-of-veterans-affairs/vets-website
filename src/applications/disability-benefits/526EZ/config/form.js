@@ -512,7 +512,7 @@ const formConfig = {
           }
         },
         privateMedicalRecordsIntro: {
-          title: 'Private medical records',
+          title: 'Private medical records introduction',
           path: 'supporting-evidence/:index/private-medical-records-intro',
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
