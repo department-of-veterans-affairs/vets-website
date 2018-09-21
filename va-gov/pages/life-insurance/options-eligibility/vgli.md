@@ -86,7 +86,7 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 
 **Choose your age to find monthly premium rates as of July 1, 2014.**
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="age-29-below">Age 29 and below</button>
