@@ -43,7 +43,7 @@
                             },
                             {
                                 "text": "View Your Lab and Test Results",
-                                "href": "/health-care/view-test-and-lab-results/"
+                                "href": "/health-care/view-test-lab-results/"
                             },
                             {
                                 "text": "Order Hearing Aid Batteries and Prosthetic Socks",
@@ -204,19 +204,15 @@
                         "links": [
                             {
                                 "text": "About Vocational Rehabilitation and Employment",
-                                "href": "#"
+                                "href": "/careers-employment/vocational-rehabilitation/"
                             },
                             {
                                 "text": "How to Apply",
-                                "href": "#"
+                                "href": "/careers-employment/vocational-rehabilitation/how-to-apply/"
                             },
                             {
                                 "text": "Veteran-Owned Small Business Support",
-                                "href": "#"
-                            },
-                            {
-                                "text": "Apply Now for Vocational Rehab and Employment",
-                                "href": "#"
+                                "href": "/careers-employment/veteran-owned-business-support/"
                             }
                         ]
                     },
@@ -229,15 +225,16 @@
                             },
                             {
                                 "text": "CareerScope Assessment",
-                                "href": "#"
+                                "href": "/careers-employment/careerscope-skills-assessment/"
                             },
                             {
                                 "text": "Find a Job",
-                                "href": "https://dol.gov/veterans/findajob/"
+                                "href": "https://www.dol.gov/veterans/findajob/",
+                                "target": "_blank"
                             },
                             {
                                 "text": "Print Your Civil Service Preference Letter",
-                                "href": "https://ebenefits.va.gov/ebenefits/manage/documents"
+                                "href": "/records/download-va-letters/"
                             }
                         ]
                     },
@@ -265,24 +262,24 @@
                         "title": "Get Pension Benefits",
                         "links": [
                             {
-                                "text": "Eligibility",
-                                "href": "#"
+                                "text": "Veterans Pension Eligibility",
+                                "href": "/pension/eligibility/"
                             },
                             {
                                 "text": "How to Apply",
-                                "href": "#"
+                                "href": "/pension/how-to-apply/"
                             },
                             {
                                 "text": "Aid and Attendance or Housebound Allowance",
-                                "href": "#"
+                                "href": "/pension/aid-attendance-housebound/"
                             },
                             {
                                 "text": "Survivors Pension",
-                                "href": "#"
+                                "href": "/pension/survivors-pension/"
                             },
                             {
                                 "text": "Apply Now for a Veterans Pension",
-                                "href": "#"
+                                "href": "/pension/apply-for-veteran-pension-form-21p-527ez/"
                             }
                         ]
                     },
@@ -291,14 +288,6 @@
                         "links": [
                             {
                                 "text": "Check Your Claim or Appeal Status",
-                                "href": ""
-                            },
-                            {
-                                "text": "View Your VA Payment History",
-                                "href": "#"
-                            },
-                            {
-                                "text": "File an Appeal",
                                 "href": "#"
                             },
                             {
@@ -314,7 +303,8 @@
                         },
                         "link": {
                             "text": "Get Your Pension Payments Electronically",
-                            "href": "https://www.godirect.gov/gpw"
+                            "href": "https://www.godirect.gov/gpw",
+                            "target": "_blank"
                         },
                         "description": "Sign up for direct deposit or a pre-paid debit card."
                     },
@@ -332,19 +322,17 @@
                         "links": [
                             {
                                 "text": "About VA Home Loan Options",
-                                "href": "#"
-                            },
-                            {
-                                "text": "How to Apply for your COE",
-                                "href": "#"
+                                "href": "/housing-assistance/home-loans/"
+
                             },
                             {
                                 "text": "Check Your Appeal Status",
                                 "href": "#"
                             },
                             {
-                                "text": "Apply Now for a COE",
-                                "href": "#"
+                                "text": "How to Apply for Your COE",
+                                "href": "/housing-assistance/home-loans/how-to-apply/"
+
                             }
                         ]
                     },
@@ -353,15 +341,15 @@
                         "links": [
                             {
                                 "text": "About Disability Housing Grants",
-                                "href": "#"
+                                "href": "/housing-assistance/disability-housing-grants/"
                             },
                             {
                                 "text": "Check Your SAH Claim Status",
                                 "href": "#"
                             },
                             {
-                                "text": "Apply Now for a SAH Grant",
-                                "href": "#"
+                                "text": "How to Apply for a SAH Grant",
+                                "href": "/housing-assistance/disability-housing-grants/how-to-apply/"
                             }
                         ]
                     },
@@ -390,15 +378,15 @@
                         "links": [
                             {
                                 "text": "About Life Insurance Options",
-                                "href": "#"
+                                "href": "/life-insurance/options-eligibility/"
                             },
                             {
                                 "text": "Benefits for Totally Disabled or Terminally Ill Policyholders",
-                                "href": "#"
+                                "href": "/life-insurance/totally-disabled-or-terminally-ill/"
                             },
                             {
                                 "text": "Beneficiary Financial Counseling and Online Will Preparation",
-                                "href": "#"
+                                "href": "https://www.benefits.va.gov/insurance/bfcs.asp"
                             }
                         ]
                     },
@@ -406,16 +394,16 @@
                         "title": "Manage Your Life Insurance",
                         "links": [
                             {
-                                "text": "Mange Your Policy",
-                                "href": "#"
+                                "text": "Manage Your Policy",
+                                "href": "/life-insurance/manage-your-policy/"
                             },
                             {
                                 "text": "Update Your Beneficiaries",
-                                "href": "#"
+                                "href": "https://www.benefits.va.gov/INSURANCE/updatebene.asp"
                             },
                             {
                                 "text": "File a Claim for Insurance Benefits",
-                                "href": "#"
+                                "href": "https://www.benefits.va.gov/INSURANCE/sglivgli.asp"
                             },
                             {
                                 "text": "Check Your Appeal Status",
@@ -485,7 +473,7 @@
                             },
                             {
                                 "text": "Request Military Records",
-                                "href": "#"
+                                "href": "/records/get-military-service-records/"
                             }
                         ]
                     },
@@ -522,7 +510,7 @@
                             },
                             {
                                 "text": "Apply for a Home Loan COE",
-                                "href": "#"
+                                "href": "/housing-assistance/home-loans/how-to-apply/"
                             },
                             {
                                 "text": "Apply for a Veteran ID Card",
@@ -559,7 +547,7 @@
                         },
                         "link": {
                             "text": "Veteran ID Card",
-                            "href": "#"
+                            "href": "/records/get-veteran-id-cards/"
                         },
                         "description": "Apply for your Veteran ID Card to get Veteran discounts on goods and services."
                     },

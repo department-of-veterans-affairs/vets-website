@@ -2,7 +2,8 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Loan Options
-concurrence: 
+display_title: Loan Types
+concurrence:
 children: housingVALoans
 order: 1
 majorlinks:
@@ -35,7 +36,7 @@ We offer several home loan options to help you buy, build, or improve a home or 
 ### How does a VA direct home loan work?
 
 With a VA direct home loan, we serve as your mortgage lender. This means you’ll work directly with us to apply for and manage your loan. The Native American Direct Loan (NADL) program often has better terms than a home loan from a private lender (a private bank, mortgage company, or credit union). <br>
-[Find out if you qualify for a NADL](/housing-assistance/home-loans/loan-types/native-american-direct-loan/). 
+[Find out if you qualify for a NADL](/housing-assistance/home-loans/loan-types/native-american-direct-loan/).
 
 <br>
 

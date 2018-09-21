@@ -1,5 +1,6 @@
 const TAB = 9;
 const ESCAPE = 27;
+const ENTER = 13;
 
 function isWideScreen() {
   return matchMedia('(min-width: 768px)').matches;
@@ -21,4 +22,7 @@ function getTabbableElements(node) {
   return node.querySelectorAll('input,select,a[href],textarea,button,[tabindex]');
 }
 
-export { isWideScreen, isEscape, isTab, isReverseTab, getTabbableElements };
+function isEnter(e) {
+  return (e.key === 'Enter' || e.keyCode === ENTER);
+}
+export { isWideScreen, isEscape, isTab, isReverseTab, getTabbableElements, isEnter };

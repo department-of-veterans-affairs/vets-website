@@ -145,7 +145,7 @@ Yes. Follow the steps below to place your order by mail or phone.
 Fill out the form for the product you’re ordering.
 - **For hearing aid batteries or accessories:** Fill out a Veteran’s Request for Batteries and Accessories (VA Form 2346) card. If you’re ordering hearing aid wax guards, please write down the type of guard if you have that information from your audiologist. <br>
 You should have received a VA Form 2346 in your last battery order. If you don’t have the form, call your local VA audiology clinic or follow the instructions below to order batteries by phone. <br>
-[Find VA health facilities](/facilities).
+[Find VA health facilities](/find-locations).
 - **For prosthetic socks:** Fill out a Veteran’s Request for Prosthetic Socks (VA Form 2345). <br>
 [Download VA Form 2345](https://www.va.gov/opal/docs/nac/dlc/VAform2345.pdf).
 

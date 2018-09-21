@@ -67,7 +67,7 @@ If you're a Veteran with VA health care benefits, you can make health care appoi
 <div itemprop="itemListElement">
 
 You can call the VA health facility where you want to receive care. This is usually the quickest way to make all your VA appointments. If you can’t keep an existing appointment, please contact the facility as soon as possible to reschedule or cancel. <br>
-[Find your VA health facility’s phone number](/facilities).
+[Find your VA health facility’s phone number](/find-locations).
 </div>
 </div>
 
