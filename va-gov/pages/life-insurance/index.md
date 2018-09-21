@@ -16,16 +16,13 @@ promo:
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: https://va.gov/burials
+    - url: /burials-memorials/
       title: <b>Burial Benefits and and Memorial Items</b>
       description: Get help planning a burial, order a headstone or other memorial item, and apply for survivor and dependent benefits.
-    - url: https://va.gov/pension
+    - url: /pension/
       title: <b>Pension Benefits</b>
       description: Find out if you're eligible for tax-free monthly payments as a wartime Veteran or surviving spouse or child.
-    - url: https://va.gov/families-caregivers
-      title: <b>Family and Caregiver Benefits and Services</b>
-      description: See if you qualify for VA benefits as a spouse, surviving spouse, dependent child, or caregiver.
-    - url: https://preview.va.gov/health-care/
+    - url: /health-care/
       title: <b>VA Health Care</b>
       description: Find out how to apply for and manage your VA health care benefits.
 social:
@@ -78,12 +75,12 @@ VA life insurance can offer financial security and support for Veterans, Service
   <h2>Get VA Life Insurance</h2>
 
   <div class="link">
-    <a href="#"><b>About VA Insurance Options and Eligibility</b></a>
+    <a href="/life-insurance/options-eligibility/"><b>About VA Insurance Options and Eligibility</b></a>
     <p>Find out which life insurance plans you may qualify for—and the benefits you’ll receive with each plan.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Benefits for Totally Disabled or Terminally Ill Policyholders</b></a>
+    <a href="/life-insurance/totally-disabled-or-terminally-ill/"><b>Benefits for Totally Disabled or Terminally Ill Policyholders</b></a>
     <p>Find out if you can get your insurance premium waived or receive your benefits early in certain situations.
   </div>
 
@@ -103,7 +100,7 @@ VA life insurance can offer financial security and support for Veterans, Service
   <h2>Manage Your Policy and Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>Manage Your Policy Online</b></a>
+    <a href="/life-insurance/manage-your-policy/"><b>Manage Your Policy Online</b></a>
     <p>Find out how to check your policy's status, update your information, or pay your premium online.</p>
     </div>
 
@@ -118,7 +115,7 @@ VA life insurance can offer financial security and support for Veterans, Service
   </div>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-claim-appeal-status"><b>Check Your Appeal Status</b></a>
+    <a href="/claim-or-appeal-status/"><b>Check Your Appeal Status</b></a>
     <p>Track the status of your life insurance appeal.</p>
   </div>
 
@@ -128,7 +125,7 @@ VA life insurance can offer financial security and support for Veterans, Service
   </div>  
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/INSURANCE/forms/TSGLIAppealsForm.htm"><b>File a TSGLI Appeal (VA Form SGLV 8600A)</b></a>
+    <a href="/life-insurance/file-appeal-for-tsgli/"><b>File a TSGLI Appeal (VA Form SGLV 8600A)</b></a>
     <p>If you've received a denial letter for Traumatic Injury Protection Life Insurance benefits that instructs you to use this form, file your appeal by the date provided in your letter.</p>
   </div>
 
