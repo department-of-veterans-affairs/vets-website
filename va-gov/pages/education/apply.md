@@ -69,7 +69,7 @@ Call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday thr
 
 #### In person
 Go to a VA regional office and have a VA employee help you.<br/>
-[Find a VA regional benefit office near you](/facilities).
+[Find a VA regional benefit office near you](/find-locations).
 
 Work with your school’s certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 
