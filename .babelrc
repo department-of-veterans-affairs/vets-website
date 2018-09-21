@@ -6,7 +6,7 @@
         "uglify": true,
         /* This is the full list of browsers we support, but we are not using it because we want babel-polyfill
          * to include only polyfills for more modern browsers. 
-         * Older browser polyfills are in preModernBrowserPolyfills.js
+         * Older browser polyfills are in preESModulesPolyfills.js
          */
         /* "browsers": ["Chrome 60", "Firefox 57", "iOS 9", "Edge 14", "ChromeAndroid 64", "Safari 10", "ie 11"] */
         /*
