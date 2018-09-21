@@ -24,9 +24,6 @@ crosslinks:
       title: <b>Vocational Rehabilitation and Employment</b>
       description: Find out if you're eligible for help exploring employment options, any training you may need, and other voc rehab services.
     - url: "#"
-      title: <b>Family and Caregiver Health Benefits</b>
-      description: See if you qualify for VA medical benefits as a spouse, surviving spouse, dependent child, or caregiver.
-    - url: "#"
       title: <b>Life Insurance</b>
       description: Explore your life insurance options and find out how to apply as a Veteran, Servicemember, or family member.
 social:
@@ -137,7 +134,7 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   </div>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"><b>Change Your VA Direct Deposit and Contact Information</b></a>
+    <a href="/change-direct-deposit-and-contact-information/"><b>Change Your VA Direct Deposit and Contact Information</b></a>
     <p>Find out how to change your VA disability direct deposit information online.</p>
   </div>
 

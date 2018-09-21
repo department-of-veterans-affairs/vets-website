@@ -46,8 +46,8 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 **There are 2 ways you can try to qualify:**
 
-[Find out how to apply for a discharge upgrade](/records/discharge-upgrade/).<br/>
-[Learn about the VA Character of Discharge review process](/records/discharge-upgrade/#other-options).
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
+[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
 
 </div>
 </div>
@@ -85,7 +85,7 @@ Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed
 <div markdown="0"><br></div>
 
 <div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/health-care/apply-for-health-care-form-10-10ez">Apply for Health Care Benefits</a>
+  <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 </div>
 
 <div itemscope itemtype="http://schema.org/Question">
@@ -203,7 +203,7 @@ Or, call our general VA hotline at <a href="tel:+1phonenumber">1-800-827-1000</a
 </div>
 </div>
 </div>
-<br>  
+<br>
 
 <span id="vision-care"></span>
 
