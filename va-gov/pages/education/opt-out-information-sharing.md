@@ -6,7 +6,9 @@ description:
 concurrence: Incomplete
 plainlanguage: Certified plain language 4.20.18
 template: detail-page
-order: 5
+collection: education
+children: educationInformationSharingOptOut
+order: 15
 widgets:
   - root: react-applicationStatus
     timeout: 20
