@@ -28,17 +28,17 @@ Find out how to view your payment history for VA benefits.
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-<b>If you're a Veteran, you can view a history of your past payments for:</b>
+<b>If you're a Veteran, you'll see a history of your past payments for:</b>
 <ul>
 <li>Disability compensation</li>
 <li>Pension benefits</li>
 <li>Education benefits</li>
 </ul>
 
-<b>If you're the survivor of a Veteran or Servicemember, you can view a history of your past payments for:</b>
+<b>If you're the survivor of a Veteran or Servicemember, you'll see a history of your past payments for:</b>
 <ul>
 <li>Survivors pension benefits</li>
-<li>Survivors' and Dependents' Education Assistance (Chapter 35 benefits)</li>
+<li>Survivors' and Dependents' Educational Assistance (Chapter 35 benefits)</li>
 <li>Dependency and Indemnity Compensation (DIC)</li>
 
 </div>
@@ -53,7 +53,7 @@ Find out how to view your payment history for VA benefits.
 
 If your decision notice shows at least a 10% disability rating, you’ll get your first payment within 15 days. 
 
-If you don’t get a payment after 15 days, please call the Veterans Help Line at <a href="tel:+18008271000">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
+If you don’t get a payment within 15 days, please call the Veterans Help Line at <a href="tel:+18008271000">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
 
 </div>
 </div>
@@ -65,9 +65,9 @@ If you don’t get a payment after 15 days, please call the Veterans Help Line a
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-<b>You can change your information in 1 of 2 ways:</b><br>
+<b>You can change your information in either of these ways:</b><br>
 <a href="/change-direct-deposit-and-contact-information/">Change your information online</a>, <b>or</b> <br>
-<a href="/facilities/">Contact your nearest VA regional benefit office or eligibility office</a>.
+<a href="/facilities/">Contact your nearest VA regional benefit office or eligibility office</a>
 
 </div>
 </div>
@@ -75,7 +75,7 @@ If you don’t get a payment after 15 days, please call the Veterans Help Line a
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h2 itemprop="name">Should I contact VA if I have other changes in my information?</h2>
+<h2 itemprop="name">Should I contact VA if I have other changes to my information?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
