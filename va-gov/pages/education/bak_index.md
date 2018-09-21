@@ -42,12 +42,12 @@ majorlinks:
       description: If you don’t qualify for the Post-9/11 GI Bill, you can apply for education benefits through VEAP and Call to Service. REAP ended in 2015, but some benefits stay in place for a couple more years.
   - heading: More Education Benefits and Information
     links:
-    - url: /employment/vocational-rehab-and-employment/
+    - url: /careers-employment/vocational-rehabilitation/
       title: VR&E Benefits and Services
-      description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required. 
-    - url: /education/opt-out-information-sharing/
+      description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
+    - url: /education/information-sharing-opt-out/
       title: Opt Out of Sharing VA Education Benefits Information
-      description: The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your eligibility and benefits with schools, unless you ask us not to. Find out how to opt out of information sharing. 
+      description: The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your eligibility and benefits with schools, unless you ask us not to. Find out how to opt out of information sharing.
 
 ---
 

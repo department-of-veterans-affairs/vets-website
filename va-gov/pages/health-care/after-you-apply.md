@@ -6,7 +6,8 @@ display_title: After You Apply
 description: Find out what to do after applying for VA health care benefits, including when to schedule your first VA medical appointment.
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: healthCare
-order: 4
+spoke: Get Benefits
+order: 5
 lastupdate: 2017-08-28
 ---
 
@@ -44,7 +45,7 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 <li class="process-step list-three">
 
 **Get your Veterans Health Identification Card (VHIC).** This is the card you’ll use for ID and to check in at your VA health care appointments. To get your card, contact your local VA medical center and speak with the enrollment coordinator. Ask the coordinator to help you arrange to have your picture taken for your new VHIC. Or, you can request your VHIC at your next VA health care appointment. <br /> [Learn more about the VHIC](https://www.va.gov/HEALTHBENEFITS/vhic/index.asp). <br />
-[Find a VA medical center near you](/facilities/).
+[Find a VA medical center near you](/find-locations).
 
 </li>
 
@@ -75,7 +76,7 @@ Contact your local VA medical center or clinic and ask for:
 - The urgent care clinic, **or**
 - The emergency room
 
-[Find a VA health facility near you](/facilities/).
+[Find a VA health facility near you](/find-locations).
 
 <br>
 
@@ -108,7 +109,7 @@ Health Eligibility Center<br>
 Atlanta, GA 30329<br>
 </p>
 
-You can also get help updating your personal information by visiting your local VA facility. [Find a VA facility near you](/facilities/).
+You can also get help updating your personal information by visiting your local VA facility. [Find a VA facility near you](/find-locations).
 
 <br>
 

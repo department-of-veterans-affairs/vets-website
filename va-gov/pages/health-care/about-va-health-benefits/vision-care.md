@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: VA Vision Care
-display_title:
+display_title: Vision Care
 description: Find out if you're eligible for VA vision benefits, and if VA vision care will cover the cost of eyeglasses.
 concurrence: complete
 lastupdate: 2017-06-28
@@ -41,7 +41,7 @@ If you qualify for VA health care benefits, you may be able to get some or all o
 Yes. If you have VA health care benefits, we’ll cover your routine eye exams and preventive vision testing (like testing for glaucoma).
 
 **To schedule an eye exam**, talk to your VA primary care provider or contact your nearest VA medical center or clinic. <br>
-[Find a VA medical center near you](/facilities/).
+[Find a VA medical center near you](/find-locations).
 
 **If you’re a blind or low vision Veteran**, you may be able to get more advanced vision care and rehabilitation services. <br>
 [Find out if you qualify for blind and low vision Veteran services](/health-care/about-va-health-benefits/vision-care/blind-low-vision-rehab-services/).
@@ -59,7 +59,7 @@ We’ll cover the cost of your eyeglasses if you meet at least one of the requir
 - Have a compensable service-connected disability (a disability linked to your military service for which you’re receiving VA disability payments), **or**
 - Are a former Prisoner of War (POW), **or**
 - Were awarded a Purple Heart, **or**
-- [Receive benefits under Title 38 United States Code (U.S.C.) 1151](https://www.vets.gov/disability/eligibility/special-claims/1151-claims-title-38/), **or**
+- [Receive benefits under Title 38 United States Code (U.S.C.) 1151](/disability/eligibility/special-claims/1151-claims-title-38/), **or**
 - Receive an increased pension based on your being permanently housebound and in need of regular aid and attendance
 
 **Or, you must have at least one of these issues:**
@@ -78,7 +78,7 @@ We’ll cover the cost of your eyeglasses if you meet at least one of the requir
 - Vision and/or hearing loss (called dual sensory impairment) that’s severe enough to interfere with your ability to take an active role in your own health care—and eyeglasses would help to reduce the impact of your impairment
 
 For more information, contact the prosthetic representative at your nearest VA medical center or clinic. <br>
-[Find a VA health facility near you](/facilities/).
+[Find a VA health facility near you](/find-locations).
 
 <br>
 

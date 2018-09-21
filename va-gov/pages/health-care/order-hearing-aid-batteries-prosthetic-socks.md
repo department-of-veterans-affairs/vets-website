@@ -7,7 +7,8 @@ description:
 concurrence:
 lastupdate: 2018-08-22
 collection: healthCare
-order: 11
+spoke: Manage Benefits
+order: 12
 children:
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
@@ -19,9 +20,9 @@ Find out if you may be eligible to order free hearing aid batteries or prostheti
 
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You'll need to sign in before you can order hearing aid batteries or prosthetic socks online.</h4>
-    <p class="usa-alert-text">
-      <button class="usa-button-primary">Sign In or Create an Account</button>
+    <h4 class="usa-alert-heading">You’ll need to sign in to eBenefits to order hearing aid batteries or prosthetic socks online.</h4>
+  <p class="usa-alert-text">To use this feature, you'll need a premium <b>DS Logon</b> account. Your MyHealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>
+      <button class="usa-button-primary">Go to eBenefits to Order Items Online</button>
     </p>
   </div>
 </div>
@@ -144,7 +145,7 @@ Yes. Follow the steps below to place your order by mail or phone.
 Fill out the form for the product you’re ordering.
 - **For hearing aid batteries or accessories:** Fill out a Veteran’s Request for Batteries and Accessories (VA Form 2346) card. If you’re ordering hearing aid wax guards, please write down the type of guard if you have that information from your audiologist. <br>
 You should have received a VA Form 2346 in your last battery order. If you don’t have the form, call your local VA audiology clinic or follow the instructions below to order batteries by phone. <br>
-[Find VA health facilities](/facilities).
+[Find VA health facilities](/find-locations).
 - **For prosthetic socks:** Fill out a Veteran’s Request for Prosthetic Socks (VA Form 2345). <br>
 [Download VA Form 2345](https://www.va.gov/opal/docs/nac/dlc/VAform2345.pdf).
 

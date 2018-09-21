@@ -6,23 +6,22 @@ display_title: Disability
 description: Find out if you're eligible for VA disability pay (compensation) for a service-connected disability. Learn about VA disability benefits, ratings, which conditions qualify, how to apply, and what to expect after you apply for Veterans disability.
 concurrence: complete
 lastupdate:
-order: 1
 icon: handshake
 promo:
   - image: /img/megamenu/disability-illustration.png
     heading: Decision Ready Claims (DRC) Program
-    url: "#"
+    url: "/disability/how-to-file-claim/evidence-needed/decision-ready-claims/"
     description: Find out if you can use the DRC program to get a decision on your claim in 30 days or less.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: "#"
+    - url: "/disability/how-to-file-claim/evidence-needed/decision-ready-claims/"
       title: <b>Disability Housing Grants for Veterans</b>
       description: Find out how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.
-    - url:  https://benefits.va.gov/fiduciary/index.asp
+    - url:  https://www.benefits.va.gov/fiduciary/index.asp
       title: <b>Fiduciary Services</b>
       description: Learn how to become a VA fiduciary to handle the financial affairs of a Veteran in need.
-    - url: "#"
+    - url: "/health-care/about-va-health-benefits/long-term-care/"
       title: <b>VA Nursing Homes, Assisted Living, and Home Health Care</b>
       description: Explore long-term care options for Veterans and their caregivers.
     - url:  "#"
@@ -32,7 +31,7 @@ crosslinks:
       title: <b>Aid and Attendance or Housebound Allowance</b>
       description: See if you're eligible for extra monthly pension payments if you need more aid than you're currently receiving.
 social:
-  - heading: Connect With Us
+  - heading: Connect with Us
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
@@ -86,27 +85,22 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   <h2>Get VA Disability Compensation (Pay)</h2>
 
   <div class="link">
-    <a href=#"><b>Eligibility</b></a>
+    <a href="/disability/eligibility/"><b>Eligibility</b></a>
     <p>Find out if you’re eligible for VA disability benefits for a presumptive disability or other service-connected condition.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>How to File a Claim</b></a>
+    <a href="/disability/how-to-file-claim/"><b>How to File a Claim</b></a>
     <p>Find out how to prepare and file a claim for disability compensation online or by phone or mail.</p>
   </div>
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"><b>File a Claim Online (VA Form 21-526EZ)</b></a>
-    <p>Start your VA disability claim online now.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>After You File Your Claim</b></a>
+    <a href="/disability/after-you-file-claim/"><b>After You File Your Claim</b></a>
     <p>Find out what happens after you file for VA disability compensation, how long it takes us to make a decision, and what to do if you disagree.</p>
   </div>
 
   <div class="link">
-  <a href="#"><b>Compensation Benefits for a Surviving Spouse and Dependents (VA DIC)</b></a>
+  <a href="/burials-memorials/dependency-indemnity-compensation/"><b>Compensation Benefits for a Surviving Spouse and Dependents (VA DIC)</b></a>
   <p>Learn about getting VA disability benefits as a surviving spouse, dependent child, or parent.</p>
   </div>
 
@@ -126,37 +120,37 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
     </div>
 
   <div class="link">
-    <a href="#"><b>Apply for a VA Disability Increase</b></a>
+    <a href="/disability/file-for-increase-form-21-526ez/"><b>File for a VA Disability Increase</b></a>
     <p>If your service-connected disability has gotten worse, find out how to file a claim to increase your disability rating.</p>
     </div>
 
   <div class="link">
-    <a href="#"><b>File a Disability Appeal</b></a>
+    <a href="/disability/file-an-appeal/"><b>File an Appeal</b></a>
     <p>If you disagree with our decision on your claim, learn how to file an appeal and what to expect from the VA appeal process.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Add or Remove a Dependent</b></a>
+    <a href="/disability/add-remove-dependent/"><b>Add or Remove a Dependent</b></a>
     <p>Find out how and when to add a dependent spouse, child, or parent to your VA disability benefits. Also learn how to remove a dependent from your benefits.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Upload Evidence to Support Your Claim</b></a>
+    <a href="/disability/upload-supporting-evidence/"><b>Upload Evidence to Support Your Claim</b></a>
     <p>Send us evidence (like doctor's reports, medical test results, or service records) to help support your open disability claim.</p>
 </div>
 
   <div class="link">
-    <a href="#"><b>File Supplemental Forms for Special Claims</b></a>
+    <a href="/disability/how-to-file-claim/supplemental-forms/"><b>File Supplemental Forms for Special Claims</b></a>
     <p>Find out if you'll need to turn in any additional forms to support your disability claim.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Change Your VA Direct Deposit and Contact Information</b></a>
+    <a href="/change-direct-deposit-and-contact-information/"><b>Change Your VA Direct Deposit and Contact Information</b></a>
     <p>Find out how to change your direct deposit information online.</p>
   </div>
 
  <div class="link">
-    <a href="#"><b>Share Your VA Medical Records</b></a>
+    <a href="/health-care/get-medical-records/"><b>Share Your VA Medical Records</b></a>
     <p>Set up your personal health record and download reports to share with your VA and non-VA doctors.</p>
   </div>
 
@@ -181,27 +175,27 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   <h2>More Information and Resources</h2>
 
  <div class="link">
-    <a href="#"><b>About VA Disability Ratings</b></a>
+    <a href="/disability/about-disability-ratings/"><b>About VA Disability Ratings</b></a>
     <p>Learn how we assign disability ratings and effective dates, and what to do after you get your rating.</p>
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/compensation/resources_comp01.asp"><b>View VA Disability Compensation Rates</b></a>
+    <a href="https://www.benefits.va.gov/compensation/rates-index.asp" ><b>View VA Disability Compensation Rates</b></a>
     <p>See the Veterans compensation benefits rates tables to find your rate based on your disability rating and dependents.</p>
   </div>
 
  <div class="link">
-    <a href="#"><b>VA Claim Exam (C&P Exam)</b></a>
+    <a href="/disability/va-claim-exam/"><b>VA Claim Exam (C&P Exam)</b></a>
     <p>Find out why you might need a claim exam, how to schedule and prepare for your appointment, and what to expect during and after the exam.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Get Help Filing a Claim</b></a>
+    <a href="/disability/get-help-filing-claim/"><b>Get Help Filing a Claim</b></a>
   <p>Connect with a Veterans Service Organization (VSO) or accredited Veterans representative for help applying for benefits.</p>
   </div>
 
   <div class="link">
-  <a href="https://www.benefits.va.gov/compensation/dbq_disabilityexams.asp"><b>Disability Evaluation Questionnaires (VA DBQ Forms)</b></a>
+  <a href="https://www.benefits.va.gov/compensation/dbq_disabilityexams.asp" ><b>Disability Evaluation Questionnaires (VA DBQ Forms)</b></a>
   <p>Find and download the right disability benefits questionnaire for your health care provider to complete in support of your claim.</p>
   </div>
 

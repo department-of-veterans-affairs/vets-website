@@ -25,10 +25,10 @@ crosslinks:
     - url: "/pension/aid-attendance-housebound/"
       title: <b>Aid and Attendance Benefits and Housebound Allowance</b>
       description: Find out if you can get increased pension pay as a Veteran or surviving spouse who has disabilities.
-    - url: "/burials/"
+    - url: "/burials-memorials/"
       title: <b>Burial Benefits and Memorial Items</b>
       description: Learn about Veterans burial benefits, how to plan a burial service, and how to get compensation as a survivor.
-    - url: "/education-training/"
+    - url: "/education/"
       title: <b>Education and Training</b>
       description: Apply for and manage GI Bill and other education benefits to help pay for college and training programs.
 social:
@@ -89,7 +89,7 @@ We offer many programs and services that may help—including free health care a
 
 - **Call the National Call Center for Homeless Veterans** at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. You’ll talk privately with a trained VA counselor for free.
 - **Contact your nearest VA medical center** and ask to talk with the VA social worker. If you're a female Veteran, ask for the Women Veterans Program Manager. <br>
-[Find the nearest VA medical center](/facilities/).
+[Find the nearest VA medical center](/find-locations).
 
 **Talk with someone right now:**
 
@@ -188,12 +188,12 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="/health-care/update-health-information/"><b>Update Your Health Benefits Information (Form 10-10EZR)</b></a>
+    <a href="/health-care/update-health-information/"><b>Update Your Health Benefits Information (VA Form 10-10EZR)</b></a>
     <p>Update your personal, financial, or insurance information after you’re enrolled in the VA health care program.</p>
   </div>
 
  <div class="link">
-    <a href="https://www.pay.gov/public/form/start/25987221"><b>Make a VA Health Care Payment Online</b></a>
+    <a href="https://www.pay.gov/public/form/start/25987221" target="blank"><b>Make a VA Health Care Payment Online</b></a>
     <p>Pay your VA copay securely online through Pay.gov.</p>
   </div>
 
@@ -223,7 +223,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="/health-care/health-needs-conditions/health-issues-related-to-service-era/"><b>Veterans Health Issues Related to Service History</b></a>
+    <a href="/health-care/health-needs-conditions/"><b>Mental Health and Other Health Needs and Conditions</b></a>
     <p>Find out how to get care for specific needs (like mental health), and learn about service-related health concerns you should be aware of (like Agent Orange-related diseases or Camp Lejeune water contamination).</p>
   </div>
 
@@ -253,7 +253,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="https://www.accesstocare.va.gov/"><b>Access and Quality in VA Health Care</b></a>
+    <a href="https://www.accesstocare.va.gov/" target="_blank"><b>Access and Quality in VA Health Care</b></a>
     <p>Get information about your VA facility, like how quickly you can be seen and what other Veterans say about their experiences.</p>
   </div>
 

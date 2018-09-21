@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Work Study
 concurrence: incomplete
-order: 1
+order: 11
 aliases:
   - /education/work-learn/workstudy/
 ---

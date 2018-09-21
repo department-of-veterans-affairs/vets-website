@@ -6,6 +6,7 @@ plainlanguage: 10-21-16 certified in compliance with the Plain Language Act
 template: detail-page
 aliases:
   - /disability-benefits/conditions/exposure-to-hazardous-materials/project112-SHAD/
+order: 7
 ---
 
 <div class="va-introtext">

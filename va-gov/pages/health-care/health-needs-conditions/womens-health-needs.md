@@ -2,10 +2,9 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Women’s Health Care Needs
-display_title: Women’s Health Care
 concurrence: complete
 lastupdate: 2017-06-28
-order: 4
+order: 7
 aliases:
   - /health-care/health-conditions/womens-health-care-needs/
 relatedlinks:
@@ -63,7 +62,7 @@ Through legislation announced January 19, 2017, we are expanding our fertility s
 
 #### Telephone care
 
-If you’re a woman Veteran and you’re currently signed up for VA health care, you can reach a VA health care provider at your local VA medical center by phone 24 hours a day, 7 days a week. This provider will answer questions and give you advice on health concerns. If you’re currently signed up for VA health care, contact your VA medical center and ask for the provider’s phone number. [Find a VA medical center near you](/facilities/).
+If you’re a woman Veteran and you’re currently signed up for VA health care, you can reach a VA health care provider at your local VA medical center by phone 24 hours a day, 7 days a week. This provider will answer questions and give you advice on health concerns. If you’re currently signed up for VA health care, contact your VA medical center and ask for the provider’s phone number. [Find a VA medical center near you](/find-locations).
 
 <br>
 
@@ -76,7 +75,7 @@ We provide services for:
 
 Women Veterans who want:
   - [Education and training](/education/)
-  - [Employment help](/employment/)
+  - [Employment help](/careers-employment/)
   - Vocational rehabilitation (job training)
 
 </div>
@@ -89,7 +88,7 @@ Once you’ve signed up:
 
 - Talk to your primary care provider, who will connect you with any services you may need, **or**
 - Contact the Women Veterans Program Manager at your local VA medical center. She will help coordinate all the services you may need—from primary care to specialized care for chronic (long-lasting) conditions or reproductive health. To connect with your local Women Veterans Program Manager:
-  - Contact your local medical center and ask for the Women Veterans Program Manager ([find a VA medical center near you](/facilities/)), **or**
+  - Contact your local medical center and ask for the Women Veterans Program Manager ([find a VA medical center near you](/find-locations)), **or**
   - Call our Women Veterans Call Center at 1-855-VA-WOMEN (<a href="tel:+1-855-829-6636">1-855-829-6636</a>), Monday through Friday, 8:00 a.m. to 10:00 p.m. (<abbr title="eastern time">ET</abbr>), and Saturday, 8:00 a.m. to 6:30 p.m. (<abbr title="eastern time">ET</abbr>), and we’ll connect you with your local manager.
 
 <br>
@@ -99,7 +98,7 @@ Once you’ve signed up:
 If you don’t have VA health care benefits, you may still be able to get care:
 
 - **If you’re not sure what health benefits you may have earned,** contact our Women Veterans Call Center. Our trained, all-female staff will help you figure out your benefits and take the next step to getting care. Call 1-855-VA-WOMEN (<a href="tel:+1-855-829-6636">1-855-829-6636</a>). Or, [start a secure chat](https://www.womenshealth.va.gov/WOMENSHEALTH/programoverview/wvcc.asp).
-- **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/).
+- **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/find-locations).
 - **If you’re homeless or at risk of becoming homeless:**
   - Visit our website to learn about VA programs for Veterans who are homeless. [Learn about our homelessness programs](https://www.va.gov/homeless/).
   - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential.

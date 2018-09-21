@@ -7,7 +7,8 @@ description:
 concurrence:
 lastupdate: 2018-08-22
 collection: healthCare
-order: 12
+spoke: Manage Benefits
+order: 13
 children:
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
@@ -32,9 +33,9 @@ Our online tools can help you view, organize, and share your VA medical records 
 
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You'll need to sign in before you can authorize us to share your health information through the Veterans Health Information Exchange.</h4>
-    <p class="usa-alert-text">
-      <button class="usa-button-primary">Sign In or Create an Account</button>
+    <h4 class="usa-alert-heading">You'll need to go to eBenefits to authorize us to share your health information through the Veterans Health Information Exchange.</h4>
+    <p class="usa-alert-text">To use this feature, you'll need a premium <b>DS Logon</b> account. Your MyHealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>
+      <button class="usa-button-primary">Go to eBenefits</button>
     </p>
   </div>
 </div>
@@ -80,7 +81,7 @@ You can use all the features of this tool if you meet all of the requirements li
 [Find out how to apply for VA health care](/health-care/how-to-apply/).
 
 **And you must have one of these free accounts:**
-- A premium **My Health<em>e</em>Vet** account, **or**
+- A premium **My HealtheVet** account, **or**
 - A **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
 
@@ -129,7 +130,7 @@ If you print or download anything from the website, you’ll need to take respon
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can get answers to frequently asked questions about VA Blue Button and related tools within My Health*e*Vet.
+You can get answers to frequently asked questions about VA Blue Button and related tools within My HealtheVet.
 <br>
 [Read VA Blue Button FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#bbtop). <br>
 [Read VA health summary FAQs](https://www.myhealth.va.gov/mhv-portal-web/faqs#CCD). <br>
@@ -208,7 +209,7 @@ If you don’t have a premium DS Logon account, find out how to create or upgrad
 If you need help, call the eBenefits Help Desk at <a href="tel:+18009830937">1-800-983-0937</a>, Monday through Friday, 8:00 a.m. - 8:00 p.m. (ET)
 
 **Please note:** Some providers and states request another consent form to exchange information with us. Please contact your provider or the Release of Information office at your nearest VA medical center to ask about any other consent forms you may need.<br>
-[Find your nearest VA medical center](/facilities/).
+[Find your nearest VA medical center](/find-locations).
 
 </div>
 </div>
@@ -228,7 +229,7 @@ Fill out, sign, and date a Request for and Authorization to Release Protected He
 [Download VA Form 10-0485](https://www.va.gov/vaforms/medical/pdf/10-0485-fill.pdf).
 
 Send the completed form to the Release of Information Office at your nearest VA medical center.<br>
-[Find the address for your nearest VA medical center](/facilities/).
+[Find the address for your nearest VA medical center](/find-locations).
 
 ### To sign up in person
 
@@ -276,7 +277,7 @@ Fill out a Revocation for Release of Individually-Identifiable Health Informatio
 [Download VA Form 10-0484](https://www.va.gov/VLER/docs/vha100484fillStopSharing.pdf).
 
 Mail or take this form in person to your nearest VA medical center’s Release of Information Office.<br>
-[Find your nearest VA medical center](/facilities/).
+[Find your nearest VA medical center](/find-locations).
 
 You can also ask the office for a copy of this form to fill out. Or you can call our toll-free VLER Health Information line at <a href="tel:+18777718537">1-877-771-VLER (8537)</a>, Monday through Friday, 7:00 a.m. - 7:00 p.m. (CST) to request a form.
 

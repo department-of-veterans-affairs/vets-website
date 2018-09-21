@@ -29,7 +29,7 @@ crosslinks:
       title: <b>VA Health Care</b>
       description: Find out how to apply for and manage your VA health care benefits.
 social:
-  - heading: Connect With Us
+  - heading: Connect with Us
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
@@ -128,7 +128,7 @@ VA life insurance can offer financial security and support for Veterans, Service
   </div>  
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/INSURANCE/forms/TSGLIAppealsForm.htm"><b>File a TSGLI Appeal (VA Form SGLV 8600A)</b></a>
+    <a href="/life-insurance/file-appeal-for-tsgli/"><b>File a TSGLI Appeal (VA Form SGLV 8600A)</b></a>
     <p>If you've received a denial letter for Traumatic Injury Protection Life Insurance benefits that instructs you to use this form, file your appeal by the date provided in your letter.</p>
   </div>
 

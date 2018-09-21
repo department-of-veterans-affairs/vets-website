@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: VA Blind and Low Vision Rehabilitation Services
-display_title: Care for Blind and Low Vision Veterans
+display_title: Blind and Low-Vision Services
 concurrence: complete
 lastupdate: 2017-06-28
 order: 1
@@ -62,7 +62,7 @@ No. But we do work with non-VA agencies that provide guide dogs.
 
 ### How do I access these services?
 
-To learn more about VA blind rehabilitation services, contact the Visual Impairment Services Team (VIST) coordinator at your nearest VA medical center. [Find a VA medical center near you](/facilities/).
+To learn more about VA blind rehabilitation services, contact the Visual Impairment Services Team (VIST) coordinator at your nearest VA medical center. [Find a VA medical center near you](/find-locations).
 
 Or, contact the Blind Rehabilitation Service Program office by phone (<a href="tel:+1-202-461-7317">1-202-461-7317</a>) or by mail:
 

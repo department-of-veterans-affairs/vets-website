@@ -1,12 +1,12 @@
 ---
 layout: page-breadcrumbs.html
 title: Immediate Help for Temporary Disability Needs (Prestabilization)
-display_title: Help for Temporary Disability Needs
+display_title: Prestabilization Ratings
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: detail-page
-order: 9
+order: 7
 aliases:
   - /disability-benefits/conditions/special-claims/prestabilization/
 ---

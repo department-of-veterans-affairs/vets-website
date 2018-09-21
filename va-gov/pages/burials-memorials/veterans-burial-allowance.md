@@ -2,8 +2,11 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: How to Apply for a Burial Allowance
-display_title: How to Apply for a Burial Allowance 
-order: 1
+display_title: Burial Allowance
+order: 3
+spoke: Get Benefits
+collection: burials
+children: burialsAllowance
 widgets:
   - root: react-applicationStatus
     timeout: 20
@@ -82,8 +85,8 @@ You may need a copy of:
 Apply by mail using an Application for Burial Benefits (VA Form 21P-530). <br>
 [Download VA Form 21P-530](https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
 
-Mail the application and other paperwork to your local regional benefit office. <br> 
-[Find your local regional benefit office](/facilities).
+Mail the application and other paperwork to your local regional benefit office. <br>
+[Find your local regional benefit office](/find-locations).
 
 If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>). Our TTY number for the hearing-impaired is 711. Or call your regional benefit office.
 

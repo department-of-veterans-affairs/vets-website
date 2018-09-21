@@ -1,13 +1,13 @@
 ---
 layout: page-breadcrumbs.html
 title: Recovery from Surgery or an Immobilizing Disability (Convalescence)
-display_title: Convalescence
+display_title: Increase after Surgery or Cast
 description: Find out if you can get a temporary 100% disability rating and VA convalescence pay (sometimes called "back pay") because of a surgery or service-connected disability that's left you unable to move. 
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-convalescence.asp
 plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
 template: detail-page
-order: 4
+order: 5
 aliases:
   - /disability-benefits/conditions/special-claims/convalescence/
 ---

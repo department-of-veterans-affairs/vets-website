@@ -1,10 +1,10 @@
 ---
 layout: page-breadcrumbs.html
-title: Non-Hodgkin’s Lymphoma and Agent Orange
+title: Non-Hodgkin's Lymphoma
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 template: detail-page
-order: 9
+order: 3
 aliases:
   - /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/
 ---

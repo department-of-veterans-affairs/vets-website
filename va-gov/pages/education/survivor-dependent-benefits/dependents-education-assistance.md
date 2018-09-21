@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Survivors’ and Dependents’ Educational Assistance Program
-display_title: Educational Assistance Program
+display_title: Dependents Education Assistance (DEA)
 plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 order: 2
@@ -12,7 +12,7 @@ aliases:
 
 <div class="va-introtext">
 
-Find out if you can get help paying for school or job training through the Survivors’ and Dependents’ Educational Assistance (DEA) program—also called Chapter 35—if you’re the child or spouse of a Veteran who has died or is disabled. 
+Find out if you can get help paying for school or job training through the Survivors’ and Dependents’ Educational Assistance (DEA) program—also called Chapter 35—if you’re the child or spouse of a Veteran who has died or is disabled.
 
 </div>
 
@@ -70,7 +70,7 @@ If you’re the child of a Servicemember who died in the line of duty before Aug
 ### How do I get these benefits?
 
 First, contact your school’s certifying official to make sure your program is approved for VA benefits. Then, you can:
-- [Apply online now](/education/apply-for-education-benefits/application/5490/introduction), **or**
+- [Apply online now](/education/survivor-dependent-benefits/apply-for-dependent-benefits-form-22-5490/introduction), **or**
 - Apply by mail. You’ll need to fill out a Dependents’ Application for VA Education Benefits (VA Form 22-5490) and mail it to the regional processing office for your state. You’ll find the address on the last page of the form. <br>
 [Download VA Form 22-5490](https://www.vba.va.gov/pubs/forms/vba-22-5490-are.pdf). <br>
 
@@ -79,7 +79,7 @@ First, contact your school’s certifying official to make sure your program is 
 
 #### If you haven’t started school or a training program:
 - Get help from a trained professional trusted to help with VA-related claims. <br>
-[Get help filing your claim](/disability-benefits/apply/help/index.html).
+[Get help filing your claim](/disability/get-help-filing-claim/).
 - Get more information about schools and see if we’ve approved your program. <br>
 [Use the GI Bill Comparison Tool](/education/gi-bill-school-comparison-tool).
 

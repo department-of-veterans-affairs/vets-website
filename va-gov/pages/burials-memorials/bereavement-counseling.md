@@ -4,6 +4,7 @@ template: detail-page
 title: Bereavement Counseling
 display_title:
 order: 6
+spoke: Get Benefits
 collection: burials
 relatedlinks:
   - heading: Other helpful information
@@ -17,7 +18,7 @@ relatedlinks:
     - url: /burials-memorials/plan-a-burial/
       title: Burial Planning
       description: Find out the steps you’ll need to take to arrange for a Servicemember, Veteran, or eligible family member’s burial.
-    - url: /burials-and-memorials/what-to-expect-at-a-funeral/
+    - url: /burials-memorials/what-to-expect-at-military-funeral/
       title: What to Expect at a Memorial Service
       description: Find out what will happen to help you prepare for this day.
     - url: /pension/survivors-pension/
@@ -41,7 +42,7 @@ If you’re the surviving spouse, child, or parent of a Servicemember who died w
 ### Can I get bereavement counseling?
 
 You may qualify for bereavement counseling if you’re the surviving spouse, child, or parent of:
-- A Servicemember who died while serving their country 
+- A Servicemember who died while serving their country
 - A Reservist who died while on active duty
 - A National Guard Soldier who died while on active duty
 

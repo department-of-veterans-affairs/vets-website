@@ -5,17 +5,18 @@ title: How to Apply for Education Benefits
 display_title: How to Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act.
 collection: education
-order: 2
+spoke: Get Benefits
+order: 3
 relatedlinks:
   - heading: Other VA benefits you may want to explore
     links:
-    - url: /employment/vocational-rehab-and-employment/
+    - url: /careers-employment/vocational-rehabilitation/
       title: Vocational Rehabilitation and Employment (VR&E)
       description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
-    - url: /employment/job-seekers/register-your-business/
+    - url: /careers-employment/veteran-owned-business-support/
       title: Register Your Veteran-Owned Small Business
       description: If you have—or want to start—your own business, we can help. Register to do business with VA and get support for your Veteran-owned small business.
-    - url: /employment/job-seekers/family-members/
+    - url: /careers-employment/family-resources/
       title: Explore Resources for Military and Veteran Family Members
       description: Find out how the Veterans Employment Center can help spouses and other family members access valuable career resources.
 widgets:
@@ -30,7 +31,7 @@ aliases:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-Find out how to apply for VA education benefits as a Veteran, Servicemember, or qualified family member. 
+Find out how to apply for VA education benefits as a Veteran, Servicemember, or qualified family member.
 
 </div>
 
@@ -71,13 +72,13 @@ Call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday thr
 
 #### In person
 Go to a VA regional office and have a VA employee help you.<br/>
-[Find a VA regional benefit office near you](/facilities).
+[Find a VA regional benefit office near you](/find-locations).
 
 Work with your school’s certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 
 #### With the help of a trained professional
 You can work with a trained professional called an accredited representative to get help applying for education benefits. <br/>
-[Get help filing your claim](/disability-benefits/apply/help/index.html).
+[Get help filing your claim](/disability/get-help-filing-claim/).
 
 </div>
 </div>

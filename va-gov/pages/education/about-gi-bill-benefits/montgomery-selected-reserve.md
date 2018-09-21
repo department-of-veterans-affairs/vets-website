@@ -2,9 +2,10 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Montgomery GI Bill Selected Reserve (MGIB-SR)
+display_title: Montgomery GI Bill Selected Reserve
 concurrence: complete
 plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
-order: 6
+order: 3
 aliases:
   - /education/gi-bill/montgomery-selected-reserve/
 ---
@@ -59,7 +60,7 @@ We’ll give you up to $368 per month in compensation (payments) for these types
 
 ### How do I get these benefits?
 
-[Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
+[Apply online now](/education/apply-for-gi-bill-form-1990/introduction).
 
 ### Get more information
 - [Ask questions on the GI Bill customer service page](http://gibill.custhelp.com/). You can also search frequently asked questions.

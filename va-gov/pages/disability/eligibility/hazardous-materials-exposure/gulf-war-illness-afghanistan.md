@@ -1,12 +1,14 @@
 ---
 layout: page-breadcrumbs.html
 title: Gulf War Illness from Service in Afghanistan
+display_title: Gulf War Illness Afghanistan
 concurrence: 
 source: 
 plainlanguage: 
 template: detail-page
 aliases:
   - /disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness-from-service-in-afghanistan/
+order: 9
 ---
 
 <div class="va-introtext">

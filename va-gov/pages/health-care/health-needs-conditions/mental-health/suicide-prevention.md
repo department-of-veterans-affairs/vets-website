@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Veteran Suicide Prevention
-display_title:
+display_title: Suicide Prevention
 concurrence: complete
 lastupdate: 2017-06-28
 order: 3

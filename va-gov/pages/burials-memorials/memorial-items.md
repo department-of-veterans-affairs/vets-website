@@ -2,9 +2,10 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Honor the Deceased with Memorial Items
-display_title: Honor the Deceased
+display_title: Memorial Items
 collection: burials
 children: burialsHonor
+spoke: Get Benefits
 order: 4
 majorlinks:
   - heading:

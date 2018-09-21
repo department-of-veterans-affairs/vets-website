@@ -6,6 +6,7 @@ display_title: How to Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2017-08-28
 collection: healthCare
+spoke: Get Benefits
 order: 3
 description: Find out what documents you'll need to apply for VA health care benefits. Apply online for VA health care benefits today.
 aliases:
@@ -78,7 +79,7 @@ Atlanta, GA 30329<br>
 ##### In person
 
 Go to your nearest VA medical center or clinic. Bring an Application for Health Benefits (VA Form 10-10EZ) with you.<br>
-[Find a VA medical center or clinic near you](/facilities/).<br>
+[Find a VA medical center or clinic near you](/find-locations).<br>
 [Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
 
 Or get help through your state's Department of Veterans Affairs. <br>
@@ -87,7 +88,7 @@ Or get help through your state's Department of Veterans Affairs. <br>
 ##### With the help of a trained professional
 
 You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br>
-[Get help filing your claim](/disability-benefits/apply/help/index.html).
+[Get help filing your claim](/disability/get-help-filing-claim/).
 
 </div>
 </div>

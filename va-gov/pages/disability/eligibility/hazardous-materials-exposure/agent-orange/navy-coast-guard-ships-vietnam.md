@@ -1,10 +1,10 @@
 ---
 layout: page-breadcrumbs.html
-title: U.S. Navy and Coast Guard Ships in Vietnam
+title: Navy or Coast Guard Ships in Vietnam
 concurrence: complete
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: detail-page
-order: 6
+order: 9
 aliases:
   - /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/navy-coast-guard/
 ---
@@ -74,7 +74,7 @@ If you don’t have an Agent Orange–related disability at this time, you and y
 ### Need help?
 Get help from us in 1 of 2 ways:
 - Call <a href="tel:+1-800-827-1000">1-800-827-1000</a> or TDD <a href="tel:+18008778339">1-800-877-8339</a>
-- Go to your [nearest VA benefits office](/facilities)
+- Go to your [nearest VA benefits office](/find-locations)
 
 Get more information about ships that may have been exposed to Agent Orange.
 

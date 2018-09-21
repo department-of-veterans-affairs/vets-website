@@ -6,6 +6,7 @@ concurrence: incomplete
 plainlanguage: 12-02-16 certified in compliance with the Plain Writing Act
 collection: education
 children: educationOtherPrograms
+spoke: Get Benefits
 order: 8
 majorlinks:
 aliases:
@@ -23,7 +24,7 @@ If you’re a Guardsman, Reservist, or Veteran who doesn’t qualify for the Pos
 - [The Montgomery GI Bill Selected Reserve](/education/about-gi-bill-benefits/montgomery-selected-reserve/) (MGIB-SR, Chapter 1606)
 - [The National Call to Service program](/education/other-va-education-benefits/national-call-to-service-program/)
 
-An accredited representative (a trained professional trusted to help with VA-related claims) who works with a Veterans Service Organization (VSO) can help you pick the right program. [Get help from an accredited representative](/disability-benefits/apply/help/index.html).
+An accredited representative (a trained professional trusted to help with VA-related claims) who works with a Veterans Service Organization (VSO) can help you pick the right program. [Get help from an accredited representative](/disability/get-help-filing-claim/).
 
 The GI Bill Comparison Tool shows you what benefits you’ll get at different schools. [Use the GI Bill Comparison Tool](/education/gi-bill-school-comparison-tool).
 

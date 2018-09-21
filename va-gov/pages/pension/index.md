@@ -30,7 +30,7 @@ crosslinks:
       title: <b>Life Insurance</b>
       description: Explore your life insurance options and find out how to apply as a Veteran, Servicemember, or family member.
 social:
-  - heading: Connect With Us
+  - heading: Connect with Us
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
@@ -137,7 +137,7 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   </div>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"><b>Change Your VA Direct Deposit and Contact Information</b></a>
+    <a href="/change-direct-deposit-and-contact-information/"><b>Change Your VA Direct Deposit and Contact Information</b></a>
     <p>Find out how to change your VA disability direct deposit information online.</p>
   </div>
 

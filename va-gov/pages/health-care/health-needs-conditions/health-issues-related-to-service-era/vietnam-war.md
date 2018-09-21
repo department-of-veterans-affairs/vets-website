@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Vietnam War Veterans Health Issues
-display_title:
+display_title: Vietnam War
 description: Learn what health conditions you might be at risk of developing if you’re a Vietnam War Veteran.
 concurrence: complete
 lastupdate: 2017-06-28

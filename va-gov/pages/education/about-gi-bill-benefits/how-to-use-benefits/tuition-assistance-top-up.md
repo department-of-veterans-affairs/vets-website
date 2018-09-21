@@ -4,7 +4,7 @@ template: detail-page
 title: Tuition Assistance Top-Up
 concurrence: incomplete
 plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
-order: 10
+order: 14
 aliases:
   - /education/gi-bill/tuition-assistance/
 ---

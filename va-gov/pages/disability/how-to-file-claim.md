@@ -1,19 +1,21 @@
 ---
 layout: page-breadcrumbs.html
 title: How to Apply for Disability Benefits
-display_title: How to Apply
+display_title: How to File a Claim
 description: Find out how to apply online for VA disability compensation, and what documents you'll need to start your application today.
 order: 2
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
+collection: disability
 children: disabilityApply
+spoke: Get Benefits
 majorlinks:
   - heading: More information about filing disability claims
     links:
-    - url: /disability/how-to-file-a-claim/when-to-file/
-      title: Claim Types and When to File 
-      description: Learn about standard claims, reopened claims, secondary claims, and more. 
-    - url: /disability/how-to-file-a-claim/evidence-needed/
+    - url: /disability/how-to-file-claim/when-to-file/
+      title: Claim Types and When to File
+      description: Learn about standard claims, reopened claims, secondary claims, and more.
+    - url: /disability/how-to-file-claim/evidence-needed/
       title: How to Gather Evidence for Your Claim
       description: Find out your options for gathering documents to support your disability claim.
     - url: /disability/eligibility/illnesses-within-one-year-of-discharge/
@@ -25,7 +27,7 @@ majorlinks:
 relatedlinks:
   - heading: Other VA benefits you may want to explore
     links:
-    - url: /employment/vocational-rehab-and-employment/
+    - url: /careers-employment/vocational-rehabilitation/
       title: Vocational Rehabilitation and Employment (VR&E)
       description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
 aliases:
@@ -42,8 +44,8 @@ Find out how to apply for VA disability benefits.
 
 - [Find out if you're eligible for VA disability benefits](/disability/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
-- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability/how-to-file-a-claim/evidence-needed/).
-- [Find out if you’ll need to turn in any additional (supplemental) forms with your claim](/disability/how-to-file-a-claim/supplemental-forms/).
+- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability/how-to-file-claim/evidence-needed/).
+- [Find out if you’ll need to turn in any additional (supplemental) forms with your claim](/disability/how-to-file-claim/supplemental-forms/).
 
 
 <div class="feature" markdown="1" itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
@@ -100,12 +102,12 @@ Janesville, WI 53547-4444<br>
 ##### In person
 
 Bring your application to a regional benefit office near you. <br>
-[Find a regional benefit office](/facilities/).
+[Find a regional benefit office](/find-locations).
 
 ##### With the help of a trained professional
 
 You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br>
-[Get help filing your claim](/disability-benefits/apply/help/index.html).
+[Get help filing your claim](/disability/get-help-filing-claim/).
 
 </div>
 </div>

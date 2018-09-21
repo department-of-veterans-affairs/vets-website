@@ -1,11 +1,12 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Education Benefits Eligibility 
+title: Education Benefits Eligibility
 display_title: Eligibility
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: education
-order: 1
+spoke: Get Benefits
+order: 2
 widgets:
   - root: react-applicationStatus
     timeout: 20
@@ -78,15 +79,15 @@ You may be able to get benefits through 1 of our 2 Montgomery GI Bill programs: 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You may be able to get help paying for school tuition, testing fees, and advanced licensing and certifications through other VA educational assistance programs. You may also be able to get entrepreneurship training to help start or improve a small business. 
+You may be able to get help paying for school tuition, testing fees, and advanced licensing and certifications through other VA educational assistance programs. You may also be able to get entrepreneurship training to help start or improve a small business.
 
 [Learn more about advanced training and certifications](/education/advanced-training-and-certifications/).
 
 [Learn about other educational assistance programs](/education/other-va-education-benefits/).
 
-If you have a service-connected disability that limits your ability to work or prevents you from working, you may be eligible for vocational rehabilitation and employment (VR&E) benefits and services—like help exploring employment options and getting more training if required. 
+If you have a service-connected disability that limits your ability to work or prevents you from working, you may be eligible for vocational rehabilitation and employment (VR&E) benefits and services—like help exploring employment options and getting more training if required.
 
-[Find out if you qualify for VR&E benefits and services](/employment/vocational-rehab-and-employment/eligibility/).
+[Find out if you qualify for VR&E benefits and services](/careers-employment/vocational-rehabilitation/eligibility/).
 
 </div>
 </div>
@@ -103,8 +104,8 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 **There are 2 ways you can try to qualify:**
 
-[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
-[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
+[Find out how to apply for a discharge upgrade](/records/discharge-upgrade/).<br/>
+[Learn about the VA Character of Discharge review process](/records/discharge-upgrade/#other-options).
 </div>
 </div>
 </div><div markdown="0"><br></div>
@@ -116,11 +117,11 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 In some cases, the dependent or surviving spouse and children of a Veteran can get educational assistance through a GI Bill program. <br> [Learn more about Survivors’ and Dependents’ Assistance](/education/survivor-dependent-benefits/).
 
-Also, if you haven’t used all of your Post-9/11 GI Bill benefits, you may be able to transfer up to 36 months of benefits to your spouse or a dependent child. <br> 
+Also, if you haven’t used all of your Post-9/11 GI Bill benefits, you may be able to transfer up to 36 months of benefits to your spouse or a dependent child. <br>
 [Learn more about transferring benefits](/education/transfer-post-9-11-gi-bill-benefits/).
 
 If you have a service-connected disability that limits your ability to work or prevents you from working, your dependent family members may be eligible for career and educational counseling—and other support—through the VR&E program. <br>
-[Learn more about VR&E services for dependent family members](/employment/vocational-rehab-and-employment/family-members/).
+[Learn more about VR&E services for dependent family members](/careers-employment/dependent-benefits/).
 
 </div>
 </div>

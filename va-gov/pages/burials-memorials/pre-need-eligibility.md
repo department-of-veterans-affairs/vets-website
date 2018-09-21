@@ -2,9 +2,10 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Pre-need Eligibility Determination for Burial in a VA National Cemetery
-display_title: Pre-need Eligibility Determination
+display_title: Pre-Need Burial Eligibility Determination
 collection: burials
 children: burialsPreNeed
+spoke: Get Benefits
 order: 2
 majorlinks:
   - heading:
@@ -49,7 +50,7 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 <li class="process-step list-two">
 
 #### Choose the VA national cemetery where you’d prefer to be buried. <br>
-[Find a VA national cemetery](/facilities/).
+[Find a VA national cemetery](/find-locations).
 
 **Please note:**
 

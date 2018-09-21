@@ -1,10 +1,10 @@
 ---
 layout: page-breadcrumbs.html
-title: Service Outside of Vietnam or Korea
+title: Service outside Vietnam or Korea
 concurrence: incomplete
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: detail-page
-order: 4
+order: 8
 aliases:
   - /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/service-outside/
 ---
