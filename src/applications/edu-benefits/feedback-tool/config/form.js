@@ -33,6 +33,7 @@ import {
   refundIssuesLabel,
   studentLoansLabel,
   submit,
+  trackingPrefix,
   transcriptReleaseLabel,
   transform,
   validateMatch,
@@ -53,6 +54,7 @@ const {
   serviceAffiliation,
   serviceBranch,
   serviceDateRange,
+  socialSecurityNumberLastFour,
 } = fullSchema.properties;
 
 const { assistance, programs, school } = educationDetails.properties;
@@ -75,6 +77,7 @@ const {
   date,
   dateRange,
   usaPhone,
+  ssnLastFour,
 } = fullSchema.definitions;
 
 const myself = 'Myself';
@@ -118,7 +121,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/gi_bill_feedbacks',
   submit,
-  trackingPrefix: 'edu-feedback-tool-',
+  trackingPrefix,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: 'FEEDBACK-TOOL',
@@ -128,7 +131,8 @@ const formConfig = {
   defaultDefinitions: {
     date,
     dateRange,
-    usaPhone
+    usaPhone,
+    ssnLastFour,
   },
   savedFormMessages: {
     notFound: 'Please start over to apply for declaration of status of dependents.',
@@ -205,6 +209,16 @@ const formConfig = {
               },
               'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
             }),
+            socialSecurityNumberLastFour: {
+              'ui:title': 'Please provide the last 4 digits of your Social Security number',
+              'ui:required': isNotAnonymous,
+              'ui:options': {
+                widgetClassNames: 'usa-input-medium',
+              },
+              'ui:errorMessages': {
+                pattern: 'Please enter a valid last 4 digits'
+              },
+            },
             serviceAffiliation: {
               'ui:title': 'Service affiliation',
               'ui:required': isMyself,
@@ -217,6 +231,7 @@ const formConfig = {
             type: 'object',
             properties: {
               fullName: set('required', ['first', 'last'], fullName),
+              socialSecurityNumberLastFour,
               serviceAffiliation
             }
           }
