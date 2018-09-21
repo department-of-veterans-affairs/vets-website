@@ -297,7 +297,7 @@ display_title: Frequently Asked Questions
                         <p>When you create an account, ID.me will ask you to provide personal information, like your name, date of birth, address, or other details. ID.me will also ask you to either upload a picture of your driver’s license or passport or answer questions based on your public and private data (like your credit report) that only you’d know how to answer. This is to help make sure you're you—and not someone pretending to be you.</p>
                         <p>With your permission, ID.me will share this information with the Department of Veterans Affairs so we can give you access to your VA health records and benefit information. ID.me will never share your information with anyone else without asking for your permission.</p>
                         <p>ID.me protects all sensitive data with AES 256-bit encryption at rest and RSA 2048-bit encryption in transit. Their information security protections are stronger than many financial institutions. To learn more about how your personal information will be kept safe, read our privacy policy and ID.me’s privacy policy.</p>
-                        <p><a href="www.va.gov/privacy/">View the Vets.gov privacy policy</a>.</p>
+                        <p><a href="/privacy/">View the Vets.gov privacy policy</a>.</p>
                         <p><a href="https://wallet.id.mewww.va.gov/privacy/">View the ID.me privacy policy</a>.</p>
                       </div>
                     </div>

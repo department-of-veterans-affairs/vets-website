@@ -13,6 +13,6 @@ id="va-breadcrumbs">
   <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
     <li><a href="/">Home</a></li>
     <li><a href="/health-care/">Health Care</a></li>
-    <li><a aria-current="page" href="/health-care/apply/">Apply for VA Health Care</a></li>
+    <li><a aria-current="page" href="/health-care/how-to-apply/">Apply for VA Health Care</a></li>
   </ul>
 </nav>
