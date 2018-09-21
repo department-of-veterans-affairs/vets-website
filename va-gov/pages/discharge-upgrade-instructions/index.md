@@ -8,5 +8,5 @@ template: detail-page
 order: 6
 spoke: Get Records
 alias:
-	- /records/discharge-upgrade/
+	- /discharge-upgrade-instructions/
 ---
