@@ -122,7 +122,7 @@ VA life insurance can offer financial security and support for Veterans, Service
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/converting.asp"><b>Convert to a Commercial Policy</b></a>
     <p>Find out when and how you can convert your VA life insurance to a commercial policy.</p>
-  </div>  
+  </div>
 
   <div class="link">
     <a href="/life-insurance/file-appeal-for-tsgli/"><b>File a TSGLI Appeal (VA Form SGLV 8600A)</b></a>
