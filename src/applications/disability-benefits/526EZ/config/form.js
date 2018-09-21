@@ -610,16 +610,23 @@ const formConfig = {
                   },
                 },
                 'view:patientAcknowledgment': {
-                  'ui:title': 'Patient Acknowledgment',
-                  'ui:description': patientAcknowledgmentText,
+                  'ui:title': ' ',
+                  'ui:help': patientAcknowledgmentText,
                   'ui:options': {
                     expandUnder: 'view:uploadPrivateRecords',
                     expandUnderCondition: 'no',
+                    showFieldLabel: true,
                   },
                   'view:acknowledgment': {
                     'ui:title': 'Patient Acknowledgment',
-                    'ui:required': (formData, index) => (_.get(`disabilities[${index}].view:patientAcknowledgement.view:acknowledgement`, formData.disabilities)),
                   },
+                  'ui:validations': [
+                    (errors, item) => {
+                      if (!item['view:acknowledgment']) {
+                        errors.addError('You must accept the acknowledgement');
+                      }
+                    }
+                  ]
                 },
                 'view:privateRecordsChoiceHelp': {
                   'ui:description': privateRecordsChoiceHelp,
@@ -642,6 +649,7 @@ const formConfig = {
                     },
                     'view:patientAcknowledgment': {
                       type: 'object',
+                      required: ['view:acknowledgment'],
                       properties: {
                         'view:acknowledgment': {
                           type: 'boolean',
