@@ -513,8 +513,12 @@
                                 "href": "/housing-assistance/home-loans/how-to-apply/"
                             },
                             {
-                                "text": "Apply for a Veteran ID Card",
+                                "text": "Learn About Veteran ID Cards",
                                 "href": "/records/get-veteran-id-cards/"
+                            },
+                            {
+                                "text": "Apply for a Veteran ID Card",
+                                "href": "/records/get-veteran-id-cards/vic"
                             }
                         ]
                     },
