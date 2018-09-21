@@ -55,7 +55,7 @@ Apply by mail using an Application for Pension (VA Form 21P-527EZ). <br>
 
 **In person** <br>
 Bring your application to a regional benefit office near you. <br>
-[Find a regional benefit office](/find-locations).
+[Find a regional benefit office](/facilities/).
 
 
 **With the help of a trained professional** <br>
@@ -88,7 +88,7 @@ Turn in your form in any of these ways:
 [Find your PMC](/pension/pension-management-centers/).
 
 - Turn it in at a regional benefit office near you. <br>
-[Find a regional benefit office](/find-locations).
+[Find a regional benefit office](/facilities/).
 
 - Work with a trained professional called an accredited representative to get help applying for VA pension benefits. <br>
 [Get help filing a claim](/disability/get-help-filing-claim/).

@@ -79,7 +79,7 @@ Atlanta, GA 30329<br>
 ##### In person
 
 Go to your nearest VA medical center or clinic. Bring an Application for Health Benefits (VA Form 10-10EZ) with you.<br>
-[Find a VA medical center or clinic near you](/find-locations).<br>
+[Find a VA medical center or clinic near you](/facilities/).<br>
 [Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
 
 Or get help through your state's Department of Veterans Affairs. <br>

@@ -84,9 +84,9 @@ If you’re a Veteran who has experienced MST, you can get help through VA. You 
 
 - **If you have a VA primary care provider,** talk to that professional about what you’ve been through. All our primary care providers are trained in MST and can help you figure out if you have related issues, like PTSD or depression. Your provider will offer treatment and support as needed.
 - **If you don’t have a VA primary care provider,** call your nearest VA medical center and ask to speak to the MST coordinator. You should feel free to ask for a provider of a specific gender if that makes you feel more comfortable.<br>
-[Find a VA medical center near you](/find-locations).
+[Find a VA medical center near you](/facilities/).
 - **If you'd prefer to receive MST-related care outside of a medical setting,** get free confidential counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers.<br>
-[Find a Vet Center near you](/find-locations).
+[Find a Vet Center near you](/facilities/).
 - **If you’re homeless or at risk of becoming homeless:**
   - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential.
   - Visit our website to learn about VA programs for Veterans who are homeless.<br>
