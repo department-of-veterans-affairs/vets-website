@@ -127,12 +127,12 @@
     margin-top: 2em;
   }
 
-  // we'll need to rewrite this at some point once we have business rules
-  // TODO: this leaves a background space since the box is too wide
-  [href^="http"]:not(.usa-button-primary), [rel="external"] {
-    background-image: none;
-    padding-right: 0px;
+  #homepage-hub, .va-sidebarnav {
+    [href^="http"]:not(.usa-button-primary), [rel="external"] {
+      background-image: none;
+      padding-right: 0px;
 
+    }
   }
 
   #homepage-hub {
