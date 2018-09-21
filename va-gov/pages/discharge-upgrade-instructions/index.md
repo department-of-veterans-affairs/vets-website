@@ -7,6 +7,4 @@ description: Get step-by-step instructions on how to apply for a military discha
 template: detail-page
 order: 6
 spoke: Get Records
-alias:
-	- /discharge-upgrade-instructions/
 ---
