@@ -11,6 +11,7 @@ import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definiti
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
@@ -126,6 +127,7 @@ const formConfig = {
   confirmation: ConfirmationPoll,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  preSubmitInfo,
   defaultDefinitions: {
     address,
     vaTreatmentCenterAddress,
@@ -419,7 +421,7 @@ const formConfig = {
           }
         },
         vaMedicalRecordsIntro: {
-          title: '',
+          title: 'VA medical records introduction',
           path: 'supporting-evidence/:index/va-medical-records-intro',
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
@@ -430,6 +432,9 @@ const formConfig = {
               items: {
                 'ui:title': disabilityNameTitle,
                 'ui:description': vaMedicalRecordsIntro,
+                'ui:options': {
+                  hideOnReview: true
+                }
               }
             }
           },
@@ -447,7 +452,7 @@ const formConfig = {
           }
         },
         vaFacilities: {
-          title: '',
+          title: (formData) => `${formData.name} VA facilities`,
           path: 'supporting-evidence/:index/va-facilities',
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
@@ -507,7 +512,7 @@ const formConfig = {
           }
         },
         privateMedicalRecordsIntro: {
-          title: '',
+          title: 'Private medical records',
           path: 'supporting-evidence/:index/private-medical-records-intro',
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
@@ -517,7 +522,10 @@ const formConfig = {
             disabilities: {
               items: {
                 'ui:title': disabilityNameTitle,
-                'ui:description': privateMedicalRecordsIntro
+                'ui:description': privateMedicalRecordsIntro,
+                'ui:options': {
+                  hideOnReview: true
+                }
               }
             }
           },
@@ -535,7 +543,7 @@ const formConfig = {
           }
         },
         privateRecordChoice: {
-          title: '',
+          title: (formData) => `${formData.name} private medical records choice`,
           path: 'supporting-evidence/:index/private-medical-records-choice',
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
@@ -598,7 +606,7 @@ const formConfig = {
           }
         },
         authorizationToDisclose: {
-          title: '',
+          title: 'Authorization',
           path: 'supporting-evidence/:index/authorization-to-disclose',
           showPagePerItem: true,
           itemFilter: (item) => _.get('view:selected', item),
