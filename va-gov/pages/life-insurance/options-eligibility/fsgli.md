@@ -337,4 +337,3 @@ You can’t convert other types of policies—such as term, variable, or univers
 ### Where can I find more information?
 
 [Read our insurance publications](https://www.benefits.va.gov/INSURANCE/ins_publications.asp).
-

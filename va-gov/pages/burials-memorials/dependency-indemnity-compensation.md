@@ -18,7 +18,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 #### Am I eligible?
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-spouse">As a surviving spouse</button>
