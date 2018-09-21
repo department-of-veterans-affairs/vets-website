@@ -5,6 +5,7 @@ title: Veterans’ Group Life Insurance (VGLI)
 display_title: Veterans’ Group (VGLI)
 concurrence: 
 order: 4
+children: lifeInsuranceVGLI
 relatedlinks:
   - heading: More information about your benefits
     links:
@@ -86,7 +87,7 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 
 **Choose your age to find monthly premium rates as of July 1, 2014.**
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="age-29-below">Age 29 and below</button>
@@ -682,6 +683,3 @@ To get VMLI, you’ll need to apply for our Specially Adapted Housing (SAH) Gran
 [Find out if you qualify for an SAH grant—and how to apply](https://www.benefits.va.gov/homeloans/adaptedhousing.asp). <br>
 [Find out if you qualify for VMLI—and how to apply](/life-insurance/options-eligibility/vmli/).
 
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
-
-<!--- TODO: find a proper place to import USWDS JS for static pages -->

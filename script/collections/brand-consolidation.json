@@ -420,16 +420,34 @@
     "pattern": "life-insurance/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Life Insurance"
+      "name": "Life Insurance",
+      "icon": "fa-users"
     }
   },
   "lifeInsuranceOptions": {
     "pattern": "life-insurance/options-eligibility/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Options"
+      "name": "Options and Eligibility",
+      "icon": "fa-users"
     }
   },
+  "lifeInsuranceTSGLI": {
+    "pattern": "life-insurance/options-eligibility/tsgli/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Traumatic Injury Protection (TSGLI)",
+      "icon": "fa-users"
+    }
+  },
+   "lifeInsuranceVGLI": {
+    "pattern": "life-insurance/options-eligibility/vgli/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Veterans' Group (VGLI)",
+      "icon": "fa-users"
+    }
+  }, 
   "pension": {
     "pattern": "pension/*.md",
     "sortBy": "order",
