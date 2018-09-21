@@ -298,7 +298,7 @@ display_title: Frequently Asked Questions
                         <p>With your permission, ID.me will share this information with the Department of Veterans Affairs so we can give you access to your VA health records and benefit information. ID.me will never share your information with anyone else without asking for your permission.</p>
                         <p>ID.me protects all sensitive data with AES 256-bit encryption at rest and RSA 2048-bit encryption in transit. Their information security protections are stronger than many financial institutions. To learn more about how your personal information will be kept safe, read our privacy policy and ID.me’s privacy policy.</p>
                         <p><a href="/privacy/">View the Vets.gov privacy policy</a>.</p>
-                        <p><a href="https://wallet.id.mewww.va.gov/privacy/">View the ID.me privacy policy</a>.</p>
+                        <p><a href="https://wallet.id.me/privacy">View the ID.me privacy policy</a>.</p>
                       </div>
                     </div>
                   </li>
