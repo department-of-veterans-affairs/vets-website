@@ -14,19 +14,19 @@ promo:
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: "#"
+    - url: "/health-care/"
       title: <b>VA Health Care</b>
       description: Find out how to apply for and manage your VA health care benefits.
-    - url: "#"
+    - url: "/housing-assistance/disability-housing-grants/"
       title: <b>Disability Housing Grants for Veterans</b>
       description: Learn how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.
-    - url: "#"
+    - url: "/careers-employment/vocational-rehabilitation/"
       title: <b>Vocational Rehabilitation and Employment</b>
       description: Find out if you're eligible for help exploring employment options, any training you may need, and other voc rehab services.
     - url: "#"
       title: <b>Family and Caregiver Health Benefits</b>
       description: See if you qualify for VA medical benefits as a spouse, surviving spouse, dependent child, or caregiver.
-    - url: "#"
+    - url: "/life-insurance/"
       title: <b>Life Insurance</b>
       description: Explore your life insurance options and find out how to apply as a Veteran, Servicemember, or family member.
 social:
