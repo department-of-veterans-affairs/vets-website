@@ -10,7 +10,6 @@ import startUserNavWidget from '../../platform/site-wide/user-nav';
 import addMenuListeners from '../../platform/site-wide/accessible-menus';
 import startMegaMenuWidget from '../../platform/site-wide/mega-menu';
 import startMobileMenuButton from '../../platform/site-wide/mobile-menu-button';
-import startPreviewSiteAlert from '../../platform/site-wide/preview-site-alert';
 
 // import startLRNHealthCarWidget from '../../platform/site-wide/left-rail-navs/health-care';
 import startFeedbackWidget from '../../platform/site-wide/feedback';
@@ -86,7 +85,6 @@ document.addEventListener('DOMContentLoaded', (_e) => {
   startUserNavWidget(commonStore);
   startMegaMenuWidget(commonStore);
   startMobileMenuButton(commonStore);
-  startPreviewSiteAlert(commonStore);
   // startLRNHealthCarWidget(commonStore);
   startFeedbackWidget(commonStore);
   // startAnnouncementWidget(commonStore);
