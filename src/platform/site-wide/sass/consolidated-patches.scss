@@ -4,6 +4,12 @@
   }
 }
 
+.login-container {
+  div.row:first-child {
+    display: inline-block;
+  }
+}
+
 #va-header-logo-menu {
   padding-top: 2em;
 }
