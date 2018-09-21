@@ -765,6 +765,9 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: [
+                    'providerFacility',
+                  ],
                   properties: {
                     providerFacility: {
                       type: 'array',
