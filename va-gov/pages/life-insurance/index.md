@@ -22,9 +22,6 @@ crosslinks:
     - url: https://va.gov/pension
       title: <b>Pension Benefits</b>
       description: Find out if you're eligible for tax-free monthly payments as a wartime Veteran or surviving spouse or child.
-    - url: https://va.gov/families-caregivers
-      title: <b>Family and Caregiver Benefits and Services</b>
-      description: See if you qualify for VA benefits as a spouse, surviving spouse, dependent child, or caregiver.
     - url: https://preview.va.gov/health-care/
       title: <b>VA Health Care</b>
       description: Find out how to apply for and manage your VA health care benefits.
