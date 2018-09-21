@@ -78,7 +78,7 @@ When you file your claim, you'll need to submit this evidence:
   
 - A medical record that shows you have an Agent Orange‒related illness, **and**
 - A military record that shows your service dates in Vietnam or in or near the Korean demilitarized zone, **and**
-- A document that proves exposure to herbicides in a location other than Vietnam or the Korean demilitarized zone
+- Evidence that proves exposure to herbicides in a location other than Vietnam or the Korean demilitarized zone
 
 </div>
 </li>
