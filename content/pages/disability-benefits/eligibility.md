@@ -48,7 +48,7 @@ You may be able to get disability benefits if you have a current illness or inju
 
 <b>Both of these must be true. You:</b>
 - Served on active duty, active duty for training, or inactive duty training, <b>and</b>
-- Have at least a 10% disability rating for your service-connected condition
+- Have a disability rating for your service-connected condition
 
 **And at least one of these must be true. You:**
 - Got sick or injured while serving in the military—and can link this condition to your illness or injury (called an inservice disability claim), **or**
