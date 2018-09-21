@@ -66,7 +66,7 @@ const configGenerator = (options, apps) => {
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [
-              { loader: 'css-loader' },
+              { loader: 'css-loader', options: { minimize: ['production', 'staging', 'preview'].includes(options.buildtype) } },
               { loader: 'sass-loader' }
             ]
           })
