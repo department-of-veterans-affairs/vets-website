@@ -20,7 +20,7 @@ Find out how you can participate in the FDC program.
 
 </div>
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true" >
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="need-to-do">What do I need to do?</button>
@@ -189,5 +189,3 @@ If you’re:
 
 
 </div>
-
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
