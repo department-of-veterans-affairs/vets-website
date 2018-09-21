@@ -22,7 +22,7 @@ majorlinks:
       description: Apply online now, or find out how to apply in person or by mail.
   - heading: Learn about Educational Assistance Programs
     links:
-    - url: /education/gi-bill-school-comparison-tool
+    - url: /gi-bill-comparison-tool
       title: Compare GI Bill Benefits
       description: Use the GI Bill Comparison Tool to see what benefits you’ll get at the school you want to attend.
     - url: /education/about-gi-bill-benefits/

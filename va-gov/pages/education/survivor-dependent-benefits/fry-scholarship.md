@@ -56,7 +56,7 @@ Spouses who remarry can’t get the Fry Scholarship.
 
 ##### Choose a school
 
-- The GI Bill Comparison Tool can help you pick a school. [Use the GI Bill Comparison Tool](/education/gi-bill-school-comparison-tool).
+- The GI Bill Comparison Tool can help you pick a school. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool).
 - You should contact your school’s certifying official to make sure your program is approved for VA benefits.
 
 </li>

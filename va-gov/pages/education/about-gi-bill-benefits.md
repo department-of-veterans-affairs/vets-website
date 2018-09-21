@@ -71,6 +71,6 @@ If you served on active duty after September 10, 2001, you may qualify for Post-
 The GI Bill Comparison Tool and Veterans Service Organizations can help you explore options and find out what benefits you can get. [Find a Veterans Service Organization](https://www.va.gov/vso/).
 
 
-<a class="usa-button-primary va-button-secondary" href="/education/gi-bill-school-comparison-tool">Use the GI Bill Comparison Tool</a> <a class="usa-button-primary va-button-primary" href="/education/how-to-apply/">Apply for Education Benefits</a><br>
+<a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool">Use the GI Bill Comparison Tool</a> <a class="usa-button-primary va-button-primary" href="/education/how-to-apply/">Apply for Education Benefits</a><br>
 
 </div>
