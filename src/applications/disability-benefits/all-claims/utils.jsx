@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import Raven from 'raven-js';
-
+import appendQuery from 'append-query';
 import { apiRequest } from '../../../platform/utilities/api';
 import _ from '../../../platform/utilities/data';
 
@@ -160,6 +160,28 @@ export function fetchPaymentInformation() {
     () => {
       Raven.captureMessage('vets_payment_information_fetch_failure');
       return Promise.reject();
+    }
+  );
+}
+
+export function queryForFacilities(input = '') {
+  // Only search if the input has a length >= 3, otherwise, return an empty array
+  if (input.length < 3) {
+    return Promise.resolve([]);
+  }
+
+  const url = appendQuery('/facilities/suggested', {
+    type: ['health', 'dod_health'],
+    name_part: input // eslint-disable-line camelcase
+  });
+
+  return apiRequest(url, {},
+    (response) => {
+      return response.data.map(facility => ({ id: facility.id, label: facility.attributes.name }));
+    },
+    (error) => {
+      Raven.captureMessage('Error querying for facilities', { input, error });
+      return [];
     }
   );
 }

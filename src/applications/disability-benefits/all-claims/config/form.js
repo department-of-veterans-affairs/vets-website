@@ -28,8 +28,9 @@ import {
   contactInformation,
   addDisabilities,
   newDisabilityFollowUp,
+  vaMedicalRecords,
   paymentInformation,
-  homelessOrAtRisk,
+  homelessOrAtRisk
 } from '../pages';
 
 import fullSchema from './schema';
@@ -179,6 +180,17 @@ const formConfig = {
           uiSchema: newDisabilityFollowUp.uiSchema,
           schema: newDisabilityFollowUp.schema
         },
+      }
+    },
+    supportingEvidence: {
+      pages: {
+        vaMedicalRecords: {
+          title: 'VA Medical Records',
+          path: 'supporting-evidence/va-medical-records',
+          // depends: (formData) => formData['view:something'] === true,
+          uiSchema: vaMedicalRecords.uiSchema,
+          schema: vaMedicalRecords.schema
+        }
       }
     },
     additionalInformation: {

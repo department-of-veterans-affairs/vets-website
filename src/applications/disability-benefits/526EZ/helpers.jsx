@@ -1,7 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import Raven from 'raven-js';
-import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
@@ -13,7 +12,6 @@ import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
 import get from '../../../platform/utilities/data/get';
 import { pick } from 'lodash';
-import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
@@ -261,26 +259,6 @@ export const disabilityNameTitle = ({ formData }) => {
 export const facilityDescription = ({ formData }) => {
   return (
     <p>Please tell us where VA treated you for {getDisabilityName(formData.name)} <strong>after you got your disability rating</strong>.</p>
-  );
-};
-
-
-export const treatmentView = ({ formData }) => {
-  const { from, to } = formData.treatmentDateRange;
-
-  const name = formData.treatmentCenterName || '';
-  let treatmentPeriod = '';
-  if (from && to) {
-    treatmentPeriod = `${from} — ${to}`;
-  } else if (from || to) {
-    treatmentPeriod = `${(from || to)}`;
-  }
-
-  return (
-    <div>
-      <strong>{name}</strong><br/>
-      {treatmentPeriod}
-    </div>
   );
 };
 
@@ -721,29 +699,6 @@ export const noFDCWarning = (
     </div>
   </div>
 );
-
-
-export function queryForFacilities(input = '') {
-  // Only search if the input has a length >= 3, otherwise, return an empty array
-  if (input.length < 3) {
-    return Promise.resolve([]);
-  }
-
-  const url = appendQuery('/facilities/suggested', {
-    type: ['health', 'dod_health'],
-    name_part: input // eslint-disable-line camelcase
-  });
-
-  return apiRequest(url, {},
-    (response) => {
-      return response.data.map(facility => ({ id: facility.id, label: facility.attributes.name }));
-    },
-    (error) => {
-      Raven.captureMessage('Error querying for facilities', { input, error });
-      return [];
-    }
-  );
-}
 
 
 const evidenceTypesDescription = (disabilityName) => {
