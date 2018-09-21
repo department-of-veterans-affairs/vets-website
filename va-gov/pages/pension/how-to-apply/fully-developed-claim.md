@@ -31,7 +31,7 @@ Find out how you can participate in the FDC program.
 When turning in your claim under the FDC program, please send us all the supporting documents you have and provide information about supporting documents that you don’t have.
 
 1. Fill out an Application for Pension. <br>
-[Application for Pension (VA Form 21P-527EZ)](/pension/apply-for-veteran-pension-form-21p-527ez).
+[Application for Pension (VA Form 21P-527EZ)](/pension/application/527EZ).
 2. When you file your claim, turn in:
     - All necessary income and net-worth information, **and**
     - All private medical records you have that are related to your claim, **and**
@@ -164,7 +164,7 @@ You’ll need to turn in the information and evidence as soon as you can.
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="where-to-send">How do I turn in my information and evidence?</button>
 <div id="where-to-send" class="usa-accordion-content">
 
-[Fill out an Application for Pension (VA Form 21P-527EZ)](/pension/apply-for-veteran-pension-form-21p-527ez). <br>
+[Fill out an Application for Pension (VA Form 21P-527EZ)](/pension/application/527EZ). <br>
 When you file your claim, you'll be able to upload all supporting documents and evidence, like your income information and any medical records related to your claim.
 
 
