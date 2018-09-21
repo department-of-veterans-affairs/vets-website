@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: VR&E Employment through Long-Term Services Track
-display_title: Employment through Long-Term Services Track
+display_title: Long-Term Services
 template: detail-page
 order: 4
 relatedlinks:

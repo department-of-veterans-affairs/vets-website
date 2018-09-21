@@ -5,6 +5,7 @@ display_title: Eligibility
 order: 2
 template: detail-page
 collection: careersEmployment
+children: vreServiceEligibility
 spoke: Get Benefits
 majorlinks:
   - heading: More information about VR&E benefits and services
