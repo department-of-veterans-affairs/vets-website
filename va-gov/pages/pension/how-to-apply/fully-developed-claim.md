@@ -189,5 +189,3 @@ If you’re:
 
 
 </div>
-
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>

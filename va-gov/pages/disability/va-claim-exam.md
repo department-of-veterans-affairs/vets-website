@@ -242,4 +242,4 @@ We may ask you to have a claim exam if you appeal your disability benefits decis
 * [Download the VA claim exam fact sheet](https://www.benefits.va.gov/compensation/docs/claimexam-factsheet.pdf#).
 * [Download the VA claim exam tip sheet](https://www.benefits.va.gov/compensation/docs/claimexam-tipssheet.pdf#).
 
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
+ 

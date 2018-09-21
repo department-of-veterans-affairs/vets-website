@@ -219,5 +219,3 @@ You can start your online application right now, or find out how to apply by mai
 [Find out how to apply for disability benefits](/disability/how-to-file-claim/).
 
 **Note:** Please be sure to upload all medical evidence or supporting documents at the end of the form. 
-
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>

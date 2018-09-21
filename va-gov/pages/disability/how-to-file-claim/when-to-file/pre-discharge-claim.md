@@ -167,4 +167,4 @@ If you’re found to be medically unfit for duty, IDES will give you a proposed 
 
 <br>
 
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
+ 

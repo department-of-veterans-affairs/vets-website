@@ -142,6 +142,3 @@ You can file a secondary claim to get more disability benefits for a new disabil
 </li>
 </ul>
 </div>
-
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
-<!--- TODO: find a proper place to import USWDS JS for static pages -->
