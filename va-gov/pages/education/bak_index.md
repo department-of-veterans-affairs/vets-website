@@ -45,7 +45,7 @@ majorlinks:
     - url: /careers-employment/vocational-rehabilitation/
       title: VR&E Benefits and Services
       description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
-    - url: /education/information-sharing-opt-out/
+    - url: /education/opt-out-information-sharing/
       title: Opt Out of Sharing VA Education Benefits Information
       description: The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your eligibility and benefits with schools, unless you ask us not to. Find out how to opt out of information sharing.
 
