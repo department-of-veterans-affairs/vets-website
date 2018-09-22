@@ -484,7 +484,7 @@
       }
       .login-container {
         position: relative;
-        top: -50px;
+        top: -40px;
       }
     }
     #menu-rule {
@@ -971,7 +971,7 @@
         a {
           display: inline-block;
           vertical-align: middle;
-          width: 75%;
+          width: 100%;
         }
 
         i {
@@ -1054,15 +1054,16 @@
   button.va-modal-close > i.fa.fa-close{
         color: $color-black;
   }
-
-  .usa-accordion-button {
-    background-color: white;
-    border-top: 1px solid $color-gray-lighter;
-    border-bottom: 1px solid $color-gray-lighter;
-    background-size: 1.1rem;
-  }
-  .usa-accordion-button-dark {
-    background-color: $color-gray-lightest;
+  .va-sidebarnav {
+    .usa-accordion-button {
+      background-color: white;
+      border-top: 1px solid $color-gray-lighter;
+      border-bottom: 1px solid $color-gray-lighter;
+      background-size: 1.1rem;
+    }
+    .usa-accordion-button-dark {
+      background-color: $color-gray-lightest;
+    }
   }
 
 

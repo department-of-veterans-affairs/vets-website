@@ -6,6 +6,7 @@ concurrence:
 template: detail-page
 children: lifeInsuranceOptions
 order: 1
+spoke: Get Benefits
 majorlinks:
   - heading: VA Life Insurance Options
     links:

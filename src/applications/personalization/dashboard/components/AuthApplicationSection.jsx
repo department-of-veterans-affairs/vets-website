@@ -18,7 +18,7 @@ class AuthApplicationSection extends React.Component {
             <p key="vic"><a href="/veteran-id-card">Apply for a Veteran ID Card</a></p>
             <p>
               <strong>Have a less than honorable discharge?</strong><br/>
-              You can apply for an upgrade. If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service. <a href="/records/discharge-upgrade/">Find out how to apply for a discharge upgrade</a>.
+              You can apply for an upgrade. If your application goes through and your discharge is upgraded, you'll be eligible for the VA benefits you earned during your period of service. <a href="/discharge-upgrade-instructions">Find out how to apply for a discharge upgrade</a>.
             </p>
           </div>
         </div>

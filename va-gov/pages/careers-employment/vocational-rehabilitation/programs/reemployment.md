@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: VR&E Reemployment Track
-display_title: Reemployment Track
+display_title: Reemployment
 template: detail-page
 order: 1
 relatedlinks:

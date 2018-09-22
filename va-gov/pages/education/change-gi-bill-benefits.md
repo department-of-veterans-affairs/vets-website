@@ -71,7 +71,7 @@ Fill out the form and mail it to the VA regional claims processing office thatâ€
 
 <h3>In person</h3>
 Go to a VA regional benefit office and ask a staff member to help you.<br>
-[Find a regional benefit office near you](/find-locations).
+[Find a regional benefit office near you](/facilities/).
 
 Or work with your schoolâ€™s certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 
