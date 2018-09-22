@@ -127,7 +127,6 @@ const formConfig = {
   confirmation: ConfirmationPoll,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
-  preSubmitInfo,
   defaultDefinitions: {
     address,
     vaTreatmentCenterAddress,
@@ -142,6 +141,7 @@ const formConfig = {
   },
   title: 'Apply for increased disability compensation',
   subTitle: 'Form 21-526EZ',
+  preSubmitInfo,
   // getHelp: GetFormHelp, // TODO: May need updated form help content
   chapters: {
     veteranDetails: {
