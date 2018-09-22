@@ -16,6 +16,8 @@ import startFeedbackWidget from './feedback';
 import startAnnouncementWidget from './announcements';
 import startVAFooter from './va-footer';
 
+import brandConsolidation from '../brand-consolidation';
+
 /**
  * Start up the site-wide components that live on every page, like
  * the login widget, the header menus, and the feedback widget.
@@ -43,9 +45,12 @@ export default function startSitewideComponents(commonStore) {
   });
 
   startUserNavWidget(commonStore);
-  startMegaMenuWidget(commonStore);
-  startMobileMenuButton(commonStore);
   startFeedbackWidget(commonStore);
   startAnnouncementWidget(commonStore);
-  startVAFooter(commonStore);
+
+  if (brandConsolidation.isEnabled()) {
+    startMegaMenuWidget(commonStore);
+    startMobileMenuButton(commonStore);
+    startVAFooter(commonStore);
+  }
 }
