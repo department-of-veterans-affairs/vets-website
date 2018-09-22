@@ -1,0 +1,218 @@
+---
+layout: page-breadcrumbs.html
+template: level2-index
+title: Careers and Employment
+display_title: Careers and Employment
+concurrence: complete
+lastupdate:
+order: 1
+icon: briefcase
+promo:
+  - image: /img/megamenu/careers-employment-illustration.png
+    heading: VA for Vets
+    url: "https://www.vaforvets.va.gov"
+    description: Get help transitioning to a civilian career and matching your skills and experiences to VA job opportunities.
+crosslinks:
+  - heading: Other VA Benefits and Services
+    links:
+    - url: https://benefits.va.gov/TAP/index.asp
+      title: <b>Transition Assistance</b>
+      description: Explore the VA benefits and services you and your family may qualify for, and get help transitioning to VA support as you separate from the military.
+    - url: "#"
+      title: <b>GI Bill Benefits</b>
+      description: Explore options for using GI Bill benefits to help pay for school or training, and find out what benefits you can get.
+    - url: "#"
+      title: <b>Other Educational Assistance Programs</b>
+      description: If you’re a Veteran, Reservist, or National Guard Soldier who doesn’t qualify for the Post-9/11 GI Bill, see if you can get education benefits through other VA programs.
+    - url: "#"
+      title: <b>Home Loans</b>
+      description: Apply for a Certificate of Eligibility for a VA direct or VA-backed home loan to build, buy, improve, or refinance a home.
+    - url: /life-insurance/
+      title: <b>Life Insurance</b>
+      description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
+social:
+  - heading: Connect with Us
+    admin: Veterans Benefits Administration
+    url: https://www.benefits.va.gov/benefits/
+    subsections:
+      - subhead: Ask Questions
+        links:
+        - url: https://iris.custhelp.va.gov/app/ask
+          label: "Ask a Question Online"
+        - url: tel:1-800-827-1000
+          number: 1-800-827-1000
+          title: "VA Benefits Hotline:"
+        - url: tel:1-800-983-0937
+          number: 1-800-983-0937
+          title: "eBenefits Technical Support:"
+        - url: tel:1-877-4AID-VET (1-877-424-3838)
+          number: 1-877-4AID-VET (1-877-424-3838)
+          title: "National Call Center for Homeless Veterans:"
+      - subhead: Get Updates
+        links:
+        - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
+          label: Veterans Benefits Email Updates
+          icon: fa-envelope-square
+        - url: https://twitter.com/VAVetBenefits
+          label: Veterans Benefits Twitter
+          icon: fa-twitter
+        - url: "https://www.facebook.com/VeteransBenefits"
+          label: Veterans Benefits Facebook
+          icon: fa-facebook
+        - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+          label: Veterans Benefits YouTube
+          icon: fa-youtube  
+---
+
+<p class="va-introtext">
+We can support you in all stages of your job search—from returning to work with a service-connected disability, to getting more training for new job opportunities, to starting or growing your own business. And we can connect you with Department of Labor resources for more career advice, help building your resume, and access to employers who want to hire Veterans and military spouses. Find out how you can get the help you need to build your career and find the right job or business opportunity for you.
+</p>
+
+<h3>On This Page</h3>
+
+<ul>
+  <li><a href="#get">Get Career and Employment Assistance</a></li>
+  <li><a href="#manage">Manage Your Career</a></li>
+  <li><a href="#more">More Information and Resources</a></li>
+</ul>
+
+<div class="usa-alert usa-alert-warning">
+  <div class="usa-alert-body">
+    <h4 class="usa-alert-title">How do I get help if I'm homeless or at risk of becoming homeless?<br><a id="crisis-expander-link">We may be able to help</a>.</h4>
+    <div id="crisis-expander-content" class="expander-content expander-content-closed">
+      <div class="expander-content-inner usa-alert-text">
+        <p>We offer many programs and services that may help—including free health care and, in some cases, free limited dental care. We can also help you connect with resources in your community, like homeless shelters or faith-based organizations.</p>
+        <p><b>Find the support you need:</p>
+        <ul>
+          <li>Call the National Call Center for Homeless Veterans</b> at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. You'll talk privately with a trained VA counselor for free.
+          <li><b>Contact your nearest VA medical center</b> and ask to talk with the VA social worker. If you’re a female Veteran, ask for the Women Veterans Program Manager. <br>
+            <a href="/facilities/">Find your nearest VA medical center</a>.</li>
+          <li><b>Get job placement help.</b><br>
+            <a href="https://www.va.gov/homeless/cec-contacts.asp">Find a Community Employment Coordinator (CEC) in your area</a>.</li>
+        </ul>
+        <p><b>Talk with someone right now:</b>
+        <p>Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.</p>  
+        <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</p>        
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  // Toggle the expandable crisis info
+  document.getElementById('crisis-expander-link')
+    .addEventListener('click', function () {
+      document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
+    });
+</script>
+
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
+<section id="get" class="merger-majorlinks">
+
+  <h2>Get Career and Employment Assistance</h2>
+
+  <div class="link">
+    <a href="#"><b>About VA Vocational Rehabilitation and Employment (Chapter 31)</b></a>
+    <p>Learn about vocational rehabilitation and employment (also called voc rehab) benefits and services for Veterans and Servicemembers who have service-connected disabilities. Services include help with things like learning new skills, finding a new job, or starting a new business.</p>
+  </div>
+
+  <div class="link">
+    <a href="#"><b>Eligibility</b></a>
+    <p>If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you're eligible for vocational rehab.</p>
+  </div>
+
+  <div class="link">
+    <a href="#"><b>How to Apply</b></a>
+    <p>Get step-by-step instructions on how to apply for voc rehab benefits.</p>
+  </div>  
+
+  <div class="link">
+    <a href="#"><b>Educational and Career Counseling (Chapter 36)</b></a>
+    <p>Find out how to get free educational and career counseling as a recently discharged Veteran or a dependent family member. </p>
+  </div>
+
+  <div class="link">
+    <a href="#"><b>Support for Your Veteran-Owned Small Business</b></a>
+    <p>Register to do business with VA and get support for your Veteran-owned small business.</p>
+  </div>
+
+  <div class="link">
+    <a href="#"><b>Resources for Family Members</b></a>
+    <p>Access valuable career resources for spouses and other family members of Veterans and Servicemembers.
+  </div>
+
+</section>
+
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
+<section id="manage" class="merger-majorlinks">
+
+  <h2>Manage Your Career</h2>
+
+  <div class="link">
+    <a href="https://www.benefits.va.gov/vocrehab/transitioning_from_service.asp"><b>Transitioning to Civilian Employment</b></a>
+    <p>As you separate from the military, explore your career options by attending a Transition Assistance Program (TAP) briefing.</p>
+    </div>
+
+  <div class="link">
+    <a href="#"><b>Match Your Interests and Skills to a Career with a CareerScope Assessment</b></a>
+    <p>Use this online tool to get recommendations for careers you may enjoy and succeed in, and training programs to help you get started.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://dol.gov/veterans/findajob/"><b>Find a Job (Department of Labor)</b></a>
+    <p>Search for jobs, get help translating your military skills and experience to civilian jobs, and access other career resources.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://ebenefits.va.gov/ebenefits/manage/documents"><b>Print Your Civil Service Preference Letter</b></a>
+    <p>Print your Civil Service Preference Letter to verify your hiring preference for federal jobs.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://linkedinforgood.linkedin.com/programs/veterans"><b>Get Free Classes for a Year (LinkedIn)</b></a>
+    <p>Get 1 year of free access to LinkedIn Premium and LinkedIn Learning.</p>
+  </div>
+
+</section>
+
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
+<section id="more" class="merger-majorlinks">
+
+  <h2>More Information and Resources</h2>
+
+  <div class="link">
+    <a href="https://benefits.va.gov/VOCREHAB/subsistence_allowance_rates.asp"><b>Subsistence Allowance Rates</b></a>
+    <p>View the current subsistence allowance rates to find out the amount we'll provide to help you pay for basic needs (like food and clothing) if you're an eligible Veteran participating in the Voc Rehab program.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://vets.gov/employment/vocational-rehab-and-employment/vetsuccess/"><b>VetSuccess on Campus</b></a>
+    <p>Find out if our counselors can help you transition from military to college life.</p>
+  </div>
+
+  <div class="https://www.benefits.va.gov/vocrehab/program_definitions.asp">
+    <a href="#"><b>Vocational Rehabilitation Programs for Veterans and Servicemembers</b></a>
+    <p>Explore our support-and-services tracks for help learning new skills, finding a job, starting a business, getting educational counseling, or returning to your former job.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.benefits.va.gov/vocrehab/success_stories.asp"><b>Voc Rehab Success Stories</b></a>
+    <p>Read Veterans' stories of how Voc Rehab counselors and services helped them overcome challenges, find new opportunities, and achieve greater goals.</p>
+  </div>
+
+  <div class="link">
+    <a href="#"><b>External Links and Resources</b></a>
+    <p>Get links to more resources outside of VA that can help you in your job search.</p>
+  </div>
+
+</section>
