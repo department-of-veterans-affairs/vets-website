@@ -84,6 +84,7 @@ You may be able to get compensation as a surviving parent if both of the descrip
 
 - You're the biological, adoptive, or foster parent of the Veteran or Servicemember, **and**
 - Your income is below a certain amount 
+
 [View the parents DIC rate table](https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp).
 
 **Note:** We define a foster parent as someone who stood in the relationship of a parent to the Veteran or Servicemember before their last entry into active service.
