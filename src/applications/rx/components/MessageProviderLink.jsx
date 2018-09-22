@@ -1,5 +1,5 @@
 import React from 'react';
-import messagingManifest from '../manifest.json';
+import messagingManifest from '../manifest.js';
 
 class MessageProviderLink extends React.Component {
   render() {

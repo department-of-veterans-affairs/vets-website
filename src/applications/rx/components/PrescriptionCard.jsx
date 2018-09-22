@@ -8,7 +8,7 @@ import GlossaryLink from '../components/GlossaryLink';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
 import SubmitRefill from './SubmitRefill';
-import messagingManifest from '../../messaging/manifest.json';
+import messagingManifest from '../../messaging/manifest.js';
 
 class PrescriptionCard extends React.Component {
   constructor() {

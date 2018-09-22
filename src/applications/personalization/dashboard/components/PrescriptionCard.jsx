@@ -4,7 +4,7 @@ import React from 'react';
 
 import recordEvent from '../../../../platform/monitoring/record-event';
 import { formatDate } from '../../../rx/utils/helpers';
-import rxManifest from '../../../rx/manifest.json';
+import rxManifest from '../../../rx/manifest.js';
 
 function recordDashboardClick(product) {
   return () => {
