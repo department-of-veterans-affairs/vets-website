@@ -13,10 +13,10 @@ In summary, nginx routes a variety of different urls to the same static entry pa
 
 Here's an example using the claim status application:
 
-1. User opens `vets.govtrack-claims/your-claims/2344/detail`
-2. Nginx serves `vets.govtrack-claims/index.html`, because `track-claims` is configured as a React application
-3. In the browser, the JS bundle loads and React Router sees a url of `track-claims/your-claims/2344/detail`
-4. Since React Router has a base url of `track-claims`, it runs its routing logic on `/your-claims/2344/detail`, and renders the appropriate component for that url.
+1. User opens `vets.gov/track-claims/your-claims/2344/detail`
+2. Nginx serves `vets.gov/track-claims/index.html`, because `/track-claims` is configured as a React application
+3. In the browser, the JS bundle loads and React Router sees a url of `/track-claims/your-claims/2344/detail`
+4. Since React Router has a base url of `/track-claims`, it runs its routing logic on `/your-claims/2344/detail`, and renders the appropriate component for that url.
 
 One other thing to note is that links that use the `Link` component or the `router` object in the React app use the history api to change the url without reloading the page. React Router listens for these url changes and renders the right component for you. This is why you have to use `Link` and not a regular `a` element, which results in a page refresh for the url you're trying to link to.
 

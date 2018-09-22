@@ -73,7 +73,7 @@ class ConfirmationPage extends React.Component {
           more information. You can check the status of your claim online. The
           time frame you see may vary based on how complex your claim is.
         </p>
-        <a href="/disability-benefitstrack-claims">
+        <a href="/disability-benefits/track-claims">
           Check the status of your disability claim.
         </a>
         <br/>

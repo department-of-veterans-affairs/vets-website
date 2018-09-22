@@ -93,7 +93,7 @@
                         "links": [
                             {
                                 "text": "Check Your Claim or Appeal Status",
-                                "href": "track-claims/"
+                                "href": "/track-claims/"
                             },
                             {
                                 "text": "File for a VA Disability Increase",
@@ -288,7 +288,7 @@
                         "links": [
                             {
                                 "text": "Check Your Claim or Appeal Status",
-                                "href": "track-claims/"
+                                "href": "/track-claims/"
                             },
                             {
                                 "text": "View Your VA Payment History",
@@ -331,7 +331,7 @@
                             },
                             {
                                 "text": "Check Your Appeal Status",
-                                "href": "track-claims/"
+                                "href": "/track-claims/"
                             },
                             {
                                 "text": "How to Apply for Your COE",
@@ -349,7 +349,7 @@
                             },
                             {
                                 "text": "Check Your SAH Claim Status",
-                                "href": "track-claims/"
+                                "href": "/track-claims/"
                             },
                             {
                                 "text": "How to Apply for a SAH Grant",

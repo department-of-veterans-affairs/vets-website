@@ -62,7 +62,7 @@ const data = [
       },
       {
         text: 'Check Appeal Status',
-        href: 'track-claims/'
+        href: '/track-claims/'
       },
       {
         text: 'Get Travel Pay',

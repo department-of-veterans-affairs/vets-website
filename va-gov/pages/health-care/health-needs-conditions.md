@@ -114,7 +114,7 @@ If you need help accessing services, call our toll-free hotline at 1-877-222-VET
 Yes. If you’re signed up for the VA health care program, you can manage your VA health and benefits online through Vets.gov: <br>
 [Refill your prescriptions](/health-care/refill-track-prescriptions). <br>
 [Send a message to your VA health care provider](/health-care/secure-messaging). <br>
-[Check the status of a disability or pension claim](track-claims/).
+[Check the status of a disability or pension claim](/track-claims/).
 
 </div>
 </div>
