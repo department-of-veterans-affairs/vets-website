@@ -6,3 +6,12 @@
 export default function isBrandConsolidationEnabled() {
   return window.settings && window.settings.brandConsolidationEnabled;
 }
+
+/**
+ * Returns whether the current Webpack build is executing with the --frontend-metrics-enabled flag set.
+ * @returns {boolean}
+ * @module platform/brand-consolidation/feature-flag
+ */
+export function isMetricsEnabled() {
+  return window.settings && window.settings.metricsEnabled;
+}
