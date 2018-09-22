@@ -15,13 +15,13 @@ promo:
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: https://benefits.va.gov/TAP/index.asp
+    - url: https://www.benefits.va.gov/TAP/index.asp
       title: <b>Transition Assistance</b>
       description: Explore the VA benefits and services you and your family may qualify for, and get help transitioning to VA support as you separate from the military.
-    - url: "#"
+    - url: "/education/about-gi-bill-benefits/"
       title: <b>GI Bill Benefits</b>
       description: Explore options for using GI Bill benefits to help pay for school or training, and find out what benefits you can get.
-    - url: "/education/about-gi-bill-benefits/"
+    - url: "/education/other-va-education-benefits/"
       title: <b>Other Educational Assistance Programs</b>
       description: If you’re a Veteran, Reservist, or National Guard Soldier who doesn’t qualify for the Post-9/11 GI Bill, see if you can get education benefits through other VA programs.
     - url: "/housing-assistance/home-loans/"
