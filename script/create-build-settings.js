@@ -10,6 +10,7 @@ function getBuildSettings(options) {
   return {
     type: options.buildtype,
     brandConsolidationEnabled: !!options['brand-consolidation-enabled'],
+    metricsEnabled: !!options['frontend-metrics-enabled'],
     vic: {
       rateLimitAuthed: 1,
       rateLimitUnauthed: 1

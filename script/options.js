@@ -7,6 +7,7 @@ const applyHerokuOptions = require('./heroku-helper');
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
   { name: 'brand-consolidation-enabled', type: Boolean, defaultValue: false },
+  { name: 'frontend-metrics-enabled', type: Boolean, defaultValue: false },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
