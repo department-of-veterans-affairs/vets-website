@@ -10,9 +10,11 @@ import createEducationApplicationStatus from '../edu-benefits/components/createE
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import create526EmailForm from '../disability-benefits/526EZ/components/create526EmailForm';
 
-const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/eligibility/']);
+import brandConsolidation from '../../platform/brand-consolidation';
 
-const healthcarePages = new Set(['/health-care/', '/health-care/how-to-apply/', '/health-care/eligibility/']);
+const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/how-to-apply/', '/pension/eligibility/']);
+
+const healthcarePages = new Set(['/health-care/', '/health-care/apply/', '/health-care/how-to-apply/', '/health-care/eligibility/']);
 
 const healthcareTools = new Set([
   '/health-care/secure-messaging/',
@@ -31,7 +33,16 @@ const eduPages = new Set(['/education/', '/education/apply/', '/education/eligib
 
 const eduOptOutPage = '/education/opt-out-information-sharing/';
 
-const disabilityPages = new Set(['/disability-benefits/', '/disability-benefits/apply/', '/disability-benefits/eligibility/']);
+const disabilityPages = new Set([
+  // Vets.gov paths
+  '/disability-benefits/',
+  '/disability-benefits/apply/',
+  '/disability-benefits/eligibility/',
+  // VA.gov paths
+  '/disability/',
+  '/disability/how-to-file-claim/',
+  '/disability/eligibility/'
+]);
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -43,21 +54,23 @@ const store = createCommonStore();
 startSitewideComponents(store);
 
 if (pensionPages.has(location.pathname)) {
+  const applyLink = brandConsolidation.isEnabled() ? '/pension/how-to-apply/' : '/pension/apply/';
   createApplicationStatus(store, {
     formId: '21P-527EZ',
     applyHeading: 'How do I apply?',
     additionalText: 'You can apply online right now.',
-    applyLink: '/pension/apply/',
+    applyLink,
     applyText: 'Apply for Veterans Pension Benefits'
   });
 }
 
 if (healthcarePages.has(location.pathname)) {
+  const applyLink = brandConsolidation.isEnabled() ? '/health-care/how-to-apply/' : '/health-care/apply/';
   createApplicationStatus(store, {
     formId: '1010ez',
     applyHeading: 'How do I apply?',
     additionalText: 'You can apply online right now.',
-    applyLink: '/health-care/how-to-apply/',
+    applyLink,
     applyText: 'Apply for Health Care Benefits'
   });
 }
