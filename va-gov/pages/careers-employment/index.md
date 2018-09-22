@@ -171,7 +171,7 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/manage/documents"><b>Print Your Civil Service Preference Letter</b></a>
+    <a href="/records/download-va-letters/"><b>Print Your Civil Service Preference Letter</b></a>
     <p>Print your Civil Service Preference Letter to verify your hiring preference for federal jobs.</p>
   </div>
 
