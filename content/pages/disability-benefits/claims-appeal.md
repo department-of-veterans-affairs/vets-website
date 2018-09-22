@@ -19,7 +19,7 @@ You have the right to appeal any benefits decision made by the Veterans Benefits
 
 When the Veterans Benefits Administration Regional Office receives your Notice of Disagreement, you’ll be able to check the status of your appeal on Vets.gov.
 
-<a class="usa-button-primary" href="/claim-or-appeal-status">Track Your Appeal</a>
+<a class="usa-button-primary" href="track-claims">Track Your Appeal</a>
 
 </div>
 

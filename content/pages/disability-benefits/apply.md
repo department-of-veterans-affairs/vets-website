@@ -117,7 +117,7 @@ You can work with a trained professional called an accredited representative to 
 
 You don’t need to do anything while you’re waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.
 
-<a class="usa-button-primary" href="/claim-or-appeal-status">Track the Status of Your Claim</a>
+<a class="usa-button-primary" href="track-claims">Track the Status of Your Claim</a>
 
 <span id="days-to-complete-claim"></span>
 #### How long does it take VA to make a decision?

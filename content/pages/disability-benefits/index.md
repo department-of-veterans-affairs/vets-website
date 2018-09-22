@@ -24,7 +24,7 @@ majorlinks:
     - url: /disability-benefits/conditions/
       title: Conditions
       description: Discover which illnesses or injuries qualify you for benefits.
-    - url: /claim-or-appeal-status/
+    - url: track-claims/
       title: Track Your Claims and Appeals
       description: Track the status of your disability claims and appeals.
     - url: /disability-benefits/claims-appeal/

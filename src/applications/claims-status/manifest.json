@@ -2,6 +2,6 @@
   "appName": "Claims Status",
   "entryFile": "./claims-status-entry.jsx",
   "entryName": "claims-status",
-  "rootUrl": "/claim-or-appeal-status",
+  "rootUrl": "track-claims",
   "production": true
 }

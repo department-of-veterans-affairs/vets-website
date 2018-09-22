@@ -159,7 +159,7 @@ class ClaimsAppealsWidget extends React.Component {
           </DowntimeNotification>
           {this.renderErrorMessages()}
           {content}
-          <p><Link href="/claim-or-appeal-status" onClick={recordDashboardClick('view-all-claims')}>View all your claims and appeals</Link>.</p>
+          <p><Link href="track-claims" onClick={recordDashboardClick('view-all-claims')}>View all your claims and appeals</Link>.</p>
         </div>
       </div>
     );

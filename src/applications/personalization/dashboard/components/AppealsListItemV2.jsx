@@ -38,7 +38,7 @@ export default function AppealListItem({ appeal, name }) {
         <p><strong>Status</strong>: {getStatusContents(status.type, status.details, name).title}</p>
       </div>
       <p>
-        <Link className="usa-button usa-button-primary" href={`/claim-or-appeal-status/appeals/${appeal.id}/status`}>View appeal<i className="fa fa-chevron-right"/></Link>
+        <Link className="usa-button usa-button-primary" href={`track-claims/appeals/${appeal.id}/status`}>View appeal<i className="fa fa-chevron-right"/></Link>
       </p>
     </div>
   );
