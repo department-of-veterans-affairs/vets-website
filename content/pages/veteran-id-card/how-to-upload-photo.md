@@ -1,14 +1,15 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Tips for Uploading a Photo for Your Veteran ID Card 
+title: Tips for Uploading a Photo for Your Veteran ID Card
 display_title: Uploading Your Photo
 relatedlinks:
-  - heading: 
+  - heading:
     links:
-    - url: 
-      title: 
+    - url:
+      title:
       description:
+production: false
 ---
 
 <div class="va-introtext">
@@ -41,8 +42,8 @@ Find out how to upload a good quality photo that meets the requirements for a Ve
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="saved-photo">I have a photo saved on my computer. How do I know if my photo is the right size?</button>
 <div id="saved-photo" class="usa-accordion-content">
- 
-To make sure your photo doesn’t look blurry when it’s printed on your card, it should be at least 350 pixels on each side. A pixel is a digital unit of measurement for screens, like a computer or television. Most photos taken with smartphones and digital cameras meet this requirement. 
+
+To make sure your photo doesn’t look blurry when it’s printed on your card, it should be at least 350 pixels on each side. A pixel is a digital unit of measurement for screens, like a computer or television. Most photos taken with smartphones and digital cameras meet this requirement.
 If you’re not sure your photo is big enough, follow these steps to check the dimensions on a PC or Mac.
 
 **To check your photo’s dimensions on a PC:**
@@ -64,7 +65,7 @@ If you’re not sure your photo is big enough, follow these steps to check the d
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="right-size">What if my photo isn’t the right size?</button>
 <div id="right-size" class="usa-accordion-content">
- 
+
 If your photo dimensions are less than 350 pixels on any side, we suggest you choose a different photo or take a new photo with a smartphone or digital camera. If you don’t have a smartphone or digital camera, you can get a passport photo taken at your local retail pharmacy or at any other store that offers this service, like Costco.
 
 If your photo isn't square, the Veteran ID Card application includes a tool to help you resize your photo. If you’re using a screen reader, we recommend you start with a square photo, like a passport photo. This will make the application easier to use.

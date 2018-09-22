@@ -447,7 +447,7 @@
       "name": "Veterans' Group (VGLI)",
       "icon": "fa-users"
     }
-  }, 
+  },
   "pension": {
     "pattern": "pension/*.md",
     "sortBy": "order",

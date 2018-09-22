@@ -3,9 +3,10 @@
 const path = require('path');
 const commandLineArgs = require('command-line-args');
 const applyHerokuOptions = require('./heroku-helper');
+const environments = require('./constants/environments');
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'buildtype', type: String, defaultValue: 'development' },
+  { name: 'buildtype', type: String, defaultValue: environments.DEVELOPMENT },
   { name: 'brand-consolidation-enabled', type: Boolean, defaultValue: false },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3001 },
@@ -41,7 +42,7 @@ function applyDefaultOptions(options) {
   });
 
   if (options.buildtype === undefined) {
-    options.buildtype = 'development';
+    options.buildtype = environments.DEVELOPMENT;
   }
 }
 
@@ -49,14 +50,11 @@ function applyEnvironmentOverrides(options) {
   const env = require('get-env')();
 
   switch (options.buildtype) {
-    case 'development':
-    // No extra checks needed in dev.
+    case environments.DEVELOPMENT:
+    case environments.STAGING:
       break;
 
-    case 'staging':
-      break;
-
-    case 'production':
+    case environments.PRODUCTION:
       if (options['no-sanity-check-node-env'] === false) {
         if (env !== 'prod') {
           throw new Error(`buildtype ${options.buildtype} expects NODE_ENV to be production, not '${process.env.NODE_ENV}'`);
@@ -64,9 +62,9 @@ function applyEnvironmentOverrides(options) {
       }
       break;
 
-    case 'vagovdev':
-    case 'vagovstaging':
-    case 'preview':
+    case environments.VAGOVDEV:
+    case environments.VAGOVSTAGING:
+    case environments.PREVIEW:
       options['brand-consolidation-enabled'] = true;
       break;
 

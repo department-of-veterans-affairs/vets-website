@@ -1,7 +1,0 @@
-{
-  "appName": "Post 9/11 GI Bill Status",
-  "entryFile": "./post-911-gib-status-entry.jsx",
-  "entryName": "post-911-gib-status",
-  "rootUrl": "/education/check-post-9-11-gi-bill-benefit-status",
-  "production": true
-}
