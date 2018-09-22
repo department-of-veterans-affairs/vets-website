@@ -1,0 +1,44 @@
+<header class="header">
+  <div class="incompatible-browser-warning">
+    <div class="row full">
+      <div class="small-12">
+        Your browser is out of date. To use this website, please <a href="https://whatbrowser.org/">update your browser</a> or use a different device.
+      </div>
+    </div>
+  </div>
+
+  {% if mergedbuild %}
+    {% include "va-gov/includes/preview-alert.html" %}
+  {% endif %}
+
+  <div class="va-notice--banner">
+    <div class="va-notice--banner-inner">
+      {% include "va-gov/includes/usa-website-header.html" %}
+      <div class="va-crisis-line">
+        <div class="va-flex">
+          <button data-show="#modal-crisisline" class="va-crisis-line-button va-overlay-trigger">
+            <span class="va-flex">
+              <span class="vcl"></span>
+              Get help from Veterans Crisis Line
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /header alert box -->
+
+  <div class="row va-flex usa-grid" id="va-header-logo-menu">
+    <div role="banner" class="va-header-logo-wrapper">
+      <a href="/" class="va-header-logo" title="Go to VA.gov">
+      <img src="/img/header-logo.png"/>
+      </a>
+    </div>
+    <div id="va-nav-controls"></div>
+    <div id="login-root" class="vet-toolbar"></div>
+  </div>
+  <div class="usa-grid">
+    <div id="menu-rule" class="usa-one-whole"></div>
+    <div id="mega-menu"></div> <!-- for the mega-menu, but if you add the ID the css breaks rn -->
+  </div>
+</header>

@@ -1,0 +1,86 @@
+<footer class="footer" role="contentinfo">
+  <div id="footerNav"></div> <!-- let's try this React thing -->
+</footer>
+
+<!-- End mobile crisis line overlay. See desktop overlay at end of footer -->
+<div id="modal-crisisline" class="va-overlay va-modal va-modal-large" role="alertdialog">
+  <div class="va-crisis-panel va-modal-inner">
+
+    <h3>Get help from Veterans Crisis Line</h3>
+
+    <button class="va-modal-close va-overlay-close" type="button">
+      <i class="fa fa-close va-overlay-close"></i>
+      <span class="usa-sr-only va-overlay-close">Close this modal</span>
+    </button>
+
+    <div class="va-overlay-body va-crisis-panel-body">
+      <ul>
+        <li><a href="tel:18002738255">Call <strong>1-800-273-8255 (Press 1)</strong></a></li>
+        <li><a href="sms:838255">Text to <b>838255</b></a></li>
+        <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat">Chat <b>confidentially now</b></a></li>
+      </ul>
+
+      <p>If you are in crisis or having thoughts of suicide,
+visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> for more resources.</p>
+
+    </div>
+  </div>
+</div>
+<!-- End mobile crisis line overlay -->
+
+<!-- Begin generic overlay modal -->
+{% if modal %}
+  {% include "va-gov/includes/modal.html" %}
+{% endif %}
+
+<!-- htmllint attr-bans="[]" -->
+{% if buildtype === 'development' %}
+  <script>
+    recordEvent({ environment: '{{ buildtype }}' });
+  </script>
+  <script async src="/js/google-analytics-dev.js"></script>
+{% else %}
+  <!-- Google Tag Manager -->
+  <script>
+    // Always use push with GTM: https://www.simoahava.com/gtm-tips/datalayer-declaration-vs-push/
+    recordEvent({ environment: '{{ buildtype }}' });
+    // We want to know if we are being iframed
+    if ( self !== top ) {
+      recordEvent({ event: 'iframed', embeddedIn: document.referrer});
+    }
+  </script>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WFJWBD"
+  height="0" width="0" class="csp-inline-patch-footer"></iframe></noscript>
+  <script async src="/js/google-analytics.js"></script>
+  <!-- End Google Tag Manager -->
+{% endif %}
+<!-- htmllint attr-bans="$previous" -->
+
+<!--
+“To care for him who shall have borne the battle and for his widow, and his orphan.”
+- Abraham Lincoln
+-->
+<script type="text/javascript">
+  function footerNavClick(elem) {
+    var eventLabel = 'nav-' + elem.parentElement.parentElement.id;
+    recordEvent({
+      event: eventLabel,
+      navlabel: elem.innerText
+    });
+  }
+</script>
+{% if widgets %}
+<script type="text/javascript">
+(function() {
+  var widgets = {{ widgets | json }};
+  var module = {};
+  {% include "src/applications/static-pages/static-page-widgets.js" %}
+  mountWidgets(widgets);
+})();
+</script>
+{% endif %}
+
+<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
+
+</body>
+</html>
