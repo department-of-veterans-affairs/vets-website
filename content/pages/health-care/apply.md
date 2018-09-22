@@ -112,7 +112,7 @@ You may qualify for VA health care and other benefits. View the Application for 
 [Find out what happens after you apply](/health-care/after-you-apply/).
 
 If you’ve also applied for a VA pension or disability benefits, you can check the status of those claims online. <br>
-[Check the status of your claim](/track-claims/).
+[Check the status of your claim](/claim-or-appeal-status/).
 
 </div>
 </div>

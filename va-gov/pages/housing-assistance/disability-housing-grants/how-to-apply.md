@@ -91,7 +91,7 @@ Or call an SAH staff member at <a href="tel:+18778273702">1-877-827-3702</a>.
 We’ll process your claim and send you a letter with our decision.
 
 You can check the status of your claim by signing in to VA.gov. <br>
-<a href="/track-claims">Find out how to check your claim status</a>.
+<a href="/claim-or-appeal-status">Find out how to check your claim status</a>.
 
 </div>
 </div>

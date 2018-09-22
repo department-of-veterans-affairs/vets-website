@@ -18,8 +18,8 @@ import AppealInfo from './containers/AppealInfo';
 
 const routes = [
   <Redirect
-    key="/track-claims/your-claims"
-    from="/disability-benefits/track-claims*"
+    key="/claim-or-appeal-status/your-claims"
+    from="/disability-benefits/claim-or-appeal-status*"
     to="/your-claims"/>,
   <Route
     component={YourClaimsPageV2}

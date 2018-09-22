@@ -11,7 +11,7 @@ module.exports = E2eHelpers.createE2eTest(
       '/health-care/secure-messaging',
       '/health-care/refill-track-prescriptions',
       'download-va-letters/letters',
-      '/track-claims',
+      '/claim-or-appeal-status',
     ];
 
     // Test clicking login required links

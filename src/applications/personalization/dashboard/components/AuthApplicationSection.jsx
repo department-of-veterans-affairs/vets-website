@@ -13,7 +13,7 @@ class AuthApplicationSection extends React.Component {
             <p key="rx"><a href="/health-care/refill-track-prescriptions">Refill your prescription</a></p>
             <p key="messaging"><a href="/health-care/secure-messaging">Message your health care team</a></p>
             <p key="health-records"><a href="/health-care/health-records">Get your VA health records</a></p>
-            <p key="claims"><a href="/track-claims">Check your claim and appeal status</a></p>
+            <p key="claims"><a href="/claim-or-appeal-status">Check your claim and appeal status</a></p>
             <p key="post-911"><a href="/education/gi-bill/post-9-11/ch-33-benefit">Get your Post-9/11 GI Bill statement of benefits</a></p>
             <p key="vic"><a href="/veteran-id-card">Apply for a Veteran ID Card</a></p>
             <p>
