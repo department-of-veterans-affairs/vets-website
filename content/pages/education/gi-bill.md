@@ -50,12 +50,12 @@ majorlinks:
     - url: /education/gi-bill/buy-up-program/
       title: $600 Buy-Up Program
       description: Find out how you can get more money each month through your GI Bill monthly payments.
-    - url: /education/about-gi-bill-benefits/how-to-use-benefits/tuition-assistance-top-up/
+    - url: /education/gi-bill/tutorial-assistance/
       title: Tutorial Assistance
       description: If you’re using VA educational benefits and you're struggling with the coursework, find out if you can get help paying for a tutor.
     - url: /education/opt-out-information-sharing/
       title: Opt Out of Sharing VA Education Benefits Information
-      description: The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your eligibility and benefits with schools, unless you ask us not to. Find out how to opt out of information sharing.
+      description: The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your eligibility and benefits with schools, unless you ask us not to. Find out how to opt out of information sharing. 
 
 ---
 
