@@ -4,11 +4,11 @@
  */
 
 import '../monitoring/sentry.js';
+import { addMetricsObserver, canCaptureMetrics, shouldCaptureMetrics, addMetricsBeacon } from '../monitoring/metrics';
 import './legacy/menu';  // Used in the footer.
 import './usa-banner-toggle';
 import './accessible-VCL-modal';
 import './moment-setup';
-import { addMetricsObserver, shouldCaptureMetrics } from '../monitoring/metrics';
 import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
@@ -26,9 +26,12 @@ import brandConsolidation from '../brand-consolidation';
  * @param {Store} commonStore The Redux store being used by this application
  */
 export default function startSitewideComponents(commonStore) {
-  if (shouldCaptureMetrics) {
+  // TODO: Add sampling
+  if (canCaptureMetrics() && shouldCaptureMetrics()) {
     console.log('Metrics Capture Enabled!');
-    addMetricsObserver();
+    if (addMetricsObserver()) {
+      addMetricsBeacon();
+    }
   }
 
   if (document.querySelector('#vetnav-menu') !== null) {

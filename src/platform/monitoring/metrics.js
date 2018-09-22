@@ -3,70 +3,102 @@
  */
 
 import environment from '../utilities/environment';
+import { isMetricsEnabled } from '../brand-consolidation/feature-flag';
 
-function canCaptureMetrics() {
-  if (!window.performance) {
+/**
+ *
+*/
+function sendMetricsToBackend(metrics) {
+  const metricsData = new FormData();
+  const url = `${environment.API_URL}/v0/performance_monitorings`;
+  const pageUrl = window.location.pathname; // document.URL;
+
+  const metricsArray = [];
+  Object.keys(metrics).forEach(metric => {
+    metricsArray.push({ metric, duration: metrics[metric] });
+  });
+
+  metricsData.append('metrics', JSON.stringify(metricsArray));
+  metricsData.append('page_id', pageUrl);
+
+  if (!navigator.sendBeacon(url, metricsData)) {
+    console.log('beacon NOT sent!');
+  }
+}
+
+/**
+ *
+ */
+function captureMetrics() {
+  const observer = new PerformanceObserver(list => {
+    // This callback is called whenever new performance entries are recorded
+    list.getEntriesByType('navigation').forEach(entry => {
+      const totalPageLoad   = entry.duration;
+      const firstByte       = entry.responseStart;
+      const domProcessing   = entry.domComplete - entry.domInteractive;
+      const domComplete     = entry.domComplete - entry.requestStart;
+
+      // If browser doesn't support first-contentful-paint, we set the value to 0
+      const paintEntries    = performance.getEntriesByName('first-contentful-paint');
+      const firstPaint      = typeof paintEntries === 'undefined' ? 0 : paintEntries[0].startTime;
+
+      const metrics = {
+        totalPageLoad,
+        firstByte,
+        domProcessing,
+        domComplete,
+        firstPaint,
+      };
+
+      sendMetricsToBackend(metrics);
+    });
+  });
+
+  try {
+    observer.observe({ entryTypes: ['navigation'] });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+/**
+ * Returns whether the browser supports the APIs we'll be using
+ */
+export function canCaptureMetrics() {
+  if (performance === undefined) {
     return false;
-  } else if (!("PerformanceObserver" in window)) {
+  } else if (!('PerformanceObserver' in window)) {
     return false;
   }
   return true;
 }
 
-function captureMetrics() {
-  // ensure browser supports upcoming performance API
-  if (canCaptureMetrics) {
-    // instantiate a new PerformanceObserver object
-    const observer = new PerformanceObserver(list => {
-      // this callback is called whenever new performance entries are recorded
-      // iterate over each entry
-      list.getEntriesByType('navigation').forEach(entry => {
-        const initialPageLoad = entry.responseStart - entry.requestStart;
-        const firstByte       = entry.responseStart - entry.fetchStart;
-        const domInteractive  = entry.domInteractive;
-        const domComplete     = entry.domComplete;
-        const domSetup        = entry.domContentLoadedEventEnd - entry.domInteractive;
-        const firstPaint      = performance.getEntriesByName('first-contentful-paint')[0].startTime;
-
-        const metrics = {
-          initialPageLoad,
-          firstByte,
-          domInteractive,
-          domComplete,
-          domSetup,
-          firstPaint
-        };
-
-        console.log(metrics);
-      });
-    });
-
-    try {
-      observer.observe({ entryTypes: ['navigation'] });
-    } catch (error) {
-      // TODO: Add sentry error logging
-      console.error(error);
-    }
-  } else {
-    // TODO: Don't log this to console, do something else
-    console.log('Performance timing isn\'t supported in this browser.');
-  }
-}
-
+/**
+*  Returns whether metrics are enabled via feature flag.
+*/
 export function shouldCaptureMetrics() {
-  // Check for staging/production etc.
-  if (environment.BASE_URL.indexOf('localhost') > 0) {
-    return true;
-  } else if (environment.BASE_URL.indexOf('staging') > 0) {
-    return true;
-  } else if (environment.BASE_URL.indexOf('dev') > 0) {
+  if (isMetricsEnabled()) {
     return true;
   }
   return false;
 }
 
+/**
+ * Adds a metricsObserver to the page after load.
+ */
 export function addMetricsObserver() {
-  console.log('Capturing Metrics');
-  captureMetrics();
-  return true;
+  window.addEventListener('load', () => {
+    console.log('Capturing Metrics');
+    captureMetrics();
+  });
+}
+
+/**
+ * Adds a sendBeacon() call to unload action.
+ */
+export function addMetricsBeacon() {
+  window.addEventListener('unload', () => {
+    console.log('Sending Metrics');
+    sendMetricsToBackend();
+  });
 }
