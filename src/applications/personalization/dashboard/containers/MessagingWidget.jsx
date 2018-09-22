@@ -13,7 +13,7 @@ import {
   fetchRecipients,
 } from '../../../messaging/actions';
 
-import messagingManifest from '../../../messaging/manifest.json';
+import messagingManifest from '../../../messaging/manifest.js';
 
 function recordDashboardClick(product) {
   return () => {
