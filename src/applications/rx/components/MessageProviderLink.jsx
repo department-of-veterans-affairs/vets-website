@@ -1,12 +1,11 @@
 import React from 'react';
-import messagingManifest from '../manifest.json';
 
 class MessageProviderLink extends React.Component {
   render() {
     return (
       <a
         className="usa-button rx-message-provider-link"
-        href={`${messagingManifest.rootUrl}/compose`}>
+        href="/health-care/messaging/compose">
         Message my provider
       </a>
     );

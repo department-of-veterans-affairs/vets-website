@@ -137,7 +137,8 @@ export function mockMultipleApiRequests(responses, userToken = 'foo') {
   global.fetch = sinon.stub();
   responses.forEach((res, index) => {
     const { response, shouldResolve } = res;
-    global.fetch.onCall(index).returns(shouldResolve ? Promise.resolve(response) : Promise.reject(response));
+    const formattedResponse = getApiRequestObject(response);
+    global.fetch.onCall(index).returns(shouldResolve ? Promise.resolve(formattedResponse) : Promise.reject(formattedResponse));
   });
   conditionalStorage().setItem('userToken', userToken);
 }

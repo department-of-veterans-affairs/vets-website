@@ -1,3 +1,8 @@
+/*
+ * NOTE: there is a version of this file for brand consolidation at
+ * brand-consolidate.scss. If you make a change to this file, please 
+ * verify that you do or do not need to make the same change in the other file
+ */
 $font-path: "~uswds/src/fonts";
 $image-path: "~uswds/src/img";
 @import "~@department-of-veterans-affairs/formation/sass/core";
@@ -11,7 +16,6 @@ $image-path: "~uswds/src/img";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-breadcrumbs";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-button";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-elements";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-megamenu";
 @import "modules/m-search";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-loading-indicator";
 @import "modules/m-vet-nav";
@@ -28,6 +32,6 @@ $image-path: "~uswds/src/img";
 // ----- VA SHAME ---- //
 
 @import "~@department-of-veterans-affairs/formation/sass/shame";
-@import "slider";
-@import "fa-scss/fontawesome";
-@import "merger";
+
+// ----- Medallia ----- //
+@import "modules/m-medallia";

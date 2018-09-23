@@ -40,7 +40,7 @@ Find out how to apply for a tax-free Veterans pension.
 </div>
 
 <div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/pension/apply-for-veteran-pension-form-21p-527ez">Apply for Veterans Pension Benefits</a>
+  <a class="usa-button-primary va-button-primary" href="/pension/application/527EZ">Apply for Veterans Pension Benefits</a>
 </div>
 
 

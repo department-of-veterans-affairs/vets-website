@@ -41,7 +41,7 @@ You can order hearing aid batteries from us if you meet all of the requirements 
 - You're registered as a patient at a VA medical center, **and**
 - Your VA audiologist has recommended hearing aids or other hearing assisted devices
 
-[Find out how to apply for VA health care](/health-care/apply-for-health-care-form-10-10ez).
+[Find out how to apply for VA health care](/health-care/apply/application/).
 
 **And you’ll need to have a premium DS Logon account** (used for eBenefits and milConnect).
 
@@ -66,7 +66,7 @@ You can order prosthetic socks from us online if you meet all of the requirement
 - You're registered as a patient at a VA medical center, **and**
 - Your VA health care provider has authorized you to receive prosthetic socks
 
-[Find out how to apply for VA health care](/health-care/apply-for-health-care-form-10-10ez).
+[Find out how to apply for VA health care](/health-care/apply/application/).
 
 **And you’ll need to have a premium DS Logon account** (used for eBenefits and milConnect).
 

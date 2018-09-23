@@ -133,7 +133,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="/health-care/apply-for-health-care-form-10-10ez"><b>Apply Online (VA Form 10-10EZ)</b></a>
+    <a href="/health-care/apply/application/"><b>Apply Online (VA Form 10-10EZ)</b></a>
     <p>Start your Veterans health care application now.</p>
   </div>
 

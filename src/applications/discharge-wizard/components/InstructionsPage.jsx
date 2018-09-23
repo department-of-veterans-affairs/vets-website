@@ -71,9 +71,9 @@ class InstructionsPage extends React.Component {
                                 <p>If you need mental health services related to PTSD or other mental health problems linked to your service (including conditions related to an experience of military sexual trauma), you may qualify for VA health benefits right away, even without a VA Character of Discharge review or a discharge upgrade.</p>
                                 <p>Learn more about:</p>
                                 <ul>
-                                  <li><a href="/health-care/health-needs-conditions/military-sexual-trauma/">VA health benefits for Veterans who've experienced military sexual trauma</a></li>
-                                  <li><a href="/health-care/health-needs-conditions/mental-health/">VA health benefits for Veterans with mental health conditions</a></li>
-                                  <li><a href="/health-care/health-needs-conditions/mental-health/ptsd/">VA health benefits for Veterans with PTSD</a></li>
+                                  <li><a href="/health-care/health-conditions/military-sexual-trauma/">VA health benefits for Veterans who've experienced military sexual trauma</a></li>
+                                  <li><a href="/health-care/health-conditions/mental-health/">VA health benefits for Veterans with mental health conditions</a></li>
+                                  <li><a href="/health-care/health-conditions/mental-health/ptsd/">VA health benefits for Veterans with PTSD</a></li>
                                 </ul>
                               </div>
                             </div>

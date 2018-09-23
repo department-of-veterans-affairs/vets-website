@@ -45,8 +45,8 @@ class IntroductionPage extends React.Component {
               <div><h6>Vision and dental benefits</h6></div>
               <p>You may qualify for vision and dental benefits as part of your VA health care benefits.</p>
               <ul>
-                <li><strong>Vision benefits.</strong> VA health care covers routine eye exams and preventive tests. In some cases, you may get coverage for eyeglasses or services for blind or low-vision rehabilitation. <a href="/health-care/about-va-health-benefits/vision-care/">Learn more about vision care through VA</a>.</li>
-                <li><strong>Dental benefits.</strong> In some cases, you may receive dental care as part of your health care benefits. <a href="/health-care/about-va-health-benefits/dental-care/">Learn more about VA dental services</a>.</li>
+                <li><strong>Vision benefits.</strong> VA health care covers routine eye exams and preventive tests. In some cases, you may get coverage for eyeglasses or services for blind or low-vision rehabilitation. <a href="/health-care/about-va-health-care/vision-care/">Learn more about vision care through VA</a>.</li>
+                <li><strong>Dental benefits.</strong> In some cases, you may receive dental care as part of your health care benefits. <a href="/health-care/about-va-health-care/dental-care/">Learn more about VA dental services</a>.</li>
               </ul>
               <div><h6>Health care priority groups</h6></div>
               <p>When you apply for VA health care, we’ll assign you 1 of 8 priority groups. This system helps to make sure that Veterans who need immediate care can get signed up quickly. We assign Veterans with service-connected disabilities the highest priority. We assign the lowest priority to Veterans who earn a higher income and who don’t have any service-connected disabilities. <a href="/health-care/eligibility/#priority-groups">Learn more about priority groups</a>.</p>
