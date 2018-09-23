@@ -3,7 +3,6 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const RxHelpers = require('./rx-helpers');
 const Auth = require('../../../platform/testing/e2e/auth');
 const AccountCreationHelpers = require('../../../platform/testing/e2e/account-creation-helpers');
-const MESSAGING_ROOT = require('../../messaging/manifest.json').rootUrl;
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -13,7 +12,7 @@ module.exports = E2eHelpers.createE2eTest(
     AccountCreationHelpers.initMHVTermsMocks(token);
 
     // Ensure active page renders
-    Auth.logIn(token, client, '/health-care/refill-track-prescriptions', 3)
+    Auth.logIn(token, client, '/health-care/prescriptions', 3)
       .assert.title('Refill Prescriptions: Vets.gov')
       .waitForElementVisible('#rx-active', Timeouts.normal)
       .axeCheck('.main');
@@ -55,7 +54,7 @@ module.exports = E2eHelpers.createE2eTest(
       .expect.element('#rx-prescription h1').text.to.equal('ACETAMINOPHEN 325MG TAB');
 
     // Assert existence of correct message provider link
-    client.expect.element('a.rx-message-provider-link').to.have.attribute('href').which.contains(`${MESSAGING_ROOT}/compose`);
+    client.expect.element('a.rx-message-provider-link').to.have.attribute('href').which.contains('/health-care/messaging/compose');
 
     // Ensure track package page renders
     client
@@ -73,7 +72,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Ensure history card renders
     client
-      .click('.va-nav-breadcrumbs a[href="/health-care/refill-track-prescriptions"]')
+      .click('.va-nav-breadcrumbs a[href="/health-care/prescriptions/"]')
       .waitForElementVisible('#rx-active', Timeouts.slow)
       .click('.va-tabs li:last-child a')
       .waitForElementVisible('#rx-history', Timeouts.normal)
