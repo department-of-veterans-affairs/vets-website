@@ -41,7 +41,7 @@ You can order hearing aid batteries from us if you meet all of the requirements 
 - You're registered as a patient at a VA medical center, **and**
 - Your VA audiologist has recommended hearing aids or other hearing assisted devices
 
-[Find out how to apply for VA health care](/health-care/apply-for-health-care-form-10-10ez).
+[Find out how to apply for VA health care](/health-care/apply/application/).
 
 **And you’ll need to have a premium DS Logon account** (used for eBenefits and milConnect).
 
@@ -66,7 +66,7 @@ You can order prosthetic socks from us online if you meet all of the requirement
 - You're registered as a patient at a VA medical center, **and**
 - Your VA health care provider has authorized you to receive prosthetic socks
 
-[Find out how to apply for VA health care](/health-care/apply-for-health-care-form-10-10ez).
+[Find out how to apply for VA health care](/health-care/apply/application/).
 
 **And you’ll need to have a premium DS Logon account** (used for eBenefits and milConnect).
 
@@ -145,7 +145,7 @@ Yes. Follow the steps below to place your order by mail or phone.
 Fill out the form for the product you’re ordering.
 - **For hearing aid batteries or accessories:** Fill out a Veteran’s Request for Batteries and Accessories (VA Form 2346) card. If you’re ordering hearing aid wax guards, please write down the type of guard if you have that information from your audiologist. <br>
 You should have received a VA Form 2346 in your last battery order. If you don’t have the form, call your local VA audiology clinic or follow the instructions below to order batteries by phone. <br>
-[Find VA health facilities](/find-locations).
+[Find VA health facilities](/facilities).
 - **For prosthetic socks:** Fill out a Veteran’s Request for Prosthetic Socks (VA Form 2345). <br>
 [Download VA Form 2345](https://www.va.gov/opal/docs/nac/dlc/VAform2345.pdf).
 

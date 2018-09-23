@@ -13,7 +13,11 @@ import GetFormHelp from '../../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { prefillTransformer, transform } from '../helpers';
+import {
+  prefillTransformer,
+  tabIndexedTitle,
+  transform
+} from '../helpers';
 
 const { fullName } = fullSchema0993.definitions;
 const { claimantSocialSecurityNumber, vaFileNumber } = fullSchema0993.properties;
@@ -91,7 +95,7 @@ const formConfig = {
               }
             },
             'view:optOutMessage': {
-              'ui:title': 'By clicking the Continue button, you’re asking VA to not share your education benefits information.'
+              'ui:field': () => tabIndexedTitle('By clicking the Continue button, you’re asking VA to not share your education benefits information.')
             }
           },
           schema: {

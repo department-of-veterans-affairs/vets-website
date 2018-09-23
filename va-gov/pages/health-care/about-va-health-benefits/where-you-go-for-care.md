@@ -44,12 +44,12 @@ You’ll receive regular care at one VA location of your choice. If you need spe
   - All centers provide traditional hospital-based services—like surgery, critical care, mental health, and physical therapy.
   - Most centers provide medical and surgical specialty services—like oncology (cancer care), geriatrics (elder care), and neurology (care for conditions of the brain and nervous system).
   - Some medical centers also offer advanced services—like organ transplants and plastic surgery (reconstructing or repairing parts of the body in the treatment of traumatic injury). <br>
-[Find a medical center near you](/find-locations).
+[Find a medical center near you](/facilities/).
 - **VA community-based outpatient clinics (CBOCs).** These clinics provide the most common outpatient services (like health and wellness visits) so you can take care of routine appointments in a more convenient location. We keep expanding our network of CBOCs to more rural locations so we can help you access care closer to home. <br>
-[Find a clinic near you](/find-locations).
+[Find a clinic near you](/facilities/).
 - **Vet Centers.** These centers provide community-based counseling, outreach, and referral services to Veterans who served in a combat zone as well as to their families. Mobile Vet Centers also help bring care to more rural locations. <br>
 [Learn more about Vet Centers](http://www.vetcenter.va.gov). <br>
-[Find a Vet Center near you](/find-locations).
+[Find a Vet Center near you](/facilities/).
 - **VA Community Living Centers and other assisted living or residential (live-in) settings.** These places provide support for Veterans who need more intense nursing care and help with everyday tasks (like bathing, dressing, or taking medicines). <br>
 [Learn more about assisted living and residential care](/health-care/about-va-health-benefits/long-term-care/).
 - **Your own home.** If needed, you may get medical treatment, nursing care, or help with everyday tasks in the comfort of your own home. <br>
@@ -85,7 +85,7 @@ We may refer you to a community provider. Your eligibility for community care wi
 #### Where do I get care if I live in a rural area, far from a VA medical center?
 
 **You may be able to get care:**
-- [At a VA outpatient clinic](/find-locations)
+- [At a VA outpatient clinic](/facilities/)
 - [At a Mobile Vet Center](https://www.vetcenter.va.gov/)
 - In your own home: <br>
 [Learn about skilled home health care providers](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Skilled_Home_Health_Care.asp). <br>
@@ -144,7 +144,7 @@ We can also mail prescription refills to you at your temporary address. Just be 
 [Refill your prescriptions](/health-care/refill-track-prescriptions).
 
 For more information, contact your care team or the Traveling Veteran Coordinator at your local VA medical center. <br>
-[Find a medical center near you](/find-locations).
+[Find a medical center near you](/facilities/).
 
 **Note:** If you’re planning to travel outside the U.S., you’ll need to sign up for our Foreign Medical Program. <br>
 [Learn more about our Foreign Medical Program](https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp).

@@ -106,6 +106,3 @@ Send notice of any changes to:
 </p>
 
 [Read our life insurance publications for more guidance](https://www.benefits.va.gov/INSURANCE/ins_publications.asp). 
-
-
-<!--- TODO: find a proper place to import USWDS JS for static pages -->

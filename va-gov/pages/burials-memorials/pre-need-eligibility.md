@@ -50,7 +50,7 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 <li class="process-step list-two">
 
 #### Choose the VA national cemetery where you’d prefer to be buried. <br>
-[Find a VA national cemetery](/find-locations).
+[Find a VA national cemetery](/facilities/).
 
 **Please note:**
 
@@ -109,7 +109,7 @@ To apply, you’ll need your (or your sponsor's):
 ### How do I apply?
 You can apply online right now.
 
-<a class="usa-button-primary va-button-primary" href="/burials-memorials/pre-need-eligibility/apply-for-pre-need-form-40-10007">Apply for Pre-need Eligibility</a>
+<a class="usa-button-primary va-button-primary" href="/burials-and-memorials/pre-need/form-10007-apply-for-eligibility">Apply for Pre-need Eligibility</a>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <h4 itemprop="name">You can also apply:</h4>

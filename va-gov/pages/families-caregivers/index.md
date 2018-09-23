@@ -47,7 +47,7 @@ Find out if you qualify for:
 - [Free educational and career counseling services](/careers-employment/education-and-career-counseling/)<br>
 - [Work study (a part-time job while you're in school)](/education/about-gi-bill-benefits/how-to-use-benefits/work-study/)<br>
 
-[Use the GI Bill Comparison Tool to see what benefits you’ll get at different schools](/education/gi-bill-school-comparison-tool).<br>
+[Use the GI Bill Comparison Tool to see what benefits you’ll get at different schools](/gi-bill-comparison-tool).<br>
 [Find out how to apply for education benefits](/education/how-to-apply/).<br>
 
 If your Veteran qualifies for the Post-9/11 GI Bill but doesn’t use all their benefits, they may be able to transfer up to 36 months of those unused benefits to you. <br>
