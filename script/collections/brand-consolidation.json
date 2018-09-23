@@ -75,7 +75,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityAfterYouApply": {
@@ -83,7 +83,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "After You Apply",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
 
     }
   },
@@ -92,7 +92,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "How to Apply",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityClaimsAppeal": {
@@ -100,7 +100,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Appeals",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityClaimTypes": {
@@ -108,7 +108,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Claim Types",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
 
     }
   },
@@ -117,7 +117,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Pre-discharge Claim",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityConditionsExposure": {
@@ -125,7 +125,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Contact with Hazardous Materials",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityConditionsSpecial": {
@@ -133,7 +133,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Special Claims",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityConditionsAgentOrange": {
@@ -141,7 +141,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Agent Orange",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityEligibility": {
@@ -149,7 +149,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Eligibility",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityEvidence": {
@@ -157,7 +157,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "How to Gather Evidence for Your Claim",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityAboutRatings": {
@@ -165,7 +165,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "About Disability Ratings",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityFullyDevelopedClaims": {
@@ -173,7 +173,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Fully Developed Claims",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityAddRemoveDependents": {
@@ -181,7 +181,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Add remove Dependents",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "education": {
