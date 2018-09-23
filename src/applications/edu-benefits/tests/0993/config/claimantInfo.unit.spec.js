@@ -19,7 +19,6 @@ describe('0993 claimant information', () => {
     );
 
     // Check for opt out message
-    expect(form.find('legend').length).to.equal(1);
     expect(form.find('input').length).to.equal(5);
     expect(form.find('select').length).to.equal(1);
   });

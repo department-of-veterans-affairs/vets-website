@@ -18,20 +18,20 @@ class SaveInProgressIntro extends React.Component {
     let alert;
     const { renderSignInMessage, prefillEnabled, verifyRequiredPrefill, verifiedPrefillAlert, unverifiedPrefillAlert } = this.props;
     const { profile, login } = this.props.user;
-    const prefillAvailable = this.props.prefillAvailable || !!(profile && profile.prefillsAvailable.includes(this.props.formId)); // TODO: remove first clause once 526 added to list
+    const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const savedAt = this.props.lastSavedDate
           ? moment(this.props.lastSavedDate)
           : moment.unix(savedForm.lastUpdated);
-        const expirationDate = moment.unix(savedForm.metadata.expiresAt).format('M/D/YYYY');
+        const expirationDate = moment.unix(savedForm.metadata.expiresAt).format('MMM D, YYYY');
 
         alert = (
           <div>
             <div className="usa-alert usa-alert-info no-background-image schemaform-sip-alert">
               <div className="schemaform-sip-alert-title">Application status: <strong>In progress</strong></div>
               <div className="saved-form-metadata-container">
-                <span className="saved-form-metadata">Last saved on {savedAt.format('M/D/YYYY [at] h:mm a')}</span>
+                <span className="saved-form-metadata">Last saved on {savedAt.format('MMM D, YYYY [at] h:mm a')}</span>
                 <div className="expires-container">Your saved application <span className="expires">will expire on {expirationDate}.</span></div>
               </div>
               <div>{this.props.children}</div>

@@ -4,7 +4,7 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
     client
-      .url(`${E2eHelpers.baseUrl}/discharge-upgrade-instructions`);
+      .url(`${E2eHelpers.baseUrl}/discharge-upgrade-instructions/`);
 
     E2eHelpers.overrideSmoothScrolling(client);
 
