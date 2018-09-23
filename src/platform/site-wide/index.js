@@ -10,8 +10,13 @@ import './accessible-VCL-modal';
 import './moment-setup';
 import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
+import startMegaMenuWidget from './mega-menu';
+import startMobileMenuButton from './mobile-menu-button';
 import startFeedbackWidget from './feedback';
 import startAnnouncementWidget from './announcements';
+import startVAFooter from './va-footer';
+
+import brandConsolidation from '../brand-consolidation';
 
 /**
  * Start up the site-wide components that live on every page, like
@@ -20,7 +25,9 @@ import startAnnouncementWidget from './announcements';
  * @param {Store} commonStore The Redux store being used by this application
  */
 export default function startSitewideComponents(commonStore) {
-  addMenuListeners(document.querySelector('#vetnav-menu'), true);
+  if (document.querySelector('#vetnav-menu') !== null) {
+    addMenuListeners(document.querySelector('#vetnav-menu'), true);
+  }
 
   // New navigation menu
   if (document.querySelector('#vetnav')) {
@@ -40,4 +47,10 @@ export default function startSitewideComponents(commonStore) {
   startUserNavWidget(commonStore);
   startFeedbackWidget(commonStore);
   startAnnouncementWidget(commonStore);
+
+  if (brandConsolidation.isEnabled()) {
+    startMegaMenuWidget(commonStore);
+    startMobileMenuButton(commonStore);
+    startVAFooter(commonStore);
+  }
 }
