@@ -12,6 +12,7 @@ const timestamp = new Date().getTime();
 
 const globalEntryFiles = {
   style: './src/platform/site-wide/sass/style.scss',
+  brandConsolidation: './src/platform/site-wide/sass/brand-consolidation.scss',
   vendor: [
     './src/platform/polyfills',
     'history',
