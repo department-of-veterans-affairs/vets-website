@@ -1,7 +1,7 @@
 const _Environments = {
   production: { API_URL: 'https://api.vets.gov', BASE_URL: 'https://www.vets.gov' },
   staging: { API_URL: 'https://staging-api.vets.gov', BASE_URL: 'https://staging.vets.gov' },
-  preview: { API_URL: 'https://staging-api.vets.gov', BASE_URL: 'https://preview.va.gov' },
+  preview: { API_URL: 'https://staging-api.va.gov', BASE_URL: 'https://preview.va.gov' },
   vagovdev: { API_URL: 'https://dev-api.va.gov', BASE_URL: 'https://dev.va.gov' },
   vagovstaging: { API_URL: 'https://staging-api.va.gov', BASE_URL: 'https://staging.va.gov' },
   development: { API_URL: (process.env.API_URL || 'https://dev-api.vets.gov'), BASE_URL: (process.env.BASE_URL || 'https://dev.vets.gov') },
