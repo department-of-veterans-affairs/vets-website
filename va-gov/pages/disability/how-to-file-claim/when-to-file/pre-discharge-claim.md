@@ -15,7 +15,7 @@ relatedlinks:
     - url: /housing-assistance/
       title: Housing Assistance
       description: Find out if you qualify for a VA home loan or a housing grant to help you live more independently with your service-connected disability.
-    - url: /employment/vocational-rehab-and-employment/
+    - url: /careers-employment/vocational-rehabilitation/
       title: Vocational Rehabilitation and Employment (VR&E)
       description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
 aliases:
@@ -80,7 +80,7 @@ Compensation (monthly payments)
 
 Choose the scenario below that matches your situation to find out how to apply for disability benefits before discharge.
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="bdd-program">If you have 180 to 90 days left on active duty: <br>
@@ -129,8 +129,8 @@ This is the fastest way to get your claim processed. You'll work with an accredi
 * Attend a VA claim exam, if needed, before filing your claim. Your VSO will schedule this exam for you.
 
 **Note:** You can't use the DRC program if you're enrolled in the Integrated Disability Evaluation System (IDES) or if you have more than 90 days left on active duty. There are also other factors that may exclude you from this program.<br>
-[Learn about the IDES program](/employment/vocational-rehab-and-employment/ides/). <br>
-[See the full list of DRC program exclusions](https://www.vets.gov/disability-benefits/apply/evidence/decision-ready-claims/).
+[Learn about the IDES program](/careers-employment/vocational-rehabilitation/ides/). <br>
+[See the full list of DRC program exclusions](/disability/how-to-file-claim/evidence-needed/decision-ready-claims/).
 
 **For more information on the DRC program:**
 
@@ -158,7 +158,7 @@ You’ll be referred to the Integrated Disability Evaluation System (IDES)</butt
 If you’re wounded, injured, or fall ill while serving and can’t perform your duties, you’ll be referred to IDES. Through this system, we at VA work together with the Department of Defense (DoD) to make disability evaluation seamless, simple, fast, and fair.
 
 If you’re found to be medically unfit for duty, IDES will give you a proposed VA disability rating before you leave the service. You’ll also be entitled to Vocational Rehabilitation and Employment (VR&E) services. <br>
-[Find out how to access VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/).
+[Find out how to access VR&E services through IDES](/careers-employment/vocational-rehabilitation/ides/).
 
 </div>
 </li>
@@ -167,4 +167,4 @@ If you’re found to be medically unfit for duty, IDES will give you a proposed 
 
 <br>
 
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
+

@@ -7,16 +7,16 @@ order: 2
 relatedlinks:
   - heading: Loan Options
     links:
-    - url: /housing-assistance/home-loans/loan-options/purchase-loan/
+    - url: /housing-assistance/home-loans/loan-types/purchase-loan/
       title: Purchase Loan
       description: Looking to buy a home? Find out if you can get a VA-backed purchase loan and get better terms than with a private lender loan.
-    - url: /housing-assistance/home-loans/loan-options/nadl/
+    - url: /housing-assistance/home-loans/loan-types/native-american-direct-loan/
       title: Native American Direct Loan (NADL) Program
       description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get a loan through our NADL program to buy, build, or improve a home on Federal Trust Land.
-    - url: /housing-assistance/home-loans/loan-options/irrrl/
+    - url: /housing-assistance/home-loans/loan-types/interest-rate-reduction-loan/
       title: Interest Rate Reduction Refinance Loan (IRRRL)
       description: Have an existing VA home loan? Find out if you can get a VA-backed IRRRL to help reduce your monthly payments or make them more stable.
-    - url: /housing-assistance/home-loans/loan-options/cash-out-refinance/
+    - url: /housing-assistance/home-loans/loan-types/cash-out-loan/
       title: Cash-Out Refinance Loan
       description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you can get a VA-backed cash-out refinance loan.
 ---
@@ -35,7 +35,7 @@ You may be able to get a COE if you didn't receive a dishonorable discharge and 
 
 </div>
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="va-loan-eligibility-vets">Service requirements for Veterans and Servicemembers on active duty</button>
@@ -79,7 +79,7 @@ You can apply online right now.
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan">Go to eBenefits to Apply</a>
 
-[Learn more about how to apply for your COE](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
+[Learn more about how to apply for your COE](/housing-assistance/home-loans/how-to-apply/).
 
 <br>
 

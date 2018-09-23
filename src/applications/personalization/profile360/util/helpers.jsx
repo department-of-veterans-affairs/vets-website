@@ -35,7 +35,7 @@ export const formLinks = {
   '21-526EZ': '/disability-benefits/apply/form-526-disability-claim/',
   '21P-527EZ': '/pension/application/527EZ/',
   '21P-530': '/burials-and-memorials/application/530/',
-  '1010ez': '/health-care/apply-for-health-care-form-10-10ez',
+  '1010ez': '/health-care/apply/application/',
   '22-0993': '/education/opt-out-information-sharing/opt-out-form-0993/',
   '22-1990': '/education/apply-for-education-benefits/application/1990/',
   '22-1990E': '/education/apply-for-education-benefits/application/1990E/',

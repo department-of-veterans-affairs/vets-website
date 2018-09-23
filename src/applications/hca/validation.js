@@ -53,3 +53,11 @@ export function validateDependentDate(errors, dependentDate, formData, schema, m
   }
   validateCurrentOrPastDate(errors, dependentDate);
 }
+
+export function validateCurrency(errors, currencyAmount) {
+  // Source: https://stackoverflow.com/a/16242575
+  // HACK: Due to us-forms-system issue 269 (https://github.com/usds/us-forms-system/issues/269)
+  if (!/(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/.test(currencyAmount)) {
+    errors.addError('Please enter a valid dollar amount');
+  }
+}

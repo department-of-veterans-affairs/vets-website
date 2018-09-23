@@ -87,7 +87,7 @@ You may be able to get help paying for school tuition, testing fees, and advance
 
 If you have a service-connected disability that limits your ability to work or prevents you from working, you may be eligible for vocational rehabilitation and employment (VR&E) benefits and services—like help exploring employment options and getting more training if required.
 
-[Find out if you qualify for VR&E benefits and services](/employment/vocational-rehab-and-employment/eligibility/).
+[Find out if you qualify for VR&E benefits and services](/careers-employment/vocational-rehabilitation/eligibility/).
 
 </div>
 </div>
@@ -121,7 +121,7 @@ Also, if you haven’t used all of your Post-9/11 GI Bill benefits, you may be a
 [Learn more about transferring benefits](/education/transfer-post-9-11-gi-bill-benefits/).
 
 If you have a service-connected disability that limits your ability to work or prevents you from working, your dependent family members may be eligible for career and educational counseling—and other support—through the VR&E program. <br>
-[Learn more about VR&E services for dependent family members](/employment/vocational-rehab-and-employment/family-members/).
+[Learn more about VR&E services for dependent family members](/careers-employment/dependent-benefits/).
 
 </div>
 </div>
