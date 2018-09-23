@@ -9,13 +9,13 @@ order: 2
 relatedlinks:
   - heading: Other VA benefits you may want to explore
     links:
-    - url: /employment/vocational-rehab-and-employment/
+    - url: /careers-employment/vocational-rehabilitation/
       title: Vocational Rehabilitation and Employment (VR&E)
       description: If you have a service-connected disability that limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
-    - url: /employment/job-seekers/register-your-business/
+    - url: /careers-employment/veteran-owned-business-support/
       title: Register Your Veteran-Owned Small Business
       description: If you have—or want to start—your own business, we can help. Register to do business with VA and get support for your Veteran-owned small business.
-    - url: /employment/job-seekers/family-members/
+    - url: /careers-employment/family-resources/
       title: Explore Resources for Military and Veteran Family Members
       description: Find out how the Veterans Employment Center can help spouses and other family members access valuable career resources.
 widgets:
@@ -39,7 +39,7 @@ Find out how to apply for VA education benefits as a Veteran, Servicemember, or 
 
 - [Find out if you're eligible for VA education benefits](/education/eligibility/).
 - Gather the documents and information listed below that you’ll need to apply for education benefits.
-- See what benefits you’ll get at the school you want to attend.<br/> [Use the GI Bill Comparison Tool](/education/gi-bill-school-comparison-tool).
+- See what benefits you’ll get at the school you want to attend.<br/> [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool).
 
 <div markdown="0"><br></div>
 

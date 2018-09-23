@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 
-import SelectArrayItemsWidget from '../../components/SelectArrayItemsWidget';
+import SelectArrayItemsWidget from '../../../all-claims/components/SelectArrayItemsWidget';
 
 import get from '../../../../../platform/utilities/data/get';
 

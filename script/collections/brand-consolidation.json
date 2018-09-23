@@ -75,7 +75,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityAfterYouApply": {
@@ -83,7 +83,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "After You Apply",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
 
     }
   },
@@ -92,7 +92,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "How to Apply",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityClaimsAppeal": {
@@ -100,7 +100,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Appeals",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityClaimTypes": {
@@ -108,7 +108,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Claim Types",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
 
     }
   },
@@ -117,7 +117,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Pre-discharge Claim",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityConditionsExposure": {
@@ -125,7 +125,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Contact with Hazardous Materials",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityConditionsSpecial": {
@@ -133,7 +133,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Special Claims",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityConditionsAgentOrange": {
@@ -141,7 +141,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Agent Orange",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityEligibility": {
@@ -149,7 +149,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Eligibility",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityEvidence": {
@@ -157,7 +157,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "How to Gather Evidence for Your Claim",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityAboutRatings": {
@@ -165,7 +165,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "About Disability Ratings",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityFullyDevelopedClaims": {
@@ -173,7 +173,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Fully Developed Claims",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "disabilityAddRemoveDependents": {
@@ -181,7 +181,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Add remove Dependents",
-      "icon": "fa-handshake"
+      "icon": "fa-handshake-o"
     }
   },
   "education": {
@@ -379,77 +379,137 @@
     "pattern": "housing-assistance/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Housing Assistance"
+      "name": "Housing Assistance",
+      "spokes": ["VA Home Loans", "Disability Housing Grants"],
+      "icon": "fa-home"
     }
   },
   "housingHomeLoans": {
     "pattern": "housing-assistance/home-loans/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Home Loans"
+      "name": "Home Loans",
+      "icon": "fa-home"
     }
   },
   "housingVALoans": {
-    "pattern": "housing-assistance/home-loans/loan-options/*.md",
+    "pattern": "housing-assistance/home-loans/loan-types/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Loan Options"
+      "name": "Loan Types",
+      "icon": "fa-home"
+    }
+  },
+  "housingNativeAmericanDLoan": {
+    "pattern": "housing-assistance/home-loans/loan-types/native-american-direct-loan/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Loan Types",
+      "icon": "fa-home"
+    }
+  },
+  "housingAssistanceDisabilityHousingGrants": {
+    "pattern": "housing-assistance/disability-housing-grants/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Disability Housing Grants",
+      "icon": "fa-home"
     }
   },
   "lifeInsurance": {
     "pattern": "life-insurance/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Life Insurance"
+      "name": "Life Insurance",
+      "icon": "fa-users"
     }
   },
   "lifeInsuranceOptions": {
-    "pattern": "life-insurance/options-and-eligibility/*.md",
+    "pattern": "life-insurance/options-eligibility/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Options"
+      "name": "Options and Eligibility",
+      "icon": "fa-users"
+    }
+  },
+  "lifeInsuranceTSGLI": {
+    "pattern": "life-insurance/options-eligibility/tsgli/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Traumatic Injury Protection (TSGLI)",
+      "icon": "fa-users"
+    }
+  },
+   "lifeInsuranceVGLI": {
+    "pattern": "life-insurance/options-eligibility/vgli/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Veterans' Group (VGLI)",
+      "icon": "fa-users"
     }
   },
   "pension": {
     "pattern": "pension/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Pension Benefits"
+      "name": "Pension Benefits",
+      "icon": "fa-money"
     }
   },
   "pensionEligibility": {
     "pattern": "pension/eligibility/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Eligibility"
+      "name": "Eligibility",
+      "icon": "fa-money"
     }
   },
   "pensionSurvivors": {
     "pattern": "pension/survivors-pension/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Survivors Pension"
+      "name": "Survivors Pension",
+      "icon": "fa-money"
     }
   },
   "pensionApplication": {
-    "pattern": "pension/apply/*.md",
+    "pattern": "pension/how-to-apply/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "How to Apply"
+      "name": "How to Apply",
+      "icon": "fa-money"
     }
   },
-  "vre": {
-    "pattern": "employment/vocational-rehab-and-employment/*md",
+  "careersEmployment": {
+    "pattern": "careers-employment/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Vocational Rehab &amp; Employment"
+      "name": "Careers and Employment",
+      "icon": "fa-briefcase"
     }
   },
   "vreServiceDisabled": {
-    "pattern": "employment/vocational-rehab-and-employment/service-disabled/*md",
+    "pattern": "careers-employment/vocational-rehabilitation/programs/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Servicemember & Veteran Programs"
+      "name": "Servicemember & Veteran Programs",
+      "icon": "fa-briefcase"
+    }
+  },
+  "vreServiceEligibility": {
+    "sortBy": "order",
+    "metadata": {
+      "name": "Eligibility",
+      "icon": "fa-briefcase"
+    }
+  },
+  "records": {
+    "pattern": "records/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "icon": "fa-id-card",
+      "name": "Records",
+      "spokes": ["Get Records"]
     }
   }
 }

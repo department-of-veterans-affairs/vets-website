@@ -45,7 +45,7 @@ private: true
           <a href="/education/how-to-apply/">How do I apply for education benefits?</a>
         </li>
         <li>
-          <a href="/education/gi-bill-school-comparison-tool">What education benefits are available by school?</a>
+          <a href="/gi-bill-comparison-tool">What education benefits are available by school?</a>
         </li>
       </ul>
     </div>

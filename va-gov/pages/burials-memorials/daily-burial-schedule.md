@@ -1,7 +1,7 @@
 ---
 title: Daily Burial Schedule
 href: https://www.cem.va.gov/cem/dailyburialschedule/
-order: 11
+order: 1
 collection: burials
 spoke: More Resources
 ---
