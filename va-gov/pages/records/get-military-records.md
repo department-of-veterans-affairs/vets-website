@@ -3,10 +3,10 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Get Your Military Service Records (including DD214)
 display title: Get Military Records
-concurrence: 
-plainlanguage: 
+concurrence:
+plainlanguage:
 collection: records
-children: 
+children:
 order: 1
 relatedlinks:
   - heading: Other Records Information
@@ -16,20 +16,20 @@ relatedlinks:
       description: Set up your personal health record, and download medical records, reports, and images to share with your VA and non-VA doctors.
     - url: /records/get-veteran-id-cards/
       title: Get Veteran ID Cards
-      description: Find out which Veteran ID cards you may need, and how to request them. 
+      description: Find out which Veteran ID cards you may need, and how to request them.
     - url: /records/download-va-letters/
       title: Download Your VA Benefit Letters
       description: Download copies of letters, like your award letter, for certain benefits.
-    - url: /records/discharge-upgrade/
+    - url: /discharge-upgrade-instructions/
       title: Learn How to Apply for a Discharge Upgrade
       description: Answer a series of questions to get step-by-step instructions on how to apply for a discharge upgrade or correction. If your discharge gets upgraded, you'll be eligible for the VA benefits you earned during your period of service.
- 
+
 ---
 
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-Find out how to access to your military records, including your DD214, through our eBenefits website. 
+Find out how to access to your military records, including your DD214, through our eBenefits website.
 
 </div>
 
@@ -37,7 +37,7 @@ Find out how to access to your military records, including your DD214, through o
   <div class="usa-alert-body">
     <h4 class="usa-alert-heading">You’ll need to sign in to eBenefits to get your service records</h4>
     <br>
-  <p class="usa-alert-text">To use this feature, you'll need a premium <b>DS Logon</b> account. Your MyHealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>    
+  <p class="usa-alert-text">To use this feature, you'll need a premium <b>DS Logon</b> account. Your MyHealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>
       <button class="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file">Go to eBenefits to Get Your Records</button>
     </p>
   </div>
@@ -49,7 +49,7 @@ Find out how to access to your military records, including your DD214, through o
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can review and print documents from your Official Military Personnel File. 
+You can review and print documents from your Official Military Personnel File.
 
 <b>You can access your:</b>
 <ul>
@@ -78,7 +78,7 @@ You can review and print documents from your Official Military Personnel File.
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You’ll need to have a premium <b>DS Logon</b> account (used for eBenefits and milConnect). 
+You’ll need to have a premium <b>DS Logon</b> account (used for eBenefits and milConnect).
 
 If you don’t have a premium DS Logon account, find out how to create or upgrade an account on eBenefits. <br>
 <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file">Go to eBenefits</a>.
@@ -91,7 +91,7 @@ If you don’t have a premium DS Logon account, find out how to create or upgrad
 
 <h2 itemprop="name">Are there other ways to get my military service records?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 <b>Yes. You can request your military records in any of these ways:</b>
 
@@ -103,7 +103,7 @@ If you don’t have a premium DS Logon account, find out how to create or upgrad
   <li>Contact your state or county Veterans agency</li>
   <li>Hire an independent researcher</li>
 </ul>
-  
+
 Visit the National Archives website to learn more about requesting your military service records. <br>
 <a href="https://www.archives.gov/veterans/military-service-records">Get instructions for different ways to request your records</a>.
 
@@ -133,7 +133,7 @@ Call our National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800
   <li>Contact your state or county Veterans agency</li>
   <li>Hire an independent researcher</li>
 </ul>
-  
+
 <b>You may be considered the next of kin if you're related to the Veteran in any of these ways:</b>
 <ul>
   <li>Surviving spouse who hasn't remarried, <b>or</b></li>

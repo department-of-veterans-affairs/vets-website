@@ -172,7 +172,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   <h2>More Information and Resources</h2>
 
   <div class="link">
-    <a href="/education/gi-bill-school-comparison-tool/"><b>GI Bill Comparison Tool</b></a>
+    <a href="/gi-bill-comparison-tool"><b>GI Bill Comparison Tool</b></a>
     <p>Learn about VA education benefits programs and compare GI Bill benefits by school.</p>
   </div>
 

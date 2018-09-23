@@ -74,8 +74,8 @@ Access your VA records and documents online to manage your health and benefits.
   </div>
 
   <div class="link">
-    <a href="/records/get-veteran-id-cards/"><b>Apply for a Veteran ID Card</b></a>
-    <p>Apply for a printed Veteran ID Card (VIC) that you can use instead of your DD214 to get discounts on goods and services offered to Veterans.</p>
+    <a href="/records/get-veteran-id-cards/"><b>Get Veteran ID Cards</b></a>
+    <p>Find out how to get different types of identification cards to show your military status or your enrollment in VA health care or the VA Choice program.</p>
   </div>
 
   <div class="link">
@@ -84,18 +84,18 @@ Access your VA records and documents online to manage your health and benefits.
   </div>
 
   <div class="link">
-    <a href="#"><b>Apply for a VA Home Loan Certificate of Eligibility</b></a>
-    <p>Apply for a Certificate of Eligibility (COE), which confirms for your lender that you qualify for a VA-backed home loan. Then choose your loan type to learn about the rest of the loan application process.</p>
+    <a href="/housing-assistance/home-loans/how-to-apply/"><b>Find Out How to Apply for a VA Home Loan Certificate of Eligibility</b></a>
+    <p>Get instructions for how to apply for your Certificate of Eligibility (COE), which confirms for your lender that you qualify for a VA-backed home loan. Then you can choose your loan type to learn about the rest of the loan application process.</p>
   </div>
 
   <div class="link">
-    <a href="/records/discharge-upgrade/"><b>Learn How to Apply for a Discharge Upgrade</b></a>
+    <a href="/discharge-upgrade-instructions/"><b>Learn How to Apply for a Discharge Upgrade</b></a>
     <p>Answer a series of questions to get step-by-step instructions on how to apply for a discharge upgrade or correction. If your discharge gets upgraded, you'll be eligible for the VA benefits you earned during your period of service.</p>
   </div>
 
   <div class="link">
     <a href="#"><b>View Your VA Payment History</b></a>
-    <p>Check the status of your VA disability and pension payments. You can also see certain survivor benefits.</p>
+    <p>Check the status of your VA disability, pension, and education benefits payments. You can also see payments for certain survivor benefits.</p>
   </div>
 
   <div class="link">

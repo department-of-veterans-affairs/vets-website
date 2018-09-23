@@ -1,6 +1,6 @@
 ---
 title: Check Appeal Status
-href: /claim-or-appeal-status/
+href: /track-claims
 order: 4
 spoke: Manage Benefits
 ---

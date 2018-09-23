@@ -18,7 +18,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 #### Am I eligible?
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-spouse">As a surviving spouse</button>
@@ -107,4 +107,4 @@ First you’ll need to fill out an application for benefits. The application you
 [Get help filing your claim](/disability/get-help-filing-claim/).
 
 - Go to a VA regional benefit office and get help from a VA employee. <br>
-[Find a local VA office](/find-locations).
+[Find a local VA office](/facilities/).
