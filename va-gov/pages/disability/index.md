@@ -6,16 +6,16 @@ display_title: Disability
 description: Find out if you're eligible for VA disability pay (compensation) for a service-connected disability. Learn about VA disability benefits, ratings, which conditions qualify, how to apply, and what to expect after you apply for Veterans disability.
 concurrence: complete
 lastupdate:
-icon: handshake
+icon: handshake-o
 promo:
   - image: /img/megamenu/disability-illustration.png
     heading: Decision Ready Claims (DRC) Program
-    url: "#"
+    url: "/disability/how-to-file-claim/evidence-needed/decision-ready-claims/"
     description: Find out if you can use the DRC program to get a decision on your claim in 30 days or less.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: "#"
+    - url: "/disability/how-to-file-claim/evidence-needed/decision-ready-claims/"
       title: <b>Disability Housing Grants for Veterans</b>
       description: Find out how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.
     - url:  https://www.benefits.va.gov/fiduciary/index.asp
@@ -31,7 +31,7 @@ crosslinks:
       title: <b>Aid and Attendance or Housebound Allowance</b>
       description: See if you're eligible for extra monthly pension payments if you need more aid than you're currently receiving.
 social:
-  - heading: Connect With Us
+  - heading: Connect with Us
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
@@ -120,7 +120,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
     </div>
 
   <div class="link">
-    <a href="/disability/file-for-increase-form-21-526ez/"><b>File for a VA Disability Increase</b></a>
+    <a href="/disability-benefits/apply/form-526-disability-claim"><b>File for a VA Disability Increase</b></a>
     <p>If your service-connected disability has gotten worse, find out how to file a claim to increase your disability rating.</p>
     </div>
 
@@ -130,7 +130,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="/disability/add-remove-dependent/"><b>Add or Remove a Dependent</b></a>
+    <a href="#"><b>Add or Remove a Dependent</b></a>
     <p>Find out how and when to add a dependent spouse, child, or parent to your VA disability benefits. Also learn how to remove a dependent from your benefits.</p>
   </div>
 
@@ -145,7 +145,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="#"><b>Change Your VA Direct Deposit and Contact Information</b></a>
+    <a href="/change-direct-deposit-and-contact-information/"><b>Change Your VA Direct Deposit and Contact Information</b></a>
     <p>Find out how to change your direct deposit information online.</p>
   </div>
 
@@ -180,7 +180,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/compensation/rates-index.asp" target="_blank"><b>View VA Disability Compensation Rates</b></a>
+    <a href="https://www.benefits.va.gov/compensation/rates-index.asp" ><b>View VA Disability Compensation Rates</b></a>
     <p>See the Veterans compensation benefits rates tables to find your rate based on your disability rating and dependents.</p>
   </div>
 
@@ -195,7 +195,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-  <a href="https://www.benefits.va.gov/compensation/dbq_disabilityexams.asp" target="_blank"><b>Disability Evaluation Questionnaires (VA DBQ Forms)</b></a>
+  <a href="https://www.benefits.va.gov/compensation/dbq_disabilityexams.asp" ><b>Disability Evaluation Questionnaires (VA DBQ Forms)</b></a>
   <p>Find and download the right disability benefits questionnaire for your health care provider to complete in support of your claim.</p>
   </div>
 

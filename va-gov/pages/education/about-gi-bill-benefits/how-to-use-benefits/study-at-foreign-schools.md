@@ -4,7 +4,7 @@ template: detail-page
 title: Foreign Programs
 plainlanguage: 11-28-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
-order: 1
+order: 2
 aliases:
   - /education/gi-bill/foreign-programs/
 ---
@@ -45,7 +45,7 @@ You can get education benefits if you qualify for—or already get—VA educatio
 Yes. The application process is different. Here’s what you’ll need to do:
 
 - Contact the school or use the GI Bill Comparison Tool to find out if we’ve approved your program for VA educational benefits. <br>
-[Use the GI Bill Comparison Tool](/education/gi-bill-school-comparison-tool).
+[Use the GI Bill Comparison Tool](/gi-bill-comparison-tool).
 - If you still have questions about the school or program, you can submit a question to us using the GI Bill website. <br>
 [Go to the GI Bill website](https://gibill.custhelp.com/app/utils/login_form/redirect/ask).
 - Then, give us the name of the foreign school, the complete address, and the name of the program you want to enroll in. We’ll let you know if your program has already been approved.
@@ -60,7 +60,7 @@ If you or your qualified dependent want to enroll in a program that we haven’t
 
 Use the GI Bill Comparison Tool to see what benefits you can get at the school you want to attend.
 <br>
-<a class="usa-button-primary va-button-secondary" href="/education/gi-bill-school-comparison-tool">Use the GI Bill Comparison Tool</a>
+<a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool">Use the GI Bill Comparison Tool</a>
 
 **Exception:** Programs at schools located in the United States that offer courses in a foreign country through the Department of Defense don’t qualify as foreign training. Also, year abroad and similar programs offered by schools in the United States don’t qualify as foreign training.
 
@@ -72,7 +72,7 @@ Use the GI Bill Comparison Tool to see what benefits you can get at the school y
 <li class="process-step list-one">
 
 After we approve the school, you’ll need to apply. <br>
-[Apply for benefits](/education/apply-for-education-benefits/).
+[Apply for benefits](/education/how-to-apply/).
 
 Turn in your application to us at least 90 days before you leave for your new school. We’ll decide what benefits you get based on your school’s location.
 

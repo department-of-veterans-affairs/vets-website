@@ -8,10 +8,10 @@ class AuthApplicationSection extends React.Component {
         <div className="profile-section medium-12 columns">
           <h4 className="section-header">Services</h4>
           <div className="medium-12 columns">
-            <p key="hca"><a href="/health-care/how-to-apply/">Apply for health care</a></p>
+            <p key="hca"><a href="/health-care/apply/">Apply for health care</a></p>
             <p key="edu-benefits"><a href="/education/apply-for-education-benefits">Apply for Education Benefits</a></p>
-            <p key="rx"><a href="/health-care/refill-track-prescriptions">Refill your prescription</a></p>
-            <p key="messaging"><a href="/health-care/secure-messaging">Message your health care team</a></p>
+            <p key="rx"><a href="/health-care/prescriptions">Refill your prescription</a></p>
+            <p key="messaging"><a href="/health-care/messaging">Message your health care team</a></p>
             <p key="health-records"><a href="/health-care/health-records">Get your VA health records</a></p>
             <p key="claims"><a href="/track-claims">Check your claim and appeal status</a></p>
             <p key="post-911"><a href="/education/gi-bill/post-9-11/ch-33-benefit">Get your Post-9/11 GI Bill statement of benefits</a></p>

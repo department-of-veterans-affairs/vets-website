@@ -7,7 +7,7 @@ import { mount } from 'enzyme';
 import { DefinitionTester, // selectCheckbox
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
-import { STATE_VALUES, MILITARY_STATE_VALUES } from '../../constants';
+import { STATE_VALUES, MILITARY_STATE_VALUES } from '../../../all-claims/constants';
 
 describe('Disability benefits 526EZ primary address', () => {
   const {

@@ -52,7 +52,7 @@ Find out how to apply for VA health care benefits as a Veteran or Servicemember.
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/health-care/apply-for-health-care-form-10-10ez">Apply for Health Care Benefits</a>
+  <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 </div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">

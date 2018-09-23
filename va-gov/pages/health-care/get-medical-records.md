@@ -33,9 +33,9 @@ Our online tools can help you view, organize, and share your VA medical records 
 
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You'll need to sign in before you can authorize us to share your health information through the Veterans Health Information Exchange.</h4>
-    <p class="usa-alert-text">
-      <button class="usa-button-primary">Sign In or Create an Account</button>
+    <h4 class="usa-alert-heading">You'll need to go to eBenefits to authorize us to share your health information through the Veterans Health Information Exchange.</h4>
+    <p class="usa-alert-text">To use this feature, you'll need a premium <b>DS Logon</b> account. Your MyHealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>
+      <button class="usa-button-primary">Go to eBenefits</button>
     </p>
   </div>
 </div>
@@ -81,7 +81,7 @@ You can use all the features of this tool if you meet all of the requirements li
 [Find out how to apply for VA health care](/health-care/how-to-apply/).
 
 **And you must have one of these free accounts:**
-- A premium **My Health<em>e</em>Vet** account, **or**
+- A premium **My HealtheVet** account, **or**
 - A **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
 
@@ -130,7 +130,7 @@ If you print or download anything from the website, you’ll need to take respon
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can get answers to frequently asked questions about VA Blue Button and related tools within My Health*e*Vet.
+You can get answers to frequently asked questions about VA Blue Button and related tools within My HealtheVet.
 <br>
 [Read VA Blue Button FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#bbtop). <br>
 [Read VA health summary FAQs](https://www.myhealth.va.gov/mhv-portal-web/faqs#CCD). <br>

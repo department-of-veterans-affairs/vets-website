@@ -14,7 +14,7 @@ children:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-View your VA lab and test results online through your My Health*e*Vet personal health record. Find out if you're eligible to use this tool and how to sign in.
+View your VA lab and test results online through your My HealtheVet personal health record. Find out if you're eligible to use this tool and how to sign in.
 
 </div>
 
@@ -33,7 +33,7 @@ View your VA lab and test results online through your My Health*e*Vet personal h
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-This tool, called "Labs + Tests," is part of the My Health*e*Vet personal health record. It can help you view and keep a record of your lab and test results.
+This tool, called "Labs + Tests," is part of the My HealtheVet personal health record. It can help you view and keep a record of your lab and test results.
 
 **You can use it to:**
 - View some of your VA lab and test results (like blood tests)
@@ -58,7 +58,7 @@ You can use this tool to view your VA results and information you enter yourself
 [Find out how to apply for VA health care](/health-care/how-to-apply/).
 
 **And you must have one of these free accounts:**
-- A premium **My Health<em>e</em>Vet** account, **or**
+- A premium **My HealtheVet** account, **or**
 - A **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
 
@@ -97,7 +97,7 @@ No. But you can enter this information yourself to keep all your results in one 
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h2 itemprop="name">Once I'm signed in within My Health<em>e</em>Vet, how do I view my results?</h2>
+<h2 itemprop="name">Once I'm signed in within My HealtheVet, how do I view my results?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
@@ -134,7 +134,7 @@ If you print or download anything from the website (like lab results), you’ll 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can get answers to your questions about this tool within our My Health*e*Vet web portal. <br>
+You can get answers to your questions about this tool within our My HealtheVet web portal. <br>
 [Read the labs and tests FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#LabsandTests).
 
 </div>

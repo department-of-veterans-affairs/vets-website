@@ -112,7 +112,7 @@ You may get up to 36 months of education benefits. We pay the benefits monthly a
 - [Accelerated payments for high-tech programs](/education/about-gi-bill-benefits/how-to-use-benefits/high-tech-programs/)
 - [$600 Buy-Up program](/education/about-gi-bill-benefits/montgomery-active-duty/buy-up/): While on active duty, you can pay into this program up to a maximum (the highest amount allowed) of $600 to get increased monthly benefits. If you pay the maximum amount, you can qualify for up to $5,400 in added GI Bill benefits.
 
-[Use the GI Bill Comparison Tool to compare benefits at schools](/education/gi-bill-school-comparison-tool). <br>
+[Use the GI Bill Comparison Tool to compare benefits at schools](/gi-bill-comparison-tool). <br>
 [Read the Montgomery GI Bill Active Duty pamphlet](https://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf).
 
 “GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase.” [Read our Terms of Use](https://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
