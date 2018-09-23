@@ -339,7 +339,7 @@ export default class PhotoField extends React.Component {
                 We’ve run into a problem.
                 <p>{errorMessage}</p>
               </div>
-              <a href="/records/get-veteran-id-cards/how-to-upload-photo" target="_blank">
+              <a href="/veteran-id-card/how-to-upload-photo" target="_blank">
                 Learn more about uploading a photo for your Veteran ID Card
               </a>
             </div>}

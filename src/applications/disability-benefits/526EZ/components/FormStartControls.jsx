@@ -21,7 +21,6 @@ export default function FormStartControls(props) {
       {user.profile.verified && <SaveInProgressIntro
         {...props}
         buttonOnly={props.buttonOnly}
-        prefillAvailable
         verifiedPrefillAlert={VerifiedAlert}
         unverifiedPrefillAlert={UnauthenticatedAlert}
         verifyRequiredPrefill={props.route.formConfig.verifyRequiredPrefill}
