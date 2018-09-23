@@ -33,7 +33,6 @@ You may be able to get disability benefits if you’ve had surgery or received o
       - Being unable to move due to being put in splints or casts to help with healing (known as therapeutic immobilizations)
       - Being unable to leave your house (known as house confinement)
       - Being required to use a wheelchair or crutches
-
 **If you didn’t have surgery, this must be true:**
 
 You had one or more major joints immobilized by a cast.
