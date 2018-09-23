@@ -8,7 +8,7 @@ import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import {
   isValidUSZipCode,
-  isValidCanPostalCode
+  isValidCanPostalCode,
 } from '../../../platform/forms/address';
 import { stateRequiredCountries } from '../../../platform/forms/definitions/address';
 import { filterViewFields } from 'us-forms-system/lib/js/helpers';
@@ -57,7 +57,7 @@ export const getReservesGuardData = formData => {
     unitName,
     obligationTermOfServiceDateRange,
     title10Activation,
-    waiveVABenefitsToRetainTrainingPay
+    waiveVABenefitsToRetainTrainingPay,
   } = formData;
 
   // Ensure all required fields are present
@@ -73,7 +73,7 @@ export const getReservesGuardData = formData => {
 
   const obligationDateRange = {
     from: obligationTermOfServiceDateRange.from,
-    to: obligationTermOfServiceDateRange.to
+    to: obligationTermOfServiceDateRange.to,
   };
 
   if (formData['view:isTitle10Activated']) {
@@ -82,16 +82,16 @@ export const getReservesGuardData = formData => {
       obligationTermOfServiceDateRange: obligationDateRange,
       title10Activation: {
         title10ActivationDate: title10Activation.title10ActivationDate,
-        anticipatedSeparationDate: title10Activation.anticipatedSeparationDate
+        anticipatedSeparationDate: title10Activation.anticipatedSeparationDate,
       },
-      waiveVABenefitsToRetainTrainingPay
+      waiveVABenefitsToRetainTrainingPay,
     };
   }
 
   return {
     unitName,
     obligationTermOfServiceDateRange: obligationDateRange,
-    waiveVABenefitsToRetainTrainingPay
+    waiveVABenefitsToRetainTrainingPay,
   };
 };
 
@@ -115,7 +115,7 @@ const transformProviderFacility = providerFacility => {
     newProviderFacility.push({
       providerFacilityName: facility.providerFacilityName,
       treatmentDateRange: transformDateRange(facility.treatmentDateRange),
-      providerFacilityAddress: facility.providerFacilityAddress
+      providerFacilityAddress: facility.providerFacilityAddress,
     });
   });
 
@@ -137,11 +137,11 @@ export function transform(formConfig, form) {
     veteran,
     privacyAgreementAccepted,
     servicePeriods,
-    standardClaim
+    standardClaim,
   } = form.data;
   const reservesNationalGuardService = getReservesGuardData(form.data);
   const disabilityProperties = Object.keys(
-    fullSchemaIncrease.definitions.disabilities.items.properties
+    fullSchemaIncrease.definitions.disabilities.items.properties,
   );
 
   const serviceInformation = reservesNationalGuardService
@@ -171,8 +171,8 @@ export function transform(formConfig, form) {
     standardClaim,
     form4142: {
       limitedConsent: gatherLimitedConsentText(disabilities),
-      providerFacility: transformProviderFacility(providerFacility)
-    }
+      providerFacility: transformProviderFacility(providerFacility),
+    },
   };
 
   const withoutViewFields = filterViewFields(transformedData);
@@ -187,7 +187,7 @@ export function validateDisability(disability) {
 
   if (result.errors.find(invalidDisabilityError)) {
     Raven.captureMessage(
-      `vets-disability-increase-invalid-disability-prefilled: ${disability}`
+      `vets-disability-increase-invalid-disability-prefilled: ${disability}`,
     );
     return false;
   }
@@ -211,7 +211,7 @@ export function transformDisabilities(disabilities = []) {
         const { decisionCode } = disability;
         if (decisionCode) {
           Raven.captureMessage('526_increase_disability_filter', {
-            extra: { decisionCode }
+            extra: { decisionCode },
           });
         }
 
@@ -229,7 +229,7 @@ export function addPhoneEmailToCard(formData) {
 
   const phoneEmailCard = {
     primaryPhone: get('primaryPhone', veteran, ''),
-    emailAddress: get('emailAddress', veteran, '')
+    emailAddress: get('emailAddress', veteran, ''),
   };
 
   const newFormData = set('veteran.phoneEmailCard', phoneEmailCard, formData);
@@ -249,12 +249,12 @@ export function transformObligationDates(formData) {
   }
 
   const {
-    obligationTermOfServiceDateRange: { from, to }
+    obligationTermOfServiceDateRange: { from, to },
   } = reservesNationalGuardService;
   const newFormData = set(
     'obligationTermOfServiceDateRange',
     { from, to },
-    formData
+    formData,
   );
   delete newFormData.reservesNationalGuardService;
 
@@ -265,14 +265,14 @@ export function prefillTransformer(pages, formData, metadata) {
   const { disabilities } = formData;
   if (!disabilities || !Array.isArray(disabilities)) {
     Raven.captureMessage(
-      'vets-disability-increase-no-rated-disabilities-found'
+      'vets-disability-increase-no-rated-disabilities-found',
     );
     return { metadata, formData, pages };
   }
   const newFormData = set(
     'disabilities',
     transformDisabilities(disabilities),
-    formData
+    formData,
   );
   newFormData.disabilities.forEach(validateDisability);
   const withPhoneEmailCard = addPhoneEmailToCard(newFormData);
@@ -280,7 +280,7 @@ export function prefillTransformer(pages, formData, metadata) {
   return {
     metadata,
     formData: withObligationDates,
-    pages
+    pages,
   };
 }
 
@@ -336,13 +336,15 @@ export const limitedConsentTextTitle = (
 );
 
 export const limitedConsentDescription = (
-  <AdditionalInfo triggerText="What does this mean?">
-    <p>
-      If you choose to limit consent, your doctor will abide by the limitation
-      you specify. Limiting consent could add to the time it takes to get your
-      private medical records.
-    </p>
-  </AdditionalInfo>
+  <div className="limitedConsent">
+    <AdditionalInfo triggerText="What does this mean?">
+      <p>
+        If you choose to limit consent, your doctor will abide by the limitation
+        you specify. Limiting consent could add to the time it takes to get your
+        private medical records.
+      </p>
+    </AdditionalInfo>
+  </div>
 );
 
 export const disabilityNameTitle = ({ formData }) => {
@@ -455,7 +457,7 @@ export function validatePostalCodes(errors, formData) {
   // Add error message for postal code if it exists and is invalid
   if (formData.treatmentCenterPostalCode && !isValidPostalCode) {
     errors.treatmentCenterPostalCode.addError(
-      'Please provide a valid postal code'
+      'Please provide a valid postal code',
     );
   }
 }
@@ -481,7 +483,7 @@ export function validateAddress(errors, formData) {
 
   if (hasAddressInfo && typeof formData.treatmentCenterState === 'undefined') {
     errors.treatmentCenterState.addError(
-      'Please enter a state or province, or remove other address information.'
+      'Please enter a state or province, or remove other address information.',
     );
   }
 
@@ -737,7 +739,7 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
     treatments,
     privateRecords,
     additionalDocuments,
-    providerFacility
+    providerFacility,
   } = formData;
 
   return (
@@ -846,7 +848,7 @@ const unconnectedVetInfoView = profile => {
 };
 
 export const veteranInfoDescription = connect(state => state.user.profile)(
-  unconnectedVetInfoView
+  unconnectedVetInfoView,
 );
 
 export const ITFErrorAlert = (
@@ -1006,7 +1008,7 @@ export function queryForFacilities(input = '') {
 
   const url = appendQuery('/facilities/suggested', {
     type: ['health', 'dod_health'],
-    name_part: input // eslint-disable-line camelcase
+    name_part: input, // eslint-disable-line camelcase
   });
 
   return apiRequest(
@@ -1015,13 +1017,13 @@ export function queryForFacilities(input = '') {
     response => {
       return response.data.map(facility => ({
         id: facility.id,
-        label: facility.attributes.name
+        label: facility.attributes.name,
       }));
     },
     error => {
       Raven.captureMessage('Error querying for facilities', { input, error });
       return [];
-    }
+    },
   );
 }
 
@@ -1055,7 +1057,7 @@ export const get4142Selection = disabilities => {
 
     const {
       'view:selected': viewSelected,
-      'view:uploadPrivateRecords': viewUploadPMR
+      'view:uploadPrivateRecords': viewUploadPMR,
     } = disability;
     if (viewSelected === true && viewUploadPMR === 'no') {
       return true;
@@ -1092,7 +1094,7 @@ export const validateBooleanIfEvidence = (
   schema,
   messages,
   options,
-  index
+  index,
 ) => {
   const { wrappedValidator } = options;
   if (get('view:hasEvidence', formData, true)) {
