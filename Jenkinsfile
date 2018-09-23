@@ -1,14 +1,9 @@
 import org.kohsuke.github.GitHub
 
-def envNames = [
-  // Vets.gov envs
-  'development', 'staging', 'production',
-  // VA.gov envs
-  'preview', 'vagovdev', 'vagovstaging'
-]
+def envNames = ['development', 'staging', 'production', 'preview']
 
 def devBranch = 'master'
-def stagsingBranch = 'master'
+def stagingBranch = 'master'
 def prodBranch = 'master'
 
 def isReviewable = {
@@ -252,20 +247,20 @@ node('vetsgov-general-purpose') {
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false
-        build job: 'deploys/vets-website-vagovdev', parameters: [
-          booleanParam(name: 'notify_slack', value: true),
-          stringParam(name: 'ref', value: commit),
-        ], wait: false
+        //build job: 'deploys/vets-website-vagovdev', parameters: [
+        //  booleanParam(name: 'notify_slack', value: true),
+        //  stringParam(name: 'ref', value: commit),
+        //], wait: false
       }
       if (env.BRANCH_NAME == stagingBranch) {
         build job: 'deploys/vets-website-staging', parameters: [
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false
-        build job: 'deploys/vets-website-vagovstaging', parameters: [
-          booleanParam(name: 'notify_slack', value: true),
-          stringParam(name: 'ref', value: commit),
-        ], wait: false
+        //build job: 'deploys/vets-website-preview', parameters: [
+        //  booleanParam(name: 'notify_slack', value: true),
+        //  stringParam(name: 'ref', value: commit),
+        //], wait: false
       }
     } catch (error) {
       notify()
