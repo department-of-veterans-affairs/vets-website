@@ -201,4 +201,25 @@ describe('Disability benefits 526EZ VA facility', () => {
     fillData(form, 'select#root_treatments_0_treatmentCenterAddress_country', 'USA');
     expect(form.find('select#root_treatments_0_treatmentCenterAddress_state').length).to.equal(1);
   });
+
+  it('does not submit (and renders error messages) when no fields touched', () => {
+    const submit = sinon.spy();
+
+    const form = mount(<DefinitionTester
+      arrayPath={arrayPath}
+      pagePerItemIndex={0}
+      definitions={formConfig.defaultDefinitions}
+      schema={schema}
+      data={initialData}
+      formData={initialData}
+      uiSchema={uiSchema}/>
+    );
+
+    form.find('form').simulate('submit');
+    expect(submit.called).to.be.false;
+    expect(form.find('.usa-input-error-message').length).to.equal(2); // name, 'from' date
+
+    expect(form.find('select').length).to.equal(6); // from/to months, days; country, state
+    expect(form.find('input').length).to.equal(4); // facility name, from/to years, city
+  });
 });

@@ -143,7 +143,7 @@ export default class EducationWizard extends React.Component {
                 <div className="usa-alert usa-alert-warning">
                   <div className="usa-alert-body">
                     <h4>Your application cannot be approved until your sponsor transfers their benefits.</h4>
-                    <a target="_blank" href="https://www.dmdc.osd.mil/milconnect/public/faq/Education_Benefits-How_to_Transfer_Benefits">Instructions for your sponsor to transfer education benefits.</a>
+                    <a target="_blank" href="https://milconnect.dmdc.osd.mil/milconnect/public/faq/Education_Benefits-How_to_Transfer_Benefits">Instructions for your sponsor to transfer education benefits.</a>
                   </div>
                 </div>}
             {newBenefit === 'yes' && nationalCallToService === 'yes' &&
