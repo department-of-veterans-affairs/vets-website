@@ -34,7 +34,7 @@ If you’re the spouse, surviving spouse, dependent child, or family caregiver o
 
 **Looking for other health care or disability insurance information on behalf of a Servicemember or Veteran?**<br>
 - [Learn about health care benefits for Servicemembers and Veterans](/health-care/). <br>
-- [Learn about disability benefits for Servicemembers and Veterans](/disability-benefits/).
+- [Learn about disability benefits for Servicemembers and Veterans](/disability/).
 
 <span id="education-benefits">
 
@@ -43,15 +43,15 @@ If you’re the dependent or surviving spouse or child of a Veteran, you may qua
 Find out if you qualify for:
 
 - [Survivors’ and Dependents’ Assistance
-(education and training opportunities, plus help paying for school)](/education/gi-bill/survivors-dependent-assistance/)<br>
-- [Free educational and career counseling services](/education/tools-programs/education-career-counseling/)<br>
-- [Work study (a part-time job while you're in school)](/education/work-learn/workstudy/)<br>
+(education and training opportunities, plus help paying for school)](/education/survivor-dependent-benefits/)<br>
+- [Free educational and career counseling services](/careers-employment/education-and-career-counseling/)<br>
+- [Work study (a part-time job while you're in school)](/education/about-gi-bill-benefits/how-to-use-benefits/work-study/)<br>
 
-[Use the GI Bill Comparison Tool to see what benefits you’ll get at different schools](/gi-bill-comparison-tool/).<br>
-[Find out how to apply for education benefits](/education/apply/).<br>
+[Use the GI Bill Comparison Tool to see what benefits you’ll get at different schools](/gi-bill-comparison-tool).<br>
+[Find out how to apply for education benefits](/education/how-to-apply/).<br>
 
 If your Veteran qualifies for the Post-9/11 GI Bill but doesn’t use all their benefits, they may be able to transfer up to 36 months of those unused benefits to you. <br>
-[Find out if your Veteran can transfer benefits to you](/education/gi-bill/transfer/).
+[Find out if your Veteran can transfer benefits to you](/education/transfer-post-9-11-gi-bill-benefits/).
 
 **Looking for education and training information on behalf of a Servicemember or Veteran?**<br>
 [Learn about education and training benefits for Servicemembers and Veterans](/education/).
@@ -68,10 +68,10 @@ If you’re the spouse or surviving spouse of a Servicemember or Veteran, you ma
 - Workshops focused on building resumes and cover letters as well as networking and interviewing skills
 - Entrepreneurship training to help you start your own business
 
-[Explore resources for military and Veteran family members](/employment/job-seekers/family-members/).
+[Explore resources for military and Veteran family members](/careers-employment/family-resources/).
 
 **Looking for career and employment information on behalf of a Servicemember or Veteran?**<br>
-[Learn about career and employment benefits for Servicemembers and Veterans](/employment/).
+[Learn about career and employment benefits for Servicemembers and Veterans](/careers-employment/).
 
 <span id="voc-rehab">
 
@@ -85,21 +85,21 @@ Benefits may include educational and vocational (job) counseling, plus help with
 - Mapping out a career path
 - Planning the best use of your VA benefits
 
-[Find out if you qualify for counseling and how to apply](/employment/vocational-rehab-and-employment/family-members/).
+[Find out if you qualify for counseling and how to apply](/careers-employment/dependent-benefits/).
 
 **Looking for VR&E information on behalf of a Servicemember or Veteran?**<br>
-[Learn about VR&E benefits for Servicemembers and Veterans](/employment/vocational-rehab-and-employment/).
+[Learn about VR&E benefits for Servicemembers and Veterans](/careers-employment/vocational-rehabilitation/).
 <!-- should be /vocational-rehab-and-employment/ -->
 
 <span id="life-insurance">
 
 ### Life Insurance
 
-If you’re the spouse or dependent child of a Servicemember, you may qualify for term life insurance coverage through our Family Servicemembers’ Group Life Insurance (FSGLI). [Find out if you qualify for FSGLI and how to apply](/life-insurance/options-and-eligibility/fsgli/).
+If you’re the spouse or dependent child of a Servicemember, you may qualify for term life insurance coverage through our Family Servicemembers’ Group Life Insurance (FSGLI). [Find out if you qualify for FSGLI and how to apply](/life-insurance/options-eligibility/fsgli/).
 
 If you have FSGLI coverage, you can also get free, professional financial planning and online will preparation services. [Access beneficiary financial counseling and online will preparation](http://www.benefits.va.gov/insurance/bfcs.asp).
 
-If you or your Servicemember or Veteran has a terminal illness, you may be able to get your life insurance benefits early. Having a terminal illness means you have an illness that can’t be cured and will likely result in death within a short period of time. [Learn about accelerated claims for terminally ill policyholders](/life-insurance/disabled-and-terminally-ill/).
+If you or your Servicemember or Veteran has a terminal illness, you may be able to get your life insurance benefits early. Having a terminal illness means you have an illness that can’t be cured and will likely result in death within a short period of time. [Learn about accelerated claims for terminally ill policyholders](/life-insurance/totally-disabled-or-terminally-ill/).
 
 **Looking for life insurance information on behalf of a Servicemember or Veteran?**<br>
 [Learn about life insurance benefits for Servicemembers and Veterans](/life-insurance/).
@@ -121,19 +121,19 @@ If you need help with your daily activities—or you’re housebound—you may a
 
 ### Burials and Memorials
 
-If you’d like to find out in advance if you can be buried in a VA national cemetery, you can apply for a pre-need determination of eligibility. [Apply for a pre-need eligibility determination](/burials-and-memorials/pre-need/).
+If you’d like to find out in advance if you can be buried in a VA national cemetery, you can apply for a pre-need determination of eligibility. [Apply for a pre-need eligibility determination](/burials-memorials/pre-need-eligibility/).
 
 If a Servicemember, Veteran, or eligible spouse or dependent child in your family dies, we’re here to help you through the process of planning their burial and memorial.
 
-[Learn about how to plan a burial for a deceased family member](/burials-and-memorials/burial-planning/).<br>
-[See if the deceased qualifies for burial in a VA national cemetery and other burial honors](/burials-and-memorials/eligibility/).<br>
-[Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/). <br>
-[Get support through bereavement counseling after the death of a loved one](/burials-and-memorials/bereavement-counseling/).
+[Learn about how to plan a burial for a deceased family member](/burials-memorials/plan-a-burial/).<br>
+[See if the deceased qualifies for burial in a VA national cemetery and other burial honors](/burials-memorials/eligibility/).<br>
+[Find out what to expect at a memorial service](/burials-memorials/what-to-expect-at-military-funeral/). <br>
+[Get support through bereavement counseling after the death of a loved one](/burials-memorials/bereavement-counseling/).
 
 #### Survivor and Dependent Benefits
-If you’re the surviving spouse, child, or parent of a Servicemember or Veteran, you may also qualify for tax-free monetary benefits and help paying for the funeral. [Find out if you qualify for burial allowances and survivor compensation](/burials-and-memorials/survivor-and-dependent-benefits/).
+If you’re the surviving spouse, child, or parent of a Servicemember or Veteran, you may also qualify for tax-free monetary benefits and help paying for the funeral. [Find out if you qualify for burial allowances and survivor compensation](/burials-memorials/dependency-indemnity-compensation/).
 
-If you’re the surviving spouse, child, or parent of a Servicemember who died while serving their country or a Reservist or National Guardsman who died while on duty, you may qualify for bereavement counseling. [Find out if you qualify for free bereavement counseling](/burials-and-memorials/bereavement-counseling/). 
+If you’re the surviving spouse, child, or parent of a Servicemember who died while serving their country or a Reservist or National Guardsman who died while on duty, you may qualify for bereavement counseling. [Find out if you qualify for free bereavement counseling](/burials-memorials/bereavement-counseling/). 
 <br>
 
 <span id="housing-assistance">
@@ -141,14 +141,14 @@ If you’re the surviving spouse, child, or parent of a Servicemember who died w
 ### Housing Assistance
 
 If you’re the surviving spouse of a Veteran, we may be able to help you build, buy, improve, or refinance a home.
-[Learn how VA-backed home loans work](/housing-assistance/home-loans/loan-options/).<br>
+[Learn how VA-backed home loans work](/housing-assistance/home-loans/loan-types/).<br>
 [Find out if you qualify to get a Certificate of Eligibility (COE) for a VA-backed home loan](/housing-assistance/home-loans/eligibility/).<br>
-[Find out how to apply for a COE—and what to do next to get a VA-backed home loan](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).<br>
+[Find out how to apply for a COE—and what to do next to get a VA-backed home loan](/housing-assistance/home-loans/how-to-apply/).<br>
 
 If you have a VA-backed home loan and you’re having trouble making your mortgage payments, we may be able to help you avoid foreclosure and keep your home. [Find out how we can help you avoid foreclosure](/housing-assistance/home-loans/trouble-making-payments/). 
 
 **Looking for information about buying, building, or making changes to a home to help a Veteran with disabilities?**<br>
-[Learn about adaptive housing grants](/housing-assistance/adaptive-housing-grants/).
+[Learn about adaptive housing grants](/housing-assistance/disability-housing-grants/).
 <br>
 
 <span id="caregiver-support">

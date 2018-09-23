@@ -5,7 +5,8 @@ import moment from 'moment';
 import {
   validateServiceDates,
   validateDependentDate,
-  validateMarriageDate
+  validateMarriageDate,
+  validateCurrency,
 } from '../validation';
 
 describe('hca validation', () => {
@@ -128,6 +129,44 @@ describe('hca validation', () => {
             }
           ]
         }, null, null, 0);
+
+      expect(errors.addError.callCount).to.equal(0);
+    });
+  });
+  describe('validateCurrency', () => {
+    it('should set message if value has three decimals', () => {
+      const errors = {
+        addError: sinon.spy()
+      };
+      validateCurrency(errors,
+        '234.234');
+
+      expect(errors.addError.callCount).to.equal(1);
+    });
+    it('should set message if value has trailing whitespace', () => {
+      const errors = {
+        addError: sinon.spy()
+      };
+      validateCurrency(errors,
+        '234234 ');
+
+      expect(errors.addError.callCount).to.equal(1);
+    });
+    it('should set message if value has leading whitespace', () => {
+      const errors = {
+        addError: sinon.spy()
+      };
+      validateCurrency(errors,
+        ' 234234');
+
+      expect(errors.addError.callCount).to.equal(1);
+    });
+    it('should not set message if value includes dollar sign', () => {
+      const errors = {
+        addError: sinon.spy()
+      };
+      validateCurrency(errors,
+        '$234,234');
 
       expect(errors.addError.callCount).to.equal(0);
     });

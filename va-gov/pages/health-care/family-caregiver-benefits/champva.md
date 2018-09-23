@@ -6,6 +6,8 @@ display_title:
 concurrence: complete
 lastupdate: 2018-02-13
 order: 1
+aliases:
+  - /health-care/family-caregiver-health-benefits/CHAMPVA/
 ---
 
 <div class="va-introtext">
@@ -39,7 +41,7 @@ A service-connected disability is a disability that we’ve concluded was caused
 
 There are other factors that may affect whether you or other family members qualify for CHAMPVA. Please click on the description that matches your status to learn more:
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
   <ul class="usa-unstyled-list">
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="expecting">A new or expectant parent</button>

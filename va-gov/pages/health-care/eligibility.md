@@ -8,6 +8,7 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2018-01-02
 collection: healthCare
 children: healthEligibility
+spoke: Get Benefits
 order: 2
 widgets:
   - root: react-applicationStatus
@@ -84,7 +85,7 @@ Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed
 <div markdown="0"><br></div>
 
 <div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/health-care/apply-for-health-care-form-10-10ez">Apply for Health Care Benefits</a>
+  <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 </div>
 
 <div itemscope itemtype="http://schema.org/Question">
@@ -202,7 +203,7 @@ Or, call our general VA hotline at <a href="tel:+1phonenumber">1-800-827-1000</a
 </div>
 </div>
 </div>
-<br>  
+<br>
 
 <span id="vision-care"></span>
 
@@ -245,7 +246,7 @@ In certain cases, you may receive dental care as part of your VA health benefits
 <div itemprop="text">
 
 If you have an illness or injury that was caused—or made worse—by your active-duty service, you may be able to get disability compensation. <br/>
-[Find out if you qualify for disability benefits](/disability-benefits/eligibility/).
+[Find out if you qualify for disability benefits](/disability/eligibility/).
 
 </div>
 </div>

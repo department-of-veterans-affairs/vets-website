@@ -2,11 +2,10 @@ const moment = require('moment');
 const E2eHelpers = require('../../../testing/e2e/helpers');
 const Timeouts = require('../../../testing/e2e/timeouts.js');
 const HcaHelpers = require('../../../../applications/hca/tests/hca-helpers.js');
-const HCA_ROOT = require('../../../../applications/hca/manifest.json').rootURl;
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    const url = `${E2eHelpers.baseUrl}${HCA_ROOT}`;
+    const url = `${E2eHelpers.baseUrl}/health-care/apply/application`;
     const token = HcaHelpers.initSaveInProgressMock(url, client);
 
     // Ensure introduction page renders.

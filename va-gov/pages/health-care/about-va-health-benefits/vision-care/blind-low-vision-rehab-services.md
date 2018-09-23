@@ -2,10 +2,12 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: VA Blind and Low Vision Rehabilitation Services
-display_title: Care for Blind and Low Vision Veterans
+display_title: Blind and Low-Vision Services
 concurrence: complete
 lastupdate: 2017-06-28
 order: 1
+aliases:
+  - /health-care/about-va-health-care/vision-care/blind-and-low-vision-veterans/
 relatedlinks:
   - heading: More information about your benefits
     links:
@@ -18,7 +20,7 @@ relatedlinks:
     - url: /health-care/health-needs-conditions/
       title: Health Needs and Conditions
       description: Find out how to access VA services for mental health, women’s health, and other specific needs.
-    - url: /disability-benefits/
+    - url: /disability/
       title: Disability Benefits
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---

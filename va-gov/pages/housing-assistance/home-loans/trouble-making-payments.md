@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Trouble Making Payments?
 concurrence:
-order: 4
+order: 5
 ---
 
 <div class="va-introtext">

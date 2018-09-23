@@ -11,3 +11,25 @@
     margin-bottom: 1em;
   }
 }
+
+.appointment-item {
+  h4:first-child {
+    margin-top: 0;
+  }
+
+  background: $color-gray-lightest;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+
+  .appointment-info {
+    h4:first-child {
+      margin-top: 0;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+
+    padding: 0 2rem;
+  }
+}

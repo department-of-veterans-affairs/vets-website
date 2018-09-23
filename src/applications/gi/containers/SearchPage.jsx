@@ -63,8 +63,10 @@ export class SearchPage extends React.Component {
 
   updateSearchResults() {
     const programFilters = [
+      'distanceLearning',
       'studentVeteranGroup',
       'yellowRibbonScholarship',
+      'onlineOnly',
       'principlesOfExcellence',
       'eightKeysToVeteranSuccess',
       'stemOffered',

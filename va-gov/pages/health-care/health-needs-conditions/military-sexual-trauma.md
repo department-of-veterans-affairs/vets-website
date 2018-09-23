@@ -2,11 +2,13 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Military Sexual Trauma (MST)
-display_title:
-description: If you're a Veteran who experienced military sexual trauma (MST) while serving, find out if you can get VA health care benefits and services to help you recover.  
+display_title: Military Sexual Trauma
+description: If you're a Veteran who experienced military sexual trauma (MST) while serving, find out if you can get VA health care benefits and services to help you recover.
 concurrence: complete
 lastupdate: 2017-06-28
-order: 3
+order: 4
+aliases:
+  - /health-care/health-conditions/military-sexual-trauma/
 relatedlinks:
   - heading: Related health problems you may want to learn about
     links:
@@ -37,13 +39,13 @@ Military sexual trauma (MST) refers to sexual assault or repeated, threatening s
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
 	    <p>Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
-	    <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>	  
+	    <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>
 	    <ul>
               <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
 	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
   	      <li>Text <a href="sms:838255">838255</a>.</li>
             </ul>
-     	    <p><strong>You can also:</strong></p>	  
+     	    <p><strong>You can also:</strong></p>
             <ul>
               <li>Call <a href="tel:911">911</a>.</li>
 	      <li>Go to the nearest emergency room.</li>
@@ -88,7 +90,7 @@ If you’re a Veteran who has experienced MST, you can get help through VA. You 
 - **If you’re homeless or at risk of becoming homeless:**
   - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential.
   - Visit our website to learn about VA programs for Veterans who are homeless.<br>
-  [Learn about our homelessness programs](https://www.va.gov/homeless/).  
+  [Learn about our homelessness programs](https://www.va.gov/homeless/).
   - Call or visit your local VA Community Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. <br>
   [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
@@ -101,7 +103,7 @@ You can also call the VA general information hotline at <a href="tel:+1-800-827-
 ### Can I get disability compensation (monthly payments) or other benefits from VA?
 
 You can’t get compensation for the traumatic event itself. But you may be able to get disability compensation for conditions resulting from MST—like PTSD (the most common mental health condition linked to MST).<br>
-[Find out if you can get disability benefits for PTSD](/disability-benefits/conditions/ptsd/#ptsd-disability-eligibility).
+[Find out if you can get disability benefits for PTSD](/disability/eligibility/ptsd/#ptsd-disability-eligibility).
 
 Or get help applying for disability compensation by:
 
@@ -124,9 +126,9 @@ Or get help applying for disability compensation by:
 [Watch the video](https://www.youtube.com/watch?v=b9snig5gZfk).
 - Access more fact sheets, articles, and resources, and learn more about our programs and services on the VA.gov website.<br>
 [Go to the VA.gov MST website](https://www.mentalhealth.va.gov/msthome.asp).
-- Go to our Make the Connection website to hear stories from Veterans about their own experiences with the effects of MST, and find more resources and support.<br> 
+- Go to our Make the Connection website to hear stories from Veterans about their own experiences with the effects of MST, and find more resources and support.<br>
 [Visit Make the Connection](https://maketheconnection.net/).
-- Go to the Department of Defense (DoD) Safe Helpline website, a crisis support service for members of the DOD community affected by sexual assault. When you contact the Safe Helpline, you can remain anonymous (meaning you don’t have to give your name). You can get 1-on-1 advice, support, and information 24/7—by phone, text, or online chat. You can also connect with a sexual assault response coordinator near your base or installation.<br> 
+- Go to the Department of Defense (DoD) Safe Helpline website, a crisis support service for members of the DOD community affected by sexual assault. When you contact the Safe Helpline, you can remain anonymous (meaning you don’t have to give your name). You can get 1-on-1 advice, support, and information 24/7—by phone, text, or online chat. You can also connect with a sexual assault response coordinator near your base or installation.<br>
 [Visit SafeHelpline.org](https://www.safehelpline.org/).
 
 <script type="text/javascript">
