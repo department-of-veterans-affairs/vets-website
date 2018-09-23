@@ -84,7 +84,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Health care sub menu items
     const hcFirstItem = '#vetnav-healthcare a[href="/health-care/"]';
     const hcSecondItem = '#vetnav-healthcare a[href="/health-care/eligibility/"]';
-    const hcLastItem = '#vetnav-healthcare a[href="/health-care/apply-for-health-care-form-10-10ez"]';
+    const hcLastItem = '#vetnav-healthcare a[href="/health-care/apply/application/"]';
 
     // Disability menu items
     // const disFirstItem = '#vetnav-disability a[href="/disability-benefits/"]';
@@ -148,7 +148,7 @@ module.exports = E2eHelpers.createE2eTest(
 
 
     // -- Non-sub menu buttons -- //
-    const prescriptionsLink = 'a[href="/health-care/refill-track-prescriptions"]';
+    const prescriptionsLink = 'a[href="/health-care/prescriptions"]';
 
     client.click(benefitsButton);
 

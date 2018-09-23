@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: VA Dental Care
-display_title:
+display_title: Dental Care
 description: Find out if you qualify for VA dental benefits, or how to buy dental insurance if you're not eligible for VA dental care.
 concurrence: complete
 lastupdate: 2017-06-28
@@ -21,7 +21,7 @@ relatedlinks:
     - url: /health-care/health-needs-conditions/
       title: Health Needs and Conditions
       description: Find out how to access VA services for mental health, women’s health, and other specific needs.
-    - url: /disability-benefits/
+    - url: /disability/
       title: Disability Benefits
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation from VA.
 ---
@@ -46,7 +46,7 @@ It depends on a number of factors, like your military service history and your c
 
 Click on the statement below that describes you best to find out your benefits class and the dental benefits you may qualify for:
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-disability">I have a service-connected disability or condition, and I get disability compensation (monthly payments).</button>
@@ -199,7 +199,7 @@ Click on the statement below that describes you best to find out your benefits c
 
 You can apply online by filling out the 10-10EZ health care application.
 
-<a class="usa-button-primary va-button-primary" href="/health-care/apply-for-health-care-form-10-10ez">Apply for Benefits</a>
+<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Benefits</a>
 
 <br>
 

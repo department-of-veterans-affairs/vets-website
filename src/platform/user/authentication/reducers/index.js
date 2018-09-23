@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import set from '../../../utilities/data/set';
 
 import {
   LOG_OUT,
@@ -12,10 +12,10 @@ const initialState = {
 function loginStuff(state = initialState, action) {
   switch (action.type) {
     case UPDATE_LOGGEDIN_STATUS:
-      return _.set('currentlyLoggedIn', action.value, state);
+      return set('currentlyLoggedIn', action.value, state);
 
     case LOG_OUT:
-      return _.set('currentlyLoggedIn', false, state);
+      return set('currentlyLoggedIn', false, state);
 
     default:
       return state;

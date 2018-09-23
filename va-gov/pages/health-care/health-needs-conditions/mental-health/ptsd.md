@@ -116,7 +116,7 @@ You may still be able to get care:
 
 ### Can I get disability compensation (monthly payments) or other benefits from VA if I think I have PTSD linked to military service?
 
-If you have symptoms of PTSD and suffered a serious injury, personal trauma, sexual trauma, or were threatened with injury, sexual assault, or death while serving in the military, you may be able to get disability compensation or benefits. [Find out if you can get disability benefits](/disability-benefits/conditions/ptsd/#ptsd-disability-eligibility).
+If you have symptoms of PTSD and suffered a serious injury, personal trauma, sexual trauma, or were threatened with injury, sexual assault, or death while serving in the military, you may be able to get disability compensation or benefits. [Find out if you can get disability benefits](/disability/eligibility/ptsd/#ptsd-disability-eligibility).
 
 <br>
 

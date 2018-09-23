@@ -1,0 +1,8 @@
+{% if buildtype == 'staging' %}
+  {% assign auth_required_entrynames = 'claims-status, letters, health-records, messaging, rx, profile-360' | split: ', ' %}
+  {% if auth_required_entrynames contains entryname  %}
+    <script type="text/javascript" src="/js/foresee/{{ buildtype }}.js"></script>
+  {% else %}
+    <script type="text/javascript" src="https://resources.digital-cloud-gov.voice.medallia.com/wdcgov/2/onsite/embed.js" async></script>
+  {% endif %}
+{% endif %}

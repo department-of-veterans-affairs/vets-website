@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: VA Vision Care
-display_title:
+display_title: Vision Care
 description: Find out if you're eligible for VA vision benefits, and if VA vision care will cover the cost of eyeglasses.
 concurrence: complete
 lastupdate: 2017-06-28
@@ -23,7 +23,7 @@ relatedlinks:
     - url: /health-care/health-needs-conditions/
       title: Health Needs and Conditions
       description: Find out how to access VA services for mental health, women’s health, and other specific needs.
-    - url: /disability-benefits/
+    - url: /disability/
       title: Disability Benefits
       description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
@@ -59,7 +59,7 @@ We’ll cover the cost of your eyeglasses if you meet at least one of the requir
 - Have a compensable service-connected disability (a disability linked to your military service for which you’re receiving VA disability payments), **or**
 - Are a former Prisoner of War (POW), **or**
 - Were awarded a Purple Heart, **or**
-- [Receive benefits under Title 38 United States Code (U.S.C.) 1151](https://www.vets.gov/disability-benefits/conditions/special-claims/title-38-USC-1151/), **or**
+- [Receive benefits under Title 38 United States Code (U.S.C.) 1151](/disability/eligibility/special-claims/1151-claims-title-38/), **or**
 - Receive an increased pension based on your being permanently housebound and in need of regular aid and attendance
 
 **Or, you must have at least one of these issues:**

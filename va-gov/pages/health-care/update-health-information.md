@@ -3,12 +3,13 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Update Your Health Benefits Information (VA Form 10-10EZR)
 display_title: Update Health Benefits Info
-description: 
-concurrence: 
+description:
+concurrence:
 lastupdate: 2018-08-22
 collection: healthCare
-order: 
-children: 
+spoke: Manage Benefits
+order: 14
+children:
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
@@ -21,9 +22,9 @@ Use the Health Benefits Update Form (VA Form 10-10EZR) to update your personal, 
 
 <h2 itemprop="name"> How do I use this form to update my information?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
-Fill out, sign, and date a copy of the form.<br> 
+Fill out, sign, and date a copy of the form.<br>
 [Download VA Form 10-10EZR](https://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf).
 
 Send the completed form and any supporting documents to:
@@ -42,7 +43,7 @@ Atlanta, GA 30329<br>
 
 <h2 itemprop="name">What information can I update with this form?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 **You can update your:**
 
@@ -60,7 +61,7 @@ Atlanta, GA 30329<br>
 
 <h2 itemprop="name">Can I use this form to see if I’m eligible for more benefits based on my financial situation?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 Yes. You can use this form to update information about your income and deductible expenses.
 
@@ -78,9 +79,9 @@ Yes. You can use this form to update information about your income and deductibl
 
 <h2 itemprop="name">Can I use this form to apply for VA health care?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
-No. You can use this form only to update your information if you’re already enrolled in VA health care.<br> 
+No. You can use this form only to update your information if you’re already enrolled in VA health care.<br>
 [Find out how to apply for VA health care](https://www.vets.gov/health-care/how-to-apply/).
 
 </div>
@@ -91,7 +92,7 @@ No. You can use this form only to update your information if you’re already en
 
 <h2 itemprop="name">Why does this form ask about my other insurance?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text"> 
+<div itemprop="text">
 
 We ask for this information because we have to bill your private health insurance provider for any care, supplies, or medicine we provide to treat your non-service-connected conditions (illnesses or injuries that aren’t related to your military service).
 

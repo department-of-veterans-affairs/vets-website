@@ -2,8 +2,10 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Managing Your Policy
+display_title: Manage Policy 
 concurrence: 
-order: 3
+order: 1
+spoke: Manage Benefits
 ---
 
 <div class="va-introtext">

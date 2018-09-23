@@ -6,6 +6,7 @@ display_title: How to Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 lastupdate: 2017-08-28
 collection: healthCare
+spoke: Get Benefits
 order: 3
 description: Find out what documents you'll need to apply for VA health care benefits. Apply online for VA health care benefits today.
 aliases:
@@ -51,7 +52,7 @@ Find out how to apply for VA health care benefits as a Veteran or Servicemember.
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 <div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/health-care/apply-for-health-care-form-10-10ez">Apply for Health Care Benefits</a>
+  <a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Health Care Benefits</a>
 </div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
@@ -87,7 +88,7 @@ Or get help through your state's Department of Veterans Affairs. <br>
 ##### With the help of a trained professional
 
 You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br>
-[Get help filing your claim](/disability-benefits/apply/help/index.html).
+[Get help filing your claim](/disability/get-help-filing-claim/).
 
 </div>
 </div>
