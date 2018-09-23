@@ -3,30 +3,19 @@ import Raven from 'raven-js';
 import moment from 'moment';
 
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
-import environment from '../../platform/utilities/environment';
-import conditionalStorage from '../../platform/utilities/storage/conditionalStorage';
+import { apiRequest } from '../../platform/utilities/api';
 
 function checkStatus(guid) {
-  const userToken = conditionalStorage().getItem('userToken');
-  const headers = {
-    'Content-Type': 'application/json',
-    'X-Key-Inflection': 'camel',
-  };
+  const headers = { 'Content-Type': 'application/json' };
 
-  if (userToken) {
-    headers.Authorization = `Token token=${userToken}`;
-  }
-  return fetch(`${environment.API_URL}/v0/burial_claims/${guid}`, {
-    headers,
-    mode: 'cors'
-  })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject(res);
-    }).catch(res => {
+  return apiRequest(
+    `/burial_claims/${guid}`,
+    {
+      headers,
+      mode: 'cors'
+    },
+    null,
+    res => {
       if (res instanceof Error) {
         Raven.captureException(res);
         Raven.captureMessage('vets_burial_poll_client_error');
@@ -38,7 +27,8 @@ function checkStatus(guid) {
 
       // if we get here, it's likely that we hit a server error
       return Promise.reject(res);
-    });
+    }
+  );
 }
 
 const POLLING_INTERVAL = 1000;
@@ -73,28 +63,17 @@ export function transform(formConfig, form) {
 }
 
 export function submit(form, formConfig) {
-  const userToken = conditionalStorage().getItem('userToken');
-  const headers = {
-    'Content-Type': 'application/json',
-    'X-Key-Inflection': 'camel',
-  };
-
-  if (userToken) {
-    headers.Authorization = `Token token=${userToken}`;
-  }
+  const headers = { 'Content-Type': 'application/json' };
 
   const body = transform(formConfig, form);
-  return fetch(`${environment.API_URL}/v0/burial_claims`, {
-    body,
+  const apiRequestOptions = {
     headers,
+    body,
     method: 'POST',
-    mode: 'cors'
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(res);
-  }).then(resp => {
+    mode: 'cors',
+  };
+
+  const onSuccess = resp => {
     const { guid, confirmationNumber, regionalOffice } = resp.data.attributes;
     return new Promise((resolve, reject) => {
       pollStatus({ guid, confirmationNumber, regionalOffice }, response => {
@@ -105,7 +84,9 @@ export function submit(form, formConfig) {
       }, error => reject(error));
 
     });
-  }).catch(respOrError => {
+  };
+
+  const onFailure = respOrError => {
     if (respOrError instanceof Response) {
       if (respOrError.status === 429) {
         const error = new Error('vets_throttled_error_burial');
@@ -115,7 +96,14 @@ export function submit(form, formConfig) {
       }
     }
     return Promise.reject(respOrError);
-  });
+  };
+
+  return apiRequest(
+    '/burial_claims',
+    apiRequestOptions,
+    onSuccess,
+    onFailure,
+  );
 }
 export const serviceRecordNotification = (
   <div className="usa-alert usa-alert-warning no-background-image">

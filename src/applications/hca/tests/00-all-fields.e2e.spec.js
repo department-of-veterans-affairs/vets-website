@@ -3,7 +3,6 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const HcaHelpers = require('./hca-helpers.js');
 const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../platform/testing/e2e/form-helpers');
-const HCA_ROOT = require('../manifest.json').rootUrl;
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -11,7 +10,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Ensure introduction page renders.
     client
-      .url(`${E2eHelpers.baseUrl}${HCA_ROOT}`)
+      .url(`${E2eHelpers.baseUrl}/health-care/apply/application`)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for Health Care: Vets.gov')
       .waitForElementVisible('.schemaform-title', Timeouts.slow)  // First render of React may be slow.

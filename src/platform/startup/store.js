@@ -12,17 +12,6 @@ import navigation from '../site-wide/user-nav/reducers';
 import login from '../user/authentication/reducers';
 import profile from '../user/profile/reducers';
 import buildSettings from '../monitoring/BuildSettings/reducer';
-import megaMenu from '../site-wide/mega-menu/reducers';
-
-import isBrandConsolidationEnabled from '../brand-consolidation/feature-flag';
-
-let brandConsolidatedReducers = null;
-
-if (isBrandConsolidationEnabled()) {
-  brandConsolidatedReducers = {
-    megaMenu
-  };
-}
 
 /**
  * Reducer object containing all of the site-wide reducers
@@ -34,8 +23,7 @@ export const commonReducer = {
   feedback,
   scheduledDowntime,
   announcements,
-  buildSettings,
-  ...brandConsolidatedReducers
+  buildSettings
 };
 
 /**
@@ -48,7 +36,7 @@ export const commonReducer = {
  */
 export default function createCommonStore(appReducer = {}) {
   const reducer = Object.assign({}, appReducer, commonReducer);
-  const useDevTools = __BUILDTYPE__ === 'development' && window.__REDUX_DEVTOOLS_EXTENSION__;
+  const useDevTools = __BUILDTYPE__ !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION__;
 
   return createStore(combineReducers(reducer), compose(
     applyMiddleware(thunk), useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f));
