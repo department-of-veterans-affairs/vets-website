@@ -1,6 +1,7 @@
 {
   // All rules should be disabled or they should produce errors. No warnings.
   'extends': 'airbnb',
+  'plugins': ['mocha'],
   'parser': 'babel-eslint',
   'env': {
     'browser': true,
@@ -9,8 +10,7 @@
     'mocha': true
   },
   'globals': {
-    '__BUILDTYPE__': true,
-    'pageMetaData': true
+    '__BUILDTYPE__': true
   },
   'rules': {
     // Override airbnb style.
@@ -92,12 +92,26 @@
     'no-lonely-if': 0,
     'lines-around-directive': 0,
     'jsx-a11y/href-no-hash': 0,
+    'mocha/no-exclusive-tests': 2,
   },
   'overrides': [{
+    'files': [
+      "src/platform/**/*.js",
+      "src/platform/**/*.jsx",
+      "src/applications/site-wide/**/*.js",
+      "src/applications/site-wide/**/*.jsx",
+      "src/applications/static-pages/**/*.js",
+      "src/applications/static-pages/**/*.jsx"
+    ],
+    'rules': {
+      'no-restricted-imports': ['error', 'lodash/fp']
+    }
+  }, {
     'files': ["**/*.spec.jsx", "**/*.spec.js", "src/platform/testing/**/*.js", "src/platform/testing/**/*.jsx"],
     'rules': {
       'react/no-find-dom-node': 0,
-      'no-unused-expressions': 0
+      'no-unused-expressions': 0,
+      'no-restricted-imports': 0
     }
   }],
   'parserOptions': {
@@ -105,3 +119,4 @@
     'sourceType': 'module'
   }
 }
+

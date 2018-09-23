@@ -209,7 +209,7 @@ If you don’t have a premium DS Logon account, find out how to create or upgrad
 If you need help, call the eBenefits Help Desk at <a href="tel:+18009830937">1-800-983-0937</a>, Monday through Friday, 8:00 a.m. - 8:00 p.m. (ET)
 
 **Please note:** Some providers and states request another consent form to exchange information with us. Please contact your provider or the Release of Information office at your nearest VA medical center to ask about any other consent forms you may need.<br>
-[Find your nearest VA medical center](/find-locations).
+[Find your nearest VA medical center](/facilities/).
 
 </div>
 </div>
@@ -229,7 +229,7 @@ Fill out, sign, and date a Request for and Authorization to Release Protected He
 [Download VA Form 10-0485](https://www.va.gov/vaforms/medical/pdf/10-0485-fill.pdf).
 
 Send the completed form to the Release of Information Office at your nearest VA medical center.<br>
-[Find the address for your nearest VA medical center](/find-locations).
+[Find the address for your nearest VA medical center](/facilities/).
 
 ### To sign up in person
 
@@ -277,7 +277,7 @@ Fill out a Revocation for Release of Individually-Identifiable Health Informatio
 [Download VA Form 10-0484](https://www.va.gov/VLER/docs/vha100484fillStopSharing.pdf).
 
 Mail or take this form in person to your nearest VA medical center’s Release of Information Office.<br>
-[Find your nearest VA medical center](/find-locations).
+[Find your nearest VA medical center](/facilities/).
 
 You can also ask the office for a copy of this form to fill out. Or you can call our toll-free VLER Health Information line at <a href="tel:+18777718537">1-877-771-VLER (8537)</a>, Monday through Friday, 7:00 a.m. - 7:00 p.m. (CST) to request a form.
 

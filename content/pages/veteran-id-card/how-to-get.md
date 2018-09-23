@@ -5,6 +5,7 @@ title: How to Get a Veteran ID Card
 display_title: How to Get a Veteran ID Card
 collection: veteran-id-card
 order: 1
+production: false
 ---
 
 <div class="va-introtext">

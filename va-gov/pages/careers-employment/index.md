@@ -61,7 +61,7 @@ social:
           icon: fa-facebook
         - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
           label: Veterans Benefits YouTube
-          icon: fa-youtube
+          icon: fa-youtube  
 ---
 
 <p class="va-introtext">
@@ -86,13 +86,13 @@ We can support you in all stages of your job search—from returning to work wit
         <ul>
           <li>Call the National Call Center for Homeless Veterans</b> at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. You'll talk privately with a trained VA counselor for free.
           <li><b>Contact your nearest VA medical center</b> and ask to talk with the VA social worker. If you’re a female Veteran, ask for the Women Veterans Program Manager. <br>
-            <a href="/find-locations">Find your nearest VA medical center</a>.</li>
+            <a href="/facilities/">Find your nearest VA medical center</a>.</li>
           <li><b>Get job placement help.</b><br>
             <a href="https://www.va.gov/homeless/cec-contacts.asp">Find a Community Employment Coordinator (CEC) in your area</a>.</li>
         </ul>
         <p><b>Talk with someone right now:</b>
-        <p>Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.</p>
-        <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</p>
+        <p>Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.</p>  
+        <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</p>        
       </div>
     </div>
   </div>
@@ -128,7 +128,7 @@ We can support you in all stages of your job search—from returning to work wit
   <div class="link">
     <a href="#"><b>How to Apply</b></a>
     <p>Get step-by-step instructions on how to apply for voc rehab benefits.</p>
-  </div>
+  </div>  
 
   <div class="link">
     <a href="#"><b>Educational and Career Counseling (Chapter 36)</b></a>

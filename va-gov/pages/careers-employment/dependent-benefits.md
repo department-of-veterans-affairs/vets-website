@@ -1,8 +1,10 @@
 ---
 layout: page-breadcrumbs.html
 title: Dependent Family Members
+display_title: Dependent Benefits
 template: detail-page
-order: 5
+order: 6
+spoke: Get Benefits
 relatedlinks:
   - heading: More information about VA education and employment benefits and services for dependents
     links:

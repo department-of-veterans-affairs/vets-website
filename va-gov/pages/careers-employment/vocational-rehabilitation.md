@@ -1,9 +1,13 @@
 ---
 layout: page-breadcrumbs.html
 title: Vocational Rehabilitation and Employment (VR&amp;E)
+display_title: About Vocational Rehab
 permalink: /employment/vocational-rehab-and-employment/index.html
 source: http://www.benefits.va.gov/VRE/
-template: level2-index
+template: detail-page
+spoke: Get Benefits
+children: vre
+order: 1
 majorlinks:
   - heading: For Servicemembers and Veterans with Service-Connected Disabilities
     links:

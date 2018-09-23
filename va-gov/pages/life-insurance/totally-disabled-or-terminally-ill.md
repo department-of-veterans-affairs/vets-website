@@ -5,6 +5,7 @@ title: Benefits for Policyholders Who Are Totally Disabled or Terminally Ill
 display_title: Totally Disabled or Terminally Ill
 concurrence: 
 order: 2
+spoke: Get Benefits
 relatedlinks:
   - heading: More information about your benefits
     links:

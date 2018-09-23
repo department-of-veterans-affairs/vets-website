@@ -110,7 +110,7 @@ class ServicesAtFacility extends Component {
 
     return (
       <div>
-        <p style={{ margin: '0 0 0.5em' }}>Services current as of <strong>{moment(services.last_updated).format('MMMM D, YYYY')}</strong></p>
+        <p style={{ margin: '0 0 0.5em' }}>Services current as of <strong>{moment(services.lastUpdated).format('MMMM D, YYYY')}</strong></p>
 
         <div className="mb2">
           <AlertBox

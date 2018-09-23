@@ -121,5 +121,3 @@ They'll decide your appeal based on the information you provide, including your 
 </div>
 </div>
 </div>
-
-
