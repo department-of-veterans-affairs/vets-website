@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import { pick } from 'lodash';
 import applicantDescription from '../components/ApplicantDescription';
 
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
@@ -37,10 +37,10 @@ const defaults = (prefix) => {
 export default function applicantInformation(schema, options) {
   // Use the defaults as necessary, but override with the options given
   const prefix = (options && options.isVeteran) ? 'veteran' : 'relative';
-  const mergedOptions = _.assign(defaults(prefix), options);
+  const mergedOptions = Object.assign({}, defaults(prefix), options);
   const { fields, required, labels } = mergedOptions;
 
-  const possibleProperties = _.assign(schema.properties, {
+  const possibleProperties = Object.assign({}, schema.properties, {
     'view:noSSN': {
       type: 'boolean'
     }
@@ -50,11 +50,11 @@ export default function applicantInformation(schema, options) {
     path: 'applicant/information',
     title: 'Applicant information',
     initialData: {},
-    uiSchema: _.assign({
+    uiSchema: Object.assign({}, {
       'ui:order': fields,
       'ui:description': applicantDescription,
       [`${prefix}FullName`]: fullNameUI,
-      [`${prefix}DateOfBirth`]: _.assign(currentOrPastDateUI('Date of birth'),
+      [`${prefix}DateOfBirth`]: Object.assign({}, currentOrPastDateUI('Date of birth'),
         {
           'ui:errorMessages': {
             pattern: 'Please provide a valid date',
@@ -79,16 +79,16 @@ export default function applicantInformation(schema, options) {
     }, personId.uiSchema(prefix, 'view:noSSN')),
     schema: {
       type: 'object',
-      definitions: _.pick([
+      definitions: pick(schema.definitions, [
         'fullName',
         'relationship',
         'ssn',
         'gender',
         'date',
         'vaFileNumber'
-      ], schema.definitions),
+      ]),
       required,
-      properties: _.pick(fields, possibleProperties)
+      properties: pick(possibleProperties, fields)
     }
   };
 }

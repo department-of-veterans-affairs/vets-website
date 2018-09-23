@@ -1,7 +1,6 @@
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const Auth = require('../../../platform/testing/e2e/auth');
-const HCA_ROOT = require('../../hca/manifest.json');
 
 function testStatus(client, page, url) {
   client
@@ -85,9 +84,9 @@ module.exports = E2eHelpers.createE2eTest(
     }, token);
     /* eslint-enable camelcase */
 
-    testStatus(client, '/health-care/apply', `${HCA_ROOT}/resume'`);
-    testStatus(client, '/health-care/', `${HCA_ROOT}/resume'`);
-    testStatus(client, '/health-care/eligibility', `${HCA_ROOT}/resume'`);
+    testStatus(client, '/health-care/apply', '/health-care/apply/application/resume');
+    testStatus(client, '/health-care/', '/health-care/apply/application/resume');
+    testStatus(client, '/health-care/eligibility', '/health-care/apply/application/resume');
 
     testStatus(client, '/pension/apply', '/pension/application/527EZ/resume');
     testStatus(client, '/pension/', '/pension/application/527EZ/resume');

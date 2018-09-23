@@ -49,6 +49,10 @@ class BetaEnrollmentButton extends React.Component {
       );
     }
 
+    if (this.props.renderButton) {
+      return this.props.renderButton(this.props.user, this.state.isEnrolling, this.onClick);
+    }
+
     let buttonText = 'Turn On Beta Tools';
 
     if (this.props.user.profile.loading) buttonText = 'Loading Profile...';
