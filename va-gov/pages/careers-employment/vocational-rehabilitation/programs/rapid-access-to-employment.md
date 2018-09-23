@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: VR&E Rapid Access to Employment Track
-display_title: Rapid Access to Employment Track
+display_title: Rapid Access to Employment
 template: detail-page
 order: 2
 relatedlinks:

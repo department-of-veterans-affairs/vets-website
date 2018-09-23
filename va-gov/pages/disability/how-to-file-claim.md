@@ -102,7 +102,7 @@ Janesville, WI 53547-4444<br>
 ##### In person
 
 Bring your application to a regional benefit office near you. <br>
-[Find a regional benefit office](/find-locations).
+[Find a regional benefit office](/facilities/).
 
 ##### With the help of a trained professional
 

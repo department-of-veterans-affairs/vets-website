@@ -18,7 +18,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 #### Am I eligible?
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-spouse">As a surviving spouse</button>
@@ -83,7 +83,7 @@ You may be able to get compensation as a surviving parent if both of the descrip
 **Both of these must be true:**
 
 - You're the biological, adoptive, or foster parent of the Veteran or Servicemember, **and**
-- Your income is below a certain amount 
+- Your income is below a certain amount
 
 [View the parents DIC rate table](https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp).
 
@@ -129,5 +129,4 @@ First you’ll need to fill out an application for benefits. The application you
 [Get help filing your claim](/disability/get-help-filing-claim/).
 
 - Go to a VA regional benefit office and get help from a VA employee. <br>
-[Find a local VA office](/find-locations).
-
+[Find a local VA office](/facilities/).

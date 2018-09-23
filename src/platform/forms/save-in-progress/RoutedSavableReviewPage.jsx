@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
+
+import debounce from '../../utilities/data/debounce';
 
 import ReviewChapters from 'us-forms-system/lib/js/review/ReviewChapters';
 import SubmitController from 'us-forms-system/lib/js/review/SubmitController';
@@ -34,7 +35,7 @@ const scrollToTop = () => {
 class RoutedSavableReviewPage extends React.Component {
   constructor(props) {
     super(props);
-    this.debouncedAutoSave = _.debounce(1000, this.autoSave);
+    this.debouncedAutoSave = debounce(1000, this.autoSave);
   }
 
   componentDidMount() {
@@ -166,7 +167,7 @@ function mapStateToProps(state, ownProps) {
     user
   } = state;
 
-  const formContext = getFormContext({ form, user });
+  const formContext = getFormContext({ form, user, onReviewPage: true });
 
   return {
     form,

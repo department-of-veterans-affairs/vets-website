@@ -42,7 +42,7 @@ Find out how to apply for VA education benefits as a Veteran, Servicemember, or 
 
 - [Find out if you're eligible for VA education benefits](/education/eligibility/).
 - Gather the documents and information listed below that you’ll need to apply for education benefits.
-- See what benefits you’ll get at the school you want to attend.<br/> [Use the GI Bill Comparison Tool](/education/gi-bill-school-comparison-tool).
+- See what benefits you’ll get at the school you want to attend.<br/> [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool).
 
 <div markdown="0"><br></div>
 
@@ -72,7 +72,7 @@ Call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday thr
 
 #### In person
 Go to a VA regional office and have a VA employee help you.<br/>
-[Find a VA regional benefit office near you](/find-locations).
+[Find a VA regional benefit office near you](/facilities).
 
 Work with your school’s certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 

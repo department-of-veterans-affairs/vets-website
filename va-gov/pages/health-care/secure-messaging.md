@@ -102,7 +102,7 @@ No. You shouldn't use secure messaging when you have an urgent need, because it 
 **If you think you have a medical emergency,** call 911 or go to the nearest emergency room.
 
 **If you don’t have an emergency, but you’re not sure what type of care you need,** call your nearest VA health facility.<br>
-[Find your nearest VA health facility](/find-locations).
+[Find your nearest VA health facility](/facilities/).
 
 **If you need to talk with someone right away,** contact the Veterans Crisis Line. Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.
 
