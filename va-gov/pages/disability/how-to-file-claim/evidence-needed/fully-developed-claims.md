@@ -85,7 +85,7 @@ This depends on the type of claim you’re filing.
 
 **Find out what the evidence will need to show for these different claim types:**
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-original">Original disability claim—the first claim you file for disability benefits</button>
@@ -141,7 +141,7 @@ You'll need to submit current medical evidence that shows your disability has go
 
 **Find out which additional forms you'll need if you're filing a claim for these issues:**
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="special-umemployable">Individual Unemployability</button>
@@ -219,5 +219,3 @@ You can start your online application right now, or find out how to apply by mai
 [Find out how to apply for disability benefits](/disability/how-to-file-claim/).
 
 **Note:** Please be sure to upload all medical evidence or supporting documents at the end of the form. 
-
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>

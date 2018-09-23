@@ -127,11 +127,12 @@
     margin-top: 2em;
   }
 
-  // we'll need to rewrite this at some point once we have business rules
-  // TODO: this leaves a background space since the box is too wide
-  [href^="http"], [rel="external"] {
-    background-image: none;
-    padding-right: 0px;
+  #homepage-hub, .va-sidebarnav {
+    [href^="http"]:not(.usa-button-primary), [rel="external"] {
+      background-image: none;
+      padding-right: 0px;
+
+    }
   }
 
   #homepage-hub {
@@ -377,8 +378,9 @@
 
   .vet-toolbar {
     .va-dropdown {
-      margin-left: -2rem;
-      width: 128px;
+      span {
+        white-space: nowrap;
+      }
     }
   }
 
@@ -476,9 +478,13 @@
     }
 
     #mega-menu {
+      margin-top: 1em;
+      #vetnav {
+        min-height: unset;
+      }
       .login-container {
         position: relative;
-        top: -50px;
+        top: -40px;
       }
     }
     #menu-rule {
@@ -679,6 +685,7 @@
 
         button {
           border-top: 3px solid transparent;
+          border-bottom: 3px solid transparent;
           color: #fff;
           cursor: pointer;
           display: block;
@@ -856,7 +863,7 @@
   }
 
   .va-crisis-line {
-    top: 122px;
+    top: 169px;
     z-index: 2;
   }
 
@@ -964,7 +971,7 @@
         a {
           display: inline-block;
           vertical-align: middle;
-          width: 75%;
+          width: 100%;
         }
 
         i {
@@ -1047,15 +1054,16 @@
   button.va-modal-close > i.fa.fa-close{
         color: $color-black;
   }
-
-  .usa-accordion-button {
-    background-color: white;
-    border-top: 1px solid $color-gray-lighter;
-    border-bottom: 1px solid $color-gray-lighter;
-    background-size: 1.1rem;
-  }
-  .usa-accordion-button-dark {
-    background-color: $color-gray-lightest;
+  .va-sidebarnav {
+    .usa-accordion-button {
+      background-color: white;
+      border-top: 1px solid $color-gray-lighter;
+      border-bottom: 1px solid $color-gray-lighter;
+      background-size: 1.1rem;
+    }
+    .usa-accordion-button-dark {
+      background-color: $color-gray-lightest;
+    }
   }
 
 
@@ -1109,6 +1117,14 @@
 
   .hub-links-container {
     min-height: 250px;
+  }
+  .va-crisis-panel {
+    h3 {
+      color: $color-black;
+    }
+    p {
+      color: $color-black;
+    }
   }
 }
 .usa-accordion-bordered {

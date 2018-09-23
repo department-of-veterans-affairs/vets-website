@@ -28,7 +28,7 @@ Find out when you can first file a claim for service-connected benefits—and wh
 
 </div>
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-active-duty">Original Claim—File your first claim for disability benefits.</button>
@@ -142,6 +142,3 @@ You can file a secondary claim to get more disability benefits for a new disabil
 </li>
 </ul>
 </div>
-
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
-<!--- TODO: find a proper place to import USWDS JS for static pages -->

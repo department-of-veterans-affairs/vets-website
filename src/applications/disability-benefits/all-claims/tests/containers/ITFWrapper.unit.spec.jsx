@@ -170,7 +170,7 @@ describe('526 ITFWrapper', () => {
     );
     expect(tree.find('AlertBox').length).to.equal(1);
     expect(tree.text()).to.contain('August 28, 2015');
-    expect(tree.find('AdditionalInfo').length).to.equal(0);
+    expect(tree.find('AdditionalInfo').length).to.equal(1);
   });
 
 

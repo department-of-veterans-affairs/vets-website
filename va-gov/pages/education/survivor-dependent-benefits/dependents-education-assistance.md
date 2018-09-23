@@ -70,7 +70,7 @@ If you’re the child of a Servicemember who died in the line of duty before Aug
 ### How do I get these benefits?
 
 First, contact your school’s certifying official to make sure your program is approved for VA benefits. Then, you can:
-- [Apply online now](/education/survivor-dependent-benefits/apply-for-dependent-benefits-form-22-5490/introduction), **or**
+- [Apply online now](/education/apply-for-education-benefits/application/5490/introduction), **or**
 - Apply by mail. You’ll need to fill out a Dependents’ Application for VA Education Benefits (VA Form 22-5490) and mail it to the regional processing office for your state. You’ll find the address on the last page of the form. <br>
 [Download VA Form 22-5490](https://www.vba.va.gov/pubs/forms/vba-22-5490-are.pdf). <br>
 
@@ -81,7 +81,7 @@ First, contact your school’s certifying official to make sure your program is 
 - Get help from a trained professional trusted to help with VA-related claims. <br>
 [Get help filing your claim](/disability/get-help-filing-claim/).
 - Get more information about schools and see if we’ve approved your program. <br>
-[Use the GI Bill Comparison Tool](/education/gi-bill-school-comparison-tool).
+[Use the GI Bill Comparison Tool](/gi-bill-comparison-tool).
 
 #### If you’ve already started your program:
 - Take your application to your school or employer.

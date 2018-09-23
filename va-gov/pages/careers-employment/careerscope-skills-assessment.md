@@ -1,10 +1,11 @@
 ---
+title: CareerScope
 layout: page-breadcrumbs.html
 template: detail-page
-title: CareerScope
-plainlanguage: 11-26-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
+plainlanguage: 11-26-16 certified in compliance with the Plain Writing Act
 order: 2
+spoke: Manage Benefits
 aliases:
   - /education/tools-programs/careerscope/
 ---
@@ -26,8 +27,7 @@ The Report Interpretation guide helps you understand your CareerScope results. [
 You can access our education and training resources:
 
 - Find out what benefits you’ll get at different schools. <br>
-[Use the GI Bill Comparison Tool](/education/gi-bill-school-comparison-tool/).
+[Use the GI Bill Comparison Tool](/gi-bill-comparison-tool).
 
 - Learn about what to consider when choosing a school. <br>
-[Read our guide to choosing a school](https://www.benefits.va.gov/gibill/choosing_a_school.asp). 
-
+[Read our guide to choosing a school](https://www.benefits.va.gov/gibill/choosing_a_school.asp).

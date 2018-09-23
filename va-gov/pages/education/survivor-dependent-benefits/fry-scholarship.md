@@ -56,7 +56,7 @@ Spouses who remarry can’t get the Fry Scholarship.
 
 ##### Choose a school
 
-- The GI Bill Comparison Tool can help you pick a school. [Use the GI Bill Comparison Tool](/education/gi-bill-school-comparison-tool).
+- The GI Bill Comparison Tool can help you pick a school. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool).
 - You should contact your school’s certifying official to make sure your program is approved for VA benefits.
 
 </li>
@@ -65,7 +65,7 @@ Spouses who remarry can’t get the Fry Scholarship.
 
 ##### Apply for benefits
 
-- [Apply online now](/education/survivor-dependent-benefits/apply-for-dependent-benefits-form-22-5490/introduction), **or**
+- [Apply online now](/education/apply-for-education-benefits/application/5490/introduction), **or**
 - Fill out a Dependents’ Application for VA Education Benefits (VA Form 22-5490) and send it to the VA regional office where you want to go to school. [Download VA Form 22-5490](https://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490).
 - If you aren’t legally an adult, your parent or guardian must sign the application.
 - If you’ve already started your educational program, ask a certifying official from your school or your employer to fill out a VA Enrollment Certification (VA Form 22-1999). They’ll need to submit it online using VA Online Certification (VA-ONCE). [Download VA Form 22-1999](http://www.lepsn.org/images/pdfs/VA%20Form%2022-1999%20-%20VA%20Enrollment%20Certification.pdf).
