@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import set from '../../../utilities/data/set';
 
 import {
   TOGGLE_LOGIN_MODAL,
@@ -25,11 +25,11 @@ function closeAllMenus(menuState) {
 export default function userNavReducer(state = initialState, action) {
   switch (action.type) {
     case TOGGLE_LOGIN_MODAL:
-      return _.set('showLoginModal', action.isOpen, state);
+      return set('showLoginModal', action.isOpen, state);
 
     case UPDATE_SEARCH_HELP_USER_MENU:
       closeAllMenus(state);
-      return _.set(`utilitiesMenuIsOpen.${action.menu}`, action.isOpen, state);
+      return set(`utilitiesMenuIsOpen.${action.menu}`, action.isOpen, state);
 
     default:
       return state;

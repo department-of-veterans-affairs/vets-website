@@ -37,8 +37,8 @@ You can get benefits if you qualify for the GI Bill and want to work in an indus
  - Veterans
  - Spouses and children getting benefits through either the Fry Scholarship or the Survivors' and Dependents' Educational Assistance (DEA) Program
  - Children getting transferred benefits under the Post-9/11 GI Bill (also called chapter 33)
-
-**Exception:**
+ 
+**Exception:** 
 You can’t get OJT if you’re an active-duty Servicemember or a spouse using a transferred benefit.
 
 </div>
@@ -64,7 +64,7 @@ You can’t get OJT if you’re an active-duty Servicemember or a spouse using a
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You’ll need to make sure the program is approved for VA education benefits. [Check with your local VA office](/find-locations).
+You’ll need to make sure the program is approved for VA education benefits. [Check with your local VA office](/facilities). 
 
 You’ll most likely need to enter into a training contract for a set amount of time with an employer or union. During training, you’ll probably get a salary from the employer or union, which can go up as you gain more skills. When you finish your training, you’ll get a job certification or journeyman status.
 

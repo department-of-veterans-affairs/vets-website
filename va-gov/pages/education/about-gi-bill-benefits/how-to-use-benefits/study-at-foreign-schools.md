@@ -45,7 +45,7 @@ You can get education benefits if you qualify for—or already get—VA educatio
 Yes. The application process is different. Here’s what you’ll need to do:
 
 - Contact the school or use the GI Bill Comparison Tool to find out if we’ve approved your program for VA educational benefits. <br>
-[Use the GI Bill Comparison Tool](/education/gi-bill-school-comparison-tool).
+[Use the GI Bill Comparison Tool](/gi-bill-comparison-tool).
 - If you still have questions about the school or program, you can submit a question to us using the GI Bill website. <br>
 [Go to the GI Bill website](https://gibill.custhelp.com/app/utils/login_form/redirect/ask).
 - Then, give us the name of the foreign school, the complete address, and the name of the program you want to enroll in. We’ll let you know if your program has already been approved.
@@ -60,7 +60,7 @@ If you or your qualified dependent want to enroll in a program that we haven’t
 
 Use the GI Bill Comparison Tool to see what benefits you can get at the school you want to attend.
 <br>
-<a class="usa-button-primary va-button-secondary" href="/education/gi-bill-school-comparison-tool">Use the GI Bill Comparison Tool</a>
+<a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool">Use the GI Bill Comparison Tool</a>
 
 **Exception:** Programs at schools located in the United States that offer courses in a foreign country through the Department of Defense don’t qualify as foreign training. Also, year abroad and similar programs offered by schools in the United States don’t qualify as foreign training.
 
@@ -99,7 +99,7 @@ Normally, foreign schools certify their students for 1 academic year. Within 120
 ### Need help?
 Get more information or help with your application:
 - If you’re in the United States, call 1-888-GI-BILL-1 (<a href="tel:+18884424551">1-888-442-4551</a>), Monday through Friday, 8:00 a.m. to 7:00 p.m. (<abbr title="eastern time">ET</abbr>). Or, go to a VA regional benefit office near you. <br>
-[Find a regional benefit office](/find-locations).
+[Find a regional benefit office](/facilities).
 - If you’re outside the United States, call <a href="tel:+0019187815678">001-918-781-5678</a>, Monday through Friday, 8:00 a.m. to 7:00 p.m. (<abbr title="eastern time">ET</abbr>)
 - Get help from local representatives of Veterans organizations and the American Red Cross
 - Go to a foreign service post

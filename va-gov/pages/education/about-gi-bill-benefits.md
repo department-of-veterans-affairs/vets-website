@@ -54,7 +54,7 @@ majorlinks:
     - url: /education/about-gi-bill-benefits/how-to-use-benefits/tutor-assistance/
       title: Tutorial Assistance
       description: If you’re using VA educational benefits and you're struggling with the coursework, find out if you can get help paying for a tutor.
-    - url: /education/information-sharing-opt-out/
+    - url: /education/opt-out-information-sharing/
       title: Opt Out of Sharing VA Education Benefits Information
       description: The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your eligibility and benefits with schools, unless you ask us not to. Find out how to opt out of information sharing.
 
@@ -71,6 +71,6 @@ If you served on active duty after September 10, 2001, you may qualify for Post-
 The GI Bill Comparison Tool and Veterans Service Organizations can help you explore options and find out what benefits you can get. [Find a Veterans Service Organization](https://www.va.gov/vso/).
 
 
-<a class="usa-button-primary va-button-secondary" href="/education/gi-bill-school-comparison-tool">Use the GI Bill Comparison Tool</a> <a class="usa-button-primary va-button-primary" href="/education/how-to-apply/">Apply for Education Benefits</a><br>
+<a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool">Use the GI Bill Comparison Tool</a> <a class="usa-button-primary va-button-primary" href="/education/how-to-apply/">Apply for Education Benefits</a><br>
 
 </div>

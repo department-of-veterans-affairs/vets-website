@@ -5,6 +5,7 @@ title: Traumatic Injury Protection Life Insurance (TSGLI)
 display_title: Traumatic Injury Protection (TSGLI)
 concurrence: 
 order: 3
+children: lifeInsuranceTSGLI
 relatedlinks:
   - heading: More information about your benefits
     links:

@@ -46,7 +46,7 @@ It depends on a number of factors, like your military service history and your c
 
 Click on the statement below that describes you best to find out your benefits class and the dental benefits you may qualify for:
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-disability">I have a service-connected disability or condition, and I get disability compensation (monthly payments).</button>
@@ -199,7 +199,7 @@ Click on the statement below that describes you best to find out your benefits c
 
 You can apply online by filling out the 10-10EZ health care application.
 
-<a class="usa-button-primary va-button-primary" href="/health-care/apply-for-health-care-form-10-10ez">Apply for Benefits</a>
+<a class="usa-button-primary va-button-primary" href="/health-care/apply/application/">Apply for Benefits</a>
 
 <br>
 

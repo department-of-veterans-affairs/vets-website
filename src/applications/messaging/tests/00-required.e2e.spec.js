@@ -12,7 +12,7 @@ module.exports = E2eHelpers.createE2eTest(
     AccountCreationHelpers.initMHVTermsMocks(token);
 
     // Ensure main page (inbox) renders.
-    Auth.logIn(token, client, '/health-care/secure-messaging', 3)
+    Auth.logIn(token, client, '/health-care/messaging', 3)
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Message Your Health Care Team: Vets.gov')
       .waitForElementVisible('#messaging-app', Timeouts.slow);
