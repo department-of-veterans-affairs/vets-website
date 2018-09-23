@@ -8,7 +8,7 @@ def envNames = [
 ]
 
 def devBranch = 'master'
-def stagsingBranch = 'master'
+def stagingBranch = 'master'
 def prodBranch = 'master'
 
 def isReviewable = {
