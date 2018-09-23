@@ -4,6 +4,7 @@ entryname: 526EZ-all-claims
 layout: page-react.html
 description: Learn how to apply online for disability compensation.
 hideFromSidebar: true
+production: false
 ---
 <div id="main">
   <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs"

@@ -1,9 +1,12 @@
 ---
 layout: page-breadcrumbs.html
 title: Veterans Programs for Health and Wellness
-display title: Wellness Programs
+display_title: Wellness Programs
 lastupdate: 2018-08-22
 template: detail-page
+collection: healthCare
+spoke: More Resources
+order: 20
 majorlinks:
   - heading: VA Health and Wellness Programs to Help You Care for Your Body and Mind
     links:
@@ -47,4 +50,3 @@ majorlinks:
 Our Veterans programs for health and wellness offer information, resources, and treatment options to help you stay healthy. Find out how to get help quitting tobacco use, preventing disease, managing your weight, and maintaining your mental health.
 
 </div>
-

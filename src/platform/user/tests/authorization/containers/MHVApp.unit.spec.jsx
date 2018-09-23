@@ -9,7 +9,7 @@ import { MHVApp } from '../../../authorization/containers/MHVApp';
 
 describe('<MHVApp>', () => {
   const props = {
-    location: { pathname: '/health-care/refill-track-prescriptions', query: {} },
+    location: { pathname: '/health-care/prescriptions', query: {} },
     mhvAccount: {
       accountLevel: null,
       accountState: null,

@@ -2,10 +2,13 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: The Affordable Care Act and Your Health Coverage
-display_title:
+display_title: Affordable Care Act
 collection: healthCare
 lastupdate: 2018-02-13
-order: 10
+spoke: More Resources
+order: 23
+aliases:
+  - /health-care/affordable-care-act/
 ---
 
 <div class="va-introtext">
@@ -36,7 +39,7 @@ Your health coverage meets the minimum essential coverage requirement if you’r
 - [The VA health care program](/health-care/about-va-health-benefits/), **or** 
 - [The Civilian Health and Medical Program of the Department of Veterans Affairs (CHAMPVA)](/health-care/family-caregiver-benefits/champva/), **or** 
 - [CHAMPVA through the Program of Comprehensive Assistance to Family Caregivers]( /health-care/family-caregiver-benefits/comprehensive-assistance/), **or** 
-- [The Spina Bifida Health Care Benefits Program](https://www.va.gov/COMMUNITYCARE/programs/dependents/spinabifida/index.asp), **or**  
+- [The Spina Bifida Health Care Benefits Program](https://www.va.gov/COMMUNITYCARE/programs/dependents/spinabifida/index.asp), **or** 
 - [A Department of Defense TRICARE plan that provides minimum essential coverage](https://tricare.mil/About/MEC) 
 
 If you’re covered under one of these programs, you don’t need to do anything more to avoid the penalty fee. If you’re not covered under one of these programs, you can apply at any time.
@@ -64,7 +67,7 @@ The 2018 Health Insurance Marketplace open enrollment period was November 1, 201
 
 If your family members have access to affordable coverage but remain uninsured, you may have to pay a penalty fee when filing your taxes. This payment will either be a flat fee or a percentage of your taxable household income, depending on which amount is higher. The fee will only be for the months you didn’t have qualifying health coverage.<br>
 [Find out how much you may pay for not having health insurance](https://www.healthcare.gov/fees/fee-for-not-being-covered/).<br>
-[Learn more about the individual shared responsibility payment]( https://www.irs.gov/affordable-care-act/the-individual-shared-responsibility-payment-an-overview).  <br>
+[Learn more about the individual shared responsibility payment]( https://www.irs.gov/affordable-care-act/the-individual-shared-responsibility-payment-an-overview). <br>
 
 ### Can I get an exemption so I don’t have to pay the penalty fee for being uninsured?
 You may qualify for an exemption for a number of reasons, like:

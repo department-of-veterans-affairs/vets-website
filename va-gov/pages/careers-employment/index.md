@@ -31,7 +31,7 @@ crosslinks:
       title: <b>Life Insurance</b>
       description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
 social:
-  - heading: Connect With Us
+  - heading: Connect with Us
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
@@ -129,11 +129,6 @@ We can support you in all stages of your job search—from returning to work wit
     <a href="#"><b>How to Apply</b></a>
     <p>Get step-by-step instructions on how to apply for voc rehab benefits.</p>
   </div>  
-
-  <div class="link">
-    <a href="https://ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment"><b>Apply Online for Vocational Rehab and Employment Benefits</b></a>
-    <p>Start your online application now.</p>
-  </div>
 
   <div class="link">
     <a href="#"><b>Educational and Career Counseling (Chapter 36)</b></a>

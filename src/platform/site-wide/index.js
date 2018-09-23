@@ -12,12 +12,11 @@ import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
 import startMobileMenuButton from './mobile-menu-button';
-import startPreviewSiteAlert from './preview-site-alert';
-import startVAGovUserNavWidget from './va-gov-user-nav';
-import startLRNHealthCarWidget from './left-rail-navs/health-care';
 import startFeedbackWidget from './feedback';
 import startAnnouncementWidget from './announcements';
 import startVAFooter from './va-footer';
+
+import brandConsolidation from '../brand-consolidation';
 
 /**
  * Start up the site-wide components that live on every page, like
@@ -46,12 +45,12 @@ export default function startSitewideComponents(commonStore) {
   });
 
   startUserNavWidget(commonStore);
-  startMegaMenuWidget(commonStore);
-  startMobileMenuButton(commonStore);
-  startPreviewSiteAlert(commonStore);
-  startVAGovUserNavWidget(commonStore);
   startFeedbackWidget(commonStore);
   startAnnouncementWidget(commonStore);
-  startLRNHealthCarWidget(commonStore);
-  startVAFooter(commonStore);
+
+  if (brandConsolidation.isEnabled()) {
+    startMegaMenuWidget(commonStore);
+    startMobileMenuButton(commonStore);
+    startVAFooter(commonStore);
+  }
 }
