@@ -127,7 +127,7 @@ const transformProviderFacility = providerFacility => {
  */
 export function gatherLimitedConsentText(disabilities) {
   return disabilities
-    .filter(disability => disability.limitedConsent.length > 0)
+    .filter(disability => !disability.limitedConsent)
     .join(' ');
 }
 
