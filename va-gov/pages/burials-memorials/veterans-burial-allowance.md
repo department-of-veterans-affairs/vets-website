@@ -74,7 +74,7 @@ You may need a copy of:
 </div>
 
 <div id="react-applicationStatus" class="static-page-widget">
-  <a class="usa-button-primary va-button-primary" href="/burials-memorials/veterans-burial-allowance/apply-for-burial-allowance-form-21p-530">Apply for Burial Benefits</a>
+  <a class="usa-button-primary va-button-primary" href="/burials-and-memorials/application/530">Apply for Burial Benefits</a>
 </div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">

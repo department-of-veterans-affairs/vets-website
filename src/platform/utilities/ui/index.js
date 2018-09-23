@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import Scroll from 'react-scroll';
 
 export function displayFileSize(size) {
@@ -36,7 +35,7 @@ export function getScrollOptions(additionalOptions) {
     delay: 0,
     smooth: true
   };
-  return _.merge({}, defaults, globals.scroll, additionalOptions);
+  return Object.assign({}, defaults, globals.scroll, additionalOptions);
 }
 
 export function scrollToFirstError() {

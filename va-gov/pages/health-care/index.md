@@ -133,7 +133,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="/health-care/apply-for-health-care-form-10-10ez"><b>Apply Online (VA Form 10-10EZ)</b></a>
+    <a href="/health-care/apply/application/"><b>Apply Online (VA Form 10-10EZ)</b></a>
     <p>Start your Veterans health care application now.</p>
   </div>
 
@@ -193,7 +193,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
  <div class="link">
-    <a href="https://www.pay.gov/public/form/start/25987221"><b>Make a VA Health Care Payment Online</b></a>
+    <a href="https://www.pay.gov/public/form/start/25987221" target="blank"><b>Make a VA Health Care Payment Online</b></a>
     <p>Pay your VA copay securely online through Pay.gov.</p>
   </div>
 
@@ -253,7 +253,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="https://www.accesstocare.va.gov/"><b>Access and Quality in VA Health Care</b></a>
+    <a href="https://www.accesstocare.va.gov/" target="_blank"><b>Access and Quality in VA Health Care</b></a>
     <p>Get information about your VA facility, like how quickly you can be seen and what other Veterans say about their experiences.</p>
   </div>
 

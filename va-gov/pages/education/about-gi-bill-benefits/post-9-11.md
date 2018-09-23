@@ -101,7 +101,7 @@ You can check to see if you have Post-9/11 GI Bill benefits. <br>
 <div itemprop="text">
 
 You’ll need to apply. <br>
-[Apply for education benefits](/education/apply-for-education-benefits/).
+[Apply for education benefits](/education/how-to-apply/).
 
 The benefit amount depends on which school you go to, how much active-duty service you’ve had since September 10, 2001, and how many credits or training hours you’re taking.
 
@@ -177,7 +177,7 @@ You can use these types of programs and courses under the Post-9/11 GI Bill:
 <div itemprop="text">
 
 - Compare benefits by school. <br>
-[Use the GI Bill Comparison Tool](/education/gi-bill-school-comparison-tool).
+[Use the GI Bill Comparison Tool](/gi-bill-comparison-tool).
 - [See the current payment rates for the Post-9/11 GI Bill](/education/benefit-rates/).
 - [Read the Post-9/11 GI Bill pamphlet](https://www.benefits.va.gov/gibill/docs/pamphlets/ch33_pamphlet.pdf).
 - [See Frequently Asked Questions (FAQ)](https://gibill.custhelp.com/app/answers/list).

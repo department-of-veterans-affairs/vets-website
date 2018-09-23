@@ -52,8 +52,7 @@ function initClaimsListMock(token) {
         }
       ],
       meta: {
-        syncStatus: 'SUCCESS',
-        successfulSync: false
+        syncStatus: 'SUCCESS'
       }
     }
   });
@@ -207,8 +206,7 @@ function initClaimDetailMocks(token, decisionLetterSent, documentsNeeded, waiver
         }
       },
       meta: {
-        syncStatus: 'SUCCESS',
-        successfulSync: true
+        syncStatus: 'SUCCESS'
       }
     }
   });

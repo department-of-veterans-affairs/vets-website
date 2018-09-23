@@ -15,7 +15,7 @@ promo:
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: https://benefits.va.gov/TAP/index.asp
+    - url: https://www.benefits.va.gov/TAP/index.asp
       title: <b>Transition Assistance Program (VA TAP)</b>
       description: Learn about VA benefits available to you and your family as you transition out of active-duty, National Guard, or Reserve service.
     - url: "#"
@@ -99,11 +99,6 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="/education/apply-for-gi-bill-form-1990/"><b>Apply Online for GI Bill Benefits</b></a>
-    <p>Get help finding the right form and apply online now.</p>
-  </div>
-
-  <div class="link">
     <a href="/education/after-you-apply/"><b>After You Apply</b></a>
     <p>Find out when to expect a decision from us on your application and what to do next.</p>
   </div>
@@ -133,7 +128,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   <h2>Manage Your Veterans Education Benefits</h2>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Payment History</b></a>
+    <a href="#"><b>View Your VA Payment History</b></a>
     <p>See your payment history for VA education and other benefits you may have like disability compensation and pension.</p>
   </div>
 
@@ -153,7 +148,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="#"><b>Change Your VA Direct Deposit Information</b></a>
+    <a href="/change-direct-deposit-and-contact-information/"><b>Change Your VA Direct Deposit Information</b></a>
     <p>Find out how to change your GI Bill direct deposit and contact information.</p>
   </div>
 
@@ -167,11 +162,6 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
     <p>If your school closed or your program ended because of a change in VA regulations or a new law, apply to have your GI Bill benefits restored.</p>
   </div>
 
-  <div class="link">
-    <a href="/education/information-sharing-opt-out/"><b>Opt Out of Information Sharing with Schools</b></a>
-    <p>Find out how to opt out of sharing your VA education eligibility and benefits information with schools.</p>
-  </div>
-
 </section>
 
 <section class='usa-grid'>
@@ -182,12 +172,12 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   <h2>More Information and Resources</h2>
 
   <div class="link">
-    <a href="/education/gi-bill-school-comparison-tool/"><b>GI Bill Comparison Tool</b></a>
+    <a href="/gi-bill-comparison-tool"><b>GI Bill Comparison Tool</b></a>
     <p>Learn about VA education benefits programs and compare GI Bill benefits by school.</p>
   </div>
 
   <div class="link">
-    <a href="https://benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp"><b>Post-9/11 GI Bill and Other VA Education Benefits Rates</b></a>
+    <a href="/education/benefit-rates/"><b>Post-9/11 GI Bill and Other VA Education Benefits Rates</b></a>
     <p>View rate tables for the Post-9/11 GI Bill and other Veterans education benefits programs.</p>
   </div>
 
@@ -202,7 +192,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="https://benefits.va.gov/gibill/resources/education_resources/debt_info.asp"><b>VA Education Debt and GI Bill Overpayment</b></a>
+    <a href="https://www.benefits.va.gov/gibill/resources/education_resources/debt_info.asp"><b>VA Education Debt and GI Bill Overpayment</b></a>
     <p>Get answers to frequently asked questions about GI Bill overpayments and VA education debt management.</p>
   </div>
 
