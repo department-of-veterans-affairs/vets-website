@@ -10,7 +10,6 @@ order: 4
 <nav class="va-nav-breadcrumbs">
   <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
     <li><a href="/">Home</a></li>
-    <li><a href="/disability-benefits/"> Disability Benefits </a></li>
-    <li><a href="/disability-benefits/apply/dependents/form-686c-dependents/"> Declaration of Dependents </a></li>
+    <li><a href="/disability/"> Disability Benefits </a></li>
   </ul>
 </nav>
