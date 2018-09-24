@@ -61,7 +61,7 @@ social:
           icon: fa-facebook
         - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
           label: Veterans Benefits YouTube
-          icon: fa-youtube  
+          icon: fa-youtube
 ---
 
 <p class="va-introtext">
@@ -91,8 +91,8 @@ We can support you in all stages of your job search—from returning to work wit
             <a href="https://www.va.gov/homeless/cec-contacts.asp">Find a Community Employment Coordinator (CEC) in your area</a>.</li>
         </ul>
         <p><b>Talk with someone right now:</b>
-        <p>Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.</p>  
-        <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</p>        
+        <p>Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.</p>
+        <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</p>
       </div>
     </div>
   </div>
@@ -128,7 +128,7 @@ We can support you in all stages of your job search—from returning to work wit
   <div class="link">
     <a href="/careers-employment/how-to-apply/"><b>How to Apply</b></a>
     <p>Get step-by-step instructions on how to apply for voc rehab benefits.</p>
-  </div>  
+  </div>
 
   <div class="link">
     <a href="/careers-employment/education-and-career-counseling/"><b>Educational and Career Counseling (Chapter 36)</b></a>
@@ -214,10 +214,10 @@ We can support you in all stages of your job search—from returning to work wit
     <a href="/careers-employment/veteran-resources/"><b>Resources for Veterans</b></a>
     <p>Get links to more resources outside of VA that can help you in your job search.</p>
   </div>
-  
+
   <div class="link">
     <a href="/careers-employment/family-resources/"><b>Resources for Family Members</b></a>
     <p>Access valuable career resources for spouses and other family members of Veterans and Servicemembers.</p>
-  </div>  
+  </div>
 
 </section>

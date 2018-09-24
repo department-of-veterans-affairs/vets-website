@@ -59,12 +59,7 @@ Access your VA records and documents online to manage your health and benefits.
   <h2>Get Your Records and Documents</h2>
 
   <div class="link">
-    <a href=#><b>Apply for a Veteran ID Card</b></a>
-    <p>Apply for a printed Veteran ID Card (VIC) that you can use instead of your DD214 to get discounts on goods and services offered to Veterans.</p>
-  </div>
-
-  <div class="link">
-    <a href=/records/get-military-records/><b>Get Your Military Records (DD214)</b></a>
+    <a href=/records/get-military-records/><b>Request Your Military Records (DD214)</b></a>
     <p>View and print documents from your official military personnel file (including your DD214).</p>
   </div>
 
@@ -74,8 +69,8 @@ Access your VA records and documents online to manage your health and benefits.
   </div>
 
   <div class="link">
-    <a href="/records/get-veteran-id-cards/"><b>Get Veteran ID Cards</b></a>
-    <p>Find out how to get different types of identification cards to show your military status or your enrollment in VA health care or the VA Choice program.</p>
+    <a href="/records/get-veteran-id-cards/vic"><b>Apply for a Veteran ID Card</b></a>
+    <p>Apply for a printed Veteran ID Card (VIC) that you can use instead of your DD214 to get discounts on goods and services offered to Veterans.</p>
   </div>
 
   <div class="link">
@@ -95,7 +90,7 @@ Access your VA records and documents online to manage your health and benefits.
 
   <div class="link">
     <a href="/va-payment-history/"><b>View Your VA Payment History</b></a>
-    <p>Check the status of your VA disability and pension payments. You can also see certain survivor benefits.</p>
+    <p>Check the status of your VA disability, pension, and education benefits payments. You can also see payments for certain survivor benefits.</p>
   </div>
 
   <div class="link">
