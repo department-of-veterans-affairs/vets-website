@@ -15,7 +15,7 @@ promo:
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: "/disability/how-to-file-claim/evidence-needed/decision-ready-claims/"
+    - url: /housing-assistance/disability-housing-grants/
       title: <b>Disability Housing Grants for Veterans</b>
       description: Find out how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.
     - url:  https://www.benefits.va.gov/fiduciary/index.asp
@@ -130,7 +130,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="#"><b>Add or Remove a Dependent</b></a>
+    <a href="/disability-benefits/apply/how-to-add-dependent/ "><b>Add or Remove a Dependent</b></a>
     <p>Find out how and when to add a dependent spouse, child, or parent to your VA disability benefits. Also learn how to remove a dependent from your benefits.</p>
   </div>
 
@@ -155,12 +155,12 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-  <a href="#"><b>Download Your VA Benefit Letters</b></a>
+  <a href="/records/download-va-letters/"><b>Download Your VA Benefit Letters</b></a>
   <p>Download a copy of letters like your eligibility or award letter for certain benefits.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>View Your VA Disability Payments History</b></a>
+    <a href="/va-payment-history/"><b>View Your VA Disability Payments History</b></a>
     <p>Check the status of your VA disability and pension payments. You can also see certain survivor benefits.</p>
   </div>
 
