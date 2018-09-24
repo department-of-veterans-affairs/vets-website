@@ -94,8 +94,8 @@ Access your VA records and documents online to manage your health and benefits.
   </div>
 
   <div class="link">
-    <a href="#"><b>View Your VA Payment History</b></a>
-    <p>Check the status of your VA disability, pension, and education benefits payments. You can also see payments for certain survivor benefits.</p>
+    <a href="/va-payment-history/"><b>View Your VA Payment History</b></a>
+    <p>Check the status of your VA disability and pension payments. You can also see certain survivor benefits.</p>
   </div>
 
   <div class="link">
