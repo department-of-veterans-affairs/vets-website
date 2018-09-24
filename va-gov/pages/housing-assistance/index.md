@@ -21,9 +21,9 @@ crosslinks:
     - url: /pension/
       title: <b>Pension Benefits</b>
       description: See if you qualify for pension benefits as a wartime Veteran or a surviving spouse or child.
-    - url:  /careers-employment/vocational-rehabilitation/
-      title: <b>Vocational Rehabilitation and Employment</b>
-      description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
+    - url: /careers-employment/vocational-rehabilitation/
+      title: Vocational Rehabilitation and Employment (VR&E)
+      description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
     - url: /life-insurance/
       title: <b>Life Insurance</b>
       description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
@@ -175,7 +175,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
   <div class="link">
-    <a href="/track-claims/"><b>Check Your SAH Grant Claim Status</b></a>
+    <a href="/claim-or-appeal-status/"><b>Check Your SAH Grant Claim Status</b></a>
     <p>Track the status of an open claim for a Specially Adapted Housing grant.</p>
   </div>
 
