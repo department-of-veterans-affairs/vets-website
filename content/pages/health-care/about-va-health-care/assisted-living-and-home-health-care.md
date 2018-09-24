@@ -218,6 +218,6 @@ Yes. We offer Geriatric Patient Aligned Care Team (GeriPACT) services in about t
 - Geriatric syndromes (like frailty, falls, incontinence, memory loss, taking many medicines, or being 65 years or older)
 - Caregiver burden (the stress and strain that can come from caring for someone with complex needs)
 
-**Note:** GeriPACT is not for Veterans with untreated substance abuse. It may also not be the right fit For Veterans who only need a prescription refill for a medicine like Aricept&reg; (used to treat Alzheimer’s disease).
+**Note:** GeriPACT is not for Veterans with untreated substance abuse. It may also not be the right fit for Veterans who only need a prescription refill for a medicine like Aricept&reg; (used to treat Alzheimer’s disease).
 
 [Learn more about geriatric care](https://www.va.gov/GERIATRICS/Geriatric_Patient_Aligned_Care_Team.asp#).
