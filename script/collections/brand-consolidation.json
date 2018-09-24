@@ -32,7 +32,7 @@
     }
   },
   "burialsAllowance": {
-    "pattern": "burials-memorials/veterans-burial-allowance/*.md",
+    "pattern": "burials-and-memorials/application/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Veterans Burial Allowance",
