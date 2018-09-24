@@ -1,4 +1,6 @@
-import _ from 'lodash/fp';
+// eslint-disable-next-line no-restricted-imports
+import { merge } from 'lodash/fp';
+import set from '../../utilities/data/set';
 
 import {
   SET_SAVE_FORM_STATUS,
@@ -20,7 +22,7 @@ import reducers from 'us-forms-system/lib/js/state/reducers';
 
 export const saveInProgressReducers = {
   [SET_SAVE_FORM_STATUS]: (state, action) => {
-    const newState = _.set('savedStatus', action.status, state);
+    const newState = set('savedStatus', action.status, state);
     newState.startingOver = false;
     newState.prefillStatus = PREFILL_STATUSES.notAttempted;
 
@@ -38,7 +40,7 @@ export const saveInProgressReducers = {
     return newState;
   },
   [SET_AUTO_SAVE_FORM_STATUS]: (state, action) => {
-    const newState = _.set('autoSavedStatus', action.status, state);
+    const newState = set('autoSavedStatus', action.status, state);
 
     if (action.status === SAVE_STATUSES.success) {
       newState.lastSavedDate = action.lastSavedDate;
@@ -52,10 +54,10 @@ export const saveInProgressReducers = {
     return newState;
   },
   [SET_FETCH_FORM_STATUS]: (state, action) => {
-    return _.set('loadedStatus', action.status, state);
+    return set('loadedStatus', action.status, state);
   },
   [SET_FETCH_FORM_PENDING]: (state, action) => {
-    const newState = _.set('loadedStatus', LOAD_STATUSES.pending, state);
+    const newState = set('loadedStatus', LOAD_STATUSES.pending, state);
 
     if (action.prefill) {
       newState.prefillStatus = PREFILL_STATUSES.pending;
@@ -68,19 +70,19 @@ export const saveInProgressReducers = {
 
     // if we’re prefilling, we want to use whatever initial data the form has
     if (state.prefillStatus === PREFILL_STATUSES.pending) {
-      const formData = _.merge(state.data, action.data.formData);
-      const loadedData = _.set('formData', formData, action.data);
-      newState = _.set('loadedData', loadedData, state);
+      const formData = merge(state.data, action.data.formData);
+      const loadedData = set('formData', formData, action.data);
+      newState = set('loadedData', loadedData, state);
 
       // We get an empty object back when we attempt to prefill and there's
       // no information
-      if (_.keys(action.data.formData).length > 0) {
+      if (action.data.formData && Object.keys(action.data.formData).length > 0) {
         newState.prefillStatus = PREFILL_STATUSES.success;
       } else {
         newState.prefillStatus = PREFILL_STATUSES.unfilled;
       }
     } else {
-      newState = _.set('loadedData', action.data, state);
+      newState = set('loadedData', action.data, state);
       newState.prefillStatus = PREFILL_STATUSES.notAttempted;
     }
 
@@ -91,14 +93,14 @@ export const saveInProgressReducers = {
     return recalculateSchemaAndData(newState);
   },
   [SET_START_OVER]: (state) => {
-    return _.assign(state, {
+    return Object.assign({}, state, {
       isStartingOver: true,
       data: state.initialData,
       loadedStatus: LOAD_STATUSES.pending
     });
   },
   [SET_PREFILL_UNFILLED]: (state) => {
-    return _.assign(state, {
+    return Object.assign({}, state, {
       prefillStatus: PREFILL_STATUSES.unfilled,
       data: state.initialData,
       loadedStatus: LOAD_STATUSES.notAttempted

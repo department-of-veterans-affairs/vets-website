@@ -22,7 +22,7 @@
                             },
                             {
                                 "text": "Apply Now for Health Care",
-                                "href": "/health-care/apply-for-health-care-form-10-10ez"
+                                "href": "/health-care/apply/application"
                             }
                         ]
                     },
@@ -93,11 +93,11 @@
                         "links": [
                             {
                                 "text": "Check Your Claim or Appeal Status",
-                                "href": "#"
+                                "href": "/claim-or-appeal-status/"
                             },
                             {
                                 "text": "File for a VA Disability Increase",
-                                "href": "/disability/file-for-increase-form-21-526ez/"
+                                "href": "/disability-benefits/apply/form-526-disability-claim/"
                             },
                             {
                                 "text": "File an Appeal",
@@ -105,7 +105,7 @@
                             },
                             {
                                 "text": "Add or Remove a Dependent",
-                                "href": "/disability/add-remove-dependent/"
+                                "href": "#"
                             },
                             {
                                 "text": "Upload Evidence to Support Your Claim",
@@ -146,7 +146,7 @@
                             },
                             {
                                 "text": "Vocational Rehabilitation and Employment",
-                                "href": "#"
+                                "href": "/careers-employment/vocational-rehabilitation/"
                             },
                             {
                                 "text": "Survivor and Dependent Education Benefits",
@@ -159,7 +159,7 @@
                         "links": [
                             {
                                 "text": "View Your VA Payment History",
-                                "href": "https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
+                                "href": "/va-payment-history/"
                             },
                             {
                                 "text": "Check Your Post-9/11 GI Bill Benefits",
@@ -175,7 +175,7 @@
                             },
                             {
                                 "text": "Change Your Direct Deposit Information",
-                                "href": "#"
+                                "href": "/change-direct-deposit-and-contact-information/"
                             }
                         ]
                     },
@@ -279,7 +279,7 @@
                             },
                             {
                                 "text": "Apply Now for a Veterans Pension",
-                                "href": "/pension/apply-for-veteran-pension-form-21p-527ez/"
+                                "href": "/pension/application/527EZ"
                             }
                         ]
                     },
@@ -288,11 +288,15 @@
                         "links": [
                             {
                                 "text": "Check Your Claim or Appeal Status",
-                                "href": "#"
+                                "href": "/claim-or-appeal-status/"
+                            },
+                            {
+                                "text": "View Your VA Payment History",
+                                "href": "/va-payment-history/"
                             },
                             {
                                 "text": "Change Your Direct Deposit and Contact Information",
-                                "href": "#"
+                                "href": "/change-direct-deposit-and-contact-information/"
                             }
                         ]
                     },
@@ -321,13 +325,13 @@
                         "title": "Get Home Loan Benefits",
                         "links": [
                             {
-                                "text": "About VA Home Loan Options",
+                                "text": "About VA Home Loan Types",
                                 "href": "/housing-assistance/home-loans/"
 
                             },
                             {
                                 "text": "Check Your Appeal Status",
-                                "href": "#"
+                                "href": "/claim-or-appeal-status/"
                             },
                             {
                                 "text": "How to Apply for Your COE",
@@ -345,7 +349,7 @@
                             },
                             {
                                 "text": "Check Your SAH Claim Status",
-                                "href": "#"
+                                "href": "/claim-or-appeal-status/"
                             },
                             {
                                 "text": "How to Apply for a SAH Grant",
@@ -472,7 +476,7 @@
                                 "href": "https://www.cem.va.gov/cems/listcem.asp"
                             },
                             {
-                                "text": "Request Military Records",
+                                "text": "Request Military Records (DD214)",
                                 "href": "/records/get-military-service-records/"
                             }
                         ]
@@ -509,12 +513,16 @@
                                 "href": "/records/download-va-letters/"
                             },
                             {
-                                "text": "Apply for a Home Loan COE",
+                                "text": "Learn How to Apply for a Home Loan COE",
                                 "href": "/housing-assistance/home-loans/how-to-apply/"
                             },
                             {
-                                "text": "Apply for a Veteran ID Card",
+                                "text": "Learn About Veteran ID Cards",
                                 "href": "/records/get-veteran-id-cards/"
+                            },
+                            {
+                                "text": "Apply for a Veteran ID Card",
+                                "href": "/records/get-veteran-id-cards/vic/"
                             }
                         ]
                     },
@@ -527,11 +535,11 @@
                             },
                             {
                                 "text": "How to Apply for a Discharge Upgrade",
-                                "href": "/records/discharge-upgrade/"
+                                "href": "/discharge-upgrade-instructions"
                             },
                             {
                                 "text": "View Your VA Payment History",
-                                "href": ""
+                                "href": "/va-payment-history/"
                             },
                             {
                                 "text": "Search Historical Military Records (National Archives)",

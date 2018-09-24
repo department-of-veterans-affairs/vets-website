@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 import Raven from 'raven-js';
 import recordEvent from '../../platform/monitoring/record-event';
+import { apiRequest } from '../../platform/utilities/api';
 import environment from '../../platform/utilities/environment';
 import backendServices from '../../platform/user/profile/constants/backendServices';
 import conditionalStorage from '../../platform/utilities/storage/conditionalStorage';
@@ -69,25 +70,13 @@ export function transform(form, formConfig) {
 }
 
 function checkStatus(guid) {
-  const userToken = conditionalStorage().getItem('userToken');
-  const headers = {
-    'Content-Type': 'application/json',
-    'X-Key-Inflection': 'camel',
-  };
+  const headers = { 'Content-Type': 'application/json' };
 
-  if (userToken) {
-    headers.Authorization = `Token token=${userToken}`;
-  }
-  return fetch(`${environment.API_URL}/v0/vic/vic_submissions/${guid}`, {
-    headers
-  })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject(res);
-    }).catch(res => {
+  return apiRequest(
+    `/vic/vic_submissions/${guid}`,
+    { headers },
+    null,
+    res => {
       if (res instanceof Error) {
         Raven.captureException(res);
         Raven.captureMessage('vets_vic_poll_client_error');
@@ -99,7 +88,8 @@ function checkStatus(guid) {
 
       // if we get here, it's likely that we hit a server error
       return Promise.reject(res);
-    });
+    }
+  );
 }
 
 const POLLING_INTERVAL = 1000;
@@ -142,22 +132,18 @@ export function fetchPreview(id) {
 }
 
 export function submit(form, formConfig) {
-  const userToken = conditionalStorage().getItem('userToken');
-  const headers = {
-    'Content-Type': 'application/json',
-    'X-Key-Inflection': 'camel',
-  };
-
-  if (userToken) {
-    headers.Authorization = `Token token=${userToken}`;
-  }
-
+  const headers = { 'Content-Type': 'application/json' };
   const formData = transform(form, formConfig);
   const body = JSON.stringify({
     vicSubmission: {
       form: formData
     }
   });
+  const apiRequestOptions = {
+    method: 'POST',
+    headers,
+    body,
+  };
 
   return new Promise((resolve, reject) => {
     let photo = form.data.photo.file;
@@ -169,45 +155,50 @@ export function submit(form, formConfig) {
       photoPromise = fetchPreview(form.data.photo.confirmationCode);
     }
 
-    photoPromise.catch(err => {
-      // It's possible that we don't have the photo yet but there's nothing we can do about
-      // that. We will not show the card preview, but let the submit go through in that case,
-      // since the backend will wait for the photo to process
-      Raven.captureException(err);
-      return null;
-    }).then(photoSrc => {
-      photo = photoSrc;
-      return fetch(`${environment.API_URL}/v0/vic/vic_submissions`, {
-        method: 'POST',
-        headers,
-        body
-      });
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject(res);
-    }).then(resp => {
+    const onSuccess = resp => {
       const guid = resp.data.attributes.guid;
-      pollStatus(guid, response => {
-        recordEvent({
-          event: `${formConfig.trackingPrefix}-submission-successful`,
-        });
-        resolve(_.set('photo', photo, response));
-      }, reject);
-    })
-      .catch(respOrError => {
-        if (respOrError instanceof Response) {
-          if (respOrError.status === 429) {
-            const error = new Error('vets_throttled_error_vic');
-            error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
+      pollStatus(
+        guid,
+        response => {
+          recordEvent({
+            event: `${formConfig.trackingPrefix}submission-successful`,
+          });
+          resolve(_.set('photo', photo, response));
+        },
+        reject
+      );
+    };
 
-            reject(error);
-            return;
-          }
+    const onFailure = respOrError => {
+      if (respOrError instanceof Response) {
+        if (respOrError.status === 429) {
+          const error = new Error('vets_throttled_error_vic');
+          error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
+
+          reject(error);
+          return;
         }
-        reject(respOrError);
+      }
+      reject(respOrError);
+    };
+
+    photoPromise
+      .catch(err => {
+        // It's possible that we don't have the photo yet but there's nothing we
+        // can do about that. We will not show the card preview, but let the
+        // submit go through in that case, since the backend will wait for the
+        // photo to process
+        Raven.captureException(err);
+        return null;
+      })
+      .then(photoSrc => {
+        photo = photoSrc;
+        return apiRequest(
+          '/vic/vic_submissions',
+          apiRequestOptions,
+          onSuccess,
+          onFailure
+        );
       });
   });
 }

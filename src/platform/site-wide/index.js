@@ -12,10 +12,11 @@ import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
 import startMobileMenuButton from './mobile-menu-button';
-import startLRNHealthCareWidget from './left-rail-navs/health-care';
 import startFeedbackWidget from './feedback';
 import startAnnouncementWidget from './announcements';
 import startVAFooter from './va-footer';
+
+import brandConsolidation from '../brand-consolidation';
 
 /**
  * Start up the site-wide components that live on every page, like
@@ -44,10 +45,12 @@ export default function startSitewideComponents(commonStore) {
   });
 
   startUserNavWidget(commonStore);
-  startMegaMenuWidget(commonStore);
-  startMobileMenuButton(commonStore);
   startFeedbackWidget(commonStore);
   startAnnouncementWidget(commonStore);
-  startLRNHealthCareWidget(commonStore);
-  startVAFooter(commonStore);
+
+  if (brandConsolidation.isEnabled()) {
+    startMegaMenuWidget(commonStore);
+    startMobileMenuButton(commonStore);
+    startVAFooter(commonStore);
+  }
 }

@@ -12,7 +12,7 @@ class SaveStatus extends React.Component {
     let savedAtMessage;
     if (form.lastSavedDate) {
       const savedAt = moment(form.lastSavedDate);
-      savedAtMessage = ` Last saved at ${savedAt.format('M/D/YYYY [at] h:mm a')}`;
+      savedAtMessage = ` Last saved at ${savedAt.format('MMM D, YYYY [at] h:mm a')}`;
     } else {
       savedAtMessage = '';
     }

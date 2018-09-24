@@ -2,8 +2,11 @@
 layout: page-breadcrumbs.html
 title: VR&E Eligibility
 display_title: Eligibility
-order: 1
+order: 2
 template: detail-page
+collection: careersEmployment
+children: vreServiceEligibility
+spoke: Get Benefits
 majorlinks:
   - heading: More information about VR&E benefits and services
     links:
@@ -70,8 +73,8 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 **There are 2 ways you can try to qualify:**
 
-[Find out how to apply for a discharge upgrade](/records/discharge-upgrade).<br/>
-[Learn about the VA Character of Discharge review process](/records/discharge-upgrade#other-options).
+[Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
+[Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
 
 </div>
 
