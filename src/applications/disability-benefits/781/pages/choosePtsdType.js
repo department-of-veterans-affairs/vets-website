@@ -10,7 +10,7 @@ import {
   ptsdTypeDescription
 } from '../helpers';
 
-const FIFTY_MB = 52428800;
+// const FIFTY_MB = 52428800;
 
 export const uiSchema = {
   'ui:title': ptsdNameTitle,
