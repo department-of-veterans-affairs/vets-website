@@ -18,11 +18,6 @@ import {
 // const formFields = {
 // };
 
-// Define all the form pages to help ensure uniqueness across all form chapters
-const formPages = {
-  introductionPage: 'introductionPage',
-};
-
 import {
   ptsdType,
   ptsdChoice,
@@ -34,7 +29,7 @@ import {
 const formConfig = {
   urlPrefix: '/',
   submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'complex-form-',
+  trackingPrefix: 'ptsd-0781-0781a-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '1234',
@@ -49,7 +44,7 @@ const formConfig = {
     introductionPage: {
       title: 'Disability Details',
       pages: {
-        [formPages.introductionPage]: {
+        ptsdIntro: {
           'ui:title': '',
           path: 'info',
           uiSchema: {
