@@ -9,6 +9,7 @@ import './usa-banner-toggle';
 import './accessible-VCL-modal';
 import './moment-setup';
 import addMenuListeners from './accessible-menus';
+import isMetricsEnabled from '../frontend-metrics/feature-flag';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
 import startMobileMenuButton from './mobile-menu-button';
@@ -25,6 +26,10 @@ import brandConsolidation from '../brand-consolidation';
  * @param {Store} commonStore The Redux store being used by this application
  */
 export default function startSitewideComponents(commonStore) {
+  if (isMetricsEnabled()) {
+    require('../frontend-metrics/metrics');
+  }
+
   if (document.querySelector('#vetnav-menu') !== null) {
     addMenuListeners(document.querySelector('#vetnav-menu'), true);
   }
