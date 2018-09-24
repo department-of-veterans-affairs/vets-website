@@ -6,7 +6,7 @@ import {
 } from 'us-forms-system/lib/js/definitions/autosuggest';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import { treatmentView } from '../content/vaMedicalRecords';
-import { queryForFacilities, addDisabilitiesCheckboxes } from '../utils';
+import { queryForFacilities, addCheckboxPerDisability } from '../utils';
 import {
   validateMilitaryTreatmentCity,
   validateMilitaryTreatmentState
@@ -50,7 +50,7 @@ export const uiSchema = {
         'ui:title':
           'Please choose the conditions for which you received treatment at this facility.',
         'ui:options': {
-          updateSchema: addDisabilitiesCheckboxes,
+          updateSchema: addCheckboxPerDisability,
           showFieldLabel: true
         },
         'ui:validations': [validateBooleanGroup],

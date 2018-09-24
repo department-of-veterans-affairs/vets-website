@@ -186,7 +186,7 @@ export function queryForFacilities(input = '') {
   );
 }
 
-export const addDisabilitiesCheckboxes = (form, pageSchema) => {
+export const addCheckboxPerDisability = (form, pageSchema) => {
   // This shouldn't happen, but could happen if someone directly
   // opens the right page in the form with no SiP
   if (!form.ratedDisabilities && !form.newDisabilities) {
