@@ -501,23 +501,34 @@ export const patientAcknowledgementText = (
       daily living. This includes specific permission to release:
     </p>
     <ol>
-      <li>All records and other information regarding my treatment,
+      <li>
+        All records and other information regarding my treatment,
         hospitalization, and outpatient care for my impairment(s)
         including, but not limited to:
-        <ul>
-          <li>Psychological, psychiatric, or other mental impairment(s)
-            excluding "psychotherapy notes" as defined in 45 C.F.R. §164.501,</li>
-          <li>Drug abuse, alcoholism, or other substance abuse,</li>
-          <li>Sickle cell anemia,</li>
-          <li>Records which may indicate the presence of a communicable
-            or non-communicable disease; and tests for or records of HIV/AIDS,</li>
-          <li>Gene-related impairments (including genetic test results)</li>
-        </ul>
       </li>
-      <li>Information about how my impairment(s) affects my ability to
-        complete tasks and activities of daily living, and affects my ability to work.</li>
-      <li>Information created within 12 months after the date this authorization
-        is signed in Item 11, as well as past information.</li>
+      <ul>
+        <li>
+          Psychological, psychiatric, or other mental impairment(s)
+          excluding "psychotherapy notes" as defined in 45 C.F.R. §164.501,
+        </li>
+        <li>
+          Drug abuse, alcoholism, or other substance abuse,
+        </li>
+        <li>Sickle cell anemia,</li>
+        <li>
+          Records which may indicate the presence of a communicable
+          or non-communicable disease; and tests for or records of HIV/AIDS,
+        </li>
+        <li>Gene-related impairments (including genetic test results)</li>
+      </ul>
+      <li>
+        Information about how my impairment(s) affects my ability to
+        complete tasks and activities of daily living, and affects my ability to work.
+      </li>
+      <li>
+        Information created within 12 months after the date this authorization
+        is signed in Item 11, as well as past information.
+      </li>
     </ol>
     <p>
       YOU SHOULD NOT COMPLETE THIS FORM UNLESS YOU WANT THE VA TO
@@ -567,7 +578,8 @@ export const patientAcknowledgementText = (
     </p>
     <p>
       NOTE: For additional information regarding VA Form 21-4142, refer to
-      the following website: <a href="https://www.benefits.va.gov/privateproviders/" target="_blank">https://www.benefits.va.gov/privateproviders/</a>.
+      the following website:
+      <a href="https://www.benefits.va.gov/privateproviders/" target="_blank">https://www.benefits.va.gov/privateproviders/</a>.
     </p>
   </AdditionalInfo>
 );
@@ -581,9 +593,7 @@ export const download4142Notice = (
       doctor.
     </p>
     <p>
-      <a href={VA_FORM4142_URL} target="_blank">
-        Download VA Form 21-4142
-      </a>.
+      <a href={VA_FORM4142_URL} target="_blank">Download VA Form 21-4142</a>.
       <p>Please print the form, fill it out, and send it to:</p>
       {claimsIntakeAddress}
       <p>

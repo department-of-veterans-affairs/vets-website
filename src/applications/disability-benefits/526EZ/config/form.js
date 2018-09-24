@@ -677,9 +677,9 @@ const formConfig = {
               formData,
             );
             const requestsRecords = _.get(
-                `disabilities.${index}.view:uploadPrivateRecords`,
-                formData,
-              ) === 'no';
+              `disabilities.${index}.view:uploadPrivateRecords`,
+              formData,
+            ) === 'no';
             return hasRecords && requestsRecords;
           },
           uiSchema: {
@@ -856,9 +856,9 @@ const formConfig = {
               formData,
             );
             const uploadRecords = _.get(
-                `disabilities.${index}.view:uploadPrivateRecords`,
-                formData,
-              ) === 'yes';
+              `disabilities.${index}.view:uploadPrivateRecords`,
+              formData,
+            ) === 'yes';
             return hasRecords && uploadRecords;
           },
           path: 'supporting-evidence/:index/documents',
