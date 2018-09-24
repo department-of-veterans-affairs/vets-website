@@ -51,7 +51,7 @@ export class CallToActionWidget extends React.Component {
   componentDidUpdate() {
     if (!this.props.isLoggedIn) return;
 
-    if (this.hasService() && !this._popup) this.redirect();
+    if (this.isAccessible() && !this._popup) this.redirect();
 
     const { accountState, loading } = this.props.mhvAccount;
     if (!loading && !accountState) this.props.fetchMHVAccount();
@@ -68,7 +68,7 @@ export class CallToActionWidget extends React.Component {
       };
     }
 
-    if (!this.hasService()) return this.getInaccessibleContent();
+    if (!this.isAccessible()) return this.getInaccessibleContent();
 
     return {
       heading: 'My HealtheVet should open in a new tab',
@@ -188,7 +188,15 @@ export class CallToActionWidget extends React.Component {
     };
   }
 
-  hasService = () => this.props.availableServices.includes(this.props.serviceRequired);
+  isAccessible = () => {
+    const { availableServices, requiredServices } = this.props;
+
+    for (const requiredService of requiredServices) {
+      if (!availableServices.has(requiredService)) return false;
+    }
+
+    return true;
+  }
 
   openLoginModal = () => this.props.toggleLoginModal(true);
 
@@ -230,7 +238,7 @@ const mapStateToProps = (state) => {
   const profile = selectProfile(state);
   const { loading, mhvAccount, services } = profile;
   return {
-    availableServices: services,
+    availableServices: new Set(services),
     isLoggedIn: isLoggedIn(state),
     profile: { loading },
     mhvAccount

@@ -9,9 +9,14 @@ export default function createCallToActionWidget(store) {
   const root = document.getElementById('cta-widget');
 
   if (root) {
+    let { requiredServices } = root.dataset;
+
+    requiredServices =
+      requiredServices && new Set(requiredServices.split(' '));
+
     ReactDOM.render((
       <Provider store={store}>
-        <CallToActionWidget requiredServices={root.dataset.requiredServices}/>
+        <CallToActionWidget requiredServices={requiredServices}/>
       </Provider>
     ), root);
   }
