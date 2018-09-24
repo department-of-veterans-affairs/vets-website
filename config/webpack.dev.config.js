@@ -37,6 +37,12 @@ function generateWebpackDevConfig(buildOptions) {
       children: false,
       modules: false,
       warnings: true
+    },
+    before: (app) => {
+      app.use(/.*\.asp/, (req, res, next) => {
+        res.type('html');
+        next();
+      });
     }
   };
 
