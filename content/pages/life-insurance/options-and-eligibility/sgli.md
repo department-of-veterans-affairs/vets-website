@@ -86,9 +86,9 @@ Yes. You can choose your level of coverage or even refuse coverage completely. Y
 
 <ol class="process" markdown="1">
   <li class="process-step list-one">
-  
-  [Go to milConnect](https://www.dmdc.osd.mil/milconnect/).
-  
+
+  [Go to milConnect](https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e4s1).
+
   </li>
   
   <li class="process-step list-two">
