@@ -1,6 +1,6 @@
 ---
 title: View VA Payment History
-href: "#"
+href: /va-payment-history/
 spoke: Manage Benefits
 order: 2
 ---

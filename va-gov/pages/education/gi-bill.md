@@ -19,7 +19,7 @@ majorlinks:
       description: If you have unused Post-9/11 GI Bill benefits, find out if you can transfer your benefits to your spouse or dependent children.
   - heading: Benefit Rates and Ways You Can Use Your Benefits
     links:
-    - url: /education/rates/
+    - url: /education/benefit-rates/
       title: Rates
       description: Learn more about education benefit rates for tuition and books for qualifying Veterans and their family members.
     - url: /education/gi-bill/foreign-programs/
