@@ -133,7 +133,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="/education/gi-bill/post-9-11/ch-33-benefit"><b>Check Your Post-9/11 GI Bill Benefits</b></a>
+    <a href="/education/gi-bill/post-9-11/ch-33-benefit/"><b>Check Your Post-9/11 GI Bill Benefits</b></a>
     <p>See how much of your GI Bill benefits you have left to help pay for school or training.</p>
   </div>
 
