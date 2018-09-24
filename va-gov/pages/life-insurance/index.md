@@ -115,7 +115,7 @@ VA life insurance can offer financial security and support for Veterans, Service
   </div>
 
   <div class="link">
-    <a href="/track-claims"><b>Check Your Appeal Status</b></a>
+    <a href="/claim-or-appeal-status/"><b>Check Your Appeal Status</b></a>
     <p>Track the status of your life insurance appeal.</p>
   </div>
 
