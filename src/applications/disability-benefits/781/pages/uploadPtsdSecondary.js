@@ -1,9 +1,5 @@
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import environment from '../../../../platform/utilities/environment';
-// import fullSchema781 from '../21-0781-schema.json';
-
-// const {
-// } = fullSchema781.definitions;
 
 import {
   ptsdNameTitle,
