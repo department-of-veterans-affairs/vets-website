@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import { toggleLoginModal } from '../user-nav/actions';
@@ -211,23 +211,18 @@ export class CallToActionWidget extends React.Component {
       status = 'info'
     } = this.getContent();
 
-    const alertClass = classNames(
-      'usa-alert',
-      'va-sign-in-alert',
-      `usa-alert-${status}`
-    );
-
-    return (
-      <div className={alertClass}>
-        <div className="usa-alert-body">
-          <h4 className="usa-alert-heading">{heading}</h4>
-          <div className="usa-alert-text">
-            {alertText}
-            {buttonText && <button className="usa-button-primary" onClick={buttonHandler}>{buttonText}</button>}
-          </div>
+    const alertProps = {
+      headline: heading,
+      content: (
+        <div className="usa-alert-text">
+          {alertText}
+          {buttonText && <button className="usa-button-primary" onClick={buttonHandler}>{buttonText}</button>}
         </div>
-      </div>
-    );
+      ),
+      status
+    };
+
+    return <AlertBox isVisible {...alertProps}/>;
   }
 }
 
