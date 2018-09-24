@@ -45,8 +45,6 @@ export default function startSitewideComponents(commonStore) {
   });
 
   startUserNavWidget(commonStore);
-  startMegaMenuWidget(commonStore);
-  startMobileMenuButton(commonStore);
   startFeedbackWidget(commonStore);
   startAnnouncementWidget(commonStore);
 

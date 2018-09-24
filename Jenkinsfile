@@ -252,20 +252,34 @@ node('vetsgov-general-purpose') {
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false
+<<<<<<< HEAD
         build job: 'deploys/vets-website-vagovdev', parameters: [
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false
+=======
+        //build job: 'deploys/vets-website-vagovdev', parameters: [
+        //  booleanParam(name: 'notify_slack', value: true),
+        //  stringParam(name: 'ref', value: commit),
+        //], wait: false
+>>>>>>> 011f30409d13e5f08a6853ec01c550f6d55887fe
       }
       if (env.BRANCH_NAME == stagingBranch) {
         build job: 'deploys/vets-website-staging', parameters: [
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false
+<<<<<<< HEAD
         build job: 'deploys/vets-website-vagovstaging', parameters: [
           booleanParam(name: 'notify_slack', value: true),
           stringParam(name: 'ref', value: commit),
         ], wait: false
+=======
+        //build job: 'deploys/vets-website-preview', parameters: [
+        //  booleanParam(name: 'notify_slack', value: true),
+        //  stringParam(name: 'ref', value: commit),
+        //], wait: false
+>>>>>>> 011f30409d13e5f08a6853ec01c550f6d55887fe
       }
     } catch (error) {
       notify()
