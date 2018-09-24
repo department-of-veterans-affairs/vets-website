@@ -68,7 +68,7 @@ import {
   getlimitedConsentTitle,
   validateBooleanIfEvidence,
   privateRecordsChoiceHelp,
-  patientAcknowledgmentText
+  patientAcknowledgementText
 } from '../helpers';
 
 import {
@@ -451,13 +451,12 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) =>
-            _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:vaMedicalRecords`,
-              formData,
-            ),
+          depends: (formData, index) => _.get(
+            `disabilities.${
+              index
+            }.view:selectableEvidenceTypes.view:vaMedicalRecords`,
+            formData,
+          ),
           uiSchema: {
             disabilities: {
               items: {
@@ -485,13 +484,12 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) =>
-            _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:vaMedicalRecords`,
-              formData,
-            ),
+          depends: (formData, index) => _.get(
+            `disabilities.${
+              index
+            }.view:selectableEvidenceTypes.view:vaMedicalRecords`,
+            formData,
+          ),
           uiSchema: {
             disabilities: {
               items: {
@@ -552,13 +550,12 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) =>
-            _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
-              formData,
-            ),
+          depends: (formData, index) => _.get(
+            `disabilities.${
+              index
+            }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+            formData,
+          ),
           uiSchema: {
             disabilities: {
               items: {
@@ -586,13 +583,12 @@ const formConfig = {
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
-          depends: (formData, index) =>
-            _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
-              formData,
-            ),
+          depends: (formData, index) => _.get(
+            `disabilities.${
+              index
+            }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+            formData,
+          ),
           uiSchema: {
             disabilities: {
               items: {
@@ -609,17 +605,24 @@ const formConfig = {
                     },
                   },
                 },
-                'view:patientAcknowledgment': {
-                  'ui:title': 'Patient Acknowledgment',
-                  'ui:description': patientAcknowledgmentText,
+                'view:patientAcknowledgement': {
+                  'ui:title': ' ',
+                  'ui:help': patientAcknowledgementText,
                   'ui:options': {
                     expandUnder: 'view:uploadPrivateRecords',
                     expandUnderCondition: 'no',
+                    showFieldLabel: true,
                   },
-                  'view:acknowledgment': {
-                    'ui:title': 'Patient Acknowledgment',
-                    'ui:required': (formData, index) => (_.get(`disabilities[${index}].view:patientAcknowledgement.view:acknowledgement`, formData)),
+                  'view:acknowledgement': {
+                    'ui:title': 'Patient Acknowledgement',
                   },
+                  'ui:validations': [
+                    (errors, item) => {
+                      if (!item['view:acknowledgement']) {
+                        errors.addError('You must accept the acknowledgement');
+                      }
+                    }
+                  ]
                 },
                 'view:privateRecordsChoiceHelp': {
                   'ui:description': privateRecordsChoiceHelp,
@@ -640,10 +643,11 @@ const formConfig = {
                       type: 'string',
                       'enum': ['yes', 'no'],
                     },
-                    'view:patientAcknowledgment': {
+                    'view:patientAcknowledgement': {
                       type: 'object',
+                      required: ['view:acknowledgement'],
                       properties: {
-                        'view:acknowledgment': {
+                        'view:acknowledgement': {
                           type: 'boolean',
                           'default': true
                         }
@@ -672,11 +676,10 @@ const formConfig = {
               }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
               formData,
             );
-            const requestsRecords =
-              _.get(
-                `disabilities.${index}.view:uploadPrivateRecords`,
-                formData,
-              ) === 'no';
+            const requestsRecords = _.get(
+              `disabilities.${index}.view:uploadPrivateRecords`,
+              formData,
+            ) === 'no';
             return hasRecords && requestsRecords;
           },
           uiSchema: {
@@ -852,11 +855,10 @@ const formConfig = {
               }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
               formData,
             );
-            const uploadRecords =
-              _.get(
-                `disabilities.${index}.view:uploadPrivateRecords`,
-                formData,
-              ) === 'yes';
+            const uploadRecords = _.get(
+              `disabilities.${index}.view:uploadPrivateRecords`,
+              formData,
+            ) === 'yes';
             return hasRecords && uploadRecords;
           },
           path: 'supporting-evidence/:index/documents',
@@ -935,13 +937,12 @@ const formConfig = {
         },
         documentUpload: {
           title: 'Lay statements or other evidence',
-          depends: (formData, index) =>
-            _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:otherEvidence`,
-              formData,
-            ),
+          depends: (formData, index) => _.get(
+            `disabilities.${
+              index
+            }.view:selectableEvidenceTypes.view:otherEvidence`,
+            formData,
+          ),
           path: 'supporting-evidence/:index/additionalDocuments',
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
