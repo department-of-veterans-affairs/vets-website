@@ -115,7 +115,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   <h2>Manage Your Veterans Disability Benefits</h2>
 
   <div class="link">
-    <a href="/claim-or-appeal-status/"><b>Check Your VA Claim or Appeal Status</b></a>
+    <a href="/track-claims/"><b>Check Your VA Claim or Appeal Status</b></a>
     <p>Track the status of your disability claim or appeal.</p>
     </div>
 
