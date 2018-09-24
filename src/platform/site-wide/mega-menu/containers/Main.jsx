@@ -8,10 +8,18 @@ import { isLoggedIn } from '../../../user/selectors';
 import MegaMenu from '@department-of-veterans-affairs/formation/MegaMenu';
 
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
-//               {window.location.pathname.endsWith('eligibility/') && <p><a href={applyLink}>Learn more about how to apply</a>.</p>}
 
 export function flagCurrentPageInTopLevelLinks(links, pathName = window.location.pathname) {
-  return links.map(link => pathName.endsWith(link.href) ? { ...link, currentPage: true } : link);
+  return links.map(link => {
+    return pathName.endsWith(link.href) ? { ...link, currentPage: true } : link;
+  });
+}
+
+export function maybeMergeAuthenticatedLinkData(loggedIn, authenticatedLinks = authenticatedUserLinkData, defaultLinks = defaultLinkData) {
+  return [
+    ...defaultLinks,
+    ...loggedIn ? authenticatedLinks : []
+  ];
 }
 
 export class Main extends React.Component {
@@ -24,11 +32,7 @@ export class Main extends React.Component {
 
 const mapStateToProps = (state) => {
 
-  console.log(flagCurrentPageInTopLevelLinks(authenticatedUserLinkData));
-  const data = [
-    ...defaultLinkData,
-    ...isLoggedIn(state) ? authenticatedUserLinkData : []
-  ];
+  const data = maybeMergeAuthenticatedLinkData(isLoggedIn(state), flagCurrentPageInTopLevelLinks(authenticatedUserLinkData));
 
   return {
     ...state.megaMenu,
