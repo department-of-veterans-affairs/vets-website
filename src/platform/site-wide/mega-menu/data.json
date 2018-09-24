@@ -93,7 +93,7 @@
                         "links": [
                             {
                                 "text": "Check Your Claim or Appeal Status",
-                                "href": "/claim-or-appeal-status/"
+                                "href": "/track-claims/"
                             },
                             {
                                 "text": "File for a VA Disability Increase",
@@ -105,7 +105,7 @@
                             },
                             {
                                 "text": "Add or Remove a Dependent",
-                                "href": "#"
+                                "href": "/disability-benefits/apply/how-to-add-dependent/"
                             },
                             {
                                 "text": "Upload Evidence to Support Your Claim",
@@ -288,7 +288,7 @@
                         "links": [
                             {
                                 "text": "Check Your Claim or Appeal Status",
-                                "href": "/claim-or-appeal-status/"
+                                "href": "/track-claims/"
                             },
                             {
                                 "text": "View Your VA Payment History",
@@ -331,7 +331,7 @@
                             },
                             {
                                 "text": "Check Your Appeal Status",
-                                "href": "/claim-or-appeal-status/"
+                                "href": "/track-claims/"
                             },
                             {
                                 "text": "How to Apply for Your COE",
@@ -349,7 +349,7 @@
                             },
                             {
                                 "text": "Check Your SAH Claim Status",
-                                "href": "/claim-or-appeal-status/"
+                                "href": "/track-claims/"
                             },
                             {
                                 "text": "How to Apply for a SAH Grant",
@@ -411,7 +411,7 @@
                             },
                             {
                                 "text": "Check Your Appeal Status",
-                                "href": "#"
+                                "href": "/track-claims/"
                             }
                         ]
                     },
@@ -665,7 +665,7 @@
                   },
                   {
                       "text": "Volunteer or Donate",
-                      "href": "#"
+                      "href": "www.volunteer.va.gov/index.asp"
                   }
               ]
           },
