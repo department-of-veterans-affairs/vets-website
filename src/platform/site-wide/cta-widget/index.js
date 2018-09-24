@@ -98,7 +98,7 @@ export class CallToActionWidget extends React.Component {
             <div>
               <p>We’re sorry. We can’t match the information you provided with what we have in our Veteran records. We take your privacy seriously, and we’re committed to protecting your information. You won’t be able to access VA.gov health tools until we match your information and verify your identity.</p>
               <h5>What you can do</h5>
-              <p>If you feel you’ve entered your information correctly, please call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008294833">1-800-829-4833</a>). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).</p>
+              <p>If you feel you’ve entered your information correctly, please call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008778339">1-800-877-8339</a>). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).</p>
             </div>
           ),
           status: 'error'
@@ -111,7 +111,7 @@ export class CallToActionWidget extends React.Component {
             <div>
               <p>We’re sorry. You won’t be able to access VA.gov health tools until we reactivate your My HealtheVet account.</p>
               <h5>What you can do</h5>
-              <p>If you feel you’ve entered your information correctly, please call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008294833">1-800-829-4833</a>). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).</p>
+              <p>If you feel you’ve entered your information correctly, please call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008778339">1-800-877-8339</a>). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).</p>
             </div>
           ),
           status: 'error'
@@ -124,7 +124,7 @@ export class CallToActionWidget extends React.Component {
             <div>
               <p>We’re sorry. We found more than one active account for you.</p>
               <h5>What you can do</h5>
-              <p>Please call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008294833">1-800-829-4833</a>). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).</p>
+              <p>Please call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008778339">1-800-877-8339</a>). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).</p>
             </div>
           ),
           status: 'error'
@@ -153,7 +153,7 @@ export class CallToActionWidget extends React.Component {
           alertText: (
             <div>
               <p>We’re sorry. Something went wrong on our end that’s affecting VA.gov health tools right now.</p>
-              <p>You can try again later or call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008294833">1-800-829-4833</a>). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).</p>
+              <p>You can try again later or call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008778339">1-800-877-8339</a>). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).</p>
             </div>
           ),
           status: 'error'
@@ -166,7 +166,7 @@ export class CallToActionWidget extends React.Component {
             <div>
               <p>We’re sorry. Something went wrong on our end while we were trying to upgrade your account. You won’t be able to use VA.gov health tools until we can fix the problem.</p>
               <h5>What you can do</h5>
-              <p>If you feel you’ve entered your information correctly, please call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008294833">1-800-829-4833</a>). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).</p>
+              <p>If you feel you’ve entered your information correctly, please call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008778339">1-800-877-8339</a>). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).</p>
             </div>
           ),
           status: 'error'
@@ -181,7 +181,7 @@ export class CallToActionWidget extends React.Component {
         <div>
           <p>We’re sorry. Something went wrong on our end while looking up your account. You may not be able to use some VA.gov health tools until we can figure out what’s wrong.</p>
           <h5>What you can do</h5>
-          <p>You can try again later or call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008294833">1-800-829-4833</a>). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).</p>
+          <p>You can try again later or call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008778339">1-800-877-8339</a>). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).</p>
         </div>
       ),
       status: 'error'
