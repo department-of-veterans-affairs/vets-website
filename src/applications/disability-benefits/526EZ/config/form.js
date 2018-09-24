@@ -710,21 +710,28 @@ const formConfig = {
                 'view:privateRecordsChoiceHelp': {
                   'ui:description': limitedConsentDescription,
                 },
-                'ui:validations': [
-                  (errors, item) => {
-                    // console.log(errors, 'err');
-                    // console.log(item, 'item');
-                    if (
-                      item.providerFacility === undefined ||
-                      item.providerFacility.length === 0
-                    ) {
-                      // if (!item.providerFacility) {
-                    // console.log('yo undef');
-
-                      errors.addError('You must accept the acknowledgement');
-                    }
-                  },
-                ],
+                // 'ui:validations': [
+                //   (errors, item) => {
+                //     console.log(errors, 'err');
+                //     console.log(item, 'item');
+                //     if (
+                //       item.providerFacility === undefined
+                //     ) {
+                //       // if (!item.providerFacility) {
+                //      console.log('yo undef');
+                //
+                //       errors.addError('You must fill in required fields.');
+                //     }
+                //   },
+                // ],
+                // 'ui:validations': [
+                //   {
+                //     validator: requireField,
+                //   }
+                // ],
+                // 'ui:errorMessages': {
+                //   required: 'Fill out fields'
+                // },
                 providerFacility: {
                   'ui:options': {
                     itemName: 'Provider',
@@ -801,8 +808,14 @@ const formConfig = {
                   properties: {
                     providerFacility: {
                       type: 'array',
+                      minItems: 1,
+                      maxItems: 100,
                       items: {
                         type: 'object',
+                        required: [
+                          'providerFacilityName',
+                          'providerFacilityAddress',
+                        ],
                         properties: {
                           providerFacilityName: {
                             type: 'string',
@@ -856,10 +869,10 @@ const formConfig = {
                             },
                           ),
                         },
-                        required: [
-                          'providerFacilityName',
-                          'providerFacilityAddress',
-                        ],
+                        // required: [
+                        //   'providerFacilityName',
+                        //   'providerFacilityAddress',
+                        // ],
                       },
                     },
                     limitedConsent: {

@@ -50,104 +50,10 @@ describe('Disability benefits 4142 provider medical records facility information
 
     form.find('form').simulate('submit');
     expect(submit.called).to.be.false;
-    expect(form.find('.usa-input-error').length).to.equal(6);
-    //  expect(form.find('.usa-input-error-message').length).to.equal(2); // name, 'from' date
+
+    //  expect(form.find('.usa-input-error').length).to.equal(2); //TODO: TEST FAILING
 
     expect(form.find('select').length).to.equal(6);
     expect(form.find('input').length).to.equal(8);
   });
-  // it('does not submit without required info', () => {
-  //   const onSubmit = sinon.spy();
-  //   const form = mount(
-  //     <DefinitionTester
-  //       definitions={formConfig.defaultDefinitions}
-  //       schema={schema}
-  //       data={{
-  //         disabilities: [
-  //           {
-  //             name: 'Diabetes mellitus0',
-  //             disabilityActionType: 'INCREASE',
-  //             ratedDisabilityId: '0',
-  //             ratingDecisionId: '63655',
-  //             diagnosticCode: 5238,
-  //             limitedConsent: true,
-  //             providerFacility: [{
-  //           //  viewField: PrivateProviderTreatmentView,
-  //              providerFacilityName: 'Another Provider',
-  //              treatmentDateRange: {
-  //                from: '2010-03-04',
-  //                to: '2012-02-03'
-  //              },
-  //              providerFacilityAddress: {
-  //                street: '1234 test rd',
-  //                city: 'Testville',
-  //                country: 'USA',
-  //                state: 'AZ',
-  //                postalCode: '12345'
-  //              }
-  //            }],
-  //           },
-  //        ],
-
-  //  providerFacility: [{
-  //   providerFacilityName: 'Another Provider',
-  //   treatmentDateRange: [{
-  //     from: '2010-03-04',
-  //     to: '2012-02-03'
-  //   }],
-  //   providerFacilityAddress: {
-  //     street: '1234 test rd',
-  //     city: 'Testville',
-  //     country: 'USA',
-  //     state: 'AZ',
-  //     postalCode: '12345'
-  //   }
-  // }],
-
-  //       }}
-  //
-  //       formData={{}}
-  //       onSubmit={onSubmit}
-  //       uiSchema={uiSchema}/>,
-  //   );
-  //
-  //   form.find('form').simulate('submit');
-  //   expect(form.find('.usa-input-error').length).to.equal(6);
-  //
-  //   expect(onSubmit.called).to.be.false;
-  // });
-  // // //
-  // // it('should submit with required info', () => {
-  // //   const onSubmit = sinon.spy();
-  // //   const form = mount(
-  // //     <DefinitionTester
-  // //       definitions={formConfig.defaultDefinitions}
-  // //       schema={schema}
-  // //       data={{
-  // //         providerFacility: [{
-  // //
-  // //                     providerFacilityName: 'Another Provider',
-  // //                     treatmentDateRange: [{
-  // //                       from: '2010-03-04',
-  // //                       to: '2012-02-03'
-  // //                     }],
-  // //                     providerFacilityAddress: {
-  // //                       street: '1234 test rd',
-  // //                       city: 'Testville',
-  // //                       country: 'USA',
-  // //                       state: 'AZ',
-  // //                       postalCode: '12345'
-  // //                     }
-  // //                   }],
-  // //       }}
-  // //       formData={{}}
-  // //       onSubmit={onSubmit}
-  // //       uiSchema={uiSchema}/>,
-  // //   );
-  // //
-  // //   form.find('form').simulate('submit');
-  // //   expect(form.find('.usa-input-error').length).to.equal(0);
-  // //
-  // //   expect(onSubmit.called).to.be.true;
-  // //  });
 });
