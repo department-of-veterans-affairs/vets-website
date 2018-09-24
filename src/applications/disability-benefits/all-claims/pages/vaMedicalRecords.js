@@ -1,12 +1,12 @@
 import _ from '../../../../platform/utilities/data';
 import merge from 'lodash/merge';
 import fullSchema from '../config/schema';
-import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
+import {
+  uiSchema as autoSuggestUiSchema
+} from 'us-forms-system/lib/js/definitions/autosuggest';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import { treatmentView } from '../content/vaMedicalRecords';
-import {
-  queryForFacilities,
-  addDisabilitiesCheckboxes } from '../utils';
+import { queryForFacilities, addDisabilitiesCheckboxes } from '../utils';
 import {
   validateMilitaryTreatmentCity,
   validateMilitaryTreatmentState
@@ -47,7 +47,8 @@ export const uiSchema = {
         }
       ),
       relatedDisabilities: {
-        'ui:title': 'Please choose the conditions for which you received treatment at this facility.',
+        'ui:title':
+          'Please choose the conditions for which you received treatment at this facility.',
         'ui:options': {
           updateSchema: addDisabilitiesCheckboxes,
           showFieldLabel: true
@@ -74,11 +75,17 @@ export const uiSchema = {
           'ui:options': {
             expandUnder: 'country',
             expandUnderCondition: USA
-          }
+          },
+          'ui:required': (formData, index) =>
+            _.get(
+              `vaTreatmentFacilities.${index}.treatmentCenterAddress.country`,
+              formData,
+              false
+            ) === USA
         },
         city: {
           'ui:title': 'City',
-          'ui:validations': [validateMilitaryTreatmentCity]
+          'ui:validations': [validateMilitaryTreatmentCity],
         }
       }
     }

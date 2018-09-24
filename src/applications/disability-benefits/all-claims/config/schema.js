@@ -405,7 +405,7 @@ const vaTreatmentCenterAddressDef = ((addressSchema) => {
   const { type, properties } = addressSchema;
   return Object.assign({}, {
     type,
-    required: ['country'],
+    required: ['country', 'city'],
     properties: _.pick([
       'country',
       'city',
@@ -775,7 +775,7 @@ const schema = {
             pattern: "^([a-zA-Z0-9\\-'.#]([a-zA-Z0-9\\-'.# ])?)+$"
           },
           treatmentDateRange: {
-            $ref: '#/definitions/dateRangeFromRequired'
+            $ref: '#/definitions/dateRangeAllRequired'
           },
           treatmentCenterAddress: {
             $ref: '#/definitions/vaTreatmentCenterAddress'
