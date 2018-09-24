@@ -85,6 +85,8 @@ You can use all the features of this tool if you meet all of the requirements li
 - A Premium **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
 
+[Learn about the 3 different My HealtheVet account types](https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types).
+
 </div>
 </div>
 </div>
@@ -130,7 +132,12 @@ You can get answers to frequently asked questions about VA Blue Button and relat
 <br>
 [Read VA Blue Button FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#bbtop). <br>
 [Read VA Health Summary FAQs](https://www.myhealth.va.gov/mhv-portal-web/faqs#CCD). <br>
-[Read VA Medical Images and Reports FAQs](https://www.myhealth.va.gov/mhv-portal-web/faqs#VAMIR).
+[Read VA Medical Images and Reports FAQs](https://www.myhealth.va.gov/mhv-portal-web/faqs#VAMIR).<br>
+
+You can also contact the My HealtheVet Help Desk. <br>
+[Find out how to contact us online](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv). <br>
+Or call us at <a href="tel:+18773270022">1-877-327-0022</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>). We’re here Monday through Friday, 7:00 a.m. to 7:00 p.m. (CT)
+
 </div>
 </div>
 </div>
