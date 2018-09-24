@@ -210,13 +210,14 @@ Other services for home health care (like adult day health care or skilled healt
   
 #### Does VA provide specialized geriatric (elder) care for seniors with multiple physical and mental health needs?
 
-Yes. Some VA medical centers have Geriatric Patient Aligned Care Teams (GeriPACT). These teams provide health care for Veterans with more than one chronic disease who also have declining mental and physical function. Primary care providers and specialists work together to help these Veterans live with as much independence and quality of life as possible. 
-
-To qualify for GeriPACT care, Veterans need to meet all of the requirements below.
-
-**All of these must be true. The Veteran has health challenges due to:**
+Yes. Our Geriatric Patient Aligned Care Teams (GeriPACT) provide expert care to Veterans with challenging health needs due to:
 - More than one complex chronic disease
 - Dementia or cognitive decline
-- Geriatric syndromes (like frailty, falls, incontinence, memory loss, multiple medications, or being 85 years or older)
+- Geriatric syndromes (such as frailty, falls, incontinence, memory loss, taking many medicines, or being 65 years or older)
+- Caregiver burden
+
+We offer GeriPACT services in about two-thirds of VA medical centers.
+
+**Note:** GeriPACT is not for Veterans with untreated substance abuse. It may also not be the right fit For Veterans who only need a prescription refill for a medicine like Aricept&reg; (used to treat Alzheimer’s disease).
 
 [Learn more about geriatric care](https://www.va.gov/GERIATRICS/Geriatric_Patient_Aligned_Care_Team.asp#).
