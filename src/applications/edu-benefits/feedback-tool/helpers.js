@@ -8,8 +8,9 @@ import dataUtils from '../../../platform/utilities/data/index';
 import { apiRequest } from '../../../platform/utilities/api';
 import recordEvent from '../../../platform/monitoring/record-event';
 
-import { trackingPrefix } from './config/form';
 import UserInteractionRecorder from '../components/UserInteractionRecorder';
+
+export const trackingPrefix = 'edu-feedback-tool-';
 
 const { get } = dataUtils;
 const domesticSchoolAddressFields = get(

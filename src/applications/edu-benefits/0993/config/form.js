@@ -95,7 +95,7 @@ const formConfig = {
               }
             },
             'view:optOutMessage': {
-              'ui:title': tabIndexedTitle('By clicking the Continue button, you’re asking VA to not share your education benefits information.')
+              'ui:field': () => tabIndexedTitle('By clicking the Continue button, you’re asking VA to not share your education benefits information.')
             }
           },
           schema: {
