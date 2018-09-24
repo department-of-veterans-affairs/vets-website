@@ -100,9 +100,8 @@ export const getReservesGuardData = formData => {
  * @param {object} treatmentDateRange object containing from/to date range
  * @returns {array} of treatmentDateRange's
  */
-const transformDateRange = treatmentDateRange => {
-  return [treatmentDateRange];
-};
+
+const transformDateRange = treatmentDateRange => [treatmentDateRange];
 
 /**
  * Cycles through the list of provider facilities and performs transformations on each property as needed
