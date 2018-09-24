@@ -1,7 +1,7 @@
-import _ from 'lodash/fp';
+// import _ from 'lodash/fp';
 
 // Example of an imported schema:
-import fullSchema from '../21-0781-schema.json';
+// import fullSchema from '../21-0781-schema.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -15,13 +15,20 @@ import {
 } from '../helpers';
 
 // Define all the fields in the form to aid reuse
-const formFields = {
-};
+// const formFields = {
+// };
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
   introductionPage: 'introductionPage',
 };
+
+import {
+  ptsdChoice,
+  ptsdSecondaryChoice,
+  uploadPtsd,
+  uploadPtsdSecondary
+} from '../pages';
 
 const formConfig = {
   urlPrefix: '/',
@@ -52,6 +59,32 @@ const formConfig = {
             properties: {},
           },
         },
+        ptsdChoice: {
+          path: 'ptsdChoice',
+          title: 'Disability Details',
+          uiSchema: ptsdChoice.uiSchema,
+          schema: ptsdChoice.schema
+        },
+        uploadPtsd: {
+          path: 'upload-781',
+          title: 'Disability Details',
+          depends: (form) => form['view:uploadPtsdChoice'] === 'upload',
+          uiSchema: uploadPtsd.uiSchema,
+          schema: uploadPtsd.schema
+        },
+        ptsdSecondaryChoice: {
+          path: 'ptsdSecondaryChoice',
+          title: 'Disability Details',
+          uiSchema: ptsdSecondaryChoice.uiSchema,
+          schema: ptsdSecondaryChoice.schema
+        },
+        uploadPtsdSecondary: {
+          path: 'upload-781a',
+          title: 'Disability Details',
+          depends: (form) => form['view:uploadPtsdSecondaryChoice'] === 'upload',
+          uiSchema: uploadPtsdSecondary.uiSchema,
+          schema: uploadPtsdSecondary.schema
+        }
       }
     }
   }

@@ -1,10 +1,9 @@
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import environment from '../../../../platform/utilities/environment';
-import fullSchema4142 from '../21-4142-schema.json';
+// import fullSchema781 from '../21-0781-schema.json';
 
-const {
-  ptsd781
-} = fullSchema4142.definitions;
+// const {
+// } = fullSchema781.definitions;
 
 import {
   ptsdNameTitle,
@@ -50,6 +49,22 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    ptsd781
+    ptsd781: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string'
+          },
+          size: {
+            type: 'integer'
+          },
+          confirmationCode: {
+            type: 'string'
+          }
+        }
+      }
+    }
   }
 };

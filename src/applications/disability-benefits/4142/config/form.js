@@ -33,13 +33,6 @@ const {
 } = fullSchema4142.definitions;
 
 import {
-  ptsdChoice,
-  ptsdSecondaryChoice,
-  uploadPtsd,
-  uploadPtsdSecondary
-} from '../pages';
-
-import {
   recordHelp,
   recordReleaseDescription,
   aboutPrivateMedicalRecords,
@@ -123,37 +116,6 @@ const formConfig = {
           },
         }, // THIS IS NOT A REAL PAGE; WILL BE THROWN OUT IN 526 INTEGRATION TODO
       },
-    },
-    ptsdDisability: {
-      title: 'Disability Details',
-      pages: {
-        ptsdChoice: {
-          path: 'ptsdChoice',
-          title: 'Disability Details',
-          uiSchema: ptsdChoice.uiSchema,
-          schema: ptsdChoice.schema
-        },
-        uploadPtsd: {
-          path: 'upload-781',
-          title: 'Disability Details',
-          depends: (form) => form['view:uploadPtsdChoice'] === 'upload',
-          uiSchema: uploadPtsd.uiSchema,
-          schema: uploadPtsd.schema
-        },
-        ptsdSecondaryChoice: {
-          path: 'ptsdSecondaryChoice',
-          title: 'Disability Details',
-          uiSchema: ptsdSecondaryChoice.uiSchema,
-          schema: ptsdSecondaryChoice.schema
-        },
-        uploadPtsdSecondary: {
-          path: 'upload-781a',
-          title: 'Disability Details',
-          depends: (form) => form['view:uploadPtsdSecondaryChoice'] === 'upload',
-          uiSchema: uploadPtsdSecondary.uiSchema,
-          schema: uploadPtsdSecondary.schema
-        }
-      }
     },
     treatmentHistory: {
       title: 'Supporting Evidence',
