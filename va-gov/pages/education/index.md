@@ -104,7 +104,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="#"><b>Vocational Rehabilitation and Employment</b></a>
+    <a href="/careers-employment/vocational-rehabilitation/"><b>Vocational Rehabilitation and Employment</b></a>
     <p>See if you qualify for help exploring employment options, any training you may need, and other voc rehab services.</p>
   </div>
 
@@ -128,12 +128,12 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   <h2>Manage Your Veterans Education Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>View Your VA Payment History</b></a>
+    <a href="/va-payment-history/"><b>View Your VA Payment History</b></a>
     <p>See your payment history for VA education and other benefits you may have like disability compensation and pension.</p>
   </div>
 
   <div class="link">
-    <a href="/education/check-post-9-11-gi-bill-benefit-status/"><b>Check Your Post-9/11 GI Bill Benefits</b></a>
+    <a href="/education/gi-bill/post-9-11/ch-33-benefit"><b>Check Your Post-9/11 GI Bill Benefits</b></a>
     <p>See how much of your GI Bill benefits you have left to help pay for school or training.</p>
   </div>
 
@@ -153,7 +153,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="#"><b>Check Your VA Appeal Status</b></a>
+    <a href="/claim-or-appeal-status/"><b>Check Your VA Appeal Status</b></a>
     <p>Track the status of your VA education benefits appeal.</p>
   </div>
 
@@ -187,7 +187,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="#"><b>CareerScope Assessment</b></a>
+    <a href="/careers-employment/careerscope-skills-assessment/"><b>CareerScope Assessment</b></a>
     <p>Get a CareerScope assessment to help you figure out your career path when transitioning to civilian life.</p>
   </div>
 
