@@ -175,7 +175,7 @@ export class Main extends React.Component {
             <ul className={className} id="footer-popular">
               <li>
                 <h4 className="va-footer-linkgroup-title">
-                  <button disabled={buttonEnabled} className={buttonClasses} aria-controls="veteran-connect" itemProp="name" aria-expanded="false">Connect with Us</button>
+                  <button disabled={buttonEnabled} className={buttonClasses} aria-controls="veteran-connect" itemProp="name" aria-expanded="false">Get VA Updates</button>
                 </h4>
               </li>
 
