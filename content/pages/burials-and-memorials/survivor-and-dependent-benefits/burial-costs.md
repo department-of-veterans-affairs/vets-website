@@ -60,6 +60,8 @@ You must file a claim for a non-service-connected burial allowance within 2 year
 - An allowance for the plot or interment
 - An allowance for transporting the Veteran’s remains for burial in a national cemetery
 
+**Note**: The Veteran's family will need to cover the cost of funeral director services.
+
 <div class="feature" markdown="1">
 
 ### What documents and information do I need to apply?
@@ -68,8 +70,6 @@ You may need a copy of:
 - The Veteran’s military discharge papers (DD214 or other separation documents)
 - The Veteran’s death certificate
 - Any documents you have for the cost of transporting the Veteran’s remains
-
-**Note**: The Veteran's family will need to cover the cost of funeral director services.
 
 </div>
 
