@@ -68,7 +68,7 @@ import {
   getlimitedConsentTitle,
   validateBooleanIfEvidence,
   privateRecordsChoiceHelp,
-  patientAcknowledgmentText
+  patientAcknowledgementText
 } from '../helpers';
 
 import {
@@ -605,20 +605,20 @@ const formConfig = {
                     },
                   },
                 },
-                'view:patientAcknowledgment': {
+                'view:patientAcknowledgement': {
                   'ui:title': ' ',
-                  'ui:help': patientAcknowledgmentText,
+                  'ui:help': patientAcknowledgementText,
                   'ui:options': {
                     expandUnder: 'view:uploadPrivateRecords',
                     expandUnderCondition: 'no',
                     showFieldLabel: true,
                   },
-                  'view:acknowledgment': {
-                    'ui:title': 'Patient Acknowledgment',
+                  'view:acknowledgement': {
+                    'ui:title': 'Patient Acknowledgement',
                   },
                   'ui:validations': [
                     (errors, item) => {
-                      if (!item['view:acknowledgment']) {
+                      if (!item['view:acknowledgement']) {
                         errors.addError('You must accept the acknowledgement');
                       }
                     }
@@ -643,11 +643,11 @@ const formConfig = {
                       type: 'string',
                       'enum': ['yes', 'no'],
                     },
-                    'view:patientAcknowledgment': {
+                    'view:patientAcknowledgement': {
                       type: 'object',
-                      required: ['view:acknowledgment'],
+                      required: ['view:acknowledgement'],
                       properties: {
-                        'view:acknowledgment': {
+                        'view:acknowledgement': {
                           type: 'boolean',
                           'default': true
                         }
@@ -677,9 +677,9 @@ const formConfig = {
               formData,
             );
             const requestsRecords = _.get(
-                `disabilities.${index}.view:uploadPrivateRecords`,
-                formData,
-              ) === 'no';
+              `disabilities.${index}.view:uploadPrivateRecords`,
+              formData,
+            ) === 'no';
             return hasRecords && requestsRecords;
           },
           uiSchema: {
@@ -856,9 +856,9 @@ const formConfig = {
               formData,
             );
             const uploadRecords = _.get(
-                `disabilities.${index}.view:uploadPrivateRecords`,
-                formData,
-              ) === 'yes';
+              `disabilities.${index}.view:uploadPrivateRecords`,
+              formData,
+            ) === 'yes';
             return hasRecords && uploadRecords;
           },
           path: 'supporting-evidence/:index/documents',
