@@ -53,7 +53,7 @@ export class VerifyApp extends React.Component {
                   status="success"/>
                 <p>
                   We'll need to verify your identity so that you can securely access and manage your benefits.<br/>
-                  <a href="/faq/#why-verify" target="_blank">Why does Vets.gov verify identity?</a>
+                  <a href="/faq/#why-verify" target="_blank">Why does VA.gov verify identity?</a>
                 </p>
                 <p>This one-time process will take <strong>5 - 10 minutes</strong> to complete.</p>
                 <button className="usa-button-primary va-button-primary" onClick={verify}>
@@ -68,7 +68,7 @@ export class VerifyApp extends React.Component {
                 <h4>Having trouble verifying your identity?</h4>
                 <p><a href="/faq/" target="_blank">Get answers to Frequently Asked Questions</a></p>
                 <p>
-                  Call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a><br/>
+                  Call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a><br/>
                   Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
                 </p>
               </div>
