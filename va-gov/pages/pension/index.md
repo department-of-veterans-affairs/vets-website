@@ -14,21 +14,18 @@ promo:
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: "/health-care/"
+    - url: /health-care/
       title: <b>VA Health Care</b>
       description: Find out how to apply for and manage your VA health care benefits.
-    - url: "/housing-assistance/disability-housing-grants/"
+    - url: /housing-assistance/disability-housing-grants/
       title: <b>Disability Housing Grants for Veterans</b>
       description: Learn how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.
-    - url: "/careers-employment/vocational-rehabilitation/"
+    - url:  /careers-employment/vocational-rehabilitation/
       title: <b>Vocational Rehabilitation and Employment</b>
-      description: Find out if you're eligible for help exploring employment options, any training you may need, and other voc rehab services.
-    - url: "#"
-      title: <b>Family and Caregiver Health Benefits</b>
-      description: See if you qualify for VA medical benefits as a spouse, surviving spouse, dependent child, or caregiver.
-    - url: "/life-insurance/"
+      description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
+    - url: /life-insurance/
       title: <b>Life Insurance</b>
-      description: Explore your life insurance options and find out how to apply as a Veteran, Servicemember, or family member.
+      description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
 social:
   - heading: Connect with Us
     admin: Veterans Benefits Administration
@@ -97,7 +94,7 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   </div>
 
   <div class="link">
-    <a href="/pension/application/527EZ/"><b>Apply for a Veterans Pension Online (VA Form 21P-527EZ)</b></a>
+    <a href="/pension/application/527EZ/introduction"><b>Apply for a Veterans Pension Online (VA Form 21P-527EZ)</b></a>
     <p>Complete your application online now.</p>
   </div>
 
@@ -122,18 +119,13 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   <h2>Manage Your Pension Benefits</h2>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status"><b>Check Your VA Claim or Appeal Status</b></a>
+    <a href="/claim-or-appeal-status/"><b>Check Your VA Claim or Appeal Status</b></a>
     <p>Check the status of an open claim for VA disability compensation or pension benefits. If you're a surviving spouse or parent, you can view your Dependency and Indemnity Compensation (DIC) claim status.</p>
     </div>
 
   <div class="link">
     <a href="/va-payment-history/"><b>View Your VA Payment History</b></a>
     <p>Check the status of your VA disability, pension, and education payments. You can also see certain survivor benefits.</p>
-  </div>
-
-  <div class="link">
-    <a href="#"><b>File an Appeal</b></a>
-    <p>If you disagree with our decision on your claim, learn how to file an appeal and what to expect from the VA appeal process.</p>
   </div>
 
   <div class="link">
