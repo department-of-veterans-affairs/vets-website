@@ -1,7 +1,6 @@
 import recordEvent from '../../../../platform/monitoring/record-event';
 
-import { trackingPrefix } from '../config/form';
-import { fetchInstitutions } from '../helpers';
+import { fetchInstitutions, trackingPrefix } from '../helpers';
 
 export const INSTITUTION_SELECTED = 'INSTITUTION_SELECTED';
 export const LOAD_SCHOOLS_STARTED = 'LOAD_SCHOOLS_STARTED';

@@ -618,7 +618,7 @@ const formConfig = {
                   },
                   'view:acknowledgment': {
                     'ui:title': 'Patient Acknowledgment',
-                    'ui:required': (formData, index) => (_.get(`disabilities[${index}].view:patientAcknowledgement.view:acknowledgement`, formData.disabilities)),
+                    'ui:required': (formData, index) => (_.get(`disabilities[${index}].view:patientAcknowledgement.view:acknowledgement`, formData)),
                   },
                 },
                 'view:privateRecordsChoiceHelp': {
