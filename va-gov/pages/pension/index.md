@@ -119,7 +119,7 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   <h2>Manage Your Pension Benefits</h2>
 
   <div class="link">
-    <a href="/track-claims/"><b>Check Your VA Claim or Appeal Status</b></a>
+    <a href="/claim-or-appeal-status/"><b>Check Your VA Claim or Appeal Status</b></a>
     <p>Check the status of an open claim for VA disability compensation or pension benefits. If you're a surviving spouse or parent, you can view your Dependency and Indemnity Compensation (DIC) claim status.</p>
     </div>
 

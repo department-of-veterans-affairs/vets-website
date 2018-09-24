@@ -153,7 +153,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="/track-claims/"><b>Check Your VA Appeal Status</b></a>
+    <a href="/claim-or-appeal-status/"><b>Check Your VA Appeal Status</b></a>
     <p>Track the status of your VA education benefits appeal.</p>
   </div>
 
