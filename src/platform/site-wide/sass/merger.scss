@@ -127,12 +127,12 @@
     margin-top: 2em;
   }
 
-  // we'll need to rewrite this at some point once we have business rules
-  // TODO: this leaves a background space since the box is too wide
-  [href^="http"]:not(.usa-button-primary), [rel="external"] {
-    background-image: none;
-    padding-right: 0px;
+  #homepage-hub, .va-sidebarnav {
+    [href^="http"]:not(.usa-button-primary), [rel="external"] {
+      background-image: none;
+      padding-right: 0px;
 
+    }
   }
 
   #homepage-hub {
@@ -416,9 +416,9 @@
       font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
       line-height: 1.3;
       font-weight: 700;
-      font-size: 11px;
+      font-size: 1.1em;
       margin: 0;
-      padding: 0 0 10px 0;
+      padding: 0 0 1em 0;
       text-align: left;
     }
 

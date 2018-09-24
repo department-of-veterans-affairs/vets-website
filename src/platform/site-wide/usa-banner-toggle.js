@@ -3,7 +3,6 @@
  */
 
 export function initBanner() {
-
   const toggleButton = document.querySelector('#usa-banner-toggle');
 
   if (!toggleButton) {

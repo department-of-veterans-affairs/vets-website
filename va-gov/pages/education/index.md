@@ -128,7 +128,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   <h2>Manage Your Veterans Education Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>View Your VA Payment History</b></a>
+    <a href="/va-payment-history/"><b>View Your VA Payment History</b></a>
     <p>See your payment history for VA education and other benefits you may have like disability compensation and pension.</p>
   </div>
 

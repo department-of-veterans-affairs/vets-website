@@ -21,6 +21,12 @@ crosslinks:
     - url: /pension/
       title: <b>Pension Benefits</b>
       description: See if you qualify for pension benefits as a wartime Veteran or a surviving spouse or child.
+    - url: /careers-employment/vocational-rehabilitation/
+      title: Vocational Rehabilitation and Employment (VR&E)
+      description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
+    - url: /life-insurance/
+      title: <b>Life Insurance</b>
+      description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
 social:
   - heading: Connect with Us
     admin: Veterans Benefits Administration
@@ -104,27 +110,27 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   <h2>Get VA Home Loan Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>About VA Home Loan Types</b></a>
+    <a href="/housing-assistance/home-loans/"><b>About VA Home Loan Types</b></a>
     <p>Learn how VA direct and VA-backed home loans work—and find out which loan type may be right for you.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Eligibility</b></a>
+    <a href="/housing-assistance/home-loans/eligibility/"><b>Eligibility</b></a>
     <p>Find out if you're eligible for a VA direct or VA-backed home loan, based on your service history and duty status. You can also see if you're eligible as a surviving spouse.
   </div>
 
   <div class="link">
-    <a href="#"><b>How to Apply for Your Certificate of Eligibility</b></a>
+    <a href="/housing-assistance/home-loans/how-to-apply/"><b>How to Apply for Your Certificate of Eligibility</b></a>
     <p>Get instructions for how to apply for your VA home loan Certificate of Eligibility (COE)—and what to do next depending on your loan type.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Check Your Appeal Status</b></a>
+    <a href="/claim-or-appeal-status/"><b>Check Your Appeal Status</b></a>
     <p>Track the status of an open home loan COE appeal.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Having Trouble Making Payments on a VA-Backed Mortgage?</b></a>
+    <a href="/housing-assistance/home-loans/trouble-making-payments/"><b>Having Trouble Making Payments on a VA-Backed Mortgage?</b></a>
     <p>Get help to avoid foreclosure if you're struggling to make your monthly mortgage payments.</p>
   </div>
 
@@ -159,17 +165,17 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   <h2>Get Veterans Housing Assistance Grants</h2>
 
   <div class="link">
-    <a href="#"><b>About Disability Housing Grants for Veterans</b></a>
+    <a href="/housing-assistance/disability-housing-grants/"><b>About Disability Housing Grants for Veterans</b></a>
     <p>Find out how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.</p>
     </div>
 
   <div class="link">
-    <a href="#"><b>Apply for a Specially Adapted Housing Grant</b></a>
+    <a href="/housing-assistance/disability-housing-grants/how-to-apply/"><b>Apply for a Specially Adapted Housing Grant</b></a>
     <p>Get financial help to make changes to your home to help you live more independently with a service-connected disability.</p>
   </div>
 
   <div class="link">
-    <a href="#"><b>Check Your SAH Grant Claim Status</b></a>
+    <a href="/claim-or-appeal-status/"><b>Check Your SAH Grant Claim Status</b></a>
     <p>Track the status of an open claim for a Specially Adapted Housing grant.</p>
   </div>
 
