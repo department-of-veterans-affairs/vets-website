@@ -185,3 +185,27 @@ export function queryForFacilities(input = '') {
     }
   );
 }
+
+export const addDisabilitiesCheckboxes = (form, pageSchema) => {
+  // This shouldn't happen, but could happen if someone directly
+  // opens the right page in the form with no SiP
+  if (!form.ratedDisabilities && !form.newDisabilities) {
+    return pageSchema;
+  }
+  // TODO: We might be able to clean this up once we know how EVSS
+  // plans to implement the disability:evidence connection
+  const selectedRatedDisabilities = form.ratedDisabilities
+    .filter(disability => disability['view:selected']) || [];
+  const newDisabilities = form.newDisabilities || [];
+  const allSelectedDisabilities = selectedRatedDisabilities
+    .concat(newDisabilities);
+  const disabilitiesViews = allSelectedDisabilities.reduce((accum, curr) => {
+    const accumCopy = _.cloneDeep(accum);
+    const disabilityName = curr.name || curr.condition;
+    accumCopy[disabilityName] = { type: 'boolean' };
+    return accumCopy;
+  }, {});
+  return {
+    properties: disabilitiesViews
+  };
+};

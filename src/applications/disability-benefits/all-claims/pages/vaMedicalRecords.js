@@ -1,13 +1,18 @@
+import _ from '../../../../platform/utilities/data';
+import merge from 'lodash/merge';
 import fullSchema from '../config/schema';
 import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import { treatmentView } from '../content/vaMedicalRecords';
-import { queryForFacilities } from '../utils';
+import {
+  queryForFacilities,
+  addDisabilitiesCheckboxes } from '../utils';
 import {
   validateMilitaryTreatmentCity,
   validateMilitaryTreatmentState
 } from '../validations';
 import { USA } from '../constants';
+import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
 const { vaTreatmentFacilities } = fullSchema.properties;
 
@@ -24,6 +29,12 @@ export const uiSchema = {
       viewField: treatmentView
     },
     items: {
+      'ui:order': [
+        'treatmentCenterName',
+        'relatedDisabilities',
+        'treatmentDateRange',
+        'treatmentCenterAddress'
+      ],
       treatmentCenterName: autoSuggestUiSchema(
         'Name of VA medical facility',
         queryForFacilities,
@@ -35,6 +46,18 @@ export const uiSchema = {
           }
         }
       ),
+      relatedDisabilities: {
+        'ui:title': 'Please choose the conditions for which you received treatment at this facility.',
+        'ui:options': {
+          updateSchema: addDisabilitiesCheckboxes,
+          showFieldLabel: true
+        },
+        'ui:validations': [validateBooleanGroup],
+        'ui:errorMessages': {
+          atLeastOne: 'Please select at least one condition',
+          required: 'Please select at least one condition'
+        }
+      },
       treatmentDateRange: dateRangeUI(
         'Date you first received treatment at this facility for these conditions (this doesn’t have to be exact). ',
         'Date you last received treatment at this facility for these conditions (this doesn’t have to be exact). ',
@@ -69,6 +92,16 @@ export const schema = {
       type: 'object',
       properties: {}
     },
-    vaTreatmentFacilities
+    vaTreatmentFacilities: merge({}, vaTreatmentFacilities, {
+      items: {
+        required: ['treatmentCenterName', 'relatedDisabilities'],
+        properties: {
+          relatedDisabilities: {
+            type: 'object',
+            properties: {}
+          }
+        }
+      }
+    })
   }
 };
