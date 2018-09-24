@@ -211,7 +211,7 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a href="#"><b>External Links and Resources</b></a>
+    <a href="/careers-employment/veteran-resources/"><b>Resources for Veterans</b></a>
     <p>Get links to more resources outside of VA that can help you in your job search.</p>
   </div>
   
