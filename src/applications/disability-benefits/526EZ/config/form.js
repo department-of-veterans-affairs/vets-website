@@ -34,7 +34,7 @@ import {
   schema as paymentInfoSchema
 } from '../../all-claims/pages/paymentInformation';
 
-import PrivateProviderTreatmentView from '../../4142/components/PrivateProviderTreatmentView';
+import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 
 import {
   uiSchema as reservesNationalGuardUISchema,
@@ -70,16 +70,14 @@ import {
   privateRecordsChoiceHelp,
   patientAcknowledgmentText,
   limitedConsentTextTitle,
-  limitedConsentDescription
-} from '../helpers';
-
-import {
+  limitedConsentDescription,
   recordReleaseDescription,
   countries,
   states,
   stateNames,
   validateZIP
-} from '../../4142/helpers';
+} from '../helpers';
+
 
 import { hasGuardOrReservePeriod } from '../../all-claims/utils';
 
