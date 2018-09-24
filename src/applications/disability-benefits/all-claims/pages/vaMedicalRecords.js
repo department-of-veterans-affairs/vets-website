@@ -21,7 +21,7 @@ export const uiSchema = {
     'First we’ll ask you about your VA medical records for your claimed disability.',
   'view:vaMedicalRecordsIntro': {
     'ui:title': 'VA medical records',
-    'ui:description': 'Please tell where VA treated you for your disability.'
+    'ui:description': 'Please tell us where VA treated you for your disability.'
   },
   vaTreatmentFacilities: {
     'ui:options': {
