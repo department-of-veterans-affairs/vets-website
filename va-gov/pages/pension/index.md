@@ -127,7 +127,7 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
     </div>
 
   <div class="link">
-    <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"><b>View Your VA Payment History</b></a>
+    <a href="/va-payment-history/"><b>View Your VA Payment History</b></a>
     <p>Check the status of your VA disability, pension, and education payments. You can also see certain survivor benefits.</p>
   </div>
 
