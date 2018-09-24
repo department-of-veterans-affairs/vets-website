@@ -96,7 +96,7 @@ class SignInModal extends React.Component {
               <div className="explanation-content">
                 <div className="hide-for-small usa-font-lead">One site. A lifetime of benefits and services at your fingertips.</div>
                 <p>
-                  You spoke. We listened. Vets.gov is the direct result of what you said you wanted most—one easy-to-use place to:
+                  You spoke. We listened. VA.gov is the direct result of what you said you wanted most—one easy-to-use place to:
                 </p>
                 <ul>
                   <li>Check your disability claim and appeal status</li>
@@ -118,14 +118,14 @@ class SignInModal extends React.Component {
                 <h4>Having trouble signing in?</h4>
                 <p><a href="/faq/" target="_blank">Get answers to Frequently Asked Questions</a></p>
                 <p>
-                Call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a><br/>
+                Call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a><br/>
                 Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
                 </p>
               </div>
               <hr/>
               <div className="fed-warning">
                 <p>
-                  <strong>Please note:</strong> When you sign in to Vets.gov, you're accessing a United States Federal Government information system.
+                  <strong>Please note:</strong> When you sign in to VA.gov, you're accessing a United States Federal Government information system.
                 </p>
                 <p>
                   By signing in, you're agreeing to access only information you have the legal authority to view and use. You're also agreeing to allow us to monitor and record your activity on the system—and to share this information with auditors or law enforcement officials as needed.
@@ -149,7 +149,7 @@ class SignInModal extends React.Component {
         focusSelector="button"
         onClose={this.props.onClose}
         id="signin-signup-modal"
-        title="Sign in to Vets.gov">
+        title="Sign in to VA.gov">
         {this.renderModalContent()}
       </Modal>
     );
