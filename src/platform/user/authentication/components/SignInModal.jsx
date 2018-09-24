@@ -30,7 +30,7 @@ class SignInModal extends React.Component {
           <div className="columns">
             <div className="logo">
               <a href="/">
-                <img alt="vets.gov" className="va-header-logo" src="/img/design/logo/logo-alt.png"/>
+                <img alt="VA.gov" className="va-header-logo" src="/img/design/logo/logo-alt.png"/>
               </a>
             </div>
           </div>
@@ -38,7 +38,7 @@ class SignInModal extends React.Component {
         <div className="container">
           <div className="row">
             <div className="columns small-12">
-              <h1>Sign in to Vets.gov</h1>
+              <h1>Sign in to VA.gov</h1>
             </div>
           </div>
           <div className="row hide-for-medium-up mobile-explanation">
@@ -51,8 +51,8 @@ class SignInModal extends React.Component {
               <div className="columns small-12">
                 <div className="form-warning-banner">
                   <AlertBox
-                    headline="Some Vets.gov tools and features may not be working as expected"
-                    content="We’re sorry. We’re working to fix some problems with DS Logon right now. Please check back later or call the Vets.gov Help Desk for more information at 1-855-574-7286, TTY: 1-800-877-8339."
+                    headline="Some VA.gov tools and features may not be working as expected"
+                    content="We’re sorry. We’re working to fix some problems with DS Logon right now. Please check back later or call the VA.gov Help Desk for more information at 1-855-574-7286, TTY: 1-800-877-8339."
                     isVisible
                     status="warning"/>
                   <br/>
