@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: View Your VA Payment History
 display_title: View VA Payment History
-lastupdate: 
+lastupdate:
 ---
 
 <div itemscope itemtype="http://schema.org/FAQPage">
@@ -51,7 +51,7 @@ Find out how to view your payment history for VA benefits.
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If your decision notice shows at least a 10% disability rating, you’ll get your first payment within 15 days. 
+If your decision notice shows at least a 10% disability rating, you’ll get your first payment within 15 days.
 
 If you don’t get a payment within 15 days, please call the Veterans Help Line at <a href="tel:+18008271000">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
 
@@ -85,7 +85,7 @@ Yes. It’s important to update your information with us if you change your mari
 <a href="https://www.benefits.va.gov/compensation/add-dependents.asp">Find out how to add eligible dependents</a>.
 
 <b>If your disability gets worse</b>, you can file a claim for an increase in benefits. <br>
-<a href="/disability-benefits/increase-claims-testing/">File for a VA disability increase</a>.
+<a href="/disability-benefits/apply/form-526-disability-claim/">File for a VA disability increase</a>.
 
 </div>
 </div>
