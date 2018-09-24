@@ -19,7 +19,7 @@ majorlinks:
       description: If you have unused Post-9/11 GI Bill benefits, find out if you can transfer your benefits to your spouse or dependent children.
   - heading: Benefit Rates and Ways You Can Use Your Benefits
     links:
-    - url: /education/benefit-rates/
+    - url: /education/rates/
       title: Rates
       description: Learn more about education benefit rates for tuition and books for qualifying Veterans and their family members.
     - url: /education/gi-bill/foreign-programs/
@@ -55,7 +55,7 @@ majorlinks:
       description: If you’re using VA educational benefits and you're struggling with the coursework, find out if you can get help paying for a tutor.
     - url: /education/opt-out-information-sharing/
       title: Opt Out of Sharing VA Education Benefits Information
-      description: The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your eligibility and benefits with schools, unless you ask us not to. Find out how to opt out of information sharing. 
+      description: The Harry W. Colmery Veterans Educational Assistance Act (also called the “Forever GI Bill”) requires us to share certain information about your eligibility and benefits with schools, unless you ask us not to. Find out how to opt out of information sharing.
 
 ---
 
