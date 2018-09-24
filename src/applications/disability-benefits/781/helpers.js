@@ -36,6 +36,20 @@ export const introductionText = (
   </div>
 );
 
+export const ptsdTypeDescription = () => {
+  return (
+    <div>
+      <p>
+        First we're going to ask you about the type of event or events that
+        contributed to your PTSD.
+      </p>
+      <p>
+        What type of event contributed to your PTSD? (Choose all that apply.)
+      </p>
+    </div>
+  );
+};
+
 export const ptsdNameTitle = () => {
   return (
     <legend className="schemaform-block-title schemaform-title-underline">PTSD</legend>

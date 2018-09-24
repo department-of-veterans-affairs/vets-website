@@ -24,6 +24,7 @@ const formPages = {
 };
 
 import {
+  ptsdType,
   ptsdChoice,
   ptsdSecondaryChoice,
   uploadPtsd,
@@ -58,6 +59,12 @@ const formConfig = {
             type: 'object',
             properties: {},
           },
+        },
+        ptsdType: {
+          path: 'ptsdType',
+          title: 'Disability Details',
+          uiSchema: ptsdType.uiSchema,
+          schema: ptsdType.schema
         },
         ptsdChoice: {
           path: 'ptsdChoice',
