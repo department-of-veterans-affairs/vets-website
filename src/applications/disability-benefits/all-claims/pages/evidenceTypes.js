@@ -1,5 +1,5 @@
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
-import { validateBooleanIfEvidence } from '../validations';
+import { validateIfHasEvidence } from '../validations';
 import get from '../../../../platform/utilities/data/get';
 
 import {
@@ -21,7 +21,7 @@ export const uiSchema = {
       'ui:title': 'What type of evidence do you want to submit with your claim?',
       'ui:options': { showFieldLabel: true },
       'ui:validations': [{
-        validator: validateBooleanIfEvidence,
+        validator: validateIfHasEvidence,
         options: { wrappedValidator: validateBooleanGroup }
       }],
       'ui:errorMessages': {

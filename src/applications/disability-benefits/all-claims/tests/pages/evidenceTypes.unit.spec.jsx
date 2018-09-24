@@ -21,7 +21,7 @@ describe('evidenceTypes', () => {
     expect(form.find('input').length).to.equal(2);
   });
 
-  it('should require selecting evidence or no evidence', () => {
+  it('should require selecting an evidence option', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

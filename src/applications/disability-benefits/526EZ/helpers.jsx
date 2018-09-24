@@ -790,7 +790,7 @@ export const contactInfoUpdateHelp = () => (
   </div>
 );
 
-export const validateBooleanIfEvidence = (errors, fieldData, formData, schema, messages, options, index) => {
+export const validateIfHasEvidence = (errors, fieldData, formData, schema, messages, options, index) => {
   const { wrappedValidator } = options;
   if (get('view:hasEvidence', formData, true)) {
     wrappedValidator(errors, fieldData, formData, schema, messages, index);

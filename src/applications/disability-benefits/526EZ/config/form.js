@@ -59,7 +59,7 @@ import {
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
-  validateBooleanIfEvidence
+  validateIfHasEvidence
 } from '../helpers';
 
 import {
@@ -359,7 +359,7 @@ const formConfig = {
                     }
                   },
                   'ui:validations': [{
-                    validator: validateBooleanIfEvidence,
+                    validator: validateIfHasEvidence,
                     options: { wrappedValidator: validateBooleanGroup }
                   }],
                   'ui:errorMessages': {
