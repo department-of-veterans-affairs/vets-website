@@ -62,7 +62,7 @@ aliases:
   - /education/gi-bill/
 ---
 
-<div class="va-introtext">
+<div class="va-introtext"> 
 
 Since 1944, the GI Bill has helped millions of Veterans pay for college, graduate school, and training programs. Under this bill, qualifying Veterans and their family members can get money to cover all or some of the costs for school or training. Learn more about these benefits below—and how to apply for them.
 
