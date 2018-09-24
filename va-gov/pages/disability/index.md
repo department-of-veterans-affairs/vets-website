@@ -24,10 +24,10 @@ crosslinks:
     - url: "/health-care/about-va-health-benefits/long-term-care/"
       title: <b>VA Nursing Homes, Assisted Living, and Home Health Care</b>
       description: Explore long-term care options for Veterans and their caregivers.
-    - url:  "#"
+    - url:  /careers-employment/vocational-rehabilitation/
       title: <b>Vocational Rehabilitation and Employment</b>
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
-    - url:  "#"
+    - url:  "/pension/aid-attendance-housebound/"
       title: <b>Aid and Attendance or Housebound Allowance</b>
       description: See if you're eligible for extra monthly pension payments if you need more aid than you're currently receiving.
 social:
@@ -115,7 +115,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   <h2>Manage Your Veterans Disability Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>Check Your VA Claim or Appeal Status</b></a>
+    <a href="/claim-or-appeal-status/"><b>Check Your VA Claim or Appeal Status</b></a>
     <p>Track the status of your disability claim or appeal.</p>
     </div>
 
