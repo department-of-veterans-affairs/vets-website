@@ -18,13 +18,13 @@ crosslinks:
     - url: https://www.benefits.va.gov/TAP/index.asp
       title: <b>Transition Assistance Program (VA TAP)</b>
       description: Learn about VA benefits available to you and your family as you transition out of active-duty, National Guard, or Reserve service.
-    - url: "#"
+    - url:  /careers-employment/vocational-rehabilitation/
       title: <b>Vocational Rehabilitation and Employment</b>
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
-    - url: "#"
+    - url: "/housing-assistance/home-loans/"
       title: <b>Home Loan Benefits</b>
       description: Explore options for Veterans home loans, apply for your Certificate of Eligibility (COE), and get help if you're having trouble making your mortgage payments.
-    - url: "#"
+    - url: "/careers-employment/veteran-owned-business-support/"
       title: <b>Veteran-Owned Small Business Support</b>
       description: Register to do business with VA and get support for your Veteran-owned small business.
     - url: https://www.dol.gov/veterans/findajob/
