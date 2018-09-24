@@ -62,6 +62,15 @@
 
     #vetnav-menu, #vetnav {
       margin-top: 0;
+        width: 100%;
+    }
+
+    .my-va-top-nav {
+      margin-left: auto;
+    }
+    .current-page {
+      border-bottom: 5px solid;
+      border-color: $color-blue;
     }
 
     .mm-marketing-container {

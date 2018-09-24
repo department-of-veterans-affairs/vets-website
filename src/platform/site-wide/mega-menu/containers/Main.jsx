@@ -10,6 +10,9 @@ import MegaMenu from '@department-of-veterans-affairs/formation/MegaMenu';
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 //               {window.location.pathname.endsWith('eligibility/') && <p><a href={applyLink}>Learn more about how to apply</a>.</p>}
 
+export function flagCurrentPageInTopLevelLinks(links, pathName = window.location.pathname) {
+  return links.map(link => pathName.endsWith(link.href) ? { ...link, currentPage: true } : link);
+}
 
 export class Main extends React.Component {
   render() {
@@ -20,6 +23,8 @@ export class Main extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+
+  console.log(flagCurrentPageInTopLevelLinks(authenticatedUserLinkData));
   const data = [
     ...defaultLinkData,
     ...isLoggedIn(state) ? authenticatedUserLinkData : []

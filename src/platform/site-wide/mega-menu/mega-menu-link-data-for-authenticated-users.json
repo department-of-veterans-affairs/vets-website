@@ -1,10 +1,12 @@
 [
     {
         "title": "My VA",
-        "href": "/dashboard/"
+        "href": "/dashboard/",
+        "className": "my-va-top-nav"
     },
     {
         "title": "My Health",
-        "href": "https://www.myhealth.va.gov/mhv-portal-web/home"
+        "href": "https://www.myhealth.va.gov/mhv-portal-web/home",
+        "target": "_blank"
     }
 ]
