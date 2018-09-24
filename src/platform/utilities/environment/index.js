@@ -8,7 +8,7 @@ const _Environments = {
     BASE_URL: 'https://staging.vets.gov'
   },
   preview: {
-    API_URL: 'https://staging-api.vets.gov',
+    API_URL: 'https://api.va.gov',
     BASE_URL: 'https://preview.va.gov'
   },
   devpreview: {
