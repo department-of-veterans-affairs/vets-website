@@ -97,7 +97,7 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   </div>
 
   <div class="link">
-    <a href="/pension/apply-for-veteran-pension-form-21p-527ez/"><b>Apply for a Veterans Pension Online (VA Form 21P-527EZ)</b></a>
+    <a href="/pension/application/527EZ/"><b>Apply for a Veterans Pension Online (VA Form 21P-527EZ)</b></a>
     <p>Complete your application online now.</p>
   </div>
 
