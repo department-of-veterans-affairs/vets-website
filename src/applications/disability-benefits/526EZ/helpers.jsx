@@ -337,7 +337,7 @@ export const limitedConsentTitle = (
 );
 
 export const limitedConsentTextTitle = (
-  <p>Describe the limitation here. (Treatment dates, Disability type, etc.)</p>
+  <p>Describe the limitation below. (Treatment dates, Disability type, etc.)</p>
 );
 
 export const limitedConsentDescription = (
