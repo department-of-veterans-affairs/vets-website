@@ -78,7 +78,7 @@ function applyBrandConsolidationOverrides(options) {
   Object.assign(options, {
     contentRoot: '../va-gov',
     collections: require('./collections/brand-consolidation.json'),
-    redirects: require('../config/vagovRedirects.json')
+    redirects: require('./vagovRedirects.json')
   });
 }
 
