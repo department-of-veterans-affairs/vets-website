@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Scroll from 'react-scroll';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
@@ -11,6 +12,18 @@ import { createITF as createITFAction, fetchITF as fetchITFAction } from '../act
 
 
 const fetchWaitingStates = [requestStates.notCalled, requestStates.pending];
+
+const Element = Scroll.Element;
+const scroller = Scroll.scroller;
+const scrollToTop = () => {
+  // This actually gets called twice because the event listener isn't removed in time, but the
+  //  scrolling still looks (mostly) fine
+  scroller.scrollTo('itfScrollElement', window.VetsGov.scroll || {
+    duration: 500,
+    delay: 0,
+    smooth: true
+  });
+};
 
 const noITFPages = ['/introduction', '/confirmation'];
 export class ITFWrapper extends React.Component {
@@ -24,6 +37,16 @@ export class ITFWrapper extends React.Component {
 
   // When we first enter the form...
   componentDidMount() {
+    // RoutedSavableApp scrolls to the top of the page title, but we want to scroll to the top of
+    //  the ITF message
+    Scroll.Events.scrollEvent.register('begin', () => {
+      // We only want to hijack the scrolling one time
+      Scroll.Events.scrollEvent.remove('begin');
+      if (!this.state.hasDisplayedSuccess) {
+        setTimeout(scrollToTop, 200);
+      }
+    });
+
     // ...fetch the ITF if needed
     if (!noITFPages.includes(this.props.location.pathname)
       && this.props.itf.fetchCallState === requestStates.notCalled) {
@@ -112,6 +135,7 @@ export class ITFWrapper extends React.Component {
 
     return (
       <div>
+        <Element name="itfScrollElement"/>
         {message}
         {content}
       </div>
