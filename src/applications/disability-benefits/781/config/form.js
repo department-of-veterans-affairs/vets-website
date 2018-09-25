@@ -15,16 +15,18 @@ import { introductionText } from '../helpers';
 // Define all the fields in the form to aid reuse
 // const formFields = {};
 
-// Define all the form pages to help ensure uniqueness across all form chapters
-const formPages = {
-  introductionPage: 'introductionPage',
-};
+import {
+  ptsdType,
+  ptsdChoice,
+  ptsdSecondaryChoice,
+  uploadPtsd,
+  uploadPtsdSecondary
+} from '../pages';
 
 const formConfig = {
   urlPrefix: '/',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'complex-form-',
+  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  trackingPrefix: 'ptsd-0781-0781a-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '1234',
@@ -39,7 +41,7 @@ const formConfig = {
     introductionPage: {
       title: 'Disability Details',
       pages: {
-        [formPages.introductionPage]: {
+        ptsdIntroduction: {
           'ui:title': '',
           path: 'info',
           uiSchema: {
@@ -50,9 +52,43 @@ const formConfig = {
             properties: {},
           },
         },
-      },
-    },
-  },
+        ptsdType: {
+          path: 'ptsdType',
+          title: 'Disability Details',
+          uiSchema: ptsdType.uiSchema,
+          schema: ptsdType.schema
+        },
+        ptsdChoice: {
+          path: 'ptsdChoice',
+          title: 'Disability Details',
+          depends: (form) => form['view:selectablePtsdTypes']['view:combatPtsdType'] || form['view:selectablePtsdTypes']['view:noncombatPtsdType'],
+          uiSchema: ptsdChoice.uiSchema,
+          schema: ptsdChoice.schema
+        },
+        uploadPtsd: {
+          path: 'upload-781',
+          title: 'Disability Details',
+          depends: (form) => form['view:uploadPtsdChoice'] === 'upload' && (form['view:selectablePtsdTypes']['view:combatPtsdType'] || form['view:selectablePtsdTypes']['view:noncombatPtsdType']),
+          uiSchema: uploadPtsd.uiSchema,
+          schema: uploadPtsd.schema
+        },
+        ptsdSecondaryChoice: {
+          path: 'ptsdSecondaryChoice',
+          title: 'Disability Details',
+          depends: (form) => form['view:selectablePtsdTypes']['view:mstPtsdType'] || form['view:selectablePtsdTypes']['view:assaultPtsdType'],
+          uiSchema: ptsdSecondaryChoice.uiSchema,
+          schema: ptsdSecondaryChoice.schema
+        },
+        uploadPtsdSecondary: {
+          path: 'upload-781a',
+          title: 'Disability Details',
+          depends: (form) => form['view:uploadPtsdSecondaryChoice'] === 'upload' && (form['view:selectablePtsdTypes']['view:mstPtsdType'] || form['view:selectablePtsdTypes']['view:assaultPtsdType']),
+          uiSchema: uploadPtsdSecondary.uiSchema,
+          schema: uploadPtsdSecondary.schema
+        }
+      }
+    }
+  }
 };
 
 export default formConfig;
