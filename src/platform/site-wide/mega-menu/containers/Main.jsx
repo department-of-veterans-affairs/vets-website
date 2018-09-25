@@ -9,7 +9,7 @@ import MegaMenu from '@department-of-veterans-affairs/formation/MegaMenu';
 
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
-export function flagCurrentPageInTopLevelLinks(links, pathName = window.location.pathname) {
+export function flagCurrentPageInTopLevelLinks(links = [], pathName = window.location.pathname) {
   return links.map(link => {
     return pathName.endsWith(link.href) ? { ...link, currentPage: true } : link;
   });
