@@ -39,7 +39,7 @@ class SaveStatus extends React.Component {
         {hasError &&
           <div role="alert" className="usa-alert usa-alert-error no-background-image schemaform-save-error">
             {savedStatus === SAVE_STATUSES.clientFailure &&
-              'We’re sorry. We’re unable to connect to Vets.gov. Please check that you’re connected to the Internet, so we can save your form in progress.'}
+              'We’re sorry. We’re unable to connect to VA.gov. Please check that you’re connected to the Internet, so we can save your form in progress.'}
             {savedStatus === SAVE_STATUSES.failure &&
               'We’re sorry, but we’re having some issues and are working to fix them. You can continue filling out the form, but it will not be automatically saved as you fill it out.'}
             {!isLoggedIn && savedStatus === SAVE_STATUSES.noAuth &&
