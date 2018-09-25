@@ -367,8 +367,31 @@
 
   }
 
+  /**
+  * September 25th, 2018
+  * @todo This is a site-wide override to .usa-grid that ultimately forces it to have the same behavior as .usa-grid-full.
+  * This likely has site-wide ramifications and should be fixed soon.
+  * Because this is a high-risk change and we're under time constraints, I'm just documenting it here.
+  * More info on the grid class - https://designsystem.digital.gov/components/grids/.
+  */
   .usa-grid {
     padding: 0;
+  }
+
+  // Once the above rule is delete, we can delete this awful block too.
+  #gov-banner {
+    @media (min-width: $small-screen) {
+      .usa-banner-guidance-gov, .usa-banner-guidance-ssl {
+        padding-bottom: 2.3rem;
+        padding-top: 4rem;
+      }
+    }
+  }
+
+  @media (max-width: $small-screen) {
+    .usa-banner-button:focus {
+      position: absolute;
+    }
   }
 
   .va-nav-breadcrumbs-list {
