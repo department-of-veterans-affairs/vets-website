@@ -8,7 +8,6 @@ import './legacy/menu'; // Used in the footer.
 import './accessible-VCL-modal';
 import './moment-setup';
 import addMenuListeners from './accessible-menus';
-import isMetricsEnabled from '../frontend-metrics/feature-flag';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
 import startMobileMenuButton from './mobile-menu-button';
@@ -21,6 +20,9 @@ import brandConsolidation from '../brand-consolidation';
 if (!brandConsolidation.isEnabled()) {
   require('./usa-banner-toggle');
 }
+import isMetricsEnabled from '../frontend-metrics/feature-flag';
+import withinMetricsSample from '../frontend-metrics/sample-rate';
+import startMetrics from '../frontend-metrics/metrics';
 
 /**
  * Start up the site-wide components that live on every page, like
@@ -29,8 +31,8 @@ if (!brandConsolidation.isEnabled()) {
  * @param {Store} commonStore The Redux store being used by this application
  */
 export default function startSitewideComponents(commonStore) {
-  if (isMetricsEnabled()) {
-    require('../frontend-metrics/metrics');
+  if (isMetricsEnabled() && withinMetricsSample()) {
+    startMetrics();
   }
 
   if (document.querySelector('#vetnav-menu') !== null) {

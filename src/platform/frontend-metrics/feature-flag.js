@@ -4,5 +4,5 @@
  * @module platform/frontend-metrics/feature-flag
  */
 export default function isMetricsEnabled() {
-  return window.settings && window.settings.metricsEnabled;
+  return window.settings && window.settings.metrics.enabled;
 }
