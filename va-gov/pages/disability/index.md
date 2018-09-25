@@ -28,7 +28,7 @@ crosslinks:
       title: <b>Vocational Rehabilitation and Employment</b>
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
     - url:  "/pension/aid-attendance-housebound/"
-      title: <b>Aid and Attendance or Housebound Allowance</b>
+      title: <b>Aid and Attendance Benefits and Housebound Allowance</b>
       description: See if you're eligible for extra monthly pension payments if you need more aid than you're currently receiving.
 social:
   - heading: Connect with Us
