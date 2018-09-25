@@ -107,7 +107,7 @@ Your dependents may still qualify even if a child marries or you and your spouse
 <div itemprop="text">
 
 While you’re still on active duty, you’ll request to transfer, change, or revoke a Transfer of Entitlement (TOE) through milConnect. You can’t apply for a TOE through us. <br>
-[Transfer, change, or revoke a TOE](https://www.dmdc.osd.mil/milconnect/).
+[Learn how to transfer education benefits through milConnect](https://milconnect.dmdc.osd.mil/milconnect/public/faq/Education_Benefits-How_to_Transfer_Benefits).
 
 If the DoD approves the TOE, your family members may apply for benefits.
 

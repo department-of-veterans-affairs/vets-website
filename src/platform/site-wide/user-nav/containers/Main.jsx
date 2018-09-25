@@ -87,7 +87,7 @@ export class Main extends React.Component {
   }
 
   bindModalTriggers = () => {
-    const triggers = document.querySelectorAll('.signin-signup-modal-trigger');
+    const triggers = Array.from(document.querySelectorAll('.signin-signup-modal-trigger'));
     const openLoginModal = () => this.props.toggleLoginModal(true);
     triggers.forEach(t => t.addEventListener('click', openLoginModal));
   }
