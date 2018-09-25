@@ -11,6 +11,7 @@ require('babel-polyfill');
 const timestamp = new Date().getTime();
 
 const globalEntryFiles = {
+  styleConsolidated: './src/platform/site-wide/sass/style-consolidated.scss',
   style: './src/platform/site-wide/sass/style.scss',
   polyfills: './src/platform/polyfills/preESModulesPolyfills.js',
   brandConsolidation: './src/platform/site-wide/sass/brand-consolidation.scss',
