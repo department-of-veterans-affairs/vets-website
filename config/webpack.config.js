@@ -3,24 +3,23 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const path = require('path');
 const webpack = require('webpack');
+const path = require('path');
 
 require('babel-polyfill');
 
 const timestamp = new Date().getTime();
 
 const globalEntryFiles = {
-  style: './src/platform/site-wide/sass/style.scss',
   styleConsolidated: './src/platform/site-wide/sass/style-consolidated.scss',
+  style: './src/platform/site-wide/sass/style.scss',
+  polyfills: './src/platform/polyfills/preESModulesPolyfills.js',
   brandConsolidation: './src/platform/site-wide/sass/brand-consolidation.scss',
   vendor: [
     './src/platform/polyfills',
-    'history',
     'react',
     'react-dom',
     'react-redux',
-    'react-router',
     'redux',
     'redux-thunk',
     'raven-js'
@@ -69,13 +68,6 @@ const configGenerator = (options, apps) => {
               cacheDirectory: '.babelcache'
               // Also see .babelrc
             }
-          }
-        },
-        {
-          // Modernizr is used in some of the styles
-          test: /modernizrrc\.js/,
-          use: {
-            loader: 'modernizr-loader'
           }
         },
         {
@@ -135,9 +127,6 @@ const configGenerator = (options, apps) => {
       noParse: [/mapbox\/vendor\/promise.js$/],
     },
     resolve: {
-      alias: {
-        modernizr$: path.resolve(__dirname, './modernizrrc.js')
-      },
       extensions: ['.js', '.jsx']
     },
     optimization: {
@@ -184,9 +173,24 @@ const configGenerator = (options, apps) => {
   };
 
   if (['production', 'staging', 'preview', 'vagovstaging'].includes(options.buildtype)) {
-    let sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.vets.gov';
-    if (options.buildtype === 'production') {
-      sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.vets.gov';
+    let sourceMap = null;
+
+    switch (options.buildtype) {
+      case 'production':
+        sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.vets.gov';
+        break;
+
+      case 'staging':
+        sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.vets.gov';
+        break;
+
+      case 'vagovstaging':
+        sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.va.gov';
+        break;
+
+      case 'preview':
+      default:
+        sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/preview.va.gov';
     }
 
     baseConfig.plugins.push(new webpack.SourceMapDevToolPlugin({
