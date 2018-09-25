@@ -1,6 +1,6 @@
-import {
-  fetchInstitutions
-} from '../helpers';
+import recordEvent from '../../../../platform/monitoring/record-event';
+
+import { fetchInstitutions, trackingPrefix } from '../helpers';
 
 export const INSTITUTION_SELECTED = 'INSTITUTION_SELECTED';
 export const LOAD_SCHOOLS_STARTED = 'LOAD_SCHOOLS_STARTED';
@@ -76,6 +76,7 @@ export function searchSchools({ institutionQuery, page }) {
         });
       },
       onError: error => {
+        recordEvent({ event: `${trackingPrefix}school-not-found` });
         dispatch({
           type: LOAD_SCHOOLS_FAILED,
           error,

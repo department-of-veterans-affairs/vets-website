@@ -13,7 +13,7 @@ Federal jobs, including those at VA, offer outstanding opportunities to Veterans
 
 The federal job-application process is very detailed compared with most civilian organizations. Federal positions are listed, with very few exceptions, on [USAJobs](http://www.usajobs.gov).
 
-One-on-one assistance in applying for federal jobs is available at local [Employment Centers](https://www.doleta.gov/usworkforce/onestop/onestopmap.cfm). You can also go to [Feds Hire Vets](http://www.fedshirevets.gov) for tips on applying for federal positions.
+One-on-one assistance in applying for federal jobs is available at local [Employment Centers](https://www.careeronestop.org/LocalHelp/local-help.aspx). You can also go to [Feds Hire Vets](http://www.fedshirevets.gov) for tips on applying for federal positions.
 
 <div itemscope itemtype="http://schema.org/Question">
 

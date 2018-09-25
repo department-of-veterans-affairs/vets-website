@@ -813,6 +813,104 @@ const schema = {
         'from',
         'to'
       ]
+    },
+    form4142: {
+      type: 'object',
+      properties: {
+        limitedConsent: {
+          type: 'string'
+        },
+        providerFacility: {
+          type: 'array',
+          required: ['providerFacilityName', 'treatmentDateRange', 'providerFacilityAddress'],
+          items: {
+            type: 'object',
+            properties: {
+              providerFacilityName: {
+                type: 'string'
+              },
+              treatmentDateRange: {
+                $ref: '#/definitions/dateRange'
+              },
+              providerFacilityAddress: {
+                $ref: '#/definitions/address'
+              }
+            }
+          }
+        },
+        privacyAgreementAccepted: {
+          $ref: '#/definitions/privacyAgreementAccepted'
+        }
+      }
+    },
+    form0781: {
+      type: 'object',
+      incident: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            personalAssault: {
+              type: 'boolean'
+            },
+            medalsCitations: {
+              type: 'string'
+            },
+            incidentDate: {
+              $ref: '#/definitions/date'
+            },
+            incidentLocation: {
+              type: 'string'
+            },
+            incidentDescription: {
+              type: 'string'
+            },
+            unitAssigned: {
+              type: 'string'
+            },
+            unitAssignedDates: {
+              $ref: '#/definitions/dateRange'
+            },
+            remarks: {
+              type: 'string'
+            },
+            personInvolved: {
+              type: 'array',
+              items: {
+                type: 'object',
+                name: {
+                  $ref: '#/definitions/fullName'
+                },
+                rank: {
+                  type: 'string'
+                },
+                injuryDeath: {
+                  type: 'string',
+                  'enum': ['Killed in Action', 'Killed Non-Battle', 'Wounded in Action', 'Injured Non-Battle', 'Other']
+                },
+                injuryDeathDate: {
+                  $ref: '#/definitions/date'
+                },
+                unitAssigned: {
+                  type: 'string'
+                }
+              }
+            },
+            source: {
+              type: 'array',
+              items: {
+                type: 'object',
+                name: {
+                  $ref: '#/definitions/fullName'
+                },
+                address: {
+                  $ref: '#/definitions/address'
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   properties: {
@@ -1045,6 +1143,54 @@ const schema = {
     },
     primaryPhone: {
       $ref: '#/definitions/phone'
+    },
+    homelessOrAtRisk: {
+      type: 'string',
+      'enum': [
+        'no',
+        'homeless',
+        'atRisk'
+      ]
+    },
+    homelessHousingSituation: {
+      type: 'string',
+      'enum': [
+        'shelter',
+        'notShelter',
+        'anotherPerson',
+        'other'
+      ]
+    },
+    otherHomelessHousing: {
+      type: 'string'
+    },
+    needToLeaveHousing: {
+      type: 'boolean'
+    },
+    atRiskHousingSituation: {
+      type: 'string',
+      'enum': [
+        'losingHousing',
+        'leavingShelter',
+        'other'
+      ]
+    },
+    otherAtRiskHousing: {
+      type: 'string'
+    },
+    homelessnessContact: {
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string',
+          minLength: 1,
+          maxLength: 100,
+          pattern: "([a-zA-Z0-9-/']+( ?))*$"
+        },
+        phoneNumber: {
+          $ref: '#/definitions/phone'
+        }
+      }
     }
   }
 };
