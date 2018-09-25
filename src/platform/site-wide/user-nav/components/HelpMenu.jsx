@@ -12,7 +12,7 @@ const FACILITY_LOCATOR_URL = facilityLocatorManifest.rootUrl;
 class HelpMenu extends React.Component {
   render() {
     const buttonText = isBrandConsolidationEnabled() ? 'Contact Us' : 'Help';
-    const icon = <IconHelp color="#fff"/>;
+    const icon = <IconHelp color="#fff" role="presentation"/>;
     let dropDownContents;
 
     if (isBrandConsolidationEnabled()) {
