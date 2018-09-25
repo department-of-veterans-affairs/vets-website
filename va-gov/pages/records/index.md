@@ -10,7 +10,7 @@ icon: id-card
 promo:
   - image: /img/megamenu/records-illustration.png
     heading: Veteran ID Card
-    url: "#"
+    url: "/records/get-veteran-id-cards/vic"
     description: Apply for your Veteran ID Card to get Veteran discounts on goods and services.
 social:
   - heading: Connect with Us

@@ -12,11 +12,11 @@ const _Environments = {
     BASE_URL: 'https://preview.va.gov'
   },
   vagovstaging: {
-    API_URL: 'https://staging-api.va.gov/',
+    API_URL: 'https://staging-api.va.gov',
     BASE_URL: 'https://staging.va.gov'
   },
   vagovdev: {
-    API_URL: 'https://dev-api.va.gov/',
+    API_URL: 'https://dev-api.va.gov',
     BASE_URL: 'https://dev.va.gov'
   },
   development: {
