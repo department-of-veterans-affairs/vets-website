@@ -620,7 +620,8 @@
                   },
                   {
                       "text": "VA Open Data",
-                      "href": "https://www.data.va.gov"
+                      "href": "https://www.data.va.gov",
+                      "target": "_blank"
                   },
                   {
                       "text": "Veterans Analysis and Statistics",
