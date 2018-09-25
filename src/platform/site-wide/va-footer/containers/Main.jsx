@@ -52,8 +52,8 @@ export class Main extends React.Component {
     }
     if (this.state.isMobile) {
       return (
-        <div>
-          <ul className="va-footer-linkgroup usa-width-one-fourth usa-accordion" id="veteran-crisis-line" aria-hidden="true">
+        [
+          <ul key="veteran-crisis-line" className="va-footer-linkgroup usa-width-one-fourth usa-accordion" id="veteran-crisis-line" aria-hidden="true">
             <li>
               <h4 className="va-footer-linkgroup-title">
                 <button className="usa-button-unstyled usa-accordion-button" aria-controls="veteran-crisis" itemProp="name" aria-expanded="false">In Crisis? Get Help Now</button>
@@ -66,8 +66,8 @@ export class Main extends React.Component {
                 </li>
               </ul>
             </li>
-          </ul>
-          <ul className="va-footer-linkgroup usa-width-one-fourth usa-accordion" id="veteran-contact-us" aria-hidden="true">
+          </ul>,
+          <ul className="va-footer-linkgroup usa-width-one-fourth usa-accordion" id="veteran-contact-us" key="veteran-contact-us" aria-hidden="true">
             <li id="footer-vcl">
               <h4 className="va-footer-linkgroup-title">
                 <button disabled={buttonEnabled} className={buttonClasses} aria-controls="veteran-contact" itemProp="name" aria-expanded="false">Contact Us</button>
@@ -77,7 +77,7 @@ export class Main extends React.Component {
               {this.generateLinkItems('4')}
             </li>
           </ul>
-        </div>
+        ]
       );
     }
     return (
@@ -151,7 +151,7 @@ export class Main extends React.Component {
       <div>
         {this.state.modalOpen && this.renderModal()}
         <div className="footer-inner">
-          <div className="usa-grid">
+          <div className="usa-grid usa-grid-flex-mobile">
             <ul className={className} id="footer-first-child">
               <li>
                 <h4 className="va-footer-linkgroup-title">
