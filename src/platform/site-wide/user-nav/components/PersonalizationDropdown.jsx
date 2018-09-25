@@ -36,7 +36,7 @@ class PersonalizationDropdown extends React.Component {
   render() {
     return (
       <ul>
-        {brandConsolidationEnabled &&  <li><a href="/dashboard/">My VA</a></li>}
+        {brandConsolidationEnabled && <li><a href="/dashboard/">My VA</a></li>}
         {brandConsolidationEnabled && <li><a href="https://www.myhealth.va.gov/mhv-portal-web/home">My Health</a></li>}
         <li><a href="/profile" onClick={() => { recordEvent({ event: 'nav-user', 'nav-user-section': 'profile' });}}>Profile</a> <NewBadge/></li>
         <li><a href="/account" onClick={() => { recordEvent({ event: 'nav-user', 'nav-user-section': 'account' });}}>Account</a> <NewBadge/></li>
