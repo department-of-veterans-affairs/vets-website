@@ -38,7 +38,7 @@ Find out how to access to your military records, including your DD214, through o
     <h4 class="usa-alert-heading">You’ll need to sign in to eBenefits to get your service records</h4>
     <br>
   <p class="usa-alert-text">To use this feature, you'll need a premium <b>DS Logon</b> account. Your MyHealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>
-      <button class="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file">Go to eBenefits to Get Your Records</button>
+      <a class="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file">Go to eBenefits to Get Your Records</a>
     </p>
   </div>
 </div>
@@ -105,7 +105,7 @@ If you don’t have a premium DS Logon account, find out how to create or upgrad
 </ul>
 
 Visit the National Archives website to learn more about requesting your military service records. <br>
-<a href="https://www.archives.gov/veterans/military-service-records">Get instructions for different ways to request your records</a>.
+<a target="_blank" rel="noopener noreferrer" href="https://www.archives.gov/veterans/military-service-records">Get instructions for different ways to request your records</a>.
 
 </div>
 </div>
@@ -143,15 +143,15 @@ Call our National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800
 </ul>
 
 Visit the National Archives website to learn more about requesting military service records. <br>
-<a href="https://www.archives.gov/personnel-records-center/ompf-access">Find out how to access records as the next of kin</a>.
+<a target="_blank" rel="noopener noreferrer" href="https://www.archives.gov/personnel-records-center/ompf-access">Find out how to access records as the next of kin</a>.
 
 <h4>If you're not the Veteran's next of kin</h4>
 
 <b>If the Veteran was discharged more than 62 years ago,</b> you can order a copy of their military records. The National Archives opens all records to the public 62 years after discharge. <br>
-<a href="https://www.archives.gov/personnel-records-center/military-personnel/ompf-archival-requests">Learn how to access archived records</a>. <br>
+<a target="_blank" rel="noopener noreferrer" href="https://www.archives.gov/personnel-records-center/military-personnel/ompf-archival-requests">Learn how to access archived records</a>. <br>
 
 <b>If the Veteran was discharged less than 62 years ago,</b> you may be able to request limited information from their Official Military Personnel File. <br>
-<a href="https://www.archives.gov/personnel-records-center/ompf-access-public">Find out about general public access to military records</a>.
+<a target="_blank" rel="noopener noreferrer" href="https://www.archives.gov/personnel-records-center/ompf-access-public">Find out about general public access to military records</a>.
 
 </div>
 </div>

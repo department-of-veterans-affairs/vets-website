@@ -53,15 +53,19 @@ social:
         links:
         - url: https://public.govdelivery.com/accounts/USVHA/subscribers/qualify?category_id=USVHA_C4&email=dwdw%40gmail.com&commit.x=36&commit.y=11
           label: Veterans Health Email Updates
+          external: true
           icon: fa-envelope-square
         - url: "https://www.facebook.com/VeteransHealth"
           label: Veterans Health Facebook
+          external: true
           icon: fa-facebook
         - url: "https://twitter.com/VeteransHealth"
           label: Veterans Health Twitter
+          external: true
           icon: fa-twitter
         - url: "https://www.youtube.com/user/VeteransHealthAdmin"
           label: Veterans Health YouTube
+          external: true
           icon: fa-youtube
 ---
 
