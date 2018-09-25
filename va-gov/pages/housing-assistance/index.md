@@ -16,13 +16,13 @@ crosslinks:
   - heading: Other VA Benefits and Services
     links:
     - url: /disability/
-      title: <b>Disability Compensation (Pay)</b>
+      title: <strong>Disability Compensation (Pay)</strong>
       description: Find out how to file a claim for compensation for conditions related to your military service.
     - url: /pension/
-      title: <b>Pension Benefits</b>
+      title: <strong>Pension Benefits</strong>
       description: See if you qualify for pension benefits as a wartime Veteran or a surviving spouse or child.
     - url: /careers-employment/vocational-rehabilitation/
-      title: Vocational Rehabilitation and Employment (VR&E)
+      title: <strong>Vocational Rehabilitation and Employment (VR&E)</strong>
       description: If your service-connected disability limits your ability to work or prevents you from working, find out if you can get VR&E benefits and services—like help exploring employment options and getting more training if required.
     - url: /life-insurance/
       title: <b>Life Insurance</b>
