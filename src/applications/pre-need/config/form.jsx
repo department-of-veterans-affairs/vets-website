@@ -600,6 +600,9 @@ const formConfig = {
                 },
                 attachmentSchema: {
                   'ui:title': 'What kind of document is this?'
+                },
+                attachmentName: {
+                  'ui:title': 'Document name'
                 }
               })
             }
@@ -610,30 +613,7 @@ const formConfig = {
               application: {
                 type: 'object',
                 properties: {
-                  preneedAttachments: _.merge(preneedAttachments, {
-                    items: {
-                      properties: {
-                        attachmentId: {
-                          'enum': [
-                            '1',
-                            '2',
-                            '3',
-                            // '4',
-                            '5',
-                            '6'
-                          ],
-                          enumNames: [
-                            'Discharge',
-                            'Marriage related',
-                            'Dependent related',
-                            // 'VA preneed form',
-                            'Letter',
-                            'Other'
-                          ]
-                        }
-                      }
-                    }
-                  })
+                  preneedAttachments
                 }
               }
             }
