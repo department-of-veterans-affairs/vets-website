@@ -60,8 +60,8 @@ export const uiSchema = {
         }
       },
       treatmentDateRange: dateRangeUI(
-        'Date you first received treatment at this facility for these conditions (this doesn’t have to be exact). ',
-        'Date you last received treatment at this facility for these conditions (this doesn’t have to be exact). ',
+        'First date you received treatment for these conditions at this facility (this doesn’t have to be exact).',
+        'Last date you received treatment for these conditions at this facility (this doesn’t have to be exact).',
         'Date of last treatment must be after date of first treatment'
       ),
       treatmentCenterAddress: {
