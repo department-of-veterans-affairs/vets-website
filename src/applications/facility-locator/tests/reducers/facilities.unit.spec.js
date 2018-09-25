@@ -9,6 +9,7 @@ import { SearchResultReducer } from '../../reducers/searchResult';
 
 const INITIAL_STATE = {
   facilities: [],
+  providers: [],
   selectedFacility: null,
   pagination: {}
 };
@@ -41,7 +42,7 @@ describe('facilities reducer', () => {
       },
     });
 
-    expect(state.searchResult.length).to.eql(2);
+    expect(state.facilities.length).to.eql(2);
     expect(state.pagination.currentPage).to.eql(1);
   });
 
