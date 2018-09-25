@@ -125,9 +125,15 @@ const transformProviderFacility = providerFacility => {
  * If any limited consent text is populated, collect it.
  */
 export function gatherLimitedConsentText(disabilities) {
-  return disabilities
-    .filter(disability => !disability.limitedConsent)
-    .join(' ');
+  const fullLimitedConsent = disabilities
+    .filter(disability => disability['view:limitedConsent'])
+    .reduce((accumulator, disability) => {
+      let string = accumulator;
+      string = `${string} ${disability.limitedConsent}`;
+      return string;
+    }, '');
+
+  return fullLimitedConsent.trim();
 }
 
 export function transform(formConfig, form) {
@@ -501,39 +507,37 @@ const claimsIntakeAddress = (
   </p>
 );
 
-export const patientAcknowledgementText = (
+export const patientAcknowledgmentText = (
   <AdditionalInfo triggerText="Read the full text.">
     <h4>PATIENT AUTHORIZATION:</h4>
     <p>
-      I voluntarily authorize and request disclosure (including paper,
-      oral, and electronic interchange) of: All my medical records;
-      including information related to my ability to perform tasks of
-      daily living. This includes specific permission to release:
+      I voluntarily authorize and request disclosure (including paper, oral, and
+      electronic interchange) of: All my medical records; including information
+      related to my ability to perform tasks of daily living. This includes
+      specific permission to release:
     </p>
     <ol>
       <li>
         All records and other information regarding my treatment,
-        hospitalization, and outpatient care for my impairment(s)
-        including, but not limited to:
+        hospitalization, and outpatient care for my impairment(s) including, but
+        not limited to:
       </li>
       <ul>
         <li>
-          Psychological, psychiatric, or other mental impairment(s)
-          excluding "psychotherapy notes" as defined in 45 C.F.R. §164.501,
+          Psychological, psychiatric, or other mental impairment(s) excluding
+          "psychotherapy notes" as defined in 45 C.F.R. §164.501,
         </li>
-        <li>
-          Drug abuse, alcoholism, or other substance abuse,
-        </li>
+        <li>Drug abuse, alcoholism, or other substance abuse,</li>
         <li>Sickle cell anemia,</li>
         <li>
-          Records which may indicate the presence of a communicable
-          or non-communicable disease; and tests for or records of HIV/AIDS,
+          Records which may indicate the presence of a communicable or
+          non-communicable disease; and tests for or records of HIV/AIDS,
         </li>
         <li>Gene-related impairments (including genetic test results)</li>
       </ul>
       <li>
-        Information about how my impairment(s) affects my ability to
-        complete tasks and activities of daily living, and affects my ability to work.
+        Information about how my impairment(s) affects my ability to complete
+        tasks and activities of daily living, and affects my ability to work.
       </li>
       <li>
         Information created within 12 months after the date this authorization
@@ -585,9 +589,11 @@ export const patientAcknowledgementText = (
       decide my claim.
     </p>
     <p>
-      NOTE: For additional information regarding VA Form 21-4142, refer to
-      the following website:
-      <a href="https://www.benefits.va.gov/privateproviders/" target="_blank">https://www.benefits.va.gov/privateproviders/</a>.
+      NOTE: For additional information regarding VA Form 21-4142, refer to the
+      following website:
+      <a href="https://www.benefits.va.gov/privateproviders/" target="_blank">
+        https://www.benefits.va.gov/privateproviders/
+      </a>.
     </p>
   </AdditionalInfo>
 );
@@ -601,7 +607,9 @@ export const download4142Notice = (
       doctor.
     </p>
     <p>
-      <a href={VA_FORM4142_URL} target="_blank">Download VA Form 21-4142</a>.
+      <a href={VA_FORM4142_URL} target="_blank">
+        Download VA Form 21-4142
+      </a>.
       <p>Please print the form, fill it out, and send it to:</p>
       {claimsIntakeAddress}
       <p>
