@@ -76,6 +76,7 @@ You can apply for this benefit if you're representing the deceased Veteran in an
 You must put a legal name, service branch, and birth and death year on a headstone or marker. State and national cemeteries also require the section and grave number. You can choose to inscribe the deceased’s full birth and death dates, the highest rank attained, awards, war service, and an emblem of belief. We may approve other requests, such as nicknames, terms of endearment (for example, “Loving Father”), or special unit identification.
 
 [Learn more about these memorial items—-and see what they look like](https://www.cem.va.gov/cem/docs/factsheets/HeadstoneMarkerMedallion_Brochure.pdf).
+
 [See the emblems of belief you can choose to place on a headstone or marker](https://www.cem.va.gov/cem/docs/emblems.pdf).
 <br>
 
