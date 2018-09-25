@@ -341,9 +341,13 @@
 
         a {
           color: white;
+          &:visited {
+            color: white;
+          }
         }
-        a:visited {
-          color: white;
+        &:after {
+          content: "|";
+          padding: 0 1rem;
         }
       }
     }
