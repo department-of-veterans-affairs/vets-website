@@ -1,0 +1,57 @@
+{% comment %}
+======================
+Social Media - R. Rail
+======================
+
+See https://help.shopify.com/themes/liquid/tags/theme-tags#include
+{% endcomment %}
+
+  {% for group in social %}
+  <ul class="usa-accordion-bordered social">
+    <li>
+      {% if group.heading != empty %}
+        <button class="usa-accordion-button usa-accordion-button-dark rail-heading"
+          aria-expanded="true"
+          aria-controls="a1">
+          {{ group.heading}}
+        </button>
+      {% endif %}
+    <div id="a1" class="usa-accordion-content">
+      <h4 class='va-nav-linkslist-list'>
+        <a href="{{group.url}}">{{group.admin}}</a>
+      </h4>
+      {% if group.subsections.length > 0 %}
+
+        {% for subs in group.subsections %}
+
+        <section>
+          <ul class="va-nav-linkslist-list social">
+            <h4>{{ subs.subhead }}</h4>
+            {% for link in subs.links %}
+              {% if link.url != empty %}
+                <li>
+                  <a href="{{link.url}}">
+                    {% if link.icon != empty %}
+                      <i class="fa fab {{link.icon}}"></i>
+                    {% endif %}
+
+                    {% if link.label != empty %}
+                      {{link.label}}
+                    {% else %}
+                      <span>{{link.title}}</span><br>
+                      <span>{{link.number}}</span>
+                    {% endif %}
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </section>
+
+        {% endfor %}
+
+      {% endif %}
+
+    </div>
+  </li>
+</ul>

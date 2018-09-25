@@ -1,10 +1,10 @@
 // Staging config. Also the default config that prod and dev are based off of.
-
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
+const path = require('path');
 
 require('babel-polyfill');
 
@@ -13,6 +13,7 @@ const timestamp = new Date().getTime();
 const globalEntryFiles = {
   style: './src/platform/site-wide/sass/style.scss',
   polyfills: './src/platform/polyfills/preESModulesPolyfills.js',
+  brandConsolidation: './src/platform/site-wide/sass/brand-consolidation.scss',
   vendor: [
     './src/platform/polyfills',
     'react',
@@ -32,11 +33,18 @@ const configGenerator = (options, apps) => {
     output: {
       path: `${options.destination}/generated`,
       publicPath: '/generated/',
-      filename: (['development', 'devpreview'].includes(options.buildtype)) ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`,
-      chunkFilename: (['development', 'devpreview'].includes(options.buildtype)) ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`
+      filename: (['development', 'vagovdev'].includes(options.buildtype)) ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`,
+      chunkFilename: (['development', 'vagovdev'].includes(options.buildtype)) ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`
     },
     module: {
       rules: [
+        {
+          test: /manifest\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: path.resolve(__dirname, 'manifest-loader.js')
+          }
+        },
         {
           test: /\.js$/,
           exclude: /node_modules/,
@@ -157,13 +165,13 @@ const configGenerator = (options, apps) => {
       }),
 
       new ExtractTextPlugin({
-        filename: (['development', 'devpreview'].includes(options.buildtype)) ? '[name].css' : `[name].[contenthash]-${timestamp}.css`
+        filename: (['development', 'vagovdev'].includes(options.buildtype)) ? '[name].css' : `[name].[contenthash]-${timestamp}.css`
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
   };
 
-  if (['production', 'staging', 'preview'].includes(options.buildtype)) {
+  if (['production', 'staging', 'preview', 'vagovstaging'].includes(options.buildtype)) {
     let sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.vets.gov';
     if (options.buildtype === 'production') {
       sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.vets.gov';

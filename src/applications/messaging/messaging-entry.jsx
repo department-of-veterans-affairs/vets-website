@@ -12,7 +12,7 @@ import startSitewideComponents from '../../platform/site-wide';
 
 import routes from './routes.jsx';
 import reducer from './reducers';
-import manifest from './manifest.json';
+import manifest from './manifest';
 import { updateRoute } from './actions';
 
 const store = createCommonStore(reducer);
