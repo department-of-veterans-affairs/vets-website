@@ -16,11 +16,12 @@ const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/how-to-a
 
 const healthcarePages = new Set(['/health-care/', '/health-care/apply/', '/health-care/how-to-apply/', '/health-care/eligibility/']);
 
-const healthcareTools = new Set([
+const ctaTools = new Set([
   '/health-care/secure-messaging/',
   '/health-care/refill-track-prescriptions/',
   '/health-care/schedule-view-va-appointments/',
-  '/health-care/view-test-and-lab-results/'
+  '/health-care/view-test-and-lab-results/',
+  '/claim-or-appeal-status/'
 ]);
 
 const burialPages = new Set([
@@ -75,7 +76,7 @@ if (healthcarePages.has(location.pathname)) {
   });
 }
 
-if (healthcareTools.has(location.pathname)) {
+if (ctaTools.has(location.pathname)) {
   createCallToActionWidget(store);
 }
 

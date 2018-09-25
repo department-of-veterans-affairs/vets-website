@@ -160,7 +160,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="#"><b>View Your VA Disability Payments History</b></a>
+    <a href="/va-payment-history/"><b>View Your VA Disability Payments History</b></a>
     <p>Check the status of your VA disability and pension payments. You can also see certain survivor benefits.</p>
   </div>
 

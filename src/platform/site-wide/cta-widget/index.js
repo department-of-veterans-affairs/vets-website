@@ -28,14 +28,16 @@ const mhvDomain = lowerEnvironments.includes(__BUILDTYPE__) ?
   'https://mhv-syst.myhealth.va.gov' :
   'https://www.myhealth.va.gov';
 
-const urlMap = {
+const redirectMap = {
   '/health-care/secure-messaging/': `${mhvDomain}/mhv-portal-web/secure-messaging`,
 
   '/health-care/refill-track-prescriptions/': `${mhvDomain}/mhv-portal-web/web/myhealthevet/refill-prescriptions`,
 
   '/health-care/schedule-view-va-appointments/': `${mhvDomain}/mhv-portal-web/web/myhealthevet/scheduling-a-va-appointment`,
 
-  '/health-care/view-test-and-lab-results/': `${mhvDomain}/mhv-portal-web/labs-tests`
+  '/health-care/view-test-and-lab-results/': `${mhvDomain}/mhv-portal-web/labs-tests`,
+
+  '/claim-or-appeal-status/': '/track-claims/'
 };
 
 export class CallToActionWidget extends React.Component {
@@ -51,7 +53,7 @@ export class CallToActionWidget extends React.Component {
   componentDidUpdate() {
     if (!this.props.isLoggedIn) return;
 
-    if (this.isAccessible() && !this._popup) this.redirect();
+    if (this.isAccessible()) this.redirect();
 
     const { accountState, loading } = this.props.mhvAccount;
     if (!loading && !accountState) this.props.fetchMHVAccount();
@@ -201,9 +203,14 @@ export class CallToActionWidget extends React.Component {
   openLoginModal = () => this.props.toggleLoginModal(true);
 
   redirect = () => {
-    const redirectUrl = urlMap[location.pathname];
-    this._popup = window.open(redirectUrl, 'cta-popup');
-    if (this._popup) this._popup.focus();
+    const redirectUrl = redirectMap[location.pathname];
+
+    if (redirectUrl.startsWith('/')) {
+      window.location = redirectUrl;
+    } else if (!this._popup) {
+      this._popup = window.open(redirectUrl, 'redirect-popup');
+      if (this._popup) this._popup.focus();
+    }
   }
 
   render() {
