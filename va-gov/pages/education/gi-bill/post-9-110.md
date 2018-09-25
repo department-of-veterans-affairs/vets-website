@@ -5,20 +5,17 @@ title: Post-9/11 GI Bill
 plainlanguage: 12-01-16 certified in compliance with the Plain Writing Act now
 concurrence: complete
 gibsAlert: false
-children: educationPost911
-order: 1
-aliases:
-  - /education/gi-bill/post-9-11/
+order: 3
 ---
 
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-If you need help paying for school or job training and you’ve served on active duty after September 10, 2001, you may qualify for the Post-9/11 GI Bill. Find out if you can get education benefits through the Post-9/11 GI Bill.
+If you need help paying for school or job training and you’ve served on active duty after September 10, 2001, you may qualify for the Post-9/11 GI Bill. Find out if you can get education benefits through the Post-9/11 GI Bill. 
 
 </div>
 
-<div class="feature" markdown="0">
+<div class="feature" markdown="0"> 
 <div itemscope itemtype="http://schema.org/Question">
 
 <h3 itemprop="name">Can I get education benefits?</h3>
@@ -28,10 +25,10 @@ If you need help paying for school or job training and you’ve served on active
 You can get education benefits if you meet both of the requirements listed below.
 
 **Both of these must be true:**
-- You qualify for any GI Bill program, **and**
+- You qualify for any GI Bill program, **and** 
 - You’ve served on active duty for at least 90 days—with or without a break in service—after September 10, 2001.
 
-If you qualify for more than one VA education benefit, you’ll have to pick which one you want to use. This is an irrevocable decision, meaning you can’t change your mind.
+If you qualify for more than one VA education benefit, you’ll have to pick which one you want to use. This is an irrevocable decision, meaning you can’t change your mind. 
 
 </div>
 </div>
@@ -101,7 +98,7 @@ You can check to see if you have Post-9/11 GI Bill benefits. <br>
 <div itemprop="text">
 
 You’ll need to apply. <br>
-[Apply for education benefits](/education/how-to-apply/).
+[Apply for education benefits](/education/apply-for-education-benefits/). 
 
 The benefit amount depends on which school you go to, how much active-duty service you’ve had since September 10, 2001, and how many credits or training hours you’re taking.
 
@@ -134,11 +131,11 @@ The benefit amount depends on which school you go to, how much active-duty servi
 <div itemprop="text">
 
 - You may be able to get money through the Yellow Ribbon Program to cover higher private-school and out-of-state tuition and fees. <br>
-[Learn about the Yellow Ribbon Program](/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/).
+[Learn about the Yellow Ribbon Program](/education/gi-bill/yellow-ribbon/).
 - If you’re a qualified Servicemember, you can transfer all 36 months or a portion of your Post-9/11 GI Bill benefits to a spouse or child. The Department of Defense approves a transfer of benefits. <br>
-[Learn about transferring Post-9/11 GI Bill benefits](/education/transfer-post-9-11-gi-bill-benefits/).
+[Learn about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
 - The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) offers Post-9/11 GI Bill benefits to children and surviving spouses of Servicemembers who died in the line of duty after September 10, 2001. <br>
-[Learn more about the Fry Scholarship](/education/survivor-dependent-benefits/fry-scholarship/).
+[Learn more about the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/).
 
 </div>
 </div>
@@ -153,18 +150,18 @@ The benefit amount depends on which school you go to, how much active-duty servi
 
 You can use these types of programs and courses under the Post-9/11 GI Bill:
 
-- [Correspondence training](/education/about-gi-bill-benefits/how-to-use-benefits/correspondence-training/)
-- [Co-op training](/education/about-gi-bill-benefits/how-to-use-benefits/co-op-training/)
-- [Entrepreneurship training](/education/about-gi-bill-benefits/how-to-use-benefits/entrepreneurship-training/)
-- [Flight training](/education/about-gi-bill-benefits/how-to-use-benefits/flight-training/)
-- [Independent and distance learning](/education/about-gi-bill-benefits/how-to-use-benefits/online-distance-learning/)
-- [Undergraduate and graduate degrees](/education/about-gi-bill-benefits/how-to-use-benefits/undergraduate-graduate-programs/)
-- [Licensing and certification reimbursement](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
-- [Vocational/technical training and non-college degree programs](/education/about-gi-bill-benefits/how-to-use-benefits/non-college-degree-programs/)
-- [National testing reimbursement](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
-- [On-the-job training and apprenticeships](/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/)
-- [Tuition Assistance Top-Up](/education/about-gi-bill-benefits/how-to-use-benefits/tuition-assistance-top-up/)
-- [Tutorial Assistance](/education/about-gi-bill-benefits/how-to-use-benefits/tutor-assistance/)
+- [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
+- [Co-op training](/education/work-learn/co-op-training/)
+- [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
+- [Flight training](/education/advanced-training-and-certifications/flight-training/)
+- [Independent and distance learning](/education/work-learn/non-traditional/independent-distance-learning/)
+- [Undergraduate and graduate degrees](/education/gi-bill/higher-learning/)
+- [Licensing and certification reimbursement](/education/advanced-training-and-certifications/licensing-certification/)
+- [Vocational/technical training and non-college degree programs](/education/work-learn/non-college-degree-program/)
+- [National testing reimbursement](/education/advanced-training-and-certifications/national-testing-program/)
+- [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
+- [Tuition Assistance Top-Up](/education/gi-bill/tuition-assistance/)
+- [Tutorial Assistance](/education/gi-bill/tutorial-assistance/)
 
 </div>
 </div>
@@ -177,7 +174,7 @@ You can use these types of programs and courses under the Post-9/11 GI Bill:
 <div itemprop="text">
 
 - Compare benefits by school. <br>
-[Use the GI Bill Comparison Tool](/gi-bill-comparison-tool).
+[Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/). 
 - [See the current payment rates for the Post-9/11 GI Bill](/education/benefit-rates/).
 - [Read the Post-9/11 GI Bill pamphlet](https://www.benefits.va.gov/gibill/docs/pamphlets/ch33_pamphlet.pdf).
 - [See Frequently Asked Questions (FAQ)](https://gibill.custhelp.com/app/answers/list).

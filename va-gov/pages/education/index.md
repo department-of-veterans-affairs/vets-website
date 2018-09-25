@@ -18,13 +18,13 @@ crosslinks:
     - url: https://www.benefits.va.gov/TAP/index.asp
       title: <b>Transition Assistance Program (VA TAP)</b>
       description: Learn about VA benefits available to you and your family as you transition out of active-duty, National Guard, or Reserve service.
-    - url: "#"
+    - url:  /careers-employment/vocational-rehabilitation/
       title: <b>Vocational Rehabilitation and Employment</b>
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
-    - url: "#"
+    - url: "/housing-assistance/home-loans/"
       title: <b>Home Loan Benefits</b>
       description: Explore options for Veterans home loans, apply for your Certificate of Eligibility (COE), and get help if you're having trouble making your mortgage payments.
-    - url: "#"
+    - url: "/careers-employment/veteran-owned-business-support/"
       title: <b>Veteran-Owned Small Business Support</b>
       description: Register to do business with VA and get support for your Veteran-owned small business.
     - url: https://www.dol.gov/veterans/findajob/
@@ -104,7 +104,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="#"><b>Vocational Rehabilitation and Employment</b></a>
+    <a href="/careers-employment/vocational-rehabilitation/"><b>Vocational Rehabilitation and Employment</b></a>
     <p>See if you qualify for help exploring employment options, any training you may need, and other voc rehab services.</p>
   </div>
 
@@ -133,7 +133,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="/education/check-post-9-11-gi-bill-benefit-status/"><b>Check Your Post-9/11 GI Bill Benefits</b></a>
+    <a href="/education/gi-bill/post-9-11/ch-33-benefit/"><b>Check Your Post-9/11 GI Bill Benefits</b></a>
     <p>See how much of your GI Bill benefits you have left to help pay for school or training.</p>
   </div>
 
@@ -153,7 +153,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="#"><b>Check Your VA Appeal Status</b></a>
+    <a href="/claim-or-appeal-status/"><b>Check Your VA Appeal Status</b></a>
     <p>Track the status of your VA education benefits appeal.</p>
   </div>
 
@@ -187,7 +187,7 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
-    <a href="#"><b>CareerScope Assessment</b></a>
+    <a href="/careers-employment/careerscope-skills-assessment/"><b>CareerScope Assessment</b></a>
     <p>Get a CareerScope assessment to help you figure out your career path when transitioning to civilian life.</p>
   </div>
 

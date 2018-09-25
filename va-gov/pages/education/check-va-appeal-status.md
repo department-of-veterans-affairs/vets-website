@@ -3,5 +3,5 @@ title: Check VA Appeal Status
 display_title: Check VA Appeal Status
 order: 13
 spoke: Manage Benefits
-href: "#"
+href: /claim-or-appeal-status/
 ---
