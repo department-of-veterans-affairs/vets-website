@@ -1,7 +1,0 @@
-{
-  "appName": "Private Medical Release Form",
-  "entryFile": "./app-entry.jsx",
-  "entryName": "4142-record-release",
-  "rootUrl": "/disability-benefits/private-medical-records",
-  "production": false
-}

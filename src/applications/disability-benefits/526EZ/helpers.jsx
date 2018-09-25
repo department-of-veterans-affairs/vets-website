@@ -96,31 +96,45 @@ export const getReservesGuardData = formData => {
 };
 
 /**
-* Converts the treatment date range into an array of objects from just an object
-* @param {object} treatmentDateRange object containing from/to date range
-* @returns {array} of treatmentDateRange's
-*/
-const transformDateRange = (treatmentDateRange) => {
-  return [treatmentDateRange];
-};
+ * Converts the treatment date range into an array of objects from just an object
+ * @param {object} treatmentDateRange object containing from/to date range
+ * @returns {array} of treatmentDateRange's
+ */
+
+const transformDateRange = treatmentDateRange => [treatmentDateRange];
 
 /**
-* Cycles through the list of provider facilities and performs transformations on each property as needed
-* @param {array} providerFacility array of objects being transformed
-* @returns {object} containing the new Provider Facility structure
-*/
-const transformProviderFacility = (providerFacility) => {
+ * Cycles through the list of provider facilities and performs transformations on each property as needed
+ * @param {array} providerFacility array of objects being transformed
+ * @returns {object} containing the new Provider Facility structure
+ */
+const transformProviderFacility = providerFacility => {
   const newProviderFacility = [];
-  providerFacility.forEach((facility) => {
+  providerFacility.forEach(facility => {
     newProviderFacility.push({
       providerFacilityName: facility.providerFacilityName,
       treatmentDateRange: transformDateRange(facility.treatmentDateRange),
-      providerFacilityAddress: facility.providerFacilityAddress
+      providerFacilityAddress: facility.providerFacilityAddress,
     });
   });
 
   return newProviderFacility;
 };
+
+/**
+ * If any limited consent text is populated, collect it.
+ */
+export function gatherLimitedConsentText(disabilities) {
+  const fullLimitedConsent = disabilities
+    .filter(disability => disability['view:limitedConsent'])
+    .reduce((accumulator, disability) => {
+      let string = accumulator;
+      string = `${string} ${disability.limitedConsent}`;
+      return string;
+    }, '');
+
+  return fullLimitedConsent.trim();
+}
 
 export function transform(formConfig, form) {
   const {
@@ -148,11 +162,6 @@ export function transform(formConfig, form) {
       return accumulator.concat(item);
     }, []);
 
-  const limitedConsent = disabilities
-    .filter((disability) => {
-      return disability.limitedConsent === true;
-    });
-
   const transformedData = {
     disabilities: disabilities
       .filter(disability => disability['view:selected'] === true)
@@ -166,9 +175,9 @@ export function transform(formConfig, form) {
     serviceInformation,
     standardClaim,
     form4142: {
-      limitedConsent: limitedConsent.length > 0,
-      providerFacility: transformProviderFacility(providerFacility)
-    }
+      limitedConsent: gatherLimitedConsentText(disabilities),
+      providerFacility: transformProviderFacility(providerFacility),
+    },
   };
 
   const withoutViewFields = filterViewFields(transformedData);
@@ -320,25 +329,28 @@ export const evidenceTypeHelp = (
   </AdditionalInfo>
 );
 
-/**
- * Disability/contention display HTML.
- * @param {string} disabilityName Name of the contention/disability that the user is giving consent to
- */
-const limitedConsentTitle = (disabilityName) => {
-  return (
-    <p>I give consent, or permission, to my doctor to release only records related to {disabilityName}.</p>
-  );
-};
+export const limitedConsentTitle = (
+  <p>
+    I want to limit my consent for the VA to retrieve only specific information
+    from my private medical provider(s).
+  </p>
+);
 
-/**
- * Grabbing the disbility string and returning a display content. Similar to getEvidenceTypesDescription. Maybe refactor?
- * @param {object} form Form data
- * @param {*} index identifier for which disability/contention is being evaluated
- */
-export const getlimitedConsentTitle = (form, index) => {
-  const { name } = form.disabilities[index];
-  return limitedConsentTitle(getDisabilityName(name));
-};
+export const limitedConsentTextTitle = (
+  <p>Describe the limitation below. (Treatment dates, Disability type, etc.)</p>
+);
+
+export const limitedConsentDescription = (
+  <div className="limitedConsent">
+    <AdditionalInfo triggerText="What does this mean?">
+      <p>
+        If you choose to limit consent, your doctor will abide by the limitation
+        you specify. Limiting consent could add to the time it takes to get your
+        private medical records.
+      </p>
+    </AdditionalInfo>
+  </div>
+);
 
 export const disabilityNameTitle = ({ formData }) => {
   return (
@@ -410,14 +422,15 @@ export const privateRecordsChoiceHelp = (
       </p>
       <p>
         This works best if you have a fast internet connection and time for a
-        large file to upload. Records should be .pdf, .jpg, or .png files and can be
-        up to 50MB each.
+        large file to upload. Records should be .pdf, .jpg, or .png files and
+        can be up to 50MB each.
       </p>
       <h5>We get records for you</h5>
       <p>
-        If you tell us which VA medical center treated you for your condition, we
-        can get your medical records for you. Getting your records may take us
-        some time. This could take us longer to make a decision on your claim.
+        If you tell us which VA medical center treated you for your condition,
+        we can get your medical records for you. Getting your records may take
+        us some time. This could take us longer to make a decision on your
+        claim.
       </p>
     </AdditionalInfo>
   </div>
@@ -484,46 +497,47 @@ export function validateAddress(errors, formData) {
 
 const claimsIntakeAddress = (
   <p className="va-address-block">
-    Department of Veterans Affairs<br/>
-    Claims Intake Center<br/>
-    PO Box 4444<br/>
+    Department of Veterans Affairs
+    <br/>
+    Claims Intake Center
+    <br/>
+    PO Box 4444
+    <br/>
     Janesville, WI 53547-4444
   </p>
 );
 
-export const patientAcknowledgementText = (
+export const patientAcknowledgmentText = (
   <AdditionalInfo triggerText="Read the full text.">
     <h4>PATIENT AUTHORIZATION:</h4>
     <p>
-      I voluntarily authorize and request disclosure (including paper,
-      oral, and electronic interchange) of: All my medical records;
-      including information related to my ability to perform tasks of
-      daily living. This includes specific permission to release:
+      I voluntarily authorize and request disclosure (including paper, oral, and
+      electronic interchange) of: All my medical records; including information
+      related to my ability to perform tasks of daily living. This includes
+      specific permission to release:
     </p>
     <ol>
       <li>
         All records and other information regarding my treatment,
-        hospitalization, and outpatient care for my impairment(s)
-        including, but not limited to:
+        hospitalization, and outpatient care for my impairment(s) including, but
+        not limited to:
       </li>
       <ul>
         <li>
-          Psychological, psychiatric, or other mental impairment(s)
-          excluding "psychotherapy notes" as defined in 45 C.F.R. §164.501,
+          Psychological, psychiatric, or other mental impairment(s) excluding
+          "psychotherapy notes" as defined in 45 C.F.R. §164.501,
         </li>
-        <li>
-          Drug abuse, alcoholism, or other substance abuse,
-        </li>
+        <li>Drug abuse, alcoholism, or other substance abuse,</li>
         <li>Sickle cell anemia,</li>
         <li>
-          Records which may indicate the presence of a communicable
-          or non-communicable disease; and tests for or records of HIV/AIDS,
+          Records which may indicate the presence of a communicable or
+          non-communicable disease; and tests for or records of HIV/AIDS,
         </li>
         <li>Gene-related impairments (including genetic test results)</li>
       </ul>
       <li>
-        Information about how my impairment(s) affects my ability to
-        complete tasks and activities of daily living, and affects my ability to work.
+        Information about how my impairment(s) affects my ability to complete
+        tasks and activities of daily living, and affects my ability to work.
       </li>
       <li>
         Information created within 12 months after the date this authorization
@@ -531,55 +545,55 @@ export const patientAcknowledgementText = (
       </li>
     </ol>
     <p>
-      YOU SHOULD NOT COMPLETE THIS FORM UNLESS YOU WANT THE VA TO
-      OBTAIN PRIVATE TREATMENT RECORDS ON YOUR BEHALF. IF YOU HAVE
-      ALREADY PROVIDED THESE RECORDS OR INTEND TO OBTAIN THEM YOURSELF,
-      THERE IS NO NEED TO FILL OUT THIS FORM. DOING SO WILL LENGTHEN
-      YOUR CLAIM PROCESSING TIME.
+      YOU SHOULD NOT COMPLETE THIS FORM UNLESS YOU WANT THE VA TO OBTAIN PRIVATE
+      TREATMENT RECORDS ON YOUR BEHALF. IF YOU HAVE ALREADY PROVIDED THESE
+      RECORDS OR INTEND TO OBTAIN THEM YOURSELF, THERE IS NO NEED TO FILL OUT
+      THIS FORM. DOING SO WILL LENGTHEN YOUR CLAIM PROCESSING TIME.
     </p>
     <h4>IMPORTANT:</h4>
     <p>
-      In accordance with 38 C.F.R. §3.159(c), "VA will not pay any fees
-      charged by a custodian to provide records requested."
+      In accordance with 38 C.F.R. §3.159(c), "VA will not pay any fees charged
+      by a custodian to provide records requested."
     </p>
     <h4>PATIENT ACKNOWLEDGEMENT:</h4>
     <p>
-      I HEREBY AUTHORIZE the sources listed in Section IV, to release
-      any information that may have been obtained in connection with
-      a physical, psychological or psychiatric examination or treatment,
-      with the understanding that VA will use this information in determining
-      my eligibility to veterans benefits I have claimed.
+      I HEREBY AUTHORIZE the sources listed in Section IV, to release any
+      information that may have been obtained in connection with a physical,
+      psychological or psychiatric examination or treatment, with the
+      understanding that VA will use this information in determining my
+      eligibility to veterans benefits I have claimed.
     </p>
     <p>
-      I understand that the source being asked to provide the Veterans
-      Benefits Administration with records under this authorization may
-      not require me to execute this authorization before it provides me
-      with treatment, payment for health care, enrollment in a health plan,
-      or eligibility for benefits provided by it.
+      I understand that the source being asked to provide the Veterans Benefits
+      Administration with records under this authorization may not require me to
+      execute this authorization before it provides me with treatment, payment
+      for health care, enrollment in a health plan, or eligibility for benefits
+      provided by it.
     </p>
     <p>
-      I understand that once my source sends this information to VA under
-      this authorization, the information will no longer be protected by
-      the HIPAA Privacy Rule, but will be protected by the Federal Privacy Act,
-      5 USC 552a, and VA may disclose this information as authorized by law.
+      I understand that once my source sends this information to VA under this
+      authorization, the information will no longer be protected by the HIPAA
+      Privacy Rule, but will be protected by the Federal Privacy Act, 5 USC
+      552a, and VA may disclose this information as authorized by law.
     </p>
     <p>
-      I also understand that I may revoke this authorization in writing,
-      at any time except to the extent a source of information has already
-      relied on it to take an action. To revoke, I must send a written
-      statement to the VA Regional Office handling my claim or the Board
-      of Veterans' Appeals (if my claim is related to an appeal) and also
-      send a copy directly to any of my sources that I no longer wish to
-      disclose information about me.
+      I also understand that I may revoke this authorization in writing, at any
+      time except to the extent a source of information has already relied on it
+      to take an action. To revoke, I must send a written statement to the VA
+      Regional Office handling my claim or the Board of Veterans' Appeals (if my
+      claim is related to an appeal) and also send a copy directly to any of my
+      sources that I no longer wish to disclose information about me.
     </p>
     <p>
-      I understand that VA may use information disclosed prior to revocation
-      to decide my claim.
+      I understand that VA may use information disclosed prior to revocation to
+      decide my claim.
     </p>
     <p>
-      NOTE: For additional information regarding VA Form 21-4142, refer to
-      the following website:
-      <a href="https://www.benefits.va.gov/privateproviders/" target="_blank">https://www.benefits.va.gov/privateproviders/</a>.
+      NOTE: For additional information regarding VA Form 21-4142, refer to the
+      following website:
+      <a href="https://www.benefits.va.gov/privateproviders/" target="_blank">
+        https://www.benefits.va.gov/privateproviders/
+      </a>.
     </p>
   </AdditionalInfo>
 );
@@ -593,7 +607,9 @@ export const download4142Notice = (
       doctor.
     </p>
     <p>
-      <a href={VA_FORM4142_URL} target="_blank">Download VA Form 21-4142</a>.
+      <a href={VA_FORM4142_URL} target="_blank">
+        Download VA Form 21-4142
+      </a>.
       <p>Please print the form, fill it out, and send it to:</p>
       {claimsIntakeAddress}
       <p>
@@ -614,7 +630,8 @@ export const authorizationToDisclose = (
     <p>
       <a href={VA_FORM4142_URL} target="_blank">
         Download VA Form 21-4142
-      </a>.
+      </a>
+      .
     </p>
     <p>Please print the form, fill it out, and send it to:</p>
     {claimsIntakeAddress}
@@ -721,20 +738,23 @@ const listDocuments = documents => {
   );
 };
 
-
 export const evidenceSummaryView = ({ formContext, formData }) => {
   const {
     treatments,
     privateRecords,
     additionalDocuments,
-    providerFacility
+    providerFacility,
   } = formData;
 
   return (
     <div>
-      {formContext.reviewMode && <div className="form-review-panel-page-header-row">
-        <h5 className="form-review-panel-page-header">{formContext.pageTitle(formData)}</h5>
-      </div>}
+      {formContext.reviewMode && (
+        <div className="form-review-panel-page-header-row">
+          <h5 className="form-review-panel-page-header">
+            {formContext.pageTitle(formData)}
+          </h5>
+        </div>
+      )}
       <ul>
         {treatments && (
           <li>
@@ -746,7 +766,9 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
             We’ll get your private medical records from{' '}
             {providerFacility.map((facility, idx) => {
               return (
-                <div key={idx}><strong>{facility.providerFacilityName}</strong></div>
+                <div key={idx}>
+                  <strong>{facility.providerFacilityName}</strong>
+                </div>
               );
             })}
           </li>
@@ -890,9 +912,11 @@ export const GetFormHelp = () => {
         <a className="help-phone-number-link" href="tel:+1-877-222-8387">
           1-877-222-VETS
         </a>{' '}
-        (<a className="help-phone-number-link" href="tel:+1-877-222-8387">
+        (
+        <a className="help-phone-number-link" href="tel:+1-877-222-8387">
           1-877-222-8387
-        </a>)<br/>
+        </a>
+        )<br/>
         Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
       </p>
     </div>
@@ -922,18 +946,18 @@ export const VAFileNumberDescription = (
   </div>
 );
 
-
 export const FDCDescription = (
   <div>
     <h5>Fully developed claim program</h5>
     <p>
-      You can apply using the Fully Developed Claim (FDC) program if
-      you’ve uploaded all the supporting documents or supplemental
-      forms needed to support your claim.
+      You can apply using the Fully Developed Claim (FDC) program if you’ve
+      uploaded all the supporting documents or supplemental forms needed to
+      support your claim.
     </p>
     <a href="/pension/apply/fully-developed-claim/" target="_blank">
       Learn more about the FDC program
-    </a>.
+    </a>
+    .
   </div>
 );
 
@@ -956,19 +980,19 @@ export const noFDCWarning = (
           Since you’ll be sending in additional documents later, your
           application doesn’t qualify for the Fully Developed Claim program.
           We’ll review your claim through the standard claim process. With the
-          standard claim process, you have up to 1 year from the date we
-          receive your claim to turn in any information and evidence.
+          standard claim process, you have up to 1 year from the date we receive
+          your claim to turn in any information and evidence.
         </p>
         <p>You can turn in your evidence 1 of 3 ways:</p>
         <ul>
           <li>
-            Visit the Claim Status tool and upload your documents under the
-            File tab. <a href="/track-claims">Track the status of your
-            claims.</a>
+            Visit the Claim Status tool and upload your documents under the File
+            tab. <a href="/track-claims">Track the status of your claims.</a>
           </li>
           <li>
-            Call Veterans Benefits Assistance at <a href="tel:1-800-827-1000">
-            1-800-827-1000</a>, Monday – Friday, 8:30 a.m. – 4:30 p.m. (ET).
+            Call Veterans Benefits Assistance at{' '}
+            <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday – Friday,
+            8:30 a.m. – 4:30 p.m. (ET).
           </li>
           <li>
             Save your application and return to it later when you have your
@@ -1067,11 +1091,393 @@ export const contactInfoUpdateHelp = () => (
   </div>
 );
 
-export const validateBooleanIfEvidence = (errors, fieldData, formData, schema, messages, options, index) => {
+export const validateBooleanIfEvidence = (
+  errors,
+  fieldData,
+  formData,
+  schema,
+  messages,
+  options,
+  index,
+) => {
   const { wrappedValidator } = options;
   if (get('view:hasEvidence', formData, true)) {
     wrappedValidator(errors, fieldData, formData, schema, messages, index);
   }
 };
 
-export const title10DatesRequired = (formData) => get('view:isTitle10Activated', formData, false);
+export const title10DatesRequired = formData =>
+  get('view:isTitle10Activated', formData, false);
+
+export const recordReleaseDescription = () => {
+  return (
+    <div>
+      <p>
+        Please let us know where and when you received treatment. We'll request
+        your private medical records for you. If you have records available, you
+        can upload them later in the application.
+      </p>
+    </div>
+  );
+};
+
+export const countries = [
+  'Afghanistan',
+  'Albania',
+  'Algeria',
+  'Angola',
+  'Anguilla',
+  'Antigua',
+  'Antigua and Barbuda',
+  'Argentina',
+  'Armenia',
+  'Australia',
+  'Austria',
+  'Azerbaijan',
+  'Azores',
+  'Bahamas',
+  'Bahrain',
+  'Bangladesh',
+  'Barbados',
+  'Barbuda',
+  'Belarus',
+  'Belgium',
+  'Belize',
+  'Benin',
+  'Bermuda',
+  'Bhutan',
+  'Bolivia',
+  'Bosnia-Herzegovina',
+  'Botswana',
+  'Brazil',
+  'Brunei',
+  'Bulgaria',
+  'Burkina Faso',
+  'Burma',
+  'Burundi',
+  'Cambodia',
+  'Cameroon',
+  'Canada',
+  'Cape Verde',
+  'Cayman Islands',
+  'Central African Republic',
+  'Chad',
+  'Chile',
+  'China',
+  'Colombia',
+  'Comoros',
+  'Congo, Democratic Republic of',
+  "Congo, People's Republic of",
+  'Costa Rica',
+  "Cote d'Ivoire",
+  'Croatia',
+  'Cuba',
+  'Cyprus',
+  'Czech Republic',
+  'Denmark',
+  'Djibouti',
+  'Dominica',
+  'Dominican Republic',
+  'Ecuador',
+  'Egypt',
+  'El Salvador',
+  'England',
+  'Equatorial Guinea',
+  'Eritrea',
+  'Estonia',
+  'Ethiopia',
+  'Fiji',
+  'Finland',
+  'France',
+  'French Guiana',
+  'Gabon',
+  'Gambia',
+  'Georgia',
+  'Germany',
+  'Ghana',
+  'Gibraltar',
+  'Great Britain',
+  'Great Britain and Gibraltar',
+  'Greece',
+  'Greenland',
+  'Grenada',
+  'Guadeloupe',
+  'Guatemala',
+  'Guinea',
+  'Guinea, Republic of Guinea',
+  'Guinea-Bissau',
+  'Guyana',
+  'Haiti',
+  'Honduras',
+  'Hong Kong',
+  'Hungary',
+  'Iceland',
+  'India',
+  'Indonesia',
+  'Iran',
+  'Iraq',
+  'Ireland',
+  'Israel (Jerusalem)',
+  'Israel (Tel Aviv)',
+  'Italy',
+  'Jamaica',
+  'Japan',
+  'Jordan',
+  'Kazakhstan',
+  'Kenya',
+  'Kosovo',
+  'Kuwait',
+  'Kyrgyzstan',
+  'Laos',
+  'Latvia',
+  'Lebanon',
+  'Leeward Islands',
+  'Lesotho',
+  'Liberia',
+  'Libya',
+  'Liechtenstein',
+  'Lithuania',
+  'Luxembourg',
+  'Macao',
+  'Macedonia',
+  'Madagascar',
+  'Malawi',
+  'Malaysia',
+  'Mali',
+  'Malta',
+  'Martinique',
+  'Mauritania',
+  'Mauritius',
+  'Mexico',
+  'Moldavia',
+  'Mongolia',
+  'Montenegro',
+  'Montserrat',
+  'Morocco',
+  'Mozambique',
+  'Namibia',
+  'Nepal',
+  'Netherlands',
+  'Netherlands Antilles',
+  'Nevis',
+  'New Caledonia',
+  'New Zealand',
+  'Nicaragua',
+  'Niger',
+  'Nigeria',
+  'North Korea',
+  'Northern Ireland',
+  'Norway',
+  'Oman',
+  'Pakistan',
+  'Panama',
+  'Papua New Guinea',
+  'Paraguay',
+  'Peru',
+  'Philippines',
+  'Philippines (restricted payments)',
+  'Poland',
+  'Portugal',
+  'Qatar',
+  'Republic of Yemen',
+  'Romania',
+  'Russia',
+  'Rwanda',
+  'Sao-Tome/Principe',
+  'Saudi Arabia',
+  'Scotland',
+  'Senegal',
+  'Serbia',
+  'Serbia/Montenegro',
+  'Seychelles',
+  'Sicily',
+  'Sierra Leone',
+  'Singapore',
+  'Slovakia',
+  'Slovenia',
+  'Somalia',
+  'South Africa',
+  'South Korea',
+  'Spain',
+  'Sri Lanka',
+  'St. Kitts',
+  'St. Lucia',
+  'St. Vincent',
+  'Sudan',
+  'Suriname',
+  'Swaziland',
+  'Sweden',
+  'Switzerland',
+  'Syria',
+  'Taiwan',
+  'Tajikistan',
+  'Tanzania',
+  'Thailand',
+  'Togo',
+  'Trinidad and Tobago',
+  'Tunisia',
+  'Turkey (Adana only)',
+  'Turkey (except Adana)',
+  'Turkmenistan',
+  'USA',
+  'Uganda',
+  'Ukraine',
+  'United Arab Emirates',
+  'United Kingdom',
+  'Uruguay',
+  'Uzbekistan',
+  'Vanuatu',
+  'Venezuela',
+  'Vietnam',
+  'Wales',
+  'Western Samoa',
+  'Yemen Arab Republic',
+  'Zambia',
+  'Zimbabwe',
+];
+
+export const states = [
+  'AL',
+  'UM',
+  'AS',
+  'AZ',
+  'AR',
+  'AA',
+  'AE',
+  'AP',
+  'CA',
+  'CO',
+  'CT',
+  'DE',
+  'DC',
+  'FM',
+  'FL',
+  'GA',
+  'GU',
+  'HI',
+  'ID',
+  'IL',
+  'IN',
+  'IA',
+  'KS',
+  'KY',
+  'LA',
+  'ME',
+  'MH',
+  'MD',
+  'MA',
+  'MI',
+  'MN',
+  'MS',
+  'AK',
+  'MT',
+  'NE',
+  'NV',
+  'NH',
+  'NJ',
+  'NM',
+  'NY',
+  'NC',
+  'ND',
+  'MP',
+  'OH',
+  'OK',
+  'OR',
+  'PW',
+  'PA',
+  'PR',
+  'RI',
+  'SC',
+  'SD',
+  'TN',
+  'TX',
+  'UT',
+  'VT',
+  'VI',
+  'VA',
+  'WA',
+  'WV',
+  'WI',
+  'WY',
+  'PI',
+  'MO',
+];
+
+export const stateNames = [
+  'Alabama',
+  'U.S. Minor Outlying Islands',
+  'American Samoa',
+  'Arizona',
+  'Arkansas',
+  'Armed Forces Americas (AA)',
+  'Armed Forces Europe (AE)',
+  'Armed Forces Pacific (AP)',
+  'California',
+  'Colorado',
+  'Connecticut',
+  'Delaware',
+  'District Of Columbia',
+  'Federated States Of Micronesia',
+  'Florida',
+  'Georgia',
+  'Guam',
+  'Hawaii',
+  'Idaho',
+  'Illinois',
+  'Indiana',
+  'Iowa',
+  'Kansas',
+  'Kentucky',
+  'Louisiana',
+  'Maine',
+  'Marshall Islands',
+  'Maryland',
+  'Massachusetts',
+  'Michigan',
+  'Minnesota',
+  'Mississippi',
+  'Alaska',
+  'Montana',
+  'Nebraska',
+  'Nevada',
+  'New Hampshire',
+  'New Jersey',
+  'New Mexico',
+  'New York',
+  'North Carolina',
+  'North Dakota',
+  'Northern Mariana Islands',
+  'Ohio',
+  'Oklahoma',
+  'Oregon',
+  'Palau',
+  'Pennsylvania',
+  'Puerto Rico',
+  'Rhode Island',
+  'South Carolina',
+  'South Dakota',
+  'Tennessee',
+  'Texas',
+  'Utah',
+  'Vermont',
+  'Virgin Islands',
+  'Virginia',
+  'Washington',
+  'West Virginia',
+  'Wisconsin',
+  'Wyoming',
+  'Philippine Islands',
+  'Missouri',
+];
+
+function isValidZIP(value) {
+  if (value) {
+    return /^\d{5}(?:(?:[-\s])?\d{4})?$/.test(value);
+  }
+  return true;
+}
+export function validateZIP(errors, fieldData) {
+  if (fieldData && !isValidZIP(fieldData)) {
+    errors.addError('Please enter a valid 5 or 9 digit ZIP (dashes allowed)');
+  }
+}

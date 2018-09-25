@@ -10,13 +10,10 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.definitions;
 
-import {
-  introductionText
-} from '../helpers';
+import { introductionText } from '../helpers';
 
 // Define all the fields in the form to aid reuse
-// const formFields = {
-// };
+// const formFields = {};
 
 import {
   ptsdType,
@@ -37,7 +34,7 @@ const formConfig = {
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
-    noAuth: 'Please sign in again to continue your application for benefits.'
+    noAuth: 'Please sign in again to continue your application for benefits.',
   },
   title: 'Apply for increased disability compensation',
   chapters: {
