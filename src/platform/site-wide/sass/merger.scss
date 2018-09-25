@@ -654,13 +654,8 @@
     }
 
     #footerNav {
-      #footer-first-child {
-        padding-top: .25em;
-      }
-
       .va-footer-linkgroup {
         margin-top: 0;
-        margin-bottom: .25em;
         li {
           margin-bottom: 6px;
         }
@@ -680,6 +675,25 @@
       }
 
       // mobile footer stuff
+      .usa-grid-flex-mobile {
+        display: flex;
+        flex-direction: column;
+        #veteran-contact-us {
+          order: 1;
+        }
+        #footer-first-child {
+          order: 2;
+        }
+        #footer-services {
+          order: 3;
+        }
+        #footer-popular {
+          order: 4;
+        }
+        #veteran-crisis-line {
+          display: none;
+        }
+      }
       .va-footer-linkgroup-title {
         font-weight: 400;
 
