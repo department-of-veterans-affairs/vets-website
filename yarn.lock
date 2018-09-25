@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@department-of-veterans-affairs/formation@^1.6.2":
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-1.6.2.tgz#1c0ef4287b1be4fab6fed2fe2397937f898d39c6"
+"@department-of-veterans-affairs/formation@^1.6.3":
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-1.6.3.tgz#79cf7424249706357311b4e43629ae260c8452f5"
   dependencies:
     classnames "^2.2.5"
     font-awesome "4"
@@ -3841,7 +3841,7 @@ forwarded@~0.1.2:
 
 foundation-sites@5, foundation-sites@^5.5.3:
   version "5.5.3"
-  resolved "https://registry.yarnpkg.com/foundation-sites/-/foundation-sites-5.5.3.tgz#6556eb2b31cde3b226630116bd215d95d056c0a7"
+  resolved "http://registry.npmjs.org/foundation-sites/-/foundation-sites-5.5.3.tgz#6556eb2b31cde3b226630116bd215d95d056c0a7"
 
 fragment-cache@^0.2.1:
   version "0.2.1"
