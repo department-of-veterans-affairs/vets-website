@@ -44,7 +44,7 @@ const formConfig = {
     introductionPage: {
       title: 'Disability Details',
       pages: {
-        ptsdIntro: {
+        ptsdIntroduction: {
           'ui:title': '',
           path: 'info',
           uiSchema: {

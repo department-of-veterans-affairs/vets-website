@@ -9,7 +9,7 @@ const uploadPtsdSecondaryDescription = () => {
     <div>
       <p>
         The following questions will help us understand more about your
-        [PTSDclassification]-related PTSD. None of the questions we&#8217;ll ask you are
+        [PTSDclassification]-related PTSD. None of the questions we‘ll ask you are
         required, but any information you provide here will help us research your claim.
       </p>
       <p>
@@ -26,13 +26,13 @@ const ptsdChoiceSecondaryDescription = (
   <AdditionalInfo triggerText="What does this mean?">
     <h5>Continue answering questions</h5>
     <p>
-      If you choose to answer questions, we&#8217;ll ask you several questions to learn
+      If you choose to answer questions, we‘ll ask you several questions to learn
       more about your PTSD.
     </p>
     <h5>Upload VA Form 21-0781a</h5>
     <p>
-      If you upload a completed VA Form 21-0781a, we won&#8217;t ask you questions about
-      your PTSD, and you&#8217;ll move to the next section of the disability application.
+      If you upload a completed VA Form 21-0781a, we won‘t ask you questions about
+      your PTSD, and you‘ll move to the next section of the disability application.
     </p>
   </AdditionalInfo>
 );

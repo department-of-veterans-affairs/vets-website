@@ -4,7 +4,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation/Additional
 export const introductionText = (
   <div>
     <p>
-      We'll now ask you questions about the stressful event or events related to your PTSD. We understand that some of the questions maybe difficult to answer. The information you provide here will help us understand your situation and research your claim.
+      We‘ll now ask you questions about the stressful event or events related to your PTSD. We understand that some of the questions maybe difficult to answer. The information you provide here will help us understand your situation and research your claim.
     </p>
     <p>
       As you go through these questions, your responses will be saved. So, if you need to take a break and come back to your application, your information will be here for you.
@@ -35,7 +35,7 @@ export const ptsdTypeDescription = () => {
   return (
     <div>
       <p>
-        First we're going to ask you about the type of event or events that
+        First we‘re going to ask you about the type of event or events that
         contributed to your PTSD.
       </p>
       <p>
@@ -63,7 +63,7 @@ export const ptsdTypeHelp = () => {
       </p>
       <h5>Personal Assault</h5>
       <p>
-        This means a person, who isn't part of an enemy force, committed harm.
+        This means a person, who isn‘t part of an enemy force, committed harm.
         Examples of personal assault include: assault, battery, robbery, mugging,
         stalking, or harassment.
       </p>
