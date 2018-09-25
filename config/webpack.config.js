@@ -172,9 +172,24 @@ const configGenerator = (options, apps) => {
   };
 
   if (['production', 'staging', 'preview', 'vagovstaging'].includes(options.buildtype)) {
-    let sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.vets.gov';
-    if (options.buildtype === 'production') {
-      sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.vets.gov';
+    let sourceMap = null;
+
+    switch (options.buildtype) {
+      case 'production':
+        sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.vets.gov';
+        break;
+
+      case 'staging':
+        sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.vets.gov';
+        break;
+
+      case 'vagovstaging':
+        sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.va.gov';
+        break;
+
+      case 'preview':
+      default:
+        sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/preview.va.gov';
     }
 
     baseConfig.plugins.push(new webpack.SourceMapDevToolPlugin({
