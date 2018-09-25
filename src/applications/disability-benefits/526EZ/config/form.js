@@ -710,28 +710,6 @@ const formConfig = {
                 'view:privateRecordsChoiceHelp': {
                   'ui:description': limitedConsentDescription,
                 },
-                // 'ui:validations': [
-                //   (errors, item) => {
-                //     console.log(errors, 'err');
-                //     console.log(item, 'item');
-                //     if (
-                //       item.providerFacility === undefined
-                //     ) {
-                //       // if (!item.providerFacility) {
-                //      console.log('yo undef');
-                //
-                //       errors.addError('You must fill in required fields.');
-                //     }
-                //   },
-                // ],
-                // 'ui:validations': [
-                //   {
-                //     validator: requireField,
-                //   }
-                // ],
-                // 'ui:errorMessages': {
-                //   required: 'Fill out fields'
-                // },
                 providerFacility: {
                   'ui:options': {
                     itemName: 'Provider',

@@ -47,22 +47,22 @@ export default {
           name: 'Personal Trauma PTSD',
         },
       ],
-      providerFacility: [
-        {
-          providerFacilityName: 'Another Provider',
-          treatmentDateRange: {
-            from: '2010-03-04',
-            to: '2012-02-03',
-          },
-          providerFacilityAddress: {
-            street: '1234 test rd',
-            city: 'Testville',
-            country: 'USA',
-            state: 'AZ',
-            postalCode: '12345',
-          },
-        },
-      ],
+      // providerFacility: [
+      //   {
+      //     providerFacilityName: 'Another Provider',
+      //     treatmentDateRange: {
+      //       from: '2010-03-04',
+      //       to: '2012-02-03',
+      //     },
+      //     providerFacilityAddress: {
+      //       street: '1234 test rd',
+      //       city: 'Testville',
+      //       country: 'USA',
+      //       state: 'AZ',
+      //       postalCode: '12345',
+      //     },
+      //   },
+      // ],
     },
     {
       diagnosticCode: 5678,
