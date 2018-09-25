@@ -120,7 +120,7 @@ Visit the National Archives website to learn more about requesting your military
 <h4>If you're a family member planning a burial for a Veteran in a VA national cemetery</h4>
 
 Call our National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800-535-1117</a>. We can help you get the Veteran's DD214 or other discharge documents you may need. <br>
-<a href="https://www.vets.gov/burials-and-memorials/burial-planning/">Get more information about planning a burial</a>.
+<a href="/burials-memorials/plan-a-burial/">Get more information about planning a burial</a>.
 
 <h4>If you're the next of kin of a Veteran who has passed away</h4>
 
