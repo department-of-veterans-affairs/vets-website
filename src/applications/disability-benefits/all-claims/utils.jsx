@@ -187,24 +187,34 @@ export function queryForFacilities(input = '') {
 }
 
 export const addCheckboxPerDisability = (form, pageSchema) => {
+  const { ratedDisabilities, newDisabilities } = form;
   // This shouldn't happen, but could happen if someone directly
   // opens the right page in the form with no SiP
-  if (!form.ratedDisabilities && !form.newDisabilities) {
+  if (!ratedDisabilities && !newDisabilities) {
     return pageSchema;
   }
+  const selectedRatedDisabilities = Array.isArray(ratedDisabilities) ?
+    ratedDisabilities.filter(disability => disability['view:selected']) :
+    [];
+
+  const selectedNewDisabilities = Array.isArray(newDisabilities) ?
+    newDisabilities :
+    [];
+
   // TODO: We might be able to clean this up once we know how EVSS
-  // plans to implement the disability:evidence connection
-  const selectedRatedDisabilities = form.ratedDisabilities
-    .filter(disability => disability['view:selected']) || [];
-  const newDisabilities = form.newDisabilities || [];
-  const allSelectedDisabilities = selectedRatedDisabilities
-    .concat(newDisabilities);
-  const disabilitiesViews = allSelectedDisabilities.reduce((accum, curr) => {
-    const accumCopy = _.cloneDeep(accum);
-    const disabilityName = curr.name || curr.condition;
-    accumCopy[disabilityName] = { type: 'boolean' };
-    return accumCopy;
-  }, {});
+  // We expect to get an array with conditions in it or no property
+  // at all.
+  const disabilitiesViews = selectedRatedDisabilities
+    .concat(selectedNewDisabilities)
+    .reduce((accum, curr) => {
+      const disabilityName = curr.name || curr.condition;
+      if (!disabilityName) {
+        return pageSchema;
+      }
+
+      const capitalizedDisabilityName = getDisabilityName(disabilityName);
+      return _.set(`${capitalizedDisabilityName}`, { type: 'boolean' }, accum);
+    }, {});
   return {
     properties: disabilitiesViews
   };
