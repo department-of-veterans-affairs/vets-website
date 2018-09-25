@@ -1,9 +1,9 @@
 import _ from 'lodash/fp';
 
 // Example of an imported schema:
-// import fullSchema4142 from '../21-4142-schema.json';
+import fullSchema4142 from '../21-4142-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
-import fullSchema4142 from 'vets-json-schema/dist/21-4142-schema.json';
+// import fullSchema4142 from 'vets-json-schema/dist/21-4142-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
@@ -40,7 +40,7 @@ import {
   recordReleaseSummary,
   disabilityNameTitle,
   validateZIP,
-  transform,
+  transform
 } from '../helpers';
 
 import { validateDate } from 'us-forms-system/lib/js/validation';

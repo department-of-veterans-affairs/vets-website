@@ -321,7 +321,7 @@ export const evidenceTypeHelp = (
 );
 
 /**
- * Disability/contention display HTML. 
+ * Disability/contention display HTML.
  * @param {string} disabilityName Name of the contention/disability that the user is giving consent to
  */
 const limitedConsentTitle = (disabilityName) => {
