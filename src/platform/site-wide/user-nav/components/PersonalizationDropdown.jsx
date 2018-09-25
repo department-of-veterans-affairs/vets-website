@@ -15,11 +15,12 @@ function NewBadge() {
 
 class PersonalizationDropdown extends React.Component {
   componentDidMount() {
-    document.addEventListener('click', this.checkLink);
+    // remove checkLink function when refactoring out isBrandConsolidationEnabled
+    if (brandConsolidationEnabled) { document.addEventListener('click', this.checkLink); }
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.checkLink);
+    if (brandConsolidationEnabled) { document.removeEventListener('click', this.checkLink); }
   }
 
   checkLink = (event) => {
