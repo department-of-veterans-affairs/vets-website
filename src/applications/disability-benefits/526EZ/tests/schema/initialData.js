@@ -37,6 +37,7 @@ export default {
   disabilities: [
     {
       diagnosticCode: 5420,
+      decisionCode: 'SVCCONNECTED',
       name: 'Post traumatic stress disorder',
       ratedDisabilityId: '9459392',
       ratingDecisionId: '63655',
@@ -50,6 +51,7 @@ export default {
     },
     {
       diagnosticCode: 5678,
+      decisionCode: 'SVCCONNECTED',
       name: 'Intervertebral disc syndrome',
       ratedDisabilityId: '1231231',
       ratingPercentage: 0,

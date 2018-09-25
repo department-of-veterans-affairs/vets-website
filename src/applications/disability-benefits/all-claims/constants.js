@@ -126,3 +126,8 @@ export const HOMELESS_HOUSING_TYPES = {
   anotherPerson: 'anotherPerson',
   other: 'other'
 };
+
+export const SERVICE_CONNECTION_TYPES = {
+  notConnected: 'NOTSVCCON',
+  serviceConnected: 'SVCCONNECTED'
+};

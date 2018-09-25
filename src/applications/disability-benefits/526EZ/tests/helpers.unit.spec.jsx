@@ -161,7 +161,7 @@ describe('526 helpers', () => {
       expect(transformDisabilities(undefined)).to.deep.equal([]);
     });
     it('should remove ineligible disabilities', () => {
-      const ineligibleDisability = _.omit(invalidDisability, 'ratingPercentage');
+      const ineligibleDisability = _.set(invalidDisability, 'decisionCode', 'NOTSVCCON');
       expect(transformDisabilities([ineligibleDisability])).to.deep.equal([]);
     });
   });
