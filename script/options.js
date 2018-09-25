@@ -9,6 +9,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: environments.DEVELOPMENT },
   { name: 'brand-consolidation-enabled', type: Boolean, defaultValue: false },
   { name: 'frontend-metrics-enabled', type: Boolean, defaultValue: false },
+  { name: 'metrics-sample-percentage', type: Number, defaultValue: 0 },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },

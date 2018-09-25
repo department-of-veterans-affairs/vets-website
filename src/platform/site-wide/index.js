@@ -9,7 +9,6 @@ import './usa-banner-toggle';
 import './accessible-VCL-modal';
 import './moment-setup';
 import addMenuListeners from './accessible-menus';
-import isMetricsEnabled from '../frontend-metrics/feature-flag';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
 import startMobileMenuButton from './mobile-menu-button';
@@ -19,6 +18,10 @@ import startVAFooter from './va-footer';
 
 import brandConsolidation from '../brand-consolidation';
 
+import isMetricsEnabled from '../frontend-metrics/feature-flag';
+import withinMetricsSample from '../frontend-metrics/sample-rate';
+import startMetrics from '../frontend-metrics/metrics';
+
 /**
  * Start up the site-wide components that live on every page, like
  * the login widget, the header menus, and the feedback widget.
@@ -26,8 +29,8 @@ import brandConsolidation from '../brand-consolidation';
  * @param {Store} commonStore The Redux store being used by this application
  */
 export default function startSitewideComponents(commonStore) {
-  if (isMetricsEnabled()) {
-    require('../frontend-metrics/metrics');
+  if (isMetricsEnabled() && withinMetricsSample()) {
+    startMetrics();
   }
 
   if (document.querySelector('#vetnav-menu') !== null) {
