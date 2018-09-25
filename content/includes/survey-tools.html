@@ -1,4 +1,4 @@
-{% if buildtype == 'staging' %}
+{% if buildtype == 'production' %}
   {% assign auth_required_entrynames = 'claims-status, letters, health-records, messaging, rx, profile-360' | split: ', ' %}
   {% if auth_required_entrynames contains entryname  %}
     <script type="text/javascript" src="/js/foresee/{{ buildtype }}.js"></script>
