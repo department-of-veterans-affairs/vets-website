@@ -3,10 +3,16 @@ import { kebabCase } from 'lodash/fp';
 import classNames from 'classnames';
 import Downshift from 'downshift';
 
-import { facilityTypes } from '../config';
+import { facilityTypes, ccLocatorEnabled } from '../config';
 import { keyMap } from '../utils/helpers';
 
-const FACILITY_OPTIONS = ['all', 'health', 'cc_provider', 'benefits', 'cemetery', 'vet_center'];
+let FACILITY_OPTIONS;
+
+if (ccLocatorEnabled()) {
+  FACILITY_OPTIONS = ['all', 'health', 'cc_provider', 'benefits', 'cemetery', 'vet_center'];
+} else {
+  FACILITY_OPTIONS = ['all', 'health', 'benefits', 'cemetery', 'vet_center'];
+}
 
 const facilityOptionClasses = (item, selected) => classNames(
   'dropdown-option',
