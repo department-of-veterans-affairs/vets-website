@@ -478,7 +478,6 @@
     }
 
     #mega-menu {
-      margin-top: 1em;
       #vetnav {
         min-height: unset;
       }
@@ -533,7 +532,7 @@
     }
 
     .vet-toolbar {
-      margin-left: -10px;
+      margin-left: -12px;
 
       .sign-in-nav {
         margin-top: 6px;
@@ -560,11 +559,7 @@
           padding-left: 0;
           margin-right: 1.75em;
           background-position: right 1.5rem center;
-
-          &:first-child {
-            margin-right: 1em;
-          }
-
+          line-height: unset;
           span {
             display: inline-block;
           }
