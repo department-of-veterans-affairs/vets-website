@@ -2,15 +2,16 @@ import Raven from 'raven-js';
 import isMetricsEnabled from './feature-flag';
 
 /**
- * Returns 0 if Paint timing is not supported or the time of first-contentful-paint if present.
- * @returns (number) The number retrieved from the paintEntries.startTime value, else 0.
+ * Returns false if Paint timing is not supported or the time of first-contentful-paint if present.
+ * @returns (number) The number retrieved from the paintEntries.startTime value, else false
  */
 function contentfulPaintEntry() {
   const paintEntries = performance.getEntriesByName('first-contentful-paint');
-  // If browser doesn't support first-contentful-paint, we set the value to 0
-  const firstPaint = typeof paintEntries === 'undefined' ? 0 : paintEntries[0].startTime;
 
-  return firstPaint;
+  if (typeof paintEntries === 'undefined') {
+    return false;
+  }
+  return paintEntries[0].startTime;
 }
 
 /**
@@ -25,29 +26,32 @@ function buildMetricsPayload(entry) {
   const domProcessing = entry.domComplete - entry.domInteractive;
   const domComplete = entry.domComplete - entry.requestStart;
   const domInteractive = entry.domInteractive;
-  const firstPaint = contentfulPaintEntry();
 
-  const metrics = {
+  let metrics = {
     totalPageLoad,
     firstByte,
     domProcessing,
     domComplete,
     domInteractive,
-    firstPaint,
   };
+
+  if (contentfulPaintEntry()) {
+    const firstContentfulPaint = contentfulPaintEntry();
+    metrics = Object.assign({ firstContentfulPaint }, metrics);
+  }
 
   const metricsData = new FormData();
   const metricsArray = [];
   const pageUrl = window.location.pathname;
 
   Object.keys(metrics).forEach(metric => {
-    metricsArray.push({
+    metricsArray.push(JSON.stringify({
       metric,
       duration: metrics[metric]
-    });
+    }));
   });
 
-  metricsData.append('metrics', JSON.stringify(metricsArray));
+  metricsData.append('metrics', metricsArray);
   metricsData.append('page_id', pageUrl);
 
   return metricsData;
@@ -60,7 +64,6 @@ function buildMetricsPayload(entry) {
 function captureMetrics() {
   const observer = new PerformanceObserver(list => {
     list.getEntriesByType('navigation').forEach(entry => {
-      const metricsPayload = buildMetricsPayload(entry);
       window.addEventListener('unload', () => {
         // TODO: Send method to backend outlined in https://github.com/department-of-veterans-affairs/vets.gov-team/issues/13355
       });
