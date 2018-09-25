@@ -63,12 +63,12 @@ Access your VA records and documents online to manage your health and benefits.
   <h2>Get Your Records and Documents</h2>
 
   <div class="link">
-    <a href=/records/get-military-records/><b>Request Your Military Records (DD214)</b></a>
+    <a href="/records/get-military-service-records/"><b>Request Your Military Records (DD214)</b></a>
     <p>View and print documents from your official military personnel file (including your DD214).</p>
   </div>
 
   <div class="link">
-    <a href=/health-care/get-medical-records/><b>Get Your VA Medical Records (called VA Blue Button)</b></a>
+    <a href="/health-care/get-medical-records/"><b>Get Your VA Medical Records (called VA Blue Button)</b></a>
     <p>Set up your personal health record and download medical records, reports, and images to share with your VA and non-VA doctors.</p>
   </div>
 
