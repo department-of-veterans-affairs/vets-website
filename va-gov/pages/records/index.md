@@ -34,15 +34,19 @@ social:
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
           label: Veterans Records Email Updates
+          external: true
           icon: fa-envelope-square
         - url: https://twitter.com/DeptVetAffairs/
           label: Veterans Affairs Twitter
+          external: true
           icon: fa-twitter
         - url: "https://www.facebook.com/VeteransAffairs/"
           label: Veterans Affairs Facebook
+          external: true
           icon: fa-facebook
         - url: "https://www.youtube.com/user/DeptVetAffairs"
           label: Veterans Affairs YouTube
+          external: true
           icon: fa-youtube
 ---
 
