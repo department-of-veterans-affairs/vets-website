@@ -30,6 +30,7 @@ import {
   newDisabilityFollowUp,
   vaMedicalRecords,
   paymentInformation,
+  claimExamsInfo,
   homelessOrAtRisk
 } from '../pages';
 
@@ -183,6 +184,7 @@ const formConfig = {
       }
     },
     supportingEvidence: {
+      title: 'Supporting Evidence',
       pages: {
         vaMedicalRecords: {
           title: 'VA Medical Records',
@@ -190,6 +192,12 @@ const formConfig = {
           // depends: (formData) => formData['view:something'] === true,
           uiSchema: vaMedicalRecords.uiSchema,
           schema: vaMedicalRecords.schema
+        },
+        howClaimsWork: {
+          title: 'How claim exams work',
+          path: 'how-claim-exams-work',
+          uiSchema: claimExamsInfo.uiSchema,
+          schema: claimExamsInfo.schema
         }
       }
     },

@@ -120,7 +120,7 @@
   },
   {
     "column": 2,
-    "href": "#",
+    "href": "/welcome-kit/",
     "order": 11,
     "target": null,
     "title": "Print Your VA Welcome Kit"
@@ -235,7 +235,7 @@
     "href": "https://www.va.gov/orm/NOFEAR_Select.asp",
     "order": 4,
     "target": null,
-    "title": "No Fear Act"
+    "title": "No FEAR Act"
   },
   {
     "column": "bottom_rail",
@@ -267,43 +267,36 @@
   },
   {
     "column": "bottom_rail",
-    "href": "https://www.va.gov/site_map.htm",
-    "order": 9,
-    "target": null,
-    "title": "Site Index"
-  },
-  {
-    "column": "bottom_rail",
     "href": "https://www.va.gov/transparency/",
-    "order": 10,
+    "order": 9,
     "target": null,
     "title": "Transparency"
   },
   {
     "column": "bottom_rail",
     "href": "https://www.usa.gov",
-    "order": 11,
+    "order": 10,
     "target": "_blank",
     "title": "USA.gov"
   },
   {
     "column": "bottom_rail",
     "href": "https://www.va.gov/webpolicylinks.asp",
-    "order": 12,
+    "order": 11,
     "target": null,
     "title": "Web Policies"
   },
   {
     "column": "bottom_rail",
     "href": "https://www.va.gov/accountability/",
-    "order": 13,
+    "order": 12,
     "target": null,
     "title": "Whistleblower Rights and Protections"
   },
   {
     "column": "bottom_rail",
     "href": "https://www.whitehouse.gov",
-    "order": 14,
+    "order": 13,
     "target": "_blank",
     "title": "White House"
   }
