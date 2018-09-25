@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import defaultLinkData from '../mega-menu-link-data.json';
-import authorizedUserLinkData from '../mega-menu-link-data-for-authorized-users.json';
+import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users.json';
 import { togglePanelOpen, toggleMobileDisplayHidden } from '../actions';
 import { isLoggedIn } from '../../../user/selectors';
 
@@ -15,10 +15,10 @@ export function flagCurrentPageInTopLevelLinks(links = [], pathName = window.loc
   });
 }
 
-export function getAuthorizedLinkData(loggedIn, authorizedLinks = authorizedUserLinkData, defaultLinks = defaultLinkData) {
+export function getAuthenticatedLinkData(loggedIn, authenticatedLinks = authenticatedUserLinkData, defaultLinks = defaultLinkData) {
   return [
     ...defaultLinks,
-    ...loggedIn ? authorizedLinks : []
+    ...loggedIn ? authenticatedLinks : []
   ];
 }
 
@@ -31,7 +31,7 @@ export class Main extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const data = flagCurrentPageInTopLevelLinks(getAuthorizedLinkData(isLoggedIn(state)));
+  const data = flagCurrentPageInTopLevelLinks(getAuthenticatedLinkData(isLoggedIn(state)));
 
   return {
     ...state.megaMenu,
