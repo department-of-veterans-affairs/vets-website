@@ -1,7 +1,6 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import _ from 'lodash';
-
 import {
   validateDisability,
   transformDisabilities,
@@ -229,7 +228,6 @@ describe('526 helpers', () => {
       expect(newFormData.veteran.primaryPhone).to.be.undefined;
       expect(newFormData.veteran.emailAddress).to.be.undefined;
       expect(newFormData.veteran.phoneEmailCard).to.exist;
-
       const { primaryPhone, emailAddress } = newFormData.veteran.phoneEmailCard;
       expect(primaryPhone).to.equal(formData.veteran.primaryPhone);
       expect(emailAddress).to.equal(formData.veteran.emailAddress);
@@ -240,7 +238,6 @@ describe('526 helpers', () => {
       from: '2012-04-01',
       to: '2015-04-01',
     };
-
     const formData = {
       reservesNationalGuardService: {
         obligationTermOfServiceDateRange: {
@@ -249,7 +246,6 @@ describe('526 helpers', () => {
         },
       },
     };
-
     it('adds obligation dates to the top level formData', () => {
       expect(transformObligationDates(formData)).to.deep.equal({
         obligationTermOfServiceDateRange: {
@@ -290,7 +286,6 @@ describe('526 helpers', () => {
       const pages = [];
       const formData = _.omit(initialData, 'disabilities');
       const metadata = {};
-
       expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({
         pages,
         formData,
@@ -304,7 +299,6 @@ describe('526 helpers', () => {
         someProperty: 'value',
       });
       const metadata = {};
-
       expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({
         pages,
         formData,
@@ -326,7 +320,6 @@ describe('526 helpers', () => {
         from: '2015-05-07',
         to: '2018-05-07',
       };
-
       const pages = [];
       const metadata = {};
       const formData = _.set(
@@ -339,14 +332,12 @@ describe('526 helpers', () => {
           },
         },
       );
-
       const newData = prefillTransformer(pages, formData, metadata);
       expect(newData.formData.obligationTermOfServiceDateRange).to.deep.equal(
         dateRange,
       );
     });
   });
-
   describe('get4142Selection', () => {
     const fullDisabilities = [
       {
@@ -367,32 +358,26 @@ describe('526 helpers', () => {
         'view:selected': true,
       },
     ];
-
     it('should return true when at least one disability has 4142 selected', () => {
       expect(get4142Selection(fullDisabilities)).to.equal(true);
     });
-
     it('should return false when disability not selected for increase', () => {
       const disabilities = fullDisabilities.slice(1, 2);
       expect(get4142Selection(disabilities)).to.equal(false);
     });
-
     it('should return false when disability has upload PMR selected', () => {
       const disabilities = fullDisabilities.slice(2, 3);
       expect(get4142Selection(disabilities)).to.equal(false);
     });
-
     it('should return false when disability has no PMR supporting evidence', () => {
       const disabilities = fullDisabilities.slice(3);
       expect(get4142Selection(disabilities)).to.equal(false);
     });
-
     it('should return false when no disabilities have 4142 selected', () => {
       const disabilities = fullDisabilities.slice(1);
       expect(get4142Selection(disabilities)).to.equal(false);
     });
   });
-
   describe('queryForFacilities', () => {
     const originalFetch = global.fetch;
     beforeEach(() => {
@@ -409,28 +394,23 @@ describe('526 helpers', () => {
         }),
       });
     });
-
     afterEach(() => {
       global.fetch = originalFetch;
     });
-
     it('should not call the api if the input length is < 3', () => {
       queryForFacilities('12');
       expect(global.fetch.called).to.be.false;
     });
-
     it('should call the api if the input length is >= 3', () => {
       queryForFacilities('123');
       expect(global.fetch.called).to.be.true;
     });
-
     it('should call the api with the input', () => {
       queryForFacilities('asdf');
       expect(global.fetch.firstCall.args[0]).to.contain(
         '/facilities/suggested?type%5B%5D=health&type%5B%5D=dod_health&name_part=asdf',
       );
     });
-
     it('should return the mapped data for autosuggest if successful', () => {
       // Doesn't matter what we call this with since our stub will always return the same thing
       const requestPromise = queryForFacilities('asdf');
@@ -441,7 +421,6 @@ describe('526 helpers', () => {
         ]);
       });
     });
-
     it('should return an empty array if unsuccessful', () => {
       global.fetch.resolves({ ok: false });
       // Doesn't matter what we call this with since our stub will always return the same thing
@@ -452,7 +431,6 @@ describe('526 helpers', () => {
       });
     });
   });
-
   describe('getReservesGuardData', () => {
     it('gets reserve & national guard data when available', () => {
       const formData = {
@@ -463,7 +441,6 @@ describe('526 helpers', () => {
         },
         waiveVABenefitsToRetainTrainingPay: false,
       };
-
       expect(getReservesGuardData(formData)).to.deep.equal(formData);
     });
     it('get title 10 data when available', () => {
@@ -480,7 +457,6 @@ describe('526 helpers', () => {
           anticipatedSeparationDate: '2099-05-03',
         },
       };
-
       expect(getReservesGuardData(formData)).to.deep.equal(
         _.omit(formData, 'view:isTitle10Activated'),
       );
@@ -493,7 +469,6 @@ describe('526 helpers', () => {
         },
         waiveVABenefitsToRetainTrainingPay: false,
       };
-
       expect(getReservesGuardData(formData)).to.equal(null);
     });
   });

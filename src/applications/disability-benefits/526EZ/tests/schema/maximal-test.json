@@ -39,7 +39,6 @@
            ],
            "view:uploadPrivateRecords":"yes",
            "view:privateRecordsChoiceHelp":{
-
            },
            "treatments":[
               {
@@ -57,13 +56,30 @@
                  }
               }
            ],
+           "providerFacility": [
+            {
+               "providerFacilityName": "Provider",
+               "treatmentDateRange": [
+                 {
+                   "from": "2000-03-03",
+                   "to": "2008-06-05"
+                 }
+                ],
+               "providerFacilityAddress": {
+                 "street": "14007 Wescott Ct",
+                 "city": "Bowie",
+                 "country": "USA",
+                 "state": "MD",
+                 "postalCode": "20715"
+               }
+            }
+       ],
            "view:selectableEvidenceTypes":{
               "view:vaMedicalRecords":true,
               "view:privateMedicalRecords":true,
               "view:otherEvidence":true
            },
            "view:evidenceTypeHelp":{
-
            },
            "name":"Diabetes mellitus0",
            "ratedDisabilityId":"0",
@@ -76,17 +92,14 @@
         {
            "view:uploadPrivateRecords":"no",
            "view:privateRecords4142Notice":{
-
            },
            "view:privateRecordsChoiceHelp":{
-
            },
            "view:selectableEvidenceTypes":{
               "view:privateMedicalRecords":true,
               "view:otherEvidence":false
            },
            "view:evidenceTypeHelp":{
-
            },
            "name":"Diabetes mellitus1",
            "ratedDisabilityId":"1",
@@ -94,7 +107,25 @@
            "diagnosticCode":5238,
            "ratingPercentage":100,
            "disabilityActionType":"INCREASE",
-           "view:selected":true
+           "view:selected":true,
+           "providerFacility": [
+            {
+              "providerFacilityName": "Another Provider",
+              "treatmentDateRange": [
+                {
+                "from": "2010-03-04",
+                  "to": "2012-02-03"
+               }
+              ],
+              "providerFacilityAddress": {
+                "street": "1234 test rd",
+                "city": "Testville",
+                "country": "USA",
+                "state": "AZ",
+                "postalCode:": "12345"
+              }
+            }
+          ]
         }
      ],
      "veteran":{
@@ -148,7 +179,6 @@
      "privacyAgreementAccepted":true,
      "standardClaim":false,
      "view:fdcWarning":{
-
      }
   }
 }
