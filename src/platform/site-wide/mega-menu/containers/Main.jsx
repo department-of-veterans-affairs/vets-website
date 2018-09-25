@@ -15,7 +15,7 @@ export function flagCurrentPageInTopLevelLinks(links = [], pathName = window.loc
   });
 }
 
-export function maybeAddAuthorizedLinkData(loggedIn, authorizedLinks = authorizedUserLinkData, defaultLinks = defaultLinkData) {
+export function getAuthorizedLinkData(loggedIn, authorizedLinks = authorizedUserLinkData, defaultLinks = defaultLinkData) {
   return [
     ...defaultLinks,
     ...loggedIn ? authorizedLinks : []
@@ -31,7 +31,7 @@ export class Main extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const data = flagCurrentPageInTopLevelLinks(maybeAddAuthorizedLinkData(isLoggedIn(state)));
+  const data = flagCurrentPageInTopLevelLinks(getAuthorizedLinkData(isLoggedIn(state)));
 
   return {
     ...state.megaMenu,

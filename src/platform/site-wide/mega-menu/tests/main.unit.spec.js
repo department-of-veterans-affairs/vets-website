@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import {
   flagCurrentPageInTopLevelLinks,
-  maybeMergeAuthenticatedLinkData
+  getAuthorizedLinkData
 } from '../containers/Main';
 
 describe('mega-menu', () => {
@@ -34,7 +34,7 @@ describe('mega-menu', () => {
         const defaultLinks = ['test0', 'test1'];
         const expectedResults = ['test0', 'test1', 'test2', 'test3'];
 
-        const actualResults = maybeMergeAuthenticatedLinkData(true, authenticatedLinks, defaultLinks);
+        const actualResults = getAuthorizedLinkData(true, authenticatedLinks, defaultLinks);
 
         expect(actualResults).to.eql(expectedResults);
       });
@@ -43,7 +43,7 @@ describe('mega-menu', () => {
         const defaultLinks = ['test0', 'test1'];
         const expectedResults = ['test0', 'test1'];
 
-        const actualResults = maybeMergeAuthenticatedLinkData(false, authenticatedLinks, defaultLinks);
+        const actualResults = getAuthorizedLinkData(false, authenticatedLinks, defaultLinks);
 
         expect(actualResults).to.eql(expectedResults);
       });
