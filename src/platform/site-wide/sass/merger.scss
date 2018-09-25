@@ -67,13 +67,19 @@
 
     .my-va-top-nav {
       margin-left: auto;
-      a {
-        padding: 1.6rem 0;
+      &.current-page {
+        margin-left: auto;
       }
     }
+
     .current-page {
       border-bottom: 5px solid;
       border-color: $color-blue;
+      margin-left: 1.6rem;
+      margin-right: 1.6rem;
+      a {
+        padding: 1.6rem 0;
+      }
     }
 
     .mm-marketing-container {

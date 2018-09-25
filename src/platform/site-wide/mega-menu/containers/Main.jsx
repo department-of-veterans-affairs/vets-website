@@ -31,8 +31,7 @@ export class Main extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-
-  const data = maybeMergeAuthenticatedLinkData(isLoggedIn(state), flagCurrentPageInTopLevelLinks(authenticatedUserLinkData));
+  const data = flagCurrentPageInTopLevelLinks(maybeMergeAuthenticatedLinkData(isLoggedIn(state)));
 
   return {
     ...state.megaMenu,
