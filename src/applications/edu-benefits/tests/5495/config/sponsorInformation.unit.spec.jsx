@@ -4,18 +4,25 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  submitForm,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../5495/config/form.js';
 
 describe('Edu 5495 sponsorInformation', () => {
-  const { schema, uiSchema } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
@@ -29,11 +36,14 @@ describe('Edu 5495 sponsorInformation', () => {
         schema={schema}
         onSubmit={onSubmit}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(3);
+    expect(
+      Array.from(formDOM.querySelectorAll('.usa-input-error')).length,
+    ).to.equal(3);
     expect(onSubmit.called).not.to.be.true;
   });
   it('should not allow ssn that matches relative ssn', () => {
@@ -46,31 +56,39 @@ describe('Edu 5495 sponsorInformation', () => {
         data={{
           relativeSocialSecurityNumber: '1231233333',
           'view:veteranId': {
-            veteranSocialSecurityNumber: '876554434'
-          }
+            veteranSocialSecurityNumber: '876554434',
+          },
         }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = findDOMNode(form);
     submitForm(form);
 
-    let hasSSNError = Array.from(formDOM.querySelectorAll('.usa-input-error input'))
-      .some(input => input.id === 'root_view:veteranId_veteranSocialSecurityNumber');
+    let hasSSNError = Array.from(
+      formDOM.querySelectorAll('.usa-input-error input'),
+    ).some(
+      input => input.id === 'root_view:veteranId_veteranSocialSecurityNumber',
+    );
 
     expect(hasSSNError).to.be.false;
 
-    const ssnField = Array.from(formDOM.querySelectorAll('input'))
-      .find(input => input.id === 'root_view:veteranId_veteranSocialSecurityNumber');
+    const ssnField = Array.from(formDOM.querySelectorAll('input')).find(
+      input => input.id === 'root_view:veteranId_veteranSocialSecurityNumber',
+    );
 
     ReactTestUtils.Simulate.change(ssnField, {
       target: {
-        value: '1231233333'
-      }
+        value: '1231233333',
+      },
     });
 
-    hasSSNError = Array.from(formDOM.querySelectorAll('.usa-input-error input'))
-      .some(input => input.id === 'root_view:veteranId_veteranSocialSecurityNumber');
+    hasSSNError = Array.from(
+      formDOM.querySelectorAll('.usa-input-error input'),
+    ).some(
+      input => input.id === 'root_view:veteranId_veteranSocialSecurityNumber',
+    );
 
     expect(hasSSNError).to.be.true;
   });

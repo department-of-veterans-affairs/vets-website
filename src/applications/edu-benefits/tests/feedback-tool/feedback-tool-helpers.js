@@ -1,7 +1,6 @@
 const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 const mock = require('../../../../platform/testing/e2e/mock-helpers.js');
 
-
 function initApplicationSubmitMock() {
   mock(null, {
     path: '/v0/gi_bill_feedbacks',
@@ -10,10 +9,10 @@ function initApplicationSubmitMock() {
       data: {
         attributes: {
           guid: '1234',
-          submittedAt: '2016-05-16'
-        }
-      }
-    }
+          submittedAt: '2016-05-16',
+        },
+      },
+    },
   });
   mock(null, {
     path: '/v0/gi_bill_feedbacks/1234',
@@ -24,17 +23,19 @@ function initApplicationSubmitMock() {
           state: 'success',
           parsedResponse: {
             caseNumber: '123fake-submission-id-567',
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    },
   });
 }
 
 function completeRelationshipInformation(client, data) {
-  client
-    .selectRadio('root_onBehalfOf', data.onBehalfOf);
-  client.waitForElementVisible('.usa-alert.usa-alert-info.no-background-image', Timeouts.slow);
+  client.selectRadio('root_onBehalfOf', data.onBehalfOf);
+  client.waitForElementVisible(
+    '.usa-alert.usa-alert-info.no-background-image',
+    Timeouts.slow,
+  );
 }
 
 function completeApplicantInformation(client, data) {
@@ -54,23 +55,33 @@ function completeContactInformation(client, data) {
   client
     .fillAddress('root_address', data.address)
     .fill('input[name="root_applicantEmail"]', data.applicantEmail)
-    .fill('input[name="root_view:applicantEmailConfirmation"]', data['view:applicantEmailConfirmation'])
+    .fill(
+      'input[name="root_view:applicantEmailConfirmation"]',
+      data['view:applicantEmailConfirmation'],
+    )
     .fill('input[name="root_phone"]', data.phone);
 }
 
 function completeBenefitInformation(client) {
-  client
-    .fillCheckbox('#root_educationDetails_programs_TATU');
+  client.fillCheckbox('#root_educationDetails_programs_TATU');
 }
 
 function completeSchoolInformation(client, data) {
-  client
-    .fillCheckbox('input[type="checkbox"]');
-  client.waitForElementPresent('input[name="root_educationDetails_school_view:manualSchoolEntry_name"]', Timeouts.slow);
+  client.fillCheckbox('input[type="checkbox"]');
+  client.waitForElementPresent(
+    'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]',
+    Timeouts.slow,
+  );
 
   client
-    .fill('input[name="root_educationDetails_school_view:manualSchoolEntry_name"]', data.educationDetails.school['view:manualSchoolEntry'].name)
-    .fillAddress('root_educationDetails_school_view:manualSchoolEntry_address', data.educationDetails.school['view:manualSchoolEntry'].address);
+    .fill(
+      'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]',
+      data.educationDetails.school['view:manualSchoolEntry'].name,
+    )
+    .fillAddress(
+      'root_educationDetails_school_view:manualSchoolEntry_address',
+      data.educationDetails.school['view:manualSchoolEntry'].address,
+    );
 }
 
 function completeIssueInformation(client, data) {
@@ -88,5 +99,5 @@ module.exports = {
   completeBenefitInformation,
   completeSchoolInformation,
   completeIssueInformation,
-  initApplicationSubmitMock
+  initApplicationSubmitMock,
 };

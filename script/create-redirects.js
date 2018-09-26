@@ -19,27 +19,24 @@ function getRedirectPage(redirectToPath) {
 
 function createRedirects(options) {
   return (files, metalsmith, done) => {
-
     for (const fileName of Object.keys(files)) {
       const fileData = files[fileName];
-      const {
-        aliases,
-        path: redirectToPath
-      } = fileData;
+      const { aliases, path: redirectToPath } = fileData;
 
       if (!aliases) continue;
 
       const redirectPage = {
-        contents: new Buffer(getRedirectPage(redirectToPath))
+        contents: new Buffer(getRedirectPage(redirectToPath)),
       };
 
       for (const alias of aliases) {
         let absolutePath = path.join(options.destination, alias);
-        if (!path.extname(absolutePath)) absolutePath = path.join(absolutePath, 'index.html');
+        if (!path.extname(absolutePath))
+          absolutePath = path.join(absolutePath, 'index.html');
 
         files[absolutePath] = {
           ...redirectPage,
-          path: absolutePath
+          path: absolutePath,
         };
       }
     }

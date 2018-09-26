@@ -2,7 +2,7 @@ import DashboardApp from './containers/DashboardApp';
 
 const routes = {
   path: '/',
-  component: DashboardApp
+  component: DashboardApp,
 };
 
 export default routes;

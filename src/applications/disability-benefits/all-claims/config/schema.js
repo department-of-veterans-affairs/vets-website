@@ -7,7 +7,7 @@ const serviceBranches = [
   'Marine Corps',
   'National Oceanic and Atmospheric Administration',
   'Navy',
-  'Public Health Service'
+  'Public Health Service',
 ];
 
 const schema = {
@@ -17,29 +17,27 @@ const schema = {
   definitions: {
     phone: {
       type: 'string',
-      pattern: '^\\d{10}$'
+      pattern: '^\\d{10}$',
     },
     date: {
-      pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
-      type: 'string'
+      pattern:
+        '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
+      type: 'string',
     },
     email: {
       type: 'string',
       minLength: 6,
       maxLength: 80,
-      pattern: '^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'
+      pattern:
+        '^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$',
     },
     address: {
       type: 'object',
-      required: [
-        'country',
-        'city',
-        'addressLine1'
-      ],
+      required: ['country', 'city', 'addressLine1'],
       properties: {
         country: {
           type: 'string',
-          'enum': [
+          enum: [
             'Afghanistan',
             'Albania',
             'Algeria',
@@ -76,7 +74,8 @@ const schema = {
             'Cambodia',
             'Cameroon',
             'Canada',
-            'Cape Verde', 'Cayman Islands',
+            'Cape Verde',
+            'Cayman Islands',
             'Central African Republic',
             'Chad',
             'Chile',
@@ -84,9 +83,9 @@ const schema = {
             'Colombia',
             'Comoros',
             'Congo, Democratic Republic of',
-            'Congo, People\'s Republic of',
+            "Congo, People's Republic of",
             'Costa Rica',
-            'Cote d\'Ivoire',
+            "Cote d'Ivoire",
             'Croatia',
             'Cuba',
             'Cyprus',
@@ -250,33 +249,33 @@ const schema = {
             'Western Samoa',
             'Yemen Arab Republic',
             'Zambia',
-            'Zimbabwe'
+            'Zimbabwe',
           ],
-          'default': 'USA'
+          default: 'USA',
         },
         addressLine1: {
           type: 'string',
           maxLength: 20,
-          pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$"
+          pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$",
         },
         addressLine2: {
           type: 'string',
           maxLength: 20,
-          pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$"
+          pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$",
         },
         addressLine3: {
           type: 'string',
           maxLength: 20,
-          pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$"
+          pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$",
         },
         city: {
           type: 'string',
           maxLength: 30,
-          pattern: "^([-a-zA-Z0-9'.#]([-a-zA-Z0-9'.# ])?)+$"
+          pattern: "^([-a-zA-Z0-9'.#]([-a-zA-Z0-9'.# ])?)+$",
         },
         state: {
           type: 'string',
-          'enum': [
+          enum: [
             'AL',
             'UM',
             'AS',
@@ -340,7 +339,7 @@ const schema = {
             'WI',
             'WY',
             'PI',
-            'MO'
+            'MO',
           ],
           enumNames: [
             'Alabama',
@@ -406,21 +405,21 @@ const schema = {
             'Wisconsin',
             'Wyoming',
             'Philippine Islands',
-            'Missouri'
-          ]
+            'Missouri',
+          ],
         },
         zipCode: {
           type: 'string',
-          pattern: '^\\d{5}(?:([-\\s]?)\\d{4})?$'
-        }
-      }
+          pattern: '^\\d{5}(?:([-\\s]?)\\d{4})?$',
+        },
+      },
     },
     forwardingAddress: {
       type: 'object',
       properties: {
         country: {
           type: 'string',
-          'enum': [
+          enum: [
             'Afghanistan',
             'Albania',
             'Algeria',
@@ -457,7 +456,8 @@ const schema = {
             'Cambodia',
             'Cameroon',
             'Canada',
-            'Cape Verde', 'Cayman Islands',
+            'Cape Verde',
+            'Cayman Islands',
             'Central African Republic',
             'Chad',
             'Chile',
@@ -465,9 +465,9 @@ const schema = {
             'Colombia',
             'Comoros',
             'Congo, Democratic Republic of',
-            'Congo, People\'s Republic of',
+            "Congo, People's Republic of",
             'Costa Rica',
-            'Cote d\'Ivoire',
+            "Cote d'Ivoire",
             'Croatia',
             'Cuba',
             'Cyprus',
@@ -631,33 +631,33 @@ const schema = {
             'Western Samoa',
             'Yemen Arab Republic',
             'Zambia',
-            'Zimbabwe'
+            'Zimbabwe',
           ],
-          'default': 'USA'
+          default: 'USA',
         },
         addressLine1: {
           type: 'string',
           maxLength: 35,
-          pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$"
+          pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$",
         },
         addressLine2: {
           type: 'string',
           maxLength: 35,
-          pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$"
+          pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$",
         },
         addressLine3: {
           type: 'string',
           maxLength: 35,
-          pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$"
+          pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$",
         },
         city: {
           type: 'string',
           maxLength: 30,
-          pattern: "^([-a-zA-Z0-9'.#]([-a-zA-Z0-9'.# ])?)+$"
+          pattern: "^([-a-zA-Z0-9'.#]([-a-zA-Z0-9'.# ])?)+$",
         },
         state: {
           type: 'string',
-          'enum': [
+          enum: [
             'AL',
             'UM',
             'AS',
@@ -721,7 +721,7 @@ const schema = {
             'WI',
             'WY',
             'PI',
-            'MO'
+            'MO',
           ],
           enumNames: [
             'Alabama',
@@ -787,33 +787,30 @@ const schema = {
             'Wisconsin',
             'Wyoming',
             'Philippine Islands',
-            'Missouri'
-          ]
+            'Missouri',
+          ],
         },
         zipCode: {
           type: 'string',
-          pattern: '^\\d{5}(?:([-\\s]?)\\d{4})?$'
+          pattern: '^\\d{5}(?:([-\\s]?)\\d{4})?$',
         },
         effectiveDate: {
-          $ref: '#/definitions/date'
-        }
-      }
+          $ref: '#/definitions/date',
+        },
+      },
     },
     dateRangeAllRequired: {
       type: 'object',
       properties: {
         from: {
-          $ref: '#/definitions/date'
+          $ref: '#/definitions/date',
         },
         to: {
-          $ref: '#/definitions/date'
-        }
+          $ref: '#/definitions/date',
+        },
       },
-      required: [
-        'from',
-        'to'
-      ]
-    }
+      required: ['from', 'to'],
+    },
   },
   properties: {
     alternateNames: {
@@ -828,22 +825,22 @@ const schema = {
             type: 'string',
             minLength: 1,
             maxLength: 30,
-            pattern: "^([a-zA-Z0-9-/']+( ?))+$"
+            pattern: "^([a-zA-Z0-9-/']+( ?))+$",
           },
           middle: {
             type: 'string',
             minLength: 1,
             maxLength: 30,
-            pattern: "^([a-zA-Z0-9-/']+( ?))+$"
+            pattern: "^([a-zA-Z0-9-/']+( ?))+$",
           },
           last: {
             type: 'string',
             minLength: 1,
             maxLength: 30,
-            pattern: "^([a-zA-Z0-9-/']+( ?))+$"
-          }
-        }
-      }
+            pattern: "^([a-zA-Z0-9-/']+( ?))+$",
+          },
+        },
+      },
     },
     serviceInformation: {
       type: 'object',
@@ -859,7 +856,7 @@ const schema = {
             properties: {
               serviceBranch: {
                 type: 'string',
-                'enum': [
+                enum: [
                   'Air Force',
                   'Air Force Reserve',
                   'Air National Guard',
@@ -873,32 +870,36 @@ const schema = {
                   'NOAA',
                   'Navy',
                   'Navy Reserve',
-                  'Public Health Service'
-                ]
+                  'Public Health Service',
+                ],
               },
               dateRange: {
-                $ref: '#/definitions/dateRangeAllRequired'
-              }
-            }
-          }
+                $ref: '#/definitions/dateRangeAllRequired',
+              },
+            },
+          },
         },
         reservesNationalGuardService: {
           type: 'object',
-          required: ['unitName', 'obligationTermOfServiceDateRange', 'waiveVABenefitsToRetainTrainingPay'],
+          required: [
+            'unitName',
+            'obligationTermOfServiceDateRange',
+            'waiveVABenefitsToRetainTrainingPay',
+          ],
           properties: {
             unitName: {
               type: 'string',
               maxLength: 256,
-              pattern: "^([a-zA-Z0-9\\-'.#][a-zA-Z0-9\\-'.# ]?)*$"
+              pattern: "^([a-zA-Z0-9\\-'.#][a-zA-Z0-9\\-'.# ]?)*$",
             },
             unitAddress: {
-              $ref: '#/definitions/address'
+              $ref: '#/definitions/address',
             },
             unitPhone: {
-              $ref: '#/definitions/phone'
+              $ref: '#/definitions/phone',
             },
             obligationTermOfServiceDateRange: {
-              $ref: '#/definitions/dateRangeAllRequired'
+              $ref: '#/definitions/dateRangeAllRequired',
             },
             receivingTrainingPay: {
               type: 'boolean',
@@ -907,40 +908,40 @@ const schema = {
               type: 'object',
               properties: {
                 title10ActivationDate: {
-                  $ref: '#/definitions/date'
+                  $ref: '#/definitions/date',
                 },
                 anticipatedSeparationDate: {
-                  $ref: '#/definitions/date'
+                  $ref: '#/definitions/date',
                 },
-              }
-            }
-          }
-        }
-      }
+              },
+            },
+          },
+        },
+      },
     },
     confinements: {
       type: 'array',
       minItems: 1,
       items: {
-        $ref: '#/definitions/dateRangeAllRequired'
-      }
+        $ref: '#/definitions/dateRangeAllRequired',
+      },
     },
     militaryRetiredPayBranch: {
       type: 'string',
-      'enum': serviceBranches
+      enum: serviceBranches,
     },
     waiveRetirementPay: {
-      type: 'boolean'
+      type: 'boolean',
     },
     separationPayDate: {
-      type: 'string'
+      type: 'string',
     },
     separationPayBranch: {
       type: 'string',
-      'enum': serviceBranches
+      enum: serviceBranches,
     },
     waiveTrainingPay: {
-      type: 'boolean'
+      type: 'boolean',
     },
     disabilities: {
       type: 'array',
@@ -951,58 +952,55 @@ const schema = {
         required: ['name', 'disabilityActionType'],
         properties: {
           name: {
-            type: 'string'
+            type: 'string',
           },
           disabilityActionType: {
             type: 'string',
-            'enum': ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN']
+            enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
           },
           ratedDisabilityId: {
-            type: 'string'
+            type: 'string',
           },
           ratingDecisionId: {
-            type: 'string'
+            type: 'string',
           },
           diagnosticCode: {
-            type: 'number'
+            type: 'number',
           },
           classificationCode: {
-            type: 'string'
+            type: 'string',
           },
           secondaryDisabilities: {
             type: 'array',
             maxItems: 100,
             items: {
               type: 'object',
-              required: [
-                'name',
-                'disabilityActionType'
-              ],
+              required: ['name', 'disabilityActionType'],
               properties: {
                 name: {
-                  type: 'string'
+                  type: 'string',
                 },
                 disabilityActionType: {
                   type: 'string',
-                  'enum': ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN']
+                  enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
                 },
                 ratedDisabilityId: {
-                  type: 'string'
+                  type: 'string',
                 },
                 ratingDecisionId: {
-                  type: 'string'
+                  type: 'string',
                 },
                 diagnosticCode: {
-                  type: 'number'
+                  type: 'number',
                 },
                 classificationCode: {
-                  type: 'string'
-                }
-              }
-            }
-          }
-        }
-      }
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
     },
     newDisabilities: {
       type: 'array',
@@ -1011,74 +1009,57 @@ const schema = {
         required: ['condition', 'cause', 'disabilityStartDate'],
         properties: {
           condition: {
-            type: 'string'
+            type: 'string',
           },
           cause: {
             type: 'string',
-            'enum': [
-              'NEW',
-              'SECONDARY',
-              'VA'
-            ]
+            enum: ['NEW', 'SECONDARY', 'VA'],
           },
           disabilityStartDate: {
             type: 'string',
-            format: 'date'
+            format: 'date',
           },
           primaryDisability: {
-            type: 'string'
+            type: 'string',
           },
           primaryDescription: {
-            type: 'string'
-          }
-        }
-      }
+            type: 'string',
+          },
+        },
+      },
     },
     mailingAddress: {
-      $ref: '#/definitions/address'
+      $ref: '#/definitions/address',
     },
     forwardingAddress: {
-      $ref: '#/definitions/forwardingAddress'
+      $ref: '#/definitions/forwardingAddress',
     },
     emailAddress: {
-      $ref: '#/definitions/email'
+      $ref: '#/definitions/email',
     },
     primaryPhone: {
-      $ref: '#/definitions/phone'
+      $ref: '#/definitions/phone',
     },
     homelessOrAtRisk: {
       type: 'string',
-      'enum': [
-        'no',
-        'homeless',
-        'atRisk'
-      ]
+      enum: ['no', 'homeless', 'atRisk'],
     },
     homelessHousingSituation: {
       type: 'string',
-      'enum': [
-        'shelter',
-        'notShelter',
-        'anotherPerson',
-        'other'
-      ]
+      enum: ['shelter', 'notShelter', 'anotherPerson', 'other'],
     },
     otherHomelessHousing: {
-      type: 'string'
+      type: 'string',
     },
     needToLeaveHousing: {
-      type: 'boolean'
+      type: 'boolean',
     },
     atRiskHousingSituation: {
       type: 'string',
-      'enum': [
-        'losingHousing',
-        'leavingShelter',
-        'other'
-      ]
+      enum: ['losingHousing', 'leavingShelter', 'other'],
     },
     otherAtRiskHousing: {
-      type: 'string'
+      type: 'string',
     },
     homelessnessContact: {
       type: 'object',
@@ -1087,14 +1068,14 @@ const schema = {
           type: 'string',
           minLength: 1,
           maxLength: 100,
-          pattern: "([a-zA-Z0-9-/']+( ?))*$"
+          pattern: "([a-zA-Z0-9-/']+( ?))*$",
         },
         phoneNumber: {
-          $ref: '#/definitions/phone'
-        }
-      }
-    }
-  }
+          $ref: '#/definitions/phone',
+        },
+      },
+    },
+  },
 };
 
 export default schema;

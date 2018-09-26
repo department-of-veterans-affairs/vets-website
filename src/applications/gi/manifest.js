@@ -4,5 +4,5 @@ module.exports = {
   entryName: 'gi',
   receiveContentProps({ path: rootUrl }) {
     this.rootUrl = `/${rootUrl}`;
-  }
+  },
 };

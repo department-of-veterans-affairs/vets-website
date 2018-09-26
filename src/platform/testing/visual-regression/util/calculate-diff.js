@@ -7,9 +7,10 @@ const DIFF_THRESHOLD = 0.01;
 // A wrapper around fs.readFile to return a promise
 function readFile(fileName) {
   return new Promise((resolve, reject) => {
-    fs.readFile(fileName, (err, result) => {
-      return err ? reject(err) : resolve(result);
-    });
+    fs.readFile(
+      fileName,
+      (err, result) => (err ? reject(err) : resolve(result)),
+    );
   });
 }
 
@@ -48,7 +49,12 @@ function createDiffImage(diffFileName, comparisonResult) {
 }
 
 // After executing the comparison operation, inspect the result object to create a diff image and run the test.
-function computeComparisonResult(browser, route, diffFileName, comparisonResult) {
+function computeComparisonResult(
+  browser,
+  route,
+  diffFileName,
+  comparisonResult,
+) {
   const misMatchPercentage = parseFloat(comparisonResult.misMatchPercentage);
   const changesExceedThreshold = misMatchPercentage > DIFF_THRESHOLD;
 
@@ -57,12 +63,12 @@ function computeComparisonResult(browser, route, diffFileName, comparisonResult)
 
   // When the images differ, chain additional operations to create the diff image file
   if (changesExceedThreshold) {
-
     // Create the directory first to prevent errors
-    return createDirectoryIfNotExist(diffFileName)
-
-      // Then actually write the diff file
-      .then(() => createDiffImage(diffFileName, comparisonResult));
+    return (
+      createDirectoryIfNotExist(diffFileName)
+        // Then actually write the diff file
+        .then(() => createDiffImage(diffFileName, comparisonResult))
+    );
   }
 
   // For consistency, return a resolved promise.
@@ -74,10 +80,7 @@ function calculateDiff(browser, route) {
   return new Promise((resolve, reject) => {
     const timeout = 5000;
     const [baselineFileName, diffFileName] = getFileNames(route);
-    const operations = [
-      readFile(baselineFileName),
-      takeScreenshot(browser)
-    ];
+    const operations = [readFile(baselineFileName), takeScreenshot(browser)];
 
     let isFinished = false;
 
@@ -96,7 +99,9 @@ function calculateDiff(browser, route) {
       .then(results => executeComparison(...results))
 
       // Process the results from the comparison
-      .then(comparisonResult => computeComparisonResult(browser, route, diffFileName, comparisonResult))
+      .then(comparisonResult =>
+        computeComparisonResult(browser, route, diffFileName, comparisonResult),
+      )
 
       // Calls to the wrapping function used for handling timeouts
       .then(val => {

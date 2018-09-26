@@ -14,9 +14,9 @@ export const claimExamsDescription = (
       Does everyone who files a disability claim need to have a claim exam?
     </h4>
     <p>
-      No. We’ll ask you to have a claim exam only if we need more information
-      to decide your claim. If you’ve provided enough supporting evidence for
-      your claimed disability, we won’t ask you to have a claim exam.
+      No. We’ll ask you to have a claim exam only if we need more information to
+      decide your claim. If you’ve provided enough supporting evidence for your
+      claimed disability, we won’t ask you to have a claim exam.
     </p>
   </div>
 );
@@ -32,10 +32,10 @@ export const claimExamsFAQ = (
     </CollapsiblePanel>
     <CollapsiblePanel panelName="What if I need to reschedule my exam appointment?">
       <p>
-          If you can’t make it to your scheduled exam, let us know right away.
-          You can most likely reschedule, but this may delay a decision on your
-          claim. If you need to reschedule your exam, please
-          call <a href="tel:1-800-827-1000">1-800-827-1000</a>.
+        If you can’t make it to your scheduled exam, let us know right away. You
+        can most likely reschedule, but this may delay a decision on your claim.
+        If you need to reschedule your exam, please call{' '}
+        <a href="tel:1-800-827-1000">1-800-827-1000</a>.
       </p>
     </CollapsiblePanel>
   </div>

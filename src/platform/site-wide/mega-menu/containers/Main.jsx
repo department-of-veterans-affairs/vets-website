@@ -9,51 +9,57 @@ import MegaMenu from '@department-of-veterans-affairs/formation/MegaMenu';
 
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
-export function flagCurrentPageInTopLevelLinks(links = [], pathName = window.location.pathname) {
-  return links.map(link => {
-    return pathName.endsWith(link.href) ? { ...link, currentPage: true } : link;
-  });
+export function flagCurrentPageInTopLevelLinks(
+  links = [],
+  pathName = window.location.pathname,
+) {
+  return links.map(
+    link =>
+      pathName.endsWith(link.href) ? { ...link, currentPage: true } : link,
+  );
 }
 
-export function getAuthorizedLinkData(loggedIn, authenticatedLinks = authenticatedUserLinkData, defaultLinks = defaultLinkData) {
-  return [
-    ...defaultLinks,
-    ...loggedIn ? authenticatedLinks : []
-  ];
+export function getAuthorizedLinkData(
+  loggedIn,
+  authenticatedLinks = authenticatedUserLinkData,
+  defaultLinks = defaultLinkData,
+) {
+  return [...defaultLinks, ...(loggedIn ? authenticatedLinks : [])];
 }
 
 export class Main extends React.Component {
   render() {
-    return (
-      <MegaMenu {...this.props}></MegaMenu>
-    );
+    return <MegaMenu {...this.props} />;
   }
 }
 
-const mapStateToProps = (state) => {
-  const data = flagCurrentPageInTopLevelLinks(getAuthorizedLinkData(isLoggedIn(state)));
+const mapStateToProps = state => {
+  const data = flagCurrentPageInTopLevelLinks(
+    getAuthorizedLinkData(isLoggedIn(state)),
+  );
 
   return {
     ...state.megaMenu,
-    data
+    data,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleDisplayHidden: (hidden) => {
-      dispatch(toggleMobileDisplayHidden(hidden));
-    },
-    toggleDropDown: (currentDropdown) => {
-      dispatch(togglePanelOpen(currentDropdown));
-    },
-    updateCurrentSection: (currentSection) => {
-      dispatch({
-        type: 'UPDATE_CURRENT_SECTION',
-        currentSection,
-      });
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  toggleDisplayHidden: hidden => {
+    dispatch(toggleMobileDisplayHidden(hidden));
+  },
+  toggleDropDown: currentDropdown => {
+    dispatch(togglePanelOpen(currentDropdown));
+  },
+  updateCurrentSection: currentSection => {
+    dispatch({
+      type: 'UPDATE_CURRENT_SECTION',
+      currentSection,
+    });
+  },
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Main);

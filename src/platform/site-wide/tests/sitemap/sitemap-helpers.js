@@ -9,15 +9,14 @@ const BUILD_BASE_URL = 'https://www.vets.gov';
 
 function sitemapURLs(callback) {
   fetch(SITEMAP_URL)
-    .then((res) => {
-      return res.text();
-    }).then((body) => {
+    .then(res => res.text())
+    .then(body => {
       const doc = libxmljs.parseXml(body);
 
       const urls = doc
         .find('//xmlns:loc', SITEMAP_LOC_NS)
         .map(n => n.text().replace(BUILD_BASE_URL, E2eHelpers.baseUrl))
-        .filter(url => !(url.endsWith('auth/login/callback/')));
+        .filter(url => !url.endsWith('auth/login/callback/'));
 
       // Whitelist of URLs to only test against the 'section508' rule set and not
       // the stricter 'wcag2a' rule set. For each URL added to this list, please
@@ -31,23 +30,27 @@ function sitemapURLs(callback) {
         // This is here because aXe bug flags the custom select component on this page
         '/facilities/',
         // This is here because an aXe bug flags the autosuggest component on this page
-        '/gi-bill-comparison-tool/'
+        '/gi-bill-comparison-tool/',
       ];
 
       callback(urls, onlyTest508Rules);
-    }).catch(callback);
+    })
+    .catch(callback);
 }
 
 function runTests(client, segment, only508List) {
   segment.forEach(url => {
     const only508 = only508List.filter(path => url.endsWith(path)).length > 0;
     client
-      .perform(() => { console.log(url); }) // eslint-disable-line no-console
+      .perform(() => {
+        console.log(url); // eslint-disable-line no-console
+      })
       .url(url)
       .waitForElementVisible('body', Timeouts.normal)
-      .axeCheck('document', only508 ?
-        { scope: url, rules: ['section508'] } :
-        { scope: url });
+      .axeCheck(
+        'document',
+        only508 ? { scope: url, rules: ['section508'] } : { scope: url },
+      );
   });
 }
 

@@ -43,7 +43,10 @@ class PrescriptionTable extends React.Component {
         rowClass: attrs.refillRemaining === 0 ? 'no-refills' : '',
         prescriptionName: (
           <div>
-            <Link to={`/${attrs.prescriptionId}`} className="rx-prescription-name">
+            <Link
+              to={`/${attrs.prescriptionId}`}
+              className="rx-prescription-name"
+            >
               {attrs.prescriptionName}
             </Link>
             <span>Prescription #: {item.id}</span>
@@ -53,7 +56,13 @@ class PrescriptionTable extends React.Component {
         refillDate: formatDate(attrs.refillDate),
         facilityName: attrs.facilityName,
         refillsLeft: attrs.refillRemaining,
-        refillStatus: <RefillStatus {...item} glossaryModalHandler={this.props.glossaryModalHandler} refillModalHandler={this.props.refillModalHandler}/>,
+        refillStatus: (
+          <RefillStatus
+            {...item}
+            glossaryModalHandler={this.props.glossaryModalHandler}
+            refillModalHandler={this.props.refillModalHandler}
+          />
+        ),
       };
     });
 
@@ -63,7 +72,8 @@ class PrescriptionTable extends React.Component {
         currentSort={this.props.currentSort}
         data={data}
         fields={fields}
-        onSort={this.props.handleSort}/>
+        onSort={this.props.handleSort}
+      />
     );
   }
 }

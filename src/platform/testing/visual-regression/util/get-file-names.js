@@ -2,7 +2,10 @@ const path = require('path');
 const mkdirp = require('mkdirp');
 const { baseUrl } = require('../../e2e/helpers');
 
-const screenshotDirectory = path.join(__dirname, '../../../../../logs/visual-regression');
+const screenshotDirectory = path.join(
+  __dirname,
+  '../../../../../logs/visual-regression',
+);
 const baselineDir = path.join(screenshotDirectory, '/baseline');
 const diffDir = path.join(screenshotDirectory, '/diffs');
 
@@ -20,13 +23,11 @@ function getFileNames(route) {
 function createDirectoryIfNotExist(filePath) {
   const directory = path.dirname(filePath);
   return new Promise((resolve, reject) => {
-    mkdirp(directory, err => {
-      return err ? reject(err) : resolve();
-    });
+    mkdirp(directory, err => (err ? reject(err) : resolve()));
   });
 }
 
 module.exports = {
   getFileNames,
-  createDirectoryIfNotExist
+  createDirectoryIfNotExist,
 };

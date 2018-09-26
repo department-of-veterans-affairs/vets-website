@@ -5,10 +5,12 @@ const lowerEnvironments = [
   'staging',
   'preview',
   'vagovdev',
-  'vagovstaging'
+  'vagovstaging',
 ];
 
-const mhvDomain = lowerEnvironments.includes(__BUILDTYPE__) ? 'https://mhv-syst.myhealth.va.gov' : 'https://www.myhealth.va.gov';
+const mhvDomain = lowerEnvironments.includes(__BUILDTYPE__)
+  ? 'https://mhv-syst.myhealth.va.gov'
+  : 'https://www.myhealth.va.gov';
 
 const urlMap = {
   '/health-care/secure-messaging/': `${mhvDomain}/mhv-portal-web/secure-messaging`,
@@ -19,7 +21,7 @@ const urlMap = {
 
   '/health-care/view-test-and-lab-results/': `${mhvDomain}/mhv-portal-web/labs-tests`,
 
-  '/claim-or-appeal-status/': '/track-claims/'
+  '/claim-or-appeal-status/': '/track-claims/',
 };
 
 export default function createCallToActionWidget() {

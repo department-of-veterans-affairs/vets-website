@@ -4,7 +4,7 @@ import {
   SEND_FEEDBACK,
   FEEDBACK_RECEIVED,
   FEEDBACK_ERROR,
-  CLEAR_FEEDBACK_ERROR
+  CLEAR_FEEDBACK_ERROR,
 } from '../actions';
 
 const initialState = {
@@ -16,12 +16,12 @@ const initialState = {
   formValues: {
     description: '',
     email: '',
-    shouldSendResponse: false
+    shouldSendResponse: false,
   },
   formErrors: {
     description: '',
-    email: ''
-  }
+    email: '',
+  },
 };
 
 function feedbackReducer(state = initialState, action) {
@@ -29,29 +29,33 @@ function feedbackReducer(state = initialState, action) {
     case REVEAL_FORM:
       return {
         ...state,
-        formIsVisible: true
+        formIsVisible: true,
       };
-    case SET_FORM_VALUES:
-    {
+    case SET_FORM_VALUES: {
       const formValues = { ...state.formValues, ...action.formValues };
       const formErrors = { ...state.formErrors, ...action.formErrors };
 
       let formIsSubmittable = true;
-      if (!formValues.description || formErrors.description) formIsSubmittable = false;
-      else if (formValues.shouldSendResponse && (!formValues.email || formErrors.email)) formIsSubmittable = false;
+      if (!formValues.description || formErrors.description)
+        formIsSubmittable = false;
+      else if (
+        formValues.shouldSendResponse &&
+        (!formValues.email || formErrors.email)
+      )
+        formIsSubmittable = false;
 
       return {
         ...state,
         formIsSubmittable,
         formValues,
-        formErrors
+        formErrors,
       };
     }
     case SEND_FEEDBACK:
       return {
         ...state,
         requestPending: true,
-        errorMessage: null
+        errorMessage: null,
       };
     case FEEDBACK_RECEIVED:
       return {
@@ -63,12 +67,12 @@ function feedbackReducer(state = initialState, action) {
       return {
         ...state,
         requestPending: false,
-        errorMessage: action.message
+        errorMessage: action.message,
       };
     case CLEAR_FEEDBACK_ERROR:
       return {
         ...state,
-        errorMessage: null
+        errorMessage: null,
       };
     default:
       return state;

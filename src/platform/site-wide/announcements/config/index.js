@@ -9,25 +9,25 @@ const config = {
       name: 'dashboard-intro',
       paths: /^(\/dashboard\/)$/,
       component: DashboardIntro,
-      relatedAnnouncements: ['personalization']
+      relatedAnnouncements: ['personalization'],
     },
     {
       name: 'profile-360-intro',
       paths: /^(\/profile\/)$/,
       component: Profile360Intro,
-      relatedAnnouncements: ['personalization']
+      relatedAnnouncements: ['personalization'],
     },
     {
       name: 'claim-increase',
       paths: /disability-benefits\/apply\/$/,
-      component: ClaimIncreaseBanner
+      component: ClaimIncreaseBanner,
     },
     {
       name: 'personalization',
       paths: /(.)/,
-      component: PersonalizationBanner
-    }
-  ]
+      component: PersonalizationBanner,
+    },
+  ],
 };
 
 export default config;

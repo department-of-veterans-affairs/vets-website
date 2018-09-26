@@ -4,5 +4,5 @@ module.exports = {
   entryName: 'vic-v2',
   receiveContentProps({ path: rootUrl }) {
     this.rootUrl = `/${rootUrl}`;
-  }
+  },
 };

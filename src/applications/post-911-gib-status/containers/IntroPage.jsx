@@ -14,17 +14,18 @@ export class IntroPage extends React.Component {
     this.props.getServiceAvailability();
   }
 
-
   getContent() {
     let content;
     switch (this.props.serviceAvailability) {
       case SERVICE_AVAILABILITY_STATES.unrequested: {
         // This is never actually even seen
-        content = (<div></div>);
+        content = <div />;
         break;
       }
       case SERVICE_AVAILABILITY_STATES.pending: {
-        content = <LoadingIndicator message="Please wait while we check if the tool is available."/>;
+        content = (
+          <LoadingIndicator message="Please wait while we check if the tool is available." />
+        );
         break;
       }
       case SERVICE_AVAILABILITY_STATES.up: {
@@ -32,20 +33,54 @@ export class IntroPage extends React.Component {
         content = (
           <div>
             <h2>How can I review my Post-9/11 GI Bill benefits?</h2>
-            <p>The Post-9/11 GI Bill Benefits tool is available for you during these hours, Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).</p>
-            <Link id="viewGIBS" to="status" className="usa-button va-button-primary">View Your GI Bill Benefits</Link>
+            <p>
+              The Post-9/11 GI Bill Benefits tool is available for you during
+              these hours, Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET),
+              and Saturday 6:00 a.m. to 7:00 p.m. (ET).
+            </p>
+            <Link
+              id="viewGIBS"
+              to="status"
+              className="usa-button va-button-primary"
+            >
+              View Your GI Bill Benefits
+            </Link>
             <h2>What if I’m having trouble accessing my benefit statement?</h2>
-            <p>Your Post-9/11 GI Bill Statement of Benefits might not be available if one of these is true:
+            <p>
+              Your Post-9/11 GI Bill Statement of Benefits might not be
+              available if one of these is true:
               <ul>
-                <li>The name on your Vets.gov account doesn’t exactly match the name we have in our Post-9/11 GI Bill records.</li>
-                <li>We’re still processing your education benefits application and we haven’t yet created a record for you. We usually process applications within 60 days. If you applied less than 60 days ago, please check back soon.</li>
-                <li>You haven’t yet applied for Post-9/11 GI Bill education benefits. <a href="/education/apply/" target="_blank">Apply for education benefits.</a>
+                <li>
+                  The name on your Vets.gov account doesn’t exactly match the
+                  name we have in our Post-9/11 GI Bill records.
                 </li>
-                <li>You’re not eligible for Post-9/11 GI Bill education benefits.</li>
-                <li>You’re trying to access the tool during its scheduled downtime. The tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).</li>
+                <li>
+                  We’re still processing your education benefits application and
+                  we haven’t yet created a record for you. We usually process
+                  applications within 60 days. If you applied less than 60 days
+                  ago, please check back soon.
+                </li>
+                <li>
+                  You haven’t yet applied for Post-9/11 GI Bill education
+                  benefits.{' '}
+                  <a href="/education/apply/" target="_blank">
+                    Apply for education benefits.
+                  </a>
+                </li>
+                <li>
+                  You’re not eligible for Post-9/11 GI Bill education benefits.
+                </li>
+                <li>
+                  You’re trying to access the tool during its scheduled
+                  downtime. The tool is available Sunday through Friday, 6:00
+                  a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m.
+                  (ET).
+                </li>
               </ul>
-              If none of the above situations applies to you, and you think your Statement of Benefits should be here, please call the Vets.gov Help Desk at 1-855-574-7286. We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
-
+              If none of the above situations applies to you, and you think your
+              Statement of Benefits should be here, please call the Vets.gov
+              Help Desk at 1-855-574-7286. We’re here Monday through Friday,
+              8:00 a.m. to 8:00 p.m. (ET).
             </p>
           </div>
         );
@@ -56,8 +91,16 @@ export class IntroPage extends React.Component {
         content = (
           <div className="usa-alert usa-alert-warning">
             <div className="usa-alert-body">
-              <h3>The Post-9/11 GI Bill Benefits tool is down for maintenance right now</h3>
-              <p className="usa-alert-text">You can use the Post-9/11 GI Bill Benefits tool Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET). We do regular maintenance on the tool outside of these hours, and during that time you won't be able to use it.</p>
+              <h3>
+                The Post-9/11 GI Bill Benefits tool is down for maintenance
+                right now
+              </h3>
+              <p className="usa-alert-text">
+                You can use the Post-9/11 GI Bill Benefits tool Sunday through
+                Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to
+                7:00 p.m. (ET). We do regular maintenance on the tool outside of
+                these hours, and during that time you won't be able to use it.
+              </p>
             </div>
           </div>
         );
@@ -67,14 +110,13 @@ export class IntroPage extends React.Component {
     return content;
   }
 
-
   render() {
     const gibsWarning = (
       <div className="usa-alert usa-alert-warning intro-warning">
         <div className="usa-alert-body">
           We’re sorry. Something’s not working quite right with the GI Bill
-          benefits tool. We’re working to fix the problem. If you encounter
-          any errors, please try again later.
+          benefits tool. We’re working to fix the problem. If you encounter any
+          errors, please try again later.
         </div>
       </div>
     );
@@ -83,31 +125,39 @@ export class IntroPage extends React.Component {
     return (
       <div className="row">
         <div className="medium-8 columns">
-          {this.props.serviceAvailability === SERVICE_AVAILABILITY_STATES.up && gibsWarning}
+          {this.props.serviceAvailability === SERVICE_AVAILABILITY_STATES.up &&
+            gibsWarning}
           <h1>Post-9/11 GI Bill Statement of Benefits</h1>
           <p>
-            If you served on active duty after September 10, 2001, you and your dependents may qualify for Post-9/11 GI Bill education benefits. These benefits can help cover all or some of the costs for school or training. If you’ve been awarded Post-9/11 GI Bill benefits, you can review your GI Bill Statement of Benefits and track the amount of time you have left to use for your education or training.
+            If you served on active duty after September 10, 2001, you and your
+            dependents may qualify for Post-9/11 GI Bill education benefits.
+            These benefits can help cover all or some of the costs for school or
+            training. If you’ve been awarded Post-9/11 GI Bill benefits, you can
+            review your GI Bill Statement of Benefits and track the amount of
+            time you have left to use for your education or training.
           </p>
           {content}
-          <br/>
-          <br/>
-          <br/>
+          <br />
+          <br />
+          <br />
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { serviceAvailability } = state.post911GIBStatus;
   return {
-    serviceAvailability
+    serviceAvailability,
   };
 };
 
 const mapDispatchToProps = {
-  getServiceAvailability
+  getServiceAvailability,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(IntroPage);
-
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IntroPage);

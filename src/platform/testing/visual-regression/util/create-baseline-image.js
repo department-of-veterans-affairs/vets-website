@@ -4,7 +4,9 @@ const { getFileNames } = require('./get-file-names');
 // Uses Nightwatch's native screenshot function to take a screenshot.
 function createBaselineImage(browser, route) {
   const [baselineFileName] = getFileNames(route);
-  return new Promise(resolve => browser.saveScreenshot(baselineFileName, resolve));
+  return new Promise(resolve =>
+    browser.saveScreenshot(baselineFileName, resolve),
+  );
 }
 
 module.exports = createBaselineImage;

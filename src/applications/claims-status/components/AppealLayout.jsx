@@ -7,7 +7,9 @@ export default function AppealLayout({ children }) {
     <div>
       <div className="row">
         <Breadcrumbs>
-          <li><Link to="your-claims">Track Your Claims and Appeals</Link></li>
+          <li>
+            <Link to="your-claims">Track Your Claims and Appeals</Link>
+          </li>
         </Breadcrumbs>
       </div>
       {children}

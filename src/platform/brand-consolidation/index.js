@@ -14,5 +14,5 @@ export default {
 
   isProduction() {
     return document.location.hostname === PRODUCTION_VA_DOMAIN;
-  }
+  },
 };

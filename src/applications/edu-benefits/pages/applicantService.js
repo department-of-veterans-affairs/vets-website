@@ -12,23 +12,23 @@ export default function applicantServicePage(currentSchema) {
   return {
     title: 'Applicant service',
     path: 'applicant/service',
-    initialData: {
-    },
+    initialData: {},
     uiSchema: {
       'ui:title': 'Applicant service',
       'view:applicantServed': {
-        'ui:title': 'Have you ever served on active duty in the armed services?',
-        'ui:widget': 'yesNo'
+        'ui:title':
+          'Have you ever served on active duty in the armed services?',
+        'ui:widget': 'yesNo',
       },
       toursOfDuty: _.merge(toursOfDuty.uiSchema, {
         'ui:options': {
-          expandUnder: 'view:applicantServed'
+          expandUnder: 'view:applicantServed',
         },
         'ui:required': form => _.get('view:applicantServed', form),
         items: {
-          serviceStatus: { 'ui:title': 'Type of separation or discharge' }
-        }
-      })
+          serviceStatus: { 'ui:title': 'Type of separation or discharge' },
+        },
+      }),
     },
     schema: {
       type: 'object',
@@ -37,17 +37,13 @@ export default function applicantServicePage(currentSchema) {
       required: ['view:applicantServed'],
       properties: {
         'view:applicantServed': {
-          type: 'boolean'
+          type: 'boolean',
         },
         toursOfDuty: toursOfDuty.schema(currentSchema, {
-          fields: [
-            'serviceBranch',
-            'dateRange',
-            'serviceStatus'
-          ],
-          required: ['serviceBranch', 'dateRange.from']
-        })
-      }
-    }
+          fields: ['serviceBranch', 'dateRange', 'serviceStatus'],
+          required: ['serviceBranch', 'dateRange.from'],
+        }),
+      },
+    },
   };
 }

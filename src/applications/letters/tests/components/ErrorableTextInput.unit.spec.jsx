@@ -11,9 +11,16 @@ chai.use(chaiAsPromised);
 describe('<ErrorableTextInput>', () => {
   it('should render the value prop', () => {
     const errorableInput = ReactTestUtils.renderIntoDocument(
-      <ErrorableTextInput value="something" label="test" onValueChange={() => {}}/>
+      <ErrorableTextInput
+        value="something"
+        label="test"
+        onValueChange={() => {}}
+      />,
     );
-    const input = ReactTestUtils.findRenderedDOMComponentWithTag(errorableInput, 'input');
+    const input = ReactTestUtils.findRenderedDOMComponentWithTag(
+      errorableInput,
+      'input',
+    );
     expect(input.value).to.equal('something');
   });
 
@@ -22,11 +29,20 @@ describe('<ErrorableTextInput>', () => {
 
     const updatePromise = new Promise((resolve, _reject) => {
       errorableInput = ReactTestUtils.renderIntoDocument(
-        <ErrorableTextInput value={''} label="test" onValueChange={(update) => { resolve(update); }}/>
+        <ErrorableTextInput
+          value={''}
+          label="test"
+          onValueChange={update => {
+            resolve(update);
+          }}
+        />,
       );
     });
 
-    const input = ReactTestUtils.findRenderedDOMComponentWithTag(errorableInput, 'input');
+    const input = ReactTestUtils.findRenderedDOMComponentWithTag(
+      errorableInput,
+      'input',
+    );
     input.value = 'newValue';
     ReactTestUtils.Simulate.change(input);
 
@@ -35,7 +51,12 @@ describe('<ErrorableTextInput>', () => {
 
   it('no error styles when errorMessage undefined', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableTextInput value={''} label="my label" onValueChange={(_update) => {}}/>);
+      <ErrorableTextInput
+        value={''}
+        label="my label"
+        onValueChange={_update => {}}
+      />,
+    );
 
     // No error classes.
     expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(0);
@@ -55,7 +76,13 @@ describe('<ErrorableTextInput>', () => {
 
   it('has error styles when errorMessage is set', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableTextInput value={''} label="my label" errorMessage="error message" onValueChange={(_update) => {}}/>);
+      <ErrorableTextInput
+        value={''}
+        label="my label"
+        errorMessage="error message"
+        onValueChange={_update => {}}
+      />,
+    );
 
     // Ensure all error classes set.
     expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(1);
@@ -72,19 +99,32 @@ describe('<ErrorableTextInput>', () => {
     const inputs = tree.everySubTree('input');
     expect(inputs).to.have.lengthOf(1);
     expect(inputs[0].props['aria-describedby']).to.not.be.undefined;
-    expect(inputs[0].props['aria-describedby']).to.equal(errorMessages[0].props.id);
+    expect(inputs[0].props['aria-describedby']).to.equal(
+      errorMessages[0].props.id,
+    );
   });
 
   it('required=false does not have required asterisk', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableTextInput value={''} label="my label" onValueChange={(_update) => {}}/>);
+      <ErrorableTextInput
+        value={''}
+        label="my label"
+        onValueChange={_update => {}}
+      />,
+    );
 
     expect(tree.everySubTree('label')[0].text()).to.equal('my label');
   });
 
   it('required=true has required asterisk', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableTextInput value={''} label="my label" required onValueChange={(_update) => {}}/>);
+      <ErrorableTextInput
+        value={''}
+        label="my label"
+        required
+        onValueChange={_update => {}}
+      />,
+    );
 
     const label = tree.everySubTree('label');
     expect(label[0].text()).to.equal('my label*');
@@ -92,7 +132,12 @@ describe('<ErrorableTextInput>', () => {
 
   it('label attribute propagates', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableTextInput value={''} label="my label" onValueChange={(_update) => {}}/>);
+      <ErrorableTextInput
+        value={''}
+        label="my label"
+        onValueChange={_update => {}}
+      />,
+    );
 
     // Ensure label text is correct.
     const labels = tree.everySubTree('label');

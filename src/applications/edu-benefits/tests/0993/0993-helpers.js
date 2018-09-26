@@ -11,10 +11,10 @@ function initApplicationSubmitMock(form) {
         attributes: {
           confirmationNumber: '123fake-submission-id-567',
           submittedAt: '2016-05-16',
-          regionalOffice: 'Test'
-        }
-      }
-    }
+          regionalOffice: 'Test',
+        },
+      },
+    },
   });
 }
 
@@ -28,5 +28,5 @@ function completeClaimantInformation(client, data) {
 
 module.exports = {
   completeClaimantInformation,
-  initApplicationSubmitMock
+  initApplicationSubmitMock,
 };
