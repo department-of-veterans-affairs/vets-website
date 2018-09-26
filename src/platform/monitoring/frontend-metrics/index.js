@@ -5,6 +5,7 @@
 
 import isMetricsEnabled from './feature-flag';
 import withinMetricsSample from './sample-rate';
+import embedMetrics from './metrics';
 
 /**
  * Check to see if we want to run metrics. If so, import and initiate the metrics.
@@ -16,15 +17,7 @@ import withinMetricsSample from './sample-rate';
 
 export default function startMetrics() {
   if (isMetricsEnabled() && withinMetricsSample()) {
-    import('./metrics')
-      .then(metrics => {
-        metrics.embedMetrics();
-        return true;
-      })
-    /* eslint-disable no-console */
-      .catch(error => {
-        console.error(error);
-      });
+    embedMetrics();
   }
   return false;
 }

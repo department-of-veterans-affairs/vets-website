@@ -3,10 +3,13 @@
  * Leverages the Performance interface in modern browsers.
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Performance
+ * @module platform/monitoring/frontend-metrics/metrics
  */
 
 import environment from '../../utilities/environment';
+import './whitelisted-paths';
 import Raven from 'raven-js';
+import { whitelistedPaths } from './whitelisted-paths';
 
 /**
  * Returns false if Paint timing is not supported or the time of first-contentful-paint if present.
@@ -110,6 +113,10 @@ function canCaptureMetrics() {
   return true;
 }
 
+function isWhitelisted() {
+  return !!whitelistedPaths.includes(window.location.pathname.slice(0, -1));
+}
+
 /**
  * Add a metricsObserver to the page after load event is complete.
  */
@@ -120,7 +127,7 @@ function addMetricsObserver() {
 }
 
 export default function embedMetrics() {
-  if (canCaptureMetrics()) {
+  if (canCaptureMetrics() && isWhitelisted()) {
     addMetricsObserver();
     return true;
   }
