@@ -17,15 +17,14 @@ import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
-import { getDisabilityName } from '../all-claims/utils';
+import {
+  getDisabilityName,
+  transformDisabilities
+} from '../all-claims/utils';
 
 import {
-  VA_FORM4142_URL,
+  VA_FORM4142_URL
 } from './constants';
-
-import {
-  SERVICE_CONNECTION_TYPES
-} from '../all-claims/constants';
 
 /**
  * Inspects an array of objects, and attempts to aggregate subarrays at a given property
@@ -154,14 +153,6 @@ export function validateDisability(disability) {
     return false;
   }
   return true;
-}
-
-
-export function transformDisabilities(disabilities = []) {
-  return disabilities
-    // We want to remove disabilities that aren't service-connected
-    .filter(disability => disability.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected)
-    .map(disability => set('disabilityActionType', 'INCREASE', disability));
 }
 
 

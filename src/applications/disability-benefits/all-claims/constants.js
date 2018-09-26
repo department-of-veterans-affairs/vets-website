@@ -128,6 +128,6 @@ export const HOMELESS_HOUSING_TYPES = {
 };
 
 export const SERVICE_CONNECTION_TYPES = {
-  notConnected: 'NOTSVCCON',
-  serviceConnected: 'SVCCONNECTED'
+  notServiceConnected: 'NOTSVCCON',
+  serviceConnected: 'SVCCONNCTED'
 };
