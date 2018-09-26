@@ -96,7 +96,6 @@ You can use your GI Bill benefits in many ways to advance your education and tra
 **Work toward a degree:**
 
 - [Undergraduate and graduate degrees](/education/gi-bill/higher-learning/)
-- [Tuition Assistance Top-Up](/education/gi-bill/tuition-assistance/)
 - [Tutorial Assistance](/education/gi-bill/tutorial-assistance/)
 
 **Train for a specific career, trade, or industry:**
@@ -117,7 +116,9 @@ You can use your GI Bill benefits in many ways to advance your education and tra
 - [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
 - [Independent and distance learning](/education/work-learn/non-traditional/independent-distance-learning/)
 
-**New subhead goes here:**
+**Get increased or faster payments:**
+
+- [Tuition Assistance Top-Up](/education/gi-bill/tuition-assistance/)
 - [Accelerated payments for high-tech programs](/education/work-learn/non-traditional/accelerated-payments/)
 - [$600 Buy-Up program](/education/gi-bill/buy-up-program/): While on active duty, you can pay into this program up to a maximum (the highest amount allowed) of $600 to get increased monthly benefits. If you pay the maximum amount, you can qualify for up to $5,400 in added GI Bill benefits.
 
