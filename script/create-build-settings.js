@@ -10,7 +10,6 @@ function getBuildSettings(options) {
     type: options.buildtype,
     brandConsolidationEnabled: !!options['brand-consolidation-enabled'],
     metrics: {
-      enabled: !!options['frontend-metrics-enabled'],
       samplePercentage: options['metrics-sample-percentage'],
     },
     vic: {

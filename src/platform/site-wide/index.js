@@ -10,19 +10,13 @@ import './moment-setup';
 import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
+import startMetrics from '../monitoring/frontend-metrics';
 import startMobileMenuButton from './mobile-menu-button';
 import startFeedbackWidget from './feedback';
 import startAnnouncementWidget from './announcements';
 import startVAFooter from './va-footer';
 
 import brandConsolidation from '../brand-consolidation';
-
-if (!brandConsolidation.isEnabled()) {
-  require('./usa-banner-toggle');
-}
-import isMetricsEnabled from '../frontend-metrics/feature-flag';
-import withinMetricsSample from '../frontend-metrics/sample-rate';
-import startMetrics from '../frontend-metrics/metrics';
 
 /**
  * Start up the site-wide components that live on every page, like
@@ -31,10 +25,6 @@ import startMetrics from '../frontend-metrics/metrics';
  * @param {Store} commonStore The Redux store being used by this application
  */
 export default function startSitewideComponents(commonStore) {
-  if (isMetricsEnabled() && withinMetricsSample()) {
-    startMetrics();
-  }
-
   if (document.querySelector('#vetnav-menu') !== null) {
     addMenuListeners(document.querySelector('#vetnav-menu'), true);
   }
@@ -66,4 +56,6 @@ export default function startSitewideComponents(commonStore) {
     startMobileMenuButton(commonStore);
     startVAFooter(commonStore);
   }
+
+  startMetrics();
 }
