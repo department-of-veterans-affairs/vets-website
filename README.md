@@ -270,7 +270,7 @@ VRT works by gathering the links for the site using the sitemap, then using Nigh
 
 There are some [limitations](https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Engineering/Visual%20Regression%20Testing.md), one of which is that VRG only tests the page on the initial load on a single viewport - it does not interact with the page or resize the window. This means that if there are dynamic elements they will not be covered. If this is functionality that interests you, you are welcome to join a discussion about the next phase of VRG.
 
-To run Visual Regression Testing for a certain build, see the above section, [Executing Nightwatch Tests For a Certain Environment](####Executing-Nightwatch-Tests-For-a-Certain Environment).
+To run Visual Regression Testing for a certain build, see the above section, [Executing Nightwatch Tests For a Certain Environment](#Executing-Nightwatch-Tests-For-a-Certain Environment).
 
 ### Automated Accessibility Testing -- aXe
 
