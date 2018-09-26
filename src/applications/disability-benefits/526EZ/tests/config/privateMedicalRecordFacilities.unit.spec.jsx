@@ -62,6 +62,32 @@ describe('Disability benefits 4142 provider medical records facility information
     expect(form.find('.usa-input-error').length).to.equal(0);
   });
 
+  // it('should validate the providerFacilityName', () => {
+  //   const onSubmit = sinon.spy();
+  //   const form = mount(
+  //     <DefinitionTester
+  //       arrayPath={arrayPath}
+  //       pagePerItemIndex={0}
+  //       onSubmit={onSubmit}
+  //       definitions={formConfig.defaultDefinitions}
+  //       schema={schema}
+  //       data={initialData}
+  //       formData={initialData}
+  //       uiSchema={uiSchema}/>
+  //   );
+  //
+  //   // Fill the form with a name that fails the regex
+  //   fillData(form, 'input#root_treatments_0_treatmentCenterName', '@');
+  //   form.find('form').simulate('submit');
+  //   expect(form.find('.usa-input-error-message').first().text()).to.contain('Please enter a valid name.');
+  //
+  //   // Fill the form with a name that's too long
+  //   fillData(form, 'input#root_treatments_0_treatmentCenterName', 'This input is entirely too long-winded to fit into this particular field--Whose idea was it to have this as a facility name anyhow');
+  //   form.find('form').simulate('submit');
+  //   expect(form.find('.usa-input-error-message').first().text()).to.contain('100 characters');
+  // });
+  //
+
   it('does not submit (and renders error messages) when no fields touched', () => {
     const submit = sinon.spy();
 

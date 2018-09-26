@@ -42,44 +42,6 @@ describe('526 helpers', () => {
             diagnosticCode: 5238,
           },
         ],
-        form4142: {
-          // TODO: Is this correct placement of 4142 transformed data?
-          limitedConsent: '',
-          providerFacility: [
-            {
-              providerFacilityName: 'Provider',
-              treatmentDateRange: [
-                {
-                  from: '2000-03-03',
-                  to: '2008-06-05',
-                },
-              ],
-              providerFacilityAddress: {
-                street: '14007 Wescott Ct',
-                city: 'Bowie',
-                country: 'USA',
-                state: 'MD',
-                postalCode: '20715',
-              },
-            },
-            {
-              providerFacilityName: 'Another Provider',
-              treatmentDateRange: [
-                {
-                  from: '2010-03-04',
-                  to: '2012-02-03',
-                },
-              ],
-              providerFacilityAddress: {
-                street: '1234 test rd',
-                city: 'Testville',
-                country: 'USA',
-                state: 'AZ',
-                postalCode: '12345',
-              },
-            },
-          ],
-        },
         veteran: {
           homelessness: {
             isHomeless: true,
@@ -112,17 +74,11 @@ describe('526 helpers', () => {
         treatments: [
           {
             treatmentCenterName: 'Somerset VA Clinic',
-            treatmentDateRange: {
-              from: '2000-06-06',
-              to: '2004-02-06',
-            },
+            treatmentDateRange: { from: '2000-06-06', to: '2004-02-06' },
           },
           {
             treatmentCenterName: 'DC VA Regional Medical Center',
-            treatmentDateRange: {
-              from: '2000-07-04',
-              to: '2010-01-03',
-            },
+            treatmentDateRange: { from: '2000-07-04', to: '2010-01-03' },
           },
         ],
         attachments: [
@@ -152,17 +108,11 @@ describe('526 helpers', () => {
           servicePeriods: [
             {
               serviceBranch: 'Air National Guard',
-              dateRange: {
-                from: '1980-03-06',
-                to: '1990-02-04',
-              },
+              dateRange: { from: '1980-03-06', to: '1990-02-04' },
             },
             {
               serviceBranch: 'Army Reserve',
-              dateRange: {
-                from: '1990-07-05',
-                to: '2000-02-04',
-              },
+              dateRange: { from: '1990-07-05', to: '2000-02-04' },
             },
           ],
           reservesNationalGuardService: {
@@ -179,13 +129,40 @@ describe('526 helpers', () => {
           },
         },
         standardClaim: false,
+        form4142: {
+          limitedConsent: '',
+          providerFacility: [
+            {
+              providerFacilityName: 'Provider',
+              treatmentDateRange: [{ from: '2010-02-03', to: '2012-03-05' }],
+              providerFacilityAddress: {
+                street: '1234 test rd',
+                city: 'Testville',
+                postalCode: '12345',
+                country: 'USA',
+                state: 'AZ',
+              },
+            },
+            {
+              providerFacilityName: 'Another Provider',
+              treatmentDateRange: [{ from: '2010-03-04', to: '2012-02-03' }],
+              providerFacilityAddress: {
+                street: '1234 test rd',
+                city: 'Testville',
+                country: 'USA',
+                state: 'AZ',
+                postalCode: '12345',
+              },
+            },
+          ],
+        },
       },
     };
     it('should return stringified, transformed data for submit', () => {
-      expect(transform(null, formData)).to.deep.equal(
+      expect(transform(null, formData)).to.equal(
         JSON.stringify(transformedData),
       );
-    }); // TODO: TEST FAILING??
+    });
   });
   describe('validateDisability', () => {
     it('should reject invalid disability data', () => {

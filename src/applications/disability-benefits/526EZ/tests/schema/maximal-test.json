@@ -104,7 +104,7 @@
               }
             }
           ],
-          "limitedConsent": "true"
+          "limitedConsent": ""
         },
         {
            "view:uploadPrivateRecords":"no",
