@@ -79,8 +79,7 @@ export const uiSchema = {
           'ui:required': (formData, index) =>
             _.get(
               `vaTreatmentFacilities.${index}.treatmentCenterAddress.country`,
-              formData,
-              false
+              formData
             ) === USA
         },
         city: {
