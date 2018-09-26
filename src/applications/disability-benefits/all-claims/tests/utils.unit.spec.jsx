@@ -1,14 +1,20 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import _ from '../../../../platform/utilities/data';
 
 import {
   hasGuardOrReservePeriod,
   ReservesGuardDescription,
   isInFuture,
   getDisabilityName,
+  transformDisabilities,
   queryForFacilities
 } from '../utils.jsx';
+
+import initialData from './initialData';
+
+import { SERVICE_CONNECTION_TYPES } from '../../all-claims/constants';
 
 describe('526 helpers', () => {
   describe('hasGuardOrReservePeriod', () => {
@@ -136,7 +142,24 @@ describe('526 helpers', () => {
       expect(getDisabilityName(249481)).to.equal('Unknown Condition');
     });
   });
-
+  describe('transformDisabilities', () => {
+    const rawDisability = initialData.ratedDisabilities[1];
+    const formattedDisability = Object.assign({ disabilityActionType: 'INCREASE' }, rawDisability);
+    it('should create a list of disabilities with disabilityActionType set to INCREASE', () => {
+      expect(transformDisabilities([rawDisability])).to.deep.equal([formattedDisability]);
+    });
+    it('should return an empty array when given undefined input', () => {
+      expect(transformDisabilities(undefined)).to.deep.equal([]);
+    });
+    it('should remove ineligible disabilities', () => {
+      const ineligibleDisability = _.set(
+        'decisionCode',
+        SERVICE_CONNECTION_TYPES.notServiceConnected,
+        rawDisability
+      );
+      expect(transformDisabilities([ineligibleDisability])).to.deep.equal([]);
+    });
+  });
   describe('queryForFacilities', () => {
     const originalFetch = global.fetch;
     beforeEach(() => {
