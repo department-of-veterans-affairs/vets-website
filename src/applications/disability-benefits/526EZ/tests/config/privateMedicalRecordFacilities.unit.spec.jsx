@@ -4,11 +4,10 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import {
-  DefinitionTester, // selectCheckbox
+  DefinitionTester, fillData, fillDate,
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
-// import PrivateProviderTreatmentView from '../../../4142/components/PrivateProviderTreatmentView';
 
 describe('Disability benefits 4142 provider medical records facility information', () => {
   const {
@@ -32,6 +31,35 @@ describe('Disability benefits 4142 provider medical records facility information
     expect(form);
     expect(form.find('input').length).to.equal(8);
     expect(form.find('select').length).to.equal(6);
+  });
+
+  it('should add a provider facility', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={initialData}
+        formData={initialData}
+        uiSchema={uiSchema}/>
+    );
+
+    // Minimum requirements.  All fields filled
+    fillData(form, 'input#root_providerFacility_0_providerFacilityName', 'Local facility');
+    fillDate(form, 'root_providerFacility_0_treatmentDateRange_from', '1950-1-3');
+    fillDate(form, 'root_providerFacility_0_treatmentDateRange_to', '1951-1-3');
+    fillData(form, 'select#root_providerFacility_0_providerFacilityAddress_country', 'USA');
+    fillData(form, 'input#root_providerFacility_0_providerFacilityAddress_street', '101 Street');
+    fillData(form, 'select#root_providerFacility_0_providerFacilityAddress_state', 'AK');
+    fillData(form, 'input#root_providerFacility_0_providerFacilityAddress_city', 'Anyville');
+    fillData(form, 'input#root_providerFacility_0_providerFacilityAddress_postalCode', '29414');
+
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.true;
+    expect(form.find('.usa-input-error').length).to.equal(0);
   });
 
   it('does not submit (and renders error messages) when no fields touched', () => {

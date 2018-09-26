@@ -44,24 +44,8 @@ describe('526 helpers', () => {
         ],
         form4142: {
           // TODO: Is this correct placement of 4142 transformed data?
-          limitedConsent: true,
+          limitedConsent: '',
           providerFacility: [
-            {
-              providerFacilityName: 'Another Provider',
-              treatmentDateRange: [
-                {
-                  from: '2010-03-04',
-                  to: '2012-02-03',
-                },
-              ],
-              providerFacilityAddress: {
-                street: '1234 test rd',
-                city: 'Testville',
-                country: 'USA',
-                state: 'AZ',
-                postalCode: '12345',
-              },
-            },
             {
               providerFacilityName: 'Provider',
               treatmentDateRange: [
@@ -76,6 +60,22 @@ describe('526 helpers', () => {
                 country: 'USA',
                 state: 'MD',
                 postalCode: '20715',
+              },
+            },
+            {
+              providerFacilityName: 'Another Provider',
+              treatmentDateRange: [
+                {
+                  from: '2010-03-04',
+                  to: '2012-02-03',
+                },
+              ],
+              providerFacilityAddress: {
+                street: '1234 test rd',
+                city: 'Testville',
+                country: 'USA',
+                state: 'AZ',
+                postalCode: '12345',
               },
             },
           ],

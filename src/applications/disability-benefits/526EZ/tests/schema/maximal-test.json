@@ -10,6 +10,7 @@
        "title10ActivationDate": "2014-054-12",
        "anticipatedSeparationDate": "2019-09-02"
      },
+     "limitedConsent": "",
      "waiveVABenefitsToRetainTrainingPay": true,
      "disabilities":[
         {
@@ -59,12 +60,11 @@
            "providerFacility": [
             {
                "providerFacilityName": "Provider",
-               "treatmentDateRange": [
+               "treatmentDateRange":
                  {
                    "from": "2000-03-03",
                    "to": "2008-06-05"
-                 }
-                ],
+                 },
                "providerFacilityAddress": {
                  "street": "14007 Wescott Ct",
                  "city": "Bowie",
@@ -111,18 +111,17 @@
            "providerFacility": [
             {
               "providerFacilityName": "Another Provider",
-              "treatmentDateRange": [
+              "treatmentDateRange":
                 {
                 "from": "2010-03-04",
                   "to": "2012-02-03"
-               }
-              ],
+               },
               "providerFacilityAddress": {
                 "street": "1234 test rd",
                 "city": "Testville",
                 "country": "USA",
                 "state": "AZ",
-                "postalCode:": "12345"
+                "postalCode": "12345"
               }
             }
           ]
