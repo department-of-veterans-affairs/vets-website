@@ -101,7 +101,7 @@ You can also look for women's health services specific to your nearest VA medica
 
 If you don’t have VA health care benefits, you may still be able to get care:
 
-- **If you’re not sure what health benefits you may have earned,** contact our Women Veterans Call Center. Our trained, all-female staff will help you figure out your benefits and take the next step to getting care. Call 1-855-VA-WOMEN (<a href="tel:+1-855-829-6636">1-855-829-6636</a>). Or, [start a secure chat](https://www.womenshealth.va.gov/WOMENSHEALTH/programoverview/wvcc.asp).
+- **If you’re not sure what health benefits you may have earned,** contact our Women Veterans Call Center. Our trained, all-female staff will help you figure out your benefits and take the next step to getting care. Call 1-855-VA-WOMEN (<a href="tel:+1-855-829-6636">1-855-829-6636</a>). Or, [start a secure chat](https://productionchat.vrm.vba.va.gov/system/templates/chat/wvcc/chat.html?entryPointId=1009&templateName=wvcc&languageCode=en&countryCode=US&ver=v11).
 - **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](/facilities/).
 - **If you’re homeless or at risk of becoming homeless:**
   - Visit our website to learn about VA programs for Veterans who are homeless. [Learn about our homelessness programs](https://www.va.gov/homeless/).
