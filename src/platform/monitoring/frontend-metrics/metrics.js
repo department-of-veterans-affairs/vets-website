@@ -57,7 +57,7 @@ function buildMetricsPayload(entry) {
       duration: metrics[metric]
     });
   });
-  const data = JSON.stringify({ metrics: metricsArray, pageId: pageUrl});
+  const data = JSON.stringify({ metrics: metricsArray, pageId: pageUrl });
 
   metricsPayload.append('data', data);
   return metricsPayload;

@@ -13,8 +13,9 @@
     "es6": true,
     "mocha": true
   },
-  "globals": {
-    "__BUILDTYPE__": true
+  'globals': {
+    '__BUILDTYPE__': true,
+    'PerformanceObserver': true
   },
   "rules": {
     // Override airbnb style.

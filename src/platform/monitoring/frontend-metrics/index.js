@@ -13,14 +13,18 @@ import withinMetricsSample from './sample-rate';
  * @see https://github.com/ModuleLoader/es-module-loader
  * @return [Boolean] A boolean value indicating if the metrics code was called.
  */
+
 export default function startMetrics() {
   if (isMetricsEnabled() && withinMetricsSample()) {
-    import('./metrics').then(metrics => {
-      metrics.embedMetrics();
-      return true;
-    }).catch(error => {
-      console.error(error);
-    });
+    import('./metrics')
+      .then(metrics => {
+        metrics.embedMetrics();
+        return true;
+      })
+    /* eslint-disable no-console */
+      .catch(error => {
+        console.error(error);
+      });
   }
   return false;
 }
