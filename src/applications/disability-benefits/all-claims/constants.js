@@ -131,3 +131,9 @@ export const SERVICE_CONNECTION_TYPES = {
   notServiceConnected: 'NOTSVCCON',
   serviceConnected: 'SVCCONNCTED'
 };
+
+export const DATA_PATHS = {
+  hasVAEvidence:
+    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasVAMedicalRecords'
+};
+

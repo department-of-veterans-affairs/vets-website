@@ -49,15 +49,19 @@ social:
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
           label: Veterans Benefits Email Updates
+          external: true
           icon: fa-envelope-square
         - url: https://twitter.com/VAVetBenefits
           label: Veterans Benefits Twitter
+          external: true
           icon: fa-twitter
         - url: "https://www.facebook.com/VeteransBenefits"
           label: Veterans Benefits Facebook
+          external: true
           icon: fa-facebook
         - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
           label: Veterans Benefits YouTube
+          external: true
           icon: fa-youtube
 ---
 

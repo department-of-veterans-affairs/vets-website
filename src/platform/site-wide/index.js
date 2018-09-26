@@ -5,7 +5,6 @@
 
 import '../monitoring/sentry.js';
 import './legacy/menu';  // Used in the footer.
-import './usa-banner-toggle';
 import './accessible-VCL-modal';
 import './moment-setup';
 import addMenuListeners from './accessible-menus';
