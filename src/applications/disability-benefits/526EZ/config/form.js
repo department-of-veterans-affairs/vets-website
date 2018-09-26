@@ -44,7 +44,6 @@ import {
   privateRecordsChoice,
   privateRecordsChoiceHelp,
   facilityDescription,
-  treatmentView,
   download4142Notice,
   authorizationToDisclose,
   // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
@@ -55,7 +54,6 @@ import {
   FDCDescription,
   FDCWarning,
   noFDCWarning,
-  queryForFacilities,
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
@@ -63,7 +61,8 @@ import {
 } from '../helpers';
 
 import {
-  hasGuardOrReservePeriod
+  hasGuardOrReservePeriod,
+  queryForFacilities
 } from '../../all-claims/utils';
 
 import {
@@ -71,6 +70,9 @@ import {
   disabilitiesClarification
 } from '../../all-claims/content/ratedDisabilities';
 
+import {
+  treatmentView
+} from '../../all-claims/content/vaMedicalRecords';
 import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
 
 import { requireOneSelected } from '../validations';

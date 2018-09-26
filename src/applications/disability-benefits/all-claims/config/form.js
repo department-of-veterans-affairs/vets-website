@@ -10,7 +10,8 @@ import {
 import {
   hasGuardOrReservePeriod,
   getDisabilityName,
-  prefillTransformer
+  prefillTransformer,
+  hasVAEvidence
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -29,6 +30,7 @@ import {
   contactInformation,
   addDisabilities,
   newDisabilityFollowUp,
+  vaMedicalRecords,
   paymentInformation,
   evidenceTypes,
   claimExamsInfo,
@@ -198,6 +200,13 @@ const formConfig = {
           path: 'supporting-evidence/evidence-types',
           uiSchema: evidenceTypes.uiSchema,
           schema: evidenceTypes.schema
+        },
+        vaMedicalRecords: {
+          title: 'VA Medical Records',
+          path: 'supporting-evidence/va-medical-records',
+          depends: hasVAEvidence,
+          uiSchema: vaMedicalRecords.uiSchema,
+          schema: vaMedicalRecords.schema
         },
         howClaimsWork: {
           title: 'How claim exams work',
