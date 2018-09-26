@@ -2,6 +2,7 @@ import { isLoggedIn } from '../../platform/user/selectors';
 
 export default function createMyVALoginWidget(store) {
   const root = document.getElementById('myva-login');
+  let unsubscribe;
   const homePageStoreListener = () => {
     if (root && isLoggedIn(store.getState())) {
       root.innerHTML = '<button class="homepage-button primary-darker">' +
@@ -13,7 +14,8 @@ export default function createMyVALoginWidget(store) {
         '<p>Track claims, prescriptions, and more with “My VA”</p>' +
         '</div>' +
         '</a>';
+      unsubscribe();
     }
   };
-  store.subscribe(homePageStoreListener);
+  unsubscribe = store.subscribe(homePageStoreListener);
 }
