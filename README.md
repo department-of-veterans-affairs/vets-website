@@ -215,8 +215,8 @@ It is sometimes useful to ensure that a certain feature of the site will functio
 1. `NODE_ENV=production npm run build -- --buildtype=production`
   - This will generate the complete static website in `build/production`.
   - NOTE: You will likely see files already in the `build/development` directory. This contains the generated content files from Metalsmith, but unless you recently executed a development build, it most like does not contain the Webpack-compiled assets (JS/CSS) which are served from memory and not written to the file system during the watch-task.
-2. `node src/platform/testing/e2e/test-server.js buildtype=production`
-  - You should see console output indicating that a local webserver has started for the production build-type.
+2. `node src/platform/testing/e2e/test-server.js --buildtype=production`
+  - You should see console output indicating that a local webserver has started for the production build-type. The port
 
 ### End-to-end Test -- nightwatch
 
