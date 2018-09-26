@@ -54,6 +54,11 @@ import {
 } from './newDisabilityFollowUp';
 
 import {
+  uiSchema as evidenceTypesUISchema,
+  schema as evidenceTypesSchema
+} from './evidenceTypes';
+
+import {
   uiSchema as contactInformationUISchema,
   schema as contactInformationSchema
 } from './contactInformation';
@@ -126,6 +131,11 @@ export const addDisabilities = {
 export const newDisabilityFollowUp = {
   uiSchema: newDisabilityFollowUpUISchema,
   schema: newDisabilityFollowUpSchema
+};
+
+export const evidenceTypes = {
+  uiSchema: evidenceTypesUISchema,
+  schema: evidenceTypesSchema
 };
 
 export const contactInformation = {

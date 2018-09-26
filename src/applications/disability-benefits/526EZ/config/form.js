@@ -38,7 +38,6 @@ import {
   transform,
   prefillTransformer,
   supportingEvidenceOrientation,
-  evidenceTypeHelp,
   disabilityNameTitle,
   vaMedicalRecordsIntro,
   privateMedicalRecordsIntro,
@@ -60,7 +59,7 @@ import {
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
-  validateBooleanIfEvidence
+  validateIfHasEvidence
 } from '../helpers';
 
 import {
@@ -71,6 +70,8 @@ import {
   disabilityOption,
   disabilitiesClarification
 } from '../../all-claims/content/ratedDisabilities';
+
+import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
 
 import { requireOneSelected } from '../validations';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
@@ -358,10 +359,8 @@ const formConfig = {
                     }
                   },
                   'ui:validations': [{
-                    validator: validateBooleanIfEvidence,
-                    options: {
-                      wrappedValidator: validateBooleanGroup
-                    }
+                    validator: validateIfHasEvidence,
+                    options: { wrappedValidator: validateBooleanGroup }
                   }],
                   'ui:errorMessages': {
                     atLeastOne: 'Please select at least one type of supporting evidence'
