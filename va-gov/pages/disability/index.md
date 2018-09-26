@@ -28,7 +28,7 @@ crosslinks:
       title: <b>Vocational Rehabilitation and Employment</b>
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
     - url:  "/pension/aid-attendance-housebound/"
-      title: <b>Aid and Attendance or Housebound Allowance</b>
+      title: <b>Aid and Attendance Benefits and Housebound Allowance</b>
       description: See if you're eligible for extra monthly pension payments if you need more aid than you're currently receiving.
 social:
   - heading: Connect with Us
@@ -52,15 +52,19 @@ social:
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
           label: Veterans Benefits Email Updates
+          external: true
           icon: fa-envelope-square
         - url: https://twitter.com/VAVetBenefits
           label: Veterans Benefits Twitter
+          external: true
           icon: fa-twitter
         - url: "https://www.facebook.com/VeteransBenefits"
           label: Veterans Benefits Facebook
+          external: true
           icon: fa-facebook
         - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
           label: Veterans Benefits YouTube
+          external: true
           icon: fa-youtube
 ---
 

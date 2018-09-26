@@ -43,7 +43,7 @@
                             },
                             {
                                 "text": "View Your Lab and Test Results",
-                                "href": "/health-care/view-test-lab-results/"
+                                "href": "/health-care/view-test-and-lab-results/"
                             },
                             {
                                 "text": "Order Hearing Aid Batteries and Prosthetic Socks",
@@ -80,7 +80,7 @@
                             },
                             {
                                 "text": "How to File a Claim",
-                                "href": "/disability/how-to-file-claim/when-to-file/"
+                                "href": "/disability/how-to-file-claim/"
                             },
                             {
                                 "text": "Survivor and Dependent Compensation (DIC)",
@@ -270,7 +270,7 @@
                                 "href": "/pension/how-to-apply/"
                             },
                             {
-                                "text": "Aid and Attendance or Housebound Allowance",
+                                "text": "Aid and Attendance Benefits and Housebound Allowance",
                                 "href": "/pension/aid-attendance-housebound/"
                             },
                             {
@@ -326,7 +326,7 @@
                         "links": [
                             {
                                 "text": "About VA Home Loan Types",
-                                "href": "/housing-assistance/home-loans/"
+                                "href": "/housing-assistance/home-loans/loan-types/"
 
                             },
                             {
@@ -352,7 +352,7 @@
                                 "href": "/claim-or-appeal-status/"
                             },
                             {
-                                "text": "How to Apply for a SAH Grant",
+                                "text": "How to Apply for an SAH Grant",
                                 "href": "/housing-assistance/disability-housing-grants/how-to-apply/"
                             }
                         ]
@@ -620,7 +620,8 @@
                   },
                   {
                       "text": "VA Open Data",
-                      "href": "https://www.data.va.gov"
+                      "href": "https://www.data.va.gov",
+                      "target": "_blank"
                   },
                   {
                       "text": "Veterans Analysis and Statistics",
