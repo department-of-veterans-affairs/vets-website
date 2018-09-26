@@ -56,7 +56,7 @@ You can use your benefits in many ways to advance your education and training.
 - [Help with the cost of books, tuition, and housing if you’re in a co-op training program](/education/work-learn/co-op-training/)
 - [Pay you back for the cost of test fees](/education/advanced-training-and-certifications/test-fees)
 
-**In some cases, we may also help you pay for:**
+**In some cases, we may help you pay for:**
 - Remedial courses (classes some students must take to build up their basic skills in math, reading, or English before they can take regular college courses),
 - Deficiency courses (classes some student must take in order to be admitted to a certain college)
 - Refresher courses (brief courses that help people review and improve their knowledge in a certain subject area)
