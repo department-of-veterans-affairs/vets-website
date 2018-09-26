@@ -261,7 +261,7 @@ For example, to execute the E2E tests for Production:
 
 1. `NODE_ENV=production npm run build -- --buildtype=production`
 2. `BUILDTYPE=production npm run test:e2e`
-    - The Nightwatch startup script will see that port `3001` is not blocked (as it would be by the watch-task), and will start a [static webserver](##static-webserver) for the production build.
+    - The Nightwatch startup script will see that port `3001` is not blocked (as it would be by the watch-task), and will start a [static webserver](#static-webserver) for the production build.
 
 ### Visual Regression Testing
 This is the first iteration of visual regression testing. It is useful to detect side effects or scope of visual changes.
@@ -270,7 +270,7 @@ VRT works by gathering the links for the site using the sitemap, then using Nigh
 
 There are some [limitations](https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Engineering/Visual%20Regression%20Testing.md), one of which is that VRG only tests the page on the initial load on a single viewport - it does not interact with the page or resize the window. This means that if there are dynamic elements they will not be covered. If this is functionality that interests you, you are welcome to join a discussion about the next phase of VRG.
 
-To run Visual Regression Testing for a certain build, see the above section, [Executing Nightwatch Tests For a Certain Environment](#Executing-Nightwatch-Tests-For-a-Certain Environment).
+To run Visual Regression Testing for a certain build, see the above section, about how to [execute Nightwatch in a certain environment](#Executing-Nightwatch-Tests-For-a-Certain-Environment).
 
 ### Automated Accessibility Testing -- aXe
 
