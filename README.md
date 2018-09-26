@@ -213,10 +213,10 @@ The site comes bundled with a static webserver, which is used for serving the fi
 It is sometimes useful to ensure that a certain feature of the site will function correctly in a certain environment. For example, a common use case is to render a certain feature in all environments outside of production. In this case, it would be beneficial to ensure the production environment is not impacted. To locally run a production build of the website, follow these steps:
 
 1. `NODE_ENV=production npm run build -- --buildtype=production`
-  - This will generate the complete static website in `build/production`.
-  - NOTE: You will likely see files already in the `build/development` directory. This contains the generated content files from Metalsmith, but unless you recently executed a development build, it most likely does not contain the Webpack-compiled assets (JS/CSS) which are served from memory and not written to the file system during the watch-task.
+    - This will generate the complete static website in `build/production`.
+    - NOTE: You will likely see files already in the `build/development` directory. This contains the generated content files from Metalsmith, but unless you recently executed a development build, it most likely does not contain the Webpack-compiled assets (JS/CSS) which are served from memory and not written to the file system during the watch-task.
 2. `node src/platform/testing/e2e/test-server.js --buildtype=production`
-  - You should see console output indicating that a local webserver has started, which port it is running on, and for which build-type.
+    - You should see console output indicating that a local webserver has started, which port it is running on, and for which build-type.
 
 ### End-to-end Test -- nightwatch
 
