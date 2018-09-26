@@ -15,6 +15,7 @@ import {
 
 import { veteranInfoDescription } from '../content/veteranDetails';
 import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
+import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
 import {
   alternateNames,
   servicePay,
@@ -30,6 +31,7 @@ import {
   newDisabilityFollowUp,
   vaMedicalRecords,
   paymentInformation,
+  evidenceTypes,
   claimExamsInfo,
   homelessOrAtRisk
 } from '../pages';
@@ -186,6 +188,18 @@ const formConfig = {
     supportingEvidence: {
       title: 'Supporting Evidence',
       pages: {
+        orientation: {
+          title: '',
+          path: 'supporting-evidence/orientation',
+          uiSchema: { 'ui:description': supportingEvidenceOrientation },
+          schema: { type: 'object', properties: {} }
+        },
+        evidenceTypes: {
+          title: 'Supporting evidence types',
+          path: 'supporting-evidence/evidence-types',
+          uiSchema: evidenceTypes.uiSchema,
+          schema: evidenceTypes.schema
+        },
         vaMedicalRecords: {
           title: 'VA Medical Records',
           path: 'supporting-evidence/va-medical-records',

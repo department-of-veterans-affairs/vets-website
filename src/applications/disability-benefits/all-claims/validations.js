@@ -64,3 +64,9 @@ export function validateMilitaryTreatmentState(errors, state, formData, schema, 
     errors.addError('State must be AA, AE, or AP when using a military city');
   }
 }
+export const validateIfHasEvidence = (errors, fieldData, formData, schema, messages, options, index) => {
+  const { wrappedValidator } = options;
+  if (_.get('view:hasEvidence', formData, true)) {
+    wrappedValidator(errors, fieldData, formData, schema, messages, index);
+  }
+};
