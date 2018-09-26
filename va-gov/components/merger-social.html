@@ -30,7 +30,11 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
             {% for link in subs.links %}
               {% if link.url != empty %}
                 <li>
-                  <a href="{{link.url}}">
+                  <a href="{{link.url}}"
+                    {% if link.external == true %}
+                      target="_blank" rel="noopener noreferrer"
+                    {% endif %}
+                    >
                     {% if link.icon != empty %}
                       <i class="fa fab {{link.icon}}"></i>
                     {% endif %}

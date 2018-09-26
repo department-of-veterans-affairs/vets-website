@@ -54,6 +54,15 @@ import {
 } from './newDisabilityFollowUp';
 
 import {
+  uiSchema as vaMedicalRecordsUISchema,
+  schema as vaMedicalRecordsSchema
+} from './vaMedicalRecords';
+import {
+  uiSchema as evidenceTypesUISchema,
+  schema as evidenceTypesSchema
+} from './evidenceTypes';
+
+import {
   uiSchema as contactInformationUISchema,
   schema as contactInformationSchema
 } from './contactInformation';
@@ -62,6 +71,11 @@ import {
   uiSchema as paymentInformationUISchema,
   schema as paymentInformationSchema
 } from './paymentInformation';
+
+import {
+  uiSchema as claimExamsInfoUIschema,
+  schema as claimExamsInfoSchema
+} from './claimExamsInfo';
 
 import {
   uiSchema as homelessOrAtRiskUISchema,
@@ -123,6 +137,16 @@ export const newDisabilityFollowUp = {
   schema: newDisabilityFollowUpSchema
 };
 
+export const vaMedicalRecords = {
+  uiSchema: vaMedicalRecordsUISchema,
+  schema: vaMedicalRecordsSchema
+};
+
+export const evidenceTypes = {
+  uiSchema: evidenceTypesUISchema,
+  schema: evidenceTypesSchema
+};
+
 export const contactInformation = {
   uiSchema: contactInformationUISchema,
   schema: contactInformationSchema
@@ -131,6 +155,11 @@ export const contactInformation = {
 export const paymentInformation = {
   uiSchema: paymentInformationUISchema,
   schema: paymentInformationSchema
+};
+
+export const claimExamsInfo = {
+  uiSchema: claimExamsInfoUIschema,
+  schema: claimExamsInfoSchema
 };
 
 export const homelessOrAtRisk = {

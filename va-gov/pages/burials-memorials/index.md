@@ -14,7 +14,7 @@ promo:
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: "#"
+    - url: "/pension/survivors-pension/"
       title: <b>Survivors Pension</b>
       description: Find out if you’re eligible and how to apply for VA pension benefits as a surviving spouse or child of a deceased Veteran with wartime service.
     - url: "https://www.benefits.va.gov/insurance/bfcs.asp"
@@ -45,15 +45,19 @@ social:
         links:
         - url: https://public.govdelivery.com/accounts/USVANCA/subscribers/qualify
           label: National Cemeteries Email Updates
+          external: true
           icon: fa-envelope-square
         - url: https://twitter.com/VANatCemeteries
           label: National Cemeteries Twitter
+          external: true
           icon: fa-twitter
         - url: "https://www.facebook.com/VeteransBenefits"
           label: National Cemeteries Facebook
+          external: true
           icon: fa-facebook
         - url: "https://www.youtube.com/watch?v=4MhXfpNSHzs&list=PL7897A1FCC5516DDE"
           label: National Cemeteries YouTube
+          external: true
           icon: fa-youtube
 ---
 
@@ -133,7 +137,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
   <div class="link">
-    <a href="#"><b>Request Military Records</b></a>
+    <a href="/records/get-military-service-records/"><b>Request Military Records (DD214)</b></a>
     <p>View and print documents from your official military personnel file (including your DD214).</p>
 
   </div>
@@ -166,7 +170,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
     <p>Visit the National Archives website to find out how to request replacement medals, awards, and decorations.</p>
 
   <div class="link">
-    <a href="https://www.archives.gov/veterans"><b>Search Historical Military Records (National Archives)</b></a>
+    <a href="https://www.archives.gov/veterans" target="_blank"><b>Search Historical Military Records (National Archives)</b></a>
     <p>Visit the National Archives website to research military records from the Revolutionary War to the present.</p>
   </div>
 

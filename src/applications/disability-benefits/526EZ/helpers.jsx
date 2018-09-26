@@ -1,7 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import Raven from 'raven-js';
-import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
@@ -13,11 +12,13 @@ import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
 import get from '../../../platform/utilities/data/get';
 import { pick } from 'lodash';
-import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
-import { getDisabilityName } from '../all-claims/utils';
+import {
+  getDisabilityName,
+  transformDisabilities
+} from '../all-claims/utils';
 
 import {
   VA_FORM4142_URL
@@ -153,31 +154,6 @@ export function validateDisability(disability) {
 }
 
 
-export function transformDisabilities(disabilities = []) {
-  return disabilities
-    // We want to remove disabilities without a rating, but 0 counts as a valid rating
-    // TODO: Log the disabilities if they're not service connected
-    // Unfortunately, we don't have decisionCode in the schema, so it's stripped out by the time
-    //  it gets here and we can't tell whether it is service connected or not. This happens in
-    //  the api
-    .filter(disability => {
-      if (disability.ratingPercentage || disability.ratingPercentage === 0) {
-        return true;
-      }
-
-      // TODO: Only log it if the decision code indicates the condition is not non-service-connected
-      const { decisionCode } = disability;
-      if (decisionCode) {
-        Raven.captureMessage('526_increase_disability_filter', {
-          extra: { decisionCode }
-        });
-      }
-
-      return false;
-    }).map(disability => set('disabilityActionType', 'INCREASE', disability));
-}
-
-
 export function addPhoneEmailToCard(formData) {
   const { veteran } = formData;
   if (typeof veteran === 'undefined') {
@@ -237,20 +213,6 @@ export const supportingEvidenceOrientation = (
   </p>
 );
 
-
-export const evidenceTypeHelp = (
-  <AdditionalInfo triggerText="Which evidence type should I choose?">
-    <h3>Types of evidence</h3>
-    <h4>VA medical records</h4>
-    <p>If you were treated at a VA medical center or clinic, or by a doctor through the TRICARE health care program, you’ll have VA medical records.</p>
-    <h4>Private medical records</h4>
-    <p>If you were treated by a private doctor, including a Veteran’s Choice doctor, you’ll have private medical records.
-      We’ll need to see those records to make a decision on your claim. A Disability Benefit Questionnaire is an example of a private medical record.</p>
-    <h4>Lay statements or other evidence</h4>
-    <p>A lay statement is a written statement from family, friends, or coworkers to help support your claim. Lay statements are also called “buddy statements.” In most cases, you’ll only need your medical records to support your disability claim. Some claims, for example, for Posttraumatic Stress Disorder or for military sexual trauma, could benefit from a lay or buddy statement.</p>
-  </AdditionalInfo>
-);
-
 export const disabilityNameTitle = ({ formData }) => {
   return (
     <legend className="schemaform-block-title schemaform-title-underline">{getDisabilityName(formData.name)}</legend>
@@ -261,26 +223,6 @@ export const disabilityNameTitle = ({ formData }) => {
 export const facilityDescription = ({ formData }) => {
   return (
     <p>Please tell us where VA treated you for {getDisabilityName(formData.name)} <strong>after you got your disability rating</strong>.</p>
-  );
-};
-
-
-export const treatmentView = ({ formData }) => {
-  const { from, to } = formData.treatmentDateRange;
-
-  const name = formData.treatmentCenterName || '';
-  let treatmentPeriod = '';
-  if (from && to) {
-    treatmentPeriod = `${from} — ${to}`;
-  } else if (from || to) {
-    treatmentPeriod = `${(from || to)}`;
-  }
-
-  return (
-    <div>
-      <strong>{name}</strong><br/>
-      {treatmentPeriod}
-    </div>
   );
 };
 
@@ -723,29 +665,6 @@ export const noFDCWarning = (
 );
 
 
-export function queryForFacilities(input = '') {
-  // Only search if the input has a length >= 3, otherwise, return an empty array
-  if (input.length < 3) {
-    return Promise.resolve([]);
-  }
-
-  const url = appendQuery('/facilities/suggested', {
-    type: ['health', 'dod_health'],
-    name_part: input // eslint-disable-line camelcase
-  });
-
-  return apiRequest(url, {},
-    (response) => {
-      return response.data.map(facility => ({ id: facility.id, label: facility.attributes.name }));
-    },
-    (error) => {
-      Raven.captureMessage('Error querying for facilities', { input, error });
-      return [];
-    }
-  );
-}
-
-
 const evidenceTypesDescription = (disabilityName) => {
   return (
     <p>What supporting evidence will you be turning in that shows your {disabilityName} <strong>has gotten worse since you received a VA rating</strong>?</p>
@@ -804,7 +723,7 @@ export const contactInfoUpdateHelp = () => (
   </div>
 );
 
-export const validateBooleanIfEvidence = (errors, fieldData, formData, schema, messages, options, index) => {
+export const validateIfHasEvidence = (errors, fieldData, formData, schema, messages, options, index) => {
   const { wrappedValidator } = options;
   if (get('view:hasEvidence', formData, true)) {
     wrappedValidator(errors, fieldData, formData, schema, messages, index);

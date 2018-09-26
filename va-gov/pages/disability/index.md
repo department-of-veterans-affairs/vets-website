@@ -15,7 +15,7 @@ promo:
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: "/disability/how-to-file-claim/evidence-needed/decision-ready-claims/"
+    - url: /housing-assistance/disability-housing-grants/
       title: <b>Disability Housing Grants for Veterans</b>
       description: Find out how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.
     - url:  https://www.benefits.va.gov/fiduciary/index.asp
@@ -24,11 +24,11 @@ crosslinks:
     - url: "/health-care/about-va-health-benefits/long-term-care/"
       title: <b>VA Nursing Homes, Assisted Living, and Home Health Care</b>
       description: Explore long-term care options for Veterans and their caregivers.
-    - url:  "#"
+    - url:  /careers-employment/vocational-rehabilitation/
       title: <b>Vocational Rehabilitation and Employment</b>
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
-    - url:  "#"
-      title: <b>Aid and Attendance or Housebound Allowance</b>
+    - url:  "/pension/aid-attendance-housebound/"
+      title: <b>Aid and Attendance Benefits and Housebound Allowance</b>
       description: See if you're eligible for extra monthly pension payments if you need more aid than you're currently receiving.
 social:
   - heading: Connect with Us
@@ -52,15 +52,19 @@ social:
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
           label: Veterans Benefits Email Updates
+          external: true
           icon: fa-envelope-square
         - url: https://twitter.com/VAVetBenefits
           label: Veterans Benefits Twitter
+          external: true
           icon: fa-twitter
         - url: "https://www.facebook.com/VeteransBenefits"
           label: Veterans Benefits Facebook
+          external: true
           icon: fa-facebook
         - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
           label: Veterans Benefits YouTube
+          external: true
           icon: fa-youtube
 ---
 
@@ -115,7 +119,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   <h2>Manage Your Veterans Disability Benefits</h2>
 
   <div class="link">
-    <a href="#"><b>Check Your VA Claim or Appeal Status</b></a>
+    <a href="/claim-or-appeal-status/"><b>Check Your VA Claim or Appeal Status</b></a>
     <p>Track the status of your disability claim or appeal.</p>
     </div>
 
@@ -155,7 +159,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-  <a href="#"><b>Download Your VA Benefit Letters</b></a>
+  <a href="/records/download-va-letters/"><b>Download Your VA Benefit Letters</b></a>
   <p>Download a copy of letters like your eligibility or award letter for certain benefits.</p>
   </div>
 

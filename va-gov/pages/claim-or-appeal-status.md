@@ -5,7 +5,7 @@ title: Check Your VA Claim or Appeal Status
 display_title: Check Claim or Appeal Status
 description:
 concurrence:
-lastupdate: 2018-08-22
+lastupdate: 2018-09-20
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
@@ -21,7 +21,7 @@ Find out how to check the status of a VA claim or appeal online.
   </div>
 </div>
 
-<h3 itemprop="name">What types of claims and appeals can I track with this tool?</h3>
+<h2 itemprop="name">What types of claims and appeals can I track with this tool?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
@@ -47,7 +47,7 @@ Find out how to check the status of a VA claim or appeal online.
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">Can I use this tool?</h3>
+<h2 itemprop="name">Can I use this tool?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
@@ -64,7 +64,7 @@ Find out how to check the status of a VA claim or appeal online.
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">Once I'm signed in, how do I check my claim or appeal status?</h3>
+<h2 itemprop="name">Once I'm signed in, how do I check my claim or appeal status?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
@@ -83,7 +83,7 @@ Find out how to check the status of a VA claim or appeal online.
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">What kind of information will I learn about my claim or appeal?</h3>
+<h2 itemprop="name">What kind of information will I learn about my claim or appeal?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
@@ -101,7 +101,7 @@ You'll see where your claim or appeal is in our review process, and when we thin
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">Will my personal information be protected if I use this tool?</h3>
+<h2 itemprop="name">Will my personal information be protected if I use this tool?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
@@ -112,4 +112,3 @@ If you print or download anything from the website, you’ll need to take respon
 </div>
 </div>
 </div>
-
