@@ -34,7 +34,7 @@ import {
   schema as paymentInfoSchema,
 } from '../../all-claims/pages/paymentInformation';
 
-import PrivateProviderTreatmentView from '../../4142/components/PrivateProviderTreatmentView';
+import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 
 import {
   uiSchema as reservesNationalGuardUISchema,
@@ -65,20 +65,18 @@ import {
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
-  getlimitedConsentTitle,
+  limitedConsentTitle,
   validateBooleanIfEvidence,
   privateRecordsChoiceHelp,
   patientAcknowledgmentText,
-} from '../helpers';
-
-import {
+  limitedConsentTextTitle,
+  limitedConsentDescription,
   recordReleaseDescription,
   countries,
   states,
   stateNames,
-  limitedConsentDescription,
   validateZIP,
-} from '../../4142/helpers';
+} from '../helpers';
 
 import { hasGuardOrReservePeriod } from '../../all-claims/utils';
 
@@ -121,6 +119,10 @@ const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
+  // submit: data => {
+  //   console.log(data);
+  //   return Promise.resolve({ attributes: { confirmationNumber: '123123123' } });
+  // },
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
   version: 1,
@@ -618,23 +620,24 @@ const formConfig = {
                     },
                   },
                 },
-                'view:patientAcknowledgment': {
-                  'ui:title': 'Patient Acknowledgment',
-                  'ui:description': patientAcknowledgmentText,
+                'view:patientAcknowledgement': {
+                  'ui:title': ' ',
+                  'ui:help': patientAcknowledgmentText,
                   'ui:options': {
                     expandUnder: 'view:uploadPrivateRecords',
                     expandUnderCondition: 'no',
+                    showFieldLabel: true,
                   },
-                  'view:acknowledgment': {
-                    'ui:title': 'Patient Acknowledgment',
-                    'ui:required': (formData, index) =>
-                      _.get(
-                        `disabilities[${
-                          index
-                        }].view:patientAcknowledgement.view:acknowledgement`,
-                        formData.disabilities,
-                      ),
+                  'view:acknowledgement': {
+                    'ui:title': 'Patient Acknowledgement',
                   },
+                  'ui:validations': [
+                    (errors, item) => {
+                      if (!item['view:acknowledgement']) {
+                        errors.addError('You must accept the acknowledgement');
+                      }
+                    },
+                  ],
                 },
                 'view:privateRecordsChoiceHelp': {
                   'ui:description': privateRecordsChoiceHelp,
@@ -655,10 +658,11 @@ const formConfig = {
                       type: 'string',
                       'enum': ['yes', 'no'],
                     },
-                    'view:patientAcknowledgment': {
+                    'view:patientAcknowledgement': {
                       type: 'object',
+                      required: ['view:acknowledgement'],
                       properties: {
-                        'view:acknowledgment': {
+                        'view:acknowledgement': {
                           type: 'boolean',
                           'default': true,
                         },
@@ -699,12 +703,24 @@ const formConfig = {
               items: {
                 'ui:description': recordReleaseDescription,
                 'ui:title': disabilityNameTitle,
-                limitedConsent: {
+                'view:limitedConsent': {
                   'ui:options': {
-                    // Only way to get access to the disability info like 'name' within this nested schema. Similar to ln 381
-                    updateSchema: (form, schema, uiSchema, index) => ({
-                      title: getlimitedConsentTitle(form, index),
+                    updateSchema: () => ({
+                      title: limitedConsentTitle,
                     }),
+                  },
+                },
+                limitedConsent: {
+                  'ui:title': limitedConsentTextTitle,
+                  'ui:options': {
+                    expandUnder: 'view:limitedConsent',
+                    expandUnderCondition: true,
+                  },
+                  'ui:required': (formData, index) => {
+                    return _.get(
+                      `disabilities.${index}.view:limitedConsent`,
+                      formData,
+                    );
                   },
                 },
                 'view:privateRecordsChoiceHelp': {
@@ -744,7 +760,7 @@ const formConfig = {
                           'ui:title': 'Street 2',
                           'ui:errorMessages': {
                             pattern:
-                              'Street address must be less than 20 characters.',
+                              'Street address 2 must be less than 6 characters.',
                           },
                         },
                         city: {
@@ -853,8 +869,12 @@ const formConfig = {
                         // ],
                       },
                     },
-                    limitedConsent: {
+                    'view:limitedConsent': {
                       type: 'boolean',
+                    },
+                    limitedConsent: {
+                      type: 'string',
+                      maxLength: 83,
                     },
                     'view:privateRecordsChoiceHelp': {
                       type: 'object',
