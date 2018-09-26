@@ -30,7 +30,8 @@ import {
   addDisabilities,
   newDisabilityFollowUp,
   paymentInformation,
-  homelessOrAtRisk,
+  claimExamsInfo,
+  homelessOrAtRisk
 } from '../pages';
 
 import fullSchema from './schema';
@@ -181,6 +182,17 @@ const formConfig = {
           uiSchema: newDisabilityFollowUp.uiSchema,
           schema: newDisabilityFollowUp.schema
         },
+      }
+    },
+    supportingEvidence: {
+      title: 'Supporting Evidence',
+      pages: {
+        howClaimsWork: {
+          title: 'How claim exams work',
+          path: 'how-claim-exams-work',
+          uiSchema: claimExamsInfo.uiSchema,
+          schema: claimExamsInfo.schema
+        }
       }
     },
     additionalInformation: {

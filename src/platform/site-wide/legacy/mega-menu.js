@@ -92,7 +92,7 @@ class MegaMenu {
 
 export default MegaMenu;
 
-function initNavMenu() {
+export function initNavMenu() {
   const menuElement = document.querySelector('#vetnav');
   const openMenuElement = document.querySelector('.vetnav-controller-open');
   const closeMenuElement = document.querySelector('.vetnav-controller-close');
