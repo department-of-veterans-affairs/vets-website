@@ -207,16 +207,16 @@ the unittests. This is why babel configuration is kept in `.babelrc`, so it can
 be shared between build and test.
 
 ### Static Webserver
-The site comes bundled with a static webserver, whic is used for serving the files of a certain build-type from the build directory. If there isn't already a server running on port `3001` as is the case with `npm run watch`, the static webserver will automatically be started during Nightwatch tests (E2E and Visual Regression) that will serve the files of the corresponding build.
+The site comes bundled with a static webserver, which is used for serving the files of a certain build-type from the build directory. If there isn't already a server running on port `3001` as is the case with `npm run watch`, the static webserver will automatically be started during Nightwatch tests (E2E and Visual Regression) that will serve the files of the corresponding build.
 
 #### Running the site in production
 It is sometimes useful to ensure that a certain feature of the site will function correctly in a certain environment. For example, a common use case is to render a certain feature in all environments outside of production. In this case, it would be beneficial to ensure the production environment is not impacted. To locally run a production build of the website, follow these steps:
 
 1. `NODE_ENV=production npm run build -- --buildtype=production`
   - This will generate the complete static website in `build/production`.
-  - NOTE: You will likely see files already in the `build/development` directory. This contains the generated content files from Metalsmith, but unless you recently executed a development build, it most like does not contain the Webpack-compiled assets (JS/CSS) which are served from memory and not written to the file system during the watch-task.
+  - NOTE: You will likely see files already in the `build/development` directory. This contains the generated content files from Metalsmith, but unless you recently executed a development build, it most likely does not contain the Webpack-compiled assets (JS/CSS) which are served from memory and not written to the file system during the watch-task.
 2. `node src/platform/testing/e2e/test-server.js --buildtype=production`
-  - You should see console output indicating that a local webserver has started for the production build-type. The port
+  - You should see console output indicating that a local webserver has started, which port it is running on, and for which build-type.
 
 ### End-to-end Test -- nightwatch
 
@@ -230,7 +230,7 @@ for tests. On Jenkins, Headless Chrome is used.
 Nightwatch is a wrapper on Selenium. It is configured in `config/nightwatch.js`.
 To run a nightwatch test, 3 things need to execute:
 
-  1. [A webserver with our site](##static-webserver)
+  1. [A webserver with our site](#static-webserver)
   2. The selenium server (which will spawn browsers like PhanomJS)
   3. The nightwatch client that talks to the Selenium server
 
