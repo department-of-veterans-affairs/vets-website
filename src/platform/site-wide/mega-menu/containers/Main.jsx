@@ -1,9 +1,11 @@
 import React from 'react';
+import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import defaultLinkData from '../mega-menu-link-data.json';
 import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users.json';
-import { togglePanelOpen, toggleMobileDisplayHidden } from '../actions';
+import { togglePanelOpen, toggleMobileDisplayHidden, updateCurrentSection } from '../actions';
 import { isLoggedIn } from '../../../user/selectors';
+import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
 
 import MegaMenu from '@department-of-veterans-affairs/formation/MegaMenu';
 
@@ -15,10 +17,14 @@ export function flagCurrentPageInTopLevelLinks(links = [], pathName = window.loc
   });
 }
 
-export function getAuthorizedLinkData(loggedIn, authenticatedLinks = authenticatedUserLinkData, defaultLinks = defaultLinkData) {
+export function getAuthorizedLinkData(
+  loggedIn,
+  authenticatedLinks = authenticatedUserLinkData,
+  defaultLinks = defaultLinkData
+) {
   return [
-    ...defaultLinks,
-    ...loggedIn ? authenticatedLinks : []
+    ...replaceDomainsInData(defaultLinks),
+    ...loggedIn ? replaceDomainsInData(authenticatedLinks) : []
   ];
 }
 
@@ -30,30 +36,23 @@ export class Main extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const data = flagCurrentPageInTopLevelLinks(getAuthorizedLinkData(isLoggedIn(state)));
+const mapStateToProps = createSelector(
+  isLoggedIn,
+  state => state.megaMenu,
+  (loggedIn, megaMenu) => {
+    const data = flagCurrentPageInTopLevelLinks(getAuthorizedLinkData(loggedIn));
 
-  return {
-    ...state.megaMenu,
-    data
-  };
-};
+    return {
+      ...megaMenu,
+      data
+    };
+  }
+);
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleDisplayHidden: (hidden) => {
-      dispatch(toggleMobileDisplayHidden(hidden));
-    },
-    toggleDropDown: (currentDropdown) => {
-      dispatch(togglePanelOpen(currentDropdown));
-    },
-    updateCurrentSection: (currentSection) => {
-      dispatch({
-        type: 'UPDATE_CURRENT_SECTION',
-        currentSection,
-      });
-    }
-  };
+const mapDispatchToProps = {
+  toggleDisplayHidden: toggleMobileDisplayHidden,
+  toggleDropDown: togglePanelOpen,
+  updateCurrentSection
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

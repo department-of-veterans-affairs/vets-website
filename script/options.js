@@ -76,7 +76,11 @@ function applyEnvironmentOverrides(options) {
 function applyBrandConsolidationOverrides(options) {
   Object.assign(options, {
     contentRoot: '../va-gov',
-    collections: require('./collections/brand-consolidation.json')
+    collections: require('./collections/brand-consolidation.json'),
+    // This list also exists in platform/utilities/environment/stagingDomains
+    domainReplacements: [
+      { from: 'www\\.cem\\.va\\.gov', to: 'staging.cem.va.gov' }
+    ]
   });
 }
 
