@@ -89,21 +89,35 @@ You may get up to 36 months of education benefits. We'll pay the benefits monthl
 ### How do I get these benefits?
 [Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
 
-### What's covered under MGIB-AD education benefits?
+### How can I use my MGIB-AD education benefits?
 
-We'll help you pay for these types of training, programs, and fees:
+You can use your GI Bill benefits in many ways to advance your education and training.
 
-- [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
-- [Co-op training](/education/work-learn/co-op-training/)
-- [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
-- [Flight training](/education/advanced-training-and-certifications/flight-training/)
-- [Independent and distance learning](/education/work-learn/non-traditional/independent-distance-learning/)
-- [Undergraduate and graduate degree programs](/education/gi-bill/higher-learning/)
-- [Test fees](/education/advanced-training-and-certifications/test-fees)
-- [Non-college degree programs (technical or vocational courses)](/education/work-learn/non-college-degree-program/)
-- [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
+**Work toward a degree:**
+
+- [Undergraduate and graduate degrees](/education/gi-bill/higher-learning/)
 - [Tuition Assistance Top-Up](/education/gi-bill/tuition-assistance/)
 - [Tutorial Assistance](/education/gi-bill/tutorial-assistance/)
+
+**Train for a specific career, trade, or industry:**
+
+- [Vocational/technical training and non-college degree programs](/education/work-learn/non-college-degree-program/)
+- [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
+- [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
+- [Flight training](/education/advanced-training-and-certifications/flight-training/)
+- [Test fees](/education/advanced-training-and-certifications/test-fees/)
+
+**Work while you study:**
+
+- [Co-op training](/education/work-learn/co-op-training/)
+- [Work study](/education/work-learn/workstudy/)
+
+**Take classes from home:**
+
+- [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
+- [Independent and distance learning](/education/work-learn/non-traditional/independent-distance-learning/)
+
+**New subhead goes here:**
 - [Accelerated payments for high-tech programs](/education/work-learn/non-traditional/accelerated-payments/)
 - [$600 Buy-Up program](/education/gi-bill/buy-up-program/): While on active duty, you can pay into this program up to a maximum (the highest amount allowed) of $600 to get increased monthly benefits. If you pay the maximum amount, you can qualify for up to $5,400 in added GI Bill benefits.
 
