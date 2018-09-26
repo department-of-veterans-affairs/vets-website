@@ -17,13 +17,20 @@ const urlMap = {
 
   '/health-care/schedule-view-va-appointments/': `${mhvDomain}/mhv-portal-web/web/myhealthevet/scheduling-a-va-appointment`,
 
-  '/health-care/view-test-and-lab-results/': `${mhvDomain}/mhv-portal-web/labs-tests`
+  '/health-care/view-test-and-lab-results/': `${mhvDomain}/mhv-portal-web/labs-tests`,
+
+  '/claim-or-appeal-status/': '/track-claims/'
 };
 
 export default function createCallToActionWidget() {
   if (conditionalStorage().getItem('userToken')) {
     const redirectUrl = urlMap[location.pathname];
-    window.open(redirectUrl, 'redirect-popup');
+
+    if (redirectUrl.startsWith('/')) {
+      window.location = redirectUrl;
+    } else {
+      window.open(redirectUrl, 'redirect-popup');
+    }
   }
 
   // TODO: Implement CTA behavior in a new component.

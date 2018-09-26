@@ -86,7 +86,7 @@ Post-9/11 GI Bill benefits expire 15 years after your last separation date from 
 <div itemprop="text">
 
 You can check to see if you have Post-9/11 GI Bill benefits. <br>
-[View and print your statement of benefits](/education/check-post-9-11-gi-bill-benefit-status).
+[View and print your statement of benefits](/education/gi-bill/post-9-11/ch-33-benefit).
 
 </div>
 </div>

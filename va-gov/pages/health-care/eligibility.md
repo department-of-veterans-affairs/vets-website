@@ -198,7 +198,7 @@ Yes.
 - [Other mental health problems (like depression or substance abuse)](/health-care/health-needs-conditions/mental-health/#no-benefits)
 - [Mental and physical health problems linked to military sexual trauma (MST)](/health-care/health-needs-conditions/military-sexual-trauma/#no-benefits)
 
-Or, call our general VA hotline at <a href="tel:+1phonenumber">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
+Or, call our general VA hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
 
 </div>
 </div>
