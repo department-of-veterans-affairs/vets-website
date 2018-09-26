@@ -342,7 +342,7 @@ export const limitedConsentTextTitle = (
 );
 
 export const limitedConsentDescription = (
-  <div className="limitedConsent">
+  <div>
     <AdditionalInfo triggerText="What does this mean?">
       <p>
         If you choose to limit consent, your doctor will abide by the limitation
