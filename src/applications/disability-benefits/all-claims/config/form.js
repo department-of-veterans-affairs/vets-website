@@ -10,7 +10,8 @@ import {
 import {
   hasGuardOrReservePeriod,
   getDisabilityName,
-  prefillTransformer
+  prefillTransformer,
+  hasVAEvidence
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -203,7 +204,7 @@ const formConfig = {
         vaMedicalRecords: {
           title: 'VA Medical Records',
           path: 'supporting-evidence/va-medical-records',
-          // depends: (formData) => formData['view:something'] === true,
+          depends: hasVAEvidence,
           uiSchema: vaMedicalRecords.uiSchema,
           schema: vaMedicalRecords.schema
         },

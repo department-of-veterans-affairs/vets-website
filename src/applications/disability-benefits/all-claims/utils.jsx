@@ -8,7 +8,9 @@ import _ from '../../../platform/utilities/data';
 
 import {
   RESERVE_GUARD_TYPES,
-  USA } from './constants';
+  USA,
+  DATA_PATHS
+} from './constants';
 /**
  * Show one thing, have a screen reader say another.
  * NOTE: This will cause React to get angry if used in a <p> because the DOM is "invalid."
@@ -219,3 +221,5 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
     properties: disabilitiesViews
   };
 };
+
+export const hasVAEvidence = (formData) => _.get(DATA_PATHS.hasVAEvidence, formData, false);

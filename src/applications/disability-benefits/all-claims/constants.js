@@ -126,3 +126,9 @@ export const HOMELESS_HOUSING_TYPES = {
   anotherPerson: 'anotherPerson',
   other: 'other'
 };
+
+export const DATA_PATHS = {
+  hasVAEvidence:
+    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasVAMedicalRecords'
+};
+
