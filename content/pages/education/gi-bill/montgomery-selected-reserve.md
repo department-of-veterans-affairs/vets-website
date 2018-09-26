@@ -37,23 +37,29 @@ You may get up to $368 per month in compensation (payments).
 
 [Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
 
-### What's covered under MGIB-SR education benefits?
+### How can I use my MGIB-SR education benefits?
 
-We'll help you pay for these types of training, programs, and fees:
+You can use your benefits in many ways to advance your education and training.
+
+**We may help you pay for:**
 
 - [Undergraduate and graduate degree programs](/education/gi-bill/higher-learning/)
-- [Co-op training](/education/work-learn/co-op-training/)
-- [Non-college degree programs (technical or vocational courses)](/education/work-learn/non-college-degree-program/)
+- [Vocational/technical training and non-college degree programs](/education/work-learn/non-college-degree-program/)
 - [Flight training](/education/advanced-training-and-certifications/flight-training/)
 - [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
-- [High-tech training](/education/work-learn/non-traditional/accelerated-payments/) for Reservists in non-degree educational programs lasting two years or less
-- [Test fees](/education/advanced-training-and-certifications/test-fees)
-- [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
+- [High-tech training if you're a Reservist in a non-degree educational program that lasts two years or less](/education/work-learn/non-traditional/accelerated-payments/)
 - [Correspondence courses](/education/work-learn/non-traditional/correspondence-training/)
-- In some cases:
-  - Remedial courses (classes some students must take to build up their basic skills in math, reading, or English before they can take regular college courses),
-  - Deficiency courses (classes some student must take in order to be admitted to a certain college)
-  - Refresher courses (brief courses that help people review and improve their knowledge in a certain subject area)
+- [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
+
+**We may also:**
+  
+- [Help with the cost of books, tuition, and housing if you’re in a co-op training program](/education/work-learn/co-op-training/)
+- [Pay you back for the cost of test fees](/education/advanced-training-and-certifications/test-fees)
+
+**In some cases, we may also help you pay for:**
+- Remedial courses (classes some students must take to build up their basic skills in math, reading, or English before they can take regular college courses),
+- Deficiency courses (classes some student must take in order to be admitted to a certain college)
+- Refresher courses (brief courses that help people review and improve their knowledge in a certain subject area)
 
 [See current payment rates](https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
 
