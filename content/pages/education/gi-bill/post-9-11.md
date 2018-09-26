@@ -167,7 +167,7 @@ You can use your GI Bill benefits in many ways to advance your education and tra
 **Work while you study:**
 
 - [Co-op training](/education/work-learn/co-op-training/)
-- [Work Study] (/education/work-learn/workstudy/)
+- [Work study](/education/work-learn/workstudy/)
 
 **Take classes from home:**
 
