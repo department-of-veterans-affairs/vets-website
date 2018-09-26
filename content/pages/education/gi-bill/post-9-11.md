@@ -144,23 +144,35 @@ The benefit amount depends on which school you go to, how much active-duty servi
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h3 itemprop="name">What’s covered under Post-9/11 GI Bill benefits?</h3>
+<h3 itemprop="name">How can I use my Post-9/11 GI Bill benefits?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-We’ll help you pay for these types of training, programs, and fees:
+You can use your GI Bill benefits in many ways to advance your education and training.
 
-- [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
-- [Co-op training](/education/work-learn/co-op-training/)
-- [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
-- [Flight training](/education/advanced-training-and-certifications/flight-training/)
-- [Independent and distance learning](/education/work-learn/non-traditional/independent-distance-learning/)
+**Work toward a degree:**
+
 - [Undergraduate and graduate degrees](/education/gi-bill/higher-learning/)
-- [Test fees](/education/advanced-training-and-certifications/test-fees/)
-- [Vocational/technical training and non-college degree programs](/education/work-learn/non-college-degree-program/)
-- [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
 - [Tuition Assistance Top-Up](/education/gi-bill/tuition-assistance/)
 - [Tutorial Assistance](/education/gi-bill/tutorial-assistance/)
+
+**Train for a specific career, trade, or industry:**
+
+- [Vocational/technical training and non-college degree programs](/education/work-learn/non-college-degree-program/)
+- [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
+- [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
+- [Flight training](/education/advanced-training-and-certifications/flight-training/)
+- [Test fees](/education/advanced-training-and-certifications/test-fees/)
+
+**Work while you study:**
+
+- [Co-op training](/education/work-learn/co-op-training/)
+- [Work Study] (/education/work-learn/workstudy/)
+
+**Take classes from home:**
+
+- [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
+- [Independent and distance learning](/education/work-learn/non-traditional/independent-distance-learning/)
 
 </div>
 </div>
