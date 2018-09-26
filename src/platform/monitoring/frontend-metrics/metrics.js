@@ -5,6 +5,7 @@
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Performance
  */
 
+import environment from '../../utilities/environment';
 import Raven from 'raven-js';
 
 /**
@@ -63,6 +64,20 @@ function buildMetricsPayload(entry) {
 }
 
 /**
+ * Sends a payload via beacon that asynchronously transmits data to the web server
+ * when the User Agent has an opportunity to do so, without delaying the unload or
+ * affecting the performance of the next navigation.
+ * @see: https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon
+ */
+function sendMetricsToBackend(metricsPayload) {
+  const url = `${environment.API_URL}/v0/performance_monitorings`;
+  if (!navigator.sendBeacon(url, metricsPayload)) {
+    return false;
+  }
+  return true;
+}
+
+/**
  * Capture metrics with a PerformanceObserver object
  * @see https://developer.mozilla.org/en-US/docs/Web/API/PerformanceObserver/observe
  */
@@ -71,7 +86,7 @@ function captureMetrics() {
     list.getEntriesByType('navigation').forEach(entry => {
       const metricsPayload = buildMetricsPayload(entry);
       window.addEventListener('unload', () => {
-        // TODO: Send method to backend outlined in https://github.com/department-of-veterans-affairs/vets.gov-team/issues/13355
+        sendMetricsToBackend(metricsPayload);
       });
     });
   });
