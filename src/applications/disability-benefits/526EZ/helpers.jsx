@@ -182,7 +182,6 @@ export function transform(formConfig, form) {
 
   const withoutViewFields = filterViewFields(transformedData);
   return JSON.stringify({ form526: withoutViewFields });
-
 }
 
 export function validateDisability(disability) {
@@ -342,15 +341,13 @@ export const limitedConsentTextTitle = (
 );
 
 export const limitedConsentDescription = (
-  <div>
-    <AdditionalInfo triggerText="What does this mean?">
-      <p>
-        If you choose to limit consent, your doctor will abide by the limitation
-        you specify. Limiting consent could add to the time it takes to get your
-        private medical records.
-      </p>
-    </AdditionalInfo>
-  </div>
+  <AdditionalInfo triggerText="What does this mean?">
+    <p>
+      If you choose to limit consent, your doctor will abide by the limitation
+      you specify. Limiting consent could add to the time it takes to get your
+      private medical records.
+    </p>
+  </AdditionalInfo>
 );
 
 export const disabilityNameTitle = ({ formData }) => {
