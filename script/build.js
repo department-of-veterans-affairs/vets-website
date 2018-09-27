@@ -139,7 +139,6 @@ if (BUILD_OPTIONS.watch) {
   }
 }
 
-// TODO(awong): This URL needs to change based on target environment.
 smith.use(sitemap({
   hostname: BUILD_OPTIONS.hostname,
   omitIndex: true
