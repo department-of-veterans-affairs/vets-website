@@ -20,6 +20,7 @@ import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 import { validateMatch } from 'us-forms-system/lib/js/validation';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 // import environment from '../../../../platform/utilities/environment';
 
 const {
@@ -163,6 +164,7 @@ const formConfig = {
   },
   title: 'Apply for vocational counseling',
   subTitle: 'Form 28-8832',
+  preSubmitInfo,
   defaultDefinitions: {
     address,
     date,

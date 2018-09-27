@@ -25,7 +25,7 @@ module.exports = E2eHelpers.createE2eTest((client) => {
   // Review and submit page
   E2eHelpers.expectNavigateAwayFrom(client, '/claimant-information');
   client
-    .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
+    .waitForElementVisible('label[name="privacyAgreementAccepted-label"]', Timeouts.slow)
     .pause(1000)
     .click('input[type="checkbox"]')
     .axeCheck('.main')
