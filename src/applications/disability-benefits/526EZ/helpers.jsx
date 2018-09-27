@@ -118,6 +118,7 @@ export function transform(formConfig, form) {
 
   const additionalDocuments = aggregate(disabilities, 'additionalDocuments');
   const privateRecords = aggregate(disabilities, 'privateRecords');
+  const treatments = aggregate(disabilities, 'treatments');
 
   const transformedData = {
     disabilities: disabilities
@@ -125,12 +126,13 @@ export function transform(formConfig, form) {
       .map(filtered => pick(filtered, disabilityProperties)),
     // Pull phone & email out of phoneEmailCard and into veteran property
     veteran: setPhoneEmailPaths(veteran),
-    // Extract treatments into one top-level array
-    treatments: aggregate(disabilities, 'treatments'),
     attachments: additionalDocuments.concat(privateRecords),
     privacyAgreementAccepted,
     serviceInformation,
     standardClaim,
+    // treatments has a minItems: 1 requirement so only include the property
+    // if there is at least one treatment to send
+    ...treatments.length && { treatments }
   };
 
   const withoutViewFields = filterViewFields(transformedData);
