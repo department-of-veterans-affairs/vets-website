@@ -1,14 +1,8 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-export const introductionText = (
+const introductionExplanationText = (
   <div>
-    <p>
-      We‘ll now ask you questions about the stressful event or events related to
-      your PTSD. We understand that some of the questions maybe difficult to
-      answer. The information you provide here will help us understand your
-      situation and research your claim.
-    </p>
     <p>
       As you go through these questions, your responses will be saved. So, if
       you need to take a break and come back to your application, your
@@ -38,6 +32,18 @@ export const introductionText = (
       </li>
     </ul>
     <p>Support for the deaf and hearing-impaired is also available.</p>
+  </div>
+);
+
+export const introductionText = (
+  <div>
+    <p>
+      We‘ll now ask you questions about the stressful event or events related to
+      your PTSD. We understand that some of the questions maybe difficult to
+      answer. The information you provide here will help us understand your
+      situation and research your claim.
+    </p>
+    {introductionExplanationText}
   </div>
 );
 
@@ -120,21 +126,22 @@ export const documentDescription = () => {
   );
 };
 
-export const incidentIntroduction = ({ formData }) => {
+export const incidentIntroduction781 = ({ formData }) => {
   const classifications = formData['view:selectablePtsdTypes'];
   let incidentTitle;
-  if (classifications['view:assaultPtsdType']) {
-    incidentTitle = 'Personal Assault';
-  }
   if (classifications['view:combatPtsdType']) {
     incidentTitle = 'Combat';
   }
-  if (classifications['view:mstPtsdType']) {
-    incidentTitle = 'Military Sexual Trauma';
-  }
-  if (classifications['view:nonCombatPtsdType']) {
+  if (classifications['view:noncombatPtsdType']) {
     incidentTitle =
       'Non-Combat PTSD other than Military Sexual Trama or Personal Assault';
+  }
+  if (
+    classifications['view:combatPtsdType'] &&
+    classifications['view:noncombatPtsdType']
+  ) {
+    incidentTitle =
+      'Combat and Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
   }
 
   return (
@@ -169,6 +176,33 @@ export const incidentIntroduction = ({ formData }) => {
         </li>
       </ul>
       <p>Support for the deaf and hearing-impaired is also available.</p>
+    </div>
+  );
+};
+
+export const incidentIntroduction781a = ({ formData }) => {
+  const classifications = formData['view:selectablePtsdTypes'];
+  let incidentTitle;
+
+  if (classifications['view:assaultPtsdType']) {
+    incidentTitle = 'Personal Assault';
+  }
+
+  if (classifications['view:mstPtsdType']) {
+    incidentTitle = 'Military Sexual Trauma';
+  }
+
+  if (
+    classifications['view:assaultPtsdType'] &&
+    classifications['view:mstPtsdType']
+  ) {
+    incidentTitle = 'Personal Assault and Military Sexual Trauma';
+  }
+
+  return (
+    <div>
+      <h3>{incidentTitle}</h3>
+      {introductionExplanationText}
     </div>
   );
 };
