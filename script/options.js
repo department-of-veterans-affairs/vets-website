@@ -38,7 +38,8 @@ function applyDefaultOptions(options) {
     assets: {
       source: '../assets', destination: './'
     },
-    collections: require('./collections/default.json')
+    collections: require('./collections/default.json'),
+    redirects: []
   });
 
   if (options.buildtype === undefined) {
@@ -76,7 +77,8 @@ function applyEnvironmentOverrides(options) {
 function applyBrandConsolidationOverrides(options) {
   Object.assign(options, {
     contentRoot: '../va-gov',
-    collections: require('./collections/brand-consolidation.json')
+    collections: require('./collections/brand-consolidation.json'),
+    redirects: require('./vagovRedirects.json')
   });
 }
 

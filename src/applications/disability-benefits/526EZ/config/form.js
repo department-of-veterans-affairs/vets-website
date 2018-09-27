@@ -39,14 +39,12 @@ import {
   transform,
   prefillTransformer,
   supportingEvidenceOrientation,
-  evidenceTypeHelp,
   disabilityNameTitle,
   vaMedicalRecordsIntro,
   privateMedicalRecordsIntro,
   privateRecordsChoice,
   privateRecordsChoiceHelp,
   facilityDescription,
-  treatmentView,
   download4142Notice,
   authorizationToDisclose,
   // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
@@ -57,21 +55,26 @@ import {
   FDCDescription,
   FDCWarning,
   noFDCWarning,
-  queryForFacilities,
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
-  validateBooleanIfEvidence
+  validateIfHasEvidence
 } from '../helpers';
 
 import {
-  hasGuardOrReservePeriod
+  hasGuardOrReservePeriod,
+  queryForFacilities
 } from '../../all-claims/utils';
 
 import {
   disabilityOption,
   disabilitiesClarification
 } from '../../all-claims/content/ratedDisabilities';
+
+import {
+  treatmentView
+} from '../../all-claims/content/vaMedicalRecords';
+import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
 
 import { requireOneSelected } from '../validations';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
@@ -360,10 +363,8 @@ const formConfig = {
                     }
                   },
                   'ui:validations': [{
-                    validator: validateBooleanIfEvidence,
-                    options: {
-                      wrappedValidator: validateBooleanGroup
-                    }
+                    validator: validateIfHasEvidence,
+                    options: { wrappedValidator: validateBooleanGroup }
                   }],
                   'ui:errorMessages': {
                     atLeastOne: 'Please select at least one type of supporting evidence'
