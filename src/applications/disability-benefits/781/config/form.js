@@ -10,7 +10,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.definitions;
 
-import { introductionText } from '../helpers';
+import { introductionText, incidentIntroduction } from '../helpers';
 
 // Define all the fields in the form to aid reuse
 // const formFields = {};
@@ -85,6 +85,18 @@ const formConfig = {
           depends: (form) => form['view:uploadPtsdSecondaryChoice'] === 'upload' && (form['view:selectablePtsdTypes']['view:mstPtsdType'] || form['view:selectablePtsdTypes']['view:assaultPtsdType']),
           uiSchema: uploadPtsdSecondary.uiSchema,
           schema: uploadPtsdSecondary.schema
+        },
+        informationInterview: {
+          path: 'information-781a',
+          title: 'Disability Details',
+          depends: (form) => form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' && (form['view:selectablePtsdTypes']['view:mstPtsdType'] || form['view:selectablePtsdTypes']['view:assaultPtsdType']),
+          uiSchema: {
+            'ui:description': incidentIntroduction,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         }
       }
     }
