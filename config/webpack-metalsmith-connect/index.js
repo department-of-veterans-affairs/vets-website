@@ -28,13 +28,18 @@ function getEntryPoints(buildOptions) {
 }
 
 function compileAssets(buildOptions) {
-  return (files, metalsmith, done) => {
-    const convertPathsMiddleware = convertPathsToRelative(buildOptions);
-    const apps = getEntryPoints(buildOptions);
-    const webpackConfig = generateWebpackConfig(buildOptions, apps);
-    const webpackMiddleware = webpackPlugin(webpackConfig);
+  let compileMiddleware = null;
+  let convertPathsMiddleware = null;
 
-    webpackMiddleware(files, metalsmith, (err) => {
+  return (files, metalsmith, done) => {
+    if (!compileMiddleware) {
+      const apps = getEntryPoints(buildOptions);
+      const webpackConfig = generateWebpackConfig(buildOptions, apps);
+      compileMiddleware = webpackPlugin(webpackConfig);
+      convertPathsMiddleware = convertPathsToRelative(buildOptions);
+    }
+
+    compileMiddleware(files, metalsmith, (err) => {
       if (err) throw err;
       convertPathsMiddleware(files, metalsmith, done);
     });
@@ -42,14 +47,19 @@ function compileAssets(buildOptions) {
 }
 
 function watchAssets(buildOptions) {
-  return (files, metalsmith, done) => {
-    const convertPathsMiddleware = convertPathsToRelative(buildOptions);
-    const apps = getEntryPoints(buildOptions);
-    const webpackConfig = generateWebpackConfig(buildOptions, apps);
-    const webpackDevServerConfig = generateWebpackDevConfig(buildOptions);
-    const webpackMiddleware = webpackDevServerPlugin(webpackConfig, webpackDevServerConfig);
+  let devServerMiddleware = null;
+  let convertPathsMiddleware = null;
 
-    webpackMiddleware(files, metalsmith, (err) => {
+  return (files, metalsmith, done) => {
+    if (!devServerMiddleware) {
+      const apps = getEntryPoints(buildOptions);
+      const webpackConfig = generateWebpackConfig(buildOptions, apps);
+      const webpackDevServerConfig = generateWebpackDevConfig(buildOptions);
+      devServerMiddleware = webpackDevServerPlugin(webpackConfig, webpackDevServerConfig);
+      convertPathsMiddleware = convertPathsToRelative(buildOptions);
+    }
+
+    devServerMiddleware(files, metalsmith, (err) => {
       if (err) throw err;
       convertPathsMiddleware(files, metalsmith, done);
     });
