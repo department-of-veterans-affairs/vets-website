@@ -34,15 +34,19 @@ social:
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
           label: Veterans Records Email Updates
+          external: true
           icon: fa-envelope-square
         - url: https://twitter.com/DeptVetAffairs/
           label: Veterans Affairs Twitter
+          external: true
           icon: fa-twitter
         - url: "https://www.facebook.com/VeteransAffairs/"
           label: Veterans Affairs Facebook
+          external: true
           icon: fa-facebook
         - url: "https://www.youtube.com/user/DeptVetAffairs"
           label: Veterans Affairs YouTube
+          external: true
           icon: fa-youtube
 ---
 
@@ -59,18 +63,18 @@ Access your VA records and documents online to manage your health and benefits.
   <h2>Get Your Records and Documents</h2>
 
   <div class="link">
-    <a href=/records/get-military-records/><b>Request Your Military Records (DD214)</b></a>
+    <a href="/records/get-military-service-records/"><b>Request Your Military Records (DD214)</b></a>
     <p>View and print documents from your official military personnel file (including your DD214).</p>
   </div>
 
   <div class="link">
-    <a href=/health-care/get-medical-records/><b>Get Your VA Medical Records (called VA Blue Button)</b></a>
+    <a href="/health-care/get-medical-records/"><b>Get Your VA Medical Records (called VA Blue Button)</b></a>
     <p>Set up your personal health record and download medical records, reports, and images to share with your VA and non-VA doctors.</p>
   </div>
 
   <div class="link">
-    <a href="/records/get-veteran-id-cards/vic"><b>Apply for a Veteran ID Card</b></a>
-    <p>Apply for a printed Veteran ID Card (VIC) that you can use instead of your DD214 to get discounts on goods and services offered to Veterans.</p>
+    <a href="/records/get-veteran-id-cards/"><b>Get Veteran ID Cards</b></a>
+    <p>Find out how to get different types of identification cards to show your military status or your enrollment in VA health care or the VA Choice program.</p>
   </div>
 
   <div class="link">

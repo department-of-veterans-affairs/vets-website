@@ -1,6 +1,5 @@
 // Builds the site using Metalsmith as the top-level build runner.
 const Metalsmith = require('metalsmith');
-const archive = require('metalsmith-archive');
 const assets = require('metalsmith-assets');
 const collections = require('metalsmith-collections');
 const dateInFilename = require('metalsmith-date-in-filename');
@@ -51,7 +50,6 @@ smith.use(filenames());
 
 smith.use(collections(BUILD_OPTIONS.collections));
 smith.use(dateInFilename(true));
-smith.use(archive());  // TODO(awong): Can this be removed?
 
 smith.use(assets(BUILD_OPTIONS.assets));
 
