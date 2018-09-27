@@ -77,7 +77,7 @@ export class AuthApp extends React.Component {
           headline: 'We couldn’t complete the sign-in process',
           content: (<div>
             <p>
-              We’re sorry. It looks like you selected "Deny" on the last page when asked for your permission to share information with Vets.gov, so we couldn’t complete the process. To give you full access to the tools on Vets.gov, we need to be able to share your information with the site.
+              We’re sorry. It looks like you selected "Deny" on the last page when asked for your permission to share information with VA.gov, so we couldn’t complete the process. To give you full access to the tools on VA.gov, we need to be able to share your information with the site.
             </p>
             <p>
               Please try again and click “Accept” on the final page. Or, you can try signing in with your premium DS Logon or premium MyHealtheVet account instead of identity proofing with ID.me.
@@ -122,7 +122,7 @@ export class AuthApp extends React.Component {
           content: (
             <div>
               <p>We’re sorry. Something went wrong on our end.</p>
-              <p>Please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>. We’re open Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>
+              <p>Please call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>. We’re open Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>
             </div>
           )
         };
@@ -140,7 +140,7 @@ export class AuthApp extends React.Component {
   render() {
     const view = this.state.error ?
       this.renderError() :
-      <LoadingIndicator message="Signing in to Vets.gov..."/>;
+      <LoadingIndicator message="Signing in to VA.gov..."/>;
 
     return (
       <div className="row">
