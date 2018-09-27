@@ -74,6 +74,10 @@ import {
 } from '../../all-claims/content/privateMedicalRecords';
 
 import {
+  FIFTY_MB
+} from '../../all-claims/constants';
+
+import {
   treatmentView
 } from '../../all-claims/content/vaMedicalRecords';
 import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
@@ -109,8 +113,6 @@ const {
   disabilities,
   vaTreatmentCenterAddress
 } = fullSchema526EZ.definitions;
-
-const FIFTY_MB = 52428800;
 
 const formConfig = {
   urlPrefix: '/',

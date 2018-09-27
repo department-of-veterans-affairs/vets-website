@@ -1,4 +1,12 @@
 import { privateRecordsChoiceHelp } from '../content/privateMedicalRecords';
+import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import environment from '../../../../platform/utilities/environment';
+import _ from '../../../../platform/utilities/data';
+import fullSchema from '../config/schema';
+import { FIFTY_MB } from '../constants';
+import { documentDescription } from '../../526EZ/helpers';
+
+const { attachments } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:description':
@@ -10,35 +18,78 @@ export const uiSchema = {
       application. If you want us to get them for you, you’ll need to 
       authorize their release.`
   },
-  'view:uploadPrivateMedicalRecords': {
-    'ui:title': 'Do you want to upload your private medical records?',
-    'ui:widget': 'yesNo',
-    'ui:options': {
-      labels: {
-        Y: 'Yes',
-        N: 'No, my doctor has my medical records.'
+  'view:uploadPrivateRecordsQualifier': {
+    'view:hasPrivateRecordsToUpload': {
+      'ui:title': 'Do you want to upload your private medical records?',
+      'ui:widget': 'yesNo',
+      'ui:options': {
+        labels: {
+          Y: 'Yes',
+          N: 'No, my doctor has my medical records.'
+        }
       }
+    },
+    'view:privateRecordsChoiceHelp': {
+      'ui:description': privateRecordsChoiceHelp
     }
   },
-  'view:privateRecordsChoiceHelp': {
-    'ui:description': privateRecordsChoiceHelp
-  }
+  privateMedicalRecords: Object.assign(
+    {},
+    fileUploadUI(
+      'Upload your private medical records',
+      {
+        fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tif', 'tiff', 'txt'],
+        expandUnder: 'view:uploadPrivateRecordsQualifier',
+        expandUnderCondition: (data) => _.get(
+          'view:hasPrivateRecordsToUpload', data, false
+        ),
+        // TODO: This is the URL for Increase, check that it’s correct
+        fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
+        addAnotherLabel: 'Add another record',
+        maxSize: FIFTY_MB,
+        createPayload: (file) => {
+          const payload = new FormData();
+          payload.append('supporting_evidence_attachment[file_data]', file);
+          return payload;
+        },
+        parseResponse: (response, file) => {
+          return {
+            name: file.name,
+            confirmationCode: response.data.attributes.guid
+          };
+        },
+        // this is the uiSchema passed to FileField for the attachmentId schema
+        // FileField requires this name be used
+        attachmentSchema: { 'ui:title': 'Document type' },
+        // this is the uiSchema passed to FileField for the name schema
+        // FileField requires this name be used
+        attachmentName: { 'ui:title': 'Document name' }
+      }
+    ),
+    { 'ui:description': documentDescription }
+  )
 };
 
 export const schema = {
   type: 'object',
-  required: ['view:uploadPrivateMedicalRecords'],
   properties: {
-    'view:aboutPrivateMedicalRecords': {
+    'view:uploadPrivateRecordsQualifier': {
+      required: ['view:hasPrivateRecordsToUpload'],
       type: 'object',
-      properties: {}
+      properties: {
+        'view:aboutPrivateMedicalRecords': {
+          type: 'object',
+          properties: {}
+        },
+        'view:hasPrivateRecordsToUpload': {
+          type: 'boolean'
+        },
+        'view:privateRecordsChoiceHelp': {
+          type: 'object',
+          properties: {}
+        }
+      }
     },
-    'view:uploadPrivateMedicalRecords': {
-      type: 'boolean'
-    },
-    'view:privateRecordsChoiceHelp': {
-      type: 'object',
-      properties: {}
-    }
+    privateMedicalRecords: attachments
   }
 };
