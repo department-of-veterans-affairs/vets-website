@@ -42,7 +42,7 @@ class AccountMain extends React.Component {
         content={<div>
           <h4 className="usa-alert-heading">We’re having trouble matching your information to our Veteran records</h4>
           <p>We’re sorry. We’re having trouble matching your information to our Veteran records, so we can’t give you access to tools for managing your health and benefits.</p>
-          <p>If you’d like to use these tools on Vets.gov, please contact your nearest VA medical center. Let them know you need to verify the information in your records, and update it as needed. The operator, or a patient advocate, can connect you with the right person who can help.</p>
+          <p>If you’d like to use these tools on VA.gov, please contact your nearest VA medical center. Let them know you need to verify the information in your records, and update it as needed. The operator, or a patient advocate, can connect you with the right person who can help.</p>
           <p><a href="/facilities">Find your nearest VA Medical Center</a></p>
         </div>}
         onCloseAlert={this.dismissMVIError}
@@ -71,10 +71,10 @@ class AccountMain extends React.Component {
         <MultifactorMessage multifactor={multifactor}/>
         <LoginSettings/>
         {verified && <TermsAndConditions mhvAccount={mhvAccount}/>}
-        <h4>Have questions about signing in to Vets.gov?</h4>
+        <h4>Have questions about signing in to VA.gov?</h4>
         <p>
-          Get answers to frequently asked questions about how to sign in, common issues with verifying your identity, and your privacy and security on Vets.gov.<br/>
-          <a href="/faq" onClick={() => recordEvent({ event: 'account-navigation', 'account-action': 'view-link', 'account-section': 'vets-faqs' })}>Go to Vets.gov FAQs</a>
+          Get answers to frequently asked questions about how to sign in, common issues with verifying your identity, and your privacy and security on VA.gov.<br/>
+          <a href="/faq" onClick={() => recordEvent({ event: 'account-navigation', 'account-action': 'view-link', 'account-section': 'vets-faqs' })}>Go to VA.gov FAQs</a>
         </p>
       </div>
     );
