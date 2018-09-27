@@ -1241,6 +1241,17 @@ const schema = {
         }
       }
     },
+    dateRange: {
+      type: 'object',
+      properties: {
+        from: {
+          $ref: '#/definitions/date'
+        },
+        to: {
+          $ref: '#/definitions/date'
+        }
+      }
+    },
     dateRangeAllRequired: {
       type: 'object',
       properties: {
@@ -1553,13 +1564,8 @@ const schema = {
               },
               treatmentDateRange: {
                 type: 'array',
-                properties: {
-                  from: {
-                    $ref: '#/definitions/date'
-                  },
-                  to: {
-                    $ref: '#/definitions/date'
-                  }
+                items: {
+                  $ref: '#/definitions/dateRange'
                 }
               },
               providerFacilityAddress: {
