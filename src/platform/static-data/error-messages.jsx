@@ -6,7 +6,7 @@ export const systemDownMessage = (
     <div className="small-12 columns">
       <div className="react-container">
         <h3>Sorry, our system is temporarily down while we fix a few things. Please try again later.</h3>
-        <a href="/" className="usa-button-primary">Go Back to Vets.gov</a>
+        <a href="/" className="usa-button-primary">Go Back to VA.gov</a>
       </div>
     </div>
   </div>
@@ -51,7 +51,7 @@ export const mhvAccessError = (
             </li>
           </ol>
           <p>
-            If none of these reasons applies to you, please call the Vets.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We're here Monday – Friday, 8:00 a.m. – 8:00 p.m. (ET).
+            If none of these reasons applies to you, please call the VA.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We're here Monday – Friday, 8:00 a.m. – 8:00 p.m. (ET).
           </p>
         </div>
       </div>
