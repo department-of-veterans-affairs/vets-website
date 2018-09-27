@@ -91,5 +91,5 @@ Get help applying for a headstone, marker, niche cover, or medallion by calling 
 You may have additional costs, restrictions on the type of headstone or marker you can use, and other requirements you should know about when preparing for burial in a private cemetery. <br>
 [Find out what to ask when planning a burial in a private cemetery](https://www.cem.va.gov/cem/burial_benefits/private_cemetery.asp).
 
-If you'd like, you can request a medallion to attach to a privately purchased headstone, marker, or niche cover in a private cemetery. You can choose from 3 different sizes. When you receive the medallion, it comes with a kit to help you attach it.
+If you'd like, you can request a medallion to attach to a privately purchased headstone, marker, or niche cover in a private cemetery. You can choose from 3 different sizes. When you receive the medallion, it comes with a kit to help you attach it. <br>
 [Learn more about medallions and see what they look like](https://www.cem.va.gov/cem/docs/factsheets/medallion.pdf).
