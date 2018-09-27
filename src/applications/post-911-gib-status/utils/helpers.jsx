@@ -137,9 +137,9 @@ export function backendErrorMessage() {
         <p><strong>This could be for 1 of 2 reasons:</strong></p>
         <ul>
           <li>Your application is still being processed. We usually process applications within 30 days. If you applied after {date}, please check back again in a few days.</li>
-          <li>The name on your Vets.gov account might not exactly match the name we have in our Post-9/11 GI Bill records. To check the name we have in our records, please call the number below.</li>
+          <li>The name on your VA.gov account might not exactly match the name we have in our Post-9/11 GI Bill records. To check the name we have in our records, please call the number below.</li>
         </ul>
-        <p>If you think your statement of benefits should be here, please call the Vets.gov Help Desk at <a href="tel:18555747285">1-855-574-7286</a>.</p>
+        <p>If you think your statement of benefits should be here, please call the VA.gov Help Desk at <a href="tel:18555747285">1-855-574-7286</a>.</p>
         <a className="usa-button usa-button-primary">Back to Post-9/11 GI Bill</a>
         <br/>
         <br/>
