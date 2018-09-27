@@ -31,8 +31,6 @@ You’ll need to provide a copy of your discharge papers when you apply for a VI
 
 You can apply online now. 
 
-**[PLACEHOLDER FOR SIGN-IN MODULE: GRIFFINS TO HANDLE]** 
-
 [Apply for a Veteran ID Card](https://vicbdc.ppd.vba.va.gov/VIC)
 
 ### What do I need to apply for a Veteran ID Card? 
