@@ -6,6 +6,8 @@ const applyHerokuOptions = require('./heroku-helper');
 const environments = require('./constants/environments');
 const hostnames = require('./constants/hostnames');
 
+const defaultHost = 'localhost';
+
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: environments.DEVELOPMENT },
   { name: 'brand-consolidation-enabled', type: Boolean, defaultValue: false },
@@ -14,8 +16,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'entry', type: String, defaultValue: null },
   { name: 'analyzer', type: Boolean, defaultValue: false },
-  { name: 'host', type: String, defaultValue: 'localhost' },
-  { name: 'hostname', type: String, defaultValue: 'localhost' },
+  { name: 'host', type: String },
   { name: 'public', type: String, defaultValue: null },
   { name: 'destination', type: String, defaultValue: null },
 
@@ -51,9 +52,7 @@ function applyDefaultOptions(options) {
 function applyEnvironmentOverrides(options) {
   const env = require('get-env')();
 
-  if (options.buildtype) {
-    options.hostname = hostnames[options.buildtype];
-  }
+  options.host = options.host || options.buildType ? hostnames[options.buildtype] : defaultHost;
 
   switch (options.buildtype) {
     case environments.DEVELOPMENT:

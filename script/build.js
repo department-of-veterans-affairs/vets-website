@@ -140,7 +140,7 @@ if (BUILD_OPTIONS.watch) {
 }
 
 smith.use(sitemap({
-  hostname: BUILD_OPTIONS.hostname,
+  hostname: BUILD_OPTIONS.host === 'localhost' ? 'http://localhost' : BUILD_OPTIONS.host,
   omitIndex: true
 }));
 
