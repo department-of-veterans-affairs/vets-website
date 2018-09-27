@@ -18,6 +18,7 @@ import DependentField from '../components/DependentField';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
 import applicantDescription from '../../../../platform/forms/components/ApplicantDescription';
 import {
+  authorize,
   getSpouseMarriageTitle,
   dependentsMinItem,
   schoolAttendanceWarning,
@@ -101,6 +102,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/dependents_applications`,
   transformForSubmit: transform,
+  authorize,
   trackingPrefix: '686-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

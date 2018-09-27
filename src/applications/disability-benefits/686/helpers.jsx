@@ -103,3 +103,13 @@ export function isVeteran(item) {
   return relationship && relationship === '1';
 }
 
+export function authorize(isVerified) {
+  if (isVerified) {
+    // verifyDisabilityRating();
+  }
+}
+
+export const profileStatuses = { // TODO: move to platform and use in requiredLoginView
+  serverError: 'SERVER_ERROR',
+  notFound: 'NOT_FOUND'
+};
