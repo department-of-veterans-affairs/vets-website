@@ -139,3 +139,4 @@ export const DATA_PATHS = {
     'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',
 };
 
+export const VA_FORM4142_URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';

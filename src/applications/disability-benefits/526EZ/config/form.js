@@ -42,7 +42,6 @@ import {
   vaMedicalRecordsIntro,
   privateMedicalRecordsIntro,
   privateRecordsChoice,
-  privateRecordsChoiceHelp,
   facilityDescription,
   download4142Notice,
   authorizationToDisclose,
@@ -69,6 +68,10 @@ import {
   disabilityOption,
   disabilitiesClarification
 } from '../../all-claims/content/ratedDisabilities';
+
+import {
+  privateRecordsChoiceHelp
+} from '../../all-claims/content/privateMedicalRecords';
 
 import {
   treatmentView
