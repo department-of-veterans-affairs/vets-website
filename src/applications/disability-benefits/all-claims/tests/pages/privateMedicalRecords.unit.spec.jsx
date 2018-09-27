@@ -8,7 +8,7 @@ import formConfig from '../../config/form.js';
 import initialData from '../initialData.js';
 
 
-describe.only('526 All Claims Private medical records', () => {
+describe('526 All Claims Private medical records', () => {
   const errorClass = '.usa-input-error-message';
   const page = formConfig.chapters.supportingEvidence.pages.privateMedicalRecords;
   const { schema, uiSchema } = page;
