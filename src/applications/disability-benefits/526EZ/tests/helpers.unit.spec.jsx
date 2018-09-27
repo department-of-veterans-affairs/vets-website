@@ -66,22 +66,6 @@ describe('526 helpers', () => {
           primaryPhone: '4445551212',
           emailAddress: 'test2@test1.net'
         },
-        treatments: [
-          {
-            treatmentCenterName: 'Somerset VA Clinic',
-            treatmentDateRange: {
-              from: '2000-06-06',
-              to: '2004-02-06'
-            }
-          },
-          {
-            treatmentCenterName: 'DC VA Regional Medical Center',
-            treatmentDateRange: {
-              from: '2000-07-04',
-              to: '2010-01-03'
-            }
-          }
-        ],
         attachments: [
           {
             name: 'Screen Shot 2018-07-09 at 11.25.49 AM.png',
@@ -135,7 +119,23 @@ describe('526 helpers', () => {
             waiveVABenefitsToRetainTrainingPay: true
           }
         },
-        standardClaim: false
+        standardClaim: false,
+        treatments: [
+          {
+            treatmentCenterName: 'Somerset VA Clinic',
+            treatmentDateRange: {
+              from: '2000-06-06',
+              to: '2004-02-06'
+            }
+          },
+          {
+            treatmentCenterName: 'DC VA Regional Medical Center',
+            treatmentDateRange: {
+              from: '2000-07-04',
+              to: '2010-01-03'
+            }
+          }
+        ],
       }
     };
     it('should return stringified, transformed data for submit', () => {
