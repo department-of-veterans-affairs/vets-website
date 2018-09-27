@@ -91,8 +91,6 @@ We will pay you back for the approved tests listed below:
 
 ### How do I get this benefit?
 
-<div class="usa-accordion">
-<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="licensing-certification-get-benefits">For licensing and certification</button>
   
