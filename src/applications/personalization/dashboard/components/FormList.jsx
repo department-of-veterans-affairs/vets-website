@@ -7,7 +7,7 @@ import Modal from '@department-of-veterans-affairs/formation/Modal';
 import recordEvent from '../../../../platform/monitoring/record-event';
 
 import FormItem from './FormItem';
-import { isSIPEnabledForm } from '../helpers';
+import { isSIPEnabledForm, getFormsFolders } from '../helpers';
 
 class FormList extends React.Component {
   constructor(props) {
@@ -16,6 +16,10 @@ class FormList extends React.Component {
       modalOpen: false,
       formId: undefined
     };
+  }
+
+  componentDidMount() {
+    getFormsFolders();
   }
 
  removeForm = () => {

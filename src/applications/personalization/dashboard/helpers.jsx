@@ -1,4 +1,17 @@
 import Raven from 'raven-js';
+import glob from 'glob';
+
+export function getFormConfigs() {
+  // options is optional
+  glob('config/form.js*', () => {
+    // files is an array of filenames.
+    // If the `nonull` option is set, and nothing
+    // was found, then files is ["**/*.js"]
+    // er is an error object or null.
+    // console.log(files);
+  });
+}
+
 
 export const formBenefits = {
   '21-526EZ': 'increased disability compensation',
