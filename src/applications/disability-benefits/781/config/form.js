@@ -20,7 +20,8 @@ import {
   ptsdChoice,
   ptsdSecondaryChoice,
   uploadPtsd,
-  uploadPtsdSecondary
+  uploadPtsdSecondary,
+  ptsdIncidentDate,
 } from '../pages';
 
 const formConfig = {
@@ -85,6 +86,14 @@ const formConfig = {
           depends: (form) => form['view:uploadPtsdSecondaryChoice'] === 'upload' && (form['view:selectablePtsdTypes']['view:mstPtsdType'] || form['view:selectablePtsdTypes']['view:assaultPtsdType']),
           uiSchema: uploadPtsdSecondary.uiSchema,
           schema: uploadPtsdSecondary.schema
+        },
+        ptsdIncidentDate: {
+          path: 'ptsdIncidentDate',
+          title: 'Disability Details',
+          depends: (form) => form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' && (form['view:selectablePtsdTypes']['view:mstPtsdType'] || form['view:selectablePtsdTypes']['view:assaultPtsdType']),
+          uiSchema: ptsdIncidentDate.uiSchema,
+          schema: ptsdIncidentDate.schema
+
         }
       }
     }
