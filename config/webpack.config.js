@@ -18,7 +18,7 @@ const globalEntryFiles = {
   polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
   brandConsolidation: getAbsolutePath('src/platform/site-wide/sass/brand-consolidation.scss'),
   vendor: [
-    getAbsolutePath('./src/platform/polyfills'),
+    getAbsolutePath('src/platform/polyfills'),
     'react',
     'react-dom',
     'react-redux',
