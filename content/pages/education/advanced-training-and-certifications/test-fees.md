@@ -39,8 +39,6 @@ If you’re a Veteran and you qualify for the GI Bill, we may pay you back for t
 </div>
 </li>
 
-<div class="usa-accordion">
-<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="national-testing-kinds-of-benefits">For national testing</button>
   
@@ -99,9 +97,6 @@ Then, either upload your completed form to the GI Bill website or mail it to the
 </div>
 </li>
 
-
-<div class="usa-accordion">
-<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="national-testing-get-benefits">For national testing</button>
 
