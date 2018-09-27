@@ -15,6 +15,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'entry', type: String, defaultValue: null },
   { name: 'analyzer', type: Boolean, defaultValue: false },
   { name: 'host', type: String, defaultValue: 'localhost' },
+  { name: 'hostname', type: String, defaultValue: 'localhost' },
   { name: 'public', type: String, defaultValue: null },
   { name: 'destination', type: String, defaultValue: null },
 
@@ -50,7 +51,9 @@ function applyDefaultOptions(options) {
 function applyEnvironmentOverrides(options) {
   const env = require('get-env')();
 
-  options.hostname = hostnames[options.buildtype] || options.host;
+  if (options.buildtype) {
+    options.hostname = hostnames[options.buildtype];
+  }
 
   switch (options.buildtype) {
     case environments.DEVELOPMENT:
