@@ -6,15 +6,19 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation/Additional
 import {
   stringifyFormReplacer,
   filterViewFields,
-  filterInactivePages,
+  filterInactivePageData,
+  getActivePages,
+  expandArrayPages,
   createFormPageList
 } from 'us-forms-system/lib/js/helpers';
 import { getInactivePages } from '../../platform/forms/helpers';
 import { isValidDate } from '../../platform/forms/validations';
 
 export function transform(formConfig, form) {
-  const inactivePages = getInactivePages(createFormPageList(formConfig), form.data);
-  const withoutInactivePages = filterInactivePages(inactivePages, form);
+  const expandedPages = expandArrayPages(createFormPageList(formConfig), form.data);
+  const activePages = getActivePages(expandedPages, form.data);
+  const inactivePages = getInactivePages(expandedPages, form.data);
+  const withoutInactivePages = filterInactivePageData(inactivePages, activePages, form);
   let withoutViewFields = filterViewFields(withoutInactivePages);
 
   // add back dependents here, because it could have been removed in filterViewFields
