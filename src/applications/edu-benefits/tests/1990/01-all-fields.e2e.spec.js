@@ -140,7 +140,7 @@ const test = E2eHelpers.createE2eTest(
 
     // Review and submit page
     client
-      .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
+      .waitForElementVisible('label[name="privacyAgreementAccepted-label"]', Timeouts.slow)
       .pause(1000)
       .click('input[type="checkbox"]')
       .axeCheck('.main')
