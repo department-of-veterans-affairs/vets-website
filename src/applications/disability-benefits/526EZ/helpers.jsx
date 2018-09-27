@@ -353,28 +353,6 @@ export const recordReleaseWarning = (
 );
 
 
-export const documentDescription = () => {
-  return (
-    <div>
-      <p>
-        You can upload your document in a pdf, .jpeg, or .png file format.
-        You’ll first need to scan a copy of your document onto your computer or
-        mobile phone. You can then upload the document from there. Please note
-        that large files can take longer to upload with a slow Internet connection.
-        <br/>File upload guidelines:
-      </p>
-      <ul>
-        <li>You can upload files in a .pdf, .jpeg, or .png format</li>
-        <li>Files can be a maximum of 50MB each</li>
-      </ul>
-      <p>
-        <em>Large files can be more difficult to upload with a slow Internet connection</em>
-      </p>
-    </div>
-  );
-};
-
-
 export const additionalDocumentDescription = () => {
   return (
     <div>

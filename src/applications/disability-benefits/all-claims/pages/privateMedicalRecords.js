@@ -1,10 +1,15 @@
-import { privateRecordsChoiceHelp } from '../content/privateMedicalRecords';
+import {
+  privateRecordsChoiceHelp,
+  documentDescription
+} from '../content/privateMedicalRecords';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import environment from '../../../../platform/utilities/environment';
 import _ from '../../../../platform/utilities/data';
 import fullSchema from '../config/schema';
-import { FIFTY_MB } from '../constants';
-import { documentDescription } from '../../526EZ/helpers';
+import {
+  FIFTY_MB,
+  DATA_PATHS
+} from '../constants';
 
 const { attachments } = fullSchema.properties;
 
@@ -46,6 +51,7 @@ export const uiSchema = {
         // TODO: This is the URL for Increase, check that it’s correct
         fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
         addAnotherLabel: 'Add another record',
+        
         maxSize: FIFTY_MB,
         createPayload: (file) => {
           const payload = new FormData();
@@ -66,7 +72,10 @@ export const uiSchema = {
         attachmentName: { 'ui:title': 'Document name' }
       }
     ),
-    { 'ui:description': documentDescription }
+    {
+      'ui:description': documentDescription,
+      'ui:required': (data) => _.get(DATA_PATHS.hasPrivateRecordsToUpload, data, false)
+    }
   )
 };
 

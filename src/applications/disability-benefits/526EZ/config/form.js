@@ -46,7 +46,6 @@ import {
   download4142Notice,
   authorizationToDisclose,
   // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
-  documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
   GetFormHelp,
@@ -70,7 +69,8 @@ import {
 } from '../../all-claims/content/ratedDisabilities';
 
 import {
-  privateRecordsChoiceHelp
+  privateRecordsChoiceHelp,
+  documentDescription
 } from '../../all-claims/content/privateMedicalRecords';
 
 import {
