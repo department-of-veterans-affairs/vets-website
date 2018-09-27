@@ -7,7 +7,6 @@
  */
 
 import environment from '../../utilities/environment';
-import './whitelisted-paths';
 import Raven from 'raven-js';
 import { whitelistedPaths } from './whitelisted-paths';
 
@@ -60,7 +59,9 @@ function buildMetricsPayload(entry) {
       duration: metrics[metric]
     });
   });
-  const data = JSON.stringify({ metrics: metricsArray, pageId: pageUrl });
+
+  // eslint-disable-next-line camelcase
+  const data = JSON.stringify({ metrics: metricsArray, page_id: pageUrl });
 
   metricsPayload.append('data', data);
   return metricsPayload;
@@ -114,7 +115,12 @@ function canCaptureMetrics() {
 }
 
 function isWhitelisted() {
-  return !!whitelistedPaths.includes(window.location.pathname.slice(0, -1));
+  const path = window.location.pathname;
+
+  if (path === '/') {
+    return !!whitelistedPaths.includes(path);
+  }
+  return !!whitelistedPaths.includes(path.slice(0, -1));
 }
 
 /**
