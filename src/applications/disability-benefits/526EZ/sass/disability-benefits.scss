@@ -9,8 +9,6 @@
 // @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
-$blue-limited-consent: #0071BB;
-
 .dashed-bullet {
   list-style-type: none;
 }
@@ -172,10 +170,4 @@ $blue-limited-consent: #0071BB;
 
 .private-records-choice-help {
   margin: 2em 0;
-}
-
-.limitedConsent {
-   .additional-info-title {
-    color: $blue-limited-consent;
-  }
 }

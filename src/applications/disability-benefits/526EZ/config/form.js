@@ -798,11 +798,18 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['providerFacility'],
                   properties: {
                     providerFacility: {
                       type: 'array',
+                      minItems: 1,
+                      maxItems: 100,
                       items: {
                         type: 'object',
+                        required: [
+                          'providerFacilityName',
+                          'providerFacilityAddress',
+                        ],
                         properties: {
                           providerFacilityName: {
                             type: 'string',
@@ -856,10 +863,6 @@ const formConfig = {
                             },
                           ),
                         },
-                        required: [
-                          'providerFacilityName',
-                          'providerFacilityAddress',
-                        ],
                       },
                     },
                     'view:limitedConsent': {
