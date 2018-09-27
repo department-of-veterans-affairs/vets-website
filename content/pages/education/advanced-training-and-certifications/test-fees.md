@@ -50,23 +50,35 @@ If you’re a Veteran or Servicemember and you qualify for the GI Bill, we may p
 - The cost of specialized tests
 - Administrative fees <br>
 
-**We have approved and will pay you back for these tests:**
+We will pay you back for the approved tests listed below:
+
+**Approved college admissions tests:**
+
 - SAT (formerly “Scholastic Assessment Test”)
-- LSAT (Law School Admission Test)
-- GRE (Graduate Record Examination)
-- GMAT (Graduate Management Admission Test)
+- ACT (American College Testing)
+- TOEFL (Test of English as a Foreign Language)
+
+**Approved tests that you can take to earn college credits:**
+
 - AP (Advanced Placement Examination)
 - CLEP (College-Level Examination Program)
-- ACT (American College Testing)
-- DAT (Dental Admission Test)
-- MAT (Miller Analogies Test)
-- MCAT (Medical College Admission Test)
-- OAT (Optometry Admission Test)
-- PCAT (Pharmacy College Admission Test)
-- TOEFL (Test of English as a Foreign Language)
 - DSST (DANTES Subject Standardized Tests)
 - ECE (Excelsior College Examinations)
 - PLA (Prior Learning Assessment) testing through learningcounts.org
+
+**Approved graduate school admissions tests:**
+
+- GMAT (Graduate Management Admission Test)
+- GRE (Graduate Record Examination)
+- LSAT (Law School Admission Test)
+- MAT (Miller Analogies Test)
+
+**Approved admissions tests for pre-health professional programs:**
+
+- DAT (Dental Admission Test)
+- MCAT (Medical College Admission Test)
+- OAT (Optometry Admission Test)
+- PCAT (Pharmacy College Admission Test)
 
 [See the complete list of tests and fees](https://inquiry.vba.va.gov/weamspub/buildSearchNE.do).
 
