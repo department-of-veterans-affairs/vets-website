@@ -180,6 +180,57 @@ export const incidentIntroduction781 = ({ formData }) => {
   );
 };
 
+export const uploadPtsdDescription = ({ formData }) => {
+  const classifications = formData['view:selectablePtsdTypes'];
+  //  console.log(classifications);
+  let incidentTitle;
+  if (classifications['view:combatPtsdType']) {
+    incidentTitle = 'Combat';
+  }
+  if (classifications['view:noncombatPtsdType']) {
+    incidentTitle =
+      'Non-Combat PTSD other than Military Sexual Trama or Personal Assault';
+  }
+  if (
+    classifications['view:combatPtsdType'] &&
+    classifications['view:noncombatPtsdType']
+  ) {
+    incidentTitle =
+      'Combat and Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+  }
+
+  if (classifications['view:assaultPtsdType']) {
+    incidentTitle = 'Personal Assault';
+  }
+
+  if (classifications['view:mstPtsdType']) {
+    incidentTitle = 'Military Sexual Trauma';
+  }
+
+  if (
+    classifications['view:assaultPtsdType'] &&
+    classifications['view:mstPtsdType']
+  ) {
+    incidentTitle = 'Personal Assault and Military Sexual Trauma';
+  }
+  return (
+    <div>
+      <p>
+        The following questions will help us understand more about your
+        {` ${incidentTitle}`}-related PTSD. None of the questions we‘ll ask you
+        are required, but any information you provide here will help us research
+        your claim.
+      </p>
+      <p>
+        If you have already completed a Claim for Service Connection for
+        Post-Traumatic Stress Disorder (VA Form 21-0781), you can upload it here
+        instead of answering the questions about your PTSD.
+      </p>
+      <p>How would you like to provide information about your PTSD?</p>
+    </div>
+  );
+};
+
 export const incidentIntroduction781a = ({ formData }) => {
   const classifications = formData['view:selectablePtsdTypes'];
   let incidentTitle;
@@ -206,3 +257,19 @@ export const incidentIntroduction781a = ({ formData }) => {
     </div>
   );
 };
+
+export const ptsdChoiceDescription = (
+  <AdditionalInfo triggerText="What does this mean?">
+    <h5>Continue answering questions</h5>
+    <p>
+      If you choose to answer questions, we‘ll ask you several questions to
+      learn more about your PTSD.
+    </p>
+    <h5>Upload VA Form 21-0781</h5>
+    <p>
+      If you upload a completed VA Form 21-0781, we won‘t ask you questions
+      about your PTSD, and you‘ll move to the next section of the disability
+      application.
+    </p>
+  </AdditionalInfo>
+);
