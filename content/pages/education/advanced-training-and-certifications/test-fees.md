@@ -91,7 +91,7 @@ If you’re a Veteran or Servicemember and you qualify for the GI Bill, we may p
 You’ll need to fill out an Application for Reimbursement of Licensing or Certification Test Fees (VA Form 22-0803). <br>
 [Download VA Form 22-0803](https://www.vba.va.gov/pubs/forms/VBA-22-0803-ARE.pdf). 
 
-**Note:** You’ll need to turn in proof of payment with your application. Proof of payment can be a receipt showing you paid the testing fee.
+**Note:** Please turn in proof of payment with your application. Proof of payment can be a receipt showing you paid the testing fee.
 
 Then, either upload your completed form to the GI Bill website or mail it to the nearest VA regional processing office. <br>
 [Upload your completed application to the GI Bill website](https://gibill.custhelp.va.gov/app/utils/login_form/).<br>
