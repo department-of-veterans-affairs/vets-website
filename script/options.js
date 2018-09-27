@@ -52,8 +52,14 @@ function applyDefaultOptions(options) {
 function applyEnvironmentOverrides(options) {
   const env = require('get-env')();
 
-  // priority order: command line option, build type host, default host
-  options.host = options.host || options.buildType ? hostnames[options.buildtype] : defaultHost;
+  // priority order: command line option, watch task host (localhost), build type host, default host
+  if (!options.host) {
+    if (!options.watch && options.buildtype) {
+      options.host = hostnames[options.buildtype];
+    } else {
+      options.host = defaultHost;
+    }
+  }
 
   switch (options.buildtype) {
     case environments.DEVELOPMENT:
