@@ -4,6 +4,7 @@ const path = require('path');
 const commandLineArgs = require('command-line-args');
 const applyHerokuOptions = require('./heroku-helper');
 const environments = require('./constants/environments');
+const hostnames = require('./constants/hostnames');
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: environments.DEVELOPMENT },
@@ -48,6 +49,10 @@ function applyDefaultOptions(options) {
 
 function applyEnvironmentOverrides(options) {
   const env = require('get-env')();
+
+  if (options.buildtype) {
+    options.host = hostnames[options.buildtype];
+  }
 
   switch (options.buildtype) {
     case environments.DEVELOPMENT:

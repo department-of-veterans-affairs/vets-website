@@ -17,7 +17,6 @@ const watch = require('metalsmith-watch');
 
 const webpackMetalsmithConnect = require('../config/webpack-metalsmith-connect');
 const environments = require('./constants/environments');
-const hostnames = require('./constants/hostnames');
 const createBuildSettings = require('./create-build-settings');
 const createRedirects = require('./create-redirects');
 const checkBrokenLinks = require('./check-broken-links');
@@ -142,7 +141,7 @@ if (BUILD_OPTIONS.watch) {
 
 // TODO(awong): This URL needs to change based on target environment.
 smith.use(sitemap({
-  hostname: hostnames[BUILD_OPTIONS.buildtype] || 'https://www.vets.gov',
+  hostname: BUILD_OPTIONS.host,
   omitIndex: true
 }));
 
