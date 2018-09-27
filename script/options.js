@@ -50,9 +50,7 @@ function applyDefaultOptions(options) {
 function applyEnvironmentOverrides(options) {
   const env = require('get-env')();
 
-  if (options.buildtype) {
-    options.host = hostnames[options.buildtype];
-  }
+  options.hostname = hostnames[options.buildtype] || options.host;
 
   switch (options.buildtype) {
     case environments.DEVELOPMENT:
