@@ -863,10 +863,6 @@ const formConfig = {
                             },
                           ),
                         },
-                        // required: [
-                        //   'providerFacilityName',
-                        //   'providerFacilityAddress',
-                        // ],
                       },
                     },
                     'view:limitedConsent': {
