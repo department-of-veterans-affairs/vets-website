@@ -16,6 +16,16 @@ import startFeedbackWidget from '../../platform/site-wide/feedback';
 // import startAnnouncementWidget from '../../platform/site-wide/announcements';
 import startVAFooter from '../../platform/site-wide/va-footer';
 
+import redirects from './otherDomainRedirects.json';
+
+const match = redirects
+  .find(redirect => redirect.domain === window.location.host
+    && redirect.src === window.location.pathname);
+
+if (match) {
+  window.location.href = `https://www.va.gov${match.dest}`;
+}
+
 // Find native header, footer, etc based on page path
 const DEPRECATED_SELECTOR_CONFIG = [
   { path: /\/health\/.*/, selector: 'header.row.main-header-wrap, div#footer-effect' },
