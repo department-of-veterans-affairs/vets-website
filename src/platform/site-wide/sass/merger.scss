@@ -2,6 +2,10 @@
 
 /* OVERRIDE */
 .merger {
+  .va-dropdown-trigger {
+    min-width: 102px;
+  }
+
   .vet-toolbar {
     .sign-in-nav {
       margin-left: 6px;
@@ -149,7 +153,7 @@
     margin-top: 2em;
   }
 
-  #homepage-hub, .va-sidebarnav {
+  #homepage-hub, .va-sidebarnav, .vet-toolbar {
     [href^="http"]:not(.usa-button-primary), [rel="external"] {
       background-image: none;
       padding-right: 0px;
