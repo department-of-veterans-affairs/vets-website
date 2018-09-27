@@ -26,7 +26,7 @@ class MessagingApp extends React.Component {
         <p>
           We’re sorry. It looks like you don’t have a VA health care team linked to your account in our system.
           To begin sending secure messages, please contact your health care team, and ask them to add you into the system.
-          If you need more help, please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+          If you need more help, please call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
         </p>
       );
 
