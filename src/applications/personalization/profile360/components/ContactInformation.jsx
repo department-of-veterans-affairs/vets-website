@@ -55,7 +55,7 @@ export default class ContactInformation extends React.Component {
           <div>
             {this.renderContent()}
             <div>
-              <h3>How do I update the email I use to sign in to Vets.gov?</h3>
+              <h3>How do I update the email I use to sign in to VA.gov?</h3>
               <a href={accountManifest.rootUrl} onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'account-settings' }); }}>Go to your account settings</a>
             </div>
           </div>
