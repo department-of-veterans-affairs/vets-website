@@ -7,6 +7,8 @@ description: Find out if you're eligible for VA disability pay (compensation) fo
 concurrence: complete
 lastupdate:
 icon: handshake-o
+aliases:
+  - /disability-benefits/
 promo:
   - image: /img/megamenu/disability-illustration.png
     heading: Decision Ready Claims (DRC) Program

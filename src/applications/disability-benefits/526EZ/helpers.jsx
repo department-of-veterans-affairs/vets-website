@@ -15,7 +15,10 @@ import { pick } from 'lodash';
 import { genderLabels } from '../../../platform/static-data/labels';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
-import { getDisabilityName } from '../all-claims/utils';
+import {
+  getDisabilityName,
+  transformDisabilities
+} from '../all-claims/utils';
 
 import {
   VA_FORM4142_URL
@@ -115,6 +118,7 @@ export function transform(formConfig, form) {
 
   const additionalDocuments = aggregate(disabilities, 'additionalDocuments');
   const privateRecords = aggregate(disabilities, 'privateRecords');
+  const treatments = aggregate(disabilities, 'treatments');
 
   const transformedData = {
     disabilities: disabilities
@@ -122,12 +126,13 @@ export function transform(formConfig, form) {
       .map(filtered => pick(filtered, disabilityProperties)),
     // Pull phone & email out of phoneEmailCard and into veteran property
     veteran: setPhoneEmailPaths(veteran),
-    // Extract treatments into one top-level array
-    treatments: aggregate(disabilities, 'treatments'),
     attachments: additionalDocuments.concat(privateRecords),
     privacyAgreementAccepted,
     serviceInformation,
     standardClaim,
+    // treatments has a minItems: 1 requirement so only include the property
+    // if there is at least one treatment to send
+    ...treatments.length && { treatments }
   };
 
   const withoutViewFields = filterViewFields(transformedData);
@@ -148,31 +153,6 @@ export function validateDisability(disability) {
     return false;
   }
   return true;
-}
-
-
-export function transformDisabilities(disabilities = []) {
-  return disabilities
-    // We want to remove disabilities without a rating, but 0 counts as a valid rating
-    // TODO: Log the disabilities if they're not service connected
-    // Unfortunately, we don't have decisionCode in the schema, so it's stripped out by the time
-    //  it gets here and we can't tell whether it is service connected or not. This happens in
-    //  the api
-    .filter(disability => {
-      if (disability.ratingPercentage || disability.ratingPercentage === 0) {
-        return true;
-      }
-
-      // TODO: Only log it if the decision code indicates the condition is not non-service-connected
-      const { decisionCode } = disability;
-      if (decisionCode) {
-        Raven.captureMessage('526_increase_disability_filter', {
-          extra: { decisionCode }
-        });
-      }
-
-      return false;
-    }).map(disability => set('disabilityActionType', 'INCREASE', disability));
 }
 
 

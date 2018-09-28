@@ -9,6 +9,7 @@ import {
   PREFILL_FLAGS,
   prefillTransformer,
   submit,
+  removeEmptyStringProperties,
   transformSearchToolAddress,
 } from '../../feedback-tool/helpers';
 
@@ -21,6 +22,18 @@ function setFetchResponse(stub, data, headers = {}) {
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
+
+describe('removeEmptyStringProperties', () => {
+  it('removes keys that have empty string values', () => {
+    expect(removeEmptyStringProperties({ key: '' })).to.eql({});
+    expect(removeEmptyStringProperties({ key: '  ' })).to.eql({});
+  });
+  it('converts preserves non-empty strings', () => {
+    expect(removeEmptyStringProperties({ key: 'hello' })).to.eql({ key: 'hello' });
+    expect(removeEmptyStringProperties({ key: '  ', key2: 'hello' })).to.eql({ key2: 'hello' });
+  });
+});
+
 
 describe('feedback-tool helpers:', () => {
   describe('transformSearchToolAddress', () => {
@@ -109,6 +122,26 @@ describe('feedback-tool helpers:', () => {
       const address2 = transformSearchToolAddress(inputData2);
       expect(address1).to.eql(expectedAddress1);
       expect(address2).to.eql(expectedAddress2);
+    });
+    it('converts empty strings to `undefined`', () => {
+      const inputData = {
+        address1: '1840 NE ARGYLE',
+        address2: '',
+        address3: '',
+        city: 'PORTLAND',
+        country: 'USA',
+        state: 'OR',
+        zip: '97211',
+      };
+      const expectedAddress = {
+        street: '1840 NE ARGYLE',
+        city: 'PORTLAND',
+        country: 'United States',
+        state: 'OR',
+        postalCode: '97211',
+      };
+      const address = transformSearchToolAddress(inputData);
+      expect(address).to.eql(expectedAddress);
     });
   });
 

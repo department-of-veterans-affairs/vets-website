@@ -2,10 +2,18 @@
 
 /* OVERRIDE */
 .merger {
+  .va-dropdown-trigger {
+    min-width: 102px;
+  }
+
   .vet-toolbar {
     .sign-in-nav {
       margin-left: 6px;
     }
+  }
+
+  #dashboard-title {
+    margin-top: 0;
   }
 
   #va-header-logo-menu {
@@ -145,7 +153,7 @@
     margin-top: 2em;
   }
 
-  #homepage-hub, .va-sidebarnav {
+  #homepage-hub, .va-sidebarnav, .vet-toolbar {
     [href^="http"]:not(.usa-button-primary), [rel="external"] {
       background-image: none;
       padding-right: 0px;
@@ -523,9 +531,9 @@
     }
 
     #mega-menu {
-      #vetnav {
-        min-height: unset;
-      }
+      // #vetnav {
+      //   min-height: unset;
+      // }
       .login-container {
         position: relative;
         top: -40px;
@@ -655,11 +663,6 @@
     #homepage-popular {
       padding-bottom: 1.5em;
       padding-top: 1em;
-    }
-
-    // internal static-pages
-    #promo {
-      display: none;
     }
 
     .va-nav-breadcrumbs  {

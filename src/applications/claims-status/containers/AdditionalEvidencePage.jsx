@@ -71,7 +71,7 @@ class AdditionalEvidencePage extends React.Component {
     } else {
       const claim = this.props.claim;
       const filesPath = `your-claims/${claim.id}/files`;
-      const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}`;
+      const claimsPath = 'your-claims';
       const message = this.props.message;
 
       content = (
