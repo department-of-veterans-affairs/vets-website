@@ -1,7 +1,7 @@
-const  Timeouts = require('./timeouts');
+const Timeouts = require('./timeouts');
 
-function overrideVetsGovApi(client) {
-  client.execute((url) => {
+async function overrideVetsGovApi(client) {
+  await client.evaluate((url) => {
     const current = window.VetsGov || {};
     window.VetsGov = Object.assign({}, current, {
       api: {
@@ -14,8 +14,8 @@ function overrideVetsGovApi(client) {
   [`http://${process.env.API_HOST}:${process.env.API_PORT || 3000}`]);
 }
 
-function overrideSmoothScrolling(client) {
-  client.execute(() => {
+async function overrideSmoothScrolling(client) {
+  return client.evaluate(() => {
     const current = window.VetsGov || {};
     window.VetsGov = Object.assign({}, current, {
       scroll: {
@@ -28,15 +28,15 @@ function overrideSmoothScrolling(client) {
   });
 }
 
-function overrideScrolling(client) {
-  overrideSmoothScrolling(client);
-  client.execute(() => {
+async function overrideScrolling(client) {
+  await overrideSmoothScrolling(client);
+  await client.evaluate(() => {
     window.scrollTo = () => null;
   });
 }
 
 // via http://stackoverflow.com/questions/11131875
-function overrideAnimations(client) {
+async function overrideAnimations(client) {
   const styles = `* {
      -o-transition-property: none !important;
      -moz-transition-property: none !important;
@@ -55,7 +55,7 @@ function overrideAnimations(client) {
      animation: none !important;
   }`;
 
-  client.execute((str) => {
+  await client.evaluate((str) => {
     const style = document.createElement('style');
     style.type = 'text/css';
     style.innerHTML = str;
@@ -64,8 +64,8 @@ function overrideAnimations(client) {
   [styles]);
 }
 
-function disableAnnouncements(client) {
-  client.execute(() => {
+async function disableAnnouncements(client) {
+  await client.evaluate(() => {
     window.localStorage.setItem('DISMISSED_ANNOUNCEMENTS', '*');
   });
 }
