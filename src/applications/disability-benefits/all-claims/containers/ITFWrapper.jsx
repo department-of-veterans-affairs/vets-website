@@ -70,29 +70,29 @@ export class ITFWrapper extends React.Component {
 
 
   hijackScroller() {
-    // RoutedSavableApp scrolls to the top of the page title, but we want to scroll to the top of
-    //  the ITF message
+    // RoutedSavableApp scrolls to the top of the page title, but we want to scroll to the top of the ITF message
     Scroll.Events.scrollEvent.register('begin', () => {
       // We only want to hijack the scrolling one time
       Scroll.Events.scrollEvent.remove('begin');
-      if (!this.state.hasDisplayedSuccess) {
-        // Stop the current scroll by firing an event that would normally cancel it
-        const elem = document.querySelector('[name="itfScrollElement"]');
-        elem.dispatchEvent(new Event('mousewheel'));
 
-        setTimeout(() => {
-          // This actually gets called twice because the event listener isn't removed in time, but the
-          //  scrolling still looks mostly fine
-          scroller.scrollTo('itfScrollElement', window.VetsGov.scroll || {
-            duration: 500,
-            delay: 0,
-            smooth: true
+      if (!this.state.hasDisplayedSuccess) {
+        const handleScroll = () => {
+          // setTimeout to call this on the next tick seems to work pretty well, but it's still hacky
+          setTimeout(() => {
+            // Dispatching this event _should_ cancel the scroll
+            document.dispatchEvent(new Event('keydown'));
+            window.removeEventListener('scroll', handleScroll);
+            scroller.scrollTo('itfScrollElement', window.VetsGov.scroll || {
+              duration: 500,
+              delay: 0,
+              smooth: true
+            });
           });
-        }, 200);
+        };
+
+        window.addEventListener('scroll', handleScroll);
       }
     });
-
-    // Scroll.Events.scrollEvent.register('end', () => console.log('Scroll end callback fired'));
   }
 
 
