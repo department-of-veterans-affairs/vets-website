@@ -8,7 +8,7 @@ import manifest from '../../526EZ/manifest.json';
 const { rootUrl: increaseRootUrl } = manifest;
 import { profileStatuses } from '../helpers';
 
-const { serverError, notFound } = profileStatuses;
+const { SERVER_ERROR, NOT_FOUND } = profileStatuses;
 const nextQuery = { next: window.location.pathname };
 const signInUrl = appendQuery('/', nextQuery);
 const verifyUrl = appendQuery('/verify', nextQuery);
@@ -23,11 +23,11 @@ export default class AuthorizationMessage extends React.Component {
   render() { // eslint-disable-line consistent-return
 
     const { has30PercentDisabilityRating, user: { profileStatus, isLoggedIn, isVerified } } = this.props;
-    if (profileStatus === serverError) {
+    if (profileStatus === SERVER_ERROR) {
     // If va_profile is null, show a system down message.
       return <SystemDownView messageLine1="Sorry, our system is temporarily down while we fix a few things. Please try again later."/>;
     }
-    if (profileStatus === notFound) {
+    if (profileStatus === NOT_FOUND) {
     // If va_profile is "not found", show message that we cannot find the user in our system.
       return (
         <SystemDownView
