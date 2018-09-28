@@ -24,6 +24,9 @@ import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
 
 import dashboardManifest from '../../../../applications/personalization/dashboard/manifest.json';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+
+const brandConsolidationEnabled = isBrandConsolidationEnabled();
 
 const DASHBOARD_URL = dashboardManifest.rootUrl;
 
@@ -74,6 +77,9 @@ export class Main extends React.Component {
     const nextParam = this.getNextParameter();
     if (nextParam) return nextParam;
 
+    if (brandConsolidationEnabled) return null;
+
+    // remove this line when refacotring isBrandConsolidationEnabled
     return window.location.pathname === '/' && DASHBOARD_URL;
   };
 
@@ -87,7 +93,7 @@ export class Main extends React.Component {
   }
 
   bindModalTriggers = () => {
-    const triggers = document.querySelectorAll('.signin-signup-modal-trigger');
+    const triggers = Array.from(document.querySelectorAll('.signin-signup-modal-trigger'));
     const openLoginModal = () => this.props.toggleLoginModal(true);
     triggers.forEach(t => t.addEventListener('click', openLoginModal));
   }

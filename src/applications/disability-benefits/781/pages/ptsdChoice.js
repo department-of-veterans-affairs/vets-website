@@ -4,7 +4,8 @@ import {
 } from '../helpers';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-const uploadPtsdDescription = () => {
+const uploadPtsdDescription = (form) => {
+  console.log(form);
   return (
     <div>
       <p>

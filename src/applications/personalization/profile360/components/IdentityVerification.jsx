@@ -10,7 +10,7 @@ export default function IdentityVerification({ learnMoreClick, faqClick, verifyC
 
       <div>
         <div onClick={learnMoreClick}>
-          <AdditionalInfo triggerText="How will Vets.gov verify my identity?">
+          <AdditionalInfo triggerText="How will VA.gov verify my identity?">
             <p>We use ID.me, our Veteran-owned technology partner that provides the strongest identity verification system available to prevent fraud and identity theft.</p>
             <p><strong>To verify your identity, you’ll need both of these:</strong>
               <ul>
@@ -33,7 +33,7 @@ export default function IdentityVerification({ learnMoreClick, faqClick, verifyC
         <h4>What if I’m having trouble verifying my identity?</h4>
         <p><a href="/faq/" target="_blank" onClick={faqClick}>Get answers to Frequently Asked Questions</a></p>
         <p>
-          Or call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008778339">1-800-877-8339</a>). We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+          Or call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008778339">1-800-877-8339</a>). We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
         </p>
       </div>
     </div>

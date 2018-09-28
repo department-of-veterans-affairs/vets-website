@@ -23,7 +23,7 @@ export default class ClaimDetailLayout extends React.Component {
 
     let content;
     if (!loading) {
-      const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}`;
+      const claimsPath = 'your-claims';
       content = (
         <div>
           <div className="row">
