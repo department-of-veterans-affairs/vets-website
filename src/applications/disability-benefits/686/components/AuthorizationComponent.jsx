@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
@@ -7,12 +8,12 @@ import DowntimeMessage from '../../../../platform/forms/save-in-progress/Downtim
 import DowntimeNotification, { externalServiceStatus } from '../../../../platform/monitoring/DowntimeNotification';
 
 import AuthorizationMessage from './AuthorizationMessage';
+import formConfig from '../config/form'; // TODO: derive from formID when generalized
 
-
-export default class AuthorizationComponent extends React.Component {
+class AuthorizationComponent extends React.Component {
 
   componentDidMount() {
-    this.props.authorize(this.props.user.profile.verified);
+    formConfig.authorize(this.props.user.profile.verified);
   }
 
   renderDowntime = (downtime, children) => {
@@ -30,21 +31,21 @@ export default class AuthorizationComponent extends React.Component {
   }
 
   render() {
-    const { isLoading, isVisible, isAuthorized } = this.props;
+    const { isLoading, isVisible, hasError } = this.props;
 
     const content = (<div>
       {isLoading && isVisible && <LoadingIndicator message="Please wait while we check your information."/>}
-      {!isLoading && isVisible && !this.props.isAuthorized && <AlertBox status="error" isVisible>
+      {!isLoading && isVisible && !hasError && <AlertBox status="error" isVisible>
         <AuthorizationMessage user={this.props.user}/>
       </AlertBox>}
-      {isAuthorized && this.props.children}
+      {!hasError && this.props.children}
     </div>);
 
-    if (this.props.downtime) {
+    if (formConfig.downtime) {
       return (<DowntimeNotification
-        appTitle={this.props.formId}
+        appTitle={formConfig.formId}
         render={this.renderDowntime}
-        dependencies={this.props.downtime.dependencies}>
+        dependencies={formConfig.downtime.dependencies}>
         {content}
       </DowntimeNotification>);
     }
@@ -53,4 +54,16 @@ export default class AuthorizationComponent extends React.Component {
   }
 }
 
-// TODO: connect component
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    isLoading: state.authorization686.isLoading,
+    hasError: state.authorization686.hasError
+  };
+}
+
+
+export default connect(mapStateToProps)(AuthorizationComponent);
+
+export { AuthorizationComponent };
+

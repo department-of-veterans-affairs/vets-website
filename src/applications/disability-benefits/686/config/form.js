@@ -36,6 +36,7 @@ import {
 } from '../helpers.jsx';
 
 import { validateAfterMarriageDate } from '../validation';
+import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 
 const {
   spouseDateOfBirth,
@@ -117,6 +118,9 @@ const formConfig = {
   title: 'Apply to add a dependent to your VA benefits',
   subTitle: 'VA Form 21-686c',
   preSubmitInfo,
+  downtime: {
+    dependencies: [externalServices.evss]
+  },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
