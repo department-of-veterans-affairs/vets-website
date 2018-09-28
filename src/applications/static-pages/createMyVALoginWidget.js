@@ -1,4 +1,7 @@
 import { isLoggedIn } from '../../platform/user/selectors';
+import isBrandConsolidationEnabled from '../../platform/brand-consolidation/feature-flag';
+
+const dashboardPath = isBrandConsolidationEnabled() ? '/my-va' : '/dashboard';
 
 export default function createMyVALoginWidget(store) {
   const root = document.getElementById('myva-login');
@@ -6,7 +9,7 @@ export default function createMyVALoginWidget(store) {
   const homePageStoreListener = () => {
     if (root && isLoggedIn(store.getState())) {
       root.innerHTML = '<button class="homepage-button primary-darker">' +
-        '<a href="/dashboard">' +
+        `<a href="${dashboardPath}">` +
         '<div class="icon-wrapper">' +
         '<i class="fa fa-user-circle"></i>' +
         '</div>' +
