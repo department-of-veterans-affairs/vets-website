@@ -158,10 +158,9 @@ export function transform(formConfig, form) {
   const treatments = aggregate(disabilities, 'treatments');
 
   const providerFacility = disabilities
-    .filter(disability => disability['view:selected'] === true)
-    .map(filtered => filtered.providerFacility)
+    .filter(disability => disability['view:selected'] === true && disability.providerFacility)
     .reduce((accumulator, item) => {
-      return accumulator.concat(item);
+      return accumulator.concat(item.providerFacility);
     }, []);
 
   const transformedData = {
