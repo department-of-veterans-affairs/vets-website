@@ -358,28 +358,24 @@
       list-style-type: none;
     }
 
-    a {
-      text-decoration: none;
+    button.seeMore {
+      text-decoration: underline;
 
-      &.seeMore {
-        text-decoration: underline;
+      &:after {
+        font: normal normal normal 1em FontAwesome;
+        content: "\F078";
+        text-decoration: none;
+        display: inline-block;
+        padding: 0 0.5em;
+      }
 
+      &.expanded {
         &:after {
           font: normal normal normal 1em FontAwesome;
-          content: "\F078";
+          content: "\F077";
           text-decoration: none;
           display: inline-block;
           padding: 0 0.5em;
-        }
-
-        &.expanded {
-          &:after {
-            font: normal normal normal 1em FontAwesome;
-            content: "\F077";
-            text-decoration: none;
-            display: inline-block;
-            padding: 0 0.5em;
-          }
         }
       }
     }
