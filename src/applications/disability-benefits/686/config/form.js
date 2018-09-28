@@ -19,7 +19,6 @@ import DependentField from '../components/DependentField';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
 import applicantDescription from '../../../../platform/forms/components/ApplicantDescription';
 import {
-  authorize,
   getSpouseMarriageTitle,
   dependentsMinItem,
   schoolAttendanceWarning,
@@ -38,6 +37,7 @@ import {
 import { validateAfterMarriageDate } from '../validation';
 import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import { get686AuthorizationState } from '../selectors';
+import { verifyDisabilityRating } from '../actions';
 
 const {
   spouseDateOfBirth,
@@ -105,7 +105,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/dependents_applications`,
   transformForSubmit: transform,
-  authorize,
+  authorize: verifyDisabilityRating,
   getAuthorizationState: get686AuthorizationState,
   trackingPrefix: '686-',
   introduction: IntroductionPage,

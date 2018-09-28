@@ -1,5 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+
+import conditionalStorage from '../../../../../platform/utilities/storage/conditionalStorage';
 import { mockFetch, resetFetch } from '../../../../../platform/testing/unit/helpers.js';
 import {
   verifyDisabilityRating,
@@ -22,16 +24,46 @@ function setFetchFailure(stub, data) {
   stub.resolves(response);
 }
 
+function resetConditionalStorage() {
+  conditionalStorage().clear();
+}
+
+function setUserToken() {
+  conditionalStorage().setItem('userToken', 'abc123');
+}
+
+const state = {
+  user: {
+    profile: {
+      verified: true
+    }
+  }
+};
+
+function getState() {
+  return state;
+}
+
 describe('authorization actions', () => {
   describe('verifyDisablityRating', () => {
+    it('should not dispatch LOAD_30_PERCENT_DISABILITY_RATING_STARTED and LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED actions if user is not verified', () => {
+      const dispatch = sinon.spy();
+      resetConditionalStorage();
+
+      verifyDisabilityRating()(dispatch);
+
+      expect(dispatch.called).to.be.false;
+
+    });
     it('should dispatch LOAD_30_PERCENT_DISABILITY_RATING_STARTED and LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED actions', (done) => {
       const payload = { test: 'test' };
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), payload);
+      setUserToken();
 
       const dispatch = sinon.spy();
 
-      verifyDisabilityRating()(dispatch);
+      verifyDisabilityRating()(dispatch, getState);
 
       expect(dispatch.firstCall.calledWith({
         type: LOAD_30_PERCENT_DISABILITY_RATING_STARTED
@@ -43,6 +75,7 @@ describe('authorization actions', () => {
           payload
         });
         resetFetch();
+        resetConditionalStorage();
         done();
       }, 0);
     });
@@ -51,10 +84,11 @@ describe('authorization actions', () => {
       const error = { test: 'test' };
       mockFetch();
       setFetchFailure(global.fetch.onFirstCall(), error);
+      setUserToken();
 
       const dispatch = sinon.spy();
 
-      verifyDisabilityRating()(dispatch);
+      verifyDisabilityRating()(dispatch, getState);
 
       expect(dispatch.firstCall.calledWith({
         type: LOAD_30_PERCENT_DISABILITY_RATING_STARTED
@@ -66,6 +100,7 @@ describe('authorization actions', () => {
           error
         });
         resetFetch();
+        resetConditionalStorage();
         done();
       }, 0);
     });
