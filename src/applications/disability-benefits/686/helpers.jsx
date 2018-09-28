@@ -122,6 +122,6 @@ export function authorize(isVerified) {
 }
 
 export const profileStatuses = { // TODO: move to platform and use in requiredLoginView
-  serverError: 'SERVER_ERROR',
-  notFound: 'NOT_FOUND'
+  SERVER_ERROR: 'SERVER_ERROR',
+  NOT_FOUND: 'NOT_FOUND'
 };

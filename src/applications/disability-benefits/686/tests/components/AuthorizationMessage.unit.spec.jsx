@@ -5,12 +5,12 @@ import { shallow, mount } from 'enzyme';
 import AuthorizationMessage from '../../components/AuthorizationMessage';
 import { profileStatuses } from '../../helpers';
 
-const { serverError, notFound } = profileStatuses;
+const { SERVER_ERROR, NOT_FOUND } = profileStatuses;
 
 describe('686 <AuthorizationMessage>', () => {
   it('should render SERVER_ERROR profile status error message', () => {
     const user = {
-      profileStatus: serverError,
+      profileStatus: SERVER_ERROR,
       isLoggedIn: true,
     };
 
@@ -23,7 +23,7 @@ describe('686 <AuthorizationMessage>', () => {
 
   it('should render NOT_FOUND profile status error message', () => {
     const user = {
-      profileStatus: notFound,
+      profileStatus: NOT_FOUND,
       isLoggedIn: true,
     };
 
