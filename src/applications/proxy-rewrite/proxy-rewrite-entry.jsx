@@ -15,21 +15,9 @@ import startMobileMenuButton from '../../platform/site-wide/mobile-menu-button';
 import startFeedbackWidget from '../../platform/site-wide/feedback';
 // import startAnnouncementWidget from '../../platform/site-wide/announcements';
 import startVAFooter from '../../platform/site-wide/va-footer';
+import redirectIfNecessary from './redirects';
 
-// These pages are old va.gov pages that we are redirecting to
-// pages that we control
-import redirects from './otherDomainRedirects.json';
-import environment from '../../platform/utilities/environment';
-
-const matchedRedirect = redirects
-  .find(redirect =>
-    redirect.domain.toLowerCase() === window.location.host.toLowerCase() &&
-    redirect.src.toLowerCase() === window.location.pathname.toLowerCase()
-  );
-
-if (matchedRedirect) {
-  window.location.href = `${environment.BASE_URL}${matchedRedirect.dest}`;
-}
+redirectIfNecessary(window);
 
 // Find native header, footer, etc based on page path
 const DEPRECATED_SELECTOR_CONFIG = [
