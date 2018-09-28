@@ -4,6 +4,7 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
 import FormFooter from '../../../platform/forms/components/FormFooter';
 import environment from '../../../platform/utilities/environment';
+import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
 
 import * as address from '../definitions/address';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
@@ -89,6 +90,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
+  preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
@@ -598,6 +600,9 @@ const formConfig = {
                 },
                 attachmentSchema: {
                   'ui:title': 'What kind of document is this?'
+                },
+                attachmentName: {
+                  'ui:title': 'Document name'
                 }
               })
             }
@@ -608,30 +613,7 @@ const formConfig = {
               application: {
                 type: 'object',
                 properties: {
-                  preneedAttachments: _.merge(preneedAttachments, {
-                    items: {
-                      properties: {
-                        attachmentId: {
-                          'enum': [
-                            '1',
-                            '2',
-                            '3',
-                            // '4',
-                            '5',
-                            '6'
-                          ],
-                          enumNames: [
-                            'Discharge',
-                            'Marriage related',
-                            'Dependent related',
-                            // 'VA preneed form',
-                            'Letter',
-                            'Other'
-                          ]
-                        }
-                      }
-                    }
-                  })
+                  preneedAttachments
                 }
               }
             }

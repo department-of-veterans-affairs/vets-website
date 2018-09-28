@@ -5,6 +5,7 @@ import startSitewideComponents from '../../platform/site-wide';
 
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
+import createMyVALoginWidget from './createMyVALoginWidget';
 import createDisabilityIncreaseApplicationStatus from '../disability-benefits/526EZ/components/createDisabilityIncreaseApplicationStatus';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
@@ -16,11 +17,12 @@ const pensionPages = new Set(['/pension/', '/pension/apply/', '/pension/how-to-a
 
 const healthcarePages = new Set(['/health-care/', '/health-care/apply/', '/health-care/how-to-apply/', '/health-care/eligibility/']);
 
-const healthcareTools = new Set([
+const ctaTools = new Set([
   '/health-care/secure-messaging/',
   '/health-care/refill-track-prescriptions/',
   '/health-care/schedule-view-va-appointments/',
-  '/health-care/view-test-and-lab-results/'
+  '/health-care/view-test-and-lab-results/',
+  '/claim-or-appeal-status/'
 ]);
 
 const burialPages = new Set([
@@ -75,7 +77,7 @@ if (healthcarePages.has(location.pathname)) {
   });
 }
 
-if (healthcareTools.has(location.pathname)) {
+if (ctaTools.has(location.pathname)) {
   createCallToActionWidget();
 }
 
@@ -102,4 +104,9 @@ if (disabilityPages.has(location.pathname) && __BUILDTYPE__ !== 'production') {
 
 if (location.pathname === '/disability-benefits/increase-claims-testing/') {
   create526EmailForm(store);
+}
+
+// homepage widgets
+if (location.pathname === '/') {
+  createMyVALoginWidget(store);
 }

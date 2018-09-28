@@ -2,10 +2,18 @@
 
 /* OVERRIDE */
 .merger {
+  .va-dropdown-trigger {
+    min-width: 102px;
+  }
+
   .vet-toolbar {
     .sign-in-nav {
       margin-left: 6px;
     }
+  }
+
+  #dashboard-title {
+    margin-top: 0;
   }
 
   #va-header-logo-menu {
@@ -62,6 +70,24 @@
 
     #vetnav-menu, #vetnav {
       margin-top: 0;
+        width: 100%;
+    }
+
+    .my-va-top-nav {
+      margin-left: auto;
+      &.current-page {
+        margin-left: auto;
+      }
+    }
+
+    .current-page {
+      border-bottom: 5px solid;
+      border-color: $color-blue;
+      margin-left: 1.6rem;
+      margin-right: 1.6rem;
+      a {
+        padding: 1.6rem 0;
+      }
     }
 
     .mm-marketing-container {
@@ -127,7 +153,7 @@
     margin-top: 2em;
   }
 
-  #homepage-hub, .va-sidebarnav {
+  #homepage-hub, .va-sidebarnav, .vet-toolbar {
     [href^="http"]:not(.usa-button-primary), [rel="external"] {
       background-image: none;
       padding-right: 0px;
@@ -323,9 +349,13 @@
 
         a {
           color: white;
+          &:visited {
+            color: white;
+          }
         }
-        a:visited {
-          color: white;
+        &:after {
+          content: "|";
+          padding: 0 1rem;
         }
       }
     }
@@ -349,8 +379,31 @@
 
   }
 
+  /**
+  * September 25th, 2018
+  * @todo This is a site-wide override to .usa-grid that ultimately forces it to have the same behavior as .usa-grid-full.
+  * This likely has site-wide ramifications and should be fixed soon.
+  * Because this is a high-risk change and we're under time constraints, I'm just documenting it here.
+  * More info on the grid class - https://designsystem.digital.gov/components/grids/.
+  */
   .usa-grid {
     padding: 0;
+  }
+
+  // Once the above rule is delete, we can delete this awful block too.
+  #gov-banner {
+    @media (min-width: $small-screen) {
+      .usa-banner-guidance-gov, .usa-banner-guidance-ssl {
+        padding-bottom: 2.3rem;
+        padding-top: 4rem;
+      }
+    }
+  }
+
+  @media (max-width: $small-screen) {
+    .usa-banner-button:focus {
+      position: absolute;
+    }
   }
 
   .va-nav-breadcrumbs-list {
@@ -391,7 +444,7 @@
   }
 
   #vetnav {
-    z-index: 2;
+    z-index: 299;
   }
 
   .footer-banner {
@@ -478,10 +531,9 @@
     }
 
     #mega-menu {
-      margin-top: 1em;
-      #vetnav {
-        min-height: unset;
-      }
+      // #vetnav {
+      //   min-height: unset;
+      // }
       .login-container {
         position: relative;
         top: -40px;
@@ -533,7 +585,7 @@
     }
 
     .vet-toolbar {
-      margin-left: -10px;
+      margin-left: -12px;
 
       .sign-in-nav {
         margin-top: 6px;
@@ -560,11 +612,7 @@
           padding-left: 0;
           margin-right: 1.75em;
           background-position: right 1.5rem center;
-
-          &:first-child {
-            margin-right: 1em;
-          }
-
+          line-height: unset;
           span {
             display: inline-block;
           }
@@ -617,11 +665,6 @@
       padding-top: 1em;
     }
 
-    // internal static-pages
-    #promo {
-      display: none;
-    }
-
     .va-nav-breadcrumbs  {
 
       padding-top: 0.25em;
@@ -654,13 +697,8 @@
     }
 
     #footerNav {
-      #footer-first-child {
-        padding-top: .25em;
-      }
-
       .va-footer-linkgroup {
         margin-top: 0;
-        margin-bottom: .25em;
         li {
           margin-bottom: 6px;
         }
@@ -680,6 +718,25 @@
       }
 
       // mobile footer stuff
+      .usa-grid-flex-mobile {
+        display: flex;
+        flex-direction: column;
+        #veteran-contact-us {
+          order: 1;
+        }
+        #footer-first-child {
+          order: 2;
+        }
+        #footer-services {
+          order: 3;
+        }
+        #footer-popular {
+          order: 4;
+        }
+        #veteran-crisis-line {
+          display: none;
+        }
+      }
       .va-footer-linkgroup-title {
         font-weight: 400;
 
@@ -719,6 +776,10 @@
     .va-sidebarnav--opened {
       position: fixed;
       z-index: 1;
+    }
+    .va-navigation-nextprevious {
+      padding-left: 0.9375rem;
+      padding-right: 0.9375rem;
     }
   }
 

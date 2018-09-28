@@ -43,7 +43,7 @@ Right now, you can only download the VA letters you see listed when you click th
 
 Use these links to get access to other common VA letters and documents you may be eligible for:
 
-[View and print your Post-9/11 GI Bill statement of benefits.](/education/check-post-9-11-gi-bill-benefit-status/)
+[View and print your Post-9/11 GI Bill statement of benefits.](/education/gi-bill/post-9-11/ch-33-benefit/)
 
 [Sign in to eBenefits to request a Certificate of Eligibility for home loan benefits](https://eauth.va.gov/ebenefits/coe).
 
