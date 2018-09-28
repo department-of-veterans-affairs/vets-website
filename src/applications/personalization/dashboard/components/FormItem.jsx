@@ -3,7 +3,8 @@ import React from 'react';
 import moment from 'moment';
 
 import recordEvent from '../../../../platform/monitoring/record-event';
-import { formTitles, formLinks } from '../helpers';
+import { formTitles, formLinks, getFormAuthorization } from '../helpers';
+import AuthorizationComponent from '../../../disability-benefits/686/components/AuthorizationComponent';
 
 class FormItem extends React.Component {
   recordDashboardClick = (formId, actionType = 'continue-button') => {
@@ -24,6 +25,9 @@ class FormItem extends React.Component {
     const expirationDate = moment.unix(expirationTime).format('MMMM D, YYYY');
     const isExpired = moment.unix(expirationTime).isBefore();
     const itemTitle = `Application for ${formTitles[formId]}`;
+    debugger; //eslint-disable-line
+    const authorization = getFormAuthorization(formId);
+    const isAuthorized = !!authorization;
 
     const activeView = (
       <div className="card information">
@@ -74,7 +78,12 @@ class FormItem extends React.Component {
         </div>
       </div>
     );
-    return isExpired ? expiredView : activeView;
+    const content = isExpired ? expiredView : activeView;
+    debugger; // eslint-disable-line
+    if (isAuthorized) {
+      return (<AuthorizationComponent authorize={authorization} user={{ profile: this.props.user.profile, login: { currentlyLoggedIn: true } } } isVisible>{content}</AuthorizationComponent>);
+    }
+    return content;
   }
 }
 

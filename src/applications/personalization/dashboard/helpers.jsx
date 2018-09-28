@@ -1,17 +1,21 @@
 import Raven from 'raven-js';
-import glob from 'glob';
 
-export function getFormConfigs() {
-  // options is optional
-  glob('config/form.js*', () => {
-    // files is an array of filenames.
-    // If the `nonull` option is set, and nothing
-    // was found, then files is ["**/*.js"]
-    // er is an error object or null.
-    // console.log(files);
-  });
-}
+import hcaConfig from '../../hca/config/form.js';
+import dependentStatusConfig from '../../disability-benefits/686/config/form.js';
+import feedbackConfig from '../../edu-benefits/feedback-tool/config/form.js';
+import burialsConfig from '../../burials/config/form.js';
+import edu1990Config from '../../edu-benefits/1990/config/form.js';
+import edu1995Config from '../../edu-benefits/1995/config/form.js';
+import edu1990eConfig from '../../edu-benefits/1990e/config/form.js';
+import edu1990nConfig from '../../edu-benefits/1990n/config/form.js';
+import edu5490Config from '../../edu-benefits/5490/config/form.js';
+import edu5495Config from '../../edu-benefits/5495/config/form.js';
+import edu0993Config from '../../edu-benefits/0993/config/form.js';
+import preneedConfig from '../../pre-need/config/form.jsx';
+import pensionConfig from '../../pensions/config/form.js';
+import disability526Config from '../../disability-benefits/526EZ/config/form.js';
 
+const formConfigs = [hcaConfig, dependentStatusConfig, feedbackConfig, burialsConfig, edu0993Config, edu1990Config, edu1990eConfig, edu1990nConfig, edu1995Config, edu5490Config, edu5495Config, preneedConfig, pensionConfig, disability526Config];
 
 export const formBenefits = {
   '21-526EZ': 'increased disability compensation',
@@ -113,3 +117,8 @@ export function isSIPEnabledForm(savedForm) {
   }
   return true;
 }
+
+export const getFormAuthorization = (formId) => {
+  const authorizedConfig = formConfigs.find(config => config.formId === formId);
+  return authorizedConfig && authorizedConfig.authorize;
+};
