@@ -20,6 +20,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import profileManifest from '../../profile360/manifest.json';
 import accountManifest from '../../account/manifest.json';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
 const scroller = Scroll.animateScroll;
 const scrollToTop = () => {
@@ -120,7 +121,7 @@ class DashboardApp extends React.Component {
 
         <ul className="va-nav-linkslist-list">
           <li>
-            <a href="/disability/" onClick={recordDashboardClick('disability-benefits')}>
+            <a href={isBrandConsolidationEnabled() ? '/disability/' : '/disability-benefits/'} onClick={recordDashboardClick('disability-benefits')}>
               <h4 className="va-nav-linkslist-title">Disability Benefits</h4>
               <p className="va-nav-linkslist-description">Apply for disability compensation and other benefits for conditions related to your military service.</p>
             </a>
