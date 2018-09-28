@@ -5,7 +5,7 @@ const Timeouts = require('../../../testing/e2e/timeouts.js');
 
 const SITEMAP_URL = `${E2eHelpers.baseUrl}/sitemap.xml`;
 const SITEMAP_LOC_NS = 'http://www.sitemaps.org/schemas/sitemap/0.9';
-const BUILD_BASE_URL = 'https://www.vets.gov';
+const DOMAIN_REGEX = /http[s]?:\/\/(.*?)\//;
 
 async function sitemapURLs() {
   const res = await fetch(SITEMAP_URL);
@@ -14,7 +14,7 @@ async function sitemapURLs() {
 
   const urls = doc
     .find('//xmlns:loc', SITEMAP_LOC_NS)
-    .map(n => n.text().replace(BUILD_BASE_URL, E2eHelpers.baseUrl))
+    .map(n => n.text().replace(DOMAIN_REGEX, `${E2eHelpers.baseUrl}/`))
     .filter(url => !(url.endsWith('auth/login/callback/')));
 
   // Whitelist of URLs to only test against the 'section508' rule set and not

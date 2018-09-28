@@ -6,6 +6,7 @@ const Timeouts = require('../e2e-puppeteer/timeouts');
 const { sitemapURLs } = require('../../site-wide/tests/sitemap/sitemap-helpers');
 const createBaselineImage = require('./util/create-baseline-image');
 const calculateDiff = require('./util/calculate-diff');
+const chalk = require('chalk');
 
 const iPhone = devices['iPhone 6'];
 
@@ -30,12 +31,16 @@ async function createRouteHandlerChain(page, routes, routeHandler) {
   // This way the promises will execute in a waterfall effect and is necessary since we can only show one URL at a time.
   for (let i = routes.length - 1; i >= 0; i--) {
     const route = routes[i];
-    /* eslint-disable no-await-in-loop */
-    await page.goto(route, {
-      waitUntil: 'networkidle0'
-    });
-    await page.waitFor('body');
-    await routeHandler(page, route);
+    /* eslint-disable no-await-in-loop, no-console */
+    try {
+      await page.goto(route, {
+        waitUntil: 'networkidle0'
+      });
+      await page.waitFor('body');
+      await routeHandler(page, route);
+    } catch (e) {
+      console.log(chalk.red(`Couldn't screenshot ${route}`));
+    }
     /* eslint-enable */
     // await page.goto('about:blank')
   }
