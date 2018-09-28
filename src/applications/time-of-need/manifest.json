@@ -1,0 +1,7 @@
+{
+  "appName": "Time of Need",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "time-of-need",
+  "rootUrl": "/time-of-need",
+  "production": false
+}
