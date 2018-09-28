@@ -2,22 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import '../../platform/site-wide/cta-widget/sass/cta-widget.scss';
-import CallToActionWidget from '../../platform/site-wide/cta-widget';
-
 export default function createCallToActionWidget(store) {
-  const root = document.getElementById('cta-widget');
+  const widgets = Array.from(document.querySelectorAll('.cta-widget'));
 
-  if (root) {
-    let { requiredServices } = root.dataset;
+  if (widgets.length) {
+    widgets.forEach(async (el) => {
+      await import('../../platform/site-wide/cta-widget/sass/cta-widget.scss');
 
-    requiredServices =
-      requiredServices && new Set(requiredServices.split(' '));
+      const { 'default': CallToActionWidget } =
+        await import('../../platform/site-wide/cta-widget');
 
-    ReactDOM.render((
-      <Provider store={store}>
-        <CallToActionWidget requiredServices={requiredServices}/>
-      </Provider>
-    ), root);
+      ReactDOM.render((
+        <Provider store={store}>
+          <CallToActionWidget appId={el.dataset.appId}/>
+        </Provider>
+      ), el);
+    });
   }
 }
