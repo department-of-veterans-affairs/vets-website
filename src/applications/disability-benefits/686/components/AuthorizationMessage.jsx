@@ -16,18 +16,18 @@ const verifyUrl = appendQuery('/verify', nextQuery);
 export default class AuthorizationMessage extends React.Component {
 
   redirectToAuthentication = () => {
-    if (!this.props.user.login.currentlyLoggedIn) window.location.replace(signInUrl);
-    else if (!this.props.user.profile.verified) window.location.replace(verifyUrl);
+    if (!this.props.user.isLoggedIn) window.location.replace(signInUrl);
+    else if (!this.props.user.isVerified) window.location.replace(verifyUrl);
   };
 
-  render() {
+  render() { // eslint-disable-line consistent-return
 
-    const { user } = this.props;
-    if (user.profile && user.profile.status === serverError) {
+    const { has30PercentDisabilityRating, user: { profileStatus, isLoggedIn, isVerified } } = this.props;
+    if (profileStatus === serverError) {
     // If va_profile is null, show a system down message.
       return <SystemDownView messageLine1="Sorry, our system is temporarily down while we fix a few things. Please try again later."/>;
     }
-    if (user.profile && user.profile.status === notFound) {
+    if (profileStatus === notFound) {
     // If va_profile is "not found", show message that we cannot find the user in our system.
       return (
         <SystemDownView
@@ -35,7 +35,7 @@ export default class AuthorizationMessage extends React.Component {
           messageLine2="Please call the Vets.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We're open Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)."/>
       );
     }
-    if (!user.login.currentlyLoggedIn || !user.profile.verified) {
+    if (!isLoggedIn || !isVerified) {
       return (
         <div>
           <h5>We couldn’t verify your identity</h5>
@@ -44,24 +44,23 @@ export default class AuthorizationMessage extends React.Component {
         </div>
       );
     }
-    return (
-      <div>
-        <h5>You won’t be able to add a dependent at this time</h5>
-        <p>We’re sorry. You need to have a disability rating of at least 30% to add a dependent to your benefits. Our records show that your current rating is less than 30%, so you can’t apply at this time. If you think our records aren’t correct, please call Veterans Benefits Assistance at 1-800-827-1000. We’re here Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
-        <a className="usa-button-primary" href={increaseRootUrl}>Start a Claim for Increase Application</a>
-      </div>
-    );
+    if (!has30PercentDisabilityRating) {
+      return (
+        <div>
+          <h5>You won’t be able to add a dependent at this time</h5>
+          <p>We’re sorry. You need to have a disability rating of at least 30% to add a dependent to your benefits. Our records show that your current rating is less than 30%, so you can’t apply at this time. If you think our records aren’t correct, please call Veterans Benefits Assistance at 1-800-827-1000. We’re here Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET).</p>
+          <a className="usa-button-primary" href={increaseRootUrl}>Start a Claim for Increase Application</a>
+        </div>
+      );
+    }
   }
 }
 
 AuthorizationMessage.propTypes = {
+  has30PercentDisabilityRating: PropTypes.bool,
   user: PropTypes.shape({
-    profile: PropTypes.shape({
-      status: PropTypes.string,
-      verified: PropTypes.boolean
-    }),
-    login: PropTypes.shape({
-      currentlyLoggedIn: PropTypes.bool.isRequired
-    })
+    isLoggedIn: PropTypes.bool.isRequired,
+    isVerified: PropTypes.bool,
+    profileStatus: PropTypes.string,
   })
 };

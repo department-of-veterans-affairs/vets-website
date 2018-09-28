@@ -37,6 +37,7 @@ import {
 
 import { validateAfterMarriageDate } from '../validation';
 import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
+import { get686AuthorizationState } from '../selectors';
 
 const {
   spouseDateOfBirth,
@@ -105,6 +106,7 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/dependents_applications`,
   transformForSubmit: transform,
   authorize,
+  getAuthorizationState: get686AuthorizationState,
   trackingPrefix: '686-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

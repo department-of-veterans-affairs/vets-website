@@ -13,7 +13,7 @@ import formConfig from '../config/form'; // TODO: derive from formID when genera
 class AuthorizationComponent extends React.Component {
 
   componentDidMount() {
-    formConfig.authorize(this.props.user.profile.verified);
+    formConfig.authorize(this.props.isVerified);
   }
 
   renderDowntime = (downtime, children) => {
@@ -31,12 +31,12 @@ class AuthorizationComponent extends React.Component {
   }
 
   render() {
-    const { isLoading, isVisible, hasError } = this.props;
+    const { isLoading, isVisible, hasError, isLoggedIn, isVerified, profileStatus, has30PercentDisabilityRating } = this.props;
 
     const content = (<div>
       {isLoading && isVisible && <LoadingIndicator message="Please wait while we check your information."/>}
-      {!isLoading && isVisible && !hasError && <AlertBox status="error" isVisible>
-        <AuthorizationMessage user={this.props.user}/>
+      {!isLoading && isVisible && hasError && <AlertBox status="error" isVisible>
+        <AuthorizationMessage has30PercentDisabilityRating={has30PercentDisabilityRating} user={ { isLoggedIn, isVerified, profileStatus }}/>
       </AlertBox>}
       {!hasError && this.props.children}
     </div>);
@@ -55,13 +55,8 @@ class AuthorizationComponent extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    user: state.user,
-    isLoading: state.authorization686.isLoading,
-    hasError: state.authorization686.hasError
-  };
+  return formConfig.getAuthorizationState(state); // TODO: derive formConfig when generalizing
 }
-
 
 export default connect(mapStateToProps)(AuthorizationComponent);
 

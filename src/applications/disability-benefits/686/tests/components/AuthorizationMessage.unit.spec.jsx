@@ -10,12 +10,8 @@ const { serverError, notFound } = profileStatuses;
 describe('686 <AuthorizationMessage>', () => {
   it('should render SERVER_ERROR profile status error message', () => {
     const user = {
-      profile: {
-        status: serverError
-      },
-      login: {
-        currentlyLoggedIn: true
-      }
+      profileStatus: serverError,
+      isLoggedIn: true,
     };
 
     const tree = mount(
@@ -27,12 +23,8 @@ describe('686 <AuthorizationMessage>', () => {
 
   it('should render NOT_FOUND profile status error message', () => {
     const user = {
-      profile: {
-        status: notFound
-      },
-      login: {
-        currentlyLoggedIn: true
-      }
+      profileStatus: notFound,
+      isLoggedIn: true,
     };
 
     const tree = mount(
@@ -44,12 +36,8 @@ describe('686 <AuthorizationMessage>', () => {
 
   it('should render unverified error message', () => {
     const user = {
-      profile: {
-        verified: false
-      },
-      login: {
-        currentlyLoggedIn: true
-      }
+      isVerified: false,
+      isLoggedIn: true,
     };
 
     const tree = shallow(
@@ -61,16 +49,12 @@ describe('686 <AuthorizationMessage>', () => {
 
   it('should render 30 percent disability rating error message', () => {
     const user = {
-      profile: {
-        verified: true
-      },
-      login: {
-        currentlyLoggedIn: true
-      }
+      isVerified: true,
+      isLoggedIn: true,
     };
 
     const tree = shallow(
-      <AuthorizationMessage user={user}/>
+      <AuthorizationMessage has30PercentDisabilityRating={false} user={user}/>
     );
 
     expect(tree.text()).to.contain('You won’t be able to add a dependent at this timeWe’re sorry. You need to have a disability rating of at least 30% to add a dependent to your benefits. Our records show that your current rating is less than 30%, so you can’t apply at this time. If you think our records aren’t correct, please call Veterans Benefits Assistance at 1-800-827-1000. We’re here Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET).Start a Claim for Increase Application');
