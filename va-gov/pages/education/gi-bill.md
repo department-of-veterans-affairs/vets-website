@@ -11,7 +11,7 @@ gibsAlert: false
 majorlinks:
   - heading: Post-9/11 GI Bill Benefits
     links:
-    - url: /education/gi-bill/post-9-11/
+    - url: /education/gi-bill/post-9-11/ch-33-benefit
       title: Post-9/11 GI Bill
       description: If you need help paying for school or job training and you’ve served on active duty after September 10, 2001, find out if you can get education benefits through the Post-9/11 GI Bill.
     - url: /education/gi-bill/transfer/
@@ -22,10 +22,11 @@ majorlinks:
     - url: /education/benefit-rates/
       title: Rates
       description: Learn more about education benefit rates for tuition and books for qualifying Veterans and their family members.
-    - url: /education/gi-bill/foreign-programs/
+    - url: /education/about-gi-bill-benefits/how-to-use-benefits/study-at-foreign-schools/
       title: Foreign Programs
       description: If you plan to study at a foreign school, find out how you can use VA benefits to cover your tuition and fees.
-    - url: /education/gi-bill/higher-learning/
+      url: >-
+        /education/about-gi-bill-benefits/how-to-use-benefits/undergraduate-graduate-programs/
       title: Undergraduate and Graduate Degrees from Institutions of Higher Learning
       description: If you’re looking to earn an undergraduate or graduate degree, find out if you can get VA benefits to help pay for courses.
   - heading: Other GI Bill Programs You May Qualify for

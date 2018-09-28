@@ -6,6 +6,7 @@ import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp.jsx';
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
@@ -113,6 +114,7 @@ const formConfig = {
   },
   title: 'Apply to add a dependent to your VA benefits',
   subTitle: 'VA Form 21-686c',
+  preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
