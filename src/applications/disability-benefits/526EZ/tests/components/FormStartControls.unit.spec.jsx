@@ -47,7 +47,7 @@ describe('526 <FormStartControls>', () => {
         }}/>
     );
 
-    expect(tree.find('.usa-alert').text()).to.contain('To apply for a disability increase, you’ll need to verify your account');
+    expect(tree.find('.usa-alert').text()).to.contain('If you have a premium DS Logon or My HealtheVet account');
     expect(tree.find('a').text()).to.contain('Verify Your Identity');
   });
   it('should render verified view', () => {
