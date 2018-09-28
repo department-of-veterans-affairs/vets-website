@@ -115,3 +115,7 @@ export function isVeteran(item) {
   return relationship && relationship === '1';
 }
 
+export const profileStatuses = { // TODO: move to platform and use in requiredLoginView
+  SERVER_ERROR: 'SERVER_ERROR',
+  NOT_FOUND: 'NOT_FOUND'
+};
