@@ -76,6 +76,10 @@ export class ITFWrapper extends React.Component {
       // We only want to hijack the scrolling one time
       Scroll.Events.scrollEvent.remove('begin');
       if (!this.state.hasDisplayedSuccess) {
+        // Stop the current scroll by firing an event that would normally cancel it
+        const elem = document.querySelector('[name="itfScrollElement"]');
+        elem.dispatchEvent(new Event('mousewheel'));
+
         setTimeout(() => {
           // This actually gets called twice because the event listener isn't removed in time, but the
           //  scrolling still looks mostly fine
@@ -87,6 +91,8 @@ export class ITFWrapper extends React.Component {
         }, 200);
       }
     });
+
+    // Scroll.Events.scrollEvent.register('end', () => console.log('Scroll end callback fired'));
   }
 
 
