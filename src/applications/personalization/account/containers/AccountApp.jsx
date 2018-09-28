@@ -4,19 +4,12 @@ import backendServices from '../../../../platform/user/profile/constants/backend
 import { selectUser, isLOA3 } from '../../../../platform/user/selectors';
 
 import AccountMain from '../components/AccountMain';
-import Announcement from '../components/Announcement';
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 
-import { dismissAnnouncement } from '../../../../platform/site-wide/announcements/actions';
 import { fetchMHVAccount } from '../../../../platform/user/profile/actions';
 
-const ANNOUNCEMENT_NAME = 'account';
-
 class AccountApp extends React.Component {
-  dismissAnnouncement = () => {
-    this.props.dismissAnnouncement(ANNOUNCEMENT_NAME);
-  }
   render() {
     return (
       <div>
@@ -31,7 +24,6 @@ class AccountApp extends React.Component {
                 <div className="va-introtext">
                   <p>Below, you’ll find your current settings for signing in to Vets.gov. Find out how to update your settings as needed to access more site tools or add extra security to your account.</p>
                 </div>
-                <Announcement dismiss={this.dismissAnnouncement} isDismissed={this.props.announcementDismissed}/>
                 <AccountMain
                   login={this.props.login}
                   profile={this.props.profile}
@@ -52,12 +44,10 @@ const mapStateToProps = (state) => {
     login: userState.login,
     profile: userState.profile,
     user: userState,
-    announcementDismissed: state.announcements.dismissed.includes(ANNOUNCEMENT_NAME)
   };
 };
 
 const mapDispatchToProps = {
-  dismissAnnouncement,
   fetchMHVAccount
 };
 
