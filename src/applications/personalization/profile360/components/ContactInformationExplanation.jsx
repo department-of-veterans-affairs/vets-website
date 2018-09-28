@@ -10,10 +10,6 @@ export default function ContactInformationExplanation() {
       <div style={{ marginBottom: 10 }}>
         <AlertBox status="info" isVisible>
           <p>We’ll use this information to contact you about certain benefits and services, including disability compensation, pension benefits, and claims and appeals. If you’re enrolled in the VA health care program, your health care team may also use this information to communicate with you.</p>
-          <a
-            href="/health-care/"
-            onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'learn-more-va-benefits' }); }}>
-          Learn more about VA health benefits</a>.
         </AlertBox>
       </div>
       <AdditionalInfo
