@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import _ from 'lodash';
 import {
   validateDisability,
-  transformDisabilities,
   addPhoneEmailToCard,
   prefillTransformer,
   get4142Selection,
@@ -71,16 +70,6 @@ describe('526 helpers', () => {
           primaryPhone: '4445551212',
           emailAddress: 'test2@test1.net',
         },
-        treatments: [
-          {
-            treatmentCenterName: 'Somerset VA Clinic',
-            treatmentDateRange: { from: '2000-06-06', to: '2004-02-06' },
-          },
-          {
-            treatmentCenterName: 'DC VA Regional Medical Center',
-            treatmentDateRange: { from: '2000-07-04', to: '2010-01-03' },
-          },
-        ],
         attachments: [
           {
             name: 'Screen Shot 2018-07-09 at 11.25.49 AM.png',
@@ -129,6 +118,16 @@ describe('526 helpers', () => {
           },
         },
         standardClaim: false,
+        treatments: [
+          {
+            treatmentCenterName: 'Somerset VA Clinic',
+            treatmentDateRange: { from: '2000-06-06', to: '2004-02-06' },
+          },
+          {
+            treatmentCenterName: 'DC VA Regional Medical Center',
+            treatmentDateRange: { from: '2000-07-04', to: '2010-01-03' },
+          },
+        ],
         form4142: {
           limitedConsent: '',
           providerFacility: [
@@ -170,23 +169,6 @@ describe('526 helpers', () => {
     });
     it('should accept valid disability data', () => {
       expect(validateDisability(validDisability)).to.equal(true);
-    });
-  });
-  describe('transformDisabilities', () => {
-    it('should create a list of disabilities with disabilityActionType set to INCREASE', () => {
-      expect(transformDisabilities([invalidDisability])).to.deep.equal([
-        validDisability,
-      ]);
-    });
-    it('should return an empty array when given undefined input', () => {
-      expect(transformDisabilities(undefined)).to.deep.equal([]);
-    });
-    it('should remove ineligible disabilities', () => {
-      const ineligibleDisability = _.omit(
-        invalidDisability,
-        'ratingPercentage',
-      );
-      expect(transformDisabilities([ineligibleDisability])).to.deep.equal([]);
     });
   });
   describe('addPhoneEmailToCard', () => {

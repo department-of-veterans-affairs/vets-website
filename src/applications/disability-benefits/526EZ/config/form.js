@@ -18,6 +18,7 @@ import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definiti
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
@@ -47,13 +48,13 @@ import {
   transform,
   prefillTransformer,
   supportingEvidenceOrientation,
-  evidenceTypeHelp,
   disabilityNameTitle,
   vaMedicalRecordsIntro,
   privateMedicalRecordsIntro,
   privateRecordsChoice,
   facilityDescription,
-  treatmentView,
+  queryForFacilities,
+  // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
   documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
@@ -61,12 +62,11 @@ import {
   FDCDescription,
   FDCWarning,
   noFDCWarning,
-  queryForFacilities,
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
   limitedConsentTitle,
-  validateBooleanIfEvidence,
+  validateIfHasEvidence,
   privateRecordsChoiceHelp,
   patientAcknowledgmentText,
   limitedConsentTextTitle,
@@ -84,6 +84,9 @@ import {
   disabilityOption,
   disabilitiesClarification,
 } from '../../all-claims/content/ratedDisabilities';
+
+import { treatmentView } from '../../all-claims/content/vaMedicalRecords';
+import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
 
 import { requireOneSelected } from '../validations';
 import {
@@ -154,6 +157,7 @@ const formConfig = {
   },
   title: 'Apply for increased disability compensation',
   subTitle: 'Form 21-526EZ',
+  preSubmitInfo,
   // getHelp: GetFormHelp, // TODO: May need updated form help content
   chapters: {
     veteranDetails: {
@@ -394,10 +398,8 @@ const formConfig = {
                   },
                   'ui:validations': [
                     {
-                      validator: validateBooleanIfEvidence,
-                      options: {
-                        wrappedValidator: validateBooleanGroup,
-                      },
+                      validator: validateIfHasEvidence,
+                      options: { wrappedValidator: validateBooleanGroup },
                     },
                   ],
                   'ui:errorMessages': {
@@ -457,7 +459,7 @@ const formConfig = {
           },
         },
         vaMedicalRecordsIntro: {
-          title: '',
+          title: 'VA medical records introduction',
           path: 'supporting-evidence/:index/va-medical-records-intro',
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
@@ -474,6 +476,9 @@ const formConfig = {
               items: {
                 'ui:title': disabilityNameTitle,
                 'ui:description': vaMedicalRecordsIntro,
+                'ui:options': {
+                  hideOnReview: true,
+                },
               },
             },
           },
@@ -491,6 +496,7 @@ const formConfig = {
           },
         },
         vaFacilities: {
+          //  title: formData => `${formData.name} VA facilities`,
           title: '',
           path: 'supporting-evidence/:index/va-facilities',
           showPagePerItem: true,
@@ -558,7 +564,7 @@ const formConfig = {
           },
         },
         privateMedicalRecordsIntro: {
-          title: '',
+          title: 'Private medical records introduction',
           path: 'supporting-evidence/:index/private-medical-records-intro',
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
@@ -575,6 +581,9 @@ const formConfig = {
               items: {
                 'ui:title': disabilityNameTitle,
                 'ui:description': privateMedicalRecordsIntro,
+                'ui:options': {
+                  hideOnReview: true,
+                },
               },
             },
           },
@@ -592,7 +601,7 @@ const formConfig = {
           },
         },
         privateRecordChoice: {
-          title: '',
+          title: formData => `${formData.name} private medical records choice`,
           path: 'supporting-evidence/:index/private-medical-records-choice',
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
