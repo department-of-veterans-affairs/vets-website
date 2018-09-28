@@ -1,9 +1,6 @@
-import React from 'react';
-import {
-  ptsdNameTitle,
-  uploadPtsdDescription
-} from '../helpers';
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+// import React from 'react';
+import { ptsdNameTitle, uploadPtsdDescription, ptsdChoiceDescription } from '../helpers';
+// import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 // const uploadPtsdSecondaryDescription = () => {
 //   return (
@@ -23,38 +20,39 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation/Additional
 //   );
 // };
 
-const ptsdChoiceSecondaryDescription = (
-  <AdditionalInfo triggerText="What does this mean?">
-    <h5>Continue answering questions</h5>
-    <p>
-      If you choose to answer questions, we‘ll ask you several questions to learn
-      more about your PTSD.
-    </p>
-    <h5>Upload VA Form 21-0781a</h5>
-    <p>
-      If you upload a completed VA Form 21-0781a, we won‘t ask you questions about
-      your PTSD, and you‘ll move to the next section of the disability application.
-    </p>
-  </AdditionalInfo>
-);
+// const ptsdChoiceSecondaryDescription = (
+//   <AdditionalInfo triggerText="What does this mean?">
+//     <h5>Continue answering questions</h5>
+//     <p>
+//       If you choose to answer questions, we‘ll ask you several questions to
+//       learn more about your PTSD.
+//     </p>
+//     <h5>Upload VA Form 21-0781a</h5>
+//     <p>
+//       If you upload a completed VA Form 21-0781a, we won‘t ask you questions
+//       about your PTSD, and you‘ll move to the next section of the disability
+//       application.
+//     </p>
+//   </AdditionalInfo>
+// );
 
 export const uiSchema = {
   'ui:title': ptsdNameTitle,
   'ui:description': uploadPtsdDescription,
   'view:uploadPtsdSecondaryChoice': {
-    // 'ui:description': uploadPtsdSecondaryDescription,
-  //  'ui:title': uploadPtsdSecondaryDescription,
+    // 'ui:description': '',
+    'ui:title': ' ',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
         answerQuestions: 'I want to answer questions',
-        upload: 'I want to upload VA Form 21-0781a'
-      }
-    }
+        upload: 'I want to upload VA Form 21-0781a',
+      },
+    },
   },
   'view:uploadPtsdSecondaryChoiceHelp': {
-    'ui:description': ptsdChoiceSecondaryDescription
-  }
+    'ui:description': ptsdChoiceDescription,
+  },
 };
 
 export const schema = {
@@ -62,11 +60,11 @@ export const schema = {
   properties: {
     'view:uploadPtsdSecondaryChoice': {
       type: 'string',
-      'enum': ['answerQuestions', 'upload']
+      'enum': ['answerQuestions', 'upload'],
     },
     'view:uploadPtsdSecondaryChoiceHelp': {
       type: 'object',
-      properties: {}
-    }
-  }
+      properties: {},
+    },
+  },
 };
