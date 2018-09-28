@@ -16,14 +16,19 @@ import startFeedbackWidget from '../../platform/site-wide/feedback';
 // import startAnnouncementWidget from '../../platform/site-wide/announcements';
 import startVAFooter from '../../platform/site-wide/va-footer';
 
+// These pages are old va.gov pages that we are redirecting to
+// pages that we control
 import redirects from './otherDomainRedirects.json';
+import environment from '../../platform/utilities/environment';
 
-const match = redirects
-  .find(redirect => redirect.domain === window.location.host
-    && redirect.src === window.location.pathname);
+const matchedRedirect = redirects
+  .find(redirect =>
+    redirect.domain.toLowerCase() === window.location.host.toLowerCase() &&
+    redirect.src.toLowerCase() === window.location.pathname.toLowerCase()
+  );
 
-if (match) {
-  window.location.href = `https://www.va.gov${match.dest}`;
+if (matchedRedirect) {
+  window.location.href = `${environment.BASE_URL}${matchedRedirect.dest}`;
 }
 
 // Find native header, footer, etc based on page path
