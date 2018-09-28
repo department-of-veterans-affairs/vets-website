@@ -137,9 +137,8 @@ if (BUILD_OPTIONS.watch) {
   }
 }
 
-// TODO(awong): This URL needs to change based on target environment.
 smith.use(sitemap({
-  hostname: 'https://www.vets.gov',
+  hostname: BUILD_OPTIONS.host === 'localhost' ? 'http://localhost' : BUILD_OPTIONS.host,
   omitIndex: true
 }));
 

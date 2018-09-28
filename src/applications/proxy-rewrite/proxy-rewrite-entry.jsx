@@ -18,8 +18,7 @@ import startVAFooter from '../../platform/site-wide/va-footer';
 
 // Find native header, footer, etc based on page path
 const DEPRECATED_SELECTOR_CONFIG = [
-  { path: /\/health\/.*/, selector: 'header.row.main-header-wrap, div#footer-effect' },
-  { path: /health/, selector: 'header.row.main-header-wrap, div#footer-effect' },
+  { path: /.*/, selector: 'header.row.main-header-wrap, div#top-nav-wrapper, div#main-header, div#footer-effect' }
 ];
 
 let deprecatedSelector;
