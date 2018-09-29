@@ -15,7 +15,10 @@ async function sitemapURLs() {
   const urls = doc
     .find('//xmlns:loc', SITEMAP_LOC_NS)
     .map(n => n.text().replace(DOMAIN_REGEX, `${E2eHelpers.baseUrl}/`))
-    .filter(url => !(url.endsWith('auth/login/callback/')));
+    .filter(url => !(url.endsWith('auth/login/callback/')))
+    .filter(url => {
+      return !(/.*opt-out-information-sharing.*/.test(url));
+    });
 
   // Whitelist of URLs to only test against the 'section508' rule set and not
   // the stricter 'wcag2a' rule set. For each URL added to this list, please

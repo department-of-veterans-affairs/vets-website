@@ -34,11 +34,12 @@ async function createRouteHandlerChain(page, routes, routeHandler) {
     /* eslint-disable no-await-in-loop, no-console */
     try {
       await page.goto(route, {
-        waitUntil: 'networkidle0'
+        timeout: 0
       });
       await page.waitFor('body');
       await routeHandler(page, route);
     } catch (e) {
+      console.error(e);
       console.log(chalk.red(`Couldn't screenshot ${route}`));
     }
     /* eslint-enable */
@@ -83,7 +84,7 @@ async function beginApplication(browser) {
 // The entry point for everything.
 async function setup() {
   // check if mobile test or not
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ headless: false });
   try {
     await beginApplication(browser);
   } catch (e) {
