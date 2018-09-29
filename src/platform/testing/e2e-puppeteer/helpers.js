@@ -1,4 +1,4 @@
-const Timeouts = require('./timeouts');
+const Timeouts = require('../e2e/timeouts');
 
 async function overrideVetsGovApi(client) {
   await client.evaluate((url) => {

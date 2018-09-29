@@ -1,7 +1,7 @@
 const process = require('process');
 const E2eHelpers = require('./helpers');
-const Timeouts = require('./timeouts');
-const mock = require('./mock-helpers');
+const Timeouts = require('../e2e/timeouts');
+const mock = require('../e2e/mock-helpers');
 const expect = require('chai').expect;
 
 async function setUserToken(token, client) {
