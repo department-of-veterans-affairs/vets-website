@@ -1,0 +1,126 @@
+.va-crisis-line {
+  @include media($medium-large-screen) {
+    position: absolute;
+    right: 0;
+    bottom: -11px;
+    background-color: transparent;
+  }
+  background-color: $red-60v;
+  z-index: 2;
+}
+
+button.va-crisis-line-button {
+  background-color: $red-60v;
+  border-radius: 0;
+  color: $color-white;
+  margin: auto;
+  font-size: 1em;
+  width: auto;
+  display: block;
+  text-decoration: none;
+  font-weight: bold;
+  display: flex;
+  padding: 0;
+  align-items: center;
+
+  @include media($medium-large-screen) {
+    border-radius: 0 0 0.2em 0.2em;
+    box-shadow: 0 2px 5px $color-base;
+    text-align: left;
+    justify-content: space-between;
+  }
+
+  .va-crisis-line-icon {
+    content: "";
+    background: url(/img/VCL-icon-white.svg) no-repeat right 29%;
+    background-size: 1.75em auto;
+    background-position: 0.5em 0.5em;
+    width: 2.5em;
+    height: 2em;
+    padding: 0.3em 1em;
+    @include media($medium-large-screen) {
+      background-color: $red-70v;
+      background-position: 0.4em 0.5em;
+    }
+  }
+
+  .va-crisis-line-text {
+    padding: 0.5em;
+  }
+
+  .va-crisis-line-arrow {
+    height: 13px;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+  }
+}
+
+.va-crisis-panel {
+//  color: $color-primary-darkest;
+  list-style: none;
+  margin: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+
+  li {
+    &:nth-child(odd) {
+      border-top: 1px solid $color-gray-lighter;
+      border-bottom: 1px solid $color-gray-lighter;
+    }
+
+    a {
+      color: $color-base;
+      display: block;
+      padding: 1.5rem 0;
+      text-decoration: none;
+    }
+  }
+
+  @include media($medium-large-screen) {
+    margin: auto;
+    max-width: 50%;
+  }
+
+  a {
+    @include no-sr-content;
+
+    padding: 0;
+    background-image: none;
+
+  }
+}
+
+.va-crisis-panel-body {
+  background: $color-white;
+  height: auto;
+  list-style: inherit;
+  margin: 0;
+  max-height: 100%;
+  padding: 0;
+
+  ul {
+  //  font-size: 1.7rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+}
+
+.va-footer-vcl-trigger {
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+  font-weight: normal;
+  text-decoration: underline;
+
+  &:hover {
+    background: inherit;
+    color: $color-gold;
+    text-decoration: inherit;
+  }
+}

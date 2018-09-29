@@ -6,12 +6,13 @@
 $font-path: "~uswds/src/fonts";
 $image-path: "~uswds/src/img";
 @import "~@department-of-veterans-affairs/formation/sass/core";
+@import "b-brand-consolidation-colors";
 
 @import "modules/m-footer";
 
 // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-alert";
-@import "modules/m-crisis-line";
+@import "modules/m-crisis-line-brand-consolidation";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-table";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-breadcrumbs";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-button";
