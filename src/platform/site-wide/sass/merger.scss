@@ -21,8 +21,8 @@
   }
   $color-primary-lightest: #e1f3f8;
 
-  @import 'iconography';
-  @import 'right-rail';
+  @import "iconography";
+  @import "right-rail";
 
   .vetnav-panel {
     @include media($medium-large-screen) {
@@ -38,7 +38,7 @@
 
   .va-header-logo {
     width: 264px;
-    height:auto;
+    height: auto;
   }
 
   article {
@@ -120,18 +120,17 @@
   /* new pattern? where we use old VA icons with h3 */
   .va-icon-header {
 
-    width:100%;
+    width: 100%;
     height: 40px;
     margin-left: -6px;
 
     .va-icon-icon {
       margin: 0;
       padding: 0;
-
       display: inline;
       float: left;
-      width:12%;
-      height:auto;
+      width: 12%;
+      height: auto;
     }
 
     .va-icon-h {
@@ -143,7 +142,7 @@
 
   .va-icon-cols {
     p {
-      margin-top:0;
+      margin-top: 0;
     }
 
     padding-bottom: 3em;
@@ -163,11 +162,7 @@
 
   #homepage-hub {
 
-    background: #0071bb; /* Old browsers */
-    background: -moz-linear-gradient(top, #0071bb 0%, #112e51 63%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #0071bb 0%,#112e51 63%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #0071bb 0%,#112e51 63%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0071bb', endColorstr='#112e51',GradientType=0 ); /* IE6-9 */
+    @include linear-gradient-background($color-old-browser-background-start, $color-old-browser-background-end);
 
     padding-top: 3em;
     padding-bottom: 3em;
@@ -264,7 +259,7 @@
   // new pattern, but specific to homepage only
   .homepage-button {
 
-    width:100%;
+    width: 100%;
     height: 85px;
     padding: 0;
 
@@ -272,7 +267,7 @@
       width: 100%;
       height: 100%;
       font-weight: bold;
-      color: white;
+      color: $color-white;
       text-decoration: none;
     }
 
@@ -283,8 +278,8 @@
 
       -webkit-border-top-left-radius: 6px;
       -webkit-border-bottom-left-radius: 6px;
-      -moz-border-radius-topleft: 6px;
-      -moz-border-radius-bottomleft: 6px;
+      -moz-border-radius-top-left: 6px;
+      -moz-border-radius-bottom-left: 6px;
       border-top-left-radius: 6px;
       border-bottom-left-radius: 6px;
     }
@@ -301,7 +296,7 @@
 
     .fa {
       font-size: 1.5em;
-      display:inline-block;
+      display: inline-block;
 
       &.fa-user-circle {
         font-size: 1.5em;
@@ -323,12 +318,12 @@
       display: inline-block;
       width: 2em;
       height: 2em;
-      margin-top:32.5px;
+      margin-top: 32.5px;
     }
 
     div {
       display:inline-block;
-      width:80%;
+      width: 80%;
     }
 
     &.primary-darker {
@@ -366,9 +361,9 @@
         display: inline-block;
 
         a {
-          color: white;
+          color: $color-white;
           &:visited {
-            color: white;
+            color: $color-white;
           }
         }
         &:after {
@@ -472,8 +467,8 @@
 
     .va-footer-logo {
       img {
-        width:200px;
-        height:auto;
+        width: 200px;
+        height: auto;
       }
     }
   }
@@ -761,7 +756,7 @@
         button {
           border-top: 3px solid transparent;
           border-bottom: 3px solid transparent;
-          color: #fff;
+          color: $color-white;
           cursor: pointer;
           display: block;
           margin: 0;
@@ -1080,7 +1075,7 @@
 
     .usa-sidenav-list {
       a.usa-current {
-        border-left: 0.4rem solid #0071BB;
+        border-left: 0.4rem solid $color-light-blue;
         padding-left: 8px;
         margin-left: 16px;
 
@@ -1135,7 +1130,7 @@
   }
   .va-sidebarnav {
     .usa-accordion-button {
-      background-color: white;
+      background-color: $color-white;
       border-top: 1px solid $color-gray-lighter;
       border-bottom: 1px solid $color-gray-lighter;
       background-size: 1.1rem;
