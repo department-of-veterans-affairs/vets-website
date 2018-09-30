@@ -38,11 +38,12 @@ export class Main extends React.Component {
     });
   }
   openModal = () => {
+    recordEvent({ event: FOOTER_EVENTS.CRISIS_LINE });
     this.setState({ modalOpen: true });
   }
 
   generateLinkItems = (column, direction = 'asc') => {
-    const captureEvent = () => recordEvent(FOOTER_EVENTS[column]);
+    const captureEvent = () => recordEvent({ event: FOOTER_EVENTS[column] });
     return (
       <ul className="va-footer-links">
         {orderBy(this.linkObj[column], 'order', direction).map(link =>
