@@ -5,5 +5,4 @@ display_title:
 collection: healthCareCoverage
 children: healthCostOfCare
 order: 3
-private: true
 ---

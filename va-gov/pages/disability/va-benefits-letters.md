@@ -1,5 +1,4 @@
 ---
-href: /records/download-va-letters/
+href: "#"
 title: Download VA Benefit Letters
-private: true
 ---

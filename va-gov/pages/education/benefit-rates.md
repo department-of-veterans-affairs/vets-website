@@ -5,6 +5,8 @@ title: Rates
 display_title: Benefit Rates
 concurrence: incomplete
 order: 2
+aliases:
+  - /education/benefit-rates/
 spoke: More Resources
 ---
 
