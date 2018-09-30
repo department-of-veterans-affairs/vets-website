@@ -1,7 +1,5 @@
 const fs = require('fs');
 const resemble = require('node-resemble-js');
-const { expect }  = require('chai');
-const chalk = require('chalk');
 
 const { getFileNames, createDirectoryIfNotExist } = require('./get-file-names');
 
@@ -50,34 +48,28 @@ async function createDiffImage(diffFileName, comparisonResult) {
 }
 
 // After executing the comparison operation, inspect the result object to create a diff image and run the test.
-function computeComparisonResult(browser, route, diffFileName, comparisonResult) {
+async function computeComparisonResult(browser, route, diffFileName, comparisonResult) {
   const misMatchPercentage = parseFloat(comparisonResult.misMatchPercentage);
   const changesExceedThreshold = misMatchPercentage > DIFF_THRESHOLD;
 
   // Execution the test assertion
-  try {
-    expect(changesExceedThreshold, `${route}`).to.be.false;
-  } catch (e) {
-    /* eslint-disable */
-    console.log(chalk.red(`${route} did not match up, diff is available at ${diffFileName} the mismatch was ${misMatchPercentage}`));
-    /* eslint-enable */
-
-  }
-
-  // browser.verify.ok(!changesExceedThreshold, route);
 
   // When the images differ, chain additional operations to create the diff image file
   if (changesExceedThreshold) {
 
     // Create the directory first to prevent errors
-    return createDirectoryIfNotExist(diffFileName)
-
-      // Then actually write the diff file
-      .then(() => createDiffImage(diffFileName, comparisonResult));
+    await createDirectoryIfNotExist(diffFileName);
+    // Then actually write the diff file
+    await createDiffImage(diffFileName, comparisonResult);
+    return  {
+      route,
+      diffFileName,
+      misMatchPercentage
+    };
   }
 
   // For consistency, return a resolved promise.
-  return Promise.resolve();
+  return null;
 }
 
 // The entry point for this module as a route handler
@@ -88,7 +80,8 @@ async function calculateDiff(browser, route) {
   const screenshotBuffer = await takeScreenshot(browser);
   // After reading both images into memory, run the operation used to compare their contents
   const comparisonResult = await executeComparison(fileBuffer, screenshotBuffer);
-  await computeComparisonResult(browser, route, diffFileName, comparisonResult);
+  const output = await computeComparisonResult(browser, route, diffFileName, comparisonResult);
+  return output;
 }
 
 module.exports = calculateDiff;

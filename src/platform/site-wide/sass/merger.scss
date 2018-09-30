@@ -199,6 +199,24 @@
           padding: 0;
         }
       }
+      .fa {
+        background-color: $color-white;
+        &.fa-medkit {
+          color: $indigo-cool-60;
+        }
+        &.fa-book {
+          color:  $mint-cool-50;
+        }
+         &.fa-handshake-o {
+          color: $red-60;
+        }
+        &.fa-money {
+          color: $green-cool-50;
+        }
+        &.fa-id-card {
+          color: $violet-warm-60;
+        }
+      }
     }
   }
 

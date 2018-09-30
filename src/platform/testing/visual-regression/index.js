@@ -7,15 +7,18 @@ const { sitemapURLs } = require('../../site-wide/tests/sitemap/sitemap-helpers')
 const createBaselineImage = require('./util/create-baseline-image');
 const calculateDiff = require('./util/calculate-diff');
 const chalk = require('chalk');
+const Table = require('cli-table');
+const url = require('url');
+const path = require('path');
 
 const iPhone = devices['iPhone 6'];
+const BASE_DIR = path.resolve(__dirname, '../../../../');
 
 
 const commands = {
   CREATE_BASELINE_IMAGES: 'baseline',
   CALCULATE_DIFFS: 'diff',
   MOBILE: true
-
 };
 
 const { command, mobile } = commandLineArgs([
@@ -23,12 +26,22 @@ const { command, mobile } = commandLineArgs([
   { name: 'config', type: String, alias: 'c' },
   { name: 'mobile', type: Boolean }
 ]);
+// parse the response from the testing function into something that cli-tables can print
+function tableFormatter(outputObj) {
+  return [
+    url.parse(outputObj.route).pathname,
+    `${outputObj.misMatchPercentage}%`,
+    outputObj.diffFileName.replace(BASE_DIR, ''),
+  ];
+}
 
 // Converts the array of routes/URL's and returns a super-long promise chain.
 async function createRouteHandlerChain(page, routes, routeHandler) {
-
-  // Loops through all of the routes continually chaining promises onto a single original promise.
-  // This way the promises will execute in a waterfall effect and is necessary since we can only show one URL at a time.
+  const table = new Table({
+    head: ['Route', '%Miss', 'Diff Location'],
+    colWidths: [50, 8, 100]
+  });
+  const results = [];
   for (let i = routes.length - 1; i >= 0; i--) {
     const route = routes[i];
     /* eslint-disable no-await-in-loop, no-console */
@@ -37,7 +50,10 @@ async function createRouteHandlerChain(page, routes, routeHandler) {
         timeout: 0
       });
       await page.waitFor('body');
-      await routeHandler(page, route);
+      const output = await routeHandler(page, route);
+      if (output) {
+        results.push(output);
+      }
     } catch (e) {
       console.error(e);
       console.log(chalk.red(`Couldn't screenshot ${route}`));
@@ -45,6 +61,10 @@ async function createRouteHandlerChain(page, routes, routeHandler) {
     /* eslint-enable */
     // await page.goto('about:blank')
   }
+  table.push(...results.map(tableFormatter));
+  /* eslint-disable  no-console */
+  console.log(table.toString());
+  /* eslint-enable */
 }
 
 // A wrapper around the login helper to return a promise
