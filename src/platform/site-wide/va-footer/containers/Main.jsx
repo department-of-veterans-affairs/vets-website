@@ -95,7 +95,7 @@ export class Main extends React.Component {
               </h4>
             </li>
             <li className={innerClassName} id="veteran-contact" aria-hidden="true">
-              {this.generateLinkItems('4')}
+              {this.generateLinkItems(FOOTER_COLUMNS.CONTACT)}
             </li>
           </ul>
         ]
@@ -117,7 +117,7 @@ export class Main extends React.Component {
           </h4>
         </li>
         <li id="veteran-contact" aria-hidden="true">
-          {this.generateLinkItems('4')}
+          {this.generateLinkItems(FOOTER_COLUMNS.CONTACT)}
         </li>
       </ul>
     );
@@ -180,7 +180,7 @@ export class Main extends React.Component {
                 </h4>
               </li>
               <li className={innerClassName} id="veteran-programs" aria-hidden="true">
-                {this.generateLinkItems('1')}
+                {this.generateLinkItems(FOOTER_COLUMNS.PROGRAMS)}
               </li>
             </ul>
             <ul className={className} id="footer-services">
@@ -190,7 +190,7 @@ export class Main extends React.Component {
                 </h4>
               </li>
               <li className={innerClassName} id="veteran-resources" aria-hidden="true">
-                {this.generateLinkItems('2')}
+                {this.generateLinkItems(FOOTER_COLUMNS.RESOURCES)}
               </li>
             </ul>
             <ul className={className} id="footer-popular">
@@ -201,7 +201,7 @@ export class Main extends React.Component {
               </li>
 
               <li className={innerClassName} id="veteran-connect" aria-hidden="true">
-                {this.generateLinkItems('3')}
+                {this.generateLinkItems(FOOTER_COLUMNS.CONTACT)}
               </li>
             </ul>
             {contactVCL}
