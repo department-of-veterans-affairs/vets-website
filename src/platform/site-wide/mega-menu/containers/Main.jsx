@@ -43,10 +43,16 @@ export class Main extends React.Component {
   };
 
   linkClicked = (link) => {
+    // @todo Implement in Design System component
     recordEvent({
       event: 'nav-header-link',
       'nav-header-action': `Navigation - Header - Open Link - ${link.text}`
     });
+  };
+
+  columnThreeLinkClicked = () => {
+    // @todo Implement in Design System component
+    recordEvent({ event: 'nav-hub-containers' });
   };
 
   toggleDisplayHidden = (hidden) => {
@@ -59,7 +65,8 @@ export class Main extends React.Component {
       toggleDisplayHidden: this.toggleDisplayHidden,
       toggleDropDown: this.toggleDropDown,
       updateCurrentSection: this.updateCurrentSection,
-      linkClicked: this.linkClicked
+      linkClicked: this.linkClicked,
+      columnThreeLinkClicked: this.columnThreeLinkClicked
     };
 
     return <MegaMenu {...childProps}/>;
