@@ -43,15 +43,14 @@ export class Main extends React.Component {
   };
 
   linkClicked = (link) => {
-    // @todo Implement in Design System component
+    const linkName = link.text || link.title;
     recordEvent({
       event: 'nav-header-link',
-      'nav-header-action': `Navigation - Header - Open Link - ${link.text}`
+      'nav-header-action': `Navigation - Header - Open Link - ${linkName}`
     });
   };
 
   columnThreeLinkClicked = () => {
-    // @todo Implement in Design System component
     recordEvent({ event: 'nav-hub-containers' });
   };
 
