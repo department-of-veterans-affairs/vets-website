@@ -50,8 +50,11 @@ export class Main extends React.Component {
     });
   };
 
-  columnThreeLinkClicked = () => {
-    recordEvent({ event: 'nav-hub-containers' });
+  columnThreeLinkClicked = (link) => {
+    recordEvent({
+      event: 'nav-hub-containers',
+      'nav-hub-action': link.text
+    });
   };
 
   toggleDisplayHidden = (hidden) => {
