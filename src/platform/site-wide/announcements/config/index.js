@@ -23,6 +23,11 @@ const config = {
       component: ClaimIncreaseBanner
     },
     {
+      name: 'claim-increase',
+      paths: /^\/$/,
+      component: ClaimIncreaseBanner
+    },
+    {
       name: 'personalization',
       paths: /(.)/,
       component: PersonalizationBanner

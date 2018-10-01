@@ -4,6 +4,9 @@ const path = require('path');
 const commandLineArgs = require('command-line-args');
 const applyHerokuOptions = require('./heroku-helper');
 const environments = require('./constants/environments');
+const hostnames = require('./constants/hostnames');
+
+const defaultHost = 'localhost';
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: environments.DEVELOPMENT },
@@ -13,7 +16,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'entry', type: String, defaultValue: null },
   { name: 'analyzer', type: Boolean, defaultValue: false },
-  { name: 'host', type: String, defaultValue: 'localhost' },
+  { name: 'host', type: String },
   { name: 'public', type: String, defaultValue: null },
   { name: 'destination', type: String, defaultValue: null },
 
@@ -49,6 +52,15 @@ function applyDefaultOptions(options) {
 
 function applyEnvironmentOverrides(options) {
   const env = require('get-env')();
+
+  // priority order: command line option, watch task host (localhost), build type host, default host
+  if (!options.host) {
+    if (!options.watch && options.buildtype) {
+      options.host = hostnames[options.buildtype];
+    } else {
+      options.host = defaultHost;
+    }
+  }
 
   switch (options.buildtype) {
     case environments.DEVELOPMENT:
