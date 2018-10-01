@@ -68,8 +68,8 @@ export function buildMetricsPayload(entry) {
 
   // eslint-disable-next-line camelcase
   const data = JSON.stringify({ metrics: metricsArray, page_id: pageUrl });
-
   metricsPayload.append('data', data);
+
   return metricsPayload;
 }
 
@@ -81,7 +81,8 @@ export function buildMetricsPayload(entry) {
  * @returns {boolean}
  * @see: https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon
  */
-function sendMetricsToBackend(metricsPayload) {
+// Exported for unit tests
+export function sendMetricsToBackend(metricsPayload) {
   const url = `${environment.API_URL}/v0/performance_monitorings`;
   if (!navigator.sendBeacon(url, metricsPayload)) {
     return false;
@@ -95,7 +96,8 @@ function sendMetricsToBackend(metricsPayload) {
  * @see https://developer.mozilla.org/en-US/docs/Web/API/PerformanceObserver/observe
  * @see https://developer.mozilla.org/en-US/docs/Web/API/PerformanceNavigationTiming
  */
-function captureMetrics() {
+// Exported for unit tests
+export function captureMetrics() {
   const observer = new PerformanceObserver(list => {
     list.getEntriesByType('navigation').forEach(entry => {
       const metricsPayload = buildMetricsPayload(entry);
@@ -144,8 +146,7 @@ function pathIsWhitelisted() {
 /**
  * Add a PerformanceObserver to the page after load event is complete.
  */
-// Exported for unit tests
-export function addMetricsObserver() {
+function addMetricsObserver() {
   window.addEventListener('load', () => {
     captureMetrics();
   });
