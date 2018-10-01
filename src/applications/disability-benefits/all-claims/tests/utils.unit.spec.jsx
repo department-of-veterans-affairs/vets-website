@@ -9,7 +9,8 @@ import {
   isInFuture,
   getDisabilityName,
   transformDisabilities,
-  queryForFacilities
+  queryForFacilities,
+  hasOtherEvidence
 } from '../utils.jsx';
 
 import initialData from './initialData';
@@ -216,6 +217,30 @@ describe('526 helpers', () => {
         // This .then() fires after the apiRequest failure callback returns []
         expect(result).to.eql([]);
       });
+    });
+  });
+
+  describe('hasotherEvidence', () => {
+    it('should return false if additional evidence type is not selected', () => {
+      const formData = {
+        'view:hasEvidenceFollowUp': {
+          'view:selectableEvidenceTypes': {
+            // 'view:hasOtherEvidence': no data
+          }
+        }
+      };
+      expect(hasOtherEvidence(formData)).to.equal(false);
+    });
+
+    it('should return true if additional evidence type is selected', () => {
+      const formData = {
+        'view:hasEvidenceFollowUp': {
+          'view:selectableEvidenceTypes': {
+            'view:hasOtherEvidence': true
+          }
+        }
+      };
+      expect(hasOtherEvidence(formData)).to.equal(true);
     });
   });
 });
