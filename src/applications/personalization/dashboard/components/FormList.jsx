@@ -33,14 +33,14 @@ class FormList extends React.Component {
  }
 
  render() {
-   const { savedForms: forms, userProfile: profile } = this.props;
+   const { savedForms: forms } = this.props;
    const verifiedSavedForms = forms.filter(isSIPEnabledForm);
    const hasVerifiedSavedForms = !!verifiedSavedForms.length;
 
    return !hasVerifiedSavedForms ? null : (
      <div className="profile-section medium-12 columns">
        <h2 className="section-header">Continue Applications</h2>
-       {forms.map((form) => <FormItem user={{ profile }} key={form.form} savedFormData={form} toggleModal={this.toggleModal}/>)}
+       {forms.map((form) => <FormItem key={form.form} savedFormData={form} toggleModal={this.toggleModal}/>)}
        <Modal
          cssClass="va-modal-large"
          id="start-over-modal"

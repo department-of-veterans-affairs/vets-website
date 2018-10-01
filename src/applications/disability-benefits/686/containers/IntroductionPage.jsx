@@ -28,7 +28,7 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply to add a dependent to your VA benefits"/>
         <p>Equal to VA Form 21-686c (Application for Declaration of Status of Dependents).</p>
-        <AuthorizationComponent isVisible>
+        <AuthorizationComponent formConfig={this.props.route.formConfig} isVisible>
           <SaveInProgressIntro
             prefillEnabled={this.props.route.formConfig.prefillEnabled}
             messages={this.props.route.formConfig.savedFormMessages}
