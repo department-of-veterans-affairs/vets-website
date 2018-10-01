@@ -19,19 +19,19 @@ const ptsdAssignmentDescription = () => {
 export const uiSchema = {
   'ui:title': ptsdNameTitle,
   'ui:description': ptsdAssignmentDescription,
-  unitAssigned: {
+  secondaryUnitAssigned: {
     'ui:title': ' '
   },
-  unitAssignedDates: dateRangeUI()
+  secondaryUnitAssignedDates: dateRangeUI('Date unit assignment started', 'Date unit assignment ended')
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    unitAssigned: {
+    secondaryUnitAssigned: {
       type: 'string',
     },
-    unitAssignedDates: {
+    secondaryUnitAssignedDates: {
       type: 'object',
       properties: {
         from: {
