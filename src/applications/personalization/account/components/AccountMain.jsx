@@ -79,8 +79,8 @@ class AccountMain extends React.Component {
               <a href="https://myaccess.dmdc.osd.mil/identitymanagement" target="_blank">Manage your DS Logon account</a>
             </div>
             <div>
-              <h4>MyHealthyVet</h4>
-              <a href="https://www.myhealth.va.gov" target="_blank">Manage your MyHealthyVet account</a>
+              <h4>MyHealth<i>e</i>Vet</h4>
+              <a href="https://www.myhealth.va.gov" target="_blank">Manage your MyHealth<i>e</i>Vet account</a>
             </div>
           </div>}
         <LoginSettings/>
