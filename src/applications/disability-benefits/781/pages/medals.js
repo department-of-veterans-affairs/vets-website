@@ -5,9 +5,7 @@ import {
 
 const medalsList = [
   'Air Force Achievement Medal with “V” Device',
-
   'Air Force Combat Action Medal',
-
   'Air Force Commendation Medal with “V” Device',
   'Air Force Cross',
   'Air Medal with “V” Device',
