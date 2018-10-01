@@ -18,7 +18,7 @@ With VA secure messaging, you can communicate privately online with your VA heal
 
 </div>
 
-<div id="cta-widget" data-required-services="messaging"></div>
+<div class="cta-widget" data-app-id="messaging"></div>
 
 <div itemscope itemtype="http://schema.org/Question">
 
