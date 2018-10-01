@@ -24,9 +24,19 @@ import {
 } from './ptsdSecondaryChoice';
 
 import {
-  uiSchema as ptsdIncidentDateUISchema,
-  schema as ptsdIncidentDateSchema
-} from './ptsdIncidentDate';
+  uiSchema as ptsdSecondaryIncidentDateUISchema,
+  schema as ptsdSecondaryIncidentDateSchema
+} from './ptsdSecondaryIncidentDate';
+
+import {
+  uiSchema as ptsdSecondaryAssignmentUISchema,
+  schema as ptsdSecondaryAssignmentSchema
+} from './ptsdSecondaryAssignmentDetails';
+
+import {
+  uiSchema as ptsdSecondaryLocationUISchema,
+  schema as ptsdSecondaryLocationSchema
+} from './ptsdSecondaryLocation';
 
 export const ptsdType = {
   uiSchema: ptsdTypeUISchema,
@@ -43,9 +53,19 @@ export const ptsdSecondaryChoice = {
   schema: ptsdSecondaryChoiceSchema
 };
 
-export const ptsdIncidentDate = {
-  uiSchema: ptsdIncidentDateUISchema,
-  schema: ptsdIncidentDateSchema
+export const ptsdSecondaryIncidentDate = {
+  uiSchema: ptsdSecondaryIncidentDateUISchema,
+  schema: ptsdSecondaryIncidentDateSchema
+};
+
+export const ptsdSecondaryAssignmentDetails = {
+  uiSchema: ptsdSecondaryAssignmentUISchema,
+  schema: ptsdSecondaryAssignmentSchema
+};
+
+export const ptsdSecondaryLocation = {
+  uiSchema: ptsdSecondaryLocationUISchema,
+  schema: ptsdSecondaryLocationSchema
 };
 
 export const uploadPtsd = {

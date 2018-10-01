@@ -21,7 +21,9 @@ import {
   ptsdSecondaryChoice,
   uploadPtsd,
   uploadPtsdSecondary,
-  ptsdIncidentDate,
+  ptsdSecondaryIncidentDate,
+  ptsdSecondaryAssignmentDetails,
+  ptsdSecondaryLocation
 } from '../pages';
 
 const formConfig = {
@@ -80,6 +82,28 @@ const formConfig = {
           uiSchema: ptsdSecondaryChoice.uiSchema,
           schema: ptsdSecondaryChoice.schema
         },
+        ptsdSecondaryIncidentDate: {
+          path: 'ptsdSecondaryIncidentDate',
+          title: 'Disability Details',
+          depends: (form) => form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' && form['view:selectablePtsdTypes']['view:mstPtsdType'],
+          uiSchema: ptsdSecondaryIncidentDate.uiSchema,
+          schema: ptsdSecondaryIncidentDate.schema
+        },
+
+        ptsdSecondaryAssignmentDetails: {
+          path: 'ptsdSecondaryAssignmentDetails',
+          title: 'Disability Details',
+          depends: (form) => form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' && form['view:selectablePtsdTypes']['view:mstPtsdType'],
+          uiSchema: ptsdSecondaryAssignmentDetails.uiSchema,
+          schema: ptsdSecondaryAssignmentDetails.schema
+        },
+        ptsdSecondaryLocation: {
+          path: 'ptsdSecondaryLocation',
+          title: 'Disability Details',
+          depends: (form) => form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' && form['view:selectablePtsdTypes']['view:mstPtsdType'],
+          uiSchema: ptsdSecondaryLocation.uiSchema,
+          schema: ptsdSecondaryLocation.schema
+        },
         uploadPtsdSecondary: {
           path: 'upload-781a',
           title: 'Disability Details',
@@ -87,14 +111,6 @@ const formConfig = {
           uiSchema: uploadPtsdSecondary.uiSchema,
           schema: uploadPtsdSecondary.schema
         },
-        ptsdIncidentDate: {
-          path: 'ptsdIncidentDate',
-          title: 'Disability Details',
-          depends: (form) => form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' && (form['view:selectablePtsdTypes']['view:mstPtsdType'] || form['view:selectablePtsdTypes']['view:assaultPtsdType']),
-          uiSchema: ptsdIncidentDate.uiSchema,
-          schema: ptsdIncidentDate.schema
-
-        }
       }
     }
   }
