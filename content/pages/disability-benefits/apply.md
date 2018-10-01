@@ -32,13 +32,13 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-Find out how to apply for VA disability benefits. We can show you how to file a new claim, a claim for increased compensation, or any other type of disablity claim.
+Learn how to file a claim for VA disability benefits--whether you're filing a new claim, a claim for increased compensation, or any other type of disability claim.
 </div>
 
 ### How do I prepare before starting my application?
 
 - [Find out if you're eligible for VA disability benefits](/disability-benefits/eligibility/).
-- Gather any supporting documents you’ll be submitting to support your disability claim.
+- Gather any supporting documents or evidence you’ll be submitting to support your disability claim.
 - Be sure your claim is filled out completely. This will help us process your claim quickly. <br>[Learn more about fully developed claims](/disability-benefits/apply/evidence/fully-developed-disability-claims/).
 - [Find out if you’ll need to turn in any additional (supplemental) forms with your claim](/disability-benefits/apply/supplemental-forms/). 
 
