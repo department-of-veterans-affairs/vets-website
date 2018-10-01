@@ -86,9 +86,7 @@ import {
   disabilitiesClarification,
 } from '../../all-claims/content/ratedDisabilities';
 
-import {
-  treatmentView
-} from '../../all-claims/content/vaMedicalRecords';
+import { treatmentView } from '../../all-claims/content/vaMedicalRecords';
 import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
 
 import { requireOneSelected } from '../validations';
@@ -497,7 +495,8 @@ const formConfig = {
           },
         },
         vaFacilities: {
-          title: (formData) => `${formData.name} VA facilities`,
+          //  title: formData => `${formData.name} VA facilities`,
+          title: '',
           path: 'supporting-evidence/:index/va-facilities',
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
@@ -601,7 +600,7 @@ const formConfig = {
           },
         },
         privateRecordChoice: {
-          title: (formData) => `${formData.name} private medical records choice`,
+          title: formData => `${formData.name} private medical records choice`,
           path: 'supporting-evidence/:index/private-medical-records-choice',
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
@@ -807,11 +806,18 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
+                  required: ['providerFacility'],
                   properties: {
                     providerFacility: {
                       type: 'array',
+                      minItems: 1,
+                      maxItems: 100,
                       items: {
                         type: 'object',
+                        required: [
+                          'providerFacilityName',
+                          'providerFacilityAddress',
+                        ],
                         properties: {
                           providerFacilityName: {
                             type: 'string',
@@ -865,10 +871,6 @@ const formConfig = {
                             },
                           ),
                         },
-                        required: [
-                          'providerFacilityName',
-                          'providerFacilityAddress',
-                        ],
                       },
                     },
                     'view:limitedConsent': {

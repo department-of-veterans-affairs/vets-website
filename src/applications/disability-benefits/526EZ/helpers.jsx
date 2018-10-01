@@ -18,10 +18,7 @@ import { pick } from 'lodash';
 import { genderLabels } from '../../../platform/static-data/labels';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
-import {
-  getDisabilityName,
-  transformDisabilities
-} from '../all-claims/utils';
+import { getDisabilityName, transformDisabilities } from '../all-claims/utils';
 
 import { VA_FORM4142_URL } from './constants';
 
@@ -156,13 +153,13 @@ export function transform(formConfig, form) {
 
   const additionalDocuments = aggregate(disabilities, 'additionalDocuments');
   const privateRecords = aggregate(disabilities, 'privateRecords');
-  const providerFacility = disabilities
-    .filter(disability => disability['view:selected'] === true)
-    .map(filtered => filtered.providerFacility)
-    .reduce((accumulator, item) => {
-      return accumulator.concat(item);
-    }, []);
   const treatments = aggregate(disabilities, 'treatments');
+
+  const providerFacility = disabilities
+    .filter(disability => disability['view:selected'] === true && disability.providerFacility)
+    .reduce((accumulator, item) => {
+      return accumulator.concat(item.providerFacility);
+    }, []);
 
   const transformedData = {
     disabilities: disabilities
@@ -174,13 +171,13 @@ export function transform(formConfig, form) {
     privacyAgreementAccepted,
     serviceInformation,
     standardClaim,
+    // treatments has a minItems: 1 requirement so only include the property
+    // if there is at least one treatment to send
+    ...(treatments.length && { treatments }),
     form4142: {
       limitedConsent: gatherLimitedConsentText(disabilities),
       providerFacility: transformProviderFacility(providerFacility),
     },
-    // treatments has a minItems: 1 requirement so only include the property
-    // if there is at least one treatment to send
-    ...treatments.length && { treatments }
   };
 
   const withoutViewFields = filterViewFields(transformedData);
@@ -201,7 +198,6 @@ export function validateDisability(disability) {
   }
   return true;
 }
-
 
 export function addPhoneEmailToCard(formData) {
   const { veteran } = formData;
@@ -318,15 +314,13 @@ export const limitedConsentTextTitle = (
 );
 
 export const limitedConsentDescription = (
-  <div className="limitedConsent">
-    <AdditionalInfo triggerText="What does this mean?">
-      <p>
-        If you choose to limit consent, your doctor will abide by the limitation
-        you specify. Limiting consent could add to the time it takes to get your
-        private medical records.
-      </p>
-    </AdditionalInfo>
-  </div>
+  <AdditionalInfo triggerText="What does this mean?">
+    <p>
+      If you choose to limit consent, your doctor will abide by the limitation
+      you specify. Limiting consent could add to the time it takes to get your
+      private medical records.
+    </p>
+  </AdditionalInfo>
 );
 
 export const disabilityNameTitle = ({ formData }) => {

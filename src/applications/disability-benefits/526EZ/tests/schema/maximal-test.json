@@ -10,6 +10,7 @@
        "title10ActivationDate": "2014-054-12",
        "anticipatedSeparationDate": "2019-09-02"
      },
+     "limitedConsent": "",
      "waiveVABenefitsToRetainTrainingPay": true,
      "disabilities":[
         {
@@ -39,7 +40,6 @@
            ],
            "view:uploadPrivateRecords":"yes",
            "view:privateRecordsChoiceHelp":{
-
            },
            "treatments":[
               {
@@ -57,13 +57,29 @@
                  }
               }
            ],
+           "providerFacility": [
+            {
+               "providerFacilityName": "Provider",
+               "treatmentDateRange":
+                 {
+                   "from": "2000-03-03",
+                   "to": "2008-06-05"
+                 },
+               "providerFacilityAddress": {
+                 "street": "14007 Wescott Ct",
+                 "city": "Bowie",
+                 "country": "USA",
+                 "state": "MD",
+                 "postalCode": "20715"
+               }
+            }
+       ],
            "view:selectableEvidenceTypes":{
               "view:vaMedicalRecords":true,
               "view:privateMedicalRecords":true,
               "view:otherEvidence":true
            },
            "view:evidenceTypeHelp":{
-
            },
            "name":"Diabetes mellitus0",
            "ratedDisabilityId":"0",
@@ -88,22 +104,19 @@
               }
             }
           ],
-          "limitedConsent": true
+          "limitedConsent": ""
         },
         {
            "view:uploadPrivateRecords":"no",
            "view:privateRecords4142Notice":{
-
            },
            "view:privateRecordsChoiceHelp":{
-
            },
            "view:selectableEvidenceTypes":{
               "view:privateMedicalRecords":true,
               "view:otherEvidence":false
            },
            "view:evidenceTypeHelp":{
-
            },
            "name":"Diabetes mellitus1",
            "ratedDisabilityId":"1",
@@ -115,20 +128,20 @@
            "providerFacility": [
             {
               "providerFacilityName": "Another Provider",
-              "treatmentDateRange": {
-                "from": "2010-02-03",
-                "to": "2012-03-05"
-              },
+              "treatmentDateRange":
+                {
+                "from": "2010-03-04",
+                  "to": "2012-02-03"
+               },
               "providerFacilityAddress": {
                 "street": "1234 test rd",
                 "city": "Testville",
-                "postalCode": "12345",
                 "country": "USA",
-                "state": "AZ"
+                "state": "AZ",
+                "postalCode": "12345"
               }
             }
-          ],
-          "limitedConsent": true
+          ]
         }
      ],
      "veteran":{
@@ -182,7 +195,6 @@
      "privacyAgreementAccepted":true,
      "standardClaim":false,
      "view:fdcWarning":{
-
      }
   }
 }
