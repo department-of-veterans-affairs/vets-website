@@ -25,6 +25,7 @@ import {
   ptsdSecondaryChoice,
   uploadPtsd,
   uploadPtsdSecondary,
+  medals,
 } from '../pages';
 
 const formConfig = {
@@ -47,7 +48,7 @@ const formConfig = {
       title: 'Disability Details',
       pages: {
         ptsdIntroduction: {
-          'ui:title': '',
+          title: 'Disability Details',
           path: 'info',
           uiSchema: {
             'ui:description': introductionText,
@@ -131,21 +132,24 @@ const formConfig = {
             properties: {},
           },
         },
-        // medals: { //TODO: KEEP FOR NEXT STORY
-        //   path: 'information-781',
-        //   title: 'Disability Details',
-        //   depends: form =>
-        //     form['view:uploadPtsdChoice'] === 'answerQuestions' &&
-        //     (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
-        //       form['view:selectablePtsdTypes']['view:noncombatPtsdType']),
-        //   uiSchema: {
-        //     'ui:description': 'Medals or Citations',
-        //   },
-        //   schema: {
-        //     type: 'object',
-        //     properties: {},
-        //   },
-        // },
+        medals: {
+          // TODO: KEEP FOR NEXT STORY
+          path: 'medals',
+          title: 'Disability Details',
+          depends: form =>
+            form['view:uploadPtsdChoice'] === 'answerQuestions' &&
+            (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
+              form['view:selectablePtsdTypes']['view:noncombatPtsdType']),
+          uiSchema: medals.uiSchema,
+          schema: medals.schema,
+          // uiSchema: {
+          //   'ui:description': 'Medals or Citations',
+          // },
+          // schema: {
+          //   type: 'object',
+          //   properties: {},
+          // },
+        },
       },
     },
   },

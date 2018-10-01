@@ -265,3 +265,17 @@ export const ptsdChoiceDescription = (
     </p>
   </AdditionalInfo>
 );
+
+export const medalsDescription = ({ formData }) => {
+  getPtsdClassification781(formData); // TODO: DRY-ER
+  return (
+    <div>
+      <p>
+        Now we'll ask about the event or events that caused your
+        {` ${incidentText}`}-related PTSD. If there is more than one event you
+        want to tell us about, we‘ll ask questions about each event separetely.
+      </p>
+      <p>Did you receive a medal or citation for the first event?</p>
+    </div>
+  );
+};
