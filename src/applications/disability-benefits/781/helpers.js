@@ -107,3 +107,11 @@ export const documentDescription = () => {
     </div>
   );
 };
+
+export const stressfullIncidentDescriptionTitle = () => {
+  return (
+    <div>
+      <h5>Event description</h5>
+    </div>
+  );
+};
