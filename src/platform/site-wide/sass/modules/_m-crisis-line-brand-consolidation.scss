@@ -50,6 +50,7 @@ button.va-crisis-line-button {
 
   .va-crisis-line-arrow {
     height: 13px;
+    width: 29px;
     padding-right: 0.5em;
     padding-left: 0.5em;
   }
@@ -102,6 +103,7 @@ button.va-crisis-line-button {
     padding-top: 0.1rem;
     &:hover {
       color: $color-black;
+      background-color: transparent;
     }
   }
 }
