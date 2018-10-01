@@ -20,6 +20,9 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import profileManifest from '../../profile360/manifest.json';
 import accountManifest from '../../account/manifest.json';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 const scroller = Scroll.animateScroll;
 const scrollToTop = () => {
@@ -156,8 +159,8 @@ class DashboardApp extends React.Component {
     return (
       <AlertBox
         content={<div>
-          <h4 className="usa-alert-heading">Verify your identity to access more Vets.gov tools and features</h4>
-          <p>When you verify your identity, you can use Vets.gov to do things like track your claims, refill your prescriptions, and download your VA benefit letters.</p>
+          <h4 className="usa-alert-heading">Verify your identity to access more {propertyName} tools and features</h4>
+          <p>When you verify your identity, you can use {propertyName} to do things like track your claims, refill your prescriptions, and download your VA benefit letters.</p>
           <a className="usa-button-primary" href="/verify" onClick={() => { recordEvent({ event: 'verify-link-clicked' }); }}>Verify Your Identity</a>
           <p><a href="/faq#verifying-your-identity" onClick={recordDashboardClick('learn-more-identity')}>Learn about how to verify your identity</a></p>
         </div>}
@@ -177,8 +180,8 @@ class DashboardApp extends React.Component {
         content={<div>
           <h4 className="usa-alert-heading">We’re having trouble matching your information to our Veteran records</h4>
           <p>We’re sorry. We’re having trouble matching your information to our Veteran records, so we can’t give you access to tools for managing your health and benefits.</p>
-          <p>If you’d like to use these tools on Vets.gov, please contact your nearest VA medical center. Let them know you need to verify the information in your records, and update it as needed. The operator, or a patient advocate, can connect you with the right person who can help.</p>
-          <p><a href="/facilities" onClick={() => { recordEvent({ event: 'dashboard-navigation', 'dashboard-action': 'view-link', 'dashboard-product': 'find-center' }); }}>Find your nearest VA Medical Center</a></p>
+          <p>If you’d like to use these tools on {propertyName}, please contact your nearest VA medical center. Let them know you need to verify the information in your records, and update it as needed. The operator, or a patient advocate, can connect you with the right person who can help.</p>
+          <p><a href="/facilities" onClick={() => { recordEvent({ event: 'dashboard-navigation', 'dashboard-action': 'view-link', 'dashboard-product': 'find-center' }); }}>Find your nearest VA medical center</a>.</p>
         </div>}
         onCloseAlert={this.dismissAlertBox('mvi')}
         isVisible={this.state['show-mvi-alert'] && !localStorage.getItem('hide-mvi-alert')}
@@ -197,7 +200,7 @@ class DashboardApp extends React.Component {
     const view = (
       <div className="row user-profile-row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
-          <h1 id="dashboard-title">Your Homepage</h1>
+          <h1 id="dashboard-title">{isBrandConsolidationEnabled() ? 'My VA' : 'Your Homepage'}</h1>
           <div className="va-introtext">
             <p>Access the tools and information you’ll need to track and manage your VA benefits and communications.</p>
           </div>
@@ -242,7 +245,7 @@ class DashboardApp extends React.Component {
             </ul>
           </div>
           <div>
-            <h2>Request your Records</h2>
+            <h2>Request Your Records</h2>
 
             <ul className="va-nav-linkslist-list">
               <li>

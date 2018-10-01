@@ -11,7 +11,7 @@ export default function createMyVALoginWidget(store) {
         '<i class="fa fa-user-circle"></i>' +
         '</div>' +
         '<div class="button-inner">' +
-        '<p>Track claims, prescriptions, and more with “My VA”</p>' +
+        '<p>Go to your personalized “My VA” page</p>' +
         '</div>' +
         '</a>';
       unsubscribe();
