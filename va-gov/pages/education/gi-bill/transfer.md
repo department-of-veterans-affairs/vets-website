@@ -7,9 +7,9 @@ plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: complete
 order: 4
 breadcrumbs_override:
-  - path: /education/
+  - path: education/
     name: Education and Training
-  - path: /education/about-gi-bill-benefits/
+  - path: education/about-gi-bill-benefits/
     name: GI Bill
 ---
 

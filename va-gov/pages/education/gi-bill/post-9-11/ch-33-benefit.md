@@ -9,13 +9,13 @@ collection: education
 spoke: Manage Benefits
 order: 9
 breadcrumbs_override:
-  - path: /education/
+  - path: education/
     name: Education and Training
-  - path: /education/about-gi-bill-benefits/
+  - path: education/about-gi-bill-benefits/
     name: GI Bill
-  - path: /education/about-gi-bill-benefits/post-9-11/
+  - path: education/about-gi-bill-benefits/post-9-11/
     name: Post-9/11 GIBill
-  - path: /education/gi-bill/post-9-11/ch-33-benefit/
+  - path: education/gi-bill/post-9-11/ch-33-benefit/
     name: Check Post-9/11 GI Bill Benefits
 ---
 
