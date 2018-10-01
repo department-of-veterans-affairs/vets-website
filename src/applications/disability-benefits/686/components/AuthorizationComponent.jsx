@@ -34,14 +34,14 @@ class AuthorizationComponent extends React.Component {
   }
 
   render() {
-    const { isLoading, isVisible, hasError, isLoggedIn, isVerified, profileStatus, has30PercentDisabilityRating, formConfig } = this.props;
+    const { isLoading, isVisible, isAuthorized, isLoggedIn, isVerified, profileStatus, has30PercentDisabilityRating, formConfig } = this.props;
 
     const content = (<div>
       {isLoading && isVisible && <LoadingIndicator message="Please wait while we check your information."/>}
-      {!isLoading && isVisible && hasError && <AlertBox status="error" isVisible>
+      {!isLoading && isVisible && !isAuthorized && <AlertBox status="error" isVisible>
         <AuthorizationMessage has30PercentDisabilityRating={has30PercentDisabilityRating} user={ { isLoggedIn, isVerified, profileStatus }}/>
       </AlertBox>}
-      {!hasError && this.props.children}
+      {isAuthorized && this.props.children}
     </div>);
 
     if (formConfig && formConfig.downtime) {

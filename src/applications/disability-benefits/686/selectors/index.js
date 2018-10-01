@@ -7,7 +7,7 @@ export const get686AuthorizationState = (state) => {
 
   return {
     disabilityStatusIsLoading: state.authorization686.isLoading,
-    hasError: state.authorization686.hasError || hasUserError,
+    isAuthorized: !hasUserError && state.authorization686.isAuthorized,
     isLoading: state.user.profile.loading || state.authorization686.isLoading,
     isLoggedIn,
     isVerified,

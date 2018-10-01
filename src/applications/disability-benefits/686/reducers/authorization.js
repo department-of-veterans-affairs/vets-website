@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   isLoading: false,
-  hasError: false,
+  isAuthorized: false,
 };
 
 function authorizationReducer(state = initialState, action) {
@@ -15,19 +15,18 @@ function authorizationReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: true,
-        hasError: false,
       };
     case LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED:
       return {
         ...state,
         isLoading: false,
-        hasError: !action.payload.has30Percent,
+        isAuthorized: action.payload.has30Percent,
       };
     case LOAD_30_PERCENT_DISABILITY_RATING_FAILED:
       return {
         ...state,
         isLoading: false,
-        hasError: true,
+        isAuthorized: false,
         payload: action.error,
       };
     default:
