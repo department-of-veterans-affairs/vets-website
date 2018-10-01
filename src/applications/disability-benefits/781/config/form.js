@@ -21,7 +21,7 @@ import {
   ptsdSecondaryChoice,
   uploadPtsd,
   uploadPtsdSecondary,
-  stressfullIncSecDesc
+  stressfulIncSecDesc
 } from '../pages';
 
 const formConfig = {
@@ -87,12 +87,12 @@ const formConfig = {
           uiSchema: uploadPtsdSecondary.uiSchema,
           schema: uploadPtsdSecondary.schema
         },
-        stressfullIncidentSecondaryDescription: {
-          path: 'stressfull-incident-secondary-description',
+        stressfulIncidentSecondaryDescription: {
+          path: 'stressful-incident-secondary-description',
           title: 'Disability Details',
           depends: (form) => form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' && (form['view:selectablePtsdTypes']['view:mstPtsdType'] || form['view:selectablePtsdTypes']['view:assaultPtsdType']),
-          uiSchema: stressfullIncSecDesc.uiSchema,
-          schema: stressfullIncSecDesc.schema
+          uiSchema: stressfulIncSecDesc.uiSchema,
+          schema: stressfulIncSecDesc.schema
         }
       }
     }
