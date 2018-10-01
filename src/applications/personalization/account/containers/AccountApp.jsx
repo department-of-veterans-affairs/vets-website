@@ -4,19 +4,15 @@ import backendServices from '../../../../platform/user/profile/constants/backend
 import { selectUser, isLOA3 } from '../../../../platform/user/selectors';
 
 import AccountMain from '../components/AccountMain';
-import Announcement from '../components/Announcement';
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 
-import { dismissAnnouncement } from '../../../../platform/site-wide/announcements/actions';
 import { fetchMHVAccount } from '../../../../platform/user/profile/actions';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
-const ANNOUNCEMENT_NAME = 'account';
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 class AccountApp extends React.Component {
-  dismissAnnouncement = () => {
-    this.props.dismissAnnouncement(ANNOUNCEMENT_NAME);
-  }
   render() {
     return (
       <div>
@@ -27,11 +23,10 @@ class AccountApp extends React.Component {
           <DowntimeNotification appTitle="user account page" dependencies={[externalServices.mvi, externalServices.emis]}>
             <div className="row user-profile-row">
               <div className="usa-width-two-thirds medium-8 small-12 columns">
-                <h1>Your Vets.gov Account Settings</h1>
+                <h1>Your {propertyName} Account Settings</h1>
                 <div className="va-introtext">
-                  <p>Below, you’ll find your current settings for signing in to Vets.gov. Find out how to update your settings as needed to access more site tools or add extra security to your account.</p>
+                  <p>Below, you’ll find your current settings for signing in to {propertyName}. Find out how to update your settings as needed to access more site tools or add extra security to your account.</p>
                 </div>
-                <Announcement dismiss={this.dismissAnnouncement} isDismissed={this.props.announcementDismissed}/>
                 <AccountMain
                   login={this.props.login}
                   profile={this.props.profile}
@@ -52,12 +47,10 @@ const mapStateToProps = (state) => {
     login: userState.login,
     profile: userState.profile,
     user: userState,
-    announcementDismissed: state.announcements.dismissed.includes(ANNOUNCEMENT_NAME)
   };
 };
 
 const mapDispatchToProps = {
-  dismissAnnouncement,
   fetchMHVAccount
 };
 

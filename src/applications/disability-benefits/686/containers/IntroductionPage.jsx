@@ -9,8 +9,6 @@ import SaveInProgressIntro, { introActions, introSelector } from '../../../../pl
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import AuthorizationComponent from '../components/AuthorizationComponent';
 
-import { authorize } from '../helpers';
-
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
@@ -30,7 +28,7 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply to add a dependent to your VA benefits"/>
         <p>Equal to VA Form 21-686c (Application for Declaration of Status of Dependents).</p>
-        <AuthorizationComponent authorize={authorize} {...this.props.saveInProgress} isVisible>
+        <AuthorizationComponent isVisible>
           <SaveInProgressIntro
             prefillEnabled={this.props.route.formConfig.prefillEnabled}
             messages={this.props.route.formConfig.savedFormMessages}
@@ -77,7 +75,7 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <AuthorizationComponent  authorize={authorize} {...this.props.saveInProgress}>
+        <AuthorizationComponent>
           <SaveInProgressIntro
             buttonOnly
             disabled

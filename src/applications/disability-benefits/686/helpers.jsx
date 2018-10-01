@@ -1,5 +1,6 @@
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import React from 'react';
+import { apiRequest } from '../../../platform/utilities/api';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import { get } from 'lodash/fp';
 
@@ -27,6 +28,17 @@ const numberToWords = {
   8: 'Ninth',
   9: 'Tenth'
 };
+
+export function fetchDisabilityRating({ onDone, onError }) {
+  const fetchUrl = '/dependents_applications/disability_rating';
+
+  return apiRequest(
+    fetchUrl,
+    null,
+    payload => onDone(payload),
+    error => onError(error)
+  );
+}
 
 export function isMarried(form = {}) {
   return ['Married', 'Separated'].includes(form.maritalStatus);
@@ -103,13 +115,7 @@ export function isVeteran(item) {
   return relationship && relationship === '1';
 }
 
-export function authorize(isVerified) {
-  if (isVerified) {
-    // verifyDisabilityRating();
-  }
-}
-
 export const profileStatuses = { // TODO: move to platform and use in requiredLoginView
-  serverError: 'SERVER_ERROR',
-  notFound: 'NOT_FOUND'
+  SERVER_ERROR: 'SERVER_ERROR',
+  NOT_FOUND: 'NOT_FOUND'
 };

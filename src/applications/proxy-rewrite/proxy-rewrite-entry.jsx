@@ -15,11 +15,13 @@ import startMobileMenuButton from '../../platform/site-wide/mobile-menu-button';
 import startFeedbackWidget from '../../platform/site-wide/feedback';
 // import startAnnouncementWidget from '../../platform/site-wide/announcements';
 import startVAFooter from '../../platform/site-wide/va-footer';
+import redirectIfNecessary from './redirects';
+
+redirectIfNecessary(window);
 
 // Find native header, footer, etc based on page path
 const DEPRECATED_SELECTOR_CONFIG = [
-  { path: /\/health\/.*/, selector: 'header.row.main-header-wrap, div#footer-effect' },
-  { path: /health/, selector: 'header.row.main-header-wrap, div#footer-effect' },
+  { path: /.*/, selector: 'header.row.main-header-wrap, div#top-nav-wrapper, div#main-header, div#footer-effect' }
 ];
 
 let deprecatedSelector;

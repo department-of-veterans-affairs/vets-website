@@ -5,6 +5,7 @@
 // This is used over a bear http-server invocation because it handles paths inside React apps
 // using the expression-history-api-fallback option.
 
+const fs = require('fs');
 const commandLineArgs = require('command-line-args');
 const express = require('express');
 const fallback = require('express-history-api-fallback');
@@ -28,7 +29,13 @@ if (options.unexpected && options.unexpected.length !== 0) {
 
 const app = express();
 
-const root = path.resolve(__dirname, `../../../../build/${options.buildtype}`);
+let root = path.resolve(__dirname, `../../../../build/${options.buildtype}`);
+if (!fs.existsSync(root)) {
+  // if there isn't a build directory here, then check the parent directory.
+  // This is a temporary adapation as we transition to vagov-content.
+  root = path.resolve(__dirname, `../../../../../build/${options.buildtype}`);
+}
+
 appSettings.parseFromBuildDir(root);
 const routes = appSettings.getAllApplicationRoutes();
 
