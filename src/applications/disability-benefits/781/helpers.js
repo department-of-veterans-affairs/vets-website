@@ -1,10 +1,10 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-let incidentTitle;
-let incidentText;
-
 const getPtsdClassification781 = formData => {
+  let incidentTitle;
+  let incidentText;
+
   const classifications = formData['view:selectablePtsdTypes'];
 
   if (classifications['view:combatPtsdType']) {
@@ -27,9 +27,14 @@ const getPtsdClassification781 = formData => {
     incidentText =
       'Combat and Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
   }
+
+  return { incidentTitle, incidentText };
 };
 
 const getPtsdClassification781a = formData => {
+  let incidentTitle;
+  let incidentText;
+
   const classifications = formData['view:selectablePtsdTypes'];
 
   if (classifications['view:assaultPtsdType']) {
@@ -49,6 +54,8 @@ const getPtsdClassification781a = formData => {
     incidentTitle = 'Personal Assault & Military Sexual Trauma';
     incidentText = 'Personal Assault and Military Sexual Trauma';
   }
+
+  return { incidentTitle, incidentText };
 };
 
 const introductionExplanationText = (
@@ -145,21 +152,19 @@ export const ptsdTypeHelp = () => {
 };
 
 export const ptsdNameTitle781 = ({ formData }) => {
-  getPtsdClassification781(formData);
-
+  const incidentContent = getPtsdClassification781(formData);
   return (
     <legend className="schemaform-block-title schemaform-title-underline">
-      {incidentTitle}
+      {incidentContent.incidentTitle}
     </legend>
   );
 };
 
 export const ptsdNameTitle781a = ({ formData }) => {
-  getPtsdClassification781a(formData);
-
+  const incidentContent = getPtsdClassification781a(formData);
   return (
     <legend className="schemaform-block-title schemaform-title-underline">
-      {incidentTitle}
+      {incidentContent.incidentTitle}
     </legend>
   );
 };
@@ -189,11 +194,10 @@ export const documentDescription = () => {
 };
 
 export const incidentIntroduction781 = ({ formData }) => {
-  getPtsdClassification781(formData);
-
+  const incidentContent = getPtsdClassification781(formData);
   return (
     <div>
-      <h3>{incidentText}</h3>
+      <h3>{incidentContent.incidentTitle}</h3>
       {introductionExplanationText}
     </div>
   );
@@ -211,14 +215,14 @@ const uploadExplanation = (
 );
 
 export const uploadPtsdDescription781 = ({ formData }) => {
-  getPtsdClassification781(formData); // TODO: DRY-ER
+  const incidentContent = getPtsdClassification781(formData);
   return (
     <div>
       <p>
         The following questions will help us understand more about your
-        {` ${incidentText}`}-related PTSD. None of the questions we‘ll ask you
-        are required, but any information you provide here will help us research
-        your claim.
+        {` ${incidentContent.incidentText}`}-related PTSD. None of the questions
+        we‘ll ask you are required, but any information you provide here will
+        help us research your claim.
       </p>
       {uploadExplanation}
     </div>
@@ -226,14 +230,14 @@ export const uploadPtsdDescription781 = ({ formData }) => {
 };
 
 export const uploadPtsdDescription781a = ({ formData }) => {
-  getPtsdClassification781a(formData); // TODO: DRY-ER
+  const incidentContent = getPtsdClassification781a(formData); // TODO: DRY-ER
   return (
     <div>
       <p>
         The following questions will help us understand more about your
-        {` ${incidentText}`}-related PTSD. None of the questions we‘ll ask you
-        are required, but any information you provide here will help us research
-        your claim.
+        {` ${incidentContent.incidentText}`}-related PTSD. None of the questions
+        we‘ll ask you are required, but any information you provide here will
+        help us research your claim.
       </p>
       {uploadExplanation}
     </div>
@@ -241,10 +245,10 @@ export const uploadPtsdDescription781a = ({ formData }) => {
 };
 
 export const incidentIntroduction781a = ({ formData }) => {
-  getPtsdClassification781a(formData);
+  const incidentContent = getPtsdClassification781a(formData);
   return (
     <div>
-      <h3>{incidentTitle}</h3>
+      <h3>{incidentContent.incidentTitle}</h3>
       {introductionExplanationText}
     </div>
   );
