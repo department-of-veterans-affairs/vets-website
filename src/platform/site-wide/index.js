@@ -17,6 +17,10 @@ import startVAFooter from './va-footer';
 
 import brandConsolidation from '../brand-consolidation';
 
+if (!brandConsolidation.isEnabled()) {
+  require('./usa-banner-toggle');
+}
+
 /**
  * Start up the site-wide components that live on every page, like
  * the login widget, the header menus, and the feedback widget.

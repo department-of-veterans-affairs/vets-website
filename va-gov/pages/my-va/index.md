@@ -1,5 +1,5 @@
 ---
-title: Your Vets.gov Dashboard
+title: My VA
 layout: page-react.html
 entryname: dashboard
 ---
