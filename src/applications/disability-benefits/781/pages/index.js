@@ -23,6 +23,11 @@ import {
   schema as ptsdSecondaryChoiceSchema
 } from './ptsdSecondaryChoice';
 
+import {
+  uiSchema as stressfullIncSecDescUISchema,
+  schema as stressfullIncSecDescSchema
+} from './stressfullIncSecDesc';
+
 export const ptsdType = {
   uiSchema: ptsdTypeUISchema,
   schema: ptsdTypeSchema
@@ -46,4 +51,9 @@ export const uploadPtsd = {
 export const uploadPtsdSecondary = {
   uiSchema: ptsd781aUISchema,
   schema: ptsd781aSchema
+};
+
+export const stressfullIncSecDesc = {
+  uiSchema: stressfullIncSecDescUISchema,
+  schema: stressfullIncSecDescSchema
 };
