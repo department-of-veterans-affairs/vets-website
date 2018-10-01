@@ -37,8 +37,6 @@ export class Main extends React.Component {
       isMobile: !isWideScreen()
     });
   }
-    recordEvent({ event: FOOTER_EVENTS.CRISIS_LINE });
-
   generateLinkItems = (column, direction = 'asc') => {
     const captureEvent = () => recordEvent({ event: FOOTER_EVENTS[column] });
     return (
@@ -75,7 +73,7 @@ export class Main extends React.Component {
             <li className="usa-accordion-content" id="veteran-crisis" aria-hidden="true">
               <ul className="va-footer-links">
                 <li>
-                  <button className="va-button-link va-overlay-trigger" data-show="#modal-crisisline">Veterans Crisis Line</button>
+                  <button onClick={() => recordEvent({ event: FOOTER_EVENTS.CRISIS_LINE })} className="va-button-link va-overlay-trigger" data-show="#modal-crisisline">Veterans Crisis Line</button>
                 </li>
               </ul>
             </li>
@@ -101,7 +99,7 @@ export class Main extends React.Component {
           </h4>
         </li>
         <li>
-          <button className="va-button-link va-overlay-trigger" data-show="#modal-crisisline">Veterans Crisis Line</button>
+          <button onClick={() => recordEvent({ event: FOOTER_EVENTS.CRISIS_LINE })} className="va-button-link va-overlay-trigger" data-show="#modal-crisisline">Veterans Crisis Line</button>
         </li>
         <li id="footer-vcl">
           <h4 className="va-footer-linkgroup-title">
