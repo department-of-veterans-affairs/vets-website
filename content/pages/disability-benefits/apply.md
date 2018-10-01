@@ -32,31 +32,29 @@ relatedlinks:
 <div itemscope itemtype ="http://schema.org/HowTo">
 <div class="va-introtext" itemprop="description">
 
-Find out how to apply for VA disability benefits. We can show you how to file a new claim, a claim for increased disability compensation, or any other type of claim.
+Find out how to apply for VA disability benefits. We can show you how to file a new claim, a claim for increased compensation, or any other type of disablity claim.
 </div>
 
 ### How do I prepare before starting my application?
 
 - [Find out if you're eligible for VA disability benefits](/disability-benefits/eligibility/).
-- Gather the supporting documents listed below that you’ll need to file a disability claim.
-- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. <br>[Learn more about fully developed claims](/disability-benefits/apply/evidence/fully-developed-disability-claims/).
+- Gather any supporting documents you’ll be submitting to support your disability claim.
+- Be sure your claim is filled out completely. This will help us process your claim quickly. <br>[Learn more about fully developed claims](/disability-benefits/apply/evidence/fully-developed-disability-claims/).
 - [Find out if you’ll need to turn in any additional (supplemental) forms with your claim](/disability-benefits/apply/supplemental-forms/). 
 
 
 <div class="feature" markdown="1" itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
-<h4 itemprop="name">What documents do I need to apply?</h4>
+<h4 itemprop="name">What information do I need to apply?</h4>
 <div itemprop="itemListElement">
 
-For the first disability claim you file, please provide:
-
-- Discharge papers (DD214 or other separation documents)
-- Service treatment records [(Order service records through the National Archives)](https://www.archives.gov/veterans/military-service-records)
-
-For all disability claims, please provide:
+For all disability claims we recommend you provide:
 
 - VA medical records and hospital records that relate to your claimed illnesses or injuries
 - Private medical records and hospital reports that relate to your claimed illnesses or injuries
+
+**Please note:** You don’t have to submit supporting documents for your disability claim, but we recommend that you do provide some supporting information that relates to your claimed disability. If you don't submit any evidence, we may schedule a claim exam for you to help us decide your claim. You have up to 1 year from the date we receive your claim to turn in any evidence. 
+
 
 </div>
 </div>
