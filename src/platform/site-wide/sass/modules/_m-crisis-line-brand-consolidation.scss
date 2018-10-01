@@ -56,58 +56,62 @@ button.va-crisis-line-button {
 }
 
 .va-crisis-panel {
-//  color: $color-primary-darkest;
-  list-style: none;
-  margin: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 2rem;
-  position: relative;
   z-index: 1;
-  width: 100%;
-
-  li {
-    &:nth-child(odd) {
-      border-top: 1px solid $color-gray-lighter;
-      border-bottom: 1px solid $color-gray-lighter;
-    }
-
-    a {
-      color: $color-base;
-      display: block;
-      padding: 1.5rem 0;
-      text-decoration: none;
-    }
+  &-body {
+    padding: 1.5em;
+    max-height: 100%;
   }
-
-  @include media($medium-large-screen) {
-    margin: auto;
-    max-width: 50%;
+  &-title {
+    padding-left: 41px;
+    background: url(/img/vcl-logo.png) no-repeat left;
+    background-position: left 5px;
+    background-size: 32px auto;
   }
-
-  a {
-    @include no-sr-content;
-
+  &-list {
+    list-style: none;
     padding: 0;
-    background-image: none;
-
+    > li {
+      display: flex;
+      min-height: 56px;
+      margin-bottom: 0;
+      border-top: 1px solid $color-gray-light;
+      &:last-child {
+        border-bottom: 1px solid $color-gray-light;
+      }
+      > a {
+        padding: 0.5em 0;
+        align-self: center;
+      }
+    }
+  }
+  &-icon {
+    color: $color-base !important;
+    font-size: 26px;
+    width: 46px;
+    padding: 0.4em 0.3em;
+    align-self: center;
+    flex-shrink: 0;
+    &.fa-mobile {
+      font-size: 38px;
+      padding: 0.15em 0.3em;
+    }
+  }
+  &-close.va-modal-close {
+    font-size: 4rem;
+    color: $color-link-default;
+    padding-top: 0.1rem;
+    &:hover {
+      color: $color-black;
+    }
   }
 }
 
-.va-crisis-panel-body {
-  background: $color-white;
-  height: auto;
-  list-style: inherit;
-  margin: 0;
-  max-height: 100%;
-  padding: 0;
-
-  ul {
-  //  font-size: 1.7rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    text-align: center;
+.no-external-icon {
+  padding-right: 0;
+  background-image: none;
+  &::after {
+    display: none !important;
+    content: none;
   }
 }
 

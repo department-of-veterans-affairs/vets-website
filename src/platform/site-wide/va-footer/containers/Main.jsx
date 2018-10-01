@@ -108,19 +108,35 @@ export class Main extends React.Component {
     return (
       <div id="modal-crisisline" className="va-overlay va-modal va-modal-large va-overlay--open" role="alertdialog">
         <div className="va-crisis-panel va-modal-inner">
-          <h3>Get help from Veterans Crisis Line</h3>
-          <button className="va-modal-close va-overlay-close" onClick={this.closeModal} type="button">
-            <i className="fa fa-close va-overlay-close"></i>
+
+          <button className="va-modal-close va-overlay-close va-crisis-panel-close" type="button">
+            <i className="fa fa-times-circle-o va-overlay-close" aria-hidden="true"></i>
             <span className="usa-sr-only va-overlay-close">Close this modal</span>
           </button>
+
           <div className="va-overlay-body va-crisis-panel-body">
-            <ul>
-              <li><a href="tel:18002738255">Call <strong>1-800-273-8255 (Press 1)</strong></a></li>
-              <li><a href="sms:838255">Text to <b>838255</b></a></li>
-              <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat">Chat <b>confidentially now</b></a></li>
+            <h3 className="va-crisis-panel-title">We're here anytime, day or night</h3>
+            <p>Whatever you're struggling with, our responders can offer confidential help 24/7. Many of them are Veterans themselves.</p>
+            <ul className="va-crisis-panel-list">
+              <li>
+                <i className="fa fa-phone va-crisis-panel-icon" aria-hidden="true"></i>
+                <a href="tel:18002738255">Call <strong>1-800-273-8255 (Press 1)</strong></a>
+              </li>
+              <li>
+                <i className="fa fa-mobile va-crisis-panel-icon" aria-hidden="true"></i>
+                <a href="sms:838255">Text <strong>838255</strong></a>
+              </li>
+              <li>
+                <i className="fa fa-comments-o va-crisis-panel-icon" aria-hidden="true"></i>
+                <a className="no-external-icon" href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat">Start a confidential chat</a>
+              </li>
+              <li>
+                <i className="fa fa-deaf va-crisis-panel-icon" aria-hidden="true"></i>
+                <a href="tel:18007994889">Call TTY if you have hearing loss <strong>1-800-799-4889</strong></a>
+              </li>
             </ul>
-            <p>If you are in crisis or having thoughts of suicide,
-      visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> for more resources.</p>
+
+            Get more resources at <a className="no-external-icon" href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a>.
           </div>
         </div>
       </div>
