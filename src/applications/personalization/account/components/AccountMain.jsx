@@ -72,6 +72,17 @@ class AccountMain extends React.Component {
         <AccountVerification loa={loa}/>
         {this.renderMVIError()}
         <MultifactorMessage multifactor={multifactor}/>
+        {isBrandConsolidationEnabled &&
+          <div>
+            <div>
+              <h4>DS Login</h4>
+              <a href="https://myaccess.dmdc.osd.mil/identitymanagement" target="_blank">Manage your DS Logon account</a>
+            </div>
+            <div>
+              <h4>MyHealthyVet</h4>
+              <a href="https://www.myhealth.va.gov" target="_blank">Manage your MyHealthyVet account</a>
+            </div>
+          </div>}
         <LoginSettings/>
         {verified && <TermsAndConditions mhvAccount={mhvAccount}/>}
         <h4>Have questions about signing in to {propertyName}?</h4>
