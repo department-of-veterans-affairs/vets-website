@@ -123,7 +123,7 @@ class DashboardApp extends React.Component {
 
         <ul className="va-nav-linkslist-list">
           <li>
-            <a href="/disability-benefits/" onClick={recordDashboardClick('disability-benefits')}>
+            <a href={isBrandConsolidationEnabled() ? '/disability/' : '/disability-benefits/'} onClick={recordDashboardClick('disability-benefits')}>
               <h4 className="va-nav-linkslist-title">Disability Benefits</h4>
               <p className="va-nav-linkslist-description">Apply for disability compensation and other benefits for conditions related to your military service.</p>
             </a>
