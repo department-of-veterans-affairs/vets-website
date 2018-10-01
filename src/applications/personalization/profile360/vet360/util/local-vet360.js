@@ -5,7 +5,8 @@ export function isVet360Configured() {
   return [
     'staging.vets.gov',
     'www.vets.gov',
-    'preview.va.gov'
+    'preview.va.gov',
+    'staging.va.gov'
   ].includes(document.location.hostname);
 }
 
