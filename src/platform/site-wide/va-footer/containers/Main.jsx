@@ -201,7 +201,7 @@ export class Main extends React.Component {
               </li>
 
               <li className={innerClassName} id="veteran-connect" aria-hidden="true">
-                {this.generateLinkItems(FOOTER_COLUMNS.CONTACT)}
+                {this.generateLinkItems(FOOTER_COLUMNS.CONNECT)}
               </li>
             </ul>
             {contactVCL}
