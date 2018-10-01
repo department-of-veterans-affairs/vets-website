@@ -133,7 +133,6 @@ export const SERVICE_CONNECTION_TYPES = {
 };
 
 export const DATA_PATHS = {
-  hasVAEvidence:
-    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasVAMedicalRecords'
+  hasVAEvidence: 'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasVAMedicalRecords',
+  hasAdditionalDocuments: 'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasOtherEvidence'
 };
-

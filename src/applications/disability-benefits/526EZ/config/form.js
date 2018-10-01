@@ -50,7 +50,6 @@ import {
   // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
   documentDescription,
   evidenceSummaryView,
-  additionalDocumentDescription,
   GetFormHelp,
   FDCDescription,
   FDCWarning,
@@ -71,10 +70,9 @@ import {
   disabilitiesClarification
 } from '../../all-claims/content/ratedDisabilities';
 
-import {
-  treatmentView
-} from '../../all-claims/content/vaMedicalRecords';
+import { treatmentView } from '../../all-claims/content/vaMedicalRecords';
 import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
+import { additionalDocumentDescription } from '../../all-claims/content/additionalDocuments';
 
 import { requireOneSelected } from '../validations';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
