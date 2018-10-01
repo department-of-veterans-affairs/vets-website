@@ -7,7 +7,7 @@ export default function createMyVALoginWidget(store) {
     if (root && isLoggedIn(store.getState())) {
       root.innerHTML = '<a href="/dashboard" class="homepage-button primary-darker">' +
         '<div class="icon-wrapper">' +
-        '<i class="fa fa-user-circle"></i>' +
+        '<i class="fa fa-user-circle-o homepage-button-icon-sign-in"></i>' +
         '</div>' +
         '<div class="button-inner">' +
         '<span>Go to your personalized “My VA” page</span>' +

@@ -53,6 +53,10 @@
     }
   }
 
+  &-icon-sign-in.fa::before {
+    left: -10.75px !important;
+  }
+
   .button-inner {
     margin-left: 55px;
     height: 100%;
