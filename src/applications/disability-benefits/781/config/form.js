@@ -14,9 +14,6 @@ import {
   introductionText,
   incidentIntroduction781,
   incidentIntroduction781a,
-  ptsdNameTitle,
-  uploadPtsdDescription,
-  ptsdChoiceDescription,
 } from '../helpers';
 
 // Define all the fields in the form to aid reuse
@@ -24,7 +21,7 @@ import {
 
 import {
   ptsdType,
-  //  ptsdChoice,
+  ptsdChoice,
   ptsdSecondaryChoice,
   uploadPtsd,
   uploadPtsdSecondary,
@@ -72,38 +69,8 @@ const formConfig = {
           depends: form =>
             form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
             form['view:selectablePtsdTypes']['view:noncombatPtsdType'],
-          // uiSchema: ptsdChoice.uiSchema,
-          // schema: ptsdChoice.schema,
-          uiSchema: {
-            'ui:title': ptsdNameTitle,
-            'ui:description': uploadPtsdDescription,
-            'view:uploadPtsdChoice': {
-              'ui:title': ' ',
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  answerQuestions: 'I want to answer questions',
-                  upload: 'I want to upload VA Form 21-0781',
-                },
-              },
-            },
-            'view:uploadPtsdChoiceHelp': {
-              'ui:description': ptsdChoiceDescription,
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:uploadPtsdChoice': {
-                type: 'string',
-                'enum': ['answerQuestions', 'upload'],
-              },
-              'view:uploadPtsdChoiceHelp': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+          uiSchema: ptsdChoice.uiSchema,
+          schema: ptsdChoice.schema,
         },
         uploadPtsd: {
           path: 'upload-781',
@@ -164,7 +131,7 @@ const formConfig = {
             properties: {},
           },
         },
-        // medals: {
+        // medals: { //TODO: KEEP FOR NEXT STORY
         //   path: 'information-781',
         //   title: 'Disability Details',
         //   depends: form =>

@@ -1,6 +1,58 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
+let incidentTitle;
+let incidentText;
+
+const getPtsdClassification781 = formData => {
+  const classifications = formData['view:selectablePtsdTypes'];
+
+  if (classifications['view:combatPtsdType']) {
+    incidentTitle = 'Combat';
+    incidentText = 'Combat';
+  }
+  if (classifications['view:noncombatPtsdType']) {
+    incidentTitle =
+      'Non-Combat PTSD other than Military Sexual Trama or Personal Assault';
+    incidentText =
+      'Non-Combat PTSD other than Military Sexual Trama or Personal Assault';
+  }
+  if (
+    classifications['view:combatPtsdType'] &&
+    classifications['view:noncombatPtsdType']
+  ) {
+    incidentTitle =
+      'Combat & Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+
+    incidentText =
+      'Combat and Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+  }
+  return incidentTitle;
+};
+
+const getPtsdClassification781a = formData => {
+  const classifications = formData['view:selectablePtsdTypes'];
+
+  if (classifications['view:assaultPtsdType']) {
+    incidentTitle = 'Personal Assault';
+    incidentText = 'Personal Assault';
+  }
+
+  if (classifications['view:mstPtsdType']) {
+    incidentTitle = 'Military Sexual Trauma';
+    incidentText = 'Military Sexual Trauma';
+  }
+
+  if (
+    classifications['view:assaultPtsdType'] &&
+    classifications['view:mstPtsdType']
+  ) {
+    incidentTitle = 'Personal Assault & Military Sexual Trauma';
+    incidentText = 'Personal Assault and Military Sexual Trauma';
+  }
+  return incidentTitle;
+};
+
 const introductionExplanationText = (
   <div>
     <p>
@@ -94,10 +146,22 @@ export const ptsdTypeHelp = () => {
   );
 };
 
-export const ptsdNameTitle = () => {
+export const ptsdNameTitle781 = ({ formData }) => {
+  getPtsdClassification781(formData);
+
   return (
     <legend className="schemaform-block-title schemaform-title-underline">
-      PTSD
+      {incidentTitle}
+    </legend>
+  );
+};
+
+export const ptsdNameTitle781a = ({ formData }) => {
+  getPtsdClassification781a(formData);
+
+  return (
+    <legend className="schemaform-block-title schemaform-title-underline">
+      {incidentTitle}
     </legend>
   );
 };
@@ -127,129 +191,59 @@ export const documentDescription = () => {
 };
 
 export const incidentIntroduction781 = ({ formData }) => {
-  const classifications = formData['view:selectablePtsdTypes'];
-  let incidentTitle;
-  if (classifications['view:combatPtsdType']) {
-    incidentTitle = 'Combat';
-  }
-  if (classifications['view:noncombatPtsdType']) {
-    incidentTitle =
-      'Non-Combat PTSD other than Military Sexual Trama or Personal Assault';
-  }
-  if (
-    classifications['view:combatPtsdType'] &&
-    classifications['view:noncombatPtsdType']
-  ) {
-    incidentTitle =
-      'Combat and Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
-  }
+  getPtsdClassification781(formData);
 
   return (
     <div>
-      <h3>{incidentTitle}</h3>
-      <p>
-        As you go through these questions, your responses will be saved. So, if
-        you need to take a break and come back to your application, your
-        information will be here for you.
-      </p>
-      <p>
-        Keep in mind, if you are in crisis, we can support you. Our Veterans
-        Crisis Line is confidential (private), free, and available 24/7. To
-        connect with a Veterans Crisis Line responder any time day or night:
-      </p>
-      <ul>
-        <li>
-          Call the Veterans Crisis Line at{' '}
-          <a href="tel:1-800-273-8255">1-800-273-8255</a> and press 1,{' '}
-          <strong>**or**</strong>
-        </li>
-        <li>
-          Visit the{' '}
-          <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">
-            Veterans Crisis Line
-          </a>{' '}
-          to start a confidential chat online, <strong>**or**</strong>
-        </li>
-        <li>
-          Send a text message to <a href="sms:838255">838255</a>
-          .
-        </li>
-      </ul>
-      <p>Support for the deaf and hearing-impaired is also available.</p>
+      <h3>{incidentText}</h3>
+      {introductionExplanationText}
     </div>
   );
 };
 
-export const uploadPtsdDescription = ({ formData }) => {
-  const classifications = formData['view:selectablePtsdTypes'];
-  //  console.log(classifications);
-  let incidentTitle;
-  if (classifications['view:combatPtsdType']) {
-    incidentTitle = 'Combat';
-  }
-  if (classifications['view:noncombatPtsdType']) {
-    incidentTitle =
-      'Non-Combat PTSD other than Military Sexual Trama or Personal Assault';
-  }
-  if (
-    classifications['view:combatPtsdType'] &&
-    classifications['view:noncombatPtsdType']
-  ) {
-    incidentTitle =
-      'Combat and Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
-  }
+const uploadExplanation = (
+  <div>
+    <p>
+      If you have already completed a Claim for Service Connection for
+      Post-Traumatic Stress Disorder (VA Form 21-0781), you can upload it here
+      instead of answering the questions about your PTSD.
+    </p>
+    <p>How would you like to provide information about your PTSD?</p>
+  </div>
+);
 
-  if (classifications['view:assaultPtsdType']) {
-    incidentTitle = 'Personal Assault';
-  }
-
-  if (classifications['view:mstPtsdType']) {
-    incidentTitle = 'Military Sexual Trauma';
-  }
-
-  if (
-    classifications['view:assaultPtsdType'] &&
-    classifications['view:mstPtsdType']
-  ) {
-    incidentTitle = 'Personal Assault and Military Sexual Trauma';
-  }
+export const uploadPtsdDescription781 = ({ formData }) => {
+  getPtsdClassification781(formData); // TODO: DRY-ER
   return (
     <div>
       <p>
         The following questions will help us understand more about your
-        {` ${incidentTitle}`}-related PTSD. None of the questions we‘ll ask you
+        {` ${incidentText}`}-related PTSD. None of the questions we‘ll ask you
         are required, but any information you provide here will help us research
         your claim.
       </p>
+      {uploadExplanation}
+    </div>
+  );
+};
+
+export const uploadPtsdDescription781a = ({ formData }) => {
+  getPtsdClassification781a(formData); // TODO: DRY-ER
+  return (
+    <div>
       <p>
-        If you have already completed a Claim for Service Connection for
-        Post-Traumatic Stress Disorder (VA Form 21-0781), you can upload it here
-        instead of answering the questions about your PTSD.
+        The following questions will help us understand more about your
+        {` ${incidentText}`}-related PTSD. None of the questions we‘ll ask you
+        are required, but any information you provide here will help us research
+        your claim.
       </p>
-      <p>How would you like to provide information about your PTSD?</p>
+      {uploadExplanation}
     </div>
   );
 };
 
 export const incidentIntroduction781a = ({ formData }) => {
-  const classifications = formData['view:selectablePtsdTypes'];
-  let incidentTitle;
-
-  if (classifications['view:assaultPtsdType']) {
-    incidentTitle = 'Personal Assault';
-  }
-
-  if (classifications['view:mstPtsdType']) {
-    incidentTitle = 'Military Sexual Trauma';
-  }
-
-  if (
-    classifications['view:assaultPtsdType'] &&
-    classifications['view:mstPtsdType']
-  ) {
-    incidentTitle = 'Personal Assault and Military Sexual Trauma';
-  }
-
+  getPtsdClassification781a(formData);
   return (
     <div>
       <h3>{incidentTitle}</h3>

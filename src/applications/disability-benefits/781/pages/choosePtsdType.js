@@ -1,11 +1,10 @@
 import {
-  ptsdNameTitle,
   ptsdTypeDescription,
   ptsdTypeHelp
 } from '../helpers';
 
 export const uiSchema = {
-  'ui:title': ptsdNameTitle,
+  'ui:title': 'PTSD',
   'ui:description': ptsdTypeDescription,
   'view:selectablePtsdTypes': {
     'view:combatPtsdType': {

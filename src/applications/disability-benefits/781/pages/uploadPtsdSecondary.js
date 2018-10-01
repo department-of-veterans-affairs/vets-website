@@ -2,14 +2,14 @@ import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import environment from '../../../../platform/utilities/environment';
 
 import {
-  ptsdNameTitle,
+  ptsdNameTitle781a,
   documentDescription
 } from '../helpers';
 
 const FIFTY_MB = 52428800;
 
 export const uiSchema = {
-  'ui:title': ptsdNameTitle,
+  'ui:title': ptsdNameTitle781a,
   'ui:description': documentDescription,
   ptsd781: fileUploadUI('', {
     itemDescription: 'PTSD 781a form',
