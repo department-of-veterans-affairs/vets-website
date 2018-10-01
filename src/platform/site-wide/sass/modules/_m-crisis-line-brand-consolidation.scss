@@ -29,31 +29,31 @@ button.va-crisis-line-button {
     text-align: left;
     justify-content: space-between;
   }
+}
 
-  .va-crisis-line-icon {
-    content: "";
-    background: url(/img/VCL-icon-white.svg) no-repeat right 29%;
-    background-size: 1.75em auto;
-    background-position: 0.5em 0.5em;
-    width: 2.5em;
-    height: 2em;
-    padding: 0.3em 1em;
-    @include media($medium-large-screen) {
-      background-color: $red-70v;
-      background-position: 0.4em 0.5em;
-    }
+.va-crisis-line-icon {
+  content: "";
+  background: url(/img/VCL-icon-white.svg) no-repeat right 29%;
+  background-size: 1.75em auto;
+  background-position: 0.5em 0.5em;
+  width: 2.5em;
+  height: 2em;
+  padding: 0.3em 1em;
+  @include media($medium-large-screen) {
+    background-color: $red-70v;
+    background-position: 0.4em 0.5em;
   }
+}
 
-  .va-crisis-line-text {
-    padding: 0.5em;
-  }
+.va-crisis-line-text {
+  padding: 0.5em;
+}
 
-  .va-crisis-line-arrow {
-    height: 13px;
-    width: 29px;
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-  }
+.va-crisis-line-arrow {
+  height: 13px;
+  width: 29px;
+  padding-right: 0.5em;
+  padding-left: 0.5em;
 }
 
 .va-crisis-panel {
