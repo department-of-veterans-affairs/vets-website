@@ -27,7 +27,6 @@ const getPtsdClassification781 = formData => {
     incidentText =
       'Combat and Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
   }
-  return incidentTitle;
 };
 
 const getPtsdClassification781a = formData => {
@@ -50,7 +49,6 @@ const getPtsdClassification781a = formData => {
     incidentTitle = 'Personal Assault & Military Sexual Trauma';
     incidentText = 'Personal Assault and Military Sexual Trauma';
   }
-  return incidentTitle;
 };
 
 const introductionExplanationText = (
