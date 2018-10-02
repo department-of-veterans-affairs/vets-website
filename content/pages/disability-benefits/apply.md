@@ -52,6 +52,7 @@ For all disability claims you'll have a chance to provide evidence to support yo
 
 - VA medical records and hospital records that relate to your claimed illnesses or injuries
 - Private medical records and hospital reports that relate to your claimed illnesses or injuries
+- Supporting or lay statements from family, friends, or coworkers with knowledge of your claimed illness or injuries 
 
 **Please note:** You don’t have to submit evidence or supporting documents for your disability claim. If you don't submit any evidence, we may schedule a claim exam for you to help us decide your claim. You have up to 1 year from the date we receive your claim to turn in any evidence. 
 
