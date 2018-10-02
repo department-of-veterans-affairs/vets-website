@@ -47,8 +47,22 @@ export class CallToActionWidget extends React.Component {
     if (this.isAccessible()) {
       this.redirect();
     } else if (this.isHealthTool()); {
-      const { accountState, loading } = this.props.mhvAccount;
-      if (!loading && !accountState) this.props.fetchMHVAccount();
+      const { accountLevel, accountState, loading } = this.props.mhvAccount;
+
+      if (loading) return;
+
+      if (!accountState) {
+        this.props.fetchMHVAccount();
+      } else if (this.props.location.query.tc_accepted) {
+        // Since T&C is still required to support the existing account states,
+        // check the existence of a query param that gets appended after
+        // successful T&C acceptance to complete account creation or upgrade.
+        if (!accountLevel) {
+          this.props.createAndUpgradeMHVAccount();
+        } else {
+          this.props.upgradeMHVAccount();
+        }
+      }
     }
   }
 
@@ -140,7 +154,8 @@ export class CallToActionWidget extends React.Component {
         };
 
       /* Handling for these states to be re-introduced after brand consolidation
-       * when access to these tools will be accurately reported by the services list.
+       * when VA patient and T&C acceptance checks will no longer gate access, so
+       * access to these tools will be accurately reported by the services list.
        * For now, access is determined by MHV account level requirements.
        *
        * case 'no_account':
@@ -194,11 +209,17 @@ export class CallToActionWidget extends React.Component {
 
     const { accountLevel } = this.props.mhvAccount;
 
+    const redirectToTermsAndConditions = () => {
+      window.location = '/health-care/medical-information-terms-conditions/';
+    };
+
     if (!accountLevel) {
       return {
         heading: `You’ll need to create a My HealtheVet account before you can ${this._serviceDescription}`,
         buttonText: 'Create a My HealtheVet Account',
-        buttonHandler: this.props.createAndUpgradeMHVAccount,
+        buttonHandler: accountState === 'needs_terms_acceptance' ?
+          redirectToTermsAndConditions :
+          this.props.createAndUpgradeMHVAccount,
         status: 'warning'
       };
     }
@@ -206,7 +227,9 @@ export class CallToActionWidget extends React.Component {
     return {
       heading: `You’ll need to upgrade your account before you can ${this._serviceDescription}`,
       buttonText: 'Upgrade Your Account',
-      buttonHandler: this.props.upgradeMHVAccount,
+      buttonHandler: accountState === 'needs_terms_acceptance' ?
+        redirectToTermsAndConditions :
+        this.props.upgradeMHVAccount,
       status: 'warning'
     };
   }
@@ -226,10 +249,10 @@ export class CallToActionWidget extends React.Component {
 
     // Generic error. Get actual copy later.
     return {
-      heading: 'Some VA.gov services aren’t working right now',
+      heading: `You won’t be able to ${this._serviceDescription} right now`,
       alertText: (
         <div>
-          <p>We’re sorry. Something went wrong on our end. You may not be able to use some VA.gov services until we can figure out what’s wrong.</p>
+          <p>We’re sorry. Something went wrong on our end. You won’t be able to {this._serviceDescription} until we can figure out what’s wrong.</p>
           <h5>What you can do</h5>
           <p>You can try again later or call the VA.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a> (TTY: <a href="tel:18008778339">1-800-877-8339</a>). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).</p>
         </div>
@@ -247,19 +270,21 @@ export class CallToActionWidget extends React.Component {
       const { appId, mhvAccount } = this.props;
 
       switch (appId) {
-        case 'messaging':
-          return mhvAccount.accountLevel === 'Premium';
-        case 'rx':
-          return MHV_ACCOUNT_TYPES.slice(0, 2).includes(mhvAccount.accountLevel);
         case 'health-records':
           return MHV_ACCOUNT_TYPES.includes(mhvAccount.accountLevel);
+        case 'rx':
+          return MHV_ACCOUNT_TYPES.slice(0, 2).includes(mhvAccount.accountLevel);
+        case 'messaging':
         case 'lab-and-test-results':
         case 'appointments':
-          return true;
+          return mhvAccount.accountLevel === 'Premium';
         default: // Not a recognized health tool.
           return false;
       }
     }
+
+    // We may only need to check whether the account is verified here and leave
+    // leave the handling of access for other reasons to the apps after redirect.
 
     for (const requiredService of this._requiredServices) {
       if (!this.props.availableServices.has(requiredService)) return false;
