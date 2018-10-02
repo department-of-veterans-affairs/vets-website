@@ -78,7 +78,7 @@ if (healthcarePages.has(location.pathname)) {
 }
 
 if (ctaTools.has(location.pathname)) {
-  createCallToActionWidget();
+  createCallToActionWidget(store);
 }
 
 if (eduPages.has(location.pathname)) {

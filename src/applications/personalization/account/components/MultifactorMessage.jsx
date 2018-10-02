@@ -11,7 +11,7 @@ export default function MultifactorMessage({ multifactor }) {
   if (multifactor) {
     return (
       <div>
-        <h4>Account security</h4>
+        <h3>Account security</h3>
         <p><i className="fa fa-check-circle"/> You've added an extra layer of security to your account with 2-factor authentication.</p>
       </div>
     );

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { logout } from '../../../user/authentication/utilities';
-import dashboardManifest from '../../../../applications/personalization/dashboard/manifest.json';
+import dashboardManifest from '../../../../applications/personalization/dashboard/manifest';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
@@ -37,7 +37,7 @@ class PersonalizationDropdown extends React.Component {
   render() {
     return (
       <ul>
-        {brandConsolidationEnabled && <li><a href="/dashboard/">My VA</a></li>}
+        {brandConsolidationEnabled && <li><a href="/my-va/">My VA</a></li>}
         {brandConsolidationEnabled && <li><a href="https://www.myhealth.va.gov/mhv-portal-web/home" target="_blank">My Health</a></li>}
         <li>
           <a href="/profile" onClick={() => { recordEvent({ event: 'nav-user', 'nav-user-section': 'profile' }); }}>Profile</a>

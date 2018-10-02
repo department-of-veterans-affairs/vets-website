@@ -32,7 +32,7 @@ export default function TermsAndConditions({ mhvAccount }) {
 
   return content && (
     <div>
-      <h4>Terms and conditions</h4>
+      <h3>Terms and conditions</h3>
       {content}
     </div>
   );

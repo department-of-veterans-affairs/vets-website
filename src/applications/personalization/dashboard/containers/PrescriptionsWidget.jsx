@@ -11,6 +11,9 @@ import recordEvent from '../../../../platform/monitoring/record-event';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import PrescriptionCard from '../components/PrescriptionCard';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 function recordDashboardClick(product) {
   return () => {
@@ -41,7 +44,7 @@ class PrescriptionsWidget extends React.Component {
       content = (
         <p className="rx-tab-explainer rx-loading-error">
           We couldn’t retrieve your prescriptions.
-          Please refresh this page or try again later. If this problem persists, please call the Vets.gov Help Desk
+          Please refresh this page or try again later. If this problem persists, please call the {propertyName} Help Desk
           at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
         </p>
       );
@@ -58,7 +61,13 @@ class PrescriptionsWidget extends React.Component {
           <div>
             {content}
           </div>
-          <p><Link href="/health-care/prescriptions" onClick={recordDashboardClick('view-all-prescriptions')}>View all your prescriptions</Link>.</p>
+          <p>
+            {isBrandConsolidationEnabled() ?
+              (<a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/refill-prescriptions" target="_blank">View all your prescriptions</a>) :
+              (<span><Link href="/health-care/prescriptions" onClick={recordDashboardClick('view-all-prescriptions')}>View all your prescriptions</Link>.</span>)
+            }
+          </p>
+
         </div>
       );
     }
