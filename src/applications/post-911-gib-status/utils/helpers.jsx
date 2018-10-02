@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { formatDateParsedZoneLong } from '../../../platform/utilities/date';
 
 export function formatPercent(percent) {
@@ -127,19 +126,18 @@ export function noChapter33BenefitsWarning() {
 }
 
 export function backendErrorMessage() {
-  const date = moment().startOf('day').subtract(30, 'days').format('MMMM DD, YYYY');
-
   return (
     <div id="backendErrorMessage" className="row">
       <div className="medium-8 columns">
         <h3>We’re sorry. Something went wrong on our end.</h3>
-        <p>We’re having trouble finding your Post-9/11 GI Bill statements of benefits right now.</p>
-        <p><strong>This could be for 1 of 2 reasons:</strong></p>
+        <p>We’re having trouble finding your Post-9/11 GI Bill Statement of Benefits right now.</p>
+        <p><strong>This could be for 1 of 3 reasons:</strong></p>
         <ul>
-          <li>Your application is still being processed. We usually process applications within 30 days. If you applied after {date}, please check back again in a few days.</li>
-          <li>The name on your Vets.gov account might not exactly match the name we have in our Post-9/11 GI Bill records. To check the name we have in our records, please call the number below.</li>
+          <li>We’re still processing your education benefits application and we haven’t yet created a record for you. We usually process applications within 60 days. If you applied less than 60 days ago, please check back soon.</li>
+          <li>The name on your Vets.gov account doesn’t exactly match the name we have in our Post-9/11 GI Bill records.</li>
+          <li>You haven’t yet applied for Post-9/11 GI Bill education benefits.</li>
         </ul>
-        <p>If you think your statement of benefits should be here, please call the Vets.gov Help Desk at <a href="tel:18555747285">1-855-574-7286</a>.</p>
+        <p>If you think your Statement of Benefits should be here, please call the Vets.gov Help Desk at <a href="tel:18555747285">1-855-574-7286</a>. We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).</p>
         <a className="usa-button usa-button-primary">Back to Post-9/11 GI Bill</a>
         <br/>
         <br/>
