@@ -58,7 +58,7 @@ You can use this tool if you meet all of the requirements listed below.
 **All of these must be true:**
 - You’re enrolled in VA health care, **and**
 - You’re registered as a patient at a VA health facility, **and**
-- Your VA health care provider has agreed to communicate with you through Secure Nessaging
+- Your VA health care provider has agreed to communicate with you through Secure Messaging
 
 [Find out how to apply for VA health care](/health-care/how-to-apply/).
 
@@ -75,7 +75,7 @@ You can use this tool if you meet all of the requirements listed below.
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h2 itemprop="name">How does Secure Nessaging work within My HealtheVet?</h2>
+<h2 itemprop="name">How does Secure Messaging work within My HealtheVet?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
@@ -83,7 +83,7 @@ You’ll sign in to your account and access your Secure Messaging folder through
 
 You can use Secure Messaging to communicate with any VA health care team member who has signed up to participate.
 
-You can send non-urgent, non-emergency messages any time of the day or night. Your VA health care team should respond within 3 business days (Monday through Friday, 8:00 a.m. - 5:00 p.m., except federal holidays). If you’d like, you can set up your account to send a notification to your personal email when you receive a new secure message.
+You can send non-urgent, non-emergency messages anytime of the day or night. Your VA health care team should respond within 3 business days (Monday through Friday, 8:00 a.m. - 5:00 p.m., except federal holidays). If you’d like, you can set up your account to send a notification to your personal email when you receive a new secure message.
 
 </div>
 </div>
@@ -104,7 +104,7 @@ No. You shouldn't use Secure Messaging when you have an urgent need, because it 
 
 **If you need to talk with someone right away,** contact the Veterans Crisis Line. Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.
 
-To connect with a Veterans Crisis Line responder any time, day or night:
+To connect with a Veterans Crisis Line responder anytime, day or night:
 - Call <a href="tel:+18002738255">1-800-273-8255</a>, then press 1.
 - [Start a confidential Veterans Chat](https://www.veteranscrisisline.net/get-help/chat).
 - Text <a href="tel:+1838255">838255</a>.
