@@ -104,7 +104,7 @@ async function beginApplication(browser) {
 // The entry point for everything.
 async function setup() {
   // check if mobile test or not
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: true });
   try {
     await beginApplication(browser);
   } catch (e) {
