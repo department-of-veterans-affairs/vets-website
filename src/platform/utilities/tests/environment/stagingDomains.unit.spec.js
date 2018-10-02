@@ -2,17 +2,22 @@ import { expect } from 'chai';
 
 import { replaceDomainsInData } from '../../environment/stagingDomains';
 
+let currentEnv = 'dev';
+if (global.__BUILDTYPE__.includes('staging') || global.__BUILDTYPE__ === 'preview') {
+  currentEnv = 'staging';
+}
+
 describe('Staging va.gov domain replacement', () => {
   describe('replaceDomainsInData', () => {
     it('should replace links in an array', () => {
       const data = [
         {
-          href: 'www.cem.va.gov'
+          href: 'www.va.gov'
         }
       ];
       expect(replaceDomainsInData(data)).to.deep.equal([
         {
-          href: 'staging.cem.va.gov'
+          href: `${currentEnv}.va.gov`
         }
       ]);
     });
@@ -21,9 +26,9 @@ describe('Staging va.gov domain replacement', () => {
       const data = [
         {
           someArray: [{
-            href: 'www.cem.va.gov/testing',
+            href: 'www.va.gov/testing',
           }, {
-            other: 'www.cem.va.gov',
+            other: 'www.va.gov',
           }]
         }
       ];
@@ -31,9 +36,9 @@ describe('Staging va.gov domain replacement', () => {
       expect(replaceDomainsInData(data)).to.deep.equal([
         {
           someArray: [{
-            href: 'staging.cem.va.gov/testing',
+            href: `${currentEnv}.va.gov/testing`
           }, {
-            other: 'www.cem.va.gov',
+            other: 'www.va.gov',
           }]
         }
       ]);
@@ -41,28 +46,28 @@ describe('Staging va.gov domain replacement', () => {
 
     it('should replace links in an object', () => {
       const data = {
-        href: 'www.cem.va.gov/testing',
-        other: 'www.cem.va.gov',
+        href: 'www.va.gov/testing',
+        other: 'www.va.gov',
       };
 
       expect(replaceDomainsInData(data)).to.deep.equal({
-        href: 'staging.cem.va.gov/testing',
-        other: 'www.cem.va.gov',
+        href: `${currentEnv}.va.gov/testing`,
+        other: 'www.va.gov',
       });
     });
 
     it('should replaces links in a nested object', () => {
       const data = {
-        test: 'www.cem.va.gov/testing',
+        test: 'www.va.gov/testing',
         other: {
-          href: 'www.cem.va.gov',
+          href: 'www.va.gov',
         }
       };
 
       expect(replaceDomainsInData(data)).to.deep.equal({
-        test: 'www.cem.va.gov/testing',
+        test: 'www.va.gov/testing',
         other: {
-          href: 'staging.cem.va.gov',
+          href: `${currentEnv}.va.gov`,
         }
       });
     });

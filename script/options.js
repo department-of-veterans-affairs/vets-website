@@ -87,14 +87,21 @@ function applyEnvironmentOverrides(options) {
 }
 
 function applyBrandConsolidationOverrides(options) {
+  let currentEnv = 'dev';
+  if (options.buildtype.includes(environments.STAGING) || options.buildtype === environments.PREVIEW) {
+    currentEnv = 'staging';
+  }
+
+  // This list also exists in stagingDomains.js
+  const domainReplacements = [
+    { from: 'www\\.va\\.gov', to: `${currentEnv}.va.gov` },
+  ];
+
   Object.assign(options, {
     contentRoot: '../va-gov',
     collections: require('./collections/brand-consolidation.json'),
     redirects: require('./vagovRedirects.json'),
-    // This list also exists in platform/utilities/environment/stagingDomains
-    domainReplacements: [
-      { from: 'www\\.cem\\.va\\.gov', to: 'staging.cem.va.gov' }
-    ]
+    domainReplacements
   });
 }
 

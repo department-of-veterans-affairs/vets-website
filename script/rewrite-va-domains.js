@@ -1,7 +1,9 @@
 /* eslint-disable no-param-reassign, no-continue */
 const BUILD_TYPE = require('./constants/environments');
 
-const prodEnvironments = new Set([BUILD_TYPE.production, BUILD_TYPE.preview]);
+// This doesn't include preview because we want to redirect to staging urls
+// in preview
+const prodEnvironments = new Set([BUILD_TYPE.production]);
 
 function createRedirects(options) {
   return (files, metalsmith, done) => {

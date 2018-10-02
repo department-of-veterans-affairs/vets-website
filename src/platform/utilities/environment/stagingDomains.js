@@ -1,9 +1,16 @@
+let currentEnv = 'dev';
+if (__BUILDTYPE__.includes('staging') || __BUILDTYPE__ === 'preview') {
+  currentEnv = 'staging';
+}
+
 // This list also exists in script/options.js
 const domainReplacements = [
-  { from: 'www\\.cem\\.va\\.gov', to: 'staging.cem.va.gov' }
+  { from: 'www\\.va\\.gov', to: `${currentEnv}.va.gov` },
 ];
 
-const prodEnvironments = new Set(['production', 'preview']);
+// This doesn't include preview because we want to redirect to staging urls
+// in preview
+const prodEnvironments = new Set(['production']);
 
 function replaceWithStagingDomain(href) {
   let newHref = href;
