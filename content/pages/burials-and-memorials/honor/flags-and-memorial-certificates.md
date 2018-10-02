@@ -45,6 +45,7 @@ Bring the application form to:
 - Use and display the flag carefully so it can't be damaged in any way
 - Don't add or attach any words or symbols or other kinds of drawings to the flag
 - Don't use the flag to hold or carry anything <br>
+
 On the last page of the Application for United States Flag for Burial Purposes, you can read more about how to care for a burial flag. You can also see how the flag will be displayed and then folded at a memorial service. <br>
 [Read more about burial flags on the last page of the application](https://www.vba.va.gov/pubs/forms/VBA-27-2008-ARE.pdf)
 
