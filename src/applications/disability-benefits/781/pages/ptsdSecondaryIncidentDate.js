@@ -27,7 +27,7 @@ const ptsdDateDescription = () => {
 
 export const uiSchema = {
   'ui:title': ptsdNameTitle,
-  incidentDate: {
+  secondaryIncidentDate: {
     'ui:description': ptsdDateDescription,
     'ui:title': ptsdDateDescription,
     'ui:widget': 'date',
@@ -38,7 +38,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    incidentDate: {
+    secondaryIncidentDate: {
       type: 'string'
     },
     'view:ptsdDateSecondaryDescription': {
