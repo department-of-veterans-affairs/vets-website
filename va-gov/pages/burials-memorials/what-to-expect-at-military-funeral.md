@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: What to Expect at a Memorial Service
+title: What to Expect at a Military Funeral
 template: detail-page
 collection: burials
 order: 8
@@ -11,7 +11,7 @@ spoke: More Resources
 
 <div class="va-introtext">
 
-We carry out memorial services at national cemeteries with dignity and respect. Find out what happens at a memorial service.
+We carry out memorial services at national cemeteries with dignity and respect. Find out what happens at a military funeral for a Veteran or Servicemember.
 
 </div>
 
