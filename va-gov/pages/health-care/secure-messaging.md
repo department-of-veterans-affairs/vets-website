@@ -14,7 +14,7 @@ children:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-With VA Secure Messaging, you can communicate privately online with your VA health care team. Find out if you’re eligible to use Secure Messaging, and how to sign in to begin using this tool in the health-management portal within My HealtheVet.
+With VA Secure Messaging, you can communicate privately online with your VA health care team. Find out if you’re eligible to use Secure Messaging, and how to sign in to begin using this tool in the health management portal within My HealtheVet.
 
 </div>
 
