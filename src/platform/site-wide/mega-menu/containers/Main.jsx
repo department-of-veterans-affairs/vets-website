@@ -2,12 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import defaultLinkData from '../mega-menu-link-data.json';
 import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users.json';
-import { togglePanelOpen, toggleMobileDisplayHidden } from '../actions';
+import { togglePanelOpen, toggleMobileDisplayHidden, updateCurrentSection } from '../actions';
+import recordEvent from '../../../monitoring/record-event';
 import { isLoggedIn } from '../../../user/selectors';
 
 import MegaMenu from '@department-of-veterans-affairs/formation/MegaMenu';
-
-// const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
 export function flagCurrentPageInTopLevelLinks(links = [], pathName = window.location.pathname) {
   return links.map(link => {
@@ -23,10 +22,56 @@ export function getAuthorizedLinkData(loggedIn, authenticatedLinks = authenticat
 }
 
 export class Main extends React.Component {
+
+  toggleDropDown = (currentDropdown) => {
+    const isVisible = !!currentDropdown;
+    if (isVisible) {
+      recordEvent({
+        event: 'nav-header-top-level',
+        'nav-header-action': `Navigation - Header - Open Top Level - ${currentDropdown}`
+      });
+    }
+    this.props.togglePanelOpen(currentDropdown);
+  };
+
+  updateCurrentSection = (currentSection) => {
+    recordEvent({
+      event: 'nav-header-second-level',
+      'nav-header-action': `Navigation - Header - Open Second Level - ${currentSection}`
+    });
+    this.props.updateCurrentSection(currentSection);
+  };
+
+  linkClicked = (link) => {
+    const linkName = link.text || link.title;
+    recordEvent({
+      event: 'nav-header-link',
+      'nav-header-action': `Navigation - Header - Open Link - ${linkName}`
+    });
+  };
+
+  columnThreeLinkClicked = (link) => {
+    recordEvent({
+      event: 'nav-hub-containers',
+      'nav-hub-action': link.text
+    });
+  };
+
+  toggleDisplayHidden = (hidden) => {
+    this.props.toggleMobileDisplayHidden(hidden);
+  };
+
   render() {
-    return (
-      <MegaMenu {...this.props}></MegaMenu>
-    );
+    const childProps = {
+      ...this.props,
+      toggleDisplayHidden: this.toggleDisplayHidden,
+      toggleDropDown: this.toggleDropDown,
+      updateCurrentSection: this.updateCurrentSection,
+      linkClicked: this.linkClicked,
+      columnThreeLinkClicked: this.columnThreeLinkClicked
+    };
+
+    return <MegaMenu {...childProps}/>;
   }
 }
 
@@ -39,21 +84,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleDisplayHidden: (hidden) => {
-      dispatch(toggleMobileDisplayHidden(hidden));
-    },
-    toggleDropDown: (currentDropdown) => {
-      dispatch(togglePanelOpen(currentDropdown));
-    },
-    updateCurrentSection: (currentSection) => {
-      dispatch({
-        type: 'UPDATE_CURRENT_SECTION',
-        currentSection,
-      });
-    }
-  };
+const mapDispatchToProps = {
+  toggleMobileDisplayHidden,
+  togglePanelOpen,
+  updateCurrentSection
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

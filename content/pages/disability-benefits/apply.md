@@ -123,10 +123,9 @@ You don’t need to do anything while you’re waiting unless we send you a lett
 #### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">107.2 days</span>
-<span class="description">Average number of days to complete disability-related claims in August 2018</span>
+<span class="number">96.8 days</span>
+<span class="description">Average number of days to complete disability-related claims in September 2018</span>
 </div>
 </div>
 </div>
-
 <br>
