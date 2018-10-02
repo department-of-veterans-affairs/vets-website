@@ -1,8 +1,17 @@
-import { ptsdNameTitle781a, uploadPtsdDescription781a, ptsdChoiceDescription } from '../helpers';
+import React from 'react';
+import {
+  PtsdNameTitle781,
+  UploadPtsdDescription781,
+  ptsdChoiceDescription,
+} from '../helpers';
 
 export const uiSchema = {
-  'ui:title': ptsdNameTitle781a,
-  'ui:description': uploadPtsdDescription781a,
+  'ui:title': ({ formData }) => (
+    <PtsdNameTitle781 formData={formData} formType="781a"/>
+  ),
+  'ui:description': ({ formData }) => (
+    <UploadPtsdDescription781 formData={formData} formType="781a"/>
+  ),
   'view:uploadPtsdSecondaryChoice': {
     'ui:title': ' ',
     'ui:widget': 'radio',

@@ -147,17 +147,8 @@ export const ptsdTypeHelp = () => {
   );
 };
 
-export const ptsdNameTitle781 = ({ formData }) => {
-  const { incidentTitle } = getPtsdClassification781(formData, '781');
-  return (
-    <legend className="schemaform-block-title schemaform-title-underline">
-      {incidentTitle}
-    </legend>
-  );
-};
-
-export const ptsdNameTitle781a = ({ formData }) => {
-  const { incidentTitle } = getPtsdClassification781(formData, '781a');
+export const PtsdNameTitle781 = ({ formData, formType }) => {
+  const { incidentTitle } = getPtsdClassification781(formData, formType);
   return (
     <legend className="schemaform-block-title schemaform-title-underline">
       {incidentTitle}
@@ -189,29 +180,19 @@ export const documentDescription = () => {
   );
 };
 
-export const incidentIntroduction781 = ({ formData }) => {
-  const { incidentTitle } = getPtsdClassification781(formData, '781');
-  return (
-    <div>
-      <h3>{incidentTitle}</h3>
-      {introductionExplanationText}
-    </div>
-  );
-};
-
-const uploadExplanation = (
+const UploadExplanation = ({ formType }) => (
   <div>
     <p>
       If you have already completed a Claim for Service Connection for
-      Post-Traumatic Stress Disorder (VA Form 21-0781), you can upload it here
+      Post-Traumatic Stress Disorder (VA Form 21-0{`${formType}`}), you can upload it here
       instead of answering the questions about your PTSD.
     </p>
     <p>How would you like to provide information about your PTSD?</p>
   </div>
 );
 
-export const uploadPtsdDescription781 = ({ formData }) => {
-  const { incidentText } = getPtsdClassification781(formData, '781');
+export const UploadPtsdDescription781 = ({ formData, formType }) => {
+  const { incidentText } = getPtsdClassification781(formData, formType);
   return (
     <div>
       <p>
@@ -220,28 +201,13 @@ export const uploadPtsdDescription781 = ({ formData }) => {
         are required, but any information you provide here will help us research
         your claim.
       </p>
-      {uploadExplanation}
+      <UploadExplanation formType={formType}/>
     </div>
   );
 };
 
-export const uploadPtsdDescription781a = ({ formData }) => {
-  const { incidentText } = getPtsdClassification781(formData, '781a');
-  return (
-    <div>
-      <p>
-        The following questions will help us understand more about your
-        {` ${incidentText}`}-related PTSD. None of the questions we‘ll ask you
-        are required, but any information you provide here will help us research
-        your claim.
-      </p>
-      {uploadExplanation}
-    </div>
-  );
-};
-
-export const incidentIntroduction781a = ({ formData }) => {
-  const { incidentTitle } = getPtsdClassification781(formData, '781a');
+export const IncidentIntroduction781 = ({ formData, formType }) => {
+  const { incidentTitle } = getPtsdClassification781(formData, formType);
   return (
     <div>
       <h3>{incidentTitle}</h3>

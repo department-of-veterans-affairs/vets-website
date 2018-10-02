@@ -1,7 +1,10 @@
-import { incidentIntroduction781 } from '../helpers';
+import React from 'react';
+import { IncidentIntroduction781 } from '../helpers';
 
 export const uiSchema = {
-  'ui:description': incidentIntroduction781,
+  'ui:description': ({ formData }) => (
+    <IncidentIntroduction781 formData={formData} formType="781"/>
+  ),
 };
 
 export const schema = {
