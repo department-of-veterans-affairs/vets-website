@@ -1,4 +1,5 @@
 import { isLoggedIn } from '../../platform/user/selectors';
+import { rootUrl } from '../../applications/personalization/dashboard/manifest.js';
 
 export default function createMyVALoginWidget(store) {
   const root = document.getElementById('myva-login');
@@ -6,12 +7,12 @@ export default function createMyVALoginWidget(store) {
   const homePageStoreListener = () => {
     if (root && isLoggedIn(store.getState())) {
       root.innerHTML = '<button class="homepage-button primary-darker">' +
-        '<a href="/dashboard">' +
+        `<a href="${rootUrl}">` +
         '<div class="icon-wrapper">' +
         '<i class="fa fa-user-circle"></i>' +
         '</div>' +
         '<div class="button-inner">' +
-        '<p>Track claims, prescriptions, and more with “My VA”</p>' +
+        '<p>Go to your personalized “My VA” page</p>' +
         '</div>' +
         '</a>';
       unsubscribe();
