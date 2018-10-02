@@ -20,12 +20,13 @@
 
 // new pattern, but specific to homepage only
 .homepage-button {
-  width:100%;
+  width: 100%;
   height: 85px;
   padding: 0;
   margin: 0 0 16px;
   display: inline-block;
   color: $color-white;
+  background-color: $color-primary;
   text-decoration: none;
   border-radius: 5px;
   font-weight: 700;
@@ -37,12 +38,18 @@
   &:hover, &:focus, &:visited {
     color: $color-white;
     text-decoration: none;
+    background-color: $color-primary;
+  }
+
+  &.vcl {
+    background-color: $color-secondary-dark;
   }
 
   .icon-wrapper {
     width: 55px;
     height: 100%;
     float: left;
+    background-color: $color-primary-darker;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
     &.vcl {
@@ -50,11 +57,23 @@
       background: url(/img/vcl-logo-white.png) no-repeat;
       background-size: 2em auto;
       background-position: center;
+      background-color: $color-secondary-darkest;
     }
   }
 
-  &-icon-sign-in.fa::before {
-    left: -10.75px !important;
+  &-icon {
+    font-size: 1.5em;
+    display:inline-block;
+    &::before {
+      position: absolute;
+      margin: 0;
+      top: 15px;
+      left: -7.75px;
+    }
+    &.fa-user-circle-o {
+      font-size: 1.5em;
+      padding-right: .3em;
+    }
   }
 
   .button-inner {
@@ -64,49 +83,5 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-  }
-
-  .fa {
-    font-size: 1.5em;
-    display:inline-block;
-
-    &.fa-user-circle {
-      font-size: 1.5em;
-      padding-right: .3em;
-    }
-
-    &::before {
-      position: absolute;
-      margin: 0;
-      top: 15px;
-      left: -7.75px;
-    }
-  }
-
-  // .vcl {
-  //   content: "";
-  //   display: block;
-  //   background: url(/img/vcl-logo-white.png) no-repeat;
-  //   background-size: 100%;
-  //   width: 2em;
-  //   height: 2em;
-  //   margin-top:32.5px;
-  // }
-
-  &.primary-darker {
-
-    .icon-wrapper {
-      background-color: $color-primary-darker;
-    }
-
-    background-color: $color-primary;
-  }
-
-  &.secondary-dark {
-
-    .icon-wrapper {
-      background-color: $color-secondary-darkest;
-    }
-    background-color: $color-secondary-dark;
   }
 }
