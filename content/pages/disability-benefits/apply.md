@@ -58,9 +58,8 @@ For all disability claims, we'll review your:
 - VA medical records and hospital records that relate to your claimed illnesses or injuries
 - Private medical records and hospital reports that relate to your claimed illnesses or injuries
 
-Depending on the type of claim you file, you may gather supporting documents yourself, or you can ask for VA's help to gather evidence.
+Depending on the type of claim you file, you may gather supporting documents yourself, or you can ask for VA's help to gather evidence. <br>
 [Find out how to gather evidence for your claim](https://www.vets.gov/disability-benefits/apply/evidence/).
-<br>
 
 **Note**: If you start your application and need time to gather more supporting documents, you can save your application and come back later to finish it. We'll recognize the date you started your application as your date of claim as long as you complete it within 365 days.
 </div>
