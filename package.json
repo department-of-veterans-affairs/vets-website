@@ -45,6 +45,7 @@
     "test:watch": "node script/watch.js",
     "test:visual": "./script/run-nightwatch.sh --visual",
     "test:visual:baseline": "./script/run-nightwatch.sh --visual --command=baseline",
+    "update:schema": "./script/update-json-schema.sh",
     "watch": "node script/build.js --watch",
     "watch:brand-consolidation": "node script/build.js --brand-consolidation-enabled --watch",
     "watch:devpreview": "npm run watch:brand-consolidation",
