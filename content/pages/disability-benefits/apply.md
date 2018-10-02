@@ -48,12 +48,12 @@ Learn how to file a claim for VA disability benefits--whether you're filing a ne
 <h4 itemprop="name">What information do I need to apply?</h4>
 <div itemprop="itemListElement">
 
-For all disability claims we recommend you provide:
+For all disability claims you'll have a chance to provide evidence to support your claim. Evidence could include:  
 
 - VA medical records and hospital records that relate to your claimed illnesses or injuries
 - Private medical records and hospital reports that relate to your claimed illnesses or injuries
 
-**Please note:** You don’t have to submit supporting documents for your disability claim, but we recommend that you do provide some supporting information that relates to your claimed disability. If you don't submit any evidence, we may schedule a claim exam for you to help us decide your claim. You have up to 1 year from the date we receive your claim to turn in any evidence. 
+**Please note:** You don’t have to submit evidence or supporting documents for your disability claim. If you don't submit any evidence, we may schedule a claim exam for you to help us decide your claim. You have up to 1 year from the date we receive your claim to turn in any evidence. 
 
 
 </div>
