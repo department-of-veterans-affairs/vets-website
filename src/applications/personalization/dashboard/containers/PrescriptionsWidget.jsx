@@ -61,7 +61,13 @@ class PrescriptionsWidget extends React.Component {
           <div>
             {content}
           </div>
-          <p><Link href="/health-care/prescriptions" onClick={recordDashboardClick('view-all-prescriptions')}>View all your prescriptions</Link>.</p>
+          <p>
+            {isBrandConsolidationEnabled() ?
+              (<a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/refill-prescriptions" target="_blank">View all your prescriptions</a>) :
+              (<span><Link href="/health-care/prescriptions" onClick={recordDashboardClick('view-all-prescriptions')}>View all your prescriptions</Link>.</span>)
+            }
+          </p>
+
         </div>
       );
     }
