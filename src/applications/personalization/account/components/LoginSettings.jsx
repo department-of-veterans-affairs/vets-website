@@ -12,7 +12,7 @@ export default function LoginSettings() {
   </p>);
   return (
     <div>
-      <h4>ID.me settings</h4>
+      <h5>ID.me settings</h5>
       {isBrandConsolidationEnabled() ?
         (<div>
           <p><a href="https://wallet.id.me/settings" target="_blank">Manage your ID.me account.</a></p>

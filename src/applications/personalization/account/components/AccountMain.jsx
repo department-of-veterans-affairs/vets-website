@@ -75,17 +75,17 @@ class AccountMain extends React.Component {
         {isBrandConsolidationEnabled &&
           <div>
             <div>
-              <h4>DS Login</h4>
+              <h5>DS Login</h5>
               <a href="https://myaccess.dmdc.osd.mil/identitymanagement" target="_blank">Manage your DS Logon account</a>
             </div>
             <div>
-              <h4>MyHealth<i>e</i>Vet</h4>
+              <h5>MyHealth<i>e</i>Vet</h5>
               <a href="https://www.myhealth.va.gov" target="_blank">Manage your MyHealth<i>e</i>Vet account</a>
             </div>
           </div>}
         <LoginSettings/>
         {verified && <TermsAndConditions mhvAccount={mhvAccount}/>}
-        <h4>Have questions about signing in to {propertyName}?</h4>
+        <h3>Have questions about signing in to {propertyName}?</h3>
         <p>
           Get answers to frequently asked questions about how to sign in, common issues with verifying your identity, and your privacy and security on {propertyName}.<br/>
           <a href="/faq" onClick={() => recordEvent({ event: 'account-navigation', 'account-action': 'view-link', 'account-section': 'vets-faqs' })}>Go to {propertyName} FAQs</a>
