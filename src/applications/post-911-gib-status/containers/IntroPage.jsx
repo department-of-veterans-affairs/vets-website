@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
-import Summary from './Summary';
-import BrandConsolidation from '../../../platform/brand-consolidation/containers/BrandConsolidation';
-import VetsDotGov from '../../../platform/brand-consolidation/containers/VetsDotGov';
+import BrandConsolidationSummary, { VetsDotGovSummary } from './IntroPageSummary';
+import brandConsolidation from '../../../platform/brand-consolidation';
 import { getServiceAvailability } from '../actions/post-911-gib-status';
 import { SERVICE_AVAILABILITY_STATES } from '../utils/constants';
 
@@ -30,7 +29,7 @@ export class IntroPage extends React.Component {
         break;
       }
       case SERVICE_AVAILABILITY_STATES.up: {
-        content = <Summary/>;
+        content = brandConsolidation.isEnabled() ? <BrandConsolidationSummary/> : <VetsDotGovSummary/>;
         break;
       }
       case SERVICE_AVAILABILITY_STATES.down:
@@ -62,30 +61,35 @@ export class IntroPage extends React.Component {
     );
 
     const content = this.getContent();
-    return (
-      <div>
-        <BrandConsolidation>
+
+    if (brandConsolidation.isEnabled()) {
+      return (
+        <div>
+          {this.props.serviceAvailability === SERVICE_AVAILABILITY_STATES.up && gibsWarning}
           <h1>Check Your Post-9/11 GI Bill Benefits</h1>
           {content}
-        </BrandConsolidation>
-        <VetsDotGov>
-          <div className="row">
-            <div className="medium-8 columns">
-              {this.props.serviceAvailability === SERVICE_AVAILABILITY_STATES.up && gibsWarning}
-              <h1>Post-9/11 GI Bill Statement of Benefits</h1>
-              <p>
-                If you were awarded Post-9/11 GI Bill education benefits, your GI Bill Statement of Benefits will show you how much of your benefits you’ve used and how much you have left to use for your education or training. These education benefits can help cover some or all of the costs for school or training.
-              </p>
-              <p>
-                You'll be able to view this benefit statement only if you were awarded education benefits.
-              </p>
-              {content}
-              <br/>
-              <br/>
-              <br/>
-            </div>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <div className="row">
+          <div className="medium-8 columns">
+            {this.props.serviceAvailability === SERVICE_AVAILABILITY_STATES.up && gibsWarning}
+            <h1>Post-9/11 GI Bill Statement of Benefits</h1>
+            <p>
+              If you were awarded Post-9/11 GI Bill education benefits, your GI Bill Statement of Benefits will show you how much of your benefits you’ve used and how much you have left to use for your education or training. These education benefits can help cover some or all of the costs for school or training.
+            </p>
+            <p>
+              You'll be able to view this benefit statement only if you were awarded education benefits.
+            </p>
+            {content}
+            <br/>
+            <br/>
+            <br/>
           </div>
-        </VetsDotGov>
+        </div>
       </div>
     );
   }

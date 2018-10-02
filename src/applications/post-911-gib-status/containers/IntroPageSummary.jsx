@@ -2,11 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
+import * as navActions from '../../../platform/site-wide/user-nav/actions';
 import * as userSelectors from '../../../platform/user/selectors';
-import BrandConsolidation from '../../../platform/brand-consolidation/containers/BrandConsolidation';
-import VetsDotGov from '../../../platform/brand-consolidation/containers/VetsDotGov';
 
-function VetsDotGovSummary() {
+export function VetsDotGovSummary() {
   // TODO: Determine whether h2 is right--accessibility-wise, it is, but it's larger than the design
   return (
     <div>
@@ -30,11 +29,12 @@ function VetsDotGovSummary() {
   );
 }
 
-function BrandConsolidationSummary({ isLoggedIn, isLOA3 }) {
-
+function BrandConsolidationSummary({ toggleLoginModal, isProfileLoading, isLoggedIn, isLOA3 }) {
   let signInButton = <button className="usa-button-primary" disabled>Loading your profile <i className="fa fa-spin fa-spinner"/></button>;
 
-  if (isLoggedIn) {
+  if (!isProfileLoading) {
+    signInButton = <button onClick={() => toggleLoginModal(true)} className="usa-button-primary">Sign In to Check Your Benefits</button>;
+  } else if (isLoggedIn) {
     if (isLOA3) {
       signInButton = <Link id="viewGIBS" to="status" className="usa-button va-button-primary">View Your GI Bill Benefits</Link>;
     } else {
@@ -56,7 +56,7 @@ function BrandConsolidationSummary({ isLoggedIn, isLOA3 }) {
         </div>
       </div>
       <p><strong>Note:</strong> This tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).</p>
-      <p><h2 itemProp="name">Am I eligible to use this tool?</h2></p>
+      <h2 itemProp="name">Am I eligible to use this tool?</h2>
       <div itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
         <div itemProp="text">
           <p>You can use this tool if you meet all of the requirements listed below.</p>
@@ -76,7 +76,7 @@ function BrandConsolidationSummary({ isLoggedIn, isLOA3 }) {
           <p>Please see the blue sign-in module above to learn more about signing in, creating or upgrading an account, and verifying your identity.</p>
         </div>
       </div>
-      <p><h2 itemProp="name">What benefits information will I be able to see?</h2></p>
+      <h2 itemProp="name">What benefits information will I be able to see?</h2>
       <div itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
         <div itemProp="text">
           <p><strong>In your Post-9/11 GI Bill Statement of Benefits, you’ll see:</strong></p>
@@ -87,7 +87,7 @@ function BrandConsolidationSummary({ isLoggedIn, isLOA3 }) {
           </ul>
         </div>
       </div>
-      <p><h2 itemProp="name">What if I’m having trouble seeing my Statement of Benefits?</h2></p>
+      <h2 itemProp="name">What if I’m having trouble seeing my Statement of Benefits?</h2>
       <div itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
         <div itemProp="text">
           <p>Your Post-9/11 GI Bill Statement of Benefits might not be available if one of these is true:</p>
@@ -106,28 +106,18 @@ function BrandConsolidationSummary({ isLoggedIn, isLOA3 }) {
   );
 }
 
-class Summary extends React.Component {
-  render() {
-    return (
-      <div>
-        <BrandConsolidation>
-          <BrandConsolidationSummary {...this.props}/>
-        </BrandConsolidation>
-        <VetsDotGov>
-          <VetsDotGovSummary/>
-        </VetsDotGov>
-      </div>
-    );
-  }
-}
-
 function mapStateToProps(state) {
   return {
     isLoggedIn: userSelectors.isLoggedIn(state),
-    isLOA3: userSelectors.isLOA3(state)
+    isLOA3: userSelectors.isLOA3(state),
+    isProfileLoading: userSelectors.isProfileLoading(state)
   };
 }
 
-const SummaryContainer = connect(mapStateToProps, null)(Summary);
+const mapDispatchToProps = {
+  toggleLoginModal: navActions.toggleLoginModal
+};
 
-export default SummaryContainer;
+const BrandConsolidationSummaryContainer = connect(mapStateToProps, mapDispatchToProps)(BrandConsolidationSummary);
+
+export default BrandConsolidationSummaryContainer;
