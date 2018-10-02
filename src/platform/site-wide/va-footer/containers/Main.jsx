@@ -2,7 +2,7 @@ import React from 'react';
 import groupBy from 'lodash/groupBy';
 import orderBy from 'lodash/orderBy';
 import links from '../../../static-data/footer-links.json';
-import { isWideScreen, isEnter } from '../../../utilities/accessibility/index';
+import { isWideScreen } from '../../../utilities/accessibility/index';
 import recordEvent from '../../../monitoring/record-event';
 
 const FOOTER_COLUMNS = {
@@ -37,11 +37,6 @@ export class Main extends React.Component {
       isMobile: !isWideScreen()
     });
   }
-  openModal = () => {
-    recordEvent({ event: FOOTER_EVENTS.CRISIS_LINE });
-    this.setState({ modalOpen: true });
-  }
-
   generateLinkItems = (column, direction = 'asc') => {
     const captureEvent = () => recordEvent({ event: FOOTER_EVENTS[column] });
     return (
@@ -51,11 +46,6 @@ export class Main extends React.Component {
         )}
       </ul>
     );
-  }
-  handleKeyPress = (e) => {
-    if (isEnter(e)) {
-      this.openModal();
-    }
   }
   buildContact = () => {
     let innerClassName = '';
@@ -83,7 +73,7 @@ export class Main extends React.Component {
             <li className="usa-accordion-content" id="veteran-crisis" aria-hidden="true">
               <ul className="va-footer-links">
                 <li>
-                  <a role="button" tabIndex="0" onClick={this.openModal} onKeyPress={this.handleKeyPress} >Veterans Crisis Line</a>
+                  <button onClick={() => recordEvent({ event: FOOTER_EVENTS.CRISIS_LINE })} className="va-button-link va-overlay-trigger" data-show="#modal-crisisline">Veterans Crisis Line</button>
                 </li>
               </ul>
             </li>
@@ -109,7 +99,7 @@ export class Main extends React.Component {
           </h4>
         </li>
         <li>
-          <a role="button" tabIndex="0" onClick={this.openModal}  onKeyPress={this.handleKeyPress} >Veterans Crisis Line</a>
+          <button onClick={() => recordEvent({ event: FOOTER_EVENTS.CRISIS_LINE })} className="va-button-link va-overlay-trigger" data-show="#modal-crisisline">Veterans Crisis Line</button>
         </li>
         <li id="footer-vcl">
           <h4 className="va-footer-linkgroup-title">
@@ -120,31 +110,6 @@ export class Main extends React.Component {
           {this.generateLinkItems(FOOTER_COLUMNS.CONTACT)}
         </li>
       </ul>
-    );
-  }
-  closeModal = () => {
-    this.setState({ modalOpen: false });
-  }
-  renderModal() {
-    return (
-      <div id="modal-crisisline" className="va-overlay va-modal va-modal-large va-overlay--open" role="alertdialog">
-        <div className="va-crisis-panel va-modal-inner">
-          <h3>Get help from Veterans Crisis Line</h3>
-          <button className="va-modal-close va-overlay-close" onClick={this.closeModal} type="button">
-            <i className="fa fa-close va-overlay-close"></i>
-            <span className="usa-sr-only va-overlay-close">Close this modal</span>
-          </button>
-          <div className="va-overlay-body va-crisis-panel-body">
-            <ul>
-              <li><a href="tel:18002738255">Call <strong>1-800-273-8255 (Press 1)</strong></a></li>
-              <li><a href="sms:838255">Text to <b>838255</b></a></li>
-              <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat">Chat <b>confidentially now</b></a></li>
-            </ul>
-            <p>If you are in crisis or having thoughts of suicide,
-      visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> for more resources.</p>
-          </div>
-        </div>
-      </div>
     );
   }
   render() {
@@ -170,7 +135,6 @@ export class Main extends React.Component {
     }
     return (
       <div>
-        {this.state.modalOpen && this.renderModal()}
         <div className="footer-inner">
           <div className="usa-grid usa-grid-flex-mobile">
             <ul className={className} id="footer-first-child">
