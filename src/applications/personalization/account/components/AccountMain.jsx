@@ -75,6 +75,10 @@ class AccountMain extends React.Component {
         {isBrandConsolidationEnabled &&
           <div>
             <div>
+              <h3>Sign in settings</h3>
+              <p>You can update the email or password you use to sign in to Vets.gov. Just go to the account you use to sign in (DS Logon, MyHealth<i>e</i>Vet, or ID.me) and manage your settings.</p>
+            </div>
+            <div>
               <h5>DS Login</h5>
               <a href="https://myaccess.dmdc.osd.mil/identitymanagement" target="_blank">Manage your DS Logon account</a>
             </div>
