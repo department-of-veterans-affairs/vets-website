@@ -9,6 +9,7 @@ import FormFooter from '../../../../platform/forms/components/FormFooter';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
 import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillMessage';
 import dataUtils from '../../../../platform/utilities/data/index';
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
 const { get, omit, set } = dataUtils;
 
@@ -139,6 +140,7 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
   },
   title: 'GI Bill® School Feedback Tool',
+  preSubmitInfo,
   getHelp: GetFormHelp,
   footerContent: FormFooter,
   transformForSubmit: transform,
