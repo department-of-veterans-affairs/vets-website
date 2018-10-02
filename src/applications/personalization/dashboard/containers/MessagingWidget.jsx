@@ -12,6 +12,7 @@ import {
   fetchFolder,
   fetchRecipients,
 } from '../../../messaging/actions';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
 function recordDashboardClick(product) {
   return () => {
@@ -94,7 +95,12 @@ class MessagingWidget extends React.Component {
       <div id="msg-widget">
         <h2>Check Secure Messages</h2>
         {content}
-        <p><Link href="/health-care/messaging" onClick={recordDashboardClick('view-all-messages')}>View all your secure messages</Link>.</p>
+        <p>
+          {isBrandConsolidationEnabled() ?
+            (<a href="https://www.myhealth.va.gov/mhv-portal-web/secure-messaging" target="_blank">View all your secure messages</a>) :
+            (<span><Link href="/health-care/messaging" onClick={recordDashboardClick('view-all-messages')}>View all your secure messages</Link>.</span>)
+          }
+        </p>
       </div>
     );
   }
