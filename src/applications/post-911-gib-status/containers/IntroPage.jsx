@@ -86,7 +86,10 @@ export class IntroPage extends React.Component {
           {this.props.serviceAvailability === SERVICE_AVAILABILITY_STATES.up && gibsWarning}
           <h1>Post-9/11 GI Bill Statement of Benefits</h1>
           <p>
-            If you served on active duty after September 10, 2001, you and your dependents may qualify for Post-9/11 GI Bill education benefits. These benefits can help cover all or some of the costs for school or training. If you’ve been awarded Post-9/11 GI Bill benefits, you can review your GI Bill Statement of Benefits and track the amount of time you have left to use for your education or training.
+            If you were awarded Post-9/11 GI Bill education benefits, your GI Bill Statement of Benefits will show you how much of your benefits you’ve used and how much you have left to use for your education or training. These education benefits can help cover some or all of the costs for school or training.
+          </p>
+          <p>
+            You'll be able to view this benefit statement only if you were awarded education benefits.
           </p>
           {content}
           <br/>
