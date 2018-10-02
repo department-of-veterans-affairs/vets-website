@@ -1,6 +1,5 @@
 ---
-layout: page-breadcrumbs.html
-template: detail-page
+layout: page-react-sidebar.html
 title: How to Apply for a Discharge Upgrade
 entryname: discharge-upgrade-instructions
 display_title: Discharge Upgrade
@@ -9,4 +8,3 @@ order: 6
 spoke: Get Records
 collection: records
 ---
-<div id="react-root"></div>
