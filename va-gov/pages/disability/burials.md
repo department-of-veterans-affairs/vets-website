@@ -5,4 +5,5 @@ display_title: Survivor and Dependent Compensation (DIC)
 collection: burialsSurvivors
 spoke: Get Benefits
 order: 4
+private: true
 ---
