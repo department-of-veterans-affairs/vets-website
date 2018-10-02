@@ -20,6 +20,25 @@ function getRedirectPage(redirectToPath) {
 function createRedirects(options) {
   return (files, metalsmith, done) => {
 
+    for (const redirect of options.redirects) {
+      const redirectPage = {
+        contents: new Buffer(getRedirectPage(redirect.dest.substr(1)))
+      };
+
+      let absolutePath = path.join(options.destination, redirect.src);
+      if (!path.extname(absolutePath)) absolutePath = path.join(absolutePath, 'index.html');
+
+      if (files[absolutePath]) {
+        // eslint-disable-next-line no-console
+        console.warn(`Redirect conflicts with existing page: ${redirect.src}`);
+      }
+
+      files[absolutePath] = {
+        ...redirectPage,
+        path: absolutePath
+      };
+    }
+
     for (const fileName of Object.keys(files)) {
       const fileData = files[fileName];
       const {

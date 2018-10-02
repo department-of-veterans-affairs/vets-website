@@ -10,7 +10,7 @@ import isPersonalizationEnabled from '../../../../applications/personalization/d
 
 class SignInProfileMenu extends React.Component {
   render() {
-    const icon = <IconUser color="#fff"/>;
+    const icon = <IconUser color="#fff" role="presentation"/>;
 
     return (
       <DropDownPanel

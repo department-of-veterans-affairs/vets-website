@@ -5,16 +5,20 @@ import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPan
 import IconHelp from '@department-of-veterans-affairs/formation/IconHelp';
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 
+import facilityLocatorManifest from '../../../../applications/facility-locator/manifest.json';
+
+const FACILITY_LOCATOR_URL = facilityLocatorManifest.rootUrl;
+
 class HelpMenu extends React.Component {
   render() {
     const buttonText = isBrandConsolidationEnabled() ? 'Contact Us' : 'Help';
-    const icon = <IconHelp color="#fff"/>;
+    const icon = <IconHelp color="#fff" role="presentation"/>;
     let dropDownContents;
 
     if (isBrandConsolidationEnabled()) {
       dropDownContents = (
         <div>
-          <p><a href="/find-locations">Find a VA Location</a></p>
+          <p><a href={`${FACILITY_LOCATOR_URL}`}>Find a VA Location</a></p>
           <p><a href="https://iris.custhelp.va.gov/app/ask ">Submit a Help Request</a></p>
           <p><a href="https://iris.custhelp.va.gov ">Go to VA Help Center</a></p>
           <p><a href="https://iris.custhelp.va.gov/app/answers/detail/a_id/1703 ">Call Us </a></p>
