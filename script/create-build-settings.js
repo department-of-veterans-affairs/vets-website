@@ -9,9 +9,6 @@ function getBuildSettings(options) {
   return {
     type: options.buildtype,
     brandConsolidationEnabled: !!options['brand-consolidation-enabled'],
-    metrics: {
-      samplePercentage: options['metrics-sample-percentage'],
-    },
     vic: {
       rateLimitAuthed: 1,
       rateLimitUnauthed: 1,
