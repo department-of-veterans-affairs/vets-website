@@ -1,17 +1,27 @@
 import { api } from '../config';
 import { find, compact, isEmpty } from 'lodash';
 import { mapboxClient } from '../components/MapboxClient';
+import { reverseGeocodeBox } from '../utils/helpers';
+import {
+  LOCATION_UPDATED,
+  SEARCH_STARTED,
+  SEARCH_QUERY_UPDATED,
+  SEARCH_FAILED,
+  FETCH_VA_FACILITY,
+  FETCH_VA_FACILITIES,
+  FETCH_CC_PROVIDERS
+} from '../utils/actionTypes';
 
 export function updateSearchQuery(query) {
   return {
-    type: 'SEARCH_QUERY_UPDATED',
+    type: SEARCH_QUERY_UPDATED,
     payload: { ...query }
   };
 }
 
 export function updateLocation(propertyPath, value) {
   return {
-    type: 'LOCATION_UPDATED',
+    type: LOCATION_UPDATED,
     propertyPath,
     value
   };
@@ -20,16 +30,16 @@ export function updateLocation(propertyPath, value) {
 export function fetchVAFacility(id, facility = null) {
   if (facility) {
     return {
-      type: 'FETCH_VA_FACILITY',
+      type: FETCH_VA_FACILITY,
       payload: facility,
     };
   }
 
   const url = `${api.url}/${id}`;
 
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
-      type: 'SEARCH_STARTED',
+      type: SEARCH_STARTED,
       payload: {
         active: true,
       },
@@ -38,24 +48,82 @@ export function fetchVAFacility(id, facility = null) {
     return fetch(url, api.settings)
       .then(res => res.json())
       .then(
-        data => dispatch({ type: 'FETCH_VA_FACILITY', payload: data.data }),
-        err => dispatch({ type: 'SEARCH_FAILED', err })
+        data => dispatch({ type: FETCH_VA_FACILITY, payload: data.data }),
+        err => dispatch({ type: SEARCH_FAILED, err })
       );
   };
 }
 
-export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
+export const searchProviders = (bounds, serviceType, page = 1) => {
+  return (dispatch, getState) => {
+    const { searchString } = getState().searchQuery;
+    if (searchString && searchString !== '') {
+      return fetchProviders(searchString, dispatch, serviceType, page); // eslint-disable-line
+    }
+
+    reverseGeocodeBox(bounds).then(address => {
+      if (!address) {
+        dispatch({ type: SEARCH_FAILED, error: 'Reverse geocoding failed. See previous errors.' });
+        return null;
+      }
+      console.log('Reverse geocoded address:', address); //eslint-disable-line
+
+      return fetchProviders(address, dispatch, serviceType, page); // eslint-disable-line
+    });
+
+    return null;
+  };
+};
+
+const fetchProviders = (address, dispatch, serviceType, page) => {
   const params = compact([
-    ...bounds.map(c => `bbox[]=${c}`),
-    facilityType ? `type=${facilityType}` : null,
-    ['health', 'benefits'].includes(facilityType) && serviceType ? `services[]=${serviceType}` : null,
+    `address=${address}`,
+    'type=cc_provider',
+    serviceType ? `services[]=${serviceType}` : null,
     `page=${page}`
   ]).join('&');
   const url = `${api.url}?${params}`;
 
-  return dispatch => {
+  dispatch({
+    type: SEARCH_STARTED,
+    payload: {
+      page,
+      searchProvidersInProgress: true,
+    },
+  });
+
+  return fetch(url, api.settings)
+    .then(res => res.json())
+    .then(
+      (data) => {
+        if (data.errors) {
+          dispatch({ type: SEARCH_FAILED, error: data.errors });
+        } else {
+          dispatch({ type: FETCH_CC_PROVIDERS, payload: data });
+        }
+      },
+      (error) => {
+        dispatch({ type: SEARCH_FAILED, error });
+      }
+    );
+};
+
+export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
+  if (facilityType === 'cc_provider') {
+    return searchProviders(bounds, serviceType, page);
+  }
+
+  const params = compact([
+    ...bounds.map(c => `bbox[]=${c}`),
+    facilityType ? `type=${facilityType}` : null,
+    facilityType === 'benefits' && serviceType ? `services[]=${serviceType}` : null,
+    `page=${page}`
+  ]).join('&');
+  const url = `${api.url}?${params}`;
+
+  return (dispatch) => {
     dispatch({
-      type: 'SEARCH_STARTED',
+      type: SEARCH_STARTED,
       payload: {
         page,
         searchBoundsInProgress: true,
@@ -65,24 +133,28 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
     return fetch(url, api.settings)
       .then(res => res.json())
       .then(
-        data => {
-          dispatch({ type: 'FETCH_VA_FACILITIES', payload: data });
+        (data) => {
+          if (data.errors) {
+            dispatch({ type: SEARCH_FAILED, err: data.errors });
+          } else {
+            dispatch({ type: FETCH_VA_FACILITIES, payload: data });
+          }
         },
-        err => dispatch({ type: 'SEARCH_FAILED', err })
+        (err) => dispatch({ type: SEARCH_FAILED, err })
       );
   };
 }
 
-export function searchWithAddress(query) {
+export function genBBoxFromAddress(query) {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
   if (!query.searchString) {
-    return { type: 'SEARCH_FAILED' };
+    return { type: SEARCH_FAILED };
   }
 
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
-      type: 'SEARCH_STARTED',
+      type: SEARCH_STARTED,
     });
     // commas can be stripped from query if Mapbox is returning unexpected results
     let types = 'place,address,region,postcode,locality';
@@ -117,7 +189,7 @@ export function searchWithAddress(query) {
           ];
         }
         return dispatch({
-          type: 'SEARCH_QUERY_UPDATED',
+          type: SEARCH_QUERY_UPDATED,
           payload: {
             ...query,
             context: zipCode,
@@ -132,7 +204,7 @@ export function searchWithAddress(query) {
       }
 
       return dispatch({
-        type: 'SEARCH_FAILED',
+        type: SEARCH_FAILED,
         err,
       });
     });
