@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import { DefinitionTester, fillData } from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe ('Time of need interment information', () => {
+describe('Time of need interment information', () => {
   const { schema, uiSchema } = formConfig.chapters.intermentInformationChapter.pages.intermentInformation;
 
   it('should render', () => {
@@ -14,8 +14,7 @@ describe ('Time of need interment information', () => {
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-      />
+        uiSchema={uiSchema}/>
     );
 
     expect(form.find('select').length).to.equal(1);

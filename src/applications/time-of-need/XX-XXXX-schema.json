@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Time of Need (XX-XXXX)",
+  "title": "Time of Need",
   "type": "object",
   "additionalProperties": false,
   "definitions": {
