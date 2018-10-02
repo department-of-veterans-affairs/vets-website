@@ -43,6 +43,7 @@ export const uiSchema = {
     fileUploadUI(
       'Upload your private medical records',
       {
+        buttonText: 'Upload Document',
         fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tif', 'tiff', 'txt'],
         expandUnder: 'view:uploadPrivateRecordsQualifier',
         expandUnderCondition: (data) => _.get(
@@ -50,8 +51,7 @@ export const uiSchema = {
         ),
         // TODO: This is the URL for Increase, check that it’s correct
         fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
-        addAnotherLabel: 'Add another record',
-        
+        addAnotherLabel: 'Add Another Document',
         maxSize: FIFTY_MB,
         createPayload: (file) => {
           const payload = new FormData();

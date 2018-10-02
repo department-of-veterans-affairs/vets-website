@@ -43,7 +43,7 @@ export const documentDescription = () => {
         <li>Files can be a maximum of 50MB each</li>
       </ul>
       <p>
-        <em>Large files can be more difficult to upload with a slow Internet connection</em>
+        <em>Large files can take longer to upload with a slow Internet connection.</em>
       </p>
     </div>
   );
