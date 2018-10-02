@@ -35,7 +35,7 @@ These benefits cover conditions that we believe were caused by time spent as a P
 #### For former POWs held captive for any length of time
 
 **Conditions that affect your body, including:**
--	Osteoporosis (if you filed you claim on or after October 10, 2008, and you have a diagnosis of posttraumatic stress disorder, or PTSD)
+-	Osteoporosis (if you filed your claim on or after October 10, 2008, and you have a diagnosis of posttraumatic stress disorder, or PTSD)
 -	Lasting damage from frostbite
 -	Posttraumatic osteoarthritis (pain and swelling in your joints that happens when a past injury causes a joint—such as your knee or elbow—to wear out)
 -	A stroke or problems caused by a stroke (such as memory loss, loss of speech, or weakness in an arm or leg)
@@ -52,7 +52,7 @@ These benefits cover conditions that we believe were caused by time spent as a P
 #### For former POWs held captive for 30 days or more
 
 **Conditions that affect your body, including:**
--	Osteoporosis (for claims filed on or after September 28, 2009; no PTSD diagnosis required)
+-	Osteoporosis (if you filed your claim on or after September 28, 2009; no PTSD diagnosis required)
 -	Helminthiasis 
 -	Peripheral neuropathy, except where directly related to an illness caused by an infection
 -	Peptic ulcer disease 
