@@ -3,7 +3,8 @@ import React from 'react';
 import moment from 'moment';
 
 import recordEvent from '../../../../platform/monitoring/record-event';
-import { formTitles, formLinks } from '../helpers';
+import { formTitles, formLinks, formConfigs, isFormAuthorizable } from '../helpers';
+import AuthorizationComponent from '../../../disability-benefits/686/components/AuthorizationComponent';
 
 class FormItem extends React.Component {
   recordDashboardClick = (formId, actionType = 'continue-button') => {
@@ -19,11 +20,13 @@ class FormItem extends React.Component {
   render() {
     const savedFormData = this.props.savedFormData;
     const formId = savedFormData.form;
+    const formConfig = formConfigs[formId];
     const { lastUpdated: lastSaved, expiresAt: expirationTime } = savedFormData.metadata;
     const lastSavedDateTime = moment.unix(lastSaved).format('MMMM D, YYYY [at] h:m a');
     const expirationDate = moment.unix(expirationTime).format('MMMM D, YYYY');
     const isExpired = moment.unix(expirationTime).isBefore();
     const itemTitle = `Application for ${formTitles[formId]}`;
+    const isAuthorizable = isFormAuthorizable(formConfig);
 
     const activeView = (
       <div className="card information">
@@ -74,7 +77,11 @@ class FormItem extends React.Component {
         </div>
       </div>
     );
-    return isExpired ? expiredView : activeView;
+    const content = isExpired ? expiredView : activeView;
+    if (isAuthorizable) {
+      return (<AuthorizationComponent formConfig={formConfig} isVisible>{content}</AuthorizationComponent>);
+    }
+    return content;
   }
 }
 

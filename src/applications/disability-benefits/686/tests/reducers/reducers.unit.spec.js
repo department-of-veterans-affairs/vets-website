@@ -10,8 +10,7 @@ import reducers from '../../reducers';
 
 const initialState = {
   isLoading: false,
-  hasError: false,
-  payload: null,
+  isAuthorized: false,
 };
 
 describe('authorization686 reducer', () => {
@@ -21,37 +20,54 @@ describe('authorization686 reducer', () => {
   it('should handle LOAD_30_PERCENT_DISABILITY_RATING_STARTED', () => {
     expectedState = {
       isLoading: true,
-      hasError: false,
-      payload: null,
+      isAuthorized: false,
     };
     const newState = authorization686(initialState, {
       type: LOAD_30_PERCENT_DISABILITY_RATING_STARTED,
     });
+
     expect(newState).to.eql(expectedState);
   });
 
-  it('should handle LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED', () => {
+  it('should handle LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED with authorization', () => {
     expectedState = {
       isLoading: false,
-      hasError: false,
-      payload: { data: true },
+      isAuthorized: true,
     };
     const newState = authorization686(initialState, {
       type: LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED,
-      payload: { data: true },
+      payload: { has30Percent: true },
     });
+
+    expect(newState).to.eql(expectedState);
+  });
+
+  it('should handle LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED without authorization', () => {
+    expectedState = {
+      isLoading: false,
+      isAuthorized: false,
+    };
+    const newState = authorization686(initialState, {
+      type: LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED,
+      payload: { has30Percent: false },
+    });
+
     expect(newState).to.eql(expectedState);
   });
 
   it('should handle LOAD_30_PERCENT_DISABILITY_RATING_FAILED', () => {
+    const payload = {
+      error: true
+    };
+
     expectedState = {
       isLoading: false,
-      hasError: true,
-      payload: { error: true },
+      isAuthorized: false,
+      payload,
     };
     const newState = authorization686(initialState, {
       type: LOAD_30_PERCENT_DISABILITY_RATING_FAILED,
-      error: { error: true },
+      error: payload,
     });
     expect(newState).to.eql(expectedState);
   });

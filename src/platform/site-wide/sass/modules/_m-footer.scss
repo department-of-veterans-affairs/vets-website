@@ -146,6 +146,13 @@
   a {
     display: inline-block;
   }
+
+  .va-button-link {
+    color: $color-white !important;
+    &:hover {
+      color: $color-gold !important;
+    }
+  }
 }
 
 [id=footer-contact] {
