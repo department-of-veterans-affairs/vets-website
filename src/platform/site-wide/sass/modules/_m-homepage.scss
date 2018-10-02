@@ -1,5 +1,32 @@
+.hub-links-title {
+  margin-top: 0;
+}
+
+#homepage-hub, .va-sidebarnav, .vet-toolbar {
+  [href^="http"]:not(.usa-button-primary), [rel="external"] {
+    background-image: none;
+    padding-right: 0px;
+
+  }
+}
+
 #homepage-benefits {
-  padding-top: 3em;
+  padding-top: 1.5em;
+  @include media($medium-large-screen) {
+    padding-top: 3em;
+  }
+}
+
+// The !importants here are due to the 
+// usa-grid padding 0 rule
+.homepage-benefits-row {
+  padding-bottom: 1.5em !important;
+  @include media($medium-large-screen) {
+    padding-bottom: 3em !important;
+    &:last-of-type {
+      padding-bottom: 0 !important;
+    }
+  }
 }
 
 #homepage-popular {
@@ -83,5 +110,19 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+}
+
+.homepage-news-story {
+  margin-bottom: 3em;
+  @include media($medium-large-screen) {
+    margin-bottom: 0em;
+  }
+}
+
+.homepage-news-story-title {
+  margin-top: 0.75em;
+  @include media($medium-large-screen) {
+    margin-top: 1.5em;
   }
 }
