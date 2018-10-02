@@ -10,7 +10,7 @@ export const uiSchema = {
     'ui:options': {
       labels: {
         answerQuestions: 'I want to answer questions',
-        upload: 'I want to upload VA Form 21-0781a',
+        upload: 'I want to upload VA Form 21-0781',
       },
     },
   },

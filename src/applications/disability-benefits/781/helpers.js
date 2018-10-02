@@ -1,60 +1,56 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-const getPtsdClassification781 = formData => {
+const getPtsdClassification781 = (formData, formType) => {
+  const classifications = formData['view:selectablePtsdTypes'];
   let incidentTitle;
   let incidentText;
+  const is781 = formType === '781';
 
-  const classifications = formData['view:selectablePtsdTypes'];
+  switch (true) {
+    case classifications['view:combatPtsdType'] &&
+      classifications['view:noncombatPtsdType'] &&
+      is781:
+      incidentTitle =
+        'Combat & Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
 
-  if (classifications['view:combatPtsdType']) {
-    incidentTitle = 'Combat';
-    incidentText = 'Combat';
+      incidentText =
+        'Combat and Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      break;
+
+    case classifications['view:assaultPtsdType'] &&
+      classifications['view:mstPtsdType'] &&
+      !is781:
+      incidentTitle = 'Personal Assault & Military Sexual Trauma';
+      incidentText = 'Personal Assault and Military Sexual Trauma';
+      break;
+
+    case classifications['view:combatPtsdType'] && is781:
+      incidentTitle = 'Combat';
+      incidentText = 'Combat';
+      break;
+
+    case classifications['view:noncombatPtsdType'] && is781:
+      incidentTitle =
+        'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      incidentText =
+        'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      break;
+
+    case classifications['view:assaultPtsdType'] && !is781:
+      incidentTitle = 'Personal Assault';
+      incidentText = 'Personal Assault';
+      break;
+
+    case classifications['view:mstPtsdType'] && !is781:
+      incidentTitle = 'Military Sexual Trauma';
+      incidentText = 'Military Sexual Trauma';
+      break;
+
+    default:
+      incidentTitle = '';
+      incidentText = '';
   }
-  if (classifications['view:noncombatPtsdType']) {
-    incidentTitle =
-      'Non-Combat PTSD other than Military Sexual Trama or Personal Assault';
-    incidentText =
-      'Non-Combat PTSD other than Military Sexual Trama or Personal Assault';
-  }
-  if (
-    classifications['view:combatPtsdType'] &&
-    classifications['view:noncombatPtsdType']
-  ) {
-    incidentTitle =
-      'Combat & Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
-
-    incidentText =
-      'Combat and Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
-  }
-
-  return { incidentTitle, incidentText };
-};
-
-const getPtsdClassification781a = formData => {
-  let incidentTitle;
-  let incidentText;
-
-  const classifications = formData['view:selectablePtsdTypes'];
-
-  if (classifications['view:assaultPtsdType']) {
-    incidentTitle = 'Personal Assault';
-    incidentText = 'Personal Assault';
-  }
-
-  if (classifications['view:mstPtsdType']) {
-    incidentTitle = 'Military Sexual Trauma';
-    incidentText = 'Military Sexual Trauma';
-  }
-
-  if (
-    classifications['view:assaultPtsdType'] &&
-    classifications['view:mstPtsdType']
-  ) {
-    incidentTitle = 'Personal Assault & Military Sexual Trauma';
-    incidentText = 'Personal Assault and Military Sexual Trauma';
-  }
-
   return { incidentTitle, incidentText };
 };
 
@@ -140,7 +136,7 @@ export const ptsdTypeHelp = () => {
         Examples of personal assault include: assault, battery, robbery,
         mugging, stalking, or harassment.
       </p>
-      <h5>Non-Combat other than Military Sexual Trama or Personal Assault</h5>
+      <h5>Non-Combat other than Military Sexual Trauma or Personal Assault</h5>
       <p>
         This means you experienced an event such as a car accident, hurricane,
         or plane crash, or witnessing the death, injury, or threat to another
@@ -152,19 +148,19 @@ export const ptsdTypeHelp = () => {
 };
 
 export const ptsdNameTitle781 = ({ formData }) => {
-  const incidentContent = getPtsdClassification781(formData);
+  const { incidentTitle } = getPtsdClassification781(formData, '781');
   return (
     <legend className="schemaform-block-title schemaform-title-underline">
-      {incidentContent.incidentTitle}
+      {incidentTitle}
     </legend>
   );
 };
 
 export const ptsdNameTitle781a = ({ formData }) => {
-  const incidentContent = getPtsdClassification781a(formData);
+  const { incidentTitle } = getPtsdClassification781(formData, '781a');
   return (
     <legend className="schemaform-block-title schemaform-title-underline">
-      {incidentContent.incidentTitle}
+      {incidentTitle}
     </legend>
   );
 };
@@ -194,10 +190,10 @@ export const documentDescription = () => {
 };
 
 export const incidentIntroduction781 = ({ formData }) => {
-  const incidentContent = getPtsdClassification781(formData);
+  const { incidentTitle } = getPtsdClassification781(formData, '781');
   return (
     <div>
-      <h3>{incidentContent.incidentTitle}</h3>
+      <h3>{incidentTitle}</h3>
       {introductionExplanationText}
     </div>
   );
@@ -215,14 +211,14 @@ const uploadExplanation = (
 );
 
 export const uploadPtsdDescription781 = ({ formData }) => {
-  const incidentContent = getPtsdClassification781(formData);
+  const { incidentText } = getPtsdClassification781(formData, '781');
   return (
     <div>
       <p>
         The following questions will help us understand more about your
-        {` ${incidentContent.incidentText}`}-related PTSD. None of the questions
-        we‘ll ask you are required, but any information you provide here will
-        help us research your claim.
+        {` ${incidentText}`}-related PTSD. None of the questions we‘ll ask you
+        are required, but any information you provide here will help us research
+        your claim.
       </p>
       {uploadExplanation}
     </div>
@@ -230,14 +226,14 @@ export const uploadPtsdDescription781 = ({ formData }) => {
 };
 
 export const uploadPtsdDescription781a = ({ formData }) => {
-  const incidentContent = getPtsdClassification781a(formData); // TODO: DRY-ER
+  const { incidentText } = getPtsdClassification781(formData, '781a');
   return (
     <div>
       <p>
         The following questions will help us understand more about your
-        {` ${incidentContent.incidentText}`}-related PTSD. None of the questions
-        we‘ll ask you are required, but any information you provide here will
-        help us research your claim.
+        {` ${incidentText}`}-related PTSD. None of the questions we‘ll ask you
+        are required, but any information you provide here will help us research
+        your claim.
       </p>
       {uploadExplanation}
     </div>
@@ -245,10 +241,10 @@ export const uploadPtsdDescription781a = ({ formData }) => {
 };
 
 export const incidentIntroduction781a = ({ formData }) => {
-  const incidentContent = getPtsdClassification781a(formData);
+  const { incidentTitle } = getPtsdClassification781(formData, '781a');
   return (
     <div>
-      <h3>{incidentContent.incidentTitle}</h3>
+      <h3>{incidentTitle}</h3>
       {introductionExplanationText}
     </div>
   );

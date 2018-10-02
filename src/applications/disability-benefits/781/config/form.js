@@ -12,8 +12,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
   introductionText,
-  incidentIntroduction781,
-  incidentIntroduction781a,
+  // incidentIntroduction781,
+  // incidentIntroduction781a,
 } from '../helpers';
 
 // Define all the fields in the form to aid reuse
@@ -25,6 +25,8 @@ import {
   ptsdSecondaryChoice,
   uploadPtsd,
   uploadPtsdSecondary,
+  informationInterviewCombat,
+  informationInterviewAssault,
 } from '../pages';
 
 const formConfig = {
@@ -44,10 +46,9 @@ const formConfig = {
   title: 'Apply for increased disability compensation',
   chapters: {
     introductionPage: {
-      title: 'Disability Details',
       pages: {
         ptsdIntroduction: {
-          'ui:title': '',
+          title: 'Disability Details',
           path: 'info',
           uiSchema: {
             'ui:description': introductionText,
@@ -89,13 +90,15 @@ const formConfig = {
             form['view:uploadPtsdChoice'] === 'answerQuestions' &&
             (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
               form['view:selectablePtsdTypes']['view:noncombatPtsdType']),
-          uiSchema: {
-            'ui:description': incidentIntroduction781,
-          },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+          uiSchema: informationInterviewCombat.uiSchema,
+          schema: informationInterviewCombat.schema,
+          // uiSchema: {
+          //   'ui:description': incidentIntroduction781,
+          // },
+          // schema: {
+          //   type: 'object',
+          //   properties: {},
+          // },
         },
         ptsdSecondaryChoice: {
           path: 'ptsdSecondaryChoice',
@@ -123,13 +126,15 @@ const formConfig = {
             form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' &&
             (form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
               form['view:selectablePtsdTypes']['view:assaultPtsdType']),
-          uiSchema: {
-            'ui:description': incidentIntroduction781a,
-          },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+          uiSchema: informationInterviewAssault.uiSchema,
+          schema: informationInterviewAssault.schema,
+          // uiSchema: {
+          //   'ui:description': incidentIntroduction781a,
+          // },
+          // schema: {
+          //   type: 'object',
+          //   properties: {},
+          // },
         },
         // medals: { //TODO: KEEP FOR NEXT STORY
         //   path: 'information-781',
