@@ -1,9 +1,0 @@
-{
-  "appName": "Dashboard",
-  "entryFile": "./dashboard-entry.jsx",
-  "entryName": "dashboard",
-  "rootUrl": "/dashboard",
-  "production": true,
-  "contentPage": "dashboard/index.md",
-  "hideInvitation": true
-}

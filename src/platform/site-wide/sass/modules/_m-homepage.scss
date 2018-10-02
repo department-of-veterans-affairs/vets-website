@@ -14,6 +14,16 @@
   padding-top: 1.5em;
   @include media($medium-large-screen) {
     padding-top: 3em;
+
+  @include media($medium-large-screen) {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  @include media($large-screen) {
+    padding-left: 0;
+    padding-right: 0;
+  }
   }
 }
 
@@ -33,6 +43,20 @@
   padding-top: 3em;
   padding-left: 0.5em;
   padding-right: 0.5em;
+
+  @include media($medium-large-screen) {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  @include media($large-screen) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+#homepage-news {
+  padding: 3em 0.5em;
 
   @include media($medium-large-screen) {
     padding-left: 1em;
@@ -107,6 +131,7 @@
     margin-left: 55px;
     height: 100%;
     padding: 1em;
+    text-align: left;
     display: flex;
     flex-direction: column;
     justify-content: center;
