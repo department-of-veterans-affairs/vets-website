@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-
+import { submit } from '../helpers';
 // Example of an imported schema:
 import fullSchema from '../XX-XXXX-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
@@ -37,6 +37,9 @@ const {
 
 // Define all the fields in the form to aid reuse
 const formFields = {
+  burialActivityType: 'burialActivityType',
+  emblemCode: 'emblemCode',
+  remainsType: 'remainsType',
   fullName: 'fullName',
   ssn: 'ssn',
   toursOfDuty: 'toursOfDuty',
@@ -58,6 +61,7 @@ function hasDirectDeposit(formData) {
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
+  intermentInformation: 'intermentInformation',
   applicantInformation: 'applicantInformation',
   serviceHistory: 'serviceHistory',
   contactInformation: 'contactInformation',
@@ -66,19 +70,18 @@ const formPages = {
 
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'complex-form-',
+  submit,
+  trackingPrefix: 'time-of-need-form-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '1234',
+  formId: 'XX-XXXX',
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
-    noAuth: 'Please sign in again to continue your application for benefits.'
+    notFound: 'Please start over to apply for time of need interment benefits.',
+    noAuth: 'Please sign in again to continue your application for time of need interment benefits.'
   },
-  title: 'Complex Form',
+  title: 'Application for Time of Need Interment Benefits',
   defaultDefinitions: {
     fullName,
     ssn,
@@ -87,121 +90,53 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
-    applicantInformationChapter: {
-      title: 'Applicant Information',
+    intermentInformationChapter: {
+      title: 'Interment Information',
       pages: {
-        [formPages.applicantInformation]: {
-          path: 'applicant-information',
-          title: 'Applicant Information',
+        [formPages.intermentInformation]: {
+          path: 'interment-information',
+          title: 'Interment Information',
           uiSchema: {
-            [formFields.fullName]: fullNameUI,
-            [formFields.ssn]: ssnUI
-          },
-          schema: {
-            type: 'object',
-            required: [formFields.fullName],
-            properties: {
-              [formFields.fullName]: fullName,
-              [formFields.ssn]: ssn,
-            }
-          }
-        }
-      }
-    },
-    serviceHistoryChapter: {
-      title: 'Service History',
-      pages: {
-        [formPages.serviceHistory]: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: {
-            [formFields.toursOfDuty]: toursOfDutyUI
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              [formFields.toursOfDuty]: toursOfDuty
-            }
-          }
-        }
-      }
-    },
-    additionalInformationChapter: {
-      title: 'Additional Information',
-      pages: {
-        [formPages.contactInformation]: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          uiSchema: {
-            [formFields.address]: address.uiSchema('Mailing address'),
-            [formFields.email]: {
-              'ui:title': 'Primary email'
+            [formFields.burialActivityType]: {
+              'ui:title': 'Burial Type',
             },
-            [formFields.altEmail]: {
-              'ui:title': 'Secondary email'
+            [formFields.emblemCode]: {
+              'ui:title': 'Emblem',
             },
-            [formFields.phoneNumber]: phoneUI('Daytime phone'),
+            [formFields.remainsType]: {
+              'ui:title': 'Remains Type',
+            }
           },
           schema: {
             type: 'object',
+            required: [
+              [formFields.burialActivityType],
+              [formFields.emblemCode],
+              [formFields.remainsType]
+            ],
             properties: {
-              [formFields.address]: address.schema(fullSchema, true),
-              [formFields.email]: {
+              [formFields.burialActivityType]: {
                 type: 'string',
-                format: 'email'
+                'enum': [
+                  'I',
+                  'D',
+                  'R',
+                  'S',
+                  'T'
+                ],
+                enumNames: [
+                  'Interment',
+                  'Disinterment',
+                  'Reinterment',
+                  'Memorial Service Only',
+                  'Direct Interment'
+                ]
               },
-              [formFields.altEmail]: {
-                type: 'string',
-                format: 'email'
+              [formFields.emblemCode]: {
+                type: 'string'
               },
-              [formFields.phoneNumber]: usaPhone
-            }
-          }
-        },
-        [formPages.directDeposit]: {
-          path: 'direct-deposit',
-          title: 'Direct Deposit',
-          uiSchema: {
-            'ui:title': 'Direct deposit',
-            [formFields.viewNoDirectDeposit]: {
-              'ui:title': 'I don’t want to use direct deposit'
-            },
-            [formFields.bankAccount]: _.merge(bankAccountUI, {
-              'ui:order': [
-                formFields.accountType,
-                formFields.accountNumber,
-                formFields.routingNumber
-              ],
-              'ui:options': {
-                hideIf: formData => !hasDirectDeposit(formData)
-              },
-              [formFields.accountType]: {
-                'ui:required': hasDirectDeposit
-              },
-              [formFields.accountNumber]: {
-                'ui:required': hasDirectDeposit
-              },
-              [formFields.routingNumber]: {
-                'ui:required': hasDirectDeposit
-              }
-            }),
-            [formFields.viewStopWarning]: {
-              'ui:description': directDepositWarning,
-              'ui:options': {
-                hideIf: hasDirectDeposit
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              [formFields.viewNoDirectDeposit]: {
-                type: 'boolean',
-              },
-              [formFields.bankAccount]: bankAccount,
-              [formFields.viewStopWarning]: {
-                type: 'object',
-                properties: {}
+              [formFields.remainsType]: {
+                type: 'string'
               }
             }
           }
