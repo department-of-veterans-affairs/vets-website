@@ -65,6 +65,7 @@ export class IntroPage extends React.Component {
     return (
       <div>
         <BrandConsolidation>
+          <h1>Check Your Post-9/11 GI Bill Benefits</h1>
           {content}
         </BrandConsolidation>
         <VetsDotGov>
