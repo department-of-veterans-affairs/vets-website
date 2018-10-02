@@ -88,7 +88,7 @@ const mapStateToProps = createSelector(
     const data = flagCurrentPageInTopLevelLinks(getAuthorizedLinkData(loggedIn));
 
     return {
-      megaMenu,
+      ...megaMenu,
       data
     };
   }
