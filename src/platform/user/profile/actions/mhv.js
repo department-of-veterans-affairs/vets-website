@@ -60,3 +60,11 @@ export function upgradeMHVAccount() {
     return dispatch({ type: UPGRADE_MHV_ACCOUNT_SUCCESS, mhvAccount, userProfile });
   };
 }
+
+export function createAndUpgradeMHVAccount() {
+  return async (dispatch) => {
+    const accountCreationSuccess = await dispatch(createMHVAccount());
+    if (accountCreationSuccess) return dispatch(upgradeMHVAccount());
+    return null;
+  };
+}

@@ -13,6 +13,7 @@ import {
   getDisabilityName,
   prefillTransformer,
   hasVAEvidence,
+  hasPrivateEvidence,
   hasOtherEvidence
 } from '../utils';
 
@@ -34,6 +35,7 @@ import {
   newDisabilityFollowUp,
   vaMedicalRecords,
   additionalDocuments,
+  privateMedicalRecords,
   paymentInformation,
   evidenceTypes,
   claimExamsInfo,
@@ -211,6 +213,13 @@ const formConfig = {
           depends: hasVAEvidence,
           uiSchema: vaMedicalRecords.uiSchema,
           schema: vaMedicalRecords.schema
+        },
+        privateMedicalRecords: {
+          title: 'Private Medical Records',
+          path: 'supporting-evidence/private-medical-records',
+          depends: hasPrivateEvidence,
+          uiSchema: privateMedicalRecords.uiSchema,
+          schema: privateMedicalRecords.schema
         },
         additionalDocuments: {
           title: 'Lay statements and other evidence',

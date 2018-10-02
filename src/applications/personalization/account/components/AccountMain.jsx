@@ -72,9 +72,24 @@ class AccountMain extends React.Component {
         <AccountVerification loa={loa}/>
         {this.renderMVIError()}
         <MultifactorMessage multifactor={multifactor}/>
+        {isBrandConsolidationEnabled() &&
+          <div>
+            <div>
+              <h3>Sign in settings</h3>
+              <p>You can update the email or password you use to sign in to VA.gov. Just go to the account you use to sign in (DS Logon, MyHealtheVet, or ID.me) and manage your settings.</p>
+            </div>
+            <div>
+              <h5>DS Login</h5>
+              <a href="https://myaccess.dmdc.osd.mil/identitymanagement" target="_blank">Manage your DS Logon account</a>
+            </div>
+            <div>
+              <h5>MyHealtheVet</h5>
+              <a href="https://www.myhealth.va.gov" target="_blank">Manage your MyHealtheVet account</a>
+            </div>
+          </div>}
         <LoginSettings/>
         {verified && <TermsAndConditions mhvAccount={mhvAccount}/>}
-        <h4>Have questions about signing in to {propertyName}?</h4>
+        <h3>Have questions about signing in to {propertyName}?</h3>
         <p>
           Get answers to frequently asked questions about how to sign in, common issues with verifying your identity, and your privacy and security on {propertyName}.<br/>
           <a href="/faq" onClick={() => recordEvent({ event: 'account-navigation', 'account-action': 'view-link', 'account-section': 'vets-faqs' })}>Go to {propertyName} FAQs</a>

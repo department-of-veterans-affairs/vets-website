@@ -27,7 +27,7 @@ export default function AccountVerification({ loa }) {
 
   return (
     <div>
-      <h4>Identity verification</h4>
+      <h3>Identity verification</h3>
       {content}
     </div>
   );
