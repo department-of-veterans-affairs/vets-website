@@ -21,6 +21,10 @@ import Email from '../vet360/components/Email';
 import { handleDowntimeForSection } from './DowntimeBanner';
 import ContactInformationExplanation from './ContactInformationExplanation';
 
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
+
 export default class ContactInformation extends React.Component {
 
   renderContent = () => {
@@ -55,7 +59,7 @@ export default class ContactInformation extends React.Component {
           <div>
             {this.renderContent()}
             <div>
-              <h3>How do I update the email I use to sign in to Vets.gov?</h3>
+              <h3>How do I update the email I use to sign in to {propertyName}?</h3>
               <a href={accountManifest.rootUrl} onClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'account-settings' }); }}>Go to your account settings</a>
             </div>
           </div>

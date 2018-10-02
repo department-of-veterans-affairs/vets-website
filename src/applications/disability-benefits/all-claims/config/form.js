@@ -1,5 +1,6 @@
 import environment from '../../../../platform/utilities/environment';
 
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import {
@@ -72,6 +73,7 @@ const formConfig = {
   },
   title: 'Apply for disability compensation',
   subTitle: 'Form 21-526EZ',
+  preSubmitInfo,
   chapters: {
     veteranDetails: {
       title: (isReviewPage) => `${isReviewPage ? 'Review ' : ''}Veteran Details`,

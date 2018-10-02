@@ -7,6 +7,7 @@ import applicantInformation from '../../../../platform/forms/pages/applicantInfo
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 import createDirectDepositPage from '../../pages/directDeposit';
@@ -65,6 +66,7 @@ const formConfig = {
   },
   title: 'Apply to use transferred education benefits',
   subTitle: 'Form 22-1990E',
+  preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   chapters: {

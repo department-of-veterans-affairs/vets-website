@@ -165,6 +165,7 @@ describe('526 helpers', () => {
     beforeEach(() => {
       // Replace fetch with a spy
       global.fetch = sinon.stub();
+      global.fetch.catch = sinon.stub();
       global.fetch.resolves({
         ok: true,
         headers: { get: () => 'application/json' },
