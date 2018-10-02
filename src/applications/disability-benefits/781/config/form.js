@@ -87,7 +87,10 @@ const formConfig = {
           title: 'Disability Details',
           depends: (form) => form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' && form['view:selectablePtsdTypes']['view:mstPtsdType'],
           uiSchema: ptsdSecondaryIncidentDate.uiSchema,
-          schema: ptsdSecondaryIncidentDate.schema
+          schema: ptsdSecondaryIncidentDate.schema,
+          properties: {
+            green: true
+          }
         },
 
         ptsdSecondaryAssignmentDetails: {

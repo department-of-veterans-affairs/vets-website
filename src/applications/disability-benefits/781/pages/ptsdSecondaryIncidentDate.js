@@ -2,6 +2,7 @@ import React from 'react';
 import {
   ptsdNameTitle,
 } from '../helpers';
+
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 const ptsdDateDescription = () => {

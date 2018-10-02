@@ -43,6 +43,7 @@
     "test:unit:personalization": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/applications/personalization/**/tests/**/*.unit.spec.js?(x)' ",
     "test:unit:db": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'test/disability-benefits/**/*.unit.spec.js?(x)' ",
     "test:unit:4142": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/applications/disability-benefits/4142/**/tests/**/*.unit.spec.js?(x)' ",
+    "test:unit:781": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/applications/disability-benefits/781/**/tests/**/*.unit.spec.js?(x)' ",
     "test:watch": "node script/watch.js",
     "test:visual": "./script/run-nightwatch.sh --visual",
     "test:visual:baseline": "./script/run-nightwatch.sh --visual --command=baseline",
