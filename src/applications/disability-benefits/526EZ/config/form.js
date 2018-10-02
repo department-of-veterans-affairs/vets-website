@@ -119,6 +119,7 @@ const {
 } = fullSchema526EZ.definitions;
 
 const FIFTY_MB = 52428800;
+const isProd = __BUILDTYPE__ === 'production';
 
 const formConfig = {
   urlPrefix: '/',
@@ -607,7 +608,7 @@ const formConfig = {
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => {
-            return ((__BUILDTYPE__ !== 'production') && _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData));
+            return !isProd && _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
           },
           uiSchema: {
             disabilities: {
@@ -690,7 +691,7 @@ const formConfig = {
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => {
-            return ((__BUILDTYPE__ === 'production') && _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData));
+            return isProd && _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
           },
           uiSchema: {
             disabilities: {
@@ -755,11 +756,10 @@ const formConfig = {
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) => {
-            const isNotProd = __BUILDTYPE__ !== 'production';
             const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
             const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
 
-            return isNotProd && hasRecords && requestsRecords;
+            return !isProd && hasRecords && requestsRecords;
           },
           uiSchema: {
             disabilities: {
