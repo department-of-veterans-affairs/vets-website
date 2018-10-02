@@ -66,22 +66,17 @@ class LocatorApi {
   }
 
   static getProviderSvcs() {
-    const url = `${api.baseUrl}/ccp/services`;
+    const url = `${api.baseUrl}/services`;
 
-    return this.executeFetch(url);
-  }
-
-  executeFetch = (url) => {
     return new Promise( (resolve, reject) => {
       fetch(url, api.settings)
-        .then(res => res.json)
+        .then(res => res.json())
         .then(
           data => resolve(data),
           error => reject(error)
         );
     });
   }
-
 }
 
 export default LocatorApi;

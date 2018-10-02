@@ -88,9 +88,11 @@ export const searchWithBounds = ({ bounds, facilityType, serviceType, page = 1 }
 
         return fetchLocations(address, bounds, facilityType, serviceType, page, dispatch);
       });
+    } else {
+      return fetchLocations(null, bounds, facilityType, serviceType, page, dispatch);
     }
 
-    return fetchLocations(null, bounds, facilityType, serviceType, page, dispatch);
+    return null;
   };
 };
 
@@ -199,10 +201,10 @@ export const genBBoxFromAddress = (query) => {
 };
 
 export const getProviderSvcs = () => {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch({ type: FETCH_SERVICES });
 
-    const results = await LocatorApi.getProviderSvcs()
+    return LocatorApi.getProviderSvcs()
       .then(
         (data) => {
           if (data.errors) {
@@ -217,8 +219,6 @@ export const getProviderSvcs = () => {
       .catch(
         (error) => dispatch({ type: SEARCH_FAILED, error })
       );
-
-    return results;
   };
 
 };
