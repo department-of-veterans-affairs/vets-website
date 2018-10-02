@@ -75,11 +75,8 @@ describe('metrics', () => {
     });
 
     describe('captureMetrics', () => {
-      xit('should instantiate a new PerformanceObserver', () => {
-        const mock = sinon.mock(PerformanceObserver());
-        window.PerformanceObserver = sinon.stub(PerformanceObserver.prototype, 'constructor').returns(mock);
-        // TODO: This fails, in captureMetrics() with PerformanceObserver is not defined.
-        // How can we test the constructor is called here?
+      it('should instantiate a new PerformanceObserver', () => {
+        global.PerformanceObserver = sinon.spy();
         metrics.captureMetrics();
         expect(PerformanceObserver.calledWithNew()).to.be.equal(true);
       });
