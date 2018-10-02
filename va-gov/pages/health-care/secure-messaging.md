@@ -83,7 +83,7 @@ You’ll sign in to your account and access your Secure Messaging folder through
 
 You can use Secure Messaging to communicate with any VA health care team member who has signed up to participate.
 
-You can send non-urgent, non-emergency messages anytime of the day or night. Your VA health care team should respond within 3 business days (Monday through Friday, 8:00 a.m. - 5:00 p.m., except federal holidays). If you’d like, you can set up your account to send a notification to your personal email when you receive a new secure message.
+You can send non-urgent, non-emergency messages at any time of the day or night. Your VA health care team should respond within 3 business days (Monday through Friday, 8:00 a.m. - 5:00 p.m., except federal holidays). If you’d like, you can set up your account to send a notification to your personal email when you receive a new secure message.
 
 </div>
 </div>
