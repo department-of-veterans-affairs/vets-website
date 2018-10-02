@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as metrics from '../metrics';
-import { navEntry } from './exampleNavigationTimingEntry';
+import { navEntry } from './exampleNavigationTimingEntry.js';
 
 describe('metrics', () => {
   beforeEach(() => {
