@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import recordEvent from '../../../platform/monitoring/record-event';
+import VetsDotGov from '../../../platform/brand-consolidation/containers/VetsDotGov';
 
 class InstructionsPage extends React.Component {
   constructor(props) {
@@ -25,7 +26,9 @@ class InstructionsPage extends React.Component {
   render() {
     return (
       <div className="dw-instructions">
-        <h1>How to Apply for a Discharge Upgrade</h1>
+        <VetsDotGov>
+          <h1>How to Apply for a Discharge Upgrade</h1>
+        </VetsDotGov>
         <main itemScope itemType="http://schema.org/FAQPage">
           <div className="row">
             <article className="usa-content columns">
