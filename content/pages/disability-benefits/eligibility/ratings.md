@@ -49,5 +49,8 @@ Yes. We may increase your monthly payments if one or more of these is true for y
 
 ### Is there anything else that might affect my compensation amount?
 
-Yes. If you receive military retirement pay, disability severance pay, or separation pay, your compensation may end up being less than it otherwise would be.
+Yes. Your compensation may end up being less than it otherwise would be if either of these is true. You:
+
+- Receive military retirement pay, disability severance pay, or separation pay
+- Are incarcerated in a federal, state, or local facility for more than 60 days for conviction of a felony
 
