@@ -35,6 +35,9 @@ import {
 } from '../helpers.jsx';
 
 import { validateAfterMarriageDate } from '../validation';
+import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
+import { get686AuthorizationState } from '../selectors';
+import { verifyDisabilityRating } from '../actions';
 
 const {
   spouseDateOfBirth,
@@ -102,6 +105,8 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/dependents_applications`,
   transformForSubmit: transform,
+  authorize: verifyDisabilityRating,
+  getAuthorizationState: get686AuthorizationState,
   trackingPrefix: '686-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -115,6 +120,9 @@ const formConfig = {
   title: 'Apply to add a dependent to your VA benefits',
   subTitle: 'VA Form 21-686c',
   preSubmitInfo,
+  downtime: {
+    dependencies: [externalServices.evss]
+  },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
