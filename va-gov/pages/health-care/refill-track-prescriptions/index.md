@@ -16,7 +16,7 @@ children:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-With our VA Prescription Refill and Tracking tool, you can refill your VA prescriptions, track their delivery, and create lists to organize your medicines. Find out if you’re eligible and how to sign up to begin using this tool in our health-management portal within My HealtheVet.
+With our VA Prescription Refill and Tracking tool, you can refill your VA prescriptions, track their delivery, and create lists to organize your medicines. Find out if you’re eligible and how to sign up to begin using this tool in our health management portal within My HealtheVet.
 
 </div>
 
