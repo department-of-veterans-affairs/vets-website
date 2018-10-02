@@ -57,6 +57,12 @@ import {
   uiSchema as vaMedicalRecordsUISchema,
   schema as vaMedicalRecordsSchema
 } from './vaMedicalRecords';
+
+import {
+  uiSchema as privateMedicalRecordsUISchema,
+  schema as privateMedicalRecordsSchema
+} from './privateMedicalRecords';
+
 import {
   uiSchema as evidenceTypesUISchema,
   schema as evidenceTypesSchema
@@ -140,6 +146,11 @@ export const newDisabilityFollowUp = {
 export const vaMedicalRecords = {
   uiSchema: vaMedicalRecordsUISchema,
   schema: vaMedicalRecordsSchema
+};
+
+export const privateMedicalRecords = {
+  uiSchema: privateMedicalRecordsUISchema,
+  schema: privateMedicalRecordsSchema
 };
 
 export const evidenceTypes = {

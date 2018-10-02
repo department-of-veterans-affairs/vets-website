@@ -134,6 +134,13 @@ export const SERVICE_CONNECTION_TYPES = {
 
 export const DATA_PATHS = {
   hasVAEvidence:
-    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasVAMedicalRecords'
+    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasVAMedicalRecords',
+  hasPrivateEvidence:
+    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',
+  hasPrivateRecordsToUpload:
+    'view:uploadPrivateRecordsQualifier.view:hasPrivateRecordsToUpload'
 };
 
+export const VA_FORM4142_URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
+
+export const FIFTY_MB = 52428800;
