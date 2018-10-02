@@ -63,7 +63,8 @@ export function upgradeMHVAccount() {
 
 export function createAndUpgradeMHVAccount() {
   return async (dispatch) => {
-    await dispatch(createMHVAccount());
-    return dispatch(upgradeMHVAccount());
+    const accountCreationSuccess = await dispatch(createMHVAccount());
+    if (accountCreationSuccess) return dispatch(upgradeMHVAccount());
+    return null;
   };
 }

@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import appendQuery from 'append-query';
+import URLSearchParams from 'url-search-params';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
@@ -30,7 +32,7 @@ export class CallToActionWidget extends React.Component {
   constructor(props) {
     super(props);
     this._popup = null;
-    this._redirectUrl = redirectUrl(location.pathname);
+    this._redirectUrl = redirectUrl(window.location.pathname);
     this._requiredServices = requiredServices(props.appId);
     this._serviceDescription = serviceDescription(props.appId);
   }
@@ -53,13 +55,13 @@ export class CallToActionWidget extends React.Component {
 
       if (!accountState) {
         this.props.fetchMHVAccount();
-      } else if (this.props.location.query.tc_accepted) {
+      } else if ((new URLSearchParams(window.location.search)).get('tc_accepted')) {
         // Since T&C is still required to support the existing account states,
         // check the existence of a query param that gets appended after
         // successful T&C acceptance to complete account creation or upgrade.
-        if (!accountLevel) {
+        if (!accountLevel && accountState !== 'register_failed') {
           this.props.createAndUpgradeMHVAccount();
-        } else {
+        } else if (accountLevel && accountState !== 'upgrade_failed') {
           this.props.upgradeMHVAccount();
         }
       }
@@ -116,7 +118,7 @@ export class CallToActionWidget extends React.Component {
 
       case 'needs_ssn_resolution':
         return {
-          headline: 'We need to verify your identity before giving you access to your personal health information',
+          heading: 'We need to verify your identity before giving you access to your personal health information',
           alertText: (
             <div>
               <p>We’re sorry. We can’t match the information you provided with what we have in our Veteran records. We take your privacy seriously, and we’re committed to protecting your information. You won’t be able to access VA.gov health tools until we match your information and verify your identity.</p>
@@ -129,7 +131,7 @@ export class CallToActionWidget extends React.Component {
 
       case 'has_deactivated_mhv_ids':
         return {
-          headline: 'It looks like your My HealtheVet account has been disabled',
+          heading: 'It looks like your My HealtheVet account has been disabled',
           alertText: (
             <div>
               <p>We’re sorry. You won’t be able to access VA.gov health tools until we reactivate your My HealtheVet account.</p>
@@ -142,7 +144,7 @@ export class CallToActionWidget extends React.Component {
 
       case 'has_multiple_active_mhv_ids':
         return {
-          headline: 'It looks like you have more than one My HealtheVet account',
+          heading: 'It looks like you have more than one My HealtheVet account',
           alertText: (
             <div>
               <p>We’re sorry. We found more than one active account for you.</p>
@@ -176,7 +178,7 @@ export class CallToActionWidget extends React.Component {
        *   };
        */
 
-      case 'registered_failed':
+      case 'register_failed':
         return {
           heading: 'There’s a problem with VA.gov health tools',
           alertText: (
@@ -210,7 +212,9 @@ export class CallToActionWidget extends React.Component {
     const { accountLevel } = this.props.mhvAccount;
 
     const redirectToTermsAndConditions = () => {
-      window.location = '/health-care/medical-information-terms-conditions/';
+      const redirectQuery = { tc_redirect: window.location.pathname }; // eslint-disable-line camelcase
+      const termsConditionsUrl = appendQuery('/health-care/medical-information-terms-conditions/', redirectQuery);
+      window.location = termsConditionsUrl;
     };
 
     if (!accountLevel) {
