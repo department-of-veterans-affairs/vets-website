@@ -49,7 +49,7 @@ If you received an other than honorable, bad conduct, or dishonorable character 
 <div id="apply-Veteran-card" class="usa-accordion-content">
 
 You can apply online now. <br>
-[Learn more about how to apply for a VIC](/types-of-veteran-ID-cards/vic/).
+[Learn more about how to apply for a VIC](/types-of-veteran-id-cards/vic/).
 
 </div>
 </li>
