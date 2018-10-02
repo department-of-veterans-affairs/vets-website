@@ -1,5 +1,6 @@
 import environment from '../../../../platform/utilities/environment';
 
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import {
@@ -10,11 +11,13 @@ import {
 import {
   hasGuardOrReservePeriod,
   getDisabilityName,
-  prefillTransformer
+  prefillTransformer,
+  hasVAEvidence
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
 import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
+import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
 import {
   alternateNames,
   servicePay,
@@ -28,8 +31,11 @@ import {
   contactInformation,
   addDisabilities,
   newDisabilityFollowUp,
+  vaMedicalRecords,
   paymentInformation,
-  homelessOrAtRisk,
+  evidenceTypes,
+  claimExamsInfo,
+  homelessOrAtRisk
 } from '../pages';
 
 import fullSchema from './schema';
@@ -67,6 +73,7 @@ const formConfig = {
   },
   title: 'Apply for disability compensation',
   subTitle: 'Form 21-526EZ',
+  preSubmitInfo,
   chapters: {
     veteranDetails: {
       title: (isReviewPage) => `${isReviewPage ? 'Review ' : ''}Veteran Details`,
@@ -179,6 +186,36 @@ const formConfig = {
           uiSchema: newDisabilityFollowUp.uiSchema,
           schema: newDisabilityFollowUp.schema
         },
+      }
+    },
+    supportingEvidence: {
+      title: 'Supporting Evidence',
+      pages: {
+        orientation: {
+          title: '',
+          path: 'supporting-evidence/orientation',
+          uiSchema: { 'ui:description': supportingEvidenceOrientation },
+          schema: { type: 'object', properties: {} }
+        },
+        evidenceTypes: {
+          title: 'Supporting evidence types',
+          path: 'supporting-evidence/evidence-types',
+          uiSchema: evidenceTypes.uiSchema,
+          schema: evidenceTypes.schema
+        },
+        vaMedicalRecords: {
+          title: 'VA Medical Records',
+          path: 'supporting-evidence/va-medical-records',
+          depends: hasVAEvidence,
+          uiSchema: vaMedicalRecords.uiSchema,
+          schema: vaMedicalRecords.schema
+        },
+        howClaimsWork: {
+          title: 'How claim exams work',
+          path: 'how-claim-exams-work',
+          uiSchema: claimExamsInfo.uiSchema,
+          schema: claimExamsInfo.schema
+        }
       }
     },
     additionalInformation: {

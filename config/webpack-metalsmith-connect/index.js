@@ -27,29 +27,43 @@ function getEntryPoints(buildOptions) {
   return getWebpackEntryPoints(manifestsToBuild);
 }
 
-function connectToMetalsmith(buildOptions, webpackMiddleware) {
-  const convertPathsMiddleware = convertPathsToRelative(buildOptions);
+function compileAssets(buildOptions) {
+  let compileMiddleware = null;
+  let convertPathsMiddleware = null;
+
   return (files, metalsmith, done) => {
-    webpackMiddleware(files, metalsmith, (err) => {
+    if (!compileMiddleware) {
+      const apps = getEntryPoints(buildOptions);
+      const webpackConfig = generateWebpackConfig(buildOptions, apps);
+      compileMiddleware = webpackPlugin(webpackConfig);
+      convertPathsMiddleware = convertPathsToRelative(buildOptions);
+    }
+
+    compileMiddleware(files, metalsmith, (err) => {
       if (err) throw err;
       convertPathsMiddleware(files, metalsmith, done);
     });
   };
 }
 
-function compileAssets(buildOptions) {
-  const apps = getEntryPoints(buildOptions);
-  const webpackConfig = generateWebpackConfig(buildOptions, apps);
-  const webpackMiddleware = webpackPlugin(webpackConfig);
-  return connectToMetalsmith(buildOptions, webpackMiddleware);
-}
-
 function watchAssets(buildOptions) {
-  const apps = getEntryPoints(buildOptions);
-  const webpackConfig = generateWebpackConfig(buildOptions, apps);
-  const webpackDevServerConfig = generateWebpackDevConfig(buildOptions, manifests);
-  const webpackMiddleware = webpackDevServerPlugin(webpackConfig, webpackDevServerConfig);
-  return connectToMetalsmith(buildOptions, webpackMiddleware);
+  let devServerMiddleware = null;
+  let convertPathsMiddleware = null;
+
+  return (files, metalsmith, done) => {
+    if (!devServerMiddleware) {
+      const apps = getEntryPoints(buildOptions);
+      const webpackConfig = generateWebpackConfig(buildOptions, apps);
+      const webpackDevServerConfig = generateWebpackDevConfig(buildOptions);
+      devServerMiddleware = webpackDevServerPlugin(webpackConfig, webpackDevServerConfig);
+      convertPathsMiddleware = convertPathsToRelative(buildOptions);
+    }
+
+    devServerMiddleware(files, metalsmith, (err) => {
+      if (err) throw err;
+      convertPathsMiddleware(files, metalsmith, done);
+    });
+  };
 }
 
 module.exports = {

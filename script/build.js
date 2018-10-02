@@ -1,6 +1,5 @@
 // Builds the site using Metalsmith as the top-level build runner.
 const Metalsmith = require('metalsmith');
-const archive = require('metalsmith-archive');
 const assets = require('metalsmith-assets');
 const collections = require('metalsmith-collections');
 const dateInFilename = require('metalsmith-date-in-filename');
@@ -51,16 +50,6 @@ smith.use(filenames());
 
 smith.use(collections(BUILD_OPTIONS.collections));
 smith.use(dateInFilename(true));
-smith.use(archive());  // TODO(awong): Can this be removed?
-
-if (BUILD_OPTIONS.watch) {
-  const watchPaths = { [`${BUILD_OPTIONS.contentRoot}/**/*`]: '**/*.{md,html}' };
-  const watchMetalSmith = watch({ paths: watchPaths, livereload: true });
-  smith.use(watchMetalSmith);
-  smith.use(webpackMetalsmithConnect.watchAssets(BUILD_OPTIONS));
-} else {
-  smith.use(webpackMetalsmithConnect.compileAssets(BUILD_OPTIONS));
-}
 
 smith.use(assets(BUILD_OPTIONS.assets));
 
@@ -119,36 +108,47 @@ smith.use(layouts({
   pattern: '**/*.{md,html}'
 }));
 
-// TODO(awong): This URL needs to change based on target environment.
-smith.use(sitemap({
-  hostname: 'https://www.vets.gov',
-  omitIndex: true
-}));
-
-if (!BUILD_OPTIONS.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
-  smith.use(checkBrokenLinks(BUILD_OPTIONS));
-}
-
-if (![environments.DEVELOPMENT, environments.VAGOVDEV].includes(BUILD_OPTIONS.buildtype)) {
-  smith.use(addAssetHashes(BUILD_OPTIONS));
-}
-
-// Pages can contain an "alias" property in their metadata, which is processed into
-// separate pages that will each redirect to the original page.
-smith.use(createRedirects(BUILD_OPTIONS));
-
 /*
 Add nonce attribute with substition string to all inline script tags
 Convert onclick event handles into nonced script tags
 */
 smith.use(nonceTransformer);
 
+// Create the data passed from the content build to the assets compiler.
+// On the server, it can be accessed at BUILD_OPTIONS.buildSettings.
+// In the browser, it can be accessed at window.settings.
+smith.use(createBuildSettings(BUILD_OPTIONS));
+
+if (BUILD_OPTIONS.watch) {
+  const watchPaths = { [`${BUILD_OPTIONS.contentRoot}/**/*`]: '**/*.{md,html}' };
+  const watchMetalSmith = watch({ paths: watchPaths, livereload: true });
+  smith.use(watchMetalSmith);
+  smith.use(webpackMetalsmithConnect.watchAssets(BUILD_OPTIONS));
+} else {
+  smith.use(webpackMetalsmithConnect.compileAssets(BUILD_OPTIONS));
+
+  const isDevBuild = [environments.DEVELOPMENT, environments.VAGOVDEV].includes(BUILD_OPTIONS.buildtype);
+  if (!isDevBuild) {
+    smith.use(addAssetHashes(BUILD_OPTIONS));
+  }
+
+  if (process.env.CHECK_BROKEN_LINKS !== 'no') {
+    smith.use(checkBrokenLinks(BUILD_OPTIONS));
+  }
+}
+
+smith.use(sitemap({
+  hostname: BUILD_OPTIONS.host === 'localhost' ? 'http://localhost' : BUILD_OPTIONS.host,
+  omitIndex: true
+}));
+
+// Pages can contain an "alias" property in their metadata, which is processed into
+// separate pages that will each redirect to the original page.
+smith.use(createRedirects(BUILD_OPTIONS));
+
 /* eslint-disable no-console */
 smith.build((err) => {
   if (err) throw err;
-
-  createBuildSettings(BUILD_OPTIONS);
-
   if (BUILD_OPTIONS.watch) {
     console.log('Metalsmith build finished!  Starting webpack-dev-server...');
   } else {

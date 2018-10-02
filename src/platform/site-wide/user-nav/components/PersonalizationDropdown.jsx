@@ -1,12 +1,13 @@
 import React from 'react';
 
 import { logout } from '../../../user/authentication/utilities';
-import dashboardManifest from '../../../../applications/personalization/dashboard/manifest.json';
+import dashboardManifest from '../../../../applications/personalization/dashboard/manifest';
 import recordEvent from '../../../../platform/monitoring/record-event';
-
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
 const LEFT_CLICK = 1;
 const dashboardLink = dashboardManifest.rootUrl;
+const brandConsolidationEnabled = isBrandConsolidationEnabled();
 
 function NewBadge() {
   return <span className="usa-label va-label-primary">New</span>;
@@ -14,11 +15,12 @@ function NewBadge() {
 
 class PersonalizationDropdown extends React.Component {
   componentDidMount() {
-    document.addEventListener('click', this.checkLink);
+    // remove checkLink function when refactoring out isBrandConsolidationEnabled
+    if (!brandConsolidationEnabled) { document.addEventListener('click', this.checkLink); }
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.checkLink);
+    if (!brandConsolidationEnabled) { document.removeEventListener('click', this.checkLink); }
   }
 
   checkLink = (event) => {
@@ -35,8 +37,16 @@ class PersonalizationDropdown extends React.Component {
   render() {
     return (
       <ul>
-        <li><a href="/profile" onClick={() => { recordEvent({ event: 'nav-user', 'nav-user-section': 'profile' });}}>Profile</a> <NewBadge/></li>
-        <li><a href="/account" onClick={() => { recordEvent({ event: 'nav-user', 'nav-user-section': 'account' });}}>Account</a> <NewBadge/></li>
+        {brandConsolidationEnabled && <li><a href="/my-va/">My VA</a></li>}
+        {brandConsolidationEnabled && <li><a href="https://www.myhealth.va.gov/mhv-portal-web/home" target="_blank">My Health</a></li>}
+        <li>
+          <a href="/profile" onClick={() => { recordEvent({ event: 'nav-user', 'nav-user-section': 'profile' }); }}>Profile</a>
+          {!brandConsolidationEnabled && <NewBadge/>}
+        </li>
+        <li>
+          <a href="/account" onClick={() => { recordEvent({ event: 'nav-user', 'nav-user-section': 'account' }); }}>Account</a>
+          {!brandConsolidationEnabled && <NewBadge/>}
+        </li>
         <li><a href="#" onClick={logout}>Sign Out</a></li>
       </ul>
     );

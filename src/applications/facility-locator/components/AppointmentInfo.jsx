@@ -82,6 +82,7 @@ export default class AppointmentInfo extends Component {
       };
 
       const seeMoreClasses = classNames({
+        'va-button-link': true,
         seeMore: true,
         expanded: this.state[showHideKey],
       });
@@ -101,7 +102,14 @@ export default class AppointmentInfo extends Component {
           return renderStat(startCase(k.replace(/([A-Z])/g, ' $1')), healthAccessAttrs[k][existing ? 'established' : 'new'], true);
         }),
         (lastToEnd.length > 0) && renderMoreTimes(),
-        <li key="show-more" className="show-more"><a onClick={onClick} className={seeMoreClasses}>See {this.state[showHideKey] ? 'less' : 'more'}</a></li>
+        <li key="show-more" className="show-more">
+          <button
+            onClick={onClick}
+            className={seeMoreClasses}
+            aria-expanded={this.state[showHideKey] ? 'true' : 'false'}>
+            See {this.state[showHideKey] ? 'less' : 'more'}
+          </button>
+        </li>
       ];
     };
 

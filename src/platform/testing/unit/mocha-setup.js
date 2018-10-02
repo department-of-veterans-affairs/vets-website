@@ -30,6 +30,7 @@ export default function setupJSDom() {
   // get the window object out of the document
   const win = dom.window;
 
+  global.dom = dom;
   global.document = win.document;
   global.window = win;
 

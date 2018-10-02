@@ -4,7 +4,11 @@ import * as VET360_CONSTANTS from '../constants';
 export function isVet360Configured() {
   return [
     'staging.vets.gov',
-    'www.vets.gov'
+    'www.vets.gov',
+    'preview.va.gov',
+    'staging.va.gov',
+    'va.gov',
+    'www.va.gov'
   ].includes(document.location.hostname);
 }
 

@@ -1,0 +1,27 @@
+{% include "va-gov/includes/header.html" %}
+
+{% if gibsAlert %}
+  {% include "va-gov/includes/gibs-down.html" %}
+{% endif %}
+
+{% include "va-gov/includes/breadcrumbs.html" %}
+
+<div id="content" class="interior {{ id }}">
+
+  {% case template %}
+    {% when 'level2-index' %}
+      {% include "va-gov/includes/level2-index.html" %}
+
+    {% when 'detail-page' %}
+      {% include "va-gov/includes/detail-page.html" %}
+
+    {% when 'topic-landing' %}
+      {% include "va-gov/includes/topic-landing.html" %}
+    {% when 'level2-index' %}
+      {% include "va-gov/includes/level2-index.html" %}
+  {% else %}
+    {{ contents }}
+  {% endcase %}
+
+</div>
+{% include "va-gov/includes/footer.html" %}

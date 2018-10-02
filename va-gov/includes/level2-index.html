@@ -1,0 +1,57 @@
+{% comment %}
+=====================
+Level 2 Index (Merger)
+=====================
+
+Used for index pages in top-level paths (e.g. /healthcare/index.html)
+
+{% endcomment %}
+
+<main>
+  <div class="usa-grid">
+    <article class="usa-width-two-thirds">
+      <div class="inline hub-main-icon">
+        <i class="icon-large fa fa-{{icon}}"></i>
+      </div>
+      <div class="inline hub-main-title">
+        <h1>
+          {{ title }}
+        </h1>
+      </div>
+      {{ contents }}
+
+      {% if crosslinks != empty %}
+        {% include "va-gov/components/merger-crosslinks.html" %}
+      {% endif %}
+
+    </article>
+
+    <div class="usa-width-one-third" id="hub-rail">
+
+      {% if administration != empty %}
+        {% include "va-gov/components/merger-administration.html" %}
+      {% endif %}
+
+      {% if promo != empty %}
+        {% include "va-gov/components/merger-promo.html" %}
+      {% endif %}
+
+      {% if social != empty %}
+        {% include "va-gov/components/merger-social.html" %}
+      {% endif %}
+
+      {% if mobile != empty %}
+        {% include "va-gov/components/merger-mobile.html" %}
+      {% endif %}
+
+    </div>
+
+  </div>
+
+  <section id="homepage-hero">
+    <div class="usa-grid">
+      <img src="/img/homepage/veterans-blue.png" width=728 height=155/>
+    </div>
+  </section>
+   {% include "va-gov/includes/social-accordion.html" %}
+</main>

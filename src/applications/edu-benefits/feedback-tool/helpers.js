@@ -6,12 +6,11 @@ import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 import dataUtils from '../../../platform/utilities/data/index';
 import { apiRequest } from '../../../platform/utilities/api';
-import environment from '../../../platform/utilities/environment';
 import recordEvent from '../../../platform/monitoring/record-event';
-import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 
-import { trackingPrefix } from './config/form';
 import UserInteractionRecorder from '../components/UserInteractionRecorder';
+
+export const trackingPrefix = 'edu-feedback-tool-';
 
 const { get } = dataUtils;
 const domesticSchoolAddressFields = get(
@@ -69,26 +68,13 @@ export function transform(formConfig, form) {
 }
 
 function checkStatus(guid) {
-  const userToken = conditionalStorage().getItem('userToken');
-  const headers = {
-    'Content-Type': 'application/json',
-    'X-Key-Inflection': 'camel',
-  };
+  const headers = { 'Content-Type': 'application/json' };
 
-  if (userToken) {
-    headers.Authorization = `Token token=${userToken}`;
-  }
-  return fetch(`${environment.API_URL}/v0/gi_bill_feedbacks/${guid}`, {
-    headers
-  })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject(res);
-    })
-    .catch(res => {
+  return apiRequest(
+    `/gi_bill_feedbacks/${guid}`,
+    { headers },
+    null,
+    res => {
       if (res instanceof Error) {
         Raven.captureException(res);
         Raven.captureMessage('vets_gi_bill_feedbacks_poll_client_error');
@@ -101,7 +87,8 @@ function checkStatus(guid) {
 
       // if we get here, it's likely that we hit a server error
       return Promise.reject(res);
-    });
+    }
+  );
 }
 
 const POLLING_INTERVAL = 1000;
@@ -125,10 +112,7 @@ function pollStatus(guid, onDone, onError) {
 }
 
 export function submit(form, formConfig) {
-  const headers = {
-    'Content-Type': 'application/json'
-  };
-
+  const headers = { 'Content-Type': 'application/json' };
   const body = transform(formConfig, form);
   const apiRequestOptions = {
     method: 'POST',
@@ -245,6 +229,25 @@ export function issueUIDescription({ formContext }) {
   return null;
 }
 
+/**
+ * Checks the values of an object's properties and completely removes the
+ * property if its value is an empty string. Immutable and shallow.
+ *
+ * @param {Object} obj - the object to strip properties off of
+ * @returns {Object} - the object without top-level properties that were empty
+ * strings
+ */
+export function removeEmptyStringProperties(obj) {
+  const cleanObject = { ...obj };
+  Object.keys(cleanObject).forEach(key => {
+    const value = cleanObject[key];
+    if (typeof value === 'string' && value.trim() === '') {
+      delete cleanObject[key];
+    }
+  });
+  return cleanObject;
+}
+
 /*
  * A helper that takes data from the SchoolSelectField back end and transforms
  * it to a valid format as specified by the FEEDBACK-TOOL's
@@ -256,8 +259,9 @@ export function issueUIDescription({ formContext }) {
  */
 export function transformSearchToolAddress({ address1, address2, address3, city, country, state, zip }) {
   const isDomesticAddress = country === 'USA';
+  let address = {};
   if (isDomesticAddress) {
-    return {
+    address = {
       country: 'United States',
       street: address1 && address1.slice(0, domesticSchoolAddressFields.street.maxLength),
       street2: address2 && address2.slice(0, domesticSchoolAddressFields.street2.maxLength),
@@ -266,16 +270,18 @@ export function transformSearchToolAddress({ address1, address2, address3, city,
       state: state && state.slice(0, domesticSchoolAddressFields.state.maxLength),
       postalCode: zip && zip.slice(0, domesticSchoolAddressFields.postalCode.maxLength),
     };
+  } else {
+    address = {
+      country,
+      street: address1 && address1.slice(0, searchToolSchoolAddressFields.street.maxLength),
+      street2: address2 && address2.slice(0, searchToolSchoolAddressFields.street2.maxLength),
+      street3: address3 && address3.slice(0, searchToolSchoolAddressFields.street3.maxLength),
+      city: city && city.slice(0, searchToolSchoolAddressFields.city.maxLength),
+      state: state && state.slice(0, searchToolSchoolAddressFields.state.maxLength),
+      postalCode: zip && zip.slice(0, searchToolSchoolAddressFields.postalCode.maxLength),
+    };
   }
-  return {
-    country,
-    street: address1 && address1.slice(0, searchToolSchoolAddressFields.street.maxLength),
-    street2: address2 && address2.slice(0, searchToolSchoolAddressFields.street2.maxLength),
-    street3: address3 && address3.slice(0, searchToolSchoolAddressFields.street3.maxLength),
-    city: city && city.slice(0, searchToolSchoolAddressFields.city.maxLength),
-    state: state && state.slice(0, searchToolSchoolAddressFields.state.maxLength),
-    postalCode: zip && zip.slice(0, searchToolSchoolAddressFields.postalCode.maxLength),
-  };
+  return removeEmptyStringProperties(address);
 }
 
 function addPrefilledFlagsToFormData(formData) {

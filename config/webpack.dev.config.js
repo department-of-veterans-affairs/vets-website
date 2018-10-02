@@ -1,9 +1,10 @@
-const {
-  getRoutes
-} = require('./manifest-helpers');
+const appSettings = require('./parse-app-settings');
 
-function generateWebpackDevConfig(buildOptions, manifests) {
-  const appRewrites = getRoutes(manifests).map(url => {
+function generateWebpackDevConfig(buildOptions) {
+  appSettings.parseFromBuildOptions(buildOptions);
+
+  const routes = appSettings.getAllApplicationRoutes();
+  const appRewrites = routes.map(url => {
     return {
       from: `^${url}(.*)`,
       to: `${url}/`
@@ -36,6 +37,15 @@ function generateWebpackDevConfig(buildOptions, manifests) {
       children: false,
       modules: false,
       warnings: true
+    },
+    before: (app) => {
+      // We're doing this because some of the pages
+      // that we are redirecting end with asp and we want
+      // those to be treated as html
+      app.use(/.*\.asp/, (req, res, next) => {
+        res.type('html');
+        next();
+      });
     }
   };
 

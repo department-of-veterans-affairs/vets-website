@@ -1,5 +1,5 @@
 const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
-const manifest = require('../../feedback-tool/manifest.json');
+const manifest = require('../../feedback-tool/manifest');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('./feedback-tool-helpers');
 const testData = require('./schema/maximal-test.json');
@@ -70,7 +70,7 @@ module.exports = E2eHelpers.createE2eTest((client) => {
 
   // Review and submit page
   client
-    .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
+    .waitForElementVisible('label[name="privacyAgreementAccepted-label"]', Timeouts.slow)
     .pause(1000)
     .click('input[type="checkbox"]')
     .axeCheck('.main')
@@ -86,4 +86,4 @@ module.exports = E2eHelpers.createE2eTest((client) => {
   client.end();
 });
 
-module.exports['@disabled'] = !manifest.production;
+module.exports['@disabled'] = manifest.e2eTestsDisabled;
