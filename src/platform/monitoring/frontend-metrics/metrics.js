@@ -76,7 +76,7 @@ export function buildMetricsPayload(entry) {
 /**
  * Sends a payload via beacon. Asynchronously transmits data to the web server
  * when the User-Agent has an opportunity to do so, without delaying the unload event
- * of affecting the performance of the next navigation.
+ * or affecting the performance of the next navigation.
  *
  * @returns {boolean}
  * @see: https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon
