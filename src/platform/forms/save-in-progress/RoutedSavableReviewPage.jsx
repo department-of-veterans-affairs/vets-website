@@ -9,6 +9,7 @@ import debounce from '../../utilities/data/debounce';
 import ReviewChapters from 'us-forms-system/lib/js/review/ReviewChapters';
 import SubmitController from 'us-forms-system/lib/js/review/SubmitController';
 
+import isBrandConsolidationEnabled from '../../brand-consolidation/feature-flag';
 import DowntimeNotification, { externalServiceStatus } from '../../monitoring/DowntimeNotification';
 import get from '../../utilities/data/get';
 import { focusElement } from '../../utilities/ui';
@@ -23,6 +24,7 @@ import {
 import { getFormContext } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
 
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
@@ -79,7 +81,7 @@ class RoutedSavableReviewPage extends React.Component {
     } else if (typeof errorText === 'string') {
       InlineErrorComponent = () => <p>{errorText}</p>;
     } else {
-      InlineErrorComponent = () => <p>If it still doesn’t work, please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>. We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>;
+      InlineErrorComponent = () => <p>If it still doesn’t work, please call the {propertyName} Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>. We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>;
     }
 
     return (
