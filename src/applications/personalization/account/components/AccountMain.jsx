@@ -72,7 +72,7 @@ class AccountMain extends React.Component {
         <AccountVerification loa={loa}/>
         {this.renderMVIError()}
         <MultifactorMessage multifactor={multifactor}/>
-        {isBrandConsolidationEnabled &&
+        {isBrandConsolidationEnabled() &&
           <div>
             <div>
               <h3>Sign in settings</h3>
