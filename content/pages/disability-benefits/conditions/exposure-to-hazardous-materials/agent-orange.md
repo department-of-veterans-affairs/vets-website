@@ -98,7 +98,7 @@ When you file your claim, you'll need to submit this evidence:
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="illness-not-on-list">View the evidence requirements</button>
 <div id="illness-not-on-list" class="usa-accordion-content">
   
-When you file your claim, you'll need to submit:
+When you file your claim, you'll need to submit this evidence:
 - A medical record showing your current disability, **and**
 - A medical record showing a connection between exposure to Agent Orange and the current disability, **and**
 - Evidence that proves either:
