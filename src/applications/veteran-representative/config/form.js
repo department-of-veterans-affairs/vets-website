@@ -2,6 +2,7 @@ import fullSchema from '../2122-schema.json';
 import _ from 'lodash/fp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
 
 import fullNameUI from '../../../platform/forms/definitions/fullName';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
@@ -64,6 +65,7 @@ const formConfig = {
     address,
     vaFileNumber,
   },
+  preSubmitInfo,
   chapters: {
     veteranInformation: {
       title: 'Veteran Information',

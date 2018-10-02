@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { logout } from '../../../user/authentication/utilities';
-import dashboardManifest from '../../../../applications/personalization/dashboard/manifest.json';
+import dashboardManifest from '../../../../applications/personalization/dashboard/manifest';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
@@ -15,11 +15,16 @@ function NewBadge() {
 
 class PersonalizationDropdown extends React.Component {
   componentDidMount() {
-    document.addEventListener('click', this.checkLink);
+    // remove checkLink function when refactoring out isBrandConsolidationEnabled
+    if (!brandConsolidationEnabled) {
+      document.addEventListener('click', this.checkLink);
+    }
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.checkLink);
+    if (!brandConsolidationEnabled) {
+      document.removeEventListener('click', this.checkLink);
+    }
   }
 
   checkLink = event => {
@@ -39,12 +44,15 @@ class PersonalizationDropdown extends React.Component {
       <ul>
         {brandConsolidationEnabled && (
           <li>
-            <a href="/dashboard/">My VA</a>
+            <a href="/my-va/">My VA</a>
           </li>
         )}
         {brandConsolidationEnabled && (
           <li>
-            <a href="https://www.myhealth.va.gov/mhv-portal-web/home">
+            <a
+              href="https://www.myhealth.va.gov/mhv-portal-web/home"
+              target="_blank"
+            >
               My Health
             </a>
           </li>
@@ -57,8 +65,8 @@ class PersonalizationDropdown extends React.Component {
             }}
           >
             Profile
-          </a>{' '}
-          <NewBadge />
+          </a>
+          {!brandConsolidationEnabled && <NewBadge />}
         </li>
         <li>
           <a
@@ -68,8 +76,8 @@ class PersonalizationDropdown extends React.Component {
             }}
           >
             Account
-          </a>{' '}
-          <NewBadge />
+          </a>
+          {!brandConsolidationEnabled && <NewBadge />}
         </li>
         <li>
           <a href="#" onClick={logout}>

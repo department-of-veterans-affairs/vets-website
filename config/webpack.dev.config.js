@@ -43,6 +43,15 @@ function generateWebpackDevConfig(buildOptions) {
       modules: false,
       warnings: true,
     },
+    before: app => {
+      // We're doing this because some of the pages
+      // that we are redirecting end with asp and we want
+      // those to be treated as html
+      app.use(/.*\.asp/, (req, res, next) => {
+        res.type('html');
+        next();
+      });
+    },
   };
 
   // Route all API requests through webpack's node-http-proxy

@@ -62,3 +62,63 @@ export function validateMilitaryState(
     errors.addError('State must be AA, AE, or AP when using a military city');
   }
 }
+
+export function validateMilitaryTreatmentCity(
+  errors,
+  city,
+  formData,
+  schema,
+  messages,
+  index,
+) {
+  const isMilitaryState = MILITARY_STATE_VALUES.includes(
+    _.get(
+      `vaTreatmentFacilities[${index}].treatmentCenterAddress.state`,
+      formData,
+      '',
+    ),
+  );
+  const isMilitaryCity = MILITARY_CITIES.includes(city.trim().toUpperCase());
+  if (isMilitaryState && !isMilitaryCity) {
+    errors.addError(
+      'City must match APO, DPO, or FPO when using a military state code',
+    );
+  }
+}
+
+export function validateMilitaryTreatmentState(
+  errors,
+  state,
+  formData,
+  schema,
+  messages,
+  index,
+) {
+  const isMilitaryCity = MILITARY_CITIES.includes(
+    _.get(
+      `vaTreatmentFacilities[${index}].treatmentCenterAddress.city`,
+      formData,
+      '',
+    )
+      .trim()
+      .toUpperCase(),
+  );
+  const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
+  if (isMilitaryCity && !isMilitaryState) {
+    errors.addError('State must be AA, AE, or AP when using a military city');
+  }
+}
+export const validateIfHasEvidence = (
+  errors,
+  fieldData,
+  formData,
+  schema,
+  messages,
+  options,
+  index,
+) => {
+  const { wrappedValidator } = options;
+  if (_.get('view:hasEvidence', formData, true)) {
+    wrappedValidator(errors, fieldData, formData, schema, messages, index);
+  }
+};

@@ -1,5 +1,8 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 export default function IdentityVerification({
   learnMoreClick,
@@ -21,7 +24,9 @@ export default function IdentityVerification({
 
       <div>
         <div onClick={learnMoreClick}>
-          <AdditionalInfo triggerText="How will Vets.gov verify my identity?">
+          <AdditionalInfo
+            triggerText={`How will ${propertyName} verify my identity?`}
+          >
             <p>
               We use ID.me, our Veteran-owned technology partner that provides
               the strongest identity verification system available to prevent
@@ -71,7 +76,7 @@ export default function IdentityVerification({
           </a>
         </p>
         <p>
-          Or call the Vets.gov Help Desk at{' '}
+          Or call the {propertyName} Help Desk at{' '}
           <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
           <a href="tel:18008778339">1-800-877-8339</a>
           ). We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)

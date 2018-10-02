@@ -5,6 +5,7 @@ import applicantInformation from '../../../../platform/forms/pages/applicantInfo
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import applicantServicePage from '../../pages/applicantService';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
@@ -56,6 +57,7 @@ const formConfig = {
   },
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5495',
+  preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   chapters: {

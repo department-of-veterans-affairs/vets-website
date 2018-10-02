@@ -10,6 +10,7 @@ import * as address from '../../../../platform/forms/definitions/address';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
 import educationTypeUISchema from '../../definitions/educationType';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
@@ -64,6 +65,7 @@ const formConfig = {
   },
   title: 'Update your education benefits',
   subTitle: 'Form 22-1995',
+  preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   chapters: {

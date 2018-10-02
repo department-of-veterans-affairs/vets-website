@@ -8,6 +8,7 @@ import { externalServices } from '../../../platform/monitoring/DowntimeNotificat
 import FormFooter from '../../../platform/forms/components/FormFooter';
 import environment from '../../../platform/utilities/environment';
 import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
+import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
 
 import * as address from '../../../platform/forms/definitions/address';
 import bankAccountUI from '../../../platform/forms/definitions/bankAccount';
@@ -207,6 +208,7 @@ const formConfig = {
   },
   title: 'Apply for pension benefits',
   subTitle: 'Form 21P-527EZ',
+  preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {

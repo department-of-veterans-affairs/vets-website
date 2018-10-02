@@ -5,6 +5,7 @@ import startSitewideComponents from '../../platform/site-wide';
 
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
+import createMyVALoginWidget from './createMyVALoginWidget';
 import createDisabilityIncreaseApplicationStatus from '../disability-benefits/526EZ/components/createDisabilityIncreaseApplicationStatus';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
@@ -122,4 +123,9 @@ if (disabilityPages.has(location.pathname) && __BUILDTYPE__ !== 'production') {
 
 if (location.pathname === '/disability-benefits/increase-claims-testing/') {
   create526EmailForm(store);
+}
+
+// homepage widgets
+if (location.pathname === '/') {
+  createMyVALoginWidget(store);
 }

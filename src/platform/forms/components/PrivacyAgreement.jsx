@@ -12,7 +12,7 @@ export default function PrivacyAgreement({ onChange, checked, showError }) {
         name="privacyAgreement"
         errorMessage={
           showError && !checked
-            ? 'You must accept the privacy policy before continuing'
+            ? 'You must accept the privacy policy before continuing.'
             : undefined
         }
         label={

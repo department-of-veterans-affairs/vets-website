@@ -10,6 +10,9 @@ import AccountVerification from './AccountVerification';
 import LoginSettings from './LoginSettings';
 import MultifactorMessage from './MultifactorMessage';
 import TermsAndConditions from './TermsAndConditions';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 class AccountMain extends React.Component {
   constructor(props) {
@@ -54,9 +57,9 @@ class AccountMain extends React.Component {
               your health and benefits.
             </p>
             <p>
-              If you’d like to use these tools on Vets.gov, please contact your
-              nearest VA medical center. Let them know you need to verify the
-              information in your records, and update it as needed. The
+              If you’d like to use these tools on {propertyName}, please contact
+              your nearest VA medical center. Let them know you need to verify
+              the information in your records, and update it as needed. The
               operator, or a patient advocate, can connect you with the right
               person who can help.
             </p>
@@ -93,14 +96,38 @@ class AccountMain extends React.Component {
         <AccountVerification loa={loa} />
         {this.renderMVIError()}
         <MultifactorMessage multifactor={multifactor} />
+        {isBrandConsolidationEnabled && (
+          <div>
+            <div>
+              <h4>DS Login</h4>
+              <a
+                href="https://myaccess.dmdc.osd.mil/identitymanagement"
+                target="_blank"
+              >
+                Manage your DS Logon account
+              </a>
+            </div>
+            <div>
+              <h4>
+                MyHealth
+                <i>e</i>
+                Vet
+              </h4>
+              <a href="https://www.myhealth.va.gov" target="_blank">
+                Manage your MyHealth
+                <i>e</i>
+                Vet account
+              </a>
+            </div>
+          </div>
+        )}
         <LoginSettings />
         {verified && <TermsAndConditions mhvAccount={mhvAccount} />}
-        <h4>Have questions about signing in to Vets.gov?</h4>
+        <h4>Have questions about signing in to {propertyName}?</h4>
         <p>
           Get answers to frequently asked questions about how to sign in, common
-          issues with verifying your identity, and your privacy and security on
-          Vets.gov.
-          <br />
+          issues with verifying your identity, and your privacy and security on{' '}
+          {propertyName}.<br />
           <a
             href="/faq"
             onClick={() =>
@@ -111,7 +138,7 @@ class AccountMain extends React.Component {
               })
             }
           >
-            Go to Vets.gov FAQs
+            Go to {propertyName} FAQs
           </a>
         </p>
       </div>

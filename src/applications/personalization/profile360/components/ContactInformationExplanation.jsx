@@ -1,6 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
 import recordEvent from '../../../../platform/monitoring/record-event';
 
@@ -16,19 +17,23 @@ export default function ContactInformationExplanation() {
             program, your health care team may also use this information to
             communicate with you.
           </p>
-          <a
-            href="/health-care/"
-            onClick={() => {
-              recordEvent({
-                event: 'profile-navigation',
-                'profile-action': 'view-link',
-                'profile-section': 'learn-more-va-benefits',
-              });
-            }}
-          >
-            Learn more about VA health benefits
-          </a>
-          .
+          {!isBrandConsolidationEnabled() && (
+            <span>
+              <a
+                href="/health-care/"
+                onClick={() => {
+                  recordEvent({
+                    event: 'profile-navigation',
+                    'profile-action': 'view-link',
+                    'profile-section': 'learn-more-va-benefits',
+                  });
+                }}
+              >
+                Learn more about VA health benefits
+              </a>
+              .
+            </span>
+          )}
         </AlertBox>
       </div>
       <AdditionalInfo

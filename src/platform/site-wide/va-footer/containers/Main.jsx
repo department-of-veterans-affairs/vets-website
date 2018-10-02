@@ -3,6 +3,22 @@ import groupBy from 'lodash/groupBy';
 import orderBy from 'lodash/orderBy';
 import links from '../../../static-data/footer-links.json';
 import { isWideScreen, isEnter } from '../../../utilities/accessibility/index';
+import recordEvent from '../../../monitoring/record-event';
+
+const FOOTER_COLUMNS = {
+  PROGRAMS: '1',
+  RESOURCES: '2',
+  CONNECT: '3',
+  CONTACT: '4',
+};
+
+const FOOTER_EVENTS = {
+  [FOOTER_COLUMNS.PROGRAMS]: 'nav-footer-programs',
+  [FOOTER_COLUMNS.RESOURCES]: 'nav-footer-resources',
+  [FOOTER_COLUMNS.CONNECT]: 'nav-footer-connect',
+  [FOOTER_COLUMNS.CONTACT]: 'nav-footer-contact',
+  CRISIS_LINE: 'nav-footer-crisis',
+};
 
 export class Main extends React.Component {
   constructor(props) {
@@ -26,19 +42,24 @@ export class Main extends React.Component {
     });
   }
   openModal = () => {
+    recordEvent({ event: FOOTER_EVENTS.CRISIS_LINE });
     this.setState({ modalOpen: true });
   };
-  generateLinkItems = (column, direction = 'asc') => (
-    <ul className="va-footer-links">
-      {orderBy(this.linkObj[column], 'order', direction).map(link => (
-        <li key={`${link.column}-${link.order}`}>
-          <a href={link.href} target={link.target}>
-            {link.title}
-          </a>
-        </li>
-      ))}
-    </ul>
-  );
+
+  generateLinkItems = (column, direction = 'asc') => {
+    const captureEvent = () => recordEvent({ event: FOOTER_EVENTS[column] });
+    return (
+      <ul className="va-footer-links">
+        {orderBy(this.linkObj[column], 'order', direction).map(link => (
+          <li key={`${link.column}-${link.order}`}>
+            <a href={link.href} onClick={captureEvent} target={link.target}>
+              {link.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    );
+  };
   handleKeyPress = e => {
     if (isEnter(e)) {
       this.openModal();
@@ -120,7 +141,7 @@ export class Main extends React.Component {
             id="veteran-contact"
             aria-hidden="true"
           >
-            {this.generateLinkItems('4')}
+            {this.generateLinkItems(FOOTER_COLUMNS.CONTACT)}
           </li>
         </ul>,
       ];
@@ -147,7 +168,7 @@ export class Main extends React.Component {
           <h4 className="va-footer-linkgroup-title">Contact Us</h4>
         </li>
         <li id="veteran-contact" aria-hidden="true">
-          {this.generateLinkItems('4')}
+          {this.generateLinkItems(FOOTER_COLUMNS.CONTACT)}
         </li>
       </ul>
     );
@@ -248,7 +269,7 @@ export class Main extends React.Component {
                 id="veteran-programs"
                 aria-hidden="true"
               >
-                {this.generateLinkItems('1')}
+                {this.generateLinkItems(FOOTER_COLUMNS.PROGRAMS)}
               </li>
             </ul>
             <ul className={className} id="footer-services">
@@ -270,7 +291,7 @@ export class Main extends React.Component {
                 id="veteran-resources"
                 aria-hidden="true"
               >
-                {this.generateLinkItems('2')}
+                {this.generateLinkItems(FOOTER_COLUMNS.RESOURCES)}
               </li>
             </ul>
             <ul className={className} id="footer-popular">
@@ -293,7 +314,7 @@ export class Main extends React.Component {
                 id="veteran-connect"
                 aria-hidden="true"
               >
-                {this.generateLinkItems('3')}
+                {this.generateLinkItems(FOOTER_COLUMNS.CONNECT)}
               </li>
             </ul>
             {contactVCL}

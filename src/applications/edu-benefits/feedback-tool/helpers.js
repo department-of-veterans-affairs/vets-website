@@ -282,6 +282,25 @@ export function issueUIDescription({ formContext }) {
   return null;
 }
 
+/**
+ * Checks the values of an object's properties and completely removes the
+ * property if its value is an empty string. Immutable and shallow.
+ *
+ * @param {Object} obj - the object to strip properties off of
+ * @returns {Object} - the object without top-level properties that were empty
+ * strings
+ */
+export function removeEmptyStringProperties(obj) {
+  const cleanObject = { ...obj };
+  Object.keys(cleanObject).forEach(key => {
+    const value = cleanObject[key];
+    if (typeof value === 'string' && value.trim() === '') {
+      delete cleanObject[key];
+    }
+  });
+  return cleanObject;
+}
+
 /*
  * A helper that takes data from the SchoolSelectField back end and transforms
  * it to a valid format as specified by the FEEDBACK-TOOL's
@@ -301,8 +320,9 @@ export function transformSearchToolAddress({
   zip,
 }) {
   const isDomesticAddress = country === 'USA';
+  let address = {};
   if (isDomesticAddress) {
-    return {
+    address = {
       country: 'United States',
       street:
         address1 &&
@@ -319,24 +339,26 @@ export function transformSearchToolAddress({
       postalCode:
         zip && zip.slice(0, domesticSchoolAddressFields.postalCode.maxLength),
     };
+  } else {
+    address = {
+      country,
+      street:
+        address1 &&
+        address1.slice(0, searchToolSchoolAddressFields.street.maxLength),
+      street2:
+        address2 &&
+        address2.slice(0, searchToolSchoolAddressFields.street2.maxLength),
+      street3:
+        address3 &&
+        address3.slice(0, searchToolSchoolAddressFields.street3.maxLength),
+      city: city && city.slice(0, searchToolSchoolAddressFields.city.maxLength),
+      state:
+        state && state.slice(0, searchToolSchoolAddressFields.state.maxLength),
+      postalCode:
+        zip && zip.slice(0, searchToolSchoolAddressFields.postalCode.maxLength),
+    };
   }
-  return {
-    country,
-    street:
-      address1 &&
-      address1.slice(0, searchToolSchoolAddressFields.street.maxLength),
-    street2:
-      address2 &&
-      address2.slice(0, searchToolSchoolAddressFields.street2.maxLength),
-    street3:
-      address3 &&
-      address3.slice(0, searchToolSchoolAddressFields.street3.maxLength),
-    city: city && city.slice(0, searchToolSchoolAddressFields.city.maxLength),
-    state:
-      state && state.slice(0, searchToolSchoolAddressFields.state.maxLength),
-    postalCode:
-      zip && zip.slice(0, searchToolSchoolAddressFields.postalCode.maxLength),
-  };
+  return removeEmptyStringProperties(address);
 }
 
 function addPrefilledFlagsToFormData(formData) {

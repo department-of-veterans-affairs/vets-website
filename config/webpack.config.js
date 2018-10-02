@@ -11,13 +11,20 @@ require('babel-polyfill');
 
 const timestamp = new Date().getTime();
 
+const getAbsolutePath = relativePath =>
+  path.join(__dirname, '../', relativePath);
+
 const globalEntryFiles = {
-  styleConsolidated: './src/platform/site-wide/sass/style-consolidated.scss',
-  style: './src/platform/site-wide/sass/style.scss',
-  polyfills: './src/platform/polyfills/preESModulesPolyfills.js',
-  brandConsolidation: './src/platform/site-wide/sass/brand-consolidation.scss',
+  styleConsolidated: getAbsolutePath(
+    'src/platform/site-wide/sass/style-consolidated.scss',
+  ),
+  style: getAbsolutePath('src/platform/site-wide/sass/style.scss'),
+  polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
+  brandConsolidation: getAbsolutePath(
+    'src/platform/site-wide/sass/brand-consolidation.scss',
+  ),
   vendor: [
-    './src/platform/polyfills',
+    getAbsolutePath('src/platform/polyfills'),
     'react',
     'react-dom',
     'react-redux',

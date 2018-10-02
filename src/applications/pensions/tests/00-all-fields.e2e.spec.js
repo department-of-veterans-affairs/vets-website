@@ -631,7 +631,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // Review and Submit page
   client
     .waitForElementVisible(
-      'label[name="privacyAgreement-label"]',
+      'label[name="privacyAgreementAccepted-label"]',
       Timeouts.slow,
     )
     .pause(1000)

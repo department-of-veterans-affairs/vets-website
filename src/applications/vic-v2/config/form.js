@@ -12,6 +12,7 @@ import asyncLoader from '../../../platform/utilities/ui/asyncLoader';
 import DD214Description from '../components/DD214Description';
 import PhotoDescription from '../components/PhotoDescription';
 import { prefillTransformer, submit, identityMatchesPrefill } from '../helpers';
+import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
 
 import fullNameUI from '../../../platform/forms/definitions/fullName';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
@@ -60,6 +61,7 @@ const formConfig = {
     fullName,
     date,
   },
+  preSubmitInfo,
   chapters: {
     veteranInformation: {
       title: 'Veteran Information',

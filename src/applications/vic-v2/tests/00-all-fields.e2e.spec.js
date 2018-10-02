@@ -148,7 +148,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   //
   // // Review and Submit Page.
   // client
-  //   .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow);
+  //   .waitForElementVisible('label[name="privacyAgreementAccepted-label"]', Timeouts.slow);
   // client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(4)', 'progress-segment-complete');
   // client.axeCheck('.main');
   // client.click('button[aria-controls="collapsible-11"]');
@@ -205,3 +205,4 @@ const runTest = E2eHelpers.createE2eTest(client => {
 });
 
 module.exports = runTest;
+module.exports['@disabled'] = true;

@@ -12,6 +12,7 @@ import GetFormHelp from '../../components/GetFormHelp';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
 import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
 
@@ -48,6 +49,7 @@ const formConfig = {
   title:
     'Apply for education benefits under the National Call to Service program',
   subTitle: 'Form 22-1990N',
+  preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   chapters: {

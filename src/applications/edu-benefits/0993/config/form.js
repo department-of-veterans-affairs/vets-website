@@ -9,6 +9,7 @@ import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillM
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 
 import GetFormHelp from '../../components/GetFormHelp';
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -40,6 +41,7 @@ const formConfig = {
   transformForSubmit: transform,
   title: 'Opt Out of Sharing VA Education Benefits Information',
   subTitle: 'VA Form 22-0993',
+  preSubmitInfo,
   getHelp: GetFormHelp,
   footerContent: FormFooter,
   defaultDefinitions: {

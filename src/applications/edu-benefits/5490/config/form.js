@@ -30,6 +30,7 @@ import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import * as personId from '../../../../platform/forms/definitions/personId';
 import dateRangeUi from 'us-forms-system/lib/js/definitions/dateRange';
 import fullNameUi from '../../../../platform/forms/definitions/fullName';
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
@@ -97,6 +98,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   title: 'Apply for education benefits as an eligible dependent',
   subTitle: 'Form 22-5490',
+  preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {

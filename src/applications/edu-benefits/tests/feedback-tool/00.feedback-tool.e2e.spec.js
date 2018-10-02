@@ -90,7 +90,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Review and submit page
   client
     .waitForElementVisible(
-      'label[name="privacyAgreement-label"]',
+      'label[name="privacyAgreementAccepted-label"]',
       Timeouts.slow,
     )
     .pause(1000)

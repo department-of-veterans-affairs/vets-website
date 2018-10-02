@@ -33,7 +33,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   E2eHelpers.expectNavigateAwayFrom(client, '/claimant-information');
   client
     .waitForElementVisible(
-      'label[name="privacyAgreement-label"]',
+      'label[name="privacyAgreementAccepted-label"]',
       Timeouts.slow,
     )
     .pause(1000)

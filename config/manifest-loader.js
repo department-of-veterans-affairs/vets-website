@@ -7,8 +7,8 @@ function manifestLoader(source) {
   return `
     ${source}
     (function() {
-      if (module.exports.receiveContentProps) {
-        const applicationSettings = window.settings.applications[module.exports.entryName];
+      const applicationSettings = window.settings.applications[module.exports.entryName];
+      if (module.exports.receiveContentProps && applicationSettings) {
         module.exports.receiveContentProps.apply(module.exports, applicationSettings.contentProps);
       }
     })();

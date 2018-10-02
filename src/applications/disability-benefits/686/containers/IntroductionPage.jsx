@@ -10,6 +10,7 @@ import SaveInProgressIntro, {
   introSelector,
 } from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import AuthorizationComponent from '../components/AuthorizationComponent';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -42,17 +43,19 @@ class IntroductionPage extends React.Component {
           Equal to VA Form 21-686c (Application for Declaration of Status of
           Dependents).
         </p>
-        <SaveInProgressIntro
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          startText="Start the Declaration of Dependents Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
-        >
-          Please complete the 686 form to apply for declaration of status of
-          dependents.
-        </SaveInProgressIntro>
+        <AuthorizationComponent isVisible>
+          <SaveInProgressIntro
+            prefillEnabled={this.props.route.formConfig.prefillEnabled}
+            messages={this.props.route.formConfig.savedFormMessages}
+            pageList={this.props.route.pageList}
+            startText="Start the Declaration of Dependents Application"
+            {...this.props.saveInProgressActions}
+            {...this.props.saveInProgress}
+          >
+            Please complete the 686 form to apply for declaration of status of
+            dependents.
+          </SaveInProgressIntro>
+        </AuthorizationComponent>
         <h4>Follow the steps below to add a dependent to your VA benefits.</h4>
         <div className="process schemaform-process">
           <ol>
@@ -140,14 +143,17 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <SaveInProgressIntro
-          buttonOnly
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          startText="Start the Declaration of Dependents Application"
-          {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}
-        />
+        <AuthorizationComponent>
+          <SaveInProgressIntro
+            buttonOnly
+            disabled
+            messages={this.props.route.formConfig.savedFormMessages}
+            pageList={this.props.route.pageList}
+            startText="Start the Declaration of Dependents Application"
+            {...this.props.saveInProgressActions}
+            {...this.props.saveInProgress}
+          />
+        </AuthorizationComponent>
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={15} ombNumber="2900-0043" expDate="06/30/2020" />
         </div>

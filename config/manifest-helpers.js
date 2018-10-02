@@ -10,7 +10,7 @@ function getAppManifests(root) {
       const manifest = require(file);
 
       manifest.filePath = file;
-      manifest.entryFile = path.relative(
+      manifest.entryFile = path.resolve(
         root,
         path.join(path.dirname(file), manifest.entryFile),
       );
@@ -22,7 +22,7 @@ function getAppManifests(root) {
 function getWebpackEntryPoints(manifests) {
   return manifests.reduce((apps, next) => {
     // eslint-disable-next-line no-param-reassign
-    apps[next.entryName] = `./${next.entryFile}`;
+    apps[next.entryName] = next.entryFile;
     return apps;
   }, {});
 }

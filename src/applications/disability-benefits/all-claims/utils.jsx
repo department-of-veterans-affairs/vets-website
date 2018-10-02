@@ -1,11 +1,16 @@
 import React from 'react';
 import moment from 'moment';
 import Raven from 'raven-js';
-
+import appendQuery from 'append-query';
 import { apiRequest } from '../../../platform/utilities/api';
 import _ from '../../../platform/utilities/data';
 
-import { RESERVE_GUARD_TYPES, USA } from './constants';
+import {
+  RESERVE_GUARD_TYPES,
+  SERVICE_CONNECTION_TYPES,
+  USA,
+  DATA_PATHS,
+} from './constants';
 /**
  * Show one thing, have a screen reader say another.
  * NOTE: This will cause React to get angry if used in a <p> because the DOM is "invalid."
@@ -119,26 +124,11 @@ export const getDisabilityName = name => {
 export function transformDisabilities(disabilities = []) {
   return (
     disabilities
-      // We want to remove disabilities without a rating, but 0 counts as a valid rating
-      // TODO: Log the disabilities if they're not service connected
-      // Unfortunately, we don't have decisionCode in the schema, so it's stripped out by the time
-      //  it gets here and we can't tell whether it is service connected or not. This happens in
-      //  the api
-      .filter(disability => {
-        if (disability.ratingPercentage || disability.ratingPercentage === 0) {
-          return true;
-        }
-
-        // TODO: Only log it if the decision code indicates the condition is not non-service-connected
-        const { decisionCode } = disability;
-        if (decisionCode) {
-          Raven.captureMessage('526_increase_disability_filter', {
-            extra: { decisionCode },
-          });
-        }
-
-        return false;
-      })
+      // We want to remove disabilities that aren't service-connected
+      .filter(
+        disability =>
+          disability.decisionCode === SERVICE_CONNECTION_TYPES.serviceConnected,
+      )
       .map(disability => _.set('disabilityActionType', 'INCREASE', disability))
   );
 }
@@ -184,3 +174,66 @@ export function fetchPaymentInformation() {
     },
   );
 }
+
+export function queryForFacilities(input = '') {
+  // Only search if the input has a length >= 3, otherwise, return an empty array
+  if (input.length < 3) {
+    return Promise.resolve([]);
+  }
+
+  const url = appendQuery('/facilities/suggested', {
+    type: ['health', 'dod_health'],
+    name_part: input, // eslint-disable-line camelcase
+  });
+
+  return apiRequest(
+    url,
+    {},
+    response =>
+      response.data.map(facility => ({
+        id: facility.id,
+        label: facility.attributes.name,
+      })),
+    error => {
+      Raven.captureMessage('Error querying for facilities', { input, error });
+      return [];
+    },
+  );
+}
+
+export const addCheckboxPerDisability = (form, pageSchema) => {
+  const { ratedDisabilities, newDisabilities } = form;
+  // This shouldn't happen, but could happen if someone directly
+  // opens the right page in the form with no SiP
+  if (!ratedDisabilities && !newDisabilities) {
+    return pageSchema;
+  }
+  const selectedRatedDisabilities = Array.isArray(ratedDisabilities)
+    ? ratedDisabilities.filter(disability => disability['view:selected'])
+    : [];
+
+  const selectedNewDisabilities = Array.isArray(newDisabilities)
+    ? newDisabilities
+    : [];
+
+  // TODO: We might be able to clean this up once we know how EVSS
+  // We expect to get an array with conditions in it or no property
+  // at all.
+  const disabilitiesViews = selectedRatedDisabilities
+    .concat(selectedNewDisabilities)
+    .reduce((accum, curr) => {
+      const disabilityName = curr.name || curr.condition;
+      if (!disabilityName) {
+        return pageSchema;
+      }
+
+      const capitalizedDisabilityName = getDisabilityName(disabilityName);
+      return _.set(`${capitalizedDisabilityName}`, { type: 'boolean' }, accum);
+    }, {});
+  return {
+    properties: disabilitiesViews,
+  };
+};
+
+export const hasVAEvidence = formData =>
+  _.get(DATA_PATHS.hasVAEvidence, formData, false);

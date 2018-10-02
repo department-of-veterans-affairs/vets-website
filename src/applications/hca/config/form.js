@@ -24,6 +24,7 @@ import environment from '../../../platform/utilities/environment';
 import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
 import PrefillMessage from '../../../platform/forms/save-in-progress/PrefillMessage';
 import MilitaryPrefillMessage from '../../../platform/forms/save-in-progress/MilitaryPrefillMessage';
+import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
 
 import DowntimeMessage from '../components/DowntimeMessage';
 
@@ -167,6 +168,7 @@ const formConfig = {
   submitErrorText: ErrorMessage,
   title: 'Apply for health care',
   subTitle: 'Form 10-10EZ',
+  preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {

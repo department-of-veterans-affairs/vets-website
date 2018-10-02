@@ -17,6 +17,7 @@ import yearUI from 'us-forms-system/lib/js/definitions/year';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
 import {
   disabilityRatingLabels,
@@ -82,6 +83,7 @@ const formConfig = {
   },
   title: 'Apply for vocational rehabilitation',
   subTitle: 'Form 28-1900',
+  preSubmitInfo,
   defaultDefinitions: {
     address,
     date,

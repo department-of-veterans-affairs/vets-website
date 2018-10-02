@@ -3,13 +3,12 @@ import conditionalStorage from '../../platform/utilities/storage/conditionalStor
 const lowerEnvironments = [
   'development',
   'staging',
-  'preview',
   'vagovdev',
   'vagovstaging',
 ];
 
 const mhvDomain = lowerEnvironments.includes(__BUILDTYPE__)
-  ? 'https://mhv-syst.myhealth.va.gov'
+  ? 'https://mhv-intb.myhealth.va.gov'
   : 'https://www.myhealth.va.gov';
 
 const urlMap = {

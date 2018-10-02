@@ -22,7 +22,7 @@ function recordDashboardClick(product) {
 
 class PrescriptionsWidget extends React.Component {
   componentDidMount() {
-    if (!this.props.loading) {
+    if (this.props.canAccessRx) {
       this.props.loadPrescriptions({
         active: true,
         sort: '-refill_submit_date',

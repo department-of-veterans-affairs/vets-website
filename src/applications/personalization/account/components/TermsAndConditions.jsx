@@ -1,5 +1,8 @@
 import React from 'react';
 import recordEvent from '../../../../platform/monitoring/record-event';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 export default function TermsAndConditions({ mhvAccount }) {
   const termsConditionsUrl =
@@ -31,8 +34,8 @@ export default function TermsAndConditions({ mhvAccount }) {
         <div className="usa-alert usa-alert-info no-background-image">
           <p>
             <strong>
-              Want to use Vets.gov health tools to do things like refill your VA
-              prescriptions?
+              Want to use {propertyName} health tools to do things like refill
+              your VA prescriptions?
             </strong>
           </p>
           <p>
@@ -54,8 +57,8 @@ export default function TermsAndConditions({ mhvAccount }) {
           </p>
         </div>
         <p>
-          Once you agree to these Terms and Conditions, you’ll be able to use
-          Vets.gov health tools to:
+          Once you agree to these Terms and Conditions, you’ll be able to use{' '}
+          {propertyName} health tools to:
         </p>
         <ul>
           <li>Refill your VA prescriptions</li>

@@ -7,6 +7,8 @@ concurrence: complete
 lastupdate:
 order: 1
 icon: briefcase
+aliases:
+  - /employment/
 promo:
   - image: /img/megamenu/careers-employment-illustration.png
     heading: VA for Vets
