@@ -13,9 +13,9 @@ import AuthorizationMessage from './AuthorizationMessage';
 
 class AuthorizationComponent extends React.Component {
 
-  componentDidMount() {
-    if (this.props.formConfig) {
-      this.props.formConfig.authorize();
+  componentWillUpdate() {
+    if (this.props.formConfig && !this.props.profileIsLoading) {
+      this.props.authorize();
     }
   }
 
