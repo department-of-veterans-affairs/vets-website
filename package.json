@@ -45,6 +45,7 @@
     "test:watch": "node script/watch.js",
     "test:visual": "./script/run-nightwatch.sh --visual",
     "test:visual:baseline": "./script/run-nightwatch.sh --visual --command=baseline",
+    "update:schema": "./script/update-json-schema.sh",
     "watch": "node script/build.js --watch",
     "watch:brand-consolidation": "node script/build.js --brand-consolidation-enabled --watch",
     "watch:devpreview": "npm run watch:brand-consolidation",
@@ -206,7 +207,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^1.7.0",
+    "@department-of-veterans-affairs/formation": "^1.7.3",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "blob-polyfill": "^2.0.20171115",
@@ -227,7 +228,7 @@
     "text-loader": "^0.0.1",
     "url-search-params": "^0.10.0",
     "us-forms-system": "https://github.com/usds/us-forms-system.git#f476ed0ff038403d04e531bbbae41f72290e23b5",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#de7453dc550f390b4225a7574596ac4cbe00c575",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#f73f9c313f64c1d455bb48dce717381724000be8",
     "webpack-bundle-analyzer": "^2.11.1"
   }
 }
