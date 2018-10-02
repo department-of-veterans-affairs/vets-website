@@ -23,7 +23,7 @@ import {
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
 
-import dashboardManifest from '../../../../applications/personalization/dashboard/manifest.json';
+import dashboardManifest from '../../../../applications/personalization/dashboard/manifest';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
 const brandConsolidationEnabled = isBrandConsolidationEnabled();
