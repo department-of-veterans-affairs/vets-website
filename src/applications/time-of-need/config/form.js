@@ -62,10 +62,12 @@ function hasDirectDeposit(formData) {
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
   intermentInformation: 'intermentInformation',
-  applicantInformation: 'applicantInformation',
-  serviceHistory: 'serviceHistory',
+  decedentInformation: 'decedentInformation',
+  veteranInformation: 'veteranInformation',
   contactInformation: 'contactInformation',
-  directDeposit: 'directDeposit'
+  funeralHomeInformation: 'funeralHomeInformation',
+  nextOfKin: 'nextOfKinInformation',
+  attachments: 'attachments'
 };
 
 const formConfig = {
