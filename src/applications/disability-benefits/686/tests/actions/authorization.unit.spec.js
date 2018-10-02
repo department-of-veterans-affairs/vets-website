@@ -45,7 +45,7 @@ function getUnverifiedState() {
 }
 
 describe('authorization actions', () => {
-  describe('verifyDisablityRating', () => {
+  xdescribe('verifyDisablityRating', () => {
     it('should not dispatch LOAD_30_PERCENT_DISABILITY_RATING_STARTED and LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED actions if user is not verified', () => {
       const dispatch = sinon.spy();
 
