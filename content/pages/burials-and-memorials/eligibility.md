@@ -29,7 +29,7 @@ You may qualify for burial and memorial benefits if you meet one of the requirem
 - In some cases, the adult dependent child of a Veteran (if you aren't married)
 
 **Note:** If you were naturalized under the Hmong Veterans' Naturalization Act of 2000, you may be eligible for burial in a VA national cemetery. <br>
-[Learn about Hmong Veterans eligibility for burial and memorial benefits](https://www.cem.va.gov/cem/docs/factsheets/Hmong_Burial_Memorial_Benefits.pdf).
+[Learn about Hmong Veterans' eligibility for burial and memorial benefits](https://www.cem.va.gov/cem/docs/factsheets/Hmong_Burial_Memorial_Benefits.pdf).
 
 <br>
 
