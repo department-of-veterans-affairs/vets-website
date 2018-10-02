@@ -9,6 +9,7 @@ import recordEvent from '../../../../platform/monitoring/record-event';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import PrescriptionCard from '../components/PrescriptionCard';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
 function recordDashboardClick(product) {
   return () => {
@@ -67,13 +68,24 @@ class PrescriptionsWidget extends React.Component {
           <h2>Refill Prescriptions</h2>
           <div>{content}</div>
           <p>
-            <Link
-              href="/health-care/prescriptions"
-              onClick={recordDashboardClick('view-all-prescriptions')}
-            >
-              View all your prescriptions
-            </Link>
-            .
+            {isBrandConsolidationEnabled() ? (
+              <a
+                href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/refill-prescriptions"
+                target="_blank"
+              >
+                View all your prescriptions
+              </a>
+            ) : (
+              <span>
+                <Link
+                  href="/health-care/prescriptions"
+                  onClick={recordDashboardClick('view-all-prescriptions')}
+                >
+                  View all your prescriptions
+                </Link>
+                .
+              </span>
+            )}
           </p>
         </div>
       );

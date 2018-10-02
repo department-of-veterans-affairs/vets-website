@@ -96,10 +96,20 @@ class AccountMain extends React.Component {
         <AccountVerification loa={loa} />
         {this.renderMVIError()}
         <MultifactorMessage multifactor={multifactor} />
-        {isBrandConsolidationEnabled && (
+        {isBrandConsolidationEnabled() && (
           <div>
             <div>
-              <h4>DS Login</h4>
+              <h3>Sign in settings</h3>
+              <p>
+                You can update the email or password you use to sign in to
+                Vets.gov. Just go to the account you use to sign in (DS Logon,
+                MyHealth
+                <i>e</i>
+                Vet, or ID.me) and manage your settings.
+              </p>
+            </div>
+            <div>
+              <h5>DS Login</h5>
               <a
                 href="https://myaccess.dmdc.osd.mil/identitymanagement"
                 target="_blank"
@@ -108,11 +118,11 @@ class AccountMain extends React.Component {
               </a>
             </div>
             <div>
-              <h4>
+              <h5>
                 MyHealth
                 <i>e</i>
                 Vet
-              </h4>
+              </h5>
               <a href="https://www.myhealth.va.gov" target="_blank">
                 Manage your MyHealth
                 <i>e</i>
@@ -123,7 +133,7 @@ class AccountMain extends React.Component {
         )}
         <LoginSettings />
         {verified && <TermsAndConditions mhvAccount={mhvAccount} />}
-        <h4>Have questions about signing in to {propertyName}?</h4>
+        <h3>Have questions about signing in to {propertyName}?</h3>
         <p>
           Get answers to frequently asked questions about how to sign in, common
           issues with verifying your identity, and your privacy and security on{' '}

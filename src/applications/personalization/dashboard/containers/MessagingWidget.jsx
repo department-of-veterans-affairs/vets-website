@@ -9,6 +9,7 @@ import { formattedDate } from '../../../messaging/utils/helpers';
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import { fetchFolder, fetchRecipients } from '../../../messaging/actions';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
 function recordDashboardClick(product) {
   return () => {
@@ -95,13 +96,24 @@ class MessagingWidget extends React.Component {
         <h2>Check Secure Messages</h2>
         {content}
         <p>
-          <Link
-            href="/health-care/messaging"
-            onClick={recordDashboardClick('view-all-messages')}
-          >
-            View all your secure messages
-          </Link>
-          .
+          {isBrandConsolidationEnabled() ? (
+            <a
+              href="https://www.myhealth.va.gov/mhv-portal-web/secure-messaging"
+              target="_blank"
+            >
+              View all your secure messages
+            </a>
+          ) : (
+            <span>
+              <Link
+                href="/health-care/messaging"
+                onClick={recordDashboardClick('view-all-messages')}
+              >
+                View all your secure messages
+              </Link>
+              .
+            </span>
+          )}
         </p>
       </div>
     );

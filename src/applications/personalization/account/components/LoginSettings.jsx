@@ -33,7 +33,7 @@ export default function LoginSettings() {
   );
   return (
     <div>
-      <h4>ID.me settings</h4>
+      <h5>ID.me settings</h5>
       {isBrandConsolidationEnabled() ? (
         <div>
           <p>
