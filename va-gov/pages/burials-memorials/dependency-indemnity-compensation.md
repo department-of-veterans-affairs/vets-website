@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Compensation for Survivors and Dependents
+title: Compensation for Surviving Spouse and Dependents (VA DIC)
 display_title: Survivor and Dependent Compensation (DIC)
 order: 5
 collection: burials
@@ -12,11 +12,11 @@ aliases:
 
 <div class="va-introtext">
 
-If you’re the survivor or parent of a Servicemember who died in the line of duty, or the survivor or parent of a Veteran who died from a service-related injury or illness, you may be able to get a tax-free monetary benefit called Dependency and Indemnity Compensation (DIC). Find out if you can get compensation.
+If you’re the surviving spouse, child, or parent of a Servicemember who died in the line of duty, or the survivor of a Veteran who died from a service-related injury or illness, you may be able to get a tax-free monetary benefit called Dependency and Indemnity Compensation (DIC). Find out if you can get compensation.
 
 </div>
 
-#### Am I eligible?
+#### Am I eligible for VA DIC?
 
 <div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
