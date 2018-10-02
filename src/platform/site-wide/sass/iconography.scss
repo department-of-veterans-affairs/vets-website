@@ -1,5 +1,8 @@
 // iconography
 
+$color-orange: #EB7F29;
+$color-gold-darker: #988530;
+
 h1, h3, h4 {
   i {
     margin-right: 5px;
@@ -48,7 +51,7 @@ h1, h3, h4 {
   }
 
   &.fa-medkit {
-    background-color: $indigo-cool-60;
+    background-color: $color-primary;
 
     &.icon-large {
       &::before {
@@ -66,7 +69,7 @@ h1, h3, h4 {
   }
 
   &.fa-book {
-    background-color:  $mint-cool-50;
+    background-color: $color-gold-light;
   }
 
   &.fa-id-card {
@@ -81,7 +84,7 @@ h1, h3, h4 {
   }
 
   &.fa-handshake-o {
-    background-color: $red-60;
+    background-color: $color-visited;
 
     &.icon-large {
       &::before {
@@ -99,11 +102,11 @@ h1, h3, h4 {
   }
 
   &.fa-briefcase {
-    background-color: $orange-warm-50;
+    background-color: $color-orange;
   }
 
   &.fa-money {
-    background-color: $green-cool-50;
+    background-color: $color-green-darker;
 
     &.icon-small {
       &::before {
@@ -113,11 +116,11 @@ h1, h3, h4 {
   }
 
   &.fa-home {
-    background-color: $gold-50;
+    background-color: $color-primary-alt;
   }
 
   &.fa-users {
-    background-color:  $green-warm-50;
+    background-color: $color-gold-darker;
 
     &.icon-small {
       &::before {
@@ -127,11 +130,11 @@ h1, h3, h4 {
   }
 
   &.fa-star {
-    background-color: $blue-50;
+    background-color: $color-primary-darkest;
   }
 
   &.fa-id-card {
-    background-color: $violet-warm-60;
+    background-color: $color-green;
 
     &.icon-small {
       &::before {
