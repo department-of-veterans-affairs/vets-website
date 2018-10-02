@@ -4,6 +4,12 @@ import * as metrics from '../metrics';
 import { navEntry } from './exampleNavigationTimingEntry.js';
 
 describe('metrics', () => {
+  const oldFormData = global.FormData;
+  const oldNavigator = global.navigator;
+  const oldPerformance = global.performance;
+  const oldPerformanceObserver = global.PerformanceObserver;
+  const oldWindow = global.window;
+
   beforeEach(() => {
     function FormDataMock() {
       this.append = sinon.spy();
@@ -21,6 +27,14 @@ describe('metrics', () => {
     global.performance = new PerformanceMock();
 
     global.window = { location: { pathname: '/' } };
+  });
+
+  afterEach(() => {
+    global.FormData = oldFormData;
+    global.navigator = oldNavigator;
+    global.performance = oldPerformance;
+    global.PerformanceObserver = oldPerformanceObserver;
+    global.window = oldWindow;
   });
 
   describe('buildMetricsPayload', () => {
