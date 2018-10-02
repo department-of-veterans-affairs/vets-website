@@ -7,8 +7,8 @@
  */
 export default function withinMetricsSample() {
   // Update this constant to an integer fromn 0 to 100 to alter the sample rate.
-  const SAMPLE_RATE = 5;
+  const sampleRate = 5;
 
   const randomizer = Math.floor(Math.random() * 100) + 1;
-  return randomizer < SAMPLE_RATE;
+  return randomizer < sampleRate;
 }
