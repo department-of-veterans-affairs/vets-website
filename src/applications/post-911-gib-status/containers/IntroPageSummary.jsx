@@ -33,12 +33,14 @@ function BrandConsolidationSummary({ toggleLoginModal, isProfileLoading, isLogge
   let signInButton = <button className="usa-button-primary" disabled>Loading your profile <i className="fa fa-spin fa-spinner"/></button>;
 
   if (!isProfileLoading) {
-    signInButton = <button onClick={() => toggleLoginModal(true)} className="usa-button-primary">Sign In to Check Your Benefits</button>;
-  } else if (isLoggedIn) {
-    if (isLOA3) {
-      signInButton = <Link id="viewGIBS" to="status" className="usa-button va-button-primary">View Your GI Bill Benefits</Link>;
+    if (isLoggedIn) {
+      if (isLOA3) {
+        signInButton = <Link id="viewGIBS" to="status" className="usa-button va-button-primary">View Your GI Bill Benefits</Link>;
+      } else {
+        signInButton = <a className="usa-button-primary verify-link" href={`/verify?next=${window.location.pathname}`}>Verify Your Identity</a>;
+      }
     } else {
-      signInButton = <a className="usa-button-primary verify-link" href={`/verify?next=${window.location.pathname}`}>verify your identity</a>;
+      signInButton = <button onClick={() => toggleLoginModal(true)} className="usa-button-primary">Sign In to Check Your Benefits</button>;
     }
   }
 
