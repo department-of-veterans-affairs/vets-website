@@ -49,7 +49,7 @@ Labs + Tests is part of the My HealtheVet personal health record. It can help yo
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can use this tool to view your VA results and information you enter yourself if you meet all of the requirements listed below.
+You can use this tool to view your VA lab and test results and information you enter yourself if you meet all of the requirements listed below.
 
 **Both of these must be true. You're:**
 - Enrolled in VA health care, **and**
@@ -136,6 +136,10 @@ If you print or download anything from the website (like lab results), you’ll 
 
 You can get answers to your questions about this tool within our My HealtheVet web portal. <br>
 [Read the Labs + Tests FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#LabsandTests).
+
+You can also contact the My HealtheVet Help Desk. <br>
+[Find out how to contact us online](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv). <br>
+Or call us at <a href="tel:+18773270022">1-877-327-0022</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>). We’re here Monday through Friday, 7:00 a.m. to 7:00 p.m. (CT)
 
 </div>
 </div>
