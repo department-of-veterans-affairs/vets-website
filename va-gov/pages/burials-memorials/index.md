@@ -6,6 +6,8 @@ display_title: Burials and Memorials
 lastupdate:
 order: 1
 icon: star
+aliases:
+  - /burials-and-memorials/
 promo:
   - image: /img/megamenu/burials-memorials-illustration.png
     heading: National Cemetery Administration Mobile Site

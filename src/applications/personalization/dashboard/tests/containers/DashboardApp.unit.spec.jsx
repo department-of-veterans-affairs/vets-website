@@ -32,7 +32,8 @@ describe('<DashboardApp>', () => {
 
   it('should render verification state if LOA != 3', () => {
     const tree = SkinDeep.shallowRender(<DashboardApp profile={{ loa: { current: 1 } }}/>);
-    expect(tree.toString()).to.contain('Verify your identity to access more Vets.gov tools and features');
+    expect(tree.toString()).to.contain('Verify your identity to access more');
+    expect(tree.toString()).to.contain('tools and features');
   });
 
   it('should render MVI warning state if status not OK', () => {

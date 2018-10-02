@@ -14,15 +14,9 @@ import profile from '../user/profile/reducers';
 import buildSettings from '../monitoring/BuildSettings/reducer';
 import megaMenu from '../site-wide/mega-menu/reducers';
 
-import isBrandConsolidationEnabled from '../brand-consolidation/feature-flag';
-
-let brandConsolidatedReducers = null;
-
-if (isBrandConsolidationEnabled()) {
-  brandConsolidatedReducers = {
-    megaMenu
-  };
-}
+const brandConsolidatedReducers = {
+  megaMenu
+};
 
 /**
  * Reducer object containing all of the site-wide reducers

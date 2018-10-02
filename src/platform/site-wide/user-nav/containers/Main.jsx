@@ -23,7 +23,10 @@ import {
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
 
-import dashboardManifest from '../../../../applications/personalization/dashboard/manifest.json';
+import dashboardManifest from '../../../../applications/personalization/dashboard/manifest';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+
+const brandConsolidationEnabled = isBrandConsolidationEnabled();
 
 const DASHBOARD_URL = dashboardManifest.rootUrl;
 
@@ -74,6 +77,9 @@ export class Main extends React.Component {
     const nextParam = this.getNextParameter();
     if (nextParam) return nextParam;
 
+    if (brandConsolidationEnabled) return null;
+
+    // remove this line when refacotring isBrandConsolidationEnabled
     return window.location.pathname === '/' && DASHBOARD_URL;
   };
 
