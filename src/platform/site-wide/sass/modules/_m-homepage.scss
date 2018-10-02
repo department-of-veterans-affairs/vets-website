@@ -139,15 +139,26 @@
 }
 
 .homepage-news-story {
-  margin-bottom: 3em;
+  margin-bottom: 2em;
   @include media($medium-large-screen) {
     margin-bottom: 0em;
   }
 }
 
 .homepage-news-story-title {
-  margin-top: 0.75em;
+  margin-top: 1em;
+  margin-bottom: 0;
   @include media($medium-large-screen) {
     margin-top: 1.5em;
+    margin-bottom: inherit;
+  }
+}
+
+.homepage-news-story-desc {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  @include media($medium-large-screen) {
+    margin-top: inherit;
+    margin-bottom: inherit;
   }
 }
