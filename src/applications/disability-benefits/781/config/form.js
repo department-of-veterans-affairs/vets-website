@@ -92,13 +92,6 @@ const formConfig = {
               form['view:selectablePtsdTypes']['view:noncombatPtsdType']),
           uiSchema: informationInterviewCombat.uiSchema,
           schema: informationInterviewCombat.schema,
-          // uiSchema: {
-          //   'ui:description': incidentIntroduction781,
-          // },
-          // schema: {
-          //   type: 'object',
-          //   properties: {},
-          // },
         },
         ptsdSecondaryChoice: {
           path: 'ptsdSecondaryChoice',
@@ -128,13 +121,6 @@ const formConfig = {
               form['view:selectablePtsdTypes']['view:assaultPtsdType']),
           uiSchema: informationInterviewAssault.uiSchema,
           schema: informationInterviewAssault.schema,
-          // uiSchema: {
-          //   'ui:description': incidentIntroduction781a,
-          // },
-          // schema: {
-          //   type: 'object',
-          //   properties: {},
-          // },
         },
         // medals: { //TODO: KEEP FOR NEXT STORY
         //   path: 'information-781',
