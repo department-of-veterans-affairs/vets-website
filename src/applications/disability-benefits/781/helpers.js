@@ -1,7 +1,7 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-const getPtsdClassification781 = (formData, formType) => {
+const getPtsdClassification = (formData, formType) => {
   const classifications = formData['view:selectablePtsdTypes'];
   let incidentTitle;
   let incidentText;
@@ -148,7 +148,7 @@ export const ptsdTypeHelp = () => {
 };
 
 export const PtsdNameTitle781 = ({ formData, formType }) => {
-  const { incidentTitle } = getPtsdClassification781(formData, formType);
+  const { incidentTitle } = getPtsdClassification(formData, formType);
   return (
     <legend className="schemaform-block-title schemaform-title-underline">
       {incidentTitle}
@@ -192,7 +192,7 @@ const UploadExplanation = ({ formType }) => (
 );
 
 export const UploadPtsdDescription781 = ({ formData, formType }) => {
-  const { incidentText } = getPtsdClassification781(formData, formType);
+  const { incidentText } = getPtsdClassification(formData, formType);
   return (
     <div>
       <p>
@@ -207,7 +207,7 @@ export const UploadPtsdDescription781 = ({ formData, formType }) => {
 };
 
 export const IncidentIntroduction781 = ({ formData, formType }) => {
-  const { incidentTitle } = getPtsdClassification781(formData, formType);
+  const { incidentTitle } = getPtsdClassification(formData, formType);
   return (
     <div>
       <h3>{incidentTitle}</h3>
