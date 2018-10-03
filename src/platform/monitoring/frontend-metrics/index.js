@@ -14,7 +14,7 @@ import withinMetricsSample from './sample-rate';
  */
 export default function startMetrics() {
   if (isMetricsEnabled() && withinMetricsSample()) {
-    embedMetrics();
+    return embedMetrics();
   }
   return false;
 }
