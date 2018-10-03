@@ -95,13 +95,13 @@ export const serviceDescription = appId => {
       return 'use VA Blue Button';
 
     case frontendApps.RX:
-      return 'refill prescriptions online';
+      return 'refill VA prescriptions online.';
 
     case frontendApps.MESSAGING:
       return 'send secure messages to your health care team';
 
     case frontendApps.LAB_AND_TEST_RESULTS:
-      return 'view your lab and test results';
+      return 'view your VA lab and test results online.';
 
     case frontendApps.APPOINTMENTS:
       return ['schedule appointments online', 'view appointments online'];
