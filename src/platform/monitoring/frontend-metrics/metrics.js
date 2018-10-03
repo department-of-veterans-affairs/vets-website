@@ -131,7 +131,10 @@ function canCaptureMetrics() {
  */
 function pathIsWhitelisted() {
   const path = window.location.pathname;
-  return !!whitelistedPaths.includes(path);
+  if (path === '/') {
+    return !!whitelistedPaths.includes(path);
+  }
+  return !!whitelistedPaths.includes(path.slice(0, -1));
 }
 
 /**
