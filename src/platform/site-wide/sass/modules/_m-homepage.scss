@@ -2,6 +2,10 @@
   margin-top: 0;
 }
 
+.hub-links-list {
+  margin-bottom: 0;
+}
+
 #homepage-hub, .va-sidebarnav, .vet-toolbar {
   [href^="http"]:not(.usa-button-primary), [rel="external"] {
     background-image: none;
