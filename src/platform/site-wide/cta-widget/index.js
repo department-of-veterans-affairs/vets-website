@@ -35,6 +35,7 @@ const MHV_ACCOUNT_TYPES = ['Premium', 'Advanced', 'Basic'];
 export class CallToActionWidget extends React.Component {
   constructor(props) {
     super(props);
+    this._isHealthTool = HEALTH_TOOLS.includes(this.props.appId);
     this._popup = null;
     this._redirectUrl = redirectUrl(window.location.pathname);
     this._requiredServices = requiredServices(props.appId);
@@ -42,7 +43,7 @@ export class CallToActionWidget extends React.Component {
   }
 
   componentDidMount() {
-    if (this.isHealthTool() && this.props.isLoggedIn) {
+    if (this._isHealthTool && this.props.isLoggedIn) {
       this.props.fetchMHVAccount();
     }
   }
@@ -52,8 +53,7 @@ export class CallToActionWidget extends React.Component {
 
     if (this.isAccessible()) {
       this.redirect();
-    } else if (this.isHealthTool());
-    {
+    } else if (this._isHealthTool) {
       const { accountLevel, accountState, loading } = this.props.mhvAccount;
 
       if (loading) return;
@@ -76,10 +76,7 @@ export class CallToActionWidget extends React.Component {
   }
 
   getContent = () => {
-    if (
-      !this.props.isLoggedIn ||
-      !this.isHealthTool() /* Only health tools supported for now */
-    ) {
+    if (!this.props.isLoggedIn) {
       return {
         heading: `You’ll need to sign in before you can ${
           this._serviceDescription
@@ -335,7 +332,7 @@ export class CallToActionWidget extends React.Component {
   };
 
   getInaccessibleContent = () => {
-    if (this.isHealthTool()) return this.getInaccessibleHealthContent();
+    if (this._isHealthTool) return this.getInaccessibleHealthContent();
 
     if (!this.props.verified) {
       return {
@@ -380,7 +377,7 @@ export class CallToActionWidget extends React.Component {
     // instead of services list until MHV account eligibility rules
     // no longer have to accommodate the pre-brand consolidation flow.
 
-    if (this.isHealthTool()) {
+    if (this._isHealthTool) {
       const { appId, mhvAccount } = this.props;
 
       switch (appId) {
@@ -409,8 +406,6 @@ export class CallToActionWidget extends React.Component {
 
     return true;
   };
-
-  isHealthTool = () => HEALTH_TOOLS.includes(this.props.appId);
 
   openLoginModal = () => this.props.toggleLoginModal(true);
 
