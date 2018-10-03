@@ -15,8 +15,8 @@ export class TrackPackage extends React.Component {
     this.state = {
       currentSort: {
         value: 'fillDate',
-        order: 'DESC'
-      }
+        order: 'DESC',
+      },
     };
   }
 
@@ -30,29 +30,32 @@ export class TrackPackage extends React.Component {
           prescriptionName,
           prescriptionNumber,
           shippedDate,
-          trackingNumber
+          trackingNumber,
         },
-        links: { trackingUrl }
+        links: { trackingUrl },
       } = item;
 
       const prescriptions = [
         <div key={prescriptionNumber}>{prescriptionName}</div>,
-        ...otherPrescriptions.map(p =>
+        ...otherPrescriptions.map(p => (
           <div key={p.prescriptionNumber}>{p.prescriptionName}</div>
-        )
+        )),
       ];
 
       return {
         id,
         shipmentDate: formatDate(shippedDate),
         carrier: deliveryService.toUpperCase(),
-        trackingLink: (<TrackPackageLink
-          className="rx-history-tracking"
-          external
-          text={trackingNumber}
-          url={trackingUrl}/>),
+        trackingLink: (
+          <TrackPackageLink
+            className="rx-history-tracking"
+            external
+            text={trackingNumber}
+            url={trackingUrl}
+          />
+        ),
         prescriptions,
-        shippedDate
+        shippedDate,
       };
     });
 
@@ -71,19 +74,25 @@ export class TrackPackage extends React.Component {
       { label: 'Shipment date', value: 'shipmentDate' },
       { label: 'Carrier', value: 'carrier', nonSortable: true },
       { label: 'Tracking number', value: 'trackingLink', nonSortable: true },
-      { label: 'Prescriptions in package', value: 'prescriptions', nonSortable: true },
+      {
+        label: 'Prescriptions in package',
+        value: 'prescriptions',
+        nonSortable: true,
+      },
     ];
 
     const tableClass = classNames(
       'va-table-list',
       'rx-table',
       'rx-table-list',
-      'rx-detail-history'
+      'rx-detail-history',
     );
 
     return (
       <div>
-        <p className="rx-tab-explainer">Tracking information for each order expires 30 days after shipment.</p>
+        <p className="rx-tab-explainer">
+          Tracking information for each order expires 30 days after shipment.
+        </p>
         <SortableTable
           className={tableClass}
           currentSort={this.state.currentSort}
@@ -91,9 +100,10 @@ export class TrackPackage extends React.Component {
           fields={fields}
           onSort={(value, order) => {
             this.setState({
-              currentSort: { value, order }
+              currentSort: { value, order },
             });
-          }}/>
+          }}
+        />
       </div>
     );
   }
@@ -107,13 +117,15 @@ export class TrackPackage extends React.Component {
     } else if (isPending) {
       content = (
         <p className="rx-tab-explainer">
-          You recently submitted a refill, and the tracking information isn’t available yet.
+          You recently submitted a refill, and the tracking information isn’t
+          available yet.
         </p>
       );
     } else {
       content = (
         <p className="rx-tab-explainer">
-          Your prescription shipped more than 30 days ago, and tracking information is no longer available.
+          Your prescription shipped more than 30 days ago, and tracking
+          information is no longer available.
         </p>
       );
     }
@@ -126,17 +138,22 @@ export class TrackPackage extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const rxState = state.health.rx;
   const {
-    rx: { attributes: { refillStatus } },
-    trackings
+    rx: {
+      attributes: { refillStatus },
+    },
+    trackings,
   } = rxState.prescriptions.currentItem;
 
   return {
     isPending: ['submitted', 'refillinprocess'].includes(refillStatus),
-    items: trackings
+    items: trackings,
   };
 };
 
-export default connect(mapStateToProps, null)(TrackPackage);
+export default connect(
+  mapStateToProps,
+  null,
+)(TrackPackage);

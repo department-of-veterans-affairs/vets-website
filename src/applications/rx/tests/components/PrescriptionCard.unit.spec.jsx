@@ -22,24 +22,24 @@ const samplePrescription = {
     dispensedDate: null,
     stationNumber: '12',
     isRefillable: false,
-    isTrackable: false
+    isTrackable: false,
   },
   links: {
     self: 'http://localhost:3000/rx/v1/prescriptions/746575',
-    tracking: 'http://localhost:3000/rx/v1/prescriptions/746575/trackings'
-  }
+    tracking: 'http://localhost:3000/rx/v1/prescriptions/746575/trackings',
+  },
 };
 
 const props = {
   ...samplePrescription,
   glossaryModalHandler: () => {},
   refillModalHandler: () => {},
-  dispatch: () => {}
+  dispatch: () => {},
 };
 
 describe('<PrescriptionCard>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<PrescriptionCard {...props}/>);
+    const tree = SkinDeep.shallowRender(<PrescriptionCard {...props} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
@@ -53,12 +53,12 @@ describe('<PrescriptionCard>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(<PrescriptionCard {...newProps}/>);
+    const tree = SkinDeep.shallowRender(<PrescriptionCard {...newProps} />);
     expect(tree.subTree('TrackPackageLink')).to.be.ok;
   });
 
   it('should not render tracking link if not applicable', () => {
-    const tree = SkinDeep.shallowRender(<PrescriptionCard {...props}/>);
+    const tree = SkinDeep.shallowRender(<PrescriptionCard {...props} />);
     expect(tree.subTree('TrackPackageLink')).to.be.false;
   });
 
@@ -71,12 +71,12 @@ describe('<PrescriptionCard>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(<PrescriptionCard {...newProps}/>);
+    const tree = SkinDeep.shallowRender(<PrescriptionCard {...newProps} />);
     expect(tree.subTree('.rx-call-provider')).to.be.ok;
   });
 
   it('should not show Message Provider link if refills remaining', () => {
-    const tree = SkinDeep.shallowRender(<PrescriptionCard {...props}/>);
+    const tree = SkinDeep.shallowRender(<PrescriptionCard {...props} />);
     expect(tree.subTree('.rx-call-provider')).to.be.false;
   });
 
@@ -89,22 +89,23 @@ describe('<PrescriptionCard>', () => {
       },
     };
 
-    const tree = SkinDeep.shallowRender(<PrescriptionCard {...newProps}/>);
+    const tree = SkinDeep.shallowRender(<PrescriptionCard {...newProps} />);
     expect(tree.subTree('SubmitRefill')).to.be.ok;
   });
 
   it('should show refill status if not refillable', () => {
-    const tree = SkinDeep.shallowRender(<PrescriptionCard {...props}/>);
+    const tree = SkinDeep.shallowRender(<PrescriptionCard {...props} />);
     expect(tree.subTree('.rx-prescription-status')).to.be.ok;
     expect(tree.subTree('GlossaryLink')).to.be.ok;
   });
 
   it('should show refillsRemainingCounter with correct props', () => {
-    const tree = SkinDeep.shallowRender(<PrescriptionCard {...props}/>);
+    const tree = SkinDeep.shallowRender(<PrescriptionCard {...props} />);
     const refillsRemainingCounter = tree.subTree('RefillsRemainingCounter');
 
     expect(refillsRemainingCounter).to.not.be.false;
-    expect(refillsRemainingCounter.props.remaining)
-      .to.equal(props.attributes.refillRemaining);
+    expect(refillsRemainingCounter.props.remaining).to.equal(
+      props.attributes.refillRemaining,
+    );
   });
 });

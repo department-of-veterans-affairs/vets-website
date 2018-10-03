@@ -15,11 +15,11 @@ export default class AppointmentInfo extends Component {
   }
 
   anyWaitTimes(accessAttrs, category) {
-    return some(Object.keys(accessAttrs),
-      (key) => {
-        return (typeof accessAttrs[key][category] !== 'undefined' &&
-             accessAttrs[key][category] !== null);
-      }
+    return some(
+      Object.keys(accessAttrs),
+      key =>
+        typeof accessAttrs[key][category] !== 'undefined' &&
+        accessAttrs[key][category] !== null,
     );
   }
 
@@ -41,7 +41,10 @@ export default class AppointmentInfo extends Component {
 
     const healthAccessAttrs = facility.attributes.access.health;
 
-    if (!this.anyWaitTimes(healthAccessAttrs, 'new') && !this.anyWaitTimes(healthAccessAttrs, 'established')) {
+    if (
+      !this.anyWaitTimes(healthAccessAttrs, 'new') &&
+      !this.anyWaitTimes(healthAccessAttrs, 'established')
+    ) {
       return null;
     }
 
@@ -49,7 +52,12 @@ export default class AppointmentInfo extends Component {
       if (value !== null) {
         const dayString = value === 1 ? 'day' : 'days';
         return (
-          <li key={label} className={sublist ? 'sublist' : null}>{label}: <strong>{value.toFixed(0)} {dayString}</strong></li>
+          <li key={label} className={sublist ? 'sublist' : null}>
+            {label}:{' '}
+            <strong>
+              {value.toFixed(0)} {dayString}
+            </strong>
+          </li>
         );
       }
       return null;
@@ -87,52 +95,80 @@ export default class AppointmentInfo extends Component {
         expanded: this.state[showHideKey],
       });
 
-      const renderMoreTimes = () => {
-        return this.state[showHideKey] &&
-          lastToEnd.map(k => {
-            return renderStat(startCase(k.replace(/([A-Z])/g, ' $1')), healthAccessAttrs[k][existing ? 'established' : 'new'], true);
-          });
-      };
+      const renderMoreTimes = () =>
+        this.state[showHideKey] &&
+        lastToEnd.map(k =>
+          renderStat(
+            startCase(k.replace(/([A-Z])/g, ' $1')),
+            healthAccessAttrs[k][existing ? 'established' : 'new'],
+            true,
+          ),
+        );
 
       return [
-        <li key="specialty-care">
-          Specialty care:
-        </li>,
-        firstThree.map(k => {
-          return renderStat(startCase(k.replace(/([A-Z])/g, ' $1')), healthAccessAttrs[k][existing ? 'established' : 'new'], true);
-        }),
-        (lastToEnd.length > 0) && renderMoreTimes(),
+        <li key="specialty-care">Specialty care:</li>,
+        firstThree.map(k =>
+          renderStat(
+            startCase(k.replace(/([A-Z])/g, ' $1')),
+            healthAccessAttrs[k][existing ? 'established' : 'new'],
+            true,
+          ),
+        ),
+        lastToEnd.length > 0 && renderMoreTimes(),
         <li key="show-more" className="show-more">
           <button
             onClick={onClick}
             className={seeMoreClasses}
-            aria-expanded={this.state[showHideKey] ? 'true' : 'false'}>
+            aria-expanded={this.state[showHideKey] ? 'true' : 'false'}
+          >
             See {this.state[showHideKey] ? 'less' : 'more'}
           </button>
-        </li>
+        </li>,
       ];
     };
 
     return (
       <div className="mb2">
         <h4 className="highlight">Appointments</h4>
-        <p>Current as of <strong>{moment(healthAccessAttrs.effectiveDate, 'YYYY-MM-DD').format('MMMM YYYY')}</strong></p>
-        {this.anyWaitTimes(healthAccessAttrs, 'new') && <div className="mb2">
-          <h4>New patient wait times</h4>
-          <p>The average number of days a Veteran who hasn’t been to this location has to wait for a non-urgent appointment</p>
-          <ul>
-            {this.hasPrimaryCare(healthAccessAttrs, 'new') && renderStat('Primary Care', healthAccessAttrs.primaryCare.new)}
-            {renderSpecialtyTimes()}
-          </ul>
-        </div>}
-        {this.anyWaitTimes(healthAccessAttrs, 'established') && <div className="mb2">
-          <h4>Existing patient wait times</h4>
-          <p>The average number of days a patient who has already been to this location has to wait for a non-urgent appointment.</p>
-          <ul>
-            {this.hasPrimaryCare(healthAccessAttrs, 'established') && renderStat('Primary Care', healthAccessAttrs.primaryCare.established)}
-            {renderSpecialtyTimes(true)}
-          </ul>
-        </div>}
+        <p>
+          Current as of{' '}
+          <strong>
+            {moment(healthAccessAttrs.effectiveDate, 'YYYY-MM-DD').format(
+              'MMMM YYYY',
+            )}
+          </strong>
+        </p>
+        {this.anyWaitTimes(healthAccessAttrs, 'new') && (
+          <div className="mb2">
+            <h4>New patient wait times</h4>
+            <p>
+              The average number of days a Veteran who hasn’t been to this
+              location has to wait for a non-urgent appointment
+            </p>
+            <ul>
+              {this.hasPrimaryCare(healthAccessAttrs, 'new') &&
+                renderStat('Primary Care', healthAccessAttrs.primaryCare.new)}
+              {renderSpecialtyTimes()}
+            </ul>
+          </div>
+        )}
+        {this.anyWaitTimes(healthAccessAttrs, 'established') && (
+          <div className="mb2">
+            <h4>Existing patient wait times</h4>
+            <p>
+              The average number of days a patient who has already been to this
+              location has to wait for a non-urgent appointment.
+            </p>
+            <ul>
+              {this.hasPrimaryCare(healthAccessAttrs, 'established') &&
+                renderStat(
+                  'Primary Care',
+                  healthAccessAttrs.primaryCare.established,
+                )}
+              {renderSpecialtyTimes(true)}
+            </ul>
+          </div>
+        )}
       </div>
     );
   }

@@ -22,16 +22,13 @@ describe('<AcceptTermsPrompt>', () => {
   });
 
   it('should be an empty div if there is no content', () => {
-    const tree = SkinDeep.shallowRender(
-      <AcceptTermsPrompt
-        terms={{}}/>
-    );
+    const tree = SkinDeep.shallowRender(<AcceptTermsPrompt terms={{}} />);
     expect(tree.toString()).to.equal('<div />');
   });
 
   it('should call onAccept correctly', () => {
     const acceptTermsPrompt = ReactTestUtils.renderIntoDocument(
-      <AcceptTermsPrompt {...defaultProps}/>
+      <AcceptTermsPrompt {...defaultProps} />,
     );
 
     acceptTermsPrompt.handleSubmit();
@@ -40,7 +37,7 @@ describe('<AcceptTermsPrompt>', () => {
 
   it('submit button should be disabled by default', () => {
     const tree = SkinDeep.shallowRender(
-      <AcceptTermsPrompt {...defaultProps}/>
+      <AcceptTermsPrompt {...defaultProps} />,
     );
 
     const submitButton = tree.subTree('.usa-button-disabled');
@@ -50,7 +47,7 @@ describe('<AcceptTermsPrompt>', () => {
 
   it('submit button should be enabled if state is valid', () => {
     const acceptTermsPrompt = ReactTestUtils.renderIntoDocument(
-      <AcceptTermsPrompt {...defaultProps}/>
+      <AcceptTermsPrompt {...defaultProps} />,
     );
 
     acceptTermsPrompt.setState({
@@ -62,7 +59,7 @@ describe('<AcceptTermsPrompt>', () => {
       ReactTestUtils.findRenderedDOMComponentWithClass(
         acceptTermsPrompt,
         'submit-button',
-      )
+      ),
     );
 
     expect(submitButton).to.be.ok;

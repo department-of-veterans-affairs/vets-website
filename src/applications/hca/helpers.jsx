@@ -9,16 +9,23 @@ import {
   filterInactivePageData,
   getActivePages,
   expandArrayPages,
-  createFormPageList
+  createFormPageList,
 } from 'us-forms-system/lib/js/helpers';
 import { getInactivePages } from '../../platform/forms/helpers';
 import { isValidDate } from '../../platform/forms/validations';
 
 export function transform(formConfig, form) {
-  const expandedPages = expandArrayPages(createFormPageList(formConfig), form.data);
+  const expandedPages = expandArrayPages(
+    createFormPageList(formConfig),
+    form.data,
+  );
   const activePages = getActivePages(expandedPages, form.data);
   const inactivePages = getInactivePages(expandedPages, form.data);
-  const withoutInactivePages = filterInactivePageData(inactivePages, activePages, form);
+  const withoutInactivePages = filterInactivePageData(
+    inactivePages,
+    activePages,
+    form,
+  );
   let withoutViewFields = filterViewFields(withoutInactivePages);
 
   // add back dependents here, because it could have been removed in filterViewFields
@@ -26,14 +33,15 @@ export function transform(formConfig, form) {
     withoutViewFields = _.set('dependents', [], withoutViewFields);
   }
 
-  const formData = JSON.stringify(withoutViewFields, (key, value) => {
-    // Don’t let dependents be removed in the normal empty object clean up
-    if (key === 'dependents') {
-      return value;
-    }
+  const formData =
+    JSON.stringify(withoutViewFields, (key, value) => {
+      // Don’t let dependents be removed in the normal empty object clean up
+      if (key === 'dependents') {
+        return value;
+      }
 
-    return stringifyFormReplacer(key, value);
-  }) || '{}';
+      return stringifyFormReplacer(key, value);
+    }) || '{}';
 
   let gaClientId;
   try {
@@ -46,17 +54,38 @@ export function transform(formConfig, form) {
   return JSON.stringify({
     gaClientId,
     asyncCompatible: true,
-    form: formData
+    form: formData,
   });
 }
 
 export const facilityHelp = (
   <div>
-    <div>OR <a href="/facilities" target="_blank">Find locations with the VA Facility Locator</a></div>
-    <br/>
-    If you’re looking for medical care outside the continental U.S. or Guam, you’ll need to sign up for our Foreign Medical Program. <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp" target="_blank">Learn more about the Foreign Medical Program</a>.
-    <br/>
-    <p>You can also visit <a href="https://www.benefits.va.gov/PERSONA/veteran-abroad.asp" target="_blank">Veterans Living Abroad</a>.</p>
+    <div>
+      OR{' '}
+      <a href="/facilities" target="_blank">
+        Find locations with the VA Facility Locator
+      </a>
+    </div>
+    <br />
+    If you’re looking for medical care outside the continental U.S. or Guam,
+    you’ll need to sign up for our Foreign Medical Program.{' '}
+    <a
+      href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp"
+      target="_blank"
+    >
+      Learn more about the Foreign Medical Program
+    </a>
+    .<br />
+    <p>
+      You can also visit{' '}
+      <a
+        href="https://www.benefits.va.gov/PERSONA/veteran-abroad.asp"
+        target="_blank"
+      >
+        Veterans Living Abroad
+      </a>
+      .
+    </p>
   </div>
 );
 
@@ -81,8 +110,14 @@ const vaMedicalFacilities = {
     { value: '521GH', label: 'CHILDERSBURG CBOC' },
     { value: '521GI', label: 'GUNTERSVILLE CBOC' },
     { value: '521GJ', label: 'BIRMINGHAM VA CLINIC' },
-    { value: '619', label: 'CENTRAL ALABAMA HEALTH CARE SYSTEM - MONTGOMERY DIVISION' },
-    { value: '619A4', label: 'CENTRAL ALABAMA HEALTH CARE SYSTEM - TUSKEGEE DIVISION' },
+    {
+      value: '619',
+      label: 'CENTRAL ALABAMA HEALTH CARE SYSTEM - MONTGOMERY DIVISION',
+    },
+    {
+      value: '619A4',
+      label: 'CENTRAL ALABAMA HEALTH CARE SYSTEM - TUSKEGEE DIVISION',
+    },
     { value: '619GB', label: 'CENTRAL ALABAMA HCS - DOTHAN CBOC' },
     { value: '619GD', label: 'WIREGRASS CBOC' },
     { value: '619GE', label: 'MONROE COUNTY CBOC' },
@@ -94,7 +129,10 @@ const vaMedicalFacilities = {
     { value: '564GA', label: 'HARRISON VA CLINIC' },
     { value: '564GB', label: 'FORT SMITH VA CLINIC' },
     { value: '564GD', label: 'OZARK CBOC' },
-    { value: '598', label: 'CENTRAL ARKANSAS HEALTH CARE SYSTEM - LITTLE ROCK' },
+    {
+      value: '598',
+      label: 'CENTRAL ARKANSAS HEALTH CARE SYSTEM - LITTLE ROCK',
+    },
     { value: '598A0', label: 'NORTH LITTLE ROCK, AR VANPH' },
     { value: '598GA', label: 'MOUNTAIN HOME, AR CBOC' },
     { value: '598GB', label: 'EL DORADO, AR CBOC' },
@@ -110,9 +148,7 @@ const vaMedicalFacilities = {
     { value: '657GW', label: 'POCAHONTAS VA CLINIC' },
     { value: '667GA', label: 'TEXARKANA CBOC' },
   ],
-  AS: [
-    { value: '459GF', label: 'AMERICAN SAMOA VA CLINIC' },
-  ],
+  AS: [{ value: '459GF', label: 'AMERICAN SAMOA VA CLINIC' }],
   AZ: [
     { value: '644', label: 'PHOENIX VAMC' },
     { value: '644BY', label: 'SOUTHEAST CBOC' },
@@ -123,13 +159,19 @@ const vaMedicalFacilities = {
     { value: '644GE', label: 'THUNDERBIRD VA CBOC' },
     { value: '644GF', label: 'GLOBE HEALTH CARE CLINIC' },
     { value: '644GG', label: 'N EAST PHOENIX VA CLINIC' },
-    { value: '649', label: 'NORTHERN ARIZONA HEALTH CARE SYSTEM - PRESCOTT DIVISION' },
+    {
+      value: '649',
+      label: 'NORTHERN ARIZONA HEALTH CARE SYSTEM - PRESCOTT DIVISION',
+    },
     { value: '649GA', label: 'KINGMAN CBOC' },
     { value: '649GB', label: 'FLAGSTAFF CBOC' },
     { value: '649GC', label: 'PRESCOTT CBOC LAKE HAVASU CITY' },
     { value: '649GD', label: 'ANTHEM CBOC' },
     { value: '649GE', label: 'COTTONWOOD CBOC' },
-    { value: '678', label: 'SOUTHERN ARIZONA HEALTH CARE SYSTEM - TUCSON DIVISION' },
+    {
+      value: '678',
+      label: 'SOUTHERN ARIZONA HEALTH CARE SYSTEM - TUCSON DIVISION',
+    },
     { value: '678GA', label: 'SIERRA VISTA CBOC' },
     { value: '678GB', label: 'YUMA CBOC' },
     { value: '678GC', label: 'CASA GRANDE CBOC' },
@@ -174,7 +216,10 @@ const vaMedicalFacilities = {
     { value: '640GA', label: 'CAPITOLA VA CLINIC' },
     { value: '640GB', label: 'SONORA VA CLINIC' },
     { value: '640GC', label: 'FREMONT VA CLINIC' },
-    { value: '640HA', label: 'PALO ALTO HEALTH CARE SYSTEM - STOCKTON DIVSION' },
+    {
+      value: '640HA',
+      label: 'PALO ALTO HEALTH CARE SYSTEM - STOCKTON DIVSION',
+    },
     { value: '640HB', label: 'MODESTO VA CLINIC' },
     { value: '640HC', label: 'MONTEREY VA CLINIC' },
     { value: '654GA', label: 'SIERRA FOOTHILLS VA CLINIC' },
@@ -193,7 +238,11 @@ const vaMedicalFacilities = {
     { value: '664GB', label: 'OCEANSIDE CBOC' },
     { value: '664GC', label: 'CHULA VISTA CBOC' },
     { value: '664GD', label: 'ESCONDIDO CBOC' },
-    { value: '691', label: 'VA GREATER LOS ANGELES HEALTHCARE SYSTEM - WEST LOS ANGELES DIVISION' },
+    {
+      value: '691',
+      label:
+        'VA GREATER LOS ANGELES HEALTHCARE SYSTEM - WEST LOS ANGELES DIVISION',
+    },
     { value: '691A4', label: 'SEPULVEDA OUTPATIENT & NURSING HOME CARE' },
     { value: '691GB', label: 'SANTA BARBARA CBOC' },
     { value: '691GC', label: 'GARDENA CBOC' },
@@ -217,14 +266,20 @@ const vaMedicalFacilities = {
     { value: '554GD', label: 'PUEBLO VA CLINIC' },
     { value: '554GE', label: 'FLOYD K. LINDSTROM VA CLINIC' },
     { value: '554GF', label: 'ALAMOSA VA CLINIC' },
-    { value: '554GG', label: 'LA JUNTA COMMUNITY BASED OUTPATIENT CLINIC (554GG)' },
+    {
+      value: '554GG',
+      label: 'LA JUNTA COMMUNITY BASED OUTPATIENT CLINIC (554GG)',
+    },
     { value: '554GH', label: 'LAMAR VA CLINIC' },
     { value: '554GI', label: 'BURLINGTON VA CLINIC' },
     { value: '575', label: 'GRAND JUNCTION VAMC' },
     { value: '575GA', label: 'MONTROSE CBOC' },
   ],
   CT: [
-    { value: '689', label: 'VA CONNECTICUT HEALTHCARE SYSTEM - WEST HAVEN DIVISION' },
+    {
+      value: '689',
+      label: 'VA CONNECTICUT HEALTHCARE SYSTEM - WEST HAVEN DIVISION',
+    },
     { value: '689A4', label: 'NEWINGTON' },
     { value: '689GA', label: 'WATERBURY' },
     { value: '689GB', label: 'STAMFORD VA PRIMARY CARE CTR' },
@@ -328,9 +383,7 @@ const vaMedicalFacilities = {
     { value: '619GA', label: 'CENTRAL ALABAMA HCS - COLUMBUS CBOC' },
     { value: '619QB', label: 'FORT BENNING VA CLINIC' },
   ],
-  GU: [
-    { value: '459GE', label: 'GUAM CBOC' },
-  ],
+  GU: [{ value: '459GE', label: 'GUAM CBOC' }],
   HI: [
     { value: '459', label: 'SPARK M. MATSUNAGA VAMC' },
     { value: '459GA', label: 'MAUI VA CLINIC' },
@@ -464,7 +517,10 @@ const vaMedicalFacilities = {
     { value: '603GE', label: 'NEWBURG VA CLINIC' },
     { value: '603GF', label: 'GRAYSON COUNTY VA CLINIC' },
     { value: '603GH', label: 'CARROLLTON VA CLINIC' },
-    { value: '626GC', label: 'BOWLING GREEN COMMUNITY BASED OUTPATIENT CLINIC' },
+    {
+      value: '626GC',
+      label: 'BOWLING GREEN COMMUNITY BASED OUTPATIENT CLINIC',
+    },
     { value: '626GJ', label: 'HOPKINSVILLE VA CLINIC' },
     { value: '657GL', label: 'PADUCAH KY CBOC (657GL)' },
     { value: '657GO', label: 'HANSON VA CLINIC' },
@@ -496,12 +552,24 @@ const vaMedicalFacilities = {
     { value: '518GE', label: 'GLOUCESTER VA CLINIC' },
     { value: '518GG', label: 'FITCHBURG CBOC' },
     { value: '523', label: 'VA BOSTON HEALTHCARE SYSTEM - BOSTON DIVISION' },
-    { value: '523A4', label: 'VA BOSTON HEALTHCARE SYSTEM - WEST ROXBURY DIVISION' },
-    { value: '523A5', label: 'VA BOSTON HEALTHCARE SYSTEM - BROCKTON DIVISION' },
+    {
+      value: '523A4',
+      label: 'VA BOSTON HEALTHCARE SYSTEM - WEST ROXBURY DIVISION',
+    },
+    {
+      value: '523A5',
+      label: 'VA BOSTON HEALTHCARE SYSTEM - BROCKTON DIVISION',
+    },
     { value: '523BY', label: 'VA BOSTON HEALTHCARE SYSTEM - LOWELL DIVISION' },
-    { value: '523BZ', label: 'VA BOSTON HEALTHCARE SYSTEM - BOSTON OPC DIVISION' },
+    {
+      value: '523BZ',
+      label: 'VA BOSTON HEALTHCARE SYSTEM - BOSTON OPC DIVISION',
+    },
     { value: '523GA', label: 'VA BOSTON HEALTHCARE SYSTEM - FRAMINGHAM CBOC' },
-    { value: '523GB', label: 'VA BOSTON HEALTHCARE SYSTEM - WORCESTER DIVISION' },
+    {
+      value: '523GB',
+      label: 'VA BOSTON HEALTHCARE SYSTEM - WORCESTER DIVISION',
+    },
     { value: '523GC', label: 'VA BOSTON HEALTHCARE SYSTEM - QUINCY CBOC' },
     { value: '523GD', label: 'PLYMOUTH CBOC' },
     { value: '631', label: 'VA CNTRL WSTRN MASSCHUSETS HCS' },
@@ -608,8 +676,14 @@ const vaMedicalFacilities = {
     { value: '589JD', label: 'MARSHFIELD CBOC' },
     { value: '589JE', label: 'PLATTE CITY VA CLINIC' },
     { value: '589JF', label: 'HONOR VA CLINIC' },
-    { value: '657', label: 'VA HEARTLAND-EAST, VISN 15 HCS JOHN COCHRAN MEMORIAL HOSPITAL' },
-    { value: '657A0', label: 'VA HEARTLAND-EAST, VISN 15 HCS JEFFERSON BARRACKS' },
+    {
+      value: '657',
+      label: 'VA HEARTLAND-EAST, VISN 15 HCS JOHN COCHRAN MEMORIAL HOSPITAL',
+    },
+    {
+      value: '657A0',
+      label: 'VA HEARTLAND-EAST, VISN 15 HCS JEFFERSON BARRACKS',
+    },
     { value: '657A4', label: 'JOHN PERSHING VAMC' },
     { value: '657GB', label: 'ST LOUIS COUNTY VA CLINIC' },
     { value: '657GD', label: 'ST CHARLES VA CLINIC' },
@@ -622,9 +696,7 @@ const vaMedicalFacilities = {
     { value: '657GX', label: 'ST. LOUIS VA CLINIC' },
     { value: '657GY', label: 'MANCHESTER VA CLINIC' },
   ],
-  MP: [
-    { value: '459GH', label: 'SAIPAN VA CLINIC' },
-  ],
+  MP: [{ value: '459GH', label: 'SAIPAN VA CLINIC' }],
   MS: [
     { value: '423', label: 'JACKSON VAMROC' },
     { value: '520', label: 'BILOXI VA MEDICAL CENTER' },
@@ -704,14 +776,20 @@ const vaMedicalFacilities = {
     { value: '442GB', label: 'SIDNEY VA CLINC' },
     { value: '568HB', label: 'GORDON CBOC' },
     { value: '568HH', label: 'SCOTTSBLUFF CBOC' },
-    { value: '636', label: 'VA CENTRAL PLAINS HEALTH NETWORK - OMAHA DIVISION' },
+    {
+      value: '636',
+      label: 'VA CENTRAL PLAINS HEALTH NETWORK - OMAHA DIVISION',
+    },
     { value: '636A4', label: 'VA NWIHS, GRAND ISLAND DIV' },
-    { value: '636A5', label: 'VA CENTRAL PLAINS HEALTH NETWORK - LINCOLN DIVISION' },
+    {
+      value: '636A5',
+      label: 'VA CENTRAL PLAINS HEALTH NETWORK - LINCOLN DIVISION',
+    },
     { value: '636GA', label: 'NORFOLK CBOC' },
     { value: '636GB', label: 'NORTH PLATTE CBOC' },
     { value: '636GL', label: 'BELLEVUE VA CBOC' },
     { value: '636GQ', label: 'HOLDREGE, NE CBOC' },
-    { value: '636GV', label: 'O\'NEILL VA CBOC' },
+    { value: '636GV', label: "O'NEILL VA CBOC" },
   ],
   NH: [
     { value: '405HC', label: 'ST. JOHNSBURY VERMONT OUTREACH CLINIC' },
@@ -782,7 +860,11 @@ const vaMedicalFacilities = {
     { value: '526GB', label: 'YONKERS CLINIC' },
     { value: '526GD', label: 'NORTH QUEENS CLINIC' },
     { value: '528', label: 'BUFFALO VA MEDICAL CENTER' },
-    { value: '528A4', label: 'VA HEALTHCARE NETWORK UPSTATE NEW YORK SYSTEM VISN 2 - BATAVIA DIVISION' },
+    {
+      value: '528A4',
+      label:
+        'VA HEALTHCARE NETWORK UPSTATE NEW YORK SYSTEM VISN 2 - BATAVIA DIVISION',
+    },
     { value: '528A5', label: 'CANANDAIGUA VA MEDICAL CENTER' },
     { value: '528A6', label: 'BATH VA MEDICAL CENTER' },
     { value: '528A7', label: 'SYRACUSE VA MEDICAL CENTER' },
@@ -816,8 +898,14 @@ const vaMedicalFacilities = {
     { value: '528GX', label: 'TROY CBOC' },
     { value: '528GY', label: 'CLIFTON PARK CBOC' },
     { value: '528GZ', label: 'KINGSTON CBOC' },
-    { value: '620', label: 'VA HUDSON VALLEY HEALTH CARE SYSTEM - MONTROSE DIVISION' },
-    { value: '620A4', label: 'VA HUDSON VALLEY HEALTH CARE - CASTLE POINT DIVISION' },
+    {
+      value: '620',
+      label: 'VA HUDSON VALLEY HEALTH CARE SYSTEM - MONTROSE DIVISION',
+    },
+    {
+      value: '620A4',
+      label: 'VA HUDSON VALLEY HEALTH CARE - CASTLE POINT DIVISION',
+    },
     { value: '620GA', label: 'NEW CITY' },
     { value: '620GB', label: 'PUTNAM COUNTY' },
     { value: '620GD', label: 'GOSHEN CBOC' },
@@ -825,8 +913,14 @@ const vaMedicalFacilities = {
     { value: '620GF', label: 'HARRIS' },
     { value: '620GG', label: 'POUGHKEEPSIE' },
     { value: '620GH', label: 'EASTERN DUTCHESS CBOC' },
-    { value: '630', label: 'VA NEW YORK HARBOR HEALTHCARE SYSTEM - NEW YORK DIVISION' },
-    { value: '630A4', label: 'VA NEW YORK HARBOR HEALTHCARE SYSTEM - BROOKLYN DIVISION' },
+    {
+      value: '630',
+      label: 'VA NEW YORK HARBOR HEALTHCARE SYSTEM - NEW YORK DIVISION',
+    },
+    {
+      value: '630A4',
+      label: 'VA NEW YORK HARBOR HEALTHCARE SYSTEM - BROOKLYN DIVISION',
+    },
     { value: '630A5', label: 'ST ALBANS EXTENDED CARE CNTR' },
     { value: '630GA', label: 'HARLEM CBOC-NYHHS' },
     { value: '630GB', label: 'STATEN ISLAND CBOC-NYHHCS' },
@@ -874,7 +968,10 @@ const vaMedicalFacilities = {
     { value: '562GB', label: 'ASHTABULA COUNTY VA CLINIC' },
     { value: '581GG', label: 'GALLIPOLIS VA CLINIC' },
     { value: '646GA', label: 'BELMONT COUNTY VA CLINIC' },
-    { value: '757', label: 'CHALMERS P. WYLIE VA AMBULATORY CARE CENTER (757)' },
+    {
+      value: '757',
+      label: 'CHALMERS P. WYLIE VA AMBULATORY CARE CENTER (757)',
+    },
     { value: '757GA', label: 'ZANESVILLE CBOC' },
     { value: '757GB', label: 'GROVE CITY CBOC' },
     { value: '757GC', label: 'MARION CBOC' },
@@ -964,9 +1061,7 @@ const vaMedicalFacilities = {
     { value: '693GF', label: 'COLUMBIA COUNTY VA CLINIC' },
     { value: '693GG', label: 'NORTHAMPTON COUNTY CLINIC' },
   ],
-  POSTALNAME: [
-    { value: 'STATIONNUMBER', label: 'NAME' },
-  ],
+  POSTALNAME: [{ value: 'STATIONNUMBER', label: 'NAME' }],
   PR: [
     { value: '672', label: 'SAN JUAN VA MEDICAL CENTER' },
     { value: '672B0', label: 'PONCE OUTPATIENT CLINIC' },
@@ -986,7 +1081,10 @@ const vaMedicalFacilities = {
     { value: '534GC', label: 'BEAUFORT PRIMARY CARE CLINIC' },
     { value: '534GD', label: 'GOOSE CREEK CBOC' },
     { value: '534GF', label: 'NORTH CHARLESTON VA CBOC' },
-    { value: '544', label: 'WM JENNINGS BRYAN DORN VETERANS AFFAIRS MEDICAL CENTER' },
+    {
+      value: '544',
+      label: 'WM JENNINGS BRYAN DORN VETERANS AFFAIRS MEDICAL CENTER',
+    },
     { value: '544BZ', label: 'GREENVILLE VA CLINIC SC' },
     { value: '544GB', label: 'FLORENCE CBOC' },
     { value: '544GC', label: 'ROCK HILL CBOC' },
@@ -1000,7 +1098,10 @@ const vaMedicalFacilities = {
     { value: '438GD', label: 'ABERDEEN CBOC' },
     { value: '438GE', label: 'WAGNER CBOC' },
     { value: '438GF', label: 'WATERTOWN CBOC' },
-    { value: '568', label: 'BLACK HILLS HEALTH CARE SYSTEM - FT. MEADE DIVISION' },
+    {
+      value: '568',
+      label: 'BLACK HILLS HEALTH CARE SYSTEM - FT. MEADE DIVISION',
+    },
     { value: '568A4', label: 'HOT SPRINGS, SD MC' },
     { value: '568GA', label: 'RAPID CITY CBOC' },
     { value: '568GB', label: 'PIERRE CBOC' },
@@ -1041,7 +1142,10 @@ const vaMedicalFacilities = {
     { value: '504BY', label: 'LUBBOCK OUTPATIENT CLINIC' },
     { value: '504GA', label: 'CHILDRESS OUTPATIENT CLINIC' },
     { value: '504HB', label: 'DALHART CBOC' },
-    { value: '519', label: 'WEST TEXAS VA HEALTH CARE SYSTEM - BIG SPRING DIVISION' },
+    {
+      value: '519',
+      label: 'WEST TEXAS VA HEALTH CARE SYSTEM - BIG SPRING DIVISION',
+    },
     { value: '519GA', label: 'PERMIAN BASIN CBOC' },
     { value: '519GD', label: 'FT. STOCKTON CBOC' },
     { value: '519HC', label: 'ABILENE CBOC' },
@@ -1072,18 +1176,31 @@ const vaMedicalFacilities = {
     { value: '580GG', label: 'RICHMOND CBOC' },
     { value: '580GH', label: 'TOMBALL CBOC' },
     { value: '580GJ', label: 'TEXAS CITY VA CLINIC' },
-    { value: '635GB', label: 'WICHITA FALLS CBOC VETERANS CLINIC OF NORTH TEXAS' },
+    {
+      value: '635GB',
+      label: 'WICHITA FALLS CBOC VETERANS CLINIC OF NORTH TEXAS',
+    },
     { value: '667GC', label: 'LONGVIEW CBOC' },
     { value: '671', label: 'AUDIE L. MURPHY MEMORIAL HOSP' },
     { value: '671A4', label: 'KERRVILLE VA MEDICAL CENTER' },
-    { value: '671B0', label: 'SOUTH TEXAS HEALTH CARE SYSTEM - MC ALLEN OUTPATIENT CLINIC' },
+    {
+      value: '671B0',
+      label: 'SOUTH TEXAS HEALTH CARE SYSTEM - MC ALLEN OUTPATIENT CLINIC',
+    },
     { value: '671BY', label: 'FRANK M. TEJEDA VA OPC' },
-    { value: '671BZ', label: 'SOUTH TEXAS HEALTH CARE SYSTEM - CORPUS CHRISTI OUTPATIENT CLINIC' },
+    {
+      value: '671BZ',
+      label:
+        'SOUTH TEXAS HEALTH CARE SYSTEM - CORPUS CHRISTI OUTPATIENT CLINIC',
+    },
     { value: '671GA', label: 'VA HARLINGEN OUTPATIENT CLINIC' },
     { value: '671GB', label: 'VICTORIA VA CLINIC' },
     { value: '671GC', label: 'DEL RIO VA CLINIC' },
     { value: '671GD', label: 'UNITED MEDICAL CENTERS' },
-    { value: '671GE', label: 'SOUTH TEXAS HEALTH CARE SYSTEM - LAREDO OUTPATIENT CLINIC' },
+    {
+      value: '671GE',
+      label: 'SOUTH TEXAS HEALTH CARE SYSTEM - LAREDO OUTPATIENT CLINIC',
+    },
     { value: '671GF', label: 'SOUTH BEXAR COUNTY VA CLINIC' },
     { value: '671GG', label: 'CHRISTUS SPOHN SAN DIEGO FAMILY HEALTH CLINIC' },
     { value: '671GH', label: 'BEEVILLE VA CLINIC' },
@@ -1160,7 +1277,10 @@ const vaMedicalFacilities = {
   WA: [
     { value: '648A4', label: 'VANCOUVER,WA DIV PORTLAND VAMC' },
     { value: '663', label: 'SEATTLE VA MEDICAL CENTER' },
-    { value: '663A4', label: 'PUGET SOUND HEALTH CARE SYSTEM - AMERICAN LAKE DIVISION' },
+    {
+      value: '663A4',
+      label: 'PUGET SOUND HEALTH CARE SYSTEM - AMERICAN LAKE DIVISION',
+    },
     { value: '663GA', label: 'BELLEVUE VA CLINIC' },
     { value: '663GB', label: 'BREMERTON VA CLINIC' },
     { value: '663GC', label: 'MOUNT VERNON VA CLINIC' },
@@ -1224,21 +1344,27 @@ const vaMedicalFacilities = {
   ],
 };
 // Turns the facility list for each state into an array of strings
-export const medicalCentersByState = _.mapValues((val) => {
-  return val.map(center => center.value);
-}, vaMedicalFacilities);
+export const medicalCentersByState = _.mapValues(
+  val => val.map(center => center.value),
+  vaMedicalFacilities,
+);
 
 // Merges all the state facilities into one object with values as keys
 // and labels as values
-export const medicalCenterLabels = Object.keys(vaMedicalFacilities).reduce((labels, state) => {
-  const stateLabels = vaMedicalFacilities[state].reduce((centers, center) => {
-    return Object.assign(centers, {
-      [center.value]: center.label
-    });
-  }, {});
+export const medicalCenterLabels = Object.keys(vaMedicalFacilities).reduce(
+  (labels, state) => {
+    const stateLabels = vaMedicalFacilities[state].reduce(
+      (centers, center) =>
+        Object.assign(centers, {
+          [center.value]: center.label,
+        }),
+      {},
+    );
 
-  return Object.assign(labels, stateLabels);
-}, {});
+    return Object.assign(labels, stateLabels);
+  },
+  {},
+);
 
 export const dischargeTypeLabels = {
   honorable: 'Honorable',
@@ -1246,7 +1372,7 @@ export const dischargeTypeLabels = {
   other: 'Other Than Honorable',
   'bad-conduct': 'Bad Conduct',
   dishonorable: 'Dishonorable',
-  undesirable: 'Undesirable'
+  undesirable: 'Undesirable',
 };
 
 export const lastServiceBranchLabels = {
@@ -1262,25 +1388,35 @@ export const lastServiceBranchLabels = {
   'f.guerilla': 'Filipino Guerilla Forces',
   'f.scouts new': 'Filipino New Scout',
   'f.scouts old': 'Filipino Old Scout',
-  other: 'Other'
+  other: 'Other',
 };
 
 export const financialDisclosureText = (
   <div>
-    <p>Next, we’ll ask you to provide your financial information from the most recent
-    tax year, which we’ll verify with the IRS. We use this information to figure out if you:</p>
+    <p>
+      Next, we’ll ask you to provide your financial information from the most
+      recent tax year, which we’ll verify with the IRS. We use this information
+      to figure out if you:
+    </p>
 
     <ol>
-      <li>Are eligible for health care even if you don’t have one of the qualifying factors</li>
-      <li>Are eligible for added benefits, like reimbusement for travel costs or cost-free medications</li>
+      <li>
+        Are eligible for health care even if you don’t have one of the
+        qualifying factors
+      </li>
+      <li>
+        Are eligible for added benefits, like reimbusement for travel costs or
+        cost-free medications
+      </li>
       <li>Should be charged for copays or medication</li>
     </ol>
 
     <div className="usa-alert usa-alert-info">
       <div className="usa-alert-body">
         <span>
-          <strong>Note:</strong> You don’t have to provide your financial information. But if you don’t have a qualifying
-          eligibility factor, this information is the only other way for us to see if you can get VA
+          <strong>Note:</strong> You don’t have to provide your financial
+          information. But if you don’t have a qualifying eligibility factor,
+          this information is the only other way for us to see if you can get VA
           health care benefits--including added benefits like waived copays.
         </span>
       </div>
@@ -1290,34 +1426,73 @@ export const financialDisclosureText = (
       <li>Former Prisoner of War</li>
       <li>Received a Purple Heart</li>
       <li>Recently discharged combat Veteran</li>
-      <li>Discharged for a disability that resulted from your service or got worse in the line of duty</li>
+      <li>
+        Discharged for a disability that resulted from your service or got worse
+        in the line of duty
+      </li>
       <li>Getting VA service-connected disability compensation</li>
       <li>Getting a VA pension</li>
       <li>Receiving Medicaid benefits</li>
       <li>Served in Vietnam between January 9, 1962, and May 7, 1975</li>
-      <li>Served in Southwest Asia during the Gulf War between August 2, 1990, and November 11, 1998</li>
-      <li>Served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987</li>
+      <li>
+        Served in Southwest Asia during the Gulf War between August 2, 1990, and
+        November 11, 1998
+      </li>
+      <li>
+        Served at least 30 days at Camp Lejeune between August 1, 1953, and
+        December 31, 1987
+      </li>
     </ul>
 
     <div className="input-section">
-      <a target="_blank" href="http://www.va.gov/healthbenefits/cost/income_thresholds.asp">Learn more</a> about our income thresholds (also called income limits) and copayments.
+      <a
+        target="_blank"
+        href="http://www.va.gov/healthbenefits/cost/income_thresholds.asp"
+      >
+        Learn more
+      </a>{' '}
+      about our income thresholds (also called income limits) and copayments.
     </div>
   </div>
 );
 
 export const incomeDescription = (
   <div>
-    <p>Please fill this section out to the best of your knowledge. Provide the previous calendar year’s gross annual income for you, your spouse, and your dependents.</p>
-    <p><strong>Gross annual income:</strong> This income is from employment only, and doesn’t include income from your farm, ranch, property, or business. When you calculate your gross annual income, include your wages, bonuses, tips, severance pay, and other accrued benefits. Include your dependent’s income information if it could have been used to pay your household expenses.</p>
-    <p><strong>Net income:</strong> This is the income from your farm, ranch, property, or business.</p>
-    <p><strong>Other income:</strong> This includes retirement and pension income; Social Security Retirement and Social Security Disability income; compensation benefits such as VA disability, unemployment, Workers, and black lung; cash gifts; interest and dividends, including tax exempt earnings and distributions from Individual Retirement Accounts (IRAs) or annuities.</p>
+    <p>
+      Please fill this section out to the best of your knowledge. Provide the
+      previous calendar year’s gross annual income for you, your spouse, and
+      your dependents.
+    </p>
+    <p>
+      <strong>Gross annual income:</strong> This income is from employment only,
+      and doesn’t include income from your farm, ranch, property, or business.
+      When you calculate your gross annual income, include your wages, bonuses,
+      tips, severance pay, and other accrued benefits. Include your dependent’s
+      income information if it could have been used to pay your household
+      expenses.
+    </p>
+    <p>
+      <strong>Net income:</strong> This is the income from your farm, ranch,
+      property, or business.
+    </p>
+    <p>
+      <strong>Other income:</strong> This includes retirement and pension
+      income; Social Security Retirement and Social Security Disability income;
+      compensation benefits such as VA disability, unemployment, Workers, and
+      black lung; cash gifts; interest and dividends, including tax exempt
+      earnings and distributions from Individual Retirement Accounts (IRAs) or
+      annuities.
+    </p>
   </div>
 );
 
 export const disclosureWarning = (
   <div className="usa-alert usa-alert-info">
     <div className="usa-alert-body">
-      <span>If you don’t provide your financial information and you don’t have another qualifying eligibility factor, VA can’t enroll you.</span>
+      <span>
+        If you don’t provide your financial information and you don’t have
+        another qualifying eligibility factor, VA can’t enroll you.
+      </span>
     </div>
   </div>
 );
@@ -1325,26 +1500,35 @@ export const disclosureWarning = (
 export const expensesGreaterThanIncomeWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      <h2 className="usa-alert-heading">Your expenses are higher than or equal to your income.</h2>
-      <p className="usa-alert-text">You can stop entering your expenses. We’ll adjust your expenses to be equal to your income. This won’t affect your application or benefits.</p>
+      <h2 className="usa-alert-heading">
+        Your expenses are higher than or equal to your income.
+      </h2>
+      <p className="usa-alert-text">
+        You can stop entering your expenses. We’ll adjust your expenses to be
+        equal to your income. This won’t affect your application or benefits.
+      </p>
     </div>
   </div>
 );
 
 export function expensesLessThanIncome(fieldShownUnder) {
-  const fields = ['deductibleMedicalExpenses', 'deductibleFuneralExpenses', 'deductibleEducationExpenses'];
-  return (formData) => {
+  const fields = [
+    'deductibleMedicalExpenses',
+    'deductibleFuneralExpenses',
+    'deductibleEducationExpenses',
+  ];
+  return formData => {
     const {
       veteranGrossIncome = 0,
       veteranNetIncome = 0,
       veteranOtherIncome = 0,
-      dependents = []
+      dependents = [],
     } = formData;
 
     const {
       spouseGrossIncome = 0,
       spouseNetIncome = 0,
-      spouseOtherIncome = 0
+      spouseOtherIncome = 0,
     } = formData['view:spouseIncome'] || {};
 
     const vetSpouseIncome =
@@ -1356,11 +1540,7 @@ export function expensesLessThanIncome(fieldShownUnder) {
       spouseOtherIncome;
 
     const income = dependents.reduce((sum, dependent) => {
-      const {
-        grossIncome = 0,
-        netIncome = 0,
-        otherIncome = 0,
-      } = dependent;
+      const { grossIncome = 0, netIncome = 0, otherIncome = 0 } = dependent;
 
       return grossIncome + netIncome + otherIncome + sum;
     }, vetSpouseIncome);
@@ -1382,7 +1562,10 @@ export function expensesLessThanIncome(fieldShownUnder) {
     // then we need to make sure the current field is the last non-empty field
     if (!hideBasedOnValues) {
       const nonEmptyFields = fields.filter(field => formData[field]);
-      if (!nonEmptyFields.length || nonEmptyFields[nonEmptyFields.length - 1] !== fieldShownUnder) {
+      if (
+        !nonEmptyFields.length ||
+        nonEmptyFields[nonEmptyFields.length - 1] !== fieldShownUnder
+      ) {
         return true;
       }
 
@@ -1395,20 +1578,27 @@ export function expensesLessThanIncome(fieldShownUnder) {
 
 export const deductibleExpensesDescription = (
   <div>
-    Tell us a bit about your expenses this past calendar year. Enter information for any expenses that apply to you.
+    Tell us a bit about your expenses this past calendar year. Enter information
+    for any expenses that apply to you.
     <div className="hca-tooltip-wrapper">
       <AdditionalInfo triggerText="What if my expenses are higher than my annual income?">
-        We understand in some cases your expenses might be higher than your income. If your expenses exceed your income, we’ll adjust them to be equal to your income. This won’t affect your application or benefits.
+        We understand in some cases your expenses might be higher than your
+        income. If your expenses exceed your income, we’ll adjust them to be
+        equal to your income. This won’t affect your application or benefits.
       </AdditionalInfo>
     </div>
   </div>
 );
 export const isEssentialAcaCoverageDescription = (
   <div>
-    I’m enrolling to get minimum essential coverage under the Affordable Care Act.
+    I’m enrolling to get minimum essential coverage under the Affordable Care
+    Act.
     <div className="hca-tooltip-wrapper">
       <AdditionalInfo triggerText="Learn more about minimum essential coverage.">
-        To avoid the penalty for not having insurance, you must be enrolled in a health plan that qualifies as minimum essential coverage. Being signed up for VA health care meets the minimum essential coverage requirement under the Affordable Care Act.
+        To avoid the penalty for not having insurance, you must be enrolled in a
+        health plan that qualifies as minimum essential coverage. Being signed
+        up for VA health care meets the minimum essential coverage requirement
+        under the Affordable Care Act.
       </AdditionalInfo>
     </div>
   </div>
@@ -1417,7 +1607,8 @@ export const medicaidDescription = (
   <div>
     <div className="hca-tooltip-wrapper">
       <AdditionalInfo triggerText="Learn more about Medicaid.">
-        Medicaid is a government health program for eligible low-income individuals and families and people with disabilities.
+        Medicaid is a government health program for eligible low-income
+        individuals and families and people with disabilities.
       </AdditionalInfo>
     </div>
   </div>
@@ -1426,7 +1617,10 @@ export const medicarePartADescription = (
   <div>
     <div className="hca-tooltip-wrapper">
       <AdditionalInfo triggerText="Learn more about Medicare Part A insurance.">
-        Medicare is a federal health insurance program providing coverage for people who are 65 years or older or who meet who meet special criteria. Part A insurance covers hospital care, skilled nursing and nursing home care, hospice, and home health services.
+        Medicare is a federal health insurance program providing coverage for
+        people who are 65 years or older or who meet who meet special criteria.
+        Part A insurance covers hospital care, skilled nursing and nursing home
+        care, hospice, and home health services.
       </AdditionalInfo>
     </div>
   </div>
@@ -1476,7 +1670,10 @@ export function getCSTDate() {
 
   // The UTC and Central Time times are defined in milliseconds
   // UTC time is determined by adding the local offset to the local time
-  const utcTime = getAdjustedTime(today.getTime(), getOffsetTime(today.getTimezoneOffset()));
+  const utcTime = getAdjustedTime(
+    today.getTime(),
+    getOffsetTime(today.getTimezoneOffset()),
+  );
 
   // Central Time is determined by adjusting the UTC time (derived above) using the CST offset
   const centralTime = getAdjustedTime(utcTime, getOffsetTime(cstOffset));

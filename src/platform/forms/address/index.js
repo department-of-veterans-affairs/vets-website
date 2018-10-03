@@ -1,10 +1,6 @@
 import _ from 'lodash';
 
-import {
-  isNotBlank,
-  isBlank,
-  isValidRequiredField
-} from '../validations';
+import { isNotBlank, isBlank, isValidRequiredField } from '../validations';
 
 export const countries = [
   { value: 'USA', label: 'United States' },
@@ -234,7 +230,7 @@ export const countries = [
   { value: 'ESH', label: 'Western Sahara' },
   { value: 'YEM', label: 'Yemen' },
   { value: 'ZMB', label: 'Zambia' },
-  { value: 'ZWE', label: 'Zimbabwe' }
+  { value: 'ZWE', label: 'Zimbabwe' },
 ];
 
 export const states = {
@@ -251,7 +247,7 @@ export const states = {
     { label: 'Prince Edward Island', value: 'PE' },
     { label: 'Quebec', value: 'QC' },
     { label: 'Saskatchewan', value: 'SK' },
-    { label: 'Yukon Territory', value: 'YT' }
+    { label: 'Yukon Territory', value: 'YT' },
   ],
   MEX: [
     { label: 'Aguascalientes', value: 'aguascalientes' },
@@ -285,7 +281,7 @@ export const states = {
     { label: 'Tlaxcala', value: 'tlaxcala' },
     { label: 'Veracruz', value: 'veracruz' },
     { label: 'Yucatán', value: 'yucatan' },
-    { label: 'Zacatecas', value: 'zacatecas' }
+    { label: 'Zacatecas', value: 'zacatecas' },
   ],
   USA: [
     { label: 'Alabama', value: 'AL' },
@@ -349,13 +345,13 @@ export const states = {
     { label: 'Washington', value: 'WA' },
     { label: 'West Virginia', value: 'WV' },
     { label: 'Wisconsin', value: 'WI' },
-    { label: 'Wyoming', value: 'WY' }
-  ]
+    { label: 'Wyoming', value: 'WY' },
+  ],
 };
 
-states.USA_OTHER = states.USA
-  .concat([{ label: 'Other', value: 'Other' }])
-  .sort((a, b) => a.label.localeCompare(b.label));
+states.USA_OTHER = states.USA.concat([{ label: 'Other', value: 'Other' }]).sort(
+  (a, b) => a.label.localeCompare(b.label),
+);
 
 export function isValidUSZipCode(value) {
   return /(^\d{5}$)|(^\d{5}[ -]{0,1}\d{4}$)/.test(value);
@@ -366,26 +362,29 @@ export function isValidCanPostalCode(value) {
 }
 
 export function isValidAddressField(field) {
-  const initialOk = isNotBlank(field.street.value) &&
+  const initialOk =
+    isNotBlank(field.street.value) &&
     isNotBlank(field.city.value) &&
     isNotBlank(field.country.value);
 
   let isValidPostalCode = true;
 
   if (field.country.value === 'USA') {
-    isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidUSZipCode, field.postalCode);
+    isValidPostalCode =
+      isValidPostalCode &&
+      isValidRequiredField(isValidUSZipCode, field.postalCode);
   }
 
   if (field.country.value === 'CAN') {
-    isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidCanPostalCode, field.postalCode);
+    isValidPostalCode =
+      isValidPostalCode &&
+      isValidRequiredField(isValidCanPostalCode, field.postalCode);
   }
 
   // if we have a defined list of values, they will
   // be set as the state and zipcode keys
   if (_.hasIn(states, field.country.value)) {
-    return initialOk &&
-      isNotBlank(field.state.value) &&
-      isValidPostalCode;
+    return initialOk && isNotBlank(field.state.value) && isValidPostalCode;
   }
   // if the entry was non-USA/CAN/MEX, only postal is
   // required, not provinceCode
@@ -393,15 +392,17 @@ export function isValidAddressField(field) {
 }
 
 export function isBlankAddress(address) {
-  return isBlank(address.city.value)
-    && isBlank(address.state.value)
-    && isBlank(address.street.value)
-    && isBlank(address.postalCode.value);
+  return (
+    isBlank(address.city.value) &&
+    isBlank(address.state.value) &&
+    isBlank(address.street.value) &&
+    isBlank(address.postalCode.value)
+  );
 }
 
 export const statesOnlyInPCIU = [
   { label: 'Philippine Islands', value: 'PI' },
-  { label: 'U.S. Minor Outlying Islands', value: 'UM' }
+  { label: 'U.S. Minor Outlying Islands', value: 'UM' },
 ];
 
 export const pciuCountries = [
@@ -616,5 +617,5 @@ export const pciuCountries = [
   'Western Samoa',
   'Yemen Arab Republic',
   'Zambia',
-  'Zimbabwe'
+  'Zimbabwe',
 ];

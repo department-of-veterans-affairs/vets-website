@@ -12,7 +12,10 @@ export default function MultifactorMessage({ multifactor }) {
     return (
       <div>
         <h3>Account security</h3>
-        <p><i className="fa fa-check-circle"/> You've added an extra layer of security to your account with 2-factor authentication.</p>
+        <p>
+          <i className="fa fa-check-circle" /> You've added an extra layer of
+          security to your account with 2-factor authentication.
+        </p>
       </div>
     );
   }
@@ -20,8 +23,14 @@ export default function MultifactorMessage({ multifactor }) {
   return (
     <div>
       <h4>Want to make your account more secure?</h4>
-      <p>Add an extra layer of security (called 2-factor authentication). This helps to make sure only you can access your account—even if someone gets your password.</p>
-      <button className="usa-button-primary" onClick={recordAnalyticEvent}>Secure Your Account</button>
+      <p>
+        Add an extra layer of security (called 2-factor authentication). This
+        helps to make sure only you can access your account—even if someone gets
+        your password.
+      </p>
+      <button className="usa-button-primary" onClick={recordAnalyticEvent}>
+        Secure Your Account
+      </button>
     </div>
   );
 }

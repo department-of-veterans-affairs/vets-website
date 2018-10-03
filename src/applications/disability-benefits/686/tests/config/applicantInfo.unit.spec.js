@@ -3,11 +3,18 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, selectRadio } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+  selectRadio,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('686 applicant information', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.applicantInformation.pages.applicantInformation;
 
   it('should render', () => {
     const form = mount(
@@ -15,7 +22,8 @@ describe('686 applicant information', () => {
         schema={schema}
         data={{}}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     expect(form.find('input').length).to.equal(7);
     expect(form.find('select').length).to.equal(1);
@@ -28,7 +36,8 @@ describe('686 applicant information', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(3);
@@ -43,7 +52,8 @@ describe('686 applicant information', () => {
         definitions={formConfig.defaultDefinitions}
         data={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     fillData(form, 'input#root_claimantFullName_first', 'test');
@@ -61,7 +71,8 @@ describe('686 applicant information', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     selectRadio(form, 'root_view:relationshipToVet', '2');
 
@@ -74,7 +85,8 @@ describe('686 applicant information', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     selectRadio(form, 'root_view:relationshipToVet', '3');
 
@@ -87,7 +99,8 @@ describe('686 applicant information', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     selectRadio(form, 'root_view:relationshipToVet', '4');
 

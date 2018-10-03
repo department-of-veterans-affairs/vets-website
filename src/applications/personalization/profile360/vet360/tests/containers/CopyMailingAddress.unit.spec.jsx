@@ -1,19 +1,12 @@
 import { expect } from 'chai';
 
-import {
-  FIELD_NAMES
-} from '../../constants';
+import { FIELD_NAMES } from '../../constants';
 
-import {
-  mapStateToProps
-} from '../../containers/CopyMailingAddress';
+import { mapStateToProps } from '../../containers/CopyMailingAddress';
 
-import {
-  convertNextValueToCleanData
-} from '../../components/AddressField';
+import { convertNextValueToCleanData } from '../../components/AddressField';
 
 describe('<CopyMailingAddress/>', () => {
-
   describe('mapStateToProps', () => {
     let state = null;
     const ownProps = {
@@ -25,15 +18,15 @@ describe('<CopyMailingAddress/>', () => {
         user: {
           profile: {
             vet360: {
-              [FIELD_NAMES.MAILING_ADDRESS]: null
-            }
-          }
+              [FIELD_NAMES.MAILING_ADDRESS]: null,
+            },
+          },
         },
         vet360: {
           formFields: {
-            [FIELD_NAMES.MAILING_ADDRESS]: null
-          }
-        }
+            [FIELD_NAMES.MAILING_ADDRESS]: null,
+          },
+        },
       };
     });
 
@@ -41,7 +34,9 @@ describe('<CopyMailingAddress/>', () => {
       const mailingAddress = { city: 'some city' };
 
       state.user.profile.vet360[FIELD_NAMES.MAILING_ADDRESS] = mailingAddress;
-      state.vet360.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = { city: 'some other city' };
+      state.vet360.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
+        city: 'some other city',
+      };
 
       const result = mapStateToProps(state, ownProps);
 
@@ -72,7 +67,7 @@ describe('<CopyMailingAddress/>', () => {
         stateCode: 'NY',
         updatedAt: '2018-04-21T20:09:50Z',
         zipCode: '97062',
-        zipCodeSuffix: '123'
+        zipCodeSuffix: '123',
       };
 
       // This is the same address as above, but converted to the edit-modal form.
@@ -89,14 +84,12 @@ describe('<CopyMailingAddress/>', () => {
           internationalPostalCode: null,
           province: null,
           stateCode: 'NY',
-          zipCode: '97062'
-        }
+          zipCode: '97062',
+        },
       };
 
       const result = mapStateToProps(state, ownProps);
       expect(result.checked).to.be.true;
     });
-
   });
-
 });

@@ -20,7 +20,6 @@ import { outcomeNumbers } from '../selectors/outcomes';
 const { Element: ScrollElement, scroller } = Scroll;
 
 export class ProfilePage extends React.Component {
-
   constructor(props) {
     super(props);
     this.handleViewWarnings = this.handleViewWarnings.bind(this);
@@ -29,15 +28,17 @@ export class ProfilePage extends React.Component {
   componentDidMount() {
     this.props.fetchProfile(
       this.props.params.facilityCode,
-      this.props.location.query.version
+      this.props.location.query.version,
     );
   }
 
   componentDidUpdate(prevProps) {
     const {
-      location: { query: { version: uuid } },
+      location: {
+        query: { version: uuid },
+      },
       params: { facilityCode },
-      profile
+      profile,
     } = this.props;
 
     const institutionName = _.get(profile, 'attributes.name');
@@ -69,7 +70,7 @@ export class ProfilePage extends React.Component {
     let content;
 
     if (profile.inProgress || _.isEmpty(profile.attributes)) {
-      content = <LoadingIndicator message="Loading your profile..."/>;
+      content = <LoadingIndicator message="Loading your profile..." />;
     } else {
       const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
 
@@ -78,42 +79,51 @@ export class ProfilePage extends React.Component {
           <HeadingSummary
             institution={profile.attributes}
             onLearnMore={this.props.showModal.bind(this, 'gibillstudents')}
-            onViewWarnings={this.handleViewWarnings}/>
+            onViewWarnings={this.handleViewWarnings}
+          />
           <div className="usa-accordion">
             <ul>
               <AccordionItem button="Estimate your benefits">
-                <Calculator/>
+                <Calculator />
               </AccordionItem>
-              {
-                !isOJT &&
-                (<AccordionItem button="Veteran programs">
+              {!isOJT && (
+                <AccordionItem button="Veteran programs">
                   <Programs
                     institution={profile.attributes}
-                    onShowModal={this.props.showModal}/>
-                </AccordionItem>)
-              }
-              {
-                !isOJT &&
-                (<AccordionItem button="Student outcomes">
-                  <If condition={!!profile.attributes.facilityCode && !!constants} comment="TODO">
+                    onShowModal={this.props.showModal}
+                  />
+                </AccordionItem>
+              )}
+              {!isOJT && (
+                <AccordionItem button="Student outcomes">
+                  <If
+                    condition={!!profile.attributes.facilityCode && !!constants}
+                    comment="TODO"
+                  >
                     <Outcomes
                       graphing={outcomes}
-                      onShowModal={this.props.showModal}/>
+                      onShowModal={this.props.showModal}
+                    />
                   </If>
-                </AccordionItem>)
-              }
+                </AccordionItem>
+              )}
               <AccordionItem
                 button="Cautionary information"
-                ref={c => { this._cautionaryInfo = c; }}>
-                <a name="viewWarnings"></a>
+                ref={c => {
+                  this._cautionaryInfo = c;
+                }}
+              >
+                <a name="viewWarnings" />
                 <CautionaryInformation
                   institution={profile.attributes}
-                  onShowModal={this.props.showModal}/>
+                  onShowModal={this.props.showModal}
+                />
               </AccordionItem>
               <AccordionItem button="Additional information">
                 <AdditionalInformation
                   institution={profile.attributes}
-                  onShowModal={this.props.showModal}/>
+                  onShowModal={this.props.showModal}
+                />
               </AccordionItem>
             </ul>
           </div>
@@ -127,11 +137,13 @@ export class ProfilePage extends React.Component {
       </ScrollElement>
     );
   }
-
 }
 
-const mapStateToProps = (state) => {
-  const { constants: { constants }, profile } = state;
+const mapStateToProps = state => {
+  const {
+    constants: { constants },
+    profile,
+  } = state;
   const outcomes = constants ? outcomeNumbers(state) : null;
   return { constants, outcomes, profile };
 };
@@ -139,7 +151,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   fetchProfile,
   setPageTitle,
-  showModal
+  showModal,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ProfilePage);

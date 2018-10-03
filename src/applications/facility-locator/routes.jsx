@@ -8,11 +8,9 @@ const routes = {
   childRoutes: [
     {
       indexRoute: { component: VAMap },
-      childRoutes: [
-        { path: 'facility/:id', component: FacilityDetail },
-      ]
+      childRoutes: [{ path: 'facility/:id', component: FacilityDetail }],
     },
-  ]
+  ],
 };
 
 export default routes;

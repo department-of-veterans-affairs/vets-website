@@ -3,30 +3,41 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, selectRadio } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+  selectRadio,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../chapter31/config/form.js';
 
 describe('VRE chapter 31 work information', () => {
-  const { schema, uiSchema } = formConfig.chapters.workInformation.pages.workInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.workInformation.pages.workInformation;
   it('renders work information form', () => {
-    const form = mount(<DefinitionTester
-      definitions={formConfig.defaultDefinitions}
-      schema={schema}
-      data={{}}
-      formData={{}}
-      uiSchema={uiSchema}/>
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        formData={{}}
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(2);
   });
 
   it('renders job information form when working is true', () => {
-    const form = mount(<DefinitionTester
-      definitions={formConfig.defaultDefinitions}
-      schema={schema}
-      data={{}}
-      formData={{}}
-      uiSchema={uiSchema}/>
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        formData={{}}
+        uiSchema={uiSchema}
+      />,
     );
 
     selectRadio(form, 'root_view:isWorking', 'Y');
@@ -43,7 +54,8 @@ describe('VRE chapter 31 work information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     selectRadio(form, 'root_view:isWorking', 'Y');
@@ -62,7 +74,8 @@ describe('VRE chapter 31 work information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     selectRadio(form, 'root_view:isWorking', 'Y');

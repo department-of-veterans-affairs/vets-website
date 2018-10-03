@@ -3,12 +3,21 @@ import _ from 'lodash/fp';
 export default [
   // 0 -> 1, we had a bug where isSpanishHispanicLatino was defaulted in the wrong place
   // and this removes it and defaults it in the right spot if necessary
-  (savedData) => {
+  savedData => {
     const newData = savedData;
     newData.formData = _.unset('isSpanishHispanicLatino', savedData.formData);
 
-    if (typeof _.get('view:demographicCategories.isSpanishHispanicLatino', newData.formData) === 'undefined') {
-      newData.formData = _.set('view:demographicCategories.isSpanishHispanicLatino', false, newData.formData);
+    if (
+      typeof _.get(
+        'view:demographicCategories.isSpanishHispanicLatino',
+        newData.formData,
+      ) === 'undefined'
+    ) {
+      newData.formData = _.set(
+        'view:demographicCategories.isSpanishHispanicLatino',
+        false,
+        newData.formData,
+      );
       return newData;
     }
 
@@ -37,7 +46,8 @@ export default [
           } else if (field.startsWith('child')) {
             const newField = field.replace(/^child/, '');
             const [firstLetter, ...restOfField] = newField;
-            acc[`${firstLetter.toLowerCase()}${restOfField.join('')}`] = child[field];
+            acc[`${firstLetter.toLowerCase()}${restOfField.join('')}`] =
+              child[field];
           } else {
             acc[field] = child[field];
           }
@@ -58,7 +68,11 @@ export default [
     let newMetadata = metadata;
 
     if (url === '/household-information/child-information') {
-      newMetadata = _.set('returnUrl', '/household-information/dependent-information', metadata);
+      newMetadata = _.set(
+        'returnUrl',
+        '/household-information/dependent-information',
+        metadata,
+      );
     }
 
     return { formData, metadata: newMetadata };
@@ -67,43 +81,70 @@ export default [
     const {
       compensableVaServiceConnected = null,
       isVaServiceConnected = null,
-      receivesVaPension = null
+      receivesVaPension = null,
     } = formData;
 
     // Haven't gotten to this page yet
-    if (compensableVaServiceConnected === null && isVaServiceConnected === null && receivesVaPension === null) {
+    if (
+      compensableVaServiceConnected === null &&
+      isVaServiceConnected === null &&
+      receivesVaPension === null
+    ) {
       return { formData, metadata };
     }
 
-    const newFormData = _.omit(['compensableVaServiceConnected', 'isVaServiceConnected', 'receivesVaPension'], formData);
+    const newFormData = _.omit(
+      [
+        'compensableVaServiceConnected',
+        'isVaServiceConnected',
+        'receivesVaPension',
+      ],
+      formData,
+    );
 
     // We want to convert the data only when one option is true and the others are false
     // If more than one is true, we need to ask the user again
-    if (compensableVaServiceConnected === false && isVaServiceConnected === false && receivesVaPension === false) {
+    if (
+      compensableVaServiceConnected === false &&
+      isVaServiceConnected === false &&
+      receivesVaPension === false
+    ) {
       return {
         formData: _.set('vaCompensationType', 'none', newFormData),
-        metadata
+        metadata,
       };
     }
 
-    if (compensableVaServiceConnected === true && isVaServiceConnected === false && receivesVaPension === false) {
+    if (
+      compensableVaServiceConnected === true &&
+      isVaServiceConnected === false &&
+      receivesVaPension === false
+    ) {
       return {
         formData: _.set('vaCompensationType', 'lowDisability', newFormData),
-        metadata
+        metadata,
       };
     }
 
-    if (compensableVaServiceConnected === false && isVaServiceConnected === true && receivesVaPension === false) {
+    if (
+      compensableVaServiceConnected === false &&
+      isVaServiceConnected === true &&
+      receivesVaPension === false
+    ) {
       return {
         formData: _.set('vaCompensationType', 'highDisability', newFormData),
-        metadata
+        metadata,
       };
     }
 
-    if (compensableVaServiceConnected === false && isVaServiceConnected === false && receivesVaPension === true) {
+    if (
+      compensableVaServiceConnected === false &&
+      isVaServiceConnected === false &&
+      receivesVaPension === true
+    ) {
       return {
         formData: _.set('vaCompensationType', 'pension', newFormData),
-        metadata
+        metadata,
       };
     }
 
@@ -113,7 +154,7 @@ export default [
       formData: newFormData,
       metadata: metadata.prefill
         ? metadata
-        : _.set('returnUrl', '/va-benefits/basic-information', metadata)
+        : _.set('returnUrl', '/va-benefits/basic-information', metadata),
     };
   },
   // required strings can not pass validation with only spaces
@@ -123,10 +164,22 @@ export default [
     const notBlankStringPattern = /^.*\S.*/;
 
     [
-      { selector: 'veteranAddress.city', returnUrl: 'veteran-information/veteran-address' },
-      { selector: 'veteranAddress.street', returnUrl: 'veteran-information/veteran-address' },
-      { selector: 'veteranFullName.last', returnUrl: 'veteran-information/personal-information' },
-      { selector: 'veteranFullName.first', returnUrl: 'veteran-information/personal-information' }
+      {
+        selector: 'veteranAddress.city',
+        returnUrl: 'veteran-information/veteran-address',
+      },
+      {
+        selector: 'veteranAddress.street',
+        returnUrl: 'veteran-information/veteran-address',
+      },
+      {
+        selector: 'veteranFullName.last',
+        returnUrl: 'veteran-information/personal-information',
+      },
+      {
+        selector: 'veteranFullName.first',
+        returnUrl: 'veteran-information/personal-information',
+      },
     ].forEach(({ selector, returnUrl }) => {
       if (!notBlankStringPattern.test(_.get(selector, newFormData))) {
         newFormData = _.unset(selector, newFormData);
@@ -136,7 +189,7 @@ export default [
 
     return {
       formData: newFormData,
-      metadata: newMetaData
+      metadata: newMetaData,
     };
   },
   // 5 > 6, move user back to fields with only spaces
@@ -148,20 +201,34 @@ export default [
     if (newFormData.providers) {
       newFormData.providers.forEach((provider, index) => {
         if (!notBlankStringPattern.test(provider.insuranceGroupCode)) {
-          newFormData = _.unset(['providers', index, 'insuranceGroupCode'], newFormData);
-          newMetaData = _.set('returnUrl', 'insurance-information/general', newMetaData);
+          newFormData = _.unset(
+            ['providers', index, 'insuranceGroupCode'],
+            newFormData,
+          );
+          newMetaData = _.set(
+            'returnUrl',
+            'insurance-information/general',
+            newMetaData,
+          );
         }
 
         if (!notBlankStringPattern.test(provider.insurancePolicyNumber)) {
-          newFormData = _.unset(['providers', index, 'insurancePolicyNumber'], newFormData);
-          newMetaData = _.set('returnUrl', 'insurance-information/general', newMetaData);
+          newFormData = _.unset(
+            ['providers', index, 'insurancePolicyNumber'],
+            newFormData,
+          );
+          newMetaData = _.set(
+            'returnUrl',
+            'insurance-information/general',
+            newMetaData,
+          );
         }
       });
     }
 
     return {
       formData: newFormData,
-      metadata: newMetaData
+      metadata: newMetaData,
     };
-  }
+  },
 ];

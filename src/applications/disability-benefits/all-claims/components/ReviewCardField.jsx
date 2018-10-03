@@ -4,7 +4,7 @@ import Raven from 'raven-js';
 
 import {
   getDefaultFormState,
-  getDefaultRegistry
+  getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import { errorSchemaIsValid } from 'us-forms-system/lib/js/validation';
@@ -12,7 +12,6 @@ import { errorSchemaIsValid } from 'us-forms-system/lib/js/validation';
 import set from '../../../../platform/utilities/data/set';
 import get from '../../../../platform/utilities/data/get';
 import omit from '../../../../platform/utilities/data/omit';
-
 
 /**
  * Displays a review card if the information inside is valid.
@@ -29,63 +28,79 @@ export default class ReviewCardField extends React.Component {
     required: false,
     disabled: false,
     readonly: false,
-  }
-
+  };
 
   constructor(props) {
     super(props);
 
     // Throw an error if there’s no viewComponent (should be React component)
-    if (typeof get('ui:options.viewComponent', this.props.uiSchema) !== 'function') {
-      throw new Error(`No viewComponent found in uiSchema for ReviewCardField ${this.props.idSchema.$id}.`);
+    if (
+      typeof get('ui:options.viewComponent', this.props.uiSchema) !== 'function'
+    ) {
+      throw new Error(
+        `No viewComponent found in uiSchema for ReviewCardField ${
+          this.props.idSchema.$id
+        }.`,
+      );
     }
 
     const acceptedTypes = ['object', 'array'];
     if (!acceptedTypes.includes(this.props.schema.type)) {
-      throw new Error(`Unknown schema type in ReviewCardField. Expected one of [${acceptedTypes.join(', ')}], but got ${this.props.schema.type}.`);
+      throw new Error(
+        `Unknown schema type in ReviewCardField. Expected one of [${acceptedTypes.join(
+          ', ',
+        )}], but got ${this.props.schema.type}.`,
+      );
     }
 
     this.state = {
       // Set initial state based on whether all the data is valid
-      editing: !errorSchemaIsValid(props.errorSchema)
+      editing: !errorSchemaIsValid(props.errorSchema),
     };
   }
 
   onPropertyChange(name) {
-    return (value) => {
+    return value => {
       const formData = Object.keys(this.props.formData || {}).length
         ? this.props.formData
-        : getDefaultFormState(this.props.schema, undefined, this.props.registry.definitions);
+        : getDefaultFormState(
+            this.props.schema,
+            undefined,
+            this.props.registry.definitions,
+          );
       this.props.onChange(set(name, value, formData));
     };
   }
-
 
   getTitle = () => {
     const { uiSchema, formData } = this.props;
     return typeof uiSchema['ui:title'] === 'function'
       ? uiSchema['ui:title'](formData)
       : uiSchema['ui:title'];
-  }
+  };
 
   getDescription = () => {
-    const { uiSchema: { 'ui:description': description }, formData } = this.props;
+    const {
+      uiSchema: { 'ui:description': description },
+      formData,
+    } = this.props;
     if (!description) {
       return null;
     }
 
-    return (typeof description === 'function')
-      ? description(formData)
-      : <p>{description}</p>;
+    return typeof description === 'function' ? (
+      description(formData)
+    ) : (
+      <p>{description}</p>
+    );
   };
-
 
   /**
    * Much of this is taken from ArrayField & ObjectField.
    *
    * Renders a SchemaField for each property it wraps.
    */
-  getEditView = (title) => {
+  getEditView = title => {
     const {
       disabled,
       errorSchema,
@@ -96,11 +111,14 @@ export default class ReviewCardField extends React.Component {
       readonly,
       registry,
       required,
-      schema
+      schema,
     } = this.props;
     const { SchemaField } = registry.fields;
     // We've already used the ui:field and ui:title
-    const uiSchema = omit(['ui:field', 'ui:title', 'ui:description'], this.props.uiSchema);
+    const uiSchema = omit(
+      ['ui:field', 'ui:title', 'ui:description'],
+      this.props.uiSchema,
+    );
 
     return (
       <div className="review-card">
@@ -118,29 +136,34 @@ export default class ReviewCardField extends React.Component {
             onBlur={onBlur}
             registry={registry}
             disabled={disabled}
-            readonly={readonly}/>
-          <button className="usa-button-primary update-button" onClick={this.update}>Done</button>
+            readonly={readonly}
+          />
+          <button
+            className="usa-button-primary update-button"
+            onClick={this.update}
+          >
+            Done
+          </button>
         </div>
       </div>
     );
-  }
+  };
 
-
-  getReviewView = (title) => {
+  getReviewView = title => {
     if (this.props.formContext.onReviewPage) {
       // Check the data type and use the appropriate review field
       const dataType = this.props.schema.type;
       if (dataType === 'object') {
         const { ObjectField } = this.props.registry.fields;
-        return <ObjectField {...this.props}/>;
+        return <ObjectField {...this.props} />;
       } else if (dataType === 'array') {
         const { ArrayField } = this.props.registry.fields;
-        return <ArrayField {...this.props}/>;
+        return <ArrayField {...this.props} />;
       }
 
       // Not having the right type should have been caught in the constructor, but...
       Raven.captureMessage('ReviewCardField-bad-type-on-review', {
-        extra: `Expected object or array, got ${dataType}`
+        extra: `Expected object or array, got ${dataType}`,
       });
       // Fall back to the ViewComponent
     }
@@ -153,36 +176,35 @@ export default class ReviewCardField extends React.Component {
           <button
             className="usa-button-secondary edit-button"
             onClick={this.startEditing}
-            aria-label={`Edit ${title}`}>Edit
+            aria-label={`Edit ${title}`}
+          >
+            Edit
           </button>
         </div>
         <div className="review-card--body">
-          <ViewComponent formData={this.props.formData}/>
+          <ViewComponent formData={this.props.formData} />
         </div>
       </div>
     );
-  }
-
+  };
 
   startEditing = () => {
     this.setState({ editing: true });
-  }
+  };
 
-
-  isRequired = (name) => {
+  isRequired = name => {
     const { schema } = this.props;
-    const schemaRequired = Array.isArray(schema.required) &&
-      schema.required.indexOf(name) !== -1;
+    const schemaRequired =
+      Array.isArray(schema.required) && schema.required.indexOf(name) !== -1;
 
     if (schemaRequired) {
       return schemaRequired;
     }
 
     return false;
-  }
+  };
 
-
-  update = (event) => {
+  update = event => {
     // Don't act like the continue button
     if (event) {
       // Apparently the unit tests don't send this event to the onClick handler
@@ -195,13 +217,12 @@ export default class ReviewCardField extends React.Component {
     } else {
       this.setState({ editing: false });
     }
-  }
-
+  };
 
   render() {
     const title = this.getTitle();
     const description = this.getDescription();
-    const viewOrEditCard = (this.state.editing)
+    const viewOrEditCard = this.state.editing
       ? this.getEditView(title)
       : this.getReviewView(title);
 
@@ -214,30 +235,26 @@ export default class ReviewCardField extends React.Component {
   }
 }
 
-
 ReviewCardField.propTypes = {
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
-      viewComponent: PropTypes.oneOfType(
-        [PropTypes.element, PropTypes.func]
-      ).isRequired
+      viewComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
+        .isRequired,
     }).isRequired,
-    'ui:description': PropTypes.oneOfType(
-      [PropTypes.element, PropTypes.func]
-    )
+    'ui:description': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
   }).isRequired,
   schema: PropTypes.object.isRequired,
   errorSchema: PropTypes.object.isRequired,
   idSchema: PropTypes.object.isRequired,
   registry: PropTypes.shape({
     fields: PropTypes.shape({
-      SchemaField: PropTypes.func.isRequired
+      SchemaField: PropTypes.func.isRequired,
     }),
-    definitions: PropTypes.object.isRequired
+    definitions: PropTypes.object.isRequired,
   }).isRequired,
   formData: PropTypes.object.isRequired,
   onBlur: PropTypes.func.isRequired,
   formContext: PropTypes.shape({
-    onError: PropTypes.func.isRequired
-  }).isRequired
+    onError: PropTypes.func.isRequired,
+  }).isRequired,
 };

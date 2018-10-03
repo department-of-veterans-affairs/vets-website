@@ -4,5 +4,5 @@ import { createSaveInProgressFormReducer } from '../../../../platform/forms/save
 
 export default {
   form: createSaveInProgressFormReducer(formConfig),
-  authorization686: authorization
+  authorization686: authorization,
 };

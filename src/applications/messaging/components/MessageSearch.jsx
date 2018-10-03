@@ -23,7 +23,7 @@ class MessageSearch extends React.Component {
     // For basic search, only fuzzy search subject field.
     if (!isAdvancedVisible) {
       searchParams = {
-        subject: { ...params.subject, exact: false }
+        subject: { ...params.subject, exact: false },
       };
     }
 
@@ -40,11 +40,10 @@ class MessageSearch extends React.Component {
             field={this.props.params.subject.field}
             name="msg-search-simple"
             label="Search messages"
-            onValueChange={this.handleSearchTermChange}/>
-          <button
-            type="submit"
-            className="msg-search-btn">
-            <i className="fa fa-search"></i>
+            onValueChange={this.handleSearchTermChange}
+          />
+          <button type="submit" className="msg-search-btn">
+            <i className="fa fa-search" />
             <span className="msg-search-btn-text">Search</span>
           </button>
         </div>
@@ -55,7 +54,8 @@ class MessageSearch extends React.Component {
       <form
         className={this.props.cssClass}
         id="msg-search"
-        onSubmit={this.handleSubmit}>
+        onSubmit={this.handleSubmit}
+      >
         {basicSearch}
         <MessageSearchAdvanced
           params={this.props.params}
@@ -63,8 +63,10 @@ class MessageSearch extends React.Component {
           isVisible={this.props.isAdvancedVisible}
           onAdvancedSearch={this.props.onAdvancedSearch}
           onFieldChange={this.props.onFieldChange}
-          onDateChange={this.props.onDateChange}/>
-      </form>);
+          onDateChange={this.props.onDateChange}
+        />
+      </form>
+    );
   }
 }
 
@@ -81,10 +83,10 @@ MessageSearch.propTypes = {
     subject: PropTypes.shape({
       field: PropTypes.shape({
         value: PropTypes.string,
-        dirty: PropTypes.bool
-      })
-    })
-  }).isRequired
+        dirty: PropTypes.bool,
+      }),
+    }),
+  }).isRequired,
 };
 
 export default MessageSearch;

@@ -33,7 +33,7 @@ const enrollmentData = {
           termId: null,
           trainingType: 'UnderGrad',
           vacationDayCount: 0,
-          yellowRibbonAmount: 0
+          yellowRibbonAmount: 0,
         },
         {
           amendments: [
@@ -43,7 +43,7 @@ const enrollmentData = {
               onlineHours: 8,
               status: 'Approved',
               type: 'Add',
-              yellowRibbonAmount: 2
+              yellowRibbonAmount: 2,
             },
             {
               changeEffectiveDate: '2017-06-10T17:01:03.926Z',
@@ -51,8 +51,8 @@ const enrollmentData = {
               onlineHours: 6,
               status: 'Approved',
               type: 'Drop',
-              yellowRibbonAmount: 2
-            }
+              yellowRibbonAmount: 2,
+            },
           ],
           beginDate: '2017-06-06T17:01:03.925+00:00',
           endDate: '2017-09-06T17:01:03.925+00:00',
@@ -68,11 +68,11 @@ const enrollmentData = {
           termId: null,
           trainingType: 'UnderGrad',
           vacationDayCount: 0,
-          yellowRibbonAmount: 0
-        }
-      ]
-    }
-  }
+          yellowRibbonAmount: 0,
+        },
+      ],
+    },
+  },
 };
 
 const backendStatus = {
@@ -81,9 +81,9 @@ const backendStatus = {
     type: 'backend_statuses',
     attributes: {
       name: 'gibs',
-      isAvailable: true
-    }
-  }
+      isAvailable: true,
+    },
+  },
 };
 
 // Create API routes
@@ -91,17 +91,17 @@ function initApplicationMock(token) {
   mock(token, {
     path: '/v0/post911_gi_bill_status',
     verb: 'get',
-    value: enrollmentData
+    value: enrollmentData,
   });
 
   mock(token, {
     path: '/v0/backend_statuses/gibs',
     verb: 'get',
-    value: backendStatus
+    value: backendStatus,
   });
 }
 
 module.exports = {
   enrollmentData,
-  initApplicationMock
+  initApplicationMock,
 };

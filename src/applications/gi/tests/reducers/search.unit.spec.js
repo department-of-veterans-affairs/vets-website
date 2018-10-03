@@ -8,7 +8,7 @@ describe('search reducer', () => {
       { filterOpened: false },
       {
         type: 'FILTER_TOGGLED',
-      }
+      },
     );
 
     expect(state.filterOpened).to.eql(true);
@@ -19,7 +19,7 @@ describe('search reducer', () => {
       { inProgress: false },
       {
         type: 'SEARCH_STARTED',
-      }
+      },
     );
 
     expect(state.inProgress).to.eql(true);
@@ -31,9 +31,9 @@ describe('search reducer', () => {
       {
         type: 'SEARCH_FAILED',
         err: {
-          errorMessage: 'error message'
-        }
-      }
+          errorMessage: 'error message',
+        },
+      },
     );
 
     expect(state.inProgress).to.eql(false);
@@ -49,28 +49,28 @@ describe('search reducer', () => {
           data: [
             {
               attributes: {
-                name: 'result_name'
+                name: 'result_name',
               },
-            }
+            },
           ],
           links: {
             self: 'url/to/data',
-            last: 'url/to/data?page=1&per_page=10'
+            last: 'url/to/data?page=1&per_page=10',
           },
           meta: {
             count: 1,
             version: 1,
             facets: {
               state: {
-                stateFacetKey: 'value'
+                stateFacetKey: 'value',
               },
               type: {
-                typeFacetKey: 'value'
-              }
-            }
-          }
-        }
-      }
+                typeFacetKey: 'value',
+              },
+            },
+          },
+        },
+      },
     );
 
     expect(state.inProgress).to.eql(false);

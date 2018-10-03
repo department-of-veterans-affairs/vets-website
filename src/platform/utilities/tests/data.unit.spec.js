@@ -5,7 +5,6 @@ import _ from '../data';
 import deconstructPath from '../data/deconstructPath';
 import checkValidPath from '../data/checkValidPath';
 
-
 // Could split these out into separate files...
 describe('data utils (lodash replacements)', () => {
   describe('deconstructPath', () => {
@@ -25,12 +24,11 @@ describe('data utils (lodash replacements)', () => {
     });
   });
 
-
   describe('clone', () => {
     it('should return an object with the same data but different reference', () => {
       const obj = {
         a: 1,
-        b: 2
+        b: 2,
       };
       const cloned = _.clone(obj);
       expect(cloned).to.eql(obj);
@@ -45,20 +43,19 @@ describe('data utils (lodash replacements)', () => {
     });
   });
 
-
   describe('cloneDeep', () => {
     const obj = {
-      'int': 1,
+      int: 1,
       obj: {
         foo: 'bar',
         nestedObj: {
-          nestedArray: [0, 2, 4]
-        }
+          nestedArray: [0, 2, 4],
+        },
       },
       string: 'string!',
       array: ['0', 1, null, { s: 'thing', o: { k: 'I am nested' } }],
       func: function() { return this.int; }, // eslint-disable-line
-      arrowFunction: () => this.int
+      arrowFunction: () => this.int,
     };
 
     const cloned = _.cloneDeep(obj);
@@ -84,8 +81,12 @@ describe('data utils (lodash replacements)', () => {
     it('should clone all sub-arrays', () => {
       expect(cloned.array).to.eql(obj.array);
       expect(cloned.array).to.not.equal(obj.array);
-      expect(cloned.obj.nestedObj.nestedArray).to.eql(obj.obj.nestedObj.nestedArray);
-      expect(cloned.obj.nestedObj.nestedArray).to.not.equal(obj.obj.nestedObj.nestedArray);
+      expect(cloned.obj.nestedObj.nestedArray).to.eql(
+        obj.obj.nestedObj.nestedArray,
+      );
+      expect(cloned.obj.nestedObj.nestedArray).to.not.equal(
+        obj.obj.nestedObj.nestedArray,
+      );
     });
 
     it('should clone all objects in arrays', () => {
@@ -94,13 +95,12 @@ describe('data utils (lodash replacements)', () => {
     });
   });
 
-
   describe('get', () => {
     const o = {
       a: 'a',
       b: { c: 'c' },
       k: { a: { y: 'f' } },
-      g: ['h', 'i', 'j']
+      g: ['h', 'i', 'j'],
     };
 
     it('should get a value one level deep', () => {
@@ -133,14 +133,13 @@ describe('data utils (lodash replacements)', () => {
     });
   });
 
-
   describe('set', () => {
     it('should set the value of an existing path', () => {
       const o = {
         a: 'a',
         b: { c: 'c' },
         k: { a: { y: 'f' } },
-        g: ['h', 'i', 'j']
+        g: ['h', 'i', 'j'],
       };
 
       const newObj = _.set('b.c', 'd', o);
@@ -158,7 +157,7 @@ describe('data utils (lodash replacements)', () => {
         a: 'a',
         b: { c: 'c' },
         k: { a: { y: 'f' } },
-        g: ['h', 'i', 'j']
+        g: ['h', 'i', 'j'],
       };
 
       const newObj = _.set('new.path', ['foo', 'bar'], o);
@@ -170,7 +169,7 @@ describe('data utils (lodash replacements)', () => {
         a: 'a',
         b: { c: 'c' },
         k: { a: { y: 'f' } },
-        g: ['h', 'i', 'j']
+        g: ['h', 'i', 'j'],
       };
 
       const newObj = _.set(['array', 1], 'first', o);
@@ -182,7 +181,7 @@ describe('data utils (lodash replacements)', () => {
         a: 'a',
         b: { c: 'c' },
         k: { a: { y: 'f' } },
-        g: ['h', 'i', 'j']
+        g: ['h', 'i', 'j'],
       };
 
       const newObj = _.set(['new', 'path'], ['foo', 'bar'], o);
@@ -201,7 +200,7 @@ describe('data utils (lodash replacements)', () => {
         a: 'a',
         b: { c: 'c' },
         k: { a: { y: 'f' } },
-        g: ['h', 'i', 'j']
+        g: ['h', 'i', 'j'],
       };
 
       // Perhaps using cloneDeep in here is in bad taste?
@@ -216,7 +215,7 @@ describe('data utils (lodash replacements)', () => {
         a: 'a',
         b: { c: 'c' },
         k: { a: { y: 'f' } },
-        g: ['h', 'i', 'j']
+        g: ['h', 'i', 'j'],
       };
 
       // Perhaps using cloneDeep in here is in bad taste?
@@ -231,7 +230,7 @@ describe('data utils (lodash replacements)', () => {
         a: 'a',
         b: { c: 'c' },
         k: { a: { y: 'f' } },
-        g: ['h', 'i', 'j']
+        g: ['h', 'i', 'j'],
       };
 
       const newObj = _.set('k.a.y', 'd', o);
@@ -243,16 +242,16 @@ describe('data utils (lodash replacements)', () => {
     it('should maintain the same refs to objects not touched', () => {
       const old = {
         a: {
-          prop: 1
+          prop: 1,
         },
         b: {
           prop2: {
-            other: 5
+            other: 5,
           },
           c: {
-            prop3: 3
-          }
-        }
+            prop3: 3,
+          },
+        },
       };
 
       const changed = _.set('b.c', { prop4: 4 }, old);
@@ -269,16 +268,20 @@ describe('data utils (lodash replacements)', () => {
         a: 'a',
         b: { c: 'c' },
         k: { a: { y: 'f' } },
-        g: ['h', 'i', 'j']
+        g: ['h', 'i', 'j'],
       };
 
       try {
         _.set(['new', [0, 1]], ['foo', 'bar'], o);
         // Shouldn't get here; should throw an error
-        throw new Error('Should have failed if path is not a string or number.');
+        throw new Error(
+          'Should have failed if path is not a string or number.',
+        );
       } catch (e) {
         // There's gotta be a better way to do this...
-        if (e.message === 'Should have failed if path is not a string or number.') {
+        if (
+          e.message === 'Should have failed if path is not a string or number.'
+        ) {
           throw e;
         }
 
@@ -305,8 +308,8 @@ describe('data utils (lodash replacements)', () => {
       const obj = {
         a: 'a',
         b: {
-          c: 'c'
-        }
+          c: 'c',
+        },
       };
 
       const newObj = _.omit(['a'], obj);
@@ -318,7 +321,7 @@ describe('data utils (lodash replacements)', () => {
         a: 'a',
         b: 'b',
         c: 'c',
-        d: 'd'
+        d: 'd',
       };
       const omittedFields = ['a', 'c', 'd'];
       const newObj = _.omit(omittedFields, obj);
@@ -330,7 +333,7 @@ describe('data utils (lodash replacements)', () => {
         a: 'a',
         b: 'b',
         c: 'c',
-        d: 'd'
+        d: 'd',
       };
       const omittedFields = ['a', 'c', 'd'];
       const newObj = _.omit(omittedFields, obj);
@@ -343,7 +346,7 @@ describe('data utils (lodash replacements)', () => {
   });
 
   describe('debounce', () => {
-    it('should call a function with the supplied arguments', (done) => {
+    it('should call a function with the supplied arguments', done => {
       const spy = sinon.spy();
       const debouncedFunc = _.debounce(0, spy);
       debouncedFunc('first arg', 'second arg');
@@ -354,7 +357,7 @@ describe('data utils (lodash replacements)', () => {
       }, 10);
     });
 
-    it('should call a function after a waiting period', (done) => {
+    it('should call a function after a waiting period', done => {
       const spy = sinon.spy();
       const debouncedFunc = _.debounce(100, spy);
       debouncedFunc();
@@ -365,7 +368,7 @@ describe('data utils (lodash replacements)', () => {
       }, 150);
     });
 
-    it('should not call a function before the wait time is over', (done) => {
+    it('should not call a function before the wait time is over', done => {
       const spy = sinon.spy();
       const debouncedFunc = _.debounce(100, spy);
       debouncedFunc();
@@ -395,7 +398,7 @@ describe('data utils (lodash replacements)', () => {
       }, 350);
     });
 
-    it('should not call the function after it\'s been canceled', (done) => {
+    it("should not call the function after it's been canceled", done => {
       const spy = sinon.spy();
       const debouncedFunction = _.debounce(100, spy);
       debouncedFunction();
@@ -413,7 +416,7 @@ describe('data utils (lodash replacements)', () => {
         a: 'a',
         b: { c: 'c' },
         k: { a: { y: 'f' } },
-        g: ['h', 'i', 'j']
+        g: ['h', 'i', 'j'],
       };
 
       const newObj = _.unset('b.c', o);
@@ -431,7 +434,7 @@ describe('data utils (lodash replacements)', () => {
         a: 'a',
         b: { c: 'c' },
         k: { a: { y: 'f' } },
-        g: ['h', 'i', 'j']
+        g: ['h', 'i', 'j'],
       };
 
       const newObj = _.unset('b', o);
@@ -449,7 +452,7 @@ describe('data utils (lodash replacements)', () => {
         a: 'a',
         b: { c: 'c' },
         k: { a: { y: 'f' } },
-        g: ['h', 'i', 'j']
+        g: ['h', 'i', 'j'],
       };
 
       const newObj = _.unset('g.c', o);
@@ -461,4 +464,3 @@ describe('data utils (lodash replacements)', () => {
     });
   });
 });
-

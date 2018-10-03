@@ -8,32 +8,34 @@ const config = {
   announcements: [
     {
       name: 'dashboard-intro',
-      paths: isBrandConsolidationEnabled() ? /^(\/my-va\/)$/ : /^(\/dashboard\/)$/,
+      paths: isBrandConsolidationEnabled()
+        ? /^(\/my-va\/)$/
+        : /^(\/dashboard\/)$/,
       component: DashboardIntro,
-      relatedAnnouncements: ['personalization']
+      relatedAnnouncements: ['personalization'],
     },
     {
       name: 'profile-360-intro',
       paths: /^(\/profile\/)$/,
       component: Profile360Intro,
-      relatedAnnouncements: ['personalization']
+      relatedAnnouncements: ['personalization'],
     },
     {
       name: 'claim-increase',
       paths: /disability-benefits\/apply\/$/,
-      component: ClaimIncreaseBanner
+      component: ClaimIncreaseBanner,
     },
     {
       name: 'claim-increase',
       paths: /^\/$/,
-      component: ClaimIncreaseBanner
+      component: ClaimIncreaseBanner,
     },
     {
       name: 'personalization',
       paths: /(.)/,
-      component: PersonalizationBanner
-    }
-  ]
+      component: PersonalizationBanner,
+    },
+  ],
 };
 
 export default config;

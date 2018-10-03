@@ -7,12 +7,12 @@ import { Main } from '../../containers/Main';
 
 const defaultProps = {
   availability: 'available',
-  enrollmentData: { }
+  enrollmentData: {},
 };
 
 describe('Main', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<Main {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<Main {...defaultProps} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
@@ -28,20 +28,26 @@ describe('Main', () => {
   });
 
   it('should show loading spinner when waiting for response', () => {
-    const props = _.merge({}, defaultProps, { availability: 'awaitingResponse' });
-    const tree = SkinDeep.shallowRender(<Main {...props}/>);
+    const props = _.merge({}, defaultProps, {
+      availability: 'awaitingResponse',
+    });
+    const tree = SkinDeep.shallowRender(<Main {...props} />);
     expect(tree.subTree('LoadingIndicator')).to.be.ok;
   });
 
   it('should show system down message for backend service error', () => {
-    const props = _.merge({}, defaultProps, { availability: 'backendServiceError' });
-    const tree = SkinDeep.shallowRender(<Main {...props}/>);
+    const props = _.merge({}, defaultProps, {
+      availability: 'backendServiceError',
+    });
+    const tree = SkinDeep.shallowRender(<Main {...props} />);
     expect(tree.subTree('#backendErrorMessage')).to.be.ok;
   });
 
   it('should show backend authentication error', () => {
-    const props = _.merge({}, defaultProps, { availability: 'backendAuthenticationError' });
-    const tree = SkinDeep.shallowRender(<Main {...props}/>);
+    const props = _.merge({}, defaultProps, {
+      availability: 'backendAuthenticationError',
+    });
+    const tree = SkinDeep.shallowRender(<Main {...props} />);
     expect(tree.subTree('#recordNotFound')).to.be.ok;
   });
 
@@ -56,14 +62,16 @@ describe('Main', () => {
   // });
 
   it('should show System Down warning when record not found', () => {
-    const props = _.merge({}, defaultProps, { availability: 'noChapter33Record' });
-    const tree = SkinDeep.shallowRender(<Main {...props}/>);
+    const props = _.merge({}, defaultProps, {
+      availability: 'noChapter33Record',
+    });
+    const tree = SkinDeep.shallowRender(<Main {...props} />);
     expect(tree.subTree('#systemDownMessage')).to.be.ok;
   });
 
   it('should show system down message when service is unavailable', () => {
     const props = _.merge({}, defaultProps, { availability: 'unavailable' });
-    const tree = SkinDeep.shallowRender(<Main {...props}/>);
+    const tree = SkinDeep.shallowRender(<Main {...props} />);
     expect(tree.subTree('#backendErrorMessage')).to.be.ok;
   });
 });

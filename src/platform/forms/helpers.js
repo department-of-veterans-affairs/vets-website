@@ -1,52 +1,50 @@
 import _ from 'lodash';
 
 export function getPageList(routes, prefix = '') {
-  return routes.map(route => {
-    const obj = {
-      name: `${prefix}${route.path}`,
-      label: route.name
-    };
-    if (route.depends) {
-      obj.depends = route.depends;
-    }
-    return obj;
-  }).filter(page => page.name !== '/submit-message');
+  return routes
+    .map(route => {
+      const obj = {
+        name: `${prefix}${route.path}`,
+        label: route.name,
+      };
+      if (route.depends) {
+        obj.depends = route.depends;
+      }
+      return obj;
+    })
+    .filter(page => page.name !== '/submit-message');
 }
 
 export function groupPagesIntoChapters(routes, prefix = '') {
-  const pageList = routes
-    .filter(route => route.chapter)
-    .map(page => {
-      const obj = {
-        name: page.name,
-        chapter: page.chapter,
-        path: `${prefix}${page.path}`,
-      };
+  const pageList = routes.filter(route => route.chapter).map(page => {
+    const obj = {
+      name: page.name,
+      chapter: page.chapter,
+      path: `${prefix}${page.path}`,
+    };
 
-      if (page.depends) {
-        obj.depends = page.depends;
-      }
+    if (page.depends) {
+      obj.depends = page.depends;
+    }
 
-      return obj;
-    });
+    return obj;
+  });
 
   const pageGroups = _.groupBy(pageList, page => page.chapter);
 
-  return Object.keys(pageGroups).map(chapter => {
-    return {
-      name: chapter,
-      pages: pageGroups[chapter]
-    };
-  });
+  return Object.keys(pageGroups).map(chapter => ({
+    name: chapter,
+    pages: pageGroups[chapter],
+  }));
 }
 
 export function isInProgress(pathName) {
   const trimmedPathname = pathName.replace(/\/$/, '');
   return !(
-    trimmedPathname.endsWith('introduction')
-    || trimmedPathname.endsWith('confirmation')
-    || trimmedPathname.endsWith('form-saved')
-    || trimmedPathname.endsWith('error')
+    trimmedPathname.endsWith('introduction') ||
+    trimmedPathname.endsWith('confirmation') ||
+    trimmedPathname.endsWith('form-saved') ||
+    trimmedPathname.endsWith('error')
   );
 }
 
@@ -83,7 +81,7 @@ export function getCurrentFormStep(chapters, path) {
 
 export function getCurrentPageName(chapters, path) {
   let name;
-  chapters.forEach((chapter) => {
+  chapters.forEach(chapter => {
     if (chapter.pages.some(page => page.path === path)) {
       name = chapter.name;
     }
@@ -94,9 +92,21 @@ export function getCurrentPageName(chapters, path) {
 
 export function sanitizeForm(formData) {
   try {
-    const suffixes = ['vaFileNumber', 'first', 'last', 'accountNumber', 'socialSecurityNumber', 'dateOfBirth'];
+    const suffixes = [
+      'vaFileNumber',
+      'first',
+      'last',
+      'accountNumber',
+      'socialSecurityNumber',
+      'dateOfBirth',
+    ];
     return JSON.stringify(formData, (key, value) => {
-      if (value && suffixes.some(suffix => key.toLowerCase().endsWith(suffix.toLowerCase()))) {
+      if (
+        value &&
+        suffixes.some(suffix =>
+          key.toLowerCase().endsWith(suffix.toLowerCase()),
+        )
+      ) {
         return 'removed';
       }
 

@@ -2,25 +2,24 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../../testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+} from '../../../testing/unit/schemaform-utils.jsx';
 import { schema, uiSchema } from '../../definitions/address';
 import { address } from 'vets-json-schema/dist/definitions.json';
 
 const addressSchema = {
   definitions: {
-    address
-  }
+    address,
+  },
 };
 
 describe('Schemaform definition address', () => {
   it('should render address', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
-    const form = mount(
-      <DefinitionTester
-        schema={s}
-        uiSchema={uis}/>
-    );
+    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
 
     // Count the form elements
     const inputs = form.find('input');
@@ -33,37 +32,40 @@ describe('Schemaform definition address', () => {
 
     // country is USA and there is no blank option
     expect(selects.first().props().value).to.equal('USA');
-    expect(selects.first().find('option').everyWhere(n => !!n.props().value)).to.be.true;
+    expect(
+      selects
+        .first()
+        .find('option')
+        .everyWhere(n => !!n.props().value),
+    ).to.be.true;
   }).timeout(4000);
 
   it('should have required inputs if required', () => {
     const s = schema(addressSchema, true);
     const uis = uiSchema();
-    const form = mount(
-      <DefinitionTester
-        schema={s}
-        uiSchema={uis}/>
-    );
+    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
 
     // Ideally, we'd get the required inputs, not the <span>s denoting required
     //  fields but this doesn't work.
     // const requiredInputs = formDOM.querySelectorAll('input[required=true]');
-    const requiredInputs = form.find('label').find('span.schemaform-required-span');
+    const requiredInputs = form
+      .find('label')
+      .find('span.schemaform-required-span');
     expect(requiredInputs.length).to.not.equal(0);
   }).timeout(4000);
 
   it('should update labels and state selection conditionally', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
-    const form = mount(
-      <DefinitionTester
-        schema={s}
-        uiSchema={uis}/>
-    );
+    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
 
     const labels = form.find('label');
-    const postalCodeLabel = labels.findWhere(label => label.props().htmlFor === 'root_postalCode');
-    const stateLabel = labels.findWhere(label => label.props().htmlFor === 'root_state');
+    const postalCodeLabel = labels.findWhere(
+      label => label.props().htmlFor === 'root_postalCode',
+    );
+    const stateLabel = labels.findWhere(
+      label => label.props().htmlFor === 'root_state',
+    );
     const stateField = form.find('select#root_state');
 
     // Check the labels' text
@@ -71,11 +73,13 @@ describe('Schemaform definition address', () => {
     expect(stateLabel.text()).to.equal('State');
 
     // And state input type / options
-    expect(stateField.find('option').someWhere(n => n.props().value === 'OR')).to.be.true;
+    expect(stateField.find('option').someWhere(n => n.props().value === 'OR'))
+      .to.be.true;
 
     // Entering a military city should result in different "state" options
     fillData(form, 'input#root_city', 'apo');
-    expect(stateField.find('option').someWhere(n => n.props().value === 'AA')).to.be.true;
+    expect(stateField.find('option').someWhere(n => n.props().value === 'AA'))
+      .to.be.true;
 
     // Change the country
     fillData(form, 'select#root_country', 'CAN');
@@ -83,11 +87,21 @@ describe('Schemaform definition address', () => {
     // Check to see if the postal code and state updated
     expect(stateLabel.text()).to.equal('Province');
     expect(postalCodeLabel.text()).to.equal('Postal code');
-    expect(form.find('select#root_state').find('option').someWhere(n => n.props().value === 'QC')).to.be.true;
+    expect(
+      form
+        .find('select#root_state')
+        .find('option')
+        .someWhere(n => n.props().value === 'QC'),
+    ).to.be.true;
 
     // Check for Mexican states
     fillData(form, 'select#root_country', 'MEX');
-    expect(form.find('select#root_state').find('option').someWhere(n => n.props().value === 'guerrero')).to.be.true;
+    expect(
+      form
+        .find('select#root_state')
+        .find('option')
+        .someWhere(n => n.props().value === 'guerrero'),
+    ).to.be.true;
 
     // Change to another country that doesn't have a select box for state
     fillData(form, 'select#root_country', 'BEL');
@@ -97,11 +111,7 @@ describe('Schemaform definition address', () => {
   it('should update address field', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
-    const form = mount(
-      <DefinitionTester
-        schema={s}
-        uiSchema={uis}/>
-    );
+    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
 
     fillData(form, 'input#root_street', '123 street');
 
@@ -111,11 +121,7 @@ describe('Schemaform definition address', () => {
   it('should update country field in empty address', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
-    const form = mount(
-      <DefinitionTester
-        schema={s}
-        uiSchema={uis}/>
-    );
+    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
 
     fillData(form, 'select#root_country', 'CAN');
 
@@ -125,11 +131,7 @@ describe('Schemaform definition address', () => {
   it('should require state for non-required addresses with other info', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
-    const form = mount(
-      <DefinitionTester
-        schema={s}
-        uiSchema={uis}/>
-    );
+    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
 
     fillData(form, 'input#root_street', '123 st');
     fillData(form, 'input#root_city', 'Northampton');

@@ -7,24 +7,25 @@ export const uiSchema = {
   serviceInformation: {
     servicePeriods: {
       'ui:title': 'Military service history',
-      'ui:description': 'This is the military service history we have on file for you.',
+      'ui:description':
+        'This is the military service history we have on file for you.',
       'ui:options': {
         itemName: 'Service Period',
         viewField: ServicePeriodView,
-        reviewMode: true
+        reviewMode: true,
       },
       items: {
         serviceBranch: {
-          'ui:title': 'Branch of service'
+          'ui:title': 'Branch of service',
         },
         dateRange: dateRangeUI(
           'Service start date',
           'Service end date',
-          'End of service must be after start of service'
-        )
-      }
-    }
-  }
+          'End of service must be after start of service',
+        ),
+      },
+    },
+  },
 };
 
 export const schema = {
@@ -33,12 +34,13 @@ export const schema = {
     serviceInformation: {
       type: 'object',
       properties: {
-        servicePeriods: fullSchema.properties.serviceInformation.properties.servicePeriods,
+        servicePeriods:
+          fullSchema.properties.serviceInformation.properties.servicePeriods,
         'view:militaryHistoryNote': {
           type: 'object',
-          properties: {}
-        }
-      }
-    }
-  }
+          properties: {},
+        },
+      },
+    },
+  },
 };

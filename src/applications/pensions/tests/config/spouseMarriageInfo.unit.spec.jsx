@@ -3,32 +3,48 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm, getFormDOM } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  submitForm,
+  getFormDOM,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pensions spouse info', () => {
-  const { schema, uiSchema, depends } = formConfig.chapters.householdInformation.pages.spouseInfo;
+  const {
+    schema,
+    uiSchema,
+    depends,
+  } = formConfig.chapters.householdInformation.pages.spouseInfo;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         data={{
-          marriages: [{
-            spouseFullName: {
-              first: 'Jane',
-              last: 'Doe'
-            }
-          }]
+          marriages: [
+            {
+              spouseFullName: {
+                first: 'Jane',
+                last: 'Doe',
+              },
+            },
+          ],
         }}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(9);
-    expect(formDOM.querySelectorAll('legend')[1].textContent).to.contain('Jane Doe');
-    expect(formDOM.querySelector('label[for="root_spouseSocialSecurityNumber"]').textContent).to.contain('Jane Doe');
+    expect(formDOM.querySelectorAll('legend')[1].textContent).to.contain(
+      'Jane Doe',
+    );
+    expect(
+      formDOM.querySelector('label[for="root_spouseSocialSecurityNumber"]')
+        .textContent,
+    ).to.contain('Jane Doe');
   });
 
   it('should render spouse address and contrib fields', () => {
@@ -36,15 +52,18 @@ describe('Pensions spouse info', () => {
       <DefinitionTester
         schema={schema}
         data={{
-          marriages: [{
-            spouseFullName: {
-              first: 'Jane',
-              last: 'Doe'
-            }
-          }]
+          marriages: [
+            {
+              spouseFullName: {
+                first: 'Jane',
+                last: 'Doe',
+              },
+            },
+          ],
         }}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -63,15 +82,18 @@ describe('Pensions spouse info', () => {
       <DefinitionTester
         schema={schema}
         data={{
-          marriages: [{
-            spouseFullName: {
-              first: 'Jane',
-              last: 'Doe'
-            }
-          }]
+          marriages: [
+            {
+              spouseFullName: {
+                first: 'Jane',
+                last: 'Doe',
+              },
+            },
+          ],
         }}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -89,7 +111,8 @@ describe('Pensions spouse info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -107,7 +130,8 @@ describe('Pensions spouse info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);

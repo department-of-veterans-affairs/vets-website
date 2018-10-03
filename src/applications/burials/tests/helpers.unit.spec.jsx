@@ -9,9 +9,7 @@ import conditionalStorage from '../../../platform/utilities/storage/conditionalS
 function setFetchResponse(stub, data, headers = {}) {
   const response = new Response();
   response.ok = true;
-  response.headers.get = headerID => {
-    return headers[headerID] || null;
-  };
+  response.headers.get = headerID => headers[headerID] || null;
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
@@ -22,25 +20,26 @@ describe('Burials helpers', () => {
       conditionalStorage().setItem('userToken', 'testing');
       window.VetsGov = { pollTimeout: 1 };
       window.URL = {
-        createObjectURL: sinon.stub().returns('test')
+        createObjectURL: sinon.stub().returns('test'),
       };
     });
     it('should reject if initial request fails', () => {
       mockFetch(new Error('fake error'), false);
       const formConfig = {
-        chapters: {}
+        chapters: {},
       };
       const form = {
-        data: {
-        }
+        data: {},
       };
 
-      return submit(form, formConfig).then(() => {
-        expect.fail();
-      },
-      err => {
-        expect(err.message).to.equal('fake error');
-      });
+      return submit(form, formConfig).then(
+        () => {
+          expect.fail();
+        },
+        err => {
+          expect(err.message).to.equal('fake error');
+        },
+      );
     });
     it('should resolve if polling state is success', () => {
       mockFetch();
@@ -49,22 +48,22 @@ describe('Burials helpers', () => {
         {
           data: {
             attributes: {
-              guid: 'test'
-            }
-          }
+              guid: 'test',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       setFetchResponse(
         global.fetch.onSecondCall(),
         {
           data: {
             attributes: {
-              state: 'pending'
-            }
-          }
+              state: 'pending',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       const response = {};
       setFetchResponse(
@@ -73,21 +72,20 @@ describe('Burials helpers', () => {
           data: {
             attributes: {
               state: 'success',
-              response
-            }
-          }
+              response,
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       const formConfig = {
-        chapters: {}
+        chapters: {},
       };
       const form = {
-        data: {
-        }
+        data: {},
       };
 
-      return submit(form, formConfig).then((res) => {
+      return submit(form, formConfig).then(res => {
         expect(res).to.deep.equal(response);
       });
     });
@@ -98,48 +96,51 @@ describe('Burials helpers', () => {
         {
           data: {
             attributes: {
-              guid: 'test'
-            }
-          }
+              guid: 'test',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       setFetchResponse(
         global.fetch.onSecondCall(),
         {
           data: {
             attributes: {
-              state: 'pending'
-            }
-          }
+              state: 'pending',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       setFetchResponse(
         global.fetch.onThirdCall(),
         {
           data: {
             attributes: {
-              state: 'failed'
-            }
-          }
+              state: 'failed',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       const formConfig = {
-        chapters: {}
+        chapters: {},
       };
       const form = {
-        data: {
-        }
+        data: {},
       };
 
-      return submit(form, formConfig).then(() => {
-        expect.fail();
-      },
-      err => {
-        expect(err.message).to.equal('vets_server_error_burial: status failed');
-      });
+      return submit(form, formConfig).then(
+        () => {
+          expect.fail();
+        },
+        err => {
+          expect(err.message).to.equal(
+            'vets_server_error_burial: status failed',
+          );
+        },
+      );
     });
     afterEach(() => {
       conditionalStorage().clear();
