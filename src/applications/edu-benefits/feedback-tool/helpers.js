@@ -12,7 +12,7 @@ import UserInteractionRecorder from '../components/UserInteractionRecorder';
 
 export const trackingPrefix = 'edu-feedback-tool-';
 
-const { get, set } = dataUtils;
+const { get, unset } = dataUtils;
 const domesticSchoolAddressFields = get(
   'properties.educationDetails.properties.school.properties.address.anyOf[0].properties',
   fullSchema,
@@ -58,7 +58,7 @@ export function fetchInstitutions({ institutionQuery, page, onDone, onError }) {
   );
 }
 
-// Helper to clear out the facility code. Needed if the code was set via the
+// Helper to remove the facility code. Needed if the code was set via the
 // search tool and then manual address entry was selected. if this is not
 // cleared out the (incorrect) facility code will be sent along with the
 // manually entered school address.
@@ -69,9 +69,8 @@ function removeFacilityCodeIfManualEntry(form) {
       form,
     )
   ) {
-    return set(
+    return unset(
       'data.educationDetails.school.view:searchSchoolSelect.facilityCode',
-      '',
       form,
     );
   }
