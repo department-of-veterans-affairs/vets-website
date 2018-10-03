@@ -194,24 +194,6 @@
           padding: 0;
         }
       }
-      .fa {
-        background-color: $color-white;
-        &.fa-medkit {
-          color: $indigo-cool-60;
-        }
-        &.fa-book {
-          color:  $mint-cool-50;
-        }
-         &.fa-handshake-o {
-          color: $red-60;
-        }
-        &.fa-money {
-          color: $green-cool-50;
-        }
-        &.fa-id-card {
-          color: $violet-warm-60;
-        }
-      }
     }
   }
 
@@ -1087,7 +1069,6 @@
     }
     .fa {
       position: relative;
-      color: $color-white;
       border-radius: 50%;
 
       &.icon-small {
@@ -1114,8 +1095,6 @@
       }
 
       &.fa-medkit {
-        background-color: $color-primary;
-
         &.icon-small {
           &::before {
             margin-top: 6px;
@@ -1199,6 +1178,9 @@
     p {
       color: $color-black;
     }
+  }
+  .white {
+    color: $color-white;
   }
 }
 .usa-accordion-bordered {

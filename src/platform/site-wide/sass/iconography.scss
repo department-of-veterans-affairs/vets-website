@@ -1,8 +1,5 @@
 // iconography
 
-$color-orange: #EB7F29;
-$color-gold-darker: #988530;
-
 h1, h3, h4 {
   i {
     margin-right: 5px;
@@ -51,8 +48,6 @@ h1, h3, h4 {
   }
 
   &.fa-medkit {
-    background-color: $color-primary;
-
     &.icon-large {
       &::before {
         margin-top: 9.25px;
@@ -68,13 +63,7 @@ h1, h3, h4 {
     }
   }
 
-  &.fa-book {
-    background-color: $color-gold-light;
-  }
-
   &.fa-id-card {
-    background-color: $color-green;
-
     &.icon-large {
       &::before {
         margin-top: 9.75px;
@@ -84,8 +73,6 @@ h1, h3, h4 {
   }
 
   &.fa-handshake-o {
-    background-color: $color-visited;
-
     &.icon-large {
       &::before {
         margin-top: 9.75px;
@@ -100,13 +87,7 @@ h1, h3, h4 {
       }
     }
   }
-
-  &.fa-briefcase {
-    background-color: $color-orange;
-  }
-
   &.fa-money {
-    background-color: $color-green-darker;
 
     &.icon-small {
       &::before {
@@ -115,27 +96,15 @@ h1, h3, h4 {
     }
   }
 
-  &.fa-home {
-    background-color: $color-primary-alt;
-  }
 
   &.fa-users {
-    background-color: $color-gold-darker;
-
     &.icon-small {
       &::before {
         margin-left: 6.95px;
       }
     }
   }
-
-  &.fa-star {
-    background-color: $color-primary-darkest;
-  }
-
   &.fa-id-card {
-    background-color: $color-green;
-
     &.icon-small {
       &::before {
         margin-left: 5.85px;
@@ -143,4 +112,58 @@ h1, h3, h4 {
     }
   }
 
+}
+.hub-color-medkit {
+  color: $indigo-cool-60;
+}
+.hub-color-book {
+  color: $mint-cool-50;
+}
+.hub-color-handshake-o {
+  color: $red-60;
+}
+.hub-color-briefcase {
+  color: $orange-warm-50;
+}
+.hub-color-money {
+  color: $green-cool-50;
+}
+.hub-color-home {
+  color: $gold-50;
+}
+.hub-color-users {
+  color: $green-warm-50;
+}
+.hub-color-star {
+  color: $blue-50;
+}
+.hub-background-id-card {
+  background-color: $violet-warm-60;
+}
+.hub-background-medkit {
+  background-color: $indigo-cool-60;
+}
+.hub-background-book {
+  background-color: $mint-cool-50;
+}
+.hub-background-handshake-o {
+  background-color: $red-60;
+}
+.hub-background-briefcase {
+  background-color: $orange-warm-50;
+}
+.hub-background-money {
+  background-color: $green-cool-50;
+}
+.hub-background-home {
+  background-color: $gold-50;
+}
+.hub-background-users {
+  background-color: $green-warm-50;
+}
+.hub-background-star {
+  background-color: $blue-50;
+}
+.hub-background-id-card {
+  background-color: $violet-warm-60;
 }
