@@ -55,7 +55,11 @@ describe('selectors', () => {
         'returns true when on localhost so the local mock Vet360 will run',
       ).to.be.true;
 
-      global.document.location.hostname = 'staging.vets.gov';
+      /* eslint-disable no-undef */
+      jsdom.reconfigure({
+        url: 'https://staging.vets.gov/',
+      });
+      /* eslint-enable no-undef */
       result = selectors.selectIsVet360AvailableForUser(state);
       expect(
         result,
