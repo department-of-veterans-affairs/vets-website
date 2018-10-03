@@ -1,7 +1,7 @@
 /**
  * An example PerformanceNavigationTimingEntry
  * @see https://developer.mozilla.org/en-US/docs/Web/API/PerformanceNavigationTiming
-*/
+ */
 export const navEntry = {
   name: 'http://localhost:3001/',
   entryType: 'navigation',
@@ -34,5 +34,5 @@ export const navEntry = {
   loadEventStart: 1965,
   loadEventEnd: 1990,
   type: 'navigate',
-  redirectCount: 0
+  redirectCount: 0,
 };

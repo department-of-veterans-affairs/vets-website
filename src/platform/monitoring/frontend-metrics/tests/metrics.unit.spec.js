@@ -17,8 +17,10 @@ describe('metrics', () => {
     }
     global.FormData = FormDataMock;
 
-    const byTypeStub = sinon.stub()
-      .withArgs('navigation').returns([navEntry]);
+    const byTypeStub = sinon
+      .stub()
+      .withArgs('navigation')
+      .returns([navEntry]);
 
     function PerformanceMock() {
       this.getEntriesByType = byTypeStub;
@@ -49,28 +51,36 @@ describe('metrics', () => {
     });
 
     it('should not include firstContentfulPaint if not present', () => {
-      const byNameStub = sinon.stub()
-        .withArgs('first-contentful-paint').returns('0');
+      const byNameStub = sinon
+        .stub()
+        .withArgs('first-contentful-paint')
+        .returns('0');
       global.performance.getEntriesByName = byNameStub;
 
       const parsedResponse = buildAndParsePayload(navEntry);
-      expect(parsedResponse.metrics).to.not.include
-        .deep.members([{ duration: 1349.599999939381, metric: 'firstContentfulPaint' }]);
+      expect(parsedResponse.metrics).to.not.include.deep.members([
+        { duration: 1349.599999939381, metric: 'firstContentfulPaint' },
+      ]);
     });
 
     it('should include firstContentfulPaint if present', () => {
-      const byNameStub = sinon.stub()
-        .withArgs('first-contentful-paint').returns([{
-          duration: 0,
-          entryType: 'paint',
-          name: 'first-contentful-paint',
-          startTime: 1349.599999939381
-        }]);
+      const byNameStub = sinon
+        .stub()
+        .withArgs('first-contentful-paint')
+        .returns([
+          {
+            duration: 0,
+            entryType: 'paint',
+            name: 'first-contentful-paint',
+            startTime: 1349.599999939381,
+          },
+        ]);
       global.performance.getEntriesByName = byNameStub;
 
       const parsedResponse = buildAndParsePayload(navEntry);
-      expect(parsedResponse.metrics).to.include
-        .deep.members([{ duration: 1349.599999939381, metric: 'firstContentfulPaint' }]);
+      expect(parsedResponse.metrics).to.include.deep.members([
+        { duration: 1349.599999939381, metric: 'firstContentfulPaint' },
+      ]);
     });
 
     describe('sendMetricsToBackend', () => {

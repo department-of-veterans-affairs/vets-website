@@ -51,9 +51,12 @@ export function buildMetricsPayload(entry) {
 
   if (contentfulPaintEntry()) {
     const firstContentfulPaint = contentfulPaintEntry();
-    metrics = Object.assign({
-      firstContentfulPaint
-    }, metrics);
+    metrics = Object.assign(
+      {
+        firstContentfulPaint,
+      },
+      metrics,
+    );
   }
   const metricsPayload = new FormData();
   const metricsArray = [];
@@ -62,7 +65,7 @@ export function buildMetricsPayload(entry) {
   Object.keys(metrics).forEach(metric => {
     metricsArray.push({
       metric,
-      duration: metrics[metric]
+      duration: metrics[metric],
     });
   });
 
