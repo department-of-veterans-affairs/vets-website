@@ -121,12 +121,7 @@ export function captureMetrics() {
  * @see https://developer.mozilla.org/en-US/docs/Web/API/PerformanceObserver/observe
  */
 function canCaptureMetrics() {
-  if (performance === undefined) {
-    return false;
-  } else if (!('PerformanceObserver' in window)) {
-    return false;
-  }
-  return true;
+  return window.performance && window.PerformanceObserver;
 }
 
 /**
