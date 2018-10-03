@@ -4,6 +4,9 @@ const path = require('path');
 const commandLineArgs = require('command-line-args');
 const applyHerokuOptions = require('./heroku-helper');
 const environments = require('./constants/environments');
+const hostnames = require('./constants/hostnames');
+
+const defaultHost = 'localhost';
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: environments.DEVELOPMENT },
@@ -13,7 +16,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'entry', type: String, defaultValue: null },
   { name: 'analyzer', type: Boolean, defaultValue: false },
-  { name: 'host', type: String, defaultValue: 'localhost' },
+  { name: 'host', type: String },
   { name: 'public', type: String, defaultValue: null },
   { name: 'destination', type: String, defaultValue: null },
 
@@ -36,9 +39,11 @@ function applyDefaultOptions(options) {
     contentRoot: '../content',
     destination: path.resolve(__dirname, `../build/${options.buildtype}`),
     assets: {
-      source: '../assets', destination: './'
+      source: '../assets',
+      destination: './',
     },
-    collections: require('./collections/default.json')
+    collections: require('./collections/default.json'),
+    redirects: [],
   });
 
   if (options.buildtype === undefined) {
@@ -49,6 +54,15 @@ function applyDefaultOptions(options) {
 function applyEnvironmentOverrides(options) {
   const env = require('get-env')();
 
+  // priority order: command line option, watch task host (localhost), build type host, default host
+  if (!options.host) {
+    if (!options.watch && options.buildtype) {
+      options.host = hostnames[options.buildtype];
+    } else {
+      options.host = defaultHost;
+    }
+  }
+
   switch (options.buildtype) {
     case environments.DEVELOPMENT:
     case environments.STAGING:
@@ -57,7 +71,11 @@ function applyEnvironmentOverrides(options) {
     case environments.PRODUCTION:
       if (options['no-sanity-check-node-env'] === false) {
         if (env !== 'prod') {
-          throw new Error(`buildtype ${options.buildtype} expects NODE_ENV to be production, not '${process.env.NODE_ENV}'`);
+          throw new Error(
+            `buildtype ${
+              options.buildtype
+            } expects NODE_ENV to be production, not '${process.env.NODE_ENV}'`,
+          );
         }
       }
       break;
@@ -74,9 +92,24 @@ function applyEnvironmentOverrides(options) {
 }
 
 function applyBrandConsolidationOverrides(options) {
+  let currentEnv = 'dev';
+  if (
+    options.buildtype.includes(environments.STAGING) ||
+    options.buildtype === environments.PREVIEW
+  ) {
+    currentEnv = 'staging';
+  }
+
+  // This list also exists in stagingDomains.js
+  const domainReplacements = [
+    { from: 'www\\.va\\.gov', to: `${currentEnv}.va.gov` },
+  ];
+
   Object.assign(options, {
     contentRoot: '../va-gov',
-    collections: require('./collections/brand-consolidation.json')
+    collections: require('./collections/brand-consolidation.json'),
+    redirects: require('./vagovRedirects.json'),
+    domainReplacements,
   });
 }
 

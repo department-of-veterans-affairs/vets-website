@@ -5,12 +5,15 @@ import { mount } from 'enzyme';
 import _ from 'lodash';
 import {
   DefinitionTester,
-  fillData
+  fillData,
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../feedback-tool/config/form';
 
 describe('feedback tool school info', () => {
-  const { schema, uiSchema } = formConfig.chapters.schoolInformation.pages.schoolInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.schoolInformation.pages.schoolInformation;
   _.unset(uiSchema, 'educationDetails.school.view:searchSchoolSelect');
 
   it('should render', () => {
@@ -21,18 +24,19 @@ describe('feedback tool school info', () => {
           educationDetails: {
             school: {
               'view:searchSchoolSelect': {
-                'view:manualSchoolEntryChecked': true
+                'view:manualSchoolEntryChecked': true,
               },
               'view:manualSchoolEntry': {
                 address: {
-                  country: 'United States'
-                }
-              }
-            }
-          }
+                  country: 'United States',
+                },
+              },
+            },
+          },
         }}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     expect(form.find('input').length).to.equal(7);
   });
@@ -45,13 +49,14 @@ describe('feedback tool school info', () => {
           educationDetails: {
             school: {
               'view:searchSchoolSelect': {
-                'view:manualSchoolEntryChecked': true
-              }
-            }
-          }
+                'view:manualSchoolEntryChecked': true,
+              },
+            },
+          },
         }}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     expect(form.find('input').length).to.equal(8);
   });
@@ -65,19 +70,20 @@ describe('feedback tool school info', () => {
           educationDetails: {
             school: {
               'view:searchSchoolSelect': {
-                'view:manualSchoolEntryChecked': true
+                'view:manualSchoolEntryChecked': true,
               },
               'view:manualSchoolEntry': {
                 address: {
-                  country: 'United States'
-                }
-              }
-            }
-          }
+                  country: 'United States',
+                },
+              },
+            },
+          },
         }}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -94,14 +100,15 @@ describe('feedback tool school info', () => {
           educationDetails: {
             school: {
               'view:searchSchoolSelect': {
-                'view:manualSchoolEntryChecked': true
-              }
-            }
-          }
+                'view:manualSchoolEntryChecked': true,
+              },
+            },
+          },
         }}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -118,27 +125,52 @@ describe('feedback tool school info', () => {
           educationDetails: {
             school: {
               'view:searchSchoolSelect': {
-                'view:manualSchoolEntryChecked': true
+                'view:manualSchoolEntryChecked': true,
               },
               'view:manualSchoolEntry': {
                 address: {
-                  country: 'United States'
-                }
-              }
-            }
-          }
+                  country: 'United States',
+                },
+              },
+            },
+          },
         }}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
-    fillData(form, 'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]', 'test');
-    fillData(form, 'input[name="root_educationDetails_school_view:manualSchoolEntry_address_street"]', 'test');
-    fillData(form, 'input[name="root_educationDetails_school_view:manualSchoolEntry_address_city"]', 'test');
-    fillData(form, 'input[name="root_educationDetails_school_view:manualSchoolEntry_address_postalCode"]', '34343');
-    fillData(form, 'select[name="root_educationDetails_school_view:manualSchoolEntry_address_state"]', 'MA');
-    fillData(form, 'select[name="root_educationDetails_school_view:manualSchoolEntry_address_country"]', 'United States');
+    fillData(
+      form,
+      'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]',
+      'test',
+    );
+    fillData(
+      form,
+      'input[name="root_educationDetails_school_view:manualSchoolEntry_address_street"]',
+      'test',
+    );
+    fillData(
+      form,
+      'input[name="root_educationDetails_school_view:manualSchoolEntry_address_city"]',
+      'test',
+    );
+    fillData(
+      form,
+      'input[name="root_educationDetails_school_view:manualSchoolEntry_address_postalCode"]',
+      '34343',
+    );
+    fillData(
+      form,
+      'select[name="root_educationDetails_school_view:manualSchoolEntry_address_state"]',
+      'MA',
+    );
+    fillData(
+      form,
+      'select[name="root_educationDetails_school_view:manualSchoolEntry_address_country"]',
+      'United States',
+    );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

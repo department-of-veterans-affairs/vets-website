@@ -6,12 +6,7 @@ const INITIAL_STATE = {
     latitude: 40.17887331434698,
     longitude: -99.27246093750001,
   },
-  bounds: [
-    -77.53653,
-    38.3976763,
-    -76.53653,
-    39.3976763,
-  ],
+  bounds: [-77.53653, 38.3976763, -76.53653, 39.3976763],
   context: 20004,
   inProgress: false,
   currentPage: 1,
@@ -19,7 +14,7 @@ const INITIAL_STATE = {
   searchBoundsInProgress: false,
 };
 
-export default function (state = INITIAL_STATE, action) {
+export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case 'SEARCH_STARTED':
       return {

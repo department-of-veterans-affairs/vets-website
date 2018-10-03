@@ -3,7 +3,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, selectRadio } from '../../../../platform/testing/unit/schemaform-utils';
+import {
+  DefinitionTester,
+  fillData,
+  selectRadio,
+} from '../../../../platform/testing/unit/schemaform-utils';
 import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 import formConfig from '../../config/form';
 
@@ -16,25 +20,27 @@ const mockFetch = () => {
   fetchMock = sinon.stub();
   global.fetch = fetchMock;
   fetchMock.returns({
-    then: (fn) => fn({
-      ok: true,
-      json: () => Promise.resolve({
-        data: [
-          {
-            id: 915,
-            type: 'preneeds_cemeteries',
-            attributes: {
-              // eslint-disable-next-line camelcase
-              cemetery_id: '915',
-              name: 'ABRAHAM LINCOLN NATIONAL CEMETERY',
-              // eslint-disable-next-line camelcase
-              cemetery_type: 'N',
-              num: '915'
-            }
-          }
-        ]
-      })
-    })
+    then: fn =>
+      fn({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            data: [
+              {
+                id: 915,
+                type: 'preneeds_cemeteries',
+                attributes: {
+                  // eslint-disable-next-line camelcase
+                  cemetery_id: '915',
+                  name: 'ABRAHAM LINCOLN NATIONAL CEMETERY',
+                  // eslint-disable-next-line camelcase
+                  cemetery_type: 'N',
+                  num: '915',
+                },
+              },
+            ],
+          }),
+      }),
   });
 };
 
@@ -45,19 +51,22 @@ const unMockFetch = () => {
 
 describe('Pre-need burial benefits', () => {
   beforeEach(mockFetch);
-  const { schema, uiSchema } = formConfig.chapters.burialBenefits.pages.burialBenefits;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.burialBenefits.pages.burialBenefits;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(4);
   });
-
 
   it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
@@ -66,7 +75,8 @@ describe('Pre-need burial benefits', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -82,32 +92,44 @@ describe('Pre-need burial benefits', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     selectRadio(form, 'root_application_hasCurrentlyBuried', '1');
 
-    fillData(form, 'input#root_application_currentlyBuriedPersons_0_name_first', 'test');
-    fillData(form, 'input#root_application_currentlyBuriedPersons_0_name_last', 'test2');
+    fillData(
+      form,
+      'input#root_application_currentlyBuriedPersons_0_name_first',
+      'test',
+    );
+    fillData(
+      form,
+      'input#root_application_currentlyBuriedPersons_0_name_last',
+      'test2',
+    );
 
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should fill in desired cemetery', (done) => {
+  it('should fill in desired cemetery', done => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
-    const cemeteryField = form.find('input#root_application_claimant_desiredCemetery');
-    cemeteryField
-      .simulate('focus')
-      .simulate('change', { target: { value: 'ABRAHAM LINCOLN NATIONAL CEMETERY' } });
+    const cemeteryField = form.find(
+      'input#root_application_claimant_desiredCemetery',
+    );
+    cemeteryField.simulate('focus').simulate('change', {
+      target: { value: 'ABRAHAM LINCOLN NATIONAL CEMETERY' },
+    });
 
     setTimeout(() => {
       cemeteryField
@@ -116,8 +138,10 @@ describe('Pre-need burial benefits', () => {
         .simulate('blur');
 
       // have to pull this again, doesn't work if we use cemeteryField
-      expect(form.find('input#root_application_claimant_desiredCemetery')
-        .props().value).to.equal('ABRAHAM LINCOLN NATIONAL CEMETERY');
+      expect(
+        form.find('input#root_application_claimant_desiredCemetery').props()
+          .value,
+      ).to.equal('ABRAHAM LINCOLN NATIONAL CEMETERY');
 
       done();
     });
@@ -130,39 +154,59 @@ describe('Pre-need burial benefits', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     selectRadio(form, 'root_application_hasCurrentlyBuried', '1');
 
-    fillData(form, 'input#root_application_currentlyBuriedPersons_0_name_first', 'test');
-    fillData(form, 'input#root_application_currentlyBuriedPersons_0_name_last', 'test2');
+    fillData(
+      form,
+      'input#root_application_currentlyBuriedPersons_0_name_first',
+      'test',
+    );
+    fillData(
+      form,
+      'input#root_application_currentlyBuriedPersons_0_name_last',
+      'test2',
+    );
 
     form.find('.va-growable-add-btn').simulate('click');
 
-    fillData(form, 'input#root_application_currentlyBuriedPersons_1_name_first', 'test');
-    fillData(form, 'input#root_application_currentlyBuriedPersons_1_name_last', 'test2');
+    fillData(
+      form,
+      'input#root_application_currentlyBuriedPersons_1_name_first',
+      'test',
+    );
+    fillData(
+      form,
+      'input#root_application_currentlyBuriedPersons_1_name_last',
+      'test2',
+    );
 
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should fill cemetery for currently buried person', (done) => {
+  it('should fill cemetery for currently buried person', done => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     selectRadio(form, 'root_application_hasCurrentlyBuried', '1');
 
-    const cemeteryField = form.find('input#root_application_currentlyBuriedPersons_0_cemeteryNumber');
-    cemeteryField
-      .simulate('focus')
-      .simulate('change', { target: { value: 'ABRAHAM LINCOLN NATIONAL CEMETERY' } });
+    const cemeteryField = form.find(
+      'input#root_application_currentlyBuriedPersons_0_cemeteryNumber',
+    );
+    cemeteryField.simulate('focus').simulate('change', {
+      target: { value: 'ABRAHAM LINCOLN NATIONAL CEMETERY' },
+    });
 
     setTimeout(() => {
       cemeteryField
@@ -170,8 +214,13 @@ describe('Pre-need burial benefits', () => {
         .simulate('blur');
 
       // have to pull this again, doesn't work if we use cemeteryField
-      expect(form.find('input#root_application_currentlyBuriedPersons_0_cemeteryNumber')
-        .props().value).to.equal('ABRAHAM LINCOLN NATIONAL CEMETERY');
+      expect(
+        form
+          .find(
+            'input#root_application_currentlyBuriedPersons_0_cemeteryNumber',
+          )
+          .props().value,
+      ).to.equal('ABRAHAM LINCOLN NATIONAL CEMETERY');
 
       done();
     });

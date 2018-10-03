@@ -8,80 +8,80 @@ import reducer from '../../reducers';
 
 const defaultProps = {
   ...createCommonStore(reducer).getState().eligibility,
-  showModal: () => {}
+  showModal: () => {},
 };
 
 const checkExpectedDropdowns = (tree, expected) => {
-  tree.everySubTree('Dropdown', { visible: true }).forEach((dropdown) => {
+  tree.everySubTree('Dropdown', { visible: true }).forEach(dropdown => {
     expect(expected.includes(dropdown.props.name)).to.be.true;
   });
 };
 
 describe('<EligibilityForm>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<EligibilityForm {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<EligibilityForm {...defaultProps} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
   it('should render default fields', () => {
-    const tree = SkinDeep.shallowRender(<EligibilityForm {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<EligibilityForm {...defaultProps} />);
     checkExpectedDropdowns(tree, [
       'militaryStatus',
       'giBillChapter',
-      'cumulativeService'
+      'cumulativeService',
     ]);
   });
 
   it('should render spouse active duty field', () => {
     const props = { ...defaultProps, militaryStatus: 'spouse' };
-    const tree = SkinDeep.shallowRender(<EligibilityForm {...props}/>);
+    const tree = SkinDeep.shallowRender(<EligibilityForm {...props} />);
     checkExpectedDropdowns(tree, [
       'militaryStatus',
       'spouseActiveDuty',
       'giBillChapter',
-      'cumulativeService'
+      'cumulativeService',
     ]);
   });
 
   it('should render fields for Post-9/11 GI Bill (Ch 33)', () => {
     const props = { ...defaultProps, giBillChapter: '33' };
-    const tree = SkinDeep.shallowRender(<EligibilityForm {...props}/>);
+    const tree = SkinDeep.shallowRender(<EligibilityForm {...props} />);
     checkExpectedDropdowns(tree, [
       'militaryStatus',
       'giBillChapter',
-      'cumulativeService'
+      'cumulativeService',
     ]);
   });
 
   it('should render fields for Montgomery GI Bill (Ch 30)', () => {
     const props = { ...defaultProps, giBillChapter: '30' };
-    const tree = SkinDeep.shallowRender(<EligibilityForm {...props}/>);
+    const tree = SkinDeep.shallowRender(<EligibilityForm {...props} />);
     checkExpectedDropdowns(tree, [
       'militaryStatus',
       'giBillChapter',
-      'enlistmentService'
+      'enlistmentService',
     ]);
   });
 
   it('should render fields for REAP GI Bill (Ch 1607)', () => {
     const props = { ...defaultProps, giBillChapter: '1607' };
-    const tree = SkinDeep.shallowRender(<EligibilityForm {...props}/>);
+    const tree = SkinDeep.shallowRender(<EligibilityForm {...props} />);
     checkExpectedDropdowns(tree, [
       'militaryStatus',
       'giBillChapter',
-      'consecutiveService'
+      'consecutiveService',
     ]);
   });
 
   it('should render fields for VR&E (Ch 31)', () => {
     const props = { ...defaultProps, giBillChapter: '31' };
-    const tree = SkinDeep.shallowRender(<EligibilityForm {...props}/>);
+    const tree = SkinDeep.shallowRender(<EligibilityForm {...props} />);
     checkExpectedDropdowns(tree, [
       'militaryStatus',
       'giBillChapter',
       'eligForPostGiBill',
-      'numberOfDependents'
+      'numberOfDependents',
     ]);
   });
 
@@ -89,13 +89,13 @@ describe('<EligibilityForm>', () => {
     const props = {
       ...defaultProps,
       giBillChapter: '31',
-      eligForPostGiBill: 'yes'
+      eligForPostGiBill: 'yes',
     };
-    const tree = SkinDeep.shallowRender(<EligibilityForm {...props}/>);
+    const tree = SkinDeep.shallowRender(<EligibilityForm {...props} />);
     checkExpectedDropdowns(tree, [
       'militaryStatus',
       'giBillChapter',
-      'eligForPostGiBill'
+      'eligForPostGiBill',
     ]);
   });
 });

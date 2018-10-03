@@ -18,20 +18,28 @@ export const uiSchema = {
     itemDescription: 'PTSD 781a form',
     hideLabelText: true,
     fileUploadUrl: `${environment.API_URL}/v0`,
-    fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tif', 'tiff', 'txt'],
+    fileTypes: [
+      'pdf',
+      'jpg',
+      'jpeg',
+      'png',
+      'gif',
+      'bmp',
+      'tif',
+      'tiff',
+      'txt',
+    ],
     maxSize: FIFTY_MB,
-    createPayload: (file) => {
+    createPayload: file => {
       const payload = new FormData();
       payload.append('disability_details_attachment[file_data]', file);
 
       return payload;
     },
-    parseResponse: (response, file) => {
-      return {
-        name: file.name,
-        confirmationCode: response.data.attributes.guid
-      };
-    },
+    parseResponse: (response, file) => ({
+      name: file.name,
+      confirmationCode: response.data.attributes.guid,
+    }),
     // this is the uiSchema passed to FileField for the attachmentId schema
     // FileField requires this name be used
     attachmentSchema: {
@@ -41,8 +49,8 @@ export const uiSchema = {
     // FileField requires this name be used
     attachmentName: {
       'ui:title': 'Document name',
-    }
-  })
+    },
+  }),
 };
 
 export const schema = {
@@ -54,16 +62,16 @@ export const schema = {
         type: 'object',
         properties: {
           name: {
-            type: 'string'
+            type: 'string',
           },
           size: {
-            type: 'integer'
+            type: 'integer',
           },
           confirmationCode: {
-            type: 'string'
-          }
-        }
-      }
-    }
-  }
+            type: 'string',
+          },
+        },
+      },
+    },
+  },
 };

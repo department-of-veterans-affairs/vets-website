@@ -18,24 +18,17 @@ View your VA lab and test results online through your My HealtheVet personal hea
 
 </div>
 
-<div class="va-sign-in-alert usa-alert usa-alert-info">
-  <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You'll need to sign in before you can view your lab and test results online.</h4>
-    <p class="usa-alert-text">
-      <button class="usa-button-primary">Sign In or Create an Account</button>
-    </p>
-  </div>
-</div>
+<div class="cta-widget" data-app-id="lab-and-test-results"></div>
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h2 itemprop="name">How can the tool for VA labs and tests help me manage my health care?</h2>
+<h2 itemprop="name">How can the VA Labs + Tests tool help me manage my health care?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-This tool, called "Labs + Tests," is part of the My HealtheVet personal health record. It can help you view and keep a record of your lab and test results.
+Labs + Tests is part of the My HealtheVet personal health record. It can help you view and keep a record of your lab and test results.
 
-**You can use it to:**
+**You can use the Labs + Tests tool to:**
 - View some of your VA lab and test results (like blood tests)
 - Add results from non-VA health care providers and labs
 
@@ -49,7 +42,7 @@ This tool, called "Labs + Tests," is part of the My HealtheVet personal health r
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can use this tool to view your VA results and information you enter yourself if you meet all of the requirements listed below.
+You can use this tool to view your VA lab and test results and information you enter yourself if you meet all of the requirements listed below.
 
 **Both of these must be true. You're:**
 - Enrolled in VA health care, **and**
@@ -58,15 +51,12 @@ You can use this tool to view your VA results and information you enter yourself
 [Find out how to apply for VA health care](/health-care/how-to-apply/).
 
 **And you must have one of these free accounts:**
-- A premium **My HealtheVet** account, **or**
-- A **DS Logon** account (used for eBenefits and milConnect), **or**
+- A Premium **My HealtheVet** account, **or**
+- A Premium **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
 
-**Note:** If you use DS Logon, you'll need to verify your identity online as part of our sign-in process.
-
-Please see the blue sign-in module above to learn more about signing in, creating or upgrading an account, and verifying your identity.
-
-If you sign in with an unverified account, you’ll see only the results you've entered yourself.
+**Note:** If you sign in with a Basic or Advanced account, you’ll see only the results you've entered yourself. <br>
+[Learn about the 3 different My HealtheVet account types](https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types).
 
 </div>
 </div>
@@ -78,7 +68,7 @@ If you sign in with an unverified account, you’ll see only the results you've 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-At this time, you can view only your VA chemistry/hematology results. These include tests for blood sugar, liver function, or blood cell counts. We’ll add more VA labs and tests in the future.
+At this time, you can view only your VA chemistry/hematology results. These include tests for blood sugar, liver function, or blood cell counts.
 </div>
 </div>
 </div>
@@ -101,13 +91,16 @@ No. But you can enter this information yourself to keep all your results in one 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-On your welcome page dashboard, you’ll see a module for “Health Records.” Within that module, click on “Labs and Tests.”
+On your Welcome page dashboard, you’ll see a module for “Health Records.” Within that module, click on “Labs and Tests.”
 
-This will take you to a new page with links to view test results. If you’re signed in with a verified account, you’ll see:
+This will take you to a new page with links to view test results.
+
+**If you’re signed in with a Premium account, you’ll see:**
 - **VA chemistry/hematology results:** Your tests will be listed by date and specimen. A specimen is the sample studied by the test (like blood, urine, a tissue biopsy, or a throat swab). You can click on each to view details from your VA medical record.
 - **Test results you've entered yourself:** You can add and view results from non-VA providers and labs.
 
-**Note:** If you’re signed in with an unverified account, you’ll see only the test results you've entered yourself.
+**Note:** If you’re signed in with a Basic or Advanced account, you’ll see only the test results you've entered yourself. <br>
+[Learn about the 3 different My HealtheVet account types](https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types).
 
 </div>
 </div>
@@ -135,7 +128,11 @@ If you print or download anything from the website (like lab results), you’ll 
 <div itemprop="text">
 
 You can get answers to your questions about this tool within our My HealtheVet web portal. <br>
-[Read the labs and tests FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#LabsandTests).
+[Read the Labs + Tests FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#LabsandTests).
+
+You can also contact the My HealtheVet Help Desk. <br>
+[Find out how to contact us online](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv). <br>
+Or call us at <a href="tel:+18773270022">1-877-327-0022</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>). We’re here Monday through Friday, 7:00 a.m. to 7:00 p.m. (CT)
 
 </div>
 </div>

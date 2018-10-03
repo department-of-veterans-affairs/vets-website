@@ -8,39 +8,34 @@ import { AdditionalEvidencePage } from '../../containers/AdditionalEvidencePage'
 
 describe('<AdditionalEvidencePage>', () => {
   it('should render loading div', () => {
-    const tree = SkinDeep.shallowRender(
-      <AdditionalEvidencePage
-        loading/>
-    );
+    const tree = SkinDeep.shallowRender(<AdditionalEvidencePage loading />);
     expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
   });
   it('should render upload error alert', () => {
     const claim = {
       id: 1,
-      attributes: {}
+      attributes: {},
     };
     const message = {
       title: 'test',
       body: 'test',
-      type: 'error'
+      type: 'error',
     };
 
     const tree = SkinDeep.shallowRender(
-      <AdditionalEvidencePage
-        claim={claim}
-        message={message}/>
+      <AdditionalEvidencePage claim={claim} message={message} />,
     );
     expect(tree.subTree('Notification')).not.to.be.false;
   });
   it('should clear upload error when leaving', () => {
     const claim = {
       id: 1,
-      attributes: {}
+      attributes: {},
     };
     const message = {
       title: 'test',
       body: 'test',
-      type: 'error'
+      type: 'error',
     };
     const clearNotification = sinon.spy();
 
@@ -48,7 +43,8 @@ describe('<AdditionalEvidencePage>', () => {
       <AdditionalEvidencePage
         claim={claim}
         clearNotification={clearNotification}
-        message={message}/>
+        message={message}
+      />,
     );
     expect(tree.subTree('Notification')).not.to.be.false;
     tree.getMountedInstance().componentWillUnmount();
@@ -57,12 +53,12 @@ describe('<AdditionalEvidencePage>', () => {
   it('should not clear notification after completed upload', () => {
     const claim = {
       id: 1,
-      attributes: {}
+      attributes: {},
     };
     const message = {
       title: 'test',
       body: 'test',
-      type: 'error'
+      type: 'error',
     };
     const clearNotification = sinon.spy();
 
@@ -71,7 +67,8 @@ describe('<AdditionalEvidencePage>', () => {
         claim={claim}
         uploadComplete
         clearNotification={clearNotification}
-        message={message}/>
+        message={message}
+      />,
     );
     expect(tree.subTree('Notification')).not.to.be.false;
     tree.getMountedInstance().componentWillUnmount();
@@ -81,14 +78,15 @@ describe('<AdditionalEvidencePage>', () => {
     const files = [];
     const claim = {
       id: 1,
-      attributes: {}
+      attributes: {},
     };
     const onSubmit = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidencePage
         claim={claim}
         files={files}
-        submitFiles={onSubmit}/>
+        submitFiles={onSubmit}
+      />,
     );
     tree.subTree('AddFilesForm').props.onSubmit();
     expect(onSubmit.calledWith(1, null, files)).to.be.true;
@@ -96,7 +94,7 @@ describe('<AdditionalEvidencePage>', () => {
   it('should reset uploads and set title on mount', () => {
     const claim = {
       id: 1,
-      attributes: {}
+      attributes: {},
     };
     const resetUploads = sinon.spy();
     const mainDiv = document.createElement('div');
@@ -107,7 +105,8 @@ describe('<AdditionalEvidencePage>', () => {
         claim={claim}
         files={[]}
         uploadField={{ value: null, dirty: false }}
-        resetUploads={resetUploads}/>
+        resetUploads={resetUploads}
+      />,
     );
 
     expect(document.title).to.equal('Additional Evidence');
@@ -116,10 +115,10 @@ describe('<AdditionalEvidencePage>', () => {
   it('should set details and go to files page if complete', () => {
     const claim = {
       id: 1,
-      attributes: {}
+      attributes: {},
     };
     const router = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
     const getClaimDetail = sinon.spy();
     const resetUploads = sinon.spy();
@@ -132,10 +131,13 @@ describe('<AdditionalEvidencePage>', () => {
         uploadField={{ value: null, dirty: false }}
         router={router}
         getClaimDetail={getClaimDetail}
-        resetUploads={resetUploads}/>
+        resetUploads={resetUploads}
+      />,
     );
 
-    tree.getMountedInstance().componentWillReceiveProps({ uploadComplete: true });
+    tree
+      .getMountedInstance()
+      .componentWillReceiveProps({ uploadComplete: true });
     expect(getClaimDetail.calledWith(1)).to.be.true;
     expect(router.push.calledWith('your-claims/1/files')).to.be.true;
   });

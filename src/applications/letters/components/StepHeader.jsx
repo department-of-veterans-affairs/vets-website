@@ -12,7 +12,8 @@ class StepHeader extends React.Component {
           aria-valuemin="1"
           aria-valuetext={`Step ${current} of ${steps}: ${name}`}
           aria-valuemax={steps}
-          className="nav-header">
+          className="nav-header"
+        >
           <h4>
             <span className="form-process-step current">{current}</span>
             <span className="form-process-total">of {steps}</span>
@@ -28,7 +29,7 @@ class StepHeader extends React.Component {
 StepHeader.ProptTypes = {
   name: PropTypes.string,
   current: PropTypes.number,
-  steps: PropTypes.number
+  steps: PropTypes.number,
 };
 
 export default StepHeader;

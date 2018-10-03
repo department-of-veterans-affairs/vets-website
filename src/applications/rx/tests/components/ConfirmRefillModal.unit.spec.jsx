@@ -14,24 +14,24 @@ const props = {
     refillSubmitDate: null,
     facilityName: 'ABC123',
   },
-  onCloseModal: f => f
+  onCloseModal: f => f,
 };
 
 describe('<ConfirmRefillModal>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<ConfirmRefillModal {...props}/>);
+    const tree = SkinDeep.shallowRender(<ConfirmRefillModal {...props} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
   it('should have the expected id', () => {
-    const tree = SkinDeep.shallowRender(<ConfirmRefillModal {...props}/>);
+    const tree = SkinDeep.shallowRender(<ConfirmRefillModal {...props} />);
 
     expect(tree.props.id).to.equal('rx-confirm-refill');
   });
 
   it('should render a Modal', () => {
-    const tree = SkinDeep.shallowRender(<ConfirmRefillModal {...props}/>);
+    const tree = SkinDeep.shallowRender(<ConfirmRefillModal {...props} />);
 
     expect(tree.subTree('Modal')).to.be.ok;
   });
@@ -40,9 +40,7 @@ describe('<ConfirmRefillModal>', () => {
     const refillPrescription = sinon.spy();
 
     const confirmRefillModal = ReactTestUtils.renderIntoDocument(
-      <ConfirmRefillModal
-        {...props}
-        refillPrescription={refillPrescription}/>
+      <ConfirmRefillModal {...props} refillPrescription={refillPrescription} />,
     );
 
     confirmRefillModal.handleConfirmRefill({ preventDefault: () => {} });
@@ -53,9 +51,7 @@ describe('<ConfirmRefillModal>', () => {
     const onCloseModal = sinon.spy();
 
     const confirmRefillModal = ReactTestUtils.renderIntoDocument(
-      <ConfirmRefillModal
-        {...props}
-        onCloseModal={onCloseModal}/>
+      <ConfirmRefillModal {...props} onCloseModal={onCloseModal} />,
     );
 
     confirmRefillModal.handleCloseModal({ preventDefault: () => {} });

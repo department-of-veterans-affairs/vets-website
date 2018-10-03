@@ -5,4 +5,5 @@ order: 5
 collection: burials
 spoke: More Resources
 target: _blank
+private: true
 ---

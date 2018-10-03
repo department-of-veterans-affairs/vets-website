@@ -7,30 +7,37 @@ const disabilityForms = new Set(['21-526EZ']);
 export default function createDisabilityIncreaseApplicationStatus(store) {
   const root = document.getElementById('react-applicationStatus');
   if (root) {
-    import(
-      /* webpackChunkName: "disability-application-status" */
-      '../disabilityIncreaseEntry').then(module => {
+    import(/* webpackChunkName: "disability-application-status" */
+    '../disabilityIncreaseEntry').then(module => {
       const { ApplicationStatus, DisabilityWizard } = module.default;
-      ReactDOM.render((
+      ReactDOM.render(
         <Provider store={store}>
           <ApplicationStatus
             formIds={disabilityForms}
             formType="disability compensation"
-            showApplyButton={root.getAttribute('data-hide-apply-button') === null}
+            showApplyButton={
+              root.getAttribute('data-hide-apply-button') === null
+            }
             stayAfterDelete
             applyRender={() => (
               <div itemScope itemType="http://schema.org/Question">
                 <h3 itemProp="name">How do I apply?</h3>
-                <div itemProp="acceptedAnswer" itemScope itemType="http://schema.org/Answer">
+                <div
+                  itemProp="acceptedAnswer"
+                  itemScope
+                  itemType="http://schema.org/Answer"
+                >
                   <div itemProp="text">
                     <p>You can apply online right now.</p>
-                    <DisabilityWizard/>
+                    <DisabilityWizard />
                   </div>
                 </div>
               </div>
-            )}/>
-        </Provider>
-      ), root);
+            )}
+          />
+        </Provider>,
+        root,
+      );
     });
   }
 }

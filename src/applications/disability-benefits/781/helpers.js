@@ -80,8 +80,7 @@ const introductionExplanationText = (
         to start a confidential chat online, <strong>**or**</strong>
       </li>
       <li>
-        Send a text message to <a href="sms:838255">838255</a>
-        .
+        Send a text message to <a href="sms:838255">838255</a>.
       </li>
     </ul>
     <p>Support for the deaf and hearing-impaired is also available.</p>

@@ -10,20 +10,20 @@ const props = {
   params: {
     dateRange: {
       start: null,
-      end: null
+      end: null,
     },
     from: {
       field: makeField(''),
-      exact: false
+      exact: false,
     },
     to: {
       field: makeField(''),
-      exact: false
+      exact: false,
     },
     subject: {
       field: makeField(''),
-      exact: false
-    }
+      exact: false,
+    },
   },
   onAdvancedSearch: () => {},
   onFieldChange: () => {},
@@ -32,7 +32,7 @@ const props = {
 
 describe('MessageSearchAdvanced', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<MessageSearchAdvanced {...props}/>);
+    const tree = SkinDeep.shallowRender(<MessageSearchAdvanced {...props} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
     expect(tree.subTree('.msg-search-advanced-toggle')).to.not.be.false;
@@ -40,7 +40,7 @@ describe('MessageSearchAdvanced', () => {
 
   it('should display a form when expanded', () => {
     const tree = SkinDeep.shallowRender(
-      <MessageSearchAdvanced {...props} isVisible/>
+      <MessageSearchAdvanced {...props} isVisible />,
     );
     expect(tree.subTree('.msg-search-advanced-controls')).to.not.be.false;
     expect(tree.subTree('.msg-search-advanced-toggle')).to.not.be.false;
@@ -48,7 +48,7 @@ describe('MessageSearchAdvanced', () => {
 
   it('should search by recipient instead of sender', () => {
     const tree = SkinDeep.shallowRender(
-      <MessageSearchAdvanced {...props} hasRecipientField isVisible/>
+      <MessageSearchAdvanced {...props} hasRecipientField isVisible />,
     );
     const fields = tree.everySubTree('.msg-search-advanced-group');
     expect(fields[0].subTree('ErrorableTextInput').props.label).to.equal('To');

@@ -11,14 +11,14 @@ const {
   cause,
   primaryDisability,
   primaryDescription,
-  disabilityStartDate
+  disabilityStartDate,
 } = fullSchema.properties.newDisabilities.items.properties;
 
-export const disabilityNameTitle = ({ formData }) => {
-  return (
-    <legend className="schemaform-block-title schemaform-title-underline">{getDisabilityName(formData.condition)}</legend>
-  );
-};
+export const disabilityNameTitle = ({ formData }) => (
+  <legend className="schemaform-block-title schemaform-title-underline">
+    {getDisabilityName(formData.condition)}
+  </legend>
+);
 
 const getDisabilitiesList = createSelector(
   formData => formData.ratedDisabilities,
@@ -32,11 +32,13 @@ const getDisabilitiesList = createSelector(
     return ratedDisabilities
       .map(disability => getDisabilityName(disability.name))
       .concat(newDisabilitiesWithoutCurrent);
-  }
+  },
 );
 
 const allCauses = cause.enum;
-const causesWithoutSecondary = allCauses.filter(causeCode => causeCode !== 'SECONDARY');
+const causesWithoutSecondary = allCauses.filter(
+  causeCode => causeCode !== 'SECONDARY',
+);
 
 export const uiSchema = {
   'ui:title': 'Disability details',
@@ -48,21 +50,25 @@ export const uiSchema = {
         'ui:widget': 'radio',
         'ui:options': {
           labels: {
-            NEW: 'My disability was caused by—or got worse because of—an injury or exposure during my service in the military.',
-            SECONDARY: 'My disability was caused by another disability (for example, I have a limp that caused lower-back problems).',
-            VA: 'My disability was caused by VA mistreatment.'
+            NEW:
+              'My disability was caused by—or got worse because of—an injury or exposure during my service in the military.',
+            SECONDARY:
+              'My disability was caused by another disability (for example, I have a limp that caused lower-back problems).',
+            VA: 'My disability was caused by VA mistreatment.',
           },
-          updateSchema: (formData, causeSchema, causeUISchema, index) => {
-            return {
-              'enum': getDisabilitiesList(formData, index).length ? allCauses : causesWithoutSecondary
-            };
-          }
-        }
+          updateSchema: (formData, causeSchema, causeUISchema, index) => ({
+            enum: getDisabilitiesList(formData, index).length
+              ? allCauses
+              : causesWithoutSecondary,
+          }),
+        },
       },
       primaryDisability: {
-        'ui:title': 'Please choose the disability that caused the disability you’re claiming here.',
-        'ui:required': (formData, index) => formData.newDisabilities[index].cause === 'SECONDARY'
-          && getDisabilitiesList(formData, index).length > 0,
+        'ui:title':
+          'Please choose the disability that caused the disability you’re claiming here.',
+        'ui:required': (formData, index) =>
+          formData.newDisabilities[index].cause === 'SECONDARY' &&
+          getDisabilitiesList(formData, index).length > 0,
         'ui:options': {
           labels: disabilityLabels,
           expandUnder: 'cause',
@@ -72,30 +78,32 @@ export const uiSchema = {
 
             if (!disabilitiesList.length) {
               return {
-                'ui:hidden': true
+                'ui:hidden': true,
               };
             }
 
             return {
-              'enum': disabilitiesList
+              enum: disabilitiesList,
             };
-          }
-        }
+          },
+        },
       },
       primaryDescription: {
-        'ui:title': 'Please briefly describe the injury or event that caused your disability.',
+        'ui:title':
+          'Please briefly describe the injury or event that caused your disability.',
         'ui:widget': 'textarea',
-        'ui:required': (formData, index) => formData.newDisabilities[index].cause === 'NEW',
+        'ui:required': (formData, index) =>
+          formData.newDisabilities[index].cause === 'NEW',
         'ui:options': {
           expandUnder: 'cause',
-          expandUnderCondition: 'NEW'
-        }
+          expandUnderCondition: 'NEW',
+        },
       },
       disabilityStartDate: dateUI(
-        'Date this injury or event happened (This date doesn’t have to be exact.)'
-      )
-    }
-  }
+        'Date this injury or event happened (This date doesn’t have to be exact.)',
+      ),
+    },
+  },
 };
 
 export const schema = {
@@ -110,9 +118,9 @@ export const schema = {
           cause,
           primaryDisability,
           primaryDescription,
-          disabilityStartDate
-        }
-      }
-    }
-  }
+          disabilityStartDate,
+        },
+      },
+    },
+  },
 };

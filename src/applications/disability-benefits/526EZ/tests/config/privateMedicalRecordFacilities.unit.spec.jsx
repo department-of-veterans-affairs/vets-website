@@ -1,93 +1,149 @@
-// import React from 'react';
-// import { expect } from 'chai';
-// // import sinon from 'sinon';
-// import { mount } from 'enzyme';
+import React from 'react';
+import { expect } from 'chai';
+import sinon from 'sinon';
+import { mount } from 'enzyme';
 
-// import {
-//   DefinitionTester, // selectCheckbox
-// } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
-// import formConfig from '../../config/form.js';
-// import initialData from '../schema/initialData.js';
+import {
+  DefinitionTester,
+  fillData,
+  fillDate,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import formConfig from '../../config/form.js';
+import initialData from '../schema/initialData.js';
 
-// describe('Disability benefits 4142 provider medical records facility information', () => {
-//   const {
-//     schema,
-//     uiSchema,
-//     arrayPath
-//   } = formConfig.chapters.supportingEvidence.pages.privateMedicalRecordRelease;
+describe('Disability benefits 4142 provider medical records facility information', () => {
+  const {
+    schema,
+    uiSchema,
+    arrayPath,
+  } = formConfig.chapters.supportingEvidence.pages.privateMedicalRecordRelease;
 
-//   it.skip('should render 4142 form', () => {
-//     const form = mount(
-//       <DefinitionTester
-//         arrayPath={arrayPath}
-//         pagePerItemIndex={0}
-//         definitions={formConfig.defaultDefinitions}
-//         schema={schema}
-//         data={initialData}
-//         uiSchema={uiSchema}/>
-//     );
+  it('should render 4142 form', () => {
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={initialData}
+        uiSchema={uiSchema}
+      />,
+    );
 
-//     // Commented out until the form is fully moved over
-//     expect(form);
-//     // expect(form.find('input').length).to.equal(9);
-//     // expect(form.find('select').length).to.equal(6);
-//   });
+    expect(form);
+    expect(form.find('input').length).to.equal(8);
+    expect(form.find('select').length).to.equal(6);
+  });
 
-// //   it('does not submit without required info', () => {
-// //     const onSubmit = sinon.spy();
-// //     const form = mount(
-// //       <DefinitionTester
-// //         definitions={formConfig.defaultDefinitions}
-// //         schema={schema}
-// //         data={{
-// //           privateMedicalProviders: [
-// //             {
-// //               privateProviderName: '',
-// //               privateProviderStreetAddressLine1: '',
-// //               privateProviderCity: null,
-// //               privateProviderPostalCode: null,
-// //               privateProviderCountry: '',
-// //               privateProviderState: '',
-// //             },
-// //           ],
-// //         }}
-// //         formData={{}}
-// //         onSubmit={onSubmit}
-// //         uiSchema={uiSchema}/>,
-// //     );
+  it('should add a provider facility', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={initialData}
+        formData={initialData}
+        uiSchema={uiSchema}
+      />,
+    );
 
-// //     form.find('form').simulate('submit');
-// //     expect(form.find('.usa-input-error').length).to.equal(6);
+    //  All fields filled
+    fillData(
+      form,
+      'input#root_providerFacility_0_providerFacilityName',
+      'Local facility',
+    );
+    fillDate(
+      form,
+      'root_providerFacility_0_treatmentDateRange_from',
+      '1950-1-3',
+    );
+    fillDate(form, 'root_providerFacility_0_treatmentDateRange_to', '1951-1-3');
+    fillData(
+      form,
+      'select#root_providerFacility_0_providerFacilityAddress_country',
+      'USA',
+    );
+    fillData(
+      form,
+      'input#root_providerFacility_0_providerFacilityAddress_street',
+      '101 Street',
+    );
+    fillData(
+      form,
+      'select#root_providerFacility_0_providerFacilityAddress_state',
+      'AK',
+    );
+    fillData(
+      form,
+      'input#root_providerFacility_0_providerFacilityAddress_city',
+      'Anyville',
+    );
+    fillData(
+      form,
+      'input#root_providerFacility_0_providerFacilityAddress_postalCode',
+      '29414',
+    );
 
-// //     expect(onSubmit.called).to.be.false;
-// //   });
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.true;
+    expect(form.find('.usa-input-error').length).to.equal(0);
+  });
 
-// //   it('should submit with required info', () => {
-// //     const onSubmit = sinon.spy();
-// //     const form = mount(
-// //       <DefinitionTester
-// //         definitions={formConfig.defaultDefinitions}
-// //         schema={schema}
-// //         data={{
-// //           privateMedicalProvider: [
-// //             {
-// //               privateProviderName: 'Testy',
-// //               privateProviderStreetAddressLine1: '123 Nonesuch Street',
-// //               privateProviderCity: 'No',
-// //               privateProviderPostalCode: '29445',
-// //               privateProviderCountry: 'USA',
-// //               privateProviderState: 'South Carolina',
-// //             },
-// //           ],
-// //         }}
-// //         formData={{}}
-// //         onSubmit={onSubmit}
-// //         uiSchema={uiSchema}/>,
-// //     );
+  it('should validate the providerFacilityName', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={initialData}
+        formData={initialData}
+        uiSchema={uiSchema}
+      />,
+    );
 
-// //     form.find('form').simulate('submit');
-// //     expect(form.find('.usa-input-error').length).to.equal(0);
+    // Fill the form with a name that's too long
+    fillData(
+      form,
+      'input#root_providerFacility_0_providerFacilityName',
+      'This input is entirely too long-winded to fit into this particular field--Whose idea was it to have this as a facility name anyhow',
+    );
+    form.find('form').simulate('submit');
+    expect(
+      form
+        .find('.usa-input-error-message')
+        .first()
+        .text(),
+    ).to.contain('100 characters');
+  });
 
-// //     expect(onSubmit.called).to.be.true;
-// //   });
-// });
+  it('does not submit (and renders error messages) when no fields touched', () => {
+    const submit = sinon.spy();
+
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={initialData}
+        formData={initialData}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(submit.called).to.be.false;
+
+    expect(form.find('.usa-input-error').length).to.equal(7);
+
+    expect(form.find('select').length).to.equal(6);
+    expect(form.find('input').length).to.equal(8);
+  });
+});

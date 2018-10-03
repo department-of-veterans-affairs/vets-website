@@ -14,13 +14,13 @@ const INITIAL_STATE = {
   numberOfDependents: '0',
 };
 
-export default function (state = INITIAL_STATE, action) {
+export default function(state = INITIAL_STATE, action) {
   if (action.type === ELIGIBILITY_CHANGED) {
     const { field, value } = action;
 
     const newState = {
       ...state,
-      [field]: value
+      [field]: value,
     };
 
     if (field === 'militaryStatus') {

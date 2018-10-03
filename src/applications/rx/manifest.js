@@ -4,5 +4,5 @@ module.exports = {
   entryName: 'rx',
   receiveContentProps({ path: rootUrl }) {
     this.rootUrl = `/${rootUrl}`;
-  }
+  },
 };

@@ -3,8 +3,8 @@ import { IndexLink, withRouter } from 'react-router';
 
 class TabItem extends React.Component {
   defaultProps = {
-    className: 'claims-status-tabs-item'
-  }
+    className: 'claims-status-tabs-item',
+  };
 
   componentDidMount() {
     document.addEventListener('keydown', this.tabShortcut);
@@ -14,11 +14,11 @@ class TabItem extends React.Component {
     document.removeEventListener('keydown', this.tabShortcut);
   }
 
-  tabShortcut = (evt) => {
-    if (evt.altKey && evt.which === (48 + this.props.shortcut)) {
+  tabShortcut = evt => {
+    if (evt.altKey && evt.which === 48 + this.props.shortcut) {
       this.props.router.push(this.props.tabpath);
     }
-  }
+  };
 
   render() {
     return (
@@ -29,7 +29,8 @@ class TabItem extends React.Component {
           role="tab"
           className="va-tab-trigger"
           activeClassName="va-tab-trigger--current"
-          to={this.props.tabpath}>
+          to={this.props.tabpath}
+        >
           {this.props.title}
         </IndexLink>
       </li>

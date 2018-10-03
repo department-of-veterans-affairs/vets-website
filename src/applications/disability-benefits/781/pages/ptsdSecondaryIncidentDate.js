@@ -7,7 +7,6 @@ import {
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 const ptsdDateDescription = ({ formData }) => {
-  console.log(formData);
   const { incidentText } = getPtsdClassification(formData, '781a');
   return (
     <div>

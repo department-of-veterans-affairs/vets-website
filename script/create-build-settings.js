@@ -11,9 +11,9 @@ function getBuildSettings(options) {
     brandConsolidationEnabled: !!options['brand-consolidation-enabled'],
     vic: {
       rateLimitAuthed: 1,
-      rateLimitUnauthed: 1
+      rateLimitUnauthed: 1,
     },
-    applications: {}
+    applications: {},
   };
 }
 
@@ -27,9 +27,7 @@ function createBuildSettings(options) {
 
     for (const fileName of Object.keys(files)) {
       const file = files[fileName];
-      const {
-        entryname: entryName
-      } = file;
+      const { entryname: entryName } = file;
 
       if (!entryName) continue;
 
@@ -57,7 +55,7 @@ function createBuildSettings(options) {
 
     files[settingsPath] = {
       path: settingsPath,
-      contents: `window.settings = ${JSON.stringify(settings, null, ' ')};`
+      contents: `window.settings = ${JSON.stringify(settings, null, ' ')};`,
     };
 
     options.settings = settings;

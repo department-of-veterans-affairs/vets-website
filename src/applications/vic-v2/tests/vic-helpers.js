@@ -4,14 +4,16 @@ function completeApplicantInformation(client, data) {
   client
     .fillName('root_veteranFullName', data.veteranFullName)
     .selectRadio('root_gender', data.gender)
-    .fill('input[name="root_veteranSocialSecurityNumber"]', data.veteranSocialSecurityNumber)
+    .fill(
+      'input[name="root_veteranSocialSecurityNumber"]',
+      data.veteranSocialSecurityNumber,
+    )
     .fillDate('root_veteranDateOfBirth', data.veteranDateOfBirth)
     .selectDropdown('root_serviceBranch', data.serviceBranch);
 }
 
 function completeAddressInformation(client, data) {
-  client
-    .fillAddress('root_veteranAddress', data.veteranAddress);
+  client.fillAddress('root_veteranAddress', data.veteranAddress);
 }
 
 function completeContactInformation(client, data) {
@@ -28,10 +30,10 @@ function initApplicationSubmitMock() {
     value: {
       data: {
         attributes: {
-          guid: '123fake-submission-id-567'
-        }
-      }
-    }
+          guid: '123fake-submission-id-567',
+        },
+      },
+    },
   });
 }
 
@@ -44,11 +46,11 @@ function initApplicationPollMock() {
         attributes: {
           state: 'success',
           response: {
-            caseNumber: '123fake-submission-id-567' // eslint-disable-line camelcase
-          }
-        }
-      }
-    }
+            caseNumber: '123fake-submission-id-567', // eslint-disable-line camelcase
+          },
+        },
+      },
+    },
   });
 }
 
@@ -61,10 +63,10 @@ function initPhotoUploadMock() {
         attributes: {
           guid: '123fake-submission-id-567',
           filename: 'examplephoto.jpg',
-          path: '/test/vic-v2/'
-        }
-      }
-    }
+          path: '/test/vic-v2/',
+        },
+      },
+    },
   });
 }
 
@@ -75,10 +77,10 @@ function initDocumentUploadMock() {
     value: {
       data: {
         attributes: {
-          guid: '123fake-submission-id-567'
-        }
-      }
-    }
+          guid: '123fake-submission-id-567',
+        },
+      },
+    },
   });
 }
 
@@ -89,5 +91,5 @@ module.exports = {
   initDocumentUploadMock,
   completeAddressInformation,
   completeApplicantInformation,
-  completeContactInformation
+  completeContactInformation,
 };

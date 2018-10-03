@@ -19,9 +19,10 @@ export default function startFeedbackWidget(store) {
   const feedbackRoot = document.getElementById('feedback-root');
   if (!feedbackRoot) return;
 
-  startReactApp((
+  startReactApp(
     <Provider store={store}>
-      <Main/>
-    </Provider>
-  ), feedbackRoot);
+      <Main />
+    </Provider>,
+    feedbackRoot,
+  );
 }

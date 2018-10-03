@@ -11,7 +11,7 @@ const defaultState = createCommonStore(reducer).getState();
 defaultState.constants = {
   constants: {},
   version: calculatorConstants.meta.version,
-  inProgress: false
+  inProgress: false,
 };
 
 calculatorConstants.data.forEach(c => {
@@ -28,7 +28,8 @@ defaultState.profile = {
     books: 1000,
     calendar: 'semesters',
     cautionFlag: true,
-    cautionFlagReason: 'Settlement with U.S. Government, Heightened Cash Monitoring (Financial Responsibility)',
+    cautionFlagReason:
+      'Settlement with U.S. Government, Heightened Cash Monitoring (Financial Responsibility)',
     city: 'SEATTLE',
     complaints: {
       accreditationByFacCode: 1,
@@ -57,7 +58,7 @@ defaultState.profile = {
       studentLoansByFacCode: 0,
       studentLoansByOpeIdDoNotSum: 15,
       transcriptByFacCode: 0,
-      transcriptByOpeIdDoNotSum: 2
+      transcriptByOpeIdDoNotSum: 2,
     },
     correspondence: false,
     country: 'USA',
@@ -112,37 +113,43 @@ defaultState.profile = {
         divisionProfessionalSchool: 'division1',
         degreeLevel: 'graduate',
         contributionAmount: 5000,
-        numberOfStudents: 20
+        numberOfStudents: 20,
       },
       {
         divisionProfessionalSchool: 'division2',
         degreeLevel: 'undergraduate',
         contributionAmount: 5,
-        numberOfStudents: 25
+        numberOfStudents: 25,
       },
       {
         divisionProfessionalSchool: 'division3',
         degreeLevel: 'undergraduate',
         contributionAmount: 25,
-        numberOfStudents: 30
-      }
+        numberOfStudents: 30,
+      },
     ],
-    zip: '98121'
+    zip: '98121',
   },
 
   version: {
     createdAt: '2017-04-15T01:00:03.494Z',
     number: 6,
-    preview: false
+    preview: false,
   },
 
-  inProgress: false
+  inProgress: false,
 };
 
 describe('getCalculatedBenefits', () => {
   it('should calculate no housing allowance for active duty and Ch 33', () => {
-    const state = set('eligibility.militaryStatus', 'active duty', defaultState);
-    expect(getCalculatedBenefits(state).outputs.housingAllowance.value).to.equal('$0/mo');
+    const state = set(
+      'eligibility.militaryStatus',
+      'active duty',
+      defaultState,
+    );
+    expect(
+      getCalculatedBenefits(state).outputs.housingAllowance.value,
+    ).to.equal('$0/mo');
   });
 
   it('should show Yellow Ribbon fields when eligible', () => {
@@ -170,7 +177,11 @@ describe('getCalculatedBenefits', () => {
   });
 
   it('should show the tuition assistance field for GI Bill Ch 33 with eligible military status', () => {
-    const state = set('eligibility.militaryStatus', 'national guard / reserves', defaultState);
+    const state = set(
+      'eligibility.militaryStatus',
+      'national guard / reserves',
+      defaultState,
+    );
     expect(getCalculatedBenefits(state).inputs.tuitionAssist).to.be.true;
   });
 
@@ -190,20 +201,26 @@ describe('getCalculatedBenefits', () => {
   });
 
   it('should hide kicker fields for correspondence schools', () => {
-    const state = set('profile.attributes.type', 'correspondence', defaultState);
+    const state = set(
+      'profile.attributes.type',
+      'correspondence',
+      defaultState,
+    );
     expect(getCalculatedBenefits(state).inputs.kicker).to.be.false;
   });
 
   it('should show scholarships in calculations if there were any', () => {
     let state = set('calculator.scholarships', 10000, defaultState);
     state = set('calculator.tuitionAssist', 5000, state);
-    expect(getCalculatedBenefits(state).outputs.yourScholarships.visible).to.be.true;
+    expect(getCalculatedBenefits(state).outputs.yourScholarships.visible).to.be
+      .true;
   });
 
   it('should hide scholarships in calculations if there were none', () => {
     let state = set('calculator.scholarships', 0, defaultState);
     state = set('calculator.tuitionAssist', 0, state);
-    expect(getCalculatedBenefits(state).outputs.yourScholarships.visible).to.be.false;
+    expect(getCalculatedBenefits(state).outputs.yourScholarships.visible).to.be
+      .false;
   });
 
   it('should hide school-related fields for OJT', () => {
@@ -227,11 +244,15 @@ describe('getCalculatedBenefits', () => {
   });
 
   it('should hide term 2 and 3 calculations if only attending 1 term', () => {
-    const state = set('calculator', {
-      ...defaultState.calculator,
-      calendar: 'nontraditional',
-      numberNontradTerms: '1'
-    }, defaultState);
+    const state = set(
+      'calculator',
+      {
+        ...defaultState.calculator,
+        calendar: 'nontraditional',
+        numberNontradTerms: '1',
+      },
+      defaultState,
+    );
     const { outputs } = getCalculatedBenefits(state);
     expect(outputs.perTerm.tuitionFees.terms[1].visible).to.be.false;
     expect(outputs.perTerm.tuitionFees.terms[2].visible).to.be.false;

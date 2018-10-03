@@ -7,25 +7,19 @@ import asyncLoader from '../../ui/asyncLoader';
 
 describe('asyncLoader', () => {
   it('should display loading indicator while waiting', () => {
-    const Component = asyncLoader(() => {
-      return new Promise(f => f);
-    }, 'Test loading');
+    const Component = asyncLoader(() => new Promise(f => f), 'Test loading');
 
-    const page = ReactTestUtils.renderIntoDocument(<Component/>);
+    const page = ReactTestUtils.renderIntoDocument(<Component />);
     const pageDOM = findDOMNode(page);
 
     expect(pageDOM.textContent).to.contain('Test loading');
   });
 
-  it('should display component returned from promise', (done) => {
-    const promise = Promise.resolve(() => {
-      return <div>Test component</div>;
-    });
-    const Component = asyncLoader(() => {
-      return promise;
-    }, 'Test loading');
+  it('should display component returned from promise', done => {
+    const promise = Promise.resolve(() => <div>Test component</div>);
+    const Component = asyncLoader(() => promise, 'Test loading');
 
-    const page = ReactTestUtils.renderIntoDocument(<Component/>);
+    const page = ReactTestUtils.renderIntoDocument(<Component />);
     // this allows setState to be called first
     setTimeout(() => {
       const pageDOM = findDOMNode(page);

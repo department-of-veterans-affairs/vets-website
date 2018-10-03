@@ -15,7 +15,7 @@ const phaseMap = {
   5: evidenceGathering,
   6: evidenceGathering,
   7: 'Preparation for notification',
-  8: 'Complete'
+  8: 'Complete',
 };
 
 export function getPhaseDescription(phase) {
@@ -81,7 +81,7 @@ export function groupTimelineActivity(events) {
         return {
           type: 'phase_entered',
           phase: getPhaseNumber(event.type) + 1,
-          date: event.date
+          date: event.date,
         };
       }
 
@@ -124,24 +124,71 @@ export const DOC_TYPES = [
   { value: 'L029', label: 'Copy of a DD214' },
   { value: 'L450', label: 'STR - Dental - Photocopy' },
   { value: 'L451', label: 'STR - Medical - Photocopy' },
-  { value: 'L049', label: 'Medical Treatment Record - Non-Government Facility' },
+  {
+    value: 'L049',
+    label: 'Medical Treatment Record - Non-Government Facility',
+  },
   { value: 'L034', label: 'Military Personnel Record' },
-  { value: 'L107', label: 'VA Form 21-4142 - Authorization To Disclose Information' },
-  { value: 'L827', label: 'VA Form 21-4142a - General Release for Medical Provider Information' },
-  { value: 'L229', label: 'VA Form 21-0781a - Statement in Support of Claim for PTSD Secondary to Personal Assault' },
-  { value: 'L228', label: 'VA Form 21-0781 - Statement in Support of Claim for PTSD' },
-  { value: 'L149', label: 'VA Form 21-8940 - Veterans Application for Increased Compensation Based on Un-employability' },
-  { value: 'L115', label: 'VA Form 21-4192 - Request for Employment Information in Connection with Claim for Disability' },
-  { value: 'L159', label: 'VA Form 26-4555 - Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant' },
-  { value: 'L117', label: 'VA Form 21-4502 - Application for Automobile or Other Conveyance and Adaptive Equipment Under 38 U.S.C. 3901-3904' },
-  { value: 'L139', label: 'VA Form 21-686c - Declaration of Status of Dependents' },
-  { value: 'L133', label: 'VA Form 21-674 - Request for Approval of School Attendance' },
-  { value: 'L102', label: 'VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid & Attendance' },
-  { value: 'L222', label: 'VA Form 21-0779 - Request for Nursing Home Information in Connection with Claim for Aid & Attendance' },
+  {
+    value: 'L107',
+    label: 'VA Form 21-4142 - Authorization To Disclose Information',
+  },
+  {
+    value: 'L827',
+    label:
+      'VA Form 21-4142a - General Release for Medical Provider Information',
+  },
+  {
+    value: 'L229',
+    label:
+      'VA Form 21-0781a - Statement in Support of Claim for PTSD Secondary to Personal Assault',
+  },
+  {
+    value: 'L228',
+    label: 'VA Form 21-0781 - Statement in Support of Claim for PTSD',
+  },
+  {
+    value: 'L149',
+    label:
+      'VA Form 21-8940 - Veterans Application for Increased Compensation Based on Un-employability',
+  },
+  {
+    value: 'L115',
+    label:
+      'VA Form 21-4192 - Request for Employment Information in Connection with Claim for Disability',
+  },
+  {
+    value: 'L159',
+    label:
+      'VA Form 26-4555 - Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant',
+  },
+  {
+    value: 'L117',
+    label:
+      'VA Form 21-4502 - Application for Automobile or Other Conveyance and Adaptive Equipment Under 38 U.S.C. 3901-3904',
+  },
+  {
+    value: 'L139',
+    label: 'VA Form 21-686c - Declaration of Status of Dependents',
+  },
+  {
+    value: 'L133',
+    label: 'VA Form 21-674 - Request for Approval of School Attendance',
+  },
+  {
+    value: 'L102',
+    label:
+      'VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid & Attendance',
+  },
+  {
+    value: 'L222',
+    label:
+      'VA Form 21-0779 - Request for Nursing Home Information in Connection with Claim for Aid & Attendance',
+  },
   { value: 'L702', label: 'Disability Benefits Questionnaire (DBQ)' },
   { value: 'L703', label: 'Goldmann Perimetry Chart/Field Of Vision Chart' },
   { value: 'L070', label: 'Photographs' },
-  { value: 'L023', label: 'Other Correspondence' }
+  { value: 'L023', label: 'Other Correspondence' },
 ];
 
 export function getDocTypeDescription(docType) {
@@ -149,13 +196,18 @@ export function getDocTypeDescription(docType) {
 }
 
 export function isPopulatedClaim({ attributes }) {
-  return !!attributes.claimType
-    && (attributes.contentionList && !!attributes.contentionList.length)
-    && !!attributes.dateFiled;
+  return (
+    !!attributes.claimType &&
+    (attributes.contentionList && !!attributes.contentionList.length) &&
+    !!attributes.dateFiled
+  );
 }
 
 export function hasBeenReviewed(trackedItem) {
-  return trackedItem.type.startsWith('received_from') && trackedItem.status !== 'SUBMITTED_AWAITING_REVIEW';
+  return (
+    trackedItem.type.startsWith('received_from') &&
+    trackedItem.status !== 'SUBMITTED_AWAITING_REVIEW'
+  );
 }
 
 // Adapted from http://stackoverflow.com/a/26230989/487883
@@ -184,31 +236,45 @@ export function isClaimComplete(claim) {
 }
 
 export function itemsNeedingAttentionFromVet(events) {
-  return events.filter(event => event.status === 'NEEDED' && event.type === 'still_need_from_you_list').length;
+  return events.filter(
+    event =>
+      event.status === 'NEEDED' && event.type === 'still_need_from_you_list',
+  ).length;
 }
 
-export function makeAuthRequest(url, userOptions, dispatch, onSuccess, onError) {
-  const options = _.merge({
-    method: 'GET',
-    mode: 'cors',
-    headers: {
-      'X-Key-Inflection': 'camel',
-      Authorization: `Token token=${conditionalStorage().getItem('userToken')}`
+export function makeAuthRequest(
+  url,
+  userOptions,
+  dispatch,
+  onSuccess,
+  onError,
+) {
+  const options = _.merge(
+    {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'X-Key-Inflection': 'camel',
+        Authorization: `Token token=${conditionalStorage().getItem(
+          'userToken',
+        )}`,
+      },
+      responseType: 'json',
     },
-    responseType: 'json',
-  }, userOptions);
+    userOptions,
+  );
 
   fetch(`${environment.API_URL}${url}`, options)
     .catch(err => {
       Raven.captureMessage(`vets_client_error: ${err.message}`, {
         extra: {
-          error: err
-        }
+          error: err,
+        },
       });
 
       return Promise.reject(err);
     })
-    .then((resp) => {
+    .then(resp => {
       if (resp.ok) {
         if (options.responseType) {
           return resp[options.responseType]();
@@ -219,10 +285,10 @@ export function makeAuthRequest(url, userOptions, dispatch, onSuccess, onError) 
       return Promise.reject(resp);
     })
     .then(onSuccess)
-    .catch((resp) => {
+    .catch(resp => {
       if (resp.status === 401) {
         dispatch({
-          type: SET_UNAUTHORIZED
+          type: SET_UNAUTHORIZED,
         });
       } else {
         onError(resp);
@@ -232,7 +298,9 @@ export function makeAuthRequest(url, userOptions, dispatch, onSuccess, onError) 
 
 export function getCompletedDate(claim) {
   if (claim.attributes && claim.attributes.eventsTimeline) {
-    const completedEvents = claim.attributes.eventsTimeline.filter(event => event.type === 'completed');
+    const completedEvents = claim.attributes.eventsTimeline.filter(
+      event => event.type === 'completed',
+    );
     if (completedEvents.length) {
       return completedEvents[0].date;
     }
@@ -247,20 +315,19 @@ export function getClaimType(claim) {
 
 export const mockData = {
   data: [
-    { // Status: Review your statement of the case - pending_form9
+    {
+      // Status: Review your statement of the case - pending_form9
       id: '7387389',
       type: 'appealSeries',
       attributes: {
-        appealIds: [
-          '7387389',
-          '123'
-        ],
+        appealIds: ['7387389', '123'],
         updated: '2018-01-03T09:30:15-05:00',
         active: true,
         incompleteHistory: true,
         aoj: 'vba',
         programArea: 'compensation',
-        description: 'Service connection for tinnitus, hearing loss, and two more',
+        description:
+          'Service connection for tinnitus, hearing loss, and two more',
         type: 'original',
         aod: false,
         location: 'aoj',
@@ -270,34 +337,34 @@ export const mockData = {
             lastSocDate: '2015-09-12',
             certificationTimeliness: [1, 4],
             socTimeliness: [2, 16],
-          }
+          },
         },
         docket: {
           front: false,
           total: 206900,
           ahead: 109203,
           ready: 22109,
-          eta: '2019-08-31'
+          eta: '2019-08-31',
         },
         issues: [
           {
             active: true,
             description: 'Service connection for tinnitus',
             lastAction: 'null',
-            date: '2016-05-30'
-          }
+            date: '2016-05-30',
+          },
         ],
         alerts: [
           {
             type: 'form9_needed',
             details: {
-              date: '2018-01-28'
-            }
+              date: '2018-01-28',
+            },
           },
           {
             type: 'ramp_eligible',
             details: {
-              date: '2016-05-30'
+              date: '2016-05-30',
             },
           },
           {
@@ -309,127 +376,125 @@ export const mockData = {
           {
             type: 'claim',
             date: '2016-05-30',
-            details: {}
+            details: {},
           },
           {
             type: 'nod',
             date: '2016-06-10',
-            details: {}
+            details: {},
           },
           {
             type: 'form9',
             date: '2016-09-12',
-            details: {}
+            details: {},
           },
           {
             type: 'soc',
             date: '2016-12-15',
-            details: {}
-          }
+            details: {},
+          },
         ],
         evidence: [
           {
             description: 'Service treatment records',
-            date: '2017-09-30'
-          }
-        ]
-      }
+            date: '2017-09-30',
+          },
+        ],
+      },
     },
-    { // Status: Waiting to be assigned to a judge - on_docket
+    {
+      // Status: Waiting to be assigned to a judge - on_docket
       id: '7387390',
       type: 'appealSeries',
       attributes: {
-        appealIds: [
-          '7387390',
-          '456'
-        ],
+        appealIds: ['7387390', '456'],
         updated: '2018-01-03T09:30:15-05:00',
         active: true,
         incompleteHistory: false,
         aoj: 'vba',
         programArea: 'compensation',
-        description: 'Service connection for tinnitus, hearing loss, and two more',
+        description:
+          'Service connection for tinnitus, hearing loss, and two more',
         type: 'original',
         aod: false,
         location: 'aoj',
         status: {
           type: 'on_docket',
           details: {
-            regionalOffice: 'Chicago Regional Office'
-          }
+            regionalOffice: 'Chicago Regional Office',
+          },
         },
         docket: {
           front: false,
           total: 206900,
           ahead: 109203,
           ready: 22109,
-          eta: '2019-08-31'
+          eta: '2019-08-31',
         },
         issues: [
           {
             active: true,
             description: 'Service connection for tinnitus',
             lastAction: null,
-            date: '2016-05-30'
-          }
+            date: '2016-05-30',
+          },
         ],
         alerts: [],
         events: [
           {
             type: 'claim',
             date: '2010-05-30',
-            details: {}
+            details: {},
           },
           {
             type: 'nod',
             date: '2012-06-10',
-            details: {}
+            details: {},
           },
           {
             type: 'soc',
             date: '2013-06-01',
-            details: {}
+            details: {},
           },
           {
             type: 'form9',
             date: '2014-06-12',
-            details: {}
+            details: {},
           },
           {
             type: 'certified',
             date: '2014-09-21',
-            details: {}
+            details: {},
           },
           {
             type: 'hearing_held',
             date: '2015-05-06',
             details: {
-              regionalOffice: 'Chicago'
-            }
-          }
+              regionalOffice: 'Chicago',
+            },
+          },
         ],
         evidence: [
           {
             description: 'Service treatment records',
-            date: '2017-09-30'
-          }
-        ]
-      }
+            date: '2017-09-30',
+          },
+        ],
+      },
     },
-    { // Status: The Board has made a decision on your appeal - bva_decision
+    {
+      // Status: The Board has made a decision on your appeal - bva_decision
       id: '7387391',
       type: 'appealSeries',
       attributes: {
-        appealIds: [
-          '7387391',
-          '789'
-        ],
+        appealIds: ['7387391', '789'],
         updated: '2018-01-03T09:30:15-05:00',
         active: true,
         incompleteHistory: false,
         aoj: 'vba',
         programArea: 'compensation',
-        description: 'Service connection for tinnitus, hearing loss, and two more',
+        description:
+          'Service connection for tinnitus, hearing loss, and two more',
         type: 'original',
         aod: false,
         location: 'aoj',
@@ -441,146 +506,146 @@ export const mockData = {
               {
                 description: 'Heel, increased rating',
                 disposition: 'allowed',
-                date: '2016-05-30'
+                date: '2016-05-30',
               },
               {
                 description: 'Knee, increased rating',
                 disposition: 'allowed',
-                date: '2016-05-30'
+                date: '2016-05-30',
               },
               {
                 description: 'Tinnitus, increased rating',
                 disposition: 'denied',
-                date: '2016-05-30'
+                date: '2016-05-30',
               },
               {
                 description: 'Leg, service connection',
                 disposition: 'denied',
-                date: '2016-05-30'
+                date: '2016-05-30',
               },
               {
                 description: 'Diabetes, service connection',
                 disposition: 'remand',
-                date: '2016-05-30'
+                date: '2016-05-30',
               },
               {
                 description: 'Shoulder, service connection',
                 disposition: 'remand',
-                date: '2016-05-30'
+                date: '2016-05-30',
               },
-            ]
-          }
+            ],
+          },
         },
         docket: {
           front: false,
           total: 206900,
           ahead: 109203,
           ready: 22109,
-          eta: '2019-08-31'
+          eta: '2019-08-31',
         },
         issues: [
           {
             active: true,
             description: 'Tinnitus, service connection',
             lastAction: null,
-            date: '2016-05-30'
+            date: '2016-05-30',
           },
           {
             active: true,
             description: 'Head, increased rating',
             lastAction: null,
-            date: '2016-05-30'
+            date: '2016-05-30',
           },
           {
             active: true,
             description: 'Shoulder, increased rating',
             lastAction: null,
-            date: '2016-05-30'
+            date: '2016-05-30',
           },
           {
             active: true,
             description: 'Knee, service connection',
             lastAction: 'field_grant',
-            date: '2016-05-30'
+            date: '2016-05-30',
           },
           {
             active: false,
             description: 'Toe, service connection',
             lastAction: 'withdrawn',
-            date: '2016-05-30'
+            date: '2016-05-30',
           },
           {
             active: true,
             description: 'Tinnitus, service connection',
             lastAction: 'allowed',
-            date: '2016-05-30'
+            date: '2016-05-30',
           },
           {
             active: false,
             description: 'Tinnitus, service connection',
             lastAction: 'denied',
-            date: '2016-05-30'
+            date: '2016-05-30',
           },
           {
             active: true,
             description: 'Tinnitus, service connection',
             lastAction: 'remand',
-            date: '2016-05-30'
+            date: '2016-05-30',
           },
           {
             active: false,
             description: 'Tinnitus, service connection',
             lastAction: 'cavc_remand',
-            date: '2016-05-30'
-          }
+            date: '2016-05-30',
+          },
         ],
         alerts: [],
         events: [
           {
             type: 'claim',
             date: '2010-05-30',
-            details: {}
+            details: {},
           },
           {
             type: 'nod',
             date: '2011-06-10',
-            details: {}
+            details: {},
           },
           {
             type: 'soc',
             date: '2012-06-10',
-            details: {}
+            details: {},
           },
           {
             type: 'form9',
             date: '2013-06-10',
-            details: {}
+            details: {},
           },
           {
             type: 'certified',
             date: '2014-06-10',
-            details: {}
+            details: {},
           },
           {
             type: 'hearing_held',
             date: '2015-06-10',
             details: {
-              regionalOffice: 'Chicago'
-            }
+              regionalOffice: 'Chicago',
+            },
           },
           {
             type: 'bva_decision',
             date: '2016-06-10',
-            details: {}
+            details: {},
           },
         ],
         evidence: [
           {
             description: 'Service treatment records',
-            date: '2017-09-30'
-          }
-        ]
-      }
-    }
-  ]
+            date: '2017-09-30',
+          },
+        ],
+      },
+    },
+  ],
 };

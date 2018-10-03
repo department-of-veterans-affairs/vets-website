@@ -12,7 +12,7 @@ const resultsData = {
         classification: 'Multi-Specialty CBOC',
         website: null,
         lat: 34.05171284,
-        'long': -118.23874096,
+        long: -118.23874096,
         address: {
           physical: {
             address1: '351 East Temple Street',
@@ -20,9 +20,9 @@ const resultsData = {
             address3: null,
             city: 'Los Angeles',
             state: 'CA',
-            zip: '90012-3328'
+            zip: '90012-3328',
           },
-          mailing: { }
+          mailing: {},
         },
         phone: {
           main: '213-253-5000 x',
@@ -31,7 +31,7 @@ const resultsData = {
           patientAdvocate: '213-253-2677 x24111',
           enrollmentCoordinator: '213-253-2677 x24033',
           pharmacy: '800-952-4852 x',
-          mentalHealthClinic: '310-268-4449'
+          mentalHealthClinic: '310-268-4449',
         },
         hours: {
           monday: '700AM-530PM',
@@ -40,76 +40,70 @@ const resultsData = {
           thursday: '700AM-530PM',
           friday: '700AM-530PM',
           saturday: '-',
-          sunday: '-'
+          sunday: '-',
         },
         services: {
           lastUpdated: '2017-07-24',
           health: [
             {
-              sl1: [
-                'DentalServices'
-              ],
-              sl2: []
+              sl1: ['DentalServices'],
+              sl2: [],
             },
             {
-              sl1: [
-                'MentalHealthCare'
-              ],
-              sl2: []
+              sl1: ['MentalHealthCare'],
+              sl2: [],
             },
             {
-              sl1: [
-                'PrimaryCare'
-              ],
-              sl2: []
-            }
-          ]
+              sl1: ['PrimaryCare'],
+              sl2: [],
+            },
+          ],
         },
         feedback: {
           health: {
             primaryCareUrgent: '0.78',
             primaryCareRoutine: '0.77',
-            effectiveDate: '2017-03-24'
-          }
+            effectiveDate: '2017-03-24',
+          },
         },
         access: {
           health: {
             primaryCare: {
-              'new': 15,
-              established: 3
+              new: 15,
+              established: 3,
             },
             mentalHealth: {
-              'new': 12,
-              established: 2
+              new: 12,
+              established: 2,
             },
             womensHealth: {
-              'new': null,
-              established: 9
+              new: null,
+              established: 9,
             },
             audiology: {
-              'new': 48,
-              established: 0
+              new: 48,
+              established: 0,
             },
             gastroenterology: {
-              'new': 7,
-              established: null
+              new: 7,
+              established: null,
             },
             opthalmology: {
-              'new': 9,
-              established: 6
+              new: 9,
+              established: 6,
             },
             optometry: {
-              'new': 14,
-              established: 5
+              new: 14,
+              established: 5,
             },
             urologyClinic: {
-              'new': 23,
-              established: 3
+              new: 23,
+              established: 3,
             },
-            effectiveDate: '2017-08-14'
-          }
-        }
-      }
+            effectiveDate: '2017-08-14',
+          },
+        },
+      },
     },
     {
       id: 'vba_343o',
@@ -121,7 +115,7 @@ const resultsData = {
         classification: 'OUTBASED',
         website: null,
         lat: 34.05171315,
-        'long': -118.2387403,
+        long: -118.2387403,
         address: {
           physical: {
             address1: '351 East Temple Street',
@@ -129,13 +123,13 @@ const resultsData = {
             address3: null,
             city: 'Los Angeles',
             state: 'CA',
-            zip: '90012'
+            zip: '90012',
           },
-          mailing: { }
+          mailing: {},
         },
         phone: {
           main: '213-253-2677 Ext 24759',
-          fax: ''
+          fax: '',
         },
         hours: {
           monday: '8:00AM-2:30PM',
@@ -144,17 +138,17 @@ const resultsData = {
           thursday: '8:00AM-2:30PM',
           friday: 'By Appointment Only',
           saturday: 'Closed',
-          sunday: 'Closed'
+          sunday: 'Closed',
         },
         services: {
           benefits: {
             other: '',
-            standard: []
-          }
+            standard: [],
+          },
         },
-        feedback: { },
-        access: { }
-      }
+        feedback: {},
+        access: {},
+      },
     },
     {
       id: 'vba_343z',
@@ -166,7 +160,7 @@ const resultsData = {
         classification: 'VETSUCCESS ON CAMPUS',
         website: null,
         lat: 34.08751109,
-        'long': -118.2917626,
+        long: -118.2917626,
         address: {
           physical: {
             address1: '855 North Vermont',
@@ -174,13 +168,13 @@ const resultsData = {
             address3: null,
             city: 'Los Angeles',
             state: 'CA',
-            zip: '90029'
+            zip: '90029',
           },
-          mailing: { }
+          mailing: {},
         },
         phone: {
           main: '323-953-4000 Ext 1253',
-          fax: ''
+          fax: '',
         },
         hours: {
           monday: 'Closed',
@@ -189,34 +183,37 @@ const resultsData = {
           thursday: 'Closed',
           friday: 'Closed',
           saturday: 'Closed',
-          sunday: 'Closed'
+          sunday: 'Closed',
         },
         services: {
           benefits: {
             other: '',
-            standard: []
-          }
+            standard: [],
+          },
         },
-        feedback: { },
-        access: { }
-      }
+        feedback: {},
+        access: {},
+      },
     },
   ],
   links: {
-    self: 'http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1',
-    first: 'http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1&per_page=20',
+    self:
+      'http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1',
+    first:
+      'http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1&per_page=20',
     prev: null,
     next: null,
-    last: 'http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1&per_page=20'
+    last:
+      'http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1&per_page=20',
   },
   meta: {
     pagination: {
       currentPage: 1,
       perPage: 20,
       totalPages: 1,
-      totalEntries: 3
-    }
-  }
+      totalEntries: 3,
+    },
+  },
 };
 
 // Create API routes
@@ -231,11 +228,11 @@ function initApplicationMock(token) {
     path: '/v0/facilities/va/vha_691GE',
     verb: 'get',
     value: {
-      data: resultsData.data[0]
+      data: resultsData.data[0],
     },
   });
 }
 
 module.exports = {
-  initApplicationMock
+  initApplicationMock,
 };

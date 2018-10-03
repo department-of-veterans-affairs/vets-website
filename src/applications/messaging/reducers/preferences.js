@@ -4,12 +4,12 @@ import {
   SM_FETCH_PREFERENCES_SUCCESS,
   SM_SAVE_PREFERENCES_SUCCESS,
   SM_SET_NOTIFICATION_EMAIL,
-  SM_SET_NOTIFICATION_FREQUENCY
+  SM_SET_NOTIFICATION_FREQUENCY,
 } from '../utils/constants';
 
 const initialState = {
   emailAddress: makeField(''),
-  frequency: makeField('none')
+  frequency: makeField('none'),
 };
 
 export default function preferences(state = initialState, action) {
@@ -19,7 +19,7 @@ export default function preferences(state = initialState, action) {
       return {
         ...state,
         emailAddress: makeField(emailAddress),
-        frequency: makeField(frequency)
+        frequency: makeField(frequency),
       };
     }
 
@@ -27,7 +27,7 @@ export default function preferences(state = initialState, action) {
       const { emailAddress, frequency } = action.preferences;
       return {
         emailAddress: makeField(emailAddress),
-        frequency: makeField(frequency)
+        frequency: makeField(frequency),
       };
     }
 
