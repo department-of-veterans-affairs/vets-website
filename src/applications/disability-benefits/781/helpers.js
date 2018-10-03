@@ -1,33 +1,102 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-export const introductionText = (
+const getPtsdClassification = (formData, formType) => {
+  const classifications = formData['view:selectablePtsdTypes'];
+  let incidentTitle;
+  let incidentText;
+  const is781 = formType === '781';
+
+  switch (true) {
+    case classifications['view:combatPtsdType'] &&
+      classifications['view:noncombatPtsdType'] &&
+      is781:
+      incidentTitle =
+        'Combat & Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+
+      incidentText =
+        'Combat and Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      break;
+
+    case classifications['view:assaultPtsdType'] &&
+      classifications['view:mstPtsdType'] &&
+      !is781:
+      incidentTitle = 'Personal Assault & Military Sexual Trauma';
+      incidentText = 'Personal Assault and Military Sexual Trauma';
+      break;
+
+    case classifications['view:combatPtsdType'] && is781:
+      incidentTitle = 'Combat';
+      incidentText = 'Combat';
+      break;
+
+    case classifications['view:noncombatPtsdType'] && is781:
+      incidentTitle =
+        'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      incidentText =
+        'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      break;
+
+    case classifications['view:assaultPtsdType'] && !is781:
+      incidentTitle = 'Personal Assault';
+      incidentText = 'Personal Assault';
+      break;
+
+    case classifications['view:mstPtsdType'] && !is781:
+      incidentTitle = 'Military Sexual Trauma';
+      incidentText = 'Military Sexual Trauma';
+      break;
+
+    default:
+      incidentTitle = '';
+      incidentText = '';
+  }
+  return { incidentTitle, incidentText };
+};
+
+const introductionExplanationText = (
   <div>
     <p>
-      We‘ll now ask you questions about the stressful event or events related to your PTSD. We understand that some of the questions maybe difficult to answer. The information you provide here will help us understand your situation and research your claim.
+      As you go through these questions, your responses will be saved. So, if
+      you need to take a break and come back to your application, your
+      information will be here for you.
     </p>
     <p>
-      As you go through these questions, your responses will be saved. So, if you need to take a break and come back to your application, your information will be here for you.
-    </p>
-    <p>
-      Keep in mind, if you are in crisis, we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7. To connect with a Veterans Crisis Line responder any time day or night:
+      Keep in mind, if you are in crisis, we can support you. Our Veterans
+      Crisis Line is confidential (private), free, and available 24/7. To
+      connect with a Veterans Crisis Line responder any time day or night:
     </p>
     <ul>
       <li>
-        Call the Veterans Crisis Line at <a href="tel:1-800-273-8255">1-800-273-8255</a> and press 1, <strong>**or**</strong>
+        Call the Veterans Crisis Line at{' '}
+        <a href="tel:1-800-273-8255">1-800-273-8255</a> and press 1,{' '}
+        <strong>**or**</strong>
       </li>
       <li>
-        Visit the <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Veterans
-        Crisis Line</a> to start a confidential chat online, <strong>**or**</strong>
+        Visit the{' '}
+        <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">
+          Veterans Crisis Line
+        </a>{' '}
+        to start a confidential chat online, <strong>**or**</strong>
       </li>
       <li>
         Send a text message to <a href="sms:838255">838255</a>
         .
       </li>
     </ul>
+    <p>Support for the deaf and hearing-impaired is also available.</p>
+  </div>
+);
+
+export const introductionText = (
+  <div>
     <p>
-      Support for the deaf and hearing-impaired is also available.
+      We‘ll now ask you questions about the stressful event or events related to
+      your PTSD. We understand that some of the questions maybe difficult to
+      answer. The information you provide here will help us understand your
+      situation and research your claim.
     </p>
+    {introductionExplanationText}
   </div>
 );
 
@@ -51,10 +120,10 @@ export const ptsdTypeHelp = () => {
       <h4>Types of Stressful incidents</h4>
       <h5>Combat</h5>
       <p>
-        This means you participated in a fight or encounter with a military enemy
-        or hostile unit or weapon. It also includes if you were present during these
-        events either as a combatant or a Servicemember supporting combatants such
-        as providing medical care to the wounded.
+        This means you participated in a fight or encounter with a military
+        enemy or hostile unit or weapon. It also includes if you were present
+        during these events either as a combatant or a Servicemember supporting
+        combatants such as providing medical care to the wounded.
       </p>
       <h5>Military Sexual Trauma</h5>
       <p>
@@ -64,23 +133,26 @@ export const ptsdTypeHelp = () => {
       <h5>Personal Assault</h5>
       <p>
         This means a person, who isn‘t part of an enemy force, committed harm.
-        Examples of personal assault include: assault, battery, robbery, mugging,
-        stalking, or harassment.
+        Examples of personal assault include: assault, battery, robbery,
+        mugging, stalking, or harassment.
       </p>
-      <h5>Non-Combat other than Military Sexual Trama or Personal Assault</h5>
+      <h5>Non-Combat other than Military Sexual Trauma or Personal Assault</h5>
       <p>
-        This means you experienced an event such as a car accident, hurricane, or
-        plane crash, or witnessing the death, injury, or threat to another person
-        or to yourself, caused by something other than a hostile military or
-        terrorist activity.
+        This means you experienced an event such as a car accident, hurricane,
+        or plane crash, or witnessing the death, injury, or threat to another
+        person or to yourself, caused by something other than a hostile military
+        or terrorist activity.
       </p>
     </AdditionalInfo>
   );
 };
 
-export const ptsdNameTitle = () => {
+export const PtsdNameTitle781 = ({ formData, formType }) => {
+  const { incidentTitle } = getPtsdClassification(formData, formType);
   return (
-    <legend className="schemaform-block-title schemaform-title-underline">PTSD</legend>
+    <legend className="schemaform-block-title schemaform-title-underline">
+      {incidentTitle}
+    </legend>
   );
 };
 
@@ -107,3 +179,55 @@ export const documentDescription = () => {
     </div>
   );
 };
+
+const UploadExplanation = ({ formType }) => (
+  <div>
+    <p>
+      If you have already completed a Claim for Service Connection for
+      Post-Traumatic Stress Disorder (VA Form 21-0{`${formType}`}), you can upload it here
+      instead of answering the questions about your PTSD.
+    </p>
+    <p>How would you like to provide information about your PTSD?</p>
+  </div>
+);
+
+export const UploadPtsdDescription781 = ({ formData, formType }) => {
+  const { incidentText } = getPtsdClassification(formData, formType);
+  return (
+    <div>
+      <p>
+        The following questions will help us understand more about your
+        {` ${incidentText}`}-related PTSD. None of the questions we‘ll ask you
+        are required, but any information you provide here will help us research
+        your claim.
+      </p>
+      <UploadExplanation formType={formType}/>
+    </div>
+  );
+};
+
+export const IncidentIntroduction781 = ({ formData, formType }) => {
+  const { incidentTitle } = getPtsdClassification(formData, formType);
+  return (
+    <div>
+      <h3>{incidentTitle}</h3>
+      {introductionExplanationText}
+    </div>
+  );
+};
+
+export const ptsdChoiceDescription = (
+  <AdditionalInfo triggerText="What does this mean?">
+    <h5>Continue answering questions</h5>
+    <p>
+      If you choose to answer questions, we‘ll ask you several questions to
+      learn more about your PTSD.
+    </p>
+    <h5>Upload VA Form 21-0781</h5>
+    <p>
+      If you upload a completed VA Form 21-0781, we won‘t ask you questions
+      about your PTSD, and you‘ll move to the next section of the disability
+      application.
+    </p>
+  </AdditionalInfo>
+);
