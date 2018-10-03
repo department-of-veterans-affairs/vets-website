@@ -7,14 +7,19 @@ class ClaimComplete extends React.Component {
     const completedDate = this.props.completedDate;
     return (
       <div className="usa-alert usa-alert-info no-background-image claims-alert-status">
-        <h4 className="claims-alert-header">Your claim was closed {completedDate ? `on ${moment(completedDate).format('MMM D, YYYY')}` : null}</h4>
+        <h4 className="claims-alert-header">
+          Your claim was closed{' '}
+          {completedDate
+            ? `on ${moment(completedDate).format('MMM D, YYYY')}`
+            : null}
+        </h4>
       </div>
     );
   }
 }
 
 ClaimComplete.propTypes = {
-  completedDate: PropTypes.string
+  completedDate: PropTypes.string,
 };
 
 export default ClaimComplete;

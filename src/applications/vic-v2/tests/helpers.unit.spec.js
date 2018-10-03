@@ -11,9 +11,7 @@ import { submit, prefillTransformer, transform } from '../helpers';
 function setFetchResponse(stub, data, headers = {}) {
   const response = new Response();
   response.ok = true;
-  response.headers.get = headerID => {
-    return headers[headerID] || null;
-  };
+  response.headers.get = headerID => headers[headerID] || null;
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
@@ -38,28 +36,30 @@ describe('VIC helpers:', () => {
       conditionalStorage().setItem('userToken', 'testing');
       window.VetsGov = { pollTimeout: 1 };
       window.URL = {
-        createObjectURL: sinon.stub().returns('test')
+        createObjectURL: sinon.stub().returns('test'),
       };
     });
     it('should reject if initial request fails', () => {
       mockFetch(new Error('fake error'), false);
       const formConfig = {
-        chapters: {}
+        chapters: {},
       };
       const form = {
         data: {
           photo: {
-            file: new Blob()
-          }
-        }
+            file: new Blob(),
+          },
+        },
       };
 
-      return submit(form, formConfig).then(() => {
-        expect.fail();
-      },
-      err => {
-        expect(err.message).to.equal('fake error');
-      });
+      return submit(form, formConfig).then(
+        () => {
+          expect.fail();
+        },
+        err => {
+          expect(err.message).to.equal('fake error');
+        },
+      );
     });
     it('should resolve if polling state is success', () => {
       mockFetch();
@@ -68,22 +68,22 @@ describe('VIC helpers:', () => {
         {
           data: {
             attributes: {
-              guid: 'test'
-            }
-          }
+              guid: 'test',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       setFetchResponse(
         global.fetch.onSecondCall(),
         {
           data: {
             attributes: {
-              state: 'pending'
-            }
-          }
+              state: 'pending',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       const response = {};
       setFetchResponse(
@@ -92,26 +92,26 @@ describe('VIC helpers:', () => {
           data: {
             attributes: {
               state: 'success',
-              response
-            }
-          }
+              response,
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       const formConfig = {
-        chapters: {}
+        chapters: {},
       };
       const form = {
         data: {
           photo: {
-            file: new Blob()
-          }
-        }
+            file: new Blob(),
+          },
+        },
       };
 
-      return submit(form, formConfig).then((res) => {
+      return submit(form, formConfig).then(res => {
         expect(res).to.deep.equal({
-          photo: 'test'
+          photo: 'test',
         });
       });
     });
@@ -122,51 +122,53 @@ describe('VIC helpers:', () => {
         {
           data: {
             attributes: {
-              guid: 'test'
-            }
-          }
+              guid: 'test',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       setFetchResponse(
         global.fetch.onSecondCall(),
         {
           data: {
             attributes: {
-              state: 'pending'
-            }
-          }
+              state: 'pending',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       setFetchResponse(
         global.fetch.onThirdCall(),
         {
           data: {
             attributes: {
-              state: 'failed'
-            }
-          }
+              state: 'failed',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       const formConfig = {
-        chapters: {}
+        chapters: {},
       };
       const form = {
         data: {
           photo: {
-            file: new Blob()
-          }
-        }
+            file: new Blob(),
+          },
+        },
       };
 
-      return submit(form, formConfig).then(() => {
-        expect.fail();
-      },
-      err => {
-        expect(err.message).to.equal('vets_server_error_vic: status failed');
-      });
+      return submit(form, formConfig).then(
+        () => {
+          expect.fail();
+        },
+        err => {
+          expect(err.message).to.equal('vets_server_error_vic: status failed');
+        },
+      );
     });
     it('should resolve with image request', () => {
       mockFetch();
@@ -176,22 +178,22 @@ describe('VIC helpers:', () => {
         {
           data: {
             attributes: {
-              guid: 'test'
-            }
-          }
+              guid: 'test',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       setFetchResponse(
         global.fetch.onThirdCall(),
         {
           data: {
             attributes: {
-              state: 'pending'
-            }
-          }
+              state: 'pending',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       const response = {};
       setFetchResponse(
@@ -200,24 +202,24 @@ describe('VIC helpers:', () => {
           data: {
             attributes: {
               state: 'success',
-              response
-            }
-          }
+              response,
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       const formConfig = {
-        chapters: {}
+        chapters: {},
       };
       const form = {
         data: {
-          photo: {}
-        }
+          photo: {},
+        },
       };
 
-      return submit(form, formConfig).then((res) => {
+      return submit(form, formConfig).then(res => {
         expect(res).to.deep.equal({
-          photo: 'test'
+          photo: 'test',
         });
       });
     });
@@ -229,11 +231,11 @@ describe('VIC helpers:', () => {
         {
           data: {
             attributes: {
-              guid: 'test'
-            }
-          }
+              guid: 'test',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       const response = {};
       setFetchResponse(
@@ -242,24 +244,24 @@ describe('VIC helpers:', () => {
           data: {
             attributes: {
               state: 'success',
-              response
-            }
-          }
+              response,
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       const formConfig = {
-        chapters: {}
+        chapters: {},
       };
       const form = {
         data: {
-          photo: {}
-        }
+          photo: {},
+        },
       };
 
-      return submit(form, formConfig).then((res) => {
+      return submit(form, formConfig).then(res => {
         expect(res).to.deep.equal({
-          photo: null
+          photo: null,
         });
       });
     });
@@ -278,9 +280,9 @@ describe('VIC helpers:', () => {
       const state = {
         user: {
           profile: {
-            services: []
-          }
-        }
+            services: [],
+          },
+        },
       };
 
       const result = prefillTransformer(pages, formData, metadata, state);
@@ -291,115 +293,126 @@ describe('VIC helpers:', () => {
     });
     it('should set serviceBranch to first branch and enum to list', () => {
       const formData = {
-        serviceBranches: ['A', 'F']
+        serviceBranches: ['A', 'F'],
       };
       const pages = {
         veteranInformation: {
           schema: {
             properties: {
-              serviceBranch: fullSchemaVIC.properties.serviceBranch
-            }
-          }
-        }
+              serviceBranch: fullSchemaVIC.properties.serviceBranch,
+            },
+          },
+        },
       };
       const metadata = {};
       const state = {
         user: {
           profile: {
-            services: []
-          }
-        }
+            services: [],
+          },
+        },
       };
 
       const result = prefillTransformer(pages, formData, metadata, state);
-      expect(result.pages.veteranInformation.schema.properties.serviceBranch.enum)
-        .to.deep.equal(formData.serviceBranches);
-      expect(result.formData.serviceBranch).to.equal(formData.serviceBranches[0]);
+      expect(
+        result.pages.veteranInformation.schema.properties.serviceBranch.enum,
+      ).to.deep.equal(formData.serviceBranches);
+      expect(result.formData.serviceBranch).to.equal(
+        formData.serviceBranches[0],
+      );
       expect(result.formData.serviceBranches).to.be.undefined;
     });
     it('should filter out invalid branches', () => {
       const formData = {
-        serviceBranches: ['A', 'B']
+        serviceBranches: ['A', 'B'],
       };
       const pages = {
         veteranInformation: {
           schema: {
             properties: {
-              serviceBranch: fullSchemaVIC.properties.serviceBranch
-            }
-          }
-        }
+              serviceBranch: fullSchemaVIC.properties.serviceBranch,
+            },
+          },
+        },
       };
       const metadata = {};
       const state = {
         user: {
           profile: {
-            services: []
-          }
-        }
+            services: [],
+          },
+        },
       };
 
       const result = prefillTransformer(pages, formData, metadata, state);
-      expect(result.pages.veteranInformation.schema.properties.serviceBranch.enum)
-        .to.deep.equal(['A']);
-      expect(result.formData.serviceBranch).to.equal(formData.serviceBranches[0]);
+      expect(
+        result.pages.veteranInformation.schema.properties.serviceBranch.enum,
+      ).to.deep.equal(['A']);
+      expect(result.formData.serviceBranch).to.equal(
+        formData.serviceBranches[0],
+      );
       expect(result.formData.serviceBranches).to.be.undefined;
     });
     it('should leave full list when no valid branches', () => {
       const formData = {
-        serviceBranches: ['B']
+        serviceBranches: ['B'],
       };
       const pages = {
         veteranInformation: {
           schema: {
             properties: {
-              serviceBranch: fullSchemaVIC.properties.serviceBranch
-            }
-          }
-        }
+              serviceBranch: fullSchemaVIC.properties.serviceBranch,
+            },
+          },
+        },
       };
       const metadata = {};
       const state = {
         user: {
           profile: {
-            services: []
-          }
-        }
+            services: [],
+          },
+        },
       };
 
       const result = prefillTransformer(pages, formData, metadata, state);
-      expect(result.pages.veteranInformation.schema.properties.serviceBranch.enum)
-        .to.deep.equal(fullSchemaVIC.properties.serviceBranch.enum);
+      expect(
+        result.pages.veteranInformation.schema.properties.serviceBranch.enum,
+      ).to.deep.equal(fullSchemaVIC.properties.serviceBranch.enum);
       expect(result.formData.serviceBranch).to.be.undefined;
       expect(result.formData.serviceBranches).to.be.undefined;
     });
     it('should set id proofed flag and original user data', () => {
       const formData = {
         veteranFullName: {
-          first: 'Test'
+          first: 'Test',
         },
-        veteranSocialSecurityNumber: '123456789'
+        veteranSocialSecurityNumber: '123456789',
       };
       const pages = {
         veteranInformation: {
           schema: {
-            properties: {}
-          }
-        }
+            properties: {},
+          },
+        },
       };
       const metadata = {};
       const state = {
         user: {
           profile: {
-            services: ['identity-proofed']
-          }
-        }
+            services: ['identity-proofed'],
+          },
+        },
       };
 
       const result = prefillTransformer(pages, formData, metadata, state);
       expect(result.formData.processAsIdProofed).to.be.true;
-      expect(result.formData.originalUser.veteranFullName).to.equal(formData.veteranFullName);
-      expect(result.formData.originalUser.veteranSocialSecurityNumber).to.equal(formData.veteranSocialSecurityNumber);
+      expect(result.formData.originalUser.veteranFullName).to.equal(
+        formData.veteranFullName,
+      );
+      expect(result.formData.originalUser.veteranSocialSecurityNumber).to.equal(
+        formData.veteranSocialSecurityNumber,
+      );
     });
   });
   describe('transform', () => {
@@ -408,16 +421,16 @@ describe('VIC helpers:', () => {
         data: {
           processAsIdProofed: true,
           veteranFullName: {
-            first: 'Test'
+            first: 'Test',
           },
           veteranSocialSecurityNumber: '234',
           originalUser: {
             veteranSocialSecurityNumber: '234',
             veteranFullName: {
-              first: 'Test'
-            }
-          }
-        }
+              first: 'Test',
+            },
+          },
+        },
       };
       const result = JSON.parse(transform(form, fullFormConfig));
 
@@ -430,16 +443,16 @@ describe('VIC helpers:', () => {
         data: {
           processAsIdProofed: true,
           veteranFullName: {
-            first: 'Test1'
+            first: 'Test1',
           },
           veteranSocialSecurityNumber: '234',
           originalUser: {
             veteranSocialSecurityNumber: '234',
             veteranFullName: {
-              first: 'Test'
-            }
-          }
-        }
+              first: 'Test',
+            },
+          },
+        },
       };
       const result = JSON.parse(transform(form, fullFormConfig));
 

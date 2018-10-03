@@ -18,14 +18,7 @@ View your VA lab and test results online through your My HealtheVet personal hea
 
 </div>
 
-<div class="va-sign-in-alert usa-alert usa-alert-info">
-  <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You'll need to sign in before you can view your VA lab and test results online.</h4>
-    <p class="usa-alert-text">
-      <button class="usa-button-primary">Sign In or Create an Account</button>
-    </p>
-  </div>
-</div>
+<div class="cta-widget" data-app-id="lab-and-test-results"></div>
 
 <div itemscope itemtype="http://schema.org/Question">
 
@@ -75,7 +68,7 @@ You can use this tool to view your VA lab and test results and information you e
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-At this time, you can view only your VA chemistry/hematology results. These include tests for blood sugar, liver function, or blood cell counts. 
+At this time, you can view only your VA chemistry/hematology results. These include tests for blood sugar, liver function, or blood cell counts.
 </div>
 </div>
 </div>
@@ -100,7 +93,7 @@ No. But you can enter this information yourself to keep all your results in one 
 
 On your Welcome page dashboard, you’ll see a module for “Health Records.” Within that module, click on “Labs and Tests.”
 
-This will take you to a new page with links to view test results. 
+This will take you to a new page with links to view test results.
 
 **If you’re signed in with a Premium account, you’ll see:**
 - **VA chemistry/hematology results:** Your tests will be listed by date and specimen. A specimen is the sample studied by the test (like blood, urine, a tissue biopsy, or a throat swab). You can click on each to view details from your VA medical record.

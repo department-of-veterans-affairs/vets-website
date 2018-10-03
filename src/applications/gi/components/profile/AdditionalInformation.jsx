@@ -8,8 +8,7 @@ export class AdditionalInformation extends React.Component {
 
     if (isOJT) return null;
 
-    const typeOfAccreditation =
-      it.accredited &&
+    const typeOfAccreditation = it.accredited &&
       it.accreditationType && (
         <div>
           <strong>
@@ -17,21 +16,20 @@ export class AdditionalInformation extends React.Component {
               Type of accreditation:
             </a>
           </strong>
-          &nbsp;{it.accreditationType.toUpperCase()}
+          &nbsp;
+          {it.accreditationType.toUpperCase()}
         </div>
       );
 
-    const vetTuitionPolicy =
-      it.vetWebsiteLink && (
-        <div>
-          <strong>
-            Veterans tuition policy:
-          </strong>
-          &nbsp;<a href={it.vetWebsiteLink} target="_blank">
-            View policy
-          </a>
-        </div>
-      );
+    const vetTuitionPolicy = it.vetWebsiteLink && (
+      <div>
+        <strong>Veterans tuition policy:</strong>
+        &nbsp;
+        <a href={it.vetWebsiteLink} target="_blank">
+          View policy
+        </a>
+      </div>
+    );
 
     return (
       <div className="institution-summary">
@@ -42,10 +40,23 @@ export class AdditionalInformation extends React.Component {
               Accredited:
             </a>
           </strong>
-          &nbsp;{it.accredited ?
-            <span>Yes (<a href={`http://nces.ed.gov/collegenavigator/?id=${it.cross}#accred`} target="_blank">
-              See accreditors
-            </a>)</span> : 'No'}
+          &nbsp;
+          {it.accredited ? (
+            <span>
+              Yes (
+              <a
+                href={`http://nces.ed.gov/collegenavigator/?id=${
+                  it.cross
+                }#accred`}
+                target="_blank"
+              >
+                See accreditors
+              </a>
+              )
+            </span>
+          ) : (
+            'No'
+          )}
         </div>
         {typeOfAccreditation}
         {vetTuitionPolicy}
@@ -55,7 +66,8 @@ export class AdditionalInformation extends React.Component {
               Single point of contact for veterans:
             </a>
           </strong>
-          &nbsp;{it.vetPoc ? 'Yes' : 'No'}
+          &nbsp;
+          {it.vetPoc ? 'Yes' : 'No'}
         </div>
         <div>
           <strong>
@@ -63,15 +75,17 @@ export class AdditionalInformation extends React.Component {
               Credit for military training:
             </a>
           </strong>
-          &nbsp;{it.creditForMilTraining ? 'Yes' : 'No'}
+          &nbsp;
+          {it.creditForMilTraining ? 'Yes' : 'No'}
         </div>
         <div>
           <strong>
             <a onClick={this.props.onShowModal.bind(this, 'iStudy')}>
-               Independent study:
+              Independent study:
             </a>
           </strong>
-          &nbsp;{it.independentStudy ? 'Yes' : 'No'}
+          &nbsp;
+          {it.independentStudy ? 'Yes' : 'No'}
         </div>
         <div>
           <strong>
@@ -79,7 +93,8 @@ export class AdditionalInformation extends React.Component {
               STEM (Science, Technology, Engineering, and Math):
             </a>
           </strong>
-          &nbsp;{it.stemOffered ? 'Yes' : 'No'}
+          &nbsp;
+          {it.stemOffered ? 'Yes' : 'No'}
         </div>
       </div>
     );
@@ -89,18 +104,20 @@ export class AdditionalInformation extends React.Component {
     const it = this.props.institution;
 
     // Formats positive and negative currency values in USD
-    const formatCurrency = (num) => {
-      const str = Number(num).toFixed(2).toString().split('.');
+    const formatCurrency = num => {
+      const str = Number(num)
+        .toFixed(2)
+        .toString()
+        .split('.');
       // Match a digit if it’s followed by 3 other digits,
       // appending a comma to each match.
       const regex = /\d(?=(\d{3})+$)/g;
-      return [
-        '$',
-        [str[0].replace(regex, '$&,'), str[1]].join('.')
-      ].join('').replace('$-', '-$');
+      return ['$', [str[0].replace(regex, '$&,'), str[1]].join('.')]
+        .join('')
+        .replace('$-', '-$');
     };
 
-    const formatNumber = (num) => {
+    const formatNumber = num => {
       const str = Math.round(Number(num)).toString();
       // Match a digit if it’s followed by 3 other digits,
       // appending a comma to each match.
@@ -147,21 +164,27 @@ export class AdditionalInformation extends React.Component {
             <h3>Institution codes</h3>
             <div>
               <strong>
-                <a onClick={this.props.onShowModal.bind(this, 'facilityCode')}>VA facility code:</a>
+                <a onClick={this.props.onShowModal.bind(this, 'facilityCode')}>
+                  VA facility code:
+                </a>
                 &nbsp;
               </strong>
               {it.facilityCode || 'N/A'}
             </div>
             <div>
               <strong>
-                <a onClick={this.props.onShowModal.bind(this, 'ipedsCode')}>ED IPEDS code:</a>
+                <a onClick={this.props.onShowModal.bind(this, 'ipedsCode')}>
+                  ED IPEDS code:
+                </a>
                 &nbsp;
               </strong>
               {it.cross || 'N/A'}
             </div>
             <div>
               <strong>
-                <a onClick={this.props.onShowModal.bind(this, 'opeCode')}>ED OPE code:</a>
+                <a onClick={this.props.onShowModal.bind(this, 'opeCode')}>
+                  ED OPE code:
+                </a>
                 &nbsp;
               </strong>
               {it.ope || 'N/A'}
@@ -201,7 +224,7 @@ export class AdditionalInformation extends React.Component {
 
 AdditionalInformation.propTypes = {
   institution: PropTypes.object,
-  onShowModal: PropTypes.func
+  onShowModal: PropTypes.func,
 };
 
 export default AdditionalInformation;

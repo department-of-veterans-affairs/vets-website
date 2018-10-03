@@ -2,10 +2,22 @@
 
 /* OVERRIDE */
 .merger {
+  .va-dropdown-trigger {
+    min-width: 102px;
+  }
+
   .vet-toolbar {
     .sign-in-nav {
       margin-left: 6px;
     }
+    z-index: 300;
+  }
+  .va-modal {
+    z-index: 301;
+  }
+
+  #dashboard-title {
+    margin-top: 0;
   }
 
   #va-header-logo-menu {
@@ -62,6 +74,24 @@
 
     #vetnav-menu, #vetnav {
       margin-top: 0;
+        width: 100%;
+    }
+
+    .my-va-top-nav {
+      margin-left: auto;
+      &.current-page {
+        margin-left: auto;
+      }
+    }
+
+    .current-page {
+      border-bottom: 5px solid;
+      border-color: $color-blue;
+      margin-left: 1.6rem;
+      margin-right: 1.6rem;
+      a {
+        padding: 1.6rem 0;
+      }
     }
 
     .mm-marketing-container {
@@ -127,7 +157,7 @@
     margin-top: 2em;
   }
 
-  #homepage-hub, .va-sidebarnav {
+  #homepage-hub, .va-sidebarnav, .vet-toolbar {
     [href^="http"]:not(.usa-button-primary), [rel="external"] {
       background-image: none;
       padding-right: 0px;
@@ -185,19 +215,10 @@
     }
   }
 
-  #homepage-popular {
-    padding-top: 3em;
-  }
-
   #homepage-hero {
     background-color: $color-primary-darker;
     text-align: center;
     padding-top: 1.5em;
-  }
-
-  #homepage-news {
-    padding: 0 0 3em 0;
-    margin-top: 3em;
   }
 
   #homepage-benefits {
@@ -214,94 +235,6 @@
   h3, h4 {
     .fa {
       padding-right: .35em;
-    }
-  }
-
-  // new pattern, but specific to homepage only
-  .homepage-button {
-
-    width:100%;
-    height: 85px;
-    padding: 0;
-
-    a {
-      width: 100%;
-      height: 100%;
-      font-weight: bold;
-      color: white;
-      text-decoration: none;
-    }
-
-    .icon-wrapper {
-      width: 55px;
-      height: 100%;
-      float: left;
-
-      -webkit-border-top-left-radius: 6px;
-      -webkit-border-bottom-left-radius: 6px;
-      -moz-border-radius-topleft: 6px;
-      -moz-border-radius-bottomleft: 6px;
-      border-top-left-radius: 6px;
-      border-bottom-left-radius: 6px;
-    }
-
-    .button-inner {
-      padding-left: 1em;
-      padding-right: 1em;
-
-      &#vcl {
-        padding-left: .5em;
-        padding-right: .5em;
-      }
-    }
-
-    .fa {
-      font-size: 1.5em;
-      display:inline-block;
-
-      &.fa-user-circle {
-        font-size: 1.5em;
-        padding-right: .3em;
-      }
-
-      &::before {
-        position: absolute;
-        margin: 0;
-        top: 15px;
-        left: -7.75px;
-      }
-    }
-
-    .vcl {
-      content: "";
-      background: url(/img/vcl-logo-white.png) no-repeat;
-      background-size: 100%;
-      display: inline-block;
-      width: 2em;
-      height: 2em;
-      margin-top:32.5px;
-    }
-
-    div {
-      display:inline-block;
-      width:80%;
-    }
-
-    &.primary-darker {
-
-      .icon-wrapper {
-        background-color: $color-primary-darker;
-      }
-
-      background-color: $color-primary;
-    }
-
-    &.secondary-dark {
-
-      .icon-wrapper {
-        background-color: $color-secondary-darkest;
-      }
-      background-color: $color-secondary-dark;
     }
   }
 
@@ -323,9 +256,13 @@
 
         a {
           color: white;
+          &:visited {
+            color: white;
+          }
         }
-        a:visited {
-          color: white;
+        &:after {
+          content: "|";
+          padding: 0 1rem;
         }
       }
     }
@@ -349,8 +286,31 @@
 
   }
 
+  /**
+  * September 25th, 2018
+  * @todo This is a site-wide override to .usa-grid that ultimately forces it to have the same behavior as .usa-grid-full.
+  * This likely has site-wide ramifications and should be fixed soon.
+  * Because this is a high-risk change and we're under time constraints, I'm just documenting it here.
+  * More info on the grid class - https://designsystem.digital.gov/components/grids/.
+  */
   .usa-grid {
     padding: 0;
+  }
+
+  // Once the above rule is delete, we can delete this awful block too.
+  #gov-banner {
+    @media (min-width: $small-screen) {
+      .usa-banner-guidance-gov, .usa-banner-guidance-ssl {
+        padding-bottom: 2.3rem;
+        padding-top: 4rem;
+      }
+    }
+  }
+
+  @media (max-width: $small-screen) {
+    .usa-banner-button:focus {
+      position: absolute;
+    }
   }
 
   .va-nav-breadcrumbs-list {
@@ -478,10 +438,9 @@
     }
 
     #mega-menu {
-      margin-top: 1em;
-      #vetnav {
-        min-height: unset;
-      }
+      // #vetnav {
+      //   min-height: unset;
+      // }
       .login-container {
         position: relative;
         top: -40px;
@@ -533,7 +492,7 @@
     }
 
     .vet-toolbar {
-      margin-left: -10px;
+      margin-left: -12px;
 
       .sign-in-nav {
         margin-top: 6px;
@@ -560,11 +519,7 @@
           padding-left: 0;
           margin-right: 1.75em;
           background-position: right 1.5rem center;
-
-          &:first-child {
-            margin-right: 1em;
-          }
-
+          line-height: unset;
           span {
             display: inline-block;
           }
@@ -603,23 +558,12 @@
     .va-h-ruled--stars,
     .va-nav-breadcrumbs,
     article,
-    #homepage-popular,
     #hub-rail,
     .footer-banner,
     .footer-links {
 
       padding-left: .5em;
       padding-right: .5em;
-    }
-
-    #homepage-popular {
-      padding-bottom: 1.5em;
-      padding-top: 1em;
-    }
-
-    // internal static-pages
-    #promo {
-      display: none;
     }
 
     .va-nav-breadcrumbs  {
@@ -654,13 +598,8 @@
     }
 
     #footerNav {
-      #footer-first-child {
-        padding-top: .25em;
-      }
-
       .va-footer-linkgroup {
         margin-top: 0;
-        margin-bottom: .25em;
         li {
           margin-bottom: 6px;
         }
@@ -680,6 +619,25 @@
       }
 
       // mobile footer stuff
+      .usa-grid-flex-mobile {
+        display: flex;
+        flex-direction: column;
+        #veteran-contact-us {
+          order: 1;
+        }
+        #footer-first-child {
+          order: 2;
+        }
+        #footer-services {
+          order: 3;
+        }
+        #footer-popular {
+          order: 4;
+        }
+        #veteran-crisis-line {
+          display: none;
+        }
+      }
       .va-footer-linkgroup-title {
         font-weight: 400;
 
@@ -719,6 +677,10 @@
     .va-sidebarnav--opened {
       position: fixed;
       z-index: 1;
+    }
+    .va-navigation-nextprevious {
+      padding-left: 0.9375rem;
+      padding-right: 0.9375rem;
     }
   }
 
@@ -767,35 +729,11 @@
       }
     }
 
-    #homepage-popular {
-
-      text-align: center;
-
-      .usa-width-one-third {
-
-        margin: 0 auto;
-        margin-bottom: 1.5em;
-        float: none;
-        display: block;
-        width: 50%;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-
-        #vcl {
-          padding-left: 1.5em;
-          padding-right: 1.5em;
-        }
-      }
-    }
-
     #homepage-benefits,
     #homepage-news,
     .va-h-ruled--stars,
     .va-nav-breadcrumbs,
     article,
-    #homepage-popular,
     #hub-rail {
       padding-left: 1em;
       padding-right: 1em;
@@ -828,43 +766,12 @@
         padding-right: 1em;
       }
     }
-
-    #homepage-popular {
-
-      text-align: center;
-
-      .usa-width-one-third {
-
-        margin: 0 auto;
-        margin-bottom: 1.5em;
-        float: none;
-        display: block;
-        width: 40%;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-
-        #vcl {
-          padding-left: 1.5em;
-          padding-right: 1.5em;
-        }
-
-      }
-
-    }
-
   }
 
   #preview-site-alert {
     z-index: 1;
     color: $color-black;
     position: relative;
-  }
-
-  .va-crisis-line {
-    top: 169px;
-    z-index: 2;
   }
 
   // TD: need to update this on formation in the MegaMenu. If no title it should still align with the link row.
@@ -1117,14 +1024,6 @@
 
   .hub-links-container {
     min-height: 250px;
-  }
-  .va-crisis-panel {
-    h3 {
-      color: $color-black;
-    }
-    p {
-      color: $color-black;
-    }
   }
 }
 .usa-accordion-bordered {

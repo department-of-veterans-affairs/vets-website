@@ -9,7 +9,8 @@ export function scrollToTop() {
 }
 
 export function setFocus(selector) {
-  const el = typeof selector === 'string' ? document.querySelector(selector) : selector;
+  const el =
+    typeof selector === 'string' ? document.querySelector(selector) : selector;
   if (el) {
     el.setAttribute('tabIndex', -1);
     el.focus();
@@ -25,7 +26,10 @@ export function setPageFocus(selector = '.va-nav-breadcrumbs') {
   }
 }
 
-export function setUpPage(scroll = true, focusSelector = '.va-nav-breadcrumbs') {
+export function setUpPage(
+  scroll = true,
+  focusSelector = '.va-nav-breadcrumbs',
+) {
   if (!scroll) {
     scrollToTop();
   }
@@ -33,6 +37,8 @@ export function setUpPage(scroll = true, focusSelector = '.va-nav-breadcrumbs') 
 }
 
 export function isTab(url) {
-  return url &&
-    (url.endsWith('status') || url.endsWith('files') || url.endsWith('details'));
+  return (
+    url &&
+    (url.endsWith('status') || url.endsWith('files') || url.endsWith('details'))
+  );
 }

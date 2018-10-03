@@ -9,18 +9,19 @@ class FeedbackSubmitted extends React.Component {
   render() {
     return (
       <div id="feedback-submitted">
-        <h4 id="feedback-submitted-title" className="feedback-widget-title">Thank you for your feedback!</h4>
+        <h4 id="feedback-submitted-title" className="feedback-widget-title">
+          Thank you for your feedback!
+        </h4>
         {this.props.formValues.shouldSendResponse && (
           <p className="feedback-widget-intro">We’ll get back to you soon.</p>
         )}
       </div>
     );
   }
-
 }
 
 FeedbackSubmitted.PropTypes = {
-  shouldSendResponse: PropTypes.bool
+  shouldSendResponse: PropTypes.bool,
 };
 
 export default FeedbackSubmitted;

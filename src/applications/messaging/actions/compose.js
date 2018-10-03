@@ -23,7 +23,7 @@ export function setMessageField(path, field) {
   return {
     type: SET_MESSAGE_FIELD,
     path,
-    field
+    field,
   };
 }
 
@@ -33,14 +33,14 @@ export function addComposeAttachments(files) {
   });
   return {
     type: ADD_COMPOSE_ATTACHMENTS,
-    files
+    files,
   };
 }
 
 export function deleteComposeAttachment(index) {
   return {
     type: DELETE_COMPOSE_ATTACHMENT,
-    index
+    index,
   };
 }
 
@@ -52,14 +52,15 @@ export function fetchRecipients() {
     apiRequest(
       url,
       null,
-      (recipients) => dispatch({ type: FETCH_RECIPIENTS_SUCCESS, recipients }),
-      (response) => dispatch({ type: FETCH_RECIPIENTS_FAILURE, errors: response.errors })
+      recipients => dispatch({ type: FETCH_RECIPIENTS_SUCCESS, recipients }),
+      response =>
+        dispatch({ type: FETCH_RECIPIENTS_FAILURE, errors: response.errors }),
     );
   };
 }
 
 export function resetMessage() {
   return {
-    type: RESET_MESSAGE_OBJECT
+    type: RESET_MESSAGE_OBJECT,
   };
 }

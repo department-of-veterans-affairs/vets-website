@@ -3,18 +3,25 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, getFormDOM } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  getFormDOM,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Burials document upload', () => {
-  const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.documentUpload;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.additionalInformation.pages.documentUpload;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -26,10 +33,11 @@ describe('Burials document upload', () => {
       <DefinitionTester
         schema={schema}
         data={{
-          burialAllowanceRequested: 'service'
+          burialAllowanceRequested: 'service',
         }}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -42,11 +50,12 @@ describe('Burials document upload', () => {
         schema={schema}
         data={{
           'view:claimedBenefits': {
-            transportation: true
-          }
+            transportation: true,
+          },
         }}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -58,10 +67,11 @@ describe('Burials document upload', () => {
       <DefinitionTester
         schema={schema}
         data={{
-          burialAllowanceRequested: 'service'
+          burialAllowanceRequested: 'service',
         }}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -74,10 +84,11 @@ describe('Burials document upload', () => {
         schema={schema}
         data={{
           toursOfDuty: [{ from: '1995-05-06', to: '2005-04-05' }],
-          burialAllowanceRequested: 'service'
+          burialAllowanceRequested: 'service',
         }}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -92,12 +103,13 @@ describe('Burials document upload', () => {
         data={{
           burialAllowanceRequested: 'service',
           'view:claimedBenefits': {
-            transportation: true
-          }
+            transportation: true,
+          },
         }}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -116,20 +128,26 @@ describe('Burials document upload', () => {
         data={{
           burialAllowanceRequested: 'service',
           'view:claimedBenefits': {
-            transportation: true
+            transportation: true,
           },
-          deathCertificate: [{
-            confirmationCode: 'testing'
-          }],
-          transportationReceipts: [{
-            confirmationCode: 'testing'
-          }, {
-            confirmationCode: 'testing2'
-          }]
+          deathCertificate: [
+            {
+              confirmationCode: 'testing',
+            },
+          ],
+          transportationReceipts: [
+            {
+              confirmationCode: 'testing',
+            },
+            {
+              confirmationCode: 'testing2',
+            },
+          ],
         }}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);

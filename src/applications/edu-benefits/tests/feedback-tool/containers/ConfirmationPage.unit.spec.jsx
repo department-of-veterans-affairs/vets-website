@@ -10,68 +10,104 @@ describe('GI Feedback Tool <ConfirmationPage>', () => {
     const form = {
       submission: {
         response: {
-          caseNumber: '3702390024'
-        }
+          caseNumber: '3702390024',
+        },
       },
       data: {
         applicantFullName: {
           first: 'Joe',
           middle: 'Marjorie',
           last: 'Smith',
-          suffix: 'Sr.'
-        }
-      }
+          suffix: 'Sr.',
+        },
+      },
     };
 
-    const tree = shallow(
-      <ConfirmationPage form={form}/>
-    );
+    const tree = shallow(<ConfirmationPage form={form} />);
 
-    expect(tree.find('.confirmation-page-title').at(0).text()).to.contain('Your feedback has been submitted');
+    expect(
+      tree
+        .find('.confirmation-page-title')
+        .at(0)
+        .text(),
+    ).to.contain('Your feedback has been submitted');
     expect(tree.find('.claim-list').exists()).to.be.true;
-    expect(tree.find('span').at(2).text()).to.contain('3702390024');
-    expect(tree.find('span').at(1).text()).to.contain(moment().format('MMM D, YYYY'));
-    expect(tree.find('p').first().text()).to.contain('We may contact you if we have questions or need more information.');
+    expect(
+      tree
+        .find('span')
+        .at(2)
+        .text(),
+    ).to.contain('3702390024');
+    expect(
+      tree
+        .find('span')
+        .at(1)
+        .text(),
+    ).to.contain(moment().format('MMM D, YYYY'));
+    expect(
+      tree
+        .find('p')
+        .first()
+        .text(),
+    ).to.contain(
+      'We may contact you if we have questions or need more information.',
+    );
   });
   it('should render without the name properties', () => {
-
     const form = {
       submission: {
         response: {
-          caseNumber: '3702390024'
-        }
+          caseNumber: '3702390024',
+        },
       },
-      data: {}
+      data: {},
     };
-    const tree = shallow(
-      <ConfirmationPage form={form}/>
-    );
+    const tree = shallow(<ConfirmationPage form={form} />);
 
-    expect(tree.find('.confirmation-page-title').at(0).text()).to.contain('Your feedback has been submitted');
+    expect(
+      tree
+        .find('.confirmation-page-title')
+        .at(0)
+        .text(),
+    ).to.contain('Your feedback has been submitted');
     expect(tree.find('.inset').text()).to.not.contain('for');
-    expect(tree.find('p').first().text()).to.contain('We may contact you if we have questions or need more information.');
-
+    expect(
+      tree
+        .find('p')
+        .first()
+        .text(),
+    ).to.contain(
+      'We may contact you if we have questions or need more information.',
+    );
   });
   it('should render without the response properties', () => {
-
     const form = {
-      submission: {
-      },
+      submission: {},
       data: {
         applicantFullName: {
           first: 'Joe',
           middle: 'Marjorie',
           last: 'Smith',
-          suffix: 'Sr.'
-        }
-      }
+          suffix: 'Sr.',
+        },
+      },
     };
-    const tree = shallow(
-      <ConfirmationPage form={form}/>
-    );
+    const tree = shallow(<ConfirmationPage form={form} />);
 
-    expect(tree.find('.confirmation-page-title').at(0).text()).to.contain('Your feedback has been submitted');
+    expect(
+      tree
+        .find('.confirmation-page-title')
+        .at(0)
+        .text(),
+    ).to.contain('Your feedback has been submitted');
     expect(tree.find('.claim-list').exists()).to.be.false;
-    expect(tree.find('p').first().text()).to.contain('We may contact you if we have questions or need more information.');
+    expect(
+      tree
+        .find('p')
+        .first()
+        .text(),
+    ).to.contain(
+      'We may contact you if we have questions or need more information.',
+    );
   });
 });

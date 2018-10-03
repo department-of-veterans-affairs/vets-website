@@ -23,26 +23,26 @@ function isJson(response) {
  */
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}/v0`;
-  const url = resource[0] === '/'
-    ? [baseUrl, resource].join('')
-    : resource;
+  const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
 
   const defaultSettings = {
     method: 'GET',
     credentials: 'include',
     headers: {
-      'X-Key-Inflection': 'camel'
-    }
+      'X-Key-Inflection': 'camel',
+    },
   };
 
   if (conditionalStorage().getItem('userToken')) {
-    defaultSettings.headers.Authorization = `Token token=${conditionalStorage().getItem('userToken')}`;
+    defaultSettings.headers.Authorization = `Token token=${conditionalStorage().getItem(
+      'userToken',
+    )}`;
   }
 
   const newHeaders = Object.assign(
     {},
     defaultSettings.headers,
-    optionalSettings ? optionalSettings.headers : undefined
+    optionalSettings ? optionalSettings.headers : undefined,
   );
   const settings = Object.assign({}, defaultSettings, optionalSettings);
   settings.headers = newHeaders;
@@ -51,13 +51,13 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     .catch(err => {
       Raven.captureMessage(`vets_client_error: ${err.message}`, {
         extra: {
-          error: err
-        }
+          error: err,
+        },
       });
 
       return Promise.reject(err);
     })
-    .then((response) => {
+    .then(response => {
       const data = isJson(response)
         ? response.json()
         : Promise.resolve(response);
@@ -65,11 +65,12 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
       if (!response.ok) {
         const { pathname } = window.location;
         const shouldRedirectToLogin =
-          response.status === 401 &&
-          !pathname.includes('auth/login/callback');
+          response.status === 401 && !pathname.includes('auth/login/callback');
 
         if (shouldRedirectToLogin) {
-          const loginUrl = appendQuery(environment.BASE_URL, { next: pathname });
+          const loginUrl = appendQuery(environment.BASE_URL, {
+            next: pathname,
+          });
           window.location.href = loginUrl;
         }
 

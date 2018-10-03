@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import DowntimeNotification, { externalServices, externalServiceStatus } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, {
+  externalServices,
+  externalServiceStatus,
+} from '../../../../platform/monitoring/DowntimeNotification';
 import DowntimeApproaching from '../../../../platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
 import recordEvent from '../../../../platform/monitoring/record-event';
 
@@ -24,9 +27,9 @@ class ProfileView extends React.Component {
     profile: PropTypes.shape({
       hero: PropTypes.object,
       personalInformation: PropTypes.object,
-      militaryInformation: PropTypes.object
+      militaryInformation: PropTypes.object,
     }),
-    user: PropTypes.object
+    user: PropTypes.object,
   };
 
   handleDowntime = (downtime, children) => {
@@ -36,13 +39,18 @@ class ProfileView extends React.Component {
           {...downtime}
           {...this.props.downtimeData}
           messaging={{
-            title: <h3>Some parts of the profile will be down for maintenance soon</h3>
+            title: (
+              <h3>
+                Some parts of the profile will be down for maintenance soon
+              </h3>
+            ),
           }}
-          content={children}/>
+          content={children}
+        />
       );
     }
     return children;
-  }
+  };
 
   render() {
     const {
@@ -50,14 +58,8 @@ class ProfileView extends React.Component {
       fetchMilitaryInformation,
       fetchHero,
       fetchPersonalInformation,
-      profile: {
-        hero,
-        personalInformation,
-        militaryInformation
-      },
-      downtimeData: {
-        appTitle
-      }
+      profile: { hero, personalInformation, militaryInformation },
+      downtimeData: { appTitle },
     } = this.props;
 
     let content;
@@ -65,31 +67,69 @@ class ProfileView extends React.Component {
     if (user.profile.verified) {
       if (user.profile.status === 'OK') {
         content = (
-          <DowntimeNotification appTitle={appTitle} render={this.handleDowntime} dependencies={[externalServices.emis, externalServices.vet360, externalServices.mvi]}>
+          <DowntimeNotification
+            appTitle={appTitle}
+            render={this.handleDowntime}
+            dependencies={[
+              externalServices.emis,
+              externalServices.vet360,
+              externalServices.mvi,
+            ]}
+          >
             <div>
-              <Vet360TransactionReporter/>
-              <Hero fetchHero={fetchHero} hero={hero} militaryInformation={militaryInformation}/>
-              <ContactInformation/>
-              <PersonalInformation fetchPersonalInformation={fetchPersonalInformation} personalInformation={personalInformation}/>
+              <Vet360TransactionReporter />
+              <Hero
+                fetchHero={fetchHero}
+                hero={hero}
+                militaryInformation={militaryInformation}
+              />
+              <ContactInformation />
+              <PersonalInformation
+                fetchPersonalInformation={fetchPersonalInformation}
+                personalInformation={personalInformation}
+              />
               <MilitaryInformation
                 veteranStatus={user.profile.veteranStatus}
                 fetchMilitaryInformation={fetchMilitaryInformation}
-                militaryInformation={militaryInformation}/>
+                militaryInformation={militaryInformation}
+              />
             </div>
           </DowntimeNotification>
         );
       } else {
         content = (
           <MVIError
-            facilitiesClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'find-center' }); }}/>
+            facilitiesClick={() => {
+              recordEvent({
+                event: 'profile-navigation',
+                'profile-action': 'view-link',
+                'profile-section': 'find-center',
+              });
+            }}
+          />
         );
       }
     } else {
       content = (
         <IdentityVerification
-          learnMoreClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'additional-info': 'learn-more-identity' }); }}
-          faqClick={() => { recordEvent({ event: 'profile-navigation', 'profile-action': 'view-link', 'profile-section': 'vets-faqs' }); }}
-          verifyClick={() => { recordEvent({ event: 'verify-link-clicked' }); }}/>
+          learnMoreClick={() => {
+            recordEvent({
+              event: 'profile-navigation',
+              'profile-action': 'view-link',
+              'additional-info': 'learn-more-identity',
+            });
+          }}
+          faqClick={() => {
+            recordEvent({
+              event: 'profile-navigation',
+              'profile-action': 'view-link',
+              'profile-section': 'vets-faqs',
+            });
+          }}
+          verifyClick={() => {
+            recordEvent({ event: 'verify-link-clicked' });
+          }}
+        />
       );
     }
 

@@ -10,7 +10,7 @@ const props = {
   draft: {
     attachments: [],
     body: makeField(''),
-    charsRemaining: composeMessage.maxChars.message
+    charsRemaining: composeMessage.maxChars.message,
   },
   folders: [],
   folderMessages: [],
@@ -18,31 +18,31 @@ const props = {
   isSavedDraft: false,
   loading: {
     recipients: false,
-    thread: false
+    thread: false,
   },
   message: null,
   messagesCollapsed: new Set(),
   modals: {
     createFolderModal: {
-      visible: false
+      visible: false,
     },
     deleteConfirm: {
-      visible: false
+      visible: false,
     },
     saveConfirmModal: {
-      visible: false
-    }
+      visible: false,
+    },
   },
   moveToOpened: false,
   persistFolder: 0,
   thread: [],
 
   // No-op function to override dispatch
-  dispatch: () => {}
+  dispatch: () => {},
 };
 
 describe('Thread', () => {
-  const tree = SkinDeep.shallowRender(<Thread {...props}/>);
+  const tree = SkinDeep.shallowRender(<Thread {...props} />);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();
