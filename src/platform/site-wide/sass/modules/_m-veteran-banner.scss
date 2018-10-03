@@ -4,10 +4,8 @@ $veteran-banner-mobile-width: 318px;
 $veteran-banner-mobile-height: 70px;
 
 .veteran-banner {
-  // @todo Waiting for mixin to be published in Design System
-  // background-color: linear-gradient-background($white, $mm-gray);
-  background: linear-gradient(to bottom, #fff 0%,#f1f1f1 63%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  padding-top: 2.5em;
+  @include linear-gradient-background($white, $mm-gray);
+  margin-top: 2.5em;
 }
 
 .veteran-banner-image {
