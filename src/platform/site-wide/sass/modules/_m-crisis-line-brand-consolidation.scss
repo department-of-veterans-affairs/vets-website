@@ -1,0 +1,138 @@
+// These should be replaced when the new colors are in the design
+// system
+$red-70v: #8b1303;
+$red-60v: #b51d09;
+
+.va-crisis-line {
+  @include media($medium-large-screen) {
+    position: absolute;
+    right: 0;
+    bottom: -11px;
+    background-color: transparent;
+  }
+  background-color: $red-60v;
+  z-index: 2;
+}
+
+button.va-crisis-line-button {
+  background-color: $red-60v;
+  border-radius: 0;
+  color: $color-white;
+  margin: auto;
+  font-size: 1em;
+  width: auto;
+  display: block;
+  text-decoration: none;
+  font-weight: bold;
+  display: flex;
+  padding: 0;
+  align-items: center;
+
+  @include media($medium-large-screen) {
+    border-radius: 0 0 0.2em 0.2em;
+    box-shadow: 0 2px 5px $color-base;
+    text-align: left;
+    justify-content: space-between;
+  }
+}
+
+.va-crisis-line-icon {
+  content: "";
+  background: url(/img/VCL-icon-white.svg) no-repeat right 29%;
+  background-size: 1.75em auto;
+  background-position: 0.5em 0.5em;
+  width: 2.5em;
+  height: 2em;
+  padding: 0.3em 1em;
+  @include media($medium-large-screen) {
+    background-color: $red-70v;
+    background-position: 0.4em 0.5em;
+  }
+}
+
+.va-crisis-line-text {
+  padding: 0.5em;
+}
+
+.va-crisis-line-arrow {
+  height: 13px;
+  width: 29px;
+  padding-right: 0.5em;
+  padding-left: 0.5em;
+}
+
+.va-crisis-panel {
+  z-index: 1;
+  color: $color-base;
+  &-body {
+    padding: 1.5em;
+    max-height: 100%;
+  }
+  &-title {
+    padding-left: 41px;
+    background: url(/img/vcl-logo.png) no-repeat left;
+    background-position: left 5px;
+    background-size: 32px auto;
+  }
+  &-list {
+    list-style: none;
+    padding: 0;
+    > li {
+      display: flex;
+      min-height: 56px;
+      margin-bottom: 0;
+      border-top: 1px solid $color-gray-light;
+      &:last-child {
+        border-bottom: 1px solid $color-gray-light;
+      }
+      > a {
+        padding: 0.5em 0;
+        align-self: center;
+      }
+    }
+  }
+  &-icon {
+    color: $color-base !important;
+    font-size: 26px;
+    width: 46px;
+    padding: 0.4em 0.3em;
+    align-self: center;
+    flex-shrink: 0;
+    &.fa-mobile {
+      font-size: 38px;
+      padding: 0.15em 0.3em;
+    }
+  }
+  &-close.va-modal-close {
+    font-size: 4rem;
+    color: $color-link-default;
+    padding-top: 0.1rem;
+    &:hover {
+      color: $color-black;
+      background-color: transparent;
+    }
+  }
+}
+
+.no-external-icon {
+  padding-right: 0;
+  background-image: none;
+  &::after {
+    display: none !important;
+    content: none;
+  }
+}
+
+.va-footer-vcl-trigger {
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+  font-weight: normal;
+  text-decoration: underline;
+
+  &:hover {
+    background: inherit;
+    color: $color-gold;
+    text-decoration: inherit;
+  }
+}

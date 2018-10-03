@@ -3,21 +3,29 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, selectCheckbox, selectRadio } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  selectCheckbox,
+  selectRadio,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../chapter36/config/form.js';
 
 describe('VRE chapter 36 applicant additional information', () => {
-  const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.additionalInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.additionalInformation.pages.additionalInformation;
   it('renders Veteran view', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          'view:isVeteran': true
+          'view:isVeteran': true,
         }}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     selectCheckbox(form, 'root_previousBenefitApplications_other', true);
     expect(form.find('input').length).to.equal(4);
@@ -30,10 +38,11 @@ describe('VRE chapter 36 applicant additional information', () => {
         schema={schema}
         data={{
           'view:isVeteran': false,
-          applicantRelationshipToVeteran: 'Spouse'
+          applicantRelationshipToVeteran: 'Spouse',
         }}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     selectRadio(form, 'root_divorceOrAnnulmentPending', 'Y');
@@ -50,10 +59,11 @@ describe('VRE chapter 36 applicant additional information', () => {
         schema={schema}
         data={{
           'view:isVeteran': false,
-          applicantRelationshipToVeteran: 'Surviving spouse'
+          applicantRelationshipToVeteran: 'Surviving spouse',
         }}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     selectRadio(form, 'root_remarried', 'Y');
@@ -63,7 +73,6 @@ describe('VRE chapter 36 applicant additional information', () => {
     expect(form.find('select').length).to.equal(1);
   });
 
-
   it('submits without info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
@@ -71,11 +80,12 @@ describe('VRE chapter 36 applicant additional information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          'view:isVeteran': true
+          'view:isVeteran': true,
         }}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');

@@ -3,7 +3,7 @@ export const maritalStatuses = [
   'Never Married',
   'Separated',
   'Widowed',
-  'Divorced'
+  'Divorced',
 ];
 
 export const branchesServed = [
@@ -19,7 +19,7 @@ export const branchesServed = [
   { value: 'f.guerilla', label: 'Filipino Guerilla Forces' },
   { value: 'f.scouts new', label: 'Filipino New Scout' },
   { value: 'f.scouts old', label: 'Filipino Old Scout' },
-  { value: 'other', label: 'Other' }
+  { value: 'other', label: 'Other' },
 ];
 
 export const dischargeTypes = [
@@ -28,20 +28,14 @@ export const dischargeTypes = [
   { value: 'other', label: 'Other Than Honorable' },
   { value: 'bad-conduct', label: 'Bad Conduct' },
   { value: 'dishonorable', label: 'Dishonorable' },
-  { value: 'undesirable', label: 'Undesirable' }
+  { value: 'undesirable', label: 'Undesirable' },
 ];
 
-export const suffixes = [
-  'Jr.',
-  'Sr.',
-  'II',
-  'III',
-  'IV'
-];
+export const suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV'];
 
 export const genders = [
   { label: 'Female', value: 'F' },
-  { label: 'Male', value: 'M' }
+  { label: 'Male', value: 'M' },
 ];
 
 export const months = [
@@ -56,12 +50,105 @@ export const months = [
   { label: 'Sep', value: 9 },
   { label: 'Oct', value: 10 },
   { label: 'Nov', value: 11 },
-  { label: 'Dec', value: 12 }
+  { label: 'Dec', value: 12 },
 ];
 
-export const twentyNineDays = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29'];
-export const thirtyDays = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'];
-export const thirtyOneDays = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
+export const twentyNineDays = [
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  '11',
+  '12',
+  '13',
+  '14',
+  '15',
+  '16',
+  '17',
+  '18',
+  '19',
+  '20',
+  '21',
+  '22',
+  '23',
+  '24',
+  '25',
+  '26',
+  '27',
+  '28',
+  '29',
+];
+export const thirtyDays = [
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  '11',
+  '12',
+  '13',
+  '14',
+  '15',
+  '16',
+  '17',
+  '18',
+  '19',
+  '20',
+  '21',
+  '22',
+  '23',
+  '24',
+  '25',
+  '26',
+  '27',
+  '28',
+  '29',
+  '30',
+];
+export const thirtyOneDays = [
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  '11',
+  '12',
+  '13',
+  '14',
+  '15',
+  '16',
+  '17',
+  '18',
+  '19',
+  '20',
+  '21',
+  '22',
+  '23',
+  '24',
+  '25',
+  '26',
+  '27',
+  '28',
+  '29',
+  '30',
+  '31',
+];
 
 export const days = {
   1: thirtyOneDays,
@@ -75,19 +162,17 @@ export const days = {
   9: thirtyDays,
   10: thirtyOneDays,
   11: thirtyDays,
-  12: thirtyOneDays
+  12: thirtyOneDays,
 };
-
 
 export const childRelationships = [
   'Daughter',
   'Son',
   'Stepson',
-  'Stepdaughter'
+  'Stepdaughter',
 ];
 
 export const yesNo = [
   { label: 'Yes', value: 'Y' },
-  { label: 'No', value: 'N' }
+  { label: 'No', value: 'N' },
 ];
-

@@ -31,7 +31,10 @@ class Address extends React.Component {
     let statesList = [];
 
     // If the city is a military city, just add the military statesList to the list
-    if (this.props.address.city && this.isMilitaryCity(this.props.address.city)) {
+    if (
+      this.props.address.city &&
+      this.isMilitaryCity(this.props.address.city)
+    ) {
       statesList = militaryStateNames;
     } else {
       // Add statesList to list in the correct format
@@ -39,7 +42,7 @@ class Address extends React.Component {
         statesList.push({ label: value, value: key });
       });
       // Add military statesList to full state list
-      militaryStateNames.forEach((militaryState) => {
+      militaryStateNames.forEach(militaryState => {
         statesList.push(militaryState);
       });
       // Alphabetize the list
@@ -55,13 +58,13 @@ class Address extends React.Component {
     }
 
     return statesList;
-  }
+  };
 
-  isMilitaryCity = (city) => {
+  isMilitaryCity = city => {
     const upperCity = city.toUpperCase().trim();
 
     return MILITARY_CITIES.has(upperCity);
-  }
+  };
 
   render() {
     const errorMessages = this.props.errorMessages;
@@ -70,69 +73,93 @@ class Address extends React.Component {
 
     return (
       <div>
-        <ErrorableSelect errorMessage={errorMessages.countryName}
+        <ErrorableSelect
+          errorMessage={errorMessages.countryName}
           label="Country"
           name="country"
           autocomplete="country"
           options={this.props.countries}
           value={this.props.address.countryName}
           required={this.props.required}
-          onValueChange={(update) => this.props.onInput('countryName', update, true)}/>
-        <ErrorableTextInput errorMessage={errorMessages.addressOne}
+          onValueChange={update =>
+            this.props.onInput('countryName', update, true)
+          }
+        />
+        <ErrorableTextInput
+          errorMessage={errorMessages.addressOne}
           label="Street address"
           name="addressOne"
           autocomplete="address-line1"
           charMax={35}
           value={this.props.address.addressOne}
           required={this.props.required}
-          onValueChange={(update) => this.props.onInput('addressOne', update)}
-          onBlur={() => this.props.onBlur('addressOne')}/>
+          onValueChange={update => this.props.onInput('addressOne', update)}
+          onBlur={() => this.props.onBlur('addressOne')}
+        />
         <ErrorableTextInput
           label="Street address (optional)"
           name="addressTwo"
           autocomplete="address-line2"
           charMax={35}
           value={this.props.address.addressTwo}
-          onValueChange={(update) => this.props.onInput('addressTwo', update)}
-          onBlur={() => this.props.onBlur('addressTwo')}/>
+          onValueChange={update => this.props.onInput('addressTwo', update)}
+          onBlur={() => this.props.onBlur('addressTwo')}
+        />
         <ErrorableTextInput
           label="Street address (optional)"
           name="addressThree"
           autocomplete="address-line3"
           charMax={35}
           value={this.props.address.addressThree}
-          onValueChange={(update) => this.props.onInput('addressThree', update)}
-          onBlur={() => this.props.onBlur('addressThree')}/>
-        <ErrorableTextInput errorMessage={errorMessages.city}
-          label={<span>City <em>(or APO/FPO/DPO)</em></span>}
+          onValueChange={update => this.props.onInput('addressThree', update)}
+          onBlur={() => this.props.onBlur('addressThree')}
+        />
+        <ErrorableTextInput
+          errorMessage={errorMessages.city}
+          label={
+            <span>
+              City <em>(or APO/FPO/DPO)</em>
+            </span>
+          }
           name="city"
           autocomplete="address-level2"
           charMax={30}
           value={this.props.address.city}
           required={this.props.required}
-          onValueChange={(update) => this.props.onInput('city', update)}
-          onBlur={() => this.props.onBlur('city')}/>
+          onValueChange={update => this.props.onInput('city', update)}
+          onBlur={() => this.props.onBlur('city')}
+        />
 
         {/* Hide the state for addresses that aren't in the US */}
-        {isUSA && <ErrorableSelect errorMessage={errorMessages.stateCode}
-          label="State"
-          name="state"
-          autocomplete="address-level1"
-          options={adjustedStateNames}
-          value={this.props.address.stateCode}
-          required={this.props.required}
-          onValueChange={(update) => this.props.onInput('stateCode', update, true)}/>}
+        {isUSA && (
+          <ErrorableSelect
+            errorMessage={errorMessages.stateCode}
+            label="State"
+            name="state"
+            autocomplete="address-level1"
+            options={adjustedStateNames}
+            value={this.props.address.stateCode}
+            required={this.props.required}
+            onValueChange={update =>
+              this.props.onInput('stateCode', update, true)
+            }
+          />
+        )}
 
         {/* Hide the zip code for addresseses that aren't in the US */}
-        {isUSA && <ErrorableTextInput errorMessage={errorMessages.zipCode}
-          additionalClass="usa-input-medium"
-          label={'Zip code'}
-          name="postalCode"
-          autocomplete="postal-code"
-          value={this.props.address.zipCode}
-          required={this.props.required}
-          onValueChange={(update) => this.props.onInput('zipCode', update)}
-          onBlur={() => this.props.onBlur('zipCode')}/>}
+        {isUSA && (
+          <ErrorableTextInput
+            errorMessage={errorMessages.zipCode}
+            additionalClass="usa-input-medium"
+            label={'Zip code'}
+            name="postalCode"
+            autocomplete="postal-code"
+            value={this.props.address.zipCode}
+            required={this.props.required}
+            onValueChange={update => this.props.onInput('zipCode', update)}
+            onBlur={() => this.props.onBlur('zipCode')}
+          />
+        )}
       </div>
     );
   }
@@ -145,7 +172,7 @@ const addressShape = PropTypes.shape({
   city: PropTypes.string,
   stateCode: PropTypes.string,
   countryName: PropTypes.string,
-  zipCode: PropTypes.string
+  zipCode: PropTypes.string,
 });
 
 Address.propTypes = {

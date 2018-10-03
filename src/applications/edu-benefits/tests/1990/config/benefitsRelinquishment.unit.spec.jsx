@@ -4,16 +4,23 @@ import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 import _ from 'lodash/fp';
 
-import { DefinitionTester, getFormDOM } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  getFormDOM,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../1990/config/form.js';
 
 describe('Edu 1990 benefitsRelinquishment', () => {
-  const { schema, uiSchema, initialData } = formConfig.chapters.benefitsEligibility.pages.benefitsRelinquishment;
+  const {
+    schema,
+    uiSchema,
+    initialData,
+  } = formConfig.chapters.benefitsEligibility.pages.benefitsRelinquishment;
   const defaultData = _.merge(initialData, {
     // Not sure this is needed, strictly speaking, but this page _does_ depend on it
     'view:selectedBenefits': {
-      chapter30: true
-    }
+      chapter30: true,
+    },
   });
 
   it('should render', () => {
@@ -22,7 +29,8 @@ describe('Edu 1990 benefitsRelinquishment', () => {
         schema={schema}
         data={defaultData}
         uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}/>
+        definitions={formConfig.defaultDefinitions}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -37,7 +45,8 @@ describe('Edu 1990 benefitsRelinquishment', () => {
         data={defaultData}
         uiSchema={uiSchema}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}/>
+        definitions={formConfig.defaultDefinitions}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -61,7 +70,8 @@ describe('Edu 1990 benefitsRelinquishment', () => {
         schema={schema}
         data={defaultData}
         uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}/>
+        definitions={formConfig.defaultDefinitions}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -76,13 +86,17 @@ describe('Edu 1990 benefitsRelinquishment', () => {
         schema={schema}
         data={defaultData}
         uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}/>
+        definitions={formConfig.defaultDefinitions}
+      />,
     );
     const formDOM = getFormDOM(form);
 
     formDOM.selectRadio('benefitsRelinquished', 'chapter1607');
     // Input an invalid date since it defaults to today
-    formDOM.fillData('#root_view\\:benefitsRelinquishedContainer_benefitsRelinquishedDateYear', '100');
+    formDOM.fillData(
+      '#root_view\\:benefitsRelinquishedContainer_benefitsRelinquishedDateYear',
+      '100',
+    );
     formDOM.submitForm();
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
@@ -96,7 +110,8 @@ describe('Edu 1990 benefitsRelinquishment', () => {
         data={defaultData}
         uiSchema={uiSchema}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}/>
+        definitions={formConfig.defaultDefinitions}
+      />,
     );
     const formDOM = getFormDOM(form);
 

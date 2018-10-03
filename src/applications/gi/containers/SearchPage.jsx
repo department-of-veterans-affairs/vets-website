@@ -12,7 +12,7 @@ import {
   institutionFilterChange,
   setPageTitle,
   toggleFilter,
-  updateAutocompleteSearchTerm
+  updateAutocompleteSearchTerm,
 } from '../actions';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
@@ -26,7 +26,6 @@ import SearchResult from '../components/search/SearchResult';
 const { Element: ScrollElement, scroller } = Scroll;
 
 export class SearchPage extends React.Component {
-
   constructor(props) {
     super(props);
     this.handlePageSelect = this.handlePageSelect.bind(this);
@@ -37,7 +36,9 @@ export class SearchPage extends React.Component {
   componentDidMount() {
     let title = 'Search Results';
     const searchTerm = this.props.autocomplete.term;
-    if (searchTerm) { title += ` - ${searchTerm}`; }
+    if (searchTerm) {
+      title += ` - ${searchTerm}`;
+    }
     this.props.setPageTitle(title);
     this.updateSearchResults();
   }
@@ -47,10 +48,7 @@ export class SearchPage extends React.Component {
 
     const shouldUpdateSearchResults =
       !currentlyInProgress &&
-      !_.isEqual(
-        this.props.location.query,
-        prevProps.location.query
-      );
+      !_.isEqual(this.props.location.query, prevProps.location.query);
 
     if (shouldUpdateSearchResults) {
       this.updateSearchResults();
@@ -71,7 +69,7 @@ export class SearchPage extends React.Component {
       'eightKeysToVeteranSuccess',
       'stemOffered',
       'priorityEnrollment',
-      'independentStudy'
+      'independentStudy',
     ];
 
     const query = _.pick(this.props.location.query, [
@@ -82,7 +80,7 @@ export class SearchPage extends React.Component {
       'country',
       'state',
       'type',
-      ...programFilters
+      ...programFilters,
     ]);
 
     // Update form selections based on query.
@@ -91,8 +89,7 @@ export class SearchPage extends React.Component {
     // Convert string to bool for params associated with checkboxes.
     programFilters.forEach(filterKey => {
       const filterValue = institutionFilter[filterKey];
-      institutionFilter[filterKey] =
-        filterValue === 'true';
+      institutionFilter[filterKey] = filterValue === 'true';
     });
 
     this.props.institutionFilterChange(institutionFilter);
@@ -102,7 +99,7 @@ export class SearchPage extends React.Component {
   handlePageSelect(page) {
     this.props.router.push({
       ...this.props.location,
-      query: { ...this.props.location.query, page }
+      query: { ...this.props.location.query, page },
     });
   }
 
@@ -111,7 +108,9 @@ export class SearchPage extends React.Component {
     const query = { ...this.props.location.query, [field]: value };
 
     // Don’t update the route if the query hasn’t changed.
-    if (_.isEqual(query, this.props.location.query)) { return; }
+    if (_.isEqual(query, this.props.location.query)) {
+      return;
+    }
 
     // Reset to the first page upon a filter change.
     delete query.page;
@@ -121,22 +120,28 @@ export class SearchPage extends React.Component {
       ((field === 'category' ||
         field === 'country' ||
         field === 'state' ||
-        field === 'type') && value === 'ALL');
+        field === 'type') &&
+        value === 'ALL');
 
-    if (shouldRemoveFilter) { delete query[field]; }
+    if (shouldRemoveFilter) {
+      delete query[field];
+    }
     this.props.router.push({ ...this.props.location, query });
   }
 
   render() {
     const { search, filters } = this.props;
-    const { count, pagination: { currentPage, totalPages } } = search;
+    const {
+      count,
+      pagination: { currentPage, totalPages },
+    } = search;
 
     const resultsClass = classNames(
       'search-results',
       'small-12',
       'usa-width-three-fourths medium-9',
       'columns',
-      { opened: !search.filterOpened }
+      { opened: !search.filterOpened },
     );
 
     const filtersClass = classNames(
@@ -145,22 +150,26 @@ export class SearchPage extends React.Component {
       'usa-width-one-fourth',
       'medium-3',
       'columns',
-      { opened: search.filterOpened }
+      { opened: search.filterOpened },
     );
 
     let searchResults;
 
     // Filter button on mobile.
-    const filterButton =
-      (<button
+    const filterButton = (
+      <button
         className="filter-button usa-button-secondary"
-        onClick={this.props.toggleFilter}>Filter</button>);
+        onClick={this.props.toggleFilter}
+      >
+        Filter
+      </button>
+    );
 
     if (search.inProgress) {
       searchResults = (
         <div className={resultsClass}>
           {filterButton}
-          <LoadingIndicator message="Loading search results..."/>
+          <LoadingIndicator message="Loading search results..." />
         </div>
       );
     } else {
@@ -168,48 +177,48 @@ export class SearchPage extends React.Component {
         <div className={resultsClass}>
           {filterButton}
           <div>
-            {search.results.map((result) => {
-              return (
-                <SearchResult
-                  version={this.props.location.query.version}
-                  key={result.facilityCode}
-                  name={result.name}
-                  facilityCode={result.facilityCode}
-                  type={result.type}
-                  city={result.city}
-                  state={result.state}
-                  zip={result.zip}
-                  country={result.country}
-                  cautionFlag={result.cautionFlag}
-                  studentCount={result.studentCount}
-                  bah={result.bah}
-                  schoolClosing={result.schoolClosing}
-                  tuitionInState={result.tuitionInState}
-                  tuitionOutOfState={result.tuitionOutOfState}
-                  books={result.books}
-                  studentVeteran={result.studentVeteran}
-                  yr={result.yr}
-                  poe={result.poe}
-                  eightKeys={result.eightKeys}/>
-              );
-            })}
+            {search.results.map(result => (
+              <SearchResult
+                version={this.props.location.query.version}
+                key={result.facilityCode}
+                name={result.name}
+                facilityCode={result.facilityCode}
+                type={result.type}
+                city={result.city}
+                state={result.state}
+                zip={result.zip}
+                country={result.country}
+                cautionFlag={result.cautionFlag}
+                studentCount={result.studentCount}
+                bah={result.bah}
+                schoolClosing={result.schoolClosing}
+                tuitionInState={result.tuitionInState}
+                tuitionOutOfState={result.tuitionOutOfState}
+                books={result.books}
+                studentVeteran={result.studentVeteran}
+                yr={result.yr}
+                poe={result.poe}
+                eightKeys={result.eightKeys}
+              />
+            ))}
           </div>
 
           <Pagination
             onPageSelect={this.handlePageSelect.bind(this)}
             page={currentPage}
-            pages={totalPages}/>
+            pages={totalPages}
+          />
         </div>
       );
     }
 
     return (
       <ScrollElement name="searchPage" className="search-page">
-
         <div className="row">
           <div className="column">
             <h1>
-              {!search.inProgress && `${(count || 0).toLocaleString()} `}Search Results
+              {!search.inProgress && `${(count || 0).toLocaleString()} `}
+              Search Results
             </h1>
           </div>
         </div>
@@ -223,15 +232,23 @@ export class SearchPage extends React.Component {
                 autocomplete={this.props.autocomplete}
                 label="City, school, or employer"
                 location={this.props.location}
-                onClearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
-                onFetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
+                onClearAutocompleteSuggestions={
+                  this.props.clearAutocompleteSuggestions
+                }
+                onFetchAutocompleteSuggestions={
+                  this.props.fetchAutocompleteSuggestions
+                }
                 onFilterChange={this.handleFilterChange}
-                onUpdateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}/>
+                onUpdateAutocompleteSearchTerm={
+                  this.props.updateAutocompleteSearchTerm
+                }
+              />
               <InstitutionFilterForm
                 search={search}
                 filters={filters}
-                onFilterChange={this.handleFilterChange}/>
-              <EligibilityForm/>
+                onFilterChange={this.handleFilterChange}
+              />
+              <EligibilityForm />
             </div>
             <div className="results-button">
               <button className="usa-button" onClick={this.props.toggleFilter}>
@@ -241,16 +258,14 @@ export class SearchPage extends React.Component {
           </div>
           {searchResults}
         </div>
-
       </ScrollElement>
     );
   }
-
 }
 
 SearchPage.defaultProps = {};
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { autocomplete, filters, search } = state;
   return { autocomplete, filters, search };
 };
@@ -262,7 +277,12 @@ const mapDispatchToProps = {
   institutionFilterChange,
   setPageTitle,
   toggleFilter,
-  updateAutocompleteSearchTerm
+  updateAutocompleteSearchTerm,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SearchPage),
+);

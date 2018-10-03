@@ -10,13 +10,13 @@ const defaultProps = {
   isMenuOpen: {
     account: false,
     help: false,
-    search: false
+    search: false,
   },
   isUserRegisteredForBeta: () => {},
   isProfileLoading: false,
   userGreeting: 'test@vets.gov',
   toggleLoginModal: () => {},
-  toggleMenu: () => {}
+  toggleMenu: () => {},
 };
 
 describe('<SearchHelpSignIn>', () => {
@@ -24,21 +24,19 @@ describe('<SearchHelpSignIn>', () => {
     global.window = {
       location: {
         replace: () => {},
-      }
+      },
     };
     global.window.location.pathname = '/';
   });
 
   it('should present login links when not logged in', () => {
-    const wrapper = shallow(
-      <SearchHelpSignIn {...defaultProps}/>
-    );
+    const wrapper = shallow(<SearchHelpSignIn {...defaultProps} />);
     expect(wrapper.find('.sign-in-link')).to.have.lengthOf(2);
   });
 
   it('should render <SignInProfileMenu/> when logged in', () => {
     const signedInProps = merge(defaultProps, { isLoggedIn: true });
-    const wrapper = shallow(<SearchHelpSignIn {...signedInProps}/>);
+    const wrapper = shallow(<SearchHelpSignIn {...signedInProps} />);
     expect(wrapper.find('SignInProfileMenu').exists()).to.be.true;
   });
 
@@ -46,13 +44,15 @@ describe('<SearchHelpSignIn>', () => {
     const loa1Props = merge(defaultProps, {
       isLoggedIn: true,
       profile: {
-        userFullName: { first: null }
-      }
+        userFullName: { first: null },
+      },
     });
-    const wrapper = shallow(
-      <SearchHelpSignIn {...loa1Props}/>
-    );
-    const dropdown = wrapper.find('SignInProfileMenu').dive().find('DropDownPanel').dive();
+    const wrapper = shallow(<SearchHelpSignIn {...loa1Props} />);
+    const dropdown = wrapper
+      .find('SignInProfileMenu')
+      .dive()
+      .find('DropDownPanel')
+      .dive();
     expect(dropdown.text()).to.contain(defaultProps.userGreeting);
   });
 });

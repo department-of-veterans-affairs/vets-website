@@ -33,7 +33,6 @@ function baseUnset(arrayPath, object, level = 0) {
   return newObj;
 }
 
-
 /**
  * Removes the value at the end of the path
  * Separate from `baseUnset` to not expose the level param.
@@ -47,4 +46,3 @@ export default function unset(path, object) {
   checkValidPath(arrayPath);
   return baseUnset(arrayPath, object, 0);
 }
-

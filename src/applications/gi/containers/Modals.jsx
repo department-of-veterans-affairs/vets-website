@@ -4,17 +4,28 @@ import * as actions from '../actions';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 
 export class Modals extends React.Component {
-
   constructor(props) {
     super(props);
     this.shouldDisplayModal = this.shouldDisplayModal.bind(this);
     this.renderProfilePageModals = this.renderProfilePageModals.bind(this);
-    this.renderProfileSchoolHeaderModals = this.renderProfileSchoolHeaderModals.bind(this);
-    this.renderProfileVeteranSummaryModals = this.renderProfileVeteranSummaryModals.bind(this);
-    this.renderProfileSummaryModals = this.renderProfileSummaryModals.bind(this);
-    this.renderProfileHistoryModals = this.renderProfileHistoryModals.bind(this);
-    this.renderProfileCautionFlagModals = this.renderProfileCautionFlagModals.bind(this);
-    this.renderProfileCalculatorModals = this.renderProfileCalculatorModals.bind(this);
+    this.renderProfileSchoolHeaderModals = this.renderProfileSchoolHeaderModals.bind(
+      this,
+    );
+    this.renderProfileVeteranSummaryModals = this.renderProfileVeteranSummaryModals.bind(
+      this,
+    );
+    this.renderProfileSummaryModals = this.renderProfileSummaryModals.bind(
+      this,
+    );
+    this.renderProfileHistoryModals = this.renderProfileHistoryModals.bind(
+      this,
+    );
+    this.renderProfileCautionFlagModals = this.renderProfileCautionFlagModals.bind(
+      this,
+    );
+    this.renderProfileCalculatorModals = this.renderProfileCalculatorModals.bind(
+      this,
+    );
   }
 
   shouldDisplayModal(modal) {
@@ -24,40 +35,53 @@ export class Modals extends React.Component {
   renderProfilePageModals() {
     return (
       <span>
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('retention')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('retention')}
+        >
           <h3>Retention rate</h3>
           <p>
-            The share of first-time, full-time undergraduates who returned to the institution after
-            their freshman year.
+            The share of first-time, full-time undergraduates who returned to
+            the institution after their freshman year.
           </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('gradrates')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('gradrates')}
+        >
           <h3>Graduation Rate</h3>
           <p>
-            The graduation rate after six years for schools that mostly award four-year degrees and
-            after four years for all other schools. These rates are only for full-time students
-            enrolled for the first time.
+            The graduation rate after six years for schools that mostly award
+            four-year degrees and after four years for all other schools. These
+            rates are only for full-time students enrolled for the first time.
           </p>
           <p>
-            Student Veteran graduation rates measure full-time Post-9/11 GI Bill student’s
-            graduation reported within the VA system while the student is using benefits.
+            Student Veteran graduation rates measure full-time Post-9/11 GI Bill
+            student’s graduation reported within the VA system while the student
+            is using benefits.
           </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('salaries')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('salaries')}
+        >
           <h3>Average Salaries</h3>
           <p>
-            The median earnings of former students who received federal financial aid, 10 years
-            after they started school.
+            The median earnings of former students who received federal
+            financial aid, 10 years after they started school.
           </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('repayment')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('repayment')}
+        >
           <h3>Repayment Rate</h3>
           <p>
-            The share of students who have repaid at least $1 of the principal balance on their
-            federal loans within 3 years of leaving school.
+            The share of students who have repaid at least $1 of the principal
+            balance on their federal loans within 3 years of leaving school.
           </p>
         </Modal>
       </span>
@@ -67,15 +91,19 @@ export class Modals extends React.Component {
   renderProfileSchoolHeaderModals() {
     return (
       <span>
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('gibillstudents')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('gibillstudents')}
+        >
           <h3>GI Bill students</h3>
           <p>
-            The number of Veterans, Servicemembers and family members utilizing their GI Bill
-            benefits attending this school in the last calendar year. This includes all chapters of
-            the GI Bill program (e.g., Post-9/11, Montgomery GI Bill, Reserve Education Assistance
-            Program, and Vocational Rehabilitation). Keep in mind that differences in attendee
-            numbers don’t necessarily mean one school is more military friendly than another.
-            This information will be updated annually.
+            The number of Veterans, Servicemembers and family members utilizing
+            their GI Bill benefits attending this school in the last calendar
+            year. This includes all chapters of the GI Bill program (e.g.,
+            Post-9/11, Montgomery GI Bill, Reserve Education Assistance Program,
+            and Vocational Rehabilitation). Keep in mind that differences in
+            attendee numbers don’t necessarily mean one school is more military
+            friendly than another. This information will be updated annually.
           </p>
         </Modal>
       </span>
@@ -85,123 +113,217 @@ export class Modals extends React.Component {
   renderProfileVeteranSummaryModals() {
     return (
       <span>
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('vetgroups')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('vetgroups')}
+        >
           <h3>Student Veterans Group</h3>
           <p>Does this school have a student-led Veterans group on campus?</p>
           <p>
-            If a school has a student Veterans group that’s not represented here,
-            please email <a title="224A.VBAVACO@va.gov"
-              href="mailto: 224A.VBACO@va.gov?subject=Comparison Tool">224A.VBAVACO@va.gov</a>.
-            We make quarterly updates to this tool.
+            If a school has a student Veterans group that’s not represented
+            here, please email{' '}
+            <a
+              title="224A.VBAVACO@va.gov"
+              href="mailto: 224A.VBACO@va.gov?subject=Comparison Tool"
+            >
+              224A.VBAVACO@va.gov
+            </a>
+            . . We make quarterly updates to this tool.
           </p>
           <p>
-            Please note this email address is only for tool-related issues. For questions about your
-            GI Bill benefits, please check this <a href="https://gibill.custhelp.com/app/utils/login_form/redirect/ask"
-              target="_blank">"Ask a Question" page</a>.
+            Please note this email address is only for tool-related issues. For
+            questions about your GI Bill benefits, please check this{' '}
+            <a
+              href="https://gibill.custhelp.com/app/utils/login_form/redirect/ask"
+              target="_blank"
+            >
+              "Ask a Question" page
+            </a>
+            .
           </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('yribbon')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('yribbon')}
+        >
           <h3>Yellow Ribbon</h3>
           <p>
-            The <a title="Post-9/11 GI Bill"
-              href="http://www.benefits.va.gov/gibill/post911_gibill.asp" target="_blank">
-            Post-9/11 GI Bill</a> can cover all in-state tuition and fees at public degree granting
-            schools, but may not cover all private degree granting schools and out-of-state tuition.
-            The Yellow Ribbon Program provides additional support in those situations. Institutions
-            voluntarily enter into an agreement with VA to fund uncovered charges. VA matches each
-            dollar of unmet charges the institution agrees to contribute, up to the total cost of
-            the tuition and fees. <a title="Click here for FAQs about the Yellow Ribbon Program"
+            The{' '}
+            <a
+              title="Post-9/11 GI Bill"
+              href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
+              target="_blank"
+            >
+              Post-9/11 GI Bill
+            </a>{' '}
+            can cover all in-state tuition and fees at public degree granting
+            schools, but may not cover all private degree granting schools and
+            out-of-state tuition. The Yellow Ribbon Program provides additional
+            support in those situations. Institutions voluntarily enter into an
+            agreement with VA to fund uncovered charges. VA matches each dollar
+            of unmet charges the institution agrees to contribute, up to the
+            total cost of the tuition and fees.{' '}
+            <a
+              title="Click here for FAQs about the Yellow Ribbon Program"
               href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
-              target="_blank">Click here for FAQs about the Yellow Ribbon Program..</a>
+              target="_blank"
+            >
+              Click here for FAQs about the Yellow Ribbon Program..
+            </a>
           </p>
           <p>
-            Veterans and Fry Scholarship and Purple Heart recipients are entitled to the maximum benefit
-            rate or their designated transferees can receive this funding. Active duty Servicemembers and
-            their spouses aren’t eligible for this program (child transferees of active duty
-            Servicemembers may be eligible if the servicemember is qualified at the 100% rate).
-            This information will be updated quarterly.
+            Veterans and Fry Scholarship and Purple Heart recipients are
+            entitled to the maximum benefit rate or their designated transferees
+            can receive this funding. Active duty Servicemembers and their
+            spouses aren’t eligible for this program (child transferees of
+            active duty Servicemembers may be eligible if the servicemember is
+            qualified at the 100% rate). This information will be updated
+            quarterly.
           </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('poe')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('poe')}
+        >
           <h3>Principles of Excellence</h3>
           <p>
-            The <a title="Principles of Excellence"
-              href="http://www.gpo.gov/fdsys/pkg/FR-2012-05-02/pdf/2012-10715.pdf" target="_blank">
-            Principles of Excellence</a> are guidelines for educational institutions receiving
-            Federal funding. Schools that agree to participate will:
+            The{' '}
+            <a
+              title="Principles of Excellence"
+              href="http://www.gpo.gov/fdsys/pkg/FR-2012-05-02/pdf/2012-10715.pdf"
+              target="_blank"
+            >
+              Principles of Excellence
+            </a>{' '}
+            are guidelines for educational institutions receiving Federal
+            funding. Schools that agree to participate will:
           </p>
           <ul className="modal-bullets">
-            <li>End fraudulent and aggressive recruiting techniques and misrepresentation.</li>
-            <li>Provide students with a personalized form covering the total cost of an education program.</li>
-            <li>Provide educational plans for all Military and Veteran education beneficiaries.</li>
-            <li>Provide accommodations for Service Members and Reservists absent due to service requirements.</li>
-            <li>Assign a Point of Contact for academic and financial advising.</li>
-            <li>Make sure all new programs are accredited before they enroll students.</li>
-            <li>Align institutional refund policies with those under Title IV.</li>
+            <li>
+              End fraudulent and aggressive recruiting techniques and
+              misrepresentation.
+            </li>
+            <li>
+              Provide students with a personalized form covering the total cost
+              of an education program.
+            </li>
+            <li>
+              Provide educational plans for all Military and Veteran education
+              beneficiaries.
+            </li>
+            <li>
+              Provide accommodations for Service Members and Reservists absent
+              due to service requirements.
+            </li>
+            <li>
+              Assign a Point of Contact for academic and financial advising.
+            </li>
+            <li>
+              Make sure all new programs are accredited before they enroll
+              students.
+            </li>
+            <li>
+              Align institutional refund policies with those under Title IV.
+            </li>
           </ul>
           <p>
-            Foreign schools, high schools, on-the-job training and apprenticeship programs,
-            residency and internship programs, and those who don’t charge tuition and fees aren’t
-            asked to comply with the Principles of Excellence.
+            Foreign schools, high schools, on-the-job training and
+            apprenticeship programs, residency and internship programs, and
+            those who don’t charge tuition and fees aren’t asked to comply with
+            the Principles of Excellence.
           </p>
           <p>
-            We try to make sure this information is accurate, but prospective students should only
-            use this as a planning tool. The list of Principles of Excellence schools will be
-            updated quarterly.
+            We try to make sure this information is accurate, but prospective
+            students should only use this as a planning tool. The list of
+            Principles of Excellence schools will be updated quarterly.
           </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('ta')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('ta')}
+        >
           <h3>Military Tuition Assistance (TA)</h3>
           <p>
-            Are you receiving any military tuition assistance this year? If so, how much?
-            The Post-9/11 GI Bill pays the net-cost of your education after scholarships or
-            financial aid amounts are applied. This includes amounts already paid by military
-            tuition assistance.
+            Are you receiving any military tuition assistance this year? If so,
+            how much? The Post-9/11 GI Bill pays the net-cost of your education
+            after scholarships or financial aid amounts are applied. This
+            includes amounts already paid by military tuition assistance.
           </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('priEnroll')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('priEnroll')}
+        >
           <h3>Priority Enrollment</h3>
           <p>
-            If an Institution of Higher Learning (a college or university) has a system for priority enrollment that allows certain student Veterans to enroll in courses earlier than other students (not necessarily earlier than <strong>all</strong> students), we’ll note that with the school’s information here.
+            If an Institution of Higher Learning (a college or university) has a
+            system for priority enrollment that allows certain student Veterans
+            to enroll in courses earlier than other students (not necessarily
+            earlier than <strong>all</strong> students), we’ll note that with
+            the school’s information here.
           </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('eightKeys')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('eightKeys')}
+        >
           <h3>8 Keys to Veteran Success</h3>
           <p>
-            The “8 Keys to Veterans’ Success” are steps that postsecondary institutions can take to
-            assist Veterans and Service members in transitioning to higher education, completing
-            their college programs, and obtaining career-ready skills.
+            The “8 Keys to Veterans’ Success” are steps that postsecondary
+            institutions can take to assist Veterans and Service members in
+            transitioning to higher education, completing their college
+            programs, and obtaining career-ready skills.
           </p>
           <p>
-            Postsecondary institutions listed here have stated their support for the 8 Keys.
-            However, this isn’t an assurance by the U.S. Department of Education that an institution
-            has actually implemented the 8 Keys. It also doesn’t mean that these institutions are
-            endorsed by the U.S. Department of Education.
+            Postsecondary institutions listed here have stated their support for
+            the 8 Keys. However, this isn’t an assurance by the U.S. Department
+            of Education that an institution has actually implemented the 8
+            Keys. It also doesn’t mean that these institutions are endorsed by
+            the U.S. Department of Education.
           </p>
           <p>
-            To learn more about accreditation, visit the U.S. Department of Education’s <a
+            To learn more about accreditation, visit the U.S. Department of
+            Education’s{' '}
+            <a
               href="http://www.ed.gov/veterans-and-military-families/8-keys-success-sites"
-              target="_blank">8 Keys to Veterans’ Success</a> page.
+              target="_blank"
+            >
+              8 Keys to Veterans’ Success
+            </a>{' '}
+            page.
           </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('vsoc')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('vsoc')}
+        >
           <h3>VetSuccess on Campus (VSOC)</h3>
           <p>
-            This program supports Servicemembers, Veterans, and qualified dependents through on-campus counseling and help overcoming barriers—like accommodating disabilities or getting referrals to health services. It's designed to help you succeed at school and get ready to enter the job market in a promising career field.
+            This program supports Servicemembers, Veterans, and qualified
+            dependents through on-campus counseling and help overcoming
+            barriers—like accommodating disabilities or getting referrals to
+            health services. It's designed to help you succeed at school and get
+            ready to enter the job market in a promising career field.
           </p>
           <p>
-            <a href="http://www.benefits.va.gov/vocrehab/vsocfactsheet.asp" target="_blank">
+            <a
+              href="http://www.benefits.va.gov/vocrehab/vsocfactsheet.asp"
+              target="_blank"
+            >
               Download the VSOC fact sheet.
             </a>
           </p>
           <p>
-            <a href="http://www.benefits.va.gov/vocrehab/vsoc.asp" target="_blank">
+            <a
+              href="http://www.benefits.va.gov/vocrehab/vsoc.asp"
+              target="_blank"
+            >
               Learn more about the VSOC program.
             </a>
           </p>
@@ -213,35 +335,120 @@ export class Modals extends React.Component {
   renderProfileSummaryModals() {
     return (
       <span>
-
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('accredited')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('accredited')}
+        >
           <h3>Is your school accredited</h3>
-          <p>Accreditation matters if you plan to start school at one institution and transfer to another to complete your degree. Be sure to ask any potential school about their credit transfer policy. The U.S. Department of Education (ED) maintains a&nbsp;<a href="http://ope.ed.gov/accreditation/" id="anch_384" target="_blank">database</a>&nbsp;of accredited postsecondary institutions and programs. Accreditation is a recognized credential for schools and some programs. As stated by the ED, the goal of accreditation is to ensure that the education provided by institutions of higher education meets acceptable levels of quality.</p>
-          <p>To learn more about accreditation, visit the <a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation" target="_blank"> about this tool</a> page. </p>
+          <p>
+            Accreditation matters if you plan to start school at one institution
+            and transfer to another to complete your degree. Be sure to ask any
+            potential school about their credit transfer policy. The U.S.
+            Department of Education (ED) maintains a&nbsp;
+            <a
+              href="http://ope.ed.gov/accreditation/"
+              id="anch_384"
+              target="_blank"
+            >
+              database
+            </a>
+            &nbsp;of accredited postsecondary institutions and programs.
+            Accreditation is a recognized credential for schools and some
+            programs. As stated by the ED, the goal of accreditation is to
+            ensure that the education provided by institutions of higher
+            education meets acceptable levels of quality.
+          </p>
+          <p>
+            To learn more about accreditation, visit the{' '}
+            <a
+              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation"
+              target="_blank"
+            >
+              {' '}
+              about this tool
+            </a>{' '}
+            page.{' '}
+          </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('typeAccredited')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('typeAccredited')}
+        >
           <h3>Accreditation types (Regional vs. National vs. Hybrid)</h3>
-          <p>Is the school regionally or nationally accredited at the institution level?</p>
-          <p>Schools are accredited by private educational associations of regional or national scope. While the Department of Education does not say whether regional or national accreditation is better, a recent ED study revealed that, “Nearly 90 percent of all student credit transfer opportunities occurred between institutions that were regionally, rather than nationally, accredited.” <a href="http://nces.ed.gov/pubs2014/2014163.pdf" id="anch_386">http://nces.ed.gov/pubs2014/2014163.pdf</a></p>
-          <p>To learn more about accreditation types, visit the <a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation_type" target="_blank"> about this tool</a> page. </p>
+          <p>
+            Is the school regionally or nationally accredited at the institution
+            level?
+          </p>
+          <p>
+            Schools are accredited by private educational associations of
+            regional or national scope. While the Department of Education does
+            not say whether regional or national accreditation is better, a
+            recent ED study revealed that, “Nearly 90 percent of all student
+            credit transfer opportunities occurred between institutions that
+            were regionally, rather than nationally, accredited.”{' '}
+            <a href="http://nces.ed.gov/pubs2014/2014163.pdf" id="anch_386">
+              http://nces.ed.gov/pubs2014/2014163.pdf
+            </a>
+          </p>
+          <p>
+            To learn more about accreditation types, visit the{' '}
+            <a
+              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation_type"
+              target="_blank"
+            >
+              {' '}
+              about this tool
+            </a>{' '}
+            page.{' '}
+          </p>
         </Modal>
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('singleContact')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('singleContact')}
+        >
           <h3>Single Point of Contact For Veterans</h3>
-          <p>Does the school have a dedicated point of contact for support services for veterans, military servicemembers, and their families?</p>
+          <p>
+            Does the school have a dedicated point of contact for support
+            services for veterans, military servicemembers, and their families?
+          </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('creditTraining')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('creditTraining')}
+        >
           <h3>Credit for Military Training</h3>
-          <p>Does the school offer postsecondary credit for experiences and military training?</p>
+          <p>
+            Does the school offer postsecondary credit for experiences and
+            military training?
+          </p>
         </Modal>
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('stemOffered')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('stemOffered')}
+        >
           <h3>STEM</h3>
-          <p>VA will provide up to 9 months of additional Post-9/11 GI Bill benefits if you're eligible and enrolled in a Science, Technology, Engineering, or Math educational program.</p>
+          <p>
+            VA will provide up to 9 months of additional Post-9/11 GI Bill
+            benefits if you're eligible and enrolled in a Science, Technology,
+            Engineering, or Math educational program.
+          </p>
         </Modal>
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('iStudy')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('iStudy')}
+        >
           <h3>Independent Study</h3>
-          <p>Beneficiaries may use educational assistance to access online learning (accredited independent study) at schools that aren’t Institutions of Higher Learning (IHLs). These schools must be postsecondary vocational institutions or area career and technical education schools that provide postsecondary level education. <strong>Note:</strong> This change doesn’t apply to Dependents’ Educational Assistance program beneficiaries.</p>
+          <p>
+            Beneficiaries may use educational assistance to access online
+            learning (accredited independent study) at schools that aren’t
+            Institutions of Higher Learning (IHLs). These schools must be
+            postsecondary vocational institutions or area career and technical
+            education schools that provide postsecondary level education.{' '}
+            <strong>Note:</strong> This change doesn’t apply to Dependents’
+            Educational Assistance program beneficiaries.
+          </p>
         </Modal>
       </span>
     );
@@ -250,19 +457,38 @@ export class Modals extends React.Component {
   renderProfileHistoryModals() {
     return (
       <span>
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('facilityCode')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('facilityCode')}
+        >
           <h3>VA Facility Code</h3>
           <p>Unique identifier for VA approved facilities.</p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('ipedsCode')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('ipedsCode')}
+        >
           <h3>ED IPEDS Code</h3>
-          <p>Unique identification number assigned to postsecondary institutions surveyed through the Integrated Postsecondary Education Data System (IPEDS). Also referred to as UNITID or IPEDS ID.</p>
+          <p>
+            Unique identification number assigned to postsecondary institutions
+            surveyed through the Integrated Postsecondary Education Data System
+            (IPEDS). Also referred to as UNITID or IPEDS ID.
+          </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('opeCode')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('opeCode')}
+        >
           <h3>ED OPE Code</h3>
-          <p>Identification number used by the U.S. Department of {'Education’s'} Office of Postsecondary Education (OPE) to identify schools that have Program Participation Agreements (PPA) so that its students are eligible to participate in Federal Student Financial Assistance programs under Title IV regulations.</p>
+          <p>
+            Identification number used by the U.S. Department of {'Education’s'}{' '}
+            Office of Postsecondary Education (OPE) to identify schools that
+            have Program Participation Agreements (PPA) so that its students are
+            eligible to participate in Federal Student Financial Assistance
+            programs under Title IV regulations.
+          </p>
         </Modal>
       </span>
     );
@@ -271,27 +497,89 @@ export class Modals extends React.Component {
   renderProfileCautionFlagModals() {
     return (
       <span>
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('cautionInfo')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('cautionInfo')}
+        >
           <h3>Learn more about these warnings</h3>
           <p>
-            These are indicators VA has determined potential students should pay attention to and
-            consider before enrolling in this program. A caution flag means VA or other federal
-            agencies like the Department of Education or Department of Defense have applied
-            increased regulatory or legal scrutiny to this program. VA will display other categories
-            of caution flags in future versions of the GI Bill Comparison Tool.
+            These are indicators VA has determined potential students should pay
+            attention to and consider before enrolling in this program. A
+            caution flag means VA or other federal agencies like the Department
+            of Education or Department of Defense have applied increased
+            regulatory or legal scrutiny to this program. VA will display other
+            categories of caution flags in future versions of the GI Bill
+            Comparison Tool.
           </p>
-          <p><a href="https://studentaid.ed.gov/sa/about/data-center/school/hcm" target="_blank">Heightened Cash Monitoring</a></p>
-          <p><a href="http://ope.ed.gov/accreditation/" target="_blank">Accreditation</a></p>
-          <p><a href="https://www.dodmou.com/Home/Faq" target="_blank">DoD Probation For Military Tuition Assistance</a></p>
-          <p><a href="https://www.ftc.gov/news-events/press-releases/2016/01/ftc-brings-enforcement-action-against-devry-university" target="_blank">Federal Trade Commission Filed Suit for Deceptive Advertising</a></p>
-          <p><a href="http://www.justice.gov/opa/pr/profit-college-company-pay-955-million-settle-claims-illegal-recruiting-consumer-fraud-and" target="_blank">Settlement reached with the Federal Trade Commission (FTC)</a></p>
-          <p><a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution" target="_blank">Suspended for 85/15 violation – Flight Program</a></p>
-          <p><a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution" target="_blank">Denial of Recertification Application to Participate in the Federal Student Financial Assistance Programs</a></p>
-          <p><a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#ACICS" target="_blank">School operating under provisional accreditation (previously accredited by ACICS)</a></p>
           <p>
-            To learn more, visit the "Caution Flag" section of the <a
+            <a
+              href="https://studentaid.ed.gov/sa/about/data-center/school/hcm"
+              target="_blank"
+            >
+              Heightened Cash Monitoring
+            </a>
+          </p>
+          <p>
+            <a href="http://ope.ed.gov/accreditation/" target="_blank">
+              Accreditation
+            </a>
+          </p>
+          <p>
+            <a href="https://www.dodmou.com/Home/Faq" target="_blank">
+              DoD Probation For Military Tuition Assistance
+            </a>
+          </p>
+          <p>
+            <a
+              href="https://www.ftc.gov/news-events/press-releases/2016/01/ftc-brings-enforcement-action-against-devry-university"
+              target="_blank"
+            >
+              Federal Trade Commission Filed Suit for Deceptive Advertising
+            </a>
+          </p>
+          <p>
+            <a
+              href="http://www.justice.gov/opa/pr/profit-college-company-pay-955-million-settle-claims-illegal-recruiting-consumer-fraud-and"
+              target="_blank"
+            >
+              Settlement reached with the Federal Trade Commission (FTC)
+            </a>
+          </p>
+          <p>
+            <a
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
-              target="_blank">"About this Tool"</a> page.
+              target="_blank"
+            >
+              Suspended for 85/15 violation – Flight Program
+            </a>
+          </p>
+          <p>
+            <a
+              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
+              target="_blank"
+            >
+              Denial of Recertification Application to Participate in the
+              Federal Student Financial Assistance Programs
+            </a>
+          </p>
+          <p>
+            <a
+              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#ACICS"
+              target="_blank"
+            >
+              School operating under provisional accreditation (previously
+              accredited by ACICS)
+            </a>
+          </p>
+          <p>
+            To learn more, visit the "Caution Flag" section of the{' '}
+            <a
+              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution"
+              target="_blank"
+            >
+              "About this Tool"
+            </a>{' '}
+            page.
           </p>
         </Modal>
       </span>
@@ -301,115 +589,277 @@ export class Modals extends React.Component {
   renderProfileCalculatorModals() {
     return (
       <span>
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcTuition')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('calcTuition')}
+        >
           <h3>Tuition and fees per year</h3>
-          <p>Enter the total tuition/fees you will be charged for the academic year.</p>
-          <p>When you select some schools, we import the average tuition/fees for an undergraduate student as reported by the school to the Department of Education through <a href="http://nces.ed.gov/ipeds/datacenter/" id="anch_442" target="blank">IPEDS</a>. This is the same information that is published on <a href="http://nces.ed.gov/collegenavigator/" id="anch_443" target="blank">College Navigator</a>.</p>
-          <p>To learn more, please review our "<a href={'http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#yellow_ribbon_from_school'} target="_blank">About This Tool</a>" page.</p>
+          <p>
+            Enter the total tuition/fees you will be charged for the academic
+            year.
+          </p>
+          <p>
+            When you select some schools, we import the average tuition/fees for
+            an undergraduate student as reported by the school to the Department
+            of Education through{' '}
+            <a
+              href="http://nces.ed.gov/ipeds/datacenter/"
+              id="anch_442"
+              target="blank"
+            >
+              IPEDS
+            </a>
+            . This is the same information that is published on{' '}
+            <a
+              href="http://nces.ed.gov/collegenavigator/"
+              id="anch_443"
+              target="blank"
+            >
+              College Navigator
+            </a>
+            .
+          </p>
+          <p>
+            To learn more, please review our "
+            <a
+              href={
+                'http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#yellow_ribbon_from_school'
+              }
+              target="_blank"
+            >
+              About This Tool
+            </a>
+            " page.
+          </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcInStateTuition')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('calcInStateTuition')}
+        >
           <h3>In-state tuition and fees per year</h3>
-          <p>Enter the amount of tuition/fees your school charges in-state students.</p>
-          <p>When you select some schools, we import the average in-state tuition/fees for an undergraduate student as reported by the school to the Department of Education through IPEDS. This is the same information that is published on College Navigator.</p>
-          <p>Generally, in-state residents are charged a discounted rate of tuition and fees. VA pays the in-state tuition & fee rate at public schools. <a href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch33#TUITION" target="_blank">Click here for more information.</a></p>
+          <p>
+            Enter the amount of tuition/fees your school charges in-state
+            students.
+          </p>
+          <p>
+            When you select some schools, we import the average in-state
+            tuition/fees for an undergraduate student as reported by the school
+            to the Department of Education through IPEDS. This is the same
+            information that is published on College Navigator.
+          </p>
+          <p>
+            Generally, in-state residents are charged a discounted rate of
+            tuition and fees. VA pays the in-state tuition & fee rate at public
+            schools.{' '}
+            <a
+              href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch33#TUITION"
+              target="_blank"
+            >
+              Click here for more information.
+            </a>
+          </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcYr')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('calcYr')}
+        >
           <h3>Yellow Ribbon</h3>
           <p>
-            The Post-9/11 GI Bill can cover all in-state tuition and fees at public degree granting
-            schools, but may not cover all private degree granting schools and out-of-state tuition.
-            The Yellow Ribbon Program provides additional support in those situations. Institutions
-            voluntarily enter into an agreement with VA to fund uncovered charges. VA matches each
-            dollar of unmet charges that the institution agrees to contribute, up to the total cost
-            of the tuition and fees. For Frequently Asked Questions about the Yellow Ribbon Program,
-            visit <a title="Click here for FAQs about the Yellow Ribbon Program"
+            The Post-9/11 GI Bill can cover all in-state tuition and fees at
+            public degree granting schools, but may not cover all private degree
+            granting schools and out-of-state tuition. The Yellow Ribbon Program
+            provides additional support in those situations. Institutions
+            voluntarily enter into an agreement with VA to fund uncovered
+            charges. VA matches each dollar of unmet charges that the
+            institution agrees to contribute, up to the total cost of the
+            tuition and fees. For Frequently Asked Questions about the Yellow
+            Ribbon Program, visit{' '}
+            <a
+              title="Click here for FAQs about the Yellow Ribbon Program"
               href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf"
-              target="_blank">this page.</a>
+              target="_blank"
+            >
+              this page.
+            </a>
           </p>
           <p>
-            Veterans and Fry Scholarship and Purple Heart recipients are entitled to the maximum benefit rate or their designated transferees can receive this funding. Active duty Servicemembers and their spouses are not eligible for this program (child transferees of active duty Servicemembers may be eligible if the servicemember is qualified at the 100% rate). This information will be updated quarterly.
+            Veterans and Fry Scholarship and Purple Heart recipients are
+            entitled to the maximum benefit rate or their designated transferees
+            can receive this funding. Active duty Servicemembers and their
+            spouses are not eligible for this program (child transferees of
+            active duty Servicemembers may be eligible if the servicemember is
+            qualified at the 100% rate). This information will be updated
+            quarterly.
           </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('whenUsedGiBill')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('whenUsedGiBill')}
+        >
           <h3>When you used GI Bill before?</h3>
-          <p>Effective August 1, 2018, the monthly housing under the Post-9/11 GI Bill program will be calculated based on the zip code of the “campus” where the student physically attends the majority of classes, rather than the location of the school where the student is enrolled. A campus may include:</p>
+          <p>
+            Effective August 1, 2018, the monthly housing under the Post-9/11 GI
+            Bill program will be calculated based on the zip code of the
+            “campus” where the student physically attends the majority of
+            classes, rather than the location of the school where the student is
+            enrolled. A campus may include:
+          </p>
           <ul>
-            <li>The individual campus of a school where the student is taking classes (i.e. the school’s science center, humanities building, or athletic center)</li>
-            <li>The physical location where a student is learning in a study abroad program</li>
-            <li>Any internship, externship, practicum or student teaching site</li>
+            <li>
+              The individual campus of a school where the student is taking
+              classes (i.e. the school’s science center, humanities building, or
+              athletic center)
+            </li>
+            <li>
+              The physical location where a student is learning in a study
+              abroad program
+            </li>
+            <li>
+              Any internship, externship, practicum or student teaching site
+            </li>
           </ul>
 
-          <p>Those who first use Post-9/11 GI Bill on or after January 1, 2018, will receive a monthly housing allowance based directly on the Department of Defense basic housing allowance (BAH) for monthly housing rates.</p>
+          <p>
+            Those who first use Post-9/11 GI Bill on or after January 1, 2018,
+            will receive a monthly housing allowance based directly on the
+            Department of Defense basic housing allowance (BAH) for monthly
+            housing rates.
+          </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcScholarships')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('calcScholarships')}
+        >
           <h3>Scholarships (excluding Pell)</h3>
           <p>
-            Are you receiving any scholarships or grants that go directly to pay tution/fees this
-            year? If so, add that number here.
+            Are you receiving any scholarships or grants that go directly to pay
+            tution/fees this year? If so, add that number here.
           </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcTuitionAssist')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('calcTuitionAssist')}
+        >
           <h3>Military Tuition Assistance (TA)</h3>
           <p>
-            Are you receiving any military tuition assistance this year? If so, how much?
+            Are you receiving any military tuition assistance this year? If so,
+            how much?
           </p>
           <p>
-            The Post-9/11 GI Bill pays the net-cost of your education after scholarships or financial aid amounts are applied. This includes amounts already paid by military tuition assistance.
+            The Post-9/11 GI Bill pays the net-cost of your education after
+            scholarships or financial aid amounts are applied. This includes
+            amounts already paid by military tuition assistance.
           </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcEnrolled')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('calcEnrolled')}
+        >
           <h3>Enrollment status</h3>
           <p>
-            Are you considered a full-time or part-time student by your school? Students attending
-            school less than full-time will get a pro-rated monthly housing allowance. Students
-            attending school exactly ½ time or less won’t get a monthly housing allowance.
+            Are you considered a full-time or part-time student by your school?
+            Students attending school less than full-time will get a pro-rated
+            monthly housing allowance. Students attending school exactly ½ time
+            or less won’t get a monthly housing allowance.
           </p>
           <p>
-            For more information about MHA increases or decreases,
-            visit <a title="For more information about MHA increases or decreases click here"
+            For more information about MHA increases or decreases, visit{' '}
+            <a
+              title="For more information about MHA increases or decreases click here"
               href="https://gibill.custhelp.com/app/answers/detail/a_id/1412"
-              target="_blank">this page</a>.
+              target="_blank"
+            >
+              this page
+            </a>
+            .
           </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcSchoolCalendar')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('calcSchoolCalendar')}
+        >
           <h3>School calendar</h3>
-          <p>Is your school on a semester, quarter, or non-traditional calendar system?</p>
+          <p>
+            Is your school on a semester, quarter, or non-traditional calendar
+            system?
+          </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcKicker')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('calcKicker')}
+        >
           <h3>Eligible for kicker bonus?</h3>
           <p>
-            A kicker bonus or college fund is an additional incentive, paid for by the Department of
-            Defense, to extend a tour of duty or retain highly skilled military personnel. The money
-            is a bonus on top of any GI Bill payments paid directly to the Veteran. To learn more,
-            visit <a href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
-              target="_blank">this page</a>.</p>
+            A kicker bonus or college fund is an additional incentive, paid for
+            by the Department of Defense, to extend a tour of duty or retain
+            highly skilled military personnel. The money is a bonus on top of
+            any GI Bill payments paid directly to the Veteran. To learn more,
+            visit{' '}
+            <a
+              href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
+              target="_blank"
+            >
+              this page
+            </a>
+            .
+          </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcCampusLocationQuestion')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('calcCampusLocationQuestion')}
+        >
           <h3>Housing Allowance/BAH changes</h3>
-          <p>Starting August 1, 2018, we'll determine the monthly housing allowance under the Post-9/11 GI Bill based on the zip code of the campus where you physically attend the majority of your classes. The location of the school where you're enrolled won't be relevant.</p>
+          <p>
+            Starting August 1, 2018, we'll determine the monthly housing
+            allowance under the Post-9/11 GI Bill based on the zip code of the
+            campus where you physically attend the majority of your classes. The
+            location of the school where you're enrolled won't be relevant.
+          </p>
 
-          <p><strong>We define "campus" as any of these locations:</strong></p>
+          <p>
+            <strong>We define "campus" as any of these locations:</strong>
+          </p>
           <ul>
-            <li>The specific campus of a school where you're taking classes (for example, in the school’s science center, humanities building, or athletic center)</li>
-            <li>The physical location where you're learning in a study-abroad program</li>
-            <li>The site of any internship, externship, practicum, or student teaching</li>
+            <li>
+              The specific campus of a school where you're taking classes (for
+              example, in the school’s science center, humanities building, or
+              athletic center)
+            </li>
+            <li>
+              The physical location where you're learning in a study-abroad
+              program
+            </li>
+            <li>
+              The site of any internship, externship, practicum, or student
+              teaching
+            </li>
           </ul>
-          <p>If you first use the Post-9/11 GI Bill on or after January 1, 2018, you'll receive a monthly housing allowance based directly on the Department of Defense Basic Allowance for Housing (BAH).</p>
+          <p>
+            If you first use the Post-9/11 GI Bill on or after January 1, 2018,
+            you'll receive a monthly housing allowance based directly on the
+            Department of Defense Basic Allowance for Housing (BAH).
+          </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcWorking')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('calcWorking')}
+        >
           <h3>Will be working</h3>
           <p>
-            How many hours per week will you be working on your OJT / Apprenticeship? Beneficiaries working less than 120 hours/month (or approximately 30 hours/week) receive a prorated monthly housing allowance.
+            How many hours per week will you be working on your OJT /
+            Apprenticeship? Beneficiaries working less than 120 hours/month (or
+            approximately 30 hours/week) receive a prorated monthly housing
+            allowance.
           </p>
         </Modal>
       </span>
@@ -419,66 +869,108 @@ export class Modals extends React.Component {
   renderLandingPageModals() {
     return (
       <span>
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('giBillChapter')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('giBillChapter')}
+        >
           <h3>Which GI Bill benefit do you want to use?</h3>
           <p>
-            You may be eligible for multiple types of education and training programs. Different
-            programs offer different benefits, so it’s important to choose the program that will
-            best meet your needs. Use this tool to compare programs and schools.
+            You may be eligible for multiple types of education and training
+            programs. Different programs offer different benefits, so it’s
+            important to choose the program that will best meet your needs. Use
+            this tool to compare programs and schools.
           </p>
           <p>
-            For detailed information on eligibility requirements and general program benefits,
-            visit <a href="http://www.benefits.va.gov/gibill/comparison_tool.asp" target="_blank">
-            this page</a>.
+            For detailed information on eligibility requirements and general
+            program benefits, visit{' '}
+            <a
+              href="http://www.benefits.va.gov/gibill/comparison_tool.asp"
+              target="_blank"
+            >
+              this page
+            </a>
+            .
           </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('cumulativeService')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('cumulativeService')}
+        >
           <h3>Cumulative Post-9/11 Service</h3>
           <p>
-            The <a title="Post-9/11 GI Bill" href="../post911_gibill.asp" id="anch_375">
-            Post-9/11 GI Bill</a> provides financial support for education and a housing allowance.
-            To qualify for this program, you must have served after September 10, 2001 for at least
-            90 days or, if you were discharged with a service-connected disability, for at least 30
-            days. You also need to have received an honorable discharge.
+            The{' '}
+            <a
+              title="Post-9/11 GI Bill"
+              href="../post911_gibill.asp"
+              id="anch_375"
+            >
+              Post-9/11 GI Bill
+            </a>{' '}
+            provides financial support for education and a housing allowance. To
+            qualify for this program, you must have served after September 10,
+            2001 for at least 90 days or, if you were discharged with a
+            service-connected disability, for at least 30 days. You also need to
+            have received an honorable discharge.
           </p>
           <p>
-            For detailed information about Cumulative Post-9/11 Service, visit <a href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#cumulativeservice" target="_blank">this page</a>.
+            For detailed information about Cumulative Post-9/11 Service, visit{' '}
+            <a
+              href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#cumulativeservice"
+              target="_blank"
+            >
+              this page
+            </a>
+            .
           </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('enlistmentService')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('enlistmentService')}
+        >
           <h3>Completed an enlistment of (MGIB):</h3>
           <p>
-            The Montgomery GI Bill – Active Duty provides education benefits
-            to Veterans and Servicemembers who have served at least two years
-            of active duty. When using this tool, you will need to select the
+            The Montgomery GI Bill – Active Duty provides education benefits to
+            Veterans and Servicemembers who have served at least two years of
+            active duty. When using this tool, you will need to select the
             length of your original active duty enlistment obligation in order
             to get an estimate of your monthly benefit. The amount of time you
             served (2 year enlistment vs. 3+ year enlistment) will impact your
             monthly payment amount when using the Montgomery GI Bill. To learn
-            more about MGIB please visit
-            &nbsp;<a href="http://www.benefits.va.gov/gibill/mgib_ad.asp"
-              id="anch_399" target="_blank">
+            more about MGIB please visit &nbsp;
+            <a
+              href="http://www.benefits.va.gov/gibill/mgib_ad.asp"
+              id="anch_399"
+              target="_blank"
+            >
               http://www.benefits.va.gov/gibill/mgib_ad.asp
-            </a>.
+            </a>
+            .
           </p>
         </Modal>
 
-        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('consecutiveService')}>
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('consecutiveService')}
+        >
           <h3>Length of Longest Active Duty Tour (REAP)</h3>
           <p>
             The REAP program pays benefits to eligible Reservists or Guard
             members who were called or ordered to active duty for at least 90
-            consecutive days in response to a war or national emergency
-            declared by the President or Congress. REAP payment amounts are
-            based on length of consecutive days of active duty service with
-            rates increasing at one year and again at two years of consecutive
-            service. To learn more about REAP please visit
-            &nbsp;<a href="https://www.benefits.va.gov/gibill/reap.asp"
-              id="anch_403" target="_blank">
+            consecutive days in response to a war or national emergency declared
+            by the President or Congress. REAP payment amounts are based on
+            length of consecutive days of active duty service with rates
+            increasing at one year and again at two years of consecutive
+            service. To learn more about REAP please visit &nbsp;
+            <a
+              href="https://www.benefits.va.gov/gibill/reap.asp"
+              id="anch_403"
+              target="_blank"
+            >
               https://www.benefits.va.gov/gibill/reap.asp
-            </a>.
+            </a>
+            .
           </p>
         </Modal>
       </span>
@@ -501,17 +993,17 @@ export class Modals extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => {
-  return {
-    showModal: (name) => {
-      dispatch(actions.showModal(name));
-    },
-    hideModal: () => {
-      dispatch(actions.showModal(null));
-    }
-  };
-};
+const mapStateToProps = state => state;
+const mapDispatchToProps = dispatch => ({
+  showModal: name => {
+    dispatch(actions.showModal(name));
+  },
+  hideModal: () => {
+    dispatch(actions.showModal(null));
+  },
+});
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Modals);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Modals);

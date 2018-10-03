@@ -9,16 +9,16 @@ describe('HCA migrations', () => {
     it('should remove hispanic property and add in view: object', () => {
       const data = {
         formData: {
-          isSpanishHispanicLatino: false
-        }
+          isSpanishHispanicLatino: false,
+        },
       };
 
       expect(migrations[0](data)).to.eql({
         formData: {
           'view:demographicCategories': {
-            isSpanishHispanicLatino: false
-          }
-        }
+            isSpanishHispanicLatino: false,
+          },
+        },
       });
     });
     it('should not remove existing hispanic choice', () => {
@@ -26,17 +26,17 @@ describe('HCA migrations', () => {
         formData: {
           isSpanishHispanicLatino: false,
           'view:demographicCategories': {
-            isSpanishHispanicLatino: true
-          }
-        }
+            isSpanishHispanicLatino: true,
+          },
+        },
       };
 
       expect(migrations[0](data)).to.eql({
         formData: {
           'view:demographicCategories': {
-            isSpanishHispanicLatino: true
-          }
-        }
+            isSpanishHispanicLatino: true,
+          },
+        },
       });
     });
   });
@@ -45,46 +45,52 @@ describe('HCA migrations', () => {
     it('should convert report children field', () => {
       const data = {
         formData: {
-          'view:reportChildren': false
-        }
+          'view:reportChildren': false,
+        },
       };
 
       expect(migration(data).formData).to.eql({
-        'view:reportDependents': data.formData['view:reportChildren']
+        'view:reportDependents': data.formData['view:reportChildren'],
       });
     });
     it('should change name of empty children array', () => {
       const data = {
         formData: {
-          children: []
-        }
+          children: [],
+        },
       };
 
       expect(migration(data).formData).to.eql({
-        dependents: []
+        dependents: [],
       });
     });
     it('should change field names inside children items', () => {
       const data = {
         formData: {
-          children: [{
-            childFullName: 'test',
-            childRelation: 'Son',
-            childEducationExpenses: 34,
-            income: 2,
-            'view:childSupportDescription': {}
-          }]
-        }
+          children: [
+            {
+              childFullName: 'test',
+              childRelation: 'Son',
+              childEducationExpenses: 34,
+              income: 2,
+              'view:childSupportDescription': {},
+            },
+          ],
+        },
       };
 
       expect(migration(data).formData).to.eql({
-        dependents: [{
-          fullName: data.formData.children[0].childFullName,
-          dependentRelation: data.formData.children[0].childRelation,
-          dependentEducationExpenses: data.formData.children[0].childEducationExpenses,
-          income: data.formData.children[0].income,
-          'view:dependentSupportDescription': data.formData.children[0]['view:childSupportDescription']
-        }]
+        dependents: [
+          {
+            fullName: data.formData.children[0].childFullName,
+            dependentRelation: data.formData.children[0].childRelation,
+            dependentEducationExpenses:
+              data.formData.children[0].childEducationExpenses,
+            income: data.formData.children[0].income,
+            'view:dependentSupportDescription':
+              data.formData.children[0]['view:childSupportDescription'],
+          },
+        ],
       });
     });
   });
@@ -93,25 +99,27 @@ describe('HCA migrations', () => {
     it('should update url when it matches', () => {
       const data = {
         formData: {
-          'view:reportChildren': false
+          'view:reportChildren': false,
         },
         metadata: {
-          returnUrl: '/household-information/child-information'
-        }
+          returnUrl: '/household-information/child-information',
+        },
       };
 
       const { formData, metadata } = migration(data);
-      expect(metadata.returnUrl).to.equal('/household-information/dependent-information');
+      expect(metadata.returnUrl).to.equal(
+        '/household-information/dependent-information',
+      );
       expect(formData).to.equal(data.formData);
     });
     it('should leave url alone when it does not match', () => {
       const data = {
         formData: {
-          'view:reportChildren': false
+          'view:reportChildren': false,
         },
         metadata: {
-          returnUrl: '/household-information/spouse-information'
-        }
+          returnUrl: '/household-information/spouse-information',
+        },
       };
 
       const { formData, metadata } = migration(data);
@@ -123,11 +131,10 @@ describe('HCA migrations', () => {
     const migration = migrations[3];
     it('should leave data alone if not set', () => {
       const data = {
-        formData: {
-        },
+        formData: {},
         metadata: {
-          returnUrl: '/household-information/spouse-information'
-        }
+          returnUrl: '/household-information/spouse-information',
+        },
       };
 
       const { formData, metadata } = migration(data);
@@ -139,11 +146,11 @@ describe('HCA migrations', () => {
         formData: {
           compensableVaServiceConnected: false,
           receivesVaPension: false,
-          isVaServiceConnected: false
+          isVaServiceConnected: false,
         },
         metadata: {
-          returnUrl: '/household-information/spouse-information'
-        }
+          returnUrl: '/household-information/spouse-information',
+        },
       };
 
       const { formData, metadata } = migration(data);
@@ -158,11 +165,11 @@ describe('HCA migrations', () => {
         formData: {
           compensableVaServiceConnected: false,
           receivesVaPension: false,
-          isVaServiceConnected: true
+          isVaServiceConnected: true,
         },
         metadata: {
-          returnUrl: '/household-information/spouse-information'
-        }
+          returnUrl: '/household-information/spouse-information',
+        },
       };
 
       const { formData, metadata } = migration(data);
@@ -177,11 +184,11 @@ describe('HCA migrations', () => {
         formData: {
           compensableVaServiceConnected: true,
           receivesVaPension: false,
-          isVaServiceConnected: false
+          isVaServiceConnected: false,
         },
         metadata: {
-          returnUrl: '/household-information/spouse-information'
-        }
+          returnUrl: '/household-information/spouse-information',
+        },
       };
 
       const { formData, metadata } = migration(data);
@@ -196,11 +203,11 @@ describe('HCA migrations', () => {
         formData: {
           compensableVaServiceConnected: false,
           receivesVaPension: true,
-          isVaServiceConnected: false
+          isVaServiceConnected: false,
         },
         metadata: {
-          returnUrl: '/household-information/spouse-information'
-        }
+          returnUrl: '/household-information/spouse-information',
+        },
       };
 
       const { formData, metadata } = migration(data);
@@ -215,11 +222,11 @@ describe('HCA migrations', () => {
         formData: {
           compensableVaServiceConnected: true,
           receivesVaPension: true,
-          isVaServiceConnected: false
+          isVaServiceConnected: false,
         },
         metadata: {
-          returnUrl: '/household-information/spouse-information'
-        }
+          returnUrl: '/household-information/spouse-information',
+        },
       };
 
       const { formData, metadata } = migration(data);
@@ -234,16 +241,18 @@ describe('HCA migrations', () => {
         formData: {
           compensableVaServiceConnected: true,
           receivesVaPension: true,
-          isVaServiceConnected: false
+          isVaServiceConnected: false,
         },
         metadata: {
           prefill: true,
-          returnUrl: '/household-information/spouse-information'
-        }
+          returnUrl: '/household-information/spouse-information',
+        },
       };
 
       const { metadata } = migration(data);
-      expect(metadata.returnUrl).to.equal('/household-information/spouse-information');
+      expect(metadata.returnUrl).to.equal(
+        '/household-information/spouse-information',
+      );
     });
   });
   describe('fifth migration', () => {
@@ -253,13 +262,13 @@ describe('HCA migrations', () => {
         formData: {
           veteranFullName: {
             first: '   ',
-            last: ' '
+            last: ' ',
           },
           veteranAddress: {
             street: '                    ',
-            city: ' '
-          }
-        }
+            city: ' ',
+          },
+        },
       };
 
       const { formData } = migration(data);
@@ -271,28 +280,32 @@ describe('HCA migrations', () => {
         formData: {
           veteranAddress: {
             street: '                    ',
-            city: ' '
-          }
-        }
+            city: ' ',
+          },
+        },
       };
 
       const { formData, metadata } = migration(data);
       expect(formData.veteranAddress).to.eql({});
-      expect(metadata.returnUrl).to.equal('veteran-information/veteran-address');
+      expect(metadata.returnUrl).to.equal(
+        'veteran-information/veteran-address',
+      );
     });
     it('set the return URL to veteran information when veteranFullName updated', () => {
       const data = {
         formData: {
           veteranFullName: {
             first: '   ',
-            last: ' '
-          }
-        }
+            last: ' ',
+          },
+        },
       };
 
       const { formData, metadata } = migration(data);
       expect(formData.veteranFullName).to.eql({});
-      expect(metadata.returnUrl).to.equal('veteran-information/personal-information');
+      expect(metadata.returnUrl).to.equal(
+        'veteran-information/personal-information',
+      );
     });
   });
   describe('sixth migration', () => {
@@ -303,14 +316,14 @@ describe('HCA migrations', () => {
           providers: [
             {
               insuranceGroupCode: '    ',
-              insurancePolicyNumber: ' '
+              insurancePolicyNumber: ' ',
             },
             {
               insuranceGroupCode: '   t',
-              insurancePolicyNumber: ' '
-            }
-          ]
-        }
+              insurancePolicyNumber: ' ',
+            },
+          ],
+        },
       };
 
       const { formData } = migration(data);

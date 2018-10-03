@@ -20,22 +20,15 @@ Our online tools can help you view, organize, and share your VA medical records 
 
 ## VA Blue Button
 
-<div class="va-sign-in-alert usa-alert usa-alert-info">
-  <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You’ll need to sign in before you can get your medical records online through VA Blue Button.</h4>
-    <p class="usa-alert-text">
-      <button class="usa-button-primary">Sign In or Create an Account</button>
-    </p>
-  </div>
-</div>
+<div class="cta-widget" data-app-id="health-records"></div>
 
 ## The Veterans Health Information Exchange
 
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You'll need to go to eBenefits to authorize us to share your health information through the Veterans Health Information Exchange.</h4>
-    <p class="usa-alert-text">To use this feature, you'll need a premium <b>DS Logon</b> account. Your MyHealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>
-      <button class="usa-button-primary">Go to eBenefits</button>
+    <h4 class="usa-alert-heading">You'll need to go to eBenefits to authorize us to share your health information through the Veterans Health Information Exchange.</h4><br>
+    <p class="usa-alert-text">To use this feature, you'll need a Premium <b>DS Logon</b> account. Your My HealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your <b>DS Logon</b> account to Premium.<br>
+      <button class="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/vapii">Go to eBenefits</button>
     </p>
   </div>
 </div>
@@ -53,14 +46,14 @@ Our online tools can help you view, organize, and share your VA medical records 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-VA Blue Button is a feature of the health-management portal within MyHealth*e*Vet. It lets you view, print, save, download, and share information from your VA medical record and personal health record. With these features, you can better manage your health needs and communicate with your health care team.
+VA Blue Button is a feature of the health management portal within My HealtheVet. It lets you view, print, save, download, and share information from your VA medical record and personal health record. With this tool, you can better manage your health needs and communicate with your health care team.
 
 **With VA Blue Button, you can:**
-- Build your own personal health record that includes information like your medical history, emergency contacts,  and medicines
+- Download a customized Blue Button report with information from your VA medical records, personal health record, and in some cases your military service record
+- Download a Health Summary that includes specific information from your VA medical record (like your known allergies, medications, and recent lab results)
+- Build your own personal health record that includes information like your self-entered medical history, emergency contacts, and medicines
 - Monitor your vital signs and track your diet and exercise with our online journals
-- Download a customized report with information from your VA medical records, personal health record, and in some cases your military service record
-- Download a summary of your VA medical record that includes your most important health information (like your known allergies, medications, and recent lab results)
-- Share a digital copy of the personal health information you entered yourself with your VA health care team through secure messaging
+- Share a digital copy of the personal health information you entered yourself with your VA health care team through Secure Messaging
 
 </div>
 </div>
@@ -81,13 +74,11 @@ You can use all the features of this tool if you meet all of the requirements li
 [Find out how to apply for VA health care](/health-care/how-to-apply/).
 
 **And you must have one of these free accounts:**
-- A premium **My HealtheVet** account, **or**
-- A **DS Logon** account (used for eBenefits and milConnect), **or**
+- An Advanced or Premium **My HealtheVet** account, **or**
+- A Premium **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
 
-**Note:** If you use DS Logon, you'll need to verify your identity online as part of our sign-in process.
-
-Please see the blue sign-in module above to learn more about signing in, creating or upgrading an account, and verifying your identity.
+[Learn about the 3 different My HealtheVet account types](https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types).
 
 </div>
 </div>
@@ -99,11 +90,11 @@ Please see the blue sign-in module above to learn more about signing in, creatin
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Go to your welcome page dashboard, and click on “Health Records.” You’ll go to a new page.
+Go to your Welcome page dashboard, and click on “Health Records.” You’ll go to a new page.
 
-From here, you can choose to access your VA Blue Button report, your VA health summary, or your VA medical images and reports.
+From here, you can choose to access your VA Blue Button report, your VA Health Summary, or your VA Medical Images and Reports.
 
-If you’d like to add information to your personal health record, go back to your welcome page dashboard. Under “Health Records,” click on “Track Health.” You’ll go to a new page where you can choose to record information like your vital signs, health history, goals, and food and exercise efforts.
+If you’d like to add information to your personal health record, click on "Track Health" in the blue navigation menu at the top of the page. You’ll go to a new page where you can choose to record information like your vital signs, health history, goals, and food and exercise efforts.
 
 </div>
 </div>
@@ -133,8 +124,13 @@ If you print or download anything from the website, you’ll need to take respon
 You can get answers to frequently asked questions about VA Blue Button and related tools within My HealtheVet.
 <br>
 [Read VA Blue Button FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#bbtop). <br>
-[Read VA health summary FAQs](https://www.myhealth.va.gov/mhv-portal-web/faqs#CCD). <br>
-[Read VA medical images and reports FAQs](https://www.myhealth.va.gov/mhv-portal-web/faqs#VAMIR).
+[Read VA Health Summary FAQs](https://www.myhealth.va.gov/mhv-portal-web/faqs#CCD). <br>
+[Read VA Medical Images and Reports FAQs](https://www.myhealth.va.gov/mhv-portal-web/faqs#VAMIR).<br>
+
+You can also contact the My HealtheVet Help Desk. <br>
+[Find out how to contact us online](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv). <br>
+Or call us at <a href="tel:+18773270022">1-877-327-0022</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>). We’re here Monday through Friday, 7:00 a.m. to 7:00 p.m. (CT)
+
 </div>
 </div>
 </div>
@@ -178,9 +174,9 @@ You can sign up for this service online if you meet all of the requirements list
 
 [Find out how to apply for VA health care](/health-care/how-to-apply/).
 
-**And you’ll need to have a premium DS Logon account** (used for eBenefits and milConnect).
+**And you’ll need to have a Premium DS Logon account** (used for eBenefits and milConnect).
 
-If you don’t have a premium DS Logon account, find out how to create or upgrade an account on eBenefits.<br>
+If you don’t have a Premium DS Logon account, find out how to create or upgrade an account on eBenefits.<br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/vapii).
 
 **Note:** We can share information only with participating community care providers who are in our approved trust network.<br>
@@ -206,9 +202,9 @@ If you don’t have a premium DS Logon account, find out how to create or upgrad
   <li class="process-step list-seven">Click “Reauthenticate.” Note that this next step may take a couple minutes to process.</li>
 </ol>
 
-If you need help, call the eBenefits Help Desk at <a href="tel:+18009830937">1-800-983-0937</a>, Monday through Friday, 8:00 a.m. - 8:00 p.m. (ET)
+If you need help, call the eBenefits Help Desk at <a href="tel:+18009830937">1-800-983-0937</a>. We're here Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
 
-**Please note:** Some providers and states request another consent form to exchange information with us. Please contact your provider or the Release of Information office at your nearest VA medical center to ask about any other consent forms you may need.<br>
+**Please note:** Signing up may not be the last step in the process. Some providers and states request another consent form to exchange information with us. Please contact your provider or the Release of Information office at your nearest VA medical center to ask about any other consent forms you may need.<br>
 [Find your nearest VA medical center](/facilities/).
 
 </div>
@@ -291,7 +287,7 @@ You can also ask the office for a copy of this form to fill out. Or you can call
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Call us at <a href="tel:+18777718537">1-877-771-VLER (8537)</a>, Monday through Friday, 7:00 a.m. - 7:00 p.m. (CST)
+Call us at <a href="tel:+18777718537">1-877-771-VLER (8537)</a>. We're here Monday through Friday, 7:00 a.m. to 7:00 p.m. (CST)
 
 </div>
 </div>

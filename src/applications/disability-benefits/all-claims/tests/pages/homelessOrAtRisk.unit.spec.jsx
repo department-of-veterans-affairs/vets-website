@@ -8,11 +8,14 @@ import formConfig from '../../config/form';
 import {
   HOMELESSNESS_TYPES,
   AT_RISK_HOUSING_TYPES,
-  HOMELESS_HOUSING_TYPES
+  HOMELESS_HOUSING_TYPES,
 } from '../../constants';
 
 describe('Homeless or At Risk Info', () => {
-  const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.homelessOrAtRisk;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.additionalInformation.pages.homelessOrAtRisk;
 
   it('should render', () => {
     const form = mount(
@@ -21,7 +24,8 @@ describe('Homeless or At Risk Info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
-        formData={{}}/>
+        formData={{}}
+      />,
     );
 
     expect(form.find('input').length).to.equal(3);
@@ -36,10 +40,11 @@ describe('Homeless or At Risk Info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          homelessOrAtRisk: HOMELESSNESS_TYPES.notHomeless
+          homelessOrAtRisk: HOMELESSNESS_TYPES.notHomeless,
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -56,10 +61,11 @@ describe('Homeless or At Risk Info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          homelessOrAtRisk: HOMELESSNESS_TYPES.homeless
+          homelessOrAtRisk: HOMELESSNESS_TYPES.homeless,
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -76,10 +82,11 @@ describe('Homeless or At Risk Info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          homelessOrAtRisk: HOMELESSNESS_TYPES.atRisk
+          homelessOrAtRisk: HOMELESSNESS_TYPES.atRisk,
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -99,11 +106,12 @@ describe('Homeless or At Risk Info', () => {
           homelessOrAtRisk: HOMELESSNESS_TYPES.homeless,
           'view:isHomeless': {
             homelessHousingSituation: HOMELESS_HOUSING_TYPES.other,
-            needToLeaveHousing: true
+            needToLeaveHousing: true,
           },
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -123,11 +131,12 @@ describe('Homeless or At Risk Info', () => {
           homelessOrAtRisk: HOMELESSNESS_TYPES.atRisk,
           'view:isHomeless': {
             homelessHousingSituation: AT_RISK_HOUSING_TYPES.other,
-            needToLeaveHousing: true
+            needToLeaveHousing: true,
           },
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -146,14 +155,15 @@ describe('Homeless or At Risk Info', () => {
         data={{
           homelessOrAtRisk: HOMELESSNESS_TYPES.atRisk,
           'view:isAtRisk': {
-            atRiskHousingSituation: AT_RISK_HOUSING_TYPES.losingHousing
+            atRiskHousingSituation: AT_RISK_HOUSING_TYPES.losingHousing,
           },
           homelessnessContact: {
-            name: 'John Smith'
-          }
+            name: 'John Smith',
+          },
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -172,14 +182,15 @@ describe('Homeless or At Risk Info', () => {
         data={{
           homelessOrAtRisk: HOMELESSNESS_TYPES.atRisk,
           'view:isAtRisk': {
-            atRiskHousingSituation: AT_RISK_HOUSING_TYPES.losingHousing
+            atRiskHousingSituation: AT_RISK_HOUSING_TYPES.losingHousing,
           },
           homelessnessContact: {
-            phoneNumber: '1234567890'
-          }
+            phoneNumber: '1234567890',
+          },
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -200,15 +211,16 @@ describe('Homeless or At Risk Info', () => {
           'view:isHomeless': {
             homelessHousingSituation: HOMELESS_HOUSING_TYPES.other,
             otherHomelessHousing: 'No housing',
-            needToLeaveHousing: true
+            needToLeaveHousing: true,
           },
           homelessnessContact: {
             name: 'John Smith',
-            phoneNumber: '1234567890'
-          }
+            phoneNumber: '1234567890',
+          },
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');

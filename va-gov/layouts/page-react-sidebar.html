@@ -1,0 +1,21 @@
+{% include "va-gov/includes/header.html" %}
+
+{% if gibsAlert %}
+  {% include "va-gov/includes/gibs-down.html" %}
+{% endif %}
+
+{% include "va-gov/includes/breadcrumbs.html" %}
+
+<div id="content" class="interior {{ id }}">
+  <main class="va-l-detail-page">
+    <div class="usa-grid">
+      {% include "va-gov/components/navigation-sidebar.html" %}
+      <div class="usa-width-three-fourths">
+        {% include "va-gov/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+        {% include "va-gov/components/react-loader.html" %}
+        {% include "va-gov/components/navigation-next-previous.html" %}
+      </div>
+    </div>
+  </main>
+</div>
+{% include "va-gov/includes/footer.html" %}

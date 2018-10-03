@@ -5,7 +5,7 @@ import modalReducer from '../../reducers/modal';
 describe('modal reducer', () => {
   it('should close modal', () => {
     const state = modalReducer(undefined, {
-      type: 'MODAL_CLOSED'
+      type: 'MODAL_CLOSED',
     });
 
     expect(state.visible).to.be.false;
@@ -15,7 +15,7 @@ describe('modal reducer', () => {
     const state = modalReducer(undefined, {
       type: 'MODAL_OPENED',
       title: 'Title',
-      content: 'Content'
+      content: 'Content',
     });
 
     expect(state.visible).to.be.true;

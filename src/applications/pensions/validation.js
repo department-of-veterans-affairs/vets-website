@@ -14,15 +14,21 @@ export function validateAfterMarriageDate(errors, dateOfSeparation, formData) {
 
 export function validateServiceBirthDates(errors, service, formData) {
   const fromDate = convertToDateField(formData.veteranDateOfBirth);
-  const toDate = convertToDateField(_.get('activeServiceDateRange.from', service));
+  const toDate = convertToDateField(
+    _.get('activeServiceDateRange.from', service),
+  );
 
   if (!isValidDateRange(fromDate, toDate)) {
-    errors.activeServiceDateRange.from.addError('Date entering active service should be after birth date');
+    errors.activeServiceDateRange.from.addError(
+      'Date entering active service should be after birth date',
+    );
   }
 }
 
 export function validateCentralMailPostalCode(errors, address) {
   if (!isValidCentralMailPostalCode(address)) {
-    errors.postalCode.addError('Please enter a valid postal code (e.g. 12345 or 12345-6789)');
+    errors.postalCode.addError(
+      'Please enter a valid postal code (e.g. 12345 or 12345-6789)',
+    );
   }
 }

@@ -22,12 +22,16 @@ exports.command = function printLogs(level, printAll = false) {
   }
 
   // Print a list of all the entries the client has logged.
-  this.getLog('browser', (logList) => {
+  this.getLog('browser', logList => {
     if (logList.length > this.nextLogIndex) {
       // Print only the new entries if printAll isn't specified
       logList.slice(printAll ? 0 : this.nextLogIndex).forEach(message => {
         if (!level || message.level === level.toUpperCase()) {
-          console.log(`[${message.level}] Browser logged at ${message.timestamp}:`, message.message); // eslint-disable-line no-console
+          // eslint-disable-next-line no-console
+          console.log(
+            `[${message.level}] Browser logged at ${message.timestamp}:`,
+            message.message,
+          );
         }
       });
 

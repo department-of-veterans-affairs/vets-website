@@ -6,7 +6,7 @@ describe('form reducer', () => {
   it('should set the start date', () => {
     const state = formReducer(undefined, {
       type: 'START_DATE_CHANGED',
-      date: 'start date'
+      date: 'start date',
     });
 
     expect(state.dateRange.start).to.equal('start date');
@@ -15,7 +15,7 @@ describe('form reducer', () => {
   it('should set the end date', () => {
     const state = formReducer(undefined, {
       type: 'END_DATE_CHANGED',
-      date: 'end date'
+      date: 'end date',
     });
 
     expect(state.dateRange.end).to.equal('end date');
@@ -24,24 +24,27 @@ describe('form reducer', () => {
   it('should set the date option', () => {
     const state = formReducer(undefined, {
       type: 'DATE_OPTION_CHANGED',
-      dateOption: '1yr'
+      dateOption: '1yr',
     });
 
     expect(state.dateOption).to.equal('1yr');
   });
 
   it('should toggle a report type', () => {
-    const state = formReducer({
-      reportTypes: {
-        test1: false,
-        test2: false,
-        test3: true
-      }
-    }, {
-      type: 'REPORT_TYPE_TOGGLED',
-      reportType: 'test1',
-      checked: true
-    });
+    const state = formReducer(
+      {
+        reportTypes: {
+          test1: false,
+          test2: false,
+          test3: true,
+        },
+      },
+      {
+        type: 'REPORT_TYPE_TOGGLED',
+        reportType: 'test1',
+        checked: true,
+      },
+    );
 
     expect(state.reportTypes.test1).to.be.true;
     expect(state.reportTypes.test2).to.be.false;
@@ -49,16 +52,19 @@ describe('form reducer', () => {
   });
 
   it('should toggle all report types', () => {
-    const state = formReducer({
-      reportTypes: {
-        test1: false,
-        test2: false,
-        test3: true
-      }
-    }, {
-      type: 'ALL_REPORTS_TOGGLED',
-      checked: true
-    });
+    const state = formReducer(
+      {
+        reportTypes: {
+          test1: false,
+          test2: false,
+          test3: true,
+        },
+      },
+      {
+        type: 'ALL_REPORTS_TOGGLED',
+        checked: true,
+      },
+    );
 
     expect(state.reportTypes.test1).to.be.true;
     expect(state.reportTypes.test2).to.be.true;
@@ -67,7 +73,7 @@ describe('form reducer', () => {
 
   it('should set ready state to true on form success', () => {
     const state = formReducer(undefined, {
-      type: 'FORM_SUCCESS'
+      type: 'FORM_SUCCESS',
     });
 
     expect(state.ready).to.be.true;
@@ -75,7 +81,7 @@ describe('form reducer', () => {
 
   it('should set ready state to false on form success', () => {
     const state = formReducer(undefined, {
-      type: 'FORM_FAILURE'
+      type: 'FORM_FAILURE',
     });
 
     expect(state.ready).to.be.false;
