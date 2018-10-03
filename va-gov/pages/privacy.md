@@ -49,7 +49,7 @@ majorlinks:
 ---
 
 <p class="va-introtext">
-At VA.gov, we take your privacy very seriously. That's why we only collect personal information that you provide to us, and ask you to provide only the information we need to complete your requests. This page explains our website privacy policy, including how we collect, store, use, and disclose your information. You’ll also find other information to help make sure you understand your rights and how we’re complying with federal regulations and user agreements.
+At VA, we take your privacy very seriously. That's why we only collect personal information that you provide to us, and ask you to provide only the information we need to complete your requests. This page explains our website privacy policy, including how we collect, store, use, and disclose your information. You’ll also find other information to help make sure you understand your rights and how we’re complying with federal regulations and user agreements.
 
 </p>
 
@@ -64,7 +64,7 @@ At VA.gov, we take your privacy very seriously. That's why we only collect perso
 
 <span id="privacy"></span>
 
-<h2>Va.gov Privacy Policy and Privacy Services</h2>
+<h2>Va.gov Privacy Policy</h2>
 
 Thank you for visiting Vets.gov and reviewing our Privacy Policy.  The Department of Veterans Affairs (VA) applies leading privacy practices and adheres to data stewardship principles in managing our Web user data.  The data stewardship principles guiding our efforts include the following goals:
 -	protection of Web user privacy;
@@ -156,7 +156,7 @@ Your inquiry will be treated confidentially and will not be shared with third pa
 
 The VA Privacy Service works to minimize the impact on veteran’s privacy, particularly veteran’s personal information and dignity, while achieving the mission of the Department of Veteran Affairs.
 
-_Up to date as of September 18, 2018_
+<b>Up to date as of September 18, 2018</b>
 </div>
 </div>
 </div>
