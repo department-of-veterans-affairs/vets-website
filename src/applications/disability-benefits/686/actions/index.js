@@ -8,12 +8,17 @@ export const LOAD_30_PERCENT_DISABILITY_RATING_FAILED =
   'LOAD_30_PERCENT_DISABILITY_RATING_FAILED';
 
 export function verifyDisabilityRating() {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const user = getState().user;
+    const isVerified = user.profile && user.profile.verified;
+    if (!isVerified) {
+      return Promise.resolve();
+    }
     dispatch({
       type: LOAD_30_PERCENT_DISABILITY_RATING_STARTED,
     });
 
-    fetchDisabilityRating({
+    return fetchDisabilityRating({
       onDone: payload => {
         dispatch({
           type: LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED,

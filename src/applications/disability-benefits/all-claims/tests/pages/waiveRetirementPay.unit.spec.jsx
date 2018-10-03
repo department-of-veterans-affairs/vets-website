@@ -6,7 +6,10 @@ import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
 describe('Service Pay', () => {
-  const { schema, uiSchema } = formConfig.chapters.veteranDetails.pages.waiveRetirementPay;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.veteranDetails.pages.waiveRetirementPay;
 
   it('should render two radio options by default', () => {
     const form = mount(
@@ -15,7 +18,8 @@ describe('Service Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
-        formData={{}}/>
+        formData={{}}
+      />,
     );
 
     expect(form.find('input[type="radio"]').length).to.equal(2);
@@ -30,7 +34,8 @@ describe('Service Pay', () => {
         uiSchema={uiSchema}
         data={{ waiveRetirementPay: false }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -47,7 +52,8 @@ describe('Service Pay', () => {
         uiSchema={uiSchema}
         data={{}}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');

@@ -2,7 +2,9 @@ import _ from 'lodash/fp';
 
 import fullSchema1990n from 'vets-json-schema/dist/22-1990N-schema.json';
 
-import schoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
+import schoolSelectionPage, {
+  schoolSelectionOptionsFor,
+} from '../../pages/schoolSelection';
 import applicantInformationPage from '../../../../platform/forms/pages/applicantInformation';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
@@ -17,20 +19,13 @@ import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import {
-  transform
-} from '../helpers';
+import { transform } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
 
-const {
-  payHighestRateBenefit
-} = fullSchema1990n.properties;
+const { payHighestRateBenefit } = fullSchema1990n.properties;
 
-const {
-  currentlyActiveDuty,
-  date
-} = fullSchema1990n.definitions;
+const { currentlyActiveDuty, date } = fullSchema1990n.definitions;
 
 const formConfig = {
   urlPrefix: '/',
@@ -42,15 +37,17 @@ const formConfig = {
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
-    noAuth: 'Please sign in again to resume your application for education benefits.'
+    noAuth:
+      'Please sign in again to resume your application for education benefits.',
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
-    date
+    date,
   },
-  title: 'Apply for education benefits under the National Call to Service program',
+  title:
+    'Apply for education benefits under the National Call to Service program',
   subTitle: 'Form 22-1990N',
   preSubmitInfo,
   footerContent: FormFooter,
@@ -66,24 +63,20 @@ const formConfig = {
             'veteranDateOfBirth',
             'gender',
           ],
-          required: [
-            'veteranFullName',
-            'veteranDateOfBirth'
-          ],
-          isVeteran: true
+          required: ['veteranFullName', 'veteranDateOfBirth'],
+          isVeteran: true,
         }),
         additionalBenefits: additionalBenefitsPage(fullSchema1990n, {
           fields: [
             'civilianBenefitsAssistance',
             'civilianBenefitsSource',
-            'seniorRotcScholarshipProgram'
-          ]
+            'seniorRotcScholarshipProgram',
+          ],
         }),
         applicantService: {
           title: 'Applicant service',
           path: 'applicant/service',
-          initialData: {
-          },
+          initialData: {},
           uiSchema: {
             'ui:title': 'Applicant service',
             toursOfDuty: toursOfDuty.uiSchema,
@@ -96,34 +89,31 @@ const formConfig = {
                 'ui:title': 'Are you on terminal leave now?',
                 'ui:widget': 'yesNo',
                 'ui:options': {
-                  expandUnder: 'yes'
-                }
+                  expandUnder: 'yes',
+                },
               },
               nonVaAssistance: {
-                'ui:title': 'Are you getting, or do you expect to get any money from the Armed Forces or public health services for any part of your coursework or training? (Including, but not limited to, Federal Tuition Assistance.)',
+                'ui:title':
+                  'Are you getting, or do you expect to get any money from the Armed Forces or public health services for any part of your coursework or training? (Including, but not limited to, Federal Tuition Assistance.)',
                 'ui:widget': 'yesNo',
                 'ui:options': {
-                  expandUnder: 'yes'
-                }
-              }
-            }
+                  expandUnder: 'yes',
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
             properties: {
               toursOfDuty: toursOfDuty.schema(fullSchema1990n, {
-                fields: [
-                  'serviceBranch',
-                  'dateRange',
-                  'serviceStatus'
-                ],
-                required: ['serviceBranch', 'dateRange.from']
+                fields: ['serviceBranch', 'dateRange', 'serviceStatus'],
+                required: ['serviceBranch', 'dateRange.from'],
               }),
-              currentlyActiveDuty
-            }
-          }
-        }
-      }
+              currentlyActiveDuty,
+            },
+          },
+        },
+      },
     },
     benefitSelection: {
       title: 'Benefit Selection',
@@ -133,36 +123,40 @@ const formConfig = {
           title: 'Benefit selection',
           uiSchema: {
             payHighestRateBenefit: {
-              'ui:title': 'If during the review made by VA I am found eligible for more than one benefit, I authorize VA to pay the benefit with the highest monthly rate.'
-            }
+              'ui:title':
+                'If during the review made by VA I am found eligible for more than one benefit, I authorize VA to pay the benefit with the highest monthly rate.',
+            },
           },
           schema: {
             type: 'object',
             properties: {
               payHighestRateBenefit: _.merge(payHighestRateBenefit, {
-                'default': true
-              })
-            }
-          }
-        }
-      }
+                default: true,
+              }),
+            },
+          },
+        },
+      },
     },
     schoolSelection: {
       title: 'School Selection',
       pages: {
-        schoolSelection: schoolSelectionPage(fullSchema1990n, schoolSelectionOptionsFor['1990n'])
-      }
+        schoolSelection: schoolSelectionPage(
+          fullSchema1990n,
+          schoolSelectionOptionsFor['1990n'],
+        ),
+      },
     },
     personalInformation: {
       title: 'Personal Information',
       pages: {
         contactInformation: contactInformationPage(fullSchema1990n),
         directDeposit: createDirectDepositPage(fullSchema1990n, {
-          required: ['accountType', 'accountNumber', 'routingNumber']
-        })
-      }
-    }
-  }
+          required: ['accountType', 'accountNumber', 'routingNumber'],
+        }),
+      },
+    },
+  },
 };
 
 export default formConfig;

@@ -6,8 +6,7 @@ import OptOutWizard from '../../components/OptOutWizard';
 
 describe('<OptOutWizard>', () => {
   it('should show opt out button', () => {
-    const component = mount(
-      <OptOutWizard/>);
+    const component = mount(<OptOutWizard />);
 
     expect(component.find('button').length).to.equal(1);
     expect(component.state('modalOpen')).to.be.false;
@@ -18,8 +17,7 @@ describe('<OptOutWizard>', () => {
     global.document.querySelector = () => global.document;
     global.document.focus = () => true;
 
-    const component = mount(
-      <OptOutWizard/>);
+    const component = mount(<OptOutWizard />);
 
     component.find('button').simulate('click');
     component.update();
@@ -36,12 +34,14 @@ describe('<OptOutWizard>', () => {
     global.document.querySelector = () => global.document;
     global.document.focus = () => true;
 
-    const component = mount(
-      <OptOutWizard/>);
+    const component = mount(<OptOutWizard />);
 
     component.find('button').simulate('click');
     component.update();
-    component.find('button').last().simulate('click');
+    component
+      .find('button')
+      .last()
+      .simulate('click');
     component.update();
 
     expect(component.find('button').length).to.equal(1);

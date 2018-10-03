@@ -12,61 +12,64 @@ describe('526 <FormStartControls>', () => {
       <FormStartControls
         authenticate={authenticate}
         route={{
-          formConfig: {
-          }
+          formConfig: {},
         }}
         user={{
-          login: {
-          },
+          login: {},
           profile: {
             savedForms: [],
-            services: []
-          }
-        }}/>
+            services: [],
+          },
+        }}
+      />,
     );
     tree.find('button').simulate('click');
     expect(tree.find('button').text()).to.contain('Sign');
-    expect(tree.find('.usa-alert').text()).to.contain('sign in and verify your account');
+    expect(tree.find('.usa-alert').text()).to.contain(
+      'sign in and verify your account',
+    );
     expect(authenticate.called).to.be.true;
   });
   it('should render authenticated view', () => {
     const tree = shallow(
       <FormStartControls
         route={{
-          formConfig: {
-          }
+          formConfig: {},
         }}
         user={{
           login: {
-            currentlyLoggedIn: true
+            currentlyLoggedIn: true,
           },
           profile: {
             savedForms: [],
-            services: []
-          }
-        }}/>
+            services: [],
+          },
+        }}
+      />,
     );
 
-    expect(tree.find('.usa-alert').text()).to.contain('To apply for a disability increase, you’ll need to verify your account');
+    expect(tree.find('.usa-alert').text()).to.contain(
+      'To apply for a disability increase, you’ll need to verify your account',
+    );
     expect(tree.find('a').text()).to.contain('Verify Your Identity');
   });
   it('should render verified view', () => {
     const tree = shallow(
       <FormStartControls
         route={{
-          formConfig: {
-          }
+          formConfig: {},
         }}
         user={{
           login: {
-            currentlyLoggedIn: true
+            currentlyLoggedIn: true,
           },
           profile: {
             verified: true,
             savedForms: [],
-            services: []
-          }
-        }}/>
+            services: [],
+          },
+        }}
+      />,
     );
 
     expect(tree.find('Connect').exists()).to.be.true;

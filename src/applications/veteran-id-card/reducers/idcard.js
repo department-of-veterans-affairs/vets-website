@@ -26,13 +26,13 @@ function idcard(state = initialState, action) {
         vicUrl: action.vicUrl,
         traits: action.traits,
         errors: null,
-        fetching: false
+        fetching: false,
       };
     case ATTRS_FAILURE:
       return {
         ...state,
         errors: action.errors,
-        fetching: false
+        fetching: false,
       };
     case REDIRECT_TIMED_OUT:
       return {

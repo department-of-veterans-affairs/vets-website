@@ -8,7 +8,7 @@ import _ from 'lodash/fp';
  */
 export default class BenefitsRelinquishmentField extends React.Component {
   onPropertyChange(name) {
-    return (value) => {
+    return value => {
       this.props.onChange(_.set(name, value, this.props.formData));
     };
   }
@@ -21,7 +21,7 @@ export default class BenefitsRelinquishmentField extends React.Component {
       idSchema,
       formData,
       onBlur,
-      registry
+      registry,
     } = this.props;
     const SchemaField = registry.fields.SchemaField;
     const effectiveDateContent = (
@@ -36,11 +36,18 @@ export default class BenefitsRelinquishmentField extends React.Component {
           formData={formData.benefitsRelinquishedDate}
           onChange={this.onPropertyChange('benefitsRelinquishedDate')}
           onBlur={onBlur}
-          registry={registry}/>
+          registry={registry}
+        />
         <ul>
-          <li>Use today’s date unless you aren’t going to use your Post 9/11 GI Bill benefits until later.</li>
+          <li>
+            Use today’s date unless you aren’t going to use your Post 9/11 GI
+            Bill benefits until later.
+          </li>
           <li>If you pick a future date, you can’t get benefits until then.</li>
-          <li>If your classes started less than 2 years ago, enter the date they began.</li>
+          <li>
+            If your classes started less than 2 years ago, enter the date they
+            began.
+          </li>
         </ul>
       </div>
     );
@@ -51,10 +58,13 @@ export default class BenefitsRelinquishmentField extends React.Component {
           <div>
             <div className="usa-alert usa-alert-warning usa-content secondary">
               <div className="usa-alert-body">
-                <span>If you choose to give up MGIB-AD, you’ll get benefits only for the number of months you had left under MGIB-AD.</span>
+                <span>
+                  If you choose to give up MGIB-AD, you’ll get benefits only for
+                  the number of months you had left under MGIB-AD.
+                </span>
               </div>
             </div>
-            <br/>
+            <br />
             {effectiveDateContent}
           </div>
         </div>
@@ -65,16 +75,20 @@ export default class BenefitsRelinquishmentField extends React.Component {
           <div>
             <div className="usa-alert usa-alert-warning usa-content secondary">
               <div className="usa-alert-body">
-                <span>You can only give up REAP benefits if you had them for the last semester, quarter, or term that ended on or before November 24, 2015.</span>
+                <span>
+                  You can only give up REAP benefits if you had them for the
+                  last semester, quarter, or term that ended on or before
+                  November 24, 2015.
+                </span>
               </div>
             </div>
-            <br/>
+            <br />
             {effectiveDateContent}
           </div>
         </div>
-      )
+      ),
     };
-  }
+  };
 
   render() {
     const {
@@ -88,13 +102,15 @@ export default class BenefitsRelinquishmentField extends React.Component {
       registry,
       required,
       name,
-      formContext
+      formContext,
     } = this.props;
 
     const benefitsRelinquished = _.get('benefitsRelinquished', formData);
-    if (formContext.reviewMode &&
+    if (
+      formContext.reviewMode &&
       benefitsRelinquished !== 'unknown' &&
-      typeof benefitsRelinquished !== 'undefined') {
+      typeof benefitsRelinquished !== 'undefined'
+    ) {
       const ObjectField = registry.fields.ObjectField;
       return (
         <ObjectField
@@ -107,7 +123,8 @@ export default class BenefitsRelinquishmentField extends React.Component {
           formData={formData}
           onChange={onChange}
           onBlur={onBlur}
-          registry={registry}/>
+          registry={registry}
+        />
       );
     }
 
@@ -119,15 +136,16 @@ export default class BenefitsRelinquishmentField extends React.Component {
         schema={schema.properties.benefitsRelinquished}
         uiSchema={_.merge(uiSchema.benefitsRelinquished, {
           'ui:options': {
-            nestedContent: this.getNestedContent()
-          }
+            nestedContent: this.getNestedContent(),
+          },
         })}
         errorSchema={errorSchema.benefitsRelinquished}
         idSchema={idSchema.benefitsRelinquished}
         formData={formData.benefitsRelinquished}
         onChange={this.onPropertyChange('benefitsRelinquished')}
         onBlur={onBlur}
-        registry={registry}/>
+        registry={registry}
+      />
     );
   }
 }
@@ -144,12 +162,11 @@ BenefitsRelinquishmentField.propTypes = {
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   registry: PropTypes.shape({
-    widgets: PropTypes.objectOf(PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.object,
-    ])).isRequired,
+    widgets: PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    ).isRequired,
     fields: PropTypes.objectOf(PropTypes.func).isRequired,
     definitions: PropTypes.object.isRequired,
-    formContext: PropTypes.object.isRequired
-  })
+    formContext: PropTypes.object.isRequired,
+  }),
 };

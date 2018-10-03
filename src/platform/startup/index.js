@@ -31,10 +31,12 @@ export default function startApp({ routes, component, reducer, url }) {
   let history = browserHistory;
   if (url) {
     if (url.endsWith('/')) {
-      throw new Error('Root urls should not end with a slash. Check your manifest.json file and application entry file.');
+      throw new Error(
+        'Root urls should not end with a slash. Check your manifest.json file and application entry file.',
+      );
     }
     history = useRouterHistory(createHistory)({
-      basename: url
+      basename: url,
     });
   }
 
@@ -42,16 +44,8 @@ export default function startApp({ routes, component, reducer, url }) {
 
   let content = component;
   if (routes) {
-    content = (
-      <Router history={history}>
-        {routes}
-      </Router>
-    );
+    content = <Router history={history}>{routes}</Router>;
   }
 
-  startReactApp(
-    <Provider store={store}>
-      {content}
-    </Provider>
-  );
+  startReactApp(<Provider store={store}>{content}</Provider>);
 }

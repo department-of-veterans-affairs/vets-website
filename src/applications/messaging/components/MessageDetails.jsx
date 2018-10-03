@@ -28,20 +28,21 @@ class MessageDetails extends React.Component {
       recipientName,
       senderName,
       sentDate,
-      subject
+      subject,
     } = this.props.attrs;
 
     const detailsClass = classNames({
       'messaging-message-details': true,
       'messaging-message-details--compact': this.state.expandedCompact,
-      'messaging-message-details--full': this.state.expandedFull
+      'messaging-message-details--full': this.state.expandedFull,
     });
 
     const sentDateRow = sentDate && (
       <tr>
         <th>Date:</th>
         <td>
-          {moment(sentDate).format('ddd, MMM D, YYYY [at] HH:mm')}&nbsp;
+          {moment(sentDate).format('ddd, MMM D, YYYY [at] HH:mm')}
+          &nbsp;
           <abbr title="Eastern Standard Time">EST</abbr>
         </td>
       </tr>
@@ -85,12 +86,16 @@ class MessageDetails extends React.Component {
       <div
         className="messaging-message-details-control"
         tabIndex="-1"
-        onBlur={() => { this.setState({ expandedFull: false }); }}
-        onClick={(e) => e.stopPropagation()}>
+        onBlur={() => {
+          this.setState({ expandedFull: false });
+        }}
+        onClick={e => e.stopPropagation()}
+      >
         <button
           className="usa-button-unstyled"
-          onClick={this.toggleFullDetails}>
-          <i className="fa fa-caret-down"></i>
+          onClick={this.toggleFullDetails}
+        >
+          <i className="fa fa-caret-down" />
           <span className="usa-sr-only">
             {this.state.expandedFull ? 'Hide details' : 'Details'}
           </span>

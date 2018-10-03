@@ -39,7 +39,11 @@ if (!fs.existsSync(root)) {
 appSettings.parseFromBuildDir(root);
 const routes = appSettings.getAllApplicationRoutes();
 
-app.use(morgan('combined', { skip: (req, _res) => { return req.path.match(/(css|js|gif|jpg|png|svg)$/); } }));
+app.use(
+  morgan('combined', {
+    skip: (req, _res) => req.path.match(/(css|js|gif|jpg|png|svg)$/),
+  }),
+);
 app.use(express.static(root));
 routes.forEach(url => {
   app.use(url, fallback(`${url}/index.html`, { root }));
@@ -47,5 +51,9 @@ routes.forEach(url => {
 
 app.listen(options.port, options.host, () => {
   // eslint-disable-next-line no-console
-  console.log(`Test server listening on port ${options.port} for type ${options.buildtype}`);
+  console.log(
+    `Test server listening on port ${options.port} for type ${
+      options.buildtype
+    }`,
+  );
 });

@@ -29,7 +29,7 @@ import {
   TOGGLE_THREAD_FORM,
   TOGGLE_THREAD_MOVE_TO,
   TOGGLE_REPLY_DETAILS,
-  UPDATE_DRAFT
+  UPDATE_DRAFT,
 } from '../utils/constants';
 
 const baseUrl = '/messages';
@@ -63,29 +63,32 @@ export function deleteMessage(messageId) {
       url,
       { method: 'DELETE' },
       () => dispatch({ type: DELETE_MESSAGE_SUCCESS }),
-      () => dispatch({ type: DELETE_MESSAGE_FAILURE })
+      () => dispatch({ type: DELETE_MESSAGE_FAILURE }),
     );
   };
 }
 
 export function fetchThread(messageId) {
   return dispatch => {
-    const errorHandler =
-      () => dispatch({ type: FETCH_THREAD_FAILURE });
+    const errorHandler = () => dispatch({ type: FETCH_THREAD_FAILURE });
 
     dispatch({ type: LOADING_THREAD, messageId });
 
     const messageUrl = `${baseUrl}/${messageId}`;
     const threadUrl = `${messageUrl}/thread`;
 
-    Promise.all([messageUrl, threadUrl].map(
-      url => apiRequest(url, null, response => response, errorHandler)
-    ))
-      .then(data => dispatch({
-        type: FETCH_THREAD_SUCCESS,
-        message: data[0],
-        thread: data[1].data
-      }))
+    Promise.all(
+      [messageUrl, threadUrl].map(url =>
+        apiRequest(url, null, response => response, errorHandler),
+      ),
+    )
+      .then(data =>
+        dispatch({
+          type: FETCH_THREAD_SUCCESS,
+          message: data[0],
+          thread: data[1].data,
+        }),
+      )
       .catch(errorHandler);
   };
 }
@@ -97,11 +100,12 @@ export function fetchThreadMessage(messageId) {
     apiRequest(
       messageUrl,
       null,
-      data => dispatch({
-        type: FETCH_THREAD_MESSAGE_SUCCESS,
-        message: data
-      }),
-      () => dispatch({ type: FETCH_THREAD_MESSAGE_FAILURE })
+      data =>
+        dispatch({
+          type: FETCH_THREAD_MESSAGE_SUCCESS,
+          message: data,
+        }),
+      () => dispatch({ type: FETCH_THREAD_MESSAGE_FAILURE }),
     );
   };
 }
@@ -120,7 +124,7 @@ export function moveMessageToFolder(messageId, folder) {
       url,
       { method: 'PATCH' },
       () => dispatch({ type: MOVE_MESSAGE_SUCCESS, folder }),
-      () => dispatch({ type: MOVE_MESSAGE_FAILURE })
+      () => dispatch({ type: MOVE_MESSAGE_FAILURE }),
     );
   };
 }
@@ -132,7 +136,7 @@ export function createFolderAndMoveMessage(folderName, messageId) {
   const settings = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(folderData)
+    body: JSON.stringify(folderData),
   };
 
   recordEvent({
@@ -145,12 +149,12 @@ export function createFolderAndMoveMessage(folderName, messageId) {
     apiRequest(
       foldersUrl,
       settings,
-      (data) => {
+      data => {
         const folder = data.data.attributes;
         dispatch({ type: CREATE_FOLDER_SUCCESS, folder, noAlert: true });
         return dispatch(moveMessageToFolder(messageId, folder));
       },
-      () => dispatch({ type: CREATE_FOLDER_FAILURE })
+      () => dispatch({ type: CREATE_FOLDER_FAILURE }),
     );
   };
 }
@@ -162,8 +166,8 @@ export function saveDraft(message) {
       body: message.body,
       category: message.category,
       recipientId: message.recipientId,
-      subject: message.subject
-    }
+      subject: message.subject,
+    },
   };
 
   const isReply = message.replyMessageId !== undefined;
@@ -189,7 +193,7 @@ export function saveDraft(message) {
   const settings = {
     method,
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   };
 
   return dispatch => {
@@ -198,22 +202,22 @@ export function saveDraft(message) {
     apiRequest(
       url,
       settings,
-      (response) => {
+      response => {
         if (isSavedDraft) {
           return dispatch({
             type: SAVE_DRAFT_SUCCESS,
             message,
-            isSavedDraft
+            isSavedDraft,
           });
         }
 
         return dispatch({
           type: SAVE_DRAFT_SUCCESS,
           message: response.data.attributes,
-          isSavedDraft
+          isSavedDraft,
         });
       },
-      () => dispatch({ type: SAVE_DRAFT_FAILURE })
+      () => dispatch({ type: SAVE_DRAFT_FAILURE }),
     );
   };
 }
@@ -240,7 +244,7 @@ export function sendMessage(message) {
   payload.append('message[body]', message.body);
 
   // Add each attachment as a separate item
-  message.attachments.forEach((file) => {
+  message.attachments.forEach(file => {
     payload.append('uploads[]', file);
   });
 
@@ -251,7 +255,7 @@ export function sendMessage(message) {
 
   const settings = {
     method: 'POST',
-    body: payload
+    body: payload,
   };
 
   return dispatch => {
@@ -260,11 +264,12 @@ export function sendMessage(message) {
     apiRequest(
       url,
       settings,
-      response => dispatch({
-        type: SEND_MESSAGE_SUCCESS,
-        message: response.data.attributes
-      }),
-      () => dispatch({ type: SEND_MESSAGE_FAILURE })
+      response =>
+        dispatch({
+          type: SEND_MESSAGE_SUCCESS,
+          message: response.data.attributes,
+        }),
+      () => dispatch({ type: SEND_MESSAGE_FAILURE }),
     );
   };
 }

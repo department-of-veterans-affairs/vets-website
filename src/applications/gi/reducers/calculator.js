@@ -7,7 +7,7 @@ import {
   FETCH_BAH_FAILED,
   FETCH_BAH_STARTED,
   FETCH_BAH_SUCCEEDED,
-  FETCH_PROFILE_SUCCEEDED
+  FETCH_PROFILE_SUCCEEDED,
 } from '../actions';
 
 const beneficiaryZIPRegExTester = /\b\d{1,5}\b/;
@@ -37,7 +37,7 @@ const INITIAL_STATE = {
   buyUpAmount: 600,
 };
 
-export default function (state = INITIAL_STATE, action) {
+export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case CALCULATOR_INPUTS_CHANGED: {
       const { field, value } = action;
@@ -51,7 +51,7 @@ export default function (state = INITIAL_STATE, action) {
         'scholarships',
         'tuitionAssist',
         'kickerAmount',
-        'buyUpAmount'
+        'buyUpAmount',
       ].includes(field);
 
       if (isDollarAmount && !isFinite(value)) {
@@ -62,7 +62,6 @@ export default function (state = INITIAL_STATE, action) {
         [field]: convertedValue,
       };
 
-
       if (field === 'yellowRibbonDegreeLevel') {
         if (value === 'customAmount') {
           newState = {
@@ -72,29 +71,33 @@ export default function (state = INITIAL_STATE, action) {
             yellowRibbonDivision: '',
             yellowRibbonProgramIndex: -1,
             yellowRibbonMaxAmount: 0,
-            yellowRibbonMaxNumberOfStudents: 0
+            yellowRibbonMaxNumberOfStudents: 0,
           };
-
         } else {
-          const {
-            yellowRibbonPrograms
-          } = state;
+          const { yellowRibbonPrograms } = state;
 
           // make an array of unique values
-          const yellowRibbonDivisionOptions = yellowRibbonPrograms.length > 0 ?
-            [...new Set(yellowRibbonPrograms
-              .filter(program => program.degreeLevel === value)
-              .map(program => program.divisionProfessionalSchool))] :
-            [];
+          const yellowRibbonDivisionOptions =
+            yellowRibbonPrograms.length > 0
+              ? [
+                  ...new Set(
+                    yellowRibbonPrograms
+                      .filter(program => program.degreeLevel === value)
+                      .map(program => program.divisionProfessionalSchool),
+                  ),
+                ]
+              : [];
 
           const {
             contributionAmount: yellowRibbonAmount,
             numberOfStudents: yellowRibbonMaxNumberOfStudents,
-            index: yellowRibbonProgramIndex
-          } = yellowRibbonPrograms
-            .find(program =>
+            index: yellowRibbonProgramIndex,
+          } = yellowRibbonPrograms.find(
+            program =>
               program.degreeLevel === value &&
-              program.divisionProfessionalSchool === yellowRibbonDivisionOptions[0]);
+              program.divisionProfessionalSchool ===
+                yellowRibbonDivisionOptions[0],
+          );
 
           newState = {
             ...newState,
@@ -103,60 +106,54 @@ export default function (state = INITIAL_STATE, action) {
             yellowRibbonDivision: yellowRibbonDivisionOptions[0],
             yellowRibbonProgramIndex,
             yellowRibbonMaxAmount: yellowRibbonAmount,
-            yellowRibbonMaxNumberOfStudents
+            yellowRibbonMaxNumberOfStudents,
           };
         }
       }
 
       if (field === 'yellowRibbonDivision') {
-        const {
-          yellowRibbonDegreeLevel,
-          yellowRibbonPrograms
-        } = state;
+        const { yellowRibbonDegreeLevel, yellowRibbonPrograms } = state;
 
         const {
           contributionAmount: yellowRibbonAmount,
           numberOfStudents: yellowRibbonMaxNumberOfStudents,
-          index: yellowRibbonProgramIndex
-        } = yellowRibbonPrograms
-          .find(program =>
+          index: yellowRibbonProgramIndex,
+        } = yellowRibbonPrograms.find(
+          program =>
             program.degreeLevel === yellowRibbonDegreeLevel &&
-            program.divisionProfessionalSchool === value);
+            program.divisionProfessionalSchool === value,
+        );
 
         newState = {
           ...newState,
           yellowRibbonAmount,
           yellowRibbonProgramIndex,
           yellowRibbonMaxAmount: yellowRibbonAmount,
-          yellowRibbonMaxNumberOfStudents
+          yellowRibbonMaxNumberOfStudents,
         };
       }
 
       if (field === 'inState') {
         newState.tuitionFees =
-          value === 'yes' ?
-            state.tuitionInState :
-            state.tuitionOutOfState;
+          value === 'yes' ? state.tuitionInState : state.tuitionOutOfState;
 
         newState.inStateTuitionFees = state.tuitionInState;
       }
 
       return {
         ...state,
-        ...newState
+        ...newState,
       };
     }
 
     case FETCH_BAH_FAILED: {
-      const {
-        beneficiaryZIPFetched,
-        error = {}
-      } = action;
+      const { beneficiaryZIPFetched, error = {} } = action;
 
       // institution and zipcode_rates endpoints both return this generic error
-      const errorMessage = error.message === 'Record not found' ?
-        'No rates for this zip code found. Try another zip code' :
-        'Something went wrong. Try again';
+      const errorMessage =
+        error.message === 'Record not found'
+          ? 'No rates for this zip code found. Try another zip code'
+          : 'Something went wrong. Try again';
 
       // response mismatch - do nothing
       if (beneficiaryZIPFetched !== state.beneficiaryZIPFetched) {
@@ -168,12 +165,12 @@ export default function (state = INITIAL_STATE, action) {
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
         beneficiaryLocationGrandfatheredBah: null,
-        housingAllowanceCity: ''
+        housingAllowanceCity: '',
       };
 
       return {
         ...state,
-        ...newState
+        ...newState,
       };
     }
 
@@ -186,12 +183,12 @@ export default function (state = INITIAL_STATE, action) {
         beneficiaryZIPError: '',
         beneficiaryZIP: beneficiaryZIPFetched,
         beneficiaryZIPFetched,
-        housingAllowanceCity: 'Loading...'
+        housingAllowanceCity: 'Loading...',
       };
 
       return {
         ...state,
-        ...newState
+        ...newState,
       };
     }
 
@@ -200,7 +197,8 @@ export default function (state = INITIAL_STATE, action) {
       const {
         mhaRate: beneficiaryLocationBah,
         mhaRateGrandfathered: beneficiaryLocationGrandfatheredBah,
-        mhaName: housingAllowanceCity } = action.payload.data.attributes;
+        mhaName: housingAllowanceCity,
+      } = action.payload.data.attributes;
 
       // response mismatch - do nothing
       if (beneficiaryZIPFetched !== state.beneficiaryZIPFetched) {
@@ -212,12 +210,12 @@ export default function (state = INITIAL_STATE, action) {
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah,
         beneficiaryLocationGrandfatheredBah,
-        housingAllowanceCity
+        housingAllowanceCity,
       };
 
       return {
         ...state,
-        ...newState
+        ...newState,
       };
     }
     case BENEFICIARY_ZIP_CODE_CHANGED: {
@@ -237,12 +235,12 @@ export default function (state = INITIAL_STATE, action) {
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
         beneficiaryLocationGrandfatheredBah: null,
-        housingAllowanceCity: ''
+        housingAllowanceCity: '',
       };
 
       return {
         ...state,
-        ...newState
+        ...newState,
       };
     }
 
@@ -257,9 +255,7 @@ export default function (state = INITIAL_STATE, action) {
         type,
       } = camelPayload.data.attributes;
 
-      let {
-        yellowRibbonPrograms
-      } = camelPayload.data.attributes;
+      let { yellowRibbonPrograms } = camelPayload.data.attributes;
 
       let yellowRibbonDegreeLevelOptions = [];
       let yellowRibbonDivisionOptions = [];
@@ -270,20 +266,33 @@ export default function (state = INITIAL_STATE, action) {
       let yellowRibbonMaxNumberOfStudents;
       let yellowRibbonProgramIndex;
 
-
       if (yellowRibbonPrograms.length > 0) {
-        yellowRibbonPrograms = yellowRibbonPrograms.map((program, index) => ({ ...program, index }));
-        yellowRibbonDegreeLevelOptions = [...new Set(yellowRibbonPrograms.map(program => program.degreeLevel))];
+        yellowRibbonPrograms = yellowRibbonPrograms.map((program, index) => ({
+          ...program,
+          index,
+        }));
+        yellowRibbonDegreeLevelOptions = [
+          ...new Set(yellowRibbonPrograms.map(program => program.degreeLevel)),
+        ];
         // first value of degree level is selected by default; only display division options associated with this degree level
-        yellowRibbonDivisionOptions = [...new Set(yellowRibbonPrograms
-          .filter(program => program.degreeLevel === yellowRibbonDegreeLevelOptions[0])
-          .map(program => program.divisionProfessionalSchool))];
+        yellowRibbonDivisionOptions = [
+          ...new Set(
+            yellowRibbonPrograms
+              .filter(
+                program =>
+                  program.degreeLevel === yellowRibbonDegreeLevelOptions[0],
+              )
+              .map(program => program.divisionProfessionalSchool),
+          ),
+        ];
 
         yellowRibbonAmount = yellowRibbonPrograms[0].contributionAmount;
         yellowRibbonMaxAmount = yellowRibbonAmount;
         yellowRibbonDegreeLevel = yellowRibbonPrograms[0].degreeLevel;
-        yellowRibbonDivision = yellowRibbonPrograms[0].divisionProfessionalSchool;
-        yellowRibbonMaxNumberOfStudents = yellowRibbonPrograms[0].numberOfStudents;
+        yellowRibbonDivision =
+          yellowRibbonPrograms[0].divisionProfessionalSchool;
+        yellowRibbonMaxNumberOfStudents =
+          yellowRibbonPrograms[0].numberOfStudents;
         yellowRibbonProgramIndex = yellowRibbonPrograms[0].index;
       }
 
@@ -306,7 +315,7 @@ export default function (state = INITIAL_STATE, action) {
         yellowRibbonMaxAmount,
         yellowRibbonMaxNumberOfStudents,
         yellowRibbonPrograms,
-        yellowRibbonProgramIndex
+        yellowRibbonProgramIndex,
       };
     }
 

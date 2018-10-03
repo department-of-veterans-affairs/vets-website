@@ -31,16 +31,10 @@ const {
   email,
   serviceBranch,
   dd214,
-  photo
+  photo,
 } = fullSchemaVIC.properties;
 
-const {
-  fullName,
-  ssn,
-  date,
-  phone,
-  gender
-} = fullSchemaVIC.definitions;
+const { fullName, ssn, date, phone, gender } = fullSchemaVIC.definitions;
 
 const TWENTY_FIVE_MB = 26214400;
 const TEN_MB = 10485760;
@@ -58,13 +52,14 @@ const formConfig = {
   footerContent: FormFooter,
   savedFormMessages: {
     notFound: 'Please start over to apply for a Veteran ID Card.',
-    noAuth: 'Please sign in again to continue your application for a Veteran ID Card.'
+    noAuth:
+      'Please sign in again to continue your application for a Veteran ID Card.',
   },
   title: 'Apply for a Veteran ID Card',
   defaultDefinitions: {
     ssn,
     fullName,
-    date
+    date,
   },
   preSubmitInfo,
   chapters: {
@@ -82,26 +77,28 @@ const formConfig = {
               'ui:widget': 'radio',
               'ui:title': 'Gender',
               'ui:options': {
-                labels: genderLabels
+                labels: genderLabels,
               },
               'ui:errorMessages': {
-                required: 'Please select the response that most closely aligns with how you identify.'
-              }
+                required:
+                  'Please select the response that most closely aligns with how you identify.',
+              },
             },
             veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
             serviceBranch: {
               'ui:title': 'Branch of service',
-              'ui:description': 'If you have more than one branch of service, choose the one you want printed on your Veteran ID Card.',
+              'ui:description':
+                'If you have more than one branch of service, choose the one you want printed on your Veteran ID Card.',
               'ui:options': {
                 labels: {
                   F: 'Air Force',
                   A: 'Army',
                   C: 'Coast Guard',
                   M: 'Marine Corps',
-                  N: 'Navy'
-                }
-              }
-            }
+                  N: 'Navy',
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -110,18 +107,18 @@ const formConfig = {
               'veteranSocialSecurityNumber',
               'veteranDateOfBirth',
               'serviceBranch',
-              'gender'
+              'gender',
             ],
             properties: {
               veteranFullName,
               gender,
               veteranSocialSecurityNumber,
               veteranDateOfBirth,
-              serviceBranch
-            }
-          }
-        }
-      }
+              serviceBranch,
+            },
+          },
+        },
+      },
     },
     contactInformation: {
       title: 'Contact Information',
@@ -130,33 +127,34 @@ const formConfig = {
           path: 'address-information',
           title: 'Address information',
           uiSchema: {
-            veteranAddress: addressDefinition.uiSchema(fullSchemaVIC, 'Please provide the address where you would like us to ship your Veteran ID Card.'),
+            veteranAddress: addressDefinition.uiSchema(
+              fullSchemaVIC,
+              'Please provide the address where you would like us to ship your Veteran ID Card.',
+            ),
           },
           schema: {
             type: 'object',
             required: ['veteranAddress'],
             properties: {
               veteranAddress: addressDefinition.schema(fullSchemaVIC, true),
-            }
-          }
+            },
+          },
         },
         contactInformation: {
           path: 'contact-information',
           title: 'Contact information',
           uiSchema: {
             email: {
-              'ui:title': 'Email address'
+              'ui:title': 'Email address',
             },
             'view:confirmEmail': {
               'ui:title': 'Re-enter email address',
               'ui:options': {
-                hideOnReview: true
-              }
+                hideOnReview: true,
+              },
             },
             phone: phoneUI('Phone number'),
-            'ui:validations': [
-              validateMatch('email', 'view:confirmEmail')
-            ]
+            'ui:validations': [validateMatch('email', 'view:confirmEmail')],
           },
           schema: {
             type: 'object',
@@ -164,11 +162,11 @@ const formConfig = {
             properties: {
               email,
               'view:confirmEmail': email,
-              phone
-            }
-          }
-        }
-      }
+              phone,
+            },
+          },
+        },
+      },
     },
     documentUpload: {
       title: 'Document Upload',
@@ -182,45 +180,46 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Upload Your Photo',
             'ui:description': PhotoDescription,
-            photo: _.assign(fileUploadUI('Upload a digital photo', {
-              fileUploadUrl: `${environment.API_URL}/v0/vic/profile_photo_attachments`,
-              fileTypes: [
-                'png',
-                'tiff',
-                'tif',
-                'gif',
-                'jpeg',
-                'jpg'
-              ],
-              maxSize: TEN_MB,
-              showFieldLabel: false,
-              createPayload: (file) => {
-                const payload = new FormData();
-                payload.append('profile_photo_attachment[file_data]', file, file.name);
+            photo: _.assign(
+              fileUploadUI('Upload a digital photo', {
+                fileUploadUrl: `${
+                  environment.API_URL
+                }/v0/vic/profile_photo_attachments`,
+                fileTypes: ['png', 'tiff', 'tif', 'gif', 'jpeg', 'jpg'],
+                maxSize: TEN_MB,
+                showFieldLabel: false,
+                createPayload: file => {
+                  const payload = new FormData();
+                  payload.append(
+                    'profile_photo_attachment[file_data]',
+                    file,
+                    file.name,
+                  );
 
-                return payload;
-              },
-              parseResponse: (response, file) => {
-                return {
+                  return payload;
+                },
+                parseResponse: (response, file) => ({
                   name: file.name,
-                  confirmationCode: response.data.attributes.guid
-                };
-              }
-            }), {
-              'ui:field': asyncLoader(() => import(/* webpackChunkName: "photo-field" */'../components/PhotoField')
-                .then(m => m.default)),
-              'ui:validations': [
-                validateFile
-              ]
-            })
+                  confirmationCode: response.data.attributes.guid,
+                }),
+              }),
+              {
+                'ui:field': asyncLoader(() =>
+                  import(/* webpackChunkName: "photo-field" */ '../components/PhotoField').then(
+                    m => m.default,
+                  ),
+                ),
+                'ui:validations': [validateFile],
+              },
+            ),
           },
           schema: {
             type: 'object',
             required: ['photo'],
             properties: {
-              photo
-            }
-          }
+              photo,
+            },
+          },
         },
         dd214Upload: {
           path: 'documents/discharge',
@@ -230,43 +229,38 @@ const formConfig = {
           uiSchema: {
             'ui:description': DD214Description,
             dd214: fileUploadUI('Upload your discharge document', {
-              fileUploadUrl: `${environment.API_URL}/v0/vic/supporting_documentation_attachments`,
-              fileTypes: [
-                'pdf',
-                'png',
-                'jpeg',
-                'jpg',
-                'gif',
-                'tif',
-                'tiff'
-              ],
+              fileUploadUrl: `${
+                environment.API_URL
+              }/v0/vic/supporting_documentation_attachments`,
+              fileTypes: ['pdf', 'png', 'jpeg', 'jpg', 'gif', 'tif', 'tiff'],
               maxSize: TWENTY_FIVE_MB,
               buttonText: 'Upload Your Discharge Document',
-              createPayload: (file) => {
+              createPayload: file => {
                 const payload = new FormData();
-                payload.append('supporting_documentation_attachment[file_data]', file);
+                payload.append(
+                  'supporting_documentation_attachment[file_data]',
+                  file,
+                );
 
                 return payload;
               },
-              parseResponse: (response, file) => {
-                return {
-                  name: file.name,
-                  confirmationCode: response.data.attributes.guid
-                };
-              }
-            })
+              parseResponse: (response, file) => ({
+                name: file.name,
+                confirmationCode: response.data.attributes.guid,
+              }),
+            }),
           },
           schema: {
             type: 'object',
             required: ['dd214'],
             properties: {
-              dd214
-            }
-          }
-        }
-      }
-    }
-  }
+              dd214,
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export default formConfig;

@@ -3,26 +3,34 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, selectRadio, selectCheckbox } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+  selectRadio,
+  selectCheckbox,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('686 dependent info', () => {
-  const { schema, uiSchema, arrayPath } = formConfig.chapters.unMarriedChildren.pages.childrenInformation;
-  const dependentData = () => {
+  const {
+    schema,
+    uiSchema,
+    arrayPath,
+  } = formConfig.chapters.unMarriedChildren.pages.childrenInformation;
+  const dependentData = () =>
     // default child age is between 18 - 23
-    return {
+    ({
       'view:hasUnmarriedChildren': true,
       dependents: [
         {
           fullName: {
             first: 'Jane',
-            last: 'Doe'
+            last: 'Doe',
           },
-          childDateOfBirth: '1-10-2000'
-        }
-      ]
-    };
-  };
+          childDateOfBirth: '1-10-2000',
+        },
+      ],
+    });
   it('should render', () => {
     const form = mount(
       <DefinitionTester
@@ -31,7 +39,8 @@ describe('686 dependent info', () => {
         schema={schema}
         data={dependentData()}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     expect(form.find('input').length).to.equal(8);
   });
@@ -46,7 +55,8 @@ describe('686 dependent info', () => {
         schema={schema}
         data={props}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     expect(form.find('input').length).to.equal(7);
   });
@@ -61,7 +71,8 @@ describe('686 dependent info', () => {
         schema={schema}
         data={props}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     expect(form.find('input').length).to.equal(6);
   });
@@ -76,7 +87,8 @@ describe('686 dependent info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(2);
@@ -93,7 +105,8 @@ describe('686 dependent info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     fillData(form, 'input#root_childSocialSecurityNumber', '222-22-2424');
@@ -111,7 +124,8 @@ describe('686 dependent info', () => {
         pagePerItemIndex={0}
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     selectRadio(form, 'root_childRelationship', 'stepchild');
@@ -126,7 +140,8 @@ describe('686 dependent info', () => {
         pagePerItemIndex={0}
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     selectCheckbox(form, 'root_inSchool', true);
@@ -135,4 +150,3 @@ describe('686 dependent info', () => {
     expect(form.find('.usa-alert-warning').length).to.equal(2);
   });
 });
-

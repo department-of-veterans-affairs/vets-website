@@ -22,7 +22,7 @@ export function fetchMHVAccount() {
       baseUrl,
       null,
       ({ data }) => dispatch({ type: FETCH_MHV_ACCOUNT_SUCCESS, data }),
-      ({ errors }) => dispatch({ type: FETCH_MHV_ACCOUNT_FAILURE, errors })
+      ({ errors }) => dispatch({ type: FETCH_MHV_ACCOUNT_FAILURE, errors }),
     );
   };
 }
@@ -35,13 +35,13 @@ export function createMHVAccount() {
       baseUrl,
       { method: 'POST' },
       ({ data }) => dispatch({ type: CREATE_MHV_ACCOUNT_SUCCESS, data }),
-      () => dispatch({ type: CREATE_MHV_ACCOUNT_FAILURE })
+      () => dispatch({ type: CREATE_MHV_ACCOUNT_FAILURE }),
     );
   };
 }
 
 export function upgradeMHVAccount() {
-  return async (dispatch) => {
+  return async dispatch => {
     dispatch({ type: UPGRADING_MHV_ACCOUNT });
 
     let mhvAccount;
@@ -57,6 +57,18 @@ export function upgradeMHVAccount() {
       if (!mhvAccount) return dispatch({ type: UPGRADE_MHV_ACCOUNT_FAILURE });
     }
 
-    return dispatch({ type: UPGRADE_MHV_ACCOUNT_SUCCESS, mhvAccount, userProfile });
+    return dispatch({
+      type: UPGRADE_MHV_ACCOUNT_SUCCESS,
+      mhvAccount,
+      userProfile,
+    });
+  };
+}
+
+export function createAndUpgradeMHVAccount() {
+  return async dispatch => {
+    const accountCreationSuccess = await dispatch(createMHVAccount());
+    if (accountCreationSuccess) return dispatch(upgradeMHVAccount());
+    return null;
   };
 }

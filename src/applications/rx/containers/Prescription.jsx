@@ -27,7 +27,7 @@ export class Prescription extends React.Component {
     const title = _.get(
       prescription,
       ['rx', 'attributes', 'prescriptionName'],
-      'Prescription Refill'
+      'Prescription Refill',
     );
 
     let content;
@@ -35,13 +35,13 @@ export class Prescription extends React.Component {
     // If the item in state doesn’t reflect the item from the URL,
     // show the loader until the requested item finishes loading.
     if (loading || (prescription && !isSameRx)) {
-      content = <LoadingIndicator message="Loading your prescription..."/>;
+      content = <LoadingIndicator message="Loading your prescription..." />;
     } else if (prescription) {
       content = (
         <div>
           <ul className="va-tabs rx-nav va-dnp">
-            <TabItem tabpath={`/${currentRxId}`} title="Prescription Details"/>
-            <TabItem tabpath={`/${currentRxId}/track`} title="Track Package"/>
+            <TabItem tabpath={`/${currentRxId}`} title="Prescription Details" />
+            <TabItem tabpath={`/${currentRxId}/track`} title="Track Package" />
           </ul>
           {this.props.children}
         </div>
@@ -49,10 +49,11 @@ export class Prescription extends React.Component {
     } else {
       content = (
         <p className="rx-loading-error">
-          We couldn’t retrieve your prescription.
-          Please refresh this page or try again later.
-          If this problem persists, please call the Vets.gov Help Desk
-          at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+          We couldn’t retrieve your prescription. Please refresh this page or
+          try again later. If this problem persists, please call the Vets.gov
+          Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+          <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
+          8:00 a.m. &#8211; 8:00 p.m. (ET).
         </p>
       );
     }
@@ -64,10 +65,11 @@ export class Prescription extends React.Component {
           isVisible={alert.visible}
           onCloseAlert={this.props.closeAlert}
           scrollOnShow
-          status={alert.status}/>
+          status={alert.status}
+        />
         <div className="rx-app-title">
           <h1>{title}</h1>
-          <SettingsButton/>
+          <SettingsButton />
         </div>
         {content}
       </div>
@@ -75,18 +77,21 @@ export class Prescription extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const rxState = state.health.rx;
   return {
     alert: rxState.alert,
     loading: rxState.prescriptions.detail.loading,
-    prescription: rxState.prescriptions.currentItem
+    prescription: rxState.prescriptions.currentItem,
   };
 };
 
 const mapDispatchToProps = {
   closeAlert,
-  loadPrescription
+  loadPrescription,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Prescription);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Prescription);

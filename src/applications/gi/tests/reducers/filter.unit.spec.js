@@ -14,33 +14,30 @@ const initialState = {
   priorityEnrollment: false,
   independentStudy: false,
   stemOffered: false,
-  typeName: 'ALL'
+  typeName: 'ALL',
 };
 
 describe('filter reducer', () => {
   it('should change filter successfully', () => {
-    const state = filterReducer(
-      initialState,
-      {
-        type: 'INSTITUTION_FILTER_CHANGED',
-        filter: {
-          category: 'ALL',
-          distanceLearning: false,
-          type: 'ALL',
-          country: 'ALL',
-          state: 'WA',
-          studentVeteranGroup: false,
-          yellowRibbonScholarship: false,
-          principlesOfExcellence: true,
-          eightKeysToVeteranSuccess: false,
-          onlineOnly: false,
-          priorityEnrollment: false,
-          independentStudy: false,
-          stemOffered: true,
-          typeName: 'ALL'
-        },
-      }
-    );
+    const state = filterReducer(initialState, {
+      type: 'INSTITUTION_FILTER_CHANGED',
+      filter: {
+        category: 'ALL',
+        distanceLearning: false,
+        type: 'ALL',
+        country: 'ALL',
+        state: 'WA',
+        studentVeteranGroup: false,
+        yellowRibbonScholarship: false,
+        principlesOfExcellence: true,
+        eightKeysToVeteranSuccess: false,
+        onlineOnly: false,
+        priorityEnrollment: false,
+        independentStudy: false,
+        stemOffered: true,
+        typeName: 'ALL',
+      },
+    });
 
     expect(state.category).to.eql('ALL');
     expect(state.distanceLearning).to.eql(false);
