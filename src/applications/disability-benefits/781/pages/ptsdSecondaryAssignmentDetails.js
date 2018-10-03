@@ -31,6 +31,7 @@ export const schema = {
   properties: {
     secondaryUnitAssigned: {
       type: 'string',
+      maxLength: 100
     },
     secondaryUnitAssignedDates: {
       type: 'object',
