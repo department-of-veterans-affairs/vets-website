@@ -5,7 +5,7 @@ import {
   CLOSE_ATTACHMENTS_MODAL,
   TOGGLE_CONFIRM_DELETE,
   SET_NEW_FOLDER_NAME,
-  TOGGLE_CONFIRM_SAVE
+  TOGGLE_CONFIRM_SAVE,
 } from '../utils/constants';
 
 export function closeCreateFolderModal() {
@@ -19,7 +19,7 @@ export function openCreateFolderModal() {
 export function openMoveToNewFolderModal(messageId) {
   return {
     type: OPEN_CREATE_FOLDER,
-    messageId
+    messageId,
   };
 }
 
@@ -30,7 +30,7 @@ export function toggleConfirmDelete() {
 export function openAttachmentsModal(error) {
   return {
     type: OPEN_ATTACHMENTS_MODAL,
-    error
+    error,
   };
 }
 
@@ -41,7 +41,7 @@ export function closeAttachmentsModal() {
 export function setNewFolderName(folderName) {
   return {
     type: SET_NEW_FOLDER_NAME,
-    folderName
+    folderName,
   };
 }
 

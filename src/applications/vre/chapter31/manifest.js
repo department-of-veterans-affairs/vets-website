@@ -5,5 +5,5 @@ module.exports = {
   receiveContentProps({ path: rootUrl, production }) {
     this.rootUrl = `/${rootUrl}`;
     this.production = production;
-  }
+  },
 };

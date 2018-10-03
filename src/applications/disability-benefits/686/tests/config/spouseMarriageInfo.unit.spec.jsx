@@ -3,31 +3,44 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, fillDate } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+  fillDate,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('686 spouse info', () => {
-  const { schema, uiSchema, depends } = formConfig.chapters.currentSpouseInfo.pages.spouseInfo;
+  const {
+    schema,
+    uiSchema,
+    depends,
+  } = formConfig.chapters.currentSpouseInfo.pages.spouseInfo;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         data={{
-          marriages: [{
-            spouseFullName: {
-              first: 'Jane',
-              last: 'Doe'
-            }
-          }]
+          marriages: [
+            {
+              spouseFullName: {
+                first: 'Jane',
+                last: 'Doe',
+              },
+            },
+          ],
         }}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(7);
     expect(form.find('select').length).to.equal(2);
-    expect(form.find('#root_spouseSocialSecurityNumber-label').text()).to.contain('Jane Doe');
+    expect(
+      form.find('#root_spouseSocialSecurityNumber-label').text(),
+    ).to.contain('Jane Doe');
   });
 
   it('should render spouse address and contrib fields', () => {
@@ -35,15 +48,18 @@ describe('686 spouse info', () => {
       <DefinitionTester
         schema={schema}
         data={{
-          marriages: [{
-            spouseFullName: {
-              first: 'Jane',
-              last: 'Doe'
-            }
-          }]
+          marriages: [
+            {
+              spouseFullName: {
+                first: 'Jane',
+                last: 'Doe',
+              },
+            },
+          ],
         }}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(7);
@@ -63,15 +79,18 @@ describe('686 spouse info', () => {
       <DefinitionTester
         schema={schema}
         data={{
-          marriages: [{
-            spouseFullName: {
-              first: 'Jane',
-              last: 'Doe'
-            }
-          }]
+          marriages: [
+            {
+              spouseFullName: {
+                first: 'Jane',
+                last: 'Doe',
+              },
+            },
+          ],
         }}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('select').length).to.equal(2);
@@ -90,7 +109,8 @@ describe('686 spouse info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -106,7 +126,8 @@ describe('686 spouse info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     fillDate(form, 'root_spouseDateOfBirth', '1980-03-21');

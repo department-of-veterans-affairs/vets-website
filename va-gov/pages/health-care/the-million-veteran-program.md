@@ -5,4 +5,5 @@ display_title:
 collection: healthCare
 spoke: More Resources
 order: 25
+private: true
 ---

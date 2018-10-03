@@ -11,7 +11,7 @@ export const disabilityRatingLabels = {
   70: '70%',
   80: '80%',
   90: '90%',
-  100: '100%'
+  100: '100%',
 };
 
 export const dischargeTypeLabels = {
@@ -20,7 +20,7 @@ export const dischargeTypeLabels = {
   other: 'Other Than Honorable',
   'bad-conduct': 'Bad Conduct',
   dishonorable: 'Dishonorable',
-  undesirable: 'Undesirable'
+  undesirable: 'Undesirable',
 };
 
 export const serviceFlagLabels = {
@@ -32,14 +32,15 @@ export const serviceFlagLabels = {
   postVietnam: 'Post-Vietnam War',
   gulf: 'Gulf War',
   operationEnduringFreedom: 'Operation Enduring Freedom',
-  operationIraqiFreedom: 'Operation Iraqi Freedom'
+  operationIraqiFreedom: 'Operation Iraqi Freedom',
 };
-
 
 export const benefitsLabels = {
   chapter31: <p>Vocational Rehabilitation Benefits (Chapter 31)</p>,
-  ownServiceBenefits: <p>Veterans’ Education Assistance based on your own service</p>,
+  ownServiceBenefits: (
+    <p>Veterans’ Education Assistance based on your own service</p>
+  ),
   dic: <p>Survivors’ and Dependents’</p>,
   other: <p>Other</p>,
-  otherExplanation: <p>Please specify:</p>
+  otherExplanation: <p>Please specify:</p>,
 };

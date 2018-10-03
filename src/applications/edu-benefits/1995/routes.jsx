@@ -9,7 +9,7 @@ const routes = [
     component: Form1995App,
     indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
     childRoutes: createRoutesWithSaveInProgress(formConfig),
-  }
+  },
 ];
 
 export default routes;

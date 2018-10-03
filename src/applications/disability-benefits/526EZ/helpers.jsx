@@ -20,7 +20,7 @@ import { genderLabels } from '../../../platform/static-data/labels';
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 import { getDisabilityName, transformDisabilities } from '../all-claims/utils';
 
-import { VA_FORM4142_URL } from './constants';
+import { VA_FORM4142_URL } from '../all-claims/constants';
 
 /**
  * Inspects an array of objects, and attempts to aggregate subarrays at a given property
@@ -275,33 +275,6 @@ export const supportingEvidenceOrientation = (
   </p>
 );
 
-export const evidenceTypeHelp = (
-  <AdditionalInfo triggerText="Which evidence type should I choose?">
-    <h3>Types of evidence</h3>
-    <h4>VA medical records</h4>
-    <p>
-      If you were treated at a VA medical center or clinic, or by a doctor
-      through the TRICARE health care program, you’ll have VA medical records.
-    </p>
-    <h4>Private medical records</h4>
-    <p>
-      If you were treated by a private doctor, including a Veteran’s Choice
-      doctor, you’ll have private medical records. We’ll need to see those
-      records to make a decision on your claim. A Disability Benefit
-      Questionnaire is an example of a private medical record.
-    </p>
-    <h4>Lay statements or other evidence</h4>
-    <p>
-      A lay statement is a written statement from family, friends, or coworkers
-      to help support your claim. Lay statements are also called “buddy
-      statements.” In most cases, you’ll only need your medical records to
-      support your disability claim. Some claims, for example, for Posttraumatic
-      Stress Disorder or for military sexual trauma, could benefit from a lay or
-      buddy statement.
-    </p>
-  </AdditionalInfo>
-);
-
 export const limitedConsentTitle = (
   <p>
     I want to limit my consent for the VA to retrieve only specific information
@@ -340,7 +313,6 @@ export const facilityDescription = ({ formData }) => {
   );
 };
 
-
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
     <p>
@@ -364,32 +336,8 @@ export const privateRecordsChoice = ({ formData }) => {
   );
 };
 
-export const privateRecordsChoiceHelp = (
-  <div className="private-records-choice-help">
-    <AdditionalInfo triggerText="Which should I choose?">
-      <h5>Upload your medical records</h5>
-      <p>
-        If you have an electronic copy of your medical records, uploading your
-        records can speed up the review of your claim.
-      </p>
-      <p>
-        This works best if you have a fast internet connection and time for a
-        large file to upload. Records should be .pdf, .jpg, or .png files and
-        can be up to 50MB each.
-      </p>
-      <h5>We get records for you</h5>
-      <p>
-        If you tell us which VA medical center treated you for your condition,
-        we can get your medical records for you. Getting your records may take
-        us some time. This could take us longer to make a decision on your
-        claim.
-      </p>
-    </AdditionalInfo>
-  </div>
-);
-
 const firstOrNowString = evidenceTypes =>
-  (evidenceTypes['view:vaMedicalRecords'] ? 'Now' : 'First,');
+  evidenceTypes['view:vaMedicalRecords'] ? 'Now' : 'First,';
 export const privateMedicalRecordsIntro = ({ formData }) => (
   <p>
     {firstOrNowString(formData['view:selectableEvidenceTypes'])} we’ll ask you
@@ -450,11 +398,11 @@ export function validateAddress(errors, formData) {
 const claimsIntakeAddress = (
   <p className="va-address-block">
     Department of Veterans Affairs
-    <br/>
+    <br />
     Claims Intake Center
-    <br/>
+    <br />
     PO Box 4444
-    <br/>
+    <br />
     Janesville, WI 53547-4444
   </p>
 );
@@ -600,102 +548,68 @@ export const recordReleaseWarning = (
   </div>
 );
 
-export const documentDescription = () => {
-  return (
-    <div>
-      <p>
-        You can upload your document in a pdf, .jpeg, or .png file format.
-        You’ll first need to scan a copy of your document onto your computer or
-        mobile phone. You can then upload the document from there. Please note
-        that large files can take longer to upload with a slow Internet
-        connection. Guidelines for uploading a file:
-      </p>
-      <ul>
-        <li>File types you can upload: .pdf, .jpeg, or .png</li>
-        <li>Maximum file size: 50 MB</li>
-      </ul>
-      <p>
-        <em>
-          Large files can be more difficult to upload with a slow Internet
-          connection
-        </em>
-      </p>
-    </div>
-  );
-};
-
-export const additionalDocumentDescription = () => {
-  return (
-    <div>
-      <p>
-        If you have other evidence, such as a lay or buddy statement to turn in,
-        you can upload them here. You can upload your document in a pdf, .jpeg,
-        or .png file format. You’ll first need to scan a copy of your document
-        onto your computer or mobile phone. You can then upload the document
-        from there. Please note that if you have a slow Internet connection,
-        large files can take longer to upload.
-      </p>
-      <p>File upload guidelines:</p>
-      <ul>
-        <li>File types you can upload: .pdf, .jpeg, or .png</li>
-        <li>Maximum file size: 50 MB</li>
-      </ul>
-      <p>
-        <em>
-          Large files can be more difficult to upload with a slow Internet
-          connection
-        </em>
-      </p>
-    </div>
-  );
-};
+export const additionalDocumentDescription = () => (
+  <div>
+    <p>
+      If you have other evidence, such as a lay or buddy statement to turn in,
+      you can upload them here. You can upload your document in a pdf, .jpeg, or
+      .png file format. You’ll first need to scan a copy of your document onto
+      your computer or mobile phone. You can then upload the document from
+      there. Please note that if you have a slow Internet connection, large
+      files can take longer to upload.
+    </p>
+    <p>File upload guidelines:</p>
+    <ul>
+      <li>File types you can upload: .pdf, .jpeg, or .png</li>
+      <li>Maximum file size: 50 MB</li>
+    </ul>
+    <p>
+      <em>
+        Large files can be more difficult to upload with a slow Internet
+        connection
+      </em>
+    </p>
+  </div>
+);
 
 const getVACenterName = center => center.treatmentCenterName;
 const getPrivateCenterName = release =>
   release.privateRecordRelease.treatmentCenterName;
-const listCenters = centers => {
-  return (
-    <span className="treatment-centers">
-      {centers.map((center, idx, list) => {
-        const centerName = center.treatmentCenterName
-          ? getVACenterName(center)
-          : getPrivateCenterName(center);
-        const notLast = idx < list.length - 1;
-        const justOne = list.length === 1;
-        const atLeastThree = list.length > 2;
-        return (
-          <span key={idx}>
-            {!notLast &&
-              !justOne && <span className="unstyled-word"> and </span>}
-            {centerName}
-            {atLeastThree && notLast && ', '}
-          </span>
-        );
-      })}
-    </span>
-  );
-};
+const listCenters = centers => (
+  <span className="treatment-centers">
+    {centers.map((center, idx, list) => {
+      const centerName = center.treatmentCenterName
+        ? getVACenterName(center)
+        : getPrivateCenterName(center);
+      const notLast = idx < list.length - 1;
+      const justOne = list.length === 1;
+      const atLeastThree = list.length > 2;
+      return (
+        <span key={idx}>
+          {!notLast && !justOne && <span className="unstyled-word"> and </span>}
+          {centerName}
+          {atLeastThree && notLast && ', '}
+        </span>
+      );
+    })}
+  </span>
+);
 
-const listDocuments = documents => {
-  return (
-    <ul>
-      {documents.map((document, id) => {
-        return (
-          <li className="dashed-bullet" key={id}>
-            <strong>{document.name}</strong>
-          </li>
-        );
-      })}
-    </ul>
-  );
-};
+const listDocuments = documents => (
+  <ul>
+    {documents.map((document, id) => (
+      <li className="dashed-bullet" key={id}>
+        <strong>{document.name}</strong>
+      </li>
+    ))}
+  </ul>
+);
 
 export const evidenceSummaryView = ({ formContext, formData }) => {
   const {
     treatments,
     privateRecords,
     additionalDocuments,
-    providerFacility,
   } = formData;
 
   return (
@@ -713,16 +627,10 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
             We’ll get your medical records from {listCenters(treatments)}.
           </li>
         )}
-        {providerFacility && (
+        {privateRecordReleases && (
           <li>
             We’ll get your private medical records from{' '}
-            {providerFacility.map((facility, idx) => {
-              return (
-                <div key={idx}>
-                  <strong>{facility.providerFacilityName}</strong>
-                </div>
-              );
-            })}
+            {listCenters(privateRecordReleases)}.
           </li>
         )}
         {privateRecords && (
@@ -759,14 +667,12 @@ export const editNote = name => (
  *                                                           but ignored by screen readers
  * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
  */
-export const srSubstitute = (srIgnored, substitutionText) => {
-  return (
-    <span>
-      <span aria-hidden>{srIgnored}</span>
-      <span className="sr-only">{substitutionText}</span>
-    </span>
-  );
-};
+export const srSubstitute = (srIgnored, substitutionText) => (
+  <span>
+    <span aria-hidden>{srIgnored}</span>
+    <span className="sr-only">{substitutionText}</span>
+  </span>
+);
 
 const unconnectedVetInfoView = profile => {
   // NOTE: ssn and vaFileNumber will be undefined for the foreseeable future; they're kept in here as a reminder.
@@ -794,7 +700,7 @@ const unconnectedVetInfoView = profile => {
         )}
         <p>
           Date of birth:{' '}
-          <DateWidget value={dob} options={{ monthYear: false }}/>
+          <DateWidget value={dob} options={{ monthYear: false }} />
         </p>
         <p>Gender: {genderLabels[gender]}</p>
       </div>
@@ -826,7 +732,7 @@ export const UnauthenticatedAlert = (
         your account.
       </div>
     </div>
-    <br/>
+    <br />
   </div>
 );
 
@@ -837,7 +743,7 @@ export const UnverifiedAlert = (
         To apply for a disability increase, you’ll need to verify your account.
       </div>
     </div>
-    <br/>
+    <br />
   </div>
 );
 
@@ -852,28 +758,26 @@ export const VerifiedAlert = (
         start or update your application to submit the form.
       </div>
     </div>
-    <br/>
+    <br />
   </div>
 );
 
-export const GetFormHelp = () => {
-  return (
-    <div>
-      <p className="help-talk">For help filling out this form, please call:</p>
-      <p className="help-phone-number">
-        <a className="help-phone-number-link" href="tel:+1-877-222-8387">
-          1-877-222-VETS
-        </a>{' '}
-        (
-        <a className="help-phone-number-link" href="tel:+1-877-222-8387">
-          1-877-222-8387
-        </a>
-        )<br/>
-        Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
-      </p>
-    </div>
-  );
-};
+export const GetFormHelp = () => (
+  <div>
+    <p className="help-talk">For help filling out this form, please call:</p>
+    <p className="help-phone-number">
+      <a className="help-phone-number-link" href="tel:+1-877-222-8387">
+        1-877-222-VETS
+      </a>{' '}
+      (
+      <a className="help-phone-number-link" href="tel:+1-877-222-8387">
+        1-877-222-8387
+      </a>
+      )<br />
+      Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+    </p>
+  </div>
+);
 
 export const ITFDescription = (
   <span>
@@ -956,15 +860,13 @@ export const noFDCWarning = (
   </div>
 );
 
-const evidenceTypesDescription = (disabilityName) => {
-  return (
-    <p>
-      What supporting evidence will you be turning in that shows your{' '}
-      {disabilityName}{' '}
-      <strong>has gotten worse since you received a VA rating</strong>?
-    </p>
-  );
-};
+const evidenceTypesDescription = disabilityName => (
+  <p>
+    What supporting evidence will you be turning in that shows your{' '}
+    {disabilityName}{' '}
+    <strong>has gotten worse since you received a VA rating</strong>?
+  </p>
+);
 
 export const getEvidenceTypesDescription = (form, index) => {
   const { name } = form.disabilities[index];
@@ -1016,7 +918,15 @@ export const contactInfoUpdateHelp = () => (
   </div>
 );
 
-export const validateIfHasEvidence = (errors, fieldData, formData, schema, messages, options, index) => {
+export const validateIfHasEvidence = (
+  errors,
+  fieldData,
+  formData,
+  schema,
+  messages,
+  options,
+  index,
+) => {
   const { wrappedValidator } = options;
   if (get('view:hasEvidence', formData, true)) {
     wrappedValidator(errors, fieldData, formData, schema, messages, index);

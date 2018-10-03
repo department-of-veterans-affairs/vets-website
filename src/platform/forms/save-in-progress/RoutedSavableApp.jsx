@@ -9,7 +9,7 @@ import {
   PREFILL_STATUSES,
   SAVE_STATUSES,
   setFetchFormStatus,
-  fetchInProgressForm
+  fetchInProgressForm,
 } from './actions';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
@@ -19,11 +19,14 @@ import { getSaveInProgressState } from './selectors';
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
-    duration: 500,
-    delay: 0,
-    smooth: true
-  });
+  scroller.scrollTo(
+    'topScrollElement',
+    window.VetsGov.scroll || {
+      duration: 500,
+      delay: 0,
+      smooth: true,
+    },
+  );
 };
 
 /*
@@ -43,8 +46,10 @@ class RoutedSavableApp extends React.Component {
     const { currentLocation } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const resumeForm = trimmedPathname.endsWith('resume');
-    const devRedirect = (__BUILDTYPE__ !== 'development' && !currentLocation.search.includes('skip'))
-      || currentLocation.search.includes('redirect');
+    const devRedirect =
+      (__BUILDTYPE__ !== 'development' &&
+        !currentLocation.search.includes('skip')) ||
+      currentLocation.search.includes('redirect');
     const goToStartPage = resumeForm || devRedirect;
     if (isInProgress(currentLocation.pathname) && goToStartPage) {
       // We started on a page that isn't the first, so after we know whether
@@ -64,24 +69,37 @@ class RoutedSavableApp extends React.Component {
     // When a user is logged in, the profile finishes loading after the component
     //  has mounted, so we check here.
     // If we're done loading the profile, check to see if we should load or redirect
-    if (this.props.profileIsLoading && !newProps.profileIsLoading && this.shouldRedirectOrLoad) {
+    if (
+      this.props.profileIsLoading &&
+      !newProps.profileIsLoading &&
+      this.shouldRedirectOrLoad
+    ) {
       this.redirectOrLoad(newProps);
     }
 
     const status = newProps.loadedStatus;
-    if (status === LOAD_STATUSES.success && newProps.currentLocation && newProps.currentLocation.pathname.endsWith('resume')) {
+    if (
+      status === LOAD_STATUSES.success &&
+      newProps.currentLocation &&
+      newProps.currentLocation.pathname.endsWith('resume')
+    ) {
       newProps.router.replace(newProps.returnUrl);
     } else if (status === LOAD_STATUSES.success) {
       newProps.router.push(newProps.returnUrl);
       // Set loadedStatus in redux to not-attempted to not show the loading page
       newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
-    } else if (newProps.prefillStatus !== this.props.prefillStatus
-      && newProps.prefillStatus === PREFILL_STATUSES.unfilled) {
-      newProps.router.push(newProps.routes[this.props.routes.length - 1].pageList[1].path);
-    } else if (status !== LOAD_STATUSES.notAttempted
-      && status !== LOAD_STATUSES.pending
-      && status !== this.props.loadedStatus
-      && !window.location.pathname.endsWith('/error')
+    } else if (
+      newProps.prefillStatus !== this.props.prefillStatus &&
+      newProps.prefillStatus === PREFILL_STATUSES.unfilled
+    ) {
+      newProps.router.push(
+        newProps.routes[this.props.routes.length - 1].pageList[1].path,
+      );
+    } else if (
+      status !== LOAD_STATUSES.notAttempted &&
+      status !== LOAD_STATUSES.pending &&
+      status !== this.props.loadedStatus &&
+      !window.location.pathname.endsWith('/error')
     ) {
       let action = 'push';
       if (window.location.pathname.endsWith('resume')) {
@@ -93,16 +111,22 @@ class RoutedSavableApp extends React.Component {
 
   // should scroll up to top while user is waiting for form to load or save
   componentDidUpdate(oldProps) {
-    if ((oldProps.loadedStatus !== this.props.loadedStatus &&
-      this.props.loadedStatus === LOAD_STATUSES.pending)
-      || ((oldProps.savedStatus !== this.props.savedStatus &&
-      this.props.savedStatus === SAVE_STATUSES.pending))) {
+    if (
+      (oldProps.loadedStatus !== this.props.loadedStatus &&
+        this.props.loadedStatus === LOAD_STATUSES.pending) ||
+      (oldProps.savedStatus !== this.props.savedStatus &&
+        this.props.savedStatus === SAVE_STATUSES.pending)
+    ) {
       scrollToTop();
     }
 
-    if (this.props.savedStatus !== oldProps.savedStatus &&
-      this.props.savedStatus === SAVE_STATUSES.success) {
-      this.props.router.push(`${this.props.formConfig.urlPrefix || ''}form-saved`);
+    if (
+      this.props.savedStatus !== oldProps.savedStatus &&
+      this.props.savedStatus === SAVE_STATUSES.success
+    ) {
+      this.props.router.push(
+        `${this.props.formConfig.urlPrefix || ''}form-saved`,
+      );
     }
   }
 
@@ -116,33 +140,51 @@ class RoutedSavableApp extends React.Component {
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
 
     let message;
-    if (autoSavedStatus !== SAVE_STATUSES.success && isInProgress(trimmedPathname)) {
-      message = 'Are you sure you wish to leave this application? All progress will be lost.';
+    if (
+      autoSavedStatus !== SAVE_STATUSES.success &&
+      isInProgress(trimmedPathname)
+    ) {
+      message =
+        'Are you sure you wish to leave this application? All progress will be lost.';
       // Chrome requires this to be set
-      e.returnValue = message;     // eslint-disable-line no-param-reassign
+      e.returnValue = message; // eslint-disable-line no-param-reassign
     }
     return message;
-  }
+  };
 
   redirectOrLoad(props) {
     // Stop a user that's been redirected to be redirected again after logging in
     this.shouldRedirectOrLoad = false;
 
-    const firstPagePath = props.routes[props.routes.length - 1].pageList[0].path;
-    const firstNonIntroPagePath = props.routes[props.routes.length - 1].pageList[1].path;
+    const firstPagePath =
+      props.routes[props.routes.length - 1].pageList[0].path;
+    const firstNonIntroPagePath =
+      props.routes[props.routes.length - 1].pageList[1].path;
     // If we're logged in and have a saved / pre-filled form, load that
     if (props.isLoggedIn) {
       const currentForm = props.formConfig.formId;
-      const isSaved = props.savedForms.some((savedForm) => savedForm.form === currentForm);
+      const isSaved = props.savedForms.some(
+        savedForm => savedForm.form === currentForm,
+      );
       const hasPrefillData = props.prefillsAvailable.includes(currentForm);
 
       if (isSaved) {
-        props.fetchInProgressForm(currentForm, props.formConfig.migrations, false, props.formConfig.prefillTransformer);
+        props.fetchInProgressForm(
+          currentForm,
+          props.formConfig.migrations,
+          false,
+          props.formConfig.prefillTransformer,
+        );
       } else if (props.skipPrefill) {
         // Just need to go to the page after the introduction
         props.router.replace(firstNonIntroPagePath);
       } else if (hasPrefillData) {
-        props.fetchInProgressForm(currentForm, props.formConfig.migrations, true, props.formConfig.prefillTransformer);
+        props.fetchInProgressForm(
+          currentForm,
+          props.formConfig.migrations,
+          true,
+          props.formConfig.prefillTransformer,
+        );
       } else {
         // No forms to load; go to the beginning
         // If the first page is not the intro and uses `depends`, this will probably break
@@ -157,21 +199,34 @@ class RoutedSavableApp extends React.Component {
 
   removeOnbeforeunload = () => {
     window.removeEventListener('beforeunload', this.onbeforeunload);
-  }
+  };
 
   render() {
     const { currentLocation, formConfig, children, loadedStatus } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     let content;
-    const loadingForm = trimmedPathname.endsWith('resume') || loadedStatus === LOAD_STATUSES.pending;
-    if (!formConfig.disableSave && loadingForm && this.props.prefillStatus === PREFILL_STATUSES.pending) {
-      content = <LoadingIndicator message="Retrieving your profile information..."/>;
+    const loadingForm =
+      trimmedPathname.endsWith('resume') ||
+      loadedStatus === LOAD_STATUSES.pending;
+    if (
+      !formConfig.disableSave &&
+      loadingForm &&
+      this.props.prefillStatus === PREFILL_STATUSES.pending
+    ) {
+      content = (
+        <LoadingIndicator message="Retrieving your profile information..." />
+      );
     } else if (!formConfig.disableSave && loadingForm) {
-      content = <LoadingIndicator message="Retrieving your saved form..."/>;
-    } else if (!formConfig.disableSave && this.props.savedStatus === SAVE_STATUSES.pending) {
-      content = <LoadingIndicator message="Saving your form..."/>;
+      content = <LoadingIndicator message="Retrieving your saved form..." />;
+    } else if (
+      !formConfig.disableSave &&
+      this.props.savedStatus === SAVE_STATUSES.pending
+    ) {
+      content = <LoadingIndicator message="Saving your form..." />;
     } else if (!formConfig.disableSave && this.shouldRedirectOrLoad) {
-      content = <LoadingIndicator message="Retrieving your profile information..."/>;
+      content = (
+        <LoadingIndicator message="Retrieving your profile information..." />
+      );
     } else {
       content = (
         <FormApp formConfig={formConfig} currentLocation={currentLocation}>
@@ -182,7 +237,7 @@ class RoutedSavableApp extends React.Component {
 
     return (
       <div>
-        <Element name="topScrollElement"/>
+        <Element name="topScrollElement" />
         {content}
       </div>
     );
@@ -191,9 +246,14 @@ class RoutedSavableApp extends React.Component {
 
 const mapDispatchToProps = {
   setFetchFormStatus,
-  fetchInProgressForm
+  fetchInProgressForm,
 };
 
-export default withRouter(connect(getSaveInProgressState, mapDispatchToProps)(RoutedSavableApp));
+export default withRouter(
+  connect(
+    getSaveInProgressState,
+    mapDispatchToProps,
+  )(RoutedSavableApp),
+);
 
 export { RoutedSavableApp };

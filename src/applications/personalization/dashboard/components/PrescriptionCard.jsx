@@ -16,35 +16,46 @@ function recordDashboardClick(product) {
 }
 
 export default function PrescriptionCard({ prescription }) {
-  const { prescriptionName, refillSubmitDate, refillDate, isTrackable } = prescription.attributes;
+  const {
+    prescriptionName,
+    refillSubmitDate,
+    refillDate,
+    isTrackable,
+  } = prescription.attributes;
 
   return (
     <div className="claim-list-item-container">
-      <h3 className="claim-list-item-header-v2">
-        {prescriptionName}
-      </h3>
+      <h3 className="claim-list-item-header-v2">{prescriptionName}</h3>
       <p>
-        <strong>Order status:</strong> {isTrackable ? 'We’ve shipped your order' : 'We’re working to fill your prescription'}
+        <strong>Order status:</strong>{' '}
+        {isTrackable
+          ? 'We’ve shipped your order'
+          : 'We’re working to fill your prescription'}
       </p>
-      <p><strong>You submitted your refill order on:</strong> {
-        formatDate(refillSubmitDate || refillDate, {
-          format: 'L'
-        })
-      }</p>
+      <p>
+        <strong>You submitted your refill order on:</strong>{' '}
+        {formatDate(refillSubmitDate || refillDate, {
+          format: 'L',
+        })}
+      </p>
       <p>
         {isTrackable ? (
           <Link
             key={`rx-${prescription.id}-track`}
             className="rx-track-package-link usa-button"
             href={`/health-care/prescriptions/${prescription.id}/track`}
-            onClick={recordDashboardClick('track-your-package')}>
-              Track Your Package
+            onClick={recordDashboardClick('track-your-package')}
+          >
+            Track Your Package
           </Link>
         ) : (
           <Link
             className="usa-button usa-button-primary"
-            href={`/health-care/prescriptions/${prescription.id}`} onClick={recordDashboardClick('view-your-prescription')}>
-            View Your Prescription<i className="fa fa-chevron-right"/>
+            href={`/health-care/prescriptions/${prescription.id}`}
+            onClick={recordDashboardClick('view-your-prescription')}
+          >
+            View Your Prescription
+            <i className="fa fa-chevron-right" />
           </Link>
         )}
       </p>
@@ -71,6 +82,6 @@ PrescriptionCard.propTypes = {
       stationNumber: PropTypes.string,
       isRefillable: PropTypes.bool.isRequired,
       isTrackable: PropTypes.bool.isRequired,
-    }).isRequired
-  })
+    }).isRequired,
+  }),
 };

@@ -5,4 +5,5 @@ target: _blank
 order: 4
 collection: burials
 spoke: More Resources
+private: true
 ---

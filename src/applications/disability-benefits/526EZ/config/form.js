@@ -53,7 +53,6 @@ import {
   privateMedicalRecordsIntro,
   privateRecordsChoice,
   facilityDescription,
-  documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
   GetFormHelp,
@@ -65,7 +64,6 @@ import {
   editNote,
   limitedConsentTitle,
   validateIfHasEvidence,
-  privateRecordsChoiceHelp,
   patientAcknowledgmentText,
   limitedConsentTextTitle,
   limitedConsentDescription,
@@ -78,13 +76,20 @@ import {
 
 import {
   hasGuardOrReservePeriod,
-  queryForFacilities
+  queryForFacilities,
 } from '../../all-claims/utils';
 
 import {
   disabilityOption,
   disabilitiesClarification,
 } from '../../all-claims/content/ratedDisabilities';
+
+import {
+  privateRecordsChoiceHelp,
+  documentDescription,
+} from '../../all-claims/content/privateMedicalRecords';
+
+import { FIFTY_MB } from '../../all-claims/constants';
 
 import { treatmentView } from '../../all-claims/content/vaMedicalRecords';
 import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
@@ -116,8 +121,6 @@ const {
   disabilities,
   vaTreatmentCenterAddress,
 } = fullSchema526EZ.definitions;
-
-const FIFTY_MB = 52428800;
 
 const formConfig = {
   urlPrefix: '/',
@@ -389,18 +392,19 @@ const formConfig = {
                       title: getEvidenceTypesDescription(form, index),
                     }),
                     showFieldLabel: true,
-                    hideIf: (formData, index) => {
-                      return !_.get(
+                    hideIf: (formData, index) =>
+                      !_.get(
                         `disabilities[${index}].view:hasEvidence`,
                         formData,
                         true,
-                      );
-                    },
+                      ),
                   },
-                  'ui:validations': [{
-                    validator: validateIfHasEvidence,
-                    options: { wrappedValidator: validateBooleanGroup }
-                  }],
+                  'ui:validations': [
+                    {
+                      validator: validateIfHasEvidence,
+                      options: { wrappedValidator: validateBooleanGroup },
+                    },
+                  ],
                   'ui:errorMessages': {
                     atLeastOne:
                       'Please select at least one type of supporting evidence',
@@ -431,7 +435,7 @@ const formConfig = {
                   properties: {
                     'view:hasEvidence': {
                       type: 'boolean',
-                      'default': true,
+                      default: true,
                     },
                     'view:selectableEvidenceTypes': {
                       type: 'object',
@@ -465,9 +469,7 @@ const formConfig = {
           arrayPath: 'disabilities',
           depends: (formData, index) =>
             _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:vaMedicalRecords`,
+              `disabilities.${index}.view:selectableEvidenceTypes.view:vaMedicalRecords`,
               formData,
             ),
           uiSchema: {
@@ -476,10 +478,10 @@ const formConfig = {
                 'ui:title': disabilityNameTitle,
                 'ui:description': vaMedicalRecordsIntro,
                 'ui:options': {
-                  hideOnReview: true
-                }
-              }
-            }
+                  hideOnReview: true,
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -495,17 +497,14 @@ const formConfig = {
           },
         },
         vaFacilities: {
-          //  title: formData => `${formData.name} VA facilities`,
-          title: '',
+          title: formData => `${formData.name} VA facilities`,
           path: 'supporting-evidence/:index/va-facilities',
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) =>
             _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:vaMedicalRecords`,
+              `disabilities.${index}.view:selectableEvidenceTypes.view:vaMedicalRecords`,
               formData,
             ),
           uiSchema: {
@@ -570,9 +569,7 @@ const formConfig = {
           arrayPath: 'disabilities',
           depends: (formData, index) =>
             _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+              `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
               formData,
             ),
           uiSchema: {
@@ -581,10 +578,10 @@ const formConfig = {
                 'ui:title': disabilityNameTitle,
                 'ui:description': privateMedicalRecordsIntro,
                 'ui:options': {
-                  hideOnReview: true
-                }
-              }
-            }
+                  hideOnReview: true,
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -607,9 +604,7 @@ const formConfig = {
           arrayPath: 'disabilities',
           depends: (formData, index) =>
             _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+              `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
               formData,
             ),
           uiSchema: {
@@ -664,7 +659,7 @@ const formConfig = {
                   properties: {
                     'view:uploadPrivateRecords': {
                       type: 'string',
-                      'enum': ['yes', 'no'],
+                      enum: ['yes', 'no'],
                     },
                     'view:patientAcknowledgement': {
                       type: 'object',
@@ -694,9 +689,7 @@ const formConfig = {
           arrayPath: 'disabilities',
           depends: (formData, index) => {
             const hasRecords = _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+              `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
               formData,
             );
             const requestsRecords =
@@ -894,9 +887,7 @@ const formConfig = {
           title: 'Upload your private medical records',
           depends: (formData, index) => {
             const hasRecords = _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+              `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
               formData,
             );
             const uploadRecords =
@@ -942,12 +933,10 @@ const formConfig = {
 
                       return payload;
                     },
-                    parseResponse: (response, file) => {
-                      return {
-                        name: file.name,
-                        confirmationCode: response.data.attributes.guid,
-                      };
-                    },
+                    parseResponse: (response, file) => ({
+                      name: file.name,
+                      confirmationCode: response.data.attributes.guid,
+                    }),
                     // this is the uiSchema passed to FileField for the attachmentId schema
                     // FileField requires this name be used
                     attachmentSchema: {
@@ -984,9 +973,7 @@ const formConfig = {
           title: 'Lay statements or other evidence',
           depends: (formData, index) =>
             _.get(
-              `disabilities.${
-                index
-              }.view:selectableEvidenceTypes.view:otherEvidence`,
+              `disabilities.${index}.view:selectableEvidenceTypes.view:otherEvidence`,
               formData,
             ),
           path: 'supporting-evidence/:index/additionalDocuments',
@@ -1025,12 +1012,10 @@ const formConfig = {
 
                       return payload;
                     },
-                    parseResponse: (response, file) => {
-                      return {
-                        name: file.name,
-                        confirmationCode: response.data.attributes.guid,
-                      };
-                    },
+                    parseResponse: (response, file) => ({
+                      name: file.name,
+                      confirmationCode: response.data.attributes.guid,
+                    }),
                     // this is the uiSchema passed to FileField for the attachmentId schema
                     // FileField requires this name be used
                     attachmentSchema: {

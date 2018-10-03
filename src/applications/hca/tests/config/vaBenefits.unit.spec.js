@@ -4,7 +4,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  submitForm,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Hca vaBenefits', () => {
@@ -15,7 +18,8 @@ describe('Hca vaBenefits', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        definitions={definitions}/>
+        definitions={definitions}
+      />,
     );
     const formDOM = findDOMNode(form);
 
@@ -29,7 +33,8 @@ describe('Hca vaBenefits', () => {
         schema={schema}
         definitions={definitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = findDOMNode(form);
@@ -47,15 +52,19 @@ describe('Hca vaBenefits', () => {
         schema={schema}
         definitions={definitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_vaCompensationType_3'), {
-      target: {
-        value: 'none'
-      }
-    });
+    ReactTestUtils.Simulate.change(
+      formDOM.querySelector('#root_vaCompensationType_3'),
+      {
+        target: {
+          value: 'none',
+        },
+      },
+    );
 
     submitForm(form);
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);

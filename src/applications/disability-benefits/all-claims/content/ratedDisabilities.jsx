@@ -16,14 +16,19 @@ export const disabilityOption = ({ name, ratingPercentage }) => {
   return (
     <div>
       <h4>{getDisabilityName(name)}</h4>
-      {showRatingPercentage && <p>Current rating: <strong>{ratingPercentage}%</strong></p>}
+      {showRatingPercentage && (
+        <p>
+          Current rating: <strong>{ratingPercentage}%</strong>
+        </p>
+      )}
     </div>
   );
 };
 
 export const disabilitiesClarification = (
   <p>
-    <strong>Please note:</strong> This list only includes disabilities that we've already rated. It doesn't include any disabilities from claims that are in progress.
+    <strong>Please note:</strong> This list only includes disabilities that
+    we've already rated. It doesn't include any disabilities from claims that
+    are in progress.
   </p>
 );
-

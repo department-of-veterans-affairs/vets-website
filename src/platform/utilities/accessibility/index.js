@@ -19,10 +19,19 @@ function isReverseTab(e) {
 }
 
 function getTabbableElements(node) {
-  return node.querySelectorAll('input,select,a[href],textarea,button,[tabindex]');
+  return node.querySelectorAll(
+    'input,select,a[href],textarea,button,[tabindex]',
+  );
 }
 
 function isEnter(e) {
-  return (e.key === 'Enter' || e.keyCode === ENTER);
+  return e.key === 'Enter' || e.keyCode === ENTER;
 }
-export { isWideScreen, isEscape, isTab, isReverseTab, getTabbableElements, isEnter };
+export {
+  isWideScreen,
+  isEscape,
+  isTab,
+  isReverseTab,
+  getTabbableElements,
+  isEnter,
+};

@@ -7,7 +7,7 @@ const AppealsV2DetailPage = ({ appeal }) => {
   const issues = addStatusToIssues(appeal.attributes.issues);
   return (
     <div>
-      <Issues issues={issues}/>
+      <Issues issues={issues} />
     </div>
   );
 };
@@ -20,9 +20,9 @@ AppealsV2DetailPage.propTypes = {
       status: PropTypes.shape({
         type: PropTypes.string,
         details: PropTypes.object,
-      }).isRequired
+      }).isRequired,
     }).isRequired,
-  })
+  }),
 };
 
 export default AppealsV2DetailPage;

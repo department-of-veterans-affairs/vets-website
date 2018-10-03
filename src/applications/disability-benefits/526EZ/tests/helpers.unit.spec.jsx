@@ -149,21 +149,21 @@ describe('526 helpers', () => {
             treatmentCenterName: 'Somerset VA Clinic',
             treatmentDateRange: {
               from: '2000-06-06',
-              to: '2004-02-06'
-            }
+              to: '2004-02-06',
+            },
           },
           {
             treatmentCenterName: 'DC VA Regional Medical Center',
             treatmentDateRange: {
               from: '2000-07-04',
-              to: '2010-01-03'
-            }
-          }
+              to: '2010-01-03',
+            },
+          },
         ],
-      }
+      },
     };
     it('should return stringified, transformed data for submit', () => {
-      expect(transform(null, formData)).to.equal(
+      expect(transform(null, formData)).to.deep.equal(
         JSON.stringify(transformedData),
       );
     });
@@ -250,6 +250,10 @@ describe('526 helpers', () => {
       const pages = [];
       const formData = _.omit(initialData, 'disabilities');
       const metadata = {};
+<<<<<<< HEAD
+=======
+
+>>>>>>> cc1377bd2031b14c0641df4b0d96ee1b1834a19b
       expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({
         pages,
         formData,
@@ -263,6 +267,10 @@ describe('526 helpers', () => {
         someProperty: 'value',
       });
       const metadata = {};
+<<<<<<< HEAD
+=======
+
+>>>>>>> cc1377bd2031b14c0641df4b0d96ee1b1834a19b
       expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({
         pages,
         formData,
@@ -296,6 +304,10 @@ describe('526 helpers', () => {
           },
         },
       );
+<<<<<<< HEAD
+=======
+
+>>>>>>> cc1377bd2031b14c0641df4b0d96ee1b1834a19b
       const newData = prefillTransformer(pages, formData, metadata);
       expect(newData.formData.obligationTermOfServiceDateRange).to.deep.equal(
         dateRange,
@@ -421,6 +433,10 @@ describe('526 helpers', () => {
           anticipatedSeparationDate: '2099-05-03',
         },
       };
+<<<<<<< HEAD
+=======
+
+>>>>>>> cc1377bd2031b14c0641df4b0d96ee1b1834a19b
       expect(getReservesGuardData(formData)).to.deep.equal(
         _.omit(formData, 'view:isTitle10Activated'),
       );

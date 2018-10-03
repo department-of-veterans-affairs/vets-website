@@ -10,5 +10,5 @@ import manifest from './manifest';
 startApp({
   url: manifest.rootUrl,
   reducer,
-  routes
+  routes,
 });

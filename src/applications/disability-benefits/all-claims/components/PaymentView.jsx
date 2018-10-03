@@ -3,7 +3,7 @@ import { srSubstitute } from '../utils';
 import { NOBANK, accountTitleLabels } from '../constants';
 import { PaymentDescription, editNote } from '../content/paymentInformation';
 
-const PaymentView = (response) => {
+const PaymentView = response => {
   const {
     accountType = '',
     accountNumber = '',
@@ -19,27 +19,30 @@ const PaymentView = (response) => {
     if (!string) {
       return srSubstitute('', 'is blank');
     }
-    const repeatCount = string.length > unmaskedLength ? string.length - unmaskedLength : 0;
-    const maskedString = srSubstitute(`${'●'.repeat(repeatCount)}`, 'ending with');
-    return <span>{maskedString}{string.slice(-unmaskedLength)}</span>;
+    const repeatCount =
+      string.length > unmaskedLength ? string.length - unmaskedLength : 0;
+    const maskedString = srSubstitute(
+      `${'●'.repeat(repeatCount)}`,
+      'ending with',
+    );
+    return (
+      <span>
+        {maskedString}
+        {string.slice(-unmaskedLength)}
+      </span>
+    );
   };
 
   if (accountType !== NOBANK) {
-    accountNumberString = (
-      <p>
-        Account number: {mask(accountNumber, 4)}
-      </p>
+    accountNumberString = <p>Account number: {mask(accountNumber, 4)}</p>;
+    routingNumberString = <p>Bank routing number: {mask(routingNumber, 4)}</p>;
+    bankNameString = (
+      <p>Bank name: {bankName || srSubstitute('', 'is blank')}</p>
     );
-    routingNumberString = (
-      <p>
-        Bank routing number: {mask(routingNumber, 4)}
-      </p>
-    );
-    bankNameString = <p>Bank name: {bankName || srSubstitute('', 'is blank')}</p>;
   }
   return (
     <div>
-      <PaymentDescription/>
+      <PaymentDescription />
       <div className="blue-bar-block">
         <p>
           <strong>{accountTitleLabels[accountType.toUpperCase()]}</strong>

@@ -1,5 +1,5 @@
 ---
-title: Your Vets.gov Dashboard
+title: My VA
 layout: page-react.html
 entryname: dashboard
 ---
@@ -7,6 +7,6 @@ entryname: dashboard
 id="va-breadcrumbs">
   <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
     <li><a href="/">Home</a></li>
-    <li><a aria-current="page" href="/dashboard">My VA</a></li>
+    <li><a aria-current="page" href="/my-va">My VA</a></li>
   </ul>
 </nav>

@@ -3,17 +3,24 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, getFormDOM } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  getFormDOM,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pensions service periods', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.servicePeriods;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.militaryHistory.pages.servicePeriods;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -27,7 +34,8 @@ describe('Pensions service periods', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -45,14 +53,21 @@ describe('Pensions service periods', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
 
     formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
-    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_from', '1983-1-1');
-    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_to', '1984-1-1');
+    formDOM.fillDate(
+      'root_servicePeriods_0_activeServiceDateRange_from',
+      '1983-1-1',
+    );
+    formDOM.fillDate(
+      'root_servicePeriods_0_activeServiceDateRange_to',
+      '1984-1-1',
+    );
 
     expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(1);
   });
@@ -64,14 +79,21 @@ describe('Pensions service periods', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
 
     formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
-    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_from', '1995-1-1');
-    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_to', '2004-1-1');
+    formDOM.fillDate(
+      'root_servicePeriods_0_activeServiceDateRange_from',
+      '1995-1-1',
+    );
+    formDOM.fillDate(
+      'root_servicePeriods_0_activeServiceDateRange_to',
+      '2004-1-1',
+    );
 
     expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(0);
   });
@@ -83,7 +105,8 @@ describe('Pensions service periods', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -91,13 +114,22 @@ describe('Pensions service periods', () => {
     expect(formDOM.querySelectorAll('input, select').length).to.equal(7);
 
     formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
-    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_from', '2002-1-1');
-    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_to', '2003-1-1');
+    formDOM.fillDate(
+      'root_servicePeriods_0_activeServiceDateRange_from',
+      '2002-1-1',
+    );
+    formDOM.fillDate(
+      'root_servicePeriods_0_activeServiceDateRange_to',
+      '2003-1-1',
+    );
 
-    ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
+    ReactTestUtils.Simulate.click(
+      formDOM.querySelector('.va-growable-add-btn'),
+    );
 
-    expect(formDOM.querySelector('.va-growable-background').textContent)
-      .to.contain('Army');
+    expect(
+      formDOM.querySelector('.va-growable-background').textContent,
+    ).to.contain('Army');
   });
 
   it('should submit with valid data', () => {
@@ -107,14 +139,21 @@ describe('Pensions service periods', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
 
     formDOM.fillData('#root_servicePeriods_0_serviceBranch', 'Army');
-    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_from', '2002-1-1');
-    formDOM.fillDate('root_servicePeriods_0_activeServiceDateRange_to', '2003-1-1');
+    formDOM.fillDate(
+      'root_servicePeriods_0_activeServiceDateRange_from',
+      '2002-1-1',
+    );
+    formDOM.fillDate(
+      'root_servicePeriods_0_activeServiceDateRange_to',
+      '2003-1-1',
+    );
 
     formDOM.submitForm();
 

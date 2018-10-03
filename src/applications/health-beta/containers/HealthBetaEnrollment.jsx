@@ -10,7 +10,8 @@ class HealthBetaEnrollment extends React.Component {
       <div>
         <RequiredLoginView
           serviceRequired={backendServices.USER_PROFILE}
-          user={this.props.user}>
+          user={this.props.user}
+        >
           {this.props.children}
         </RequiredLoginView>
       </div>
@@ -18,14 +19,14 @@ class HealthBetaEnrollment extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const hbState = state.healthbeta;
   const { username, stats, loading } = hbState.beta;
   return {
     username,
     stats,
     isLoading: loading,
-    user: state.user
+    user: state.user,
   };
 };
 

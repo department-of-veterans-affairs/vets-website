@@ -1,12 +1,19 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { DefinitionTester, fillDate, selectRadio } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillDate,
+  selectRadio,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
 describe('Prisoner of war info', () => {
-  const { schema, uiSchema } = formConfig.chapters.veteranDetails.pages.prisonerOfWar;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.veteranDetails.pages.prisonerOfWar;
 
   it('should render', () => {
     const form = mount(
@@ -15,7 +22,8 @@ describe('Prisoner of war info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
-        formData={{}}/>
+        formData={{}}
+      />,
     );
 
     expect(form.find('input').length).to.equal(2);
@@ -28,7 +36,8 @@ describe('Prisoner of war info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
-        formData={{}}/>
+        formData={{}}
+      />,
     );
 
     selectRadio(form, 'root_view:powStatus', 'Y');
@@ -46,7 +55,8 @@ describe('Prisoner of war info', () => {
         uiSchema={uiSchema}
         data={{}}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -63,7 +73,8 @@ describe('Prisoner of war info', () => {
         uiSchema={uiSchema}
         data={{}}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     selectRadio(form, 'root_view:powStatus', 'Y');
@@ -72,7 +83,12 @@ describe('Prisoner of war info', () => {
 
     form.find('.va-growable-add-btn').simulate('click');
 
-    expect(form.find('.va-growable-background').first().text()).to.contain('05/05/2011');
+    expect(
+      form
+        .find('.va-growable-background')
+        .first()
+        .text(),
+    ).to.contain('05/05/2011');
   });
 
   it('should submit when data filled in', () => {
@@ -84,7 +100,8 @@ describe('Prisoner of war info', () => {
         uiSchema={uiSchema}
         data={{}}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     selectRadio(form, 'root_view:powStatus', 'Y');
