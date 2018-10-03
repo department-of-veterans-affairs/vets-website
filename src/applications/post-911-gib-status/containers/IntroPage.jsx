@@ -4,8 +4,12 @@ import { Link } from 'react-router';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
+import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
+
 import { getServiceAvailability } from '../actions/post-911-gib-status';
 import { SERVICE_AVAILABILITY_STATES } from '../utils/constants';
+
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 export class IntroPage extends React.Component {
   constructor(props) {
@@ -37,14 +41,14 @@ export class IntroPage extends React.Component {
             <h2>What if I’m having trouble accessing my benefit statement?</h2>
             <p>Your Post-9/11 GI Bill Statement of Benefits might not be available if one of these is true:
               <ul>
-                <li>The name on your Vets.gov account doesn’t exactly match the name we have in our Post-9/11 GI Bill records.</li>
+                <li>The name on your {propertyName} account doesn’t exactly match the name we have in our Post-9/11 GI Bill records.</li>
                 <li>We’re still processing your education benefits application and we haven’t yet created a record for you. We usually process applications within 60 days. If you applied less than 60 days ago, please check back soon.</li>
                 <li>You haven’t yet applied for Post-9/11 GI Bill education benefits. <a href="/education/apply/" target="_blank">Apply for education benefits.</a>
                 </li>
                 <li>You’re not eligible for Post-9/11 GI Bill education benefits.</li>
                 <li>You’re trying to access the tool during its scheduled downtime. The tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).</li>
               </ul>
-              If none of the above situations applies to you, and you think your Statement of Benefits should be here, please call the Vets.gov Help Desk at 1-855-574-7286. We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+              If none of the above situations applies to you, and you think your Statement of Benefits should be here, please call the {propertyName} Help Desk at 1-855-574-7286. We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
 
             </p>
           </div>
