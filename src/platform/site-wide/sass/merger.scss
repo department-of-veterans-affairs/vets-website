@@ -104,14 +104,6 @@
     margin-top: 2em;
   }
 
-  #homepage-hub, .va-sidebarnav, .vet-toolbar {
-    [href^="http"]:not(.usa-button-primary), [rel="external"] {
-      background-image: none;
-      padding-right: 0px;
-
-    }
-  }
-
   #homepage-hub {
 
     background: #0071bb; /* Old browsers */
@@ -166,17 +158,6 @@
     background-color: $color-primary-darker;
     text-align: center;
     padding-top: 1.5em;
-  }
-
-  #homepage-benefits {
-
-    .usa-grid {
-      padding-bottom: 3em;
-    }
-
-    .usa-grid:last-of-type {
-      padding-bottom: 0;
-    }
   }
 
   h3, h4 {
