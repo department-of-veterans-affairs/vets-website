@@ -12,8 +12,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
   introductionText,
-  // incidentIntroduction781,
-  // incidentIntroduction781a,
 } from '../helpers';
 
 // Define all the fields in the form to aid reuse
