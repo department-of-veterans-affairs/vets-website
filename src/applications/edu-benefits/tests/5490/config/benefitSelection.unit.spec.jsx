@@ -4,24 +4,31 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  submitForm,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../5490/config/form';
 
 describe('Edu 5490 benefitSelection', () => {
-  const { schema, uiSchema } = formConfig.chapters.benefitSelection.pages.benefitSelection;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.benefitSelection.pages.benefitSelection;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         data={{ relationship: 'spouse' }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
-    const fields = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').concat(
-      ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select')
-    );
+    const fields = ReactTestUtils.scryRenderedDOMComponentsWithTag(
+      form,
+      'input',
+    ).concat(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select'));
 
-    expect(fields.length)
-      .to.equal(2);
+    expect(fields.length).to.equal(2);
   });
 
   it('should show nested content', () => {
@@ -33,21 +40,22 @@ describe('Edu 5490 benefitSelection', () => {
           benefitSelection: {
             uiSchema: {
               benefit: {
-                'ui:options': {
-                }
-              }
-            }
-          }
+                'ui:options': {},
+              },
+            },
+          },
         }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelector('.form-radio-buttons + span .usa-alert')).to.be.null;
+    expect(formDOM.querySelector('.form-radio-buttons + span .usa-alert')).to.be
+      .null;
     ReactTestUtils.Simulate.change(formDOM.querySelector('#root_benefit_0'), {
       target: {
-        checked: true
-      }
+        checked: true,
+      },
     });
     // check that an alert box is shown when an option is selected
     /*
@@ -69,17 +77,18 @@ describe('Edu 5490 benefitSelection', () => {
           benefitSelection: {
             uiSchema: {
               benefit: {
-                'ui:options': {
-                }
-              }
-            }
-          }
+                'ui:options': {},
+              },
+            },
+          },
         }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be.empty;
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be
+      .empty;
     expect(onSubmit.called).not.to.be.true;
   });
 
@@ -94,13 +103,13 @@ describe('Edu 5490 benefitSelection', () => {
           benefitSelection: {
             uiSchema: {
               benefit: {
-                'ui:options': {
-                }
-              }
-            }
-          }
+                'ui:options': {},
+              },
+            },
+          },
         }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = findDOMNode(form);
@@ -108,11 +117,12 @@ describe('Edu 5490 benefitSelection', () => {
 
     ReactTestUtils.Simulate.change(find('#root_benefit_0'), {
       target: {
-        checked: true
-      }
+        checked: true,
+      },
     });
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be
+      .empty;
     expect(onSubmit.called).to.be.true;
   });
 });

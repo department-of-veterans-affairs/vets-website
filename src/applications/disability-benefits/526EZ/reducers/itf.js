@@ -11,14 +11,12 @@ import {
   ITF_CREATION_FAILED,
 } from '../actions';
 
-
 const initialState = {
   fetchCallState: requestStates.notCalled,
   creationCallState: requestStates.notCalled,
   currentITF: null,
-  previousITF: null
+  previousITF: null,
 };
-
 
 /**
  * Finds the last ITF with a given status
@@ -26,9 +24,10 @@ const initialState = {
  * Note: This can return undefined
  */
 function findLastITF(itfList) {
-  return itfList.sort((a, b) => new Date(b.expirationDate) - new Date(a.expirationDate))[0];
+  return itfList.sort(
+    (a, b) => new Date(b.expirationDate) - new Date(a.expirationDate),
+  )[0];
 }
-
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -38,7 +37,9 @@ export default (state = initialState, action) => {
       const newState = set('fetchCallState', requestStates.succeeded, state);
 
       // The full list is potentially more than just compensation ITFs, but we don't need those
-      const itfList = get('attributes.intentToFile', action.data).filter(i => i.type === 'compensation');
+      const itfList = get('attributes.intentToFile', action.data).filter(
+        i => i.type === 'compensation',
+      );
       const activeITF = itfList.find(i => i.status === itfStatuses.active);
 
       // Set the curentITFStatus

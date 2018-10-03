@@ -20,12 +20,12 @@ const prescriptions = {
         dispensedDate: null,
         stationNumber: '12',
         isRefillable: false,
-        isTrackable: false
+        isTrackable: false,
       },
       links: {
         self: 'http://localhost:3000/rx/v1/prescriptions/746575',
-        tracking: 'http://localhost:3000/rx/v1/prescriptions/746575/trackings'
-      }
+        tracking: 'http://localhost:3000/rx/v1/prescriptions/746575/trackings',
+      },
     },
     {
       id: '746576',
@@ -45,25 +45,25 @@ const prescriptions = {
         dispensedDate: null,
         stationNumber: '12',
         isRefillable: true,
-        isTrackable: false
+        isTrackable: false,
       },
       links: {
         self: 'http://localhost:3000/rx/v1/prescriptions/746576',
-        tracking: 'http://localhost:3000/rx/v1/prescriptions/746576/trackings'
-      }
-    }
+        tracking: 'http://localhost:3000/rx/v1/prescriptions/746576/trackings',
+      },
+    },
   ],
   meta: {
     sort: {
-      prescriptionName: 'ASC'
+      prescriptionName: 'ASC',
     },
     pagination: {
       currentPage: 1,
       perPage: 10,
       totalPages: 1,
-      totalEntries: 1
-    }
-  }
+      totalEntries: 1,
+    },
+  },
 };
 
 const trackings = {
@@ -81,13 +81,14 @@ const trackings = {
         ndcNumber: '00781171601',
         shippedDate: '2016-09-07T04:00:00.000Z',
         deliveryService: 'UsPS',
-        otherPrescriptions: []
+        otherPrescriptions: [],
       },
       links: {
         self: 'http://www.example.com/v0/prescriptions/13650542/trackings',
         prescription: 'http://www.example.com/v0/prescriptions/13650542',
-        trackingUrl: 'https://tools.usps.com/go/TrackConfirmAction?tLabels=657068347564'
-      }
+        trackingUrl:
+          'https://tools.usps.com/go/TrackConfirmAction?tLabels=657068347564',
+      },
     },
     {
       id: '345787647659',
@@ -107,21 +108,22 @@ const trackings = {
             ndcNumber: '00781171601',
             prescriptionName: 'ETHAMBUTOL HCL 100MG TAB',
             prescriptionNumber: '2719553',
-            stationNumber: '12'
+            stationNumber: '12',
           },
           {
             ndcNumber: '00781171601',
             prescriptionName: 'PROBUCOL 250MG TAB',
             prescriptionNumber: '2719555',
-            stationNumber: '12'
-          }
-        ]
+            stationNumber: '12',
+          },
+        ],
       },
       links: {
         self: 'http://www.example.com/v0/prescriptions/13650542/trackings',
         prescription: 'http://www.example.com/v0/prescriptions/13650542',
-        trackingUrl: 'https://tools.usps.com/go/TrackConfirmAction?tLabels=345787647659'
-      }
+        trackingUrl:
+          'https://tools.usps.com/go/TrackConfirmAction?tLabels=345787647659',
+      },
     },
     {
       id: '345787647654',
@@ -136,21 +138,24 @@ const trackings = {
         ndcNumber: '00781171601',
         shippedDate: '2016-06-26T04:00:00.000Z',
         deliveryService: 'UsPS',
-        otherPrescriptions: []
+        otherPrescriptions: [],
       },
       links: {
         self: 'http://www.example.com/v0/prescriptions/13650542/trackings',
         prescription: 'http://www.example.com/v0/prescriptions/13650542',
-        trackingUrl: 'https://tools.usps.com/go/TrackConfirmAction?tLabels=345787647654'
-      }
-    }
+        trackingUrl:
+          'https://tools.usps.com/go/TrackConfirmAction?tLabels=345787647654',
+      },
+    },
   ],
   links: {
     self: 'http://www.example.com/v0/prescriptions/13650542/trackings?',
-    first: 'http://www.example.com/v0/prescriptions/13650542/trackings?page=1&per_page=10',
+    first:
+      'http://www.example.com/v0/prescriptions/13650542/trackings?page=1&per_page=10',
     prev: null,
     next: null,
-    last: 'http://www.example.com/v0/prescriptions/13650542/trackings?page=1&per_page=10'
+    last:
+      'http://www.example.com/v0/prescriptions/13650542/trackings?page=1&per_page=10',
   },
   meta: {
     updatedAt: 'Mon, 12 Sep 2016 04:30:15 EDT',
@@ -160,9 +165,9 @@ const trackings = {
       currentPage: 1,
       perPage: 10,
       totalPages: 1,
-      totalEntries: 3
-    }
-  }
+      totalEntries: 3,
+    },
+  },
 };
 
 const preferences = {
@@ -171,9 +176,9 @@ const preferences = {
     type: 'messaging_preferences',
     attributes: {
       emailAddress: 'test@vets.gov',
-      rxFlag: false
-    }
-  }
+      rxFlag: false,
+    },
+  },
 };
 
 // Create API routes
@@ -181,13 +186,13 @@ function initApplicationSubmitMock(token) {
   mock(token, {
     path: '/v0/prescriptions/active',
     verb: 'get',
-    value: prescriptions
+    value: prescriptions,
   });
 
   mock(token, {
     path: '/v0/prescriptions',
     verb: 'get',
-    value: prescriptions
+    value: prescriptions,
   });
 
   mock(token, {
@@ -196,14 +201,14 @@ function initApplicationSubmitMock(token) {
     value: {
       data: {
         ...prescriptions.data[0],
-      }
-    }
+      },
+    },
   });
 
   mock(token, {
     path: '/v0/prescriptions/746575/trackings',
     verb: 'get',
-    value: trackings
+    value: trackings,
   });
 
   mock(token, {
@@ -212,8 +217,8 @@ function initApplicationSubmitMock(token) {
     value: {
       data: {
         ...prescriptions.data[1],
-      }
-    }
+      },
+    },
   });
 
   mock(token, {
@@ -232,5 +237,5 @@ function initApplicationSubmitMock(token) {
 module.exports = {
   prescriptions,
   trackings,
-  initApplicationSubmitMock
+  initApplicationSubmitMock,
 };

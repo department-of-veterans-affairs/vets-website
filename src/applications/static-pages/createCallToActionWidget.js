@@ -6,17 +6,19 @@ export default function createCallToActionWidget(store) {
   const widgets = Array.from(document.querySelectorAll('.cta-widget'));
 
   if (widgets.length) {
-    widgets.forEach(async (el) => {
+    widgets.forEach(async el => {
       await import('../../platform/site-wide/cta-widget/sass/cta-widget.scss');
 
-      const { 'default': CallToActionWidget } =
-        await import('../../platform/site-wide/cta-widget');
+      const {
+        default: CallToActionWidget,
+      } = await import('../../platform/site-wide/cta-widget');
 
-      ReactDOM.render((
+      ReactDOM.render(
         <Provider store={store}>
-          <CallToActionWidget appId={el.dataset.appId}/>
-        </Provider>
-      ), el);
+          <CallToActionWidget appId={el.dataset.appId} />
+        </Provider>,
+        el,
+      );
     });
   }
 }

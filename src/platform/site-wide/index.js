@@ -4,7 +4,7 @@
  */
 
 import '../monitoring/sentry.js';
-import './legacy/menu';  // Used in the footer.
+import './legacy/menu'; // Used in the footer.
 import './accessible-VCL-modal';
 import './moment-setup';
 import addMenuListeners from './accessible-menus';
@@ -39,8 +39,11 @@ export default function startSitewideComponents(commonStore) {
 
   // Prevent some browsers from changing the value when scrolling while hovering
   //  over an input[type="number"] with focus.
-  document.addEventListener('wheel', (event) => {
-    if (event.target.type === 'number' && document.activeElement === event.target) {
+  document.addEventListener('wheel', event => {
+    if (
+      event.target.type === 'number' &&
+      document.activeElement === event.target
+    ) {
       event.preventDefault();
       document.body.scrollTop += event.deltaY; // Chrome, Safari, et al
       document.documentElement.scrollTop += event.deltaY; // Firefox, IE, maybe more

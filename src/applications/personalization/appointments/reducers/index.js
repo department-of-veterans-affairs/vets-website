@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   loading: false,
-  data: []
+  data: [],
 };
 
 export default function appointments(state = initialState, action) {
@@ -14,17 +14,17 @@ export default function appointments(state = initialState, action) {
     case FETCH_APPOINTMENTS:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case FETCH_APPOINTMENTS_SUCCESS:
       return Object.assign({}, state, {
         data: action.data,
-        loading: false
+        loading: false,
       });
     case FETCH_APPOINTMENTS_FAILURE:
       return Object.assign({}, state, {
         error: action.error,
-        loading: false
+        loading: false,
       });
     default:
       return state;

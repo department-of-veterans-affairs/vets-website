@@ -4,22 +4,32 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm, getFormDOM } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  submitForm,
+  getFormDOM,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
 describe('Burials claimant contact information', () => {
-  const { schema, uiSchema } = formConfig.chapters.additionalInformation.pages.claimantContactInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.additionalInformation.pages.claimantContactInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(8);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(
+      8,
+    );
   });
   it('should render official position', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -28,14 +38,17 @@ describe('Burials claimant contact information', () => {
         schema={schema}
         data={{
           relationship: {
-            isEntity: true
-          }
+            isEntity: true,
+          },
         }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(10);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(
+      10,
+    );
   });
   it('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
@@ -45,11 +58,12 @@ describe('Burials claimant contact information', () => {
         schema={schema}
         onSubmit={onSubmit}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
-    expect((formDOM.querySelectorAll('.usa-input-error')).length).to.equal(4);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).not.to.be.true;
   });
   it('should submit when all required fields are filled in', () => {
@@ -60,7 +74,8 @@ describe('Burials claimant contact information', () => {
         schema={schema}
         onSubmit={onSubmit}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -70,7 +85,7 @@ describe('Burials claimant contact information', () => {
     formDOM.fillData('#root_claimantAddress_postalCode', '01060');
 
     submitForm(form);
-    expect((formDOM.querySelectorAll('.usa-input-error')).length).to.equal(0);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 });

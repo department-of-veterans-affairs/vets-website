@@ -2,7 +2,7 @@ import {
   isEscape,
   isTab,
   isReverseTab,
-  getTabbableElements
+  getTabbableElements,
 } from '../utilities/accessibility';
 
 /*

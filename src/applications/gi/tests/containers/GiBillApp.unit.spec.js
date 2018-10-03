@@ -10,7 +10,7 @@ const defaultProps = createCommonStore(reducer).getState();
 
 describe('<GiBillApp>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<GiBillApp {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<GiBillApp {...defaultProps} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
@@ -21,9 +21,9 @@ describe('<GiBillApp>', () => {
       constants: {
         ...defaultProps.constants,
         inProgress: true,
-      }
+      },
     };
-    const tree = SkinDeep.shallowRender(<GiBillApp {...props}/>);
+    const tree = SkinDeep.shallowRender(<GiBillApp {...props} />);
     expect(tree.subTree('LoadingIndicator')).to.be.ok;
   });
 });

@@ -9,13 +9,23 @@ class GlossaryList extends React.Component {
 
     Object.keys(terms).forEach(o => {
       const id = terms[o].term.toLowerCase().replace(/\s/g, '');
-      termsList.push(<p className="glossary-title" id={id} key={++tKey}>{terms[o].term}</p>);
-      termsList.push(<p className="glossary-body" key={++tKey}>{terms[o].definition}</p>);
+      termsList.push(
+        <p className="glossary-title" id={id} key={++tKey}>
+          {terms[o].term}
+        </p>,
+      );
+      termsList.push(
+        <p className="glossary-body" key={++tKey}>
+          {terms[o].definition}
+        </p>,
+      );
     });
 
     let title;
     if (this.props.title) {
-      title = <h2 className="rx-pgroup-title va-h-ruled">{this.props.title}</h2>;
+      title = (
+        <h2 className="rx-pgroup-title va-h-ruled">{this.props.title}</h2>
+      );
     }
 
     // check if the array has length 1, then render a certain way
@@ -32,9 +42,7 @@ class GlossaryList extends React.Component {
     return (
       <section className="rx-glossary-section">
         {title}
-        <div className="rx-glossary">
-          {termsList}
-        </div>
+        <div className="rx-glossary">{termsList}</div>
       </section>
     );
   }
@@ -42,10 +50,12 @@ class GlossaryList extends React.Component {
 
 GlossaryList.propTypes = {
   title: PropTypes.string,
-  terms: PropTypes.arrayOf(PropTypes.shape({
-    term: PropTypes.string.isRequired,
-    definition: PropTypes.string.isRequired
-  })).isRequired,
+  terms: PropTypes.arrayOf(
+    PropTypes.shape({
+      term: PropTypes.string.isRequired,
+      definition: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
 export default GlossaryList;

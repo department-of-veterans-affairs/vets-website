@@ -61,59 +61,6 @@
     }
   }
 
-  #mega-menu {
-
-    @include media($medium-large-screen) {
-      .vetnav-panel--submenu:not([hidden]) {
-        h3 {
-          font-family: Source Sans Pro, sans serif;
-          font-size: 1.6rem;
-        }
-      }
-    }
-
-    #vetnav-menu, #vetnav {
-      margin-top: 0;
-        width: 100%;
-    }
-
-    .my-va-top-nav {
-      margin-left: auto;
-      &.current-page {
-        margin-left: auto;
-      }
-    }
-
-    .current-page {
-      border-bottom: 5px solid;
-      border-color: $color-blue;
-      margin-left: 1.6rem;
-      margin-right: 1.6rem;
-      a {
-        padding: 1.6rem 0;
-      }
-    }
-
-    .mm-marketing-container {
-      height: 350px;
-
-      p {
-        margin-top: 5px;
-      }
-    }
-
-    // TODO: need to add this to formation. This is a temporary fix.
-    #vetnav-column-one-col {
-      .panel-bottom-link {
-        width: 200%;
-      }
-    }
-    //TODO: add this to formation
-      .mm-links {
-        padding: 5px 0px;
-      }
-  }
-
   #menu-rule {
     border-bottom: 1px solid $color-white;
     margin-left: -.55em;
@@ -215,19 +162,10 @@
     }
   }
 
-  #homepage-popular {
-    padding-top: 3em;
-  }
-
   #homepage-hero {
     background-color: $color-primary-darker;
     text-align: center;
     padding-top: 1.5em;
-  }
-
-  #homepage-news {
-    padding: 0 0 3em 0;
-    margin-top: 3em;
   }
 
   #homepage-benefits {
@@ -244,94 +182,6 @@
   h3, h4 {
     .fa {
       padding-right: .35em;
-    }
-  }
-
-  // new pattern, but specific to homepage only
-  .homepage-button {
-
-    width:100%;
-    height: 85px;
-    padding: 0;
-
-    a {
-      width: 100%;
-      height: 100%;
-      font-weight: bold;
-      color: white;
-      text-decoration: none;
-    }
-
-    .icon-wrapper {
-      width: 55px;
-      height: 100%;
-      float: left;
-
-      -webkit-border-top-left-radius: 6px;
-      -webkit-border-bottom-left-radius: 6px;
-      -moz-border-radius-topleft: 6px;
-      -moz-border-radius-bottomleft: 6px;
-      border-top-left-radius: 6px;
-      border-bottom-left-radius: 6px;
-    }
-
-    .button-inner {
-      padding-left: 1em;
-      padding-right: 1em;
-
-      &#vcl {
-        padding-left: .5em;
-        padding-right: .5em;
-      }
-    }
-
-    .fa {
-      font-size: 1.5em;
-      display:inline-block;
-
-      &.fa-user-circle {
-        font-size: 1.5em;
-        padding-right: .3em;
-      }
-
-      &::before {
-        position: absolute;
-        margin: 0;
-        top: 15px;
-        left: -7.75px;
-      }
-    }
-
-    .vcl {
-      content: "";
-      background: url(/img/vcl-logo-white.png) no-repeat;
-      background-size: 100%;
-      display: inline-block;
-      width: 2em;
-      height: 2em;
-      margin-top:32.5px;
-    }
-
-    div {
-      display:inline-block;
-      width:80%;
-    }
-
-    &.primary-darker {
-
-      .icon-wrapper {
-        background-color: $color-primary-darker;
-      }
-
-      background-color: $color-primary;
-    }
-
-    &.secondary-dark {
-
-      .icon-wrapper {
-        background-color: $color-secondary-darkest;
-      }
-      background-color: $color-secondary-dark;
     }
   }
 
@@ -655,18 +505,12 @@
     .va-h-ruled--stars,
     .va-nav-breadcrumbs,
     article,
-    #homepage-popular,
     #hub-rail,
     .footer-banner,
     .footer-links {
 
       padding-left: .5em;
       padding-right: .5em;
-    }
-
-    #homepage-popular {
-      padding-bottom: 1.5em;
-      padding-top: 1em;
     }
 
     .va-nav-breadcrumbs  {
@@ -832,35 +676,11 @@
       }
     }
 
-    #homepage-popular {
-
-      text-align: center;
-
-      .usa-width-one-third {
-
-        margin: 0 auto;
-        margin-bottom: 1.5em;
-        float: none;
-        display: block;
-        width: 50%;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-
-        #vcl {
-          padding-left: 1.5em;
-          padding-right: 1.5em;
-        }
-      }
-    }
-
     #homepage-benefits,
     #homepage-news,
     .va-h-ruled--stars,
     .va-nav-breadcrumbs,
     article,
-    #homepage-popular,
     #hub-rail {
       padding-left: 1em;
       padding-right: 1em;
@@ -893,32 +713,6 @@
         padding-right: 1em;
       }
     }
-
-    #homepage-popular {
-
-      text-align: center;
-
-      .usa-width-one-third {
-
-        margin: 0 auto;
-        margin-bottom: 1.5em;
-        float: none;
-        display: block;
-        width: 40%;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-
-        #vcl {
-          padding-left: 1.5em;
-          padding-right: 1.5em;
-        }
-
-      }
-
-    }
-
   }
 
   #preview-site-alert {
@@ -1179,6 +973,7 @@
     min-height: 250px;
   }
 }
+
 .usa-accordion-bordered {
   .fa {
     color: $color-link-default;

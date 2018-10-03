@@ -8,14 +8,14 @@ export function isVet360Configured() {
     'preview.va.gov',
     'staging.va.gov',
     'va.gov',
-    'www.va.gov'
+    'www.va.gov',
   ].includes(document.location.hostname);
 }
 
 export const mockContactInformation = {
   email: {
     id: 100,
-    emailAddress: 'veteran@gmail.com'
+    emailAddress: 'veteran@gmail.com',
   },
   mobilePhone: {
     areaCode: '503',
@@ -32,7 +32,7 @@ export const mockContactInformation = {
     phoneNumber: '5551234',
     phoneType: 'MOBILE',
     sourceDate: '2018-04-21T20:09:50Z',
-    updatedAt: '2018-04-21T20:09:50Z'
+    updatedAt: '2018-04-21T20:09:50Z',
   },
   homePhone: {
     areaCode: '503',
@@ -49,7 +49,7 @@ export const mockContactInformation = {
     phoneNumber: '2222222',
     phoneType: 'HOME',
     sourceDate: '2018-04-21T20:09:50Z',
-    updatedAt: '2018-04-21T20:09:50Z'
+    updatedAt: '2018-04-21T20:09:50Z',
   },
   workPhone: null,
   faxNumber: null,
@@ -68,7 +68,7 @@ export const mockContactInformation = {
     phoneNumber: '5555555',
     phoneType: 'MOBILE',
     sourceDate: '2018-04-21T20:09:50Z',
-    updatedAt: '2018-04-21T20:09:50Z'
+    updatedAt: '2018-04-21T20:09:50Z',
   },
   mailingAddress: {
     addressLine1: '1493 Martin Luther King Rd',
@@ -91,7 +91,7 @@ export const mockContactInformation = {
     stateCode: 'NY',
     updatedAt: '2018-04-21T20:09:50Z',
     zipCode: '97062',
-    zipCodeSuffix: '1234'
+    zipCodeSuffix: '1234',
   },
   residentialAddress: {
     addressLine1: 'PSC 808 Box 37',
@@ -114,13 +114,12 @@ export const mockContactInformation = {
     stateCode: 'AE',
     updatedAt: '2018-04-21T20:09:50Z',
     zipCode: '09618',
-    zipCodeSuffix: '1234'
+    zipCodeSuffix: '1234',
   },
 };
 
-
 function asyncReturn(returnValue, delay = 300) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(() => {
       resolve(returnValue);
     }, delay);
@@ -132,21 +131,19 @@ export default {
     const data = [
       VET360_CONSTANTS.TRANSACTION_CATEGORY_TYPES.ADDRESS,
       VET360_CONSTANTS.TRANSACTION_CATEGORY_TYPES.EMAIL,
-      VET360_CONSTANTS.TRANSACTION_CATEGORY_TYPES.PHONE
-    ].filter(() => {
-      return Math.random() > 0.5;
-    }).map(transactionType => {
-      return {
+      VET360_CONSTANTS.TRANSACTION_CATEGORY_TYPES.PHONE,
+    ]
+      .filter(() => Math.random() > 0.5)
+      .map(transactionType => ({
         attributes: {
           transactionId: uniqueId('transaction_'),
           transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.RECEIVED,
-          type: transactionType
-        }
-      };
-    });
+          type: transactionType,
+        },
+      }));
 
     return {
-      data
+      data,
     };
   },
   createTransaction() {
@@ -154,15 +151,17 @@ export default {
       data: {
         attributes: {
           transactionId: uniqueId('transaction_'),
-          transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.RECEIVED
-        }
-      }
+          transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.RECEIVED,
+        },
+      },
     });
   },
   updateTransactionRandom(...args) {
     return asyncReturn(
-      Math.random() > 0.5 ? this.updateTransaction(...args) : this.updateTransactionToFailure(...args),
-      3000
+      Math.random() > 0.5
+        ? this.updateTransaction(...args)
+        : this.updateTransactionToFailure(...args),
+      3000,
     );
   },
   updateTransaction(transactionId) {
@@ -170,9 +169,10 @@ export default {
       data: {
         attributes: {
           transactionId,
-          transactionStatus: VET360_CONSTANTS.TRANSACTION_STATUS.COMPLETED_SUCCESS
-        }
-      }
+          transactionStatus:
+            VET360_CONSTANTS.TRANSACTION_STATUS.COMPLETED_SUCCESS,
+        },
+      },
     });
   },
   updateTransactionToFailure(transactionId, code = 'VET360_CORE100') {
@@ -187,11 +187,11 @@ export default {
               code,
               key: '_CUF_NOT_FOUND',
               severity: 'ERROR',
-              text: 'The tx for id/criteria XZY could not be found.'
-            }
-          ]
-        }
-      }
+              text: 'The tx for id/criteria XZY could not be found.',
+            },
+          ],
+        },
+      },
     };
-  }
+  },
 };

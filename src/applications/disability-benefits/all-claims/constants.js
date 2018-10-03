@@ -3,12 +3,12 @@ export const itfStatuses = {
   expired: 'expired',
   claimRecieved: 'claim_recieved',
   duplicate: 'duplicate',
-  incomplete: 'incomplete'
+  incomplete: 'incomplete',
 };
 
 export const RESERVE_GUARD_TYPES = {
   nationalGuard: 'National Guard',
-  reserve: 'Reserve'
+  reserve: 'Reserve',
 };
 
 export const PCIU_STATES = [
@@ -75,7 +75,7 @@ export const PCIU_STATES = [
   { label: 'Washington', value: 'WA' },
   { label: 'West Virginia', value: 'WV' },
   { label: 'Wisconsin', value: 'WI' },
-  { label: 'Wyoming', value: 'WY' }
+  { label: 'Wyoming', value: 'WY' },
 ];
 
 export const STATE_LABELS = PCIU_STATES.map(state => state.label);
@@ -85,7 +85,7 @@ export const MILITARY_STATE_VALUES = ['AA', 'AE', 'AP'];
 export const MILITARY_STATE_LABELS = [
   'Armed Forces Americas (AA)',
   'Armed Forces Europe (AE)',
-  'Armed Forces Pacific (AP)'
+  'Armed Forces Pacific (AP)',
 ];
 
 export const MILITARY_CITIES = ['APO', 'DPO', 'FPO'];
@@ -93,13 +93,13 @@ export const USA = 'USA';
 
 export const ADDRESS_TYPES = {
   mailingAddress: 'mailingAddress',
-  forwardingAddress: 'forwardingAddress'
+  forwardingAddress: 'forwardingAddress',
 };
 
 export const accountTitleLabels = {
   CHECKING: 'Checking Account',
   SAVINGS: 'Savings Account',
-  NOBANK: 'No Bank Account'
+  NOBANK: 'No Bank Account',
 };
 
 export const NOBANK = 'NOBANK';
@@ -111,25 +111,25 @@ export const REJECTED = 'REJECTED';
 export const HOMELESSNESS_TYPES = {
   atRisk: 'atRisk',
   homeless: 'homeless',
-  notHomeless: 'no'
+  notHomeless: 'no',
 };
 
 export const AT_RISK_HOUSING_TYPES = {
   losingHousing: 'losingHousing',
   leavingShelter: 'leavingShelter',
-  other: 'other'
+  other: 'other',
 };
 
 export const HOMELESS_HOUSING_TYPES = {
   shelter: 'shelter',
   notShelter: 'notShelter',
   anotherPerson: 'anotherPerson',
-  other: 'other'
+  other: 'other',
 };
 
 export const SERVICE_CONNECTION_TYPES = {
   notServiceConnected: 'NOTSVCCON',
-  serviceConnected: 'SVCCONNCTED'
+  serviceConnected: 'SVCCONNCTED',
 };
 
 export const DATA_PATHS = {
@@ -138,9 +138,10 @@ export const DATA_PATHS = {
   hasPrivateEvidence:
     'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',
   hasPrivateRecordsToUpload:
-    'view:uploadPrivateRecordsQualifier.view:hasPrivateRecordsToUpload'
+    'view:uploadPrivateRecordsQualifier.view:hasPrivateRecordsToUpload',
 };
 
-export const VA_FORM4142_URL = 'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
+export const VA_FORM4142_URL =
+  'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
 
 export const FIFTY_MB = 52428800;

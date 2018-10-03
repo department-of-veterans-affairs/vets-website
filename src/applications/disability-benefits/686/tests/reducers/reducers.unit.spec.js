@@ -57,7 +57,7 @@ describe('authorization686 reducer', () => {
 
   it('should handle LOAD_30_PERCENT_DISABILITY_RATING_FAILED', () => {
     const payload = {
-      error: true
+      error: true,
     };
 
     expectedState = {

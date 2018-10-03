@@ -14,7 +14,7 @@ export const formBenefits = {
   '22-5495': 'education benefits',
   '40-10007': 'pre-need determination of eligibility in a VA national cemetery',
   VIC: 'Veteran ID Card',
-  '21-686C': 'dependent status'
+  '21-686C': 'dependent status',
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
@@ -43,9 +43,10 @@ export const formLinks = {
   '22-1995': '/education/apply-for-education-benefits/application/1995/',
   '22-5490': '/education/apply-for-education-benefits/application/5490/',
   '22-5495': '/education/apply-for-education-benefits/application/5495/',
-  '40-10007': '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/',
+  '40-10007':
+    '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/',
   VIC: '/veteran-id-card/apply/',
-  '21-686C': '/disability-benefits/686/dependent-status/'
+  '21-686C': '/disability-benefits/686/dependent-status/',
 };
 
 export const trackingPrefixes = {
@@ -62,7 +63,7 @@ export const trackingPrefixes = {
   '22-5495': 'edu-5495-',
   '40-10007': 'preneed-',
   VIC: 'veteran-id-card-',
-  '21-686C': '686-'
+  '21-686C': '686-',
 };
 
 export const sipEnabledForms = new Set([
@@ -79,9 +80,8 @@ export const sipEnabledForms = new Set([
   '22-5490',
   '22-5495',
   '40-10007',
-  'VIC'
+  'VIC',
 ]);
-
 
 export function isSIPEnabledForm(savedForm) {
   const formNumber = savedForm.form;
@@ -90,7 +90,11 @@ export function isSIPEnabledForm(savedForm) {
     return false;
   }
   if (!sipEnabledForms.has(formNumber)) {
-    throw new Error(`Could not find form ${trackingPrefixes[formNumber]} in list of sipEnabledForms`);
+    throw new Error(
+      `Could not find form ${
+        trackingPrefixes[formNumber]
+      } in list of sipEnabledForms`,
+    );
   }
   return true;
 }

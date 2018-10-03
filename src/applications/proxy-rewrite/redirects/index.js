@@ -8,15 +8,18 @@ import redirects from './otherDomainRedirects.json';
  * replaced
  */
 export default function redirectIfNecessary(currentWindow) {
-  const matchedRedirect = redirects
-    .find(redirect =>
-      redirect.domain.toLowerCase() === currentWindow.location.host.toLowerCase() &&
-      redirect.src.toLowerCase() === currentWindow.location.pathname.toLowerCase()
-    );
+  const matchedRedirect = redirects.find(
+    redirect =>
+      redirect.domain.toLowerCase() ===
+        currentWindow.location.host.toLowerCase() &&
+      redirect.src.toLowerCase() ===
+        currentWindow.location.pathname.toLowerCase(),
+  );
 
   if (matchedRedirect) {
     // eslint-disable-next-line no-param-reassign
-    currentWindow.location.href = `${environment.BASE_URL}${matchedRedirect.dest}`;
+    currentWindow.location.href = `${environment.BASE_URL}${
+      matchedRedirect.dest
+    }`;
   }
 }
-

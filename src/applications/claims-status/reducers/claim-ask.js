@@ -3,13 +3,13 @@ import _ from 'lodash/fp';
 import {
   SUBMIT_DECISION_REQUEST,
   SET_DECISION_REQUESTED,
-  SET_DECISION_REQUEST_ERROR
+  SET_DECISION_REQUEST_ERROR,
 } from '../actions/index.jsx';
 
 const initialState = {
   decisionRequested: false,
   loadingDecisionRequest: false,
-  decisionRequestError: null
+  decisionRequestError: null,
 };
 
 export default function claimDetailReducer(state = initialState, action) {
@@ -20,17 +20,16 @@ export default function claimDetailReducer(state = initialState, action) {
     case SET_DECISION_REQUESTED: {
       return _.assign(state, {
         decisionRequested: true,
-        loadingDecisionRequest: false
+        loadingDecisionRequest: false,
       });
     }
     case SET_DECISION_REQUEST_ERROR: {
       return _.assign(state, {
         decisionRequestError: action.error,
-        loadingDecisionRequest: false
+        loadingDecisionRequest: false,
       });
     }
     default:
       return state;
   }
 }
-

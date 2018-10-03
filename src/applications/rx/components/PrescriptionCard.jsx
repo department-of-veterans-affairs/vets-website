@@ -35,7 +35,8 @@ class PrescriptionCard extends React.Component {
           key={`rx-${id}-track`}
           className="usa-button"
           text="Track package"
-          url={`/${id}/track`}/>
+          url={`/${id}/track`}
+        />
       );
     }
 
@@ -49,9 +50,7 @@ class PrescriptionCard extends React.Component {
 
     if (remaining === 0) {
       msgProvider = (
-        <div
-          className="rx-call-provider"
-          key={`rx-${id}-call`}>
+        <div className="rx-call-provider" key={`rx-${id}-call`}>
           <a href="/health-care/messaging/compose">Message Provider</a>
         </div>
       );
@@ -73,20 +72,20 @@ class PrescriptionCard extends React.Component {
           cssClass="rx-prescription-button"
           onSubmit={this.handleSubmit}
           refillId={id}
-          text="Refill Prescription"/>
+          text="Refill Prescription"
+        />
       );
     } else {
-      const displayStatus = (status === 'active')
-        ? rxStatuses.refillinprocess
-        : rxStatuses[status];
+      const displayStatus =
+        status === 'active' ? rxStatuses.refillinprocess : rxStatuses[status];
 
       refillStatus = (
-        <div
-          key={`rx-${id}-status`}
-          className="rx-prescription-status">
-          Refill status: <GlossaryLink
+        <div key={`rx-${id}-status`} className="rx-prescription-status">
+          Refill status:{' '}
+          <GlossaryLink
             term={displayStatus}
-            onClick={this.props.glossaryModalHandler}/>
+            onClick={this.props.glossaryModalHandler}
+          />
         </div>
       );
     }
@@ -114,41 +113,37 @@ class PrescriptionCard extends React.Component {
       <div className="rx-prescription-card">
         <div className="rx-prescription-inner cf">
           <div className="rx-prescription-info">
-            <input type="hidden" name="refillId" value={id}/>
+            <input type="hidden" name="refillId" value={id} />
             <h3 className="rx-prescription-title" title={name}>
-              <Link to={`/${id}`}>
-                {name}
-              </Link>
+              <Link to={`/${id}`}>{name}</Link>
             </h3>
             <div className="rx-prescription-number">
-              <strong>Prescription <abbr title="number">#</abbr>:</strong> {attrs.prescriptionNumber}
+              <strong>
+                Prescription <abbr title="number">#</abbr>:
+              </strong>{' '}
+              {attrs.prescriptionNumber}
             </div>
             <div className="rx-prescription-facility">
               <strong>Facility name:</strong> {attrs.facilityName}
             </div>
             <div className="rx-prescription-submitted">
-              <strong>Last submit date:</strong> {
-                formatDate(attrs.refillSubmitDate, {
-                  format: 'L'
-                })
-              }
+              <strong>Last submit date:</strong>{' '}
+              {formatDate(attrs.refillSubmitDate, {
+                format: 'L',
+              })}
             </div>
             <div className="rx-prescription-refilled">
-              <strong>Last fill date:</strong> {
-                formatDate(attrs.refillDate, {
-                  format: 'L',
-                  validateInPast: true
-                })
-              }
+              <strong>Last fill date:</strong>{' '}
+              {formatDate(attrs.refillDate, {
+                format: 'L',
+                validateInPast: true,
+              })}
             </div>
           </div>
           <div className="rx-prescription-countaction">
             <div>
-              <RefillsRemainingCounter
-                remaining={attrs.refillRemaining}/>
-              <div className="rx-prescription-action">
-                {action}
-              </div>
+              <RefillsRemainingCounter remaining={attrs.refillRemaining} />
+              <div className="rx-prescription-action">{action}</div>
             </div>
           </div>
         </div>
@@ -177,7 +172,7 @@ PrescriptionCard.propTypes = {
     stationNumber: PropTypes.string,
     isRefillable: PropTypes.bool.isRequired,
     isTrackable: PropTypes.bool.isRequired,
-  }).isRequired
+  }).isRequired,
 };
 
 export default PrescriptionCard;
