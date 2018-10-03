@@ -6,11 +6,10 @@ import {
   SM_SAVE_PREFERENCES_SUCCESS,
   SM_SAVING_PREFERENCES,
   SM_SET_NOTIFICATION_EMAIL,
-  SM_SET_NOTIFICATION_FREQUENCY
+  SM_SET_NOTIFICATION_FREQUENCY,
 } from '../utils/constants';
 
 import { apiRequest } from '../utils/helpers';
-
 
 const baseUrl = '/preferences';
 
@@ -21,11 +20,12 @@ export function fetchPreferences() {
     apiRequest(
       baseUrl,
       null,
-      response => dispatch({
-        type: SM_FETCH_PREFERENCES_SUCCESS,
-        preferences: response.data.attributes
-      }),
-      () => dispatch({ type: SM_FETCH_PREFERENCES_FAILURE })
+      response =>
+        dispatch({
+          type: SM_FETCH_PREFERENCES_SUCCESS,
+          preferences: response.data.attributes,
+        }),
+      () => dispatch({ type: SM_FETCH_PREFERENCES_FAILURE }),
     );
   };
 }
@@ -34,7 +34,7 @@ export function savePreferences(preferences) {
   const settings = {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(preferences)
+    body: JSON.stringify(preferences),
   };
 
   return dispatch => {
@@ -43,14 +43,16 @@ export function savePreferences(preferences) {
     apiRequest(
       baseUrl,
       settings,
-      response => dispatch({
-        type: SM_SAVE_PREFERENCES_SUCCESS,
-        preferences: response.data.attributes
-      }),
-      response => dispatch({
-        type: SM_SAVE_PREFERENCES_FAILURE,
-        errors: response.errors
-      })
+      response =>
+        dispatch({
+          type: SM_SAVE_PREFERENCES_SUCCESS,
+          preferences: response.data.attributes,
+        }),
+      response =>
+        dispatch({
+          type: SM_SAVE_PREFERENCES_FAILURE,
+          errors: response.errors,
+        }),
     );
   };
 }

@@ -1,11 +1,8 @@
-import {
-  INIT_DISMISSED_ANNOUNCEMENTS,
-  DISMISS_ANNOUNCEMENT
-} from '../actions';
+import { INIT_DISMISSED_ANNOUNCEMENTS, DISMISS_ANNOUNCEMENT } from '../actions';
 
 const initialState = {
   isInitialized: false,
-  dismissed: []
+  dismissed: [],
 };
 
 export default function announcements(state = initialState, action) {
@@ -14,13 +11,13 @@ export default function announcements(state = initialState, action) {
       return {
         ...state,
         isInitialized: true,
-        dismissed: action.dismissedAnnouncements
+        dismissed: action.dismissedAnnouncements,
       };
 
     case DISMISS_ANNOUNCEMENT:
       return {
         ...state,
-        dismissed: state.dismissed.concat(action.announcement)
+        dismissed: state.dismissed.concat(action.announcement),
       };
 
     default:

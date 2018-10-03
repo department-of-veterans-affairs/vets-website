@@ -17,11 +17,21 @@ describe('<ErrorableSelect>', () => {
 
     const updatePromise = new Promise((resolve, _reject) => {
       errorableSelect = ReactTestUtils.renderIntoDocument(
-        <ErrorableSelect label="test" options={options} value={testValue} onValueChange={(update) => { resolve(update); }}/>
+        <ErrorableSelect
+          label="test"
+          options={options}
+          value={testValue}
+          onValueChange={update => {
+            resolve(update);
+          }}
+        />,
       );
     });
 
-    const select = ReactTestUtils.findRenderedDOMComponentWithTag(errorableSelect, 'select');
+    const select = ReactTestUtils.findRenderedDOMComponentWithTag(
+      errorableSelect,
+      'select',
+    );
     select.value = 1;
     ReactTestUtils.Simulate.change(select);
 
@@ -30,7 +40,13 @@ describe('<ErrorableSelect>', () => {
 
   it('no error styles when errorMessage undefined', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableSelect label="my label" options={options} value={testValue} onValueChange={(_update) => {}}/>);
+      <ErrorableSelect
+        label="my label"
+        options={options}
+        value={testValue}
+        onValueChange={_update => {}}
+      />,
+    );
 
     // No error classes.
     expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(0);
@@ -50,7 +66,14 @@ describe('<ErrorableSelect>', () => {
 
   it('has error styles when errorMessage is set', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableSelect label="my label" options={options} errorMessage="error message" value={testValue} onValueChange={(_update) => {}}/>);
+      <ErrorableSelect
+        label="my label"
+        options={options}
+        errorMessage="error message"
+        value={testValue}
+        onValueChange={_update => {}}
+      />,
+    );
 
     // Ensure all error classes set.
     expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(1);
@@ -67,19 +90,34 @@ describe('<ErrorableSelect>', () => {
     const selects = tree.everySubTree('select');
     expect(selects).to.have.lengthOf(1);
     expect(selects[0].props['aria-describedby']).to.not.be.undefined;
-    expect(selects[0].props['aria-describedby']).to.equal(errorMessages[0].props.id);
+    expect(selects[0].props['aria-describedby']).to.equal(
+      errorMessages[0].props.id,
+    );
   });
 
   it('required=false does not have required asterisk', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableSelect label="my label" options={options} value={testValue} onValueChange={(_update) => {}}/>);
+      <ErrorableSelect
+        label="my label"
+        options={options}
+        value={testValue}
+        onValueChange={_update => {}}
+      />,
+    );
 
     expect(tree.everySubTree('label')[0].text()).to.equal('my label');
   });
 
   it('required=true has required asterisk', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableSelect label="my label" options={options} required value={testValue} onValueChange={(_update) => {}}/>);
+      <ErrorableSelect
+        label="my label"
+        options={options}
+        required
+        value={testValue}
+        onValueChange={_update => {}}
+      />,
+    );
 
     const label = tree.everySubTree('label');
     expect(label[0].text()).to.equal('my label*');
@@ -87,7 +125,13 @@ describe('<ErrorableSelect>', () => {
 
   it('label attribute propagates', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableSelect label="my label" options={options} value={testValue} onValueChange={(_update) => {}}/>);
+      <ErrorableSelect
+        label="my label"
+        options={options}
+        value={testValue}
+        onValueChange={_update => {}}
+      />,
+    );
 
     // Ensure label text is correct.
     const labels = tree.everySubTree('label');

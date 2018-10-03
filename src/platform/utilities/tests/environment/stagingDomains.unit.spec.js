@@ -3,7 +3,10 @@ import { expect } from 'chai';
 import { replaceDomainsInData } from '../../environment/stagingDomains';
 
 let currentEnv = 'dev';
-if (global.__BUILDTYPE__.includes('staging') || global.__BUILDTYPE__ === 'preview') {
+if (
+  global.__BUILDTYPE__.includes('staging') ||
+  global.__BUILDTYPE__ === 'preview'
+) {
   currentEnv = 'staging';
 }
 
@@ -12,35 +15,41 @@ describe('Staging va.gov domain replacement', () => {
     it('should replace links in an array', () => {
       const data = [
         {
-          href: 'www.va.gov'
-        }
+          href: 'www.va.gov',
+        },
       ];
       expect(replaceDomainsInData(data)).to.deep.equal([
         {
-          href: `${currentEnv}.va.gov`
-        }
+          href: `${currentEnv}.va.gov`,
+        },
       ]);
     });
 
     it('should replace links in a nested array', () => {
       const data = [
         {
-          someArray: [{
-            href: 'www.va.gov/testing',
-          }, {
-            other: 'www.va.gov',
-          }]
-        }
+          someArray: [
+            {
+              href: 'www.va.gov/testing',
+            },
+            {
+              other: 'www.va.gov',
+            },
+          ],
+        },
       ];
 
       expect(replaceDomainsInData(data)).to.deep.equal([
         {
-          someArray: [{
-            href: `${currentEnv}.va.gov/testing`
-          }, {
-            other: 'www.va.gov',
-          }]
-        }
+          someArray: [
+            {
+              href: `${currentEnv}.va.gov/testing`,
+            },
+            {
+              other: 'www.va.gov',
+            },
+          ],
+        },
       ]);
     });
 
@@ -61,16 +70,15 @@ describe('Staging va.gov domain replacement', () => {
         test: 'www.va.gov/testing',
         other: {
           href: 'www.va.gov',
-        }
+        },
       };
 
       expect(replaceDomainsInData(data)).to.deep.equal({
         test: 'www.va.gov/testing',
         other: {
           href: `${currentEnv}.va.gov`,
-        }
+        },
       });
     });
   });
 });
-

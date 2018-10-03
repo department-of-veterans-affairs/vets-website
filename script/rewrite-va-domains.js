@@ -7,7 +7,10 @@ const prodEnvironments = new Set([BUILD_TYPE.production]);
 
 function createRedirects(options) {
   return (files, metalsmith, done) => {
-    if (!prodEnvironments.has(options.buildtype) && options.domainReplacements) {
+    if (
+      !prodEnvironments.has(options.buildtype) &&
+      options.domainReplacements
+    ) {
       Object.keys(files)
         .filter(fileName => fileName.endsWith('html'))
         .forEach(fileName => {

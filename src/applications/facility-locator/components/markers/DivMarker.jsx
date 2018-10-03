@@ -14,9 +14,7 @@ export default class DivMarker extends Component {
 
     return (
       <Marker icon={icon} position={position} onClick={onClick}>
-        <Popup>
-          {popupContent}
-        </Popup>
+        <Popup>{popupContent}</Popup>
       </Marker>
     );
   }

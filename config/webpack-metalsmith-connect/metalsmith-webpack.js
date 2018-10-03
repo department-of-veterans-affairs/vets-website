@@ -14,7 +14,7 @@ const path = require('path');
 
 const defaults = {
   host: 'localhost',
-  port: 8081
+  port: 8081,
 };
 
 function useColors() {
@@ -22,9 +22,10 @@ function useColors() {
 }
 
 function normalizePath(fullPath) {
-  return fullPath.split(path.sep).filter((p) => {
-    return typeof p === 'string' && p.length > 0;
-  }).join('/');
+  return fullPath
+    .split(path.sep)
+    .filter(p => typeof p === 'string' && p.length > 0)
+    .join('/');
 }
 
 function getMetalsmithKey(files, p) {
@@ -50,19 +51,19 @@ function webpackPlugin(config) {
         chunkOrigins: false,
         chunks: false,
         chunkModules: false,
-        colors: useColors()
+        colors: useColors(),
       });
       if (stats.hasErrors()) {
         done(info);
         return;
       }
       console.log(info);
-      fs.readdirSync(config.output.path).forEach((file) => {
+      fs.readdirSync(config.output.path).forEach(file => {
         const filePath = path.join(config.output.path, file);
         const key = getMetalsmithKey(files, filePath) || filePath;
         /* eslint-disable no-param-reassign */
         files[key] = {
-          contents: fs.readFileSync(filePath)
+          contents: fs.readFileSync(filePath),
         };
         /* eslint-enable no-param-reassign */
       });
@@ -88,7 +89,11 @@ function webpackDevServerPlugin(config, opts) {
     server.listen(options.port || 8081, options.host, () => {
       console.log(
         chalk.blue('[metalsmith-webpack-dev-server]: ') +
-        chalk.green(`Running webpack dev server at http://${options.host}:${options.port}`)
+          chalk.green(
+            `Running webpack dev server at http://${options.host}:${
+              options.port
+            }`,
+          ),
       );
       done();
     });
@@ -99,6 +104,5 @@ function webpackDevServerPlugin(config, opts) {
 
 module.exports = {
   webpackPlugin,
-  webpackDevServerPlugin
+  webpackDevServerPlugin,
 };
-

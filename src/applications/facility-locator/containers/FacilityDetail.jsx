@@ -30,7 +30,8 @@ class FacilityDetail extends Component {
     return (
       <span>
         <a href={website} target="_blank">
-          <i className="fa fa-globe"/>Website
+          <i className="fa fa-globe" />
+          Website
         </a>
       </span>
     );
@@ -44,19 +45,20 @@ class FacilityDetail extends Component {
       <div>
         <h1>{name}</h1>
         <div className="p1">
-          <FacilityTypeDescription facility={facility}/>
-          <FacilityAddress facility={facility}/>
+          <FacilityTypeDescription facility={facility} />
+          <FacilityAddress facility={facility} />
         </div>
         <div>
-          <FacilityPhoneLink facility={facility}/>
+          <FacilityPhoneLink facility={facility} />
         </div>
+        <div>{this.renderFacilityWebsite()}</div>
         <div>
-          {this.renderFacilityWebsite()}
+          <FacilityDirectionsLink facility={facility} />
         </div>
-        <div>
-          <FacilityDirectionsLink facility={facility}/>
-        </div>
-        <p className="p1">Planning to visit? Please call first as information on this page may change.</p>
+        <p className="p1">
+          Planning to visit? Please call first as information on this page may
+          change.
+        </p>
       </div>
     );
   }
@@ -71,7 +73,7 @@ class FacilityDetail extends Component {
     if (currentQuery.inProgress) {
       return (
         <div>
-          <LoadingIndicator message="Loading information..."/>
+          <LoadingIndicator message="Loading information..." />
         </div>
       );
     }
@@ -81,18 +83,18 @@ class FacilityDetail extends Component {
         <div className="usa-width-two-thirds medium-8 columns">
           <div>
             {this.renderFacilityInfo()}
-            <ServicesAtFacility facility={facility}/>
+            <ServicesAtFacility facility={facility} />
           </div>
           <div>
-            <AppointmentInfo facility={facility}/>
-            <AccessToCare facility={facility}/>
+            <AppointmentInfo facility={facility} />
+            <AccessToCare facility={facility} />
           </div>
         </div>
         <div className="usa-width-one-third medium-4 columns">
           <div>
-            <FacilityMap info={facility}/>
+            <FacilityMap info={facility} />
             <div className="mb2">
-              <FacilityHours facility={facility}/>
+              <FacilityHours facility={facility} />
             </div>
           </div>
         </div>
@@ -106,7 +108,13 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return { facility: state.facilities.selectedFacility, currentQuery: state.searchQuery };
+  return {
+    facility: state.facilities.selectedFacility,
+    currentQuery: state.searchQuery,
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FacilityDetail);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(FacilityDetail);

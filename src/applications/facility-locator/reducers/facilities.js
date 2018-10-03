@@ -1,10 +1,10 @@
 const INITIAL_STATE = {
   facilities: [],
   selectedFacility: null,
-  pagination: {}
+  pagination: {},
 };
 
-export default function (state = INITIAL_STATE, action) {
+export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case 'FETCH_VA_FACILITY':
       return {

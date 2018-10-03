@@ -9,7 +9,7 @@ class FacilityAddress extends Component {
 
     return (
       <span>
-        {[].concat(...addressArray.map(e => [<br key={e}/>, e])).slice(1)}
+        {[].concat(...addressArray.map(e => [<br key={e} />, e])).slice(1)}
       </span>
     );
   }

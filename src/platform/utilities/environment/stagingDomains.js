@@ -25,7 +25,7 @@ function replaceWithStagingDomain(href) {
  * replaceDomainsInData traverses a data object looking for properties
  * with a certain name. When it finds that name, it looks to see if
  * they match a value in the domainReplacements list, and replaces that
- * domain with another if they do. 
+ * domain with another if they do.
  *
  * We use this to rewrite links to point to a staging domain for environments
  * below production
@@ -47,23 +47,22 @@ export function replaceDomainsInData(data, keyToCheck = 'href') {
     // that seems worth the complexity trade-off
     current = data.map(item => replaceDomainsInData(item, keyToCheck));
   } else if (!!current && typeof current === 'object') {
-    Object.keys(current)
-      .forEach(key => {
-        let newValue = current;
+    Object.keys(current).forEach(key => {
+      let newValue = current;
 
-        // We're assuming that keys provided in keyToCheck are strings
-        if (key === keyToCheck) {
-          newValue = replaceWithStagingDomain(current[key]);
-        } else {
-          newValue = replaceDomainsInData(current[key], keyToCheck);
-        }
+      // We're assuming that keys provided in keyToCheck are strings
+      if (key === keyToCheck) {
+        newValue = replaceWithStagingDomain(current[key]);
+      } else {
+        newValue = replaceDomainsInData(current[key], keyToCheck);
+      }
 
-        if (newValue !== current[key]) {
-          current = Object.assign({}, current, {
-            [key]: newValue
-          });
-        }
-      });
+      if (newValue !== current[key]) {
+        current = Object.assign({}, current, {
+          [key]: newValue,
+        });
+      }
+    });
   }
 
   return current;

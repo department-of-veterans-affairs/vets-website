@@ -28,7 +28,7 @@ import {
   toggleReplyDetails,
   toggleThreadForm,
   toggleThreadMoveTo,
-  updateDraft
+  updateDraft,
 } from '../actions';
 
 import Message from '../components/Message';
@@ -60,7 +60,7 @@ export class Thread extends React.Component {
     if (redirect) {
       const redirectOptions = {
         pathname: redirect.url,
-        state: { preserveAlert: true }
+        state: { preserveAlert: true },
       };
 
       if (redirect.allowBack) {
@@ -74,8 +74,7 @@ export class Thread extends React.Component {
 
     const currentFolder = this.getCurrentFolder();
     const shouldFetchFolder =
-      !loading.folder &&
-      folder.attributes.folderId !== currentFolder.folderId;
+      !loading.folder && folder.attributes.folderId !== currentFolder.folderId;
 
     // If the folder hasn’t been fetched yet, it should be fetched in order for
     // (1) pagination to work properly and display the correct numbers and
@@ -126,7 +125,7 @@ export class Thread extends React.Component {
       messageId: draft.messageId,
       recipientId: +draft.recipient.value,
       replyMessageId: draft.replyMessageId,
-      subject: draft.subject.value
+      subject: draft.subject.value,
     };
   }
 
@@ -171,7 +170,7 @@ export class Thread extends React.Component {
       message,
       messagesCollapsed,
       moveToOpened,
-      thread
+      thread,
     } = this.props;
 
     if (!folder || !message) {
@@ -182,15 +181,17 @@ export class Thread extends React.Component {
 
     // Find the current message’s position
     // among the messages in the current folder.
-    const currentIndex = folderMessages.findIndex((folderMessage) => {
-      return folderMessage.messageId === message.messageId;
-    });
+    const currentIndex = folderMessages.findIndex(
+      folderMessage => folderMessage.messageId === message.messageId,
+    );
 
     // TODO: Enable navigating to messages outside of the current page.
-    const handleMessageSelect = (messageNumber) => {
+    const handleMessageSelect = messageNumber => {
       const index = messageNumber - 1;
       const selectedId = folderMessages[index].messageId;
-      this.context.router.push(`/${this.props.params.folderName}/${selectedId}`);
+      this.context.router.push(
+        `/${this.props.params.folderName}/${selectedId}`,
+      );
     };
 
     // If the message is a draft, the delete button should prompt, since the
@@ -212,7 +213,7 @@ export class Thread extends React.Component {
         folders={folders}
         isNewMessage={isNewMessage}
         message={message}
-        messagesCollapsed={(messagesCollapsed.size > 0)}
+        messagesCollapsed={messagesCollapsed.size > 0}
         moveToIsOpen={moveToOpened}
         onChooseFolder={this.props.moveMessageToFolder}
         onCreateFolder={this.props.openMoveToNewFolderModal}
@@ -220,7 +221,8 @@ export class Thread extends React.Component {
         onMessageSelect={handleMessageSelect}
         onToggleThread={this.props.toggleMessagesCollapsed}
         onToggleMoveTo={this.props.toggleThreadMoveTo}
-        threadMessageCount={thread.length + 1}/>
+        threadMessageCount={thread.length + 1}
+      />
     );
   }
 
@@ -231,9 +233,8 @@ export class Thread extends React.Component {
     let currentMessage;
 
     if (thread) {
-      threadMessages = thread.map((threadMessage) => {
-        const isCollapsed =
-          messagesCollapsed.has(threadMessage.messageId);
+      threadMessages = thread.map(threadMessage => {
+        const isCollapsed = messagesCollapsed.has(threadMessage.messageId);
 
         return (
           <Message
@@ -241,14 +242,14 @@ export class Thread extends React.Component {
             attrs={threadMessage}
             isCollapsed={isCollapsed}
             onToggleCollapsed={this.props.toggleMessageCollapsed}
-            fetchMessage={this.props.fetchThreadMessage}/>
+            fetchMessage={this.props.fetchThreadMessage}
+          />
         );
       });
     }
 
-
     if (message) {
-      currentMessage = <Message attrs={message}/>;
+      currentMessage = <Message attrs={message} />;
     }
 
     return (
@@ -278,7 +279,8 @@ export class Thread extends React.Component {
           onSaveMessage={this.handleDraftSave}
           onSendMessage={this.handleDraftSend}
           onSubjectChange={this.props.updateDraft.bind(null, 'subject')}
-          toggleConfirmDelete={this.props.toggleConfirmDelete}/>
+          toggleConfirmDelete={this.props.toggleConfirmDelete}
+        />
       );
     } else if (message) {
       form = (
@@ -295,7 +297,8 @@ export class Thread extends React.Component {
           onSaveReply={this.handleDraftSave}
           onSendReply={this.handleDraftSend}
           toggleConfirmDelete={this.props.toggleConfirmDelete}
-          toggleDetails={this.props.toggleReplyDetails}/>
+          toggleDetails={this.props.toggleReplyDetails}
+        />
       );
     }
 
@@ -306,28 +309,47 @@ export class Thread extends React.Component {
     if (shouldShow) {
       return (
         <AlertBox
-          content={<div>
-            <h4 className="usa-alert-heading">Health care team has changed</h4>
-            <p>
-              You are no longer associated with this health care team and cannot reply to this message. Please contact the help desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET) if you have any questions.
-            </p>
-          </div>}
+          content={
+            <div>
+              <h4 className="usa-alert-heading">
+                Health care team has changed
+              </h4>
+              <p>
+                You are no longer associated with this health care team and
+                cannot reply to this message. Please contact the help desk at{' '}
+                <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+                <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211;
+                Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET) if you have any
+                questions.
+              </p>
+            </div>
+          }
           isVisible
-          status="warning"/>
+          status="warning"
+        />
       );
     }
     return null;
   }
 
   render() {
-    const { isFormVisible, isNewMessage, isSavedDraft, loading, recipients, thread: threadMessages, message, draft } = this.props;
+    const {
+      isFormVisible,
+      isNewMessage,
+      isSavedDraft,
+      loading,
+      recipients,
+      thread: threadMessages,
+      message,
+      draft,
+    } = this.props;
 
     if (isNewMessage && loading.recipients) {
-      return <LoadingIndicator message="Loading your application..."/>;
+      return <LoadingIndicator message="Loading your application..." />;
     }
 
     if (loading.thread) {
-      return <LoadingIndicator message="Loading your message..."/>;
+      return <LoadingIndicator message="Loading your message..." />;
     }
 
     if (!this.props.message) {
@@ -350,12 +372,14 @@ export class Thread extends React.Component {
     }
 
     // check if any senderIds are valid recipients
-    const disabled = !loading.recipients && intersection(
-      recipients.map(e => e.value),
-      threadMessages.map(t => t.senderId).concat(
-        [message.senderId, Number(draft.recipient.value)]
-      )
-    ).length > 0;
+    const disabled =
+      !loading.recipients &&
+      intersection(
+        recipients.map(e => e.value),
+        threadMessages
+          .map(t => t.senderId)
+          .concat([message.senderId, Number(draft.recipient.value)]),
+      ).length > 0;
 
     const header = this.makeHeader();
     const thread = this.makeThread();
@@ -363,12 +387,12 @@ export class Thread extends React.Component {
 
     const threadClass = classNames({
       'messaging-thread-content': true,
-      opened: !isFormVisible
+      opened: !isFormVisible,
     });
 
     const formClass = classNames({
       'messaging-thread-form': true,
-      opened: isFormVisible
+      opened: isFormVisible,
     });
 
     return (
@@ -380,7 +404,8 @@ export class Thread extends React.Component {
             <button
               className="usa-button"
               type="button"
-              onClick={this.props.toggleThreadForm}>
+              onClick={this.props.toggleThreadForm}
+            >
               {isSavedDraft ? 'Edit draft' : 'Reply'}
             </button>
           </div>
@@ -388,10 +413,12 @@ export class Thread extends React.Component {
         <div className={formClass}>
           <div
             id="messaging-content-header"
-            className="messaging-thread-header">
+            className="messaging-thread-header"
+          >
             <a
               className="messaging-cancel-link"
-              onClick={this.props.toggleThreadForm}>
+              onClick={this.props.toggleThreadForm}
+            >
               Cancel
             </a>
             <h3>{isNewMessage ? 'Edit draft' : 'Reply'}</h3>
@@ -399,34 +426,37 @@ export class Thread extends React.Component {
               className="messaging-send-button"
               type="button"
               onClick={this.handleDraftSend}
-              disabled={!this.props.draft.body.value.length}>
+              disabled={!this.props.draft.body.value.length}
+            >
               Send
             </button>
           </div>
           {this.renderHealthCareTeamNotice(disabled)}
           {form}
         </div>
-        {!disabled && <NoticeBox/>}
+        {!disabled && <NoticeBox />}
         <ModalConfirmDelete
           cssClass="messaging-modal"
           onClose={this.props.toggleConfirmDelete}
           onDelete={this.handleDraftDelete}
-          visible={this.props.modals.deleteConfirm.visible}/>
+          visible={this.props.modals.deleteConfirm.visible}
+        />
         <ModalConfirmSave
           cssClass="messaging-modal"
           onClose={this.props.toggleConfirmSave}
           onSave={this.handleConfirmDraftSave}
-          visible={this.props.modals.saveConfirm.visible}/>
+          visible={this.props.modals.saveConfirm.visible}
+        />
       </div>
     );
   }
 }
 
 Thread.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const msgState = state.health.msg;
   const folder = msgState.folders.data.currentItem;
   const message = msgState.messages.data.message;
@@ -451,7 +481,7 @@ const mapStateToProps = (state) => {
     recipients: msgState.recipients.data,
     redirect: msgState.folders.ui.redirect,
     replyDetailsCollapsed: msgState.messages.ui.replyDetailsCollapsed,
-    thread: msgState.messages.data.thread
+    thread: msgState.messages.data.thread,
   };
 };
 
@@ -476,7 +506,10 @@ const mapDispatchToProps = {
   toggleThreadMoveTo,
   toggleReplyDetails,
   toggleThreadForm,
-  updateDraft
+  updateDraft,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Thread);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Thread);

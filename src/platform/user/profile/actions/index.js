@@ -15,18 +15,18 @@ export * from './mhv';
 export function updateProfileFields(payload) {
   return {
     type: UPDATE_PROFILE_FIELDS,
-    payload
+    payload,
   };
 }
 
 export function profileLoadingFinished() {
   return {
-    type: PROFILE_LOADING_FINISHED
+    type: PROFILE_LOADING_FINISHED,
   };
 }
 
 export function refreshProfile(forceCacheClear = false) {
-  return async (dispatch) => {
+  return async dispatch => {
     let url = `${environment.API_URL}/v0/user`;
     if (forceCacheClear) {
       url += `?now=${new Date().getTime()}`;
@@ -35,8 +35,10 @@ export function refreshProfile(forceCacheClear = false) {
     const response = await fetch(url, {
       method: 'GET',
       headers: new Headers({
-        Authorization: `Token token=${conditionalStorage().getItem('userToken')}`
-      })
+        Authorization: `Token token=${conditionalStorage().getItem(
+          'userToken',
+        )}`,
+      }),
     });
 
     if (!response.ok) {
@@ -52,7 +54,7 @@ export function refreshProfile(forceCacheClear = false) {
 }
 
 export function initializeProfile() {
-  return async (dispatch) => {
+  return async dispatch => {
     try {
       const payload = await dispatch(refreshProfile());
       setupProfileSession(payload);
@@ -66,19 +68,19 @@ export function initializeProfile() {
 
 export function removingSavedForm() {
   return {
-    type: REMOVING_SAVED_FORM
+    type: REMOVING_SAVED_FORM,
   };
 }
 
 export function removingSavedFormSuccess() {
   return {
-    type: REMOVING_SAVED_FORM_SUCCESS
+    type: REMOVING_SAVED_FORM_SUCCESS,
   };
 }
 
 export function removingSavedFormFailure() {
   return {
-    type: REMOVING_SAVED_FORM_FAILURE
+    type: REMOVING_SAVED_FORM_FAILURE,
   };
 }
 

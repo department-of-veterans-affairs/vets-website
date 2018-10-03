@@ -11,9 +11,9 @@ export default class FormFooter extends React.Component {
 
     return (
       <div>
-        {!isConfirmationPage && <AskVAQuestions>
-          {!!GetFormHelp && <GetFormHelp/>}
-        </AskVAQuestions>}
+        {!isConfirmationPage && (
+          <AskVAQuestions>{!!GetFormHelp && <GetFormHelp />}</AskVAQuestions>
+        )}
       </div>
     );
   }

@@ -7,11 +7,14 @@ function scrollToPage(key) {
   scroller.scrollTo(`${key}ScrollElement`, {
     duration: 500,
     delay: 2,
-    smooth: true
+    smooth: true,
   });
 }
 
-export default function FinancialDisclosureDescription({ viewedPages, pageKeys }) {
+export default function FinancialDisclosureDescription({
+  viewedPages,
+  pageKeys,
+}) {
   const unViewedPages = pageKeys.filter(key => !viewedPages.has(key));
   if (!unViewedPages.length) {
     return null;
@@ -24,7 +27,9 @@ export default function FinancialDisclosureDescription({ viewedPages, pageKeys }
       <div className="usa-alert-body">
         <div className="usa-alert-text">
           <p>Does your spouse have any net worth, income, or expenses?</p>
-          <button className="va-button-link" onClick={jumpToFirst}>Yes, jump to spouse</button>
+          <button className="va-button-link" onClick={jumpToFirst}>
+            Yes, jump to spouse
+          </button>
         </div>
       </div>
     );
@@ -32,8 +37,12 @@ export default function FinancialDisclosureDescription({ viewedPages, pageKeys }
     alertBody = (
       <div className="usa-alert-body">
         <div className="usa-alert-text">
-          <p>Do the dependents you added have any net worth, income, or expenses?</p>
-          <button className="va-button-link" onClick={jumpToFirst}>Yes, jump to new dependents</button>
+          <p>
+            Do the dependents you added have any net worth, income, or expenses?
+          </p>
+          <button className="va-button-link" onClick={jumpToFirst}>
+            Yes, jump to new dependents
+          </button>
         </div>
       </div>
     );
