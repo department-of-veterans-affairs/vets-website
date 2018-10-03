@@ -7,9 +7,9 @@ import { DefinitionTester } from '../../../../../platform/testing/unit/schemafor
 import formConfig from '../../config/form.js';
 import initialData from '../../../526EZ/tests/schema/initialData.js';
 
-describe('781a information interview screen', () => {
+describe('781a choice screen', () => {
   const page =
-    formConfig.chapters.introductionPage.pages.informationInterviewAssault;
+    formConfig.chapters.introductionPage.pages.ptsdChoice;
   const { schema, uiSchema } = page;
 
 
