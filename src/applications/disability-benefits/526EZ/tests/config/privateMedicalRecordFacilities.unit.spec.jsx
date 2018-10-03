@@ -26,7 +26,8 @@ describe('Disability benefits 4142 provider medical records facility information
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={initialData}
-        uiSchema={uiSchema}/>,
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form);
@@ -45,7 +46,8 @@ describe('Disability benefits 4142 provider medical records facility information
         schema={schema}
         data={initialData}
         formData={initialData}
-        uiSchema={uiSchema}/>,
+        uiSchema={uiSchema}
+      />,
     );
 
     //  All fields filled
@@ -102,7 +104,8 @@ describe('Disability benefits 4142 provider medical records facility information
         schema={schema}
         data={initialData}
         formData={initialData}
-        uiSchema={uiSchema}/>,
+        uiSchema={uiSchema}
+      />,
     );
 
     // Fill the form with a name that's too long
@@ -131,7 +134,8 @@ describe('Disability benefits 4142 provider medical records facility information
         schema={schema}
         data={initialData}
         formData={initialData}
-        uiSchema={uiSchema}/>,
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');

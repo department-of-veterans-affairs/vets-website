@@ -1,49 +1,49 @@
 import {
   uiSchema as ptsdTypeUISchema,
-  schema as ptsdTypeSchema
+  schema as ptsdTypeSchema,
 } from './choosePtsdType';
 
 import {
   uiSchema as ptsd781UISchema,
-  schema as ptsd781Schema
+  schema as ptsd781Schema,
 } from './uploadPtsd';
 
 import {
   uiSchema as ptsd781aUISchema,
-  schema as ptsd781aSchema
+  schema as ptsd781aSchema,
 } from './uploadPtsdSecondary';
 
 import {
   uiSchema as ptsdChoiceUISchema,
-  schema as ptsdChoiceSchema
+  schema as ptsdChoiceSchema,
 } from './ptsdChoice';
 
 import {
   uiSchema as ptsdSecondaryChoiceUISchema,
-  schema as ptsdSecondaryChoiceSchema
+  schema as ptsdSecondaryChoiceSchema,
 } from './ptsdSecondaryChoice';
 
 export const ptsdType = {
   uiSchema: ptsdTypeUISchema,
-  schema: ptsdTypeSchema
+  schema: ptsdTypeSchema,
 };
 
 export const ptsdChoice = {
   uiSchema: ptsdChoiceUISchema,
-  schema: ptsdChoiceSchema
+  schema: ptsdChoiceSchema,
 };
 
 export const ptsdSecondaryChoice = {
   uiSchema: ptsdSecondaryChoiceUISchema,
-  schema: ptsdSecondaryChoiceSchema
+  schema: ptsdSecondaryChoiceSchema,
 };
 
 export const uploadPtsd = {
   uiSchema: ptsd781UISchema,
-  schema: ptsd781Schema
+  schema: ptsd781Schema,
 };
 
 export const uploadPtsdSecondary = {
   uiSchema: ptsd781aUISchema,
-  schema: ptsd781aSchema
+  schema: ptsd781aSchema,
 };
