@@ -10,6 +10,7 @@ import './moment-setup';
 import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
+import startMetrics from '../monitoring/frontend-metrics';
 import startMobileMenuButton from './mobile-menu-button';
 import startFeedbackWidget from './feedback';
 import startAnnouncementWidget from './announcements';
@@ -59,4 +60,6 @@ export default function startSitewideComponents(commonStore) {
     startMobileMenuButton(commonStore);
     startVAFooter(commonStore);
   }
+
+  startMetrics();
 }
