@@ -3,16 +3,19 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-
-import { DefinitionTester, // selectCheckbox
+import {
+  DefinitionTester, // selectCheckbox
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
-import { STATE_VALUES, MILITARY_STATE_VALUES } from '../../../all-claims/constants';
+import {
+  STATE_VALUES,
+  MILITARY_STATE_VALUES,
+} from '../../../all-claims/constants';
 
 describe('Disability benefits 526EZ contact information', () => {
   const {
     schema,
-    uiSchema
+    uiSchema,
   } = formConfig.chapters.additionalInformation.pages.contactInformation;
 
   it('renders contact information form', () => {
@@ -22,10 +25,11 @@ describe('Disability benefits 526EZ contact information', () => {
         schema={schema}
         data={{
           mailingAddress: {},
-          phoneEmailCard: {}
+          phoneEmailCard: {},
         }}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     // country
@@ -41,12 +45,13 @@ describe('Disability benefits 526EZ contact information', () => {
         schema={schema}
         data={{
           mailingAddress: {
-            country: 'USA'
+            country: 'USA',
           },
-          phoneEmailCard: {}
+          phoneEmailCard: {},
         }}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     // country, state
@@ -62,12 +67,13 @@ describe('Disability benefits 526EZ contact information', () => {
         schema={schema}
         data={{
           mailingAddress: {
-            country: 'Afghanistan'
+            country: 'Afghanistan',
           },
-          phoneEmailCard: {}
+          phoneEmailCard: {},
         }}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     // country
@@ -84,17 +90,22 @@ describe('Disability benefits 526EZ contact information', () => {
         data={{
           mailingAddress: {
             country: 'USA',
-            city: 'APO'
+            city: 'APO',
           },
-          phoneEmailCard: {}
+          phoneEmailCard: {},
         }}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
-    const stateDropdownOptions = form.find('#root_mailingAddress_state > option');
+    const stateDropdownOptions = form.find(
+      '#root_mailingAddress_state > option',
+    );
     // The `+1` is for the empty option in the dropdown
-    expect(stateDropdownOptions.length).to.equal(MILITARY_STATE_VALUES.length + 1);
+    expect(stateDropdownOptions.length).to.equal(
+      MILITARY_STATE_VALUES.length + 1,
+    );
   });
 
   it('does not restrict state options  when city is not a military city code', () => {
@@ -105,15 +116,18 @@ describe('Disability benefits 526EZ contact information', () => {
         data={{
           mailingAddress: {
             country: 'USA',
-            city: 'Detroit'
+            city: 'Detroit',
           },
-          phoneEmailCard: {}
+          phoneEmailCard: {},
         }}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
-    const stateDropdownOptions = form.find('#root_mailingAddress_state > option');
+    const stateDropdownOptions = form.find(
+      '#root_mailingAddress_state > option',
+    );
     // The `+1` is for the empty option in the dropdown
     expect(stateDropdownOptions.length).to.equal(STATE_VALUES.length + 1);
   });
@@ -127,19 +141,20 @@ describe('Disability benefits 526EZ contact information', () => {
         data={{
           phoneEmailCard: {
             primaryPhone: '1231231231',
-            emailAddress: 'a@b.co'
+            emailAddress: 'a@b.co',
           },
           mailingAddress: {
             country: 'USA',
             addressLine1: '123 Any Street',
             city: 'APO',
             state: 'TX',
-            zipCode: '12345'
-          }
+            zipCode: '12345',
+          },
         }}
         formData={{}}
         uiSchema={uiSchema}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -156,19 +171,20 @@ describe('Disability benefits 526EZ contact information', () => {
         data={{
           phoneEmailCard: {
             primaryPhone: '1231231231',
-            emailAddress: 'a@b.co'
+            emailAddress: 'a@b.co',
           },
           mailingAddress: {
             country: 'USA',
             addressLine1: '123 Any Street',
             city: 'Anytown',
             state: 'AA',
-            zipCode: '12345'
-          }
+            zipCode: '12345',
+          },
         }}
         formData={{}}
         uiSchema={uiSchema}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -185,16 +201,17 @@ describe('Disability benefits 526EZ contact information', () => {
           'view:hasForwardingAddress': true,
           mailingAddress: {
             country: '',
-            addressLine1: ''
+            addressLine1: '',
           },
           forwardingAddress: {
             country: '',
-            addressLine1: ''
+            addressLine1: '',
           },
-          phoneEmailCard: {}
+          phoneEmailCard: {},
         }}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     // (2 x country), date month, date day, country
@@ -212,14 +229,14 @@ describe('Disability benefits 526EZ contact information', () => {
         data={{
           phoneEmailCard: {
             primaryPhone: '1231231231',
-            emailAddress: 'a@b.co'
+            emailAddress: 'a@b.co',
           },
           mailingAddress: {
             country: 'USA',
             addressLine1: '123 Any Street',
             city: 'Anytown',
             state: 'MI',
-            zipCode: '12345'
+            zipCode: '12345',
           },
           'view:hasForwardingAddress': true,
           forwardingAddress: {
@@ -228,12 +245,13 @@ describe('Disability benefits 526EZ contact information', () => {
             addressLine1: '123 Any Street',
             city: 'APO',
             state: 'TX',
-            zipCode: '12345'
-          }
+            zipCode: '12345',
+          },
         }}
         formData={{}}
         uiSchema={uiSchema}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -250,14 +268,14 @@ describe('Disability benefits 526EZ contact information', () => {
         data={{
           phoneEmailCard: {
             primaryPhone: '1231231231',
-            emailAddress: 'a@b.co'
+            emailAddress: 'a@b.co',
           },
           mailingAddress: {
             country: 'USA',
             addressLine1: '123 Any Street',
             city: 'Anytown',
             state: 'MI',
-            zipCode: '12345'
+            zipCode: '12345',
           },
           'view:hasForwardingAddress': true,
           forwardingAddress: {
@@ -266,12 +284,13 @@ describe('Disability benefits 526EZ contact information', () => {
             addressLine1: '123 Any Street',
             city: 'Anytown',
             state: 'AA',
-            zipCode: '12345'
-          }
+            zipCode: '12345',
+          },
         }}
         formData={{}}
         uiSchema={uiSchema}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -288,24 +307,25 @@ describe('Disability benefits 526EZ contact information', () => {
         data={{
           phoneEmailCard: {
             primaryPhone: '',
-            emailAddress: ''
+            emailAddress: '',
           },
           mailingAddress: {
             country: '',
             addressLine1: '',
-            city: ''
+            city: '',
           },
           'view:hasForwardingAddress': true,
           forwardingAddress: {
             effectiveDate: '',
             country: '',
             addressLine1: '',
-            city: ''
-          }
+            city: '',
+          },
         }}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -322,14 +342,14 @@ describe('Disability benefits 526EZ contact information', () => {
         data={{
           phoneEmailCard: {
             primaryPhone: '1231231231',
-            emailAddress: 'a@b.co'
+            emailAddress: 'a@b.co',
           },
           mailingAddress: {
             country: 'USA',
             addressLine1: '123 Any Street',
             city: 'Anytown',
             state: 'MI',
-            zipCode: '12345'
+            zipCode: '12345',
           },
           'view:hasForwardingAddress': true,
           forwardingAddress: {
@@ -339,11 +359,12 @@ describe('Disability benefits 526EZ contact information', () => {
             city: 'Detroit',
             state: 'MI',
             zipCode: '234563453',
-          }
+          },
         }}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');

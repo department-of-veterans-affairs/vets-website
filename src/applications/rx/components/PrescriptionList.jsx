@@ -12,14 +12,15 @@ class PrescriptionList extends React.Component {
     let prescriptions;
     let facilities;
 
-    const makeItem = (rx) => {
+    const makeItem = rx => {
       const uniqId = _.uniqueId('rx-');
       return (
         <PrescriptionCard
-          { ...rx }
+          {...rx}
           glossaryModalHandler={this.props.glossaryModalHandler}
           refillModalHandler={this.props.refillModalHandler}
-          key={uniqId}/>
+          key={uniqId}
+        />
       );
     };
 
@@ -27,9 +28,7 @@ class PrescriptionList extends React.Component {
     if (this.props.grouped) {
       // Extract facilities from items as an array.
       // Make it an array of unique values.
-      facilities = _.uniq(_.map(items, (obj) => {
-        return obj.attributes.facilityName;
-      }));
+      facilities = _.uniq(_.map(items, obj => obj.attributes.facilityName));
 
       /*
       For every facility in `facilities`, filter those
@@ -40,23 +39,27 @@ class PrescriptionList extends React.Component {
       */
       const groupByFacility = {};
 
-      _.map(facilities, (value) => {
-        groupByFacility[value] = _.filter(items, (obj) => {
-          return obj.attributes.facilityName === value;
-        });
+      _.map(facilities, value => {
+        groupByFacility[value] = _.filter(
+          items,
+          obj => obj.attributes.facilityName === value,
+        );
       });
 
       // Create prescription groups containing prescriptions
-      prescriptions = facilities.map((value) => {
+      prescriptions = facilities.map(value => {
         const groupChildren = groupByFacility[value].map(makeItem);
         const uniqId = _.uniqueId('rx-g');
 
-        return (<PrescriptionGroup
-          glossaryModalHandler={this.props.glossaryModalHandler}
-          refillModalHandler={this.props.refillModalHandler}
-          title={value}
-          key={uniqId}
-          items={groupChildren}/>);
+        return (
+          <PrescriptionGroup
+            glossaryModalHandler={this.props.glossaryModalHandler}
+            refillModalHandler={this.props.refillModalHandler}
+            title={value}
+            key={uniqId}
+            items={groupChildren}
+          />
+        );
       });
     } else {
       prescriptions = items.map(makeItem);
@@ -74,15 +77,14 @@ class PrescriptionList extends React.Component {
         onChange={this.props.handleSort}
         onClick={this.props.handleSort}
         options={sortOptions}
-        selected={this.props.currentSort}/>
+        selected={this.props.currentSort}
+      />
     );
 
     return (
       <div>
         {sortMenu}
-        <div className="rx-prescription-items cf">
-          {prescriptions}
-        </div>
+        <div className="rx-prescription-items cf">{prescriptions}</div>
       </div>
     );
   }
@@ -92,7 +94,7 @@ PrescriptionList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   glossaryModalHandler: PropTypes.func.isRequired,
   grouped: PropTypes.bool,
-  refillModalHandler: PropTypes.func.isRequired
+  refillModalHandler: PropTypes.func.isRequired,
 };
 
 export default PrescriptionList;

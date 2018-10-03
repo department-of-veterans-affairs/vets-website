@@ -4,47 +4,55 @@ import get from '../../../../platform/utilities/data/get';
 
 import {
   evidenceTypeHelp,
-  noEvidenceDescription
+  noEvidenceDescription,
 } from '../content/evidenceTypes';
 
 export const uiSchema = {
   'view:hasEvidence': {
-    'ui:title': 'Do you have any evidence that you’d like to submit with your claim?',
-    'ui:widget': 'yesNo'
+    'ui:title':
+      'Do you have any evidence that you’d like to submit with your claim?',
+    'ui:widget': 'yesNo',
   },
   'view:hasEvidenceFollowUp': {
     'ui:options': {
-      expandUnder: 'view:hasEvidence'
+      expandUnder: 'view:hasEvidence',
     },
-    'ui:required': (formData) => get('view:hasEvidence', formData, false),
+    'ui:required': formData => get('view:hasEvidence', formData, false),
     'view:selectableEvidenceTypes': {
-      'ui:title': 'What type of evidence do you want to submit with your claim?',
+      'ui:title':
+        'What type of evidence do you want to submit with your claim?',
       'ui:options': { showFieldLabel: true },
-      'ui:validations': [{
-        validator: validateIfHasEvidence,
-        options: { wrappedValidator: validateBooleanGroup }
-      }],
+      'ui:validations': [
+        {
+          validator: validateIfHasEvidence,
+          options: { wrappedValidator: validateBooleanGroup },
+        },
+      ],
       'ui:errorMessages': {
-        atLeastOne: 'Please select at least one type of supporting evidence'
+        atLeastOne: 'Please select at least one type of supporting evidence',
       },
-      'ui:required': (formData) => get('view:hasEvidence', formData, false),
+      'ui:required': formData => get('view:hasEvidence', formData, false),
       'view:hasVAMedicalRecords': { 'ui:title': 'VA medical records' },
-      'view:hasPrivateMedicalRecords': { 'ui:title': 'Private medical records' },
-      'view:hasOtherEvidence': { 'ui:title': 'Supporting (lay) statements or other evidence' }
+      'view:hasPrivateMedicalRecords': {
+        'ui:title': 'Private medical records',
+      },
+      'view:hasOtherEvidence': {
+        'ui:title': 'Supporting (lay) statements or other evidence',
+      },
     },
     'view:evidenceTypeHelp': {
       'ui:title': ' ',
-      'ui:description': evidenceTypeHelp
-    }
+      'ui:description': evidenceTypeHelp,
+    },
   },
   'view:noEvidenceFollowUp': {
     'ui:title': ' ',
     'ui:description': noEvidenceDescription,
     'ui:options': {
       expandUnder: 'view:hasEvidence',
-      expandUnderCondition: false
-    }
-  }
+      expandUnderCondition: false,
+    },
+  },
 };
 
 export const schema = {
@@ -62,18 +70,18 @@ export const schema = {
           properties: {
             'view:hasVAMedicalRecords': { type: 'boolean' },
             'view:hasPrivateMedicalRecords': { type: 'boolean' },
-            'view:hasOtherEvidence': { type: 'boolean' }
-          }
+            'view:hasOtherEvidence': { type: 'boolean' },
+          },
         },
         'view:evidenceTypeHelp': {
           type: 'object',
-          properties: {}
-        }
-      }
+          properties: {},
+        },
+      },
     },
     'view:noEvidenceFollowUp': {
       type: 'object',
-      properties: {}
-    }
-  }
+      properties: {},
+    },
+  },
 };

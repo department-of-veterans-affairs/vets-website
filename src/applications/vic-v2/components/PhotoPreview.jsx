@@ -8,11 +8,13 @@ export default class PhotoPreview extends React.Component {
     super(props);
 
     if (props.isLoggedIn && props.id && !props.src) {
-      fetchPreview(props.id).then(src => {
-        this.props.onUpdatePreview(src);
-      }).catch(err => {
-        this.props.onError(err);
-      });
+      fetchPreview(props.id)
+        .then(src => {
+          this.props.onUpdatePreview(src);
+        })
+        .catch(err => {
+          this.props.onError(err);
+        });
     }
   }
 
@@ -24,14 +26,15 @@ export default class PhotoPreview extends React.Component {
         <div className="usa-alert usa-alert-warning vic-processing-warning">
           <div className="usa-alert-body">
             <h4 className="usa-alert-title">We’re still loading your photo</h4>
-            You can continue working on the application while we finish loading your photo.
+            You can continue working on the application while we finish loading
+            your photo.
           </div>
         </div>
       );
     }
 
     if (!src && id && isLoggedIn) {
-      return <LoadingIndicator message="We’re loading your photo..."/>;
+      return <LoadingIndicator message="We’re loading your photo..." />;
     }
 
     if (!src && !id) {
@@ -42,7 +45,8 @@ export default class PhotoPreview extends React.Component {
       <img
         className={className}
         src={src}
-        alt="Photograph of you that will be displayed on the ID card"/>
+        alt="Photograph of you that will be displayed on the ID card"
+      />
     );
   }
 }
@@ -54,5 +58,5 @@ PhotoPreview.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   processing: PropTypes.bool.isRequired,
   onError: PropTypes.func.isRequired,
-  onUpdatePreview: PropTypes.func.isRequired
+  onUpdatePreview: PropTypes.func.isRequired,
 };

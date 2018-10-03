@@ -3,18 +3,27 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, selectRadio, fillDate } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+  selectRadio,
+  fillDate,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
 describe('VIC veteran information', () => {
-  const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.veteranInformation.pages.veteranInformation;
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(7);
@@ -29,7 +38,8 @@ describe('VIC veteran information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -46,7 +56,8 @@ describe('VIC veteran information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     fillData(form, 'input#root_veteranFullName_first', 'test');

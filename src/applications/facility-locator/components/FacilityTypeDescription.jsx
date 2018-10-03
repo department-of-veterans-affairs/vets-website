@@ -5,13 +5,17 @@ class FacilityTypeDescription extends Component {
   renderFacilityType() {
     const { facilityType, classification } = this.props.facility.attributes;
 
-    return (facilityType === 'va_cemetery' ? classification : facilityTypes[facilityType]);
+    return facilityType === 'va_cemetery'
+      ? classification
+      : facilityTypes[facilityType];
   }
 
   render() {
     return (
       <p>
-        <span><strong>Facility type:</strong> {this.renderFacilityType()}</span>
+        <span>
+          <strong>Facility type:</strong> {this.renderFacilityType()}
+        </span>
       </p>
     );
   }

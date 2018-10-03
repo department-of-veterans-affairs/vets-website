@@ -10,44 +10,46 @@ import {
   SET_ADVSEARCH_END_DATE,
   SET_ADVSEARCH_START_DATE,
   SET_SEARCH_PARAM,
-  TOGGLE_ADVANCED_SEARCH
+  TOGGLE_ADVANCED_SEARCH,
 } from '../utils/constants';
 
 const initialState = {
   params: {
     dateRange: {
       start: null,
-      end: null
+      end: null,
     },
     from: {
       field: makeField(''),
-      exact: false
+      exact: false,
     },
     to: {
       field: makeField(''),
-      exact: false
+      exact: false,
     },
     subject: {
       field: makeField(''),
-      exact: false
-    }
+      exact: false,
+    },
   },
   advanced: {
-    visible: false
-  }
+    visible: false,
+  },
 };
 
 export default function search(state = initialState, action) {
   switch (action.type) {
     case FETCH_FOLDER_SUCCESS: {
       const { filter } = action.messages.meta;
-      if (!filter) { return initialState; }
+      if (!filter) {
+        return initialState;
+      }
 
       const params = {
         dateRange: { ...initialState.params.dateRange },
         from: { ...initialState.params.from },
         to: { ...initialState.params.to },
-        subject: { ...initialState.params.subject }
+        subject: { ...initialState.params.subject },
       };
 
       const { recipientName, senderName, sentDate, subject } = filter;
@@ -83,7 +85,11 @@ export default function search(state = initialState, action) {
     }
     case SET_ADVSEARCH_END_DATE:
       if (action.date) {
-        return set('params.dateRange.end', moment(action.date).endOf('day'), state);
+        return set(
+          'params.dateRange.end',
+          moment(action.date).endOf('day'),
+          state,
+        );
       }
       return set('params.dateRange.end', null, state);
     case SET_ADVSEARCH_START_DATE:

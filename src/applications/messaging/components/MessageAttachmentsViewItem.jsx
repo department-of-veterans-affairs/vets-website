@@ -35,7 +35,9 @@ class MessageAttachmentsViewItem extends React.Component {
           window.open(this.downloadUrl, '_blank');
         });
       },
-      () => { this.setState({ downloading: false }); }
+      () => {
+        this.setState({ downloading: false });
+      },
     );
   }
 
@@ -45,7 +47,7 @@ class MessageAttachmentsViewItem extends React.Component {
       'fa-paperclip': !this.state.downloading,
       'fa-spinner': this.state.downloading,
       'fa-pulse': this.state.downloading,
-      'msg-attachment-icon': true
+      'msg-attachment-icon': true,
     });
 
     let loadingMessage;
@@ -55,8 +57,12 @@ class MessageAttachmentsViewItem extends React.Component {
 
     return (
       <li>
-        <a onClick={this.downloadAttachment} href={this.props.url} className="msg-attachment-item">
-          <i className={iconClass}></i>
+        <a
+          onClick={this.downloadAttachment}
+          href={this.props.url}
+          className="msg-attachment-item"
+        >
+          <i className={iconClass} />
           {loadingMessage}
           {this.props.name}
         </a>
@@ -67,7 +73,7 @@ class MessageAttachmentsViewItem extends React.Component {
 
 MessageAttachmentsViewItem.propTypes = {
   name: PropTypes.string,
-  url: PropTypes.string
+  url: PropTypes.string,
 };
 
 export default MessageAttachmentsViewItem;

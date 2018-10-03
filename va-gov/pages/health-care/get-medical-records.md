@@ -20,14 +20,7 @@ Our online tools can help you view, organize, and share your VA medical records 
 
 ## VA Blue Button
 
-<div class="va-sign-in-alert usa-alert usa-alert-info">
-  <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You’ll need to sign in before you can get your medical records online through VA Blue Button.</h4>
-    <p class="usa-alert-text">
-      <button class="usa-button-primary">Sign In or Create an Account</button>
-    </p>
-  </div>
-</div>
+<div class="cta-widget" data-app-id="health-records"></div>
 
 ## The Veterans Health Information Exchange
 

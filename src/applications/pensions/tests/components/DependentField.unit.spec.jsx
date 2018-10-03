@@ -12,10 +12,11 @@ describe('Pensions DependentField', () => {
         formData={{
           fullName: {
             first: 'Jane',
-            last: 'Doe'
+            last: 'Doe',
           },
-          relationship: 'child'
-        }}/>
+          relationship: 'child',
+        }}
+      />,
     );
 
     expect(tree.text()).to.contain('Jane Doe');

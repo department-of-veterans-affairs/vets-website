@@ -49,24 +49,28 @@ export class UpdatePage extends React.Component {
     const { statuses } = this.props.refresh;
     const successes = statuses.succeeded.length;
     const failures = statuses.failed.length;
-    const completionPercentage = (successes / (successes + failures) * 100) || 0;
+    const completionPercentage =
+      (successes / (successes + failures)) * 100 || 0;
 
     return (
       <div className="update-page usa-width-one-half medium-6">
-        <ProgressBar percent={completionPercentage}/>
+        <ProgressBar percent={completionPercentage} />
         <h1>Updating your records</h1>
         <p>
-          To get the most up-to-date information, please wait for your health records to finish updating. This may take a few minutes.
+          To get the most up-to-date information, please wait for your health
+          records to finish updating. This may take a few minutes.
         </p>
         <p>
-          <Link to="/download" onClick={this.handleSkipToDownload}>Get an older version of your records ></Link>
+          <Link to="/download" onClick={this.handleSkipToDownload}>
+            Get an older version of your records >
+          </Link>
         </p>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const hrState = state.health.hr;
   return { refresh: hrState.refresh };
 };
@@ -76,4 +80,9 @@ const mapDispatchToProps = {
   submitForm,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UpdatePage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(UpdatePage),
+);
