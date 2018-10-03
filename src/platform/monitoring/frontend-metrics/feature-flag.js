@@ -5,7 +5,8 @@
  */
 export default function isMetricsEnabled() {
   const environments = [
-    'preview'
+    'vagovdev',
+    'vagovstaging'
   ];
 
   return !!environments.includes(__BUILDTYPE__);
