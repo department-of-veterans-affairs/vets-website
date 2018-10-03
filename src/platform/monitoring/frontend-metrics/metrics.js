@@ -99,9 +99,9 @@ export function sendMetricsToBackend(metricsPayload) {
 // Exported for unit tests
 export function captureMetrics() {
   const observer = new PerformanceObserver(list => {
-    list.getEntriesByType('navigation').forEach(entry => {
-      const metricsPayload = buildMetricsPayload(entry);
-      window.addEventListener('unload', () => {
+    window.addEventListener('unload', () => {
+      list.getEntriesByType('navigation').forEach(entry => {
+        const metricsPayload = buildMetricsPayload(entry);
         sendMetricsToBackend(metricsPayload);
       });
     });
