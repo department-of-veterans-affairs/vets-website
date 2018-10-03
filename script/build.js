@@ -22,6 +22,7 @@ const checkBrokenLinks = require('./check-broken-links');
 const createEnvironmentFilter = require('./create-environment-filter');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
 const addAssetHashes = require('./configure-assets');
+const rewriteVaDomains = require('./rewrite-va-domains');
 const BUILD_OPTIONS = require('./options');
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -123,6 +124,12 @@ Add nonce attribute with substition string to all inline script tags
 Convert onclick event handles into nonced script tags
 */
 smith.use(nonceTransformer);
+
+/* 
+ * This will replace links in static pages with a staging domain,
+ * if it is in the list of domains to replace
+ */
+smith.use(rewriteVaDomains(BUILD_OPTIONS));
 
 // Create the data passed from the content build to the assets compiler.
 // On the server, it can be accessed at BUILD_OPTIONS.buildSettings.
