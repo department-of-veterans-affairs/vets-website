@@ -3,6 +3,7 @@
 .veteran-banner {
   // @todo Waiting for mixin to be published in Design System
   // background-color: linear-gradient-background($white, $mm-gray);
+  background: linear-gradient(to bottom, #fff 0%,#f1f1f1 63%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   padding-top: 2.5em;
 }
 
