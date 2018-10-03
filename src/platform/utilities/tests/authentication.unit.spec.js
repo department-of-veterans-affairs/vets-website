@@ -12,22 +12,24 @@ import {
 
 import { mockApiRequest, resetFetch } from '../../testing/unit/helpers';
 
-let windowOpen;
 let oldWindow;
 
 const fakeWindow = () => {
   oldWindow = global.window;
-  windowOpen = sinon.stub().returns({
+  global.open = sinon.stub().returns({
+    // Source: https://stackoverflow.com/a/41888736
     focus: f => f,
     location: '',
   });
   global.window = {
-    open: windowOpen,
     dataLayer: [],
   };
 };
 
 describe('auth URL helpers', () => {
+  beforeAll(() => {
+    global.open = () => ({ focus: sinon.spy() }); // Source
+  });
   beforeEach(fakeWindow);
   afterEach(() => {
     global.window = oldWindow;
@@ -40,7 +42,7 @@ describe('auth URL helpers', () => {
       mockApiRequest({ error: "Couldn't find url" }, false);
       login('idme')
         .then(popup => {
-          expect(windowOpen.calledOnce).to.be.true;
+          expect(global.open.calledOnce).to.be.true;
           expect(popup.location).to.include('/auth/login/callback');
           done();
         })
@@ -51,7 +53,7 @@ describe('auth URL helpers', () => {
       mockApiRequest({ url: 'signup-url' });
       signup()
         .then(popup => {
-          expect(windowOpen.calledOnce).to.be.true;
+          expect(global.open.calledOnce).to.be.true;
           expect(popup.location).to.eq('signup-url');
           done();
         })
@@ -62,7 +64,7 @@ describe('auth URL helpers', () => {
       mockApiRequest({ url: 'login-url' });
       login('idme')
         .then(popup => {
-          expect(windowOpen.calledOnce).to.be.true;
+          expect(global.open.calledOnce).to.be.true;
           expect(popup.location).to.eq('login-url');
           done();
         })
@@ -73,7 +75,7 @@ describe('auth URL helpers', () => {
       mockApiRequest({ url: 'logout-url' });
       logout()
         .then(popup => {
-          expect(windowOpen.calledOnce).to.be.true;
+          expect(global.open.calledOnce).to.be.true;
           expect(popup.location).to.eq('logout-url');
           done();
         })
@@ -84,7 +86,7 @@ describe('auth URL helpers', () => {
       mockApiRequest({ url: 'mfa-url' });
       mfa()
         .then(popup => {
-          expect(windowOpen.calledOnce).to.be.true;
+          expect(global.open.calledOnce).to.be.true;
           expect(popup.location).to.eq('mfa-url');
           done();
         })
@@ -95,7 +97,7 @@ describe('auth URL helpers', () => {
       mockApiRequest({ url: 'verify-url' });
       verify()
         .then(popup => {
-          expect(windowOpen.calledOnce).to.be.true;
+          expect(global.open.calledOnce).to.be.true;
           expect(popup.location).to.eq('verify-url');
           done();
         })
@@ -104,7 +106,7 @@ describe('auth URL helpers', () => {
   });
 
   it('should handle failure to open window', done => {
-    global.window.open = sinon.stub().returns(null);
+    global.open = sinon.stub().returns(null);
     const mockRaven = sinon.stub(Raven, 'captureMessage');
     login('idme').catch(error => {
       try {
