@@ -49,7 +49,7 @@ majorlinks:
 ---
 
 <p class="va-introtext">
-At VA.gov, we take your privacy very seriously. That's why we only collect personal information that you provide to us, and ask you to provide only the information we need to complete your requests. This page explains our website privacy policy, and how we collect, store, use, disclose, and protect your information. You’ll also find other information to help make sure you understand your rights and how we’re complying with federal regulations and user agreements.
+At VA.gov, we take your privacy very seriously. That's why we only collect personal information that you provide to us, and ask you to provide only the information we need to complete your requests. This page explains our website privacy policy, including how we collect, store, use, and disclose your information. You’ll also find other information to help make sure you understand your rights and how we’re complying with federal regulations and user agreements.
 
 </p>
 
