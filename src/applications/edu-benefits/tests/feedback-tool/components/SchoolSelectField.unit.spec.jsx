@@ -344,7 +344,7 @@ describe('<SchoolSelectField>', () => {
       expect(onChange.firstCall.args[0]).to.eql({
         address: {},
         name: null,
-        'view:facilityCode': null,
+        facilityCode: null,
         'view:manualSchoolEntryChecked': false,
         'view:institutionQuery': 'test',
       });
@@ -419,7 +419,7 @@ describe('<SchoolSelectField>', () => {
           street3: domesticInstitution.address3,
         },
         name: domesticInstitution.name,
-        'view:facilityCode': domesticInstitution.facilityCode,
+        facilityCode: domesticInstitution.facilityCode,
       });
       expect(selectInstitution.firstCall.args[0]).to.eql({
         address1: domesticInstitution.address1,
@@ -448,7 +448,7 @@ describe('<SchoolSelectField>', () => {
           street3: internationalInstitution.address3,
         },
         name: internationalInstitution.name,
-        'view:facilityCode': internationalInstitution.facilityCode,
+        facilityCode: internationalInstitution.facilityCode,
       });
       expect(selectInstitution.firstCall.args[0]).to.eql({
         address1: internationalInstitution.address1,
