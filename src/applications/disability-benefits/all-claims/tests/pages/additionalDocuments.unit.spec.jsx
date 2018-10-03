@@ -102,6 +102,6 @@ describe('526EZ document upload', () => {
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.equal(false);
+    expect(onSubmit.called).to.equal(true);
   });
 });
