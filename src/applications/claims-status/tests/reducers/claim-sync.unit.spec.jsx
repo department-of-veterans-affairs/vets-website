@@ -1,19 +1,24 @@
 import { expect } from 'chai';
 
 import claimSync from '../../reducers/claim-sync';
-import { SET_CLAIMS, SET_CLAIM_DETAIL, SET_CLAIMS_UNAVAILABLE, SET_UNAUTHORIZED } from '../../actions';
+import {
+  SET_CLAIMS,
+  SET_CLAIM_DETAIL,
+  SET_CLAIMS_UNAVAILABLE,
+  SET_UNAUTHORIZED,
+} from '../../actions';
 
 describe('Claim sync reducer', () => {
   it('should set unavailable', () => {
     const state = claimSync(undefined, {
-      type: SET_CLAIMS_UNAVAILABLE
+      type: SET_CLAIMS_UNAVAILABLE,
     });
 
     expect(state.available).to.be.false;
   });
   it('should set unauthorized', () => {
     const state = claimSync(undefined, {
-      type: SET_UNAUTHORIZED
+      type: SET_UNAUTHORIZED,
     });
 
     expect(state.authorized).to.be.false;
@@ -25,11 +30,11 @@ describe('Claim sync reducer', () => {
       claim: {
         attributes: {
           updatedAt: 'test',
-        }
+        },
       },
       meta: {
-        syncStatus: 'FAILED'
-      }
+        syncStatus: 'FAILED',
+      },
     });
 
     expect(state.synced).to.be.false;
@@ -42,11 +47,11 @@ describe('Claim sync reducer', () => {
       claim: {
         attributes: {
           updatedAt: 'test',
-        }
+        },
       },
       meta: {
-        syncStatus: 'SUCCESS'
-      }
+        syncStatus: 'SUCCESS',
+      },
     });
 
     expect(state.synced).to.be.true;
@@ -59,13 +64,13 @@ describe('Claim sync reducer', () => {
       claims: [
         {
           attributes: {
-            updatedAt: 'test'
-          }
-        }
+            updatedAt: 'test',
+          },
+        },
       ],
       meta: {
-        syncStatus: 'FAILED'
-      }
+        syncStatus: 'FAILED',
+      },
     });
 
     expect(state.synced).to.be.false;
@@ -78,13 +83,13 @@ describe('Claim sync reducer', () => {
       claims: [
         {
           attributes: {
-            updatedAt: 'test'
-          }
-        }
+            updatedAt: 'test',
+          },
+        },
       ],
       meta: {
-        syncStatus: 'SUCCESS'
-      }
+        syncStatus: 'SUCCESS',
+      },
     });
 
     expect(state.synced).to.be.true;

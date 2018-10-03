@@ -17,12 +17,11 @@ class MessageAddAttachment extends React.Component {
           id={this.props.id}
           name={this.props.name}
           onChange={this.props.onChange}
-          type="file"/>
-        <label
-          tabIndex="-1"
-          className="va-icon-link"
-          htmlFor={this.props.id}>
-          <i className="fa fa-paperclip"></i>
+          type="file"
+        />
+        />
+        <label tabIndex="-1" className="va-icon-link" htmlFor={this.props.id}>
+          <i className="fa fa-paperclip" />
           <span>{this.props.label}</span>
         </label>
       </div>
@@ -36,7 +35,7 @@ MessageAddAttachment.propTypes = {
   id: PropTypes.string,
   label: PropTypes.string.isRequired,
   name: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default MessageAddAttachment;

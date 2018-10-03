@@ -6,13 +6,12 @@ import _ from 'lodash/fp';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { getUserPhaseDescription } from '../utils/helpers';
 
-
 const stepClasses = {
   1: 'one',
   2: 'two',
   3: 'three',
   4: 'four',
-  5: 'five last'
+  5: 'five last',
 };
 
 const COMPLETE_PHASE = 5;
@@ -30,7 +29,6 @@ function getClasses(phase, current) {
   return `${processClass} list-${stepClass}`;
 }
 
-
 export default class ClaimPhase extends React.Component {
   constructor(props) {
     super();
@@ -41,7 +39,9 @@ export default class ClaimPhase extends React.Component {
     this.getEventDescription = this.getEventDescription.bind(this);
   }
   getEventDescription(event) {
-    const filesPath = `your-claims/${this.props.id}/document-request/${event.trackedItemId}`;
+    const filesPath = `your-claims/${this.props.id}/document-request/${
+      event.trackedItemId
+    }`;
 
     switch (event.type) {
       case 'phase_entered':
@@ -52,7 +52,11 @@ export default class ClaimPhase extends React.Component {
         );
 
       case 'filed':
-        return <div className="claims-evidence-item">Thank you. VA received your claim</div>;
+        return (
+          <div className="claims-evidence-item">
+            Thank you. VA received your claim
+          </div>
+        );
 
       case 'completed':
         return <div className="claims-evidence-item">Your claim is closed</div>;
@@ -62,13 +66,15 @@ export default class ClaimPhase extends React.Component {
         if (event.uploaded || event.status === 'SUBMITTED_AWAITING_REVIEW') {
           return (
             <div className="claims-evidence-item">
-              You or others submitted {event.displayName}. We will notify you when we have reviewed it.
+              You or others submitted {event.displayName}. We will notify you
+              when we have reviewed it.
             </div>
           );
         }
         return (
           <div className="claims-evidence-item">
-            We added a notice for: <Link to={filesPath}>{event.displayName}</Link>
+            We added a notice for:{' '}
+            <Link to={filesPath}>{event.displayName}</Link>
           </div>
         );
 
@@ -77,13 +83,15 @@ export default class ClaimPhase extends React.Component {
         if (event.status === 'SUBMITTED_AWAITING_REVIEW') {
           return (
             <div className="claims-evidence-item">
-              You or others submitted {event.displayName}. We will notify you when we have reviewed it.
+              You or others submitted {event.displayName}. We will notify you
+              when we have reviewed it.
             </div>
           );
         }
         return (
           <div className="claims-evidence-item">
-            We have reviewed your submitted evidence for {event.displayName}. We will notify you if we need additional information.
+            We have reviewed your submitted evidence for {event.displayName}. We
+            will notify you if we need additional information.
           </div>
         );
       case 'never_received_from_you_list':
@@ -97,7 +105,8 @@ export default class ClaimPhase extends React.Component {
       case 'other_documents_list':
         return (
           <div className="claims-evidence-item">
-            You or others submitted {event.fileType}. We will notify you when we’ve reviewed it.
+            You or others submitted {event.fileType}. We will notify you when
+            we’ve reviewed it.
           </div>
         );
 
@@ -109,27 +118,33 @@ export default class ClaimPhase extends React.Component {
     const activityList = this.props.activity[this.props.phase];
 
     if (activityList) {
-      const limitedList = this.state.showAll || activityList.length <= INITIAL_ACTIVITY_ROWS
-        ? activityList
-        : _.take(INITIAL_ACTIVITY_ROWS, activityList);
+      const limitedList =
+        this.state.showAll || activityList.length <= INITIAL_ACTIVITY_ROWS
+          ? activityList
+          : _.take(INITIAL_ACTIVITY_ROWS, activityList);
 
       const activityListContent = limitedList.map((activity, index) => (
         <div key={index} className="claims-evidence">
-          <div className="claims-evidence-date">{moment(activity.date).format('MMM D, YYYY')}</div>
+          <div className="claims-evidence-date">
+            {moment(activity.date).format('MMM D, YYYY')}
+          </div>
           {this.getEventDescription(activity)}
-        </div>));
+        </div>
+      ));
 
       if (!this.state.showAll && activityList.length > INITIAL_ACTIVITY_ROWS) {
-        return (<div>
+        return (
           <div>
-            {activityListContent}
+            <div>{activityListContent}</div>
+            <button
+              className="claim-older-updates usa-button-secondary"
+              onClick={this.showAllActivity}
+            >
+              See older updates&nbsp;
+              <i className="fa fa-chevron-down" />
+            </button>
           </div>
-          <button
-            className="claim-older-updates usa-button-secondary"
-            onClick={this.showAllActivity}>
-            See older updates&nbsp;<i className="fa fa-chevron-down"></i>
-          </button>
-        </div>);
+        );
       }
 
       return activityListContent;
@@ -151,20 +166,31 @@ export default class ClaimPhase extends React.Component {
   }
   render() {
     const { phase, current, children } = this.props;
-    const expandCollapseIcon = phase <= current && phase !== COMPLETE_PHASE
-      ? <i className={this.state.open ? 'fa fa-minus claim-timeline-icon' : 'fa fa-plus claim-timeline-icon'}></i>
-      : null;
+    const expandCollapseIcon =
+      phase <= current && phase !== COMPLETE_PHASE ? (
+        <i
+          className={
+            this.state.open
+              ? 'fa fa-minus claim-timeline-icon'
+              : 'fa fa-plus claim-timeline-icon'
+          }
+        />
+      ) : null;
 
     return (
-      <li onClick={() => this.expandCollapse()} role="presentation" className={`${getClasses(phase, current)}`}>
+      <li
+        onClick={() => this.expandCollapse()}
+        role="presentation"
+        className={`${getClasses(phase, current)}`}
+      >
         {expandCollapseIcon}
         <h5 className="section-header">{getUserPhaseDescription(phase)}</h5>
-        {this.state.open || phase === COMPLETE_PHASE
-          ? <div>
+        {this.state.open || phase === COMPLETE_PHASE ? (
+          <div>
             {children}
             {this.displayActivity()}
           </div>
-          : null}
+        ) : null}
       </li>
     );
   }
@@ -174,5 +200,5 @@ ClaimPhase.propTypes = {
   activity: PropTypes.object,
   phase: PropTypes.number.isRequired,
   current: PropTypes.number,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
 };

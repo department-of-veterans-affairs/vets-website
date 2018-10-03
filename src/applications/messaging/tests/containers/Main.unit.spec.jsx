@@ -9,19 +9,18 @@ const props = {
   attachmentsModal: {
     message: {
       text: null,
-      title: null
+      title: null,
     },
-    visible: false
+    visible: false,
   },
   createFolderModal: {
     newFolderName: makeField(''),
-    visible: false
+    visible: false,
   },
-  folders: [
-  ],
+  folders: [],
   nav: {
     foldersExpanded: false,
-    visible: false
+    visible: false,
   },
   persistFolder: 0,
   loading: {
@@ -30,15 +29,15 @@ const props = {
     deletingMessage: false,
     movingMessage: false,
     savingDraft: false,
-    sendingMessage: false
+    sendingMessage: false,
   },
 
   // No-op function to override dispatch
-  dispatch: () => {}
+  dispatch: () => {},
 };
 
 describe('Main', () => {
-  const tree = SkinDeep.shallowRender(<Main {...props}/>);
+  const tree = SkinDeep.shallowRender(<Main {...props} />);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();

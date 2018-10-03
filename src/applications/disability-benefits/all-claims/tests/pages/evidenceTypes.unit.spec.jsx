@@ -6,7 +6,10 @@ import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
 describe('evidenceTypes', () => {
-  const { schema, uiSchema } = formConfig.chapters.supportingEvidence.pages.evidenceTypes;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.supportingEvidence.pages.evidenceTypes;
 
   it('should render', () => {
     const form = mount(
@@ -15,7 +18,8 @@ describe('evidenceTypes', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
-        formData={{}}/>
+        formData={{}}
+      />,
     );
 
     expect(form.find('input').length).to.equal(2);
@@ -30,7 +34,8 @@ describe('evidenceTypes', () => {
         uiSchema={uiSchema}
         data={{}}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -46,10 +51,11 @@ describe('evidenceTypes', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasEvidence': false
+          'view:hasEvidence': false,
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -65,10 +71,11 @@ describe('evidenceTypes', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasEvidence': true
+          'view:hasEvidence': true,
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -87,12 +94,13 @@ describe('evidenceTypes', () => {
           'view:hasEvidence': true,
           'view:hasEvidenceFollowUp': {
             'view:selectableEvidenceTypes': {
-              'view:hasVAMedicalRecords': true
-            }
-          }
+              'view:hasVAMedicalRecords': true,
+            },
+          },
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');

@@ -2,10 +2,7 @@ import _ from 'lodash/fp';
 
 import bankAccountUI from '../../../platform/forms/definitions/bankAccount';
 
-import {
-  bankAccountChangeLabels,
-  directDepositWarning
-} from '../utils/labels';
+import { bankAccountChangeLabels, directDepositWarning } from '../utils/labels';
 
 function isStartUpdate(form) {
   return _.get('bankAccountChange', form) === 'startUpdate';
@@ -23,29 +20,29 @@ export default function createDirectDepositChangePage(schema) {
         'ui:title': 'Benefit payment method:',
         'ui:widget': 'radio',
         'ui:options': {
-          labels: bankAccountChangeLabels
-        }
+          labels: bankAccountChangeLabels,
+        },
       },
       bankAccount: _.merge(bankAccountUI, {
         'ui:options': {
-          hideIf: formData => !isStartUpdate(formData)
+          hideIf: formData => !isStartUpdate(formData),
         },
         accountType: {
-          'ui:required': isStartUpdate
+          'ui:required': isStartUpdate,
         },
         accountNumber: {
-          'ui:required': isStartUpdate
+          'ui:required': isStartUpdate,
         },
         routingNumber: {
-          'ui:required': isStartUpdate
-        }
+          'ui:required': isStartUpdate,
+        },
       }),
       'view:stopWarning': {
         'ui:description': directDepositWarning,
         'ui:options': {
-          hideIf: (formData) => formData.bankAccountChange !== 'stop'
-        }
-      }
+          hideIf: formData => formData.bankAccountChange !== 'stop',
+        },
+      },
     },
     schema: {
       type: 'object',
@@ -54,9 +51,9 @@ export default function createDirectDepositChangePage(schema) {
         bankAccount,
         'view:stopWarning': {
           type: 'object',
-          properties: {}
-        }
-      }
-    }
+          properties: {},
+        },
+      },
+    },
   };
 }

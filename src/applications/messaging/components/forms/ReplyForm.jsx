@@ -13,13 +13,11 @@ class ReplyForm extends React.Component {
 
     const detailsClass = classNames({
       'msg-reply-details': true,
-      opened: !this.props.detailsCollapsed
+      opened: !this.props.detailsCollapsed,
     });
 
     const replyDetails = (
-      <div
-        className={detailsClass}
-        onClick={this.props.toggleDetails}>
+      <div className={detailsClass} onClick={this.props.toggleDetails}>
         <div className="msg-reply-detail">
           <label>Reply to:</label> {this.props.recipient}
         </div>
@@ -35,7 +33,11 @@ class ReplyForm extends React.Component {
         <MessageWriteGroup
           disabled={this.props.disabled}
           allowedMimeTypes={allowedMimeTypes}
-          errorMessage={validations.isValidMessageBody(reply.body) ? undefined : composeMessage.errors.message}
+          errorMessage={
+            validations.isValidMessageBody(reply.body)
+              ? undefined
+              : composeMessage.errors.message
+          }
           files={reply.attachments}
           maxFiles={composeMessage.attachments.maxNum}
           maxFileSize={composeMessage.attachments.maxSingleFile}
@@ -48,7 +50,8 @@ class ReplyForm extends React.Component {
           onSave={this.props.onSaveReply}
           onSend={this.props.onSendReply}
           messageText={reply.body}
-          placeholder={composeMessage.placeholders.message}/>
+          placeholder={composeMessage.placeholders.message}
+        />
       </form>
     );
   }
@@ -62,9 +65,9 @@ ReplyForm.propTypes = {
   reply: PropTypes.shape({
     body: PropTypes.shape({
       value: PropTypes.string,
-      dirty: PropTypes.bool
+      dirty: PropTypes.bool,
     }),
-    attachments: PropTypes.array
+    attachments: PropTypes.array,
   }).isRequired,
 
   onAttachmentsClose: PropTypes.func,
@@ -74,7 +77,7 @@ ReplyForm.propTypes = {
   onSaveReply: PropTypes.func.isRequired,
   onSendReply: PropTypes.func.isRequired,
   toggleConfirmDelete: PropTypes.func,
-  toggleDetails: PropTypes.func
+  toggleDetails: PropTypes.func,
 };
 
 export default ReplyForm;

@@ -139,31 +139,31 @@ describe('526 helpers', () => {
                 street: '1234 test rd',
                 city: 'Testville',
                 country: 'USA',
-                state: 'AZ'
-              }
-            }
-          ]
+                state: 'AZ',
+              },
+            },
+          ],
         },
         treatments: [
           {
             treatmentCenterName: 'Somerset VA Clinic',
             treatmentDateRange: {
               from: '2000-06-06',
-              to: '2004-02-06'
-            }
+              to: '2004-02-06',
+            },
           },
           {
             treatmentCenterName: 'DC VA Regional Medical Center',
             treatmentDateRange: {
               from: '2000-07-04',
-              to: '2010-01-03'
-            }
-          }
+              to: '2010-01-03',
+            },
+          },
         ],
-      }
+      },
     };
     it('should return stringified, transformed data for submit', () => {
-      expect(transform(null, formData)).to.equal(
+      expect(transform(null, formData)).to.deep.equal(
         JSON.stringify(transformedData),
       );
     });

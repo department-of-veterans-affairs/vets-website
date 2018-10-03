@@ -28,7 +28,7 @@ function localAnnouncements(dismissedAnnouncementName) {
 export function initDismissedAnnouncements() {
   return {
     type: INIT_DISMISSED_ANNOUNCEMENTS,
-    dismissedAnnouncements: localAnnouncements()
+    dismissedAnnouncements: localAnnouncements(),
   };
 }
 
@@ -36,6 +36,6 @@ export function dismissAnnouncement(announcement) {
   localAnnouncements(announcement);
   return {
     type: DISMISS_ANNOUNCEMENT,
-    announcement
+    announcement,
   };
 }

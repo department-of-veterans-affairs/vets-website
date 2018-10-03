@@ -3,23 +3,28 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('686 applicant information', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.claimantInformation;
-  const notVeteranCondition = () => {
-    return {
-      'view:relationshipToVet': '2'
-    };
-  };
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.applicantInformation.pages.claimantInformation;
+  const notVeteranCondition = () => ({
+    'view:relationshipToVet': '2',
+  });
   it('should render if relationshipToVet is not veteran', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         data={notVeteranCondition()}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     expect(form.find('input').length).to.equal(5);
     expect(form.find('select').length).to.equal(2);
@@ -33,7 +38,8 @@ describe('686 applicant information', () => {
         definitions={formConfig.defaultDefinitions}
         data={notVeteranCondition()}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(5);
@@ -48,7 +54,8 @@ describe('686 applicant information', () => {
         definitions={formConfig.defaultDefinitions}
         data={notVeteranCondition()}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     fillData(form, 'input#root_claimantSocialSecurityNumber', '222-23-2424');

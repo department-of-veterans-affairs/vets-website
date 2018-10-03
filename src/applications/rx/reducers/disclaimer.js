@@ -1,7 +1,7 @@
 import set from 'lodash/fp/set';
 
 const initialState = {
-  open: true
+  open: true,
 };
 
 export default function disclaimer(state = initialState, action) {

@@ -15,11 +15,17 @@ import startMobileMenuButton from '../../platform/site-wide/mobile-menu-button';
 import startFeedbackWidget from '../../platform/site-wide/feedback';
 // import startAnnouncementWidget from '../../platform/site-wide/announcements';
 import startVAFooter from '../../platform/site-wide/va-footer';
+import redirectIfNecessary from './redirects';
+
+redirectIfNecessary(window);
 
 // Find native header, footer, etc based on page path
 const DEPRECATED_SELECTOR_CONFIG = [
-  { path: /\/health\/.*/, selector: 'header.row.main-header-wrap, div#footer-effect' },
-  { path: /health/, selector: 'header.row.main-header-wrap, div#footer-effect' },
+  {
+    path: /.*/,
+    selector:
+      'header.row.main-header-wrap, div#top-nav-wrapper, div#main-header, div#footer-effect',
+  },
 ];
 
 let deprecatedSelector;
@@ -32,8 +38,8 @@ for (const config of DEPRECATED_SELECTOR_CONFIG) {
 
 // Hide native elements when they're added to the DOM
 function mutationObserved(mutations) {
-  mutations.forEach((mutation) => {
-    mutation.addedNodes.forEach((node) => {
+  mutations.forEach(mutation => {
+    mutation.addedNodes.forEach(node => {
       if (node.nodeType === Node.ELEMENT_NODE) {
         if (node.tagName === 'BODY') {
           node.classList.add('merger');
@@ -46,7 +52,11 @@ function mutationObserved(mutations) {
 }
 
 const observer = new MutationObserver(mutationObserved);
-observer.observe(document, { attributes: true, childList: true, subtree: true });
+observer.observe(document, {
+  attributes: true,
+  childList: true,
+  subtree: true,
+});
 
 // Set up elements for the new header and footer
 const headerContainer = document.createElement('div');
@@ -57,7 +67,7 @@ const footerContainer = document.createElement('div');
 footerContainer.innerHTML = footerPartial;
 footerContainer.classList.add('consolidated');
 
-document.addEventListener('DOMContentLoaded', (_e) => {
+document.addEventListener('DOMContentLoaded', _e => {
   observer.disconnect();
   document.body.insertBefore(headerContainer, document.body.firstChild);
   document.body.appendChild(footerContainer);
@@ -65,7 +75,7 @@ document.addEventListener('DOMContentLoaded', (_e) => {
 
 // Mount react components
 const commonStore = createCommonStore();
-document.addEventListener('DOMContentLoaded', (_e) => {
+document.addEventListener('DOMContentLoaded', _e => {
   if (document.querySelector('#vetnav-menu') !== null) {
     addMenuListeners(document.querySelector('#vetnav-menu'), true);
   }

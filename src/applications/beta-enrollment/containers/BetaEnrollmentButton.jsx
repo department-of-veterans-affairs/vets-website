@@ -9,7 +9,7 @@ import { createIsServiceAvailableSelector } from '../../../platform/user/selecto
 class BetaEnrollmentButton extends React.Component {
   static propTypes = {
     feature: PropTypes.string.isRequired,
-    returnUrl: PropTypes.string.isRequired
+    returnUrl: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -21,36 +21,53 @@ class BetaEnrollmentButton extends React.Component {
 
   onError = () => {
     this.setState({ isEnrolling: false, hasError: true });
-  }
+  };
 
   onRegistered = () => {
     document.location.replace(this.props.returnUrl);
-  }
+  };
 
   onClick = () => {
     if (this.props.user.login.currentlyLoggedIn) {
       this.setState({ isEnrolling: true });
-      this.props.registerBeta(this.props.feature).then(this.onRegistered).catch(this.onError);
+      this.props
+        .registerBeta(this.props.feature)
+        .then(this.onRegistered)
+        .catch(this.onError);
     } else {
       const nextQuery = { next: window.location.pathname };
       const signInUrl = appendQuery('/', nextQuery);
       window.location.replace(signInUrl);
     }
-  }
+  };
 
   render() {
     if (this.props.isUserRegisteredForBeta) this.onRegistered();
 
     if (this.state.hasError) {
       return (
-        <AlertBox status="error"
+        <AlertBox
+          status="error"
           isVisible={this.state.hasError}
-          content={<div><h3>We can't turn on the beta tools</h3><p>We're sorry. Something went wrong on our end, and we can't turn on the beta tools for you. Please try again later.</p></div>}/>
+          content={
+            <div>
+              <h3>We can't turn on the beta tools</h3>
+              <p>
+                We're sorry. Something went wrong on our end, and we can't turn
+                on the beta tools for you. Please try again later.
+              </p>
+            </div>
+          }
+        />
       );
     }
 
     if (this.props.renderButton) {
-      return this.props.renderButton(this.props.user, this.state.isEnrolling, this.onClick);
+      return this.props.renderButton(
+        this.props.user,
+        this.state.isEnrolling,
+        this.onClick,
+      );
     }
 
     let buttonText = 'Turn On Beta Tools';
@@ -61,9 +78,11 @@ class BetaEnrollmentButton extends React.Component {
     const disabled = this.state.isEnrolling || this.props.user.profile.loading;
 
     return (
-      <button className="usa-button-primary"
+      <button
+        className="usa-button-primary"
         disabled={disabled}
-        onClick={this.onClick}>
+        onClick={this.onClick}
+      >
         {buttonText}
       </button>
     );
@@ -74,14 +93,17 @@ const mapStateToProps = (state, ownProps) => {
   const isServiceAvailable = createIsServiceAvailableSelector(ownProps.feature);
   return {
     user: state.user,
-    isUserRegisteredForBeta: isServiceAvailable(state)
+    isUserRegisteredForBeta: isServiceAvailable(state),
   };
 };
 
 const mapDispatchToProps = {
-  registerBeta
+  registerBeta,
 };
 
 export { BetaEnrollmentButton };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BetaEnrollmentButton);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(BetaEnrollmentButton);

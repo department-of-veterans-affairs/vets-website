@@ -3,11 +3,18 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, getFormDOM, submitForm } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  getFormDOM,
+  submitForm,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../1990/config/form';
 
 describe('Edu 1990 contributions', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.contributions;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.militaryHistory.pages.contributions;
   const definitions = formConfig.defaultDefinitions;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -15,7 +22,8 @@ describe('Edu 1990 contributions', () => {
         schema={schema}
         data={{}}
         uiSchema={uiSchema}
-        definitions={definitions}/>
+        definitions={definitions}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -30,7 +38,8 @@ describe('Edu 1990 contributions', () => {
         onSubmit={onSubmit}
         data={{}}
         uiSchema={uiSchema}
-        definitions={definitions}/>
+        definitions={definitions}
+      />,
     );
     const formDOM = getFormDOM(form);
     submitForm(form);
@@ -46,11 +55,12 @@ describe('Edu 1990 contributions', () => {
         onSubmit={onSubmit}
         data={{
           'view:benefitsRelinquishedContainer': {
-            benefitsRelinquished: 'chapter30'
-          }
+            benefitsRelinquished: 'chapter30',
+          },
         }}
         uiSchema={uiSchema}
-        definitions={definitions}/>
+        definitions={definitions}
+      />,
     );
     const formDOM = getFormDOM(form);
     formDOM.setCheckbox('#root_reserveKicker', true);
@@ -65,7 +75,8 @@ describe('Edu 1990 contributions', () => {
         onSubmit={onSubmit}
         data={{}}
         uiSchema={uiSchema}
-        definitions={definitions}/>
+        definitions={definitions}
+      />,
     );
     const formDOM = getFormDOM(form);
     formDOM.setCheckbox('#root_view\\:activeDutyRepayingPeriod', true);
