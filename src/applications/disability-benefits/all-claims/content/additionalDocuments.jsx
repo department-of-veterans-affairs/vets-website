@@ -16,7 +16,7 @@ export const additionalDocumentDescription = () => {
         <li>File types you can upload: .pdf, .jpeg, or .png</li>
         <li>Maximum file size: 50 MB</li>
       </ul>
-      <p><em>Large files can be more difficult to upload with a slow Internet connection</em></p>
+      <p><em>Large files can be more difficult to upload with a slow Internet connection.</em></p>
     </div>
   );
 };
