@@ -60,9 +60,8 @@ After we’ve verified your eligibility, we’ll send you an email letting you k
 If you receive an email from us asking for additional information or evidence to process your application, you’ll need to sign in to AccessVA and update your application with the information we ask for. 
 <br>
 ### How do I check the status of my application after I've applied?
-You can sign in to your Vets.gov or AccessVA account to check the status of your VIC application.
-- [Sign in to your Vets.gov account](/vets.gov/), **or**
-- [Sign in to your AccessVA account](https://preprod.access.va.gov/accessva/?cspSelectFor=vic)
+You can sign in to your AccessVA account to check the status of your VIC application.
+[Sign in to your AccessVA account](https://preprod.access.va.gov/accessva/?cspSelectFor=vic).
 
 ### How do I replace my Veteran ID Card if it’s lost or stolen? 
 To request a new card, please call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>). <br>
