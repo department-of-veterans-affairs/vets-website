@@ -13,9 +13,9 @@ majorlinks:
       title: Whistle Blower Rights and Protections
     - url: https://www.oprm.va.gov/
       title: Regulations
-    - url:
+    - url: #
       title: Privacy Impact Assessments
-    - url: 
+    - url: #
       title: System of Records Notices
   - heading: Account Policies
     links:
