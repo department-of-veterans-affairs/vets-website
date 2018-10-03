@@ -31,7 +31,7 @@ You’ll need to provide a copy of your discharge papers when you apply for a VI
 
 You can apply online now. 
 
-[Apply for a Veteran ID Card](https://vicbdc.ppd.vba.va.gov/VIC)
+[Apply for a Veteran ID Card](https://vicbdc.ppd.vba.va.gov/VIC).
 
 ### What do I need to apply for a Veteran ID Card? 
 
@@ -60,7 +60,7 @@ After we’ve verified your eligibility, we’ll send you an email letting you k
 If you receive an email from us asking for additional information or evidence to process your application, you’ll need to sign in to AccessVA and update your application with the information we ask for. 
 <br>
 ### How do I check the status of my application after I've applied?
-You can sign in to your AccessVA account to check the status of your VIC application.
+You can sign in to your AccessVA account to check the status of your VIC application.<br>
 [Sign in to your AccessVA account](https://preprod.access.va.gov/accessva/?cspSelectFor=vic).
 
 ### How do I replace my Veteran ID Card if it’s lost or stolen? 
