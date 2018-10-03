@@ -9,6 +9,7 @@ describe('<CropperController>', () => {
   beforeEach(() => {
     window.addEventListener = sinon.spy();
     window.removeEventListener = sinon.spy();
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation(cb => cb()); // HACK: https://github.com/facebook/jest/issues/5147#issuecomment-353274996
   });
   it('should render', () => {
     const tree = shallow(<CropperController src="test" />);
