@@ -1,0 +1,112 @@
+#homepage-benefits {
+  padding-top: 3em;
+
+  @include media($medium-large-screen) {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  @include media($large-screen) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+#homepage-popular {
+  padding-top: 3em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+
+  @include media($medium-large-screen) {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  @include media($large-screen) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+#homepage-news {
+  padding: 3em 0.5em;
+
+  @include media($medium-large-screen) {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  @include media($large-screen) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+// new pattern, but specific to homepage only
+.homepage-button {
+  width: 100%;
+  height: 85px;
+  padding: 0;
+  margin: 0 0 16px;
+  display: inline-block;
+  color: $color-white;
+  background-color: $color-primary;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+
+  &:hover, &:focus, &:visited {
+    color: $color-white;
+    text-decoration: none;
+    background-color: $color-primary;
+  }
+
+  &.vcl {
+    background-color: $color-secondary-dark;
+  }
+
+  .icon-wrapper {
+    width: 55px;
+    height: 100%;
+    float: left;
+    background-color: $color-primary-darker;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    &.vcl {
+      content: "";
+      background: url(/img/vcl-logo-white.png) no-repeat;
+      background-size: 2em auto;
+      background-position: center;
+      background-color: $color-secondary-darkest;
+    }
+  }
+
+  &-icon {
+    font-size: 1.5em;
+    display:inline-block;
+    &::before {
+      position: absolute;
+      margin: 0;
+      top: 15px;
+      left: -7.75px;
+    }
+    &.fa-user-circle-o {
+      font-size: 1.5em;
+      padding-right: .3em;
+    }
+  }
+
+  .button-inner {
+    margin-left: 55px;
+    height: 100%;
+    padding: 1em;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

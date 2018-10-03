@@ -3,6 +3,7 @@ import groupBy from 'lodash/groupBy';
 import orderBy from 'lodash/orderBy';
 import links from '../../../static-data/footer-links.json';
 import { isWideScreen } from '../../../utilities/accessibility/index';
+import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
 import recordEvent from '../../../monitoring/record-event';
 
 const FOOTER_COLUMNS = {
@@ -24,7 +25,7 @@ export class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isMobile: false };
-    this.linkObj = groupBy(links, 'column');
+    this.linkObj = groupBy(replaceDomainsInData(links), 'column');
   }
   componentWillMount() {
     window.addEventListener(

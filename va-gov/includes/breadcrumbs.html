@@ -5,8 +5,15 @@
     <li>
       <a href="/" onClick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">Home</a>
     </li>
-    {% assign current_page = breadcrumb_path | last %}
-    {% for crumb in breadcrumb_path %}
+    {% assign crumbs = breadcrumb_path %}
+
+    {% if breadcrumbs_override %}
+    {% assign crumbs = breadcrumbs_override %}
+    {% endif %}
+
+    {% assign current_page = crumbs | last %}
+
+    {% for crumb in crumbs %}
 
     <!-- Adding back in the last link as aria-current="page" -->
     {% comment %} Each breadcrumb item has a child object. One of the properties of that object is `file` which loads the front matter metadata from the corresponding Markdown input file. Below, we’ve assigned that object to a variable named 'crumb_child_meta'. If these templates are still using tinyliquid, you can dump the properties of this object using {{ crumb | keys }}. {% endcomment %}
