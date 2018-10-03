@@ -3,6 +3,8 @@ import prescriptions from '../../../rx/reducers/prescriptions';
 import recipients from '../../../messaging/reducers/recipients';
 import folders from '../../../messaging/reducers/folders';
 import appointments from '../../appointments/reducers';
+import authorization from '../../../../applications/disability-benefits/686/reducers/authorization';
+
 import { combineReducers } from 'redux';
 
 export default {
@@ -17,4 +19,5 @@ export default {
       folders,
     }),
   }),
+  authorization686: authorization,
 };

@@ -43,12 +43,10 @@ import {
   vaMedicalRecordsIntro,
   privateMedicalRecordsIntro,
   privateRecordsChoice,
-  privateRecordsChoiceHelp,
   facilityDescription,
   download4142Notice,
   authorizationToDisclose,
   // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
-  documentDescription,
   evidenceSummaryView,
   additionalDocumentDescription,
   GetFormHelp,
@@ -70,6 +68,13 @@ import {
   disabilityOption,
   disabilitiesClarification,
 } from '../../all-claims/content/ratedDisabilities';
+
+import {
+  privateRecordsChoiceHelp,
+  documentDescription,
+} from '../../all-claims/content/privateMedicalRecords';
+
+import { FIFTY_MB } from '../../all-claims/constants';
 
 import { treatmentView } from '../../all-claims/content/vaMedicalRecords';
 import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
@@ -103,8 +108,6 @@ const {
   disabilities,
   vaTreatmentCenterAddress,
 } = fullSchema526EZ.definitions;
-
-const FIFTY_MB = 52428800;
 
 const formConfig = {
   urlPrefix: '/',

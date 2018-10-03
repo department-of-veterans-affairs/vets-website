@@ -10,6 +10,7 @@ import {
   getDisabilityName,
   prefillTransformer,
   hasVAEvidence,
+  hasPrivateEvidence,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -29,6 +30,7 @@ import {
   addDisabilities,
   newDisabilityFollowUp,
   vaMedicalRecords,
+  privateMedicalRecords,
   paymentInformation,
   evidenceTypes,
   claimExamsInfo,
@@ -206,6 +208,13 @@ const formConfig = {
           depends: hasVAEvidence,
           uiSchema: vaMedicalRecords.uiSchema,
           schema: vaMedicalRecords.schema,
+        },
+        privateMedicalRecords: {
+          title: 'Private Medical Records',
+          path: 'supporting-evidence/private-medical-records',
+          depends: hasPrivateEvidence,
+          uiSchema: privateMedicalRecords.uiSchema,
+          schema: privateMedicalRecords.schema,
         },
         howClaimsWork: {
           title: 'How claim exams work',

@@ -102,10 +102,8 @@ class AccountMain extends React.Component {
               <h3>Sign in settings</h3>
               <p>
                 You can update the email or password you use to sign in to
-                Vets.gov. Just go to the account you use to sign in (DS Logon,
-                MyHealth
-                <i>e</i>
-                Vet, or ID.me) and manage your settings.
+                VA.gov. Just go to the account you use to sign in (DS Logon,
+                MyHealtheVet, or ID.me) and manage your settings.
               </p>
             </div>
             <div>
@@ -118,15 +116,9 @@ class AccountMain extends React.Component {
               </a>
             </div>
             <div>
-              <h5>
-                MyHealth
-                <i>e</i>
-                Vet
-              </h5>
+              <h5>MyHealtheVet</h5>
               <a href="https://www.myhealth.va.gov" target="_blank">
-                Manage your MyHealth
-                <i>e</i>
-                Vet account
+                Manage your MyHealtheVet account
               </a>
             </div>
           </div>

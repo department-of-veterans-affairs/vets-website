@@ -20,14 +20,7 @@ With our VA prescription refill and tracking tool, you can refill your VA prescr
 
 </div>
 
-<div class="va-sign-in-alert usa-alert usa-alert-info">
-  <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You’ll need to sign in before you can refill prescriptions online.</h4>
-    <p class="usa-alert-text">
-      <button class="usa-button-primary">Sign In or Create an Account</button>
-    </p>
-  </div>
-</div>
+<div class="cta-widget" data-app-id="rx"></div>
 
 <div itemscope itemtype="http://schema.org/Question">
 

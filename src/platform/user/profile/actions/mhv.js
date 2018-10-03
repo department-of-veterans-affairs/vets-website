@@ -64,3 +64,11 @@ export function upgradeMHVAccount() {
     });
   };
 }
+
+export function createAndUpgradeMHVAccount() {
+  return async dispatch => {
+    const accountCreationSuccess = await dispatch(createMHVAccount());
+    if (accountCreationSuccess) return dispatch(upgradeMHVAccount());
+    return null;
+  };
+}

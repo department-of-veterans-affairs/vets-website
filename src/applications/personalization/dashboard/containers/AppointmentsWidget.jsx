@@ -9,10 +9,11 @@ import { fetchAppointments } from '../../appointments/actions';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 const IS_PRODUCTION = document.location.hostname === 'www.vets.gov';
+const IS_STAGING = document.location.hostname === 'staging.vets.gov';
 
 class AppointmentsWidget extends React.Component {
   componentDidMount() {
-    if (!IS_PRODUCTION) {
+    if (!IS_PRODUCTION && !IS_STAGING) {
       if (!this.props.loading) {
         this.props.fetchAppointments();
       }
@@ -20,8 +21,8 @@ class AppointmentsWidget extends React.Component {
   }
 
   render() {
-    // do not show in production
-    if (IS_PRODUCTION) {
+    // do not show in production or in staging
+    if (IS_PRODUCTION || IS_STAGING) {
       return null;
     }
 

@@ -9,13 +9,15 @@ import DowntimeMessage from '../../../../platform/forms/save-in-progress/Downtim
 import DowntimeNotification, {
   externalServiceStatus,
 } from '../../../../platform/monitoring/DowntimeNotification';
+import { getFormAuthorizationState } from '../../../../applications/personalization/dashboard/helpers.jsx';
 
 import AuthorizationMessage from './AuthorizationMessage';
-import formConfig from '../config/form'; // TODO: derive from formID when generalized
 
 class AuthorizationComponent extends React.Component {
-  componentDidMount() {
-    formConfig.authorize();
+  componentWillUpdate() {
+    if (this.props.formConfig && !this.props.profileIsLoading) {
+      this.props.authorize();
+    }
   }
 
   renderDowntime = (downtime, children) => {
@@ -34,11 +36,12 @@ class AuthorizationComponent extends React.Component {
     const {
       isLoading,
       isVisible,
-      hasError,
+      isAuthorized,
       isLoggedIn,
       isVerified,
       profileStatus,
       has30PercentDisabilityRating,
+      formConfig,
     } = this.props;
 
     const content = (
@@ -49,7 +52,7 @@ class AuthorizationComponent extends React.Component {
           )}
         {!isLoading &&
           isVisible &&
-          hasError && (
+          !isAuthorized && (
             <AlertBox status="error" isVisible>
               <AuthorizationMessage
                 has30PercentDisabilityRating={has30PercentDisabilityRating}
@@ -57,11 +60,11 @@ class AuthorizationComponent extends React.Component {
               />
             </AlertBox>
           )}
-        {!hasError && this.props.children}
+        {isAuthorized && this.props.children}
       </div>
     );
 
-    if (formConfig.downtime) {
+    if (formConfig && formConfig.downtime) {
       return (
         <DowntimeNotification
           appTitle={formConfig.formId}
@@ -77,14 +80,20 @@ class AuthorizationComponent extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return formConfig.getAuthorizationState(state); // TODO: derive formConfig when generalizing
+function mapStateToProps(state, ownProps) {
+  if (ownProps.formConfig) {
+    return getFormAuthorizationState(ownProps.formConfig, state);
+  }
+  return {};
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    authorize: bindActionCreators(formConfig.authorize, dispatch),
-  };
+function mapDispatchToProps(dispatch, ownProps) {
+  if (ownProps.formConfig) {
+    return {
+      authorize: bindActionCreators(ownProps.formConfig.authorize, dispatch),
+    };
+  }
+  return {};
 }
 
 export default connect(

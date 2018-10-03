@@ -6,31 +6,13 @@ import { AuthorizationComponent } from '../../components/AuthorizationComponent'
 
 describe('686 <AuthorizationComponent>', () => {
   it('should render loading indicator', () => {
-    const user = {
-      profile: {
-        verified: true,
-      },
-      login: {
-        currentlyLoggedIn: true,
-      },
-    };
-
-    const tree = shallow(<AuthorizationComponent isLoading user={user} />);
+    const tree = shallow(<AuthorizationComponent isLoading />);
     expect(tree.find('LoadingIndicator'));
   });
 
   it('should display inner content if authorized', () => {
-    const user = {
-      profile: {
-        verified: false,
-      },
-      login: {
-        currentlyLoggedIn: true,
-      },
-    };
-
     const tree = shallow(
-      <AuthorizationComponent hasError={false} user={user}>
+      <AuthorizationComponent isAuthorized>
         <p>Inner content</p>
       </AuthorizationComponent>,
     );
@@ -43,17 +25,8 @@ describe('686 <AuthorizationComponent>', () => {
   });
 
   it('should not display inner content if not authorized', () => {
-    const user = {
-      profile: {
-        verified: true,
-      },
-      login: {
-        currentlyLoggedIn: true,
-      },
-    };
-
     const tree = shallow(
-      <AuthorizationComponent hasError user={user}>
+      <AuthorizationComponent>
         <p>Inner content</p>
       </AuthorizationComponent>,
     );

@@ -12,10 +12,8 @@ export default function LoginSettings() {
       the strongest identity verification system available to prevent fraud and
       identity theft. We use ID.me to help you create a verified account on{' '}
       {propertyName}
-      -or to connect your premium MyHealth
-      <i>e</i>
-      Vet or DS Logon account to our site-as well as to add an extra layer of
-      security to your account.
+      -or to connect your premium MyHealtheVet or DS Logon account to our
+      site-as well as to add an extra layer of security to your account.
       <br />
       <a
         href="/faq/#what-is-idme"

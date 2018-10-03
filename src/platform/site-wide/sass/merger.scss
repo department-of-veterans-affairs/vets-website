@@ -927,11 +927,6 @@
     position: relative;
   }
 
-  .va-crisis-line {
-    top: 169px;
-    z-index: 2;
-  }
-
   // TD: need to update this on formation in the MegaMenu. If no title it should still align with the link row.
   #vetnav-records-ms {
     & + div {
@@ -1182,14 +1177,6 @@
 
   .hub-links-container {
     min-height: 250px;
-  }
-  .va-crisis-panel {
-    h3 {
-      color: $color-black;
-    }
-    p {
-      color: $color-black;
-    }
   }
 }
 .usa-accordion-bordered {
