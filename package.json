@@ -35,6 +35,8 @@
     "test:sauce:desktop": "./script/run-nightwatch.sh --sauce -e chrome,firefox,ie,edge",
     "test:sauce:mobile": "./script/run-nightwatch.sh --sauce -e ios,android",
     "test:unit": "./script/run-unit-test.sh",
+    "test:unit:watch": "jest --watch",
+    "test:unit:watchAll": "jest --watchAll",
     "test:unit:edu": "BABEL_ENV=test mocha test/helper.js --opts src/platform/testing/unit/mocha.opts --recursive 'test/edu-benefits/**/*.unit.spec.js?(x)' ",
     "test:unit:hca": "BABEL_ENV=test mocha test/helper.js --opts src/platform/testing/unit/mocha.opts --recursive 'test/hca/**/*.unit.spec.js?(x)' ",
     "test:unit:msg": "BABEL_ENV=test mocha test/helper.js --opts src/platform/testing/unit/mocha.opts --recursive 'test/messaging/**/*.unit.spec.js?(x)' ",
