@@ -34,9 +34,14 @@ describe('<IntroPage/>', () => {
   });
 
   it('should render a link to /status', () => {
-    const wrapper = shallow(<IntroPage {...defaultProps}/>);
+    const wrapper = shallow(<IntroPage {...defaultProps} />);
     const summary = wrapper.find('VetsDotGovSummary').dive();
-    expect(summary.find('Link').first().props().to).to.equal('status');
+    expect(
+      summary
+        .find('Link')
+        .first()
+        .props().to,
+    ).to.equal('status');
   });
 
   it('should render an alert when GIBS status down', () => {

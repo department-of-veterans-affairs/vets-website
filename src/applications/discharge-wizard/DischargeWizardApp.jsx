@@ -8,8 +8,12 @@ export default function DischargeWizardApp({ children }) {
     <div className="discharge-wizard">
       <VetsDotGov>
         <Breadcrumbs>
-          <a href="/" id="dw-home-link">Home</a>
-          <a href="/discharge-upgrade-instructions/" id="dw-instructions">Apply for a Discharge Upgrade</a>
+          <a href="/" id="dw-home-link">
+            Home
+          </a>
+          <a href="/discharge-upgrade-instructions/" id="dw-instructions">
+            Apply for a Discharge Upgrade
+          </a>
         </Breadcrumbs>
       </VetsDotGov>
       <div className="row">

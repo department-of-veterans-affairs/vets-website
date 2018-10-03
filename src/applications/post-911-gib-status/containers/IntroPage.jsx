@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
-import BrandConsolidationSummary, { VetsDotGovSummary } from './IntroPageSummary';
+import BrandConsolidationSummary, {
+  VetsDotGovSummary,
+} from './IntroPageSummary';
 import brandConsolidation from '../../../platform/brand-consolidation';
 import { getServiceAvailability } from '../actions/post-911-gib-status';
 import { SERVICE_AVAILABILITY_STATES } from '../utils/constants';
@@ -30,7 +32,11 @@ export class IntroPage extends React.Component {
         break;
       }
       case SERVICE_AVAILABILITY_STATES.up: {
-        content = brandConsolidation.isEnabled() ? <BrandConsolidationSummary/> : <VetsDotGovSummary/>;
+        content = brandConsolidation.isEnabled() ? (
+          <BrandConsolidationSummary />
+        ) : (
+          <VetsDotGovSummary />
+        );
         break;
       }
       case SERVICE_AVAILABILITY_STATES.down:
@@ -73,7 +79,8 @@ export class IntroPage extends React.Component {
     if (brandConsolidation.isEnabled()) {
       return (
         <div>
-          {this.props.serviceAvailability === SERVICE_AVAILABILITY_STATES.up && gibsWarning}
+          {this.props.serviceAvailability === SERVICE_AVAILABILITY_STATES.up &&
+            gibsWarning}
           <h1>Check Your Post-9/11 GI Bill Benefits</h1>
           {content}
         </div>
