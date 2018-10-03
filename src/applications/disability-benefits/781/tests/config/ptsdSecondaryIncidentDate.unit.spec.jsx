@@ -41,7 +41,6 @@ describe('781a Incident Date', () => {
     fillDate(form, 'root_secondaryIncidentDate', '2016-07-10');
     form.find('form').simulate('submit');
 
-    console.log([...form.find('select#root_secondaryIncidentDateDay')]);
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
@@ -62,7 +61,6 @@ describe('781a Incident Date', () => {
       uiSchema={uiSchema}/>);
 
     form.find('form').simulate('submit');
-    console.log(onSubmit.called);
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
 
