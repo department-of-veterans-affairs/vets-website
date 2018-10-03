@@ -32,6 +32,9 @@ When a Servicemember or Veteran, spouse, or dependent child dies, the person who
 
 To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director can call the National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800-535-1117</a> to request a burial.
 
+**Note:** You may be able to schedule a weekend burial at certain national cemeteries. <br>
+[Learn about the weekend burial program](https://www.cem.va.gov/cem/docs/factsheets/NCA_Weekend_Burial_Program.pdf).
+
 You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a memorial service](/burials-and-memorials/what-to-expect-at-a-funeral/).
 
 <br>
@@ -90,6 +93,9 @@ You'll need to tell us:
  - [If you're interested in other possible military honors beyond the playing of Taps and flag folding and presentation](https://www.dmdc.osd.mil/mfh/)
 
  [Request gravesite memorials and burial honors](/burials-and-memorials/honor/).<br/>
+ 
+ **Note:** You may be able to schedule a weekend burial at certain national cemeteries. <br>
+[Learn about the weekend burial program](https://www.cem.va.gov/cem/docs/factsheets/NCA_Weekend_Burial_Program.pdf).
 
 </li>
 
