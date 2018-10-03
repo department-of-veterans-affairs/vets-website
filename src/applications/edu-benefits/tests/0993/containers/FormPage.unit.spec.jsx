@@ -137,12 +137,9 @@ describe('Schemaform <FormPage>', () => {
   });
   it('should go back', () => {
     const oldWindow = global.window;
-    global.window = {
-      location: {
-        pathname: '/benefit/static/form/page',
-        replace: sinon.spy(),
-      },
-    };
+    global.window.location.replace = sinon.spy();
+    global.window.location.pathname = '/benefit/static/form/page';
+
     const route = {
       pageConfig: {
         pageKey: 'testPage',
@@ -197,7 +194,6 @@ describe('Schemaform <FormPage>', () => {
     );
 
     tree.getMountedInstance().goBack();
-
     expect(global.window.location.replace.calledWith('/benefit/static'));
     global.window = oldWindow;
   });
