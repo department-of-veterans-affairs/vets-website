@@ -221,7 +221,7 @@ const formConfig = {
           title: 'Summary of evidence',
           path: 'supporting-evidence/summary',
           uiSchema: summaryOfEvidence.uiSchema,
-          schema: summaryOfEvidence.schema
+          schema: summaryOfEvidence.schema,
         },
         howClaimsWork: {
           title: 'How claim exams work',
