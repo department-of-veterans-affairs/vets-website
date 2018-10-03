@@ -19,8 +19,12 @@ import {
 
 const fetchWaitingStates = [requestStates.notCalled, requestStates.pending];
 
-const noITFPages = ['/introduction', '/confirmation'];
 export class ITFWrapper extends React.Component {
+  static defaultProps = {
+    noITFPages: [/\/introduction/, /\/confirmation/],
+    /* noITFPages: ['/introduction', '/confirmation'], */
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -32,7 +36,7 @@ export class ITFWrapper extends React.Component {
   componentDidMount() {
     // ...fetch the ITF if needed
     if (
-      !noITFPages.includes(this.props.location.pathname) &&
+      !this.shouldBlockITF(this.props.location.pathname) &&
       this.props.itf.fetchCallState === requestStates.notCalled
     ) {
       this.props.fetchITF();
@@ -42,7 +46,7 @@ export class ITFWrapper extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { itf, location } = nextProps;
 
-    if (noITFPages.includes(location.pathname)) {
+    if (this.shouldBlockITF(location.pathname)) {
       return;
     }
 
@@ -75,13 +79,23 @@ export class ITFWrapper extends React.Component {
     }
   }
 
+  /**
+   * Checks to see if the given pathname should be blocked from making any ITF calls.
+   */
+  shouldBlockITF(pathname) {
+    return this.props.noITFPages.some(
+      noITFPath =>
+        noITFPath.test ? noITFPath.test(pathname) : noITFPath === pathname,
+    );
+  }
+
   render() {
     const { location, children, itf } = this.props;
     // If the location is the intro or confirmation pages, don't show an ITF message
     let message;
     let content;
 
-    if (noITFPages.includes(location.pathname)) {
+    if (this.shouldBlockITF(location.pathname)) {
       message = null;
       content = children;
     } else if (fetchWaitingStates.includes(itf.fetchCallState)) {
@@ -170,6 +184,9 @@ ITFWrapper.propTypes = {
   }),
   fetchITF: PropTypes.func.isRequired,
   createITF: PropTypes.func.isRequired,
+  noITFPages: PropTypes.arrayOf(
+    PropTypes.oneOf([PropTypes.string, PropTypes.instanceOf(RegExp)]),
+  ),
 };
 
 const mapStateToProps = store => ({
