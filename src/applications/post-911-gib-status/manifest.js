@@ -4,5 +4,5 @@ module.exports = {
   entryName: 'post-911-gib-status',
   receiveContentProps({ path: rootUrl }) {
     this.rootUrl = `/${rootUrl}`;
-  }
+  },
 };

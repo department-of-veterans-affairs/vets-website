@@ -1,14 +1,13 @@
-
 const path = require('path');
 const {
   getAppManifests,
-  getWebpackEntryPoints
+  getWebpackEntryPoints,
 } = require('../manifest-helpers');
 
 const convertPathsToRelative = require('./convert-paths-to-relative');
 const {
   webpackPlugin,
-  webpackDevServerPlugin
+  webpackDevServerPlugin,
 } = require('./metalsmith-webpack');
 
 const generateWebpackConfig = require('../webpack.config');
@@ -20,8 +19,9 @@ function getEntryPoints(buildOptions) {
   let manifestsToBuild = manifests;
   if (buildOptions.entry) {
     const entryNames = buildOptions.entry.split(',').map(name => name.trim());
-    manifestsToBuild = manifests
-      .filter(manifest => entryNames.includes(manifest.entryName));
+    manifestsToBuild = manifests.filter(manifest =>
+      entryNames.includes(manifest.entryName),
+    );
   }
 
   return getWebpackEntryPoints(manifestsToBuild);
@@ -39,7 +39,7 @@ function compileAssets(buildOptions) {
       convertPathsMiddleware = convertPathsToRelative(buildOptions);
     }
 
-    compileMiddleware(files, metalsmith, (err) => {
+    compileMiddleware(files, metalsmith, err => {
       if (err) throw err;
       convertPathsMiddleware(files, metalsmith, done);
     });
@@ -55,11 +55,14 @@ function watchAssets(buildOptions) {
       const apps = getEntryPoints(buildOptions);
       const webpackConfig = generateWebpackConfig(buildOptions, apps);
       const webpackDevServerConfig = generateWebpackDevConfig(buildOptions);
-      devServerMiddleware = webpackDevServerPlugin(webpackConfig, webpackDevServerConfig);
+      devServerMiddleware = webpackDevServerPlugin(
+        webpackConfig,
+        webpackDevServerConfig,
+      );
       convertPathsMiddleware = convertPathsToRelative(buildOptions);
     }
 
-    devServerMiddleware(files, metalsmith, (err) => {
+    devServerMiddleware(files, metalsmith, err => {
       if (err) throw err;
       convertPathsMiddleware(files, metalsmith, done);
     });
@@ -68,5 +71,5 @@ function watchAssets(buildOptions) {
 
 module.exports = {
   compileAssets,
-  watchAssets
+  watchAssets,
 };

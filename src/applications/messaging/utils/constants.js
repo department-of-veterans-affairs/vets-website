@@ -2,7 +2,7 @@ export const alertStatus = {
   ERROR: 'error',
   INFO: 'info',
   SUCCESS: 'success',
-  WARNING: 'warning'
+  WARNING: 'warning',
 };
 
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';

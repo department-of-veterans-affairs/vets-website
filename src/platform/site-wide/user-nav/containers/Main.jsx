@@ -6,18 +6,14 @@ import URLSearchParams from 'url-search-params';
 import recordEvent from '../../../monitoring/record-event';
 
 import SignInModal from '../../../user/authentication/components/SignInModal';
-import {
-  isLoggedIn,
-  isProfileLoading,
-  isLOA3
-} from '../../../user/selectors';
+import { isLoggedIn, isProfileLoading, isLOA3 } from '../../../user/selectors';
 import { initializeProfile } from '../../../user/profile/actions';
 import { updateLoggedInStatus } from '../../../user/authentication/actions';
 import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 
 import {
   toggleLoginModal,
-  toggleSearchHelpUserMenu
+  toggleSearchHelpUserMenu,
 } from '../../../site-wide/user-nav/actions';
 
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
@@ -51,22 +47,24 @@ export class Main extends React.Component {
 
     if (currentlyLoggedIn) this.executeRedirect();
 
-    if (shouldCloseLoginModal) { this.props.toggleLoginModal(false); }
+    if (shouldCloseLoginModal) {
+      this.props.toggleLoginModal(false);
+    }
   }
 
   componentWillUnmount() {
     this.unbindNavbarLinks();
   }
 
-  setToken = (event) => {
+  setToken = event => {
     if (event.data === conditionalStorage().getItem('userToken')) {
       this.executeRedirect();
       this.props.initializeProfile();
     }
-  }
+  };
 
   getNextParameter() {
-    const nextParam = (new URLSearchParams(window.location.search)).get('next');
+    const nextParam = new URLSearchParams(window.location.search).get('next');
     if (nextParam) {
       return nextParam.startsWith('/') ? nextParam : `/${nextParam}`;
     }
@@ -85,7 +83,8 @@ export class Main extends React.Component {
 
   executeRedirect() {
     const redirectUrl = this.getRedirectUrl();
-    const shouldRedirect = redirectUrl && !window.location.pathname.includes('verify');
+    const shouldRedirect =
+      redirectUrl && !window.location.pathname.includes('verify');
 
     if (shouldRedirect) {
       window.location.replace(redirectUrl);
@@ -93,10 +92,12 @@ export class Main extends React.Component {
   }
 
   bindModalTriggers = () => {
-    const triggers = Array.from(document.querySelectorAll('.signin-signup-modal-trigger'));
+    const triggers = Array.from(
+      document.querySelectorAll('.signin-signup-modal-trigger'),
+    );
     const openLoginModal = () => this.props.toggleLoginModal(true);
     triggers.forEach(t => t.addEventListener('click', openLoginModal));
-  }
+  };
 
   bindNavbarLinks = () => {
     [...document.querySelectorAll('.login-required')].forEach(el => {
@@ -110,27 +111,29 @@ export class Main extends React.Component {
         }
       });
     });
-  }
+  };
 
   unbindNavbarLinks = () => {
     [...document.querySelectorAll('.login-required')].forEach(el => {
       el.removeEventListener('click');
     });
-  }
+  };
 
   checkTokenStatus = () => {
     if (!conditionalStorage().getItem('userToken')) {
       this.props.updateLoggedInStatus(false);
-      if (this.getNextParameter()) { this.props.toggleLoginModal(true); }
+      if (this.getNextParameter()) {
+        this.props.toggleLoginModal(true);
+      }
     } else {
       this.props.initializeProfile();
     }
-  }
+  };
 
   handleCloseModal = () => {
     this.props.toggleLoginModal(false);
     recordEvent({ event: 'login-modal-closed' });
-  }
+  };
 
   render() {
     return (
@@ -142,30 +145,33 @@ export class Main extends React.Component {
           isProfileLoading={this.props.isProfileLoading}
           userGreeting={this.props.userGreeting}
           toggleLoginModal={this.props.toggleLoginModal}
-          toggleMenu={this.props.toggleSearchHelpUserMenu}/>
+          toggleMenu={this.props.toggleSearchHelpUserMenu}
+        />
         <SignInModal
           onClose={this.handleCloseModal}
-          visible={this.props.showLoginModal}/>
+          visible={this.props.showLoginModal}
+        />
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    currentlyLoggedIn: isLoggedIn(state),
-    isProfileLoading: isProfileLoading(state),
-    isLOA3: isLOA3(state),
-    userGreeting: selectUserGreeting(state),
-    ...state.navigation
-  };
-};
+const mapStateToProps = state => ({
+  currentlyLoggedIn: isLoggedIn(state),
+  isProfileLoading: isProfileLoading(state),
+  isLOA3: isLOA3(state),
+  userGreeting: selectUserGreeting(state),
+  ...state.navigation,
+});
 
 const mapDispatchToProps = {
   toggleLoginModal,
   toggleSearchHelpUserMenu,
   updateLoggedInStatus,
-  initializeProfile
+  initializeProfile,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Main);

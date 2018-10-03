@@ -15,7 +15,7 @@ export const frontendApps = {
   DISABILITY_BENEFITS: 'disability-benefits',
   CLAIMS_AND_APPEALS: 'claims-and-appeals',
   LETTERS: 'letters',
-  VETERAN_ID_CARD: 'vic'
+  VETERAN_ID_CARD: 'vic',
 };
 
 const mhvBaseUrl = () => {
@@ -23,16 +23,17 @@ const mhvBaseUrl = () => {
     'development',
     'vagovdev',
     'staging',
-    'vagovstaging'
+    'vagovstaging',
   ];
 
-  const mhvSubdomain =
-    lowerEnvironments.includes(__BUILDTYPE__) ? 'mhv-intb' : 'www';
+  const mhvSubdomain = lowerEnvironments.includes(__BUILDTYPE__)
+    ? 'mhv-intb'
+    : 'www';
 
   return `https://${mhvSubdomain}.myhealth.va.gov`;
 };
 
-export const redirectUrl = (contentUrl) => {
+export const redirectUrl = contentUrl => {
   switch (contentUrl) {
     case '/health-care/secure-messaging/':
       return `${mhvBaseUrl()}/mhv-portal-web/secure-messaging`;
@@ -57,7 +58,7 @@ export const redirectUrl = (contentUrl) => {
   }
 };
 
-export const requiredServices = (appId) => {
+export const requiredServices = appId => {
   switch (appId) {
     case frontendApps.HEALTH_RECORDS:
       return backendServices.HEALTH_RECORDS;
@@ -88,7 +89,7 @@ export const requiredServices = (appId) => {
   }
 };
 
-export const serviceDescription = (appId) => {
+export const serviceDescription = appId => {
   switch (appId) {
     case frontendApps.HEALTH_RECORDS:
       return 'use VA Blue Button';

@@ -3,7 +3,9 @@ const Auth = require('../e2e-puppeteer/auth');
 const puppeteer = require('puppeteer');
 const devices = require('puppeteer/DeviceDescriptors');
 const Timeouts = require('../e2e/timeouts');
-const { sitemapURLs } = require('../../site-wide/tests/sitemap/sitemap-helpers');
+const {
+  sitemapURLs,
+} = require('../../site-wide/tests/sitemap/sitemap-helpers');
 const createBaselineImage = require('./util/create-baseline-image');
 const calculateDiff = require('./util/calculate-diff');
 const chalk = require('chalk');
@@ -14,17 +16,16 @@ const path = require('path');
 const iPhone = devices['iPhone 6'];
 const BASE_DIR = path.resolve(__dirname, '../../../../');
 
-
 const commands = {
   CREATE_BASELINE_IMAGES: 'baseline',
   CALCULATE_DIFFS: 'diff',
-  MOBILE: true
+  MOBILE: true,
 };
 
 const { command, mobile } = commandLineArgs([
   { name: 'command', type: String },
   { name: 'config', type: String, alias: 'c' },
-  { name: 'mobile', type: Boolean }
+  { name: 'mobile', type: Boolean },
 ]);
 // parse the response from the testing function into something that cli-tables can print
 function tableFormatter(outputObj) {
@@ -39,7 +40,7 @@ function tableFormatter(outputObj) {
 async function createRouteHandlerChain(page, routes, routeHandler) {
   const table = new Table({
     head: ['Route', '%Miss', 'Diff Location'],
-    colWidths: [50, 8, 100]
+    colWidths: [50, 8, 100],
   });
   const results = [];
   for (let i = routes.length - 1; i >= 0; i--) {
@@ -47,7 +48,7 @@ async function createRouteHandlerChain(page, routes, routeHandler) {
     /* eslint-disable no-await-in-loop, no-console */
     try {
       await page.goto(route, {
-        timeout: 0
+        timeout: 0,
       });
       await page.waitFor('body');
       const output = await routeHandler(page, route);

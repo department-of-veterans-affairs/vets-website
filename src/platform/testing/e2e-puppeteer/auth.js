@@ -5,16 +5,18 @@ const mock = require('../e2e/mock-helpers');
 const expect = require('chai').expect;
 
 async function setUserToken(token, client) {
-  await client.evaluate((inToken) => {
-    window.sessionStorage.setItem('userToken', inToken);
-  },
-  [token],
-  (val) => {
-    if (val.state !== 'success') {
-      // eslint-disable-next-line no-console
-      console.log(`Result of setting user token: ${JSON.stringify(val)}`);
-    }
-  });
+  await client.evaluate(
+    inToken => {
+      window.sessionStorage.setItem('userToken', inToken);
+    },
+    [token],
+    val => {
+      if (val.state !== 'success') {
+        // eslint-disable-next-line no-console
+        console.log(`Result of setting user token: ${JSON.stringify(val)}`);
+      }
+    },
+  );
 }
 
 function getLogoutUrl() {
@@ -38,17 +40,19 @@ function initUserMock(token, level) {
             last_name: 'Doe',
             gender: 'F',
             birth_date: '1985-01-01',
-            verified: level === 3
+            verified: level === 3,
           },
           veteran_status: {
             status: 'OK',
             is_veteran: true,
             served_in_military: true,
           },
-          in_progress_forms: [{
-            form: '1010ez',
-            metadata: {}
-          }],
+          in_progress_forms: [
+            {
+              form: '1010ez',
+              metadata: {},
+            },
+          ],
           prefills_available: [],
           services: [
             'facilities',
@@ -58,7 +62,7 @@ function initUserMock(token, level) {
             'user-profile',
             'health-records',
             'rx',
-            'messaging'
+            'messaging',
           ],
           va_profile: {
             status: 'OK',
@@ -66,11 +70,11 @@ function initUserMock(token, level) {
             family_name: 'Hunter',
             gender: 'M',
             given_names: ['Julio', 'E'],
-            active_status: 'active'
-          }
-        }
-      }
-    }
+            active_status: 'active',
+          },
+        },
+      },
+    },
   });
 }
 /* eslint-enable camelcase */
@@ -80,8 +84,8 @@ function initLogoutMock(token) {
     path: '/sessions/slo/new',
     verb: 'get',
     value: {
-      url: getLogoutUrl()
-    }
+      url: getLogoutUrl(),
+    },
   });
 }
 
@@ -107,8 +111,8 @@ async function logIn(token, client, url, level) {
       scroll: {
         duration: 0,
         delay: 0,
-        smooth: false
-      }
+        smooth: false,
+      },
     });
     return window.VetsGov;
   });
@@ -124,7 +128,9 @@ async function testUnauthedUserFlow(client, path) {
   await client.waitForSelector('body', { timeout: Timeouts.normal });
 
   await client.waitForSelector('.login', { timeout: Timeouts.normal });
-  expect(client.$eval('h1', node => node.innerText)).to.equal('Sign in to Vets.gov');
+  expect(client.$eval('h1', node => node.innerText)).to.equal(
+    'Sign in to Vets.gov',
+  );
 }
 
 module.exports = {
@@ -134,5 +140,5 @@ module.exports = {
   initUserMock,
   logIn,
   testUnauthedUserFlow,
-  setUserToken
+  setUserToken,
 };

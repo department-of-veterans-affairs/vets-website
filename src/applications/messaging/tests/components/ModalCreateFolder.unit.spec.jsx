@@ -20,17 +20,13 @@ const props = {
 
 describe('<ModalCreateFolder>', () => {
   it('should render correctly', () => {
-    const tree = SkinDeep.shallowRender(
-      <ModalCreateFolder {...props}/>
-    );
+    const tree = SkinDeep.shallowRender(<ModalCreateFolder {...props} />);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
   it('should render expected output', () => {
-    const tree = SkinDeep.shallowRender(
-      <ModalCreateFolder {...props}/>
-    );
+    const tree = SkinDeep.shallowRender(<ModalCreateFolder {...props} />);
 
     expect(tree.subTree('Modal')).to.be.ok;
     expect(tree.dive(['Modal']).subTree('form')).to.be.ok;
@@ -39,7 +35,7 @@ describe('<ModalCreateFolder>', () => {
 
   it('should show loading indicator when loading', () => {
     const tree = SkinDeep.shallowRender(
-      <ModalCreateFolder {...props} loading/>
+      <ModalCreateFolder {...props} loading />,
     );
 
     expect(tree.dive(['Modal']).subTree('LoadingIndicator')).to.be.ok;

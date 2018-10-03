@@ -1,6 +1,6 @@
 // selectors for the `authorization686` state
 
-export const get686AuthorizationState = (state) => {
+export const get686AuthorizationState = state => {
   const isLoggedIn = state.user.login.currentlyLoggedIn;
   const isVerified = state.user.profile.verified;
   const hasUserError = !isLoggedIn || !isVerified;
@@ -15,4 +15,3 @@ export const get686AuthorizationState = (state) => {
     profileStatus: state.user.profile.status,
   };
 };
-

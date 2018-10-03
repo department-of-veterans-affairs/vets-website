@@ -5,7 +5,11 @@ const { getFileNames, createDirectoryIfNotExist } = require('./get-file-names');
 async function createBaselineImage(browser, route) {
   const [baselineFileName] = getFileNames(route);
   await createDirectoryIfNotExist(baselineFileName);
-  await browser.screenshot({ path: baselineFileName, fullPage: true, type: 'png' });
+  await browser.screenshot({
+    path: baselineFileName,
+    fullPage: true,
+    type: 'png',
+  });
 }
 
 module.exports = createBaselineImage;

@@ -2,7 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import { systemDownMessage, unableToFindRecordWarning } from '../../../platform/static-data/error-messages';
+import {
+  systemDownMessage,
+  unableToFindRecordWarning,
+} from '../../../platform/static-data/error-messages';
 
 import { getEnrollmentData } from '../actions/post-911-gib-status';
 // import { noChapter33BenefitsWarning } from '../utils/helpers.jsx';
@@ -20,7 +23,9 @@ export class Main extends React.Component {
         appContent = this.props.children;
         break;
       case 'awaitingResponse':
-        appContent = <LoadingIndicator message="Please wait while we check if the tool is available for you."/>;
+        appContent = (
+          <LoadingIndicator message="Please wait while we check if the tool is available for you." />
+        );
         break;
       case 'backendServiceError':
         appContent = backendErrorMessage();
@@ -42,23 +47,22 @@ export class Main extends React.Component {
         appContent = backendErrorMessage();
     }
 
-    return (
-      <div>
-        {appContent}
-      </div>
-    );
+    return <div>{appContent}</div>;
   }
 }
 
 function mapStateToProps(state) {
   return {
     enrollmentData: state.post911GIBStatus.enrollmentData,
-    availability: state.post911GIBStatus.availability
+    availability: state.post911GIBStatus.availability,
   };
 }
 
 const mapDispatchToProps = {
-  getEnrollmentData
+  getEnrollmentData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Main);

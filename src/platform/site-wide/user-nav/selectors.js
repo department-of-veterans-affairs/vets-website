@@ -10,11 +10,9 @@ export const selectUserGreeting = createSelector(
   () => conditionalStorage().getItem('userFirstName'),
   (name, email, sessionFirstName) => {
     if (name.first || sessionFirstName) {
-      return startCase(toLower(
-        name.first || sessionFirstName
-      ));
+      return startCase(toLower(name.first || sessionFirstName));
     }
 
     return email;
-  }
+  },
 );

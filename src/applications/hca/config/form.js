@@ -5,18 +5,17 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { validateMatch } from 'us-forms-system/lib/js/validation';
 import { createUSAStateLabels } from 'us-forms-system/lib/js/helpers';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import { schema as addressSchema, uiSchema as addressUI } from '../../../platform/forms/definitions/address';
+import {
+  schema as addressSchema,
+  uiSchema as addressUI,
+} from '../../../platform/forms/definitions/address';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 import currencyUI from 'us-forms-system/lib/js/definitions/currency';
 
-import {
-  maritalStatuses
-} from '../../../platform/static-data/options-for-select';
-import {
-  states
-} from '../../../platform/forms/address';
+import { maritalStatuses } from '../../../platform/static-data/options-for-select';
+import { states } from '../../../platform/forms/address';
 import fullNameUI from '../../../platform/forms/definitions/fullName';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
@@ -61,16 +60,25 @@ import InsuranceProviderView from '../components/InsuranceProviderView';
 import DependentView from '../components/DependentView';
 import DemographicField from '../components/DemographicField';
 
-import { createDependentSchema, uiSchema as dependentUI, createDependentIncomeSchema, dependentIncomeUiSchema } from '../definitions/dependent';
+import {
+  createDependentSchema,
+  uiSchema as dependentUI,
+  createDependentIncomeSchema,
+  dependentIncomeUiSchema,
+} from '../definitions/dependent';
 
-import { validateServiceDates, validateMarriageDate, validateCurrency } from '../validation';
+import {
+  validateServiceDates,
+  validateMarriageDate,
+  validateCurrency,
+} from '../validation';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
 const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
 const emptyFacilityList = [];
 const emptyObjectSchema = {
   type: 'object',
-  properties: {}
+  properties: {},
 };
 
 const {
@@ -124,7 +132,7 @@ const {
   spouseOtherIncome,
   deductibleMedicalExpenses,
   deductibleFuneralExpenses,
-  deductibleEducationExpenses
+  deductibleEducationExpenses,
 } = fullSchemaHca.properties;
 
 const {
@@ -133,9 +141,8 @@ const {
   provider,
   phone,
   monetaryValue,
-  ssn
+  ssn,
 } = fullSchemaHca.definitions;
-
 
 const stateLabels = createUSAStateLabels(states);
 
@@ -149,11 +156,11 @@ const formConfig = {
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for health care.',
-    noAuth: 'Please sign in again to resume your application for health care.'
+    noAuth: 'Please sign in again to resume your application for health care.',
   },
   downtime: {
     dependencies: [externalServices.es],
-    message: DowntimeMessage
+    message: DowntimeMessage,
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,
@@ -186,28 +193,32 @@ const formConfig = {
             veteranFullName: _.merge(fullNameUI, {
               first: {
                 'ui:errorMessages': {
-                  minLength: 'Please provide a valid name. Must be at least 1 character.',
-                  pattern: 'Please provide a valid name. Must be at least 1 character.'
-                }
+                  minLength:
+                    'Please provide a valid name. Must be at least 1 character.',
+                  pattern:
+                    'Please provide a valid name. Must be at least 1 character.',
+                },
               },
               last: {
                 'ui:errorMessages': {
-                  minLength: 'Please provide a valid name. Must be at least 2 characters.',
-                  pattern: 'Please provide a valid name. Must be at least 2 characters.'
-                }
-              }
+                  minLength:
+                    'Please provide a valid name. Must be at least 2 characters.',
+                  pattern:
+                    'Please provide a valid name. Must be at least 2 characters.',
+                },
+              },
             }),
             mothersMaidenName: {
-              'ui:title': 'Mother’s maiden name'
-            }
+              'ui:title': 'Mother’s maiden name',
+            },
           },
           schema: {
             type: 'object',
             properties: {
               veteranFullName,
-              mothersMaidenName: _.set('maxLength', 35, mothersMaidenName)
-            }
-          }
+              mothersMaidenName: _.set('maxLength', 35, mothersMaidenName),
+            },
+          },
         },
         birthInformation: {
           path: 'veteran-information/birth-information',
@@ -220,15 +231,15 @@ const formConfig = {
             'view:placeOfBirth': {
               'ui:title': 'Place of birth',
               cityOfBirth: {
-                'ui:title': 'City'
+                'ui:title': 'City',
               },
               stateOfBirth: {
                 'ui:title': 'State',
                 'ui:options': {
-                  labels: stateLabels
-                }
-              }
-            }
+                  labels: stateLabels,
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -242,54 +253,54 @@ const formConfig = {
                   cityOfBirth,
                   stateOfBirth: {
                     type: 'string',
-                    'enum': states.USA.map(state => state.value)
-                  }
-                }
-              }
-            }
-          }
+                    enum: states.USA.map(state => state.value),
+                  },
+                },
+              },
+            },
+          },
         },
         demographicInformation: {
           path: 'veteran-information/demographic-information',
           title: 'Veteran information',
           initialData: {
             'view:demographicCategories': {
-              isSpanishHispanicLatino: false
-            }
+              isSpanishHispanicLatino: false,
+            },
           },
           uiSchema: {
             gender: {
               'ui:title': 'Gender',
               'ui:options': {
-                labels: genderLabels
-              }
+                labels: genderLabels,
+              },
             },
             maritalStatus: {
-              'ui:title': 'Marital status'
+              'ui:title': 'Marital status',
             },
             'view:demographicCategories': {
               'ui:field': DemographicField,
               'ui:title': 'Which categories best describe you?',
               'ui:description': 'You may check more than one.',
               isSpanishHispanicLatino: {
-                'ui:title': 'Spanish, Hispanic, or Latino'
+                'ui:title': 'Spanish, Hispanic, or Latino',
               },
               isAmericanIndianOrAlaskanNative: {
-                'ui:title': 'American Indian or Alaskan Native'
+                'ui:title': 'American Indian or Alaskan Native',
               },
               isBlackOrAfricanAmerican: {
-                'ui:title': 'Black or African American'
+                'ui:title': 'Black or African American',
               },
               isNativeHawaiianOrOtherPacificIslander: {
-                'ui:title': 'Native Hawaiian or Other Pacific Islander'
+                'ui:title': 'Native Hawaiian or Other Pacific Islander',
               },
               isAsian: {
-                'ui:title': 'Asian'
+                'ui:title': 'Asian',
               },
               isWhite: {
-                'ui:title': 'White'
-              }
-            }
+                'ui:title': 'White',
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -298,7 +309,7 @@ const formConfig = {
               gender,
               maritalStatus: {
                 type: 'string',
-                'enum': maritalStatuses
+                enum: maritalStatuses,
               },
               'view:demographicCategories': {
                 type: 'object',
@@ -308,11 +319,11 @@ const formConfig = {
                   isBlackOrAfricanAmerican,
                   isNativeHawaiianOrOtherPacificIslander,
                   isAsian,
-                  isWhite
-                }
-              }
-            }
-          }
+                  isWhite,
+                },
+              },
+            },
+          },
         },
         veteranAddress: {
           path: 'veteran-information/veteran-address',
@@ -322,15 +333,17 @@ const formConfig = {
             veteranAddress: _.merge(addressUI('Permanent address', true), {
               street: {
                 'ui:errorMessages': {
-                  pattern: 'Please provide a valid street. Must be at least 1 character.'
-                }
+                  pattern:
+                    'Please provide a valid street. Must be at least 1 character.',
+                },
               },
               city: {
                 'ui:errorMessages': {
-                  pattern: 'Please provide a valid city. Must be at least 1 character.'
-                }
-              }
-            })
+                  pattern:
+                    'Please provide a valid city. Must be at least 1 character.',
+                },
+              },
+            }),
           },
           schema: {
             type: 'object',
@@ -339,25 +352,25 @@ const formConfig = {
                 properties: {
                   street: {
                     minLength: 1,
-                    maxLength: 30
+                    maxLength: 30,
                   },
                   street2: {
                     minLength: 1,
-                    maxLength: 30
+                    maxLength: 30,
                   },
                   street3: {
                     type: 'string',
                     minLength: 1,
-                    maxLength: 30
+                    maxLength: 30,
                   },
                   city: {
                     minLength: 1,
-                    maxLength: 30
-                  }
-                }
-              })
-            }
-          }
+                    maxLength: 30,
+                  },
+                },
+              }),
+            },
+          },
         },
         contactInformation: {
           path: 'veteran-information/contact-information',
@@ -365,22 +378,22 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             'ui:validations': [
-              validateMatch('email', 'view:emailConfirmation')
+              validateMatch('email', 'view:emailConfirmation'),
             ],
             email: {
               'ui:title': 'Email address',
               'ui:errorMessages': {
-                pattern: 'Please put your email in this format x@x.xxx'
-              }
+                pattern: 'Please put your email in this format x@x.xxx',
+              },
             },
             'view:emailConfirmation': {
               'ui:title': 'Re-enter email address',
               'ui:errorMessages': {
-                pattern: 'Please enter a valid email address'
-              }
+                pattern: 'Please enter a valid email address',
+              },
             },
             homePhone: phoneUI('Home telephone number'),
-            mobilePhone: phoneUI('Mobile telephone number')
+            mobilePhone: phoneUI('Mobile telephone number'),
           },
           schema: {
             type: 'object',
@@ -388,11 +401,11 @@ const formConfig = {
               email,
               'view:emailConfirmation': email,
               homePhone: phone,
-              mobilePhone: phone
-            }
-          }
-        }
-      }
+              mobilePhone: phone,
+            },
+          },
+        },
+      },
     },
     militaryService: {
       title: 'Military Service',
@@ -401,12 +414,15 @@ const formConfig = {
           path: 'military-service/service-information',
           title: 'Service periods',
           uiSchema: {
-            'ui:description': __BUILDTYPE__ !== 'production' ? MilitaryPrefillMessage : undefined,
+            'ui:description':
+              __BUILDTYPE__ !== 'production'
+                ? MilitaryPrefillMessage
+                : undefined,
             lastServiceBranch: {
               'ui:title': 'Last branch of service',
               'ui:options': {
-                labels: lastServiceBranchLabels
-              }
+                labels: lastServiceBranchLabels,
+              },
             },
             // TODO: this should really be a dateRange, but that requires a backend schema change. For now
             // leaving them as dates, but should change these to get the proper dateRange validation
@@ -414,15 +430,15 @@ const formConfig = {
             lastDischargeDate: dateUI('Service end date'),
             dischargeType: {
               'ui:title': 'Character of service',
-              'ui:required': ({ lastDischargeDate: LDD }) => validateDate(LDD) && isBeforeCentralTimeDate(LDD),
+              'ui:required': ({ lastDischargeDate: LDD }) =>
+                validateDate(LDD) && isBeforeCentralTimeDate(LDD),
               'ui:options': {
                 labels: dischargeTypeLabels,
-                hideIf: ({ lastDischargeDate: LDD }) => !validateDate(LDD) || isAfterCentralTimeDate(LDD),
-              }
+                hideIf: ({ lastDischargeDate: LDD }) =>
+                  !validateDate(LDD) || isAfterCentralTimeDate(LDD),
+              },
             },
-            'ui:validations': [
-              validateServiceDates
-            ]
+            'ui:validations': [validateServiceDates],
           },
           schema: {
             type: 'object',
@@ -430,14 +446,14 @@ const formConfig = {
               lastServiceBranch,
               lastEntryDate,
               lastDischargeDate,
-              dischargeType
+              dischargeType,
             },
             required: [
               'lastServiceBranch',
               'lastEntryDate',
-              'lastDischargeDate'
+              'lastDischargeDate',
             ],
-          }
+          },
         },
         additionalInformation: {
           path: 'military-service/additional-information',
@@ -452,26 +468,32 @@ const formConfig = {
               'ui:title': 'Former Prisoner of War',
             },
             postNov111998Combat: {
-              'ui:title': 'Served in combat theater of operations after November 11, 1998',
+              'ui:title':
+                'Served in combat theater of operations after November 11, 1998',
             },
             disabledInLineOfDuty: {
-              'ui:title': 'Discharged or retired from the military for a disability incurred in the line of duty',
+              'ui:title':
+                'Discharged or retired from the military for a disability incurred in the line of duty',
             },
             swAsiaCombat: {
-              'ui:title': 'Served in Southwest Asia during the Gulf War between August 2, 1990, and Nov 11, 1998',
+              'ui:title':
+                'Served in Southwest Asia during the Gulf War between August 2, 1990, and Nov 11, 1998',
             },
             vietnamService: {
-              'ui:title': 'Served in Vietnam between January 9, 1962, and May 7, 1975',
+              'ui:title':
+                'Served in Vietnam between January 9, 1962, and May 7, 1975',
             },
             exposedToRadiation: {
               'ui:title': 'Exposed to radiation while in the military',
             },
             radiumTreatments: {
-              'ui:title': 'Received nose/throat radium treatments while in the military',
+              'ui:title':
+                'Received nose/throat radium treatments while in the military',
             },
             campLejeune: {
-              'ui:title': 'Served on active duty at least 30 days at Camp Lejeune from January 1, 1953, through December 31, 1987',
-            }
+              'ui:title':
+                'Served on active duty at least 30 days at Camp Lejeune from January 1, 1953, through December 31, 1987',
+            },
           },
           schema: {
             type: 'object',
@@ -484,11 +506,11 @@ const formConfig = {
               vietnamService,
               exposedToRadiation,
               radiumTreatments,
-              campLejeune
-            }
-          }
-        }
-      }
+              campLejeune,
+            },
+          },
+        },
+      },
     },
     vaBenefits: {
       title: 'VA Benefits',
@@ -499,27 +521,30 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Current compensation',
             vaCompensationType: {
-              'ui:title': 'Which type of VA compensation do you currently receive?',
+              'ui:title':
+                'Which type of VA compensation do you currently receive?',
               'ui:widget': 'radio',
               'ui:options': {
                 labels: {
-                  lowDisability: 'Service-connected disability pay for a 10%, 20%, 30%, or 40% disability rating',
-                  highDisability: 'Service-connected disability pay for a 50% or higher disability rating',
+                  lowDisability:
+                    'Service-connected disability pay for a 10%, 20%, 30%, or 40% disability rating',
+                  highDisability:
+                    'Service-connected disability pay for a 50% or higher disability rating',
                   pension: 'VA pension',
-                  none: 'I don’t receive any VA pay'
-                }
-              }
-            }
+                  none: 'I don’t receive any VA pay',
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
             required: ['vaCompensationType'],
             properties: {
-              vaCompensationType
-            }
-          }
-        }
-      }
+              vaCompensationType,
+            },
+          },
+        },
+      },
     },
     householdInformation: {
       title: 'Household Information',
@@ -532,68 +557,75 @@ const formConfig = {
             'ui:description': financialDisclosureText,
             discloseFinancialInformation: {
               'ui:title': 'Do you want to provide your financial information?',
-              'ui:widget': 'yesNo'
+              'ui:widget': 'yesNo',
             },
             'view:noDiscloseWarning': {
               'ui:description': disclosureWarning,
               'ui:options': {
-                hideIf: (form) => form.discloseFinancialInformation !== false
-              }
-            }
+                hideIf: form => form.discloseFinancialInformation !== false,
+              },
+            },
           },
           schema: {
             type: 'object',
             required: ['discloseFinancialInformation'],
             properties: {
               discloseFinancialInformation,
-              'view:noDiscloseWarning': emptyObjectSchema
-            }
-          }
+              'view:noDiscloseWarning': emptyObjectSchema,
+            },
+          },
         },
         spouseInformation: {
           path: 'household-information/spouse-information',
           title: 'Spouse’s information',
           initialData: {},
-          depends: (formData) => formData.discloseFinancialInformation && formData.maritalStatus &&
-          (formData.maritalStatus.toLowerCase() === 'married' || formData.maritalStatus.toLowerCase() === 'separated'),
+          depends: formData =>
+            formData.discloseFinancialInformation &&
+            formData.maritalStatus &&
+            (formData.maritalStatus.toLowerCase() === 'married' ||
+              formData.maritalStatus.toLowerCase() === 'separated'),
           uiSchema: {
             'ui:title': 'Spouse’s information',
-            'ui:description': 'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
+            'ui:description':
+              'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
             spouseFullName: fullNameUI,
             spouseSocialSecurityNumber: _.merge(ssnUI, {
               'ui:title': 'Spouse’s Social Security number',
             }),
             spouseDateOfBirth: currentOrPastDateUI('Date of birth'),
             dateOfMarriage: _.assign(currentOrPastDateUI('Date of marriage'), {
-              'ui:validations': [
-                validateMarriageDate
-              ]
+              'ui:validations': [validateMarriageDate],
             }),
             cohabitedLastYear: {
               'ui:title': 'Did your spouse live with you last year?',
-              'ui:widget': 'yesNo'
+              'ui:widget': 'yesNo',
             },
             provideSupportLastYear: {
-              'ui:title': 'If your spouse did not live with you last year, did you provide financial support?',
+              'ui:title':
+                'If your spouse did not live with you last year, did you provide financial support?',
               'ui:widget': 'yesNo',
               'ui:options': {
                 expandUnder: 'cohabitedLastYear',
-                expandUnderCondition: false
-              }
+                expandUnderCondition: false,
+              },
             },
             sameAddress: {
               'ui:title': 'Do you have the same address as your spouse?',
-              'ui:widget': 'yesNo'
+              'ui:widget': 'yesNo',
             },
             'view:spouseContactInformation': {
               'ui:title': 'Spouse’s address and telephone number',
               'ui:options': {
                 expandUnder: 'sameAddress',
-                expandUnderCondition: false
+                expandUnderCondition: false,
               },
-              spouseAddress: addressUI('', true, (formData) => formData.sameAddress === false),
-              spousePhone: phoneUI()
-            }
+              spouseAddress: addressUI(
+                '',
+                true,
+                formData => formData.sameAddress === false,
+              ),
+              spousePhone: phoneUI(),
+            },
           },
           schema: {
             type: 'object',
@@ -601,7 +633,7 @@ const formConfig = {
               'spouseSocialSecurityNumber',
               'spouseDateOfBirth',
               'dateOfMarriage',
-              'sameAddress'
+              'sameAddress',
             ],
             properties: {
               spouseFullName,
@@ -615,20 +647,20 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   spouseAddress: addressSchema(fullSchemaHca),
-                  spousePhone
-                }
-              }
-            }
-          }
+                  spousePhone,
+                },
+              },
+            },
+          },
         },
         dependentInformation: {
           path: 'household-information/dependent-information',
           title: 'Dependent information',
-          depends: (data) => data.discloseFinancialInformation,
+          depends: data => data.discloseFinancialInformation,
           uiSchema: {
             'view:reportDependents': {
               'ui:title': 'Do you have any dependents to report?',
-              'ui:widget': 'yesNo'
+              'ui:widget': 'yesNo',
             },
             dependents: {
               items: dependentUI,
@@ -636,12 +668,12 @@ const formConfig = {
                 expandUnder: 'view:reportDependents',
                 itemName: 'Dependent',
                 hideTitle: true,
-                viewField: DependentView
+                viewField: DependentView,
               },
               'ui:errorMessages': {
-                minItems: 'You must add at least one dependent.'
-              }
-            }
+                minItems: 'You must add at least one dependent.',
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -649,55 +681,95 @@ const formConfig = {
             properties: {
               'view:reportDependents': { type: 'boolean' },
               dependents: _.assign(dependents, {
-                minItems: 1
-              })
-            }
-          }
+                minItems: 1,
+              }),
+            },
+          },
         },
         annualIncome: {
           path: 'household-information/annual-income',
           title: 'Annual income',
           initialData: {},
-          depends: (data) => data.discloseFinancialInformation,
+          depends: data => data.discloseFinancialInformation,
           uiSchema: {
             'ui:title': 'Annual income',
             'ui:description': incomeDescription,
-            veteranGrossIncome: _.set('ui:validations', [validateCurrency], currencyUI('Veteran gross annual income from employment')),
-            veteranNetIncome: _.set('ui:validations', [validateCurrency], currencyUI('Veteran net income from your farm, ranch, property or business')),
-            veteranOtherIncome: _.set('ui:validations', [validateCurrency], currencyUI('Veteran other income amount')),
+            veteranGrossIncome: _.set(
+              'ui:validations',
+              [validateCurrency],
+              currencyUI('Veteran gross annual income from employment'),
+            ),
+            veteranNetIncome: _.set(
+              'ui:validations',
+              [validateCurrency],
+              currencyUI(
+                'Veteran net income from your farm, ranch, property or business',
+              ),
+            ),
+            veteranOtherIncome: _.set(
+              'ui:validations',
+              [validateCurrency],
+              currencyUI('Veteran other income amount'),
+            ),
             'view:spouseIncome': {
               'ui:title': 'Spouse income',
               'ui:options': {
-                hideIf: (formData) => !formData.maritalStatus ||
-                (formData.maritalStatus.toLowerCase() !== 'married' && formData.maritalStatus.toLowerCase() !== 'separated')
+                hideIf: formData =>
+                  !formData.maritalStatus ||
+                  (formData.maritalStatus.toLowerCase() !== 'married' &&
+                    formData.maritalStatus.toLowerCase() !== 'separated'),
               },
-              spouseGrossIncome: _.merge(currencyUI('Spouse gross annual income from employment'), {
-                'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married' || formData.maritalStatus.toLowerCase() === 'separated'),
-                'ui:validations': [validateCurrency]
-              }),
-              spouseNetIncome: _.merge(currencyUI('Spouse net income from your farm, ranch, property or business'), {
-                'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married' || formData.maritalStatus.toLowerCase() === 'separated'),
-                'ui:validations': [validateCurrency]
-              }),
-              spouseOtherIncome: _.merge(currencyUI('Spouse other income amount'), {
-                'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married' || formData.maritalStatus.toLowerCase() === 'separated'),
-                'ui:validations': [validateCurrency]
-              })
+              spouseGrossIncome: _.merge(
+                currencyUI('Spouse gross annual income from employment'),
+                {
+                  'ui:required': formData =>
+                    formData.maritalStatus &&
+                    (formData.maritalStatus.toLowerCase() === 'married' ||
+                      formData.maritalStatus.toLowerCase() === 'separated'),
+                  'ui:validations': [validateCurrency],
+                },
+              ),
+              spouseNetIncome: _.merge(
+                currencyUI(
+                  'Spouse net income from your farm, ranch, property or business',
+                ),
+                {
+                  'ui:required': formData =>
+                    formData.maritalStatus &&
+                    (formData.maritalStatus.toLowerCase() === 'married' ||
+                      formData.maritalStatus.toLowerCase() === 'separated'),
+                  'ui:validations': [validateCurrency],
+                },
+              ),
+              spouseOtherIncome: _.merge(
+                currencyUI('Spouse other income amount'),
+                {
+                  'ui:required': formData =>
+                    formData.maritalStatus &&
+                    (formData.maritalStatus.toLowerCase() === 'married' ||
+                      formData.maritalStatus.toLowerCase() === 'separated'),
+                  'ui:validations': [validateCurrency],
+                },
+              ),
             },
             dependents: {
               'ui:field': 'BasicArrayField',
               items: dependentIncomeUiSchema,
               'ui:options': {
-                hideIf: (formData) => !_.get('view:reportDependents', formData)
-              }
-            }
+                hideIf: formData => !_.get('view:reportDependents', formData),
+              },
+            },
           },
           schema: {
             type: 'object',
-            required: ['veteranGrossIncome', 'veteranNetIncome', 'veteranOtherIncome'],
+            required: [
+              'veteranGrossIncome',
+              'veteranNetIncome',
+              'veteranOtherIncome',
+            ],
             definitions: {
               // Override the default schema and use only the income fields
-              dependent: dependentIncomeSchema
+              dependent: dependentIncomeSchema,
             },
             properties: {
               veteranGrossIncome,
@@ -708,58 +780,76 @@ const formConfig = {
                 properties: {
                   spouseGrossIncome,
                   spouseNetIncome,
-                  spouseOtherIncome
-                }
+                  spouseOtherIncome,
+                },
               },
               dependents: _.merge(dependents, {
-                minItems: 1
-              })
-            }
-          }
+                minItems: 1,
+              }),
+            },
+          },
         },
         deductibleExpenses: {
           path: 'household-information/deductible-expenses',
           title: 'Deductible expenses',
-          depends: (data) => data.discloseFinancialInformation,
+          depends: data => data.discloseFinancialInformation,
           uiSchema: {
             'ui:title': 'Previous Calendar Year’s Deductible Expenses',
             'ui:description': deductibleExpensesDescription,
-            deductibleMedicalExpenses: _.set('ui:validations', [validateCurrency], currencyUI('Amount you or your spouse paid in non-reimbursable medical expenses this past year.')),
+            deductibleMedicalExpenses: _.set(
+              'ui:validations',
+              [validateCurrency],
+              currencyUI(
+                'Amount you or your spouse paid in non-reimbursable medical expenses this past year.',
+              ),
+            ),
             'view:expensesIncomeWarning1': {
               'ui:description': expensesGreaterThanIncomeWarning,
               'ui:options': {
-                hideIf: expensesLessThanIncome('deductibleMedicalExpenses')
-              }
+                hideIf: expensesLessThanIncome('deductibleMedicalExpenses'),
+              },
             },
-            deductibleFuneralExpenses: _.set('ui:validations', [validateCurrency], currencyUI('Amount you paid in funeral or burial expenses for a deceased spouse or child this past year.')),
+            deductibleFuneralExpenses: _.set(
+              'ui:validations',
+              [validateCurrency],
+              currencyUI(
+                'Amount you paid in funeral or burial expenses for a deceased spouse or child this past year.',
+              ),
+            ),
             'view:expensesIncomeWarning2': {
               'ui:description': expensesGreaterThanIncomeWarning,
               'ui:options': {
-                hideIf: expensesLessThanIncome('deductibleFuneralExpenses')
-              }
+                hideIf: expensesLessThanIncome('deductibleFuneralExpenses'),
+              },
             },
-            deductibleEducationExpenses: currencyUI('Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.'),
+            deductibleEducationExpenses: currencyUI(
+              'Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.',
+            ),
             'view:expensesIncomeWarning3': {
               'ui:description': expensesGreaterThanIncomeWarning,
               'ui:options': {
-                hideIf: expensesLessThanIncome('deductibleEducationExpenses')
-              }
-            }
+                hideIf: expensesLessThanIncome('deductibleEducationExpenses'),
+              },
+            },
           },
           schema: {
             type: 'object',
-            required: ['deductibleMedicalExpenses', 'deductibleFuneralExpenses', 'deductibleEducationExpenses'],
+            required: [
+              'deductibleMedicalExpenses',
+              'deductibleFuneralExpenses',
+              'deductibleEducationExpenses',
+            ],
             properties: {
               deductibleMedicalExpenses,
               'view:expensesIncomeWarning1': emptyObjectSchema,
               deductibleFuneralExpenses,
               'view:expensesIncomeWarning2': emptyObjectSchema,
               deductibleEducationExpenses,
-              'view:expensesIncomeWarning3': emptyObjectSchema
-            }
-          }
-        }
-      }
+              'view:expensesIncomeWarning3': emptyObjectSchema,
+            },
+          },
+        },
+      },
     },
     insuranceInformation: {
       title: 'Insurance Information',
@@ -775,18 +865,22 @@ const formConfig = {
               'ui:widget': 'yesNo',
             },
             isEnrolledMedicarePartA: {
-              'ui:title': 'Are you enrolled in Medicare Part A (hospital insurance)?',
+              'ui:title':
+                'Are you enrolled in Medicare Part A (hospital insurance)?',
               'ui:description': medicarePartADescription,
               'ui:widget': 'yesNo',
             },
             medicarePartAEffectiveDate: _.merge(
-              currentOrPastDateUI('What is your Medicare Part A effective date?'), {
-                'ui:required': (formData) => formData.isEnrolledMedicarePartA,
+              currentOrPastDateUI(
+                'What is your Medicare Part A effective date?',
+              ),
+              {
+                'ui:required': formData => formData.isEnrolledMedicarePartA,
                 'ui:options': {
-                  expandUnder: 'isEnrolledMedicarePartA'
-                }
-              }
-            )
+                  expandUnder: 'isEnrolledMedicarePartA',
+                },
+              },
+            ),
           },
           schema: {
             type: 'object',
@@ -794,9 +888,9 @@ const formConfig = {
             properties: {
               isMedicaidEligible,
               isEnrolledMedicarePartA,
-              medicarePartAEffectiveDate
-            }
-          }
+              medicarePartAEffectiveDate,
+            },
+          },
         },
         general: {
           path: 'insurance-information/general',
@@ -804,41 +898,49 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Other coverage',
             isCoveredByHealthInsurance: {
-              'ui:title': 'Are you covered by health insurance? (Including coverage through a spouse or another person)',
-              'ui:widget': 'yesNo'
+              'ui:title':
+                'Are you covered by health insurance? (Including coverage through a spouse or another person)',
+              'ui:widget': 'yesNo',
             },
             providers: {
               'ui:options': {
                 itemName: 'Insurance Policy',
                 expandUnder: 'isCoveredByHealthInsurance',
-                viewField: InsuranceProviderView
+                viewField: InsuranceProviderView,
               },
               'ui:errorMessages': {
-                minItems: 'You need to at least one provider.'
+                minItems: 'You need to at least one provider.',
               },
               items: {
                 insuranceName: {
-                  'ui:title': 'Name of provider'
+                  'ui:title': 'Name of provider',
                 },
                 insurancePolicyHolderName: {
-                  'ui:title': 'Name of policyholder'
+                  'ui:title': 'Name of policyholder',
                 },
                 insurancePolicyNumber: {
-                  'ui:title': 'Policy number (either this or the group code is required)',
-                  'ui:required': (formData, index) => !_.get(`providers[${index}].insuranceGroupCode`, formData),
+                  'ui:title':
+                    'Policy number (either this or the group code is required)',
+                  'ui:required': (formData, index) =>
+                    !_.get(`providers[${index}].insuranceGroupCode`, formData),
                   'ui:errorMessages': {
-                    pattern: 'Please provide a valid policy number.'
-                  }
+                    pattern: 'Please provide a valid policy number.',
+                  },
                 },
                 insuranceGroupCode: {
-                  'ui:title': 'Group code (either this or policy number is required)',
-                  'ui:required': (formData, index) => !_.get(`providers[${index}].insurancePolicyNumber`, formData),
+                  'ui:title':
+                    'Group code (either this or policy number is required)',
+                  'ui:required': (formData, index) =>
+                    !_.get(
+                      `providers[${index}].insurancePolicyNumber`,
+                      formData,
+                    ),
                   'ui:errorMessages': {
-                    pattern: 'Please provide a valid group code.'
-                  }
-                }
-              }
-            }
+                    pattern: 'Please provide a valid group code.',
+                  },
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -853,58 +955,62 @@ const formConfig = {
                     'insuranceName',
                     'insurancePolicyHolderName',
                     'insurancePolicyNumber',
-                    'insuranceGroupCode'
-                  ]
-                })
-              }
-            }
-          }
+                    'insuranceGroupCode',
+                  ],
+                }),
+              },
+            },
+          },
         },
         vaFacility: {
           path: 'insurance-information/va-facility',
           title: 'VA Facility',
           initialData: {
-            isEssentialAcaCoverage: false
+            isEssentialAcaCoverage: false,
           },
           uiSchema: {
             'ui:title': 'VA Facility',
             isEssentialAcaCoverage: {
-              'ui:title': isEssentialAcaCoverageDescription
+              'ui:title': isEssentialAcaCoverageDescription,
             },
             'view:preferredFacility': {
               'ui:title': 'Select your preferred VA medical facility',
               'view:facilityState': {
                 'ui:title': 'State',
                 'ui:options': {
-                  labels: stateLabels
-                }
+                  labels: stateLabels,
+                },
               },
               vaMedicalFacility: {
                 'ui:title': 'Center or clinic',
                 'ui:options': {
                   labels: medicalCenterLabels,
-                  updateSchema: (form) => {
-                    const state = _.get('view:preferredFacility.view:facilityState', form);
+                  updateSchema: form => {
+                    const state = _.get(
+                      'view:preferredFacility.view:facilityState',
+                      form,
+                    );
                     if (state) {
                       return {
-                        'enum': medicalCentersByState[state] || emptyFacilityList
+                        enum: medicalCentersByState[state] || emptyFacilityList,
                       };
                     }
 
                     return {
-                      'enum': emptyFacilityList
+                      enum: emptyFacilityList,
                     };
-                  }
-                }
-              }
+                  },
+                },
+              },
             },
             'view:locator': {
-              'ui:description': facilityHelp
+              'ui:description': facilityHelp,
             },
             wantsInitialVaContact: {
-              'ui:title': 'Do you want VA to contact you to schedule your first appointment?',
-              'ui:widget': 'yesNo'
-            }
+              'ui:title':
+                'Do you want VA to contact you to schedule your first appointment?',
+              'ui:widget': 'yesNo',
+            },
           },
           schema: {
             type: 'object',
@@ -916,23 +1022,23 @@ const formConfig = {
                 properties: {
                   'view:facilityState': {
                     type: 'string',
-                    'enum': states.USA
-                      .map(state => state.value)
-                      .filter(state => !!medicalCentersByState[state])
+                    enum: states.USA.map(state => state.value).filter(
+                      state => !!medicalCentersByState[state],
+                    ),
                   },
                   vaMedicalFacility: _.assign(vaMedicalFacility, {
-                    'enum': emptyFacilityList
-                  })
-                }
+                    enum: emptyFacilityList,
+                  }),
+                },
               },
               'view:locator': emptyObjectSchema,
-              wantsInitialVaContact
-            }
-          }
-        }
-      }
-    }
-  }
+              wantsInitialVaContact,
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export default formConfig;

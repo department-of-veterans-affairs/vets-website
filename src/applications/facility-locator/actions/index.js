@@ -5,7 +5,7 @@ import { mapboxClient } from '../components/MapboxClient';
 export function updateSearchQuery(query) {
   return {
     type: 'SEARCH_QUERY_UPDATED',
-    payload: { ...query }
+    payload: { ...query },
   };
 }
 
@@ -13,7 +13,7 @@ export function updateLocation(propertyPath, value) {
   return {
     type: 'LOCATION_UPDATED',
     propertyPath,
-    value
+    value,
   };
 }
 
@@ -39,7 +39,7 @@ export function fetchVAFacility(id, facility = null) {
       .then(res => res.json())
       .then(
         data => dispatch({ type: 'FETCH_VA_FACILITY', payload: data.data }),
-        err => dispatch({ type: 'SEARCH_FAILED', err })
+        err => dispatch({ type: 'SEARCH_FAILED', err }),
       );
   };
 }
@@ -48,8 +48,10 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
   const params = compact([
     ...bounds.map(c => `bbox[]=${c}`),
     facilityType ? `type=${facilityType}` : null,
-    ['health', 'benefits'].includes(facilityType) && serviceType ? `services[]=${serviceType}` : null,
-    `page=${page}`
+    ['health', 'benefits'].includes(facilityType) && serviceType
+      ? `services[]=${serviceType}`
+      : null,
+    `page=${page}`,
   ]).join('&');
   const url = `${api.url}?${params}`;
 
@@ -68,7 +70,7 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
         data => {
           dispatch({ type: 'FETCH_VA_FACILITIES', payload: data });
         },
-        err => dispatch({ type: 'SEARCH_FAILED', err })
+        err => dispatch({ type: 'SEARCH_FAILED', err }),
       );
   };
 }
@@ -90,51 +92,57 @@ export function searchWithAddress(query) {
     if (query.searchString.match(/^\s*\d{5}\s*$/)) {
       types = 'postcode';
     }
-    mapboxClient.geocodeForward(query.searchString, {
-      country: 'us,pr,ph,gu,as,mp',
-      types,
-    }, (err, res) => {
-      if (!err && !isEmpty(res.features)) {
-        const coordinates = res.features[0].center;
-        const zipCode = (find(res.features[0].context, (v) => {
-          return v.id.includes('postcode');
-        }) || {}).text || res.features[0].place_name;
-        const featureBox = res.features[0].box;
+    mapboxClient.geocodeForward(
+      query.searchString,
+      {
+        country: 'us,pr,ph,gu,as,mp',
+        types,
+      },
+      (err, res) => {
+        if (!err && !isEmpty(res.features)) {
+          const coordinates = res.features[0].center;
+          const zipCode =
+            (
+              find(res.features[0].context, v => v.id.includes('postcode')) ||
+              {}
+            ).text || res.features[0].place_name;
+          const featureBox = res.features[0].box;
 
-        let minBounds = [
-          coordinates[0] - 0.75,
-          coordinates[1] - 0.75,
-          coordinates[0] + 0.75,
-          coordinates[1] + 0.75,
-        ];
-
-        if (featureBox) {
-          minBounds = [
-            Math.min(featureBox[0], coordinates[0] - 0.75),
-            Math.min(featureBox[1], coordinates[1] - 0.75),
-            Math.max(featureBox[2], coordinates[0] + 0.75),
-            Math.max(featureBox[3], coordinates[1] + 0.75),
+          let minBounds = [
+            coordinates[0] - 0.75,
+            coordinates[1] - 0.75,
+            coordinates[0] + 0.75,
+            coordinates[1] + 0.75,
           ];
-        }
-        return dispatch({
-          type: 'SEARCH_QUERY_UPDATED',
-          payload: {
-            ...query,
-            context: zipCode,
-            position: {
-              latitude: coordinates[1],
-              longitude: coordinates[0],
-            },
-            bounds: minBounds,
-            zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 9,
-          }
-        });
-      }
 
-      return dispatch({
-        type: 'SEARCH_FAILED',
-        err,
-      });
-    });
+          if (featureBox) {
+            minBounds = [
+              Math.min(featureBox[0], coordinates[0] - 0.75),
+              Math.min(featureBox[1], coordinates[1] - 0.75),
+              Math.max(featureBox[2], coordinates[0] + 0.75),
+              Math.max(featureBox[3], coordinates[1] + 0.75),
+            ];
+          }
+          return dispatch({
+            type: 'SEARCH_QUERY_UPDATED',
+            payload: {
+              ...query,
+              context: zipCode,
+              position: {
+                latitude: coordinates[1],
+                longitude: coordinates[0],
+              },
+              bounds: minBounds,
+              zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 9,
+            },
+          });
+        }
+
+        return dispatch({
+          type: 'SEARCH_FAILED',
+          err,
+        });
+      },
+    );
   };
 }

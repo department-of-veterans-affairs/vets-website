@@ -63,7 +63,7 @@ export const formBenefits = {
   '40-10007': 'pre-need determination of eligibility in a VA national cemetery',
   VIC: 'Veteran ID Card',
   'FEEDBACK-TOOL': 'feedback',
-  '21-686C': 'dependent status'
+  '21-686C': 'dependent status',
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
@@ -98,7 +98,7 @@ export const formLinks = {
   // Not active, will need a new url if we start using this post WBC
   VIC: '/veteran-id-card/apply/',
   'FEEDBACK-TOOL': `${feedbackManifest.rootUrl}/`,
-  '21-686C': `${dependentStatusManifest.rootUrl}/`
+  '21-686C': `${dependentStatusManifest.rootUrl}/`,
 };
 
 export const trackingPrefixes = {
@@ -116,7 +116,7 @@ export const trackingPrefixes = {
   '40-10007': 'preneed-',
   VIC: 'veteran-id-card-',
   'FEEDBACK-TOOL': 'gi_bill_feedback',
-  '21-686C': '686-'
+  '21-686C': '686-',
 };
 
 export const sipEnabledForms = new Set([
@@ -134,9 +134,8 @@ export const sipEnabledForms = new Set([
   '22-5495',
   '40-10007',
   'VIC',
-  'FEEDBACK-TOOL'
+  'FEEDBACK-TOOL',
 ]);
-
 
 export function isSIPEnabledForm(savedForm) {
   const formNumber = savedForm.form;
@@ -145,15 +144,16 @@ export function isSIPEnabledForm(savedForm) {
     return false;
   }
   if (!sipEnabledForms.has(formNumber)) {
-    throw new Error(`Could not find form ${trackingPrefixes[formNumber]} in list of sipEnabledForms`);
+    throw new Error(
+      `Could not find form ${
+        trackingPrefixes[formNumber]
+      } in list of sipEnabledForms`,
+    );
   }
   return true;
 }
 
-export const isFormAuthorizable = (formConfig) => {
-  return !!formConfig.authorize;
-};
+export const isFormAuthorizable = formConfig => !!formConfig.authorize;
 
-export const getFormAuthorizationState = (formConfig, state) => {
-  return formConfig.getAuthorizationState(state);
-};
+export const getFormAuthorizationState = (formConfig, state) =>
+  formConfig.getAuthorizationState(state);

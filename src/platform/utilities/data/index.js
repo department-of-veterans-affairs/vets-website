@@ -20,5 +20,5 @@ export default {
   get,
   omit,
   set,
-  unset
+  unset,
 };

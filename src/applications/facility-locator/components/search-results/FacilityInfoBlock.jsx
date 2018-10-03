@@ -34,9 +34,9 @@ class FacilityInfoBlock extends Component {
         <Link to={`facility/${facility.id}`}>
           <h5>{name}</h5>
         </Link>
-        <FacilityTypeDescription facility={facility}/>
+        <FacilityTypeDescription facility={facility} />
         <p>
-          <FacilityAddress facility={facility}/>
+          <FacilityAddress facility={facility} />
         </p>
         {this.renderDistance()}
       </div>

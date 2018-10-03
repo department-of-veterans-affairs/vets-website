@@ -4,4 +4,4 @@ import '../../platform/polyfills';
 import startApp from '../../platform/startup';
 import VerifyApp from './containers/VerifyApp';
 
-startApp({ component: <VerifyApp/> });
+startApp({ component: <VerifyApp /> });

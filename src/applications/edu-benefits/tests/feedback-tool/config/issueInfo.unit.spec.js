@@ -3,11 +3,18 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, selectCheckbox, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  selectCheckbox,
+  fillData,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../feedback-tool/config/form';
 
 describe('feedback tool issue info', () => {
-  const { schema, uiSchema } = formConfig.chapters.issueInformation.pages.issueInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.issueInformation.pages.issueInformation;
 
   it('should render', () => {
     const form = mount(
@@ -15,7 +22,8 @@ describe('feedback tool issue info', () => {
         schema={schema}
         data={{}}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(12);
@@ -28,7 +36,8 @@ describe('feedback tool issue info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -43,7 +52,8 @@ describe('feedback tool issue info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     selectCheckbox(form, 'root_issue_accreditation', true);
