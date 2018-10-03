@@ -2,12 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import pickBy from 'lodash/pickBy';
 
-import {
-  API_ROUTES,
-  FIELD_NAMES,
-  PHONE_TYPE,
-  USA
-} from '../../constants';
+import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from '../../constants';
 
 import { isValidPhone } from '../../../../../../platform/forms/validations';
 
@@ -17,7 +12,6 @@ import PhoneEditModal from './EditModal';
 import PhoneView from './View';
 
 export default class PhoneField extends React.Component {
-
   static propTypes = {
     title: PropTypes.string.isRequired,
     fieldName: PropTypes.oneOf([
@@ -25,18 +19,12 @@ export default class PhoneField extends React.Component {
       FIELD_NAMES.MOBILE_PHONE,
       FIELD_NAMES.TEMP_PHONE,
       FIELD_NAMES.WORK_PHONE,
-      FIELD_NAMES.FAX_NUMBER
-    ]).isRequired
+      FIELD_NAMES.FAX_NUMBER,
+    ]).isRequired,
   };
 
   convertNextValueToCleanData(value) {
-    const {
-      id,
-      countryCode,
-      extension,
-      phoneType,
-      inputPhoneNumber,
-    } = value;
+    const { id, countryCode, extension, phoneType, inputPhoneNumber } = value;
 
     const strippedPhone = (inputPhoneNumber || '').replace(/[^\d]/g, '');
     const strippedExtension = (extension || '').replace(/[^a-zA-Z0-9]/g, '');
@@ -55,20 +43,26 @@ export default class PhoneField extends React.Component {
 
   validateCleanData({ inputPhoneNumber }) {
     return {
-      inputPhoneNumber: inputPhoneNumber && isValidPhone(inputPhoneNumber) ? '' : 'Please enter a valid phone.'
+      inputPhoneNumber:
+        inputPhoneNumber && isValidPhone(inputPhoneNumber)
+          ? ''
+          : 'Please enter a valid phone.',
     };
   }
 
   convertCleanDataToPayload(cleanData, fieldName) {
-    return pickBy({
-      id: cleanData.id,
-      areaCode: cleanData.areaCode,
-      countryCode: USA.COUNTRY_CODE, // currently no international phone number support
-      extension: cleanData.extension,
-      phoneNumber: cleanData.phoneNumber,
-      isInternational: false, // currently no international phone number support
-      phoneType: PHONE_TYPE[fieldName],
-    }, e => !!e);
+    return pickBy(
+      {
+        id: cleanData.id,
+        areaCode: cleanData.areaCode,
+        countryCode: USA.COUNTRY_CODE, // currently no international phone number support
+        extension: cleanData.extension,
+        phoneNumber: cleanData.phoneNumber,
+        isInternational: false, // currently no international phone number support
+        phoneType: PHONE_TYPE[fieldName],
+      },
+      e => !!e,
+    );
   }
 
   render() {
@@ -81,7 +75,8 @@ export default class PhoneField extends React.Component {
         validateCleanData={this.validateCleanData}
         convertCleanDataToPayload={this.convertCleanDataToPayload}
         Content={PhoneView}
-        EditModal={PhoneEditModal}/>
+        EditModal={PhoneEditModal}
+      />
     );
   }
 }

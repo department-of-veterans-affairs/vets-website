@@ -6,7 +6,10 @@ import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
 describe('VA Medical Records', () => {
-  const { schema, uiSchema } = formConfig.chapters.supportingEvidence.pages.vaMedicalRecords;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.supportingEvidence.pages.vaMedicalRecords;
 
   it('should render ', () => {
     const form = mount(
@@ -18,15 +21,16 @@ describe('VA Medical Records', () => {
           ratedDisabilities: [
             {
               name: 'Post traumatic stress disorder',
-              'view:selected': true
+              'view:selected': true,
             },
             {
               name: 'Intervertebral disc syndrome',
-              'view:selected': true
-            }
+              'view:selected': true,
+            },
           ],
         }}
-        formData={{}}/>
+        formData={{}}
+      />,
     );
 
     expect(form.find('input').length).to.equal(6);
@@ -44,17 +48,18 @@ describe('VA Medical Records', () => {
           ratedDisabilities: [
             {
               name: 'Post traumatic stress disorder',
-              'view:selected': true
+              'view:selected': true,
             },
             {
               name: 'Intervertebral disc syndrome',
-              'view:selected': true
-            }
+              'view:selected': true,
+            },
           ],
-          vaTreatmentFacilities: []
+          vaTreatmentFacilities: [],
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -73,33 +78,34 @@ describe('VA Medical Records', () => {
           ratedDisabilities: [
             {
               name: 'Post traumatic stress disorder',
-              'view:selected': true
+              'view:selected': true,
             },
             {
               name: 'Intervertebral disc syndrome',
-              'view:selected': true
-            }
+              'view:selected': true,
+            },
           ],
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
               relatedDisabilities: {
-                'Diabetes Melitus': true
+                'Diabetes Melitus': true,
               },
               treatmentDateRange: {
                 from: '2010-04-05',
-                to: '2015-09-09'
+                to: '2015-09-09',
               },
               treatmentCenterAddress: {
                 country: 'USA',
                 city: 'Sommerset',
-                state: 'VA'
-              }
-            }
-          ]
+                state: 'VA',
+              },
+            },
+          ],
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -118,33 +124,34 @@ describe('VA Medical Records', () => {
           ratedDisabilities: [
             {
               name: 'Post traumatic stress disorder',
-              'view:selected': true
+              'view:selected': true,
             },
             {
               name: 'Intervertebral disc syndrome',
-              'view:selected': true
-            }
+              'view:selected': true,
+            },
           ],
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
               relatedDisabilities: {
-                'Diabetes Melitus': true
+                'Diabetes Melitus': true,
               },
               treatmentDateRange: {
                 from: '2010-04-05',
-                to: '2015-09-09'
+                to: '2015-09-09',
               },
               treatmentCenterAddress: {
                 country: 'USA',
                 city: 'Sommerset',
-                state: 'AA'
-              }
-            }
-          ]
+                state: 'AA',
+              },
+            },
+          ],
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -163,33 +170,34 @@ describe('VA Medical Records', () => {
           ratedDisabilities: [
             {
               name: 'Post traumatic stress disorder',
-              'view:selected': true
+              'view:selected': true,
             },
             {
               name: 'Intervertebral disc syndrome',
-              'view:selected': true
-            }
+              'view:selected': true,
+            },
           ],
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
               relatedDisabilities: {
-                'Diabetes Melitus': true
+                'Diabetes Melitus': true,
               },
               treatmentDateRange: {
                 from: '2010-04-05',
-                to: '2015-09-09'
+                to: '2015-09-09',
               },
               treatmentCenterAddress: {
                 country: 'USA',
                 city: 'APO',
-                state: 'VA'
-              }
-            }
-          ]
+                state: 'VA',
+              },
+            },
+          ],
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -208,32 +216,33 @@ describe('VA Medical Records', () => {
           ratedDisabilities: [
             {
               name: 'Post traumatic stress disorder',
-              'view:selected': true
+              'view:selected': true,
             },
             {
               name: 'Intervertebral disc syndrome',
-              'view:selected': true
-            }
+              'view:selected': true,
+            },
           ],
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
               relatedDisabilities: {
-                'Diabetes Melitus': true
+                'Diabetes Melitus': true,
               },
               treatmentDateRange: {
                 from: '2010-04-05',
-                to: '2015-09-09'
+                to: '2015-09-09',
               },
               treatmentCenterAddress: {
                 country: 'Ukraine',
-                city: 'Kiev'
-              }
-            }
-          ]
+                city: 'Kiev',
+              },
+            },
+          ],
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -252,32 +261,33 @@ describe('VA Medical Records', () => {
           ratedDisabilities: [
             {
               name: 'Post traumatic stress disorder',
-              'view:selected': true
+              'view:selected': true,
             },
             {
               name: 'Intervertebral disc syndrome',
-              'view:selected': true
-            }
+              'view:selected': true,
+            },
           ],
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
               relatedDisabilities: {
-                'Diabetes Melitus': true
+                'Diabetes Melitus': true,
               },
               treatmentDateRange: {
                 from: '2010-04-05',
-                to: '2015-09-09'
+                to: '2015-09-09',
               },
               treatmentCenterAddress: {
                 country: 'USA',
                 city: 'Sommerset',
-              }
-            }
-          ]
+              },
+            },
+          ],
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');

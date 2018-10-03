@@ -73,55 +73,12 @@
     </div>
     <!-- /background, white -->
 
-    <div class="usa-grid" id="homepage-popular">
-      <!-- check these against Trevor's accessibility rules -->
-      <div class="usa-width-one-third">
-
-        <button onclick="recordEvent({ event: 'nav-main-health' });" class="homepage-button primary-darker">
-          <a href="/facilities/">
-            <div class="icon-wrapper">
-              <i class="fa far fa-map-marker"></i>
-            </div>
-            <!-- div required for alignment -->
-            <div class="button-inner">
-              <p>Find a VA health facility, benefit office, or cemetery</p>
-            </div>
-          </a>
-        </button>
-      </div>
-
-      <div class="usa-width-one-third">
-        <button onclick="recordEvent({ event: 'nav-main-vcl' });" class="homepage-button secondary-dark va-overlay-trigger" data-show="#modal-crisisline">
-          <div class="icon-wrapper">
-            <span class="vcl"></span>
-          </div>
-          <div class="button-inner" id="vcl">
-            <p>Need to talk to someone right now? Call the Veterans Crisis Line</p>
-          </div>
-        </button>
-      </div>
-
-      <div class="usa-width-one-third" id="myva-login">
-        <button class="homepage-button primary-darker signin-signup-modal-trigger">
-          <a onclick="recordEvent({ event: 'nav-main-sign-in' });" href=#>
-            <div class="icon-wrapper">
-              <i class="fa fa-user-circle"></i>
-            </div>
-            <div class="button-inner">
-              <p>Sign in or create an account to use more tools and features</p>
-            </div>
-          </a>
-        </button>
-      </div>
-
-    </div>
-
   </section>
   <!-- /the hub -->
 
   <section id="content">
 
-    <section class="usa-grid" id="homepage-benefits">
+    <section id="homepage-benefits">
 
       <div class="usa-grid">
 
@@ -181,6 +138,43 @@
       </div>
 
     </section>
+    <section id="homepage-popular">
+      <div class="usa-grid">
+        <div class="usa-width-one-third">
+          <a href="/facilities" onclick="recordEvent({ event: 'nav-main-health' });" class="homepage-button">
+            <div class="icon-wrapper">
+              <i class="fa fa-map-marker homepage-button-icon"></i>
+            </div>
+            <!-- div required for alignment -->
+            <div class="button-inner">
+              <span>Find a VA health facility, benefit office, or cemetery</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="usa-width-one-third">
+          <button onclick="recordEvent({ event: 'nav-main-vcl' });" class="homepage-button vcl va-overlay-trigger" data-show="#modal-crisisline">
+            <div class="icon-wrapper vcl"></div>
+            <div class="button-inner">
+              <span>Talk to a Veterans Crisis Line responder now</span>
+            </div>
+          </button>
+        </div>
+
+        <div class="usa-width-one-third" id="myva-login">
+          <button onclick="recordEvent({ event: 'nav-main-sign-in' });" class="homepage-button signin-signup-modal-trigger">
+            <div class="icon-wrapper">
+              <i class="fa fa-user-circle-o homepage-button-icon"></i>
+            </div>
+            <div class="button-inner">
+              <span>Sign in or create an account to use more tools</span>
+            </div>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
     <!-- end triple column -->
 
   </div> <!-- end #content -->

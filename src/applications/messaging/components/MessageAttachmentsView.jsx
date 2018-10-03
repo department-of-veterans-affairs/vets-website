@@ -8,14 +8,15 @@ class MessageAttachmentsView extends React.Component {
     let attachments;
 
     if (this.props.attachments) {
-      attachments = this.props.attachments.map((attachment) => {
+      attachments = this.props.attachments.map(attachment => {
         const key = _.uniqueId('msg-attachment-item-');
 
         return (
           <MessageAttachmentsViewItem
             key={key}
             name={attachment.attributes.name}
-            url={attachment.links.download}/>
+            url={attachment.links.download}
+          />
         );
       });
     } else {
@@ -25,9 +26,7 @@ class MessageAttachmentsView extends React.Component {
     return (
       <div className="msg-attachments-received">
         <h5 className="msg-attachments-received-title">Attachments:</h5>
-        <ul className="msg-attachments-received-list">
-          {attachments}
-        </ul>
+        <ul className="msg-attachments-received-list">{attachments}</ul>
       </div>
     );
   }
@@ -35,7 +34,7 @@ class MessageAttachmentsView extends React.Component {
 
 // TODO: Correct this type as necessary
 MessageAttachmentsView.propTypes = {
-  attachments: PropTypes.array
+  attachments: PropTypes.array,
 };
 
 export default MessageAttachmentsView;

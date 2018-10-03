@@ -5,7 +5,6 @@ const fs = require('fs');
  * Helper functions for reading js/settings.js, a file containing app information generated during the Metalsmith build.
  */
 const parsedAppSettings = {
-
   /**
    * Stores a reference to the settings via the build arguments.
    * @param {object} buildOptions The build-options passed along throughout Metalsmith middleware.
@@ -45,7 +44,7 @@ const parsedAppSettings = {
     }
 
     return routes;
-  }
+  },
 };
 
 module.exports = parsedAppSettings;

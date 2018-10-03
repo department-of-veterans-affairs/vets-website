@@ -15,5 +15,5 @@ if (window.location.pathname.indexOf('healthcare/') >= 0) {
 startApp({
   url: rootUrl,
   reducer,
-  routes
+  routes,
 });

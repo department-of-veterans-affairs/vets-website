@@ -1,12 +1,21 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { DefinitionTester, selectRadio, fillDate, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  selectRadio,
+  fillDate,
+  fillData,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
 describe('New disabilities follow up info', () => {
-  const { schema, uiSchema, arrayPath } = formConfig.chapters.disabilities.pages.newDisabilityFollowUp;
+  const {
+    schema,
+    uiSchema,
+    arrayPath,
+  } = formConfig.chapters.disabilities.pages.newDisabilityFollowUp;
 
   it('should render', () => {
     const form = mount(
@@ -17,14 +26,19 @@ describe('New disabilities follow up info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          ratedDisabilities: [{
-            name: 'Test',
-          }],
-          newDisabilities: [{
-            condition: 'New condition'
-          }]
+          ratedDisabilities: [
+            {
+              name: 'Test',
+            },
+          ],
+          newDisabilities: [
+            {
+              condition: 'New condition',
+            },
+          ],
         }}
-        formData={{}}/>
+        formData={{}}
+      />,
     );
 
     expect(form.find('input').length).to.equal(4);
@@ -40,21 +54,31 @@ describe('New disabilities follow up info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          ratedDisabilities: [{
-            name: 'Test',
-          }],
-          newDisabilities: [{
-            condition: 'New condition'
-          }]
+          ratedDisabilities: [
+            {
+              name: 'Test',
+            },
+          ],
+          newDisabilities: [
+            {
+              condition: 'New condition',
+            },
+          ],
         }}
-        formData={{}}/>
+        formData={{}}
+      />,
     );
 
     selectRadio(form, 'root_cause', 'SECONDARY');
 
     expect(form.find('input').length).to.equal(4);
     expect(form.find('select').length).to.equal(3);
-    expect(form.find('select').first().find('option').length).to.equal(2);
+    expect(
+      form
+        .find('select')
+        .first()
+        .find('option').length,
+    ).to.equal(2);
   });
 
   it('should render primary description question', () => {
@@ -66,14 +90,19 @@ describe('New disabilities follow up info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          ratedDisabilities: [{
-            name: 'Test',
-          }],
-          newDisabilities: [{
-            condition: 'New condition'
-          }]
+          ratedDisabilities: [
+            {
+              name: 'Test',
+            },
+          ],
+          newDisabilities: [
+            {
+              condition: 'New condition',
+            },
+          ],
         }}
-        formData={{}}/>
+        formData={{}}
+      />,
     );
 
     selectRadio(form, 'root_cause', 'NEW');
@@ -92,12 +121,15 @@ describe('New disabilities follow up info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          newDisabilities: [{
-            condition: 'Test'
-          }]
+          newDisabilities: [
+            {
+              condition: 'Test',
+            },
+          ],
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     selectRadio(form, 'root_cause', 'NEW');

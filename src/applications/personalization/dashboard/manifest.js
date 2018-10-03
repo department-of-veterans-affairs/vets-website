@@ -7,5 +7,5 @@ module.exports = {
   },
   production: true,
   contentPage: 'my-va/index.md',
-  hideInvitation: true
+  hideInvitation: true,
 };

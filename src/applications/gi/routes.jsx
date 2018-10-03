@@ -7,8 +7,8 @@ const legacyRoutes = {
   path: 'institutions',
   childRoutes: [
     { path: 'search', component: SearchPage },
-    { path: 'profile', component: ProfilePage }
-  ]
+    { path: 'profile', component: ProfilePage },
+  ],
 };
 
 const routes = {
@@ -18,8 +18,8 @@ const routes = {
   childRoutes: [
     { path: 'search', component: SearchPage },
     { path: 'profile/:facilityCode', component: ProfilePage },
-    { ...legacyRoutes }
-  ]
+    { ...legacyRoutes },
+  ],
 };
 
 export default routes;

@@ -16,13 +16,18 @@ export function revealForm() {
 
 export function setFormValues(formValues) {
   const formErrors = {};
-  if (formValues.description !== undefined) formErrors.description = formValues.description.length > 0 ? '' : 'Please enter a description';
-  if (formValues.email !== undefined) formErrors.email = isValidEmail(formValues.email) ? '' : 'Please enter a valid email';
+  if (formValues.description !== undefined)
+    formErrors.description =
+      formValues.description.length > 0 ? '' : 'Please enter a description';
+  if (formValues.email !== undefined)
+    formErrors.email = isValidEmail(formValues.email)
+      ? ''
+      : 'Please enter a valid email';
 
   return {
     type: SET_FORM_VALUES,
     formValues,
-    formErrors
+    formErrors,
   };
 }
 
@@ -32,19 +37,21 @@ function errorMessage(status) {
       recordEvent({ event: 'feedback-failure-429' });
       return {
         title: 'We can’t receive your feedback right now',
-        description: 'We’re sorry. Something’s not working right on our end, and we can’t process your feedback message right now. Please try back in an hour.'
+        description:
+          'We’re sorry. Something’s not working right on our end, and we can’t process your feedback message right now. Please try back in an hour.',
       };
     default:
       recordEvent({ event: 'feedback-failure' });
       return {
         title: 'We’ve run into a problem',
-        description: 'We’re sorry. We couldn’t send your message. Please try again.'
+        description:
+          'We’re sorry. We couldn’t send your message. Please try again.',
       };
   }
 }
 
 export function sendFeedback(formValues) {
-  return (dispatch) => {
+  return dispatch => {
     const { description, shouldSendResponse, email: ownerEmail } = formValues;
     const targetPage = window.location.pathname;
     const body = { description, targetPage };
@@ -53,7 +60,7 @@ export function sendFeedback(formValues) {
     const settings = {
       headers: { 'Content-Type': 'application/json', Authorization: '' },
       method: 'post',
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     };
 
     dispatch({ type: SEND_FEEDBACK });
@@ -66,7 +73,8 @@ export function sendFeedback(formValues) {
         recordEvent({ event: 'feedback-success' });
         dispatch({ type: FEEDBACK_RECEIVED });
       },
-      (error) => dispatch({ type: FEEDBACK_ERROR, message: errorMessage(error.status) })
+      error =>
+        dispatch({ type: FEEDBACK_ERROR, message: errorMessage(error.status) }),
     );
   };
 }

@@ -8,7 +8,10 @@ import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 import TextWidget from 'us-forms-system/lib/js/widgets/TextWidget';
 import ServicePeriodView from '../components/ServicePeriodView';
 import { serviceLabels } from './labels';
-import { stringifyFormReplacer, filterViewFields } from 'us-forms-system/lib/js/helpers';
+import {
+  stringifyFormReplacer,
+  filterViewFields,
+} from 'us-forms-system/lib/js/helpers';
 import environment from '../../../platform/utilities/environment';
 import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
 
@@ -16,8 +19,14 @@ export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
 export const contactInfoDescription = (
   <div className="usa-alert usa-alert-info no-background-image">
-    <p>We may contact you by phone if we need more information about your application.</p>
-    <p>You can also provide your email address to receive updates about new openings in VA national cemeteries or other burial benefits.</p>
+    <p>
+      We may contact you by phone if we need more information about your
+      application.
+    </p>
+    <p>
+      You can also provide your email address to receive updates about new
+      openings in VA national cemeteries or other burial benefits.
+    </p>
   </div>
 );
 
@@ -25,37 +34,71 @@ export const authorizedAgentDescription = (
   <div className="usa-alert usa-alert-info no-background-image">
     <p>A preparer may sign for an individual who’s:</p>
     <ul>
-      <li>Under 18 years of age, <strong>or</strong></li>
-      <li>Is mentally incompetent, <strong>or</strong></li>
+      <li>
+        Under 18 years of age, <strong>or</strong>
+      </li>
+      <li>
+        Is mentally incompetent, <strong>or</strong>
+      </li>
       <li>Is physically unable to sign the application</li>
     </ul>
-    <p>If you’re the preparer of this application, please provide your contact information.</p>
+    <p>
+      If you’re the preparer of this application, please provide your contact
+      information.
+    </p>
   </div>
 );
 
 export const veteranRelationshipDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">You’re applying as the <strong>Servicemember or Veteran</strong>. You’re applying as the Servicemember or Veteran. We’ll use your military status and history to decide if you qualify for burial in a VA national cemetery.</div>
+  <div className="usa-alert usa-alert-info no-background-image">
+    You’re applying as the <strong>Servicemember or Veteran</strong>. You’re
+    applying as the Servicemember or Veteran. We’ll use your military status and
+    history to decide if you qualify for burial in a VA national cemetery.
+  </div>
 );
 
 export const spouseRelationshipDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">You’re applying as the <strong>legally married spouse or surviving spouse</strong> of the Servicemember or Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for your sponsor’s information.</div>
+  <div className="usa-alert usa-alert-info no-background-image">
+    You’re applying as the{' '}
+    <strong>legally married spouse or surviving spouse</strong> of the
+    Servicemember or Veteran who’s sponsoring this application. First, we’ll ask
+    for your information as the applicant. Then, we’ll ask for your sponsor’s
+    information.
+  </div>
 );
 
 export const childRelationshipDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">You’re applying as the <strong>unmarried adult child</strong> of the Servicemember or Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for your sponsor’s information. You’ll also need to provide supporting documents with information about your disability.</div>
+  <div className="usa-alert usa-alert-info no-background-image">
+    You’re applying as the <strong>unmarried adult child</strong> of the
+    Servicemember or Veteran who’s sponsoring this application. First, we’ll ask
+    for your information as the applicant. Then, we’ll ask for your sponsor’s
+    information. You’ll also need to provide supporting documents with
+    information about your disability.
+  </div>
 );
 
 export const otherRelationshipDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">You’re applying on <strong>behalf</strong> of the Servicemember or Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for the Servicemember's or Veteran's information as the sponsor.</div>
+  <div className="usa-alert usa-alert-info no-background-image">
+    You’re applying on <strong>behalf</strong> of the Servicemember or Veteran
+    who’s sponsoring this application. First, we’ll ask for your information as
+    the applicant. Then, we’ll ask for the Servicemember's or Veteran's
+    information as the sponsor.
+  </div>
 );
 
 export const sponsorMilitaryStatusDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">If you’re not sure what your sponsor’s status is—or if it isn’t listed here—don’t worry. You can upload supporting documents showing your sponsor’s service history later in this application.</div>
+  <div className="usa-alert usa-alert-info no-background-image">
+    If you’re not sure what your sponsor’s status is—or if it isn’t listed
+    here—don’t worry. You can upload supporting documents showing your sponsor’s
+    service history later in this application.
+  </div>
 );
 
 export const desiredCemeteryNoteDescription = (
   <div className="usa-alert usa-alert-info no-background-image">
-    <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in your preferred cemetery. We’ll try to fulfill your wishes, but will assign a gravesite in a cemetery with available space at the time of need.
+    <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in
+    your preferred cemetery. We’ll try to fulfill your wishes, but will assign a
+    gravesite in a cemetery with available space at the time of need.
   </div>
 );
 
@@ -72,7 +115,10 @@ export function isUnmarriedChild(item) {
 }
 
 export function isAuthorizedAgent(item) {
-  return get('application.applicant.applicantRelationshipToClaimant', item) === 'Authorized Agent/Rep';
+  return (
+    get('application.applicant.applicantRelationshipToClaimant', item) ===
+    'Authorized Agent/Rep'
+  );
 }
 
 export function requiresSponsorInfo(item) {
@@ -82,61 +128,65 @@ export function requiresSponsorInfo(item) {
 
 export function formatName(name) {
   const { first, middle, last, suffix } = name;
-  return (first || last) && `${first} ${middle ? `${middle} ` : ''}${last}${suffix ? `, ${suffix}` : ''}`;
+  return (
+    (first || last) &&
+    `${first} ${middle ? `${middle} ` : ''}${last}${
+      suffix ? `, ${suffix}` : ''
+    }`
+  );
 }
 
 export function claimantHeader({ formData }) {
   const name = formatName(formData.claimant.name);
-  return (
-    <h4 className="highlight">{name}</h4>
-  );
+  return <h4 className="highlight">{name}</h4>;
 }
 
 export function transform(formConfig, form) {
   // Copy over sponsor data if the claimant is the veteran.
-  const populateSponsorData = (application) => {
-    return isVeteran({ application }) ?
-      merge(application, {
-        veteran: {
-          address: application.claimant.address,
-          currentName: application.claimant.name,
-          dateOfBirth: application.claimant.dateOfBirth,
-          ssn: application.claimant.ssn,
-          isDeceased: 'no',
-          serviceName: application.veteran.serviceName || application.claimant.name
-        }
-      }) : application;
-  };
+  const populateSponsorData = application =>
+    isVeteran({ application })
+      ? merge(application, {
+          veteran: {
+            address: application.claimant.address,
+            currentName: application.claimant.name,
+            dateOfBirth: application.claimant.dateOfBirth,
+            ssn: application.claimant.ssn,
+            isDeceased: 'no',
+            serviceName:
+              application.veteran.serviceName || application.claimant.name,
+          },
+        })
+      : application;
 
   // Copy over preparer data if the claimant is the applicant.
-  const populatePreparerData = (application) => {
-    return !isAuthorizedAgent({ application }) ?
-      merge(application, {
-        applicant: {
-          mailingAddress: application.claimant.address,
-          name: application.claimant.name
-        }
-      }) : application;
-  };
+  const populatePreparerData = application =>
+    !isAuthorizedAgent({ application })
+      ? merge(application, {
+          applicant: {
+            mailingAddress: application.claimant.address,
+            name: application.claimant.name,
+          },
+        })
+      : application;
 
   // Copy over veteran data if a sponsor is filling out the form
-  const populateVeteranData = (application) => {
-    return merge(application, {
+  const populateVeteranData = application =>
+    merge(application, {
       veteran: {
-        serviceName: application.veteran.serviceName || application.veteran.currentName
+        serviceName:
+          application.veteran.serviceName || application.veteran.currentName,
       },
       applicant: {
         applicantEmail: application.claimant.email,
-        applicantPhoneNumber: application.claimant.phoneNumber
-      }
+        applicantPhoneNumber: application.claimant.phoneNumber,
+      },
     });
-  };
 
   const application = [
     populateSponsorData,
     populatePreparerData,
     populateVeteranData,
-    filterViewFields
+    filterViewFields,
   ].reduce((result, func) => func(result), form.data.application);
 
   // const formCopy = set('application', application, Object.assign({}, form));
@@ -201,17 +251,33 @@ export class GetFormHelp extends React.Component {
   render() {
     return (
       <div>
-        <p className="help-talk">For other benefit-related questions, please call VA Benefits and Services:</p>
+        <p className="help-talk">
+          For other benefit-related questions, please call VA Benefits and
+          Services:
+        </p>
         <p className="help-phone-number">
-          <a className="help-phone-number-link" href="tel:+1-800-827-1000">1-800-827-1000</a><br/>
-          Monday - Friday, 8:00 a.m. - 9:00 p.m. (ET)<br/>
-          For Telecommunications Relay Service (TRS): dial <a className="help-phone-number-link" href="tel:711">711</a>
+          <a className="help-phone-number-link" href="tel:+1-800-827-1000">
+            1-800-827-1000
+          </a>
+          <br />
+          Monday - Friday, 8:00 a.m. - 9:00 p.m. (ET)
+          <br />
+          For Telecommunications Relay Service (TRS): dial{' '}
+          <a className="help-phone-number-link" href="tel:711">
+            711
+          </a>
         </p>
 
-        <p className="help-talk">For questions about eligibility for burial in a VA national cemetery, please call the National Cemetery Scheduling Office:</p>
+        <p className="help-talk">
+          For questions about eligibility for burial in a VA national cemetery,
+          please call the National Cemetery Scheduling Office:
+        </p>
         <p className="help-phone-number">
-          <a className="help-phone-number-link" href="tel:+1-800-535-1117">1-800-535-1117</a><br/>
-          7 days a week, 8:00 a.m. - 7:30 p.m. (ET)<br/>
+          <a className="help-phone-number-link" href="tel:+1-800-535-1117">
+            1-800-535-1117
+          </a>
+          <br />7 days a week, 8:00 a.m. - 7:30 p.m. (ET)
+          <br />
           Select option 3 to speak to someone in Eligibility
         </p>
       </div>
@@ -225,23 +291,28 @@ class SSNWidget extends React.Component {
     this.state = { val: props.value };
   }
 
-  handleChange = (val) => {
+  handleChange = val => {
     // Insert dashes if they are missing.
     // Keep if value is valid and formatted with dashes.
     // Set empty value to undefined.
-    const formattedSSN = (
-      (val && /^\d{9}$/.test(val)) ?
-        `${val.substr(0, 3)}-${val.substr(3, 2)}-${val.substr(5)}` :
-        val
-    ) || undefined;
+    const formattedSSN =
+      (val && /^\d{9}$/.test(val)
+        ? `${val.substr(0, 3)}-${val.substr(3, 2)}-${val.substr(5)}`
+        : val) || undefined;
 
     this.setState({ val }, () => {
       this.props.onChange(formattedSSN);
     });
-  }
+  };
 
   render() {
-    return <TextWidget {...this.props} value={this.state.val} onChange={this.handleChange}/>;
+    return (
+      <TextWidget
+        {...this.props}
+        value={this.state.val}
+        onChange={this.handleChange}
+      />
+    );
   }
 }
 
@@ -250,20 +321,21 @@ export const ssnDashesUI = merge(ssnUI, { 'ui:widget': SSNWidget });
 
 export const veteranUI = {
   militaryServiceNumber: {
-    'ui:title': 'Military Service number (if you have one that’s different than your Social Security number)'
+    'ui:title':
+      'Military Service number (if you have one that’s different than your Social Security number)',
   },
   vaClaimNumber: {
     'ui:title': 'VA claim number (if known)',
     'ui:errorMessages': {
-      pattern: 'Your VA claim number must be between 7 to 9 digits'
-    }
+      pattern: 'Your VA claim number must be between 7 to 9 digits',
+    },
   },
   placeOfBirth: {
-    'ui:title': 'Place of birth'
+    'ui:title': 'Place of birth',
   },
   gender: {
     'ui:title': 'Gender',
-    'ui:widget': 'radio'
+    'ui:widget': 'radio',
   },
   maritalStatus: {
     'ui:title': 'Marital status',
@@ -274,12 +346,13 @@ export const veteranUI = {
         separated: 'Separated',
         married: 'Married',
         divorced: 'Divorced',
-        widowed: 'Widowed'
-      }
-    }
+        widowed: 'Widowed',
+      },
+    },
   },
   militaryStatus: {
-    'ui:title': 'Current military status (You can add more service history information later in this application.)',
+    'ui:title':
+      'Current military status (You can add more service history information later in this application.)',
     'ui:options': {
       labels: {
         A: 'Active Duty',
@@ -290,30 +363,31 @@ export const veteranUI = {
         E: 'Retired Active Duty',
         O: 'Retired Reserve/National Guard',
         V: 'Veteran',
-        X: 'Other'
-      }
-    }
-  }
+        X: 'Other',
+      },
+    },
+  },
 };
 
 export const serviceRecordsUI = {
   'ui:title': 'Service periods',
-  'ui:description': 'Please provide all your service periods. If you need to add another service period, please click the Add Another Service Period button.',
+  'ui:description':
+    'Please provide all your service periods. If you need to add another service period, please click the Add Another Service Period button.',
   'ui:options': {
     viewField: ServicePeriodView,
-    itemName: 'Service Period'
+    itemName: 'Service Period',
   },
   items: {
     'ui:order': ['serviceBranch', '*'],
     serviceBranch: autosuggest.uiSchema('Branch of service', null, {
       'ui:options': {
-        labels: serviceLabels
-      }
+        labels: serviceLabels,
+      },
     }),
     dateRange: dateRangeUI(
       'Service start date',
       'Service end date',
-      'Service start date must be after end date'
+      'Service start date must be after end date',
     ),
     dischargeType: {
       'ui:title': 'Discharge character of service',
@@ -325,20 +399,23 @@ export const serviceRecordsUI = {
           4: 'Other Than Honorable',
           5: 'Bad Conduct',
           6: 'Dishonorable',
-          7: 'Other'
-        }
-      }
+          7: 'Other',
+        },
+      },
     },
     highestRank: {
-      'ui:title': 'Highest rank attained'
+      'ui:title': 'Highest rank attained',
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
       'ui:options': {
-        hideIf: (formData, index) => !(['AG', 'NG'].includes(formData.application.veteran.serviceRecords[index].serviceBranch))
-      }
-    }
-  }
+        hideIf: (formData, index) =>
+          !['AG', 'NG'].includes(
+            formData.application.veteran.serviceRecords[index].serviceBranch,
+          ),
+      },
+    },
+  },
 };
 
 export const militaryNameUI = {
@@ -346,43 +423,46 @@ export const militaryNameUI = {
     veteran: {
       'view:hasServiceName': {
         'ui:title': 'Did you serve under another name?',
-        'ui:widget': 'yesNo'
+        'ui:widget': 'yesNo',
       },
       serviceName: merge(nonRequiredFullNameUI, {
         'ui:options': {
-          expandUnder: 'view:hasServiceName'
+          expandUnder: 'view:hasServiceName',
         },
-      })
-    }
-  }
+      }),
+    },
+  },
 };
 
 export function getCemeteries() {
   return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {
     headers: {
-      'X-Key-Inflection': 'camel'
+      'X-Key-Inflection': 'camel',
     },
-  }).then((res) => {
-    if (!res.ok) {
-      return Promise.reject(res);
-    }
+  })
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(res);
+      }
 
-    return res.json();
-  }).then(res => {
-    const options = res.data.map(item => ({
-      label: item.attributes.name,
-      id: item.id
-    }));
+      return res.json();
+    })
+    .then(res => {
+      const options = res.data.map(item => ({
+        label: item.attributes.name,
+        id: item.id,
+      }));
 
-    return options;
-  }).catch(res => {
-    if (res instanceof Error) {
-      Raven.captureException(res);
-      Raven.captureMessage('vets_preneed_cemeteries_error');
-    }
+      return options;
+    })
+    .catch(res => {
+      if (res instanceof Error) {
+        Raven.captureException(res);
+        Raven.captureMessage('vets_preneed_cemeteries_error');
+      }
 
-    // May change this to a reject later, depending on how we want
-    // to surface errors in autosuggest field
-    return Promise.resolve([]);
-  });
+      // May change this to a reject later, depending on how we want
+      // to surface errors in autosuggest field
+      return Promise.resolve([]);
+    });
 }

@@ -10,7 +10,7 @@ import isPersonalizationEnabled from '../../../../applications/personalization/d
 
 class SignInProfileMenu extends React.Component {
   render() {
-    const icon = <IconUser color="#fff" role="presentation"/>;
+    const icon = <IconUser color="#fff" role="presentation" />;
 
     return (
       <DropDownPanel
@@ -19,8 +19,13 @@ class SignInProfileMenu extends React.Component {
         id="account-menu"
         icon={icon}
         isOpen={this.props.isOpen}
-        disabled={this.props.disabled}>
-        {isPersonalizationEnabled() ? <PersonalizationDropdown/> : <LegacyDropdown/>}
+        disabled={this.props.disabled}
+      >
+        {isPersonalizationEnabled() ? (
+          <PersonalizationDropdown />
+        ) : (
+          <LegacyDropdown />
+        )}
       </DropDownPanel>
     );
   }
@@ -31,11 +36,11 @@ SignInProfileMenu.propTypes = {
   cssClass: PropTypes.string,
   greeting: PropTypes.node,
   isOpen: PropTypes.bool.isRequired,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
 SignInProfileMenu.defaultProps = {
-  services: []
+  services: [],
 };
 
 export default SignInProfileMenu;

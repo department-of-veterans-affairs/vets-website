@@ -13,12 +13,13 @@ describe('<KeywordSearch>', () => {
         location={{ query: 'test' }}
         autocomplete={{
           searchTerm: 'hello',
-          suggestions: [{ a: 1 }, { b: 2 }]
+          suggestions: [{ a: 1 }, { b: 2 }],
         }}
         onClearAutocompleteSuggestions={() => {}}
         onFetchAutocompleteSuggestions={() => {}}
         onFilterChange={() => {}}
-        onUpdateAutocompleteSearchTerm={() => {}}/>
+        onUpdateAutocompleteSearchTerm={() => {}}
+      />,
     );
 
     const input = tree.find('input');
@@ -33,13 +34,14 @@ describe('<KeywordSearch>', () => {
         location={{ query: 'test' }}
         autocomplete={{
           searchTerm: '',
-          suggestions: [{ label: 'item1' }, { label: 'item2' }]
+          suggestions: [{ label: 'item1' }, { label: 'item2' }],
         }}
         onChange={onChange}
         onClearAutocompleteSuggestions={() => {}}
         onFetchAutocompleteSuggestions={() => {}}
         onFilterChange={() => {}}
-        onUpdateAutocompleteSearchTerm={() => {}}/>
+        onUpdateAutocompleteSearchTerm={() => {}}
+      />,
     );
 
     const input = tree.find('input');
@@ -60,13 +62,14 @@ describe('<KeywordSearch>', () => {
         location={{ query: 'test' }}
         autocomplete={{
           searchTerm: '',
-          suggestions: [{ label: 'item1' }, { label: 'item2' }]
+          suggestions: [{ label: 'item1' }, { label: 'item2' }],
         }}
         onChange={onChange}
         onClearAutocompleteSuggestions={() => {}}
         onFetchAutocompleteSuggestions={() => {}}
         onFilterChange={onFilterChange}
-        onUpdateAutocompleteSearchTerm={() => {}}/>
+        onUpdateAutocompleteSearchTerm={() => {}}
+      />,
     );
 
     const input = tree.find('input');
