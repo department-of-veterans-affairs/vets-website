@@ -69,6 +69,11 @@ import {
 } from './evidenceTypes';
 
 import {
+  uiSchema as summaryOfEvidenceUISchema,
+  schema as summaryOfEvidenceSchema,
+} from './summaryOfEvidence';
+
+import {
   uiSchema as contactInformationUISchema,
   schema as contactInformationSchema,
 } from './contactInformation';
@@ -156,6 +161,11 @@ export const privateMedicalRecords = {
 export const evidenceTypes = {
   uiSchema: evidenceTypesUISchema,
   schema: evidenceTypesSchema,
+};
+
+export const summaryOfEvidence = {
+  uiSchema: summaryOfEvidenceUISchema,
+  schema: summaryOfEvidenceSchema,
 };
 
 export const contactInformation = {

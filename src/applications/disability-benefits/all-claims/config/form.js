@@ -35,6 +35,7 @@ import {
   evidenceTypes,
   claimExamsInfo,
   homelessOrAtRisk,
+  summaryOfEvidence,
 } from '../pages';
 
 import fullSchema from './schema';
@@ -215,6 +216,12 @@ const formConfig = {
           depends: hasPrivateEvidence,
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
+        },
+        summaryOfEvidence: {
+          title: 'Summary of evidence',
+          path: 'supporting-evidence/summary',
+          uiSchema: summaryOfEvidence.uiSchema,
+          schema: summaryOfEvidence.schema
         },
         howClaimsWork: {
           title: 'How claim exams work',
