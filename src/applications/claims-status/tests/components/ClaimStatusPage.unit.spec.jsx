@@ -17,16 +17,13 @@ describe('<ClaimStatusPage>', () => {
         eventsTimeline: [
           {
             type: 'still_need_from_you_list',
-            status: 'NEEDED'
-          }
-        ]
-      }
+            status: 'NEEDED',
+          },
+        ],
+      },
     };
 
-    const tree = SkinDeep.shallowRender(
-      <ClaimStatusPage
-        claim={claim}/>
-    );
+    const tree = SkinDeep.shallowRender(<ClaimStatusPage claim={claim} />);
     expect(tree.subTree('NeedFilesFromYou')).to.be.false;
     expect(tree.subTree('ClaimsDecision')).to.be.false;
     expect(tree.subTree('ClaimsTimeline')).not.to.be.false;
@@ -42,16 +39,13 @@ describe('<ClaimStatusPage>', () => {
         eventsTimeline: [
           {
             type: 'still_need_from_you_list',
-            status: 'NEEDED'
-          }
-        ]
-      }
+            status: 'NEEDED',
+          },
+        ],
+      },
     };
 
-    const tree = SkinDeep.shallowRender(
-      <ClaimStatusPage
-        claim={claim}/>
-    );
+    const tree = SkinDeep.shallowRender(<ClaimStatusPage claim={claim} />);
     expect(tree.subTree('ClaimsDecision')).to.be.false;
     expect(tree.subTree('ClaimComplete')).not.to.be.false;
     expect(tree.subTree('ClaimsTimeline')).to.be.false;
@@ -67,16 +61,13 @@ describe('<ClaimStatusPage>', () => {
         eventsTimeline: [
           {
             type: 'still_need_from_you_list',
-            status: 'NEEDED'
-          }
-        ]
-      }
+            status: 'NEEDED',
+          },
+        ],
+      },
     };
 
-    const tree = SkinDeep.shallowRender(
-      <ClaimStatusPage
-        claim={claim}/>
-    );
+    const tree = SkinDeep.shallowRender(<ClaimStatusPage claim={claim} />);
     expect(tree.subTree('ClaimsDecision')).not.to.be.false;
     expect(tree.subTree('ClaimComplete')).to.be.false;
     expect(tree.subTree('ClaimsTimeline')).to.be.false;
@@ -92,16 +83,13 @@ describe('<ClaimStatusPage>', () => {
         eventsTimeline: [
           {
             type: 'still_need_from_you_list',
-            status: 'NEEDED'
-          }
-        ]
-      }
+            status: 'NEEDED',
+          },
+        ],
+      },
     };
 
-    const tree = SkinDeep.shallowRender(
-      <ClaimStatusPage
-        claim={claim}/>
-    );
+    const tree = SkinDeep.shallowRender(<ClaimStatusPage claim={claim} />);
     expect(tree.subTree('NeedFilesFromYou')).not.to.be.false;
   });
   it('should not render need files from you when closed', () => {
@@ -115,16 +103,13 @@ describe('<ClaimStatusPage>', () => {
         eventsTimeline: [
           {
             type: 'still_need_from_you_list',
-            status: 'NEEDED'
-          }
-        ]
-      }
+            status: 'NEEDED',
+          },
+        ],
+      },
     };
 
-    const tree = SkinDeep.shallowRender(
-      <ClaimStatusPage
-        claim={claim}/>
-    );
+    const tree = SkinDeep.shallowRender(<ClaimStatusPage claim={claim} />);
     expect(tree.subTree('NeedFilesFromYou')).to.be.false;
   });
   it('should not render files needed from you when decision letter sent', () => {
@@ -138,16 +123,13 @@ describe('<ClaimStatusPage>', () => {
         eventsTimeline: [
           {
             type: 'still_need_from_you_list',
-            status: 'NEEDED'
-          }
-        ]
-      }
+            status: 'NEEDED',
+          },
+        ],
+      },
     };
 
-    const tree = SkinDeep.shallowRender(
-      <ClaimStatusPage
-        claim={claim}/>
-    );
+    const tree = SkinDeep.shallowRender(<ClaimStatusPage claim={claim} />);
     expect(tree.subTree('NeedFilesFromYou')).to.be.false;
   });
   it('should render claims decision alert', () => {
@@ -160,16 +142,13 @@ describe('<ClaimStatusPage>', () => {
         eventsTimeline: [
           {
             type: 'still_need_from_you_list',
-            status: 'NEEDED'
-          }
-        ]
-      }
+            status: 'NEEDED',
+          },
+        ],
+      },
     };
 
-    const tree = SkinDeep.shallowRender(
-      <ClaimStatusPage
-        claim={claim}/>
-    );
+    const tree = SkinDeep.shallowRender(<ClaimStatusPage claim={claim} />);
     expect(tree.everySubTree('ClaimsDecision')).not.to.be.empty;
   });
   it('should not render timeline without a phase', () => {
@@ -182,26 +161,20 @@ describe('<ClaimStatusPage>', () => {
         eventsTimeline: [
           {
             type: 'still_need_from_you_list',
-            status: 'NEEDED'
-          }
-        ]
-      }
+            status: 'NEEDED',
+          },
+        ],
+      },
     };
 
-    const tree = SkinDeep.shallowRender(
-      <ClaimStatusPage
-        claim={claim}/>
-    );
+    const tree = SkinDeep.shallowRender(<ClaimStatusPage claim={claim} />);
     expect(tree.everySubTree('ClaimsTimeline')).to.be.empty;
   });
   it('should render empty content when loading', () => {
-    const claim = {
-    };
+    const claim = {};
 
     const tree = SkinDeep.shallowRender(
-      <ClaimStatusPage
-        loading
-        claim={claim}/>
+      <ClaimStatusPage loading claim={claim} />,
     );
     expect(tree.props.children).to.be.null;
   });
@@ -212,27 +185,29 @@ describe('<ClaimStatusPage>', () => {
       <ClaimStatusPage
         loading
         message={{ title: 'Test', body: 'Body' }}
-        claim={claim}/>
+        claim={claim}
+      />,
     );
     expect(tree.props.message).not.to.be.null;
   });
   it('should clear alert', () => {
     const claim = {
       attributes: {
-        eventsTimeline: []
-      }
+        eventsTimeline: [],
+      },
     };
     const clearNotification = sinon.spy();
     const message = {
       title: 'Test',
-      body: 'Test'
+      body: 'Test',
     };
 
     const tree = SkinDeep.shallowRender(
       <ClaimStatusPage
         clearNotification={clearNotification}
         message={message}
-        claim={claim}/>
+        claim={claim}
+      />,
     );
     expect(clearNotification.called).to.be.false;
     tree.subTree('ClaimDetailLayout').props.clearNotification();
@@ -241,20 +216,21 @@ describe('<ClaimStatusPage>', () => {
   it('should clear notification when leaving', () => {
     const claim = {
       attributes: {
-        eventsTimeline: []
-      }
+        eventsTimeline: [],
+      },
     };
     const clearNotification = sinon.spy();
     const message = {
       title: 'Test',
-      body: 'Test'
+      body: 'Test',
     };
 
     const tree = SkinDeep.shallowRender(
       <ClaimStatusPage
         clearNotification={clearNotification}
         message={message}
-        claim={claim}/>
+        claim={claim}
+      />,
     );
     expect(clearNotification.called).to.be.false;
     tree.getMountedInstance().componentWillUnmount();

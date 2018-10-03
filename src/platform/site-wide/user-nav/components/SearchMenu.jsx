@@ -6,15 +6,16 @@ import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 
-
 class SearchMenu extends React.Component {
   constructor(props) {
     super(props);
     this.makeForm = this.makeForm.bind(this);
     this.toggleSearchForm = this.toggleSearchForm.bind(this);
     this.state = {
-      searchAction: isBrandConsolidationEnabled() ? 'https://search.usa.gov/search' : 'https://search.vets.gov/search',
-      searchAffiliate: isBrandConsolidationEnabled() ? 'va' : 'vets.gov_search'
+      searchAction: isBrandConsolidationEnabled()
+        ? 'https://search.usa.gov/search'
+        : 'https://search.vets.gov/search',
+      searchAffiliate: isBrandConsolidationEnabled() ? 'va' : 'vets.gov_search',
     };
   }
 
@@ -32,31 +33,47 @@ class SearchMenu extends React.Component {
         acceptCharset="UTF-8"
         action={this.state.searchAction}
         id="search"
-        method="get">
+        method="get"
+      >
         <div className="csp-inline-patch-header">
-          <input name="utf8" type="hidden" value="&#x2713;"/>
+          <input name="utf8" type="hidden" value="&#x2713;" />
         </div>
-        <input id="affiliate" name="affiliate" type="hidden" value={this.state.searchAffiliate}/>
-        <label htmlFor="query" className="usa-sr-only">Search:</label>
+        <input
+          id="affiliate"
+          name="affiliate"
+          type="hidden"
+          value={this.state.searchAffiliate}
+        />
+        <label htmlFor="query" className="usa-sr-only">
+          Search:
+        </label>
 
         <div className="va-flex">
-          <input autoComplete="off" ref="searchField" className="usagov-search-autocomplete" id="query" name="query" type="text"/>
+          <input
+            autoComplete="off"
+            ref="searchField"
+            className="usagov-search-autocomplete"
+            id="query"
+            name="query"
+            type="text"
+          />
           <button type="submit">
-            <IconSearch color="#fff"/>
+            <IconSearch color="#fff" />
             <span className="usa-sr-only">Search</span>
           </button>
         </div>
-      </form>);
+      </form>
+    );
   }
 
   render() {
     const buttonClasses = classNames(
       this.props.cssClass,
       'va-btn-withicon',
-      'va-dropdown-trigger'
+      'va-dropdown-trigger',
     );
 
-    const icon = <IconSearch color="#fff" role="presentation"/>;
+    const icon = <IconSearch color="#fff" role="presentation" />;
 
     return (
       <DropDownPanel
@@ -65,7 +82,8 @@ class SearchMenu extends React.Component {
         cssClass={buttonClasses}
         id="searchmenu"
         icon={icon}
-        isOpen={this.props.isOpen}>
+        isOpen={this.props.isOpen}
+      >
         {this.makeForm()}
       </DropDownPanel>
     );
@@ -75,7 +93,7 @@ class SearchMenu extends React.Component {
 SearchMenu.propTypes = {
   cssClass: PropTypes.string,
   isOpen: PropTypes.bool.isRequired,
-  clickHandler: PropTypes.func
+  clickHandler: PropTypes.func,
 };
 
 export default SearchMenu;

@@ -6,6 +6,6 @@ layout: page-react.html
 entryname: gi
 collection: education
 spoke: More Resources
-order: 4
+order: 1
 ---
 

@@ -2,8 +2,20 @@ import _ from 'lodash/fp';
 import moment from 'moment';
 import { APPEAL_V2_TYPE } from '../utils/appeals-v2-helpers';
 
-import { SET_CLAIMS, SET_APPEALS, FILTER_CLAIMS, SORT_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE,
-  FETCH_APPEALS, FETCH_APPEALS_SUCCESS, FETCH_CLAIMS, SET_CLAIMS_UNAVAILABLE, SET_APPEALS_UNAVAILABLE } from '../actions/index.jsx';
+import {
+  SET_CLAIMS,
+  SET_APPEALS,
+  FILTER_CLAIMS,
+  SORT_CLAIMS,
+  CHANGE_CLAIMS_PAGE,
+  SHOW_CONSOLIDATED_MODAL,
+  HIDE_30_DAY_NOTICE,
+  FETCH_APPEALS,
+  FETCH_APPEALS_SUCCESS,
+  FETCH_CLAIMS,
+  SET_CLAIMS_UNAVAILABLE,
+  SET_APPEALS_UNAVAILABLE,
+} from '../actions/index.jsx';
 import { getClaimType } from '../utils/helpers';
 
 const ROWS_PER_PAGE = 10;
@@ -19,7 +31,7 @@ const initialState = {
   consolidatedModal: false,
   show30DayNotice: true,
   claimsLoading: false,
-  appealsLoading: false
+  appealsLoading: false,
 };
 
 // We want to sort claims without dates below claims with dates
@@ -36,23 +48,24 @@ function dateFiled(claim) {
 }
 
 function claimType(claim) {
-  return claim.attributes
-    ? getClaimType(claim).toLowerCase()
-    : '';
+  return claim.attributes ? getClaimType(claim).toLowerCase() : '';
 }
 
 const sortPropertyFn = {
   phaseChangeDate,
   dateFiled,
-  claimType
+  claimType,
 };
 
 function filterList(list, filter) {
   let filteredList = list;
   if (filter) {
     const open = filter === 'open';
-    filteredList = filteredList.filter((claim) => {
-      if (claim.type === 'appeals_status_models_appeals' || claim.type === APPEAL_V2_TYPE) {
+    filteredList = filteredList.filter(claim => {
+      if (
+        claim.type === 'appeals_status_models_appeals' ||
+        claim.type === APPEAL_V2_TYPE
+      ) {
         return claim.attributes.active === open;
       }
       return claim.attributes.open === open;
@@ -63,9 +76,16 @@ function filterList(list, filter) {
 
 function sortList(list, sortProperty) {
   const sortOrder = sortProperty === 'claimType' ? 'asc' : 'desc';
-  const sortFunc = (el) => {
-    if (el.type === 'appeals_status_models_appeals' || el.type === APPEAL_V2_TYPE) {
-      const events = _.orderBy([e => moment(e.date).unix()], 'desc', el.attributes.events);
+  const sortFunc = el => {
+    if (
+      el.type === 'appeals_status_models_appeals' ||
+      el.type === APPEAL_V2_TYPE
+    ) {
+      const events = _.orderBy(
+        [e => moment(e.date).unix()],
+        'desc',
+        el.attributes.events,
+      );
       const lastEvent = events[0];
       const firstEvent = events[events.length - 1];
 
@@ -96,7 +116,10 @@ function getTotalPages(list) {
 export default function claimsReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CLAIMS: {
-      const visibleList = sortList(filterList(state.appeals.concat(action.claims), action.filter), state.sortProperty);
+      const visibleList = sortList(
+        filterList(state.appeals.concat(action.claims), action.filter),
+        state.sortProperty,
+      );
       return _.assign(state, {
         claims: action.claims,
         visibleList,
@@ -108,8 +131,14 @@ export default function claimsReducer(state = initialState, action) {
     // Fall-through until we handle v2 appeals solely in the appeals reducer
     case FETCH_APPEALS_SUCCESS:
     case SET_APPEALS: {
-      const visibleAppeals = sortList(filterList(action.appeals, action.filter), state.sortProperty);
-      const visibleList = sortList(filterList(state.claims, action.filter).concat(visibleAppeals), state.sortProperty);
+      const visibleAppeals = sortList(
+        filterList(action.appeals, action.filter),
+        state.sortProperty,
+      );
+      const visibleList = sortList(
+        filterList(state.claims, action.filter).concat(visibleAppeals),
+        state.sortProperty,
+      );
       return _.assign(state, {
         appeals: action.appeals,
         visibleList,
@@ -119,12 +148,15 @@ export default function claimsReducer(state = initialState, action) {
       });
     }
     case FILTER_CLAIMS: {
-      const visibleList = sortList(filterList(state.appeals.concat(state.claims), action.filter), state.sortProperty);
+      const visibleList = sortList(
+        filterList(state.appeals.concat(state.claims), action.filter),
+        state.sortProperty,
+      );
       return _.assign(state, {
         visibleList,
         visibleRows: getVisibleRows(visibleList, 1),
         page: 1,
-        pages: getTotalPages(visibleList)
+        pages: getTotalPages(visibleList),
       });
     }
     case SORT_CLAIMS: {
@@ -134,13 +166,13 @@ export default function claimsReducer(state = initialState, action) {
         visibleList,
         visibleRows: getVisibleRows(visibleList, 1),
         page: 1,
-        pages: getTotalPages(visibleList)
+        pages: getTotalPages(visibleList),
       });
     }
     case CHANGE_CLAIMS_PAGE: {
       return _.assign(state, {
         page: action.page,
-        visibleRows: getVisibleRows(state.visibleList, action.page)
+        visibleRows: getVisibleRows(state.visibleList, action.page),
       });
     }
     case SHOW_CONSOLIDATED_MODAL: {

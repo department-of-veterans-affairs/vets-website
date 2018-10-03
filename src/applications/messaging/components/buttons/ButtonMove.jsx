@@ -4,19 +4,16 @@ import React from 'react';
 class ButtonMove extends React.Component {
   render() {
     return (
-      <button
-        className="messaging-move"
-        onClick={this.props.onClick}>
+      <button className="messaging-move" onClick={this.props.onClick}>
         <span>Move</span>
-        <i className="fa fa-caret-down"></i>
+        <i className="fa fa-caret-down" />
       </button>
     );
   }
 }
 
 ButtonMove.propTypes = {
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 };
 
 export default ButtonMove;
-

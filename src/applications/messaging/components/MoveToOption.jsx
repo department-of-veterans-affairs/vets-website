@@ -13,10 +13,12 @@ class MoveToOption extends React.Component {
           name="messagingMoveToFolder"
           type="radio"
           id={folderHtmlId}
-          value={folderId}/>
-        <label
-          className="msg-move-to-label"
-          htmlFor={folderHtmlId}>{folderName}</label>
+          value={folderId}
+        />
+        />
+        <label className="msg-move-to-label" htmlFor={folderHtmlId}>
+          {folderName}
+        </label>
       </div>
     );
   }
@@ -25,7 +27,7 @@ class MoveToOption extends React.Component {
 MoveToOption.propTypes = {
   folderName: PropTypes.string,
   folderId: PropTypes.number,
-  messageId: PropTypes.number
+  messageId: PropTypes.number,
 };
 
 export default MoveToOption;

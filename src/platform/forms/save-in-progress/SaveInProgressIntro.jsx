@@ -10,33 +10,54 @@ import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
-import DowntimeNotification, { externalServiceStatus } from '../../monitoring/DowntimeNotification';
+import DowntimeNotification, {
+  externalServiceStatus,
+} from '../../monitoring/DowntimeNotification';
 import DowntimeMessage from './DowntimeMessage';
 
 class SaveInProgressIntro extends React.Component {
   getAlert(savedForm) {
     let alert;
-    const { renderSignInMessage, prefillEnabled, verifyRequiredPrefill, verifiedPrefillAlert, unverifiedPrefillAlert } = this.props;
+    const {
+      renderSignInMessage,
+      prefillEnabled,
+      verifyRequiredPrefill,
+      verifiedPrefillAlert,
+      unverifiedPrefillAlert,
+    } = this.props;
     const { profile, login } = this.props.user;
-    const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
+    const prefillAvailable = !!(
+      profile && profile.prefillsAvailable.includes(this.props.formId)
+    );
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         const savedAt = this.props.lastSavedDate
           ? moment(this.props.lastSavedDate)
           : moment.unix(savedForm.lastUpdated);
-        const expirationDate = moment.unix(savedForm.metadata.expiresAt).format('MMM D, YYYY');
+        const expirationDate = moment
+          .unix(savedForm.metadata.expiresAt)
+          .format('MMM D, YYYY');
 
         alert = (
           <div>
             <div className="usa-alert usa-alert-info no-background-image schemaform-sip-alert">
-              <div className="schemaform-sip-alert-title">Application status: <strong>In progress</strong></div>
+              <div className="schemaform-sip-alert-title">
+                Application status: <strong>In progress</strong>
+              </div>
               <div className="saved-form-metadata-container">
-                <span className="saved-form-metadata">Last saved on {savedAt.format('MMM D, YYYY [at] h:mm a')}</span>
-                <div className="expires-container">Your saved application <span className="expires">will expire on {expirationDate}.</span></div>
+                <span className="saved-form-metadata">
+                  Last saved on {savedAt.format('MMM D, YYYY [at] h:mm a')}
+                </span>
+                <div className="expires-container">
+                  Your saved application{' '}
+                  <span className="expires">
+                    will expire on {expirationDate}.
+                  </span>
+                </div>
               </div>
               <div>{this.props.children}</div>
             </div>
-            <br/>
+            <br />
           </div>
         );
       } else if (prefillAvailable && !verifiedPrefillAlert) {
@@ -44,10 +65,13 @@ class SaveInProgressIntro extends React.Component {
           <div>
             <div className="usa-alert usa-alert-info schemaform-sip-alert">
               <div className="usa-alert-body">
-                <strong>Note:</strong> Since you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your form in progress, and come back later to finish filling it out.
+                <strong>Note:</strong> Since you’re signed in to your account,
+                we can prefill part of your application based on your account
+                details. You can also save your form in progress, and come back
+                later to finish filling it out.
               </div>
             </div>
-            <br/>
+            <br />
           </div>
         );
       } else if (prefillAvailable && verifiedPrefillAlert) {
@@ -57,10 +81,11 @@ class SaveInProgressIntro extends React.Component {
           <div>
             <div className="usa-alert usa-alert-info schemaform-sip-alert">
               <div className="usa-alert-body">
-                You can save this form in progress, and come back later to finish filling it out.
+                You can save this form in progress, and come back later to
+                finish filling it out.
               </div>
             </div>
-            <br/>
+            <br />
           </div>
         );
       }
@@ -72,15 +97,34 @@ class SaveInProgressIntro extends React.Component {
         <div>
           <div className="usa-alert usa-alert-info schemaform-sip-alert">
             <div className="usa-alert-body">
-              <strong>If you’re signed in to your account, your application process can go more smoothly. Here’s why:</strong><br/>
+              <strong>
+                If you’re signed in to your account, your application process
+                can go more smoothly. Here’s why:
+              </strong>
+              <br />
               <ul>
-                <li>We can prefill part of your application based on your account details.</li>
-                <li>You can save your form in progress, and come back later to finish filling it out. You have {retentionPeriod} from the date you start or update your application to submit the form. After {retentionPeriod}, the form won’t be saved, and you’ll need to start over.</li>
-              </ul><br/>
-              <button className="va-button-link" onClick={() => this.props.toggleLoginModal(true)}>Sign in to your account.</button>
+                <li>
+                  We can prefill part of your application based on your account
+                  details.
+                </li>
+                <li>
+                  You can save your form in progress, and come back later to
+                  finish filling it out. You have {retentionPeriod} from the
+                  date you start or update your application to submit the form.
+                  After {retentionPeriod}, the form won’t be saved, and you’ll
+                  need to start over.
+                </li>
+              </ul>
+              <br />
+              <button
+                className="va-button-link"
+                onClick={() => this.props.toggleLoginModal(true)}
+              >
+                Sign in to your account.
+              </button>
             </div>
           </div>
-          <br/>
+          <br />
         </div>
       );
     } else if (prefillEnabled && unverifiedPrefillAlert) {
@@ -90,11 +134,18 @@ class SaveInProgressIntro extends React.Component {
         <div>
           <div className="usa-alert usa-alert-info schemaform-sip-alert">
             <div className="usa-alert-body">
-              You can save this form in progress, and come back later to finish filling it out.<br/>
-              <button className="va-button-link" onClick={() => this.props.toggleLoginModal(true)}>Sign in to your account.</button>
+              You can save this form in progress, and come back later to finish
+              filling it out.
+              <br />
+              <button
+                className="va-button-link"
+                onClick={() => this.props.toggleLoginModal(true)}
+              >
+                Sign in to your account.
+              </button>
             </div>
           </div>
-          <br/>
+          <br />
         </div>
       );
     }
@@ -102,7 +153,11 @@ class SaveInProgressIntro extends React.Component {
   }
 
   getStartPage = () => {
-    const { pageList, pathname, saveInProgress: { formData } } = this.props;
+    const {
+      pageList,
+      pathname,
+      saveInProgress: { formData },
+    } = this.props;
     const data = formData || {};
     // pathname is only provided when the first page is conditional
     if (pathname) return getNextPagePath(pageList, data, pathname);
@@ -114,28 +169,30 @@ class SaveInProgressIntro extends React.Component {
       const Message = this.props.downtime.message || DowntimeMessage;
 
       return (
-        <Message
-          isAfterSteps={this.props.buttonOnly}
-          downtime={downtime}/>
+        <Message isAfterSteps={this.props.buttonOnly} downtime={downtime} />
       );
     }
 
     return children;
-  }
+  };
 
   render() {
     const { profile } = this.props.user;
     const startPage = this.getStartPage();
-    const savedForm = profile && profile.savedForms
-      .filter(f => moment.unix(f.metadata.expiresAt).isAfter())
-      .find(f => f.form === this.props.formId);
-    const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(this.props.formId));
+    const savedForm =
+      profile &&
+      profile.savedForms
+        .filter(f => moment.unix(f.metadata.expiresAt).isAfter())
+        .find(f => f.form === this.props.formId);
+    const prefillAvailable = !!(
+      profile && profile.prefillsAvailable.includes(this.props.formId)
+    );
 
     if (profile.loading && !this.props.resumeOnly) {
       return (
         <div>
-          <LoadingIndicator message="Checking to see if you have a saved version of this application..."/>
-          <br/>
+          <LoadingIndicator message="Checking to see if you have a saved version of this application..." />
+          <br />
         </div>
       );
     }
@@ -159,9 +216,10 @@ class SaveInProgressIntro extends React.Component {
           fetchInProgressForm={this.props.fetchInProgressForm}
           removeInProgressForm={this.props.removeInProgressForm}
           prefillAvailable={prefillAvailable}
-          formSaved={!!savedForm}/>
+          formSaved={!!savedForm}
+        />
         {!this.props.buttonOnly && this.props.afterButtonContent}
-        <br/>
+        <br />
       </div>
     );
 
@@ -170,7 +228,8 @@ class SaveInProgressIntro extends React.Component {
         <DowntimeNotification
           appTitle={this.props.formId}
           render={this.renderDowntime}
-          dependencies={this.props.downtime.dependencies}>
+          dependencies={this.props.downtime.dependencies}
+        >
           {content}
         </DowntimeNotification>
       );
@@ -203,18 +262,18 @@ SaveInProgressIntro.propTypes = {
   verifyRequiredPrefill: PropTypes.bool,
   verifiedPrefillAlert: PropTypes.element,
   unverifiedPrefillAlert: PropTypes.element,
-  downtime: PropTypes.object
+  downtime: PropTypes.object,
 };
 
 SaveInProgressIntro.defaultProps = {
-  retentionPeriod: '60 days'
+  retentionPeriod: '60 days',
 };
 
 export const introSelector = getIntroState;
 
 function mapStateToProps(state) {
   return {
-    saveInProgress: introSelector(state)
+    saveInProgress: introSelector(state),
   };
 }
 
@@ -225,5 +284,5 @@ export { SaveInProgressIntro };
 export const introActions = {
   fetchInProgressForm,
   removeInProgressForm,
-  toggleLoginModal
+  toggleLoginModal,
 };

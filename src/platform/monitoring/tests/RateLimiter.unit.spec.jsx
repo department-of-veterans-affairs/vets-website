@@ -9,60 +9,63 @@ describe('<RateLimiter>', () => {
   it('should display limited content when under threshold', () => {
     window.sessionStorage = {
       getItem: sinon.spy(),
-      setItem: sinon.spy()
+      setItem: sinon.spy(),
     };
     window.settings = {
       app: {
         rateLimitAuthed: 0,
-        rateLimitUnauthed: 0
-      }
+        rateLimitUnauthed: 0,
+      },
     };
 
     const state = {
       user: {
         profile: {
-          loading: true
+          loading: true,
         },
         login: {
-          currentlyLoggedIn: false
-        }
-      }
+          currentlyLoggedIn: false,
+        },
+      },
     };
 
     const tree = mount(
       <RateLimiter
         id="app"
         state={state}
-        renderLimitedContent={() => <div>Limited content</div>}>
+        renderLimitedContent={() => <div>Limited content</div>}
+      >
         <div>Real content</div>
-      </RateLimiter>
+      </RateLimiter>,
     );
 
-    expect(window.sessionStorage.getItem.firstCall.args[0]).to.eql('app_rateLimitDisabled');
+    expect(window.sessionStorage.getItem.firstCall.args[0]).to.eql(
+      'app_rateLimitDisabled',
+    );
     expect(window.sessionStorage.setItem.called).to.be.false;
     expect(tree.text()).to.contain('Limited content');
   });
   it('should display loading indicator when waiting for profile', () => {
     window.sessionStorage = {
       getItem: sinon.spy(),
-      setItem: sinon.spy()
+      setItem: sinon.spy(),
     };
     window.settings = {
       app: {
         rateLimitAuthed: 0,
-        rateLimitUnauthed: 0
-      }
+        rateLimitUnauthed: 0,
+      },
     };
 
     const state = {
       user: {
         profile: {
-          loading: true
+          loading: true,
         },
         login: {
-          currentlyLoggedIn: false
-        }
-      }
+          currentlyLoggedIn: false,
+        },
+      },
     };
 
     const tree = mount(
@@ -70,9 +73,10 @@ describe('<RateLimiter>', () => {
         id="app"
         state={state}
         waitForProfile
-        renderLimitedContent={() => <div>Limited content</div>}>
+        renderLimitedContent={() => <div>Limited content</div>}
+      >
         <div>Real content</div>
-      </RateLimiter>
+      </RateLimiter>,
     );
 
     expect(tree.find('LoadingIndicator').exists()).to.be.true;
@@ -81,33 +85,34 @@ describe('<RateLimiter>', () => {
   it('should display real content when over threshold', () => {
     window.sessionStorage = {
       getItem: sinon.spy(),
-      setItem: sinon.spy()
+      setItem: sinon.spy(),
     };
     window.settings = {
       app: {
         rateLimitAuthed: 1,
-        rateLimitUnauthed: 1
-      }
+        rateLimitUnauthed: 1,
+      },
     };
 
     const state = {
       user: {
         profile: {
-          loading: true
+          loading: true,
         },
         login: {
-          currentlyLoggedIn: false
-        }
-      }
+          currentlyLoggedIn: false,
+        },
+      },
     };
 
     const tree = mount(
       <RateLimiter
         id="app"
         state={state}
-        renderLimitedContent={() => <div>Limited content</div>}>
+        renderLimitedContent={() => <div>Limited content</div>}
+      >
         <div>Real content</div>
-      </RateLimiter>
+      </RateLimiter>,
     );
 
     expect(tree.text()).to.contain('Real content');
@@ -116,24 +121,24 @@ describe('<RateLimiter>', () => {
   it('should display real content when bypassLimit returns true', () => {
     window.sessionStorage = {
       getItem: sinon.spy(),
-      setItem: sinon.spy()
+      setItem: sinon.spy(),
     };
     window.settings = {
       app: {
         rateLimitAuthed: 0,
-        rateLimitUnauthed: 0
-      }
+        rateLimitUnauthed: 0,
+      },
     };
 
     const state = {
       user: {
         profile: {
-          loading: true
+          loading: true,
         },
         login: {
-          currentlyLoggedIn: false
-        }
-      }
+          currentlyLoggedIn: false,
+        },
+      },
     };
 
     const tree = mount(
@@ -141,9 +146,10 @@ describe('<RateLimiter>', () => {
         id="app"
         state={state}
         bypassLimit={() => true}
-        renderLimitedContent={() => <div>Limited content</div>}>
+        renderLimitedContent={() => <div>Limited content</div>}
+      >
         <div>Real content</div>
-      </RateLimiter>
+      </RateLimiter>,
     );
 
     expect(tree.text()).to.contain('Real content');
@@ -151,24 +157,24 @@ describe('<RateLimiter>', () => {
   it('should display real content when disabled through session storage', () => {
     window.sessionStorage = {
       getItem: sinon.stub().returns('true'),
-      setItem: sinon.spy()
+      setItem: sinon.spy(),
     };
     window.settings = {
       app: {
         rateLimitAuthed: 0,
-        rateLimitUnauthed: 0
-      }
+        rateLimitUnauthed: 0,
+      },
     };
 
     const state = {
       user: {
         profile: {
-          loading: true
+          loading: true,
         },
         login: {
-          currentlyLoggedIn: false
-        }
-      }
+          currentlyLoggedIn: false,
+        },
+      },
     };
 
     const tree = mount(
@@ -176,9 +182,10 @@ describe('<RateLimiter>', () => {
         id="app"
         state={state}
         bypassLimit={() => false}
-        renderLimitedContent={() => <div>Limited content</div>}>
+        renderLimitedContent={() => <div>Limited content</div>}
+      >
         <div>Real content</div>
-      </RateLimiter>
+      </RateLimiter>,
     );
 
     expect(tree.text()).to.contain('Real content');

@@ -8,12 +8,13 @@ export default function EducationPeriodView({ formData }) {
   if (from && to) {
     educationPeriod = `${from} — ${to}`;
   } else if (from || to) {
-    educationPeriod = `${(from || to)}`;
+    educationPeriod = `${from || to}`;
   }
 
   return (
     <div>
-      <strong>{formData.program}</strong><br/>
+      <strong>{formData.program}</strong>
+      <br />
       {educationPeriod}
     </div>
   );

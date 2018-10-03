@@ -8,13 +8,13 @@ export const REMOVING_SAVED_FORM_FAILURE = 'REMOVING_SAVED_FORM_FAILURE';
 
 export function profileLoadingFinished() {
   return {
-    type: PROFILE_LOADING_FINISHED
+    type: PROFILE_LOADING_FINISHED,
   };
 }
 
 export function removingSavedForm() {
   return {
-    type: REMOVING_SAVED_FORM
+    type: REMOVING_SAVED_FORM,
   };
 }
 
@@ -27,7 +27,7 @@ export function removingSavedFormSuccess(formId) {
 
 export function removingSavedFormFailure() {
   return {
-    type: REMOVING_SAVED_FORM_FAILURE
+    type: REMOVING_SAVED_FORM_FAILURE,
   };
 }
 

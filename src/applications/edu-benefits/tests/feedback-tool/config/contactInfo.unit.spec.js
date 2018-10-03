@@ -3,11 +3,17 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../feedback-tool/config/form';
 
 describe('feedback tool applicant info', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.contactInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.applicantInformation.pages.contactInformation;
 
   it('should render', () => {
     const form = mount(
@@ -15,7 +21,8 @@ describe('feedback tool applicant info', () => {
         schema={schema}
         data={{}}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(7);
@@ -28,7 +35,8 @@ describe('feedback tool applicant info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -43,26 +51,30 @@ describe('feedback tool applicant info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     fillData(form, 'input#root_address_street', 'test');
     fillData(form, 'input#root_address_street2', 'test');
     fillData(form, 'input#root_address_city', 'test');
-    const state  = form.find('select#root_address_state');
+    const state = form.find('select#root_address_state');
     state.simulate('change', {
-      target: { value: 'CA' } // TODO: update with new schema
+      target: { value: 'CA' }, // TODO: update with new schema
     });
-    const country  = form.find('select#root_address_country');
+    const country = form.find('select#root_address_country');
     country.simulate('change', {
-      target: { value: 'US' }
+      target: { value: 'US' },
     });
     fillData(form, 'input#root_address_postalCode', '12312');
     fillData(form, 'input#root_applicantEmail', 'test@test.com');
-    fillData(form, 'input[name="root_view:applicantEmailConfirmation"]', 'test@test.com');
+    fillData(
+      form,
+      'input[name="root_view:applicantEmailConfirmation"]',
+      'test@test.com',
+    );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
-
 });

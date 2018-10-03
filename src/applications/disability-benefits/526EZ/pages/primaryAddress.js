@@ -14,9 +14,9 @@ import {
   ForwardingAddressViewField,
   contactInfoDescription,
   contactInfoUpdateHelp,
-  phoneEmailViewField
+  phoneEmailViewField,
 } from '../../all-claims/content/contactInformation';
-import  {
+import {
   ADDRESS_TYPES,
   MILITARY_CITIES,
   MILITARY_STATE_LABELS,
@@ -43,19 +43,37 @@ function validateZIP(errors, zip) {
   }
 }
 
-function validateMilitaryCity(errors, city, formData, schema, messages, options) {
+function validateMilitaryCity(
+  errors,
+  city,
+  formData,
+  schema,
+  messages,
+  options,
+) {
   const isMilitaryState = MILITARY_STATE_VALUES.includes(
-    _.get(formData, `veteran.${options.addressPath}.state`, '')
+    _.get(formData, `veteran.${options.addressPath}.state`, ''),
   );
   const isMilitaryCity = MILITARY_CITIES.includes(city.trim().toUpperCase());
   if (isMilitaryState && !isMilitaryCity) {
-    errors.addError('City must match APO, DPO, or FPO when using a military state code');
+    errors.addError(
+      'City must match APO, DPO, or FPO when using a military state code',
+    );
   }
 }
 
-function validateMilitaryState(errors, state, formData, schema, messages, options) {
+function validateMilitaryState(
+  errors,
+  state,
+  formData,
+  schema,
+  messages,
+  options,
+) {
   const isMilitaryCity = MILITARY_CITIES.includes(
-    _.get(formData, `veteran.${options.addressPath}.city`, '').trim().toUpperCase()
+    _.get(formData, `veteran.${options.addressPath}.city`, '')
+      .trim()
+      .toUpperCase(),
   );
   const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
   if (isMilitaryCity && !isMilitaryState) {
@@ -63,8 +81,10 @@ function validateMilitaryState(errors, state, formData, schema, messages, option
   }
 }
 
-const hasForwardingAddress = (formData) => (_.get(formData, 'veteran[view:hasForwardingAddress]', false));
-const forwardingCountryIsUSA = (formData) => (_.get(formData, 'veteran.forwardingAddress.country', '') === USA);
+const hasForwardingAddress = formData =>
+  _.get(formData, 'veteran[view:hasForwardingAddress]', false);
+const forwardingCountryIsUSA = formData =>
+  _.get(formData, 'veteran.forwardingAddress.country', '') === USA;
 
 /**
  *
@@ -73,18 +93,20 @@ const forwardingCountryIsUSA = (formData) => (_.get(formData, 'veteran.forwardin
  * @returns {object} UI schema for an address card's content
  */
 const addressUISchema = (addressType, title) => {
-  const updateStates = (form) => {
-    const currentCity = _.get(form, `veteran.${addressType}.city`, '').trim().toUpperCase();
+  const updateStates = form => {
+    const currentCity = _.get(form, `veteran.${addressType}.city`, '')
+      .trim()
+      .toUpperCase();
     if (MILITARY_CITIES.includes(currentCity)) {
       return {
-        'enum': MILITARY_STATE_VALUES,
-        enumNames: MILITARY_STATE_LABELS
+        enum: MILITARY_STATE_VALUES,
+        enumNames: MILITARY_STATE_LABELS,
       };
     }
 
     return {
-      'enum': STATE_VALUES,
-      enumNames: STATE_LABELS
+      enum: STATE_VALUES,
+      enumNames: STATE_LABELS,
     };
   };
 
@@ -96,67 +118,75 @@ const addressUISchema = (addressType, title) => {
       'addressLine3',
       'city',
       'state',
-      'zipCode'
+      'zipCode',
     ],
     'ui:title': title,
     'ui:field': ReviewCardField,
     'ui:options': {
-      viewComponent: PrimaryAddressViewField
+      viewComponent: PrimaryAddressViewField,
     },
     country: {
-      'ui:title': 'Country'
+      'ui:title': 'Country',
     },
     addressLine1: {
       'ui:title': 'Street address',
       'ui:errorMessages': {
-        pattern: 'Please fill in a valid address'
-      }
+        pattern: 'Please fill in a valid address',
+      },
     },
     addressLine2: {
       'ui:title': 'Street address (optional)',
       'ui:errorMessages': {
-        pattern: 'Please fill in a valid address'
-      }
+        pattern: 'Please fill in a valid address',
+      },
     },
     addressLine3: {
       'ui:title': 'Street address (optional)',
       'ui:errorMessages': {
-        pattern: 'Please fill in a valid address'
-      }
+        pattern: 'Please fill in a valid address',
+      },
     },
     city: {
       'ui:title': 'City',
-      'ui:validations': [{
-        options: { addressPath: addressType },
-        validator: validateMilitaryCity
-      }],
+      'ui:validations': [
+        {
+          options: { addressPath: addressType },
+          validator: validateMilitaryCity,
+        },
+      ],
       'ui:errorMessages': {
-        pattern: 'Please fill in a valid city'
-      }
+        pattern: 'Please fill in a valid city',
+      },
     },
     state: {
       'ui:title': 'State',
-      'ui:required': ({ veteran }) => (_.get(veteran, `${addressType}.country`, '') === USA),
+      'ui:required': ({ veteran }) =>
+        _.get(veteran, `${addressType}.country`, '') === USA,
       'ui:options': {
-        hideIf: ({ veteran }) => (_.get(veteran, `${addressType}.country`, '') !== USA),
-        updateSchema: updateStates
+        hideIf: ({ veteran }) =>
+          _.get(veteran, `${addressType}.country`, '') !== USA,
+        updateSchema: updateStates,
       },
-      'ui:validations': [{
-        options: { addressPath: addressType },
-        validator: validateMilitaryState
-      }]
+      'ui:validations': [
+        {
+          options: { addressPath: addressType },
+          validator: validateMilitaryState,
+        },
+      ],
     },
     zipCode: {
       'ui:title': 'ZIP code',
       'ui:validations': [validateZIP],
-      'ui:required': ({ veteran }) => (_.get(veteran, `${addressType}.country`, '') === USA),
+      'ui:required': ({ veteran }) =>
+        _.get(veteran, `${addressType}.country`, '') === USA,
       'ui:errorMessages': {
-        pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)'
+        pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
-        hideIf: ({ veteran }) => (_.get(veteran, `${addressType}.country`, '') !== USA)
-      }
+        hideIf: ({ veteran }) =>
+          _.get(veteran, `${addressType}.country`, '') !== USA,
+      },
     },
   };
 };
@@ -165,7 +195,7 @@ const {
   mailingAddress,
   forwardingAddress,
   emailAddress,
-  primaryPhone
+  primaryPhone,
 } = fullSchema526EZ.properties.veteran.properties;
 
 export const uiSchema = {
@@ -175,30 +205,33 @@ export const uiSchema = {
       'ui:title': 'Phone & email',
       'ui:field': ReviewCardField,
       'ui:options': {
-        viewComponent: phoneEmailViewField
+        viewComponent: phoneEmailViewField,
       },
       primaryPhone: {
         'ui:title': 'Phone number',
         'ui:widget': PhoneNumberWidget,
         'ui:reviewWidget': PhoneNumberReviewWidget,
         'ui:errorMessages': {
-          pattern: 'Phone numbers must be 10 digits (dashes allowed)'
+          pattern: 'Phone numbers must be 10 digits (dashes allowed)',
         },
         'ui:options': {
-          widgetClassNames: 'va-input-medium-large'
-        }
+          widgetClassNames: 'va-input-medium-large',
+        },
       },
       emailAddress: {
         'ui:title': 'Email address',
         'ui:errorMessages': {
-          pattern: 'The email you enter should be in this format x@x.xx'
-        }
+          pattern: 'The email you enter should be in this format x@x.xx',
+        },
       },
     },
-    mailingAddress: addressUISchema(ADDRESS_TYPES.mailingAddress, 'Mailing address'),
+    mailingAddress: addressUISchema(
+      ADDRESS_TYPES.mailingAddress,
+      'Mailing address',
+    ),
     'view:hasForwardingAddress': {
       'ui:title':
-        'I want to provide a forwarding address since my address will be changing soon.'
+        'I want to provide a forwarding address since my address will be changing soon.',
     },
     forwardingAddress: _.merge(
       addressUISchema(ADDRESS_TYPES.forwardingAddress, 'Forwarding address'),
@@ -211,44 +244,38 @@ export const uiSchema = {
           'addressLine3',
           'city',
           'state',
-          'zipCode'
+          'zipCode',
         ],
         'ui:options': {
           viewComponent: ForwardingAddressViewField,
-          expandUnder: 'view:hasForwardingAddress'
+          expandUnder: 'view:hasForwardingAddress',
         },
-        effectiveDate: _.merge(
-          {},
-          dateUI('Effective date'),
-          { 'ui:required': hasForwardingAddress }
-        ),
+        effectiveDate: _.merge({}, dateUI('Effective date'), {
+          'ui:required': hasForwardingAddress,
+        }),
         country: {
-          'ui:required': hasForwardingAddress
+          'ui:required': hasForwardingAddress,
         },
         addressLine1: {
-          'ui:required': hasForwardingAddress
+          'ui:required': hasForwardingAddress,
         },
         city: {
-          'ui:required': hasForwardingAddress
+          'ui:required': hasForwardingAddress,
         },
         state: {
-          'ui:required': (formData) => (
-            hasForwardingAddress(formData)
-            && forwardingCountryIsUSA(formData)
-          )
+          'ui:required': formData =>
+            hasForwardingAddress(formData) && forwardingCountryIsUSA(formData),
         },
         zipCode: {
-          'ui:required': (formData) => (
-            hasForwardingAddress(formData)
-            && forwardingCountryIsUSA(formData)
-          )
-        }
-      }
+          'ui:required': formData =>
+            hasForwardingAddress(formData) && forwardingCountryIsUSA(formData),
+        },
+      },
     ),
     'view:contactInfoDescription': {
-      'ui:description': contactInfoUpdateHelp
-    }
-  }
+      'ui:description': contactInfoUpdateHelp,
+    },
+  },
 };
 
 export const schema = {
@@ -262,19 +289,19 @@ export const schema = {
           required: ['primaryPhone', 'emailAddress'],
           properties: {
             primaryPhone,
-            emailAddress
-          }
+            emailAddress,
+          },
         },
         mailingAddress,
         'view:hasForwardingAddress': {
-          type: 'boolean'
+          type: 'boolean',
         },
         forwardingAddress,
         'view:contactInfoDescription': {
           type: 'object',
-          properties: {}
-        }
-      }
-    }
-  }
+          properties: {},
+        },
+      },
+    },
+  },
 };

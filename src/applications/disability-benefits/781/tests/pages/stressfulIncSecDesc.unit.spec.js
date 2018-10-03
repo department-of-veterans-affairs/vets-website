@@ -6,7 +6,10 @@ import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
 describe('Add Secondary Stressful Incident Description', () => {
-  const { schema, uiSchema } = formConfig.chapters.introductionPage.pages.stressfulIncidentSecondaryDescription;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.introductionPage.pages.stressfulIncidentSecondaryDescription;
 
   it('should render', () => {
     const form = mount(
@@ -15,7 +18,8 @@ describe('Add Secondary Stressful Incident Description', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
-        formData={{}}/>
+        formData={{}}
+      />,
     );
 
     expect(form.find('textarea').length).to.equal(1);
@@ -31,7 +35,8 @@ describe('Add Secondary Stressful Incident Description', () => {
         uiSchema={uiSchema}
         data={{}}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');

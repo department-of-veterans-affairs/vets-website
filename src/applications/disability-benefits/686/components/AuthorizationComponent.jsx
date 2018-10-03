@@ -6,15 +6,18 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import DowntimeMessage from '../../../../platform/forms/save-in-progress/DowntimeMessage';
-import DowntimeNotification, { externalServiceStatus } from '../../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, {
+  externalServiceStatus,
+} from '../../../../platform/monitoring/DowntimeNotification';
+import { getFormAuthorizationState } from '../../../../applications/personalization/dashboard/helpers.jsx';
 
 import AuthorizationMessage from './AuthorizationMessage';
-import formConfig from '../config/form'; // TODO: derive from formID when generalized
 
 class AuthorizationComponent extends React.Component {
-
-  componentDidMount() {
-    formConfig.authorize();
+  componentWillUpdate() {
+    if (this.props.formConfig && !this.props.profileIsLoading) {
+      this.props.authorize();
+    }
   }
 
   renderDowntime = (downtime, children) => {
@@ -22,50 +25,80 @@ class AuthorizationComponent extends React.Component {
       const Message = this.props.downtime.message || DowntimeMessage;
 
       return (
-        <Message
-          isAfterSteps={this.props.buttonOnly}
-          downtime={downtime}/>
+        <Message isAfterSteps={this.props.buttonOnly} downtime={downtime} />
       );
     }
 
     return children;
-  }
+  };
 
   render() {
-    const { isLoading, isVisible, hasError, isLoggedIn, isVerified, profileStatus, has30PercentDisabilityRating } = this.props;
+    const {
+      isLoading,
+      isVisible,
+      isAuthorized,
+      isLoggedIn,
+      isVerified,
+      profileStatus,
+      has30PercentDisabilityRating,
+      formConfig,
+    } = this.props;
 
-    const content = (<div>
-      {isLoading && isVisible && <LoadingIndicator message="Please wait while we check your information."/>}
-      {!isLoading && isVisible && hasError && <AlertBox status="error" isVisible>
-        <AuthorizationMessage has30PercentDisabilityRating={has30PercentDisabilityRating} user={ { isLoggedIn, isVerified, profileStatus }}/>
-      </AlertBox>}
-      {!hasError && this.props.children}
-    </div>);
+    const content = (
+      <div>
+        {isLoading &&
+          isVisible && (
+            <LoadingIndicator message="Please wait while we check your information." />
+          )}
+        {!isLoading &&
+          isVisible &&
+          !isAuthorized && (
+            <AlertBox status="error" isVisible>
+              <AuthorizationMessage
+                has30PercentDisabilityRating={has30PercentDisabilityRating}
+                user={{ isLoggedIn, isVerified, profileStatus }}
+              />
+            </AlertBox>
+          )}
+        {isAuthorized && this.props.children}
+      </div>
+    );
 
-    if (formConfig.downtime) {
-      return (<DowntimeNotification
-        appTitle={formConfig.formId}
-        render={this.renderDowntime}
-        dependencies={formConfig.downtime.dependencies}>
-        {content}
-      </DowntimeNotification>);
+    if (formConfig && formConfig.downtime) {
+      return (
+        <DowntimeNotification
+          appTitle={formConfig.formId}
+          render={this.renderDowntime}
+          dependencies={formConfig.downtime.dependencies}
+        >
+          {content}
+        </DowntimeNotification>
+      );
     }
 
     return content;
   }
 }
 
-function mapStateToProps(state) {
-  return formConfig.getAuthorizationState(state); // TODO: derive formConfig when generalizing
+function mapStateToProps(state, ownProps) {
+  if (ownProps.formConfig) {
+    return getFormAuthorizationState(ownProps.formConfig, state);
+  }
+  return {};
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    authorize: bindActionCreators(formConfig.authorize, dispatch)
-  };
+function mapDispatchToProps(dispatch, ownProps) {
+  if (ownProps.formConfig) {
+    return {
+      authorize: bindActionCreators(ownProps.formConfig.authorize, dispatch),
+    };
+  }
+  return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthorizationComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AuthorizationComponent);
 
 export { AuthorizationComponent };
-

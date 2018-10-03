@@ -4,5 +4,5 @@ import schoolSelect from './schoolSelect';
 
 export default {
   form: createSaveInProgressFormReducer(formConfig),
-  schoolSelect
+  schoolSelect,
 };

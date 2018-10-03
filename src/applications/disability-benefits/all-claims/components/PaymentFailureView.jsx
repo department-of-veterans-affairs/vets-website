@@ -7,7 +7,8 @@ const PaymentFailureView = () => (
     content="We’re sorry. We can’t access your payment information right now. You can continue to fill out the form and we’ll try again later."
     status="error"
     className="async-display-widget-alert-box"
-    isVisible/>
+    isVisible
+  />
 );
 
 export default PaymentFailureView;

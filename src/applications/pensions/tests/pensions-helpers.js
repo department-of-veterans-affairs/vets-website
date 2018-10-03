@@ -4,25 +4,49 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts');
 function completeApplicantInformation(client, data) {
   client
     .fillName('root_veteranFullName', data.veteranFullName)
-    .fill('input[name="root_veteranSocialSecurityNumber"]', data.veteranSocialSecurityNumber)
+    .fill(
+      'input[name="root_veteranSocialSecurityNumber"]',
+      data.veteranSocialSecurityNumber,
+    )
     .fill('input[name="root_vaFileNumber"]', data.vaFileNumber)
     .fillDate('root_veteranDateOfBirth', data.veteranDateOfBirth);
 }
 
 function completeMilitaryHistory(client, data) {
   client
-    .fill('input[name="root_servicePeriods_0_serviceBranch"]', data.servicePeriods[0].serviceBranch)
-    .fillDate('root_servicePeriods_0_activeServiceDateRange_from', data.servicePeriods[0].activeServiceDateRange.from)
-    .fillDate('root_servicePeriods_0_activeServiceDateRange_to', data.servicePeriods[0].activeServiceDateRange.to)
+    .fill(
+      'input[name="root_servicePeriods_0_serviceBranch"]',
+      data.servicePeriods[0].serviceBranch,
+    )
+    .fillDate(
+      'root_servicePeriods_0_activeServiceDateRange_from',
+      data.servicePeriods[0].activeServiceDateRange.from,
+    )
+    .fillDate(
+      'root_servicePeriods_0_activeServiceDateRange_to',
+      data.servicePeriods[0].activeServiceDateRange.to,
+    )
     .click('.va-growable-add-btn')
-    .fill('input[name="root_servicePeriods_1_serviceBranch"]', data.servicePeriods[1].serviceBranch)
-    .fillDate('root_servicePeriods_1_activeServiceDateRange_from', data.servicePeriods[1].activeServiceDateRange.from)
-    .fillDate('root_servicePeriods_1_activeServiceDateRange_to', data.servicePeriods[1].activeServiceDateRange.to);
+    .fill(
+      'input[name="root_servicePeriods_1_serviceBranch"]',
+      data.servicePeriods[1].serviceBranch,
+    )
+    .fillDate(
+      'root_servicePeriods_1_activeServiceDateRange_from',
+      data.servicePeriods[1].activeServiceDateRange.from,
+    )
+    .fillDate(
+      'root_servicePeriods_1_activeServiceDateRange_to',
+      data.servicePeriods[1].activeServiceDateRange.to,
+    );
 }
 
 function completeGeneralMilitaryInfo(client, data) {
   client
-    .selectYesNo('root_view:serveUnderOtherNames', data['view:serveUnderOtherNames'])
+    .selectYesNo(
+      'root_view:serveUnderOtherNames',
+      data['view:serveUnderOtherNames'],
+    )
     .fillName('root_previousNames_0', data.previousNames[0])
     .click('.va-growable-add-btn')
     .fillName('root_previousNames_1', data.previousNames[1])
@@ -44,7 +68,10 @@ function completePOW(client, data) {
     .selectYesNo('root_view:powStatus', data['view:powStatus'])
     .fillDate('root_powDateRange_from', data.powDateRange.from)
     .fillDate('root_powDateRange_to', data.powDateRange.to)
-    .selectYesNo('root_view:receivedSeverancePay', data['view:receivedSeverancePay'])
+    .selectYesNo(
+      'root_view:receivedSeverancePay',
+      data['view:receivedSeverancePay'],
+    )
     .selectRadio('root_severancePay_type', data.severancePay.type)
     .fill('input[name="root_severancePay_amount"]', data.severancePay.amount);
 }
@@ -52,28 +79,64 @@ function completePOW(client, data) {
 function completeDisabilityHistory(client, data) {
   client
     .fill('input[name="root_disabilities_0_name"]', data.disabilities[0].name)
-    .fillDate('root_disabilities_0_disabilityStartDate', data.disabilities[0].disabilityStartDate)
+    .fillDate(
+      'root_disabilities_0_disabilityStartDate',
+      data.disabilities[0].disabilityStartDate,
+    )
     .click('.va-growable-add-btn')
     .fill('input[name="root_disabilities_1_name"]', data.disabilities[1].name)
-    .fillDate('root_disabilities_1_disabilityStartDate', data.disabilities[1].disabilityStartDate)
+    .fillDate(
+      'root_disabilities_1_disabilityStartDate',
+      data.disabilities[1].disabilityStartDate,
+    )
     .selectYesNo('root_view:hasVisitedVAMC', data['view:hasVisitedVAMC'])
-    .fill('input[name="root_vamcTreatmentCenters_0_location"]', data.vamcTreatmentCenters[0].location)
+    .fill(
+      'input[name="root_vamcTreatmentCenters_0_location"]',
+      data.vamcTreatmentCenters[0].location,
+    )
     .click('.form-expanding-group .va-growable-add-btn')
-    .fill('input[name="root_vamcTreatmentCenters_1_location"]', data.vamcTreatmentCenters[1].location);
+    .fill(
+      'input[name="root_vamcTreatmentCenters_1_location"]',
+      data.vamcTreatmentCenters[1].location,
+    );
 }
 
 function completeWorkHistory(client, data) {
   data['view:history'].jobs.forEach((job, index) => {
     client
-      .selectYesNo('root_view:workedBeforeDisabled', data['view:workedBeforeDisabled'])
-      .fill(`input[name="root_view:history_jobs_${index}_employer"]`, job.employer)
+      .selectYesNo(
+        'root_view:workedBeforeDisabled',
+        data['view:workedBeforeDisabled'],
+      )
+      .fill(
+        `input[name="root_view:history_jobs_${index}_employer"]`,
+        job.employer,
+      )
       .fillAddress(`root_view:history_jobs_${index}_address`, job.address)
-      .fill(`input[name="root_view:history_jobs_${index}_jobTitle"]`, job.jobTitle)
-      .fillDate(`root_view:history_jobs_${index}_dateRange_from`, job.dateRange.from)
-      .fillDate(`root_view:history_jobs_${index}_dateRange_to`, job.dateRange.to)
-      .fill(`input[name="root_view:history_jobs_${index}_daysMissed"]`, job.daysMissed)
-      .fill(`input[name="root_view:history_jobs_${index}_annualEarnings"]`, job.annualEarnings)
-      .clickIf('.va-growable-add-btn', index < data['view:history'].jobs.length - 1);
+      .fill(
+        `input[name="root_view:history_jobs_${index}_jobTitle"]`,
+        job.jobTitle,
+      )
+      .fillDate(
+        `root_view:history_jobs_${index}_dateRange_from`,
+        job.dateRange.from,
+      )
+      .fillDate(
+        `root_view:history_jobs_${index}_dateRange_to`,
+        job.dateRange.to,
+      )
+      .fill(
+        `input[name="root_view:history_jobs_${index}_daysMissed"]`,
+        job.daysMissed,
+      )
+      .fill(
+        `input[name="root_view:history_jobs_${index}_annualEarnings"]`,
+        job.annualEarnings,
+      )
+      .clickIf(
+        '.va-growable-add-btn',
+        index < data['view:history'].jobs.length - 1,
+      );
   });
 }
 
@@ -87,64 +150,114 @@ function completeMarriage(client, data, index) {
   client
     .fillName('root_spouseFullName', data.marriages[index].spouseFullName)
     .fillDate('root_dateOfMarriage', data.marriages[index].dateOfMarriage)
-    .fill('input[name="root_locationOfMarriage"]', data.marriages[index].locationOfMarriage)
+    .fill(
+      'input[name="root_locationOfMarriage"]',
+      data.marriages[index].locationOfMarriage,
+    )
     .selectRadio('root_marriageType', data.marriages[index].marriageType);
   if (data.marriages[index]['view:pastMarriage']) {
     client
-      .selectRadio('root_view:pastMarriage_reasonForSeparation', data.marriages[index]['view:pastMarriage'].reasonForSeparation)
-      .fillDate('root_view:pastMarriage_dateOfSeparation', data.marriages[index]['view:pastMarriage'].dateOfSeparation)
-      .fill('input[name="root_view:pastMarriage_locationOfSeparation"]', data.marriages[index]['view:pastMarriage'].locationOfSeparation);
+      .selectRadio(
+        'root_view:pastMarriage_reasonForSeparation',
+        data.marriages[index]['view:pastMarriage'].reasonForSeparation,
+      )
+      .fillDate(
+        'root_view:pastMarriage_dateOfSeparation',
+        data.marriages[index]['view:pastMarriage'].dateOfSeparation,
+      )
+      .fill(
+        'input[name="root_view:pastMarriage_locationOfSeparation"]',
+        data.marriages[index]['view:pastMarriage'].locationOfSeparation,
+      );
   }
 }
 
 function completeSpouseInfo(client, data) {
   client
     .fillDate('root_spouseDateOfBirth', data.spouseDateOfBirth)
-    .fill('input[name="root_spouseSocialSecurityNumber"]', data.spouseSocialSecurityNumber)
+    .fill(
+      'input[name="root_spouseSocialSecurityNumber"]',
+      data.spouseSocialSecurityNumber,
+    )
     .selectYesNo('root_spouseIsVeteran', data.spouseIsVeteran)
     .fill('input[name="root_spouseVaFileNumber"]', data.spouseVaFileNumber)
     .selectYesNo('root_liveWithSpouse', data.liveWithSpouse)
     .fillAddress('root_spouseAddress', data.spouseAddress)
-    .fill('input[name="root_reasonForNotLivingWithSpouse"]', data.reasonForNotLivingWithSpouse)
+    .fill(
+      'input[name="root_reasonForNotLivingWithSpouse"]',
+      data.reasonForNotLivingWithSpouse,
+    )
     .fill('input[name="root_monthlySpousePayment"]', data.monthlySpousePayment)
-    .fill('input[name="root_spouseMarriages"]', data.spouseMarriages.length + 1);
+    .fill(
+      'input[name="root_spouseMarriages"]',
+      data.spouseMarriages.length + 1,
+    );
 }
 
 function completeSpouseMarriage(client, data) {
   client
     .fillDate('root_dateOfMarriage', data.spouseMarriages[0].dateOfMarriage)
-    .fill('input[name="root_locationOfMarriage"]', data.spouseMarriages[0].locationOfMarriage)
+    .fill(
+      'input[name="root_locationOfMarriage"]',
+      data.spouseMarriages[0].locationOfMarriage,
+    )
     .fillName('root_spouseFullName', data.spouseMarriages[0].spouseFullName)
     .selectRadio('root_marriageType', data.spouseMarriages[0].marriageType)
-    .selectRadio('root_reasonForSeparation', data.spouseMarriages[0].reasonForSeparation)
+    .selectRadio(
+      'root_reasonForSeparation',
+      data.spouseMarriages[0].reasonForSeparation,
+    )
     .fillDate('root_dateOfSeparation', data.spouseMarriages[0].dateOfSeparation)
-    .fill('input[name="root_locationOfSeparation"]', data.spouseMarriages[0].locationOfSeparation);
+    .fill(
+      'input[name="root_locationOfSeparation"]',
+      data.spouseMarriages[0].locationOfSeparation,
+    );
 }
 
 function completeDependents(client, data) {
-  client
-    .selectYesNo('root_view:hasDependents', data['view:hasDependents']);
+  client.selectYesNo('root_view:hasDependents', data['view:hasDependents']);
 
   data.dependents.forEach((dependent, index) => {
     client
-      .fillName(`root_dependents_${index}_fullName`, data.dependents[index].fullName)
-      .fillDate(`root_dependents_${index}_childDateOfBirth`, data.dependents[index].childDateOfBirth)
+      .fillName(
+        `root_dependents_${index}_fullName`,
+        data.dependents[index].fullName,
+      )
+      .fillDate(
+        `root_dependents_${index}_childDateOfBirth`,
+        data.dependents[index].childDateOfBirth,
+      )
       .clickIf('.va-growable-add-btn', index < data.dependents.length - 1);
   });
 }
 
 function completeDependentInfo(client, data, index) {
   client
-    .fill('input[name="root_childPlaceOfBirth"]', data.dependents[index].childPlaceOfBirth)
-    .fillCheckboxIf('input[name="root_view:noSSN"]', data.dependents[index]['view:noSSN'])
-    .fill('input[name="root_childSocialSecurityNumber"]', data.dependents[index].childSocialSecurityNumber)
-    .selectRadio('root_childRelationship', data.dependents[index].childRelationship);
+    .fill(
+      'input[name="root_childPlaceOfBirth"]',
+      data.dependents[index].childPlaceOfBirth,
+    )
+    .fillCheckboxIf(
+      'input[name="root_view:noSSN"]',
+      data.dependents[index]['view:noSSN'],
+    )
+    .fill(
+      'input[name="root_childSocialSecurityNumber"]',
+      data.dependents[index].childSocialSecurityNumber,
+    )
+    .selectRadio(
+      'root_childRelationship',
+      data.dependents[index].childRelationship,
+    );
 
   // These pauses seem to have something to do with the messages that expand underneath
 
   if (typeof data.dependents[index].attendingCollege !== 'undefined') {
     client
-      .selectYesNo('root_attendingCollege', data.dependents[index].attendingCollege)
+      .selectYesNo(
+        'root_attendingCollege',
+        data.dependents[index].attendingCollege,
+      )
       .pause(1000);
   }
 
@@ -154,8 +267,10 @@ function completeDependentInfo(client, data, index) {
       .pause(1000);
   }
 
-  client
-    .selectYesNo('root_previouslyMarried', data.dependents[index].previouslyMarried);
+  client.selectYesNo(
+    'root_previouslyMarried',
+    data.dependents[index].previouslyMarried,
+  );
 
   if (data.dependents[index].previouslyMarried) {
     client
@@ -165,14 +280,22 @@ function completeDependentInfo(client, data, index) {
 }
 
 function completeDependentAddressInfo(client, data, index) {
-  client
-    .selectYesNo('root_childInHousehold', data.dependents[index].childInHousehold);
+  client.selectYesNo(
+    'root_childInHousehold',
+    data.dependents[index].childInHousehold,
+  );
 
   if (!data.dependents[index].childInHousehold) {
     client
       .fillAddress('root_childAddress', data.dependents[index].childAddress)
-      .fillName('root_personWhoLivesWithChild', data.dependents[index].personWhoLivesWithChild)
-      .fill('input[name="root_monthlyPayment"]', data.dependents[index].monthlyPayment);
+      .fillName(
+        'root_personWhoLivesWithChild',
+        data.dependents[index].personWhoLivesWithChild,
+      )
+      .fill(
+        'input[name="root_monthlyPayment"]',
+        data.dependents[index].monthlyPayment,
+      );
   }
 }
 
@@ -185,9 +308,18 @@ function completeNetWorthInfo(client, data) {
     .fill('input[name$="realProperty"]', data.realProperty)
     .click('body')
     .click('.pensions-sources-add-btn')
-    .waitForElementPresent('input[name$="additionalSources_0_name"]', Timeouts.normal)
-    .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
-    .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
+    .waitForElementPresent(
+      'input[name$="additionalSources_0_name"]',
+      Timeouts.normal,
+    )
+    .fill(
+      'input[name$="additionalSources_0_name"]',
+      data.additionalSources[0].name,
+    )
+    .fill(
+      'input[name$="additionalSources_0_amount"]',
+      data.additionalSources[0].amount,
+    )
     .click('.va-growable-expanded .float-left');
 }
 
@@ -201,9 +333,18 @@ function completeMonthlyIncomeInfo(client, data) {
     .fill('input[name$="ssi"]', data.ssi)
     .click('body')
     .click('.pensions-sources-add-btn')
-    .waitForElementPresent('input[name$="additionalSources_0_name"]', Timeouts.normal)
-    .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
-    .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
+    .waitForElementPresent(
+      'input[name$="additionalSources_0_name"]',
+      Timeouts.normal,
+    )
+    .fill(
+      'input[name$="additionalSources_0_name"]',
+      data.additionalSources[0].name,
+    )
+    .fill(
+      'input[name$="additionalSources_0_amount"]',
+      data.additionalSources[0].amount,
+    )
     .click('.va-growable-expanded .float-left');
 }
 
@@ -213,9 +354,18 @@ function completeExpectedIncomeInfo(client, data) {
     .fill('input[name$="interest"]', data.interest)
     .click('body')
     .click('.pensions-sources-add-btn')
-    .waitForElementPresent('input[name$="additionalSources_0_name"]', Timeouts.normal)
-    .fill('input[name$="additionalSources_0_name"]', data.additionalSources[0].name)
-    .fill('input[name$="additionalSources_0_amount"]', data.additionalSources[0].amount)
+    .waitForElementPresent(
+      'input[name$="additionalSources_0_name"]',
+      Timeouts.normal,
+    )
+    .fill(
+      'input[name$="additionalSources_0_name"]',
+      data.additionalSources[0].name,
+    )
+    .fill(
+      'input[name$="additionalSources_0_amount"]',
+      data.additionalSources[0].amount,
+    )
     .click('.va-growable-expanded .float-left');
 }
 
@@ -261,10 +411,10 @@ function initApplicationSubmitMock() {
           guid: '1234',
           regionalOffice: [],
           confirmationNumber: '123fake-submission-id-567',
-          submittedAt: '2016-05-16'
-        }
-      }
-    }
+          submittedAt: '2016-05-16',
+        },
+      },
+    },
   });
   mock(null, {
     path: '/v0/pension_claims/1234',
@@ -272,10 +422,10 @@ function initApplicationSubmitMock() {
     value: {
       data: {
         attributes: {
-          state: 'success'
-        }
-      }
-    }
+          state: 'success',
+        },
+      },
+    },
   });
 }
 
@@ -289,9 +439,9 @@ function initDocumentUploadMock() {
           size: 155993,
           name: 'test.png',
           confirmationCode: '871af1d9-ae04-4ed2-99ef-4c11686c53d2',
-        }
-      }
-    }
+        },
+      },
+    },
   });
 }
 
@@ -318,6 +468,5 @@ module.exports = {
   completeContactInfo,
   completeExpeditedInfo,
   initApplicationSubmitMock,
-  initDocumentUploadMock
+  initDocumentUploadMock,
 };
-

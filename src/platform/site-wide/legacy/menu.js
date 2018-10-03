@@ -4,9 +4,11 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  const overlays = document.querySelectorAll('.va-overlay-trigger, .va-overlay');
+  const overlays = document.querySelectorAll(
+    '.va-overlay-trigger, .va-overlay',
+  );
 
-  const toggleOverlay = (domEvent) => {
+  const toggleOverlay = domEvent => {
     const overlayTarget = domEvent.currentTarget; // The overlay to open or close
     const clickTarget = domEvent.target; // The element clicked
 
@@ -18,7 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
     A .va-overlay-trigger element should have either a data-show attribute 
     (preferred) or an href attribute.
     */
-    const overlayId = overlayTarget.getAttribute('href') || overlayTarget.dataset.show;
+    const overlayId =
+      overlayTarget.getAttribute('href') || overlayTarget.dataset.show;
 
     const shouldCloseOverlay =
       overlayTarget.classList.contains('va-overlay') &&
@@ -35,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  Array.from(overlays).forEach((ol) => {
+  Array.from(overlays).forEach(ol => {
     ol.addEventListener('click', toggleOverlay);
   });
 });

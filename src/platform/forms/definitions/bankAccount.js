@@ -1,6 +1,12 @@
 import { isValidRoutingNumber } from '../validations';
 
-function validateRoutingNumber(errors, routingNumber, formData, schema, errorMessages) {
+function validateRoutingNumber(
+  errors,
+  routingNumber,
+  formData,
+  schema,
+  errorMessages,
+) {
   if (!isValidRoutingNumber(routingNumber)) {
     errors.addError(errorMessages.pattern);
   }
@@ -14,22 +20,20 @@ const uiSchema = {
     'ui:options': {
       labels: {
         checking: 'Checking',
-        savings: 'Savings'
-      }
-    }
+        savings: 'Savings',
+      },
+    },
   },
   accountNumber: {
-    'ui:title': 'Account number'
+    'ui:title': 'Account number',
   },
   routingNumber: {
     'ui:title': 'Routing number',
-    'ui:validations': [
-      validateRoutingNumber
-    ],
+    'ui:validations': [validateRoutingNumber],
     'ui:errorMessages': {
-      pattern: 'Please enter a valid nine digit routing number'
-    }
-  }
+      pattern: 'Please enter a valid nine digit routing number',
+    },
+  },
 };
 
 export default uiSchema;

@@ -4,27 +4,35 @@ const initialState = {
   refill: {
     loading: false,
     visible: false,
-    prescription: null
+    prescription: null,
   },
   glossary: {
     visible: false,
-    content: null
-  }
+    content: null,
+  },
 };
 
 export default function modals(state = initialState, action) {
   switch (action.type) {
     case 'OPEN_REFILL_MODAL':
-      return set('refill', {
-        visible: true,
-        prescription: action.rx
-      }, initialState);
+      return set(
+        'refill',
+        {
+          visible: true,
+          prescription: action.rx,
+        },
+        initialState,
+      );
 
     case 'OPEN_GLOSSARY_MODAL':
-      return set('glossary', {
-        visible: true,
-        content: action.content
-      }, initialState);
+      return set(
+        'glossary',
+        {
+          visible: true,
+          content: action.content,
+        },
+        initialState,
+      );
 
     case 'REFILL_SUBMITTED':
       return set('refill.loading', true, state);

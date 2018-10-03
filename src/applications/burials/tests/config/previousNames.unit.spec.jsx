@@ -4,17 +4,25 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm, getFormDOM } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  submitForm,
+  getFormDOM,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
 describe('Burial military history previous names', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.previousNames;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.militaryHistory.pages.previousNames;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
@@ -28,7 +36,8 @@ describe('Burial military history previous names', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = findDOMNode(form);
@@ -46,7 +55,8 @@ describe('Burial military history previous names', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -66,7 +76,8 @@ describe('Burial military history previous names', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -83,7 +94,8 @@ describe('Burial military history previous names', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -93,10 +105,13 @@ describe('Burial military history previous names', () => {
     formDOM.fillData('#root_previousNames_0_last', 'Doe');
     formDOM.fillData('#root_previousNames_0_suffix', 'Jr.');
 
-    ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
+    ReactTestUtils.Simulate.click(
+      formDOM.querySelector('.va-growable-add-btn'),
+    );
 
-    expect(formDOM.querySelector('.va-growable-background').textContent)
-      .to.contain('Jane Doe, Jr.');
+    expect(
+      formDOM.querySelector('.va-growable-background').textContent,
+    ).to.contain('Jane Doe, Jr.');
   });
 
   it('should submit with valid data', () => {
@@ -106,7 +121,8 @@ describe('Burial military history previous names', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);

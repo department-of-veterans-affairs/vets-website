@@ -14,8 +14,7 @@ describe('Schemaform <FormSaved>', () => {
     global.window = {
       open: windowOpen,
       dataLayer: [],
-      VetsGov: {
-      },
+      VetsGov: {},
       location: {},
     };
   };
@@ -25,26 +24,23 @@ describe('Schemaform <FormSaved>', () => {
   const route = {
     pageList: [
       {
-        path: 'wrong-path'
+        path: 'wrong-path',
       },
       {
-        path: 'testing'
-      }
+        path: 'testing',
+      },
     ],
-    formConfig: {
-    }
+    formConfig: {},
   };
   const formId = '1010ez';
-  const user = () => {
-    return {
-      profile: {
-        prefillsAvailable: []
-      },
-      login: {
-        verifyUrl: 'http://fake-verify-url'
-      }
-    };
-  };
+  const user = () => ({
+    profile: {
+      prefillsAvailable: [],
+    },
+    login: {
+      verifyUrl: 'http://fake-verify-url',
+    },
+  });
   const lastSavedDate = 1497300513914;
   const expirationDate = moment().unix() + 2000;
   before(setup);
@@ -52,16 +48,30 @@ describe('Schemaform <FormSaved>', () => {
 
   it('should render', () => {
     const tree = SkinDeep.shallowRender(
-      <FormSaved formId={formId} lastSavedDate={lastSavedDate} expirationDate={expirationDate} route={route} user={user()}/>
+      <FormSaved
+        formId={formId}
+        lastSavedDate={lastSavedDate}
+        expirationDate={expirationDate}
+        route={route}
+        user={user()}
+      />,
     );
     expect(tree.subTree('withRouter(FormStartControls)')).not.to.be.false;
-    expect(tree.subTree('withRouter(FormStartControls)').props.startPage).to.equal('testing');
+    expect(
+      tree.subTree('withRouter(FormStartControls)').props.startPage,
+    ).to.equal('testing');
     expect(tree.subTree('.usa-alert').text()).to.contain('6/12/2017 at');
     expect(tree.subTree('.usa-alert').text()).to.contain('will expire on');
   });
   it('should display verify link if user is not verified', () => {
     const tree = SkinDeep.shallowRender(
-      <FormSaved formId={formId} lastSavedDate={lastSavedDate} expirationDate={expirationDate} route={route} user={user()}/>
+      <FormSaved
+        formId={formId}
+        lastSavedDate={lastSavedDate}
+        expirationDate={expirationDate}
+        route={route}
+        user={user()}
+      />,
     );
 
     expect(tree.everySubTree('.usa-alert').length).to.equal(2);
@@ -70,7 +80,13 @@ describe('Schemaform <FormSaved>', () => {
     const u = user();
     u.profile.verified = true;
     const tree = SkinDeep.shallowRender(
-      <FormSaved formId={formId} lastSavedDate={lastSavedDate} expirationDate={expirationDate} route={route} user={u}/>
+      <FormSaved
+        formId={formId}
+        lastSavedDate={lastSavedDate}
+        expirationDate={expirationDate}
+        route={route}
+        user={u}
+      />,
     );
 
     expect(tree.everySubTree('.usa-alert').length).to.equal(1);

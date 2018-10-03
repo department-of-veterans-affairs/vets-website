@@ -22,13 +22,16 @@ export class RateLimiter extends React.Component {
   constructor(props) {
     super(props);
     // 0 is nothing gets through, 1 is everything gets through
-    const { rateLimitAuthed = 1, rateLimitUnauthed = 1 } = window.settings[props.id] || {};
+    const { rateLimitAuthed = 1, rateLimitUnauthed = 1 } =
+      window.settings[props.id] || {};
     const randomizer = Math.random();
 
     this.state = {
-      rateLimitDisabled: window.sessionStorage.getItem(`${props.id}_rateLimitDisabled`),
+      rateLimitDisabled: window.sessionStorage.getItem(
+        `${props.id}_rateLimitDisabled`,
+      ),
       passedUnauthedRateLimit: randomizer < rateLimitUnauthed,
-      passedAuthedRateLimit: randomizer < rateLimitAuthed
+      passedAuthedRateLimit: randomizer < rateLimitAuthed,
     };
   }
 
@@ -44,26 +47,37 @@ export class RateLimiter extends React.Component {
     const { state, waitForProfile, id } = this.props;
     const { passedAuthedRateLimit, passedUnauthedRateLimit } = this.state;
 
-    if ((!state.user.profile.loading || !waitForProfile) && (
-      (state.user.login.currentlyLoggedIn && passedAuthedRateLimit) ||
-      (!state.user.login.currentlyLoggedIn && passedUnauthedRateLimit)
-    )) {
+    if (
+      (!state.user.profile.loading || !waitForProfile) &&
+      ((state.user.login.currentlyLoggedIn && passedAuthedRateLimit) ||
+        (!state.user.login.currentlyLoggedIn && passedUnauthedRateLimit))
+    ) {
       window.sessionStorage.setItem(`${id}_rateLimitDisabled`, 'true');
     }
-  }
+  };
 
   render() {
-    const { state, bypassLimit, renderLimitedContent, waitForProfile, children } = this.props;
+    const {
+      state,
+      bypassLimit,
+      renderLimitedContent,
+      waitForProfile,
+      children,
+    } = this.props;
 
     if (waitForProfile && state.user.profile.loading) {
-      return <LoadingIndicator message="Loading your profile information..."/>;
+      return <LoadingIndicator message="Loading your profile information..." />;
     }
 
     const passedRateLimit = state.user.login.currentlyLoggedIn
       ? this.state.passedAuthedRateLimit
       : this.state.passedUnauthedRateLimit;
 
-    if (passedRateLimit || this.state.rateLimitDisabled || (bypassLimit && bypassLimit(state))) {
+    if (
+      passedRateLimit ||
+      this.state.rateLimitDisabled ||
+      (bypassLimit && bypassLimit(state))
+    ) {
       return children;
     }
 
@@ -75,7 +89,7 @@ RateLimiter.propTypes = {
   id: PropTypes.string.isRequired,
   bypassLimit: PropTypes.func,
   waitForProfile: PropTypes.bool,
-  state: PropTypes.object.isRequired
+  state: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

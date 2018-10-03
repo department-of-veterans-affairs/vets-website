@@ -12,42 +12,51 @@ export function removeFormApi(formId) {
     headers: {
       'Content-Type': 'application/json',
       'X-Key-Inflection': 'camel',
-      Authorization: `Token token=${userToken}`
+      Authorization: `Token token=${userToken}`,
     },
-  }).then((res) => {
-    if (!res.ok) {
-      return Promise.reject(res);
-    }
+  })
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(res);
+      }
 
-    return Promise.resolve();
-  }).catch(res => {
-    if (res instanceof Error) {
-      Raven.captureException(res);
-      Raven.captureMessage('vets_sip_error_delete');
       return Promise.resolve();
-    } else if (!res.ok) {
-      Raven.captureMessage(`vets_sip_error_delete: ${res.statusText}`);
-    }
+    })
+    .catch(res => {
+      if (res instanceof Error) {
+        Raven.captureException(res);
+        Raven.captureMessage('vets_sip_error_delete');
+        return Promise.resolve();
+      } else if (!res.ok) {
+        Raven.captureMessage(`vets_sip_error_delete: ${res.statusText}`);
+      }
 
-    return Promise.reject(res);
-  });
+      return Promise.reject(res);
+    });
 }
 
-export function saveFormApi(formId, formData, version, returnUrl, savedAt, trackingPrefix) {
+export function saveFormApi(
+  formId,
+  formData,
+  version,
+  returnUrl,
+  savedAt,
+  trackingPrefix,
+) {
   const body = JSON.stringify({
     metadata: {
       version,
       returnUrl,
-      savedAt
+      savedAt,
     },
-    formData
+    formData,
   });
 
   const userToken = conditionalStorage().getItem('userToken');
   if (!userToken) {
     Raven.captureMessage('vets_sip_missing_token');
     recordEvent({
-      event: `${trackingPrefix}sip-form-save-failed`
+      event: `${trackingPrefix}sip-form-save-failed`,
     });
     return Promise.reject(new Error('Missing token'));
   }
@@ -57,42 +66,45 @@ export function saveFormApi(formId, formData, version, returnUrl, savedAt, track
     headers: {
       'Content-Type': 'application/json',
       'X-Key-Inflection': 'camel',
-      Authorization: `Token token=${userToken}`
+      Authorization: `Token token=${userToken}`,
     },
-    body
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
+    body,
+  })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
 
-    return Promise.reject(res);
-  }).then(result => {
-    recordEvent({
-      event: `${trackingPrefix}sip-form-saved`
+      return Promise.reject(res);
+    })
+    .then(result => {
+      recordEvent({
+        event: `${trackingPrefix}sip-form-saved`,
+      });
+
+      return Promise.resolve(result);
+    })
+    .catch(resOrError => {
+      if (resOrError.status === 401) {
+        recordEvent({
+          event: `${trackingPrefix}sip-form-save-signed-out`,
+        });
+      } else if (resOrError instanceof Response) {
+        recordEvent({
+          event: `${trackingPrefix}sip-form-save-failed`,
+        });
+      } else {
+        Raven.captureException(resOrError);
+        Raven.captureMessage('vets_sip_error_save', {
+          extra: {
+            form: sanitizeForm(formData),
+          },
+        });
+        recordEvent({
+          event: `${trackingPrefix}sip-form-save-failed-client`,
+        });
+      }
+
+      return Promise.reject(resOrError);
     });
-
-    return Promise.resolve(result);
-  }).catch(resOrError => {
-    if (resOrError.status === 401) {
-      recordEvent({
-        event: `${trackingPrefix}sip-form-save-signed-out`
-      });
-    } else if (resOrError instanceof Response) {
-      recordEvent({
-        event: `${trackingPrefix}sip-form-save-failed`
-      });
-    } else {
-      Raven.captureException(resOrError);
-      Raven.captureMessage('vets_sip_error_save', {
-        extra: {
-          form: sanitizeForm(formData)
-        }
-      });
-      recordEvent({
-        event: `${trackingPrefix}sip-form-save-failed-client`
-      });
-    }
-
-    return Promise.reject(resOrError);
-  });
 }
