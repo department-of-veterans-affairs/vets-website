@@ -3,7 +3,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Burials and Memorials",
-      "icon": "fa-star",
+      "icon": "fa-star hub-background-star",
       "spokes": ["Get Benefits", "Plan a Burial", "More Resources"]
     }
   },
