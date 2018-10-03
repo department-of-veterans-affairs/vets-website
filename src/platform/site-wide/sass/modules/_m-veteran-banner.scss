@@ -16,7 +16,7 @@
   display: none;
 }
 
-@include media($medium-screen) {
+@include media($small-screen) {
   .veteran-banner-desktop {
     display: block;
   }
