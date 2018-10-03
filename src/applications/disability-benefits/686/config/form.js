@@ -6,6 +6,7 @@ import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp.jsx';
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
@@ -34,6 +35,9 @@ import {
 } from '../helpers.jsx';
 
 import { validateAfterMarriageDate } from '../validation';
+import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
+import { get686AuthorizationState } from '../selectors';
+import { verifyDisabilityRating } from '../actions';
 
 const {
   spouseDateOfBirth,
@@ -101,6 +105,8 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/dependents_applications`,
   transformForSubmit: transform,
+  authorize: verifyDisabilityRating,
+  getAuthorizationState: get686AuthorizationState,
   trackingPrefix: '686-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -113,6 +119,10 @@ const formConfig = {
   },
   title: 'Apply to add a dependent to your VA benefits',
   subTitle: 'VA Form 21-686c',
+  preSubmitInfo,
+  downtime: {
+    dependencies: [externalServices.evss]
+  },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {

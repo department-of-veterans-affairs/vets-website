@@ -1,7 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import Raven from 'raven-js';
-import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
@@ -16,11 +15,10 @@ import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
 import get from '../../../platform/utilities/data/get';
 import { pick } from 'lodash';
-import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
-import { getDisabilityName } from '../all-claims/utils';
+import { getDisabilityName, transformDisabilities } from '../all-claims/utils';
 
 import { VA_FORM4142_URL } from './constants';
 
@@ -155,11 +153,12 @@ export function transform(formConfig, form) {
 
   const additionalDocuments = aggregate(disabilities, 'additionalDocuments');
   const privateRecords = aggregate(disabilities, 'privateRecords');
+  const treatments = aggregate(disabilities, 'treatments');
+
   const providerFacility = disabilities
-    .filter(disability => disability['view:selected'] === true)
-    .map(filtered => filtered.providerFacility)
+    .filter(disability => disability['view:selected'] === true && disability.providerFacility)
     .reduce((accumulator, item) => {
-      return accumulator.concat(item);
+      return accumulator.concat(item.providerFacility);
     }, []);
 
   const transformedData = {
@@ -168,12 +167,13 @@ export function transform(formConfig, form) {
       .map(filtered => pick(filtered, disabilityProperties)),
     // Pull phone & email out of phoneEmailCard and into veteran property
     veteran: setPhoneEmailPaths(veteran),
-    // Extract treatments into one top-level array
-    treatments: aggregate(disabilities, 'treatments'),
     attachments: additionalDocuments.concat(privateRecords),
     privacyAgreementAccepted,
     serviceInformation,
     standardClaim,
+    // treatments has a minItems: 1 requirement so only include the property
+    // if there is at least one treatment to send
+    ...(treatments.length && { treatments }),
     form4142: {
       limitedConsent: gatherLimitedConsentText(disabilities),
       providerFacility: transformProviderFacility(providerFacility),
@@ -197,33 +197,6 @@ export function validateDisability(disability) {
     return false;
   }
   return true;
-}
-
-export function transformDisabilities(disabilities = []) {
-  return (
-    disabilities
-      // We want to remove disabilities without a rating, but 0 counts as a valid rating
-      // TODO: Log the disabilities if they're not service connected
-      // Unfortunately, we don't have decisionCode in the schema, so it's stripped out by the time
-      //  it gets here and we can't tell whether it is service connected or not. This happens in
-      //  the api
-      .filter(disability => {
-        if (disability.ratingPercentage || disability.ratingPercentage === 0) {
-          return true;
-        }
-
-        // TODO: Only log it if the decision code indicates the condition is not non-service-connected
-        const { decisionCode } = disability;
-        if (decisionCode) {
-          Raven.captureMessage('526_increase_disability_filter', {
-            extra: { decisionCode },
-          });
-        }
-
-        return false;
-      })
-      .map(disability => set('disabilityActionType', 'INCREASE', disability))
-  );
 }
 
 export function addPhoneEmailToCard(formData) {
@@ -341,15 +314,13 @@ export const limitedConsentTextTitle = (
 );
 
 export const limitedConsentDescription = (
-  <div className="limitedConsent">
-    <AdditionalInfo triggerText="What does this mean?">
-      <p>
-        If you choose to limit consent, your doctor will abide by the limitation
-        you specify. Limiting consent could add to the time it takes to get your
-        private medical records.
-      </p>
-    </AdditionalInfo>
-  </div>
+  <AdditionalInfo triggerText="What does this mean?">
+    <p>
+      If you choose to limit consent, your doctor will abide by the limitation
+      you specify. Limiting consent could add to the time it takes to get your
+      private medical records.
+    </p>
+  </AdditionalInfo>
 );
 
 export const disabilityNameTitle = ({ formData }) => {
@@ -369,25 +340,6 @@ export const facilityDescription = ({ formData }) => {
   );
 };
 
-export const treatmentView = ({ formData }) => {
-  const { from, to } = formData.treatmentDateRange;
-
-  const name = formData.treatmentCenterName || '';
-  let treatmentPeriod = '';
-  if (from && to) {
-    treatmentPeriod = `${from} — ${to}`;
-  } else if (from || to) {
-    treatmentPeriod = `${from || to}`;
-  }
-
-  return (
-    <div>
-      <strong>{name}</strong>
-      <br/>
-      {treatmentPeriod}
-    </div>
-  );
-};
 
 export const vaMedicalRecordsIntro = ({ formData }) => {
   return (
@@ -1004,34 +956,7 @@ export const noFDCWarning = (
   </div>
 );
 
-export function queryForFacilities(input = '') {
-  // Only search if the input has a length >= 3, otherwise, return an empty array
-  if (input.length < 3) {
-    return Promise.resolve([]);
-  }
-
-  const url = appendQuery('/facilities/suggested', {
-    type: ['health', 'dod_health'],
-    name_part: input, // eslint-disable-line camelcase
-  });
-
-  return apiRequest(
-    url,
-    {},
-    response => {
-      return response.data.map(facility => ({
-        id: facility.id,
-        label: facility.attributes.name,
-      }));
-    },
-    error => {
-      Raven.captureMessage('Error querying for facilities', { input, error });
-      return [];
-    },
-  );
-}
-
-const evidenceTypesDescription = disabilityName => {
+const evidenceTypesDescription = (disabilityName) => {
   return (
     <p>
       What supporting evidence will you be turning in that shows your{' '}
@@ -1091,15 +1016,7 @@ export const contactInfoUpdateHelp = () => (
   </div>
 );
 
-export const validateBooleanIfEvidence = (
-  errors,
-  fieldData,
-  formData,
-  schema,
-  messages,
-  options,
-  index,
-) => {
+export const validateIfHasEvidence = (errors, fieldData, formData, schema, messages, options, index) => {
   const { wrappedValidator } = options;
   if (get('view:hasEvidence', formData, true)) {
     wrappedValidator(errors, fieldData, formData, schema, messages, index);

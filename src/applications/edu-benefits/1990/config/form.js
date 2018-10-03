@@ -11,6 +11,7 @@ import { schema as addressSchema, uiSchema as addressUI } from '../../../../plat
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
 import seniorRotcUI from '../../definitions/seniorRotc';
 import employmentHistoryPage from '../../pages/employmentHistory';
@@ -107,6 +108,7 @@ const formConfig = {
   },
   title: 'Apply for education benefits',
   subTitle: 'Form 22-1990',
+  preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   chapters: {

@@ -25,8 +25,10 @@ function recordDashboardClick(product) {
 
 class MessagingWidget extends React.Component {
   componentDidMount() {
-    this.props.fetchRecipients();
-    this.props.fetchFolder(0, { page: 1, sort: '-sent_date' });
+    if (this.props.canAccessMessaging) {
+      this.props.fetchRecipients();
+      this.props.fetchFolder(0, { page: 1, sort: '-sent_date' });
+    }
   }
 
   render() {
