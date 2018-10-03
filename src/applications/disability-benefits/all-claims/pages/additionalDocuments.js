@@ -5,7 +5,7 @@ import { FIFTY_MB } from '../constants';
 
 import full526EZSchema from '../config/schema.js';
 
-const { attachments } = full526EZSchema;
+const { attachments } = full526EZSchema.properties;
 
 export const uiSchema = {
   additionalDocuments: Object.assign(
