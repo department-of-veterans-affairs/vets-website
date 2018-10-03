@@ -104,9 +104,14 @@ import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWi
 
 const {
   treatments,
-  serviceInformation: { properties: { servicePeriods } },
+  // privateRecordReleases, // TODO: Re-enable after 4142 PDF integration
+  serviceInformation: {
+    properties: { servicePeriods },
+  },
   standardClaim,
-  veteran: { properties: { homelessness } },
+  veteran: {
+    properties: { homelessness },
+  },
   attachments: uploadSchema,
 } = fullSchema526EZ.properties;
 
@@ -667,7 +672,7 @@ const formConfig = {
                       properties: {
                         'view:acknowledgement': {
                           type: 'boolean',
-                          'default': true,
+                          default: true,
                         },
                       },
                     },
@@ -717,12 +722,11 @@ const formConfig = {
                     expandUnder: 'view:limitedConsent',
                     expandUnderCondition: true,
                   },
-                  'ui:required': (formData, index) => {
-                    return _.get(
+                  'ui:required': (formData, index) =>
+                    _.get(
                       `disabilities.${index}.view:limitedConsent`,
                       formData,
-                    );
-                  },
+                    ),
                 },
                 'view:privateRecordsChoiceHelp': {
                   'ui:description': limitedConsentDescription,
@@ -852,12 +856,12 @@ const formConfig = {
                                 },
                                 country: {
                                   type: 'string',
-                                  'enum': countries,
-                                  'default': 'USA',
+                                  enum: countries,
+                                  default: 'USA',
                                 },
                                 state: {
                                   type: 'string',
-                                  'enum': states,
+                                  enum: states,
                                   enumNames: stateNames,
                                 },
                               },

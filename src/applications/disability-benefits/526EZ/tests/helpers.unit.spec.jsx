@@ -139,10 +139,10 @@ describe('526 helpers', () => {
                 street: '1234 test rd',
                 city: 'Testville',
                 country: 'USA',
-                state: 'AZ'
-              }
-            }
-          ]
+                state: 'AZ',
+              },
+            },
+          ],
         },
         treatments: [
           {
@@ -250,10 +250,6 @@ describe('526 helpers', () => {
       const pages = [];
       const formData = _.omit(initialData, 'disabilities');
       const metadata = {};
-<<<<<<< HEAD
-=======
-
->>>>>>> cc1377bd2031b14c0641df4b0d96ee1b1834a19b
       expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({
         pages,
         formData,
@@ -267,10 +263,6 @@ describe('526 helpers', () => {
         someProperty: 'value',
       });
       const metadata = {};
-<<<<<<< HEAD
-=======
-
->>>>>>> cc1377bd2031b14c0641df4b0d96ee1b1834a19b
       expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({
         pages,
         formData,
@@ -304,10 +296,6 @@ describe('526 helpers', () => {
           },
         },
       );
-<<<<<<< HEAD
-=======
-
->>>>>>> cc1377bd2031b14c0641df4b0d96ee1b1834a19b
       const newData = prefillTransformer(pages, formData, metadata);
       expect(newData.formData.obligationTermOfServiceDateRange).to.deep.equal(
         dateRange,
@@ -433,10 +421,6 @@ describe('526 helpers', () => {
           anticipatedSeparationDate: '2099-05-03',
         },
       };
-<<<<<<< HEAD
-=======
-
->>>>>>> cc1377bd2031b14c0641df4b0d96ee1b1834a19b
       expect(getReservesGuardData(formData)).to.deep.equal(
         _.omit(formData, 'view:isTitle10Activated'),
       );

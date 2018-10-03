@@ -156,10 +156,14 @@ export function transform(formConfig, form) {
   const treatments = aggregate(disabilities, 'treatments');
 
   const providerFacility = disabilities
-    .filter(disability => disability['view:selected'] === true && disability.providerFacility)
-    .reduce((accumulator, item) => {
-      return accumulator.concat(item.providerFacility);
-    }, []);
+    .filter(
+      disability =>
+        disability['view:selected'] === true && disability.providerFacility,
+    )
+    .reduce(
+      (accumulator, item) => accumulator.concat(item.providerFacility),
+      [],
+    );
 
   const transformedData = {
     disabilities: disabilities
@@ -296,45 +300,37 @@ export const limitedConsentDescription = (
   </AdditionalInfo>
 );
 
-export const disabilityNameTitle = ({ formData }) => {
-  return (
-    <legend className="schemaform-block-title schemaform-title-underline">
-      {getDisabilityName(formData.name)}
-    </legend>
-  );
-};
+export const disabilityNameTitle = ({ formData }) => (
+  <legend className="schemaform-block-title schemaform-title-underline">
+    {getDisabilityName(formData.name)}
+  </legend>
+);
 
-export const facilityDescription = ({ formData }) => {
-  return (
+export const facilityDescription = ({ formData }) => (
+  <p>
+    Please tell us where VA treated you for {getDisabilityName(formData.name)}{' '}
+    <strong>after you got your disability rating</strong>.
+  </p>
+);
+
+export const vaMedicalRecordsIntro = ({ formData }) => (
+  <p>
+    First we’ll ask you about your VA medical records that show your{' '}
+    {getDisabilityName(formData.name)} has gotten worse.
+  </p>
+);
+
+export const privateRecordsChoice = ({ formData }) => (
+  <div>
+    <h4>About private medical records</h4>
     <p>
-      Please tell us where VA treated you for {getDisabilityName(formData.name)}{' '}
-      <strong>after you got your disability rating</strong>.
+      You said you were treated for {getDisabilityName(formData.name)} by a
+      private doctor. If you have your private medical records, you can upload
+      them to your application. If you want us to get them for you, you‘ll need
+      to authorize their release.
     </p>
-  );
-};
-
-export const vaMedicalRecordsIntro = ({ formData }) => {
-  return (
-    <p>
-      First we’ll ask you about your VA medical records that show your{' '}
-      {getDisabilityName(formData.name)} has gotten worse.
-    </p>
-  );
-};
-
-export const privateRecordsChoice = ({ formData }) => {
-  return (
-    <div>
-      <h4>About private medical records</h4>
-      <p>
-        You said you were treated for {getDisabilityName(formData.name)} by a
-        private doctor. If you have your private medical records, you can upload
-        them to your application. If you want us to get them for you, you’ll
-        need to authorize their release.
-      </p>
-    </div>
-  );
-};
+  </div>
+);
 
 const firstOrNowString = evidenceTypes =>
   evidenceTypes['view:vaMedicalRecords'] ? 'Now' : 'First,';
@@ -493,7 +489,8 @@ export const patientAcknowledgmentText = (
       following website:
       <a href="https://www.benefits.va.gov/privateproviders/" target="_blank">
         https://www.benefits.va.gov/privateproviders/
-      </a>.
+      </a>
+      .
     </p>
   </AdditionalInfo>
 );
@@ -509,8 +506,8 @@ export const download4142Notice = (
     <p>
       <a href={VA_FORM4142_URL} target="_blank">
         Download VA Form 21-4142
-      </a>.
-      <p>Please print the form, fill it out, and send it to:</p>
+      </a>
+      .<p>Please print the form, fill it out, and send it to:</p>
       {claimsIntakeAddress}
       <p>
         Or you can upload a completed VA Form 21-4142 to your online
@@ -608,6 +605,7 @@ const listDocuments = documents => (
 export const evidenceSummaryView = ({ formContext, formData }) => {
   const {
     treatments,
+    privateRecordReleases,
     privateRecords,
     additionalDocuments,
   } = formData;
@@ -880,8 +878,8 @@ export const getEvidenceTypesDescription = (form, index) => {
  * @param {array} disabilities
  * @returns {boolean} true if user selected option to fill out 4142 on their own
  */
-export const get4142Selection = disabilities => {
-  return disabilities.reduce((selected, disability) => {
+export const get4142Selection = disabilities =>
+  disabilities.reduce((selected, disability) => {
     if (selected === true) {
       return true;
     }
@@ -895,7 +893,6 @@ export const get4142Selection = disabilities => {
     }
     return false;
   }, false);
-};
 
 export const contactInfoDescription = () => (
   <p>
@@ -936,17 +933,15 @@ export const validateIfHasEvidence = (
 export const title10DatesRequired = formData =>
   get('view:isTitle10Activated', formData, false);
 
-export const recordReleaseDescription = () => {
-  return (
-    <div>
-      <p>
-        Please let us know where and when you received treatment. We'll request
-        your private medical records for you. If you have records available, you
-        can upload them later in the application.
-      </p>
-    </div>
-  );
-};
+export const recordReleaseDescription = () => (
+  <div>
+    <p>
+      Please let us know where and when you received treatment. We'll request
+      your private medical records for you. If you have records available, you
+      can upload them later in the application.
+    </p>
+  </div>
+);
 
 export const countries = [
   'Afghanistan',

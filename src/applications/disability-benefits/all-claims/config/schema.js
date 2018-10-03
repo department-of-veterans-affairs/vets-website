@@ -530,38 +530,40 @@ const schema = {
           $ref: '#/definitions/date',
         },
       },
-      required: [
-        'from'
-      ]
+      required: ['from'],
     },
     form4142: {
       type: 'object',
       properties: {
         limitedConsent: {
-          type: 'string'
+          type: 'string',
         },
         providerFacility: {
           type: 'array',
-          required: ['providerFacilityName', 'treatmentDateRange', 'providerFacilityAddress'],
+          required: [
+            'providerFacilityName',
+            'treatmentDateRange',
+            'providerFacilityAddress',
+          ],
           items: {
             type: 'object',
             properties: {
               providerFacilityName: {
-                type: 'string'
+                type: 'string',
               },
               treatmentDateRange: {
-                $ref: '#/definitions/dateRange'
+                $ref: '#/definitions/dateRange',
               },
               providerFacilityAddress: {
-                $ref: '#/definitions/address'
-              }
-            }
-          }
+                $ref: '#/definitions/address',
+              },
+            },
+          },
         },
         privacyAgreementAccepted: {
-          $ref: '#/definitions/privacyAgreementAccepted'
-        }
-      }
+          $ref: '#/definitions/privacyAgreementAccepted',
+        },
+      },
     },
     form0781: {
       type: 'object',
@@ -571,67 +573,73 @@ const schema = {
           type: 'object',
           properties: {
             personalAssault: {
-              type: 'boolean'
+              type: 'boolean',
             },
             medalsCitations: {
-              type: 'string'
+              type: 'string',
             },
             incidentDate: {
-              $ref: '#/definitions/date'
+              $ref: '#/definitions/date',
             },
             incidentLocation: {
-              type: 'string'
+              type: 'string',
             },
             incidentDescription: {
-              type: 'string'
+              type: 'string',
             },
             unitAssigned: {
-              type: 'string'
+              type: 'string',
             },
             unitAssignedDates: {
-              $ref: '#/definitions/dateRange'
+              $ref: '#/definitions/dateRange',
             },
             remarks: {
-              type: 'string'
+              type: 'string',
             },
             personInvolved: {
               type: 'array',
               items: {
                 type: 'object',
                 name: {
-                  $ref: '#/definitions/fullName'
+                  $ref: '#/definitions/fullName',
                 },
                 rank: {
-                  type: 'string'
+                  type: 'string',
                 },
                 injuryDeath: {
                   type: 'string',
-                  'enum': ['Killed in Action', 'Killed Non-Battle', 'Wounded in Action', 'Injured Non-Battle', 'Other']
+                  enum: [
+                    'Killed in Action',
+                    'Killed Non-Battle',
+                    'Wounded in Action',
+                    'Injured Non-Battle',
+                    'Other',
+                  ],
                 },
                 injuryDeathDate: {
-                  $ref: '#/definitions/date'
+                  $ref: '#/definitions/date',
                 },
                 unitAssigned: {
-                  type: 'string'
-                }
-              }
+                  type: 'string',
+                },
+              },
             },
             source: {
               type: 'array',
               items: {
                 type: 'object',
                 name: {
-                  $ref: '#/definitions/fullName'
+                  $ref: '#/definitions/fullName',
                 },
                 address: {
-                  $ref: '#/definitions/address'
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+                  $ref: '#/definitions/address',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
   properties: {
     alternateNames: {
