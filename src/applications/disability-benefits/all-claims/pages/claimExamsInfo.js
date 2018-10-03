@@ -1,10 +1,13 @@
-import { claimExamsDescription, claimExamsFAQ } from '../content/claimExamsInfo';
+import {
+  claimExamsDescription,
+  claimExamsFAQ,
+} from '../content/claimExamsInfo';
 
 export const uiSchema = {
   'ui:description': claimExamsDescription,
   'view:faqAccordion': {
-    'ui:description': claimExamsFAQ
-  }
+    'ui:description': claimExamsFAQ,
+  },
 };
 
 export const schema = {
@@ -12,7 +15,7 @@ export const schema = {
   properties: {
     'view:faqAccordion': {
       type: 'object',
-      properties: {}
-    }
-  }
+      properties: {},
+    },
+  },
 };

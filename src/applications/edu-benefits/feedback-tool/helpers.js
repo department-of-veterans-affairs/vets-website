@@ -15,11 +15,11 @@ export const trackingPrefix = 'edu-feedback-tool-';
 const { get } = dataUtils;
 const domesticSchoolAddressFields = get(
   'properties.educationDetails.properties.school.properties.address.anyOf[0].properties',
-  fullSchema
+  fullSchema,
 );
 const searchToolSchoolAddressFields = get(
   'properties.educationDetails.properties.school.properties.address.anyOf[2].properties',
-  fullSchema
+  fullSchema,
 );
 
 // The flags to add to formData that will indicate if a page is prefilled or not
@@ -47,14 +47,14 @@ export function fetchInstitutions({ institutionQuery, page, onDone, onError }) {
   const fetchUrl = appendQuery('/gi/institutions/search', {
     name: institutionQuery,
     include_address: true, // eslint-disable-line camelcase
-    page
+    page,
   });
 
   return apiRequest(
     fetchUrl,
     null,
     payload => onDone(payload),
-    error => onError(error)
+    error => onError(error),
   );
 }
 
@@ -62,33 +62,28 @@ export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form, null);
   return JSON.stringify({
     giBillFeedback: {
-      form: formData
-    }
+      form: formData,
+    },
   });
 }
 
 function checkStatus(guid) {
   const headers = { 'Content-Type': 'application/json' };
 
-  return apiRequest(
-    `/gi_bill_feedbacks/${guid}`,
-    { headers },
-    null,
-    res => {
-      if (res instanceof Error) {
-        Raven.captureException(res);
-        Raven.captureMessage('vets_gi_bill_feedbacks_poll_client_error');
-        recordEvent({ event: `${trackingPrefix}submission-failed` });
+  return apiRequest(`/gi_bill_feedbacks/${guid}`, { headers }, null, res => {
+    if (res instanceof Error) {
+      Raven.captureException(res);
+      Raven.captureMessage('vets_gi_bill_feedbacks_poll_client_error');
+      recordEvent({ event: `${trackingPrefix}submission-failed` });
 
-        // keep polling because we know they submitted earlier
-        // and this is likely a network error
-        return Promise.resolve();
-      }
-
-      // if we get here, it's likely that we hit a server error
-      return Promise.reject(res);
+      // keep polling because we know they submitted earlier
+      // and this is likely a network error
+      return Promise.resolve();
     }
-  );
+
+    // if we get here, it's likely that we hit a server error
+    return Promise.reject(res);
+  });
 }
 
 const POLLING_INTERVAL = 1000;
@@ -104,7 +99,11 @@ function pollStatus(guid, onDone, onError) {
         } else {
           recordEvent({ event: `${trackingPrefix}submission-failed` });
           // needs to start with this string to get the right message on the form
-          throw new Error(`vets_server_error_gi_bill_feedbacks: status ${res.data.attributes.state}`);
+          throw new Error(
+            `vets_server_error_gi_bill_feedbacks: status ${
+              res.data.attributes.state
+            }`,
+          );
         }
       })
       .catch(onError);
@@ -117,18 +116,21 @@ export function submit(form, formConfig) {
   const apiRequestOptions = {
     method: 'POST',
     headers,
-    body
+    body,
   };
 
   const onSuccess = json => {
     const guid = json.data.attributes.guid;
     return new Promise((resolve, reject) => {
-      pollStatus(guid,
+      pollStatus(
+        guid,
         response => {
-          recordEvent({ event: `${formConfig.trackingPrefix}submission-successful` });
+          recordEvent({
+            event: `${formConfig.trackingPrefix}submission-successful`,
+          });
           return resolve(response);
         },
-        error => reject(error)
+        error => reject(error),
       );
     });
   };
@@ -137,7 +139,10 @@ export function submit(form, formConfig) {
     if (respOrError instanceof Response) {
       if (respOrError.status === 429) {
         const error = new Error('vets_throttled_error_gi_bill_feedbacks');
-        error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
+        error.extra = parseInt(
+          respOrError.headers.get('x-ratelimit-reset'),
+          10,
+        );
         recordEvent({ event: `${formConfig.trackingPrefix}submission-failed` });
         return Promise.reject(error);
       }
@@ -149,7 +154,7 @@ export function submit(form, formConfig) {
     '/gi_bill_feedbacks',
     apiRequestOptions,
     onSuccess,
-    onFailure
+    onFailure,
   );
 }
 
@@ -157,7 +162,7 @@ export function submit(form, formConfig) {
  * The base object all the onBehalfOf tracking event objects extend
  */
 const baseOnBehalfOfEventObject = {
-  event: `${trackingPrefix}applicant-selection`
+  event: `${trackingPrefix}applicant-selection`,
 };
 
 /**
@@ -167,15 +172,15 @@ const baseOnBehalfOfEventObject = {
 const applicantRelationshipEventMap = {
   Myself: {
     ...baseOnBehalfOfEventObject,
-    completingForm: 'myself'
+    completingForm: 'myself',
   },
   'Someone else': {
     ...baseOnBehalfOfEventObject,
-    completingForm: 'someone-else'
+    completingForm: 'someone-else',
   },
   Anonymous: {
     ...baseOnBehalfOfEventObject,
-    completingForm: 'anonymous'
+    completingForm: 'anonymous',
   },
 };
 
@@ -185,7 +190,13 @@ const applicantRelationshipEventMap = {
  * form)
  */
 export function recordApplicantRelationship({ formData: { onBehalfOf } }) {
-  return <UserInteractionRecorder eventRecorder={recordEvent} selectedValue={onBehalfOf} trackingEventMap={applicantRelationshipEventMap}></UserInteractionRecorder>;
+  return (
+    <UserInteractionRecorder
+      eventRecorder={recordEvent}
+      selectedValue={onBehalfOf}
+      trackingEventMap={applicantRelationshipEventMap}
+    />
+  );
 }
 
 /**
@@ -193,38 +204,80 @@ export function recordApplicantRelationship({ formData: { onBehalfOf } }) {
  * @param {string} Label text
  * @param {string} Example text
  */
-export const getIssueLabel = (labelText, exampleText) => {
-  return (<div>
-    {labelText}<br/>
-    <span><i>{exampleText}</i></span>
-  </div>);
-};
+export const getIssueLabel = (labelText, exampleText) => (
+  <div>
+    {labelText}
+    <br />
+    <span>
+      <i>{exampleText}</i>
+    </span>
+  </div>
+);
 
-export const transcriptReleaseLabel = getIssueLabel('Release of transcripts', 'The school won’t release your transcripts.');
+export const transcriptReleaseLabel = getIssueLabel(
+  'Release of transcripts',
+  'The school won’t release your transcripts.',
+);
 
-export const recruitingLabel = getIssueLabel('Recruiting or marketing practices', 'The school made inaccurate claims about the quality of its education or its school requirements.');
+export const recruitingLabel = getIssueLabel(
+  'Recruiting or marketing practices',
+  'The school made inaccurate claims about the quality of its education or its school requirements.',
+);
 
-export const studentLoansLabel = getIssueLabel('Student loan', 'The school didn’t provide you total a cost of your school loan.');
+export const studentLoansLabel = getIssueLabel(
+  'Student loan',
+  'The school didn’t provide you total a cost of your school loan.',
+);
 
-export const qualityLabel = getIssueLabel('Quality of education', 'The school doesn’t have qualified teachers.');
+export const qualityLabel = getIssueLabel(
+  'Quality of education',
+  'The school doesn’t have qualified teachers.',
+);
 
-export const creditTransferLabel = getIssueLabel('Transfer of credits', 'The school isn’t accredited for transfer of credits.');
+export const creditTransferLabel = getIssueLabel(
+  'Transfer of credits',
+  'The school isn’t accredited for transfer of credits.',
+);
 
-export const accreditationLabel = getIssueLabel('Accreditation', 'The school is unable to get or keep accreditation.');
+export const accreditationLabel = getIssueLabel(
+  'Accreditation',
+  'The school is unable to get or keep accreditation.',
+);
 
-export const jobOpportunitiesLabel = getIssueLabel('Post-graduation job opportunity', 'The school made promises to you about job placement or salary after graduation.');
+export const jobOpportunitiesLabel = getIssueLabel(
+  'Post-graduation job opportunity',
+  'The school made promises to you about job placement or salary after graduation.',
+);
 
-export const gradePolicyLabel = getIssueLabel('Grade policy', 'The school didn’t give you a copy of its grade policy or it changed its grade policy in the middle of the year.');
+export const gradePolicyLabel = getIssueLabel(
+  'Grade policy',
+  'The school didn’t give you a copy of its grade policy or it changed its grade policy in the middle of the year.',
+);
 
-export const refundIssuesLabel = getIssueLabel('Refund issues', 'The school won’t refund your GI Bill payment.');
+export const refundIssuesLabel = getIssueLabel(
+  'Refund issues',
+  'The school won’t refund your GI Bill payment.',
+);
 
-export const financialIssuesLabel = getIssueLabel('Financial concern', 'The school is charging you a higher tuition or extra fees.');
+export const financialIssuesLabel = getIssueLabel(
+  'Financial concern',
+  'The school is charging you a higher tuition or extra fees.',
+);
 
-export const changeInDegreeLabel = getIssueLabel('Change in degree plan or requirements', 'The school added new hour or course requirements after you enrolled.');
+export const changeInDegreeLabel = getIssueLabel(
+  'Change in degree plan or requirements',
+  'The school added new hour or course requirements after you enrolled.',
+);
 
 export function issueUIDescription({ formContext }) {
-  if (!formContext) { // HACK: due to https://github.com/usds/us-forms-system/issues/260
-    return <div>Please note, below the topics are examples of what the feedback could include.</div>;
+  if (!formContext) {
+    // HACK: due to https://github.com/usds/us-forms-system/issues/260
+    return (
+      <div>
+        Please note, below the topics are examples of what the feedback could
+        include.
+      </div>
+    );
   }
   return null;
 }
@@ -257,28 +310,52 @@ export function removeEmptyStringProperties(obj) {
  * @returns {Object} An Object that passes the FEEDBACK-TOOL's educationDetails.
  * school.address schema.
  */
-export function transformSearchToolAddress({ address1, address2, address3, city, country, state, zip }) {
+export function transformSearchToolAddress({
+  address1,
+  address2,
+  address3,
+  city,
+  country,
+  state,
+  zip,
+}) {
   const isDomesticAddress = country === 'USA';
   let address = {};
   if (isDomesticAddress) {
     address = {
       country: 'United States',
-      street: address1 && address1.slice(0, domesticSchoolAddressFields.street.maxLength),
-      street2: address2 && address2.slice(0, domesticSchoolAddressFields.street2.maxLength),
-      street3: address3 && address3.slice(0, domesticSchoolAddressFields.street3.maxLength),
+      street:
+        address1 &&
+        address1.slice(0, domesticSchoolAddressFields.street.maxLength),
+      street2:
+        address2 &&
+        address2.slice(0, domesticSchoolAddressFields.street2.maxLength),
+      street3:
+        address3 &&
+        address3.slice(0, domesticSchoolAddressFields.street3.maxLength),
       city: city && city.slice(0, domesticSchoolAddressFields.city.maxLength),
-      state: state && state.slice(0, domesticSchoolAddressFields.state.maxLength),
-      postalCode: zip && zip.slice(0, domesticSchoolAddressFields.postalCode.maxLength),
+      state:
+        state && state.slice(0, domesticSchoolAddressFields.state.maxLength),
+      postalCode:
+        zip && zip.slice(0, domesticSchoolAddressFields.postalCode.maxLength),
     };
   } else {
     address = {
       country,
-      street: address1 && address1.slice(0, searchToolSchoolAddressFields.street.maxLength),
-      street2: address2 && address2.slice(0, searchToolSchoolAddressFields.street2.maxLength),
-      street3: address3 && address3.slice(0, searchToolSchoolAddressFields.street3.maxLength),
+      street:
+        address1 &&
+        address1.slice(0, searchToolSchoolAddressFields.street.maxLength),
+      street2:
+        address2 &&
+        address2.slice(0, searchToolSchoolAddressFields.street2.maxLength),
+      street3:
+        address3 &&
+        address3.slice(0, searchToolSchoolAddressFields.street3.maxLength),
       city: city && city.slice(0, searchToolSchoolAddressFields.city.maxLength),
-      state: state && state.slice(0, searchToolSchoolAddressFields.state.maxLength),
-      postalCode: zip && zip.slice(0, searchToolSchoolAddressFields.postalCode.maxLength),
+      state:
+        state && state.slice(0, searchToolSchoolAddressFields.state.maxLength),
+      postalCode:
+        zip && zip.slice(0, searchToolSchoolAddressFields.postalCode.maxLength),
     };
   }
   return removeEmptyStringProperties(address);

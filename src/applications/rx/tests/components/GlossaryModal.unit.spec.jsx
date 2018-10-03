@@ -15,19 +15,19 @@ const props = {
 
 describe('<GlossaryModal>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<GlossaryModal {...props}/>);
+    const tree = SkinDeep.shallowRender(<GlossaryModal {...props} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
   it('should have the expected id', () => {
-    const tree = SkinDeep.shallowRender(<GlossaryModal {...props}/>);
+    const tree = SkinDeep.shallowRender(<GlossaryModal {...props} />);
 
     expect(tree.props.id).to.equal('rx-glossary-modal');
   });
 
   it('should render a Modal', () => {
-    const tree = SkinDeep.shallowRender(<GlossaryModal {...props}/>);
+    const tree = SkinDeep.shallowRender(<GlossaryModal {...props} />);
 
     expect(tree.subTree('Modal')).to.be.ok;
   });
@@ -36,9 +36,7 @@ describe('<GlossaryModal>', () => {
     const onCloseModal = sinon.spy();
 
     const glossaryLink = ReactTestUtils.renderIntoDocument(
-      <GlossaryModal
-        {...props}
-        onCloseModal={onCloseModal}/>
+      <GlossaryModal {...props} onCloseModal={onCloseModal} />,
     );
 
     glossaryLink.handleCloseModal({ preventDefault: () => {} });

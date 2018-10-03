@@ -8,9 +8,14 @@ class StatsBar extends React.Component {
     return (
       <div className="fl-stats-bar-container">
         <div className="fl-stats-bar">
-          <div className={`fl-stats-bar-inner ${color}`} style={{ width: `${Math.min(percent, 100)}%` }}/>
+          <div
+            className={`fl-stats-bar-inner ${color}`}
+            style={{ width: `${Math.min(percent, 100)}%` }}
+          />
         </div>
-        <div><strong>{percent.toFixed(0)} %</strong></div>
+        <div>
+          <strong>{percent.toFixed(0)} %</strong>
+        </div>
       </div>
     );
   }

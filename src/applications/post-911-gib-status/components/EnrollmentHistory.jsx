@@ -12,7 +12,9 @@ class EnrollmentHistory extends React.Component {
 
     // History explanation box
     let historyExplanationBox;
-    const noEnrollmentHistory = enrollmentData.usedEntitlement.months === 0 && enrollmentData.usedEntitlement.days === 0;
+    const noEnrollmentHistory =
+      enrollmentData.usedEntitlement.months === 0 &&
+      enrollmentData.usedEntitlement.days === 0;
 
     if (noEnrollmentHistory) {
       historyExplanationBox = enrollmentHistoryExplanation.noEnrollmentHistory;
@@ -27,7 +29,8 @@ class EnrollmentHistory extends React.Component {
         <EnrollmentPeriod
           key={indexKey}
           id={indexKey}
-          enrollment={enrollment}/>
+          enrollment={enrollment}
+        />
       );
     });
 
@@ -42,16 +45,12 @@ class EnrollmentHistory extends React.Component {
       );
     }
 
-    return (
-      <div>
-        {sectionContent}
-      </div>
-    );
+    return <div>{sectionContent}</div>;
   }
 }
 
 EnrollmentHistory.propTypes = {
-  enrollmentData: PropTypes.object
+  enrollmentData: PropTypes.object,
 };
 
 export default EnrollmentHistory;

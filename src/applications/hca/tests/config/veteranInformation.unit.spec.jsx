@@ -4,27 +4,38 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
-import { DefinitionTester, submitForm } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  submitForm,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
 describe('HCA veteranInformation', () => {
   it('should render veteranInformation page', () => {
     const onSubmit = sinon.spy();
-    const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranInformation;
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.veteranInformation.pages.veteranInformation;
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         data={{}}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(5);
     expect(formDOM.querySelector('#root_veteranFullName_first')).not.to.be.null;
-    expect(formDOM.querySelector('#root_veteranFullName_middle').maxLength).to.equal(30);
-    expect(formDOM.querySelector('#root_mothersMaidenName').maxLength).to.equal(35);
+    expect(
+      formDOM.querySelector('#root_veteranFullName_middle').maxLength,
+    ).to.equal(30);
+    expect(formDOM.querySelector('#root_mothersMaidenName').maxLength).to.equal(
+      35,
+    );
 
     submitForm(form);
 
@@ -34,18 +45,23 @@ describe('HCA veteranInformation', () => {
 
   it('should render birthInformation page', () => {
     const onSubmit = sinon.spy();
-    const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.birthInformation;
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.veteranInformation.pages.birthInformation;
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         data={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(6);
-    expect(formDOM.querySelector('#root_veteranSocialSecurityNumber')).not.to.be.null;
+    expect(formDOM.querySelector('#root_veteranSocialSecurityNumber')).not.to.be
+      .null;
 
     submitForm(form);
 
@@ -55,13 +71,17 @@ describe('HCA veteranInformation', () => {
 
   it('should render demographicInformation page', () => {
     const onSubmit = sinon.spy();
-    const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.demographicInformation;
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.veteranInformation.pages.demographicInformation;
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         data={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
@@ -76,18 +96,23 @@ describe('HCA veteranInformation', () => {
 
   it('should render veteranAddress page', () => {
     const onSubmit = sinon.spy();
-    const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranAddress;
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.veteranInformation.pages.veteranAddress;
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         data={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(7);
-    expect(formDOM.querySelector('#root_veteranAddress_country')).not.to.be.null;
+    expect(formDOM.querySelector('#root_veteranAddress_country')).not.to.be
+      .null;
 
     submitForm(form);
 
@@ -96,12 +121,12 @@ describe('HCA veteranInformation', () => {
   });
 
   it('should render contactInformation page', () => {
-    const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.contactInformation;
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.veteranInformation.pages.contactInformation;
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{}}
-        uiSchema={uiSchema}/>
+      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
     );
     const formDOM = findDOMNode(form);
 

@@ -9,7 +9,7 @@ export default {
     'blackLung',
     'serviceRetirement',
     'ssi',
-    'additionalSources'
+    'additionalSources',
   ],
   socialSecurity: currencyUI('Social Security'),
   civilService: currencyUI('US Civil Service'),
@@ -17,5 +17,5 @@ export default {
   blackLung: currencyUI('Black Lung Benefits'),
   serviceRetirement: currencyUI('Service Retirement'),
   ssi: currencyUI('Supplemental Security Income (SSI) or Public Assistance'),
-  additionalSources: additionalSourcesUI
+  additionalSources: additionalSourcesUI,
 };

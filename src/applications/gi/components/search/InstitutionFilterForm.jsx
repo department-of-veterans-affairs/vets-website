@@ -6,7 +6,6 @@ import RadioButtons from '../RadioButtons';
 import Dropdown from '../Dropdown';
 
 class InstitutionFilterForm extends React.Component {
-
   constructor(props) {
     super(props);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
@@ -32,7 +31,7 @@ class InstitutionFilterForm extends React.Component {
     const options = [
       { value: 'ALL', label: 'All' },
       { value: 'school', label: 'Schools only' },
-      { value: 'employer', label: 'Employers only' }
+      { value: 'employer', label: 'Employers only' },
     ];
 
     return (
@@ -41,7 +40,8 @@ class InstitutionFilterForm extends React.Component {
         name="category"
         options={options}
         value={this.props.filters.category}
-        onChange={this.handleDropdownChange}/>
+        onChange={this.handleDropdownChange}
+      />
     );
   }
 
@@ -50,8 +50,8 @@ class InstitutionFilterForm extends React.Component {
       { value: 'ALL', label: 'ALL' },
       ...this.props.search.facets.country.map(country => ({
         value: country.name,
-        label: country.name
-      }))
+        label: country.name,
+      })),
     ];
 
     return (
@@ -62,7 +62,8 @@ class InstitutionFilterForm extends React.Component {
         value={this.props.filters.country}
         alt="Filter results by country"
         visible
-        onChange={this.handleDropdownChange}/>
+        onChange={this.handleDropdownChange}
+      />
     );
   }
 
@@ -71,8 +72,8 @@ class InstitutionFilterForm extends React.Component {
       { value: 'ALL', label: 'ALL' },
       ...Object.keys(this.props.search.facets.state).map(state => ({
         value: state,
-        label: state
-      }))
+        label: state,
+      })),
     ];
 
     return (
@@ -83,7 +84,8 @@ class InstitutionFilterForm extends React.Component {
         value={this.props.filters.state}
         alt="Filter results by state"
         visible
-        onChange={this.handleDropdownChange}/>
+        onChange={this.handleDropdownChange}
+      />
     );
   }
 
@@ -97,47 +99,60 @@ class InstitutionFilterForm extends React.Component {
           checked={filters.studentVeteranGroup}
           name="studentVeteranGroup"
           label="Student Vet Group"
-          onChange={this.handleCheckboxChange}/>
+          onChange={this.handleCheckboxChange}
+        />
         <Checkbox
           checked={filters.yellowRibbonScholarship}
           name="yellowRibbonScholarship"
           label="Yellow Ribbon"
-          onChange={this.handleCheckboxChange}/>
+          onChange={this.handleCheckboxChange}
+        />
         <Checkbox
           checked={filters.principlesOfExcellence}
           name="principlesOfExcellence"
           label="Principles of Excellence"
-          onChange={this.handleCheckboxChange}/>
+          onChange={this.handleCheckboxChange}
+        />
         <Checkbox
           checked={filters.eightKeysToVeteranSuccess}
           name="eightKeysToVeteranSuccess"
           label="8 Keys to Vet Success"
-          onChange={this.handleCheckboxChange}/>
+          onChange={this.handleCheckboxChange}
+        />
         <Checkbox
           checked={filters.stemOffered}
           name="stemOffered"
           label="STEM (Science, Technology, Engineering, and Math)"
-          onChange={this.handleCheckboxChange}/>
+          onChange={this.handleCheckboxChange}
+        />
         <Checkbox
           checked={filters.priorityEnrollment}
           name="priorityEnrollment"
           label="Priority Enrollment"
-          onChange={this.handleCheckboxChange}/>
+          onChange={this.handleCheckboxChange}
+        />
         <Checkbox
           checked={filters.independentStudy}
           name="independentStudy"
           label="Independent Study"
-          onChange={this.handleCheckboxChange}/>
-        {__BUILDTYPE__ !== 'production' && <Checkbox
-          checked={filters.onlineOnly}
-          name="onlineOnly"
-          label="Online Only"
-          onChange={this.handleCheckboxChange}/>}
-        {__BUILDTYPE__ !== 'production' && <Checkbox
-          checked={filters.distanceLearning}
-          name="distanceLearning"
-          label="Distance Learning"
-          onChange={this.handleCheckboxChange}/>}
+          onChange={this.handleCheckboxChange}
+        />
+        {__BUILDTYPE__ !== 'production' && (
+          <Checkbox
+            checked={filters.onlineOnly}
+            name="onlineOnly"
+            label="Online Only"
+            onChange={this.handleCheckboxChange}
+          />
+        )}
+        {__BUILDTYPE__ !== 'production' && (
+          <Checkbox
+            checked={filters.distanceLearning}
+            name="distanceLearning"
+            label="Distance Learning"
+            onChange={this.handleCheckboxChange}
+          />
+        )}
       </div>
     );
   }
@@ -147,8 +162,8 @@ class InstitutionFilterForm extends React.Component {
       { value: 'ALL', label: 'ALL' },
       ...Object.keys(this.props.search.facets.type).map(type => ({
         value: type,
-        label: type
-      }))
+        label: type,
+      })),
     ];
 
     return (
@@ -159,7 +174,8 @@ class InstitutionFilterForm extends React.Component {
         value={this.props.filters.type}
         alt="Filter results by institution type"
         visible
-        onChange={this.handleDropdownChange}/>
+        onChange={this.handleDropdownChange}
+      />
     );
   }
 
@@ -175,7 +191,6 @@ class InstitutionFilterForm extends React.Component {
       </div>
     );
   }
-
 }
 
 InstitutionFilterForm.propTypes = {
@@ -192,7 +207,7 @@ InstitutionFilterForm.propTypes = {
     onlineLearning: PropTypes.bool,
     principlesOfExcellence: PropTypes.bool,
     eightKeysToVeteranSuccess: PropTypes.bool,
-    stemOffered: PropTypes.bool
+    stemOffered: PropTypes.bool,
   }),
   onFilterChange: PropTypes.func,
   search: PropTypes.shape({
@@ -208,8 +223,8 @@ InstitutionFilterForm.propTypes = {
     onlineLearning: PropTypes.bool,
     priorityEnrollment: PropTypes.object,
     independentStudy: PropTypes.object,
-    stemOffered: PropTypes.object
-  })
+    stemOffered: PropTypes.object,
+  }),
 };
 
 InstitutionFilterForm.defaultProps = {};

@@ -15,7 +15,7 @@ import buildSettings from '../monitoring/BuildSettings/reducer';
 import megaMenu from '../site-wide/mega-menu/reducers';
 
 const brandConsolidatedReducers = {
-  megaMenu
+  megaMenu,
 };
 
 /**
@@ -29,7 +29,7 @@ export const commonReducer = {
   scheduledDowntime,
   announcements,
   buildSettings,
-  ...brandConsolidatedReducers
+  ...brandConsolidatedReducers,
 };
 
 /**
@@ -42,8 +42,14 @@ export const commonReducer = {
  */
 export default function createCommonStore(appReducer = {}) {
   const reducer = Object.assign({}, appReducer, commonReducer);
-  const useDevTools = __BUILDTYPE__ !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION__;
+  const useDevTools =
+    __BUILDTYPE__ !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION__;
 
-  return createStore(combineReducers(reducer), compose(
-    applyMiddleware(thunk), useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f));
+  return createStore(
+    combineReducers(reducer),
+    compose(
+      applyMiddleware(thunk),
+      useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
+    ),
+  );
 }

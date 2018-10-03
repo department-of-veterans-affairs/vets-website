@@ -18,12 +18,14 @@ export default function ClaimantView({ formData }) {
       relationship = 'Child';
       break;
     default:
-      // Invalid case; show nothing for relationship.
+    // Invalid case; show nothing for relationship.
   }
 
   return (
     <div>
-      <div><strong>{formatName(name)}</strong></div>
+      <div>
+        <strong>{formatName(name)}</strong>
+      </div>
       <div>{relationship}</div>
     </div>
   );

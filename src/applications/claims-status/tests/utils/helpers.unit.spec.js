@@ -30,7 +30,7 @@ import {
   makeDecisionReviewContent,
   addStatusToIssues,
   isolateAppeal,
-  STATUS_TYPES
+  STATUS_TYPES,
 } from '../../utils/appeals-v2-helpers';
 
 describe('Disability benefits helpers: ', () => {
@@ -39,8 +39,8 @@ describe('Disability benefits helpers: ', () => {
       const events = [
         {
           type: 'filed',
-          date: '2010-05-03'
-        }
+          date: '2010-05-03',
+        },
       ];
 
       const phaseActivity = groupTimelineActivity(events);
@@ -51,8 +51,8 @@ describe('Disability benefits helpers: ', () => {
       const events = [
         {
           type: 'filed',
-          date: null
-        }
+          date: null,
+        },
       ];
 
       const phaseActivity = groupTimelineActivity(events);
@@ -63,20 +63,20 @@ describe('Disability benefits helpers: ', () => {
       const events = [
         {
           type: 'some_event',
-          date: '2010-05-05'
+          date: '2010-05-05',
         },
         {
           type: 'some_event',
-          date: '2010-05-04'
+          date: '2010-05-04',
         },
         {
           type: 'phase1',
-          date: '2010-05-03'
+          date: '2010-05-03',
         },
         {
           type: 'filed',
-          date: '2010-05-01'
-        }
+          date: '2010-05-01',
+        },
       ];
 
       const phaseActivity = groupTimelineActivity(events);
@@ -88,28 +88,28 @@ describe('Disability benefits helpers: ', () => {
       const events = [
         {
           type: 'phase5',
-          date: '2010-05-07'
+          date: '2010-05-07',
         },
         {
           type: 'phase4',
-          date: '2010-05-06'
+          date: '2010-05-06',
         },
         {
           type: 'phase3',
-          date: '2010-05-05'
+          date: '2010-05-05',
         },
         {
           type: 'phase2',
-          date: '2010-05-04'
+          date: '2010-05-04',
         },
         {
           type: 'phase1',
-          date: '2010-05-03'
+          date: '2010-05-03',
         },
         {
           type: 'filed',
-          date: '2010-05-01'
-        }
+          date: '2010-05-01',
+        },
       ];
 
       const phaseActivity = groupTimelineActivity(events);
@@ -121,60 +121,60 @@ describe('Disability benefits helpers: ', () => {
       const events = [
         {
           type: 'received_from_you_list',
-          date: '2016-11-02'
+          date: '2016-11-02',
         },
         {
           type: 'received_from_you_list',
-          date: '2016-11-02'
+          date: '2016-11-02',
         },
         {
           type: 'received_from_you_list',
-          date: '2016-11-02'
+          date: '2016-11-02',
         },
         {
           type: 'received_from_you_list',
-          date: '2016-11-02'
+          date: '2016-11-02',
         },
         {
           type: 'phase5',
-          date: '2016-11-02'
+          date: '2016-11-02',
         },
         {
           type: 'phase4',
-          date: '2016-11-02'
+          date: '2016-11-02',
         },
         {
           type: 'phase3',
-          date: '2016-11-02'
+          date: '2016-11-02',
         },
         {
           type: 'phase2',
-          date: '2016-11-02'
+          date: '2016-11-02',
         },
         {
           type: 'other_documents_list',
-          uploadDate: '2016-03-24'
+          uploadDate: '2016-03-24',
         },
         {
           type: 'other_documents_list',
-          uploadDate: '2015-08-28'
+          uploadDate: '2015-08-28',
         },
         {
           type: 'other_documents_list',
-          uploadDate: '2015-08-28'
+          uploadDate: '2015-08-28',
         },
         {
           type: 'phase1',
-          date: '2015-04-20'
+          date: '2015-04-20',
         },
         {
           type: 'filed',
-          date: '2015-04-20'
+          date: '2015-04-20',
         },
         {
           type: 'other_documents_list',
-          uploadDate: null
-        }
+          uploadDate: null,
+        },
       ];
 
       const phaseActivity = groupTimelineActivity(events);
@@ -190,11 +190,9 @@ describe('Disability benefits helpers: ', () => {
       const claim = {
         attributes: {
           claimType: 'something',
-          contentionList: [
-            'thing'
-          ],
+          contentionList: ['thing'],
           dateFiled: '',
-        }
+        },
       };
 
       expect(isPopulatedClaim(claim)).to.be.false;
@@ -204,12 +202,10 @@ describe('Disability benefits helpers: ', () => {
       const claim = {
         attributes: {
           claimType: 'something',
-          contentionList: [
-            'thing'
-          ],
+          contentionList: ['thing'],
           dateFiled: 'asdf',
-          vaRepresentative: null
-        }
+          vaRepresentative: null,
+        },
       };
 
       expect(isPopulatedClaim(claim)).to.be.true;
@@ -219,11 +215,10 @@ describe('Disability benefits helpers: ', () => {
       const claim = {
         attributes: {
           claimType: 'something',
-          contentionList: [
-          ],
+          contentionList: [],
           dateFiled: 'asdf',
-          vaRepresentative: 'test'
-        }
+          vaRepresentative: 'test',
+        },
       };
 
       expect(isPopulatedClaim(claim)).to.be.false;
@@ -231,8 +226,10 @@ describe('Disability benefits helpers: ', () => {
   });
   describe('truncateDescription', () => {
     it('should truncate text longer than 120 characters', () => {
-      const userText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris';
-      const userTextEllipsed = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq…';
+      const userText =
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris';
+      const userTextEllipsed =
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq…';
 
       const text = truncateDescription(userText);
       expect(text).to.equal(userTextEllipsed);
@@ -242,7 +239,7 @@ describe('Disability benefits helpers: ', () => {
     it('should check that item is reviewed', () => {
       const result = hasBeenReviewed({
         type: 'received_from_you_list',
-        status: 'ACCEPTED'
+        status: 'ACCEPTED',
       });
 
       expect(result).to.be.true;
@@ -250,7 +247,7 @@ describe('Disability benefits helpers: ', () => {
     it('should check that item has not been reviewed', () => {
       const result = hasBeenReviewed({
         type: 'received_from_you_list',
-        status: 'SUBMITTED_AWAITING_REVIEW'
+        status: 'SUBMITTED_AWAITING_REVIEW',
       });
 
       expect(result).to.be.false;
@@ -305,10 +302,8 @@ describe('Disability benefits helpers: ', () => {
     it('should use the received date', () => {
       const date = getItemDate({
         receivedDate: '2010-01-01',
-        documents: [
-          { uploadDate: '2011-01-01' }
-        ],
-        date: '2012-01-01'
+        documents: [{ uploadDate: '2011-01-01' }],
+        date: '2012-01-01',
       });
 
       expect(date).to.equal('2010-01-01');
@@ -316,11 +311,8 @@ describe('Disability benefits helpers: ', () => {
     it('should use the last document upload date', () => {
       const date = getItemDate({
         receivedDate: null,
-        documents: [
-          { uploadDate: '2011-01-01' },
-          { uploadDate: '2012-01-01' }
-        ],
-        date: '2013-01-01'
+        documents: [{ uploadDate: '2011-01-01' }, { uploadDate: '2012-01-01' }],
+        date: '2013-01-01',
       });
 
       expect(date).to.equal('2012-01-01');
@@ -328,9 +320,8 @@ describe('Disability benefits helpers: ', () => {
     it('should use the date', () => {
       const date = getItemDate({
         receivedDate: null,
-        documents: [
-        ],
-        date: '2013-01-01'
+        documents: [],
+        date: '2013-01-01',
       });
 
       expect(date).to.equal('2013-01-01');
@@ -339,7 +330,7 @@ describe('Disability benefits helpers: ', () => {
       const date = getItemDate({
         uploadDate: '2014-01-01',
         type: 'other_documents_list',
-        date: '2013-01-01'
+        date: '2013-01-01',
       });
 
       expect(date).to.equal('2014-01-01');
@@ -349,8 +340,8 @@ describe('Disability benefits helpers: ', () => {
     it('should check if claim is in complete phase', () => {
       const isComplete = isClaimComplete({
         attributes: {
-          phase: 8
-        }
+          phase: 8,
+        },
       });
 
       expect(isComplete).to.be.true;
@@ -358,8 +349,8 @@ describe('Disability benefits helpers: ', () => {
     it('should check if claim has decision letter', () => {
       const isComplete = isClaimComplete({
         attributes: {
-          decisionLetterSent: true
-        }
+          decisionLetterSent: true,
+        },
       });
 
       expect(isComplete).to.be.true;
@@ -370,16 +361,16 @@ describe('Disability benefits helpers: ', () => {
       const itemsNeeded = itemsNeedingAttentionFromVet([
         {
           type: 'still_need_from_you_list',
-          status: 'NEEDED'
+          status: 'NEEDED',
         },
         {
           type: 'still_need_from_you_list',
-          status: 'SUBMITTED_AWAITING_REVIEW'
+          status: 'SUBMITTED_AWAITING_REVIEW',
         },
         {
           type: 'still_need_from_others_list',
-          status: 'NEEDED'
-        }
+          status: 'NEEDED',
+        },
       ]);
 
       expect(itemsNeeded).to.equal(1);
@@ -390,16 +381,16 @@ describe('Disability benefits helpers: ', () => {
     it('should return the claim type', () => {
       const claim = {
         attributes: {
-          claimType: 'Awesome'
-        }
+          claimType: 'Awesome',
+        },
       };
       expect(getClaimType(claim)).to.equal('Awesome');
     });
     it('should return the default claim type', () => {
       const claim = {
         attributes: {
-          claimType: undefined
-        }
+          claimType: undefined,
+        },
       };
       expect(getClaimType(claim)).to.equal('Disability Compensation');
     });
@@ -418,9 +409,11 @@ describe('Disability benefits helpers: ', () => {
       global.fetch = oldFetch;
       conditionalStorage().clear();
     });
-    it('should make a fetch request', (done) => {
+    it('should make a fetch request', done => {
       fetchMock.returns({
-        'catch': () => ({ then: (fn) => fn({ ok: true, json: () => Promise.resolve() }) })
+        catch: () => ({
+          then: fn => fn({ ok: true, json: () => Promise.resolve() }),
+        }),
       });
 
       const onSuccess = () => done();
@@ -430,12 +423,15 @@ describe('Disability benefits helpers: ', () => {
       expect(fetchMock.firstCall.args[0]).to.contain('/testing');
       expect(fetchMock.firstCall.args[1].method).to.equal('GET');
     });
-    it('should reject promise when there is an error', (done) => {
+    it('should reject promise when there is an error', done => {
       fetchMock.returns({
-        'catch': () => ({ then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve() }) })
+        catch: () => ({
+          then: fn =>
+            fn({ ok: false, status: 500, json: () => Promise.resolve() }),
+        }),
       });
 
-      const onError = (resp) => {
+      const onError = resp => {
         expect(resp.ok).to.be.false;
         done();
       };
@@ -445,14 +441,17 @@ describe('Disability benefits helpers: ', () => {
       expect(fetchMock.firstCall.args[0]).to.contain('/testing');
       expect(fetchMock.firstCall.args[1].method).to.equal('GET');
     });
-    it('should dispatch auth error', (done) => {
+    it('should dispatch auth error', done => {
       fetchMock.returns({
-        'catch': () => ({ then: (fn) => fn({ ok: false, status: 401, json: () => Promise.resolve() }) })
+        catch: () => ({
+          then: fn =>
+            fn({ ok: false, status: 401, json: () => Promise.resolve() }),
+        }),
       });
 
       const onError = sinon.spy();
       const onSuccess = sinon.spy();
-      const dispatch = (action) => {
+      const dispatch = action => {
         expect(action.type).to.equal('SET_UNAUTHORIZED');
         expect(onError.called).to.be.false;
         expect(onSuccess.called).to.be.false;
@@ -471,7 +470,9 @@ describe('Disability benefits helpers: ', () => {
       const contents = getStatusContents(type, details);
       expect(contents.title).to.equal('Your hearing has been scheduled');
       // TO-DO: Update with real content
-      const descText = shallow(contents.description).render().text();
+      const descText = shallow(contents.description)
+        .render()
+        .text();
       expect(descText).to.contain(expectedDescSnippet);
     });
 
@@ -479,26 +480,36 @@ describe('Disability benefits helpers: ', () => {
       const type = 123;
       const contents = getStatusContents(type);
       expect(contents.title).to.equal('We don’t know your appeal status');
-      expect(contents.description.props.children).to.equal('We’re sorry, Vets.gov will soon be updated to show your status.');
+      expect(contents.description.props.children).to.equal(
+        'We’re sorry, Vets.gov will soon be updated to show your status.',
+      );
     });
 
     // 'remand' and 'bva_decision' do a fair amount of dynamic content generation and formatting
     // so we should test them specifically to ensure we're getting the desired output
     it('returns the right number of allowed / denied / remand items for remand status', () => {
       const details = {
-        issues: mockData.data[2].attributes.status.details.issues
+        issues: mockData.data[2].attributes.status.details.issues,
       };
       const contents = getStatusContents('remand', details);
-      expect(contents.title).to.equal('The Board made a decision on your appeal');
+      expect(contents.title).to.equal(
+        'The Board made a decision on your appeal',
+      );
 
       const wrapper = shallow(contents.description);
       const allowedList = wrapper.find('.allowed-items ~ ul');
       const deniedList = wrapper.find('.denied-items ~ ul');
       const remandList = wrapper.find('.remand-items ~ ul');
 
-      const allowedDisposition = details.issues.filter(i => i.disposition === 'allowed');
-      const deniedDisposition = details.issues.filter(i => i.disposition === 'denied');
-      const remandDisposition = details.issues.filter(i => i.disposition === 'remand');
+      const allowedDisposition = details.issues.filter(
+        i => i.disposition === 'allowed',
+      );
+      const deniedDisposition = details.issues.filter(
+        i => i.disposition === 'denied',
+      );
+      const remandDisposition = details.issues.filter(
+        i => i.disposition === 'remand',
+      );
 
       expect(allowedList.find('li').length).to.equal(allowedDisposition.length);
       expect(deniedList.find('li').length).to.equal(deniedDisposition.length);
@@ -507,17 +518,23 @@ describe('Disability benefits helpers: ', () => {
 
     it('returns the right number of allowed / denied items for bva_decision status', () => {
       const details = {
-        issues: mockData.data[2].attributes.status.details.issues
+        issues: mockData.data[2].attributes.status.details.issues,
       };
       const contents = getStatusContents('bva_decision', details);
-      expect(contents.title).to.equal('The Board made a decision on your appeal');
+      expect(contents.title).to.equal(
+        'The Board made a decision on your appeal',
+      );
 
       const wrapper = shallow(contents.description);
       const allowedList = wrapper.find('.allowed-items ~ ul');
       const deniedList = wrapper.find('.denied-items ~ ul');
 
-      const allowedDisposition = details.issues.filter(i => i.disposition === 'allowed');
-      const deniedDisposition = details.issues.filter(i => i.disposition === 'denied');
+      const allowedDisposition = details.issues.filter(
+        i => i.disposition === 'allowed',
+      );
+      const deniedDisposition = details.issues.filter(
+        i => i.disposition === 'denied',
+      );
 
       expect(allowedList.find('li').length).to.equal(allowedDisposition.length);
       expect(deniedList.find('li').length).to.equal(deniedDisposition.length);
@@ -583,7 +600,9 @@ describe('Disability benefits helpers: ', () => {
         ssocTimeliness: [1, 1],
       };
       const nextEvents = getNextEvents(type, details);
-      expect(nextEvents.header).to.equal('What happens next depends on whether you submit new evidence.');
+      expect(nextEvents.header).to.equal(
+        'What happens next depends on whether you submit new evidence.',
+      );
     });
 
     it('returns an object with an events array property', () => {
@@ -609,8 +628,8 @@ describe('Disability benefits helpers: ', () => {
       const alert = {
         type: 'ramp_eligible',
         details: {
-          representative: 'Mr. Spock'
-        }
+          representative: 'Mr. Spock',
+        },
       };
 
       const alertContent = getAlertContent(alert);
@@ -638,14 +657,24 @@ describe('Disability benefits helpers: ', () => {
   describe('makeDecisionReviewContent', () => {
     it('returns the default content if no additional content is provided', () => {
       const decisionReviewContent = makeDecisionReviewContent();
-      const descText = shallow(decisionReviewContent).render().text();
-      expect(descText).to.equal('A Veterans Law Judge, working with their team of attorneys, will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.');
+      const descText = shallow(decisionReviewContent)
+        .render()
+        .text();
+      expect(descText).to.equal(
+        'A Veterans Law Judge, working with their team of attorneys, will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.',
+      );
     });
 
     it('returns additional content when provided', () => {
-      const decisionReviewContent = makeDecisionReviewContent('Once your representative has completed their review, your case will be returned to the Board. ');
-      const descText = shallow(decisionReviewContent).render().text();
-      expect(descText).to.equal('Once your representative has completed their review, your case will be returned to the Board. A Veterans Law Judge, working with their team of attorneys, will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.');
+      const decisionReviewContent = makeDecisionReviewContent(
+        'Once your representative has completed their review, your case will be returned to the Board. ',
+      );
+      const descText = shallow(decisionReviewContent)
+        .render()
+        .text();
+      expect(descText).to.equal(
+        'Once your representative has completed their review, your case will be returned to the Board. A Veterans Law Judge, working with their team of attorneys, will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.',
+      );
     });
   });
 
@@ -654,10 +683,10 @@ describe('Disability benefits helpers: ', () => {
       disability: {
         status: {
           claimsV2: {
-            appeals: mockData.data
-          }
-        }
-      }
+            appeals: mockData.data,
+          },
+        },
+      },
     };
 
     it('should find the right appeal if the given id matches', () => {
@@ -669,7 +698,10 @@ describe('Disability benefits helpers: ', () => {
     it('should find the right appeal if the given v1 id matches a v2 appeal', () => {
       const expectedAppeal = mockData.data[1];
       // appealIds[1] is the fake v1 id
-      const appeal = isolateAppeal(state, expectedAppeal.attributes.appealIds[1]);
+      const appeal = isolateAppeal(
+        state,
+        expectedAppeal.attributes.appealIds[1],
+      );
       expect(appeal).to.equal(expectedAppeal);
     });
 

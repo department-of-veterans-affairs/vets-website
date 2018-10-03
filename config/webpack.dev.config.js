@@ -4,12 +4,12 @@ function generateWebpackDevConfig(buildOptions) {
   appSettings.parseFromBuildOptions(buildOptions);
 
   const routes = appSettings.getAllApplicationRoutes();
-  const appRewrites = routes.map(url => {
-    return {
+  const appRewrites = routes
+    .map(url => ({
       from: `^${url}(.*)`,
-      to: `${url}/`
-    };
-  }).sort((a, b) => b.from.length - a.from.length);
+      to: `${url}/`,
+    }))
+    .sort((a, b) => b.from.length - a.from.length);
 
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   const devServerConfig = {
@@ -17,14 +17,19 @@ function generateWebpackDevConfig(buildOptions) {
     historyApiFallback: {
       rewrites: [
         ...appRewrites,
-        { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
+        {
+          from: '^/(.*)',
+          to(context) {
+            return context.parsedUrl.pathname;
+          },
+        },
       ],
     },
     hot: true,
     port: buildOptions.port,
     publicPath: '/generated/',
     host: buildOptions.host,
-    'public': buildOptions.public || undefined,
+    public: buildOptions.public || undefined,
     stats: {
       colors: true,
       assets: false,
@@ -36,9 +41,9 @@ function generateWebpackDevConfig(buildOptions) {
       entrypoints: false,
       children: false,
       modules: false,
-      warnings: true
+      warnings: true,
     },
-    before: (app) => {
+    before: app => {
       // We're doing this because some of the pages
       // that we are redirecting end with asp and we want
       // those to be treated as html
@@ -46,7 +51,7 @@ function generateWebpackDevConfig(buildOptions) {
         res.type('html');
         next();
       });
-    }
+    },
   };
 
   // Route all API requests through webpack's node-http-proxy
@@ -66,8 +71,8 @@ function generateWebpackDevConfig(buildOptions) {
           /* eslint-disable no-param-reassign */
           req.headers.host = api.host;
           /* eslint-enable no-param-reassign */
-        }
-      }
+        },
+      },
     };
     // eslint-disable-next-line no-console
     console.log('API proxy enabled');
