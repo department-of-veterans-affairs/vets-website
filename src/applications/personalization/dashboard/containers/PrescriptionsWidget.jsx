@@ -4,9 +4,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import {
-  loadPrescriptions
-} from '../../../rx/actions/prescriptions';
+import { loadPrescriptions } from '../../../rx/actions/prescriptions';
 import recordEvent from '../../../../platform/monitoring/record-event';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
@@ -28,7 +26,10 @@ function recordDashboardClick(product) {
 class PrescriptionsWidget extends React.Component {
   componentDidMount() {
     if (this.props.canAccessRx) {
-      this.props.loadPrescriptions({ active: true, sort: '-refill_submit_date' });
+      this.props.loadPrescriptions({
+        active: true,
+        sort: '-refill_submit_date',
+      });
     }
   }
 
@@ -37,37 +38,58 @@ class PrescriptionsWidget extends React.Component {
     const { canAccessRx } = this.props;
 
     if (this.props.loading) {
-      content = <LoadingIndicator message="Loading your prescriptions..."/>;
+      content = <LoadingIndicator message="Loading your prescriptions..." />;
     } else if (this.props.prescriptions) {
-      content = this.props.prescriptions.map(p => <PrescriptionCard key={p.id} prescription={p}/>);
+      content = this.props.prescriptions.map(p => (
+        <PrescriptionCard key={p.id} prescription={p} />
+      ));
     } else {
       content = (
         <p className="rx-tab-explainer rx-loading-error">
-          We couldn’t retrieve your prescriptions.
-          Please refresh this page or try again later. If this problem persists, please call the {propertyName} Help Desk
-          at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+          We couldn’t retrieve your prescriptions. Please refresh this page or
+          try again later. If this problem persists, please call the{' '}
+          {propertyName} Help Desk at{' '}
+          <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+          <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
+          8:00 a.m. &#8211; 8:00 p.m. (ET).
         </p>
       );
     }
 
     if (canAccessRx) {
       if (this.props.prescriptions && this.props.prescriptions.length === 0) {
-        content = <p>We haven’t refilled or shipped any prescriptions for you in the last 30 days.</p>;
+        content = (
+          <p>
+            We haven’t refilled or shipped any prescriptions for you in the last
+            30 days.
+          </p>
+        );
       }
 
       return (
         <div id="rx-widget">
           <h2>Refill Prescriptions</h2>
-          <div>
-            {content}
-          </div>
+          <div>{content}</div>
           <p>
-            {isBrandConsolidationEnabled() ?
-              (<a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/refill-prescriptions" target="_blank">View all your prescriptions</a>) :
-              (<span><Link href="/health-care/prescriptions" onClick={recordDashboardClick('view-all-prescriptions')}>View all your prescriptions</Link>.</span>)
-            }
+            {isBrandConsolidationEnabled() ? (
+              <a
+                href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/refill-prescriptions"
+                target="_blank"
+              >
+                View all your prescriptions
+              </a>
+            ) : (
+              <span>
+                <Link
+                  href="/health-care/prescriptions"
+                  onClick={recordDashboardClick('view-all-prescriptions')}
+                >
+                  View all your prescriptions
+                </Link>
+                .
+              </span>
+            )}
           </p>
-
         </div>
       );
     }
@@ -76,7 +98,7 @@ class PrescriptionsWidget extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const rxState = state.health.rx;
   const profileState = state.user.profile;
   const canAccessRx = profileState.services.includes('rx');
@@ -84,19 +106,20 @@ const mapStateToProps = (state) => {
   let prescriptions = rxState.prescriptions.items;
 
   if (prescriptions) {
-    const thirtyDaysAgo = moment().endOf('day').subtract(30, 'days');
-    const statuses = new Set([
-      'refillinprocess',
-      'submitted'
-    ]);
+    const thirtyDaysAgo = moment()
+      .endOf('day')
+      .subtract(30, 'days');
+    const statuses = new Set(['refillinprocess', 'submitted']);
 
     prescriptions = prescriptions
       // Filter by status
       .filter(p => statuses.has(p.attributes.refillStatus))
       // Filter by date
-      .filter(p => {
-        return moment(p.attributes.refillSubmitDate).isAfter(thirtyDaysAgo) || moment(p.attributes.refillDate).isAfter(thirtyDaysAgo);
-      });
+      .filter(
+        p =>
+          moment(p.attributes.refillSubmitDate).isAfter(thirtyDaysAgo) ||
+          moment(p.attributes.refillDate).isAfter(thirtyDaysAgo),
+      );
   }
 
   return {
@@ -110,5 +133,8 @@ const mapDispatchToProps = {
   loadPrescriptions,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PrescriptionsWidget);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PrescriptionsWidget);
 export { PrescriptionsWidget };

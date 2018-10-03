@@ -33,7 +33,8 @@ export class DownloadLetters extends React.Component {
           <button
             onClick={this.navigateToLetterList}
             className="usa-button-primary view-letters-button"
-            disabled={this.props.isEditingAddress || emptyAddress}>
+            disabled={this.props.isEditingAddress || emptyAddress}
+          >
             View Letters
           </button>
         </div>
@@ -42,12 +43,17 @@ export class DownloadLetters extends React.Component {
 
     return (
       <div className="usa-width-three-fourths letters">
-        <FormTitle title="VA Letters and Documents"/>
+        <FormTitle title="VA Letters and Documents" />
         <p className="va-introtext">
-          To receive some benefits, Veterans need a letter proving their status. You can download some of these benefit letters and documents online.
+          To receive some benefits, Veterans need a letter proving their status.
+          You can download some of these benefit letters and documents online.
         </p>
-        <SegmentedProgressBar total={chapters.length} current={currentStep}/>
-        <StepHeader name={chapters[currentPageIndex].name} current={currentStep} steps="2">
+        <SegmentedProgressBar total={chapters.length} current={currentStep} />
+        <StepHeader
+          name={chapters[currentPageIndex].name}
+          current={currentStep}
+          steps="2"
+        >
           {children}
           {viewLettersButton}
         </StepHeader>
@@ -69,9 +75,9 @@ function mapStateToProps(state) {
     letterDownloadStatus: letterState.letterDownloadStatus,
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
-      serviceInfo: letterState.serviceInfo
+      serviceInfo: letterState.serviceInfo,
     },
-    optionsAvailable: letterState.optionsAvailable
+    optionsAvailable: letterState.optionsAvailable,
   };
 }
 

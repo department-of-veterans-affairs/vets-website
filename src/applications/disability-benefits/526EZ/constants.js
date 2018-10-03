@@ -5,12 +5,12 @@ export const itfStatuses = {
   expired: 'expired',
   claimRecieved: 'claim_recieved',
   duplicate: 'duplicate',
-  incomplete: 'incomplete'
+  incomplete: 'incomplete',
 };
 
 export const RESERVE_GUARD_TYPES = {
   nationalGuard: 'National Guard',
-  reserve: 'Reserve'
+  reserve: 'Reserve',
 };
 
 export const submissionStatuses = {
@@ -21,12 +21,12 @@ export const submissionStatuses = {
   exhausted: 'exhausted', // EVSS is down or something; ran out of retries
   failed: 'non_retryable_error', // EVSS responded with some error
   // When the api serves a failure
-  apiFailure: 'apiFailure'
+  apiFailure: 'apiFailure',
 };
 
 export const terminalStatuses = new Set([
   submissionStatuses.succeeded,
   submissionStatuses.exhausted,
   submissionStatuses.retry,
-  submissionStatuses.failed
+  submissionStatuses.failed,
 ]);

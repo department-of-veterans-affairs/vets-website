@@ -4,5 +4,5 @@ module.exports = {
   entryName: 'letters',
   receiveContentProps({ path: rootUrl }) {
     this.rootUrl = `/${rootUrl}`;
-  }
+  },
 };

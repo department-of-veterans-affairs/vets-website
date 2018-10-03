@@ -16,12 +16,12 @@ describe('VIC document upload', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(1);
   });
-
 
   it('should not submit without required info', () => {
     const onSubmit = sinon.spy();
@@ -31,7 +31,8 @@ describe('VIC document upload', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -47,12 +48,13 @@ describe('VIC document upload', () => {
         schema={schema}
         data={{
           photo: {
-            errorMessage: 'File is not one of the allowed types'
-          }
+            errorMessage: 'File is not one of the allowed types',
+          },
         }}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -61,25 +63,28 @@ describe('VIC document upload', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-
   it('should submit with valid data', () => {
     const onSubmit = sinon.spy();
-    const form = mount(<DefinitionTester
-      schema={schema}
-      data={{
-        dd214: [{
-          confirmationCode: 'testing',
-          name: 'test.pdf'
-        }, {
-          confirmationCode: 'testing2',
-          name: 'test.pdf'
-        }]
-      }}
-      definitions={formConfig.defaultDefinitions}
-      onSubmit={onSubmit}
-      uiSchema={uiSchema}/>
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        data={{
+          dd214: [
+            {
+              confirmationCode: 'testing',
+              name: 'test.pdf',
+            },
+            {
+              confirmationCode: 'testing2',
+              name: 'test.pdf',
+            },
+          ],
+        }}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
     );
-
 
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.true;
@@ -88,19 +93,22 @@ describe('VIC document upload', () => {
   it('should parse doc response', () => {
     const parseResponse = uiSchema.dd214['ui:options'].parseResponse;
 
-    expect(parseResponse({
-      data: {
-        attributes: {
-          guid: 'testing'
-        }
-      }
-    },
-    {
-      name: 'filename'
-    }
-    )).to.deep.equal({
+    expect(
+      parseResponse(
+        {
+          data: {
+            attributes: {
+              guid: 'testing',
+            },
+          },
+        },
+        {
+          name: 'filename',
+        },
+      ),
+    ).to.deep.equal({
       name: 'filename',
-      confirmationCode: 'testing'
+      confirmationCode: 'testing',
     });
   });
 });

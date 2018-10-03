@@ -18,16 +18,16 @@ function findNearestAncestor(element, testCB) {
   if (!parent) {
     return null;
   }
-  const returnVal = testCB(parent) ? parent : findNearestAncestor(parent, testCB);
+  const returnVal = testCB(parent)
+    ? parent
+    : findNearestAncestor(parent, testCB);
   return returnVal;
 }
-
 
 // Reduce code duplication
 function findNearestLi(element) {
   return findNearestAncestor(element, el => el.tagName.toLowerCase() === 'li');
 }
-
 
 /**
  * Returns whether the HTMLElement passed is a menu button. This is only true if:
@@ -40,15 +40,23 @@ function findNearestLi(element) {
  */
 function isMenuButton(element) {
   // There is no element.getElementById() :matrix:
-  const menuElement = element.parentElement.querySelector(`#${element.getAttribute('aria-controls')}`);
+  const menuElement = element.parentElement.querySelector(
+    `#${element.getAttribute('aria-controls')}`,
+  );
   if (!menuElement) {
     return false;
   }
 
   const menuRole = (menuElement.getAttribute('role') || '').toLowerCase();
-  const isButton = element.tagName.toLowerCase() === 'button' || element.getAttribute('role').toLowerCase() === 'button';
-  const hasPopup = ['menu', 'true'].includes(element.getAttribute('aria-haspopup'));
-  const isOrHasMenu = !!(menuRole === 'menu' || menuElement.querySelector('[role="menu"]'));
+  const isButton =
+    element.tagName.toLowerCase() === 'button' ||
+    element.getAttribute('role').toLowerCase() === 'button';
+  const hasPopup = ['menu', 'true'].includes(
+    element.getAttribute('aria-haspopup'),
+  );
+  const isOrHasMenu = !!(
+    menuRole === 'menu' || menuElement.querySelector('[role="menu"]')
+  );
 
   return isButton && hasPopup && isOrHasMenu;
 }
@@ -74,14 +82,18 @@ function isVisible(element) {
   const hiddenDisplays = ['hidden', 'none'];
 
   // If the element has children, check them; otherwise, naively assume it's visible
-  const childrenAreVisible = element.children.length ?
-    Array.from(element.children).some(e => isScript(e) || !hiddenDisplays.includes(getComputedStyle(e).display)) :
-    true;
-  const visible = !hiddenDisplays.includes(getComputedStyle(element).display) && childrenAreVisible;
+  const childrenAreVisible = element.children.length
+    ? Array.from(element.children).some(
+        e =>
+          isScript(e) || !hiddenDisplays.includes(getComputedStyle(e).display),
+      )
+    : true;
+  const visible =
+    !hiddenDisplays.includes(getComputedStyle(element).display) &&
+    childrenAreVisible;
 
   return visible;
 }
-
 
 /**
  * Gets the first visible child of the element specified. Useful for focusing on the first visible
@@ -112,9 +124,10 @@ function firstVisibleChild(element) {
  * @param {String} direction     The direction to move the focus. Possible options: 'previous', 'next'
  */
 function moveFocus(element, direction) {
-  const focusElement = direction === 'previous' ?
-    (element.previousElementSibling || element.parentNode.lastElementChild) :
-    (element.nextElementSibling || element.parentNode.firstElementChild);
+  const focusElement =
+    direction === 'previous'
+      ? element.previousElementSibling || element.parentNode.lastElementChild
+      : element.nextElementSibling || element.parentNode.firstElementChild;
 
   // If focusElement isn't visible, recurse
   if (!isVisible(focusElement)) {
@@ -135,7 +148,9 @@ function moveFocus(element, direction) {
  */
 function getMenuStructure(menuLi) {
   const menuButton = menuLi.querySelector('button, [role="button"]');
-  const menu = menuButton ? menuLi.querySelector(`#${menuButton.getAttribute('aria-controls')}`) : null;
+  const menu = menuButton
+    ? menuLi.querySelector(`#${menuButton.getAttribute('aria-controls')}`)
+    : null;
 
   if (!menuButton || !menu) {
     return null;
@@ -148,7 +163,6 @@ function getMenuStructure(menuLi) {
   return { menuButton, menu };
 }
 
-
 /**
  * Closes a menu.
  *
@@ -156,7 +170,9 @@ function getMenuStructure(menuLi) {
  */
 function closeMenu(menuLiOrStruct) {
   // Make sure we've got a menu
-  const struct = menuLiOrStruct.menuButton ? menuLiOrStruct : getMenuStructure(menuLiOrStruct);
+  const struct = menuLiOrStruct.menuButton
+    ? menuLiOrStruct
+    : getMenuStructure(menuLiOrStruct);
   if (!struct) {
     return;
   }
@@ -165,7 +181,10 @@ function closeMenu(menuLiOrStruct) {
 
   // Tell the parent menu (if any) that this one is open
   // This is so longer parent menus on mobile don't show up underneath shorter child menus
-  const parentMenu = findNearestAncestor(menuButton, el => el.getAttribute('role') === 'menu');
+  const parentMenu = findNearestAncestor(
+    menuButton,
+    el => el.getAttribute('role') === 'menu',
+  );
   if (parentMenu) {
     parentMenu.classList.remove('child-menu-opened');
   }
@@ -176,7 +195,6 @@ function closeMenu(menuLiOrStruct) {
   menuButton.focus();
 }
 
-
 /**
  * Opens a menu.
  *
@@ -185,7 +203,12 @@ function closeMenu(menuLiOrStruct) {
  *                                 second-level menu in a wide screen, we want the third-level opened as well
  * @param {bool} stealFocus       Whether or not to focus on the first item in the opened menu
  */
-function openMenu(menuLi, menuStructure = null, openSubMenu = false, stealFocus = true) {
+function openMenu(
+  menuLi,
+  menuStructure = null,
+  openSubMenu = false,
+  stealFocus = true,
+) {
   // If we're not dealing with a menu structure, abort
   const struct = menuStructure || getMenuStructure(menuLi);
   if (!struct) {
@@ -195,7 +218,9 @@ function openMenu(menuLi, menuStructure = null, openSubMenu = false, stealFocus 
   const { menuButton, menu } = struct;
 
   // First, close all sibling menus
-  const openMenus = Array.from(menuLi.parentElement.querySelectorAll('[aria-expanded=true]'));
+  const openMenus = Array.from(
+    menuLi.parentElement.querySelectorAll('[aria-expanded=true]'),
+  );
   openMenus.forEach(m => closeMenu(m.parentElement));
 
   // Open the menu
@@ -204,16 +229,20 @@ function openMenu(menuLi, menuStructure = null, openSubMenu = false, stealFocus 
 
   // Tell the parent menu (if any) that this one is open
   // This is so longer parent menus on mobile don't show up underneath shorter child menus
-  const parentMenu = findNearestAncestor(menuButton, el => el.getAttribute('role') === 'menu');
+  const parentMenu = findNearestAncestor(
+    menuButton,
+    el => el.getAttribute('role') === 'menu',
+  );
   if (parentMenu) {
     parentMenu.classList.add('child-menu-opened');
   }
 
   if (stealFocus) {
     const menuRole = (menu.getAttribute('role') || '').toLowerCase();
-    const firstMenuItem = menuRole === 'menu' ?
-      firstVisibleChild(menu) :
-      firstVisibleChild(menu.querySelector('[role="menu"]'));
+    const firstMenuItem =
+      menuRole === 'menu'
+        ? firstVisibleChild(menu)
+        : firstVisibleChild(menu.querySelector('[role="menu"]'));
     firstMenuItem.firstElementChild.focus();
   }
 
@@ -222,7 +251,6 @@ function openMenu(menuLi, menuStructure = null, openSubMenu = false, stealFocus 
     openMenu(menu.firstElementChild, null, false, false);
   }
 }
-
 
 /**
  * Opens a menu if it's closed, closes a menu if it's open.
@@ -244,7 +272,6 @@ function toggleMenu(menuLi) {
   }
 }
 
-
 /**
  * Closes all the menus in menuElement
  *
@@ -253,8 +280,9 @@ function toggleMenu(menuLi) {
  */
 function closeAll(menuElement) {
   // Get all the parent <li>s of open menus
-  const allMenus = Array.from(menuElement.querySelectorAll('[aria-expanded=true]'))
-    .map(e => findNearestLi(e));
+  const allMenus = Array.from(
+    menuElement.querySelectorAll('[aria-expanded=true]'),
+  ).map(e => findNearestLi(e));
 
   // Add the top-level
   if (menuElement.getAttribute('aria-expanded') === true) {
@@ -263,7 +291,6 @@ function closeAll(menuElement) {
 
   allMenus.forEach(e => closeMenu(e));
 }
-
 
 /**
  * Attaches event listeners to a menu or menu bar to make it keyboard navigable.
@@ -284,11 +311,13 @@ export default function addMenuListeners(menuElement, closeOnResize = false) {
 
   // For all the sub menus, add listeners for:
   //  Up, down, left, right, escape
-  menuElement.addEventListener('keydown', (e) => {
+  menuElement.addEventListener('keydown', e => {
     const targetLi = e.target.parentElement;
     // Target's grandparent because the parent is a <li>
-    const inMenubar = targetLi.parentElement.getAttribute('role').toLowerCase() === 'menubar';
-    const inMenu = targetLi.parentElement.getAttribute('role').toLowerCase() === 'menu';
+    const inMenubar =
+      targetLi.parentElement.getAttribute('role').toLowerCase() === 'menubar';
+    const inMenu =
+      targetLi.parentElement.getAttribute('role').toLowerCase() === 'menu';
 
     switch (e.keyCode) {
       case LEFT_ARROW: {
@@ -346,7 +375,10 @@ export default function addMenuListeners(menuElement, closeOnResize = false) {
 
             // If the first <li> ancestor is in a [role="menubar"], we're at the first submenu and should
             //  go up to the top-level menubar item
-            if (firstLi && (firstLi.parentElement.getAttribute('role') || '') === 'menubar') {
+            if (
+              firstLi &&
+              (firstLi.parentElement.getAttribute('role') || '') === 'menubar'
+            ) {
               firstLi.firstElementChild.focus();
             } else {
               moveFocus(targetLi, 'previous');
@@ -376,7 +408,8 @@ export default function addMenuListeners(menuElement, closeOnResize = false) {
         break;
       }
 
-      default: break;
+      default:
+        break;
     }
   });
 
@@ -389,8 +422,10 @@ export default function addMenuListeners(menuElement, closeOnResize = false) {
   menuElement.addEventListener('click', e => {
     const targetLi = e.target.parentElement;
     // Target's grandparent because the parent is a <li>
-    const inMenubar = targetLi.parentElement.getAttribute('role').toLowerCase() === 'menubar';
-    const inMenu = targetLi.parentElement.getAttribute('role').toLowerCase() === 'menu';
+    const inMenubar =
+      targetLi.parentElement.getAttribute('role').toLowerCase() === 'menubar';
+    const inMenu =
+      targetLi.parentElement.getAttribute('role').toLowerCase() === 'menu';
 
     // Handle opening (and closing) menus
     if (e.target.classList.contains('back-button')) {
@@ -411,4 +446,3 @@ export default function addMenuListeners(menuElement, closeOnResize = false) {
     }
   });
 }
-

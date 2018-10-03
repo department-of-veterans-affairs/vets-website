@@ -62,7 +62,9 @@ const { assistance, programs, school } = educationDetails.properties;
 const { address: schoolAddress, name: schoolName } = school.properties;
 const domesticSchoolAddress = schoolAddress.anyOf[0];
 const internationalSchoolAddress = schoolAddress.anyOf[1];
-const countries = domesticSchoolAddress.properties.country.enum.concat(internationalSchoolAddress.properties.country.enum); // TODO access via default definition
+const countries = domesticSchoolAddress.properties.country.enum.concat(
+  internationalSchoolAddress.properties.country.enum,
+); // TODO access via default definition
 
 function configureSchoolAddressSchema(schema) {
   let newSchema = omit('required', schema);
@@ -71,15 +73,14 @@ function configureSchoolAddressSchema(schema) {
   return set('properties.country.default', 'United States', newSchema);
 }
 
-const domesticSchoolAddressSchema = configureSchoolAddressSchema(domesticSchoolAddress);
-const internationalSchoolAddressSchema = configureSchoolAddressSchema(internationalSchoolAddress);
+const domesticSchoolAddressSchema = configureSchoolAddressSchema(
+  domesticSchoolAddress,
+);
+const internationalSchoolAddressSchema = configureSchoolAddressSchema(
+  internationalSchoolAddress,
+);
 
-const {
-  date,
-  dateRange,
-  usaPhone,
-  ssnLastFour,
-} = fullSchema.definitions;
+const { date, dateRange, usaPhone, ssnLastFour } = fullSchema.definitions;
 
 const myself = 'Myself';
 const someoneElse = 'Someone else';
@@ -94,16 +95,24 @@ function isMyself(formData) {
 }
 
 function isNotMyself(formData) {
-  return formData.onBehalfOf === someoneElse || formData.onBehalfOf === anonymous;
+  return (
+    formData.onBehalfOf === someoneElse || formData.onBehalfOf === anonymous
+  );
 }
 
 function isVeteranOrServiceMember(formData) {
   const nonServiceMemberOrVeteranAffiliations = ['Spouse', 'Child', 'Other'];
-  return !isNotMyself(formData) && !nonServiceMemberOrVeteranAffiliations.includes(formData.serviceAffiliation); // We are defining this in the negative to prevent prefilled data from being hidden, and therefore deleted by default
+  return (
+    !isNotMyself(formData) &&
+    !nonServiceMemberOrVeteranAffiliations.includes(formData.serviceAffiliation)
+  ); // We are defining this in the negative to prevent prefilled data from being hidden, and therefore deleted by default
 }
 
 function manualSchoolEntryIsChecked(formData) {
-  return get('educationDetails.school.view:searchSchoolSelect.view:manualSchoolEntryChecked', formData);
+  return get(
+    'educationDetails.school.view:searchSchoolSelect.view:manualSchoolEntryChecked',
+    formData,
+  );
 }
 
 function manualSchoolEntryIsNotChecked(formData) {
@@ -111,7 +120,12 @@ function manualSchoolEntryIsNotChecked(formData) {
 }
 
 function isUS(formData) {
-  return get('educationDetails.school.view:manualSchoolEntry.address.country', formData) === 'United States';
+  return (
+    get(
+      'educationDetails.school.view:manualSchoolEntry.address.country',
+      formData,
+    ) === 'United States'
+  );
 }
 
 function manualSchoolEntryIsCheckedAndIsUS(formData) {
@@ -136,8 +150,10 @@ const formConfig = {
     ssnLastFour,
   },
   savedFormMessages: {
-    notFound: 'Please start over to apply for declaration of status of dependents.',
-    noAuth: 'Please sign in again to continue your application for declaration of status of dependents.'
+    notFound:
+      'Please start over to apply for declaration of status of dependents.',
+    noAuth:
+      'Please sign in again to continue your application for declaration of status of dependents.',
   },
   title: 'GI Bill® School Feedback Tool',
   preSubmitInfo,
@@ -158,138 +174,167 @@ const formConfig = {
               'ui:title': 'I’m submitting feedback on behalf of...',
               'ui:options': {
                 nestedContent: {
-                  [myself]: () => <div className="usa-alert usa-alert-info no-background-image">We’ll only share your name with the school.</div>,
-                  [someoneElse]: () => <div className="usa-alert usa-alert-info no-background-image">Your name is shared with the school, not the name of the person you’re submitting feedback for.</div>,
-                  [anonymous]: () => <div className="usa-alert usa-alert-info no-background-image">Anonymous feedback is shared with the school. Your personal information, however, isn’t shared with anyone outside of VA.</div>
+                  [myself]: () => (
+                    <div className="usa-alert usa-alert-info no-background-image">
+                      We’ll only share your name with the school.
+                    </div>
+                  ),
+                  [someoneElse]: () => (
+                    <div className="usa-alert usa-alert-info no-background-image">
+                      Your name is shared with the school, not the name of the
+                      person you’re submitting feedback for.
+                    </div>
+                  ),
+                  [anonymous]: () => (
+                    <div className="usa-alert usa-alert-info no-background-image">
+                      Anonymous feedback is shared with the school. Your
+                      personal information, however, isn’t shared with anyone
+                      outside of VA.
+                    </div>
+                  ),
                 },
                 expandUnderClassNames: 'schemaform-expandUnder',
-              }
+              },
             },
             anonymousEmail: {
               'ui:title': 'Email',
               'ui:options': {
                 expandUnder: 'onBehalfOf',
-                expandUnderCondition: anonymous
-              }
-            }
+                expandUnderCondition: anonymous,
+              },
+            },
           },
           schema: {
             type: 'object',
-            required: [
-              'onBehalfOf',
-            ],
+            required: ['onBehalfOf'],
             properties: {
               onBehalfOf,
-              anonymousEmail
-            }
-          }
+              anonymousEmail,
+            },
+          },
         },
         applicantInformation: {
           path: 'applicant-information',
           title: 'Applicant Information',
           depends: isNotAnonymous,
           uiSchema: {
-            'ui:description': data => conditionallyShowPrefillMessage(PREFILL_FLAGS.APPLICANT_INFORMATION, data, PrefillMessage),
+            'ui:description': data =>
+              conditionallyShowPrefillMessage(
+                PREFILL_FLAGS.APPLICANT_INFORMATION,
+                data,
+                PrefillMessage,
+              ),
             fullName: _.merge(fullNameUI, {
               prefix: {
                 'ui:title': 'Prefix',
                 'ui:options': {
-                  widgetClassNames: 'form-select-medium'
-                }
+                  widgetClassNames: 'form-select-medium',
+                },
               },
               first: {
-                'ui:title': 'Your first name'
+                'ui:title': 'Your first name',
               },
               last: {
-                'ui:title': 'Your last name'
+                'ui:title': 'Your last name',
               },
               middle: {
-                'ui:title': 'Your middle name'
+                'ui:title': 'Your middle name',
               },
               suffix: {
-                'ui:title': 'Your suffix'
+                'ui:title': 'Your suffix',
               },
               'ui:order': ['prefix', 'first', 'middle', 'last', 'suffix'],
             }),
             socialSecurityNumberLastFour: {
-              'ui:title': 'Please provide the last 4 digits of your Social Security number',
+              'ui:title':
+                'Please provide the last 4 digits of your Social Security number',
               'ui:required': isNotAnonymous,
               'ui:options': {
                 widgetClassNames: 'usa-input-medium',
               },
               'ui:errorMessages': {
-                pattern: 'Please enter a valid last 4 digits'
+                pattern: 'Please enter a valid last 4 digits',
               },
             },
             serviceAffiliation: {
               'ui:title': 'Service affiliation',
               'ui:required': isMyself,
               'ui:options': {
-                hideIf: isNotMyself
-              }
-            }
+                hideIf: isNotMyself,
+              },
+            },
           },
           schema: {
             type: 'object',
             properties: {
               fullName: set('required', ['first', 'last'], fullName),
               socialSecurityNumberLastFour,
-              serviceAffiliation
-            }
-          }
+              serviceAffiliation,
+            },
+          },
         },
         serviceInformation: {
           path: 'service-information',
           title: 'Service Information',
           depends: isVeteranOrServiceMember,
           uiSchema: {
-            'ui:description': data => conditionallyShowPrefillMessage(PREFILL_FLAGS.SERVICE_INFORMATION, data, PrefillMessage),
+            'ui:description': data =>
+              conditionallyShowPrefillMessage(
+                PREFILL_FLAGS.SERVICE_INFORMATION,
+                data,
+                PrefillMessage,
+              ),
             serviceBranch: {
               'ui:title': 'Branch of service',
             },
             serviceDateRange: dateRangeUI(
               'Service start date',
               'Service end date',
-              'End of service must be after start of service'
-            )
+              'End of service must be after start of service',
+            ),
           },
           schema: {
             type: 'object',
             properties: {
               serviceBranch,
-              serviceDateRange
-            }
-          }
+              serviceDateRange,
+            },
+          },
         },
         contactInformation: {
           path: 'contact-information',
           title: 'Contact Information',
-          depends: (formData) => formData.onBehalfOf !== anonymous,
+          depends: formData => formData.onBehalfOf !== anonymous,
           uiSchema: {
-            'ui:description': data => conditionallyShowPrefillMessage(PREFILL_FLAGS.CONTACT_INFORMATION, data, PrefillMessage),
+            'ui:description': data =>
+              conditionallyShowPrefillMessage(
+                PREFILL_FLAGS.CONTACT_INFORMATION,
+                data,
+                PrefillMessage,
+              ),
             address: {
               street: {
-                'ui:title': 'Address line 1'
+                'ui:title': 'Address line 1',
               },
               street2: {
-                'ui:title': 'Address line 2'
+                'ui:title': 'Address line 2',
               },
               city: {
                 'ui:title': 'City',
                 'ui:errorMessages': {
-                  required: 'Please fill in a valid city'
-                }
+                  required: 'Please fill in a valid city',
+                },
               },
               state: {
                 'ui:title': 'State',
                 'ui:errorMessages': {
-                  required: 'Please fill in a valid state'
-                }
+                  required: 'Please fill in a valid state',
+                },
               },
               country: {
                 'ui:title': 'Country',
                 'ui:errorMessages': {
-                  required: 'Please fill in a valid country'
+                  required: 'Please fill in a valid country',
                 },
               },
               postalCode: {
@@ -300,44 +345,48 @@ const formConfig = {
                 },
                 'ui:options': {
                   widgetClassNames: 'va-input-medium-large',
-                }
-              }
+                },
+              },
             },
             'ui:validations': [
-              validateMatch('applicantEmail', 'view:applicantEmailConfirmation', 'email')
+              validateMatch(
+                'applicantEmail',
+                'view:applicantEmailConfirmation',
+                'email',
+              ),
             ],
             applicantEmail: {
               'ui:title': 'Email address',
               'ui:errorMessages': {
                 pattern: 'Please put your email in this format x@x.xxx',
                 required: 'Please put your email in this format x@x.xxx',
-              }
+              },
             },
             'view:applicantEmailConfirmation': {
               'ui:title': 'Re-enter email address',
               'ui:errorMessages': {
                 pattern: 'Please put your email in this format x@x.xxx',
                 required: 'Please put your email in this format x@x.xxx',
-              }
+              },
             },
-            phone: phoneUI('Phone number')
+            phone: phoneUI('Phone number'),
           },
           schema: {
             type: 'object',
             required: [
               'address',
               'applicantEmail',
-              'view:applicantEmailConfirmation'
+              'view:applicantEmailConfirmation',
             ],
             properties: {
               address: applicantAddress,
               applicantEmail,
               'view:applicantEmailConfirmation': applicantEmail,
-              phone
-            }
-          }
-        }
-      }
+              phone,
+            },
+          },
+        },
+      },
     },
     benefitsInformation: {
       title: 'Education Benefits',
@@ -348,32 +397,32 @@ const formConfig = {
           uiSchema: {
             educationDetails: {
               programs: {
-                'ui:title': 'Which education benefits have you used? (Select all that apply)',
-                'ui:validations': [
-                  validateBooleanGroup
-                ],
+                'ui:title':
+                  'Which education benefits have you used? (Select all that apply)',
+                'ui:validations': [validateBooleanGroup],
                 'ui:options': {
-                  showFieldLabel: true
+                  showFieldLabel: true,
                 },
                 'ui:errorMessages': {
-                  atLeastOne: 'Please select at least one'
-                }
+                  atLeastOne: 'Please select at least one',
+                },
               },
               assistance: {
                 'view:assistance': {
-                  'ui:title': 'Which military tuition assistance benefits have you used? (Select all that apply)',
+                  'ui:title':
+                    'Which military tuition assistance benefits have you used? (Select all that apply)',
                   'ui:options': {
-                    showFieldLabel: true
-                  }
+                    showFieldLabel: true,
+                  },
                 },
                 'view:FFA': {
                   'ui:title': 'Have you used any of these other benefits?',
                   'ui:options': {
-                    showFieldLabel: true
-                  }
-                }
-              }
-            }
+                    showFieldLabel: true,
+                  },
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -388,22 +437,22 @@ const formConfig = {
                     properties: {
                       'view:assistance': {
                         type: 'object',
-                        properties: omit('FFA', assistance.properties)
+                        properties: omit('FFA', assistance.properties),
                       },
                       'view:FFA': {
                         type: 'object',
                         properties: {
-                          FFA: get('properties.FFA', assistance)
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                          FFA: get('properties.FFA', assistance),
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     },
     schoolInformation: {
       title: 'School Information',
@@ -423,56 +472,56 @@ const formConfig = {
                 'view:manualSchoolEntry': {
                   name: {
                     'ui:title': 'School name',
-                    'ui:required': manualSchoolEntryIsChecked
+                    'ui:required': manualSchoolEntryIsChecked,
                   },
                   address: {
                     street: {
                       'ui:title': 'Address line 1',
-                      'ui:required': manualSchoolEntryIsChecked
+                      'ui:required': manualSchoolEntryIsChecked,
                     },
                     street2: {
-                      'ui:title': 'Address line 2'
+                      'ui:title': 'Address line 2',
                     },
                     street3: {
-                      'ui:title': 'Address line 3'
+                      'ui:title': 'Address line 3',
                     },
                     city: {
                       'ui:title': 'City',
-                      'ui:required': manualSchoolEntryIsChecked
+                      'ui:required': manualSchoolEntryIsChecked,
                     },
                     state: {
                       'ui:title': 'State',
-                      'ui:required': manualSchoolEntryIsCheckedAndIsUS
+                      'ui:required': manualSchoolEntryIsCheckedAndIsUS,
                     },
                     country: {
                       'ui:title': 'Country',
-                      'ui:required': manualSchoolEntryIsChecked
+                      'ui:required': manualSchoolEntryIsChecked,
                     },
                     postalCode: {
                       'ui:title': 'Postal code',
                       'ui:required': manualSchoolEntryIsCheckedAndIsUS,
                       'ui:errorMessages': {
-                        pattern: 'Please enter a valid 5 digit postal code'
+                        pattern: 'Please enter a valid 5 digit postal code',
                       },
                       'ui:options': {
-                        widgetClassNames: 'va-input-medium-large'
-                      }
+                        widgetClassNames: 'va-input-medium-large',
+                      },
                     },
                     'ui:options': {
-                      updateSchema: (formData) => {
+                      updateSchema: formData => {
                         if (isUS(formData)) {
                           return domesticSchoolAddressSchema;
                         }
                         return internationalSchoolAddressSchema;
-                      }
-                    }
+                      },
+                    },
                   },
                   'ui:options': {
                     hideIf: manualSchoolEntryIsNotChecked,
-                  }
-                }
-              }
-            }
+                  },
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -487,25 +536,25 @@ const formConfig = {
                         type: 'object',
                         properties: {
                           'view:facilityCode': {
-                            type: 'string'
-                          }
-                        }
+                            type: 'string',
+                          },
+                        },
                       },
                       'view:manualSchoolEntry': {
                         type: 'object',
                         properties: {
                           name: schoolName,
-                          address: domesticSchoolAddressSchema
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                          address: domesticSchoolAddressSchema,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     },
     issueInformation: {
       title: 'Feedback Information',
@@ -515,16 +564,15 @@ const formConfig = {
           title: 'Feedback Information',
           uiSchema: {
             issue: {
-              'ui:title': 'Which topic best describes your feedback? (Select all that apply)',
+              'ui:title':
+                'Which topic best describes your feedback? (Select all that apply)',
               'ui:description': issueUIDescription,
-              'ui:validations': [
-                validateBooleanGroup
-              ],
+              'ui:validations': [validateBooleanGroup],
               'ui:options': {
-                showFieldLabel: true
+                showFieldLabel: true,
               },
               'ui:errorMessages': {
-                atLeastOne: 'Please select at least one'
+                atLeastOne: 'Please select at least one',
               },
               'ui:order': [
                 'recruiting',
@@ -538,79 +586,77 @@ const formConfig = {
                 'transcriptRelease',
                 'creditTransfer',
                 'refundIssues',
-                'other'
+                'other',
               ],
               recruiting: {
-                'ui:title': recruitingLabel
+                'ui:title': recruitingLabel,
               },
               studentLoans: {
-                'ui:title': studentLoansLabel
+                'ui:title': studentLoansLabel,
               },
               quality: {
-                'ui:title': qualityLabel
+                'ui:title': qualityLabel,
               },
               creditTransfer: {
-                'ui:title': creditTransferLabel
+                'ui:title': creditTransferLabel,
               },
               accreditation: {
-                'ui:title': accreditationLabel
+                'ui:title': accreditationLabel,
               },
               jobOpportunities: {
-                'ui:title': jobOpportunitiesLabel
+                'ui:title': jobOpportunitiesLabel,
               },
               gradePolicy: {
-                'ui:title': gradePolicyLabel
+                'ui:title': gradePolicyLabel,
               },
               refundIssues: {
-                'ui:title': refundIssuesLabel
+                'ui:title': refundIssuesLabel,
               },
               financialIssues: {
-                'ui:title': financialIssuesLabel
+                'ui:title': financialIssuesLabel,
               },
               changeInDegree: {
-                'ui:title': changeInDegreeLabel
+                'ui:title': changeInDegreeLabel,
               },
               transcriptRelease: {
-                'ui:title': transcriptReleaseLabel
+                'ui:title': transcriptReleaseLabel,
               },
               other: {
-                'ui:title': 'Other'
-              }
+                'ui:title': 'Other',
+              },
             },
             issueDescription: {
-              'ui:title': 'Please write your feedback and any details about your issue in the space below. (32,000 characters maximum)',
+              'ui:title':
+                'Please write your feedback and any details about your issue in the space below. (32,000 characters maximum)',
               'ui:widget': 'textarea',
               'ui:options': {
                 rows: 5,
-                maxLength: 32000
+                maxLength: 32000,
               },
             },
             issueResolution: {
-              'ui:title': 'What do you think would be a fair way to resolve your issue? (1,000 characters maximum)',
+              'ui:title':
+                'What do you think would be a fair way to resolve your issue? (1,000 characters maximum)',
               'ui:widget': 'textarea',
               'ui:options': {
                 rows: 5,
-                maxLength: 1000
-              }
-            }
+                maxLength: 1000,
+              },
+            },
           },
           schema: {
             type: 'object',
-            required: [
-              'issue',
-              'issueDescription',
-              'issueResolution'
-            ],
+            required: ['issue', 'issueDescription', 'issueResolution'],
             properties: {
               issue,
               issueDescription,
-              issueResolution
-            }
-          }
-        }
-      }
-    }
-  }
+              issueResolution,
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export default formConfig;

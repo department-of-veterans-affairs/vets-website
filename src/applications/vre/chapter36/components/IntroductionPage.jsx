@@ -7,7 +7,7 @@ import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 import SaveInProgressIntro, {
   introActions,
-  introSelector
+  introSelector,
 } from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
@@ -16,11 +16,11 @@ class IntroductionPage extends React.Component {
   }
   goForward = () => {
     this.props.router.push(this.props.route.pageList[1].path);
-  }
+  };
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for educational and vocational counseling"/>
+        <FormTitle title="Apply for educational and vocational counseling" />
         <p>
           Equal to VA Form 28-8832 (Educational/Vocational Counseling
           Application).
@@ -30,7 +30,8 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the VR&E Application"
           {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}>
+          {...this.props.saveInProgress}
+        >
           Please complete the Chapter 36 form to apply for benefits
         </SaveInProgressIntro>
         <div className="process schemaform-process schemaform-process-sip">
@@ -69,7 +70,8 @@ class IntroductionPage extends React.Component {
                 Organization (VSO) can help you fill out your claim.{' '}
                 <a href="/disability-benefits/apply/help/index.html">
                   Get help filing your claim
-                </a>.
+                </a>
+                .
               </p>
             </li>
             <li className="process-step list-two">
@@ -107,9 +109,10 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the VR&E Application"
           {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}/>
+          {...this.props.saveInProgress}
+        />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="12/31/2019"/>
+          <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="12/31/2019" />
         </div>
       </div>
     );
@@ -118,16 +121,19 @@ class IntroductionPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    saveInProgress: introSelector(state)
+    saveInProgress: introSelector(state),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch)
+    saveInProgressActions: bindActionCreators(introActions, dispatch),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IntroductionPage);
 
 export { IntroductionPage };

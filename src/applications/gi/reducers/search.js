@@ -3,7 +3,7 @@ import {
   FILTER_TOGGLED,
   SEARCH_STARTED,
   SEARCH_FAILED,
-  SEARCH_SUCCEEDED
+  SEARCH_SUCCEEDED,
 } from '../actions';
 
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
@@ -19,7 +19,7 @@ const INITIAL_STATE = {
     yellowRibbonScholarship: {},
     principlesOfExcellence: {},
     eightKeysToVeteranSuccess: {},
-    stem: {}
+    stem: {},
   },
   links: {},
   results: [],
@@ -27,16 +27,22 @@ const INITIAL_STATE = {
   version: {},
   pagination: {
     currentPage: 1,
-    totalPages: 1
+    totalPages: 1,
   },
   inProgress: false,
-  filterOpened: false
+  filterOpened: false,
 };
 
 function normalizedAttributes(attributes) {
-  const name = attributes.name ? attributes.name.toUpperCase() : attributes.name;
-  const city = attributes.city ? attributes.city.toUpperCase() : attributes.city;
-  const state = attributes.state ? attributes.state.toUpperCase() : attributes.state;
+  const name = attributes.name
+    ? attributes.name.toUpperCase()
+    : attributes.name;
+  const city = attributes.city
+    ? attributes.city.toUpperCase()
+    : attributes.city;
+  const state = attributes.state
+    ? attributes.state.toUpperCase()
+    : attributes.state;
   return {
     ...attributes,
     name,
@@ -46,12 +52,13 @@ function normalizedAttributes(attributes) {
 }
 
 function uppercaseKeys(obj) {
-  return Object.keys(obj).reduce((result, key) => {
-    return {
+  return Object.keys(obj).reduce(
+    (result, key) => ({
       ...result,
-      [key.toUpperCase()]: obj[key]
-    };
-  }, {});
+      [key.toUpperCase()]: obj[key],
+    }),
+    {},
+  );
 }
 
 function normalizedFacets(facets) {
@@ -68,7 +75,7 @@ function derivePaging(links) {
   return { currentPage, totalPages, perPage };
 }
 
-export default function (state = INITIAL_STATE, action) {
+export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case FILTER_TOGGLED:
       return { ...state, filterOpened: !state.filterOpened };
@@ -78,7 +85,7 @@ export default function (state = INITIAL_STATE, action) {
       return {
         ...state,
         ...action.err,
-        inProgress: false
+        inProgress: false,
       };
     case SEARCH_SUCCEEDED:
       const camelPayload = camelCaseKeysRecursive(action.payload);
@@ -93,7 +100,7 @@ export default function (state = INITIAL_STATE, action) {
         facets: normalizedFacets(camelPayload.meta.facets),
         count: camelPayload.meta.count,
         version: camelPayload.meta.version,
-        inProgress: false
+        inProgress: false,
       };
     default:
       return state;

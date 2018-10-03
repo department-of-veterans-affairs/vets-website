@@ -12,7 +12,7 @@ const props = {
     folderId: 0,
     name: 'Inbox',
     systemFolder: true,
-    unreadCount: 0
+    unreadCount: 0,
   },
   folders: [
     {
@@ -20,14 +20,14 @@ const props = {
       folderId: 0,
       name: 'Inbox',
       systemFolder: true,
-      unreadCount: 0
+      unreadCount: 0,
     },
     {
       count: 3,
       folderId: -2,
       name: 'Another Folder',
       systemFolder: true,
-      unreadCount: 3
+      unreadCount: 3,
     },
   ],
   isOpen: true,
@@ -39,17 +39,13 @@ const props = {
 
 describe('<MoveTo>', () => {
   it('should render correctly', () => {
-    const tree = SkinDeep.shallowRender(
-      <MoveTo {...props}/>
-    );
+    const tree = SkinDeep.shallowRender(<MoveTo {...props} />);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
   it('should have the expected classname', () => {
-    const tree = SkinDeep.shallowRender(
-      <MoveTo {...props}/>
-    );
+    const tree = SkinDeep.shallowRender(<MoveTo {...props} />);
     expect(tree.props.className).to.equal('msg-move-to');
   });
 
@@ -57,9 +53,7 @@ describe('<MoveTo>', () => {
     const onCreateFolder = sinon.spy();
 
     const moveTo = ReactTestUtils.renderIntoDocument(
-      <MoveTo
-        {...props }
-        onCreateFolder={onCreateFolder}/>
+      <MoveTo {...props} onCreateFolder={onCreateFolder} />,
     );
 
     moveTo.openCreateFolderModal();
@@ -70,19 +64,18 @@ describe('<MoveTo>', () => {
     const onChooseFolder = sinon.spy();
 
     const moveTo = ReactTestUtils.renderIntoDocument(
-      <MoveTo
-        {...props }
-        onChooseFolder={onChooseFolder}/>
+      <MoveTo {...props} onChooseFolder={onChooseFolder} />,
     );
     const mockDomEvent = {
       currentTarget: {
         messagingMoveToFolder: {
-          value: -2
-        }
-      }
+          value: -2,
+        },
+      },
     };
 
     moveTo.handleChooseFolder(mockDomEvent);
-    expect(onChooseFolder.calledWith(props.messageId, props.folders[1])).to.be.true;
+    expect(onChooseFolder.calledWith(props.messageId, props.folders[1])).to.be
+      .true;
   });
 });

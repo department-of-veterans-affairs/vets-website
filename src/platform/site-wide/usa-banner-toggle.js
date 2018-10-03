@@ -3,7 +3,6 @@
  */
 
 export function initBanner() {
-
   const toggleButton = document.querySelector('#usa-banner-toggle');
 
   if (!toggleButton) {
@@ -11,7 +10,6 @@ export function initBanner() {
   }
   const usaHeader = document.querySelector('.usa-banner-header');
   const govBanner = document.querySelector('#gov-banner');
-
 
   toggleButton.addEventListener('mouseup', () => {
     const shouldExpand = govBanner.getAttribute('aria-hidden') === 'true';

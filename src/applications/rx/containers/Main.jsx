@@ -18,22 +18,24 @@ class Main extends React.Component {
           isVisible={this.props.alert.visible}
           onCloseAlert={this.props.closeAlert}
           scrollOnShow
-          status={this.props.alert.status}/>
+          status={this.props.alert.status}
+        />
         <Disclaimer
           isOpen={this.props.disclaimer.open}
-          handleClose={this.props.closeDisclaimer}/>
+          handleClose={this.props.closeDisclaimer}
+        />
         <div className="rx-app-title">
           <h1>Prescription Refill</h1>
-          <SettingsButton/>
+          <SettingsButton />
         </div>
-        <TabNav/>
+        <TabNav />
         {this.props.children}
       </ErrorView>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const rxState = state.health.rx;
   return {
     alert: rxState.alert,
@@ -47,4 +49,7 @@ const mapDispatchToProps = {
   closeDisclaimer,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Main);

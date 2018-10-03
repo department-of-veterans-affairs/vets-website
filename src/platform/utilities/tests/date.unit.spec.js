@@ -7,7 +7,7 @@ import {
   formatDateShort,
   formatDateParsedZoneShort,
   formatDateLong,
-  formatDateParsedZoneLong
+  formatDateParsedZoneLong,
 } from '../date';
 
 describe('Helpers unit tests', () => {
@@ -15,14 +15,14 @@ describe('Helpers unit tests', () => {
     it('should convert date to moment', () => {
       const date = dateToMoment({
         month: {
-          value: 2
+          value: 2,
         },
         day: {
-          value: 3
+          value: 3,
         },
         year: {
-          value: '1901'
-        }
+          value: '1901',
+        },
       });
 
       expect(date.isValid()).to.be.true;
@@ -33,11 +33,11 @@ describe('Helpers unit tests', () => {
     it('should convert partial date to moment', () => {
       const date = dateToMoment({
         month: {
-          value: 2
+          value: 2,
         },
         year: {
-          value: '1901'
-        }
+          value: '1901',
+        },
       });
 
       expect(date.isValid()).to.be.true;
@@ -49,16 +49,24 @@ describe('Helpers unit tests', () => {
   describe('timeFromNow', () => {
     const today = moment();
     it('should display time in days', () => {
-      expect(timeFromNow(moment(today).add(30, 'days'), today)).to.equal('30 days');
+      expect(timeFromNow(moment(today).add(30, 'days'), today)).to.equal(
+        '30 days',
+      );
     });
     it('should display time in hours', () => {
-      expect(timeFromNow(moment(today).add(23, 'hours'), today)).to.equal('23 hours');
+      expect(timeFromNow(moment(today).add(23, 'hours'), today)).to.equal(
+        '23 hours',
+      );
     });
     it('should display time in minutes', () => {
-      expect(timeFromNow(moment(today).add(59, 'minutes'), today)).to.equal('59 minutes');
+      expect(timeFromNow(moment(today).add(59, 'minutes'), today)).to.equal(
+        '59 minutes',
+      );
     });
     it('should display time in seconds', () => {
-      expect(timeFromNow(moment(today).add(59, 'seconds'), today)).to.equal('59 seconds');
+      expect(timeFromNow(moment(today).add(59, 'seconds'), today)).to.equal(
+        '59 seconds',
+      );
     });
   });
   describe('formatDateShort', () => {
@@ -82,11 +90,17 @@ describe('Helpers unit tests', () => {
 
     it('should display the date string without regard to the timezone or offset', () => {
       expect(formatDateParsedZoneShort(midnight)).to.equal('11/12/1995');
-      expect(formatDateParsedZoneShort(midnightOffsetNegative1)).to.equal('11/12/1995');
+      expect(formatDateParsedZoneShort(midnightOffsetNegative1)).to.equal(
+        '11/12/1995',
+      );
       expect(formatDateParsedZoneShort(sixAMOffset0)).to.equal('11/12/1995');
       expect(formatDateParsedZoneShort(eightAMOffset0)).to.equal('11/12/1995');
-      expect(formatDateParsedZoneShort(almostMidnightOffset0)).to.equal('11/12/1995');
-      expect(formatDateParsedZoneShort(almostMidnightOffsetNegative1)).to.equal('11/12/1995');
+      expect(formatDateParsedZoneShort(almostMidnightOffset0)).to.equal(
+        '11/12/1995',
+      );
+      expect(formatDateParsedZoneShort(almostMidnightOffsetNegative1)).to.equal(
+        '11/12/1995',
+      );
     });
   });
   describe('formatDateLong', () => {
@@ -110,11 +124,21 @@ describe('Helpers unit tests', () => {
 
     it('should display the date string without regard to the timezone or offset', () => {
       expect(formatDateParsedZoneLong(midnight)).to.equal('November 12, 1995');
-      expect(formatDateParsedZoneLong(midnightOffsetNegative1)).to.equal('November 12, 1995');
-      expect(formatDateParsedZoneLong(sixAMOffset0)).to.equal('November 12, 1995');
-      expect(formatDateParsedZoneLong(eightAMOffset0)).to.equal('November 12, 1995');
-      expect(formatDateParsedZoneLong(almostMidnightOffset0)).to.equal('November 12, 1995');
-      expect(formatDateParsedZoneLong(almostMidnightOffsetNegative1)).to.equal('November 12, 1995');
+      expect(formatDateParsedZoneLong(midnightOffsetNegative1)).to.equal(
+        'November 12, 1995',
+      );
+      expect(formatDateParsedZoneLong(sixAMOffset0)).to.equal(
+        'November 12, 1995',
+      );
+      expect(formatDateParsedZoneLong(eightAMOffset0)).to.equal(
+        'November 12, 1995',
+      );
+      expect(formatDateParsedZoneLong(almostMidnightOffset0)).to.equal(
+        'November 12, 1995',
+      );
+      expect(formatDateParsedZoneLong(almostMidnightOffsetNegative1)).to.equal(
+        'November 12, 1995',
+      );
     });
   });
 });
