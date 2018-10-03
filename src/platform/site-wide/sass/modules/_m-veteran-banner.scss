@@ -1,6 +1,24 @@
-#homepage-hero {
-  // background-color: linear-gradient-background(#FFFFFF,#F1F1F1);
-  background-color: #f1f1f1;
-  text-align: center;
-  padding-top: 1.5em;
+@import "~@department-of-veterans-affairs/formation/sass/base/b-variables";
+
+.veteran-banner {
+  // background-color: linear-gradient-background($white, $mm-gray);
+  padding-top: 2.5em;
+}
+
+.veteran-banner-desktop, .veteran-banner-mobile {
+  margin: 0 auto;
+  display: block;
+}
+
+.veteran-banner-desktop {
+  display: none;
+}
+
+@include media($medium-screen) {
+  .veteran-banner-desktop {
+    display: block;
+  }
+  .veteran-banner-mobile {
+    display: none;
+  }
 }
