@@ -240,9 +240,9 @@
   * Because this is a high-risk change and we're under time constraints, I'm just documenting it here.
   * More info on the grid class - https://designsystem.digital.gov/components/grids/.
   */
-  .usa-grid {
-    padding: 0;
-  }
+  // .usa-grid {
+  //   padding: 0;
+  // }
 
   // Once the above rule is delete, we can delete this awful block too.
   #gov-banner {
@@ -982,4 +982,12 @@
 
 [class^="vetnav-controller"] {
   position: relative !important;
+}
+
+// There are styles in our sidebar styles that set a small
+// amount of padding on the grid for detail pages, which we
+// are overriding for WBC with no padding
+.va-l-detail-page > .usa-grid-full {
+  padding-right: inherit;
+  padding-left: inherit;
 }

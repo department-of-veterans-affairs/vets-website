@@ -187,7 +187,7 @@ export class Main extends React.Component {
     return (
       <div>
         <div className="footer-inner">
-          <div className="usa-grid usa-grid-flex-mobile">
+          <div className="usa-grid usa-grid-full usa-grid-flex-mobile">
             <ul className={className} id="footer-first-child">
               <li>
                 <h4 className="va-footer-linkgroup-title">
@@ -257,7 +257,7 @@ export class Main extends React.Component {
             </ul>
             {contactVCL}
           </div>
-          <div className="usa-grid footer-banner">
+          <div className="usa-grid usa-grid-full footer-banner">
             <a
               href="https://preview.va.gov"
               className="va-footer-logo"
@@ -266,7 +266,7 @@ export class Main extends React.Component {
               <img src="/img/homepage/va-logo-white.png" alt="VA logo" />
             </a>
           </div>
-          <div className="usa-grid footer-links">
+          <div className="usa-grid usa-grid-full footer-links">
             <ul>
               {orderBy(this.linkObj.bottom_rail, 'order', 'asc').map(link => (
                 <li key={`${link.order}`}>
