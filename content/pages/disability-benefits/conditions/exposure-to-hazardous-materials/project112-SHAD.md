@@ -8,7 +8,7 @@ template: detail-page
 
 <div class="va-introtext">
 
-If you were a part of chemical and biological warfare testing through Projects 112 or Shipboard Hazard and Defense (SHAD), you may be at risk for certain illnesses. This testing was done by the Department of Defense's Deseret Test Center in Fort Douglas, Utah. Testing took place aboard ships and on land in various locations from 1962 to 1974. Find out if you can get disability compensation or benefits.
+If you were a part of chemical and biological warfare testing through Projects 112 or Shipboard Hazard and Defense (SHAD), you may be at risk for certain illnesses. The Department of Defense's Deseret Test Center in Fort Douglas, Utah, conducted this testing, which took place aboard ships and on land in various locations from 1962 to 1974. Find out if you can get disability compensation or benefits.
 
 </div>
 
