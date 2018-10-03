@@ -15,16 +15,21 @@ describe('<IntroPage/>', () => {
 
   const defaultProps = {
     getServiceAvailability,
-    serviceAvailability: SERVICE_AVAILABILITY_STATES.up
+    serviceAvailability: SERVICE_AVAILABILITY_STATES.up,
   };
 
   it('should call getServiceAvailability()', () => {
-    shallow(<IntroPage {...defaultProps}/>);
+    shallow(<IntroPage {...defaultProps} />);
     expect(getServiceAvailability.callCount).to.equal(1);
   });
 
   it('should render a LoadingIndicator', () => {
-    const wrapper = shallow(<IntroPage {...defaultProps} serviceAvailability={SERVICE_AVAILABILITY_STATES.pending}/>);
+    const wrapper = shallow(
+      <IntroPage
+        {...defaultProps}
+        serviceAvailability={SERVICE_AVAILABILITY_STATES.pending}
+      />,
+    );
     expect(wrapper.find('LoadingIndicator')).to.have.lengthOf(1);
   });
 
@@ -35,7 +40,12 @@ describe('<IntroPage/>', () => {
   });
 
   it('should render an alert when GIBS status down', () => {
-    const wrapper = shallow(<IntroPage {...defaultProps} serviceAvailability={SERVICE_AVAILABILITY_STATES.down}/>);
+    const wrapper = shallow(
+      <IntroPage
+        {...defaultProps}
+        serviceAvailability={SERVICE_AVAILABILITY_STATES.down}
+      />,
+    );
     expect(wrapper.find('.usa-alert')).to.have.lengthOf(1);
   });
 });

@@ -12,22 +12,17 @@ const pagesOutsideOfContent = [
   // We should updated all reference instead to /education/apply/, but it's probably not
   // worth it during the brand-consolidation effort where pages are already moving.
   // This is a valid broken link though, so it should be addressed or removed soon.
-  '/education/apply-for-education-benefits'
+  '/education/apply-for-education-benefits',
 ];
 
 function checkBrokenLinks() {
   return (files, metalsmith, done) => {
-    const ignorePaths = [
-      ...pagesOutsideOfContent
-    ];
+    const ignorePaths = [...pagesOutsideOfContent];
 
     for (const fileName of Object.keys(files)) {
       const file = files[fileName];
 
-      const {
-        entryname,
-        path
-      } = file;
+      const { entryname, path } = file;
 
       const isApp = !!entryname;
       if (isApp) ignorePaths.push(path);
@@ -38,7 +33,7 @@ function checkBrokenLinks() {
     const brokenLinkChecker = createBrokenLinkChecker({
       allowRedirects: true,
       warn: false,
-      allowRegex: ignoreLinks
+      allowRegex: ignoreLinks,
     });
 
     brokenLinkChecker(files);

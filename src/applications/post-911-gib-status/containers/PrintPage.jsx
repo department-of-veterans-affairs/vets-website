@@ -11,13 +11,17 @@ export class PrintPage extends React.Component {
     focusElement('.print-screen');
     document.querySelector('header').classList.add('no-print-no-sr');
     document.querySelector('footer').classList.add('no-print-no-sr');
-    document.querySelector('.va-nav-breadcrumbs').classList.add('no-print-no-sr');
+    document
+      .querySelector('.va-nav-breadcrumbs')
+      .classList.add('no-print-no-sr');
   }
 
   componentWillUnmount() {
     document.querySelector('header').classList.remove('no-print-no-sr');
     document.querySelector('footer').classList.remove('no-print-no-sr');
-    document.querySelector('.va-nav-breadcrumbs').classList.remove('no-print-no-sr');
+    document
+      .querySelector('.va-nav-breadcrumbs')
+      .classList.remove('no-print-no-sr');
   }
 
   backToStatement = () => this.props.router.push('/');
@@ -32,20 +36,27 @@ export class PrintPage extends React.Component {
       <div className="usa-width-two-thirds medium-8 columns gib-info">
         <div className="print-status">
           <div className="print-screen">
-            <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300"/>
-            <h1 className="section-header">Post-9/11 GI Bill<sup>&reg;</sup> Statement of Benefits</h1>
-            <button
-              className="usa-button-primary"
-              onClick={this.printWindow}>Print This Page</button>
+            <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
+            <h1 className="section-header">
+              Post-9/11 GI Bill
+              <sup>&reg;</sup> Statement of Benefits
+            </h1>
+            <button className="usa-button-primary" onClick={this.printWindow}>
+              Print This Page
+            </button>
             <p>
-              The information in this letter is the Post-9/11 GI Bill Statement of Benefits for
-              the beneficiary listed below as of {todayFormatted}. Any pending or recent changes to
-              enrollment may affect remaining entitlement.
+              The information in this letter is the Post-9/11 GI Bill Statement
+              of Benefits for the beneficiary listed below as of{' '}
+              {todayFormatted}. Any pending or recent changes to enrollment may
+              affect remaining entitlement.
             </p>
-            <UserInfoSection enrollmentData={enrollmentData}/>
+            <UserInfoSection enrollmentData={enrollmentData} />
             <button
               className="usa-button-secondary"
-              onClick={this.backToStatement}>Back to Statement Page</button>
+              onClick={this.backToStatement}
+            >
+              Back to Statement Page
+            </button>
           </div>
         </div>
       </div>
@@ -55,7 +66,7 @@ export class PrintPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    enrollmentData: state.post911GIBStatus.enrollmentData
+    enrollmentData: state.post911GIBStatus.enrollmentData,
   };
 }
 

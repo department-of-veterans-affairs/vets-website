@@ -13,7 +13,8 @@ describe('<FilesPage>', () => {
       <FilesPage
         loading
         message={{ title: 'Test', body: 'Body' }}
-        claim={claim}/>
+        claim={claim}
+      />,
     );
     expect(tree.props.message).not.to.be.null;
   });
@@ -21,13 +22,10 @@ describe('<FilesPage>', () => {
     const claim = {
       attributes: {
         open: false,
-        eventsTimeline: []
-      }
+        eventsTimeline: [],
+      },
     };
-    const tree = SkinDeep.shallowRender(
-      <FilesPage
-        claim={claim}/>
-    );
+    const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
 
     expect(tree.subTree('RequestedFilesInfo')).to.be.false;
   });
@@ -35,13 +33,10 @@ describe('<FilesPage>', () => {
     const claim = {
       attributes: {
         open: true,
-        eventsTimeline: []
-      }
+        eventsTimeline: [],
+      },
     };
-    const tree = SkinDeep.shallowRender(
-      <FilesPage
-        claim={claim}/>
-    );
+    const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
 
     expect(tree.subTree('RequestedFilesInfo')).not.to.be.false;
   });
@@ -56,16 +51,14 @@ describe('<FilesPage>', () => {
         eventsTimeline: [
           {
             type: 'still_need_from_you_list',
-            status: 'NEEDED'
-          }
-        ]
-      }
+            status: 'NEEDED',
+          },
+        ],
+      },
     };
 
     const tree = SkinDeep.shallowRender(
-      <FilesPage
-        params={{ id: 2 }}
-        claim={claim}/>
+      <FilesPage params={{ id: 2 }} claim={claim} />,
     );
     expect(tree.everySubTree('AskVAToDecide')).not.to.be.empty;
   });
@@ -75,20 +68,19 @@ describe('<FilesPage>', () => {
         eventsTimeline: [
           {
             type: 'received_from_you_list',
-            documents: [{
-              filename: 'Filename'
-            }],
+            documents: [
+              {
+                filename: 'Filename',
+              },
+            ],
             trackedItemId: 2,
-            status: 'ACCEPTED'
+            status: 'ACCEPTED',
           },
-        ]
-      }
+        ],
+      },
     };
 
-    const tree = SkinDeep.shallowRender(
-      <FilesPage
-        claim={claim}/>
-    );
+    const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
     expect(tree.everySubTree('SubmittedTrackedItem').length).to.equal(1);
   });
   it('should display additional evidence docs', () => {
@@ -98,16 +90,13 @@ describe('<FilesPage>', () => {
           {
             filename: 'Filename',
             fileType: 'Testing',
-            type: 'other_documents_list'
-          }
-        ]
-      }
+            type: 'other_documents_list',
+          },
+        ],
+      },
     };
 
-    const tree = SkinDeep.shallowRender(
-      <FilesPage
-        claim={claim}/>
-    );
+    const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
     expect(tree.everySubTree('AdditionalEvidenceItem').length).to.equal(1);
   });
   it('should show never received docs as tracked items', () => {
@@ -116,48 +105,50 @@ describe('<FilesPage>', () => {
         eventsTimeline: [
           {
             type: 'never_received_from_you_list',
-            documents: [{
-              filename: 'Filename'
-            }],
+            documents: [
+              {
+                filename: 'Filename',
+              },
+            ],
             trackedItemId: 2,
-            status: 'ACCEPTED'
+            status: 'ACCEPTED',
           },
           {
             type: 'never_received_from_others_list',
-            documents: [{
-              filename: 'Filename'
-            }],
+            documents: [
+              {
+                filename: 'Filename',
+              },
+            ],
             trackedItemId: 3,
-            status: 'NEEDED'
+            status: 'NEEDED',
           },
-        ]
-      }
+        ],
+      },
     };
 
-    const tree = SkinDeep.shallowRender(
-      <FilesPage
-        claim={claim}/>
-    );
+    const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
     expect(tree.everySubTree('SubmittedTrackedItem').length).to.equal(2);
     expect(tree.everySubTree('AdditionalEvidenceItem')).to.be.empty;
   });
   it('should clear alert', () => {
     const claim = {
       attributes: {
-        eventsTimeline: []
-      }
+        eventsTimeline: [],
+      },
     };
     const clearNotification = sinon.spy();
     const message = {
       title: 'Test',
-      body: 'Test'
+      body: 'Test',
     };
 
     const tree = SkinDeep.shallowRender(
       <FilesPage
         clearNotification={clearNotification}
         message={message}
-        claim={claim}/>
+        claim={claim}
+      />,
     );
     expect(clearNotification.called).to.be.false;
     tree.subTree('ClaimDetailLayout').props.clearNotification();
@@ -166,20 +157,21 @@ describe('<FilesPage>', () => {
   it('should clear notification when leaving', () => {
     const claim = {
       attributes: {
-        eventsTimeline: []
-      }
+        eventsTimeline: [],
+      },
     };
     const clearNotification = sinon.spy();
     const message = {
       title: 'Test',
-      body: 'Test'
+      body: 'Test',
     };
 
     const tree = SkinDeep.shallowRender(
       <FilesPage
         clearNotification={clearNotification}
         message={message}
-        claim={claim}/>
+        claim={claim}
+      />,
     );
     expect(clearNotification.called).to.be.false;
     tree.getMountedInstance().componentWillUnmount();

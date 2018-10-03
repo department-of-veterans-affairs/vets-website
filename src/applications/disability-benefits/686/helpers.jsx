@@ -8,12 +8,12 @@ export const relationshipLabels = {
   veteran: 'I am the Veteran',
   spouse: 'Spouse or surviving spouse',
   child: 'Unmarried adult child',
-  other: 'Other'
+  other: 'Other',
 };
 export const childRelationshipStatusLabels = {
   biological: 'Biological',
   adopted: 'Adopted',
-  stepchild: 'Stepchild'
+  stepchild: 'Stepchild',
 };
 
 const numberToWords = {
@@ -26,7 +26,7 @@ const numberToWords = {
   6: 'Seventh',
   7: 'Eighth',
   8: 'Ninth',
-  9: 'Tenth'
+  9: 'Tenth',
 };
 
 export function fetchDisabilityRating({ onDone }) {
@@ -52,7 +52,7 @@ export function getMarriageTitle(index) {
 }
 
 export function getMarriageTitleWithCurrent(form, index) {
-  if (isMarried(form) && (form.marriages.length - 1) === index) {
+  if (isMarried(form) && form.marriages.length - 1 === index) {
     return 'Current marriage';
   }
 
@@ -61,25 +61,46 @@ export function getMarriageTitleWithCurrent(form, index) {
 export function getSpouseMarriageTitle(index) {
   const desc = numberToWords[index];
 
-  return desc ? `Spouse’s ${desc.toLowerCase()} marriage` : `Spouse marriage ${index + 1}`;
+  return desc
+    ? `Spouse’s ${desc.toLowerCase()} marriage`
+    : `Spouse marriage ${index + 1}`;
 }
 
 export const VAFileNumberDescription = (
   <div className="additional-info-title-help">
     <AdditionalInfo triggerText="What does this mean?">
-      <p>The VA file number is the number used to track your disability claim and evidence through the VA system. For most Veterans, your VA file number is the same as your Social Security number. However, if you filed your first disability claim a long time ago, your VA file number may be a different number.</p>
+      <p>
+        The VA file number is the number used to track your disability claim and
+        evidence through the VA system. For most Veterans, your VA file number
+        is the same as your Social Security number. However, if you filed your
+        first disability claim a long time ago, your VA file number may be a
+        different number.
+      </p>
     </AdditionalInfo>
   </div>
 );
 
 export const dependentsMinItem = (
-  <span>If you are claiming child dependents, <strong>you must add at least one</strong> here.</span>
+  <span>
+    If you are claiming child dependents,{' '}
+    <strong>you must add at least one</strong> here.
+  </span>
 );
 
 export const schoolAttendanceWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      <div className="usa-alert-text">Since your child is between 18 and 23 years old, you’ll need to fill out a Request for Approval of School Attendance (<a href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf" target="_blank">VA Form 21-674</a>). <strong>You can send us this form later.</strong></div>
+      <div className="usa-alert-text">
+        Since your child is between 18 and 23 years old, you’ll need to fill out
+        a Request for Approval of School Attendance (
+        <a
+          href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
+          target="_blank"
+        >
+          VA Form 21-674
+        </a>
+        ). <strong>You can send us this form later.</strong>
+      </div>
     </div>
   </div>
 );
@@ -87,7 +108,10 @@ export const schoolAttendanceWarning = (
 export const disableWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      <div className="usa-alert-text">You'll need to provide all private medical records for your child's disability.</div>
+      <div className="usa-alert-text">
+        You'll need to provide all private medical records for your child's
+        disability.
+      </div>
     </div>
   </div>
 );
@@ -95,20 +119,34 @@ export const disableWarning = (
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
-    form: formData
+    form: formData,
   });
 }
 
 export const spouseRelationshipDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">You’re applying as the <strong>legally married spouse or surviving spouse</strong> of the Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for your sponsor’s information.</div>
+  <div className="usa-alert usa-alert-info no-background-image">
+    You’re applying as the{' '}
+    <strong>legally married spouse or surviving spouse</strong> of the Veteran
+    who’s sponsoring this application. First, we’ll ask for your information as
+    the applicant. Then, we’ll ask for your sponsor’s information.
+  </div>
 );
 
 export const childRelationshipDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">You’re applying as the <strong>unmarried adult child</strong> of the Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for your sponsor’s information. You’ll also need to provide supporting documents with information about your disability.</div>
+  <div className="usa-alert usa-alert-info no-background-image">
+    You’re applying as the <strong>unmarried adult child</strong> of the Veteran
+    who’s sponsoring this application. First, we’ll ask for your information as
+    the applicant. Then, we’ll ask for your sponsor’s information. You’ll also
+    need to provide supporting documents with information about your disability.
+  </div>
 );
 
 export const otherRelationshipDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">You’re applying on <strong>behalf</strong> of the Veteran who’s sponsoring this application. First, we’ll ask for your information as the applicant. Then, we’ll ask for the Veteran's information as the sponsor.</div>
+  <div className="usa-alert usa-alert-info no-background-image">
+    You’re applying on <strong>behalf</strong> of the Veteran who’s sponsoring
+    this application. First, we’ll ask for your information as the applicant.
+    Then, we’ll ask for the Veteran's information as the sponsor.
+  </div>
 );
 
 export function isVeteran(item) {
@@ -116,7 +154,8 @@ export function isVeteran(item) {
   return relationship && relationship === '1';
 }
 
-export const profileStatuses = { // TODO: move to platform and use in requiredLoginView
+export const profileStatuses = {
+  // TODO: move to platform and use in requiredLoginView
   SERVER_ERROR: 'SERVER_ERROR',
-  NOT_FOUND: 'NOT_FOUND'
+  NOT_FOUND: 'NOT_FOUND',
 };

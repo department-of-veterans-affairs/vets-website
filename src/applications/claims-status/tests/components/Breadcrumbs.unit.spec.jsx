@@ -9,7 +9,7 @@ describe('<Breadcrumbs>', () => {
     const tree = SkinDeep.shallowRender(
       <Breadcrumbs>
         <li>Testing</li>
-      </Breadcrumbs>
+      </Breadcrumbs>,
     );
 
     const items = tree.everySubTree('li');

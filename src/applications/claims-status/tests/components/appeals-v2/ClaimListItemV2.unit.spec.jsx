@@ -4,7 +4,6 @@ import { expect } from 'chai';
 
 import ClaimsListItemV2 from '../../../components/appeals-v2/ClaimsListItemV2';
 
-
 describe('<ClaimsListItemV2>', () => {
   it('should not show any flags', () => {
     const claim = {
@@ -13,10 +12,10 @@ describe('<ClaimsListItemV2>', () => {
         phase: 2,
         decisionLetterSent: false,
         developmentLetterSent: false,
-        documentsNeeded: false
-      }
+        documentsNeeded: false,
+      },
     };
-    const tree = shallow(<ClaimsListItemV2 claim={claim}/>);
+    const tree = shallow(<ClaimsListItemV2 claim={claim} />);
     expect(tree.find('.communications').text()).to.equal('');
   });
 
@@ -24,22 +23,32 @@ describe('<ClaimsListItemV2>', () => {
     const claim = {
       id: 1,
       attributes: {
-        phase: 8
-      }
+        phase: 8,
+      },
     };
-    const tree = shallow(<ClaimsListItemV2 claim={claim}/>);
-    expect(tree.find('.status-circle + p').first().text()).to.equal('Status: Closed');
+    const tree = shallow(<ClaimsListItemV2 claim={claim} />);
+    expect(
+      tree
+        .find('.status-circle + p')
+        .first()
+        .text(),
+    ).to.equal('Status: Closed');
   });
 
   it('should show the status', () => {
     const claim = {
       id: 1,
       attributes: {
-        phase: 2
-      }
+        phase: 2,
+      },
     };
-    const tree = shallow(<ClaimsListItemV2 claim={claim}/>);
-    expect(tree.find('.status-circle + p').first().text()).to.equal('Status: Initial review');
+    const tree = shallow(<ClaimsListItemV2 claim={claim} />);
+    expect(
+      tree
+        .find('.status-circle + p')
+        .first()
+        .text(),
+    ).to.equal('Status: Initial review');
   });
 
   it('should show development letter flag', () => {
@@ -49,11 +58,13 @@ describe('<ClaimsListItemV2>', () => {
         phase: 2,
         decisionLetterSent: false,
         developmentLetterSent: true,
-        documentsNeeded: false
-      }
+        documentsNeeded: false,
+      },
     };
-    const tree = shallow(<ClaimsListItemV2 claim={claim}/>);
-    expect(tree.find('.communications').text()).to.contain('We sent you a development letter');
+    const tree = shallow(<ClaimsListItemV2 claim={claim} />);
+    expect(tree.find('.communications').text()).to.contain(
+      'We sent you a development letter',
+    );
   });
 
   it('should show decision letter flag', () => {
@@ -63,11 +74,13 @@ describe('<ClaimsListItemV2>', () => {
         phase: 2,
         decisionLetterSent: true,
         developmentLetterSent: true,
-        documentsNeeded: false
-      }
+        documentsNeeded: false,
+      },
     };
-    const tree = shallow(<ClaimsListItemV2 claim={claim}/>);
-    expect(tree.find('.communications').text()).to.contain('We sent you a decision letter');
+    const tree = shallow(<ClaimsListItemV2 claim={claim} />);
+    expect(tree.find('.communications').text()).to.contain(
+      'We sent you a decision letter',
+    );
   });
 
   it('should show items needed flag', () => {
@@ -77,11 +90,13 @@ describe('<ClaimsListItemV2>', () => {
         phase: 2,
         decisionLetterSent: false,
         developmentLetterSent: false,
-        documentsNeeded: true
-      }
+        documentsNeeded: true,
+      },
     };
-    const tree = shallow(<ClaimsListItemV2 claim={claim}/>);
-    expect(tree.find('.communications').text()).to.contain('Items need attention');
+    const tree = shallow(<ClaimsListItemV2 claim={claim} />);
+    expect(tree.find('.communications').text()).to.contain(
+      'Items need attention',
+    );
   });
 
   it('should hide flags when complete', () => {
@@ -91,10 +106,10 @@ describe('<ClaimsListItemV2>', () => {
         phase: 8,
         decisionLetterSent: false,
         developmentLetterSent: true,
-        documentsNeeded: true
-      }
+        documentsNeeded: true,
+      },
     };
-    const tree = shallow(<ClaimsListItemV2 claim={claim}/>);
+    const tree = shallow(<ClaimsListItemV2 claim={claim} />);
     expect(tree.find('.communications').text()).to.equal('');
   });
 
@@ -103,10 +118,10 @@ describe('<ClaimsListItemV2>', () => {
       id: 1,
       attributes: {
         phase: 2,
-        open: true
-      }
+        open: true,
+      },
     };
-    const tree = shallow(<ClaimsListItemV2 claim={claim}/>);
+    const tree = shallow(<ClaimsListItemV2 claim={claim} />);
     const circle = tree.find('.status-circle').first();
     expect(circle.hasClass('open')).to.be.true;
     expect(circle.hasClass('closed')).to.be.false;
@@ -117,10 +132,10 @@ describe('<ClaimsListItemV2>', () => {
       id: 1,
       attributes: {
         phase: 8,
-        open: false
-      }
+        open: false,
+      },
     };
-    const tree = shallow(<ClaimsListItemV2 claim={claim}/>);
+    const tree = shallow(<ClaimsListItemV2 claim={claim} />);
     const circle = tree.find('.status-circle').first();
     expect(circle.hasClass('open')).to.be.false;
     expect(circle.hasClass('closed')).to.be.true;
@@ -131,10 +146,15 @@ describe('<ClaimsListItemV2>', () => {
       id: 1,
       attributes: {
         phase: 8,
-        open: false
-      }
+        open: false,
+      },
     };
-    const tree = shallow(<ClaimsListItemV2 claim={claim}/>);
-    expect(tree.find('Link').first().props().to).to.equal(`your-claims/${claim.id}/status`);
+    const tree = shallow(<ClaimsListItemV2 claim={claim} />);
+    expect(
+      tree
+        .find('Link')
+        .first()
+        .props().to,
+    ).to.equal(`your-claims/${claim.id}/status`);
   });
 });

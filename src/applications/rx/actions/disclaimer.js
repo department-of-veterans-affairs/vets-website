@@ -1,5 +1,5 @@
 export function closeDisclaimer() {
   return {
-    type: 'CLOSE_DISCLAIMER'
+    type: 'CLOSE_DISCLAIMER',
   };
 }

@@ -3,13 +3,15 @@ import { apiRequest } from '../../../utilities/api';
 export const RETRIEVE_SCHEDULED_DOWNTIME = 'RETRIEVE_SCHEDULED_DOWNTIME';
 export const RECEIVE_SCHEDULED_DOWNTIME = 'RECEIVE_SCHEDULED_DOWNTIME';
 
-export const INIT_DISMISSED_DOWNTIME_APPROACHING_MODALS = 'INIT_DISMISSED_DOWNTIME_APPROACHING_MODALS';
-export const DISMISS_DOWNTIME_APPROACHING_MODAL = 'DISMISS_DOWNTIME_APPROACHING_MODAL';
+export const INIT_DISMISSED_DOWNTIME_APPROACHING_MODALS =
+  'INIT_DISMISSED_DOWNTIME_APPROACHING_MODALS';
+export const DISMISS_DOWNTIME_APPROACHING_MODAL =
+  'DISMISS_DOWNTIME_APPROACHING_MODAL';
 
 const getDismissedDowntimeWarningsFromSession = (() => {
   const DISMISSED_DOWNTIME_WARNINGS = 'DISMISSED_DOWNTIME_WARNINGS';
 
-  return (appTitle) => {
+  return appTitle => {
     const fromSession = window.sessionStorage[DISMISSED_DOWNTIME_WARNINGS];
     let parsed = [];
 
@@ -23,7 +25,9 @@ const getDismissedDowntimeWarningsFromSession = (() => {
 
     if (appTitle) {
       parsed.push(appTitle);
-      window.sessionStorage[DISMISSED_DOWNTIME_WARNINGS] = JSON.stringify(parsed);
+      window.sessionStorage[DISMISSED_DOWNTIME_WARNINGS] = JSON.stringify(
+        parsed,
+      );
     }
 
     return parsed;
@@ -33,7 +37,7 @@ const getDismissedDowntimeWarningsFromSession = (() => {
 export function initializeDowntimeWarnings() {
   return {
     type: INIT_DISMISSED_DOWNTIME_APPROACHING_MODALS,
-    dismissedDowntimeWarnings: getDismissedDowntimeWarningsFromSession()
+    dismissedDowntimeWarnings: getDismissedDowntimeWarningsFromSession(),
   };
 }
 
@@ -41,12 +45,12 @@ export function dismissDowntimeWarning(appTitle) {
   getDismissedDowntimeWarningsFromSession(appTitle);
   return {
     type: DISMISS_DOWNTIME_APPROACHING_MODAL,
-    appTitle
+    appTitle,
   };
 }
 
 export function getScheduledDowntime() {
-  return async (dispatch) => {
+  return async dispatch => {
     dispatch({ type: RETRIEVE_SCHEDULED_DOWNTIME });
     let data;
     try {
@@ -57,7 +61,7 @@ export function getScheduledDowntime() {
     } finally {
       dispatch({
         type: RECEIVE_SCHEDULED_DOWNTIME,
-        data
+        data,
       });
     }
   };

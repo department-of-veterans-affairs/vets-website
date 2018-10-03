@@ -16,7 +16,7 @@ import {
   fetchPreferences,
   savePreferences,
   setNotificationEmail,
-  setNotificationFlag
+  setNotificationFlag,
 } from '../actions/preferences';
 
 import DiscardChangesModal from '../components/DiscardChangesModal';
@@ -47,7 +47,7 @@ export class Settings extends React.Component {
     const { email, flag } = this.props;
     this.props.savePreferences({
       emailAddress: email.value,
-      rxFlag: flag.value === 'true'
+      rxFlag: flag.value === 'true',
     });
     recordEvent({
       event: 'rx-notification-setting',
@@ -61,7 +61,8 @@ export class Settings extends React.Component {
     let message;
 
     if (isSaveable) {
-      message = 'You haven’t saved your changes. Are you sure you want to leave this page without saving?';
+      message =
+        'You haven’t saved your changes. Are you sure you want to leave this page without saving?';
       event.returnValue = message; // eslint-disable-line no-param-reassign
     }
 
@@ -72,27 +73,24 @@ export class Settings extends React.Component {
     const { email, flag } = this.props;
     const isSaveable = email.dirty || flag.dirty;
 
-    const saveButtonClass = classNames(
-      'usa-button',
-      { 'usa-button-disabled': !isSaveable }
-    );
+    const saveButtonClass = classNames('usa-button', {
+      'usa-button-disabled': !isSaveable,
+    });
 
     return (
       <div className="rx-notifications-save">
-        <button
-          className={saveButtonClass}
-          disabled={!isSaveable}>
+        <button className={saveButtonClass} disabled={!isSaveable}>
           Save changes
         </button>
-        {
-          isSaveable &&
-          (<button
+        {isSaveable && (
+          <button
             className="usa-button-secondary"
             type="button"
-            onClick={() => this.setState({ discardChanges: true })}>
+            onClick={() => this.setState({ discardChanges: true })}
+          >
             Cancel
-          </button>)
-        }
+          </button>
+        )}
       </div>
     );
   }
@@ -103,7 +101,7 @@ export class Settings extends React.Component {
     if (isLoading) {
       return (
         <div id="rx-settings">
-          <LoadingIndicator message="Loading your preferences..."/>
+          <LoadingIndicator message="Loading your preferences..." />
         </div>
       );
     }
@@ -111,7 +109,7 @@ export class Settings extends React.Component {
     if (isSaving) {
       return (
         <div id="rx-settings">
-          <LoadingIndicator message="Saving your preferences..."/>
+          <LoadingIndicator message="Saving your preferences..." />
         </div>
       );
     }
@@ -125,46 +123,48 @@ export class Settings extends React.Component {
           isVisible={alert.visible}
           onCloseAlert={this.props.closeAlert}
           scrollOnShow
-          status={alert.status}/>
+          status={alert.status}
+        />
         <div className="rx-app-title">
           <h1>Settings</h1>
-          <SettingsButton/>
+          <SettingsButton />
         </div>
-        <div>
-          Receive email notifications of when your prescriptions ship.
-        </div>
+        <div>Receive email notifications of when your prescriptions ship.</div>
         <form onSubmit={this.handleSubmit}>
           <ErrorableRadioButtons
             name="notifications"
             label="Prescription refill shipment notification:"
             options={[
               { label: 'On', value: 'true' },
-              { label: 'Off', value: 'false' }
+              { label: 'Off', value: 'false' },
             ]}
             onValueChange={v => this.props.setNotificationFlag(v)}
-            value={flag}/>
-          {
-            flag.value !== 'false' &&
-            (<ErrorableTextInput
+            value={flag}
+          />
+          />
+          {flag.value !== 'false' && (
+            <ErrorableTextInput
               name="email"
               label="Send email notifications to:"
               onValueChange={({ value }) =>
                 this.props.setNotificationEmail(makeField(value, true))
               }
-              field={email}/>)
-          }
+              field={email}
+            />
+          )}
           {this.renderSaveButtons()}
         </form>
         <DiscardChangesModal
           onClose={() => this.setState({ discardChanges: false })}
           onSubmit={this.props.fetchPreferences}
-          visible={this.state.discardChanges}/>
+          visible={this.state.discardChanges}
+        />
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const rxState = state.health.rx;
   const { email, flag, loading, saving } = rxState.preferences;
   return {
@@ -172,7 +172,7 @@ const mapStateToProps = (state) => {
     email,
     flag,
     isLoading: loading,
-    isSaving: saving
+    isSaving: saving,
   };
 };
 
@@ -181,7 +181,12 @@ const mapDispatchToProps = {
   fetchPreferences,
   savePreferences,
   setNotificationEmail,
-  setNotificationFlag
+  setNotificationFlag,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Settings));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Settings),
+);

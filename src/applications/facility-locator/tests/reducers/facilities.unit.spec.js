@@ -5,7 +5,7 @@ import facilitiesReducer from '../../reducers/facilities';
 const INITIAL_STATE = {
   facilities: [],
   selectedFacility: null,
-  pagination: {}
+  pagination: {},
 };
 
 describe('facilities reducer', () => {
@@ -13,7 +13,7 @@ describe('facilities reducer', () => {
     const state = facilitiesReducer(INITIAL_STATE, {
       type: 'FETCH_VA_FACILITY',
       payload: {
-        name: 'selectedFacility'
+        name: 'selectedFacility',
       },
     });
 
@@ -24,15 +24,12 @@ describe('facilities reducer', () => {
     const state = facilitiesReducer(INITIAL_STATE, {
       type: 'FETCH_VA_FACILITIES',
       payload: {
-        data: [
-          { name: 'selectedFacility1' },
-          { name: 'selectedFacility2' },
-        ],
+        data: [{ name: 'selectedFacility1' }, { name: 'selectedFacility2' }],
         meta: {
           pagination: {
             currentPage: 1,
-          }
-        }
+          },
+        },
       },
     });
 

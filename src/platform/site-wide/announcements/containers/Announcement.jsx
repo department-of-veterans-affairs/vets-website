@@ -4,10 +4,7 @@ import { connect } from 'react-redux';
 import { isLoggedIn, selectProfile } from '../../../user/selectors';
 import { selectAnnouncement } from '../selectors';
 
-import {
-  initDismissedAnnouncements,
-  dismissAnnouncement
-} from '../actions';
+import { initDismissedAnnouncements, dismissAnnouncement } from '../actions';
 
 class Announcement extends React.Component {
   componentDidMount() {
@@ -15,24 +12,22 @@ class Announcement extends React.Component {
   }
   dismiss = () => {
     const {
-      announcement: {
-        name: announcementName,
-        relatedAnnouncements = []
-      }
+      announcement: { name: announcementName, relatedAnnouncements = [] },
     } = this.props;
 
     this.props.dismissAnnouncement(announcementName);
 
     relatedAnnouncements
-      .filter(relatedAnnouncementName => !this.props.dismissed.includes(relatedAnnouncementName))
+      .filter(
+        relatedAnnouncementName =>
+          !this.props.dismissed.includes(relatedAnnouncementName),
+      )
       .forEach(relatedAnnouncementName => {
         this.props.dismissAnnouncement(relatedAnnouncementName);
       });
-  }
+  };
   render() {
-    const {
-      announcement
-    } = this.props;
+    const { announcement } = this.props;
 
     if (announcement) {
       return (
@@ -40,26 +35,28 @@ class Announcement extends React.Component {
           announcement={announcement}
           isLoggedIn={this.props.isLoggedIn}
           profile={this.props.profile}
-          dismiss={this.dismiss}/>
+          dismiss={this.dismiss}
+        />
       );
     }
-    return <div/>;
+    return <div />;
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    announcement: selectAnnouncement(state),
-    isLoggedIn: isLoggedIn(state),
-    profile: selectProfile(state),
-    ...state.announcements
-  };
-};
+const mapStateToProps = state => ({
+  announcement: selectAnnouncement(state),
+  isLoggedIn: isLoggedIn(state),
+  profile: selectProfile(state),
+  ...state.announcements,
+});
 
 const mapDispatchToProps = {
   initDismissedAnnouncements,
-  dismissAnnouncement
+  dismissAnnouncement,
 };
 
 export { Announcement };
-export default connect(mapStateToProps, mapDispatchToProps)(Announcement);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Announcement);

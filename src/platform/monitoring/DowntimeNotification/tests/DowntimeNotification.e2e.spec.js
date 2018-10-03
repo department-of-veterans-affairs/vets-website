@@ -6,18 +6,30 @@ const createMockEndpoint = require('../../../../platform/testing/e2e/mock-helper
 const FacilityHelpers = require('../../../../applications/facility-locator/tests/facility-helpers');
 
 const token = null;
-const beforeNow = moment().subtract(1, 'minute').toISOString();
-const withinHour = moment().add(1, 'hour').subtract(1, 'minute').toISOString();
-const endTime = moment().add(6, 'hour').toISOString();
+const beforeNow = moment()
+  .subtract(1, 'minute')
+  .toISOString();
+const withinHour = moment()
+  .add(1, 'hour')
+  .subtract(1, 'minute')
+  .toISOString();
+const endTime = moment()
+  .add(6, 'hour')
+  .toISOString();
 
 const selectors = {
   app: '.facility-locator',
   statusDown: '[data-status="down"]',
-  statusDownApproachingModal: '[data-status="downtimeApproaching"] #downtime-approaching-modal'
+  statusDownApproachingModal:
+    '[data-status="downtimeApproaching"] #downtime-approaching-modal',
 };
 
 function mock(data, _token = token) {
-  return createMockEndpoint(_token, { path: '/v0/maintenance_windows', verb: 'get', value: { data }  });
+  return createMockEndpoint(_token, {
+    path: '/v0/maintenance_windows',
+    verb: 'get',
+    value: { data },
+  });
 }
 
 function mockNoDowntime() {
@@ -25,35 +37,40 @@ function mockNoDowntime() {
 }
 
 function mockDowntimeApproaching() {
-  return mock([{
-    id: '139',
-    type: 'maintenance_windows',
-    attributes: {
-      externalService: 'arcgis',
-      description: 'My description',
-      startTime: withinHour,
-      endTime
-    }
-  }]);
+  return mock([
+    {
+      id: '139',
+      type: 'maintenance_windows',
+      attributes: {
+        externalService: 'arcgis',
+        description: 'My description',
+        startTime: withinHour,
+        endTime,
+      },
+    },
+  ]);
 }
 
 function mockDowntime() {
-  return mock([{
-    id: '139',
-    type: 'maintenance_windows',
-    attributes: {
-      externalService: 'arcgis',
-      description: 'My description',
-      startTime: beforeNow,
-      endTime
-    }
-  }]);
+  return mock([
+    {
+      id: '139',
+      type: 'maintenance_windows',
+      attributes: {
+        externalService: 'arcgis',
+        description: 'My description',
+        startTime: beforeNow,
+        endTime,
+      },
+    },
+  ]);
 }
 
 function refresh(browser) {
-  return () => {
-    return new Promise(resolve => browser.refresh().waitForElementVisible('body', Timeouts.normal, resolve));
-  };
+  return () =>
+    new Promise(resolve =>
+      browser.refresh().waitForElementVisible('body', Timeouts.normal, resolve),
+    );
 }
 
 function runTests(browser, callbacks) {
@@ -71,14 +88,28 @@ function runTests(browser, callbacks) {
 function getStatusHandlers(browser) {
   return {
     ok() {
-      return new Promise(resolve => browser.waitForElementVisible(selectors.app, Timeouts.slow, resolve));
+      return new Promise(resolve =>
+        browser.waitForElementVisible(selectors.app, Timeouts.slow, resolve),
+      );
     },
     downtimeApproaching() {
-      return new Promise(resolve => browser.waitForElementVisible(selectors.statusDownApproachingModal, Timeouts.slow, resolve));
+      return new Promise(resolve =>
+        browser.waitForElementVisible(
+          selectors.statusDownApproachingModal,
+          Timeouts.slow,
+          resolve,
+        ),
+      );
     },
     down() {
-      return new Promise(resolve => browser.waitForElementVisible(selectors.statusDown, Timeouts.slow, resolve));
-    }
+      return new Promise(resolve =>
+        browser.waitForElementVisible(
+          selectors.statusDown,
+          Timeouts.slow,
+          resolve,
+        ),
+      );
+    },
   };
 }
 
@@ -96,7 +127,7 @@ function begin(browser) {
     runTests(browser, getStatusHandlers(browser))
       .then(cleanUp)
       .then(() => browser.closeWindow())
-      .then(done, (err) => {
+      .then(done, err => {
         browser.verify.ok(false, err);
         done();
       });
@@ -104,4 +135,3 @@ function begin(browser) {
 }
 
 module.exports = E2eHelpers.createE2eTest(begin);
-

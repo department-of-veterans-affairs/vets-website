@@ -11,11 +11,10 @@ import {
   ITF_FETCH_FAILED,
   ITF_CREATION_INITIATED,
   ITF_CREATION_SUCCEEDED,
-  ITF_CREATION_FAILED
+  ITF_CREATION_FAILED,
 } from '../../actions';
 
 const originalFetch = global.fetch;
-
 
 describe('ITF actions', () => {
   describe('fetchITF', () => {
@@ -31,7 +30,7 @@ describe('ITF actions', () => {
         expect(dispatch.firstCall.args[0].type).to.equal(ITF_FETCH_INITIATED);
         expect(dispatch.secondCall.args[0]).to.eql({
           type: ITF_FETCH_SUCCEEDED,
-          data: mockData.data
+          data: mockData.data,
         });
       });
     });
@@ -57,10 +56,12 @@ describe('ITF actions', () => {
       mockApiRequest(mockData);
       const dispatch = sinon.spy();
       return createITF()(dispatch).then(() => {
-        expect(dispatch.firstCall.args[0].type).to.equal(ITF_CREATION_INITIATED);
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          ITF_CREATION_INITIATED,
+        );
         expect(dispatch.secondCall.args[0]).to.eql({
           type: ITF_CREATION_SUCCEEDED,
-          data: mockData.data
+          data: mockData.data,
         });
       });
     });
@@ -70,7 +71,9 @@ describe('ITF actions', () => {
       mockApiRequest(mockData, false);
       const dispatch = sinon.spy();
       return createITF()(dispatch).then(() => {
-        expect(dispatch.firstCall.args[0].type).to.equal(ITF_CREATION_INITIATED);
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          ITF_CREATION_INITIATED,
+        );
         expect(dispatch.secondCall.args[0].type).to.eql(ITF_CREATION_FAILED);
       });
     });

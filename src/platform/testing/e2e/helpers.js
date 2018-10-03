@@ -1,17 +1,19 @@
-import Timeouts from './timeouts';
+const Timeouts = require('./timeouts');
 
 function overrideVetsGovApi(client) {
-  client.execute((url) => {
-    const current = window.VetsGov || {};
-    window.VetsGov = Object.assign({}, current, {
-      api: {
-        // eslint-disable-next-line object-shorthand
-        url: url
-      }
-    });
-    return window.VetsGov;
-  },
-  [`http://${process.env.API_HOST}:${process.env.API_PORT || 3000}`]);
+  client.execute(
+    url => {
+      const current = window.VetsGov || {};
+      window.VetsGov = Object.assign({}, current, {
+        api: {
+          // eslint-disable-next-line object-shorthand
+          url: url,
+        },
+      });
+      return window.VetsGov;
+    },
+    [`http://${process.env.API_HOST}:${process.env.API_PORT || 3000}`],
+  );
 }
 
 function overrideSmoothScrolling(client) {
@@ -21,8 +23,8 @@ function overrideSmoothScrolling(client) {
       scroll: {
         duration: 0,
         delay: 0,
-        smooth: false
-      }
+        smooth: false,
+      },
     });
     return window.VetsGov;
   });
@@ -55,13 +57,15 @@ function overrideAnimations(client) {
      animation: none !important;
   }`;
 
-  client.execute((str) => {
-    const style = document.createElement('style');
-    style.type = 'text/css';
-    style.innerHTML = str;
-    document.getElementsByTagName('head')[0].appendChild(style);
-  },
-  [styles]);
+  client.execute(
+    str => {
+      const style = document.createElement('style');
+      style.type = 'text/css';
+      style.innerHTML = str;
+      document.getElementsByTagName('head')[0].appendChild(style);
+    },
+    [styles],
+  );
 }
 
 function disableAnnouncements(client) {
@@ -78,36 +82,48 @@ function disableAnnouncements(client) {
 // @param {beginApplication} Callable taking one argument, client, that runs the e2e test.
 function createE2eTest(beginApplication) {
   return {
-    'Begin application': (client) => {
+    'Begin application': client => {
       overrideSmoothScrolling(client);
       beginApplication(client);
       client.end();
-    }
+    },
   };
 }
 
 // Expects navigation lands at a path with the given `urlSubstring`.
 function expectNavigateAwayFrom(client, urlSubstring) {
-  client.expect.element('.js-test-location').attribute('data-location')
-    .to.not.contain(urlSubstring).before(Timeouts.slow);
+  client.expect
+    .element('.js-test-location')
+    .attribute('data-location')
+    .to.not.contain(urlSubstring)
+    .before(Timeouts.slow);
 }
 
 // Expects navigation lands at a path with the given `urlSubstring`.
 function expectNavigateAwayFromExact(client, urlSubstring) {
-  client.expect.element('.js-test-location').attribute('data-location')
-    .to.not.equal(urlSubstring).before(Timeouts.slow);
+  client.expect
+    .element('.js-test-location')
+    .attribute('data-location')
+    .to.not.equal(urlSubstring)
+    .before(Timeouts.slow);
 }
 
 // Expects navigation lands at a path with the given `urlSubstring`.
 function expectLocation(client, urlSubstring) {
-  client.expect.element('.js-test-location').attribute('data-location')
-    .to.contain(urlSubstring).before(Timeouts.slow);
+  client.expect
+    .element('.js-test-location')
+    .attribute('data-location')
+    .to.contain(urlSubstring)
+    .before(Timeouts.slow);
 }
 
 // Expects navigation lands at a path with the given `urlSubstring`.
 function expectExactLocation(client, urlSubstring) {
-  client.expect.element('.js-test-location').attribute('data-location')
-    .to.equal(urlSubstring).before(Timeouts.slow);
+  client.expect
+    .element('.js-test-location')
+    .attribute('data-location')
+    .to.equal(urlSubstring)
+    .before(Timeouts.slow);
 }
 
 function expectValueToBeBlank(client, field) {
@@ -119,8 +135,10 @@ function expectInputToNotBeSelected(client, field) {
 }
 
 module.exports = {
-  baseUrl: `http://${process.env.WEB_HOST || 'localhost'}:${process.env.WEB_PORT || 3333}`,
-  apiUrl: `http://${process.env.API_HOST || 'localhost'}:${process.env.API_PORT || 3000}`,
+  baseUrl: `http://${process.env.WEB_HOST || 'localhost'}:${process.env
+    .WEB_PORT || 3333}`,
+  apiUrl: `http://${process.env.API_HOST || 'localhost'}:${process.env
+    .API_PORT || 3000}`,
   createE2eTest,
   disableAnnouncements,
   expectNavigateAwayFrom,
@@ -132,5 +150,5 @@ module.exports = {
   overrideVetsGovApi,
   overrideSmoothScrolling,
   overrideAnimations,
-  overrideScrolling
+  overrideScrolling,
 };

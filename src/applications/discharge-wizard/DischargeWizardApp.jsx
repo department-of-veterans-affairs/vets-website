@@ -13,7 +13,11 @@ export default function DischargeWizardApp({ children }) {
         </Breadcrumbs>
       </VetsDotGov>
       <div className="row">
-        <div className="columns small-12" aria-live="polite" aria-relevant="additions">
+        <div
+          className="columns small-12"
+          aria-live="polite"
+          aria-relevant="additions"
+        >
           {children}
         </div>
       </div>

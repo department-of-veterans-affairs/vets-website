@@ -17,9 +17,7 @@ class Message extends React.Component {
     const { attrs, isCollapsed } = this.props;
 
     const shouldFetchMessage =
-      !isCollapsed &&
-      attrs.attachment &&
-      !attrs.attachments;
+      !isCollapsed && attrs.attachment && !attrs.attachments;
 
     if (shouldFetchMessage) {
       this.props.fetchMessage(attrs.messageId);
@@ -48,7 +46,7 @@ class Message extends React.Component {
       'messaging-thread-message': true,
       'messaging-thread-message--draft': !sentDate,
       'messaging-thread-message--collapsed': isCollapsed,
-      'messaging-thread-message--expanded': !isCollapsed
+      'messaging-thread-message--expanded': !isCollapsed,
     });
 
     let details;
@@ -64,34 +62,38 @@ class Message extends React.Component {
       details = (
         <div className="messaging-message-recipient">
           to {recipientName}
-          <MessageDetails attrs={attrs}/>
+          <MessageDetails attrs={attrs} />
         </div>
       );
 
       headerOnClick = this.handleToggleCollapsed;
 
       attachmentsView = attachment && (
-        <MessageAttachmentsView attachments={attachments}/>
+        <MessageAttachmentsView attachments={attachments} />
       );
     }
 
     return (
-      <div tabIndex="0" role="button" aria-expanded={!this.props.isCollapsed} onKeyPress={this.handleMessageOnKeyPress} className={messageClass} onClick={messageOnClick}>
+      <div
+        tabIndex="0"
+        role="button"
+        aria-expanded={!this.props.isCollapsed}
+        onKeyPress={this.handleMessageOnKeyPress}
+        className={messageClass}
+        onClick={messageOnClick}
+      >
         <div
           aria-live="assertive"
           className="messaging-message-header"
-          onClick={headerOnClick}>
+          onClick={headerOnClick}
+        >
           <div className="messaging-message-sent-date">
             {sentDate && formattedDate(sentDate, { fromNow: true })}
           </div>
-          <div className="messaging-message-sender">
-            {senderName}
-          </div>
+          <div className="messaging-message-sender">{senderName}</div>
           {details}
         </div>
-        <div className="messaging-message-body">
-          {body}
-        </div>
+        <div className="messaging-message-body">{body}</div>
         {attachmentsView}
       </div>
     );
@@ -110,11 +112,11 @@ Message.propTypes = {
     senderName: PropTypes.string.isRequired,
     recipientId: PropTypes.number.isRequired,
     recipientName: PropTypes.string.isRequired,
-    readReceipt: PropTypes.oneOf(['READ', 'UNREAD'])
+    readReceipt: PropTypes.oneOf(['READ', 'UNREAD']),
   }).isRequired,
   fetchMessage: PropTypes.func,
   isCollapsed: PropTypes.bool,
-  onToggleCollapsed: PropTypes.func
+  onToggleCollapsed: PropTypes.func,
 };
 
 export default Message;

@@ -17,7 +17,7 @@ const DurationCard = ({ durationText, cardDescription }) => {
 
 DurationCard.propTypes = {
   durationText: PropTypes.string.isRequired,
-  cardDescription: PropTypes.string
+  cardDescription: PropTypes.string,
 };
 
 export default DurationCard;

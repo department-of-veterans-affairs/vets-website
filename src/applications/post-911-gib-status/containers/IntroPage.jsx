@@ -15,17 +15,18 @@ export class IntroPage extends React.Component {
     this.props.getServiceAvailability();
   }
 
-
   getContent() {
     let content;
     switch (this.props.serviceAvailability) {
       case SERVICE_AVAILABILITY_STATES.unrequested: {
         // This is never actually even seen
-        content = (<div></div>);
+        content = <div />;
         break;
       }
       case SERVICE_AVAILABILITY_STATES.pending: {
-        content = <LoadingIndicator message="Please wait while we check if the tool is available."/>;
+        content = (
+          <LoadingIndicator message="Please wait while we check if the tool is available." />
+        );
         break;
       }
       case SERVICE_AVAILABILITY_STATES.up: {
@@ -37,8 +38,16 @@ export class IntroPage extends React.Component {
         content = (
           <div className="usa-alert usa-alert-warning">
             <div className="usa-alert-body">
-              <h3>The Post-9/11 GI Bill Benefits tool is down for maintenance right now</h3>
-              <p className="usa-alert-text">You can use the Post-9/11 GI Bill Benefits tool Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET). We do regular maintenance on the tool outside of these hours, and during that time you won't be able to use it.</p>
+              <h3>
+                The Post-9/11 GI Bill Benefits tool is down for maintenance
+                right now
+              </h3>
+              <p className="usa-alert-text">
+                You can use the Post-9/11 GI Bill Benefits tool Sunday through
+                Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to
+                7:00 p.m. (ET). We do regular maintenance on the tool outside of
+                these hours, and during that time you won't be able to use it.
+              </p>
             </div>
           </div>
         );
@@ -48,14 +57,13 @@ export class IntroPage extends React.Component {
     return content;
   }
 
-
   render() {
     const gibsWarning = (
       <div className="usa-alert usa-alert-warning intro-warning">
         <div className="usa-alert-body">
           We’re sorry. Something’s not working quite right with the GI Bill
-          benefits tool. We’re working to fix the problem. If you encounter
-          any errors, please try again later.
+          benefits tool. We’re working to fix the problem. If you encounter any
+          errors, please try again later.
         </div>
       </div>
     );
@@ -75,34 +83,42 @@ export class IntroPage extends React.Component {
     return (
       <div className="row">
         <div className="medium-8 columns">
-          {this.props.serviceAvailability === SERVICE_AVAILABILITY_STATES.up && gibsWarning}
+          {this.props.serviceAvailability === SERVICE_AVAILABILITY_STATES.up &&
+            gibsWarning}
           <h1>Post-9/11 GI Bill Statement of Benefits</h1>
           <p>
-            If you were awarded Post-9/11 GI Bill education benefits, your GI Bill Statement of Benefits will show you how much of your benefits you’ve used and how much you have left to use for your education or training. These education benefits can help cover some or all of the costs for school or training.
+            If you were awarded Post-9/11 GI Bill education benefits, your GI
+            Bill Statement of Benefits will show you how much of your benefits
+            you’ve used and how much you have left to use for your education or
+            training. These education benefits can help cover some or all of the
+            costs for school or training.
           </p>
           <p>
-            You'll be able to view this benefit statement only if you were awarded education benefits.
+            You'll be able to view this benefit statement only if you were
+            awarded education benefits.
           </p>
           {content}
-          <br/>
-          <br/>
-          <br/>
+          <br />
+          <br />
+          <br />
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { serviceAvailability } = state.post911GIBStatus;
   return {
-    serviceAvailability
+    serviceAvailability,
   };
 };
 
 const mapDispatchToProps = {
-  getServiceAvailability
+  getServiceAvailability,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(IntroPage);
-
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IntroPage);

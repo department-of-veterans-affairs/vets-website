@@ -2,11 +2,17 @@ import React from 'react';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, getFormDOM } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  getFormDOM,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../1990/config/form';
 
 describe('Edu 1990 employmentHistory', () => {
-  const { schema, uiSchema } = formConfig.chapters.employmentHistory.pages.employmentHistory;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.employmentHistory.pages.employmentHistory;
   const definitions = formConfig.defaultDefinitions;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -14,7 +20,8 @@ describe('Edu 1990 employmentHistory', () => {
         schema={schema}
         data={{}}
         uiSchema={uiSchema}
-        definitions={definitions}/>
+        definitions={definitions}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -27,7 +34,8 @@ describe('Edu 1990 employmentHistory', () => {
         schema={schema}
         data={{}}
         uiSchema={uiSchema}
-        definitions={definitions}/>
+        definitions={definitions}
+      />,
     );
 
     const formDOM = getFormDOM(form);

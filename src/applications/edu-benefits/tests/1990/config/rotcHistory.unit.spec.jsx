@@ -3,11 +3,18 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, getFormDOM, submitForm } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  getFormDOM,
+  submitForm,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../1990/config/form';
 
 describe('Edu 1990 rotcHistory', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.rotcHistory;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.militaryHistory.pages.rotcHistory;
   const definitions = formConfig.defaultDefinitions;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -15,7 +22,8 @@ describe('Edu 1990 rotcHistory', () => {
         schema={schema}
         data={{}}
         uiSchema={uiSchema}
-        definitions={definitions}/>
+        definitions={definitions}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -30,7 +38,8 @@ describe('Edu 1990 rotcHistory', () => {
         onSubmit={onSubmit}
         data={{}}
         uiSchema={uiSchema}
-        definitions={definitions}/>
+        definitions={definitions}
+      />,
     );
     const formDOM = getFormDOM(form);
     submitForm(form);
@@ -46,7 +55,8 @@ describe('Edu 1990 rotcHistory', () => {
         onSubmit={onSubmit}
         data={{}}
         uiSchema={uiSchema}
-        definitions={definitions}/>
+        definitions={definitions}
+      />,
     );
     const formDOM = getFormDOM(form);
     formDOM.setYesNo('#root_view\\:seniorRotcYes', 'Y');
@@ -54,6 +64,8 @@ describe('Edu 1990 rotcHistory', () => {
     formDOM.fillData('#root_seniorRotc_rotcScholarshipAmounts_0_amount', '200');
     formDOM.click('.va-growable-add-btn');
 
-    expect(formDOM.querySelectorAll('.va-growable-background').length).to.equal(2);
+    expect(formDOM.querySelectorAll('.va-growable-background').length).to.equal(
+      2,
+    );
   });
 });

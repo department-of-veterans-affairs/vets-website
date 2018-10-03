@@ -18,14 +18,7 @@ View your VA lab and test results online through your My HealtheVet personal hea
 
 </div>
 
-<div class="va-sign-in-alert usa-alert usa-alert-info">
-  <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You'll need to sign in before you can view your lab and test results online.</h4>
-    <p class="usa-alert-text">
-      <button class="usa-button-primary">Sign In or Create an Account</button>
-    </p>
-  </div>
-</div>
+<div class="cta-widget" data-app-id="lab-and-test-results"></div>
 
 <div itemscope itemtype="http://schema.org/Question">
 
