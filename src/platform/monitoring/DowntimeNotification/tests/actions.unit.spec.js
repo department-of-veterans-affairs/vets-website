@@ -22,13 +22,13 @@ describe('getScheduledDowntime', () => {
   };
   const fetch = sinon.spy(() => Promise.resolve(fetchResponse));
 
-  before(() => {
+  beforeAll(() => {
     global.sessionStorage = {};
     global.fetch = fetch;
     global.window.dataLayer = [];
   });
 
-  after(() => {
+  afterAll(() => {
     global.fetch = old.fetch;
     global.sessionStorage = old.sessionStorage;
     global.window.dataLayer = old.dataLayer;

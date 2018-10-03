@@ -124,7 +124,7 @@ describe('createServiceMap', () => {
 describe('getMostUrgentDowntime', () => {
   let serviceMap = null;
 
-  before(() => {
+  beforeAll(() => {
     serviceMap = downtimeHelpers.createServiceMap(maintenanceWindows);
   });
 

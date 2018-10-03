@@ -12,11 +12,11 @@ function SharedComponent() {
 describe('brand-consolidation/feature-flag', () => {
   let windowSettings = null;
 
-  before(() => {
+  beforeAll(() => {
     windowSettings = window.settings;
   });
 
-  after(() => {
+  afterAll(() => {
     window.settings = windowSettings;
   });
 

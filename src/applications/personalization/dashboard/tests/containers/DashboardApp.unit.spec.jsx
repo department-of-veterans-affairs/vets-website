@@ -16,11 +16,11 @@ const defaultProps = {
 };
 
 describe('<DashboardApp>', () => {
-  before(() => {
+  beforeAll(() => {
     sinon.stub(localStorage, 'getItem');
   });
 
-  after(() => {
+  afterAll(() => {
     localStorage.getItem.restore();
   });
 
