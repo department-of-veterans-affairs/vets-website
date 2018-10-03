@@ -1,7 +1,7 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-const getPtsdClassification = (formData, formType) => {
+export const getPtsdClassification = (formData, formType) => {
   const classifications = formData['view:selectablePtsdTypes'];
   let incidentTitle;
   let incidentText;

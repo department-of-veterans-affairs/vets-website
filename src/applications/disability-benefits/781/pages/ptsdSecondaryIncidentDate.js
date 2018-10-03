@@ -1,16 +1,19 @@
 import React from 'react';
 import {
-  ptsdNameTitle,
+  PtsdNameTitle781,
+  getPtsdClassification
 } from '../helpers';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-const ptsdDateDescription = () => {
+const ptsdDateDescription = ({ formData }) => {
+  console.log(formData);
+  const { incidentText } = getPtsdClassification(formData, '781a');
   return (
     <div>
       <h5>Event date</h5>
       <p>
-      Now we’ll ask about the event or events that caused your $PTSDclassification PTSD. If there is more than one event or situation you want to tell us about, we’ll ask questions about each one separately.      </p>
+      Now we’ll ask about the event or events that caused your {incidentText} PTSD. If there is more than one event or situation you want to tell us about, we’ll ask questions about each one separately.      </p>
       <p>
       When did the first event happen? Please note, this date doesn’t have to be exact, but it’ll help with our research if you provide a date within a 2-month range.       </p>
       <p>
@@ -27,10 +30,10 @@ const ptsdDateDescription = () => {
 };
 
 export const uiSchema = {
-  'ui:title': ptsdNameTitle,
+  'ui:title': ({ formData }) => <PtsdNameTitle781 formData={formData} formType="781a"/>,
+  'ui:description': ptsdDateDescription,
   secondaryIncidentDate: {
-    'ui:description': ptsdDateDescription,
-    'ui:title': ptsdDateDescription,
+    'ui:title': ' ',
     'ui:widget': 'date',
   },
 
