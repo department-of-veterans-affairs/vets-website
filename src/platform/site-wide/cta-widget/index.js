@@ -222,7 +222,7 @@ export class CallToActionWidget extends React.Component {
       /* Handling for these states to be re-introduced after brand consolidation
        * when VA patient and T&C acceptance checks will no longer gate access, so
        * access to these tools will be accurately reported by the services list.
-       * For now, access is determined by MHV account level requirements.
+       * For now, MHV account level requirements will be validated client-side.
        *
        * case 'no_account':
        *   return {
@@ -334,50 +334,30 @@ export class CallToActionWidget extends React.Component {
   getInaccessibleContent = () => {
     if (this._isHealthTool) return this.getInaccessibleHealthContent();
 
-    if (!this.props.verified) {
-      return {
-        heading: `Please verify your identity to ${this._serviceDescription}`,
-        alertText: (
-          <p>
-            We take your privacy seriously, and we’re committed to protecting
-            your information. You’ll need to verify your identity before we can
-            give you access to your personal health information.
-          </p>
-        ),
-        buttonText: 'Verify Your Identity',
-        buttonHandler: verify,
-        status: 'warning',
-      };
-    }
-
-    // Generic error. Get actual copy later.
     return {
-      heading: `You won’t be able to ${this._serviceDescription} right now`,
+      heading: `Please verify your identity to ${this._serviceDescription}`,
       alertText: (
-        <div>
-          <p>
-            We’re sorry. Something went wrong on our end. You won’t be able to{' '}
-            {this._serviceDescription} until we can figure out what’s wrong.
-          </p>
-          <h5>What you can do</h5>
-          <p>
-            You can try again later or call the VA.gov Help Desk at{' '}
-            <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-            <a href="tel:18008778339">1-800-877-8339</a>
-            ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).
-          </p>
-        </div>
+        <p>
+          We take your privacy seriously, and we’re committed to protecting your
+          information. You’ll need to verify your identity before we can give
+          you access to your personal health information.
+        </p>
       ),
-      status: 'error',
+      buttonText: 'Verify Your Identity',
+      buttonHandler: verify,
+      status: 'warning',
     };
   };
 
   isAccessible = () => {
-    // Health tools will determine access based on MHV account levels
-    // instead of services list until MHV account eligibility rules
-    // no longer have to accommodate the pre-brand consolidation flow.
+    // Until MHV account eligibility rules no longer have to accommodate the
+    // pre-brand consolidation flow, the frontend will gate access using the MHV
+    // account level instead of the available services list from the backend,
+    // which will already have validated the MHV account level policies.
 
     if (this._isHealthTool) {
+      // return this.props.availableServices.has(requiredServices);
+
       const { appId, mhvAccount } = this.props;
 
       switch (appId) {
@@ -397,14 +377,9 @@ export class CallToActionWidget extends React.Component {
       }
     }
 
-    // We may only need to check whether the account is verified here and leave
-    // leave the handling of access for other reasons to the apps after redirect.
-
-    for (const requiredService of this._requiredServices) {
-      if (!this.props.availableServices.has(requiredService)) return false;
-    }
-
-    return true;
+    // Only check whether the account is verified here and leave any handling
+    // of gated access for other reasons to the apps after redirect.
+    return this.props.profile.verified;
   };
 
   openLoginModal = () => this.props.toggleLoginModal(true);
@@ -454,11 +429,11 @@ export class CallToActionWidget extends React.Component {
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
-  const { loading, mhvAccount, services } = profile;
+  const { loading, mhvAccount, /* services, */ verified } = profile;
   return {
-    availableServices: new Set(services),
+    // availableServices: new Set(services),
     isLoggedIn: isLoggedIn(state),
-    profile: { loading },
+    profile: { loading, verified },
     mhvAccount,
   };
 };
