@@ -95,16 +95,31 @@ export const serviceDescription = appId => {
       return 'use VA Blue Button';
 
     case frontendApps.RX:
-      return 'refill VA prescriptions online.';
+      return 'refill VA prescriptions online';
 
     case frontendApps.MESSAGING:
       return 'send secure messages to your health care team';
 
     case frontendApps.LAB_AND_TEST_RESULTS:
-      return 'view your VA lab and test results online.';
+      return 'view your VA lab and test results online';
 
     case frontendApps.APPOINTMENTS:
       return ['schedule appointments online', 'view appointments online'];
+
+    case frontendApps.GI_BILL_BENEFITS:
+      return 'check your GI Bill Benefits';
+
+    case frontendApps.DISABILITY_BENEFITS:
+      return 'apply for disability benefits';
+
+    case frontendApps.CLAIMS_AND_APPEALS:
+      return 'check your claim or appeal status';
+
+    case frontendApps.LETTERS:
+      return 'get your VA Benefit Letters';
+
+    case frontendApps.VETERAN_ID_CARD:
+      return 'apply for a Veteran ID Card';
 
     default:
       return 'use this service';
