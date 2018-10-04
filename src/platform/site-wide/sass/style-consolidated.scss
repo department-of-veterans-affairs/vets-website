@@ -3,6 +3,9 @@ $image-path: "~uswds/src/img";
 
 .consolidated {
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+  #modal-crisisline {
+    display: block;
+  }
 
   @import "~@department-of-veterans-affairs/formation/sass/core";
 
