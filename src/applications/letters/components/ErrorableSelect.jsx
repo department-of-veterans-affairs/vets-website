@@ -24,9 +24,9 @@ class ErrorableSelect extends React.Component {
     this.selectId = _.uniqueId('errorable-select-');
   }
 
-  handleChange = (domEvent) => {
+  handleChange = domEvent => {
     this.props.onValueChange(domEvent.target.value);
-  }
+  };
 
   render() {
     const selectedValue = this.props.value;
@@ -53,7 +53,7 @@ class ErrorableSelect extends React.Component {
     let reactKey = 0;
     // TODO(awong): Remove this hack to handle options prop and use invariants instead.
     const options = _.isArray(this.props.options) ? this.props.options : [];
-    const optionElements = options.map((obj) => {
+    const optionElements = options.map(obj => {
       let label;
       let value;
       if (_.isString(obj)) {
@@ -63,14 +63,23 @@ class ErrorableSelect extends React.Component {
         label = obj.label;
         value = obj.value;
       }
-      return <option key={++reactKey} value={value}>{label}</option>;
+      return (
+        <option key={++reactKey} value={value}>
+          {label}
+        </option>
+      );
     });
 
     return (
       <div className={this.props.errorMessage ? 'usa-input-error' : undefined}>
         <label
-          className={this.props.errorMessage !== undefined ? 'usa-input-error-label' : undefined}
-          htmlFor={this.selectId}>
+          className={
+            this.props.errorMessage !== undefined
+              ? 'usa-input-error-label'
+              : undefined
+          }
+          htmlFor={this.selectId}
+        >
           {this.props.label}
           {requiredSpan}
         </label>
@@ -82,8 +91,11 @@ class ErrorableSelect extends React.Component {
           name={this.props.name}
           autoComplete={this.props.autocomplete}
           value={selectedValue || ''}
-          onChange={this.handleChange}>
-          {this.props.includeBlankOption && <option value="">{this.props.emptyDescription}</option>}
+          onChange={this.handleChange}
+        >
+          {this.props.includeBlankOption && (
+            <option value="">{this.props.emptyDescription}</option>
+          )}
           {optionElements}
         </select>
       </div>
@@ -95,30 +107,30 @@ ErrorableSelect.propTypes = {
   errorMessage: PropTypes.string,
   name: PropTypes.string,
   autocomplete: PropTypes.string,
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-  ]).isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   options: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.shape({
         label: PropTypes.string,
-        value: PropTypes.number }),
+        value: PropTypes.number,
+      }),
       PropTypes.shape({
         label: PropTypes.string,
-        value: PropTypes.string }),
-    ])).isRequired,
+        value: PropTypes.string,
+      }),
+    ]),
+  ).isRequired,
   required: PropTypes.bool,
   includeBlankOption: PropTypes.bool,
   value: PropTypes.string,
   onValueChange: PropTypes.func.isRequired,
   additionalClass: PropTypes.string,
-  emptyDescription: PropTypes.string
+  emptyDescription: PropTypes.string,
 };
 
 ErrorableSelect.defaultProps = {
-  includeBlankOption: true
+  includeBlankOption: true,
 };
 
 export default ErrorableSelect;

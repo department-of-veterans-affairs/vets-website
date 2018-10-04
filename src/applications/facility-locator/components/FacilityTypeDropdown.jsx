@@ -6,16 +6,23 @@ import Downshift from 'downshift';
 import { facilityTypes } from '../config';
 import { keyMap } from '../utils/helpers';
 
-const FACILITY_OPTIONS = ['all', 'health', 'benefits', 'cemetery', 'vet_center'];
+const FACILITY_OPTIONS = [
+  'all',
+  'health',
+  'benefits',
+  'cemetery',
+  'vet_center',
+];
 
-const facilityOptionClasses = (item, selected) => classNames(
-  'dropdown-option',
-  { selected },
-  { 'icon-option': item && item !== 'all' },
-  { [`${kebabCase(item)}-icon`]: item && item !== 'all' }
-);
+const facilityOptionClasses = (item, selected) =>
+  classNames(
+    'dropdown-option',
+    { selected },
+    { 'icon-option': item && item !== 'all' },
+    { [`${kebabCase(item)}-icon`]: item && item !== 'all' },
+  );
 
-const itemToString = (item) => facilityTypes[item] || 'All Facilities';
+const itemToString = item => facilityTypes[item] || 'All Facilities';
 
 const FacilityTypeDropdown = ({
   closeMenu,
@@ -23,43 +30,52 @@ const FacilityTypeDropdown = ({
   getItemProps,
   highlightedIndex,
   isOpen,
-  selectedItem
+  selectedItem,
 }) => {
-  const handleKeyDown = (e) => {
+  const handleKeyDown = e => {
     // Allow blurring focus (with TAB) to close dropdown.
-    if (e.keyCode === keyMap.TAB && isOpen) { closeMenu(); }
+    if (e.keyCode === keyMap.TAB && isOpen) {
+      closeMenu();
+    }
   };
 
   const options = FACILITY_OPTIONS.map((item, index) => (
-    <li key={item} {...getItemProps({
-      item,
-      className: facilityOptionClasses(item, index === highlightedIndex),
-      role: 'option',
-      'aria-selected': index === highlightedIndex
-    })}>
+    <li
+      key={item}
+      {...getItemProps({
+        item,
+        className: facilityOptionClasses(item, index === highlightedIndex),
+        role: 'option',
+        'aria-selected': index === highlightedIndex,
+      })}
+    >
       {itemToString(item)}
     </li>
   ));
 
   return (
     <div>
-      <label htmlFor="facility-dropdown-toggle">
-        Select Facility Type
-      </label>
+      <label htmlFor="facility-dropdown-toggle">Select Facility Type</label>
       <div id="facility-dropdown">
-        <button {...getButtonProps({
-          id: 'facility-dropdown-toggle',
-          className: facilityOptionClasses(selectedItem),
-          onKeyDown: handleKeyDown,
-          tabIndex: 0,
-          type: 'button',
-          'aria-label': null, // Remove in favor of HTML label above.
-          'aria-expanded': isOpen
-        })}>
+        <button
+          {...getButtonProps({
+            id: 'facility-dropdown-toggle',
+            className: facilityOptionClasses(selectedItem),
+            onKeyDown: handleKeyDown,
+            tabIndex: 0,
+            type: 'button',
+            'aria-label': null, // Remove in favor of HTML label above.
+            'aria-expanded': isOpen,
+          })}
+        >
           {itemToString(selectedItem)}
-          <i className="fa fa-chevron-down dropdown-toggle"/>
+          <i className="fa fa-chevron-down dropdown-toggle" />
         </button>
-        {isOpen && (<ul className="dropdown" role="listbox">{options}</ul>)}
+        {isOpen && (
+          <ul className="dropdown" role="listbox">
+            {options}
+          </ul>
+        )}
       </div>
     </div>
   );
@@ -76,7 +92,8 @@ class Wrapper extends Component {
         defaultHighlightedIndex={highlightedIndex}
         itemToString={itemToString}
         onChange={this.props.onChange}
-        selectedItem={facilityType}>
+        selectedItem={facilityType}
+      >
         {FacilityTypeDropdown}
       </Downshift>
     );

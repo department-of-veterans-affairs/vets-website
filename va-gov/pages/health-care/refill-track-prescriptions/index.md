@@ -16,26 +16,19 @@ children:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-With our VA prescription refill and tracking tool, you can refill your VA prescriptions, track their delivery, and create lists to organize your medicines. Find out if you’re eligible and how to sign up to begin using this tool in our health-management portal within My HealtheVet.
+With our VA Prescription Refill and Tracking tool, you can refill your VA prescriptions, track their delivery, and create lists to organize your medicines. Find out if you’re eligible and how to sign up to begin using this tool in our health management portal within My HealtheVet.
 
 </div>
 
-<div class="va-sign-in-alert usa-alert usa-alert-info">
-  <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You’ll need to sign in before you can refill prescriptions online.</h4>
-    <p class="usa-alert-text">
-      <button class="usa-button-primary">Sign In or Create an Account</button>
-    </p>
-  </div>
-</div>
+<div class="cta-widget" data-app-id="rx"></div>
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h2 itemprop="name">How can the VA prescription refill and tracking tool help me manage my health care?</h2>
+<h2 itemprop="name">How can the VA Prescription Refill and Tracking tool help me manage my health care?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Our prescription refill and tracking tool, sometimes called "Rx Refill" or "Rx Tracker," is a web-based service that helps you manage your VA prescriptions online.
+Our Prescription Refill and Tracking tool, sometimes called "Rx Refill" or "Rx Tracker," is a web-based service that helps you manage your VA prescriptions online.
 
 **With this tool, you can:**
 - Refill your VA prescriptions online
@@ -59,18 +52,14 @@ You can use this tool if you meet all of the requirements listed below.
 **All of these must be true. You:**
 - Are enrolled in VA health care, **and**
 - Are registered as a patient in a VA health facility, **and**
-- Have a prescription from a VA doctor that you’ve filled at a VA pharmacy and that’s being handled by the VA Mail Order Pharmacy
+- Have a refillable prescription from a VA doctor that you’ve filled at a VA pharmacy and that’s being handled by the VA Mail Order Pharmacy
 
 [Find out how to apply for VA health care](/health-care/how-to-apply/).
 
 **And you must have one of these free accounts:**
-- An advanced or premium **My HealtheVet** account, **or**
-- A **DS Logon** account (used for eBenefits and milConnect), **or**
+- An Advanced or Premium **My HealtheVet** account, **or**
+- A Premium **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
-
-**Note:** If you use DS Logon, you'll need to verify your identity online as part of our sign-in process.
-
-Please see the blue sign-in module above to learn more about signing in, creating or upgrading an account, and verifying your identity.
 
 </div>
 </div>
@@ -82,7 +71,7 @@ Please see the blue sign-in module above to learn more about signing in, creatin
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-On your welcome page, you’ll see a module for “Pharmacy.” Within that module, you'll see these options:
+On your Welcome page, you’ll see a module for “Pharmacy.” Within that module, you'll see these options:
 - "Refill VA Prescriptions"
 - "Track Delivery"
 - "Medications List"
@@ -99,7 +88,7 @@ Click on the link you want, and you'll get instructions on the next page to get 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can refill and track most of your VA prescriptions, including:
+<b>You can refill and track most of your VA prescriptions, including:</b>
 - VA medicines that were refilled or renewed
 - Wound care supplies
 - Diabetic supplies
@@ -164,7 +153,11 @@ If you print or download anything from the website (like prescription details), 
 <div itemprop="text">
 
 You can get answers to your questions about this tool within our My HealtheVet web portal. <br>
-[Read Prescription Refill FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#PrescriptionRefill).
+[Read Prescription Refill FAQs](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/faqs#PrescriptionRefill). <br>
+
+You can also contact the My HealtheVet Help Desk. <br>
+[Find out how to contact us online](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv). <br>
+Or call us at <a href="tel:+18773270022">1-877-327-0022</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>). We’re here Monday through Friday, 7:00 a.m. to 7:00 p.m. (CT)
 
 </div>
 </div>

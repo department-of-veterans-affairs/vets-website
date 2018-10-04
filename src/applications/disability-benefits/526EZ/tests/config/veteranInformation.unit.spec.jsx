@@ -12,13 +12,15 @@ describe.skip('526EZ veteran information', () => {
 
   it('should submit without validation errors', () => {
     const onSubmit = sinon.spy();
-    const form = mount(<DefinitionTester
-      definitions={formConfig.defaultDefinitions}
-      schema={schema}
-      formData={{}}
-      data={{}}
-      onSubmit={onSubmit}
-      uiSchema={uiSchema}/>
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        formData={{}}
+        data={{}}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');

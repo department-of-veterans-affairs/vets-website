@@ -9,11 +9,12 @@ export function fetchPreferences() {
     apiRequest(
       baseUrl,
       null,
-      response => dispatch({
-        type: 'RX_FETCH_PREFERENCES_SUCCESS',
-        preferences: response.data.attributes
-      }),
-      () => dispatch({ type: 'RX_FETCH_PREFERENCES_FAILURE' })
+      response =>
+        dispatch({
+          type: 'RX_FETCH_PREFERENCES_SUCCESS',
+          preferences: response.data.attributes,
+        }),
+      () => dispatch({ type: 'RX_FETCH_PREFERENCES_FAILURE' }),
     );
   };
 }
@@ -22,7 +23,7 @@ export function savePreferences(preferences) {
   const settings = {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(preferences)
+    body: JSON.stringify(preferences),
   };
 
   return dispatch => {
@@ -31,14 +32,16 @@ export function savePreferences(preferences) {
     apiRequest(
       baseUrl,
       settings,
-      response => dispatch({
-        type: 'RX_SAVE_PREFERENCES_SUCCESS',
-        preferences: response.data.attributes
-      }),
-      response => dispatch({
-        type: 'RX_SAVE_PREFERENCES_FAILURE',
-        errors: response.errors
-      })
+      response =>
+        dispatch({
+          type: 'RX_SAVE_PREFERENCES_SUCCESS',
+          preferences: response.data.attributes,
+        }),
+      response =>
+        dispatch({
+          type: 'RX_SAVE_PREFERENCES_FAILURE',
+          errors: response.errors,
+        }),
     );
   };
 }

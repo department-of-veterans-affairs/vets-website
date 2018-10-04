@@ -7,10 +7,10 @@ import {
 
 export const uiSchema = {
   'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781"/>
+    <PtsdNameTitle formData={formData} formType="781" />
   ),
   'ui:description': ({ formData }) => (
-    <UploadPtsdDescription formData={formData} formType="781"/>
+    <UploadPtsdDescription formData={formData} formType="781" />
   ),
   'view:uploadPtsdChoice': {
     'ui:title': ' ',
@@ -32,7 +32,7 @@ export const schema = {
   properties: {
     'view:uploadPtsdChoice': {
       type: 'string',
-      'enum': ['answerQuestions', 'upload'],
+      enum: ['answerQuestions', 'upload'],
     },
     'view:uploadPtsdChoiceHelp': {
       type: 'object',

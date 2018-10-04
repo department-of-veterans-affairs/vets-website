@@ -4,16 +4,18 @@ const Timeouts = require('./timeouts');
 const mock = require('./mock-helpers');
 
 function setUserToken(token, client) {
-  client.execute((inToken) => {
-    window.sessionStorage.setItem('userToken', inToken);
-  },
-  [token],
-  (val) => {
-    if (val.state !== 'success') {
-      // eslint-disable-next-line no-console
-      console.log(`Result of setting user token: ${JSON.stringify(val)}`);
-    }
-  });
+  client.execute(
+    inToken => {
+      window.sessionStorage.setItem('userToken', inToken);
+    },
+    [token],
+    val => {
+      if (val.state !== 'success') {
+        // eslint-disable-next-line no-console
+        console.log(`Result of setting user token: ${JSON.stringify(val)}`);
+      }
+    },
+  );
 }
 
 function getLogoutUrl() {
@@ -37,17 +39,19 @@ function initUserMock(token, level) {
             last_name: 'Doe',
             gender: 'F',
             birth_date: '1985-01-01',
-            verified: level === 3
+            verified: level === 3,
           },
           veteran_status: {
             status: 'OK',
             is_veteran: true,
             served_in_military: true,
           },
-          in_progress_forms: [{
-            form: '1010ez',
-            metadata: {}
-          }],
+          in_progress_forms: [
+            {
+              form: '1010ez',
+              metadata: {},
+            },
+          ],
           prefills_available: [],
           services: [
             'facilities',
@@ -57,7 +61,7 @@ function initUserMock(token, level) {
             'user-profile',
             'health-records',
             'rx',
-            'messaging'
+            'messaging',
           ],
           va_profile: {
             status: 'OK',
@@ -65,11 +69,11 @@ function initUserMock(token, level) {
             family_name: 'Hunter',
             gender: 'M',
             given_names: ['Julio', 'E'],
-            active_status: 'active'
-          }
-        }
-      }
-    }
+            active_status: 'active',
+          },
+        },
+      },
+    },
   });
 }
 /* eslint-enable camelcase */
@@ -79,8 +83,8 @@ function initLogoutMock(token) {
     path: '/sessions/slo/new',
     verb: 'get',
     value: {
-      url: getLogoutUrl()
-    }
+      url: getLogoutUrl(),
+    },
   });
 }
 
@@ -116,13 +120,12 @@ function testUnauthedUserFlow(client, path) {
 
   initLogoutMock(token);
 
-  client
-    .url(appURL)
-    .waitForElementVisible('body', Timeouts.normal);
+  client.url(appURL).waitForElementVisible('body', Timeouts.normal);
 
   client
     .waitForElementVisible('.login', Timeouts.normal)
-    .expect.element('h1').text.to.equal('Sign in to Vets.gov');
+    .expect.element('h1')
+    .text.to.equal('Sign in to Vets.gov');
 }
 
 module.exports = {
@@ -132,5 +135,5 @@ module.exports = {
   initUserMock,
   logIn,
   testUnauthedUserFlow,
-  setUserToken
+  setUserToken,
 };

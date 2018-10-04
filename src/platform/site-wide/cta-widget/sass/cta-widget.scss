@@ -1,0 +1,31 @@
+// $color-green: #00a6d2;
+
+#cta-widget {
+  .usa-alert {
+    // background-color: $color-light-grey;
+
+    &-heading {
+      margin-bottom: 1rem;
+    }
+
+    h5 {
+      font-size: 1.5rem;
+
+      & + p {
+        margin-top: 1rem;
+      }
+    }
+
+    // &-lock {
+    //   background-image: // lock;
+
+    //   &::before {
+    //     background-color: $color-green;
+    //   }
+
+    //   .usa-button-primary {
+    //     background-color: $color-green;
+    //   }
+    // }
+  }
+}

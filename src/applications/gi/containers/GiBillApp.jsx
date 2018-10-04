@@ -11,13 +11,27 @@ import PreviewBanner from '../components/heading/PreviewBanner';
 import Breadcrumbs from '../components/heading/Breadcrumbs';
 import AboutThisTool from '../components/content/AboutThisTool';
 
-const Disclaimer = () => {
-  return (
-    <div className="row disclaimer">
-      <p>Please note: Content on this Web page is for informational purposes only. It is not intended to provide legal advice or to be a comprehensive statement or analysis of applicable statutes, regulations, and case law governing this topic. Rather, it’s a plain-language summary. If you are seeking claims assistance, your local VA regional office, a VA-recognized Veterans Service Organization, or a VA-accredited attorney or agent can help. <a target="_blank" href="https://www.va.gov/ogc/apps/accreditation/index.asp">Search Accredited Attorneys, Claims Agents, or Veterans Service Organizations (VSO) Representatives</a>.</p>
-    </div>
-  );
-};
+const Disclaimer = () => (
+  <div className="row disclaimer">
+    <p>
+      Please note: Content on this Web page is for informational purposes only.
+      It is not intended to provide legal advice or to be a comprehensive
+      statement or analysis of applicable statutes, regulations, and case law
+      governing this topic. Rather, it’s a plain-language summary. If you are
+      seeking claims assistance, your local VA regional office, a VA-recognized
+      Veterans Service Organization, or a VA-accredited attorney or agent can
+      help.{' '}
+      <a
+        target="_blank"
+        href="https://www.va.gov/ogc/apps/accreditation/index.asp"
+      >
+        Search Accredited Attorneys, Claims Agents, or Veterans Service
+        Organizations (VSO) Representatives
+      </a>
+      .
+    </p>
+  </div>
+);
 
 export class GiBillApp extends React.Component {
   constructor(props) {
@@ -32,11 +46,14 @@ export class GiBillApp extends React.Component {
   componentDidUpdate(prevProps) {
     const {
       preview,
-      location: { query: { version: uuid } }
+      location: {
+        query: { version: uuid },
+      },
     } = this.props;
 
     const shouldExitPreviewMode = preview.display && !uuid;
-    const shouldEnterPreviewMode = !preview.display && uuid && preview.version.createdAt;
+    const shouldEnterPreviewMode =
+      !preview.display && uuid && preview.version.createdAt;
 
     if (shouldExitPreviewMode) {
       this.props.exitPreviewMode();
@@ -63,7 +80,7 @@ export class GiBillApp extends React.Component {
     let content;
 
     if (constants.inProgress) {
-      content = <LoadingIndicator message="Loading..."/>;
+      content = <LoadingIndicator message="Loading..." />;
     } else {
       content = this.props.children;
     }
@@ -72,19 +89,20 @@ export class GiBillApp extends React.Component {
       <div className="gi-app">
         <div className="row">
           <div className="columns small-12">
-            {
-              preview.display &&
-              (<PreviewBanner
+            {preview.display && (
+              <PreviewBanner
                 version={preview.version}
-                onViewLiveVersion={this.exitPreviewMode}/>)
-            }
+                onViewLiveVersion={this.exitPreviewMode}
+              />
+            )}
             <Breadcrumbs
               location={this.props.location}
-              includeSearch={search.count !== null}/>
+              includeSearch={search.count !== null}
+            />
             {content}
-            <AboutThisTool/>
-            <Disclaimer/>
-            <Modals/>
+            <AboutThisTool />
+            <Disclaimer />
+            <Modals />
           </div>
         </div>
       </div>
@@ -93,10 +111,10 @@ export class GiBillApp extends React.Component {
 }
 
 GiBillApp.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { constants, preview, search } = state;
   return { constants, preview, search };
 };
@@ -104,7 +122,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   enterPreviewMode,
   exitPreviewMode,
-  fetchConstants
+  fetchConstants,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GiBillApp));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(GiBillApp),
+);

@@ -8,16 +8,16 @@ const props = {
   modal: {
     content: '',
     title: '',
-    visible: false
+    visible: false,
   },
   closeModal: () => {},
   profile: {
-    healthTermsCurrent: true
-  }
+    healthTermsCurrent: true,
+  },
 };
 
 describe('<HealthRecordsApp>', () => {
-  const tree = SkinDeep.shallowRender(<HealthRecordsApp {...props}/>);
+  const tree = SkinDeep.shallowRender(<HealthRecordsApp {...props} />);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();

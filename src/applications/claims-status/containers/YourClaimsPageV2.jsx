@@ -10,7 +10,7 @@ import {
   getClaimsV2,
   hide30DayNotice,
   showConsolidatedMessage,
-  sortClaims
+  sortClaims,
 } from '../actions/index.jsx';
 import {
   APPEAL_V2_TYPE,
@@ -75,10 +75,16 @@ class YourClaimsPageV2 extends React.Component {
 
   renderListItem(claim) {
     if (claim.type === APPEAL_V2_TYPE) {
-      return <AppealListItem key={claim.id} appeal={claim} name={this.props.fullName}/>;
+      return (
+        <AppealListItem
+          key={claim.id}
+          appeal={claim}
+          name={this.props.fullName}
+        />
+      );
     }
 
-    return <ClaimsListItem claim={claim} key={claim.id}/>;
+    return <ClaimsListItem claim={claim} key={claim.id} />;
   }
 
   renderErrorMessages() {
@@ -97,9 +103,11 @@ class YourClaimsPageV2 extends React.Component {
     }
 
     if (canAccessAppeals && canAccessClaims) {
-      if (claimsAvailable !== claimsAvailability.AVAILABLE
-          && appealsAvailable !== appealsAvailability.AVAILABLE) {
-        return <ClaimsAppealsUnavailable/>;
+      if (
+        claimsAvailable !== claimsAvailability.AVAILABLE &&
+        appealsAvailable !== appealsAvailability.AVAILABLE
+      ) {
+        return <ClaimsAppealsUnavailable />;
       }
     }
 
@@ -113,11 +121,14 @@ class YourClaimsPageV2 extends React.Component {
     // }
 
     if (canAccessClaims && claimsAvailable !== claimsAvailability.AVAILABLE) {
-      return <ClaimsUnavailable/>;
+      return <ClaimsUnavailable />;
     }
 
-    if (canAccessAppeals && appealsAvailable !== appealsAvailability.AVAILABLE) {
-      return <AppealsUnavailable/>;
+    if (
+      canAccessAppeals &&
+      appealsAvailable !== appealsAvailability.AVAILABLE
+    ) {
+      return <AppealsUnavailable />;
     }
 
     return null;
@@ -139,45 +150,71 @@ class YourClaimsPageV2 extends React.Component {
     const atLeastOneRequestLoading = claimsLoading || appealsLoading;
     const emptyList = !list || !list.length;
     if (bothRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
-      content = <LoadingIndicator message="Loading your claims and appeals..." setFocus/>;
+      content = (
+        <LoadingIndicator
+          message="Loading your claims and appeals..."
+          setFocus
+        />
+      );
     } else {
       if (!emptyList) {
-        content = (<div>
-          {show30DayNotice && <ClosedClaimMessage claims={list} onClose={this.props.hide30DayNotice}/>}
-          <div className="claim-list">
-            {atLeastOneRequestLoading && <LoadingIndicator message="Loading your claims and appeals..."/>}
-            {list.map(claim => this.renderListItem(claim))}
-            <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
+        content = (
+          <div>
+            {show30DayNotice && (
+              <ClosedClaimMessage
+                claims={list}
+                onClose={this.props.hide30DayNotice}
+              />
+            )}
+            <div className="claim-list">
+              {atLeastOneRequestLoading && (
+                <LoadingIndicator message="Loading your claims and appeals..." />
+              )}
+              {list.map(claim => this.renderListItem(claim))}
+              <Pagination
+                page={page}
+                pages={pages}
+                onPageSelect={this.changePage}
+              />
+            </div>
           </div>
-        </div>);
+        );
       } else if (!this.props.canAccessClaims && bothRequestsLoaded) {
-        content = <NoClaims/>;
+        content = <NoClaims />;
       }
 
-      content = (<div className="va-tab-content">{content}</div>);
+      content = <div className="va-tab-content">{content}</div>;
     }
 
     return (
       <div className="claims-container">
-        <Breadcrumbs/>
+        <Breadcrumbs />
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <div className="row">
               <div className="small-12 columns">
-                <h1 className="claims-container-title">Track Your Compensation Appeals and Claims</h1>
+                <h1 className="claims-container-title">
+                  Track Your Compensation Appeals and Claims
+                </h1>
               </div>
               <div className="small-12 columns">
                 {this.renderErrorMessages()}
               </div>
             </div>
             <p>
-              <a href className="claims-combined" onClick={(evt) => {
-                evt.preventDefault();
-                recordEvent({
-                  event: 'claims-consolidated-modal',
-                });
-                this.props.showConsolidatedMessage(true);
-              }}>Find out why we sometimes combine claims.</a>
+              <a
+                href
+                className="claims-combined"
+                onClick={evt => {
+                  evt.preventDefault();
+                  recordEvent({
+                    event: 'claims-consolidated-modal',
+                  });
+                  this.props.showConsolidatedMessage(true);
+                }}
+              >
+                Find out why we sometimes combine claims.
+              </a>
             </p>
             {content}
             <Modal
@@ -185,17 +222,23 @@ class YourClaimsPageV2 extends React.Component {
               visible={this.props.consolidatedModal}
               hideCloseButton
               id="consolidated-claims"
-              contents={<ConsolidatedClaims onClose={() => this.props.showConsolidatedMessage(false)}/>}/>
+              contents={
+                <ConsolidatedClaims
+                  onClose={() => this.props.showConsolidatedMessage(false)}
+                />
+              }
+            />
           </div>
           <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
-            <FeaturesWarning/>
-            <AskVAQuestions/>
+            <FeaturesWarning />
+            <AskVAQuestions />
             <div>
               <h2 className="help-heading">Can’t find your appeal?</h2>
               <p>
-                If you submitted a Notice of Disagreement for an appeal within the last 3 months,
-                VA might still be processing your appeal. For more information, contact your Veterans
-                Service Organization or representative.
+                If you submitted a Notice of Disagreement for an appeal within
+                the last 3 months, VA might still be processing your appeal. For
+                more information, contact your Veterans Service Organization or
+                representative.
               </p>
             </div>
           </div>
@@ -210,8 +253,12 @@ function mapStateToProps(state) {
   const claimsRoot = claimsState.claims;
   const claimsV2Root = claimsState.claimsV2; // this is where all the meat is for v2
   const profileState = state.user.profile;
-  const canAccessAppeals = profileState.services.includes(backendServices.APPEALS_STATUS);
-  const canAccessClaims = profileState.services.includes(backendServices.EVSS_CLAIMS);
+  const canAccessAppeals = profileState.services.includes(
+    backendServices.APPEALS_STATUS,
+  );
+  const canAccessClaims = profileState.services.includes(
+    backendServices.EVSS_CLAIMS,
+  );
   // TO-DO: Implement with reselect to save cycles
   const sortedList = claimsV2Root.appeals
     .concat(claimsV2Root.claims)
@@ -233,7 +280,7 @@ function mapStateToProps(state) {
     synced: claimsState.claimSync.synced,
     canAccessAppeals,
     canAccessClaims,
-    fullName: state.user.profile.userFullName
+    fullName: state.user.profile.userFullName,
   };
 }
 
@@ -243,9 +290,12 @@ const mapDispatchToProps = {
   changePageV2,
   sortClaims,
   showConsolidatedMessage,
-  hide30DayNotice
+  hide30DayNotice,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(YourClaimsPageV2);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(YourClaimsPageV2);
 
 export { YourClaimsPageV2 };

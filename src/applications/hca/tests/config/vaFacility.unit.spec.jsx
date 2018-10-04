@@ -4,25 +4,33 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  submitForm,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Hca VA facility', () => {
-  const { schema, uiSchema } = formConfig.chapters.insuranceInformation.pages.vaFacility;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.insuranceInformation.pages.vaFacility;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input,select').length)
-      .to.equal(5);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(5);
     // when there's no state selected, the facility list is empty except for
     // a placeholder option
-    expect(formDOM.querySelectorAll('select')[1].querySelectorAll('option').length).to.equal(1);
+    expect(
+      formDOM.querySelectorAll('select')[1].querySelectorAll('option').length,
+    ).to.equal(1);
   });
 
   it('should not submit empty form', () => {
@@ -32,7 +40,8 @@ describe('Hca VA facility', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = findDOMNode(form);
@@ -52,15 +61,18 @@ describe('Hca VA facility', () => {
         onSubmit={onSubmit}
         data={{
           'view:preferredFacility': {
-            'view:facilityState': 'MA'
-          }
+            'view:facilityState': 'MA',
+          },
         }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('select')[1].querySelectorAll('option').length).to.equal(23);
+    expect(
+      formDOM.querySelectorAll('select')[1].querySelectorAll('option').length,
+    ).to.equal(23);
   });
 
   it('should submit with valid data', () => {
@@ -73,22 +85,23 @@ describe('Hca VA facility', () => {
         data={{
           'view:preferredFacility': {
             'view:facilityState': 'MA',
-            vaMedicalFacility: '631'
-          }
+            vaMedicalFacility: '631',
+          },
         }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = findDOMNode(form);
     ReactTestUtils.Simulate.change(formDOM.querySelectorAll('select')[1], {
       target: {
-        value: '631'
-      }
+        value: '631',
+      },
     });
     ReactTestUtils.Simulate.change(formDOM.querySelectorAll('select')[0], {
       target: {
-        value: 'MA'
-      }
+        value: 'MA',
+      },
     });
 
     submitForm(form);

@@ -4,7 +4,7 @@ const initialState = {
   email: makeField(''),
   flag: makeField('false'),
   loading: false,
-  saving: false
+  saving: false,
 };
 
 export default function preferences(state = initialState, action) {
@@ -27,7 +27,7 @@ export default function preferences(state = initialState, action) {
         ...state,
         email: makeField(email),
         flag: makeField(flag.toString()),
-        loading: false
+        loading: false,
       };
     }
 
@@ -36,7 +36,7 @@ export default function preferences(state = initialState, action) {
       return {
         email: makeField(emailAddress),
         flag: makeField(rxFlag.toString()),
-        saving: false
+        saving: false,
       };
     }
 

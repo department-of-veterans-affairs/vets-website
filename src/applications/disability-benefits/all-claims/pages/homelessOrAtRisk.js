@@ -10,7 +10,7 @@ const {
   needToLeaveHousing,
   atRiskHousingSituation,
   otherAtRiskHousing,
-  homelessnessContact
+  homelessnessContact,
 } = fullSchema.properties;
 
 import { homelessLabel, atRiskLabel } from '../content/homelessOrAtRisk';
@@ -18,7 +18,7 @@ import { homelessLabel, atRiskLabel } from '../content/homelessOrAtRisk';
 import {
   HOMELESSNESS_TYPES,
   AT_RISK_HOUSING_TYPES,
-  HOMELESS_HOUSING_TYPES
+  HOMELESS_HOUSING_TYPES,
 } from '../constants';
 
 export const uiSchema = {
@@ -29,14 +29,14 @@ export const uiSchema = {
       labels: {
         no: 'No',
         homeless: homelessLabel,
-        atRisk: atRiskLabel
-      }
-    }
+        atRisk: atRiskLabel,
+      },
+    },
   },
   'view:isHomeless': {
     'ui:options': {
       expandUnder: 'homelessOrAtRisk',
-      expandUnderCondition: HOMELESSNESS_TYPES.homeless
+      expandUnderCondition: HOMELESSNESS_TYPES.homeless,
     },
     homelessHousingSituation: {
       'ui:title': 'Please describe your current living situation.',
@@ -49,9 +49,9 @@ export const uiSchema = {
           notShelter:
             'I’m living somewhere other than a shelter. (For example, I’m living in a car or a tent.)',
           anotherPerson: 'I’m living with another person.',
-          other: 'Other'
-        }
-      }
+          other: 'Other',
+        },
+      },
     },
     otherHomelessHousing: {
       'ui:title': 'Please describe',
@@ -61,20 +61,20 @@ export const uiSchema = {
       'ui:options': {
         hideIf: formData =>
           _.get('view:isHomeless.homelessHousingSituation', formData, '') !==
-          HOMELESS_HOUSING_TYPES.other
-      }
+          HOMELESS_HOUSING_TYPES.other,
+      },
     },
     needToLeaveHousing: {
       'ui:title': 'Do you need to quickly leave your current living situation?',
       'ui:required': formData =>
         _.get('homelessOrAtRisk', formData, '') === HOMELESSNESS_TYPES.homeless,
-      'ui:widget': 'yesNo'
-    }
+      'ui:widget': 'yesNo',
+    },
   },
   'view:isAtRisk': {
     'ui:options': {
       expandUnder: 'homelessOrAtRisk',
-      expandUnderCondition: HOMELESSNESS_TYPES.atRisk
+      expandUnderCondition: HOMELESSNESS_TYPES.atRisk,
     },
     atRiskHousingSituation: {
       'ui:title': 'Please describe your housing situation',
@@ -86,9 +86,9 @@ export const uiSchema = {
           losingHousing: 'I’m losing my housing in 30 days.',
           leavingShelter:
             'I’m leaving a publicly funded homeless shelter soon.',
-          other: 'Other'
-        }
-      }
+          other: 'Other',
+        },
+      },
     },
     otherAtRiskHousing: {
       'ui:title': 'Please describe',
@@ -98,9 +98,9 @@ export const uiSchema = {
       'ui:options': {
         hideIf: formData =>
           _.get('view:isAtRisk.atRiskHousingSituation', formData, '') !==
-          AT_RISK_HOUSING_TYPES.other
-      }
-    }
+          AT_RISK_HOUSING_TYPES.other,
+      },
+    },
   },
   homelessnessContact: {
     'ui:title': ' ',
@@ -110,18 +110,18 @@ export const uiSchema = {
       expandUnder: 'homelessOrAtRisk',
       expandUnderCondition: housing =>
         housing === HOMELESSNESS_TYPES.homeless ||
-        housing === HOMELESSNESS_TYPES.atRisk
+        housing === HOMELESSNESS_TYPES.atRisk,
     },
     name: {
       'ui:title': 'Name of person we can contact',
       'ui:required': formData =>
-        !!_.get('homelessnessContact.phoneNumber', formData, null)
+        !!_.get('homelessnessContact.phoneNumber', formData, null),
     },
     phoneNumber: merge(phoneUI('Phone number'), {
       'ui:required': formData =>
-        !!_.get('homelessnessContact.name', formData, null)
-    })
-  }
+        !!_.get('homelessnessContact.name', formData, null),
+    }),
+  },
 };
 
 export const schema = {
@@ -134,16 +134,16 @@ export const schema = {
       properties: {
         homelessHousingSituation,
         otherHomelessHousing,
-        needToLeaveHousing
-      }
+        needToLeaveHousing,
+      },
     },
     'view:isAtRisk': {
       type: 'object',
       properties: {
         atRiskHousingSituation,
-        otherAtRiskHousing
-      }
+        otherAtRiskHousing,
+      },
     },
-    homelessnessContact
-  }
+    homelessnessContact,
+  },
 };

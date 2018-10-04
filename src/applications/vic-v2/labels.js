@@ -3,7 +3,7 @@ export const branchCodeLabels = {
   C: 'Coast Guard',
   F: 'Air Force',
   N: 'Navy',
-  M: 'Marine Corps'
+  M: 'Marine Corps',
 };
 
 export const countryValues = [
@@ -245,7 +245,7 @@ export const countryValues = [
   'ESH',
   'YEM',
   'ZMB',
-  'ZWE'
+  'ZWE',
 ];
 
 export const countryLabels = [
@@ -303,7 +303,7 @@ export const countryLabels = [
   'Congo, the Democratic Republic of the',
   'Cook Islands',
   'Costa Rica',
-  'Cote d\'Ivoire',
+  "Cote d'Ivoire",
   'Croatia',
   'Cuba',
   'Curaçao',
@@ -364,11 +364,11 @@ export const countryLabels = [
   'Kazakhstan',
   'Kenya',
   'Kiribati',
-  'Korea, Democratic People\'s Republic of',
+  "Korea, Democratic People's Republic of",
   'Korea, Republic of',
   'Kuwait',
   'Kyrgyzstan',
-  'Lao People\'s Democratic Republic',
+  "Lao People's Democratic Republic",
   'Latvia',
   'Lebanon',
   'Lesotho',
@@ -564,7 +564,7 @@ export const states = {
     'Grosseto',
     'Imperia',
     'Isernia',
-    'L\'Aquila',
+    "L'Aquila",
     'La Spezia',
     'Latina',
     'Lecce',

@@ -7,17 +7,18 @@ import { DefinitionTester } from '../../../../../platform/testing/unit/schemafor
 import formConfig from '../../../1990n/config/form.js';
 
 describe('Edu 1990N applicantInformation', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.applicantInformation.pages.applicantInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{}}
-        uiSchema={uiSchema}/>
+      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
     );
     const formDOM = findDOMNode(form);
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(10);
-    expect(formDOM.querySelector('#root_veteranSocialSecurityNumber')).not.to.be.null;
+    expect(formDOM.querySelector('#root_veteranSocialSecurityNumber')).not.to.be
+      .null;
   });
 });

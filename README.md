@@ -264,13 +264,21 @@ For example, to execute the E2E tests for Production:
     - The Nightwatch startup script will see that port `3001` is not blocked (as it would be by the watch-task), and will start a [static webserver](#static-webserver) for the production build.
 
 ### Visual Regression Testing
-This is the first iteration of visual regression testing. It is useful to detect side effects or scope of visual changes.
+This is the second iteration of visual regression testing. It is useful to detect side effects or scope of visual changes.
 
-VRT works by gathering the links for the site using the sitemap, then using Nightwatch to navigate throughout the site, capturing an image of each page that will either be used as the baseline for future comparisons or compared to the baseline. The developer must first create the baseline image set for comparisons (sometimes called the golden set), then after making their changes, run an additional task to execute the comparison. See the chart above for the commands.
+VRT works by gathering the links for the site using the sitemap, then using Puppeteer to navigate throughout the site, capturing an image of each page that will either be used as the baseline for future comparisons or compared to the baseline. The developer must first create the baseline image set for comparisons (sometimes called the golden set), then after making their changes, run an additional task to execute the comparison. See the chart above for the commands.
 
 There are some [limitations](https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Engineering/Visual%20Regression%20Testing.md), one of which is that VRG only tests the page on the initial load on a single viewport - it does not interact with the page or resize the window. This means that if there are dynamic elements they will not be covered. If this is functionality that interests you, you are welcome to join a discussion about the next phase of VRG.
 
-To run Visual Regression Testing for a certain build, see the above section, about how to [execute Nightwatch in a certain environment](#executing-nightwatch-tests-for-a-certain-environment).
+To run visual regression testing start the server in one terminal and execute the following commands
+
+1. `npm run test:visual:baseline` - Create desktop baseline
+1. `npm run test:visual` - Compare to desktop baselines
+1. `npm run test:visual:baseline -- --mobile` - Create mobile baseline
+1. `npm run test:visual -- --mobile` - Compare to Mobile baselines
+
+All screenshots are available at `logs/visual-regression/[baseline | diff]/[mobile | desktop]`
+
 
 ### Automated Accessibility Testing -- aXe
 

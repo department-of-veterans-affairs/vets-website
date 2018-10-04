@@ -14,13 +14,13 @@ const props = {
 
 describe('<ModalConfirmDelete>', () => {
   it('should render correctly', () => {
-    const tree = SkinDeep.shallowRender(<ModalConfirmDelete {...props}/>);
+    const tree = SkinDeep.shallowRender(<ModalConfirmDelete {...props} />);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
   it('should render the expected child elements', () => {
-    const tree = SkinDeep.shallowRender(<ModalConfirmDelete {...props}/>);
+    const tree = SkinDeep.shallowRender(<ModalConfirmDelete {...props} />);
 
     expect(tree.subTree('Modal')).to.be.ok;
   });
@@ -28,9 +28,7 @@ describe('<ModalConfirmDelete>', () => {
   it('should handle deletion correctly', () => {
     const onDelete = sinon.spy();
     const modalConfirmDelete = ReactTestUtils.renderIntoDocument(
-      <ModalConfirmDelete
-        {...props }
-        onDelete={onDelete}/>
+      <ModalConfirmDelete {...props} onDelete={onDelete} />,
     );
 
     modalConfirmDelete.handleDelete({ preventDefault: () => {} });

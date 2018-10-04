@@ -6,5 +6,5 @@ module.exports = {
   [environments.PRODUCTION]: 'https://www.vets.gov',
   [environments.STAGING]: 'https://staging.vets.gov',
   [environments.VAGOVDEV]: 'https://dev.va.gov',
-  [environments.VAGOVSTAGING]: 'https://staging.va.gov'
+  [environments.VAGOVSTAGING]: 'https://staging.va.gov',
 };

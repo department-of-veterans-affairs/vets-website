@@ -13,25 +13,25 @@ const props = {
 
 describe('<GlossaryList>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<GlossaryList {...props}/>);
+    const tree = SkinDeep.shallowRender(<GlossaryList {...props} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
   it('should have the expected className', () => {
-    const tree = SkinDeep.shallowRender(<GlossaryList {...props}/>);
+    const tree = SkinDeep.shallowRender(<GlossaryList {...props} />);
 
     expect(tree.props.className).to.equal('rx-glossary-section');
   });
 
   it('should show the expected title', () => {
-    const tree = SkinDeep.shallowRender(<GlossaryList {...props}/>);
+    const tree = SkinDeep.shallowRender(<GlossaryList {...props} />);
 
     expect(tree.subTree('.rx-pgroup-title').text()).to.equal('Glossary');
   });
 
   it('should render terms', () => {
-    const tree = SkinDeep.shallowRender(<GlossaryList {...props}/>);
+    const tree = SkinDeep.shallowRender(<GlossaryList {...props} />);
 
     expect(tree.subTree('p')).to.be.ok;
   });

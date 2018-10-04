@@ -5,8 +5,10 @@ import { bindActionCreators } from 'redux';
 import { focusElement } from '../../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import SaveInProgressIntro, { introActions, introSelector } from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
-
+import SaveInProgressIntro, {
+  introActions,
+  introSelector,
+} from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -16,7 +18,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="781 and 781a PTSD"/>
+        <FormTitle title="781 and 781a PTSD" />
         <p>Equal to VA Form 21-0781 (781 and 781a PTSD).</p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
@@ -24,7 +26,8 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the Application"
           {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}>
+          {...this.props.saveInProgress}
+        >
           Please complete the 21-0781 form to apply for benefits.
         </SaveInProgressIntro>
         <h4>Follow the steps below to apply for benefits.</h4>
@@ -36,20 +39,38 @@ class IntroductionPage extends React.Component {
               <ul>
                 <li>Social Security number (required)</li>
               </ul>
-              <p><strong>What if I need help filling out my application?</strong> An accredited representative, like a Veterans Service Officer (VSO), can help you fill out your claim. <a href="/disability-benefits/apply/help/index.html">Get help filing your claim</a>.</p>
+              <p>
+                <strong>What if I need help filling out my application?</strong>{' '}
+                An accredited representative, like a Veterans Service Officer
+                (VSO), can help you fill out your claim.{' '}
+                <a href="/disability-benefits/apply/help/index.html">
+                  Get help filing your claim
+                </a>
+                .
+              </p>
             </li>
             <li className="process-step list-two">
               <h5>Apply</h5>
               <p>Complete this benefits form.</p>
-              <p>After submitting the form, you’ll get a confirmation message. You can print this for your records.</p>
+              <p>
+                After submitting the form, you’ll get a confirmation message.
+                You can print this for your records.
+              </p>
             </li>
             <li className="process-step list-three">
               <h5>VA Review</h5>
-              <p>We process claims within a week. If more than a week has passed since you submitted your application and you haven’t heard back, please don’t apply again. Call us at.</p>
+              <p>
+                We process claims within a week. If more than a week has passed
+                since you submitted your application and you haven’t heard back,
+                please don’t apply again. Call us at.
+              </p>
             </li>
             <li className="process-step list-four">
               <h5>Decision</h5>
-              <p>Once we’ve processed your claim, you’ll get a notice in the mail with our decision.</p>
+              <p>
+                Once we’ve processed your claim, you’ll get a notice in the mail
+                with our decision.
+              </p>
             </li>
           </ol>
         </div>
@@ -59,9 +80,10 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the Application"
           {...this.props.saveInProgressActions}
-          {...this.props.saveInProgress}/>
+          {...this.props.saveInProgress}
+        />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={60} ombNumber="2900-0659" expDate="12/31/2019"/>
+          <OMBInfo resBurden={60} ombNumber="2900-0659" expDate="12/31/2019" />
         </div>
       </div>
     );
@@ -70,16 +92,19 @@ class IntroductionPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    saveInProgress: introSelector(state)
+    saveInProgress: introSelector(state),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    saveInProgressActions: bindActionCreators(introActions, dispatch)
+    saveInProgressActions: bindActionCreators(introActions, dispatch),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IntroductionPage);
 
 export { IntroductionPage };

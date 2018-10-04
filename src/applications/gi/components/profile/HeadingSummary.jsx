@@ -10,18 +10,19 @@ const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
   return (
     <p className="icon-with-info">
-      <i className={`fa fa-${icon}`}/>&nbsp;{children}
+      <i className={`fa fa-${icon}`} />
+      &nbsp;
+      {children}
     </p>
   );
 };
 
 class HeadingSummary extends React.Component {
-
   render() {
     const it = this.props.institution;
     it.type = it.type && it.type.toLowerCase();
 
-    const schoolSize = (enrollment) => {
+    const schoolSize = enrollment => {
       if (!enrollment) return 'Unknown';
       if (enrollment <= 2000) {
         return 'Small';
@@ -36,16 +37,32 @@ class HeadingSummary extends React.Component {
         <div className="usa-width-two-thirds medium-8 small-12 column">
           <h1>{it.name}</h1>
           <AlertBox
-            content={(<p>Are you enrolled in this school? <a href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp" target="_blank">Find out if you qualify to have your benefits restored.</a></p>)}
+            content={
+              <p>
+                Are you enrolled in this school?{' '}
+                <a
+                  href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp"
+                  target="_blank"
+                >
+                  Find out if you qualify to have your benefits restored.
+                </a>
+              </p>
+            }
             headline="This school is closing soon"
             isVisible={!!it.schoolClosing}
-            status="warning"/>
+            status="warning"
+          />
           <div className="caution-flag">
             <AlertBox
-              content={(<a href="#viewWarnings" onClick={this.props.onViewWarnings}>View cautionary information about this school</a>)}
+              content={
+                <a href="#viewWarnings" onClick={this.props.onViewWarnings}>
+                  View cautionary information about this school
+                </a>
+              }
               headline="This school has cautionary warnings"
               isVisible={!!it.cautionFlag}
-              status="warning"/>
+              status="warning"
+            />
           </div>
           <div className="column">
             <p>
@@ -59,10 +76,18 @@ class HeadingSummary extends React.Component {
                 {it.city}, {it.state || it.country}
               </IconWithInfo>
               <IconWithInfo icon="globe" present={it.website}>
-                <a href={it.website} target="_blank">{it.website}</a>
+                <a href={it.website} target="_blank">
+                  {it.website}
+                </a>
               </IconWithInfo>
-              <IconWithInfo icon="calendar-o" present={it.type !== 'ojt' && it.highestDegree}>
-                {_.isFinite(it.highestDegree) ? `${it.highestDegree} year` : it.highestDegree} program
+              <IconWithInfo
+                icon="calendar-o"
+                present={it.type !== 'ojt' && it.highestDegree}
+              >
+                {_.isFinite(it.highestDegree)
+                  ? `${it.highestDegree} year`
+                  : it.highestDegree}{' '}
+                program
               </IconWithInfo>
             </div>
 
@@ -70,10 +95,16 @@ class HeadingSummary extends React.Component {
               <IconWithInfo icon="briefcase" present={it.type === 'ojt'}>
                 On-the-job training
               </IconWithInfo>
-              <IconWithInfo icon="institution" present={it.type && it.type !== 'ojt'}>
+              <IconWithInfo
+                icon="institution"
+                present={it.type && it.type !== 'ojt'}
+              >
                 {_.capitalize(it.type)} school
               </IconWithInfo>
-              <IconWithInfo icon="map" present={it.localeType && it.type && it.type !== 'ojt'}>
+              <IconWithInfo
+                icon="map"
+                present={it.localeType && it.type && it.type !== 'ojt'}
+              >
                 {_.capitalize(it.localeType)} locale
               </IconWithInfo>
               <IconWithInfo icon="group" present={it.type && it.type !== 'ojt'}>
@@ -82,17 +113,16 @@ class HeadingSummary extends React.Component {
             </div>
           </div>
         </div>
-        <AdditionalResources/>
+        <AdditionalResources />
       </div>
     );
   }
-
 }
 
 HeadingSummary.propTypes = {
   institution: PropTypes.object,
   onLearnMore: PropTypes.func,
-  onViewWarnings: PropTypes.func
+  onViewWarnings: PropTypes.func,
 };
 
 export default HeadingSummary;

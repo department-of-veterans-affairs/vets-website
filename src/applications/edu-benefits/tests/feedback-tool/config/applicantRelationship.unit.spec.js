@@ -3,11 +3,17 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, selectRadio } from '../../../../../platform/testing/unit/schemaform-utils';
+import {
+  DefinitionTester,
+  selectRadio,
+} from '../../../../../platform/testing/unit/schemaform-utils';
 import formConfig from '../../../feedback-tool/config/form';
 
 describe('feedback tool applicant info', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantRelationship;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.applicantInformation.pages.applicantRelationship;
 
   it('should render', () => {
     const form = mount(
@@ -15,7 +21,8 @@ describe('feedback tool applicant info', () => {
         schema={schema}
         data={{}}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(3);
@@ -28,7 +35,8 @@ describe('feedback tool applicant info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -43,7 +51,8 @@ describe('feedback tool applicant info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     selectRadio(form, 'root_onBehalfOf', 'Anonymous');
@@ -59,7 +68,8 @@ describe('feedback tool applicant info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     selectRadio(form, 'root_onBehalfOf', 'Myself');
@@ -73,7 +83,8 @@ describe('feedback tool applicant info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     selectRadio(form, 'root_onBehalfOf', 'Someone else');
@@ -87,12 +98,11 @@ describe('feedback tool applicant info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     selectRadio(form, 'root_onBehalfOf', 'Anonymous');
     expect(form.find('input').length).to.equal(4);
   });
-
-
 });

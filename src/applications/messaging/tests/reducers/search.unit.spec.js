@@ -11,31 +11,31 @@ import {
   SET_ADVSEARCH_END_DATE,
   SET_ADVSEARCH_START_DATE,
   SET_SEARCH_PARAM,
-  TOGGLE_ADVANCED_SEARCH
+  TOGGLE_ADVANCED_SEARCH,
 } from '../../utils/constants';
 
 const initialState = {
   params: {
     dateRange: {
       start: null,
-      end: null
+      end: null,
     },
     from: {
       field: makeField(''),
-      exact: false
+      exact: false,
     },
     to: {
       field: makeField(''),
-      exact: false
+      exact: false,
     },
     subject: {
       field: makeField(''),
-      exact: false
-    }
+      exact: false,
+    },
   },
   advanced: {
-    visible: false
-  }
+    visible: false,
+  },
 };
 
 describe('search reducer', () => {
@@ -43,56 +43,66 @@ describe('search reducer', () => {
     const today = moment().startOf('day');
     let newState = searchReducer(initialState, {
       type: SET_ADVSEARCH_END_DATE,
-      date: today
+      date: today,
     });
 
-    expect(newState.params.dateRange.end.toString())
-      .to.eql(today.endOf('day').toString());
+    expect(newState.params.dateRange.end.toString()).to.eql(
+      today.endOf('day').toString(),
+    );
 
     const weekAgo = today.clone().subtract(1, 'weeks');
     newState = searchReducer(newState, {
       type: SET_ADVSEARCH_END_DATE,
-      date: weekAgo
+      date: weekAgo,
     });
 
-    expect(newState.params.dateRange.end.toString())
-      .to.eql(weekAgo.endOf('day').toString());
+    expect(newState.params.dateRange.end.toString()).to.eql(
+      weekAgo.endOf('day').toString(),
+    );
   });
 
   it('should set start date for advanced search', () => {
     const today = moment().startOf('day');
     let newState = searchReducer(initialState, {
       type: SET_ADVSEARCH_START_DATE,
-      date: today
+      date: today,
     });
 
-    expect(newState.params.dateRange.start.toString())
-      .to.eql(today.toString());
+    expect(newState.params.dateRange.start.toString()).to.eql(today.toString());
 
     const weekAgo = today.clone().subtract(1, 'weeks');
     newState = searchReducer(newState, {
       type: SET_ADVSEARCH_START_DATE,
-      date: weekAgo
+      date: weekAgo,
     });
 
-    expect(newState.params.dateRange.start.toString())
-      .to.eql(weekAgo.toString());
+    expect(newState.params.dateRange.start.toString()).to.eql(
+      weekAgo.toString(),
+    );
   });
 
   it('should toggle advanced search', () => {
-    let newState = searchReducer(initialState, { type: TOGGLE_ADVANCED_SEARCH });
+    let newState = searchReducer(initialState, {
+      type: TOGGLE_ADVANCED_SEARCH,
+    });
     expect(newState.advanced.visible).to.be.true;
     newState = searchReducer(newState, { type: TOGGLE_ADVANCED_SEARCH });
     expect(newState.advanced.visible).to.be.false;
   });
 
   it('should open advanced search', () => {
-    const newState = searchReducer({ advanced: { visible: false } }, { type: OPEN_ADVANCED_SEARCH });
+    const newState = searchReducer(
+      { advanced: { visible: false } },
+      { type: OPEN_ADVANCED_SEARCH },
+    );
     expect(newState.advanced.visible).to.be.true;
   });
 
   it('should close advanced search', () => {
-    const newState = searchReducer({ advanced: { visible: true } }, { type: CLOSE_ADVANCED_SEARCH });
+    const newState = searchReducer(
+      { advanced: { visible: true } },
+      { type: CLOSE_ADVANCED_SEARCH },
+    );
     expect(newState.advanced.visible).to.be.false;
   });
 
@@ -101,14 +111,14 @@ describe('search reducer', () => {
     let newState = searchReducer(initialState, {
       type: SET_SEARCH_PARAM,
       path: 'from.field',
-      field: fromFieldQuery
+      field: fromFieldQuery,
     });
     expect(newState.params.from.field).to.eql(fromFieldQuery);
 
     newState = searchReducer(newState, {
       type: SET_SEARCH_PARAM,
       path: 'from.exact',
-      field: true
+      field: true,
     });
     expect(newState.params.from.exact).to.eql(true);
 
@@ -116,14 +126,14 @@ describe('search reducer', () => {
     newState = searchReducer(newState, {
       type: SET_SEARCH_PARAM,
       path: 'subject.field',
-      field: subjectFieldQuery
+      field: subjectFieldQuery,
     });
     expect(newState.params.subject.field).to.eql(subjectFieldQuery);
 
     newState = searchReducer(newState, {
       type: SET_SEARCH_PARAM,
       path: 'subject.exact',
-      field: true
+      field: true,
     });
     expect(newState.params.subject.exact).to.eql(true);
   });
@@ -143,10 +153,10 @@ describe('search reducer', () => {
             senderName: { eq: senderName },
             recipientName: { eq: recipientName },
             subject: { match: subject },
-            sentDate: { gteq: startDate, lteq: endDate }
-          }
-        }
-      }
+            sentDate: { gteq: startDate, lteq: endDate },
+          },
+        },
+      },
     });
 
     expect(newState.params.dateRange.start).to.eql(moment(startDate));
@@ -160,29 +170,32 @@ describe('search reducer', () => {
   });
 
   it('should clear search params when folder loads without filters', () => {
-    const newState = searchReducer({
-      params: {
-        dateRange: {
-          start: '2017-01-01T00:00:00-05:00',
-          end: '2017-01-14T23:59:59-05:00'
+    const newState = searchReducer(
+      {
+        params: {
+          dateRange: {
+            start: '2017-01-01T00:00:00-05:00',
+            end: '2017-01-14T23:59:59-05:00',
+          },
+          from: {
+            field: makeField('Veteran', true),
+            exact: true,
+          },
+          to: {
+            field: makeField('Clinician', true),
+            exact: false,
+          },
+          subject: {
+            field: makeField('Testing 123', true),
+            exact: false,
+          },
         },
-        from: {
-          field: makeField('Veteran', true),
-          exact: true
-        },
-        to: {
-          field: makeField('Clinician', true),
-          exact: false
-        },
-        subject: {
-          field: makeField('Testing 123', true),
-          exact: false
-        }
-      }
-    }, {
-      type: FETCH_FOLDER_SUCCESS,
-      messages: { meta: {} }
-    });
+      },
+      {
+        type: FETCH_FOLDER_SUCCESS,
+        messages: { meta: {} },
+      },
+    );
     expect(newState.params).to.eql(initialState.params);
   });
 });

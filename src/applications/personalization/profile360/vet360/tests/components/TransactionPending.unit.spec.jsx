@@ -6,7 +6,6 @@ import sinon from 'sinon';
 import Vet360TransactionPending from '../../components/base/TransactionPending';
 
 describe('<Vet360TransactionPending/>', () => {
-
   let props = null;
   beforeEach(() => {
     props = {
@@ -15,10 +14,8 @@ describe('<Vet360TransactionPending/>', () => {
     };
   });
 
-  it('renders', (done) => {
-    const component = enzyme.shallow(
-      <Vet360TransactionPending {...props}/>
-    );
+  it('renders', done => {
+    const component = enzyme.shallow(<Vet360TransactionPending {...props} />);
 
     setTimeout(() => {
       // This should be a 3 or 4, but I'm undershooting this by setting it at 2. I don't know what to expect with a shallow-render on the Jenkins server.

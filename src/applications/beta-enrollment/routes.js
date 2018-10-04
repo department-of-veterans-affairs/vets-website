@@ -6,15 +6,18 @@ export const features = {
   veteranIdCard: 'veteran_id_card',
   profile: 'profile',
   dashboard: 'dashboard',
-  claimIncrease: 'claim_increase'
+  claimIncrease: 'claim_increase',
 };
 
 const routes = {
   path: '/',
   childRoutes: [
-    { path: 'personalization', component: createBetaEnrollmentButton(features.dashboard, '/dashboard') },
-    { path: 'claim-increase', component: create526EnrollmentButton() }
-  ]
+    {
+      path: 'personalization',
+      component: createBetaEnrollmentButton(features.dashboard, '/dashboard'),
+    },
+    { path: 'claim-increase', component: create526EnrollmentButton() },
+  ],
 };
 
 export default routes;
