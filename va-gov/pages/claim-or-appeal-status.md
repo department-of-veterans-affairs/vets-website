@@ -12,14 +12,7 @@ lastupdate: 2018-09-20
 Find out how to check the status of a VA claim or appeal online.
 </div>
 
-<div class="va-sign-in-alert usa-alert usa-alert-info">
-  <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You’ll need to sign in before you can check your claim or appeal status.</h4>
-    <p class="usa-alert-text">
-      <button class="usa-button-primary">Sign In to Check Your Claim or Appeal Status</button>
-    </p>
-  </div>
-</div>
+<div class="cta-widget" data-app-id="claims-and-appeals"></div>
 
 <h2 itemprop="name">What types of claims and appeals can I track with this tool?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
