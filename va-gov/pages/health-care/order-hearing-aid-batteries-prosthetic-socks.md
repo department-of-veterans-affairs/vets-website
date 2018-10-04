@@ -20,8 +20,7 @@ Find out if you may be eligible to order free hearing aid batteries or prostheti
 
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You’ll need to sign in to eBenefits to order hearing aid batteries or prosthetic socks online.</h4><r>
-    
+    <h4 class="usa-alert-heading">You’ll need to sign in to eBenefits to order hearing aid batteries or prosthetic socks online.</h4><br>    
   <p class="usa-alert-text">To use this feature, you'll need a Premium <b>DS Logon</b> account. Your My HealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your <b>DS Logon</b> account to Premium.<br>
       <button class="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=hearing-aid-batteries-and-prosthetic-socks">Go to eBenefits to Order Items Online</button>
     </p>
