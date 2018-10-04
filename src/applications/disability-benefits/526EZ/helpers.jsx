@@ -213,13 +213,13 @@ export function prefillTransformer(pages, formData, metadata) {
 
 export const supportingEvidenceOrientation = (
   <p>
-    On the next few screens, we’ll ask you where we can find medical records or
-    supporting evidence that show your rated condition has gotten worse. You
-    don’t need to turn in any medical records that you already submitted with
-    your original claim.{' '}
+    On the next few screens, we’ll ask you where we can find evidence
+    (supporting documents like doctor’s reports, X-rays, and medical test
+    results) that shows your rated condition has gotten worse. You don’t need to
+    turn in any evidence that you already submitted with your original claim.{' '}
     <strong>
-      We only need new medical records or evidence that show your rated
-      condition has gotten worse.
+      We only need new evidence that shows your rated condition has gotten
+      worse.
     </strong>
   </p>
 );
@@ -559,7 +559,7 @@ export const UnauthenticatedAlert = (
     <div className="usa-alert usa-alert-info schemaform-sip-alert">
       <div className="usa-alert-body">
         To apply for a disability increase, you’ll need to sign in and verify
-        your account.
+        your identity.
       </div>
     </div>
     <br />
@@ -586,9 +586,8 @@ export const VerifiedAlert = (
       <div className="usa-alert-body">
         <strong>Note:</strong> Since you’re signed in to your account and your
         account is verified, we can prefill part of your application based on
-        your account details. You can also save your form in progress, and come
-        back later to finish filling it out. You have 1 year from the date you
-        start or update your application to submit the form.
+        your account details. You can also save your form in progress for up to
+        1 year and come back later to finish filling it out.
       </div>
     </div>
     <br />
@@ -615,9 +614,8 @@ export const GetFormHelp = () => (
 export const ITFDescription = (
   <span>
     <strong>Note:</strong> By clicking the button to start the disability
-    application, you’ll declare your intent to file, and this will set the date
-    you can start getting benefits. This intent to file will expire 1 year from
-    the day you start your application.
+    application, you’ll declare your intent to file. This will reserve a
+    potential effective date for when you could start getting benefits.
   </span>
 );
 
@@ -695,8 +693,7 @@ export const noFDCWarning = (
 
 const evidenceTypesDescription = disabilityName => (
   <p>
-    What supporting evidence will you be turning in that shows your{' '}
-    {disabilityName}{' '}
+    What supporting evidence will you turn in that shows your {disabilityName}{' '}
     <strong>has gotten worse since you received a VA rating</strong>?
   </p>
 );
