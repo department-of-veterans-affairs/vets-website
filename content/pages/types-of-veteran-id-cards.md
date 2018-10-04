@@ -123,8 +123,6 @@ You can apply online now. <br>
 
 </div>
 </li>
-
-
 </div>
 </li>
  
