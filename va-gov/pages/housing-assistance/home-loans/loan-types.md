@@ -7,7 +7,7 @@ concurrence:
 children: housingVALoans
 order: 1
 majorlinks:
-  - heading: Loan Types 
+  - heading: Explore Different Loan Types 
     links:
     - url: /housing-assistance/home-loans/loan-types/purchase-loan/
       title: Purchase Loan
