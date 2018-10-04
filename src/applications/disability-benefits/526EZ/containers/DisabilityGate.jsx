@@ -46,7 +46,7 @@ export const DisabilityGate = ({
         <AlertBox
           isVisible
           headline="We're sorry"
-          content="We couldn't find any rated disabilites at this time."
+          content="Our records show you don’t have any rated disabilities, so you can’t apply for increased compensation benefits at this time. If you think our records aren’t correct, please call Veterans Benefits Assistance at 1-800-827-1000, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET)."
           status="error"
         />
       </div>
