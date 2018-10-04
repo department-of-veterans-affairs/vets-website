@@ -48,7 +48,6 @@ import {
   authorizationToDisclose,
   // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
   evidenceSummaryView,
-  additionalDocumentDescription,
   GetFormHelp,
   FDCDescription,
   FDCWarning,
@@ -78,8 +77,9 @@ import { FIFTY_MB } from '../../all-claims/constants';
 
 import { treatmentView } from '../../all-claims/content/vaMedicalRecords';
 import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
-
+import { additionalDocumentDescription } from '../../all-claims/content/additionalDocuments';
 import { requireOneSelected } from '../validations';
+
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
 import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
