@@ -22,11 +22,8 @@ describe('metrics', () => {
       .withArgs('navigation')
       .returns([navEntry]);
 
-    function PerformanceMock() {
-      this.getEntriesByType = byTypeStub;
-      this.getEntriesByName = sinon.stub();
-    }
-    global.performance = new PerformanceMock();
+    global.performance.getEntriesByName = byTypeStub;
+    global.performance.getEntriesByName = sinon.stub();
 
     global.window = { location: { pathname: '/' } };
   });
@@ -85,16 +82,12 @@ describe('metrics', () => {
 
     describe('sendMetricsToBackend', () => {
       it('should call sendBeacon once', () => {
-        const spy = sinon.spy();
-        function NavigatorMock() {
-          this.sendBeacon = spy; // sinon.stub().returns(true);
-        }
-        global.navigator = new NavigatorMock();
+        global.navigator.sendBeacon = sinon.spy();
 
         const metricsPayload = metrics.buildMetricsPayload(navEntry);
         metrics.sendMetricsToBackend(metricsPayload);
 
-        expect(spy.callCount).to.be.equal(1);
+        expect(global.navigator.sendBeacon.callCount).to.be.equal(1);
       });
     });
 
