@@ -7,7 +7,7 @@ concurrence:
 children: housingVALoans
 order: 1
 majorlinks:
-  - heading: Loan Types for Veterans, Servicemembers, and Other Qualified 
+  - heading: Loan Types 
     links:
     - url: /housing-assistance/home-loans/loan-types/purchase-loan/
       title: Purchase Loan
