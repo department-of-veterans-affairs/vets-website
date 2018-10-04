@@ -11,9 +11,16 @@ import {
   FETCH_SERVICES,
   FETCH_SERVICES_DONE,
 } from '../utils/actionTypes';
-import { LocationType, BOUNDING_RADIUS } from '../constants';
 import LocatorApi from '../api';
+import { LocationType, BOUNDING_RADIUS } from '../constants';
+import { ccLocatorEnabled } from '../config';
 
+/**
+ * Sync form state with Redux state.
+ * (And implicitly cause updates back in VAMap)
+ * 
+ * @param {Object} query The current state of the Search form
+ */
 export const updateSearchQuery = (query) => ({
   type: SEARCH_QUERY_UPDATED,
   payload: { ...query }
@@ -22,7 +29,7 @@ export const updateSearchQuery = (query) => ({
 /**
  * Get the details of a single VA facility.
  * 
- * @param {String} id Facility or Provider ID as provided by the data source
+ * @param {string} id Facility or Provider ID as provided by the data source
  * @param {Object} location The actual location object if we already have it.
  *                 (This is a kinda hacky way to do a force update of the Redux
  *                  store to set the currently `selectedResult` but ¯\_(ツ)_/¯)
@@ -79,7 +86,7 @@ export const fetchProviderDetail = (id) => {
 export const searchWithBounds = ({ bounds, facilityType, serviceType, page = 1 }) => {
   const needsAddress = [LocationType.CC_PROVIDER, Location.ALL];
   return (dispatch) => {
-    if (needsAddress.includes(facilityType)) {
+    if (needsAddress.includes(facilityType) && ccLocatorEnabled()) { // Remove Feature-flag when going live.
       reverseGeocodeBox(bounds).then(address => {
         if (!address) {
           dispatch({ type: SEARCH_FAILED, error: 'Reverse geocoding failed. See previous errors or network log.' });
@@ -135,7 +142,7 @@ const fetchLocations = (address = null, bounds, locationType, serviceType, page,
  * address string as typed by the user.
  * 
  * @param {Object<T>} query Current searchQuery state (`searchQuery.searchString` at a minimum)
- * @returns {Function<T>} A thunk for Redux to process
+ * @returns {Function<T>} A thunk for Redux to process OR a failure action object on bad input
  */
 export const genBBoxFromAddress = (query) => {
   // Prevent empty search request to Mapbox, which would result in error, and
@@ -200,6 +207,10 @@ export const genBBoxFromAddress = (query) => {
   };
 };
 
+/**
+ * Preloads all services available from CC Providers
+ * for the type-ahead component.
+ */
 export const getProviderSvcs = () => {
   return (dispatch) => {
     dispatch({ type: FETCH_SERVICES });

@@ -3,7 +3,14 @@ import { Link, browserHistory } from 'react-router';
 import React from 'react';
 import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
+import { ccLocatorEnabled } from '../config';
 
+/**
+ * Preserves the search form in the UI & address bar when
+ * navigating back to the search/map page.
+ * 
+ * @param {Object} e The click event
+ */
 const goBackHistory = (e) => {
   e.preventDefault();
   browserHistory.goBack();
@@ -18,7 +25,8 @@ class FacilityLocatorApp extends React.Component {
 
     if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedResult) {
       crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Facility Details</Link>);
-    } else if (location.pathname.match(/provider\/[a-z]+_\d/) && selectedResult) {
+    } else if (ccLocatorEnabled() && location.pathname.match(/provider\/[a-z]+_\d/) && selectedResult) {
+      // TODO: Remove feature flag when ready to go live
       crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Provider Details</Link>);
     }
 

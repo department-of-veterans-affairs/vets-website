@@ -4,6 +4,9 @@ import classNames from 'classnames';
 import moment from 'moment';
 import recordEvent from '../../../platform/monitoring/record-event';
 
+/**
+ * VA Facility Appointments
+ */
 export default class AppointmentInfo extends Component {
   constructor() {
     super();

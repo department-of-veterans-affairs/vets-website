@@ -1,6 +1,9 @@
 import { values, every, capitalize } from 'lodash';
 import React, { Component } from 'react';
 
+/**
+ * VA Facility Known Operational Hours
+ */
 export default class LocationHours extends Component {
   colonizeTime(time) {
     const found = time.match(/(\d?\d)(\d\d)(\w\w)/);

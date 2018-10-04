@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-/* eslint-disable react/jsx-boolean-value */// Because this is not valid JSX v2
+/* eslint-disable react/jsx-boolean-value */// This is not valid JSX v2.x
 import React from 'react';
 import ProviderServiceDescription from './ProviderServiceDescription';
 
@@ -16,9 +16,9 @@ const ProviderDetailBlock = ({ provider }) => {
     <div className="mb2">
       <h2 className="highlight">Provider Details</h2>
       <ul>
+        <li><strong>Gender:</strong> {gender}</li>
         <li><strong>Services:</strong></li>
         <ProviderServiceDescription provider={provider} details={true}/>
-        <li><strong>Gender:</strong> {gender}</li>
       </ul>
 
       <h4 className="highlight">Appointments</h4>

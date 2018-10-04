@@ -9,13 +9,13 @@ import ProviderServiceDescription from '../ProviderServiceDescription';
 
 const LocationInfoBlock = ({ location, currentLocation }) => {
   const { name } = location.attributes;
-  const distance = (currentLocation) ?
-    distBetween(
+  const isProvider = location.type === LocationType.CC_PROVIDER;
+  const distance = (currentLocation)
+    ? distBetween(
       currentLocation.latitude, currentLocation.longitude,
       location.attributes.lat, location.attributes.long
-    ) :
-    null;
-  const isProvider = location.type === LocationType.CC_PROVIDER;
+    )
+    : null;
 
   return (
     <div>

@@ -5,6 +5,9 @@ import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { vetCenterServices } from '../config';
 
+/**
+ * VA Facility-specific Services Component
+ */
 class ServicesAtFacility extends Component {
 
   renderService(service) {
@@ -57,6 +60,7 @@ class ServicesAtFacility extends Component {
   renderServices() {
     const { facility } = this.props;
 
+    // TODO: Swap out the magic-strings
     switch (facility.attributes.facilityType) {
       case 'va_health_facility':
         return this.renderHealthServices();

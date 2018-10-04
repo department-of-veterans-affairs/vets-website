@@ -19,19 +19,6 @@ class FacilityDetail extends Component {
     window.scrollTo(0, 0);
   }
 
-  renderFacilityWebsite() {
-    const { facility } = this.props;
-    const { website } = facility.attributes;
-
-    return (
-      <span>
-        <a href={website} target="_blank">
-          <i className="fa fa-globe"/>Website
-        </a>
-      </span>
-    );
-  }
-
   renderFacilityInfo() {
     const { facility } = this.props;
     const { name, website } = facility.attributes;
@@ -46,7 +33,13 @@ class FacilityDetail extends Component {
         <div>
           <LocationPhoneLink location={facility}/>
         </div>
-        { website && this.renderFacilityWebsite()}
+        { website &&
+          <span>
+            <a href={website} target="_blank">
+              <i className="fa fa-globe"/>Website
+            </a>
+          </span>
+        }
         <div>
           <LocationDirectionsLink location={facility}/>
         </div>
@@ -62,7 +55,7 @@ class FacilityDetail extends Component {
       return null;
       // Shouldn't we render some sort of error message instead?
       // Right now all the user sees is a blank page. How is a dev
-      // supposed to quickly understand what the failure was?
+      // to quickly understand what the failure was?
     }
 
     if (currentQuery.inProgress) {

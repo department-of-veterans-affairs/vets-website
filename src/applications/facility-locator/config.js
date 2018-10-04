@@ -11,13 +11,24 @@ export const api = {
   }
 };
 
+/**
+ * Feature Flag Function
+ * 
+ * Determines, based on enviornment type, whether or not to
+ * enable Community Care Provider Locator features of the
+ * existing Facility Locator App.
+ */
+export const ccLocatorEnabled = () => {
+  return __BUILDTYPE__ !== 'production';
+};
+
 /* eslint-disable camelcase */
 export const facilityTypes = {
-  va_health_facility: 'Health',
+  va_health_facility: 'VA Health',
   va_cemetery: 'Cemetery',
   va_benefits_facility: 'Benefits',
   vet_center: 'Vet Center',
-  health: 'Health',
+  health: 'VA Health',
   cc_provider: 'Community Care (Non-VA Health)',
   cemetery: 'Cemetery',
   benefits: 'Benefits',

@@ -61,7 +61,6 @@ export const reverseGeocode = async (lon, lat, types = 'address,postcode') => {
  * @returns {String} The best approximation of the address for the coordinates
  */
 export const reverseGeocodeBox = (bounds, types = 'address,postcode') => {
-  // reverse geocode to get address for provLoc search
   const { lon, lat } = getBoxCenter(bounds);
   return reverseGeocode(lon, lat, types);
 };

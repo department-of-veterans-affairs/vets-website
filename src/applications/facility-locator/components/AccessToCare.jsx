@@ -4,6 +4,9 @@ import moment from 'moment';
 
 import StatsBar from './StatsBar';
 
+/**
+ * VA Facility Statistics & Feedback from Vets/Patients
+ */
 export default class AccessToCare extends Component {
   render() {
     const { location } = this.props;

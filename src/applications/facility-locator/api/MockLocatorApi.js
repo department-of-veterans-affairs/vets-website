@@ -2,6 +2,8 @@
 // It uses setTimeout to simulate the delay of an AJAX call.
 // All calls return promises.
 import compact from 'lodash/compact';
+import { LocationType } from '../constants';
+import { ccLocatorEnabled } from '../config';
 
 /* eslint-disable indent */
 /* eslint-disable array-bracket-spacing */
@@ -42,8 +44,16 @@ class MockLocatorApi {
           reject('Random failure due to fail flag being set');
         }
 
+        let locations = {};
+        if (ccLocatorEnabled()) { // Feature Flag
+          locations = { ...facilityData };
+        } else {
+          const nonProviders = facilityData.data.filter(loc => loc.type !== LocationType.CC_PROVIDER);
+          locations = { ...facilityData, data: nonProviders };
+        }
+
         setTimeout( () => {
-          resolve(facilityData);
+          resolve(locations);
         }, delay);
       } else {
         reject('Invalid URL or query sent to API!');

@@ -26,6 +26,8 @@ import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual } from '../utils/helpers';
 
+// This isn't valid JSX 2.x, better to get used to it now
+/* eslint-disable react/jsx-boolean-value */
 class VAMap extends Component {
 
   constructor(props) {
@@ -242,6 +244,7 @@ class VAMap extends Component {
   handleBoundsChanged = () => {
     const { currentQuery } = this.props;
     const { position } = currentQuery;
+    const { leafletElement }  = this.refs.map;
 
     let center = {
       lat: position.latitude,
@@ -251,9 +254,9 @@ class VAMap extends Component {
     let zoom = currentQuery.zoomLevel;
 
     if (this.refs.map) {
-      center = this.refs.map.leafletElement.getCenter();
-      zoom = this.refs.map.leafletElement.getZoom();
-      const bounds = this.refs.map.leafletElement.getBounds();
+      center = leafletElement.getCenter();
+      zoom = leafletElement.getZoom();
+      const bounds = leafletElement.getBounds();
 
       boundsArray = [
         bounds._southWest.lng,
@@ -283,6 +286,9 @@ class VAMap extends Component {
     }, 1);
   }
 
+  /**
+   * Use the list of search results to generate pushpins for the map.
+   */
   renderFacilityMarkers = () => {
     const { results } = this.props;
 
@@ -381,7 +387,7 @@ class VAMap extends Component {
     return (
       <div>
         <div className="columns small-12">
-          <SearchControls currentQuery={currentQuery} onChange={this.props.updateSearchQuery} onSubmit={this.handleSearch} isMobile/>
+          <SearchControls currentQuery={currentQuery} onChange={this.props.updateSearchQuery} onSubmit={this.handleSearch} isMobile={true}/>
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
@@ -465,7 +471,10 @@ class VAMap extends Component {
         <div className="title-section">
           <h1>Find Facilities and Services</h1>
         </div>
-        {isMobile.any ? this.renderMobileView() : this.renderDesktopView()}
+        { isMobile.any
+          ? this.renderMobileView()
+          : this.renderDesktopView()
+        }
       </div>
     );
   }

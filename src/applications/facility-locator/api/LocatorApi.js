@@ -39,6 +39,11 @@ class LocatorApi {
     });
   }
 
+  /**
+   * Get one VA Facililty's details.
+   * 
+   * @param {string} id The ID of the Facility
+   */
   static fetchVAFacility(id) {
     const url = `${api.url}/${id}`;
 
@@ -52,6 +57,11 @@ class LocatorApi {
     });
   }
 
+  /**
+   * Get one CC Provider's details.
+   * 
+   * @param {string} id The ID of the CC Provider
+   */
   static fetchProviderDetail(id) {
     const url = `${api.baseUrl}/ccp/${id}`;
 
@@ -65,6 +75,9 @@ class LocatorApi {
     });
   }
 
+  /**
+   * Get all known services available from all CC Providers.
+   */
   static getProviderSvcs() {
     const url = `${api.baseUrl}/services`;
 

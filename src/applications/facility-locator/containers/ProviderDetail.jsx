@@ -9,6 +9,11 @@ import LocationDirectionsLink from '../components/search-results/LocationDirecti
 import AppointmentInfo from '../components/AppointmentInfo';
 import ProviderDetailBlock from '../components/ProviderDetailBlock';
 
+/**
+ * Container component for the CC Provider Detail page
+ * 
+ * (currently Routed at /facilities/provider/{id})
+ */
 class ProviderDetail extends Component {
 
   componentWillMount() {

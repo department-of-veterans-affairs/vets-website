@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import FacilityTypeDropdown from './FacilityTypeDropdown';
+import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from '../../../platform/monitoring/record-event';
+import { LocationType } from '../constants';
 import {
   healthServices,
   benefitsServices,
   vetCenterServices
 } from '../config';
-import ServiceTypeAhead from './ServiceTypeAhead';
 
 class SearchControls extends Component {
   handleEditSearch = () => {
@@ -18,7 +19,7 @@ class SearchControls extends Component {
   }
 
   handleFacilityTypeChange = (option) => {
-    const facilityType = (option === 'all') ? null : option;
+    const facilityType = (option === LocationType.ALL) ? null : option;
     this.props.onChange({ facilityType, serviceType: null });
   }
 
@@ -43,30 +44,35 @@ class SearchControls extends Component {
 
   renderServiceTypeDropdown = () => {
     const { facilityType, serviceType } = this.props.currentQuery;
-    const disabled = !['health', 'benefits', 'vet_center', 'cc_provider'].includes(facilityType);
-    let services;
+    const disabled = ![
+      LocationType.HEALTH,
+      LocationType.BENEFITS,
+      LocationType.VET_CENTER,
+      LocationType.CC_PROVIDER
+    ].includes(facilityType);
 
-    // Determine what service types to display for the facility type.
+    let services;
+    // Determine what service types to display for the location type (if any).
     switch (facilityType) {
-      case 'health':
+      case LocationType.HEALTH:
         services = healthServices;
         break;
-      case 'benefits':
+      case LocationType.BENEFITS:
         services = benefitsServices;
         break;
-      case 'vet_center':
+      case LocationType.VET_CENTER:
         services = vetCenterServices.reduce((result, service) => {
           result[service] = service; // eslint-disable-line no-param-reassign
           return result;
         }, { All: 'Show all facilities' });
         break;
-      case 'cc_provider':
+      case LocationType.CC_PROVIDER:
         return <ServiceTypeAhead onSelect={this.handleServiceTypeChange}/>;
       default:
         services = {};
     }
 
-    // Create option elements for each service type.
+    // Create option elements for each VA service type.
     const options = Object.keys(services).map((service) => (
       <option key={service} value={service}>
         {services[service]}

@@ -13,6 +13,9 @@ import Downshift from 'downshift';
 import classNames from 'classnames';
 import { getProviderSvcs } from '../actions';
 
+/**
+ * CC Providers' Service Types Typeahead
+ */
 class ServiceTypeAhead extends Component {
 
   constructor(props) {
@@ -44,6 +47,11 @@ class ServiceTypeAhead extends Component {
     { selected }
   )
 
+  shouldShow = (input, svc) => {
+    return (input.length >= 2 && svc && svc.Name &&
+      svc.Name.trim().toLowerCase().includes(input.toLowerCase()));
+  }
+
   render() {
     const { services } = this.state;
     const renderService = (s) => { return (s && s.Name) ? s.Name.trim() : ''; };
@@ -69,10 +77,7 @@ class ServiceTypeAhead extends Component {
                 { (isOpen && inputValue.length >= 2)
                   ? <div className="dropdown" role="listbox">
                       { services
-                        .filter(svc =>
-                          inputValue.length >= 2 &&
-                          svc.Name.trim().toLowerCase().includes(inputValue.toLowerCase())
-                        )
+                        .filter(svc => this.shouldShow(inputValue, svc))
                         .map((svc, index) => (
                           <div key={svc.Name}
                             { ...getItemProps({

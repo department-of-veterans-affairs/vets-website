@@ -1,16 +1,29 @@
+import { ccLocatorEnabled } from '../config';
+
 /**
- * Single location to declare all your 'magic strings',
- * 'cause if you mistype an import you notice right away.
+ * Single location to declare all your 'magic strings'.
+ * 'Cause if you mistype an import you notice right away.
  * 
- * Mistype a string? Enjoy the browser blow up ;)
+ * Mistype a string? Enjoy the browser blow up 😁
  */
 
+/**
+ * Enum for the type attribute of a Facility/Provider search result
+ */
 export const LocationType = {
+  ALL: 'all',
   VA_FACILITIES: 'va_facilities',
   CC_PROVIDER: 'cc_provider',
-  ALL: 'all'
+  // Subtype of VA_FACILITIES
+  HEALTH: 'health',
+  BENEFITS: 'benefits',
+  CEMETARY: 'cemetery',
+  VET_CENTER: 'vet_center'
 };
 
+/**
+ * Enum for the various Facility Types (inside the `attributes` object of a result)
+ */
 export const FacilityType = {
   VA_HEALTH_FACILITY: 'va_health_facility',
   VA_CEMETARY: 'va_cemetery',
@@ -18,13 +31,26 @@ export const FacilityType = {
   VET_CENTER: 'vet_center'
 };
 
-export const LOCATION_OPTIONS = [
-  'all',
-  'health',
-  'cc_provider',
-  'benefits',
-  'cemetery',
-  'vet_center'
-];
+/**
+ * Defines the options available for the Location Type Dropdown
+ */
+export const LOCATION_OPTIONS = ccLocatorEnabled()
+  ? [
+    'all',
+    'health',
+    'cc_provider',
+    'benefits',
+    'cemetery',
+    'vet_center'
+  ] : [
+    'all',
+    'health',
+    'benefits',
+    'cemetery',
+    'vet_center'
+  ];
 
+/**
+ * Defines the ± change in bounding box size for the map when changing zoom
+ */
 export const BOUNDING_RADIUS = 0.75;

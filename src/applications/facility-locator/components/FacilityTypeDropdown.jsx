@@ -24,7 +24,7 @@ class FacilityTypeDropdown extends Component {
     };
   }
 
-  handleOnClick = (e) => {
+  toggleCCInfo = (e) => {
     e.preventDefault();
     this.setState({
       showBubble: !this.state.showBubble
@@ -73,7 +73,7 @@ class FacilityTypeDropdown extends Component {
                   Search for
                   { selectedItem === LocationType.CC_PROVIDER &&
                   <span className="cc-info-link-span">
-                    <a onClick={this.handleOnClick} title="Click for More Information"
+                    <a onClick={this.toggleCCInfo} title="Click for More Information"
                       rel="noopener noreferrer" target="_blank" className="cc-info-link">
                       <i className="fa fa-info-circle cc-info-link-icon"/>
                     </a>
@@ -81,7 +81,7 @@ class FacilityTypeDropdown extends Component {
                   }
                   { this.state.showBubble &&
                     <div id="infoBubble">
-                      <span onClick={this.handleOnClick}>X</span>
+                      <span onClick={this.toggleCCInfo}>X</span>
                       <h6>What Is Community Care and Am I Eligible?</h6>
                       <p>The Veterans Choice Program is one of several programs through which a Veteran
                         can receive care from a community provider, paid for by the Department of Veterans Affairs.
