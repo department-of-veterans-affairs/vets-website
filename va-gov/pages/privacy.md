@@ -140,7 +140,7 @@ The VA Privacy Service works to minimize the impact on veteran’s privacy, part
  
  <div class="link">
   <a href="https://www.oprm.va.gov/"><b>Regulations</b></a>
- </div>
+ </div> <br>
  
  <div class="link">
   <a href="https://www.oprm.va.gov/privacy/pia.aspx"><b>Privacy Impact Assessments</b></a>
@@ -189,7 +189,6 @@ The VA Privacy Service works to minimize the impact on veteran’s privacy, part
   <span id="links"></span>
 
 <h3>Federally Required Links</h3>
-
 ------
 
  <div class="link">
