@@ -1,0 +1,30 @@
+$veteran-banner-desktop-width: 1280px;
+$veteran-banner-desktop-height: 160px;
+$veteran-banner-mobile-width: 318px;
+$veteran-banner-mobile-height: 70px;
+
+.veteran-banner {
+  @include linear-gradient-background($white, $mm-gray);
+  margin-top: 2.5em;
+}
+
+#homepage-hub {
+  .veteran-banner {
+    background: none;
+  }
+}
+
+.veteran-banner-image {
+  margin: 0 auto;
+  background-image: url(/img/homepage/veterans-banner-mobile.png);
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: 100% auto;
+  height: $veteran-banner-mobile-height;
+  max-width: $veteran-banner-mobile-width;
+  @include media($small-screen) {
+    background-image: url(/img/homepage/veterans-banner-desktop.png);
+    height: $veteran-banner-desktop-height;
+    max-width: $veteran-banner-desktop-width;
+  }
+}

@@ -570,7 +570,10 @@ export const UnverifiedAlert = (
   <div>
     <div className="usa-alert usa-alert-info schemaform-sip-alert">
       <div className="usa-alert-body">
-        To apply for a disability increase, you’ll need to verify your account.
+        <h3 className="usa-alert-heading">We couldn’t verify your identity</h3>
+        Please try again. If you have a premium DS Logon or My HealtheVet
+        account, you can try signing in that way, or you can create an ID.me
+        account to complete the verification process.
       </div>
     </div>
     <br />
