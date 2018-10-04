@@ -61,6 +61,7 @@ describe.only('Summary of Evidence', () => {
     expect(form.find('li').length).to.equal(2);
   });
 
+  // TODO: uncomment once lay evidence PR merged
   // it('should render lay evidence list when lay evidence submitted', () => {
   //   const form = mount(
   //     <DefinitionTester
@@ -68,9 +69,9 @@ describe.only('Summary of Evidence', () => {
   //       schema={schema}
   //       uiSchema={uiSchema}
   //       data={{
-  //         vaTreatmentFacilities: [
-  //           { treatmentCenterName: 'Sommerset' },
-  //           { treatmentCenterName: 'Huntsville' },
+  //         additionalDocuments: [
+  //           { name: 'Test Lay Statement.png' },
+  //           { name: 'buddy statement.pdf' },
   //         ],
   //       }}
   //     />,
