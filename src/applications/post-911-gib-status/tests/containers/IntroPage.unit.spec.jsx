@@ -35,8 +35,9 @@ describe('<IntroPage/>', () => {
 
   it('should render a link to /status', () => {
     const wrapper = shallow(<IntroPage {...defaultProps} />);
+    const summary = wrapper.find('VetsDotGovSummary').dive();
     expect(
-      wrapper
+      summary
         .find('Link')
         .first()
         .props().to,
