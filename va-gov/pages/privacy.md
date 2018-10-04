@@ -189,6 +189,7 @@ The VA Privacy Service works to minimize the impact on veteran’s privacy, part
   <span id="links"></span>
 
 <h3>Federally Required Links</h3>
+
 ------
 
  <div class="link">
