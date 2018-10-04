@@ -147,7 +147,7 @@ export const ptsdTypeHelp = () => {
   );
 };
 
-export const PtsdNameTitle781 = ({ formData, formType }) => {
+export const PtsdNameTitle = ({ formData, formType }) => {
   const { incidentTitle } = getPtsdClassification(formData, formType);
   return (
     <legend className="schemaform-block-title schemaform-title-underline">
@@ -191,7 +191,7 @@ const UploadExplanation = ({ formType }) => (
   </div>
 );
 
-export const UploadPtsdDescription781 = ({ formData, formType }) => {
+export const UploadPtsdDescription = ({ formData, formType }) => {
   const { incidentText } = getPtsdClassification(formData, formType);
   return (
     <div>
