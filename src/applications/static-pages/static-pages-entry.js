@@ -28,11 +28,13 @@ const healthcarePages = new Set([
 ]);
 
 const ctaTools = new Set([
-  '/health-care/secure-messaging/',
+  '/claim-or-appeal-status/',
+  '/health-care/get-medical-records/',
   '/health-care/refill-track-prescriptions/',
+  '/health-care/secure-messaging/',
   '/health-care/schedule-view-va-appointments/',
   '/health-care/view-test-and-lab-results/',
-  '/claim-or-appeal-status/',
+  '/records/download-va-letters/',
 ]);
 
 const burialPages = new Set([
