@@ -634,7 +634,7 @@
 
 
   // tablet
-  @media (min-width: 768px) and (max-width: $large-screen) and (orientation: portrait) {
+  @media (min-width: 768px) and (max-width: $large-screen) {
     .va-header-logo-wrapper {
       margin-bottom: 0;
     }
@@ -813,6 +813,7 @@
     }
 
     .left-side-nav-title {
+      padding-left: 1em;
       padding-bottom: 35px;
     }
 
