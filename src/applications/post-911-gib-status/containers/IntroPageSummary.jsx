@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
+import CallToActionWidget from '../../../platform/site-wide/cta-widget';
 import * as navActions from '../../../platform/site-wide/user-nav/actions';
 import * as userSelectors from '../../../platform/user/selectors';
 
@@ -15,9 +16,7 @@ export function VetsDotGovSummary() {
         hours, Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday
         6:00 a.m. to 7:00 p.m. (ET).
       </p>
-      <Link id="viewGIBS" to="status" className="usa-button va-button-primary">
-        View Your GI Bill Benefits
-      </Link>
+      <CallToActionWidget appId="gi-bill-benefits" />
       <h2>What if I’m having trouble accessing my benefit statement?</h2>
       <p>
         Your Post-9/11 GI Bill Statement of Benefits might not be available if

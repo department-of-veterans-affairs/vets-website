@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
@@ -8,15 +9,20 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 
 import { toggleLoginModal } from '../user-nav/actions';
 import { verify } from '../../user/authentication/utilities';
+
 import {
   createAndUpgradeMHVAccount,
   fetchMHVAccount,
   upgradeMHVAccount,
 } from '../../user/profile/actions';
+
 import { isLoggedIn, selectProfile } from '../../user/selectors';
+
+import titleCase from '../../utilities/data/titleCase';
 
 import {
   frontendApps,
+  continueUrl,
   redirectUrl,
   requiredServices,
   serviceDescription,
@@ -35,11 +41,13 @@ const MHV_ACCOUNT_TYPES = ['Premium', 'Advanced', 'Basic'];
 export class CallToActionWidget extends React.Component {
   constructor(props) {
     super(props);
-    this._isHealthTool = HEALTH_TOOLS.includes(this.props.appId);
+    const { appId } = props;
+    this._isHealthTool = HEALTH_TOOLS.includes(appId);
     this._popup = null;
+    this._continueUrl = continueUrl(appId);
     this._redirectUrl = redirectUrl(window.location.pathname);
-    this._requiredServices = requiredServices(props.appId);
-    this._serviceDescription = serviceDescription(props.appId);
+    this._requiredServices = requiredServices(appId);
+    this._serviceDescription = serviceDescription(appId);
   }
 
   componentDidMount() {
@@ -52,7 +60,7 @@ export class CallToActionWidget extends React.Component {
     if (!this.props.isLoggedIn) return;
 
     if (this.isAccessible()) {
-      this.redirect();
+      if (this._redirectUrl) this.redirect();
     } else if (this._isHealthTool) {
       const { accountLevel, accountState, loading } = this.props.mhvAccount;
 
@@ -93,7 +101,7 @@ export class CallToActionWidget extends React.Component {
       };
     }
 
-    if (this.props.mhvAccount.errors) {
+    if (this._isHealthTool && this.props.mhvAccount.errors) {
       return {
         heading: 'Some VA.gov health tools aren’t working right now',
         alertText: (
@@ -118,17 +126,21 @@ export class CallToActionWidget extends React.Component {
 
     if (!this.isAccessible()) return this.getInaccessibleContent();
 
-    return {
-      heading: 'My HealtheVet should open in a new tab',
-      alertText: (
-        <p>
-          If you don’t see My HealtheVet open in a new tab, try disabling your
-          browser’s popup blocker.
-        </p>
-      ),
-      buttonText: 'Go to My HealtheVet',
-      buttonHandler: this.redirect,
-    };
+    if (this._isHealthTool) {
+      return {
+        heading: 'My HealtheVet should open in a new tab',
+        alertText: (
+          <p>
+            If you don’t see My HealtheVet open in a new tab, try disabling your
+            browser’s popup blocker.
+          </p>
+        ),
+        buttonText: 'Go to My HealtheVet',
+        buttonHandler: this.redirect,
+      };
+    }
+
+    return null;
   };
 
   getInaccessibleHealthContent = () => {
@@ -356,7 +368,7 @@ export class CallToActionWidget extends React.Component {
     // which will already have validated the MHV account level policies.
 
     if (this._isHealthTool) {
-      // return this.props.availableServices.has(requiredServices);
+      // return this.props.availableServices.has(this._requiredServices);
 
       const { appId, mhvAccount } = this.props;
 
@@ -400,30 +412,44 @@ export class CallToActionWidget extends React.Component {
       );
     }
 
-    const {
-      heading,
-      alertText,
-      buttonText,
-      buttonHandler,
-      status = 'info',
-    } = this.getContent();
+    const content = this.getContent();
 
-    const alertProps = {
-      headline: heading,
-      content: (
-        <div className="usa-alert-text">
-          {alertText}
-          {buttonText && (
-            <button className="usa-button-primary" onClick={buttonHandler}>
-              {buttonText}
-            </button>
-          )}
-        </div>
-      ),
-      status,
-    };
+    if (content) {
+      const {
+        heading,
+        alertText,
+        buttonText,
+        buttonHandler,
+        status = 'info',
+      } = content;
 
-    return <AlertBox isVisible {...alertProps} />;
+      const alertProps = {
+        headline: heading,
+        content: (
+          <div className="usa-alert-text">
+            {alertText}
+            {buttonText && (
+              <button className="usa-button-primary" onClick={buttonHandler}>
+                {buttonText}
+              </button>
+            )}
+          </div>
+        ),
+        status,
+      };
+
+      return <AlertBox isVisible {...alertProps} />;
+    }
+
+    const buttonClass = this._continueUrl.startsWith('/')
+      ? classNames('usa-button-primary', 'va-button-primary')
+      : '';
+
+    return (
+      <a className={buttonClass} href={this._continueUrl}>
+        {titleCase(this._serviceDescription)}
+      </a>
+    );
   }
 }
 

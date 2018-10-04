@@ -4,17 +4,17 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { focusElement } from '../../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
+
+import CallToActionWidget from '../../../../platform/site-wide/cta-widget';
+import { focusElement } from '../../../../platform/utilities/ui';
 import {
   introActions,
   introSelector,
 } from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 import BetaGate from '../containers/BetaGate';
-
-import FormStartControls from './FormStartControls';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -39,10 +39,6 @@ class IntroductionPage extends React.Component {
   };
 
   render() {
-    const {
-      saveInProgress: { user },
-    } = this.props;
-
     const itfAgreement = (
       <p className="itf-agreement">
         By clicking the button to start the disability application, you’ll
@@ -60,12 +56,7 @@ class IntroductionPage extends React.Component {
           Related Compensation Benefits).
         </p>
         <BetaGate>
-          <FormStartControls
-            pathname={this.props.location.pathname}
-            user={user}
-            authenticate={this.authenticate}
-            {...this.props}
-          />
+          <CallToActionWidget appId="disability-benefits" />
           {itfAgreement}
         </BetaGate>
         <h4>
@@ -179,13 +170,7 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <BetaGate>
-          <FormStartControls
-            pathname={this.props.location.pathname}
-            user={user}
-            authenticate={this.authenticate}
-            {...this.props}
-            buttonOnly
-          />
+          <CallToActionWidget appId="disability-benefits" />
           {itfAgreement}
         </BetaGate>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}

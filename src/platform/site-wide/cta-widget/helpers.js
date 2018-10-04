@@ -33,6 +33,25 @@ const mhvBaseUrl = () => {
   return `https://${mhvSubdomain}.myhealth.va.gov`;
 };
 
+export const continueUrl = appId => {
+  switch (appId) {
+    case frontendApps.GI_BILL_BENEFITS:
+      return '/education/gi-bill/post-9-11/ch-33-benefit/status';
+
+    case frontendApps.DISABILITY_BENEFITS:
+      return '/disability-benefits/apply/form-526-disability-claim/veteran-information';
+
+    case frontendApps.LETTERS:
+      return '/records/download-va-letters/letters';
+
+    case frontendApps.VETERAN_ID_CARD:
+      return 'https://vicbdc.ppd.vba.va.gov/VIC';
+
+    default:
+      return '/';
+  }
+};
+
 export const redirectUrl = contentUrl => {
   switch (contentUrl) {
     case '/health-care/secure-messaging/':
@@ -101,7 +120,7 @@ export const serviceDescription = appId => {
       return 'send secure messages to your health care team';
 
     case frontendApps.LAB_AND_TEST_RESULTS:
-      return 'view your VA lab and test results online';
+      return 'view your VA lab and test results';
 
     case frontendApps.APPOINTMENTS:
       return ['schedule appointments online', 'view appointments online'];
@@ -113,7 +132,7 @@ export const serviceDescription = appId => {
       return 'apply for disability benefits';
 
     case frontendApps.CLAIMS_AND_APPEALS:
-      return 'check your claim or appeal status';
+      return 'see your claim or appeal status';
 
     case frontendApps.LETTERS:
       return 'get your VA Benefit Letters';
