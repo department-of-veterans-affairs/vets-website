@@ -6,13 +6,11 @@
  */
 function addLeftNavCollections() {
   return (files, metalsmith, done) => {
-    const list = [];
     Object.keys(files).forEach(key => {
       const file = files[key];
       const splitPath = key.split('/');
 
       if (splitPath.length === 5) {
-        list.push(key);
         splitPath.pop();
 
         const parentFile = `${splitPath.join('/')}.md`;
