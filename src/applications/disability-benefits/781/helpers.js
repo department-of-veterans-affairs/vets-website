@@ -199,7 +199,7 @@ export const UploadPtsdDescription = ({ formData, formType }) => {
   );
 };
 
-export const IncidentIntroduction781 = ({ formData, formType }) => {
+export const IncidentIntroduction = ({ formData, formType }) => {
   const { incidentTitle } = getPtsdClassification(formData, formType);
   return (
     <div>

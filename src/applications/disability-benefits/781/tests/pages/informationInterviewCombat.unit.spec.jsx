@@ -12,7 +12,6 @@ describe('781 information interview screen', () => {
     formConfig.chapters.introductionPage.pages.informationInterviewCombat;
   const { schema, uiSchema } = page;
 
-
   it('should submit without validation errors', () => {
     const onSubmit = sinon.spy();
     const form = mount(
@@ -26,7 +25,8 @@ describe('781 information interview screen', () => {
           },
         }}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>,
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
