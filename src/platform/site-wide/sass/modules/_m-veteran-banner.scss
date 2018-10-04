@@ -16,10 +16,7 @@ $veteran-banner-mobile-height: 70px;
   background-size: 100% auto;
   height: $veteran-banner-mobile-height;
   max-width: $veteran-banner-mobile-width;
-}
-
-@include media($small-screen) {
-  .veteran-banner-image {
+  @include media($small-screen) {
     background-image: url(/img/homepage/veterans-banner-desktop.png);
     height: $veteran-banner-desktop-height;
     max-width: $veteran-banner-desktop-width;
