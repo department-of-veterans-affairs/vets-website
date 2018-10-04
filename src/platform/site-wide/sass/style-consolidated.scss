@@ -1,6 +1,15 @@
 $font-path: "~uswds/src/fonts";
 $image-path: "~uswds/src/img";
 
+@font-face {
+  font-family: "FontAwesome";
+  src: url("~font-awesome/fonts/fontawesome-webfont.woff2") format("woff2"),
+    url("~font-awesome/fonts/fontawesome-webfont.woff") format("woff"),
+    url("~font-awesome/fonts/fontawesome-webfont.eot") format("eot");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .consolidated {
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
 
