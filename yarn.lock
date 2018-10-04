@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@department-of-veterans-affairs/formation@^1.7.3":
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-1.7.3.tgz#caefce281747247d348441abc7785656db28369e"
-  integrity sha512-yt4fFoMo2l6vFV0gL6Dbp8SwiqpS/bTaczM1FL3y4MBw/s0hdi5spTG0XQRCRjhtTCQcJH0ON68MgIKnrrfeQA==
+"@department-of-veterans-affairs/formation@^1.7.4":
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-1.7.4.tgz#0c1cee5f82a06fb4eb9e714adb37e0c1f23abff5"
+  integrity sha512-ZlXBX56VgFj4u3jwxRSG0g2oEGH7c8lZycy5RIm8RRAOgjC5i3uALMtIbUIcsZOae0n9hh7OHtBczERSTyS0Vg==
   dependencies:
     classnames "^2.2.5"
     font-awesome "4"
