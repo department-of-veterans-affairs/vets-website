@@ -17,18 +17,13 @@ const INITIAL_STATE = {
     latitude: 40.17887331434698,
     longitude: -99.27246093750001,
   },
-  bounds: [
-    -77.53653,
-    38.3976763,
-    -76.53653,
-    39.3976763,
-  ],
+  bounds: [-77.53653, 38.3976763, -76.53653, 39.3976763],
   context: 20004,
   currentPage: 1,
   zoomLevel: 4,
   inProgress: false,
   searchBoundsInProgress: false,
-  fetchSvcsInProgress: false
+  fetchSvcsInProgress: false,
 };
 
 export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
@@ -57,25 +52,25 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: false,
-        fetchSvcsInProgress: true
+        fetchSvcsInProgress: true,
       };
     case FETCH_SERVICES_DONE:
       return {
         ...state,
         error: false,
-        fetchSvcsInProgress: false
+        fetchSvcsInProgress: false,
       };
     case SEARCH_FAILED:
       return {
         ...state,
         error: true,
-        inProgress: false
+        inProgress: false,
       };
     case SEARCH_COMPLETE:
       return {
         ...state,
         error: false,
-        inProgress: false
+        inProgress: false,
       };
     case SEARCH_QUERY_UPDATED:
       return {

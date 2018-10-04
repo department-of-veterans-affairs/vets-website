@@ -6,16 +6,17 @@ import NewDisability from '../components/NewDisability';
 
 import fullSchema from '../config/schema';
 
-const {
-  condition
-} = fullSchema.properties.newDisabilities.items.properties;
+const { condition } = fullSchema.properties.newDisabilities.items.properties;
 
-const conditionsDescriptions = new Set(Object.values(disabilityLabels).map(label => label.toLowerCase()));
+const conditionsDescriptions = new Set(
+  Object.values(disabilityLabels).map(label => label.toLowerCase()),
+);
 
 export const uiSchema = {
   'view:newDisabilities': {
-    'ui:title': 'Do you have any new service-connected disabilities or conditions to add to your claim?',
-    'ui:widget': 'yesNo'
+    'ui:title':
+      'Do you have any new service-connected disabilities or conditions to add to your claim?',
+    'ui:widget': 'yesNo',
   },
   newDisabilities: {
     'ui:title': 'Add a new disability',
@@ -23,30 +24,37 @@ export const uiSchema = {
       expandUnder: 'view:newDisabilities',
       viewField: NewDisability,
       reviewTitle: 'New Disabilities',
-      itemName: 'Disability'
+      itemName: 'Disability',
     },
     items: {
       condition: autosuggest.uiSchema(
         'If you know the name of your disability, please enter it here. Or, if you don’t know the name, please briefly describe your disability or condition in as much detail as possible.',
-        () => Promise.resolve(Object.entries(disabilityLabels).map(([key, value]) => ({
-          id: key,
-          label: value
-        }))),
+        () =>
+          Promise.resolve(
+            Object.entries(disabilityLabels).map(([key, value]) => ({
+              id: key,
+              label: value,
+            })),
+          ),
         {
           'ui:options': {
-            freeInput: true
-          }
-        }
+            freeInput: true,
+          },
+        },
       ),
       'view:descriptionInfo': {
         'ui:description': () => (
-          <AlertBox
-            isVisible
-            status="info">
-            <p>Below are some details that may be helpful to include when describing your disability:</p>
+          <AlertBox isVisible status="info">
+            <p>
+              Below are some details that may be helpful to include when
+              describing your disability:
+            </p>
             <ul>
               <li>The part of your body that's affected</li>
-              <li>If your disability is on the right side or left side of your body</li>
+              <li>
+                If your disability is on the right side or left side of your
+                body
+              </li>
               <li>The part of your body that isn't working right</li>
             </ul>
           </AlertBox>
@@ -59,11 +67,11 @@ export const uiSchema = {
             }
 
             return true;
-          }
-        }
-      }
-    }
-  }
+          },
+        },
+      },
+    },
+  },
 };
 
 export const schema = {
@@ -71,7 +79,7 @@ export const schema = {
   required: ['view:newDisabilities'],
   properties: {
     'view:newDisabilities': {
-      type: 'boolean'
+      type: 'boolean',
     },
     newDisabilities: {
       type: 'array',
@@ -81,9 +89,9 @@ export const schema = {
         required: ['condition'],
         properties: {
           condition,
-          'view:descriptionInfo': { type: 'object', properties: {} }
-        }
-      }
-    }
-  }
+          'view:descriptionInfo': { type: 'object', properties: {} },
+        },
+      },
+    },
+  },
 };

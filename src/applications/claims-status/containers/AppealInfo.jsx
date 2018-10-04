@@ -25,7 +25,13 @@ const appealsDownMessage = (
     <div className="small-12 columns">
       <div className="react-container">
         <h3>We’re sorry. Something went wrong on our end.</h3>
-        <p>Please refresh this page or try again later. If it still doesn’t work, you can call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</p>
+        <p>
+          Please refresh this page or try again later. If it still doesn’t work,
+          you can call the Vets.gov Help Desk at{' '}
+          <a href="tel:+18555747286">1-855-574-7286</a> (TTY:{' '}
+          <a href="tel:+18008294833">1-800-829-4833</a>
+          ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
+        </p>
       </div>
     </div>
   </div>
@@ -36,7 +42,12 @@ const recordsNotFoundMessage = (
     <div className="small-12 columns">
       <div className="react-container">
         <h3>We’re sorry. We can’t find your records in our system.</h3>
-        <p>If you think they should be here, please try again later or call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).</p>
+        <p>
+          If you think they should be here, please try again later or call the
+          Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a>{' '}
+          (TTY: <a href="tel:+18008294833">1-800-829-4833</a>
+          ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
+        </p>
       </div>
     </div>
   </div>
@@ -50,13 +61,24 @@ export class AppealInfo extends React.Component {
   }
 
   createHeading = () => {
-    const firstClaim = this.props.appeal.attributes.events.find(a => a.type === EVENT_TYPES.claimDecision);
-    const appealDate = firstClaim ? moment(firstClaim.date, 'YYYY-MM-DD').format(' MMMM YYYY') : '';
+    const firstClaim = this.props.appeal.attributes.events.find(
+      a => a.type === EVENT_TYPES.claimDecision,
+    );
+    const appealDate = firstClaim
+      ? moment(firstClaim.date, 'YYYY-MM-DD').format(' MMMM YYYY')
+      : '';
     return `Appeal of ${appealDate} Claim Decision`;
-  }
+  };
 
   render() {
-    const { params, appeal, fullName, appealsLoading, appealsAvailability, children } = this.props;
+    const {
+      params,
+      appeal,
+      fullName,
+      appealsLoading,
+      appealsAvailability,
+      children,
+    } = this.props;
     let appealContent;
 
     // Availability is determined by whether or not the API returned an appeals array
@@ -64,7 +86,9 @@ export class AppealInfo extends React.Component {
     // requested is available in the array. This is why we have to check for both
     // AVAILABLE status as well as whether or not the appeal exists.
     if (appealsLoading) {
-      appealContent = <LoadingIndicator message="Please wait while we load your appeal..."/>;
+      appealContent = (
+        <LoadingIndicator message="Please wait while we load your appeal..." />
+      );
     } else if (appealsAvailability === AVAILABLE && appeal) {
       // Maybe could simplify this to just check if (appeal) instead
       const claimHeading = this.createHeading();
@@ -72,32 +96,43 @@ export class AppealInfo extends React.Component {
         <div>
           <div>
             <Breadcrumbs>
-              <li><Link to="your-claims">Track Your Claims and Appeals</Link></li>
-              <li><strong>{claimHeading}</strong></li>
+              <li>
+                <Link to="your-claims">Track Your Claims and Appeals</Link>
+              </li>
+              <li>
+                <strong>{claimHeading}</strong>
+              </li>
             </Breadcrumbs>
           </div>
           <div className="row">
             <AppealHeader
               heading={claimHeading}
-              lastUpdated={appeal.attributes.updated}/>
+              lastUpdated={appeal.attributes.updated}
+            />
           </div>
           <div className="row">
             <div className="medium-8 columns">
-              <AppealsV2TabNav
-                appealId={params.id}/>
+              <AppealsV2TabNav appealId={params.id} />
               <div className="va-tab-content va-appeals-content">
-                {React.Children.map(children, child => React.cloneElement(child, { appeal, fullName }))}
+                {React.Children.map(children, child =>
+                  React.cloneElement(child, { appeal, fullName }),
+                )}
               </div>
             </div>
             <div className="medium-4 columns help-sidebar">
-              {appeal && <AppealHelpSidebar location={appeal.attributes.location} aoj={appeal.attributes.aoj}/>}
+              {appeal && (
+                <AppealHelpSidebar
+                  location={appeal.attributes.location}
+                  aoj={appeal.attributes.aoj}
+                />
+              )}
             </div>
           </div>
         </div>
       );
     } else if (appealsAvailability === AVAILABLE && !appeal) {
       // Yes, we have your appeals. No, the one you requested isn't one of them.
-      appealContent = <AppealNotFound/>;
+      appealContent = <AppealNotFound />;
     } else if (appealsAvailability === RECORD_NOT_FOUND_ERROR) {
       appealContent = recordsNotFoundMessage;
     } else {
@@ -109,7 +144,7 @@ export class AppealInfo extends React.Component {
       appealContent = appealsDownMessage;
     }
 
-    return (appealContent);
+    return appealContent;
   }
 }
 
@@ -130,7 +165,10 @@ AppealInfo.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  const { appealsLoading, v2Availability: appealsAvailability } = state.disability.status.claimsV2;
+  const {
+    appealsLoading,
+    v2Availability: appealsAvailability,
+  } = state.disability.status.claimsV2;
   const { v1ToV2IdMap } = state.disability.status.appeals;
   return {
     appeal: isolateAppeal(state, ownProps.params.id, v1ToV2IdMap),
@@ -142,4 +180,7 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = { getAppealsV2 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppealInfo);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AppealInfo);

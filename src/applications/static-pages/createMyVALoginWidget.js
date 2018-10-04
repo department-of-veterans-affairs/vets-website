@@ -6,13 +6,13 @@ export default function createMyVALoginWidget(store) {
   let unsubscribe;
   const homePageStoreListener = () => {
     if (root && isLoggedIn(store.getState())) {
-      root.innerHTML = '<button class="homepage-button primary-darker">' +
-        `<a href="${rootUrl}">` +
+      root.innerHTML =
+        `<a href="${rootUrl}" class="homepage-button">` +
         '<div class="icon-wrapper">' +
-        '<i class="fa fa-user-circle"></i>' +
+        '<i class="fa fa-user-circle-o homepage-button-icon"></i>' +
         '</div>' +
         '<div class="button-inner">' +
-        '<p>Go to your personalized “My VA” page</p>' +
+        '<span>Go to your personalized “My VA” page</span>' +
         '</div>' +
         '</a>';
       unsubscribe();

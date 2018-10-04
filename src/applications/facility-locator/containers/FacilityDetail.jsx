@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -27,21 +28,22 @@ class FacilityDetail extends Component {
       <div>
         <h1>{name}</h1>
         <div className="p1">
-          <FacilityTypeDescription location={facility}/>
-          <LocationAddress location={facility}/>
+          <FacilityTypeDescription location={facility} />
+          <LocationAddress location={facility} />
         </div>
+        <div>{this.renderFacilityWebsite()}</div>
         <div>
-          <LocationPhoneLink location={facility}/>
+          <LocationPhoneLink location={facility} />
         </div>
         { website &&
           <span>
             <a href={website} target="_blank">
-              <i className="fa fa-globe"/>Website
+              <i className="fa fa-globe" />Website
             </a>
           </span>
         }
         <div>
-          <LocationDirectionsLink location={facility}/>
+          <LocationDirectionsLink location={facility} />
         </div>
         <p className="p1">Planning to visit? Please call first as information on this page may change.</p>
       </div>
@@ -61,7 +63,7 @@ class FacilityDetail extends Component {
     if (currentQuery.inProgress) {
       return (
         <div>
-          <LoadingIndicator message="Loading information..."/>
+          <LoadingIndicator message="Loading information..." />
         </div>
       );
     }
@@ -71,18 +73,18 @@ class FacilityDetail extends Component {
         <div className="usa-width-two-thirds medium-8 columns">
           <div>
             {this.renderFacilityInfo()}
-            <ServicesAtFacility facility={facility}/>
+            <ServicesAtFacility facility={facility} />
           </div>
           <div>
-            <AppointmentInfo location={facility}/>
-            <AccessToCare location={facility}/>
+            <AppointmentInfo location={facility} />
+            <AccessToCare location={facility} />
           </div>
         </div>
         <div className="usa-width-one-third medium-4 columns">
           <div>
-            <LocationMap info={facility}/>
+            <LocationMap info={facility} />
             <div className="mb2">
-              <LocationHours location={facility}/>
+              <LocationHours location={facility} />
             </div>
           </div>
         </div>
@@ -99,4 +101,7 @@ function mapStateToProps(state) {
   return { facility: state.searchResult.selectedResult, currentQuery: state.searchQuery };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FacilityDetail);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(FacilityDetail);

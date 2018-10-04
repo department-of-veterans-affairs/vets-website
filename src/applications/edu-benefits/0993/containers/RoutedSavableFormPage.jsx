@@ -12,7 +12,7 @@ import SaveStatus from '../../../../platform/forms/save-in-progress/SaveStatus';
 import {
   saveErrors,
   autoSaveForm,
-  saveAndRedirectToReturnUrl
+  saveAndRedirectToReturnUrl,
 } from '../../../../platform/forms/save-in-progress/actions';
 import { getFormContext } from '../../../../platform/forms/save-in-progress/selectors';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
@@ -23,10 +23,10 @@ class RoutedSavableFormPage extends React.Component {
     this.debouncedAutoSave = _.debounce(1000, this.autoSave);
   }
 
-  onChange = (formData) => {
+  onChange = formData => {
     this.props.setData(formData);
     this.debouncedAutoSave();
-  }
+  };
 
   autoSave() {
     const { form, user } = this.props;
@@ -47,15 +47,16 @@ class RoutedSavableFormPage extends React.Component {
           isLoggedIn={user.login.currentlyLoggedIn}
           showLoginModal={this.props.showLoginModal}
           toggleLoginModal={this.props.toggleLoginModal}
-          form={form}>
-        </SaveStatus>
+          form={form}
+        />
         <SaveFormLink
           locationPathname={this.props.location.pathname}
           form={form}
           user={user}
           showLoginModal={this.props.showLoginModal}
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-          toggleLoginModal={this.props.toggleLoginModal}/>
+          toggleLoginModal={this.props.toggleLoginModal}
+        />
       </div>
     );
 
@@ -65,7 +66,8 @@ class RoutedSavableFormPage extends React.Component {
         blockScrollOnMount={saveErrors.has(form.savedStatus)}
         setData={this.onChange}
         formContext={getFormContext({ user, form })}
-        contentAfterButtons={contentAfterButtons}/>
+        contentAfterButtons={contentAfterButtons}
+      />
     );
   }
 }
@@ -74,7 +76,7 @@ function mapStateToProps(state) {
   return {
     form: state.form,
     user: state.user,
-    showLoginModal: state.navigation.showLoginModal
+    showLoginModal: state.navigation.showLoginModal,
   };
 }
 
@@ -83,7 +85,7 @@ const mapDispatchToProps = {
   saveAndRedirectToReturnUrl,
   autoSaveForm,
   toggleLoginModal,
-  uploadFile
+  uploadFile,
 };
 
 RoutedSavableFormPage.propTypes = {
@@ -92,15 +94,22 @@ RoutedSavableFormPage.propTypes = {
     pageConfig: PropTypes.shape({
       pageKey: PropTypes.string.isRequired,
       schema: PropTypes.object.isRequired,
-      uiSchema: PropTypes.object.isRequired
+      uiSchema: PropTypes.object.isRequired,
     }),
-    pageList: PropTypes.arrayOf(PropTypes.shape({
-      path: PropTypes.string.isRequired
-    }))
+    pageList: PropTypes.arrayOf(
+      PropTypes.shape({
+        path: PropTypes.string.isRequired,
+      }),
+    ),
   }),
-  setData: PropTypes.func
+  setData: PropTypes.func,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RoutedSavableFormPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(RoutedSavableFormPage),
+);
 
 export { RoutedSavableFormPage };

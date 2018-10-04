@@ -1,7 +1,9 @@
 /* eslint-disable no-use-before-declare */
-/* eslint-disable react/sort-comp */
-/* eslint-disable indent */
 /* eslint-disable react/jsx-indent */
+/* eslint-disable prettier/prettier */
+/* eslint-disable arrow-body-style */
+/* eslint-disable react/jsx-closing-bracket-location */
+
 
 // These are added in by Downshift so linting error needs to be ignored
 /* eslint-disable jsx-a11y/label-has-for */
@@ -69,18 +71,18 @@ class ServiceTypeAhead extends Component {
             selectedItem
           }) => (
             <div>
-              <label { ...getLabelProps() }>
+              <label {...getLabelProps()}>
                 Service type (optional)
               </label>
               <span id="service-typeahead">
-                <input { ...getInputProps({ placeholder: 'Like primary care, cardiology' }) }/>
+                <input {...getInputProps({ placeholder: 'Like primary care, cardiology' })} />
                 { (isOpen && inputValue.length >= 2)
                   ? <div className="dropdown" role="listbox">
                       { services
                         .filter(svc => this.shouldShow(inputValue, svc))
                         .map((svc, index) => (
                           <div key={svc.Name}
-                            { ...getItemProps({
+                            {...getItemProps({
                                 item: svc,
                                 className: this.optionClasses(index === highlightedIndex),
                                 role: 'option',

@@ -1,3 +1,5 @@
+/* eslint-disable arrow-body-style */
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -8,8 +10,7 @@ import SearchResult from './SearchResult';
 import Pagination from '@department-of-veterans-affairs/formation/Pagination';
 
 class ResultsList extends Component {
-
-  handlePageSelect = (page) => {
+  handlePageSelect = page => {
     const { currentQuery } = this.props;
 
     this.props.searchWithBounds({
@@ -18,7 +19,7 @@ class ResultsList extends Component {
       serviceType: currentQuery.serviceType,
       page,
     });
-  }
+  };
 
   render() {
     const { results, isMobile, currentQuery, pagination: { currentPage, totalPages } } = this.props;
@@ -26,7 +27,7 @@ class ResultsList extends Component {
     if (currentQuery.inProgress) {
       return (
         <div>
-          <LoadingIndicator message="Loading results..."/>
+          <LoadingIndicator message="Loading results..." />
         </div>
       );
     }
@@ -34,7 +35,8 @@ class ResultsList extends Component {
     if (!results || results.length < 1) {
       return (
         <div className="facility-result">
-          No facilities found. Please try entering a different search term (Street, City, State or Zip) and click search to find facilities.
+          No facilities found. Please try entering a different search term
+          (Street, City, State or Zip) and click search to find facilities.
         </div>
       );
     }
@@ -47,15 +49,19 @@ class ResultsList extends Component {
             results.map(r => {
               return isMobile ? (
                 <div key={r.id} className="mobile-search-result">
-                  <SearchResult result={r} currentLocation={currentQuery.position}/>
+                  <SearchResult result={r} currentLocation={currentQuery.position} />
                 </div>
               ) : (
-                <SearchResult key={r.id} result={r} currentLocation={currentQuery.position}/>
+                <SearchResult key={r.id} result={r} currentLocation={currentQuery.position} />
               );
             })
           }
         </div>
-        <Pagination onPageSelect={this.handlePageSelect} page={currentPage} pages={totalPages}/>
+        <Pagination
+          onPageSelect={this.handlePageSelect}
+          page={currentPage}
+          pages={totalPages}
+        />
       </div>
     );
   }
@@ -67,10 +73,16 @@ ResultsList.propTypes = {
 };
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    updateSearchQuery,
-    searchWithBounds,
-  }, dispatch);
+  return bindActionCreators(
+    {
+      updateSearchQuery,
+      searchWithBounds,
+    },
+    dispatch,
+  );
 }
 
-export default connect(null, mapDispatchToProps)(ResultsList);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ResultsList);

@@ -23,13 +23,13 @@ const defaultProps = {
     terms: { loading: false, terms: {} },
     savedForms: [],
     prefillsAvailable: [],
-    loading: true
-  }
+    loading: true,
+  },
 };
 
 describe('<LettersApp>', () => {
   it('should render AppContent', () => {
-    const tree = SkinDeep.shallowRender(<LettersApp {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<LettersApp {...defaultProps} />);
     // div() throws an exception if it can't find the selector
     expect(tree.dive(['AppContent'])).to.not.be.null;
   });
@@ -39,7 +39,7 @@ describe('<LettersApp>', () => {
       const tree = SkinDeep.shallowRender(
         <AppContent isDataAvailable>
           <span>Rendered!</span>
-        </AppContent>
+        </AppContent>,
       );
       expect(tree.text()).to.equal('Rendered!');
     });
@@ -48,10 +48,12 @@ describe('<LettersApp>', () => {
       const tree = SkinDeep.shallowRender(
         <AppContent isDataAvailable={false}>
           <span>Rendered!</span>
-        </AppContent>
+        </AppContent>,
       );
       const text = tree.text();
-      expect(text).to.contain('We weren’t able to find information about your VA letters.');
+      expect(text).to.contain(
+        'We weren’t able to find information about your VA letters.',
+      );
       expect(text).to.not.contain('Rendered!');
     });
   });

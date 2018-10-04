@@ -1,13 +1,13 @@
 /* eslint-disable react/jsx-indent */
-/* eslint-disable indent */
+/* eslint-disable prettier/prettier */
 import React from 'react';
 
 /**
  * Description block for a CC Provider
- * 
+ *
  * @param {{provider: object, details?: boolean}} props
  *   `provider` is the specific CCProvider search result object.
- * 
+ *
  *   `details` is a flag as to whether or not this component is being
  *      used on the `/facilities/provider/{id}` details page as the
  *      PPMS provided description of each specialty/service is included

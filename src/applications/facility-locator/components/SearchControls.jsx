@@ -1,3 +1,6 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable arrow-body-style */
+/* eslint-disable react/jsx-closing-bracket-location */
 import React, { Component } from 'react';
 import FacilityTypeDropdown from './FacilityTypeDropdown';
 import ServiceTypeAhead from './ServiceTypeAhead';
@@ -6,41 +9,41 @@ import { LocationType } from '../constants';
 import {
   healthServices,
   benefitsServices,
-  vetCenterServices
+  vetCenterServices,
 } from '../config';
 
 class SearchControls extends Component {
   handleEditSearch = () => {
     this.props.onChange({ active: false });
-  }
+  };
 
-  handleQueryChange = (e) => {
+  handleQueryChange = e => {
     this.props.onChange({ searchString: e.target.value });
-  }
+  };
 
   handleFacilityTypeChange = (option) => {
     const facilityType = (option === LocationType.ALL) ? null : option;
     this.props.onChange({ facilityType, serviceType: null });
-  }
+  };
 
   handleServiceTypeChange = ({ target }) => {
     const option = target.value;
     const serviceType = (option === 'All') ? null : option;
     this.props.onChange({ serviceType });
-  }
+  };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
 
     const { facilityType } = this.props.currentQuery;
     // Report event here to only send analytics event when a user clicks on the button
     recordEvent({
       event: 'fl-search',
-      'fl-search-fac-type': facilityType
+      'fl-search-fac-type': facilityType,
     });
 
     this.props.onSubmit();
-  }
+  };
 
   renderServiceTypeDropdown = () => {
     const { facilityType, serviceType } = this.props.currentQuery;
@@ -48,7 +51,7 @@ class SearchControls extends Component {
       LocationType.HEALTH,
       LocationType.BENEFITS,
       LocationType.VET_CENTER,
-      LocationType.CC_PROVIDER
+      LocationType.CC_PROVIDER,
     ].includes(facilityType);
 
     let services;
@@ -67,7 +70,7 @@ class SearchControls extends Component {
         }, { All: 'Show all facilities' });
         break;
       case LocationType.CC_PROVIDER:
-        return <ServiceTypeAhead onSelect={this.handleServiceTypeChange}/>;
+        return <ServiceTypeAhead onSelect={this.handleServiceTypeChange} />;
       default:
         services = {};
     }
@@ -88,12 +91,13 @@ class SearchControls extends Component {
           id="service-type-dropdown"
           disabled={disabled}
           value={serviceType || ''}
-          onChange={this.handleServiceTypeChange}>
+          onChange={this.handleServiceTypeChange}
+        >
           {options}
         </select>
       </span>
     );
-  }
+  };
 
   render() {
     const { currentQuery, isMobile } = this.props;
@@ -121,18 +125,18 @@ class SearchControls extends Component {
               type="text"
               onChange={this.handleQueryChange}
               value={currentQuery.searchString}
-              title="Your location: Street, City, State or Zip"/>
+              title="Your location: Street, City, State or Zip" />
           </div>
           <div className="columns medium-3-5">
             <FacilityTypeDropdown
               facilityType={this.props.currentQuery.facilityType}
-              onChange={this.handleFacilityTypeChange}/>
+              onChange={this.handleFacilityTypeChange} />
           </div>
           <div className="columns medium-3-4">
             {this.renderServiceTypeDropdown()}
           </div>
           <div className="columns medium-1-2">
-            <input type="submit" value="Search"/>
+            <input type="submit" value="Search" />
           </div>
         </form>
       </div>

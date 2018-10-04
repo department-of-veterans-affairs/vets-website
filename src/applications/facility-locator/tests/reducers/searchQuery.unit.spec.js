@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { expect } from 'chai';
 import {
   SEARCH_STARTED,
@@ -16,12 +17,7 @@ const INITIAL_STATE = {
     latitude: 38.8976763,
     longitude: -77.03653,
   },
-  bounds: [
-    -77.53653,
-    38.3976763,
-    -76.53653,
-    39.3976763,
-  ],
+  bounds: [-77.53653, 38.3976763, -76.53653, 39.3976763],
   context: 20004,
   inProgress: false,
   currentPage: 1,

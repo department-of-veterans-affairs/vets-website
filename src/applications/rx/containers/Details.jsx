@@ -20,20 +20,21 @@ export class Details extends React.Component {
   makeContactCard() {
     const { prescription } = this.props;
 
-    const facilityName = _.get(
-      prescription,
-      ['rx', 'attributes', 'facilityName']
-    );
+    const facilityName = _.get(prescription, [
+      'rx',
+      'attributes',
+      'facilityName',
+    ]);
 
-    const phoneNumber = _.get(
-      prescription,
-      ['trackings', '0', 'attributes', 'rxInfoPhoneNumber']
-    );
+    const phoneNumber = _.get(prescription, [
+      'trackings',
+      '0',
+      'attributes',
+      'rxInfoPhoneNumber',
+    ]);
 
     return (
-      <ContactCard
-        facilityName={facilityName}
-        phoneNumber={phoneNumber}/>
+      <ContactCard facilityName={facilityName} phoneNumber={phoneNumber} />
     );
   }
 
@@ -47,19 +48,14 @@ export class Details extends React.Component {
       Quantity: attrs.quantity,
 
       'Prescription status': status ? (
-        <GlossaryLink
-          term={status}
-          onClick={this.props.openGlossaryModal}/>
+        <GlossaryLink term={status} onClick={this.props.openGlossaryModal} />
       ) : null,
 
-      'Last fill date': formatDate(
-        attrs.refillDate,
-        { validateInPast: true }
-      ),
+      'Last fill date': formatDate(attrs.refillDate, { validateInPast: true }),
 
       'Expiration date': formatDate(attrs.expirationDate),
 
-      Refills: `${attrs.refillRemaining} remaining`
+      Refills: `${attrs.refillRemaining} remaining`,
     };
 
     let refillButton;
@@ -68,12 +64,13 @@ export class Details extends React.Component {
       refillButton = (
         <SubmitRefill
           className="rx-prescription-button"
-          onSubmit={(e) => {
+          onSubmit={e => {
             e.preventDefault();
             this.props.openRefillModal(attrs);
           }}
           refillId={attrs.id}
-          text="Refill Prescription"/>
+          text="Refill Prescription"
+        />
       );
     }
 
@@ -81,7 +78,8 @@ export class Details extends React.Component {
       <div id="rx-info">
         <TableVerticalHeader
           className="usa-table-borderless rx-table"
-          data={data}/>
+          data={data}
+        />
         {refillButton}
       </div>
     );
@@ -103,14 +101,17 @@ export class Details extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const rxState = state.health.rx;
   return { prescription: rxState.prescriptions.currentItem };
 };
 
 const mapDispatchToProps = {
   openGlossaryModal,
-  openRefillModal
+  openRefillModal,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Details);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Details);

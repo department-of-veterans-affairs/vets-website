@@ -1,14 +1,17 @@
+/* eslint-disable prettier/prettier */
 import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
 import React from 'react';
-import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, {
+  externalServices,
+} from '../../../platform/monitoring/DowntimeNotification';
 import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 import { ccLocatorEnabled } from '../config';
 
 /**
  * Preserves the search form in the UI & address bar when
  * navigating back to the search/map page.
- * 
+ *
  * @param {Object} e The click event
  */
 const goBackHistory = (e) => {
@@ -42,10 +45,11 @@ class FacilityLocatorApp extends React.Component {
           {this.renderBreadcrumbs(location, selectedResult)}
         </Breadcrumbs>
         <div className="row">
-          <DowntimeNotification appTitle="facility locator tool" dependencies={[externalServices.arcgis]}>
-            <div className="facility-locator">
-              {this.props.children}
-            </div>
+          <DowntimeNotification
+            appTitle="facility locator tool"
+            dependencies={[externalServices.arcgis]}
+          >
+            <div className="facility-locator">{this.props.children}</div>
           </DowntimeNotification>
         </div>
       </div>
@@ -59,4 +63,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, null)(FacilityLocatorApp);
+export default connect(
+  mapStateToProps,
+  null,
+)(FacilityLocatorApp);

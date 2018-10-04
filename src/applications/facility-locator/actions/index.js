@@ -1,4 +1,6 @@
 /* eslint-disable no-use-before-define */
+/* eslint-disable prettier/prettier */
+/* eslint-disable arrow-body-style */
 import isEmpty from 'lodash/isEmpty';
 import { mapboxClient } from '../components/MapboxClient';
 import { reverseGeocodeBox } from '../utils/helpers';
@@ -28,7 +30,7 @@ export const updateSearchQuery = (query) => ({
 
 /**
  * Get the details of a single VA facility.
- * 
+ *
  * @param {string} id Facility or Provider ID as provided by the data source
  * @param {Object} location The actual location object if we already have it.
  *                 (This is a kinda hacky way to do a force update of the Redux
@@ -46,7 +48,7 @@ export const fetchVAFacility = (id, location = null) => {
     dispatch({
       type: SEARCH_STARTED,
       payload: {
-        active: true
+        active: true,
       }
     });
 
@@ -66,7 +68,7 @@ export const fetchProviderDetail = (id) => {
     dispatch({
       type: SEARCH_STARTED,
       payload: {
-        active: true
+        active: true,
       }
     });
 
@@ -231,5 +233,4 @@ export const getProviderSvcs = () => {
         (error) => dispatch({ type: SEARCH_FAILED, error })
       );
   };
-
 };

@@ -10,19 +10,19 @@ const props = {
 
 describe('<SubmitRefill>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<SubmitRefill {...props}/>);
+    const tree = SkinDeep.shallowRender(<SubmitRefill {...props} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
   it('should have the expected className', () => {
-    const tree = SkinDeep.shallowRender(<SubmitRefill {...props}/>);
+    const tree = SkinDeep.shallowRender(<SubmitRefill {...props} />);
 
     expect(tree.props.className).to.equal('rx-refill-form');
   });
 
   it('should show the expected button text', () => {
-    const tree = SkinDeep.shallowRender(<SubmitRefill {...props}/>);
+    const tree = SkinDeep.shallowRender(<SubmitRefill {...props} />);
 
     expect(tree.subTree('button').text()).to.equal('Button text');
   });

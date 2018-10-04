@@ -13,7 +13,7 @@ describe('Schemaform <FormStartControls>', () => {
 
   it('should render 1 button when not logged in', () => {
     const routerSpy = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
@@ -23,14 +23,15 @@ describe('Schemaform <FormStartControls>', () => {
         formSaved={false}
         startPage={startPage}
         router={routerSpy}
-        fetchInProgressForm={fetchSpy}/>
+        fetchInProgressForm={fetchSpy}
+      />,
     );
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(1);
   });
   it('should render 1 button when logged in with no saved form', () => {
     const routerSpy = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
@@ -40,14 +41,15 @@ describe('Schemaform <FormStartControls>', () => {
         formSaved={false}
         startPage={startPage}
         router={routerSpy}
-        fetchInProgressForm={fetchSpy}/>
+        fetchInProgressForm={fetchSpy}
+      />,
     );
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(1);
   });
   it('should render 4 buttons when logged in with a saved form', () => {
     const routerSpy = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
     const tree = SkinDeep.shallowRender(
@@ -57,15 +59,18 @@ describe('Schemaform <FormStartControls>', () => {
         formSaved
         startPage={startPage}
         router={routerSpy}
-        fetchInProgressForm={fetchSpy}/>
+        fetchInProgressForm={fetchSpy}
+      />,
     );
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(4);
-    expect(tree.subTree('Modal').everySubTree('ProgressButton').length).to.equal(2);
+    expect(
+      tree.subTree('Modal').everySubTree('ProgressButton').length,
+    ).to.equal(2);
   });
   it('should go to the first page when "Continue" is clicked', () => {
     const routerSpy = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
@@ -75,7 +80,8 @@ describe('Schemaform <FormStartControls>', () => {
         formSaved
         startPage={startPage}
         router={routerSpy}
-        fetchInProgressForm={fetchSpy}/>
+        fetchInProgressForm={fetchSpy}
+      />,
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-primary').click();
@@ -85,7 +91,7 @@ describe('Schemaform <FormStartControls>', () => {
 
   it('should go to the first page when "Start over" is clicked', () => {
     const routerSpy = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
@@ -95,7 +101,8 @@ describe('Schemaform <FormStartControls>', () => {
         formSaved
         startPage={startPage}
         router={routerSpy}
-        fetchInProgressForm={fetchSpy}/>
+        fetchInProgressForm={fetchSpy}
+      />,
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-secondary').click();
@@ -104,7 +111,7 @@ describe('Schemaform <FormStartControls>', () => {
   });
   it('should go to the returnUrl when "Resume previous application" is clicked', () => {
     const routerSpy = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
     const fetchSpy = sinon.stub();
     fetchSpy.returns(Promise.resolve('return/url'));
@@ -115,7 +122,8 @@ describe('Schemaform <FormStartControls>', () => {
         formSaved
         startPage={startPage}
         router={routerSpy}
-        fetchInProgressForm={fetchSpy}/>
+        fetchInProgressForm={fetchSpy}
+      />,
     );
     const findDOM = findDOMNode(tree);
     findDOM.querySelector('.usa-button-primary').click();
@@ -125,7 +133,7 @@ describe('Schemaform <FormStartControls>', () => {
 
   it('should do prefill when "Continue" is clicked', () => {
     const routerSpy = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
@@ -135,7 +143,8 @@ describe('Schemaform <FormStartControls>', () => {
         startPage={startPage}
         router={routerSpy}
         fetchInProgressForm={fetchSpy}
-        prefillAvailable/>
+        prefillAvailable
+      />,
     );
     const formDOM = getFormDOM(tree);
     formDOM.click('.usa-button-primary');
@@ -145,7 +154,7 @@ describe('Schemaform <FormStartControls>', () => {
 
   it('should show modal and remove form when starting over', () => {
     const routerSpy = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
@@ -155,7 +164,8 @@ describe('Schemaform <FormStartControls>', () => {
         router={routerSpy}
         formSaved
         removeInProgressForm={fetchSpy}
-        prefillAvailable/>
+        prefillAvailable
+      />,
     );
     const formDOM = getFormDOM(tree);
     document.body.appendChild(formDOM);

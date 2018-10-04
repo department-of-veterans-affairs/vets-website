@@ -16,43 +16,46 @@ const initialState = {
 
 describe('eligibility reducer', () => {
   it('should reset spouse active duty field after choosing military status', () => {
-    const state = eligibilityReducer({
-      ...initialState,
-      militaryStatus: 'spouse',
-      spouseActiveDuty: 'yes'
-    }, {
-      type: 'ELIGIBILITY_CHANGED',
-      field: 'militaryStatus',
-      value: 'veteran'
-    });
+    const state = eligibilityReducer(
+      {
+        ...initialState,
+        militaryStatus: 'spouse',
+        spouseActiveDuty: 'yes',
+      },
+      {
+        type: 'ELIGIBILITY_CHANGED',
+        field: 'militaryStatus',
+        value: 'veteran',
+      },
+    );
 
     expect(state.militaryStatus).to.eql('veteran');
     expect(state.spouseActiveDuty).to.eql('no');
   });
 
   it('should reset fields after choosing GI Bill', () => {
-    const state = eligibilityReducer({
-      ...initialState,
-      giBillChapter: '31',
-      eligForPostGiBill: 'yes'
-    }, {
-      type: 'ELIGIBILITY_CHANGED',
-      field: 'giBillChapter',
-      value: '30'
-    });
+    const state = eligibilityReducer(
+      {
+        ...initialState,
+        giBillChapter: '31',
+        eligForPostGiBill: 'yes',
+      },
+      {
+        type: 'ELIGIBILITY_CHANGED',
+        field: 'giBillChapter',
+        value: '30',
+      },
+    );
 
     expect(state).to.eql({ ...initialState, giBillChapter: '30' });
   });
 
   it('should update eligibility for general field', () => {
-    const state = eligibilityReducer(
-      initialState,
-      {
-        type: 'ELIGIBILITY_CHANGED',
-        field: 'fieldName',
-        value: 'fieldValue'
-      }
-    );
+    const state = eligibilityReducer(initialState, {
+      type: 'ELIGIBILITY_CHANGED',
+      field: 'fieldName',
+      value: 'fieldValue',
+    });
 
     expect(state.fieldName).to.eql('fieldValue');
   });

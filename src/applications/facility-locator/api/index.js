@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import MockApi from './MockLocatorApi';
 import LiveApi from './LocatorApi';
 

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { ccLocatorEnabled } from '../config';
 
 /**
@@ -18,7 +19,7 @@ export const LocationType = {
   HEALTH: 'health',
   BENEFITS: 'benefits',
   CEMETARY: 'cemetery',
-  VET_CENTER: 'vet_center'
+  VET_CENTER: 'vet_center',
 };
 
 /**
@@ -28,26 +29,27 @@ export const FacilityType = {
   VA_HEALTH_FACILITY: 'va_health_facility',
   VA_CEMETARY: 'va_cemetery',
   VA_BENEFITS_FACILITY: 'va_benefits_facility',
-  VET_CENTER: 'vet_center'
+  VET_CENTER: 'vet_center',
 };
 
 /**
  * Defines the options available for the Location Type Dropdown
  */
 export const LOCATION_OPTIONS = ccLocatorEnabled()
+// TODO: Remove feature flag when going live
   ? [
     'all',
     'health',
     'cc_provider',
     'benefits',
     'cemetery',
-    'vet_center'
+    'vet_center',
   ] : [
     'all',
     'health',
     'benefits',
     'cemetery',
-    'vet_center'
+    'vet_center',
   ];
 
 /**

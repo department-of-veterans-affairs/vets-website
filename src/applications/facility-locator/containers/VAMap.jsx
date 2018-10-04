@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/jsx-closing-bracket-location */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -37,7 +39,7 @@ class VAMap extends Component {
       leading: true,
     });
 
-    this.listener = browserHistory.listen((location) => {
+    this.listener = browserHistory.listen(location => {
       this.syncStateWithLocation(location);
     });
   }
@@ -78,7 +80,7 @@ class VAMap extends Component {
         bounds: currentQuery.bounds,
         facilityType: currentQuery.facilityType,
         serviceType: currentQuery.serviceType,
-        page: currentQuery.currentPage
+        page: currentQuery.currentPage,
       });
     }
   }
@@ -90,7 +92,9 @@ class VAMap extends Component {
 
     if (!areGeocodeEqual(currentQuery.position, newQuery.position)) {
       this.updateUrlParams({
-        location: `${newQuery.position.latitude},${newQuery.position.longitude}`,
+        location: `${newQuery.position.latitude},${
+          newQuery.position.longitude
+        }`,
         context: newQuery.context,
         address: newQuery.searchString,
       });
@@ -106,7 +110,7 @@ class VAMap extends Component {
         bounds: newQuery.bounds,
         facilityType: newQuery.facilityType,
         serviceType: newQuery.serviceType,
-        page: resultsPage
+        page: resultsPage,
       });
     }
 
@@ -197,7 +201,7 @@ class VAMap extends Component {
     })).join('&');
 
     browserHistory.push(`/facilities${location.pathname}?${queryParams}`);
-  }
+  };
 
   /**
    * Generates a bounding box from a lat/long geocoordinate.
@@ -224,11 +228,12 @@ class VAMap extends Component {
         position
       });
 
-      this.updateUrlParams({
-        address: placeName,
-        context: zipCode,
-      });
-    });
+        this.updateUrlParams({
+          address: placeName,
+          context: zipCode,
+        });
+      },
+    );
   }
 
   handleSearch = () => {
@@ -244,7 +249,7 @@ class VAMap extends Component {
   handleBoundsChanged = () => {
     const { currentQuery } = this.props;
     const { position } = currentQuery;
-    const { leafletElement }  = this.refs.map;
+    const { leafletElement } = this.refs.map;
 
     let center = {
       lat: position.latitude,
@@ -274,17 +279,17 @@ class VAMap extends Component {
       },
       zoomLevel: zoom,
     });
-  }
+  };
 
   centerMap = () => {
     setTimeout(() => {
       if (this.refs.map && this.refs.facilityMarkers) {
         this.refs.map.leafletElement.fitBounds(
-          this.refs.facilityMarkers.leafletElement.getBounds()
+          this.refs.facilityMarkers.leafletElement.getBounds(),
         );
       }
     }, 1);
-  }
+  };
 
   /**
    * Use the list of search results to generate pushpins for the map.
@@ -309,11 +314,14 @@ class VAMap extends Component {
         onClick: () => {
           const searchResult = document.getElementById(r.id);
           if (searchResult) {
-            Array.from(document.getElementsByClassName('facility-result')).forEach((e) => {
+            Array.from(
+              document.getElementsByClassName('facility-result'),
+            ).forEach(e => {
               e.classList.remove('active');
             });
             searchResult.classList.add('active');
-            document.getElementById('searchResultsContainer').scrollTop = searchResult.offsetTop;
+            document.getElementById('searchResultsContainer').scrollTop =
+              searchResult.offsetTop;
           }
           this.props.fetchVAFacility(r.id, r);
         },
@@ -361,9 +369,7 @@ class VAMap extends Component {
           );
         case FacilityType.VET_CENTER:
           return (
-            <VetCenterMarker {...iconProps}>
-              {popupContent}
-            </VetCenterMarker>
+            <VetCenterMarker {...iconProps}>{popupContent}</VetCenterMarker>
           );
         case undefined:
           if (r.type === LocationType.CC_PROVIDER) {
@@ -387,7 +393,7 @@ class VAMap extends Component {
     return (
       <div>
         <div className="columns small-12">
-          <SearchControls currentQuery={currentQuery} onChange={this.props.updateSearchQuery} onSubmit={this.handleSearch} isMobile={true}/>
+          <SearchControls currentQuery={currentQuery} onChange={this.props.updateSearchQuery} onSubmit={this.handleSearch} isMobile={true} />
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
@@ -396,7 +402,7 @@ class VAMap extends Component {
             <TabPanel>
               <div className="facility-search-results">
                 <ResultsList results={results} pagination={pagination} isMobile
-                  currentQuery={currentQuery} updateUrlParams={this.updateUrlParams}/>
+                  currentQuery={currentQuery} updateUrlParams={this.updateUrlParams} />
               </div>
             </TabPanel>
             <TabPanel>
@@ -408,14 +414,14 @@ class VAMap extends Component {
                   url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                   attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
                     <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
-                    Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
+                    Imagery © <a href="http://mapbox.com">Mapbox</a>' />
                 <FeatureGroup ref="facilityMarkers">
                   {this.renderFacilityMarkers()}
                 </FeatureGroup>
               </Map>
               { selectedResult &&
                 <div className="mobile-search-result">
-                  <SearchResult result={selectedResult}/>
+                  <SearchResult result={selectedResult} />
                 </div>
               }
             </TabPanel>
@@ -434,7 +440,11 @@ class VAMap extends Component {
     return (
       <div className="desktop-container">
         <div>
-          <SearchControls currentQuery={currentQuery} onChange={this.props.updateSearchQuery} onSubmit={this.handleSearch}/>
+          <SearchControls
+            currentQuery={currentQuery}
+            onChange={this.props.updateSearchQuery}
+            onSubmit={this.handleSearch}
+          />
         </div>
         <div className="row">
           <div className="columns usa-width-one-third medium-4 small-12"
@@ -442,7 +452,7 @@ class VAMap extends Component {
             <div className="facility-search-results">
               <div>
                 <ResultsList results={results} pagination={pagination}
-                  currentQuery={currentQuery} updateUrlParams={this.updateUrlParams}/>
+                  currentQuery={currentQuery} updateUrlParams={this.updateUrlParams} />
               </div>
             </div>
           </div>
@@ -454,7 +464,7 @@ class VAMap extends Component {
                 url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                 attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
                   <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
-                  Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
+                  Imagery © <a href="http://mapbox.com">Mapbox</a>' />
               <FeatureGroup ref="facilityMarkers">
                 {this.renderFacilityMarkers()}
               </FeatureGroup>
@@ -481,7 +491,7 @@ class VAMap extends Component {
 }
 
 VAMap.contextTypes = {
-  router: PropTypes.object
+  router: PropTypes.object,
 };
 
 function mapStateToProps(state) {
@@ -502,4 +512,7 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(VAMap);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(VAMap);

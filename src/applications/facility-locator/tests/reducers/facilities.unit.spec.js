@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { expect } from 'chai';
 
 import {
@@ -36,8 +37,8 @@ describe('facilities reducer', () => {
         meta: {
           pagination: {
             currentPage: 1,
-          }
-        }
+          },
+        },
       },
     });
 

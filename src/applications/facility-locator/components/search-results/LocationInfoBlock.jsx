@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
@@ -25,18 +26,18 @@ const LocationInfoBlock = ({ location, currentLocation }) => {
             <h5>{name}</h5>
           </Link>
           { location.attributes.orgName && <h6>{location.attributes.orgName}</h6> }
-          <ProviderServiceDescription provider={location}/>
+          <ProviderServiceDescription provider={location} />
         </span>
       ) : (
         <span>
           <Link to={`facility/${location.id}`}>
             <h5>{name}</h5>
           </Link>
-          <FacilityTypeDescription location={location}/>
+          <FacilityTypeDescription location={location} />
         </span>
       )}
       <p>
-        <LocationAddress location={location}/>
+        <LocationAddress location={location} />
       </p>
       { distance && <p><strong>Distance:</strong> {distance.toFixed(1)} miles</p> }
     </div>

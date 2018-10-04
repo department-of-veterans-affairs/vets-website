@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/jsx-closing-bracket-location */
 import React, { Component } from 'react';
 import { kebabCase } from 'lodash/fp';
 import classNames from 'classnames';
@@ -6,14 +8,15 @@ import { facilityTypes } from '../config';
 import { keyMap } from '../utils/helpers';
 import { LOCATION_OPTIONS, LocationType } from '../constants';
 
-const facilityOptionClasses = (item, selected) => classNames(
-  'dropdown-option',
-  { selected },
-  { 'icon-option': item && item !== 'all' },
-  { [`${kebabCase(item)}-icon`]: item && item !== 'all' }
-);
+const facilityOptionClasses = (item, selected) =>
+  classNames(
+    'dropdown-option',
+    { selected },
+    { 'icon-option': item && item !== 'all' },
+    { [`${kebabCase(item)}-icon`]: item && item !== 'all' },
+  );
 
-const itemToString = (item) => facilityTypes[item] || 'All Facilities';
+const itemToString = item => facilityTypes[item] || 'All Facilities';
 
 class FacilityTypeDropdown extends Component {
 
@@ -27,7 +30,7 @@ class FacilityTypeDropdown extends Component {
   toggleCCInfo = (e) => {
     e.preventDefault();
     this.setState({
-      showBubble: !this.state.showBubble
+      showBubble: !this.state.showBubble,
     });
   }
 
@@ -75,7 +78,7 @@ class FacilityTypeDropdown extends Component {
                   <span className="cc-info-link-span">
                     <a onClick={this.toggleCCInfo} title="Click for More Information"
                       rel="noopener noreferrer" target="_blank" className="cc-info-link">
-                      <i className="fa fa-info-circle cc-info-link-icon"/>
+                      <i className="fa fa-info-circle cc-info-link-icon" />
                     </a>
                   </span>
                   }
@@ -85,7 +88,7 @@ class FacilityTypeDropdown extends Component {
                       <h6>What Is Community Care and Am I Eligible?</h6>
                       <p>The Veterans Choice Program is one of several programs through which a Veteran
                         can receive care from a community provider, paid for by the Department of Veterans Affairs.
-                        <br/>
+                        <br />
                         <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp"
                           rel="noopener noreferrer" target="_blank">Read More</a>
                       </p>
@@ -101,10 +104,10 @@ class FacilityTypeDropdown extends Component {
                     tabIndex: 0,
                     type: 'button',
                     'aria-label': null, // Remove in favor of HTML label above.
-                    'aria-expanded': isOpen
+                    'aria-expanded': isOpen,
                   })}>
                     {itemToString(selectedItem)}
-                    <i className="fa fa-chevron-down dropdown-toggle"/>
+                    <i className="fa fa-chevron-down dropdown-toggle" />
                   </button>
                   {isOpen && (<ul className="dropdown" role="listbox">{options}</ul>)}
                 </div>

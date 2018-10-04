@@ -9,11 +9,13 @@ describe('<IdentifyFieldsWarning>', () => {
     const tree = shallow(
       <IdentityFieldsWarning
         formData={{
-          processAsIdProofed: false
+          processAsIdProofed: false,
         }}
         formContext={{
-          prefilled: true
-        }}/>);
+          prefilled: true,
+        }}
+      />,
+    );
 
     expect(tree.find('PrefillMessage').exists()).to.be.true;
   });
@@ -21,11 +23,13 @@ describe('<IdentifyFieldsWarning>', () => {
     const tree = shallow(
       <IdentityFieldsWarning
         formData={{
-          processAsIdProofed: true
+          processAsIdProofed: true,
         }}
         formContext={{
-          prefilled: true
-        }}/>);
+          prefilled: true,
+        }}
+      />,
+    );
 
     expect(tree.find('.usa-alert-warning').exists()).to.be.true;
   });
@@ -33,11 +37,13 @@ describe('<IdentifyFieldsWarning>', () => {
     const tree = shallow(
       <IdentityFieldsWarning
         formData={{
-          processAsIdProofed: false
+          processAsIdProofed: false,
         }}
         formContext={{
-          prefilled: false
-        }}/>);
+          prefilled: false,
+        }}
+      />,
+    );
 
     expect(tree.html()).to.be.null;
   });

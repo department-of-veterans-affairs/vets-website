@@ -10,19 +10,16 @@ import {
   benefitsDisclaimerSpouse,
   relationshipLabels,
   highSchoolStatusLabels,
-  transform
+  transform,
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
 
-import {
-  stateLabels,
-  survivorBenefitsLabels
-} from '../../utils/labels';
+import { stateLabels, survivorBenefitsLabels } from '../../utils/labels';
 
 import {
   validateMonthYear,
-  validateFutureDateIfExpectedGrad
+  validateFutureDateIfExpectedGrad,
 } from 'us-forms-system/lib/js/validation';
 
 import * as address from '../../../../platform/forms/definitions/address';
@@ -44,7 +41,9 @@ import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
 import applicantInformationPage from '../../../../platform/forms/pages/applicantInformation';
 import applicantServicePage from '../../pages/applicantService';
-import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
+import createSchoolSelectionPage, {
+  schoolSelectionOptionsFor,
+} from '../../pages/schoolSelection';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
 import employmentHistoryPage from '../../pages/employmentHistory';
 
@@ -64,7 +63,7 @@ const {
   spouseInfo,
   veteranDateOfBirth,
   veteranDateOfDeath,
-  benefitsRelinquishedDate
+  benefitsRelinquishedDate,
 } = fullSchema5490.properties;
 
 const {
@@ -76,7 +75,7 @@ const {
   postHighSchoolTrainings,
   vaFileNumber,
   phone,
-  ssn
+  ssn,
 } = fullSchema5490.definitions;
 
 const nonRequiredFullName = createNonRequiredFullName(fullName);
@@ -91,7 +90,8 @@ const formConfig = {
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
-    noAuth: 'Please sign in again to resume your application for education benefits.'
+    noAuth:
+      'Please sign in again to resume your application for education benefits.',
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,
@@ -107,20 +107,20 @@ const formConfig = {
     dateRange,
     fullName,
     ssn,
-    vaFileNumber
+    vaFileNumber,
   },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
         applicantInformation: applicantInformationPage(fullSchema5490, {
-          labels: { relationship: relationshipLabels }
+          labels: { relationship: relationshipLabels },
         }),
         additionalBenefits: additionalBenefitsPage(fullSchema5490, {
-          fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource']
+          fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource'],
         }),
         applicantService: applicantServicePage(fullSchema5490),
-      }
+      },
     },
     benefitSelection: {
       title: 'Benefits Eligibility',
@@ -134,14 +134,14 @@ const formConfig = {
             'view:benefitsDisclaimerChild': {
               'ui:description': benefitsDisclaimerChild,
               'ui:options': {
-                hideIf: form => _.get('relationship', form) !== 'child'
-              }
+                hideIf: form => _.get('relationship', form) !== 'child',
+              },
             },
             'view:benefitsDisclaimerSpouse': {
               'ui:description': benefitsDisclaimerSpouse,
               'ui:options': {
-                hideIf: form => _.get('relationship', form) !== 'spouse'
-              }
+                hideIf: form => _.get('relationship', form) !== 'spouse',
+              },
             },
             benefit: {
               'ui:widget': 'radio',
@@ -151,15 +151,21 @@ const formConfig = {
                 updateSchema: (form, schema, uiSchema) => {
                   const relationship = _.get('relationship', form);
                   const nestedContent = {
-                    chapter33: benefitSelectionWarning('chapter33', relationship),
-                    chapter35: benefitSelectionWarning('chapter35', relationship),
+                    chapter33: benefitSelectionWarning(
+                      'chapter33',
+                      relationship,
+                    ),
+                    chapter35: benefitSelectionWarning(
+                      'chapter35',
+                      relationship,
+                    ),
                   };
                   const uiOptions = _.get('ui:options', uiSchema);
                   uiOptions.nestedContent = nestedContent;
                   return schema;
-                }
-              }
-            }
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -167,22 +173,22 @@ const formConfig = {
             properties: {
               'view:benefitsDisclaimerChild': {
                 type: 'object',
-                properties: {}
+                properties: {},
               },
               'view:benefitsDisclaimerSpouse': {
                 type: 'object',
-                properties: {}
+                properties: {},
               },
-              benefit
-            }
-          }
+              benefit,
+            },
+          },
         },
         benefitRelinquishment: {
           title: 'Benefits relinquishment',
           path: 'benefits/relinquishment',
           initialData: {},
           depends: {
-            relationship: 'child'
+            relationship: 'child',
           },
           uiSchema: {
             'ui:title': 'Benefits relinquishment',
@@ -192,7 +198,7 @@ const formConfig = {
             benefitsRelinquishedDate: currentOrPastDateUI('Effective date'),
             'view:benefitsRelinquishedWarning': {
               'ui:description': benefitsRelinquishedWarning,
-            }
+            },
           },
           schema: {
             type: 'object',
@@ -200,15 +206,15 @@ const formConfig = {
             properties: {
               'view:benefitsRelinquishedInfo': {
                 type: 'object',
-                properties: {}
+                properties: {},
               },
               benefitsRelinquishedDate,
               'view:benefitsRelinquishedWarning': {
                 type: 'object',
-                properties: {}
-              }
-            }
-          }
+                properties: {},
+              },
+            },
+          },
         },
         benefitHistory: {
           title: 'Benefits history',
@@ -216,7 +222,8 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             'ui:title': 'Benefits history',
-            'ui:description': 'Before this application, have you ever applied for or received any of the following VA benefits?',
+            'ui:description':
+              'Before this application, have you ever applied for or received any of the following VA benefits?',
             previousBenefits: {
               'ui:order': [
                 'view:noPreviousBenefits',
@@ -231,66 +238,72 @@ const formConfig = {
                 'transferOfEntitlement',
                 'veteranFullName',
                 'view:veteranId',
-                'other'
+                'other',
               ],
               'view:noPreviousBenefits': {
-                'ui:title': 'None'
+                'ui:title': 'None',
               },
               disability: {
-                'ui:title': 'Disability Compensation or Pension'
+                'ui:title': 'Disability Compensation or Pension',
               },
               dic: {
-                'ui:title': 'Dependents’ Indemnity Compensation (DIC)'
+                'ui:title': 'Dependents’ Indemnity Compensation (DIC)',
               },
               chapter31: {
-                'ui:title': 'Vocational Rehabilitation benefits (Chapter 31)'
+                'ui:title': 'Vocational Rehabilitation benefits (Chapter 31)',
               },
               'view:ownServiceBenefits': {
-                'ui:title': 'Veterans education assistance based on your own service',
+                'ui:title':
+                  'Veterans education assistance based on your own service',
                 'ui:options': {
-                  expandUnderClassNames: 'schemaform-expandUnder-indent'
-                }
+                  expandUnderClassNames: 'schemaform-expandUnder-indent',
+                },
               },
               ownServiceBenefits: {
                 'ui:title': 'Describe the benefits you used',
                 'ui:options': {
-                  expandUnder: 'view:ownServiceBenefits'
-                }
+                  expandUnder: 'view:ownServiceBenefits',
+                },
               },
               'view:claimedSponsorService': {
-                'ui:title': 'Veterans education assistance based on someone else’s service',
+                'ui:title':
+                  'Veterans education assistance based on someone else’s service',
                 'ui:options': {
-                  expandUnderClassNames: 'schemaform-expandUnder-indent'
-                }
+                  expandUnderClassNames: 'schemaform-expandUnder-indent',
+                },
               },
               chapter35: {
-                'ui:title': 'Survivors’ and Dependents’ Educational Assistance Program (DEA, Chapter 35)',
+                'ui:title':
+                  'Survivors’ and Dependents’ Educational Assistance Program (DEA, Chapter 35)',
                 'ui:options': {
-                  expandUnder: 'view:claimedSponsorService'
-                }
+                  expandUnder: 'view:claimedSponsorService',
+                },
               },
               chapter33: {
-                'ui:title': 'Post-9/11 GI Bill Marine Gunnery Sergeant David Fry Scholarship (Chapter 33)',
+                'ui:title':
+                  'Post-9/11 GI Bill Marine Gunnery Sergeant David Fry Scholarship (Chapter 33)',
                 'ui:options': {
-                  expandUnder: 'view:claimedSponsorService'
-                }
+                  expandUnder: 'view:claimedSponsorService',
+                },
               },
               transferOfEntitlement: {
                 'ui:title': 'Transferred Entitlement',
                 'ui:options': {
-                  expandUnder: 'view:claimedSponsorService'
-                }
+                  expandUnder: 'view:claimedSponsorService',
+                },
               },
               veteranFullName: _.merge(fullNameUi, {
                 'ui:title': 'Sponsor Veteran’s name',
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService',
-                  updateSchema: (form) => {
-                    if (_.get('previousBenefits.view:claimedSponsorService', form)) {
+                  updateSchema: form => {
+                    if (
+                      _.get('previousBenefits.view:claimedSponsorService', form)
+                    ) {
                       return fullName;
                     }
                     return nonRequiredFullName;
-                  }
+                  },
                 },
                 // Re-label the inputs to add 'sponsor'
                 first: { 'ui:title': 'Sponsor first name' },
@@ -301,48 +314,68 @@ const formConfig = {
               'view:veteranId': _.merge(personId.uiSchema(), {
                 veteranSocialSecurityNumber: {
                   'ui:title': 'Sponsor Social Security number',
-                  'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData) && !_.get('previousBenefits.view:veteranId.view:noSSN', formData)
+                  'ui:required': formData =>
+                    _.get(
+                      'previousBenefits.view:claimedSponsorService',
+                      formData,
+                    ) &&
+                    !_.get(
+                      'previousBenefits.view:veteranId.view:noSSN',
+                      formData,
+                    ),
                 },
                 'view:noSSN': {
-                  'ui:title': 'I don’t know my sponsor’s Social Security number',
+                  'ui:title':
+                    'I don’t know my sponsor’s Social Security number',
                 },
                 vaFileNumber: {
                   'ui:title': 'Sponsor file number',
-                  'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData) && !!_.get('previousBenefits.view:veteranId.view:noSSN', formData)
+                  'ui:required': formData =>
+                    _.get(
+                      'previousBenefits.view:claimedSponsorService',
+                      formData,
+                    ) &&
+                    !!_.get(
+                      'previousBenefits.view:veteranId.view:noSSN',
+                      formData,
+                    ),
                 },
                 'ui:options': {
-                  expandUnder: 'view:claimedSponsorService'
-                }
+                  expandUnder: 'view:claimedSponsorService',
+                },
               }),
               other: {
-                'ui:title': 'Other benefit'
-              }
-            }
+                'ui:title': 'Other benefit',
+              },
+            },
           },
           schema: {
             type: 'object',
             properties: {
               previousBenefits: _.merge(
-                _.omit([
-                  'anyOf',
-                  'properties.veteranFullName',
-                  'properties.veteranSocialSecurityNumber',
-                  'properties.vaFileNumber'],
-                previousBenefits),
+                _.omit(
+                  [
+                    'anyOf',
+                    'properties.veteranFullName',
+                    'properties.veteranSocialSecurityNumber',
+                    'properties.vaFileNumber',
+                  ],
+                  previousBenefits,
+                ),
                 {
                   properties: {
                     'view:noPreviousBenefits': { type: 'boolean' },
                     'view:ownServiceBenefits': { type: 'boolean' },
                     'view:claimedSponsorService': { type: 'boolean' },
                     veteranFullName: fullName,
-                    'view:veteranId': personId.schema(fullSchema5490)
-                  }
-                }
-              )
-            }
-          }
-        }
-      }
+                    'view:veteranId': personId.schema(fullSchema5490),
+                  },
+                },
+              ),
+            },
+          },
+        },
+      },
     },
     sponsorInformation: {
       title: 'Sponsor Information',
@@ -353,79 +386,98 @@ const formConfig = {
           uiSchema: {
             spouseInfo: {
               divorcePending: {
-                'ui:title': 'Is there a divorce or annulment pending with your sponsor?',
+                'ui:title':
+                  'Is there a divorce or annulment pending with your sponsor?',
                 'ui:widget': 'yesNo',
-                'ui:required': (formData) => _.get('relationship', formData) === 'spouse'
+                'ui:required': formData =>
+                  _.get('relationship', formData) === 'spouse',
               },
               remarried: {
-                'ui:title': 'If you’re the surviving spouse, did you get remarried?',
-                'ui:widget': 'yesNo'
+                'ui:title':
+                  'If you’re the surviving spouse, did you get remarried?',
+                'ui:widget': 'yesNo',
               },
               remarriageDate: _.assign(dateUI('Date you got remarried'), {
                 'ui:options': {
                   expandUnder: 'remarried',
                 },
-                'ui:required': (formData) => _.get('spouseInfo.remarried', formData)
+                'ui:required': formData =>
+                  _.get('spouseInfo.remarried', formData),
               }),
               'ui:options': {
-                hideIf: (formData) => _.get('relationship', formData) !== 'spouse'
-              }
+                hideIf: formData =>
+                  _.get('relationship', formData) !== 'spouse',
+              },
             },
             currentSameAsPrevious: {
               'ui:options': {
-                hideIf: (formData) => !_.get('previousBenefits.view:claimedSponsorService', formData)
+                hideIf: formData =>
+                  !_.get(
+                    'previousBenefits.view:claimedSponsorService',
+                    formData,
+                  ),
               },
-              'ui:title': 'Same sponsor as previously claimed benefits'
+              'ui:title': 'Same sponsor as previously claimed benefits',
             },
             'view:currentSponsorInformation': {
               'ui:options': {
-                hideIf: (formData) => formData.currentSameAsPrevious
+                hideIf: formData => formData.currentSameAsPrevious,
               },
               veteranFullName: _.merge(fullNameUi, {
                 'ui:options': {
-                  updateSchema: (form) => {
+                  updateSchema: form => {
                     if (!_.get('currentSameAsPrevious', form)) {
                       return fullName;
                     }
                     return nonRequiredFullName;
-                  }
+                  },
                 },
                 'ui:title': 'Name of Sponsor',
                 first: {
-                  'ui:title': 'Sponsor first name'
+                  'ui:title': 'Sponsor first name',
                 },
                 middle: {
-                  'ui:title': 'Sponsor middle name'
+                  'ui:title': 'Sponsor middle name',
                 },
                 last: {
-                  'ui:title': 'Sponsor last name'
+                  'ui:title': 'Sponsor last name',
                 },
                 suffix: {
-                  'ui:title': 'Sponsor suffix'
-                }
+                  'ui:title': 'Sponsor suffix',
+                },
               }),
               'view:veteranId': _.merge(personId.uiSchema(), {
                 veteranSocialSecurityNumber: {
                   'ui:title': 'Sponsor Social Security number',
-                  'ui:required': (formData) => !_.get('currentSameAsPrevious', formData) && !_.get('view:currentSponsorInformation.view:veteranId.view:noSSN', formData)
+                  'ui:required': formData =>
+                    !_.get('currentSameAsPrevious', formData) &&
+                    !_.get(
+                      'view:currentSponsorInformation.view:veteranId.view:noSSN',
+                      formData,
+                    ),
                 },
                 'view:noSSN': {
-                  'ui:title': 'I don’t know my sponsor’s Social Security number',
+                  'ui:title':
+                    'I don’t know my sponsor’s Social Security number',
                 },
                 vaFileNumber: {
-                  'ui:required': (formData) => !!_.get('view:currentSponsorInformation.view:veteranId.view:noSSN', formData),
+                  'ui:required': formData =>
+                    !!_.get(
+                      'view:currentSponsorInformation.view:veteranId.view:noSSN',
+                      formData,
+                    ),
                   'ui:title': 'Sponsor file number',
-                }
-              })
+                },
+              }),
             },
             veteranDateOfBirth: currentOrPastDateUI('Sponsor date of birth'),
-            veteranDateOfDeath: currentOrPastDateUI('Sponsor date of death or date listed as MIA or POW'),
+            veteranDateOfDeath: currentOrPastDateUI(
+              'Sponsor date of death or date listed as MIA or POW',
+            ),
           },
           schema: {
             type: 'object',
-            required: [
-              'veteranDateOfBirth'
-            ],
+            required: ['veteranDateOfBirth'],
             properties: {
               spouseInfo,
               currentSameAsPrevious,
@@ -434,12 +486,12 @@ const formConfig = {
                 properties: {
                   veteranFullName: fullName,
                   'view:veteranId': personId.schema(fullSchema5490),
-                }
+                },
               },
               veteranDateOfBirth,
-              veteranDateOfDeath
-            }
-          }
+              veteranDateOfDeath,
+            },
+          },
         },
         sponsorService: {
           title: 'Sponsor service',
@@ -447,27 +499,28 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Sponsor service',
             serviceBranch: {
-              'ui:title': 'Branch of service'
+              'ui:title': 'Branch of service',
             },
             currentlyActiveDuty: {
               'ui:title': 'Is your sponsor on active duty?',
-              'ui:widget': 'yesNo'
+              'ui:widget': 'yesNo',
             },
             outstandingFelony: {
-              'ui:title': 'Do you or your sponsor have an outstanding felony and/or warrant?',
-              'ui:widget': 'yesNo'
-            }
+              'ui:title':
+                'Do you or your sponsor have an outstanding felony and/or warrant?',
+              'ui:widget': 'yesNo',
+            },
           },
           schema: {
             type: 'object',
             properties: {
               serviceBranch,
               currentlyActiveDuty,
-              outstandingFelony
-            }
-          }
-        }
-      }
+              outstandingFelony,
+            },
+          },
+        },
+      },
     },
     educationHistory: {
       title: 'Education History',
@@ -482,50 +535,54 @@ const formConfig = {
                 'ui:title': 'What’s your current high school status?',
                 'ui:options': {
                   labels: highSchoolStatusLabels,
-                  expandUnderClassNames: 'schemaform-expandUnder-indent'
-                }
-              },
-              highSchoolOrGedCompletionDate: _.assign(
-                monthYearUI(null), {
-                  'ui:options': {
-                    monthYear: true,
-                    expandUnderCondition: status => status === 'graduated' || status === 'graduationExpected',
-                    expandUnder: 'status',
-                    updateSchema: (form) => {
-                      const status = _.get('highSchool.status', form);
-
-                      if (status === 'graduationExpected') {
-                        return { title: 'When do you expect to earn your high school diploma?' };
-                      }
-
-                      return { title: 'When did you earn your high school diploma?' };
-                    }
-                  },
-                  'ui:validations': [
-                    validateMonthYear,
-                    validateFutureDateIfExpectedGrad
-                  ]
+                  expandUnderClassNames: 'schemaform-expandUnder-indent',
                 },
-              ),
+              },
+              highSchoolOrGedCompletionDate: _.assign(monthYearUI(null), {
+                'ui:options': {
+                  monthYear: true,
+                  expandUnderCondition: status =>
+                    status === 'graduated' || status === 'graduationExpected',
+                  expandUnder: 'status',
+                  updateSchema: form => {
+                    const status = _.get('highSchool.status', form);
+
+                    if (status === 'graduationExpected') {
+                      return {
+                        title:
+                          'When do you expect to earn your high school diploma?',
+                      };
+                    }
+
+                    return {
+                      title: 'When did you earn your high school diploma?',
+                    };
+                  },
+                },
+                'ui:validations': [
+                  validateMonthYear,
+                  validateFutureDateIfExpectedGrad,
+                ],
+              }),
               'view:hasHighSchool': {
                 'ui:options': {
                   expandUnderCondition: status => status === 'discontinued',
-                  expandUnder: 'status'
+                  expandUnder: 'status',
                 },
                 name: {
-                  'ui:title': 'Name of high school'
+                  'ui:title': 'Name of high school',
                 },
                 city: {
-                  'ui:title': 'City'
+                  'ui:title': 'City',
                 },
                 state: {
                   'ui:title': 'State',
                   'ui:options': {
-                    labels: stateLabels
-                  }
+                    labels: stateLabels,
+                  },
                 },
                 dateRange: dateRangeUi(),
-              }
+              },
             },
             'view:hasTrainings': {
               'ui:title': 'Do you have any training after high school?',
@@ -533,15 +590,19 @@ const formConfig = {
               'ui:options': {
                 hideIf: form => {
                   const status = _.get('highSchool.status', form);
-                  return status === 'discontinued' || status === 'graduationExpected' || status === 'neverAttended';
-                }
-              }
+                  return (
+                    status === 'discontinued' ||
+                    status === 'graduationExpected' ||
+                    status === 'neverAttended'
+                  );
+                },
+              },
             },
             postHighSchoolTrainings: _.merge(postHighSchoolTrainingsUi, {
               'ui:options': {
-                expandUnder: 'view:hasTrainings'
-              }
-            })
+                expandUnder: 'view:hasTrainings',
+              },
+            }),
           },
           schema: {
             type: 'object',
@@ -558,94 +619,110 @@ const formConfig = {
                       city: highSchool.properties.city,
                       state: highSchool.properties.state,
                       dateRange: highSchool.properties.dateRange,
-                    }
+                    },
                   },
-                }
+                },
               },
               'view:hasTrainings': {
-                type: 'boolean'
+                type: 'boolean',
               },
-              postHighSchoolTrainings
-            }
-          }
-        }
-      }
+              postHighSchoolTrainings,
+            },
+          },
+        },
+      },
     },
     employmentHistory: {
       title: 'Employment History',
       pages: {
-        employmentHistory: employmentHistoryPage(fullSchema5490, false)
-      }
+        employmentHistory: employmentHistoryPage(fullSchema5490, false),
+      },
     },
     schoolSelection: {
       title: 'School Selection',
       pages: {
-        schoolSelection: _.merge(createSchoolSelectionPage(fullSchema5490, schoolSelectionOptionsFor['5490']), {
-          // Rephrase the question for facility name in educationProgram
-          uiSchema: {
-            educationProgram: {
-              name: {
-                'ui:title': 'Name of school, university, or training facility you want to attend'
+        schoolSelection: _.merge(
+          createSchoolSelectionPage(
+            fullSchema5490,
+            schoolSelectionOptionsFor['5490'],
+          ),
+          {
+            // Rephrase the question for facility name in educationProgram
+            uiSchema: {
+              educationProgram: {
+                name: {
+                  'ui:title':
+                    'Name of school, university, or training facility you want to attend',
+                },
+                educationType: {
+                  'ui:options': {
+                    updateSchema: (() => {
+                      const edTypes = educationType.enum;
+                      // Using reselect here avoids running the filter code
+                      // and creating a new object unless either benefit or
+                      // relationship has changed
+                      const filterEducationType = createSelector(
+                        _.get('benefit'),
+                        _.get('relationship'),
+                        (benefitData, relationshipData) => {
+                          // Remove tuition top-up
+                          const filterOut = ['tuitionTopUp'];
+                          // Correspondence not available to Chapter 35 (DEA) children
+                          if (
+                            benefitData === 'chapter35' &&
+                            relationshipData === 'child'
+                          ) {
+                            filterOut.push('correspondence');
+                          }
+                          // Flight training available to Chapter 33 (Fry Scholarships) only
+                          if (benefitData && benefitData !== 'chapter33') {
+                            filterOut.push('flightTraining');
+                          }
+
+                          return { enum: _.without(filterOut, edTypes) };
+                        },
+                      );
+
+                      return form => filterEducationType(form);
+                    })(),
+                  },
+                },
               },
-              educationType: {
-                'ui:options': {
-                  updateSchema: (() => {
-                    const edTypes = educationType.enum;
-                    // Using reselect here avoids running the filter code
-                    // and creating a new object unless either benefit or
-                    // relationship has changed
-                    const filterEducationType = createSelector(
-                      _.get('benefit'),
-                      _.get('relationship'),
-                      (benefitData, relationshipData) => {
-                        // Remove tuition top-up
-                        const filterOut = ['tuitionTopUp'];
-                        // Correspondence not available to Chapter 35 (DEA) children
-                        if (benefitData === 'chapter35' && relationshipData === 'child') {
-                          filterOut.push('correspondence');
-                        }
-                        // Flight training available to Chapter 33 (Fry Scholarships) only
-                        if (benefitData && benefitData !== 'chapter33') {
-                          filterOut.push('flightTraining');
-                        }
-
-                        return { 'enum': _.without(filterOut, edTypes) };
-                      });
-
-                    return (form) => filterEducationType(form);
-                  })()
-                }
-              }
-            }
-          }
-        })
-      }
+            },
+          },
+        ),
+      },
     },
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: contactInformationPage(fullSchema5490, 'relativeAddress'),
+        contactInformation: contactInformationPage(
+          fullSchema5490,
+          'relativeAddress',
+        ),
         secondaryContact: {
           title: 'Secondary contact',
           path: 'personal-information/secondary-contact',
           initialData: {},
           uiSchema: {
             'ui:title': 'Secondary contact',
-            'ui:description': 'This person should know where you can be reached at all times.',
+            'ui:description':
+              'This person should know where you can be reached at all times.',
             secondaryContact: {
               fullName: {
-                'ui:title': 'Name'
+                'ui:title': 'Name',
               },
               phone: phoneUI('Telephone number'),
               sameAddress: {
-                'ui:title': 'Address for secondary contact is the same as mine'
+                'ui:title': 'Address for secondary contact is the same as mine',
               },
               address: _.merge(address.uiSchema(), {
                 'ui:options': {
-                  hideIf: (formData) => _.get('secondaryContact.sameAddress', formData) === true
-                }
-              })
-            }
+                  hideIf: formData =>
+                    _.get('secondaryContact.sameAddress', formData) === true,
+                },
+              }),
+            },
           },
           schema: {
             type: 'object',
@@ -657,15 +734,15 @@ const formConfig = {
                   phone,
                   sameAddress: secondaryContact.properties.sameAddress,
                   address: address.schema(fullSchema5490),
-                }
-              }
-            }
-          }
+                },
+              },
+            },
+          },
         },
-        directDeposit: createDirectDepositPage(fullSchema5490)
-      }
-    }
-  }
+        directDeposit: createDirectDepositPage(fullSchema5490),
+      },
+    },
+  },
 };
 
 export default formConfig;

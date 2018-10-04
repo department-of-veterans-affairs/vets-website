@@ -1,14 +1,14 @@
 import {
   FETCH_LOCATION_DETAIL,
   FETCH_LOCATIONS,
-  SEARCH_FAILED
+  SEARCH_FAILED,
 } from '../utils/actionTypes';
 // import { captureMessage } from 'raven-js';
 
 const INITIAL_STATE = {
   results: [],
   selectedResult: null,
-  pagination: {}
+  pagination: {},
 };
 
 export const SearchResultReducer = (state = INITIAL_STATE, action) => {

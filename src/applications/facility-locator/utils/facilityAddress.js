@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { compact } from 'lodash';
 import { LocationType } from '../constants';
 
@@ -18,6 +19,6 @@ export function buildAddressArray(location) {
     address.address1,
     address.address2,
     address.address3,
-    `${address.city}, ${address.state} ${address.zip}`
+    `${address.city}, ${address.state} ${address.zip}`,
   ]);
 }

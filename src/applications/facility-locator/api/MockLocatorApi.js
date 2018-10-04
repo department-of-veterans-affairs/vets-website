@@ -5,10 +5,10 @@ import compact from 'lodash/compact';
 import { LocationType } from '../constants';
 import { ccLocatorEnabled } from '../config';
 
-/* eslint-disable indent */
 /* eslint-disable array-bracket-spacing */
 /* eslint-disable space-in-parens */
 /* eslint-disable no-use-before-define */
+/* eslint-disable prettier/prettier */
 
 // Immitate network delay
 const delay = 0;
@@ -118,7 +118,7 @@ export const facilityData = {
         classification: 'Multi-Specialty CBOC',
         website: null,
         lat: 34.05171284,
-        'long': -118.23874096,
+        long: -118.23874096,
         address: {
           physical: {
             address1: '351 East Temple Street',
@@ -181,35 +181,35 @@ export const facilityData = {
         access: {
           health: {
             primaryCare: {
-              'new': 15,
+              new: 15,
               established: 3
             },
             mentalHealth: {
-              'new': 12,
+              new: 12,
               established: 2
             },
             womensHealth: {
-              'new': null,
+              new: null,
               established: 9
             },
             audiology: {
-              'new': 48,
+              new: 48,
               established: 0
             },
             gastroenterology: {
-              'new': 7,
+              new: 7,
               established: null
             },
             opthalmology: {
-              'new': 9,
+              new: 9,
               established: 6
             },
             optometry: {
-              'new': 14,
+              new: 14,
               established: 5
             },
             urologyClinic: {
-              'new': 23,
+              new: 23,
               established: 3
             },
             effectiveDate: '2017-08-14'
@@ -227,7 +227,7 @@ export const facilityData = {
         classification: 'OUTBASED',
         website: null,
         lat: 34.05171315,
-        'long': -118.2387403,
+        long: -118.2387403,
         address: {
           physical: {
             address1: '351 East Temple Street',
@@ -272,7 +272,7 @@ export const facilityData = {
         classification: 'VETSUCCESS ON CAMPUS',
         website: null,
         lat: 34.08751109,
-        'long': -118.2917626,
+        long: -118.2917626,
         address: {
           physical: {
             address1: '855 North Vermont',
@@ -317,7 +317,7 @@ export const facilityData = {
         classification: 'Vetsuccess On Campus',
         website: 'NULL',
         lat: 38.8350585100001,
-        'long': -77.3112389299999,
+        long: -77.3112389299999,
         address: {
           mailing: {},
           physical: {
@@ -362,7 +362,7 @@ export const facilityData = {
         classification: 'National Cemetery',
         website: 'https://www.cem.va.gov/cems/nchp/ballsbluff.asp',
         lat: 39.1318417350001,
-        'long': -77.52753613,
+        long: -77.52753613,
         address: {
           mailing: {
             zip: '22701',
@@ -409,7 +409,7 @@ export const facilityData = {
         classification: 'National Cemetery',
         website: 'https://www.cem.va.gov/cems/nchp/quantico.asp',
         lat: 38.552491403,
-        'long': -77.357505649,
+        long: -77.357505649,
         address: {
           mailing: {
             zip: '22172',
@@ -456,7 +456,7 @@ export const facilityData = {
         classification: 'Vetsuccess On Campus',
         website: 'NULL',
         lat: 38.8386962600001,
-        'long': -77.1117420699999,
+        long: -77.1117420699999,
         address: {
           mailing: {},
           physical: {
@@ -501,7 +501,7 @@ export const facilityData = {
         classification: null,
         website: null,
         lat: 38.7678970200001,
-        'long': -77.11909822,
+        long: -77.11909822,
         address: {
           mailing: {},
           physical: {
@@ -540,7 +540,7 @@ export const facilityData = {
         classification: 'Multi-Specialty CBOC',
         website: null,
         lat: 38.7048241100001,
-        'long': -77.14011033,
+        long: -77.14011033,
         address: {
           mailing: {},
           physical: {
@@ -627,27 +627,27 @@ export const facilityData = {
         access: {
           health: {
             audiology: {
-              'new': 69.0,
+              new: 69.0,
               established: 13.0
             },
             gynecology: {
-              'new': null,
+              new: null,
               established: 6.0
             },
             dermatology: {
-              'new': null,
+              new: null,
               established: 0.0
             },
             primaryCare: {
-              'new': 55.0,
+              new: 55.0,
               established: 3.0
             },
             mentalHealth: {
-              'new': 34.0,
+              new: 34.0,
               established: 1.0
             },
             womensHealth: {
-              'new': null,
+              new: null,
               established: 6.0
             },
             effectiveDate: '2018-08-13'
@@ -665,7 +665,7 @@ export const facilityData = {
         classification: null,
         website: 'NULL',
         lat: 38.7011308300001,
-        'long': -77.13806455,
+        long: -77.13806455,
         address: {
           mailing: {},
           physical: {
@@ -710,7 +710,7 @@ export const facilityData = {
         classification: 'Outbased',
         website: 'NULL',
         lat: 38.6924387600001,
-        'long': -77.13654307,
+        long: -77.13654307,
         address: {
           mailing: {},
           physical: {
@@ -755,7 +755,7 @@ export const facilityData = {
         classification: 'Outbased',
         website: 'NULL',
         lat: 39.0025918100001,
-        'long': -77.09709272,
+        long: -77.09709272,
         address: {
           mailing: {},
           physical: {
@@ -803,7 +803,7 @@ export const facilityData = {
         classification: null,
         website: 'NULL',
         lat: 38.5185351600001,
-        'long': -77.3051058199999,
+        long: -77.3051058199999,
         address: {
           mailing: {},
           physical: {
@@ -868,7 +868,7 @@ export const facilityData = {
         distance: 0.5, // in miles
         network: 'TriWest',
         lat: 38.8292075900001,
-        'long': -76.99237091
+        long: -76.99237091
       }
     },
     {
@@ -905,7 +905,7 @@ export const facilityData = {
         distance: 5.15, // in miles
         network: 'TriWest',
         lat: 38.925828,
-        'long': -76.9835070199999
+        long: -76.9835070199999
       }
     },
     {
@@ -941,7 +941,7 @@ export const facilityData = {
         distance: 5.15, // in miles
         network: 'TriWest',
         lat: 38.9857684400001,
-        'long': -76.95675965
+        long: -76.95675965
       }
     }
   ],

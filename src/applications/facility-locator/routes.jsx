@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import FacilityLocatorApp from './containers/FacilityLocatorApp';
 import FacilityDetail from './containers/FacilityDetail';
 import ProviderDetail from './containers/ProviderDetail';
@@ -20,9 +21,9 @@ const routes = {
   childRoutes: [
     {
       indexRoute: { component: VAMap },
-      childRoutes
+      childRoutes,
     },
-  ]
+  ],
 };
 
 export default routes;

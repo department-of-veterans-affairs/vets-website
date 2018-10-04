@@ -1,5 +1,6 @@
 /* eslint-disable space-in-parens */
 /* eslint-disable no-use-before-declare */
+/* eslint-disable prettier/prettier */
 import compact from 'lodash/compact';
 import { api } from '../config';
 

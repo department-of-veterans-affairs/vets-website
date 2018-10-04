@@ -8,7 +8,7 @@ describe('Claim detail reducer', () => {
     const claim = {};
     const state = claimDetail(undefined, {
       type: SET_CLAIM_DETAIL,
-      claim
+      claim,
     });
 
     expect(state.detail).to.eql(claim);
@@ -16,7 +16,7 @@ describe('Claim detail reducer', () => {
   });
   it('should set loading', () => {
     const state = claimDetail(undefined, {
-      type: GET_CLAIM_DETAIL
+      type: GET_CLAIM_DETAIL,
     });
 
     expect(state.loading).to.be.true;

@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 import environment from '../../platform/utilities/environment';
 
 // Base URL to be used in API requests.
@@ -7,13 +8,13 @@ export const api = {
   settings: {
     headers: {
       'X-Key-Inflection': 'camel',
-    }
-  }
+    },
+  },
 };
 
 /**
  * Feature Flag Function
- * 
+ *
  * Determines, based on enviornment type, whether or not to
  * enable Community Care Provider Locator features of the
  * existing Facility Locator App.
@@ -51,7 +52,7 @@ export const healthServices = {
   Optometry: 'Optometry',
   Orthopedics: 'Orthopedics',
   Urology: 'Urology',
-  WomensHealth: 'Women\'s Health',
+  WomensHealth: "Women's Health",
 };
 
 export const benefitsServices = {
@@ -65,13 +66,16 @@ export const benefitsServices = {
   FamilyMemberClaimAssistance: 'Family member claim help',
   HomelessAssistance: 'Help for homeless Veterans',
   VAHomeLoanAssistance: 'VA Home Loan help',
-  InsuranceClaimAssistanceAndFinancialCounseling: 'Insurance claim help and financial counseling',
-  IntegratedDisabilityEvaluationSystemAssistance: 'Integrated Disability Evaluation System Assistance (IDES)',
+  InsuranceClaimAssistanceAndFinancialCounseling:
+    'Insurance claim help and financial counseling',
+  IntegratedDisabilityEvaluationSystemAssistance:
+    'Integrated Disability Evaluation System Assistance (IDES)',
   Pensions: 'Pensions',
   PreDischargeClaimAssistance: 'Pre-discharge claim help',
   TransitionAssistance: 'Transition help',
   UpdatingDirectDepositInformation: 'Updating direct deposit information',
-  VocationalRehabilitationAndEmploymentAssistance: 'Vocational Rehabilitation and Employment (VR&E) help',
+  VocationalRehabilitationAndEmploymentAssistance:
+    'Vocational Rehabilitation and Employment (VR&E) help',
 };
 
 export const vetCenterServices = [

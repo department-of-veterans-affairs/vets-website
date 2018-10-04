@@ -6,13 +6,10 @@ import ButtonClose from '../buttons/ButtonClose';
 
 class MessageUploadedAttachment extends React.Component {
   render() {
-    const cssClass = classNames(
-      'msg-attachment',
-      this.props.cssClass
-    );
+    const cssClass = classNames('msg-attachment', this.props.cssClass);
 
     const attachmentIndexData = JSON.stringify({
-      attachment: this.props.attachmentIndex
+      attachment: this.props.attachmentIndex,
     });
 
     return (
@@ -22,7 +19,8 @@ class MessageUploadedAttachment extends React.Component {
         <ButtonClose
           args={attachmentIndexData}
           className="msg-attachment-close"
-          onClick={this.props.onClose}/>
+          onClick={this.props.onClose}
+        />
       </div>
     );
   }
@@ -33,7 +31,7 @@ MessageUploadedAttachment.propTypes = {
   cssClass: PropTypes.string,
   fileName: PropTypes.string.isRequired,
   fileSize: PropTypes.string.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 };
 
 export default MessageUploadedAttachment;

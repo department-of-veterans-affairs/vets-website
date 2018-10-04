@@ -1,16 +1,18 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable arrow-body-style */
 import { mapboxClient } from '../components/MapboxClient';
 
 /**
  * Calculates the center point of a given geographic area
  * as defined by a bounding box of an upper-left and a
  * lower-right corner.
- * 
+ *
  * @param {Array<Number>} bounds An array containing the corners
  * of a coordinate bounding box
- * 
+ *
  * ex: [-77.955898, 38.380263, -76.955898, 39.380263]
  *     [ lonLL    , latLL    , lonUR     , latUR    ]
- * 
+ *
  * @returns Object of shape { lon, lat } on valid input,
  * empty {} object otherwise
  */
@@ -28,7 +30,7 @@ export const getBoxCenter = (bounds) => {
 /**
  * Performs a reverse lookup of a geographic coordinate to
  * determine what address exists at the given location.
- * 
+ *
  * @param {Number} lon Longitude coordinate
  * @param {Number} lat Latitude coordinate
  * @param {String} types A valid type-of-address string as defined by the Mapbox API:
@@ -52,7 +54,7 @@ export const reverseGeocode = async (lon, lat, types = 'address,postcode') => {
  * determine what address exists at the given location.
  * In the case of a bounding box will perform a lookup of the
  * center point of the box.
- * 
+ *
  * @param {Array<Number>} bounds A geographic bounding box definition
  * @param @param {String} types A valid type-of-address string as defined by the Mapbox API:
  *   https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-places-near-a-location
@@ -67,7 +69,7 @@ export const reverseGeocodeBox = (bounds, types = 'address,postcode') => {
 
 /**
  * Position shape: `{latitude: {number}, longitude: {number}}`
- * 
+ *
  * @param {Object} pos1 
  * @param {Object} pos2 
  */
@@ -80,7 +82,7 @@ export const areGeocodeEqual = (pos1, pos2) => {
 
 /**
  * A utility to break URL query strings up into a queriable object
- * 
+ *
  * @param {string} urlParams A URL query string (e.g. key=value&key2=value2...)
  */
 export const urlParamStringToObj = (urlParams) => {
@@ -100,5 +102,5 @@ export const keyMap = {
   ESCAPE: 27,
   SPACE: 32,
   UP: 38,
-  DOWN: 40
+  DOWN: 40,
 };

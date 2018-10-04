@@ -8,7 +8,7 @@ import formConfig from '../../config/form';
 describe('Separation or Training Pay', () => {
   const {
     schema,
-    uiSchema
+    uiSchema,
   } = formConfig.chapters.veteranDetails.pages.separationTrainingPay;
   const { defaultDefinitions: definitions } = formConfig;
 
@@ -19,7 +19,8 @@ describe('Separation or Training Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
-        formData={{}}/>
+        formData={{}}
+      />,
     );
 
     // Expect two questions with two radio inputs each
@@ -36,7 +37,8 @@ describe('Separation or Training Pay', () => {
         uiSchema={uiSchema}
         data={{}}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -53,10 +55,11 @@ describe('Separation or Training Pay', () => {
         uiSchema={uiSchema}
         data={{
           'view:hasTrainingPay': false,
-          'view:hasSeparationPay': false
+          'view:hasSeparationPay': false,
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -73,10 +76,11 @@ describe('Separation or Training Pay', () => {
         uiSchema={uiSchema}
         data={{
           'view:hasTrainingPay': true,
-          'view:hasSeparationPay': true
+          'view:hasSeparationPay': true,
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -92,9 +96,10 @@ describe('Separation or Training Pay', () => {
         uiSchema={uiSchema}
         data={{
           'view:hasTrainingPay': true,
-          'view:hasSeparationPay': true
+          'view:hasSeparationPay': true,
         }}
-        formData={{}}/>
+        formData={{}}
+      />,
     );
 
     expect(form.find('.form-radio-buttons').length).to.equal(2);

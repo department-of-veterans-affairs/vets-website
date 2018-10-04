@@ -29,7 +29,10 @@ export default class LocationHours extends Component {
     if (location && location.attributes.facilityType === 'vet_center') {
       return (
         <p>
-          In addition to the hours listed above, all Vet Centers maintain non-traditional hours that are specific to each site and can change periodically given local Veteran, Service member & Family needs.  Please contact your Vet Center to obtain the current schedule.
+          In addition to the hours listed above, all Vet Centers maintain
+          non-traditional hours that are specific to each site and can change
+          periodically given local Veteran, Service member & Family needs.
+          Please contact your Vet Center to obtain the current schedule.
         </p>
       );
     }
@@ -44,7 +47,7 @@ export default class LocationHours extends Component {
     }
 
     const {
-      attributes: { hours }
+      attributes: { hours },
     } = location;
 
     const isVetCenter = location.attributes.facilityType === 'vet_center';
@@ -63,7 +66,9 @@ export default class LocationHours extends Component {
         const regex = /(\d+\w\w)-(\d+\w\w)/;
         const found = hours[k].match(regex);
         if (found) {
-          mappedHours[k] = `${this.colonizeTime(found[1])}-${this.colonizeTime(found[2])}`;
+          mappedHours[k] = `${this.colonizeTime(found[1])}-${this.colonizeTime(
+            found[2],
+          )}`;
         }
       }
     });
@@ -72,12 +77,8 @@ export default class LocationHours extends Component {
       if (h !== 'notes' && mappedHours[h] && mappedHours[h] !== '') {
         return (
           <div className="row" key={h}>
-            <div className="small-6 columns">
-              {capitalize(h)}:
-            </div>
-            <div className="small-6 columns">
-              {capitalize(mappedHours[h])}
-            </div>
+            <div className="small-6 columns">{capitalize(h)}:</div>
+            <div className="small-6 columns">{capitalize(mappedHours[h])}</div>
           </div>
         );
       }
@@ -87,9 +88,7 @@ export default class LocationHours extends Component {
     return (
       <div>
         <h4 className="highlight">Hours of Operation</h4>
-        <div>
-          {hourRows}
-        </div>
+        <div>{hourRows}</div>
         {this.renderVetCenterContent()}
       </div>
     );

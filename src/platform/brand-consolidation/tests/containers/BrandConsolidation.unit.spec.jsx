@@ -2,15 +2,17 @@ import React from 'react';
 import enzyme from 'enzyme';
 import { expect } from 'chai';
 
-import { BrandConsolidation, mapStateToProps } from '../../containers/BrandConsolidation';
+import {
+  BrandConsolidation,
+  mapStateToProps,
+} from '../../containers/BrandConsolidation';
 
 describe('BrandConsolidation', () => {
-
   it('does not render children when brandConsolidationEnabled is false', () => {
     const state = {
       buildSettings: {
-        brandConsolidationEnabled: false
-      }
+        brandConsolidationEnabled: false,
+      },
     };
 
     const props = mapStateToProps(state);
@@ -19,7 +21,7 @@ describe('BrandConsolidation', () => {
     const wrapper = enzyme.render(
       <BrandConsolidation {...props}>
         <h1>Brand-Consolidation Only</h1>
-      </BrandConsolidation>
+      </BrandConsolidation>,
     );
 
     expect(wrapper.html()).to.be.null;
@@ -28,8 +30,8 @@ describe('BrandConsolidation', () => {
   it('does render children when brandConsolidationEnabled is true', () => {
     const state = {
       buildSettings: {
-        brandConsolidationEnabled: true
-      }
+        brandConsolidationEnabled: true,
+      },
     };
 
     const props = mapStateToProps(state);
@@ -38,9 +40,8 @@ describe('BrandConsolidation', () => {
     const wrapper = enzyme.render(
       <BrandConsolidation {...props}>
         <h1>Brand-Consolidation Only</h1>
-      </BrandConsolidation>
+      </BrandConsolidation>,
     );
     expect(wrapper.html()).to.contain('Brand-Consolidation Only');
   });
-
 });
