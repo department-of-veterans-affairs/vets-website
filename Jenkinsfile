@@ -139,7 +139,7 @@ node('vetsgov-general-purpose') {
       notify()
       throw error
     } finally {
-      step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
+      step([$class: 'JUnitResultArchiver', testResults: 'junit.xml'])
     }
   }
 
