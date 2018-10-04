@@ -22,6 +22,7 @@ import {
   uploadPtsd,
   uploadPtsdSecondary,
   stressfulIncSecDesc,
+  otherSourcesSecondary,
 } from '../pages';
 
 const formConfig = {
@@ -107,6 +108,16 @@ const formConfig = {
               form['view:selectablePtsdTypes']['view:assaultPtsdType']),
           uiSchema: stressfulIncSecDesc.uiSchema,
           schema: stressfulIncSecDesc.schema,
+        },
+        otherSourcesSecondary: {
+          path: 'other-sources-secondary-information',
+          title: 'Disability Details',
+          depends: form =>
+            form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' &&
+            (form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
+              form['view:selectablePtsdTypes']['view:assaultPtsdType']),
+          uiSchema: otherSourcesSecondary.uiSchema,
+          schema: otherSourcesSecondary.schema,
         },
       },
     },
