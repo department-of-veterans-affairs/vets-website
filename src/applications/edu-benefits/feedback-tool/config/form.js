@@ -59,7 +59,11 @@ const {
 } = fullSchema.properties;
 
 const { assistance, programs, school } = educationDetails.properties;
-const { address: schoolAddress, name: schoolName } = school.properties;
+const {
+  address: schoolAddress,
+  name: schoolName,
+  facilityCode,
+} = school.properties;
 const domesticSchoolAddress = schoolAddress.anyOf[0];
 const internationalSchoolAddress = schoolAddress.anyOf[1];
 const countries = domesticSchoolAddress.properties.country.enum.concat(
@@ -464,7 +468,7 @@ const formConfig = {
             educationDetails: {
               school: {
                 'view:searchSchoolSelect': {
-                  'view:facilityCode': {
+                  facilityCode: {
                     'ui:required': manualSchoolEntryIsNotChecked,
                   },
                   'ui:field': SchoolSelectField,
@@ -535,9 +539,7 @@ const formConfig = {
                       'view:searchSchoolSelect': {
                         type: 'object',
                         properties: {
-                          'view:facilityCode': {
-                            type: 'string',
-                          },
+                          facilityCode,
                         },
                       },
                       'view:manualSchoolEntry': {
