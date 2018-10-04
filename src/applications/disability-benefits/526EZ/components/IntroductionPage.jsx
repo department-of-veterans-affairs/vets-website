@@ -4,15 +4,21 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { focusElement } from '../../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
-import {
+
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import SaveInProgressIntro, {
   introActions,
   introSelector,
 } from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import CallToActionWidget from '../../../../platform/site-wide/cta-widget';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
+import { focusElement } from '../../../../platform/utilities/ui';
+
 import BetaGate from '../containers/BetaGate';
+
+import { VerifiedAlert } from '../helpers';
 
 import FormStartControls from './FormStartControls';
 
@@ -60,12 +66,30 @@ class IntroductionPage extends React.Component {
           Related Compensation Benefits).
         </p>
         <BetaGate>
-          <FormStartControls
-            pathname={this.props.location.pathname}
-            user={user}
-            authenticate={this.authenticate}
-            {...this.props}
-          />
+          {isBrandConsolidationEnabled() ? (
+            <CallToActionWidget appId="disability-benefits">
+              <SaveInProgressIntro
+                {...this.props}
+                verifiedPrefillAlert={VerifiedAlert}
+                verifyRequiredPrefill={
+                  this.props.route.formConfig.verifyRequiredPrefill
+                }
+                prefillEnabled={this.props.route.formConfig.prefillEnabled}
+                messages={this.props.route.formConfig.savedFormMessages}
+                pageList={this.props.route.pageList}
+                startText="Start the Disability Compensation Application"
+                {...this.props.saveInProgressActions}
+                {...this.props.saveInProgress}
+              />
+            </CallToActionWidget>
+          ) : (
+            <FormStartControls
+              pathname={this.props.location.pathname}
+              user={user}
+              authenticate={this.authenticate}
+              {...this.props}
+            />
+          )}
           {itfAgreement}
         </BetaGate>
         <h4>
@@ -179,13 +203,32 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <BetaGate>
-          <FormStartControls
-            pathname={this.props.location.pathname}
-            user={user}
-            authenticate={this.authenticate}
-            {...this.props}
-            buttonOnly
-          />
+          {isBrandConsolidationEnabled() ? (
+            <CallToActionWidget appId="disability-benefits">
+              <SaveInProgressIntro
+                {...this.props}
+                buttonOnly
+                verifiedPrefillAlert={VerifiedAlert}
+                verifyRequiredPrefill={
+                  this.props.route.formConfig.verifyRequiredPrefill
+                }
+                prefillEnabled={this.props.route.formConfig.prefillEnabled}
+                messages={this.props.route.formConfig.savedFormMessages}
+                pageList={this.props.route.pageList}
+                startText="Start the Disability Compensation Application"
+                {...this.props.saveInProgressActions}
+                {...this.props.saveInProgress}
+              />
+            </CallToActionWidget>
+          ) : (
+            <FormStartControls
+              pathname={this.props.location.pathname}
+              user={user}
+              authenticate={this.authenticate}
+              {...this.props}
+              buttonOnly
+            />
+          )}
           {itfAgreement}
         </BetaGate>
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
