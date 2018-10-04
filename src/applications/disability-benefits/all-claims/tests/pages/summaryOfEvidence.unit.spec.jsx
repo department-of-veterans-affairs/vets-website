@@ -24,6 +24,24 @@ describe('Summary of Evidence', () => {
     expect(form.find('li').length).to.equal(0);
   });
 
+  it("should render 'no evidence' warning when 'no evidence' selected", () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          'view:hasEvidence': false,
+        }}
+      />,
+    );
+
+    expect(form.render().text()).to.contain(
+      'You haven’t uploaded any evidence.',
+    );
+    expect(form.find('li').length).to.equal(0);
+  });
+
   it('should render VA evidence list when VA evidence submitted', () => {
     const form = mount(
       <DefinitionTester
@@ -31,6 +49,7 @@ describe('Summary of Evidence', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
+          'view:hasEvidence': true,
           vaTreatmentFacilities: [
             { treatmentCenterName: 'Sommerset' },
             { treatmentCenterName: 'Huntsville' },
@@ -49,6 +68,7 @@ describe('Summary of Evidence', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
+          'view:hasEvidence': true,
           privateMedicalRecords: [
             { name: 'Test File.png' },
             { name: 'hospital records.pdf' },
@@ -68,6 +88,7 @@ describe('Summary of Evidence', () => {
   //       schema={schema}
   //       uiSchema={uiSchema}
   //       data={{
+  //         'view:hasEvidence': true,
   //         additionalDocuments: [
   //           { name: 'Test Lay Statement.png' },
   //           { name: 'buddy statement.pdf' },

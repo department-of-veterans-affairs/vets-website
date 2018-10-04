@@ -6,7 +6,10 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
   const privateEvidence = _.get('privateMedicalRecords', formData, []);
   const layEvidence = []; // TODO: Swap once lay evidence PR merged
   const hasEvidence = !!vaEvidence.concat(privateEvidence, layEvidence).length;
-  if (!hasEvidence) {
+  const selectedEvidence = _.get('view:hasEvidence', formData, false);
+  // Evidence isn't always properly cleared out from form data if removed so
+  // need to also check that 'no evidence' was explicitly selected
+  if (!hasEvidence || !selectedEvidence) {
     return (
       <p>
         You haven’t uploaded any evidence. This may delay us processing your
