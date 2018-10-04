@@ -92,9 +92,7 @@ class VAMap extends Component {
 
     if (!areGeocodeEqual(currentQuery.position, newQuery.position)) {
       this.updateUrlParams({
-        location: `${newQuery.position.latitude},${
-          newQuery.position.longitude
-        }`,
+        location: `${newQuery.position.latitude},${newQuery.position.longitude}`,
         context: newQuery.context,
         address: newQuery.searchString,
       });
@@ -314,14 +312,11 @@ class VAMap extends Component {
         onClick: () => {
           const searchResult = document.getElementById(r.id);
           if (searchResult) {
-            Array.from(
-              document.getElementsByClassName('facility-result'),
-            ).forEach(e => {
+            Array.from(document.getElementsByClassName('facility-result')).forEach(e => {
               e.classList.remove('active');
             });
             searchResult.classList.add('active');
-            document.getElementById('searchResultsContainer').scrollTop =
-              searchResult.offsetTop;
+            document.getElementById('searchResultsContainer').scrollTop = searchResult.offsetTop;
           }
           this.props.fetchVAFacility(r.id, r);
         },
@@ -339,7 +334,7 @@ class VAMap extends Component {
             </div>
           ) : (
             <div>
-              <a onClick={linkAction.bind(this, r.id)}>
+              <a onClick={linkAction.bind(this, r.id, false)}>
                 <h5>{r.attributes.name}</h5>
               </a>
               <p>Facility type: <strong>{facilityTypes[r.attributes.facilityType]}</strong></p>
@@ -369,7 +364,9 @@ class VAMap extends Component {
           );
         case FacilityType.VET_CENTER:
           return (
-            <VetCenterMarker {...iconProps}>{popupContent}</VetCenterMarker>
+            <VetCenterMarker {...iconProps}>
+              {popupContent}
+            </VetCenterMarker>
           );
         case undefined:
           if (r.type === LocationType.CC_PROVIDER) {

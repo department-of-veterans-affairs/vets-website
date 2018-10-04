@@ -31,7 +31,6 @@ class FacilityDetail extends Component {
           <FacilityTypeDescription location={facility} />
           <LocationAddress location={facility} />
         </div>
-        <div>{this.renderFacilityWebsite()}</div>
         <div>
           <LocationPhoneLink location={facility} />
         </div>
