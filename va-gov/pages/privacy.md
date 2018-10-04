@@ -3,20 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Privacy, Policies, and Legal Information
 majorlinks:
-  - heading: VA Privacy Services
-    links:
-    - url: https://www.va.gov/about_va/va_notices.asp
-      title: Notices
-    - url: https://www.va.gov/webpolicylinks.asp
-      title: Web Policies
-    - url: 
-      title: Whistle Blower Rights and Protections
-    - url: https://www.oprm.va.gov/
-      title: Regulations
-    - url: "#"
-      title: Privacy Impact Assessments
-    - url: "#"
-      title: System of Records Notices
+
   - heading: Account Policies
     links:
     - url: https://www.id.me/privacy
@@ -56,7 +43,8 @@ At VA, we take your privacy seriously. That's why we collect only the personal i
 <h3>On This Page</h3>
 
 <ul>
-  <li><a href="#privacy">Va.gov Privacy Policy and Privacy Services</a></li>
+  <li><a href="#privacy">VA.gov Privacy Policy</a></li>
+  <li><a href="#privacy-services">VA Privacy Services</a></li>
   <li><a href="#account">Account Policies</a></li>
   <li><a href="#other">Other VA Policies</a></li>
   <li><a href="#links">Federally Required Links</a></li>
@@ -64,7 +52,7 @@ At VA, we take your privacy seriously. That's why we collect only the personal i
 
 <span id="privacy"></span>
 
-<h2>Va.gov Privacy Policy</h2>
+<h2>VA.gov Privacy Policy</h2>
 
 Thank you for visiting VA.gov and reviewing our Privacy Policy. The Department of Veterans Affairs (VA) applies leading privacy practices and adheres to data stewardship principles in managing our Web user data. The data stewardship principles guiding our efforts include the following goals:
 -	protection of Web user privacy;
@@ -117,6 +105,7 @@ We use Session Cookies in the following manner:
 -	Transactions and site usability — we use Session Cookies to improve how you navigate through our Web site and conduct transactions.  Session Cookies are used to maintain your online session as you browse over several pages, or to store and enter information on a Web page so that you do not have to reenter the same information, repetitively. Session Cookies may also be used to collect referral statistics when you click on a link to or from a VA.gov Web page.
 
 <h3>Registration and Log In</h3>
+
 You are always welcome to use VA.gov without registering or logging in for certain services such as general content browsing, finding VA facilities, and completing forms to apply for healthcare or education benefits. Other areas of the site that use your personal information and VA records, such as saving a benefit application for submission later, prescription refills, secure messaging with your healthcare provider, and checking the status of claims and appeals will require an email address, password, and additional methods for identification.
 
 <h3>Password Protection</h3>
@@ -165,6 +154,27 @@ Your inquiry will be treated confidentially and will not be shared with third pa
 The VA Privacy Service works to minimize the impact on veteran’s privacy, particularly veteran’s personal information and dignity, while achieving the mission of the Department of Veteran Affairs.
 
 <b>Up to date as of September 18, 2018</b>
-</div>
-</div>
-</div>
+
+</section>
+
+<section id="privacy-services" class="merger-majorlinks">
+
+<h2>VA Privacy Services</h2>
+
+ <div class="link">
+    <a href="https://www.va.gov/about_va/va_notices.asp"><b>Notices</b></a>
+ </div>
+ <div class="link">
+  <a href="https://www.va.gov/webpolicylinks.asp"><b>Web Policies</b></a>
+ </div>
+ <div class="link">
+  <a href="https://www.oprm.va.gov/"><b>Regulations</b></a>
+ </div>
+ <div class="link">
+  <a href="https://www.oprm.va.gov/privacy/pia.aspx"><b>Privacy Impact Assessments</b></a>
+ </div>
+ <div class="link">
+  <a href="https://www.oprm.va.gov/privacy/systems_of_records.aspx"><b>System of Records Notices</b></a>
+ </div>
+ 
+ </section>
