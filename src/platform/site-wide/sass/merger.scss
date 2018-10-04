@@ -113,7 +113,6 @@
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0071bb', endColorstr='#112e51',GradientType=0 ); /* IE6-9 */
 
     padding-top: 3em;
-    padding-bottom: 3em;
 
     #hub-internal {
 
@@ -152,12 +151,6 @@
      .header-title-2 {
       font-size: 20px;
     }
-  }
-
-  #homepage-hero {
-    background-color: $color-primary-darker;
-    text-align: center;
-    padding-top: 1.5em;
   }
 
   h3, h4 {
@@ -458,7 +451,6 @@
     #homepage-hub {
 
       padding-top: 1.5em;
-      padding-bottom: 1em;
 
       #hub-internal {
 
