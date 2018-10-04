@@ -22,7 +22,6 @@ const fetchWaitingStates = [requestStates.notCalled, requestStates.pending];
 export class ITFWrapper extends React.Component {
   static defaultProps = {
     noITFPages: [/\/introduction/, /\/confirmation/],
-    /* noITFPages: ['/introduction', '/confirmation'], */
   };
 
   constructor(props) {
