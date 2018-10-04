@@ -108,3 +108,9 @@ export const documentDescription = () => (
     </p>
   </div>
 );
+
+export const individualsInvolvedTitle = () => (
+  <legend className="schemaform-block-title schemaform-title-underline">
+    PTSD: Individuals Involved
+  </legend>
+);

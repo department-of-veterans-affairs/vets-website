@@ -21,6 +21,7 @@ import {
   ptsdSecondaryChoice,
   uploadPtsd,
   uploadPtsdSecondary,
+  individualsInvolvedChoice,
 } from '../pages';
 
 const formConfig = {
@@ -67,6 +68,16 @@ const formConfig = {
             form['view:selectablePtsdTypes']['view:noncombatPtsdType'],
           uiSchema: ptsdChoice.uiSchema,
           schema: ptsdChoice.schema,
+        },
+        individualsInvolvedChoice: {
+          path: 'individualsInvolvedChoice',
+          title: 'Disability Details',
+          depends: form =>
+            form['view:uploadPtsdChoice'] === 'answerQuestions' &&
+            (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
+              form['view:selectablePtsdTypes']['view:noncombatPtsdType']),
+          uiSchema: individualsInvolvedChoice.uiSchema,
+          schema: individualsInvolvedChoice.schema,
         },
         uploadPtsd: {
           path: 'upload-781',
