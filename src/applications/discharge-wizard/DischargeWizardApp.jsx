@@ -1,7 +1,12 @@
 import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
+import brandConsolidation from '../../platform/brand-consolidation';
 
 export default function DischargeWizardApp({ children }) {
+  if (brandConsolidation.isEnabled()) {
+    return <div className="discharge-wizard">{children}</div>;
+  }
+
   return (
     <div className="discharge-wizard">
       <Breadcrumbs>
