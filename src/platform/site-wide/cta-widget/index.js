@@ -416,6 +416,8 @@ export class CallToActionWidget extends React.Component {
 
     if (content) return <CallToActionAlert {...content} />;
 
+    if (this.props.children) return this.props.children;
+
     const buttonClass = this._continueUrl.startsWith('/')
       ? classNames('usa-button-primary', 'va-button-primary')
       : '';
