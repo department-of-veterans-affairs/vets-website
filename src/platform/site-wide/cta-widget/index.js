@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import { toggleLoginModal } from '../user-nav/actions';
@@ -17,8 +16,9 @@ import {
 } from '../../user/profile/actions';
 
 import { isLoggedIn, selectProfile } from '../../user/selectors';
-
 import titleCase from '../../utilities/data/titleCase';
+
+import CallToActionAlert from './CallToActionAlert';
 
 import {
   frontendApps,
@@ -414,32 +414,7 @@ export class CallToActionWidget extends React.Component {
 
     const content = this.getContent();
 
-    if (content) {
-      const {
-        heading,
-        alertText,
-        buttonText,
-        buttonHandler,
-        status = 'info',
-      } = content;
-
-      const alertProps = {
-        headline: heading,
-        content: (
-          <div className="usa-alert-text">
-            {alertText}
-            {buttonText && (
-              <button className="usa-button-primary" onClick={buttonHandler}>
-                {buttonText}
-              </button>
-            )}
-          </div>
-        ),
-        status,
-      };
-
-      return <AlertBox isVisible {...alertProps} />;
-    }
+    if (content) return <CallToActionAlert {...content} />;
 
     const buttonClass = this._continueUrl.startsWith('/')
       ? classNames('usa-button-primary', 'va-button-primary')
