@@ -64,6 +64,7 @@ export const uiSchema = {
       expandUnderCondition: 'yes',
       //  showFieldLabel: true,
     },
+
     // 'view:uploadPtsdChoiceHelp': {
     //   'ui:description': ptsdChoiceDescription,
   },
