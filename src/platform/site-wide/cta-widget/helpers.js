@@ -1,10 +1,5 @@
 import backendServices from '../../user/profile/constants/backendServices';
 
-// Map frontend apps to their required services.
-// Note: frontend apps and backend services don't necessarily map one-to-one.
-// For example, some apps might require the same backend services.
-// Some apps might also require access to multiple backend services.
-
 export const frontendApps = {
   HEALTH_RECORDS: 'health-records',
   RX: 'rx',
@@ -76,6 +71,11 @@ export const redirectUrl = contentUrl => {
       return null;
   }
 };
+
+// Map frontend apps to their required services.
+// Note: frontend apps and backend services don't necessarily map one-to-one.
+// For example, some apps might require the same backend services.
+// Some apps might also require access to multiple backend services.
 
 export const requiredServices = appId => {
   switch (appId) {

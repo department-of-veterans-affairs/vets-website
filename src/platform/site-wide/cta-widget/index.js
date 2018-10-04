@@ -101,7 +101,29 @@ export class CallToActionWidget extends React.Component {
       };
     }
 
-    if (this._isHealthTool && this.props.mhvAccount.errors) {
+    if (this._isHealthTool) return this.getHealthToolContent();
+
+    if (!this.props.profile.verified) {
+      return {
+        heading: `Please verify your identity to ${this._serviceDescription}`,
+        alertText: (
+          <p>
+            We take your privacy seriously, and we’re committed to protecting
+            your information. You’ll need to verify your identity before we can
+            give you access to your personal health information.
+          </p>
+        ),
+        buttonText: 'Verify Your Identity',
+        buttonHandler: verify,
+        status: 'warning',
+      };
+    }
+
+    return null;
+  };
+
+  getHealthToolContent = () => {
+    if (this.props.mhvAccount.errors) {
       return {
         heading: 'Some VA.gov health tools aren’t working right now',
         alertText: (
@@ -124,26 +146,22 @@ export class CallToActionWidget extends React.Component {
       };
     }
 
-    if (!this.isAccessible()) return this.getInaccessibleContent();
+    if (!this.isAccessible()) return this.getInaccessibleHealthToolContent();
 
-    if (this._isHealthTool) {
-      return {
-        heading: 'My HealtheVet should open in a new tab',
-        alertText: (
-          <p>
-            If you don’t see My HealtheVet open in a new tab, try disabling your
-            browser’s popup blocker.
-          </p>
-        ),
-        buttonText: 'Go to My HealtheVet',
-        buttonHandler: this.redirect,
-      };
-    }
-
-    return null;
+    return {
+      heading: 'My HealtheVet should open in a new tab',
+      alertText: (
+        <p>
+          If you don’t see My HealtheVet open in a new tab, try disabling your
+          browser’s popup blocker.
+        </p>
+      ),
+      buttonText: 'Go to My HealtheVet',
+      buttonHandler: this.redirect,
+    };
   };
 
-  getInaccessibleHealthContent = () => {
+  getInaccessibleHealthToolContent = () => {
     const { accountState } = this.props.mhvAccount;
 
     switch (accountState) {
@@ -339,24 +357,6 @@ export class CallToActionWidget extends React.Component {
         accountState === 'needs_terms_acceptance'
           ? redirectToTermsAndConditions
           : this.props.upgradeMHVAccount,
-      status: 'warning',
-    };
-  };
-
-  getInaccessibleContent = () => {
-    if (this._isHealthTool) return this.getInaccessibleHealthContent();
-
-    return {
-      heading: `Please verify your identity to ${this._serviceDescription}`,
-      alertText: (
-        <p>
-          We take your privacy seriously, and we’re committed to protecting your
-          information. You’ll need to verify your identity before we can give
-          you access to your personal health information.
-        </p>
-      ),
-      buttonText: 'Verify Your Identity',
-      buttonHandler: verify,
       status: 'warning',
     };
   };
