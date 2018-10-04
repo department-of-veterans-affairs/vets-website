@@ -41,7 +41,8 @@
   /* logo size override */
 
   .va-header-logo {
-    width: 264px;
+    width: 100%;
+    max-width: 264px;
     height:auto;
   }
 
@@ -628,13 +629,6 @@
           }
         }
 
-      }
-    }
-
-    .va-header-logo-wrapper {
-      a {
-        width: 70%;
-        height: auto;
       }
     }
 
