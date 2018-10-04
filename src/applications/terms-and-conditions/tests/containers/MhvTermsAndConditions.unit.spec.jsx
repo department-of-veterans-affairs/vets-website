@@ -30,7 +30,6 @@ describe('<MhvTermsAndConditions>', () => {
   };
 
   const setup = () => {
-    global.window.location.replace = sinon.spy();
     props.acceptTerms.reset();
     props.fetchLatestTerms.reset();
     props.fetchTermsAcceptance.reset();

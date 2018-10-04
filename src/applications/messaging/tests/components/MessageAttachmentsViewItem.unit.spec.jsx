@@ -2,7 +2,6 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import sinon from 'sinon';
 
 import MessageAttachmentsViewItem from '../../components/MessageAttachmentsViewItem';
 
@@ -31,8 +30,6 @@ describe('<MessageAttachmentsViewItem>', () => {
   });
 
   it('should handle download correctly when URL is provided', () => {
-    global.open = sinon.spy(); // Source: https://stackoverflow.com/a/41888736
-
     const messageAttachmentsViewItem = ReactTestUtils.renderIntoDocument(
       <MessageAttachmentsViewItem {...props} />,
     );

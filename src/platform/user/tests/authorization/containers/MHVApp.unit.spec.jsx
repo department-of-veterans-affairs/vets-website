@@ -29,7 +29,6 @@ describe('<MHVApp>', () => {
   };
 
   const setup = () => {
-    global.window.location.replace = sinon.spy();
     props.createMHVAccount.reset();
     props.fetchMHVAccount.reset();
     props.refreshProfile.reset();

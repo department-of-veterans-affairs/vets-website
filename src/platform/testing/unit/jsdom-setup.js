@@ -1,5 +1,6 @@
 import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
+import sinon from 'sinon';
 
 require('es6-promise').polyfill();
 
@@ -47,9 +48,12 @@ export default function setupJSDom() {
   win.dataLayer = [];
   win.scrollTo = () => {};
   win.sessionStorage = {};
+
   win.requestAnimationFrame = func => func();
 
   global.Blob = window.Blob;
+  global.window.location.replace = sinon.spy();
+  global.open = sinon.spy(); // Source: https://stackoverflow.com/a/41888736
 
   // from mocha-jsdom https://github.com/rstacruz/mocha-jsdom/blob/master/index.js#L80
   function propagateToGlobal(window) {

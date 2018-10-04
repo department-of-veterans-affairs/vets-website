@@ -13,9 +13,11 @@ import {
 import { mockApiRequest, resetFetch } from '../../testing/unit/helpers';
 
 let oldWindow;
+let oldOpen;
 
 const fakeWindow = () => {
   oldWindow = global.window;
+  oldOpen = global.open;
   global.open = sinon.stub().returns({
     // Source: https://stackoverflow.com/a/41888736
     focus: f => f,
@@ -27,12 +29,10 @@ const fakeWindow = () => {
 };
 
 describe('auth URL helpers', () => {
-  beforeAll(() => {
-    global.open = () => ({ focus: sinon.spy() }); // Source
-  });
   beforeEach(fakeWindow);
   afterEach(() => {
     global.window = oldWindow;
+    global.open = oldOpen;
   });
 
   describe('when able to open a window', () => {

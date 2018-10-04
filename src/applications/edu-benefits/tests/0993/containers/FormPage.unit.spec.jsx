@@ -137,7 +137,6 @@ describe('Schemaform <FormPage>', () => {
   });
   it('should go back', () => {
     const oldWindow = global.window;
-    global.window.location.replace = sinon.spy();
     global.window.location.pathname = '/benefit/static/form/page';
 
     const route = {
