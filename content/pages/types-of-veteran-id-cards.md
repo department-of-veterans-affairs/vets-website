@@ -19,7 +19,7 @@ relatedlinks:
 <div class="va-introtext">
 There are many types of identification cards you can use to show you’re a Veteran. You only need to have one of them for this purpose. Learn about the different types of ID cards you can get.
  
- <br>
+
 
 </div>
 
