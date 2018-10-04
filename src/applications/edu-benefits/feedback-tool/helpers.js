@@ -62,7 +62,7 @@ export function fetchInstitutions({ institutionQuery, page, onDone, onError }) {
 // search tool and then manual address entry was selected. if this is not
 // cleared out the (incorrect) facility code will be sent along with the
 // manually entered school address.
-function removeFacilityCodeIfManualEntry(form) {
+export function removeFacilityCodeIfManualEntry(form) {
   if (
     get(
       'data.educationDetails.school.view:searchSchoolSelect.view:manualSchoolEntryChecked',
@@ -77,12 +77,12 @@ function removeFacilityCodeIfManualEntry(form) {
   return form;
 }
 
-export function transform(formConfig, form) {
-  const formData = transformForSubmit(
-    formConfig,
-    removeFacilityCodeIfManualEntry(form),
-    null,
-  );
+export function transform(
+  formConfig,
+  form,
+  formTransformer = removeFacilityCodeIfManualEntry,
+) {
+  const formData = transformForSubmit(formConfig, formTransformer(form), null);
   return JSON.stringify({
     giBillFeedback: {
       form: formData,
