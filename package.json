@@ -6,6 +6,7 @@
     "apps": "node --eval \"require('./script/manifest-helpers.js').displayApplications()\"",
     "analyze": "webpack-bundle-analyzer build/production/generated/stats.json",
     "build": "node script/build.js",
+    "build:brand-consoliation": "node --inspect script/build.js --brand-consolidation-enabled",
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype production --analyzer; npm run analyze",
     "prebuild": "node script/prebuild.js",
     "heroku-serve": "http-server",
