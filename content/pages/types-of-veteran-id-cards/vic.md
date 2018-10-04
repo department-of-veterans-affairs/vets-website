@@ -11,7 +11,7 @@ order: 1
 
 <div class="va-introtext">
  
-A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offered to Veterans at many restaurants, hotels, stores, and other businesses. Retail businesses and stores acceptance of the VIC is voluntary and doesn't show an endorsement, favoring, or recommendation, or favoring by VA. Find out if you’re eligible for a Veteran ID Card—and how to apply.
+A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offered to Veterans at many restaurants, hotels, stores, and other businesses. Find out if you’re eligible for a Veteran ID Card—and how to apply.
 </div>
 
 
