@@ -114,57 +114,21 @@ h1, h3, h4 {
 
 }
 
-.hub-color-health-care {
-  color: $indigo-cool-60;
+@mixin make-hub($hub-name, $color) {
+  .hub-background-#{$hub-name} {
+    background: $color;
+  }
+  .hub-color-#{$hub-name} {
+    color: $color;
+  }
 }
-.hub-color-education {
-  color: $mint-cool-50;
-}
-.hub-color-disability {
-  color: $red-60;
-}
-.hub-color-careers {
-  color: $orange-warm-50;
-}
-.hub-color-pension {
-  color: $green-cool-50;
-}
-.hub-color-housing {
-  color: $gold-50;
-}
-.hub-color-life-insurance {
-  color: $green-warm-50;
-}
-.hub-color-burials {
-  color: $blue-50;
-}
-.hub-color-records {
-  color: $violet-warm-60;
-}
-.hub-background-health-care {
-  background-color: $indigo-cool-60;
-}
-.hub-background-education {
-  background-color: $mint-cool-50;
-}
-.hub-background-disability {
-  background-color: $red-60;
-}
-.hub-background-careers {
-  background-color: $orange-warm-50;
-}
-.hub-background-pension {
-  background-color: $green-cool-50;
-}
-.hub-background-housing {
-  background-color: $gold-50;
-}
-.hub-background-life-insurance {
-  background-color: $green-warm-50;
-}
-.hub-background-burials {
-  background-color: $blue-50;
-}
-.hub-background-records {
-  background-color: $violet-warm-60;
-}
+
+@include make-hub('health-care', $indigo-cool-60);
+@include make-hub('education', $mint-cool-50);
+@include make-hub('disability', $red-60);
+@include make-hub('careers', $orange-warm-50);
+@include make-hub('pension', $green-cool-50);
+@include make-hub('housing', $gold-50);
+@include make-hub('life-insurance', $green-warm-50);
+@include make-hub('burials', $blue-50);
+@include make-hub('records', $violet-warm-60);
