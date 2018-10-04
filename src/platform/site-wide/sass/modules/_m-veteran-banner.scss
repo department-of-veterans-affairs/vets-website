@@ -10,12 +10,10 @@ $veteran-banner-mobile-height: 70px;
 
 .veteran-banner-image {
   margin: 0 auto;
-  display: block;
   background-image: url(/img/homepage/veterans-banner-mobile.png);
   background-repeat: no-repeat;
   background-position: center bottom;
   background-size: 100% auto;
-  width: 100%;
   height: $veteran-banner-mobile-height;
   max-width: $veteran-banner-mobile-width;
 }
