@@ -2,60 +2,57 @@ import React, { Component } from 'react';
 
 import recordEvent from '../../../platform/monitoring/record-event';
 
-import {
-  healthServices,
-  benefitsServices,
-  vetCenterServices
-} from '../config';
+import { healthServices, benefitsServices, vetCenterServices } from '../config';
 
 import FacilityTypeDropdown from './FacilityTypeDropdown';
 
 class SearchControls extends Component {
   handleEditSearch = () => {
     this.props.onChange({ active: false });
-  }
+  };
 
-  handleQueryChange = (e) => {
+  handleQueryChange = e => {
     this.props.onChange({ searchString: e.target.value });
-  }
+  };
 
-  handleFacilityTypeChange = (option) => {
-    const facilityType = (option === 'all') ? null : option;
+  handleFacilityTypeChange = option => {
+    const facilityType = option === 'all' ? null : option;
     this.props.onChange({ facilityType, serviceType: null });
-  }
+  };
 
-  handleServiceTypeChange = (e) => {
+  handleServiceTypeChange = e => {
     const option = e.target.value;
-    const serviceType = (option === 'All') ? null : option;
+    const serviceType = option === 'All' ? null : option;
     this.props.onChange({ serviceType });
-  }
+  };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
 
     const { facilityType } = this.props.currentQuery;
     // Report event here to only send analytics event when a user clicks on the button
     recordEvent({
       event: 'fl-search',
-      'fl-search-fac-type': facilityType
+      'fl-search-fac-type': facilityType,
     });
 
     this.props.onSubmit();
-  }
+  };
 
-  renderFacilityTypeDropdown = () => {
-    return (
-      <div className="columns medium-3">
-        <FacilityTypeDropdown
-          facilityType={this.props.currentQuery.facilityType}
-          onChange={this.handleFacilityTypeChange}/>
-      </div>
-    );
-  }
+  renderFacilityTypeDropdown = () => (
+    <div className="columns medium-3">
+      <FacilityTypeDropdown
+        facilityType={this.props.currentQuery.facilityType}
+        onChange={this.handleFacilityTypeChange}
+      />
+    </div>
+  );
 
   renderServiceTypeDropdown = () => {
     const { facilityType, serviceType } = this.props.currentQuery;
-    const disabled = !['health', 'benefits', 'vet_center'].includes(facilityType);
+    const disabled = !['health', 'benefits', 'vet_center'].includes(
+      facilityType,
+    );
     let services;
 
     // Determine what service types to display for the facility type.
@@ -67,17 +64,20 @@ class SearchControls extends Component {
         services = benefitsServices;
         break;
       case 'vet_center':
-        services = vetCenterServices.reduce((result, service) => {
-          result[service] = service; // eslint-disable-line no-param-reassign
-          return result;
-        }, { All: 'Show all facilities' });
+        services = vetCenterServices.reduce(
+          (result, service) => {
+            result[service] = service; // eslint-disable-line no-param-reassign
+            return result;
+          },
+          { All: 'Show all facilities' },
+        );
         break;
       default:
         services = {};
     }
 
     // Create option elements for each service type.
-    const options = Object.keys(services).map((service) => (
+    const options = Object.keys(services).map(service => (
       <option key={service} value={service}>
         {services[service]}
       </option>
@@ -85,19 +85,18 @@ class SearchControls extends Component {
 
     return (
       <div className="columns medium-3">
-        <label htmlFor="service-type-dropdown">
-          Filter by service
-        </label>
+        <label htmlFor="service-type-dropdown">Filter by service</label>
         <select
           id="service-type-dropdown"
           disabled={disabled}
           value={serviceType || ''}
-          onChange={this.handleServiceTypeChange}>
+          onChange={this.handleServiceTypeChange}
+        >
           {options}
         </select>
       </div>
     );
-  }
+  };
 
   render() {
     const { currentQuery, isMobile } = this.props;
@@ -116,7 +115,10 @@ class SearchControls extends Component {
       <div className="search-controls-container clearfix">
         <form className="row" onSubmit={this.handleSubmit}>
           <div className="columns medium-4">
-            <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
+            <label
+              htmlFor="street-city-state-zip"
+              id="street-city-state-zip-label"
+            >
               Enter Street, City, State or Zip
             </label>
             <input
@@ -125,12 +127,13 @@ class SearchControls extends Component {
               type="text"
               onChange={this.handleQueryChange}
               value={currentQuery.searchString}
-              title="Street, City, State or Zip"/>
+              title="Street, City, State or Zip"
+            />
           </div>
           {this.renderFacilityTypeDropdown()}
           {this.renderServiceTypeDropdown()}
           <div className="columns medium-2">
-            <input type="submit" value="Search"/>
+            <input type="submit" value="Search" />
           </div>
         </form>
       </div>

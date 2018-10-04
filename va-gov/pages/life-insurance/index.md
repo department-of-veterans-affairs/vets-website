@@ -44,15 +44,19 @@ social:
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
           label: Veterans Benefits Email Updates
+          external: true
           icon: fa-envelope-square
         - url: https://twitter.com/VAVetBenefits
           label: Veterans Benefits Twitter
+          external: true
           icon: fa-twitter
         - url: "https://www.facebook.com/VeteransBenefits"
           label: Veterans Benefits Facebook
+          external: true
           icon: fa-facebook
         - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
           label: Veterans Benefits YouTube
+          external: true
           icon: fa-youtube
 ---
 <p class="va-introtext">
@@ -115,7 +119,7 @@ VA life insurance can offer financial security and support for Veterans, Service
   </div>
 
   <div class="link">
-    <a href="/track-claims"><b>Check Your Appeal Status</b></a>
+    <a href="/claim-or-appeal-status/"><b>Check Your Appeal Status</b></a>
     <p>Track the status of your life insurance appeal.</p>
   </div>
 

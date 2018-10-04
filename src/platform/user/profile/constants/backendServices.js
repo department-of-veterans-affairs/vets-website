@@ -27,5 +27,5 @@ export default {
   CLAIM_INCREASE: 'claim_increase',
   // If the 526 increase form is still available for the day/week and
   // hasn't hit the submission limit
-  CLAIM_INCREASE_AVAILABLE: 'claim-increase-available'
+  CLAIM_INCREASE_AVAILABLE: 'claim-increase-available',
 };

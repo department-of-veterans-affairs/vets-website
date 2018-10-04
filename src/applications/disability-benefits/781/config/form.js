@@ -10,11 +10,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.definitions;
 
-import {
-  introductionText,
-  incidentIntroduction781,
-  incidentIntroduction781a,
-} from '../helpers';
+import { introductionText } from '../helpers';
 
 // Define all the fields in the form to aid reuse
 // const formFields = {};
@@ -26,6 +22,8 @@ import {
   uploadPtsd,
   uploadPtsdSecondary,
   medals,
+  informationInterviewCombat,
+  informationInterviewAssault,
 } from '../pages';
 
 const formConfig = {
@@ -45,7 +43,6 @@ const formConfig = {
   title: 'Apply for increased disability compensation',
   chapters: {
     introductionPage: {
-      title: 'Disability Details',
       pages: {
         ptsdIntroduction: {
           title: 'Disability Details',
@@ -90,13 +87,8 @@ const formConfig = {
             form['view:uploadPtsdChoice'] === 'answerQuestions' &&
             (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
               form['view:selectablePtsdTypes']['view:noncombatPtsdType']),
-          uiSchema: {
-            'ui:description': incidentIntroduction781,
-          },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+          uiSchema: informationInterviewCombat.uiSchema,
+          schema: informationInterviewCombat.schema,
         },
         ptsdSecondaryChoice: {
           path: 'ptsdSecondaryChoice',
@@ -124,13 +116,8 @@ const formConfig = {
             form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' &&
             (form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
               form['view:selectablePtsdTypes']['view:assaultPtsdType']),
-          uiSchema: {
-            'ui:description': incidentIntroduction781a,
-          },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+          uiSchema: informationInterviewAssault.uiSchema,
+          schema: informationInterviewAssault.schema,
         },
         medals: {
           // TODO: KEEP FOR NEXT STORY

@@ -11,5 +11,5 @@ export const SERVICE_AVAILABILITY_STATES = Object.freeze({
   unrequested: 'unrequested',
   pending: 'pending',
   up: 'up',
-  down: 'down'
+  down: 'down',
 });

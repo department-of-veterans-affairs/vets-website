@@ -1,60 +1,76 @@
 import {
   uiSchema as ptsdTypeUISchema,
-  schema as ptsdTypeSchema
+  schema as ptsdTypeSchema,
 } from './choosePtsdType';
 
 import {
   uiSchema as ptsd781UISchema,
-  schema as ptsd781Schema
+  schema as ptsd781Schema,
 } from './uploadPtsd';
 
 import {
   uiSchema as ptsd781aUISchema,
-  schema as ptsd781aSchema
+  schema as ptsd781aSchema,
 } from './uploadPtsdSecondary';
 
 import {
   uiSchema as ptsdChoiceUISchema,
-  schema as ptsdChoiceSchema
+  schema as ptsdChoiceSchema,
 } from './ptsdChoice';
 
 import {
   uiSchema as ptsdSecondaryChoiceUISchema,
-  schema as ptsdSecondaryChoiceSchema
+  schema as ptsdSecondaryChoiceSchema,
 } from './ptsdSecondaryChoice';
 
 import {
-  uiSchema as medalsUISchema,
-  schema as medalsSchema
-} from './medals';
+  uiSchema as informationInterviewCombatUISchema,
+  schema as informationInterviewCombatSchema,
+} from './informationInterviewCombat';
 
+import {
+  uiSchema as informationInterviewAssaultUISchema,
+  schema as informationInterviewAssaultSchema,
+} from './informationInterviewAssault';
+
+import { uiSchema as medalsUISchema, schema as medalsSchema } from './medals';
 
 export const ptsdType = {
   uiSchema: ptsdTypeUISchema,
-  schema: ptsdTypeSchema
+  schema: ptsdTypeSchema,
 };
 
 export const ptsdChoice = {
   uiSchema: ptsdChoiceUISchema,
-  schema: ptsdChoiceSchema
+  schema: ptsdChoiceSchema,
 };
 
 export const ptsdSecondaryChoice = {
   uiSchema: ptsdSecondaryChoiceUISchema,
-  schema: ptsdSecondaryChoiceSchema
+  schema: ptsdSecondaryChoiceSchema,
 };
 
 export const uploadPtsd = {
   uiSchema: ptsd781UISchema,
-  schema: ptsd781Schema
+  schema: ptsd781Schema,
 };
 
 export const uploadPtsdSecondary = {
   uiSchema: ptsd781aUISchema,
-  schema: ptsd781aSchema
+  schema: ptsd781aSchema,
+};
+
+export const informationInterviewCombat = {
+  uiSchema: informationInterviewCombatUISchema,
+  schema: informationInterviewCombatSchema,
+};
+
+export const informationInterviewAssault = {
+  uiSchema: informationInterviewAssaultUISchema,
+  schema: informationInterviewAssaultSchema,
 };
 
 export const medals = {
   uiSchema: medalsUISchema,
-  schema: medalsSchema
+  schema: medalsSchema,
 };

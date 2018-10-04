@@ -9,8 +9,14 @@ class FacilityDirectionsLink extends Component {
 
     return (
       <span>
-        <a href={`https://maps.google.com?saddr=Current+Location&daddr=${addressArray.join(', ')}`} target="_blank">
-          <i className="fa fa-road"/>Directions
+        <a
+          href={`https://maps.google.com?saddr=Current+Location&daddr=${addressArray.join(
+            ', ',
+          )}`}
+          target="_blank"
+        >
+          <i className="fa fa-road" />
+          Directions
         </a>
       </span>
     );

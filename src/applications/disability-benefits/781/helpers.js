@@ -1,54 +1,57 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-let incidentTitle;
-let incidentText;
-
-const getPtsdClassification781 = formData => {
+export const getPtsdClassification = (formData, formType) => {
   const classifications = formData['view:selectablePtsdTypes'];
+  let incidentTitle;
+  let incidentText;
+  const is781 = formType === '781';
 
-  if (classifications['view:combatPtsdType']) {
-    incidentTitle = 'Combat';
-    incidentText = 'Combat';
-  }
-  if (classifications['view:noncombatPtsdType']) {
-    incidentTitle =
-      'Non-Combat PTSD other than Military Sexual Trama or Personal Assault';
-    incidentText =
-      'Non-Combat PTSD other than Military Sexual Trama or Personal Assault';
-  }
-  if (
-    classifications['view:combatPtsdType'] &&
-    classifications['view:noncombatPtsdType']
-  ) {
-    incidentTitle =
-      'Combat & Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+  switch (true) {
+    case classifications['view:combatPtsdType'] &&
+      classifications['view:noncombatPtsdType'] &&
+      is781:
+      incidentTitle =
+        'Combat & Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
 
-    incidentText =
-      'Combat and Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
-  }
-};
+      incidentText =
+        'Combat and Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      break;
 
-const getPtsdClassification781a = formData => {
-  const classifications = formData['view:selectablePtsdTypes'];
+    case classifications['view:assaultPtsdType'] &&
+      classifications['view:mstPtsdType'] &&
+      !is781:
+      incidentTitle = 'Personal Assault & Military Sexual Trauma';
+      incidentText = 'Personal Assault and Military Sexual Trauma';
+      break;
 
-  if (classifications['view:assaultPtsdType']) {
-    incidentTitle = 'Personal Assault';
-    incidentText = 'Personal Assault';
-  }
+    case classifications['view:combatPtsdType'] && is781:
+      incidentTitle = 'Combat';
+      incidentText = 'Combat';
+      break;
 
-  if (classifications['view:mstPtsdType']) {
-    incidentTitle = 'Military Sexual Trauma';
-    incidentText = 'Military Sexual Trauma';
-  }
+    case classifications['view:noncombatPtsdType'] && is781:
+      incidentTitle =
+        'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      incidentText =
+        'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      break;
 
-  if (
-    classifications['view:assaultPtsdType'] &&
-    classifications['view:mstPtsdType']
-  ) {
-    incidentTitle = 'Personal Assault & Military Sexual Trauma';
-    incidentText = 'Personal Assault and Military Sexual Trauma';
+    case classifications['view:assaultPtsdType'] && !is781:
+      incidentTitle = 'Personal Assault';
+      incidentText = 'Personal Assault';
+      break;
+
+    case classifications['view:mstPtsdType'] && !is781:
+      incidentTitle = 'Military Sexual Trauma';
+      incidentText = 'Military Sexual Trauma';
+      break;
+
+    default:
+      incidentTitle = '';
+      incidentText = '';
   }
+  return { incidentTitle, incidentText };
 };
 
 const introductionExplanationText = (
@@ -77,8 +80,7 @@ const introductionExplanationText = (
         to start a confidential chat online, <strong>**or**</strong>
       </li>
       <li>
-        Send a text message to <a href="sms:838255">838255</a>
-        .
+        Send a text message to <a href="sms:838255">838255</a>.
       </li>
     </ul>
     <p>Support for the deaf and hearing-impaired is also available.</p>
@@ -97,56 +99,49 @@ export const introductionText = (
   </div>
 );
 
-export const ptsdTypeDescription = () => {
-  return (
-    <div>
-      <p>
-        First we‘re going to ask you about the type of event or events that
-        contributed to your PTSD.
-      </p>
-      <p>
-        What type of event contributed to your PTSD? (Choose all that apply.)
-      </p>
-    </div>
-  );
-};
+export const ptsdTypeDescription = () => (
+  <div>
+    <p>
+      First we‘re going to ask you about the type of event or events that
+      contributed to your PTSD.
+    </p>
+    <p>What type of event contributed to your PTSD? (Choose all that apply.)</p>
+  </div>
+);
 
-export const ptsdTypeHelp = () => {
-  return (
-    <AdditionalInfo triggerText="Which should I choose?">
-      <h4>Types of Stressful incidents</h4>
-      <h5>Combat</h5>
-      <p>
-        This means you participated in a fight or encounter with a military
-        enemy or hostile unit or weapon. It also includes if you were present
-        during these events either as a combatant or a Servicemember supporting
-        combatants such as providing medical care to the wounded.
-      </p>
-      <h5>Military Sexual Trauma</h5>
-      <p>
-        This includes sexual harassment, sexual assault, or rape that happens in
-        a military setting.
-      </p>
-      <h5>Personal Assault</h5>
-      <p>
-        This means a person, who isn‘t part of an enemy force, committed harm.
-        Examples of personal assault include: assault, battery, robbery,
-        mugging, stalking, or harassment.
-      </p>
-      <h5>Non-Combat other than Military Sexual Trama or Personal Assault</h5>
-      <p>
-        This means you experienced an event such as a car accident, hurricane,
-        or plane crash, or witnessing the death, injury, or threat to another
-        person or to yourself, caused by something other than a hostile military
-        or terrorist activity.
-      </p>
-    </AdditionalInfo>
-  );
-};
+export const ptsdTypeHelp = () => (
+  <AdditionalInfo triggerText="Which should I choose?">
+    <h4>Types of Stressful incidents</h4>
+    <h5>Combat</h5>
+    <p>
+      This means you participated in a fight or encounter with a military enemy
+      or hostile unit or weapon. It also includes if you were present during
+      these events either as a combatant or a Servicemember supporting
+      combatants such as providing medical care to the wounded.
+    </p>
+    <h5>Military Sexual Trauma</h5>
+    <p>
+      This includes sexual harassment, sexual assault, or rape that happens in a
+      military setting.
+    </p>
+    <h5>Personal Assault</h5>
+    <p>
+      This means a person, who isn‘t part of an enemy force, committed harm.
+      Examples of personal assault include: assault, battery, robbery, mugging,
+      stalking, or harassment.
+    </p>
+    <h5>Non-Combat other than Military Sexual Trauma or Personal Assault</h5>
+    <p>
+      This means you experienced an event such as a car accident, hurricane, or
+      plane crash, or witnessing the death, injury, or threat to another person
+      or to yourself, caused by something other than a hostile military or
+      terrorist activity.
+    </p>
+  </AdditionalInfo>
+);
 
-export const ptsdNameTitle781 = ({ formData }) => {
-  getPtsdClassification781(formData);
-
+export const PtsdNameTitle = ({ formData, formType }) => {
+  const { incidentTitle } = getPtsdClassification(formData, formType);
   return (
     <legend className="schemaform-block-title schemaform-title-underline">
       {incidentTitle}
@@ -154,94 +149,58 @@ export const ptsdNameTitle781 = ({ formData }) => {
   );
 };
 
-export const ptsdNameTitle781a = ({ formData }) => {
-  getPtsdClassification781a(formData);
+export const documentDescription = () => (
+  <div>
+    <p>
+      You can upload your document in a pdf, .jpeg, or .png file format. You’ll
+      first need to scan a copy of your document onto your computer or mobile
+      phone. You can then upload the document from there. Please note that large
+      files can take longer to upload with a slow Internet connection.
+      Guidelines for uploading a file:
+    </p>
+    <ul>
+      <li>File types you can upload: .pdf, .jpeg, or .png</li>
+      <li>Maximum file size: 50 MB</li>
+    </ul>
+    <p>
+      <em>
+        Large files can be more difficult to upload with a slow Internet
+        connection
+      </em>
+    </p>
+  </div>
+);
 
-  return (
-    <legend className="schemaform-block-title schemaform-title-underline">
-      {incidentTitle}
-    </legend>
-  );
-};
-
-export const documentDescription = () => {
-  return (
-    <div>
-      <p>
-        You can upload your document in a pdf, .jpeg, or .png file format.
-        You’ll first need to scan a copy of your document onto your computer or
-        mobile phone. You can then upload the document from there. Please note
-        that large files can take longer to upload with a slow Internet
-        connection. Guidelines for uploading a file:
-      </p>
-      <ul>
-        <li>File types you can upload: .pdf, .jpeg, or .png</li>
-        <li>Maximum file size: 50 MB</li>
-      </ul>
-      <p>
-        <em>
-          Large files can be more difficult to upload with a slow Internet
-          connection
-        </em>
-      </p>
-    </div>
-  );
-};
-
-export const incidentIntroduction781 = ({ formData }) => {
-  getPtsdClassification781(formData);
-
-  return (
-    <div>
-      <h3>{incidentText}</h3>
-      {introductionExplanationText}
-    </div>
-  );
-};
-
-const uploadExplanation = (
+const UploadExplanation = ({ formType }) => (
   <div>
     <p>
       If you have already completed a Claim for Service Connection for
-      Post-Traumatic Stress Disorder (VA Form 21-0781), you can upload it here
-      instead of answering the questions about your PTSD.
+      Post-Traumatic Stress Disorder (VA Form 21-0
+      {`${formType}`}
+      ), you can upload it here instead of answering the questions about your
+      PTSD.
     </p>
     <p>How would you like to provide information about your PTSD?</p>
   </div>
 );
 
-export const uploadPtsdDescription781 = ({ formData }) => {
-  getPtsdClassification781(formData); // TODO: DRY-ER
+export const UploadPtsdDescription = ({ formData, formType }) => {
+  const { incidentText } = getPtsdClassification(formData, formType);
   return (
     <div>
       <p>
         The following questions will help us understand more about your
-        {` ${incidentText}`}-related PTSD. None of the questions we‘ll ask you
-        are required, but any information you provide here will help us research
-        your claim.
+        {` ${incidentText}`}
+        -related PTSD. None of the questions we‘ll ask you are required, but any
+        information you provide here will help us research your claim.
       </p>
-      {uploadExplanation}
+      <UploadExplanation formType={formType} />
     </div>
   );
 };
 
-export const uploadPtsdDescription781a = ({ formData }) => {
-  getPtsdClassification781a(formData); // TODO: DRY-ER
-  return (
-    <div>
-      <p>
-        The following questions will help us understand more about your
-        {` ${incidentText}`}-related PTSD. None of the questions we‘ll ask you
-        are required, but any information you provide here will help us research
-        your claim.
-      </p>
-      {uploadExplanation}
-    </div>
-  );
-};
-
-export const incidentIntroduction781a = ({ formData }) => {
-  getPtsdClassification781a(formData);
+export const IncidentIntroduction781 = ({ formData, formType }) => {
+  const { incidentTitle } = getPtsdClassification(formData, formType);
   return (
     <div>
       <h3>{incidentTitle}</h3>
@@ -265,17 +224,3 @@ export const ptsdChoiceDescription = (
     </p>
   </AdditionalInfo>
 );
-
-export const medalsDescription = ({ formData }) => {
-  getPtsdClassification781(formData); // TODO: DRY-ER
-  return (
-    <div>
-      <p>
-        Now we'll ask about the event or events that caused your
-        {` ${incidentText}`}-related PTSD. If there is more than one event you
-        want to tell us about, we‘ll ask questions about each event separetely.
-      </p>
-      <p>Did you receive a medal or citation for the first event?</p>
-    </div>
-  );
-};

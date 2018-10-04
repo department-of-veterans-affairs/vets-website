@@ -5,5 +5,5 @@ import ApplicationStatus from '../../../platform/forms/save-in-progress/Applicat
 // in the same bundle
 export default {
   EducationWizard,
-  ApplicationStatus
+  ApplicationStatus,
 };

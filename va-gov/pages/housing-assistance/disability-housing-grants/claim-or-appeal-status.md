@@ -1,5 +1,6 @@
 ---
 title: Check Appeal Status
-href: /track-claims
+href: /claim-or-appeal-status/
 order: 2
+private: true
 ---

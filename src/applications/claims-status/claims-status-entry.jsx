@@ -21,10 +21,10 @@ import { setLastPage } from './actions/index.jsx';
 const store = createCommonStore(reducer);
 
 const history = useRouterHistory(createHistory)({
-  basename: manifest.rootUrl
+  basename: manifest.rootUrl,
 });
 
-history.listen((location) => {
+history.listen(location => {
   store.dispatch(setLastPage(location.pathname));
 });
 
@@ -34,9 +34,9 @@ startReactApp(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={ClaimsStatusApp}>
-        <IndexRedirect to="/your-claims"/>
+        <IndexRedirect to="/your-claims" />
         {routes}
       </Route>
     </Router>
-  </Provider>
+  </Provider>,
 );

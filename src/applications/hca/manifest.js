@@ -4,5 +4,5 @@ module.exports = {
   entryName: 'hca',
   receiveContentProps({ path: rootUrl }) {
     this.rootUrl = `/${rootUrl}`;
-  }
+  },
 };

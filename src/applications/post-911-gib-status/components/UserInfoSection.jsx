@@ -3,13 +3,16 @@ import PropTypes from 'prop-types';
 
 import InfoPair from './InfoPair';
 
-import { formatDateShort, formatDateParsedZoneLong } from '../../../platform/utilities/date';
+import {
+  formatDateShort,
+  formatDateParsedZoneLong,
+} from '../../../platform/utilities/date';
 import {
   formatPercent,
   formatVAFileNumber,
   formatMonthDayFields,
   benefitEndDateExplanation,
-  notQualifiedWarning
+  notQualifiedWarning,
 } from '../utils/helpers.jsx';
 
 class UserInfoSection extends React.Component {
@@ -18,7 +21,8 @@ class UserInfoSection extends React.Component {
 
     // Get today’s date to show information current as of
     const todayFormatted = formatDateShort(new Date());
-    const percentageBenefit = formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
+    const percentageBenefit =
+      formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
     const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
 
     let currentAsOfAlert;
@@ -26,7 +30,9 @@ class UserInfoSection extends React.Component {
       currentAsOfAlert = (
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <h4 id="current-as-of" className="usa-alert-heading">This information is current as of {todayFormatted}</h4>
+            <h4 id="current-as-of" className="usa-alert-heading">
+              This information is current as of {todayFormatted}
+            </h4>
           </div>
         </div>
       );
@@ -34,9 +40,18 @@ class UserInfoSection extends React.Component {
 
     let benefitEndDate;
     if (enrollmentData.activeDuty) {
-      benefitEndDate = benefitEndDateExplanation('activeDuty', enrollmentData.delimitingDate);
-    } else if (enrollmentData.remainingEntitlement.months > 0 || enrollmentData.remainingEntitlement.days > 0) {
-      benefitEndDate = benefitEndDateExplanation('remainingEntitlement', enrollmentData.delimitingDate);
+      benefitEndDate = benefitEndDateExplanation(
+        'activeDuty',
+        enrollmentData.delimitingDate,
+      );
+    } else if (
+      enrollmentData.remainingEntitlement.months > 0 ||
+      enrollmentData.remainingEntitlement.days > 0
+    ) {
+      benefitEndDate = benefitEndDateExplanation(
+        'remainingEntitlement',
+        enrollmentData.delimitingDate,
+      );
     }
 
     let entitlementInfo;
@@ -49,14 +64,25 @@ class UserInfoSection extends React.Component {
         <div>
           <div className="section">
             <h4>Your Benefits</h4>
-            <InfoPair label="Total months received" value={formatMonthDayFields(originalEntitlement)}/>
-            <InfoPair label="Months you’ve used" value={formatMonthDayFields(usedEntitlement)}/>
-            <InfoPair label="Months you have left to use" value={formatMonthDayFields(remainingEntitlement)} displayIfZero/>
+            <InfoPair
+              label="Total months received"
+              value={formatMonthDayFields(originalEntitlement)}
+            />
+            <InfoPair
+              label="Months you’ve used"
+              value={formatMonthDayFields(usedEntitlement)}
+            />
+            <InfoPair
+              label="Months you have left to use"
+              value={formatMonthDayFields(remainingEntitlement)}
+              displayIfZero
+            />
             <p id="benefit-level">
-              Your eligibility percentage is <strong>{percentageBenefit}</strong>.
-              <br/>
+              Your eligibility percentage is{' '}
+              <strong>{percentageBenefit}</strong>.<br />
               <a href="/gi-bill-comparison-tool/" target="_blank">
-                Find out how much money you can expect to get based on your eligibility percentage.
+                Find out how much money you can expect to get based on your
+                eligibility percentage.
               </a>
             </p>
           </div>
@@ -75,20 +101,24 @@ class UserInfoSection extends React.Component {
             label="Name"
             value={fullName}
             id="gibs-full-name"
-            additionalClass="section-line"/>
+            additionalClass="section-line"
+          />
           <InfoPair
             label="Date of birth"
             name="dateOfBirth"
             value={formatDateParsedZoneLong(enrollmentData.dateOfBirth)}
-            additionalClass="section-line"/>
+            additionalClass="section-line"
+          />
           <InfoPair
             label="VA file number"
             value={formatVAFileNumber(enrollmentData.vaFileNumber)}
-            additionalClass="section-line"/>
+            additionalClass="section-line"
+          />
           <InfoPair
             label="Regional Processing Office"
             value={enrollmentData.regionalProcessingOffice}
-            additionalClass="section-line"/>
+            additionalClass="section-line"
+          />
         </div>
         {entitlementInfo}
       </div>
@@ -98,7 +128,7 @@ class UserInfoSection extends React.Component {
 
 UserInfoSection.propTypes = {
   enrollmentData: PropTypes.object,
-  showCurrentAsOfAlert: PropTypes.bool
+  showCurrentAsOfAlert: PropTypes.bool,
 };
 
 export default UserInfoSection;

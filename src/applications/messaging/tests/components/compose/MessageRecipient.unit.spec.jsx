@@ -14,32 +14,35 @@ const props = {
 
 describe('<MessageRecipient>', () => {
   it('should render correctly', () => {
-    const tree = SkinDeep.shallowRender(<MessageRecipient {...props}/>);
+    const tree = SkinDeep.shallowRender(<MessageRecipient {...props} />);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
   it('should have the expected classname if no error', () => {
-    const tree = SkinDeep.shallowRender(<MessageRecipient {...props}/>);
+    const tree = SkinDeep.shallowRender(<MessageRecipient {...props} />);
 
     expect(tree.props.className).to.equal(props.cssClass);
   });
 
   it('should have the expected classname if there is an error', () => {
-    const tree = SkinDeep.shallowRender(<MessageRecipient {...props} errorMessage="errorMessage"/>);
+    const tree = SkinDeep.shallowRender(
+      <MessageRecipient {...props} errorMessage="errorMessage" />,
+    );
 
-    expect(tree.props.className).to.equal(`${props.cssClass} usa-input-error msg-compose-error`);
+    expect(tree.props.className).to.equal(
+      `${props.cssClass} usa-input-error msg-compose-error`,
+    );
   });
 
-
   it('should render the expected select element', () => {
-    const tree = SkinDeep.shallowRender(<MessageRecipient {...props}/>);
+    const tree = SkinDeep.shallowRender(<MessageRecipient {...props} />);
 
     expect(tree.subTree('ErrorableSelect')).to.be.ok;
   });
 
   it('should pass props to child select element', () => {
-    const tree = SkinDeep.shallowRender(<MessageRecipient {...props}/>);
+    const tree = SkinDeep.shallowRender(<MessageRecipient {...props} />);
     const selectElement = tree.subTree('ErrorableSelect');
 
     expect(selectElement.props.options).to.equal(props.options);

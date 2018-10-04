@@ -11,7 +11,7 @@ import {
   restoreFromPrefill,
   searchInputChange,
   selectInstitution,
-  searchSchools
+  searchSchools,
 } from '../actions/schoolSearch';
 import {
   selectCurrentPageNumber,
@@ -29,11 +29,9 @@ import {
   selectShowNoResultsFound,
   selectShowPagination,
   selectShowPaginationLoading,
-  selectShowSearchResults
+  selectShowSearchResults,
 } from '../selectors/schoolSearch';
-import {
-  transformSearchToolAddress
-} from '../helpers';
+import { transformSearchToolAddress } from '../helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -43,7 +41,8 @@ export class SchoolSelectField extends React.Component {
     super(props);
     this.debouncedSearchInstitutions = _.debounce(
       value => this.props.searchSchools(value),
-      150);
+      150,
+    );
   }
 
   componentDidMount() {
@@ -53,15 +52,17 @@ export class SchoolSelectField extends React.Component {
     const institutionSelected = this.props.formData['view:institutionSelected'];
     const searchTermToRestore = this.props.formData['view:institutionQuery'];
     const pageNumberToRestore = this.props.formData['view:currentPageNumber'];
-    if (searchTermToRestore && searchTermToRestore !== this.props.institutionQuery && !this.props.showInstitutions) {
-
+    if (
+      searchTermToRestore &&
+      searchTermToRestore !== this.props.institutionQuery &&
+      !this.props.showInstitutions
+    ) {
       this.props.restoreFromPrefill({
         institutionSelected,
         institutionQuery: searchTermToRestore,
         page: pageNumberToRestore,
         searchInputValue: searchTermToRestore,
       });
-
     }
   }
 
@@ -73,47 +74,75 @@ export class SchoolSelectField extends React.Component {
     scroller.scrollTo('schoolSearch', {
       duration: 250,
       delay: 0,
-      smooth: true
+      smooth: true,
     });
   };
 
-  handleManualSchoolEntryToggled = (currentValue) => {
+  handleManualSchoolEntryToggled = currentValue => {
     this.props.onChange({
       ...this.props.formData,
-      'view:manualSchoolEntryChecked': !currentValue
+      'view:manualSchoolEntryChecked': !currentValue,
     });
-  }
+  };
 
-  handleOptionClick = ({ address1, address2, address3, city, country, facilityCode, name, state, zip }) => {
-    this.props.selectInstitution({ address1, address2, address3, city, facilityCode, name, state });
-    const address = transformSearchToolAddress({ address1, address2, address3, city, country, state, zip });
+  handleOptionClick = ({
+    address1,
+    address2,
+    address3,
+    city,
+    country,
+    facilityCode,
+    name,
+    state,
+    zip,
+  }) => {
+    this.props.selectInstitution({
+      address1,
+      address2,
+      address3,
+      city,
+      facilityCode,
+      name,
+      state,
+    });
+    const address = transformSearchToolAddress({
+      address1,
+      address2,
+      address3,
+      city,
+      country,
+      state,
+      zip,
+    });
     this.props.onChange({
       ...this.props.formData,
       name,
       'view:facilityCode': facilityCode,
-      address
+      address,
     });
-  }
+  };
 
   handlePageSelect = page => {
     this.resultCount.focus();
 
     this.debouncedSearchInstitutions({
       institutionQuery: this.props.institutionQuery,
-      page
+      page,
     });
     this.props.onChange({
       ...this.props.formData,
-      'view:currentPageNumber': page
+      'view:currentPageNumber': page,
     });
-  }
+  };
 
   handleSearchInputKeyDown = e => {
     if ((e.which || e.keyCode) === 13) {
       e.preventDefault();
       e.target.blur();
 
-      this.debouncedSearchInstitutions({ institutionQuery: this.props.searchInputValue });
+      this.debouncedSearchInstitutions({
+        institutionQuery: this.props.searchInputValue,
+      });
 
       this.props.onChange({
         ...this.props.formData,
@@ -121,7 +150,7 @@ export class SchoolSelectField extends React.Component {
         'view:institutionQuery': this.props.searchInputValue,
       });
     }
-  }
+  };
 
   handleSearchClick = e => {
     e.preventDefault();
@@ -133,8 +162,10 @@ export class SchoolSelectField extends React.Component {
       'view:manualSchoolEntryChecked': false,
       'view:institutionQuery': this.props.searchInputValue,
     });
-    this.debouncedSearchInstitutions({ institutionQuery: this.props.searchInputValue });
-  }
+    this.debouncedSearchInstitutions({
+      institutionQuery: this.props.searchInputValue,
+    });
+  };
 
   handleSearchInputChange = e => {
     let searchInputValue;
@@ -145,7 +176,7 @@ export class SchoolSelectField extends React.Component {
     }
 
     this.props.searchInputChange({ searchInputValue });
-  }
+  };
 
   handleStartOver = e => {
     e.preventDefault();
@@ -153,7 +184,7 @@ export class SchoolSelectField extends React.Component {
     this.props.onChange({});
     this.props.clearSearch();
     this.searchInput.focus();
-  }
+  };
 
   render() {
     const {
@@ -174,15 +205,15 @@ export class SchoolSelectField extends React.Component {
       showNoResultsFound,
       showPagination,
       showPaginationLoading,
-      showSearchResults
+      showSearchResults,
     } = this.props;
 
     const fieldsetClassNames = classNames('search-select-school-fieldset');
     const schoolSearchClassNames = classNames('school-search', {
-      'usa-input-error': showErrors
+      'usa-input-error': showErrors,
     });
     const labelClassNames = classNames('school-search-label', {
-      'usa-input-error-label': showErrors
+      'usa-input-error-label': showErrors,
     });
 
     if (formContext.reviewMode && manualSchoolEntryChecked) {
@@ -206,7 +237,9 @@ export class SchoolSelectField extends React.Component {
           {address1 && <p>{address1}</p>}
           {address2 && <p>{address2}</p>}
           {address3 && <p>{address3}</p>}
-          {(city || state) && <p>{`${city && city}${city && state && ', '}${state && state}`}</p>}
+          {(city || state) && (
+            <p>{`${city && city}${city && state && ', '}${state && state}`}</p>
+          )}
           {!city && !state && <p>{country}</p>}
         </div>
       );
@@ -219,42 +252,58 @@ export class SchoolSelectField extends React.Component {
             <label
               id="school-search-label"
               className={labelClassNames}
-              htmlFor="school-search-input">
+              htmlFor="school-search-input"
+            >
               {'School Information'}
-              {!manualSchoolEntryChecked && <span className="schemaform-required-span">{'(*Required)'}</span>}
+              {!manualSchoolEntryChecked && (
+                <span className="schemaform-required-span">
+                  {'(*Required)'}
+                </span>
+              )}
             </label>
-            {showErrors && <span
-              className="usa-input-error-message"
-              role="alert"
-              id="facility-code-error-message">
-              {errorMessages.map((message, index) => (
-                <span key={index}><span className="sr-only">Error</span>{message}</span>))
-              }
-            </span>}
+            {showErrors && (
+              <span
+                className="usa-input-error-message"
+                role="alert"
+                id="facility-code-error-message"
+              >
+                {errorMessages.map((message, index) => (
+                  <span key={index}>
+                    <span className="sr-only">Error</span>
+                    {message}
+                  </span>
+                ))}
+              </span>
+            )}
             <span>
               {'Enter your school’s name or city to search for your school'}
             </span>
             <div className="search-controls">
-              <Element name="schoolSearch"/>
+              <Element name="schoolSearch" />
               <div className="search-input">
                 <input
                   id="school-search-input"
                   name="school-search-input"
                   onChange={this.handleSearchInputChange}
                   onKeyDown={this.handleSearchInputKeyDown}
-                  ref={input => { this.searchInput = input; }}
+                  ref={input => {
+                    this.searchInput = input;
+                  }}
                   type="text"
-                  value={searchInputValue}/>
+                  value={searchInputValue}
+                />
                 <button
                   className="search-schools-button usa-button-primary"
-                  onClick={this.handleSearchClick}>
+                  onClick={this.handleSearchClick}
+                >
                   {'Search Schools'}
                 </button>
               </div>
               <div className="clear-search">
                 <button
                   className="va-button-link start-over"
-                  onClick={this.handleStartOver}>
+                  onClick={this.handleStartOver}
+                >
                   {'Start Over'}
                 </button>
               </div>
@@ -262,67 +311,147 @@ export class SchoolSelectField extends React.Component {
           </div>
           <ErrorableCheckbox
             checked={manualSchoolEntryChecked}
-            onValueChange={() => this.handleManualSchoolEntryToggled(manualSchoolEntryChecked)}
+            onValueChange={() =>
+              this.handleManualSchoolEntryToggled(manualSchoolEntryChecked)
+            }
             labelAboveCheckbox="If you don’t find your school in the search results, then check the box to enter in your school information manually."
-            label={<span>I want to type in my school’s name and address.</span>}/>
-          <div
-            aria-live="polite"
-            aria-relevant="additions text">
-            {showSearchResults && searchResultsCount > 0 && <div
-              // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-              tabIndex="0"
-              ref={el => { this.resultCount = el; }}>
-              {`${searchResultsCount} results for ${institutionQuery}`}
-            </div>}
-            {showSearchResults && showInstitutions && <div>
-              {institutions.map(({ address1, address2, address3, city, country, facilityCode, name, state, zip }, index) => (
-                <div key={index}>
-                  <div className="radio-button">
-                    <input
-                      autoComplete="false"
-                      checked={facilityCodeSelected === facilityCode}
-                      id={`page-${currentPageNumber}-${index}`}
-                      name={`page-${currentPageNumber}`}
-                      type="radio"
-                      onKeyDown={this.onKeyDown}
-                      onChange={() => this.handleOptionClick({ address1, address2, address3, city, country, facilityCode, name, state, zip })}
-                      value={facilityCode}/>
-                    <label
-                      id={`institution-${index}-label`}
-                      htmlFor={`page-${currentPageNumber}-${index}`}>
-                      <span className="institution-information">
-                        {name && <span className="institution-name">{name}</span>}
-                        {address1 && <span className="institution-address">{address1}</span>}
-                        {address2 && <span className="institution-address">{address2}</span>}
-                        {address3 && <span className="institution-address">{address3}</span>}
-                        {(city || state) && <span className="institution-city-state">{`${city && city}${city && state && ', '}${state && state}`}</span>}
-                        {!city && !state && <span className="institution-country">{country}</span>}
-                      </span>
-                    </label>
-                  </div>
-                </div>))
-              }
-            </div>
-            }
-            {showSearchResults && showInstitutionsLoading && <div>
-              <LoadingIndicator message={`Searching ${institutionQuery}...`}/>
-            </div>
-            }
-            {showSearchResults && showNoResultsFound && <div className="no-results-box">
-              <p>
-                <strong>
-                  {'We can’t find your school'}
-                </strong><br/>
-                {'We’re sorry. We can’t find any school that matches your entry. Please try entering a different school name or city. Or, you can check the box to enter your school information yourself.'}
-              </p>
-            </div>}
-            {showSearchResults && showPaginationLoading && <div>
-              <LoadingIndicator message={`Loading page ${currentPageNumber} results for ${institutionQuery}...`}/>
-            </div>
-            }
+            label={<span>I want to type in my school’s name and address.</span>}
+          />
+          <div aria-live="polite" aria-relevant="additions text">
+            {showSearchResults &&
+              searchResultsCount > 0 && (
+                <div
+                  // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+                  tabIndex="0"
+                  ref={el => {
+                    this.resultCount = el;
+                  }}
+                >
+                  {`${searchResultsCount} results for ${institutionQuery}`}
+                </div>
+              )}
+            {showSearchResults &&
+              showInstitutions && (
+                <div>
+                  {institutions.map(
+                    (
+                      {
+                        address1,
+                        address2,
+                        address3,
+                        city,
+                        country,
+                        facilityCode,
+                        name,
+                        state,
+                        zip,
+                      },
+                      index,
+                    ) => (
+                      <div key={index}>
+                        <div className="radio-button">
+                          <input
+                            autoComplete="false"
+                            checked={facilityCodeSelected === facilityCode}
+                            id={`page-${currentPageNumber}-${index}`}
+                            name={`page-${currentPageNumber}`}
+                            type="radio"
+                            onKeyDown={this.onKeyDown}
+                            onChange={() =>
+                              this.handleOptionClick({
+                                address1,
+                                address2,
+                                address3,
+                                city,
+                                country,
+                                facilityCode,
+                                name,
+                                state,
+                                zip,
+                              })
+                            }
+                            value={facilityCode}
+                          />
+                          <label
+                            id={`institution-${index}-label`}
+                            htmlFor={`page-${currentPageNumber}-${index}`}
+                          >
+                            <span className="institution-information">
+                              {name && (
+                                <span className="institution-name">{name}</span>
+                              )}
+                              {address1 && (
+                                <span className="institution-address">
+                                  {address1}
+                                </span>
+                              )}
+                              {address2 && (
+                                <span className="institution-address">
+                                  {address2}
+                                </span>
+                              )}
+                              {address3 && (
+                                <span className="institution-address">
+                                  {address3}
+                                </span>
+                              )}
+                              {(city || state) && (
+                                <span className="institution-city-state">{`${city &&
+                                  city}${city && state && ', '}${state &&
+                                  state}`}</span>
+                              )}
+                              {!city &&
+                                !state && (
+                                  <span className="institution-country">
+                                    {country}
+                                  </span>
+                                )}
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                    ),
+                  )}
+                </div>
+              )}
+            {showSearchResults &&
+              showInstitutionsLoading && (
+                <div>
+                  <LoadingIndicator
+                    message={`Searching ${institutionQuery}...`}
+                  />
+                </div>
+              )}
+            {showSearchResults &&
+              showNoResultsFound && (
+                <div className="no-results-box">
+                  <p>
+                    <strong>{'We can’t find your school'}</strong>
+                    <br />
+                    {
+                      'We’re sorry. We can’t find any school that matches your entry. Please try entering a different school name or city. Or, you can check the box to enter your school information yourself.'
+                    }
+                  </p>
+                </div>
+              )}
+            {showSearchResults &&
+              showPaginationLoading && (
+                <div>
+                  <LoadingIndicator
+                    message={`Loading page ${currentPageNumber} results for ${institutionQuery}...`}
+                  />
+                </div>
+              )}
           </div>
-          {showSearchResults && showPagination && <Pagination
-            page={currentPageNumber} pages={pagesCount} ariaLabelSuffix="of school results" onPageSelect={this.handlePageSelect}/>}
+          {showSearchResults &&
+            showPagination && (
+              <Pagination
+                page={currentPageNumber}
+                pages={pagesCount}
+                ariaLabelSuffix="of school results"
+                onPageSelect={this.handlePageSelect}
+              />
+            )}
         </div>
       </fieldset>
     );
@@ -332,15 +461,21 @@ export class SchoolSelectField extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   const currentPageNumber = selectCurrentPageNumber(state);
   const errorMessages = selectFacilityCodeErrorMessages(ownProps);
-  const facilityCodeSelected = ownProps.formData ? ownProps.formData['view:facilityCode'] : '';
+  const facilityCodeSelected = ownProps.formData
+    ? ownProps.formData['view:facilityCode']
+    : '';
   const institutionQuery = selectInstitutionQuery(state);
   const institutions = selectInstitutions(state);
   const institutionSelected = selectInstitutionSelected(state);
-  const manualSchoolEntryChecked = selectManualSchoolEntryChecked(state) || false;
+  const manualSchoolEntryChecked =
+    selectManualSchoolEntryChecked(state) || false;
   const pagesCount = selectPagesCount(state);
   const searchInputValue = selectSearchInputValue(state);
   const searchResultsCount = selectSearchResultsCount(state);
-  const showErrors = errorMessages.length > 0 && selectFormSubmitted(ownProps) && !manualSchoolEntryChecked;
+  const showErrors =
+    errorMessages.length > 0 &&
+    selectFormSubmitted(ownProps) &&
+    !manualSchoolEntryChecked;
   const showInstitutions = selectShowInstitutions(state);
   const showInstitutionsLoading = selectShowInstitutionsLoading(state);
   const showNoResultsFound = selectShowNoResultsFound(state);
@@ -365,7 +500,7 @@ const mapStateToProps = (state, ownProps) => {
     showNoResultsFound,
     showPagination,
     showPaginationLoading,
-    showSearchResults
+    showSearchResults,
   };
 };
 const mapDispatchToProps = {
@@ -373,7 +508,7 @@ const mapDispatchToProps = {
   restoreFromPrefill,
   searchInputChange,
   searchSchools,
-  selectInstitution
+  selectInstitution,
 };
 
 SchoolSelectField.PropTypes = {
@@ -393,7 +528,7 @@ SchoolSelectField.PropTypes = {
   showNoResultsFound: React.PropTypes.bool.required,
   showPagination: React.PropTypes.bool.required,
   showPaginationLoading: React.PropTypes.bool.required,
-  showSearchResults: React.PropTypes.bool.required
+  showSearchResults: React.PropTypes.bool.required,
 };
 
 SchoolSelectField.defaultProps = {
@@ -402,7 +537,10 @@ SchoolSelectField.defaultProps = {
   showNoResultsFound: false,
   showPagination: false,
   showPaginationLoading: false,
-  showSearchResults: true
+  showSearchResults: true,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SchoolSelectField);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SchoolSelectField);

@@ -1,8 +1,17 @@
-import { ptsdNameTitle781a, uploadPtsdDescription781a, ptsdChoiceDescription } from '../helpers';
+import React from 'react';
+import {
+  PtsdNameTitle,
+  UploadPtsdDescription,
+  ptsdChoiceDescription,
+} from '../helpers';
 
 export const uiSchema = {
-  'ui:title': ptsdNameTitle781a,
-  'ui:description': uploadPtsdDescription781a,
+  'ui:title': ({ formData }) => (
+    <PtsdNameTitle formData={formData} formType="781a" />
+  ),
+  'ui:description': ({ formData }) => (
+    <UploadPtsdDescription formData={formData} formType="781a" />
+  ),
   'view:uploadPtsdSecondaryChoice': {
     'ui:title': ' ',
     'ui:widget': 'radio',
@@ -23,7 +32,7 @@ export const schema = {
   properties: {
     'view:uploadPtsdSecondaryChoice': {
       type: 'string',
-      'enum': ['answerQuestions', 'upload'],
+      enum: ['answerQuestions', 'upload'],
     },
     'view:uploadPtsdSecondaryChoiceHelp': {
       type: 'object',

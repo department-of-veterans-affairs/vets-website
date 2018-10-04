@@ -1,7 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import Raven from 'raven-js';
-import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
@@ -16,13 +15,12 @@ import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
 import get from '../../../platform/utilities/data/get';
 import { pick } from 'lodash';
-import { apiRequest } from '../../../platform/utilities/api';
 import { genderLabels } from '../../../platform/static-data/labels';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
-import { getDisabilityName } from '../all-claims/utils';
+import { getDisabilityName, transformDisabilities } from '../all-claims/utils';
 
-import { VA_FORM4142_URL } from './constants';
+import { VA_FORM4142_URL } from '../all-claims/constants';
 
 /**
  * Inspects an array of objects, and attempts to aggregate subarrays at a given property
@@ -155,12 +153,17 @@ export function transform(formConfig, form) {
 
   const additionalDocuments = aggregate(disabilities, 'additionalDocuments');
   const privateRecords = aggregate(disabilities, 'privateRecords');
+  const treatments = aggregate(disabilities, 'treatments');
+
   const providerFacility = disabilities
-    .filter(disability => disability['view:selected'] === true)
-    .map(filtered => filtered.providerFacility)
-    .reduce((accumulator, item) => {
-      return accumulator.concat(item);
-    }, []);
+    .filter(
+      disability =>
+        disability['view:selected'] === true && disability.providerFacility,
+    )
+    .reduce(
+      (accumulator, item) => accumulator.concat(item.providerFacility),
+      [],
+    );
 
   const transformedData = {
     disabilities: disabilities
@@ -168,12 +171,13 @@ export function transform(formConfig, form) {
       .map(filtered => pick(filtered, disabilityProperties)),
     // Pull phone & email out of phoneEmailCard and into veteran property
     veteran: setPhoneEmailPaths(veteran),
-    // Extract treatments into one top-level array
-    treatments: aggregate(disabilities, 'treatments'),
     attachments: additionalDocuments.concat(privateRecords),
     privacyAgreementAccepted,
     serviceInformation,
     standardClaim,
+    // treatments has a minItems: 1 requirement so only include the property
+    // if there is at least one treatment to send
+    ...(treatments.length && { treatments }),
     form4142: {
       limitedConsent: gatherLimitedConsentText(disabilities),
       providerFacility: transformProviderFacility(providerFacility),
@@ -197,33 +201,6 @@ export function validateDisability(disability) {
     return false;
   }
   return true;
-}
-
-export function transformDisabilities(disabilities = []) {
-  return (
-    disabilities
-      // We want to remove disabilities without a rating, but 0 counts as a valid rating
-      // TODO: Log the disabilities if they're not service connected
-      // Unfortunately, we don't have decisionCode in the schema, so it's stripped out by the time
-      //  it gets here and we can't tell whether it is service connected or not. This happens in
-      //  the api
-      .filter(disability => {
-        if (disability.ratingPercentage || disability.ratingPercentage === 0) {
-          return true;
-        }
-
-        // TODO: Only log it if the decision code indicates the condition is not non-service-connected
-        const { decisionCode } = disability;
-        if (decisionCode) {
-          Raven.captureMessage('526_increase_disability_filter', {
-            extra: { decisionCode },
-          });
-        }
-
-        return false;
-      })
-      .map(disability => set('disabilityActionType', 'INCREASE', disability))
-  );
 }
 
 export function addPhoneEmailToCard(formData) {
@@ -302,33 +279,6 @@ export const supportingEvidenceOrientation = (
   </p>
 );
 
-export const evidenceTypeHelp = (
-  <AdditionalInfo triggerText="Which evidence type should I choose?">
-    <h3>Types of evidence</h3>
-    <h4>VA medical records</h4>
-    <p>
-      If you were treated at a VA medical center or clinic, or by a doctor
-      through the TRICARE health care program, you’ll have VA medical records.
-    </p>
-    <h4>Private medical records</h4>
-    <p>
-      If you were treated by a private doctor, including a Veteran’s Choice
-      doctor, you’ll have private medical records. We’ll need to see those
-      records to make a decision on your claim. A Disability Benefit
-      Questionnaire is an example of a private medical record.
-    </p>
-    <h4>Lay statements or other evidence</h4>
-    <p>
-      A lay statement is a written statement from family, friends, or coworkers
-      to help support your claim. Lay statements are also called “buddy
-      statements.” In most cases, you’ll only need your medical records to
-      support your disability claim. Some claims, for example, for Posttraumatic
-      Stress Disorder or for military sexual trauma, could benefit from a lay or
-      buddy statement.
-    </p>
-  </AdditionalInfo>
-);
-
 export const limitedConsentTitle = (
   <p>
     I want to limit my consent for the VA to retrieve only specific information
@@ -341,103 +291,49 @@ export const limitedConsentTextTitle = (
 );
 
 export const limitedConsentDescription = (
-  <div className="limitedConsent">
-    <AdditionalInfo triggerText="What does this mean?">
-      <p>
-        If you choose to limit consent, your doctor will abide by the limitation
-        you specify. Limiting consent could add to the time it takes to get your
-        private medical records.
-      </p>
-    </AdditionalInfo>
-  </div>
+  <AdditionalInfo triggerText="What does this mean?">
+    <p>
+      If you choose to limit consent, your doctor will abide by the limitation
+      you specify. Limiting consent could add to the time it takes to get your
+      private medical records.
+    </p>
+  </AdditionalInfo>
 );
 
-export const disabilityNameTitle = ({ formData }) => {
-  return (
-    <legend className="schemaform-block-title schemaform-title-underline">
-      {getDisabilityName(formData.name)}
-    </legend>
-  );
-};
+export const disabilityNameTitle = ({ formData }) => (
+  <legend className="schemaform-block-title schemaform-title-underline">
+    {getDisabilityName(formData.name)}
+  </legend>
+);
 
-export const facilityDescription = ({ formData }) => {
-  return (
+export const facilityDescription = ({ formData }) => (
+  <p>
+    Please tell us where VA treated you for {getDisabilityName(formData.name)}{' '}
+    <strong>after you got your disability rating</strong>.
+  </p>
+);
+
+export const vaMedicalRecordsIntro = ({ formData }) => (
+  <p>
+    First we’ll ask you about your VA medical records that show your{' '}
+    {getDisabilityName(formData.name)} has gotten worse.
+  </p>
+);
+
+export const privateRecordsChoice = ({ formData }) => (
+  <div>
+    <h4>About private medical records</h4>
     <p>
-      Please tell us where VA treated you for {getDisabilityName(formData.name)}{' '}
-      <strong>after you got your disability rating</strong>.
+      You said you were treated for {getDisabilityName(formData.name)} by a
+      private doctor. If you have your private medical records, you can upload
+      them to your application. If you want us to get them for you, you’ll need
+      to authorize their release.
     </p>
-  );
-};
-
-export const treatmentView = ({ formData }) => {
-  const { from, to } = formData.treatmentDateRange;
-
-  const name = formData.treatmentCenterName || '';
-  let treatmentPeriod = '';
-  if (from && to) {
-    treatmentPeriod = `${from} — ${to}`;
-  } else if (from || to) {
-    treatmentPeriod = `${from || to}`;
-  }
-
-  return (
-    <div>
-      <strong>{name}</strong>
-      <br/>
-      {treatmentPeriod}
-    </div>
-  );
-};
-
-export const vaMedicalRecordsIntro = ({ formData }) => {
-  return (
-    <p>
-      First we’ll ask you about your VA medical records that show your{' '}
-      {getDisabilityName(formData.name)} has gotten worse.
-    </p>
-  );
-};
-
-export const privateRecordsChoice = ({ formData }) => {
-  return (
-    <div>
-      <h4>About private medical records</h4>
-      <p>
-        You said you were treated for {getDisabilityName(formData.name)} by a
-        private doctor. If you have your private medical records, you can upload
-        them to your application. If you want us to get them for you, you’ll
-        need to authorize their release.
-      </p>
-    </div>
-  );
-};
-
-export const privateRecordsChoiceHelp = (
-  <div className="private-records-choice-help">
-    <AdditionalInfo triggerText="Which should I choose?">
-      <h5>Upload your medical records</h5>
-      <p>
-        If you have an electronic copy of your medical records, uploading your
-        records can speed up the review of your claim.
-      </p>
-      <p>
-        This works best if you have a fast internet connection and time for a
-        large file to upload. Records should be .pdf, .jpg, or .png files and
-        can be up to 50MB each.
-      </p>
-      <h5>We get records for you</h5>
-      <p>
-        If you tell us which VA medical center treated you for your condition,
-        we can get your medical records for you. Getting your records may take
-        us some time. This could take us longer to make a decision on your
-        claim.
-      </p>
-    </AdditionalInfo>
   </div>
 );
 
 const firstOrNowString = evidenceTypes =>
-  (evidenceTypes['view:vaMedicalRecords'] ? 'Now' : 'First,');
+  evidenceTypes['view:vaMedicalRecords'] ? 'Now' : 'First,';
 export const privateMedicalRecordsIntro = ({ formData }) => (
   <p>
     {firstOrNowString(formData['view:selectableEvidenceTypes'])} we’ll ask you
@@ -498,11 +394,11 @@ export function validateAddress(errors, formData) {
 const claimsIntakeAddress = (
   <p className="va-address-block">
     Department of Veterans Affairs
-    <br/>
+    <br />
     Claims Intake Center
-    <br/>
+    <br />
     PO Box 4444
-    <br/>
+    <br />
     Janesville, WI 53547-4444
   </p>
 );
@@ -593,7 +489,8 @@ export const patientAcknowledgmentText = (
       following website:
       <a href="https://www.benefits.va.gov/privateproviders/" target="_blank">
         https://www.benefits.va.gov/privateproviders/
-      </a>.
+      </a>
+      .
     </p>
   </AdditionalInfo>
 );
@@ -609,8 +506,8 @@ export const download4142Notice = (
     <p>
       <a href={VA_FORM4142_URL} target="_blank">
         Download VA Form 21-4142
-      </a>.
-      <p>Please print the form, fill it out, and send it to:</p>
+      </a>
+      .<p>Please print the form, fill it out, and send it to:</p>
       {claimsIntakeAddress}
       <p>
         Or you can upload a completed VA Form 21-4142 to your online
@@ -648,102 +545,69 @@ export const recordReleaseWarning = (
   </div>
 );
 
-export const documentDescription = () => {
-  return (
-    <div>
-      <p>
-        You can upload your document in a pdf, .jpeg, or .png file format.
-        You’ll first need to scan a copy of your document onto your computer or
-        mobile phone. You can then upload the document from there. Please note
-        that large files can take longer to upload with a slow Internet
-        connection. Guidelines for uploading a file:
-      </p>
-      <ul>
-        <li>File types you can upload: .pdf, .jpeg, or .png</li>
-        <li>Maximum file size: 50 MB</li>
-      </ul>
-      <p>
-        <em>
-          Large files can be more difficult to upload with a slow Internet
-          connection
-        </em>
-      </p>
-    </div>
-  );
-};
-
-export const additionalDocumentDescription = () => {
-  return (
-    <div>
-      <p>
-        If you have other evidence, such as a lay or buddy statement to turn in,
-        you can upload them here. You can upload your document in a pdf, .jpeg,
-        or .png file format. You’ll first need to scan a copy of your document
-        onto your computer or mobile phone. You can then upload the document
-        from there. Please note that if you have a slow Internet connection,
-        large files can take longer to upload.
-      </p>
-      <p>File upload guidelines:</p>
-      <ul>
-        <li>File types you can upload: .pdf, .jpeg, or .png</li>
-        <li>Maximum file size: 50 MB</li>
-      </ul>
-      <p>
-        <em>
-          Large files can be more difficult to upload with a slow Internet
-          connection
-        </em>
-      </p>
-    </div>
-  );
-};
+export const additionalDocumentDescription = () => (
+  <div>
+    <p>
+      If you have other evidence, such as a lay or buddy statement to turn in,
+      you can upload them here. You can upload your document in a pdf, .jpeg, or
+      .png file format. You’ll first need to scan a copy of your document onto
+      your computer or mobile phone. You can then upload the document from
+      there. Please note that if you have a slow Internet connection, large
+      files can take longer to upload.
+    </p>
+    <p>File upload guidelines:</p>
+    <ul>
+      <li>File types you can upload: .pdf, .jpeg, or .png</li>
+      <li>Maximum file size: 50 MB</li>
+    </ul>
+    <p>
+      <em>
+        Large files can be more difficult to upload with a slow Internet
+        connection
+      </em>
+    </p>
+  </div>
+);
 
 const getVACenterName = center => center.treatmentCenterName;
 const getPrivateCenterName = release =>
   release.privateRecordRelease.treatmentCenterName;
-const listCenters = centers => {
-  return (
-    <span className="treatment-centers">
-      {centers.map((center, idx, list) => {
-        const centerName = center.treatmentCenterName
-          ? getVACenterName(center)
-          : getPrivateCenterName(center);
-        const notLast = idx < list.length - 1;
-        const justOne = list.length === 1;
-        const atLeastThree = list.length > 2;
-        return (
-          <span key={idx}>
-            {!notLast &&
-              !justOne && <span className="unstyled-word"> and </span>}
-            {centerName}
-            {atLeastThree && notLast && ', '}
-          </span>
-        );
-      })}
-    </span>
-  );
-};
+const listCenters = centers => (
+  <span className="treatment-centers">
+    {centers.map((center, idx, list) => {
+      const centerName = center.treatmentCenterName
+        ? getVACenterName(center)
+        : getPrivateCenterName(center);
+      const notLast = idx < list.length - 1;
+      const justOne = list.length === 1;
+      const atLeastThree = list.length > 2;
+      return (
+        <span key={idx}>
+          {!notLast && !justOne && <span className="unstyled-word"> and </span>}
+          {centerName}
+          {atLeastThree && notLast && ', '}
+        </span>
+      );
+    })}
+  </span>
+);
 
-const listDocuments = documents => {
-  return (
-    <ul>
-      {documents.map((document, id) => {
-        return (
-          <li className="dashed-bullet" key={id}>
-            <strong>{document.name}</strong>
-          </li>
-        );
-      })}
-    </ul>
-  );
-};
+const listDocuments = documents => (
+  <ul>
+    {documents.map((document, id) => (
+      <li className="dashed-bullet" key={id}>
+        <strong>{document.name}</strong>
+      </li>
+    ))}
+  </ul>
+);
 
 export const evidenceSummaryView = ({ formContext, formData }) => {
   const {
     treatments,
+    privateRecordReleases,
     privateRecords,
     additionalDocuments,
-    providerFacility,
   } = formData;
 
   return (
@@ -761,16 +625,10 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
             We’ll get your medical records from {listCenters(treatments)}.
           </li>
         )}
-        {providerFacility && (
+        {privateRecordReleases && (
           <li>
             We’ll get your private medical records from{' '}
-            {providerFacility.map((facility, idx) => {
-              return (
-                <div key={idx}>
-                  <strong>{facility.providerFacilityName}</strong>
-                </div>
-              );
-            })}
+            {listCenters(privateRecordReleases)}.
           </li>
         )}
         {privateRecords && (
@@ -807,14 +665,12 @@ export const editNote = name => (
  *                                                           but ignored by screen readers
  * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
  */
-export const srSubstitute = (srIgnored, substitutionText) => {
-  return (
-    <span>
-      <span aria-hidden>{srIgnored}</span>
-      <span className="sr-only">{substitutionText}</span>
-    </span>
-  );
-};
+export const srSubstitute = (srIgnored, substitutionText) => (
+  <span>
+    <span aria-hidden>{srIgnored}</span>
+    <span className="sr-only">{substitutionText}</span>
+  </span>
+);
 
 const unconnectedVetInfoView = profile => {
   // NOTE: ssn and vaFileNumber will be undefined for the foreseeable future; they're kept in here as a reminder.
@@ -842,7 +698,7 @@ const unconnectedVetInfoView = profile => {
         )}
         <p>
           Date of birth:{' '}
-          <DateWidget value={dob} options={{ monthYear: false }}/>
+          <DateWidget value={dob} options={{ monthYear: false }} />
         </p>
         <p>Gender: {genderLabels[gender]}</p>
       </div>
@@ -874,7 +730,7 @@ export const UnauthenticatedAlert = (
         your account.
       </div>
     </div>
-    <br/>
+    <br />
   </div>
 );
 
@@ -885,7 +741,7 @@ export const UnverifiedAlert = (
         To apply for a disability increase, you’ll need to verify your account.
       </div>
     </div>
-    <br/>
+    <br />
   </div>
 );
 
@@ -900,28 +756,26 @@ export const VerifiedAlert = (
         start or update your application to submit the form.
       </div>
     </div>
-    <br/>
+    <br />
   </div>
 );
 
-export const GetFormHelp = () => {
-  return (
-    <div>
-      <p className="help-talk">For help filling out this form, please call:</p>
-      <p className="help-phone-number">
-        <a className="help-phone-number-link" href="tel:+1-877-222-8387">
-          1-877-222-VETS
-        </a>{' '}
-        (
-        <a className="help-phone-number-link" href="tel:+1-877-222-8387">
-          1-877-222-8387
-        </a>
-        )<br/>
-        Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
-      </p>
-    </div>
-  );
-};
+export const GetFormHelp = () => (
+  <div>
+    <p className="help-talk">For help filling out this form, please call:</p>
+    <p className="help-phone-number">
+      <a className="help-phone-number-link" href="tel:+1-877-222-8387">
+        1-877-222-VETS
+      </a>{' '}
+      (
+      <a className="help-phone-number-link" href="tel:+1-877-222-8387">
+        1-877-222-8387
+      </a>
+      )<br />
+      Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+    </p>
+  </div>
+);
 
 export const ITFDescription = (
   <span>
@@ -1004,42 +858,13 @@ export const noFDCWarning = (
   </div>
 );
 
-export function queryForFacilities(input = '') {
-  // Only search if the input has a length >= 3, otherwise, return an empty array
-  if (input.length < 3) {
-    return Promise.resolve([]);
-  }
-
-  const url = appendQuery('/facilities/suggested', {
-    type: ['health', 'dod_health'],
-    name_part: input, // eslint-disable-line camelcase
-  });
-
-  return apiRequest(
-    url,
-    {},
-    response => {
-      return response.data.map(facility => ({
-        id: facility.id,
-        label: facility.attributes.name,
-      }));
-    },
-    error => {
-      Raven.captureMessage('Error querying for facilities', { input, error });
-      return [];
-    },
-  );
-}
-
-const evidenceTypesDescription = disabilityName => {
-  return (
-    <p>
-      What supporting evidence will you be turning in that shows your{' '}
-      {disabilityName}{' '}
-      <strong>has gotten worse since you received a VA rating</strong>?
-    </p>
-  );
-};
+const evidenceTypesDescription = disabilityName => (
+  <p>
+    What supporting evidence will you be turning in that shows your{' '}
+    {disabilityName}{' '}
+    <strong>has gotten worse since you received a VA rating</strong>?
+  </p>
+);
 
 export const getEvidenceTypesDescription = (form, index) => {
   const { name } = form.disabilities[index];
@@ -1053,8 +878,8 @@ export const getEvidenceTypesDescription = (form, index) => {
  * @param {array} disabilities
  * @returns {boolean} true if user selected option to fill out 4142 on their own
  */
-export const get4142Selection = disabilities => {
-  return disabilities.reduce((selected, disability) => {
+export const get4142Selection = disabilities =>
+  disabilities.reduce((selected, disability) => {
     if (selected === true) {
       return true;
     }
@@ -1068,7 +893,6 @@ export const get4142Selection = disabilities => {
     }
     return false;
   }, false);
-};
 
 export const contactInfoDescription = () => (
   <p>
@@ -1091,7 +915,7 @@ export const contactInfoUpdateHelp = () => (
   </div>
 );
 
-export const validateBooleanIfEvidence = (
+export const validateIfHasEvidence = (
   errors,
   fieldData,
   formData,
@@ -1109,17 +933,15 @@ export const validateBooleanIfEvidence = (
 export const title10DatesRequired = formData =>
   get('view:isTitle10Activated', formData, false);
 
-export const recordReleaseDescription = () => {
-  return (
-    <div>
-      <p>
-        Please let us know where and when you received treatment. We'll request
-        your private medical records for you. If you have records available, you
-        can upload them later in the application.
-      </p>
-    </div>
-  );
-};
+export const recordReleaseDescription = () => (
+  <div>
+    <p>
+      Please let us know where and when you received treatment. We'll request
+      your private medical records for you. If you have records available, you
+      can upload them later in the application.
+    </p>
+  </div>
+);
 
 export const countries = [
   'Afghanistan',

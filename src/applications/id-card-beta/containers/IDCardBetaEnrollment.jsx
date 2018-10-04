@@ -5,13 +5,13 @@ import backendServices from '../../../platform/user/profile/constants/backendSer
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 
 class IDCardBetaEnrollment extends React.Component {
-
   render() {
     return (
       <div>
         <RequiredLoginView
           serviceRequired={backendServices.USER_PROFILE}
-          user={this.props.user}>
+          user={this.props.user}
+        >
           {this.props.children}
         </RequiredLoginView>
       </div>
@@ -19,9 +19,7 @@ class IDCardBetaEnrollment extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return { user: state.user };
-};
+const mapStateToProps = state => ({ user: state.user });
 
 export default connect(mapStateToProps)(IDCardBetaEnrollment);
 export { IDCardBetaEnrollment };

@@ -4,7 +4,7 @@ import moment from 'moment';
 import refreshReducer from '../../reducers/refresh';
 
 const createExtractStatus = (status, lastUpdated = moment()) => ({
-  attributes: { status, lastUpdated }
+  attributes: { status, lastUpdated },
 });
 
 describe('refresh reducer', () => {
@@ -14,15 +14,18 @@ describe('refresh reducer', () => {
   });
 
   it('should reset when starting initial refresh', () => {
-    const state = refreshReducer({
-      statuses: {
-        failed: [createExtractStatus('ERROR')],
-        incomplete: [createExtractStatus('OK', moment().subtract(3, 'days'))],
-        succeeded: [createExtractStatus('OK')]
+    const state = refreshReducer(
+      {
+        statuses: {
+          failed: [createExtractStatus('ERROR')],
+          incomplete: [createExtractStatus('OK', moment().subtract(3, 'days'))],
+          succeeded: [createExtractStatus('OK')],
+        },
+        loading: false,
+        errors: [{ code: '500' }],
       },
-      loading: false,
-      errors: [{ code: '500' }]
-    }, { type: 'INITIAL_LOADING' });
+      { type: 'INITIAL_LOADING' },
+    );
     expect(state.loading).to.be.true;
     expect(state.statuses.failed).to.have.lengthOf(0);
     expect(state.statuses.incomplete).to.have.lengthOf(0);
@@ -31,14 +34,16 @@ describe('refresh reducer', () => {
   });
 
   it('should handle successful refresh', () => {
-    const state = refreshReducer(undefined, { type: 'INITIAL_REFRESH_SUCCESS' });
+    const state = refreshReducer(undefined, {
+      type: 'INITIAL_REFRESH_SUCCESS',
+    });
     expect(state.loading).to.be.false;
   });
 
   it('should handle failed refresh', () => {
     const state = refreshReducer(undefined, {
       type: 'INITIAL_REFRESH_FAILURE',
-      errors: [{ code: '500' }]
+      errors: [{ code: '500' }],
     });
     expect(state.loading).to.be.false;
     expect(state.errors).to.have.lengthOf(1);
@@ -55,7 +60,7 @@ describe('refresh reducer', () => {
         createExtractStatus('ERROR', now.clone().subtract(3, 'days')),
         createExtractStatus('OK', now.clone().subtract(5, 'hours')),
         createExtractStatus('ERROR', now.clone().subtract(25, 'hours')),
-      ]
+      ],
     });
 
     expect(state.statuses.failed).to.have.length(0);
@@ -69,12 +74,11 @@ describe('refresh reducer', () => {
         createExtractStatus('ERROR', now.clone().subtract(30, 'seconds')),
         createExtractStatus('OK', now.clone().subtract(5, 'hours')),
         createExtractStatus('ERROR', now.clone().subtract(2, 'hours')),
-      ]
+      ],
     });
 
     expect(state.statuses.failed).to.have.length(2);
     expect(state.statuses.incomplete).to.have.length(0);
     expect(state.statuses.succeeded).to.have.length(2);
-
   });
 });

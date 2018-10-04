@@ -8,10 +8,8 @@ import { formattedDate } from '../../../messaging/utils/helpers';
 
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 import recordEvent from '../../../../platform/monitoring/record-event';
-import {
-  fetchFolder,
-  fetchRecipients,
-} from '../../../messaging/actions';
+import { fetchFolder, fetchRecipients } from '../../../messaging/actions';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
 function recordDashboardClick(product) {
   return () => {
@@ -25,8 +23,10 @@ function recordDashboardClick(product) {
 
 class MessagingWidget extends React.Component {
   componentDidMount() {
-    this.props.fetchRecipients();
-    this.props.fetchFolder(0, { page: 1, sort: '-sent_date' });
+    if (this.props.canAccessMessaging) {
+      this.props.fetchRecipients();
+      this.props.fetchFolder(0, { page: 1, sort: '-sent_date' });
+    }
   }
 
   render() {
@@ -34,12 +34,12 @@ class MessagingWidget extends React.Component {
       { label: 'From', value: 'senderName', nonSortable: true },
       { label: 'Subject line', value: 'subject', nonSortable: true },
       { label: '', value: 'hasAttachment', nonSortable: true },
-      { label: 'Date', value: 'sentDate', nonSortable: true }
+      { label: 'Date', value: 'sentDate', nonSortable: true },
     ];
 
-    const makeMessageLink = (content, id) => {
-      return <Link href={`/health-care/messaging/inbox/${id}`}>{content}</Link>;
-    };
+    const makeMessageLink = (content, id) => (
+      <Link href={`/health-care/messaging/inbox/${id}`}>{content}</Link>
+    );
 
     let { messages } = this.props;
     const { recipients, canAccessMessaging } = this.props;
@@ -53,17 +53,17 @@ class MessagingWidget extends React.Component {
     let content;
     messages = messages || [];
 
-    messages = messages.filter(message => {
-      return message.readReceipt !== 'READ';
-    });
+    messages = messages.filter(message => message.readReceipt !== 'READ');
 
     const data = messages.map(message => {
       const id = message.messageId;
       const rowClass = classNames({
-        'messaging-message-row': true
+        'messaging-message-row': true,
       });
 
-      const attachmentIcon = message.attachment ? (<i className="fa fa-paperclip" aria-label="Message has an attachment"></i>) : null;
+      const attachmentIcon = message.attachment ? (
+        <i className="fa fa-paperclip" aria-label="Message has an attachment" />
+      ) : null;
 
       return {
         id,
@@ -72,7 +72,7 @@ class MessagingWidget extends React.Component {
         recipientName: makeMessageLink(message.recipientName, id),
         senderName: makeMessageLink(message.senderName, id),
         subject: makeMessageLink(message.subject, id),
-        sentDate: makeMessageLink(formattedDate(message.sentDate), id)
+        sentDate: makeMessageLink(formattedDate(message.sentDate), id),
       };
     });
 
@@ -82,27 +82,51 @@ class MessagingWidget extends React.Component {
           className="usa-table-borderless va-table-list msg-table-list"
           data={data}
           currentSort={this.props.sort}
-          fields={fields}/>
+          fields={fields}
+        />
       );
     } else {
-      content = <p>You don’t have any unread messages from your health care team.</p>;
+      content = (
+        <p>You don’t have any unread messages from your health care team.</p>
+      );
     }
 
     return (
       <div id="msg-widget">
         <h2>Check Secure Messages</h2>
         {content}
-        <p><Link href="/health-care/messaging" onClick={recordDashboardClick('view-all-messages')}>View all your secure messages</Link>.</p>
+        <p>
+          {isBrandConsolidationEnabled() ? (
+            <a
+              href="https://www.myhealth.va.gov/mhv-portal-web/secure-messaging"
+              target="_blank"
+            >
+              View all your secure messages
+            </a>
+          ) : (
+            <span>
+              <Link
+                href="/health-care/messaging"
+                onClick={recordDashboardClick('view-all-messages')}
+              >
+                View all your secure messages
+              </Link>
+              .
+            </span>
+          )}
+        </p>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const msgState = state.health.msg;
   const folder = msgState.folders.data.currentItem;
   const profileState = state.user.profile;
-  const canAccessMessaging = profileState.services.includes(backendServices.MESSAGING);
+  const canAccessMessaging = profileState.services.includes(
+    backendServices.MESSAGING,
+  );
 
   const { attributes, messages, pagination, sort } = folder;
 
@@ -122,5 +146,8 @@ const mapDispatchToProps = {
   fetchRecipients,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MessagingWidget);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MessagingWidget);
 export { MessagingWidget };

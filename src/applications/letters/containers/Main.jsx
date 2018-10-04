@@ -10,7 +10,7 @@ import {
   getLetterListAndBSLOptions,
   getMailingAddress,
   getAddressCountries,
-  getAddressStates
+  getAddressStates,
 } from '../actions/letters';
 
 const {
@@ -20,7 +20,7 @@ const {
   backendAuthenticationError,
   invalidAddressProperty,
   unavailable,
-  letterEligibilityError
+  letterEligibilityError,
 } = AVAILABILITY_STATUSES;
 
 export class Main extends React.Component {
@@ -31,10 +31,12 @@ export class Main extends React.Component {
     this.props.getAddressStates();
   }
 
-
   appAvailability(lettersAvailability, addressAvailability) {
     // If letters are available, but address is still awaiting response, consider the entire app to still be awaiting response
-    if (lettersAvailability === awaitingResponse || addressAvailability === awaitingResponse) {
+    if (
+      lettersAvailability === awaitingResponse ||
+      addressAvailability === awaitingResponse
+    ) {
       return awaitingResponse;
     }
 
@@ -49,12 +51,17 @@ export class Main extends React.Component {
   render() {
     let appContent;
 
-    switch (this.appAvailability(this.props.lettersAvailability, this.props.addressAvailability)) {
+    switch (
+      this.appAvailability(
+        this.props.lettersAvailability,
+        this.props.addressAvailability,
+      )
+    ) {
       case available:
         appContent = this.props.children;
         break;
       case awaitingResponse:
-        appContent = <LoadingIndicator message="Loading your letters..."/>;
+        appContent = <LoadingIndicator message="Loading your letters..." />;
         break;
       case backendAuthenticationError:
         appContent = recordsNotFound;
@@ -70,11 +77,7 @@ export class Main extends React.Component {
         break;
     }
 
-    return (
-      <div>
-        {appContent}
-      </div>
-    );
+    return <div>{appContent}</div>;
   }
 }
 
@@ -87,9 +90,9 @@ function mapStateToProps(state) {
     addressAvailability: letterState.addressAvailability,
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
-      serviceInfo: letterState.serviceInfo
+      serviceInfo: letterState.serviceInfo,
     },
-    optionsAvailable: letterState.optionsAvailable
+    optionsAvailable: letterState.optionsAvailable,
   };
 }
 
@@ -102,4 +105,7 @@ const mapDispatchToProps = {
   getAddressStates,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Main);

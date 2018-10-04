@@ -33,8 +33,8 @@ Find out what happens to your claim after you apply for disability benefits.
 ### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">107.2 days</span>
-<span class="description">Average number of days to complete disability-related claims in August 2018</span>
+<span class="number">96.8 days</span>
+<span class="description">Average number of days to complete disability-related claims in September 2018</span>
 </div>
 
 #### The amount of time it takes to review your claim depends on:
