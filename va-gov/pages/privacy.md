@@ -127,71 +127,87 @@ The VA Privacy Service works to minimize the impact on veteran’s privacy, part
 <span id="privacy-services"></span>
 
 <h3>VA Privacy Services</h3>
+
 ------
 
  <div class="link">
     <a href="https://www.va.gov/about_va/va_notices.asp"><b>Notices</b></a>
- </div>
+ </div> <br>
+ 
  <div class="link">
   <a href="https://www.va.gov/webpolicylinks.asp"><b>Web Policies</b></a>
- </div>
+ </div> <br>
+ 
  <div class="link">
   <a href="https://www.oprm.va.gov/"><b>Regulations</b></a>
  </div>
+ 
  <div class="link">
   <a href="https://www.oprm.va.gov/privacy/pia.aspx"><b>Privacy Impact Assessments</b></a>
- </div>
+ </div> <br>
+ 
  <div class="link">
   <a href="https://www.oprm.va.gov/privacy/systems_of_records.aspx"><b>System of Records Notices</b></a>
- </div>
+ </div> <br>
  
 <span id="account"></span>
 
 <h3>Account Policies</h3>
+
 ------
 
  <div class="link">
     <a href="https://www.id.me/privacy"><b>ID.me Privacy Policy</b></a>
- </div>
+ </div> <br>
+ 
  <div class="link">
   <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/privacy-security"><b>My HealtheVet Privacy Policy</b></a>
- </div>
+ </div> <br>
+ 
  <div class="link">
   <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/terms-conditions"><b>My HealtheVet Terms and Conditions</b></a>
- </div>
+ </div> <br>
  
  <span id="other"></span>
 
 <h3>Other VA Policies</h3>
+
 ------
 
  <div class="link">
     <a href="https://www.ebenefits.va.gov/ebenefits/about/policies"><b>eBenefits Policies</b></a>
- </div>
+ </div> <br>
+ 
  <div class="link">
   <a href="https://www.veteranscrisisline.net/about/privacy-and-security"><b>Veterans Crisis Line Privacy and Security</b></a>
- </div>
+ </div> <br>
+ 
  <div class="link">
   <a href="https://www.veteranscrisisline.net/get-help/text"><b>Veterans Crisis Line Text Terms of Service</b></a>
- </div>
+ </div> <br>
  
   <span id="links"></span>
 
 <h3>Federally Required Links</h3>
+
 ------
 
  <div class="link">
     <a href="https://www.oprm.va.gov/foia/"><b>Freedom of Information Act (FOIA)</b></a>
- </div>
+ </div> <br>
+ 
  <div class="link">
   <a href="https://www.va.gov/orm/NOFEAR_Select.asp"><b>No FEAR Act</b></a>
- </div>
+ </div> <br>
+ 
  <div class="link">
   <a href="https://www.va.gov/oig/"><b>Office of the Inspector General</b></a>
- </div>
+ </div> <br>
+ 
  <div class="link">
   <a href="https://usa.gov"><b>USA.gov</b></a>
- </div>
+ </div> <br>
+ 
  <div class="link">
   <a href="https://whitehouse.gov"><b>White House</b></a>
- </div>
+ </div> <br>
