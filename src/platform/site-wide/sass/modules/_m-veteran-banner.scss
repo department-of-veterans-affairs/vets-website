@@ -8,6 +8,12 @@ $veteran-banner-mobile-height: 70px;
   margin-top: 2.5em;
 }
 
+#homepage-hub {
+  .veteran-banner {
+    background: none;
+  }
+}
+
 .veteran-banner-image {
   margin: 0 auto;
   background-image: url(/img/homepage/veterans-banner-mobile.png);
