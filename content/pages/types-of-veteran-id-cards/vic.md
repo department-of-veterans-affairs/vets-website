@@ -11,7 +11,7 @@ order: 1
 
 <div class="va-introtext">
  
-A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offered to Veterans at many restaurants, hotels, stores, and other businesses. Find out if you’re eligible for a Veteran ID Card—and how to apply.
+A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offered to Veterans at many restaurants, hotels, stores, and other businesses. Retail businesses and stores acceptance of the VIC is voluntary and doesn't show an endorsement, favoring, or recommendation, or favoring by VA. Find out if you’re eligible for a Veteran ID Card—and how to apply.
 </div>
 
 
@@ -21,11 +21,13 @@ You may be eligible if you meet both of the requirements listed below.
 
 **Both of these must be true. You:**
 - Served on active duty, in the Reserves, or in the National Guard (including the Coast Guard), **and**
-- Received an honorable or general discharge
+- Received an honorable or general discharge (under honorable conditions)
 
 If you received an other than honorable, bad conduct, or dishonorable character of discharge, you’re not eligible for a Veteran ID Card. If you have an uncharacterized or unknown discharge status, we’ll have to verify your eligibility before we approve your application.
 
 You’ll need to provide a copy of your discharge papers when you apply for a VIC to prove your character of discharge.
+
+**Please note:** Retail vendors' acceptance of the VIC is voluntary and doesn't reflect an endorsement, favoring, or recommendation by VA. 
 
 ### How do I apply for a Veteran ID Card?
 
@@ -103,7 +105,12 @@ No. Your Veteran ID Card won’t replace your Veteran Health Identification Card
 
 You can’t use your Veteran ID Card to:
 - Prove your eligibility for any federal benefits, **or**
--	Access military installations
+-	Access military bases or installations, **or**
+- Access military commissaries or exchanges, **or** 
+- Use as form of identification at the airport, **or**
+- Check into a VA hospital, **or** 
+- Show proof of retirement from the Armed Forces, **or**
+- Show proof of wartime service to get a special license plate from the Department of Motor Vehicles 
 
 </div>
 </li>
