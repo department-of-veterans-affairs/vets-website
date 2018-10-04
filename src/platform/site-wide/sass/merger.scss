@@ -290,7 +290,8 @@
 
   // desktop footer stuff
 
-  .va-footer-linkgroup-title {
+  h4.va-footer-linkgroup-title {
+    padding-bottom: 1em;
 
     button {
       -webkit-font-smoothing: antialiased;
@@ -299,7 +300,7 @@
       font-weight: 700;
       font-size: 1.1em;
       margin: 0;
-      padding: 0 0 1em 0;
+      padding: 0;
       text-align: left;
     }
 
@@ -314,12 +315,6 @@
     .va-footer-linkgroup {
       li {
         margin-bottom: 0;
-
-        &:first-child {
-          h4 {
-            padding-bottom: 0;
-          }
-        }
       }
     }
   }
@@ -328,12 +323,6 @@
   .va-footer-linkgroup {
     li {
       margin-bottom: 0;
-
-      &:first-child {
-        h4 {
-          padding-bottom: 0;
-        }
-      }
     }
   }
 
@@ -520,6 +509,9 @@
     #footerNav {
       .va-footer-linkgroup {
         margin-top: 0;
+        h4 {
+          padding: 0;
+        }
         li {
           margin-bottom: 6px;
         }
