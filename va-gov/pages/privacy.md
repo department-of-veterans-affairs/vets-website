@@ -2,37 +2,6 @@
 layout: page-breadcrumbs.html
 template: detail-page
 title: Privacy, Policies, and Legal Information
-majorlinks:
-
-  - heading: Account Policies
-    links:
-    - url: https://www.id.me/privacy
-      title: ID.me Privacy Policy
-    - url: https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/privacy-security
-      title: My HealtheVet Privacy Policy
-    - url: https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/terms-conditions
-      title: My HealtheVet Terms and Conditions
-  - heading: Other VA Policies
-    links:
-    - url: https://www.ebenefits.va.gov/ebenefits/about/policies
-      title: eBenefits Policies
-    - url: https://www.veteranscrisisline.net/about/privacy-and-security
-      title: Veterans Crisis Line Privacy and Security
-    - url: https://www.veteranscrisisline.net/get-help/text
-      title: Veterans Crisis Line Text Terms of Service
-  - heading: Federally Required Links
-    links:
-    - url: https://www.oprm.va.gov/foia/
-      title: Freedom of Information Act (FOIA)
-    - url: https://www.va.gov/orm/NOFEAR_Select.asp
-      title: No FEAR Act
-    - url: https://www.va.gov/oig/
-      title: Office of the Inspector General
-    - url: https://usa.gov
-      title: USA.gov
-    - url: https://whitehouse.gov
-      title: White House
-  
 ---
 
 <p class="va-introtext">
@@ -155,11 +124,10 @@ The VA Privacy Service works to minimize the impact on veteran’s privacy, part
 
 <b>Up to date as of September 18, 2018</b>
 
-</section>
+<span id="privacy-services"></span>
 
-<section id="privacy-services" class="merger-majorlinks">
-
-<h2>VA Privacy Services</h2>
+<h3>VA Privacy Services</h3>
+------
 
  <div class="link">
     <a href="https://www.va.gov/about_va/va_notices.asp"><b>Notices</b></a>
@@ -177,4 +145,53 @@ The VA Privacy Service works to minimize the impact on veteran’s privacy, part
   <a href="https://www.oprm.va.gov/privacy/systems_of_records.aspx"><b>System of Records Notices</b></a>
  </div>
  
- </section>
+<span id="account"></span>
+
+<h3>Account Policies</h3>
+------
+
+ <div class="link">
+    <a href="https://www.id.me/privacy"><b>ID.me Privacy Policy</b></a>
+ </div>
+ <div class="link">
+  <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/privacy-security"><b>My HealtheVet Privacy Policy</b></a>
+ </div>
+ <div class="link">
+  <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/terms-conditions"><b>My HealtheVet Terms and Conditions</b></a>
+ </div>
+ 
+ <span id="other"></span>
+
+<h3>Other VA Policies</h3>
+------
+
+ <div class="link">
+    <a href="https://www.ebenefits.va.gov/ebenefits/about/policies"><b>eBenefits Policies</b></a>
+ </div>
+ <div class="link">
+  <a href="https://www.veteranscrisisline.net/about/privacy-and-security"><b>Veterans Crisis Line Privacy and Security</b></a>
+ </div>
+ <div class="link">
+  <a href="https://www.veteranscrisisline.net/get-help/text"><b>Veterans Crisis Line Text Terms of Service</b></a>
+ </div>
+ 
+  <span id="links"></span>
+
+<h3>Federally Required Links</h3>
+------
+
+ <div class="link">
+    <a href="https://www.oprm.va.gov/foia/"><b>Freedom of Information Act (FOIA)</b></a>
+ </div>
+ <div class="link">
+  <a href="https://www.va.gov/orm/NOFEAR_Select.asp"><b>No FEAR Act</b></a>
+ </div>
+ <div class="link">
+  <a href="https://www.va.gov/oig/"><b>Office of the Inspector General</b></a>
+ </div>
+ <div class="link">
+  <a href="https://usa.gov"><b>USA.gov</b></a>
+ </div>
+ <div class="link">
+  <a href="https://whitehouse.gov"><b>White House</b></a>
+ </div>
