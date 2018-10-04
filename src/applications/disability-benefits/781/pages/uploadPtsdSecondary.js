@@ -2,16 +2,13 @@ import React from 'react';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import environment from '../../../../platform/utilities/environment';
 
-import {
-  PtsdNameTitle781,
-  documentDescription
-} from '../helpers';
+import { PtsdNameTitle, documentDescription } from '../helpers';
 
 const FIFTY_MB = 52428800;
 
 export const uiSchema = {
   'ui:title': ({ formData }) => (
-    <PtsdNameTitle781 formData={formData} formType="781a"/>
+    <PtsdNameTitle formData={formData} formType="781a" />
   ),
   'ui:description': documentDescription,
   ptsd781: fileUploadUI('', {

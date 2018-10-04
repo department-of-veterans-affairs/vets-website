@@ -99,54 +99,48 @@ export const introductionText = (
   </div>
 );
 
-export const ptsdTypeDescription = () => {
-  return (
-    <div>
-      <p>
-        First we‘re going to ask you about the type of event or events that
-        contributed to your PTSD.
-      </p>
-      <p>
-        What type of event contributed to your PTSD? (Choose all that apply.)
-      </p>
-    </div>
-  );
-};
+export const ptsdTypeDescription = () => (
+  <div>
+    <p>
+      First we‘re going to ask you about the type of event or events that
+      contributed to your PTSD.
+    </p>
+    <p>What type of event contributed to your PTSD? (Choose all that apply.)</p>
+  </div>
+);
 
-export const ptsdTypeHelp = () => {
-  return (
-    <AdditionalInfo triggerText="Which should I choose?">
-      <h4>Types of Stressful incidents</h4>
-      <h5>Combat</h5>
-      <p>
-        This means you participated in a fight or encounter with a military
-        enemy or hostile unit or weapon. It also includes if you were present
-        during these events either as a combatant or a Servicemember supporting
-        combatants such as providing medical care to the wounded.
-      </p>
-      <h5>Military Sexual Trauma</h5>
-      <p>
-        This includes sexual harassment, sexual assault, or rape that happens in
-        a military setting.
-      </p>
-      <h5>Personal Assault</h5>
-      <p>
-        This means a person, who isn‘t part of an enemy force, committed harm.
-        Examples of personal assault include: assault, battery, robbery,
-        mugging, stalking, or harassment.
-      </p>
-      <h5>Non-Combat other than Military Sexual Trauma or Personal Assault</h5>
-      <p>
-        This means you experienced an event such as a car accident, hurricane,
-        or plane crash, or witnessing the death, injury, or threat to another
-        person or to yourself, caused by something other than a hostile military
-        or terrorist activity.
-      </p>
-    </AdditionalInfo>
-  );
-};
+export const ptsdTypeHelp = () => (
+  <AdditionalInfo triggerText="Which should I choose?">
+    <h4>Types of Stressful incidents</h4>
+    <h5>Combat</h5>
+    <p>
+      This means you participated in a fight or encounter with a military enemy
+      or hostile unit or weapon. It also includes if you were present during
+      these events either as a combatant or a Servicemember supporting
+      combatants such as providing medical care to the wounded.
+    </p>
+    <h5>Military Sexual Trauma</h5>
+    <p>
+      This includes sexual harassment, sexual assault, or rape that happens in a
+      military setting.
+    </p>
+    <h5>Personal Assault</h5>
+    <p>
+      This means a person, who isn‘t part of an enemy force, committed harm.
+      Examples of personal assault include: assault, battery, robbery, mugging,
+      stalking, or harassment.
+    </p>
+    <h5>Non-Combat other than Military Sexual Trauma or Personal Assault</h5>
+    <p>
+      This means you experienced an event such as a car accident, hurricane, or
+      plane crash, or witnessing the death, injury, or threat to another person
+      or to yourself, caused by something other than a hostile military or
+      terrorist activity.
+    </p>
+  </AdditionalInfo>
+);
 
-export const PtsdNameTitle781 = ({ formData, formType }) => {
+export const PtsdNameTitle = ({ formData, formType }) => {
   const { incidentTitle } = getPtsdClassification(formData, formType);
   return (
     <legend className="schemaform-block-title schemaform-title-underline">
@@ -155,52 +149,52 @@ export const PtsdNameTitle781 = ({ formData, formType }) => {
   );
 };
 
-export const documentDescription = () => {
-  return (
-    <div>
-      <p>
-        You can upload your document in a pdf, .jpeg, or .png file format.
-        You’ll first need to scan a copy of your document onto your computer or
-        mobile phone. You can then upload the document from there. Please note
-        that large files can take longer to upload with a slow Internet
-        connection. Guidelines for uploading a file:
-      </p>
-      <ul>
-        <li>File types you can upload: .pdf, .jpeg, or .png</li>
-        <li>Maximum file size: 50 MB</li>
-      </ul>
-      <p>
-        <em>
-          Large files can be more difficult to upload with a slow Internet
-          connection
-        </em>
-      </p>
-    </div>
-  );
-};
+export const documentDescription = () => (
+  <div>
+    <p>
+      You can upload your document in a pdf, .jpeg, or .png file format. You’ll
+      first need to scan a copy of your document onto your computer or mobile
+      phone. You can then upload the document from there. Please note that large
+      files can take longer to upload with a slow Internet connection.
+      Guidelines for uploading a file:
+    </p>
+    <ul>
+      <li>File types you can upload: .pdf, .jpeg, or .png</li>
+      <li>Maximum file size: 50 MB</li>
+    </ul>
+    <p>
+      <em>
+        Large files can be more difficult to upload with a slow Internet
+        connection
+      </em>
+    </p>
+  </div>
+);
 
 const UploadExplanation = ({ formType }) => (
   <div>
     <p>
       If you have already completed a Claim for Service Connection for
-      Post-Traumatic Stress Disorder (VA Form 21-0{`${formType}`}), you can upload it here
-      instead of answering the questions about your PTSD.
+      Post-Traumatic Stress Disorder (VA Form 21-0
+      {`${formType}`}
+      ), you can upload it here instead of answering the questions about your
+      PTSD.
     </p>
     <p>How would you like to provide information about your PTSD?</p>
   </div>
 );
 
-export const UploadPtsdDescription781 = ({ formData, formType }) => {
+export const UploadPtsdDescription = ({ formData, formType }) => {
   const { incidentText } = getPtsdClassification(formData, formType);
   return (
     <div>
       <p>
         The following questions will help us understand more about your
-        {` ${incidentText}`}-related PTSD. None of the questions we‘ll ask you
-        are required, but any information you provide here will help us research
-        your claim.
+        {` ${incidentText}`}
+        -related PTSD. None of the questions we‘ll ask you are required, but any
+        information you provide here will help us research your claim.
       </p>
-      <UploadExplanation formType={formType}/>
+      <UploadExplanation formType={formType} />
     </div>
   );
 };

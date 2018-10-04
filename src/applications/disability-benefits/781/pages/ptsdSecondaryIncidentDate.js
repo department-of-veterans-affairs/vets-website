@@ -1,5 +1,5 @@
 import React from 'react';
-import { PtsdNameTitle781, getPtsdClassification } from '../helpers';
+import { PtsdNameTitle, getPtsdClassification } from '../helpers';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
@@ -39,7 +39,7 @@ const ptsdDateDescription = ({ formData }) => {
 
 export const uiSchema = {
   'ui:title': ({ formData }) => (
-    <PtsdNameTitle781 formData={formData} formType="781a" />
+    <PtsdNameTitle formData={formData} formType="781a" />
   ),
   'ui:description': ptsdDateDescription,
   secondaryIncidentDate: {

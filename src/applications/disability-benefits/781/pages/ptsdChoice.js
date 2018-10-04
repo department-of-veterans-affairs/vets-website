@@ -1,16 +1,16 @@
 import React from 'react';
 import {
-  PtsdNameTitle781,
-  UploadPtsdDescription781,
+  PtsdNameTitle,
+  UploadPtsdDescription,
   ptsdChoiceDescription,
 } from '../helpers';
 
 export const uiSchema = {
   'ui:title': ({ formData }) => (
-    <PtsdNameTitle781 formData={formData} formType="781"/>
+    <PtsdNameTitle formData={formData} formType="781" />
   ),
   'ui:description': ({ formData }) => (
-    <UploadPtsdDescription781 formData={formData} formType="781"/>
+    <UploadPtsdDescription formData={formData} formType="781" />
   ),
   'view:uploadPtsdChoice': {
     'ui:title': ' ',
@@ -32,7 +32,7 @@ export const schema = {
   properties: {
     'view:uploadPtsdChoice': {
       type: 'string',
-      'enum': ['answerQuestions', 'upload'],
+      enum: ['answerQuestions', 'upload'],
     },
     'view:uploadPtsdChoiceHelp': {
       type: 'object',

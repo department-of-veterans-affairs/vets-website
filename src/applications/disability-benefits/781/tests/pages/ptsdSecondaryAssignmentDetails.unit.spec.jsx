@@ -3,22 +3,28 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillDate, fillData
-} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+import {
+  DefinitionTester,
+  fillDate,
+  fillData,
+} from '../../../../../platform/testing/unit/schemaform-utils';
+import formConfig from '../../config/form';
 
 describe('781a Incident Date', () => {
-  const page = formConfig.chapters.introductionPage.pages.ptsdSecondaryAssignmentDetails;
+  const page =
+    formConfig.chapters.introductionPage.pages.ptsdSecondaryAssignmentDetails;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
-    const form = mount(<DefinitionTester
-      arrayPath={arrayPath}
-      pagePerItemIndex={0}
-      definitions={formConfig.defaultDefinitions}
-      schema={schema}
-      data={{}}
-      uiSchema={uiSchema}/>
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}
+      />,
     );
     expect(form.find('input').length).to.equal(3);
     expect(form.find('select').length).to.equal(4);
@@ -26,14 +32,16 @@ describe('781a Incident Date', () => {
 
   it('should fill in unit assignment details', () => {
     const onSubmit = sinon.spy();
-    const form = mount(<DefinitionTester
-      arrayPath={arrayPath}
-      pagePerItemIndex={0}
-      onSubmit={onSubmit}
-      definitions={formConfig.defaultDefinitions}
-      schema={schema}
-      data={{}}
-      uiSchema={uiSchema}/>
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}
+      />,
     );
 
     fillData(form, 'input#root_secondaryUnitAssigned', '21st Airborne');
@@ -46,18 +54,20 @@ describe('781a Incident Date', () => {
   });
   it('should allow submission if no assigned unit details are submitted', () => {
     const onSubmit = sinon.spy();
-    const form = mount(<DefinitionTester
-      arrayPath={arrayPath}
-      pagePerItemIndex={0}
-      onSubmit={onSubmit}
-      definitions={formConfig.defaultDefinitions}
-      schema={schema}
-      data={{}}
-      uiSchema={uiSchema}/>);
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}
+      />,
+    );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
-
   });
 });

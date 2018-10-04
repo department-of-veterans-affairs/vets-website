@@ -130,7 +130,8 @@ const formConfig = {
           title: 'Disability Details',
           depends: form =>
             form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' &&
-            form['view:selectablePtsdTypes']['view:mstPtsdType'],
+            (form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
+              form['view:selectablePtsdTypes']['view:assaultPtsdType']),
           uiSchema: ptsdSecondaryAssignmentDetails.uiSchema,
           schema: ptsdSecondaryAssignmentDetails.schema,
         },
@@ -139,7 +140,8 @@ const formConfig = {
           title: 'Disability Details',
           depends: form =>
             form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' &&
-            form['view:selectablePtsdTypes']['view:mstPtsdType'],
+            (form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
+              form['view:selectablePtsdTypes']['view:assaultPtsdType']),
           uiSchema: ptsdSecondaryLocation.uiSchema,
           schema: ptsdSecondaryLocation.schema,
         },

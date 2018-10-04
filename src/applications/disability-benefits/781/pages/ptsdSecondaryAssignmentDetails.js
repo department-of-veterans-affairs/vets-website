@@ -1,7 +1,7 @@
 import React from 'react';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
-import { PtsdNameTitle781 } from '../helpers';
+import { PtsdNameTitle } from '../helpers';
 
 const ptsdAssignmentDescription = () => (
   <div>
@@ -15,7 +15,7 @@ const ptsdAssignmentDescription = () => (
 
 export const uiSchema = {
   'ui:title': ({ formData }) => (
-    <PtsdNameTitle781 formData={formData} formType="781a" />
+    <PtsdNameTitle formData={formData} formType="781a" />
   ),
   'ui:description': ptsdAssignmentDescription,
   secondaryUnitAssigned: {

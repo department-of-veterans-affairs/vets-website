@@ -3,12 +3,13 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillDate
+import { DefinitionTester, // selectCheckbox
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
-describe('781a Incident Date', () => {
-  const page = formConfig.chapters.introductionPage.pages.ptsdSecondaryIncidentDate;
+
+describe('718 record upload', () => {
+  const page = formConfig.chapters.introductionPage.pages.uploadPtsd;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
@@ -17,14 +18,18 @@ describe('781a Incident Date', () => {
       pagePerItemIndex={0}
       definitions={formConfig.defaultDefinitions}
       schema={schema}
-      data={{}}
+      data={{
+        'view:selectablePtsdTypes': {
+          'view:combatPtsdType': true,
+        },
+      }}
       uiSchema={uiSchema}/>
     );
+
     expect(form.find('input').length).to.equal(1);
-    expect(form.find('select').length).to.equal(2);
   });
 
-  it('should fill in incident date', () => {
+  it('should submit without an upload', () => {
     const onSubmit = sinon.spy();
     const form = mount(<DefinitionTester
       arrayPath={arrayPath}
@@ -33,36 +38,17 @@ describe('781a Incident Date', () => {
       definitions={formConfig.defaultDefinitions}
       schema={schema}
       data={{
-        ptsdSecondaryIncidentDate: ''
+        'view:selectablePtsdTypes': {
+          'view:combatPtsdType': true,
+        },
       }}
       uiSchema={uiSchema}/>
     );
 
-    fillDate(form, 'root_secondaryIncidentDate', '2016-07-10');
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
-  it('should allow submission if no incident date submitted', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(<DefinitionTester
-      arrayPath={arrayPath}
-      pagePerItemIndex={0}
-      onSubmit={onSubmit}
-      definitions={formConfig.defaultDefinitions}
-      schema={schema}
-      data={{
-        ptsdSecondaryIncidentDate: ''
-      }}
-      formData={{
-        ptsdSecondaryIncidentDate: ''
-      }}
-      uiSchema={uiSchema}/>);
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-
-  });
 });
