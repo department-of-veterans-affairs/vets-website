@@ -10,9 +10,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.definitions;
 
-import {
-  introductionText,
-} from '../helpers';
+import { introductionText } from '../helpers';
 
 // Define all the fields in the form to aid reuse
 // const formFields = {};
@@ -25,6 +23,7 @@ import {
   uploadPtsdSecondary,
   informationInterviewCombat,
   informationInterviewAssault,
+  stressfulIncSecDesc,
 } from '../pages';
 
 const formConfig = {
@@ -119,6 +118,11 @@ const formConfig = {
               form['view:selectablePtsdTypes']['view:assaultPtsdType']),
           uiSchema: informationInterviewAssault.uiSchema,
           schema: informationInterviewAssault.schema,
+        },
+        stressfulIncidentSecondaryDescription: {
+          path: 'stressful-incident-secondary-description',
+          uiSchema: stressfulIncSecDesc.uiSchema,
+          schema: stressfulIncSecDesc.schema,
         },
         // medals: { //TODO: KEEP FOR NEXT STORY
         //   path: 'information-781',

@@ -224,3 +224,9 @@ export const ptsdChoiceDescription = (
     </p>
   </AdditionalInfo>
 );
+
+export const stressfulIncidentDescriptionTitle = () => (
+  <div>
+    <h5>Event description</h5>
+  </div>
+);
