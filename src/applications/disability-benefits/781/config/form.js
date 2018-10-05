@@ -62,12 +62,13 @@ const formConfig = {
       title: 'Disability Details',
       pages: {
         ptsdType: {
+          title: 'PTSD Type',
           path: 'ptsdType',
-          title: 'Disability Details',
           uiSchema: ptsdType.uiSchema,
           schema: ptsdType.schema,
         },
         ptsdChoice: {
+          title: 'PTSD Choice',
           path: 'ptsdChoice',
           depends: form =>
             form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
@@ -76,6 +77,7 @@ const formConfig = {
           schema: ptsdChoice.schema,
         },
         individualsInvolvedChoice: {
+          title: 'Individuals Involved Choice',
           path: 'individualsInvolvedChoice',
           depends: form =>
             form['view:uploadPtsdChoice'] === 'answerQuestions' &&
@@ -85,6 +87,7 @@ const formConfig = {
           schema: individualsInvolvedChoice.schema,
         },
         uploadPtsd: {
+          title: 'Upload PTSD',
           path: 'upload-781',
           depends: form =>
             form['view:uploadPtsdChoice'] === 'upload' &&
@@ -94,6 +97,7 @@ const formConfig = {
           schema: uploadPtsd.schema,
         },
         informationInterviewCombat: {
+          title: 'Information Interview Combat',
           path: 'information-781',
           depends: form =>
             form['view:uploadPtsdChoice'] === 'answerQuestions' &&
@@ -103,6 +107,7 @@ const formConfig = {
           schema: informationInterviewCombat.schema,
         },
         ptsdSecondaryChoice: {
+          title: 'PTSD Secondary Choice',
           path: 'ptsdSecondaryChoice',
           depends: form =>
             form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
@@ -111,6 +116,7 @@ const formConfig = {
           schema: ptsdSecondaryChoice.schema,
         },
         uploadPtsdSecondary: {
+          title: 'Upload PTSD Secondary',
           path: 'upload-781a',
           depends: form =>
             form['view:uploadPtsdSecondaryChoice'] === 'upload' &&
@@ -120,6 +126,7 @@ const formConfig = {
           schema: uploadPtsdSecondary.schema,
         },
         informationInterviewAssault: {
+          title: 'Information Interview Assault',
           path: 'information-781a',
           depends: form =>
             form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' &&
