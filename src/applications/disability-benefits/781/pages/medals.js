@@ -1,8 +1,13 @@
+// import _ from 'lodash/fp';
 import React from 'react';
+// import PropTypes from 'prop-types';
 import { PtsdNameTitle, getPtsdClassification } from '../helpers';
+
+import MedalsCheckbox from '../components/MedalsCheckbox';
 
 const MedalsDescription = ({ formData, formType }) => {
   const { incidentText } = getPtsdClassification(formData, formType);
+  //  console.log(formData, 'formdata');
 
   return (
     <div>
@@ -17,28 +22,29 @@ const MedalsDescription = ({ formData, formType }) => {
   );
 };
 
-const medalsList = [
-  'Air Force Achievement Medal with “V” Device',
-  'Air Force Combat Action Medal',
-  'Air Force Commendation Medal with “V” Device',
-  'Air Force Cross',
-  'Air Medal with “V” Device',
-  'Army Commendation Medal with “V” Device',
-  'Bronze Star Medal with “V” Device',
-  'Combat Action Badge',
-  'Combat Action Ribbon (Note: Prior to February 1969, the Navy Achievement Medal with “V” Device was awarded.)',
-  'Combat Aircrew Insignia',
-  'Combat Infantry/Infantryman Badge',
-  'Combat Medical Badge',
-  'Distinguished Flying Cross',
-  'Distinguished Service Cross',
-  'Joint Service Commendation Medal with “V” Device',
-  'Medal of Honor',
-  'Navy Commendation Medal with “V” Device',
-  'Navy Cross',
-  'Purple Heart',
-  'Silver Star',
-];
+// const medalsList = [
+//   // 'Air Force Achievement Medal with “V” Device': { type: 'boolean' },
+//   // 'Air Force Combat Action Medal': { type: 'boolean' },
+//   // 'Air Force Commendation Medal with “V” Device': { type: 'boolean' },
+//   // 'Air Force Cross': { type: 'boolean' },
+//   'Air Medal with “V” Device',
+//   'Army Commendation Medal with “V” Device',
+//   'Bronze Star Medal with “V” Device',
+//   'Combat Action Badge',
+//   'Combat Action Ribbon (Note: Prior to February 1969, the Navy Achievement Medal with “V” Device was awarded.)',
+//   'Combat Aircrew Insignia',
+//   'Combat Infantry/Infantryman Badge',
+//   'Combat Medical Badge',
+//   'Distinguished Flying Cross',
+//   'Distinguished Service Cross',
+//   'Joint Service Commendation Medal with “V” Device',
+//   'Medal of Honor',
+//   'Navy Commendation Medal with “V” Device',
+//   'Navy Cross',
+//   'Purple Heart',
+//   'Silver Star',
+//   //  Other: { type: 'boolean' },
+// ];
 
 export const uiSchema = {
   'ui:title': PtsdNameTitle,
@@ -55,18 +61,43 @@ export const uiSchema = {
       },
     },
   },
-  'view:selectMedals': {
+  selectMedals: {
     'ui:title': ' ',
     'ui:description': 'Please choose the medals or citations you received',
-    //  'ui:help': patientAcknowledgmentText,
-    'ui:options': {
-      expandUnder: 'view:medalsChoice',
-      expandUnderCondition: 'yes',
-      //  showFieldLabel: true,
+    //  'ui:description': 'Select all that apply',
+    'ui:field': 'StringField',
+    'ui:widget': MedalsCheckbox,
+    hasReadPrideAndPrejudice: {
+      'ui:title': 'Pride and Prejudice by Jane Austen',
+    },
+    hasReadJaneEyre: {
+      'ui:title': 'Jane Eyre by Charlotte Brontë',
+    },
+    hasReadGreatGatsby: {
+      'ui:title': 'The Great Gatsby by F. Scott Fitzgerald',
+    },
+    hasReadBuddenbrooks: {
+      'ui:title': 'Buddenbrooks by Thomas Mann',
     },
 
-    // 'view:uploadPtsdChoiceHelp': {
-    //   'ui:description': ptsdChoiceDescription,
+    'ui:options': {
+      // expandUnder: 'view:medalsChoice',
+      // expandUnderCondition: 'yes',
+      // expandUnderCondition: formData =>
+      //   _.get('view:medalsChoice', formData, '') === 'yes',
+    },
+  },
+  'view:otherMedal': {
+    'ui:title': ' ',
+    'ui:description': 'Enter other medals or citations here',
+    'ui:options': {
+      expandUnder: 'selectMedals',
+      expandUnderCondition: true,
+      // 'ui:options': {
+      //   expandUnder: 'view:selecMedals',
+      //
+      //   expandUnderCondition: medal => !!status && status !== 'Other',
+    },
   },
 };
 
@@ -77,9 +108,19 @@ export const schema = {
       type: 'string',
       enum: ['yes', 'no'],
     },
-    'view:selectMedals': {
+    selectMedals: {
       type: 'string',
-      enum: medalsList,
+      //  properties: medalsList,
+      properties: {
+        hasReadPrideAndPrejudice: { type: 'boolean' },
+        hasReadJaneEyre: { type: 'boolean' },
+        hasReadGreatGatsby: { type: 'boolean' },
+        hasReadBuddenbrooks: { type: 'boolean' },
+      },
+    },
+    'view:otherMedal': {
+      type: 'string',
+      properties: {},
     },
   },
 };
