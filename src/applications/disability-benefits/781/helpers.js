@@ -1,14 +1,61 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-export const introductionText = (
+const getPtsdClassification = (formData, formType) => {
+  const classifications = formData['view:selectablePtsdTypes'];
+  let incidentTitle;
+  let incidentText;
+  const is781 = formType === '781';
+
+  switch (true) {
+    case classifications['view:combatPtsdType'] &&
+      classifications['view:noncombatPtsdType'] &&
+      is781:
+      incidentTitle =
+        'Combat & Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+
+      incidentText =
+        'Combat and Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      break;
+
+    case classifications['view:assaultPtsdType'] &&
+      classifications['view:mstPtsdType'] &&
+      !is781:
+      incidentTitle = 'Personal Assault & Military Sexual Trauma';
+      incidentText = 'Personal Assault and Military Sexual Trauma';
+      break;
+
+    case classifications['view:combatPtsdType'] && is781:
+      incidentTitle = 'Combat';
+      incidentText = 'Combat';
+      break;
+
+    case classifications['view:noncombatPtsdType'] && is781:
+      incidentTitle =
+        'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      incidentText =
+        'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      break;
+
+    case classifications['view:assaultPtsdType'] && !is781:
+      incidentTitle = 'Personal Assault';
+      incidentText = 'Personal Assault';
+      break;
+
+    case classifications['view:mstPtsdType'] && !is781:
+      incidentTitle = 'Military Sexual Trauma';
+      incidentText = 'Military Sexual Trauma';
+      break;
+
+    default:
+      incidentTitle = '';
+      incidentText = '';
+  }
+  return { incidentTitle, incidentText };
+};
+
+const introductionExplanationText = (
   <div>
-    <p>
-      We‘ll now ask you questions about the stressful event or events related to
-      your PTSD. We understand that some of the questions maybe difficult to
-      answer. The information you provide here will help us understand your
-      situation and research your claim.
-    </p>
     <p>
       As you go through these questions, your responses will be saved. So, if
       you need to take a break and come back to your application, your
@@ -37,6 +84,18 @@ export const introductionText = (
       </li>
     </ul>
     <p>Support for the deaf and hearing-impaired is also available.</p>
+  </div>
+);
+
+export const introductionText = (
+  <div>
+    <p>
+      We‘ll now ask you questions about the stressful event or events related to
+      your PTSD. We understand that some of the questions maybe difficult to
+      answer. The information you provide here will help us understand your
+      situation and research your claim.
+    </p>
+    {introductionExplanationText}
   </div>
 );
 
@@ -71,7 +130,7 @@ export const ptsdTypeHelp = () => (
       Examples of personal assault include: assault, battery, robbery, mugging,
       stalking, or harassment.
     </p>
-    <h5>Non-Combat other than Military Sexual Trama or Personal Assault</h5>
+    <h5>Non-Combat other than Military Sexual Trauma or Personal Assault</h5>
     <p>
       This means you experienced an event such as a car accident, hurricane, or
       plane crash, or witnessing the death, injury, or threat to another person
@@ -81,11 +140,14 @@ export const ptsdTypeHelp = () => (
   </AdditionalInfo>
 );
 
-export const ptsdNameTitle = () => (
-  <legend className="schemaform-block-title schemaform-title-underline">
-    PTSD
-  </legend>
-);
+export const PtsdNameTitle = ({ formData, formType }) => {
+  const { incidentTitle } = getPtsdClassification(formData, formType);
+  return (
+    <legend className="schemaform-block-title schemaform-title-underline">
+      {incidentTitle}
+    </legend>
+  );
+};
 
 export const documentDescription = () => (
   <div>
@@ -107,4 +169,58 @@ export const documentDescription = () => (
       </em>
     </p>
   </div>
+);
+
+const UploadExplanation = ({ formType }) => (
+  <div>
+    <p>
+      If you have already completed a Claim for Service Connection for
+      Post-Traumatic Stress Disorder (VA Form 21-0
+      {`${formType}`}
+      ), you can upload it here instead of answering the questions about your
+      PTSD.
+    </p>
+    <p>How would you like to provide information about your PTSD?</p>
+  </div>
+);
+
+export const UploadPtsdDescription = ({ formData, formType }) => {
+  const { incidentText } = getPtsdClassification(formData, formType);
+  return (
+    <div>
+      <p>
+        The following questions will help us understand more about your
+        {` ${incidentText}`}
+        -related PTSD. None of the questions we‘ll ask you are required, but any
+        information you provide here will help us research your claim.
+      </p>
+      <UploadExplanation formType={formType} />
+    </div>
+  );
+};
+
+export const IncidentIntroduction781 = ({ formData, formType }) => {
+  const { incidentTitle } = getPtsdClassification(formData, formType);
+  return (
+    <div>
+      <h3>{incidentTitle}</h3>
+      {introductionExplanationText}
+    </div>
+  );
+};
+
+export const ptsdChoiceDescription = (
+  <AdditionalInfo triggerText="What does this mean?">
+    <h5>Continue answering questions</h5>
+    <p>
+      If you choose to answer questions, we‘ll ask you several questions to
+      learn more about your PTSD.
+    </p>
+    <h5>Upload VA Form 21-0781</h5>
+    <p>
+      If you upload a completed VA Form 21-0781, we won‘t ask you questions
+      about your PTSD, and you‘ll move to the next section of the disability
+      application.
+    </p>
+  </AdditionalInfo>
 );

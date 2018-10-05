@@ -1,7 +1,7 @@
-import { ptsdNameTitle, ptsdTypeDescription, ptsdTypeHelp } from '../helpers';
+import { ptsdTypeDescription, ptsdTypeHelp } from '../helpers';
 
 export const uiSchema = {
-  'ui:title': ptsdNameTitle,
+  'ui:title': 'PTSD',
   'ui:description': ptsdTypeDescription,
   'view:selectablePtsdTypes': {
     'view:combatPtsdType': {
@@ -15,7 +15,7 @@ export const uiSchema = {
     },
     'view:noncombatPtsdType': {
       'ui:title':
-        'Non-Combat PTSD other than Military Sexual Trama or Personal Assault',
+        'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault',
     },
   },
   'view:ptsdTypeHelp': {
