@@ -237,6 +237,7 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
 
 export const hasVAEvidence = formData =>
   _.get(DATA_PATHS.hasVAEvidence, formData, false);
-
+export const hasOtherEvidence = formData =>
+  _.get(DATA_PATHS.hasAdditionalDocuments, formData, false);
 export const hasPrivateEvidence = formData =>
   _.get(DATA_PATHS.hasPrivateEvidence, formData, false);
