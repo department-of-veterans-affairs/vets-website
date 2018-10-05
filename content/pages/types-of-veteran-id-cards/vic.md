@@ -112,8 +112,8 @@ You can’t use your Veteran ID Card to:
 - Access military commissaries or exchanges, **or** 
 - Present as a form of identification at the airport, **or**
 - Check into a VA hospital, **or** 
-- Show proof of retirement from the Armed Forces, **or**
-- Show proof of wartime service to get a special license plate from the Department of Motor Vehicles 
+- Show as proof of retirement from the Armed Forces, **or**
+- Show as proof of wartime service to get a special license plate from the Department of Motor Vehicles 
 
 </div>
 </li>
