@@ -53,7 +53,7 @@ Find out how to view your payment history for VA benefits.
 
 If your decision notice shows at least a 10% disability rating, you’ll get your first payment within 15 days.
 
-If you don’t get a payment within 15 days, please call the Veterans Help Line at <a href="tel:+18008271000">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
+If you don’t get a payment within 15 days, please call the Veterans Help Line at <a href="tel:+18008271000">1-800-827-1000</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>). We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
 
 </div>
 </div>
