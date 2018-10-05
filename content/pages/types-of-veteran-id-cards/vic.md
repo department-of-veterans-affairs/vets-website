@@ -3,14 +3,15 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: How to Apply for a Veteran ID Card
 display_title: Veteran ID Card
-description: Find out if you're eligible for a printed Veteran ID Card--and how to apply.  
-plainlanguage: 
+description: Find out if you're eligible for a printed Veteran ID Card--and how to apply.
+plainlanguage:
 collection: types-of-veteran-ID-cards
-order: 1	
+order: 1
+production: false
 ---
 
 <div class="va-introtext">
- 
+
 A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offered to Veterans at many restaurants, hotels, stores, and other businesses. Find out if you’re eligible for a Veteran ID Card—and how to apply.
 
 </div>
@@ -34,16 +35,16 @@ You’ll need to provide a copy of your discharge papers when you apply for a VI
 
 ### How do I apply for a Veteran ID Card?
 
-You can apply online now. 
+You can apply online now.
 
 [Apply for a Veteran ID Card](https://vicbdc.ppd.vba.va.gov/VIC).
 
-### What do I need to apply for a Veteran ID Card? 
+### What do I need to apply for a Veteran ID Card?
 
 When you apply, be sure to have these on hand:
 * Your Social Security number
 * A digital copy of your DD214, DD256, DD257, or NGB22 that you can upload. This could be in a .pdf, .jpeg, or .png file format.
-* A copy of a current and valid government-issued ID, such as a driver’s license, passport, or state-issued identification card.     
+* A copy of a current and valid government-issued ID, such as a driver’s license, passport, or state-issued identification card.
 
 You'll also need a digital color photo of yourself from the shoulders up. The photo should follow all these standards:
 * Show a full front view of your face and neck (with no hat, head covering, or headphones covering or casting shadows on your hairline or face), **and**
@@ -62,17 +63,17 @@ Once you’ve submitted your VIC application, we’ll check your eligibility and
 
 After we’ve verified your eligibility, we’ll send you an email letting you know the status of your application. If you have an unknown or uncharacterized discharge status, your application will take more time to process while we verify your eligibility. (We may need to request your records from the National Personnel Records Center.)
 
-If you receive an email from us asking for additional information or evidence to process your application, you’ll need to sign in to AccessVA and update your application with the information we ask for. 
+If you receive an email from us asking for additional information or evidence to process your application, you’ll need to sign in to AccessVA and update your application with the information we ask for.
 <br>
 ### How do I check the status of my application after I've applied?
 You can sign in to your AccessVA account to check the status of your VIC application.<br>
 [Sign in to your AccessVA account](https://preprod.access.va.gov/accessva/?cspSelectFor=vic).
 
-### How do I replace my Veteran ID Card if it’s lost or stolen? 
+### How do I replace my Veteran ID Card if it’s lost or stolen?
 To request a new card, please call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>). <br>
-Or <a href="mailto:vic@va.gov">email us at vic@va.gov</a>. 
+Or <a href="mailto:vic@va.gov">email us at vic@va.gov</a>.
 
-### What if I have questions or need help with my application? 
+### What if I have questions or need help with my application?
 If you have any questions or need help, please send us an email. <br>
 <a href="mailto:vic@va.gov">Email us at vic@va.gov</a>.
 
@@ -95,7 +96,7 @@ No. Your Veteran ID Card won’t replace your Veteran Health Identification Card
 **You can use any of these forms of ID to get the same discounts:**
 -	A Veteran Health Identification Card (VHIC), **or**
 - A Department of Defense (DoD) Identification Card—either a Common Access Card (CAC) or Uniformed Services ID Card, **or**
-- A state-issued driver’s license or ID with a Veterans designation 
+- A state-issued driver’s license or ID with a Veterans designation
 <br>
 **Note:** If you already have one of these, you don’t need a Veteran ID Card, but you can still apply for it if you’d like.
 
@@ -109,11 +110,11 @@ No. Your Veteran ID Card won’t replace your Veteran Health Identification Card
 You can’t use your Veteran ID Card to:
 - Prove your eligibility for any federal benefits, **or**
 -	Access military bases or installations, **or**
-- Access military commissaries or exchanges, **or** 
+- Access military commissaries or exchanges, **or**
 - Present as a form of identification at the airport, **or**
-- Check into a VA hospital, **or** 
+- Check into a VA hospital, **or**
 - Show as proof of retirement from the Armed Forces, **or**
-- Show as proof of wartime service to get a special license plate from the Department of Motor Vehicles 
+- Show as proof of wartime service to get a special license plate from the Department of Motor Vehicles
 
 </div>
 </li>

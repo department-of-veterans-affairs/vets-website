@@ -8,6 +8,7 @@ plainlanguage:
 template: detail-page
 order:
 collection: types-of-veteran-ID-cards
+production: false
 relatedlinks:
  - heading:
    links:
