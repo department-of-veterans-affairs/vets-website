@@ -24,6 +24,7 @@ export const uiSchema = {
   secondaryUnitAssignedDates: dateRangeUI(
     'Date unit assignment started',
     'Date unit assignment ended',
+    'The date must be after Start date',
   ),
 };
 

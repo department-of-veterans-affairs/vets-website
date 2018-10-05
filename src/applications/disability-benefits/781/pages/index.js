@@ -44,6 +44,11 @@ import {
 } from './informationInterviewCombat';
 
 import {
+  uiSchema as stressfulIncSecDescUISchema,
+  schema as stressfulIncSecDescSchema,
+} from './stressfulIncSecDesc';
+
+import {
   uiSchema as informationInterviewAssaultUISchema,
   schema as informationInterviewAssaultSchema,
 } from './informationInterviewAssault';
@@ -96,4 +101,9 @@ export const informationInterviewCombat = {
 export const informationInterviewAssault = {
   uiSchema: informationInterviewAssaultUISchema,
   schema: informationInterviewAssaultSchema,
+};
+
+export const stressfulIncSecDesc = {
+  uiSchema: stressfulIncSecDescUISchema,
+  schema: stressfulIncSecDescSchema,
 };

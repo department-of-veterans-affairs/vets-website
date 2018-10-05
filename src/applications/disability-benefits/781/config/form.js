@@ -26,6 +26,7 @@ import {
   ptsdSecondaryLocation,
   informationInterviewCombat,
   informationInterviewAssault,
+  stressfulIncSecDesc,
 } from '../pages';
 
 const formConfig = {
@@ -154,6 +155,11 @@ const formConfig = {
               form['view:selectablePtsdTypes']['view:assaultPtsdType']),
           uiSchema: uploadPtsdSecondary.uiSchema,
           schema: uploadPtsdSecondary.schema,
+        },
+        stressfulIncidentSecondaryDescription: {
+          path: 'stressful-incident-secondary-description',
+          uiSchema: stressfulIncSecDesc.uiSchema,
+          schema: stressfulIncSecDesc.schema,
         },
         // medals: { //TODO: KEEP FOR NEXT STORY
         //   path: 'information-781',
