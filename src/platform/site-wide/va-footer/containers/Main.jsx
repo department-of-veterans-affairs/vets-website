@@ -41,7 +41,9 @@ export class Main extends React.Component {
       },
       false,
     );
-    this.props.handleFooterDidMount();
+    if (this.props.handleFooterDidMount) {
+      this.props.handleFooterDidMount();
+    }
   }
   generateLinkItems = (column, direction = 'asc') => {
     const captureEvent = () => recordEvent({ event: FOOTER_EVENTS[column] });
