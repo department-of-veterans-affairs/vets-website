@@ -4,7 +4,7 @@ import { DefinitionTester } from '../../../../../platform/testing/unit/schemafor
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
-describe('Summary of Evidence', () => {
+describe.only('Summary of Evidence', () => {
   const {
     schema,
     uiSchema,
@@ -80,23 +80,22 @@ describe('Summary of Evidence', () => {
     expect(form.find('li').length).to.equal(2);
   });
 
-  // TODO: uncomment once lay evidence PR merged
-  // it('should render lay evidence list when lay evidence submitted', () => {
-  //   const form = mount(
-  //     <DefinitionTester
-  //       definitions={formConfig.defaultDefinitions}
-  //       schema={schema}
-  //       uiSchema={uiSchema}
-  //       data={{
-  //         'view:hasEvidence': true,
-  //         additionalDocuments: [
-  //           { name: 'Test Lay Statement.png' },
-  //           { name: 'buddy statement.pdf' },
-  //         ],
-  //       }}
-  //     />,
-  //   );
+  it('should render lay evidence list when lay evidence submitted', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          'view:hasEvidence': true,
+          additionalDocuments: [
+            { name: 'Test Lay Statement.png' },
+            { name: 'buddy statement.pdf' },
+          ],
+        }}
+      />,
+    );
 
-  //   expect(form.find('li').length).to.equal(2);
-  // });
+    expect(form.find('li').length).to.equal(2);
+  });
 });

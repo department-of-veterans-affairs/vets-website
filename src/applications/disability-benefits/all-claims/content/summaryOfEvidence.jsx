@@ -4,7 +4,7 @@ import _ from '../../../../platform/utilities/data';
 export const summaryOfEvidenceDescription = ({ formData }) => {
   const vaEvidence = _.get('vaTreatmentFacilities', formData, []);
   const privateEvidence = _.get('privateMedicalRecords', formData, []);
-  const layEvidence = []; // TODO: Swap once lay evidence PR merged
+  const layEvidence = _.get('additionalDocuments', formData, []);
   const hasEvidence = !!vaEvidence.concat(privateEvidence, layEvidence).length;
   const selectedEvidence = _.get('view:hasEvidence', formData, false);
   // Evidence isn't always properly cleared out from form data if removed so
