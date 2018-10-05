@@ -41,6 +41,9 @@ function createRedirects(options) {
 
     for (const fileName of Object.keys(files)) {
       const fileData = files[fileName];
+
+      if (!fileData) continue;
+
       const { aliases, path: redirectToPath } = fileData;
 
       if (!aliases) continue;
