@@ -27,12 +27,14 @@ import { VA_FORM4142_URL } from '../all-claims/constants';
  * of each object into one array
  * @param {array} dataArray array of objects to inspect
  * @param {string} property the property to inspect in each array item
+ * @param {string} refPropPath the property that tells us whether to inspect at all TODO make this sound better
  * @returns {array} a list of aggregated items pulled from different arrays
  */
-const aggregate = (dataArray, property) => {
+const aggregate = (dataArray, property, refPropPath) => {
   const masterList = [];
   dataArray.forEach(item => {
-    if (item[property]) {
+    const itemIsSelected = get(refPropPath, item, true);
+    if (item[property] && itemIsSelected) {
       item[property].forEach(listItem => masterList.push(listItem));
     }
   });
@@ -110,9 +112,21 @@ export function transform(formConfig, form) {
     ? { servicePeriods, reservesNationalGuardService }
     : { servicePeriods };
 
-  const additionalDocuments = aggregate(disabilities, 'additionalDocuments');
-  const privateRecords = aggregate(disabilities, 'privateRecords');
-  const treatments = aggregate(disabilities, 'treatments');
+  const additionalDocuments = aggregate(
+    disabilities,
+    'additionalDocuments',
+    'view:selectableEvidenceTypes.view:otherEvidence',
+  );
+  const privateRecords = aggregate(
+    disabilities,
+    'privateRecords',
+    'view:selectableEvidenceTypes.view:privateMedicalRecords',
+  );
+  const treatments = aggregate(
+    disabilities,
+    'treatments',
+    'view:selectableEvidenceTypes.view:vaMedicalRecords',
+  );
 
   const transformedData = {
     disabilities: disabilities
