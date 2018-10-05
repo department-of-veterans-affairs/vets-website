@@ -10,6 +10,11 @@
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
 
+
+.form-checkbox > input[type="checkbox"] + .schemaform-label { // TODO: add > to .schemaform-first-field .schemaform-label, .schemaform-first-field > .usa-input-error in us-forms-system
+  margin-top: 0;
+}
+
 // Privacy agreement?
 .form-required-span {
   font-size: 1.7em;
@@ -40,6 +45,14 @@
     }
   }
 
+  .school-search {
+    margin-top: 0
+  }
+
+  .school-search-label {
+    margin-top: 0
+  }
+
   .search-controls {
     display: flex;
     flex-direction: column;
@@ -62,12 +75,8 @@
   }
 
   .radio-button {
-    input[type="radio"] {
-    }
-
     span {
       display: inline-block;
-      margin-left: 25px;
       width: 100%;
 
       &.institution-name {
@@ -86,7 +95,8 @@
 
       .institution-information {
         background-color: #f1f1f1;
-        padding: 10px
+        margin-left: 25px;
+        padding: 10px 15px;
       }
     }
   }

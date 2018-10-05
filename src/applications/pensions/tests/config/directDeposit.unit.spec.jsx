@@ -3,18 +3,21 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
-import { DefinitionTester, getFormDOM } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  getFormDOM,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import fullSchemaPensions from '../../config/form';
 
 describe('Pensions directDeposit', () => {
-  const { schema, uiSchema } = fullSchemaPensions.chapters.additionalInformation.pages.directDeposit;
+  const {
+    schema,
+    uiSchema,
+  } = fullSchemaPensions.chapters.additionalInformation.pages.directDeposit;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{}}
-        uiSchema={uiSchema}/>
+      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
     );
 
     const formDOM = getFormDOM(form);
@@ -24,10 +27,7 @@ describe('Pensions directDeposit', () => {
 
   it('should render stop message', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{}}
-        uiSchema={uiSchema}/>
+      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
     );
 
     const formDOM = getFormDOM(form);
@@ -39,10 +39,7 @@ describe('Pensions directDeposit', () => {
 
   it('should require bank account fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{}}
-        uiSchema={uiSchema}/>
+      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
     );
 
     const formDOM = getFormDOM(form);
@@ -56,20 +53,21 @@ describe('Pensions directDeposit', () => {
 
   it('should show error on bad routing number', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{}}
-        uiSchema={uiSchema}/>
+      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
     );
 
     const formDOM = getFormDOM(form);
 
-    const routingNumber = formDOM.querySelector('#root_bankAccount_routingNumber');
+    const routingNumber = formDOM.querySelector(
+      '#root_bankAccount_routingNumber',
+    );
     ReactTestUtils.Simulate.blur(routingNumber);
 
     formDOM.fillData('#root_bankAccount_routingNumber', '01234567');
 
-    expect(formDOM.querySelector('.usa-input-error #root_bankAccount_routingNumber')).not.to.be.null;
+    expect(
+      formDOM.querySelector('.usa-input-error #root_bankAccount_routingNumber'),
+    ).not.to.be.null;
   });
 
   it('should submit with valid data', () => {
@@ -79,7 +77,8 @@ describe('Pensions directDeposit', () => {
         schema={schema}
         data={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);

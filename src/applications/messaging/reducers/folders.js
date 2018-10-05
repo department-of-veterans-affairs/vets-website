@@ -17,7 +17,7 @@ import {
   TOGGLE_FOLDER_MOVE_TO,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS,
-  UPDATE_ROUTE
+  UPDATE_ROUTE,
 } from '../utils/constants';
 
 const initialState = {
@@ -29,23 +29,23 @@ const initialState = {
       pagination: {},
       sort: {
         value: 'sentDate',
-        order: 'DESC'
-      }
+        order: 'DESC',
+      },
     },
-    items: new Map()
+    items: new Map(),
   },
   ui: {
     lastRequestedFolder: null,
     moveToId: null,
     nav: {
       foldersExpanded: false,
-      visible: false
+      visible: false,
     },
-    redirect: null
-  }
+    redirect: null,
+  },
 };
 
-const folderKey = (folderName) => _.kebabCase(folderName);
+const folderKey = folderName => _.kebabCase(folderName);
 
 const setRedirect = (state, allowBack = false) => {
   // Set the redirect to the most recent folder.
@@ -57,7 +57,7 @@ const setRedirect = (state, allowBack = false) => {
 
 export default function folders(state = initialState, action) {
   switch (action.type) {
-  // TODO: Handle the response in an appropriate way
+    // TODO: Handle the response in an appropriate way
     case CREATE_FOLDER_SUCCESS: {
       const folder = action.folder;
       const newFolders = new Map(state.data.items);
@@ -88,21 +88,25 @@ export default function folders(state = initialState, action) {
       newItems.set(folderKey(attributes.name), attributes);
       const newState = set('data.items', newItems, state);
 
-      return set('data.currentItem', {
-        attributes,
-        filter,
-        messages,
-        pagination,
-        sort: {
-          value: sortValue,
-          order: sortOrder
+      return set(
+        'data.currentItem',
+        {
+          attributes,
+          filter,
+          messages,
+          pagination,
+          sort: {
+            value: sortValue,
+            order: sortOrder,
+          },
         },
-      }, newState);
+        newState,
+      );
     }
 
     case FETCH_FOLDERS_SUCCESS: {
       const items = new Map();
-      action.data.data.forEach((folder) => {
+      action.data.data.forEach(folder => {
         const item = folder.attributes;
         items.set(folderKey(item.name), item);
       });
@@ -111,23 +115,29 @@ export default function folders(state = initialState, action) {
     }
 
     case LOADING_FOLDER: {
-      const newState =
-        set('data.currentItem', initialState.data.currentItem, state);
+      const newState = set(
+        'data.currentItem',
+        initialState.data.currentItem,
+        state,
+      );
 
-      return set('ui', {
-        ...initialState.ui,
-        nav: {
-          foldersExpanded: state.ui.nav.foldersExpanded,
-          visible: false
+      return set(
+        'ui',
+        {
+          ...initialState.ui,
+          nav: {
+            foldersExpanded: state.ui.nav.foldersExpanded,
+            visible: false,
+          },
+          lastRequestedFolder: action.request,
         },
-        lastRequestedFolder: action.request
-      }, newState);
+        newState,
+      );
     }
 
     case TOGGLE_FOLDER_MOVE_TO: {
-      const id = state.ui.moveToId === action.messageId
-        ? null
-        : action.messageId;
+      const id =
+        state.ui.moveToId === action.messageId ? null : action.messageId;
 
       return set('ui.moveToId', id, state);
     }
@@ -136,24 +146,28 @@ export default function folders(state = initialState, action) {
       return set('ui.nav.visible', !state.ui.nav.visible, state);
 
     case TOGGLE_MANAGED_FOLDERS:
-      return set('ui.nav.foldersExpanded', !state.ui.nav.foldersExpanded, state);
+      return set(
+        'ui.nav.foldersExpanded',
+        !state.ui.nav.foldersExpanded,
+        state,
+      );
 
     case MOVE_MESSAGE_SUCCESS: {
-    // Update the counts on the affected folders after moving a message.
+      // Update the counts on the affected folders after moving a message.
       const newItems = new Map(state.data.items);
 
       const fromFolder = state.data.currentItem.attributes;
       const fromFolderKey = folderKey(fromFolder.name);
       newItems.set(fromFolderKey, {
         ...fromFolder,
-        count: fromFolder.count - 1
+        count: fromFolder.count - 1,
       });
 
       const toFolderKey = folderKey(action.folder.name);
       const toFolder = newItems.get(toFolderKey);
       newItems.set(toFolderKey, {
         ...toFolder,
-        count: toFolder.count + 1
+        count: toFolder.count + 1,
       });
 
       let newState = set('data.items', newItems, state);
@@ -161,7 +175,7 @@ export default function folders(state = initialState, action) {
       newState = set(
         'data.currentItem.attributes',
         newItems.get(fromFolderKey),
-        newState
+        newState,
       );
 
       // Redirect after the move.
@@ -180,7 +194,7 @@ export default function folders(state = initialState, action) {
 
         newItems.set(draftsKey, {
           ...draftsFolder,
-          count: draftsFolder.count + 1
+          count: draftsFolder.count + 1,
         });
 
         newState = set('data.items', newItems, newState);

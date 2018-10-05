@@ -7,14 +7,12 @@ class ModalAttachments extends React.Component {
   render() {
     const modalContents = (
       <div>
-        <h3>
-          {this.props.title}
-        </h3>
+        <h3>{this.props.title}</h3>
         <p>{this.props.text}</p>
         <div>
-          <button
-            onClick={this.props.onClose}
-            type="button">Ok, got it</button>
+          <button onClick={this.props.onClose} type="button">
+            Ok, got it
+          </button>
         </div>
       </div>
     );
@@ -25,7 +23,8 @@ class ModalAttachments extends React.Component {
         contents={modalContents}
         id={this.props.id}
         onClose={this.props.onClose}
-        visible={this.props.visible}/>
+        visible={this.props.visible}
+      />
     );
   }
 }
@@ -36,7 +35,7 @@ ModalAttachments.propTypes = {
   text: PropTypes.node,
   id: PropTypes.string,
   onClose: PropTypes.func.isRequired,
-  visible: PropTypes.bool.isRequired
+  visible: PropTypes.bool.isRequired,
 };
 
 export default ModalAttachments;

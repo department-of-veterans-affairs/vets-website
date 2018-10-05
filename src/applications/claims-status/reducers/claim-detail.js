@@ -1,13 +1,10 @@
 import _ from 'lodash/fp';
 
-import {
-  GET_CLAIM_DETAIL,
-  SET_CLAIM_DETAIL,
-} from '../actions/index.jsx';
+import { GET_CLAIM_DETAIL, SET_CLAIM_DETAIL } from '../actions/index.jsx';
 
 const initialState = {
   detail: null,
-  loading: true
+  loading: true,
 };
 
 export default function claimDetailReducer(state = initialState, action) {
@@ -15,7 +12,7 @@ export default function claimDetailReducer(state = initialState, action) {
     case SET_CLAIM_DETAIL: {
       return _.assign(state, {
         detail: action.claim,
-        loading: false
+        loading: false,
       });
     }
     case GET_CLAIM_DETAIL: {

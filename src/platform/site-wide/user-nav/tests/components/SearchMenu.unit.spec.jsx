@@ -7,10 +7,10 @@ import SearchMenu from '../../components/SearchMenu.jsx';
 describe('<SearchMenu>', () => {
   const props = {
     isOpen: false,
-    clickHandler: f => f
+    clickHandler: f => f,
   };
 
-  const tree = SkinDeep.shallowRender(<SearchMenu {...props}/>);
+  const tree = SkinDeep.shallowRender(<SearchMenu {...props} />);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();

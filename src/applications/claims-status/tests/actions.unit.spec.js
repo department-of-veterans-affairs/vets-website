@@ -13,11 +13,11 @@ import {
   CLEAR_NOTIFICATION,
   clearNotification,
   FETCH_APPEALS,
-  FETCH_CLAIMS,
   GET_CLAIM_DETAIL,
   getAppeals,
   getClaimDetail,
-  getClaims,
+  getClaimsV2,
+  pollRequest,
   REMOVE_FILE,
   removeFile,
   RESET_UPLOADS,
@@ -26,7 +26,6 @@ import {
   SET_APPEALS,
   SET_CLAIM_DETAIL,
   SET_CLAIMS_UNAVAILABLE,
-  SET_CLAIMS,
   SET_DECISION_REQUEST_ERROR,
   SET_DECISION_REQUESTED,
   SET_FIELDS_DIRTY,
@@ -68,7 +67,7 @@ describe('Actions', () => {
 
       expect(action).to.eql({
         type: SET_NOTIFICATION,
-        message: 'Testing'
+        message: 'Testing',
       });
     });
   });
@@ -78,7 +77,7 @@ describe('Actions', () => {
 
       expect(action).to.eql({
         type: CHANGE_CLAIMS_PAGE,
-        page: 'Testing'
+        page: 'Testing',
       });
     });
   });
@@ -106,7 +105,7 @@ describe('Actions', () => {
 
       expect(action).to.eql({
         type: ADD_FILE,
-        files: 'Testing'
+        files: 'Testing',
       });
     });
   });
@@ -116,7 +115,7 @@ describe('Actions', () => {
 
       expect(action).to.eql({
         type: REMOVE_FILE,
-        index: 1
+        index: 1,
       });
     });
   });
@@ -125,7 +124,7 @@ describe('Actions', () => {
       const action = clearNotification();
 
       expect(action).to.eql({
-        type: CLEAR_NOTIFICATION
+        type: CLEAR_NOTIFICATION,
       });
     });
   });
@@ -136,7 +135,7 @@ describe('Actions', () => {
       expect(action).to.eql({
         type: UPDATE_FIELD,
         path: 'path',
-        field: 'field'
+        field: 'field',
       });
     });
   });
@@ -146,7 +145,7 @@ describe('Actions', () => {
 
       expect(action).to.eql({
         type: SHOW_MAIL_OR_FAX,
-        visible: true
+        visible: true,
       });
     });
   });
@@ -155,7 +154,7 @@ describe('Actions', () => {
       const action = setFieldsDirty();
 
       expect(action).to.eql({
-        type: SET_FIELDS_DIRTY
+        type: SET_FIELDS_DIRTY,
       });
     });
   });
@@ -165,7 +164,7 @@ describe('Actions', () => {
 
       expect(action).to.eql({
         type: SHOW_CONSOLIDATED_MODAL,
-        visible: true
+        visible: true,
       });
     });
   });
@@ -175,7 +174,7 @@ describe('Actions', () => {
 
       expect(action).to.eql({
         type: SET_LAST_PAGE,
-        page: 2
+        page: 2,
       });
     });
   });
@@ -186,19 +185,17 @@ describe('Actions', () => {
       const thunk = cancelUpload();
       const uploaderSpy = sinon.spy();
       const dispatchSpy = sinon.spy();
-      const getState = () => {
-        return {
-          disability: {
-            status: {
-              uploads: {
-                uploader: {
-                  cancelAll: uploaderSpy
-                }
-              }
-            }
-          }
-        };
-      };
+      const getState = () => ({
+        disability: {
+          status: {
+            uploads: {
+              uploader: {
+                cancelAll: uploaderSpy,
+              },
+            },
+          },
+        },
+      });
 
       thunk(dispatchSpy, getState);
 
@@ -209,14 +206,16 @@ describe('Actions', () => {
   });
   describe('getAppeals', () => {
     beforeEach(mockFetch);
-    it('should fetch claims', (done) => {
+    it('should fetch claims', done => {
       const appeals = [];
       fetchMock.returns({
-        'catch': () => ({ then: (fn) => fn({ ok: true, json: () => Promise.resolve(appeals) }) }),
+        catch: () => ({
+          then: fn => fn({ ok: true, json: () => Promise.resolve(appeals) }),
+        }),
       });
       const thunk = getAppeals();
       const dispatchSpy = sinon.spy();
-      const dispatch = (action) => {
+      const dispatch = action => {
         dispatchSpy(action);
         if (dispatchSpy.callCount === 2) {
           expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_APPEALS);
@@ -227,18 +226,27 @@ describe('Actions', () => {
 
       thunk(dispatch);
     });
-    it('should fail on error', (done) => {
+    it('should fail on error', done => {
       const appeals = [];
       fetchMock.returns({
-        'catch': () => ({ then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve(appeals) }) }),
+        catch: () => ({
+          then: fn =>
+            fn({
+              ok: false,
+              status: 500,
+              json: () => Promise.resolve(appeals),
+            }),
+        }),
       });
       const thunk = getAppeals();
       const dispatchSpy = sinon.spy();
-      const dispatch = (action) => {
+      const dispatch = action => {
         dispatchSpy(action);
         if (dispatchSpy.callCount === 2) {
           expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_APPEALS);
-          expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_APPEALS_UNAVAILABLE);
+          expect(dispatchSpy.secondCall.args[0].type).to.eql(
+            SET_APPEALS_UNAVAILABLE,
+          );
           done();
         }
       };
@@ -247,131 +255,250 @@ describe('Actions', () => {
     });
     afterEach(unMockFetch);
   });
-  describe('getClaims', () => {
-    beforeEach(mockFetch);
-    it('should fetch claims', (done) => {
-      const claims = [];
-      fetchMock.returns({
-        'catch': () => ({ then: (fn) => fn({ ok: true, json: () => Promise.resolve(claims) }) }),
-      });
-      const thunk = getClaims();
+  describe('getClaimsV2', () => {
+    it('should call dispatch and pollStatus', () => {
       const dispatchSpy = sinon.spy();
-      const dispatch = (action) => {
-        dispatchSpy(action);
-        if (dispatchSpy.callCount === 2) {
-          expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_CLAIMS);
-          expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_CLAIMS);
-          done();
-        }
-      };
+      const pollStatusSpy = sinon.spy();
+      getClaimsV2(pollStatusSpy)(dispatchSpy);
 
-      thunk(dispatch);
-    });
-    it('should fail on error', (done) => {
-      const claims = [];
-      fetchMock.returns({
-        'catch': () => ({ then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve(claims) }) }),
+      expect(dispatchSpy.firstCall.args[0]).to.eql({
+        type: 'FETCH_CLAIMS_PENDING',
       });
-      const thunk = getClaims();
-      const dispatchSpy = sinon.spy();
-      const dispatch = (action) => {
-        dispatchSpy(action);
-        if (dispatchSpy.callCount === 2) {
-          expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_CLAIMS);
-          expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_CLAIMS_UNAVAILABLE);
-          done();
-        }
-      };
+      expect(pollStatusSpy.calledOnce).to.be.true;
+    });
 
-      thunk(dispatch);
-    });
-    afterEach(unMockFetch);
-  });
-  describe('getClaimDetail', () => {
-    beforeEach(mockFetch);
-    it('should fetch claim', (done) => {
-      const claim = { data: {}, meta: {} };
-      fetchMock.returns({
-        'catch': () => ({ then: (fn) => fn({ ok: true, json: () => Promise.resolve(claim) }) }),
-      });
-      const thunk = getClaimDetail();
-      const dispatchSpy = sinon.spy();
-      const dispatch = (action) => {
-        dispatchSpy(action);
-        if (dispatchSpy.callCount === 2) {
-          expect(dispatchSpy.firstCall.args[0]).to.eql({
-            type: GET_CLAIM_DETAIL
-          });
-          expect(dispatchSpy.secondCall.args[0]).to.eql({
-            type: SET_CLAIM_DETAIL,
-            claim: claim.data,
-            meta: claim.meta
-          });
-          done();
-        }
-      };
+    describe('onError callback', () => {
+      it('should dispatch a FETCH_CLAIMS_ERROR action', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimsV2(pollStatusSpy)(dispatchSpy);
 
-      thunk(dispatch);
-    });
-    it('should fail on 500 error', (done) => {
-      const claim = { data: {}, meta: {} };
-      fetchMock.returns({
-        'catch': () => ({ then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve(claim) }) }),
-      });
-      const thunk = getClaimDetail();
-      const dispatchSpy = sinon.spy();
-      const dispatch = (action) => {
-        dispatchSpy(action);
-        if (dispatchSpy.callCount === 2) {
-          expect(dispatchSpy.firstCall.args[0]).to.eql({
-            type: GET_CLAIM_DETAIL
-          });
-          expect(dispatchSpy.secondCall.args[0]).to.eql({
-            type: SET_CLAIMS_UNAVAILABLE,
-          });
-          done();
-        }
-      };
+        pollStatusSpy.firstCall.args[0].onError({ errors: [] });
 
-      thunk(dispatch);
-    });
-    it('should redirect on 404 error', (done) => {
-      const claim = { data: {}, meta: {} };
-      fetchMock.returns({
-        'catch': () => ({ then: (fn) => fn({ ok: false, status: 404, json: () => Promise.resolve(claim) }) }),
-      });
-      const dispatchSpy = sinon.spy();
-      const routerSpy = (path) => {
-        expect(dispatchSpy.firstCall.args[0]).to.eql({
-          type: GET_CLAIM_DETAIL
+        expect(dispatchSpy.secondCall.args[0]).to.eql({
+          type: 'FETCH_CLAIMS_ERROR',
         });
-        expect(path).to.equal('your-claims');
-        done();
-      };
-      const thunk = getClaimDetail(5, { replace: routerSpy });
-
-      thunk(dispatchSpy);
+      });
     });
-    afterEach(unMockFetch);
+    describe('onSuccess callback', () => {
+      it('should dispatch a FETCH_CLAIMS_SUCCESS action', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimsV2(pollStatusSpy)(dispatchSpy);
+
+        pollStatusSpy.firstCall.args[0].onSuccess({ data: [] });
+
+        expect(dispatchSpy.secondCall.args[0]).to.eql({
+          type: 'FETCH_CLAIMS_SUCCESS',
+          claims: [],
+          pages: 0,
+        });
+      });
+    });
+    describe('shouldFail predicate', () => {
+      it('should return true when response.meta.syncStatus is FAILED', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimsV2(pollStatusSpy)(dispatchSpy);
+
+        const shouldFail = pollStatusSpy.firstCall.args[0].shouldFail({
+          meta: { syncStatus: 'FAILED' },
+        });
+
+        expect(shouldFail).to.be.true;
+      });
+      it('should return false when response.meta.syncStatus is not FAILED', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimsV2(pollStatusSpy)(dispatchSpy);
+
+        const shouldFail = pollStatusSpy.firstCall.args[0].shouldFail({});
+
+        expect(shouldFail).to.be.false;
+      });
+    });
+    describe('shouldSucceed predicate', () => {
+      it('should return true when response.meta.syncStatus is SUCCESS', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimsV2(pollStatusSpy)(dispatchSpy);
+
+        const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({
+          meta: { syncStatus: 'SUCCESS' },
+        });
+
+        expect(shouldSucceed).to.be.true;
+      });
+      it('should return false when response.meta.syncStatus is not SUCCESS', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimsV2(pollStatusSpy)(dispatchSpy);
+
+        const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({});
+
+        expect(shouldSucceed).to.be.false;
+      });
+    });
+  });
+
+  describe('getClaimDetail', () => {
+    it('should call dispatch and pollStatus', () => {
+      const dispatchSpy = sinon.spy();
+      const pollStatusSpy = sinon.spy();
+      getClaimDetail(null, null, pollStatusSpy)(dispatchSpy);
+
+      expect(dispatchSpy.firstCall.args[0]).to.eql({ type: GET_CLAIM_DETAIL });
+      expect(pollStatusSpy.calledOnce).to.be.true;
+    });
+
+    describe('onError callback', () => {
+      it('should dispatch a SET_CLAIMS_UNAVAILABLE action', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimDetail(null, null, pollStatusSpy)(dispatchSpy);
+
+        pollStatusSpy.firstCall.args[0].onError({ response: {} });
+
+        expect(dispatchSpy.secondCall.args[0]).to.eql({
+          type: 'SET_CLAIMS_UNAVAILABLE',
+        });
+      });
+    });
+    describe('onSuccess callback', () => {
+      it('should dispatch a SET_CLAIM_DETAIL action', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimDetail(null, null, pollStatusSpy)(dispatchSpy);
+
+        pollStatusSpy.firstCall.args[0].onSuccess({ data: [], meta: 'test' });
+
+        expect(dispatchSpy.secondCall.args[0]).to.eql({
+          type: SET_CLAIM_DETAIL,
+          claim: [],
+          meta: 'test',
+        });
+      });
+    });
+    describe('shouldFail predicate', () => {
+      it('should return true when response.meta.syncStatus is FAILED', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimDetail(null, null, pollStatusSpy)(dispatchSpy);
+
+        const shouldFail = pollStatusSpy.firstCall.args[0].shouldFail({
+          meta: { syncStatus: 'FAILED' },
+        });
+
+        expect(shouldFail).to.be.true;
+      });
+      it('should return false when response.meta.syncStatus is not FAILED', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimDetail(null, null, pollStatusSpy)(dispatchSpy);
+
+        const shouldFail = pollStatusSpy.firstCall.args[0].shouldFail({});
+
+        expect(shouldFail).to.be.false;
+      });
+    });
+    describe('shouldSucceed predicate', () => {
+      it('should return true when response.meta.syncStatus is SUCCESS', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimDetail(null, null, pollStatusSpy)(dispatchSpy);
+
+        const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({
+          meta: { syncStatus: 'SUCCESS' },
+        });
+
+        expect(shouldSucceed).to.be.true;
+      });
+      it('should return false when response.meta.syncStatus is not SUCCESS', () => {
+        const dispatchSpy = sinon.spy();
+        const pollStatusSpy = sinon.spy();
+        getClaimDetail(null, null, pollStatusSpy)(dispatchSpy);
+
+        const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({});
+
+        expect(shouldSucceed).to.be.false;
+      });
+    });
+  });
+
+  describe('pollClaimStatus', () => {
+    it('should call apiRequest', () => {
+      const apiRequestSpy = sinon.spy();
+
+      pollRequest({ request: apiRequestSpy });
+      expect(apiRequestSpy.calledOnce).to.be.true;
+    });
+    describe('apiRequest response handler', () => {
+      it('should call onSuccess when shouldSucceed returns true', () => {
+        const apiRequestSpy = sinon.spy();
+        const mockResponse = {};
+        const onSuccessSpy = sinon.spy();
+        const onErrorSpy = sinon.spy();
+        const shouldSucceedStub = sinon.stub();
+        shouldSucceedStub.returns(true);
+
+        pollRequest({
+          onError: onErrorSpy,
+          onSuccess: onSuccessSpy,
+          request: apiRequestSpy,
+          shouldSucceed: shouldSucceedStub,
+        });
+        apiRequestSpy.firstCall.args[2](mockResponse);
+
+        expect(onSuccessSpy.calledOnce).to.be.true;
+        expect(onErrorSpy.called).to.be.false;
+        expect(shouldSucceedStub.firstCall.args[0]).to.eql(mockResponse);
+      });
+      it('should call onError when shouldSuccess return false shouldFail returns true', () => {
+        const apiRequestSpy = sinon.spy();
+        const mockResponse = {};
+        const onErrorSpy = sinon.spy();
+        const onSuccessSpy = sinon.spy();
+        const shouldFailStub = sinon.stub();
+        const shouldSucceedStub = sinon.stub();
+        shouldSucceedStub.returns(false);
+        shouldFailStub.returns(true);
+
+        pollRequest({
+          onError: onErrorSpy,
+          onSuccess: onSuccessSpy,
+          request: apiRequestSpy,
+          shouldFail: shouldFailStub,
+          shouldSucceed: shouldSucceedStub,
+        });
+        apiRequestSpy.firstCall.args[2](mockResponse);
+
+        expect(onSuccessSpy.calledOnce).to.be.false;
+        expect(onErrorSpy.calledOnce).to.be.true;
+        expect(shouldFailStub.firstCall.args[0]).to.eql(mockResponse);
+      });
+    });
   });
   describe('submitRequest', () => {
     beforeEach(mockFetch);
-    it('should submit request', (done) => {
+    it('should submit request', done => {
       fetchMock.returns({
-        'catch': () => ({ then: (fn) => fn({ ok: true, json: () => Promise.resolve() }) }),
+        catch: () => ({
+          then: fn => fn({ ok: true, json: () => Promise.resolve() }),
+        }),
       });
       const thunk = submitRequest(5);
       const dispatchSpy = sinon.spy();
-      const dispatch = (action) => {
+      const dispatch = action => {
         dispatchSpy(action);
         if (dispatchSpy.callCount === 3) {
           expect(fetchMock.firstCall.args[1].method).to.equal('POST');
-          expect(fetchMock.firstCall.args[0].endsWith('5/request_decision')).to.be.true;
+          expect(fetchMock.firstCall.args[0].endsWith('5/request_decision')).to
+            .be.true;
           expect(dispatchSpy.firstCall.args[0]).to.eql({
-            type: SUBMIT_DECISION_REQUEST
+            type: SUBMIT_DECISION_REQUEST,
           });
           expect(dispatchSpy.secondCall.args[0]).to.eql({
-            type: SET_DECISION_REQUESTED
+            type: SET_DECISION_REQUESTED,
           });
           expect(dispatchSpy.thirdCall.args[0].type).to.eql(SET_NOTIFICATION);
           done();
@@ -380,19 +507,24 @@ describe('Actions', () => {
 
       thunk(dispatch);
     });
-    it('should fail on error', (done) => {
+    it('should fail on error', done => {
       fetchMock.returns({
-        'catch': () => ({ then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve() }) }),
+        catch: () => ({
+          then: fn =>
+            fn({ ok: false, status: 500, json: () => Promise.resolve() }),
+        }),
       });
       const thunk = submitRequest(5);
       const dispatchSpy = sinon.spy();
-      const dispatch = (action) => {
+      const dispatch = action => {
         dispatchSpy(action);
         if (dispatchSpy.callCount === 2) {
           expect(dispatchSpy.firstCall.args[0]).to.eql({
-            type: SUBMIT_DECISION_REQUEST
+            type: SUBMIT_DECISION_REQUEST,
           });
-          expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_DECISION_REQUEST_ERROR);
+          expect(dispatchSpy.secondCall.args[0].type).to.eql(
+            SET_DECISION_REQUEST_ERROR,
+          );
           done();
         }
       };

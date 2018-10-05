@@ -5,5 +5,5 @@ import { createSaveInProgressFormReducer } from '../../../../platform/forms/save
 
 export default {
   form: createSaveInProgressFormReducer(formConfig),
-  itf
+  itf,
 };

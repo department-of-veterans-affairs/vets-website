@@ -4,44 +4,115 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 function completeClaimantInformation(client, data) {
   client
     .fillName('root_application_claimant_name', data.application.claimant.name)
-    .fill('input[name="root_application_claimant_ssn"]', data.application.claimant.ssn)
-    .fillDate('root_application_claimant_dateOfBirth', data.application.claimant.dateOfBirth)
-    .selectRadio('root_application_claimant_relationshipToVet', data.application.claimant.relationshipToVet);
+    .fill(
+      'input[name="root_application_claimant_ssn"]',
+      data.application.claimant.ssn,
+    )
+    .fillDate(
+      'root_application_claimant_dateOfBirth',
+      data.application.claimant.dateOfBirth,
+    )
+    .selectRadio(
+      'root_application_claimant_relationshipToVet',
+      data.application.claimant.relationshipToVet,
+    );
 
   if (data.application.claimant.relationshipToVet.type === 'other') {
     client
-      .waitForElementVisible('input[name="root_application_claimant_relationship_other"]', Timeouts.normal)
-      .fill('input[name="root_application_claimant_relationship_other"]', data.application.claimant.relationship.other)
+      .waitForElementVisible(
+        'input[name="root_application_claimant_relationship_other"]',
+        Timeouts.normal,
+      )
+      .fill(
+        'input[name="root_application_claimant_relationship_other"]',
+        data.application.claimant.relationship.other,
+      )
       // Not sure what to do with this, exactly, but I'll make it an option.
-      .clickIf('#root_application_claimant_relationship_view:isEntity', data.application.claimant.relationship.isEntity);
+      .clickIf(
+        '#root_application_claimant_relationship_view:isEntity',
+        data.application.claimant.relationship.isEntity,
+      );
   }
 }
 
 function completeVeteranInformation(client, data) {
   client
-    .fillName('root_application_veteran_currentName', data.application.veteran.currentName)
-    .fill('input[name="root_application_veteran_ssn"]', data.application.veteran.ssn)
-    .fill('input[name="root_application_veteran_militaryServiceNumber"]', data.application.veteran.militaryServiceNumber)
-    .fillDate('root_application_veteran_dateOfBirth', data.application.veteran.dateOfBirth)
-    .fill('input[name="root_application_veteran_placeOfBirth"]', data.application.veteran.placeOfBirth)
-    .selectRadio('root_application_veteran_gender', data.application.veteran.gender)
-    .selectRadio('root_application_veteran_maritalStatus', data.application.veteran.maritalStatus)
-    .selectDropdown('root_application_veteran_militaryStatus', data.application.veteran.militaryStatus)
-    .selectRadio('root_application_veteran_isDeceased', data.application.veteran.isDeceased)
-    .fillDate('root_application_veteran_dateOfDeath', data.application.veteran.dateOfDeath);
+    .fillName(
+      'root_application_veteran_currentName',
+      data.application.veteran.currentName,
+    )
+    .fill(
+      'input[name="root_application_veteran_ssn"]',
+      data.application.veteran.ssn,
+    )
+    .fill(
+      'input[name="root_application_veteran_militaryServiceNumber"]',
+      data.application.veteran.militaryServiceNumber,
+    )
+    .fillDate(
+      'root_application_veteran_dateOfBirth',
+      data.application.veteran.dateOfBirth,
+    )
+    .fill(
+      'input[name="root_application_veteran_placeOfBirth"]',
+      data.application.veteran.placeOfBirth,
+    )
+    .selectRadio(
+      'root_application_veteran_gender',
+      data.application.veteran.gender,
+    )
+    .selectRadio(
+      'root_application_veteran_maritalStatus',
+      data.application.veteran.maritalStatus,
+    )
+    .selectDropdown(
+      'root_application_veteran_militaryStatus',
+      data.application.veteran.militaryStatus,
+    )
+    .selectRadio(
+      'root_application_veteran_isDeceased',
+      data.application.veteran.isDeceased,
+    )
+    .fillDate(
+      'root_application_veteran_dateOfDeath',
+      data.application.veteran.dateOfDeath,
+    );
 }
 
 function completeServicePeriods(client, data) {
   data.serviceRecords.forEach((tour, index) => {
     client
-      .fillDate(`root_application_veteran_serviceRecords_${index}_dateRange_from`, tour.dateRange.from)
-      .fillDate(`root_application_veteran_serviceRecords_${index}_dateRange_to`, tour.dateRange.to)
-      .click(`input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`)
-      .fill(`input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`, 'ALLIED FORCES')
-      .sendKeys(`input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`, client.Keys.DOWN_ARROW)
-      .sendKeys(`input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`, client.Keys.ENTER)
-      .fill(`input[name="root_application_veteran_serviceRecords_${index}_highestRank"]`, tour.highestRank)
-      .selectDropdown(`root_application_veteran_serviceRecords_${index}_dischargeType`, tour.dischargeType);
+      .fillDate(
+        `root_application_veteran_serviceRecords_${index}_dateRange_from`,
+        tour.dateRange.from,
+      )
+      .fillDate(
+        `root_application_veteran_serviceRecords_${index}_dateRange_to`,
+        tour.dateRange.to,
+      )
+      .click(
+        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+      )
+      .fill(
+        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+        'ALLIED FORCES',
+      )
+      .sendKeys(
+        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+        client.Keys.DOWN_ARROW,
+      )
+      .sendKeys(
+        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+        client.Keys.ENTER,
+      )
+      .fill(
+        `input[name="root_application_veteran_serviceRecords_${index}_highestRank"]`,
+        tour.highestRank,
+      )
+      .selectDropdown(
+        `root_application_veteran_serviceRecords_${index}_dischargeType`,
+        tour.dischargeType,
+      );
 
     // Keep adding them until we're finished.
     if (index < data.serviceRecords.length - 1) {
@@ -51,22 +122,36 @@ function completeServicePeriods(client, data) {
 }
 
 function completeServiceName(client, data) {
-  client.selectRadio('root_application_veteran_view:hasServiceName', 'Y')
+  client
+    .selectRadio('root_application_veteran_view:hasServiceName', 'Y')
     .fillName('root_application_veteran_serviceName', data.serviceName);
 }
 
 function completeBenefitSelection(client, data) {
   // TODO: Include autosuggest interaction
   client
-    .fill('input[name="root_application_claimant_desiredCemetery"]', data.claimant.desiredCemetery.label)
+    .fill(
+      'input[name="root_application_claimant_desiredCemetery"]',
+      data.claimant.desiredCemetery.label,
+    )
     .click('body')
-  // Test is flaky so have to select option twice for it to register
+    // Test is flaky so have to select option twice for it to register
     .selectRadio('root_application_hasCurrentlyBuried', data.hasCurrentlyBuried)
-    .selectRadio('root_application_hasCurrentlyBuried', data.hasCurrentlyBuried);
+    .selectRadio(
+      'root_application_hasCurrentlyBuried',
+      data.hasCurrentlyBuried,
+    );
   if (data.currentlyBuriedPersons.length) {
     data.currentlyBuriedPersons.forEach((person, index) => {
-      client.fill(`input[name="root_application_currentlyBuriedPersons_${index}_cemeteryNumber"]`, person.cemeteryNumber.label)
-        .fillName(`root_application_currentlyBuriedPersons_${index}_name`, person.name);
+      client
+        .fill(
+          `input[name="root_application_currentlyBuriedPersons_${index}_cemeteryNumber"]`,
+          person.cemeteryNumber.label,
+        )
+        .fillName(
+          `root_application_currentlyBuriedPersons_${index}_name`,
+          person.name,
+        );
       if (index < data.currentlyBuriedPersons.length - 1) {
         client.click('.usa-button-secondary.va-growable-add-btn');
       }
@@ -81,21 +166,31 @@ function completeClaimantContactInformation(client, data) {
     .fill('input[name$="phoneNumber"]', data.phoneNumber);
 }
 
-
 function completeVeteranContactInformation(client, data) {
   client.fillAddress('root_application_veteran_address', data.address);
 }
 
-
 function completeApplicantContactInformation(client, data) {
-  client.selectRadio('root_application_applicant_applicantRelationshipToClaimant', data.applicantRelationshipToClaimant);
+  client.selectRadio(
+    'root_application_applicant_applicantRelationshipToClaimant',
+    data.applicantRelationshipToClaimant,
+  );
   if (data.applicantRelationshipToClaimant === 'Authorized Agent/Rep') {
-    client.fillName('root_application_applicant_view:applicantInfo_name', data['view:applicantInfo'].name)
-      .fillAddress('root_application_applicant_view:applicantInfo_mailingAddress', data['view:applicantInfo'].mailingAddress)
-      .fill('input[name$="applicantPhoneNumber"]', data['view:applicantInfo']['view:contactInfo'].applicantPhoneNumber);
+    client
+      .fillName(
+        'root_application_applicant_view:applicantInfo_name',
+        data['view:applicantInfo'].name,
+      )
+      .fillAddress(
+        'root_application_applicant_view:applicantInfo_mailingAddress',
+        data['view:applicantInfo'].mailingAddress,
+      )
+      .fill(
+        'input[name$="applicantPhoneNumber"]',
+        data['view:applicantInfo']['view:contactInfo'].applicantPhoneNumber,
+      );
   }
 }
-
 
 function initApplicationSubmitMock() {
   mock(null, {
@@ -105,10 +200,10 @@ function initApplicationSubmitMock() {
       data: {
         attributes: {
           confirmationNumber: '123fake-submission-id-567',
-          submittedAt: '2016-05-16'
-        }
-      }
-    }
+          submittedAt: '2016-05-16',
+        },
+      },
+    },
   });
 }
 
@@ -122,9 +217,9 @@ function initDocumentUploadMock() {
           attachmentId: '1',
           name: 'VA40-10007.pdf',
           confirmationCode: 'e2128ec4-b2fc-429c-bad2-e4b564a80d20',
-        }
-      }
-    }
+        },
+      },
+    },
   });
 }
 
@@ -142,8 +237,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '915',
             name: 'ABRAHAM LINCOLN NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '915'
-          }
+            num: '915',
+          },
         },
         {
           id: '400',
@@ -152,8 +247,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '400',
             name: 'ALABAMA STATE VETERANS MEMORIAL CEMETERY',
             cemetery_type: 'S',
-            num: '400'
-          }
+            num: '400',
+          },
         },
         {
           id: '927',
@@ -162,8 +257,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '927',
             name: 'ALABAMA VA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '927'
-          }
+            num: '927',
+          },
         },
         {
           id: '946',
@@ -172,8 +267,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '946',
             name: 'ALAMEDA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '946'
-          }
+            num: '946',
+          },
         },
         {
           id: '088',
@@ -182,8 +277,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '088',
             name: 'ALBANY RURAL CEMETERY',
             cemetery_type: 'P',
-            num: '088'
-          }
+            num: '088',
+          },
         },
         {
           id: '109',
@@ -192,8 +287,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '109',
             name: 'ALBERT G. HORTON, JR. MEMORIAL VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '109'
-          }
+            num: '109',
+          },
         },
         {
           id: '825',
@@ -202,8 +297,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '825',
             name: 'ALEXANDRIA NATIONAL CEMETERY, LA',
             cemetery_type: 'N',
-            num: '825'
-          }
+            num: '825',
+          },
         },
         {
           id: '826',
@@ -212,8 +307,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '826',
             name: 'ALEXANDRIA NATIONAL CEMETERY, VA',
             cemetery_type: 'N',
-            num: '826'
-          }
+            num: '826',
+          },
         },
         {
           id: '120',
@@ -222,8 +317,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '120',
             name: 'ALLEGHENY CEMETERY',
             cemetery_type: 'P',
-            num: '120'
-          }
+            num: '120',
+          },
         },
         {
           id: '800',
@@ -232,8 +327,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '800',
             name: 'ALTON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '800'
-          }
+            num: '800',
+          },
         },
         {
           id: '409',
@@ -242,8 +337,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '409',
             name: 'ANDERSONVILLE NATIONAL HISTORICAL SITE',
             cemetery_type: 'I',
-            num: '409'
-          }
+            num: '409',
+          },
         },
         {
           id: '410',
@@ -252,8 +347,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '410',
             name: 'ANDREW JOHNSON NATIONAL CEMETERY',
             cemetery_type: 'I',
-            num: '410'
-          }
+            num: '410',
+          },
         },
         {
           id: '801',
@@ -262,8 +357,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '801',
             name: 'ANNAPOLIS NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '801'
-          }
+            num: '801',
+          },
         },
         {
           id: '412',
@@ -272,8 +367,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '412',
             name: 'ARIZONA VETERANS MEMORIAL CEMETERY AT CAMP NAVAJO',
             cemetery_type: 'S',
-            num: '412'
-          }
+            num: '412',
+          },
         },
         {
           id: '413',
@@ -282,8 +377,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '413',
             name: 'ARIZONA VETERANS MEMORIAL CEMETERY AT MARANA',
             cemetery_type: 'S',
-            num: '413'
-          }
+            num: '413',
+          },
         },
         {
           id: '091',
@@ -292,8 +387,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '091',
             name: 'ARKANSAS STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '091'
-          }
+            num: '091',
+          },
         },
         {
           id: '396',
@@ -302,8 +397,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '396',
             name: 'ARKANSAS STATE VETERANS CEMETERY-BIRDEYE',
             cemetery_type: 'S',
-            num: '396'
-          }
+            num: '396',
+          },
         },
         {
           id: '106',
@@ -312,8 +407,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '106',
             name: 'ARLINGTON CEMETERY',
             cemetery_type: 'S',
-            num: '106'
-          }
+            num: '106',
+          },
         },
         {
           id: '411',
@@ -322,8 +417,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '411',
             name: 'ARLINGTON NATIONAL CEMETERY',
             cemetery_type: 'A',
-            num: '411'
-          }
+            num: '411',
+          },
         },
         {
           id: '121',
@@ -332,8 +427,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '121',
             name: 'ASHLAND CEMETERY',
             cemetery_type: 'P',
-            num: '121'
-          }
+            num: '121',
+          },
         },
         {
           id: '406',
@@ -342,8 +437,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '406',
             name: 'ATLANTIC GARDEN VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '406'
-          }
+            num: '406',
+          },
         },
         {
           id: '929',
@@ -352,8 +447,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '929',
             name: 'BAKERSFIELD VA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '929'
-          }
+            num: '929',
+          },
         },
         {
           id: '827',
@@ -362,8 +457,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '827',
             name: 'BALLS BLUFF NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '827'
-          }
+            num: '827',
+          },
         },
         {
           id: '802',
@@ -372,8 +467,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '802',
             name: 'BALTIMORE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '802'
-          }
+            num: '802',
+          },
         },
         {
           id: '828',
@@ -382,8 +477,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '828',
             name: 'BARRANCAS NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '828'
-          }
+            num: '828',
+          },
         },
         {
           id: '803',
@@ -392,8 +487,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '803',
             name: 'BATH NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '803'
-          }
+            num: '803',
+          },
         },
         {
           id: '829',
@@ -402,8 +497,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '829',
             name: 'BATON ROUGE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '829'
-          }
+            num: '829',
+          },
         },
         {
           id: '042',
@@ -412,8 +507,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '042',
             name: 'BAXTER SPRINGS',
             cemetery_type: 'P',
-            num: '042'
-          }
+            num: '042',
+          },
         },
         {
           id: '830',
@@ -422,8 +517,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '830',
             name: 'BAY PINES NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '830'
-          }
+            num: '830',
+          },
         },
         {
           id: '831',
@@ -432,8 +527,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '831',
             name: 'BEAUFORT NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '831'
-          }
+            num: '831',
+          },
         },
         {
           id: '804',
@@ -442,8 +537,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '804',
             name: 'BEVERLY NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '804'
-          }
+            num: '804',
+          },
         },
         {
           id: '025',
@@ -452,8 +547,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '025',
             name: "BG WILLIAM C DOYLE VET'S MEM CEM",
             cemetery_type: 'S',
-            num: '025'
-          }
+            num: '025',
+          },
         },
         {
           id: '832',
@@ -462,8 +557,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '832',
             name: 'BILOXI NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '832'
-          }
+            num: '832',
+          },
         },
         {
           id: '884',
@@ -472,8 +567,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '884',
             name: 'BLACK HILLS NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '884'
-          }
+            num: '884',
+          },
         },
         {
           id: '936',
@@ -482,8 +577,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '936',
             name: 'BUFFALO NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '936'
-          }
+            num: '936',
+          },
         },
         {
           id: '414',
@@ -492,8 +587,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '414',
             name: 'CALIFORNIA CENTRAL COAST VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '414'
-          }
+            num: '414',
+          },
         },
         {
           id: '805',
@@ -502,8 +597,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '805',
             name: 'CALVERTON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '805'
-          }
+            num: '805',
+          },
         },
         {
           id: '806',
@@ -512,8 +607,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '806',
             name: 'CAMP BUTLER NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '806'
-          }
+            num: '806',
+          },
         },
         {
           id: '075',
@@ -522,8 +617,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '075',
             name: 'CAMP CHASE CONFEDERATE CEMETERY',
             cemetery_type: 'P',
-            num: '075'
-          }
+            num: '075',
+          },
         },
         {
           id: '833',
@@ -532,8 +627,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '833',
             name: 'CAMP NELSON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '833'
-          }
+            num: '833',
+          },
         },
         {
           id: '934',
@@ -542,8 +637,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '934',
             name: 'CAPE CANAVERAL NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '934'
-          }
+            num: '934',
+          },
         },
         {
           id: '834',
@@ -552,8 +647,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '834',
             name: 'CAVE HILL NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '834'
-          }
+            num: '834',
+          },
         },
         {
           id: '942',
@@ -562,8 +657,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '942',
             name: 'CEDAR CITY NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '942'
-          }
+            num: '942',
+          },
         },
         {
           id: '397',
@@ -572,8 +667,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '397',
             name: 'CENTRAL LOUISIANA VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '397'
-          }
+            num: '397',
+          },
         },
         {
           id: '127',
@@ -582,8 +677,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '127',
             name: 'CENTRAL TEXAS STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '127'
-          }
+            num: '127',
+          },
         },
         {
           id: '015',
@@ -592,8 +687,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '015',
             name: 'CENTRAL WISCONSIN VETERANS MEMORIAL CEMETERY',
             cemetery_type: 'S',
-            num: '015'
-          }
+            num: '015',
+          },
         },
         {
           id: '835',
@@ -602,8 +697,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '835',
             name: 'CHATTANOOGA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '835'
-          }
+            num: '835',
+          },
         },
         {
           id: '001',
@@ -612,8 +707,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '001',
             name: 'CHELTENHAM VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '001'
-          }
+            num: '001',
+          },
         },
         {
           id: '945',
@@ -622,8 +717,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '945',
             name: 'CHEYENNE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '945'
-          }
+            num: '945',
+          },
         },
         {
           id: '950',
@@ -632,8 +727,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '950',
             name: 'CHICAGO NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '950'
-          }
+            num: '950',
+          },
         },
         {
           id: '836',
@@ -642,8 +737,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '836',
             name: 'CITY POINT NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '836'
-          }
+            num: '836',
+          },
         },
         {
           id: '132',
@@ -652,8 +747,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '132',
             name: 'CNMI VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '132'
-          }
+            num: '132',
+          },
         },
         {
           id: '395',
@@ -662,8 +757,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '395',
             name: 'COASTAL BEND VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '395'
-          }
+            num: '395',
+          },
         },
         {
           id: '052',
@@ -672,8 +767,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '052',
             name: 'COASTAL CAROLINA STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '052'
-          }
+            num: '052',
+          },
         },
         {
           id: '837',
@@ -682,8 +777,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '837',
             name: 'COLD HARBOR NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '837'
-          }
+            num: '837',
+          },
         },
         {
           id: '010',
@@ -692,8 +787,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '010',
             name: 'COLONEL ROBERT F. GATES CEMETERY',
             cemetery_type: 'S',
-            num: '010'
-          }
+            num: '010',
+          },
         },
         {
           id: '933',
@@ -702,8 +797,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '933',
             name: 'COLORADO SPRINGS NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '933'
-          }
+            num: '933',
+          },
         },
         {
           id: '073',
@@ -712,8 +807,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '073',
             name: 'CONFEDERATE MOUND',
             cemetery_type: 'P',
-            num: '073'
-          }
+            num: '073',
+          },
         },
         {
           id: '076',
@@ -722,8 +817,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '076',
             name: 'CONFEDERATE STOCKADE CEMETERY',
             cemetery_type: 'P',
-            num: '076'
-          }
+            num: '076',
+          },
         },
         {
           id: '054',
@@ -732,8 +827,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '054',
             name: 'CONGRESSIONAL CEMETERY',
             cemetery_type: 'P',
-            num: '054'
-          }
+            num: '054',
+          },
         },
         {
           id: '030',
@@ -742,8 +837,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '030',
             name: 'CONNECTICUT STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '030'
-          }
+            num: '030',
+          },
         },
         {
           id: '838',
@@ -752,8 +847,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '838',
             name: 'CORINTH NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '838'
-          }
+            num: '838',
+          },
         },
         {
           id: '074',
@@ -762,8 +857,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '074',
             name: 'CROWN HILL CONFEDERATE PLOT',
             cemetery_type: 'P',
-            num: '074'
-          }
+            num: '074',
+          },
         },
         {
           id: '807',
@@ -772,8 +867,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '807',
             name: 'CROWN HILL NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '807'
-          }
+            num: '807',
+          },
         },
         {
           id: '002',
@@ -782,8 +877,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '002',
             name: 'CROWNSVILLE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '002'
-          }
+            num: '002',
+          },
         },
         {
           id: '839',
@@ -792,8 +887,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '839',
             name: 'CULPEPER NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '839'
-          }
+            num: '839',
+          },
         },
         {
           id: '808',
@@ -802,8 +897,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '808',
             name: 'CYPRESS HILLS NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '808'
-          }
+            num: '808',
+          },
         },
         {
           id: '916',
@@ -812,8 +907,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '916',
             name: 'DALLAS - FT. WORTH NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '916'
-          }
+            num: '916',
+          },
         },
         {
           id: '809',
@@ -822,8 +917,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '809',
             name: 'DANVILLE NATIONAL CEMETERY, IL',
             cemetery_type: 'N',
-            num: '809'
-          }
+            num: '809',
+          },
         },
         {
           id: '840',
@@ -832,8 +927,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '840',
             name: 'DANVILLE NATIONAL CEMETERY, KY',
             cemetery_type: 'N',
-            num: '840'
-          }
+            num: '840',
+          },
         },
         {
           id: '841',
@@ -842,8 +937,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '841',
             name: 'DANVILLE NATIONAL CEMETERY, VA',
             cemetery_type: 'N',
-            num: '841'
-          }
+            num: '841',
+          },
         },
         {
           id: '810',
@@ -852,8 +947,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '810',
             name: 'DAYTON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '810'
-          }
+            num: '810',
+          },
         },
         {
           id: '036',
@@ -862,8 +957,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '036',
             name: 'DELAWARE VETERANS MEMORIAL CEMETERY',
             cemetery_type: 'S',
-            num: '036'
-          }
+            num: '036',
+          },
         },
         {
           id: '093',
@@ -872,8 +967,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '093',
             name: 'DELAWARE VETERANS MEMORIAL CEMETERY-SUSSEX CO.',
             cemetery_type: 'S',
-            num: '093'
-          }
+            num: '093',
+          },
         },
         {
           id: '398',
@@ -882,8 +977,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '398',
             name: 'DONEL KINNARD MEMORIAL STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '398'
-          }
+            num: '398',
+          },
         },
         {
           id: '906',
@@ -892,8 +987,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '906',
             name: 'EAGLE POINT NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '906'
-          }
+            num: '906',
+          },
         },
         {
           id: '394',
@@ -902,8 +997,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '394',
             name: 'EAST TENNESSEE STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '394'
-          }
+            num: '394',
+          },
         },
         {
           id: '416',
@@ -912,8 +1007,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '416',
             name: 'EASTERN CAROLINA STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '416'
-          }
+            num: '416',
+          },
         },
         {
           id: '090',
@@ -922,8 +1017,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '090',
             name: 'EASTERN MONTANA STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '090'
-          }
+            num: '090',
+          },
         },
         {
           id: '004',
@@ -932,8 +1027,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '004',
             name: 'EASTERN SHORE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '004'
-          }
+            num: '004',
+          },
         },
         {
           id: '943',
@@ -942,8 +1037,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '943',
             name: 'ELKO NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '943'
-          }
+            num: '943',
+          },
         },
         {
           id: '055',
@@ -952,8 +1047,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '055',
             name: 'EVERGREEN CEMETERY',
             cemetery_type: 'P',
-            num: '055'
-          }
+            num: '055',
+          },
         },
         {
           id: '940',
@@ -962,8 +1057,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '940',
             name: 'FARGO NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '940'
-          }
+            num: '940',
+          },
         },
         {
           id: '842',
@@ -972,8 +1067,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '842',
             name: 'FAYETTEVILLE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '842'
-          }
+            num: '842',
+          },
         },
         {
           id: '811',
@@ -982,8 +1077,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '811',
             name: "FINN'S POINT NATIONAL CEMETERY",
             cemetery_type: 'N',
-            num: '811'
-          }
+            num: '811',
+          },
         },
         {
           id: '843',
@@ -992,8 +1087,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '843',
             name: 'FLORENCE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '843'
-          }
+            num: '843',
+          },
         },
         {
           id: '911',
@@ -1002,8 +1097,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '911',
             name: 'FLORIDA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '911'
-          }
+            num: '911',
+          },
         },
         {
           id: '123',
@@ -1012,8 +1107,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '123',
             name: 'FOREST HILL CEMETERY',
             cemetery_type: 'P',
-            num: '123'
-          }
+            num: '123',
+          },
         },
         {
           id: '122',
@@ -1022,8 +1117,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '122',
             name: 'FOREST HOME CEMETERY',
             cemetery_type: 'P',
-            num: '122'
-          }
+            num: '122',
+          },
         },
         {
           id: '058',
@@ -1032,8 +1127,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '058',
             name: 'FOREST LAWN CEMETERY',
             cemetery_type: 'N',
-            num: '058'
-          }
+            num: '058',
+          },
         },
         {
           id: '930',
@@ -1042,8 +1137,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '930',
             name: 'FORT JACKSON VA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '930'
-          }
+            num: '930',
+          },
         },
         {
           id: '113',
@@ -1052,8 +1147,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '113',
             name: 'FORT STANTON STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '113'
-          }
+            num: '113',
+          },
         },
         {
           id: '391',
@@ -1062,8 +1157,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '391',
             name: 'FT LEONARD WOOD STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '391'
-          }
+            num: '391',
+          },
         },
         {
           id: '885',
@@ -1072,8 +1167,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '885',
             name: 'FT. BAYARD NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '885'
-          }
+            num: '885',
+          },
         },
         {
           id: '886',
@@ -1082,8 +1177,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '886',
             name: 'FT. BLISS NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '886'
-          }
+            num: '886',
+          },
         },
         {
           id: '059',
@@ -1092,8 +1187,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '059',
             name: 'FT. CRAWFORD CEMETERY',
             cemetery_type: 'P',
-            num: '059'
-          }
+            num: '059',
+          },
         },
         {
           id: '909',
@@ -1102,8 +1197,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '909',
             name: 'FT. CUSTER NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '909'
-          }
+            num: '909',
+          },
         },
         {
           id: '844',
@@ -1112,8 +1207,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '844',
             name: 'FT. GIBSON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '844'
-          }
+            num: '844',
+          },
         },
         {
           id: '845',
@@ -1122,8 +1217,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '845',
             name: 'FT. HARRISON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '845'
-          }
+            num: '845',
+          },
         },
         {
           id: '887',
@@ -1132,8 +1227,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '887',
             name: 'FT. LEAVENWORTH NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '887'
-          }
+            num: '887',
+          },
         },
         {
           id: '888',
@@ -1142,8 +1237,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '888',
             name: 'FT. LOGAN NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '888'
-          }
+            num: '888',
+          },
         },
         {
           id: '889',
@@ -1152,8 +1247,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '889',
             name: 'FT. LYON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '889'
-          }
+            num: '889',
+          },
         },
         {
           id: '890',
@@ -1162,8 +1257,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '890',
             name: 'FT. MCPHERSON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '890'
-          }
+            num: '890',
+          },
         },
         {
           id: '891',
@@ -1172,8 +1267,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '891',
             name: 'FT. MEADE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '891'
-          }
+            num: '891',
+          },
         },
         {
           id: '908',
@@ -1182,8 +1277,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '908',
             name: 'FT. MITCHELL NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '908'
-          }
+            num: '908',
+          },
         },
         {
           id: '910',
@@ -1192,8 +1287,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '910',
             name: 'FT. RICHARDSON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '910'
-          }
+            num: '910',
+          },
         },
         {
           id: '407',
@@ -1202,8 +1297,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '407',
             name: 'FT. RILEY POST CEMETERY',
             cemetery_type: 'M',
-            num: '407'
-          }
+            num: '407',
+          },
         },
         {
           id: '892',
@@ -1212,8 +1307,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '892',
             name: 'FT. ROSECRANS NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '892'
-          }
+            num: '892',
+          },
         },
         {
           id: '846',
@@ -1222,8 +1317,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '846',
             name: 'FT. SAM HOUSTON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '846'
-          }
+            num: '846',
+          },
         },
         {
           id: '893',
@@ -1232,8 +1327,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '893',
             name: 'FT. SCOTT NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '893'
-          }
+            num: '893',
+          },
         },
         {
           id: '920',
@@ -1242,8 +1337,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '920',
             name: 'FT. SILL NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '920'
-          }
+            num: '920',
+          },
         },
         {
           id: '847',
@@ -1252,8 +1347,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '847',
             name: 'FT. SMITH NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '847'
-          }
+            num: '847',
+          },
         },
         {
           id: '894',
@@ -1262,8 +1357,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '894',
             name: 'FT. SNELLING NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '894'
-          }
+            num: '894',
+          },
         },
         {
           id: '083',
@@ -1272,8 +1367,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '083',
             name: 'FT. WINNEBAGO CEMETERY',
             cemetery_type: 'P',
-            num: '083'
-          }
+            num: '083',
+          },
         },
         {
           id: '003',
@@ -1282,8 +1377,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '003',
             name: 'GARRISON FOREST VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '003'
-          }
+            num: '003',
+          },
         },
         {
           id: '922',
@@ -1292,8 +1387,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '922',
             name: 'GEORGIA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '922'
-          }
+            num: '922',
+          },
         },
         {
           id: '096',
@@ -1302,8 +1397,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '096',
             name: 'GEORGIA VETERANS MEMORIAL CEMETERY',
             cemetery_type: 'S',
-            num: '096'
-          }
+            num: '096',
+          },
         },
         {
           id: '303',
@@ -1312,8 +1407,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '303',
             name: 'GEORGIA VETERANS MEMORIAL CEMETERY - GLENNVILLE',
             cemetery_type: 'S',
-            num: '303'
-          }
+            num: '303',
+          },
         },
         {
           id: '917',
@@ -1322,8 +1417,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '917',
             name: 'GERALD B.H. SOLOMON SARATOGA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '917'
-          }
+            num: '917',
+          },
         },
         {
           id: '848',
@@ -1332,8 +1427,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '848',
             name: 'GLENDALE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '848'
-          }
+            num: '848',
+          },
         },
         {
           id: '895',
@@ -1342,8 +1437,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '895',
             name: 'GOLDEN GATE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '895'
-          }
+            num: '895',
+          },
         },
         {
           id: '812',
@@ -1352,8 +1447,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '812',
             name: 'GRAFTON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '812'
-          }
+            num: '812',
+          },
         },
         {
           id: '923',
@@ -1362,8 +1457,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '923',
             name: 'GREAT LAKES NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '923'
-          }
+            num: '923',
+          },
         },
         {
           id: '061',
@@ -1372,8 +1467,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '061',
             name: 'GREEN MOUNT CEMETERY',
             cemetery_type: 'P',
-            num: '061'
-          }
+            num: '061',
+          },
         },
         {
           id: '849',
@@ -1382,8 +1477,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '849',
             name: 'HAMPTON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '849'
-          }
+            num: '849',
+          },
         },
         {
           id: '850',
@@ -1392,8 +1487,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '850',
             name: 'HAMPTON VA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '850'
-          }
+            num: '850',
+          },
         },
         {
           id: '043',
@@ -1402,8 +1497,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '043',
             name: 'HAWAII STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '043'
-          }
+            num: '043',
+          },
         },
         {
           id: '896',
@@ -1412,8 +1507,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '896',
             name: 'HOT SPRINGS NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '896'
-          }
+            num: '896',
+          },
         },
         {
           id: '851',
@@ -1422,8 +1517,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '851',
             name: 'HOUSTON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '851'
-          }
+            num: '851',
+          },
         },
         {
           id: '107',
@@ -1432,8 +1527,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '107',
             name: 'IDAHO STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '107'
-          }
+            num: '107',
+          },
         },
         {
           id: '006',
@@ -1442,8 +1537,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '006',
             name: 'INDIANA VETERANS MEMORIAL CEMETERY',
             cemetery_type: 'S',
-            num: '006'
-          }
+            num: '006',
+          },
         },
         {
           id: '948',
@@ -1452,8 +1547,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '948',
             name: 'INDIANAPOLIS NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '948'
-          }
+            num: '948',
+          },
         },
         {
           id: '813',
@@ -1462,8 +1557,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '813',
             name: 'INDIANTOWN GAP NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '813'
-          }
+            num: '813',
+          },
         },
         {
           id: '301',
@@ -1472,8 +1567,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '301',
             name: 'IOWA VETERANS CEMETERY AT VAN METER',
             cemetery_type: 'S',
-            num: '301'
-          }
+            num: '301',
+          },
         },
         {
           id: '928',
@@ -1482,8 +1577,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '928',
             name: 'JACKSONVILLE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '928'
-          }
+            num: '928',
+          },
         },
         {
           id: '852',
@@ -1492,8 +1587,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '852',
             name: 'JEFFERSON BARRACKS NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '852'
-          }
+            num: '852',
+          },
         },
         {
           id: '853',
@@ -1502,8 +1597,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '853',
             name: 'JEFFERSON CITY NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '853'
-          }
+            num: '853',
+          },
         },
         {
           id: '277',
@@ -1512,8 +1607,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '277',
             name: 'KANAS VETERANS CEMETERY AT FORT RIELY STATE',
             cemetery_type: 'S',
-            num: '277'
-          }
+            num: '277',
+          },
         },
         {
           id: '094',
@@ -1522,8 +1617,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '094',
             name: 'KANSAS VETERANS CEMETERY AT FORT DODGE',
             cemetery_type: 'S',
-            num: '094'
-          }
+            num: '094',
+          },
         },
         {
           id: '110',
@@ -1532,8 +1627,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '110',
             name: 'KANSAS VETERANS CEMETERY AT WAKEENEY',
             cemetery_type: 'S',
-            num: '110'
-          }
+            num: '110',
+          },
         },
         {
           id: '128',
@@ -1542,8 +1637,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '128',
             name: 'KANSAS VETERANS CEMETERY AT WINFIELD',
             cemetery_type: 'S',
-            num: '128'
-          }
+            num: '128',
+          },
         },
         {
           id: '112',
@@ -1552,8 +1647,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '112',
             name: 'KENTUCKY VETERAN CEMETERY SOUTHEAST',
             cemetery_type: 'S',
-            num: '112'
-          }
+            num: '112',
+          },
         },
         {
           id: '114',
@@ -1562,8 +1657,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '114',
             name: 'KENTUCKY VETERANS CEMETERY - NORTHEAST',
             cemetery_type: 'S',
-            num: '114'
-          }
+            num: '114',
+          },
         },
         {
           id: '134',
@@ -1572,8 +1667,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '134',
             name: 'KENTUCKY VETERANS CEMETERY CENTRAL',
             cemetery_type: 'S',
-            num: '134'
-          }
+            num: '134',
+          },
         },
         {
           id: '135',
@@ -1582,8 +1677,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '135',
             name: 'KENTUCKY VETERANS CEMETERY NORTH',
             cemetery_type: 'S',
-            num: '135'
-          }
+            num: '135',
+          },
         },
         {
           id: '105',
@@ -1592,8 +1687,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '105',
             name: 'KENTUCKY VETERANS CEMETERY-WEST',
             cemetery_type: 'S',
-            num: '105'
-          }
+            num: '105',
+          },
         },
         {
           id: '814',
@@ -1602,8 +1697,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '814',
             name: 'KEOKUK NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '814'
-          }
+            num: '814',
+          },
         },
         {
           id: '854',
@@ -1612,8 +1707,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '854',
             name: 'KERRVILLE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '854'
-          }
+            num: '854',
+          },
         },
         {
           id: '855',
@@ -1622,8 +1717,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '855',
             name: 'KNOXVILLE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '855'
-          }
+            num: '855',
+          },
         },
         {
           id: '062',
@@ -1632,8 +1727,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '062',
             name: 'LAKESIDE CEMETERY',
             cemetery_type: 'P',
-            num: '062'
-          }
+            num: '062',
+          },
         },
         {
           id: '403',
@@ -1642,8 +1737,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '403',
             name: 'LAKOTA FREEDOM VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '403'
-          }
+            num: '403',
+          },
         },
         {
           id: '897',
@@ -1652,8 +1747,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '897',
             name: 'LEAVENWORTH NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '897'
-          }
+            num: '897',
+          },
         },
         {
           id: '856',
@@ -1662,8 +1757,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '856',
             name: 'LEBANON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '856'
-          }
+            num: '856',
+          },
         },
         {
           id: '857',
@@ -1672,8 +1767,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '857',
             name: 'LEXINGTON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '857'
-          }
+            num: '857',
+          },
         },
         {
           id: '858',
@@ -1682,8 +1777,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '858',
             name: 'LITTLE ROCK NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '858'
-          }
+            num: '858',
+          },
         },
         {
           id: '815',
@@ -1692,8 +1787,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '815',
             name: 'LONG ISLAND NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '815'
-          }
+            num: '815',
+          },
         },
         {
           id: '898',
@@ -1702,8 +1797,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '898',
             name: 'LOS ANGELES NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '898'
-          }
+            num: '898',
+          },
         },
         {
           id: '816',
@@ -1712,8 +1807,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '816',
             name: 'LOUDON PARK NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '816'
-          }
+            num: '816',
+          },
         },
         {
           id: '970',
@@ -1722,8 +1817,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '970',
             name: 'LOUISIANA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '970'
-          }
+            num: '970',
+          },
         },
         {
           id: '302',
@@ -1732,8 +1827,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '302',
             name: 'M.J. DOLLY COOPER VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '302'
-          }
+            num: '302',
+          },
         },
         {
           id: '944',
@@ -1742,8 +1837,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '944',
             name: 'MACHIAS NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '944'
-          }
+            num: '944',
+          },
         },
         {
           id: '082',
@@ -1752,8 +1847,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '082',
             name: 'MACKINAC ISLAND POST CEMETERY',
             cemetery_type: 'P',
-            num: '082'
-          }
+            num: '082',
+          },
         },
         {
           id: '012',
@@ -1762,8 +1857,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '012',
             name: "MAINE VETERANS' MEMORIAL CEMETERY",
             cemetery_type: 'S',
-            num: '012'
-          }
+            num: '012',
+          },
         },
         {
           id: '095',
@@ -1772,8 +1867,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '095',
             name: "MAINE VETERANS' MEMORIAL CEMETERY - MT VERNON RD",
             cemetery_type: 'S',
-            num: '095'
-          }
+            num: '095',
+          },
         },
         {
           id: '859',
@@ -1782,8 +1877,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '859',
             name: 'MARIETTA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '859'
-          }
+            num: '859',
+          },
         },
         {
           id: '817',
@@ -1792,8 +1887,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '817',
             name: 'MARION NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '817'
-          }
+            num: '817',
+          },
         },
         {
           id: '818',
@@ -1802,8 +1897,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '818',
             name: 'MASSACHUSETTS NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '818'
-          }
+            num: '818',
+          },
         },
         {
           id: '108',
@@ -1812,8 +1907,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '108',
             name: 'MASSACHUSETTS VETERAN MEMORIAL CEMETERY/WINCHENDON',
             cemetery_type: 'S',
-            num: '108'
-          }
+            num: '108',
+          },
         },
         {
           id: '034',
@@ -1822,8 +1917,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '034',
             name: "MASSACHUSETTS VETERANS' MEMORIAL CEMETERY",
             cemetery_type: 'S',
-            num: '034'
-          }
+            num: '034',
+          },
         },
         {
           id: '860',
@@ -1832,8 +1927,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '860',
             name: 'MEMPHIS NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '860'
-          }
+            num: '860',
+          },
         },
         {
           id: '050',
@@ -1842,8 +1937,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '050',
             name: 'MIDDLE TENNESSEE STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '050'
-          }
+            num: '050',
+          },
         },
         {
           id: '861',
@@ -1852,8 +1947,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '861',
             name: 'MILL SPRINGS NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '861'
-          }
+            num: '861',
+          },
         },
         {
           id: '053',
@@ -1862,8 +1957,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '053',
             name: 'MINNESOTA STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '053'
-          }
+            num: '053',
+          },
         },
         {
           id: '116',
@@ -1872,8 +1967,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '116',
             name: 'MINNESOTA STATE VETERANS CEMETERY - DULUTH',
             cemetery_type: 'S',
-            num: '116'
-          }
+            num: '116',
+          },
         },
         {
           id: '415',
@@ -1882,8 +1977,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '415',
             name: 'MINNESOTA STATE VETERANS CEMETERY - PRESTON',
             cemetery_type: 'S',
-            num: '415'
-          }
+            num: '415',
+          },
         },
         {
           id: '992',
@@ -1892,8 +1987,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '992',
             name: 'MIRAMAR NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '992'
-          }
+            num: '992',
+          },
         },
         {
           id: '278',
@@ -1902,8 +1997,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '278',
             name: 'MISSISSIPPI STATE VETERANS MEMORIAL CEMETERY',
             cemetery_type: 'S',
-            num: '278'
-          }
+            num: '278',
+          },
         },
         {
           id: '104',
@@ -1912,8 +2007,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '104',
             name: 'MISSOURI STATE VETERANS CEMETERY/JACKSONVILLE',
             cemetery_type: 'S',
-            num: '104'
-          }
+            num: '104',
+          },
         },
         {
           id: '056',
@@ -1922,8 +2017,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '056',
             name: 'MISSOURI VETERANS CEMETERY / SPRINGFIELD',
             cemetery_type: 'S',
-            num: '056'
-          }
+            num: '056',
+          },
         },
         {
           id: '103',
@@ -1932,8 +2027,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '103',
             name: 'MISSOURI VETERANS CEMETERY AT BLOOMFIELD',
             cemetery_type: 'S',
-            num: '103'
-          }
+            num: '103',
+          },
         },
         {
           id: '057',
@@ -1942,8 +2037,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '057',
             name: 'MISSOURI VETERANS CEMETERY/HIGGINSVILLE',
             cemetery_type: 'S',
-            num: '057'
-          }
+            num: '057',
+          },
         },
         {
           id: '862',
@@ -1952,8 +2047,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '862',
             name: 'MOBILE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '862'
-          }
+            num: '862',
+          },
         },
         {
           id: '040',
@@ -1962,8 +2057,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '040',
             name: 'MONTANA STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '040'
-          }
+            num: '040',
+          },
         },
         {
           id: '063',
@@ -1972,8 +2067,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '063',
             name: 'MOUND CEMETERY',
             cemetery_type: 'P',
-            num: '063'
-          }
+            num: '063',
+          },
         },
         {
           id: '064',
@@ -1982,8 +2077,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '064',
             name: 'MOUND CITY',
             cemetery_type: 'P',
-            num: '064'
-          }
+            num: '064',
+          },
         },
         {
           id: '863',
@@ -1992,8 +2087,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '863',
             name: 'MOUND CITY NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '863'
-          }
+            num: '863',
+          },
         },
         {
           id: '864',
@@ -2002,8 +2097,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '864',
             name: 'MOUNTAIN HOME NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '864'
-          }
+            num: '864',
+          },
         },
         {
           id: '065',
@@ -2012,8 +2107,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '065',
             name: 'MT MORIAH SOLDIERS LOT',
             cemetery_type: 'P',
-            num: '065'
-          }
+            num: '065',
+          },
         },
         {
           id: '066',
@@ -2022,8 +2117,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '066',
             name: 'MT. MORIAH NAVAL PLOT',
             cemetery_type: 'P',
-            num: '066'
-          }
+            num: '066',
+          },
         },
         {
           id: '067',
@@ -2032,8 +2127,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '067',
             name: 'MT. PLEASANT CEMETERY',
             cemetery_type: 'P',
-            num: '067'
-          }
+            num: '067',
+          },
         },
         {
           id: '865',
@@ -2042,8 +2137,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '865',
             name: 'NASHVILLE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '865'
-          }
+            num: '865',
+          },
         },
         {
           id: '866',
@@ -2052,8 +2147,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '866',
             name: 'NATCHEZ NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '866'
-          }
+            num: '866',
+          },
         },
         {
           id: '925',
@@ -2062,8 +2157,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '925',
             name: 'NATIONAL CEMETERY OF THE ALLEGHENIES',
             cemetery_type: 'N',
-            num: '925'
-          }
+            num: '925',
+          },
         },
         {
           id: '914',
@@ -2072,8 +2167,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '914',
             name: 'NATIONAL MEMORIAL CEMETERY OF ARIZONA',
             cemetery_type: 'N',
-            num: '914'
-          }
+            num: '914',
+          },
         },
         {
           id: '899',
@@ -2082,8 +2177,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '899',
             name: 'NATIONAL MEMORIAL CEMETERY OF THE PACIFIC',
             cemetery_type: 'N',
-            num: '899'
-          }
+            num: '899',
+          },
         },
         {
           id: '267',
@@ -2092,8 +2187,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '267',
             name: 'NEBRASKA VETERANS CEMETERY AT ALLIANCE',
             cemetery_type: 'S',
-            num: '267'
-          }
+            num: '267',
+          },
         },
         {
           id: '867',
@@ -2102,8 +2197,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '867',
             name: 'NEW ALBANY NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '867'
-          }
+            num: '867',
+          },
         },
         {
           id: '868',
@@ -2112,8 +2207,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '868',
             name: 'NEW BERN NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '868'
-          }
+            num: '868',
+          },
         },
         {
           id: '087',
@@ -2122,8 +2217,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '087',
             name: 'NEW HAMPSHIRE STATE CEMETERY',
             cemetery_type: 'S',
-            num: '087'
-          }
+            num: '087',
+          },
         },
         {
           id: '037',
@@ -2132,8 +2227,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '037',
             name: 'NEW JERSEY MEMORIAL HOME CEMETERY',
             cemetery_type: 'S',
-            num: '037'
-          }
+            num: '037',
+          },
         },
         {
           id: '947',
@@ -2142,8 +2237,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '947',
             name: 'NEW YORK NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '947'
-          }
+            num: '947',
+          },
         },
         {
           id: '077',
@@ -2152,8 +2247,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '077',
             name: 'NORTH ALTON CONFEDERATE CEMETERY',
             cemetery_type: 'P',
-            num: '077'
-          }
+            num: '077',
+          },
         },
         {
           id: '049',
@@ -2162,8 +2257,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '049',
             name: 'NORTH DAKOTA VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '049'
-          }
+            num: '049',
+          },
         },
         {
           id: '035',
@@ -2172,8 +2267,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '035',
             name: 'NORTH MISSISSIPPI VETERANS MEMORIAL CEMETERY',
             cemetery_type: 'S',
-            num: '035'
-          }
+            num: '035',
+          },
         },
         {
           id: '392',
@@ -2182,8 +2277,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '392',
             name: 'NORTHEAST LOUISIANA VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '392'
-          }
+            num: '392',
+          },
         },
         {
           id: '130',
@@ -2192,8 +2287,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '130',
             name: 'NORTHERN CALIFORNIA VETERANS CEMETERY AT REDDING',
             cemetery_type: 'S',
-            num: '130'
-          }
+            num: '130',
+          },
         },
         {
           id: '099',
@@ -2202,8 +2297,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '099',
             name: 'NORTHERN MAINE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '099'
-          }
+            num: '099',
+          },
         },
         {
           id: '046',
@@ -2212,8 +2307,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '046',
             name: 'NORTHERN NEVADA VETERANS MEMORIAL CEMETERY',
             cemetery_type: 'S',
-            num: '046'
-          }
+            num: '046',
+          },
         },
         {
           id: '102',
@@ -2222,8 +2317,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '102',
             name: 'NORTHERN WISCONSIN VETERANS MEMORIAL CEMETERY',
             cemetery_type: 'S',
-            num: '102'
-          }
+            num: '102',
+          },
         },
         {
           id: '131',
@@ -2232,8 +2327,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '131',
             name: 'NORTHWEST LOUISIANA VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '131'
-          }
+            num: '131',
+          },
         },
         {
           id: '068',
@@ -2242,8 +2337,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '068',
             name: 'OAKDALE CEMETERY',
             cemetery_type: 'P',
-            num: '068'
-          }
+            num: '068',
+          },
         },
         {
           id: '092',
@@ -2252,8 +2347,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '092',
             name: 'OHIO VETERANS HOME CEMETERY',
             cemetery_type: 'S',
-            num: '092'
-          }
+            num: '092',
+          },
         },
         {
           id: '918',
@@ -2262,8 +2357,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '918',
             name: 'OHIO WESTERN RESERVE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '918'
-          }
+            num: '918',
+          },
         },
         {
           id: '935',
@@ -2272,8 +2367,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '935',
             name: 'OMAHA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '935'
-          }
+            num: '935',
+          },
         },
         {
           id: '016',
@@ -2282,8 +2377,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '016',
             name: 'OREGON TRAIL STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '016'
-          }
+            num: '016',
+          },
         },
         {
           id: '819',
@@ -2292,8 +2387,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '819',
             name: 'PHILADELPHIA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '819'
-          }
+            num: '819',
+          },
         },
         {
           id: '078',
@@ -2302,8 +2397,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '078',
             name: 'POINT LOOKOUT CONFEDERATE CEMETERY',
             cemetery_type: 'P',
-            num: '078'
-          }
+            num: '078',
+          },
         },
         {
           id: '870',
@@ -2312,8 +2407,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '870',
             name: 'PORT HUDSON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '870'
-          }
+            num: '870',
+          },
         },
         {
           id: '900',
@@ -2322,8 +2417,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '900',
             name: 'PRESCOTT NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '900'
-          }
+            num: '900',
+          },
         },
         {
           id: '069',
@@ -2332,8 +2427,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '069',
             name: 'PROSPECT HILL CEMETERY, PA',
             cemetery_type: 'P',
-            num: '069'
-          }
+            num: '069',
+          },
         },
         {
           id: '070',
@@ -2342,8 +2437,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '070',
             name: 'PROSPECT HILL CEMETERY, VT',
             cemetery_type: 'P',
-            num: '070'
-          }
+            num: '070',
+          },
         },
         {
           id: '871',
@@ -2352,8 +2447,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '871',
             name: 'PUERTO RICO NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '871'
-          }
+            num: '871',
+          },
         },
         {
           id: '872',
@@ -2362,8 +2457,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '872',
             name: 'QUANTICO NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '872'
-          }
+            num: '872',
+          },
         },
         {
           id: '820',
@@ -2372,8 +2467,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '820',
             name: 'QUINCY NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '820'
-          }
+            num: '820',
+          },
         },
         {
           id: '873',
@@ -2382,8 +2477,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '873',
             name: 'RALEIGH NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '873'
-          }
+            num: '873',
+          },
         },
         {
           id: '939',
@@ -2392,8 +2487,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '939',
             name: 'RHINELANDER NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '939'
-          }
+            num: '939',
+          },
         },
         {
           id: '013',
@@ -2402,8 +2497,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '013',
             name: 'RHODE ISLAND VETERAN MEMORIAL CEMETERY',
             cemetery_type: 'S',
-            num: '013'
-          }
+            num: '013',
+          },
         },
         {
           id: '874',
@@ -2412,8 +2507,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '874',
             name: 'RICHMOND NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '874'
-          }
+            num: '874',
+          },
         },
         {
           id: '133',
@@ -2422,8 +2517,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '133',
             name: 'RIO GRANDE VALLEY STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '133'
-          }
+            num: '133',
+          },
         },
         {
           id: '901',
@@ -2432,8 +2527,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '901',
             name: 'RIVERSIDE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '901'
-          }
+            num: '901',
+          },
         },
         {
           id: '079',
@@ -2442,8 +2537,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '079',
             name: 'ROCK ISLAND CONFEDERATE CEMETERY',
             cemetery_type: 'P',
-            num: '079'
-          }
+            num: '079',
+          },
         },
         {
           id: '821',
@@ -2452,8 +2547,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '821',
             name: 'ROCK ISLAND NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '821'
-          }
+            num: '821',
+          },
         },
         {
           id: '005',
@@ -2462,8 +2557,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '005',
             name: 'ROCKY GAP VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '005'
-          }
+            num: '005',
+          },
         },
         {
           id: '902',
@@ -2472,8 +2567,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '902',
             name: 'ROSEBURG NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '902'
-          }
+            num: '902',
+          },
         },
         {
           id: '921',
@@ -2482,8 +2577,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '921',
             name: 'SACRAMENTO VALLEY VA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '921'
-          }
+            num: '921',
+          },
         },
         {
           id: '875',
@@ -2492,8 +2587,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '875',
             name: 'SAINT AUGUSTINE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '875'
-          }
+            num: '875',
+          },
         },
         {
           id: '876',
@@ -2502,8 +2597,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '876',
             name: 'SALISBURY NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '876'
-          }
+            num: '876',
+          },
         },
         {
           id: '877',
@@ -2512,8 +2607,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '877',
             name: 'SAN ANTONIO NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '877'
-          }
+            num: '877',
+          },
         },
         {
           id: '903',
@@ -2522,8 +2617,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '903',
             name: 'SAN FRANCISCO NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '903'
-          }
+            num: '903',
+          },
         },
         {
           id: '913',
@@ -2532,8 +2627,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '913',
             name: 'SAN JOAQUIN VALLEY NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '913'
-          }
+            num: '913',
+          },
         },
         {
           id: '085',
@@ -2542,8 +2637,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '085',
             name: 'SANDHILLS STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '085'
-          }
+            num: '085',
+          },
         },
         {
           id: '904',
@@ -2552,8 +2647,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '904',
             name: 'SANTA FE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '904'
-          }
+            num: '904',
+          },
         },
         {
           id: '931',
@@ -2562,8 +2657,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '931',
             name: 'SARASOTA VA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '931'
-          }
+            num: '931',
+          },
         },
         {
           id: '878',
@@ -2572,8 +2667,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '878',
             name: 'SEVEN PINES NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '878'
-          }
+            num: '878',
+          },
         },
         {
           id: '401',
@@ -2582,8 +2677,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '401',
             name: 'SICANGU AKICITA OWICAHE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '401'
-          }
+            num: '401',
+          },
         },
         {
           id: '905',
@@ -2592,8 +2687,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '905',
             name: 'SITKA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '905'
-          }
+            num: '905',
+          },
         },
         {
           id: '924',
@@ -2602,8 +2697,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '924',
             name: 'SOUTH FLORIDA VA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '924'
-          }
+            num: '924',
+          },
         },
         {
           id: '404',
@@ -2612,8 +2707,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '404',
             name: 'SOUTHEAST LOUISIANA VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '404'
-          }
+            num: '404',
+          },
         },
         {
           id: '098',
@@ -2622,8 +2717,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '098',
             name: 'SOUTHERN ARIZONA VETERANS MEMORIAL CEMETERY',
             cemetery_type: 'S',
-            num: '098'
-          }
+            num: '098',
+          },
         },
         {
           id: '389',
@@ -2632,8 +2727,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '389',
             name: 'SOUTHERN MAINE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '389'
-          }
+            num: '389',
+          },
         },
         {
           id: '045',
@@ -2642,8 +2737,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '045',
             name: 'SOUTHERN NEVADA VETERANS MEMORIAL CEMETERY',
             cemetery_type: 'S',
-            num: '045'
-          }
+            num: '045',
+          },
         },
         {
           id: '060',
@@ -2652,8 +2747,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '060',
             name: 'SOUTHERN WISCONSIN VETERANS MEMORIAL CEMETERY',
             cemetery_type: 'S',
-            num: '060'
-          }
+            num: '060',
+          },
         },
         {
           id: '186',
@@ -2662,8 +2757,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '186',
             name: 'SOUTHWEST VIRGINIA VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '186'
-          }
+            num: '186',
+          },
         },
         {
           id: '009',
@@ -2672,8 +2767,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '009',
             name: 'SPRING GROVE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '009'
-          }
+            num: '009',
+          },
         },
         {
           id: '879',
@@ -2682,8 +2777,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '879',
             name: 'SPRINGFIELD NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '879'
-          }
+            num: '879',
+          },
         },
         {
           id: '880',
@@ -2692,8 +2787,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '880',
             name: 'STAUNTON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '880'
-          }
+            num: '880',
+          },
         },
         {
           id: '919',
@@ -2702,8 +2797,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '919',
             name: 'TAHOMA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '919'
-          }
+            num: '919',
+          },
         },
         {
           id: '937',
@@ -2712,8 +2807,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '937',
             name: 'TALLAHASSEE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '937'
-          }
+            num: '937',
+          },
         },
         {
           id: '044',
@@ -2722,8 +2817,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '044',
             name: 'TENNESSEE STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '044'
-          }
+            num: '044',
+          },
         },
         {
           id: '273',
@@ -2732,8 +2827,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '273',
             name: 'TEXAS STATE VETERANS CEMETERY AT ABILENE',
             cemetery_type: 'S',
-            num: '273'
-          }
+            num: '273',
+          },
         },
         {
           id: '115',
@@ -2742,8 +2837,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '115',
             name: 'TN STATE VETERANS CEMETERY AT PARKERS CROSSROADS',
             cemetery_type: 'S',
-            num: '115'
-          }
+            num: '115',
+          },
         },
         {
           id: '822',
@@ -2752,8 +2847,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '822',
             name: 'TOGUS NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '822'
-          }
+            num: '822',
+          },
         },
         {
           id: '941',
@@ -2762,8 +2857,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '941',
             name: 'TWIN FALLS NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '941'
-          }
+            num: '941',
+          },
         },
         {
           id: '080',
@@ -2772,8 +2867,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '080',
             name: 'UNION CONFEDERATE MONUMENT SITE',
             cemetery_type: 'P',
-            num: '080'
-          }
+            num: '080',
+          },
         },
         {
           id: '408',
@@ -2782,8 +2877,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '408',
             name: 'US MILITARY ACADEMY CEMETERY',
             cemetery_type: 'M',
-            num: '408'
-          }
+            num: '408',
+          },
         },
         {
           id: '170',
@@ -2792,8 +2887,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '170',
             name: "US SOLDIERS' & AIRMEN'S HOME NATIONAL CEMETERY",
             cemetery_type: 'A',
-            num: '170'
-          }
+            num: '170',
+          },
         },
         {
           id: '038',
@@ -2802,8 +2897,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '038',
             name: 'UTAH STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '038'
-          }
+            num: '038',
+          },
         },
         {
           id: '027',
@@ -2812,8 +2907,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '027',
             name: 'VERMONT VETERANS HOME WAR MEMORIAL CEMETERY',
             cemetery_type: 'S',
-            num: '027'
-          }
+            num: '027',
+          },
         },
         {
           id: '399',
@@ -2822,8 +2917,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '399',
             name: 'VERMONT VETERANS MEMORIAL CEMETERY',
             cemetery_type: 'S',
-            num: '399'
-          }
+            num: '399',
+          },
         },
         {
           id: '097',
@@ -2832,8 +2927,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '097',
             name: 'VETERANS MEMORIAL CEMETERY OF WESTERN COLORADO',
             cemetery_type: 'S',
-            num: '097'
-          }
+            num: '097',
+          },
         },
         {
           id: '084',
@@ -2842,8 +2937,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '084',
             name: 'VIRGINIA VETERANS CEMETERY AT AMELIA',
             cemetery_type: 'S',
-            num: '084'
-          }
+            num: '084',
+          },
         },
         {
           id: '926',
@@ -2852,8 +2947,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '926',
             name: 'WASHINGTON CROSSING NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '926'
-          }
+            num: '926',
+          },
         },
         {
           id: '390',
@@ -2862,8 +2957,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '390',
             name: 'WASHINGTON STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '390'
-          }
+            num: '390',
+          },
         },
         {
           id: '048',
@@ -2872,8 +2967,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '048',
             name: 'WEST TENNESSEE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '048'
-          }
+            num: '048',
+          },
         },
         {
           id: '912',
@@ -2882,8 +2977,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '912',
             name: 'WEST VIRGINIA NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '912'
-          }
+            num: '912',
+          },
         },
         {
           id: '051',
@@ -2892,8 +2987,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '051',
             name: 'WESTERN CAROLINA STATE VETERAN CEMETERY',
             cemetery_type: 'S',
-            num: '051'
-          }
+            num: '051',
+          },
         },
         {
           id: '388',
@@ -2902,8 +2997,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '388',
             name: 'WESTERN MONTANA STATE VETERANS CEMETERY',
             cemetery_type: 'S',
-            num: '388'
-          }
+            num: '388',
+          },
         },
         {
           id: '907',
@@ -2912,8 +3007,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '907',
             name: 'WILLAMETTE NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '907'
-          }
+            num: '907',
+          },
         },
         {
           id: '881',
@@ -2922,8 +3017,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '881',
             name: 'WILMINGTON NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '881'
-          }
+            num: '881',
+          },
         },
         {
           id: '882',
@@ -2932,8 +3027,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '882',
             name: 'WINCHESTER NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '882'
-          }
+            num: '882',
+          },
         },
         {
           id: '823',
@@ -2942,8 +3037,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '823',
             name: 'WOOD NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '823'
-          }
+            num: '823',
+          },
         },
         {
           id: '071',
@@ -2952,8 +3047,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '071',
             name: 'WOODLAND CEMETERY',
             cemetery_type: 'P',
-            num: '071'
-          }
+            num: '071',
+          },
         },
         {
           id: '072',
@@ -2962,8 +3057,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '072',
             name: 'WOODLAWN CEMETERY',
             cemetery_type: 'P',
-            num: '072'
-          }
+            num: '072',
+          },
         },
         {
           id: '081',
@@ -2972,8 +3067,8 @@ function initGetCemeteriesMock() {
             cemetery_id: '081',
             name: 'WOODLAWN MONUMENT SITE',
             cemetery_type: 'P',
-            num: '081'
-          }
+            num: '081',
+          },
         },
         {
           id: '824',
@@ -2982,12 +3077,12 @@ function initGetCemeteriesMock() {
             cemetery_id: '824',
             name: 'WOODLAWN NATIONAL CEMETERY',
             cemetery_type: 'N',
-            num: '824'
-          }
+            num: '824',
+          },
           /* eslint-enable camelcase */
-        }
-      ]
-    }
+        },
+      ],
+    },
   });
 }
 
@@ -3003,5 +3098,5 @@ module.exports = {
 
   initApplicationSubmitMock,
   initDocumentUploadMock,
-  initGetCemeteriesMock
+  initGetCemeteriesMock,
 };

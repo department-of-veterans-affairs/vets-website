@@ -1,0 +1,18 @@
+<script>
+(function() {
+	function toggleAccordion(){
+	  var node = document.querySelector('.usa-accordion-bordered');
+	  var button = node.querySelector('button.usa-accordion-button-dark');
+	  var content = node.querySelector('.usa-accordion-content');
+	  var buttonOpen = button.getAttribute('aria-expanded') === 'true';
+	  var contentHidden = content.getAttribute('aria-hidden') === 'true';
+	  button.setAttribute('aria-expanded', `${!buttonOpen}`);
+	  content.setAttribute('aria-hidden', `${!contentHidden}`);
+	};
+	document.addEventListener('DOMContentLoaded', function() {
+	  if (window.innerWidth < 768) { // is Mobile
+	    toggleAccordion();
+	  }
+	});
+})()
+</script>

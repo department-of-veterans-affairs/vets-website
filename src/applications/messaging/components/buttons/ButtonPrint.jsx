@@ -16,8 +16,9 @@ class ButtonPrint extends React.Component {
       <button
         className="msg-btn-print"
         type="button"
-        onClick={this.handleClick}>
-        <i className="fa fa-print"></i>
+        onClick={this.handleClick}
+      >
+        <i className="fa fa-print" />
         <span>Print</span>
       </button>
     );

@@ -14,7 +14,8 @@ class MessageCategory extends React.Component {
           name="messageCategory"
           onValueChange={this.props.onValueChange}
           options={categories}
-          value={this.props.category}/>
+          value={this.props.category}
+        />
       </div>
     );
   }
@@ -29,15 +30,18 @@ MessageCategory.propTypes = {
       PropTypes.string,
       PropTypes.shape({
         label: PropTypes.string,
-        value: PropTypes.number }),
+        value: PropTypes.number,
+      }),
       PropTypes.shape({
         label: PropTypes.string,
-        value: PropTypes.string }),
-    ])).isRequired,
+        value: PropTypes.string,
+      }),
+    ]),
+  ).isRequired,
   category: PropTypes.shape({
     value: PropTypes.string,
-    dirty: PropTypes.bool
-  }).isRequired
+    dirty: PropTypes.bool,
+  }).isRequired,
 };
 
 export default MessageCategory;

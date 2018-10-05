@@ -1,40 +1,37 @@
+import camelCaseKeysRecursive from 'camelcase-keys-recursive';
+
 import recordEvent from '../../../monitoring/record-event';
-import camelCaseObjectKeys from '../../../utilities/data/camelCaseObjectKeys';
 import conditionalStorage from '../../../utilities/storage/conditionalStorage';
-import { isVet360Configured, mockContactInformation } from '../../../../applications/personalization/profile360/vet360/util/local-vet360';
+import {
+  isVet360Configured,
+  mockContactInformation,
+} from '../../../../applications/personalization/profile360/vet360/util/local-vet360';
 
 export function mapRawUserDataToState(json) {
   const {
     data: {
       attributes: {
-        health_terms_current: healthTermsCurrent,
-        in_progress_forms: savedForms,
-        mhv_account_state: mhvAccountState,
-        prefills_available: prefillsAvailable,
+        inProgressForms: savedForms,
+        prefillsAvailable,
         profile: {
-          authn_context: authnContext,
-          birth_date: dob,
+          authnContext,
+          birthDate: dob,
           email,
-          first_name: first,
+          firstName: first,
           gender,
-          last_name: last,
+          lastName: last,
           loa,
-          middle_name: middle,
+          middleName: middle,
           multifactor,
-          verified
+          verified,
         },
         services,
-        va_profile: {
-          status
-        },
-        vet360_contact_information: vet360ContactInformation,
-        veteran_status: {
-          is_veteran: isVeteran,
-          status: veteranStatus
-        },
-      }
-    }
-  } = json;
+        vaProfile: { status },
+        vet360ContactInformation,
+        veteranStatus: { isVeteran, status: veteranStatus, servedInMilitary },
+      },
+    },
+  } = camelCaseKeysRecursive(json);
 
   return {
     accountType: loa.current,
@@ -44,14 +41,6 @@ export function mapRawUserDataToState(json) {
     gender,
     isVeteran,
     loa,
-    mhv: {
-      account: {
-        state: mhvAccountState
-      },
-      terms: {
-        accepted: healthTermsCurrent
-      }
-    },
     multifactor,
     prefillsAvailable,
     savedForms,
@@ -60,14 +49,17 @@ export function mapRawUserDataToState(json) {
     userFullName: {
       first,
       middle,
-      last
+      last,
     },
     verified,
-    vet360: isVet360Configured() ? camelCaseObjectKeys(vet360ContactInformation) : camelCaseObjectKeys(mockContactInformation),
+    vet360: isVet360Configured()
+      ? vet360ContactInformation
+      : mockContactInformation,
     veteranStatus: {
       isVeteran,
-      veteranStatus
-    }
+      veteranStatus,
+      servedInMilitary,
+    },
   };
 }
 

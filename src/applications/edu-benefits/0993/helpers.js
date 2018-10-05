@@ -1,4 +1,5 @@
 // import _ from 'lodash/fp';
+import React from 'react';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 export function prefillTransformer(pages, formData, metadata) {
@@ -12,7 +13,7 @@ export function prefillTransformer(pages, formData, metadata) {
   return {
     metadata,
     formData,
-    pages
+    pages,
   };
 }
 
@@ -20,7 +21,18 @@ export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
     educationBenefitsClaim: {
-      form: formData
-    }
+      form: formData,
+    },
   });
 }
+
+// disabling jsx-ally/no-noninteractive-tabindex for warning that screen readers should stop on
+/* eslint-disable */
+export const tabIndexedTitle = title => (<div
+  className="schemaform-block-subtitle schemaform-block-title"
+  tabIndex="0">
+  <p>
+    {title}
+  </p>
+</div>);
+/* eslint-enable */

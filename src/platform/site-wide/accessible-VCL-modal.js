@@ -2,13 +2,13 @@ import {
   isEscape,
   isTab,
   isReverseTab,
-  getTabbableElements
+  getTabbableElements,
 } from '../utilities/accessibility';
 
 /*
  * Creates function that captures/releases Veterans Crisis Line modal focus.
  */
-document.addEventListener('DOMContentLoaded', () => {
+export function addFocusBehaviorToCrisisLineModal() {
   const overlay = document.getElementById('modal-crisisline');
   const modal = document.querySelector('.va-crisis-panel.va-modal-inner');
   const tabbableElements = getTabbableElements(modal);
@@ -49,4 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
   modal.addEventListener('keydown', closeModal);
   closeControl.addEventListener('keydown', captureFocus);
   lastTabbableElement.addEventListener('keydown', captureFocus);
-});
+}
+
+document.addEventListener(
+  'DOMContentLoaded',
+  addFocusBehaviorToCrisisLineModal,
+);

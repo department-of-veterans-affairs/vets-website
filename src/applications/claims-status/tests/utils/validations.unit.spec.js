@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 
-import { isValidFileSize, isValidFileType, isValidFile, isValidDocument } from '../../utils/validations';
+import {
+  isValidFileSize,
+  isValidFileType,
+  isValidFile,
+  isValidDocument,
+} from '../../utils/validations';
 
 describe('Claims status validation:', () => {
   describe('isValidFileSize', () => {
@@ -12,21 +17,21 @@ describe('Claims status validation:', () => {
   describe('isValidFileType', () => {
     it('should check that file has a valid type', () => {
       const result = isValidFileType({
-        name: 'testing.jpg'
+        name: 'testing.jpg',
       });
 
       expect(result).to.be.true;
     });
     it('should check that file has an invalid type', () => {
       const result = isValidFileType({
-        name: 'testing.exe'
+        name: 'testing.exe',
       });
 
       expect(result).to.be.false;
     });
     it('should check that file has a valid type regardless of case', () => {
       const result = isValidFileType({
-        name: 'testing.JPG'
+        name: 'testing.JPG',
       });
 
       expect(result).to.be.true;
@@ -36,7 +41,7 @@ describe('Claims status validation:', () => {
     it('should validate file for size and type', () => {
       const result = isValidFile({
         name: 'testing.jpg',
-        size: 10
+        size: 10,
       });
 
       expect(result).to.be.true;
@@ -52,11 +57,11 @@ describe('Claims status validation:', () => {
       const result = isValidDocument({
         file: {
           name: 'test.jpg',
-          size: 10
+          size: 10,
         },
         docType: {
-          value: ''
-        }
+          value: '',
+        },
       });
 
       expect(result).to.be.false;
@@ -65,11 +70,11 @@ describe('Claims status validation:', () => {
       const result = isValidDocument({
         file: {
           name: 'test.jpg',
-          size: 10
+          size: 10,
         },
         docType: {
-          value: 'L101'
-        }
+          value: 'L101',
+        },
       });
 
       expect(result).to.be.true;
