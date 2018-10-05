@@ -1,5 +1,5 @@
 import React from 'react';
-import { ptsdNameTitle } from '../helpers';
+import { PtsdNameTitle } from '../helpers';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 const otherSourcesSecondaryDescription = (
@@ -44,7 +44,9 @@ const otherSourcesSecondaryHelp = (
 );
 
 export const uiSchema = {
-  'ui:title': ptsdNameTitle,
+  'ui:title': ({ formData }) => (
+    <PtsdNameTitle formData={formData} formType="781a" />
+  ),
   'ui:description': otherSourcesSecondaryDescription,
   gatherInformation: {
     'ui:title': 'Would you like us to help you gather this information?',

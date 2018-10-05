@@ -1,7 +1,10 @@
-import { ptsdNameTitle, stressfullIncidentDescriptionTitle } from '../helpers';
+import React from 'react';
+import { PtsdNameTitle, stressfullIncidentDescriptionTitle } from '../helpers';
 
 export const uiSchema = {
-  'ui:title': ptsdNameTitle,
+  'ui:title': ({ formData }) => (
+    <PtsdNameTitle formData={formData} formType="781a" />
+  ),
   'ui:description': stressfullIncidentDescriptionTitle,
   secondaryIncidentDescription: {
     'ui:title':

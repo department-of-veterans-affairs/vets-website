@@ -21,6 +21,8 @@ import {
   ptsdSecondaryChoice,
   uploadPtsd,
   uploadPtsdSecondary,
+  informationInterviewCombat,
+  informationInterviewAssault,
   stressfulIncSecDesc,
   otherSourcesSecondary,
 } from '../pages';
@@ -42,10 +44,9 @@ const formConfig = {
   title: 'Apply for increased disability compensation',
   chapters: {
     introductionPage: {
-      title: 'Disability Details',
       pages: {
         ptsdIntroduction: {
-          'ui:title': '',
+          title: 'Disability Details',
           path: 'info',
           uiSchema: {
             'ui:description': introductionText,
@@ -80,6 +81,16 @@ const formConfig = {
           uiSchema: uploadPtsd.uiSchema,
           schema: uploadPtsd.schema,
         },
+        informationInterviewCombat: {
+          path: 'information-781',
+          title: 'Disability Details',
+          depends: form =>
+            form['view:uploadPtsdChoice'] === 'answerQuestions' &&
+            (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
+              form['view:selectablePtsdTypes']['view:noncombatPtsdType']),
+          uiSchema: informationInterviewCombat.uiSchema,
+          schema: informationInterviewCombat.schema,
+        },
         ptsdSecondaryChoice: {
           path: 'ptsdSecondaryChoice',
           title: 'Disability Details',
@@ -99,13 +110,18 @@ const formConfig = {
           uiSchema: uploadPtsdSecondary.uiSchema,
           schema: uploadPtsdSecondary.schema,
         },
-        stressfulIncidentSecondaryDescription: {
-          path: 'stressful-incident-secondary-description',
+        informationInterviewAssault: {
+          path: 'information-781a',
           title: 'Disability Details',
           depends: form =>
             form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' &&
             (form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
               form['view:selectablePtsdTypes']['view:assaultPtsdType']),
+          uiSchema: informationInterviewAssault.uiSchema,
+          schema: informationInterviewAssault.schema,
+        },
+        stressfulIncidentSecondaryDescription: {
+          path: 'stressful-incident-secondary-description',
           uiSchema: stressfulIncSecDesc.uiSchema,
           schema: stressfulIncSecDesc.schema,
         },
@@ -119,6 +135,21 @@ const formConfig = {
           uiSchema: otherSourcesSecondary.uiSchema,
           schema: otherSourcesSecondary.schema,
         },
+        // medals: { //TODO: KEEP FOR NEXT STORY
+        //   path: 'information-781',
+        //   title: 'Disability Details',
+        //   depends: form =>
+        //     form['view:uploadPtsdChoice'] === 'answerQuestions' &&
+        //     (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
+        //       form['view:selectablePtsdTypes']['view:noncombatPtsdType']),
+        //   uiSchema: {
+        //     'ui:description': 'Medals or Citations',
+        //   },
+        //   schema: {
+        //     type: 'object',
+        //     properties: {},
+        //   },
+        // },
       },
     },
   },
