@@ -16,8 +16,8 @@ Find out how to view your payment history for VA benefits.
   <div class="usa-alert-body">
     <h4 class="usa-alert-heading">You’ll need to sign in to eBenefits to view your payment history.</h4>
   <p class="usa-alert-text"><br>
-    To use this feature, you'll need a premium <b>DS Logon</b> account. Your MyHealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>
-      <button class="usa-button-primary">Go to eBenefits</button>
+    To use this feature, you'll need a Premium <b>DS Logon</b> account. Your My HealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your <b>DS Logon</b> account to Premium.<br>
+      <button class="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history">Go to eBenefits to View Payments</button>
     </p>
   </div>
 </div>
