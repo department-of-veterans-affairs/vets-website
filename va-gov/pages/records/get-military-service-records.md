@@ -37,7 +37,7 @@ Find out how to access to your military records, including your DD214, through o
   <div class="usa-alert-body">
     <h4 class="usa-alert-heading">You’ll need to sign in to eBenefits to get your service records</h4>
     <br>
-  <p class="usa-alert-text">To use this feature, you'll need a premium <b>DS Logon</b> account. Your MyHealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>
+  <p class="usa-alert-text">To use this feature, you'll need a Premium <b>DS Logon</b> account. Your My HealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your <b>DS Logon</b> account to Premium.<br>
       <a class="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file">Go to eBenefits to Get Your Records</a>
     </p>
   </div>
@@ -78,9 +78,9 @@ You can review and print documents from your Official Military Personnel File.
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You’ll need to have a premium <b>DS Logon</b> account (used for eBenefits and milConnect).
+You’ll need to have a Premium <b>DS Logon</b> account (used for eBenefits and milConnect).
 
-If you don’t have a premium DS Logon account, find out how to create or upgrade an account on eBenefits. <br>
+If you don’t have a Premium DS Logon account, find out how to create or upgrade an account on eBenefits. <br>
 <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=military-personnel-file">Go to eBenefits</a>.
 
 </div>
