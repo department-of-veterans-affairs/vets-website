@@ -3,7 +3,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation/Additional
 
 export const getPtsdClassification = (formData, formType) => {
   const classifications = formData['view:selectablePtsdTypes'];
-  let incidentTitle;
+  let incidentTitle = 'PTSD: ';
   let incidentText;
   const is781 = formType === '781';
 
@@ -11,7 +11,7 @@ export const getPtsdClassification = (formData, formType) => {
     case classifications['view:combatPtsdType'] &&
       classifications['view:noncombatPtsdType'] &&
       is781:
-      incidentTitle =
+      incidentTitle +=
         'Combat & Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
 
       incidentText =
@@ -21,29 +21,29 @@ export const getPtsdClassification = (formData, formType) => {
     case classifications['view:assaultPtsdType'] &&
       classifications['view:mstPtsdType'] &&
       !is781:
-      incidentTitle = 'Personal Assault & Military Sexual Trauma';
+      incidentTitle += 'Personal Assault & Military Sexual Trauma';
       incidentText = 'Personal Assault and Military Sexual Trauma';
       break;
 
     case classifications['view:combatPtsdType'] && is781:
-      incidentTitle = 'Combat';
+      incidentTitle += 'Combat';
       incidentText = 'Combat';
       break;
 
     case classifications['view:noncombatPtsdType'] && is781:
-      incidentTitle =
+      incidentTitle +=
         'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
       incidentText =
         'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
       break;
 
     case classifications['view:assaultPtsdType'] && !is781:
-      incidentTitle = 'Personal Assault';
+      incidentTitle += 'Personal Assault';
       incidentText = 'Personal Assault';
       break;
 
     case classifications['view:mstPtsdType'] && !is781:
-      incidentTitle = 'Military Sexual Trauma';
+      incidentTitle += 'Military Sexual Trauma';
       incidentText = 'Military Sexual Trauma';
       break;
 
