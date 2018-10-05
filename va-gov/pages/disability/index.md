@@ -136,7 +136,7 @@ VA disability compensation (pay) offers a monthly tax-free payment to Veterans w
   </div>
 
   <div class="link">
-    <a href="#"><b>Add or Remove a Dependent</b></a>
+    <a href="#todo-brand-consolidation"><b>Add or Remove a Dependent</b></a>
     <p>Find out how and when to add a dependent spouse, child, or parent to your VA disability benefits. Also learn how to remove a dependent from your benefits.</p>
   </div>
 
