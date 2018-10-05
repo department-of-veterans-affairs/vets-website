@@ -129,19 +129,21 @@ export function transform(formConfig, form) {
     'view:selectableEvidenceTypes.view:vaMedicalRecords',
   );
 
+  const attachments = additionalDocuments.concat(privateRecords);
+
   const transformedData = {
     disabilities: disabilities
       .filter(disability => disability['view:selected'] === true)
       .map(filtered => pick(filtered, disabilityProperties)),
     // Pull phone & email out of phoneEmailCard and into veteran property
     veteran: setPhoneEmailPaths(veteran),
-    attachments: additionalDocuments.concat(privateRecords),
     privacyAgreementAccepted,
     serviceInformation,
     standardClaim,
     // treatments has a minItems: 1 requirement so only include the property
     // if there is at least one treatment to send
     ...(treatments.length && { treatments }),
+    ...(attachments.length && { attachments }),
   };
 
   const withoutViewFields = filterViewFields(transformedData);
