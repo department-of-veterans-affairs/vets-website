@@ -17,7 +17,11 @@ describe('Add Secondary Stressful Incident Description', () => {
         definitions={formConfig}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={{
+          'view:selectablePtsdTypes': {
+            'view:combatPtsdType': true,
+          },
+        }}
         formData={{}}
       />,
     );
@@ -33,7 +37,11 @@ describe('Add Secondary Stressful Incident Description', () => {
         definitions={formConfig}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={{
+          'view:selectablePtsdTypes': {
+            'view:combatPtsdType': true,
+          },
+        }}
         formData={{}}
         onSubmit={onSubmit}
       />,
