@@ -14,8 +14,21 @@ import { getFormAuthorizationState } from '../../../../applications/personalizat
 import AuthorizationMessage from './AuthorizationMessage';
 
 class AuthorizationComponent extends React.Component {
+  componentDidMount() {
+    if (
+      this.props.formConfig &&
+      !this.props.profileIsLoading &&
+      !this.props.loadedStatus
+    ) {
+      this.props.authorize();
+    }
+  }
   componentWillUpdate() {
-    if (this.props.formConfig && !this.props.profileIsLoading) {
+    if (
+      this.props.formConfig &&
+      !this.props.profileIsLoading &&
+      !this.props.loadedStatus
+    ) {
       this.props.authorize();
     }
   }
