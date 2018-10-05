@@ -15,12 +15,7 @@ export function addFocusBehaviorToCrisisLineModal() {
   let openControl;
   const closeControl = tabbableElements[0];
   const lastTabbableElement = tabbableElements[tabbableElements.length - 1];
-
-  function setOpenControl(e) {
-    if (e.target.classList.contains('va-overlay-trigger')) {
-      openControl = e.target;
-    }
-  }
+  const triggers = document.querySelectorAll('[data-show="#modal-crisisline"]');
 
   function captureFocus(e) {
     if (e.target === closeControl) {
@@ -45,8 +40,18 @@ export function addFocusBehaviorToCrisisLineModal() {
     }
   }
 
-  document.body.addEventListener('click', setOpenControl);
+  function resetFocus() {
+    openControl.focus();
+  }
+
+  triggers.forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      openControl = trigger;
+    });
+  });
+
   modal.addEventListener('keydown', closeModal);
+  closeControl.addEventListener('click', resetFocus);
   closeControl.addEventListener('keydown', captureFocus);
   lastTabbableElement.addEventListener('keydown', captureFocus);
 }
