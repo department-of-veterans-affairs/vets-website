@@ -333,6 +333,9 @@
 
   // mobile
   @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
+    .va-sidebarnav {
+      display: none;
+    }
 
     button {
       &.va-sidebarnav-close {
@@ -582,7 +585,8 @@
 
     .va-sidebarnav--opened {
       position: fixed;
-      z-index: 1;
+      display: initial;
+      z-index: 1000;
     }
     .va-navigation-nextprevious {
       padding-left: 0.9375rem;
