@@ -55,7 +55,7 @@ export default class ITFBanner extends React.Component {
     }
 
     return (
-      <div className="usa-grid">
+      <div className="usa-grid" style={{ marginBottom: '2em' }}>
         {message}
         {this.props.status !== 'error' && (
           <button className="usa-button-primary" onClick={this.dismissMessage}>
