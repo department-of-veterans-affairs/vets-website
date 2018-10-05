@@ -12,6 +12,8 @@ order: 1
 <div class="va-introtext">
  
 A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offered to Veterans at many restaurants, hotels, stores, and other businesses. Find out if you’re eligible for a Veteran ID Card—and how to apply.
+
+**Please note:** It’s voluntary for retail vendors to take part in this discount program. If a business decides to provide discounts to Veterans, it doesn’t mean that we’re recommending or favoring that business.
 </div>
 
 
@@ -27,7 +29,6 @@ If you received an other than honorable, bad conduct, or dishonorable character 
 
 You’ll need to provide a copy of your discharge papers when you apply for a VIC to prove your character of discharge.
 
-**Please note:** Retail vendors' acceptance of the VIC is voluntary and doesn't reflect an endorsement, favoring, or recommendation by VA. 
 
 ### How do I apply for a Veteran ID Card?
 
@@ -107,7 +108,7 @@ You can’t use your Veteran ID Card to:
 - Prove your eligibility for any federal benefits, **or**
 -	Access military bases or installations, **or**
 - Access military commissaries or exchanges, **or** 
-- Use as form of identification at the airport, **or**
+- Present as form of identification at the airport, **or**
 - Check into a VA hospital, **or** 
 - Show proof of retirement from the Armed Forces, **or**
 - Show proof of wartime service to get a special license plate from the Department of Motor Vehicles 
