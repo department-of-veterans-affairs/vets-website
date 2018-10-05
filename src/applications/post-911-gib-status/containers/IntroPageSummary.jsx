@@ -1,9 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import * as navActions from '../../../platform/site-wide/user-nav/actions';
-import * as userSelectors from '../../../platform/user/selectors';
+import CallToActionWidget from '../../../platform/site-wide/cta-widget';
 
 export function VetsDotGovSummary() {
   // TODO: Determine whether h2 is right--accessibility-wise, it is, but it's larger than the design
@@ -55,52 +53,7 @@ export function VetsDotGovSummary() {
   );
 }
 
-function BrandConsolidationSummary({
-  toggleLoginModal,
-  isProfileLoading,
-  isLoggedIn,
-  isLOA3,
-}) {
-  let signInButton = (
-    <button className="usa-button-primary" disabled>
-      Loading your profile <i className="fa fa-spin fa-spinner" />
-    </button>
-  );
-
-  if (!isProfileLoading) {
-    if (isLoggedIn) {
-      if (isLOA3) {
-        signInButton = (
-          <Link
-            id="viewGIBS"
-            to="status"
-            className="usa-button va-button-primary"
-          >
-            View Your GI Bill Benefits
-          </Link>
-        );
-      } else {
-        signInButton = (
-          <a
-            className="usa-button-primary verify-link"
-            href={`/verify?next=${window.location.pathname}`}
-          >
-            Verify Your Identity
-          </a>
-        );
-      }
-    } else {
-      signInButton = (
-        <button
-          onClick={() => toggleLoginModal(true)}
-          className="usa-button-primary"
-        >
-          Sign In to Check Your Benefits
-        </button>
-      );
-    }
-  }
-
+export default function BrandConsolidationSummary() {
   return (
     <div itemScope itemType="http://schema.org/FAQPage">
       <div itemProp="description" className="va-introtext">
@@ -113,14 +66,7 @@ function BrandConsolidationSummary({
           training.
         </p>
       </div>
-      <div className="va-sign-in-alert usa-alert usa-alert-info">
-        <div className="usa-alert-body">
-          <h4 className="usa-alert-heading">
-            You’ll need to sign in before you can check your benefits online.
-          </h4>
-          <p className="usa-alert-text">{signInButton}</p>
-        </div>
-      </div>
+      <CallToActionWidget appId="gi-bill-benefits" />
       <p>
         <strong>Note:</strong> This tool is available Sunday through Friday,
         6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).
@@ -251,22 +197,3 @@ function BrandConsolidationSummary({
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return {
-    isLoggedIn: userSelectors.isLoggedIn(state),
-    isLOA3: userSelectors.isLOA3(state),
-    isProfileLoading: userSelectors.isProfileLoading(state),
-  };
-}
-
-const mapDispatchToProps = {
-  toggleLoginModal: navActions.toggleLoginModal,
-};
-
-const BrandConsolidationSummaryContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(BrandConsolidationSummary);
-
-export default BrandConsolidationSummaryContainer;

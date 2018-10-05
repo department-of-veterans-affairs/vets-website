@@ -6,7 +6,7 @@ display_title: Records
 concurrence: complete
 lastupdate:
 order: 1
-icon: id-card
+icon: icon-large white fa fa-id-card hub-background-records
 promo:
   - image: /img/megamenu/records-illustration.png
     heading: Veteran ID Card

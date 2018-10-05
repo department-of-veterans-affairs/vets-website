@@ -25,8 +25,8 @@
   }
   $color-primary-lightest: #e1f3f8;
 
-  @import 'iconography';
-  @import 'right-rail';
+  @import "iconography";
+  @import "right-rail";
 
   .vetnav-panel {
     @include media($medium-large-screen) {
@@ -42,7 +42,7 @@
 
   .va-header-logo {
     width: 264px;
-    height:auto;
+    height: auto;
   }
 
   article {
@@ -71,18 +71,17 @@
   /* new pattern? where we use old VA icons with h3 */
   .va-icon-header {
 
-    width:100%;
+    width: 100%;
     height: 40px;
     margin-left: -6px;
 
     .va-icon-icon {
       margin: 0;
       padding: 0;
-
       display: inline;
       float: left;
-      width:12%;
-      height:auto;
+      width: 12%;
+      height: auto;
     }
 
     .va-icon-h {
@@ -94,7 +93,7 @@
 
   .va-icon-cols {
     p {
-      margin-top:0;
+      margin-top: 0;
     }
 
     padding-bottom: 3em;
@@ -106,14 +105,9 @@
 
   #homepage-hub {
 
-    background: #0071bb; /* Old browsers */
-    background: -moz-linear-gradient(top, #0071bb 0%, #112e51 63%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #0071bb 0%,#112e51 63%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #0071bb 0%,#112e51 63%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0071bb', endColorstr='#112e51',GradientType=0 ); /* IE6-9 */
+    @include linear-gradient-background($color-old-browser-background-start, $color-old-browser-background-end);
 
     padding-top: 3em;
-    padding-bottom: 3em;
 
     #hub-internal {
 
@@ -154,12 +148,6 @@
     }
   }
 
-  #homepage-hero {
-    background-color: $color-primary-darker;
-    text-align: center;
-    padding-top: 1.5em;
-  }
-
   h3, h4 {
     .fa {
       padding-right: .35em;
@@ -183,9 +171,9 @@
         display: inline-block;
 
         a {
-          color: white;
+          color: $color-white;
           &:visited {
-            color: white;
+            color: $color-white;
           }
         }
         &:after {
@@ -289,8 +277,8 @@
 
     .va-footer-logo {
       img {
-        width:200px;
-        height:auto;
+        width: 200px;
+        height: auto;
       }
     }
   }
@@ -458,7 +446,6 @@
     #homepage-hub {
 
       padding-top: 1.5em;
-      padding-bottom: 1em;
 
       #hub-internal {
 
@@ -572,7 +559,7 @@
         button {
           border-top: 3px solid transparent;
           border-bottom: 3px solid transparent;
-          color: #fff;
+          color: $color-white;
           cursor: pointer;
           display: block;
           margin: 0;
@@ -836,7 +823,7 @@
 
     .usa-sidenav-list {
       a.usa-current {
-        border-left: 0.4rem solid #0071BB;
+        border-left: 0.4rem solid $color-light-blue;
         padding-left: 8px;
         margin-left: 16px;
 
@@ -848,7 +835,6 @@
     }
     .fa {
       position: relative;
-      color: $color-white;
       border-radius: 50%;
 
       &.icon-small {
@@ -875,8 +861,6 @@
       }
 
       &.fa-medkit {
-        background-color: $color-primary;
-
         &.icon-small {
           &::before {
             margin-top: 6px;
@@ -891,7 +875,7 @@
   }
   .va-sidebarnav {
     .usa-accordion-button {
-      background-color: white;
+      background-color: $color-white;
       border-top: 1px solid $color-gray-lighter;
       border-bottom: 1px solid $color-gray-lighter;
       background-size: 1.1rem;
@@ -953,8 +937,10 @@
   .hub-links-container {
     min-height: 250px;
   }
+  .white {
+    color: $color-white;
+  }
 }
-
 .usa-accordion-bordered {
   .fa {
     color: $color-link-default;
