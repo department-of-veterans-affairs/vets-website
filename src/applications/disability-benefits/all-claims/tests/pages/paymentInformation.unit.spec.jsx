@@ -3,13 +3,16 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 
 import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils';
-import { mockApiRequest, resetFetch } from '../../../../../platform/testing/unit/helpers';
+import {
+  mockApiRequest,
+  resetFetch,
+} from '../../../../../platform/testing/unit/helpers';
 
 import formConfig from '../../config/form.js';
 
 const {
   schema,
-  uiSchema
+  uiSchema,
 } = formConfig.chapters.additionalInformation.pages.paymentInformation;
 
 const originalFetch = global.fetch;
@@ -21,16 +24,18 @@ describe('526 -- fetchPaymentInformation', () => {
     mockApiRequest({
       data: {
         attributes: {
-          responses: [{
-            paymentAccount: {
-              accountType: 'checking',
-              accountNumber: '1234567890',
-              financialInstitutionRoutingNumber: '0987654321',
-              financialInstitutionName: 'Some bank'
-            }
-          }]
-        }
-      }
+          responses: [
+            {
+              paymentAccount: {
+                accountType: 'checking',
+                accountNumber: '1234567890',
+                financialInstitutionRoutingNumber: '0987654321',
+                financialInstitutionName: 'Some bank',
+              },
+            },
+          ],
+        },
+      },
     });
   });
 
@@ -42,26 +47,27 @@ describe('526 -- fetchPaymentInformation', () => {
     global.fetch = originalFetch;
   });
 
-
   it('should fetch payment information from the api', () => {
     mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     // expect(global.fetch.calledWith('/ppiu/payment_information')).to.be.true;
     expect(global.fetch.called).to.be.true;
   });
 
-  it('should display masked payment information', (done) => {
+  it('should display masked payment information', done => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     setTimeout(() => {
       const text = form.text();

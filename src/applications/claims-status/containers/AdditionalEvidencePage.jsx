@@ -22,7 +22,7 @@ import {
   getClaimDetail,
   setFieldsDirty,
   resetUploads,
-  clearNotification
+  clearNotification,
 } from '../actions/index.jsx';
 
 const scrollToError = () => {
@@ -67,7 +67,12 @@ class AdditionalEvidencePage extends React.Component {
     let content;
 
     if (this.props.loading) {
-      content = <LoadingIndicator setFocus message="Loading your claim information..."/>;
+      content = (
+        <LoadingIndicator
+          setFocus
+          message="Loading your claim information..."
+        />
+      );
     } else {
       const claim = this.props.claim;
       const filesPath = `your-claims/${claim.id}/files`;
@@ -79,21 +84,30 @@ class AdditionalEvidencePage extends React.Component {
           <div className="row">
             <div className="medium-12 columns">
               <Breadcrumbs>
-                <li><Link to={claimsPath}>Your Claims</Link></li>
-                <li><Link to={filesPath}>Your {getClaimType(claim)} Claim</Link></li>
+                <li>
+                  <Link to={claimsPath}>Your Claims</Link>
+                </li>
+                <li>
+                  <Link to={filesPath}>Your {getClaimType(claim)} Claim</Link>
+                </li>
               </Breadcrumbs>
             </div>
           </div>
           <div className="row">
             <div className="usa-width-two-thirds medium-8 columns">
               <div className="claim-container">
-                {message &&
+                {message && (
                   <div>
-                    <Element name="uploadError"/>
-                    <Notification title={message.title} body={message.body} type={message.type}/>
-                  </div>}
+                    <Element name="uploadError" />
+                    <Notification
+                      title={message.title}
+                      body={message.body}
+                      type={message.type}
+                    />
+                  </div>
+                )}
                 <h1 className="claims-header">Additional evidence</h1>
-                <EvidenceWarning/>
+                <EvidenceWarning />
                 <AddFilesForm
                   field={this.props.uploadField}
                   progress={this.props.progress}
@@ -101,21 +115,24 @@ class AdditionalEvidencePage extends React.Component {
                   files={this.props.files}
                   showMailOrFax={this.props.showMailOrFax}
                   backUrl={this.props.lastPage || filesPath}
-                  onSubmit={() => this.props.submitFiles(
-                    this.props.claim.id,
-                    null,
-                    this.props.files
-                  )}
+                  onSubmit={() =>
+                    this.props.submitFiles(
+                      this.props.claim.id,
+                      null,
+                      this.props.files,
+                    )
+                  }
                   onAddFile={this.props.addFile}
                   onRemoveFile={this.props.removeFile}
                   onFieldChange={this.props.updateField}
                   onShowMailOrFax={this.props.showMailOrFaxModal}
                   onCancel={this.props.cancelUpload}
-                  onDirtyFields={this.props.setFieldsDirty}/>
+                  onDirtyFields={this.props.setFieldsDirty}
+                />
               </div>
             </div>
             <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
-              <AskVAQuestions/>
+              <AskVAQuestions />
             </div>
           </div>
         </div>
@@ -124,7 +141,7 @@ class AdditionalEvidencePage extends React.Component {
 
     return (
       <div>
-        <div name="topScrollElement"></div>
+        <div name="topScrollElement" />
         {content}
       </div>
     );
@@ -144,7 +161,7 @@ function mapStateToProps(state) {
     uploadField: claimsState.uploads.uploadField,
     showMailOrFax: claimsState.uploads.showMailOrFax,
     lastPage: claimsState.routing.lastPage,
-    message: claimsState.notifications.message
+    message: claimsState.notifications.message,
   };
 }
 
@@ -158,9 +175,14 @@ const mapDispatchToProps = {
   getClaimDetail,
   setFieldsDirty,
   resetUploads,
-  clearNotification
+  clearNotification,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AdditionalEvidencePage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AdditionalEvidencePage),
+);
 
 export { AdditionalEvidencePage };

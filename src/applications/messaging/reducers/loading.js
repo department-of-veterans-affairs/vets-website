@@ -51,7 +51,7 @@ const initialState = {
   movingMessage: false,
   savingDraft: false,
   savingPreferences: false,
-  sendingMessage: false
+  sendingMessage: false,
 };
 
 export default function loading(state = initialState, action) {

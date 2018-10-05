@@ -11,7 +11,7 @@ export const ITF_CREATION_SUCCEEDED = 'ITF_CREATION_SUCCEEDED';
 export const ITF_CREATION_FAILED = 'ITF_CREATION_FAILED';
 
 export function fetchITF() {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({ type: ITF_FETCH_INITIATED });
 
     return apiRequest(
@@ -21,13 +21,13 @@ export function fetchITF() {
       () => {
         Raven.captureMessage('itf_fetch_failed');
         dispatch({ type: ITF_FETCH_FAILED });
-      }
+      },
     );
   };
 }
 
 export function createITF() {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({ type: ITF_CREATION_INITIATED });
 
     return apiRequest(
@@ -37,7 +37,7 @@ export function createITF() {
       () => {
         Raven.captureMessage('itf_creation_failed');
         dispatch({ type: ITF_CREATION_FAILED });
-      }
+      },
     );
   };
 }

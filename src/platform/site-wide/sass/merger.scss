@@ -25,8 +25,8 @@
   }
   $color-primary-lightest: #e1f3f8;
 
-  @import 'iconography';
-  @import 'right-rail';
+  @import "iconography";
+  @import "right-rail";
 
   .vetnav-panel {
     @include media($medium-large-screen) {
@@ -42,7 +42,7 @@
 
   .va-header-logo {
     width: 264px;
-    height:auto;
+    height: auto;
   }
 
   article {
@@ -61,59 +61,6 @@
     }
   }
 
-  #mega-menu {
-
-    @include media($medium-large-screen) {
-      .vetnav-panel--submenu:not([hidden]) {
-        h3 {
-          font-family: Source Sans Pro, sans serif;
-          font-size: 1.6rem;
-        }
-      }
-    }
-
-    #vetnav-menu, #vetnav {
-      margin-top: 0;
-        width: 100%;
-    }
-
-    .my-va-top-nav {
-      margin-left: auto;
-      &.current-page {
-        margin-left: auto;
-      }
-    }
-
-    .current-page {
-      border-bottom: 5px solid;
-      border-color: $color-blue;
-      margin-left: 1.6rem;
-      margin-right: 1.6rem;
-      a {
-        padding: 1.6rem 0;
-      }
-    }
-
-    .mm-marketing-container {
-      height: 350px;
-
-      p {
-        margin-top: 5px;
-      }
-    }
-
-    // TODO: need to add this to formation. This is a temporary fix.
-    #vetnav-column-one-col {
-      .panel-bottom-link {
-        width: 200%;
-      }
-    }
-    //TODO: add this to formation
-      .mm-links {
-        padding: 5px 0px;
-      }
-  }
-
   #menu-rule {
     border-bottom: 1px solid $color-white;
     margin-left: -.55em;
@@ -124,18 +71,17 @@
   /* new pattern? where we use old VA icons with h3 */
   .va-icon-header {
 
-    width:100%;
+    width: 100%;
     height: 40px;
     margin-left: -6px;
 
     .va-icon-icon {
       margin: 0;
       padding: 0;
-
       display: inline;
       float: left;
-      width:12%;
-      height:auto;
+      width: 12%;
+      height: auto;
     }
 
     .va-icon-h {
@@ -147,7 +93,7 @@
 
   .va-icon-cols {
     p {
-      margin-top:0;
+      margin-top: 0;
     }
 
     padding-bottom: 3em;
@@ -157,24 +103,11 @@
     margin-top: 2em;
   }
 
-  #homepage-hub, .va-sidebarnav, .vet-toolbar {
-    [href^="http"]:not(.usa-button-primary), [rel="external"] {
-      background-image: none;
-      padding-right: 0px;
-
-    }
-  }
-
   #homepage-hub {
 
-    background: #0071bb; /* Old browsers */
-    background: -moz-linear-gradient(top, #0071bb 0%, #112e51 63%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #0071bb 0%,#112e51 63%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #0071bb 0%,#112e51 63%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0071bb', endColorstr='#112e51',GradientType=0 ); /* IE6-9 */
+    @include linear-gradient-background($color-old-browser-background-start, $color-old-browser-background-end);
 
     padding-top: 3em;
-    padding-bottom: 3em;
 
     #hub-internal {
 
@@ -215,123 +148,9 @@
     }
   }
 
-  #homepage-popular {
-    padding-top: 3em;
-  }
-
-  #homepage-hero {
-    background-color: $color-primary-darker;
-    text-align: center;
-    padding-top: 1.5em;
-  }
-
-  #homepage-news {
-    padding: 0 0 3em 0;
-    margin-top: 3em;
-  }
-
-  #homepage-benefits {
-
-    .usa-grid {
-      padding-bottom: 3em;
-    }
-
-    .usa-grid:last-of-type {
-      padding-bottom: 0;
-    }
-  }
-
   h3, h4 {
     .fa {
       padding-right: .35em;
-    }
-  }
-
-  // new pattern, but specific to homepage only
-  .homepage-button {
-
-    width:100%;
-    height: 85px;
-    padding: 0;
-
-    a {
-      width: 100%;
-      height: 100%;
-      font-weight: bold;
-      color: white;
-      text-decoration: none;
-    }
-
-    .icon-wrapper {
-      width: 55px;
-      height: 100%;
-      float: left;
-
-      -webkit-border-top-left-radius: 6px;
-      -webkit-border-bottom-left-radius: 6px;
-      -moz-border-radius-topleft: 6px;
-      -moz-border-radius-bottomleft: 6px;
-      border-top-left-radius: 6px;
-      border-bottom-left-radius: 6px;
-    }
-
-    .button-inner {
-      padding-left: 1em;
-      padding-right: 1em;
-
-      &#vcl {
-        padding-left: .5em;
-        padding-right: .5em;
-      }
-    }
-
-    .fa {
-      font-size: 1.5em;
-      display:inline-block;
-
-      &.fa-user-circle {
-        font-size: 1.5em;
-        padding-right: .3em;
-      }
-
-      &::before {
-        position: absolute;
-        margin: 0;
-        top: 15px;
-        left: -7.75px;
-      }
-    }
-
-    .vcl {
-      content: "";
-      background: url(/img/vcl-logo-white.png) no-repeat;
-      background-size: 100%;
-      display: inline-block;
-      width: 2em;
-      height: 2em;
-      margin-top:32.5px;
-    }
-
-    div {
-      display:inline-block;
-      width:80%;
-    }
-
-    &.primary-darker {
-
-      .icon-wrapper {
-        background-color: $color-primary-darker;
-      }
-
-      background-color: $color-primary;
-    }
-
-    &.secondary-dark {
-
-      .icon-wrapper {
-        background-color: $color-secondary-darkest;
-      }
-      background-color: $color-secondary-dark;
     }
   }
 
@@ -352,9 +171,9 @@
         display: inline-block;
 
         a {
-          color: white;
+          color: $color-white;
           &:visited {
-            color: white;
+            color: $color-white;
           }
         }
         &:after {
@@ -458,8 +277,8 @@
 
     .va-footer-logo {
       img {
-        width:200px;
-        height:auto;
+        width: 200px;
+        height: auto;
       }
     }
   }
@@ -627,7 +446,6 @@
     #homepage-hub {
 
       padding-top: 1.5em;
-      padding-bottom: 1em;
 
       #hub-internal {
 
@@ -655,18 +473,12 @@
     .va-h-ruled--stars,
     .va-nav-breadcrumbs,
     article,
-    #homepage-popular,
     #hub-rail,
     .footer-banner,
     .footer-links {
 
       padding-left: .5em;
       padding-right: .5em;
-    }
-
-    #homepage-popular {
-      padding-bottom: 1.5em;
-      padding-top: 1em;
     }
 
     .va-nav-breadcrumbs  {
@@ -747,7 +559,7 @@
         button {
           border-top: 3px solid transparent;
           border-bottom: 3px solid transparent;
-          color: #fff;
+          color: $color-white;
           cursor: pointer;
           display: block;
           margin: 0;
@@ -832,35 +644,11 @@
       }
     }
 
-    #homepage-popular {
-
-      text-align: center;
-
-      .usa-width-one-third {
-
-        margin: 0 auto;
-        margin-bottom: 1.5em;
-        float: none;
-        display: block;
-        width: 50%;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-
-        #vcl {
-          padding-left: 1.5em;
-          padding-right: 1.5em;
-        }
-      }
-    }
-
     #homepage-benefits,
     #homepage-news,
     .va-h-ruled--stars,
     .va-nav-breadcrumbs,
     article,
-    #homepage-popular,
     #hub-rail {
       padding-left: 1em;
       padding-right: 1em;
@@ -893,32 +681,6 @@
         padding-right: 1em;
       }
     }
-
-    #homepage-popular {
-
-      text-align: center;
-
-      .usa-width-one-third {
-
-        margin: 0 auto;
-        margin-bottom: 1.5em;
-        float: none;
-        display: block;
-        width: 40%;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-
-        #vcl {
-          padding-left: 1.5em;
-          padding-right: 1.5em;
-        }
-
-      }
-
-    }
-
   }
 
   #preview-site-alert {
@@ -1061,7 +823,7 @@
 
     .usa-sidenav-list {
       a.usa-current {
-        border-left: 0.4rem solid #0071BB;
+        border-left: 0.4rem solid $color-light-blue;
         padding-left: 8px;
         margin-left: 16px;
 
@@ -1073,7 +835,6 @@
     }
     .fa {
       position: relative;
-      color: $color-white;
       border-radius: 50%;
 
       &.icon-small {
@@ -1100,8 +861,6 @@
       }
 
       &.fa-medkit {
-        background-color: $color-primary;
-
         &.icon-small {
           &::before {
             margin-top: 6px;
@@ -1116,7 +875,7 @@
   }
   .va-sidebarnav {
     .usa-accordion-button {
-      background-color: white;
+      background-color: $color-white;
       border-top: 1px solid $color-gray-lighter;
       border-bottom: 1px solid $color-gray-lighter;
       background-size: 1.1rem;
@@ -1177,6 +936,9 @@
 
   .hub-links-container {
     min-height: 250px;
+  }
+  .white {
+    color: $color-white;
   }
 }
 .usa-accordion-bordered {

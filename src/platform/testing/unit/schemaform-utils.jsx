@@ -1,4 +1,4 @@
-/** 
+/**
  * Utilities for testing forms built with our schema based form library
  */
 
@@ -14,7 +14,7 @@ import { fillDate as oldFillDate } from './helpers';
 
 import {
   replaceRefSchemas,
-  updateSchemaAndData
+  updateSchemaAndData,
 } from 'us-forms-system/lib/js/state/helpers';
 
 function getDefaultData(schema) {
@@ -41,7 +41,7 @@ function getDefaultData(schema) {
  * to render as a pagePerItem page
  * @property {number} pagePerItemIndex When simulating a page per item form page,
  * this is the index for the item to render.
- * @property {boolean} reviewMode Renders the form in review mode if true 
+ * @property {boolean} reviewMode Renders the form in review mode if true
  * @property {function} onSubmit Will be called if a form is submitted
  * @property {function} onFileUpload Will be called if a file upload is triggered
  */
@@ -49,27 +49,27 @@ export class DefinitionTester extends React.Component {
   constructor(props) {
     super(props);
     const { data, uiSchema } = props;
-    const definitions = _.assign(props.definitions || {}, props.schema.definitions);
+    const definitions = _.assign(
+      props.definitions || {},
+      props.schema.definitions,
+    );
     const schema = replaceRefSchemas(props.schema, definitions);
 
-    const {
-      data: newData,
-      schema: newSchema
-    } = updateSchemaAndData(schema, uiSchema, data || getDefaultData(schema));
+    const { data: newData, schema: newSchema } = updateSchemaAndData(
+      schema,
+      uiSchema,
+      data || getDefaultData(schema),
+    );
 
     this.state = {
       formData: newData,
       schema: newSchema,
-      uiSchema
+      uiSchema,
     };
   }
   debouncedAutoSave = sinon.spy();
-  handleChange = (data) => {
-    const {
-      schema,
-      uiSchema,
-      formData
-    } = this.state;
+  handleChange = data => {
+    const { schema, uiSchema, formData } = this.state;
     const { pagePerItemIndex, arrayPath } = this.props;
 
     let fullData = data;
@@ -78,17 +78,18 @@ export class DefinitionTester extends React.Component {
       fullData = _.set([arrayPath, pagePerItemIndex], data, formData);
     }
 
-    const {
-      data: newData,
-      schema: newSchema
-    } = updateSchemaAndData(schema, uiSchema, fullData);
+    const { data: newData, schema: newSchema } = updateSchemaAndData(
+      schema,
+      uiSchema,
+      fullData,
+    );
 
     this.setState({
       formData: newData,
       schema: newSchema,
-      uiSchema
+      uiSchema,
     });
-  }
+  };
   render() {
     let { schema, uiSchema, formData } = this.state;
     const { pagePerItemIndex, arrayPath } = this.props;
@@ -112,7 +113,8 @@ export class DefinitionTester extends React.Component {
         pagePerItemIndex={this.props.pagePerItemIndex}
         onChange={this.handleChange}
         uploadFile={this.props.uploadFile}
-        onSubmit={this.props.onSubmit}/>
+        onSubmit={this.props.onSubmit}
+      />
     );
   }
 }
@@ -125,7 +127,7 @@ export class DefinitionTester extends React.Component {
  */
 export function submitForm(form) {
   ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-    preventDefault: f => f
+    preventDefault: f => f,
   });
 }
 
@@ -174,7 +176,9 @@ export function getFormDOM(form) {
   const formDOM = findDOMNode(form);
 
   if (formDOM === null) {
-    throw new Error('Could not find DOM node. Please make sure to pass a component returned from ReactTestUtils.renderIntoDocument(). If you are testing a stateless (function) component, be sure to wrap it in a <div>.');
+    throw new Error(
+      'Could not find DOM node. Please make sure to pass a component returned from ReactTestUtils.renderIntoDocument(). If you are testing a stateless (function) component, be sure to wrap it in a <div>.',
+    );
   }
 
   /**
@@ -196,16 +200,16 @@ export function getFormDOM(form) {
   formDOM.fillData = function fillDataFn(id, value) {
     ReactTestUtils.Simulate.change(this.getElement(id), {
       target: {
-        value
-      }
+        value,
+      },
     });
   };
 
   formDOM.files = function fillFiles(id, files) {
     ReactTestUtils.Simulate.change(this.getElement(id), {
       target: {
-        files
-      }
+        files,
+      },
     });
   };
 
@@ -216,25 +220,29 @@ export function getFormDOM(form) {
   formDOM.setCheckbox = function toggleCheckbox(selector, checked) {
     ReactTestUtils.Simulate.change(this.getElement(selector), {
       target: {
-        checked
-      }
+        checked,
+      },
     });
   };
 
   // Accepts 'Y', 'N', true, false
   formDOM.setYesNo = function setYesNo(selector, value) {
-    const isYes = typeof value === 'string' ? value.toLowerCase() === 'y' : !!value;
+    const isYes =
+      typeof value === 'string' ? value.toLowerCase() === 'y' : !!value;
     ReactTestUtils.Simulate.change(this.getElement(selector), {
       target: {
-        value: isYes ? 'Y' : 'N'
-      }
+        value: isYes ? 'Y' : 'N',
+      },
     });
   };
 
   formDOM.selectRadio = function selectRadioFn(fieldName, value) {
-    ReactTestUtils.Simulate.change(this.getElement(`input[name*="${fieldName}"][value="${value}"]`), {
-      target: { value }
-    });
+    ReactTestUtils.Simulate.change(
+      this.getElement(`input[name*="${fieldName}"][value="${value}"]`),
+      {
+        target: { value },
+      },
+    );
   };
 
   formDOM.click = function click(selector) {
@@ -267,8 +275,8 @@ export function getFormDOM(form) {
 export function fillData(form, selector, value) {
   form.find(selector).simulate('change', {
     target: {
-      value
-    }
+      value,
+    },
   });
 }
 
@@ -282,7 +290,7 @@ export function fillData(form, selector, value) {
  */
 export function selectCheckbox(form, fieldName, value) {
   form.find(`input[name*="${fieldName}"]`).simulate('change', {
-    target: { checked: value }
+    target: { checked: value },
   });
 }
 
@@ -295,9 +303,11 @@ export function selectCheckbox(form, fieldName, value) {
  * @param {string} value The data to fill in the input
  */
 export function selectRadio(form, fieldName, value) {
-  form.find(`input[name*="${fieldName}"][value="${value}"]`).simulate('change', {
-    target: { value }
-  });
+  form
+    .find(`input[name*="${fieldName}"][value="${value}"]`)
+    .simulate('change', {
+      target: { value },
+    });
 }
 
 /**
@@ -305,7 +315,7 @@ export function selectRadio(form, fieldName, value) {
  * given date string.
  *
  * @param {Enzyme} form The enzyme object that contains a form
- * @param {string} partialId The id for the date field, without the month/day/year prefix 
+ * @param {string} partialId The id for the date field, without the month/day/year prefix
  * @param {string} dateString The date to fill in the input
  */
 export function fillDate(form, partialId, dateString) {
@@ -315,13 +325,13 @@ export function fillDate(form, partialId, dateString) {
   const year = form.find(`input#${partialId}Year`);
 
   month.simulate('change', {
-    target: { value: date[1] }
+    target: { value: date[1] },
   });
 
   day.simulate('change', {
-    target: { value: date[2] }
+    target: { value: date[2] },
   });
   year.simulate('change', {
-    target: { value: date[0] }
+    target: { value: date[0] },
   });
 }

@@ -10,37 +10,33 @@ const props = {
   alert: {
     content: '',
     status: 'info',
-    visible: false
+    visible: false,
   },
   email: makeField('test@vets.gov'),
   flag: makeField('false'),
   isLoading: false,
-  isSaving: false
+  isSaving: false,
 };
 
 describe('<Settings>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<Settings {...props}/>);
+    const tree = SkinDeep.shallowRender(<Settings {...props} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.be.ok;
   });
 
   it('should show a loading screen when getting preferences', () => {
-    const tree = SkinDeep.shallowRender(
-      <Settings {...props } isLoading/>
-    );
+    const tree = SkinDeep.shallowRender(<Settings {...props} isLoading />);
     expect(tree.subTree('LoadingIndicator')).to.be.ok;
   });
 
   it('should show a loading screen when saving preferences', () => {
-    const tree = SkinDeep.shallowRender(
-      <Settings {...props } isSaving/>
-    );
+    const tree = SkinDeep.shallowRender(<Settings {...props} isSaving />);
     expect(tree.subTree('LoadingIndicator')).to.be.ok;
   });
 
   it('should disable save button when nothing has changed', () => {
-    const tree = SkinDeep.shallowRender(<Settings {...props }/>);
+    const tree = SkinDeep.shallowRender(<Settings {...props} />);
     const formButtons = tree.dive(['.rx-notifications-save']);
     const saveButton = formButtons.dive(['.usa-button-disabled']);
     expect(saveButton.text()).to.eql('Save changes');
@@ -50,9 +46,10 @@ describe('<Settings>', () => {
   it('should enable save button and show cancel button if email is modified', () => {
     const tree = SkinDeep.shallowRender(
       <Settings
-        {...props }
+        {...props}
         email={makeField('new.test@vets.gov', true)}
-        flag={makeField('false')}/>
+        flag={makeField('false')}
+      />,
     );
     const formButtons = tree.dive(['.rx-notifications-save']);
     const saveButton = formButtons.dive(['.usa-button']);
@@ -65,9 +62,10 @@ describe('<Settings>', () => {
   it('should enable save button and show cancel button if flag is modified', () => {
     const tree = SkinDeep.shallowRender(
       <Settings
-        {...props }
+        {...props}
         email={makeField('test@vets.gov')}
-        flag={makeField('on', true)}/>
+        flag={makeField('on', true)}
+      />,
     );
     const formButtons = tree.dive(['.rx-notifications-save']);
     const saveButton = formButtons.dive(['.usa-button']);
@@ -78,7 +76,7 @@ describe('<Settings>', () => {
   });
 
   it('should hide email input if notifications are off', () => {
-    const tree = SkinDeep.shallowRender(<Settings {...props }/>);
+    const tree = SkinDeep.shallowRender(<Settings {...props} />);
     expect(tree.subTree('ErrorableTextInput')).to.not.be.ok;
   });
 });

@@ -7,7 +7,7 @@ description: VA health care offers access to primary and specialty care, includi
 concurrence:
 lastupdate:
 order: 1
-icon: medkit
+icon: icon-large white fa fa-medkit hub-background-health-care
 promo:
   - image: /img/megamenu/health-care-illustration.png
     heading: VA Telehealth Services
@@ -168,12 +168,12 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
 
   <div class="link">
     <a href="/health-care/secure-messaging/"><b>Use VA Secure Messaging</b></a>
-    <p>Communicate privately with your VA health care team through secure messaging.</p>
+    <p>Communicate privately with your VA health care team through Secure Messaging.</p>
   </div>
 
   <div class="link">
     <a href="/health-care/schedule-view-va-appointments/"><b>Schedule and View Your VA Appointments</b></a>
-    <p>Find out how to schedule an appointment by phone, online, or through secure messaging.</p>
+    <p>Find out how to schedule an appointment by phone, online, or through Secure Messaging.</p>
   </div>
 
   <div class="link">

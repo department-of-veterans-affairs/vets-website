@@ -8,7 +8,7 @@ class MessageRecipient extends React.Component {
     const fieldCss = classNames(
       this.props.cssClass,
       { 'usa-input-error': !!this.props.errorMessage },
-      { 'msg-compose-error': !!this.props.errorMessage }
+      { 'msg-compose-error': !!this.props.errorMessage },
     );
 
     return (
@@ -19,7 +19,8 @@ class MessageRecipient extends React.Component {
           name="messageRecipient"
           onValueChange={this.props.onValueChange}
           options={this.props.options}
-          value={this.props.recipient}/>
+          value={this.props.recipient}
+        />
       </div>
     );
   }
@@ -34,15 +35,18 @@ MessageRecipient.propTypes = {
       PropTypes.string,
       PropTypes.shape({
         label: PropTypes.string,
-        value: PropTypes.number }),
+        value: PropTypes.number,
+      }),
       PropTypes.shape({
         label: PropTypes.string,
-        value: PropTypes.string })
-    ])).isRequired,
+        value: PropTypes.string,
+      }),
+    ]),
+  ).isRequired,
   recipient: PropTypes.shape({
     value: PropTypes.string,
-    dirty: PropTypes.bool
-  }).isRequired
+    dirty: PropTypes.bool,
+  }).isRequired,
 };
 
 export default MessageRecipient;

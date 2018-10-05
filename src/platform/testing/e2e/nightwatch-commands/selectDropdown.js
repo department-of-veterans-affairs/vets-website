@@ -8,7 +8,8 @@
  */
 exports.command = function selectDropdown(name, value) {
   const select = `select[name='${name}']`;
-  this.execute((clientSelect, clientValue) => {
+  this.execute(
+    (clientSelect, clientValue) => {
     /* eslint-disable */
     var evt;
     // IE stinks
@@ -23,8 +24,9 @@ exports.command = function selectDropdown(name, value) {
     element.dispatchEvent(evt);
     return element.value;
     /* eslint-enable */
-  },
-  [select, value]);
+    },
+    [select, value],
+  );
 
   return this;
 };

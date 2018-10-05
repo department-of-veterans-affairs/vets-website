@@ -3,18 +3,26 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, selectRadio } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+  selectRadio,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pre-need sponsor information', () => {
-  const { schema, uiSchema } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(19);
@@ -28,7 +36,8 @@ describe('Pre-need sponsor information', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -44,7 +53,8 @@ describe('Pre-need sponsor information', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     fillData(form, 'input#root_application_veteran_currentName_first', 'test');
@@ -70,7 +80,8 @@ describe('Pre-need sponsor information', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(19);

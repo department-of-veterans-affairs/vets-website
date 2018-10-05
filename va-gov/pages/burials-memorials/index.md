@@ -5,7 +5,7 @@ title: VA Burial Benefits and Memorial Items
 display_title: Burials and Memorials
 lastupdate:
 order: 1
-icon: star
+icon: icon-large white fa fa-star hub-background-burials
 aliases:
   - /burials-and-memorials/
 promo:

@@ -7,25 +7,30 @@ import { DefinitionTester } from '../../../../../platform/testing/unit/schemafor
 import formConfig from '../../config/form.js';
 
 describe('Disability benefits 526EZ special circumstances', () => {
-  const { schema, uiSchema } = formConfig.chapters.veteranDetails.pages.specialCircumstances;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.veteranDetails.pages.specialCircumstances;
 
   const defaultFormData = {
     veteran: {
       homelessness: {
-        pointOfContact: {}
-      }
-    }
+        pointOfContact: {},
+      },
+    },
   };
 
   it('renders special circumstances form', () => {
     const onSubmit = sinon.spy();
-    const form = mount(<DefinitionTester
-      onSubmit={onSubmit}
-      definitions={formConfig.defaultDefinitions}
-      schema={schema}
-      data={defaultFormData}
-      formData={{}}
-      uiSchema={uiSchema}/>
+    const form = mount(
+      <DefinitionTester
+        onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={defaultFormData}
+        formData={{}}
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input[type="radio"]').length).to.equal(2);
@@ -40,7 +45,8 @@ describe('Disability benefits 526EZ special circumstances', () => {
         schema={schema}
         data={defaultFormData}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -53,9 +59,9 @@ describe('Disability benefits 526EZ special circumstances', () => {
     const formData = {
       veteran: {
         homelessness: {
-          isHomeless: false
-        }
-      }
+          isHomeless: false,
+        },
+      },
     };
 
     const form = mount(
@@ -65,7 +71,8 @@ describe('Disability benefits 526EZ special circumstances', () => {
         schema={schema}
         data={formData}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -79,9 +86,9 @@ describe('Disability benefits 526EZ special circumstances', () => {
       veteran: {
         homelessness: {
           isHomeless: true,
-          pointOfContact: {}
-        }
-      }
+          pointOfContact: {},
+        },
+      },
     };
 
     const form = mount(
@@ -91,7 +98,8 @@ describe('Disability benefits 526EZ special circumstances', () => {
         schema={schema}
         data={formData}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -106,10 +114,10 @@ describe('Disability benefits 526EZ special circumstances', () => {
         homelessness: {
           isHomeless: true,
           pointOfContact: {
-            pointOfContactName: 'Abraham Lincoln'
-          }
-        }
-      }
+            pointOfContactName: 'Abraham Lincoln',
+          },
+        },
+      },
     };
 
     const form = mount(
@@ -119,7 +127,8 @@ describe('Disability benefits 526EZ special circumstances', () => {
         schema={schema}
         data={formData}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -134,10 +143,10 @@ describe('Disability benefits 526EZ special circumstances', () => {
         homelessness: {
           isHomeless: true,
           pointOfContact: {
-            primaryPhone: '1234567890'
-          }
-        }
-      }
+            primaryPhone: '1234567890',
+          },
+        },
+      },
     };
 
     const form = mount(
@@ -147,7 +156,8 @@ describe('Disability benefits 526EZ special circumstances', () => {
         schema={schema}
         data={formData}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -163,10 +173,10 @@ describe('Disability benefits 526EZ special circumstances', () => {
           isHomeless: true,
           pointOfContact: {
             pointOfContactName: 'Abraham Lincoln',
-            primaryPhone: '1234567890'
-          }
-        }
-      }
+            primaryPhone: '1234567890',
+          },
+        },
+      },
     };
 
     const form = mount(
@@ -176,7 +186,8 @@ describe('Disability benefits 526EZ special circumstances', () => {
         schema={schema}
         data={formData}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');

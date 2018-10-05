@@ -3,7 +3,6 @@ import AsyncDisplayWidget from '../components/AsyncDisplayWidget';
 import PaymentView from '../components/PaymentView';
 import PaymentFailureView from '../components/PaymentFailureView';
 
-
 export const uiSchema = {
   'ui:title': 'Payment information',
   'ui:field': 'StringField',
@@ -11,11 +10,11 @@ export const uiSchema = {
   'ui:options': {
     callback: fetchPaymentInformation,
     viewComponent: PaymentView,
-    failureComponent: PaymentFailureView
-  }
+    failureComponent: PaymentFailureView,
+  },
 };
 
 export const schema = {
   type: 'object',
-  properties: {}
+  properties: {},
 };

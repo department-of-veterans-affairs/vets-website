@@ -33,6 +33,7 @@ For unit tests:
 For e2e tests:
 - It's possible to set an infinite pause (`.pause()`) in the test code and then see what's happening at a given point in the browser where the test is running. It is also possible to use the Chrome devtools and inspect what's going on (this is only possible when the browser is Chrome and not Electron, so you would need to disable Electron is `config/nightwatch.js`).
 
+
 #### When we write them
 Write tests as you go! New functionality added in a PR should ideally be covered by unit and e2e tests, where applicable.
 
@@ -83,7 +84,7 @@ Write tests as you go! New functionality added in a PR should ideally be covered
 - **sass-lint**: linter for sass and scss
 
 9. Visual regression testing
-- **nightwatch**: Node.js framework for e2e tests that runs on a selenium server
+- **puppeteer**: Automates browser testing
 - **resemble**: Image analysis
 
 10. Accessibility testing
@@ -129,3 +130,11 @@ NVDA another option for manual testing and is supposed to be a better tool than 
 It is possible to measure code coverage by running the command line script `npm run test:coverage`.
 
 We are planning to turn off code climate, which is currently run before merging to master during the PR review stage. However, it might be useful to replace it with something like coveralls in order to more consistently measure our code coverage with each addition of code.
+
+6. How to use visual regression tests
+
+Visual regression tests work by creating a baseline and then comparing screenshots against that master. The baseline images can be found at `logs/visual-regression/baseline/`, and the diffs (if any) can be found at `logs/visual-regression/diffs`.
+
+Any part of the image that is pink is a visual change (including colors).
+
+

@@ -6,11 +6,7 @@ import AppealLayout from '../../components/AppealLayout';
 
 describe('<AppealLayout>', () => {
   it('should render breadcrumbs and children', () => {
-    const tree = SkinDeep.shallowRender(
-      <AppealLayout>
-        Testing
-      </AppealLayout>
-    );
+    const tree = SkinDeep.shallowRender(<AppealLayout>Testing</AppealLayout>);
 
     expect(tree.text()).to.contain('Testing');
     expect(tree.subTree('Breadcrumbs')).not.to.be.false;

@@ -5,8 +5,12 @@
  * @param {function} callback Function called after clearing is finished
  */
 exports.command = function clearElement(selector, callback) {
-  this.execute((sel) => {
-    document.querySelector(sel).value = '';
-  }, [selector], callback);
+  this.execute(
+    sel => {
+      document.querySelector(sel).value = '';
+    },
+    [selector],
+    callback,
+  );
   return this;
 };

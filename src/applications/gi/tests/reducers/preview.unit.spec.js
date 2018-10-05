@@ -4,18 +4,15 @@ import previewReducer from '../../reducers/preview';
 
 const initialState = {
   display: false,
-  version: {}
+  version: {},
 };
 
 describe('preview reducer', () => {
   it('should enter preview mode', () => {
-    const state = previewReducer(
-      initialState,
-      {
-        type: 'ENTER_PREVIEW_MODE',
-        version: 1
-      }
-    );
+    const state = previewReducer(initialState, {
+      type: 'ENTER_PREVIEW_MODE',
+      version: 1,
+    });
 
     expect(state.display).to.eql(true);
     expect(state.version).to.eql(1);
@@ -26,7 +23,7 @@ describe('preview reducer', () => {
       { display: true },
       {
         type: 'EXIT_PREVIEW_MODE',
-      }
+      },
     );
 
     expect(state.display).to.eql(false);
@@ -34,13 +31,10 @@ describe('preview reducer', () => {
   });
 
   it('should set version correctly', () => {
-    const state = previewReducer(
-      initialState,
-      {
-        type: 'SET_VERSION',
-        version: 2
-      }
-    );
+    const state = previewReducer(initialState, {
+      type: 'SET_VERSION',
+      version: 2,
+    });
 
     expect(state.display).to.eql(false);
     expect(state.version).to.eql(2);
