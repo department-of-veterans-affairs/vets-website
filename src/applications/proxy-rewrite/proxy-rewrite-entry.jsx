@@ -78,6 +78,10 @@ document.addEventListener('DOMContentLoaded', _e => {
 // Mount react components
 const commonStore = createCommonStore();
 document.addEventListener('DOMContentLoaded', _e => {
+  const crisisModal = document.getElementById('modal-crisisline');
+  if (crisisModal) {
+    crisisModal.parentNode.removeChild(crisisModal);
+  }
   if (document.querySelector('#vetnav-menu') !== null) {
     addMenuListeners(document.querySelector('#vetnav-menu'), true);
   }
