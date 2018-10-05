@@ -123,7 +123,7 @@ Used to display a side navigation bar of pages in a collection.
                     {% endif %}
                   </a>
                 {% endif %}
-                {% if page.children != empty and page.path == path %}
+                {% if page.children != empty and path contains page.path %}
                   {% assign childPages = collections | get: page.children %}
                     <ul class="usa-sidenav-sub_list">
                     {% for cpage in childPages %}

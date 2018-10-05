@@ -23,6 +23,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import profileManifest from '../../profile360/manifest.json';
 import accountManifest from '../../account/manifest.json';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import lettersManifest from '../../../letters/manifest.js';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
@@ -432,7 +433,7 @@ class DashboardApp extends React.Component {
               </li>
               <li>
                 <a
-                  href="/download-va-letters/"
+                  href={lettersManifest.rootUrl}
                   onClick={recordDashboardClick('download-letters')}
                 >
                   <h4 className="va-nav-linkslist-title">

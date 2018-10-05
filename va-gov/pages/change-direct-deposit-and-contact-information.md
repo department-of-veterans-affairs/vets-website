@@ -17,7 +17,7 @@ Change your direct deposit and contact information for certain VA benefits onlin
   <div class="usa-alert-body">
     <h4 class="usa-alert-heading">You’ll need to sign in to eBenefits to change your direct deposit and contact information online.</h4>
   <p class="usa-alert-text"><br>
-    To use this feature, you'll need a premium <b>DS Logon</b> account. Your MyHealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>
+    To use this feature, you'll need a Premium <b>DS Logon</b> account. Your My HealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your <b>DS Logon</b> account to Premium.<br>
       <button class="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information">Go to eBenefits to Change Your Information</button>
     </p>
   </div>
@@ -89,11 +89,30 @@ Muskogee OK 74401-7004<br>
 
 <h3>By phone</h3>
 
-Call us at <a href="tel:+18008271000">1-800-827-1000</a> (TDD <a href="tel:+18008294833">1-800-829-4833</a>). 
+Call us at <a href="tel:+18008271000">1-800-827-1000</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>). 
 
 We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
 
 </div>
 </div>
 </div>
+
+<div itemscope itemtype="http://schema.org/Question">
+
+<h2 itemprop="name">Should I contact VA if I have other changes to my information?</h2>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+Yes. It’s important to update your information with us if you change your marital status, have a baby, adopt a child, or experience any other life change that could affect your rating or payment.
+
+<b>If you have a disability rating of 30% or higher</b>, you may be able to add eligible dependents to your VA disability compensation to get a higher payment (also called a "benefit rate"). <br>
+<a href="https://www.benefits.va.gov/compensation/add-dependents.asp">Find out how to add eligible dependents</a>.
+
+<b>If your disability gets worse</b>, you can file a claim for an increase in benefits. <br>
+<a href="/disability-benefits/apply/form-526-disability-claim/">File for a VA disability increase</a>.
+
 </div>
+</div>
+</div>
+</div>
+

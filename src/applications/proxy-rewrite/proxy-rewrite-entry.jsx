@@ -16,6 +16,8 @@ import startFeedbackWidget from '../../platform/site-wide/feedback';
 // import startAnnouncementWidget from '../../platform/site-wide/announcements';
 import startVAFooter from '../../platform/site-wide/va-footer';
 import redirectIfNecessary from './redirects';
+import { addFocusBehaviorToCrisisLineModal } from '../../platform/site-wide/accessible-VCL-modal';
+import { addOverlayTriggers } from '../../platform/site-wide/legacy/menu';
 
 redirectIfNecessary(window);
 
@@ -76,6 +78,10 @@ document.addEventListener('DOMContentLoaded', _e => {
 // Mount react components
 const commonStore = createCommonStore();
 document.addEventListener('DOMContentLoaded', _e => {
+  const crisisModal = document.getElementById('modal-crisisline');
+  if (crisisModal) {
+    crisisModal.parentNode.removeChild(crisisModal);
+  }
   if (document.querySelector('#vetnav-menu') !== null) {
     addMenuListeners(document.querySelector('#vetnav-menu'), true);
   }
@@ -98,5 +104,11 @@ document.addEventListener('DOMContentLoaded', _e => {
   // startLRNHealthCarWidget(commonStore);
   startFeedbackWidget(commonStore);
   // startAnnouncementWidget(commonStore);
-  startVAFooter(commonStore);
+  startVAFooter({
+    handleFooterDidMount: () => {
+      addOverlayTriggers();
+      addFocusBehaviorToCrisisLineModal();
+    },
+    store: commonStore,
+  });
 });

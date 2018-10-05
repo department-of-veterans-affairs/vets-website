@@ -93,11 +93,12 @@ function applyEnvironmentOverrides(options) {
 
 function applyBrandConsolidationOverrides(options) {
   let currentEnv = 'dev';
-  if (
-    options.buildtype.includes(environments.STAGING) ||
-    options.buildtype === environments.PREVIEW
-  ) {
+  if (options.buildtype.includes(environments.STAGING)) {
     currentEnv = 'staging';
+  }
+
+  if (options.buildtype === environments.PREVIEW) {
+    currentEnv = 'preview';
   }
 
   // This list also exists in stagingDomains.js
