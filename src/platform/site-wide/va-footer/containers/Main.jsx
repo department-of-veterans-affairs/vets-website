@@ -73,7 +73,7 @@ export class Main extends React.Component {
       return [
         <ul
           key="veteran-crisis-line"
-          className="va-footer-linkgroup usa-width-one-fourth usa-accordion"
+          className="va-footer-linkgroup usa-accordion"
           id="veteran-crisis-line"
           aria-hidden="true"
         >
@@ -110,7 +110,7 @@ export class Main extends React.Component {
           </li>
         </ul>,
         <ul
-          className="va-footer-linkgroup usa-width-one-fourth usa-accordion"
+          className="va-footer-linkgroup usa-accordion"
           id="veteran-contact-us"
           key="veteran-contact-us"
           aria-hidden="true"
@@ -139,10 +139,7 @@ export class Main extends React.Component {
       ];
     }
     return (
-      <ul
-        className="va-footer-linkgroup usa-width-one-fourth"
-        id="veteran-crisis"
-      >
+      <ul className="va-footer-linkgroup" id="veteran-crisis">
         <li>
           <h4 className="va-footer-linkgroup-title">In Crisis? Get Help Now</h4>
         </li>
@@ -174,12 +171,12 @@ export class Main extends React.Component {
     let buttonEnabled = '';
     let buttonClasses = '';
     if (this.state.isMobile) {
-      className = 'va-footer-linkgroup usa-width-one-fourth usa-accordion';
+      className = 'va-footer-linkgroup  usa-accordion';
       innerClassName = 'usa-accordion-content';
       buttonEnabled = '';
       buttonClasses = 'usa-button-unstyled usa-accordion-button';
     } else {
-      className = 'va-footer-linkgroup usa-width-one-fourth';
+      className = 'va-footer-linkgroup';
       innerClassName = '';
       buttonEnabled = 'disabled';
       buttonClasses = 'va-footer-button';
@@ -187,7 +184,7 @@ export class Main extends React.Component {
     return (
       <div>
         <div className="footer-inner">
-          <div className="usa-grid usa-grid-flex-mobile">
+          <div className="usa-grid-full flex-container usa-grid-flex-mobile">
             <ul className={className} id="footer-first-child">
               <li>
                 <h4 className="va-footer-linkgroup-title">
