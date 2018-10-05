@@ -21,6 +21,9 @@ import {
   ptsdSecondaryChoice,
   uploadPtsd,
   uploadPtsdSecondary,
+  ptsdSecondaryIncidentDate,
+  ptsdSecondaryAssignmentDetails,
+  ptsdSecondaryLocation,
   informationInterviewCombat,
   informationInterviewAssault,
   stressfulIncSecDesc,
@@ -99,16 +102,6 @@ const formConfig = {
           uiSchema: ptsdSecondaryChoice.uiSchema,
           schema: ptsdSecondaryChoice.schema,
         },
-        uploadPtsdSecondary: {
-          path: 'upload-781a',
-          title: 'Disability Details',
-          depends: form =>
-            form['view:uploadPtsdSecondaryChoice'] === 'upload' &&
-            (form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
-              form['view:selectablePtsdTypes']['view:assaultPtsdType']),
-          uiSchema: uploadPtsdSecondary.uiSchema,
-          schema: uploadPtsdSecondary.schema,
-        },
         informationInterviewAssault: {
           path: 'information-781a',
           title: 'Disability Details',
@@ -118,6 +111,50 @@ const formConfig = {
               form['view:selectablePtsdTypes']['view:assaultPtsdType']),
           uiSchema: informationInterviewAssault.uiSchema,
           schema: informationInterviewAssault.schema,
+        },
+        ptsdSecondaryIncidentDate: {
+          path: 'ptsdSecondaryIncidentDate',
+          title: 'Disability Details',
+          depends: form =>
+            form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' &&
+            (form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
+              form['view:selectablePtsdTypes']['view:assaultPtsdType']),
+          uiSchema: ptsdSecondaryIncidentDate.uiSchema,
+          schema: ptsdSecondaryIncidentDate.schema,
+          properties: {
+            green: true,
+          },
+        },
+
+        ptsdSecondaryAssignmentDetails: {
+          path: 'ptsdSecondaryAssignmentDetails',
+          title: 'Disability Details',
+          depends: form =>
+            form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' &&
+            (form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
+              form['view:selectablePtsdTypes']['view:assaultPtsdType']),
+          uiSchema: ptsdSecondaryAssignmentDetails.uiSchema,
+          schema: ptsdSecondaryAssignmentDetails.schema,
+        },
+        ptsdSecondaryLocation: {
+          path: 'ptsdSecondaryLocation',
+          title: 'Disability Details',
+          depends: form =>
+            form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' &&
+            (form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
+              form['view:selectablePtsdTypes']['view:assaultPtsdType']),
+          uiSchema: ptsdSecondaryLocation.uiSchema,
+          schema: ptsdSecondaryLocation.schema,
+        },
+        uploadPtsdSecondary: {
+          path: 'upload-781a',
+          title: 'Disability Details',
+          depends: form =>
+            form['view:uploadPtsdSecondaryChoice'] === 'upload' &&
+            (form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
+              form['view:selectablePtsdTypes']['view:assaultPtsdType']),
+          uiSchema: uploadPtsdSecondary.uiSchema,
+          schema: uploadPtsdSecondary.schema,
         },
         stressfulIncidentSecondaryDescription: {
           path: 'stressful-incident-secondary-description',
