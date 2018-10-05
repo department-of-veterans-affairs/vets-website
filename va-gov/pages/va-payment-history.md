@@ -16,8 +16,8 @@ Find out how to view your payment history for VA benefits.
   <div class="usa-alert-body">
     <h4 class="usa-alert-heading">You’ll need to sign in to eBenefits to view your payment history.</h4>
   <p class="usa-alert-text"><br>
-    To use this feature, you'll need a premium <b>DS Logon</b> account. Your MyHealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>
-      <button class="usa-button-primary">Go to eBenefits</button>
+    To use this feature, you'll need a Premium <b>DS Logon</b> account. Your My HealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your <b>DS Logon</b> account to Premium.<br>
+      <button class="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history">Go to eBenefits to View Payments</button>
     </p>
   </div>
 </div>
@@ -53,7 +53,7 @@ Find out how to view your payment history for VA benefits.
 
 If your decision notice shows at least a 10% disability rating, you’ll get your first payment within 15 days.
 
-If you don’t get a payment within 15 days, please call the Veterans Help Line at <a href="tel:+18008271000">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
+If you don’t get a payment within 15 days, please call the Veterans Help Line at <a href="tel:+18008271000">1-800-827-1000</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>). We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
 
 </div>
 </div>

@@ -154,7 +154,6 @@ export class MhvTermsAndConditions extends React.Component {
           checked={this.state.isAgreementChecked}
           onChange={this.handleAgreementCheck}
         />
-        />
         <label className="agreement-label" htmlFor="agreement-checkbox">
           {this.props.attributes.yesContent}
         </label>

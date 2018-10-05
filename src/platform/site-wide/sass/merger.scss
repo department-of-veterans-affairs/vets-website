@@ -14,6 +14,14 @@
   }
   .va-modal {
     z-index: 301;
+    font-size: 100%;
+  }
+
+  #modal-crisisline {
+    display: block;
+    p {
+      font-size: 100%;
+    }
   }
 
   #dashboard-title {
@@ -25,8 +33,8 @@
   }
   $color-primary-lightest: #e1f3f8;
 
-  @import 'iconography';
-  @import 'right-rail';
+  @import "iconography";
+  @import "right-rail";
 
   .vetnav-panel {
     @include media($medium-large-screen) {
@@ -41,8 +49,9 @@
   /* logo size override */
 
   .va-header-logo {
-    width: 264px;
-    height:auto;
+    width: 100%;
+    max-width: 264px;
+    height: auto;
   }
 
   article {
@@ -71,18 +80,17 @@
   /* new pattern? where we use old VA icons with h3 */
   .va-icon-header {
 
-    width:100%;
+    width: 100%;
     height: 40px;
     margin-left: -6px;
 
     .va-icon-icon {
       margin: 0;
       padding: 0;
-
       display: inline;
       float: left;
-      width:12%;
-      height:auto;
+      width: 12%;
+      height: auto;
     }
 
     .va-icon-h {
@@ -94,7 +102,7 @@
 
   .va-icon-cols {
     p {
-      margin-top:0;
+      margin-top: 0;
     }
 
     padding-bottom: 3em;
@@ -106,11 +114,7 @@
 
   #homepage-hub {
 
-    background: #0071bb; /* Old browsers */
-    background: -moz-linear-gradient(top, #0071bb 0%, #112e51 63%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #0071bb 0%,#112e51 63%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #0071bb 0%,#112e51 63%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0071bb', endColorstr='#112e51',GradientType=0 ); /* IE6-9 */
+    @include linear-gradient-background($color-old-browser-background-start, $color-old-browser-background-end);
 
     padding-top: 3em;
 
@@ -176,9 +180,9 @@
         display: inline-block;
 
         a {
-          color: white;
+          color: $color-white;
           &:visited {
-            color: white;
+            color: $color-white;
           }
         }
         &:after {
@@ -205,17 +209,6 @@
       }
     }
 
-  }
-
-  /**
-  * September 25th, 2018
-  * @todo This is a site-wide override to .usa-grid that ultimately forces it to have the same behavior as .usa-grid-full.
-  * This likely has site-wide ramifications and should be fixed soon.
-  * Because this is a high-risk change and we're under time constraints, I'm just documenting it here.
-  * More info on the grid class - https://designsystem.digital.gov/components/grids/.
-  */
-  .usa-grid {
-    padding: 0;
   }
 
   // Once the above rule is delete, we can delete this awful block too.
@@ -282,15 +275,16 @@
 
     .va-footer-logo {
       img {
-        width:200px;
-        height:auto;
+        width: 200px;
+        height: auto;
       }
     }
   }
 
   // desktop footer stuff
 
-  .va-footer-linkgroup-title {
+  h4.va-footer-linkgroup-title {
+    padding-bottom: 1em;
 
     button {
       -webkit-font-smoothing: antialiased;
@@ -299,7 +293,7 @@
       font-weight: 700;
       font-size: 1.1em;
       margin: 0;
-      padding: 0 0 1em 0;
+      padding: 0;
       text-align: left;
     }
 
@@ -314,12 +308,6 @@
     .va-footer-linkgroup {
       li {
         margin-bottom: 0;
-
-        &:first-child {
-          h4 {
-            padding-bottom: 0;
-          }
-        }
       }
     }
   }
@@ -328,12 +316,6 @@
   .va-footer-linkgroup {
     li {
       margin-bottom: 0;
-
-      &:first-child {
-        h4 {
-          padding-bottom: 0;
-        }
-      }
     }
   }
 
@@ -366,6 +348,7 @@
       //   min-height: unset;
       // }
       .login-container {
+        z-index: 301;
         position: relative;
         top: -40px;
       }
@@ -523,6 +506,9 @@
     #footerNav {
       .va-footer-linkgroup {
         margin-top: 0;
+        h4 {
+          padding: 0;
+        }
         li {
           margin-bottom: 6px;
         }
@@ -567,7 +553,7 @@
         button {
           border-top: 3px solid transparent;
           border-bottom: 3px solid transparent;
-          color: #fff;
+          color: $color-white;
           cursor: pointer;
           display: block;
           margin: 0;
@@ -611,7 +597,7 @@
 
 
   // tablet
-  @media (min-width: 768px) and (max-width: $large-screen) and (orientation: portrait) {
+  @media (min-width: 768px) and (max-width: $large-screen) {
     .va-header-logo-wrapper {
       margin-bottom: 0;
     }
@@ -646,13 +632,6 @@
       }
     }
 
-    .va-header-logo-wrapper {
-      a {
-        width: 70%;
-        height: auto;
-      }
-    }
-
     #homepage-benefits,
     #homepage-news,
     .va-h-ruled--stars,
@@ -673,21 +652,6 @@
             min-height: 300px;
           }
         }
-      }
-    }
-  }
-
-  @media (min-width: 768px) and (max-width: $large-screen) and (orientation: landscape){
-    #va-header-logo-menu {
-      align-items: center;
-    }
-    .vet-toolbar {
-      flex: 0 1 25.5rem;
-    }
-    #hub-internal {
-      .usa-width-one-half {
-        min-height: 300px;
-        padding-right: 1em;
       }
     }
   }
@@ -832,7 +796,7 @@
 
     .usa-sidenav-list {
       a.usa-current {
-        border-left: 0.4rem solid #0071BB;
+        border-left: 0.4rem solid $color-light-blue;
         padding-left: 8px;
         margin-left: 16px;
 
@@ -844,7 +808,6 @@
     }
     .fa {
       position: relative;
-      color: $color-white;
       border-radius: 50%;
 
       &.icon-small {
@@ -871,8 +834,6 @@
       }
 
       &.fa-medkit {
-        background-color: $color-primary;
-
         &.icon-small {
           &::before {
             margin-top: 6px;
@@ -887,7 +848,7 @@
   }
   .va-sidebarnav {
     .usa-accordion-button {
-      background-color: white;
+      background-color: $color-white;
       border-top: 1px solid $color-gray-lighter;
       border-bottom: 1px solid $color-gray-lighter;
       background-size: 1.1rem;
@@ -949,8 +910,10 @@
   .hub-links-container {
     min-height: 250px;
   }
+  .white {
+    color: $color-white;
+  }
 }
-
 .usa-accordion-bordered {
   .fa {
     color: $color-link-default;
@@ -959,4 +922,23 @@
 
 [class^="vetnav-controller"] {
   position: relative !important;
+}
+
+// There are styles in our sidebar styles that set a small
+// amount of padding on the grid for detail pages, which we
+// are overriding for WBC with no padding
+.va-l-detail-page > .usa-grid-full {
+  padding-right: inherit;
+  padding-left: inherit;
+}
+
+.left-side-nav-title {
+  padding-left: 1em;
+  // This is gross, but it works for now
+  @include media(1008px) {
+    padding-left: 0;
+  }
+}
+.flex-container {
+  display: flex;
 }
