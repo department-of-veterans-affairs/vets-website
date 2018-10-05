@@ -4,7 +4,7 @@ import { DefinitionTester } from '../../../../../platform/testing/unit/schemafor
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
-describe.only('Summary of Evidence', () => {
+describe('Summary of Evidence', () => {
   const {
     schema,
     uiSchema,
