@@ -10,7 +10,9 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.definitions;
 
-import { introductionText } from '../helpers';
+import {
+  introductionText,
+} from '../helpers';
 
 // Define all the fields in the form to aid reuse
 // const formFields = {};
@@ -22,6 +24,8 @@ import {
   uploadPtsd,
   uploadPtsdSecondary,
   individualsInvolvedChoice,
+  informationInterviewCombat,
+  informationInterviewAssault,
 } from '../pages';
 
 const formConfig = {
@@ -41,10 +45,9 @@ const formConfig = {
   title: 'Apply for increased disability compensation',
   chapters: {
     introductionPage: {
-      title: 'Disability Details',
       pages: {
         ptsdIntroduction: {
-          'ui:title': '',
+          title: 'Disability Details',
           path: 'info',
           uiSchema: {
             'ui:description': introductionText,
@@ -89,6 +92,16 @@ const formConfig = {
           uiSchema: uploadPtsd.uiSchema,
           schema: uploadPtsd.schema,
         },
+        informationInterviewCombat: {
+          path: 'information-781',
+          title: 'Disability Details',
+          depends: form =>
+            form['view:uploadPtsdChoice'] === 'answerQuestions' &&
+            (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
+              form['view:selectablePtsdTypes']['view:noncombatPtsdType']),
+          uiSchema: informationInterviewCombat.uiSchema,
+          schema: informationInterviewCombat.schema,
+        },
         ptsdSecondaryChoice: {
           path: 'ptsdSecondaryChoice',
           title: 'Disability Details',
@@ -108,6 +121,31 @@ const formConfig = {
           uiSchema: uploadPtsdSecondary.uiSchema,
           schema: uploadPtsdSecondary.schema,
         },
+        informationInterviewAssault: {
+          path: 'information-781a',
+          title: 'Disability Details',
+          depends: form =>
+            form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' &&
+            (form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
+              form['view:selectablePtsdTypes']['view:assaultPtsdType']),
+          uiSchema: informationInterviewAssault.uiSchema,
+          schema: informationInterviewAssault.schema,
+        },
+        // medals: { //TODO: KEEP FOR NEXT STORY
+        //   path: 'information-781',
+        //   title: 'Disability Details',
+        //   depends: form =>
+        //     form['view:uploadPtsdChoice'] === 'answerQuestions' &&
+        //     (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
+        //       form['view:selectablePtsdTypes']['view:noncombatPtsdType']),
+        //   uiSchema: {
+        //     'ui:description': 'Medals or Citations',
+        //   },
+        //   schema: {
+        //     type: 'object',
+        //     properties: {},
+        //   },
+        // },
       },
     },
   },

@@ -28,6 +28,16 @@ import {
   schema as individualsInvolvedChoiceSchema,
 } from './individualsInvolvedChoice';
 
+import {
+  uiSchema as informationInterviewCombatUISchema,
+  schema as informationInterviewCombatSchema,
+} from './informationInterviewCombat';
+
+import {
+  uiSchema as informationInterviewAssaultUISchema,
+  schema as informationInterviewAssaultSchema,
+} from './informationInterviewAssault';
+
 export const ptsdType = {
   uiSchema: ptsdTypeUISchema,
   schema: ptsdTypeSchema,
@@ -56,4 +66,14 @@ export const uploadPtsdSecondary = {
 export const individualsInvolvedChoice = {
   uiSchema: individualsInvolvedChoiceUISchema,
   schema: individualsInvolvedChoiceSchema,
+};
+
+export const informationInterviewCombat = {
+  uiSchema: informationInterviewCombatUISchema,
+  schema: informationInterviewCombatSchema,
+};
+
+export const informationInterviewAssault = {
+  uiSchema: informationInterviewAssaultUISchema,
+  schema: informationInterviewAssaultSchema,
 };
