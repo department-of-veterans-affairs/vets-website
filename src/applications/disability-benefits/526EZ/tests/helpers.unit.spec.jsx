@@ -6,11 +6,11 @@ import {
   addPhoneEmailToCard,
   prefillTransformer,
   get4142Selection,
-  queryForFacilities,
   transform,
   transformObligationDates,
   getReservesGuardData,
 } from '../helpers.jsx';
+import { queryForFacilities } from '../../all-claims/utils.jsx';
 import maximalData from './schema/maximal-test';
 import initialData from './schema/initialData.js';
 
@@ -118,6 +118,16 @@ describe('526 helpers', () => {
           },
         },
         standardClaim: false,
+        treatments: [
+          {
+            treatmentCenterName: 'Somerset VA Clinic',
+            treatmentDateRange: { from: '2000-06-06', to: '2004-02-06' },
+          },
+          {
+            treatmentCenterName: 'DC VA Regional Medical Center',
+            treatmentDateRange: { from: '2000-07-04', to: '2010-01-03' },
+          },
+        ],
         form4142: {
           limitedConsent: '',
           providerFacility: [
@@ -140,26 +150,11 @@ describe('526 helpers', () => {
                 city: 'Testville',
                 country: 'USA',
                 state: 'AZ',
+                postalCode: '12345',
               },
             },
           ],
         },
-        treatments: [
-          {
-            treatmentCenterName: 'Somerset VA Clinic',
-            treatmentDateRange: {
-              from: '2000-06-06',
-              to: '2004-02-06',
-            },
-          },
-          {
-            treatmentCenterName: 'DC VA Regional Medical Center',
-            treatmentDateRange: {
-              from: '2000-07-04',
-              to: '2010-01-03',
-            },
-          },
-        ],
       },
     };
     it('should return stringified, transformed data for submit', () => {
