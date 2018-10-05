@@ -442,6 +442,14 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
     additionalDocuments,
   } = formData;
 
+  const {
+    'view:selectableEvidenceTypes': {
+      'view:vaMedicalRecords': vaRecordsSelected,
+      'view:privateMedicalRecords': privateRecordsSelected,
+      'view:otherEvidence': otherEvidenceSelected,
+    },
+  } = formData;
+
   return (
     <div>
       {formContext.reviewMode && (
@@ -452,29 +460,33 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
         </div>
       )}
       <ul>
-        {treatments && (
-          <li>
-            We’ll get your medical records from {listCenters(treatments)}.
-          </li>
-        )}
-        {privateRecordReleases && (
-          <li>
-            We’ll get your private medical records from{' '}
-            {listCenters(privateRecordReleases)}.
-          </li>
-        )}
-        {privateRecords && (
-          <li>
-            We have received the private medical records you uploaded:
-            {listDocuments(privateRecords)}
-          </li>
-        )}
-        {additionalDocuments && (
-          <li>
-            We have received the additional evidence you uploaded:
-            {listDocuments(additionalDocuments)}
-          </li>
-        )}
+        {treatments &&
+          vaRecordsSelected && (
+            <li>
+              We’ll get your medical records from {listCenters(treatments)}.
+            </li>
+          )}
+        {privateRecordReleases &&
+          privateRecordsSelected && (
+            <li>
+              We’ll get your private medical records from{' '}
+              {listCenters(privateRecordReleases)}.
+            </li>
+          )}
+        {privateRecords &&
+          privateRecordsSelected && (
+            <li>
+              We have received the private medical records you uploaded:
+              {listDocuments(privateRecords)}
+            </li>
+          )}
+        {additionalDocuments &&
+          otherEvidenceSelected && (
+            <li>
+              We have received the additional evidence you uploaded:
+              {listDocuments(additionalDocuments)}
+            </li>
+          )}
       </ul>
     </div>
   );
