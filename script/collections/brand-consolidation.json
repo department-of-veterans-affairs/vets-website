@@ -265,7 +265,7 @@
     }
   },
   "educationYellowRibbonProgram": {
-    "pattern": "education/about-gi-bill-benefits/yellow-ribbon-program/*.md",
+    "pattern": "education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "Yellow Ribbon Program",
