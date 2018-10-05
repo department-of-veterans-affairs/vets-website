@@ -27,16 +27,16 @@ describe('<SaveInProgressErrorPage>', () => {
   const route = {
     formConfig: {
       formId: '1010ez',
-      migrations: []
-    }
+      migrations: [],
+    },
   };
 
   const router = {
-    goBack: sinon.spy()
+    goBack: sinon.spy(),
   };
 
   const mockLoginUrl = {
-    idme: '/mockLoginUrl'
+    idme: '/mockLoginUrl',
   };
 
   it('should render the no auth error', () => {
@@ -47,13 +47,20 @@ describe('<SaveInProgressErrorPage>', () => {
         router={router}
         loginUrls={mockLoginUrl}
         route={route}
-        loadedStatus={LOAD_STATUSES.noAuth}/>
+        loadedStatus={LOAD_STATUSES.noAuth}
+      />,
     );
     const findDOM = findDOMNode(tree);
 
-    expect(findDOM.querySelector('.usa-alert').textContent).to.contain('You’re signed out of your account.');
-    expect(findDOM.querySelector('.usa-button-secondary').textContent).to.contain('Back');
-    expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain('Sign In');
+    expect(findDOM.querySelector('.usa-alert').textContent).to.contain(
+      'You’re signed out of your account.',
+    );
+    expect(
+      findDOM.querySelector('.usa-button-secondary').textContent,
+    ).to.contain('Back');
+    expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain(
+      'Sign In',
+    );
   });
   it('should render the unrecoverable failure error', () => {
     const tree = ReactTestUtils.renderIntoDocument(
@@ -63,12 +70,17 @@ describe('<SaveInProgressErrorPage>', () => {
         router={router}
         loginUrls={mockLoginUrl}
         route={route}
-        loadedStatus={LOAD_STATUSES.notFound}/>
+        loadedStatus={LOAD_STATUSES.notFound}
+      />,
     );
     const findDOM = findDOMNode(tree);
 
-    expect(findDOM.querySelector('.usa-alert').textContent).to.contain('We’re sorry. Something went wrong when we tried to find your application');
-    expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain('Back');
+    expect(findDOM.querySelector('.usa-alert').textContent).to.contain(
+      'We’re sorry. Something went wrong when we tried to find your application',
+    );
+    expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain(
+      'Back',
+    );
   });
   it('should render the recoverable failure error', () => {
     const tree = ReactTestUtils.renderIntoDocument(
@@ -78,13 +90,20 @@ describe('<SaveInProgressErrorPage>', () => {
         router={router}
         loginUrls={mockLoginUrl}
         route={route}
-        loadedStatus={LOAD_STATUSES.failure}/>
+        loadedStatus={LOAD_STATUSES.failure}
+      />,
     );
     const findDOM = findDOMNode(tree);
 
-    expect(findDOM.querySelector('.usa-alert').textContent).to.contain('We’re sorry. We’re having some server issues');
-    expect(findDOM.querySelector('.usa-button-secondary').textContent).to.contain('Back');
-    expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain('Continue Your Application');
+    expect(findDOM.querySelector('.usa-alert').textContent).to.contain(
+      'We’re sorry. We’re having some server issues',
+    );
+    expect(
+      findDOM.querySelector('.usa-button-secondary').textContent,
+    ).to.contain('Back');
+    expect(findDOM.querySelector('.usa-button-primary').textContent).to.contain(
+      'Continue Your Application',
+    );
   });
   it('should go back', () => {
     const fetchFormStatusSpy = sinon.spy();
@@ -96,7 +115,8 @@ describe('<SaveInProgressErrorPage>', () => {
         router={router}
         loginUrls={mockLoginUrl}
         route={route}
-        loadedStatus={LOAD_STATUSES.noAuth}/>
+        loadedStatus={LOAD_STATUSES.noAuth}
+      />,
     );
     const findDOM = findDOMNode(tree);
     const button = findDOM.querySelector('.usa-button-secondary');
@@ -114,7 +134,8 @@ describe('<SaveInProgressErrorPage>', () => {
         loginUrls={mockLoginUrl}
         route={route}
         loadedStatus={LOAD_STATUSES.failure}
-        fetchInProgressForm={fetchSpy}/>
+        fetchInProgressForm={fetchSpy}
+      />,
     );
     const findDOM = findDOMNode(tree);
     const button = findDOM.querySelector('.usa-button-primary');
@@ -134,7 +155,8 @@ describe('<SaveInProgressErrorPage>', () => {
         isStartingOver
         loadedStatus={LOAD_STATUSES.failure}
         removeInProgressForm={removeSpy}
-        fetchInProgressForm={fetchSpy}/>
+        fetchInProgressForm={fetchSpy}
+      />,
     );
     const findDOM = findDOMNode(tree);
     const button = findDOM.querySelector('.usa-button-primary');

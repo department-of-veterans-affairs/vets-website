@@ -12,18 +12,20 @@ export function registerBeta() {
       method: 'POST',
     };
 
-    apiRequest('/beta_registration/health_account',
+    apiRequest(
+      '/beta_registration/health_account',
       settings,
-      response => dispatch({
-        type: BETA_REGISTER_SUCCESS,
-        username: response.user,
-        stats: 'succeeded',
-      }),
-      () => dispatch({
-        type: BETA_REGISTER_FAILURE,
-        stats: 'failed'
-      })
+      response =>
+        dispatch({
+          type: BETA_REGISTER_SUCCESS,
+          username: response.user,
+          stats: 'succeeded',
+        }),
+      () =>
+        dispatch({
+          type: BETA_REGISTER_FAILURE,
+          stats: 'failed',
+        }),
     );
   };
 }
-

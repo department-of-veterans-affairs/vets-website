@@ -8,7 +8,10 @@ export const AdditionalResourcesLinks = () => (
       </a>
     </p>
     <p>
-      <a href="https://www.benefits.va.gov/gibill/choosing_a_school.asp" target="_blank">
+      <a
+        href="https://www.benefits.va.gov/gibill/choosing_a_school.asp"
+        target="_blank"
+      >
         Get help choosing a school
       </a>
     </p>
@@ -28,7 +31,7 @@ export const AdditionalResourcesLinks = () => (
 const AdditionalResources = () => (
   <div className="additional-resources usa-width-one-third medium-4 small-12 column">
     <h4 className="highlight">Additional Resources</h4>
-    <AdditionalResourcesLinks/>
+    <AdditionalResourcesLinks />
   </div>
 );
 

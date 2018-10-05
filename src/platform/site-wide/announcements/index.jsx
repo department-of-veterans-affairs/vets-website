@@ -27,9 +27,10 @@ export default function startAnnouncement(store) {
   const isDisabled = localStorage.getItem(ANNOUNCEMENTS_LOCAL_STORAGE) === '*';
   if (isDisabled) return;
 
-  startReactApp((
+  startReactApp(
     <Provider store={store}>
-      <Announcement/>
-    </Provider>
-  ), annoucementRoot);
+      <Announcement />
+    </Provider>,
+    annoucementRoot,
+  );
 }

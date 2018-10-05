@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const PastEvent = ({ title, date, description, hideSeparator }) => {
-  const separator = (hideSeparator === true)
-    ? null
-    : <div className="separator"/>;
+  const separator =
+    hideSeparator === true ? null : <div className="separator" />;
 
   return (
     <li role="presentation" className={'process-step section-complete'}>

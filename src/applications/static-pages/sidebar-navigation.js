@@ -16,22 +16,28 @@ class SideBarMenu {
   }
 
   init() {
-    this.menuTrigger.forEach((mt) => {
-      mt.addEventListener('click', (domEvent) => {
+    this.menuTrigger.forEach(mt => {
+      mt.addEventListener('click', domEvent => {
         this.openMenu(domEvent.currentTarget);
       });
     });
   }
 
   getMenu(element) {
-    const el = document.querySelector(`#${element.getAttribute('aria-controls')}`);
+    const el = document.querySelector(
+      `#${element.getAttribute('aria-controls')}`,
+    );
     this.menu = el;
     return this.menu;
   }
 
   openMenu(trigger) {
     this.getMenu(trigger).classList.add('va-sidebarnav--opened');
-    document.body.classList.add('va-pos-fixed');
+    this.getMenu(trigger).setAttribute('aria-hidden', 'false');
+    document
+      .getElementsByClassName('va-btn-sidebarnav-trigger')[0]
+      .setAttribute('hidden', 'true');
+    document.getElementsByTagName('body')[0].style.overflow = 'hidden';
     this.closeMenu(trigger);
   }
 
@@ -39,7 +45,11 @@ class SideBarMenu {
     const close = this.menu.querySelector('.va-sidebarnav-close');
     close.addEventListener('click', () => {
       this.menu.classList.remove('va-sidebarnav--opened');
-      document.body.classList.remove('va-pos-fixed');
+      this.menu.setAttribute('aria-hidden', 'true');
+      document.getElementsByTagName('body')[0].style.overflow = 'initial';
+      document
+        .getElementsByClassName('va-btn-sidebarnav-trigger')[0]
+        .removeAttribute('hidden');
     });
   }
 }

@@ -7,8 +7,9 @@ class ButtonCreateFolder extends React.Component {
       <button
         className="va-icon-link msg-btn-newfolder"
         onClick={this.props.onClick}
-        type="button">
-        <i className="fa fa-plus"></i>
+        type="button"
+      >
+        <i className="fa fa-plus" />
         <span>Create new folder</span>
       </button>
     );
@@ -16,7 +17,7 @@ class ButtonCreateFolder extends React.Component {
 }
 
 ButtonCreateFolder.propTypes = {
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 };
 
 export default ButtonCreateFolder;

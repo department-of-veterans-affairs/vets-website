@@ -4,11 +4,17 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  submitForm,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Hca additionalInformation', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryService.pages.additionalInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.militaryService.pages.additionalInformation;
   const definitions = formConfig.defaultDefinitions;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -16,7 +22,8 @@ describe('Hca additionalInformation', () => {
         schema={schema}
         data={{}}
         uiSchema={uiSchema}
-        definitions={definitions}/>
+        definitions={definitions}
+      />,
     );
     const formDOM = findDOMNode(form);
 
@@ -30,7 +37,8 @@ describe('Hca additionalInformation', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
@@ -38,4 +46,3 @@ describe('Hca additionalInformation', () => {
     expect(onSubmit.called).to.be.true;
   });
 });
-

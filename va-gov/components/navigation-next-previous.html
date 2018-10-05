@@ -1,0 +1,59 @@
+{% comment %}
+
+=====================
+ Next + Previous navigation component
+=====================
+
+Requires a collection.
+
+  - To define a collection, add an object to the .json file in script/collections. Look for the line that
+    begins `smith.use(collections`
+
+  - Collections are global, and available in a `collections` object.
+
+  - Find out what collections are available using `{{ collections | keys  }}`
+
+  - To order a collection, add an `order` property to the metadata of each item
+    in the collection.
+
+{% endcomment %}
+
+{% if previous != empty OR next != empty %}
+<nav class="va-navigation-nextprevious usa-content">
+  <ul>
+    {% if previous != empty %}
+    <li class="va-navigation-nextprevious-previous">
+      <strong>Previous</strong>
+      {% if previous.href != empty %}
+        <a href="{{ previous.href }}" target="{{ previous.target }}" onClick="recordEvent({ event: 'nav-prev-link-clicked' });">
+      {% else %}
+        <a href="/{{ previous.path }}" onClick="recordEvent({ event: 'nav-prev-link-clicked' });">
+      {% endif %}
+        {% if previous.display_title %}
+          {{ previous.display_title }}
+        {% else %}
+          {{ previous.title }}
+        {% endif %}
+      </a>
+    </li>
+    {% endif %}
+
+    {% if next != empty %}
+    <li class="va-navigation-nextprevious-next">
+      <strong>Next</strong>
+      {% if next.href != empty %}
+        <a href="{{ next.href }}" target="{{ next.target }}" onClick="recordEvent({ event: 'nav-next-link-clicked' });">
+      {% else %}
+        <a href="/{{ next.path }}" onClick="recordEvent({ event: 'nav-next-link-clicked' });">
+      {% endif %}
+        {% if next.display_title %}
+          {{ next.display_title }}
+        {% else %}
+          {{ next.title }}
+        {% endif %}
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}

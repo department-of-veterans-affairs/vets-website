@@ -3,22 +3,29 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, getFormDOM } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  getFormDOM,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
 describe('Child address page', () => {
-  const { schema, uiSchema, arrayPath } = formConfig.chapters.householdInformation.pages.childrenAddress;
+  const {
+    schema,
+    uiSchema,
+    arrayPath,
+  } = formConfig.chapters.householdInformation.pages.childrenAddress;
   const nameData = {
     'view:hasDependents': true,
     dependents: [
       {
         fullName: {
           first: 'Jane',
-          last: 'Doe'
+          last: 'Doe',
         },
         dependentRelationship: 'child',
-      }
-    ]
+      },
+    ],
   };
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -28,11 +35,14 @@ describe('Child address page', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={nameData}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(2);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(
+      2,
+    );
   });
 
   it('should render address fields', () => {
@@ -43,13 +53,16 @@ describe('Child address page', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={nameData}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
     formDOM.setYesNo('input#root_childInHouseholdNo', 'N');
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(13);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(
+      13,
+    );
   });
 
   it('should show errors when required fields are empty', () => {
@@ -62,7 +75,8 @@ describe('Child address page', () => {
         schema={schema}
         onSubmit={onSubmit}
         data={nameData}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
     formDOM.submitForm(form);
@@ -80,7 +94,8 @@ describe('Child address page', () => {
         schema={schema}
         data={nameData}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);

@@ -2,17 +2,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import _ from 'lodash/fp';
 
 import { FormPage } from 'us-forms-system/lib/js/containers/FormPage';
 import { setData, uploadFile } from 'us-forms-system/lib/js/actions';
+
+import debounce from '../../utilities/data/debounce';
 
 import SaveFormLink from './SaveFormLink';
 import SaveStatus from './SaveStatus';
 import {
   saveErrors,
   autoSaveForm,
-  saveAndRedirectToReturnUrl
+  saveAndRedirectToReturnUrl,
 } from './actions';
 import { getFormContext } from './selectors';
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
@@ -20,13 +21,13 @@ import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 class RoutedSavablePage extends React.Component {
   constructor(props) {
     super(props);
-    this.debouncedAutoSave = _.debounce(1000, this.autoSave);
+    this.debouncedAutoSave = debounce(1000, this.autoSave);
   }
 
-  onChange = (formData) => {
+  onChange = formData => {
     this.props.setData(formData);
     this.debouncedAutoSave();
-  }
+  };
 
   autoSave() {
     const { form, user } = this.props;
@@ -47,15 +48,16 @@ class RoutedSavablePage extends React.Component {
           isLoggedIn={user.login.currentlyLoggedIn}
           showLoginModal={this.props.showLoginModal}
           toggleLoginModal={this.props.toggleLoginModal}
-          form={form}>
-        </SaveStatus>
+          form={form}
+        />
         <SaveFormLink
           locationPathname={this.props.location.pathname}
           form={form}
           user={user}
           showLoginModal={this.props.showLoginModal}
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-          toggleLoginModal={this.props.toggleLoginModal}/>
+          toggleLoginModal={this.props.toggleLoginModal}
+        />
       </div>
     );
 
@@ -65,7 +67,8 @@ class RoutedSavablePage extends React.Component {
         blockScrollOnMount={saveErrors.has(form.savedStatus)}
         setData={this.onChange}
         formContext={getFormContext({ user, form })}
-        contentAfterButtons={contentAfterButtons}/>
+        contentAfterButtons={contentAfterButtons}
+      />
     );
   }
 }
@@ -74,7 +77,7 @@ function mapStateToProps(state) {
   return {
     form: state.form,
     user: state.user,
-    showLoginModal: state.navigation.showLoginModal
+    showLoginModal: state.navigation.showLoginModal,
   };
 }
 
@@ -83,7 +86,7 @@ const mapDispatchToProps = {
   saveAndRedirectToReturnUrl,
   autoSaveForm,
   toggleLoginModal,
-  uploadFile
+  uploadFile,
 };
 
 RoutedSavablePage.propTypes = {
@@ -92,15 +95,22 @@ RoutedSavablePage.propTypes = {
     pageConfig: PropTypes.shape({
       pageKey: PropTypes.string.isRequired,
       schema: PropTypes.object.isRequired,
-      uiSchema: PropTypes.object.isRequired
+      uiSchema: PropTypes.object.isRequired,
     }),
-    pageList: PropTypes.arrayOf(PropTypes.shape({
-      path: PropTypes.string.isRequired
-    }))
+    pageList: PropTypes.arrayOf(
+      PropTypes.shape({
+        path: PropTypes.string.isRequired,
+      }),
+    ),
   }),
-  setData: PropTypes.func
+  setData: PropTypes.func,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RoutedSavablePage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(RoutedSavablePage),
+);
 
 export { RoutedSavablePage };

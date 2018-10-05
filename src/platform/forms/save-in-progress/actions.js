@@ -23,19 +23,23 @@ export const SAVE_STATUSES = Object.freeze({
   noAuth: 'no-auth',
   failure: 'failure',
   clientFailure: 'clientFailure',
-  success: 'success'
+  success: 'success',
 });
 
-export const saveErrors = new Set([SAVE_STATUSES.failure, SAVE_STATUSES.clientFailure, SAVE_STATUSES.noAuth]);
+export const saveErrors = new Set([
+  SAVE_STATUSES.failure,
+  SAVE_STATUSES.clientFailure,
+  SAVE_STATUSES.noAuth,
+]);
 
 const saveTypes = {
   AUTO: 'auto',
-  SAVE_AND_REDIRECT: 'saveAndRedirect'
+  SAVE_AND_REDIRECT: 'saveAndRedirect',
 };
 
 const statusActionsByType = new Map([
   [saveTypes.AUTO, SET_AUTO_SAVE_FORM_STATUS],
-  [saveTypes.SAVE_AND_REDIRECT, SET_SAVE_FORM_STATUS]
+  [saveTypes.SAVE_AND_REDIRECT, SET_SAVE_FORM_STATUS],
 ]);
 
 export const LOAD_STATUSES = Object.freeze({
@@ -45,36 +49,41 @@ export const LOAD_STATUSES = Object.freeze({
   failure: 'failure',
   notFound: 'not-found',
   invalidData: 'invalid-data',
-  success: 'success'
+  success: 'success',
 });
 
 export const PREFILL_STATUSES = {
   notAttempted: 'not-attempted',
   pending: 'pending',
   success: 'success',
-  unfilled: 'unfilled'
+  unfilled: 'unfilled',
 };
 
-export function setSaveFormStatus(saveType, status, lastSavedDate = null, expirationDate = null) {
+export function setSaveFormStatus(
+  saveType,
+  status,
+  lastSavedDate = null,
+  expirationDate = null,
+) {
   return {
     type: statusActionsByType.get(saveType),
     status,
     lastSavedDate,
-    expirationDate
+    expirationDate,
   };
 }
 
 export function setFetchFormStatus(status) {
   return {
     type: SET_FETCH_FORM_STATUS,
-    status
+    status,
   };
 }
 
 export function setFetchFormPending(prefill) {
   return {
     type: SET_FETCH_FORM_PENDING,
-    prefill
+    prefill,
   };
 }
 
@@ -82,13 +91,13 @@ export function setInProgressForm(data, pages) {
   return {
     type: SET_IN_PROGRESS_FORM,
     data,
-    pages
+    pages,
   };
 }
 
 export function setStartOver() {
   return {
-    type: SET_START_OVER
+    type: SET_START_OVER,
   };
 }
 
@@ -156,20 +165,32 @@ function saveForm(saveType, formId, formData, version, returnUrl) {
 
     dispatch(setSaveFormStatus(saveType, SAVE_STATUSES.pending));
 
-    return saveFormApi(formId, formData, version, returnUrl, savedAt, trackingPrefix)
+    return saveFormApi(
+      formId,
+      formData,
+      version,
+      returnUrl,
+      savedAt,
+      trackingPrefix,
+    )
       .then(json => {
-        dispatch(setSaveFormStatus(
-          saveType,
-          SAVE_STATUSES.success,
-          savedAt,
-          json.data.attributes.metadata.expiresAt
-        ));
+        dispatch(
+          setSaveFormStatus(
+            saveType,
+            SAVE_STATUSES.success,
+            savedAt,
+            json.data.attributes.metadata.expiresAt,
+          ),
+        );
 
         return Promise.resolve(json);
       })
       .catch(resOrError => {
         let errorStatus;
-        if (resOrError.status === 401 || resOrError.message === 'Missing token') {
+        if (
+          resOrError.status === 401 ||
+          resOrError.message === 'Missing token'
+        ) {
           dispatch(logOut());
           errorStatus = SAVE_STATUSES.noAuth;
         } else if (resOrError instanceof Response) {
@@ -199,7 +220,12 @@ export function saveAndRedirectToReturnUrl(...args) {
  *                                version of the form the data was saved with
  *                                is different from the current version.
  */
-export function fetchInProgressForm(formId, migrations, prefill = false, prefillTransformer = null) {
+export function fetchInProgressForm(
+  formId,
+  migrations,
+  prefill = false,
+  prefillTransformer = null,
+) {
   // TODO: Migrations currently aren’t sent; they’re taken from `form` in the
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
@@ -219,108 +245,118 @@ export function fetchInProgressForm(formId, migrations, prefill = false, prefill
       headers: {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel',
-        Authorization: `Token token=${userToken}`
+        Authorization: `Token token=${userToken}`,
       },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      let status = LOAD_STATUSES.failure;
-      if (res.status === 401) {
-        dispatch(logOut());
-        status = LOAD_STATUSES.noAuth;
-      } else if (res.status === 404) {
-        status = LOAD_STATUSES.notFound;
-      }
-      return Promise.reject(status);
-    }).then((resBody) => {
-      // Just in case something funny happens where the json returned isn’t an object as expected
-      // Unfortunately, JavaScript is quite fiddly here, so there has to be additional checks
-      if (typeof resBody !== 'object' || Array.isArray(resBody) || !resBody) {
-        return Promise.reject(LOAD_STATUSES.invalidData);
-      }
-
-      // If an empty object is returned, throw a not-found
-      // TODO: When / if we return a 404 for applications that don’t exist, remove this
-      if (Object.keys(resBody).length === 0) {
-        return Promise.reject(LOAD_STATUSES.notFound);
-      }
-
-      // If we’ve made it this far, we’ve got valid form
-
-      let formData;
-      let metadata;
-      try {
-        const dataToMigrate = {
-          formId,
-          formData: resBody.formData,
-          metadata: resBody.metadata
-        };
-
-        ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
-
-        let pages = getState().form.pages;
-        if (metadata.prefill && prefillTransformer) {
-          ({ formData, pages, metadata } = prefillTransformer(pages, formData, metadata, getState()));
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
         }
 
-        dispatch(setInProgressForm({ formData, metadata }, pages));
+        let status = LOAD_STATUSES.failure;
+        if (res.status === 401) {
+          dispatch(logOut());
+          status = LOAD_STATUSES.noAuth;
+        } else if (res.status === 404) {
+          status = LOAD_STATUSES.notFound;
+        }
+        return Promise.reject(status);
+      })
+      .then(resBody => {
+        // Just in case something funny happens where the json returned isn’t an object as expected
+        // Unfortunately, JavaScript is quite fiddly here, so there has to be additional checks
+        if (typeof resBody !== 'object' || Array.isArray(resBody) || !resBody) {
+          return Promise.reject(LOAD_STATUSES.invalidData);
+        }
 
-        recordEvent({
-          event: `${trackingPrefix}sip-form-loaded`
-        });
+        // If an empty object is returned, throw a not-found
+        // TODO: When / if we return a 404 for applications that don’t exist, remove this
+        if (Object.keys(resBody).length === 0) {
+          return Promise.reject(LOAD_STATUSES.notFound);
+        }
 
-        return Promise.resolve();
-      } catch (e) {
-        // We don’t want to lose the stacktrace, but want to be able to search for migration errors
-        // related to SiP
-        Raven.captureException(e);
-        Raven.captureMessage('vets_sip_error_migration', {
-          extra: {
-            formData: sanitizeForm(resBody.formData),
-            metadata: resBody.metadata
+        // If we’ve made it this far, we’ve got valid form
+
+        let formData;
+        let metadata;
+        try {
+          const dataToMigrate = {
+            formId,
+            formData: resBody.formData,
+            metadata: resBody.metadata,
+          };
+
+          ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
+
+          let pages = getState().form.pages;
+          if (metadata.prefill && prefillTransformer) {
+            ({ formData, pages, metadata } = prefillTransformer(
+              pages,
+              formData,
+              metadata,
+              getState(),
+            ));
           }
-        });
-        return Promise.reject(LOAD_STATUSES.invalidData);
-      }
-    }).catch((status) => {
-      let loadedStatus = status;
-      if (status instanceof SyntaxError) {
-        // if res.json() has a parsing error, it’ll reject with a SyntaxError
-        Raven.captureException(new Error(`vets_sip_error_server_json: ${status.message}`));
-        loadedStatus = LOAD_STATUSES.invalidData;
-      } else if (status instanceof Error) {
-        // If we’ve got an error that isn’t a SyntaxError, it’s probably a network error
-        Raven.captureException(status);
-        Raven.captureMessage('vets_sip_error_fetch');
-        loadedStatus = LOAD_STATUSES.clientFailure;
-      }
 
-      // If prefilling went wrong for a non-auth reason, it probably means that
-      // they didn’t have info to use and we can continue on as usual
-      if (prefill && loadedStatus !== LOAD_STATUSES.noAuth) {
-        dispatch(setPrefillComplete());
-        recordEvent({
-          event: `${trackingPrefix}sip-form-prefill-failed`
-        });
-      } else {
-        // If we're in a noAuth status, users are sent to the error page
-        // where they can sign in again. This isn't an error, it's expected
-        // when a session expires
-        if (loadedStatus === LOAD_STATUSES.noAuth) {
+          dispatch(setInProgressForm({ formData, metadata }, pages));
+
           recordEvent({
-            event: `${trackingPrefix}sip-form-load-signed-out`
+            event: `${trackingPrefix}sip-form-loaded`,
+          });
+
+          return Promise.resolve();
+        } catch (e) {
+          // We don’t want to lose the stacktrace, but want to be able to search for migration errors
+          // related to SiP
+          Raven.captureException(e);
+          Raven.captureMessage('vets_sip_error_migration', {
+            extra: {
+              formData: sanitizeForm(resBody.formData),
+              metadata: resBody.metadata,
+            },
+          });
+          return Promise.reject(LOAD_STATUSES.invalidData);
+        }
+      })
+      .catch(status => {
+        let loadedStatus = status;
+        if (status instanceof SyntaxError) {
+          // if res.json() has a parsing error, it’ll reject with a SyntaxError
+          Raven.captureException(
+            new Error(`vets_sip_error_server_json: ${status.message}`),
+          );
+          loadedStatus = LOAD_STATUSES.invalidData;
+        } else if (status instanceof Error) {
+          // If we’ve got an error that isn’t a SyntaxError, it’s probably a network error
+          Raven.captureException(status);
+          Raven.captureMessage('vets_sip_error_fetch');
+          loadedStatus = LOAD_STATUSES.clientFailure;
+        }
+
+        // If prefilling went wrong for a non-auth reason, it probably means that
+        // they didn’t have info to use and we can continue on as usual
+        if (prefill && loadedStatus !== LOAD_STATUSES.noAuth) {
+          dispatch(setPrefillComplete());
+          recordEvent({
+            event: `${trackingPrefix}sip-form-prefill-failed`,
           });
         } else {
-          Raven.captureMessage(`vets_sip_error_load: ${loadedStatus}`);
-          recordEvent({
-            event: `${trackingPrefix}sip-form-load-failed`
-          });
+          // If we're in a noAuth status, users are sent to the error page
+          // where they can sign in again. This isn't an error, it's expected
+          // when a session expires
+          if (loadedStatus === LOAD_STATUSES.noAuth) {
+            recordEvent({
+              event: `${trackingPrefix}sip-form-load-signed-out`,
+            });
+          } else {
+            Raven.captureMessage(`vets_sip_error_load: ${loadedStatus}`);
+            recordEvent({
+              event: `${trackingPrefix}sip-form-load-failed`,
+            });
+          }
+          dispatch(setFetchFormStatus(loadedStatus));
         }
-        dispatch(setFetchFormStatus(loadedStatus));
-      }
-    });
+      });
   };
 }
 
@@ -343,12 +379,14 @@ export function removeInProgressForm(formId, migrations, prefillTransformer) {
       })
       .then(() => {
         recordEvent({
-          event: `${trackingPrefix}sip-form-start-over`
+          event: `${trackingPrefix}sip-form-start-over`,
         });
         // This action removes the form from the profile list
         dispatch({ type: REMOVING_SAVED_FORM_SUCCESS, formId });
         // after deleting, go fetch prefill info if they’ve got it
-        return dispatch(fetchInProgressForm(formId, migrations, true, prefillTransformer));
+        return dispatch(
+          fetchInProgressForm(formId, migrations, true, prefillTransformer),
+        );
       })
       .catch(() => {
         dispatch(logOut());

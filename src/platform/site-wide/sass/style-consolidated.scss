@@ -1,0 +1,51 @@
+$font-path: "~uswds/src/fonts";
+$image-path: "~uswds/src/img";
+
+@font-face {
+  font-family: "FontAwesome";
+  src: url("~font-awesome/fonts/fontawesome-webfont.woff2") format("woff2"),
+    url("~font-awesome/fonts/fontawesome-webfont.woff") format("woff"),
+    url("~font-awesome/fonts/fontawesome-webfont.eot") format("eot");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.consolidated {
+  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+  @import "~@department-of-veterans-affairs/formation/sass/core";
+
+  @import "../../site-wide/user-nav/sass/user-nav";
+
+
+  @import "modules/m-footer";
+
+  // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
+  @import "~@department-of-veterans-affairs/formation/sass/modules/m-alert";
+  @import "modules/m-crisis-line-brand-consolidation";
+  @import "~@department-of-veterans-affairs/formation/sass/modules/m-table";
+  @import "~@department-of-veterans-affairs/formation/sass/modules/m-breadcrumbs";
+  @import "~@department-of-veterans-affairs/formation/sass/modules/m-button";
+  @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-elements";
+  @import "~@department-of-veterans-affairs/formation/sass/modules/m-megamenu";
+  @import "modules/m-search";
+  @import "~@department-of-veterans-affairs/formation/sass/modules/m-loading-indicator";
+  @import "modules/m-vet-nav-px";
+  @import "~@department-of-veterans-affairs/formation/sass/modules/m-print";
+  @import "~@department-of-veterans-affairs/formation/sass/modules/m-dropdown";
+  @import "~@department-of-veterans-affairs/formation/sass/modules/m-overlay";
+  @import "~@department-of-veterans-affairs/formation/sass/modules/m-additional-info";
+  @import "../../monitoring/DowntimeNotification/sass/m-downtime-notification";
+
+  // ----- mobile typography -- see #6214 on vets.gov-team ---- //
+
+  @import "~@department-of-veterans-affairs/formation/sass/mobile-typography";
+
+  // ----- VA SHAME ---- //
+
+  @import "~@department-of-veterans-affairs/formation/sass/shame";
+  // @import "slider";
+  @import "iconography";
+  @import "merger";
+
+  @import "consolidated-patches";
+}

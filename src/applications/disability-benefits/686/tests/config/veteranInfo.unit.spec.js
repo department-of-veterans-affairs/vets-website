@@ -3,28 +3,32 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, selectCheckbox } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+  selectCheckbox,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('686 veteran information', () => {
-  const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranInformation;
-  const veteranCondition = () => {
-    return {
-      'view:relationshipToVet': '1'
-    };
-  };
-  const notVeteranCondition = () => {
-    return {
-      'view:relationshipToVet': '2'
-    };
-  };
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.veteranInformation.pages.veteranInformation;
+  const veteranCondition = () => ({
+    'view:relationshipToVet': '1',
+  });
+  const notVeteranCondition = () => ({
+    'view:relationshipToVet': '2',
+  });
   it('should render if applicant is veteran', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         data={veteranCondition()}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     expect(form.find('input').length).to.equal(2);
   });
@@ -35,7 +39,8 @@ describe('686 veteran information', () => {
         schema={schema}
         data={notVeteranCondition()}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     expect(form.find('input').length).to.equal(5);
     expect(form.find('select').length).to.equal(1);
@@ -47,7 +52,8 @@ describe('686 veteran information', () => {
         schema={schema}
         data={notVeteranCondition()}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     selectCheckbox(form, 'root_view:noSSN', true);
     expect(form.find('input').length).to.equal(6);
@@ -61,7 +67,8 @@ describe('686 veteran information', () => {
         data={veteranCondition()}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
@@ -76,7 +83,8 @@ describe('686 veteran information', () => {
         data={notVeteranCondition()}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(3);
@@ -91,7 +99,8 @@ describe('686 veteran information', () => {
         definitions={formConfig.defaultDefinitions}
         data={veteranCondition()}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     fillData(form, 'input#root_veteranSocialSecurityNumber', '222-23-2424');
@@ -109,7 +118,8 @@ describe('686 veteran information', () => {
         definitions={formConfig.defaultDefinitions}
         data={notVeteranCondition()}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     fillData(form, 'input#root_veteranFullName_first', 'test');
     fillData(form, 'input#root_veteranFullName_last', 'test');

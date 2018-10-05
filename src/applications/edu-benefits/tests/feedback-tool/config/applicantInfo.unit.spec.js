@@ -3,24 +3,31 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../../../../platform/testing/unit/schemaform-utils';
+import {
+  DefinitionTester,
+  fillData,
+} from '../../../../../platform/testing/unit/schemaform-utils';
 import formConfig from '../../../feedback-tool/config/form';
 
 describe('feedback tool applicant info', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.applicantInformation.pages.applicantInformation;
 
   it('should render myself', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         data={{
-          onBehalfOf: 'Myself'
+          onBehalfOf: 'Myself',
         }}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
-    expect(form.find('input').length).to.equal(3);
+    expect(form.find('input').length).to.equal(4);
     expect(form.find('select').length).to.equal(3);
   });
 
@@ -29,13 +36,14 @@ describe('feedback tool applicant info', () => {
       <DefinitionTester
         schema={schema}
         data={{
-          onBehalfOf: 'Someone else'
+          onBehalfOf: 'Someone else',
         }}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
-    expect(form.find('input').length).to.equal(3);
+    expect(form.find('input').length).to.equal(4);
     expect(form.find('select').length).to.equal(2);
   });
 
@@ -46,14 +54,15 @@ describe('feedback tool applicant info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         data={{
-          onBehalfOf: 'Myself'
+          onBehalfOf: 'Myself',
         }}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -64,14 +73,15 @@ describe('feedback tool applicant info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         data={{
-          onBehalfOf: 'Someone else'
+          onBehalfOf: 'Someone else',
         }}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(2);
+    expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -82,18 +92,20 @@ describe('feedback tool applicant info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         data={{
-          onBehalfOf: 'Myself'
+          onBehalfOf: 'Myself',
         }}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
-    const select  = form.find('select#root_serviceAffiliation');
+    const select = form.find('select#root_serviceAffiliation');
     select.simulate('change', {
-      target: { value: 'Servicemember' }
+      target: { value: 'Servicemember' },
     });
     fillData(form, 'input#root_fullName_first', 'test');
     fillData(form, 'input#root_fullName_last', 'test');
+    fillData(form, 'input#root_socialSecurityNumberLastFour', '1234');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -106,17 +118,18 @@ describe('feedback tool applicant info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         data={{
-          onBehalfOf: 'Someone else'
+          onBehalfOf: 'Someone else',
         }}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     fillData(form, 'input#root_fullName_first', 'test');
     fillData(form, 'input#root_fullName_last', 'test');
+    fillData(form, 'input#root_socialSecurityNumberLastFour', '1234');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
-
 });

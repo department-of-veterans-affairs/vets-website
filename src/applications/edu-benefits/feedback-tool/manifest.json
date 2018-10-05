@@ -1,7 +1,0 @@
-{
-    "appName": "GI Bill School Feedback Tool",
-    "entryFile": "./feedback-tool-entry.jsx",
-    "entryName": "feedback-tool",
-    "rootUrl": "/education/gi-bill-school-feedback",
-    "production": false
-  }

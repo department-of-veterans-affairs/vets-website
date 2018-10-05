@@ -31,7 +31,7 @@ const mappedIds = [
   '22-5495',
   '40-10007',
   'FEEDBACK-TOOL',
-  'definitions'
+  'definitions',
 ];
 
 const configs = [
@@ -47,7 +47,7 @@ const configs = [
   fullSchema5490,
   fullSchema5495,
   fullSchema10007,
-  fullSchemaFeedbackTool
+  fullSchemaFeedbackTool,
 ];
 
 const excludedForms = new Set([
@@ -55,16 +55,18 @@ const excludedForms = new Set([
   '21-526EZ',
   '28-8832',
   '24-0296',
-  'VIC'
+  '21-4142',
+  'VIC',
 ]);
 
 describe('form migrations:', () => {
   it('should check all forms', () => {
-    const allFormIds = Object.keys(schemas).filter(formId => !excludedForms.has(formId));
+    const allFormIds = Object.keys(schemas).filter(
+      formId => !excludedForms.has(formId),
+    );
     const reformattedIds = mappedIds.slice(0);
     reformattedIds.splice(0, 1, '1010ez');
     reformattedIds.pop();
-    reformattedIds.splice(-1, 1, 'COMPLAINT-TOOL');
     const includedFormIds = configs.map(form => form.formId);
     expect(allFormIds).to.deep.equal(mappedIds);
     expect(includedFormIds).to.deep.equal(reformattedIds);
@@ -77,4 +79,3 @@ describe('form migrations:', () => {
     });
   });
 });
-

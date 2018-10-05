@@ -2,11 +2,11 @@ import moment from 'moment';
 
 // Called at startup so that the formatting applied under updateLocale occur site-wide.
 moment.updateLocale('en', {
-  meridiem: (hour) => {
+  meridiem: hour => {
     if (hour < 12) {
-      return 'am';
+      return 'a.m.';
     }
-    return 'pm';
+    return 'p.m.';
   },
   monthsShort: [
     'Jan.',
@@ -20,6 +20,6 @@ moment.updateLocale('en', {
     'Sept.',
     'Oct.',
     'Nov.',
-    'Dec.'
-  ]
+    'Dec.',
+  ],
 });

@@ -12,7 +12,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '2555',
@@ -21,7 +21,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '2601',
@@ -30,7 +30,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '2923',
@@ -39,7 +39,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'expired',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '2983',
@@ -48,7 +48,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '3115',
@@ -57,7 +57,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '3565',
@@ -66,7 +66,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '3568',
@@ -75,7 +75,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '5037',
@@ -84,7 +84,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '5356',
@@ -93,7 +93,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '5379',
@@ -102,7 +102,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '5490',
@@ -111,7 +111,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '5694',
@@ -120,7 +120,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '6074',
@@ -129,7 +129,7 @@ export default {
         participantId: 600043186,
         source: 'SEP',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '6075',
@@ -138,7 +138,7 @@ export default {
         participantId: 600043186,
         source: 'SEP',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '6369',
@@ -147,7 +147,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '6443',
@@ -156,7 +156,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '6445',
@@ -165,7 +165,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '6446',
@@ -174,7 +174,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '6447',
@@ -183,7 +183,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '6454',
@@ -192,7 +192,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '6457',
@@ -201,7 +201,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '6460',
@@ -210,7 +210,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '6466',
@@ -219,7 +219,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '6467',
@@ -228,7 +228,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '6468',
@@ -237,7 +237,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '6469',
@@ -246,7 +246,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '6471',
@@ -255,7 +255,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '6476',
@@ -264,7 +264,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '6834',
@@ -273,7 +273,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '7936',
@@ -282,7 +282,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '7998',
@@ -291,7 +291,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '7999',
@@ -300,7 +300,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '8001',
@@ -309,7 +309,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '8004',
@@ -318,7 +318,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '8017',
@@ -327,7 +327,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '8027',
@@ -336,7 +336,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '8059',
@@ -345,7 +345,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '8122',
@@ -354,7 +354,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '8136',
@@ -363,7 +363,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '8151',
@@ -372,7 +372,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '8187',
@@ -381,7 +381,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '8289',
@@ -390,7 +390,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '8332',
@@ -399,7 +399,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '8394',
@@ -408,7 +408,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '8604',
@@ -417,7 +417,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '8762',
@@ -426,7 +426,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '8886',
@@ -435,7 +435,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '8972',
@@ -444,7 +444,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '9028',
@@ -453,7 +453,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '9289',
@@ -462,7 +462,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '9489',
@@ -471,7 +471,7 @@ export default {
         participantId: 600043186,
         source: 'CENTMAIL',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '9535',
@@ -480,7 +480,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '9536',
@@ -489,7 +489,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '9782',
@@ -498,7 +498,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '9967',
@@ -507,7 +507,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '10261',
@@ -516,7 +516,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '10301',
@@ -525,7 +525,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '10326',
@@ -534,7 +534,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '10476',
@@ -543,7 +543,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '10478',
@@ -552,7 +552,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '10503',
@@ -561,7 +561,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '10559',
@@ -570,7 +570,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '10569',
@@ -579,7 +579,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '10619',
@@ -588,7 +588,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '10644',
@@ -597,7 +597,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '10813',
@@ -606,7 +606,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '10951',
@@ -615,7 +615,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '11088',
@@ -624,7 +624,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '11339',
@@ -633,7 +633,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '11508',
@@ -642,7 +642,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '11573',
@@ -651,7 +651,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '11615',
@@ -660,7 +660,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '11643',
@@ -669,7 +669,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '11708',
@@ -678,7 +678,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '11842',
@@ -687,7 +687,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '11919',
@@ -696,7 +696,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '12108',
@@ -705,7 +705,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '12261',
@@ -714,7 +714,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '12530',
@@ -723,7 +723,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '12560',
@@ -732,7 +732,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '13547',
@@ -741,7 +741,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '13583',
@@ -750,7 +750,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '13609',
@@ -759,7 +759,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '13680',
@@ -768,7 +768,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '13705',
@@ -777,7 +777,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '13799',
@@ -786,7 +786,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '13844',
@@ -795,7 +795,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '14197',
@@ -804,7 +804,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '14239',
@@ -813,7 +813,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '14775',
@@ -822,7 +822,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '15284',
@@ -831,7 +831,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '18143',
@@ -840,7 +840,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '18220',
@@ -849,7 +849,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '18749',
@@ -858,7 +858,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '18803',
@@ -867,7 +867,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '18852',
@@ -876,7 +876,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '19515',
@@ -885,7 +885,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '19607',
@@ -894,7 +894,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '19667',
@@ -903,7 +903,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '19676',
@@ -912,7 +912,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '19683',
@@ -921,7 +921,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '20007',
@@ -930,7 +930,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '20045',
@@ -939,7 +939,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '20326',
@@ -948,7 +948,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '20328',
@@ -957,7 +957,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '20412',
@@ -966,7 +966,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '20467',
@@ -975,7 +975,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '20873',
@@ -984,7 +984,7 @@ export default {
         participantId: 600043186,
         source: 'SEP',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '20987',
@@ -993,7 +993,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '21232',
@@ -1002,7 +1002,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '21345',
@@ -1011,7 +1011,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '21381',
@@ -1020,7 +1020,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '21444',
@@ -1029,7 +1029,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '21631',
@@ -1038,7 +1038,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '21899',
@@ -1047,7 +1047,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '22763',
@@ -1056,7 +1056,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '23904',
@@ -1065,7 +1065,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'incomplete',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '23985',
@@ -1074,7 +1074,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'incomplete',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '23987',
@@ -1083,7 +1083,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'incomplete',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '23988',
@@ -1092,7 +1092,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'incomplete',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '23989',
@@ -1101,7 +1101,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'incomplete',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '23990',
@@ -1110,7 +1110,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'incomplete',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '23991',
@@ -1119,7 +1119,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'incomplete',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '23992',
@@ -1128,7 +1128,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'incomplete',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '23996',
@@ -1137,7 +1137,7 @@ export default {
         participantId: 600043186,
         source: 'VDC',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '24030',
@@ -1146,7 +1146,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '24060',
@@ -1155,7 +1155,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '24777',
@@ -1164,7 +1164,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '26580',
@@ -1173,7 +1173,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '26606',
@@ -1182,7 +1182,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '26657',
@@ -1191,7 +1191,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '31183',
@@ -1200,7 +1200,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'claim_recieved',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '31718',
@@ -1209,7 +1209,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '144335',
@@ -1218,7 +1218,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '144532',
@@ -1227,7 +1227,7 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'duplicate',
-        type: 'compensation'
+        type: 'compensation',
       },
       {
         id: '166837',
@@ -1236,8 +1236,8 @@ export default {
         participantId: 600043186,
         source: 'EBN',
         status: 'active',
-        type: 'compensation'
-      }
-    ]
-  }
+        type: 'compensation',
+      },
+    ],
+  },
 };
