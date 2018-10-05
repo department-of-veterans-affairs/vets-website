@@ -1,10 +1,5 @@
 import backendServices from '../../user/profile/constants/backendServices';
 
-// Map frontend apps to their required services.
-// Note: frontend apps and backend services don't necessarily map one-to-one.
-// For example, some apps might require the same backend services.
-// Some apps might also require access to multiple backend services.
-
 export const frontendApps = {
   HEALTH_RECORDS: 'health-records',
   RX: 'rx',
@@ -33,6 +28,25 @@ const mhvBaseUrl = () => {
   return `https://${mhvSubdomain}.myhealth.va.gov`;
 };
 
+export const continueUrl = appId => {
+  switch (appId) {
+    case frontendApps.GI_BILL_BENEFITS:
+      return '/education/gi-bill/post-9-11/ch-33-benefit/status';
+
+    case frontendApps.DISABILITY_BENEFITS:
+      return '/disability-benefits/apply/form-526-disability-claim/veteran-information';
+
+    case frontendApps.LETTERS:
+      return '/records/download-va-letters/letters';
+
+    case frontendApps.VETERAN_ID_CARD:
+      return 'https://vicbdc.ppd.vba.va.gov/VIC';
+
+    default:
+      return '/';
+  }
+};
+
 export const redirectUrl = contentUrl => {
   switch (contentUrl) {
     case '/health-care/secure-messaging/':
@@ -57,6 +71,11 @@ export const redirectUrl = contentUrl => {
       return null;
   }
 };
+
+// Map frontend apps to their required services.
+// Note: frontend apps and backend services don't necessarily map one-to-one.
+// For example, some apps might require the same backend services.
+// Some apps might also require access to multiple backend services.
 
 export const requiredServices = appId => {
   switch (appId) {
@@ -95,16 +114,31 @@ export const serviceDescription = appId => {
       return 'use VA Blue Button';
 
     case frontendApps.RX:
-      return 'refill VA prescriptions online.';
+      return 'refill VA prescriptions online';
 
     case frontendApps.MESSAGING:
       return 'send secure messages to your health care team';
 
     case frontendApps.LAB_AND_TEST_RESULTS:
-      return 'view your VA lab and test results online.';
+      return 'view your VA lab and test results';
 
     case frontendApps.APPOINTMENTS:
       return ['schedule appointments online', 'view appointments online'];
+
+    case frontendApps.GI_BILL_BENEFITS:
+      return 'check your GI Bill Benefits';
+
+    case frontendApps.DISABILITY_BENEFITS:
+      return 'apply for disability benefits';
+
+    case frontendApps.CLAIMS_AND_APPEALS:
+      return 'see your claim or appeal status';
+
+    case frontendApps.LETTERS:
+      return 'get your VA Benefit Letters';
+
+    case frontendApps.VETERAN_ID_CARD:
+      return 'apply for a Veteran ID Card';
 
     default:
       return 'use this service';

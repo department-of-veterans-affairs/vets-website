@@ -117,7 +117,7 @@ export class SchoolSelectField extends React.Component {
     this.props.onChange({
       ...this.props.formData,
       name,
-      'view:facilityCode': facilityCode,
+      facilityCode,
       address,
     });
   };
@@ -157,7 +157,7 @@ export class SchoolSelectField extends React.Component {
     this.props.onChange({
       ...this.props.formData,
       name: null,
-      'view:facilityCode': null,
+      facilityCode: null,
       address: {},
       'view:manualSchoolEntryChecked': false,
       'view:institutionQuery': this.props.searchInputValue,
@@ -462,7 +462,7 @@ const mapStateToProps = (state, ownProps) => {
   const currentPageNumber = selectCurrentPageNumber(state);
   const errorMessages = selectFacilityCodeErrorMessages(ownProps);
   const facilityCodeSelected = ownProps.formData
-    ? ownProps.formData['view:facilityCode']
+    ? ownProps.formData.facilityCode
     : '';
   const institutionQuery = selectInstitutionQuery(state);
   const institutions = selectInstitutions(state);

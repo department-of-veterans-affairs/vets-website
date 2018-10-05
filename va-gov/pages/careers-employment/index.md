@@ -6,7 +6,7 @@ display_title: Careers and Employment
 concurrence: complete
 lastupdate:
 order: 1
-icon: briefcase
+icon: icon-large white fa fa-briefcase hub-background-careers
 aliases:
   - /employment/
 promo:

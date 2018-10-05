@@ -71,7 +71,7 @@ Fill out an Application in Acquiring Specially Adapted Housing or Special Home A
 [Download VA Form 26-4555](https://www.vba.va.gov/pubs/forms/VBA-26-4555-ARE.pdf). <br>
 
 Bring the completed application to your nearest VA regional benefit office. <br>
-<a href="#">Find a regional benefit office near you</a>.
+<a href="/facilities/">Find a regional benefit office near you</a>.
 
 Or call us at <a href="tel:+18008271000">1-800-827-1000</a>.
 

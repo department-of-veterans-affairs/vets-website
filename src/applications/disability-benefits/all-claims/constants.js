@@ -139,6 +139,8 @@ export const DATA_PATHS = {
     'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',
   hasPrivateRecordsToUpload:
     'view:uploadPrivateRecordsQualifier.view:hasPrivateRecordsToUpload',
+  hasAdditionalDocuments:
+    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasOtherEvidence',
 };
 
 export const VA_FORM4142_URL =

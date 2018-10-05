@@ -54,7 +54,6 @@ import {
   privateRecordsChoice,
   facilityDescription,
   evidenceSummaryView,
-  additionalDocumentDescription,
   GetFormHelp,
   FDCDescription,
   FDCWarning,
@@ -94,7 +93,7 @@ import { FIFTY_MB } from '../../all-claims/constants';
 
 import { treatmentView } from '../../all-claims/content/vaMedicalRecords';
 import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
-
+import { additionalDocumentDescription } from '../../all-claims/content/additionalDocuments';
 import { requireOneSelected } from '../validations';
 import {
   validateBooleanGroup,
