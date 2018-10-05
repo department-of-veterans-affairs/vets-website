@@ -69,9 +69,9 @@ export class ITFWrapper extends React.Component {
   render() {
     const { itf } = this.props;
 
-    if (this.shouldBlockITF(location.pathname)) {
+    if (this.shouldBlockITF(this.props.location.pathname)) {
       return this.props.children;
-    } else if (fetchWaitingStates.includes(this.props.itf.fetchCallState)) {
+    } else if (fetchWaitingStates.includes(itf.fetchCallState)) {
       // If we get here, componentDidMount or componentWillRecieveProps called fetchITF
       // While we're waiting, show the loading indicator...
       return (
