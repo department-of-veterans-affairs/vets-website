@@ -89,7 +89,7 @@ Muskogee OK 74401-7004<br>
 
 <h3>By phone</h3>
 
-Call us at <a href="tel:+18008271000">1-800-827-1000</a> (TTY <a href="tel:+18008294833">1-800-829-4833</a>). 
+Call us at <a href="tel:+18008271000">1-800-827-1000</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>). 
 
 We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
 
