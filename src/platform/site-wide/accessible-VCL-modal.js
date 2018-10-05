@@ -46,6 +46,9 @@ export function addFocusBehaviorToCrisisLineModal() {
     openControl.focus();
   }
 
+  // We're saving the element that triggered this modal
+  // in openControl, so that we can focus back on it later,
+  // when the modal is closed
   triggers.forEach(trigger => {
     trigger.addEventListener('click', () => {
       openControl = trigger;
