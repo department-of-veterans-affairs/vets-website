@@ -2,6 +2,12 @@
 
 /* OVERRIDE */
 .merger {
+  .login {
+    .container {
+      width: 100%;
+    }
+  }
+
   .va-dropdown-trigger {
     min-width: 102px;
   }
@@ -14,7 +20,7 @@
   }
   .va-modal {
     z-index: 301;
-    font-size: 100%;
+    font-size: 1.6rem;
   }
 
   #modal-crisisline {
