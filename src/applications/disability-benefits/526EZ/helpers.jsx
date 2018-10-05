@@ -27,7 +27,8 @@ import { VA_FORM4142_URL } from '../all-claims/constants';
  * of each object into one array
  * @param {array} dataArray array of objects to inspect
  * @param {string} property the property to inspect in each array item
- * @param {string} refPropPath the property that tells us whether to inspect at all TODO make this sound better
+ * @param {string} refPropPath an optional other property to inspect,
+ *                             acts as a condition for the target property
  * @returns {array} a list of aggregated items pulled from different arrays
  */
 const aggregate = (dataArray, property, refPropPath) => {
