@@ -1,7 +1,10 @@
 import React from 'react';
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
+import brandConsolidation from '../../../brand-consolidation';
 
 export default function ClaimIncreaseBanner({ dismiss, isLoggedIn, profile }) {
+  if (brandConsolidation.isEnabled()) return null;
+
   if (profile.loading) return <div />;
   if (
     isLoggedIn &&
