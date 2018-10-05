@@ -600,6 +600,12 @@
 
   // tablet
   @media (min-width: 768px) and (max-width: $large-screen) {
+    .va-modal {
+      .usa-width-one-half {
+        margin-right: 4.82916%;
+        width: 44%;
+      }
+    }
     .va-header-logo-wrapper {
       margin-bottom: 0;
     }
