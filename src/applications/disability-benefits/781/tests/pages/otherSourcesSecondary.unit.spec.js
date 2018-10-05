@@ -5,7 +5,7 @@ import { DefinitionTester } from '../../../../../platform/testing/unit/schemafor
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
-describe('Add Secondary Stressful Incident Description', () => {
+describe('Add secondary other sources of information', () => {
   const {
     schema,
     uiSchema,
@@ -17,7 +17,11 @@ describe('Add Secondary Stressful Incident Description', () => {
         definitions={formConfig}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={{
+          'view:selectablePtsdTypes': {
+            'view:combatPtsdType': true,
+          },
+        }}
         formData={{}}
       />,
     );
@@ -33,6 +37,9 @@ describe('Add Secondary Stressful Incident Description', () => {
         uiSchema={uiSchema}
         data={{
           gatherInformation: 'yes',
+          'view:selectablePtsdTypes': {
+            'view:combatPtsdType': true,
+          },
         }}
         formData={{}}
       />,
@@ -49,7 +56,11 @@ describe('Add Secondary Stressful Incident Description', () => {
         definitions={formConfig}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={{
+          'view:selectablePtsdTypes': {
+            'view:combatPtsdType': true,
+          },
+        }}
         formData={{}}
         onSubmit={onSubmit}
       />,
