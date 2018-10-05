@@ -51,7 +51,7 @@ smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 smith.use(filenames());
 
 smith.use(collections(BUILD_OPTIONS.collections));
-smith.use(leftRailNavResetLevels(BUILD_OPTIONS.collections));
+smith.use(leftRailNavResetLevels());
 smith.use(dateInFilename(true));
 
 smith.use(assets(BUILD_OPTIONS.assets));

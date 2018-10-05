@@ -1,8 +1,7 @@
 /* eslint-disable no-continue, no-param-reassign */
 
 /**
- * Writes a human-readable JavaScript file containing build properties available globally under `window.settings`.
- * @param {object} options The build options as passed to the build script and processed through Metalsmith.
+ * Sets the LeftRailNav sixth level to inherits the parent collection.
  */
 
 const path = require('path');
