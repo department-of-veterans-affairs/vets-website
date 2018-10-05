@@ -5,7 +5,7 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../../platform/utilities/ui';
 
-const scroller = Scroll.scroller;
+const { scroller } = Scroll;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
     duration: 500,
@@ -21,28 +21,45 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const { submission, data } = this.props.form;
+    const { form } = this.props;
+    const { submission, data } = form;
     const { response } = submission;
     const name = data.veteranFullName;
 
     return (
       <div>
         <h3 className="confirmation-page-title">Claim received</h3>
-        <p>We usually process claims within <strong>a week</strong>.</p>
         <p>
-          We may contact you for more information or documents.<br/>
+          We usually process claims within
+          <strong>a week</strong>.
+        </p>
+        <p>
+          We may contact you for more information or documents.
+          <br />
           <i>Please print this page for your records.</i>
         </p>
         <div className="inset">
-          <h4>781 and 781a PTSD Claim <span className="additional">(Form 21-0781)</span></h4>
-          <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
+          <h4>
+            781 and 781a PTSD Claim
+            <span className="additional">(Form 21-0781)</span>
+          </h4>
+          <span>
+            for
+            {name.first}
+            {name.middle}
+            {name.last}
+            {name.suffix}
+          </span>
 
-          {response && <ul className="claim-list">
-            <li>
-              <strong>Date received</strong><br/>
-              <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
-            </li>
-          </ul>}
+          {response && (
+            <ul className="claim-list">
+              <li>
+                <strong>Date received</strong>
+                <br />
+                <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
+              </li>
+            </ul>
+          )}
         </div>
       </div>
     );
@@ -51,7 +68,7 @@ export class ConfirmationPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    form: state.form
+    form: state.form,
   };
 }
 

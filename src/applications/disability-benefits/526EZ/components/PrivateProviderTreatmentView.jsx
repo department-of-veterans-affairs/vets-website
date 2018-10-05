@@ -11,8 +11,11 @@ export default function PrivateProviderTreatmentView({ formData }) {
 
   return (
     <div>
-      <strong>{formData.providerFacilityName}</strong><br/>
-      {from} &mdash; {to}
+      <strong>{formData.providerFacilityName}</strong>
+      <br />
+      {from}
+      &mdash;
+      {to}
     </div>
   );
 }

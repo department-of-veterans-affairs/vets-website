@@ -71,6 +71,7 @@ import {
   states,
   stateNames,
   validateZIP,
+  download4142Notice,
 } from '../helpers';
 
 import {
@@ -125,6 +126,8 @@ const {
   disabilities,
   vaTreatmentCenterAddress,
 } = fullSchema526EZ.definitions;
+
+const isProd = __BUILDTYPE__ === 'production';
 
 const formConfig = {
   urlPrefix: '/',
@@ -607,6 +610,7 @@ const formConfig = {
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) =>
+            !isProd &&
             _.get(
               `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
               formData,
@@ -685,6 +689,75 @@ const formConfig = {
             },
           },
         },
+        privateRecordChoiceOld: {
+          title: '',
+          path: 'supporting-evidence/:index/private-medical-records-choice-old',
+          showPagePerItem: true,
+          itemFilter: item => _.get('view:selected', item),
+          arrayPath: 'disabilities',
+          depends: (formData, index) =>
+            isProd &&
+            _.get(
+              `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+              formData,
+            ),
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:title': disabilityNameTitle,
+                'ui:description': privateRecordsChoice,
+                'view:uploadPrivateRecords': {
+                  'ui:title':
+                    'Do you want to upload your private medical records?',
+                  'ui:widget': 'radio',
+                  'ui:options': {
+                    labels: {
+                      yes: 'Yes',
+                      no: 'No, my doctor has my medical records',
+                    },
+                  },
+                },
+                'view:privateRecords4142Notice': {
+                  'ui:description': download4142Notice,
+                  'ui:options': {
+                    expandUnder: 'view:uploadPrivateRecords',
+                    expandUnderCondition: 'no',
+                  },
+                },
+                'view:privateRecordsChoiceHelp': {
+                  'ui:description': privateRecordsChoiceHelp,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  required: ['view:uploadPrivateRecords'],
+                  properties: {
+                    'view:uploadPrivateRecords': {
+                      type: 'string',
+                      enum: ['yes', 'no'],
+                    },
+                    'view:privateRecords4142Notice': {
+                      type: 'object',
+                      'ui:collapsed': true,
+                      properties: {},
+                    },
+                    'view:privateRecordsChoiceHelp': {
+                      type: 'object',
+                      properties: {},
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
         privateMedicalRecordRelease: {
           title: 'Private Medical Records Release',
           path: 'supporting-evidence/:index/private-medical-records-release',
@@ -701,7 +774,8 @@ const formConfig = {
                 `disabilities.${index}.view:uploadPrivateRecords`,
                 formData,
               ) === 'no';
-            return hasRecords && requestsRecords;
+
+            return !isProd && hasRecords && requestsRecords;
           },
           uiSchema: {
             disabilities: {

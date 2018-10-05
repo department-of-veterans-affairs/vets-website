@@ -1,4 +1,3 @@
-import sinon from 'sinon';
 import { expect } from 'chai';
 import _ from 'lodash';
 import {
@@ -6,7 +5,6 @@ import {
   addPhoneEmailToCard,
   prefillTransformer,
   get4142Selection,
-  queryForFacilities,
   transform,
   transformObligationDates,
   getReservesGuardData,
@@ -118,6 +116,16 @@ describe('526 helpers', () => {
           },
         },
         standardClaim: false,
+        treatments: [
+          {
+            treatmentCenterName: 'Somerset VA Clinic',
+            treatmentDateRange: { from: '2000-06-06', to: '2004-02-06' },
+          },
+          {
+            treatmentCenterName: 'DC VA Regional Medical Center',
+            treatmentDateRange: { from: '2000-07-04', to: '2010-01-03' },
+          },
+        ],
         form4142: {
           limitedConsent: '',
           providerFacility: [
@@ -140,26 +148,11 @@ describe('526 helpers', () => {
                 city: 'Testville',
                 country: 'USA',
                 state: 'AZ',
+                postalCode: '12345',
               },
             },
           ],
         },
-        treatments: [
-          {
-            treatmentCenterName: 'Somerset VA Clinic',
-            treatmentDateRange: {
-              from: '2000-06-06',
-              to: '2004-02-06',
-            },
-          },
-          {
-            treatmentCenterName: 'DC VA Regional Medical Center',
-            treatmentDateRange: {
-              from: '2000-07-04',
-              to: '2010-01-03',
-            },
-          },
-        ],
       },
     };
     it('should return stringified, transformed data for submit', () => {
@@ -340,59 +333,6 @@ describe('526 helpers', () => {
     it('should return false when no disabilities have 4142 selected', () => {
       const disabilities = fullDisabilities.slice(1);
       expect(get4142Selection(disabilities)).to.equal(false);
-    });
-  });
-  describe('queryForFacilities', () => {
-    const originalFetch = global.fetch;
-    beforeEach(() => {
-      // Replace fetch with a spy
-      global.fetch = sinon.stub();
-      global.fetch.resolves({
-        ok: true,
-        headers: { get: () => 'application/json' },
-        json: () => ({
-          data: [
-            { id: 0, attributes: { name: 'first' } },
-            { id: 1, attributes: { name: 'second' } },
-          ],
-        }),
-      });
-    });
-    afterEach(() => {
-      global.fetch = originalFetch;
-    });
-    it('should not call the api if the input length is < 3', () => {
-      queryForFacilities('12');
-      expect(global.fetch.called).to.be.false;
-    });
-    it('should call the api if the input length is >= 3', () => {
-      queryForFacilities('123');
-      expect(global.fetch.called).to.be.true;
-    });
-    it('should call the api with the input', () => {
-      queryForFacilities('asdf');
-      expect(global.fetch.firstCall.args[0]).to.contain(
-        '/facilities/suggested?type%5B%5D=health&type%5B%5D=dod_health&name_part=asdf',
-      );
-    });
-    it('should return the mapped data for autosuggest if successful', () => {
-      // Doesn't matter what we call this with since our stub will always return the same thing
-      const requestPromise = queryForFacilities('asdf');
-      return requestPromise.then(result => {
-        expect(result).to.eql([
-          { id: 0, label: 'first' },
-          { id: 1, label: 'second' },
-        ]);
-      });
-    });
-    it('should return an empty array if unsuccessful', () => {
-      global.fetch.resolves({ ok: false });
-      // Doesn't matter what we call this with since our stub will always return the same thing
-      const requestPromise = queryForFacilities('asdf');
-      return requestPromise.then(result => {
-        // This .then() fires after the apiRequest failure callback returns []
-        expect(result).to.eql([]);
-      });
     });
   });
   describe('getReservesGuardData', () => {
