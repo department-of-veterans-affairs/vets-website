@@ -21,7 +21,7 @@ const createRedirects = require('./create-redirects');
 const checkBrokenLinks = require('./check-broken-links');
 const createEnvironmentFilter = require('./create-environment-filter');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
-const addLeftNavCollections = require('./add-left-nav-collections');
+const leftRailNavResetLevels = require('./left-rail-nav-reset-levels');
 const addAssetHashes = require('./configure-assets');
 const rewriteVaDomains = require('./rewrite-va-domains');
 const BUILD_OPTIONS = require('./options');
@@ -51,7 +51,7 @@ smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 smith.use(filenames());
 
 smith.use(collections(BUILD_OPTIONS.collections));
-smith.use(addLeftNavCollections(BUILD_OPTIONS.collections));
+smith.use(leftRailNavResetLevels(BUILD_OPTIONS.collections));
 smith.use(dateInFilename(true));
 
 smith.use(assets(BUILD_OPTIONS.assets));

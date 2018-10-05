@@ -4,20 +4,19 @@
  * Writes a human-readable JavaScript file containing build properties available globally under `window.settings`.
  * @param {object} options The build options as passed to the build script and processed through Metalsmith.
  */
-function addLeftNavCollections() {
+
+const path = require('path');
+
+function LeftRailNavResetLevels() {
   return (files, metalsmith, done) => {
     Object.keys(files).forEach(key => {
       const file = files[key];
       const splitPath = key.split('/');
 
       if (splitPath.length === 5) {
-        splitPath.pop();
+        const parentPath = `${path.dirname(key)}.md`;
 
-        const parentFile = `${splitPath.join('/')}.md`;
-
-        Object.assign(file, {
-          collection: files[parentFile].collection,
-        });
+        file.collection = files[parentPath].collection;
       }
     });
 
@@ -25,4 +24,4 @@ function addLeftNavCollections() {
   };
 }
 
-module.exports = addLeftNavCollections;
+module.exports = LeftRailNavResetLevels;

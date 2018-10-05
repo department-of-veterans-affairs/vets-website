@@ -103,6 +103,7 @@ Used to display a side navigation bar of pages in a collection.
       {% else %}
         <ul class="usa-sidenav-list">
           {% for page in relatedPages %}
+            {% unless relatedPages.metadata.name == page.display_title or relatedPages.metadata.name == page.title or page.hideFromSidebar %}
               <li>
                 {% if page.href != empty %}
                   <a href="{{ page.href }}"{% if page.target != empty %}target="{{page.target}}"{% endif %} onClick="recordEvent({ event: 'nav-sidenav' });">
@@ -122,7 +123,7 @@ Used to display a side navigation bar of pages in a collection.
                     {% endif %}
                   </a>
                 {% endif %}
-                {% if page.children != empty %}
+                {% if page.children != empty and path contains page.path %}
                   {% assign childPages = collections | get: page.children %}
                     <ul class="usa-sidenav-sub_list">
                     {% for cpage in childPages %}
@@ -152,6 +153,7 @@ Used to display a side navigation bar of pages in a collection.
                     </ul>
                 {% endif %}
               </li>
+            {% endunless %}
           {% endfor %}
         </ul>
       {% endif %}
