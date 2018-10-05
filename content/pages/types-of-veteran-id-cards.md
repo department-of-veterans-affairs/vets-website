@@ -103,7 +103,7 @@ You may be eligible if you meet both of the requirements listed below.
 
 **Both of these must be true. You:**
 - Served on active duty, in the Reserves, or in the National Guard (including the Coast Guard), **and**
-- Received an honorable or general discharge  
+- Received an honorable or general discharge (under honorable conditions) 
 
 If you received an other than honorable, bad conduct, or dishonorable character of discharge, you’re not eligible for a Veteran ID Card. If you have an uncharacterized or unknown discharge status, we’ll have to verify your eligibility before we approve your application. 
 </div>
