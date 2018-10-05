@@ -97,6 +97,7 @@
     "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-lodash": "^3.2.8",
     "babel-plugin-react-transform": "^2.0.2",
+    "babel-plugin-transform-inline-imports-commonjs": "^1.2.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.2",
     "babel-polyfill": "^6.13.0",
     "babel-preset-env": "^1.4.0",

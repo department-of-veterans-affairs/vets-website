@@ -23,7 +23,7 @@
     "stage-2",
   ],
   "plugins": [
-    "lodash"
+    "lodash",
   ],
   // Share polyfills between files.
   "env": {
@@ -32,7 +32,8 @@
       "plugins": [ 
         "istanbul",
         "dynamic-import-node",
-        "transform-react-remove-prop-types"
+        "transform-react-remove-prop-types",
+        "transform-inline-imports-commonjs",
       ]
     },
     "production": {
