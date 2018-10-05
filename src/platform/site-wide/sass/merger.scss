@@ -41,7 +41,8 @@
   /* logo size override */
 
   .va-header-logo {
-    width: 264px;
+    width: 100%;
+    max-width: 264px;
     height: auto;
   }
 
@@ -200,17 +201,6 @@
       }
     }
 
-  }
-
-  /**
-  * September 25th, 2018
-  * @todo This is a site-wide override to .usa-grid that ultimately forces it to have the same behavior as .usa-grid-full.
-  * This likely has site-wide ramifications and should be fixed soon.
-  * Because this is a high-risk change and we're under time constraints, I'm just documenting it here.
-  * More info on the grid class - https://designsystem.digital.gov/components/grids/.
-  */
-  .usa-grid {
-    padding: 0;
   }
 
   // Once the above rule is delete, we can delete this awful block too.
@@ -594,7 +584,7 @@
 
 
   // tablet
-  @media (min-width: 768px) and (max-width: $large-screen) and (orientation: portrait) {
+  @media (min-width: 768px) and (max-width: $large-screen) {
     .va-header-logo-wrapper {
       margin-bottom: 0;
     }
@@ -629,13 +619,6 @@
       }
     }
 
-    .va-header-logo-wrapper {
-      a {
-        width: 70%;
-        height: auto;
-      }
-    }
-
     #homepage-benefits,
     #homepage-news,
     .va-h-ruled--stars,
@@ -656,21 +639,6 @@
             min-height: 300px;
           }
         }
-      }
-    }
-  }
-
-  @media (min-width: 768px) and (max-width: $large-screen) and (orientation: landscape){
-    #va-header-logo-menu {
-      align-items: center;
-    }
-    .vet-toolbar {
-      flex: 0 1 25.5rem;
-    }
-    #hub-internal {
-      .usa-width-one-half {
-        min-height: 300px;
-        padding-right: 1em;
       }
     }
   }
@@ -943,6 +911,21 @@
   position: relative !important;
 }
 
+// There are styles in our sidebar styles that set a small
+// amount of padding on the grid for detail pages, which we
+// are overriding for WBC with no padding
+.va-l-detail-page > .usa-grid-full {
+  padding-right: inherit;
+  padding-left: inherit;
+}
+
+.left-side-nav-title {
+  padding-left: 1em;
+  // This is gross, but it works for now
+  @include media(1008px) {
+    padding-left: 0;
+  }
+}
 .flex-container {
   display: flex;
 }
