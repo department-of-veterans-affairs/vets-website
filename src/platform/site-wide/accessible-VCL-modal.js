@@ -15,7 +15,9 @@ export function addFocusBehaviorToCrisisLineModal() {
   let openControl;
   const closeControl = tabbableElements[0];
   const lastTabbableElement = tabbableElements[tabbableElements.length - 1];
-  const triggers = document.querySelectorAll('[data-show="#modal-crisisline"]');
+  const triggers = Array.from(
+    document.querySelectorAll('[data-show="#modal-crisisline"]'),
+  );
 
   function captureFocus(e) {
     if (e.target === closeControl) {
