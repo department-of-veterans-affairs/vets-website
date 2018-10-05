@@ -21,14 +21,15 @@ There are many types of identification cards you can use to show you’re a Vete
 </div>
 
 
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+ 
 ### Department of Defense Identification Card
 A Department of Defense (DoD) Identification Card is used to show your military status and to get access to services at military bases. You may also use this card to get discounts offered to Veterans at many stores, businesses, and restaurants. If you have a DoD Identification Card, you don’t need to request another type of photo ID card to prove you’re a Veteran or to get retail or business discounts. 
-
 
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="eligible-DoD-card">Am I eligible for a DoD Identification Card?</button>
 <div id="eligible-DoD-card" class="usa-accordion-content">
- 
 
 You may be eligible if one of the descriptions below is true for you. 
 
@@ -41,8 +42,6 @@ You may be eligible if one of the descriptions below is true for you.
 
 </div>
 </li>
-
-
 
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-DoD-card">How do I apply for a DoD Identification Card?</button>
@@ -58,12 +57,10 @@ Then turn in your completed application to a Real-Time Automated Personnel Ident
 </div>
 </li>
 
- 
 <br>
 
 ### Veteran Health Identification Card 
 If you’re enrolled in VA health care, you should have a Veteran Health Identification Card (VHIC) that you use to check in to your appointments at VA medical centers. You may also use this card to get discounts offered to Veterans at many stores, businesses, and restaurants. If you have a VHIC, you don’t need to request another type of photo ID card to prove you’re a Veteran or to get retail or business discounts. 
-
 
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="get-Veteran-Health-card">How do I get a Veteran Health Identification Card?</button>
@@ -82,7 +79,6 @@ You need to be enrolled in VA health care to receive a Veteran Health Identifica
 ### Veteran Choice Card 
 If you receive care under the VA Choice program through a community provider, you should have been given a Veteran Choice Card. If you have this ID card, you don’t need to request another type of photo ID card to prove you’re a Veteran or to get retail or business discounts. 
 
-
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="get-Veteran-Choice-card">How do I get a Veteran Choice Card?</button>
 <div id="get-Veteran-Choice-card" class="usa-accordion-content">
@@ -99,20 +95,19 @@ Contact the Choice Program call center at <a href="tel:+18666068198">1-866-606-8
 ### Veteran ID Card 
 A Veteran ID Card (VIC) is a form of photo ID you can use to get discounts offered to Veterans at many stores, businesses, and restaurants. When you have this card, you won’t need to carry around your military discharge papers or share sensitive personal information to receive discounts. If you have a VIC, you don’t need to request another type of photo ID card to prove you’re a Veteran or to get retail or business discounts. 
 
-<div class="usa-accordion">
-<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="eligible-Veteran-card">Am I eligible for a Veteran ID Card?</button>
 <div id="eligible-Veteran-card" class="usa-accordion-content">
 
 You may be eligible if you meet both of the requirements listed below.
 
-
 **Both of these must be true. You:**
 - Served on active duty, in the Reserves, or in the National Guard (including the Coast Guard), **and**
 - Received an honorable or general discharge  
 
 If you received an other than honorable, bad conduct, or dishonorable character of discharge, you’re not eligible for a Veteran ID Card. If you have an uncharacterized or unknown discharge status, we’ll have to verify your eligibility before we approve your application. 
+</div>
+</li>
 
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-Veteran-card">How do I apply for a Veteran ID Card?</button>
@@ -121,8 +116,6 @@ If you received an other than honorable, bad conduct, or dishonorable character 
 You can apply online now. <br>
 [Learn more about how to apply for a VIC](/types-of-veteran-id-cards/vic/).
 
-</div>
-</li>
 </div>
 </li>
  
@@ -145,7 +138,6 @@ Please check with your state’s Department of Motor Vehicles about what you nee
 </li>
 </ul>
 </div>
-
 
 <br>
 
