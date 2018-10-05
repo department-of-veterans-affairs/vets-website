@@ -15,7 +15,7 @@ describe('Disability benefits 718 PTSD type', () => {
     schema,
     uiSchema,
     arrayPath,
-  } = formConfig.chapters.introductionPage.pages.ptsdType;
+  } = formConfig.chapters.disabilityDetails.pages.ptsdType;
 
   it('renders ptsd type form', () => {
     const onSubmit = sinon.spy();

@@ -56,6 +56,11 @@ const formConfig = {
             properties: {},
           },
         },
+      },
+    },
+    disabilityDetails: {
+      title: 'Disability Details',
+      pages: {
         ptsdType: {
           path: 'ptsdType',
           title: 'Disability Details',
@@ -64,7 +69,6 @@ const formConfig = {
         },
         ptsdChoice: {
           path: 'ptsdChoice',
-          title: 'Disability Details',
           depends: form =>
             form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
             form['view:selectablePtsdTypes']['view:noncombatPtsdType'],
@@ -73,7 +77,6 @@ const formConfig = {
         },
         individualsInvolvedChoice: {
           path: 'individualsInvolvedChoice',
-          title: 'Disability Details',
           depends: form =>
             form['view:uploadPtsdChoice'] === 'answerQuestions' &&
             (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
@@ -83,7 +86,6 @@ const formConfig = {
         },
         uploadPtsd: {
           path: 'upload-781',
-          title: 'Disability Details',
           depends: form =>
             form['view:uploadPtsdChoice'] === 'upload' &&
             (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
@@ -93,7 +95,6 @@ const formConfig = {
         },
         informationInterviewCombat: {
           path: 'information-781',
-          title: 'Disability Details',
           depends: form =>
             form['view:uploadPtsdChoice'] === 'answerQuestions' &&
             (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
@@ -103,7 +104,6 @@ const formConfig = {
         },
         ptsdSecondaryChoice: {
           path: 'ptsdSecondaryChoice',
-          title: 'Disability Details',
           depends: form =>
             form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
             form['view:selectablePtsdTypes']['view:assaultPtsdType'],
@@ -112,7 +112,6 @@ const formConfig = {
         },
         uploadPtsdSecondary: {
           path: 'upload-781a',
-          title: 'Disability Details',
           depends: form =>
             form['view:uploadPtsdSecondaryChoice'] === 'upload' &&
             (form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
@@ -122,7 +121,6 @@ const formConfig = {
         },
         informationInterviewAssault: {
           path: 'information-781a',
-          title: 'Disability Details',
           depends: form =>
             form['view:uploadPtsdSecondaryChoice'] === 'answerQuestions' &&
             (form['view:selectablePtsdTypes']['view:mstPtsdType'] ||

@@ -9,7 +9,7 @@ import {
 import formConfig from '../../config/form.js';
 
 describe('718a record upload', () => {
-  const page = formConfig.chapters.introductionPage.pages.uploadPtsdSecondary;
+  const page = formConfig.chapters.disabilityDetails.pages.uploadPtsdSecondary;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {

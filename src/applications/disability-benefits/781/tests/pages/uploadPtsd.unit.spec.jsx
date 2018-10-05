@@ -7,7 +7,7 @@ import { DefinitionTester } from '../../../../../platform/testing/unit/schemafor
 import formConfig from '../../config/form.js';
 
 describe('718 record upload', () => {
-  const page = formConfig.chapters.introductionPage.pages.uploadPtsd;
+  const page = formConfig.chapters.disabilityDetails.pages.uploadPtsd;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {

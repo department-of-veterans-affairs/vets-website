@@ -8,7 +8,7 @@ import formConfig from '../../config/form.js';
 import initialData from '../../../526EZ/tests/schema/initialData.js';
 
 describe('781a choice screen', () => {
-  const page = formConfig.chapters.introductionPage.pages.ptsdChoice;
+  const page = formConfig.chapters.disabilityDetails.pages.ptsdChoice;
   const { schema, uiSchema } = page;
 
   it('should submit without validation errors', () => {

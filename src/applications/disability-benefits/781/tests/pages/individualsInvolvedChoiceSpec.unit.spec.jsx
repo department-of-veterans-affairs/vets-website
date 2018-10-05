@@ -9,7 +9,7 @@ describe('User makes individuals involved selection', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.introductionPage.pages.individualsInvolvedChoice;
+  } = formConfig.chapters.disabilityDetails.pages.individualsInvolvedChoice;
 
   it('should render', () => {
     const form = mount(

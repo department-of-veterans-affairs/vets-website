@@ -9,7 +9,7 @@ import initialData from '../../../526EZ/tests/schema/initialData.js';
 
 describe('781a information interview screen', () => {
   const page =
-    formConfig.chapters.introductionPage.pages.informationInterviewAssault;
+    formConfig.chapters.disabilityDetails.pages.informationInterviewAssault;
   const { schema, uiSchema } = page;
 
   it('should submit without validation errors', () => {
