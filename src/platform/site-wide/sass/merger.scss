@@ -14,6 +14,14 @@
   }
   .va-modal {
     z-index: 301;
+    font-size: 100%;
+  }
+
+  #modal-crisisline {
+    display: block;
+    p {
+      font-size: 100%;
+    }
   }
 
   #dashboard-title {
