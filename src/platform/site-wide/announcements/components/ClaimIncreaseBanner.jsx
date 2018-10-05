@@ -5,12 +5,12 @@ import brandConsolidation from '../../../brand-consolidation';
 export default function ClaimIncreaseBanner({ dismiss, isLoggedIn, profile }) {
   if (brandConsolidation.isEnabled()) return null;
 
-  if (profile.loading) return <div />;
+  if (profile.loading) return null;
   if (
     isLoggedIn &&
     !profile.services.includes(backendServices.CLAIM_INCREASE_AVAILABLE)
   )
-    return <div />;
+    return null;
 
   return (
     <div className="personalization-announcement">
