@@ -39,9 +39,9 @@ import {
   homelessOrAtRisk,
 } from '../pages';
 
-import fullSchema from './schema';
+import { PTSD } from '../constants';
 
-const ptsdDisabilityIds = new Set([5420, 7290, 9010, 9011]);
+import fullSchema from './schema';
 
 const formConfig = {
   urlPrefix: '/',
@@ -182,7 +182,10 @@ const formConfig = {
           title: formData => getDisabilityName(formData.condition),
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
-          itemFilter: item => !ptsdDisabilityIds.has(item.diagnosticCode),
+          itemFilter: item =>
+            item.condition
+              ? !item.condition.toLowerCase().includes(PTSD)
+              : false,
           arrayPath: 'newDisabilities',
           uiSchema: newDisabilityFollowUp.uiSchema,
           schema: newDisabilityFollowUp.schema,
