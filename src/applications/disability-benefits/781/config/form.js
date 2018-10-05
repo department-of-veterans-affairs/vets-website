@@ -10,9 +10,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.definitions;
 
-import {
-  introductionText,
-} from '../helpers';
+import { introductionText } from '../helpers';
 
 // Define all the fields in the form to aid reuse
 // const formFields = {};
