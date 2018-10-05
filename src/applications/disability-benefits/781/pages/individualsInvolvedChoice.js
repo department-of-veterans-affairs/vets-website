@@ -2,11 +2,9 @@ import React from 'react';
 import { individualsInvolvedTitle } from '../helpers';
 
 const individualsInvolvedChoiceDescription = () => (
-  <div>
-    <p>
-      Was anyone killed or injured, not including yourself, during this event?
-    </p>
-  </div>
+  <p>
+    Was anyone killed or injured, not including yourself, during this event?
+  </p>
 );
 
 export const uiSchema = {
