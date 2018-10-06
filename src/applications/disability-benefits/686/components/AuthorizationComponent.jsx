@@ -58,7 +58,7 @@ class AuthorizationComponent extends React.Component {
     } = this.props;
 
     const content = (
-      <div>
+      <div className="authorization-container">
         {isLoading &&
           isVisible && (
             <LoadingIndicator message="Please wait while we check your information." />
@@ -66,7 +66,11 @@ class AuthorizationComponent extends React.Component {
         {!isLoading &&
           isVisible &&
           !isAuthorized && (
-            <AlertBox status="error" isVisible>
+            <AlertBox
+              status="error"
+              isVisible
+              className="authorization-message"
+            >
               <AuthorizationMessage
                 has30PercentDisabilityRating={has30PercentDisabilityRating}
                 user={{ isLoggedIn, isVerified, profileStatus }}
