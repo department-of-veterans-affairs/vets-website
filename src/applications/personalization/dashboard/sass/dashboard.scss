@@ -1,5 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-linkslist";
+@import "../../../../platform/forms/sass/_m-applications";
 
 #dashboard-title {
   margin-top: 1.5em;
@@ -11,13 +12,6 @@
     margin-bottom: 1em;
   }
 }
-
-.authorization-container {
-  .authorization-message {
-      margin: 0 0 1.5em;
-  }
-}
-
 
 .appointment-item {
   h4:first-child {

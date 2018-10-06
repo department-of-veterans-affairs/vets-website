@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
 import AuthorizationMessage from '../../components/AuthorizationMessage';
-import { profileStatuses } from '../../helpers';
+import { profileStatuses } from '../../../../applications/disability-benefits/686/helpers';
 
 const { SERVER_ERROR, NOT_FOUND } = profileStatuses;
 

@@ -3,10 +3,10 @@ import React from 'react';
 import appendQuery from 'append-query';
 import PropTypes from 'prop-types';
 
-import manifest from '../../526EZ/manifest.json';
+import manifest from '../../../applications/disability-benefits/526EZ/manifest.json';
 
 const { rootUrl: increaseRootUrl } = manifest;
-import { profileStatuses } from '../helpers';
+import { profileStatuses } from '../../../applications/disability-benefits/686/helpers';
 
 const { SERVER_ERROR, NOT_FOUND } = profileStatuses;
 const nextQuery = { next: window.location.pathname };

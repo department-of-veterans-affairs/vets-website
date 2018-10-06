@@ -5,25 +5,24 @@ import { bindActionCreators } from 'redux';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
-import DowntimeMessage from '../../../../platform/forms/save-in-progress/DowntimeMessage';
+import DowntimeMessage from '../save-in-progress/DowntimeMessage';
 import DowntimeNotification, {
   externalServiceStatus,
-} from '../../../../platform/monitoring/DowntimeNotification';
-import { getFormAuthorizationState } from '../../../../applications/personalization/dashboard/helpers.jsx';
+} from '../../monitoring/DowntimeNotification';
+import { getFormAuthorizationState } from '../../../applications/personalization/dashboard/helpers';
 
 import AuthorizationMessage from './AuthorizationMessage';
 
 class AuthorizationComponent extends React.Component {
   componentDidMount() {
-    if (
-      this.props.formConfig &&
-      !this.props.profileIsLoading &&
-      !this.props.loadedStatus
-    ) {
-      this.props.authorize();
-    }
+    this.authorize();
   }
+
   componentWillUpdate() {
+    this.authorize();
+  }
+
+  authorize = () => {
     if (
       this.props.formConfig &&
       !this.props.profileIsLoading &&
@@ -31,7 +30,7 @@ class AuthorizationComponent extends React.Component {
     ) {
       this.props.authorize();
     }
-  }
+  };
 
   renderDowntime = (downtime, children) => {
     if (downtime.status === externalServiceStatus.down) {
@@ -58,7 +57,7 @@ class AuthorizationComponent extends React.Component {
     } = this.props;
 
     const content = (
-      <div className="authorization-container">
+      <div className="sip-authorization-container">
         {isLoading &&
           isVisible && (
             <LoadingIndicator message="Please wait while we check your information." />
@@ -69,7 +68,7 @@ class AuthorizationComponent extends React.Component {
             <AlertBox
               status="error"
               isVisible
-              className="authorization-message"
+              className="sip-authorization-message"
             >
               <AuthorizationMessage
                 has30PercentDisabilityRating={has30PercentDisabilityRating}
