@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Request a Presidential Memorial Certificate
+title: Request a Presidential Memorial Certificate to Honor a Veteran or Reservist
 display_title: Presidential Memorial Certificates
 order: 3
 concurrence: incomplete
