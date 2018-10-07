@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Veterans Grave Markers, Headstones, and Medallions
+title: Request Veterans Headstones, Grave Markers, and Medallions
 display_title: Headstones, Markers or Medallions
 order: 1
 concurrence: incomplete
@@ -43,19 +43,19 @@ You can apply for this benefit if you're representing the Veteran in any of the 
 
 **One of these must describe your relationship or role:**
 - A family member of the Veteran, **or**
-- A personal representative (someone who officially represents the deceased), **or**
+- A personal representative (someone who officially represents the Veteran), **or**
 - A representative of an accredited Veterans Service Organization, **or**
 - An employee of a state or local government whose official responsibilities include serving Veterans, **or**
 - Any person who is legally responsible for making arrangements for unclaimed remains or for details having to do with the Veteran’s interment or memorialization, **or**
 - Any individual representing the Veteran, if their service ended before April 6, 1917
 
-**Note:** For memorial headstones and markers that honor the memory of the Veteran, the person who applies must be a member of the Veteran’s family.
+**Note:** For memorial headstones and grave markers that honor the memory of the Veteran, the person who applies must be a member of the Veteran’s family.
 
 <br>
 
 ### How do I apply for a memorial item?
 
-**For a headstone, marker, or niche cover**, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). <br>
+**For a headstone, grave marker, or niche cover**, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). <br>
 [Download VA Form 40-1330](https://www.va.gov/vaforms/va/pdf/VA40-1330.pdf).
 
 **For a medallion** to be placed on a privately purchased headstone or marker, fill out the Claim for Government Medallion for Placement in a Private Cemetery (VA Form 40-1330M). <br>
