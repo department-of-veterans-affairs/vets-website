@@ -26,7 +26,6 @@ Veterans, Servicemembers, spouses, and dependents may qualify for burial and mem
 
 **One of these must be true. The person qualifying for burial benefits is:**
 
-
 - A Veteran who didn't receive a dishonorable discharge, **or**
 - A Servicemember who died while on active duty, active duty for training, or inactive duty for training, **or**
 - The spouse or dependent child of a Veteran, even if the Veteran died first, **or**
@@ -76,7 +75,7 @@ We give the surviving spouse, children, and parents of Veterans and Servicemembe
 
 ### Can I plan ahead for my burial in a VA national cemetery?
 
-Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members in their time of need. To do this, you’ll need to apply for a pre-need eligibility determination.<br>
+Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members at their time of need. To do this, you’ll need to apply for a pre-need eligibility determination.<br>
 [Find out how to apply](/burials-memorials/pre-need-eligibility/).
 
 **Please note:** The pre-need eligibility determination is only for national cemeteries. If you want to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time, since some state Veterans cemeteries require that you live in that state or have other rules around eligibility. <br>
