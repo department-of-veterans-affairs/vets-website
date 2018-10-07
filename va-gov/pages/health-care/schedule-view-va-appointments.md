@@ -29,10 +29,10 @@ relatedlinks:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
   
-With our online VA Appointments tools, you can schedule some VA appointments online, view details about upcoming appointments, and organize your health calendar. Find out if you’re eligible, and how to sign up to begin using these tools on our My HealtheVet health management portal. </div>
+With our VA Appointments tools, you can schedule some VA appointments online, view details about upcoming appointments, and organize your health calendar. Find out if you’re eligible, and how to sign up to begin using these tools on our My HealtheVet health management portal. </div>
 
-<b>Please note:</b> The fastest way to make all your VA appointments is usually to call the VA health facility where you want to receive care. If you can’t keep an existing appointment, please contact the facility as soon as possible to reschedule or cancel. 
-[Find your VA health facility’s phone number](/facilities/).
+<p><b>Please note:</b> The fastest way to make all your VA appointments is usually to call the VA health facility where you want to receive care. If you can’t keep an existing appointment, please contact the facility as soon as possible to reschedule or cancel.<br>
+<a href="/facilities/">Find your VA health facility’s phone number</a>.</p>
   
 <div class="usa-alert usa-alert-warning">
  <div class="usa-alert-body">
@@ -67,7 +67,7 @@ With our online VA Appointments tools, you can schedule some VA appointments onl
   </div>
 </div>
 
-<h2>Schedule VA Appointment Online</h2>
+<h2>Schedule a VA Appointment Online</h2>
 
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
@@ -182,6 +182,10 @@ No. If you need to schedule an appointment at a non-VA health facility through t
 If you use Secure Messaging with your VA health care team, you may be able to use this service to schedule and cancel appointments.<br>
 <a href="/health-care/secure-messaging/">[Learn more about Secure Messaging</a>.
 
+</div>
+</div>
+</div> 
+</div>
 <br>
 
 <script type="text/javascript">
