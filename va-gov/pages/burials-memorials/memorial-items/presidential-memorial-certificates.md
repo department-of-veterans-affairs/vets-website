@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Request a Presidential Memorial Certificate to Honor a Veteran or Reservist
+title: Request a Presidential Memorial Certificate
 display_title: Presidential Memorial Certificates
 order: 3
 concurrence: incomplete
@@ -11,7 +11,7 @@ relatedlinks:
   - header: Other Memorial Items
   - url: /burials-memorials/memorial-items/presidential-memorial-certificates/
     title: Burial Flags
-    description: Find out how to request a United States flag to drap on the casket (or coffin) or to place with the urn of a Veteran or Reservist.
+    description: Apply for a United States flag to drap on the casket (or coffin) or to place with the urn of a Veteran or Reservist.
   - url: /burials-memorials/memorial-items/headstones-markers-medallions/
     title: Headstones, Markers, Niche Covers, and Medallions
     description: Apply for one of these memorial items to identify the place of burial of a Veteran or eligible spouse or other family member.
