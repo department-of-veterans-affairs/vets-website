@@ -26,11 +26,11 @@ Find out what steps to take to plan a burial for a Veteran, spouse, or dependent
 
 <br>
 
-### How do I plan a burial?
+## How do I plan a Veteran's or other family member's burial?
 
 <br>
 
-#### If you have a pre-need decision letter confirming that the Veteran, spouse, or dependent family member can be buried in a VA national cemetery:
+### If you have a pre-need decision letter confirming that the Veteran, spouse, or dependent family member can be buried in a VA national cemetery:
 
 To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director can call the National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800-535-1117</a> to request a burial.
 
@@ -39,20 +39,21 @@ You don’t need to do anything else except prepare yourself and your family for
 
 <br>
 
-#### If you don't have a pre-need decision letter:
+### If you don't have a pre-need decision letter:
 
 To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director will need to take these 3 steps to apply for a burial.
 
 <ol class="process">
 <li class="process-step list-one">
 
-##### Gather the information and documents you'll need to identify the Veteran, spouse, or dependent family member
+#### Gather the information and documents you'll need to identify the Veteran, spouse, or dependent family member
 
-You'll need:
+**You'll need:**
 
- - The DD214 or other discharge documents of the Veteran or Servicemember whose military service will be used to determine eligibility for burial in a VA national cemetery. If you can't find these documents, please ask for our help to get them. <br> [Find out which discharge documents we accept along with your application](https://www.cem.va.gov/CEM/hmm/discharge_documents.asp).
+ - The DD214 or other discharge documents of the Veteran or Servicemember whose military service will be used to determine eligibility for burial in a VA national cemetery. If you can't find these documents, please ask for our help to get them. <br>
+ [Find out which discharge documents we accept along with your application](https://www.cem.va.gov/CEM/hmm/discharge_documents.asp).
 
-You'll need the Veteran, Servicemember, or dependent family member's:
+**You'll need the Veteran, Servicemember, or dependent family member's:**
 
  - Name
  - Gender
@@ -62,7 +63,7 @@ You'll need the Veteran, Servicemember, or dependent family member's:
  - Marital status
  - Date of death (and zip code and county at the time of death)
 
-You'll need information about the Veteran, Servicemember, or dependent family member's next-of-kin (their closest living relative), including the person's:
+**You'll need information about the Veteran, Servicemember, or dependent family member's next-of-kin (their closest living relative), including the person's:**
 
    - Name
    - Relationship to the Veteran, Servicemember, or dependent family member
@@ -70,9 +71,9 @@ You'll need information about the Veteran, Servicemember, or dependent family me
    - Phone number
    - Address
 
-You may also need more information in certain cases:
+**You may also need more information in certain cases:**
 
-- **If the person was married**, you'll also need the surviving spouse’s status as Servicemember, Veteran or family member.
+- **If the person was married**, you'll also need the surviving spouse’s status as Veteran, Servicemember, or family member.
 - **If the person has any children with disabilities**, you'll need the status and detailed information for any disabled children who may be buried in the future in a national cemetery.
 - **If the person's spouse died previously and was buried in a VA national cemetery**, you'll need the full name of the predeceased spouse as well as the cemetery section and site number where they're buried.
 
@@ -82,17 +83,17 @@ You may also need more information in certain cases:
 
 ##### Decide on the burial details and gather all related information
 
-You'll need to tell us:
+**You'll need to tell us:**
 
- - The cemetery where you'd prefer the deceased to be buried <br />
- [Find a VA national cemetery](/facilities/).<br />
+ - The cemetery where you'd prefer the Veteran, spouse, dependent family member to be buried <br>
+ [Find a VA national cemetery](/facilities/).<br>
  [Find a state Veterans cemetery](https://www.cem.va.gov/grants/veterans_cemeteries.asp).
- - The type of burial you'd like for the deceased (casket or cremation) and the size of the casket or cremation urn
- - [The type of gravesite memorial you'd like to help honor the deceased (such as a headstone or marker)](/burials-memorials/memorial-items/headstones-markers-medallions/)
- - [Whether you'd like a burial flag or Presidential Memorial Certificate for the deceased](/burials-memorials/memorial-items/presidential-memorial-certificates/)
+ - The type of burial you'd like for the person (casket or cremation) and the size of the casket or cremation urn
+ - [The type of gravesite memorial you'd like to help honor the person (such as a headstone or marker)](/burials-memorials/memorial-items/headstones-markers-medallions/)
+ - [Whether you'd like to request a burial flag or Presidential Memorial Certificate (if the person is a Veteran or Reservist)](/burials-memorials/memorial-items/presidential-memorial-certificates/)
  - [If you're interested in other possible military honors beyond the playing of Taps and flag folding and presentation](https://www.dmdc.osd.mil/mfh/)
 
- [Request gravesite memorials and burial honors](/burials-memorials/memorial-items/).<br/>
+ [Request gravesite memorials and burial honors](/burials-memorials/memorial-items/).<br>
 
 </li>
 
@@ -117,4 +118,5 @@ If you have questions about the Burial at Sea program, please contact the United
 
 ### Can I get help paying for burial costs?
 
-If you're the spouse of record (the legally recognized spouse) or a designated (legally chosen) family member of a Veteran who died, you may be able to get financial help for burial and funeral costs. [Apply for burial allowances](/burials-memorials/veterans-burial-allowance/).
+If you're the spouse of record (the legally recognized spouse) or a designated (legally chosen) family member of a Veteran, you may be able to get financial help for burial and funeral costs. <br>
+[Find out how to apply for a Veterans burial allowance](/burials-memorials/veterans-burial-allowance/).
