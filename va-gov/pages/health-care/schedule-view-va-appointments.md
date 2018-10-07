@@ -64,7 +64,7 @@ With our VA Appointments tools, you can schedule some VA health care appointment
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
     <h4 class="usa-alert-heading">You’ll need to sign in before you can view your VA appointments online.</h4>
-    <p class="usa-alert-text"><br>
+    <p class="usa-alert-text">
       <p>Try signing in with your DS Logon, My HealtheVet, or ID.me account. If you don’t have any of those accounts, you can create one.</p>
       <button class="usa-button-primary">Sign In or Create an Account</button>
     </p>
@@ -76,7 +76,7 @@ With our VA Appointments tools, you can schedule some VA health care appointment
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
     <h4 class="usa-alert-heading">You’ll need to sign in before you can schedule a VA appointment online.</h4>
-    <p class="usa-alert-text"><br>
+    <p class="usa-alert-text">
       <p>Try signing in with your DS Logon, My HealtheVet, or ID.me account. If you don’t have any of those accounts, you can create one.</p>
       <button class="usa-button-primary">Sign In or Create an Account</button>
     </p>
@@ -223,7 +223,7 @@ If you print or download any messages, you’ll need to take responsibility for 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
   
-You can get answers to your questions about this feature within our My HealtheVet web portal.<br>
+You can get answers to your questions about these tools within our My HealtheVet web portal.<br>
 <a href="https://www.myhealth.va.gov/mhv-portal-web/faqs#Appointments">Read VA Appointments FAQs</a>. <br>
 
 You can also contact the My HealtheVet Help Desk. <br>
