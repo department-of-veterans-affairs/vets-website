@@ -87,7 +87,7 @@ With our VA Appointments tools, you can schedule some VA appointments online, vi
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-VA Appointments offers secure, web-based tools that helps you to schedule, view, and organize your VA appointments online. 
+VA Appointments offers secure, web-based tools that help you to schedule, view, and organize your VA appointments online. 
 
 <b>You can use these tools to:</b>
 
@@ -118,7 +118,7 @@ You can use these tools if you meet all of the requirements listed below.
   <li>Are enrolled in VA health care, <b>and</b></li>
   <li>Are scheduling your appointment with a VA health facility that uses online scheduling, <b>and</b></li>
   <li>Have had an appointment at that VA health facility within the last 2 years</li>
-</ul> <br>
+</ul>
 <a href="/health-care/apply/">Find out how to apply for VA health care</a>.
 
 <b>And, you must have one of these free accounts:</b>
@@ -126,7 +126,7 @@ You can use these tools if you meet all of the requirements listed below.
   <li>A Premium My HealtheVet account, <b>or</b></li>
   <li>A Premium DS Logon account (used for eBenefits and milConnect), <b>or</b></li>
   <li>A verified ID.me account that you can create here on VA.gov</li>
-</ul> <br>
+</ul>
 
 <a href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types">Learn about the 3 different My HealtheVet account types</a>.
 
@@ -207,7 +207,7 @@ If you use Secure Messaging with your VA health care team, you may be able to us
 Yes. This is a secure website. We follow strict security policies and practices to protect your personal health information. And only you and your VA health care team will have access to your secure messages.
 
 If you print or download any messages, you’ll need to take responsibility for protecting that information.<br> 
-<a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information">Get tipes for protecting your personal health information</a>.
+<a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information">Get tips for protecting your personal health information</a>.
 
 </div>
 </div>
