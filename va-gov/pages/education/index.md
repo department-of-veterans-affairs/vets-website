@@ -113,6 +113,11 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
+    <a href="/careers-employment/education-and-career-counseling/"><b>Educational and Career Counseling (Chapter 36)</b></a>
+    <p>Find out how to get free educational and career counseling as a recently discharged Veteran or a dependent family member.</p>
+  </div>
+
+  <div class="link">
     <a href="/education/survivor-dependent-benefits/"><b>VA Education Benefits for Dependents and Survivors</b></a>
     <p>Find out if you're eligible for Veteran dependent or survivor education benefits through a GI Bill program.</p>
   </div>
