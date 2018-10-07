@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Burial Flags for Veterans
+title: Request a Burial Flag to Honor a Veteran or Reservist
 display_title: Burial Flags
 order: 2
 concurrence: incomplete
