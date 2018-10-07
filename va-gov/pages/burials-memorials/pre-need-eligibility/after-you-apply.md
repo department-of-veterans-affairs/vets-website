@@ -57,17 +57,17 @@ You’ll receive a VA burial and memorial benefits folder from us in the mail. T
 
 #### What should I do after I receive my pre-need decision letter and folder?
 
-Keep your pre-need decision letter and folder in a safe place. Talk to your family members or authorized representative about your burial wishes—including any memorialization requests and inscriptions—and make sure they know where your benefits folder is located. They'll need this information to request your burial after your death.
+Keep your pre-need decision letter and folder in a safe place. Talk to your family members or authorized representative about your burial wishes—including any memorialization requests and inscriptions—and make sure they know where your benefits folder is located. They'll need this information to request your burial at the time of need.
 
 <br>
 
-#### What do my family members need to do to request my burial when I die?
+#### What do my family members need to do to request my burial?
 
-When you die, the person arranging your burial will need to call the National Cemetery Scheduling Office at <a href="tel:+1-800-535-1117">1-800-535-1117</a> to request a burial. They'll need your pre-need eligibility determination letter at that time.
+At the time of need, the person arranging your burial will need to call the National Cemetery Scheduling Office at <a href="tel:+1-800-535-1117">1-800-535-1117</a> to request a burial. They'll need your pre-need eligibility determination letter at that time.
 
-We'll also keep a copy of your letter and supporting documents in our system to help speed up burial arrangements in your family's time of need. When your family member or authorized representative requests your burial, we'll confirm your pre-need eligibility determination based on the laws in effect at that time.
+We'll also keep a copy of your letter and supporting documents in our system to help speed up burial arrangements in your family's time of need. When your family member or authorized representative requests your burial, we'll confirm your pre-need eligibility determination based on the laws in effect at that time. <br>
 
-[Learn more about planning a burial for a family member who has died](/burials-memorials/plan-a-burial/).
+[Learn more about planning a burial for a family member](/burials-memorials/plan-a-burial/).
 
 <br>
 
@@ -80,9 +80,11 @@ No. If you qualify for burial in a VA national cemetery, you’ll receive burial
 - A headstone or marker provided by the government
 - Perpetual (ongoing) care of the gravesite
 
-After your death, the person arranging your burial can also request additional honors and memorials. [Learn more about honors and memorials](/burials-memorials/memorial-items/).
+The person arranging your burial can also request additional honors and memorials.<br>
+[Learn more about honors and memorials](/burials-memorials/memorial-items/).
 
-If you're a Veteran, your surviving spouse or other family members may also qualify for survivor benefits, including help paying for funeral costs. [Learn more about survivor benefits](/burials-memorials/dependency-indemnity-compensation/).
+If you're a Veteran, your surviving spouse or other family members may also qualify for survivor benefits, including help paying for funeral costs. <br>
+[Learn more about survivor benefits](/burials-memorials/dependency-indemnity-compensation/).
 
 <br>
 
@@ -102,7 +104,8 @@ We'll send you a denial decision letter explaining the reasons or basis of our d
 
 Yes. If you disagree with our decision, you can file a notice of disagreement within 1 year from the date of the pre-need decision letter. If you don't file a notice of disagreement within 1 year, our decision will become final.
 
-You can submit more supporting documents whether or not you choose to appeal the pre-need decision. We'll send you VA Form 4107 (Your Rights to Appeal Our Decision) along with your denial letter. This form explains your rights to appeal and how to submit more evidence. [Learn more about appeals of VA claims](http://www.va.gov/opa/publications/benefits_book/benefits_chap14.asp).
+You can submit more supporting documents whether or not you choose to appeal the pre-need decision. We'll send you VA Form 4107 (Your Rights to Appeal Our Decision) along with your denial letter. This form explains your rights to appeal and how to submit more evidence. <br>
+[Learn more about appeals of VA claims](http://www.va.gov/opa/publications/benefits_book/benefits_chap14.asp).
 
 <br>
 
