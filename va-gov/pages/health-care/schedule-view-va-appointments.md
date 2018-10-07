@@ -29,7 +29,7 @@ relatedlinks:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
   
-With our VA Appointments tools, you can schedule some VA appointments online, view details about upcoming appointments, and organize your health calendar. Find out if you’re eligible, and how to sign up to begin using these tools on our My HealtheVet health management portal. 
+With our VA Appointments tools, you can schedule some VA health care appointments online. You can also view details about upcoming appointments and organize your health calendar. Find out if you’re eligible, and how to sign up to begin using these tools on our My HealtheVet health management portal. 
 
 </div>
 
@@ -39,15 +39,16 @@ With our VA Appointments tools, you can schedule some VA appointments online, vi
 <div class="usa-alert usa-alert-warning">
  <div class="usa-alert-body">
     <h4 class="usa-alert-title">How do I talk to someone right now?</h4>
-    <a id="crisis-expander-link">Find out how to get support any time day or night.</a></h4>
+    <a id="crisis-expander-link">Find out how to get support anytime day or night.</a></h4>
     <div id="crisis-expander-content" class="expander-content expander-content-closed">
       <div class="expander-content-inner usa-alert-text">
         <p>Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
-        <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>
+        <p><strong>To connect with a Veterans Crisis Line responder anytime day or night:</strong></p>
         <ul>
-             <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
+             <li>Call <a href="tel:+18002738255">1-800-273-8255</a>, then press 1.</li>
           <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
            <li>Text <a href="sms:838255">838255</a>.</li>
+           <li>Call TTY <a href="tel:+18007994889">1-800-799-4889</a> for support if you have hearing loss. 
            </ul>
             <p><strong>You can also:</strong></p>
            <ul>
@@ -62,8 +63,9 @@ With our VA Appointments tools, you can schedule some VA appointments online, vi
 <h2>View Your VA Appointments Online</h2>
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You’ll need to sign in before you can view your VA appointments through My HealtheVet.</h4>
-    <p class="usa-alert-text">
+    <h4 class="usa-alert-heading">You’ll need to sign in before you can view your VA appointments online.</h4>
+    <p class="usa-alert-text"><br>
+      <p>Try signing in with your DS Logon, My HealtheVet, or ID.me account. If you don’t have any of those accounts, you can create one.</p>
       <button class="usa-button-primary">Sign In or Create an Account</button>
     </p>
   </div>
@@ -73,8 +75,9 @@ With our VA Appointments tools, you can schedule some VA appointments online, vi
 
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You’ll need to sign in before you can schedule a VA appointment through My HealtheVet.</h4>
-    <p class="usa-alert-text">
+    <h4 class="usa-alert-heading">You’ll need to sign in before you can schedule a VA appointment online.</h4>
+    <p class="usa-alert-text"><br>
+      <p>Try signing in with your DS Logon, My HealtheVet, or ID.me account. If you don’t have any of those accounts, you can create one.</p>
       <button class="usa-button-primary">Sign In or Create an Account</button>
     </p>
   </div>
@@ -83,11 +86,11 @@ With our VA Appointments tools, you can schedule some VA appointments online, vi
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h2 itemprop="name">What are the online VA Appointments tools, and why should I consider using them?</h2>
+<h2 itemprop="name">How can VA Appointments tools help me manage my health care?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-VA Appointments offers secure, web-based tools that help you to schedule, view, and organize your VA appointments online. 
+VA Appointments tools offer a secure, web-based way to schedule, view, and organize your VA appointments online. 
 
 <b>You can use these tools to:</b>
 
