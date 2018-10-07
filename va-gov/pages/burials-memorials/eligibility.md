@@ -20,17 +20,17 @@ Servicemembers, Veterans, and family members may qualify for burial in a VA nati
 
 <div class="feature" markdown="0">
 
-### Can I get VA burial and memorial benefits?
+### Who qualifies for VA burial and memorial benefits?
 
-You may qualify for burial and memorial benefits if you meet one of the requirements listed below.
+Veterans, Servicemembers, spouses, and dependents may qualify for burial and memorial benefits if they meet one of the requirements listed below.
 
-**One of these must be true. You're:**
+**One of these must be true. The person qualifying for burial benefits is:**
 
 
 - A Veteran who didn't receive a dishonorable discharge, **or**
 - A Servicemember who died while on active duty, active duty for training, or inactive duty for training, **or**
 - The spouse or dependent child of a Veteran, even if the Veteran died first, **or**
-- In some cases, the adult dependent child of a Veteran (if you aren't married)
+- In some cases, the adult dependent child of a Veteran (if they aren't married)
 
 <br>
 
@@ -56,8 +56,8 @@ If you qualify for burial in a VA national cemetery, you'll receive burial benef
 - A headstone or marker provided by the government
 - Perpetual (ongoing) care of the gravesite
 
-In the event of your death, the person planning your burial can also request other honors and memorials. These may include a:
-- [Burial flag to drape over the casket (or coffin) or place with the urn](/burials-memorials/memorial-items/presidential-memorial-certificates/)
+At their time of need, the person planning your burial can also request other honors and memorials. These may include a:
+- [Burial flag to drape over the casket (or coffin) or place with the urn](/burials-memorials/memorial-items/burial-flags/)
 - [Presidential Memorial Certificate signed by the current President of the United States](/burials-memorials/memorial-items/presidential-memorial-certificates/)
 - [Headstone, marker, niche cover, or medallion to identify a gravesite located outside a VA national cemetery](/burials-memorials/memorial-items/headstones-markers-medallions/)
 
@@ -66,9 +66,9 @@ In the event of your death, the person planning your burial can also request oth
 
 <br>
 
-### If I'm the survivor of a deceased Servicemember or Veteran, what other benefits can I get?
+### If I'm the survivor of a Veteran or Servicemember, what other benefits can I get?
 
-We give the surviving spouse, children, and parents of deceased Servicemembers and Veterans a range of benefits. These may include tax-free monetary benefits (called Dependency and Indemnity Compensation) and help paying for the funeral service (called a burial allowance).<br>
+We give the surviving spouse, children, and parents of Veterans and Servicemembers a range of benefits. These may include tax-free monetary benefits (called Dependency and Indemnity Compensation) and help paying for the funeral service (called a burial allowance).<br>
 [See if you're eligible for Dependency and Indemnity Compensation (DIC)](/burials-memorials/dependency-indemnity-compensation/). <br>
 [Find out how to apply for a burial allowance](/burials-memorials/veterans-burial-allowance/).
 
@@ -76,7 +76,7 @@ We give the surviving spouse, children, and parents of deceased Servicemembers a
 
 ### Can I plan ahead for my burial in a VA national cemetery?
 
-Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members in the event of your death. To do this, you’ll need to apply for a pre-need eligibility determination.<br>
+Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members in their time of need. To do this, you’ll need to apply for a pre-need eligibility determination.<br>
 [Find out how to apply](/burials-memorials/pre-need-eligibility/).
 
 **Please note:** The pre-need eligibility determination is only for national cemeteries. If you want to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time, since some state Veterans cemeteries require that you live in that state or have other rules around eligibility. <br>
