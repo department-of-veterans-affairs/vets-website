@@ -24,14 +24,14 @@ If you’re the surviving spouse, child, or parent of a Servicemember who died i
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-spouse">As a surviving spouse</button>
 <div id="VA-burials-survivor-spouse" class="usa-accordion-content">
 
-You can get compensation as a surviving spouse if you meet the requirements listed below and if one of the descriptions below is true of the deceased Servicemember or Veteran.
+You can get compensation as a surviving spouse if you meet the requirements listed below and if one of the descriptions below is true of the Veteran or Servicemember.
 
 **One of these must describe you. You:**
 - Married the Veteran before January 1, 1957, or within 15 years of their leaving the military, **or**
 - Were married to the Veteran for at least 1 year, **or**
 - Had a child with the Veteran, aren’t currently remarried, and either lived with the Veteran without a break until the Veteran’s death or, if separated, weren’t at fault for the separation
 
-**And one of these must describe the deceased:**
+**And one of these must describe the Veteran or Servicemember:**
 - The Servicemember died while on active duty, active duty for training, or inactive-duty training.
 - The Veteran died from a service-connected illness or injury.
 - The Veteran didn’t die from a service-connected illness or injury, but was eligible to get VA compensation for a service-connected disability that VA rated as totally disabling:
@@ -47,7 +47,7 @@ You can get compensation as a surviving spouse if you meet the requirements list
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-child">As a surviving child</button>
 <div id="VA-burials-survivor-child" class="usa-accordion-content">
 
-You can get compensation as a surviving child if you meet the requirements listed below and if one of the descriptions below is true of the deceased Servicemember or Veteran.
+You can get compensation as a surviving child if you meet the requirements listed below and if one of the descriptions below is true of the Veteran or Servicemember.
 
 **Both of these must be true. You:**
 - Aren’t married, **and**
@@ -57,7 +57,7 @@ You can get compensation as a surviving child if you meet the requirements liste
 - Are under the age of 18 (or under the age of 23 if attending school), **or**
 - Were adopted out of the Veteran’s family, but meet all other eligibility criteria
 
-**One of these must describe the deceased:**
+**One of these must describe the Veteran or Servicemember:**
 - The Servicemember died while on active duty, active duty for training, or inactive-duty training.
 - The Veteran died from a service-connected illness or injury.
 - The Veteran didn’t die from a service-connected illness or injury, but was eligible to get VA compensation for a service-connected disability that VA rated as totally disabling:
