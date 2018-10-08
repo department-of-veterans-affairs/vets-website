@@ -72,7 +72,7 @@ If you’re enrolled in VA health care, you should have a Veteran Health Identif
 
 
 You need to be enrolled in VA health care to receive a Veteran Health Identification Card. If you aren't signed up for VA health care, you can apply online now. <br>
-[Find out how to apply for VA health care](/health-care/apply/). </br>
+[Find out how to apply for VA health care](/health-care/how-to-apply/). </br>
 [Learn more about the VHIC](https://www.va.gov/healthbenefits/vhic/index.asp).
 
 </div>
