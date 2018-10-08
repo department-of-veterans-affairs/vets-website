@@ -28,47 +28,71 @@ const mhvBaseUrl = () => {
   return `https://${mhvSubdomain}.myhealth.va.gov`;
 };
 
-export const continueUrl = appId => {
+export const toolUrl = appId => {
   switch (appId) {
+    case frontendApps.HEALTH_RECORDS:
+      return {
+        url: `${mhvBaseUrl()}/mhv-portal-web/download-my-data`,
+        redirect: false,
+      };
+
+    case frontendApps.RX:
+      return {
+        url: `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/refill-prescriptions`,
+        redirect: true,
+      };
+
+    case frontendApps.MESSAGING:
+      return {
+        url: `${mhvBaseUrl()}/mhv-portal-web/secure-messaging`,
+        redirect: true,
+      };
+
+    case frontendApps.APPOINTMENTS:
+      return {
+        url: `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/scheduling-a-va-appointment`,
+        redirect: true,
+      };
+
+    case frontendApps.LAB_AND_TEST_RESULTS:
+      return {
+        url: `${mhvBaseUrl()}/mhv-portal-web/labs-tests`,
+        redirect: true,
+      };
+
+    case frontendApps.CLAIMS_AND_APPEALS:
+      return {
+        url: '/track-claims/',
+        redirect: true,
+      };
+
     case frontendApps.GI_BILL_BENEFITS:
-      return '/education/gi-bill/post-9-11/ch-33-benefit/status';
+      return {
+        url: '/education/gi-bill/post-9-11/ch-33-benefit/status',
+        redirect: false,
+      };
 
     case frontendApps.DISABILITY_BENEFITS:
-      return '/disability-benefits/apply/form-526-disability-claim/veteran-information';
+      return {
+        url:
+          '/disability-benefits/apply/form-526-disability-claim/veteran-information',
+        redirect: false,
+      };
 
     case frontendApps.LETTERS:
-      return '/records/download-va-letters/letters';
+      return {
+        url: '/records/download-va-letters/letters',
+        redirect: false,
+      };
 
     case frontendApps.VETERAN_ID_CARD:
-      return 'https://vicbdc.ppd.vba.va.gov/VIC';
+      return {
+        url: 'https://vicbdc.ppd.vba.va.gov/VIC',
+        redirect: false,
+      };
 
     default:
-      return '/';
-  }
-};
-
-export const redirectUrl = contentUrl => {
-  switch (contentUrl) {
-    case '/health-care/secure-messaging/':
-      return `${mhvBaseUrl()}/mhv-portal-web/secure-messaging`;
-
-    case '/health-care/refill-track-prescriptions/':
-      return `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/refill-prescriptions`;
-
-    case '/health-care/get-medical-records/':
-      return `${mhvBaseUrl()}/mhv-portal-web/download-my-data`;
-
-    case '/health-care/schedule-view-va-appointments/':
-      return `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/scheduling-a-va-appointment`;
-
-    case '/health-care/view-test-and-lab-results/':
-      return `${mhvBaseUrl()}/mhv-portal-web/labs-tests`;
-
-    case '/claim-or-appeal-status/':
-      return '/track-claims/';
-
-    default:
-      return null;
+      return {};
   }
 };
 

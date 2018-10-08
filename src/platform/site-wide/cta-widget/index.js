@@ -22,8 +22,7 @@ import CallToActionAlert from './CallToActionAlert';
 
 import {
   frontendApps,
-  continueUrl,
-  redirectUrl,
+  toolUrl,
   requiredServices,
   serviceDescription,
 } from './helpers';
@@ -42,12 +41,14 @@ export class CallToActionWidget extends React.Component {
   constructor(props) {
     super(props);
     const { appId } = props;
+    const { url, redirect } = toolUrl(appId);
+
+    this._hasRedirect = redirect;
     this._isHealthTool = HEALTH_TOOLS.includes(appId);
     this._popup = null;
-    this._continueUrl = continueUrl(appId);
-    this._redirectUrl = redirectUrl(window.location.pathname);
     this._requiredServices = requiredServices(appId);
     this._serviceDescription = serviceDescription(appId);
+    this._toolUrl = url;
   }
 
   componentDidMount() {
@@ -60,7 +61,7 @@ export class CallToActionWidget extends React.Component {
     if (!this.props.isLoggedIn) return;
 
     if (this.isAccessible()) {
-      if (this._redirectUrl) this.redirect();
+      if (this._hasRedirect) this.goToTool();
     } else if (this._isHealthTool) {
       const { accountLevel, accountState, loading } = this.props.mhvAccount;
 
@@ -157,7 +158,7 @@ export class CallToActionWidget extends React.Component {
         </p>
       ),
       buttonText: 'Go to My HealtheVet',
-      buttonHandler: this.redirect,
+      buttonHandler: this.goToTool,
     };
   };
 
@@ -396,11 +397,14 @@ export class CallToActionWidget extends React.Component {
 
   openLoginModal = () => this.props.toggleLoginModal(true);
 
-  redirect = () => {
-    if (this._redirectUrl.startsWith('/')) {
-      window.location = this._redirectUrl;
+  goToTool = () => {
+    const url = this._toolUrl;
+    if (!url) return;
+
+    if (url.startsWith('/')) {
+      window.location = url;
     } else if (!this._popup) {
-      this._popup = window.open(this._redirectUrl, 'redirect-popup');
+      this._popup = window.open(url, 'cta-popup');
       if (this._popup) this._popup.focus();
     }
   };
@@ -418,12 +422,14 @@ export class CallToActionWidget extends React.Component {
 
     if (this.props.children) return this.props.children;
 
-    const buttonClass = this._continueUrl.startsWith('/')
+    const externalLink = this._toolUrl.startsWith('/');
+    const buttonClass = externalLink
       ? classNames('usa-button-primary', 'va-button-primary')
       : '';
+    const target = externalLink ? '_blank' : '_self';
 
     return (
-      <a className={buttonClass} href={this._continueUrl}>
+      <a className={buttonClass} href={this._toolUrl} target={target}>
         {titleCase(this._serviceDescription)}
       </a>
     );
