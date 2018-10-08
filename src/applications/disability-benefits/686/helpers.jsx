@@ -2,7 +2,6 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation/Additional
 import React from 'react';
 // import { apiRequest } from '../../../platform/utilities/api';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
-import { get } from 'lodash/fp';
 
 export const relationshipLabels = {
   veteran: 'I am the Veteran',
@@ -121,37 +120,6 @@ export function transform(formConfig, form) {
   return JSON.stringify({
     form: formData,
   });
-}
-
-export const spouseRelationshipDescription = (
-  <div className="usa-alert usa-alert-info background-color-only">
-    You’re applying as the{' '}
-    <strong>legally married spouse or surviving spouse</strong> of the Veteran
-    who’s sponsoring this application. First, we’ll ask for your information as
-    the applicant. Then, we’ll ask for your sponsor’s information.
-  </div>
-);
-
-export const childRelationshipDescription = (
-  <div className="usa-alert usa-alert-info background-color-only">
-    You’re applying as the <strong>unmarried adult child</strong> of the Veteran
-    who’s sponsoring this application. First, we’ll ask for your information as
-    the applicant. Then, we’ll ask for your sponsor’s information. You’ll also
-    need to provide supporting documents with information about your disability.
-  </div>
-);
-
-export const otherRelationshipDescription = (
-  <div className="usa-alert usa-alert-info background-color-only">
-    You’re applying on <strong>behalf</strong> of the Veteran who’s sponsoring
-    this application. First, we’ll ask for your information as the applicant.
-    Then, we’ll ask for the Veteran's information as the sponsor.
-  </div>
-);
-
-export function isVeteran(item) {
-  const relationship = get('view:relationshipToVet', item);
-  return relationship && relationship === '1';
 }
 
 export const profileStatuses = {
