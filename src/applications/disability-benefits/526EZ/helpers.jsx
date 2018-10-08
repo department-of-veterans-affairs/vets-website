@@ -27,9 +27,13 @@ import { VA_FORM4142_URL } from '../all-claims/constants';
  * of each object into one array
  * @param {array} dataArray array of objects to inspect
  * @param {string} property the property to inspect in each array item
- * @param {string} refPropPath an optional other property to inspect,
- *                             acts as a condition for the target property
- * @returns {array} a list of aggregated items pulled from different arrays
+ * @param {string} [refPropPath] Path to a property used to determine if the
+ *                               `property` should be aggregated. E.g., pointing
+ *                               to a boolean `view:thingIsSelected` property will
+ *                               ensure that only subarrays with a value of `true`
+ *                               for this reference property are pulled into the
+ *                               aggregated list.
+ * @returns {array} an array of aggregated items pulled from different nested arrays
  */
 const aggregate = (dataArray, property, refPropPath) => {
   const masterList = [];
