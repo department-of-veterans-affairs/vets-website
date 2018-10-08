@@ -3,6 +3,9 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
 import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+
+const siteName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 import {
   groupTimelineActivity,
@@ -481,7 +484,7 @@ describe('Disability benefits helpers: ', () => {
       const contents = getStatusContents(type);
       expect(contents.title).to.equal('We don’t know your appeal status');
       expect(contents.description.props.children).to.equal(
-        'We’re sorry, Vets.gov will soon be updated to show your status.',
+        `We’re sorry, ${siteName} will soon be updated to show your status.`,
       );
     });
 
