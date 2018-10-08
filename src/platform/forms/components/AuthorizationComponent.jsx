@@ -5,20 +5,32 @@ import { bindActionCreators } from 'redux';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
-import DowntimeMessage from '../../../../platform/forms/save-in-progress/DowntimeMessage';
+import DowntimeMessage from '../save-in-progress/DowntimeMessage';
 import DowntimeNotification, {
   externalServiceStatus,
-} from '../../../../platform/monitoring/DowntimeNotification';
-import { getFormAuthorizationState } from '../../../../applications/personalization/dashboard/helpers.jsx';
+} from '../../monitoring/DowntimeNotification';
+import { getFormAuthorizationState } from '../../../applications/personalization/dashboard/helpers';
 
 import AuthorizationMessage from './AuthorizationMessage';
 
 class AuthorizationComponent extends React.Component {
+  componentDidMount() {
+    this.authorize();
+  }
+
   componentWillUpdate() {
-    if (this.props.formConfig && !this.props.profileIsLoading) {
+    this.authorize();
+  }
+
+  authorize = () => {
+    if (
+      this.props.formConfig &&
+      !this.props.profileIsLoading &&
+      !this.props.loadedStatus
+    ) {
       this.props.authorize();
     }
-  }
+  };
 
   renderDowntime = (downtime, children) => {
     if (downtime.status === externalServiceStatus.down) {
@@ -45,7 +57,7 @@ class AuthorizationComponent extends React.Component {
     } = this.props;
 
     const content = (
-      <div>
+      <div className="sip-authorization-container">
         {isLoading &&
           isVisible && (
             <LoadingIndicator message="Please wait while we check your information." />
@@ -53,7 +65,11 @@ class AuthorizationComponent extends React.Component {
         {!isLoading &&
           isVisible &&
           !isAuthorized && (
-            <AlertBox status="error" isVisible>
+            <AlertBox
+              status="error"
+              isVisible
+              className="sip-authorization-message"
+            >
               <AuthorizationMessage
                 has30PercentDisabilityRating={has30PercentDisabilityRating}
                 user={{ isLoggedIn, isVerified, profileStatus }}
