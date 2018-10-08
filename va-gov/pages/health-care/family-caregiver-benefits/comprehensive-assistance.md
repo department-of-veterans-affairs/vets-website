@@ -48,7 +48,7 @@ Your Veteran can appoint 1 primary (main) caregiver and up to 2 secondary caregi
 
 You’ll need to apply for these benefits. To apply, fill out an Application for the Program of Comprehensive Assistance for Family Caregivers (VA Form 10-10CG). You’ll need identification and health coverage information for both you and your Veteran—and you’ll both need to sign and date the form.<br>
 
-[Download VA Form 10-10CG](https://www.vets.gov/health-care/forms/vha-10-10CG.pdf)
+[Download VA Form 10-10CG](/health-care/forms/vha-10-10CG.pdf)
 
 **Mail the form and any supporting documents to:**
 
