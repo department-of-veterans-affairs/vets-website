@@ -10,7 +10,7 @@ import SaveInProgressIntro, {
   introSelector,
 } from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import AuthorizationComponent from '../components/AuthorizationComponent';
+import AuthorizationComponent from '../../../../platform/forms/components/AuthorizationComponent';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {

@@ -89,6 +89,7 @@ describe('profile helpers:', () => {
       const sipEnabledFormIds = sipEnabledConfigs.map(
         sipEnabledConfig => sipEnabledConfig.formId,
       );
+      sipEnabledFormIds.push('complaint-tool');
       expect(allFormIds).to.deep.equal(allMappedIds);
       expect(sipEnabledForms).to.deep.equal(new Set(sipEnabledFormIds));
     });

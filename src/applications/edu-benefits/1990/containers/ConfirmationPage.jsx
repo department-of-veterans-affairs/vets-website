@@ -4,10 +4,13 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 import { focusElement } from '../../../../platform/utilities/ui';
+
 import { getListOfBenefits } from '../../utils/helpers';
 import { benefitsRelinquishmentLabels } from '../helpers';
 
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
@@ -176,7 +179,7 @@ class ConfirmationPage extends React.Component {
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">
               <button className="usa-button-primary">
-                Go Back to Vets.gov
+                Go Back to {propertyName}
               </button>
             </a>
           </div>

@@ -27,12 +27,19 @@ import { VA_FORM4142_URL } from '../all-claims/constants';
  * of each object into one array
  * @param {array} dataArray array of objects to inspect
  * @param {string} property the property to inspect in each array item
- * @returns {array} a list of aggregated items pulled from different arrays
+ * @param {string} [refPropPath] Path to a property used to determine if the
+ *                               `property` should be aggregated. E.g., pointing
+ *                               to a boolean `view:thingIsSelected` property will
+ *                               ensure that only subarrays with a value of `true`
+ *                               for this reference property are pulled into the
+ *                               aggregated list.
+ * @returns {array} an array of aggregated items pulled from different nested arrays
  */
-const aggregate = (dataArray, property) => {
+const aggregate = (dataArray, property, refPropPath) => {
   const masterList = [];
   dataArray.forEach(item => {
-    if (item[property]) {
+    const itemIsSelected = get(refPropPath, item, true);
+    if (item[property] && itemIsSelected) {
       item[property].forEach(listItem => masterList.push(listItem));
     }
   });
@@ -110,9 +117,23 @@ export function transform(formConfig, form) {
     ? { servicePeriods, reservesNationalGuardService }
     : { servicePeriods };
 
-  const additionalDocuments = aggregate(disabilities, 'additionalDocuments');
-  const privateRecords = aggregate(disabilities, 'privateRecords');
-  const treatments = aggregate(disabilities, 'treatments');
+  const additionalDocuments = aggregate(
+    disabilities,
+    'additionalDocuments',
+    'view:selectableEvidenceTypes.view:otherEvidence',
+  );
+  const privateRecords = aggregate(
+    disabilities,
+    'privateRecords',
+    'view:selectableEvidenceTypes.view:privateMedicalRecords',
+  );
+  const treatments = aggregate(
+    disabilities,
+    'treatments',
+    'view:selectableEvidenceTypes.view:vaMedicalRecords',
+  );
+
+  const attachments = additionalDocuments.concat(privateRecords);
 
   const transformedData = {
     disabilities: disabilities
@@ -120,13 +141,13 @@ export function transform(formConfig, form) {
       .map(filtered => pick(filtered, disabilityProperties)),
     // Pull phone & email out of phoneEmailCard and into veteran property
     veteran: setPhoneEmailPaths(veteran),
-    attachments: additionalDocuments.concat(privateRecords),
     privacyAgreementAccepted,
     serviceInformation,
     standardClaim,
     // treatments has a minItems: 1 requirement so only include the property
     // if there is at least one treatment to send
     ...(treatments.length && { treatments }),
+    ...(attachments.length && { attachments }),
   };
 
   const withoutViewFields = filterViewFields(transformedData);
@@ -213,13 +234,13 @@ export function prefillTransformer(pages, formData, metadata) {
 
 export const supportingEvidenceOrientation = (
   <p>
-    On the next few screens, we’ll ask you where we can find medical records or
-    supporting evidence that show your rated condition has gotten worse. You
-    don’t need to turn in any medical records that you already submitted with
-    your original claim.{' '}
+    On the next few screens, we’ll ask you where we can find evidence
+    (supporting documents like doctor’s reports, X-rays, and medical test
+    results) that shows your rated condition has gotten worse. You don’t need to
+    turn in any evidence that you already submitted with your original claim.{' '}
     <strong>
-      We only need new medical records or evidence that show your rated
-      condition has gotten worse.
+      We only need new evidence that shows your rated condition has gotten
+      worse.
     </strong>
   </p>
 );
@@ -442,6 +463,14 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
     additionalDocuments,
   } = formData;
 
+  const {
+    'view:selectableEvidenceTypes': {
+      'view:vaMedicalRecords': vaRecordsSelected,
+      'view:privateMedicalRecords': privateRecordsSelected,
+      'view:otherEvidence': otherEvidenceSelected,
+    },
+  } = formData;
+
   return (
     <div>
       {formContext.reviewMode && (
@@ -452,29 +481,33 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
         </div>
       )}
       <ul>
-        {treatments && (
-          <li>
-            We’ll get your medical records from {listCenters(treatments)}.
-          </li>
-        )}
-        {privateRecordReleases && (
-          <li>
-            We’ll get your private medical records from{' '}
-            {listCenters(privateRecordReleases)}.
-          </li>
-        )}
-        {privateRecords && (
-          <li>
-            We have received the private medical records you uploaded:
-            {listDocuments(privateRecords)}
-          </li>
-        )}
-        {additionalDocuments && (
-          <li>
-            We have received the additional evidence you uploaded:
-            {listDocuments(additionalDocuments)}
-          </li>
-        )}
+        {treatments &&
+          vaRecordsSelected && (
+            <li>
+              We’ll get your medical records from {listCenters(treatments)}.
+            </li>
+          )}
+        {privateRecordReleases &&
+          privateRecordsSelected && (
+            <li>
+              We’ll get your private medical records from{' '}
+              {listCenters(privateRecordReleases)}.
+            </li>
+          )}
+        {privateRecords &&
+          privateRecordsSelected && (
+            <li>
+              We have received the private medical records you uploaded:
+              {listDocuments(privateRecords)}
+            </li>
+          )}
+        {additionalDocuments &&
+          otherEvidenceSelected && (
+            <li>
+              We have received the additional evidence you uploaded:
+              {listDocuments(additionalDocuments)}
+            </li>
+          )}
       </ul>
     </div>
   );
@@ -559,7 +592,7 @@ export const UnauthenticatedAlert = (
     <div className="usa-alert usa-alert-info schemaform-sip-alert">
       <div className="usa-alert-body">
         To apply for a disability increase, you’ll need to sign in and verify
-        your account.
+        your identity.
       </div>
     </div>
     <br />
@@ -586,9 +619,8 @@ export const VerifiedAlert = (
       <div className="usa-alert-body">
         <strong>Note:</strong> Since you’re signed in to your account and your
         account is verified, we can prefill part of your application based on
-        your account details. You can also save your form in progress, and come
-        back later to finish filling it out. You have 1 year from the date you
-        start or update your application to submit the form.
+        your account details. You can also save your form in progress for up to
+        1 year and come back later to finish filling it out.
       </div>
     </div>
     <br />
@@ -615,9 +647,8 @@ export const GetFormHelp = () => (
 export const ITFDescription = (
   <span>
     <strong>Note:</strong> By clicking the button to start the disability
-    application, you’ll declare your intent to file, and this will set the date
-    you can start getting benefits. This intent to file will expire 1 year from
-    the day you start your application.
+    application, you’ll declare your intent to file. This will reserve a
+    potential effective date for when you could start getting benefits.
   </span>
 );
 
@@ -695,8 +726,7 @@ export const noFDCWarning = (
 
 const evidenceTypesDescription = disabilityName => (
   <p>
-    What supporting evidence will you be turning in that shows your{' '}
-    {disabilityName}{' '}
+    What supporting evidence will you turn in that shows your {disabilityName}{' '}
     <strong>has gotten worse since you received a VA rating</strong>?
   </p>
 );
