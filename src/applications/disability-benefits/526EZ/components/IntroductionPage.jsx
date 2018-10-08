@@ -60,7 +60,7 @@ class IntroductionPage extends React.Component {
 
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for increased disability compensation" />
+        <FormTitle title="File for increased disability compensation" />
         <p>
           Equal to VA Form 21-526EZ (Application for Disability Compensation and
           Related Compensation Benefits).
@@ -104,19 +104,24 @@ class IntroductionPage extends React.Component {
               </div>
               <div>
                 <h6>
-                  When you apply for a disability increase, be sure to have
-                  these on hand:
+                  When you apply for a disability increase you’ll have a chance
+                  to provide evidence to support your claim. Evidence could
+                  include:
                 </h6>
               </div>
               <ul>
-                <li>Your Social Security number</li>
                 <li>
-                  VA medical and hospital records that show your rated
-                  disability has gotten worse
+                  VA medical and hospital records you may have that show your
+                  rated disability has gotten worse
                 </li>
                 <li>
-                  Private medical and hospital records that show your rated
-                  disability has gotten worse
+                  Private medical and hospital records you may have that show
+                  your rated disability has gotten worse
+                </li>
+                <li>
+                  Supporting or lay statements from family, friends, or
+                  coworkers with knowledge about your disability that has gotten
+                  worse
                 </li>
               </ul>
               <p>
@@ -126,18 +131,18 @@ class IntroductionPage extends React.Component {
                 aid and attendance benefits.
                 <br />
                 <a href="/disability-benefits/apply/supplemental-forms/">
-                  Learn Learn what additional forms you may need to file with
-                  your disability claim
+                  Learn what additional forms you may need to file with your
+                  disability claim
                 </a>
                 .
               </p>
               <p>
-                <strong>What if I need help filling out my application?</strong>
+                <strong>What if I need help with my application?</strong>
               </p>
               <p>
                 If you need help submitting a claim for increase, you can
                 contact a VA regional office and ask to speak to a counselor. To
-                find the regional office nearest you, please call{' '}
+                find the nearest regional office, please call{' '}
                 <a href="tel:1-800-827-1000">1-800-827-1000</a>. An accredited
                 representative, like a Veterans Service Officer (VSO), can also
                 help you with your claim.
@@ -156,7 +161,7 @@ class IntroductionPage extends React.Component {
                     </p>
                     <p>
                       Before filing a claim for increase, you might want to
-                      check whether you’re already receiving the maximum
+                      check to see if you’re already receiving the maximum
                       disability rating for your claimed condition.
                     </p>
                     <p>
