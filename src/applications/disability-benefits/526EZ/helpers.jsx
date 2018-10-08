@@ -27,12 +27,19 @@ import { VA_FORM4142_URL } from '../all-claims/constants';
  * of each object into one array
  * @param {array} dataArray array of objects to inspect
  * @param {string} property the property to inspect in each array item
- * @returns {array} a list of aggregated items pulled from different arrays
+ * @param {string} [refPropPath] Path to a property used to determine if the
+ *                               `property` should be aggregated. E.g., pointing
+ *                               to a boolean `view:thingIsSelected` property will
+ *                               ensure that only subarrays with a value of `true`
+ *                               for this reference property are pulled into the
+ *                               aggregated list.
+ * @returns {array} an array of aggregated items pulled from different nested arrays
  */
-const aggregate = (dataArray, property) => {
+const aggregate = (dataArray, property, refPropPath) => {
   const masterList = [];
   dataArray.forEach(item => {
-    if (item[property]) {
+    const itemIsSelected = get(refPropPath, item, true);
+    if (item[property] && itemIsSelected) {
       item[property].forEach(listItem => masterList.push(listItem));
     }
   });
@@ -110,9 +117,23 @@ export function transform(formConfig, form) {
     ? { servicePeriods, reservesNationalGuardService }
     : { servicePeriods };
 
-  const additionalDocuments = aggregate(disabilities, 'additionalDocuments');
-  const privateRecords = aggregate(disabilities, 'privateRecords');
-  const treatments = aggregate(disabilities, 'treatments');
+  const additionalDocuments = aggregate(
+    disabilities,
+    'additionalDocuments',
+    'view:selectableEvidenceTypes.view:otherEvidence',
+  );
+  const privateRecords = aggregate(
+    disabilities,
+    'privateRecords',
+    'view:selectableEvidenceTypes.view:privateMedicalRecords',
+  );
+  const treatments = aggregate(
+    disabilities,
+    'treatments',
+    'view:selectableEvidenceTypes.view:vaMedicalRecords',
+  );
+
+  const attachments = additionalDocuments.concat(privateRecords);
 
   const transformedData = {
     disabilities: disabilities
@@ -120,13 +141,13 @@ export function transform(formConfig, form) {
       .map(filtered => pick(filtered, disabilityProperties)),
     // Pull phone & email out of phoneEmailCard and into veteran property
     veteran: setPhoneEmailPaths(veteran),
-    attachments: additionalDocuments.concat(privateRecords),
     privacyAgreementAccepted,
     serviceInformation,
     standardClaim,
     // treatments has a minItems: 1 requirement so only include the property
     // if there is at least one treatment to send
     ...(treatments.length && { treatments }),
+    ...(attachments.length && { attachments }),
   };
 
   const withoutViewFields = filterViewFields(transformedData);
@@ -442,6 +463,14 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
     additionalDocuments,
   } = formData;
 
+  const {
+    'view:selectableEvidenceTypes': {
+      'view:vaMedicalRecords': vaRecordsSelected,
+      'view:privateMedicalRecords': privateRecordsSelected,
+      'view:otherEvidence': otherEvidenceSelected,
+    },
+  } = formData;
+
   return (
     <div>
       {formContext.reviewMode && (
@@ -452,29 +481,33 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
         </div>
       )}
       <ul>
-        {treatments && (
-          <li>
-            We’ll get your medical records from {listCenters(treatments)}.
-          </li>
-        )}
-        {privateRecordReleases && (
-          <li>
-            We’ll get your private medical records from{' '}
-            {listCenters(privateRecordReleases)}.
-          </li>
-        )}
-        {privateRecords && (
-          <li>
-            We have received the private medical records you uploaded:
-            {listDocuments(privateRecords)}
-          </li>
-        )}
-        {additionalDocuments && (
-          <li>
-            We have received the additional evidence you uploaded:
-            {listDocuments(additionalDocuments)}
-          </li>
-        )}
+        {treatments &&
+          vaRecordsSelected && (
+            <li>
+              We’ll get your medical records from {listCenters(treatments)}.
+            </li>
+          )}
+        {privateRecordReleases &&
+          privateRecordsSelected && (
+            <li>
+              We’ll get your private medical records from{' '}
+              {listCenters(privateRecordReleases)}.
+            </li>
+          )}
+        {privateRecords &&
+          privateRecordsSelected && (
+            <li>
+              We have received the private medical records you uploaded:
+              {listDocuments(privateRecords)}
+            </li>
+          )}
+        {additionalDocuments &&
+          otherEvidenceSelected && (
+            <li>
+              We have received the additional evidence you uploaded:
+              {listDocuments(additionalDocuments)}
+            </li>
+          )}
       </ul>
     </div>
   );
