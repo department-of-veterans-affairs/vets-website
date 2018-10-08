@@ -132,7 +132,7 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a href="/careers-employment/how-to-apply/"><b>How to Apply</b></a>
+    <a href="/careers-employment/vocational-rehabilitation/how-to-apply/"><b>How to Apply</b></a>
     <p>Get step-by-step instructions on how to apply for voc rehab benefits.</p>
   </div>
 

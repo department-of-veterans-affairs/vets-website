@@ -4,7 +4,7 @@ title: Accessing VR&E through the Integrated Disability Evaluation System (IDES)
 display_title: Accessing VR&E Through IDES
 template: detail-page
 collection: vreServiceEligibility
-order: 1
+order: 4
 relatedlinks:
   - heading: Other VA benefits you may want to explore
     links:
