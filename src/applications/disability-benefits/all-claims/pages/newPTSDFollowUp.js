@@ -6,7 +6,6 @@ import { getDisabilityName } from '../utils';
 import disabilityLabels from '../content/disabilityLabels';
 
 import fullSchema from '../config/schema';
-import { CauseTitle } from '../content/newDisabilityFollowUp';
 
 const {
   cause,
@@ -47,18 +46,15 @@ export const uiSchema = {
     items: {
       'ui:title': disabilityNameTitle,
       cause: {
-        'ui:title': <CauseTitle />,
+        'ui:title': '[PTSD Screen] How is this disability service connected?',
         'ui:widget': 'radio',
         'ui:options': {
           labels: {
             NEW:
-              'My disability was caused by an injury or exposure during my military service.',
+              'My disability was caused by—or got worse because of—an injury or exposure during my service in the military.',
             SECONDARY:
-              'My disability was caused by another service-connected disability I already have. (For example, I have a limp that caused lower-back problems.)',
-            PREEXISTING:
-              'My disability or condition existed before I served in the military, but it got worse because of my military service.',
-            VA:
-              'My disability was caused by an injury or event that happened when I was receiving VA care.',
+              'My disability was caused by another disability (for example, I have a limp that caused lower-back problems).',
+            VA: 'My disability was caused by VA mistreatment.',
           },
           updateSchema: (formData, causeSchema, causeUISchema, index) => ({
             enum: getDisabilitiesList(formData, index).length

@@ -37,6 +37,7 @@ import {
   evidenceTypes,
   claimExamsInfo,
   homelessOrAtRisk,
+  newPTSDFollowUp,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -189,6 +190,32 @@ const formConfig = {
           arrayPath: 'newDisabilities',
           uiSchema: newDisabilityFollowUp.uiSchema,
           schema: newDisabilityFollowUp.schema,
+        },
+        // Consecutive `showPagePerItem` pages that have the same arrayPath
+        // will force each item in the array to be evaluated by both pages
+        // before the next item is evaluated (e.g., if PTSD was entered first,
+        // it would still show first even though the first page was skipped).
+        // This break between the two `showPagePerItem`s ensures PTSD is sorted
+        // behind non-PTSD conditions in the form flow.
+        // TODO: forms system PR to make showPagePerItem behavior configurable
+        followUpPageBreak: {
+          title: '',
+          depends: () => false,
+          path: 'new-disabilities/page-break',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        newPTSDFollowUp: {
+          title: formData => getDisabilityName(formData.condition),
+          path: 'new-disabilities/follow-up/ptsd/:index',
+          showPagePerItem: true,
+          itemFilter: item =>
+            item.condition
+              ? item.condition.toLowerCase().includes(PTSD)
+              : false,
+          arrayPath: 'newDisabilities',
+          uiSchema: newPTSDFollowUp.uiSchema,
+          schema: newPTSDFollowUp.schema,
         },
       },
     },
