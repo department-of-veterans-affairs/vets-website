@@ -62,6 +62,8 @@ describe('Summary of Evidence', () => {
   });
 
   it('should render private evidence list when private evidence submitted', () => {
+    const fileName1 = 'TestFile.png';
+    const fileName2 = 'hospital records.pdf';
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -69,18 +71,30 @@ describe('Summary of Evidence', () => {
         uiSchema={uiSchema}
         data={{
           'view:hasEvidence': true,
-          privateMedicalRecords: [
-            { name: 'Test File.png' },
-            { name: 'hospital records.pdf' },
-          ],
+          privateMedicalRecords: [{ name: fileName1 }, { name: fileName2 }],
         }}
       />,
     );
 
-    expect(form.find('li').length).to.equal(2);
+    const list = form.find('li');
+    expect(list.length).to.equal(2);
+    expect(
+      list
+        .at(0)
+        .render()
+        .text(),
+    ).to.contain(fileName1);
+    expect(
+      list
+        .at(1)
+        .render()
+        .text(),
+    ).to.contain(fileName2);
   });
 
   it('should render lay evidence list when lay evidence submitted', () => {
+    const fileName1 = 'Test Lay Statement.png';
+    const fileName2 = 'buddy statement.pdf';
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -88,14 +102,24 @@ describe('Summary of Evidence', () => {
         uiSchema={uiSchema}
         data={{
           'view:hasEvidence': true,
-          additionalDocuments: [
-            { name: 'Test Lay Statement.png' },
-            { name: 'buddy statement.pdf' },
-          ],
+          additionalDocuments: [{ name: fileName1 }, { name: fileName2 }],
         }}
       />,
     );
 
-    expect(form.find('li').length).to.equal(2);
+    const list = form.find('li');
+    expect(list.length).to.equal(2);
+    expect(
+      list
+        .at(0)
+        .render()
+        .text(),
+    ).to.contain(fileName1);
+    expect(
+      list
+        .at(1)
+        .render()
+        .text(),
+    ).to.contain(fileName2);
   });
 });
