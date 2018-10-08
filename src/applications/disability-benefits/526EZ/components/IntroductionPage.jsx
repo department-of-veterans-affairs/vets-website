@@ -107,8 +107,8 @@ class IntroductionPage extends React.Component {
                 aid and attendance benefits.
                 <br />
                 <a href="/disability-benefits/apply/supplemental-forms/">
-                  Learn Learn what additional forms you may need to file with
-                  your disability claim
+                  Learn what additional forms you may need to file with your
+                  disability claim
                 </a>
                 .
               </p>
