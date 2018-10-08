@@ -4,7 +4,7 @@ const sitemap = require('sitemap');
 function createSitemaps(BUILD_OPTIONS) {
   const hostname =
     BUILD_OPTIONS.host === 'localhost'
-      ? 'http://localhost'
+      ? 'http://localhost:3001'
       : BUILD_OPTIONS.host;
 
   const metalsmithSitemapOptions = {
