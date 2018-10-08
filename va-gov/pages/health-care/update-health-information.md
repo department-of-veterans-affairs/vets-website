@@ -82,7 +82,7 @@ Yes. You can use this form to update information about your income and deductibl
 <div itemprop="text">
 
 No. You can use this form only to update your information if you’re already enrolled in VA health care.<br>
-[Find out how to apply for VA health care](https://www.vets.gov/health-care/how-to-apply/).
+[Find out how to apply for VA health care](/health-care/how-to-apply/).
 
 </div>
 </div>
