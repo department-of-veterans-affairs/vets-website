@@ -2,6 +2,12 @@
 
 /* OVERRIDE */
 .merger {
+  .login {
+    .container {
+      width: 100%;
+    }
+  }
+
   .va-dropdown-trigger {
     min-width: 102px;
   }
@@ -14,6 +20,14 @@
   }
   .va-modal {
     z-index: 301;
+    font-size: 1.6rem;
+  }
+
+  #modal-crisisline {
+    display: block;
+    p {
+      font-size: 100%;
+    }
   }
 
   #dashboard-title {
@@ -325,6 +339,9 @@
 
   // mobile
   @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
+    .va-sidebarnav {
+      display: none;
+    }
 
     button {
       &.va-sidebarnav-close {
@@ -574,7 +591,8 @@
 
     .va-sidebarnav--opened {
       position: fixed;
-      z-index: 1;
+      display: initial;
+      z-index: 1000;
     }
     .va-navigation-nextprevious {
       padding-left: 0.9375rem;
@@ -585,7 +603,13 @@
 
 
   // tablet
-  @media (min-width: $small-screen) and (max-width: $large-screen - 1) {
+  @media (min-width: 768px) and (max-width: $large-screen) {
+    .va-modal {
+      .usa-width-one-half {
+        margin-right: 4.82916%;
+        width: 44%;
+      }
+    }
     .va-header-logo-wrapper {
       margin-bottom: 0;
     }
