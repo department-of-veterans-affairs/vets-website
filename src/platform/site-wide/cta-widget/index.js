@@ -21,19 +21,12 @@ import titleCase from '../../utilities/data/titleCase';
 import CallToActionAlert from './CallToActionAlert';
 
 import {
-  frontendApps,
-  toolUrl,
+  isHealthTool,
+  mhvToolName,
   requiredServices,
   serviceDescription,
+  toolUrl,
 } from './helpers';
-
-const HEALTH_TOOLS = [
-  frontendApps.HEALTH_RECORDS,
-  frontendApps.RX,
-  frontendApps.MESSAGING,
-  frontendApps.LAB_AND_TEST_RESULTS,
-  frontendApps.APPOINTMENTS,
-];
 
 const MHV_ACCOUNT_TYPES = ['Premium', 'Advanced', 'Basic'];
 
@@ -44,10 +37,11 @@ export class CallToActionWidget extends React.Component {
     const { url, redirect } = toolUrl(appId);
 
     this._hasRedirect = redirect;
-    this._isHealthTool = HEALTH_TOOLS.includes(appId);
+    this._isHealthTool = isHealthTool(appId);
     this._popup = null;
     this._requiredServices = requiredServices(appId);
     this._serviceDescription = serviceDescription(appId);
+    this._mhvToolName = mhvToolName(appId);
     this._toolUrl = url;
   }
 
@@ -150,11 +144,14 @@ export class CallToActionWidget extends React.Component {
     if (!this.isAccessible()) return this.getInaccessibleHealthToolContent();
 
     return {
-      heading: 'My HealtheVet should open in a new tab',
+      heading: 'My HealtheVet will open in a new tab',
       alertText: (
         <p>
-          If you don’t see My HealtheVet open in a new tab, try disabling your
-          browser’s popup blocker.
+          You may need to sign in again on My HealtheVet before you can use the
+          site’s {this._mhvToolName} tool. If you do, please sign in with the
+          same account you used to sign in here on VA.gov. You also may need to
+          disable your browser’s pop-up blocker so that My HealtheVet will be
+          able to open.
         </p>
       ),
       buttonText: 'Go to My HealtheVet',

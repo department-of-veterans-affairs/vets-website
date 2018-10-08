@@ -1,6 +1,6 @@
 import backendServices from '../../user/profile/constants/backendServices';
 
-export const frontendApps = {
+const frontendApps = {
   HEALTH_RECORDS: 'health-records',
   RX: 'rx',
   MESSAGING: 'messaging',
@@ -12,6 +12,16 @@ export const frontendApps = {
   LETTERS: 'letters',
   VETERAN_ID_CARD: 'vic',
 };
+
+const HEALTH_TOOLS = [
+  frontendApps.HEALTH_RECORDS,
+  frontendApps.RX,
+  frontendApps.MESSAGING,
+  frontendApps.LAB_AND_TEST_RESULTS,
+  frontendApps.APPOINTMENTS,
+];
+
+export const isHealthTool = appId => HEALTH_TOOLS.includes(appId);
 
 const mhvBaseUrl = () => {
   const lowerEnvironments = [
@@ -26,6 +36,29 @@ const mhvBaseUrl = () => {
     : 'www';
 
   return `https://${mhvSubdomain}.myhealth.va.gov`;
+};
+
+export const mhvToolName = appId => {
+  switch (appId) {
+    case frontendApps.HEALTH_RECORDS:
+      return 'VA Blue Button';
+
+    case frontendApps.RX:
+      return 'Prescription Refill and Tracking';
+
+    case frontendApps.MESSAGING:
+      return 'Secure Messaging';
+
+    case frontendApps.LAB_AND_TEST_RESULTS:
+      return 'Lab and Test Results';
+
+    case frontendApps.APPOINTMENTS:
+      return 'VA Appointments';
+
+    default: // Not a recognized health tool.
+  }
+
+  return null;
 };
 
 export const toolUrl = appId => {
