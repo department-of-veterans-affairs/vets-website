@@ -5,11 +5,12 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
   const vaEvidence = _.get('vaTreatmentFacilities', formData, []);
   const privateEvidence = _.get('privateMedicalRecords', formData, []);
   const layEvidence = _.get('additionalDocuments', formData, []);
-  const hasEvidence = !!vaEvidence.concat(privateEvidence, layEvidence).length;
+  const evidenceLength = !!vaEvidence.concat(privateEvidence, layEvidence)
+    .length;
   const selectedEvidence = _.get('view:hasEvidence', formData, false);
   // Evidence isn't always properly cleared out from form data if removed so
   // need to also check that 'no evidence' was explicitly selected
-  if (!hasEvidence || !selectedEvidence) {
+  if (!evidenceLength || !selectedEvidence) {
     return (
       <p>
         You haven’t uploaded any evidence. This may delay us processing your
