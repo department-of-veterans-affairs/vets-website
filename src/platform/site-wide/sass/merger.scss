@@ -585,7 +585,7 @@
 
 
   // tablet
-  @media (min-width: 768px) and (max-width: $large-screen) {
+  @media (min-width: $small-screen) and (max-width: $large-screen - 1) {
     .va-header-logo-wrapper {
       margin-bottom: 0;
     }
@@ -634,6 +634,11 @@
 
       #hub-internal {
         width: 85%;
+        .usa-grid {
+          .usa-width-one-half {
+            margin-right: 2.35765%;
+          }
+        }
       }
     }
   }
