@@ -104,7 +104,7 @@ class FeedbackForm extends React.Component {
           <div className="feedback-widget-need-help-container">
             <div className="feedback-widget-need-help-inner">
               <h3>Need help?</h3>
-              Calls the VA.gov Help Desk<br/>
+              Call the VA.gov Help Desk<br/>
               <a href="tel:18555747286">1-855-574-7286</a><br/>
               TTY:&nbsp;<a href="tel:+18008778339">1-800-877-8339</a><br/>
               Monday – Friday, 8:00 a.m. – 8:00 p.m. (<abbr title="eastern time">ET</abbr>)
