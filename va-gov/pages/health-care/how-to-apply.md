@@ -118,10 +118,6 @@ If you need community nursing home care, domiciliary care, adult day health care
 </div>
 </div>
 
-</div>
-</div>
-</div>
-
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
 
 <h3 itemprop="name">What happens after I apply?</h3>
