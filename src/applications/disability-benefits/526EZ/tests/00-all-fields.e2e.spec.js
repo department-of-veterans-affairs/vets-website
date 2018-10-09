@@ -3,7 +3,6 @@ const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('./disability-benefits-helpers');
 const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
-const siteName = require('../../../../platform/brand-consolidation/site-name');
 
 const runTest = E2eHelpers.createE2eTest(client => {
   PageHelpers.initDocumentUploadMock();
@@ -18,7 +17,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
         }/disability-benefits/apply/form-526-disability-claim`,
       )
       .waitForElementVisible('body', Timeouts.normal)
-      .assert.title(`Apply for education benefits: ${siteName}`)
       .waitForElementVisible('.schemaform-title', Timeouts.slow) // First render of React may be slow.
       .click('.schemaform-intro .usa-button-primary');
 

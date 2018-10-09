@@ -2,7 +2,6 @@ const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 const DisabilityHelpers = require('./claims-status-helpers');
 const Auth = require('../../../../platform/testing/e2e/auth');
-const siteName = require('../../../../platform/brand-consolidation/site-name');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   const token = Auth.getUserToken();
@@ -11,7 +10,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Claim is visible
   Auth.logIn(token, client, '/track-claims', 3)
-    .assert.title(`Track Claims: ${siteName}`)
     .waitForElementVisible('.claim-list-item-container', Timeouts.slow)
     .axeCheck('.main'); // TODO: Figure out why this is failing
 
