@@ -1,17 +1,15 @@
 import React from 'react';
-import groupBy from 'lodash/groupBy';
 import links from '../../../static-data/footer-links.json';
 import { isWideScreen } from '../../../utilities/accessibility/index';
-import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
-import orderBy from 'lodash/orderBy';
 import CrisisPanel from './CrisisPanel';
 import DesktopLinks from './DesktopLinks';
 import MobileLinks from './MobileLinks';
+import { createLinkGroups } from '../helpers';
 
 export default class Footer extends React.Component {
   constructor(props) {
     super(props);
-    this.linkObj = groupBy(replaceDomainsInData(links), 'column');
+    this.linkObj = createLinkGroups(links);
     this.state = {
       isMobile: !isWideScreen(),
     };
@@ -45,15 +43,7 @@ export default class Footer extends React.Component {
             </a>
           </div>
           <div className="usa-grid usa-grid-full va-footer-links-bottom">
-            <ul>
-              {orderBy(this.linkObj.bottom_rail, 'order', 'asc').map(link => (
-                <li key={`${link.order}`}>
-                  <a href={link.href} target={link.target}>
-                    {link.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            {this.linkObj.bottomLinks}
           </div>
         </div>
         <CrisisPanel />

@@ -1,7 +1,7 @@
 import React from 'react';
 import recordEvent from '../../../monitoring/record-event';
 
-import { FOOTER_COLUMNS, FOOTER_EVENTS, generateLinkItems } from '../helpers';
+import { FOOTER_COLUMNS, FOOTER_EVENTS } from '../helpers';
 
 export default function DesktopLinks({ links, visible }) {
   return (
@@ -13,15 +13,15 @@ export default function DesktopLinks({ links, visible }) {
         <h4 className="va-footer-linkgroup-title">
           Veteran Programs and Services
         </h4>
-        {generateLinkItems(links, FOOTER_COLUMNS.PROGRAMS)}
+        {links[FOOTER_COLUMNS.PROGRAMS]}
       </div>
       <div className="va-footer-linkgroup" id="footer-services">
         <h4 className="va-footer-linkgroup-title">More VA Resources</h4>
-        {generateLinkItems(links, FOOTER_COLUMNS.RESOURCES)}
+        {links[FOOTER_COLUMNS.RESOURCES]}
       </div>
       <div className="va-footer-linkgroup" id="footer-popular">
         <h4 className="va-footer-linkgroup-title">Get VA Updates</h4>
-        {generateLinkItems(links, FOOTER_COLUMNS.CONNECT)}
+        {links[FOOTER_COLUMNS.CONNECT]}
       </div>
       <div className="va-footer-linkgroup" id="veteran-crisis">
         <h4 className="va-footer-linkgroup-title">In Crisis? Get Help Now</h4>
@@ -37,7 +37,7 @@ export default function DesktopLinks({ links, visible }) {
           </li>
         </ul>
         <h4 className="va-footer-linkgroup-title">Contact Us</h4>
-        {generateLinkItems(links, FOOTER_COLUMNS.CONTACT)}
+        {links[FOOTER_COLUMNS.CONTACT]}
       </div>
     </div>
   );

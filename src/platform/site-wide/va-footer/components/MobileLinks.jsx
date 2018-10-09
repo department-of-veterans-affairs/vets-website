@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FOOTER_COLUMNS, generateLinkItems } from '../helpers';
+import { FOOTER_COLUMNS } from '../helpers';
 
 export default function MobileLinks({ links, visible }) {
   return (
@@ -23,7 +23,7 @@ export default function MobileLinks({ links, visible }) {
             id="veteran-contact"
             aria-hidden="true"
           >
-            {generateLinkItems(links, FOOTER_COLUMNS.CONTACT)}
+            {links[FOOTER_COLUMNS.CONTACT]}
           </div>
         </li>
         <li>
@@ -40,7 +40,7 @@ export default function MobileLinks({ links, visible }) {
             aria-hidden="true"
             id="veteran-programs"
           >
-            {generateLinkItems(links, FOOTER_COLUMNS.PROGRAMS)}
+            {links[FOOTER_COLUMNS.PROGRAMS]}
           </div>
         </li>
         <li>
@@ -57,7 +57,7 @@ export default function MobileLinks({ links, visible }) {
             aria-hidden="true"
             id="veteran-resources"
           >
-            {generateLinkItems(links, FOOTER_COLUMNS.RESOURCES)}
+            {links[FOOTER_COLUMNS.RESOURCES]}
           </div>
         </li>
         <li>
@@ -74,7 +74,7 @@ export default function MobileLinks({ links, visible }) {
             id="veteran-connect"
             aria-hidden="true"
           >
-            {generateLinkItems(links, FOOTER_COLUMNS.CONNECT)}
+            {links[FOOTER_COLUMNS.CONNECT]}
           </div>
         </li>
       </ul>
