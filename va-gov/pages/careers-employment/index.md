@@ -172,7 +172,7 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a href="https://dol.gov/veterans/findajob/"><b>Find a Job (Department of Labor)</b></a>
+    <a href="https://dol.gov/veterans/findajob/" target="_blank"><b>Find a Job (Department of Labor)</b></a>
     <p>Search for jobs, get help translating your military skills and experience to civilian jobs, and access other career resources.</p>
   </div>
 
@@ -182,7 +182,7 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a href="https://linkedinforgood.linkedin.com/programs/veterans"><b>Get Free Classes for a Year (LinkedIn)</b></a>
+    <a href="https://linkedinforgood.linkedin.com/programs/veterans" target="_blank"><b>Get Free Classes for a Year (LinkedIn)</b></a>
     <p>Get 1 year of free access to LinkedIn Premium and LinkedIn Learning.</p>
   </div>
 
