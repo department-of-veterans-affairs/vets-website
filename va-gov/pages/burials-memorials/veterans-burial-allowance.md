@@ -53,10 +53,13 @@ To get this benefit, the Veteran must not have received a dishonorable discharge
 
 </div>
 
-You must file a claim for a non-service-connected burial allowance within 2 years after the Veteran’s burial or cremation. If a Veteran’s discharge was changed after death from dishonorable to another status, you must file for an allowance claim within 2 years after the discharge update. There's no time limit to file for a service-connected burial, plot, or interment allowance.
+## When do I need to file a claim?
 
+You must file a claim for a non-service-connected burial allowance within 2 years after the Veteran’s burial or cremation. If a Veteran’s discharge was changed after death from dishonorable to another status, you must file for an allowance claim within 2 years after the discharge update.
 
-### What kind of benefits can I get?
+There's no time limit to file for a service-connected burial, plot, or interment allowance.
+
+## What kind of benefits can I get?
 
 - An allowance for burial and funeral costs
 - An allowance for the plot or interment
@@ -66,7 +69,7 @@ You must file a claim for a non-service-connected burial allowance within 2 year
 
 ### What documents and information do I need to apply?
 
-You may need a copy of:
+**You may need a copy of:**
 - The Veteran’s military discharge papers (DD214 or other separation documents)
 - The Veteran’s death certificate
 - Any documents you have for the cost of transporting the Veteran’s remains
@@ -78,22 +81,22 @@ You may need a copy of:
 </div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-<h4 itemprop="name">You can also apply:</h4>
+<h3 itemprop="name">You can also apply:</h3>
 <div itemprop="itemListElement">
 
 **By mail**<br>
 Apply by mail using an Application for Burial Benefits (VA Form 21P-530). <br>
 [Download VA Form 21P-530](https://www.vba.va.gov/pubs/forms/VBA-21P-530-ARE.pdf).
 
-Mail the application and other paperwork to your local regional benefit office. <br>
-[Find your local regional benefit office](/facilities).
+Mail the application and other paperwork to your nearest VA regional benefit office. <br>
+[Find your nearest regional benefit office](/facilities).
 
-If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>). Our TTY number for the hearing-impaired is 711. Or call your regional benefit office.
+If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (<abbr title="eastern time">ET</abbr>). Our TTY number for people with hearing impairments is 711. Or call your regional benefit office.
 
+------
+## Burial Allowance Amounts
 
-
-
-#### What are the burial allowance amounts for a service-connected death?
+### What are the burial allowance amounts for a service-connected death?
 
 | Status                   | Maximum Burial Allowance |
 | ------------------------ | ------------------------ |
@@ -101,7 +104,7 @@ If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Mo
 | If the Veteran died before September 11, 2001 | $1,500 |
 | If the Veteran is buried in a VA national cemetery | We may pay you back for some or all of the costs of moving the Veteran’s remains |
 
-#### What are the burial allowance amounts for a non-service-connected death?
+### What are the burial allowance amounts for a non-service-connected death?
 
 | Status                   | Maximum Burial Allowance |
 | ------------------------ | ------------------------ |
@@ -111,7 +114,7 @@ If you have questions, call <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Mo
 | If the Veteran died on or after October 1, 2014, but before October 1, 2015 | We’ll pay a $300 burial allowance and $745 for a plot |
 | If the Veteran died on or after October 1, 2013, but before October 1, 2014 | We’ll pay a $300 burial allowance and $734 for a plot |
 
-#### What are the burial allowance amounts if the Veteran was hospitalized by VA at the time of their death?
+### What are the burial allowance amounts if the Veteran was hospitalized by VA at the time of their death?
 
 | Status                   | Maximum Burial Allowance |
 | ------------------------ | ------------------------ |
