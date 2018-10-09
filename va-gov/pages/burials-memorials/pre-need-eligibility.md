@@ -34,7 +34,7 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 
 <br>
 
-### How do I prepare before starting my application?
+## How do I prepare before starting my application?
 
 <ol class="process">
 <li class="process-step list-one">
@@ -95,7 +95,7 @@ We base our decision of whether or not you qualify for burial in a VA national c
 
 <br>
 
-#### More information needed for certain applicants
+### More information needed for certain applicants
 
 - **If you’re applying as a spouse, surviving spouse, or unmarried adult child,** you’ll also need your personal information, including your Social Security number.
 - **If you're applying on behalf of someone else,** you'll also need supporting documents showing you have the authority to apply for that person.
@@ -105,8 +105,7 @@ We base our decision of whether or not you qualify for burial in a VA national c
 
 <div markdown="0"><br></div>
 
-
-### How do I apply?
+## How do I apply?
 You can apply online right now.
 
 <a class="usa-button-primary va-button-primary" href="/burials-and-memorials/pre-need/form-10007-apply-for-eligibility">Apply for Pre-need Eligibility</a>
@@ -115,7 +114,7 @@ You can apply online right now.
 <h4 itemprop="name">You can also apply:</h4>
 <div itemprop="itemListElement">
 
-#### By mail
+### By mail
 
 Apply by mail using an Application for Pre-need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). <br> [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
 
@@ -129,13 +128,11 @@ Apply by mail using an Application for Pre-need Determination of Eligibility for
 
 Please don't send us the originals of your DD214 and other supporting documents since we can't return them. Send copies only.
 
-#### By fax
+### By fax
 
 You can also fax your application to us at 1-855-840-8299.
 
-<br>
-
-### What if I need help filling out my application?
+## What if I need help filling out my application?
 
 Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
@@ -143,7 +140,7 @@ Get help from an accredited representative (a trained professional trusted to he
 [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative).<br>
 [Find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
-### What happens after I apply?
+## What happens after I apply?
 
 [Find out what happens after you apply for a pre-need eligibility determination](/burials-memorials/pre-need-eligibility/after-you-apply/).</br>
 **Note:** We’ve received a large number of pre-need eligibility applications, and it’s slowing down our approval process. We’ll let you know when we’ve received your application and how long we think it’ll take to make a decision. We’re sorry for the delay.
