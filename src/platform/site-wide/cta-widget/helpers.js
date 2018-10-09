@@ -13,7 +13,7 @@ export const frontendApps = {
   VETERAN_ID_CARD: 'vic',
 };
 
-const mhvBaseUrl = () => {
+export const mhvBaseUrl = () => {
   const lowerEnvironments = [
     'development',
     'vagovdev',
