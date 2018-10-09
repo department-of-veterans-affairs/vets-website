@@ -4,6 +4,7 @@
 
 .hub-links-list {
   margin-bottom: 0;
+  padding-right: 5px;
 }
 
 #homepage-hub, .va-sidebarnav, .vet-toolbar {
@@ -34,11 +35,11 @@
 // The !importants here are due to the 
 // usa-grid padding 0 rule
 .homepage-benefits-row {
-  padding-bottom: 1.5em !important;
+  padding-bottom: 1.5em;
   @include media($medium-large-screen) {
-    padding-bottom: 3em !important;
+    padding-bottom: 3em;
     &:last-of-type {
-      padding-bottom: 0 !important;
+      padding-bottom: 0;
     }
   }
 }

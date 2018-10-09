@@ -15,10 +15,10 @@ import Main from './containers/Main';
  *
  * @param {Redux.Store} store The common store used on the site
  */
-export default function startVAFooter(store) {
+export default function startVAFooter({ store, handleFooterDidMount }) {
   startReactApp(
     <Provider store={store}>
-      <Main />
+      <Main handleFooterDidMount={handleFooterDidMount} />
     </Provider>,
     document.getElementById('footerNav'),
   );

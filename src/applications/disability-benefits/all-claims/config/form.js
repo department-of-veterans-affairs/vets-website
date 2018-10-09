@@ -30,6 +30,7 @@ import {
   contactInformation,
   addDisabilities,
   newDisabilityFollowUp,
+  newPTSDFollowUp,
   vaMedicalRecords,
   additionalDocuments,
   privateMedicalRecords,
@@ -37,7 +38,7 @@ import {
   evidenceTypes,
   claimExamsInfo,
   homelessOrAtRisk,
-  newPTSDFollowUp,
+  summaryOfEvidence,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -254,6 +255,12 @@ const formConfig = {
           depends: hasOtherEvidence,
           uiSchema: additionalDocuments.uiSchema,
           schema: additionalDocuments.schema,
+        },
+        summaryOfEvidence: {
+          title: 'Summary of evidence',
+          path: 'supporting-evidence/summary',
+          uiSchema: summaryOfEvidence.uiSchema,
+          schema: summaryOfEvidence.schema,
         },
         howClaimsWork: {
           title: 'How claim exams work',

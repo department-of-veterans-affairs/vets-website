@@ -26,7 +26,7 @@ describe('526 <FormStartControls>', () => {
     tree.find('button').simulate('click');
     expect(tree.find('button').text()).to.contain('Sign');
     expect(tree.find('.usa-alert').text()).to.contain(
-      'sign in and verify your account',
+      'sign in and verify your identity',
     );
     expect(authenticate.called).to.be.true;
   });

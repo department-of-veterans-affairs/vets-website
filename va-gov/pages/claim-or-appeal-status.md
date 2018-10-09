@@ -45,11 +45,9 @@ Find out how to check the status of a VA claim or appeal online.
 <div itemprop="text">
 
 <b>To use this tool, you'll need to have one of these free accounts:</b>
-- A premium **My HealtheVet** account, **or**
-- A **DS Logon** account (used for eBenefits and milConnect), **or**
+- A Premium **My HealtheVet** account, **or**
+- A Premium **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
-
-**Note:** If you use DS Logon, you'll need to verify your identity online as part of our sign-in process.
 
 </div>
 </div>

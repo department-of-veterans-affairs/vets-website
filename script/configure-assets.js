@@ -45,6 +45,20 @@ function addAssetHashes() {
         });
       }
     });
+
+    // Create a copy of the proxy-write files without cache-bust hashes
+    [
+      'proxy-rewrite.entry.js',
+      'styleConsolidated.css',
+      'static-pages.css',
+      'vendor.entry.js',
+      'polyfills.entry.js',
+    ].forEach(unhashedName => {
+      const hashedName = manifest[unhashedName];
+
+      files[`generated/${unhashedName}`] = files[hashedName.substr(1)]; // eslint-disable-line no-param-reassign
+    });
+
     done();
   };
 }

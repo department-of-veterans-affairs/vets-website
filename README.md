@@ -66,6 +66,8 @@ Inside the `src` directory, we have two folders `applications` and `platform`. `
 
 ### Requirements
 
+Users with government furnished equipment may not have admin account access. [These instructions might help](https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Design/run_vets.gov_locally_for_designers.md).
+
 The requirements for running this application are Node.js 8.10.0 and yarn 1.5.1
 
 Once you have nvm installed you should now install node.js version 8.10.0 by running:

@@ -20,11 +20,7 @@ h1, h3, h4 {
 }
 
 .fa {
-
   position: relative;
-  color: $color-white;
-  border-radius: 50%;
-
   &.icon-large {
     height: 40px;
     width: 40px;
@@ -117,6 +113,7 @@ h1, h3, h4 {
 @mixin make-hub($hub-name, $color) {
   .hub-background-#{$hub-name} {
     background: $color;
+    border-radius: 50%;
   }
   .hub-color-#{$hub-name} {
     color: $color;
