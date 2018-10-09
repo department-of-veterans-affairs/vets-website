@@ -15,7 +15,7 @@ export const summaryOfDisabilitiesDescription = ({ formData }) => {
   return (
     <div>
       <p>
-        Below is the list of disabilities you're claiming in this application.
+        Below is the list of disabilities you’re claiming in this application.
         If a disability is missing from the list, please go back one screen and
         add it.
       </p>
