@@ -20,9 +20,9 @@ Servicemembers, Veterans, and family members may qualify for burial in a VA nati
 
 <div class="feature" markdown="0">
 
-### Who qualifies for VA burial and memorial benefits?
+### Who can be buried in a VA national cemetery and receive other burial benefits?
 
-Veterans, Servicemembers, spouses, and dependents may qualify for burial and memorial benefits if they meet one of the requirements listed below.
+Veterans, Servicemembers, spouses, and dependents may qualify for burial in a VA national cemetery, as well as other benefits, if they meet one of the requirements listed below.
 
 **One of these must be true. The person qualifying for burial benefits is:**
 
@@ -49,19 +49,23 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 ### What do burial benefits include?
 
-If you qualify for burial in a VA national cemetery, you'll receive burial benefits at no cost to your family. These include:
+If you qualify for burial in a VA national cemetery, you'll receive burial benefits at no cost to your family. 
+
+**Burial benefits include:**
 - Opening and closing of the grave
 - A burial liner provided by the government
 - A headstone or marker provided by the government
 - Perpetual (ongoing) care of the gravesite
 
-At their time of need, the person planning your burial can also request other honors and memorials. These may include a:
+At the time of need, the person planning the burial can also request other honors and memorial items. 
+
+**Honors and memorial items may include a:**
 - [Burial flag to drape over the casket (or coffin) or place with the urn](/burials-memorials/memorial-items/burial-flags/)
 - [Presidential Memorial Certificate signed by the current President of the United States](/burials-memorials/memorial-items/presidential-memorial-certificates/)
 - [Headstone, marker, niche cover, or medallion to identify a gravesite located outside a VA national cemetery](/burials-memorials/memorial-items/headstones-markers-medallions/)
 
 [Learn about the burial planning process](/burials-memorials/plan-a-burial/). <br />
-[Learn about memorials and burial honors](/burials-memorials/memorial-items/).
+[Learn about memorial items](/burials-memorials/memorial-items/).
 
 <br>
 
@@ -75,7 +79,7 @@ We give the surviving spouse, children, and parents of Veterans and Servicemembe
 
 ### Can I plan ahead for my burial in a VA national cemetery?
 
-Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members at their time of need. To do this, you’ll need to apply for a pre-need eligibility determination.<br>
+Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members in their time of need. To do this, you’ll need to apply for a pre-need eligibility determination.<br>
 [Find out how to apply](/burials-memorials/pre-need-eligibility/).
 
 **Please note:** The pre-need eligibility determination is only for national cemeteries. If you want to be buried in a state or tribal Veterans cemetery, check the site you want ahead of time, since some state Veterans cemeteries require that you live in that state or have other rules around eligibility. <br>
