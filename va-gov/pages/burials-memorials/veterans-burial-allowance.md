@@ -18,13 +18,13 @@ aliases:
 
 <div class="va-introtext">
 
-Find out how to get allowances to help cover burial, funeral, and transportation costs.
+Find out how to get Veterans burial allowances to help cover burial, funeral, and transportation costs.
 
 </div>
 
 <div class="feature" markdown="0">
 
-### Can I get burial allowances to help pay for Veteran burial or funeral costs?
+### Can I get allowances to help pay for a Veteran's burial and funeral costs?
 
 You may be able to get burial allowances if you're paying for the burial and funeral costs, and if any of the below relationships or professional roles describes your connection to the Veteran.
 
@@ -33,7 +33,7 @@ You may be able to get burial allowances if you're paying for the burial and fun
 - The Veteran’s surviving spouse (**Note:** we recognize same-sex marriages), **or**
 - A surviving child of the Veteran, **or**
 - A parent of the Veteran, **or**
-- The executor or administrator (someone who officially represents the deceased) of the Veteran’s estate
+- The executor or administrator of the Veteran’s estate (someone who officially represents the Veteran)
 
 <br>
 
@@ -49,7 +49,7 @@ To get this benefit, the Veteran must not have received a dishonorable discharge
 - Died with a reopened claim for VA compensation or a pension that would have qualified them to get benefits, **or**
 - Died on or after October 9, 1996, while a patient at a VA-approved state nursing home
 
-**Note:** VA will also provide an allowance for the cost of transporting a Veteran’s remains for burial in a national cemetery.
+**Note:** We'll also provide an allowance for the cost of transporting a Veteran’s remains for burial in a national cemetery.
 
 </div>
 
