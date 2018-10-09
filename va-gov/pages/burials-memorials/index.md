@@ -8,7 +8,7 @@ order: 1
 icon: star
 promo:
   - image: /img/megamenu/burials-memorials-illustration.png
-    heading: National Cemetery Administration Mobile Grave or Cemetery Locator
+    heading: National Cemetery Administration Mobile Grave Locator
     url: "https://m.va.gov/"
     description: Locate a grave, search for cemeteries, and find benefits information and resources.
 crosslinks:
