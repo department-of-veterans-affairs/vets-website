@@ -19,7 +19,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-A Presidential Memorial Certificate is an engraved paper certificate signed by the current president. Find out how to request a certificate to honor the military service of a Veteran or Reservist.
+A Presidential Memorial Certificate (PMC) is an engraved paper certificate signed by the current president. Find out how to request a certificate to honor the military service of a Veteran or Reservist.
 
 </div>
 
