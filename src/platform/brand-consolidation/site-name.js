@@ -1,5 +1,5 @@
 import isBrandConsolidationEnabled from './feature-flag';
 
-const siteName = isBrandConsolidationEnabled() ? 'Vets.gov' : 'VA.gov';
+const siteName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 export default siteName;
