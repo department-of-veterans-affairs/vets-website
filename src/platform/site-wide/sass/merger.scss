@@ -2,6 +2,12 @@
 
 /* OVERRIDE */
 .merger {
+  .login {
+    .container {
+      width: 100%;
+    }
+  }
+
   .va-dropdown-trigger {
     min-width: 102px;
   }
@@ -14,7 +20,7 @@
   }
   .va-modal {
     z-index: 301;
-    font-size: 100%;
+    font-size: 1.6rem;
   }
 
   #modal-crisisline {
@@ -139,7 +145,7 @@
 
       .usa-width-one-half {
         background-color: $color-white;
-        padding: 1.5em 0 1.5em 1.5em;
+        padding: 1.5em 0 2.125em 1.5em;
 
         li {
           padding: 0;
@@ -265,6 +271,8 @@
   }
 
   #vetnav {
+    // 100% width necessary for right aligned items
+    width: 100%;
     z-index: 2;
   }
 
@@ -333,6 +341,9 @@
 
   // mobile
   @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
+    .flex-col-mobile {
+      flex-direction: column;
+    }
     .va-sidebarnav {
       display: none;
     }
@@ -595,9 +606,14 @@
   }
 
 
-
   // tablet
   @media (min-width: 768px) and (max-width: $large-screen) {
+    .va-modal {
+      .usa-width-one-half {
+        margin-right: 4.82916%;
+        width: 44%;
+      }
+    }
     .va-header-logo-wrapper {
       margin-bottom: 0;
     }
@@ -645,11 +661,10 @@
     #homepage-hub {
 
       #hub-internal {
-
         width: 85%;
         .usa-grid {
           .usa-width-one-half {
-            min-height: 300px;
+            margin-right: 2.35765%;
           }
         }
       }
@@ -908,7 +923,7 @@
   }
 
   .hub-links-container {
-    min-height: 250px;
+    flex: 1;
   }
   .white {
     color: $color-white;

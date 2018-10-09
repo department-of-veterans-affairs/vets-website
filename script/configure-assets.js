@@ -52,6 +52,7 @@ function addAssetHashes() {
       'styleConsolidated.css',
       'static-pages.css',
       'vendor.entry.js',
+      'polyfills.entry.js',
     ].forEach(unhashedName => {
       const hashedName = manifest[unhashedName];
 

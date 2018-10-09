@@ -3,7 +3,6 @@ layout: page-breadcrumbs.html
 title: How to Apply for VR&amp;E
 display_title: How to Apply
 order: 3
-spoke: Get Benefits
 template: detail-page
 relatedlinks:
   - heading: More information about VR&E benefits and services

@@ -496,10 +496,11 @@
       "icon": "fa-briefcase hub-background-careers"
     }
   },
-  "vreServiceEligibility": {
+  "vre": {
+    "pattern": "careers-employment/vocational-rehabilitation/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Eligibility",
+      "name": "Vocational Rehabilitation",
       "icon": "fa-briefcase hub-background-careers"
     }
   },

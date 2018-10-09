@@ -118,6 +118,7 @@ export const trackingPrefixes = {
   '22-5495': 'edu-5495-',
   '40-10007': 'preneed-',
   VIC: 'veteran-id-card-',
+  'complaint-tool': 'gi_bill_feedback',
   'FEEDBACK-TOOL': 'gi_bill_feedback',
   '21-686C': '686-',
 };
@@ -137,6 +138,7 @@ export const sipEnabledForms = new Set([
   '22-5495',
   '40-10007',
   'VIC',
+  'complaint-tool',
   'FEEDBACK-TOOL',
 ]);
 
