@@ -55,7 +55,7 @@ export class CallToActionWidget extends React.Component {
     if (!this.props.isLoggedIn) return;
 
     if (this.isAccessible()) {
-      if (this._hasRedirect) this.goToTool();
+      if (this._hasRedirect && !this._popup) this.goToTool();
     } else if (this._isHealthTool) {
       const { accountLevel, accountState, loading } = this.props.mhvAccount;
 
@@ -400,7 +400,7 @@ export class CallToActionWidget extends React.Component {
 
     if (url.startsWith('/')) {
       window.location = url;
-    } else if (!this._popup) {
+    } else {
       this._popup = window.open(url, 'cta-popup');
       if (this._popup) this._popup.focus();
     }
