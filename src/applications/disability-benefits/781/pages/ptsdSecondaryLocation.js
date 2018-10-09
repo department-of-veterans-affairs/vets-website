@@ -16,47 +16,37 @@ const ptsdLocationDescription = () => (
 export const uiSchema = {
   'ui:title': PtsdNameTitle,
   'ui:description': ptsdLocationDescription,
-  secondaryIncidentLocation: {
-    'ui:title': ' ',
-    items: {
-      incidentCountry: {
-        'ui:title': 'Country',
-      },
-      incidentState: {
-        'ui:title': 'State/Province',
-      },
-      incidentCity: {
-        'ui:title': 'City',
-      },
-      incidentLandMark: {
-        'ui:title': 'Landmark or Military Installation',
-      },
-      additionalDetails: {
-        'ui:title': 'Landmark or Military Installation',
-      },
-    },
+  secondaryIncidentCountry: {
+    'ui:title': 'Country',
+  },
+  secondaryIncidentState: {
+    'ui:title': 'State/Province',
+  },
+  secondaryIncidentCity: {
+    'ui:title': 'City',
+  },
+  secondaryIncidentLandMark: {
+    'ui:title': 'Landmark or Military Installation',
+  },
+  secondaryAdditionalDetails: {
+    'ui:title': 'Landmark or Military Installation',
   },
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    secondaryIncidentLocation: {
-      type: 'object',
-      properties: {
-        secondaryIncidentCountry: {
-          type: 'string',
-        },
-        secondaryIncidentState: {
-          type: 'string',
-        },
-        secondaryIncidentCity: {
-          type: 'string',
-        },
-        secondaryIncidentLandMark: {
-          type: 'string',
-        },
-      },
+    secondaryIncidentCountry: {
+      type: 'string',
+    },
+    secondaryIncidentState: {
+      type: 'string',
+    },
+    secondaryIncidentCity: {
+      type: 'string',
+    },
+    secondaryIncidentLandMark: {
+      type: 'string',
     },
   },
 };
