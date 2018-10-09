@@ -31,16 +31,12 @@ Find out what steps to take to plan a burial for a Veteran, spouse, or dependent
 
 ## How do I plan a Veteran's or other family member's burial?
 
-<br>
-
 ### If you have a pre-need decision letter confirming that the Veteran, spouse, or dependent family member can be buried in a VA national cemetery:
 
 To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director can call the National Cemetery Scheduling Office at <a href="tel:+18005351117">1-800-535-1117</a> to request a burial.
 
 You don’t need to do anything else except prepare yourself and your family for the funeral. <br>
 [Find out what to expect at a military funeral or memorial service](/burials-memorials/what-to-expect-at-military-funeral/).
-
-<br>
 
 ### If you don't have a pre-need decision letter:
 
@@ -92,7 +88,7 @@ To start, you may want to choose a funeral director to help you plan the burial.
  [Find a VA national cemetery](/facilities/).<br>
  [Find a state Veterans cemetery](https://www.cem.va.gov/grants/veterans_cemeteries.asp).
  - The type of burial you'd like for the person (casket or cremation) and the size of the casket or cremation urn
- - [The type of gravesite memorial you'd like to help honor the person (such as a headstone or marker)](/burials-memorials/memorial-items/headstones-markers-medallions/)
+ - [The type of gravesite memorial you'd like](/burials-memorials/memorial-items/headstones-markers-medallions/). This may be a headstone, grave marker, niche cover, or medallion.
  
 **If the person is a Veteran or Reservist, you'll also need to tell us if you'd like burial honors or memorial items such as:**
  - [A burial flag](/burials-memorials/memorial-items/burial-flags/)
@@ -114,16 +110,15 @@ The funeral director you’ve chosen can help you with these steps too:
 
 - Then call <a href="tel:+18005351117">1-800-535-1117</a> to confirm the burial application. Be sure to have all the information handy that’s listed above in the “Prepare” section.
 
-<br>
+</li>
+</ol>
 
-### Can I get information about the Burial at Sea program?
+## Can I get information about the Burial at Sea program?
 
 If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll-free at <a href="tel:+18667870081">1-866-787-0081</a>, Monday through Friday, 8:30 a.m. to 5:00 p.m. (<abbr title="eastern time">ET</abbr>). <br>
 [Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
 
-<br>
-
-### Can I get help paying for burial costs?
+## Can I get help paying for burial costs?
 
 If you're the spouse of record (the legally recognized spouse) or a designated (legally chosen) family member of a Veteran, you may be able to get financial help for burial and funeral costs. <br>
 [Find out how to apply for a Veterans burial allowance](/burials-memorials/veterans-burial-allowance/).
