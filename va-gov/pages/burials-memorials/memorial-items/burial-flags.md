@@ -12,14 +12,14 @@ relatedlinks:
     description: Find out if you can get a an engraved paper certificate signed by the current president to honor the service of a Veteran or Reservist.
   - url: /burials-memorials/memorial-items/headstones-markers-medallions/
     title: Headstones, Markers, Niche Covers, and Medallions
-    description: Apply for one of these memorial items to identify the place of burial of a Veteran or eligible spouse or other family member.
+    description: Apply for one of these memorial items to identify the place of burial of a Veteran or eligible family member.
 aliases:
   - /burials-and-memorials/honor/flags-and-memorial-certificates/
 ---
 
 <div class="va-introtext">
 
-To honor the military service of a Veteran or Reservist, we provide the next of kin or a close friend a United States flag to drape on the casket (or coffin) or to place with the urn. Find out how to get this burial honor.
+We provide a United States flag to drape on a casket (or coffin) or place with an urn in honor of a Veteran or Reservist's military service. Find out how to apply for this burial honor.
 
 </div>
 
