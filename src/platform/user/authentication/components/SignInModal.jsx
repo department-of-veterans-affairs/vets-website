@@ -30,7 +30,7 @@ class SignInModal extends React.Component {
           <div className="columns">
             <div className="logo">
               <a href="/">
-                <img alt="VA.gov" className="va-header-logo" src="/img/design/logo/logo-alt.png"/>
+                <img alt="Vets.gov" className="va-header-logo" src="/img/design/logo/logo-alt.png"/>
               </a>
             </div>
           </div>
