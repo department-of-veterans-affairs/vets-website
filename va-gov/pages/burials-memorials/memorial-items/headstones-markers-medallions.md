@@ -39,7 +39,7 @@ Family members may also qualify for a marker if they’re buried in a state Vete
 
 <br>
 
-## Can I apply for a headstone, grave marker, or medallion to honor a Veteran or eligible family member?
+## Can I apply for one of these memorial items?
 
 You can apply for this benefit if you're representing the Veteran in any of the below relationships or professional roles.
 
@@ -76,15 +76,26 @@ You can apply for this benefit if you're representing the Veteran in any of the 
 
 <div class="feature">
 
-## What information goes on the headstone or marker?
+### What information goes on the headstone or marker?
 
-You must put a legal name, service branch, and birth and death year on a headstone or marker. State and national cemeteries also require the section and grave number.
+**You must put this information on a headstone or marker:**
+- Legal name
+- Service branch
+- The beginning and ending years of the person's life
+- The section and grave number (if in a state or national cemetery)
 
-You can choose to inscribe the Veteran’s or eligible family member's full birth and death dates, the highest rank attained, awards, war service, and an emblem of belief. We may approve other requests, such as nicknames, terms of endearment (for example, “Loving Father”), or special unit identification.
+**You can also choose to inscribe:**
+- The full beginning and ending dates of the person's life
+- The highest rank the Veteran attained
+- The Veteran's awards and war service
+- An emblem of belief
+
+**We may approve other requests, such as:**
+- Nicknames
+- Terms of endearment (like “Loving Father”)
+- Special unit identification
 
 </div>
-
-<br>
 
 ## Special arrangements
 
