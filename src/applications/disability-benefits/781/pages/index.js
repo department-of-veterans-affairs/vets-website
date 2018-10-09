@@ -29,9 +29,29 @@ import {
 } from './individualsInvolvedChoice';
 
 import {
+  uiSchema as ptsdSecondaryIncidentDateUISchema,
+  schema as ptsdSecondaryIncidentDateSchema,
+} from './ptsdSecondaryIncidentDate';
+
+import {
+  uiSchema as ptsdSecondaryAssignmentUISchema,
+  schema as ptsdSecondaryAssignmentSchema,
+} from './ptsdSecondaryAssignmentDetails';
+
+import {
+  uiSchema as ptsdSecondaryLocationUISchema,
+  schema as ptsdSecondaryLocationSchema,
+} from './ptsdSecondaryLocation';
+
+import {
   uiSchema as informationInterviewCombatUISchema,
   schema as informationInterviewCombatSchema,
 } from './informationInterviewCombat';
+
+import {
+  uiSchema as stressfulIncSecDescUISchema,
+  schema as stressfulIncSecDescSchema,
+} from './stressfulIncSecDesc';
 
 import {
   uiSchema as informationInterviewAssaultUISchema,
@@ -51,6 +71,21 @@ export const ptsdChoice = {
 export const ptsdSecondaryChoice = {
   uiSchema: ptsdSecondaryChoiceUISchema,
   schema: ptsdSecondaryChoiceSchema,
+};
+
+export const ptsdSecondaryIncidentDate = {
+  uiSchema: ptsdSecondaryIncidentDateUISchema,
+  schema: ptsdSecondaryIncidentDateSchema,
+};
+
+export const ptsdSecondaryAssignmentDetails = {
+  uiSchema: ptsdSecondaryAssignmentUISchema,
+  schema: ptsdSecondaryAssignmentSchema,
+};
+
+export const ptsdSecondaryLocation = {
+  uiSchema: ptsdSecondaryLocationUISchema,
+  schema: ptsdSecondaryLocationSchema,
 };
 
 export const uploadPtsd = {
@@ -76,4 +111,9 @@ export const informationInterviewCombat = {
 export const informationInterviewAssault = {
   uiSchema: informationInterviewAssaultUISchema,
   schema: informationInterviewAssaultSchema,
+};
+
+export const stressfulIncSecDesc = {
+  uiSchema: stressfulIncSecDescUISchema,
+  schema: stressfulIncSecDescSchema,
 };

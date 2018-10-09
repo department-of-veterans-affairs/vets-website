@@ -1,56 +1,53 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
+import formConfig from '../../config/form';
 
-import {
-  DefinitionTester, // selectCheckbox
-} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
-
-describe('718 record upload', () => {
-  const page = formConfig.chapters.disabilityDetails.pages.uploadPtsd;
-  const { schema, uiSchema, arrayPath } = page;
+describe('Add Secondary Stressful Incident Description', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.introductionPage.pages.stressfulIncidentSecondaryDescription;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfig}
         schema={schema}
+        uiSchema={uiSchema}
         data={{
           'view:selectablePtsdTypes': {
             'view:combatPtsdType': true,
           },
         }}
-        uiSchema={uiSchema}
+        formData={{}}
       />,
     );
 
-    expect(form.find('input').length).to.equal(1);
+    expect(form.find('textarea').length).to.equal(1);
   });
 
-  it('should submit without an upload', () => {
+  it('should submit', () => {
     const onSubmit = sinon.spy();
+
     const form = mount(
       <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfig}
         schema={schema}
+        uiSchema={uiSchema}
         data={{
           'view:selectablePtsdTypes': {
             'view:combatPtsdType': true,
           },
         }}
-        uiSchema={uiSchema}
+        formData={{}}
+        onSubmit={onSubmit}
       />,
     );
 
     form.find('form').simulate('submit');
-
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
