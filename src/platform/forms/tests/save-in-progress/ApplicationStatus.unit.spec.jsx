@@ -72,7 +72,7 @@ describe('schemaform <ApplicationStatus>', () => {
       'application in progress',
     );
   });
-  it('should not render expired form', () => {
+  it('should render expired form', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
         formId="21P-527EZ"
@@ -96,11 +96,8 @@ describe('schemaform <ApplicationStatus>', () => {
         }}
       />,
     );
-
-    expect(tree.subTree('.usa-alert-info')).to.be.false;
-    expect(tree.subTree('.usa-button-primary').text()).to.equal(
-      'Apply for benefit',
-    );
+    expect(tree.subTree('.usa-alert-warning')).to.not.be.false;
+    expect(tree.subTree('.usa-button-primary').text()).to.equal('Start Over');
   });
   it('should render saved form from ids', () => {
     const tree = SkinDeep.shallowRender(

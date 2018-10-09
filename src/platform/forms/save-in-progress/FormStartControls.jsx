@@ -57,11 +57,13 @@ class FormStartControls extends React.Component {
     if (this.props.formSaved) {
       return (
         <div>
-          <ProgressButton
-            onButtonClick={this.handleLoadForm}
-            buttonText="Continue Your Application"
-            buttonClass="usa-button-primary no-text-transform"
-          />
+          {!this.props.isExpired && (
+            <ProgressButton
+              onButtonClick={this.handleLoadForm}
+              buttonText="Continue Your Application"
+              buttonClass="usa-button-primary no-text-transform"
+            />
+          )}
           {!this.props.resumeOnly && (
             <ProgressButton
               onButtonClick={this.toggleModal}

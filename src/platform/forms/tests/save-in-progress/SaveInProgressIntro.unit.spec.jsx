@@ -294,13 +294,13 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
   });
 
-  it('should render message if signed in with an expired form', () => {
+  it('should render expired message if signed in with an expired form', () => {
     const user = {
       profile: {
         savedForms: [
           {
             form: '1010ez',
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() - 1000 },
+            metadata: { lastUpdated: 3000, expiresAt: moment().unix() },
           },
         ],
         prefillsAvailable: [],
@@ -322,8 +322,9 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
+    expect(tree.find('.usa-alert').text()).to.contain('Form has expired');
     expect(tree.find('.usa-alert').text()).to.contain(
-      'You can save this form in progress',
+      'Your saved health care (10-10EZ) application has expired. If you want to apply for health care, please start a new application.',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
   });
