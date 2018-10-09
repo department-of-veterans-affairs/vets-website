@@ -10,6 +10,7 @@ import recordEvent from '../../../../platform/monitoring/record-event';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import PrescriptionCard from '../components/PrescriptionCard';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import { mhvBaseUrl } from '../../../../platform/site-wide/cta-widget/helpers';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
@@ -73,7 +74,9 @@ class PrescriptionsWidget extends React.Component {
           <p>
             {isBrandConsolidationEnabled() ? (
               <a
-                href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/refill-prescriptions"
+                href={`${mhvBaseUrl()}/mhv-portal-web/${
+                  mhvBaseUrl().includes('www') ? 'web/myhealthevet/' : ''
+                }refill-prescriptions`}
                 target="_blank"
               >
                 View all your prescriptions
