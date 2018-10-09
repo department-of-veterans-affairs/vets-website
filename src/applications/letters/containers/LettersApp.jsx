@@ -6,7 +6,9 @@ import backendServices from '../../../platform/user/profile/constants/backendSer
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 import DowntimeBanner from '../../../platform/monitoring/DowntimeNotification/components/Banner';
+import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
 
+const siteName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 const UNREGISTERED_ERROR = 'vets_letters_user_unregistered';
 
 // This needs to be a React component for RequiredLoginView to pass down
@@ -39,7 +41,7 @@ export class AppContent extends React.Component {
         <h4>
           We weren’t able to find information about your VA letters. If you
           think you should be able to access this information, please call the
-          Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>,
+          {siteName} Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>,
           TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211;
           Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
         </h4>
