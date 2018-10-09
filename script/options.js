@@ -35,8 +35,11 @@ function gatherFromCommandLine() {
 }
 
 function applyDefaultOptions(options) {
+  const contentRoot = '../content';
+
   Object.assign(options, {
-    contentRoot: '../content',
+    contentRoot,
+    contentPagesRoot: `${contentRoot}/pages`,
     destination: path.resolve(__dirname, `../build/${options.buildtype}`),
     assets: {
       source: '../assets',
@@ -108,6 +111,7 @@ function applyBrandConsolidationOverrides(options) {
 
   Object.assign(options, {
     contentRoot: '../va-gov',
+    contentPagesRoot: '../../vagov-content',
     collections: require('./collections/brand-consolidation.json'),
     redirects: require('./vagovRedirects.json'),
     domainReplacements,
