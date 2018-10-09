@@ -948,7 +948,6 @@ const formConfig = {
                     },
                     limitedConsent: {
                       type: 'string',
-                      maxLength: 83,
                     },
                     'view:privateRecordsChoiceHelp': {
                       type: 'object',
