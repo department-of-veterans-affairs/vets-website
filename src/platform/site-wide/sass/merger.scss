@@ -243,19 +243,6 @@
     z-index: 2;
   }
 
-  .footer-banner {
-
-    padding-top: 1.5em;
-    padding-bottom: 2em;
-
-    .va-footer-logo {
-      img {
-        width: 200px;
-        height: auto;
-      }
-    }
-  }
-
   // mobile
   @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
     .flex-col-mobile {

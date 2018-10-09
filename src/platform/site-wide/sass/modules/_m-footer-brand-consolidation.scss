@@ -118,15 +118,23 @@
 }
 
 .footer-banner,
-.footer-links {
+.va-footer-links-bottom {
   padding-left: .5em;
   padding-right: .5em;
 }
 
 .footer-banner {
   padding-top: 1.5em;
-  padding-bottom: 1.5em;
+  padding-bottom: 2em;
 }
+
+.va-footer-logo {
+  > img {
+    width: 200px;
+    height: auto;
+  }
+}
+
 
 .va-footer-button {
   font-weight: 400;
