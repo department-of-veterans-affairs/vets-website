@@ -98,8 +98,9 @@ To start, you may want to choose a funeral director to help you plan the burial.
  - [A burial flag](/burials-memorials/memorial-items/burial-flags/)
  - [A Presidential Memorial Certificate](/burials-memorials/memorial-items/presidential-memorial-certificates/)
  - Other possible military honors beyond the playing of Taps and flag folding and presentation
-
+ 
  [Request gravesite memorials and burial honors](/burials-memorials/memorial-items/).<br>
+ [Learn more about military funeral honors](https://www.cem.va.gov/CEM/military_funeral_honors.asp).
 
 </li>
 
