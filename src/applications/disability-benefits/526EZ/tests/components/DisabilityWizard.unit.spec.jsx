@@ -6,6 +6,9 @@ import createCommonStore from '../../../../../platform/startup/store';
 import conditionalStorage from '../../../../../platform/utilities/storage/conditionalStorage';
 import DisabilityWizard from '../../components/DisabilityWizard';
 import { layouts } from '../../wizardHelpers';
+import isBrandConsolidationEnabled from '../../../../../platform/brand-consolidation/feature-flag';
+
+const siteName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 const { chooseUpdate, applyGuidance } = layouts;
 
@@ -56,7 +59,7 @@ describe('<DisabilityWizard>', () => {
     tree.setState({ disabilityStatus: 'first', currentLayout: applyGuidance });
     expect(tree.find('a').text()).to.equal('Go to eBenefits »');
     expect(tree.find('p').text()).to.equal(
-      'We’re sorry. We’re not set up to accept original claims on Vets.gov at this time. Since you’re filing your first disability claim, you’ll need to file on eBenefits.',
+      `We’re sorry. We’re not set up to accept original claims on ${siteName} at this time. Since you’re filing your first disability claim, you’ll need to file on eBenefits.`,
     );
   });
   it('should show ebenefits guidance page for new claims', () => {
