@@ -89,7 +89,7 @@ If you canâ€™t make it to your appointment, let us know right away. You can most
 </ul>
 </div>
 
-<br>  
+<br>
 
 ### What to expect at your VA claim exam
 
@@ -180,7 +180,7 @@ If you have what we consider to be a good reason for missing your exam (called â
 </ul>
 </div>
 
-<br>  
+<br>
 
 ### After your VA claim exam
 
@@ -196,7 +196,7 @@ Each claim is different, but it usually takes us about 3 to 4 months to process 
 
 [See our most recent estimate for the average number of days to complete a claim](/disability/how-to-file-claim/#days-to-complete-claim).
 
-[Sign in to Vets.gov to track your claim](/track-claims/).
+[Sign in to VA.gov to track your claim](/track-claims/).
 
 </div>
 </li>
@@ -241,5 +241,3 @@ We may ask you to have a claim exam if you appeal your disability benefits decis
 * [Get answers to your questions about the VA claim exam](https://www.benefits.va.gov/compensation/claimexam.asp).
 * [Download the VA claim exam fact sheet](https://www.benefits.va.gov/compensation/docs/claimexam-factsheet.pdf#).
 * [Download the VA claim exam tip sheet](https://www.benefits.va.gov/compensation/docs/claimexam-tipssheet.pdf#).
-
- 
