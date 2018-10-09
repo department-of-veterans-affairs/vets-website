@@ -57,4 +57,4 @@ You can fill out and mail a PMC request form, along with a copy of the Veteranâ€
 
 ### By fax
 You can also fax the form to 1-800-455-7143. If you need help, call <a href="tel:+18006976947">1-800-697-6947</a>.
-</div>
+
