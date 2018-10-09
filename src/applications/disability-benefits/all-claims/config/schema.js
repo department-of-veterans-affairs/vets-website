@@ -734,7 +734,7 @@ const schema = {
           },
           cause: {
             type: 'string',
-            enum: ['NEW', 'SECONDARY', 'VA'],
+            enum: ['NEW', 'SECONDARY', 'PREEXISTING', 'VA'],
           },
           disabilityStartDate: {
             type: 'string',

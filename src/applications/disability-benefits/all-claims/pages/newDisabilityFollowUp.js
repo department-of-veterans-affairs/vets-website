@@ -36,10 +36,10 @@ const getDisabilitiesList = createSelector(
   },
 );
 
-const allCauses = cause.enum;
-const causesWithoutSecondary = allCauses.filter(
-  causeCode => causeCode !== 'SECONDARY',
-);
+// const allCauses = cause.enum;
+// const causesWithoutSecondary = allCauses.filter(
+//   causeCode => causeCode !== 'SECONDARY',
+// );
 
 export const uiSchema = {
   'ui:title': 'Disability details',
@@ -60,16 +60,16 @@ export const uiSchema = {
             VA:
               'My disability was caused by an injury or event that happened when I was receiving VA care.',
           },
-          updateSchema: (formData, causeSchema, causeUISchema, index) => ({
-            enum: getDisabilitiesList(formData, index).length
-              ? allCauses
-              : causesWithoutSecondary,
-          }),
+          // updateSchema: (formData, causeSchema, causeUISchema, index) => ({
+          //   enum: getDisabilitiesList(formData, index).length
+          //     ? allCauses
+          //     : causesWithoutSecondary,
+          // }),
         },
       },
       primaryDisability: {
         'ui:title':
-          'Please choose the disability that caused the disability you’re claiming here.',
+          'Please choose the disability that caused the new disability you’re claiming here.',
         'ui:required': (formData, index) =>
           formData.newDisabilities[index].cause === 'SECONDARY' &&
           getDisabilitiesList(formData, index).length > 0,
@@ -94,7 +94,7 @@ export const uiSchema = {
       },
       primaryDescription: {
         'ui:title':
-          'Please briefly describe the injury or event that caused your disability.',
+          'Please briefly describe the injury or exposure that caused your condition. (For example, I operated loud machinery while in the Army, and this caused me to lose my hearing.)',
         'ui:widget': 'textarea',
         'ui:required': (formData, index) =>
           formData.newDisabilities[index].cause === 'NEW',
