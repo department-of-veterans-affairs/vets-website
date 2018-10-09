@@ -12,13 +12,13 @@ aliases:
 
 <div class="va-introtext">
 
-Find out how to apply for a headstone, grave marker, or medallion to honor the service of a Veteran or to honor an eligible family member.
+Find out how to apply for a headstone, grave marker, or medallion to honor a Veteran or eligible family member.
 
 </div>
 
 <div class="feature">
 
-### Who can be honored with a headstone, grave marker, or niche cover?
+### Who can be honored with a Veterans headstone, grave marker, or niche cover?
 
 Any Veteran who was not dishonorably discharged and meets any of the requirements below may be eligible for a headstone, grave marker, or niche cover.
 
@@ -32,7 +32,7 @@ Any Veteran who was not dishonorably discharged and meets any of the requirement
 
 <br>
 
-### Who can be honored with a medallion to attach to a privately purchased headstone or marker?
+### Who can be honored with a Veterans medallion to attach to a privately purchased headstone or marker?
 
 Any Veteran who was not dishonorably discharged and meets any of the requirements below may be eligible for a medallion.
 
