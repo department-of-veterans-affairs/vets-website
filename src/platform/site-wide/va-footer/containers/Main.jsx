@@ -26,8 +26,12 @@ export class Main extends React.Component {
     super(props);
     this.state = { isMobile: false };
     this.linkObj = groupBy(replaceDomainsInData(links), 'column');
+    this.state = {
+      isMobile: !isWideScreen(),
+    };
   }
-  componentWillMount() {
+  componentDidMount() {
+    // TODO: debounce
     window.addEventListener(
       'resize',
       () => {
@@ -37,10 +41,9 @@ export class Main extends React.Component {
       },
       false,
     );
-
-    this.setState({
-      isMobile: !isWideScreen(),
-    });
+    if (this.props.handleFooterDidMount) {
+      this.props.handleFooterDidMount();
+    }
   }
   generateLinkItems = (column, direction = 'asc') => {
     const captureEvent = () => recordEvent({ event: FOOTER_EVENTS[column] });
@@ -73,7 +76,7 @@ export class Main extends React.Component {
       return [
         <ul
           key="veteran-crisis-line"
-          className="va-footer-linkgroup usa-width-one-fourth usa-accordion"
+          className="va-footer-linkgroup usa-accordion"
           id="veteran-crisis-line"
           aria-hidden="true"
         >
@@ -110,7 +113,7 @@ export class Main extends React.Component {
           </li>
         </ul>,
         <ul
-          className="va-footer-linkgroup usa-width-one-fourth usa-accordion"
+          className="va-footer-linkgroup usa-accordion"
           id="veteran-contact-us"
           key="veteran-contact-us"
           aria-hidden="true"
@@ -139,10 +142,7 @@ export class Main extends React.Component {
       ];
     }
     return (
-      <ul
-        className="va-footer-linkgroup usa-width-one-fourth"
-        id="veteran-crisis"
-      >
+      <ul className="va-footer-linkgroup" id="veteran-crisis">
         <li>
           <h4 className="va-footer-linkgroup-title">In Crisis? Get Help Now</h4>
         </li>
@@ -174,12 +174,12 @@ export class Main extends React.Component {
     let buttonEnabled = '';
     let buttonClasses = '';
     if (this.state.isMobile) {
-      className = 'va-footer-linkgroup usa-width-one-fourth usa-accordion';
+      className = 'va-footer-linkgroup  usa-accordion';
       innerClassName = 'usa-accordion-content';
       buttonEnabled = '';
       buttonClasses = 'usa-button-unstyled usa-accordion-button';
     } else {
-      className = 'va-footer-linkgroup usa-width-one-fourth';
+      className = 'va-footer-linkgroup';
       innerClassName = '';
       buttonEnabled = 'disabled';
       buttonClasses = 'va-footer-button';
@@ -187,7 +187,7 @@ export class Main extends React.Component {
     return (
       <div>
         <div className="footer-inner">
-          <div className="usa-grid usa-grid-flex-mobile">
+          <div className="usa-grid-full flex-container usa-grid-flex-mobile">
             <ul className={className} id="footer-first-child">
               <li>
                 <h4 className="va-footer-linkgroup-title">
@@ -257,7 +257,7 @@ export class Main extends React.Component {
             </ul>
             {contactVCL}
           </div>
-          <div className="usa-grid footer-banner">
+          <div className="usa-grid usa-grid-full footer-banner">
             <a
               href="https://preview.va.gov"
               className="va-footer-logo"
@@ -266,7 +266,7 @@ export class Main extends React.Component {
               <img src="/img/homepage/va-logo-white.png" alt="VA logo" />
             </a>
           </div>
-          <div className="usa-grid footer-links">
+          <div className="usa-grid usa-grid-full footer-links">
             <ul>
               {orderBy(this.linkObj.bottom_rail, 'order', 'asc').map(link => (
                 <li key={`${link.order}`}>
@@ -276,6 +276,84 @@ export class Main extends React.Component {
                 </li>
               ))}
             </ul>
+          </div>
+        </div>
+        <div
+          id="modal-crisisline"
+          className="va-overlay va-modal va-modal-large"
+          role="alertdialog"
+        >
+          <div className="va-crisis-panel va-modal-inner">
+            <button
+              aria-label="Close this modal"
+              className="va-modal-close va-overlay-close va-crisis-panel-close"
+              type="button"
+            >
+              <i
+                className="fa fa-times-circle-o va-overlay-close"
+                aria-hidden="true"
+              />
+            </button>
+
+            <div className="va-overlay-body va-crisis-panel-body">
+              <h3 className="va-crisis-panel-title">
+                We're here anytime, day or night
+              </h3>
+              <p>
+                Whatever you're struggling with, our responders can offer
+                confidential help 24/7. Many of them are Veterans themselves.
+              </p>
+              <ul className="va-crisis-panel-list">
+                <li>
+                  <i
+                    className="fa fa-phone va-crisis-panel-icon"
+                    aria-hidden="true"
+                  />
+                  <a href="tel:18002738255">
+                    Call <strong>1-800-273-8255 (Press 1)</strong>
+                  </a>
+                </li>
+                <li>
+                  <i
+                    className="fa fa-mobile va-crisis-panel-icon"
+                    aria-hidden="true"
+                  />
+                  <a href="sms:838255">
+                    Text <strong>838255</strong>
+                  </a>
+                </li>
+                <li>
+                  <i
+                    className="fa fa-comments-o va-crisis-panel-icon"
+                    aria-hidden="true"
+                  />
+                  <a
+                    className="no-external-icon"
+                    href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat"
+                  >
+                    Start a confidential chat
+                  </a>
+                </li>
+                <li>
+                  <i
+                    className="fa fa-deaf va-crisis-panel-icon"
+                    aria-hidden="true"
+                  />
+                  <a href="tel:18007994889">
+                    Call TTY if you have hearing loss{' '}
+                    <strong>1-800-799-4889</strong>
+                  </a>
+                </li>
+              </ul>
+              Get more resources at{' '}
+              <a
+                className="no-external-icon"
+                href="https://www.veteranscrisisline.net/"
+              >
+                VeteransCrisisLine.net
+              </a>
+              .
+            </div>
           </div>
         </div>
       </div>

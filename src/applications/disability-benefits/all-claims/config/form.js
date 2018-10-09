@@ -11,6 +11,7 @@ import {
   prefillTransformer,
   hasVAEvidence,
   hasPrivateEvidence,
+  hasOtherEvidence,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -30,11 +31,13 @@ import {
   addDisabilities,
   newDisabilityFollowUp,
   vaMedicalRecords,
+  additionalDocuments,
   privateMedicalRecords,
   paymentInformation,
   evidenceTypes,
   claimExamsInfo,
   homelessOrAtRisk,
+  summaryOfEvidence,
 } from '../pages';
 
 import fullSchema from './schema';
@@ -203,7 +206,7 @@ const formConfig = {
           schema: evidenceTypes.schema,
         },
         vaMedicalRecords: {
-          title: 'VA Medical Records',
+          title: 'VA medical records',
           path: 'supporting-evidence/va-medical-records',
           depends: hasVAEvidence,
           uiSchema: vaMedicalRecords.uiSchema,
@@ -215,6 +218,19 @@ const formConfig = {
           depends: hasPrivateEvidence,
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
+        },
+        additionalDocuments: {
+          title: 'Lay statements and other evidence',
+          path: 'supporting-evidence/additional-evidence',
+          depends: hasOtherEvidence,
+          uiSchema: additionalDocuments.uiSchema,
+          schema: additionalDocuments.schema,
+        },
+        summaryOfEvidence: {
+          title: 'Summary of evidence',
+          path: 'supporting-evidence/summary',
+          uiSchema: summaryOfEvidence.uiSchema,
+          schema: summaryOfEvidence.schema,
         },
         howClaimsWork: {
           title: 'How claim exams work',

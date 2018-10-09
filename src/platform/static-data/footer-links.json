@@ -218,86 +218,16 @@
   },
   {
     "column": "bottom_rail",
-    "href": "https://www.oprm.va.gov/foia/",
-    "order": 2,
-    "target": null,
-    "title": "FOIA"
-  },
-  {
-    "column": "bottom_rail",
-    "href": "https://www.va.gov/oig/",
-    "order": 3,
-    "target": "_blank",
-    "title": "Inspector General"
-  },
-  {
-    "column": "bottom_rail",
-    "href": "https://www.va.gov/orm/NOFEAR_Select.asp",
-    "order": 4,
-    "target": null,
-    "title": "No FEAR Act"
-  },
-  {
-    "column": "bottom_rail",
-    "href": "https://www.va.gov/about_va/va_notices.asp",
-    "order": 5,
-    "target": null,
-    "title": "Notices"
-  },
-  {
-    "column": "bottom_rail",
     "href": "https://www.va.gov/opa/Plain_Language.asp",
-    "order": 6,
+    "order": 2,
     "target": null,
     "title": "Plain Language"
   },
   {
     "column": "bottom_rail",
     "href": "https://www.va.gov/privacy/",
-    "order": 7,
+    "order": 3,
     "target": null,
     "title": "Privacy Policy"
-  },
-  {
-    "column": "bottom_rail",
-    "href": "https://www.va.gov/orpm/",
-    "order": 8,
-    "target": null,
-    "title": "Regulations"
-  },
-  {
-    "column": "bottom_rail",
-    "href": "https://www.va.gov/transparency/",
-    "order": 9,
-    "target": null,
-    "title": "Transparency"
-  },
-  {
-    "column": "bottom_rail",
-    "href": "https://www.usa.gov",
-    "order": 10,
-    "target": "_blank",
-    "title": "USA.gov"
-  },
-  {
-    "column": "bottom_rail",
-    "href": "https://www.va.gov/webpolicylinks.asp",
-    "order": 11,
-    "target": null,
-    "title": "Web Policies"
-  },
-  {
-    "column": "bottom_rail",
-    "href": "https://www.va.gov/accountability/",
-    "order": 12,
-    "target": null,
-    "title": "Whistleblower Rights and Protections"
-  },
-  {
-    "column": "bottom_rail",
-    "href": "https://www.whitehouse.gov",
-    "order": 13,
-    "target": "_blank",
-    "title": "White House"
   }
 ]

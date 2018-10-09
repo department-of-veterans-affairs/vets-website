@@ -6,7 +6,7 @@ display_title: Housing
 concurrence: complete
 lastupdate:
 order: 1
-icon: home
+icon: icon-large white fa fa-home hub-background-housing
 promo:
   - image: /img/megamenu/housing-assistance-illustration.png
     heading: National Call Center for Homeless Veterans
@@ -42,7 +42,7 @@ social:
         - url: tel:1-800-983-0937
           number: 1-800-983-0937
           title: "eBenefits Technical Support:"
-        - url: tel:1-877-4AID-VET (1-877-424-3838)
+        - url: tel:18774243838
           number: 1-877-4AID-VET (1-877-424-3838)
           title: "National Call Center for Homeless Veterans:"
       - subhead: Get Updates

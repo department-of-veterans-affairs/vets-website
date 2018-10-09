@@ -12,7 +12,7 @@ import UserInteractionRecorder from '../components/UserInteractionRecorder';
 
 export const trackingPrefix = 'edu-feedback-tool-';
 
-const { get } = dataUtils;
+const { get, unset } = dataUtils;
 const domesticSchoolAddressFields = get(
   'properties.educationDetails.properties.school.properties.address.anyOf[0].properties',
   fullSchema,
@@ -58,8 +58,31 @@ export function fetchInstitutions({ institutionQuery, page, onDone, onError }) {
   );
 }
 
-export function transform(formConfig, form) {
-  const formData = transformForSubmit(formConfig, form, null);
+// Helper to remove the facility code. Needed if the code was set via the
+// search tool and then manual address entry was selected. if this is not
+// cleared out the (incorrect) facility code will be sent along with the
+// manually entered school address.
+export function removeFacilityCodeIfManualEntry(form) {
+  if (
+    get(
+      'data.educationDetails.school.view:searchSchoolSelect.view:manualSchoolEntryChecked',
+      form,
+    )
+  ) {
+    return unset(
+      'data.educationDetails.school.view:searchSchoolSelect.facilityCode',
+      form,
+    );
+  }
+  return form;
+}
+
+export function transform(
+  formConfig,
+  form,
+  formTransformer = removeFacilityCodeIfManualEntry,
+) {
+  const formData = transformForSubmit(formConfig, formTransformer(form), null);
   return JSON.stringify({
     giBillFeedback: {
       form: formData,

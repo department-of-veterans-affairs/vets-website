@@ -54,7 +54,6 @@ import {
   privateRecordsChoice,
   facilityDescription,
   evidenceSummaryView,
-  additionalDocumentDescription,
   GetFormHelp,
   FDCDescription,
   FDCWarning,
@@ -93,7 +92,7 @@ import { FIFTY_MB } from '../../all-claims/constants';
 
 import { treatmentView } from '../../all-claims/content/vaMedicalRecords';
 import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
-
+import { additionalDocumentDescription } from '../../all-claims/content/additionalDocuments';
 import { requireOneSelected } from '../validations';
 import {
   validateBooleanGroup,
@@ -255,7 +254,7 @@ const formConfig = {
                 },
                 pointOfContact: {
                   'ui:description':
-                    'Please provide the name and number of a person we should call if we need to get in touch with you.',
+                    'Please provide the name and number of a person we can call if we need to get in touch with you',
                   'ui:options': {
                     expandUnder: 'isHomeless',
                   },
@@ -323,7 +322,7 @@ const formConfig = {
           path: 'select-disabilities',
           uiSchema: {
             'ui:description':
-              'Below are your rated disabilities. Please choose the disability that you’re filing for an increase because the condition has gotten worse.',
+              'Below are your rated disabilities. Please choose the disability for which you’re filing an increase because the condition has gotten worse.',
             disabilities: {
               'ui:field': 'StringField',
               'ui:widget': SelectArrayItemsWidget,
@@ -385,7 +384,7 @@ const formConfig = {
                 'ui:title': disabilityNameTitle,
                 'view:hasEvidence': {
                   'ui:title':
-                    'Do you have any evidence that you would like to submit with your claim?',
+                    'Do you have any evidence that you’d like to submit with your claim?',
                   'ui:description': '',
                   'ui:widget': 'yesNo',
                 },
@@ -1098,7 +1097,7 @@ const formConfig = {
                 labels: {
                   Y: 'Yes, I have uploaded all my supporting documents.',
                   N:
-                    'No, I have some extra information that I will submit to VA later.',
+                    'No, I have some extra information that I’ll submit to VA later.',
                 },
               },
             },

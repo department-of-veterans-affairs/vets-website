@@ -5,7 +5,7 @@ title: VA Pension Benefits
 display_title: Pension
 lastupdate:
 order: 1
-icon: money
+icon: icon-large white fa fa-money hub-background-pension
 promo:
   - image: /img/megamenu/pension-illustration.png
     heading: Get Your Pension Payments Electronically
@@ -44,7 +44,7 @@ social:
         - url: tel:1-800-983-0937
           number: 1-800-983-0937
           title: "eBenefits Technical Support:"
-        - url: tel:1-877-4AID-VET (1-877-424-3838)
+        - url: tel:18774243838
           number: 1-877-4AID-VET (1-877-424-3838)
           title: "National Call Center for Homeless Veterans:"
       - subhead: Get Updates

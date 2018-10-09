@@ -3,6 +3,10 @@ import React from 'react';
 
 import SystemDownView from '@department-of-veterans-affairs/formation/SystemDownView';
 
+import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
+
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
+
 class RequiredVeteranView extends React.Component {
   render() {
     let view;
@@ -12,7 +16,7 @@ class RequiredVeteranView extends React.Component {
       view = (
         <SystemDownView
           messageLine1="We’re sorry. We can’t process your request for a Veteran ID Card right now because we can't access your records at the moment. Please try again in a few minutes."
-          messageLine2="If it still doesn’t work, please call the Vets.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)."
+          messageLine2={`If it still doesn’t work, please call the ${propertyName} Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).`}
         />
       );
     } else {

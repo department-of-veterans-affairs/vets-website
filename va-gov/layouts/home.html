@@ -5,16 +5,17 @@
   <section id="homepage-hub">
 
     <!-- background, white -->
-    <div class="usa-grid" id="hub-internal">
+    <div class="usa-grid usa-grid-full" id="hub-internal">
 
       <h2>Access and manage your VA benefits and health care</h2>
 
       <!-- top row -->
-      <div class="usa-grid">
+      <div class="usa-grid usa-grid-full flex-container flex-col-mobile">
 
         <div class="usa-width-one-half hub-links-container">
 
-          <h3 class="hub-links-title"><i class="icon-large fa fa-medkit"></i>Health Care</h3>
+
+          <h3 class="hub-links-title"><i class="icon-large fa fa-medkit hub-color-health-care"></i>Health Care</h3>
           <ul class="hub-links-list">
             <li><a href="/health-care/refill-track-prescriptions/"#>Refill and track your prescriptions</a></li>
             <li><a href="/health-care/secure-messaging/">Send a secure message to your health care team</a></li>
@@ -27,7 +28,8 @@
 
         <div class="usa-width-one-half hub-links-container">
 
-          <h3 class="hub-links-title"><i class="icon-large fa fa-handshake-o"></i>Disability</h3>
+
+          <h3 class="hub-links-title"><i class="icon-large fa fa-handshake-o hub-color-disability"></i>Disability</h3>
           <ul class="hub-links-list">
             <li><a href="/claim-or-appeal-status">Check your claim or appeal status</a></li>
             <li><a href="/va-payment-history/">View your payment history</a></li>
@@ -41,11 +43,11 @@
       </div>
 
       <!-- bottom row -->
-      <div class="usa-grid">
+      <div class="usa-grid usa-grid-full flex-container flex-col-mobile">
 
         <div class="usa-width-one-half hub-links-container">
 
-          <h3 class="hub-links-title"><i class="icon-large fa fa-book"></i>Education</h3>
+          <h3 class="hub-links-title"><i class="icon-large fa fa-book hub-color-education"></i>Education</h3>
           <ul class="hub-links-list">
             <li><a href="/education/gi-bill/post-9-11/ch-33-benefit">Check your Post-9/11 GI Bill&reg; benefits</a></li>
             <li><a href="/va-payment-history/">View your payment history</a></li>
@@ -58,7 +60,8 @@
 
         <div class="usa-width-one-half hub-links-container">
 
-          <h3 class="hub-links-title"><i class="icon-large fa fa-id-card"></i>Records</h3>
+
+          <h3 class="hub-links-title"><i class="icon-large fa fa-id-card hub-color-records"></i>Records</h3>
           <ul class="hub-links-list">
             <li><a href="/records/get-veteran-id-cards/">Apply now for a Veteran ID Card</a></li>
             <li><a href="/health-care/get-medical-records/">Get your VA medical records</a></li>
@@ -70,8 +73,12 @@
         </div>
       </div>
 
+
+
     </div>
     <!-- /background, white -->
+
+    {% include "va-gov/includes/veteran-banner.html" %}
 
   </section>
   <!-- /the hub -->
@@ -80,58 +87,58 @@
 
     <section id="homepage-benefits">
 
-      <div class="usa-grid homepage-benefits-row">
+      <div class="usa-grid usa-grid-full homepage-benefits-row">
 
         <div class="usa-width-one-third">
-          <h4><a href="/health-care/" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small fa fa-medkit"></i>Health Care</a></h4>
+          <h4><a href="/health-care/" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small hub-icon-health-care fa fa-medkit hub-background-health-care white"></i>Health Care</a></h4>
           <p>Apply for VA health care, find out how to access services, and manage your health and benefits online.</p>
         </div>
 
         <div class="usa-width-one-third">
-          <h4><a href="/disability/" onclick="recordEvent({ event: 'nav-linkslist' });"></a><i class="icon-small fa fa-handshake-o"></i>Disability</a></h4>
+          <h4><a href="/disability/" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small fa fa-handshake-o hub-background-disability white"></i>Disability</a></h4>
           <p>File a claim for disability compensation for conditions related to your military service, and manage your benefits over time.</p>
         </div>
 
         <div class="usa-width-one-third">
-          <h4><a href="/education/" onclick="recordEvent({ event: 'nav-linkslist' });"></a><i class="icon-small fa fa-book"></i>Education and Training</a></h4>
+          <h4><a href="/education/" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small fa fa-book hub-background-education white"></i>Education and Training</a></h4>
           <p>Apply for and manage your GI Bill and other education benefits to help pay for college and training programs.</p>
         </div>
 
       </div>
 
-      <div class="usa-grid homepage-benefits-row">
+      <div class="usa-grid usa-grid-full homepage-benefits-row">
 
         <div class="usa-width-one-third">
-          <h4><a href="/careers-employment/" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small fa fa-briefcase"></i>Careers and Employment</a></h4>
+          <h4><a href="/careers-employment/" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small fa fa-briefcase hub-background-careers white"></i>Careers and Employment</a></h4>
           <p>Apply for vocational rehabilitation services, get support for your Veteran-owned small business, and access other career resources.</p>
         </div>
 
         <div class="usa-width-one-third">
-          <h4><a href="/pension/" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small fa fa-money"></i>Pension</a></h4>
+          <h4><a href="/pension/" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small fa fa-money hub-background-pension white"></i>Pension</a></h4>
           <p>Apply for monthly payments for wartime Veterans and survivors with limited or no income who meet certain age and disability requirements.</p>
         </div>
 
         <div class="usa-width-one-third">
-          <h4><a href="/housing-assistance/" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small fa fa-home"></i>Housing Assistance</a></h4>
+          <h4><a href="/housing-assistance/" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small fa fa-home hub-background-housing white"></i>Housing Assistance</a></h4>
           <p>Find out if you're eligible for a VA direct or VA-backed loan to help you buy, build, repair, or keep a home. If you have a service-connected disability, see if you qualify for a housing grant to help you live more independently.</p>
         </div>
 
       </div>
 
-      <div class="usa-grid homepage-benefits-row">
+      <div class="usa-grid usa-grid-full homepage-benefits-row">
 
         <div class="usa-width-one-third">
-          <h4><a href="/life-insurance/" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small fa fa-users"></i>Life Insurance</a></h4>
+          <h4><a href="/life-insurance/" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small fa fa-users hub-background-life-insurance white"></i>Life Insurance</a></h4>
           <p>Explore VA life insurance options for Veterans, Servicemembers, and families. Manage your policy online, file claims for benefits, and access helpful resources.</p>
         </div>
 
         <div class="usa-width-one-third">
-          <h4><a href="/burials-memorials/" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small fa fa-star"></i>Burials and Memorials</a></h4>
+          <h4><a href="/burials-memorials/" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small fa fa-star hub-background-burials white"></i>Burials and Memorials</a></h4>
           <p>Get help planning a burial in a VA national cemetery, order a headstone or other memorial item to honor a Veteran's service, and apply for survivor and dependent benefits.</p>
         </div>
 
         <div class="usa-width-one-third">
-          <h4><a href="/records/" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small fa fa-id-card"></i>Records</a></h4>
+          <h4><a href="/records/" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small fa fa-id-card hub-background-records white"></i>Records</a></h4>
           <p>Apply for a printed Veteran ID card, get your VA benefit letters and medical records, and learn how to apply for a discharge upgrade.</p>
         </div>
 
@@ -139,7 +146,7 @@
 
     </section>
     <section id="homepage-popular">
-      <div class="usa-grid">
+      <div class="usa-grid usa-grid-full">
         <div class="usa-width-one-third">
           <a href="/facilities" onclick="recordEvent({ event: 'nav-main-health' });" class="homepage-button">
             <div class="icon-wrapper">
@@ -179,14 +186,14 @@
 
   </div> <!-- end #content -->
 
-  <section class='usa-grid'>
+  <section class="usa-grid usa-grid-full">
     <div class="va-h-ruled--stars"></div>
   </section>
 
 
   <section id="homepage-news">
 
-    <div class="usa-grid">
+    <div class="usa-grid usa-grid-full">
       <div class="usa-width-one-third homepage-news-story">
         <img src="/img/homepage/home-1.jpg"/>
         <h4 class="homepage-news-story-title"><a href=https://maketheconnection.net/>Make the Connection Website</a></h4>
@@ -206,12 +213,6 @@
       </div>
     </div>
 
-  </section>
-
-  <section id="homepage-hero">
-    <div class="usa-grid">
-      <img src="/img/homepage/veterans-blue.png" width=728 height=155/>
-    </div>
   </section>
 
 </main>

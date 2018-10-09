@@ -1,6 +1,10 @@
 let currentEnv = 'dev';
-if (__BUILDTYPE__.includes('staging') || __BUILDTYPE__ === 'preview') {
+if (__BUILDTYPE__.includes('staging')) {
   currentEnv = 'staging';
+}
+
+if (__BUILDTYPE__ === 'preview') {
+  currentEnv = 'preview';
 }
 
 // This list also exists in script/options.js

@@ -6,7 +6,7 @@ display_title: Careers and Employment
 concurrence: complete
 lastupdate:
 order: 1
-icon: briefcase
+icon: icon-large white fa fa-briefcase hub-background-careers
 aliases:
   - /employment/
 promo:
@@ -47,7 +47,7 @@ social:
         - url: tel:1-800-983-0937
           number: 1-800-983-0937
           title: "eBenefits Technical Support:"
-        - url: tel:1-877-4AID-VET (1-877-424-3838)
+        - url: tel:18774243838
           number: 1-877-4AID-VET (1-877-424-3838)
           title: "National Call Center for Homeless Veterans:"
       - subhead: Get Updates
@@ -132,7 +132,7 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a href="/careers-employment/how-to-apply/"><b>How to Apply</b></a>
+    <a href="/careers-employment/vocational-rehabilitation/how-to-apply/"><b>How to Apply</b></a>
     <p>Get step-by-step instructions on how to apply for voc rehab benefits.</p>
   </div>
 
