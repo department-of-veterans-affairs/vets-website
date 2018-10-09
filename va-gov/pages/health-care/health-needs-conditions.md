@@ -79,7 +79,11 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 - [Cancers and other conditions caused by contact with hazardous materials](/health-care/health-needs-conditions/chemical-hazardous-materials-exposure/)
 
+- [HIV/AIDS](https://www.hiv.va.gov/patient/index.asp)
+
 - [Assisted living and home health care](/health-care/about-va-health-benefits/long-term-care/)
+
+- [Infertility due to service-connected conditions](https://www.va.gov/COMMUNITYCARE/programs/veterans/ivf.asp)
 
 
 **[Get an overview of what’s covered by VA health care](/health-care/about-va-health-benefits/).**
@@ -88,6 +92,25 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 </div>
 </div>
 
+<br>
+#### Does VA address the specific health needs of LGBT Veterans? <br>
+
+Yes. We're committed to serving the health needs of Veterans with LGBT and related identities and providing care in a sensitive, safe environment at all VA health facilities. <br>
+
+For more information, you can download these fact sheets:
+
+- [Transgender male health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-transgender-male.pdf#)
+
+- [Transgender female health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-transgender-female.pdf#)
+
+- [Male Veterans: Gay and bisexual health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-gay-bisexual.pdf#)
+
+- [Female Veterans: Lesbian and bisexual health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-lesbian-bisexual.pdf#)
+
+You can also find out more about LGBT programs at VA medical centers across the nation. <br>
+[View VA medical center LGBT program websites](https://www.patientcare.va.gov/LGBT/VAFacilities.asp).
+
+[Read about our approach to recognizing same-sex marriage](https://www.va.gov/opa/marriage/).
 ------
 
 <div itemscope itemtype="http://schema.org/Question">
