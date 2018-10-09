@@ -19,16 +19,21 @@ relatedlinks:
 
 <div class="va-introtext">
 
-To honor the military service of a Veteran or Reservist, we provide the next of kin or a close friend a Presidential Memorial Certificate (PMC). Find out how to request this honor.
+To honor the military service of a Veteran or Reservist, we provide the next of kin or other family members or close friends a Presidential Memorial Certificate (PMC). A PMC is an engraved paper certificate signed by the current president. Find out how to request this honor.
 
 </div>
 
 <div class="feature">
 
-## Can I get a Presidential Memorial Certificate?
+### Can I get a Presidential Memorial Certificate?
 
-A Veteran’s next of kin or family member can get a PMC, which is an engraved paper certificate signed by the current president. We give the PMC in memory of a Veteran who’s eligible for burial in a national cemetery.
+You can get a Presidential Memorial Certificate if both of the descriptions below are true.
 
+**Both of these must be true:**
+- The Veteran or Reservist is eligible for burial in a national cemetery, **and**
+- You're the next of kin, family member, or close friend of the Veteran or Reservist (or an authorized service representative representing a family member or friend of the Veteran or Reservist) <br>
+
+[View eligibility requirements](/burials-memorials/eligibility/).
 </div>
 
 ## How do I apply for a Presidential Memorial Certificate?
