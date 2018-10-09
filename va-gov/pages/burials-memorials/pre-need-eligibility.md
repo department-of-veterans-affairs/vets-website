@@ -32,8 +32,6 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 **Please note:** "Pre-need" means before time of need. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial at the time of need.<br/>
 [Find out how to plan a burial](/burials-memorials/plan-a-burial/).
 
-<br>
-
 ## How do I prepare before starting my application?
 
 <ol class="process">
@@ -103,7 +101,7 @@ We base our decision of whether or not you qualify for burial in a VA national c
 
 </div>
 
-<div markdown="0"><br></div>
+<div markdown="0">
 
 ## How do I apply?
 You can apply online right now.
@@ -147,5 +145,5 @@ Get help from an accredited representative (a trained professional trusted to he
 
 For more information, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Please wait to hear back about your application rather than applying again.
 
-
+</div>
 <div markdown="0"><br></div>
