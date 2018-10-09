@@ -47,7 +47,7 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 </div>
 
-### What do burial benefits include?
+## What do burial benefits include?
 
 If you qualify for burial in a VA national cemetery, you'll receive burial benefits at no cost to your family. 
 
@@ -67,9 +67,7 @@ At the time of need, the person planning the burial can also request other honor
 [Learn about the burial planning process](/burials-memorials/plan-a-burial/). <br />
 [Learn about memorial items](/burials-memorials/memorial-items/).
 
-<br>
-
-### If I'm the survivor of a Veteran or Servicemember, what other benefits can I get?
+## If I'm the survivor of a Veteran or Servicemember, what other benefits can I get?
 
 We give the surviving spouse, children, and parents of Veterans and Servicemembers a range of benefits. These may include tax-free monetary benefits (called Dependency and Indemnity Compensation) and help paying for the funeral service (called a burial allowance).<br>
 [See if you're eligible for Dependency and Indemnity Compensation (DIC)](/burials-memorials/dependency-indemnity-compensation/). <br>
@@ -77,7 +75,7 @@ We give the surviving spouse, children, and parents of Veterans and Servicemembe
 
 -------
 
-### Can I plan ahead for my burial in a VA national cemetery?
+## Can I plan ahead for my burial in a VA national cemetery?
 
 Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members in their time of need. To do this, you’ll need to apply for a pre-need eligibility determination.<br>
 [Find out how to apply](/burials-memorials/pre-need-eligibility/).
