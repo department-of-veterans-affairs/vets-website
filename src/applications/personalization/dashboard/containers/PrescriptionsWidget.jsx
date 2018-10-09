@@ -75,7 +75,7 @@ class PrescriptionsWidget extends React.Component {
             {isBrandConsolidationEnabled() ? (
               <a
                 href={`${mhvBaseUrl()}/mhv-portal-web/${
-                  mhvBaseUrl().includes('www') ? 'web/myhealthevet/' : ''
+                  __BUILDTYPE__ === 'production' ? 'web/myhealthevet/' : ''
                 }refill-prescriptions`}
                 target="_blank"
               >
