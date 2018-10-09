@@ -4,7 +4,7 @@
  * @module platform/monitoring/frontend-metrics/feature-flag
  */
 export default function isMetricsEnabled() {
-  const environments = ['vagovdev', 'vagovstaging'];
+  const environments = ['preview'];
 
   return !!environments.includes(__BUILDTYPE__);
 }
