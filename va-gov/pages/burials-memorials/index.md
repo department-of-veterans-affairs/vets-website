@@ -8,13 +8,13 @@ order: 1
 icon: star
 promo:
   - image: /img/megamenu/burials-memorials-illustration.png
-    heading: National Cemetery Administration Mobile Site
+    heading: National Cemetery Administration Mobile Grave or Cemetery Locator
     url: "https://m.va.gov/"
-    description: Locate a grave, search for cemeteries, and find benefits information and resources from your mobile phone or tablet.
+    description: Locate a grave, search for cemeteries, and find benefits information and resources.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: "#"
+    - url: "/pension/survivors-pension/"
       title: <b>Survivors Pension</b>
       description: Find out if you’re eligible and how to apply for VA pension benefits as a surviving spouse or child of a deceased Veteran with wartime service.
     - url: "https://www.benefits.va.gov/insurance/bfcs.asp"
