@@ -104,11 +104,8 @@ document.addEventListener('DOMContentLoaded', _e => {
   // startLRNHealthCarWidget(commonStore);
   startFeedbackWidget(commonStore);
   // startAnnouncementWidget(commonStore);
-  startVAFooter({
-    handleFooterDidMount: () => {
-      addOverlayTriggers();
-      addFocusBehaviorToCrisisLineModal();
-    },
-    store: commonStore,
+  startVAFooter(() => {
+    addOverlayTriggers();
+    addFocusBehaviorToCrisisLineModal();
   });
 });

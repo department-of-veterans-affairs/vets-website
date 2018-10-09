@@ -114,10 +114,6 @@
     padding-bottom: 3em;
   }
 
-  #footer-first-child {
-    margin-top: 2em;
-  }
-
   #homepage-hub {
 
     @include linear-gradient-background($color-old-browser-background-start, $color-old-browser-background-end);
@@ -169,35 +165,6 @@
     }
   }
 
-  .footer-banner {
-    padding-top: 1.5em;
-    padding-bottom: 1.5em;
-  }
-
-  .footer-links {
-
-    ul {
-
-      padding-left: 0;
-      padding-bottom: 3em;
-      list-style: none;
-
-      li {
-        display: inline-block;
-
-        a {
-          color: $color-white;
-          &:visited {
-            color: $color-white;
-          }
-        }
-        &:after {
-          content: "|";
-          padding: 0 1rem;
-        }
-      }
-    }
-  }
 
   .merger-majorlinks {
 
@@ -288,56 +255,6 @@
       }
     }
   }
-
-  // desktop footer stuff
-
-  h4.va-footer-linkgroup-title {
-    padding-bottom: 1em;
-
-    button {
-      -webkit-font-smoothing: antialiased;
-      font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
-      line-height: 1.3;
-      font-weight: 700;
-      font-size: 1.1em;
-      margin: 0;
-      padding: 0;
-      text-align: left;
-    }
-
-  }
-
-  .va-footer-button {
-
-    &:disabled {
-      background-color: transparent !important;
-    }
-
-    .va-footer-linkgroup {
-      li {
-        margin-bottom: 0;
-      }
-    }
-  }
-
-  //yes repeated
-  .va-footer-linkgroup {
-    li {
-      margin-bottom: 0;
-    }
-  }
-
-  .va-footer-links {
-    padding-left: 0;
-    margin-top: 0;
-  }
-
-  #footer-vcl {
-    margin-top: 1.5em;
-    margin-bottom: 0;
-  }
-
-  // end footer stuff
 
   // mobile
   @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
@@ -475,10 +392,7 @@
     .va-h-ruled--stars,
     .va-nav-breadcrumbs,
     article,
-    #hub-rail,
-    .footer-banner,
-    .footer-links {
-
+    #hub-rail {
       padding-left: .5em;
       padding-right: .5em;
     }
@@ -502,96 +416,6 @@
 
     .va-nav-linkslist--related  {
       margin-bottom: 0 !important; //hard override; what does this break elsewhere
-    }
-
-    .footer-inner {
-      padding-top: 0;
-      padding-left: 0;
-      padding-right: 0;
-    }
-
-    #footer-vcl {
-      margin-top: 0.25em;
-    }
-
-    #footerNav {
-      .va-footer-linkgroup {
-        margin-top: 0;
-        h4 {
-          padding: 0;
-        }
-        li {
-          margin-bottom: 6px;
-        }
-
-        .usa-accordion-content {
-          background-color: transparent;
-
-          .va-footer-links {
-            li {
-              margin-bottom: 0.5em;
-              a {
-                text-decoration: none;
-              }
-            }
-          }
-        }
-      }
-
-      // mobile footer stuff
-      .usa-grid-flex-mobile {
-        display: flex;
-        flex-direction: column;
-        #veteran-contact-us {
-          order: 1;
-        }
-        #footer-first-child {
-          order: 2;
-        }
-        #footer-services {
-          order: 3;
-        }
-        #footer-popular {
-          order: 4;
-        }
-        #veteran-crisis-line {
-          display: none;
-        }
-      }
-      .va-footer-linkgroup-title {
-        font-weight: 400;
-
-        button {
-          border-top: 3px solid transparent;
-          border-bottom: 3px solid transparent;
-          color: $color-white;
-          cursor: pointer;
-          display: block;
-          margin: 0;
-          padding: 1.6rem 0.8rem;
-          font-size: 1.6rem;
-          font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
-          color: $color-white;
-        }
-
-        .usa-accordion-button {
-          color: $color-white;
-          background-color: $color-primary-darker;
-        }
-
-        .usa-accordion-button[aria-expanded=false] {
-          background-image: url("/img/plus-white.png");
-          background-image: url("/img/plus-white.svg");
-        }
-
-        .usa-accordion-button[aria-expanded=true] {
-          background-image: url("/img/minus-white.png");
-          background-image: url("/img/minus-white.svg");
-        }
-      }
-      //.merger #footerNav .va-footer-linkgroup-title button
-
-
     }
 
     .va-sidebarnav--opened {
@@ -957,3 +781,4 @@
 .flex-container {
   display: flex;
 }
+
