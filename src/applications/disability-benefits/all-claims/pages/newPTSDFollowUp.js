@@ -9,7 +9,7 @@ import fullSchema from '../config/schema';
 
 const {
   cause,
-  primaryDisability,
+  causedByDisability,
   primaryDescription,
   disabilityStartDate,
 } = fullSchema.properties.newDisabilities.items.properties;
@@ -63,7 +63,7 @@ export const uiSchema = {
           }),
         },
       },
-      primaryDisability: {
+      causedByDisability: {
         'ui:title':
           'Please choose the disability that caused the disability you’re claiming here.',
         'ui:required': (formData, index) =>
@@ -116,7 +116,7 @@ export const schema = {
         required: ['cause', 'disabilityStartDate'],
         properties: {
           cause,
-          primaryDisability,
+          causedByDisability,
           primaryDescription,
           disabilityStartDate,
         },

@@ -10,7 +10,8 @@ import { CauseTitle } from '../content/newDisabilityFollowUp';
 
 const {
   cause,
-  primaryDisability,
+  causedByDisability,
+  causedByDisabilityDescription,
   primaryDescription,
   disabilityStartDate,
 } = fullSchema.properties.newDisabilities.items.properties;
@@ -67,31 +68,6 @@ export const uiSchema = {
           // }),
         },
       },
-      primaryDisability: {
-        'ui:title':
-          'Please choose the disability that caused the new disability you’re claiming here.',
-        'ui:required': (formData, index) =>
-          formData.newDisabilities[index].cause === 'SECONDARY' &&
-          getDisabilitiesList(formData, index).length > 0,
-        'ui:options': {
-          labels: disabilityLabels,
-          expandUnder: 'cause',
-          expandUnderCondition: 'SECONDARY',
-          updateSchema: (formData, primarySchema, primaryUISchema, index) => {
-            const disabilitiesList = getDisabilitiesList(formData, index);
-
-            if (!disabilitiesList.length) {
-              return {
-                'ui:hidden': true,
-              };
-            }
-
-            return {
-              enum: disabilitiesList,
-            };
-          },
-        },
-      },
       primaryDescription: {
         'ui:title':
           'Please briefly describe the injury or exposure that caused your condition. (For example, I operated loud machinery while in the Army, and this caused me to lose my hearing.)',
@@ -101,6 +77,41 @@ export const uiSchema = {
         'ui:options': {
           expandUnder: 'cause',
           expandUnderCondition: 'NEW',
+        },
+      },
+      'view:secondaryFollowUp': {
+        'ui:options': {
+          expandUnder: 'cause',
+          expandUnderCondition: 'SECONDARY',
+        },
+        causedByDisability: {
+          'ui:title':
+            'Please choose the disability that caused the new disability you’re claiming here.',
+          'ui:required': (formData, index) =>
+            formData.newDisabilities[index].cause === 'SECONDARY' &&
+            getDisabilitiesList(formData, index).length > 0,
+          'ui:options': {
+            labels: disabilityLabels,
+            updateSchema: (formData, primarySchema, primaryUISchema, index) => {
+              const disabilitiesList = getDisabilitiesList(formData, index);
+              if (!disabilitiesList.length) {
+                return {
+                  'ui:hidden': true,
+                };
+              }
+              return {
+                enum: disabilitiesList,
+              };
+            },
+          },
+        },
+        causedByDisabilityDescription: {
+          'ui:title':
+            'Please briefly describe how {other disability selected} caused your new disability.',
+          'ui:widget': 'textarea',
+          'ui:required': (formData, index) =>
+            formData.newDisabilities[index].cause === 'SECONDARY' &&
+            getDisabilitiesList(formData, index).length > 0,
         },
       },
       disabilityStartDate: dateUI(
@@ -120,8 +131,14 @@ export const schema = {
         required: ['cause', 'disabilityStartDate'],
         properties: {
           cause,
-          primaryDisability,
           primaryDescription,
+          'view:secondaryFollowUp': {
+            type: 'object',
+            properties: {
+              causedByDisability,
+              causedByDisabilityDescription,
+            },
+          },
           disabilityStartDate,
         },
       },

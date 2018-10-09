@@ -740,7 +740,10 @@ const schema = {
             type: 'string',
             format: 'date',
           },
-          primaryDisability: {
+          causedByDisability: {
+            type: 'string',
+          },
+          causedByDisabilityDescription: {
             type: 'string',
           },
           primaryDescription: {
