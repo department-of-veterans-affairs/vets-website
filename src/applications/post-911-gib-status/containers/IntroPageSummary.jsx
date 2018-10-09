@@ -92,7 +92,7 @@ export default function BrandConsolidationSummary() {
             <li>Received a decision from us on your application</li>
           </ul>
           <p>
-            <a href="https://www.vets.gov/education/apply/">
+            <a href="/education/apply/">
               Find out how to apply for Post-9/11 GI Bill benefits
             </a>
             .
