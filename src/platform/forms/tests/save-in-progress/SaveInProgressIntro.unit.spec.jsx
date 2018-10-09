@@ -50,7 +50,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('.usa-alert').text()).to.contain('In progress');
+    expect(tree.find('.usa-alert').text()).to.contain('Form is in progress');
     expect(tree.find('.usa-alert').text()).to.contain('will expire on');
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
     expect(tree.find('withRouter(FormStartControls)').props().prefillAvailable)
@@ -324,7 +324,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(tree.find('.usa-alert').text()).to.contain('Form has expired');
     expect(tree.find('.usa-alert').text()).to.contain(
-      'Your saved health care (10-10EZ) application has expired. If you want to apply for health care, please start a new application.',
+      'Your saved health care application (10-10EZ) has expired. If you want to apply for health care, please start a new application.',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
   });

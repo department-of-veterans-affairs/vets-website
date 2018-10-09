@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import {
   formLinks,
-  formTitles,
   formDescriptions,
   formBenefits,
 } from '../../../applications/personalization/profile360/util/helpers';
@@ -100,11 +99,6 @@ export class ApplicationStatus extends React.Component {
       const expirationDate = moment.unix(expirationTime);
       const isExpired = expirationDate.isBefore();
 
-      const [firstLetter, ...restOfTitle] = formTitles[formId];
-      const cardTitle = `${firstLetter.toUpperCase()}${restOfTitle.join(
-        '',
-      )} application in progress`;
-
       if (!isExpired) {
         const lastSavedDateTime = moment
           .unix(lastSaved)
@@ -112,11 +106,22 @@ export class ApplicationStatus extends React.Component {
 
         return (
           <div className="usa-alert usa-alert-info no-background-image sip-application-status">
-            <h5 className="form-title saved">{cardTitle}</h5>
+            <h5 className="form-title saved">Form is in progress</h5>
+            <span className="saved-form-item-metadata">
+              Your {formDescriptions[formId]} is in progress.
+            </span>
+            <br />
             <span className="saved-form-item-metadata">
               Last saved on {lastSavedDateTime}
             </span>
             <br />
+            <div className="expires-container">
+              You can continue applying now, or come back later to finish your
+              application. Your application{' '}
+              <span className="expires">
+                will expire on {expirationDate.format('M/D/YYYY')}.
+              </span>
+            </div>
             <p>
               <a
                 className="usa-button-primary"
@@ -130,12 +135,6 @@ export class ApplicationStatus extends React.Component {
               >
                 Start Over
               </button>
-            </p>
-            <p className="no-bottom-margin">
-              Your saved application{' '}
-              <strong>
-                will expire on {expirationDate.format('M/D/YYYY')}.
-              </strong>
             </p>
             {multipleForms && (
               <p className="no-bottom-margin">

@@ -44,18 +44,26 @@ class SaveInProgressIntro extends React.Component {
         const isExpired = expiresAt.isBefore();
 
         if (!isExpired) {
+          const lastSavedDateTime = moment
+            .unix(savedAt)
+            .format('M/D/YYYY [at] h:mm a');
           alert = (
             <div>
               <div className="usa-alert usa-alert-info no-background-image schemaform-sip-alert">
                 <div className="schemaform-sip-alert-title">
-                  Application status: <strong>In progress</strong>
+                  Form is in progress
                 </div>
                 <div className="saved-form-metadata-container">
-                  <span className="saved-form-metadata">
-                    Last saved on {savedAt.format('MMM D, YYYY [at] h:mm a')}
+                  <span className="saved-form-item-metadata">
+                    Your {formDescriptions[formId]} is in progress.
+                  </span>
+                  <br />
+                  <span className="saved-form-item-metadata">
+                    Last saved on {lastSavedDateTime}
                   </span>
                   <div className="expires-container">
-                    Your saved application{' '}
+                    You can continue applying now, or come back later to finish
+                    your application. Your application{' '}
                     <span className="expires">
                       will expire on {expirationDate}.
                     </span>
@@ -75,9 +83,9 @@ class SaveInProgressIntro extends React.Component {
                 </div>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-metadata">
-                    Your saved {formDescriptions[formId]} application has
-                    expired. If you want to apply for {formBenefits[formId]},
-                    please start a new application.
+                    Your saved {formDescriptions[formId]} has expired. If you
+                    want to apply for {formBenefits[formId]}, please start a new
+                    application.
                   </span>
                 </div>
                 <div>{this.props.children}</div>

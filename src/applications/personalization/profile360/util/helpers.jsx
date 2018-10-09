@@ -41,7 +41,7 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
     } else {
       formNumber = ` (${key})`;
     }
-    const formTitle = `${formBenefits[key]} application ${formNumber}`;
+    const formTitle = `${formBenefits[key]} application${formNumber}`;
     titles[key] = formTitle; // eslint-disable-line no-param-reassign
     return titles;
   },
