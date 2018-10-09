@@ -285,6 +285,7 @@ export class Main extends React.Component {
         >
           <div className="va-crisis-panel va-modal-inner">
             <button
+              aria-label="Close this modal"
               className="va-modal-close va-overlay-close va-crisis-panel-close"
               type="button"
             >
@@ -292,9 +293,6 @@ export class Main extends React.Component {
                 className="fa fa-times-circle-o va-overlay-close"
                 aria-hidden="true"
               />
-              <span className="usa-sr-only va-overlay-close">
-                Close this modal
-              </span>
             </button>
 
             <div className="va-overlay-body va-crisis-panel-body">

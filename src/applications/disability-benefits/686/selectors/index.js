@@ -11,6 +11,7 @@ export const get686AuthorizationState = state => {
     isLoading: state.user.profile.loading || state.authorization686.isLoading,
     isLoggedIn,
     isVerified,
+    loadedStatus: state.authorization686.loadedStatus,
     profileIsLoading: state.user.profile.loading,
     profileStatus: state.user.profile.status,
   };

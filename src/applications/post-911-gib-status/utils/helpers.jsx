@@ -1,5 +1,8 @@
 import React from 'react';
 import { formatDateParsedZoneLong } from '../../../platform/utilities/date';
+import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
+
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 export function formatPercent(percent) {
   let validPercent = undefined;
@@ -198,8 +201,8 @@ export function backendErrorMessage() {
             please check back soon.
           </li>
           <li>
-            The name on your Vets.gov account doesn’t exactly match the name we
-            have in our Post-9/11 GI Bill records.
+            The name on your {propertyName} account doesn’t exactly match the
+            name we have in our Post-9/11 GI Bill records.
           </li>
           <li>
             You haven’t yet applied for Post-9/11 GI Bill education benefits.
@@ -207,8 +210,9 @@ export function backendErrorMessage() {
         </ul>
         <p>
           If you think your Statement of Benefits should be here, please call
-          the Vets.gov Help Desk at <a href="tel:18555747285">1-855-574-7286</a>
-          . We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+          the {propertyName} Help Desk at{' '}
+          <a href="tel:18555747285">1-855-574-7286</a>. We’re here Monday
+          through Friday, 8:00 a.m. to 8:00 p.m. (ET).
         </p>
         <a className="usa-button usa-button-primary">
           Back to Post-9/11 GI Bill
