@@ -27,14 +27,17 @@ The family may also choose to have military funeral honors performed during the 
 - A color guard
 - Uniformed Servicemembers who present the burial flag
 
-## Is there any proper etiquette guidance I should know about for people attending a military funeral?
+**Note:** If you requested a headstone, marker, or medallion, we’ll arrange for it to be delivered within 60 days. <br>
+[Learn about Veterans headstones, markers, and medallions](/burials-memorials/memorial-items/headstones-markers-medallions/).
+
+## Is there any military funeral etiquette guidance I should know about?
 
 **People attending a military funeral may:**
 - Bring flowers, which may go with the casket or urn when it’s taken from the committal shelter to the gravesite, **and**
 - Visit the gravesite at the end of the workday, but not immediately following the ceremony
 
+## What happens at a military funeral at Arlington National Cemetery?
+
 Funerals at Arlington National Cemetery are different. <br>
 [Learn about Arlington National Cemetery funerals](http://www.arlingtoncemetery.mil/Funerals/About-Funerals).
 
-**Note:** If you requested a headstone, marker, or medallion, we’ll arrange for it to be delivered within 60 days. <br>
-[Learn about Veterans headstones, markers, and medallions](/burials-memorials/memorial-items/headstones-markers-medallions/).
