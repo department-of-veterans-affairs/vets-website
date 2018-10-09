@@ -1,0 +1,11 @@
+User-agent: Synapse
+Disallow:/
+
+User-Agent: *
+Disallow: /analytics-opt-out.html
+Disallow: /cgi-bin/
+Disallow: /provideinfo/includes/
+Disallow: /scorecard
+
+Sitemap: https://www.va.gov/sitemap.xml
+Sitemap: https://www.va.gov/gids/sitemap.xml.gz
