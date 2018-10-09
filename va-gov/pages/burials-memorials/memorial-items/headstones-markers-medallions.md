@@ -12,13 +12,15 @@ aliases:
 
 <div class="va-introtext">
 
-To honor the military service of a Veteran, we may provide a headstone, marker, or niche cover to identify the burial place in a federal, Department of Defense, or state Veterans cemetery. We may also provide a headstone, marker, or medallion (to attach to a privately purchased headstone or marker) for Veterans buried in private or public cemeteries. Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, national cemetery, or cemetery at a military post or base. Find out how to arrange for one of these memorial items.
+To honor the military service of a Veteran, we may provide a headstone, grave marker, or niche cover to identify the burial place in a federal, Department of Defense, or state Veterans cemetery. We may also provide a headstone, marker, or medallion (to attach to a privately purchased headstone or marker) for Veterans buried in private or public cemeteries. 
+
+Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, national cemetery, or cemetery at a military post or base. Find out how to arrange for one of these memorial items.
 
 </div>
 
 <div class="feature">
 
-### Who can be honored with a headstone, marker, or niche cover?
+### Who can be honored with a headstone, grave marker, or niche cover?
 
 - Any Veteran who died on or after November 1, 1990
 - Any Veteran buried in an unmarked grave who served before September 7, 1980
@@ -63,7 +65,7 @@ You can apply for this benefit if you're representing the Veteran in any of the 
 
 - Make a copy of the Veteran’s discharge documents. Don’t send the originals, because we can’t return them.
 
-- Fax the documents to 1-800-455-7143. Or, mail the discharge papers and the form to this address:
+- Fax the documents to <a href="tel:+18004557143">1-800-455-7143</a>. Or, mail the discharge papers and the form to this address:
 
 <p class="va-address-block">
     Memorial Products Service (41B)<br>
@@ -76,7 +78,9 @@ You can apply for this benefit if you're representing the Veteran in any of the 
 
 ### What information goes on the headstone or marker?
 
-You must put a legal name, service branch, and birth and death year on a headstone or marker. State and national cemeteries also require the section and grave number. You can choose to inscribe the Veteran’s or eligible family member's full birth and death dates, the highest rank attained, awards, war service, and an emblem of belief. We may approve other requests, such as nicknames, terms of endearment (for example, “Loving Father”), or special unit identification.
+You must put a legal name, service branch, and birth and death year on a headstone or marker. State and national cemeteries also require the section and grave number.
+
+You can choose to inscribe the Veteran’s or eligible family member's full birth and death dates, the highest rank attained, awards, war service, and an emblem of belief. We may approve other requests, such as nicknames, terms of endearment (for example, “Loving Father”), or special unit identification.
 
 </div>
 
