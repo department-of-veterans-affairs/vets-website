@@ -49,6 +49,16 @@ You should also know that being signed up for VA health care meets your Affordab
 </div>
 </div>
 
+<div itemscope itemtype="http://schema.org/Question">
+<h3 itemprop="name">What if I’m just separating from active duty and don’t know where to start?</h3>
+
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">	
+<div itemprop="text">We can help you learn about and apply for VA health care benefits. A member of our Concierge for Care (C4C) team will call you soon after your separation from military service. We can answer any questions you may have, process your application over the phone, and help you schedule your first VA medical appointment.
+  
+[Learn about transitioning from TRICARE to VA health care](https://www.va.gov/HEALTHBENEFITS/apply/active_duty.asp).
+</div>
+</div>
+</div>
 <br>
 
 ### More about your medical benefits package
@@ -58,10 +68,13 @@ You should also know that being signed up for VA health care meets your Affordab
 - [What basic health care services does VA cover?](#health-about-basic)
 - [What other medical services will VA cover to support my treatment?](#health-about-other-services)
 - [Will VA cover any non-medical services to support my treatment?](#health-about-non-medical)
+- [How do I get help if I don't speak English or need American Sign Language services?](#health-help)
 - [Will VA cover my vision care?](#health-about-vision)
 - [Will VA cover my dental care?](#health-about-dental)
 - [Will VA cover my assisted living and home health care?](#health-about-assisted-living)
 - [What services aren’t covered under VA health care?](#health-about-not-covered)
+- [Will VA fill prescriptions by a non-VA provider?](#health-prescriptions)
+- [Will I have a copay or is my VA health care free?](#health-copay)
 - [Who will care for me at VA?](#health-about-care-team)
 - [Where will I go to get care?](#health-about-care-locations)
 - [How will VA health care work if I also have Medicare, Medicaid, or private insurance?](#health-about-other-insurance)
@@ -128,7 +141,19 @@ You may be able to get help with some non-medical services, like:
 </div>
 </div>
 <br>
+<div id="health-help" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">How do I get help if I don’t speak English or need American Sign Language services?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+Contact the patient advocate at the VA medical center where you go for care. Your patient advocate can help you get foreign language or American Sign Language services to help you or your family members understand your medical or health care benefits.<br>
 
+To find out how to reach the patient advocate at your VA medical center, go to the website of the VA health care system that the medical center is part of. In the page's navigation, click on “Patients & Visitors.” A submenu will appear. Select “Patient Information” and then “Customer Service.” <br>
+[Find your medical center's website](https://www.va.gov/health/vamc/).
+
+</div>
+</div>
+</div>
+<br>
 <div id="health-about-vision" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">Will VA cover my vision care?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -186,6 +211,34 @@ These services are **not** included in your VA medical benefits package:
 </div>
 <br>
 
+<div id="health-prescriptions" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">Will VA fill prescriptions by a non-VA provider?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+We’ll fill prescriptions by a non-VA provider only if you meet all the requirements listed below.
+
+<b>All of these must be true</b>:
+
+- You’re enrolled in VA health care
+- You have an assigned VA primary care provider
+- You’ve given your VA provider your medical records from your non-VA provider
+- Your VA provider agrees with the prescription
+
+</div>
+</div>
+</div>
+<br>
+
+<div id="health-copay" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">Will I have a copay or is my VA health care free?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+This will depend on factors like your income level, disability rating, and military service history. Most Veterans need to complete a financial assessment when they enroll. This helps us determine if you qualify for free VA health care.
+  
+[Learn more about VA copays](https://www.va.gov/HEALTHBENEFITS/cost/copays.asp).
+
+[Find out more about financial assessments](https://www.va.gov/HEALTHBENEFITS/cost/financial_assessment.asp).
+</div>
 <div id="health-about-care-team" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">Who will care for me at VA?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
