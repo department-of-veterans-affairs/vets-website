@@ -3,9 +3,7 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
 import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-
-const siteName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
+import siteName from '../../../../platform/brand-consolidation/site-name';
 
 import {
   groupTimelineActivity,

@@ -6,9 +6,7 @@ import createCommonStore from '../../../../../platform/startup/store';
 import conditionalStorage from '../../../../../platform/utilities/storage/conditionalStorage';
 import DisabilityWizard from '../../components/DisabilityWizard';
 import { layouts } from '../../wizardHelpers';
-import isBrandConsolidationEnabled from '../../../../../platform/brand-consolidation/feature-flag';
-
-const siteName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
+import siteName from '../../../../../platform/brand-consolidation/site-name';
 
 const { chooseUpdate, applyGuidance } = layouts;
 

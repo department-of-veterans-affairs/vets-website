@@ -3,9 +3,7 @@ import moment from 'moment';
 import _ from 'lodash';
 import Raven from 'raven-js';
 import { Link } from 'react-router';
-import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
-
-const siteName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
+import siteName from '../../../platform/brand-consolidation/site-name';
 
 // This literally determines how many rows are displayed per page on the v2 index page
 export const ROWS_PER_PAGE = 10;

@@ -35,9 +35,7 @@ import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 import Breadcrumbs from '../components/Breadcrumbs';
 
-import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
-
-const siteName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
+import siteName from '../../../platform/brand-consolidation/site-name';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {

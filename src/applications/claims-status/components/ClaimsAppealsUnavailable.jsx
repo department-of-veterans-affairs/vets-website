@@ -1,7 +1,5 @@
 import React from 'react';
-import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
-
-const siteName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
+import siteName from '../../../platform/brand-consolidation/site-name';
 
 class ClaimsAppealsUnavailable extends React.Component {
   render() {

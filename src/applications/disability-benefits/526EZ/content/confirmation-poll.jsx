@@ -1,8 +1,6 @@
 import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-
-const siteName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
+import siteName from '../../../../platform/brand-consolidation/site-name';
 
 export const successMessage = claimId => (
   <div>
