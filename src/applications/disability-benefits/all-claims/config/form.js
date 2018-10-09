@@ -186,9 +186,7 @@ const formConfig = {
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
           itemFilter: item =>
-            item.condition
-              ? !item.condition.toLowerCase().includes(PTSD)
-              : false,
+            item.condition && !item.condition.toLowerCase().includes(PTSD),
           arrayPath: 'newDisabilities',
           uiSchema: newDisabilityFollowUp.uiSchema,
           schema: newDisabilityFollowUp.schema,
@@ -212,9 +210,7 @@ const formConfig = {
           path: 'new-disabilities/follow-up/ptsd/:index',
           showPagePerItem: true,
           itemFilter: item =>
-            item.condition
-              ? item.condition.toLowerCase().includes(PTSD)
-              : false,
+            item.condition && item.condition.toLowerCase().includes(PTSD),
           arrayPath: 'newDisabilities',
           uiSchema: newPTSDFollowUp.uiSchema,
           schema: newPTSDFollowUp.schema,
