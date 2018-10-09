@@ -11,11 +11,14 @@ relatedlinks:
   - heading: Other helpful information
     links:
     - url: /burials-memorials/what-to-expect-at-military-funeral/
-      title: What to Expect at a Funeral
+      title: What to Expect at a Military Funeral
       description: Find out what will happen to help you prepare for this day.
     - url: /burials-memorials/dependency-indemnity-compensation/
-      title: Burial Allowances and Survivor Compensation
-      description: Find out if you can get help paying for funeral costs or tax-free monetary benefits.
+      title: How to Apply for a Veterans Burial Allowance
+      description: Learn how to apply for help paying for a Veteran's burial and funeral costs.
+    - url: /burials-memorials/dependency-indemnity-compensation/
+      title: Compensation for Surviving Spouses and Dependents
+      description: Find out if you can get a tax-free monetary benefit called Dependency and Indemnity Compensation (DIC).
 aliases:
   - /burials-and-memorials/burial-planning/
 ---
@@ -75,7 +78,7 @@ To start, you may want to choose a funeral director to help you plan the burial.
 
 - **If the person was married**, you'll also need the surviving spouse’s status as Veteran, Servicemember, or family member.
 - **If the person has any children with disabilities**, you'll need the status and detailed information for any disabled children who may be buried in the future in a national cemetery.
-- **If the person's spouse died previously and was buried in a VA national cemetery**, you'll need the full name of the predeceased spouse as well as the cemetery section and site number where they're buried.
+- **If the person's spouse passed away previously and was buried in a VA national cemetery**, you'll need the full name of the spouse as well as the cemetery section and site number where they're buried.
 
  </li>
 
@@ -90,8 +93,11 @@ To start, you may want to choose a funeral director to help you plan the burial.
  [Find a state Veterans cemetery](https://www.cem.va.gov/grants/veterans_cemeteries.asp).
  - The type of burial you'd like for the person (casket or cremation) and the size of the casket or cremation urn
  - [The type of gravesite memorial you'd like to help honor the person (such as a headstone or marker)](/burials-memorials/memorial-items/headstones-markers-medallions/)
- - [Whether you'd like to request a burial flag or Presidential Memorial Certificate (if the person is a Veteran or Reservist)](/burials-memorials/memorial-items/presidential-memorial-certificates/)
- - [If you're interested in other possible military honors beyond the playing of Taps and flag folding and presentation](https://www.dmdc.osd.mil/mfh/)
+ 
+**If the person is a Veteran or Reservist, you'll also need to tell us if you'd like burial honors or memorial items such as:**
+ - [A burial flag](/burials-memorials/memorial-items/burial-flags/)
+ - [A Presidential Memorial Certificate](/burials-memorials/memorial-items/presidential-memorial-certificates/)
+ - Other possible military honors beyond the playing of Taps and flag folding and presentation
 
  [Request gravesite memorials and burial honors](/burials-memorials/memorial-items/).<br>
 
@@ -103,7 +109,7 @@ To start, you may want to choose a funeral director to help you plan the burial.
 
 The funeral director you’ve chosen can help you with these steps too:
 
-- For burial in a national cemetery, fax any discharge papers to the National Cemetery Scheduling Office at 1-866-900-6417. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the deceased's name in the subject line.
+- For burial in a national cemetery, fax any discharge papers to the National Cemetery Scheduling Office at 1-866-900-6417. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the peron's name you're requesting burial benefits for in the subject line.
 
 - Then call <a href="tel:+18005351117">1-800-535-1117</a> to confirm the burial application. Be sure to have all the information handy that’s listed above in the “Prepare” section.
 
