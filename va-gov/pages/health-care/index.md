@@ -46,7 +46,7 @@ social:
         - url: tel:1-877-327-0022
           number: 1-877-327-0022
           title: "My HealtheVet Help Desk:"
-        - url: tel:1-877-4AID-VET (1-877-424-3838)
+        - url: tel:18774243838
           number: 1-877-4AID-VET (1-877-424-3838)
           title: "National Call Center for Homeless Veterans:"
       - subhead: Get Updates
@@ -202,7 +202,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
  <div class="link">
-    <a href="/track-claims"><b>Check Your Appeal Status</b></a>
+    <a href="/claim-or-appeal-status/"><b>Check Your Appeal Status</b></a>
     <p>Track the status of an open VA health care appeal.</p>
   </div>
 

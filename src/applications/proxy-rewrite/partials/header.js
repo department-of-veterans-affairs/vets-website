@@ -48,14 +48,11 @@ export default `
         </div>
       </div>
       <!-- /va-gov/includes/usa-website-header.html -->
-
-      <div class="va-crisis-line">
-        <div class="va-flex">
+        <div class="va-crisis-line">
           <button data-show="#modal-crisisline" class="va-crisis-line-button va-overlay-trigger">
-            <span class="va-flex">
-              <span class="vcl"></span>
-              Get help from Veterans Crisis Line
-            </span>
+            <span class="va-crisis-line-icon" aria-hidden="true"></span>
+            <span class="va-crisis-line-text">Talk to a Veterans Crisis Line responder now</span>
+            <img class="va-crisis-line-arrow" src="/img/arrow-right-white.svg" aria-hidden="true"></img>
           </button>
         </div>
       </div>

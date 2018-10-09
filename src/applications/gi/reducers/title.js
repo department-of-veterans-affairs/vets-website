@@ -1,6 +1,10 @@
+import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
+
 import { SET_PAGE_TITLE } from '../actions';
 
-const INITIAL_STATE = 'GI Bill Comparison Tool: Vets.gov';
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
+
+const INITIAL_STATE = `GI Bill Comparison Tool: ${propertyName}`;
 
 export default function(state = INITIAL_STATE, action) {
   if (action.type === SET_PAGE_TITLE) {

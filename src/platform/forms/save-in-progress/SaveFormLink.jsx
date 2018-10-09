@@ -2,9 +2,12 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 import recordEvent from '../../monitoring/record-event';
+import isBrandConsolidationEnabled from '../../brand-consolidation/feature-flag';
 
 import { SAVE_STATUSES, saveErrors } from './actions';
 import { focusElement } from '../../utilities/ui';
+
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -97,7 +100,7 @@ class SaveFormLink extends React.Component {
             {savedStatus === SAVE_STATUSES.failure &&
               'We’re sorry. Something went wrong when saving your form. If you’re on a secure and private computer, you can leave this page open and try saving your form again in a few minutes. If you’re on a public computer, you can continue to fill out your form, but it won’t automatically save as you fill it out.'}
             {savedStatus === SAVE_STATUSES.clientFailure &&
-              'We’re sorry, but we’re unable to connect to Vets.gov. Please check that you’re connected to the Internet and try again.'}
+              `We’re sorry. We’re unable to connect to ${propertyName} right now. Please make sure you’re connected to the Internet so we can save your form in progress.`}
             {savedStatus === SAVE_STATUSES.noAuth && (
               <span>
                 Sorry, you’re signed out. Please{' '}

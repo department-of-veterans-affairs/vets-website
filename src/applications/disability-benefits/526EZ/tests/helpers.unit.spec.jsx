@@ -68,28 +68,6 @@ describe('526 helpers', () => {
           primaryPhone: '4445551212',
           emailAddress: 'test2@test1.net',
         },
-        attachments: [
-          {
-            name: 'Screen Shot 2018-07-09 at 11.25.49 AM.png',
-            confirmationCode: '9664f488-1243-4b25-805e-75ad7e4cf765',
-            attachmentId: 'L105',
-          },
-          {
-            name: 'Screen Shot 2018-07-09 at 11.24.39 AM.png',
-            confirmationCode: '66bfab89-6e2b-4361-a905-754dfbff7df7',
-            attachmentId: 'L105',
-          },
-          {
-            name: 'Screen Shot 2018-07-09 at 3.29.08 PM.png',
-            confirmationCode: 'a58ae568-d190-49cd-aa04-b1b1da5eae35',
-            attachmentId: 'L105',
-          },
-          {
-            name: 'Screen Shot 2018-07-09 at 2.02.39 PM.png',
-            confirmationCode: 'f23194e4-c534-42c6-9e96-16c08d8230a5',
-            attachmentId: 'L105',
-          },
-        ],
         privacyAgreementAccepted: true,
         serviceInformation: {
           servicePeriods: [
@@ -126,6 +104,28 @@ describe('526 helpers', () => {
             treatmentDateRange: { from: '2000-07-04', to: '2010-01-03' },
           },
         ],
+        attachments: [
+          {
+            name: 'Screen Shot 2018-07-09 at 11.25.49 AM.png',
+            confirmationCode: '9664f488-1243-4b25-805e-75ad7e4cf765',
+            attachmentId: 'L105',
+          },
+          {
+            name: 'Screen Shot 2018-07-09 at 11.24.39 AM.png',
+            confirmationCode: '66bfab89-6e2b-4361-a905-754dfbff7df7',
+            attachmentId: 'L105',
+          },
+          {
+            name: 'Screen Shot 2018-07-09 at 3.29.08 PM.png',
+            confirmationCode: 'a58ae568-d190-49cd-aa04-b1b1da5eae35',
+            attachmentId: 'L105',
+          },
+          {
+            name: 'Screen Shot 2018-07-09 at 2.02.39 PM.png',
+            confirmationCode: 'f23194e4-c534-42c6-9e96-16c08d8230a5',
+            attachmentId: 'L105',
+          },
+        ],
         form4142: {
           limitedConsent: '',
           providerFacility: [
@@ -160,7 +160,24 @@ describe('526 helpers', () => {
         JSON.stringify(transformedData),
       );
     });
+
+    it('should not submit uploads when corresponding evidence type not selected', () => {
+      const noAttachments = _.merge(maximalData, {
+        disabilities: [
+          {
+            'view:selectableEvidenceTypes': {
+              'view:privateMedicalRecords': false,
+              'view:otherEvidence': false,
+            },
+          },
+        ],
+      });
+
+      const transformedNoAttachments = transform(null, noAttachments);
+      expect(transformedNoAttachments.attachments).to.be.undefined;
+    });
   });
+
   describe('validateDisability', () => {
     it('should reject invalid disability data', () => {
       expect(validateDisability(invalidDisability)).to.equal(false);

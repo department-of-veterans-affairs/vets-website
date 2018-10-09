@@ -33,6 +33,7 @@ class SideBarMenu {
 
   openMenu(trigger) {
     this.getMenu(trigger).classList.add('va-sidebarnav--opened');
+    this.getMenu(trigger).setAttribute('aria-hidden', 'false');
     document
       .getElementsByClassName('va-btn-sidebarnav-trigger')[0]
       .setAttribute('hidden', 'true');
@@ -44,6 +45,7 @@ class SideBarMenu {
     const close = this.menu.querySelector('.va-sidebarnav-close');
     close.addEventListener('click', () => {
       this.menu.classList.remove('va-sidebarnav--opened');
+      this.menu.setAttribute('aria-hidden', 'true');
       document.getElementsByTagName('body')[0].style.overflow = 'initial';
       document
         .getElementsByClassName('va-btn-sidebarnav-trigger')[0]
