@@ -38,7 +38,7 @@ You can get a burial flag if you’re the next of kin or a close friend of the V
 
 </div>
 
-## How do I get a flag to honor a Veteran or Reservist?
+## How do I get a burial flag to honor a Veteran or Reservist?
 
 To get a burial flag, fill out the Application for United States Flag for Burial Purposes (VA Form 27-2008). <br>
 [Download VA Form 27-2008](https://www.vba.va.gov/pubs/forms/VBA-27-2008-ARE.pdf).
