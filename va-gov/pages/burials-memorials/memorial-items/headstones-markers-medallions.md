@@ -58,8 +58,6 @@ You can apply for one of these memorial items if you're representing the Veteran
 
 **Note:** For memorial headstones and grave markers that honor the memory of the Veteran, the person who applies must be a member of the Veteran’s family.
 
-<br>
-
 ## How do I apply for a memorial item?
 
 **For a headstone, grave marker, or niche cover**, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). <br>
@@ -70,7 +68,7 @@ You can apply for one of these memorial items if you're representing the Veteran
 
 - Make a copy of the Veteran’s discharge documents. Don’t send the originals, because we can’t return them.
 
-- Fax the documents to <a href="tel:+18004557143">1-800-455-7143</a>. Or, mail the discharge papers and the form to this address:
+- Fax the documents to 1-800-455-7143. Or, mail the discharge papers and the form to this address:
 
 <p class="va-address-block">
     Memorial Products Service (41B)<br>
@@ -83,7 +81,7 @@ You can apply for one of these memorial items if you're representing the Veteran
 
 ### What information goes on the headstone or marker?
 
-**You must put this information on a headstone or marker:**
+**You must put this information on the headstone or marker:**
 - The person's legal name
 - The Veteran's service branch
 - The beginning and ending years of the person's life
