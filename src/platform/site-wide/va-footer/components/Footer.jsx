@@ -5,8 +5,8 @@ import { isWideScreen } from '../../../utilities/accessibility/index';
 import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
 import orderBy from 'lodash/orderBy';
 import CrisisPanel from './CrisisPanel';
-import DesktopFooter from './DesktopFooter';
-import MobileFooter from './MobileFooter';
+import DesktopLinks from './DesktopLinks';
+import MobileLinks from './MobileLinks';
 
 export default class Footer extends React.Component {
   constructor(props) {
@@ -37,8 +37,8 @@ export default class Footer extends React.Component {
     return (
       <div>
         <div className="footer-inner">
-          <DesktopFooter visible={!this.state.isMobile} links={this.linkObj} />
-          <MobileFooter visible={this.state.isMobile} links={this.linkObj} />
+          <DesktopLinks visible={!this.state.isMobile} links={this.linkObj} />
+          <MobileLinks visible={this.state.isMobile} links={this.linkObj} />
           <div className="usa-grid usa-grid-full footer-banner">
             <a href="/" className="va-footer-logo" title="Go to VA.gov">
               <img src="/img/homepage/va-logo-white.png" alt="VA logo" />

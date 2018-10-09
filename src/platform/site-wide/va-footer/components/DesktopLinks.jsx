@@ -3,7 +3,7 @@ import recordEvent from '../../../monitoring/record-event';
 
 import { FOOTER_COLUMNS, FOOTER_EVENTS, generateLinkItems } from '../helpers';
 
-export default function DesktopFooter({ links, visible }) {
+export default function DesktopLinks({ links, visible }) {
   return (
     <div
       aria-hidden={visible ? 'false' : 'true'}

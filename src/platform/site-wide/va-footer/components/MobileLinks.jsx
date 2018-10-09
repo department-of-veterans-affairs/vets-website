@@ -2,7 +2,7 @@ import React from 'react';
 
 import { FOOTER_COLUMNS, generateLinkItems } from '../helpers';
 
-export default function MobileFooter({ links, visible }) {
+export default function MobileLinks({ links, visible }) {
   return (
     <div
       aria-hidden={visible ? 'false' : 'true'}
