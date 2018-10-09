@@ -11,15 +11,15 @@ relatedlinks:
   - header: Other Memorial Items
   - url: /burials-memorials/memorial-items/presidential-memorial-certificates/
     title: Burial Flags
-    description: Apply for a United States flag to drap on the casket (or coffin) or to place with the urn of a Veteran or Reservist.
+    description: Apply for a United States flag to drape over the casket (or coffin) or to place with the urn of a Veteran or Reservist.
   - url: /burials-memorials/memorial-items/headstones-markers-medallions/
     title: Headstones, Markers, Niche Covers, and Medallions
-    description: Apply for one of these memorial items to identify the place of burial of a Veteran or eligible spouse or other family member.
+    description: Apply for one of these memorial items to identify the place of burial of a Veteran or eligible family member.
 ---
 
 <div class="va-introtext">
 
-To honor the military service of a Veteran or Reservist, we provide the next of kin or other family members or close friends a Presidential Memorial Certificate (PMC). A PMC is an engraved paper certificate signed by the current president. Find out how to request this honor.
+A Presidential Memorial Certificate is an engraved paper certificate signed by the current president. Find out how to request a certificate to honor the military service of a Veteran or Reservist.
 
 </div>
 
