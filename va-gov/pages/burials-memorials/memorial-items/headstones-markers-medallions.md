@@ -39,7 +39,7 @@ Family members may also qualify for a marker if they’re buried in a state Vete
 
 <br>
 
-### Can I apply for one of these memorial items?
+## Can I apply for a headstone, grave marker, or medallion to honor a Veteran or eligible family member?
 
 You can apply for this benefit if you're representing the Veteran in any of the below relationships or professional roles.
 
@@ -55,7 +55,7 @@ You can apply for this benefit if you're representing the Veteran in any of the 
 
 <br>
 
-### How do I apply for a memorial item?
+## How do I apply for a memorial item?
 
 **For a headstone, grave marker, or niche cover**, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). <br>
 [Download VA Form 40-1330](https://www.va.gov/vaforms/va/pdf/VA40-1330.pdf).
@@ -76,7 +76,7 @@ You can apply for this benefit if you're representing the Veteran in any of the 
 
 <div class="feature">
 
-### What information goes on the headstone or marker?
+## What information goes on the headstone or marker?
 
 You must put a legal name, service branch, and birth and death year on a headstone or marker. State and national cemeteries also require the section and grave number.
 
@@ -86,7 +86,7 @@ You can choose to inscribe the Veteran’s or eligible family member's full birt
 
 <br>
 
-### Special arrangements
+## Special arrangements
 
 We provide memorial headstones and markers for qualified Veterans when their remains are missing, not identified, donated to science, buried at sea, or scattered.
 
