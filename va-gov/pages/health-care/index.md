@@ -202,7 +202,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
  <div class="link">
-    <a href="/track-claims"><b>Check Your Appeal Status</b></a>
+    <a href="/claim-or-appeal-status/"><b>Check Your Appeal Status</b></a>
     <p>Track the status of an open VA health care appeal.</p>
   </div>
 

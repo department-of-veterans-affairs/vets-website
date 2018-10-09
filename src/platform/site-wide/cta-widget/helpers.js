@@ -23,7 +23,7 @@ const HEALTH_TOOLS = [
 
 export const isHealthTool = appId => HEALTH_TOOLS.includes(appId);
 
-const mhvBaseUrl = () => {
+export const mhvBaseUrl = () => {
   const lowerEnvironments = [
     'development',
     'vagovdev',

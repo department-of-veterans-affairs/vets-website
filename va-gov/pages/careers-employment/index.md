@@ -132,7 +132,7 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a href="/careers-employment/how-to-apply/"><b>How to Apply</b></a>
+    <a href="/careers-employment/vocational-rehabilitation/how-to-apply/"><b>How to Apply</b></a>
     <p>Get step-by-step instructions on how to apply for voc rehab benefits.</p>
   </div>
 
@@ -202,7 +202,7 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/employment/vocational-rehab-and-employment/vetsuccess/"><b>VetSuccess on Campus</b></a>
+    <a href="/careers-employment/vetsuccess-on-campus/"><b>VetSuccess on Campus</b></a>
     <p>Find out if our counselors can help you transition from military to college life.</p>
   </div>
 
