@@ -119,7 +119,7 @@ if (burialPages.has(location.pathname)) {
   });
 }
 
-if (disabilityPages.has(location.pathname) && __BUILDTYPE__ !== 'production') {
+if (disabilityPages.has(location.pathname) && brandConsolidation.isEnabled()) {
   createDisabilityIncreaseApplicationStatus(store);
 }
 
