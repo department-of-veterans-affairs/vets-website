@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Adding Dependents to Your VA Disability Compensation
+title: Adding Dependents to Your VA Disability Benefits
 display_title: Add or Remove a Dependent
 description: Find out how to add a dependent family member to your VA disability compensation benefits so you can get a higher payment to help support your family.
 concurrence: Incomplete
@@ -29,7 +29,7 @@ relatedlinks:
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
 
-Adding dependents to your VA disability benefits may increase your compensation. Find out how to file a claim for additional disability compensation for a spouse, child, and/or parent.
+Adding dependents to your VA disability benefits may make you eligible to receive a higher compensation payment (also called a benefit rate). Find out how to file a claim for additional disability compensation for a spouse, child, and/or parent.
 
 </div>
 
@@ -43,19 +43,20 @@ You may be eligible for additional disability compensation for a spouse, child, 
 
 - Are eligible for VA disability compensation, **and**
 - Have a combined disability rating of at least 30% <br>
-
-Adding a dependent may make you eligible to receive a higher compensation payment (also called a benefit rate).
+<br>
 
 ### Who does VA consider a dependent?
 
 **We recognize  as a dependent your:**
 
-- Spouse (we recognize same-sex and common-law marriages)
-- Unmarried child (including an adopted child or stepchild) who: 
-  - Is under 18 years old, **or**
-  - Is between the ages of 18 and 23 years old and enrolled in school full time, **or**
-  - Became permanently disabled before they turned 18 
+- Spouse (**Note:** we recognize same-sex and common-law marriages)
 - Parent, if you’re directly caring for them and their income and net worth are below a certain amount
+- Unmarried child (including an adopted child or stepchild) who meets one of the eligibility requirements listed below
+
+**To be considered a dependent, one of these must be true of an unmarried child. They:**
+- Are under 18 years old, **or**
+- Are between the ages of 18 and 23 years old and enrolled in school full time, **or**
+- Became permanently disabled before they turned 18
 
 </div>
 
@@ -84,7 +85,7 @@ You may file a claim for additional disability compensation online whenever you 
 - You get married 
 - You have or adopt a child
 - Your child is between 18 and 23 years old and enrolled in school full time
-- VA determines your child, who is at least 18 years old, became permanently disabled before turning 18
+- We determine that your child, who is at least 18 years old, became permanently disabled before turning 18
 - You become the caregiver for a parent whose income and net worth is below a certain amount
 
 ------
@@ -131,14 +132,13 @@ You can work with an accredited Veterans Service Officer (VSO). We trust these p
 
 ## More questions about adding a dependent to your VA disability compensation
 
-<span id="add"></span>
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-mail">Can I file a claim for additional disability compensation for a child or spouse by mail or fax?</button>
 <div id="questions-apply-mail" class="usa-accordion-content">
 	
-Yes, but we encourage you to file online. The online application is simple, and you can upload your supporting documents to your application.  
+Yes, but we encourage you to file online. The online process is simple, and you can upload your supporting documents along with your claim.  
 
 When you file your claim online, we also recognize the day you start the online claim process as the date VA received your claim. This means that if we decide you’re eligible for additional disability compensation, we’ll pay you back to this date.
 
@@ -171,10 +171,10 @@ Janesville, WI 53547-4444 <br>
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-paper">What should I do if I already submitted a paper application for additional disability compensation for a child or spouse, and I’m still waiting for a decision?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-paper">What should I do if I already submitted a paper form for additional disability compensation for a child or spouse, and I’m still waiting for a decision?</button>
 <div id="questions-apply-paper" class="usa-accordion-content">
 
-Apply again online. We’ll still review your paper application. If we award you additional disability compensation, we’ll pay you back pay from the date we received your paper application.
+File your claim again online. We’ll still review your paper form. If we award you additional disability compensation, we’ll pay you back pay from the date we received your paper form.
 
 </div>
 </li>
@@ -206,11 +206,11 @@ We’ll begin paying you within 2 weeks after we approve your claim.
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-already-receiving">How do I know if I’m already receiving additional disability compensation for my dependents?</button>
 <div id="questions-specific-already-receiving" class="usa-accordion-content">
 
-*Note: Will need to confirm if this is changing when the new paper form is released.*
-
 You can check this through your eBenefits account.
 
-Sign in to your account and click the “Dependents” link under the “My Profile” section. 
+Sign in to your account.
+
+Then click the “Dependents” link under the “My Profile” section. 
 
 If you see your dependents listed there, you should be eligible for additional compensation for them. If they’re not listed, you should file a claim for the additional benefit. <br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/homepage).
@@ -231,7 +231,7 @@ If you see your dependents listed there, you should be eligible for additional c
 
 If you and your spouse are both Veterans with a combined disability rating of at least 30%, you can both receive additional disability compensation for each other and your children.
 
-**You should know:** It’ll take us longer to process your claim if your spouse is also a Veteran. But if you apply online, and we decide you’re eligible for additional disability compensation for your dependent(s), we’ll pay you back to the date you started the online claim process.
+**You should know:** It’ll take us longer to process your claim if your spouse is also a Veteran. But if you file your claim online, and we decide you’re eligible for additional disability compensation for your dependent(s), we’ll pay you back to the date you started the online claim process.
 
 </div>
 </li>
@@ -239,11 +239,9 @@ If you and your spouse are both Veterans with a combined disability rating of at
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-divorce-remove">What happens if I get divorced or need to remove a dependent?</button>
 <div id="questions-specific-divorce-remove" class="usa-accordion-content">
 	
-*Note: Will need to confirm if this is changing with when the new paper form being is released.*
+You can submit a request through eBenefits asking us to stop paying additional disability compensation for a spouse or child. We’ll need more time to process a request that involves a child than a request that involves a spouse, but the online process is still much faster than submitting a paper request.
 
-You can submit a request through eBenefits for VA to stop paying additional disability compensation for a spouse or child. We’ll need more time to process a request that involves a child than a request that involves a spouse, but the online process is still much faster than submitting a paper request.
-
-**If you get divorced**, you’ll want to notify us right away. There is no need to submit or upload supporting documentation into eBenefits in this case. 
+**If you get divorced**, you’ll want to notify us right away. You don't need to send or upload supporting documents to eBenefits in this case. 
 
 This will help to make sure we don’t continue paying you additional disability compensation for your former spouse and, if applicable, stepchildren after the divorce. If we continue paying you benefits that you’re not eligible for, we may withhold money from future payments until you’ve paid them back. <br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/homepage).
@@ -251,14 +249,14 @@ This will help to make sure we don’t continue paying you additional disability
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-child-school">How will VA know it needs to  continue paying me additional disability compensation for my child when they turn 18 but remain in school? Do I have to submit another claim?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-child-school">How will VA know it needs to  continue paying me additional disability compensation for my child when they turn 18 but remain in school? Do I have to file another claim?</button>
 <div id="questions-specific-child-school" class="usa-accordion-content">
  
-*Note: Will need to confirm if this is changing when the new paper form is released.*
-
 You’ll need to update your child’s school information in eBenefits. 
 
-Sign in to your eBenefits account. Click “Add or Remove Dependents” under the “Apply” section on the homepage. 
+Sign in to your eBenefits account. 
+
+Click “Add or Remove Dependents” (you'll find it under the “Apply” section on the homepage). 
 
 Then select “Update Dependents.” <br>
 <br>
@@ -278,20 +276,3 @@ No. We’ll track your child’s age based on the date of birth you give us when
 </div>
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script> <br>
-
-<script type="text/javascript">
-(function() {
-  var openAccordion = function(id) {
-    document.querySelector('[aria-controls="' + id + '"]').setAttribute('aria-expanded', true);
-    document.getElementById(id).setAttribute('aria-hidden', false);
-  }
-
-  switch(window.location.hash) {
-    case '#add':
-      openAccordion('questions-apply-paid-back');
-      break;    
-  }
-})();
-</script>
-
-
