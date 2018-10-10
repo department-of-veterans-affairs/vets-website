@@ -15,8 +15,6 @@ Disallow: /
 
 User-Agent: *
 Disallow: /analytics-opt-out.html
-Disallow: /cgi-bin/
-Disallow: /provideinfo/includes/
 Disallow: /scorecard
 
 Sitemap: https://preview.va.gov/sitemap.xml
