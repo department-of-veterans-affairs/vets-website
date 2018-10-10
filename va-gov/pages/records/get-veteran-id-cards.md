@@ -151,5 +151,3 @@ Please check with your state’s Department of Motor Vehicles about what you nee
 </ul>
 </li>
 </ul>
-
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
