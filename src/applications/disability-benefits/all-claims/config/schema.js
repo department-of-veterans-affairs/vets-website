@@ -734,17 +734,32 @@ const schema = {
           },
           cause: {
             type: 'string',
-            enum: ['NEW', 'SECONDARY', 'VA'],
-          },
-          disabilityStartDate: {
-            type: 'string',
-            format: 'date',
-          },
-          primaryDisability: {
-            type: 'string',
+            enum: ['NEW', 'SECONDARY', 'WORSENED', 'VA'],
           },
           primaryDescription: {
             type: 'string',
+          },
+          causedByDisability: {
+            type: 'string',
+          },
+          causedByDisabilityDescription: {
+            type: 'string',
+          },
+          worsenedDescription: {
+            type: 'string',
+          },
+          worsenedEffects: {
+            type: 'string',
+          },
+          VAMistreatmentDescription: {
+            type: 'string',
+          },
+          VAMistreatmentLocation: {
+            type: 'string',
+          },
+          VAMistreatmentDate: {
+            type: 'string',
+            format: 'date',
           },
         },
       },

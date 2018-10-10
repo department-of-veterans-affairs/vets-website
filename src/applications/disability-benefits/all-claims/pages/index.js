@@ -54,6 +54,16 @@ import {
 } from './newDisabilityFollowUp';
 
 import {
+  uiSchema as newPTSDFollowUpUISchema,
+  schema as newPTSDFollowUpSchema,
+} from './newPTSDFollowUp';
+
+import {
+  uiSchema as summaryOfDisabilitiesUISchema,
+  schema as summaryOfDisabilitiesSchema,
+} from './summaryOfDisabilities';
+
+import {
   uiSchema as vaMedicalRecordsUISchema,
   schema as vaMedicalRecordsSchema,
 } from './vaMedicalRecords';
@@ -151,6 +161,16 @@ export const addDisabilities = {
 export const newDisabilityFollowUp = {
   uiSchema: newDisabilityFollowUpUISchema,
   schema: newDisabilityFollowUpSchema,
+};
+
+export const newPTSDFollowUp = {
+  uiSchema: newPTSDFollowUpUISchema,
+  schema: newPTSDFollowUpSchema,
+};
+
+export const summaryOfDisabilities = {
+  uiSchema: summaryOfDisabilitiesUISchema,
+  schema: summaryOfDisabilitiesSchema,
 };
 
 export const vaMedicalRecords = {
