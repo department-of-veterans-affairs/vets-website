@@ -56,12 +56,13 @@ export const uiSchema = {
       // TODO: unable to enable expandUnderConditons twice in a ui:schema
       expandUnderCondition: formData => {
         if (formData) {
-          if (
-            formData.filter(medal => medal === 'Other medal(s) or citations')
-          ) {
+          const other = formData.filter(
+            medal => medal === 'Other medal(s) or citations',
+          );
+
+          if (other.length > 0) {
             return true;
           }
-          return false;
         }
         return false;
       },
