@@ -120,7 +120,6 @@ const formConfig = {
           schema: informationInterviewAssault.schema,
         },
         medals: {
-          // TODO: KEEP FOR NEXT STORY
           path: 'medals',
           title: 'Disability Details',
           depends: form =>
@@ -129,13 +128,6 @@ const formConfig = {
               form['view:selectablePtsdTypes']['view:noncombatPtsdType']),
           uiSchema: medals.uiSchema,
           schema: medals.schema,
-          // uiSchema: {
-          //   'ui:description': 'Medals or Citations',
-          // },
-          // schema: {
-          //   type: 'object',
-          //   properties: {},
-          // },
         },
       },
     },
