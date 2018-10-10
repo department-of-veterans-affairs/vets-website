@@ -265,7 +265,8 @@ At VA, we take a team approach to health care—with you at the center. Research
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-When you sign up for VA health care, you become part of the country’s largest integrated health care system—with more than 1,200 care locations serving nearly 9 million Veterans each year. [Learn more about where you’ll get care](/health-care/about-va-health-benefits/where-you-go-for-care/).
+When you sign up for VA health care, you become part of the country’s largest integrated health care system—with more than 1,200 care locations serving nearly 9 million Veterans each year. <br>
+[Learn more about where you’ll get care](/health-care/about-va-health-benefits/where-you-go-for-care/).
 
 </div>
 </div>
