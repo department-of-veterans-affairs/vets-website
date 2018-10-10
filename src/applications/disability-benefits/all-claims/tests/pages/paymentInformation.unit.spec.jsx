@@ -37,7 +37,7 @@ describe('526 -- paymentInformation', () => {
           accountType: 'Checking',
           accountNumber: '1234567890',
           routingNumber: '123456789',
-          bankName: 'Test Bank'
+          bankName: 'Test Bank',
         }}
         formData={{}}
         uiSchema={uiSchema}
