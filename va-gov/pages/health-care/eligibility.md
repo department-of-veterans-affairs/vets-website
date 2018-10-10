@@ -114,6 +114,7 @@ You can get help in any of these ways:
 
 - [What are priority groups and how do they affect me?](#priority-groups)
 - [I have other health insurance (like Medicare, Medicaid, or private insurance). Does that affect whether I can get VA health care benefits?](#other-health-insurance)
+- [When I leave active-duty service, how do I know if I’m eligible for TRICARE, VA health care, or both?] (#leave-active-service)
 - [If I can't get VA health care benefits, how else can I get health insurance?](#cannot-get)
 - [If I don't qualify for VA health care benefits, can I still get care for certain needs (like PTSD or military sexual trauma)?](#certain-needs)
 - [I need vision care. Can I get it through VA?](#vision-care)
@@ -166,7 +167,26 @@ No. Whether or not you have other health insurance coverage doesn’t affect the
 </div>
 </div>
 <br>
+<div itemscope itemtype="http://schema.org/Question">
+  
+<h4 itemprop="name">When I leave active-duty service, how do I know if I'm eligible for TRICARE, VA health care, or both?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
 
+**If you're retiring,** you're eligible for TRICARE. You may also qualify for certain VA health care benefits. 
+
+
+**If you're separating from service due to a service-connected illness or injury,** you may be eligible for VA health care benefits and certain TRICARE benefits. 
+
+
+**If you're an OEF/OIF/OND combat Veteran who has just returned from service,** you can receive free medical care for any condition related to your service in Iraq or Afghanistan for 5 years after discharge. 
+
+[Learn more health care benefits for transitioning Servicemembers](https://www.va.gov/HEALTHBENEFITS/apply/active_duty.asp).
+
+</div>
+</div>
+</div>
+<br>
 <span id="cannot-get"></span>
 
 <div itemscope itemtype="http://schema.org/Question">
