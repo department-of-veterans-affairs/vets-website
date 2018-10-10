@@ -16,10 +16,36 @@ const pagesOutsideOfContent = [
   '/education/apply-for-education-benefits',
 ];
 
+const lazyImageFiles = [];
+
+function addLazySrcAttribute(file, fileName) {
+  // if we have lazy images, they don't have a src attr,
+  // so we need to add one for the blc
+  if (file.contents.includes('data-src=')) {
+    lazyImageFiles.push(fileName);
+    const doc = cheerio.load(file.contents);
+    doc('img[data-src]').each((i, el) => {
+      doc(el).attr('src', doc(el).attr('data-src'));
+    });
+    file.contents = doc.html();
+  }
+}
+
+function removeLazySrcAttribute(files) {
+  // Go back and remove the src attr we added
+  lazyImageFiles.forEach(fileName => {
+    const file = files[fileName];
+    const doc = cheerio.load(file.contents);
+    doc('img[data-src]').each((i, el) => {
+      doc(el).attr('src', null);
+    });
+    file.contents = doc.html();
+  });
+}
+
 function checkBrokenLinks() {
   return (files, metalsmith, done) => {
     const ignorePaths = [...pagesOutsideOfContent];
-    const lazyImageFiles = [];
 
     for (const fileName of Object.keys(files)) {
       const file = files[fileName];
@@ -28,17 +54,7 @@ function checkBrokenLinks() {
 
       const isApp = !!entryname;
       if (isApp) ignorePaths.push(path);
-
-      // if we have lazy images, they don't have a src attr,
-      // so we need to add one for the blc
-      if (file.contents.includes('data-src=')) {
-        lazyImageFiles.push(fileName);
-        const doc = cheerio.load(file.contents);
-        doc('img[data-src]').each((i, el) => {
-          doc(el).attr('src', doc(el).attr('data-src'));
-        });
-        file.contents = doc.html();
-      }
+      addLazySrcAttribute(file, fileName);
     }
 
     const ignoreGlobs = ignorePaths.map(path => `${path}(.*)`);
@@ -50,17 +66,7 @@ function checkBrokenLinks() {
     });
 
     brokenLinkChecker(files);
-
-    // Go back and remove the src attr we added
-    lazyImageFiles.forEach(fileName => {
-      const file = files[fileName];
-      const doc = cheerio.load(file.contents);
-      doc('img[data-src]').each((i, el) => {
-        doc(el).attr('src', null);
-      });
-      file.contents = doc.html();
-    });
-
+    removeLazySrcAttribute(files);
     done();
   };
 }
