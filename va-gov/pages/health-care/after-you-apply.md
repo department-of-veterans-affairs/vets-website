@@ -142,7 +142,8 @@ If we decide not to keep you enrolled in VA health care after this time, you hav
 
 #### What if my application isn’t approved and I disagree with the decision?
 
-If you disagree with the decision, you can file an appeal. We’ll send you a letter with the reason we’re not approving your application. This letter will include instructions on how to appeal the decision. [Download our “How Do I Appeal?” booklet](https://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf).
+If you disagree with the decision, you can file an appeal. We’ll send you a letter with the reason we’re not approving your application. This letter will include instructions on how to appeal the decision. <br>
+[Download our “How Do I Appeal?” booklet](https://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf).
 
 <br>
 
@@ -154,7 +155,7 @@ First, you’ll want to gather any evidence to support your eligibility to stay 
 
 During these 60 days, you’ll keep and can continue to use your VA health care benefits.
 
-If we decide not to keep you enrolled in VA health care after this time, you have the right to appeal our decision.
+If we decide not to keep you enrolled in VA health care after this time, you have the right to appeal our decision.<br>
 [Learn how to appeal a VA decision](https://www.va.gov/vaforms/va/pdf/VA4107VHA.pdf).
 
 <br>
