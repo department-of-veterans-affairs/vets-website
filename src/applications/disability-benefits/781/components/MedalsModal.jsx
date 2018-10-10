@@ -2,7 +2,9 @@ import React from 'react';
 import MedalsContent from './MedalsContent';
 
 export default class MedalsCheckbox extends React.Component {
-  state = { isOpen: false };
+  state = {
+    isOpen: false,
+  };
 
   onOpen = () => {
     this.setState({ isOpen: true });
@@ -13,6 +15,7 @@ export default class MedalsCheckbox extends React.Component {
   };
 
   render() {
+    //  console.log(this.props, 'props on modal');
     const medalsList = [
       ('Air Force Achievement Medal with “V” Device': { type: 'boolean' }),
       ('Air Force Combat Action Medal': { type: 'boolean' }),
@@ -46,7 +49,11 @@ export default class MedalsCheckbox extends React.Component {
         <div>
           <div className="medal-wrapper" onClick={this.onOpen}>
             <select className="medal-select" />
-            <div className="medal-text">Select all that apply</div>
+            <div className="medal-text">
+              {this.props.value
+                ? `${this.props.value.length} selected`
+                : 'Select all that apply'}
+            </div>
           </div>
         </div>
         {isOpen && (

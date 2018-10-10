@@ -129,16 +129,16 @@ const formConfig = {
           uiSchema: medals.uiSchema,
           schema: medals.schema,
         },
-        incidentDateCombat: {
-          path: 'incident',
-          title: 'Disability Details',
-          depends: form =>
-            form['view:uploadPtsdChoice'] === 'answerQuestions' &&
-            (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
-              form['view:selectablePtsdTypes']['view:noncombatPtsdType']),
-          uiSchema: uploadPtsdSecondary.uiSchema,
-          schema: uploadPtsdSecondary.schema,
-        },
+        // incidentDateCombat: {
+        //   path: 'incident',
+        //   title: 'Disability Details',
+        //   depends: form =>
+        //     form['view:uploadPtsdChoice'] === 'answerQuestions' &&
+        //     (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
+        //       form['view:selectablePtsdTypes']['view:noncombatPtsdType']),
+        //   uiSchema: uploadPtsdSecondary.uiSchema,
+        //   schema: uploadPtsdSecondary.schema,
+        // },
       },
     },
   },

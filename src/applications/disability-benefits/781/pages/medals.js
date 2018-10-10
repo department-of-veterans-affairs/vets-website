@@ -9,7 +9,7 @@ const MedalsDescription = ({ formData, formType }) => {
   return (
     <div>
       <p>
-        Now we'll ask about the event or events that caused your
+        Now we’ll ask about the event or events that caused your
         {` ${incidentText}`}
         -related PTSD. If there is more than one event you want to tell us
         about, we‘ll ask questions about each event separetely.
@@ -41,7 +41,7 @@ export const uiSchema = {
     'ui:widget': MedalsModal,
     'ui:options': {
       showFieldLabel: 'label',
-      label: 'test',
+      label: 'label',
       widgetClassNames: 'widget-outline',
       keepInPageOnReview: true,
       // expandUnder: 'view:medalsChoice',
@@ -56,7 +56,10 @@ export const uiSchema = {
       // TODO: unable to enable expandUnderConditons twice in a ui:schema
       expandUnderCondition: formData => {
         if (formData) {
-          const other = formData.filter(
+          const medals = Object.keys(formData).filter(
+            key => formData[key] === true,
+          );
+          const other = medals.filter(
             medal => medal === 'Other medal(s) or citations',
           );
 

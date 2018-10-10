@@ -14,11 +14,12 @@ export default class MedalsContent extends React.Component {
 
   confirm = () => {
     const { awardedMedals } = this.state;
+    //  console.log(awardedMedals);
 
-    const medals = Object.keys(awardedMedals).filter(
-      key => awardedMedals[key] === true,
-    );
-    this.props.props.onChange(medals);
+    // const medals = Object.keys(awardedMedals).filter(
+    //   key => awardedMedals[key] === true,
+    // );
+    this.props.props.onChange(awardedMedals);
 
     this.props.onClose();
   };
