@@ -59,7 +59,7 @@ export default class ITFBanner extends React.Component {
         {message}
         {this.props.status !== 'error' && (
           <button className="usa-button-primary" onClick={this.dismissMessage}>
-            Capisce? Capisce.
+            Continue
           </button>
         )}
       </div>
