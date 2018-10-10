@@ -877,6 +877,23 @@ const schema = {
         },
       },
     },
+    accountType: {
+      type: 'string',
+      enum: ['Checking', 'Savings'],
+    },
+    accountNumber: {
+      type: 'string',
+      minLength: 4,
+      maxLength: 17,
+    },
+    routingNumber: {
+      type: 'string',
+      pattern: '^\\d{9}$',
+    },
+    bankName: {
+      type: 'string',
+      maxLength: 35,
+    },
   },
 };
 
