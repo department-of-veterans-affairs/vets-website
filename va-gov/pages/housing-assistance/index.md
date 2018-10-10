@@ -140,7 +140,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
 
   <div class="link">
     <a href="https://www.blogs.va.gov/VAntage/43234/va-and-the-consumer-financial-protection-bureau-warn-against-home-loan-refinancing-offers-that-sound-too-good-to-be-true/"><b>A Warning about Home Loan Refinancing Offers</b></a>
-    <p>Learn about the signs of misleading offers to refinance your VA-backed home loan, like claims that you can skip payments or get very lower interest rates or other terms that sound too good to be true.</p>
+    <p>Learn about the signs of misleading offers to refinance your VA-backed home loan, like claims that you can skip payments or get very low interest rates or other terms that sound too good to be true.</p>
   </div>
 
   <div class="link">
