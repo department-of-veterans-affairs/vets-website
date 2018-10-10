@@ -209,18 +209,21 @@ export const IncidentIntroduction781 = ({ formData, formType }) => {
   );
 };
 
-export const ptsdChoiceDescription = (
+export const PtsdChoiceDescription = ({ formType }) => (
   <AdditionalInfo triggerText="What does this mean?">
     <h5>Continue answering questions</h5>
     <p>
       If you choose to answer questions, we‘ll ask you several questions to
       learn more about your PTSD.
     </p>
-    <h5>Upload VA Form 21-0781</h5>
+    <h5>
+      Upload VA Form 21-0
+      {`${formType}`}
+    </h5>
     <p>
-      If you upload a completed VA Form 21-0781, we won‘t ask you questions
-      about your PTSD, and you‘ll move to the next section of the disability
-      application.
+      If you upload a completed VA Form 21-0
+      {`${formType}`}, we won‘t ask you questions about your PTSD, and you‘ll
+      move to the next section of the disability application.
     </p>
   </AdditionalInfo>
 );

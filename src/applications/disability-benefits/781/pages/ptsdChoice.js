@@ -2,7 +2,7 @@ import React from 'react';
 import {
   PtsdNameTitle,
   UploadPtsdDescription,
-  ptsdChoiceDescription,
+  PtsdChoiceDescription,
 } from '../helpers';
 
 export const uiSchema = {
@@ -23,7 +23,10 @@ export const uiSchema = {
     },
   },
   'view:uploadPtsdChoiceHelp': {
-    'ui:description': ptsdChoiceDescription,
+    //  'ui:description': ptsdChoiceDescription,
+    'ui:description': ({ formData }) => (
+      <PtsdChoiceDescription formData={formData} formType="781" />
+    ),
   },
 };
 
