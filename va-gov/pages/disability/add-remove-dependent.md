@@ -7,7 +7,7 @@ concurrence: Incomplete
 plainlanguage: Certified plain language 4.20.18 
 template: detail-page
 spoke: Manage Benefits
-order: 2
+order: 4
 relatedlinks:
   - heading: More VA benefits for you and your dependents
     links:
@@ -35,7 +35,7 @@ Adding dependents to your VA disability benefits may increase your compensation.
 
 <div class="feature" markdown="1">
 
-## Am I eligible for additional VA disability compensation for my dependent(s)?
+### Am I eligible for additional VA disability compensation for my dependent(s)?
 
 You may be eligible for additional disability compensation for a spouse, child, and/or parent if you meet both of the requirements listed below. 
 
@@ -46,7 +46,7 @@ You may be eligible for additional disability compensation for a spouse, child, 
 
 Adding a dependent may make you eligible to receive a higher compensation payment (also called a benefit rate).
 
-## Who does VA consider a dependent?
+### Who does VA consider a dependent?
 
 **We recognize  as a dependent your:**
 
@@ -89,14 +89,14 @@ You may file a claim for additional disability compensation online whenever you 
 
 ------
 
-## How do I apply? 
-You can apply online right now. 
+## How do I file a claim? 
+You can file your claim online right now. 
 
 ### To file a claim for additional disability compensation for a child or spouse
 
-You may also need to provide more information or forms along with your application.
+You may also need to provide more information or forms along with your claim.
  
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation">Go to eBenefits to Apply</a>	
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation">Go to eBenefits to File Your Claim</a>	
 
 **If you’re claiming your child became permanently disabled before they turned 18,** you’ll need to turn in all private medical records for the child’s disabilities with your application. 
 
@@ -129,7 +129,7 @@ You can work with an accredited Veterans Service Officer (VSO). We trust these p
 
  <br>
 
-## More questions about adding a dependent
+## More questions about adding a dependent to your VA disability compensation
 
 <span id="add"></span>
 <div class="usa-accordion">
@@ -138,11 +138,11 @@ You can work with an accredited Veterans Service Officer (VSO). We trust these p
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-mail">Can I file a claim for additional disability compensation for a child or spouse by mail or fax?</button>
 <div id="questions-apply-mail" class="usa-accordion-content">
 	
-Yes, but we encourage you to apply online. The online application is simple, and you can upload your supporting documents to your application.  
+Yes, but we encourage you to file online. The online application is simple, and you can upload your supporting documents to your application.  
 
 When you file your claim online, we also recognize the day you start the online claim process as the date VA received your claim. This means that if we decide you’re eligible for additional disability compensation, we’ll pay you back to this date.
 
-**If you can’t, or don’t want to apply online, you can apply by mail or fax using the forms below:**
+**If you can’t, or don’t want to file online, you can file by mail or fax using the forms below:**
 
 - **To file a claim for additional disability compensation for a spouse or a child under 18 years of age**, fill out a Declaration of Status of Dependents (VA Form 21-686c). <br>
 [Download VA Form 21-686c](https://www.vba.va.gov/pubs/forms/VBA-21-686C-ARE.pdf).
@@ -191,7 +191,6 @@ We may pay you back to the date of your marriage or the birth or adoption of you
 - File your claim for additional disability compensation for the dependent within a year of the marriage, birth, or adoption, **and**
 - Responded or respond within a year to our request for any more information or evidence needed to confirm your claim <br>
 
-
 If it’s been more than one year since you got married or had or adopted a child, we may not pay you back to the date of the marriage, birth, or adoption. Instead, we may pay you back only to the date we received your claim for additional disability for the dependent or, in some cases, up to a year before before this date.
 
 </div>
@@ -221,19 +220,22 @@ Sign in to your account and click the “Dependents” link under the “My Prof
 
 If you see your dependents listed there, you should be eligible for additional compensation for them. If they’re not listed, you should file a claim for the additional benefit. <br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/homepage).
+
 </div>
 </li>
 </ul>
+</div>
 <br>
 	
 ### Questions about adding or removing specific dependents
 
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-Veteran-spouse">What if my spouse is also a Veteran with a combined disability rating of at least 30%? Can we both receive additional disability compensation for each other and our children? Or can only one of us receive the additional benefit?</button>
 <div id="questions-specific-Veteran-spouse" class="usa-accordion-content">
 
 If you and your spouse are both Veterans with a combined disability rating of at least 30%, you can both receive additional disability compensation for each other and your children.
-
 
 **You should know:** It’ll take us longer to process your claim if your spouse is also a Veteran. But if you apply online, and we decide you’re eligible for additional disability compensation for your dependent(s), we’ll pay you back to the date you started the online claim process.
 
@@ -247,7 +249,7 @@ If you and your spouse are both Veterans with a combined disability rating of at
 
 You can submit a request through eBenefits for VA to stop paying additional disability compensation for a spouse or child. We’ll need more time to process a request that involves a child than a request that involves a spouse, but the online process is still much faster than submitting a paper request.
 
-**If you get divorced**, you’ll want to notify VA right away. There is no need to submit or upload supporting documentation into eBenefits in this case. 
+**If you get divorced**, you’ll want to notify us right away. There is no need to submit or upload supporting documentation into eBenefits in this case. 
 
 This will help to make sure we don’t continue paying you additional disability compensation for your former spouse and, if applicable, stepchildren after the divorce. If we continue paying you benefits that you’re not eligible for, we may withhold money from future payments until you’ve paid them back. <br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/homepage).
@@ -281,7 +283,7 @@ No. We’ll track your child’s age based on the date of birth you give us when
 </ul>
 </div>
 
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
+<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script> <br>
 
 <script type="text/javascript">
 (function() {
@@ -297,6 +299,5 @@ No. We’ll track your child’s age based on the date of birth you give us when
   }
 })();
 </script>
-
 
 
