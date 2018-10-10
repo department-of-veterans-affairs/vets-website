@@ -183,7 +183,7 @@ No. Whether or not you have other health insurance coverage doesn’t affect the
 
 **If you're an OEF/OIF/OND combat Veteran who has just returned from service,** you can receive free medical care for any condition related to your service in Iraq or Afghanistan for 5 years after discharge. 
 
-[Learn more health care benefits for transitioning Servicemembers](https://www.va.gov/HEALTHBENEFITS/apply/active_duty.asp).
+[Learn more about health care benefits for transitioning Servicemembers](https://www.va.gov/HEALTHBENEFITS/apply/active_duty.asp).
 
 </div>
 </div>
