@@ -165,9 +165,8 @@ Janesville, WI 53547-4444 <br>
 
 **Or fax them to:** 
 
- <a href="tel:+1phonenumber">1-844-531-7817</a> if you live in the U.S., **or** <br>
- <a href="tel:+1phonenumber">1-248-524-4260</a> if you live outside of the U.S.
-
+<a href="tel:+1phonenumber">1-844-531-7817</a> if you live in the U.S., **or** <br>
+<a href="tel:+1phonenumber">1-248-524-4260</a> if you live outside of the U.S.
 
 </div>
 </li>
@@ -203,11 +202,6 @@ We’ll begin paying you within 2 weeks after we approve your claim.
 
 </div>
 </li>
-</ul>
-</div>
-
-<div class="usa-accordion">
-<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-already-receiving">How do I know if I’m already receiving additional disability compensation for my dependents?</button>
 <div id="questions-specific-already-receiving" class="usa-accordion-content">
