@@ -1,12 +1,13 @@
 ---
 layout: page-breadcrumbs.html
-title: Apply for Additional Disability Compensation for a Dependent
-display_title: Disability Compensation for a Dependent
+title: Adding Dependents to Your VA Disability Compensation
+display_title: Add or Remove a Dependent
 description: Find out how to add a dependent family member to your VA disability compensation benefits so you can get a higher payment to help support your family.
 concurrence: Incomplete
 plainlanguage: Certified plain language 4.20.18 
 template: detail-page
-order: 5 	
+spoke: Manage Benefits
+order: 2
 relatedlinks:
   - heading: More VA benefits for you and your dependents
     links:
@@ -25,18 +26,18 @@ relatedlinks:
       title: Family Member and Caregiver Benefits
       description: Find out which benefits you may qualify for as the family member or caregiver of a Veteran or Servicemember.
 ---
+<div itemscope itemtype="http://schema.org/FAQPage">
+<div itemprop="description" class="va-introtext">
 
-<div class="va-introtext">
-
-Find out how to file a claim for additional disability compensation for a spouse, child, and/or parent.
+Adding dependents to your VA disability benefits may increase your compensation. Find out how to file a claim for additional disability compensation for a spouse, child, and/or parent.
 
 </div>
 
 <div class="feature" markdown="1">
 
-### Am I eligible for additional disability compensation for my dependent(s)?
+## Am I eligible for additional VA disability compensation for my dependent(s)?
 
-You may be eligible for additional disability compensation for a spouse, child, and/or parent if you meet the requirements listed below. 
+You may be eligible for additional disability compensation for a spouse, child, and/or parent if you meet both of the requirements listed below. 
 
 **Both of these must be true. You:**	
 
@@ -45,9 +46,7 @@ You may be eligible for additional disability compensation for a spouse, child, 
 
 Adding a dependent may make you eligible to receive a higher compensation payment (also called a benefit rate).
 
-<br>
-
-### Who does VA consider a dependent?
+## Who does VA consider a dependent?
 
 **We recognize  as a dependent your:**
 
@@ -60,24 +59,23 @@ Adding a dependent may make you eligible to receive a higher compensation paymen
 
 </div>
 
-### When should I file a claim for additional disability compensation for a dependent?
+## When should I file a claim for additional disability compensation for a dependent?
 
 This depends on where you are in the process of applying for disability compensation.
 
-#### If you haven’t yet applied for disability compensation
+### If you haven’t yet applied for disability compensation
 
 You may file a claim at the same time you apply for disability compensation.
 
-If you receive a combined disability rating of at least 30%, we’ll automatically consider your eligibility for additional disability compensation for your dependent.
+If you receive a combined disability rating of at least 30%, we’ll automatically consider your eligibility for additional disability compensation for your dependent. <br>
 
 [Find out how to file a claim for disability compensation](/disability-benefits/apply/). 
 
-
-#### If you have one or more dependents, but didn’t claim them when you originally applied for disability compensation 
+### If you have one or more dependents, but didn’t claim them when you originally applied for disability compensation 
 
 If you have a combined disability rating of at least 30%, you may file your claim for additional disability compensation online.
 
-#### If something changes in your family status after you received a combined disability rating of at least 30%
+### If something changes in your family status after you received a combined disability rating of at least 30%
 
 You may file a claim for additional disability compensation online whenever you add a dependent.
 
@@ -89,24 +87,23 @@ You may file a claim for additional disability compensation online whenever you 
 - VA determines your child, who is at least 18 years old, became permanently disabled before turning 18
 - You become the caregiver for a parent whose income and net worth is below a certain amount
 
-<br>
+------
 
-### How do I apply? 
+## How do I apply? 
 You can apply online right now. 
 
-#### To file a claim for additional disability compensation for a child or spouse
+### To file a claim for additional disability compensation for a child or spouse
 
 You may also need to provide more information or forms along with your application.
  
-<a class="usa-button-primary va-button-primary" href="/disability-benefits/apply/dependents/form-686c-dependents/">File for Disability Compensation for a Dependent</a>
-	
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation">Go to eBenefits to Apply</a>	
 
 **If you’re claiming your child became permanently disabled before they turned 18,** you’ll need to turn in all private medical records for the child’s disabilities with your application. 
 
 **If your dependent is a child who’s between 18 and 23 years old and attending school full time,** you’ll need to also submit a Request for Approval of School Attendance (VA Form 21-674) with your application. <br>
 [Download VA Form 21-674](https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf). 
 
-#### To file a claim for additional disability compensation for a dependent parent
+### To file a claim for additional disability compensation for a dependent parent
 
 You’ll need to fill out and submit a Statement of Dependency of Parent(s) (VA Form 21-509) by mail or fax. <br>
 [Download VA Form 21-509](https://www.vba.va.gov/pubs/forms/VBA-21P-509-ARE.pdf).
@@ -125,14 +122,14 @@ Janesville, WI 53547-4444 <br>
  <a href="tel:+1phonenumber">1-844-531-7817</a> if you live in the U.S., **or** <br>
  <a href="tel:+1phonenumber">1-248-524-4260</a> if you live outside of the U.S.
  
- #### What if I need help with my claim?
+ ## What if I need help with my claim?
  
 You can work with an accredited Veterans Service Officer (VSO). We trust these professionals because they’re trained and certified in the VA claims and appeals process. A VSO can answer your questions or even file your claim for you.<br>
 [Get help filing your claim](/disability-benefits/apply/help/). 
 
  <br>
 
-### More questions about adding a dependent
+## More questions about adding a dependent
 
 <span id="add"></span>
 <div class="usa-accordion">
