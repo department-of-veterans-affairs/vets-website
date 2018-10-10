@@ -2,7 +2,7 @@
 
 We have a Yeoman generator for starting up new React applications in vets-website. This page will guide you through setting up the generator and explaining the questions that are asked as part of the setup process.
 
-> You can find more information about creating a form at [Tutorial: Creating Your First Form](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/docs/vets-developer-docs/vets-website/forms/form-tutorial.html)
+> You can find more information about creating a form at [Tutorial: Creating Your First Form](https://github.com/department-of-veterans-affairs/vets-work-practices/blob/master/External-Contractors-DeveloperDocs/vets-website/forms/form-tutorial-basic.md)
 
 ## Getting Started
 
