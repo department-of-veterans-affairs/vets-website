@@ -161,20 +161,6 @@ export const hasForwardingAddress = formData =>
 export const forwardingCountryIsUSA = formData =>
   _.get('forwardingAddress.country', formData, '') === USA;
 
-export function fetchPaymentInformation() {
-  return apiRequest(
-    '/ppiu/payment_information',
-    {},
-    response =>
-      // Return only the bit the UI cares about
-      response.data.attributes.responses[0].paymentAccount,
-    () => {
-      Raven.captureMessage('vets_payment_information_fetch_failure');
-      return Promise.reject();
-    },
-  );
-}
-
 export function queryForFacilities(input = '') {
   // Only search if the input has a length >= 3, otherwise, return an empty array
   if (input.length < 3) {

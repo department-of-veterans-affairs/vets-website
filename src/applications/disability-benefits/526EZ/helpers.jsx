@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
 
+import { apiRequest } from '../../../platform/utilities/api';
 import {
   isValidUSZipCode,
   isValidCanPostalCode,
@@ -797,3 +798,24 @@ export const validateIfHasEvidence = (
 
 export const title10DatesRequired = formData =>
   get('view:isTitle10Activated', formData, false);
+
+export function fetchPaymentInformation() {
+  return apiRequest(
+    '/ppiu/payment_information',
+    {},
+    response =>
+      // Return only the bit the UI cares about
+      response.data.attributes.responses[0].paymentAccount,
+    () => {
+      Raven.captureMessage('vets_payment_information_fetch_failure');
+      return Promise.reject();
+    },
+  );
+}
+
+export const PaymentDescription = () => (
+  <p>
+    This is the bank account information we have on file for you. We’ll pay your
+    disability benefit to this account.
+  </p>
+);
