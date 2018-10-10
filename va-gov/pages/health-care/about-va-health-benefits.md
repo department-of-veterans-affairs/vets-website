@@ -165,7 +165,8 @@ To find out how to reach the patient advocate at your VA medical center, go to t
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-We cover routine eye exams and preventive tests. In some cases, you may get coverage for eyeglasses or services for blind or low-vision rehabilitation. [Learn more about vision care through VA](/health-care/about-va-health-benefits/vision-care/).
+We cover routine eye exams and preventive tests. In some cases, you may get coverage for eyeglasses or services for blind or low-vision rehabilitation. <br>
+[Learn more about vision care through VA](/health-care/about-va-health-benefits/vision-care/).
 
 </div>
 </div>
@@ -177,7 +178,8 @@ We cover routine eye exams and preventive tests. In some cases, you may get cove
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-In certain cases, you may receive dental care as part of your VA health benefits. [Find out if you can get dental care through VA](/health-care/about-va-health-benefits/dental-care/).
+In certain cases, you may receive dental care as part of your VA health benefits. <br>
+[Find out if you can get dental care through VA](/health-care/about-va-health-benefits/dental-care/).
 
 </div>
 </div>
@@ -189,7 +191,8 @@ In certain cases, you may receive dental care as part of your VA health benefits
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-As a Veteran, you may be able to get assisted living, residential (live-in), or home health care through VA. [Find out how to access these long-term care services](/health-care/about-va-health-benefits/long-term-care/).
+As a Veteran, you may be able to get assisted living, residential (live-in), or home health care through VA. <br>
+[Find out how to access these long-term care services](/health-care/about-va-health-benefits/long-term-care/).
 
 </div>
 </div>
@@ -274,7 +277,8 @@ When you sign up for VA health care, you become part of the country’s largest 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If you have other forms of health care coverage (like a private insurance plan, Medicare, Medicaid, or TRICARE), you can use VA health care benefits along with these plans. [Learn more about how VA works with other health insurance](/health-care/about-va-health-benefits/va-health-care-and-other-insurance/).
+If you have other forms of health care coverage (like a private insurance plan, Medicare, Medicaid, or TRICARE), you can use VA health care benefits along with these plans. <br>
+[Learn more about how VA works with other health insurance](/health-care/about-va-health-benefits/va-health-care-and-other-insurance/).
 
 </div>
 </div>
