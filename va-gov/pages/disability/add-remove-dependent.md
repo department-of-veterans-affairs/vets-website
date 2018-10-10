@@ -274,5 +274,3 @@ No. We’ll track your child’s age based on the date of birth you give us when
 </li>
 </ul>
 </div>
-
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script> <br>
