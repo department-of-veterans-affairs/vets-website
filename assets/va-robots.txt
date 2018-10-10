@@ -18,6 +18,7 @@ Disallow: /
 # existing disallow from vets.gov
 User-Agent: *
 Disallow: /analytics-opt-out.html
+Disallow: /cgi-bin/
 Disallow: /scorecard
 
 # sitemap index
