@@ -167,6 +167,8 @@ No. Whether or not you have other health insurance coverage doesn’t affect the
 </div>
 </div>
 <br>
+<span id="leave-active-service"></span>
+
 <div itemscope itemtype="http://schema.org/Question">
   
 <h4 itemprop="name">When I leave active-duty service, how do I know if I'm eligible for TRICARE, VA health care, or both?</h4>
