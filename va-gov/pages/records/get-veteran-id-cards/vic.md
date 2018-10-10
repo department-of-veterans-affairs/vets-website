@@ -121,7 +121,3 @@ You can’t use your Veteran ID Card to:
 </li>
 </ul>
 
-<br>
-
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
-
