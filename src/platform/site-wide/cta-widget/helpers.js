@@ -32,7 +32,7 @@ export const mhvBaseUrl = () => {
   ];
 
   const mhvSubdomain = lowerEnvironments.includes(__BUILDTYPE__)
-    ? 'mhv-intb'
+    ? 'mhv-syst'
     : 'www';
 
   return `https://${mhvSubdomain}.myhealth.va.gov`;
