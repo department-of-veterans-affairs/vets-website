@@ -44,7 +44,6 @@ function checkBrokenLinks() {
     const ignoreGlobs = ignorePaths.map(path => `${path}(.*)`);
     const ignoreLinks = new RegExp(ignoreGlobs.join('|'));
     const brokenLinkChecker = createBrokenLinkChecker({
-      checkImages: false,
       allowRedirects: true,
       warn: false,
       allowRegex: ignoreLinks,
