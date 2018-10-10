@@ -753,7 +753,10 @@
 
   .va-btn-sidebarnav-trigger {
     &:focus svg {
-      fill: $color-primary;
+      fill: $color-primary-darker;
+    }
+    &:focus:hover svg {
+      fill: $color-white;
     }
     &.fixed-trigger {
       position: fixed;
