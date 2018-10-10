@@ -124,7 +124,6 @@ You can’t use your Veteran ID Card to:
 </div>
 </li>
 </div>
-</div>
 
 <br>
 
