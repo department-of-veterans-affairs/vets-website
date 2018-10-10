@@ -114,7 +114,7 @@ You can get help in any of these ways:
 
 - [What are priority groups and how do they affect me?](#priority-groups)
 - [I have other health insurance (like Medicare, Medicaid, or private insurance). Does that affect whether I can get VA health care benefits?](#other-health-insurance)
-- [When I leave active-duty service, how do I know if I’m eligible for TRICARE, VA health care, or both?] (#leave-active-service)
+- [When I leave active-duty service, how do I know if I’m eligible for TRICARE, VA health care, or both?](#leave-active-service)
 - [If I can't get VA health care benefits, how else can I get health insurance?](#cannot-get)
 - [If I don't qualify for VA health care benefits, can I still get care for certain needs (like PTSD or military sexual trauma)?](#certain-needs)
 - [I need vision care. Can I get it through VA?](#vision-care)
