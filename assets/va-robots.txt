@@ -11,7 +11,7 @@ Disallow: /
 User-agent: DuckDuckBot
 Disallow: /
 
-# existing disallow on va.gov (may not be needed )
+# existing disallow on va.gov (may not be needed)
 User-agent: Synapse
 Disallow: /
 
