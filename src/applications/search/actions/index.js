@@ -1,35 +1,30 @@
-import {
-  ACCESS_KEY,
-  AFFILIATE,
-  BASE_URI,
-  UTF8
-} from '../constants';
-
 export const FETCH_SEARCH_RESULTS = 'FETCH_SEARCH_RESULTS';
-export const SEARCH_RESULTS_ERROR = 'SEARCH_RESULTS_ERROR';
+export const FETCH_SEARCH_RESULTS_SUCCESS = 'FETCH_SEARCH_RESULTS_SUCCESS';
+export const FETCH_SEARCH_RESULTS_FAILURE = 'FETCH_SEARCH_RESULTS_FAILURE';
 
-// Action creator for grabbing search results and creating the "action" that will be passed to the reducer
-export function fetchSearchResults(userInput) {
-  return async (dispatch) => { // Redux Thunk
+import { apiRequest } from '../../../platform/utilities/api';
 
-    const searchApiUrl = `${BASE_URI}?affiliate=${AFFILIATE}&access_key=${ACCESS_KEY}&utf8=${encodeURIComponent(UTF8)}&query=${encodeURIComponent(userInput)}`;
+export function fetchSearchResults(query) {
+  return dispatch => {
+    dispatch({ type: FETCH_SEARCH_RESULTS, query });
 
-    try {
-      const response = await fetch(searchApiUrl);
-      if (!response.ok) throw new Error(response.status);
+    const settings = {
+      method: 'GET',
+    };
 
-      const json = await response.json();
-
-      const action = {
-        type: FETCH_SEARCH_RESULTS,
-        results: json
-      };
-
-      dispatch(action);
-    } catch (err) {
-      dispatch({
-        type: SEARCH_RESULTS_ERROR
-      });
-    }
+    apiRequest(
+      `/search?query=${query}`,
+      settings,
+      response =>
+        dispatch({
+          type: FETCH_SEARCH_RESULTS_SUCCESS,
+          results: response.data.attributes.body,
+        }),
+      error =>
+        dispatch({
+          type: FETCH_SEARCH_RESULTS_FAILURE,
+          error,
+        }),
+    );
   };
 }

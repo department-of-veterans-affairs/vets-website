@@ -1,20 +1,43 @@
 import {
-  FETCH_SEARCH_RESULTS
+  FETCH_SEARCH_RESULTS,
+  FETCH_SEARCH_RESULTS_SUCCESS,
+  FETCH_SEARCH_RESULTS_FAILURE,
 } from '../actions';
 
 const initialState = {
-  results: []
+  results: [],
+  loading: false,
+  error: null,
 };
 
 function SearchReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_SEARCH_RESULTS: {
       return {
-        // clone the current state
         ...state,
+        loading: true,
+      };
+    }
 
-        // overrides the search.results property
-        results: action.results
+    case FETCH_SEARCH_RESULTS_SUCCESS: {
+      const { query } = action.results;
+      const { results, nextOffset, total } = action.results.web;
+
+      return {
+        ...state,
+        query,
+        results,
+        total,
+        nextOffset,
+        loading: false,
+      };
+    }
+
+    case FETCH_SEARCH_RESULTS_FAILURE: {
+      return {
+        ...state,
+        error: action.error,
+        loading: false,
       };
     }
 
@@ -24,5 +47,5 @@ function SearchReducer(state = initialState, action) {
 }
 
 export default {
-  search: SearchReducer
+  search: SearchReducer,
 };

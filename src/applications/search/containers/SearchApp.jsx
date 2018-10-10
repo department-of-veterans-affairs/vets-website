@@ -3,16 +3,14 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-import {
-  fetchSearchResults
-} from '../actions';
+import { fetchSearchResults } from '../actions';
 
 class SearchApp extends React.Component {
   static propTypes = {
     search: PropTypes.shape({
-      results: PropTypes.array
+      results: PropTypes.array,
     }).isRequired,
-    fetchSearchResults: PropTypes.func.isRequired
+    fetchSearchResults: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -20,11 +18,11 @@ class SearchApp extends React.Component {
 
     let userInputFromAddress = '';
     if (this.props.router.location.query) {
-      userInputFromAddress = this.props.router.location.query.term;
+      userInputFromAddress = this.props.router.location.query.q;
     }
 
     this.state = {
-      userInput: userInputFromAddress
+      userInput: userInputFromAddress,
     };
   }
 
@@ -35,18 +33,37 @@ class SearchApp extends React.Component {
     }
   }
 
-  handleInputChange = (event) => {
+  handleInputChange = event => {
     this.setState({
-      userInput: event.target.value
+      userInput: event.target.value,
     });
-  }
+  };
 
-  handleFormSubmit = (event) => {
+  handleFormSubmit = event => {
     event.preventDefault();
-    const userInput = this.state.userInput;
     // @todo figure out how to sychronize the term in the search bar with the value being submitted, so that the search results are bookmarkable.
     // this.props.router.location.query.term = encodeURIComponent(userInput);
-    this.props.fetchSearchResults(userInput);
+    this.props.fetchSearchResults(this.state.userInput);
+  };
+
+  renderWebResult(result) {
+    return (
+      <li key={result.url}>
+        <h4>{result.title}</h4>
+        <p>{result.url}</p>
+        <p>{result.snippet}</p>
+      </li>
+    );
+  }
+
+  renderResults() {
+    const { results } = this.props.search;
+
+    if (results && results.length > 0) {
+      return <ul>{results.map(r => this.renderWebResult(r))}</ul>;
+    }
+
+    return <p>No results. Please try another search term.</p>;
   }
 
   render() {
@@ -55,10 +72,11 @@ class SearchApp extends React.Component {
         <div className="usa-width-two-thirds medium-8 small-12 columns">
           <h1>Search App</h1>
           <form onSubmit={this.handleFormSubmit}>
-            <input type="text" name="query" value={this.state.userInput} onChange={this.handleInputChange}/>
+            <input type="text" name="query" onChange={this.handleInputChange} />
             <button type="submit">Fetch search results</button>
           </form>
-          <h2>{JSON.stringify(this.props.search.results)}</h2>
+          <hr />
+          {this.renderResults()}
         </div>
       </div>
     );
@@ -66,17 +84,19 @@ class SearchApp extends React.Component {
 }
 
 function mapStateToProps(state) {
-  // Map the state of the data store into props on our component
   const { search } = state;
-  return {
-    search
-  };
+  return { search };
 }
 
 const mapDispatchToProps = {
-  fetchSearchResults
+  fetchSearchResults,
 };
 
-const SearchAppContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchApp));
+const SearchAppContainer = withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SearchApp),
+);
 
 export default SearchAppContainer;
