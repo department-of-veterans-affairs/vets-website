@@ -1,5 +1,17 @@
 User-agent: Synapse
-Disallow:/
+Disallow: /
+
+User-agent: Googlebot
+Disallow: /
+
+User-agent: Bingbot
+Disallow: /
+
+User-agent: Slurp
+Disallow: /
+
+User-agent: DuckDuckBot
+Disallow: /
 
 User-Agent: *
 Disallow: /analytics-opt-out.html
@@ -7,5 +19,5 @@ Disallow: /cgi-bin/
 Disallow: /provideinfo/includes/
 Disallow: /scorecard
 
-Sitemap: https://www.va.gov/sitemap.xml
-Sitemap: https://www.va.gov/gids/sitemap.xml.gz
+Sitemap: https://preview.va.gov/sitemap.xml
+Sitemap: https://preview.va.gov/gids/sitemap.xml.gz
