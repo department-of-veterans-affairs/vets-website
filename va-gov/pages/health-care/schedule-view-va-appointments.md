@@ -75,7 +75,7 @@ With our VA Appointments tools, you can schedule some VA health care appointment
 
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You’ll need to sign in before you can schedule a VA appointment online.</h4>
+    <h4 class="usa-alert-heading">You’ll need to sign in before you can schedule, reschedule, or cancel a VA appointment online.</h4>
     <p class="usa-alert-text">
       <p>Try signing in with your DS Logon, My HealtheVet, or ID.me account. If you don’t have any of those accounts, you can create one.</p>
       <button class="usa-button-primary">Sign In or Create an Account</button>
@@ -96,6 +96,7 @@ VA Appointments tools offer a secure, web-based way to schedule, view, and organ
 
 <ul>
   <li>Schedule some of your VA medical appointments online</li>
+  <li>Reschedule and cancel appointments made online</li>
   <li>View appointments on your health calendar</li>
   <li>Find the location of the VA facility for your appointments</li>
   <li>Set up email reminders for upcoming appointments</li>
