@@ -1,33 +1,33 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Loan Options
+title: VA Loan Types
 display_title: Loan Types
 concurrence:
 children: housingVALoans
 order: 1
 majorlinks:
-  - heading: VA Loan Options
+  - heading: Explore Different Loan Types 
     links:
     - url: /housing-assistance/home-loans/loan-types/purchase-loan/
       title: Purchase Loan
-      description: Looking to buy a home? Find out if you can get a VA-backed purchase loan and get better terms than with a private-lender loan.
+      description: Looking to buy a home? Find out if you're eligible for a VA-backed purchase loan to get better terms than with a private-lender loan.
     - url: /housing-assistance/home-loans/loan-types/native-american-direct-loan/
       title: Native American Direct Loan (NADL) Program
-      description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get our NADL to buy, build, or improve a home on Federal Trust Land.
+      description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you're eligible for a NADL to buy, build, or improve a home on Federal Trust Land.
     - url: /housing-assistance/home-loans/loan-types/interest-rate-reduction-loan/
       title: Interest Rate Reduction Refinance Loan (IRRRL)
-      description: Have an existing VA-backed home loan? Find out if you can get a VA-backed IRRRL to help reduce your monthly payments or make them more stable.
+      description: Have an existing VA-backed home loan? Find out if you're eligible for a VA-backed IRRRL to help reduce your monthly payments or make them more stable.
     - url: /housing-assistance/home-loans/loan-types/cash-out-loan/
       title: Cash-Out Refinance Loan
-      description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you can get a VA-backed cash-out refinance loan.
+      description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you're eligible for a VA-backed cash-out refinance loan.
 aliases:
   - /housing-assistance/home-loans/loan-options/
 ---
 
 <div class="va-introtext">
 
-We offer several home loan options to help you buy, build, or improve a home or refinance your current home loan—including a VA direct loan and 3 VA-backed loans. Learn how these different home loans work, and find out if you can get a loan that meets your needs.
+We offer several home loan programs to help you buy, build, or improve a home or refinance your current home loan—including a VA direct loan and 3 VA-backed loans. Learn how these different home loans work, and find out if you can get a Certificate of Eligibility for a loan that meets your needs.
 
 </div>
 

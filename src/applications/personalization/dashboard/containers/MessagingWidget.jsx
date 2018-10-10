@@ -10,6 +10,7 @@ import backendServices from '../../../../platform/user/profile/constants/backend
 import recordEvent from '../../../../platform/monitoring/record-event';
 import { fetchFolder, fetchRecipients } from '../../../messaging/actions';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import { mhvBaseUrl } from '../../../../platform/site-wide/cta-widget/helpers';
 
 function recordDashboardClick(product) {
   return () => {
@@ -98,7 +99,7 @@ class MessagingWidget extends React.Component {
         <p>
           {isBrandConsolidationEnabled() ? (
             <a
-              href="https://www.myhealth.va.gov/mhv-portal-web/secure-messaging"
+              href={`${mhvBaseUrl()}/mhv-portal-web/secure-messaging`}
               target="_blank"
             >
               View all your secure messages

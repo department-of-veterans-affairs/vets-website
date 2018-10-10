@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: Change Your VA Direct Deposit and Contact Information
 display_title: Change Direct Deposit and Contact Info
-lastupdate: 
+lastupdate:
 ---
 
 <div itemscope itemtype="http://schema.org/FAQPage">
@@ -55,9 +55,9 @@ Change your direct deposit and contact information for certain VA benefits onlin
 </div>
 
 <div itemprop="text">
-     
+
 <b>And you'll need your:</b>
-<ul> 
+<ul>
 <li>Routing number</li>
 <li>Account number</li>
 </ul>
@@ -89,7 +89,7 @@ Muskogee OK 74401-7004<br>
 
 <h3>By phone</h3>
 
-Call us at <a href="tel:+18008271000">1-800-827-1000</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>). 
+Call us at <a href="tel:+18008271000">1-800-827-1000</a> (TTY: <a href="tel:+18008294833">1-800-829-4833</a>).
 
 We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
 
@@ -109,10 +109,9 @@ Yes. It’s important to update your information with us if you change your mari
 <a href="https://www.benefits.va.gov/compensation/add-dependents.asp">Find out how to add eligible dependents</a>.
 
 <b>If your disability gets worse</b>, you can file a claim for an increase in benefits. <br>
-<a href="/disability-benefits/apply/form-526-disability-claim/">File for a VA disability increase</a>.
+<a href="/disability/how-to-file-claim/">File for a VA disability increase</a>.
 
 </div>
 </div>
 </div>
 </div>
-

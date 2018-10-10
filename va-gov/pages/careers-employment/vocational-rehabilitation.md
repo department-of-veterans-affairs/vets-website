@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Vocational Rehabilitation and Employment (VR&amp;E)
-display_title: About Vocational Rehab
+display_title: Vocational Rehab and Employment
 permalink: /employment/vocational-rehab-and-employment/index.html
 source: http://www.benefits.va.gov/VRE/
 template: detail-page

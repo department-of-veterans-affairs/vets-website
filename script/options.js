@@ -66,9 +66,14 @@ function applyEnvironmentOverrides(options) {
   switch (options.buildtype) {
     case environments.DEVELOPMENT:
     case environments.STAGING:
+      options.move = [{ source: 'vets-robots.txt', target: 'robots.txt' }];
+      options.remove = ['va-robots.txt'];
       break;
 
     case environments.PRODUCTION:
+      options.move = [{ source: 'vets-robots.txt', target: 'robots.txt' }];
+      options.remove = ['va-robots.txt'];
+
       if (options['no-sanity-check-node-env'] === false) {
         if (env !== 'prod') {
           throw new Error(
@@ -83,6 +88,9 @@ function applyEnvironmentOverrides(options) {
     case environments.VAGOVDEV:
     case environments.VAGOVSTAGING:
     case environments.PREVIEW:
+      options.move = [{ source: 'va-robots.txt', target: 'robots.txt' }];
+      options.remove = ['vets-robots.txt'];
+
       options['brand-consolidation-enabled'] = true;
       break;
 

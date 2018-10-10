@@ -1,24 +1,28 @@
 import React from 'react';
 import { createSelector } from 'reselect';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
+import merge from 'lodash/merge';
 
 import { getDisabilityName } from '../utils';
 import disabilityLabels from '../content/disabilityLabels';
 
 import fullSchema from '../config/schema';
+import {
+  CauseTitle,
+  disabilityNameTitle,
+} from '../content/newDisabilityFollowUp';
 
 const {
   cause,
-  primaryDisability,
+  causedByDisability,
+  causedByDisabilityDescription,
   primaryDescription,
-  disabilityStartDate,
+  VAMistreatmentDate,
+  worsenedDescription,
+  worsenedEffects,
+  VAMistreatmentDescription,
+  VAMistreatmentLocation,
 } = fullSchema.properties.newDisabilities.items.properties;
-
-export const disabilityNameTitle = ({ formData }) => (
-  <legend className="schemaform-block-title schemaform-title-underline">
-    {getDisabilityName(formData.condition)}
-  </legend>
-);
 
 const getDisabilitiesList = createSelector(
   formData => formData.ratedDisabilities,
@@ -46,15 +50,18 @@ export const uiSchema = {
     items: {
       'ui:title': disabilityNameTitle,
       cause: {
-        'ui:title': 'How is this disability service connected?',
+        'ui:title': <CauseTitle />,
         'ui:widget': 'radio',
         'ui:options': {
           labels: {
             NEW:
-              'My disability was caused by—or got worse because of—an injury or exposure during my service in the military.',
+              'My disability was caused by an injury or exposure during my military service.',
             SECONDARY:
-              'My disability was caused by another disability (for example, I have a limp that caused lower-back problems).',
-            VA: 'My disability was caused by VA mistreatment.',
+              'My disability was caused by another service-connected disability I already have. (For example, I have a limp that caused lower-back problems.)',
+            WORSENED:
+              'My disability or condition existed before I served in the military, but it got worse because of my military service.',
+            VA:
+              'My disability was caused by an injury or event that happened when I was receiving VA care.',
           },
           updateSchema: (formData, causeSchema, causeUISchema, index) => ({
             enum: getDisabilitiesList(formData, index).length
@@ -63,34 +70,9 @@ export const uiSchema = {
           }),
         },
       },
-      primaryDisability: {
-        'ui:title':
-          'Please choose the disability that caused the disability you’re claiming here.',
-        'ui:required': (formData, index) =>
-          formData.newDisabilities[index].cause === 'SECONDARY' &&
-          getDisabilitiesList(formData, index).length > 0,
-        'ui:options': {
-          labels: disabilityLabels,
-          expandUnder: 'cause',
-          expandUnderCondition: 'SECONDARY',
-          updateSchema: (formData, primarySchema, primaryUISchema, index) => {
-            const disabilitiesList = getDisabilitiesList(formData, index);
-
-            if (!disabilitiesList.length) {
-              return {
-                'ui:hidden': true,
-              };
-            }
-
-            return {
-              enum: disabilitiesList,
-            };
-          },
-        },
-      },
       primaryDescription: {
         'ui:title':
-          'Please briefly describe the injury or event that caused your disability.',
+          'Please briefly describe the injury or exposure that caused your condition. (For example, I operated loud machinery while in the Army, and this caused me to lose my hearing.)',
         'ui:widget': 'textarea',
         'ui:required': (formData, index) =>
           formData.newDisabilities[index].cause === 'NEW',
@@ -99,9 +81,91 @@ export const uiSchema = {
           expandUnderCondition: 'NEW',
         },
       },
-      disabilityStartDate: dateUI(
-        'Date this injury or event happened (This date doesn’t have to be exact.)',
-      ),
+      'view:secondaryFollowUp': {
+        'ui:options': {
+          expandUnder: 'cause',
+          expandUnderCondition: 'SECONDARY',
+        },
+        causedByDisability: {
+          'ui:title':
+            'Please choose the disability that caused the new disability you’re claiming here.',
+          'ui:required': (formData, index) =>
+            formData.newDisabilities[index].cause === 'SECONDARY' &&
+            getDisabilitiesList(formData, index).length > 0,
+          'ui:options': {
+            labels: disabilityLabels,
+            updateSchema: (formData, primarySchema, primaryUISchema, index) => {
+              const disabilitiesList = getDisabilitiesList(formData, index);
+              if (!disabilitiesList.length) {
+                return {
+                  'ui:hidden': true,
+                };
+              }
+              return {
+                enum: disabilitiesList,
+              };
+            },
+          },
+        },
+        causedByDisabilityDescription: {
+          'ui:title':
+            'Please briefly describe how the disability you selected caused your new disability.',
+          'ui:widget': 'textarea',
+          'ui:required': (formData, index) =>
+            formData.newDisabilities[index].cause === 'SECONDARY' &&
+            getDisabilitiesList(formData, index).length > 0,
+        },
+      },
+      'view:worsenedFollowUp': {
+        'ui:options': {
+          expandUnder: 'cause',
+          expandUnderCondition: 'WORSENED',
+        },
+        worsenedDescription: {
+          'ui:title':
+            'Please briefly describe the injury or exposure during your military service that caused your existing disability to get worse.',
+          'ui:required': (formData, index) =>
+            formData.newDisabilities[index].cause === 'WORSENED' &&
+            getDisabilitiesList(formData, index).length > 0,
+        },
+        worsenedEffects: {
+          'ui:title':
+            'Please tell us how the disability affected you before your service, and how it affects you now after your service.',
+          'ui:widget': 'textarea',
+          'ui:required': (formData, index) =>
+            formData.newDisabilities[index].cause === 'WORSENED' &&
+            getDisabilitiesList(formData, index).length > 0,
+        },
+      },
+      'view:VAFollowUp': {
+        'ui:options': {
+          expandUnder: 'cause',
+          expandUnderCondition: 'VA',
+        },
+        VAMistreatmentDescription: {
+          'ui:title':
+            'Please briefly describe the injury or event while you were under VA care that caused your disability.',
+          'ui:widget': 'textarea',
+          'ui:required': (formData, index) =>
+            formData.newDisabilities[index].cause === 'VA' &&
+            getDisabilitiesList(formData, index).length > 0,
+        },
+        VAMistreatmentLocation: {
+          'ui:title': 'Location',
+          'ui:required': (formData, index) =>
+            formData.newDisabilities[index].cause === 'VA' &&
+            getDisabilitiesList(formData, index).length > 0,
+        },
+        VAMistreatmentDate: merge(
+          {},
+          dateUI('Date (This date doesn’t have to be exact.)'),
+          {
+            'ui:required': (formData, index) =>
+              formData.newDisabilities[index].cause === 'VA' &&
+              getDisabilitiesList(formData, index).length > 0,
+          },
+        ),
+      },
     },
   },
 };
@@ -113,12 +177,32 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        required: ['cause', 'disabilityStartDate'],
+        required: ['cause'],
         properties: {
           cause,
-          primaryDisability,
           primaryDescription,
-          disabilityStartDate,
+          'view:secondaryFollowUp': {
+            type: 'object',
+            properties: {
+              causedByDisability,
+              causedByDisabilityDescription,
+            },
+          },
+          'view:worsenedFollowUp': {
+            type: 'object',
+            properties: {
+              worsenedDescription,
+              worsenedEffects,
+            },
+          },
+          'view:VAFollowUp': {
+            type: 'object',
+            properties: {
+              VAMistreatmentDescription,
+              VAMistreatmentLocation,
+              VAMistreatmentDate,
+            },
+          },
         },
       },
     },
