@@ -73,7 +73,7 @@ You or someone acting as your power of attorney must sign and date the form. And
 - **If you sign with an "X,"** 2 people you know must witness your signature. They’ll also need to sign and print their names on the form.
 
 
-Send it here:
+Send your completed application here:
 
 <p class="va-address-block">
 Health Eligibility Center<br>
