@@ -79,7 +79,8 @@ If you have any questions or need help, please send us an email. <br>
 
 ### Learn more about how the Veteran ID Card works
 
-<ul class="usa-accordion">
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="replace-other-cards">Will my Veteran ID Card replace my other military ID cards?</button>
 <div id="replace-other-cards" class="usa-accordion-content">
@@ -120,6 +121,7 @@ You can’t use your Veteran ID Card to:
 </div>
 </li>
 </ul>
+</div>
 
 <br>
 
