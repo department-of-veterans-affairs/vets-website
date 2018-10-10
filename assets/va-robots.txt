@@ -1,0 +1,26 @@
+# disallow search engines from indexing preview.va.gov
+User-agent: Googlebot
+Disallow: /
+
+User-agent: Bingbot
+Disallow: /
+
+User-agent: Slurp
+Disallow: /
+
+User-agent: DuckDuckBot
+Disallow: /
+
+# existing disallow on va.gov (may not be needed)
+User-agent: Synapse
+Disallow: /
+
+# existing disallow from vets.gov
+User-Agent: *
+Disallow: /analytics-opt-out.html
+Disallow: /cgi-bin/
+Disallow: /scorecard
+
+# sitemap index
+Sitemap: https://preview.va.gov/sitemap.xml
+Sitemap: https://preview.va.gov/gids/sitemap.xml.gz

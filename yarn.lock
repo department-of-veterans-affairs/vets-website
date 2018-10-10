@@ -5991,6 +5991,10 @@ metalsmith-markdownit@^0.4.0:
     debug "~2.2.0"
     markdown-it "^7.0.0"
 
+metalsmith-move-remove@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/metalsmith-move-remove/-/metalsmith-move-remove-0.0.1.tgz#5e51edb23d399a5e57e27a2359b2a83c5e30136f"
+
 metalsmith-navigation@^0.2.9:
   version "0.2.9"
   resolved "https://registry.yarnpkg.com/metalsmith-navigation/-/metalsmith-navigation-0.2.9.tgz#ea6ed6534ceef857bdad469a44d1ba196c56f30d"
