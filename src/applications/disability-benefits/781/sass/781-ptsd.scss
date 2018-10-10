@@ -1,13 +1,13 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
-@import "../../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
-@import "../../../../platform/forms/sass/m-form-confirmation";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-process-list';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-form-process';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar';
+@import '../../../../platform/forms/sass/m-schemaform';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-modal';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-omb-info';
+@import '../../../../platform/forms/sass/m-form-confirmation';
 
-.c-modal-cover {
+.medal-modal__cover {
   position: fixed;
   top: 0;
   left: 0;
@@ -18,14 +18,14 @@
   background-color: rgba(#000, 0.15);
 }
 
-.c-modal {
+.medal-modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  padding: 2.5em 1.5em 1.5em 1.5em;
-  background-color: #FFFFFF;
+  padding: 1.5em;
+  background-color: #ffffff;
   box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -43,12 +43,11 @@
   }
 }
 
-
-.c-modal__close {
+.medal-modal__close {
   position: absolute;
   top: 0;
   right: 0;
-  padding: .5em;
+  padding: 0.5em;
   line-height: 1;
   background: #f6f6f7;
   border: 0;
@@ -56,7 +55,7 @@
   cursor: pointer;
 }
 
-.c-modal__close-icon {
+.medal-modal__close-icon {
   width: 25px;
   height: 25px;
   fill: transparent;
@@ -65,8 +64,8 @@
   stroke-width: 2;
 }
 
-.c-modal__body {
-  padding-top: .25em;
+.medal-modal__body {
+  padding-top: 0.25em;
 }
 
 .u-hide-visually {
@@ -79,4 +78,32 @@
   position: absolute !important;
   width: 1px !important;
   white-space: nowrap !important;
+}
+
+.medal-wrapper {
+  background-color: white;
+  color: black;
+  width: 75%;
+}
+
+.medal-wrapper:hover {
+  background-color: none;
+}
+
+.medal-select {
+  position: absolute;
+}
+.medal-text {
+  position: relative;
+    top: 10px;
+    left: 10px;
+}
+
+.medal-confirm, .medal-cancel{
+  width: 50%;
+  border: 2px solid black;
+}
+
+.medal-button-container{
+  display: flex;
 }

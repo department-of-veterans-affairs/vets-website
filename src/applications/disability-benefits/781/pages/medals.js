@@ -1,13 +1,10 @@
-// import _ from 'lodash/fp';
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { PtsdNameTitle, getPtsdClassification } from '../helpers';
 
-import MedalsCheckbox from '../components/MedalsCheckbox';
+import MedalsModal from '../components/MedalsModal';
 
 const MedalsDescription = ({ formData, formType }) => {
   const { incidentText } = getPtsdClassification(formData, formType);
-  //  console.log(formData, 'formdata');
 
   return (
     <div>
@@ -21,30 +18,6 @@ const MedalsDescription = ({ formData, formType }) => {
     </div>
   );
 };
-
-// const medalsList = [
-//   // 'Air Force Achievement Medal with “V” Device': { type: 'boolean' },
-//   // 'Air Force Combat Action Medal': { type: 'boolean' },
-//   // 'Air Force Commendation Medal with “V” Device': { type: 'boolean' },
-//   // 'Air Force Cross': { type: 'boolean' },
-//   'Air Medal with “V” Device',
-//   'Army Commendation Medal with “V” Device',
-//   'Bronze Star Medal with “V” Device',
-//   'Combat Action Badge',
-//   'Combat Action Ribbon (Note: Prior to February 1969, the Navy Achievement Medal with “V” Device was awarded.)',
-//   'Combat Aircrew Insignia',
-//   'Combat Infantry/Infantryman Badge',
-//   'Combat Medical Badge',
-//   'Distinguished Flying Cross',
-//   'Distinguished Service Cross',
-//   'Joint Service Commendation Medal with “V” Device',
-//   'Medal of Honor',
-//   'Navy Commendation Medal with “V” Device',
-//   'Navy Cross',
-//   'Purple Heart',
-//   'Silver Star',
-//   //  Other: { type: 'boolean' },
-// ];
 
 export const uiSchema = {
   'ui:title': PtsdNameTitle,
@@ -64,27 +37,15 @@ export const uiSchema = {
   selectMedals: {
     'ui:title': ' ',
     'ui:description': 'Please choose the medals or citations you received',
-    //  'ui:description': 'Select all that apply',
     'ui:field': 'StringField',
-    'ui:widget': MedalsCheckbox,
-    hasReadPrideAndPrejudice: {
-      'ui:title': 'Pride and Prejudice by Jane Austen',
-    },
-    hasReadJaneEyre: {
-      'ui:title': 'Jane Eyre by Charlotte Brontë',
-    },
-    hasReadGreatGatsby: {
-      'ui:title': 'The Great Gatsby by F. Scott Fitzgerald',
-    },
-    hasReadBuddenbrooks: {
-      'ui:title': 'Buddenbrooks by Thomas Mann',
-    },
-
+    'ui:widget': MedalsModal,
     'ui:options': {
+      showFieldLabel: 'label',
+      label: 'test',
+      widgetClassNames: 'widget-outline',
+      keepInPageOnReview: true,
       // expandUnder: 'view:medalsChoice',
-      // expandUnderCondition: 'yes',
-      // expandUnderCondition: formData =>
-      //   _.get('view:medalsChoice', formData, '') === 'yes',
+      // expandUnderCondition: 'yes', // TODO: unable to enable expandUnderConditons twice in a ui:schema
     },
   },
   'view:otherMedal': {
@@ -92,11 +53,18 @@ export const uiSchema = {
     'ui:description': 'Enter other medals or citations here',
     'ui:options': {
       expandUnder: 'selectMedals',
-      expandUnderCondition: true,
-      // 'ui:options': {
-      //   expandUnder: 'view:selecMedals',
-      //
-      //   expandUnderCondition: medal => !!status && status !== 'Other',
+      // TODO: unable to enable expandUnderConditons twice in a ui:schema
+      expandUnderCondition: formData => {
+        if (formData) {
+          if (
+            formData.filter(medal => medal === 'Other medal(s) or citations')
+          ) {
+            return true;
+          }
+          return false;
+        }
+        return false;
+      },
     },
   },
 };
@@ -109,15 +77,13 @@ export const schema = {
       enum: ['yes', 'no'],
     },
     selectMedals: {
-      type: 'string',
-      //  properties: medalsList,
-      properties: {
-        hasReadPrideAndPrejudice: { type: 'boolean' },
-        hasReadJaneEyre: { type: 'boolean' },
-        hasReadGreatGatsby: { type: 'boolean' },
-        hasReadBuddenbrooks: { type: 'boolean' },
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {},
       },
     },
+
     'view:otherMedal': {
       type: 'string',
       properties: {},
