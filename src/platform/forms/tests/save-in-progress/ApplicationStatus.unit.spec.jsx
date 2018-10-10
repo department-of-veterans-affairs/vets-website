@@ -69,7 +69,7 @@ describe('schemaform <ApplicationStatus>', () => {
       'Continue Your Application',
     );
     expect(tree.subTree('.form-title').text()).to.contain(
-      'Form is in progress',
+      'Your form is in progress',
     );
   });
   it('should render expired form', () => {
@@ -129,7 +129,7 @@ describe('schemaform <ApplicationStatus>', () => {
       'Continue Your Application',
     );
     expect(tree.subTree('.form-title').text()).to.contain(
-      'Form is in progress',
+      'Your form is in progress',
     );
   });
   it('should render multiple forms message', () => {

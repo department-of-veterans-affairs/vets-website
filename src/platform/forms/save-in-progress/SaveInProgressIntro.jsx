@@ -51,7 +51,7 @@ class SaveInProgressIntro extends React.Component {
             <div>
               <div className="usa-alert usa-alert-info no-background-image schemaform-sip-alert">
                 <div className="schemaform-sip-alert-title">
-                  Form is in progress
+                  <strong>Your form is in progress</strong>
                 </div>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-item-metadata">
@@ -59,7 +59,7 @@ class SaveInProgressIntro extends React.Component {
                   </span>
                   <br />
                   <span className="saved-form-item-metadata">
-                    Last saved on {lastSavedDateTime}
+                    Your application was last saved on {lastSavedDateTime}
                   </span>
                   <div className="expires-container">
                     You can continue applying now, or come back later to finish
@@ -79,7 +79,7 @@ class SaveInProgressIntro extends React.Component {
             <div>
               <div className="usa-alert usa-alert-warning no-background-image schemaform-sip-alert">
                 <div className="schemaform-sip-alert-title">
-                  Form has expired
+                  <strong>Your form has expired</strong>
                 </div>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-metadata">

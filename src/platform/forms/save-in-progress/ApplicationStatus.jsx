@@ -106,13 +106,13 @@ export class ApplicationStatus extends React.Component {
 
         return (
           <div className="usa-alert usa-alert-info no-background-image sip-application-status">
-            <h5 className="form-title saved">Form is in progress</h5>
+            <h5 className="form-title saved">Your form is in progress</h5>
             <span className="saved-form-item-metadata">
               Your {formDescriptions[formId]} is in progress.
             </span>
             <br />
             <span className="saved-form-item-metadata">
-              Last saved on {lastSavedDateTime}
+              Your application was last saved on {lastSavedDateTime}
             </span>
             <br />
             <div className="expires-container">
@@ -133,7 +133,7 @@ export class ApplicationStatus extends React.Component {
                 className="usa-button-secondary"
                 onClick={this.toggleModal}
               >
-                Start Over
+                Start a New Application
               </button>
             </p>
             {multipleForms && (
@@ -155,7 +155,7 @@ export class ApplicationStatus extends React.Component {
               <p>Are you sure you want to start over?</p>
               <ProgressButton
                 onButtonClick={() => this.removeForm(formId)}
-                buttonText="Start Over"
+                buttonText="Start a New Application"
                 buttonClass="usa-button-primary"
               />
               <ProgressButton
@@ -169,11 +169,10 @@ export class ApplicationStatus extends React.Component {
       }
       return (
         <div className="usa-alert usa-alert-warning no-background-image sip-application-status">
-          <h5 className="form-title saved">Form has expired</h5>
+          <h5 className="form-title saved">Your form has expired</h5>
           <span className="saved-form-item-metadata">
-            Your saved {formDescriptions[formId]} application has expired. If
-            you want to apply for
-            {formBenefits[formId]}, please start a new application.
+            Your saved {formDescriptions[formId]} has expired. If you want to
+            apply for {formBenefits[formId]}, please start a new application.
           </span>
           <br />
           <p>
