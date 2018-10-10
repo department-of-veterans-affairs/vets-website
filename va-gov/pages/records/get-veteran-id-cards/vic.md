@@ -88,9 +88,7 @@ No. Your Veteran ID Card won’t replace your Veteran Health Identification Card
 
 </div>
 </li>
-</ul>
 
-<ul class="usa-accordion">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="cards-used-instead">What other forms of ID can I use instead of a Veteran ID Card to get discounts at businesses?</button>
 <div id="cards-used-instead" class="usa-accordion-content">
@@ -105,9 +103,7 @@ No. Your Veteran ID Card won’t replace your Veteran Health Identification Card
 
 </div>
 </li>
-</ul>
 
-<ul class="usa-accordion">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="use-veteran-id-card">What can’t I use my Veteran ID Card for?</button>
 <div id="use-veteran-id-card" class="usa-accordion-content">
