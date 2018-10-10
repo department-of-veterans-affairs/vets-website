@@ -419,11 +419,11 @@ export class CallToActionWidget extends React.Component {
 
     if (this.props.children) return this.props.children;
 
-    const externalLink = this._toolUrl.startsWith('/');
-    const buttonClass = externalLink
+    const isInternalLink = this._toolUrl.startsWith('/');
+    const buttonClass = isInternalLink
       ? classNames('usa-button-primary', 'va-button-primary')
       : '';
-    const target = externalLink ? '_blank' : '_self';
+    const target = isInternalLink ? '_self' : '_blank';
 
     return (
       <a className={buttonClass} href={this._toolUrl} target={target}>
