@@ -80,7 +80,6 @@ If you have any questions or need help, please send us an email. <br>
 ### Learn more about how the Veteran ID Card works
 
 <div class="usa-accordion">
-<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="replace-other-cards">Will my Veteran ID Card replace my other military ID cards?</button>
 <div id="replace-other-cards" class="usa-accordion-content">
@@ -89,6 +88,9 @@ No. Your Veteran ID Card won’t replace your Veteran Health Identification Card
 
 </div>
 </li>
+</div>
+
+<div class="usa-accordion">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="cards-used-instead">What other forms of ID can I use instead of a Veteran ID Card to get discounts at businesses?</button>
 <div id="cards-used-instead" class="usa-accordion-content">
@@ -103,6 +105,9 @@ No. Your Veteran ID Card won’t replace your Veteran Health Identification Card
 
 </div>
 </li>
+</div>
+
+<div class="usa-accordion">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="use-veteran-id-card">What can’t I use my Veteran ID Card for?</button>
 <div id="use-veteran-id-card" class="usa-accordion-content">
@@ -118,7 +123,7 @@ You can’t use your Veteran ID Card to:
 
 </div>
 </li>
-</ul>
+</div>
 </div>
 
 <br>
