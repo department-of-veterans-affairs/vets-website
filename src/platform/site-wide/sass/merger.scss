@@ -957,3 +957,11 @@
 .flex-container {
   display: flex;
 }
+
+// This is a fix for Edge and lazy image loading.
+img[data-src],
+img[data-srcset] {
+  display: block;
+  min-height: 1px;
+}
+
