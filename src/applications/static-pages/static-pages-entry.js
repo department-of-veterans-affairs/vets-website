@@ -35,6 +35,7 @@ const ctaTools = new Set([
   '/health-care/schedule-view-va-appointments/',
   '/health-care/view-test-and-lab-results/',
   '/records/download-va-letters/',
+  '/records/get-veteran-id-cards/vic/',
 ]);
 
 const burialPages = new Set([
