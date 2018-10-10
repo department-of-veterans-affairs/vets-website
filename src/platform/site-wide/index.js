@@ -58,7 +58,7 @@ export default function startSitewideComponents(commonStore) {
   if (brandConsolidation.isEnabled()) {
     startMegaMenuWidget(commonStore);
     startMobileMenuButton(commonStore);
-    startVAFooter(commonStore);
+    startVAFooter();
   }
 
   startMetrics();
