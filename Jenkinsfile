@@ -101,6 +101,7 @@ node('vetsgov-general-purpose') {
       args = "-v ${pwd()}:/application"
       retry(5) {
         dockerImage.inside(args) {
+          sh "git clone --depth 1 https://github.com/department-of-veterans-affairs/vagov-content -b master"
           sh "cd /application && yarn install --production=false"
         }
       }
