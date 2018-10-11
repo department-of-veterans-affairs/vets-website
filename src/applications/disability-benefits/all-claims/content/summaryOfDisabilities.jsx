@@ -1,7 +1,7 @@
 import React from 'react';
 import { getDisabilityName } from '../utils';
 
-export const summaryOfDisabilitiesDescription = ({ formData }) => {
+export const SummaryOfDisabilitiesDescription = ({ formData }) => {
   const { ratedDisabilities, newDisabilities } = formData;
   const ratedDisabilityNames = ratedDisabilities
     ? ratedDisabilities
