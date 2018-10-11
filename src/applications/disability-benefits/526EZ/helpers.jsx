@@ -114,14 +114,13 @@ const transformDateRange = treatmentDateRange => [treatmentDateRange];
  * @returns {object} containing the new Provider Facility structure
  */
 const transformProviderFacility = providerFacility => {
-  const newProviderFacility = [];
-  providerFacility.forEach(facility => {
-    newProviderFacility.push({
-      providerFacilityName: facility.providerFacilityName,
-      treatmentDateRange: transformDateRange(facility.treatmentDateRange),
-      providerFacilityAddress: facility.providerFacilityAddress,
-    });
-  });
+  const newProviderFacility = providerFacility.map(facility =>
+    set(
+      'treatmentDateRange',
+      transformDateRange(facility.treatmentDateRange),
+      facility,
+    ),
+  );
 
   return newProviderFacility;
 };
