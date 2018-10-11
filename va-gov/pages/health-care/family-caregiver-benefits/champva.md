@@ -89,6 +89,7 @@ There are other factors that may affect whether you or other family members qual
       <div id="caregiver" class="usa-accordion-content">
         <p><b>If you’re a family member caring for a Veteran with disabilities,</b> and you’re not entitled to care or services through another health plan, you may qualify for CHAMPVA.</p>
         <p><a href='https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_11-01.pdf'>Download a fact sheet on CHAMPVA for primary family caregivers</a>.</p>
+        <p><a href='https://www.va.gov/COMMUNITYCARE/programs/caregiver/index.asp'>Get more information about CHAMPVA for primary family caregivers</a>.</p>
         <p><b>If the Veteran you’re caring for was seriously injured in the line of duty on or after September 11, 2001,</b> you may qualify for health care benefits and other caregiver support through the Program of Comprehensive Assistance to Family Caregivers.</p>
         <p><a href='/health-care/family-caregiver-benefits/comprehensive-assistance'>Find out if you qualify for this program and how to apply</a>.</p>
       </div>
