@@ -19,6 +19,11 @@ import {
 } from './militaryHistory';
 
 import {
+  uiSchema as servedInCombatZoneUISchema,
+  schema as servedInCombatZoneSchema,
+} from './servedInCombatZone';
+
+import {
   uiSchema as separationTrainingPayUISchema,
   schema as separationTrainingPaySchema,
 } from '../pages/separationTrainingPay';
@@ -131,6 +136,11 @@ export const separationTrainingPay = {
 export const militaryHistory = {
   uiSchema: militaryHistoryUISchema,
   schema: militaryHistorySchema,
+};
+
+export const servedInCombatZone = {
+  uiSchema: servedInCombatZoneUISchema,
+  schema: servedInCombatZoneSchema,
 };
 
 export const reservesNationalGuardService = {

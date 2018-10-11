@@ -640,6 +640,9 @@ const schema = {
         },
       },
     },
+    servedInCombatZonePost911: {
+      type: 'boolean',
+    },
     confinements: {
       type: 'array',
       minItems: 1,

@@ -10,6 +10,7 @@ import {
   SERVICE_CONNECTION_TYPES,
   USA,
   DATA_PATHS,
+  NINE_ELEVEN,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -241,3 +242,19 @@ export const hasOtherEvidence = formData =>
   _.get(DATA_PATHS.hasAdditionalDocuments, formData, false);
 export const hasPrivateEvidence = formData =>
   _.get(DATA_PATHS.hasPrivateEvidence, formData, false);
+
+export const servedAfter911 = formData => {
+  return _.get('serviceInformation.servicePeriods', formData, []).filter(
+    ({ dateRange }) => {
+      if (!(dateRange && dateRange.from && dateRange.to)) {
+        return false;
+      }
+
+      const { from, to } = dateRange;
+      const fromDate = new Date(from);
+      const toDate = new Date(to);
+      const cutOff = new Date(NINE_ELEVEN);
+      return fromDate.getTime() > cutOff.getTime() || toDate.getTime() > cutOff;
+    },
+  ).length;
+};
