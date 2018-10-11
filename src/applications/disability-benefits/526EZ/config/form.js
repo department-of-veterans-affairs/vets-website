@@ -883,7 +883,7 @@ const formConfig = {
                             properties: {
                               street: {
                                 minLength: 1,
-                                maxLength: 50,
+                                maxLength: 20,
                                 type: 'string',
                               },
                               street2: {
@@ -893,10 +893,12 @@ const formConfig = {
                               },
                               city: {
                                 minLength: 1,
-                                maxLength: 51,
+                                maxLength: 30,
                                 type: 'string',
                               },
                               postalCode: {
+                                minLength: 1,
+                                maxLength: 9,
                                 type: 'string',
                               },
                               country: {
