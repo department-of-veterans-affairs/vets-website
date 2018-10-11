@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { SummaryOfDisabilitiesDescription } from '../../content/summaryOfDisabilities';
 
-describe.only('summaryOfDisabilitiesDescription', () => {
+describe('summaryOfDisabilitiesDescription', () => {
   it('renders selected rated disabilities', () => {
     const formData = {
       ratedDisabilities: [
