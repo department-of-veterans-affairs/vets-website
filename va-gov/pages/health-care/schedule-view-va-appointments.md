@@ -127,9 +127,9 @@ You can use these tools if you meet all of the requirements listed below.
 
 <b>And, you must have one of these free accounts:</b>
 <ul>
-  <li>A Premium **My HealtheVet** account, <b>or</b></li>
-  <li>A Premium **DS Logon** account (used for eBenefits and milConnect), <b>or</b></li>
-  <li>A verified **ID.me** account that you can create here on VA.gov</li>
+  <li>A Premium <b>My HealtheVet</b> account, <b>or</b></li>
+  <li>A Premium <b>DS Logon</b> account (used for eBenefits and milConnect), <b>or</b></li>
+  <li>A verified <b>ID.me</b> account that you can create here on VA.gov</li>
 </ul>
 
 <a href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types">Learn about the 3 different My HealtheVet account types</a>.
