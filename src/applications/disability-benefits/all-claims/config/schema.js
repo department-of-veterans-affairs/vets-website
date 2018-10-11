@@ -532,6 +532,17 @@ const schema = {
       },
       required: ['from'],
     },
+    dateRange: {
+      type: 'object',
+      properties: {
+        from: {
+          $ref: '#/definitions/date',
+        },
+        to: {
+          $ref: '#/definitions/date',
+        },
+      },
+    },
   },
   properties: {
     alternateNames: {
@@ -776,7 +787,7 @@ const schema = {
     forwardingAddress: _.set(
       'properties.effectiveDate',
       {
-        $ref: '#/definitions/dateRangeFromRequired',
+        $ref: '#/definitions/dateRange',
       },
       _.omit(
         'required',
