@@ -87,6 +87,7 @@ class IntroductionPage extends React.Component {
               pathname={this.props.location.pathname}
               user={user}
               authenticate={this.authenticate}
+              gaStartEventName="disability-526EZ-start"
               {...this.props}
             />
           )}
