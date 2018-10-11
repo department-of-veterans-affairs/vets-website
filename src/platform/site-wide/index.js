@@ -2,7 +2,6 @@
  * Module for site wide components
  * @module platform/site-wide
  */
-
 import '../monitoring/sentry.js';
 import './legacy/menu'; // Used in the footer.
 import './accessible-VCL-modal';

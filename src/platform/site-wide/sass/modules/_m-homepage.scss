@@ -110,7 +110,7 @@
     border-bottom-left-radius: 6px;
     &.vcl {
       content: "";
-      background: url(/img/vcl-logo-white.png) no-repeat;
+      background: url(/img/VCL-icon-white.svg) no-repeat;
       background-size: 2em auto;
       background-position: center;
       background-color: $color-secondary-darkest;
@@ -165,5 +165,17 @@
   @include media($medium-large-screen) {
     margin-top: inherit;
     margin-bottom: inherit;
+  }
+}
+
+.homepage-image-wrapper {
+  width: 100%;
+  height: 0;
+  padding-bottom: 65%; /* You define this doing height / width * 100% */
+  position: relative;
+  > .lazy {
+    width: 100%;
+    /*height: auto;*/
+    position: absolute;
   }
 }
