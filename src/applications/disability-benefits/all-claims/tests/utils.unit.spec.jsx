@@ -264,7 +264,7 @@ describe('526 helpers', () => {
     });
   });
 
-  describe.only('servedAfter911', () => {
+  describe('servedAfter911', () => {
     it('should return false if no serviceInformation', () => {
       expect(servedAfter911({})).to.be.false;
     });
