@@ -61,4 +61,4 @@ describe.only('summaryOfDisabilitiesDescription', () => {
 
     expect(wrapper.find('li').length).to.equal(3);
   });
-})
+});
