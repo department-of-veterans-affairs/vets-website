@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y netcat \
   && chmod +x /usr/local/lib/node_modules/yarn/bin/yarn.js
 
 RUN mkdir -p /application
+RUN git clone --depth 1 -b master https://github.com/department-of-veterans-affairs/vagov-content /vagov-content
 
 WORKDIR /application
 
