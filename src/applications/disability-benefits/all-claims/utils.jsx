@@ -244,7 +244,7 @@ export const hasPrivateEvidence = formData =>
   _.get(DATA_PATHS.hasPrivateEvidence, formData, false);
 
 export const servedAfter911 = formData =>
-  _.get('serviceInformation.servicePeriods', formData, []).filter(
+  !!_.get('serviceInformation.servicePeriods', formData, []).filter(
     ({ dateRange }) => {
       if (!(dateRange && dateRange.to)) {
         return false;
