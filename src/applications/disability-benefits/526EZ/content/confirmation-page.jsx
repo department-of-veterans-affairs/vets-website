@@ -41,8 +41,8 @@ const privateRecordReleaseContent = (
 );
 
 const template = (props, title, content, submissionMessage) => {
-  const { fullName, suffix, disabilities, submittedAt } = props;
-  const { first, last, middle } = fullName;
+  const { fullName, disabilities, submittedAt } = props;
+  const { first, last, middle, suffix } = fullName;
 
   const selected4142 = get4142Selection(disabilities || []);
 
@@ -125,7 +125,7 @@ export const retryableErrorContent = props =>
 export const successfulSubmitContent = props =>
   template(
     props,
-    'Your claim has successfully been submitted',
+    'Your claim has successfully been submitted.',
     'We process applications in the order we receive them. We may contact you if we have questions or need more information. You can print this page for your records.',
     successMessage(props.claimId),
   );
