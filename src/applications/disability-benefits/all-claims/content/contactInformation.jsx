@@ -62,7 +62,7 @@ const EffectiveDateViewField = ({ formData }) => {
     <p>
       We will use this address starting on{' '}
       <DateWidget value={from} options={{ monthYear: false }} /> until{' '}
-      <DateWidget value={to} />:
+      <DateWidget value={to} options={{ monthYear: false }} />:
     </p>
   ) : (
     <p>
