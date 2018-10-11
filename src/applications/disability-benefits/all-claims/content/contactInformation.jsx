@@ -3,7 +3,7 @@ import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 
 import { USA } from '../constants';
 
-const AddressViewField = ({ formData }) => {
+export const AddressViewField = ({ formData }) => {
   const {
     addressLine1,
     addressLine2,
@@ -36,13 +36,6 @@ const AddressViewField = ({ formData }) => {
   );
 };
 
-const EffectiveDateViewField = ({ formData }) => (
-  <p>
-    We will use this address starting on{' '}
-    <DateWidget value={formData} options={{ monthYear: false }} />:
-  </p>
-);
-
 const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
   const midBreakpoint = -7;
   const lastPhoneString = phoneNumber.slice(-4);
@@ -62,6 +55,22 @@ const EmailViewField = ({ formData, name }) => (
     <strong>{name}</strong>: {formData || ''}
   </p>
 );
+
+const EffectiveDateViewField = ({ formData }) => {
+  const { from, to } = formData;
+  return to ? (
+    <p>
+      We will use this address starting on{' '}
+      <DateWidget value={from} options={{ monthYear: false }} /> until{' '}
+      <DateWidget value={to} />:
+    </p>
+  ) : (
+    <p>
+      We will use this address starting on{' '}
+      <DateWidget value={from} options={{ monthYear: false }} />:
+    </p>
+  );
+};
 
 export const PrimaryAddressViewField = ({ formData }) => (
   <AddressViewField formData={formData} />

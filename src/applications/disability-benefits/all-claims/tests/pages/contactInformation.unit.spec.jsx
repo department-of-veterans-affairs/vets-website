@@ -214,10 +214,10 @@ describe('Disability benefits 526EZ contact information', () => {
       />,
     );
 
-    // (2 x country), date month, date day, country
-    expect(form.find('select').length).to.equal(4);
-    // (2 x (street 1, 2, 3, city)), phone, email, fwding address checkbox, date year
-    expect(form.find('input').length).to.equal(12);
+    // (2 x country), 2x date month, 2x date day, country
+    expect(form.find('select').length).to.equal(6);
+    // (2 x (street 1, 2, 3, city)), phone, email, fwding address checkbox, 2x date year
+    expect(form.find('input').length).to.equal(13);
   });
 
   it('validates that forwarding state is military type if forwarding city is military type', () => {
@@ -240,7 +240,9 @@ describe('Disability benefits 526EZ contact information', () => {
           },
           'view:hasForwardingAddress': true,
           forwardingAddress: {
-            effectiveDate: '2019-01-01',
+            effectiveDate: {
+              from: '2019-01-01',
+            },
             country: 'USA',
             addressLine1: '123 Any Street',
             city: 'APO',
@@ -279,7 +281,9 @@ describe('Disability benefits 526EZ contact information', () => {
           },
           'view:hasForwardingAddress': true,
           forwardingAddress: {
-            effectiveDate: '2019-01-01',
+            effectiveDate: {
+              from: '2019-01-01',
+            },
             country: 'USA',
             addressLine1: '123 Any Street',
             city: 'Anytown',
@@ -316,7 +320,9 @@ describe('Disability benefits 526EZ contact information', () => {
           },
           'view:hasForwardingAddress': true,
           forwardingAddress: {
-            effectiveDate: '',
+            effectiveDate: {
+              from: '',
+            },
             country: '',
             addressLine1: '',
             city: '',
@@ -353,7 +359,9 @@ describe('Disability benefits 526EZ contact information', () => {
           },
           'view:hasForwardingAddress': true,
           forwardingAddress: {
-            effectiveDate: '2019-01-01',
+            effectiveDate: {
+              from: '2019-01-01',
+            },
             country: 'USA',
             addressLine1: '234 Maple St.',
             city: 'Detroit',

@@ -196,9 +196,12 @@ export const uiSchema = {
         viewComponent: ForwardingAddressViewField,
         expandUnder: 'view:hasForwardingAddress',
       },
-      effectiveDate: merge({}, dateUI('Effective date'), {
-        'ui:required': hasForwardingAddress,
-      }),
+      effectiveDate: {
+        from: merge({}, dateUI('Effective from'), {
+          'ui:required': hasForwardingAddress,
+        }),
+        to: dateUI('Effective to'),
+      },
       country: {
         'ui:required': hasForwardingAddress,
       },
