@@ -123,13 +123,13 @@ You can use these tools if you meet all of the requirements listed below.
   <li>Are scheduling your appointment with a VA health facility that uses online scheduling, <b>and</b></li>
   <li>Have had an appointment at that VA health facility within the last 2 years</li>
 </ul>
-<a href="/health-care/apply/">Find out how to apply for VA health care</a>.
+<a href="/health-care/how-to-apply/">Find out how to apply for VA health care</a>.
 
 <b>And, you must have one of these free accounts:</b>
 <ul>
-  <li>A Premium My HealtheVet account, <b>or</b></li>
-  <li>A Premium DS Logon account (used for eBenefits and milConnect), <b>or</b></li>
-  <li>A verified ID.me account that you can create here on VA.gov</li>
+  <li>A Premium **My HealtheVet** account, <b>or</b></li>
+  <li>A Premium **DS Logon** account (used for eBenefits and milConnect), <b>or</b></li>
+  <li>A verified **ID.me** account that you can create here on VA.gov</li>
 </ul>
 
 <a href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types">Learn about the 3 different My HealtheVet account types</a>.
