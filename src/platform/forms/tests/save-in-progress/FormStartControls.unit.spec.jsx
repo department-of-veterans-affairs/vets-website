@@ -189,7 +189,7 @@ describe('Schemaform <FormStartControls>', () => {
     const routerSpy = {
       push: sinon.spy(),
     };
-    global.window.dataLayer.push = sinon.spy();
+    global.window.dataLayer = [];
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <FormStartControls
@@ -204,14 +204,14 @@ describe('Schemaform <FormStartControls>', () => {
     const formDOM = getFormDOM(tree);
     formDOM.click('.usa-button-primary');
 
-    expect(global.window.dataLayer.push.firstCall).to.be.null;
+    expect(global.window.dataLayer).to.eql([]);
   });
 
   it('should capture analytics events when starting the form', () => {
     const routerSpy = {
       push: sinon.spy(),
     };
-    global.window.dataLayer.push = sinon.spy();
+    global.window.dataLayer = [];
     const fetchSpy = sinon.spy();
     const tree = ReactTestUtils.renderIntoDocument(
       <FormStartControls
@@ -227,7 +227,7 @@ describe('Schemaform <FormStartControls>', () => {
     const formDOM = getFormDOM(tree);
     formDOM.click('.usa-button-primary');
 
-    expect(global.window.dataLayer.push.firstCall.args).to.eql([
+    expect(global.window.dataLayer).to.eql([
       {
         event: 'testing, testing',
       },
