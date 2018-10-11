@@ -108,6 +108,11 @@ import {
   schema as homelessOrAtRiskSchema,
 } from './homelessOrAtRisk';
 
+import {
+  uiSchema as vaEmployeeUISchema,
+  schema as vaEmployeeSchema,
+} from './vaEmployee';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema,
@@ -216,4 +221,9 @@ export const claimExamsInfo = {
 export const homelessOrAtRisk = {
   uiSchema: homelessOrAtRiskUISchema,
   schema: homelessOrAtRiskSchema,
+};
+
+export const vaEmployee = {
+  uiSchema: vaEmployeeUISchema,
+  schema: vaEmployeeSchema,
 };
