@@ -49,6 +49,7 @@ import {
   privateRecordsChoice,
   facilityDescription,
   evidenceSummaryView,
+  authorizationToDisclose,
   GetFormHelp,
   FDCDescription,
   FDCWarning,
@@ -743,6 +744,45 @@ const formConfig = {
                       properties: {},
                     },
                   },
+                },
+              },
+            },
+          },
+        },
+        authorizationToDisclose: {
+          title: 'Authorization',
+          path: 'supporting-evidence/:index/authorization-to-disclose',
+          showPagePerItem: true,
+          itemFilter: item => _.get('view:selected', item),
+          arrayPath: 'disabilities',
+          depends: (formData, index) => {
+            const hasRecords = _.get(
+              `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+              formData,
+            );
+            const requestsRecords =
+              _.get(
+                `disabilities.${index}.view:uploadPrivateRecords`,
+                formData,
+              ) === 'no';
+
+            return isProd && hasRecords && requestsRecords;
+          },
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:description': authorizationToDisclose,
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {},
                 },
               },
             },
