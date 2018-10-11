@@ -11,6 +11,12 @@ import { FormStartControls } from '../../save-in-progress/FormStartControls';
 describe('Schemaform <FormStartControls>', () => {
   const startPage = 'testing';
 
+  const oldDataLayer = global.window.dataLayer;
+
+  afterEach(() => {
+    global.window.dataLayer = oldDataLayer;
+  });
+
   it('should render 1 button when not logged in', () => {
     const routerSpy = {
       push: sinon.spy(),
@@ -177,5 +183,54 @@ describe('Schemaform <FormStartControls>', () => {
 
     expect(fetchSpy.called).to.be.true;
     expect(formDOM.querySelector('.va-modal-body')).to.be.null;
+  });
+
+  it('should not capture analytics events when starting the form', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    global.window.dataLayer.push = sinon.spy();
+    const fetchSpy = sinon.spy();
+    const tree = ReactTestUtils.renderIntoDocument(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}
+        prefillAvailable
+      />,
+    );
+    const formDOM = getFormDOM(tree);
+    formDOM.click('.usa-button-primary');
+
+    expect(global.window.dataLayer.push.firstCall).to.be.null;
+  });
+
+  it('should capture analytics events when starting the form', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    global.window.dataLayer.push = sinon.spy();
+    const fetchSpy = sinon.spy();
+    const tree = ReactTestUtils.renderIntoDocument(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}
+        gaStartEventName="testing, testing"
+        prefillAvailable
+      />,
+    );
+    const formDOM = getFormDOM(tree);
+    formDOM.click('.usa-button-primary');
+
+    expect(global.window.dataLayer.push.firstCall.args).to.eql([
+      {
+        event: 'testing, testing',
+      },
+    ]);
   });
 });
