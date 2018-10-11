@@ -104,21 +104,6 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 </div>
 </div>
 
-- [Cancers and other conditions caused by contact with hazardous materials](/health-care/health-needs-conditions/chemical-hazardous-materials-exposure/)
-
-- [HIV/AIDS](https://www.hiv.va.gov/patient/index.asp)
-
-- [Assisted living and home health care](/health-care/about-va-health-benefits/long-term-care/)
-
-- [Infertility due to service-connected conditions](https://www.va.gov/COMMUNITYCARE/programs/veterans/ivf.asp)
-
-
-**[Get an overview of what’s covered by VA health care](/health-care/about-va-health-benefits/).**
-
-</div>
-</div>
-</div>
-
 <br>
 
 #### Does VA address the specific health needs of LGBT Veterans? <br>
