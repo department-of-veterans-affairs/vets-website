@@ -51,7 +51,7 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-**Mental health problems**
+**Mental health and trauma-related needs**
 
 - [Mental health problems like bipolar disorder, schizophrenia, and anxiety disorders](/health-care/health-needs-conditions/mental-health/)
 
@@ -71,11 +71,38 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 - [Dental care](/health-care/about-va-health-benefits/dental-care/)
 
+**Illnesses and injuries**
+
+- [Cancers and other conditions caused by contact with hazardous materials](/health-care/health-conditions/exposure-to-hazardous-materials/)
+
+- [HIV/AIDS](https://www.hiv.va.gov/patient/index.asp)
+
+- [Kidney disease (including dialysis care)](https://www.va.gov/health/services/renal/)
+
+- [Multiple Sclerosis (MS)](https://www.va.gov/MS/Veterans/benefits/What_Are_My_VA_Benefits_for_Multiple_Sclerosis.asp)
+
+- [Parkinson's disease](https://www.parkinsons.va.gov/patients.asp)
+
+- [Spinal cord injuries and disorders](https://www.sci.va.gov/)
+
+- [Traumatic brain injury (TBI), polytrauma, and amputation](https://www.polytrauma.va.gov) 
+
+- [Viral hepatitis](https://www.hepatitis.va.gov/patient/index.asp)
+
 **Other health conditions and needs**
 
-- [Military sexual trauma (MST)](/health-care/health-needs-conditions/military-sexual-trauma/)
+- [Assisted living and home health care](/health-care/about-va-health-care/assisted-living-and-home-health-care/)
 
-- [Women’s health care needs](/health-care/health-needs-conditions/womens-health-needs/)
+- [Infertility due to service-connected conditions](https://www.va.gov/COMMUNITYCARE/programs/veterans/ivf.asp)
+
+- [Women’s health care needs](/health-care/health-conditions/womens-health-care-needs/)
+
+
+**[Get an overview of what’s covered by VA health care](/health-care/about-va-health-care/).**
+
+</div>
+</div>
+</div>
 
 - [Cancers and other conditions caused by contact with hazardous materials](/health-care/health-needs-conditions/chemical-hazardous-materials-exposure/)
 
@@ -93,7 +120,8 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 </div>
 
 <br>
-####Does VA address the specific health needs of LGBT Veterans? <br>
+
+#### Does VA address the specific health needs of LGBT Veterans? <br>
 
 Yes. We're committed to serving the health needs of Veterans with LGBT and related identities and providing care in a sensitive, safe environment at all VA health facilities. <br>
 
