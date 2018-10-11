@@ -1,0 +1,7 @@
+{
+  "appName": "781 and 781a PTSD",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "781-ptsd",
+  "rootUrl": "/disability-benefits/781",
+  "production": false
+}
