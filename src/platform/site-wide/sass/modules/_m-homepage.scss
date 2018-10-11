@@ -32,7 +32,7 @@
   }
 }
 
-// The !importants here are due to the 
+// The !importants here are due to the
 // usa-grid padding 0 rule
 .homepage-benefits-row {
   padding-bottom: 1.5em;
@@ -95,6 +95,7 @@
     color: $color-white;
     text-decoration: none;
     background-color: $color-primary;
+    outline-offset: 2px;
   }
 
   &.vcl {
