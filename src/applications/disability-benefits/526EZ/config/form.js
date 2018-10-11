@@ -104,7 +104,6 @@ import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWi
 
 const {
   treatments,
-  // privateRecordReleases, // TODO: Re-enable after 4142 PDF integration
   serviceInformation: {
     properties: { servicePeriods },
   },
@@ -133,10 +132,6 @@ const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
-  // submit: data => {
-  //   console.log(data);
-  //   return Promise.resolve({ attributes: { confirmationNumber: '123123123' } });
-  // },
   trackingPrefix: 'disability-526EZ-',
   formId: '21-526EZ',
   version: 1,
@@ -783,11 +778,7 @@ const formConfig = {
                 'ui:description': recordReleaseDescription,
                 'ui:title': disabilityNameTitle,
                 'view:limitedConsent': {
-                  'ui:options': {
-                    updateSchema: () => ({
-                      title: limitedConsentTitle,
-                    }),
-                  },
+                  'ui:title': limitedConsentTitle,
                 },
                 limitedConsent: {
                   'ui:title': limitedConsentTextTitle,
@@ -827,29 +818,8 @@ const formConfig = {
                     providerFacilityAddress: Object.assign(
                       addressUI('', false),
                       {
-                        street: {
-                          'ui:title': 'Street',
-                          'ui:errorMessages': {
-                            pattern:
-                              'Street address must be less than 20 characters.',
-                          },
-                        },
                         street2: {
                           'ui:title': 'Street 2',
-                          'ui:errorMessages': {
-                            pattern:
-                              'Street address 2 must be less than 6 characters.',
-                          },
-                        },
-                        city: {
-                          'ui:title': 'City',
-                          'ui:errorMessages': {
-                            pattern:
-                              'Please provide a valid city. Must be at least 1 character.',
-                          },
-                        },
-                        state: {
-                          'ui:title': 'State',
                         },
                         postalCode: {
                           'ui:title': 'Postal Code',
@@ -891,7 +861,8 @@ const formConfig = {
                         properties: {
                           providerFacilityName: {
                             type: 'string',
-                            pattern: '^(.{1,100})$',
+                            minLength: 1,
+                            maxLength: 100,
                           },
                           treatmentDateRange: {
                             type: 'object',
@@ -911,7 +882,7 @@ const formConfig = {
                               properties: {
                                 street: {
                                   minLength: 1,
-                                  maxLength: 50,
+                                  maxLength: 20,
                                   type: 'string',
                                 },
                                 street2: {
@@ -921,10 +892,12 @@ const formConfig = {
                                 },
                                 city: {
                                   minLength: 1,
-                                  maxLength: 51,
+                                  maxLength: 30,
                                   type: 'string',
                                 },
                                 postalCode: {
+                                  minLength: 1,
+                                  maxLength: 9,
                                   type: 'string',
                                 },
                                 country: {
