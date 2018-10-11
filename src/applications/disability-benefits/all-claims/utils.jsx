@@ -243,18 +243,15 @@ export const hasOtherEvidence = formData =>
 export const hasPrivateEvidence = formData =>
   _.get(DATA_PATHS.hasPrivateEvidence, formData, false);
 
-export const servedAfter911 = formData => {
-  return _.get('serviceInformation.servicePeriods', formData, []).filter(
+export const servedAfter911 = formData =>
+  _.get('serviceInformation.servicePeriods', formData, []).filter(
     ({ dateRange }) => {
-      if (!(dateRange && dateRange.from && dateRange.to)) {
+      if (!(dateRange && dateRange.to)) {
         return false;
       }
 
-      const { from, to } = dateRange;
-      const fromDate = new Date(from);
-      const toDate = new Date(to);
+      const toDate = new Date(dateRange.to);
       const cutOff = new Date(NINE_ELEVEN);
-      return fromDate.getTime() > cutOff.getTime() || toDate.getTime() > cutOff;
+      return toDate.getTime() > cutOff;
     },
   ).length;
-};
