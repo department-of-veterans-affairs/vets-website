@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../../platform/utilities/ui';
@@ -43,3 +44,17 @@ export default class ConfirmationPage extends React.Component {
     }
   }
 }
+
+ConfirmationPage.propTypes = {
+  submissionStatus: PropTypes.oneOf(Object.values(submissionStatuses)),
+  fullName: PropTypes.shape({
+    first: PropTypes.string,
+    last: PropTypes.string,
+    middle: PropTypes.string,
+    suffix: PropTypes.string,
+  }).isRequired,
+  disabilities: PropTypes.array.isRequired,
+  submittedAt: PropTypes.string.isRequired,
+  claimId: PropTypes.string,
+  jobId: PropTypes.string,
+};
