@@ -1,19 +1,14 @@
 import _ from '../../../../platform/utilities/data';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
-import fullSchema4142 from 'vets-json-schema/dist/21-4142-schema.json';
-
 // NOTE: Easier to run schema locally with hot reload for dev
 // import fullSchema526EZ from '/path/Sites/vets-json-schema/dist/21-526EZ-schema.json';
 
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import {
-  schema as addressSchema,
-  uiSchema as addressUI,
-} from '../../../../platform/forms/definitions/address';
 
+import { uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
 import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
@@ -876,43 +871,46 @@ const formConfig = {
                             },
                             required: ['from', 'to'],
                           },
-                          providerFacilityAddress: Object.assign(
-                            addressSchema(fullSchema4142, true),
-                            {
-                              properties: {
-                                street: {
-                                  minLength: 1,
-                                  maxLength: 20,
-                                  type: 'string',
-                                },
-                                street2: {
-                                  minLength: 1,
-                                  maxLength: 5,
-                                  type: 'string',
-                                },
-                                city: {
-                                  minLength: 1,
-                                  maxLength: 30,
-                                  type: 'string',
-                                },
-                                postalCode: {
-                                  minLength: 1,
-                                  maxLength: 9,
-                                  type: 'string',
-                                },
-                                country: {
-                                  type: 'string',
-                                  enum: countries,
-                                  default: 'USA',
-                                },
-                                state: {
-                                  type: 'string',
-                                  enum: states,
-                                  enumNames: stateNames,
-                                },
+                          providerFacilityAddress: {
+                            type: 'object',
+                            required: [
+                              'street',
+                              'city',
+                              'country',
+                              'state',
+                              'postalCode',
+                            ],
+                            properties: {
+                              street: {
+                                minLength: 1,
+                                maxLength: 50,
+                                type: 'string',
+                              },
+                              street2: {
+                                minLength: 1,
+                                maxLength: 5,
+                                type: 'string',
+                              },
+                              city: {
+                                minLength: 1,
+                                maxLength: 51,
+                                type: 'string',
+                              },
+                              postalCode: {
+                                type: 'string',
+                              },
+                              country: {
+                                type: 'string',
+                                enum: countries,
+                                default: 'USA',
+                              },
+                              state: {
+                                type: 'string',
+                                enum: states,
+                                enumNames: stateNames,
                               },
                             },
-                          ),
+                          },
                         },
                       },
                     },
