@@ -46,7 +46,7 @@ With our VA Appointments tools, you can schedule some VA health care appointment
         <p><strong>To connect with a Veterans Crisis Line responder anytime day or night:</strong></p>
         <ul>
              <li>Call <a href="tel:+18002738255">1-800-273-8255</a>, then press 1.</li>
-          <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
+          <li><a class="no-external-icon" href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
            <li>Text <a href="sms:838255">838255</a>.</li>
            <li>Call TTY <a href="tel:+18007994889">1-800-799-4889</a> for support if you have hearing loss. 
            </ul>
