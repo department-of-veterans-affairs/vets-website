@@ -228,7 +228,8 @@ You can get answers to your questions about these tools within our My HealtheVet
 <a href="https://www.myhealth.va.gov/mhv-portal-web/faqs#Appointments">Read VA Appointments FAQs</a>. <br>
 
 You can also contact the My HealtheVet Help Desk. <br>
-<a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv">Find out how to contact us online</a>.<br>
+<a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/contact-mhv">Find out how to contact us online</a>.
+
 Or call us at <a href="tel:+18773270022">1-877-327-0022</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>). We’re here Monday through Friday, 7:00 a.m. to 7:00 p.m. (CT)
 
 </div>
