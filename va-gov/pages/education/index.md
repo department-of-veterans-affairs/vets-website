@@ -167,6 +167,11 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
   </div>
 
   <div class="link">
+    <a href="https://www.gibill.va.gov/wave/index.do"><b>Verify Your School Enrollment</b></a>
+    <p>Use our online verification system (called "WAVE") to confirm you're enrolled in an approved school or training program so you keep receiving your education benefits.</p>
+  </div>
+
+  <div class="link">
     <a href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp"><b>Apply to Restore Your GI Bill Benefits</b></a>
     <p>If your school closed or your program ended because of a change in VA regulations or a new law, apply to have your GI Bill benefits restored.</p>
   </div>
