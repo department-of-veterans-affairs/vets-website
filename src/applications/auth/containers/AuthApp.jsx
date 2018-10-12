@@ -178,7 +178,7 @@ export class AuthApp extends React.Component {
     const view = this.state.error ? (
       this.renderError()
     ) : (
-      <LoadingIndicator message="Signing in to {siteName}..." />
+      <LoadingIndicator message={`Signing in to ${siteName}...`} />
     );
 
     return (
