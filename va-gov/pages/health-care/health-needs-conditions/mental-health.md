@@ -1,6 +1,3 @@
-[See our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf).
-<br>
-[Visit MentalHealth.va.gov](https://www.mentalhealth.va.gov/).
 ---
 layout: page-breadcrumbs.html
 template: detail-page
@@ -49,7 +46,7 @@ If you're having problems sleeping, controlling your anger, readjusting to civil
 <br>
 
 <div class="feature" markdown=“0”>
-	
+
 ## Getting Started with VA Mental Health Services
 
 ### How do I schedule my first appointment?
@@ -193,7 +190,7 @@ We offer Same-Day Services to make sure that we can either address your mental h
 All mental health care at VA supports recovery. Our goal is to help you take charge of your treatment and live a full and meaningful life. Our providers also receive training about military culture, gender differences, and ethnic issues so that we can better understand each Veteran. <br>
 
 [Download our Getting Started with Mental Health guide](#) <br>
-[See our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf). <br>
+[Download our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf). <br>
 [Visit MentalHealth.va.gov](https://www.mentalhealth.va.gov/).
 
 ### Are there VA mental health resources for family, friends, and caregivers of Veterans?
