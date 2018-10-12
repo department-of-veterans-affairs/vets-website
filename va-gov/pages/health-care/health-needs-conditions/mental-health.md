@@ -14,7 +14,7 @@ aliases:
 
 <div class="va-introtext">
 
-Find out how to access VA mental health services. We offer treatment and support for a range of mental health problems, including post-traumatic stress disorder (PTSD), psychological effects of military sexual trauma (MST), depression, grief, substance use problems, and anxiety-related conditions.
+Find out how to access VA mental health services for post-traumatic stress disorder (PTSD), psychological effects of military sexual trauma (MST), depression, grief, substance use problems, anxiety-related conditions, and other needs.
 
 </div>
 
@@ -47,7 +47,7 @@ Find out how to access VA mental health services. We offer treatment and support
 
 If you need support for a mental health problem like PTSD, depression, or substance use—or if you're having problems sleeping, controlling your anger, or readjusting to civilian life—you're not alone. And we can help. 
 
-Over 1.7 million Veterans received mental health services at VA last year. Our services range from peer support with other Veterans to counseling, therapy, medication or a combination of these options. 
+Over 1.7 million Veterans received mental health services at VA last year. Our services range from peer support with other Veterans to counseling, therapy, medication or a combination of these options. And our goal is to help you take charge of your treatment and live a full and meaningful life. Our providers also receive training about military culture, gender differences, and ethnic issues so that we can better understand each Veteran.
 
 ### How do I schedule my first appointment?
 
@@ -56,40 +56,15 @@ Over 1.7 million Veterans received mental health services at VA last year. Our s
 **If you're not already using VA medical services,** contact your nearest VA medical center (VAMC) or Vet Center to talk about your needs. <br>
 [Find your nearest VA medical center or Vet Center](https://www.accesstopwt.va.gov/Main/StateMap/true).
 
+
 ### What if I'm not sure what kind of help I need?
 
 You can call 1-877-222-VETS (<a href="tel:+18002228387">1-877-222-8387</a>) to find the right resource for your needs. If you have hearing loss, call TTY: <a href="tel:+18008778339">1-800-877-8339</a>. 
 
 We're here Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
 
-<div class="feature" markdown=“1”>
 
-### What mental health problems does VA treat?
-
-We offer treatment and support for mental health problems, like:
-
-- [Posttraumatic stress disorder (PTSD)](/health-care/health-needs-conditions/mental-health/ptsd/)
-- [Depression](/health-care/health-needs-conditions/mental-health/depression/)
-- [Suicide prevention](/health-care/health-needs-conditions/mental-health/suicide-prevention/)
-- [Issues related to military sexual trauma (MST)](/health-care/health-needs-conditions/military-sexual-trauma/)
-- [Substance use problems](/health-care/health-needs-conditions/substance-use-problems/)
-- [Bipolar disorder](https://www.mentalhealth.va.gov/bipolar.asp)
-- [Schizophrenia](https://www.mentalhealth.va.gov/schizophrenia.asp)
-
-We also treat anxiety-related conditions, like:
-
-- [Generalized anxiety disorder](https://www.mentalhealth.va.gov/generalizedanxiety.asp)
-- [Panic disorder](https://www.mentalhealth.va.gov/panicdisorder.asp)
-- [Social anxiety](https://www.mentalhealth.va.gov/socialanxiety.asp)
-- [Specific phobias](https://www.mentalhealth.va.gov/specificphobias.asp)
-
-We also offer grief counseling.
-
-All mental health care at VA supports recovery. Our goal is to help you take charge of your treatment and live a full and meaningful life. Our providers also receive training about military culture, gender differences, and ethnic issues so that we can better understand each Veteran.
-
-</div>
-
-### It can be hard for me to visit VA facilities. Are there services I can access online?
+### It's hard for me to get to VA facilities. Are there services I can access online?
 
 Yes. You may be able to use the different virtual options below.
 
@@ -128,12 +103,8 @@ Yes. **BeThere** is a Peer Assistance Line and outreach center available for all
 
 Or call 1-877-WAR VETS (<a href="tel:+18779278387">1-877-927-8387</a>) to speak to a fellow Combat Veteran about your experiences, 24 hours a day, 7 days a week, 365 days a year.
 
-**If you'd like to connect with other Veterans, families, and local services,** you can visit our Make the Connection website. This site connects millions of Veterans, and their family members and friends, to local VA and community mental health resources. Visit the site to access these referral resources, and hear Veteran testimonials of strength and recovery.
+**If you'd like to connect with other Veterans, families, and local services,** you can visit our Make the Connection website. This site connects millions of Veterans, and their family members and friends, to local VA and community mental health resources. Visit the site to access these referral resources, and hear Veteran testimonials of strength and recovery. <br>
 [Go to Make the Connection](https://maketheconnection.net/).
-
-### Will using mental health services at VA put my career at risk?
-
-A mental health diagnosis or seeking mental health care doesn't automatically put work-related credentials such as security clearances at risk. Most employers recognize that healthy employees who get help if they need it are more productive and effective in their jobs than those who aren't performing at their best because they're not feeling well.
 
 ------
 
@@ -143,6 +114,13 @@ Get answers to other questions you may have about our services.
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-risk">Will using mental health services at VA put my career at risk?</button>
+<div id="questions-risk" class="usa-accordion-content">
+A mental health diagnosis or seeking mental health care doesn't automatically put work-related credentials such as security clearances at risk. Most employers recognize that healthy employees who get help if they need it are more productive and effective in their jobs than those who aren't performing at their best because they're not feeling well.
+
+</div>
+</li>
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-enrolled">Do I need to be enrolled in VA health care to access mental health care?</button>
 <div id="questions-enrolled" class="usa-accordion-content">
@@ -183,6 +161,29 @@ We offer Same-Day Services to make sure that we can either address your mental h
 </div>
 </li>
 <li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-problems">What mental health problems does VA treat?</button>
+<div id="questions-problems" class="usa-accordion-content">
+	
+**We offer treatment and support for a range of mental health problems, including:**
+
+- [Posttraumatic stress disorder (PTSD)](/health-care/health-needs-conditions/mental-health/ptsd/)
+- [Depression](/health-care/health-needs-conditions/mental-health/depression/)
+- [Suicide prevention](/health-care/health-needs-conditions/mental-health/suicide-prevention/)
+- [Issues related to military sexual trauma (MST)](/health-care/health-needs-conditions/military-sexual-trauma/)
+- [Substance use problems](/health-care/health-needs-conditions/substance-use-problems/)
+- [Bipolar disorder](https://www.mentalhealth.va.gov/bipolar.asp)
+- [Schizophrenia](https://www.mentalhealth.va.gov/schizophrenia.asp)
+
+We also treat anxiety-related conditions, like:
+
+- [Generalized anxiety disorder](https://www.mentalhealth.va.gov/generalizedanxiety.asp)
+- [Panic disorder](https://www.mentalhealth.va.gov/panicdisorder.asp)
+- [Social anxiety](https://www.mentalhealth.va.gov/socialanxiety.asp)
+- [Specific phobias](https://www.mentalhealth.va.gov/specificphobias.asp)
+	
+</div>
+</li>
+</li>	
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-services">What kinds of mental health services does VA provide?</button>
 <div id="questions-services" class="usa-accordion-content">
 
@@ -198,10 +199,8 @@ We offer Same-Day Services to make sure that we can either address your mental h
 - **Emergency mental health care 24 hours a day, 7 days a week**, through VA medical centers and some local, non-VA hospitals
 - **The Veterans Crisis Line**, which offers support 24 hours a day, 7 days a week, for Veterans in crisis and their families and friends
 
-All mental health care at VA supports recovery. Our goal is to help you take charge of your treatment and live a full and meaningful life. Our providers also receive training about military culture, gender differences, and ethnic issues so that we can better understand each Veteran. <br>
-
-[Download our Getting Started with Mental Health guide](#) <br>
-[Visit MentalHealth.va.gov](https://www.mentalhealth.va.gov/).
+[Learn more about VA mental health services](https://www.mentalhealth.va.gov/).
+[Download our guide to getting started with VA mental health](#).
 
 </div>
 </li>
@@ -224,7 +223,7 @@ You can also contact our **Coaching Into Care** program to speak directly with a
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-facility">How do I find my closest VA health facility?</button>
 <div id="questions-facility" class="usa-accordion-content">
 
-You can use our facilitor locator to search for VA health facilities near you. 
+You can use our facilitor locator to search for VA health facilities near you. <br>
 
 [Find your closest VA health facility](https://preview.va.gov/facilities/?zoomLevel=4&page=1&facilityType=health). 
 
@@ -273,8 +272,8 @@ The administration offers free, confidential help with treatment referral and in
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="resources-veterans">Community Mental Health Resources</button>
-<div id="resources-veterans" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="resources-community">Community Mental Health Resources</button>
+<div id="resources-community" class="usa-accordion-content">
 
 <b>[The National Alliance on Mental Illness](https://www.nami.org/local/)</b>
 The Alliance builds better lives for millions of Americans affected by mental illness by providing education programs for families and individuals living with mental health problems.
