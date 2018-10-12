@@ -71,7 +71,7 @@ With our VA Appointments tools, you can schedule some VA health care appointment
   </div>
 </div>
 
-<h2>Schedule a VA Appointment Online</h2>
+<h2>Schedule or Cancel a VA Appointment Online</h2>
 
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
