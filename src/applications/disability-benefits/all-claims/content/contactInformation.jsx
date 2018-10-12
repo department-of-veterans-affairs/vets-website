@@ -27,12 +27,15 @@ export const AddressViewField = ({ formData }) => {
     lastLine = `${city}, ${country}`;
   }
   return (
-    <div>
-      {addressLine1 && <p>{addressLine1}</p>}
-      {addressLine2 && <p>{addressLine2}</p>}
-      {addressLine3 && <p>{addressLine3}</p>}
-      <p>{lastLine}</p>
-    </div>
+    <p className="blue-bar-block">
+      {addressLine1 && addressLine1}
+      <br />
+      {addressLine2 && addressLine2}
+      {addressLine2 && <br />}
+      {addressLine3 && addressLine3}
+      {addressLine3 && <br />}
+      {lastLine}
+    </p>
   );
 };
 
