@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
 import { fetchSearchResults } from '../actions';
+import { formatResponseString } from '../utils';
 
 class SearchApp extends React.Component {
   static propTypes = {
@@ -46,21 +47,32 @@ class SearchApp extends React.Component {
     this.props.fetchSearchResults(this.state.userInput);
   };
 
+  /* eslint-disable react/no-danger */
   renderWebResult(result) {
     return (
-      <li key={result.url}>
-        <h4>{result.title}</h4>
-        <p>{result.url}</p>
-        <p>{result.snippet}</p>
+      <li key={result.url} className="result-item">
+        <h4>{formatResponseString(result.title)}</h4>
+        <p className="result-url">{result.url}</p>
+        <p
+          className="result-desc"
+          dangerouslySetInnerHTML={{
+            __html: formatResponseString(result.snippet, false),
+          }}
+        />
       </li>
     );
   }
+  /* eslint-enable react/no-danger */
 
   renderResults() {
     const { results } = this.props.search;
 
     if (results && results.length > 0) {
-      return <ul>{results.map(r => this.renderWebResult(r))}</ul>;
+      return (
+        <ul className="results-list">
+          {results.map(r => this.renderWebResult(r))}
+        </ul>
+      );
     }
 
     return <p>No results. Please try another search term.</p>;
@@ -68,15 +80,31 @@ class SearchApp extends React.Component {
 
   render() {
     return (
-      <div className="row user-profile-row">
-        <div className="usa-width-two-thirds medium-8 small-12 columns">
-          <h1>Search App</h1>
-          <form onSubmit={this.handleFormSubmit}>
-            <input type="text" name="query" onChange={this.handleInputChange} />
-            <button type="submit">Fetch search results</button>
-          </form>
-          <hr />
-          {this.renderResults()}
+      <div className="search-app">
+        <div className="row">
+          <div>
+            <h1>Search VA.gov</h1>
+          </div>
+        </div>
+        <div className="row">
+          <div className="usa-width-three-fourths medium-8 small-12 columns">
+            <form onSubmit={this.handleFormSubmit}>
+              <input
+                type="text"
+                name="query"
+                onChange={this.handleInputChange}
+              />
+              <button type="submit">Fetch search results</button>
+            </form>
+            <hr />
+            {this.renderResults()}
+          </div>
+          <div className="usa-width-one-fourth medium-4 small-12 columns">
+            <h4>More VA Search Tools</h4>
+            <ul>
+              <li>link one</li>
+            </ul>
+          </div>
         </div>
       </div>
     );

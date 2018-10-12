@@ -1,0 +1,17 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+
+.search-app {
+  margin-bottom: 3em;
+
+  ul.results-list {
+    list-style-type: none;
+    padding: 0;
+
+    li.results-item {
+      p {
+        margin-top: 0;
+      }
+    }
+  }
+}

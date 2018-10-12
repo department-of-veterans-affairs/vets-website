@@ -1,4 +1,5 @@
 import '../../platform/polyfills';
+import './styles.scss';
 
 import startApp from '../../platform/startup';
 
@@ -9,5 +10,5 @@ import manifest from './manifest.json';
 startApp({
   url: manifest.rootUrl,
   reducer,
-  routes
+  routes,
 });
