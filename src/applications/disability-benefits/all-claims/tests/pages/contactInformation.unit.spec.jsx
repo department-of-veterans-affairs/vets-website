@@ -12,7 +12,7 @@ import {
   MILITARY_STATE_VALUES,
 } from '../../../all-claims/constants';
 
-describe('Disability benefits 526EZ contact information', () => {
+describe.only('Disability benefits 526EZ contact information', () => {
   const {
     schema,
     uiSchema,
@@ -288,6 +288,89 @@ describe('Disability benefits 526EZ contact information', () => {
             addressLine1: '123 Any Street',
             city: 'Anytown',
             state: 'AA',
+            zipCode: '12345',
+          },
+        }}
+        formData={{}}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('validates that effective date is in the future', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          phoneEmailCard: {
+            primaryPhone: '1231231231',
+            emailAddress: 'a@b.co',
+          },
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '123 Any Street',
+            city: 'Anytown',
+            state: 'MI',
+            zipCode: '12345',
+          },
+          'view:hasForwardingAddress': true,
+          forwardingAddress: {
+            effectiveDate: {
+              from: '2018-10-12',
+            },
+            country: 'USA',
+            addressLine1: '123 Any Street',
+            city: 'Detroit',
+            state: 'MI',
+            zipCode: '12345',
+          },
+        }}
+        formData={{}}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('validates that effective end date is after start date', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          phoneEmailCard: {
+            primaryPhone: '1231231231',
+            emailAddress: 'a@b.co',
+          },
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '123 Any Street',
+            city: 'Anytown',
+            state: 'MI',
+            zipCode: '12345',
+          },
+          'view:hasForwardingAddress': true,
+          forwardingAddress: {
+            effectiveDate: {
+              from: '2099-10-12',
+              to: '2099-10-12',
+            },
+            country: 'USA',
+            addressLine1: '123 Any Street',
+            city: 'Detroit',
+            state: 'MI',
             zipCode: '12345',
           },
         }}
