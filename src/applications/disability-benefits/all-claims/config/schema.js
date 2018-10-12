@@ -877,6 +877,9 @@ const schema = {
         },
       },
     },
+    isVAEmployee: {
+      type: 'boolean',
+    },
   },
 };
 
