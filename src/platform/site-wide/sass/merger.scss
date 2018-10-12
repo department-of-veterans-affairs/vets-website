@@ -520,6 +520,7 @@
 
   .usa-sidenav-list {
     a {
+      text-decoration: underline;
       padding-right: 0;
 
       &.va-button-primary {
@@ -555,6 +556,19 @@
     .usa-sidenav-sub_list{
       a {
         width: 100% !important; // sorry this is temporary
+        text-decoration: underline;
+
+        &:focus {
+          @include focus-gold-light-outline(0);
+          background-color: $mm-gray;
+          font-weight: bold;
+        }
+
+        &:hover {
+          text-decoration: underline;
+          background-color: $mm-gray;
+          font-weight: bold;
+        }
 
         &.usa-current {
           margin-left: 16px !important; // sorry this is temporary
@@ -580,7 +594,7 @@
     }
 
     .left-side-nav-title {
-      padding-bottom: 35px;
+      padding-bottom: 25px;
     }
 
     .usa-sidenav-list {
@@ -590,9 +604,15 @@
         }
 
         a {
+          color: $color-link-default;
           display: inline-block;
           vertical-align: middle;
           width: 100%;
+
+          &:focus, &:hover {
+            background-color: $mm-gray;
+            font-weight: bold;
+          }
         }
 
         i {
@@ -622,14 +642,30 @@
 
     .usa-sidenav-list {
       a.usa-current {
-        border-left: 0.4rem solid $color-light-blue;
+        color: $color-black;
+        border-left: 4px solid $color-black;
         padding-left: 8px;
         margin-left: 16px;
+        background-color: $mm-gray;
+        text-decoration: none;
 
         &.level-one {
           padding-left: 14px;
           margin-left: 0;
         }
+
+        &:hover {
+          font-weight: bold;
+        }
+
+        &:hover {
+          background-color: $mm-gray;
+          font-weight: bold;
+        }
+      }
+
+      .active-level {
+        background-color: $mm-gray;
       }
     }
     .fa {
@@ -739,7 +775,43 @@
   .white {
     color: $color-white;
   }
+
+  #va-detailpage-sidebar {
+    color: $color-link-default;
+
+    .usa-accordion-button {
+      color: $color-link-default;
+      font-weight: normal;
+      font-size: 17px;
+
+      &:hover, &:focus {
+        background-color: $mm-gray;
+        font-weight: bold;
+      }
+
+      &[aria-expanded=false] {
+        background-image: url("/img/plus-blue.svg");
+      }
+
+      &[aria-expanded=true] {
+        background-image: url("/img/minus-blue.svg");
+      }
+    }
+  }
+
+  .sidenav-previous-page {
+    padding-bottom: 15px;
+
+    a {
+      &::before {
+        content: " \2039 ";
+        display: inline-block;
+        padding: 0 0.35em 0 0;
+      }
+    }
+  }
 }
+
 .usa-accordion-bordered {
   .fa {
     color: $color-link-default;
@@ -765,6 +837,7 @@
     padding-left: 0;
   }
 }
+
 .flex-container {
   display: flex;
 }
@@ -775,4 +848,3 @@ img[data-srcset] {
   display: block;
   min-height: 1px;
 }
-
