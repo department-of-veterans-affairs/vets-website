@@ -34,7 +34,7 @@ export class CallToActionWidget extends React.Component {
   constructor(props) {
     super(props);
     const { appId, index } = props;
-    const { url, redirect } = toolUrl(appId);
+    const { url, redirect } = toolUrl(appId, index);
 
     this._hasRedirect = redirect;
     this._isHealthTool = isHealthTool(appId);

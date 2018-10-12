@@ -61,7 +61,7 @@ export const mhvToolName = appId => {
   return null;
 };
 
-export const toolUrl = appId => {
+export const toolUrl = (appId, index) => {
   switch (appId) {
     case frontendApps.HEALTH_RECORDS:
       return {
@@ -83,8 +83,11 @@ export const toolUrl = appId => {
 
     case frontendApps.APPOINTMENTS:
       return {
-        url: `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/scheduling-a-va-appointment`,
-        redirect: true,
+        url: [
+          `${mhvBaseUrl()}/mhv-portal-web/appointments`,
+          `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/scheduling-a-va-appointment`,
+        ][index],
+        redirect: false,
       };
 
     case frontendApps.LAB_AND_TEST_RESULTS:
