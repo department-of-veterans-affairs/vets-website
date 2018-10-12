@@ -9,15 +9,16 @@ const layouts = require('metalsmith-layouts');
 const liquid = require('tinyliquid');
 const markdown = require('metalsmith-markdownit');
 const moment = require('moment');
+const moveRemove = require('metalsmith-move-remove');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
-const sitemap = require('metalsmith-sitemap');
 const watch = require('metalsmith-watch');
 
 const webpackMetalsmithConnect = require('../config/webpack-metalsmith-connect');
 const environments = require('./constants/environments');
 const createBuildSettings = require('./create-build-settings');
 const createRedirects = require('./create-redirects');
+const createSitemaps = require('./create-sitemaps');
 const checkBrokenLinks = require('./check-broken-links');
 const createEnvironmentFilter = require('./create-environment-filter');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
@@ -160,20 +161,13 @@ if (BUILD_OPTIONS.watch) {
   }
 }
 
-smith.use(
-  sitemap({
-    hostname:
-      BUILD_OPTIONS.host === 'localhost'
-        ? 'http://localhost'
-        : BUILD_OPTIONS.host,
-    omitIndex: true,
-  }),
-);
+smith.use(createSitemaps(BUILD_OPTIONS));
 
 // Pages can contain an "alias" property in their metadata, which is processed into
 // separate pages that will each redirect to the original page.
 smith.use(createRedirects(BUILD_OPTIONS));
 
+smith.use(moveRemove(BUILD_OPTIONS));
 /* eslint-disable no-console */
 smith.build(err => {
   if (err) throw err;

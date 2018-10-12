@@ -54,6 +54,16 @@ import {
 } from './newDisabilityFollowUp';
 
 import {
+  uiSchema as newPTSDFollowUpUISchema,
+  schema as newPTSDFollowUpSchema,
+} from './newPTSDFollowUp';
+
+import {
+  uiSchema as summaryOfDisabilitiesUISchema,
+  schema as summaryOfDisabilitiesSchema,
+} from './summaryOfDisabilities';
+
+import {
   uiSchema as vaMedicalRecordsUISchema,
   schema as vaMedicalRecordsSchema,
 } from './vaMedicalRecords';
@@ -72,6 +82,11 @@ import {
   uiSchema as evidenceTypesUISchema,
   schema as evidenceTypesSchema,
 } from './evidenceTypes';
+
+import {
+  uiSchema as summaryOfEvidenceUISchema,
+  schema as summaryOfEvidenceSchema,
+} from './summaryOfEvidence';
 
 import {
   uiSchema as contactInformationUISchema,
@@ -148,6 +163,16 @@ export const newDisabilityFollowUp = {
   schema: newDisabilityFollowUpSchema,
 };
 
+export const newPTSDFollowUp = {
+  uiSchema: newPTSDFollowUpUISchema,
+  schema: newPTSDFollowUpSchema,
+};
+
+export const summaryOfDisabilities = {
+  uiSchema: summaryOfDisabilitiesUISchema,
+  schema: summaryOfDisabilitiesSchema,
+};
+
 export const vaMedicalRecords = {
   uiSchema: vaMedicalRecordsUISchema,
   schema: vaMedicalRecordsSchema,
@@ -166,6 +191,11 @@ export const additionalDocuments = {
 export const evidenceTypes = {
   uiSchema: evidenceTypesUISchema,
   schema: evidenceTypesSchema,
+};
+
+export const summaryOfEvidence = {
+  uiSchema: summaryOfEvidenceUISchema,
+  schema: summaryOfEvidenceSchema,
 };
 
 export const contactInformation = {

@@ -102,7 +102,7 @@ If you're eligible, we'll invite you to an orientation session at your nearest V
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">Go to eBenefits to Apply</a>
 
-[Find out how to apply if you haven’t yet received a disability rating](/careers-employment/how-to-apply/#servicemember-not-received-rating).
+[Find out how to apply if you haven’t yet received a disability rating](/careers-employment/vocational-rehabilitation/how-to-apply/#servicemember-not-received-rating).
 
 **Note:** VR&amp;E is an employment program that's different from the GI Bill and may be used to pay for education needed to train you for suitable employment. <br>
 [Learn more about the GI Bill](/education/about-gi-bill-benefits/).

@@ -4,7 +4,6 @@ import sinon from 'sinon';
 import {
   DefinitionTester,
   selectRadio,
-  fillDate,
   fillData,
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
@@ -42,46 +41,9 @@ describe('New disabilities follow up info', () => {
     );
 
     expect(form.find('input').length).to.equal(4);
-    expect(form.find('select').length).to.equal(2);
   });
 
-  it('should render primary disabilities', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          ratedDisabilities: [
-            {
-              name: 'Test',
-            },
-          ],
-          newDisabilities: [
-            {
-              condition: 'New condition',
-            },
-          ],
-        }}
-        formData={{}}
-      />,
-    );
-
-    selectRadio(form, 'root_cause', 'SECONDARY');
-
-    expect(form.find('input').length).to.equal(4);
-    expect(form.find('select').length).to.equal(3);
-    expect(
-      form
-        .find('select')
-        .first()
-        .find('option').length,
-    ).to.equal(2);
-  });
-
-  it('should render primary description question', () => {
+  it('should render NEW disability follow up questions', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -111,6 +73,124 @@ describe('New disabilities follow up info', () => {
     expect(form.find('textarea').length).to.equal(1);
   });
 
+  it('should render SECONDARY disability follow up questions', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ratedDisabilities: [
+            {
+              name: 'Test',
+            },
+          ],
+          newDisabilities: [
+            {
+              condition: 'New condition',
+            },
+          ],
+        }}
+        formData={{}}
+      />,
+    );
+
+    selectRadio(form, 'root_cause', 'SECONDARY');
+
+    expect(form.find('input').length).to.equal(4);
+    expect(form.find('select').length).to.equal(1);
+    expect(form.find('select').find('option').length).to.equal(2);
+  });
+
+  it('should render WORSENED disability followup questions', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ratedDisabilities: [
+            {
+              name: 'Test',
+            },
+          ],
+          newDisabilities: [
+            {
+              condition: 'New condition',
+            },
+          ],
+        }}
+        formData={{}}
+      />,
+    );
+
+    selectRadio(form, 'root_cause', 'WORSENED');
+
+    expect(form.find('input').length).to.equal(5);
+    expect(form.find('textarea').length).to.equal(1);
+  });
+
+  it('should render VA mistreatment disability followup questions', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ratedDisabilities: [
+            {
+              name: 'Test',
+            },
+          ],
+          newDisabilities: [
+            {
+              condition: 'New condition',
+            },
+          ],
+        }}
+        formData={{}}
+      />,
+    );
+
+    selectRadio(form, 'root_cause', 'VA');
+
+    expect(form.find('input').length).to.equal(6);
+    expect(form.find('textarea').length).to.equal(1);
+    expect(form.find('select').length).to.equal(2);
+  });
+
+  it('should not submit when data not filled in', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          newDisabilities: [
+            {
+              condition: 'Test',
+            },
+          ],
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
   it('should submit when data filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
@@ -133,11 +213,10 @@ describe('New disabilities follow up info', () => {
     );
 
     selectRadio(form, 'root_cause', 'NEW');
-    fillDate(form, 'root_disabilityStartDate', '2010-02-04');
     fillData(form, 'textarea#root_primaryDescription', 'Testing');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(onSubmit.calledOnce).to.be.true;
   });
 });

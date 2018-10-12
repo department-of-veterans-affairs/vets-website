@@ -9,7 +9,7 @@ import {
   formConfigs,
   isFormAuthorizable,
 } from '../helpers';
-import AuthorizationComponent from '../../../disability-benefits/686/components/AuthorizationComponent';
+import AuthorizationComponent from '../../../../platform/forms/components/AuthorizationComponent';
 
 class FormItem extends React.Component {
   recordDashboardClick = (formId, actionType = 'continue-button') => () => {

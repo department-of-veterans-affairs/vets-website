@@ -85,7 +85,7 @@ Yes. It’s important to update your information with us if you change your mari
 <a href="https://www.benefits.va.gov/compensation/add-dependents.asp">Find out how to add eligible dependents</a>.
 
 <b>If your disability gets worse</b>, you can file a claim for an increase in benefits. <br>
-<a href="/disability-benefits/apply/form-526-disability-claim/">File for a VA disability increase</a>.
+<a href="/disability/how-to-file-claim/">File for a VA disability increase</a>.
 
 </div>
 </div>
