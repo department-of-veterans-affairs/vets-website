@@ -122,8 +122,8 @@ We can support you in all stages of your job search—from returning to work wit
   <h2>Get Career and Employment Assistance</h2>
 
   <div class="link">
-    <a href="/careers-employment/vocational-rehabilitation/"><b>Vocational Rehabilitation and Employment Programs for Veterans and Servicemembers</b></a>
-    <p>Explore vocational rehab (Chapter 31) support-and-services tracks for Veterans and Servicemembers with service-connected disabilities. We offer tracks for things like learning new skills, finding a new job, starting a new business, or returning to your former job.</p>
+    <a href="/careers-employment/vocational-rehabilitation/"><b>About Vocational Rehabilitation and Employment (Chapter 31) Programs</b></a>
+    <p>Explore vocational rehabilitation and employment support-and-services tracks for Veterans and Servicemembers with service-connected disabilities. We offer tracks for needs like learning new skills, finding a new job, starting a new business, or returning to your former job.</p>
   </div>
 
   <div class="link">
