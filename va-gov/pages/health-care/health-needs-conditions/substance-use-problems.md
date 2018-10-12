@@ -38,7 +38,7 @@ If you’re struggling with substance use problems, you’re not alone. Many Vet
 	    <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>
 	    <ul>
               <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
-	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
+	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/" class="no-external-icon">Start a confidential Veterans Chat</a>.</li>
   	      <li>Text <a href="sms:838255">838255</a>.</li>
             </ul>
      	    <p><strong>You can also:</strong></p>
@@ -120,7 +120,7 @@ You may still be able to get care:
 ### Where can I find more information and support?
 
 - [Download our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf).
-- Go to our Make the Connection website to hear stories from Veterans about their own experiences with overcoming drug and alcohol problems, and to get access to more resources and support. [Visit Make the Connection](https://maketheconnection.net/).
+- Go to our Make the Connection website to hear stories from Veterans about their own experiences with overcoming drug and alcohol problems, and to get access to more resources and support. <a href="http://maketheconnection.net/" class="no-external-icon">Visit Make the Connection</a>
 - Visit our Self-Help Resources guide to get links to books, web resources, and mobile applications that have been reviewed and recommended by VA experts. [Get self-help resources](https://www.mentalhealth.va.gov/self_help.asp).
 - Visit the resources section of our VA website to find more trusted resources outside VA that can offer information and support. [Find resources](https://www.mentalhealth.va.gov/substanceabuse.asp).
 - Download our Stay Quit Coach mobile app—designed to help Veterans with PTSD quit smoking. We based this app on steps proven to work to help people quit smoking. It includes tools to control cravings and manage smoking triggers, messages to keep you going, medication reminders, and more. [Get the Stay Quit Coach app](https://mobile.va.gov/app/stay-quit-coach).

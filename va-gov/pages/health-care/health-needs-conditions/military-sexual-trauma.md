@@ -42,7 +42,7 @@ Military sexual trauma (MST) refers to sexual assault or repeated, threatening s
 	    <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>
 	    <ul>
               <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
-	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
+	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/" class="no-external-icon">Start a confidential Veterans Chat</a>.</li>
   	      <li>Text <a href="sms:838255">838255</a>.</li>
             </ul>
      	    <p><strong>You can also:</strong></p>
@@ -127,7 +127,7 @@ Or get help applying for disability compensation by:
 - Access more fact sheets, articles, and resources, and learn more about our programs and services on the VA.gov website.<br>
 [Go to the VA.gov MST website](https://www.mentalhealth.va.gov/msthome.asp).
 - Go to our Make the Connection website to hear stories from Veterans about their own experiences with the effects of MST, and find more resources and support.<br>
-[Visit Make the Connection](https://maketheconnection.net/).
+<a href="http://maketheconnection.net/" class="no-external-icon">Visit Make the Connection</a>
 - Go to the Department of Defense (DoD) Safe Helpline website, a crisis support service for members of the DOD community affected by sexual assault. When you contact the Safe Helpline, you can remain anonymous (meaning you don’t have to give your name). You can get 1-on-1 advice, support, and information 24/7—by phone, text, or online chat. You can also connect with a sexual assault response coordinator near your base or installation.<br>
 [Visit SafeHelpline.org](https://www.safehelpline.org/).
 

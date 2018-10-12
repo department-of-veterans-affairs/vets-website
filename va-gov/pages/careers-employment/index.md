@@ -98,7 +98,7 @@ We can support you in all stages of your job search—from returning to work wit
         </ul>
         <p><b>Talk with someone right now:</b>
         <p>Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.</p>
-        <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</p>
+        <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat" class="no-external-icon" >Chat online with a trained VA staff member</a>.</p>
       </div>
     </div>
   </div>
@@ -174,6 +174,11 @@ We can support you in all stages of your job search—from returning to work wit
   <div class="link">
     <a href="https://dol.gov/veterans/findajob/"><b>Find a Job (Department of Labor)</b></a>
     <p>Search for jobs, get help translating your military skills and experience to civilian jobs, and access other career resources.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.va.gov/jobs/?utm_source=jobs_button&utm_campaign=ChooseVA_Website_Buttons"><b>Find VA Careers and Support</b></a>
+    <p>Get support for starting or advancing your career at VA or other federal government departments.</p>
   </div>
 
   <div class="link">
