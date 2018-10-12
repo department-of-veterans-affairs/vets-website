@@ -47,11 +47,11 @@ You may be eligible for additional disability compensation for a spouse, child, 
 
 ### Who does VA consider a dependent?
 
-**We recognize  as a dependent your:**
+**A dependent is:**
 
-- Spouse (**Note:** we recognize same-sex and common-law marriages)
-- Parent, if you’re directly caring for them and their income and net worth are below a certain amount
-- Unmarried child (including an adopted child or stepchild) who meets one of the eligibility requirements listed below
+- A spouse (**Note:** we recognize same-sex and common-law marriages)
+- A parent, if you’re directly caring for them and their income and net worth are below a certain amount
+- An unmarried child (including an adopted child or stepchild) who meets one of the eligibility requirements listed below
 
 **To be considered a dependent, one of these must be true of an unmarried child. They:**
 - Are under 18 years old, **or**
@@ -64,15 +64,15 @@ You may be eligible for additional disability compensation for a spouse, child, 
 
 This depends on where you are in the process of applying for disability compensation.
 
-### If you haven’t yet applied for disability compensation
+### If you haven’t applied yet for disability compensation
 
-You may file a claim at the same time you apply for disability compensation.
+You may file a claim at the same time as you apply for disability compensation.
 
 If you receive a combined disability rating of at least 30%, we’ll automatically consider your eligibility for additional disability compensation for your dependent. <br>
 
-[Find out how to file a claim for disability compensation](/disability-benefits/apply/). 
+[Find out how to file a claim for disability compensation](/disability/how-to-file-claim/). 
 
-### If you have one or more dependents, but didn’t claim them when you originally applied for disability compensation 
+### If you have one or more dependents, but you didn’t claim them when you originally applied for disability compensation 
 
 If you have a combined disability rating of at least 30%, you may file your claim for additional disability compensation online.
 
@@ -95,19 +95,19 @@ You can file your claim online right now.
 
 ### To file a claim for additional disability compensation for a child or spouse
 
-You may also need to provide more information or forms along with your claim.
+**Note:** You may need to provide more information or forms along with your claim.
  
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation">Go to eBenefits to File Your Claim</a>	
 
-**If you’re claiming your child became permanently disabled before they turned 18,** you’ll need to turn in all private medical records for the child’s disabilities with your application. 
+**If you’re claiming your child who became permanently disabled before they turned 18,** you’ll need to turn in all private medical records relating to the child’s disabilities with your application. 
 
-**If your dependent is a child who’s between 18 and 23 years old and attending school full time,** you’ll need to also submit a Request for Approval of School Attendance (VA Form 21-674) with your application. <br>
+**If your dependent is a child who’s between 18 and 23 years old and attending school full time,** you’ll also need to submit a Request for Approval of School Attendance (VA Form 21-674) with your application. <br>
 [Download VA Form 21-674](https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf). 
 
 ### To file a claim for additional disability compensation for a dependent parent
 
-You’ll need to fill out and submit a Statement of Dependency of Parent(s) (VA Form 21-509) by mail or fax. <br>
-[Download VA Form 21-509](https://www.vba.va.gov/pubs/forms/VBA-21P-509-ARE.pdf).
+You’ll need to fill out and submit a Statement of Dependency of Parent(s) (VA Form 21P-509) by mail or fax. <br>
+[Download VA Form 21P-509](https://www.vba.va.gov/pubs/forms/VBA-21P-509-ARE.pdf).
 
 **Please send all correspondence related to compensation claims to this address:**
 
@@ -126,7 +126,7 @@ Janesville, WI 53547-4444 <br>
  ## What if I need help with my claim?
  
 You can work with an accredited Veterans Service Officer (VSO). We trust these professionals because they’re trained and certified in the VA claims and appeals process. A VSO can answer your questions or even file your claim for you.<br>
-[Get help filing your claim](/disability-benefits/apply/help/). 
+[Get help filing your claim](/disability/get-help-filing-claim/). 
 
  <br>
 
