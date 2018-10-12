@@ -12,7 +12,7 @@ import {
   MILITARY_STATE_VALUES,
 } from '../../../all-claims/constants';
 
-describe.only('Disability benefits 526EZ contact information', () => {
+describe('Disability benefits 526EZ contact information', () => {
   const {
     schema,
     uiSchema,
