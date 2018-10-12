@@ -262,10 +262,10 @@ You can also get support from resources offered through other government and com
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="resources-veterans">Mental Health Resources for Veterans, Servicemembers, and Families</button>
 <div id="resources-veterans" class="usa-accordion-content">
 
-<b>[Military OneSource](https://www.militaryonesource.mil/mental-health)</b>
+<b>[Military OneSource](https://www.militaryonesource.mil/mental-health)</b><br>
 This free resource provides comprehensive expert support connecting military personnel and their family to resources available to best help them.
 
-<b>[The Psychological Health Resource Center](http://pdhealth.mil/)</b>
+<b>[The Psychological Health Resource Center](http://pdhealth.mil/)</b><br>
 The Center works to improve the lives of Veterans, Servicemembers, and their families by advancing excellence in psychological health care, readiness, and prevention.
 
 </div>
@@ -274,15 +274,15 @@ The Center works to improve the lives of Veterans, Servicemembers, and their fam
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="resources-suicide">National Suicide Prevention and Substance Use Resources</button>
 <div id="resources-suicide" class="usa-accordion-content">
 
-<b>[The National Suicide Prevention Lifeline](https://suicidepreventionlifeline.org/)</b>
+<b>[The National Suicide Prevention Lifeline](https://suicidepreventionlifeline.org/)</b><br>
 This 24/7, 365-day-a-year emergency mental health hotline offers help for people experiencing a mental health crisis. This is available through phone and online chat options.
 - Call 1-800-273-TALK (8255) (<a href="tel:+1800-662-4357">1-800-662-4357</a>)
 - [Start an online chat](https://suicidepreventionlifeline.org/chat/).
 
-<b>[The American Foundation for Suicide Prevention](https://afsp.org/)</b>
+<b>[The American Foundation for Suicide Prevention](https://afsp.org/)</b><br>
 The Foundation provides mental health resources for those struggling with suicidal ideations, and supportive educational tools for concerned family, friends and peers.
 
-<b>[The Substance Abuse and Mental Health Services Administration](https://www.samhsa.gov/)</b>
+<b>[The Substance Abuse and Mental Health Services Administration](https://www.samhsa.gov/)</b><br>
 The administration offers free, confidential help with treatment referral and information services that are available 24/7, 365-days-a-year. This call center provides support for individuals and families facing mental health and/or substance use disorders.
 - Call 1-800-662-HELP (<a href="tel:+1800-662-4357">1-800-662-4357</a>)
 - [Learn more about the helpline](https://www.samhsa.gov/find-help/national-helpline).
@@ -293,13 +293,13 @@ The administration offers free, confidential help with treatment referral and in
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="resources-community">Community Mental Health Resources</button>
 <div id="resources-community" class="usa-accordion-content">
 
-<b>[The National Alliance on Mental Illness](https://www.nami.org/local/)</b>
+<b>[The National Alliance on Mental Illness](https://www.nami.org/local/)</b><br>
 The Alliance builds better lives for millions of Americans affected by mental illness by providing education programs for families and individuals living with mental health problems.
 
-<b>[The Jed Foundation](https://www.jedfoundation.org/)</b>
+<b>[The Jed Foundation](https://www.jedfoundation.org/)</b><br>
 The foundation works closely with teenagers and young adults during transition periods that may be experiencing mental stress or at risk for suicide. 
 
-<b>[Mental Health America](http://www.mentlhealthamerica.net/)</b>
+<b>[Mental Health America](http://www.mentlhealthamerica.net/)</b><br>
 This organization works to ensure all people live mentally healthier lives through advocacy, and connections to mental health and mental resiliency resources.
 
 </div>
