@@ -43,7 +43,7 @@ Find out how to access VA mental health services. We offer treatment and support
   </div>
 </div>
 
-## Getting Started with VA Mental Health Services
+## Getting Started 
 
 If you need support for a mental health problem like PTSD, depression, or substance use—or if you're having problems sleeping, controlling your anger, or readjusting to civilian life—you're not alone. And we can help. 
 
@@ -137,7 +137,7 @@ A mental health diagnosis or seeking mental health care doesn't automatically pu
 
 ------
 
-## More Information about VA Mental Health Services
+## Other Questions You May Have about Our Services
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
