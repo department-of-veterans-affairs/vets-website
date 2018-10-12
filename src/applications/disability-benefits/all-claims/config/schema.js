@@ -894,6 +894,9 @@ const schema = {
       type: 'string',
       maxLength: 35,
     },
+    isVAEmployee: {
+      type: 'boolean',
+    },
   },
 };
 

@@ -10,7 +10,9 @@ const displayDate = dateString =>
   moment(dateString, evssDateFormat).format(outputDateFormat);
 
 export const itfMessage = (headline, content, status) => (
-  <div className="usa-grid full-page-alert">
+  // Inline style to match .full-page-alert bottom margin because usa-grid > :last-child has a
+  //  bottom margin of 0 and overrides it
+  <div className="full-page-alert">
     <div>
       <AlertBox
         isVisible

@@ -1,10 +1,12 @@
 import React from 'react';
 import { getDisabilityName } from '../utils';
 
-export const summaryOfDisabilitiesDescription = ({ formData }) => {
+export const SummaryOfDisabilitiesDescription = ({ formData }) => {
   const { ratedDisabilities, newDisabilities } = formData;
   const ratedDisabilityNames = ratedDisabilities
-    ? ratedDisabilities.map(disability => getDisabilityName(disability.name))
+    ? ratedDisabilities
+        .filter(disability => disability['view:selected'])
+        .map(disability => getDisabilityName(disability.name))
     : [];
   const newDisabilityNames = newDisabilities
     ? newDisabilities.map(disability => getDisabilityName(disability.condition))

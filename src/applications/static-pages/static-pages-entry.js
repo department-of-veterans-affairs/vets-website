@@ -1,4 +1,5 @@
 import '../../platform/polyfills';
+import LazyLoad from 'vanilla-lazyload/dist/lazyload';
 
 import createCommonStore from '../../platform/startup/store';
 import startSitewideComponents from '../../platform/site-wide';
@@ -35,6 +36,7 @@ const ctaTools = new Set([
   '/health-care/schedule-view-va-appointments/',
   '/health-care/view-test-and-lab-results/',
   '/records/download-va-letters/',
+  '/records/get-veteran-id-cards/vic/',
 ]);
 
 const burialPages = new Set([
@@ -131,3 +133,9 @@ if (location.pathname === '/disability-benefits/increase-claims-testing/') {
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
 }
+
+/* eslint-disable no-unused-vars,camelcase */
+const lazyLoad = new LazyLoad({
+  elements_selector: '.lazy',
+});
+/* eslint-enable */

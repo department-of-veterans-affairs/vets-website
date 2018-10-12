@@ -39,6 +39,7 @@ import {
   evidenceTypes,
   claimExamsInfo,
   homelessOrAtRisk,
+  vaEmployee,
   summaryOfEvidence,
 } from '../pages';
 
@@ -293,6 +294,12 @@ const formConfig = {
           path: 'housing-situation',
           uiSchema: homelessOrAtRisk.uiSchema,
           schema: homelessOrAtRisk.schema,
+        },
+        vaEmployee: {
+          title: 'VA employee',
+          path: 'va-employee',
+          uiSchema: vaEmployee.uiSchema,
+          schema: vaEmployee.schema,
         },
       },
     },

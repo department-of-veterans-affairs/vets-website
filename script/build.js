@@ -9,6 +9,7 @@ const layouts = require('metalsmith-layouts');
 const liquid = require('tinyliquid');
 const markdown = require('metalsmith-markdownit');
 const moment = require('moment');
+const moveRemove = require('metalsmith-move-remove');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const watch = require('metalsmith-watch');
@@ -166,6 +167,7 @@ smith.use(createSitemaps(BUILD_OPTIONS));
 // separate pages that will each redirect to the original page.
 smith.use(createRedirects(BUILD_OPTIONS));
 
+smith.use(moveRemove(BUILD_OPTIONS));
 /* eslint-disable no-console */
 smith.build(err => {
   if (err) throw err;

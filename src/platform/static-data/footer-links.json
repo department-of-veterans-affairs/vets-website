@@ -218,14 +218,14 @@
   },
   {
     "column": "bottom_rail",
-    "href": "https://www.va.gov/opa/Plain_Language.asp",
+    "href": "/opa/Plain_Language.asp",
     "order": 2,
     "target": null,
     "title": "Plain Language"
   },
   {
     "column": "bottom_rail",
-    "href": "https://www.va.gov/privacy/",
+    "href": "/privacy/",
     "order": 3,
     "target": null,
     "title": "Privacy Policy"

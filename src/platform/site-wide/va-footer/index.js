@@ -6,20 +6,17 @@
  */
 
 import React from 'react';
-import { Provider } from 'react-redux';
 import startReactApp from '../../startup/react';
-import Main from './containers/Main';
+import Footer from './components/Footer';
 
 /**
  * Sets up the login widget with the given store at login-root
  *
  * @param {Redux.Store} store The common store used on the site
  */
-export default function startVAFooter({ store, handleFooterDidMount }) {
+export default function startVAFooter(handleFooterDidMount) {
   startReactApp(
-    <Provider store={store}>
-      <Main handleFooterDidMount={handleFooterDidMount} />
-    </Provider>,
+    <Footer handleFooterDidMount={handleFooterDidMount} />,
     document.getElementById('footerNav'),
   );
 }

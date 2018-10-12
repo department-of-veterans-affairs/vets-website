@@ -24,24 +24,25 @@ At VA, we take your privacy seriously. That's why we collect only the personal i
 <h2>VA.gov Privacy Policy</h2>
 
 Thank you for visiting VA.gov and reviewing our Privacy Policy. The Department of Veterans Affairs (VA) applies leading privacy practices and adheres to data stewardship principles in managing our Web user data. The data stewardship principles guiding our efforts include the following goals:
--	protection of Web user privacy;
--	maintaining the confidentiality of Web user data; and
--	ensuring appropriate levels of security for Web user data.
-This policy describes how VA applies these principles to the handling of personal information you provide to us via VA.gov Web pages and forms. Personal information may include your name; email, home, and/or business address; phone numbers; Social Security Number; or other information that identifies you personally.
+-	Protecting Web user privacy,
+-	Maintaining the confidentiality of Web user data, and
+-	Ensuring appropriate levels of security for Web user data
+
+This policy describes how VA applies these principles to the handling of personal information you provide to us via VA.gov Web pages and forms. Personal information may include your name; email, home, and/or business address; phone numbers; Social Security number; or other information that identifies you personally.
 
 Key features of our privacy policy include:
 -	This General Web Page Privacy Policy (“General Policy”) applies to all VA.gov Web pages. Some VA.gov Web pages may provide additional policy guidance on privacy practices that is compatible with this General Policy. These additional policy guidance documents are called “Limited Privacy Policies.” Please review any appropriate Limited Privacy Policy which may be presented to you prior to submitting your information on any VA.gov Web page.
 -	We will not require you to register or provide personal information in order to visit the VA.gov Web site. However, certain areas of our site may require you to register or provide personal information before you will be granted access.
 -	VA.gov does not collect personal information from Web users unless the personal information is provided by you. A Limited Privacy Policy will apply in each case where you may provide personal information to VA through our Web site.
 -	VA.gov will never sell or rent your personal information to outside parties.
--	VA.gov uses Web analysis tools (e.g. cookies) for limited uses authorized in this policy.
--	This General Privacy Policy and each Limited Privacy Policy promotes the privacy, confidentiality, security, and responsible handling of any information collected by VA.gov over the Web.
+-	VA.gov uses Web analysis tools (e.g., cookies) for limited uses authorized in this policy.
+-	This General Policy and each Limited Privacy Policy promotes the privacy, confidentiality, security, and responsible handling of any information collected by VA.gov over the Web.
 
 <h3>Privacy Act Rights</h3>
 
-VA follows the requirements of the Privacy Act, which protects your personal information that VA maintains in “systems of records”. A system of records is a file, database, or program from which personal information is retrieved by name or other personal identifier. The Privacy Act provides a number of protections for your personal information. These typically include how information is collected, used, disclosed, stored, and disposed. VA System of Records Notices are available at: [Department of Veterans Affairs Privacy Act Systems of Records](https://www.oprm.va.gov/ers/). VA.gov is a platform that uses your data from VA Systems of Record and is itself not a system of record.
+VA follows the requirements of the Privacy Act, which protects your personal information that VA maintains in “systems of records.” A system of records is a file, database, or program from which personal information is retrieved by name or other personal identifier. The Privacy Act provides a number of protections for your personal information. These typically include how information is collected, used, disclosed, stored, and disposed. VA System of Records Notices are available at: [Department of Veterans Affairs Privacy Act Systems of Records](https://www.oprm.va.gov/ers/). VA.gov is a platform that uses your data from VA Systems of Record and is itself not a system of record.
 
-VA.gov is a Department of Veterans Affairs computer system. This computer system, including all related equipment, networks, and network devices (specifically including Internet access) are provided only for authorized uses. VA computer systems may be monitored for all lawful purposes, including ensuring that their use is authorized, managing the system, protecting against unauthorized access, and verifying security procedures, survivability, and operational security. During monitoring, information may be examined, recorded, copied and used for authorized purposes.
+VA.gov is a Department of Veterans Affairs computer system. This computer system, including all related equipment, networks, and network devices (specifically including Internet access) are provided only for authorized uses. VA computer systems may be monitored for all lawful purposes, including ensuring that their use is authorized, managing the system, protecting against unauthorized access, and verifying security procedures, survivability, and operational security. During monitoring, information may be examined, recorded, copied, and used for authorized purposes.
 
 VA.gov will not disclose your personal information to third parties outside VA without your consent, except to facilitate the transaction, to act on your behalf at your request, or as authorized by law.
 
@@ -54,7 +55,7 @@ VA.gov will use your information to process requests for VA services or informat
 VA.gov automatically collects certain information about your visit to VA.gov Web pages. We limit the data collected to meet specific business needs and to protect your privacy. We may know what path(s) you took on our Web sites, but we don’t know who you are. We do not use this information to identify you personally without your express consent and an authorized purpose.
 
 We automatically collect and store the following information about your visit to the VA.gov Web site:
--	General log information—Examples of general log information include, but are not limited to: Internet domain (for example, “xcompany.com” or “yourschool.edu”); Internet Protocol (IP) address; operating system; the browser used to access our Web site; the date and time you accessed our site; and the pages that you visited.
+-	General log information. Examples of general log information include, but are not limited to: Internet domain (for example, “xcompany.com” or “yourschool.edu”); Internet Protocol (IP) address; operating system; the browser used to access our Web site; the date and time you accessed our site; and the pages that you visited.
 -	Referral and statistical information where we have links to or from the site you visited. Such data may include aggregate data such as the number of offsite links occurring during a visit to a VA.gov Web page. It may also include specific data, such as the identity of the site which you visited immediately before or after our site. We do not use such data to identify you personally.
 
 We use the general log information to help us make VA.gov sites more useful to visitors. We use it to learn about how locations on our site are being used, what information is of most and least interest, and how we can enhance ease of use by ensuring our sites can interface with the types of technology our visitors use. We also use such statistics to tell us of any possible site performance problems.  Except for oversight, law enforcement investigations, or protection of the VA information technology infrastructure as authorized by law, no other attempts are made to identify you or your usage habits.
@@ -66,16 +67,16 @@ General logs are used for no other purposes than the purposes described above, a
 When you visit certain Web sites, they send a small piece of information called a “cookie” to your computer along with the Web page. This is also true of VA.gov.
 
 There are two kinds of cookies.
--	A Session Cookie is a line of text that is stored temporarily in your computer’s random access memory (RAM). A session cookie is destroyed as soon as you close your browser.
--	A Persistent Cookie is a line of text that is saved to a file on your hard drive and is called up the next time you visit that Web site. This lets the Web site remember information about your previous visits and use of the Web site. Persistent cookies are generally not used by VA or other Federal government Web sites, unless there is a compelling and authorized reason for their use. If any VA Web page uses a Persistent Cookie, then the Limited Privacy Policy for that Web page will clearly state the purpose and legal authority for such use. VA.gov does not use persistent cookies to retain information.
+-	A Session Cookie is a line of text that is stored temporarily in your computer’s random access memory (RAM). A Session Cookie is destroyed as soon as you close your browser.
+-	A Persistent Cookie is a line of text that is saved to a file on your hard drive and is called up the next time you visit that Web site. This lets the Web site remember information about your previous visits and use of the Web site. Persistent Cookies are generally not used by VA or other federal government Web sites, unless there is a compelling and authorized reason for their use. If any VA Web page uses a Persistent Cookie, then the Limited Privacy Policy for that Web page will clearly state the purpose and legal authority for such use. VA.gov does not use Persistent Cookies to retain information.
 
 We use Session Cookies in the following manner:
--	Log-on and log-off process — you do not have to log-on and register to browse our site. However, if you decide to register with VA.gov, session cookies help with the log-on and log-off process. The cookies enable us to recognize your log-on ID when you log on so that we do not create a duplicate log in or registration record for you.
--	Transactions and site usability — we use Session Cookies to improve how you navigate through our Web site and conduct transactions.  Session Cookies are used to maintain your online session as you browse over several pages, or to store and enter information on a Web page so that you do not have to reenter the same information, repetitively. Session Cookies may also be used to collect referral statistics when you click on a link to or from a VA.gov Web page.
+-	Log-in and log-off process: You do not have to log in and register to browse our site. However, if you decide to register with VA.gov, Session Cookies help with the log-in and log-off process. The cookies enable us to recognize your log-in ID when you log in so that we do not create a duplicate log-in or registration record for you.
+-	Transactions and site usability: We use Session Cookies to improve how you navigate through our Web site and conduct transactions. Session Cookies are used to maintain your online session as you browse over several pages, or to store and enter information on a Web page so that you do not have to reenter the same information, repetitively. Session Cookies may also be used to collect referral statistics when you click on a link to or from a VA.gov Web page.
 
 <h3>Registration and Log In</h3>
 
-You are always welcome to use VA.gov without registering or logging in for certain services such as general content browsing, finding VA facilities, and completing forms to apply for healthcare or education benefits. Other areas of the site that use your personal information and VA records, such as saving a benefit application for submission later, prescription refills, secure messaging with your healthcare provider, and checking the status of claims and appeals will require an email address, password, and additional methods for identification.
+You are always welcome to use VA.gov without registering or logging in for certain services such as general content browsing, finding VA facilities, and completing forms to apply for health care or education benefits. Other areas of the site that use your personal information and VA records, such as when you save a benefit application for submission later, refill a prescription, use secure messaging with your health care provider, and check the status of claims and appeals will require an email address, password, and additional methods for identification.
 
 <h3>Password Protection</h3>
 
@@ -87,7 +88,7 @@ Many Internet browsers allow users to save user information, including passwords
 
 <h3>Logging Out</h3>
 
-Please remember to log out when you are finished using personalized VA.gov services. Logging out prevents someone else from accessing your personal information if you leave, share, or use a public computer (i.e., like a library, or Internet café) and your session hasn’t automatically “timed out” or shut down. You should remember to log out. If you forget to log out or 30 minutes of non-activity pass, the session will time out.
+Please remember to log out when you are finished using personalized VA.gov services. Logging out prevents someone else from accessing your personal information if you leave, share, or use a public computer (located, for example, in a library or an Internet cafe) and your session hasn’t automatically “timed out” or shut down. You should remember to log out. If you forget to log out or 30 minutes of non-activity pass, the session will time out.
 
 <h3>Information Sharing</h3>
 
@@ -95,7 +96,7 @@ We do not sell, rent, or otherwise provide your personal information to outside 
 
 <h3>Digital Analytics Program</h3>
 
-We participate in the <a href="https://digital.gov/dap/">Digital Analytics Program</a>, a governmentwide analytics tool for federal agencies. As part of this participation, this website uses Google Analytics Premium. Please refer to the following policies on Google’s website for more information:
+We participate in the <a href="https://digital.gov/dap/">Digital Analytics Program</a>, a government-wide analytics tool for federal agencies. As part of this participation, this website uses Google Analytics Premium. Please refer to the following policies on Google’s website for more information:
 - <a href="http://www.google.com/intl/en/policies/privacy">Google’s main privacy policy</a>
 - <a href="https://developers.google.com/analytics/">Cookies & Google Analytics on Websites</a>
 - <a href="https://tools.google.com/dlpage/gaoptout?hl=en">Opt out of Google Analytics Cookies</a>
@@ -106,21 +107,21 @@ In those instances where we secure your personal information in transit to us ov
 
 For site security purposes and to ensure that VA.gov Web pages remain available to all users, VA employs software programs to monitor network traffic in order to identify unauthorized attempts to upload or change information, or otherwise cause damage. Except for oversight or authorized law enforcement investigations, no other attempts are made to identify individual users or their usage habits other than those uses identified in this policy.
 
-Unauthorized attempts or acts to either (1) access, upload, change, or delete information on this system, (2) modify this system, (3) deny access to this system, or (4) accrue resources for unauthorized use on this system, are strictly prohibited and may be considered violations subject to criminal, civil, or administrative penalties.
+Unauthorized attempts or acts to (1) access, upload, change, or delete information on this system, (2) modify this system, (3) deny access to this system, or (4) accrue resources for unauthorized use on this system, are strictly prohibited and may be considered violations subject to criminal, civil, or administrative penalties.
 
 VA.gov takes the security of all personally identifiable information we receive very seriously. We implement various measures to protect the security and confidentiality of personally identifiable information. Such measures include access controls designed to limit access to personally identifiable information to the extent necessary to accomplish our mission. We also employ various security technologies to protect personally identifiable information stored on our systems. We test our security measures periodically to ensure that they remain operational.
 
 <h3>Links to Other Sites</h3>
 
-VA.gov provides access to other Web sites outside our control and jurisdiction. When you link to these Web sites, you leave our Web site and your communications no longer are protected by our privacy policies. VA is not responsible for the privacy practices or the content of non-VA Web sites. We encourage you to review the privacy policy or terms and conditions of those sites to fully understand what information is collected and how it is used.
+VA.gov provides access to other Web sites outside our control and jurisdiction. When you click on a link to these Web sites, you leave our Web site and your communications no longer are protected by our privacy policies. VA is not responsible for the privacy practices or the content of non-VA Web sites. We encourage you to review the privacy policy or terms and conditions of those sites to fully understand what information is collected and how it is used.
 
 <h3>Contact VA Privacy Service</h3>
 
-Please let us know if you have any questions or concerns regarding our privacy policy or use of your information. You can contact us online at [Contact VA Privacy Service](mailto:privacyservice@va.gov), or you can mail us your question or concern at Department of Veterans Affairs, Privacy Service, 810 Vermont Avenue, N.W. (005R1A) Washington, DC 20420.
+Please let us know if you have any questions or concerns regarding our privacy policy or use of your information. You can contact us online at [Contact VA Privacy Service](mailto:privacyservice@va.gov), or you can mail your question or concern to Department of Veterans Affairs, Privacy Service, 810 Vermont Avenue, N.W. (005R1A) Washington, DC 20420.
 
 Your inquiry will be treated confidentially and will not be shared with third parties, except as necessary to respond to your inquiry and for other purposes as authorized by the Privacy Act and other relevant legal authority.
 
-The VA Privacy Service works to minimize the impact on veteran’s privacy, particularly veteran’s personal information and dignity, while achieving the mission of the Department of Veteran Affairs.
+The VA Privacy Service works to minimize the impact on Veterans' privacy, particularly Veterans' personal information and dignity, while achieving the mission of the Department of Veteran Affairs.
 
 <b>Up to date as of September 18, 2018</b>
 
@@ -201,7 +202,7 @@ The VA Privacy Service works to minimize the impact on veteran’s privacy, part
  </div> <br>
  
  <div class="link">
-  <a href="https://www.va.gov/oig/"><b>Office of the Inspector General</b></a>
+  <a href="https://www.va.gov/oig/"><b>Office of Inspector General</b></a>
  </div> <br>
  
  <div class="link">
