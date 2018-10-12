@@ -226,9 +226,14 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
     <p>Learn about your copay, financial assessment, and how VA health care works with private health insurance.</p>
   </div>
 
+<div class="link">
+    <a href="/health-care/health-needs-conditions/mental-health"><b>Mental Health Services</b></a>
+    <p>Find out how to get started accessing VA mental health services for posttraumatic stress disorder (PTSD), psychological effects of military sexual trauma (MST), depression, substance use problems, and other mental health needs.</p>
+  </div>
+
   <div class="link">
-    <a href="/health-care/health-needs-conditions/"><b>Mental Health and Other Health Needs and Conditions</b></a>
-    <p>Find out how to get care for specific needs (like mental health), and learn about service-related health concerns you should be aware of (like Agent Orange-related diseases or Camp Lejeune water contamination).</p>
+    <a href="/health-care/health-needs-conditions/"><b>Specific Health Needs and Conditions</b></a>
+    <p>Find out how to get care for specific needs (like women's health), and learn about service-related health concerns you should be aware of (like Agent Orange-related diseases or Camp Lejeune water contamination).</p>
   </div>
 
   <div class="link">
