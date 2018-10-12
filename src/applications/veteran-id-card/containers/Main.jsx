@@ -4,6 +4,7 @@ import { has, head } from 'lodash';
 import { initiateIdRequest, timeoutRedirect } from '../actions';
 import config from '../config';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import siteName from '../../../platform/brand-consolidation/site-name';
 
 class Main extends React.Component {
   constructor(props) {
@@ -69,7 +70,7 @@ class Main extends React.Component {
     const content = (
       <p>
         Please refresh the page or try again later. You can also call the
-        Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>,
+        {siteName} Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>,
         TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211;
         Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
       </p>
