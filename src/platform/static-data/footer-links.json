@@ -228,6 +228,13 @@
     "href": "/privacy/",
     "order": 3,
     "target": null,
-    "title": "Privacy Policy"
+    "title": "Privacy, Policies, and Legal Information"
+  },
+  {
+    "column": "bottom_rail",
+    "href": "/scorecard/",
+    "order": 4,
+    "target": null,
+    "title": "VA.gov Scorecard"
   }
 ]
