@@ -21,6 +21,24 @@ const HEALTH_TOOLS = [
   frontendApps.APPOINTMENTS,
 ];
 
+const MHV_ACCOUNT_TYPES = ['Premium', 'Advanced', 'Basic'];
+
+export const hasRequiredMhvAccount = (appId, accountLevel) => {
+  switch (appId) {
+    case frontendApps.HEALTH_RECORDS:
+      return MHV_ACCOUNT_TYPES.includes(accountLevel);
+    case frontendApps.RX:
+      return MHV_ACCOUNT_TYPES.slice(0, 2).includes(accountLevel);
+    case frontendApps.MESSAGING:
+    case frontendApps.LAB_AND_TEST_RESULTS:
+    case frontendApps.APPOINTMENTS:
+      return accountLevel === 'Premium';
+    default:
+      // Not a recognized health tool.
+      return false;
+  }
+};
+
 export const isHealthTool = appId => HEALTH_TOOLS.includes(appId);
 
 export const mhvBaseUrl = () => {

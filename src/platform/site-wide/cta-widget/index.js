@@ -21,14 +21,13 @@ import titleCase from '../../utilities/data/titleCase';
 import CallToActionAlert from './CallToActionAlert';
 
 import {
+  hasRequiredMhvAccount,
   isHealthTool,
   mhvToolName,
   requiredServices,
   serviceDescription,
   toolUrl,
 } from './helpers';
-
-const MHV_ACCOUNT_TYPES = ['Premium', 'Advanced', 'Basic'];
 
 export class CallToActionWidget extends React.Component {
   constructor(props) {
@@ -362,31 +361,14 @@ export class CallToActionWidget extends React.Component {
   };
 
   isAccessible = () => {
-    // Until MHV account eligibility rules no longer have to accommodate the
-    // pre-brand consolidation flow, the frontend will gate access using the MHV
-    // account level instead of the available services list from the backend,
-    // which will already have validated the MHV account level policies.
-
     if (this._isHealthTool) {
-      // return this.props.availableServices.has(this._requiredServices);
-
+      // Until MHV account eligibility rules no longer have to accommodate the
+      // pre-brand consolidation flow, the frontend will gate access using the MHV
+      // account level instead of the available services list from the backend,
+      // which will already have validated the MHV account level policies.
       const { appId, mhvAccount } = this.props;
-
-      switch (appId) {
-        case 'health-records':
-          return MHV_ACCOUNT_TYPES.includes(mhvAccount.accountLevel);
-        case 'rx':
-          return MHV_ACCOUNT_TYPES.slice(0, 2).includes(
-            mhvAccount.accountLevel,
-          );
-        case 'messaging':
-        case 'lab-and-test-results':
-        case 'appointments':
-          return mhvAccount.accountLevel === 'Premium';
-        default:
-          // Not a recognized health tool.
-          return false;
-      }
+      return hasRequiredMhvAccount(appId, mhvAccount.accountLevel);
+      // return this.props.availableServices.has(this._requiredServices);
     }
 
     // Only check whether the account is verified here and leave any handling
