@@ -169,7 +169,7 @@ Janesville, WI 53547-4444 <br>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-paper">What should I do if I already submitted a paper form for additional disability compensation for a child or spouse, and I’m still waiting for a decision?</button>
 <div id="questions-apply-paper" class="usa-accordion-content">
 
-File your claim again online. We’ll still review your paper form. If we award you additional disability compensation, we’ll give you back pay from the date we received your paper form.
+You can file your claim again online for a faster decision. If we award you additional disability compensation, we’ll give you back pay from the original date we received your paper form.
 
 </div>
 </li>
