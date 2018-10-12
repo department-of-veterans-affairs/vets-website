@@ -10,8 +10,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.definitions;
 
-import { introductionText } from '../helpers';
-
 // Define all the fields in the form to aid reuse
 // const formFields = {};
 
@@ -30,23 +28,7 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
   title: 'Apply for increased disability compensation',
-  chapters: {
-    introductionPage: {
-      pages: {
-        ptsdIntroduction: {
-          title: 'Disability Details',
-          path: 'info',
-          uiSchema: {
-            'ui:description': introductionText,
-          },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
-        },
-      },
-    },
-  },
+  chapters: {},
 };
 
 export default formConfig;
