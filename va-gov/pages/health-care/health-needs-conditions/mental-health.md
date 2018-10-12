@@ -14,7 +14,7 @@ aliases:
 
 <div class="va-introtext">
 
-If you need support for a mental health problem like post-traumatic stress disorder (PTSD), depression, or substance use—or if you're having problems sleeping, controlling your anger, or readjusting to civilian life—you're not alone. And we can help. Over 1.7 million Veterans received mental health services at VA last year. Our services range from peer support with other Veterans to counseling, therapy, medication or a combination of these options. Find out how to access VA mental health services.
+Find out how to access VA mental health services. We offer treatment and support for a range of mental health problems, including post-traumatic stress disorder (PTSD), psychological effects of military sexual trauma (MST), depression, grief, substance use problems, and anxiety-related conditions.
 
 </div>
 
@@ -45,19 +45,22 @@ If you need support for a mental health problem like post-traumatic stress disor
 
 ## Getting Started with VA Mental Health Services
 
+If you need support for a mental health problem like PTSD, depression, or substance use—or if you're having problems sleeping, controlling your anger, or readjusting to civilian life—you're not alone. And we can help. 
+
+Over 1.7 million Veterans received mental health services at VA last year. Our services range from peer support with other Veterans to counseling, therapy, medication or a combination of these options. 
+
 ### How do I schedule my first appointment?
 
-#### If you're already using VA medical services
-Ask your primary care provider to arrange for you to see a VA mental health provider.
+**If you're already using VA medical services,** ask your primary care provider to arrange for you to see a VA mental health provider.
 
-#### If you're not already using VA medical services
-Contact your nearest VA medical center (VAMC) or Vet Center to talk about your needs. <br>
-
+**If you're not already using VA medical services,** contact your nearest VA medical center (VAMC) or Vet Center to talk about your needs. <br>
 [Find your nearest VA medical center or Vet Center](https://www.accesstopwt.va.gov/Main/StateMap/true).
 
-### What if I'm not sure what I need, and I'm not ready to make an appointment yet?
+### What if I'm not sure what kind of help I need?
 
-You can call 1-877-222-VETS (<a href="tel:+18002228387">1-877-222-8387</a>) to find the right resource for your needs. If you have hearing loss, call TTY: <a href="tel:+18008778339">1-800-877-8339</a>. We're here Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
+You can call 1-877-222-VETS (<a href="tel:+18002228387">1-877-222-8387</a>) to find the right resource for your needs. If you have hearing loss, call TTY: <a href="tel:+18008778339">1-800-877-8339</a>. 
+
+We're here Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
 
 <div class="feature" markdown=“1”>
 
@@ -98,6 +101,7 @@ Yes. You may be able to use the different virtual options below.
 
 - **The VA Telemental Health program:** Our telemental health program offers virtual mental health services by connecting you with a mental health provider through a computer or mobile device in your home or at a local VA health facility. If you're enrolled in VA health care, ask any of your providers to help connect you with telemental health programs.
 
+
 ### Can I speak to a fellow Veteran who's been through this before?
 
 Yes. **BeThere** is a Peer Assistance Line and outreach center available for all Veterans and Servicemembers (including National Guard and Reserves) and their families. You can talk privately with peer coaches who are Veterans, Servicemembers, and spouses. 
@@ -108,11 +112,10 @@ Yes. **BeThere** is a Peer Assistance Line and outreach center available for all
 - Call 1-844-357-PEER (<a href="tel:+18443577337">1-844-357-7337</a>)
 - Text to <a href="tel:+14803606188">1-480-360-6188</a>
 
+
 ### What other options do I have?
 
-#### If you're a combat Veteran
-
-You can visit one of our Vet Centers to get free individual and group counseling for you and your family. You can access these services even if you're not enrolled in VA health care and aren't receiving disability compensation.
+**If you're a combat Veteran,** you can visit one of our Vet Centers to get free individual and group counseling for you and your family. You can access these services even if you're not enrolled in VA health care and aren't receiving disability compensation.
 
 **Vet Centers offer services such as:**
 - Military sexual trauma (MST) counseling
@@ -125,9 +128,7 @@ You can visit one of our Vet Centers to get free individual and group counseling
 
 Or call 1-877-WAR VETS (<a href="tel:+18779278387">1-877-927-8387</a>) to speak to a fellow Combat Veteran about your experiences, 24 hours a day, 7 days a week, 365 days a year.
 
-#### If you'd like to connect with other Veterans, families, and local services 
-
-You can visit our Make the Connection website. This site connects millions of Veterans, and their family members and friends, to local VA and community mental health resources. Visit the site to access these referral resources, and hear Veteran testimonials of strength and recovery.
+**If you'd like to connect with other Veterans, families, and local services,** you can visit our Make the Connection website. This site connects millions of Veterans, and their family members and friends, to local VA and community mental health resources. Visit the site to access these referral resources, and hear Veteran testimonials of strength and recovery.
 [Go to Make the Connection](https://maketheconnection.net/).
 
 ### Will using mental health services at VA put my career at risk?
@@ -136,7 +137,7 @@ A mental health diagnosis or seeking mental health care doesn't automatically pu
 
 ------
 
-## Answers to Other Questions You May Have about VA Mental Health Services
+## More Information about VA Mental Health Services
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -229,10 +230,12 @@ You can use our facilitor locator to search for VA health facilities near you.
 </li>
 </ul>
 </div>
-------
-## More Information and Support
 
-Resources offered through other government departments and in the community can also provide support.
+------
+
+## Resources and Support Beyond VA
+
+You can also get support from resources offered through other government and community resources outside of VA.
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -254,16 +257,16 @@ The Center's mission is to improve the lives of our nation’s Veterans, Service
 
 <b>[The National Suicide Prevention Lifeline](https://suicidepreventionlifeline.org/)</b>
 This 24/7, 365-day-a-year emergency mental health hotline offers help for people experiencing a mental health crisis. This is available through phone and online chat options.
-- Call 1-800-273-TALK (8255)
-- Start an online chat.
+- Call 1-800-273-TALK (8255) (<a href="tel:+1800-662-4357">1-800-662-4357</a>)
+- [Start an online chat](https://suicidepreventionlifeline.org/chat/).
 
-<b>[The American Foundation for Suicide Prevention]</b>
+<b>[The American Foundation for Suicide Prevention](https://afsp.org/)</b>
 The Foundation provides mental health resources for those struggling with suicidal ideations, and supportive educational tools for concerned family, friends and peers.
 
-<b>[The Substance Abuse and Mental Health Services Administration]</b>
+<b>[The Substance Abuse and Mental Health Services Administration](https://www.samhsa.gov/)</b>
 The administration offers free, confidential help with treatment referral and information services that are available 24/7, 365-days-a-year. This call center provides support for individuals and families facing mental health and/or substance use disorders.
-- Call 1-800-662-HELP (4357)
-- Start an online chat https://www.samhsa.gov/find-help/national-helpline
+- Call 1-800-662-HELP (<a href="tel:+1800-662-4357">1-800-662-4357</a>)
+- [Learn more about the helpline](https://www.samhsa.gov/find-help/national-helpline).
 
 </div>
 </li>
