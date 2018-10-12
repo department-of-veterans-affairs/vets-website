@@ -264,7 +264,7 @@ describe('526 helpers', () => {
     });
   });
 
-  describe.only('fieldsHaveInput', () => {
+  describe('fieldsHaveInput', () => {
     it('should return false when empty array given', () => {
       expect(fieldsHaveInput({ test: '123' }, [])).to.be.false;
     });
