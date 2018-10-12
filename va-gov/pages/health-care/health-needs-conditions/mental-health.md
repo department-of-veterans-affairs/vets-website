@@ -14,7 +14,7 @@ aliases:
 
 <div class="va-introtext">
 
-Find out how to access VA mental health services for post-traumatic stress disorder (PTSD), depression, grief, anxiety-related conditions, and other needs. You can use some services even if you're not enrolled in VA health care.
+Find out how to access VA mental health services for posttraumatic stress disorder (PTSD), psychological effects of military sexual trauma (MST), depression, grief, anxiety, and other needs. You can use some services even if you're not enrolled in VA health care.
 
 </div>
 
@@ -175,7 +175,7 @@ We offer Same-Day Services to make sure that we can either address your mental h
 - Arranging a telehealth or video care visit
 - Filling a prescription
 - Scheduling a future appointment
-- Secure Messaging
+- Communicating with a VA health care provider through Secure Messaging
 - Walk-in appointments to a clinic or the Urgent Care Center
 
 </div>
