@@ -98,6 +98,7 @@ class SearchApp extends React.Component {
               <input
                 type="text"
                 name="query"
+                value={this.state.userInput}
                 onChange={this.handleInputChange}
               />
               <button type="submit">Fetch search results</button>
