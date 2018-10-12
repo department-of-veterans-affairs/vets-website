@@ -26,7 +26,6 @@ button.va-crisis-line-button {
   font-weight: bold;
   display: flex;
   padding: 0;
-  align-items: center;
 
   @include media($small-desktop-screen) {
     border-radius: 0 0 0.2em 0.2em;
@@ -59,6 +58,7 @@ button.va-crisis-line-button {
   width: 29px;
   padding-right: 0.5em;
   padding-left: 0.5em;
+  margin-top: 10px;
 }
 
 .va-crisis-panel {
