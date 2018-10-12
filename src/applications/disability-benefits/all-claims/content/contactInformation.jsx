@@ -1,6 +1,5 @@
 import React from 'react';
-import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
-
+import moment from 'moment';
 import { USA } from '../constants';
 
 export const AddressViewField = ({ formData }) => {
@@ -61,17 +60,15 @@ const EmailViewField = ({ formData, name }) => (
 
 const EffectiveDateViewField = ({ formData }) => {
   const { from, to } = formData;
+  const dateFormat = 'MMM D, YYYY';
+  const fromDateString = moment(from).format(dateFormat);
   return to ? (
     <p>
-      We will use this address starting on{' '}
-      <DateWidget value={from} options={{ monthYear: false }} /> until{' '}
-      <DateWidget value={to} options={{ monthYear: false }} />:
+      We’ll use this address starting on {`${fromDateString} `}
+      until {moment(to).format(dateFormat)}:
     </p>
   ) : (
-    <p>
-      We will use this address starting on{' '}
-      <DateWidget value={from} options={{ monthYear: false }} />:
-    </p>
+    <p>We’ll use this address starting on {fromDateString}:</p>
   );
 };
 
