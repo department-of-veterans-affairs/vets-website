@@ -30,7 +30,7 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
         .find('.confirmation-page-title')
         .render()
         .text(),
-    ).to.equal('Your claim has been submitted.');
+    ).to.equal('Your claim has successfully been submitted.');
     expect(
       tree
         .find('span')

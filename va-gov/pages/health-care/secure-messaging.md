@@ -56,7 +56,7 @@ You can use this tool if you meet all of the requirements listed below.
 [Find out how to apply for VA health care](/health-care/how-to-apply/).
 
 **And you must have one of these free accounts:**
-- A premium **My HealtheVet** account, **or**
+- A Premium **My HealtheVet** account, **or**
 - A Premium **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
 
