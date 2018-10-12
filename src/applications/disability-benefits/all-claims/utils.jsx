@@ -252,6 +252,6 @@ export const servedAfter911 = formData =>
 
       const toDate = new Date(dateRange.to);
       const cutOff = new Date(NINE_ELEVEN);
-      return toDate.getTime() > cutOff;
+      return toDate.getTime() > cutOff.getTime();
     },
   ).length;
