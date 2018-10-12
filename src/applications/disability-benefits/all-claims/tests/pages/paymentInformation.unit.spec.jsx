@@ -34,9 +34,9 @@ describe('526 -- paymentInformation', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          accountType: 'Checking',
-          accountNumber: '1234567890',
-          routingNumber: '123456789',
+          bankAccountType: 'Checking',
+          bankAccountNumber: '1234567890',
+          bankRoutingNumber: '123456789',
           bankName: 'Test Bank',
         }}
         formData={{}}
@@ -56,7 +56,9 @@ describe('526 -- paymentInformation', () => {
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{}}
+        data={{
+          bankAccountType: 'Checking',
+        }}
         formData={{}}
         uiSchema={uiSchema}
         onSubmit={onSubmit}
@@ -65,6 +67,24 @@ describe('526 -- paymentInformation', () => {
 
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.false;
-    expect(form.find('.usa-input-error-message').length).to.equal(4);
+    expect(form.find('.usa-input-error-message').length).to.equal(3);
+  });
+
+  it('should submit with no info', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        formData={{}}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(onSubmit.calledOnce).to.be.true;
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
   });
 });
