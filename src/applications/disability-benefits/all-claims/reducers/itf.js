@@ -45,31 +45,26 @@ export default (state = initialState, action) => {
       // Set the curentITFStatus
       if (activeITF) {
         // Pulled the active ITF out like this in case it's not technically the latest (not sure that's possible, though)
-        window.dataLayer.push({ event: 'disability-526EZ-itf-retrieved' });
         newState.currentITF = activeITF;
         return newState;
       }
 
       // No active ITF found; use the one with the last expiration date
-      window.dataLayer.push({ event: 'disability-526EZ-itf-expired' });
       newState.currentITF = findLastITF(itfList);
 
       return newState;
     }
     case ITF_FETCH_FAILED:
-      window.dataLayer.push({ event: 'disability-526EZ-itf-failed' });
       return set('fetchCallState', requestStates.failed, state);
     case ITF_CREATION_INITIATED:
       return set('creationCallState', requestStates.pending, state);
     case ITF_CREATION_SUCCEEDED: {
-      window.dataLayer.push({ event: 'disability-526EZ-itf-created' });
       const newState = set('creationCallState', requestStates.succeeded, state);
       newState.previousITF = state.currentITF;
       newState.currentITF = action.data.attributes.intentToFile;
       return newState;
     }
     case ITF_CREATION_FAILED:
-      window.dataLayer.push({ event: 'disability-526EZ-itf-creation-failed' });
       return set('creationCallState', requestStates.failed, state);
     default:
       return state;
