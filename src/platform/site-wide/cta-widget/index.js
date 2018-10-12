@@ -118,6 +118,23 @@ export class CallToActionWidget extends React.Component {
   };
 
   getHealthToolContent = () => {
+    if (this.isAccessible()) {
+      return {
+        heading: 'My HealtheVet will open in a new tab',
+        alertText: (
+          <p>
+            You may need to sign in again on My HealtheVet before you can use
+            the site’s {this._mhvToolName} tool. If you do, please sign in with
+            the same account you used to sign in here on VA.gov. You also may
+            need to disable your browser’s pop-up blocker so that My HealtheVet
+            will be able to open.
+          </p>
+        ),
+        buttonText: 'Go to My HealtheVet',
+        buttonHandler: this.goToTool,
+      };
+    }
+
     if (this.props.mhvAccount.errors) {
       return {
         heading: 'Some VA.gov health tools aren’t working right now',
@@ -141,22 +158,7 @@ export class CallToActionWidget extends React.Component {
       };
     }
 
-    if (!this.isAccessible()) return this.getInaccessibleHealthToolContent();
-
-    return {
-      heading: 'My HealtheVet will open in a new tab',
-      alertText: (
-        <p>
-          You may need to sign in again on My HealtheVet before you can use the
-          site’s {this._mhvToolName} tool. If you do, please sign in with the
-          same account you used to sign in here on VA.gov. You also may need to
-          disable your browser’s pop-up blocker so that My HealtheVet will be
-          able to open.
-        </p>
-      ),
-      buttonText: 'Go to My HealtheVet',
-      buttonHandler: this.goToTool,
-    };
+    return this.getInaccessibleHealthToolContent();
   };
 
   getInaccessibleHealthToolContent = () => {
