@@ -28,14 +28,14 @@ relatedlinks:
 
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
-  
-With our VA Appointments tools, you can schedule some VA health care appointments online. You can also view details about upcoming appointments and organize your health calendar. Find out if you’re eligible, and how to sign up to begin using these tools on our My HealtheVet health management portal. 
+
+With our VA Appointments tools, you can schedule some VA health care appointments online. You can also view details about upcoming appointments and organize your health calendar. Find out if you’re eligible, and how to sign up to begin using these tools on our My HealtheVet health management portal.
 
 </div>
 
 <p><b>Please note:</b> The fastest way to make all your VA appointments is usually to call the VA health facility where you want to receive care. If you can’t keep an existing appointment, please contact the facility as soon as possible to reschedule or cancel.<br>
 <a href="/facilities/">Find your VA health facility’s phone number</a>.</p>
-  
+
 <div class="usa-alert usa-alert-warning">
  <div class="usa-alert-body">
     <h4 class="usa-alert-title">How do I talk to someone right now?</h4>
@@ -48,7 +48,7 @@ With our VA Appointments tools, you can schedule some VA health care appointment
              <li>Call <a href="tel:+18002738255">1-800-273-8255</a>, then press 1.</li>
           <li><a class="no-external-icon" href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
            <li>Text <a href="sms:838255">838255</a>.</li>
-           <li>Call TTY <a href="tel:+18007994889">1-800-799-4889</a> for support if you have hearing loss. 
+           <li>Call TTY <a href="tel:+18007994889">1-800-799-4889</a> for support if you have hearing loss.
            </ul>
             <p><strong>You can also:</strong></p>
            <ul>
@@ -61,27 +61,12 @@ With our VA Appointments tools, you can schedule some VA health care appointment
 </div>
 
 <h2>View Your VA Appointments Online</h2>
-<div class="va-sign-in-alert usa-alert usa-alert-info">
-  <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You’ll need to sign in before you can view your VA appointments online.</h4>
-    <p class="usa-alert-text">
-      <p>Try signing in with your DS Logon, My HealtheVet, or ID.me account. If you don’t have any of those accounts, you can create one.</p>
-      <button class="usa-button-primary">Sign In or Create an Account</button>
-    </p>
-  </div>
-</div>
+
+<div class="cta-widget" data-app-id="appointments"></div>
 
 <h2>Schedule or Cancel a VA Appointment Online</h2>
 
-<div class="va-sign-in-alert usa-alert usa-alert-info">
-  <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You’ll need to sign in before you can schedule, reschedule, or cancel a VA appointment online.</h4>
-    <p class="usa-alert-text">
-      <p>Try signing in with your DS Logon, My HealtheVet, or ID.me account. If you don’t have any of those accounts, you can create one.</p>
-      <button class="usa-button-primary">Sign In or Create an Account</button>
-    </p>
-  </div>
-</div>
+<div class="cta-widget" data-app-id="appointments"></div>
 
 
 <div itemscope itemtype="http://schema.org/Question">
@@ -90,7 +75,7 @@ With our VA Appointments tools, you can schedule some VA health care appointment
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-VA Appointments tools offer a secure, web-based way to schedule, view, and organize your VA appointments online. 
+VA Appointments tools offer a secure, web-based way to schedule, view, and organize your VA appointments online.
 
 <b>You can use these tools to:</b>
 
@@ -157,8 +142,8 @@ You can check our list of VA facilities that are currently using the online sche
 <h2 itemprop="name">What types of VA medical appointments can I schedule online?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-  
-This will depend on the VA health facility where you’re receiving care. 
+
+This will depend on the VA health facility where you’re receiving care.
 
 <b>You may be able to schedule outpatient appointments for:</b>
 <ul>
@@ -187,35 +172,35 @@ No. If you need to schedule an appointment at a non-VA health facility through t
 
 </div>
 </div>
-</div> 
+</div>
 
 <div itemscope itemtype="http://schema.org/Question">
 
 <h2 itemprop="name">Can I schedule appointments through VA Secure Messaging?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-  
+
 If you use Secure Messaging with your VA health care team, you may be able to use this service to schedule and cancel appointments.<br>
 <a href="/health-care/secure-messaging/">Learn more about Secure Messaging</a>.
 
 </div>
 </div>
-</div> 
+</div>
 
 <div itemscope itemtype="http://schema.org/Question">
 
 <h2 itemprop="name">Will my personal health information be protected?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-  
+
 Yes. This is a secure website. We follow strict security policies and practices to protect your personal health information. And only you and your VA health care team will have access to your secure messages.
 
-If you print or download any messages, you’ll need to take responsibility for protecting that information.<br> 
+If you print or download any messages, you’ll need to take responsibility for protecting that information.<br>
 <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information">Get tips for protecting your personal health information</a>.
 
 </div>
 </div>
-</div> 
+</div>
 
 
 <div itemscope itemtype="http://schema.org/Question">
@@ -223,7 +208,7 @@ If you print or download any messages, you’ll need to take responsibility for 
 <h2 itemprop="name">What if I have more questions?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
-  
+
 You can get answers to your questions about these tools within our My HealtheVet web portal.<br>
 <a href="https://www.myhealth.va.gov/mhv-portal-web/faqs#Appointments">Read VA Appointments FAQs</a>. <br>
 
@@ -234,7 +219,7 @@ Or call us at <a href="tel:+18773270022">1-877-327-0022</a> (TTY: <a href="tel:+
 
 </div>
 </div>
-</div> 
+</div>
 </div>
 <br>
 
