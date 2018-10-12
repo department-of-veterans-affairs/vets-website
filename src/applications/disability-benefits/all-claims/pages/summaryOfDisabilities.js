@@ -1,8 +1,8 @@
-import { summaryOfDisabilitiesDescription } from '../content/summaryOfDisabilities';
+import { SummaryOfDisabilitiesDescription } from '../content/summaryOfDisabilities';
 
 export const uiSchema = {
   'ui:title': 'Summary of disabilities',
-  'ui:description': summaryOfDisabilitiesDescription,
+  'ui:description': SummaryOfDisabilitiesDescription,
 };
 
 export const schema = {
