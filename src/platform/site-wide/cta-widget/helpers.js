@@ -26,11 +26,11 @@ const MHV_ACCOUNT_TYPES = ['Premium', 'Advanced', 'Basic'];
 export const hasRequiredMhvAccount = (appId, accountLevel) => {
   switch (appId) {
     case frontendApps.HEALTH_RECORDS:
+    case frontendApps.LAB_AND_TEST_RESULTS:
       return MHV_ACCOUNT_TYPES.includes(accountLevel);
     case frontendApps.RX:
       return MHV_ACCOUNT_TYPES.slice(0, 2).includes(accountLevel);
     case frontendApps.MESSAGING:
-    case frontendApps.LAB_AND_TEST_RESULTS:
     case frontendApps.APPOINTMENTS:
       return accountLevel === 'Premium';
     default:
