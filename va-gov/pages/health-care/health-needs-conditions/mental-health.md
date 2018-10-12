@@ -14,7 +14,7 @@ aliases:
 
 <div class="va-introtext">
 
-Find out how to access VA mental health services for post-traumatic stress disorder (PTSD), psychological effects of military sexual trauma (MST), depression, grief, substance use problems, anxiety-related conditions, and other needs.
+Find out how to access VA mental health services for post-traumatic stress disorder (PTSD), depression, grief, anxiety-related conditions, and other needs.
 
 </div>
 
@@ -45,9 +45,9 @@ Find out how to access VA mental health services for post-traumatic stress disor
 
 ## Getting Started 
 
-If you need support for a mental health problem like PTSD, depression, or substance use—or if you're having problems sleeping, controlling your anger, or readjusting to civilian life—you're not alone. And we can help. 
+If you need support for a specific mental health problem—or if you're having problems sleeping, controlling your anger, or readjusting to civilian life—you are not alone. And we can help. 
 
-Over 1.7 million Veterans received mental health services at VA last year. Our services range from peer support with other Veterans to counseling, therapy, medication or a combination of these options. And our goal is to help you take charge of your treatment and live a full and meaningful life. Our providers also receive training about military culture, gender differences, and ethnic issues so that we can better understand each Veteran.
+Over 1.7 million Veterans received mental health services at VA last year. Our services range from peer support with other Veterans to counseling, therapy, medication or a combination of these options. Our goal is to help you take charge of your treatment and live a full and meaningful life. 
 
 ### How do I schedule my first appointment?
 
@@ -56,6 +56,7 @@ Over 1.7 million Veterans received mental health services at VA last year. Our s
 **If you're not already using VA medical services,** contact your nearest VA medical center (VAMC) or Vet Center to talk about your needs. <br>
 [Find your nearest VA medical center or Vet Center](https://www.accesstopwt.va.gov/Main/StateMap/true).
 
+<br>
 
 ### What if I'm not sure what kind of help I need?
 
@@ -63,23 +64,25 @@ You can call 1-877-222-VETS (<a href="tel:+18002228387">1-877-222-8387</a>) to f
 
 We're here Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
 
+<br>
 
-### It's hard for me to get to VA facilities. Are there services I can access online?
+### It's hard for me to get to a VA facility in person. Can I get mental health services online?
 
-Yes. You may be able to use the different virtual options below.
+Yes. You may be able to use one or more of the virtual options listed below.
 
-- **The Veteran Training online self-help portal for overcoming everyday challenges:** You can use this portal's tools to work on problem-solving skills, manage anger, develop parenting skills, and more. The tools are based on proven mental health practices that have successfully helped other Veterans and families. The portal is free and anonymous. You don't have to sign in or provide any personal information to use any of these tools.<br>
+- **The Veteran Training online self-help portal for overcoming everyday challenges:** You can use this portal's tools to work on problem-solving skills, manage anger, develop parenting skills, and more. The tools are based on proven mental health practices that have successfully helped other Veterans and families. The portal is free, and you don't have to sign in or provide any personal information to use the tools.<br>
 [Visit the Veteran Training portal](www.veterantraining.va.gov).
 
 - **Smartphone Apps for Veterans:** We've partnered with the Department of Defense (DoD) to create free smartphone applications you can use to help manage your physical and mental health. These include apps to help you deal with stress, quit smoking, and more.<br>
 [Learn more about apps for Veterans](http://ncgwg.org/wp-content/uploads/2018/04/Resources_-Apps-for-Veterans.pdf).
 
-- **The VA Telemental Health program:** Our telemental health program offers virtual mental health services by connecting you with a mental health provider through a computer or mobile device in your home or at a local VA health facility. If you're enrolled in VA health care, ask any of your providers to help connect you with telemental health programs.
+- **The VA Telemental Health program:** Through this program, you can connect with a VA mental health provider through a computer or mobile device in your home or at a local VA health facility. If you're enrolled in VA health care, ask any of your providers to help connect you with telemental health programs.
 
+<br>
 
 ### Can I speak to a fellow Veteran who's been through this before?
 
-Yes. **BeThere** is a Peer Assistance Line and outreach center available for all Veterans and Servicemembers (including National Guard and Reserves) and their families. You can talk privately with peer coaches who are Veterans, Servicemembers, and spouses. 
+Yes. The **BeThere** peer assistance line and outreach center offers support for all Veterans and Servicemembers (including National Guard Soldiers and Reservists) and their families. You can talk privately with peer coaches who are Veterans, Servicemembers, or military spouses. 
 
 **To talk with a peer coach:**
 
@@ -87,6 +90,7 @@ Yes. **BeThere** is a Peer Assistance Line and outreach center available for all
 - Call 1-844-357-PEER (<a href="tel:+18443577337">1-844-357-7337</a>)
 - Text to <a href="tel:+14803606188">1-480-360-6188</a>
 
+<br>
 
 ### What other options do I have?
 
