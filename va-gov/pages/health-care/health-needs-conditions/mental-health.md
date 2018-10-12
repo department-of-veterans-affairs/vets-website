@@ -137,7 +137,9 @@ A mental health diagnosis or seeking mental health care doesn't automatically pu
 
 ------
 
-## Other Questions You May Have about Our Services
+## More Information about VA Mental Health Services
+
+Get answers to other questions you may have about our services.
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
