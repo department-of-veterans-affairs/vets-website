@@ -43,10 +43,6 @@ If you're having problems sleeping, controlling your anger, readjusting to civil
   </div>
 </div>
 
-<br>
-
-<div class="feature" markdown=“0”>
-
 ## Getting Started with VA Mental Health Services
 
 ### How do I schedule my first appointment?
@@ -89,8 +85,6 @@ We also treat anxiety-related conditions, like:
 We also offer grief counseling.
 
 </div>
-
-<br>
 
 ### It can be hard for me to visit VA facilities. Are there services I can access online?
 
