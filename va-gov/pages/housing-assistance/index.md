@@ -141,6 +141,11 @@ Chat online with a trained VA staff member
   </div>
 
   <div class="link">
+    <a href="https://www.blogs.va.gov/VAntage/43234/va-and-the-consumer-financial-protection-bureau-warn-against-home-loan-refinancing-offers-that-sound-too-good-to-be-true/"><b>A Warning about Home Loan Refinancing Offers</b></a>
+    <p>Learn about the signs of misleading offers to refinance your VA-backed home loan, like claims that you can skip payments or get very low interest rates or other terms that sound too good to be true.</p>
+  </div>
+
+  <div class="link">
     <a href="https://www.benefits.va.gov/homeloans/resources_veteran.asp"><b>Home Buying Process for Veterans</b></a>
     <p>Watch a video and get more information about using your VA home loan benefit to buy a home.</p>
   </div>
@@ -154,7 +159,12 @@ Chat online with a trained VA staff member
     <a href="https://benefits.va.gov/HOMELOANS/contact_rlc_info.asp"><b>Find a VA Regional Loan Center</b></a>
     <p>Look up contact information for your nearest regional loan center.</p>
   </div>
-
+  
+  <div class="link">
+    <a href="https://www.benefits.va.gov/homeloans/realtors_property_mgmt.asp"><b>Find VA-Acquired Properties</b></a>
+    <p>Learn more about buying a home we've acquired because its VA-direct or VA-backed home loan was terminated.</p>
+  </div>
+  
   <div class="link">
     <a href="https://benefits.va.gov/homeloans/documents/docs/va_policy_regarding_natural_disasters.pdf"><b>Guidance on Natural Disasters </b></a>
     <p>Find out how to get help if you have a VA direct or VA-backed home loan or Specially Adapted Housing grant and your home was damaged by a natural disaster.</p>

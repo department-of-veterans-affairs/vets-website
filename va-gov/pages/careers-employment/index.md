@@ -177,6 +177,11 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
+    <a href="https://www.va.gov/jobs/?utm_source=jobs_button&utm_campaign=ChooseVA_Website_Buttons"><b>Find VA Careers and Support</b></a>
+    <p>Get support for starting or advancing your career at VA or other federal government departments.</p>
+  </div>
+
+  <div class="link">
     <a href="/records/download-va-letters/"><b>Print Your Civil Service Preference Letter</b></a>
     <p>Print your Civil Service Preference Letter to verify your hiring preference for federal jobs.</p>
   </div>
