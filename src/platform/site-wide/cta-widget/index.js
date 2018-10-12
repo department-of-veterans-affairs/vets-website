@@ -92,7 +92,7 @@ export class CallToActionWidget extends React.Component {
         ),
         buttonText: 'Sign In or Create an Account',
         buttonHandler: this.openLoginModal,
-        status: 'warning',
+        status: 'info',
       };
     }
 
