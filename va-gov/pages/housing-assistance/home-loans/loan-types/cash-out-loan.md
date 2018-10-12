@@ -58,7 +58,7 @@ The Consumer Financial Protection Bureau’s home loan toolkit can help. <br>
 
 You’ll go through a private bank, mortgage company, or credit union—not directly through us—to get a cash-out refinance loan. Terms and fees may vary, so contact several lenders to check out your options.
 
-**Note:** Be careful when considering home loan refinance offers. Claims that you can skip payments or get very low interest rates or other terms that sound too good to be true may be signs of a misleading offer.
+**Note:** Be careful when considering home loan refinance offers. Claims that you can skip payments or get very low interest rates or other terms that sound too good to be true may be signs of a misleading offer. <br>
 [Learn more about the signs of misleading refinance offers](https://www.blogs.va.gov/VAntage/43234/va-and-the-consumer-financial-protection-bureau-warn-against-home-loan-refinancing-offers-that-sound-too-good-to-be-true/).
 
 </li>
