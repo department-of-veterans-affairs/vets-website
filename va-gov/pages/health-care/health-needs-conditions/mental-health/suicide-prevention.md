@@ -41,7 +41,7 @@ If you’re a Veteran in a mental health crisis and you’re thinking about hurt
 	    <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>
 	    <ul>
               <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
-	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
+	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/" class="no-external-icon">Start a confidential Veterans Chat</a>.</li>
   	      <li>Text <a href="sms:838255">838255</a>.</li>
             </ul>
      	    <p><strong>You can also:</strong></p>
@@ -68,14 +68,14 @@ If you’re a Veteran in a mental health crisis and you’re thinking about hurt
 
 <br>
 
-[Find these and other resources near you](https://www.veteranscrisisline.net/GetHelp/ResourceLocator.aspx).
+<a href="https://www.veteranscrisisline.net/GetHelp/ResourceLocator.aspx" class="no-external-icon">Find these and other resources near you</a>
 
 <br>
 
 #### You can also find information and support on our websites:
 
 - Get information about suicide prevention and the support we offer. [Visit our suicide prevention website](https://www.mentalhealth.va.gov/MENTALHEALTH/suicide_prevention/index.asp).
-- Go to our Make the Connection website to get resources and watch stories of Veterans who’ve overcome depression and other mental health challenges. [Visit Make the Connection](https://maketheconnection.net/).
+- Go to our Make the Connection website to get resources and watch stories of Veterans who’ve overcome depression and other mental health challenges.<a href="http://maketheconnection.net/" class="no-external-icon">Visit Make the Connection</a>
 
 </div>
 
@@ -96,7 +96,9 @@ They may also change the way they act, and start to:
 - Act violently or take risks (like driving fast or running red lights)
 - Do things to prepare for a suicide (like giving away special personal items, making a will, or seeking access to guns or pills)
 
-[Get the full list of signs that someone may be considering suicide](https://www.veteranscrisisline.net/SignsOfCrisis/Identifying.aspx).
+<a href="https://www.veteranscrisisline.net/SignsOfCrisis/Identifying.aspx" class="no-external-icon">
+Get the full list of signs that someone may be considering suicide
+</a>
 
 Learn about common suicide myths and realities, Veteran-specific suicide risks, and warning signs. [Recognize when to ask for help](https://www.mentalhealth.va.gov/suicide_prevention/whentoaskforhelp.asp).
 

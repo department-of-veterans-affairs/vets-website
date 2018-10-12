@@ -180,11 +180,11 @@ The VA Privacy Service works to minimize the impact on Veterans' privacy, partic
  </div> <br>
  
  <div class="link">
-  <a href="https://www.veteranscrisisline.net/about/privacy-and-security"><b>Veterans Crisis Line Privacy and Security</b></a>
+  <a class="no-external-icon" href="https://www.veteranscrisisline.net/about/privacy-and-security"><b>Veterans Crisis Line Privacy and Security</b></a>
  </div> <br>
  
  <div class="link">
-  <a href="https://www.veteranscrisisline.net/get-help/text"><b>Veterans Crisis Line Text Terms of Service</b></a>
+  <a class="no-external-icon" href="https://www.veteranscrisisline.net/get-help/text"><b>Veterans Crisis Line Text Terms of Service</b></a>
  </div> <br>
  
   <span id="links"></span>
