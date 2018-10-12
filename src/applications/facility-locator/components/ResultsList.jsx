@@ -61,7 +61,7 @@ class ResultsList extends Component {
 
     if (currentQuery.inProgress) {
       return (
-        <div>
+        <div aria-live="polite" aria-relevant="additions text">
           <LoadingIndicator message="Loading results..." />
         </div>
       );
