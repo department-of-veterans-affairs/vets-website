@@ -59,8 +59,6 @@ Contact your nearest VA medical center (VAMC) or Vet Center to talk about your n
 
 You can call 1-877-222-VETS (<a href="tel:+18002228387">1-877-222-8387</a>) to find the right resource for your needs. If you have hearing loss, call TTY: <a href="tel:+18008778339">1-800-877-8339</a>. We're here Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
 
-</div>
-
 <div class="feature" markdown=“1”>
 
 ### What mental health problems does VA treat?
