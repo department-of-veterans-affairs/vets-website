@@ -99,7 +99,7 @@ No. You shouldn't use Secure Messaging when you have an urgent need, because it 
 
 To connect with a Veterans Crisis Line responder anytime, day or night:
 - Call <a href="tel:+18002738255">1-800-273-8255</a>, then press 1.
-- [Start a confidential Veterans Chat](https://www.veteranscrisisline.net/get-help/chat).
+- <a class="no-external-icon" href="https://www.veteranscrisisline.net/get-help/chat">Start a confidential Veterans Chat</a>
 - Text <a href="tel:+1838255">838255</a>.
 
 </div>
