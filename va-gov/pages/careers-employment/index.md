@@ -122,8 +122,8 @@ We can support you in all stages of your job search—from returning to work wit
   <h2>Get Career and Employment Assistance</h2>
 
   <div class="link">
-    <a href="/careers-employment/vocational-rehabilitation/"><b>About VA Vocational Rehabilitation and Employment (Chapter 31)</b></a>
-    <p>Learn about vocational rehabilitation and employment (also called voc rehab) benefits and services for Veterans and Servicemembers who have service-connected disabilities. Services include help with things like learning new skills, finding a new job, or starting a new business.</p>
+    <a href="/careers-employment/vocational-rehabilitation/programs/"><b>About Vocational Rehabilitation and Employment (Chapter 31) Programs</b></a>
+    <p>Explore support-and-services program tracks for Veterans and Servicemembers with service-connected disabilities. Our programs can help you learn new skills, find a new job, start a new business, get educational counseling, or return to your former job.</p>
   </div>
 
   <div class="link">
