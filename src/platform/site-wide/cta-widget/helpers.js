@@ -165,7 +165,7 @@ export const requiredServices = appId => {
   }
 };
 
-export const serviceDescription = appId => {
+export const serviceDescription = (appId, index) => {
   switch (appId) {
     case frontendApps.HEALTH_RECORDS:
       return 'use VA Blue Button';
@@ -180,7 +180,10 @@ export const serviceDescription = appId => {
       return 'view your VA lab and test results';
 
     case frontendApps.APPOINTMENTS:
-      return ['schedule appointments online', 'view appointments online'];
+      return [
+        'view your VA appointments online',
+        'schedule, reschedule, or cancel a VA appointment online',
+      ][index];
 
     case frontendApps.GI_BILL_BENEFITS:
       return 'check your GI Bill Benefits';
