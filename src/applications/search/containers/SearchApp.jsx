@@ -42,9 +42,14 @@ class SearchApp extends React.Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    // @todo figure out how to sychronize the term in the search bar with the value being submitted, so that the search results are bookmarkable.
-    // this.props.router.location.query.term = encodeURIComponent(userInput);
-    this.props.fetchSearchResults(this.state.userInput);
+    const userInput = this.state.userInput;
+    this.props.router.push({
+      pathname: '',
+      query: {
+        q: encodeURIComponent(userInput),
+      },
+    });
+    this.props.fetchSearchResults(userInput);
   };
 
   /* eslint-disable react/no-danger */
