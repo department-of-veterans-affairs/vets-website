@@ -17,14 +17,9 @@ relatedlinks:
     - url: /life-insurance/
       title: Life Insurance
       description: Explore your VA life insurance options, manage your policy, and file claims.  
-    - url: /education/gi-bill/survivors-dependent-assistance/
+    - url: /education/survivor-dependent-benefits/
       title: Transfer Your Post-9/11 GI Bill Benefits to Your Spouse and Dependents
       description: If you have unused Post-9/11 GI Bill benefits, find out if you can transfer your benefits to your spouse or dependent children.     
-  - heading: Information for family members and caregivers
-    links:
-    - url: /families-caregivers/
-      title: Family Member and Caregiver Benefits
-      description: Find out which benefits you may qualify for as the family member or caregiver of a Veteran or Servicemember.
 ---
 <div itemscope itemtype="http://schema.org/FAQPage">
 <div itemprop="description" class="va-introtext">
@@ -123,7 +118,7 @@ Janesville, WI 53547-4444 <br>
  <a href="tel:+1phonenumber">1-844-531-7817</a> if you live in the U.S., **or** <br>
  <a href="tel:+1phonenumber">1-248-524-4260</a> if you live outside of the U.S.
  
- ## What if I need help with my claim?
+## What if I need help with my claim?
  
 You can work with an accredited Veterans Service Officer (VSO). We trust these professionals because they’re trained and certified in the VA claims and appeals process. A VSO can answer your questions or even file your claim for you.<br>
 [Get help filing your claim](/disability/get-help-filing-claim/). 
@@ -140,19 +135,19 @@ You can work with an accredited Veterans Service Officer (VSO). We trust these p
 	
 Yes, but we encourage you to file online. The online process is simple, and you can upload your supporting documents along with your claim.  
 
-When you file your claim online, we also recognize the day you start the online claim process as the date VA received your claim. This means that if we decide you’re eligible for additional disability compensation, we’ll pay you back to this date.
+When you file your claim online, we recognize the day you start the online claim process as the date VA received your claim. This means that if we decide you’re eligible for additional disability compensation, we’ll pay you back to this date.
 
-**If you can’t, or don’t want to file online, you can file by mail or fax using the forms below:**
+**If you can’t, or don’t want to file online,** you can file a claim for additional disability compensation by mail or fax using the forms below:
 
-- **To file a claim for additional disability compensation for a spouse or a child under 18 years of age**, fill out a Declaration of Status of Dependents (VA Form 21-686c). <br>
+- **For a spouse or a child under 18 years of age**, you'll need to fill out a Declaration of Status of Dependents (VA Form 21-686c). <br>
 [Download VA Form 21-686c](https://www.vba.va.gov/pubs/forms/VBA-21-686C-ARE.pdf).
 
-- **To file a claim for additional disability compensation for a child who’s between 18 and 23 years old and attending school full time**, you’ll need to fill out both VA Form 21-686c and a Request for Approval of School Attendance (VA Form 21-674). <br>
+- **For a child who’s between 18 and 23 years old and attending school full time**, you’ll need to fill out both VA Form 21-686c and a Request for Approval of School Attendance (VA Form 21-674). <br>
 [Download VA Form 21-686c](https://www.vba.va.gov/pubs/forms/VBA-21-686C-ARE.pdf). <br>
 [Download VA Form 21-674](https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf).
 
-- **To file a claim for additional disability compensation for a dependent parent**, you’ll need to fill out a Statement of Dependency of Parent(s) (VA Form 21-509). <br>
-[Download VA Form 21-509](https://www.vba.va.gov/pubs/forms/VBA-21-509-ARE.pdf).
+- **For a dependent parent**, you’ll need to fill out a Statement of Dependency of Parent(s) (VA Form 21P-509). <br>
+[Download VA Form 21P-509](https://www.vba.va.gov/pubs/forms/VBA-21P-509-ARE.pdf).
 
 **Mail your completed form(s) to:**
 
@@ -174,12 +169,12 @@ Janesville, WI 53547-4444 <br>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-paper">What should I do if I already submitted a paper form for additional disability compensation for a child or spouse, and I’m still waiting for a decision?</button>
 <div id="questions-apply-paper" class="usa-accordion-content">
 
-File your claim again online. We’ll still review your paper form. If we award you additional disability compensation, we’ll pay you back pay from the date we received your paper form.
+File your claim again online. We’ll still review your paper form. If we award you additional disability compensation, we’ll give you back pay from the date we received your paper form.
 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-paid-back">What if I didn’t realize I could receive additional disability compensation for dependents until after I became eligible for disability compensation? Can I get paid back to the date my spouse and I got married, or the date when my child was born or adopted?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-paid-back">Can I get paid back to the date my spouse and I got married, or the date when my child was born or adopted?</button>
 <div id="questions-apply-paid-back" class="usa-accordion-content">
 
 We may pay you back to the date of your marriage or the birth or adoption of your child if you meet all of the requirements listed below.
@@ -188,9 +183,9 @@ We may pay you back to the date of your marriage or the birth or adoption of you
 	
 - Had already received a combined disability rating of at least 30% at the time of the marriage, birth, or adoption, **and**
 - File your claim for additional disability compensation for the dependent within a year of the marriage, birth, or adoption, **and**
-- Responded or respond within a year to our request for any more information or evidence needed to confirm your claim <br>
+- Respond within a year to our request for any more information or evidence needed to confirm your claim <br>
 
-If it’s been more than one year since you got married or had or adopted a child, we may not pay you back to the date of the marriage, birth, or adoption. Instead, we may pay you back only to the date we received your claim for additional disability for the dependent or, in some cases, up to a year before before this date.
+If it’s been more than 1 year since you got married or had or adopted a child, we may not pay you back to the date of the marriage, birth, or adoption. Instead, we may pay you back only to the date we received your claim for additional disability for the dependent or, in some cases, up to a year before before this date.
 
 </div>
 </li>
@@ -203,7 +198,7 @@ We’ll begin paying you within 2 weeks after we approve your claim.
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-already-receiving">How do I know if I’m already receiving additional disability compensation for my dependents?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-already-receiving">How do I know if I’m already receiving additional disability compensation for my dependent(s)?</button>
 <div id="questions-specific-already-receiving" class="usa-accordion-content">
 
 You can check this through your eBenefits account.
@@ -212,7 +207,7 @@ Sign in to your account.
 
 Then click the “Dependents” link under the “My Profile” section. 
 
-If you see your dependents listed there, you should be eligible for additional compensation for them. If they’re not listed, you should file a claim for the additional benefit. <br>
+If you see your dependent(s) listed there, you should be eligible for additional compensation for them. If they’re not listed, you should file a claim for the additional benefit. <br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/homepage).
 
 </div>
@@ -221,15 +216,15 @@ If you see your dependents listed there, you should be eligible for additional c
 </div>
 <br>
 	
-### Questions about adding or removing specific dependents
+### Questions about adding or removing certain kinds of dependents
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-Veteran-spouse">What if my spouse is also a Veteran with a combined disability rating of at least 30%? Can we both receive additional disability compensation for each other and our children? Or can only one of us receive the additional benefit?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-Veteran-spouse">What if my spouse is also a Veteran with a combined disability rating of at least 30%? Can we both receive additional disability compensation for each other and for our children? Or can only one of us receive the additional benefit?</button>
 <div id="questions-specific-Veteran-spouse" class="usa-accordion-content">
 
-If you and your spouse are both Veterans with a combined disability rating of at least 30%, you can both receive additional disability compensation for each other and your children.
+If you and your spouse are both Veterans with a combined disability rating of at least 30%, you can both receive additional disability compensation for each other and for your children.
 
 **You should know:** It’ll take us longer to process your claim if your spouse is also a Veteran. But if you file your claim online, and we decide you’re eligible for additional disability compensation for your dependent(s), we’ll pay you back to the date you started the online claim process.
 
@@ -243,18 +238,18 @@ You can submit a request through eBenefits asking us to stop paying additional d
 
 **If you get divorced**, you’ll want to notify us right away. You don't need to send or upload supporting documents to eBenefits in this case. 
 
-This will help to make sure we don’t continue paying you additional disability compensation for your former spouse and, if applicable, stepchildren after the divorce. If we continue paying you benefits that you’re not eligible for, we may withhold money from future payments until you’ve paid them back. <br>
+This will help to make sure we don’t continue paying you additional disability compensation for your former spouse and, if applicable, stepchildren after the divorce. If we continue paying you benefits that you’re not eligible for, we may withhold money from future payments until you’ve paid us back. <br>
 [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/homepage).
 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-child-school">How will VA know it needs to  continue paying me additional disability compensation for my child when they turn 18 but remain in school? Do I have to file another claim?</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-child-school">How will VA know it needs to  continue paying me additional disability compensation for my child when they turn 18 and remain in school? Do I have to file another claim?</button>
 <div id="questions-specific-child-school" class="usa-accordion-content">
  
 You’ll need to update your child’s school information in eBenefits. 
 
-Sign in to your eBenefits account. 
+Sign in to your account. 
 
 Click “Add or Remove Dependents” (you'll find it under the “Apply” section on the homepage). 
 
@@ -268,7 +263,7 @@ Then select “Update Dependents.” <br>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-child-old">Do I need to ask VA to stop paying me additional disability compensation for my child when they turn 18?</button>
 <div id="questions-specific-child-old" class="usa-accordion-content">
 
-No. We’ll track your child’s age based on the date of birth you give us when you submitted your claim. When your child turns 18, we’ll stop paying additional disability compensation for them unless you let us know they’re enrolled in school full time. 
+No. We’ll track your child’s age based on the date of birth you give us when you submit your claim. When your child turns 18, we’ll stop paying additional disability compensation for them unless you let us know they’re enrolled in school full time. 
 
 </div>
 </li>
