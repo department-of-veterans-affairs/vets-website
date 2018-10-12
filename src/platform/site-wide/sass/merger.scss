@@ -8,7 +8,7 @@
     }
   }
 
-  .va-dropdown-trigger {
+  .va-dropdown-panel {
     min-width: 102px;
   }
 
@@ -231,11 +231,11 @@
     }
   }
 
-  .sign-in-links {
-    background: $color-primary;
-    padding: 5px 20px;
-    border-radius: 4px;
-  }
+  // .sign-in-links {
+  //   background: $color-primary;
+  //   padding: 5px 20px;
+  //   border-radius: 4px;
+  // }
 
   #vetnav {
     // 100% width necessary for right aligned items
@@ -314,10 +314,9 @@
     }
 
     .vet-toolbar {
-      margin-left: -12px;
+      // margin-left: -12px;
 
       .sign-in-nav {
-        margin-top: 6px;
         font-weight: normal;
 
         .sign-in-links {
@@ -427,18 +426,16 @@
     }
     .va-header-logo-wrapper {
       margin-bottom: 0;
+      justify-content: space-between;
     }
 
     .vet-toolbar {
-      flex: 0 1 30.5rem;
-      padding-left: 2em;
+      flex-shrink: 0;
 
       .profile-nav {
 
         width: 100%;
         .va-dropdown {
-
-          width: 100%;
 
           .va-dropdown-trigger {
             background-position: right .8rem center;
@@ -776,3 +773,24 @@ img[data-srcset] {
   min-height: 1px;
 }
 
+.sign-in-links {
+  flex-shrink: 0;
+}
+
+.vet-toolbar .va-dropdown {
+  margin-left: 0;
+}
+
+.sign-in-link {
+  margin: 0;
+  // This is backwards from the mobile first approach we should be taking
+  // but the amount of overrides we would need if we did that way would be
+  // very tricky to write and maintain
+  @media (max-width: $medium-large-screen - 1) {
+    @include button-link;
+  }
+}
+
+.profile-nav {
+  margin-to: 6px;
+}
