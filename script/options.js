@@ -45,15 +45,16 @@ function applyDefaultOptions(options) {
   });
 
   if (!options.buildtype) {
-    options.buildtype = environments.DEVELOPMENT;
     options.protocol = 'http';
+    options.buildtype = environments.DEVELOPMENT;
   } else {
-    options.host = hostnames[options.buildtype];
+    options.port = 80;
     options.protocol = 'https';
+    options.host = hostnames[options.buildtype];
   }
 
   options.hostUrl = `${options.protocol}://${options.host}${
-    options.port ? `:${options.port}` : ''
+    options.port && options.port !== 80 ? `:${options.port}` : ''
   }`;
 }
 
