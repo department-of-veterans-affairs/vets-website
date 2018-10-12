@@ -11,7 +11,7 @@ promo:
   - image: /img/megamenu/records-illustration.png
     heading: Confirm Your VA Benefit Status
     url: "/records/download-va-letters/"
-    description: Download a copy of letters like your eligibility or award letter for certain benefits.
+    description: Download letters like your eligibility or award letter for certain benefits.
 social:
   - heading: Connect with Us
     admin: All VA Organizations
