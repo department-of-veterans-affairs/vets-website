@@ -15,6 +15,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'entry', type: String, defaultValue: null },
   { name: 'analyzer', type: Boolean, defaultValue: false },
   { name: 'host', type: String, defaultValue: 'localhost' },
+  { name: 'protocol', type: String, defaultValue: 'http' },
   { name: 'public', type: String, defaultValue: null },
   { name: 'destination', type: String, defaultValue: null },
 
@@ -45,7 +46,6 @@ function applyDefaultOptions(options) {
   });
 
   if (!options.buildtype) {
-    options.protocol = 'http';
     options.buildtype = environments.DEVELOPMENT;
   } else {
     options.port = 80;
