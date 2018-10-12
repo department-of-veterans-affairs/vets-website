@@ -285,6 +285,11 @@ The foundation works closely with teenagers and young adults during transition p
 <b>[Mental Health America](http://www.mentlhealthamerica.net/)</b>
 This organization works to ensure all people live mentally healthier lives through advocacy, and connections to mental health and mental resiliency resources.
 
+</div>
+</li>
+</ul>
+</div>
+
 <script type="text/javascript">
 
   // Toggle the expandable crisis info
