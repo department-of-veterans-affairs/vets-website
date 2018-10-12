@@ -1,4 +1,4 @@
-export function formatResponseString(string, stripAll = true) {
+export function formatResponseString(string, stripAll = false) {
   if (stripAll) {
     return string.replace(/[\ue000\ue001]/g, '');
   }

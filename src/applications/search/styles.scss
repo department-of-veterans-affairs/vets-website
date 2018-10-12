@@ -4,13 +4,35 @@
 .search-app {
   margin-bottom: 3em;
 
-  ul.results-list {
+  h2:first-child {
+    margin-top: 0;
+  }
+
+  [href^="http"], [rel="external"] {
+    background: none;
+  }
+
+  ul {
     list-style-type: none;
     padding: 0;
 
-    li.results-item {
-      p {
-        margin-top: 0;
+    &.results-list {
+      li.result-item {
+        margin-top: 1em;
+
+        a.result-title {
+          text-decoration: none;
+        }
+
+        p {
+          margin: 0;
+
+          &.result-url {
+            color: $color-green;
+          }
+
+
+        }
       }
     }
   }

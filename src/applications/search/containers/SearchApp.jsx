@@ -51,12 +51,18 @@ class SearchApp extends React.Component {
   renderWebResult(result) {
     return (
       <li key={result.url} className="result-item">
-        <h4>{formatResponseString(result.title)}</h4>
+        <a
+          className="result-title"
+          href={result.url}
+          dangerouslySetInnerHTML={{
+            __html: formatResponseString(result.title),
+          }}
+        />
         <p className="result-url">{result.url}</p>
         <p
           className="result-desc"
           dangerouslySetInnerHTML={{
-            __html: formatResponseString(result.snippet, false),
+            __html: formatResponseString(result.snippet),
           }}
         />
       </li>
@@ -82,8 +88,8 @@ class SearchApp extends React.Component {
     return (
       <div className="search-app">
         <div className="row">
-          <div>
-            <h1>Search VA.gov</h1>
+          <div className="columns">
+            <h2>Search VA.gov</h2>
           </div>
         </div>
         <div className="row">
@@ -99,8 +105,8 @@ class SearchApp extends React.Component {
             <hr />
             {this.renderResults()}
           </div>
-          <div className="usa-width-one-fourth medium-4 small-12 columns">
-            <h4>More VA Search Tools</h4>
+          <div className="usa-width-one-fourth medium-4 small-12 columns sidebar">
+            <h4 className="highlight">More VA Search Tools</h4>
             <ul>
               <li>link one</li>
             </ul>
