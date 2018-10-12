@@ -877,16 +877,16 @@ const schema = {
         },
       },
     },
-    accountType: {
+    bankAccountType: {
       type: 'string',
       enum: ['Checking', 'Savings'],
     },
-    accountNumber: {
+    bankAccountNumber: {
       type: 'string',
       minLength: 4,
       maxLength: 17,
     },
-    routingNumber: {
+    bankRoutingNumber: {
       type: 'string',
       pattern: '^\\d{9}$',
     },

@@ -227,3 +227,24 @@ export const hasOtherEvidence = formData =>
   _.get(DATA_PATHS.hasAdditionalDocuments, formData, false);
 export const hasPrivateEvidence = formData =>
   _.get(DATA_PATHS.hasPrivateEvidence, formData, false);
+
+/**
+ * Inspects all given paths in the formData object for presence of values
+ * @param {object} formData  full formData for the form
+ * @param {array} fieldPaths full paths in formData for other fields that
+ *                           should be checked for input
+ * @returns {boolean} true if at least one path is not empty / false otherwise
+ */
+export const fieldsHaveInput = (formData, fieldPaths) =>
+  fieldPaths.reduce(
+    (accum, path) => accum || !!_.get(path, formData, ''),
+    false,
+  );
+
+export const bankFieldsHaveInput = formData =>
+  fieldsHaveInput(formData, [
+    'bankAccountType',
+    'bankAccountNumber',
+    'bankRoutingNumber',
+    'bankName',
+  ]);
