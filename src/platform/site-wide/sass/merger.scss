@@ -580,12 +580,17 @@
   }
 
   .va-btn-sidebarnav-trigger {
-    &:focus svg {
-      fill: $color-primary-darker;
+    color: $color-white;
+    background-color: $color-primary;
+
+    &:hover {
+      background-color: $color-primary-darker;
     }
+
     &:focus:hover svg {
       fill: $color-white;
     }
+
     &.fixed-trigger {
       position: fixed;
       top: 0;
@@ -807,6 +812,10 @@
         background-color: $mm-gray;
         font-weight: bold;
         margin: 2px;
+      }
+
+      &:hover {
+        margin: 0px;
       }
 
       &[aria-expanded=false] {
