@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
+import siteName from '../../../platform/brand-consolidation/site-name';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
@@ -88,9 +89,9 @@ export class AuthApp extends React.Component {
               <p>
                 We’re sorry. It looks like you selected "Deny" on the last page
                 when asked for your permission to share information with
-                Vets.gov, so we couldn’t complete the process. To give you full
-                access to the tools on Vets.gov, we need to be able to share
-                your information with the site.
+                {siteName}, so we couldn’t complete the process. To give you
+                full access to the tools on {siteName}, we need to be able to
+                share your information with the site.
               </p>
               <p>
                 Please try again and click “Accept” on the final page. Or, you
@@ -153,7 +154,7 @@ export class AuthApp extends React.Component {
             <div>
               <p>We’re sorry. Something went wrong on our end.</p>
               <p>
-                Please call the Vets.gov Help Desk at{' '}
+                Please call the {siteName} Help Desk at{' '}
                 <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
                 <a href="tel:18008778339">1-800-877-8339</a>. We’re open Monday
                 &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
@@ -177,7 +178,7 @@ export class AuthApp extends React.Component {
     const view = this.state.error ? (
       this.renderError()
     ) : (
-      <LoadingIndicator message="Signing in to Vets.gov..." />
+      <LoadingIndicator message={`Signing in to ${siteName}...`} />
     );
 
     return (

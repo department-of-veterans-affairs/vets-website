@@ -7,6 +7,7 @@ import recordEvent from '../../../monitoring/record-event';
 import { login, signup } from '../../../user/authentication/utilities';
 import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import DowntimeBanner from '../../../../platform/monitoring/DowntimeNotification/components/Banner';
+import siteName from '../../../brand-consolidation/site-name';
 
 const loginHandler = loginType => () => {
   recordEvent({ event: `login-attempted-${loginType}` });
@@ -30,7 +31,7 @@ class SignInModal extends React.Component {
           <div className="logo">
             <a href="/">
               <img
-                alt="vets.gov"
+                alt={siteName}
                 className="va-header-logo"
                 src="/img/design/logo/logo-alt.png"
               />
@@ -41,7 +42,7 @@ class SignInModal extends React.Component {
       <div className="container">
         <div className="row">
           <div className="columns small-12">
-            <h1>Sign in to Vets.gov</h1>
+            <h1>Sign in to {siteName}</h1>
           </div>
         </div>
         <div className="row hide-for-medium-up mobile-explanation">
@@ -56,8 +57,8 @@ class SignInModal extends React.Component {
             <div className="columns small-12">
               <div className="form-warning-banner">
                 <AlertBox
-                  headline="Some Vets.gov tools and features may not be working as expected"
-                  content="We’re sorry. We’re working to fix some problems with DS Logon right now. Please check back later or call the Vets.gov Help Desk for more information at 1-855-574-7286, TTY: 1-800-877-8339."
+                  headline={`Some ${siteName} tools and features may not be working as expected`}
+                  content={`We’re sorry. We’re working to fix some problems with DS Logon right now. Please check back later or call the ${siteName} Help Desk for more information at 1-855-574-7286, TTY: 1-800-877-8339.`}
                   isVisible
                   status="warning"
                 />
@@ -117,7 +118,7 @@ class SignInModal extends React.Component {
                 fingertips.
               </div>
               <p>
-                You spoke. We listened. Vets.gov is the direct result of what
+                You spoke. We listened. {siteName} is the direct result of what
                 you said you wanted most—one easy-to-use place to:
               </p>
               <ul>
@@ -159,7 +160,7 @@ class SignInModal extends React.Component {
                 </a>
               </p>
               <p>
-                Call the Vets.gov Help Desk at{' '}
+                Call the {siteName} Help Desk at{' '}
                 <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
                 <a href="tel:18008778339">1-800-877-8339</a>
                 <br />
@@ -169,7 +170,7 @@ class SignInModal extends React.Component {
             <hr />
             <div className="fed-warning">
               <p>
-                <strong>Please note:</strong> When you sign in to Vets.gov,
+                <strong>Please note:</strong> When you sign in to {siteName},
                 you're accessing a United States Federal Government information
                 system.
               </p>
@@ -203,7 +204,7 @@ class SignInModal extends React.Component {
         focusSelector="button"
         onClose={this.props.onClose}
         id="signin-signup-modal"
-        title="Sign in to Vets.gov"
+        title={`Sign in to ${siteName}`}
       >
         {this.renderModalContent()}
       </Modal>
