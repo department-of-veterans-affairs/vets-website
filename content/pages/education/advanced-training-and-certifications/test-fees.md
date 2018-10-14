@@ -10,7 +10,7 @@ concurrence: not complete
 template: detail-page 
 --- 
 
-The GI Bill covers more than just tuition. We may pay you back for the cost of certain tests you need to take to become a licensed or certified professional—or to apply for college or a training course. Only tests approved for the GI Bill are covered under this benefit, so find out what’s approved before you take any test.
+The GI Bill covers more than just tuition. We may pay you back for the cost of certain tests you need to take to become a licensed or certified professional—or to apply for college or a training course. Only tests approved for the GI Bill are covered under this benefit, so find out what’s approved before you take any tests.
 
 
 <span id="ways-to-file"></span>
@@ -23,7 +23,7 @@ The GI Bill covers more than just tuition. We may pay you back for the cost of c
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="licensing-certification-kinds-of-benefits">For Licensing and Certification</button>
   
 <div id="licensing-certification-kinds-of-benefits" class="usa-accordion-content">
-If you’re a Veteran and you qualify for the GI Bill, we may pay you back for test fees under $2,000 for a job that requires a license or certification in order to work. <br>
+If you’re a Veteran and you qualify for the GI Bill, we may pay you back for test fees under $2,000 for a job that requires a license or certification in order for you to work. <br>
 [Find out which tests are covered and how much they cost](https://inquiry.vba.va.gov/weamspub/buildSearchCountryLCCriteria.do).
 
 **What you should know about test benefits. We:**
