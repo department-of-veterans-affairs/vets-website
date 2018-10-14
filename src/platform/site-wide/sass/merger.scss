@@ -521,7 +521,7 @@
   .usa-sidenav-list {
     a {
       text-decoration: underline;
-      padding-right: 0;
+      padding: 8px 16px 8px 30px;
 
       &.va-button-primary {
         padding: 1rem 2rem;
@@ -550,13 +550,15 @@
       a.usa-current {
         font-weight: bold;
         margin-left: 0;
+        padding-left: 25px;
       }
     }
 
     .usa-sidenav-sub_list{
       a {
-        width: 100% !important; // sorry this is temporary
+        width: 98% !important; // sorry this is temporary
         text-decoration: underline;
+        padding-left: 40px;
 
         &:focus {
           @include focus-gold-light-outline(0);
@@ -598,6 +600,8 @@
     }
 
     .usa-sidenav-list {
+      margin-right: 0;
+
       & > li {
         .active-menu {
           border-bottom: none;
@@ -607,9 +611,15 @@
           color: $color-link-default;
           display: inline-block;
           vertical-align: middle;
-          width: 100%;
+          width: 98%;
 
-          &:focus, &:hover {
+          &:focus {
+            background-color: $mm-gray;
+            font-weight: bold;
+            margin: 2px;
+          }
+
+          &:hover {
             background-color: $mm-gray;
             font-weight: bold;
           }
@@ -652,10 +662,6 @@
         &.level-one {
           padding-left: 14px;
           margin-left: 0;
-        }
-
-        &:hover {
-          font-weight: bold;
         }
 
         &:hover {
@@ -727,23 +733,29 @@
     }
   }
   .usa-accordion-bordered {
+
     &.social {
       a {
         text-decoration: underline;
       }
+
       .usa-accordion-content {
         h4:first-child {
           margin-top: 0px;
         }
+
         section:last-child {
           margin-bottom: 0px;
         }
+
         > section, > h4 {
           margin: 1.5em auto;
         }
+
         ul > h4 {
           margin: 1em auto;
         }
+
         ul > li {
           margin: 1em auto;
             &:last-child {
@@ -751,6 +763,7 @@
             }
         }
       }
+
       .usa-accordion-button {
         border: none;
       }
@@ -787,6 +800,7 @@
       &:hover, &:focus {
         background-color: $mm-gray;
         font-weight: bold;
+        margin: 2px;
       }
 
       &[aria-expanded=false] {
@@ -797,10 +811,14 @@
         background-image: url("/img/minus-blue.svg");
       }
     }
+
+    .usa-accordion-content {
+      padding: 0;
+    }
   }
 
   .sidenav-previous-page {
-    padding-bottom: 15px;
+    padding-bottom: 12px;
 
     a {
       &::before {
