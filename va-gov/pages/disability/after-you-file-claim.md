@@ -36,8 +36,8 @@ Find out what happens to your claim after you apply for disability benefits.
 ### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">98.8 days</span>
-<span class="description">Average number of days to complete disability-related claims in July 2018</span>
+<span class="number">94 days</span>
+<span class="description">Average number of days to complete disability-related claims in June 2018</span>
 </div>
 
 #### The amount of time it takes to review your claim depends on:
@@ -106,6 +106,6 @@ We’ll send you a packet by U.S. mail that includes details of the decision on 
 
 ### What should I do if I disagree with your decision on my claim?
 
-If you disagree with our decision, you can appeal it. The decision notice will have instructions on how to file an appeal. [File an appeal now](/disability/file-an-appeal/).
+If you disagree with our decision, you can appeal it. The decision notice will have instructions on how to file an appeal. [File an appeal now](/disability-benefits/claims-appeal/).
 
 <div markdown="0"><br></div>
