@@ -7,7 +7,7 @@ plainlanguage: 12-02-16 certified in compliance with the Plain Writing Act
 collection: education
 children: educationOtherPrograms
 spoke: Get Benefits
-order: 8
+order: 9
 majorlinks:
 aliases:
   - /education/other-educational-assistance-programs/
