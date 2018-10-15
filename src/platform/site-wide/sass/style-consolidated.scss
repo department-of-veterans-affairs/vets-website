@@ -48,4 +48,12 @@ $image-path: "~uswds/src/img";
   @import "merger";
 
   @import "consolidated-patches";
+
+  width: 100%;
+  height: auto;
+  background: #112e51;
+}
+
+.merger #bg-middle-effect {
+    background: url(/va_files/2014/responsive/images/bg-middle-effect.png) repeat-y scroll center -65px #0073b4;
 }

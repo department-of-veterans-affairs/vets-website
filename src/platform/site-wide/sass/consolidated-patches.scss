@@ -14,12 +14,11 @@
   padding-top: 2em;
 }
 
-.merger #homepage-hub {
-  background: #112e51;
-}
-
 header.merger {
   z-index: 300;
+  width: 100%;
+  border: 1px solid #01133F;
+  margin: auto;
 
   .va-crisis-line {
     top: 20px;
