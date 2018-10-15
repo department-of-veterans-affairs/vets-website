@@ -32,7 +32,7 @@ If you’re a Veteran and you qualify for the GI Bill, we may pay you back for t
 - Will pay for tests even if you don't score high enough to get your license or certification. You can take the same test as many times as you need.
 - Won't pay for fees or costs related to getting the actual license or certification document.
 
-For tests taken before August 1, 2018, if we paid you back for testing under the Post-9/11 GI Bill, we charged you at least a month of entitlement pay. For licensing and certification tests taken after August 1, 2018, entitlement charges under the Post-9/11 GI Bill will be prorated based on the actual amount of the fee charged for the test.
+For tests taken before August 1, 2018, if we paid you back for testing under the Post-9/11 GI Bill, we charged you at least a month of entitlement pay. For licensing and certification tests taken after August 1, 2018, we'll prorate the entitlement charges under the Post-9/11 GI Bill based on the actual amount of the fee charged for the test.
 </div>
 </li>
 
@@ -84,7 +84,7 @@ We will pay you back for the approved tests listed below:
 - Fees to get scores quickly
 - Optional items not required to take an approved test
 
-For tests taken before August 1, 2018, if we paid you back for testing under the Post-9/11 GI Bill, we charged you at least a month of entitlement pay. For national tests taken after August 1, 2018, entitlement charges under the Post-9/11 GI Bill will be prorated based on the actual amount of the fee charged for the test.
+For tests taken before August 1, 2018, if we paid you back for testing under the Post-9/11 GI Bill, we charged you at least a month of entitlement pay. For national tests taken after August 1, 2018, we'll prorate the entitlement charges under the Post-9/11 GI Bill based on the actual amount of the fee charged for the test.
 </div>
 </li>
 
