@@ -96,7 +96,7 @@ export class AuthApp extends React.Component {
               <p>
                 Please try again and click “Accept” on the final page. Or, you
                 can try signing in with your premium DS Logon or premium
-                MyHealtheVet account instead of identity proofing with ID.me.
+                My HealtheVet account instead of identity proofing with ID.me.
               </p>
             </div>
           ),
