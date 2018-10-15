@@ -255,6 +255,10 @@
     button {
       &.va-sidebarnav-close {
         position: absolute;
+
+        &:hover {
+          background-color: $mm-gray;
+        }
       }
     }
 
@@ -270,7 +274,7 @@
     }
     #menu-rule {
       border-bottom: 0;
-      padding-bottom: 0px;
+      padding-bottom: 0;
     }
 
     #vetnav-controls {
@@ -342,6 +346,7 @@
           margin-right: 1.75em;
           background-position: right 1.5rem center;
           line-height: unset;
+
           span {
             display: inline-block;
           }
@@ -532,82 +537,6 @@
 
   // TODO: add this into formation
   .va-sidebarnav {
-    h4 {
-      vertical-align: middle;
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-
-    .usa-sidenav-list > li {
-      i {
-        position: relative;
-        right: -20px;
-      }
-
-      .menu-item-container > a {
-        font-weight: initial;
-      }
-
-      a.usa-current {
-        font-weight: bold;
-        margin-left: 0;
-        padding-left: 25px;
-      }
-    }
-
-    .usa-sidenav-sub_list{
-      a {
-        width: 98% !important; // sorry this is temporary
-        text-decoration: underline;
-        padding-left: 40px;
-        font-size: 15px;
-
-        &:focus {
-          @include focus-gold-light-outline(0);
-          background-color: $mm-gray;
-          font-weight: bold;
-        }
-
-        &:hover {
-          text-decoration: underline;
-          background-color: $mm-gray;
-          font-weight: bold;
-        }
-
-        &.usa-current {
-          margin-left: 16px !important; // sorry this is temporary
-        }
-      }
-    }
-  }
-
-  .va-btn-sidebarnav-trigger {
-    color: $color-white;
-    background-color: $color-primary;
-
-    &:hover {
-      background-color: $color-primary-darker;
-    }
-
-    &:focus:hover svg {
-      fill: $color-white;
-    }
-
-    &.fixed-trigger {
-      position: fixed;
-      top: 0;
-      margin: 0;
-      width: 100%;
-      z-index: 2;
-    }
-  }
-
-  .va-sidebarnav {
-    h4 {
-      display: inline-block;
-      width: 75%;
-    }
-
     .left-side-nav-title {
       padding-bottom: 25px;
     }
@@ -617,7 +546,7 @@
 
       & > li {
         .active-menu {
-          border-bottom: none;
+          border-bottom: 0;
         }
 
         a {
@@ -685,6 +614,10 @@
 
       .active-level {
         background-color: $mm-gray;
+
+        a {
+          width: 100%;
+        }
       }
     }
     .fa {
@@ -723,7 +656,86 @@
         }
       }
     }
+
+    h4 {
+      display: inline-block;
+      margin-bottom: 0;
+      margin-top: 0;
+      vertical-align: middle;
+      width: 75%;
+    }
+
+    .usa-sidenav-list > li {
+      i {
+        position: relative;
+        right: -20px;
+      }
+
+      .menu-item-container > a {
+        font-weight: initial;
+      }
+
+      a.usa-current {
+        font-weight: bold;
+        margin-left: 0;
+        padding-left: 25px;
+      }
+    }
+
+    .usa-sidenav-sub_list{
+      a {
+        width: 98% !important; // sorry this is temporary
+        text-decoration: underline;
+        padding-left: 40px;
+        font-size: 15px;
+
+        &:focus {
+          @include focus-gold-light-outline(0);
+          background-color: $mm-gray;
+          font-weight: bold;
+        }
+
+        &:hover {
+          text-decoration: underline;
+          background-color: $mm-gray;
+          font-weight: bold;
+        }
+
+        &.usa-current {
+          margin-left: 16px !important; // sorry this is temporary
+        }
+      }
+    }
   }
+
+  .va-btn-sidebarnav-trigger {
+    color: $color-white;
+    background-color: $color-primary;
+
+    &:hover {
+      background-color: $color-primary-darker;
+    }
+
+    &:focus,
+    &:hover {
+      svg {
+        fill: $color-white;
+      }
+    }
+
+    &.fixed-trigger {
+      margin: 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 2;
+    }
+
+    svg {
+      margin: 5px 0 0 3px;
+    }
+  }
+
   button.va-modal-close > i.fa.fa-close{
         color: $color-black;
   }
