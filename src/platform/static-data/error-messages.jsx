@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import siteName from '../brand-consolidation/site-name';
 
 export const systemDownMessage = (
   <div className="row" id="systemDownMessage">
@@ -10,7 +11,7 @@ export const systemDownMessage = (
           Please try again later.
         </h3>
         <a href="/" className="usa-button-primary">
-          Go Back to Vets.gov
+          Go Back to {siteName}
         </a>
       </div>
     </div>
@@ -73,7 +74,7 @@ export const mhvAccessError = (
             </li>
           </ol>
           <p>
-            If none of these reasons applies to you, please call the Vets.gov
+            If none of these reasons applies to you, please call the {siteName}
             Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We're here Monday
             – Friday, 8:00 a.m. – 8:00 p.m. (ET).
           </p>

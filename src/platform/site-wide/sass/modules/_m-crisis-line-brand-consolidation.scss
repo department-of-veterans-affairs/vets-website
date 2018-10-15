@@ -115,15 +115,6 @@ button.va-crisis-line-button {
   }
 }
 
-.no-external-icon {
-  padding-right: 0;
-  background-image: none;
-  &::after {
-    display: none !important;
-    content: none;
-  }
-}
-
 .va-footer-vcl-trigger {
   background: transparent;
   color: inherit;

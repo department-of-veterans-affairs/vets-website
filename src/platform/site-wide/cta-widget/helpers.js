@@ -21,6 +21,24 @@ const HEALTH_TOOLS = [
   frontendApps.APPOINTMENTS,
 ];
 
+const MHV_ACCOUNT_TYPES = ['Premium', 'Advanced', 'Basic'];
+
+export const hasRequiredMhvAccount = (appId, accountLevel) => {
+  switch (appId) {
+    case frontendApps.HEALTH_RECORDS:
+    case frontendApps.LAB_AND_TEST_RESULTS:
+      return MHV_ACCOUNT_TYPES.includes(accountLevel);
+    case frontendApps.RX:
+      return MHV_ACCOUNT_TYPES.slice(0, 2).includes(accountLevel);
+    case frontendApps.MESSAGING:
+    case frontendApps.APPOINTMENTS:
+      return accountLevel === 'Premium';
+    default:
+      // Not a recognized health tool.
+      return false;
+  }
+};
+
 export const isHealthTool = appId => HEALTH_TOOLS.includes(appId);
 
 export const mhvBaseUrl = () => {
@@ -61,7 +79,7 @@ export const mhvToolName = appId => {
   return null;
 };
 
-export const toolUrl = appId => {
+export const toolUrl = (appId, index) => {
   switch (appId) {
     case frontendApps.HEALTH_RECORDS:
       return {
@@ -83,8 +101,11 @@ export const toolUrl = appId => {
 
     case frontendApps.APPOINTMENTS:
       return {
-        url: `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/scheduling-a-va-appointment`,
-        redirect: true,
+        url: [
+          `${mhvBaseUrl()}/mhv-portal-web/appointments`,
+          `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/scheduling-a-va-appointment`,
+        ][index],
+        redirect: false,
       };
 
     case frontendApps.LAB_AND_TEST_RESULTS:
@@ -165,7 +186,7 @@ export const requiredServices = appId => {
   }
 };
 
-export const serviceDescription = appId => {
+export const serviceDescription = (appId, index) => {
   switch (appId) {
     case frontendApps.HEALTH_RECORDS:
       return 'use VA Blue Button';
@@ -180,7 +201,10 @@ export const serviceDescription = appId => {
       return 'view your VA lab and test results';
 
     case frontendApps.APPOINTMENTS:
-      return ['schedule appointments online', 'view appointments online'];
+      return [
+        'view your VA appointments online',
+        'schedule, reschedule, or cancel a VA appointment online',
+      ][index];
 
     case frontendApps.GI_BILL_BENEFITS:
       return 'check your GI Bill Benefits';

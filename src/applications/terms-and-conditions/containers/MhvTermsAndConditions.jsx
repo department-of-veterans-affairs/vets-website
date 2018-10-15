@@ -9,6 +9,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import recordEvent from '../../../platform/monitoring/record-event';
 import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 import { getScrollOptions } from '../../../platform/utilities/ui';
+import siteName from '../../../platform/brand-consolidation/site-name';
 
 import {
   acceptTerms,
@@ -22,9 +23,8 @@ const scroller = Scroll.scroller;
 const TERMS_NAME = 'mhvac';
 
 const unagreedBannerProps = {
-  headline: 'Using Vets.gov Health Tools',
-  content:
-    'Before you can use the health tools on Vets.gov, you’ll need to read and agree to the Terms and Conditions below. This will give us your permission to show you your VA medical information on this site.',
+  headline: `Using ${siteName} Health Tools`,
+  content: `Before you can use the health tools on ${siteName}, you’ll need to read and agree to the Terms and Conditions below. This will give us your permission to show you your VA medical information on this site.`,
   status: 'warning',
 };
 
@@ -113,8 +113,7 @@ export class MhvTermsAndConditions extends React.Component {
 
     if (this.state.showAcceptedMessage) {
       bannerProps = {
-        headline:
-          'You’ve accepted the Terms and Conditions for using Vets.gov health tools',
+        headline: `You’ve accepted the Terms and Conditions for using ${siteName} health tools`,
         content: '',
         status: 'success',
       };

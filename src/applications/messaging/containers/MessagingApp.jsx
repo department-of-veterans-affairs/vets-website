@@ -12,6 +12,7 @@ import RequiredLoginView from '../../../platform/user/authorization/components/R
 import { closeAlert } from '../actions';
 import ButtonSettings from '../components/buttons/ButtonSettings';
 import { isEmpty } from 'lodash';
+import siteName from '../../../platform/brand-consolidation/site-name';
 
 const SERVICE_REQUIRED = backendServices.MESSAGING;
 
@@ -35,7 +36,7 @@ class MessagingApp extends React.Component {
           We’re sorry. It looks like you don’t have a VA health care team linked
           to your account in our system. To begin sending secure messages,
           please contact your health care team, and ask them to add you into the
-          system. If you need more help, please call the Vets.gov Help Desk at{' '}
+          system. If you need more help, please call the {siteName} Help Desk at{' '}
           <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
           <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
           8:00 a.m. &#8211; 8:00 p.m. (ET).
