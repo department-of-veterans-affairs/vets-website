@@ -520,6 +520,7 @@
 
   .usa-sidenav-list {
     a {
+      font-size: 17px;
       text-decoration: underline;
       padding: 8px 16px 8px 30px;
 
@@ -559,6 +560,7 @@
         width: 98% !important; // sorry this is temporary
         text-decoration: underline;
         padding-left: 40px;
+        font-size: 15px;
 
         &:focus {
           @include focus-gold-light-outline(0);
@@ -803,32 +805,40 @@
   #va-detailpage-sidebar {
     color: $color-link-default;
 
-    .usa-accordion-button {
-      color: $color-link-default;
-      font-weight: normal;
-      font-size: 17px;
+    .usa-accordion {
+      .usa-accordion-button {
+        color: $color-link-default;
+        font-weight: normal;
+        font-size: 17px;
 
-      &:hover, &:focus {
-        background-color: $mm-gray;
-        font-weight: bold;
-        margin: 2px;
+        &:hover, &:focus {
+          background-color: $mm-gray;
+          font-weight: bold;
+          margin: 2px;
+        }
+
+        &:hover {
+          margin: 0px;
+        }
+
+        &[aria-expanded=false] {
+          background-image: url("/img/plus-blue.svg");
+        }
+
+        &[aria-expanded=true] {
+          background-image: url("/img/minus-blue.svg");
+        }
       }
 
-      &:hover {
-        margin: 0px;
+      .usa-accordion-content {
+        padding: 0;
       }
 
-      &[aria-expanded=false] {
-        background-image: url("/img/plus-blue.svg");
+      .usa-sidenav-list {
+        a {
+          font-size: 15px;
+        }
       }
-
-      &[aria-expanded=true] {
-        background-image: url("/img/minus-blue.svg");
-      }
-    }
-
-    .usa-accordion-content {
-      padding: 0;
     }
   }
 
