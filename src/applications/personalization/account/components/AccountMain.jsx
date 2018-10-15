@@ -102,7 +102,7 @@ class AccountMain extends React.Component {
               <h3>Sign in settings</h3>
               <p>
                 You can update the email or password you use to sign in to
-                VA.gov. Just go to the account you use to sign in (DS Logon,
+                VA.gov. Just go to the account you use to sign in (DS Logon, My
                 My HealtheVet, or ID.me) and manage your settings.
               </p>
             </div>
