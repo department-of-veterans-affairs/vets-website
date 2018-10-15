@@ -37,7 +37,7 @@ These benefits cover conditions that we believe were caused by time spent as a P
 #### For former POWs held captive for any length of time
 
 **Conditions that affect your body, including:**
--	Osteoporosis (for claims filed on or after October 10, 2008, and you have a diagnosis of posttraumatic stress disorder, or PTSD)
+-	Osteoporosis (if you filed your claim on or after October 10, 2008, and you have a diagnosis of posttraumatic stress disorder, or PTSD)
 -	Lasting damage from frostbite
 -	Posttraumatic osteoarthritis (pain and swelling in your joints that happens when a past injury causes a joint—such as your knee or elbow—to wear out)
 -	A stroke or problems caused by a stroke (such as memory loss, loss of speech, or weakness in an arm or leg)
@@ -46,7 +46,7 @@ These benefits cover conditions that we believe were caused by time spent as a P
 **Conditions that affect your mind, including:**
 -	A neuropsychiatric condition 
 -	Psychosis 
--	Dysthymic disorder
+-	Dysthymic disorder (also called "persistent depressive disorder")
 -	Any of the anxiety states (such as PTSD)
 
 <br>
@@ -54,7 +54,7 @@ These benefits cover conditions that we believe were caused by time spent as a P
 #### For former POWs held captive for 30 days or more
 
 **Conditions that affect your body, including:**
--	Osteoporosis (for claims filed on or after September 28, 2009; no PTSD diagnosis required)
+-	Osteoporosis (if you filed your claim on or after September 28, 2009; no PTSD diagnosis required)
 -	Helminthiasis 
 -	Peripheral neuropathy, except where directly related to an illness caused by an infection
 -	Peptic ulcer disease 
@@ -84,4 +84,4 @@ Veterans
 ### How do I get these benefits?
 
 You’ll need to apply for benefits. When you apply, please include any documents that confirm you spent time as a POW. You’ll also need to include a doctor’s report stating that you have 1 or more of the conditions listed here—and that the condition is at least 10% disabling. <br>
-[Apply for benefits](/disability/how-to-file-claim/).
+[Apply for benefits](/disability-benefits/apply/).
