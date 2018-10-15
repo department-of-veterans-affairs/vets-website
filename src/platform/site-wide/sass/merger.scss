@@ -17,6 +17,7 @@
       margin-left: 6px;
     }
     z-index: 300;
+    min-height: 50px;
   }
   .va-modal {
     z-index: 301;
@@ -235,6 +236,7 @@
     // 100% width necessary for right aligned items
     width: 100%;
     z-index: 2;
+    left: initial;
   }
 
   // mobile
