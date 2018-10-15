@@ -15,12 +15,12 @@
 }
 
 .usa-grid {
-  width: $vagov-width;
+  width: $teamsite-width;
   padding-left: 1rem;
 }
 
 .usa-grid-full {
-  width: $vagov-width;
+  width: $teamsite-width;
 }
 
 header.merger {
@@ -37,13 +37,12 @@ header.merger {
     }
   }
   .va-notice--banner-inner {
-    width: $vagov-width;
+    width: $teamsite-width;
   }
   #mega-menu .vetnav-panel {
     width: 487px;
   }
   #mega-menu .column-two {
-    border-left: none;
     left: 240px;
   }
   #mega-menu .column-three {

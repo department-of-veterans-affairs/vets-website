@@ -1,8 +1,8 @@
 $font-path: "~uswds/src/fonts";
 $image-path: "~uswds/src/img";
-$vagov-dark-blue: #112e51;
-$vagov-light-blue: #0073b4;
-$vagov-width: 959px;
+$teamsite-dark-blue: #112e51;
+$teamsite-light-blue: #0073b4;
+$teamsite-width: 959px;
 
 @font-face {
   font-family: "FontAwesome";
@@ -51,12 +51,8 @@ $vagov-width: 959px;
   @import "merger";
 
   @import "consolidated-patches";
-
-  width: 100%;
-  height: auto;
-  background: $vagov-dark-blue;
 }
 
 .merger #bg-middle-effect {
-    background: url(/va_files/2014/responsive/images/bg-middle-effect.png) repeat-y scroll center -65px $vagov-light-blue;
+    background: url(/va_files/2014/responsive/images/bg-middle-effect.png) repeat-y scroll center -65px $teamsite-light-blue;
 }
