@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable arrow-body-style */
 /* eslint-disable react/jsx-closing-bracket-location */
 import React, { Component } from 'react';
 import FacilityTypeDropdown from './FacilityTypeDropdown';

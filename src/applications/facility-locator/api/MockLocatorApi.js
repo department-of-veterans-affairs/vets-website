@@ -39,69 +39,70 @@ class MockLocatorApi {
     ]).join('&');
 
     return new Promise( (resolve, reject) => {
-      if (params && params !== '') {
-        if (params.fail) {
-          reject('Random failure due to fail flag being set');
-        }
+      setTimeout( () => {
+        if (params && params !== '') {
+          if (params.fail) {
+            reject('Random failure due to fail flag being set');
+          }
 
-        let locations = {};
-        if (ccLocatorEnabled()) { // Feature Flag
-          locations = { ...facilityData };
-        } else {
-          const nonProviders = facilityData.data.filter(loc => loc.type !== LocationType.CC_PROVIDER);
-          locations = { ...facilityData, data: nonProviders };
-        }
-
-        setTimeout( () => {
+          let locations = {};
+          if (ccLocatorEnabled()) { // Feature Flag
+            locations = { ...facilityData };
+          } else {
+            const nonProviders = facilityData.data.filter(loc => loc.type !== LocationType.CC_PROVIDER);
+            locations = { ...facilityData, data: nonProviders };
+          }
           resolve(locations);
-        }, delay);
-      } else {
-        reject('Invalid URL or query sent to API!');
-      }
+        } else {
+          reject('Invalid URL or query sent to API!');
+        }
+      }, delay);
     });
   }
 
   static fetchVAFacility(id) {
     return new Promise( (resolve, reject) => {
-
-      if (id && (typeof id === 'number' || typeof id === 'string')) {
-        const location = facilityData.data.filter(data => data.id === id);
-        if (location && location.length > 0) {
-          resolve({ data: location[0] });
+      setTimeout( () => {
+        if (id && (typeof id === 'number' || typeof id === 'string')) {
+          const location = facilityData.data.filter(data => data.id === id);
+          if (location && location.length > 0) {
+            resolve({ data: location[0] });
+          } else {
+            reject(`Facility with given ID '${id}' not found!`);
+          }
         } else {
-          reject(`Facility with given ID '${id}' not found!`);
+          reject('No facility ID or invalid ID specified!');
         }
-      } else {
-        reject('No facility ID or invalid ID specified!');
-      }
+      }, delay);
     });
   }
 
   static fetchProviderDetail(id) {
     return new Promise( (resolve, reject) => {
-
-      if (id && typeof id === 'string') {
-        const location = facilityData.data.filter(data => data.id === id);
-        if (location && location.length > 0) {
-          resolve(location[0]);
+      setTimeout( () => {
+        if (id && typeof id === 'string') {
+          const location = facilityData.data.filter(data => data.id === id);
+          if (location && location.length > 0) {
+            resolve(location[0]);
+          } else {
+            reject(`Facility with given ID '${id}' not found!`);
+          }
         } else {
-          reject(`Facility with given ID '${id}' not found!`);
+          reject('No facility ID or invalid ID specified!');
         }
-      } else {
-        reject('No facility ID or invalid ID specified!');
-      }
+      }, delay);
     });
   }
 
   static getProviderSvcs(shouldFail = false) {
     return new Promise( (resolve, reject) => {
-      if (!shouldFail) {
-        setTimeout( () => {
+      setTimeout( () => {
+        if (!shouldFail) {
           resolve(providerServices);
-        }, delay);
-      } else {
-        reject('Fail condition set, likely for testing reasons.');
-      }
+        } else {
+          reject('Fail condition set, likely for testing reasons.');
+        }
+      }, delay);
     });
   }
 }
@@ -896,7 +897,6 @@ export const facilityData = {
         },
         email: 'franklin@dentist.med',
         phone: '202-636-7660',
-        schedPhone: '202-745-8000',
         fax: '202-636-7661',
         website: 'http://example.com',
         prefContact: 'phone',

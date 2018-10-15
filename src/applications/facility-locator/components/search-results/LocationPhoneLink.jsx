@@ -8,7 +8,7 @@ const LocationPhoneLink = ({ location }) => {
   const isProvider = location.type === LocationType.CC_PROVIDER;
 
   if (isProvider) {
-    const { phone, schedPhone } = location.attributes;
+    const { phone, schedPhone = '866-606-8198' } = location.attributes;
     return (
       <div>
         {renderPhoneNumber('If you have a referral', 'Call this facility at', phone, 'phone', true)}
