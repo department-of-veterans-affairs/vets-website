@@ -248,6 +248,7 @@
     .flex-col-mobile {
       flex-direction: column;
     }
+
     .va-sidebarnav {
       display: none;
     }
@@ -255,8 +256,11 @@
     button {
       &.va-sidebarnav-close {
         position: absolute;
+        right: 2px;
+        top: 2px;
 
-        &:hover {
+        &:hover,
+        &:focus {
           background-color: $mm-gray;
         }
       }
