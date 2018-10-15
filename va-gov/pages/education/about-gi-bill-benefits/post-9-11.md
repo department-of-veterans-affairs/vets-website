@@ -118,6 +118,7 @@ The benefit amount depends on which school you go to, how much active-duty servi
  <h3 itemprop="name">How do I know how much of my Post-9/11 GI Bill benefits are left?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
+  
 If you already applied for and were awarded Post-9/11 GI Bill education benefits, your GI Bill Statement of Benefits will show you how much of your benefits you’ve used and how much you have left to use. <br>
 [View your GI Bill Statement of Benefits](/education/gi-bill/post-9-11/ch-33-benefit). 
 
