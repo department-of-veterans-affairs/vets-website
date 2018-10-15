@@ -14,6 +14,15 @@
   padding-top: 2em;
 }
 
+.usa-grid {
+  width: $vagov-width;
+  padding-left: 1rem;
+}
+
+.usa-grid-full {
+  width: $vagov-width;
+}
+
 header.merger {
   z-index: 300;
   width: 100%;
@@ -26,6 +35,19 @@ header.merger {
     button.va-crisis-line-button {
       background-image: none;
     }
+  }
+  .va-notice--banner-inner {
+    width: $vagov-width;
+  }
+  #mega-menu .vetnav-panel {
+    width: 487px;
+  }
+  #mega-menu .column-two {
+    border-left: none;
+    left: 240px;
+  }
+  #mega-menu .column-three {
+    left: 485px;
   }
 }
 
