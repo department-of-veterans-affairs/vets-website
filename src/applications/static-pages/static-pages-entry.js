@@ -1,4 +1,5 @@
 import '../../platform/polyfills';
+import LazyLoad from 'vanilla-lazyload/dist/lazyload';
 
 import createCommonStore from '../../platform/startup/store';
 import startSitewideComponents from '../../platform/site-wide';
@@ -28,11 +29,14 @@ const healthcarePages = new Set([
 ]);
 
 const ctaTools = new Set([
-  '/health-care/secure-messaging/',
+  '/claim-or-appeal-status/',
+  '/health-care/get-medical-records/',
   '/health-care/refill-track-prescriptions/',
+  '/health-care/secure-messaging/',
   '/health-care/schedule-view-va-appointments/',
   '/health-care/view-test-and-lab-results/',
-  '/claim-or-appeal-status/',
+  '/records/download-va-letters/',
+  '/records/get-veteran-id-cards/vic/',
 ]);
 
 const burialPages = new Set([
@@ -117,7 +121,7 @@ if (burialPages.has(location.pathname)) {
   });
 }
 
-if (disabilityPages.has(location.pathname) && __BUILDTYPE__ !== 'production') {
+if (disabilityPages.has(location.pathname) && brandConsolidation.isEnabled()) {
   createDisabilityIncreaseApplicationStatus(store);
 }
 
@@ -129,3 +133,9 @@ if (location.pathname === '/disability-benefits/increase-claims-testing/') {
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
 }
+
+/* eslint-disable no-unused-vars,camelcase */
+const lazyLoad = new LazyLoad({
+  elements_selector: '.lazy',
+});
+/* eslint-enable */

@@ -12,14 +12,7 @@ lastupdate: 2018-09-20
 Find out how to check the status of a VA claim or appeal online.
 </div>
 
-<div class="va-sign-in-alert usa-alert usa-alert-info">
-  <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You’ll need to sign in before you can check your claim or appeal status.</h4>
-    <p class="usa-alert-text">
-      <button class="usa-button-primary">Sign In to Check Your Claim or Appeal Status</button>
-    </p>
-  </div>
-</div>
+<div class="cta-widget" data-app-id="claims-and-appeals"></div>
 
 <h2 itemprop="name">What types of claims and appeals can I track with this tool?</h2>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -52,11 +45,9 @@ Find out how to check the status of a VA claim or appeal online.
 <div itemprop="text">
 
 <b>To use this tool, you'll need to have one of these free accounts:</b>
-- A premium **My HealtheVet** account, **or**
-- A **DS Logon** account (used for eBenefits and milConnect), **or**
+- A Premium **My HealtheVet** account, **or**
+- A Premium **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
-
-**Note:** If you use DS Logon, you'll need to verify your identity online as part of our sign-in process.
 
 </div>
 </div>

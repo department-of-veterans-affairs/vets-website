@@ -16,11 +16,11 @@ To receive some benefits, Veterans need a letter proving their status. You can a
 
 <section>
 
+<div class="cta-widget" data-app-id="letters"></div>
+
 ### What types of VA letters can I download using this tool?
 
 You can download a variety of letters from VA that include information about your benefits and service history.
-
-<a href='/records/download-va-letters/letters' class='usa-button-primary'>Access Your VA Letters</a>
 
 </section>
 
@@ -61,7 +61,7 @@ Yes. If you're totally and permanently disabled because of your service-connecte
 
 ### What if I have trouble downloading a VA letter?
 
-Call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>).
+Call the VA.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>).
 We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
 
 </section>

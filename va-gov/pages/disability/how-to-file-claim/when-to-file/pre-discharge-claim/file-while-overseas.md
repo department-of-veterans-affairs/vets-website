@@ -95,5 +95,3 @@ If you're stationed outside the Kaiserslautern Military Community, you can file 
 [Get service information for the Landstuhl BDD office](http://rhce.amedd.army.mil/landstuhl/services.cfm?MTFinfo_id=733).
 
 <br>
-
-

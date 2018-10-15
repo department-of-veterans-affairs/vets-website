@@ -13,6 +13,8 @@ import {
   prefillTransformer,
   submit,
   removeEmptyStringProperties,
+  removeFacilityCodeIfManualEntry,
+  transform,
   transformSearchToolAddress,
 } from '../../feedback-tool/helpers';
 
@@ -154,6 +156,70 @@ describe('feedback-tool helpers:', () => {
       };
       const address = transformSearchToolAddress(inputData);
       expect(address).to.eql(expectedAddress);
+    });
+  });
+
+  describe('removeFacilityCodeIfManualEntry', () => {
+    it('removes the facility code if manual entry is used', () => {
+      const form = {
+        data: {
+          educationDetails: {
+            school: {
+              'view:searchSchoolSelect': {
+                facilityCode: 123456,
+                'view:manualSchoolEntryChecked': true,
+              },
+            },
+          },
+        },
+      };
+      const actual = removeFacilityCodeIfManualEntry(form);
+      const expected = {
+        data: {
+          educationDetails: {
+            school: {
+              'view:searchSchoolSelect': {
+                'view:manualSchoolEntryChecked': true,
+              },
+            },
+          },
+        },
+      };
+      expect(actual).to.eql(expected);
+    });
+    it('does not manipulate the object if manual entry is not used', () => {
+      const form = {
+        data: {
+          educationDetails: {
+            school: {
+              'view:searchSchoolSelect': {
+                facilityCode: 123456,
+                'view:manualSchoolEntryChecked': false,
+              },
+            },
+          },
+        },
+      };
+      const actual = removeFacilityCodeIfManualEntry(form);
+      expect(actual).to.eql(form);
+    });
+  });
+
+  describe('transform', () => {
+    const formConfig = {
+      chapters: {
+        chapter1: {
+          pages: {
+            page1: {},
+          },
+        },
+      },
+    };
+    it('calls the `formTransformer` with the `form` object', () => {
+      const form = { data: {} };
+      const formTransformerSpy = sinon.spy(data => data);
+      transform(formConfig, form, formTransformerSpy);
+      expect(formTransformerSpy.calledWith(form)).to.be.true;
     });
   });
 

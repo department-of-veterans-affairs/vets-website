@@ -1,4 +1,5 @@
 import { apiRequest } from '../../../utilities/api';
+import get from '../../../utilities/data/get';
 
 export const FETCHING_MHV_ACCOUNT = 'FETCHING_MHV_ACCOUNT';
 export const FETCH_MHV_ACCOUNT_FAILURE = 'FETCH_MHV_ACCOUNT_FAILURE';
@@ -31,7 +32,7 @@ export function createMHVAccount() {
   return dispatch => {
     dispatch({ type: CREATING_MHV_ACCOUNT });
 
-    apiRequest(
+    return apiRequest(
       baseUrl,
       { method: 'POST' },
       ({ data }) => dispatch({ type: CREATE_MHV_ACCOUNT_SUCCESS, data }),
@@ -67,8 +68,15 @@ export function upgradeMHVAccount() {
 
 export function createAndUpgradeMHVAccount() {
   return async dispatch => {
-    const accountCreationSuccess = await dispatch(createMHVAccount());
-    if (accountCreationSuccess) return dispatch(upgradeMHVAccount());
+    const accountCreationResult = await dispatch(createMHVAccount());
+
+    const accountLevel = get(
+      'data.attributes.accountLevel',
+      accountCreationResult,
+    );
+
+    if (accountLevel) return dispatch(upgradeMHVAccount());
+
     return null;
   };
 }

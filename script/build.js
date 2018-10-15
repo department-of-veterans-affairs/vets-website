@@ -9,18 +9,20 @@ const layouts = require('metalsmith-layouts');
 const liquid = require('tinyliquid');
 const markdown = require('metalsmith-markdownit');
 const moment = require('moment');
+const moveRemove = require('metalsmith-move-remove');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
-const sitemap = require('metalsmith-sitemap');
 const watch = require('metalsmith-watch');
 
 const webpackMetalsmithConnect = require('../config/webpack-metalsmith-connect');
 const environments = require('./constants/environments');
 const createBuildSettings = require('./create-build-settings');
 const createRedirects = require('./create-redirects');
+const createSitemaps = require('./create-sitemaps');
 const checkBrokenLinks = require('./check-broken-links');
 const createEnvironmentFilter = require('./create-environment-filter');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
+const leftRailNavResetLevels = require('./left-rail-nav-reset-levels');
 const addAssetHashes = require('./configure-assets');
 const rewriteVaDomains = require('./rewrite-va-domains');
 const BUILD_OPTIONS = require('./options');
@@ -39,6 +41,7 @@ smith.destination(BUILD_OPTIONS.destination);
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({
   buildtype: BUILD_OPTIONS.buildtype,
+  hostUrl: BUILD_OPTIONS.hostUrl,
   mergedbuild: !!BUILD_OPTIONS['brand-consolidation-enabled'], // @deprecated - We use a separate Metalsmith directory for VA.gov. We shouldn't ever need this info in Metalsmith files.
 });
 
@@ -50,6 +53,7 @@ smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 smith.use(filenames());
 
 smith.use(collections(BUILD_OPTIONS.collections));
+smith.use(leftRailNavResetLevels());
 smith.use(dateInFilename(true));
 
 smith.use(assets(BUILD_OPTIONS.assets));
@@ -125,7 +129,7 @@ Convert onclick event handles into nonced script tags
 */
 smith.use(nonceTransformer);
 
-/* 
+/*
  * This will replace links in static pages with a staging domain,
  * if it is in the list of domains to replace
  */
@@ -158,20 +162,13 @@ if (BUILD_OPTIONS.watch) {
   }
 }
 
-smith.use(
-  sitemap({
-    hostname:
-      BUILD_OPTIONS.host === 'localhost'
-        ? 'http://localhost'
-        : BUILD_OPTIONS.host,
-    omitIndex: true,
-  }),
-);
+smith.use(createSitemaps(BUILD_OPTIONS));
 
 // Pages can contain an "alias" property in their metadata, which is processed into
 // separate pages that will each redirect to the original page.
 smith.use(createRedirects(BUILD_OPTIONS));
 
+smith.use(moveRemove(BUILD_OPTIONS));
 /* eslint-disable no-console */
 smith.build(err => {
   if (err) throw err;

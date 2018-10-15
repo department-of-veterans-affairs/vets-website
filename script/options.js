@@ -6,17 +6,16 @@ const applyHerokuOptions = require('./heroku-helper');
 const environments = require('./constants/environments');
 const hostnames = require('./constants/hostnames');
 
-const defaultHost = 'localhost';
-
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'buildtype', type: String, defaultValue: environments.DEVELOPMENT },
+  { name: 'buildtype', type: String },
   { name: 'brand-consolidation-enabled', type: Boolean, defaultValue: false },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'entry', type: String, defaultValue: null },
   { name: 'analyzer', type: Boolean, defaultValue: false },
-  { name: 'host', type: String },
+  { name: 'host', type: String, defaultValue: 'localhost' },
+  { name: 'protocol', type: String, defaultValue: 'http' },
   { name: 'public', type: String, defaultValue: null },
   { name: 'destination', type: String, defaultValue: null },
 
@@ -46,29 +45,33 @@ function applyDefaultOptions(options) {
     redirects: [],
   });
 
-  if (options.buildtype === undefined) {
+  if (!options.buildtype) {
     options.buildtype = environments.DEVELOPMENT;
+  } else {
+    options.port = 80;
+    options.protocol = 'https';
+    options.host = hostnames[options.buildtype];
   }
+
+  options.hostUrl = `${options.protocol}://${options.host}${
+    options.port && options.port !== 80 ? `:${options.port}` : ''
+  }`;
 }
 
 function applyEnvironmentOverrides(options) {
   const env = require('get-env')();
 
-  // priority order: command line option, watch task host (localhost), build type host, default host
-  if (!options.host) {
-    if (!options.watch && options.buildtype) {
-      options.host = hostnames[options.buildtype];
-    } else {
-      options.host = defaultHost;
-    }
-  }
-
   switch (options.buildtype) {
     case environments.DEVELOPMENT:
     case environments.STAGING:
+      options.move = [{ source: 'vets-robots.txt', target: 'robots.txt' }];
+      options.remove = ['va-robots.txt'];
       break;
 
     case environments.PRODUCTION:
+      options.move = [{ source: 'vets-robots.txt', target: 'robots.txt' }];
+      options.remove = ['va-robots.txt'];
+
       if (options['no-sanity-check-node-env'] === false) {
         if (env !== 'prod') {
           throw new Error(
@@ -83,6 +86,9 @@ function applyEnvironmentOverrides(options) {
     case environments.VAGOVDEV:
     case environments.VAGOVSTAGING:
     case environments.PREVIEW:
+      options.move = [{ source: 'va-robots.txt', target: 'robots.txt' }];
+      options.remove = ['vets-robots.txt'];
+
       options['brand-consolidation-enabled'] = true;
       break;
 
@@ -92,18 +98,8 @@ function applyEnvironmentOverrides(options) {
 }
 
 function applyBrandConsolidationOverrides(options) {
-  let currentEnv = 'dev';
-  if (
-    options.buildtype.includes(environments.STAGING) ||
-    options.buildtype === environments.PREVIEW
-  ) {
-    currentEnv = 'staging';
-  }
-
   // This list also exists in stagingDomains.js
-  const domainReplacements = [
-    { from: 'www\\.va\\.gov', to: `${currentEnv}.va.gov` },
-  ];
+  const domainReplacements = [{ from: 'www\\.va\\.gov', to: options.host }];
 
   Object.assign(options, {
     contentRoot: '../va-gov',

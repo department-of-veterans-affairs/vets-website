@@ -1,8 +1,5 @@
 // iconography
 
-$color-orange: #EB7F29;
-$color-gold-darker: #988530;
-
 h1, h3, h4 {
   i {
     margin-right: 5px;
@@ -23,11 +20,7 @@ h1, h3, h4 {
 }
 
 .fa {
-
   position: relative;
-  color: $color-white;
-  border-radius: 50%;
-
   &.icon-large {
     height: 40px;
     width: 40px;
@@ -51,8 +44,6 @@ h1, h3, h4 {
   }
 
   &.fa-medkit {
-    background-color: $color-primary;
-
     &.icon-large {
       &::before {
         margin-top: 9.25px;
@@ -68,13 +59,7 @@ h1, h3, h4 {
     }
   }
 
-  &.fa-book {
-    background-color: $color-gold-light;
-  }
-
   &.fa-id-card {
-    background-color: $color-green;
-
     &.icon-large {
       &::before {
         margin-top: 9.75px;
@@ -84,8 +69,6 @@ h1, h3, h4 {
   }
 
   &.fa-handshake-o {
-    background-color: $color-visited;
-
     &.icon-large {
       &::before {
         margin-top: 9.75px;
@@ -100,13 +83,7 @@ h1, h3, h4 {
       }
     }
   }
-
-  &.fa-briefcase {
-    background-color: $color-orange;
-  }
-
   &.fa-money {
-    background-color: $color-green-darker;
 
     &.icon-small {
       &::before {
@@ -115,27 +92,15 @@ h1, h3, h4 {
     }
   }
 
-  &.fa-home {
-    background-color: $color-primary-alt;
-  }
 
   &.fa-users {
-    background-color: $color-gold-darker;
-
     &.icon-small {
       &::before {
         margin-left: 6.95px;
       }
     }
   }
-
-  &.fa-star {
-    background-color: $color-primary-darkest;
-  }
-
   &.fa-id-card {
-    background-color: $color-green;
-
     &.icon-small {
       &::before {
         margin-left: 5.85px;
@@ -144,3 +109,23 @@ h1, h3, h4 {
   }
 
 }
+
+@mixin make-hub($hub-name, $color) {
+  .hub-background-#{$hub-name} {
+    background: $color;
+    border-radius: 50%;
+  }
+  .hub-color-#{$hub-name} {
+    color: $color;
+  }
+}
+
+@include make-hub('health-care', $indigo-cool-60);
+@include make-hub('education', $mint-cool-50);
+@include make-hub('disability', $red-60);
+@include make-hub('careers', $orange-warm-50);
+@include make-hub('pension', $green-cool-50);
+@include make-hub('housing', $gold-50);
+@include make-hub('life-insurance', $green-warm-50);
+@include make-hub('burials', $blue-50);
+@include make-hub('records', $violet-warm-60);

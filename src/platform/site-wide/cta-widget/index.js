@@ -1,48 +1,51 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import { toggleLoginModal } from '../user-nav/actions';
 import { verify } from '../../user/authentication/utilities';
+
 import {
   createAndUpgradeMHVAccount,
   fetchMHVAccount,
   upgradeMHVAccount,
 } from '../../user/profile/actions';
+
 import { isLoggedIn, selectProfile } from '../../user/selectors';
+import titleCase from '../../utilities/data/titleCase';
+
+import CallToActionAlert from './CallToActionAlert';
 
 import {
-  frontendApps,
-  redirectUrl,
+  hasRequiredMhvAccount,
+  isHealthTool,
+  mhvToolName,
   requiredServices,
   serviceDescription,
+  toolUrl,
 } from './helpers';
-
-const HEALTH_TOOLS = [
-  frontendApps.HEALTH_RECORDS,
-  frontendApps.RX,
-  frontendApps.MESSAGING,
-  frontendApps.LAB_AND_TEST_RESULTS,
-  frontendApps.APPOINTMENTS,
-];
-
-const MHV_ACCOUNT_TYPES = ['Premium', 'Advanced', 'Basic'];
 
 export class CallToActionWidget extends React.Component {
   constructor(props) {
     super(props);
+    const { appId, index } = props;
+    const { url, redirect } = toolUrl(appId, index);
+
+    this._hasRedirect = redirect;
+    this._isHealthTool = isHealthTool(appId);
     this._popup = null;
-    this._redirectUrl = redirectUrl(window.location.pathname);
-    this._requiredServices = requiredServices(props.appId);
-    this._serviceDescription = serviceDescription(props.appId);
+    this._requiredServices = requiredServices(appId);
+    this._serviceDescription = serviceDescription(appId, index);
+    this._mhvToolName = mhvToolName(appId);
+    this._toolUrl = url;
   }
 
   componentDidMount() {
-    if (this.isHealthTool() && this.props.isLoggedIn) {
+    if (this._isHealthTool && this.props.isLoggedIn) {
       this.props.fetchMHVAccount();
     }
   }
@@ -51,9 +54,8 @@ export class CallToActionWidget extends React.Component {
     if (!this.props.isLoggedIn) return;
 
     if (this.isAccessible()) {
-      this.redirect();
-    } else if (this.isHealthTool());
-    {
+      if (this._hasRedirect && !this._popup) this.goToTool();
+    } else if (this._isHealthTool) {
       const { accountLevel, accountState, loading } = this.props.mhvAccount;
 
       if (loading) return;
@@ -76,10 +78,7 @@ export class CallToActionWidget extends React.Component {
   }
 
   getContent = () => {
-    if (
-      !this.props.isLoggedIn ||
-      !this.isHealthTool() /* Only health tools supported for now */
-    ) {
+    if (!this.props.isLoggedIn) {
       return {
         heading: `You’ll need to sign in before you can ${
           this._serviceDescription
@@ -92,7 +91,46 @@ export class CallToActionWidget extends React.Component {
         ),
         buttonText: 'Sign In or Create an Account',
         buttonHandler: this.openLoginModal,
+        status: 'info',
+      };
+    }
+
+    if (this._isHealthTool) return this.getHealthToolContent();
+
+    if (!this.props.profile.verified) {
+      return {
+        heading: `Please verify your identity to ${this._serviceDescription}`,
+        alertText: (
+          <p>
+            We take your privacy seriously, and we’re committed to protecting
+            your information. You’ll need to verify your identity before we can
+            give you access to your personal health information.
+          </p>
+        ),
+        buttonText: 'Verify Your Identity',
+        buttonHandler: verify,
         status: 'warning',
+      };
+    }
+
+    return null;
+  };
+
+  getHealthToolContent = () => {
+    if (this.isAccessible()) {
+      return {
+        heading: 'My HealtheVet will open in a new tab',
+        alertText: (
+          <p>
+            You may need to sign in again on My HealtheVet before you can use
+            the site’s {this._mhvToolName} tool. If you do, please sign in with
+            the same account you used to sign in here on VA.gov. You also may
+            need to disable your browser’s pop-up blocker so that My HealtheVet
+            will be able to open.
+          </p>
+        ),
+        buttonText: 'Go to My HealtheVet',
+        buttonHandler: this.goToTool,
       };
     }
 
@@ -119,22 +157,10 @@ export class CallToActionWidget extends React.Component {
       };
     }
 
-    if (!this.isAccessible()) return this.getInaccessibleContent();
-
-    return {
-      heading: 'My HealtheVet should open in a new tab',
-      alertText: (
-        <p>
-          If you don’t see My HealtheVet open in a new tab, try disabling your
-          browser’s popup blocker.
-        </p>
-      ),
-      buttonText: 'Go to My HealtheVet',
-      buttonHandler: this.redirect,
-    };
+    return this.getInaccessibleHealthToolContent();
   };
 
-  getInaccessibleHealthContent = () => {
+  getInaccessibleHealthToolContent = () => {
     const { accountState } = this.props.mhvAccount;
 
     switch (accountState) {
@@ -225,7 +251,7 @@ export class CallToActionWidget extends React.Component {
       /* Handling for these states to be re-introduced after brand consolidation
        * when VA patient and T&C acceptance checks will no longer gate access, so
        * access to these tools will be accurately reported by the services list.
-       * For now, access is determined by MHV account level requirements.
+       * For now, MHV account level requirements will be validated client-side.
        *
        * case 'no_account':
        *   return {
@@ -334,91 +360,32 @@ export class CallToActionWidget extends React.Component {
     };
   };
 
-  getInaccessibleContent = () => {
-    if (this.isHealthTool()) return this.getInaccessibleHealthContent();
-
-    if (!this.props.verified) {
-      return {
-        heading: `Please verify your identity to ${this._serviceDescription}`,
-        alertText: (
-          <p>
-            We take your privacy seriously, and we’re committed to protecting
-            your information. You’ll need to verify your identity before we can
-            give you access to your personal health information.
-          </p>
-        ),
-        buttonText: 'Verify Your Identity',
-        buttonHandler: verify,
-        status: 'warning',
-      };
-    }
-
-    // Generic error. Get actual copy later.
-    return {
-      heading: `You won’t be able to ${this._serviceDescription} right now`,
-      alertText: (
-        <div>
-          <p>
-            We’re sorry. Something went wrong on our end. You won’t be able to{' '}
-            {this._serviceDescription} until we can figure out what’s wrong.
-          </p>
-          <h5>What you can do</h5>
-          <p>
-            You can try again later or call the VA.gov Help Desk at{' '}
-            <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-            <a href="tel:18008778339">1-800-877-8339</a>
-            ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).
-          </p>
-        </div>
-      ),
-      status: 'error',
-    };
-  };
-
   isAccessible = () => {
-    // Health tools will determine access based on MHV account levels
-    // instead of services list until MHV account eligibility rules
-    // no longer have to accommodate the pre-brand consolidation flow.
-
-    if (this.isHealthTool()) {
+    if (this._isHealthTool) {
+      // Until MHV account eligibility rules no longer have to accommodate the
+      // pre-brand consolidation flow, the frontend will gate access using the MHV
+      // account level instead of the available services list from the backend,
+      // which will already have validated the MHV account level policies.
       const { appId, mhvAccount } = this.props;
-
-      switch (appId) {
-        case 'health-records':
-          return MHV_ACCOUNT_TYPES.includes(mhvAccount.accountLevel);
-        case 'rx':
-          return MHV_ACCOUNT_TYPES.slice(0, 2).includes(
-            mhvAccount.accountLevel,
-          );
-        case 'messaging':
-        case 'lab-and-test-results':
-        case 'appointments':
-          return mhvAccount.accountLevel === 'Premium';
-        default:
-          // Not a recognized health tool.
-          return false;
-      }
+      return hasRequiredMhvAccount(appId, mhvAccount.accountLevel);
+      // return this.props.availableServices.has(this._requiredServices);
     }
 
-    // We may only need to check whether the account is verified here and leave
-    // leave the handling of access for other reasons to the apps after redirect.
-
-    for (const requiredService of this._requiredServices) {
-      if (!this.props.availableServices.has(requiredService)) return false;
-    }
-
-    return true;
+    // Only check whether the account is verified here and leave any handling
+    // of gated access for other reasons to the apps after redirect.
+    return this.props.profile.verified;
   };
-
-  isHealthTool = () => HEALTH_TOOLS.includes(this.props.appId);
 
   openLoginModal = () => this.props.toggleLoginModal(true);
 
-  redirect = () => {
-    if (this._redirectUrl.startsWith('/')) {
-      window.location = this._redirectUrl;
-    } else if (!this._popup) {
-      this._popup = window.open(this._redirectUrl, 'redirect-popup');
+  goToTool = () => {
+    const url = this._toolUrl;
+    if (!url) return;
+
+    if (url.startsWith('/')) {
+      window.location = url;
+    } else {
+      this._popup = window.open(url, 'cta-popup');
       if (this._popup) this._popup.focus();
     }
   };
@@ -430,40 +397,33 @@ export class CallToActionWidget extends React.Component {
       );
     }
 
-    const {
-      heading,
-      alertText,
-      buttonText,
-      buttonHandler,
-      status = 'info',
-    } = this.getContent();
+    const content = this.getContent();
 
-    const alertProps = {
-      headline: heading,
-      content: (
-        <div className="usa-alert-text">
-          {alertText}
-          {buttonText && (
-            <button className="usa-button-primary" onClick={buttonHandler}>
-              {buttonText}
-            </button>
-          )}
-        </div>
-      ),
-      status,
-    };
+    if (content) return <CallToActionAlert {...content} />;
 
-    return <AlertBox isVisible {...alertProps} />;
+    if (this.props.children) return this.props.children;
+
+    const isInternalLink = this._toolUrl.startsWith('/');
+    const buttonClass = isInternalLink
+      ? classNames('usa-button-primary', 'va-button-primary')
+      : '';
+    const target = isInternalLink ? '_self' : '_blank';
+
+    return (
+      <a className={buttonClass} href={this._toolUrl} target={target}>
+        {titleCase(this._serviceDescription)}
+      </a>
+    );
   }
 }
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
-  const { loading, mhvAccount, services } = profile;
+  const { loading, mhvAccount, /* services, */ verified } = profile;
   return {
-    availableServices: new Set(services),
+    // availableServices: new Set(services),
     isLoggedIn: isLoggedIn(state),
-    profile: { loading },
+    profile: { loading, verified },
     mhvAccount,
   };
 };

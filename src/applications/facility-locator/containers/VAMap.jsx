@@ -397,7 +397,7 @@ class VAMap extends Component {
               <Tab className="small-6 tab">View Map</Tab>
             </TabList>
             <TabPanel>
-              <div className="facility-search-results">
+              <div aria-live="polite" aria-relevant="additions text" className="facility-search-results">
                 <ResultsList results={results} pagination={pagination} isMobile
                   currentQuery={currentQuery} updateUrlParams={this.updateUrlParams} />
               </div>
@@ -446,7 +446,7 @@ class VAMap extends Component {
         <div className="row">
           <div className="columns usa-width-one-third medium-4 small-12"
             style={{ maxHeight: '75vh', overflowY: 'auto' }} id="searchResultsContainer">
-            <div className="facility-search-results">
+            <div aria-live="polite" aria-relevant="additions text" className="facility-search-results">
               <div>
                 <ResultsList results={results} pagination={pagination}
                   currentQuery={currentQuery} updateUrlParams={this.updateUrlParams} />

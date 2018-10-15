@@ -139,9 +139,13 @@ export const DATA_PATHS = {
     'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',
   hasPrivateRecordsToUpload:
     'view:uploadPrivateRecordsQualifier.view:hasPrivateRecordsToUpload',
+  hasAdditionalDocuments:
+    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasOtherEvidence',
 };
 
 export const VA_FORM4142_URL =
   'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
 
 export const FIFTY_MB = 52428800;
+
+export const PTSD = 'ptsd';

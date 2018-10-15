@@ -76,19 +76,6 @@ Post-9/11 GI Bill benefits expire 15 years after your last separation date from 
 </div>
 </div>
 
-<div itemscope itemtype="http://schema.org/Question">
-
-<h3 itemprop="name">Do I have Post-9/11 GI Bill benefits?</h3>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
-
-You can check to see if you have Post-9/11 GI Bill benefits. <br>
-[View and print your statement of benefits](/education/gi-bill/post-9-11/ch-33-benefit).
-
-</div>
-</div>
-</div>
-
 -------
 
 <div itemscope itemtype="http://schema.org/Question">
@@ -122,6 +109,15 @@ The benefit amount depends on which school you go to, how much active-duty servi
 </div>
 </div>
 </div>
+
+<div itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">How do I know how much of my Post-9/11 GI Bill benefits are left?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+If you already applied for and were awarded Post-9/11 GI Bill education benefits, your GI Bill Statement of Benefits will show you how much of your benefits you’ve used and how much you have left to use. <br>
+[View your GI Bill Statement of Benefits](/education/gi-bill/post-9-11/ch-33-benefit).
 
 
 <div itemscope itemtype="http://schema.org/Question">

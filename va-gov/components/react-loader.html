@@ -9,7 +9,7 @@
         </div>
       </div>
     </div>
-{% else %}
+{% elsif custom_react_root != true %}
   {{ contents }}
   <div class="section">
     <div id="react-root">
@@ -20,4 +20,6 @@
       </div>
     </div>
   </div>
+{% else %}
+  {{ contents }}
 {% endif %}

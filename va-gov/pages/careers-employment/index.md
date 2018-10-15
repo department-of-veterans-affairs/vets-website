@@ -6,7 +6,7 @@ display_title: Careers and Employment
 concurrence: complete
 lastupdate:
 order: 1
-icon: briefcase
+icon: icon-large white fa fa-briefcase hub-background-careers
 aliases:
   - /employment/
 promo:
@@ -47,7 +47,7 @@ social:
         - url: tel:1-800-983-0937
           number: 1-800-983-0937
           title: "eBenefits Technical Support:"
-        - url: tel:1-877-4AID-VET (1-877-424-3838)
+        - url: tel:18774243838
           number: 1-877-4AID-VET (1-877-424-3838)
           title: "National Call Center for Homeless Veterans:"
       - subhead: Get Updates
@@ -98,7 +98,7 @@ We can support you in all stages of your job search—from returning to work wit
         </ul>
         <p><b>Talk with someone right now:</b>
         <p>Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.</p>
-        <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">Chat online with a trained VA staff member</a>.</p>
+        <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat" class="no-external-icon" >Chat online with a trained VA staff member</a>.</p>
       </div>
     </div>
   </div>
@@ -122,8 +122,8 @@ We can support you in all stages of your job search—from returning to work wit
   <h2>Get Career and Employment Assistance</h2>
 
   <div class="link">
-    <a href="/careers-employment/vocational-rehabilitation/"><b>About VA Vocational Rehabilitation and Employment (Chapter 31)</b></a>
-    <p>Learn about vocational rehabilitation and employment (also called voc rehab) benefits and services for Veterans and Servicemembers who have service-connected disabilities. Services include help with things like learning new skills, finding a new job, or starting a new business.</p>
+    <a href="/careers-employment/vocational-rehabilitation/programs/"><b>About Vocational Rehabilitation and Employment (Chapter 31) Programs</b></a>
+    <p>Explore support-and-services program tracks for Veterans and Servicemembers with service-connected disabilities. Our programs can help you learn new skills, find a new job, start a new business, get educational counseling, or return to your former job.</p>
   </div>
 
   <div class="link">
@@ -132,7 +132,7 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a href="/careers-employment/how-to-apply/"><b>How to Apply</b></a>
+    <a href="/careers-employment/vocational-rehabilitation/how-to-apply/"><b>How to Apply</b></a>
     <p>Get step-by-step instructions on how to apply for voc rehab benefits.</p>
   </div>
 
@@ -172,8 +172,13 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a href="https://dol.gov/veterans/findajob/"><b>Find a Job (Department of Labor)</b></a>
+    <a href="https://dol.gov/veterans/findajob/" target="_blank" rel="noopener"><b>Find a Job (Department of Labor)</b></a>
     <p>Search for jobs, get help translating your military skills and experience to civilian jobs, and access other career resources.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.va.gov/jobs/?utm_source=jobs_button&utm_campaign=ChooseVA_Website_Buttons"><b>Find VA Careers and Support</b></a>
+    <p>Get support for starting or advancing your career at VA or other federal government departments.</p>
   </div>
 
   <div class="link">
@@ -182,7 +187,7 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a href="https://linkedinforgood.linkedin.com/programs/veterans"><b>Get Free Classes for a Year (LinkedIn)</b></a>
+    <a href="https://linkedinforgood.linkedin.com/programs/veterans" target="_blank" rel="noopener"><b>Get Free Classes for a Year (LinkedIn)</b></a>
     <p>Get 1 year of free access to LinkedIn Premium and LinkedIn Learning.</p>
   </div>
 
@@ -202,7 +207,7 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a href="https://vets.gov/employment/vocational-rehab-and-employment/vetsuccess/"><b>VetSuccess on Campus</b></a>
+    <a href="/careers-employment/vetsuccess-on-campus/"><b>VetSuccess on Campus</b></a>
     <p>Find out if our counselors can help you transition from military to college life.</p>
   </div>
 

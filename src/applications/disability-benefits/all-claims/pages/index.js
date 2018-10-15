@@ -54,6 +54,16 @@ import {
 } from './newDisabilityFollowUp';
 
 import {
+  uiSchema as newPTSDFollowUpUISchema,
+  schema as newPTSDFollowUpSchema,
+} from './newPTSDFollowUp';
+
+import {
+  uiSchema as summaryOfDisabilitiesUISchema,
+  schema as summaryOfDisabilitiesSchema,
+} from './summaryOfDisabilities';
+
+import {
   uiSchema as vaMedicalRecordsUISchema,
   schema as vaMedicalRecordsSchema,
 } from './vaMedicalRecords';
@@ -64,9 +74,19 @@ import {
 } from './privateMedicalRecords';
 
 import {
+  uiSchema as additionalDocumentsUISchema,
+  schema as additionalDocumentsSchema,
+} from './additionalDocuments';
+
+import {
   uiSchema as evidenceTypesUISchema,
   schema as evidenceTypesSchema,
 } from './evidenceTypes';
+
+import {
+  uiSchema as summaryOfEvidenceUISchema,
+  schema as summaryOfEvidenceSchema,
+} from './summaryOfEvidence';
 
 import {
   uiSchema as contactInformationUISchema,
@@ -87,6 +107,11 @@ import {
   uiSchema as homelessOrAtRiskUISchema,
   schema as homelessOrAtRiskSchema,
 } from './homelessOrAtRisk';
+
+import {
+  uiSchema as vaEmployeeUISchema,
+  schema as vaEmployeeSchema,
+} from './vaEmployee';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -143,6 +168,16 @@ export const newDisabilityFollowUp = {
   schema: newDisabilityFollowUpSchema,
 };
 
+export const newPTSDFollowUp = {
+  uiSchema: newPTSDFollowUpUISchema,
+  schema: newPTSDFollowUpSchema,
+};
+
+export const summaryOfDisabilities = {
+  uiSchema: summaryOfDisabilitiesUISchema,
+  schema: summaryOfDisabilitiesSchema,
+};
+
 export const vaMedicalRecords = {
   uiSchema: vaMedicalRecordsUISchema,
   schema: vaMedicalRecordsSchema,
@@ -153,9 +188,19 @@ export const privateMedicalRecords = {
   schema: privateMedicalRecordsSchema,
 };
 
+export const additionalDocuments = {
+  uiSchema: additionalDocumentsUISchema,
+  schema: additionalDocumentsSchema,
+};
+
 export const evidenceTypes = {
   uiSchema: evidenceTypesUISchema,
   schema: evidenceTypesSchema,
+};
+
+export const summaryOfEvidence = {
+  uiSchema: summaryOfEvidenceUISchema,
+  schema: summaryOfEvidenceSchema,
 };
 
 export const contactInformation = {
@@ -176,4 +221,9 @@ export const claimExamsInfo = {
 export const homelessOrAtRisk = {
   uiSchema: homelessOrAtRiskUISchema,
   schema: homelessOrAtRiskSchema,
+};
+
+export const vaEmployee = {
+  uiSchema: vaEmployeeUISchema,
+  schema: vaEmployeeSchema,
 };

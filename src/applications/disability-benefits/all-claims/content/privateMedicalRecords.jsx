@@ -13,7 +13,7 @@ export const privateRecordsChoiceHelp = (
     </p>
     <h4>We get your medical records for you</h4>
     <p>
-      If you tell us the name of the private hospital or doctor who treated you
+      If you tell us the name of the private doctor or hospital that treated you
       for your condition, we can get your medical records for you. Getting your
       records may take us some time, and this could mean that it’ll take us
       longer to make a decision on your claim. You’ll need to fill out an

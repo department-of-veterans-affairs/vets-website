@@ -1,11 +1,18 @@
+import { mhvBaseUrl } from '../../site-wide/cta-widget/helpers';
+
 let currentEnv = 'dev';
-if (__BUILDTYPE__.includes('staging') || __BUILDTYPE__ === 'preview') {
+if (__BUILDTYPE__.includes('staging')) {
   currentEnv = 'staging';
+}
+
+if (__BUILDTYPE__ === 'preview') {
+  currentEnv = 'preview';
 }
 
 // This list also exists in script/options.js
 const domainReplacements = [
   { from: 'www\\.va\\.gov', to: `${currentEnv}.va.gov` },
+  { from: 'https://www\\.myhealth\\.va\\.gov', to: mhvBaseUrl() },
 ];
 
 // This doesn't include preview because we want to redirect to staging urls
