@@ -34,33 +34,39 @@ You can get education benefits if you meet the requirements listed below.
 
 ### What benefits can I get?
 
-We’ll give you up to $368 per month in compensation (payments) for these types of training:
-
-- [Undergraduate and graduate degree programs](/education/about-gi-bill-benefits/how-to-use-benefits/undergraduate-graduate-programs/)
-- [Co-op training](/education/about-gi-bill-benefits/how-to-use-benefits/co-op-training/)
-- [Non-college degree programs (technical or vocational courses)](/education/about-gi-bill-benefits/how-to-use-benefits/non-college-degree-programs/)
-- [Flight training](/education/about-gi-bill-benefits/how-to-use-benefits/flight-training/)
-- [On-the-job training and apprenticeships](/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/)
-- [High-tech training](/education/about-gi-bill-benefits/how-to-use-benefits/high-tech-programs/) for Reservists in non-degree educational programs lasting two years or less
-- [Licensing and certification tests](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
-- [Entrepreneurship training](/education/about-gi-bill-benefits/how-to-use-benefits/entrepreneurship-training/)
-- [Certain entrance examinations (national testing)](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
-- [Correspondence courses](/education/about-gi-bill-benefits/how-to-use-benefits/correspondence-training/)
-- In some cases:
-  - Remedial courses (classes some students must take to build up their basic skills in math, reading, or English before they can take regular college courses),
-  - Deficiency courses (classes some student must take in order to be admitted to a certain college)
-  - Refresher courses (brief courses that help people review and improve their knowledge in a certain subject area)
-
-
-[See current payment rates](https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
-
-
-------
-
+You may get up to $368 per month in compensation (payments).
 
 ### How do I get these benefits?
 
 [Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
+
+### How can I use my MGIB-SR education benefits?
+
+You can use your benefits in many ways to advance your education and training.
+
+**We may help you pay for:**
+
+- [Undergraduate and graduate degree programs](/education/about-gi-bill-benefits/how-to-use-benefits/undergraduate-graduate-programs/)
+- [Vocational/technical training and non-college degree programs](/education/about-gi-bill-benefits/how-to-use-benefits/non-college-degree-programs/)
+- [Flight training](/education/about-gi-bill-benefits/how-to-use-benefits/flight-training/)
+- [On-the-job training and apprenticeships](/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/)
+- [High-tech training if you're a Reservist in a non-degree educational program that lasts two years or less](/education/about-gi-bill-benefits/how-to-use-benefits/high-tech-programs/)
+- [Correspondence courses](/education/about-gi-bill-benefits/how-to-use-benefits/correspondence-training/)
+- [Entrepreneurship training](/education/about-gi-bill-benefits/how-to-use-benefits/entrepreneurship-training/)
+
+**We may also:**
+
+- [Help with the cost of books, tuition, and housing if you’re in a co-op training program](/education/about-gi-bill-benefits/how-to-use-benefits/co-op-training/)
+- [Pay you back for the cost of test fees](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
+
+**In some cases, we may help you pay for:**
+
+  - Remedial courses (classes some students must take to build up their basic skills in math, reading, or English before they can take regular college courses),
+  - Deficiency courses (classes some student must take in order to be admitted to a certain college)
+  - Refresher courses (brief courses that help people review and improve their knowledge in a certain subject area)
+
+[See current payment rates](https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
+
 
 ### Get more information
 - [Ask questions on the GI Bill customer service page](http://gibill.custhelp.com/). You can also search frequently asked questions.
