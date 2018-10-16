@@ -55,6 +55,7 @@ You should also know that being signed up for VA health care meets your Affordab
 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">	
 <div itemprop="text">We can help you learn about and apply for VA health care benefits. A member of our Concierge for Care (C4C) team will call you soon after your separation from military service. We can answer any questions you may have, process your application over the phone, and help you schedule your first VA medical appointment. <br>
+  
 [Learn about transitioning from TRICARE to VA health care](https://www.va.gov/HEALTHBENEFITS/apply/active_duty.asp).
 </div>
 </div>
