@@ -4,7 +4,7 @@ template: detail-page
 title: CHAMPVA Benefits
 display_title:
 concurrence: complete
-lastupdate: 2018-02-13
+lastupdate: 2018-10-17
 order: 1
 aliases:
   - /health-care/family-caregiver-health-benefits/CHAMPVA/
