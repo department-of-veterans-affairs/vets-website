@@ -63,11 +63,18 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. When you apply, you’ll have to show that your illness is at least 10% disabling. (For example, you may include a doctor’s report showing that you’re taking medicine for your high blood pressure.) You’ll also need to show that the illness appeared within 1 year after being discharged from active service. <br>
-[Find out how to apply for benefits](/disability/how-to-file-claim/).
+You’ll need to apply for benefits and submit your evidence (supporting documents).
 
-**Exception:**<br>
-The following diseases are covered, even if they appear more than 1 year after you separated:
+**Your evidence will need to show that both of these are true of your illness:**
+- It's at least 10% disabling. (For example, you may submit a doctor’s report showing that you’re taking medicine for your high blood pressure.) 
+- It appeared within 1 year after being discharged from active service. (For example, you may submit a medical report that shows the date of your diagnosis.)
+
+If you have an illness listed in Title 38, Code of Federal Regulation, 3.09(a), you won’t need to show the problem started during—or got worse because of—your military service. This is because we believe that certain diseases that appear within 1 year of your discharge are related to your service. We refer to these as “presumptive diseases.” <br>
+[See Title 38, Code of Federal Regulation, 3.09(a) for the complete list of covered illnesses](https://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc). <br>
+[Find out how to apply for benefits](/disability-benefits/apply/).
+
+**Exceptions**<br>
+The following diseases are covered, even if they appear more than 1 year after you separated from service:
 
 
 -	Hansen&#8217;s disease (a long-lasting infection that affects your skin, nerves, and mucous membranes) can appear within 3 years after discharge.
