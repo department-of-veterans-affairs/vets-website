@@ -264,4 +264,3 @@ You can also watch our VA claim exams video series. This series offers videos on
 
 [View the VA claim exams video series](https://www.youtube.com/playlist?list=PLrrh23QvVVYhAJ6t3vr81YvDypkezZ2yI).<br>
 
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
