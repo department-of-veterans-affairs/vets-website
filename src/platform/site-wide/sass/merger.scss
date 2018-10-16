@@ -868,6 +868,10 @@
   .sidenav-previous-page {
     padding-bottom: 12px;
 
+    @media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
+      margin-left: 15px;
+    }
+
     a {
       &::before {
         content: " \2039 ";
