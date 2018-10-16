@@ -18,10 +18,7 @@
   z-index: $modal-layer;
 }
 
-// #mega-menu {
-//   z-index: $top-layer;
-// }
-//because of the fact that the mega menu goes on top of the "Search Contact Us Signin" nav in mobile
+//  mega menu goes on top of the "Search Contact Us Signin" nav in mobile
 // these have to be flipped
 @media (max-width: $medium-screen - 1) {
   #login-root {
@@ -31,6 +28,7 @@
     z-index: $top-layer;
   }
 }
+// and on desktop the opposite is true
 @media(min-width: $medium-screen) {
   #login-root {
     z-index: $top-layer;
