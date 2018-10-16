@@ -243,7 +243,9 @@ We’ll fill prescriptions by a non-VA provider only if you meet all the require
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 This will depend on factors like your income level, disability rating, and military service history. Most Veterans need to complete a financial assessment when they enroll. This helps us determine if you qualify for free VA health care. <br>
+  
 [Learn more about VA copays](https://www.va.gov/HEALTHBENEFITS/cost/copays.asp). <br>
+
 [Find out more about financial assessments](https://www.va.gov/HEALTHBENEFITS/cost/financial_assessment.asp).
 
 </div>
