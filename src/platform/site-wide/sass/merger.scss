@@ -741,15 +741,54 @@
   }
 
   button.va-modal-close > i.fa.fa-close{
-        color: $color-black;
+    color: $color-black;
   }
+
   .va-sidebarnav {
-    .usa-accordion-button {
-      background-color: $color-white;
-      border-top: 1px solid $color-gray-lighter;
-      border-bottom: 1px solid $color-gray-lighter;
-      background-size: 1.1rem;
+    color: $color-link-default;
+
+    .usa-accordion {
+      .usa-accordion-button {
+        background-color: $color-white;
+        border-top: 1px solid $color-gray-lighter;
+        border-bottom: 1px solid $color-gray-lighter;
+        background-size: 1.1rem;
+        color: $color-link-default;
+        font-weight: normal;
+        font-size: 17px;
+
+        &:focus {
+          outline: 0;
+          border: 2px solid $color-gold;
+          background-color: $mm-gray;
+          font-weight: bold;
+        }
+
+        &:hover {
+          background-color: $mm-gray;
+          font-weight: bold;
+        }
+
+        &[aria-expanded=false] {
+          background-image: url("/img/plus-blue.svg");
+        }
+
+        &[aria-expanded=true] {
+          background-image: url("/img/minus-blue.svg");
+        }
+      }
+
+      .usa-accordion-content {
+        padding: 0;
+      }
+
+      .usa-sidenav-list {
+        a {
+          font-size: 15px;
+        }
+      }
     }
+
     .usa-accordion-button-dark {
       background-color: $color-gray-lightest;
     }
@@ -816,46 +855,6 @@
   }
   .white {
     color: $color-white;
-  }
-
-  #va-detailpage-sidebar {
-    color: $color-link-default;
-
-    .usa-accordion {
-      .usa-accordion-button {
-        color: $color-link-default;
-        font-weight: normal;
-        font-size: 17px;
-
-        &:hover, &:focus {
-          background-color: $mm-gray;
-          font-weight: bold;
-          margin: 2px;
-        }
-
-        &:hover {
-          margin: 0px;
-        }
-
-        &[aria-expanded=false] {
-          background-image: url("/img/plus-blue.svg");
-        }
-
-        &[aria-expanded=true] {
-          background-image: url("/img/minus-blue.svg");
-        }
-      }
-
-      .usa-accordion-content {
-        padding: 0;
-      }
-
-      .usa-sidenav-list {
-        a {
-          font-size: 15px;
-        }
-      }
-    }
   }
 
   .sidenav-previous-page {
