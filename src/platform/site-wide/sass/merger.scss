@@ -620,7 +620,7 @@
         background-color: $mm-gray;
 
         a {
-          width: 100%;
+          width: 99%;
         }
       }
     }
@@ -785,6 +785,14 @@
       .usa-sidenav-list {
         a {
           font-size: 15px;
+
+          &:hover:focus {
+            width: 98%;
+          }
+
+          &:hover {
+            width: 100%;
+          }
         }
       }
     }
