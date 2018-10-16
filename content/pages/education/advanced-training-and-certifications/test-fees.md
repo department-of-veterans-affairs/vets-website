@@ -7,8 +7,8 @@ aliases:
 display_title: Test Fees
 plainlanguage: 9-07-18 certified in compliance with the Plain Writing Act
 concurrence: not complete
-template: detail-page 
---- 
+template: detail-page
+---
 
 The GI Bill covers more than just tuition. We may pay you back for the cost of certain tests you need to take to become a licensed or certified professional—or to apply for college or a training course. Only tests approved for the GI Bill are covered under this benefit, so find out what’s approved before you take any tests.
 
@@ -21,9 +21,10 @@ The GI Bill covers more than just tuition. We may pay you back for the cost of c
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="licensing-certification-kinds-of-benefits">For Licensing and Certification</button>
-  
+
 <div id="licensing-certification-kinds-of-benefits" class="usa-accordion-content">
 If you’re a Veteran and you qualify for the GI Bill, we may pay you back for test fees under $2,000 for a job that requires a license or certification in order for you to work. <br>
+
 [Find out which tests are covered and how much they cost](https://inquiry.vba.va.gov/weamspub/buildSearchCountryLCCriteria.do).
 
 **What you should know about test benefits. We:**
@@ -37,9 +38,9 @@ For tests taken before August 1, 2018, if we paid you back for testing under the
 
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="national-testing-kinds-of-benefits">For National Testing</button>
-  
+
 <div id="national-testing-kinds-of-benefits" class="usa-accordion-content">
-  
+
 If you’re a Veteran or Servicemember and you qualify for the GI Bill, we may pay you back for testing fees, including:
 
 - The cost to register
@@ -91,11 +92,11 @@ For tests taken before August 1, 2018, if we paid you back for testing under the
 
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="licensing-certification-get-benefits">For Licensing and Certification</button>
-  
-<div id="licensing-certification-get-benefits" class="usa-accordion-content">  
-  
+
+<div id="licensing-certification-get-benefits" class="usa-accordion-content">
+
 You’ll need to fill out an Application for Reimbursement of Licensing or Certification Test Fees (VA Form 22-0803). <br>
-[Download VA Form 22-0803](https://www.vba.va.gov/pubs/forms/VBA-22-0803-ARE.pdf). 
+[Download VA Form 22-0803](https://www.vba.va.gov/pubs/forms/VBA-22-0803-ARE.pdf).
 
 **Note:** Please turn in proof of payment with your application. Proof of payment can be a receipt showing you paid the testing fee.
 
