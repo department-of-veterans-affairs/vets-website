@@ -8,7 +8,7 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 collection: healthCare
 spoke: Get Benefits
 order: 5
-lastupdate: 2017-08-28
+lastupdate: 2018-10-17
 ---
 
 <div class="va-introtext">
@@ -56,7 +56,7 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 </li>
 </ol>
 
-### More about what to do after you apply
+### Other questions you may have
 
 **Jump to a section:**
 
