@@ -43,7 +43,7 @@ The Decision Ready Claims (DRC) program is the fastest way to get your VA claim 
 - **Presumptive service connection claim** for a condition that we believe is related to your military service even if there's no direct evidence of a link
 - **Secondary service connection claim** for a condition caused or made worse by your service-connected disability
 - **Increased disability claim** for an existing service-connected condition that you have medical evidence to show has gotten worse
-- **[Dependency and Indemnity Compensation (DIC) claim](/burials-memorials/dependency-indemnity-compensation/)** as the eligible surviving spouse of a Veteran 
+- **[Dependency and Indemnity Compensation (DIC) claim](/burials-and-memorials/survivor-and-dependent-benefits/compensation/)** as the eligible surviving spouse of a Veteran 
 - **Pre-discharge claim** for disability compensation as a Servicemember who has less than 90 days before your separation from military service
 
 **Note:** We're working to expand the DRC program to include more types of claims. Come back soon, or check with your VSO, to find out about updates.
@@ -105,7 +105,7 @@ You can't file your claim through the Decision Ready Claims program if any of th
 
 <h4>Check more exclusions for certain claim types</h4>
 
-<div class="usa-accordion" aria-multiselectable="true">
+<div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="exclusions-predischarge">More exclusions for pre-discharge claims</button>
@@ -166,7 +166,7 @@ You can expect a decision within 30 days or less from the time you submit your c
 
 ### More questions about the Decision Ready Claims program
 
-<div class="usa-accordion" aria-multiselectable="true">
+<div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="more-vso">How do I find an accredited VSO?</button>
@@ -202,12 +202,16 @@ You can expect a decision within 30 days or less from the time you submit your c
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="more-info">What if I have more questions or want more information?</button>
 <div id="more-info" class="usa-accordion-content">
   
-<a href="https://www.benefits.va.gov/compensation/DRC.asp">Watch a video on the DRC program</a>.
+[Watch a video on the DRC program](https://www.youtube.com/watch?v=l3P9CWCy9m4).
 
 **Download helpful PDFs:**<br>
 <a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet.pdf">Decision Ready Claims Fact Sheet</a><br>
 <a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-predischarge.pdf">Pre-discharge Decision Ready Claim Fact Sheet</a><br>
 <a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-dic.pdf">Dependency and Indemnity Compensation (DIC) Decision Ready Claims Fact Sheet</a><br>
+<a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-faqs.pdf">Decision Ready Claims FAQs</a><br> 
+<a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-poster.pdf">Decision Ready Claims Process Infographic</a><br>
+
+
 <br>
 
 Reach out to your local VSO or call our toll-free number at <a href="tel:+1phonenumber">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
@@ -216,3 +220,6 @@ Reach out to your local VSO or call our toll-free number at <a href="tel:+1phone
 </li>
 </ul>
 </div>
+
+<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+
