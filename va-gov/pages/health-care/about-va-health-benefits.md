@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: About VA Health Benefits
 concurrence: complete
-lastupdate: 2017-06-28
+lastupdate: 2018-10-17
 collection: healthCare
 children: healthCareCoverage
 spoke: Get Benefits
