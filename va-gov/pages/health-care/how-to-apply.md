@@ -4,7 +4,7 @@ template: detail-page
 title: How to Apply for VA Health Care
 display_title: How to Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-lastupdate: 2017-08-28
+lastupdate: 2018-10-17
 collection: healthCare
 spoke: Get Benefits
 order: 3
