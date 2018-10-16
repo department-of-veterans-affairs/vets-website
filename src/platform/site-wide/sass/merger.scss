@@ -244,6 +244,7 @@
     .flex-col-mobile {
       flex-direction: column;
     }
+
     .va-sidebarnav {
       display: none;
     }
@@ -251,6 +252,13 @@
     button {
       &.va-sidebarnav-close {
         position: absolute;
+        right: 2px;
+        top: 2px;
+
+        &:hover,
+        &:focus {
+          background-color: $mm-gray;
+        }
       }
     }
 
@@ -266,7 +274,7 @@
     }
     #menu-rule {
       border-bottom: 0;
-      padding-bottom: 0px;
+      padding-bottom: 0;
     }
 
     #vetnav-controls {
@@ -336,6 +344,7 @@
           margin-right: 1.75em;
           background-position: right 1.5rem center;
           line-height: unset;
+
           span {
             display: inline-block;
           }
@@ -512,7 +521,9 @@
 
   .usa-sidenav-list {
     a {
-      padding-right: 0;
+      font-size: 17px;
+      text-decoration: underline;
+      padding: 8px 16px 8px 30px;
 
       &.va-button-primary {
         padding: 1rem 2rem;
@@ -522,75 +533,34 @@
 
   // TODO: add this into formation
   .va-sidebarnav {
-    h4 {
-      vertical-align: middle;
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-
-    .usa-sidenav-list > li {
-      i {
-        position: relative;
-        right: -20px;
-      }
-
-      .menu-item-container > a {
-        font-weight: initial;
-      }
-
-      a.usa-current {
-        font-weight: bold;
-        margin-left: 0;
-      }
-    }
-
-    .usa-sidenav-sub_list{
-      a {
-        width: 100% !important; // sorry this is temporary
-
-        &.usa-current {
-          margin-left: 16px !important; // sorry this is temporary
-        }
-      }
-    }
-  }
-
-  .va-btn-sidebarnav-trigger {
-    &:focus svg {
-      fill: $color-primary-darker;
-    }
-    &:focus:hover svg {
-      fill: $color-white;
-    }
-    &.fixed-trigger {
-      position: fixed;
-      top: 0;
-      margin: 0;
-      width: 100%;
-      z-index: 2;
-    }
-  }
-
-  .va-sidebarnav {
-    h4 {
-      display: inline-block;
-      width: 75%;
-    }
-
     .left-side-nav-title {
-      padding-bottom: 35px;
+      padding-bottom: 25px;
     }
 
     .usa-sidenav-list {
+      margin-right: 0;
+
       & > li {
         .active-menu {
-          border-bottom: none;
+          border-bottom: 0;
         }
 
         a {
+          color: $color-link-default;
           display: inline-block;
           vertical-align: middle;
-          width: 100%;
+          width: 98%;
+
+          &:focus {
+            background-color: $mm-gray;
+            font-weight: bold;
+            margin: 2px;
+          }
+
+          &:hover {
+            background-color: $mm-gray;
+            font-weight: bold;
+          }
         }
 
         i {
@@ -620,13 +590,29 @@
 
     .usa-sidenav-list {
       a.usa-current {
-        border-left: 0.4rem solid $color-light-blue;
+        color: $color-black;
+        border-left: 4px solid $color-black;
         padding-left: 8px;
         margin-left: 16px;
+        background-color: $mm-gray;
+        text-decoration: none;
 
         &.level-one {
           padding-left: 14px;
           margin-left: 0;
+        }
+
+        &:hover {
+          background-color: $mm-gray;
+          font-weight: bold;
+        }
+      }
+
+      .active-level {
+        background-color: $mm-gray;
+
+        a {
+          width: 99%;
         }
       }
     }
@@ -666,17 +652,143 @@
         }
       }
     }
-  }
-  button.va-modal-close > i.fa.fa-close{
-        color: $color-black;
-  }
-  .va-sidebarnav {
-    .usa-accordion-button {
-      background-color: $color-white;
-      border-top: 1px solid $color-gray-lighter;
-      border-bottom: 1px solid $color-gray-lighter;
-      background-size: 1.1rem;
+
+    h4 {
+      display: inline-block;
+      margin-bottom: 0;
+      margin-top: 0;
+      vertical-align: middle;
+      width: 75%;
     }
+
+    .usa-sidenav-list > li {
+      i {
+        position: relative;
+        right: -20px;
+      }
+
+      .menu-item-container > a {
+        font-weight: initial;
+      }
+
+      a.usa-current {
+        font-weight: bold;
+        margin-left: 0;
+        padding-left: 25px;
+      }
+    }
+
+    .usa-sidenav-sub_list{
+      a {
+        width: 98% !important; // sorry this is temporary
+        text-decoration: underline;
+        padding-left: 40px;
+        font-size: 15px;
+
+        &:focus {
+          @include focus-gold-light-outline(0);
+          background-color: $mm-gray;
+          font-weight: bold;
+        }
+
+        &:hover {
+          text-decoration: underline;
+          background-color: $mm-gray;
+          font-weight: bold;
+        }
+
+        &.usa-current {
+          margin-left: 16px !important; // sorry this is temporary
+        }
+      }
+    }
+  }
+
+  .va-btn-sidebarnav-trigger {
+    color: $color-white;
+    background-color: $color-primary;
+
+    &:hover {
+      background-color: $color-primary-darker;
+    }
+
+    &:focus,
+    &:hover {
+      svg {
+        fill: $color-white;
+      }
+    }
+
+    &.fixed-trigger {
+      margin: 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 2;
+    }
+
+    svg {
+      margin: 5px 0 0 3px;
+    }
+  }
+
+  button.va-modal-close > i.fa.fa-close{
+    color: $color-black;
+  }
+
+  .va-sidebarnav {
+    color: $color-link-default;
+
+    .usa-accordion {
+      .usa-accordion-button {
+        background-color: $color-white;
+        border-top: 1px solid $color-gray-lighter;
+        border-bottom: 1px solid $color-gray-lighter;
+        background-size: 1.1rem;
+        color: $color-link-default;
+        font-weight: normal;
+        font-size: 17px;
+
+        &:focus {
+          outline: 0;
+          border: 2px solid $color-gold;
+          background-color: $mm-gray;
+          font-weight: bold;
+        }
+
+        &:hover {
+          background-color: $mm-gray;
+          font-weight: bold;
+        }
+
+        &[aria-expanded=false] {
+          background-image: url("/img/plus-blue.svg");
+        }
+
+        &[aria-expanded=true] {
+          background-image: url("/img/minus-blue.svg");
+        }
+      }
+
+      .usa-accordion-content {
+        padding: 0;
+      }
+
+      .usa-sidenav-list {
+        a {
+          font-size: 15px;
+
+          &:hover:focus {
+            width: 98%;
+          }
+
+          &:hover {
+            width: 100%;
+          }
+        }
+      }
+    }
+
     .usa-accordion-button-dark {
       background-color: $color-gray-lightest;
     }
@@ -689,23 +801,29 @@
     }
   }
   .usa-accordion-bordered {
+
     &.social {
       a {
         text-decoration: underline;
       }
+
       .usa-accordion-content {
         h4:first-child {
           margin-top: 0px;
         }
+
         section:last-child {
           margin-bottom: 0px;
         }
+
         > section, > h4 {
           margin: 1.5em auto;
         }
+
         ul > h4 {
           margin: 1em auto;
         }
+
         ul > li {
           margin: 1em auto;
             &:last-child {
@@ -713,6 +831,7 @@
             }
         }
       }
+
       .usa-accordion-button {
         border: none;
       }
@@ -737,7 +856,24 @@
   .white {
     color: $color-white;
   }
+
+  .sidenav-previous-page {
+    padding-bottom: 12px;
+
+    @media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
+      margin-left: 15px;
+    }
+
+    a {
+      &::before {
+        content: " \2039 ";
+        display: inline-block;
+        padding: 0 0.35em 0 0;
+      }
+    }
+  }
 }
+
 .usa-accordion-bordered {
   .fa {
     color: $color-link-default;
@@ -763,6 +899,7 @@
     padding-left: 0;
   }
 }
+
 .flex-container {
   display: flex;
 }
