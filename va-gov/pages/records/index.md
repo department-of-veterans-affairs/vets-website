@@ -26,7 +26,7 @@ social:
           title: "VA Benefits Hotline:"
         - url: tel:1-877-327-0022
           number: 1-877-327-0022
-          title: "MyHealtheVet Help Desk:"
+          title: "My HealtheVet Help Desk:"
         - url: tel:1-800-983-0937
           number: 1-800-983-0937
           title: "eBenefits Technical Support:"
