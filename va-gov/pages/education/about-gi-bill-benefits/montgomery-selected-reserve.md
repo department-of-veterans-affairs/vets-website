@@ -38,7 +38,7 @@ You may get up to $368 per month in compensation (payments).
 
 ### How do I get these benefits?
 
-[Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
+[Apply online now](/education/apply-for-education-benefits/application/1990/).
 
 ### How can I use my MGIB-SR education benefits?
 
