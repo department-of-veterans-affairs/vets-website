@@ -5,7 +5,7 @@ title: VA Nursing Homes, Assisted Living, and Home Health Care
 display_title: Long-Term Care
 description: Find out how to access VA home health care benefits if you're a sick or disabled Veteran.
 concurrence: complete
-lastupdate: 2017-06-28
+lastupdate: 2018-10-16
 order: 4
 aliases:
   - /health-care/about-va-health-care/assisted-living-and-home-health-care/
