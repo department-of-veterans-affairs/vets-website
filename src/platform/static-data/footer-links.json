@@ -99,29 +99,22 @@
   },
   {
     "column": 2,
-    "href": "https://www.oit.va.gov/programs/piv/",
-    "order": 8,
-    "target": "_blank",
-    "title": "VA Information Technology and PIV Card"
-  },
-  {
-    "column": 2,
     "href": "https://www.va.gov/vso/",
-    "order": 9,
+    "order": 8,
     "target": null,
     "title": "Veterans Service Organizations (VSO)"
   },
   {
     "column": 2,
     "href": "https://www.va.gov/statedva.htm",
-    "order": 10,
+    "order": 9,
     "target": null,
     "title": "State Veterans Affairs Offices"
   },
   {
     "column": 2,
     "href": "/welcome-kit/",
-    "order": 11,
+    "order": 10,
     "target": null,
     "title": "Print Your VA Welcome Kit"
   },
