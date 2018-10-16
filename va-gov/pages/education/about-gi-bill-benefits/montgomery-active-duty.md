@@ -90,7 +90,7 @@ You may get up to 36 months of education benefits. We'll pay the benefits monthl
 
 ### How do I get these benefits?
 
-[Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
+[Apply online now](/education/apply-for-education-benefits/application/1990/).
 
 
 ### How can I use my MGIB-AD education benefits?
