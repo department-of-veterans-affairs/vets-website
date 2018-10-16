@@ -87,11 +87,11 @@ Contact your local VA medical center or clinic and ask for:
 #### How can I learn more about my benefits and accessing services?
 
 If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. <br>
-[Learn more about your VA health care coverage](/health-care/about-va-health-care/).
+[Learn more about your VA health care coverage](/health-care/about-va-health-benefits/).
 
-If you’re signed up for VA health care, you can manage your VA health and benefits online through Vets.gov: <br />
-[Refill your prescriptions](/health-care/prescriptions/). <br />
-[Send a secure message to your health care team](/health-care/messaging/). <br />
+If you’re signed up for VA health care, you can manage your VA health and benefits online through Vets.gov: <br>
+[Refill your prescriptions](/health-care/refill-track-prescriptions/). <br>
+[Send a secure message to your health care team](/health-care/secure-messaging/). <br>
 [Check the status of a disability or pension claim](/track-claims/).
 
 If you need help accessing services, call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
