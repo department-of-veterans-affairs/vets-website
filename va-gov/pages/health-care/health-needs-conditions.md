@@ -5,7 +5,7 @@ title: Health Needs and Conditions
 display_title:
 description: Find out if a specific health care condition or need is covered under VA health care benefits. Learn how to access services.
 concurrence: complete
-lastupdate: 2017-06-28
+lastupdate: 2018-10-17
 collection: healthCare
 spoke: More Resources
 order: 18
@@ -55,7 +55,7 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 - [Mental health problems like bipolar disorder, schizophrenia, and anxiety disorders](/health-care/health-needs-conditions/mental-health/)
 
-- [Military sexual trauma (MST)](/health-care/health-conditions/military-sexual-trauma/)
+- [Military sexual trauma (MST)](/health-care/health-needs-conditions/military-sexual-trauma/)
 
 - [Posttraumatic stress disorder (PTSD)](/health-care/health-needs-conditions/mental-health/ptsd/)
 
