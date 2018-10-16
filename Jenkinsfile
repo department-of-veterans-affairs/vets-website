@@ -88,10 +88,14 @@ node('vetsgov-general-purpose') {
   stage('Setup') {
     try {
 
-      checkout([$class: 'GitSCM', branches: scm.branches, doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations, extensions: scm.extensions + [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'vets-website']], userRemoteConfigs: scm.userRemoteConfigs])
+      dir("vets-website") {
+        checkout scm
+      }
 
       // clone vagov-content
       checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true], [$class: 'RelativeTargetDirectory', relativeTargetDir: 'vagov-content']], submoduleCfg: [], userRemoteConfigs: [[url: 'git@github.com:department-of-veterans-affairs/vagov-content.git']]]
+
+      args = "-v ${pwd()}/vets-website:/application -v ${pwd()}/vagov-content:/vagov-content"
 
       dir("vets-website") {
         ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -103,7 +107,6 @@ node('vetsgov-general-purpose') {
         imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
   
         dockerImage = docker.build("vets-website:${imageTag}")
-        args = "-v ${pwd()}/vets-website:/application -v ${pwd()}/vagov-content:/vagov-content"
         retry(5) {
           dockerImage.inside(args) {
             sh "cd /application && yarn install --production=false"
