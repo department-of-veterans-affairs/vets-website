@@ -26,7 +26,7 @@ class InstructionsPage extends React.Component {
     return (
       <div className="dw-instructions">
         <h1>How to Apply for a Discharge Upgrade</h1>
-        <main itemScope itemType="http://schema.org/FAQPage">
+        <div itemScope itemType="http://schema.org/FAQPage">
           <div className="row">
             <article className="usa-content columns">
               <div className="va-introtext">
@@ -370,7 +370,7 @@ class InstructionsPage extends React.Component {
               </div>
             </article>
           </div>
-        </main>
+        </div>
       </div>
     );
   }

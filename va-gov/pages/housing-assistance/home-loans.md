@@ -11,8 +11,8 @@ majorlinks:
   - heading:
     links:
     - url: /housing-assistance/home-loans/loan-types/
-      title: Loan Options
-      description: Learn how VA direct and VA-backed home loans work—and find out which loan option may be right for you.
+      title: Loan Types
+      description: Learn how VA direct and VA-backed home loans work—and find out which loan program may be right for you.
     - url: /housing-assistance/home-loans/eligibility/
       title: Eligibility
       description: Find out if you can get a Certificate of Eligibility (COE) for a VA direct or VA-backed home loan based on your service history and duty status.
@@ -26,6 +26,6 @@ majorlinks:
 
 <div class="va-introtext">
 
-VA direct and VA-backed home loans help Veterans like you build, buy, improve, or refinance a home. You’ll still need to have the required credit and income for the loan amount you want to borrow. But a VA loan may offer better terms than with a traditional loan from a private bank, mortgage company, or credit union. For example, nearly 90% of VA-backed loans are made with no down payment. Find out about our loan options—and how to apply.
+VA direct and VA-backed home loans help Veterans like you build, buy, improve, or refinance a home. You’ll still need to have the required credit and income for the loan amount you want to borrow. But a VA loan may offer better terms than with a traditional loan from a private bank, mortgage company, or credit union. For example, nearly 90% of VA-backed loans are made with no down payment. Find out about our different loan programs—and how to apply.
 
 </div>

@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import { focusElement } from '../../../../platform/utilities/ui';
 import AskVAQuestions from '../../../../platform/forms/components/AskVAQuestions';
+import siteName from '../../../../platform/brand-consolidation/site-name';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -100,7 +101,7 @@ class ConfirmationPage extends React.Component {
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">
               <button className="usa-button-primary">
-                Go Back to Vets.gov
+                Go Back to {siteName}
               </button>
             </a>
           </div>

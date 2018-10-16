@@ -161,10 +161,10 @@ If we decide not to keep you enrolled in VA health care after this time, you hav
 <br>
 
 <span id="after-cancel-enrollment">
-  
+
 #### How do I cancel my VA health care enrollment if I no longer want or need it?
 
-You can cancel, or decline, enrollment at any time. Just submit a signed and dated document (like a letter) telling us that you want to cancel your coverage. You can bring your document to a VA medical center or mail it to this address: 
+You can cancel, or decline, enrollment at any time. Just submit a signed and dated document (like a letter) telling us that you want to cancel your coverage. You can bring your document to a VA medical center or mail it to this address:
 <p class='va-address-block'>
 VA Health Eligibility Center (HEC) <br>
 2957 Clairmont Road <br>

@@ -5,7 +5,7 @@ title: Change Your GI Bill School or Program
 display title: Change GI Bill School or Program
 children: educationChangeGIBillBenefits
 collection: education
-order: 11
+order: 4
 spoke: Manage Benefits
 ---
 

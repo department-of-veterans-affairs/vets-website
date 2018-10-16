@@ -53,9 +53,9 @@ You should also know that being signed up for VA health care meets your Affordab
 <div itemscope itemtype="http://schema.org/Question">
 <h3 itemprop="name">What if I’m just separating from active duty and don’t know where to start?</h3>
 
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">	
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">We can help you learn about and apply for VA health care benefits. A member of our Concierge for Care (C4C) team will call you soon after your separation from military service. We can answer any questions you may have, process your application over the phone, and help you schedule your first VA medical appointment. <br>
-  
+
 [Learn about transitioning from TRICARE to VA health care](https://www.va.gov/HEALTHBENEFITS/apply/active_duty.asp).
 </div>
 </div>
@@ -243,7 +243,7 @@ We’ll fill prescriptions by a non-VA provider only if you meet all the require
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 This will depend on factors like your income level, disability rating, and military service history. Most Veterans need to complete a financial assessment when they enroll. This helps us determine if you qualify for free VA health care. <br>
-  
+
 [Learn more about VA copays](https://www.va.gov/HEALTHBENEFITS/cost/copays.asp). <br>
 [Find out more about financial assessments](https://www.va.gov/HEALTHBENEFITS/cost/financial_assessment.asp).
 

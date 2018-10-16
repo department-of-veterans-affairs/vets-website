@@ -5,11 +5,11 @@
         <div class="csp-inline-patch-page-react">
         <h3>{{ maintenance_line1 }}</h3>
         <h4>{{ maintenance_line2 }}</h4>
-        <a href="/"><button>Go back to Vets.gov</button></a>
+        <a href="/"><button>Go back to VA.gov</button></a>
         </div>
       </div>
     </div>
-{% else %}
+{% elsif custom_react_root != true %}
   {{ contents }}
   <div class="section">
     <div id="react-root">
@@ -20,4 +20,6 @@
       </div>
     </div>
   </div>
+{% else %}
+  {{ contents }}
 {% endif %}

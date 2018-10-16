@@ -380,7 +380,11 @@ class VAMap extends Component {
               <Tab className="small-6 tab">View Map</Tab>
             </TabList>
             <TabPanel>
-              <div className="facility-search-results">
+              <div
+                aria-live="polite"
+                aria-relevant="additions text"
+                className="facility-search-results"
+              >
                 <p>
                   Search Results near <strong>“{currentQuery.context}”</strong>
                 </p>
@@ -443,7 +447,11 @@ class VAMap extends Component {
             style={{ maxHeight: '75vh', overflowY: 'auto' }}
             id="searchResultsContainer"
           >
-            <div className="facility-search-results">
+            <div
+              aria-live="polite"
+              aria-relevant="additions text"
+              className="facility-search-results"
+            >
               <div>
                 <ResultsList
                   facilities={facilities}

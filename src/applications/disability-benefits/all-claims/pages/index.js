@@ -54,6 +54,16 @@ import {
 } from './newDisabilityFollowUp';
 
 import {
+  uiSchema as newPTSDFollowUpUISchema,
+  schema as newPTSDFollowUpSchema,
+} from './newPTSDFollowUp';
+
+import {
+  uiSchema as summaryOfDisabilitiesUISchema,
+  schema as summaryOfDisabilitiesSchema,
+} from './summaryOfDisabilities';
+
+import {
   uiSchema as vaMedicalRecordsUISchema,
   schema as vaMedicalRecordsSchema,
 } from './vaMedicalRecords';
@@ -74,6 +84,11 @@ import {
 } from './evidenceTypes';
 
 import {
+  uiSchema as summaryOfEvidenceUISchema,
+  schema as summaryOfEvidenceSchema,
+} from './summaryOfEvidence';
+
+import {
   uiSchema as contactInformationUISchema,
   schema as contactInformationSchema,
 } from './contactInformation';
@@ -92,6 +107,11 @@ import {
   uiSchema as homelessOrAtRiskUISchema,
   schema as homelessOrAtRiskSchema,
 } from './homelessOrAtRisk';
+
+import {
+  uiSchema as vaEmployeeUISchema,
+  schema as vaEmployeeSchema,
+} from './vaEmployee';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -148,6 +168,16 @@ export const newDisabilityFollowUp = {
   schema: newDisabilityFollowUpSchema,
 };
 
+export const newPTSDFollowUp = {
+  uiSchema: newPTSDFollowUpUISchema,
+  schema: newPTSDFollowUpSchema,
+};
+
+export const summaryOfDisabilities = {
+  uiSchema: summaryOfDisabilitiesUISchema,
+  schema: summaryOfDisabilitiesSchema,
+};
+
 export const vaMedicalRecords = {
   uiSchema: vaMedicalRecordsUISchema,
   schema: vaMedicalRecordsSchema,
@@ -168,6 +198,11 @@ export const evidenceTypes = {
   schema: evidenceTypesSchema,
 };
 
+export const summaryOfEvidence = {
+  uiSchema: summaryOfEvidenceUISchema,
+  schema: summaryOfEvidenceSchema,
+};
+
 export const contactInformation = {
   uiSchema: contactInformationUISchema,
   schema: contactInformationSchema,
@@ -186,4 +221,9 @@ export const claimExamsInfo = {
 export const homelessOrAtRisk = {
   uiSchema: homelessOrAtRiskUISchema,
   schema: homelessOrAtRiskSchema,
+};
+
+export const vaEmployee = {
+  uiSchema: vaEmployeeUISchema,
+  schema: vaEmployeeSchema,
 };

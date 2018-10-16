@@ -1,5 +1,9 @@
 import React from 'react';
 
+import isBrandConsolidationEnabled from '../../brand-consolidation/feature-flag';
+
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
+
 function AskVAQuestions(props) {
   return (
     <div className="row">
@@ -10,7 +14,7 @@ function AskVAQuestions(props) {
           <p className="help-talk">
             To report a problem with this form,
             <br />
-            please call the Vets.gov Technical Help Desk:
+            please call the {propertyName} Technical Help Desk:
           </p>
           <p className="help-phone-number">
             <a className="help-phone-number-link" href="tel:+1-855-574-7286">

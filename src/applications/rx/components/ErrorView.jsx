@@ -4,6 +4,7 @@ import { isEmpty, some, includes, intersection, concat } from 'lodash';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { mhvAccessError } from '../../../platform/static-data/error-messages';
+import siteName from '../../../platform/brand-consolidation/site-name';
 import { errorCodes } from '../config';
 
 class ErrorView extends React.Component {
@@ -26,10 +27,10 @@ class ErrorView extends React.Component {
           Please call support at <a href="tel:855-574-7286">1-855-574-7286</a>,
           TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211;
           Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET). To refill prescriptions, you
-          need to be registered as a VA patient through MyHealtheVet. To
+          need to be registered as a VA patient through My HealtheVet. To
           register,{' '}
           <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">
-            visit MyHealtheVet
+            visit My HealtheVet
           </a>
         </p>
       );
@@ -46,7 +47,8 @@ class ErrorView extends React.Component {
           >
             refresh this page
           </a>{' '}
-          or try again later. If this problem persists, please call the Vets.gov
+          or try again later. If this problem persists, please call the{' '}
+          {siteName}
           Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
           <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
           8:00 a.m. &#8211; 8:00 p.m. (ET).
@@ -66,7 +68,7 @@ class ErrorView extends React.Component {
           >
             try again
           </a>{' '}
-          in a few minutes. If it still doesn’t work, please call the Vets.gov
+          in a few minutes. If it still doesn’t work, please call the {siteName}
           Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
           <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
           8:00 a.m. &#8211; 8:00 p.m. (ET).

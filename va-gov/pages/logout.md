@@ -9,7 +9,7 @@ private: true
     <div class="row">
       <div class="small-12 columns">
         <div class="csp-inline-patch-logout">
-        <h3>Signing out of Vets.gov...</h3>
+        <h3>Signing out of VA.gov...</h3>
         </div>
       </div>
     </div>
