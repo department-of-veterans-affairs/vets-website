@@ -1,0 +1,44 @@
+// z-index layering
+
+
+    // teamsite
+#nav-wrap {
+  z-index: $top-layer;
+}
+.va-modal {
+  z-index: $modal-layer !important;
+}
+#va-detailpage-sidebar {
+  z-index: $top-layer;
+}
+#preview-site-alert {
+  z-index: $low-layer;
+}
+#modal-crisis-line {
+  z-index: $modal-layer;
+}
+
+// #mega-menu {
+//   z-index: $top-layer;
+// }
+//because of the fact that the mega menu goes on top of the "Search Contact Us Signin" nav in mobile
+// these have to be flipped
+@media (max-width: $medium-screen - 1) {
+  #login-root {
+    z-index: $middle-layer;
+  }
+  #vetnav {
+    z-index: $top-layer;
+  }
+}
+@media(min-width: $medium-screen) {
+  #login-root {
+    z-index: $top-layer;
+  }
+  #vetnav {
+    z-index: $middle-layer;
+  }
+}
+.va-btn-sidebarnav-trigger {
+  z-index: $top-layer + 1;
+}

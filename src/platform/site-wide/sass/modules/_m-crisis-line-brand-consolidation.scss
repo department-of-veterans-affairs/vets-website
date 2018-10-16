@@ -11,7 +11,6 @@ $red-60v: #b51d09;
     background-color: transparent;
   }
   background-color: $red-60v;
-  z-index: 2;
 }
 
 button.va-crisis-line-button {
@@ -62,7 +61,6 @@ button.va-crisis-line-button {
 }
 
 .va-crisis-panel {
-  z-index: 1;
   color: $color-base;
   &-body {
     padding: 1.5em;
