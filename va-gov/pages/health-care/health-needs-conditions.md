@@ -55,6 +55,8 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 - [Mental health problems like bipolar disorder, schizophrenia, and anxiety disorders](/health-care/health-needs-conditions/mental-health/)
 
+- [Military sexual trauma (MST)](/health-care/health-conditions/military-sexual-trauma/)
+
 - [Posttraumatic stress disorder (PTSD)](/health-care/health-needs-conditions/mental-health/ptsd/)
 
 - [Depression](/health-care/health-needs-conditions/mental-health/depression/)
@@ -73,7 +75,7 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 **Illnesses and injuries**
 
-- [Cancers and other conditions caused by contact with hazardous materials](/health-care/health-conditions/exposure-to-hazardous-materials/)
+- [Cancers and other conditions caused by contact with hazardous materials](/health-care/health-needs-conditions/chemical-hazardous-materials-exposure/)
 
 - [HIV/AIDS](https://www.hiv.va.gov/patient/index.asp)
 
@@ -91,14 +93,14 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 **Other health conditions and needs**
 
-- [Assisted living and home health care](/health-care/about-va-health-care/assisted-living-and-home-health-care/)
+- [Assisted living and home health care](/health-care/about-va-health-benefits/long-term-care/)
 
 - [Infertility due to service-connected conditions](https://www.va.gov/COMMUNITYCARE/programs/veterans/ivf.asp)
 
-- [Women’s health care needs](/health-care/health-conditions/womens-health-care-needs/)
+- [Women’s health care needs](/health-care/health-needs-conditions/womens-health-needs/)
 
 
-**[Get an overview of what’s covered by VA health care](/health-care/about-va-health-care/).**
+**[Get an overview of what’s covered by VA health care](/health-care/about-va-health-benefits/).**
 
 </div>
 </div>
@@ -124,6 +126,7 @@ You can also find out more about LGBT programs at VA medical centers across the 
 [View VA medical center LGBT program websites](https://www.patientcare.va.gov/LGBT/VAFacilities.asp).
 
 [Read about our approach to recognizing same-sex marriage](https://www.va.gov/opa/marriage/).
+
 ------
 
 <div itemscope itemtype="http://schema.org/Question">
