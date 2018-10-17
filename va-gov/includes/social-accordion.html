@@ -10,7 +10,7 @@
 	  content.setAttribute('aria-hidden', `${!contentHidden}`);
 	};
 	document.addEventListener('DOMContentLoaded', function() {
-	  if (window.innerWidth < 768) { // is Mobile
+	  if (document.body.clientWidth < 768) { // is Mobile
 	    toggleAccordion();
 	  }
 	});
