@@ -50,7 +50,7 @@ You may be able to get disability benefits if both of the below descriptions are
 - You have an illness believed to be caused by Agent Orange, **and**
 - You came into contact with Agent Orange while serving in the military
 
-[See the list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+[See the list of Agent Orange‒related illnesses](/disability/eligibility/hazardous-materials-exposure/agent-orange/related-diseases/).
 
 
 #### Who’s covered?
@@ -70,7 +70,7 @@ You may be able to get disability benefits if both of the below descriptions are
 You’ll need to apply for benefits and submit your evidence (supporting documents). 
 
 **If you have an illness believed to be caused by Agent Orange,** you won’t need to show the problem started during—or got worse because of—your military service. This is because we believe that certain diseases are the result of exposure to herbicides. We refer to these as presumptive diseases. <br>
-[See the list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+[See the list of Agent Orange‒related illnesses](/disability/eligibility/hazardous-materials-exposure/agent-orange/related-diseases/).
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -127,8 +127,8 @@ Contact us if you have questions:
 **Note:** Please be ready to give us your name, email address, telephone number, and VA file number or Social Security number.
 
 **If you think you may have had contact with Agent Orange** or other herbicides while serving in the military, you can request a health exam. <br>
-[Get an Agent Orange Registry Health Exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/).
+[Get an Agent Orange Registry Health Exam](/disability/eligibility/hazardous-materials-exposure/agent-orange/registry-health-exam/).
 
 **If you have non-Hodgkin’s lymphoma (a type of cancer),** you can get VA support. <br>
-[Learn about Non-Hodgkin’s Lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
+[Learn about Non-Hodgkin’s Lymphoma and Agent Orange](/disability/eligibility/hazardous-materials-exposure/agent-orange/non-hodgkins-lymphoma/).
 
