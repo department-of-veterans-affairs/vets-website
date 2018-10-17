@@ -43,7 +43,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementPresent('.usa-button-secondary', Timeouts.normal);
 
   // click on disabled button
-  client.click('#react-root .usa-button-primary').pause(500);
+  client.click('.main .usa-button-primary').pause(500);
 
   // should not have changed pages
   client.assert.urlContains('ask-va-to-decide');
