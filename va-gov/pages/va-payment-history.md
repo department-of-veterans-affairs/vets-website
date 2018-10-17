@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-template: detail-page
+template: level2-index
 title: View Your VA Payment History
 display_title: View VA Payment History
 lastupdate:

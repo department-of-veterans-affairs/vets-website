@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-template: detail-page
+template: level2-index
 title: Change Your VA Direct Deposit and Contact Information
 display_title: Change Direct Deposit and Contact Info
 lastupdate:
