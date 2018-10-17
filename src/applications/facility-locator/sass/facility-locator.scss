@@ -85,7 +85,7 @@
 
       &:focus {
         h5 {
-          outline: $color-link-default solid thin;
+          outline: inherit;
         }
       }
 
