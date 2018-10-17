@@ -22,7 +22,7 @@ export function updateCurrentSection(currentSection) {
 export const toggleMobileDisplayHidden = hidden => (dispatch, getState) => {
   const state = getState();
 
-  if (window.innerWidth > 768) {
+  if (document.body.clientWidth >= 768) {
     dispatch(toggleDisplayHidden({}));
   } else if (hidden) {
     dispatch(toggleDisplayHidden({ hidden: true }));

@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-template: detail-page
+template: level2-index
 title: Check Your VA Claim or Appeal Status
 display_title: Check Claim or Appeal Status
 description:
