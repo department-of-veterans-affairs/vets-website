@@ -38,18 +38,24 @@ You may be able to get disability benefits if you have a disability that’s rel
 
 ### What kind of disability benefits can I get?
 
-- A one-time payment of not more than $20,577.18 to help you buy a specially equipped vehicle
-- Possibly one or more adaptive-equipment grants to change a vehicle with power steering, brakes, seats, windows, or lift equipment to help you get into and out of the vehicle
+- A one-time payment of not more than $21,058.69 to help you buy a specially equipped vehicle
+- In some situations, one or more adaptive-equipment grants to change a vehicle so it has features like power steering, brakes, seats, windows, or lift equipment to help you get into and out of the vehicle
+<br>
+
+[View current rates for special allowances](https://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2017.asp).
 
 -----
 
 ### How do I get these benefits?
 
 You’ll need to apply for benefits and get our approval **before** buying a vehicle or adaptive equipment. You can apply for—and use—either grant before or after military discharge. <br>
-[Apply for benefits](/disability/how-to-file-claim/).
+[Apply for benefits](/disability-benefits/apply/).
 
 When you apply, you’ll need to show that your disability is service connected or treated as if service connected under 38 U.S.C. 1151. <br>
-[Learn more about 38 U.S.C. 1151](/disability/eligibility/special-claims/1151-claims-title-38/).
+[Learn more about 38 U.S.C. 1151](/disability-benefits/conditions/special-claims/title-38-USC-1151/).
+<br>
+
+[View the current payment rates](https://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2017.asp).
 
 #### For the one-time payment to help you buy a specially equipped vehicle 
 - You’ll need to fill out an Application for Automobile or Other Conveyance and Adaptive Equipment (VA Form 21-4502). <br>
@@ -60,4 +66,3 @@ When you apply, you’ll need to show that your disability is service connected 
 - If you qualify for adaptive equipment only, you’ll need to fill out an Application for Adaptive Equipment—Motor Vehicle (VA Form 10-1394). <br>
 [Download VA Form 10-1394](https://www.va.gov/vaforms/medical/pdf/10-1394-fill.pdf).
 - We may pay you, or we may pay the equipment seller directly.  
-
