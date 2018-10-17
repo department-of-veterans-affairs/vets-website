@@ -263,4 +263,3 @@ Information about why and when we request review exams, what will happen at the 
 You can also watch our VA claim exams video series. This series offers videos on how to prepare for your VA claim exam, how to use disability benefits questionnaires (DBQs), and what to expect at claim exams for the most common disability claims.
 
 [View the VA claim exams video series](https://www.youtube.com/playlist?list=PLrrh23QvVVYhAJ6t3vr81YvDypkezZ2yI).<br>
-
