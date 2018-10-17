@@ -387,6 +387,11 @@ export class CallToActionWidget extends React.Component {
     } else {
       this._popup = window.open(url, 'cta-popup');
       if (this._popup) this._popup.focus();
+      else {
+        // Indicate an attempted pop-up to avoid automatically showing a
+        // pop-up later on a component update triggered by a state change.
+        this._popup = true;
+      }
     }
   };
 
