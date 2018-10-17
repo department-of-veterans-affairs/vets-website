@@ -85,7 +85,7 @@ You may be able to get compensation as a surviving parent if both of the descrip
 - Your income is below a certain amount <br>
 [View the parents DIC rate table]( https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp).
 
-**Note:** We define a foster parent as someone who stood in the relationship of a parent to the Veteran or Servicemember before their last entry into active service.
+**Note:** We define a foster parent as someone who served in the role of a parent to the Veteran or Servicemember before their last entry into active service.
 
 **You'll also need to provide evidence that one of these descriptions is true for the Veteran or Servicemember:**
 - The Servicemember died from an injury or illness while on active duty or in the line of duty while on active duty for training, **or**
