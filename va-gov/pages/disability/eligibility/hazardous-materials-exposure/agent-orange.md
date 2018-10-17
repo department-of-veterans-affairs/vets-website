@@ -88,7 +88,7 @@ When you file your claim, you'll need to submit this evidence:
 </ul>
 </div>
 
-[Apply for disability benefits](/disability-benefits/apply/).
+[Apply for disability benefits](/disability/how-to-file-claim/).
 
 <br>
 
@@ -113,7 +113,7 @@ When you file your claim, you'll need to submit this evidence:
 </ul>
 </div>
 
-[Apply for disability benefits](/disability-benefits/apply/).
+[Apply for disability benefits](/disability/how-to-file-claim/).
 
 
 ### Get more information
