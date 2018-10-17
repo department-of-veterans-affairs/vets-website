@@ -4,7 +4,7 @@ template: detail-page
 title: How to Apply for VA Health Care
 display_title: How to Apply
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-lastupdate: 2017-08-28
+lastupdate: 2018-10-17
 collection: healthCare
 spoke: Get Benefits
 order: 3
@@ -66,9 +66,14 @@ Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-2
 ##### By mail
 
 Fill out an Application for Health Benefits (VA Form 10-10EZ). <br>
-[Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
+[Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf). 
 
-Send it here:
+You or someone acting as your power of attorney must sign and date the form. And:
+- **If you’re using a power of attorney,** you’ll need to submit a copy of the Power of Attorney form along with your application.
+- **If you sign with an "X,"** 2 people you know must witness your signature. They’ll also need to sign and print their names on the form.
+
+
+Send your completed application here:
 
 <p class="va-address-block">
 Health Eligibility Center<br>
@@ -78,9 +83,15 @@ Atlanta, GA 30329<br>
 
 ##### In person
 
-Go to your nearest VA medical center or clinic. Bring an Application for Health Benefits (VA Form 10-10EZ) with you.<br>
+Fill out an Application for Health Benefits (VA Form 10-10EZ).<br>
+[Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
+
+You or someone acting as your power of attorney must sign and date the form. And:
+- **If you’re using a power of attorney,** you’ll need to submit a copy of the Power of Attorney form along with your application.
+- **If you sign with an “X,”** 2 people you know must witness your signature. They’ll also need to sign and print their names on the form.
+
+Go to your nearest VA medical center or clinic. Bring a signed Application for Health Benefits (VA Form 10-10EZ) with you.<br>
 [Find a VA medical center or clinic near you](/facilities/).<br>
-[Download VA Form 10-10EZ](https://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
 
 Or get help through your state's Department of Veterans Affairs. <br>
 [Find your state’s Department of Veterans Affairs](https://www.va.gov/statedva.htm).
@@ -102,6 +113,12 @@ You can work with a trained professional called an accredited representative to 
 You may qualify for VA health care and other benefits. View the Application for the Program of Comprehensive Assistance for Family Caregivers (VA Form 10-10CG).
 
 [Download Form 10-10CG](/health-care/forms/vha-10-10CG.pdf).
+
+#### What if I need long-term care?
+
+If you need community nursing home care, domiciliary care, adult day health care, geriatric evaluation, or respite care, you may need to fill out an Application for Extended Care Services (VA Form 10-10EC). 
+
+[Download Form 10-10EC](https://www.va.gov/vaforms/medical/pdf/vha-10-10EC-fill.pdf).
 
 </div>
 </div>
