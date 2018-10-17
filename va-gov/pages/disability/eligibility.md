@@ -60,7 +60,7 @@ You may be able to get disability benefits if you have a current illness or inju
 If you have a disability that's been diagnosed by a doctor and that we consider to be related to your military service because of a specific aspect of that service, you may be able to get disability benefits based on this presumed disability. This usually applies to:
 - [A chronic (long-lasting) illness that appears within 1 year after discharge](/disability/eligibility/illnesses-within-one-year-of-discharge/), **or**
 - [An illness caused by contact with contaminants (toxic chemicals) or other hazardous materials](/disability/eligibility/hazardous-materials-exposure/), **or**
-- [An illness caused by your time spent as a POW](/disability-benefits/conditions/pow/)
+- [An illness caused by your time spent as a POW](/disability/eligibility/former-pows/)
 
 
 <h4>Who's covered?</h4>
