@@ -16,7 +16,7 @@
 
 .usa-grid {
   width: $teamsite-width;
-  padding-left: 1rem;
+  padding-left: 1px;
 }
 
 .usa-grid-full {
@@ -47,7 +47,7 @@ header.merger {
       left: 240px;
     }
     #mega-menu .column-three {
-      left: 485px;
+      left: 487px;
     }    
   }
   @media (max-width: $large-screen - 1) {
