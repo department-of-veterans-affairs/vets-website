@@ -16,245 +16,217 @@ aliases:
   - /disability-benefits/apply/evidence/fully-developed-disability-claims/
 ---
 
-<div class="va-introtext">
-
-After you file your disability benefits claim, we may ask you to have a claim exam (also known as a compensation and pension, or C&P, exam). Get answers to commonly asked questions about the VA claim exam below.
-
-</div>
-
-<div class="usa-alert usa-alert-warning va-alert">
-<div class="usa-alert-body">
-
-##### Be sure not to miss your scheduled exam.
-
-If you miss your exam, we may not be able to reschedule you right away, and your claim may be delayed while you wait for a new appointment. Or we may need to rate your claim “as-is.” This means we’ll base our decision about your disability benefits only on the evidence we have in your file, which may not be enough.
+<div itemprop="description" class="va-introtext">
+  
+Find out how you can use the Fully Developed Claims program to get a faster decision on your disability benefits claim by submitting evidence along with your claim. 
 
 </div>
+
+<div class="feature" markdown="0" itemscope itemtype="http://schema.org/Question">
+
+<h3 itemprop="name">Can I submit a fully developed disability claim?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+**You can submit a fully developed disability claim if you're applying for compensation for:**
+- An illness or injury (also called a condition) that was caused by—or got worse because of—your active-duty service, **or**
+- A condition that was caused—or made worse—by a disability we’ve already determined is service-connected
+
 </div>
-
-### Why might I need a VA claim exam?
-
-This exam will help us rate your disability. Your rating will be based on how severe your disability is—and will affect how much disability compensation you’ll receive. Compensation may include things like monthly payments and enrollment in the VA health care program.
-
-### Does everyone who files a claim need to have a VA claim exam?
-
-No. We’ll ask you to have a claim exam only if we need more information to decide your claim.
-
-If you have enough medical evidence in your file to support your claim, we won't ask you to have a claim exam. Medical evidence may include doctor and hospital reports, test results, and other documents.
+</div>
 
 <br>
 
-### How to schedule your VA claim exam
+<h3 itemprop="name">What do I need to do to submit a fully developed claim?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+**For us to consider your claim fully developed, you’ll need to:**
+- Submit your completed Application for Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ), **and**
+- Submit all the evidence (supporting documents) you have—or can easily get—along with your claim, **and**
+- Certify that there’s no more evidence we might need to decide your claim, **and**
+- Go to any VA medical exams required for us to decide your claim. We’ll let you know if you need any exams.
+
+</div>
+</div>
+</div>
+
+<h3 itemprop="name">What evidence will I need to submit along with my claim?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+**You'll need to send us:**
+-	All private medical records related to the claimed condition, like reports from your own doctor or X-rays or other test results from a non-VA hospital or other treatment center, **and**
+- Any records of medical treatment you've received for the claimed condition while serving in the military, **and**
+-	Any military personnel records you have that relate to the claimed condition, **and**
+- Information about any related health records that you don't have but that we can request on your behalf from a federal facility like a VA medical center or clinic
+
+**If you think your service records don't include a description of your disability**, you can also submit letters from family members, friends, clergy members, law enforcement personnel, or those you served with that can tell us more about your claimed condition and how and when it happened.
+
+**Note:** In 1973, a fire at the National Personnel Records Center (NPRC) in St. Louis destroyed records held for Veterans who were discharged from the Army and Air Force during certain periods of time. Your records may have been destroyed in the fire if you were discharged from the Army between November 1, 1912 and January 1, 1960, or if you were discharged from the Air Force between September 25, 1947 and January 1, 1964. If you think your records may have been involved in this fire, you can learn more about the fire and how to get help filing a claim. <br>
+[Learn more about the fire at the NPRC](https://www.benefits.va.gov/COMPENSATION/NPRC1973Fire.asp).
+
+</div>
+</div>
+
+<br>
+
+### Are there any risks to using the Fully Developed Claims program?
+
+No. Filing a fully developed claim won't affect the attention we give to your claim or the benefits you're entitled to receive.
+
+If we determine that we need other non-federal records to make a decision on your claim, we'll simply remove the claim from the Fully Developed Claims program and process it as a standard claim. 
+
+Once you start your fully developed claim, you'll have up to 1 year to complete it. If we approve your claim, you'll be paid back to the day you started it.
+
+<br>
+
+### What should the evidence show to support my claim?
+
+This depends on the type of claim you’re filing.
+
+<br>
+
+**Find out what the evidence will need to show for these different claim types:**
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-schedule">How will you contact me to schedule the exam?</button>
-<div id="VA-claim-exam-schedule" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-original">Original disability claim—the first claim you file for disability benefits</button>
+<div id="claim-original" class="usa-accordion-content">
 
-The staff at your local VA medical center or a local doctor’s office that we partner with will contact you. They’ll either send you a letter by mail with the date and time of your exam, or call you to find a time that works for you.
-
-Make sure both the VA regional office and the VA medical center nearest you have your up-to-date address, phone number, and email address so you get your exam notice in time.
-
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-receive">What should I do when I receive my exam letter or phone call?</button>
-<div id="VA-claim-exam-receive" class="usa-accordion-content">
-
-Call the number provided right away to confirm the time and location of your exam. It’s important not to miss your scheduled exam, so you’ll want to double check that you have the right place and time.
+**You'll need to submit:**
+- Medical evidence of a current physical or mental disability, **and**
+- Evidence of an event, injury, or disease that happened during your active-duty service, **and**
+- Evidence of a link between your current disability and the event, injury, or disease that happened during your service. Usually we need medical records or medical opinions from health care providers to support this link.
 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-cant">What if I can’t make it to the scheduled exam?</button>
-<div id="VA-claim-exam-cant" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-new">New claim—a claim for added benefits or other benefit requests related to an existing service-connected disability</button>
+<div id="claim-new" class="usa-accordion-content">
 
-If you can’t make it to your appointment, let us know right away. You can most likely reschedule, but this may delay your claim.
+**You'll need to submit:**
+- Medical evidence of a current physical or mental disability, **and**
+- Evidence of an event, injury, or disease that happened during your active-duty service, **and**
+- Evidence of a link between your current disability and the event, injury, or disease that happened during your service. Usually, we need medical records or medical opinions from health care providers to support this link.
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-reopened">Reopened claim—a claim providing new evidence to support a disability claim that was denied at least 1 year ago</button>
+<div id="claim-reopened" class="usa-accordion-content">
 
-**To reschedule your appointment:**
+You'll need to submit new evidence that we've never considered before and that's related to the issue you're claiming.
 
-* Call 1-800-827-1000, **or**
-* Go to your nearest regional benefit office. <br>
-  [Find your local regional benefit office](/facilities/).
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-increased">Increased claim—a claim for more compensation for a disability that we’ve already determined to be service connected and that’s gotten worse</button>
+<div id="claim-increased" class="usa-accordion-content">
+
+You'll need to submit current medical evidence that shows your disability has gotten worse.
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-secondary">Secondary claim—a claim for a new disability that’s linked to a service-connected disability you already have</button>
+<div id="claim-secondary" class="usa-accordion-content">
+
+**You'll need to submit:**
+- Medical evidence of the new physical or mental disability, **and**
+- Evidence of a link between the new disability and the disability we've already determined is service connected. Usually we need medical records or medical opinions from health care providers to support this link.
 
 </div>
 </li>
 </ul>
 </div>
 
-<br>  
+<br>
 
-### What to expect at your VA claim exam
+**Find out which additional forms you'll need if you're filing a claim for these issues:**
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-bring">What should I bring to my VA claim exam?</button>
-<div id="VA-claim-exam-bring" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="special-umemployable">Individual Unemployability</button>
+<div id="special-umemployable" class="usa-accordion-content">
 
-Bring to your exam any new non-VA medical records that you haven’t given us yet. These might include records from a recent surgery or illness.
-
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-prepare">What else do I need to do to prepare for my exam?</button>
-<div id="VA-claim-exam-prepare" class="usa-accordion-content">
-
-If you have children, you’ll need to plan ahead for childcare during your exam. Because you and the doctor may discuss sensitive topics, children shouldn’t be in the room with you.
-
-On the day of the exam, you’ll want to wear comfortable clothes so you can move freely while the doctor exams you.
+**You'll also need to submit all of these items:**
+  - A completed Veteran's Application for Increased Compensation Based on Unemployability (VA Form 21-8940)<br>
+  [(Download VA Form 21-8940)](https://www.vba.va.gov/pubs/forms/VBA-21-8940-ARE.pdf)
+  - A completed Request for Employment Information in Connection with Claim for Disability Benefits (VA Form 21-4192), completed by your last employer<br>
+  [(Download VA Form 21-4192)](https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf)
+  - Medical evidence that a service-connected disability prevents you from getting or keeping substantially gainful employment (work that brings in enough money to earn a livelihood)
 
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-happens">What happens at a VA claim exam?</button>
-<div id="VA-claim-exam-happens" class="usa-accordion-content">
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="special-ptsd">PTSD (posttraumatic stress disorder)</button>
+<div id="special-ptsd" class="usa-accordion-content">
 
-A VA claim exam isn’t like a normal medical exam or other VA health care visits. The doctor won’t treat you for any illness or injury, give you referrals to other health care providers, or prescribe medicine. That’s because the purpose of the exam is to gather information that will help us make a decision on your claim. Each exam is different, depending on the information we need.
-
-**During your exam, the doctor may do any or all of these things:**
-
-* Review your claim file with you
-* Ask you questions based on the medical records in your claim file. These may include questions from the Disability Benefits Questionnaire for each service-connected condition you’re claiming. <br>
-  [Take a look at the Disability Benefits Questionnaires (DBQs)](http://benefits.va.gov/COMPENSATION/dbq_ListByDBQFormName.asp).
-* Perform a basic physical exam
-* Ask you to get other tests—like X-rays or blood work—if needed
-
-If you have any questions about what’s happening during your exam, feel free to ask the doctor. But keep in mind that the doctor’s job is to examine you, not to make any decisions about your claim. They won’t be able to answer questions about the claims process.
-
-After your exam, the doctor will write up a report and send it to a VA claims processor to be added to your claim file.
-
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-long">How long will the exam take?</button>
-<div id="VA-claim-exam-long" class="usa-accordion-content">
-
-Your exam may be very short, or it may last an hour or more. It all depends on the conditions you’ve claimed and whether we need more information to make a decision.
-
-For example, the required questions the doctor asks about a knee injury may take only a few minutes. But the questions for a more complex illness or injury could take much longer. A mental health evaluation usually lasts 2 to 4 hours.
-
-It’s important to remember that your in-person visit is only one part of the claim review process. The doctor will also spend time outside the exam carefully reviewing your records.
-
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-who">Who will examine me?</button>
-<div id="VA-claim-exam-who" class="usa-accordion-content">
-
-Either a VA doctor or a non-VA doctor who we’ve contracted with will do the exam. You can also have your own doctor examine you and fill out the necessary forms. <br>
-[Get instructions for your doctor to fill out VA claim exam forms](http://benefits.va.gov/COMPENSATION/dbq_veteraninstruct.asp).
-
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-results">Will I get my exam results at the VA claim exam?</button>
-<div id="VA-claim-exam-results" class="usa-accordion-content">
-
-No. The doctor will give the exam results to our VA claims processors. Our claims processors will decide your claim based on these results, plus your other medical and military records.
-
-If you have questions about the claims process, call your nearest VA regional office. <br>
-[Find contact information for your nearest VA regional office](/facilities/).
-
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-miss">What should I do if I miss my VA claim exam?</button>
-<div id="VA-claim-exam-miss" class="usa-accordion-content">
-
-If you miss your claim exam, contact us right away to let us know why you didn't make it. We can help you figure out what to do next.
-
-If you have what we consider to be a good reason for missing your exam (called “good cause”), we’ll work with you to reschedule your exam. Examples of "good cause" might be an illness or the death of someone in your immediate family.
-
-[Find contact information for your nearest VA regional office](/facilities/).
+**You'll also need to submit 1 of these forms:**
+  - A completed Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder (VA Form 21-0781), <br>
+  [(Download VA Form 21-0781)](https://www.vba.va.gov/pubs/forms/VBA-21-0781-ARE.pdf)<br>
+  **or**<br>
+  - If you're claiming PTSD based on personal assault, a completed Statement in Support of Claim for Service Connection for Post-Traumatic Stress Disorder Secondary to Personal Assault (VA Form 21-0781a)<br>
+  [(Download VA Form 21-0781a)](https://www.vba.va.gov/pubs/forms/VBA-21-0781a-ARE.pdf)
 
 </div>
 </li>
 </ul>
 </div>
 
-<br>  
+<br>
 
-### After your VA claim exam
+[Learn more about claims for conditions related to contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/). <br>
 
-<div class="usa-accordion">
-<ul class="usa-unstyled-list">
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-happen">What happens after my exam?</button>
-<div id="VA-claim-exam-happen" class="usa-accordion-content">
+[Learn more about claims for former Prisoners of War (POWs)](/disability-benefits/conditions/pow/).<br>
 
-We’ll review all the evidence in your file, assign your disability rating, and send you a decision notice (a letter letting you know your disability rating).
+[Learn more about other special claims](/disability-benefits/conditions/special-claims/).
 
-Each claim is different, but it usually takes us about 3 to 4 months to process a claim from start to finish. The processing time for your claim depends on how complex your claim is and how many conditions you’ve claimed.
+<br>
 
-[See our most recent estimate for the average number of days to complete a claim](/disability-benefits/apply/#days-to-complete-claim).
+### Can VA help me gather evidence?
 
-[Sign in to Vets.gov to track your claim](/track-claims/).
+Yes. We can help you through the Fully Developed Claims program.
 
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-copy">Can I get a copy of the report from my VA claim exam?</button>
-<div id="VA-claim-exam-copy" class="usa-accordion-content">
+**We'll:** 
+- Request your military service records (with your permission), **and**
+- Request relevant Social Security benefits information and medical records that you identify and authorize us to get from a federal facility, like a VA medical center, **and**
+- Schedule a health exam for you or get a medical opinion from a health care provider if we decide we need it for your claim
 
-Yes. To get a copy of the final report from your exam, you can:
+**Note:** Even though we'll gather federal records (like your DD214 or VA medical records) on your behalf, we encourage you to submit these if you have them to save time in the process.
 
-* [Contact your nearest VA regional office](/facilities/), **or**
-* Call us at 1-800-827-1000 and request an appointment to view your file
+<br>
 
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-information">What information will the VA claims processors have when making a decision?</button>
-<div id="VA-claim-exam-information" class="usa-accordion-content">
+### When should I turn in my evidence? 
 
-Our VA claims processors will review:
+To submit your claim through the Fully Developed Claims program, you’ll need to turn in the information and evidence at the same time as you file your claim.
 
-* The medical records you’ve given us
-* The report from the doctor who handled your claim exam, and the results of any ordered medical tests
-* Statements from you and others about your claim
-* Your military medical and personnel records
+**Note:** If you turn in more information or evidence after you send in your fully developed claim, we’ll remove your claim from the FDC program and process it as a standard claim. If we decide your claim before 1 year from the date we receive the claim, you’ll have the rest of that 1-year period to turn in additional information or evidence to support your claim.
 
-</div>
-</li>
-<li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-another">Will I ever need to have another claim exam?</button>
-<div id="VA-claim-exam-another" class="usa-accordion-content">
+<br>
 
-We may ask you to have a claim exam if you appeal your disability benefits decision. <br>
-[Learn more about appealing a decision](/disability-benefits/claims-appeal/).
+### Should I work with a Veterans Service Officer (VSO) to file my claim?
 
-</div>
-</li>
-</ul>
-</div>
+You don't have to, but we encourage you to work with an accredited VSO. These trained professionals can help you file your claim and gather the needed medical records and evidence.<br>
+[Find out how to get help filing your claim](/disability-benefits/apply/help/).
 
-### What if I have more questions about my exam?
+For some types of claims, you can work with a VSO to submit a decision-ready claim and get your decision in 30 days or less.<br>
+[Find out if you're eligible for the Decision Ready Claims program](/disability-benefits/apply/evidence/decision-ready-claims/).
 
-#### Download helpful PDFs
+<br>
 
-**[VA claim exam fact sheet](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-factsheet.pdf#)**<br>
-A quick guide on the claim exam process, and what you can expect during and after your exam
+### How do I turn in my information and evidence?
 
-**[VA claim exam tips](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-tipssheet.pdf#)**<br>
-Tips to help make the claim exam process easier and less stressful
+You can start your online application right now, or find out how to apply by mail, in person, or with the help of a trained professional.<br>
+[Find out how to apply for disability benefits](/disability-benefits/apply/).
 
-**[VA claim exam FAQs](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-faq.pdf#)**<br>
-Answers to frequently asked questions about the claim exam process
+**Note:** Please be sure to upload all medical evidence or supporting documents at the end of the form. 
 
-**[Step-by-step VA claim process](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-stepbystep.pdf#)**<br>
-A quick, step-by-step overview of the claim process and exam
+<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 
-**[Mental health exam fact sheet](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-mentalhealth-exams.pdf#)**<br>
-Information about how we evaluate mental health claims for compensation, and why it's important to go to your exam
+### More helpful resources
 
-**[Review exams fact sheet](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-reviewexams.pdf#)<br>**
-Information about why and when we request review exams, what will happen at the exam, and why it's important to go to your exam
-
-#### Watch informational videos
-
-You can also watch our VA claim exams video series. This series offers videos on how to prepare for your VA claim exam, how to use disability benefits questionnaires (DBQs), and what to expect at claim exams for the most common disability claims.
-
-[View the VA claim exams video series](https://www.youtube.com/playlist?list=PLrrh23QvVVYhAJ6t3vr81YvDypkezZ2yI).<br>
-
+[Get a checklist for preparing your Fully Developed Claim](https://www.benefits.va.gov/FDC/checklist.asp). <br>
+[View a step-by-step graphic of the Fully Developed Claim online process](https://www.benefits.va.gov/FDC/walkthrough.asp). 
