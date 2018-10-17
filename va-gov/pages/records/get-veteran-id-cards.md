@@ -8,7 +8,6 @@ order: 3
 spoke: Get Records
 plainlanguage:
 template: detail-page
-order:
 collection: types-of-veteran-ID-cards
 production: false
 relatedlinks:
