@@ -66,7 +66,7 @@ You’ll need to file a claim and provide the evidence (supporting documents) li
 
 **Note:** When you file your claim, we’ll ask the military branch that you served with (or the Defense Threat Reduction Agency) to give us a range of how much radiation they think you may have come into contact with. We’ll use the highest level of the range they report to decide on your benefits.
 
-[Apply for benefits](/disability-benefits/apply/).
+[Apply for benefits](/disability/how-to-file-claim/).
 
 
 
