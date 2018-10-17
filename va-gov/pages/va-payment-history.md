@@ -3,7 +3,9 @@ layout: page-breadcrumbs.html
 template: level2-index
 title: View Your VA Payment History
 display_title: View VA Payment History
-lastupdate:
+collection: records
+order: 7
+spoke: Get Records
 ---
 
 <div itemscope itemtype="http://schema.org/FAQPage">
