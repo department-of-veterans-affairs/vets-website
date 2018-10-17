@@ -872,6 +872,31 @@
       }
     }
   }
+
+  // These next two rules override some styles in user-nav.scss, should be moved there
+  // after WBC is live
+  .sign-in-links {
+    flex-shrink: 0;
+  }
+
+  .sign-in-link {
+    margin: 0;
+    @include media($medium-large-screen) {
+      &:hover, &:active {
+        background-color: $color-primary;
+        color: inherit !important;
+      }
+    }
+    // This is backwards from the mobile first approach we should be taking
+    // but the amount of overrides we would need if we did that way would be
+    // very tricky to write and maintain
+    @media (max-width: $medium-large-screen - 1) {
+      @include button-link;
+      color: $color-white !important;
+      text-decoration: none;
+    }
+  }
+
 }
 
 .usa-accordion-bordered {
@@ -911,22 +936,8 @@ img[data-srcset] {
   min-height: 1px;
 }
 
-.sign-in-links {
-  flex-shrink: 0;
-}
-
 .vet-toolbar .va-dropdown {
   margin-left: 0;
-}
-
-.sign-in-link {
-  margin: 0;
-  // This is backwards from the mobile first approach we should be taking
-  // but the amount of overrides we would need if we did that way would be
-  // very tricky to write and maintain
-  @media (max-width: $medium-large-screen - 1) {
-    @include button-link;
-  }
 }
 
 .profile-nav {
