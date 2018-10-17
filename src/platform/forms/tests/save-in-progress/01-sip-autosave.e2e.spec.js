@@ -12,12 +12,12 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .url(url)
     .waitForElementVisible('body', Timeouts.normal)
     .assert.title('Apply for Health Care: Vets.gov')
-    .waitForElementVisible('.schemaform-start-button', Timeouts.slow); // First render of React may be slow.
+    .waitForElementVisible('.main .usa-button-primary', Timeouts.slow); // First render of React may be slow.
 
   client.axeCheck('.main');
 
   // load an in progress form
-  client.click('.schemaform-start-button');
+  client.click('.main .usa-button-primary');
 
   E2eHelpers.overrideVetsGovApi(client);
   E2eHelpers.overrideSmoothScrolling(client);
@@ -36,7 +36,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // fail to save a form because of 500
   client
-    .click('.usa-button-primary')
+    .click('.main .usa-button-primary')
     .waitForElementVisible('.schemaform-sip-save-link', Timeouts.normal)
     .mockData(
       {
@@ -91,7 +91,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // fail to save a form because signed out
   // Can't recover from this because it logs you out and we'd have to log in again
   client
-    .click('#react-root .usa-button-primary')
+    .click('.main .usa-button-primary')
     .waitForElementVisible('.schemaform-sip-save-link', Timeouts.normal)
     .mockData(
       {
