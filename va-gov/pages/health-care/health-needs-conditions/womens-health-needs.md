@@ -90,6 +90,12 @@ Once you’ve signed up:
 - Contact the Women Veterans Program Manager at your local VA medical center. She will help coordinate all the services you may need—from primary care to specialized care for chronic (long-lasting) conditions or reproductive health. To connect with your local Women Veterans Program Manager:
   - Contact your local medical center and ask for the Women Veterans Program Manager ([find a VA medical center near you](/facilities/)), **or**
   - Call our Women Veterans Call Center at 1-855-VA-WOMEN (<a href="tel:+1-855-829-6636">1-855-829-6636</a>), Monday through Friday, 8:00 a.m. to 10:00 p.m. (<abbr title="eastern time">ET</abbr>), and Saturday, 8:00 a.m. to 6:30 p.m. (<abbr title="eastern time">ET</abbr>), and we’ll connect you with your local manager.
+  - Chat online with a trained Women Veterans Call Center representative Monday through Friday, 8:00 a.m. – 10:00 p.m. (<abbr title="eastern time">ET</abbr>). This chat function is private and anonymous. Please don't include any personal information, like your Social Security number. <br>
+[Start a chat with the Women Veterans Call Center](https://productionchat.vrm.vba.va.gov/system/templates/chat/wvcc/chat.html?entryPointId=1009&templateName=wvcc&languageCode=en&countryCode=US&ver=v11).
+
+You can also look for women's health services specific to your nearest VA medical center. To do this, go to the website of the VA health care system that the medical center is part of. In the page's navigation, click on "Health Care Services." A submenu will appear. Select "Women Veterans." <br>
+[Find your medical center's website](https://www.va.gov/health/vamc/).
+
 
 <br>
 
