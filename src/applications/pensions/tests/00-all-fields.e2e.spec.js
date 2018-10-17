@@ -14,7 +14,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('body', Timeouts.normal)
     .assert.title('Apply for pension benefits: Vets.gov')
     .waitForElementVisible('.schemaform-title', Timeouts.slow) // First render of React may be slow.
-    .click('.usa-button-primary');
+    .click('.schemaform-start-button');
 
   E2eHelpers.overrideVetsGovApi(client);
   FormsTestHelpers.overrideFormsScrolling(client);

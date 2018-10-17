@@ -11,7 +11,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .url(url)
     .waitForElementVisible('body', Timeouts.normal)
     .assert.title('Apply for Health Care: Vets.gov')
-    .waitForElementVisible('.usa-button-primary', Timeouts.slow); // First render of React may be slow.
+    .waitForElementVisible('.schemaform-intro-button', Timeouts.slow); // First render of React may be slow.
 
   client.axeCheck('.main');
 
@@ -26,7 +26,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
       },
       token,
     )
-    .click('.usa-button-primary');
+    .click('.schemaform-intro-button');
 
   E2eHelpers.overrideVetsGovApi(client);
   E2eHelpers.overrideSmoothScrolling(client);

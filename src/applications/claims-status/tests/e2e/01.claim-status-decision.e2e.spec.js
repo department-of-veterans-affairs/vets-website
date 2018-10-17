@@ -18,10 +18,10 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('body', Timeouts.normal)
     .waitForElementVisible('.claim-title', Timeouts.slow);
 
-  client.expect.element('.usa-alert').to.be.visible;
+  client.expect.element('#react-root .usa-alert').to.be.visible;
 
   client.expect
-    .element('.usa-alert')
+    .element('#react-root .usa-alert')
     .text.to.contain('Your claim decision is ready');
 
   client.expect.element('.disability-benefits-timeline').not.to.be.present;

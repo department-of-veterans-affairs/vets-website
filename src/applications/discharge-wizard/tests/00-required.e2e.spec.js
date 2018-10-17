@@ -15,7 +15,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // questions page
   client
-    .click('.usa-button-primary')
+    .click('#react-root .usa-button-primary')
     .waitForElementVisible('.dw-questions', Timeouts.normal);
 
   E2eHelpers.overrideScrolling(client);
@@ -49,7 +49,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .waitForElementVisible('.review-answers', Timeouts.slow)
     .axeCheck('.main')
-    .click('a.usa-button-primary');
+    .click('#react-root a.usa-button-primary');
 
   // results page
   client.waitForElementVisible('.dw-guidance', Timeouts.slow).axeCheck('.main');

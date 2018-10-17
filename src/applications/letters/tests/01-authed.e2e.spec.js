@@ -77,7 +77,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .setValue('select[name="state"]', newAddress.stateCode)
     .clearValue('input[name="postalCode"]')
     .fill('input[name="postalCode"]', newAddress.zipCode)
-    .click('.usa-button-primary') // submits new data
+    .click('#react-root .usa-button-primary') // submits new data
     .waitForElementVisible('.city-state', Timeouts.normal)
     .expect.element('.city-state')
     .text.to.contain('Chicago, Illinois 60602');
