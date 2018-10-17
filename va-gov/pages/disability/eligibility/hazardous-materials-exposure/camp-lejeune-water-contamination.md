@@ -57,9 +57,9 @@ You’ll need to apply for benefits and provide the evidence (supporting documen
 - Medical records stating that you have one or more of the 8 illnesses on the presumptive conditions list (see above)
 
 **You can apply in any of these ways:**
-- [Apply online at eBenefits](https://www.ebenefits.va.gov/ebenefits/homepage). Be sure to note that you’re applying for one or more of the presumed Camp Lejeune illnesses, and attach evidence (like a doctor’s report or medical test results), **or**
-- [Get help from an accredited representative, like a Veterans Service Officer (VSO)](https://www.vets.gov/disability-benefits/apply/help/), **or**
-- [Get help at a VA regional benefit office](https://www.vets.gov/facilities/)
+- [Apply online at eBenefits](http://www.ebenefits.va.gov). Be sure to note that you’re applying for one or more of the presumed Camp Lejeune illnesses, and attach evidence (like a doctor’s report or medical test results), **or**
+- [Get help from an accredited representative, like a Veterans Service Officer (VSO)](/disability/get-help-filing-claim/), **or**
+- [Get help at a VA regional benefit office](/facilities/)
 
 ### Are Veterans and their family members covered for health care?
 
@@ -99,7 +99,7 @@ You'll need to ask your doctor to fill out and sign this form before submitting 
 
 **You can apply in one of these ways:**
 
-- [Fill out a Camp Lejeune Family Member Application (VA Form 10-10068) online](https://www.clfamilymembers.fsc.va.gov/Home/Index?ReturnUrl=%2FApp%2FStepApplicant), **or**
+- [Fill out a Camp Lejeune Family Member Application (VA Form 10-10068) online](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068), **or**
 
 - [Download the Camp Lejeune Family Member Application (VA Form 10-10068)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068)
 <br>
