@@ -928,6 +928,7 @@
 }
 
 .left-side-nav-title {
+  color: $color-black;
   padding-left: 1em;
   // This is gross, but it works for now
   @include media(1008px) {
