@@ -93,7 +93,7 @@ When you file your claim, you'll need to submit this evidence:
 <br>
 
 **If you have an illness that’s not on the list of Agent Orange‒related illnesses,** but you believe it was caused by Agent Orange, you’ll need to show the problem started during—or got worse because of—your military service. <br>
-[See the list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+[See the list of Agent Orange‒related illnesses](/disability/eligibility/hazardous-materials-exposure/agent-orange/related-diseases/).
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
