@@ -5,7 +5,19 @@
       <h3 class="usa-alert-heading">Preview the New VA.gov—Built with Veterans, for Veterans</h3>
       <p>Vets.gov will soon become part of the new VA.gov. Our new site offers one place to access all VA benefits and health care services. You can sign in with your My HealtheVet, DS Logon, or ID.me account to track your claims, refill your prescriptions, and more.</p>
       <p>We invite you to try out the new VA.gov before it officially launches.</p>
-      <a href="https://preview.va.gov" class="usa-button-primary">Preview the New VA.gov</a>
+      <script>
+          var bannerButton = null;
+          var allowTrafficToPreview = (
+            window.settings.previewTheNewVaBanner &&
+            window.settings.previewTheNewVaBanner.allowTrafficToPreview
+          );
+
+          if (allowTrafficToPreview) {
+            document.write('<a id="preview-banner-link" href="https://preview.va.gov" class="usa-button-primary">Preview the New VA.gov</a>');
+          } else {
+            document.write('<a id="preview-banner-link" href="/some-blog/" class="usa-button-primary">Blog</a>');
+          }
+        </script>
     </div>
   </div>
 
