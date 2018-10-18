@@ -25,6 +25,8 @@ export function generateLinkItems(links, column, direction = 'asc') {
   return (
     <ul className="va-footer-links">
       {orderBy(links[column], 'order', direction).map(link => {
+        // added this to deal with the extra label on the footer
+        // due to design change.
         if (link.href) {
           return (
             <li key={`${link.column}-${link.order}`}>
