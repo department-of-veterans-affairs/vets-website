@@ -8,8 +8,9 @@ export default function CallHelpDesk({ children, startSentence }) {
 
   return (
     <span>
-      {startSentence ? 'Call' : 'call'} MyVA311 for help: 1-844-698-2311. If you
-      have hearing loss, call TTY: 711.
+      {startSentence ? 'Call' : 'call'} MyVA311 for help:{' '}
+      <a href="tel:18446982311">1-844-698-2311</a>. If you have hearing loss,
+      call TTY: 711.
     </span>
   );
 }
