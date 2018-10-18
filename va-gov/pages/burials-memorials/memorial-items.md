@@ -12,7 +12,7 @@ majorlinks:
     links:
     - url: /burials-memorials/memorial-items/headstones-markers-medallions/
       title: Veterans Headstones, Grave Markers, Niche Covers, and Medallions
-      description: Apply for one of these memorial items to identify the place of burial of a Veteran or eligible spouse or other family member.
+      description: Apply for one of these memorial items to identify the burial place of a Veteran or eligible spouse or other family member.
     - url: /burials-memorials/memorial-items/burial-flags/
       title: Burial Flags
       description: Apply for a United States flag to drape over a casket or coffin or place with an urn.
