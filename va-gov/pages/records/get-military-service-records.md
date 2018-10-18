@@ -8,6 +8,7 @@ plainlanguage:
 collection: records
 children:
 order: 1
+spoke: Get Records
 relatedlinks:
   - heading: Other Records Information
     links:

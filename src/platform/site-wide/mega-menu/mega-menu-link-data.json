@@ -105,7 +105,7 @@
                             },
                             {
                                 "text": "Add or Remove a Dependent",
-                                "href": "#"
+                                "href": "/disability/add-remove-dependent/"
                             },
                             {
                                 "text": "Upload Evidence to Support Your Claim",
@@ -521,7 +521,7 @@
                                 "href": "/records/get-veteran-id-cards/"
                             },
                             {
-                                "text": "Apply for a Veteran ID Card",
+                                "text": "Get Veteran ID Cards",
                                 "href": "/records/get-veteran-id-cards/vic/"
                             }
                         ]
@@ -554,10 +554,10 @@
                             "alt": "Veteran ID Card"
                         },
                         "link": {
-                            "text": "Veteran ID Card",
-                            "href": "/records/get-veteran-id-cards/"
+                            "text": "Confirm Your VA Benefit Status",
+                            "href": "/records/download-va-letters/"
                         },
-                        "description": "Apply for your Veteran ID Card to get Veteran discounts on goods and services."
+                        "description": "Download letters like your eligibility or award letter for certain benefits."
                     },
                     "seeAllLink": {
                       "text": "Records",

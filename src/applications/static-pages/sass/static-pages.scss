@@ -46,6 +46,10 @@
   }
 }
 
+#nav-wrap {
+  z-index: $top-layer + 1;
+}
 .static-page-widget {
   display: none;
 }
+

@@ -39,7 +39,7 @@ This address will be listed on your letter. If this address isn’t correct, you
 
 ### What if I want to download a letter or document that isn’t available from this tool?
 
-Right now, you can only download the VA letters you see listed when you click the blue **Access Your VA Letters** button above.
+Right now, you can only download the VA letters you see listed when you sign in above.
 
 Use these links to get access to other common VA letters and documents you may be eligible for:
 
@@ -61,8 +61,7 @@ Yes. If you're totally and permanently disabled because of your service-connecte
 
 ### What if I have trouble downloading a VA letter?
 
-Call the VA.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>).
-We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
+Call MyVA311 for help: <a href="tel:+18446982311">1-844-698-2311</a>. If you have hearing loss, call TTY: 711.
 
 </section>
 </div>

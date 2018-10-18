@@ -1,7 +1,7 @@
 ---
 layout: home.html
 body_class: fourohfour
-title: Vets.gov
+title: VA.gov
 permalink: false
 private: true
 ---
@@ -53,7 +53,7 @@ private: true
     <div class="small-12 usa-width-one-half medium-6 columns">
         <ul class="plain">
           <li><a href="/facilities/">How can I find VA locations?</a></li>
-          <li><a target="_blank" href="https://www.veteranscrisisline.net/" class="external">How do I contact the Veterans Crisis Line?</a></li>
+          <li><a target="_blank" href="https://www.veteranscrisisline.net" class="external no-external-icon">How do I contact the Veterans Crisis Line?</a></li>
         </ul>
     </div>
   </div>

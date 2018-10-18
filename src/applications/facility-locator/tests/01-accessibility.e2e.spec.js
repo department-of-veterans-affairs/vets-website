@@ -32,6 +32,12 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
     .assert.attributeContains('.health-icon', 'aria-selected', true);
 
+  if (FacilityHelpers.ccLocatorEnabled()) {
+    client
+      .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
+      .assert.attributeContains('.cc-provider-icon', 'aria-selected', true);
+  }
+
   client
     .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
     .assert.attributeContains('.benefits-icon', 'aria-selected', true);

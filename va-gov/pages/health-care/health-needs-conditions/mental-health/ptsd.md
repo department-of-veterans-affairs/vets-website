@@ -44,7 +44,7 @@ Our National Center for PTSD is the world leader in PTSD research, education, an
 	    <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>
 	    <ul>
               <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
-	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
+	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/" class="no-external-icon">Start a confidential Veterans Chat</a>.</li>
   	      <li>Text <a href="sms:838255">838255</a>.</li>
             </ul>
      	    <p><strong>You can also:</strong></p>
@@ -125,7 +125,7 @@ If you have symptoms of PTSD and suffered a serious injury, personal trauma, sex
 - See our “Understanding PTSD and PTSD Treatment” booklet for more about PTSD symptoms and treatment. [Read the booklet](http://www.ptsd.va.gov/public/understanding_ptsd/booklet.pdf).
 - Go to our National Center for PTSD website for information about PTSD treatment and support. [Visit the National Center for PTSD](https://www.ptsd.va.gov/public/index.asp).
 - Go to these websites for resources and stories of Veterans who’ve overcome PTSD and other mental health challenges:
-  - [Visit Make the Connection](http://maketheconnection.net/).
+  - <a href="http://maketheconnection.net/" class="no-external-icon">Visit Make the Connection</a>
   - [Visit About Face](https://www.ptsd.va.gov/apps/AboutFace/).
 - Use our PTSD Coach Online to help manage stress. [Visit PTSD Coach Online](https://www.ptsd.va.gov/apps/ptsdcoachonline/default.htm).
 - See our Self-Help Resources guide for books, web resources, and mobile applications recommended by VA experts. [Get self-help resources](https://www.mentalhealth.va.gov/self_help.asp).

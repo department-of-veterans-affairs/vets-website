@@ -138,6 +138,11 @@ VA life insurance can offer financial security and support for Veterans, Service
     <a href="https://www.benefits.va.gov/INSURANCE/vgli_auto_pay.asp"><b>Enroll in VGLI Auto Pay</b></a>
     <p>Sign up to pay your Veterans' Group Life Insurance premium automatically from your bank account.</p>
   </div>
+  
+  <div class="link">
+    <a href="https://www.insurance.va.gov/UnclaimedFunds/"><b>Search for Unclaimed Insurance Funds</b></a>
+    <p>If you think we may owe you funds from a VA insurance policy, search our unclaimed funds records by the qualifying Veteran's name.</p>
+  </div>
 
 </section>
 
