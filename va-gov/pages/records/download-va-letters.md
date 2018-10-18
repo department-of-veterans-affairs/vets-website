@@ -61,7 +61,7 @@ Yes. If you're totally and permanently disabled because of your service-connecte
 
 ### What if I have trouble downloading a VA letter?
 
-Call MyVA311 for help: <a href="tel:+18446982311">1-844-698-2311.</a> If you have hearing loss, call TTY: 711.
+Call MyVA311 for help: <a href="tel:+18446982311">1-844-698-2311</a>. If you have hearing loss, call TTY: 711.
 
 </section>
 </div>
