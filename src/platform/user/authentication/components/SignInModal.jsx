@@ -3,6 +3,7 @@ import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
+import CallHelpDesk from '../../../brand-consolidation/components/CallHelpDesk';
 
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 import recordEvent from '../../../monitoring/record-event';
@@ -61,10 +62,16 @@ class SignInModal extends React.Component {
               <div className="form-warning-banner">
                 <AlertBox
                   headline={`Some ${siteName} tools and features may not be working as expected`}
-                  content={`We’re sorry. We’re working to fix some problems with DS Logon right now. Please check back later or call the ${siteName} Help Desk for more information at 1-855-574-7286, TTY: 1-800-877-8339.`}
                   isVisible
                   status="warning"
-                />
+                >
+                  We’re sorry. We’re working to fix some problems with DS Logon
+                  right now. Please check back later or{' '}
+                  <CallHelpDesk>
+                    call the {siteName} Help Desk for more information at
+                    1-855-574-7286, TTY: 1-800-877-8339.
+                  </CallHelpDesk>
+                </AlertBox>
                 <br />
               </div>
             </div>
