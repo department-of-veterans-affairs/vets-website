@@ -146,24 +146,36 @@ If you already applied for and were awarded Post-9/11 GI Bill education benefits
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h4 itemprop="name">Types of training</h4>
+<h3 itemprop="name">How can I use my Post-9/11 GI Bill benefits?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can use these types of programs and courses under the Post-9/11 GI Bill:
+You can use your GI Bill benefits in many ways to advance your education and training.
 
-- [Correspondence training](/education/about-gi-bill-benefits/how-to-use-benefits/correspondence-training/)
-- [Co-op training](/education/about-gi-bill-benefits/how-to-use-benefits/co-op-training/)
-- [Entrepreneurship training](/education/about-gi-bill-benefits/how-to-use-benefits/entrepreneurship-training/)
-- [Flight training](/education/about-gi-bill-benefits/how-to-use-benefits/flight-training/)
-- [Independent and distance learning](/education/about-gi-bill-benefits/how-to-use-benefits/online-distance-learning/)
+**Work toward a degree:**
+
 - [Undergraduate and graduate degrees](/education/about-gi-bill-benefits/how-to-use-benefits/undergraduate-graduate-programs/)
-- [Licensing and certification reimbursement](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
-- [Vocational/technical training and non-college degree programs](/education/about-gi-bill-benefits/how-to-use-benefits/non-college-degree-programs/)
-- [National testing reimbursement](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
-- [On-the-job training and apprenticeships](/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/)
 - [Tuition Assistance Top-Up](/education/about-gi-bill-benefits/how-to-use-benefits/tuition-assistance-top-up/)
 - [Tutorial Assistance](/education/about-gi-bill-benefits/how-to-use-benefits/tutor-assistance/)
+
+**Train for a specific career, trade, or industry:**
+
+- [Vocational/technical training and non-college degree programs](/education/about-gi-bill-benefits/how-to-use-benefits/non-college-degree-programs/)
+- [On-the-job training and apprenticeships](/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/)
+- [Entrepreneurship training](/education/about-gi-bill-benefits/how-to-use-benefits/entrepreneurship-training/)
+- [Flight training](/education/about-gi-bill-benefits/how-to-use-benefits/flight-training/)
+- [Test Fees](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
+
+**Work while you study:**
+
+- [Co-op training](/education/about-gi-bill-benefits/how-to-use-benefits/co-op-training/)
+- [Work study](/education/about-gi-bill-benefits/how-to-use-benefits/work-study/)
+
+**Take classes from home:**
+
+- [Correspondence training](/education/about-gi-bill-benefits/how-to-use-benefits/correspondence-training/)
+- [Independent and distance learning](/education/about-gi-bill-benefits/how-to-use-benefits/online-distance-learning/)
+
 
 </div>
 </div>
