@@ -21,7 +21,7 @@ display_title: Frequently Asked Questions
               <div class="feature">
                 <h4>Need help?</h4>
                 <p>
-                  Please call the VA.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339"> 1-800-877-8339</a>). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
+                  Call MyVA311 for help: <a href="tel:+18446982311">1-844-698-2311"</a>. If you have hearing loss, call TTY: 711.               
                 </p>
               </div>
             </div>
