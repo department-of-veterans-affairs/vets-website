@@ -178,11 +178,11 @@ You'll need to submit current medical evidence that shows your disability has go
 
 <br>
 
-[Learn more about claims for conditions related to contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/). <br>
+[Learn more about claims for conditions related to contact with hazardous materials](/disability/eligibility/hazardous-materials-exposure/). <br>
 
-[Learn more about claims for former Prisoners of War (POWs)](/disability-benefits/conditions/pow/).<br>
+[Learn more about claims for former Prisoners of War (POWs)](/disability/eligibility/former-pows/).<br>
 
-[Learn more about other special claims](/disability-benefits/conditions/special-claims/).
+[Learn more about other special claims](/disability/eligibility/special-claims/).
 
 <br>
 
@@ -210,17 +210,17 @@ To submit your claim through the Fully Developed Claims program, you’ll need t
 ### Should I work with a Veterans Service Officer (VSO) to file my claim?
 
 You don't have to, but we encourage you to work with an accredited VSO. These trained professionals can help you file your claim and gather the needed medical records and evidence.<br>
-[Find out how to get help filing your claim](/disability-benefits/apply/help/).
+[Find out how to get help filing your claim](/disability/get-help-filing-claim/).
 
 For some types of claims, you can work with a VSO to submit a decision-ready claim and get your decision in 30 days or less.<br>
-[Find out if you're eligible for the Decision Ready Claims program](/disability-benefits/apply/evidence/decision-ready-claims/).
+[Find out if you're eligible for the Decision Ready Claims program](/disability/how-to-file-claim/evidence-needed/decision-ready-claims/).
 
 <br>
 
 ### How do I turn in my information and evidence?
 
 You can start your online application right now, or find out how to apply by mail, in person, or with the help of a trained professional.<br>
-[Find out how to apply for disability benefits](/disability-benefits/apply/).
+[Find out how to apply for disability benefits](/disability/how-to-file-claim/).
 
 **Note:** Please be sure to upload all medical evidence or supporting documents at the end of the form. 
 
