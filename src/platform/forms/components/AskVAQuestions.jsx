@@ -2,9 +2,34 @@ import React from 'react';
 
 import isBrandConsolidationEnabled from '../../brand-consolidation/feature-flag';
 
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
-
 function AskVAQuestions(props) {
+  if (isBrandConsolidationEnabled()) {
+    return (
+      <div className="row">
+        <div className="usa-width-two-thirds medium-8 columns">
+          <div className="help-footer-box">
+            <h2 className="help-heading">Need help?</h2>
+            {props.children}
+            <p className="help-talk">
+              To report a problem with this form,
+              <br />
+              please call MyVA311 for help:{' '}
+              <a className="help-phone-number-link" href="tel:+1-844-698-2311">
+                1-844-698-2311
+              </a>
+              .<br />
+              If you have hearing loss, call{' '}
+              <a className="help-phone-number-link" href="tel:711">
+                TTY: 711
+              </a>
+              .
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
@@ -14,7 +39,7 @@ function AskVAQuestions(props) {
           <p className="help-talk">
             To report a problem with this form,
             <br />
-            please call the {propertyName} Technical Help Desk:
+            please call the Vets.gov Technical Help Desk:
           </p>
           <p className="help-phone-number">
             <a className="help-phone-number-link" href="tel:+1-855-574-7286">
