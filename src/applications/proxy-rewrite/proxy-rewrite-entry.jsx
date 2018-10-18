@@ -134,15 +134,16 @@ function getMatchedWhitelistItem(whitelist = proxyRewriteWhitelist) {
   );
 }
 
-function shouldActivateInjectedAssets(
-  whitelistItem = false,
-  proxyRewriteCookieValue,
-) {
+function shouldActivateInjectedAssets(whitelistItem, proxyRewriteCookieValue) {
+  if (whitelistItem === undefined) {
+    return false;
+  }
+
   if (whitelistItem.cookieOnly) {
     return proxyRewriteCookieValue;
   }
 
-  return !!whitelistItem;
+  return true;
 }
 
 if (
