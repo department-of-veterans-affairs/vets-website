@@ -943,3 +943,19 @@ img[data-srcset] {
 .profile-nav {
   margin-top: 6px;
 }
+
+#mega-menu {
+  // @see @department-of-veterans-affairs/formation/sass/modules/_m-megamenu.scss#L266
+  @include media($medium-large-screen) {
+    .current-page {
+      border-bottom: 0px;
+      border-color: $color-blue;
+      box-shadow: inset 0 -5px 0 $color-blue;
+      margin-left: 1.6rem;
+      margin-right: 1.6rem;
+      a {
+        padding: 1.6rem 0;
+      }
+    }
+  }
+}
