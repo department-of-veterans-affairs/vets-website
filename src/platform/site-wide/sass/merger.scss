@@ -551,25 +551,16 @@
           color: $color-link-default;
           display: inline-block;
           vertical-align: middle;
-          width: 98%;
+          width: 100%;
 
           &:focus {
             background-color: $mm-gray;
             font-weight: bold;
-            margin: 2px;
-          }
-
-          &:focus:hover {
-            background-color: $mm-gray;
-            font-weight: bold;
-            margin: 2px;
-            width: 98%;
           }
 
           &:hover {
             background-color: $mm-gray;
             font-weight: bold;
-            width: 100%;
           }
         }
 
@@ -620,10 +611,6 @@
 
       .active-level {
         background-color: $mm-gray;
-
-        a {
-          width: 99%;
-        }
       }
     }
     .fa {
@@ -690,7 +677,7 @@
 
     .usa-sidenav-sub_list{
       a {
-        width: 98% !important; // sorry this is temporary
+        width: 100% !important; // sorry this is temporary
         text-decoration: underline;
         padding-left: 40px;
         font-size: 15px;
@@ -778,6 +765,10 @@
         &[aria-expanded=true] {
           border-bottom: 0;
           background-image: url("/img/minus-blue.svg");
+
+          &:focus {
+            border: 2px solid $color-gold;
+          }
         }
       }
 
@@ -788,14 +779,21 @@
       .usa-sidenav-list {
         a {
           font-size: 15px;
-
-          &:hover:focus {
-            width: 98%;
+          // added to deal with accordian overflow
+          // and outline not showing correctly
+          &:focus {
+            width: 98% !important;
+            margin: 2px;
           }
+        }
+      }
 
-          &:hover {
-            width: 100%;
-          }
+      .usa-current {
+        // added to deal with accordian overflow
+        // and outline not showing correctly
+        &:focus {
+          width: 99% !important;
+          margin-top: 2px;
         }
       }
     }
