@@ -16,7 +16,7 @@ export default function LoginSettings() {
       site-as well as to add an extra layer of security to your account.
       <br />
       <a
-        href="/faq/#what-is-idme"
+        href="/sign-in-faq/#what-is-idme"
         onClick={() =>
           recordEvent({
             event: 'account-navigation',

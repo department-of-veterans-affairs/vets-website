@@ -146,7 +146,7 @@ class SignInModal extends React.Component {
                 information.
               </p>
               <p>
-                <a href="/faq/#what-is-idme" target="_blank">
+                <a href="/sign-in-faq/#what-is-idme" target="_blank">
                   Learn more about ID.me
                 </a>
               </p>

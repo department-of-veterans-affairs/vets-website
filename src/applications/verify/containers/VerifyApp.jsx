@@ -61,7 +61,7 @@ export class VerifyApp extends React.Component {
                   We'll need to verify your identity so that you can securely
                   access and manage your benefits.
                   <br />
-                  <a href="/faq/#why-verify" target="_blank">
+                  <a href="/sign-in-faq/#why-verify" target="_blank">
                     Why does {siteName} verify identity?
                   </a>
                 </p>
