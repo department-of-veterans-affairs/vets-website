@@ -20,6 +20,7 @@ const createBuildSettings = require('./create-build-settings');
 const createRedirects = require('./create-redirects');
 const createSitemaps = require('./create-sitemaps');
 const checkBrokenLinks = require('./check-broken-links');
+const checkExternalLinks = require('./check-external-links');
 const createEnvironmentFilter = require('./create-environment-filter');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
 const leftRailNavResetLevels = require('./left-rail-nav-reset-levels');
@@ -148,6 +149,8 @@ if (BUILD_OPTIONS.watch) {
   smith.use(watchMetalSmith);
   smith.use(webpackMetalsmithConnect.watchAssets(BUILD_OPTIONS));
 } else {
+  smith.use(checkExternalLinks(BUILD_OPTIONS));
+
   smith.use(webpackMetalsmithConnect.compileAssets(BUILD_OPTIONS));
 
   const isDevBuild = [environments.DEVELOPMENT, environments.VAGOVDEV].includes(
