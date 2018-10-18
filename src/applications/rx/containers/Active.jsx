@@ -206,8 +206,8 @@ class Active extends React.Component {
         <p>
           It looks like you don’t have any VA prescriptions to refill right now.
           If you think this is a mistake, please contact your VA health care
-          team and ask them to check your prescription records. If you need more
-          help, please{' '}
+          team and ask them to check your prescription records. If you’re still
+          having trouble, please{' '}
           <CallHelpDesk>
             call the {siteName} Help Desk at{' '}
             <a href="tel:8555747286">1-855-574-7286</a> (TTY:{' '}

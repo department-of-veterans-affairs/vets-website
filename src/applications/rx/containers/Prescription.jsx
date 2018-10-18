@@ -52,7 +52,7 @@ export class Prescription extends React.Component {
       content = (
         <p className="rx-loading-error">
           We couldn’t retrieve your prescription. Please refresh this page or
-          try again later. If this problem persists, please{' '}
+          try again later. If you keep having trouble, please{' '}
           <CallHelpDesk>
             call the {siteName}
             Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}

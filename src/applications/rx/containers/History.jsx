@@ -122,7 +122,7 @@ class History extends React.Component {
           It looks like you don’t have any active VA prescriptions. If you’re
           taking a medicine that you don’t see listed here—or if you have any
           questions about your current medicines—please contact your VA health
-          care team. If you need more help, please{' '}
+          care team. If you’re still having trouble, please{' '}
           <CallHelpDesk>
             call the {siteName} Help Desk at{' '}
             <a href="tel:8555747286">1-855-574-7286</a> (TTY:{' '}
