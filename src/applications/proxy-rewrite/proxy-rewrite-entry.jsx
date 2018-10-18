@@ -111,10 +111,9 @@ function activateInjectedAssets() {
     subtree: true,
   });
 
-  const commonStore = createCommonStore();
   document.addEventListener('DOMContentLoaded', _e => {
     activateHeaderFooter(observer);
-    mountReactComponents(commonStore);
+    mountReactComponents(createCommonStore());
   });
 }
 
