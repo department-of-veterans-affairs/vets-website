@@ -3,6 +3,8 @@ import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
+
+import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 import recordEvent from '../../../monitoring/record-event';
 import { login, signup } from '../../../user/authentication/utilities';
 import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
@@ -18,23 +20,24 @@ const handleDsLogon = loginHandler('dslogon');
 const handleMhv = loginHandler('mhv');
 const handleIdMe = loginHandler('idme');
 
+const logoSrc = `/img/design/logo/${
+  isBrandConsolidationEnabled() ? 'va-logo.png' : 'logo-alt.png'
+}`;
+
 class SignInModal extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {
       recordEvent({ event: 'login-modal-opened' });
     }
   }
+
   renderModalContent = () => (
     <main className="login">
       <div className="row">
         <div className="columns">
           <div className="logo">
             <a href="/">
-              <img
-                alt={siteName}
-                className="va-header-logo"
-                src="/img/design/logo/logo-alt.png"
-              />
+              <img alt={siteName} className="va-header-logo" src={logoSrc} />
             </a>
           </div>
         </div>
@@ -160,34 +163,36 @@ class SignInModal extends React.Component {
                 </a>
               </p>
               <p>
-                Call the {siteName} Help Desk at{' '}
+                Or call the {siteName} Help Desk at{' '}
                 <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
                 <a href="tel:18008778339">1-800-877-8339</a>
                 <br />
-                Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+                We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
+                (ET)
               </p>
             </div>
             <hr />
             <div className="fed-warning">
               <p>
-                <strong>Please note:</strong> When you sign in to {siteName},
-                you're accessing a United States Federal Government information
-                system.
+                When you sign in to {siteName}, you’re using a United States
+                federal government information system.
               </p>
               <p>
-                By signing in, you're agreeing to access only information you
-                have the legal authority to view and use. You're also agreeing
-                to allow us to monitor and record your activity on the
-                system—and to share this information with auditors or law
-                enforcement officials as needed.
+                By signing in, you agree to only use information you have legal
+                authority to view and use. You also agree to let us monitor and
+                record your activity on the system and share this information
+                with auditors or law enforcement officials.
               </p>
               <p>
-                By signing in, you're also confirming that you understand
-                unauthorized use of this system (like gaining unauthorized
-                access to data, changing data, causing harm to the system or its
-                data, or misusing the system) is prohibited and may result in
-                criminal, civil, or administrative penalties. We can suspend or
-                stop your use of this system if we suspect any unauthorized use.
+                By signing in, you confirm that you understand the following:
+              </p>
+              <p>
+                Unauthorized use of this system is prohibited and may result in
+                criminal, civil, or administrative penalties. Unauthorized use
+                includes gaining unauthorized data access, changing data,
+                harming the system or its data, or misusing the system. We can
+                suspend or block your access to this system if we suspect any
+                unauthorized use.
               </p>
             </div>
           </div>

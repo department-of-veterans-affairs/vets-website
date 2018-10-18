@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 template: detail-page
 title: About VA Health Benefits
 concurrence: complete
-lastupdate: 2017-06-28
+lastupdate: 2018-10-17
 collection: healthCare
 children: healthCareCoverage
 spoke: Get Benefits
@@ -44,12 +44,22 @@ All Veterans receive coverage for most care and services, but only some will qua
 
 [Learn more about priority groups](/health-care/eligibility/#priority-groups).
 
-You should also know that being signed up for VA health care meets your Affordable Care Act (ACA) health coverage requirement of having “minimum essential health coverage.” We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
+You should also know that being signed up for VA health care meets your Affordable Care Act (ACA) health coverage requirement of having “minimum essential health coverage.” We’ll update this site if the ACA changes with new laws. <br>
+[Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
 </div>
 </div>
 </div>
 
-<br>
+<div itemscope itemtype="http://schema.org/Question">
+<h3 itemprop="name">What if I’m just separating from active duty and don’t know where to start?</h3>
+
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">We can help you learn about and apply for VA health care benefits. A member of our Concierge for Care (C4C) team will call you soon after your separation from military service. We can answer any questions you may have, process your application over the phone, and help you schedule your first VA medical appointment. <br>
+
+[Learn about transitioning from TRICARE to VA health care](https://www.va.gov/HEALTHBENEFITS/apply/active_duty.asp).
+</div>
+</div>
+</div>
 
 ### More about your medical benefits package
 
@@ -58,10 +68,13 @@ You should also know that being signed up for VA health care meets your Affordab
 - [What basic health care services does VA cover?](#health-about-basic)
 - [What other medical services will VA cover to support my treatment?](#health-about-other-services)
 - [Will VA cover any non-medical services to support my treatment?](#health-about-non-medical)
+- [How do I get help if I don't speak English or need American Sign Language services?](#health-help)
 - [Will VA cover my vision care?](#health-about-vision)
 - [Will VA cover my dental care?](#health-about-dental)
 - [Will VA cover my assisted living and home health care?](#health-about-assisted-living)
 - [What services aren’t covered under VA health care?](#health-about-not-covered)
+- [Will VA fill prescriptions by a non-VA provider?](#health-prescriptions)
+- [Will I have a copay or is my VA health care free?](#health-copay)
 - [Who will care for me at VA?](#health-about-care-team)
 - [Where will I go to get care?](#health-about-care-locations)
 - [How will VA health care work if I also have Medicare, Medicaid, or private insurance?](#health-about-other-insurance)
@@ -85,12 +98,18 @@ You should also know that being signed up for VA health care meets your Affordab
   - Medical treatments
   - Kidney dialysis
   - Acute care (short-term treatment for a severe illness or injury or after surgery)
-  - Specialized care (including organ transplants, intensive care for mental and physical conditions, and care for traumatic injuries). [See more VA medical and surgical specialty care services](https://www.va.gov/healthbenefits/access/specialty_care_services.asp).
-- Emergency care in a VA hospital, outpatient clinic, or Vet Center. [Find a VA health facility near you](/facilities/).
-- Emergency care in a non-VA hospital, clinic, or other medical setting—only under certain conditions. For us to consider covering non-VA emergency care for a non-service-connected condition, you’ll need to meet several requirements. [Learn more about non-VA emergency medical care](https://www.va.gov/HEALTHBENEFITS/access/emergency_care.asp).
-- Mental health services to treat certain issues like posttraumatic stress disorder (PTSD), military sexual trauma (MST), depression, and substance use problems. [Learn more about mental health services](/health-care/health-needs-conditions/mental-health/).
-- Assisted living and home health care (depending on your needs and income as well as space in the programs). [Learn more about assisted living and home health care](/health-care/about-va-health-benefits/long-term-care/).
-- Prescriptions written by a VA doctor. [Refill your prescriptions](/health-care/refill-track-prescriptions).
+  - Specialized care (including organ transplants, intensive care for mental and physical conditions, and care for traumatic injuries). <br>
+  [See more VA medical and surgical specialty care services](https://www.va.gov/healthbenefits/access/specialty_care_services.asp).
+- Emergency care in a VA hospital, outpatient clinic, or Vet Center. <br>
+  [Find a VA health facility near you](https://www.vets.gov/facilities/).
+- Emergency care in a non-VA hospital, clinic, or other medical setting—only under certain conditions. For us to consider covering non-VA emergency care for a non-service-connected condition, you’ll need to meet several requirements. <br>
+[Learn more about non-VA emergency medical care](https://www.va.gov/HEALTHBENEFITS/access/emergency_care.asp).
+- Mental health services to treat certain issues like posttraumatic stress disorder (PTSD), military sexual trauma (MST), depression, and substance use problems. <br>
+  [Learn more about mental health services](/health-care/health-needs-conditions/mental-health/).
+- Assisted living and home health care (depending on your needs and income as well as space in the programs). <br>
+  [Learn more about assisted living and home health care](/health-care/about-va-health-benefits/long-term-care/).
+- Prescriptions written by a VA doctor. <br>
+  [Refill your prescriptions](/health-care/refill-track-prescriptions).
 
 </div>
 </div>
@@ -128,13 +147,26 @@ You may be able to get help with some non-medical services, like:
 </div>
 </div>
 <br>
+<div id="health-help" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">How do I get help if I don’t speak English or need American Sign Language services?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+Contact the patient advocate at the VA medical center where you go for care. Your patient advocate can help you get foreign language or American Sign Language services to help you or your family members understand your medical or health care benefits.<br>
 
+To find out how to reach the patient advocate at your VA medical center, go to the website of the VA health care system that the medical center is part of. In the page's navigation, click on “Patients & Visitors.” A submenu will appear. Select “Patient Information” and then “Customer Service.” <br>
+[Find your medical center's website](https://www.va.gov/health/vamc/).
+
+</div>
+</div>
+</div>
+<br>
 <div id="health-about-vision" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">Will VA cover my vision care?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-We cover routine eye exams and preventive tests. In some cases, you may get coverage for eyeglasses or services for blind or low-vision rehabilitation. [Learn more about vision care through VA](/health-care/about-va-health-benefits/vision-care/).
+We cover routine eye exams and preventive tests. In some cases, you may get coverage for eyeglasses or services for blind or low-vision rehabilitation. <br>
+[Learn more about vision care through VA](/health-care/about-va-health-benefits/vision-care/).
 
 </div>
 </div>
@@ -146,7 +178,8 @@ We cover routine eye exams and preventive tests. In some cases, you may get cove
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-In certain cases, you may receive dental care as part of your VA health benefits. [Find out if you can get dental care through VA](/health-care/about-va-health-benefits/dental-care/).
+In certain cases, you may receive dental care as part of your VA health benefits. <br>
+[Find out if you can get dental care through VA](/health-care/about-va-health-benefits/dental-care/).
 
 </div>
 </div>
@@ -158,7 +191,8 @@ In certain cases, you may receive dental care as part of your VA health benefits
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-As a Veteran, you may be able to get assisted living, residential (live-in), or home health care through VA. [Find out how to access these long-term care services](/health-care/about-va-health-benefits/long-term-care/).
+As a Veteran, you may be able to get assisted living, residential (live-in), or home health care through VA. <br>
+[Find out how to access these long-term care services](/health-care/about-va-health-benefits/long-term-care/).
 
 </div>
 </div>
@@ -186,12 +220,45 @@ These services are **not** included in your VA medical benefits package:
 </div>
 <br>
 
+<div id="health-prescriptions" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">Will VA fill prescriptions by a non-VA provider?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+We’ll fill prescriptions by a non-VA provider only if you meet all the requirements listed below.
+
+<b>All of these must be true</b>:
+
+- You’re enrolled in VA health care
+- You have an assigned VA primary care provider
+- You’ve given your VA provider your medical records from your non-VA provider
+- Your VA provider agrees with the prescription
+
+</div>
+</div>
+</div>
+<br>
+
+<div id="health-copay" itemscope itemtype="http://schema.org/Question">
+<h4 itemprop="name">Will I have a copay or is my VA health care free?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+This will depend on factors like your income level, disability rating, and military service history. Most Veterans need to complete a financial assessment when they enroll. This helps us determine if you qualify for free VA health care. <br>
+
+[Learn more about VA copays](https://www.va.gov/HEALTHBENEFITS/cost/copays.asp). <br>
+[Find out more about financial assessments](https://www.va.gov/HEALTHBENEFITS/cost/financial_assessment.asp).
+
+</div>
+</div>
+</div>
+<br>
+
 <div id="health-about-care-team" itemscope itemtype="http://schema.org/Question">
 <h4 itemprop="name">Who will care for me at VA?</h4>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-At VA, we take a team approach to health care—with you at the center. Research shows this kind of approach leads to better quality care, more satisfied patients, and fewer hospital visits. [Find out who will care for you when you become part of the VA health care program](/health-care/about-va-health-benefits/your-care-team/).
+At VA, we take a team approach to health care—with you at the center. Research shows this kind of approach leads to better quality care, more satisfied patients, and fewer hospital visits. <br>
+[Find out who will care for you when you become part of the VA health care program](/health-care/about-va-health-benefits/your-care-team/).
 
 </div>
 </div>
@@ -203,7 +270,8 @@ At VA, we take a team approach to health care—with you at the center. Research
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-When you sign up for VA health care, you become part of the country’s largest integrated health care system—with more than 1,200 care locations serving nearly 9 million Veterans each year. [Learn more about where you’ll get care](/health-care/about-va-health-benefits/where-you-go-for-care/).
+When you sign up for VA health care, you become part of the country’s largest integrated health care system—with more than 1,200 care locations serving nearly 9 million Veterans each year. <br>
+[Learn more about where you’ll get care](/health-care/about-va-health-benefits/where-you-go-for-care/).
 
 </div>
 </div>
@@ -215,7 +283,8 @@ When you sign up for VA health care, you become part of the country’s largest 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-If you have other forms of health care coverage (like a private insurance plan, Medicare, Medicaid, or TRICARE), you can use VA health care benefits along with these plans. [Learn more about how VA works with other health insurance](/health-care/about-va-health-benefits/va-health-care-and-other-insurance/).
+If you have other forms of health care coverage (like a private insurance plan, Medicare, Medicaid, or TRICARE), you can use VA health care benefits along with these plans. <br>
+[Learn more about how VA works with other health insurance](/health-care/about-va-health-benefits/va-health-care-and-other-insurance/).
 
 </div>
 </div>
@@ -227,7 +296,8 @@ If you have other forms of health care coverage (like a private insurance plan, 
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
+Call our toll-free hotline at 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). <br>
+Or [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 </div>
 </div>
@@ -244,7 +314,8 @@ Yes. If you’re signed up for the VA health care program, you can manage your V
 [Refill your prescriptions](/health-care/refill-track-prescriptions). <br>
 [Send a secure message to your health care team](/health-care/secure-messaging).
 
-You can also check the status of a disability or pension claim online. [Check your claim status](/track-claims/).
+You can also check the status of a disability or pension claim online. <br>
+[Check your claim status](/track-claims/).
 
 </div>
 </div>

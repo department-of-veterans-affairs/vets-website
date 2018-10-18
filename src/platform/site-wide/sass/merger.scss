@@ -8,7 +8,7 @@
     }
   }
 
-  .va-dropdown-trigger {
+  .va-dropdown-panel {
     min-width: 102px;
   }
 
@@ -17,6 +17,7 @@
       margin-left: 6px;
     }
     z-index: 300;
+    min-height: 50px;
   }
   .va-modal {
     z-index: 301;
@@ -231,16 +232,11 @@
     }
   }
 
-  .sign-in-links {
-    background: $color-primary;
-    padding: 5px 20px;
-    border-radius: 4px;
-  }
-
   #vetnav {
     // 100% width necessary for right aligned items
     width: 100%;
     z-index: 2;
+    left: initial;
   }
 
   // mobile
@@ -322,10 +318,7 @@
     }
 
     .vet-toolbar {
-      margin-left: -12px;
-
       .sign-in-nav {
-        margin-top: 6px;
         font-weight: normal;
 
         .sign-in-links {
@@ -345,6 +338,7 @@
         width: auto;
 
         .va-dropdown-trigger {
+          width: 100%;
           font-weight: 600;
           padding-left: 0;
           margin-right: 1.75em;
@@ -436,18 +430,16 @@
     }
     .va-header-logo-wrapper {
       margin-bottom: 0;
+      justify-content: space-between;
     }
 
     .vet-toolbar {
-      flex: 0 1 30.5rem;
-      padding-left: 2em;
+      flex-shrink: 0;
 
       .profile-nav {
 
         width: 100%;
         .va-dropdown {
-
-          width: 100%;
 
           .va-dropdown-trigger {
             background-position: right .8rem center;
@@ -880,6 +872,31 @@
       }
     }
   }
+
+  // These next two rules override some styles in user-nav.scss, should be moved there
+  // after WBC is live
+  .sign-in-links {
+    flex-shrink: 0;
+  }
+
+  .sign-in-link {
+    margin: 0;
+    @include media($medium-large-screen) {
+      &:hover, &:active {
+        background-color: $color-primary;
+        color: inherit !important;
+      }
+    }
+    // This is backwards from the mobile first approach we should be taking
+    // but the amount of overrides we would need if we did that way would be
+    // very tricky to write and maintain
+    @media (max-width: $medium-large-screen - 1) {
+      @include button-link;
+      color: $color-white !important;
+      text-decoration: none;
+    }
+  }
+
 }
 
 .usa-accordion-bordered {
@@ -917,4 +934,12 @@ img[data-src],
 img[data-srcset] {
   display: block;
   min-height: 1px;
+}
+
+.vet-toolbar .va-dropdown {
+  margin-left: 0;
+}
+
+.profile-nav {
+  margin-top: 6px;
 }
