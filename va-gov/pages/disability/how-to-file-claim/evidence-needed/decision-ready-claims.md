@@ -43,7 +43,7 @@ The Decision Ready Claims (DRC) program is the fastest way to get your VA claim 
 - **Presumptive service connection claim** for a condition that we believe is related to your military service even if there's no direct evidence of a link
 - **Secondary service connection claim** for a condition caused or made worse by your service-connected disability
 - **Increased disability claim** for an existing service-connected condition that you have medical evidence to show has gotten worse
-- **[Dependency and Indemnity Compensation (DIC) claim](/burials-and-memorials/survivor-and-dependent-benefits/compensation/)** as the eligible surviving spouse of a Veteran 
+- **[Dependency and Indemnity Compensation (DIC) claim](/burials-memorials/dependency-indemnity-compensation/)** as the eligible surviving spouse of a Veteran 
 - **Pre-discharge claim** for disability compensation as a Servicemember who has less than 90 days before your separation from military service
 
 **Note:** We're working to expand the DRC program to include more types of claims. Come back soon, or check with your VSO, to find out about updates.
