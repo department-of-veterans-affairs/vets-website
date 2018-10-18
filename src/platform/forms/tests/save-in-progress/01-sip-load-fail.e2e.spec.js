@@ -9,7 +9,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Ensure introduction page renders.
   client
     .url(url)
-    .waitForElementVisible('.main .usa-button-primary', Timeouts.normal)
+    .waitForElementVisible('body', Timeouts.normal)
     .assert.title('Apply for Health Care: Vets.gov')
     .waitForElementVisible('.main .usa-button-primary', Timeouts.slow); // First render of React may be slow.
 
@@ -55,6 +55,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
       token,
     )
     .waitForElementPresent('.main .usa-button-primary', Timeouts.normal)
+    .moveToElement('.main', 500, 500)
     .click('.main .usa-button-primary');
 
   client.waitForElementPresent('.usa-alert-error', Timeouts.slow);
@@ -82,6 +83,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
       token,
     )
     .waitForElementPresent('.main .usa-button-primary', Timeouts.normal)
+    .moveToElement('.main', 500, 500)
     .click('.main .usa-button-primary');
 
   client.waitForElementPresent('.usa-alert-error', Timeouts.slow);
