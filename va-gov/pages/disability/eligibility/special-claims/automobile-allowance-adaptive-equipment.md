@@ -52,7 +52,7 @@ You’ll need to apply for benefits and get our approval **before** buying a veh
 [Apply for benefits](/disability/how-to-file-claim/).
 
 When you apply, you’ll need to show that your disability is service connected or treated as if service connected under 38 U.S.C. 1151. <br>
-[Learn more about 38 U.S.C. 1151](/disability-benefits/conditions/special-claims/title-38-USC-1151/).
+[Learn more about 38 U.S.C. 1151](/disability/eligibility/special-claims/1151-claims-title-38/).
 <br>
 
 [View the current payment rates](https://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2017.asp).
