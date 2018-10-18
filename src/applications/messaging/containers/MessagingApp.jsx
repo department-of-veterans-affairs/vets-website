@@ -37,7 +37,7 @@ class MessagingApp extends React.Component {
           We’re sorry. It looks like you don’t have a VA health care team linked
           to your account in our system. To begin sending secure messages,
           please contact your health care team, and ask them to add you into the
-          system. If you need more help, please{' '}
+          system. If you're still having trouble sending secure messages, please{' '}
           <CallHelpDesk>
             call the {siteName} Help Desk at{' '}
             <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
