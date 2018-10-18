@@ -105,6 +105,9 @@
         font-weight: 400;
         margin: .25em 0;
       }
+      > h6 {
+        color: $color-white;
+      }
     }
   }
 }

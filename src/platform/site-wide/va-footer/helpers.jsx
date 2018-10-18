@@ -24,13 +24,23 @@ export function generateLinkItems(links, column, direction = 'asc') {
   const captureEvent = () => recordEvent({ event: FOOTER_EVENTS[column] });
   return (
     <ul className="va-footer-links">
-      {orderBy(links[column], 'order', direction).map(link => (
-        <li key={`${link.column}-${link.order}`}>
-          <a href={link.href} onClick={captureEvent} target={link.target}>
-            {link.title}
-          </a>
-        </li>
-      ))}
+      {orderBy(links[column], 'order', direction).map(link => {
+        if (link.href) {
+          return (
+            <li key={`${link.column}-${link.order}`}>
+              <a href={link.href} onClick={captureEvent} target={link.target}>
+                {link.title}
+              </a>
+            </li>
+          );
+        }
+
+        return (
+          <li key={`${link.column}-${link.order}`}>
+            <h6>{link.title}</h6>
+          </li>
+        );
+      })}
     </ul>
   );
 }
