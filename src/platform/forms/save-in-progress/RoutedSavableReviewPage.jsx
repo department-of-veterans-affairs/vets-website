@@ -102,7 +102,7 @@ class RoutedSavableReviewPage extends React.Component {
       InlineErrorComponent = () => (
         <div>
           <p>
-            If it still doesn’t work, please call the MyVA311 for help:{' '}
+            If it still doesn’t work, please call MyVA311 for help:{' '}
             <a href="tel:844-698-2311">1-844-698-2311</a>.
           </p>
           <p>

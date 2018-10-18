@@ -12,7 +12,7 @@ const helpDeskPhone = brandConsolidationIsEnabled
 
 const helpDeskMessage = brandConsolidationIsEnabled ? (
   <span>
-    MyVA311 for help: <a href={`tel:+${helpDeskPhone}`}>{helpDeskPhone}</a>
+    MyVA311 for help: <a href={`tel:+${helpDeskPhone}`}>{helpDeskPhone}</a>.
   </span>
 ) : (
   `the ${propertyName} Technical Help Desk:`
