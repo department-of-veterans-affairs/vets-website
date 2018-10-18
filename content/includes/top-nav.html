@@ -1,29 +1,28 @@
 <header class="header">
 
   <div id="preview-banner" class="usa-alert usa-alert-info">
-    <div class="usa-alert-body preview-banner-content">
+    <div id="preview-banner-content" class="usa-alert-body">
       <h3 class="usa-alert-heading">Preview the New VA.gov—Built with Veterans, for Veterans</h3>
       <p>Vets.gov will soon become part of the new VA.gov. Our new site offers one place to access all VA benefits and health care services. You can sign in with your My HealtheVet, DS Logon, or ID.me account to track your claims, refill your prescriptions, and more.</p>
       <p>We invite you to try out the new VA.gov before it officially launches.</p>
       <a href="https://preview.va.gov" class="usa-button-primary">Preview the New VA.gov</a>
     </div>
-    <div class="usa-alert-body blog-banner-content">
-        <h3 class="usa-alert-heading">Preview the New VA.gov—Built with Veterans, for Veterans</h3>
-        <p>Vets.gov will soon become part of the new VA.gov. The new VA.gov will offer one place to get and manage all VA benefits and health care services. You'll be able to sign in with your My HealtheVet, DS Logon, or ID.me account to track your claims, refill your prescriptions, and more.</p>
-        <p>We invite you to learn more about the new VA.gov before it officially launches.</p>
-        <a href="/some-blog" class="usa-button-primary">Learn about the New VA.gov</a>
+    <div id="blog-banner-content" class="usa-alert-body" style="display: none;">
+      <h3 class="usa-alert-heading">Preview the New VA.gov—Built with Veterans, for Veterans</h3>
+      <p>Vets.gov will soon become part of the new VA.gov. The new VA.gov will offer one place to get and manage all VA benefits and health care services. You'll be able to sign in with your My HealtheVet, DS Logon, or ID.me account to track your claims, refill your prescriptions, and more.</p>
+      <p>We invite you to learn more about the new VA.gov before it officially launches.</p>
+      <a href="/some-blog" class="usa-button-primary">Learn about the New VA.gov</a>
     </div>
   </div>
 
   <script>
-    var previewBanner = null;
     var allowTrafficToPreview = (
       window.settings.previewTheNewVaBanner &&
       window.settings.previewTheNewVaBanner.allowTrafficToPreview
     );
     if (!allowTrafficToPreview) {
-      previewBanner = document.getElementById('preview-banner');
-      previewBanner.className += ' no-traffic-to-preview';
+      document.getElementById('preview-banner-content').style.display = 'none';
+      document.getElementById('blog-banner-content').style.display = 'block';
     }
   </script>
 
