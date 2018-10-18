@@ -131,7 +131,7 @@ class AccountMain extends React.Component {
           issues with verifying your identity, and your privacy and security on{' '}
           {propertyName}.<br />
           <a
-            href="/faq"
+            href="/sign-in-faq/"
             onClick={() =>
               recordEvent({
                 event: 'account-navigation',
