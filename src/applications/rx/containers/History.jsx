@@ -10,6 +10,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import Pagination from '@department-of-veterans-affairs/formation/Pagination';
 import SortableTable from '@department-of-veterans-affairs/formation/SortableTable';
 
+import siteName from '../../../platform/brand-consolidation/site-name';
 import { getScrollOptions } from '../../../platform/utilities/ui';
 import { loadPrescriptions } from '../actions/prescriptions';
 import { openGlossaryModal } from '../actions/modals';
@@ -103,7 +104,7 @@ class History extends React.Component {
       return (
         <p className="rx-tab-explainer rx-loading-error">
           We couldn’t retrieve your prescriptions. Please refresh this page or
-          try again later. If this problem persists, please call the Vets.gov
+          try again later. If this problem persists, please call the {siteName}
           Help Desk at <a href="tel:8555747286">1-855-574-7286</a>, TTY:{' '}
           <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
           8:00 a.m. &#8211; 8:00 p.m. (ET).
@@ -117,7 +118,7 @@ class History extends React.Component {
           It looks like you don’t have any active VA prescriptions. If you’re
           taking a medicine that you don’t see listed here—or if you have any
           questions about your current medicines—please contact your VA health
-          care team. If you need more help, please call the Vets.gov Help Desk
+          care team. If you need more help, please call the {siteName} Help Desk
           at <a href="tel:8555747286">1-855-574-7286</a> (TTY:{' '}
           <a href="tel:18008778339">1-800-877-8339</a>
           ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET). We’re here

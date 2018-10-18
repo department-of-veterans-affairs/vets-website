@@ -4,14 +4,13 @@ $red-70v: #8b1303;
 $red-60v: #b51d09;
 
 .va-crisis-line {
-  @include media($medium-large-screen) {
+  @include media($small-desktop-screen) {
     position: absolute;
     right: 0;
     bottom: -11px;
     background-color: transparent;
   }
   background-color: $red-60v;
-  z-index: 2;
 }
 
 button.va-crisis-line-button {
@@ -26,9 +25,8 @@ button.va-crisis-line-button {
   font-weight: bold;
   display: flex;
   padding: 0;
-  align-items: center;
 
-  @include media($medium-large-screen) {
+  @include media($small-desktop-screen) {
     border-radius: 0 0 0.2em 0.2em;
     box-shadow: 0 2px 5px $color-base;
     text-align: left;
@@ -44,7 +42,7 @@ button.va-crisis-line-button {
   width: 2.5em;
   height: 2em;
   padding: 0.3em 1em;
-  @include media($medium-large-screen) {
+  @include media($small-desktop-screen) {
     background-color: $red-70v;
     background-position: 0.4em 0.5em;
   }
@@ -59,10 +57,10 @@ button.va-crisis-line-button {
   width: 29px;
   padding-right: 0.5em;
   padding-left: 0.5em;
+  margin-top: 10px;
 }
 
 .va-crisis-panel {
-  z-index: 1;
   color: $color-base;
   &-body {
     padding: 1.5em;
@@ -113,6 +111,11 @@ button.va-crisis-line-button {
       background-color: transparent;
     }
   }
+}
+
+.va-modal-large .va-crisis-panel.va-modal-inner {
+  width: 90vw;
+  max-width: 75rem;
 }
 
 .va-footer-vcl-trigger {

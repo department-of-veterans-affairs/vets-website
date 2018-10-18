@@ -7,6 +7,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import recordEvent from '../../../platform/monitoring/record-event';
 import { verify } from '../../../platform/user/authentication/utilities';
 import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
+import siteName from '../../../platform/brand-consolidation/site-name';
 
 export class VerifyApp extends React.Component {
   componentDidMount() {
@@ -61,7 +62,7 @@ export class VerifyApp extends React.Component {
                   access and manage your benefits.
                   <br />
                   <a href="/faq/#why-verify" target="_blank">
-                    Why does Vets.gov verify identity?
+                    Why does {siteName} verify identity?
                   </a>
                 </p>
                 <p>
@@ -88,7 +89,7 @@ export class VerifyApp extends React.Component {
                   </a>
                 </p>
                 <p>
-                  Call the Vets.gov Help Desk at{' '}
+                  Call the {siteName} Help Desk at{' '}
                   <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
                   <a href="tel:18008778339">1-800-877-8339</a>
                   <br />

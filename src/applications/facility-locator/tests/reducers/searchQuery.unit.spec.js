@@ -1,6 +1,13 @@
+/* eslint-disable prettier/prettier */
 import { expect } from 'chai';
-
-import searchQueryReducer from '../../reducers/searchQuery';
+import {
+  SEARCH_STARTED,
+  SEARCH_QUERY_UPDATED,
+  SEARCH_FAILED,
+  FETCH_LOCATION_DETAIL,
+  FETCH_LOCATIONS
+} from '../../utils/actionTypes';
+import { SearchQueryReducer } from '../../reducers/searchQuery';
 
 const INITIAL_STATE = {
   searchString: '',
@@ -20,8 +27,8 @@ const INITIAL_STATE = {
 
 describe('search query reducer', () => {
   it('should handle search started', () => {
-    const state = searchQueryReducer(INITIAL_STATE, {
-      type: 'SEARCH_STARTED',
+    const state = SearchQueryReducer(INITIAL_STATE, {
+      type: SEARCH_STARTED,
     });
 
     expect(state.error).to.eql(false);
@@ -29,16 +36,13 @@ describe('search query reducer', () => {
   });
 
   it('should handle fetching list of facilities', () => {
-    const state = searchQueryReducer(
-      {
-        inProgress: true,
-        error: true,
-        searchBoundsInProgress: true,
-      },
-      {
-        type: 'FETCH_VA_FACILITIES',
-      },
-    );
+    const state = SearchQueryReducer({
+      inProgress: true,
+      error: true,
+      searchBoundsInProgress: true,
+    }, {
+      type: FETCH_LOCATIONS,
+    });
 
     expect(state.error).to.eql(false);
     expect(state.inProgress).to.eql(false);
@@ -46,47 +50,38 @@ describe('search query reducer', () => {
   });
 
   it('should handle fetching single facility', () => {
-    const state = searchQueryReducer(
-      {
-        error: true,
-        inProgress: true,
-      },
-      {
-        type: 'FETCH_VA_FACILITY',
-      },
-    );
+    const state = SearchQueryReducer({
+      error: true,
+      inProgress: true,
+    }, {
+      type: FETCH_LOCATION_DETAIL,
+    });
 
     expect(state.error).to.eql(false);
     expect(state.inProgress).to.eql(false);
   });
 
   it('should handle search failed', () => {
-    const state = searchQueryReducer(
-      {
-        error: false,
-        inProgress: true,
-      },
-      {
-        type: 'SEARCH_FAILED',
-      },
-    );
+    const state = SearchQueryReducer({
+      error: false,
+      inProgress: true,
+    }, {
+      type: SEARCH_FAILED,
+    });
 
     expect(state.error).to.eql(true);
     expect(state.inProgress).to.eql(false);
   });
 
   it('should handle search query updated', () => {
-    const state = searchQueryReducer(
-      {
-        error: true,
-      },
-      {
-        type: 'SEARCH_QUERY_UPDATED',
-        payload: {
-          attribute: true,
-        },
-      },
-    );
+    const state = SearchQueryReducer({
+      error: true,
+    }, {
+      type: SEARCH_QUERY_UPDATED,
+      payload: {
+        attribute: true,
+      }
+    });
 
     expect(state.error).to.eql(false);
     expect(state.attribute).to.eql(true);
