@@ -29,7 +29,7 @@ When the Veterans Benefits Administration Regional Office receives your Notice o
 
 <h3>Appeals Process Overview</h3>
 <p>
-After the Veterans Benefits Administration makes a decision on your claim, you can appeal some or all of the decision if you disagree with it. If you want to, you can have a representative help you with your appeal. This person may be a lawyer, claims agent, or Veterans Service Officer. <a href="/disability-benefits/apply/help/">Get help filing your appeal</a>.
+After the Veterans Benefits Administration makes a decision on your claim, you can appeal some or all of the decision if you disagree with it. If you want to, you can have a representative help you with your appeal. This person may be a lawyer, claims agent, or Veterans Service Officer. <a href="/disability/get-help-filing-claim/">Get help filing your appeal</a>.
 </p>
 
 <span id="time-to-complete-claim"></span>
@@ -58,7 +58,7 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
         <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">Download a Notice of Disagreement (VA Form 21-0958)</a>. 
         </p>
         <p>
-        Fill out your Notice of Disagreement and mail it to the address provided on the VA claim decision notice letter you received, or bring it to your local regional office. An accredited representative can help you file a Notice of Disagreement. <a href="/disability-benefits/apply/help/index.html">Get help filing your appeal</a>.
+        Fill out your Notice of Disagreement and mail it to the address provided on the VA claim decision notice letter you received, or bring it to your local regional office. An accredited representative can help you file a Notice of Disagreement. <a href="/disability/get-help-filing-claim/">Get help filing your appeal</a>.
         </p>
       </div>
     </li>
@@ -86,13 +86,13 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
       The Decision Review Officer will finish the review and send your case to the Board of Veterans’ Appeals. The Board reviews cases in the order they’re received according to the date on the VA Form 9. A judge will begin work on your appeal when it’s among the oldest appeals ready for their review.
       </p>
       <p>
-      If you suffer from a serious illness, are in financial distress, or have other sufficient cause (a reason for needing your appeal reviewed faster), you can apply to have your appeal Advanced on Docket. If you’re over 75 years old, your appeal will receive this status automatically. Advanced on Docket appeals are prioritized so they’re always at the front of the line. <a href="/disability-benefits/claims-appeal/request-a-priority-review/">Learn how to request Advanced on Docket status</a>.
+      If you suffer from a serious illness, are in financial distress, or have other sufficient cause (a reason for needing your appeal reviewed faster), you can apply to have your appeal Advanced on Docket. If you’re over 75 years old, your appeal will receive this status automatically. Advanced on Docket appeals are prioritized so they’re always at the front of the line.  <a href="/disability/file-an-appeal/request-priority-review/">Learn how to request Advanced on Docket status</a>.
       </p>
     </li>
     <li class="list-group-item">
       <h4>You have a hearing (optional)</h4>
       <p>
-        You have the option to request a hearing with a Veterans Law Judge. At your hearing, the judge will ask you questions about your appeal. A transcript of your hearing will be made and added to your appeal file. The judge won’t make a decision about your appeal at the hearing. <a href="/disability-benefits/claims-appeal/hearings/">Learn more about hearings at the Board</a>.
+        You have the option to request a hearing with a Veterans Law Judge. At your hearing, the judge will ask you questions about your appeal. A transcript of your hearing will be made and added to your appeal file. The judge won’t make a decision about your appeal at the hearing. <a href="/disability/file-an-appeal/board-of-veterans-appeals/">Learn more about hearings at the Board</a>.
       </p>
     </li>
     <li class="list-group-item">
