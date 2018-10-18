@@ -1,5 +1,6 @@
+import { some } from 'lodash';
 import _ from '../../../platform/utilities/data';
-import { MILITARY_CITIES, MILITARY_STATE_VALUES } from './constants';
+import { MILITARY_CITIES, MILITARY_STATE_VALUES, PTSD } from './constants';
 
 export const hasMilitaryRetiredPay = data =>
   _.get('view:hasMilitaryRetiredPay', data, false);
@@ -122,3 +123,12 @@ export const validateIfHasEvidence = (
     wrappedValidator(errors, fieldData, formData, schema, messages, index);
   }
 };
+
+export const hasNewPtsdDisability = formData =>
+  some(_.get('newDisabilities', formData, []), item => {
+    let hasPtsd = false;
+    if (item && typeof item.condition === 'string') {
+      hasPtsd = item.condition.toLowerCase().includes(PTSD);
+    }
+    return hasPtsd;
+  });

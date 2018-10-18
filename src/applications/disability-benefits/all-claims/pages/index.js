@@ -59,6 +59,11 @@ import {
 } from './newPTSDFollowUp';
 
 import {
+  uiSchema as choosePtsdTypeUISchema,
+  schema as choosePtsdTypeSchema,
+} from './choosePtsdType';
+
+import {
   uiSchema as summaryOfDisabilitiesUISchema,
   schema as summaryOfDisabilitiesSchema,
 } from './summaryOfDisabilities';
@@ -171,6 +176,11 @@ export const newDisabilityFollowUp = {
 export const newPTSDFollowUp = {
   uiSchema: newPTSDFollowUpUISchema,
   schema: newPTSDFollowUpSchema,
+};
+
+export const choosePtsdType = {
+  uiSchema: choosePtsdTypeUISchema,
+  schema: choosePtsdTypeSchema,
 };
 
 export const summaryOfDisabilities = {
