@@ -24,7 +24,6 @@
 }
 
 header.merger {
-  z-index: 300;
   width: 100%;
   border: 1px solid #01133F;
   margin: auto;
@@ -69,12 +68,4 @@ footer.footer {
   .sign-in-links {
     color: $color-white;
   }
-}
-
-#login-root {
-  z-index: 999;
-}
-
-#vetnav {
-  z-index: 299;
 }

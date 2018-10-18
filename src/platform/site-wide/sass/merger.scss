@@ -16,11 +16,9 @@
     .sign-in-nav {
       margin-left: 6px;
     }
-    z-index: 300;
     min-height: 50px;
   }
   .va-modal {
-    z-index: 301;
     font-size: 1.6rem;
   }
 
@@ -235,7 +233,6 @@
   #vetnav {
     // 100% width necessary for right aligned items
     width: 100%;
-    z-index: 2;
     left: initial;
   }
 
@@ -267,7 +264,7 @@
       //   min-height: unset;
       // }
       .login-container {
-        z-index: 301;
+        // due to these been nested, this has to have a higher z-level then vet-toolbar
         position: relative;
         top: -40px;
       }
@@ -411,7 +408,6 @@
     .va-sidebarnav--opened {
       position: fixed;
       display: initial;
-      z-index: 1000;
     }
     .va-navigation-nextprevious {
       padding-left: 0.9375rem;
@@ -484,7 +480,6 @@
   }
 
   #preview-site-alert {
-    z-index: 1;
     color: $color-black;
     position: relative;
   }
