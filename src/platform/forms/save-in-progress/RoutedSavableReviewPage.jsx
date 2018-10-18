@@ -27,7 +27,8 @@ import {
 import { getFormContext } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
 
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
+const brandConsolidationIsEnabled = isBrandConsolidationEnabled();
+const propertyName = brandConsolidationIsEnabled ? 'VA.gov' : 'Vets.gov';
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo(
@@ -89,7 +90,7 @@ class RoutedSavableReviewPage extends React.Component {
       InlineErrorComponent = errorText;
     } else if (typeof errorText === 'string') {
       InlineErrorComponent = () => <p>{errorText}</p>;
-    } else {
+    } else if (!brandConsolidationIsEnabled) {
       InlineErrorComponent = () => (
         <p>
           If it still doesn’t work, please{' '}
@@ -101,6 +102,18 @@ class RoutedSavableReviewPage extends React.Component {
             (ET).
           </CallHelpDesk>
         </p>
+      );
+    } else if (brandConsolidationIsEnabled) {
+      InlineErrorComponent = () => (
+        <div>
+          <p>
+            If it still doesn’t work, please call MyVA311 for help:{' '}
+            <a href="tel:844-698-2311">1-844-698-2311</a>.
+          </p>
+          <p>
+            If you have hearing loss, call TTY: <a href="tel:711">711</a>.
+          </p>
+        </div>
       );
     }
 
@@ -116,8 +129,8 @@ class RoutedSavableReviewPage extends React.Component {
           </p>
           {!user.login.currentlyLoggedIn && (
             <p>
-              If you don’t have an account, you’ll have to start over. Please
-              try submitting your form again tomorrow.
+              If you don’t have an account, you’ll have to start over. Try
+              submitting your form again tomorrow.
             </p>
           )}
           <InlineErrorComponent />

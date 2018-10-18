@@ -1,3 +1,14 @@
+import {
+  SEARCH_STARTED,
+  SEARCH_FAILED,
+  SEARCH_COMPLETE,
+  SEARCH_QUERY_UPDATED,
+  FETCH_LOCATION_DETAIL,
+  FETCH_LOCATIONS,
+  FETCH_SERVICES,
+  FETCH_SERVICES_DONE,
+} from '../utils/actionTypes';
+
 const INITIAL_STATE = {
   searchString: '',
   serviceType: null,
@@ -8,41 +19,60 @@ const INITIAL_STATE = {
   },
   bounds: [-77.53653, 38.3976763, -76.53653, 39.3976763],
   context: 20004,
-  inProgress: false,
   currentPage: 1,
   zoomLevel: 4,
+  inProgress: false,
   searchBoundsInProgress: false,
+  fetchSvcsInProgress: false,
 };
 
-export default function(state = INITIAL_STATE, action) {
+export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'SEARCH_STARTED':
+    case SEARCH_STARTED:
       return {
         ...state,
         ...action.payload,
         error: false,
         inProgress: true,
       };
-    case 'FETCH_VA_FACILITIES':
+    case FETCH_LOCATIONS:
       return {
         ...state,
         error: false,
         inProgress: false,
         searchBoundsInProgress: false,
       };
-    case 'FETCH_VA_FACILITY':
+    case FETCH_LOCATION_DETAIL:
       return {
         ...state,
         error: false,
         inProgress: false,
       };
-    case 'SEARCH_FAILED':
+    case FETCH_SERVICES:
+      return {
+        ...state,
+        error: false,
+        fetchSvcsInProgress: true,
+      };
+    case FETCH_SERVICES_DONE:
+      return {
+        ...state,
+        error: false,
+        fetchSvcsInProgress: false,
+      };
+    case SEARCH_FAILED:
       return {
         ...state,
         error: true,
         inProgress: false,
       };
-    case 'SEARCH_QUERY_UPDATED':
+    case SEARCH_COMPLETE:
+      return {
+        ...state,
+        error: false,
+        inProgress: false,
+      };
+    case SEARCH_QUERY_UPDATED:
       return {
         ...state,
         ...action.payload,
@@ -51,4 +81,4 @@ export default function(state = INITIAL_STATE, action) {
     default:
       return state;
   }
-}
+};
