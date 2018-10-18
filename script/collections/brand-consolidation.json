@@ -512,5 +512,14 @@
       "name": "Records",
       "spokes": ["Get Records"]
     }
+  },
+  "veteranIdCards": {
+    "pattern": "records/get-veteran-id-cards/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "icon": "fa-id-card hub-background-records",
+      "name": "Records",
+      "spokes": ["Get Records"]
+    }
   }
 }

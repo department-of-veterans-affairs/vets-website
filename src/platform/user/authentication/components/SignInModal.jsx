@@ -3,6 +3,8 @@ import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
+
+import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 import recordEvent from '../../../monitoring/record-event';
 import { login, signup } from '../../../user/authentication/utilities';
 import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
@@ -18,23 +20,24 @@ const handleDsLogon = loginHandler('dslogon');
 const handleMhv = loginHandler('mhv');
 const handleIdMe = loginHandler('idme');
 
+const logoSrc = `/img/design/logo/${
+  isBrandConsolidationEnabled() ? 'va-logo.png' : 'logo-alt.png'
+}`;
+
 class SignInModal extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {
       recordEvent({ event: 'login-modal-opened' });
     }
   }
+
   renderModalContent = () => (
     <main className="login">
       <div className="row">
         <div className="columns">
           <div className="logo">
             <a href="/">
-              <img
-                alt={siteName}
-                className="va-header-logo"
-                src="/img/design/logo/logo-alt.png"
-              />
+              <img alt={siteName} className="va-header-logo" src={logoSrc} />
             </a>
           </div>
         </div>

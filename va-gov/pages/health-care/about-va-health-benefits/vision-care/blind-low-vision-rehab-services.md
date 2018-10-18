@@ -4,7 +4,7 @@ template: detail-page
 title: VA Blind and Low Vision Rehabilitation Services
 display_title: Blind and Low-Vision Services
 concurrence: complete
-lastupdate: 2017-06-28
+lastupdate: 2018-10-17
 order: 1
 aliases:
   - /health-care/about-va-health-care/vision-care/blind-and-low-vision-veterans/
@@ -27,7 +27,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you’re a blind or low vision Veteran or active-duty Servicemember, you may be able to get advanced vision care and rehabilitation services through VA to help you live an independent life.
+If you’re a Veteran or active-duty Servicemember who is blind or has low vision, you may be able to get advanced vision care and rehabilitation services through VA to help you live an independent life.
 
 </div>
 
@@ -56,7 +56,8 @@ Depending on your needs, you may get care in an outpatient setting or in an inpa
 
 ### Does VA provide guide dogs for blind Veterans?
 
-No. But we do work with non-VA agencies that provide guide dogs.
+No. But we do work with non-VA agencies that provide guide or service dogs. Many of these organizations don't charge for the dog or the dog's training. And if you're eligible for a guide or service dog, we'll pay for the veterinary care and equipment (like a harness or backpack) that you'll need for the dog to work at its best. <br>
+[Learn more about how to apply for a guide or service dog](https://www.prosthetics.va.gov/serviceandguidedogs.asp).
 
 <br>
 
