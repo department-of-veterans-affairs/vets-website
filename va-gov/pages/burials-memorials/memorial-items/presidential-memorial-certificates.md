@@ -9,12 +9,12 @@ aliases:
   - /burials-and-memorials/honor/flags-and-memorial-certificates/
 relatedlinks:
   - header: Other Memorial Items
-  - url: /burials-memorials/memorial-items/presidential-memorial-certificates/
+  - url: /burials-memorials/memorial-items/burial-flags/
     title: Burial Flags
-    description: Apply for a United States flag to drape over the casket (or coffin) or to place with the urn of a Veteran or Reservist.
+    description: Apply for a United States flag to drape over the casket (or coffin) or place with the urn of a Veteran or Reservist.
   - url: /burials-memorials/memorial-items/headstones-markers-medallions/
     title: Headstones, Markers, Niche Covers, and Medallions
-    description: Apply for one of these memorial items to identify the place of burial of a Veteran or eligible family member.
+    description: Apply for one of these memorial items to identify the burial place of a Veteran or eligible family member.
 ---
 
 <div class="va-introtext">
@@ -31,7 +31,7 @@ You can get a Presidential Memorial Certificate if both of the descriptions belo
 
 **Both of these must be true:**
 - The Veteran or Reservist is eligible for burial in a national cemetery, **and**
-- You're the next of kin, family member, or close friend of the Veteran or Reservist (or an authorized service representative representing a family member or friend of the Veteran or Reservist) <br>
+- You're the next of kin, family member, or close friend of the Veteran or Reservist (or an authorized service representative for a family member or friend of the Veteran or Reservist) <br>
 
 [View eligibility requirements](/burials-memorials/eligibility/).
 </div>
