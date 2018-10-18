@@ -1,30 +1,39 @@
+/* eslint-disable prettier/prettier */
 import { expect } from 'chai';
 
-import facilitiesReducer from '../../reducers/facilities';
+import {
+  FETCH_LOCATION_DETAIL,
+  FETCH_LOCATIONS,
+  SEARCH_FAILED
+} from '../../utils/actionTypes';
+import { SearchResultReducer } from '../../reducers/searchResult';
 
 const INITIAL_STATE = {
-  facilities: [],
-  selectedFacility: null,
-  pagination: {},
+  results: [],
+  selectedResult: null,
+  pagination: {}
 };
 
 describe('facilities reducer', () => {
   it('should handle fetching a single facility', () => {
-    const state = facilitiesReducer(INITIAL_STATE, {
-      type: 'FETCH_VA_FACILITY',
+    const state = SearchResultReducer(INITIAL_STATE, {
+      type: FETCH_LOCATION_DETAIL,
       payload: {
-        name: 'selectedFacility',
+        name: 'selectedResult'
       },
     });
 
-    expect(state.selectedFacility).to.eql({ name: 'selectedFacility' });
+    expect(state.selectedResult).to.eql({ name: 'selectedResult' });
   });
 
   it('should handle fetching a list of facilities', () => {
-    const state = facilitiesReducer(INITIAL_STATE, {
-      type: 'FETCH_VA_FACILITIES',
+    const state = SearchResultReducer(INITIAL_STATE, {
+      type: FETCH_LOCATIONS,
       payload: {
-        data: [{ name: 'selectedFacility1' }, { name: 'selectedFacility2' }],
+        data: [
+          { name: 'selectedResult1' },
+          { name: 'selectedResult2' },
+        ],
         meta: {
           pagination: {
             currentPage: 1,
@@ -33,13 +42,13 @@ describe('facilities reducer', () => {
       },
     });
 
-    expect(state.facilities.length).to.eql(2);
+    expect(state.results.length).to.eql(2);
     expect(state.pagination.currentPage).to.eql(1);
   });
 
   it('should handle failure case', () => {
-    const state = facilitiesReducer(INITIAL_STATE, {
-      type: 'SEARCH_FAILED',
+    const state = SearchResultReducer(INITIAL_STATE, {
+      type: SEARCH_FAILED,
     });
 
     expect(state).to.eql(INITIAL_STATE);

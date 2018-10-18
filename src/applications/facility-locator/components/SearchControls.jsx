@@ -1,10 +1,15 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/jsx-closing-bracket-location */
 import React, { Component } from 'react';
-
-import recordEvent from '../../../platform/monitoring/record-event';
-
-import { healthServices, benefitsServices, vetCenterServices } from '../config';
-
 import FacilityTypeDropdown from './FacilityTypeDropdown';
+import ServiceTypeAhead from './ServiceTypeAhead';
+import recordEvent from '../../../platform/monitoring/record-event';
+import { LocationType } from '../constants';
+import {
+  healthServices,
+  benefitsServices,
+  vetCenterServices,
+} from '../config';
 
 class SearchControls extends Component {
   handleEditSearch = () => {
@@ -15,14 +20,14 @@ class SearchControls extends Component {
     this.props.onChange({ searchString: e.target.value });
   };
 
-  handleFacilityTypeChange = option => {
-    const facilityType = option === 'all' ? null : option;
+  handleFacilityTypeChange = (option) => {
+    const facilityType = (option === LocationType.ALL) ? null : option;
     this.props.onChange({ facilityType, serviceType: null });
   };
 
-  handleServiceTypeChange = e => {
-    const option = e.target.value;
-    const serviceType = option === 'All' ? null : option;
+  handleServiceTypeChange = ({ target }) => {
+    const option = target.value;
+    const serviceType = (option === 'All') ? null : option;
     this.props.onChange({ serviceType });
   };
 
@@ -39,53 +44,48 @@ class SearchControls extends Component {
     this.props.onSubmit();
   };
 
-  renderFacilityTypeDropdown = () => (
-    <div className="columns medium-3">
-      <FacilityTypeDropdown
-        facilityType={this.props.currentQuery.facilityType}
-        onChange={this.handleFacilityTypeChange}
-      />
-    </div>
-  );
-
   renderServiceTypeDropdown = () => {
     const { facilityType, serviceType } = this.props.currentQuery;
-    const disabled = !['health', 'benefits', 'vet_center'].includes(
-      facilityType,
-    );
-    let services;
+    const disabled = ![
+      LocationType.HEALTH,
+      LocationType.BENEFITS,
+      LocationType.VET_CENTER,
+      LocationType.CC_PROVIDER,
+    ].includes(facilityType);
 
-    // Determine what service types to display for the facility type.
+    let services;
+    // Determine what service types to display for the location type (if any).
     switch (facilityType) {
-      case 'health':
+      case LocationType.HEALTH:
         services = healthServices;
         break;
-      case 'benefits':
+      case LocationType.BENEFITS:
         services = benefitsServices;
         break;
-      case 'vet_center':
-        services = vetCenterServices.reduce(
-          (result, service) => {
-            result[service] = service; // eslint-disable-line no-param-reassign
-            return result;
-          },
-          { All: 'Show all facilities' },
-        );
+      case LocationType.VET_CENTER:
+        services = vetCenterServices.reduce((result, service) => {
+          result[service] = service; // eslint-disable-line no-param-reassign
+          return result;
+        }, { All: 'Show all facilities' });
         break;
+      case LocationType.CC_PROVIDER:
+        return <ServiceTypeAhead onSelect={this.handleServiceTypeChange} />;
       default:
         services = {};
     }
 
-    // Create option elements for each service type.
-    const options = Object.keys(services).map(service => (
+    // Create option elements for each VA service type.
+    const options = Object.keys(services).map((service) => (
       <option key={service} value={service}>
         {services[service]}
       </option>
     ));
 
     return (
-      <div className="columns medium-3">
-        <label htmlFor="service-type-dropdown">Filter by service</label>
+      <span>
+        <label htmlFor="service-type-dropdown">
+          Service type (optional)
+        </label>
         <select
           id="service-type-dropdown"
           disabled={disabled}
@@ -94,7 +94,7 @@ class SearchControls extends Component {
         >
           {options}
         </select>
-      </div>
+      </span>
     );
   };
 
@@ -114,12 +114,9 @@ class SearchControls extends Component {
     return (
       <div className="search-controls-container clearfix">
         <form className="row" onSubmit={this.handleSubmit}>
-          <div className="columns medium-4">
-            <label
-              htmlFor="street-city-state-zip"
-              id="street-city-state-zip-label"
-            >
-              Enter Street, City, State or Zip
+          <div className="columns medium-3-5">
+            <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
+              Search near
             </label>
             <input
               id="street-city-state-zip"
@@ -127,12 +124,17 @@ class SearchControls extends Component {
               type="text"
               onChange={this.handleQueryChange}
               value={currentQuery.searchString}
-              title="Street, City, State or Zip"
-            />
+              title="Your location: Street, City, State or Zip" />
           </div>
-          {this.renderFacilityTypeDropdown()}
-          {this.renderServiceTypeDropdown()}
-          <div className="columns medium-2">
+          <div className="columns medium-3-5">
+            <FacilityTypeDropdown
+              facilityType={this.props.currentQuery.facilityType}
+              onChange={this.handleFacilityTypeChange} />
+          </div>
+          <div className="columns medium-3-4">
+            {this.renderServiceTypeDropdown()}
+          </div>
+          <div className="columns medium-1-2">
             <input type="submit" value="Search" />
           </div>
         </form>
