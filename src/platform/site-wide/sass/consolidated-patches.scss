@@ -35,10 +35,19 @@ header.merger {
     button.va-crisis-line-button {
       background-image: none;
     }
+    .va-crisis-line-arrow {
+      height: 10px;
+      margin-top: 8px;
+    }
   }
-  .va-notice--banner-inner {
-    width: $teamsite-width;
-    padding-left: 1rem;
+  @media (min-width: $medium-screen) {
+    .va-notice--banner-inner {
+      width: $teamsite-width;
+      padding-left: 1rem;
+    }
+    #mega-menu .panel-bottom-link {
+      width: 468px;
+    }
   }
   @media (min-width: $large-screen) {
     #mega-menu .vetnav-panel {
