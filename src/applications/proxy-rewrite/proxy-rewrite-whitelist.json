@@ -1,0 +1,29 @@
+{
+    "proxyRewriteWhitelist": [
+    {
+        "hostname": "dev.va.gov",
+        "pathnameBeginning": "/health/",
+        "cookieOnly": false
+    },
+    {
+        "hostname": "staging.va.gov",
+        "pathnameBeginning": "/health/",
+        "cookieOnly": false
+    },
+    {
+        "hostname": "preview.va.gov",
+        "pathnameBeginning": "/health/",
+        "cookieOnly": false
+    },
+    {
+        "hostname": "www.cem.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": true
+    },
+    {
+        "hostname": "benefits.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": true
+    }
+  ]
+}
