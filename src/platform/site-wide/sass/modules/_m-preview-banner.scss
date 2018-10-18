@@ -2,4 +2,19 @@
 #preview-banner {
   color: $color-gray-dark;
   margin-top: 0;
+
+  .blog-banner-content {
+    display: none;
+  }
+}
+
+#preview-banner.no-traffic-to-preview {
+
+  .preview-banner-content {
+    display: none;
+  }
+
+  .blog-banner-content {
+    display: block;
+  }
 }
