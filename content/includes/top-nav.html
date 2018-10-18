@@ -1,5 +1,6 @@
 <header class="header">
 
+  {% if buildtype != 'production' %}
   <div id="preview-banner" class="usa-alert usa-alert-info">
     <div id="preview-banner-content" class="usa-alert-body">
       <h3 class="usa-alert-heading">Preview the New VA.gov—Built with Veterans, for Veterans</h3>
@@ -14,6 +15,7 @@
       <a href="/preview-the-new-va-gov/" class="usa-button-primary">Learn about the New VA.gov</a>
     </div>
   </div>
+  {% endif %}
 
   <script>
     var allowTrafficToPreview = (
