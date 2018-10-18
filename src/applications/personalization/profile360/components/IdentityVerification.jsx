@@ -71,7 +71,7 @@ export default function IdentityVerification({
         </a>
         <h4>What if I’m having trouble verifying my identity?</h4>
         <p>
-          <a href="/sign-in-faq" target="_blank" onClick={faqClick}>
+          <a href="/faq/" target="_blank" onClick={faqClick}>
             Get answers to Frequently Asked Questions
           </a>
         </p>

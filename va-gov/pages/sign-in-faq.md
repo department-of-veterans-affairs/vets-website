@@ -1,8 +1,10 @@
 ---
 layout: page.html
-permalink: /faq.html
+permalink: /sign-in-faq.html
 title: Frequently Asked Questions about Signing In to VA.gov
 display_title: Frequently Asked Questions
+aliases: 
+  - /faq/
 ---
 
 <div itemscope itemtype="http://schema.org/FAQPage">

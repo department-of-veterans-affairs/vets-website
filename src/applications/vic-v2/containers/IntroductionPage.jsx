@@ -351,7 +351,7 @@ class IntroductionPage extends React.Component {
         />
         {(!signedIn || !idProofed) && (
           <p>
-            <a href="/sign-in-faq">
+            <a href="/faq">
               Get more information about signing in to {siteName}
             </a>
             .
