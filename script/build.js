@@ -141,6 +141,8 @@ smith.use(rewriteVaDomains(BUILD_OPTIONS));
 // In the browser, it can be accessed at window.settings.
 smith.use(createBuildSettings(BUILD_OPTIONS));
 
+smith.use(checkExternalLinks(BUILD_OPTIONS));
+
 if (BUILD_OPTIONS.watch) {
   const watchPaths = {
     [`${BUILD_OPTIONS.contentRoot}/**/*`]: '**/*.{md,html}',
@@ -149,8 +151,6 @@ if (BUILD_OPTIONS.watch) {
   smith.use(watchMetalSmith);
   smith.use(webpackMetalsmithConnect.watchAssets(BUILD_OPTIONS));
 } else {
-  smith.use(checkExternalLinks(BUILD_OPTIONS));
-
   smith.use(webpackMetalsmithConnect.compileAssets(BUILD_OPTIONS));
 
   const isDevBuild = [environments.DEVELOPMENT, environments.VAGOVDEV].includes(
