@@ -10,6 +10,7 @@ import recordEvent from '../../../../platform/monitoring/record-event';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import PrescriptionCard from '../components/PrescriptionCard';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import CallHelpDesk from '../../../../platform/brand-consolidation/components/CallHelpDesk';
 import { mhvBaseUrl } from '../../../../platform/site-wide/cta-widget/helpers';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
@@ -48,11 +49,13 @@ class PrescriptionsWidget extends React.Component {
       content = (
         <p className="rx-tab-explainer rx-loading-error">
           We couldn’t retrieve your prescriptions. Please refresh this page or
-          try again later. If this problem persists, please call the{' '}
-          {propertyName} Help Desk at{' '}
-          <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-          <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
-          8:00 a.m. &#8211; 8:00 p.m. (ET).
+          try again later. If this problem persists, please{' '}
+          <CallHelpDesk>
+            call the {propertyName} Help Desk at{' '}
+            <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+            <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
+            8:00 a.m. &#8211; 8:00 p.m. (ET).
+          </CallHelpDesk>
         </p>
       );
     }

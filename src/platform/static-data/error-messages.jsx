@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import siteName from '../brand-consolidation/site-name';
+import CallHelpDesk from '../brand-consolidation/components/CallHelpDesk';
 
 export const systemDownMessage = (
   <div className="row" id="systemDownMessage">
@@ -24,9 +25,12 @@ export const unableToFindRecordWarning = (
       <div className="react-container">
         <h3>We weren't able to find your records.</h3>
         <h4>
-          Please call <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-          <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
-          8:00 a.m. &#8211; 8:00 p.m. (ET).
+          Please{' '}
+          <CallHelpDesk>
+            call <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+            <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
+            8:00 a.m. &#8211; 8:00 p.m. (ET).
+          </CallHelpDesk>
         </h4>
       </div>
     </div>
@@ -74,9 +78,12 @@ export const mhvAccessError = (
             </li>
           </ol>
           <p>
-            If none of these reasons applies to you, please call the {siteName}
-            Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We're here Monday
-            – Friday, 8:00 a.m. – 8:00 p.m. (ET).
+            If none of these reasons applies to you, please{' '}
+            <CallHelpDesk>
+              call the {siteName}
+              Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We're here
+              Monday – Friday, 8:00 a.m. – 8:00 p.m. (ET).
+            </CallHelpDesk>
           </p>
         </div>
       </div>

@@ -170,12 +170,15 @@ class SignInModal extends React.Component {
                 </a>
               </p>
               <p>
-                Or call the {siteName} Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>
-                <br />
-                We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
-                (ET)
+                Or{' '}
+                <CallHelpDesk>
+                  call the {siteName} Help Desk at{' '}
+                  <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+                  <a href="tel:18008778339">1-800-877-8339</a>
+                  <br />
+                  We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
+                  (ET)
+                </CallHelpDesk>
               </p>
             </div>
             <hr />
