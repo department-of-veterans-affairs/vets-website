@@ -3,7 +3,7 @@ import isBrandConsolidationEnabled from '../feature-flag';
 
 export default function CallHelpDesk({ children, startSentence }) {
   if (!isBrandConsolidationEnabled()) {
-    return children;
+    return <span>{children}</span>;
   }
 
   return (
