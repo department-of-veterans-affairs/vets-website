@@ -88,6 +88,14 @@ class RoutedSavableReviewPage extends React.Component {
       InlineErrorComponent = errorText;
     } else if (typeof errorText === 'string') {
       InlineErrorComponent = () => <p>{errorText}</p>;
+    } else if (isBrandConsolidationEnabled()) {
+      InlineErrorComponent = () => (
+        <p>
+          If it still doesn’t work, please call MyVA311 for help:{' '}
+          <a href="tel:1-844-698-2311">1-844-698-2311</a>. If you have hearing
+          loss, call <a href="tel:711">TTY: 711</a>.
+        </p>
+      );
     } else {
       InlineErrorComponent = () => (
         <p>
@@ -106,7 +114,7 @@ class RoutedSavableReviewPage extends React.Component {
             <strong>We’re sorry. We can't submit your form right now.</strong>
           </p>
           <p>
-            We're working to fix the problem. Please make sure you're connected
+            We’re working to fix the problem. Please make sure you’re connected
             to the Internet, and then try saving your form again. {saveLink}.
           </p>
           {!user.login.currentlyLoggedIn && (
