@@ -134,7 +134,10 @@ function getMatchedWhitelistItem(whitelist = proxyRewriteWhitelist) {
   );
 }
 
-function shouldActivateInjectedAssets(whitelistItem, proxyRewriteCookieValue) {
+function shouldActivateInjectedAssets(
+  whitelistItem = {},
+  proxyRewriteCookieValue,
+) {
   if (whitelistItem.cookieOnly) {
     return proxyRewriteCookieValue;
   }
