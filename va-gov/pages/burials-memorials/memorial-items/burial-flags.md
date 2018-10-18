@@ -9,17 +9,17 @@ relatedlinks:
   - header: Other Memorial Items
   - url: /burials-memorials/memorial-items/presidential-memorial-certificates/
     title: Presidential Memorial Certificates
-    description: Find out if you can get a an engraved paper certificate signed by the current president to honor the service of a Veteran or Reservist.
+    description: Find out if you can get an engraved paper certificate signed by the current president to honor the service of a Veteran or Reservist.
   - url: /burials-memorials/memorial-items/headstones-markers-medallions/
     title: Headstones, Markers, Niche Covers, and Medallions
-    description: Apply for one of these memorial items to identify the place of burial of a Veteran or eligible family member.
+    description: Apply for one of these memorial items to identify the burial place of a Veteran or eligible family member.
 aliases:
   - /burials-and-memorials/honor/flags-and-memorial-certificates/
 ---
 
 <div class="va-introtext">
 
-We provide a United States flag to drape on a casket (or coffin) or place with an urn in honor of a Veteran or Reservist's military service. Find out how to apply for this burial honor.
+We provide a United States flag to drape on a casket (or coffin) or place with an urn in honor of a Veteran's or a Reservist's military service. Find out how to apply for this burial honor.
 
 </div>
 
@@ -27,7 +27,7 @@ We provide a United States flag to drape on a casket (or coffin) or place with a
   
 ### Can I get a burial flag?
 
-You can get a burial flag if you’re the next of kin or a close friend of the Veteran or Reservist, and any one of the descriptions below is true for that person.
+You can get a burial flag if you’re the next of kin or a close friend of the Veteran or Reservist and any one of the descriptions below is true for that person.
 
 <b>One of these must describe the service of the Veteran or Reservist. They:</b>
 
