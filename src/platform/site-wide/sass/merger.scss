@@ -521,7 +521,7 @@
 
   .usa-sidenav-list {
     a {
-      font-size: 17px;
+      font-size: 15px;
       text-decoration: underline;
       padding: 8px 16px 8px 30px;
 
@@ -541,6 +541,8 @@
       margin-right: 0;
 
       & > li {
+        border-top: 0;
+
         .active-menu {
           border-bottom: 0;
         }
@@ -557,9 +559,17 @@
             margin: 2px;
           }
 
+          &:focus:hover {
+            background-color: $mm-gray;
+            font-weight: bold;
+            margin: 2px;
+            width: 98%;
+          }
+
           &:hover {
             background-color: $mm-gray;
             font-weight: bold;
+            width: 100%;
           }
         }
 
@@ -766,6 +776,7 @@
         }
 
         &[aria-expanded=true] {
+          border-bottom: 0;
           background-image: url("/img/minus-blue.svg");
         }
       }
@@ -858,6 +869,7 @@
   }
 
   .sidenav-previous-page {
+    font-size: 15px;
     padding-bottom: 12px;
 
     @media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
