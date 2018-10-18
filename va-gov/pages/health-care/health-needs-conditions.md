@@ -5,7 +5,7 @@ title: Health Needs and Conditions
 display_title:
 description: Find out if a specific health care condition or need is covered under VA health care benefits. Learn how to access services.
 concurrence: complete
-lastupdate: 2017-06-28
+lastupdate: 2018-10-17
 collection: healthCare
 spoke: More Resources
 order: 18
@@ -51,9 +51,11 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-**Mental health problems**
+**Mental health and trauma-related needs**
 
 - [Mental health problems like bipolar disorder, schizophrenia, and anxiety disorders](/health-care/health-needs-conditions/mental-health/)
+
+- [Military sexual trauma (MST)](/health-care/health-needs-conditions/military-sexual-trauma/)
 
 - [Posttraumatic stress disorder (PTSD)](/health-care/health-needs-conditions/mental-health/ptsd/)
 
@@ -71,15 +73,31 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 
 - [Dental care](/health-care/about-va-health-benefits/dental-care/)
 
-**Other health conditions and needs**
-
-- [Military sexual trauma (MST)](/health-care/health-needs-conditions/military-sexual-trauma/)
-
-- [Women’s health care needs](/health-care/health-needs-conditions/womens-health-needs/)
+**Illnesses and injuries**
 
 - [Cancers and other conditions caused by contact with hazardous materials](/health-care/health-needs-conditions/chemical-hazardous-materials-exposure/)
 
+- [HIV/AIDS](https://www.hiv.va.gov/patient/index.asp)
+
+- [Kidney disease (including dialysis care)](https://www.va.gov/health/services/renal/)
+
+- [Multiple Sclerosis (MS)](https://www.va.gov/MS/Veterans/benefits/What_Are_My_VA_Benefits_for_Multiple_Sclerosis.asp)
+
+- [Parkinson's disease](https://www.parkinsons.va.gov/patients.asp)
+
+- [Spinal cord injuries and disorders](https://www.sci.va.gov/)
+
+- [Traumatic brain injury (TBI), polytrauma, and amputation](https://www.polytrauma.va.gov) 
+
+- [Viral hepatitis](https://www.hepatitis.va.gov/patient/index.asp)
+
+**Other health conditions and needs**
+
 - [Assisted living and home health care](/health-care/about-va-health-benefits/long-term-care/)
+
+- [Infertility due to service-connected conditions](https://www.va.gov/COMMUNITYCARE/programs/veterans/ivf.asp)
+
+- [Women’s health care needs](/health-care/health-needs-conditions/womens-health-needs/)
 
 
 **[Get an overview of what’s covered by VA health care](/health-care/about-va-health-benefits/).**
@@ -87,6 +105,27 @@ Yes. Certain health concerns may be more likely to affect Veterans who served in
 </div>
 </div>
 </div>
+
+<br>
+
+#### Does VA address the specific health needs of LGBT Veterans? <br>
+
+Yes. We're committed to serving the health needs of Veterans with LGBT and related identities and providing care in a sensitive, safe environment at all VA health facilities. <br>
+
+For more information, you can download these fact sheets:
+
+- [Transgender male health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-transgender-male.pdf#)
+
+- [Transgender female health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-transgender-female.pdf#)
+
+- [Male Veterans: Gay and bisexual health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-gay-bisexual.pdf#)
+
+- [Female Veterans: Lesbian and bisexual health care](https://www.patientcare.va.gov/LGBT/docs/va-pcs-lgbt-factsheet-lesbian-bisexual.pdf#)
+
+You can also find out more about LGBT programs at VA medical centers across the nation. <br>
+[View VA medical center LGBT program websites](https://www.patientcare.va.gov/LGBT/VAFacilities.asp).
+
+[Read about our approach to recognizing same-sex marriage](https://www.va.gov/opa/marriage/).
 
 ------
 
@@ -111,7 +150,7 @@ If you need help accessing services, call our toll-free hotline at 1-877-222-VET
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Yes. If you’re signed up for the VA health care program, you can manage your VA health and benefits online through Vets.gov: <br>
+Yes. If you’re signed up for the VA health care program, you can manage your VA health and benefits online through VA.gov: <br>
 [Refill your prescriptions](/health-care/refill-track-prescriptions). <br>
 [Send a message to your VA health care provider](/health-care/secure-messaging). <br>
 [Check the status of a disability or pension claim](/track-claims/).

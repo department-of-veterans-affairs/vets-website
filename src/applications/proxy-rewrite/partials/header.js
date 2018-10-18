@@ -61,7 +61,7 @@ export default `
   <!-- /header alert box -->
 
   <div class="row va-flex usa-grid" id="va-header-logo-menu">
-    <div role="banner" class="va-header-logo-wrapper">
+    <div class="va-header-logo-wrapper">
       <a href="/" class="va-header-logo" title="Go to VA.gov">
       <img src="/img/header-logo.png"/>
       </a>
