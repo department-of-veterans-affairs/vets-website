@@ -221,5 +221,3 @@ Reach out to your local VSO or call our toll-free number at <a href="tel:+1phone
 </ul>
 </div>
 
-<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
-
