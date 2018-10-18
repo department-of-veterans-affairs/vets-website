@@ -208,11 +208,11 @@ const formConfig = {
         },
         newPTSDFollowUp: {
           title: formData => getDisabilityName(formData.condition),
-          path: 'new-disabilities/follow-up/ptsd/:index',
-          showPagePerItem: true,
-          itemFilter: item =>
-            item.condition && item.condition.toLowerCase().includes(PTSD),
-          arrayPath: 'newDisabilities',
+          path: 'new-disabilities/ptsd',
+          depends: formData =>
+            formData.newDisabilities.some(item =>
+              item.condition.toLowerCase().includes(PTSD),
+            ),
           uiSchema: newPTSDFollowUp.uiSchema,
           schema: newPTSDFollowUp.schema,
         },
