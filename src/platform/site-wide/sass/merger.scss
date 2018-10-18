@@ -10,7 +10,9 @@
 
   .va-dropdown-panel {
     min-width: 102px;
+  }
 
+  .help-dropdown {
     p {
       line-height: .8;
     }
@@ -894,10 +896,6 @@
       color: $color-white !important;
       text-decoration: none;
     }
-  }
-
-  .help-dropdown {
-    line-height: 1;
   }
 }
 
