@@ -177,7 +177,7 @@ export class ApplicationStatus extends React.Component {
           <br />
           <p>
             <button className="usa-button-primary" onClick={this.toggleModal}>
-              Start Over
+              Start a New Application
             </button>
           </p>
           {multipleForms && (
@@ -199,7 +199,7 @@ export class ApplicationStatus extends React.Component {
             <p>Are you sure you want to start over?</p>
             <ProgressButton
               onButtonClick={() => this.removeForm(formId)}
-              buttonText="Start Over"
+              buttonText="Start a New Application"
               buttonClass="usa-button-primary"
             />
             <ProgressButton

@@ -97,7 +97,9 @@ describe('schemaform <ApplicationStatus>', () => {
       />,
     );
     expect(tree.subTree('.usa-alert-warning')).to.not.be.false;
-    expect(tree.subTree('.usa-button-primary').text()).to.equal('Start Over');
+    expect(tree.subTree('.usa-button-primary').text()).to.equal(
+      'Start a New Application',
+    );
   });
   it('should render saved form from ids', () => {
     const tree = SkinDeep.shallowRender(
