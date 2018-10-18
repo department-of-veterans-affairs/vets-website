@@ -92,7 +92,7 @@ If you have 180 to 90 days left on active duty, you'll need to apply for benefit
 ### If you're stationed in the U.S.
 
 You can apply for benefits online, by mail, or in person. <br>
-[Learn more about how to apply for benefits](/disability-benefits/apply/).
+[Learn more about how to apply for benefits](/disability/how-to-file-claim/).
 
 **To complete the process, you'll need to:**
 
@@ -103,7 +103,7 @@ You can apply for benefits online, by mail, or in person. <br>
 ### If you're stationed overseas
 
 Depending on where you're stationed, you can start your claim at a BDD office or through the “Fly-in” claim process, which lets you apply by fax or email before your in-person appointment. <br>
-[Find out how to apply overseas](/disability-benefits/apply/claim-types/predischarge-claim/overseas/).
+[Find out how to apply overseas](/disability/how-to-file-claim/when-to-file/pre-discharge-claim/file-while-overseas/).
 
 #### Need help applying?
 
@@ -129,7 +129,7 @@ This is the fastest way to get your claim processed. You'll work with an accredi
 * Attend a VA claim exam, if needed, before filing your claim. Your VSO will schedule this exam for you.
 
 **Note:** You can't use the DRC program if you're enrolled in the Integrated Disability Evaluation System (IDES) or if you have more than 90 days left on active duty. There are also other factors that may exclude you from this program.<br>
-[Learn about the IDES program](/employment/vocational-rehab-and-employment/ides/). <br>
+[Learn about the IDES program](/careers-employment/vocational-rehabilitation/ides/). <br>
 [See the full list of DRC program exclusions](https://www.benefits.va.gov/compensation/drc.asp).
 
 **For more information on the DRC program:**
@@ -145,8 +145,8 @@ Or contact your local VSO.<br>
 ### File a fully developed or standard claim
 
 The difference in these claim types is based on how you gather evidence (supporting documents like a doctor's report and medical test results) to support your claim.<br>
-[Learn about the application process](/disability-benefits/apply/).<br>
-[Find out what evidence you need for fully developed and standard claims](/disability-benefits/apply/evidence/).
+[Learn about the application process](/disability/how-to-file-claim/).<br>	
+[Find out what evidence you need for fully developed and standard claims](/disability/how-to-file-claim/evidence-needed/).
 
 </div>
 </li>
@@ -158,7 +158,7 @@ You’ll be referred to the Integrated Disability Evaluation System (IDES)</butt
 If you’re wounded, injured, or fall ill while serving and can’t perform your duties, you’ll be referred to IDES. Through this system, we at VA work together with the Department of Defense (DoD) to make disability evaluation seamless, simple, fast, and fair.
 
 If you’re found to be medically unfit for duty, IDES will give you a proposed VA disability rating before you leave the service. You’ll also be entitled to Vocational Rehabilitation and Employment (VR&E) services. <br>
-[Find out how to access VR&E services through IDES](/employment/vocational-rehab-and-employment/ides/).
+[Find out how to access VR&E services through IDES](/careers-employment/vocational-rehabilitation/ides/).
 
 </div>
 </li>
@@ -172,4 +172,3 @@ Our Transition Assistance Program (TAP) can help both you and your family with t
 [Learn more about TAP](https://www.benefits.va.gov/TAP/index.asp).
 <br>
 
-<script type="text/javascript" src="/js/vendor/uswds.min.js"></script>
