@@ -1,5 +1,5 @@
 ---
-title: Your Vets.gov Account
+title: Your VA.gov Account
 layout: page-react.html
 entryname: account
 ---

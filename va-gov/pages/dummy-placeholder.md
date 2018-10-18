@@ -1,7 +1,7 @@
 ---
 layout: home.html
 body_class: fourohfour
-title: Vets.gov
+title: VA.gov
 permalink: false
 private: true
 ---
