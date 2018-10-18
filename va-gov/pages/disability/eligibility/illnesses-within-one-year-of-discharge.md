@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Disabilities That Appear Within 1 Year After Discharge
+title: Disabilities That Appear within 1 Year after Discharge
 display_title: Illnesses within 1 Year of Discharge
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
@@ -71,7 +71,7 @@ You’ll need to apply for benefits and submit your evidence (supporting documen
 
 If you have an illness listed in Title 38, Code of Federal Regulation, 3.09(a), you won’t need to show the problem started during—or got worse because of—your military service. This is because we believe that certain diseases that appear within 1 year of your discharge are related to your service. We refer to these as “presumptive diseases.” <br>
 [See Title 38, Code of Federal Regulation, 3.09(a) for the complete list of covered illnesses](https://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc). <br>
-[Find out how to apply for benefits](/disability-benefits/apply/).
+[Find out how to file a claim for disability compensation](/disability/how-to-file-claim/).
 
 **Exceptions**<br>
 The following diseases are covered, even if they appear more than 1 year after you separated from service:
