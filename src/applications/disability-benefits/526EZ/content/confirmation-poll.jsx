@@ -1,6 +1,7 @@
 import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import siteName from '../../../../platform/brand-consolidation/site-name';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
 export const successMessage = claimId => (
   <div>
@@ -23,6 +24,22 @@ export const successMessage = claimId => (
   </div>
 );
 
+const brandConsolidatedCheckLaterHelp = isBrandConsolidationEnabled() ? (
+  <p>
+    If you don’t see your increased disability claim online after 24 hours,
+    please call MyVA311 for help:{' '}
+    <a href="tel:+1-844-698-2311">1-844-698-2311</a>. If you have hearing loss,
+    call <a href="tel:711">TTY: 711</a>.
+  </p>
+) : (
+  <p>
+    If you don’t see your increased disability claim online after 24 hours,
+    please call {siteName} Help Desk at{' '}
+    <a href="tel:+18555747286">1-855-574-7286</a>, Monday – Friday, 8:00 a.m. –
+    9:00 a.m. (ET).
+  </p>
+);
+
 export const checkLaterMessage = jobId => (
   <div>
     <p>Thank you for filing a claim for increased disability compensation.</p>
@@ -35,12 +52,7 @@ export const checkLaterMessage = jobId => (
     <p>
       <a href="/track-claims">Check the status of your claim.</a>
     </p>
-    <p>
-      If you don’t see your increased disability claim online after 24 hours,
-      please call {siteName} Help Desk at{' '}
-      <a href="tel:+18555747286">1-855-574-7286</a>, Monday – Friday, 8:00 a.m.
-      – 9:00 a.m. (ET).
-    </p>
+    {brandConsolidatedCheckLaterHelp}
   </div>
 );
 
@@ -48,10 +60,10 @@ export const errorMessage = () => (
   <div>
     <p>
       We're sorry. Something went wrong on our end when we tried to submit your
-      application. For help submitting your claim, please call VA Benefits Call
-      Center at <a href="tel:18008271000">1-800-827-1000</a>, Monday – Friday,
-      8:30 a.m. – 4:30 p.m. (ET). Or, you can get in touch with your nearest
-      Veterans Service Officer (VSO).
+      application. For help submitting your claim, please call Veterans Benefits
+      Assistance at <a href="tel:18008271000">1-800-827-1000</a>, Monday –
+      Friday, 8:30 a.m. – 4:30 p.m. (ET). Or, you can get in touch with your
+      nearest Veterans Service Officer (VSO).
     </p>
     <p>
       <a href="/disability-benefits/apply/help/">Contact your nearest VSO.</a>
