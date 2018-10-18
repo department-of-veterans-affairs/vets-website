@@ -4,6 +4,7 @@ import appendQuery from 'append-query';
 import PropTypes from 'prop-types';
 
 import isBrandConsolidationEnabled from '../../brand-consolidation/feature-flag';
+import CallHelpDesk from '../../brand-consolidation/components/CallHelpDesk';
 
 import disabilityIncreaseManifest from '../../../applications/disability-benefits/526EZ/manifest.json';
 
@@ -39,7 +40,16 @@ export default class AuthorizationMessage extends React.Component {
       return (
         <SystemDownView
           messageLine1="We couldn’t find your records with that information."
-          messageLine2={`Please call the ${propertyName} Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We're open Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).`}
+          messageLine2={
+            <span>
+              Please{' '}
+              <CallHelpDesk>
+                call the {propertyName} Help Desk at 1-855-574-7286, TTY:
+                1-800-877-8339. We're open Monday &#8211; Friday, 8:00 a.m.
+                &#8211; 8:00 p.m. (ET).
+              </CallHelpDesk>
+            </span>
+          }
         />
       );
     }

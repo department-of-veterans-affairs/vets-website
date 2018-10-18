@@ -6,6 +6,7 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import ErrorableTextArea from '@department-of-veterans-affairs/formation/ErrorableTextArea';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation/ErrorableCheckbox';
+import CallHelpDesk from '../../../brand-consolidation/components/CallHelpDesk';
 
 class FeedbackForm extends React.Component {
   constructor(props) {
@@ -134,15 +135,17 @@ class FeedbackForm extends React.Component {
           <div className="feedback-widget-need-help-container">
             <div className="feedback-widget-need-help-inner">
               <h3>Need help?</h3>
-              Calls the Vets.gov Help Desk
-              <br />
-              <a href="tel:18555747286">1-855-574-7286</a>
-              <br />
-              TTY:&nbsp;
-              <a href="tel:+18008778339">1-800-877-8339</a>
-              <br />
-              Monday – Friday, 8:00 a.m. – 8:00 p.m. (
-              <abbr title="eastern time">ET</abbr>)
+              <CallHelpDesk startSentence>
+                Call the Vets.gov Help Desk
+                <br />
+                <a href="tel:18555747286">1-855-574-7286</a>
+                <br />
+                TTY:&nbsp;
+                <a href="tel:+18008778339">1-800-877-8339</a>
+                <br />
+                Monday – Friday, 8:00 a.m. – 8:00 p.m. (
+                <abbr title="eastern time">ET</abbr>)
+              </CallHelpDesk>
             </div>
           </div>
         </div>
