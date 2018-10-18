@@ -1,6 +1,7 @@
 import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import siteName from '../../../../platform/brand-consolidation/site-name';
+import CallHelpDesk from '../../../../platform/brand-consolidation/components/CallHelpDesk';
 
 export const successMessage = claimId => (
   <div>
@@ -37,9 +38,12 @@ export const checkLaterMessage = jobId => (
     </p>
     <p>
       If you don’t see your increased disability claim online after 24 hours,
-      please call {siteName} Help Desk at{' '}
-      <a href="tel:+18555747286">1-855-574-7286</a>, Monday – Friday, 8:00 a.m.
-      – 9:00 a.m. (ET).
+      please{' '}
+      <CallHelpDesk>
+        call {siteName} Help Desk at{' '}
+        <a href="tel:+18555747286">1-855-574-7286</a>, Monday – Friday, 8:00
+        a.m. – 9:00 a.m. (ET).
+      </CallHelpDesk>
     </p>
   </div>
 );

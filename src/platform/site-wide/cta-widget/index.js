@@ -5,6 +5,7 @@ import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import CallHelpDesk from '../../brand-consolidation/components/CallHelpDesk';
 
 import { toggleLoginModal } from '../user-nav/actions';
 import { verify } from '../../user/authentication/utilities';
@@ -146,10 +147,14 @@ export class CallToActionWidget extends React.Component {
             </p>
             <h5>What you can do</h5>
             <p>
-              You can try again later or call the VA.gov Help Desk at{' '}
-              <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-              <a href="tel:18008778339">1-800-877-8339</a>
-              ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).
+              You can try again later or{' '}
+              <CallHelpDesk>
+                call the VA.gov Help Desk at{' '}
+                <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
+                <a href="tel:18008778339">1-800-877-8339</a>
+                ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
+                (ET).
+              </CallHelpDesk>
             </p>
           </div>
         ),

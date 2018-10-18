@@ -88,7 +88,7 @@ export class DownloadPage extends React.Component {
                 Most of your health record should be up to date. But we’re
                 having trouble accessing your VA electronic health record
                 history right now. Please refresh this page or try again later.
-                If you still don’t see your updated history information, please
+                If you still don’t see your updated history information, please{' '}
                 <CallHelpDesk>
                   call the {siteName} Help Desk at 855-574-7286 (TTY:
                   800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m.
