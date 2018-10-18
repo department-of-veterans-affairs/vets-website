@@ -78,7 +78,7 @@ export const mhvAccessError = (
             </li>
           </ol>
           <p>
-            If none of these reasons applies to you, please{' '}
+            If none of these apply to you, please{' '}
             <CallHelpDesk>
               call the {siteName}
               Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We're here

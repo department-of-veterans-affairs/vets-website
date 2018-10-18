@@ -5,6 +5,7 @@ import _ from 'lodash';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import siteName from '../../../platform/brand-consolidation/site-name';
+import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
 import { closeAlert } from '../actions/alert.js';
 import { loadPrescription } from '../actions/prescriptions';
 import SettingsButton from '../components/SettingsButton';
@@ -51,10 +52,13 @@ export class Prescription extends React.Component {
       content = (
         <p className="rx-loading-error">
           We couldn’t retrieve your prescription. Please refresh this page or
-          try again later. If this problem persists, please call the {siteName}
-          Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-          <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
-          8:00 a.m. &#8211; 8:00 p.m. (ET).
+          try again later. If this problem persists, please{' '}
+          <CallHelpDesk>
+            call the {siteName}
+            Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+            <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
+            8:00 a.m. &#8211; 8:00 p.m. (ET).
+          </CallHelpDesk>
         </p>
       );
     }

@@ -49,7 +49,7 @@ class PrescriptionsWidget extends React.Component {
       content = (
         <p className="rx-tab-explainer rx-loading-error">
           We couldn’t retrieve your prescriptions. Please refresh this page or
-          try again later. If this problem persists, please{' '}
+          try again later. If you keep having trouble, please{' '}
           <CallHelpDesk>
             call the {propertyName} Help Desk at{' '}
             <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
