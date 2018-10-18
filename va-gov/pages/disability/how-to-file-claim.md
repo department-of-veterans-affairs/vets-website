@@ -42,10 +42,10 @@ Find out how to file for VA disability benefits.
 
 ### How do I prepare before starting my application?
 
-- [Find out if you're eligible for VA disability benefits](/disability-benefits/eligibility/).
+- [Find out if you're eligible for VA disability benefits](/disability/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
 - Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. <br>
-[Learn more about fully developed claims](/disability/how-to-file-claim/evidence-needed/fully-developed-claims/).
+[Learn more about fully developed claims](/disability/how-to-file-claim/evidence-needed/).
 
 [Find out if you’ll need to turn in any additional (supplemental) forms with your claim](/disability/how-to-file-claim/supplemental-forms/).
 
@@ -113,7 +113,7 @@ Bring your application to a regional benefit office near you. <br>
 ##### With the help of a trained professional
 
 You can work with a trained professional called an accredited representative to get help applying for health care benefits. <br>
-[Get help filing your claim](/disability-benefits/apply/help/index.html).
+- [Get help filing your claim](/disability/get-help-filing-claim/).
 
 </div>
 </div>
@@ -123,7 +123,7 @@ You can work with a trained professional called an accredited representative to 
 <h3 itemprop="name">What happens after I file my claim?</h3>
 <div itemprop="itemListElement">
 
-[Find out what happens after you file](/disability-benefits/after-you-apply/).
+[Find out what happens after you apply](/disability/after-you-file-claim/).
 
 You don’t need to do anything while you’re waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.
 
