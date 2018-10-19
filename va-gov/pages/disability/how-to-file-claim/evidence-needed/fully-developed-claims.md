@@ -219,10 +219,8 @@ For some types of claims, you can work with a VSO to submit a decision-ready cla
 
 ### How do I turn in my information and evidence?
 
-You can start your online application right now, or find out how to apply by mail, in person, or with the help of a trained professional.<br>
-[Find out how to apply for disability benefits](/disability/how-to-file-claim/).
-
-**Note:** Please be sure to upload all medical evidence or supporting documents at the end of the form. 
+You can start your online application right now, or find out how to file a claim by mail, in person, or with the help of a trained professional.<br>
+[Find out how to apply for disability benefits](/disability-benefits/apply/).	[Find out how to file a claim for disability compensation](/disability-benefits/apply/).
 
 
 ### More helpful resources
