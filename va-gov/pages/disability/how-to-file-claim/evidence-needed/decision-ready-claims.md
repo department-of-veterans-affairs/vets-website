@@ -105,7 +105,7 @@ You can't file your claim through the Decision Ready Claims program if any of th
 
 <h4>Check more exclusions for certain claim types</h4>
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="exclusions-predischarge">More exclusions for pre-discharge claims</button>
@@ -166,7 +166,7 @@ You can expect a decision within 30 days or less from the time you submit your c
 
 ### More questions about the Decision Ready Claims program
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="more-vso">How do I find an accredited VSO?</button>
