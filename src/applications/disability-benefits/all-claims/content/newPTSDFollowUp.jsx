@@ -1,5 +1,11 @@
 import React from 'react';
 
+export const disabilityNameTitle = (
+  <legend className="schemaform-block-title schemaform-title-underline">
+    PTSD
+  </legend>
+);
+
 export const introExplanationText = (
   <div>
     <p>

@@ -1,11 +1,7 @@
-import React from 'react';
-import { newPTSDFollowUpDescription } from '../content/newPTSDFollowUp';
-
-export const disabilityNameTitle = () => (
-  <legend className="schemaform-block-title schemaform-title-underline">
-    PTSD
-  </legend>
-);
+import {
+  newPTSDFollowUpDescription,
+  disabilityNameTitle,
+} from '../content/newPTSDFollowUp';
 
 export const uiSchema = {
   'ui:title': disabilityNameTitle,

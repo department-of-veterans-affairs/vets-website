@@ -1,7 +1,11 @@
-import { ptsdTypeDescription, ptsdTypeHelp } from '../content/ptsdTypeInfo';
+import {
+  ptsdTypeDescription,
+  ptsdTypeHelp,
+  disabilityNameTitle,
+} from '../content/ptsdTypeInfo';
 
 export const uiSchema = {
-  'ui:title': 'PTSD',
+  'ui:title': disabilityNameTitle,
   'ui:description': ptsdTypeDescription,
   'view:selectablePtsdTypes': {
     'view:combatPtsdType': {
