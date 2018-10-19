@@ -519,10 +519,6 @@
                             {
                                 "text": "Get Veteran ID Cards",
                                 "href": "/records/get-veteran-id-cards/"
-                            },
-                            {
-                                "text": "Get Veteran ID Cards",
-                                "href": "/records/get-veteran-id-cards/vic/"
                             }
                         ]
                     },
