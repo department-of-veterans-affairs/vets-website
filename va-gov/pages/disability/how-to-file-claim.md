@@ -44,7 +44,7 @@ Find out how to apply for VA disability benefits.
 
 - [Find out if you're eligible for VA disability benefits](/disability/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
-- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability/how-to-file-claim/evidence-needed/).
+- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly.<br> [Learn more about fully developed claims](/disability/how-to-file-claim/evidence-needed/).
 - [Find out if you’ll need to turn in any additional (supplemental) forms with your claim](/disability/how-to-file-claim/supplemental-forms/).
 
 
@@ -53,15 +53,14 @@ Find out how to apply for VA disability benefits.
 <h4 itemprop="name">What documents do I need to apply?</h4>
 <div itemprop="itemListElement">
 
-For the first disability claim you file, please provide:
-
-- Discharge papers (DD214 or other separation documents)
-- Service treatment records [(Order service records through the National Archives)](https://www.archives.gov/veterans/military-service-records)
-
-For all disability claims, please provide:
+For all disability claims you'll have a chance to provide evidence to support your claim. Evidence could include:  
 
 - VA medical records and hospital records that relate to your claimed illnesses or injuries
 - Private medical records and hospital reports that relate to your claimed illnesses or injuries
+- Supporting or lay statements from family, friends, or coworkers with knowledge of your claimed illness or injuries 
+
+**Please note:** You don’t have to submit evidence or supporting documents for your disability claim. If you don't submit any evidence, we may schedule a claim exam for you to help us decide your claim. You have up to 1 year from the date we receive your claim to turn in any evidence. 
+
 
 </div>
 </div>
