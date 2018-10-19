@@ -45,9 +45,13 @@ Find out if you can get disability compensation for an illness or injury that wa
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and you meet at least one of the requirements listed below.
+You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and you meet the requirements listed below.
 
-**At least one of these must be true. You:**
+<b>Both of these must be true. You:</b>
+- Served on active duty, active duty for training, or inactive duty training, <b>and</b>
+- Have a disability rating for your service-connected condition
+
+**And at least one of these must be true. You:**
 - Got sick or injured while serving in the military—and can link this condition to your illness or injury (called an inservice disability claim), **or**
 - Had an illness or injury before you joined the military—and serving made it worse (called a preservice disability claim), **or**
 - Have a disability related to your active-duty service that didn’t appear until after you ended your service (called a postservice disability claim)
@@ -55,7 +59,9 @@ You may be able to get disability benefits if you have a current illness or inju
 <h4>Presumed disabilities</h4>
 If you have a disability that's been diagnosed by a doctor and that we consider to be related to your military service because of a specific aspect of that service, you may be able to get disability benefits based on this presumed disability. This usually applies to:
 - [A chronic (long-lasting) illness that appears within 1 year after discharge](/disability/eligibility/illnesses-within-one-year-of-discharge/), **or**
-- [An illness caused by contact with contaminants (toxic chemicals) or other hazardous materials](/disability/eligibility/hazardous-materials-exposure/)
+- [An illness caused by contact with contaminants (toxic chemicals) or other hazardous materials](/disability/eligibility/hazardous-materials-exposure/), **or**
+- [An illness caused by your time spent as a POW](/disability/eligibility/former-pows/)
+
 
 <h4>Who's covered?</h4>
 - Veterans
@@ -127,6 +133,15 @@ You can apply online right now.
 - Anxiety
 
 [Get more information about conditions that may be covered](https://www.benefits.va.gov/compensation/dbq_ListBySymptom.asp).
+
+### Get more information
+
+Watch our Compensation 101 videos to learn more about how VA disability compensation works:
+
+[Compensation 101: What is Disability Compensation?](https://www.youtube.com/watch?v=T3RodE0nGFc)
+
+[Compensation 101: What is Service Connection?](https://www.youtube.com/watch?v=h4vKqUlrdys)
+
 
 </div>
 </div>

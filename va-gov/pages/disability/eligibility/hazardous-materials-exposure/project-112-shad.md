@@ -11,7 +11,7 @@ order: 7
 
 <div class="va-introtext">
 
-If you were part of chemical and biological warfare testing for Projects 112 or Shipboard Hazard and Defense (SHAD) from 1962 to 1974, you may be at risk for illnesses believed to be caused by the testing. Find out if you can get disability compensation or benefits.
+If you were a part of chemical and biological warfare testing through Projects 112 or Shipboard Hazard and Defense (SHAD), you may be at risk for certain illnesses. The Department of Defense's Deseret Test Center in Fort Douglas, Utah, conducted this testing, which took place aboard ships and on land in various locations from 1962 to 1974. Find out if you can get disability compensation or benefits.
 
 </div>
 
@@ -51,5 +51,3 @@ If you were part of Projects 112 or SHAD from 1962 to 1974 and want to know more
 [Get declassified Department of Defense fact sheets]( http://www.health.mil/Military-Health-Topics/Health-Readiness/Environmental-Exposures/Project-112-SHAD/Fact-Sheets).
 
 If you have a question about the tests, including whether you may have been part of them—or if you have any information that can help show you were part of them—contact the Department of Defense at <a href="tel:+18004976261">1-800-497-6261</a>.
-
-

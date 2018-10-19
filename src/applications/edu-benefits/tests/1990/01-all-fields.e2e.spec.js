@@ -17,9 +17,9 @@ const test = E2eHelpers.createE2eTest(client => {
     )
     .waitForElementVisible('body', Timeouts.normal)
     .assert.title('Apply for education benefits: Vets.gov')
-    .waitForElementVisible('.usa-button-primary', Timeouts.slow)
+    .waitForElementVisible('.schemaform-start-button', Timeouts.slow)
     .axeCheck('.main')
-    .click('.usa-button-primary');
+    .click('.schemaform-start-button');
   E2eHelpers.overrideVetsGovApi(client);
   FormsTestHelpers.overrideFormsScrolling(client);
   E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
