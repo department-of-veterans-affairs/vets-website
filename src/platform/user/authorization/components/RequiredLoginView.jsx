@@ -5,9 +5,11 @@ import { intersection } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import SystemDownView from '@department-of-veterans-affairs/formation/SystemDownView';
+import CallHelpDesk from '../../../brand-consolidation/components/CallHelpDesk';
 
 import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 import backendServices from '../../profile/constants/backendServices';
+import siteName from '../../../brand-consolidation/site-name';
 
 const nextQuery = { next: window.location.pathname };
 const signInUrl = appendQuery('/', nextQuery);
@@ -86,7 +88,16 @@ class RequiredLoginView extends React.Component {
       return (
         <SystemDownView
           messageLine1="We couldn’t find your records with that information."
-          messageLine2="Please call the Vets.gov Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We're open Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)."
+          messageLine2={
+            <span>
+              Please{' '}
+              <CallHelpDesk>
+                call the {siteName} Help Desk at 1-855-574-7286, TTY:
+                1-800-877-8339. We're open Monday &#8211; Friday, 8:00 a.m.
+                &#8211; 8:00 p.m. (ET).
+              </CallHelpDesk>
+            </span>
+          }
         />
       );
     }

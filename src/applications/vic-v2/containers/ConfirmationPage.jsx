@@ -4,6 +4,7 @@ import Scroll from 'react-scroll';
 import moment from 'moment';
 
 import { focusElement } from '../../../platform/utilities/ui';
+import siteName from '../../../platform/brand-consolidation/site-name';
 
 import VeteranIDCard from '../components/VeteranIDCard';
 
@@ -156,7 +157,7 @@ class ConfirmationPage extends React.Component {
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">
               <button className="usa-button-primary">
-                Go Back to Vets.gov
+                Go Back to {siteName}
               </button>
             </a>
           </div>

@@ -5,6 +5,7 @@ import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import CallHelpDesk from '../../brand-consolidation/components/CallHelpDesk';
 
 import { toggleLoginModal } from '../user-nav/actions';
 import { verify } from '../../user/authentication/utilities';
@@ -21,6 +22,7 @@ import titleCase from '../../utilities/data/titleCase';
 import CallToActionAlert from './CallToActionAlert';
 
 import {
+  hasRequiredMhvAccount,
   isHealthTool,
   mhvToolName,
   requiredServices,
@@ -28,19 +30,17 @@ import {
   toolUrl,
 } from './helpers';
 
-const MHV_ACCOUNT_TYPES = ['Premium', 'Advanced', 'Basic'];
-
 export class CallToActionWidget extends React.Component {
   constructor(props) {
     super(props);
-    const { appId } = props;
-    const { url, redirect } = toolUrl(appId);
+    const { appId, index } = props;
+    const { url, redirect } = toolUrl(appId, index);
 
     this._hasRedirect = redirect;
     this._isHealthTool = isHealthTool(appId);
     this._popup = null;
     this._requiredServices = requiredServices(appId);
-    this._serviceDescription = serviceDescription(appId);
+    this._serviceDescription = serviceDescription(appId, index);
     this._mhvToolName = mhvToolName(appId);
     this._toolUrl = url;
   }
@@ -92,7 +92,7 @@ export class CallToActionWidget extends React.Component {
         ),
         buttonText: 'Sign In or Create an Account',
         buttonHandler: this.openLoginModal,
-        status: 'warning',
+        status: 'info',
       };
     }
 
@@ -118,6 +118,23 @@ export class CallToActionWidget extends React.Component {
   };
 
   getHealthToolContent = () => {
+    if (this.isAccessible()) {
+      return {
+        heading: 'My HealtheVet will open in a new tab',
+        alertText: (
+          <p>
+            You may need to sign in again on My HealtheVet before you can use
+            the site’s {this._mhvToolName} tool. If you do, please sign in with
+            the same account you used to sign in here on VA.gov. You also may
+            need to disable your browser’s pop-up blocker so that My HealtheVet
+            will be able to open.
+          </p>
+        ),
+        buttonText: 'Go to My HealtheVet',
+        buttonHandler: this.goToTool,
+      };
+    }
+
     if (this.props.mhvAccount.errors) {
       return {
         heading: 'Some VA.gov health tools aren’t working right now',
@@ -130,10 +147,14 @@ export class CallToActionWidget extends React.Component {
             </p>
             <h5>What you can do</h5>
             <p>
-              You can try again later or call the VA.gov Help Desk at{' '}
-              <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-              <a href="tel:18008778339">1-800-877-8339</a>
-              ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).
+              You can try again later or{' '}
+              <CallHelpDesk>
+                call the VA.gov Help Desk at{' '}
+                <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
+                <a href="tel:18008778339">1-800-877-8339</a>
+                ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
+                (ET).
+              </CallHelpDesk>
             </p>
           </div>
         ),
@@ -141,22 +162,7 @@ export class CallToActionWidget extends React.Component {
       };
     }
 
-    if (!this.isAccessible()) return this.getInaccessibleHealthToolContent();
-
-    return {
-      heading: 'My HealtheVet will open in a new tab',
-      alertText: (
-        <p>
-          You may need to sign in again on My HealtheVet before you can use the
-          site’s {this._mhvToolName} tool. If you do, please sign in with the
-          same account you used to sign in here on VA.gov. You also may need to
-          disable your browser’s pop-up blocker so that My HealtheVet will be
-          able to open.
-        </p>
-      ),
-      buttonText: 'Go to My HealtheVet',
-      buttonHandler: this.goToTool,
-    };
+    return this.getInaccessibleHealthToolContent();
   };
 
   getInaccessibleHealthToolContent = () => {
@@ -360,31 +366,14 @@ export class CallToActionWidget extends React.Component {
   };
 
   isAccessible = () => {
-    // Until MHV account eligibility rules no longer have to accommodate the
-    // pre-brand consolidation flow, the frontend will gate access using the MHV
-    // account level instead of the available services list from the backend,
-    // which will already have validated the MHV account level policies.
-
     if (this._isHealthTool) {
-      // return this.props.availableServices.has(this._requiredServices);
-
+      // Until MHV account eligibility rules no longer have to accommodate the
+      // pre-brand consolidation flow, the frontend will gate access using the MHV
+      // account level instead of the available services list from the backend,
+      // which will already have validated the MHV account level policies.
       const { appId, mhvAccount } = this.props;
-
-      switch (appId) {
-        case 'health-records':
-          return MHV_ACCOUNT_TYPES.includes(mhvAccount.accountLevel);
-        case 'rx':
-          return MHV_ACCOUNT_TYPES.slice(0, 2).includes(
-            mhvAccount.accountLevel,
-          );
-        case 'messaging':
-        case 'lab-and-test-results':
-        case 'appointments':
-          return mhvAccount.accountLevel === 'Premium';
-        default:
-          // Not a recognized health tool.
-          return false;
-      }
+      return hasRequiredMhvAccount(appId, mhvAccount.accountLevel);
+      // return this.props.availableServices.has(this._requiredServices);
     }
 
     // Only check whether the account is verified here and leave any handling
@@ -403,6 +392,11 @@ export class CallToActionWidget extends React.Component {
     } else {
       this._popup = window.open(url, 'cta-popup');
       if (this._popup) this._popup.focus();
+      else {
+        // Indicate an attempted pop-up to avoid automatically showing a
+        // pop-up later on a component update triggered by a state change.
+        this._popup = true;
+      }
     }
   };
 

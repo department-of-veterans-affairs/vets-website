@@ -1,9 +1,14 @@
+/* eslint-disable no-param-reassign */
+
 const path = require('path');
 const request = require('sync-request');
 
 function applyHerokuOptions(options) {
-  // eslint-disable-next-line no-param-reassign
+  options.protocol = 'https';
+  options.host = `${process.env.HEROKU_APP_NAME}.herokuapp.com`;
+  options.hostUrl = `${options.protocol}://${options.host}`;
   options.destination = path.resolve(__dirname, '../build/heroku');
+
   try {
     const pullRequestNumber = process.env.HEROKU_APP_NAME.split(
       'vetsgov-pr-',

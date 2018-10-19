@@ -9,6 +9,8 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import { mhvAccessError } from '../../../static-data/error-messages';
 import backendServices from '../../profile/constants/backendServices';
 import { selectProfile } from '../../selectors';
+import siteName from '../../../brand-consolidation/site-name';
+import CallHelpDesk from '../../../brand-consolidation/components/CallHelpDesk';
 
 import {
   createMHVAccount,
@@ -19,12 +21,12 @@ import {
 /* eslint-disable camelcase */
 const INELIGIBLE_MESSAGES = {
   needs_ssn_resolution: {
-    headline: 'We can’t give you access to the Vets.gov health tools',
+    headline: `We can’t give you access to the ${siteName} health tools`,
     content: (
       <div>
         <p>
           We’re sorry. We can’t match your Social Security number to our Veteran
-          records. We won’t be able to give you access to the Vets.gov health
+          records. We won’t be able to give you access to the {siteName} health
           tools until we can match your information to verify your identity.
         </p>
         <p>
@@ -41,11 +43,11 @@ const INELIGIBLE_MESSAGES = {
   },
 
   needs_va_patient: {
-    headline: 'We can’t give you access to the Vets.gov health tools',
+    headline: `We can’t give you access to the ${siteName} health tools`,
     content: (
       <div>
         <p>
-          We’re sorry. We can’t give you access to the Vets.gov health tools
+          We’re sorry. We can’t give you access to the {siteName} health tools
           because we can’t verify that you’re a VA patient. Only patients who’ve
           received care at a VA health facility can use these tools.
         </p>
@@ -68,7 +70,7 @@ const INELIGIBLE_MESSAGES = {
     content: (
       <div>
         <p>
-          We’re sorry. We can’t give you access to the Vets.gov health tools
+          We’re sorry. We can’t give you access to the {siteName} health tools
           because it looks like you already have a My Health
           <em>e</em>
           Vet account that’s been disabled.
@@ -94,7 +96,7 @@ const INELIGIBLE_MESSAGES = {
     content: (
       <div>
         <p>
-          We’re sorry. We can’t give you access to the Vets.gov health tools
+          We’re sorry. We can’t give you access to the {siteName} health tools
           because we’ve found more than one active account for you in the My
           Health
           <em>e</em>
@@ -191,9 +193,8 @@ export class MHVApp extends React.Component {
     }
 
     const alertProps = {
-      headline:
-        'Thank you for accepting the Terms and Conditions for using Vets.gov health tools',
-      content: <p>You can now access health tools on Vets.gov.</p>,
+      headline: `Thank you for accepting the Terms and Conditions for using ${siteName} health tools`,
+      content: <p>You can now access health tools on {siteName}.</p>,
       onCloseAlert: this.closeTcAcceptanceMessage,
     };
 
@@ -219,10 +220,13 @@ export class MHVApp extends React.Component {
           >
             refresh this page
           </a>{' '}
-          or try again later. If this problem persists, please call the Vets.gov
-          Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-          <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
-          8:00 a.m. &#8211; 8:00 p.m. (ET).
+          or try again later. If you keep having trouble, please{' '}
+          <CallHelpDesk>
+            call the {siteName}
+            Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+            <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
+            8:00 a.m. &#8211; 8:00 p.m. (ET).
+          </CallHelpDesk>
         </p>
       ),
     };
@@ -262,7 +266,7 @@ export class MHVApp extends React.Component {
           Health
           <em>e</em>
           Vet account level right now. You can use most of the tools on
-          Vets.gov, but you won’t be able to send secure messages or refill
+          {siteName}, but you won’t be able to send secure messages or refill
           prescriptions at this time. We’re working to fix this. Please check
           back later.
         </p>
@@ -274,7 +278,7 @@ export class MHVApp extends React.Component {
 
   renderRegisterFailedMessage() {
     const alertProps = {
-      headline: 'We can’t give you access to Vets.gov health tools right now',
+      headline: `We can’t give you access to ${siteName} health tools right now`,
       content: (
         <p>
           We’re sorry. Something went wrong on our end that’s preventing you
@@ -290,12 +294,12 @@ export class MHVApp extends React.Component {
 
   renderUpgradeFailedMessage() {
     const alertProps = {
-      headline: 'We can’t give you access to Vets.gov health tools right now',
+      headline: `We can’t give you access to ${siteName} health tools right now`,
       content: (
         <p>
           We’re sorry. We started the process of creating the MyHealth
           <em>e</em>
-          Vet account you’ll need to access the Vets.gov health tools, but
+          Vet account you’ll need to access the {siteName} health tools, but
           something went wrong on our end before we could complete it. We’ve
           created your MyHealth
           <em>e</em>

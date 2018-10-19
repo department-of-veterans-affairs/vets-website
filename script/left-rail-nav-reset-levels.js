@@ -10,13 +10,11 @@ function LeftRailNavResetLevels() {
   return (files, metalsmith, done) => {
     Object.keys(files).forEach(key => {
       const file = files[key];
-      const splitPath = key.split('/');
+      const parentPath = `${path.dirname(key)}.md`;
+      // remove the fifth level reset due to Emily's design changes.
 
-      if (splitPath.length === 5) {
-        const parentPath = `${path.dirname(key)}.md`;
-
-        file.collection = files[parentPath].collection;
-      }
+      // added this to have the previous path available on the LeftRailNav
+      file.previous = files[parentPath];
     });
 
     done();

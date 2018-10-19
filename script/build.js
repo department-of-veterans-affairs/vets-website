@@ -41,6 +41,7 @@ smith.destination(BUILD_OPTIONS.destination);
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({
   buildtype: BUILD_OPTIONS.buildtype,
+  hostUrl: BUILD_OPTIONS.hostUrl,
   mergedbuild: !!BUILD_OPTIONS['brand-consolidation-enabled'], // @deprecated - We use a separate Metalsmith directory for VA.gov. We shouldn't ever need this info in Metalsmith files.
 });
 

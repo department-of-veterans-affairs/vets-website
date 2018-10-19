@@ -12,6 +12,7 @@ import {
   queryForFacilities,
   hasOtherEvidence,
   fieldsHaveInput,
+  servedAfter911,
 } from '../utils.jsx';
 
 import initialData from './initialData';
@@ -289,6 +290,82 @@ describe('526 helpers', () => {
     it('should return true when some properties empty and some not', () => {
       const testPaths = ['test0', 'test2', 'test4'];
       expect(fieldsHaveInput({ test2: 'hi!' }, testPaths)).to.be.true;
+    });
+  });
+
+  describe('servedAfter911', () => {
+    it('should return false if no serviceInformation', () => {
+      expect(servedAfter911({})).to.be.false;
+    });
+
+    it('should return false if no servicePeriods', () => {
+      expect(servedAfter911({ serviceInformation: {} })).to.be.false;
+    });
+
+    it('should return false if no dateRange', () => {
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [{}],
+        },
+      };
+      expect(servedAfter911(formData)).to.be.false;
+    });
+
+    it('should return false if no `to` date', () => {
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [
+            {
+              dateRange: {},
+            },
+          ],
+        },
+      };
+      expect(servedAfter911(formData)).to.be.false;
+    });
+
+    it('should return false if `to` date is on or before 9/11/01', () => {
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [
+            {
+              dateRange: {
+                to: '2001-09-11',
+              },
+            },
+          ],
+        },
+      };
+      expect(servedAfter911(formData)).to.be.false;
+    });
+
+    it('should return true if `to` date is after 9/11/01', () => {
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [
+            {
+              dateRange: {
+                to: '2001-09-12',
+              },
+            },
+          ],
+        },
+      };
+      expect(servedAfter911(formData)).to.be.true;
+    });
+
+    it('should return true if any `to` date is after 9/11/01', () => {
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [
+            { dateRange: { to: '1980-09-11' } },
+            { dateRange: { to: '1999-09-12' } },
+            { dateRange: { to: '2014-09-12' } },
+            { dateRange: { to: '1975-09-12' } },
+          ],
+        },
+      };
+      expect(servedAfter911(formData)).to.be.true;
     });
   });
 });

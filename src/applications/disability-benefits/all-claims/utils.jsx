@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
+import { createSelector } from 'reselect';
 import { apiRequest } from '../../../platform/utilities/api';
 import _ from '../../../platform/utilities/data';
 
@@ -10,6 +11,7 @@ import {
   SERVICE_CONNECTION_TYPES,
   USA,
   DATA_PATHS,
+  NINE_ELEVEN,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -248,3 +250,19 @@ export const bankFieldsHaveInput = formData =>
     'bankRoutingNumber',
     'bankName',
   ]);
+
+const post911Periods = createSelector(
+  data => _.get('serviceInformation.servicePeriods', data, []),
+  periods =>
+    periods.filter(({ dateRange }) => {
+      if (!(dateRange && dateRange.to)) {
+        return false;
+      }
+
+      const toDate = new Date(dateRange.to);
+      const cutOff = new Date(NINE_ELEVEN);
+      return toDate.getTime() > cutOff.getTime();
+    }),
+);
+
+export const servedAfter911 = formData => !!post911Periods(formData).length;

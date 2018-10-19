@@ -1,0 +1,134 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/jsx-closing-bracket-location */
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchProviderDetail } from '../actions';
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import LocationMap from '../components/LocationMap';
+import LocationAddress from '../components/search-results/LocationAddress';
+import LocationPhoneLink from '../components/search-results/LocationPhoneLink';
+import LocationDirectionsLink from '../components/search-results/LocationDirectionsLink';
+import AppointmentInfo from '../components/AppointmentInfo';
+import ProviderDetailBlock from '../components/ProviderDetailBlock';
+
+/**
+ * Container component for the CC Provider Detail page
+ * 
+ * (currently Routed at /facilities/provider/{id})
+ */
+class ProviderDetail extends Component {
+
+  componentWillMount() {
+    this.props.fetchProviderDetail(this.props.params.id);
+    window.scrollTo(0, 0);
+  }
+
+  renderFacilityInfo = () => {
+    const { location } = this.props;
+    const { name, orgName, website, fax, email } = location.attributes;
+
+    return (
+      <div>
+        <h1>{name}</h1>
+        { orgName && <h2>{orgName}</h2> }
+        <div className="p1">
+          <p>
+            <span><strong>Facility type:</strong> Community Care (Non-VA Health)</span>
+          </p>
+          <LocationAddress location={location} />
+        </div>
+        <div>
+          <LocationPhoneLink location={location} />
+        </div>
+        { fax &&
+          <div>
+            <i className="fa fa-fax" />
+            <strong>Fax number:</strong><br />
+            <i className="fa fa-fw" />
+            {fax}
+          </div>
+        }
+        { email &&
+          <div>
+            <i className="fa fa-envelope" />
+            <strong>Email address:</strong><br />
+            <i className="fa fa-fw" />
+            <a href={`mailto:${email}`}>{email}</a>
+          </div>
+        }
+        { website &&
+          <div>
+            <i className="fa fa-globe" />
+            <strong>Website:</strong><br />
+            <i className="fa fa-fw" />
+            <a href={website} rel="noopener noreferrer" target="_blank">{website}</a>
+          </div>
+        }
+        <div>
+          <LocationDirectionsLink location={location} />
+        </div>
+        <p className="p1">Planning to visit? Please call first as information on this page may change.</p>
+        <ProviderDetailBlock provider={location} />
+      </div>
+    );
+  }
+
+  render() {
+    const { location, currentQuery } = this.props;
+
+    if (!location) {
+      return null;
+      // Shouldn't we render some sort of error message instead?
+      // Right now all the user sees is a blank page. How is a dev
+      // supposed to quickly understand what the failure was?
+    }
+
+    if (currentQuery.inProgress) {
+      return (
+        <div>
+          <LoadingIndicator message="Loading information..." />
+        </div>
+      );
+    }
+
+    return (
+      <div className="row location-detail">
+        <div className="usa-width-two-thirds medium-8 columns">
+          <div>
+            {this.renderFacilityInfo()}
+          </div>
+          <div>
+            <AppointmentInfo location={location} />
+          </div>
+        </div>
+        <div className="usa-width-one-third medium-4 columns">
+          <div>
+            <LocationMap info={location} />
+            <div className="mb2">
+              <h4 className="highlight">About Community Care</h4>
+              <div>
+                <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp"
+                  rel="noopener noreferrer" target="_blank" className="about-cc-link">
+                  What's Community Care and am I eligible?
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+ProviderDetail.propTypes = {};
+
+const mapStateToProps = (state) => ({
+  location: state.searchResult.selectedResult,
+  currentQuery: state.searchQuery,
+});
+
+const mapDispatch = {
+  fetchProviderDetail,
+};
+
+export default connect(mapStateToProps, mapDispatch)(ProviderDetail);
