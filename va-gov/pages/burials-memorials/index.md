@@ -10,9 +10,9 @@ aliases:
   - /burials-and-memorials/
 promo:
   - image: /img/megamenu/burials-memorials-illustration.png
-    heading: National Cemetery Administration Mobile Site
+    heading: National Cemetery Administration Mobile Grave Locator
     url: "https://m.va.gov/"
-    description: Locate a grave, search for cemeteries, and find benefits information and resources from your mobile phone or tablet.
+    description: Locate a grave, search for cemeteries, and find benefits information and resources.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
