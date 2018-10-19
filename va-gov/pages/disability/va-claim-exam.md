@@ -52,7 +52,7 @@ If you have enough medical evidence in your file to support your claim, we won't
 
 ### How to schedule your VA claim exam
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-schedule">How will you contact me to schedule the exam?</button>
@@ -93,7 +93,7 @@ If you can’t make it to your appointment, let us know right away. You can most
 
 ### What to expect at your VA claim exam
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-bring">What should I bring to my VA claim exam?</button>
@@ -184,7 +184,7 @@ If you have what we consider to be a good reason for missing your exam (called �
 
 ### After your VA claim exam
 
-<div class="usa-accordion">
+<div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-happen">What happens after my exam?</button>
@@ -194,7 +194,7 @@ We’ll review all the evidence in your file, assign your disability rating, and
 
 Each claim is different, but it usually takes us about 3 to 4 months to process a claim from start to finish. The processing time for your claim depends on how complex your claim is and how many conditions you’ve claimed.
 
-[See our most recent estimate for the average number of days to complete a claim](/disability/how-to-file-claim/#days-to-complete-claim).).
+[See our most recent estimate for the average number of days to complete a claim](/disability/how-to-file-claim/#days-to-complete-claim).
 
 [Sign in to VA.gov to track your claim](/track-claims/).
 
