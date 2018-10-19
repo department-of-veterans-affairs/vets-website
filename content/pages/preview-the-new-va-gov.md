@@ -1,7 +1,6 @@
 ---
 layout: page-breadcrumbs.html
 title: Preview the New VA.gov
-production: false
 ---
 <div class="main">
 <div class="section">
