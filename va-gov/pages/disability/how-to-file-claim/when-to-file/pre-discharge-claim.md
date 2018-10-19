@@ -30,7 +30,7 @@ If you have an illness or injury that you believe was caused—or made worse—b
 
 <div class="feature" markdown="1">
 
-### Can I use the BDD program to get my disability benefits sooner?
+### Can I use the BDD program to get my disability compensation sooner?
 
 You can use the BDD program if you meet all of the requirements listed below.
 
@@ -76,9 +76,9 @@ Compensation (monthly payments)
 
 <span id="ways-to-file"></span>
 
-### How do I apply for disability benefits before I leave the service?
+### How do I file a claim for disability compensation before I leave the service?
 
-Choose the scenario below that matches your situation to find out how to apply for disability benefits before discharge.
+Choose the scenario below that matches your situation to find out how to file a claim for disability compensation before discharge.
 
 <div class="usa-accordion" aria-multiselectable="true">
 <ul class="usa-unstyled-list">
@@ -91,8 +91,8 @@ If you have 180 to 90 days left on active duty, you'll need to apply for benefit
 
 ### If you're stationed in the U.S.
 
-You can apply for benefits online, by mail, or in person. <br>
-[Learn more about how to apply for benefits](/disability/how-to-file-claim/).
+You can file a claim online, by mail, or in person. <br>
+[Find out how to file a claim for disability compensation](/disability-benefits/apply/).
 
 **To complete the process, you'll need to:**
 
@@ -103,7 +103,7 @@ You can apply for benefits online, by mail, or in person. <br>
 ### If you're stationed overseas
 
 Depending on where you're stationed, you can start your claim at a BDD office or through the “Fly-in” claim process, which lets you apply by fax or email before your in-person appointment. <br>
-[Find out how to apply overseas](/disability/how-to-file-claim/when-to-file/pre-discharge-claim/file-while-overseas/).
+[Find out how to file a claim overseas](/disability-benefits/apply/claim-types/predischarge-claim/overseas/).
 
 #### Need help applying?
 
@@ -145,7 +145,7 @@ Or contact your local VSO.<br>
 ### File a fully developed or standard claim
 
 The difference in these claim types is based on how you gather evidence (supporting documents like a doctor's report and medical test results) to support your claim.<br>
-[Learn about the application process](/disability/how-to-file-claim/).<br>	
+[Find out how to file a claim for disability compensation](/disability-benefits/apply/).<br>
 [Find out what evidence you need for fully developed and standard claims](/disability/how-to-file-claim/evidence-needed/).
 
 </div>
