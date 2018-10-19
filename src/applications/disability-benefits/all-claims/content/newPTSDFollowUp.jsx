@@ -43,7 +43,7 @@ export const newPTSDFollowUpDescription = (
   <div>
     <p>
       We‘ll now ask you questions about the stressful event or events related to
-      your PTSD. We understand that some of the questions maybe difficult to
+      your PTSD. We understand that some of the questions may be difficult to
       answer. The information you provide here will help us understand your
       situation and research your claim.
     </p>
