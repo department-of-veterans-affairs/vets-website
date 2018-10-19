@@ -1,9 +1,8 @@
 import React from 'react';
-import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
-
+import moment from 'moment';
 import { USA } from '../constants';
 
-const AddressViewField = ({ formData }) => {
+export const AddressViewField = ({ formData }) => {
   const {
     addressLine1,
     addressLine2,
@@ -27,21 +26,17 @@ const AddressViewField = ({ formData }) => {
     lastLine = `${city}, ${country}`;
   }
   return (
-    <div>
-      {addressLine1 && <p>{addressLine1}</p>}
-      {addressLine2 && <p>{addressLine2}</p>}
-      {addressLine3 && <p>{addressLine3}</p>}
-      <p>{lastLine}</p>
-    </div>
+    <p className="blue-bar-block">
+      {addressLine1 && addressLine1}
+      <br />
+      {addressLine2 && addressLine2}
+      {addressLine2 && <br />}
+      {addressLine3 && addressLine3}
+      {addressLine3 && <br />}
+      {lastLine}
+    </p>
   );
 };
-
-const EffectiveDateViewField = ({ formData }) => (
-  <p>
-    We will use this address starting on{' '}
-    <DateWidget value={formData} options={{ monthYear: false }} />:
-  </p>
-);
 
 const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
   const midBreakpoint = -7;
@@ -62,6 +57,20 @@ const EmailViewField = ({ formData, name }) => (
     <strong>{name}</strong>: {formData || ''}
   </p>
 );
+
+const EffectiveDateViewField = ({ formData }) => {
+  const { from, to } = formData;
+  const dateFormat = 'MMM D, YYYY';
+  const fromDateString = moment(from).format(dateFormat);
+  return to ? (
+    <p>
+      We’ll use this address starting on {fromDateString} until{' '}
+      {moment(to).format(dateFormat)}:
+    </p>
+  ) : (
+    <p>We’ll use this address starting on {fromDateString}:</p>
+  );
+};
 
 export const PrimaryAddressViewField = ({ formData }) => (
   <AddressViewField formData={formData} />
