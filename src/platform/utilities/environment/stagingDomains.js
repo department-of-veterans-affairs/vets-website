@@ -11,7 +11,11 @@ if (__BUILDTYPE__ === 'preview') {
 
 // This list also exists in script/options.js
 const domainReplacements = [
-  { from: 'www\\.va\\.gov', to: `${currentEnv}.va.gov` },
+  {
+    from: 'https://www\\.va\\.gov',
+    // use relative links on dev to accomodate localhost
+    to: currentEnv === 'dev' ? '' : `https://${currentEnv}.va.gov`,
+  },
   { from: 'https://www\\.myhealth\\.va\\.gov', to: mhvBaseUrl() },
 ];
 
@@ -19,11 +23,13 @@ const domainReplacements = [
 // in preview
 const prodEnvironments = new Set(['production']);
 
-function replaceWithStagingDomain(href) {
+export function replaceWithStagingDomain(href) {
+  console.log(href);
   let newHref = href;
   domainReplacements.forEach(domain => {
     newHref = newHref.replace(new RegExp(domain.from, 'g'), domain.to);
   });
+  console.log(newHref);
 
   return newHref;
 }

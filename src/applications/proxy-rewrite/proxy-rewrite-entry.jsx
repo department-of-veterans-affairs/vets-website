@@ -62,6 +62,7 @@ observer.observe(document, {
 
 // Set up elements for the new header and footer
 const headerContainer = document.createElement('div');
+console.log(headerPartial);
 headerContainer.innerHTML = headerPartial;
 headerContainer.classList.add('consolidated');
 
