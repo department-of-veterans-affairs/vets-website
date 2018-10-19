@@ -24,12 +24,10 @@ const domainReplacements = [
 const prodEnvironments = new Set(['production']);
 
 export function replaceWithStagingDomain(href) {
-  console.log(href);
   let newHref = href;
   domainReplacements.forEach(domain => {
     newHref = newHref.replace(new RegExp(domain.from, 'g'), domain.to);
   });
-  console.log(newHref);
 
   return newHref;
 }
