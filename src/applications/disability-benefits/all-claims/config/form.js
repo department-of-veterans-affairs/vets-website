@@ -234,7 +234,7 @@ const formConfig = {
         },
         ptsdWalkthroughChoice781: {
           title: 'PTSD Walkthrough 781 Choice',
-          path: 'new-disabilities/ptsd-choice',
+          path: 'new-disabilities/walkthrough-781-choice',
           depends: formData =>
             hasNewPtsdDisability(formData) && needsToEnter781(formData),
           uiSchema: ptsdWalkthroughChoice781.uiSchema,
@@ -242,7 +242,7 @@ const formConfig = {
         },
         uploadPtsdDocuments781: {
           title: 'Upload PTSD Documents - 781',
-          path: 'new-disabilities/ptsd-choice',
+          path: 'new-disabilities/ptsd-781-upload',
           depends: formData =>
             hasNewPtsdDisability(formData) &&
             needsToEnter781(formData) &&
@@ -252,7 +252,7 @@ const formConfig = {
         },
         ptsdWalkthroughChoice781a: {
           title: 'PTSD Walkthrough 781a Choice',
-          path: 'new-disabilities/ptsd-choice',
+          path: 'new-disabilities/walkthrough-781a-choice',
           depends: formData =>
             hasNewPtsdDisability(formData) && needsToEnter781a(formData),
           uiSchema: ptsdWalkthroughChoice781a.uiSchema,
@@ -260,7 +260,7 @@ const formConfig = {
         },
         uploadPtsdDocuments781a: {
           title: 'Upload PTSD Documents - 781a',
-          path: 'new-disabilities/ptsd-choice',
+          path: 'new-disabilities/ptsd-781a-upload',
           depends: formData =>
             hasNewPtsdDisability(formData) &&
             needsToEnter781a(formData) &&
