@@ -1,7 +1,7 @@
 import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import siteName from '../../../../platform/brand-consolidation/site-name';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import CallHelpDesk from '../../../../platform/brand-consolidation/components/CallHelpDesk';
 
 export const successMessage = claimId => (
   <div>
@@ -24,22 +24,6 @@ export const successMessage = claimId => (
   </div>
 );
 
-const brandConsolidatedCheckLaterHelp = isBrandConsolidationEnabled() ? (
-  <p>
-    If you don’t see your increased disability claim online after 24 hours,
-    please call MyVA311 for help:{' '}
-    <a href="tel:+1-844-698-2311">1-844-698-2311</a>. If you have hearing loss,
-    call <a href="tel:711">TTY: 711</a>.
-  </p>
-) : (
-  <p>
-    If you don’t see your increased disability claim online after 24 hours,
-    please call {siteName} Help Desk at{' '}
-    <a href="tel:+18555747286">1-855-574-7286</a>, Monday – Friday, 8:00 a.m. –
-    9:00 a.m. (ET).
-  </p>
-);
-
 export const checkLaterMessage = jobId => (
   <div>
     <p>Thank you for filing a claim for increased disability compensation.</p>
@@ -52,7 +36,15 @@ export const checkLaterMessage = jobId => (
     <p>
       <a href="/track-claims">Check the status of your claim.</a>
     </p>
-    {brandConsolidatedCheckLaterHelp}
+    <p>
+      If you don’t see your increased disability claim online after 24 hours,
+      please{' '}
+      <CallHelpDesk>
+        call {siteName} Help Desk at{' '}
+        <a href="tel:+18555747286">1-855-574-7286</a>, Monday – Friday, 8:00
+        a.m. – 9:00 a.m. (ET).
+      </CallHelpDesk>
+    </p>
   </div>
 );
 
