@@ -9,6 +9,10 @@ if (__BUILDTYPE__ === 'preview') {
   currentEnv = 'preview';
 }
 
+if (__BUILDTYPE__ === 'production') {
+  currentEnv = 'www';
+}
+
 // This list also exists in script/options.js
 const domainReplacements = [
   {
