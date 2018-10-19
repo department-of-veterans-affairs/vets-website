@@ -17,7 +17,7 @@ class HelpMenu extends React.Component {
 
     if (isBrandConsolidationEnabled()) {
       dropDownContents = (
-        <div className="help-dropdown">
+        <div>
           <p>
             <a href={`${FACILITY_LOCATOR_URL}`}>Find a VA Location</a>
           </p>

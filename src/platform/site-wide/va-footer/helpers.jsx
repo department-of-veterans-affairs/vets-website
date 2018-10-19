@@ -24,25 +24,16 @@ export function generateLinkItems(links, column, direction = 'asc') {
   const captureEvent = () => recordEvent({ event: FOOTER_EVENTS[column] });
   return (
     <ul className="va-footer-links">
-      {orderBy(links[column], 'order', direction).map(link => {
-        // added this to deal with the extra label on the footer
-        // due to design change.
-        if (link.href) {
-          return (
-            <li key={`${link.column}-${link.order}`}>
-              <a href={link.href} onClick={captureEvent} target={link.target}>
-                {link.title}
-              </a>
-            </li>
-          );
-        }
+      {orderBy(links[column], 'order', direction).map(link => (
+        <li key={`${link.column}-${link.order}`}>
+          {link.label && link.label}
+          {link.label && <br />}
 
-        return (
-          <li key={`${link.column}-${link.order}`}>
-            <h6>{link.title}</h6>
-          </li>
-        );
-      })}
+          <a href={link.href} onClick={captureEvent} target={link.target}>
+            {link.title}
+          </a>
+        </li>
+      ))}
     </ul>
   );
 }

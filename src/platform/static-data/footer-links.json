@@ -183,20 +183,16 @@
   },
   {
     "column": 4,
-    "order": 2,
-    "title": "Call MyVA311:"
-  },
-  {
-    "column": 4,
+    "label": "Call MyVA311:",
     "href": "tel:18446982311",
-    "order": 3,
+    "order": 2,
     "target": null,
     "title": "1-844-698-2311"
   },
   {
     "column": 4,
     "href": "tel:711",
-    "order": 4,
+    "order": 3,
     "target": null,
     "title": "TTY: 711"
   },
