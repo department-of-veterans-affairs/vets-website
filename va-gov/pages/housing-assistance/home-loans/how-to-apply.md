@@ -36,8 +36,7 @@ Gather the information you'll need to apply for your COE. Click on the descripti
 
 <br>
 
-<div class="usa-accordion" aria-multiselectable="true">
-<ul class="usa-unstyled-list">
+<ul class="usa-accordion" aria-multiselectable="true">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="apply-coe-veteran">Veteran</button>
 <div id="apply-coe-veteran" class="usa-accordion-content">
@@ -132,7 +131,6 @@ If you’re a **surviving spouse** who qualifies for home loan benefits, you’l
 </div>
 </li>
 </ul>
-</div>
 
 <!-- </li>
 

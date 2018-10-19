@@ -18,8 +18,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 
 #### Am I eligible?
 
-<div class="usa-accordion" aria-multiselectable="true">
-<ul class="usa-unstyled-list">
+<ul class="usa-accordion" aria-multiselectable="true">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-spouse">As a surviving spouse</button>
 <div id="VA-burials-survivor-spouse" class="usa-accordion-content">
@@ -66,6 +65,7 @@ You can get compensation as a surviving child if you meet the requirements liste
   - For at least 1 year before their death if the Veteran was a former Prisoner of War who died after September 30, 1999
 
 **Note:** “Totally disabling” means the Veteran’s injuries make it impossible for them to work.
+</div>
 
 </li>
 <li>
@@ -77,11 +77,9 @@ You can get compensation as a surviving child if you meet the requirements liste
 - Your income is below a certain amount. <br>
 [View the parents DIC rate table]( https://benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp).
 
-   </div>
-  </div>
-  </li>
- </ul>
-
+ </div>
+</li>
+</ul>
 ### What kind of benefits can I get?
 
 Tax-free monetary benefits
