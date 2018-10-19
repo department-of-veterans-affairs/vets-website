@@ -528,6 +528,11 @@
 
   // TODO: add this into formation
   .va-sidebarnav {
+    ul.usa-accordion {
+      > li {
+        margin-bottom: -1px;
+      }
+    }
     .left-side-nav-title {
       padding-bottom: 25px;
     }
