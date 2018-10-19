@@ -20,7 +20,7 @@ export const api = {
  * existing Facility Locator App.
  */
 export const ccLocatorEnabled = () => {
-  return __BUILDTYPE__ !== 'production';
+  return __BUILDTYPE__ !== 'production' && __BUILDTYPE__ !== 'preview';
 };
 
 /* eslint-disable camelcase */

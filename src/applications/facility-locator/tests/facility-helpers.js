@@ -241,7 +241,10 @@ function initApplicationMock(token) {
  * existing Facility Locator App.
  */
 function ccLocatorEnabled() {
-  return process.env.BUILDTYPE !== 'production';
+  return (
+    process.env.BUILDTYPE !== 'production' &&
+    process.env.BUILDTYPE !== 'preview'
+  );
 }
 
 module.exports = {
