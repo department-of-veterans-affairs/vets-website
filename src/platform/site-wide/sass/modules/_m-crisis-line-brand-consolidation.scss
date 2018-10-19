@@ -3,14 +3,36 @@
 $red-70v: #8b1303;
 $red-60v: #b51d09;
 
-.va-crisis-line {
+.va-crisis-line-container {
+  position: relative;
+  margin: auto;
+  background-color: $red-60v;
   @include media($small-desktop-screen) {
-    position: absolute;
-    right: 0;
-    bottom: -11px;
+    max-width: 97.5rem;
     background-color: transparent;
   }
+}
+
+button.va-crisis-line {
   background-color: $red-60v;
+  display: block;
+  border-radius: 0;
+  color: $color-white;
+  font-size: 1em;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+
+  @include media($small-desktop-screen) {
+    width: auto;
+    position: absolute;
+    right: 0;
+    bottom: -12px;
+    border-radius: 0 0 0.2em 0.2em;
+    box-shadow: 0 2px 5px $color-base;
+  }
 }
 
 button.va-crisis-line-button {
@@ -29,6 +51,17 @@ button.va-crisis-line-button {
   @include media($small-desktop-screen) {
     border-radius: 0 0 0.2em 0.2em;
     box-shadow: 0 2px 5px $color-base;
+    text-align: left;
+    justify-content: space-between;
+  }
+}
+
+.va-crisis-line-inner {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+
+  @include media($small-desktop-screen) {
     text-align: left;
     justify-content: space-between;
   }
