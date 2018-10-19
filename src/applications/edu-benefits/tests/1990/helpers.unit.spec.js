@@ -10,64 +10,69 @@ describe('1990 helpers', () => {
       const state = {
         user: {
           profile: {
-            services: []
-          }
-        }
+            services: [],
+          },
+        },
       };
       const result = prefillTransformer(pages, formData, metadata, state);
       expect(result.formData).to.eql(formData);
-
     });
     it('should set the email', () => {
       const formData = {
-        email: 'test@foo.com'
+        email: 'test@foo.com',
       };
       const pages = {};
       const metadata = {};
       const state = {
         user: {
           profile: {
-            services: []
-          }
-        }
+            services: [],
+          },
+        },
       };
 
       const result = prefillTransformer(pages, formData, metadata, state);
-      expect(result.formData['view:otherContactInfo'].email).to.eql(formData.email);
+      expect(result.formData['view:otherContactInfo'].email).to.eql(
+        formData.email,
+      );
     });
     it('should set the homePhone', () => {
       const formData = {
-        homePhone: '999'
+        homePhone: '999',
       };
       const pages = {};
       const metadata = {};
       const state = {
         user: {
           profile: {
-            services: []
-          }
-        }
+            services: [],
+          },
+        },
       };
 
       const result = prefillTransformer(pages, formData, metadata, state);
-      expect(result.formData['view:otherContactInfo'].homePhone).to.eql(formData.homePhone);
+      expect(result.formData['view:otherContactInfo'].homePhone).to.eql(
+        formData.homePhone,
+      );
     });
     it('should set the mobilePhone', () => {
       const formData = {
-        mobilePhone: '999'
+        mobilePhone: '999',
       };
       const pages = {};
       const metadata = {};
       const state = {
         user: {
           profile: {
-            services: []
-          }
-        }
+            services: [],
+          },
+        },
       };
 
       const result = prefillTransformer(pages, formData, metadata, state);
-      expect(result.formData['view:otherContactInfo'].mobilePhone).to.eql(formData.mobilePhone);
+      expect(result.formData['view:otherContactInfo'].mobilePhone).to.eql(
+        formData.mobilePhone,
+      );
     });
   });
 });

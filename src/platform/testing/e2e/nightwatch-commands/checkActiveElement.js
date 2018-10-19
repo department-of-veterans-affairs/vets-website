@@ -13,7 +13,9 @@
  * @api commands
  */
 exports.command = function checkActiveElement(selector, callback) {
-  return this.execute((sel) => {
-    return document.querySelector(sel) === document.activeElement;
-  }, [selector], callback);
+  return this.execute(
+    sel => document.querySelector(sel) === document.activeElement,
+    [selector],
+    callback,
+  );
 };

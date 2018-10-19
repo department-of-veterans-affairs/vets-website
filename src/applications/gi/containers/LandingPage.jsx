@@ -2,19 +2,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
+
 import {
   clearAutocompleteSuggestions,
   fetchAutocompleteSuggestions,
   setPageTitle,
-  updateAutocompleteSearchTerm
+  updateAutocompleteSearchTerm,
 } from '../actions';
 
 import VideoSidebar from '../components/content/VideoSidebar';
 import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
 
-export class LandingPage extends React.Component {
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
+export class LandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,7 +26,7 @@ export class LandingPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.setPageTitle('GI Bill® Comparison Tool: Vets.gov');
+    this.props.setPageTitle(`GI Bill® Comparison Tool: ${propertyName}`);
   }
 
   handleSubmit(event) {
@@ -42,11 +45,15 @@ export class LandingPage extends React.Component {
   search(value) {
     const query = {
       name: value,
-      version: this.props.location.query.version
+      version: this.props.location.query.version,
     };
 
-    if (!query.name) { delete query.name; }
-    if (!query.version) { delete query.version; }
+    if (!query.name) {
+      delete query.name;
+    }
+    if (!query.version) {
+      delete query.version;
+    }
     this.props.router.push({ pathname: 'search', query });
   }
 
@@ -54,38 +61,48 @@ export class LandingPage extends React.Component {
     return (
       <span className="landing-page">
         <div className="row">
-
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <h1>GI Bill® Comparison Tool</h1>
-            <p className="subheading">Learn about education programs and compare benefits by school.</p>
+            <p className="subheading">
+              Learn about education programs and compare benefits by school.
+            </p>
 
             <form onSubmit={this.handleSubmit}>
-              <EligibilityForm/>
+              <EligibilityForm />
               <KeywordSearch
                 autocomplete={this.props.autocomplete}
                 location={this.props.location}
-                onClearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
-                onFetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
+                onClearAutocompleteSuggestions={
+                  this.props.clearAutocompleteSuggestions
+                }
+                onFetchAutocompleteSuggestions={
+                  this.props.fetchAutocompleteSuggestions
+                }
                 onFilterChange={this.handleFilterChange}
-                onUpdateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}/>
-              <button className="usa-button-big" type="submit" id="search-button">
+                onUpdateAutocompleteSearchTerm={
+                  this.props.updateAutocompleteSearchTerm
+                }
+              />
+              <button
+                className="usa-button-big"
+                type="submit"
+                id="search-button"
+              >
                 <span>Search Schools</span>
               </button>
             </form>
           </div>
 
           <div className="small-12 usa-width-one-third medium-4 columns">
-            <VideoSidebar/>
+            <VideoSidebar />
           </div>
-
         </div>
       </span>
     );
   }
-
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { autocomplete } = state;
   return { autocomplete };
 };
@@ -94,7 +111,12 @@ const mapDispatchToProps = {
   clearAutocompleteSuggestions,
   fetchAutocompleteSuggestions,
   setPageTitle,
-  updateAutocompleteSearchTerm
+  updateAutocompleteSearchTerm,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LandingPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(LandingPage),
+);

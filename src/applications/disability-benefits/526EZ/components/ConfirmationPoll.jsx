@@ -12,8 +12,8 @@ import { submissionStatuses, terminalStatuses } from '../constants';
 export class ConfirmationPoll extends React.Component {
   // Using it as a prop for easy testing
   static defaultProps = {
-    pollRate: 5000
-  }
+    pollRate: 5000,
+  };
 
   constructor(props) {
     super(props);
@@ -22,7 +22,7 @@ export class ConfirmationPoll extends React.Component {
       submissionStatus: submissionStatuses.pending,
       claimId: null,
       failureCode: null,
-      longWait: false
+      longWait: false,
     };
   }
 
@@ -43,9 +43,10 @@ export class ConfirmationPoll extends React.Component {
       return;
     }
 
-    apiRequest(`/disability_compensation_form/submission_status/${this.props.jobId}`,
+    apiRequest(
+      `/disability_compensation_form/submission_status/${this.props.jobId}`,
       {},
-      (response) => {
+      response => {
         // Don't process the request once it comes back if the component is no longer mounted
         if (!this.__isMounted) {
           return;
@@ -56,13 +57,14 @@ export class ConfirmationPoll extends React.Component {
         if (terminalStatuses.has(status)) {
           this.setState({
             submissionStatus: status,
-            claimId: get('data.attributes.metadata.claimId', response) || null
+            claimId: get('data.attributes.metadata.claimId', response) || null,
           });
         } else {
           // Wait for a bit and recurse
-          const waitTime = status === submissionStatuses.pending
-            ? this.props.pollRate
-            : this.props.pollRate * 2; // Seems like we don't need to poll as frequently when we get here
+          const waitTime =
+            status === submissionStatuses.pending
+              ? this.props.pollRate
+              : this.props.pollRate * 2; // Seems like we don't need to poll as frequently when we get here
 
           // Force a re-render to update the pending message if necessary
           if (Date.now() - this.startTime >= 30000) {
@@ -71,7 +73,7 @@ export class ConfirmationPoll extends React.Component {
           setTimeout(this.poll, waitTime);
         }
       },
-      (response) => {
+      response => {
         // Don't process the request once it comes back if the component is no longer mounted
         if (!this.__isMounted) {
           return;
@@ -80,11 +82,11 @@ export class ConfirmationPoll extends React.Component {
         this.setState({
           submissionStatus: submissionStatuses.apiFailure,
           // NOTE: I don't know that it'll always take this shape.
-          failureCode: get('errors[0].status', response)
+          failureCode: get('errors[0].status', response),
         });
-      }
+      },
     );
-  }
+  };
 
   render() {
     const { submissionStatus, claimId } = this.state;
@@ -101,18 +103,18 @@ export class ConfirmationPoll extends React.Component {
         jobId={jobId}
         fullName={fullName}
         disabilities={disabilities}
-        submittedAt={submittedAt}/>
+        submittedAt={submittedAt}
+      />
     );
   }
 }
-
 
 function mapStateToProps(state) {
   return {
     fullName: state.user.profile.userFullName,
     disabilities: state.form.data.disabilities,
     submittedAt: state.form.submission.submittedAt,
-    jobId: state.form.submission.response.attributes.jobId
+    jobId: state.form.submission.response.attributes.jobId,
   };
 }
 

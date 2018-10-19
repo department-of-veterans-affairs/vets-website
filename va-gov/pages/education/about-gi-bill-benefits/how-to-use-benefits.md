@@ -19,13 +19,13 @@ majorlinks:
     - url: /education/about-gi-bill-benefits/how-to-use-benefits/tuition-assistance-top-up/
       title: Tuition Assistance Top-Up
       description: Additional funds to help pay for school if your tuition costs more than what's covered by the active-duty Tuition Assistance program
-    - url: /education/about-gi-bill-benefits/how-to-use-benefits/tuition-assistance-top-up/
+    - url: /education/about-gi-bill-benefits/how-to-use-benefits/tutor-assistance/
       title: Tutorial Assistance
       description: Help paying for a tutor if you’re struggling with coursework
   - heading: Train for a Specific Career, Trade, or Industry
     links:
     - url: /education/about-gi-bill-benefits/how-to-use-benefits/test-fees/
-      title: Get Paid Back for Testing Fees
+      title: Get Paid Back for Test Fees
       description: Reimbursement for the cost of tests to become a licensed or certified professional, or to apply for college or a training course
     - url: /education/about-gi-bill-benefits/how-to-use-benefits/high-tech-programs/
       title: Accelerated Payments for High-Technology Programs
@@ -62,9 +62,6 @@ majorlinks:
 
 <div class="va-introtext">
 
-You have many options for how to use your GI Bill benefits to advance your education and training. Explore different ways you may be able to use your benefits.
-
 You can use your GI Bill benefits in many ways to advance your education and training. Find out how to use your benefits to earn a degree, train for a specific trade, or work toward other career goals.
-
 
 </div>

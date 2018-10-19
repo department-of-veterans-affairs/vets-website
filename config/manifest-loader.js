@@ -6,10 +6,10 @@
 function manifestLoader(source) {
   return `
     ${source}
-    (() => {
-      if (module.exports.receiveContentProps) {
-        const applicationSettings = window.settings.applications[module.exports.entryName];
-        module.exports.receiveContentProps(...applicationSettings.contentProps);
+    (function() {
+      const applicationSettings = window.settings.applications[module.exports.entryName];
+      if (module.exports.receiveContentProps && applicationSettings) {
+        module.exports.receiveContentProps.apply(module.exports, applicationSettings.contentProps);
       }
     })();
   `;

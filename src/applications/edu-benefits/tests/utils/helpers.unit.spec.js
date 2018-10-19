@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 
-import {
-  formatPartialDate
-} from '../../utils/helpers';
+import { formatPartialDate } from '../../utils/helpers';
 import { makeField } from '../../../../platform/forms/fields';
 
 describe('edu helpers:', () => {
@@ -11,7 +9,7 @@ describe('edu helpers:', () => {
       const date = {
         month: makeField('5'),
         day: makeField('1'),
-        year: makeField('2001')
+        year: makeField('2001'),
       };
 
       expect(formatPartialDate(date)).to.equal('2001-05-01');
@@ -20,7 +18,7 @@ describe('edu helpers:', () => {
       const date = {
         month: makeField('12'),
         day: makeField('12'),
-        year: makeField('2001')
+        year: makeField('2001'),
       };
 
       expect(formatPartialDate(date)).to.equal('2001-12-12');
@@ -29,7 +27,7 @@ describe('edu helpers:', () => {
       const date = {
         month: makeField(''),
         day: makeField('12'),
-        year: makeField('2001')
+        year: makeField('2001'),
       };
 
       expect(formatPartialDate(date)).to.equal('2001-XX-12');
@@ -38,7 +36,7 @@ describe('edu helpers:', () => {
       const date = {
         month: makeField('12'),
         day: makeField(''),
-        year: makeField('2001')
+        year: makeField('2001'),
       };
 
       expect(formatPartialDate(date)).to.equal('2001-12-XX');
@@ -47,7 +45,7 @@ describe('edu helpers:', () => {
       const date = {
         month: makeField('12'),
         day: makeField('31'),
-        year: makeField('')
+        year: makeField(''),
       };
 
       expect(formatPartialDate(date)).to.equal('XXXX-12-31');
@@ -56,7 +54,7 @@ describe('edu helpers:', () => {
       const date = {
         month: makeField('12'),
         day: makeField('31'),
-        year: makeField('2001 ')
+        year: makeField('2001 '),
       };
 
       expect(formatPartialDate(date)).to.equal('2001-12-31');
@@ -65,7 +63,7 @@ describe('edu helpers:', () => {
       const date = {
         month: makeField('12'),
         day: makeField('31'),
-        year: makeField('2001*')
+        year: makeField('2001*'),
       };
 
       expect(formatPartialDate(date)).to.equal('2001-12-31');
@@ -74,7 +72,7 @@ describe('edu helpers:', () => {
       const date = {
         month: makeField(''),
         day: makeField(''),
-        year: makeField('')
+        year: makeField(''),
       };
 
       expect(formatPartialDate(date)).to.be.undefined;
@@ -86,7 +84,7 @@ describe('edu helpers:', () => {
       const date = {
         month: makeField('12'),
         day: makeField('31'),
-        year: makeField('96')
+        year: makeField('96'),
       };
 
       expect(formatPartialDate(date)).to.equal('1996-12-31');

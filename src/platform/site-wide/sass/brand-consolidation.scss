@@ -7,11 +7,11 @@ $font-path: "~uswds/src/fonts";
 $image-path: "~uswds/src/img";
 @import "~@department-of-veterans-affairs/formation/sass/core";
 
-@import "modules/m-footer";
+@import "modules/m-footer-brand-consolidation";
 
 // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-alert";
-@import "modules/m-crisis-line";
+@import "modules/m-crisis-line-brand-consolidation";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-table";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-breadcrumbs";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-button";
@@ -26,6 +26,7 @@ $image-path: "~uswds/src/img";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-additional-info";
 @import "../../monitoring/DowntimeNotification/sass/m-downtime-notification";
 
+@import "modules/m-layers";
 // ----- mobile typography -- see #6214 on vets.gov-team ---- //
 
 @import "~@department-of-veterans-affairs/formation/sass/mobile-typography";
@@ -34,6 +35,8 @@ $image-path: "~uswds/src/img";
 
 @import "~@department-of-veterans-affairs/formation/sass/shame";
 @import "merger";
+@import "modules/m-homepage";
+@import "modules/m-veteran-banner";
 
 // ----- Medallia ----- //
 @import "modules/m-medallia";

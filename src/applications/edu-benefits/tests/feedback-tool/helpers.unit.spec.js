@@ -1,7 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { mockFetch, resetFetch } from '../../../../platform/testing/unit/helpers';
+import {
+  mockFetch,
+  resetFetch,
+} from '../../../../platform/testing/unit/helpers';
 import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 
 import {
@@ -9,18 +12,34 @@ import {
   PREFILL_FLAGS,
   prefillTransformer,
   submit,
+  removeEmptyStringProperties,
+  removeFacilityCodeIfManualEntry,
+  transform,
   transformSearchToolAddress,
 } from '../../feedback-tool/helpers';
 
 function setFetchResponse(stub, data, headers = {}) {
   const response = new Response();
   response.ok = true;
-  response.headers.get = headerID => {
-    return headers[headerID] || null;
-  };
+  response.headers.get = headerID => headers[headerID] || null;
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
+
+describe('removeEmptyStringProperties', () => {
+  it('removes keys that have empty string values', () => {
+    expect(removeEmptyStringProperties({ key: '' })).to.eql({});
+    expect(removeEmptyStringProperties({ key: '  ' })).to.eql({});
+  });
+  it('converts preserves non-empty strings', () => {
+    expect(removeEmptyStringProperties({ key: 'hello' })).to.eql({
+      key: 'hello',
+    });
+    expect(removeEmptyStringProperties({ key: '  ', key2: 'hello' })).to.eql({
+      key2: 'hello',
+    });
+  });
+});
 
 describe('feedback-tool helpers:', () => {
   describe('transformSearchToolAddress', () => {
@@ -88,19 +107,27 @@ describe('feedback-tool helpers:', () => {
         postalCode: null,
       };
       const inputData2 = {
-        address1: '1840 NE ARGYLE IS A VERY VERY LONG STREET NAME 1840 NE ARGYLE IS A VERY VERY LONG STREET NAME',
-        address2: '1840 NE ARGYLE IS A VERY VERY LONG STREET NAME 1840 NE ARGYLE IS A VERY VERY LONG STREET NAME',
-        address3: '1840 NE ARGYLE IS A VERY VERY LONG STREET NAME 1840 NE ARGYLE IS A VERY VERY LONG STREET NAME',
-        city: 'PORTLAND IS A SUPER DUPER REALLY LONG CITY NAME WAY LONGER THAN ANY CITY NAME WOULD EVER BE PORTLAND IS A SUPER DUPER REALLY LONG CITY NAME WAY LONGER THAN ANY CITY NAME WOULD EVER BE PORTLAND IS A SUPER DUPER REALLY LONG CITY NAME WAY LONGER THAN ANY CITY NAME WOULD EVER BE',
+        address1:
+          '1840 NE ARGYLE IS A VERY VERY LONG STREET NAME 1840 NE ARGYLE IS A VERY VERY LONG STREET NAME',
+        address2:
+          '1840 NE ARGYLE IS A VERY VERY LONG STREET NAME 1840 NE ARGYLE IS A VERY VERY LONG STREET NAME',
+        address3:
+          '1840 NE ARGYLE IS A VERY VERY LONG STREET NAME 1840 NE ARGYLE IS A VERY VERY LONG STREET NAME',
+        city:
+          'PORTLAND IS A SUPER DUPER REALLY LONG CITY NAME WAY LONGER THAN ANY CITY NAME WOULD EVER BE PORTLAND IS A SUPER DUPER REALLY LONG CITY NAME WAY LONGER THAN ANY CITY NAME WOULD EVER BE PORTLAND IS A SUPER DUPER REALLY LONG CITY NAME WAY LONGER THAN ANY CITY NAME WOULD EVER BE',
         country: 'USA',
         state: 'OR',
         zip: '97211',
       };
       const expectedAddress2 = {
-        street: '1840 NE ARGYLE IS A VERY VERY LONG STREET NAME 1840 NE ARGYLE IS A VERY VERY LONG ST',
-        street2: '1840 NE ARGYLE IS A VERY VERY LONG STREET NAME 1840 NE ARGYLE IS A VERY VERY LONG ST',
-        street3: '1840 NE ARGYLE IS A VERY VERY LONG STREET NAME 1840 NE ARGYLE IS A VERY VERY LONG ST',
-        city: 'PORTLAND IS A SUPER DUPER REALLY LONG CITY NAME WAY LONGER THAN ANY CITY NAME WOULD EVER BE PORTLAND IS A SUPER DUPER REALLY LONG CITY NAME WAY LONGER THAN ANY CITY NAME WOULD EVER BE PORTLAND IS A SUPER DUPER REALLY LONG CITY NAME WAY LONGER THAN ANY CIT',
+        street:
+          '1840 NE ARGYLE IS A VERY VERY LONG STREET NAME 1840 NE ARGYLE IS A VERY VERY LONG ST',
+        street2:
+          '1840 NE ARGYLE IS A VERY VERY LONG STREET NAME 1840 NE ARGYLE IS A VERY VERY LONG ST',
+        street3:
+          '1840 NE ARGYLE IS A VERY VERY LONG STREET NAME 1840 NE ARGYLE IS A VERY VERY LONG ST',
+        city:
+          'PORTLAND IS A SUPER DUPER REALLY LONG CITY NAME WAY LONGER THAN ANY CITY NAME WOULD EVER BE PORTLAND IS A SUPER DUPER REALLY LONG CITY NAME WAY LONGER THAN ANY CITY NAME WOULD EVER BE PORTLAND IS A SUPER DUPER REALLY LONG CITY NAME WAY LONGER THAN ANY CIT',
         country: 'United States',
         state: 'OR',
         postalCode: '97211',
@@ -110,6 +137,90 @@ describe('feedback-tool helpers:', () => {
       expect(address1).to.eql(expectedAddress1);
       expect(address2).to.eql(expectedAddress2);
     });
+    it('converts empty strings to `undefined`', () => {
+      const inputData = {
+        address1: '1840 NE ARGYLE',
+        address2: '',
+        address3: '',
+        city: 'PORTLAND',
+        country: 'USA',
+        state: 'OR',
+        zip: '97211',
+      };
+      const expectedAddress = {
+        street: '1840 NE ARGYLE',
+        city: 'PORTLAND',
+        country: 'United States',
+        state: 'OR',
+        postalCode: '97211',
+      };
+      const address = transformSearchToolAddress(inputData);
+      expect(address).to.eql(expectedAddress);
+    });
+  });
+
+  describe('removeFacilityCodeIfManualEntry', () => {
+    it('removes the facility code if manual entry is used', () => {
+      const form = {
+        data: {
+          educationDetails: {
+            school: {
+              'view:searchSchoolSelect': {
+                facilityCode: 123456,
+                'view:manualSchoolEntryChecked': true,
+              },
+            },
+          },
+        },
+      };
+      const actual = removeFacilityCodeIfManualEntry(form);
+      const expected = {
+        data: {
+          educationDetails: {
+            school: {
+              'view:searchSchoolSelect': {
+                'view:manualSchoolEntryChecked': true,
+              },
+            },
+          },
+        },
+      };
+      expect(actual).to.eql(expected);
+    });
+    it('does not manipulate the object if manual entry is not used', () => {
+      const form = {
+        data: {
+          educationDetails: {
+            school: {
+              'view:searchSchoolSelect': {
+                facilityCode: 123456,
+                'view:manualSchoolEntryChecked': false,
+              },
+            },
+          },
+        },
+      };
+      const actual = removeFacilityCodeIfManualEntry(form);
+      expect(actual).to.eql(form);
+    });
+  });
+
+  describe('transform', () => {
+    const formConfig = {
+      chapters: {
+        chapter1: {
+          pages: {
+            page1: {},
+          },
+        },
+      },
+    };
+    it('calls the `formTransformer` with the `form` object', () => {
+      const form = { data: {} };
+      const formTransformerSpy = sinon.spy(data => data);
+      transform(formConfig, form, formTransformerSpy);
+      expect(formTransformerSpy.calledWith(form)).to.be.true;
+    });
   });
 
   describe('submit', () => {
@@ -117,21 +228,22 @@ describe('feedback-tool helpers:', () => {
       conditionalStorage().setItem('userToken', 'testing');
       window.VetsGov = { pollTimeout: 1 };
       window.URL = {
-        createObjectURL: sinon.stub().returns('test')
+        createObjectURL: sinon.stub().returns('test'),
       };
     });
     it('should reject if initial request fails', () => {
       mockFetch(new Error('fake error'), false);
       const formConfig = {
-        chapters: {}
+        chapters: {},
       };
       const form = {
-        data: {}
+        data: {},
       };
 
-      return submit(form, formConfig).then(() => {
-        expect.fail();
-      })
+      return submit(form, formConfig)
+        .then(() => {
+          expect.fail();
+        })
         .catch(err => {
           expect(err.message).to.equal('fake error');
         });
@@ -144,22 +256,22 @@ describe('feedback-tool helpers:', () => {
         {
           data: {
             attributes: {
-              guid: 'test'
-            }
-          }
+              guid: 'test',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       setFetchResponse(
         global.fetch.onSecondCall(),
         {
           data: {
             attributes: {
-              state: 'pending'
-            }
-          }
+              state: 'pending',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       setFetchResponse(
         global.fetch.onThirdCall(),
@@ -167,20 +279,20 @@ describe('feedback-tool helpers:', () => {
           data: {
             attributes: {
               state: 'success',
-              parsedResponse
-            }
-          }
+              parsedResponse,
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       const formConfig = {
-        chapters: {}
+        chapters: {},
       };
       const form = {
-        data: {}
+        data: {},
       };
 
-      return submit(form, formConfig).then((res) => {
+      return submit(form, formConfig).then(res => {
         expect(res).to.deep.equal({});
       });
     });
@@ -191,46 +303,50 @@ describe('feedback-tool helpers:', () => {
         {
           data: {
             attributes: {
-              guid: 'test'
-            }
-          }
+              guid: 'test',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       setFetchResponse(
         global.fetch.onSecondCall(),
         {
           data: {
             attributes: {
-              state: 'pending'
-            }
-          }
+              state: 'pending',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       setFetchResponse(
         global.fetch.onThirdCall(),
         {
           data: {
             attributes: {
-              state: 'failed'
-            }
-          }
+              state: 'failed',
+            },
+          },
         },
-        { 'Content-Type': 'application/json' }
+        { 'Content-Type': 'application/json' },
       );
       const formConfig = {
-        chapters: {}
+        chapters: {},
       };
       const form = {
-        data: {}
+        data: {},
       };
 
-      return submit(form, formConfig).then(() => {
-        expect.fail();
-      }).catch(err => {
-        expect(err.message).to.equal('vets_server_error_gi_bill_feedbacks: status failed');
-      });
+      return submit(form, formConfig)
+        .then(() => {
+          expect.fail();
+        })
+        .catch(err => {
+          expect(err.message).to.equal(
+            'vets_server_error_gi_bill_feedbacks: status failed',
+          );
+        });
     });
 
     afterEach(() => {
@@ -254,7 +370,7 @@ describe('feedback-tool helpers:', () => {
         formData.fullName = { first: 'Pat' };
         const expectedFormData = {
           ...formData,
-          [PREFILL_FLAGS.APPLICANT_INFORMATION]: true
+          [PREFILL_FLAGS.APPLICANT_INFORMATION]: true,
         };
         const result = prefillTransformer(pages, formData, metadata);
         expect(result.metadata).to.eql(metadata);
@@ -276,7 +392,7 @@ describe('feedback-tool helpers:', () => {
         formData.serviceBranch = 'Air Force';
         const expectedFormData = {
           ...formData,
-          [PREFILL_FLAGS.SERVICE_INFORMATION]: true
+          [PREFILL_FLAGS.SERVICE_INFORMATION]: true,
         };
         const result = prefillTransformer(pages, formData, metadata);
         expect(result.metadata).to.eql(metadata);
@@ -290,7 +406,7 @@ describe('feedback-tool helpers:', () => {
         };
         const expectedFormData = {
           ...formData,
-          [PREFILL_FLAGS.SERVICE_INFORMATION]: true
+          [PREFILL_FLAGS.SERVICE_INFORMATION]: true,
         };
         const result = prefillTransformer(pages, formData, metadata);
         expect(result.metadata).to.eql(metadata);
@@ -312,7 +428,7 @@ describe('feedback-tool helpers:', () => {
         formData.applicantEmail = 'foo@bar.com';
         const expectedFormData = {
           ...formData,
-          [PREFILL_FLAGS.CONTACT_INFORMATION]: true
+          [PREFILL_FLAGS.CONTACT_INFORMATION]: true,
         };
         const result = prefillTransformer(pages, formData, metadata);
         expect(result.metadata).to.eql(metadata);
@@ -323,7 +439,7 @@ describe('feedback-tool helpers:', () => {
         formData.phone = '4151234567';
         const expectedFormData = {
           ...formData,
-          [PREFILL_FLAGS.CONTACT_INFORMATION]: true
+          [PREFILL_FLAGS.CONTACT_INFORMATION]: true,
         };
         const result = prefillTransformer(pages, formData, metadata);
         expect(result.metadata).to.eql(metadata);
@@ -334,7 +450,7 @@ describe('feedback-tool helpers:', () => {
         formData.address = { country: 'US' };
         const expectedFormData = {
           ...formData,
-          [PREFILL_FLAGS.CONTACT_INFORMATION]: true
+          [PREFILL_FLAGS.CONTACT_INFORMATION]: true,
         };
         const result = prefillTransformer(pages, formData, metadata);
         expect(result.metadata).to.eql(metadata);
@@ -357,22 +473,29 @@ describe('feedback-tool helpers:', () => {
     let messageComponent;
     const data = {
       formData: {
-        goodFlag: true
-      }
+        goodFlag: true,
+      },
     };
     beforeEach(() => {
       messageComponent = sinon.spy(() => 'dom');
     });
     it('calls the `messageComponent` param if the correct flag is set on data.formData', () => {
-      const result = conditionallyShowPrefillMessage('goodFlag', data, messageComponent);
+      const result = conditionallyShowPrefillMessage(
+        'goodFlag',
+        data,
+        messageComponent,
+      );
       expect(messageComponent.called).to.be.true;
       expect(result).to.eql('dom');
     });
     it('does not call the `messageComponent` param if the correct flag is not set data.formData', () => {
-      const result = conditionallyShowPrefillMessage('badFlag', data, messageComponent);
+      const result = conditionallyShowPrefillMessage(
+        'badFlag',
+        data,
+        messageComponent,
+      );
       expect(messageComponent.called).to.be.false;
       expect(result).to.eql(null);
     });
   });
-
 });

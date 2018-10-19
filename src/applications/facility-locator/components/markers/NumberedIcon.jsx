@@ -7,8 +7,14 @@ class NumberedIcon extends Component {
     const { position, children, number, style, onClick } = this.props;
 
     return (
-      <DivMarker position={position} popupContent={<div>{children}</div>} onClick={onClick}>
-        <div className="numbered-icon" style={style}>{number}</div>
+      <DivMarker
+        position={position}
+        popupContent={<div>{children}</div>}
+        onClick={onClick}
+      >
+        <div className="numbered-icon" style={style}>
+          {number}
+        </div>
       </DivMarker>
     );
   }

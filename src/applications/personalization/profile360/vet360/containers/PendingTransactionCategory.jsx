@@ -9,7 +9,13 @@ import Vet360TransactionPending from '../components/base/TransactionPending';
 import { TRANSACTION_CATEGORY_TYPES } from '../constants';
 import { selectVet360PendingCategoryTransactions } from '../selectors';
 
-function Vet360PendingTransactionCategory({ refreshTransaction: dispatchRefreshTransaction, transactions, hasPendingCategoryTransaction, categoryType, children }) {
+function Vet360PendingTransactionCategory({
+  refreshTransaction: dispatchRefreshTransaction,
+  transactions,
+  hasPendingCategoryTransaction,
+  categoryType,
+  children,
+}) {
   if (!hasPendingCategoryTransaction) return <div>{children}</div>;
 
   let plural = 'email';
@@ -25,11 +31,12 @@ function Vet360PendingTransactionCategory({ refreshTransaction: dispatchRefreshT
 
   return (
     <Vet360TransactionPending refreshTransaction={refreshAllTransactions}>
-      <AlertBox
-        isVisible
-        status="warning">
+      <AlertBox isVisible status="warning">
         <h4>We’re updating your {plural}</h4>
-        <p>We’re in the process of saving your changes. We'll show your updated information below as soon as it’s finished saving.</p>
+        <p>
+          We’re in the process of saving your changes. We'll show your updated
+          information below as soon as it’s finished saving.
+        </p>
       </AlertBox>
     </Vet360TransactionPending>
   );
@@ -37,17 +44,23 @@ function Vet360PendingTransactionCategory({ refreshTransaction: dispatchRefreshT
 
 const mapStateToProps = (state, ownProps) => {
   const { categoryType } = ownProps;
-  const pendingTransactions = selectVet360PendingCategoryTransactions(state, categoryType);
+  const pendingTransactions = selectVet360PendingCategoryTransactions(
+    state,
+    categoryType,
+  );
 
   return {
     hasPendingCategoryTransaction: pendingTransactions.length > 0,
-    transactions: pendingTransactions
+    transactions: pendingTransactions,
   };
 };
 
 const mapDispatchToProps = {
-  refreshTransaction
+  refreshTransaction,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Vet360PendingTransactionCategory);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Vet360PendingTransactionCategory);
 export { Vet360PendingTransactionCategory };

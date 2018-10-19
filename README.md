@@ -66,6 +66,8 @@ Inside the `src` directory, we have two folders `applications` and `platform`. `
 
 ### Requirements
 
+Users with government furnished equipment may not have admin account access. [These instructions might help](https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Design/run_vets.gov_locally_for_designers.md).
+
 The requirements for running this application are Node.js 8.10.0 and yarn 1.5.1
 
 Once you have nvm installed you should now install node.js version 8.10.0 by running:
@@ -206,6 +208,18 @@ Note that because mocha is running the test files directly, it needs to use
 the unittests. This is why babel configuration is kept in `.babelrc`, so it can
 be shared between build and test.
 
+### Static Webserver
+The site comes bundled with a static webserver, which is used for serving the files of a certain build-type from the build directory. If there isn't already a server running on port `3001` as is the case with `npm run watch`, the static webserver will automatically be started during Nightwatch tests (E2E and Visual Regression) that will serve the files of the corresponding build.
+
+#### Running the site in production
+It is sometimes useful to ensure that a certain feature of the site will function correctly in a certain environment. For example, a common use case is to render a certain feature in all environments outside of production. In this case, it would be beneficial to ensure the production environment is not impacted. To locally run a production build of the website, follow these steps:
+
+1. `NODE_ENV=production npm run build -- --buildtype=production`
+    - This will generate the complete static website in `build/production`.
+    - NOTE: You will likely see files already in the `build/development` directory. This contains the generated content files from Metalsmith, but unless you recently executed a development build, it most likely does not contain the Webpack-compiled assets (JS/CSS) which are served from memory and not written to the file system during the watch-task.
+2. `node src/platform/testing/e2e/test-server.js --buildtype=production`
+    - You should see console output indicating that a local webserver has started, which port it is running on, and for which build-type.
+
 ### End-to-end Test -- nightwatch
 
 All end-to-end tests are under `test/\*` and are named with the suffix `.e2e.spec.js`.
@@ -218,7 +232,7 @@ for tests. On Jenkins, Headless Chrome is used.
 Nightwatch is a wrapper on Selenium. It is configured in `config/nightwatch.js`.
 To run a nightwatch test, 3 things need to execute:
 
-  1. A webserver with our site
+  1. [A webserver with our site](#static-webserver)
   2. The selenium server (which will spawn browsers like PhanomJS)
   3. The nightwatch client that talks to the Selenium server
 
@@ -232,7 +246,7 @@ the test requries features that jsdom does not provide, putting them into a
 #### E2E Troubleshooting
 Try running your `selenium` server manually:
 ```
-$ java -jar <path to GitHub>/vets-website/node_modules/selenium-server/lib/runner/selenium-server-standalone-3.1.0.jar
+$ java -jar <path to GitHub>/vets-website/node_modules/selenium-server/lib/runner/selenium-server-standalone-3.4.0.jar
 ```
 and you should see:
 ```
@@ -240,12 +254,33 @@ and you should see:
 ```
 * Selenium requires **Java 8** to run
 
-### Visual Regression Testing
-This is the first iteration of visual regression testing. It is useful to detect side effects or scope of visual changes.
+#### Executing Nightwatch Tests For a Certain Environment
+A webserver is required for Nightwatch to execute. Locally, you will likely execute E2E tests while running the local development server via `npm run watch`, followed by `npm run test:e2e`.
 
-VRT works by gathering the links for the site using the sitemap, then using Nightwatch to navigate throughout the site, capturing an image of each page that will either be used as the baseline for future comparisons or compared to the baseline. The developer must first create the baseline image set for comparisons (sometimes called the golden set), then after making their changes, run an additional task to execute the comparison. See the chart above for the commands.
+However, it is sometimes useful to execute E2E tests for a certain build-type, which is done by first running a build for that build-type, then executing the tests with the build-type passed as an argument.
+
+For example, to execute the E2E tests for Production:
+
+1. `NODE_ENV=production npm run build -- --buildtype=production`
+2. `BUILDTYPE=production npm run test:e2e`
+    - The Nightwatch startup script will see that port `3001` is not blocked (as it would be by the watch-task), and will start a [static webserver](#static-webserver) for the production build.
+
+### Visual Regression Testing
+This is the second iteration of visual regression testing. It is useful to detect side effects or scope of visual changes.
+
+VRT works by gathering the links for the site using the sitemap, then using Puppeteer to navigate throughout the site, capturing an image of each page that will either be used as the baseline for future comparisons or compared to the baseline. The developer must first create the baseline image set for comparisons (sometimes called the golden set), then after making their changes, run an additional task to execute the comparison. See the chart above for the commands.
 
 There are some [limitations](https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Engineering/Visual%20Regression%20Testing.md), one of which is that VRG only tests the page on the initial load on a single viewport - it does not interact with the page or resize the window. This means that if there are dynamic elements they will not be covered. If this is functionality that interests you, you are welcome to join a discussion about the next phase of VRG.
+
+To run visual regression testing start the server in one terminal and execute the following commands
+
+1. `npm run test:visual:baseline` - Create desktop baseline
+1. `npm run test:visual` - Compare to desktop baselines
+1. `npm run test:visual:baseline -- --mobile` - Create mobile baseline
+1. `npm run test:visual -- --mobile` - Compare to Mobile baselines
+
+All screenshots are available at `logs/visual-regression/[baseline | diff]/[mobile | desktop]`
+
 
 ### Automated Accessibility Testing -- aXe
 

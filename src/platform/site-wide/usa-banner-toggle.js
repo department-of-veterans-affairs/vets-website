@@ -2,7 +2,7 @@
  * Adds event handler to show/hide the USA site banner
  */
 
-function initBanner() {
+export function initBanner() {
   const toggleButton = document.querySelector('#usa-banner-toggle');
 
   if (!toggleButton) {
@@ -10,7 +10,6 @@ function initBanner() {
   }
   const usaHeader = document.querySelector('.usa-banner-header');
   const govBanner = document.querySelector('#gov-banner');
-
 
   toggleButton.addEventListener('mouseup', () => {
     const shouldExpand = govBanner.getAttribute('aria-hidden') === 'true';

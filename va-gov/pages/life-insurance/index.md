@@ -6,9 +6,10 @@ display_title: Life Insurance
 concurrence: complete
 lastupdate:
 order: 1
-icon: users
+icon: icon-large white fa fa-users hub-background-life-insurance
 promo:
   - image: /img/megamenu/life-insurance-illustration.png
+    alt:
     heading: SGLI Online Enrollment System (SOES)
     url: "https://www.benefits.va.gov/INSURANCE/SOES.asp"
     description: Learn about our new online enrollment system for Servicemembers' Group Life Insurance.
@@ -44,15 +45,19 @@ social:
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
           label: Veterans Benefits Email Updates
+          external: true
           icon: fa-envelope-square
         - url: https://twitter.com/VAVetBenefits
           label: Veterans Benefits Twitter
+          external: true
           icon: fa-twitter
         - url: "https://www.facebook.com/VeteransBenefits"
           label: Veterans Benefits Facebook
+          external: true
           icon: fa-facebook
         - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
           label: Veterans Benefits YouTube
+          external: true
           icon: fa-youtube
 ---
 <p class="va-introtext">
@@ -115,7 +120,7 @@ VA life insurance can offer financial security and support for Veterans, Service
   </div>
 
   <div class="link">
-    <a href="/track-claims"><b>Check Your Appeal Status</b></a>
+    <a href="/claim-or-appeal-status/"><b>Check Your Appeal Status</b></a>
     <p>Track the status of your life insurance appeal.</p>
   </div>
 
@@ -132,6 +137,11 @@ VA life insurance can offer financial security and support for Veterans, Service
   <div class="link">
     <a href="https://www.benefits.va.gov/INSURANCE/vgli_auto_pay.asp"><b>Enroll in VGLI Auto Pay</b></a>
     <p>Sign up to pay your Veterans' Group Life Insurance premium automatically from your bank account.</p>
+  </div>
+  
+  <div class="link">
+    <a href="https://www.insurance.va.gov/UnclaimedFunds/"><b>Search for Unclaimed Insurance Funds</b></a>
+    <p>If you think we may owe you funds from a VA insurance policy, search our unclaimed funds records by the qualifying Veteran's name.</p>
   </div>
 
 </section>

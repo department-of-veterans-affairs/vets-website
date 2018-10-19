@@ -16,11 +16,11 @@ To receive some benefits, Veterans need a letter proving their status. You can a
 
 <section>
 
+<div class="cta-widget" data-app-id="letters"></div>
+
 ### What types of VA letters can I download using this tool?
 
 You can download a variety of letters from VA that include information about your benefits and service history.
-
-<a href='/records/download-va-letters/letters' class='usa-button-primary'>Access Your VA Letters</a>
 
 </section>
 
@@ -39,11 +39,11 @@ This address will be listed on your letter. If this address isn’t correct, you
 
 ### What if I want to download a letter or document that isn’t available from this tool?
 
-Right now, you can only download the VA letters you see listed when you click the blue **Access Your VA Letters** button above.
+Right now, you can only download the VA letters you see listed when you sign in above.
 
 Use these links to get access to other common VA letters and documents you may be eligible for:
 
-[View and print your Post-9/11 GI Bill statement of benefits.](/education/check-post-9-11-gi-bill-benefit-status/)
+[View and print your Post-9/11 GI Bill statement of benefits.](/education/gi-bill/post-9-11/ch-33-benefit/)
 
 [Sign in to eBenefits to request a Certificate of Eligibility for home loan benefits](https://eauth.va.gov/ebenefits/coe).
 
@@ -61,8 +61,7 @@ Yes. If you're totally and permanently disabled because of your service-connecte
 
 ### What if I have trouble downloading a VA letter?
 
-Call the Vets.gov Help Desk at <a href="tel:+18555747286">1-855-574-7286</a> (TTY: <a href="tel:+18008778339">1-800-877-8339</a>).
-We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>).
+Call MyVA311 for help: <a href="tel:+18446982311">1-844-698-2311</a>. If you have hearing loss, call TTY: 711.
 
 </section>
 </div>

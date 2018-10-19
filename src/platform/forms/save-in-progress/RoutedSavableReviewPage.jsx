@@ -8,8 +8,12 @@ import debounce from '../../utilities/data/debounce';
 
 import ReviewChapters from 'us-forms-system/lib/js/review/ReviewChapters';
 import SubmitController from 'us-forms-system/lib/js/review/SubmitController';
+import CallHelpDesk from '../../brand-consolidation/components/CallHelpDesk';
 
-import DowntimeNotification, { externalServiceStatus } from '../../monitoring/DowntimeNotification';
+import isBrandConsolidationEnabled from '../../brand-consolidation/feature-flag';
+import DowntimeNotification, {
+  externalServiceStatus,
+} from '../../monitoring/DowntimeNotification';
 import get from '../../utilities/data/get';
 import { focusElement } from '../../utilities/ui';
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
@@ -18,18 +22,23 @@ import SaveStatus from './SaveStatus';
 import {
   autoSaveForm,
   saveAndRedirectToReturnUrl,
-  saveErrors
+  saveErrors,
 } from './actions';
 import { getFormContext } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
 
+const brandConsolidationIsEnabled = isBrandConsolidationEnabled();
+const propertyName = brandConsolidationIsEnabled ? 'VA.gov' : 'Vets.gov';
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
+  scroller.scrollTo(
+    'topScrollElement',
+    window.VetsGov.scroll || {
+      duration: 500,
+      delay: 0,
+      smooth: true,
+    },
+  );
 };
 
 class RoutedSavableReviewPage extends React.Component {
@@ -52,22 +61,25 @@ class RoutedSavableReviewPage extends React.Component {
 
       this.props.autoSaveForm(formId, data, version, returnUrl);
     }
-  }
+  };
 
   renderErrorMessage = () => {
     const { route, user, form, location, showLoginModal } = this.props;
     const errorText = route.formConfig.errorText;
     const savedStatus = form.savedStatus;
 
-    const saveLink = (<SaveFormLink
-      locationPathname={location.pathname}
-      form={form}
-      user={user}
-      showLoginModal={showLoginModal}
-      saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-      toggleLoginModal={this.props.toggleLoginModal}>
-      save your application
-    </SaveFormLink>);
+    const saveLink = (
+      <SaveFormLink
+        locationPathname={location.pathname}
+        form={form}
+        user={user}
+        showLoginModal={showLoginModal}
+        saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
+        toggleLoginModal={this.props.toggleLoginModal}
+      >
+        Save your form
+      </SaveFormLink>
+    );
 
     if (saveErrors.has(savedStatus)) {
       return saveLink;
@@ -78,33 +90,64 @@ class RoutedSavableReviewPage extends React.Component {
       InlineErrorComponent = errorText;
     } else if (typeof errorText === 'string') {
       InlineErrorComponent = () => <p>{errorText}</p>;
-    } else {
-      InlineErrorComponent = () => <p>If it still doesn’t work, please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>. We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</p>;
+    } else if (!brandConsolidationIsEnabled) {
+      InlineErrorComponent = () => (
+        <p>
+          If it still doesn’t work, please{' '}
+          <CallHelpDesk>
+            call the {propertyName} Help Desk at{' '}
+            <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
+            <a href="tel:18008778339">1-800-877-8339</a>
+            ). We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
+            (ET).
+          </CallHelpDesk>
+        </p>
+      );
+    } else if (brandConsolidationIsEnabled) {
+      InlineErrorComponent = () => (
+        <div>
+          <p>
+            If it still doesn’t work, please call MyVA311 for help:{' '}
+            <a href="tel:844-698-2311">1-844-698-2311</a>.
+          </p>
+          <p>
+            If you have hearing loss, call TTY: <a href="tel:711">711</a>.
+          </p>
+        </div>
+      );
     }
 
     return (
       <div className="usa-alert usa-alert-error schemaform-failure-alert">
         <div className="usa-alert-body">
-          <p className="schemaform-warning-header"><strong>We’re sorry, the application didn’t go through.</strong></p>
-          <p>We’re working to fix the problem, but it may take us a little while. Please {saveLink} and try submitting it again tomorrow.</p>
-          {!user.login.currentlyLoggedIn && <p>If you don’t have an account, you’ll have to start over. Please try submitting your application again tomorrow.</p>}
-          <InlineErrorComponent/>
+          <p className="schemaform-warning-header">
+            <strong>We’re sorry. We can't submit your form right now.</strong>
+          </p>
+          <p>
+            We’re working to fix the problem. Please make sure you’re connected
+            to the Internet, and then try saving your form again. {saveLink}.
+          </p>
+          {!user.login.currentlyLoggedIn && (
+            <p>
+              If you don’t have an account, you’ll have to start over. Try
+              submitting your form again tomorrow.
+            </p>
+          )}
+          <InlineErrorComponent />
         </div>
       </div>
     );
-  }
+  };
 
   renderDowntime = (downtime, children) => {
     if (downtime.status === externalServiceStatus.down) {
       const Message = this.props.formConfig.downtime.message || DowntimeMessage;
 
-      return (
-        <Message downtime={downtime}/>
-      );
+      return <Message downtime={downtime} />;
     }
 
     return children;
-  }
+  };
 
   render() {
     const {
@@ -114,7 +157,7 @@ class RoutedSavableReviewPage extends React.Component {
       location,
       pageList,
       path,
-      user
+      user,
     } = this.props;
 
     const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
@@ -125,30 +168,34 @@ class RoutedSavableReviewPage extends React.Component {
           formConfig={formConfig}
           formContext={formContext}
           pageList={pageList}
-          onSetData={() => this.debouncedAutoSave()}/>
+          onSetData={() => this.debouncedAutoSave()}
+        />
         <DowntimeNotification
           appTitle="application"
           render={this.renderDowntime}
-          dependencies={downtimeDependencies}>
+          dependencies={downtimeDependencies}
+        >
           <SubmitController
             formConfig={formConfig}
             pageList={pageList}
             path={path}
-            renderErrorMessage={this.renderErrorMessage}/>
+            renderErrorMessage={this.renderErrorMessage}
+          />
         </DowntimeNotification>
         <SaveStatus
           isLoggedIn={user.login.currentlyLoggedIn}
           showLoginModal={this.props.showLoginModal}
           toggleLoginModal={this.props.toggleLoginModal}
-          form={form}>
-        </SaveStatus>
+          form={form}
+        />
         <SaveFormLink
           locationPathname={location.pathname}
           form={form}
           user={user}
           showLoginModal={this.props.showLoginModal}
           saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-          toggleLoginModal={this.props.toggleLoginModal}/>
+          toggleLoginModal={this.props.toggleLoginModal}
+        />
       </div>
     );
   }
@@ -156,16 +203,9 @@ class RoutedSavableReviewPage extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   const route = ownProps.route;
-  const {
-    formConfig,
-    pageList,
-    path
-  } = route;
+  const { formConfig, pageList, path } = route;
 
-  const {
-    form,
-    user
-  } = state;
+  const { form, user } = state;
 
   const formContext = getFormContext({ form, user, onReviewPage: true });
 
@@ -177,28 +217,33 @@ function mapStateToProps(state, ownProps) {
     showLoginModal: state.navigation.showLoginModal,
     path,
     route,
-    user
+    user,
   };
 }
 
 const mapDispatchToProps = {
   autoSaveForm,
   saveAndRedirectToReturnUrl,
-  toggleLoginModal
+  toggleLoginModal,
 };
 
 RoutedSavableReviewPage.propTypes = {
   autoSaveForm: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   route: PropTypes.shape({
-    formConfig: PropTypes.object.isRequired
+    formConfig: PropTypes.object.isRequired,
   }).isRequired,
   formContext: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
   path: PropTypes.string.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RoutedSavableReviewPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(RoutedSavableReviewPage),
+);
 
 export { RoutedSavableReviewPage };

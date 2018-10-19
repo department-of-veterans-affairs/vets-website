@@ -7,7 +7,12 @@ export default function DependentField({ formData }) {
 
   return (
     <div>
-      <strong>{first} {middle && `${middle} `}{last}{suffix && `, ${suffix}`}</strong><br/>
+      <strong>
+        {first} {middle && `${middle} `}
+        {last}
+        {suffix && `, ${suffix}`}
+      </strong>
+      <br />
       {relationship}
     </div>
   );

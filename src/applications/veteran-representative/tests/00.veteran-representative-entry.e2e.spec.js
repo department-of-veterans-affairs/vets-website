@@ -22,11 +22,11 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // Veteran Information
   client.waitForElementVisible(
     'input[name="root_veteranFullName_first"]',
-    Timeouts.normal
+    Timeouts.normal,
   );
   client.assert.cssClassPresent(
     '.progress-bar-segmented div.progress-segment:first-child',
-    'progress-segment-complete'
+    'progress-segment-complete',
   );
   PageHelpers.completeVeteranInformation(client, testData.data);
   client.axeCheck('.main').click('.form-panel .usa-button-primary');
@@ -35,11 +35,11 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // Claimant Information
   client.waitForElementVisible(
     'input[name="root_claimantFullName_first"]',
-    Timeouts.normal
+    Timeouts.normal,
   );
   client.assert.cssClassPresent(
     '.progress-bar-segmented div.progress-segment:nth-child(1)',
-    'progress-segment-complete'
+    'progress-segment-complete',
   );
   PageHelpers.completeClaimantInformation(client, testData.data);
   client.axeCheck('.main').click('.form-panel .usa-button-primary');
@@ -48,15 +48,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // Veteran Service Organization information
   client.waitForElementVisible(
     'input[name="root_organizationName"]',
-    Timeouts.normal
+    Timeouts.normal,
   );
   client.assert.cssClassPresent(
     '.progress-bar-segmented div.progress-segment:nth-child(2)',
-    'progress-segment-complete'
+    'progress-segment-complete',
   );
   PageHelpers.completeVeteranServiceOrganizationInformation(
     client,
-    testData.data
+    testData.data,
   );
   client.axeCheck('.main').click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/veteran-service-organization');
@@ -64,31 +64,31 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // Authorization for Representative’s Access to Records
   client.assert.containsText(
     'h4',
-    'Authorization for Representative’s Access to Records'
+    'Authorization for Representative’s Access to Records',
   );
   client.assert.cssClassPresent(
     '.progress-bar-segmented div.progress-segment:nth-child(3)',
-    'progress-segment-complete'
+    'progress-segment-complete',
   );
   PageHelpers.completeAuthorizationForRepresentativeAccessToRecords(
     client,
-    testData.data
+    testData.data,
   );
   client.axeCheck('.main').click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
-    '/authorization-for-representative-access-to-records'
+    '/authorization-for-representative-access-to-records',
   );
 
   // Limitation of Consent
   client.assert.containsText('h4', 'Limitation of Consent');
   client.assert.cssClassPresent(
     '.progress-bar-segmented div.progress-segment:nth-child(4)',
-    'progress-segment-complete'
+    'progress-segment-complete',
   );
   PageHelpers.completeAuthorizationForRepresentativeAccessToRecords(
     client,
-    testData.data
+    testData.data,
   );
   client.axeCheck('.main').click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/limitation-of-consent');
@@ -96,27 +96,27 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // Authorization to Change Claimant’s Address
   client.assert.containsText(
     'h4',
-    'Authorization to Change Claimant’s Address'
+    'Authorization to Change Claimant’s Address',
   );
   client.assert.cssClassPresent(
     '.progress-bar-segmented div.progress-segment:nth-child(5)',
-    'progress-segment-complete'
+    'progress-segment-complete',
   );
   PageHelpers.completeAuthorizationForRepresentativeAccessToRecords(
     client,
-    testData.data
+    testData.data,
   );
   client.axeCheck('.main').click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
-    '/authorization-to-change-claimant-address'
+    '/authorization-to-change-claimant-address',
   );
 
   // Review and submit page
   client.waitForElementVisible('.usa-button-primary', Timeouts.normal);
   client.assert.cssClassPresent(
     '.progress-bar-segmented div.progress-segment:nth-child(6)',
-    'progress-segment-complete'
+    'progress-segment-complete',
   );
   client.click('input[name="privacyAgreement"]');
   client.click('.usa-button-primary');

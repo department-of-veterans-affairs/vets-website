@@ -79,18 +79,6 @@ Post-9/11 GI Bill benefits expire 15 years after your last separation date from 
 </div>
 </div>
 
-<div itemscope itemtype="http://schema.org/Question">
-
-<h3 itemprop="name">Do I have Post-9/11 GI Bill benefits?</h3>
-<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-<div itemprop="text">
-
-You can check to see if you have Post-9/11 GI Bill benefits. <br>
-[View and print your statement of benefits](/education/check-post-9-11-gi-bill-benefit-status).
-
-</div>
-</div>
-</div>
 
 -------
 
@@ -126,6 +114,17 @@ The benefit amount depends on which school you go to, how much active-duty servi
 </div>
 </div>
 
+<div itemscope itemtype="http://schema.org/Question">
+ <h3 itemprop="name">How do I know how much of my Post-9/11 GI Bill benefits are left?</h3>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+  
+If you already applied for and were awarded Post-9/11 GI Bill education benefits, your GI Bill Statement of Benefits will show you how much of your benefits you’ve used and how much you have left to use. <br>
+[View your GI Bill Statement of Benefits](/education/gi-bill/post-9-11/ch-33-benefit). 
+
+</div>
+</div>
+</div>
 
 <div itemscope itemtype="http://schema.org/Question">
 
@@ -147,24 +146,36 @@ The benefit amount depends on which school you go to, how much active-duty servi
 
 <div itemscope itemtype="http://schema.org/Question">
 
-<h4 itemprop="name">Types of training</h4>
+<h3 itemprop="name">How can I use my Post-9/11 GI Bill benefits?</h3>
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-You can use these types of programs and courses under the Post-9/11 GI Bill:
+You can use your GI Bill benefits in many ways to advance your education and training.
 
-- [Correspondence training](/education/about-gi-bill-benefits/how-to-use-benefits/correspondence-training/)
-- [Co-op training](/education/about-gi-bill-benefits/how-to-use-benefits/co-op-training/)
-- [Entrepreneurship training](/education/about-gi-bill-benefits/how-to-use-benefits/entrepreneurship-training/)
-- [Flight training](/education/about-gi-bill-benefits/how-to-use-benefits/flight-training/)
-- [Independent and distance learning](/education/about-gi-bill-benefits/how-to-use-benefits/online-distance-learning/)
+**Work toward a degree:**
+
 - [Undergraduate and graduate degrees](/education/about-gi-bill-benefits/how-to-use-benefits/undergraduate-graduate-programs/)
-- [Licensing and certification reimbursement](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
-- [Vocational/technical training and non-college degree programs](/education/about-gi-bill-benefits/how-to-use-benefits/non-college-degree-programs/)
-- [National testing reimbursement](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
-- [On-the-job training and apprenticeships](/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/)
 - [Tuition Assistance Top-Up](/education/about-gi-bill-benefits/how-to-use-benefits/tuition-assistance-top-up/)
 - [Tutorial Assistance](/education/about-gi-bill-benefits/how-to-use-benefits/tutor-assistance/)
+
+**Train for a specific career, trade, or industry:**
+
+- [Vocational/technical training and non-college degree programs](/education/about-gi-bill-benefits/how-to-use-benefits/non-college-degree-programs/)
+- [On-the-job training and apprenticeships](/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/)
+- [Entrepreneurship training](/education/about-gi-bill-benefits/how-to-use-benefits/entrepreneurship-training/)
+- [Flight training](/education/about-gi-bill-benefits/how-to-use-benefits/flight-training/)
+- [Test Fees](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
+
+**Work while you study:**
+
+- [Co-op training](/education/about-gi-bill-benefits/how-to-use-benefits/co-op-training/)
+- [Work study](/education/about-gi-bill-benefits/how-to-use-benefits/work-study/)
+
+**Take classes from home:**
+
+- [Correspondence training](/education/about-gi-bill-benefits/how-to-use-benefits/correspondence-training/)
+- [Independent and distance learning](/education/about-gi-bill-benefits/how-to-use-benefits/online-distance-learning/)
+
 
 </div>
 </div>

@@ -5,7 +5,7 @@ title: Eligibility for VA Health Care
 display_title: Eligibility
 description: If you served on active duty and didn’t receive a dishonorable discharge, you may qualify for VA health care benefits. Find out if you're eligible for VA health care.
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-lastupdate: 2018-01-02
+lastupdate: 2018-10-17
 collection: healthCare
 children: healthEligibility
 spoke: Get Benefits
@@ -40,6 +40,8 @@ You may be able to get VA health care benefits if you served in the active milit
 
 - **If you’re a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don’t qualify for VA health care.
 
+<br>
+
 ### What should I do if I received an other than honorable, bad conduct, or dishonorable discharge?
 
 If you've received one of these discharge statuses, you may not be eligible for VA benefits.
@@ -48,6 +50,7 @@ If you've received one of these discharge statuses, you may not be eligible for 
 
 [Find out how to apply for a discharge upgrade](/discharge-upgrade-instructions/).<br/>
 [Learn about the VA Character of Discharge review process](/discharge-upgrade-instructions/#other-options).
+
 
 </div>
 </div>
@@ -66,7 +69,7 @@ Yes. You may qualify for enhanced eligibility status (meaning you’ll be placed
 - Receive financial compensation (payments) from VA for a service-connected disability
 - Were discharged for a disability resulting from something that happened to you in the line of duty
 - Were discharged for a disability that got worse in the line of duty
-- Are a recently discharged Combat Veteran
+- [Are a recently discharged combat Veteran](https://www.va.gov/HEALTHBENEFITS/apply/returning_servicemembers.asp)
 - Get a VA pension
 - Are a former Prisoner of War (POW)
 - Have received a Purple Heart
@@ -114,6 +117,7 @@ You can get help in any of these ways:
 
 - [What are priority groups and how do they affect me?](#priority-groups)
 - [I have other health insurance (like Medicare, Medicaid, or private insurance). Does that affect whether I can get VA health care benefits?](#other-health-insurance)
+- [When I leave active-duty service, how do I know if I’m eligible for TRICARE, VA health care, or both?](#leave-active-service)
 - [If I can't get VA health care benefits, how else can I get health insurance?](#cannot-get)
 - [If I don't qualify for VA health care benefits, can I still get care for certain needs (like PTSD or military sexual trauma)?](#certain-needs)
 - [I need vision care. Can I get it through VA?](#vision-care)
@@ -166,7 +170,28 @@ No. Whether or not you have other health insurance coverage doesn’t affect the
 </div>
 </div>
 <br>
+<span id="leave-active-service"></span>
 
+<div itemscope itemtype="http://schema.org/Question">
+  
+<h4 itemprop="name">When I leave active-duty service, how do I know if I'm eligible for TRICARE, VA health care, or both?</h4>
+<div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+<div itemprop="text">
+
+**If you're retiring,** you're eligible for TRICARE. You may also qualify for certain VA health care benefits. 
+
+
+**If you're separating from service due to a service-connected illness or injury,** you may be eligible for VA health care benefits and certain TRICARE benefits. 
+
+
+**If you're an OEF/OIF/OND combat Veteran who has just returned from service,** you can receive free medical care for any condition related to your service in Iraq or Afghanistan for 5 years after discharge. 
+
+[Learn more about health care benefits for transitioning Servicemembers](https://www.va.gov/HEALTHBENEFITS/apply/active_duty.asp).
+
+</div>
+</div>
+</div>
+<br>
 <span id="cannot-get"></span>
 
 <div itemscope itemtype="http://schema.org/Question">
@@ -198,7 +223,7 @@ Yes.
 - [Other mental health problems (like depression or substance abuse)](/health-care/health-needs-conditions/mental-health/#no-benefits)
 - [Mental and physical health problems linked to military sexual trauma (MST)](/health-care/health-needs-conditions/military-sexual-trauma/#no-benefits)
 
-Or, call our general VA hotline at <a href="tel:+1phonenumber">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
+Or, call our general VA hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a>, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET) to find out what your care options may be.
 
 </div>
 </div>

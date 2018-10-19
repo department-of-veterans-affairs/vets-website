@@ -5,7 +5,9 @@ title: VA Burial Benefits and Memorial Items
 display_title: Burials and Memorials
 lastupdate:
 order: 1
-icon: star
+icon: icon-large white fa fa-star hub-background-burials
+aliases:
+  - /burials-and-memorials/
 promo:
   - image: /img/megamenu/burials-memorials-illustration.png
     heading: National Cemetery Administration Mobile Site
@@ -14,7 +16,7 @@ promo:
 crosslinks:
   - heading: Other VA Benefits and Services
     links:
-    - url: "#"
+    - url: "/pension/survivors-pension/"
       title: <b>Survivors Pension</b>
       description: Find out if you’re eligible and how to apply for VA pension benefits as a surviving spouse or child of a deceased Veteran with wartime service.
     - url: "https://www.benefits.va.gov/insurance/bfcs.asp"
@@ -45,15 +47,19 @@ social:
         links:
         - url: https://public.govdelivery.com/accounts/USVANCA/subscribers/qualify
           label: National Cemeteries Email Updates
+          external: true
           icon: fa-envelope-square
         - url: https://twitter.com/VANatCemeteries
           label: National Cemeteries Twitter
+          external: true
           icon: fa-twitter
         - url: "https://www.facebook.com/VeteransBenefits"
           label: National Cemeteries Facebook
+          external: true
           icon: fa-facebook
         - url: "https://www.youtube.com/watch?v=4MhXfpNSHzs&list=PL7897A1FCC5516DDE"
           label: National Cemeteries YouTube
+          external: true
           icon: fa-youtube
 ---
 
@@ -133,7 +139,7 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   </div>
 
   <div class="link">
-    <a href="#"><b>Request Military Records</b></a>
+    <a href="/records/get-military-service-records/"><b>Request Military Records (DD214)</b></a>
     <p>View and print documents from your official military personnel file (including your DD214).</p>
 
   </div>
@@ -156,17 +162,20 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   <div class="link">
     <a href="https://www.benefits.va.gov/Compensation/current_rates_dic.asp"><b>VA Survivor Benefits Rates (VA DIC)</b></a>
     <p>View current dependency and indemnity compensation rates for surviving spouses and children.</p>
+  </div>
 
   <div class="link">
     <a href="https://www.benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp"><b>Parents Dependency and Indemnity Compensation (DIC) Rates</b></a>
     <p>View current survivor benefit rates for parents.</p>
+  </div>
 
   <div class="link">
     <a href="https://www.archives.gov/veterans/replace-medals" target="_blank"><b>Replace Medals, Awards, and Decorations</b></a>
     <p>Visit the National Archives website to find out how to request replacement medals, awards, and decorations.</p>
+  </div>
 
   <div class="link">
-    <a href="https://www.archives.gov/veterans"><b>Search Historical Military Records (National Archives)</b></a>
+    <a href="https://www.archives.gov/veterans" target="_blank"><b>Search Historical Military Records (National Archives)</b></a>
     <p>Visit the National Archives website to research military records from the Revolutionary War to the present.</p>
   </div>
 

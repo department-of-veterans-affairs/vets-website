@@ -1,0 +1,67 @@
+[
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/index.asp",
+    "dest": "/health-care/"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/access/medical_benefits_package.asp",
+    "dest": "/health-care/about-va-health-benefits/"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/cost/insurance.asp",
+    "dest": "/health-care/about-va-health-benefits/va-health-care-and-other-insurance/"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/access/geriatrics.asp",
+    "dest": "/health-care/about-va-health-benefits/long-term-care/"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/access/home_health_care.asp",
+    "dest": "/health-care/about-va-health-benefits/long-term-care/"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/apply/veterans.asp",
+    "dest": "/health-care/eligibility/"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/apply/index.asp",
+    "dest": "/health-care/how-to-apply/"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/apply/application_process.asp",
+    "dest": "/health-care/how-to-apply/"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/apply/family_members.asp",
+    "dest": "/health-care/family-caregiver-benefits/"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/access/prescriptions.asp",
+    "dest": "/health-care/refill-track-prescriptions/"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/apply/women_veterans.asp",
+    "dest": "/health-care/health-needs-conditions/womens-health-needs/"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/",
+    "dest": "/health-care/"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/apply/",
+    "dest": "/health-care/how-to-apply/"
+  }
+]

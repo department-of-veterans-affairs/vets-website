@@ -4,9 +4,10 @@ const path = require('path');
 const commandLineArgs = require('command-line-args');
 const applyHerokuOptions = require('./heroku-helper');
 const environments = require('./constants/environments');
+const hostnames = require('./constants/hostnames');
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'buildtype', type: String, defaultValue: environments.DEVELOPMENT },
+  { name: 'buildtype', type: String },
   { name: 'brand-consolidation-enabled', type: Boolean, defaultValue: false },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3001 },
@@ -14,6 +15,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'entry', type: String, defaultValue: null },
   { name: 'analyzer', type: Boolean, defaultValue: false },
   { name: 'host', type: String, defaultValue: 'localhost' },
+  { name: 'protocol', type: String, defaultValue: 'http' },
   { name: 'public', type: String, defaultValue: null },
   { name: 'destination', type: String, defaultValue: null },
 
@@ -36,14 +38,24 @@ function applyDefaultOptions(options) {
     contentRoot: '../content',
     destination: path.resolve(__dirname, `../build/${options.buildtype}`),
     assets: {
-      source: '../assets', destination: './'
+      source: '../assets',
+      destination: './',
     },
-    collections: require('./collections/default.json')
+    collections: require('./collections/default.json'),
+    redirects: [],
   });
 
-  if (options.buildtype === undefined) {
+  if (!options.buildtype) {
     options.buildtype = environments.DEVELOPMENT;
+  } else {
+    options.port = 80;
+    options.protocol = 'https';
+    options.host = hostnames[options.buildtype];
   }
+
+  options.hostUrl = `${options.protocol}://${options.host}${
+    options.port && options.port !== 80 ? `:${options.port}` : ''
+  }`;
 }
 
 function applyEnvironmentOverrides(options) {
@@ -52,12 +64,21 @@ function applyEnvironmentOverrides(options) {
   switch (options.buildtype) {
     case environments.DEVELOPMENT:
     case environments.STAGING:
+      options.move = [{ source: 'vets-robots.txt', target: 'robots.txt' }];
+      options.remove = ['va-robots.txt'];
       break;
 
     case environments.PRODUCTION:
+      options.move = [{ source: 'vets-robots.txt', target: 'robots.txt' }];
+      options.remove = ['va-robots.txt'];
+
       if (options['no-sanity-check-node-env'] === false) {
         if (env !== 'prod') {
-          throw new Error(`buildtype ${options.buildtype} expects NODE_ENV to be production, not '${process.env.NODE_ENV}'`);
+          throw new Error(
+            `buildtype ${
+              options.buildtype
+            } expects NODE_ENV to be production, not '${process.env.NODE_ENV}'`,
+          );
         }
       }
       break;
@@ -65,6 +86,9 @@ function applyEnvironmentOverrides(options) {
     case environments.VAGOVDEV:
     case environments.VAGOVSTAGING:
     case environments.PREVIEW:
+      options.move = [{ source: 'va-robots.txt', target: 'robots.txt' }];
+      options.remove = ['vets-robots.txt'];
+
       options['brand-consolidation-enabled'] = true;
       break;
 
@@ -74,9 +98,14 @@ function applyEnvironmentOverrides(options) {
 }
 
 function applyBrandConsolidationOverrides(options) {
+  // This list also exists in stagingDomains.js
+  const domainReplacements = [{ from: 'www\\.va\\.gov', to: options.host }];
+
   Object.assign(options, {
     contentRoot: '../va-gov',
-    collections: require('./collections/brand-consolidation.json')
+    collections: require('./collections/brand-consolidation.json'),
+    redirects: require('./vagovRedirects.json'),
+    domainReplacements,
   });
 }
 

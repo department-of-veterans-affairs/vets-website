@@ -6,12 +6,12 @@ display_title: Records
 concurrence: complete
 lastupdate:
 order: 1
-icon: id-card
+icon: icon-large white fa fa-id-card hub-background-records
 promo:
   - image: /img/megamenu/records-illustration.png
-    heading: Veteran ID Card
-    url: "#"
-    description: Apply for your Veteran ID Card to get Veteran discounts on goods and services.
+    heading: Confirm Your VA Benefit Status
+    url: "/records/download-va-letters/"
+    description: Download letters like your eligibility or award letter for certain benefits.
 social:
   - heading: Connect with Us
     admin: All VA Organizations
@@ -26,7 +26,7 @@ social:
           title: "VA Benefits Hotline:"
         - url: tel:1-877-327-0022
           number: 1-877-327-0022
-          title: "MyHealtheVet Help Desk:"
+          title: "My HealtheVet Help Desk:"
         - url: tel:1-800-983-0937
           number: 1-800-983-0937
           title: "eBenefits Technical Support:"
@@ -34,15 +34,19 @@ social:
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
           label: Veterans Records Email Updates
+          external: true
           icon: fa-envelope-square
         - url: https://twitter.com/DeptVetAffairs/
           label: Veterans Affairs Twitter
+          external: true
           icon: fa-twitter
         - url: "https://www.facebook.com/VeteransAffairs/"
           label: Veterans Affairs Facebook
+          external: true
           icon: fa-facebook
         - url: "https://www.youtube.com/user/DeptVetAffairs"
           label: Veterans Affairs YouTube
+          external: true
           icon: fa-youtube
 ---
 
@@ -59,23 +63,18 @@ Access your VA records and documents online to manage your health and benefits.
   <h2>Get Your Records and Documents</h2>
 
   <div class="link">
-    <a href=#><b>Apply for a Veteran ID Card</b></a>
-    <p>Apply for a printed Veteran ID Card (VIC) that you can use instead of your DD214 to get discounts on goods and services offered to Veterans.</p>
+    <a href="/records/get-veteran-id-cards/"><b>Get Veteran ID Cards</b></a>
+    <p>Find out how to get different types of identification cards to show your military status or your enrollment in VA health care or the VA Choice program.</p>
   </div>
 
   <div class="link">
-    <a href=/records/get-military-records/><b>Get Your Military Records (DD214)</b></a>
+    <a href="/records/get-military-service-records/"><b>Request Your Military Records (DD214)</b></a>
     <p>View and print documents from your official military personnel file (including your DD214).</p>
   </div>
 
   <div class="link">
-    <a href=/health-care/get-medical-records/><b>Get Your VA Medical Records (called VA Blue Button)</b></a>
+    <a href="/health-care/get-medical-records/"><b>Get Your VA Medical Records (called VA Blue Button)</b></a>
     <p>Set up your personal health record and download medical records, reports, and images to share with your VA and non-VA doctors.</p>
-  </div>
-
-  <div class="link">
-    <a href="/records/get-veteran-id-cards/"><b>Get Veteran ID Cards</b></a>
-    <p>Find out how to get different types of identification cards to show your military status or your enrollment in VA health care or the VA Choice program.</p>
   </div>
 
   <div class="link">
@@ -94,7 +93,7 @@ Access your VA records and documents online to manage your health and benefits.
   </div>
 
   <div class="link">
-    <a href="#"><b>View Your VA Payment History</b></a>
+    <a href="/va-payment-history/"><b>View Your VA Payment History</b></a>
     <p>Check the status of your VA disability, pension, and education benefits payments. You can also see payments for certain survivor benefits.</p>
   </div>
 

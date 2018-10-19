@@ -4,16 +4,13 @@ title: VR&E Eligibility
 display_title: Eligibility
 order: 2
 template: detail-page
-collection: careersEmployment
-children: vreServiceEligibility
-spoke: Get Benefits
 majorlinks:
   - heading: More information about VR&E benefits and services
     links:
     - url: /careers-employment/vocational-rehabilitation/programs/
       title: VR&E Programs for Servicemembers and Veterans
       description: Explore VR&E support-and-services tracks for help learning new skills, finding a new job, starting a business, getting educational counseling, or returning to your former job.
-    - url: /careers-employment/how-to-apply/
+    - url: /careers-employment/vocational-rehabilitation/how-to-apply/
       title: How to Apply for VR&E
       description: Find out how to apply for VR&E benefits and services as a Servicemember or Veteran.
     - url: /careers-employment/dependent-benefits/
@@ -39,7 +36,7 @@ You may be eligible for VR&E benefits and services if you’re a Veteran, and yo
 
 - Didn't receive a dishonorable discharge, **and**
 - Have a service-connected disability rating of at least 10% from VA, **and**
-- [Apply for VR&E services](/careers-employment/how-to-apply/)
+- [Apply for VR&E services](/careers-employment/vocational-rehabilitation/how-to-apply/)
 
 <br>
 
@@ -84,7 +81,7 @@ You can apply online right now.
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">Go to eBenefits to Apply</a>
 
-[Learn more about how to apply for VR&E](/careers-employment/how-to-apply/). <br>
+[Learn more about how to apply for VR&E](/careers-employment/vocational-rehabilitation/how-to-apply/). <br>
 **Note:** You can apply even if you're a Servicemember without a disability rating yet.
 
 

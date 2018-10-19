@@ -1,21 +1,24 @@
 import fullSchema from '../config/schema';
 import { hasMilitaryRetiredPay } from '../validations';
 
-const { militaryRetiredPayBranch: militaryRetiredPayBranchSchema } = fullSchema.properties;
+const {
+  militaryRetiredPayBranch: militaryRetiredPayBranchSchema,
+} = fullSchema.properties;
 
 export const uiSchema = {
   'view:hasMilitaryRetiredPay': {
     'ui:title': 'Are you receiving military retired pay?',
     'ui:widget': 'yesNo',
-    'ui:options': {}
+    'ui:options': {},
   },
   militaryRetiredPayBranch: {
-    'ui:title': 'Please choose the branch of service that gives you military retired pay',
+    'ui:title':
+      'Please choose the branch of service that gives you military retired pay',
     'ui:options': {
-      expandUnder: 'view:hasMilitaryRetiredPay'
+      expandUnder: 'view:hasMilitaryRetiredPay',
     },
-    'ui:required': hasMilitaryRetiredPay
-  }
+    'ui:required': hasMilitaryRetiredPay,
+  },
 };
 
 export const schema = {
@@ -25,6 +28,6 @@ export const schema = {
     'view:hasMilitaryRetiredPay': {
       type: 'boolean',
     },
-    militaryRetiredPayBranch: militaryRetiredPayBranchSchema
-  }
+    militaryRetiredPayBranch: militaryRetiredPayBranchSchema,
+  },
 };

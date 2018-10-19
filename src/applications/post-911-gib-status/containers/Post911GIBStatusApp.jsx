@@ -3,9 +3,15 @@ import { connect } from 'react-redux';
 
 import backendServices from '../../../platform/user/profile/constants/backendServices';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
-import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
+import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
+import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
+import DowntimeNotification, {
+  externalServices,
+} from '../../../platform/monitoring/DowntimeNotification';
 
 import Main from './Main';
+
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
@@ -18,10 +24,17 @@ function AppContent({ children, isDataAvailable }) {
       <div className="row">
         <div className="small-12 columns">
           <h4>
-            We weren’t able to find information about your Post-9/11 GI Bill Benefit Status.
-            If you think you should be able to access this information, please call the Vets.gov Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+            We weren’t able to find information about your Post-9/11 GI Bill
+            Benefit Status. If you think you should be able to access this
+            information, please{' '}
+            <CallHelpDesk>
+              call the {propertyName} Help Desk at{' '}
+              <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+              <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211;
+              Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+            </CallHelpDesk>
           </h4>
-          <br/>
+          <br />
         </div>
       </div>
     );
@@ -29,28 +42,25 @@ function AppContent({ children, isDataAvailable }) {
     view = children;
   }
 
-  return (
-    <div>
-      {view}
-    </div>
-  );
+  return <div>{view}</div>;
 }
 
 class Post911GIBStatusApp extends React.Component {
-
   render() {
     return (
       <RequiredLoginView
         verify
         serviceRequired={backendServices.EVSS_CLAIMS}
-        user={this.props.user}>
-        <DowntimeNotification appTitle="Post-9/11 GI Bill benefits tracking tool" dependencies={[externalServices.evss]}>
+        user={this.props.user}
+      >
+        <DowntimeNotification
+          appTitle="Post-9/11 GI Bill benefits tracking tool"
+          dependencies={[externalServices.evss]}
+        >
           <AppContent>
             <div className="row">
               <div className="small-12 columns">
-                <Main>
-                  {this.props.children}
-                </Main>
+                <Main>{this.props.children}</Main>
               </div>
             </div>
           </AppContent>

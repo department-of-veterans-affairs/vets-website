@@ -11,27 +11,27 @@ const props = {
     body: makeField(''),
     category: makeField(''),
     recipient: makeField(''),
-    subject: makeField('')
+    subject: makeField(''),
   },
   recipients: [],
   loading: {
-    recipients: false
+    recipients: false,
   },
   deleteConfirmModal: {
-    visible: false
+    visible: false,
   },
   saveConfirmModal: {
-    visible: false
+    visible: false,
   },
 
   // No-op function to override dispatch
   setMessageField: () => {},
   dispatch: () => {},
-  router: {}
+  router: {},
 };
 
 describe('Compose', () => {
-  const tree = SkinDeep.shallowRender(<Compose {...props}/>);
+  const tree = SkinDeep.shallowRender(<Compose {...props} />);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();

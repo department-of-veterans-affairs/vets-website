@@ -10,9 +10,9 @@ describe('User navigation selectors', () => {
       user: {
         profile: {
           userFullName: { first: null },
-          email: 'test@test.gov'
-        }
-      }
+          email: 'test@test.gov',
+        },
+      },
     };
 
     it('should return email', () => {
@@ -29,7 +29,7 @@ describe('User navigation selectors', () => {
     it('should return profile name', () => {
       conditionalStorage().setItem('userFirstName', 'Joe');
       const result = selectUserGreeting(
-        set('user.profile.userFullName.first', 'Jane', state)
+        set('user.profile.userFullName.first', 'Jane', state),
       );
       expect(result).to.equal('Jane');
     });

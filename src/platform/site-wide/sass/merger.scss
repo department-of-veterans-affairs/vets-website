@@ -2,10 +2,35 @@
 
 /* OVERRIDE */
 .merger {
+  .login {
+    .container {
+      width: 100%;
+    }
+  }
+
+  .va-dropdown-panel {
+    min-width: 102px;
+  }
+
   .vet-toolbar {
     .sign-in-nav {
       margin-left: 6px;
     }
+    min-height: 50px;
+  }
+  .va-modal {
+    font-size: 1.6rem;
+  }
+
+  #modal-crisisline {
+    display: block;
+    p {
+      font-size: 100%;
+    }
+  }
+
+  #dashboard-title {
+    margin-top: 0;
   }
 
   #va-header-logo-menu {
@@ -13,8 +38,8 @@
   }
   $color-primary-lightest: #e1f3f8;
 
-  @import 'iconography';
-  @import 'right-rail';
+  @import "iconography";
+  @import "right-rail";
 
   .vetnav-panel {
     @include media($medium-large-screen) {
@@ -29,8 +54,9 @@
   /* logo size override */
 
   .va-header-logo {
-    width: 264px;
-    height:auto;
+    width: 100%;
+    max-width: 264px;
+    height: auto;
   }
 
   article {
@@ -49,41 +75,6 @@
     }
   }
 
-  #mega-menu {
-
-    @include media($medium-large-screen) {
-      .vetnav-panel--submenu:not([hidden]) {
-        h3 {
-          font-family: Source Sans Pro, sans serif;
-          font-size: 1.6rem;
-        }
-      }
-    }
-
-    #vetnav-menu, #vetnav {
-      margin-top: 0;
-    }
-
-    .mm-marketing-container {
-      height: 350px;
-
-      p {
-        margin-top: 5px;
-      }
-    }
-
-    // TODO: need to add this to formation. This is a temporary fix.
-    #vetnav-column-one-col {
-      .panel-bottom-link {
-        width: 200%;
-      }
-    }
-    //TODO: add this to formation
-      .mm-links {
-        padding: 5px 0px;
-      }
-  }
-
   #menu-rule {
     border-bottom: 1px solid $color-white;
     margin-left: -.55em;
@@ -94,18 +85,17 @@
   /* new pattern? where we use old VA icons with h3 */
   .va-icon-header {
 
-    width:100%;
+    width: 100%;
     height: 40px;
     margin-left: -6px;
 
     .va-icon-icon {
       margin: 0;
       padding: 0;
-
       display: inline;
       float: left;
-      width:12%;
-      height:auto;
+      width: 12%;
+      height: auto;
     }
 
     .va-icon-h {
@@ -117,34 +107,17 @@
 
   .va-icon-cols {
     p {
-      margin-top:0;
+      margin-top: 0;
     }
 
     padding-bottom: 3em;
-  }
-
-  #footer-first-child {
-    margin-top: 2em;
-  }
-
-  #homepage-hub, .va-sidebarnav {
-    [href^="http"]:not(.usa-button-primary), [rel="external"] {
-      background-image: none;
-      padding-right: 0px;
-
-    }
   }
 
   #homepage-hub {
 
-    background: #0071bb; /* Old browsers */
-    background: -moz-linear-gradient(top, #0071bb 0%, #112e51 63%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #0071bb 0%,#112e51 63%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #0071bb 0%,#112e51 63%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0071bb', endColorstr='#112e51',GradientType=0 ); /* IE6-9 */
+    @include linear-gradient-background($color-old-browser-background-start, $color-old-browser-background-end);
 
     padding-top: 3em;
-    padding-bottom: 3em;
 
     #hub-internal {
 
@@ -167,7 +140,7 @@
 
       .usa-width-one-half {
         background-color: $color-white;
-        padding: 1.5em 0 1.5em 1.5em;
+        padding: 1.5em 0 2.125em 1.5em;
 
         li {
           padding: 0;
@@ -185,151 +158,12 @@
     }
   }
 
-  #homepage-popular {
-    padding-top: 3em;
-  }
-
-  #homepage-hero {
-    background-color: $color-primary-darker;
-    text-align: center;
-    padding-top: 1.5em;
-  }
-
-  #homepage-news {
-    padding: 0 0 3em 0;
-    margin-top: 3em;
-  }
-
-  #homepage-benefits {
-
-    .usa-grid {
-      padding-bottom: 3em;
-    }
-
-    .usa-grid:last-of-type {
-      padding-bottom: 0;
-    }
-  }
-
   h3, h4 {
     .fa {
       padding-right: .35em;
     }
   }
 
-  // new pattern, but specific to homepage only
-  .homepage-button {
-
-    width:100%;
-    height: 85px;
-    padding: 0;
-
-    a {
-      width: 100%;
-      height: 100%;
-      font-weight: bold;
-      color: white;
-      text-decoration: none;
-    }
-
-    .icon-wrapper {
-      width: 55px;
-      height: 100%;
-      float: left;
-
-      -webkit-border-top-left-radius: 6px;
-      -webkit-border-bottom-left-radius: 6px;
-      -moz-border-radius-topleft: 6px;
-      -moz-border-radius-bottomleft: 6px;
-      border-top-left-radius: 6px;
-      border-bottom-left-radius: 6px;
-    }
-
-    .button-inner {
-      padding-left: 1em;
-      padding-right: 1em;
-
-      &#vcl {
-        padding-left: .5em;
-        padding-right: .5em;
-      }
-    }
-
-    .fa {
-      font-size: 1.5em;
-      display:inline-block;
-
-      &.fa-user-circle {
-        font-size: 1.5em;
-        padding-right: .3em;
-      }
-
-      &::before {
-        position: absolute;
-        margin: 0;
-        top: 15px;
-        left: -7.75px;
-      }
-    }
-
-    .vcl {
-      content: "";
-      background: url(/img/vcl-logo-white.png) no-repeat;
-      background-size: 100%;
-      display: inline-block;
-      width: 2em;
-      height: 2em;
-      margin-top:32.5px;
-    }
-
-    div {
-      display:inline-block;
-      width:80%;
-    }
-
-    &.primary-darker {
-
-      .icon-wrapper {
-        background-color: $color-primary-darker;
-      }
-
-      background-color: $color-primary;
-    }
-
-    &.secondary-dark {
-
-      .icon-wrapper {
-        background-color: $color-secondary-darkest;
-      }
-      background-color: $color-secondary-dark;
-    }
-  }
-
-  .footer-banner {
-    padding-top: 1.5em;
-    padding-bottom: 1.5em;
-  }
-
-  .footer-links {
-
-    ul {
-
-      padding-left: 0;
-      padding-bottom: 3em;
-      list-style: none;
-
-      li {
-        display: inline-block;
-
-        a {
-          color: white;
-        }
-        a:visited {
-          color: white;
-        }
-      }
-    }
-  }
 
   .merger-majorlinks {
 
@@ -347,10 +181,6 @@
       }
     }
 
-  }
-
-  .usa-grid {
-    padding: 0;
   }
 
   .va-nav-breadcrumbs-list {
@@ -384,112 +214,48 @@
     }
   }
 
-  .sign-in-links {
-    background: $color-primary;
-    padding: 5px 20px;
-    border-radius: 4px;
-  }
-
   #vetnav {
-    z-index: 2;
+    // 100% width necessary for right aligned items
+    width: 100%;
+    left: initial;
   }
-
-  .footer-banner {
-
-    padding-top: 1.5em;
-    padding-bottom: 2em;
-
-    .va-footer-logo {
-      img {
-        width:200px;
-        height:auto;
-      }
-    }
-  }
-
-  // desktop footer stuff
-
-  .va-footer-linkgroup-title {
-
-    button {
-      -webkit-font-smoothing: antialiased;
-      font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
-      line-height: 1.3;
-      font-weight: 700;
-      font-size: 1.1em;
-      margin: 0;
-      padding: 0 0 1em 0;
-      text-align: left;
-    }
-
-  }
-
-  .va-footer-button {
-
-    &:disabled {
-      background-color: transparent !important;
-    }
-
-    .va-footer-linkgroup {
-      li {
-        margin-bottom: 0;
-
-        &:first-child {
-          h4 {
-            padding-bottom: 0;
-          }
-        }
-      }
-    }
-  }
-
-  //yes repeated
-  .va-footer-linkgroup {
-    li {
-      margin-bottom: 0;
-
-      &:first-child {
-        h4 {
-          padding-bottom: 0;
-        }
-      }
-    }
-  }
-
-  .va-footer-links {
-    padding-left: 0;
-    margin-top: 0;
-  }
-
-  #footer-vcl {
-    margin-top: 1.5em;
-    margin-bottom: 0;
-  }
-
-  // end footer stuff
 
   // mobile
   @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
+    .flex-col-mobile {
+      flex-direction: column;
+    }
+
+    .va-sidebarnav {
+      display: none;
+    }
 
     button {
       &.va-sidebarnav-close {
         position: absolute;
+        right: 2px;
+        top: 2px;
+
+        &:hover,
+        &:focus {
+          background-color: $mm-gray;
+        }
       }
     }
 
     #mega-menu {
-      margin-top: 1em;
-      #vetnav {
-        min-height: unset;
-      }
+      // #vetnav {
+      //   min-height: unset;
+      // }
       .login-container {
+        // due to these been nested, this has to have a higher z-level then vet-toolbar
         position: relative;
         top: -40px;
       }
     }
     #menu-rule {
       border-bottom: 0;
-      padding-bottom: 0px;
+      padding-bottom: 0;
     }
 
     #vetnav-controls {
@@ -506,14 +272,6 @@
 
     .vetnav-panel a {
       padding: 0.8rem 1.0rem;
-    }
-
-    .usa-banner {
-      padding-left: .5em;
-      .usa-banner-content {
-        padding-bottom: 2.3rem;
-        padding-top: 4rem;
-      }
     }
 
     .va-header-logo-wrapper {
@@ -533,10 +291,7 @@
     }
 
     .vet-toolbar {
-      margin-left: -10px;
-
       .sign-in-nav {
-        margin-top: 6px;
         font-weight: normal;
 
         .sign-in-links {
@@ -556,14 +311,12 @@
         width: auto;
 
         .va-dropdown-trigger {
+          width: 100%;
           font-weight: 600;
           padding-left: 0;
           margin-right: 1.75em;
           background-position: right 1.5rem center;
-
-          &:first-child {
-            margin-right: 1em;
-          }
+          line-height: unset;
 
           span {
             display: inline-block;
@@ -575,7 +328,6 @@
     #homepage-hub {
 
       padding-top: 1.5em;
-      padding-bottom: 1em;
 
       #hub-internal {
 
@@ -603,23 +355,9 @@
     .va-h-ruled--stars,
     .va-nav-breadcrumbs,
     article,
-    #homepage-popular,
-    #hub-rail,
-    .footer-banner,
-    .footer-links {
-
+    #hub-rail {
       padding-left: .5em;
       padding-right: .5em;
-    }
-
-    #homepage-popular {
-      padding-bottom: 1.5em;
-      padding-top: 1em;
-    }
-
-    // internal static-pages
-    #promo {
-      display: none;
     }
 
     .va-nav-breadcrumbs  {
@@ -643,103 +381,37 @@
       margin-bottom: 0 !important; //hard override; what does this break elsewhere
     }
 
-    .footer-inner {
-      padding-top: 0;
-      padding-left: 0;
-      padding-right: 0;
-    }
-
-    #footer-vcl {
-      margin-top: 0.25em;
-    }
-
-    #footerNav {
-      #footer-first-child {
-        padding-top: .25em;
-      }
-
-      .va-footer-linkgroup {
-        margin-top: 0;
-        margin-bottom: .25em;
-        li {
-          margin-bottom: 6px;
-        }
-
-        .usa-accordion-content {
-          background-color: transparent;
-
-          .va-footer-links {
-            li {
-              margin-bottom: 0.5em;
-              a {
-                text-decoration: none;
-              }
-            }
-          }
-        }
-      }
-
-      // mobile footer stuff
-      .va-footer-linkgroup-title {
-        font-weight: 400;
-
-        button {
-          border-top: 3px solid transparent;
-          border-bottom: 3px solid transparent;
-          color: #fff;
-          cursor: pointer;
-          display: block;
-          margin: 0;
-          padding: 1.6rem 0.8rem;
-          font-size: 1.6rem;
-          font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
-          color: $color-white;
-        }
-
-        .usa-accordion-button {
-          color: $color-white;
-          background-color: $color-primary-darker;
-        }
-
-        .usa-accordion-button[aria-expanded=false] {
-          background-image: url("/img/plus-white.png");
-          background-image: url("/img/plus-white.svg");
-        }
-
-        .usa-accordion-button[aria-expanded=true] {
-          background-image: url("/img/minus-white.png");
-          background-image: url("/img/minus-white.svg");
-        }
-      }
-      //.merger #footerNav .va-footer-linkgroup-title button
-
-
-    }
-
     .va-sidebarnav--opened {
       position: fixed;
-      z-index: 1;
+      display: initial;
+    }
+    .va-navigation-nextprevious {
+      padding-left: 0.9375rem;
+      padding-right: 0.9375rem;
     }
   }
 
 
-
   // tablet
-  @media (min-width: 768px) and (max-width: $large-screen) and (orientation: portrait) {
+  @media (min-width: 768px) and (max-width: $large-screen) {
+    .va-modal {
+      .usa-width-one-half {
+        margin-right: 4.82916%;
+        width: 44%;
+      }
+    }
     .va-header-logo-wrapper {
       margin-bottom: 0;
+      justify-content: space-between;
     }
 
     .vet-toolbar {
-      flex: 0 1 30.5rem;
-      padding-left: 2em;
+      flex-shrink: 0;
 
       .profile-nav {
 
         width: 100%;
         .va-dropdown {
-
-          width: 100%;
 
           .va-dropdown-trigger {
             background-position: right .8rem center;
@@ -760,42 +432,11 @@
       }
     }
 
-    .va-header-logo-wrapper {
-      a {
-        width: 70%;
-        height: auto;
-      }
-    }
-
-    #homepage-popular {
-
-      text-align: center;
-
-      .usa-width-one-third {
-
-        margin: 0 auto;
-        margin-bottom: 1.5em;
-        float: none;
-        display: block;
-        width: 50%;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-
-        #vcl {
-          padding-left: 1.5em;
-          padding-right: 1.5em;
-        }
-      }
-    }
-
     #homepage-benefits,
     #homepage-news,
     .va-h-ruled--stars,
     .va-nav-breadcrumbs,
     article,
-    #homepage-popular,
     #hub-rail {
       padding-left: 1em;
       padding-right: 1em;
@@ -804,67 +445,19 @@
     #homepage-hub {
 
       #hub-internal {
-
         width: 85%;
         .usa-grid {
           .usa-width-one-half {
-            min-height: 300px;
+            margin-right: 2.35765%;
           }
         }
       }
     }
   }
 
-  @media (min-width: 768px) and (max-width: $large-screen) and (orientation: landscape){
-    #va-header-logo-menu {
-      align-items: center;
-    }
-    .vet-toolbar {
-      flex: 0 1 25.5rem;
-    }
-    #hub-internal {
-      .usa-width-one-half {
-        min-height: 300px;
-        padding-right: 1em;
-      }
-    }
-
-    #homepage-popular {
-
-      text-align: center;
-
-      .usa-width-one-third {
-
-        margin: 0 auto;
-        margin-bottom: 1.5em;
-        float: none;
-        display: block;
-        width: 40%;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-
-        #vcl {
-          padding-left: 1.5em;
-          padding-right: 1.5em;
-        }
-
-      }
-
-    }
-
-  }
-
   #preview-site-alert {
-    z-index: 1;
     color: $color-black;
     position: relative;
-  }
-
-  .va-crisis-line {
-    top: 169px;
-    z-index: 2;
   }
 
   // TD: need to update this on formation in the MegaMenu. If no title it should still align with the link row.
@@ -899,7 +492,9 @@
 
   .usa-sidenav-list {
     a {
-      padding-right: 0;
+      font-size: 15px;
+      text-decoration: underline;
+      padding: 8px 16px 8px 30px;
 
       &.va-button-primary {
         padding: 1rem 2rem;
@@ -909,69 +504,35 @@
 
   // TODO: add this into formation
   .va-sidebarnav {
-    h4 {
-      vertical-align: middle;
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-
-    .usa-sidenav-list > li {
-      i {
-        position: relative;
-        right: -20px;
-      }
-
-      .menu-item-container > a {
-        font-weight: initial;
-      }
-
-      a.usa-current {
-        font-weight: bold;
-        margin-left: 0;
-      }
-    }
-
-    .usa-sidenav-sub_list{
-      a {
-        width: 100% !important; // sorry this is temporary
-
-        &.usa-current {
-          margin-left: 16px !important; // sorry this is temporary
-        }
-      }
-    }
-  }
-
-  .va-btn-sidebarnav-trigger {
-    &.fixed-trigger {
-      position: fixed;
-      top: 0;
-      margin: 0;
-      width: 100%;
-      z-index: 2;
-    }
-  }
-
-  .va-sidebarnav {
-    h4 {
-      display: inline-block;
-      width: 75%;
-    }
-
     .left-side-nav-title {
-      padding-bottom: 35px;
+      padding-bottom: 25px;
     }
 
     .usa-sidenav-list {
+      margin-right: 0;
+
       & > li {
+        border-top: 0;
+
         .active-menu {
-          border-bottom: none;
+          border-bottom: 0;
         }
 
         a {
+          color: $color-link-default;
           display: inline-block;
           vertical-align: middle;
           width: 100%;
+
+          &:focus {
+            background-color: $mm-gray;
+            font-weight: bold;
+          }
+
+          &:hover {
+            background-color: $mm-gray;
+            font-weight: bold;
+          }
         }
 
         i {
@@ -1001,19 +562,31 @@
 
     .usa-sidenav-list {
       a.usa-current {
-        border-left: 0.4rem solid #0071BB;
+        color: $color-black;
+        border-left: 4px solid $color-black;
         padding-left: 8px;
         margin-left: 16px;
+        background-color: $mm-gray;
+        text-decoration: none;
+        cursor: default;
 
         &.level-one {
           padding-left: 14px;
           margin-left: 0;
         }
+
+        &:hover {
+          background-color: $mm-gray;
+          font-weight: bold;
+        }
+      }
+
+      .active-level {
+        background-color: $mm-gray;
       }
     }
     .fa {
       position: relative;
-      color: $color-white;
       border-radius: 50%;
 
       &.icon-small {
@@ -1040,8 +613,6 @@
       }
 
       &.fa-medkit {
-        background-color: $color-primary;
-
         &.icon-small {
           &::before {
             margin-top: 6px;
@@ -1050,17 +621,155 @@
         }
       }
     }
-  }
-  button.va-modal-close > i.fa.fa-close{
-        color: $color-black;
-  }
-  .va-sidebarnav {
-    .usa-accordion-button {
-      background-color: white;
-      border-top: 1px solid $color-gray-lighter;
-      border-bottom: 1px solid $color-gray-lighter;
-      background-size: 1.1rem;
+
+    h4 {
+      display: inline-block;
+      margin-bottom: 0;
+      margin-top: 0;
+      vertical-align: middle;
+      width: 75%;
     }
+
+    .usa-sidenav-list > li {
+      i {
+        position: relative;
+        right: -20px;
+      }
+
+      .menu-item-container > a {
+        font-weight: initial;
+      }
+
+      a.usa-current {
+        font-weight: bold;
+        margin-left: 0;
+        padding-left: 25px;
+      }
+    }
+
+    .usa-sidenav-sub_list{
+      a {
+        width: 100% !important; // sorry this is temporary
+        text-decoration: underline;
+        padding-left: 40px;
+        font-size: 15px;
+
+        &:focus {
+          @include focus-gold-light-outline(0);
+          background-color: $mm-gray;
+          font-weight: bold;
+        }
+
+        &:hover {
+          text-decoration: underline;
+          background-color: $mm-gray;
+          font-weight: bold;
+        }
+
+        &.usa-current {
+          margin-left: 16px !important; // sorry this is temporary
+        }
+      }
+    }
+  }
+
+  .va-btn-sidebarnav-trigger {
+    color: $color-white;
+    background-color: $color-primary;
+
+    &:hover {
+      background-color: $color-primary-darker;
+    }
+
+    &:focus,
+    &:hover {
+      svg {
+        fill: $color-white;
+      }
+    }
+
+    &.fixed-trigger {
+      margin: 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 2;
+    }
+
+    svg {
+      margin: 5px 0 0 3px;
+    }
+  }
+
+  button.va-modal-close > i.fa.fa-close{
+    color: $color-black;
+  }
+
+  .va-sidebarnav {
+    color: $color-link-default;
+
+    .usa-accordion {
+      .usa-accordion-button {
+        background-color: $color-white;
+        border-top: 1px solid $color-gray-lighter;
+        border-bottom: 1px solid $color-gray-lighter;
+        background-size: 1.1rem;
+        color: $color-link-default;
+        font-weight: normal;
+        font-size: 17px;
+
+        &:focus {
+          outline: 0;
+          border: 2px solid $color-gold;
+          background-color: $mm-gray;
+          font-weight: bold;
+        }
+
+        &:hover {
+          background-color: $mm-gray;
+          font-weight: bold;
+        }
+
+        &[aria-expanded=false] {
+          background-image: url("/img/plus-blue.svg");
+        }
+
+        &[aria-expanded=true] {
+          border-bottom: 0;
+          background-image: url("/img/minus-blue.svg");
+
+          &:focus {
+            border: 2px solid $color-gold;
+          }
+        }
+      }
+
+      .usa-accordion-content {
+        padding: 0;
+      }
+
+      .usa-sidenav-list {
+        a {
+          font-size: 15px;
+          // added to deal with accordian overflow
+          // and outline not showing correctly
+          &:focus {
+            width: 98% !important;
+            margin: 2px;
+          }
+        }
+      }
+
+      .usa-current {
+        // added to deal with accordian overflow
+        // and outline not showing correctly
+        &:focus {
+          width: 99% !important;
+          margin-top: 2px;
+        }
+      }
+    }
+
     .usa-accordion-button-dark {
       background-color: $color-gray-lightest;
     }
@@ -1073,23 +782,29 @@
     }
   }
   .usa-accordion-bordered {
+
     &.social {
       a {
         text-decoration: underline;
       }
+
       .usa-accordion-content {
         h4:first-child {
           margin-top: 0px;
         }
+
         section:last-child {
           margin-bottom: 0px;
         }
+
         > section, > h4 {
           margin: 1.5em auto;
         }
+
         ul > h4 {
           margin: 1em auto;
         }
+
         ul > li {
           margin: 1em auto;
             &:last-child {
@@ -1097,6 +812,7 @@
             }
         }
       }
+
       .usa-accordion-button {
         border: none;
       }
@@ -1116,17 +832,54 @@
   }
 
   .hub-links-container {
-    min-height: 250px;
+    flex: 1;
   }
-  .va-crisis-panel {
-    h3 {
-      color: $color-black;
+  .white {
+    color: $color-white;
+  }
+
+  .sidenav-previous-page {
+    font-size: 15px;
+    padding-bottom: 12px;
+
+    @media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
+      margin-left: 15px;
     }
-    p {
-      color: $color-black;
+
+    a {
+      &::before {
+        content: " \2039 ";
+        display: inline-block;
+        padding: 0 0.35em 0 0;
+      }
+    }
+  }
+
+  // These next two rules override some styles in user-nav.scss, should be moved there
+  // after WBC is live
+  .sign-in-links {
+    flex-shrink: 0;
+  }
+
+  .sign-in-link {
+    margin: 0;
+    @include media($medium-large-screen) {
+      &:hover, &:active {
+        background-color: $color-primary;
+        color: inherit !important;
+      }
+    }
+    // This is backwards from the mobile first approach we should be taking
+    // but the amount of overrides we would need if we did that way would be
+    // very tricky to write and maintain
+    @media (max-width: $medium-large-screen - 1) {
+      @include button-link;
+      color: $color-white !important;
+      text-decoration: none;
     }
   }
 }
+
 .usa-accordion-bordered {
   .fa {
     color: $color-link-default;
@@ -1135,4 +888,39 @@
 
 [class^="vetnav-controller"] {
   position: relative !important;
+}
+
+// There are styles in our sidebar styles that set a small
+// amount of padding on the grid for detail pages, which we
+// are overriding for WBC with no padding
+.va-l-detail-page > .usa-grid-full {
+  padding-right: inherit;
+  padding-left: inherit;
+}
+
+.left-side-nav-title {
+  color: $color-black;
+  padding-left: 1em;
+  @include media($small-desktop-screen) {
+    padding-left: 0;
+  }
+}
+
+.flex-container {
+  display: flex;
+}
+
+// This is a fix for Edge and lazy image loading.
+img[data-src],
+img[data-srcset] {
+  display: block;
+  min-height: 1px;
+}
+
+.vet-toolbar .va-dropdown {
+  margin-left: 0;
+}
+
+.profile-nav {
+  margin-top: 6px;
 }

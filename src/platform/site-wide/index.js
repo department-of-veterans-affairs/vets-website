@@ -2,21 +2,29 @@
  * Module for site wide components
  * @module platform/site-wide
  */
-
 import '../monitoring/sentry.js';
-import './legacy/menu';  // Used in the footer.
-import './usa-banner-toggle';
+import './legacy/menu'; // Used in the footer.
 import './accessible-VCL-modal';
 import './moment-setup';
+import './popups';
 import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
+import startMetrics from '../monitoring/frontend-metrics';
 import startMobileMenuButton from './mobile-menu-button';
 import startFeedbackWidget from './feedback';
 import startAnnouncementWidget from './announcements';
 import startVAFooter from './va-footer';
 
 import brandConsolidation from '../brand-consolidation';
+
+if (!brandConsolidation.isEnabled()) {
+  require('./usa-banner-toggle');
+}
+
+if (brandConsolidation.isEnabled()) {
+  import(/* webpackChunkName: "uswds" */ 'uswds');
+}
 
 /**
  * Start up the site-wide components that live on every page, like
@@ -36,8 +44,11 @@ export default function startSitewideComponents(commonStore) {
 
   // Prevent some browsers from changing the value when scrolling while hovering
   //  over an input[type="number"] with focus.
-  document.addEventListener('wheel', (event) => {
-    if (event.target.type === 'number' && document.activeElement === event.target) {
+  document.addEventListener('wheel', event => {
+    if (
+      event.target.type === 'number' &&
+      document.activeElement === event.target
+    ) {
       event.preventDefault();
       document.body.scrollTop += event.deltaY; // Chrome, Safari, et al
       document.documentElement.scrollTop += event.deltaY; // Firefox, IE, maybe more
@@ -51,6 +62,8 @@ export default function startSitewideComponents(commonStore) {
   if (brandConsolidation.isEnabled()) {
     startMegaMenuWidget(commonStore);
     startMobileMenuButton(commonStore);
-    startVAFooter(commonStore);
+    startVAFooter();
   }
+
+  startMetrics();
 }

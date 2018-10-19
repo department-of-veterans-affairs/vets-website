@@ -1,6 +1,6 @@
 /*
  * NOTE: there is a version of this file for brand consolidation at
- * brand-consolidate.scss. If you make a change to this file, please 
+ * brand-consolidate.scss. If you make a change to this file, please
  * verify that you do or do not need to make the same change in the other file
  */
 $font-path: "~uswds/src/fonts";
@@ -24,6 +24,7 @@ $image-path: "~uswds/src/img";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-overlay";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-additional-info";
 @import "../../monitoring/DowntimeNotification/sass/m-downtime-notification";
+@import "modules/m-layers";
 
 // ----- mobile typography -- see #6214 on vets.gov-team ---- //
 
@@ -35,3 +36,6 @@ $image-path: "~uswds/src/img";
 
 // ----- Medallia ----- //
 @import "modules/m-medallia";
+
+// "Preview the New VA.gov" banner
+@import "modules/m-preview-banner";

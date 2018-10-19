@@ -5,8 +5,8 @@ title: Upload Evidence to Support Your Claim
 display_title: Upload Evidence to Support Your Claim
 description:
 concurrence:
-collection: 
-order: 5 
+collection:
+order: 5
 children:
 spoke: Manage Benefits
 ---
@@ -19,9 +19,9 @@ If you’ve filed a claim for disability compensation, you can continue uploadin
 
 <div class="va-sign-in-alert usa-alert usa-alert-info">
   <div class="usa-alert-body">
-    <h4 class="usa-alert-heading">You’ll need to sign in to eBenefits to upload evidence.</h4>
-    <p class="usa-alert-text"> To use this feature, you'll need a premium <b>DS Logon</b> account. Your MyHealth<em>e</em>Vet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your account to premium.<br>
-      <button class="usa-button-primary">Go to eBenefits to Upload Evidence</button>
+    <h4 class="usa-alert-heading">You’ll need to sign in to eBenefits to upload evidence.</h4> <br>
+    <p class="usa-alert-text"> To use this feature, you'll need a Premium <b>DS Logon</b> account. Your My HealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your <b>DS Logon</b> account to Premium.<br>
+      <a class="usa-button-primary" target="_blank" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status">Go to eBenefits to Upload Evidence</a>
     </p>
   </div>
 </div>
@@ -32,7 +32,7 @@ If you’ve filed a claim for disability compensation, you can continue uploadin
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-Upload your evidence as soon as you can. 
+Upload your evidence as soon as you can.
 
 You can continue uploading documents for up to one year from the date we receive your claim. But, if you don’t provide any evidence or give us the information we need to help you get evidence within 30 days, we may make a decision on your claim earlier.
 
@@ -47,7 +47,7 @@ If we decide your claim early, you’ll still have the rest of the one-year peri
 <div itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 <div itemprop="text">
 
-We’ll remove your claim from the Fully Developed Claims program and process it as a standard claim. 
+We’ll remove your claim from the Fully Developed Claims program and process it as a standard claim.
 
 If we decide your claim earlier than one year from the date we received the claim, you’ll still have the rest of the year to provide any additional information or evidence.
 </div>
@@ -70,9 +70,9 @@ If we decide your claim earlier than one year from the date we received the clai
 
 If you don’t have copies of these records, you can ask us to request them for you as part of the claim process.
 
-### Private Medical Treatment Records 
+### Private Medical Treatment Records
 
-If you’ve seen a non-VA health care provider for diagnosis or treatment, you’ll need to upload copies of all medical records that can provide information about the disability you’re claiming. 
+If you’ve seen a non-VA health care provider for diagnosis or treatment, you’ll need to upload copies of all medical records that can provide information about the disability you’re claiming.
 
 **These may include evidence like:**
 - Doctor’s reports
@@ -81,10 +81,10 @@ If you’ve seen a non-VA health care provider for diagnosis or treatment, you�
 
 ### Supporting Statements
 
-If you’re claiming a disability for an injury or illness that you don’t think we have in your military records, you’ll also want to upload statements that support your claim. These statements should be from people who know about, or who you’ve talked to about, your claimed medical condition and how and when it occurred. 
+If you’re claiming a disability for an injury or illness that you don’t think we have in your military records, you’ll also want to upload statements that support your claim. These statements should be from people who know about, or who you’ve talked to about, your claimed medical condition and how and when it occurred.
 
 **You can ask for supporting statements from people like:**
-- Servicemembers who served with you 
+- Servicemembers who served with you
 - Your family and friends
 - Clergy members
 - Law enforcement officers

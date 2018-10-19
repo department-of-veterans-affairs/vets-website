@@ -6,30 +6,27 @@ import recordEvent from '../../../../../platform/monitoring/record-event';
 
 import * as VET360 from '../constants';
 
-import {
-  isPendingTransaction
-} from '../util/transactions';
+import { isPendingTransaction } from '../util/transactions';
 
 import {
   createTransaction,
   refreshTransaction,
   clearTransactionRequest,
   updateFormField,
-  openModal
+  openModal,
 } from '../actions';
 
 import {
   selectVet360Field,
   selectVet360Transaction,
   selectCurrentlyOpenEditModal,
-  selectEditedFormField
+  selectEditedFormField,
 } from '../selectors';
 
 import Vet360ProfileFieldHeading from '../components/base/ProfileFieldHeading';
 import Vet360Transaction from '../components/base/Transaction';
 
 class Vet360ProfileField extends React.Component {
-
   static propTypes = {
     Content: PropTypes.func.isRequired,
     data: PropTypes.object,
@@ -40,18 +37,18 @@ class Vet360ProfileField extends React.Component {
     isEmpty: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     transaction: PropTypes.object,
-    transactionRequest: PropTypes.object
+    transactionRequest: PropTypes.object,
   };
 
   onAdd = () => {
     this.captureEvent('add-link');
     this.openEditModal();
-  }
+  };
 
   onCancel = () => {
     this.captureEvent('cancel-button');
     this.closeModal();
-  }
+  };
 
   onChange = (value, property, skipValidation) => {
     this.props.updateFormField(
@@ -60,14 +57,17 @@ class Vet360ProfileField extends React.Component {
       this.props.validateCleanData,
       value,
       property,
-      skipValidation
+      skipValidation,
     );
-  }
+  };
 
   onDelete = () => {
     let payload = this.props.data;
     if (this.props.convertCleanDataToPayload) {
-      payload = this.props.convertCleanDataToPayload(payload, this.props.fieldName);
+      payload = this.props.convertCleanDataToPayload(
+        payload,
+        this.props.fieldName,
+      );
     }
 
     this.props.createTransaction(
@@ -75,21 +75,24 @@ class Vet360ProfileField extends React.Component {
       'DELETE',
       this.props.fieldName,
       payload,
-      this.props.analyticsSectionName
+      this.props.analyticsSectionName,
     );
-  }
+  };
 
   onEdit = () => {
     this.captureEvent('edit-link');
     this.openEditModal();
-  }
+  };
 
   onSubmit = () => {
     this.captureEvent('update-button');
 
     let payload = this.props.field.value;
     if (this.props.convertCleanDataToPayload) {
-      payload = this.props.convertCleanDataToPayload(payload, this.props.fieldName);
+      payload = this.props.convertCleanDataToPayload(
+        payload,
+        this.props.fieldName,
+      );
     }
 
     const method = payload.id ? 'PUT' : 'POST';
@@ -99,25 +102,28 @@ class Vet360ProfileField extends React.Component {
       method,
       this.props.fieldName,
       payload,
-      this.props.analyticsSectionName
+      this.props.analyticsSectionName,
     );
-  }
+  };
 
   clearErrors = () => {
     this.props.clearTransactionRequest(this.props.fieldName);
-  }
+  };
 
   closeModal = () => {
     this.props.openModal(null);
-  }
+  };
 
   openEditModal = () => {
     this.props.openModal(this.props.fieldName);
-  }
+  };
 
   refreshTransaction = () => {
-    this.props.refreshTransaction(this.props.transaction, this.props.analyticsSectionName);
-  }
+    this.props.refreshTransaction(
+      this.props.transaction,
+      this.props.analyticsSectionName,
+    );
+  };
 
   captureEvent(actionName) {
     recordEvent({
@@ -133,7 +139,7 @@ class Vet360ProfileField extends React.Component {
       transactionPending = isPendingTransaction(this.props.transaction);
     }
     return !this.props.isEmpty && !transactionPending;
-  }
+  };
 
   render() {
     const {
@@ -144,7 +150,7 @@ class Vet360ProfileField extends React.Component {
       EditModal,
       title,
       transaction,
-      transactionRequest
+      transactionRequest,
     } = this.props;
 
     const childProps = {
@@ -156,26 +162,37 @@ class Vet360ProfileField extends React.Component {
       onChange: this.onChange,
       onDelete: this.onDelete,
       onCancel: this.onCancel,
-      onSubmit: this.onSubmit
+      onSubmit: this.onSubmit,
     };
 
     return (
       <div className="vet360-profile-field" data-field-name={fieldName}>
-        <Vet360ProfileFieldHeading onEditClick={this.isEditLinkVisible() && this.onEdit}>{title}</Vet360ProfileFieldHeading>
-        {isEditing && <EditModal {...childProps}/>}
+        <Vet360ProfileFieldHeading
+          onEditClick={this.isEditLinkVisible() && this.onEdit}
+        >
+          {title}
+        </Vet360ProfileFieldHeading>
+        {isEditing && <EditModal {...childProps} />}
         <Vet360Transaction
           title={title}
           transaction={transaction}
           transactionRequest={transactionRequest}
-          refreshTransaction={this.props.refreshTransaction.bind(this, transaction)}>
+          refreshTransaction={this.props.refreshTransaction.bind(
+            this,
+            transaction,
+          )}
+        >
           {isEmpty ? (
             <button
               type="button"
               onClick={this.onAdd}
-              className="va-button-link va-profile-btn">
+              className="va-button-link va-profile-btn"
+            >
               Please add your {title.toLowerCase()}
             </button>
-          ) : <Content {...childProps}/>}
+          ) : (
+            <Content {...childProps} />
+          )}
         </Vet360Transaction>
       </div>
     );
@@ -184,7 +201,10 @@ class Vet360ProfileField extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
-  const { transaction, transactionRequest } = selectVet360Transaction(state, fieldName);
+  const { transaction, transactionRequest } = selectVet360Transaction(
+    state,
+    fieldName,
+  );
   const data = selectVet360Field(state, fieldName);
   const isEmpty = !data;
 
@@ -195,7 +215,7 @@ const mapStateToProps = (state, ownProps) => {
     isEditing: selectCurrentlyOpenEditModal(state) === fieldName,
     isEmpty,
     transaction,
-    transactionRequest
+    transactionRequest,
   };
 };
 
@@ -204,7 +224,7 @@ const mapDispatchToProps = {
   refreshTransaction,
   openModal,
   createTransaction,
-  updateFormField
+  updateFormField,
 };
 
 /**
@@ -218,7 +238,10 @@ const mapDispatchToProps = {
  * @property {func} validateCleanData A function called to determine validation errors. Called after convertNextValueToCleanData.
  * @property {func} [convertCleanDataToPayload] An optional function used to convert the clean edited data to a payload for sending to the API. Used to remove any values (especially falsy) that may cause errors in Vet360.
  */
-const Vet360ProfileFieldContainer = connect(mapStateToProps, mapDispatchToProps)(Vet360ProfileField);
+const Vet360ProfileFieldContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Vet360ProfileField);
 
 Vet360ProfileFieldContainer.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(VET360.FIELD_NAMES)).isRequired,
@@ -228,7 +251,7 @@ Vet360ProfileFieldContainer.propTypes = {
   apiRoute: PropTypes.oneOf(Object.values(VET360.API_ROUTES)).isRequired,
   convertNextValueToCleanData: PropTypes.func.isRequired,
   validateCleanData: PropTypes.func.isRequired,
-  convertCleanDataToPayload: PropTypes.func
+  convertCleanDataToPayload: PropTypes.func,
 };
 
 export default Vet360ProfileFieldContainer;

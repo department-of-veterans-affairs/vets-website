@@ -1,16 +1,23 @@
+/* eslint-disable no-param-reassign */
+
 const path = require('path');
 const request = require('sync-request');
 
 function applyHerokuOptions(options) {
-  // eslint-disable-next-line no-param-reassign
+  options.protocol = 'https';
+  options.host = `${process.env.HEROKU_APP_NAME}.herokuapp.com`;
+  options.hostUrl = `${options.protocol}://${options.host}`;
   options.destination = path.resolve(__dirname, '../build/heroku');
+
   try {
-    const pullRequestNumber = process.env.HEROKU_APP_NAME.split('vetsgov-pr-')[1];
+    const pullRequestNumber = process.env.HEROKU_APP_NAME.split(
+      'vetsgov-pr-',
+    )[1];
     const requestOptions = {
       headers: {
-        'User-Agent': 'vets-website-builder'
+        'User-Agent': 'vets-website-builder',
       },
-      json: true
+      json: true,
     };
     if (process.env.GH_TOKEN) {
       requestOptions.headers.Authorization = `token ${process.env.GH_TOKEN}`;
@@ -18,7 +25,7 @@ function applyHerokuOptions(options) {
     const res = request(
       'GET',
       `https://api.github.com/repos/department-of-veterans-affairs/vets-website/pulls/${pullRequestNumber}`,
-      requestOptions
+      requestOptions,
     );
     const respObj = JSON.parse(res.getBody('utf8'));
 
@@ -34,7 +41,11 @@ function applyHerokuOptions(options) {
     // eslint-disable-next-line no-console
     console.log(err.message);
     // eslint-disable-next-line no-console
-    console.log(`Did not receive branch info from GitHub, falling back to ${options.buildtype} build type`);
+    console.log(
+      `Did not receive branch info from GitHub, falling back to ${
+        options.buildtype
+      } build type`,
+    );
   }
 }
 

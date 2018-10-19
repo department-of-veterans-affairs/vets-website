@@ -1,6 +1,5 @@
 ---
-href: "#"
+href: /records/download-va-letters/
 title: Download VA Benefit Letters
-order: 9
-spoke: Manage Benefits
+private: true
 ---

@@ -6,7 +6,7 @@
 const SitemapHelpers = require('./sitemap-helpers');
 
 module.exports = {
-  'sitemap 1/4': (client) => {
+  'sitemap 1/4': client => {
     client.timeoutsAsyncScript(1000);
     SitemapHelpers.sitemapURLs((urls, only508List) => {
       const mark = Math.ceil(urls.length / 4);
@@ -14,5 +14,5 @@ module.exports = {
       SitemapHelpers.runTests(client, segment, only508List);
       client.end();
     });
-  }
+  },
 };

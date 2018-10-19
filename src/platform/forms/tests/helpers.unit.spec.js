@@ -1,18 +1,16 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {
-  isActivePage,
-} from '../helpers';
+import { isActivePage } from '../helpers';
 
 describe('Helpers unit tests', () => {
   describe('isActivePage', () => {
     it('matches against data', () => {
       const page = {
-        depends: { testData: 'Y' }
+        depends: { testData: 'Y' },
       };
       const data = {
-        testData: 'Y'
+        testData: 'Y',
       };
 
       const result = isActivePage(page, data);
@@ -21,10 +19,10 @@ describe('Helpers unit tests', () => {
     });
     it('false with mismatched data', () => {
       const page = {
-        depends: { testData: 'Y' }
+        depends: { testData: 'Y' },
       };
       const data = {
-        testData: 'N'
+        testData: 'N',
       };
 
       const result = isActivePage(page, data);
@@ -34,10 +32,10 @@ describe('Helpers unit tests', () => {
     it('matches using function', () => {
       const matcher = sinon.stub().returns(true);
       const page = {
-        depends: matcher
+        depends: matcher,
       };
       const data = {
-        testData: 'Y'
+        testData: 'Y',
       };
 
       const result = isActivePage(page, data);
@@ -47,13 +45,10 @@ describe('Helpers unit tests', () => {
     });
     it('matches against array', () => {
       const page = {
-        depends: [
-          { testData: 'N' },
-          { testData: 'Y' }
-        ]
+        depends: [{ testData: 'N' }, { testData: 'Y' }],
       };
       const data = {
-        testData: 'Y'
+        testData: 'Y',
       };
 
       const result = isActivePage(page, data);

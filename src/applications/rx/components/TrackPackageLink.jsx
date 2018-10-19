@@ -5,10 +5,7 @@ import classNames from 'classnames';
 
 class TrackPackageLink extends React.Component {
   render() {
-    const linkClass = classNames(
-      'rx-track-package-link',
-      this.props.className
-    );
+    const linkClass = classNames('rx-track-package-link', this.props.className);
 
     let link;
 
@@ -19,7 +16,8 @@ class TrackPackageLink extends React.Component {
           href={this.props.url}
           onClick={this.props.onClick}
           rel="external noopener noreferrer"
-          target="_blank">
+          target="_blank"
+        >
           {this.props.text}
         </a>
       );
@@ -27,7 +25,9 @@ class TrackPackageLink extends React.Component {
       link = (
         <Link
           className={linkClass}
-          to={this.props.url} onClick={this.props.onClick}>
+          to={this.props.url}
+          onClick={this.props.onClick}
+        >
           {this.props.text}
         </Link>
       );
@@ -42,7 +42,7 @@ TrackPackageLink.propTypes = {
   className: PropTypes.string,
   external: PropTypes.bool,
   text: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired
+  url: PropTypes.string.isRequired,
 };
 
 export default TrackPackageLink;

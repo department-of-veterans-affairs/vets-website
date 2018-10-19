@@ -7,7 +7,7 @@ description: VA health care offers access to primary and specialty care, includi
 concurrence:
 lastupdate:
 order: 1
-icon: medkit
+icon: icon-large white fa fa-medkit hub-background-health-care
 promo:
   - image: /img/megamenu/health-care-illustration.png
     heading: VA Telehealth Services
@@ -46,22 +46,26 @@ social:
         - url: tel:1-877-327-0022
           number: 1-877-327-0022
           title: "My HealtheVet Help Desk:"
-        - url: tel:1-877-4AID-VET (1-877-424-3838)
+        - url: tel:18774243838
           number: 1-877-4AID-VET (1-877-424-3838)
           title: "National Call Center for Homeless Veterans:"
       - subhead: Get Updates
         links:
         - url: https://public.govdelivery.com/accounts/USVHA/subscribers/qualify?category_id=USVHA_C4&email=dwdw%40gmail.com&commit.x=36&commit.y=11
           label: Veterans Health Email Updates
+          external: true
           icon: fa-envelope-square
         - url: "https://www.facebook.com/VeteransHealth"
           label: Veterans Health Facebook
+          external: true
           icon: fa-facebook
         - url: "https://twitter.com/VeteransHealth"
           label: Veterans Health Twitter
+          external: true
           icon: fa-twitter
         - url: "https://www.youtube.com/user/VeteransHealthAdmin"
           label: Veterans Health YouTube
+          external: true
           icon: fa-youtube
 ---
 
@@ -94,7 +98,9 @@ We offer many programs and services that may help—including free health care a
 **Talk with someone right now:**
 
 Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.<br>
-[Chat online with a trained VA staff member](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat").
+<a class="no-external-icon" href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">
+Chat online with a trained VA staff member
+</a>
 
    </div>
   </div>
@@ -164,12 +170,12 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
 
   <div class="link">
     <a href="/health-care/secure-messaging/"><b>Use VA Secure Messaging</b></a>
-    <p>Communicate privately with your VA health care team through secure messaging.</p>
+    <p>Communicate privately with your VA health care team through Secure Messaging.</p>
   </div>
 
   <div class="link">
     <a href="/health-care/schedule-view-va-appointments/"><b>Schedule and View Your VA Appointments</b></a>
-    <p>Find out how to schedule an appointment by phone, online, or through secure messaging.</p>
+    <p>Find out how to schedule an appointment by phone, online, or through Secure Messaging.</p>
   </div>
 
   <div class="link">
@@ -198,7 +204,7 @@ Whatever you’re struggling with—homelessness, chronic pain, anxiety, depress
   </div>
 
  <div class="link">
-    <a href="/track-claims"><b>Check Your Appeal Status</b></a>
+    <a href="/claim-or-appeal-status/"><b>Check Your Appeal Status</b></a>
     <p>Track the status of an open VA health care appeal.</p>
   </div>
 

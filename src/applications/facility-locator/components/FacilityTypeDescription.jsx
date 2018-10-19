@@ -1,20 +1,18 @@
-import React, { Component } from 'react';
+/* eslint-disable prettier/prettier */
+import React from 'react';
 import { facilityTypes } from '../config';
 
-class FacilityTypeDescription extends Component {
-  renderFacilityType() {
-    const { facilityType, classification } = this.props.facility.attributes;
+const FacilityTypeDescription = ({ location }) => {
+  const { facilityType, classification } = location.attributes;
+  const typeName = (facilityType === 'va_cemetery')
+    ? classification
+    : facilityTypes[facilityType];
 
-    return (facilityType === 'va_cemetery' ? classification : facilityTypes[facilityType]);
-  }
-
-  render() {
-    return (
-      <p>
-        <span><strong>Facility type:</strong> {this.renderFacilityType()}</span>
-      </p>
-    );
-  }
-}
+  return (
+    <p>
+      <span><strong>Facility type:</strong> {typeName}</span>
+    </p>
+  );
+};
 
 export default FacilityTypeDescription;

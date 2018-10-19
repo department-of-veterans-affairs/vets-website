@@ -11,7 +11,7 @@ const routes = {
   path: '/',
   component: MessagingApp,
   indexRoute: {
-    onEnter: (nextState, replace) => replace('/inbox')
+    onEnter: (nextState, replace) => replace('/inbox'),
   },
   childRoutes: [
     {
@@ -23,18 +23,18 @@ const routes = {
           path: 'settings',
           component: Settings,
           indexRoute: {
-            onEnter: (nextState, replace) => replace('/settings/folders')
+            onEnter: (nextState, replace) => replace('/settings/folders'),
           },
           childRoutes: [
             { path: 'folders', component: ManageFolders },
             { path: 'notifications', component: EmailNotifications },
-          ]
+          ],
         },
         { path: ':folderName', component: Folder },
         { path: ':folderName/:messageId', component: Thread },
-      ]
-    }
-  ]
+      ],
+    },
+  ],
 };
 
 export default routes;
