@@ -16,6 +16,9 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
+  is781,
+  is781a,
+  isUploading781Form,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -36,6 +39,8 @@ import {
   newDisabilityFollowUp,
   newPTSDFollowUp,
   choosePtsdType,
+  ptsdUploadChoice,
+  uploadPtsdDocuments,
   summaryOfDisabilities,
   vaMedicalRecords,
   additionalDocuments,
@@ -224,6 +229,34 @@ const formConfig = {
           depends: hasNewPtsdDisability,
           uiSchema: choosePtsdType.uiSchema,
           schema: choosePtsdType.schema,
+        },
+        ptsdUploadChoice781: {
+          title: 'PTSD Upload Choice',
+          path: 'new-disabilities/ptsd-choice',
+          depends: hasNewPtsdDisability && is781,
+          uiSchema: ptsdUploadChoice.uiSchema,
+          schema: ptsdUploadChoice.schema,
+        },
+        ptsdFormUpload781: {
+          title: 'Upload PTSD Documents - 781a',
+          path: 'new-disabilities/ptsd-choice',
+          depends: hasNewPtsdDisability && is781 && isUploading781Form,
+          uiSchema: uploadPtsdDocuments.uiSchema,
+          schema: uploadPtsdDocuments.schema,
+        },
+        ptsdUploadChoice781a: {
+          title: 'PTSD Upload Choice',
+          path: 'new-disabilities/ptsd-choice',
+          depends: hasNewPtsdDisability && is781a,
+          uiSchema: ptsdUploadChoice.uiSchema,
+          schema: ptsdUploadChoice.schema,
+        },
+        ptsdFormUpload781a: {
+          title: 'Upload PTSD Documents - 781a',
+          path: 'new-disabilities/ptsd-choice',
+          depends: hasNewPtsdDisability && is781a && isUploading781Form,
+          uiSchema: uploadPtsdDocuments.uiSchema,
+          schema: uploadPtsdDocuments.schema,
         },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',
