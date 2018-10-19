@@ -35,27 +35,6 @@ button.va-crisis-line {
   }
 }
 
-button.va-crisis-line-button {
-  background-color: $red-60v;
-  border-radius: 0;
-  color: $color-white;
-  margin: auto;
-  font-size: 1em;
-  width: auto;
-  display: block;
-  text-decoration: none;
-  font-weight: bold;
-  display: flex;
-  padding: 0;
-
-  @include media($small-desktop-screen) {
-    border-radius: 0 0 0.2em 0.2em;
-    box-shadow: 0 2px 5px $color-base;
-    text-align: left;
-    justify-content: space-between;
-  }
-}
-
 .va-crisis-line-inner {
   display: flex;
   align-items: center;
