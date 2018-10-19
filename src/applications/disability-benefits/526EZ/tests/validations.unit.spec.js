@@ -3,7 +3,7 @@ import { isInPast } from '../validations';
 import sinon from 'sinon';
 
 describe('526 Increase validations', () => {
-  describe.only('isInPast', () => {
+  describe('isInPast', () => {
     it('should not add error when no date present', () => {
       const addError = sinon.spy();
       const errors = { addError };
