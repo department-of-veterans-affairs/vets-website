@@ -123,7 +123,7 @@ You can work with a trained professional called an accredited representative to 
 <h3 itemprop="name">What happens after I file my claim?</h3>
 <div itemprop="itemListElement">
 
-[Find out what happens after you apply](/disability/after-you-file-claim/).
+[Find out what happens after you file](/disability/after-you-file-claim/).
 
 You don’t need to do anything while you’re waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.
 
@@ -133,8 +133,8 @@ You don’t need to do anything while you’re waiting unless we send you a lett
 #### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">94 days</span>
-<span class="description">Average number of days to complete disability-related claims in June 2018</span>
+<span class="number">96.8 days</span>
+<span class="description">Average number of days to complete disability-related claims in September 2018</span>
 </div>
 </div>
 </div>
