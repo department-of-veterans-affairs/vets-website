@@ -19,3 +19,7 @@ export function requireOneSelected(
     );
   }
 }
+
+export function isInPast(errors, fieldData) {
+  const today = new Date();
+}

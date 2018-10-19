@@ -1,4 +1,5 @@
 import _ from '../../../../platform/utilities/data';
+import merge from 'lodash/merge';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
@@ -184,10 +185,17 @@ const formConfig = {
                 serviceBranch: {
                   'ui:title': 'Branch of service',
                 },
-                dateRange: dateRangeUI(
-                  'Service start date',
-                  'Service end date',
-                  'End of service must be after start of service',
+                dateRange: _.merge(
+                  dateRangeUI(
+                    'Service start date',
+                    'Service end date',
+                    'End of service must be after start of service',
+                  ),
+                  {
+                    to: {
+                      'ui:validations': [],
+                    },
+                  },
                 ),
               },
             },
