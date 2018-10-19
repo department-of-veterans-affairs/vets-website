@@ -20,6 +20,7 @@ import {
   AVAILABLE,
 } from '../utils/appeals-v2-helpers';
 import siteName from '../../../platform/brand-consolidation/site-name';
+import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
 
 const appealsDownMessage = (
   <div className="row" id="appealsDownMessage">
@@ -28,10 +29,13 @@ const appealsDownMessage = (
         <h3>We’re sorry. Something went wrong on our end.</h3>
         <p>
           Please refresh this page or try again later. If it still doesn’t work,
-          you can call the {siteName} Help Desk at{' '}
-          <a href="tel:+18555747286">1-855-574-7286</a> (TTY:{' '}
-          <a href="tel:+18008294833">1-800-829-4833</a>
-          ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
+          you can{' '}
+          <CallHelpDesk>
+            call the {siteName} Help Desk at{' '}
+            <a href="tel:+18555747286">1-855-574-7286</a> (TTY:{' '}
+            <a href="tel:+18008294833">1-800-829-4833</a>
+            ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
+          </CallHelpDesk>
         </p>
       </div>
     </div>
@@ -44,10 +48,13 @@ const recordsNotFoundMessage = (
       <div className="react-container">
         <h3>We’re sorry. We can’t find your records in our system.</h3>
         <p>
-          If you think they should be here, please try again later or call the
-          {siteName} Help Desk at <a href="tel:+18555747286">1-855-574-7286</a>{' '}
-          (TTY: <a href="tel:+18008294833">1-800-829-4833</a>
-          ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
+          If you think they should be here, please try again later or{' '}
+          <CallHelpDesk>
+            call the {siteName} Help Desk at{' '}
+            <a href="tel:+18555747286">1-855-574-7286</a> (TTY:{' '}
+            <a href="tel:+18008294833">1-800-829-4833</a>
+            ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
+          </CallHelpDesk>
         </p>
       </div>
     </div>

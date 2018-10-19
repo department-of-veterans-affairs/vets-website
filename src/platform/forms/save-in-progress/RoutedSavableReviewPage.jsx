@@ -8,6 +8,7 @@ import debounce from '../../utilities/data/debounce';
 
 import ReviewChapters from 'us-forms-system/lib/js/review/ReviewChapters';
 import SubmitController from 'us-forms-system/lib/js/review/SubmitController';
+import CallHelpDesk from '../../brand-consolidation/components/CallHelpDesk';
 
 import isBrandConsolidationEnabled from '../../brand-consolidation/feature-flag';
 import DowntimeNotification, {
@@ -92,10 +93,14 @@ class RoutedSavableReviewPage extends React.Component {
     } else if (!brandConsolidationIsEnabled) {
       InlineErrorComponent = () => (
         <p>
-          If it still doesn’t work, please call the {propertyName} Help Desk at{' '}
-          <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-          <a href="tel:18008778339">1-800-877-8339</a>
-          ). We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+          If it still doesn’t work, please{' '}
+          <CallHelpDesk>
+            call the {propertyName} Help Desk at{' '}
+            <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
+            <a href="tel:18008778339">1-800-877-8339</a>
+            ). We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
+            (ET).
+          </CallHelpDesk>
         </p>
       );
     } else if (brandConsolidationIsEnabled) {
@@ -119,7 +124,7 @@ class RoutedSavableReviewPage extends React.Component {
             <strong>We’re sorry. We can't submit your form right now.</strong>
           </p>
           <p>
-            We're working to fix the problem. Please make sure you're connected
+            We’re working to fix the problem. Please make sure you’re connected
             to the Internet, and then try saving your form again. {saveLink}.
           </p>
           {!user.login.currentlyLoggedIn && (

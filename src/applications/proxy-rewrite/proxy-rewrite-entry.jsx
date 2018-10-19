@@ -1,4 +1,5 @@
 import '../../platform/polyfills';
+import cookie from 'cookie';
 import createCommonStore from '../../platform/startup/store';
 
 import headerPartial from './partials/header';
@@ -18,66 +19,58 @@ import startVAFooter from '../../platform/site-wide/va-footer';
 import redirectIfNecessary from './redirects';
 import { addFocusBehaviorToCrisisLineModal } from '../../platform/site-wide/accessible-VCL-modal';
 import { addOverlayTriggers } from '../../platform/site-wide/legacy/menu';
+import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
 
-redirectIfNecessary(window);
+function createMutationObserverCallback() {
+  // Find native header, footer, etc based on page path
+  const DEPRECATED_SELECTOR_CONFIG = [
+    {
+      path: /.*/,
+      selector:
+        'header.row.main-header-wrap, div#top-nav-wrapper, div#main-header, div#footer-effect',
+    },
+  ];
 
-// Find native header, footer, etc based on page path
-const DEPRECATED_SELECTOR_CONFIG = [
-  {
-    path: /.*/,
-    selector:
-      'header.row.main-header-wrap, div#top-nav-wrapper, div#main-header, div#footer-effect',
-  },
-];
-
-let deprecatedSelector;
-for (const config of DEPRECATED_SELECTOR_CONFIG) {
-  if (document.location.pathname.match(config.path) !== null) {
-    deprecatedSelector = config.selector;
-    break;
+  let deprecatedSelector;
+  for (const config of DEPRECATED_SELECTOR_CONFIG) {
+    if (document.location.pathname.match(config.path) !== null) {
+      deprecatedSelector = config.selector;
+      break;
+    }
   }
-}
 
-// Hide native elements when they're added to the DOM
-function mutationObserved(mutations) {
-  mutations.forEach(mutation => {
-    mutation.addedNodes.forEach(node => {
-      if (node.nodeType === Node.ELEMENT_NODE) {
-        if (node.tagName === 'BODY') {
-          node.classList.add('merger');
-        } else if (node.matches(deprecatedSelector)) {
-          node.classList.add('brand-consolidation-deprecated');
+  // Hide native elements when they're added to the DOM
+  return function mutationObserved(mutations) {
+    mutations.forEach(mutation => {
+      mutation.addedNodes.forEach(node => {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          if (node.tagName === 'BODY') {
+            node.classList.add('merger');
+          } else if (node.matches(deprecatedSelector)) {
+            node.classList.add('brand-consolidation-deprecated');
+          }
         }
-      }
+      });
     });
-  });
+  };
 }
 
-const observer = new MutationObserver(mutationObserved);
-observer.observe(document, {
-  attributes: true,
-  childList: true,
-  subtree: true,
-});
+function activateHeaderFooter(observer) {
+  // Set up elements for the new header and footer
+  const headerContainer = document.createElement('div');
+  headerContainer.innerHTML = headerPartial;
+  headerContainer.classList.add('consolidated');
 
-// Set up elements for the new header and footer
-const headerContainer = document.createElement('div');
-headerContainer.innerHTML = headerPartial;
-headerContainer.classList.add('consolidated');
+  const footerContainer = document.createElement('div');
+  footerContainer.innerHTML = footerPartial;
+  footerContainer.classList.add('consolidated');
 
-const footerContainer = document.createElement('div');
-footerContainer.innerHTML = footerPartial;
-footerContainer.classList.add('consolidated');
-
-document.addEventListener('DOMContentLoaded', _e => {
   observer.disconnect();
   document.body.insertBefore(headerContainer, document.body.firstChild);
   document.body.appendChild(footerContainer);
-});
+}
 
-// Mount react components
-const commonStore = createCommonStore();
-document.addEventListener('DOMContentLoaded', _e => {
+function mountReactComponents(commonStore) {
   const crisisModal = document.getElementById('modal-crisisline');
   if (crisisModal) {
     crisisModal.parentNode.removeChild(crisisModal);
@@ -108,4 +101,57 @@ document.addEventListener('DOMContentLoaded', _e => {
     addOverlayTriggers();
     addFocusBehaviorToCrisisLineModal();
   });
-});
+}
+
+function activateInjectedAssets() {
+  const observer = new MutationObserver(createMutationObserverCallback());
+  observer.observe(document, {
+    attributes: true,
+    childList: true,
+    subtree: true,
+  });
+
+  document.addEventListener('DOMContentLoaded', _e => {
+    activateHeaderFooter(observer);
+    mountReactComponents(createCommonStore());
+  });
+}
+
+function getProxyRewriteCookieValue(
+  cookies = document.cookie,
+  parseCookie = cookie.parse,
+) {
+  return parseCookie(cookies).proxyRewrite;
+}
+
+function getMatchedWhitelistItem(whitelist = proxyRewriteWhitelist) {
+  const { hostname, pathname } = window.location;
+
+  return whitelist.find(
+    whitelistItem =>
+      whitelistItem.hostname === hostname &&
+      pathname.startsWith(whitelistItem.pathnameBeginning),
+  );
+}
+
+function shouldActivateInjectedAssets(whitelistItem, proxyRewriteCookieValue) {
+  if (whitelistItem === undefined) {
+    return false;
+  }
+
+  if (whitelistItem.cookieOnly) {
+    return proxyRewriteCookieValue;
+  }
+
+  return true;
+}
+
+if (
+  shouldActivateInjectedAssets(
+    getMatchedWhitelistItem(),
+    getProxyRewriteCookieValue(),
+  )
+) {
+  redirectIfNecessary(window);
+  activateInjectedAssets();
+}
