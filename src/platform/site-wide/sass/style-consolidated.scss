@@ -1,8 +1,28 @@
+//===================================
+// asset paths
+//===================================
 $font-path: "~uswds/src/fonts";
 $image-path: "~uswds/src/img";
+
+//===================================
+// color values
+//===================================
 $teamsite-dark-blue: #112e51;
 $teamsite-light-blue: #0073b4;
+
+//===================================
+// width values
+//===================================
 $teamsite-width: 959px;
+
+//===================================
+// Z-index values
+//===================================
+$base-layer: 0;
+$low-layer: 100;
+$middle-layer: 200;
+$top-layer: 300;
+$modal-layer: 400;
 
 @font-face {
   font-family: "FontAwesome";
@@ -49,11 +69,16 @@ $teamsite-width: 959px;
   @import "~@department-of-veterans-affairs/formation/sass/shame";
   // @import "slider";
   @import "iconography";
+
   @import "merger";
 
   @import "consolidated-patches";
 }
 
 .merger #bg-middle-effect {
-    background: url(/va_files/2014/responsive/images/bg-middle-effect.png) repeat-y scroll center -65px $teamsite-light-blue;
+  background: url(/va_files/2014/responsive/images/bg-middle-effect.png) repeat-y scroll center -65px $teamsite-light-blue;
+}
+
+.slider .prev, .slider .next, #slider-controls {
+  z-index: $low-layer;
 }

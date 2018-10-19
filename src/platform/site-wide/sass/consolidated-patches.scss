@@ -1,3 +1,7 @@
+h1 {
+  color: black;
+}
+
 .usa-banner-inner {
   p {
     font-size: 1.2rem;
@@ -33,21 +37,11 @@ header.merger {
   margin: auto;
 
   .va-crisis-line {
-
     button.va-crisis-line-button {
       background-image: none;
     }
   }
-  @media (min-width: $medium-screen) {
-    .va-notice--banner-inner {
-      width: $teamsite-width;
-      padding-left: 1rem;
-    }
-    #mega-menu .panel-bottom-link {
-      width: 468px;
-    }
-  }
-  @media (min-width: $large-screen) {
+  @media (min-width: $large-screen) { 
     #mega-menu .vetnav-panel {
       width: 487px;
     }
@@ -56,6 +50,10 @@ header.merger {
     }
     #mega-menu .column-three {
       left: 487px;
+    }
+    .va-notice--banner-inner {
+      width: $teamsite-width;
+      padding-left: 1rem;
     }    
     #mega-menu .panel-bottom-link {
       width: 657px;
