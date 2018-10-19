@@ -50,7 +50,7 @@ Find out how to submit a standard disability claim if you’d like us to take mo
 </div>
 </div>
 
-### What evidence will VA take responsibility for gathering when I submit a standard disability claim?
+### What evidence will VA take responsibility for gathering when I file a standard disability claim?
 
 **With your permission, we’ll get related records from:**
 - Any federal agency (including the military)
@@ -76,8 +76,8 @@ You have up to 1 year from the date we receive your claim to turn in any informa
 
 ### How do I get started filing my standard claim?
 
-You can start your online application right now, or find out how to apply by mail, in person, or with the help of a trained professional. <br>
-[Find out how to file a disability claim](/disability/how-to-file-claim/).
+You can start your online application right now, or find out how to file a claim by mail, in person, or with the help of a trained professional. <br>
+[Find out how to file a disability claim](/disability-benefits/apply/).	[Find out how to file a claim for disability compensation](/disability-benefits/apply/).
 
 <br>
 
