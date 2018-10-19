@@ -97,7 +97,6 @@ You can work with a trained professional called an accredited representative to 
 [Get help filing your claim](/disability/get-help-filing-claim/).
 
 <br>
-
 If you have a power of attorney and need to update their information, please call Veterans Benefits Assistance at 1-800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
 
 
