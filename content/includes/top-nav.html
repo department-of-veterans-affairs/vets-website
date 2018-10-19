@@ -3,12 +3,12 @@
   {% if buildtype != 'production' %}
   <div id="preview-banner" class="usa-alert usa-alert-info">
     <div id="preview-banner-content" class="usa-alert-body">
-      <h3 class="usa-alert-heading">Preview the New VA.gov—Built with Veterans, for Veterans</h3>
+      <h3 class="usa-alert-heading" aria-hidden="false">Preview the New VA.gov—Built with Veterans, for Veterans</h3>
       <p>Vets.gov will soon become part of the new VA.gov. Our new site offers one place to access all VA benefits and health care services. You can sign in with your My HealtheVet, DS Logon, or ID.me account to track your claims, refill your prescriptions, and more.</p>
       <p>We invite you to try out the new VA.gov before it officially launches.</p>
       <a href="https://preview.va.gov" class="usa-button-primary">Preview the New VA.gov</a>
     </div>
-    <div id="blog-banner-content" class="usa-alert-body" style="display: none;">
+    <div id="blog-banner-content" class="usa-alert-body" style="display: none;" aria-hidden="true">
       <h3 class="usa-alert-heading">Preview the New VA.gov—Built with Veterans, for Veterans</h3>
       <p>Vets.gov will soon become part of the new VA.gov. The new VA.gov will offer one place to get and manage all VA benefits and health care services. You'll be able to sign in with your My HealtheVet, DS Logon, or ID.me account to track your claims, refill your prescriptions, and more.</p>
       <p>We invite you to learn more about the new VA.gov before it officially launches.</p>
@@ -23,7 +23,10 @@
     );
     if (!allowTrafficToPreview) {
       document.getElementById('preview-banner-content').style.display = 'none';
+      document.getElementById('preview-banner-content').setAttribute('aria-hidden', 'true');
+
       document.getElementById('blog-banner-content').style.display = 'block';
+      document.getElementById('blog-banner-content').setAttribute('aria-hidden', 'false');
     }
   </script>
 
