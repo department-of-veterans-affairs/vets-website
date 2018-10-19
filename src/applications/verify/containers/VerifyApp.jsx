@@ -8,6 +8,7 @@ import recordEvent from '../../../platform/monitoring/record-event';
 import { verify } from '../../../platform/user/authentication/utilities';
 import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 import siteName from '../../../platform/brand-consolidation/site-name';
+import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
 
 export class VerifyApp extends React.Component {
   componentDidMount() {
@@ -89,11 +90,13 @@ export class VerifyApp extends React.Component {
                   </a>
                 </p>
                 <p>
-                  Call the {siteName} Help Desk at{' '}
-                  <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-                  <a href="tel:18008778339">1-800-877-8339</a>
-                  <br />
-                  Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+                  <CallHelpDesk startSentence>
+                    Call the {siteName} Help Desk at{' '}
+                    <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+                    <a href="tel:18008778339">1-800-877-8339</a>
+                    <br />
+                    Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+                  </CallHelpDesk>
                 </p>
               </div>
             </div>

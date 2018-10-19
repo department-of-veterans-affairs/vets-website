@@ -12,6 +12,7 @@ import DownloadLink from '../components/DownloadLink';
 import { openModal, closeModal } from '../actions/modal';
 
 import siteName from '../../../platform/brand-consolidation/site-name';
+import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
 
 export class DownloadPage extends React.Component {
   renderIncompleteMessage = () => {
@@ -23,10 +24,13 @@ export class DownloadPage extends React.Component {
           Most of your health record should be up to date. But we’re having
           trouble accessing some of your data right now. Please refresh this
           page or try again later. If you still don’t see your updated
-          information, please call the {siteName} Help Desk at 855-574-7286
-          (TTY: 800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m.
-          (ET). If you need this information right away, please call your VA
-          health care provider.
+          information, please{' '}
+          <CallHelpDesk>
+            call the {siteName} Help Desk at 855-574-7286 (TTY: 800-829-4833).
+            We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
+          </CallHelpDesk>{' '}
+          If you need this information right away, please call your VA health
+          care provider.
         </p>
       ),
     };
@@ -42,10 +46,14 @@ export class DownloadPage extends React.Component {
                 Most of your health record should be up to date. But we’re
                 having trouble accessing data for VA radiology reports right
                 now. Please refresh this page or try again later. If you still
-                don’t see your most recent radiology reports, please call the
-                {siteName} Help Desk at 855-574-7286 (TTY: 800-829-4833). We’re
-                here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET). If you need your
-                reports right away, please call your VA health care provider.
+                don’t see your most recent radiology reports, please{' '}
+                <CallHelpDesk>
+                  call the
+                  {siteName} Help Desk at 855-574-7286 (TTY: 800-829-4833).
+                  We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
+                </CallHelpDesk>{' '}
+                If you need your reports right away, please call your VA health
+                care provider.
               </p>
             ),
           };
@@ -59,10 +67,14 @@ export class DownloadPage extends React.Component {
                 having trouble accessing data for VA laboratory results and/or
                 pathology reports right now. Please refresh this page or try
                 again later. If you still don’t see your most recent lab results
-                or pathology reports, please call the {siteName} Help Desk at
-                855-574-7286 (TTY: 800-829-4833). We’re here Monday–Friday, 8:00
-                a.m.–8:00 p.m. (ET). If you need your reports right away, please
-                call your VA health care provider.
+                or pathology reports, please{' '}
+                <CallHelpDesk>
+                  call the {siteName} Help Desk at 855-574-7286 (TTY:
+                  800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m.
+                  (ET).
+                </CallHelpDesk>{' '}
+                If you need your reports right away, please call your VA health
+                care provider.
               </p>
             ),
           };
@@ -76,11 +88,14 @@ export class DownloadPage extends React.Component {
                 Most of your health record should be up to date. But we’re
                 having trouble accessing your VA electronic health record
                 history right now. Please refresh this page or try again later.
-                If you still don’t see your updated history information, please
-                call the {siteName} Help Desk at 855-574-7286 (TTY:
-                800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m.
-                (ET). If you need this information right away, please call your
-                VA health care provider.
+                If you still don’t see your updated history information, please{' '}
+                <CallHelpDesk>
+                  call the {siteName} Help Desk at 855-574-7286 (TTY:
+                  800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m.
+                  (ET).
+                </CallHelpDesk>{' '}
+                If you need this information right away, please call your VA
+                health care provider.
               </p>
             ),
           };
@@ -95,10 +110,14 @@ export class DownloadPage extends React.Component {
                 having trouble accessing your Department of Defense (DoD)
                 information right now. Please refresh this page or try again
                 later. If you still don’t see your updated DoD information,
-                please call the {siteName} Help Desk at 855-574-7286 (TTY:
-                800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m.
-                (ET). If you need this information right away, please call your
-                VA health care provider.
+                please{' '}
+                <CallHelpDesk>
+                  call the {siteName} Help Desk at 855-574-7286 (TTY:
+                  800-829-4833). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m.
+                  (ET).
+                </CallHelpDesk>{' '}
+                If you need this information right away, please call your VA
+                health care provider.
               </p>
             ),
           };
@@ -119,11 +138,14 @@ export class DownloadPage extends React.Component {
         headline: 'Your records couldn’t be generated.',
         content: (
           <p>
-            Unfortunately, we weren’t able to generate your health records.
-            Please try again later. You can also call the {siteName} Help Desk
-            at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-            <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
-            8:00 a.m. &#8211; 8:00 p.m. (ET).
+            We're sorry, we weren't able to access your health records. Please
+            try again later or{' '}
+            <CallHelpDesk>
+              call the {siteName} Help Desk at{' '}
+              <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+              <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211;
+              Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+            </CallHelpDesk>
           </p>
         ),
         status: 'error',
