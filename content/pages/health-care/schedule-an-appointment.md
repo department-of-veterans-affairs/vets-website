@@ -85,7 +85,7 @@ If you have VA health care benefits, you can schedule a VA primary care appointm
 - You've had an appointment at that VA medical facility within the last 2 years
 
 **And, you must have one of these free accounts:**
-- A premium My Health<em>e</em>Vet account <br>
+- A premium My HealtheVet account <br>
 [Sign up for a My Health*e*Vet account](https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication). <br>
 - Or, a premium DS Logon account (used for eBenefits and milConnect) <br>
 [Sign up for a DS Logon account](https://mobile.va.gov/dslogon).
