@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: After You Apply for Disability Benefits
 display_title: After You File Your Claim
-description: Find out what happens after you file your VA disability claim, including how long you'll wait for a decision and what steps we take before the preparation for notification.
+description: Find out what happens after you file a claim for VA disability compensation, including how long you'll wait for a decision and what steps we take before the preparation for notification.
 order: 3
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
@@ -29,7 +29,7 @@ aliases:
 
 <div class="va-introtext">
 
-Find out what happens to your claim after you apply for disability benefits. 
+Find out what happens to your claim after you file for disability compensation. 
 
 </div>
 
@@ -54,7 +54,7 @@ You don’t need to do anything unless we send you a letter asking for more info
 
 <div markdown="0"><br></div>
 
-### What happens after I apply?
+### What happens after I file a claim?
 
 <ol class="process">
 <li class="process-step list-one">
