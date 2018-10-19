@@ -79,7 +79,7 @@ import { FIFTY_MB } from '../../all-claims/constants';
 import { treatmentView } from '../../all-claims/content/vaMedicalRecords';
 import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
 import { additionalDocumentDescription } from '../../all-claims/content/additionalDocuments';
-import { requireOneSelected } from '../validations';
+import { requireOneSelected, isInPast } from '../validations';
 
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
@@ -185,7 +185,7 @@ const formConfig = {
                 serviceBranch: {
                   'ui:title': 'Branch of service',
                 },
-                dateRange: _.merge(
+                dateRange: merge(
                   dateRangeUI(
                     'Service start date',
                     'Service end date',
@@ -193,7 +193,7 @@ const formConfig = {
                   ),
                   {
                     to: {
-                      'ui:validations': [],
+                      'ui:validations': [isInPast],
                     },
                   },
                 ),
