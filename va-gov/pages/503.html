@@ -38,13 +38,18 @@ private: true
       margin-top: 0.5em;
     }
 
+    .usa-sr-only {
+      position: absolute;
+      left: -999em;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
     <a href="/">
-      <img width="250" alt="Go to VA.gov" src="/img/va-primary-horizontal-black-vector.svg" />
+      {% include "assets/img/va-primary-horizontal-black-vector.svg" %}
+      <span class="usa-sr-only">Go to VA.gov</span>
     </a>
     <h1>VA.gov isn't working right now</h1>
     <p>We're sorry. Something went wrong on our end, and we're working to fix the problem. Please refresh this page or try again later.</p>
