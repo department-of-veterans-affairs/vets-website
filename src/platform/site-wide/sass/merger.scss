@@ -274,16 +274,6 @@
       padding: 0.8rem 1.0rem;
     }
 
-    .usa-banner {
-      @include media($medium-screen) {
-        padding-left: .5em;
-      }
-      .usa-banner-content {
-        padding-bottom: 2.3rem;
-        padding-top: 4rem;
-      }
-    }
-
     .va-header-logo-wrapper {
       width: 55%;
       float: left;
