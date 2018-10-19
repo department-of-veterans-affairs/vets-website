@@ -268,8 +268,7 @@ aliases:
                       <div itemprop="text">
                         <p>VA.gov is an official, secure VA government website, built and maintained by U.S. Department of Veterans Affairs employees and contractors under the direction of the VA Office of the Secretary. As with all VA websites, we follow strict security policies and practices to make sure that your personal information is safe and protected.</p>
                         <p>When you sign in to VA.gov, we’ll protect your personal information by using the strongest identity verification system available to prevent fraud and identity theft. We’ll also give you the option to set up an extra layer of security (called 2-factor authentication) on your account. This helps to make sure that no one but you can access your account—even if they get your password.</p>
-                        <p>We’ve built VA.gov to help you better access our agency’s vast digital system—so you can easily find, apply for, track, and manage the benefits and services you’ve earned. We test all site content and tools with Veterans and make changes based on their feedback. We welcome your feedback too.</p>
-                          <p><a href="#feedback-tool" onclick="document.getElementById('feedback-tool').click()">Provide feedback on VA.gov</a>.</p>
+                        <p>We’ve built VA.gov to help you better access our agency’s vast digital system—so you can easily find, apply for, track, and manage the benefits and services you’ve earned. We test all site content and tools with Veterans and make changes based on their feedback. We welcome your feedback too.</p>                    
                       </div>
                     </div>
                   </li>
