@@ -1,5 +1,6 @@
 <header class="header">
 
+  {% if path != 'preview-the-new-va-gov' %}
   <div id="preview-banner" class="usa-alert usa-alert-info">
     <div id="preview-banner-content" class="usa-alert-body">
       <h3 class="usa-alert-heading" aria-hidden="false">Preview the New VA.gov—Built with Veterans, for Veterans</h3>
@@ -28,6 +29,7 @@
       document.getElementById('blog-banner-content').setAttribute('aria-hidden', 'false');
     }
   </script>
+  {% endif %}
 
   <div class="incompatible-browser-warning">
     <div class="row full">
