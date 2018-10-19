@@ -183,22 +183,6 @@
 
   }
 
-  // Once the above rule is delete, we can delete this awful block too.
-  #gov-banner {
-    @media (min-width: $small-screen) {
-      .usa-banner-guidance-gov, .usa-banner-guidance-ssl {
-        padding-bottom: 2.3rem;
-        padding-top: 4rem;
-      }
-    }
-  }
-
-  @media (max-width: $small-screen) {
-    .usa-banner-button:focus {
-      position: absolute;
-    }
-  }
-
   .va-nav-breadcrumbs-list {
     padding-left: 0;
 
@@ -291,7 +275,9 @@
     }
 
     .usa-banner {
-      padding-left: .5em;
+      @include media($medium-screen) {
+        padding-left: .5em;
+      }
       .usa-banner-content {
         padding-bottom: 2.3rem;
         padding-top: 4rem;
@@ -926,8 +912,7 @@
 .left-side-nav-title {
   color: $color-black;
   padding-left: 1em;
-  // This is gross, but it works for now
-  @include media(1008px) {
+  @include media($small-desktop-screen) {
     padding-left: 0;
   }
 }
