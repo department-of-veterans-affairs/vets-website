@@ -5,6 +5,7 @@ title: Montgomery GI Bill Active Duty (MGIB-AD)
 display_title: Montgomery GI Bill Active Duty
 plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
+children: educationMontgomeryActiveDuty
 order: 2
 aliases:
   - /education/gi-bill/montgomery-active-duty/

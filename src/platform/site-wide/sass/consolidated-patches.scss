@@ -1,5 +1,7 @@
 .usa-banner-inner {
   p {
+    font-size: 1.2rem;
+    font-family: inherit;
     padding: 0;
   }
 }
@@ -16,7 +18,10 @@
 
 .usa-grid {
   width: $teamsite-width;
-  padding-left: 1px;
+  @media (min-width: $medium-screen) {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
 }
 
 .usa-grid-full {
@@ -25,7 +30,6 @@
 
 header.merger {
   width: 100%;
-  border: 1px solid #01133F;
   margin: auto;
 
   .va-crisis-line-container {
@@ -34,9 +38,14 @@ header.merger {
       background-image: none;
     }
   }
-  .va-notice--banner-inner, .va-crisis-line-container {
-    width: $teamsite-width;
-    padding-left: 1rem;
+  @media (min-width: $medium-screen) {
+    va-notice--banner-inner, .va-crisis-line-container {
+      width: $teamsite-width;
+      padding-left: 1rem;
+    }
+    #mega-menu .panel-bottom-link {
+      width: 468px;
+    }
   }
   @media (min-width: $large-screen) {
     #mega-menu .vetnav-panel {
@@ -48,6 +57,9 @@ header.merger {
     #mega-menu .column-three {
       left: 487px;
     }    
+    #mega-menu .panel-bottom-link {
+      width: 657px;
+    }
   }
   @media (max-width: $large-screen - 1) {
     #vetnav-va-benefits-and-health-care, #vetnav-about-va {
