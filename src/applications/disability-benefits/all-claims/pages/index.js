@@ -64,14 +64,24 @@ import {
 } from './choosePtsdType';
 
 import {
-  uiSchema as ptsdChoiceUISchema,
-  schema as ptsdChoiceSchema,
-} from './ptsdUploadChoice';
+  uiSchema as ptsdWalkthroughChoice781UISchema,
+  schema as ptsdWalkthroughChoice781Schema,
+} from './ptsdWalkthroughChoice781';
 
 import {
-  uiSchema as ptsd781UISchema,
-  schema as ptsd781Schema,
+  uiSchema as uploadPtsdDocumentsUISchema,
+  schema as uploadPtsdDocumentsSchema,
 } from './uploadPtsdDocuments';
+
+import {
+  uiSchema as ptsdWalkthroughChoice781aUISchema,
+  schema as ptsdWalkthroughChoice781aSchema,
+} from './ptsdWalkthroughChoice781a';
+
+import {
+  uiSchema as uploadPersonalPtsdDocumentsUISchema,
+  schema as uploadPersonalPtsdDocumentsSchema,
+} from './uploadPersonalPtsdDocuments';
 
 import {
   uiSchema as summaryOfDisabilitiesUISchema,
@@ -193,14 +203,24 @@ export const choosePtsdType = {
   schema: choosePtsdTypeSchema,
 };
 
-export const ptsdUploadChoice = {
-  uiSchema: ptsdChoiceUISchema,
-  schema: ptsdChoiceSchema,
+export const ptsdWalkthroughChoice781 = {
+  uiSchema: ptsdWalkthroughChoice781UISchema,
+  schema: ptsdWalkthroughChoice781Schema,
 };
 
 export const uploadPtsdDocuments = {
-  uiSchema: ptsd781UISchema,
-  schema: ptsd781Schema,
+  uiSchema: uploadPtsdDocumentsUISchema,
+  schema: uploadPtsdDocumentsSchema,
+};
+
+export const ptsdWalkthroughChoice781a = {
+  uiSchema: ptsdWalkthroughChoice781aUISchema,
+  schema: ptsdWalkthroughChoice781aSchema,
+};
+
+export const uploadPersonalPtsdDocuments = {
+  uiSchema: uploadPersonalPtsdDocumentsUISchema,
+  schema: uploadPersonalPtsdDocumentsSchema,
 };
 
 export const summaryOfDisabilities = {

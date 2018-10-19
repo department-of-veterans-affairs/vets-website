@@ -16,9 +16,9 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
-  is781,
-  is781a,
-  isUploading781Form,
+  needsToEnter781,
+  needsToEnter781a,
+  isUploadingPtsdForm,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -39,8 +39,10 @@ import {
   newDisabilityFollowUp,
   newPTSDFollowUp,
   choosePtsdType,
-  ptsdUploadChoice,
+  ptsdWalkthroughChoice781,
   uploadPtsdDocuments,
+  ptsdWalkthroughChoice781a,
+  uploadPersonalPtsdDocuments,
   summaryOfDisabilities,
   vaMedicalRecords,
   additionalDocuments,
@@ -230,33 +232,41 @@ const formConfig = {
           uiSchema: choosePtsdType.uiSchema,
           schema: choosePtsdType.schema,
         },
-        ptsdUploadChoice781: {
-          title: 'PTSD Upload Choice',
+        ptsdWalkthroughChoice781: {
+          title: 'PTSD Walkthrough 781 Choice',
           path: 'new-disabilities/ptsd-choice',
-          depends: hasNewPtsdDisability && is781,
-          uiSchema: ptsdUploadChoice.uiSchema,
-          schema: ptsdUploadChoice.schema,
+          depends: formData =>
+            hasNewPtsdDisability(formData) && needsToEnter781(formData),
+          uiSchema: ptsdWalkthroughChoice781.uiSchema,
+          schema: ptsdWalkthroughChoice781.schema,
         },
         ptsdFormUpload781: {
-          title: 'Upload PTSD Documents - 781a',
+          title: 'Upload PTSD Documents - 781',
           path: 'new-disabilities/ptsd-choice',
-          depends: hasNewPtsdDisability && is781 && isUploading781Form,
+          depends: formData =>
+            hasNewPtsdDisability(formData) &&
+            needsToEnter781(formData) &&
+            isUploadingPtsdForm(formData),
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
         },
-        ptsdUploadChoice781a: {
-          title: 'PTSD Upload Choice',
+        ptsdWalkthroughChoice781a: {
+          title: 'PTSD Walkthrough 781a Choice',
           path: 'new-disabilities/ptsd-choice',
-          depends: hasNewPtsdDisability && is781a,
-          uiSchema: ptsdUploadChoice.uiSchema,
-          schema: ptsdUploadChoice.schema,
+          depends: formData =>
+            hasNewPtsdDisability(formData) && needsToEnter781a(formData),
+          uiSchema: ptsdWalkthroughChoice781a.uiSchema,
+          schema: ptsdWalkthroughChoice781a.schema,
         },
         ptsdFormUpload781a: {
           title: 'Upload PTSD Documents - 781a',
           path: 'new-disabilities/ptsd-choice',
-          depends: hasNewPtsdDisability && is781a && isUploading781Form,
-          uiSchema: uploadPtsdDocuments.uiSchema,
-          schema: uploadPtsdDocuments.schema,
+          depends: formData =>
+            hasNewPtsdDisability(formData) &&
+            needsToEnter781a(formData) &&
+            isUploadingPtsdForm(formData),
+          uiSchema: uploadPersonalPtsdDocuments.uiSchema,
+          schema: uploadPersonalPtsdDocuments.schema,
         },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',

@@ -1,8 +1,7 @@
 import React from 'react';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
-import { get781Type } from '../utils';
-import { getPtsdClassification } from './ptsdClassificationInfo';
+import { getPtsdClassification } from './ptsdClassification';
 
 export const PtsdUploadChoiceDescription = (
   <AdditionalInfo triggerText="What does this mean?">
@@ -33,8 +32,7 @@ const UploadExplanation = ({ formType }) => (
   </div>
 );
 
-export const UploadPtsdDescription = ({ formData }) => {
-  const formType = get781Type(formData);
+export const UploadPtsdDescription = ({ formData, formType }) => {
   const { incidentText } = getPtsdClassification(formData);
   return (
     <div>

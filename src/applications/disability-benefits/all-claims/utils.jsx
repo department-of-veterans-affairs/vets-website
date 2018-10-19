@@ -242,19 +242,13 @@ export const hasOtherEvidence = formData =>
 export const hasPrivateEvidence = formData =>
   _.get(DATA_PATHS.hasPrivateEvidence, formData, false);
 
-export const is781 = formData =>
+export const needsToEnter781 = formData =>
   _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false) ||
   _.get('view:selectablePtsdTypes.view:noncombatPtsdType', formData, false);
 
-export const is781a = formData =>
+export const needsToEnter781a = formData =>
   _.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false) ||
   _.get('view:selectablePtsdTypes.view:assaultPtsdType', formData, false);
 
-export const get781Type = formData => {
-  if (is781(formData)) return '781';
-  if (is781a(formData)) return '781a';
-  return '';
-};
-
-export const isUploading781Form = formData =>
+export const isUploadingPtsdForm = formData =>
   _.get('view:uploadPtsdChoice', formData, '') === 'upload';

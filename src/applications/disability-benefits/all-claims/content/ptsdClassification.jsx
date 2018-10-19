@@ -1,9 +1,6 @@
 import React from 'react';
 
-import { get781Type } from '../utils';
-
-export const getPtsdClassification = formData => {
-  const formType = get781Type(formData);
+export const getPtsdClassification = (formData, formType) => {
   const classifications = formData['view:selectablePtsdTypes'];
   let incidentTitle;
   let incidentText;
@@ -56,8 +53,8 @@ export const getPtsdClassification = formData => {
   return { incidentTitle, incidentText };
 };
 
-export const PtsdNameTitle = ({ formData }) => {
-  const { incidentTitle } = getPtsdClassification(formData);
+export const PtsdNameTitle = ({ formData, formType }) => {
+  const { incidentTitle } = getPtsdClassification(formData, formType);
   return (
     <legend className="schemaform-block-title schemaform-title-underline">
       {incidentTitle}
