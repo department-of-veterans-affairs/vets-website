@@ -58,6 +58,7 @@ button.va-crisis-line-button {
 
 .va-crisis-line-inner {
   display: flex;
+  align-items: center;
   justify-content: center;
   margin: auto;
 
@@ -90,7 +91,6 @@ button.va-crisis-line-button {
   width: 29px;
   padding-right: 0.5em;
   padding-left: 0.5em;
-  margin-top: 10px;
 }
 
 .va-crisis-panel {
