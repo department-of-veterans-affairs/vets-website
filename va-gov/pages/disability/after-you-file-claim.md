@@ -96,7 +96,7 @@ We’ll get your entire claim decision packet ready to be mailed.
 </li>
 
 <li class="process-step list-five">
-
+  
 #### Claim Complete
 
 We’ll send you a packet by U.S. mail that includes details of the decision on your claim. Please allow 7 to 10 business days for your packet to arrive before contacting a VA call center.
