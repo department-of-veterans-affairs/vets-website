@@ -11,8 +11,10 @@
   .va-dropdown-panel {
     min-width: 102px;
 
-    p {
-      line-height: .8;
+    &#helpmenu {
+      p {
+        line-height: .8;
+      }
     }
   }
 

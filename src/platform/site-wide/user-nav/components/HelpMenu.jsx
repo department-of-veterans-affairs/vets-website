@@ -27,9 +27,7 @@ class HelpMenu extends React.Component {
           <p>
             <a href="tel:18446982311">1-844-698-2311</a>
           </p>
-          <p>
-            TTY: <a href="tel:711">711</a>
-          </p>
+          <p>TTY: 711</p>
         </div>
       );
     } else {
