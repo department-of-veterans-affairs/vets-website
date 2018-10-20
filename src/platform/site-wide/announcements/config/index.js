@@ -2,10 +2,17 @@ import DashboardIntro from '../components/DashboardIntro';
 import Profile360Intro from '../components/Profile360Intro';
 import PersonalizationBanner from '../components/PersonalizationBanner';
 import ClaimIncreaseBanner from '../components/ClaimIncreaseBanner';
+import BrandConsolidationModal from '../components/BrandConsolidationModal';
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 
 const config = {
   announcements: [
+    {
+      name: 'brand-consolidation',
+      paths: /(.)/,
+      component: BrandConsolidationModal,
+      disabled: !isBrandConsolidationEnabled(),
+    },
     {
       name: 'dashboard-intro',
       paths: isBrandConsolidationEnabled()
