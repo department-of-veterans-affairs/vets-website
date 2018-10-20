@@ -51,9 +51,7 @@ export const mhvAccessError = (
             </li>
             <li>
               <strong>
-                Do you need a different My Health
-                <em>e</em>
-                Vet account type?
+                Do you need a different My HealtheVet account type?
               </strong>{' '}
               You may need a higher level of access to use this tool. Learn
               about the different account types on the{' '}
@@ -61,20 +59,15 @@ export const mhvAccessError = (
                 href="https://www.myhealth.va.gov/mhv-portal-web/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication"
                 target="_blank"
               >
-                My Health
-                <em>e</em>
-                Vet website.
+                My HealtheVet website.
               </a>
             </li>
             <li>
               <strong>
-                Did you forget to accept My Health
-                <em>e</em>
-                Vet's terms and conditions?
+                Did you forget to accept My HealtheVet's terms and conditions?
               </strong>{' '}
-              You need to log in to My Health
-              <em>e</em>
-              Vet and accept their terms and conditions.
+              You need to log in to My HealtheVet and accept their terms and
+              conditions.
             </li>
           </ol>
           <p>
