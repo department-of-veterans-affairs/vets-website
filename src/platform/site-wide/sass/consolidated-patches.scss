@@ -1,5 +1,5 @@
-h1 {
-  color: black;
+.login .container h1 {
+  color: $color-black !important;
 }
 
 .usa-banner-inner {
@@ -36,12 +36,21 @@ header.merger {
   width: 100%;
   margin: auto;
 
-  .va-crisis-line {
-    button.va-crisis-line-button {
+  .va-crisis-line-container {
+    button.va-crisis-line {
       background-image: none;
     }
   }
-  @media (min-width: $large-screen) { 
+  @media (min-width: $medium-screen) {
+    va-notice--banner-inner, .va-crisis-line-container {
+      width: $teamsite-width;
+      padding-left: 1rem;
+    }
+    #mega-menu .panel-bottom-link {
+      width: 468px;
+    }
+  }
+  @media (min-width: $large-screen) {
     #mega-menu .vetnav-panel {
       width: 487px;
     }
@@ -50,11 +59,7 @@ header.merger {
     }
     #mega-menu .column-three {
       left: 487px;
-    }
-    .va-notice--banner-inner {
-      width: $teamsite-width;
-      padding-left: 1rem;
-    }    
+    } 
     #mega-menu .panel-bottom-link {
       width: 657px;
     }
