@@ -3,7 +3,7 @@ layout: page.html
 permalink: /sign-in-faq.html
 title: Frequently Asked Questions about Signing In to VA.gov
 display_title: Frequently Asked Questions
-aliases: 
+aliases:
   - /faq/
 ---
 
@@ -268,8 +268,7 @@ aliases:
                       <div itemprop="text">
                         <p>VA.gov is an official, secure VA government website, built and maintained by U.S. Department of Veterans Affairs employees and contractors under the direction of the VA Office of the Secretary. As with all VA websites, we follow strict security policies and practices to make sure that your personal information is safe and protected.</p>
                         <p>When you sign in to VA.gov, we’ll protect your personal information by using the strongest identity verification system available to prevent fraud and identity theft. We’ll also give you the option to set up an extra layer of security (called 2-factor authentication) on your account. This helps to make sure that no one but you can access your account—even if they get your password.</p>
-                        <p>We’ve built VA.gov to help you better access our agency’s vast digital system—so you can easily find, apply for, track, and manage the benefits and services you’ve earned. We test all site content and tools with Veterans and make changes based on their feedback. We welcome your feedback too.</p>
-                          <p><a href="#feedback-tool" onclick="document.getElementById('feedback-tool').click()">Provide feedback on VA.gov</a>.</p>
+                        <p>We’ve built VA.gov to help you better access our agency’s vast digital system—so you can easily find, apply for, track, and manage the benefits and services you’ve earned. We test all site content and tools with Veterans and make changes based on their feedback.</p>                    
                       </div>
                     </div>
                   </li>
@@ -310,7 +309,7 @@ aliases:
                       <div itemprop="text">
                         <p>This code is part of the 2-factor authentication process.</p>
                         <p>When you set up a verified VA.gov account through ID.me, you need to set up 2-factor authentication. Authentication gives you an extra layer of security by letting you into your account only after you’ve signed in with a password and a 6-digit code sent directly to your mobile or home phone. This helps to make sure that no one but you can access your account—even if they get your password.<p>
-                        <p>If you sign in to VA.gov using your existing basic or advanced <strong>My HealtheVet</strong> or basic <strong>DS Logon</strong> account and don’t want to verify your identity, or if you sign in using your existing premium <strong>My Health <em>e</em>Vet</strong> or premium <strong>DS Logon</strong> account, setting up 2-factor authentication is optional. You can set it up during the sign-in process or any time from your VA.gov profile page.<p>
+                        <p>If you sign in to VA.gov using your existing basic or advanced <strong>My HealtheVet</strong> or basic <strong>DS Logon</strong> account and don’t want to verify your identity, or if you sign in using your existing premium <strong>My HealtheVet</strong> or premium <strong>DS Logon</strong> account, setting up 2-factor authentication is optional. You can set it up during the sign-in process or any time from your VA.gov profile page.<p>
                       </div>
                     </div>
                   </li>
