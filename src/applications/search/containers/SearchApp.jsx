@@ -135,7 +135,26 @@ class SearchApp extends React.Component {
           <div className="usa-width-one-fourth medium-4 small-12 columns sidebar">
             <h4 className="highlight">More VA Search Tools</h4>
             <ul>
-              <li>link one</li>
+              <li>
+                <a href="https://www.index.va.gov/search/va/bva.jsp">
+                  Look up Board of Veterans' Appeals (BVA) decisions
+                </a>
+              </li>
+              <li>
+                <a href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.benefits.va.gov/warms">
+                  Search VA reference materials (WARMS)
+                </a>
+              </li>
+              <li>
+                <a href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.va.gov/vaforms,www.va.gov/vapubs,www.va.gov/vhapublications,www.vba.va.gov/pubs/forms">
+                  Find VA forms and publications
+                </a>
+              </li>
+              <li>
+                <a href="https://www.vacareers.va.gov/job-search/index.asp">
+                  Explore and apply for open VA jobs
+                </a>
+              </li>
             </ul>
           </div>
         </div>
