@@ -6,6 +6,9 @@ import { connect } from 'react-redux';
 import { fetchSearchResults } from '../actions';
 import { formatResponseString } from '../utils';
 
+import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
+
 class SearchApp extends React.Component {
   static propTypes = {
     search: PropTypes.shape({
@@ -25,6 +28,10 @@ class SearchApp extends React.Component {
     this.state = {
       userInput: userInputFromAddress,
     };
+
+    if (!userInputFromAddress) {
+      window.location.href = '/';
+    }
   }
 
   componentDidMount() {
@@ -76,7 +83,11 @@ class SearchApp extends React.Component {
   /* eslint-enable react/no-danger */
 
   renderResults() {
-    const { results } = this.props.search;
+    const { results, loading } = this.props.search;
+
+    if (loading) {
+      return <LoadingIndicator message="Loading results..." setFocus />;
+    }
 
     if (results && results.length > 0) {
       return (
@@ -90,6 +101,10 @@ class SearchApp extends React.Component {
   }
 
   render() {
+    if (!this.state.userInput) {
+      return null;
+    }
+
     return (
       <div className="search-app">
         <div className="row">
@@ -99,14 +114,20 @@ class SearchApp extends React.Component {
         </div>
         <div className="row">
           <div className="usa-width-three-fourths medium-8 small-12 columns">
-            <form onSubmit={this.handleFormSubmit}>
+            <form
+              onSubmit={this.handleFormSubmit}
+              className="va-flex search-box"
+            >
               <input
                 type="text"
                 name="query"
                 value={this.state.userInput}
                 onChange={this.handleInputChange}
               />
-              <button type="submit">Fetch search results</button>
+              <button type="submit">
+                <IconSearch color="#fff" />
+                <span>Search</span>
+              </button>
             </form>
             <hr />
             {this.renderResults()}

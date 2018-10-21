@@ -30,10 +30,23 @@
           &.result-url {
             color: $color-green;
           }
-
-
         }
       }
+    }
+  }
+
+  .search-box {
+    input, button {
+      margin: 0;
+      max-width: none;
+    }
+
+    button {
+      width: auto;
+      display: flex;
+      align-items: center;
+      padding: 0 1.5rem 0 1rem;
+      border-radius: 0 5px 5px 0;
     }
   }
 }
