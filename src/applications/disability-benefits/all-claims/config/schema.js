@@ -892,6 +892,23 @@ const schema = {
         },
       },
     },
+    bankAccountType: {
+      type: 'string',
+      enum: ['Checking', 'Savings'],
+    },
+    bankAccountNumber: {
+      type: 'string',
+      minLength: 4,
+      maxLength: 17,
+    },
+    bankRoutingNumber: {
+      type: 'string',
+      pattern: '^\\d{9}$',
+    },
+    bankName: {
+      type: 'string',
+      maxLength: 35,
+    },
     isVAEmployee: {
       type: 'boolean',
     },

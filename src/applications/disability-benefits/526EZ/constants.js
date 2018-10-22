@@ -30,3 +30,15 @@ export const terminalStatuses = new Set([
   submissionStatuses.retry,
   submissionStatuses.failed,
 ]);
+
+export const accountTitleLabels = {
+  CHECKING: 'Checking Account',
+  SAVINGS: 'Savings Account',
+  NOBANK: 'No Bank Account',
+};
+
+export const NOBANK = 'NOBANK';
+
+export const PENDING = 'PENDING';
+export const RESOLVED = 'RESOLVED';
+export const REJECTED = 'REJECTED';
