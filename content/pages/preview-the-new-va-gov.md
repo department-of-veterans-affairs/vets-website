@@ -30,9 +30,9 @@ This is just one step in our Digital Modernization journey. We'll continue liste
 * __Easier to understand.__ The information and tools you told us you use most often will be accessible from the home page or within a few clicks from the home page. And in plain language, so it'll be easier to find what you're looking for and know what you need to do.
 * __One account for your top activities.__ Already have a DS Logon or My HealtheVet account? Log in to VA.gov with your existing account to securely access most of your benefits and services. If you don’t have an account, you can create one using ID.me, a trusted VA technology partner who helps keep your personal information safe.
 
-We know that adjusting to the VA.gov changes may take some time. We invite you to learn more about the new experience and get an early look at the upcoming changes.
-
 <img id="preview-screenshot" alt="Screenshot of https://preview.va.gov" src="/img/va-preview-screenshot.png">
+
+We know that adjusting to the VA.gov changes may take some time. We want to thank the thousands of Veterans that have helped inform these changes and thank you for your patience & support as we continue modernizing VA’s digital services.
 
 </article>
 </div>
