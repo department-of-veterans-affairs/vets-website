@@ -18,6 +18,7 @@ import {
   hasOtherEvidence,
   needsToEnter781,
   isUploadingPtsdForm,
+  servedAfter911,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -28,6 +29,7 @@ import {
   servicePay,
   waiveRetirementPay,
   militaryHistory,
+  servedInCombatZone,
   separationTrainingPay,
   reservesNationalGuardService,
   federalOrders,
@@ -124,6 +126,13 @@ const formConfig = {
           path: 'review-veteran-details/military-service-history',
           uiSchema: militaryHistory.uiSchema,
           schema: militaryHistory.schema,
+        },
+        servedInCombatZone: {
+          title: 'Combat status',
+          path: 'review-veteran-details/combat-status',
+          depends: servedAfter911,
+          uiSchema: servedInCombatZone.uiSchema,
+          schema: servedInCombatZone.schema,
         },
         reservesNationalGuardService: {
           title: 'Reserves and National Guard Service',

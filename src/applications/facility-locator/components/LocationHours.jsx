@@ -1,7 +1,10 @@
 import { values, every, capitalize } from 'lodash';
 import React, { Component } from 'react';
 
-export default class FacilityHours extends Component {
+/**
+ * VA Facility Known Operational Hours
+ */
+export default class LocationHours extends Component {
   colonizeTime(time) {
     const found = time.match(/(\d?\d)(\d\d)(\w\w)/);
     return `${found[1]}:${found[2]}${found[3]}`;
@@ -22,8 +25,8 @@ export default class FacilityHours extends Component {
   }
 
   renderVetCenterContent() {
-    const { facility } = this.props;
-    if (facility && facility.attributes.facilityType === 'vet_center') {
+    const { location } = this.props;
+    if (location && location.attributes.facilityType === 'vet_center') {
       return (
         <p>
           In addition to the hours listed above, all Vet Centers maintain
@@ -37,17 +40,17 @@ export default class FacilityHours extends Component {
   }
 
   render() {
-    const { facility } = this.props;
+    const { location } = this.props;
 
-    if (!facility) {
+    if (!location) {
       return null;
     }
 
     const {
       attributes: { hours },
-    } = facility;
+    } = location;
 
-    const isVetCenter = facility.attributes.facilityType === 'vet_center';
+    const isVetCenter = location.attributes.facilityType === 'vet_center';
 
     if (every(values(hours), h => !h) && !isVetCenter) {
       return null;

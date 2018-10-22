@@ -11,7 +11,7 @@
     "pattern": "burials-memorials/memorial-items/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Honor a Deceased Veteran",
+      "name": "Burials and Memorials",
       "icon": "fa-star hub-background-burials"
     }
   },
@@ -19,7 +19,7 @@
     "pattern": "burials-memorials/plan-a-burial/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Plan A Burial",
+      "name": "Burials and Memorials",
       "icon": "fa-star hub-background-burials"
     }
   },
@@ -27,7 +27,7 @@
     "pattern": "burials-memorials/eligibility/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Honor a Deceased Veteran",
+      "name": "Burials and Memorials",
       "icon": "fa-star hub-background-burials"
     }
   },
@@ -35,7 +35,7 @@
     "pattern": "burials-and-memorials/application/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Veterans Burial Allowance",
+      "name": "Burials and Memorials",
       "icon": "fa-star hub-background-burials"
     }
   },
@@ -43,7 +43,7 @@
     "pattern": "burials-memorials/memorial-items/headstones-markers-medallions/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Headstones, Markers, Niche Covers, and Medallions",
+      "name": "Burials and Memorials",
       "icon": "fa-star hub-background-burials"
     }
   },
@@ -51,14 +51,14 @@
     "pattern": "burials-memorials/pre-need-eligibility/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Pre-need Determination",
+      "name": "Burials and Memorials",
       "icon": "fa-star hub-background-burials"
     }
   },
   "burialsPlanning": {
     "sortBy": "title",
     "metadata": {
-      "name": "Burial Planning",
+      "name": "Burials and Memorials",
       "icon": "fa-star hub-background-burials"
     }
   },
@@ -66,7 +66,7 @@
     "pattern": "burials-and-memorials/survivor-and-dependent-benefits/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Survivor and Dependent Benefits",
+      "name": "Burials and Memorials",
       "icon": "fa-star hub-background-burials"
     }
   },
@@ -82,7 +82,7 @@
     "pattern": "disability/after-you-file-claim/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "After You Apply",
+      "name": "Disability Benefits",
       "icon": "fa-handshake-o hub-background-disability"
 
     }
@@ -91,7 +91,7 @@
     "pattern": "disability/how-to-file-claim/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "How to Apply",
+      "name": "Disability Benefits",
       "icon": "fa-handshake-o hub-background-disability"
     }
   },
@@ -99,7 +99,7 @@
     "pattern": "disability/file-an-appeal/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Appeals",
+      "name": "Disability Benefits",
       "icon": "fa-handshake-o hub-background-disability"
     }
   },
@@ -107,7 +107,7 @@
     "pattern": "disability/how-to-file-claim/when-to-file/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Claim Types",
+      "name": "Disability Benefits",
       "icon": "fa-handshake-o hub-background-disability"
 
     }
@@ -116,7 +116,7 @@
     "pattern": "disability/how-to-file-claim/when-to-file/pre-discharge-claim/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Pre-discharge Claim",
+      "name": "Disability Benefits",
       "icon": "fa-handshake-o hub-background-disability"
     }
   },
@@ -124,7 +124,7 @@
     "pattern": "disability/eligibility/hazardous-materials-exposure/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Contact with Hazardous Materials",
+      "name": "Disability Benefits",
       "icon": "fa-handshake-o hub-background-disability"
     }
   },
@@ -132,7 +132,7 @@
     "pattern": "disability/eligibility/special-claims/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Special Claims",
+      "name": "Disability Benefits",
       "icon": "fa-handshake-o hub-background-disability"
     }
   },
@@ -140,7 +140,7 @@
     "pattern": "disability/eligibility/hazardous-materials-exposure/agent-orange/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Agent Orange",
+      "name": "Disability Benefits",
       "icon": "fa-handshake-o hub-background-disability"
     }
   },
@@ -148,7 +148,7 @@
     "pattern": "disability/eligibility/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Eligibility",
+      "name": "Disability Benefits",
       "icon": "fa-handshake-o hub-background-disability"
     }
   },
@@ -156,7 +156,7 @@
     "pattern": "disability/how-to-file-claim/evidence-needed/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "How to Gather Evidence for Your Claim",
+      "name": "Disability Benefits",
       "icon": "fa-handshake-o hub-background-disability"
     }
   },
@@ -164,7 +164,7 @@
     "pattern": "disability/about-disability-ratings/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "About Disability Ratings",
+      "name": "Disability Benefits",
       "icon": "fa-handshake-o hub-background-disability"
     }
   },
@@ -172,7 +172,7 @@
     "pattern": "disability/how-to-file-claim/evidence-needed/fully-developed-claims/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Fully Developed Claims",
+      "name": "Disability Benefits",
       "icon": "fa-handshake-o hub-background-disability"
     }
   },
@@ -180,7 +180,7 @@
     "pattern": "/disability/add-remove-dependent/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Add remove Dependents",
+      "name": "Disability Benefits",
       "icon": "fa-handshake-o hub-background-disability"
     }
   },
@@ -196,12 +196,20 @@
     "pattern": "education/advanced-training-and-certifications/*.md",
     "sortBy": "title",
     "metadata": {
-      "name": "Advanced Training and Certifications",
+      "name": "Education and Training",
       "icon": "fa-book hub-background-education"
     }
   },
   "educationGIBill": {
     "pattern": "education/about-gi-bill-benefits/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "Education and Training",
+      "icon": "fa-book hub-background-education"
+    }
+  },
+  "educationMontgomeryActiveDuty": {
+    "pattern": "education/about-gi-bill-benefits/montgomery-active-duty/*.md",
     "sortBy": "order",
     "metadata": {
       "name": "GI Bill",
@@ -212,7 +220,7 @@
     "pattern": "education/survivor-dependent-benefits/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Survivors and Dependents",
+      "name": "Education and Training",
       "icon": "fa-book hub-background-education"
     }
   },
@@ -220,7 +228,7 @@
     "pattern": "education/work-learn/non-traditional/*.md",
     "sortBy": "title",
     "metadata": {
-      "name": "Non-Traditional Options",
+      "name": "Education and Training",
       "icon": "fa-book hub-background-education"
     }
   },
@@ -228,7 +236,7 @@
     "pattern": "education/other-va-education-benefits/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Other Educational Assistance Programs",
+      "name": "Education and Training",
       "icon": "fa-book hub-background-education"
     }
   },
@@ -236,7 +244,7 @@
     "pattern": "education/tools-programs/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Career Counseling",
+      "name": "Education and Training",
       "icon": "fa-book hub-background-education"
     }
   },
@@ -244,7 +252,7 @@
     "pattern": "education/work-learn/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Work and Learn",
+      "name": "Education and Training",
       "icon": "fa-book hub-background-education"
     }
   },
@@ -252,7 +260,7 @@
     "pattern": "education/choosing-a-school/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Choosing a School",
+      "name": "Education and Training",
       "icon": "fa-book hub-background-education"
     }
   },
@@ -260,7 +268,7 @@
     "pattern": "education/about-gi-bill-benefits/how-to-use-benefits/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Choosing a School",
+      "name": "Education and Training",
       "icon": "fa-book hub-background-education"
     }
   },
@@ -268,7 +276,7 @@
     "pattern": "education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Yellow Ribbon Program",
+      "name": "Education and Training",
       "icon": "fa-book hub-background-education"
     }
   },
@@ -276,7 +284,7 @@
     "pattern": "education/about-gi-bill-benefits/post-9-11/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Post 9/11",
+      "name": "Education and Training",
       "icon": "fa-book hub-background-education"
     }
   },
@@ -284,7 +292,7 @@
     "pattern": "education/other-va-education-benefits/national-call-to-service-program/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "National Call To Service Program",
+      "name": "Education and Training",
       "icon": "fa-book hub-background-education"
     }
   },
@@ -292,7 +300,7 @@
     "pattern": "education/information-sharing-opt-out/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Information Sharing Opt Out",
+      "name": "Education and Training",
       "icon": "fa-book hub-background-education"
     }
   },
@@ -300,7 +308,7 @@
     "pattern": "education/change-gi-bill-benefits/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Change GI Bill Benefits",
+      "name": "Education and Training",
       "icon": "fa-book hub-background-education"
     }
   },
@@ -315,7 +323,7 @@
     "pattern": "health-care/about-va-health-benefits/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "VA Health Care Coverage",
+      "name": "Health Care",
       "icon": "fa-medkit hub-background-health-care"
     }
   },
@@ -323,7 +331,7 @@
     "pattern": "health-care/about-va-health-benefits/cost-of-care/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Cost of Care",
+      "name": "Health Care",
       "icon": "fa-medkit hub-background-health-care"
     }
   },
@@ -331,7 +339,7 @@
     "pattern": "health-care/family-caregiver-benefits/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Family and Caregiver Health Benefits",
+      "name": "Health Care",
       "icon": "fa-medkit hub-background-health-care"
     }
   },
@@ -339,7 +347,7 @@
     "pattern": "health-care/about-va-health-benefits/vision-care/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Vision Care",
+      "name": "Health Care",
       "icon": "fa-medkit hub-background-health-care"
     }
   },
@@ -347,7 +355,7 @@
     "pattern": "health-care/health-needs-conditions/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Health Needs and Conditions",
+      "name": "Health Care",
       "icon": "fa-medkit hub-background-health-care"
     }
   },
@@ -355,7 +363,7 @@
     "pattern": "health-care/eligibility/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Eligibility",
+      "name": "Health Care",
       "icon": "fa-medkit hub-background-health-care"
     }
   },
@@ -363,7 +371,7 @@
     "pattern": "health-care/health-needs-conditions/mental-health/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Mental Health",
+      "name": "Health Care",
       "icon": "fa-medkit hub-background-health-care"
     }
   },
@@ -371,7 +379,7 @@
     "pattern": "health-care/health-needs-conditions/health-issues-related-to-service-era/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Concerns Related to Service Era",
+      "name": "Health Care",
       "icon": "fa-medkit hub-background-health-care"
     }
   },
@@ -388,7 +396,7 @@
     "pattern": "housing-assistance/home-loans/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Home Loans",
+      "name": "Housing Assistance",
       "icon": "fa-home hub-background-housing"
     }
   },
@@ -396,7 +404,7 @@
     "pattern": "housing-assistance/home-loans/loan-types/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Loan Types",
+      "name": "Housing Assistance",
       "icon": "fa-home hub-background-housing"
     }
   },
@@ -404,7 +412,7 @@
     "pattern": "housing-assistance/home-loans/loan-types/native-american-direct-loan/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Loan Types",
+      "name": "Housing Assistance",
       "icon": "fa-home hub-background-housing"
     }
   },
@@ -412,7 +420,7 @@
     "pattern": "housing-assistance/disability-housing-grants/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Disability Housing Grants",
+      "name": "Housing Assistance",
       "icon": "fa-home hub-background-housing"
     }
   },
@@ -428,7 +436,7 @@
     "pattern": "life-insurance/options-eligibility/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Options and Eligibility",
+      "name": "Life Insurance",
       "icon": "fa-users hub-background-life-insurance"
     }
   },
@@ -436,7 +444,7 @@
     "pattern": "life-insurance/options-eligibility/tsgli/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Traumatic Injury Protection (TSGLI)",
+      "name": "Life Insurance",
       "icon": "fa-users hub-background-life-insurance"
     }
   },
@@ -444,7 +452,7 @@
     "pattern": "life-insurance/options-eligibility/vgli/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Veterans' Group (VGLI)",
+      "name": "Life Insurance",
       "icon": "fa-users hub-background-life-insurance"
     }
   },
@@ -460,7 +468,7 @@
     "pattern": "pension/eligibility/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Eligibility",
+      "name": "Pension Benefits",
       "icon": "fa-money hub-background-pension"
     }
   },
@@ -468,7 +476,7 @@
     "pattern": "pension/survivors-pension/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Survivors Pension",
+      "name": "Pension Benefits",
       "icon": "fa-money hub-background-pension"
     }
   },
@@ -476,7 +484,7 @@
     "pattern": "pension/how-to-apply/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "How to Apply",
+      "name": "Pension Benefits",
       "icon": "fa-money hub-background-pension"
     }
   },
@@ -492,7 +500,7 @@
     "pattern": "careers-employment/vocational-rehabilitation/programs/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Servicemember & Veteran Programs",
+      "name": "Careers and Employment",
       "icon": "fa-briefcase hub-background-careers"
     }
   },
@@ -500,12 +508,21 @@
     "pattern": "careers-employment/vocational-rehabilitation/*.md",
     "sortBy": "order",
     "metadata": {
-      "name": "Vocational Rehabilitation",
+      "name": "Careers and Employment",
       "icon": "fa-briefcase hub-background-careers"
     }
   },
   "records": {
     "pattern": "records/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "icon": "fa-id-card hub-background-records",
+      "name": "Records",
+      "spokes": ["Get Records"]
+    }
+  },
+  "veteranIdCards": {
+    "pattern": "records/get-veteran-id-cards/*.md",
     "sortBy": "order",
     "metadata": {
       "icon": "fa-id-card hub-background-records",

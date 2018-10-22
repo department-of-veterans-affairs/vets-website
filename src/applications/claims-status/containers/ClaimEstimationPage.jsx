@@ -5,6 +5,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { setUpPage } from '../utils/page';
 import { getClaimType } from '../utils/helpers';
+import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
 
 class ClaimEstimationPage extends React.Component {
   componentDidMount() {
@@ -86,10 +87,12 @@ class ClaimEstimationPage extends React.Component {
               uploading the documents requested by VA.
             </p>
             <p>
-              If you have questions, call VA at{' '}
-              <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-              <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211;
-              Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+              If you have questions,{' '}
+              <CallHelpDesk>
+                call VA at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+                <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211;
+                Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+              </CallHelpDesk>
             </p>
           </div>
           <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">

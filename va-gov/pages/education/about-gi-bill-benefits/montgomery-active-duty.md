@@ -5,6 +5,7 @@ title: Montgomery GI Bill Active Duty (MGIB-AD)
 display_title: Montgomery GI Bill Active Duty
 plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
+children: educationMontgomeryActiveDuty
 order: 2
 aliases:
   - /education/gi-bill/montgomery-active-duty/
@@ -80,14 +81,7 @@ Veterans
 
 ### What benefits can I get?
 
-Money for tuition or training
-
------
-
-### How do I get these benefits?
-[Apply online now](/education/apply-for-education-benefits/application/1990/introduction).
-
-You may get up to 36 months of education benefits. We pay the benefits monthly and the amount depends on the following factors:
+You may get up to 36 months of education benefits. We'll pay the benefits monthly and the amount depends on the following factors:
 
 - Length of service
 - Type of educational or training program
@@ -95,20 +89,41 @@ You may get up to 36 months of education benefits. We pay the benefits monthly a
 - Whether you qualify for a college fund or kicker
 - How much you have paid into the $600 Buy-Up program
 
-#### Related funding or training programs that fall under MGIB-AD
+### How do I get these benefits?
 
-- [Correspondence training](/education/about-gi-bill-benefits/how-to-use-benefits/correspondence-training/)
-- [Co-op training](/education/about-gi-bill-benefits/how-to-use-benefits/co-op-training/)
+[Apply online now](/education/apply-for-education-benefits/application/1990/).
+
+
+### How can I use my MGIB-AD education benefits?
+
+You can use your GI Bill benefits in many ways to advance your education and training.
+
+**Work toward a degree:**
+
+- [Undergraduate and graduate degree programs](/education/about-gi-bill-benefits/how-to-use-benefits/undergraduate-graduate-programs/)
+- [Tutorial Assistance](/education/about-gi-bill-benefits/how-to-use-benefits/tutor-assistance/)
+
+**Train for a specific career, trade, or industry:**
+
+- [Vocational/technical training and non-college degree programs](/education/about-gi-bill-benefits/how-to-use-benefits/non-college-degree-programs/)
+- [On-the-job training and apprenticeships](/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/)
 - [Entrepreneurship training](/education/about-gi-bill-benefits/how-to-use-benefits/entrepreneurship-training/)
 - [Flight training](/education/about-gi-bill-benefits/how-to-use-benefits/flight-training/)
+- [Test Fees](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
+
+**Work while you study:**
+
+- [Co-op training](/education/about-gi-bill-benefits/how-to-use-benefits/co-op-training/)
+- [Work Study](/education/about-gi-bill-benefits/how-to-use-benefits/work-study/)
+
+**Take classes from home:**
+
+- [Correspondence training](/education/about-gi-bill-benefits/how-to-use-benefits/correspondence-training/)
 - [Independent and distance learning](/education/about-gi-bill-benefits/how-to-use-benefits/online-distance-learning/)
-- [Undergraduate and graduate degree programs](/education/about-gi-bill-benefits/how-to-use-benefits/undergraduate-graduate-programs/)
-- [Licensing and certification reimbursement](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
-- [Non-college degree programs (technical or vocational courses)](/education/about-gi-bill-benefits/how-to-use-benefits/non-college-degree-programs/)
-- [National testing reimbursement](/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/)
-- [On-the-job training and apprenticeships](/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/)
+
+**Get increased or faster payments:**
+
 - [Tuition Assistance Top-Up](/education/about-gi-bill-benefits/how-to-use-benefits/tuition-assistance-top-up/)
-- [Tutorial Assistance](/education/about-gi-bill-benefits/how-to-use-benefits/tutor-assistance/)
 - [Accelerated payments for high-tech programs](/education/about-gi-bill-benefits/how-to-use-benefits/high-tech-programs/)
 - [$600 Buy-Up program](/education/about-gi-bill-benefits/montgomery-active-duty/buy-up/): While on active duty, you can pay into this program up to a maximum (the highest amount allowed) of $600 to get increased monthly benefits. If you pay the maximum amount, you can qualify for up to $5,400 in added GI Bill benefits.
 

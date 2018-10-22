@@ -517,12 +517,8 @@
                                 "href": "/housing-assistance/home-loans/how-to-apply/"
                             },
                             {
-                                "text": "Learn About Veteran ID Cards",
+                                "text": "Get Veteran ID Cards",
                                 "href": "/records/get-veteran-id-cards/"
-                            },
-                            {
-                                "text": "Apply for a Veteran ID Card",
-                                "href": "/records/get-veteran-id-cards/vic/"
                             }
                         ]
                     },
@@ -554,10 +550,10 @@
                             "alt": "Veteran ID Card"
                         },
                         "link": {
-                            "text": "Veteran ID Card",
-                            "href": "/records/get-veteran-id-cards/"
+                            "text": "Confirm Your VA Benefit Status",
+                            "href": "/records/download-va-letters/"
                         },
-                        "description": "Apply for your Veteran ID Card to get Veteran discounts on goods and services."
+                        "description": "Download letters like your eligibility or award letter for certain benefits."
                     },
                     "seeAllLink": {
                       "text": "Records",
