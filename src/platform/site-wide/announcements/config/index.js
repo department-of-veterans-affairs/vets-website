@@ -11,7 +11,7 @@ const config = {
       name: 'brand-consolidation-va-plus-vets',
       paths: /(.)/,
       component: VAPlusVetsModal,
-      disabled: !VAPlusVetsModal.isEnabled()
+      disabled: !VAPlusVetsModal.isEnabled(),
     },
     {
       name: 'dashboard-intro',
