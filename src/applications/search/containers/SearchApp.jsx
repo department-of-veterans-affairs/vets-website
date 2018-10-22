@@ -5,9 +5,12 @@ import { connect } from 'react-redux';
 
 import { fetchSearchResults } from '../actions';
 import { formatResponseString } from '../utils';
+import { PAGE_SIZE } from '../constants';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
+
+import SimplePagination from '../components/SimplePagination';
 
 class SearchApp extends React.Component {
   static propTypes = {
@@ -21,12 +24,16 @@ class SearchApp extends React.Component {
     super(props);
 
     let userInputFromAddress = '';
+    let offset;
+
     if (this.props.router.location.query) {
       userInputFromAddress = this.props.router.location.query.q;
+      offset = this.props.router.location.query.offset;
     }
 
     this.state = {
       userInput: userInputFromAddress,
+      offset,
     };
 
     if (!userInputFromAddress) {
@@ -36,8 +43,9 @@ class SearchApp extends React.Component {
 
   componentDidMount() {
     // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
-    if (this.state.userInput) {
-      this.props.fetchSearchResults(this.state.userInput);
+    const { userInput, offset } = this.state;
+    if (userInput) {
+      this.props.fetchSearchResults(userInput, offset);
     }
   }
 
@@ -47,17 +55,28 @@ class SearchApp extends React.Component {
     });
   };
 
-  handleFormSubmit = event => {
-    event.preventDefault();
-    const userInput = this.state.userInput;
+  handleSearch = e => {
+    e.preventDefault();
+    const { userInput, offset } = this.state;
     this.props.router.push({
       pathname: '',
       query: {
         q: encodeURIComponent(userInput),
+        offset,
       },
     });
-    this.props.fetchSearchResults(userInput);
+    this.props.fetchSearchResults(userInput, offset);
   };
+
+  /* eslint-disable arrow-body-style */
+  handlePageChange = offset => {
+    return e => {
+      e.preventDefault();
+      e.persist();
+      this.setState({ offset }, () => this.handleSearch(e));
+    };
+  };
+  /* eslint-enable arrow-body-style */
 
   /* eslint-disable react/no-danger */
   renderWebResult(result) {
@@ -97,7 +116,43 @@ class SearchApp extends React.Component {
       );
     }
 
-    return <p>No results. Please try another search term.</p>;
+    return (
+      <p>
+        Sorry, no results found. Try again using different (or fewer) words.
+      </p>
+    );
+  }
+
+  renderResultsFooter() {
+    const { prevOffset, nextOffset } = this.props.search;
+
+    return (
+      <div className="va-flex results-footer">
+        <strong>Powered by Search.gov</strong>
+        <SimplePagination
+          handlePageChange={this.handlePageChange}
+          prevOffset={prevOffset}
+          nextOffset={nextOffset}
+        />
+      </div>
+    );
+  }
+
+  renderResultsCount() {
+    const { prevOffset, total } = this.props.search;
+    let currentRange;
+
+    if (prevOffset) {
+      currentRange = `${prevOffset + 1}-${prevOffset + PAGE_SIZE}`;
+    } else {
+      currentRange = `1-${PAGE_SIZE}`;
+    }
+
+    return (
+      <p>
+        Showing {currentRange} of {total} results
+      </p>
+    );
   }
 
   render() {
@@ -114,10 +169,7 @@ class SearchApp extends React.Component {
         </div>
         <div className="row">
           <div className="usa-width-three-fourths medium-8 small-12 columns">
-            <form
-              onSubmit={this.handleFormSubmit}
-              className="va-flex search-box"
-            >
+            <form onSubmit={this.handleSearch} className="va-flex search-box">
               <input
                 type="text"
                 name="query"
@@ -129,8 +181,11 @@ class SearchApp extends React.Component {
                 <span>Search</span>
               </button>
             </form>
+            {this.renderResultsCount()}
             <hr />
             {this.renderResults()}
+            <hr />
+            {this.renderResultsFooter()}
           </div>
           <div className="usa-width-one-fourth medium-4 small-12 columns sidebar">
             <h4 className="highlight">More VA Search Tools</h4>

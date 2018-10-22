@@ -4,7 +4,7 @@ export const FETCH_SEARCH_RESULTS_FAILURE = 'FETCH_SEARCH_RESULTS_FAILURE';
 
 import { apiRequest } from '../../../platform/utilities/api';
 
-export function fetchSearchResults(query) {
+export function fetchSearchResults(query, offset) {
   return dispatch => {
     dispatch({ type: FETCH_SEARCH_RESULTS, query });
 
@@ -12,8 +12,14 @@ export function fetchSearchResults(query) {
       method: 'GET',
     };
 
+    const queryString = `/search?query=${query}`;
+
+    if (offset) {
+      queryString.concat(`&offset=${offset}`);
+    }
+
     apiRequest(
-      `/search?query=${query}`,
+      queryString,
       settings,
       response =>
         dispatch({

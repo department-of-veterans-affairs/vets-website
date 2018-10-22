@@ -35,6 +35,20 @@
     }
   }
 
+  hr {
+    border-bottom: none;
+  }
+
+  .results-footer {
+    justify-content: space-between;
+
+    .simple-pagination {
+      span.current-page {
+        padding: 0 1rem;
+      }
+    }
+  }
+
   .search-box {
     input, button {
       margin: 0;
