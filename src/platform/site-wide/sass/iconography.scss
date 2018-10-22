@@ -46,7 +46,7 @@ h1, h3, h4 {
   &.fa-medkit {
     &.icon-large {
       &::before {
-        margin-top: 9.25px;
+        margin-top: 7.25px;
         margin-left: 10.5px;
       }
     }
@@ -83,20 +83,18 @@ h1, h3, h4 {
       }
     }
   }
-  &.fa-money {
 
+  &.fa-shield {
     &.icon-small {
       &::before {
-        margin-left: 7.15px;
+        margin-left: 10px;
+        margin-top: 7px;
       }
     }
-  }
-
-
-  &.fa-users {
-    &.icon-small {
+    &.icon-large {
       &::before {
-        margin-left: 6.95px;
+        margin-left: 13px;
+        margin-top: 10px;
       }
     }
   }
@@ -108,6 +106,27 @@ h1, h3, h4 {
     }
   }
 
+  &.fa-graduation-cap {
+    &.icon-small {
+      &::before {
+        margin-left: 4.85px;
+        margin-top: 7.5px;
+      }
+    }
+    &.icon-large {
+      &::before {
+        margin-left: 8.47px;
+      }
+    }
+  }
+
+  &.fa-file-text-o {
+    &.icon-large {
+      &::before {
+        margin-top: 8px;
+      }
+    }
+  }
 }
 
 @mixin make-hub($hub-name, $color) {
