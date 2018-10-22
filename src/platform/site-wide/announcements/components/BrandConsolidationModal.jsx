@@ -4,12 +4,18 @@ import Modal from '@department-of-veterans-affairs/formation/Modal';
 export default function BrandConsolidationModal({ dismiss }) {
   return (
     <Modal
-      cssClass="va-modal va-modal-medium"
+      cssClass="va-modal va-modal-medium announcement-brand-consolidation"
       visible
       onClose={dismiss}
       id="modal-announcement"
     >
-      <div className="announcement-heading">VA + Vets.gov</div>
+      <div className="announcement-heading-brand-consolidation">
+        <img
+          className="announcement-brand-consolidation-logo"
+          src="/img/design/logo/va-plus-vets.png"
+          alt="VA.gov plus Vets.gov"
+        />
+      </div>
       <h3 className="announcement-title">Vets.gov is now part of VA.gov</h3>
       <p>You can now find all your Vets.gov tools and information on VA.gov.</p>
       <p>
