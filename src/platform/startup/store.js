@@ -38,7 +38,7 @@ export const commonReducer = {
  * sets up the Redux devtools in development and adds redux-thunk as middleware.
  *
  * @param {Object} [appReducer={}] An object with reducer functions as properties
- * @param {Array} A list of analytics events to capture when redux actions are fired
+ * @param {Array} analyticsEvents A list of analytics events to capture when redux actions are fired
  * @returns {Store} The Redux store with a combined reducer from the commonReducer and
  * appReducer.
  */
