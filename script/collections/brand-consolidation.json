@@ -75,7 +75,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits",
-      "icon": "fa-handshake-o hub-background-disability"
+      "icon": "fa-file-text-o hub-background-disability"
     }
   },
   "disabilityAfterYouApply": {
@@ -83,7 +83,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits",
-      "icon": "fa-handshake-o hub-background-disability"
+      "icon": "fa-file-text-o hub-background-disability"
 
     }
   },
@@ -92,7 +92,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits",
-      "icon": "fa-handshake-o hub-background-disability"
+      "icon": "fa-file-text-o hub-background-disability"
     }
   },
   "disabilityClaimsAppeal": {
@@ -100,7 +100,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits",
-      "icon": "fa-handshake-o hub-background-disability"
+      "icon": "fa-file-text-o hub-background-disability"
     }
   },
   "disabilityClaimTypes": {
@@ -108,7 +108,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits",
-      "icon": "fa-handshake-o hub-background-disability"
+      "icon": "fa-file-text-o hub-background-disability"
 
     }
   },
@@ -117,7 +117,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits",
-      "icon": "fa-handshake-o hub-background-disability"
+      "icon": "fa-file-text-o hub-background-disability"
     }
   },
   "disabilityConditionsExposure": {
@@ -125,7 +125,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits",
-      "icon": "fa-handshake-o hub-background-disability"
+      "icon": "fa-file-text-o hub-background-disability"
     }
   },
   "disabilityConditionsSpecial": {
@@ -133,7 +133,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits",
-      "icon": "fa-handshake-o hub-background-disability"
+      "icon": "fa-file-text-o hub-background-disability"
     }
   },
   "disabilityConditionsAgentOrange": {
@@ -141,7 +141,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits",
-      "icon": "fa-handshake-o hub-background-disability"
+      "icon": "fa-file-text-o hub-background-disability"
     }
   },
   "disabilityEligibility": {
@@ -149,7 +149,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits",
-      "icon": "fa-handshake-o hub-background-disability"
+      "icon": "fa-file-text-o hub-background-disability"
     }
   },
   "disabilityEvidence": {
@@ -157,7 +157,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits",
-      "icon": "fa-handshake-o hub-background-disability"
+      "icon": "fa-file-text-o hub-background-disability"
     }
   },
   "disabilityAboutRatings": {
@@ -165,7 +165,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits",
-      "icon": "fa-handshake-o hub-background-disability"
+      "icon": "fa-file-text-o hub-background-disability"
     }
   },
   "disabilityFullyDevelopedClaims": {
@@ -173,7 +173,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits",
-      "icon": "fa-handshake-o hub-background-disability"
+      "icon": "fa-file-text-o hub-background-disability"
     }
   },
   "disabilityAddRemoveDependents": {
@@ -181,7 +181,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Disability Benefits",
-      "icon": "fa-handshake-o hub-background-disability"
+      "icon": "fa-file-text-o hub-background-disability"
     }
   },
   "education": {
@@ -189,7 +189,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Education and Training",
-      "icon": "fa-book hub-background-education"
+      "icon": "fa-graduation-cap hub-background-education"
     }
   },
   "educationAdvancedTraining": {
@@ -197,7 +197,7 @@
     "sortBy": "title",
     "metadata": {
       "name": "Education and Training",
-      "icon": "fa-book hub-background-education"
+      "icon": "fa-graduation-cap hub-background-education"
     }
   },
   "educationGIBill": {
@@ -205,7 +205,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Education and Training",
-      "icon": "fa-book hub-background-education"
+      "icon": "fa-graduation-cap hub-background-education"
     }
   },
   "educationMontgomeryActiveDuty": {
@@ -213,7 +213,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "GI Bill",
-      "icon": "fa-book hub-background-education"
+      "icon": "fa-graduation-cap hub-background-education"
     }
   },
   "educationGIBillSurvivors": {
@@ -221,7 +221,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Education and Training",
-      "icon": "fa-book hub-background-education"
+      "icon": "fa-graduation-cap hub-background-education"
     }
   },
   "educationNonTraditional": {
@@ -229,7 +229,7 @@
     "sortBy": "title",
     "metadata": {
       "name": "Education and Training",
-      "icon": "fa-book hub-background-education"
+      "icon": "fa-graduation-cap hub-background-education"
     }
   },
   "educationOtherPrograms": {
@@ -237,7 +237,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Education and Training",
-      "icon": "fa-book hub-background-education"
+      "icon": "fa-graduation-cap hub-background-education"
     }
   },
   "educationToolsPrograms": {
@@ -245,7 +245,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Education and Training",
-      "icon": "fa-book hub-background-education"
+      "icon": "fa-graduation-cap hub-background-education"
     }
   },
   "educationWorkLearn": {
@@ -253,7 +253,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Education and Training",
-      "icon": "fa-book hub-background-education"
+      "icon": "fa-graduation-cap hub-background-education"
     }
   },
   "educationChooseSchool": {
@@ -261,7 +261,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Education and Training",
-      "icon": "fa-book hub-background-education"
+      "icon": "fa-graduation-cap hub-background-education"
     }
   },
   "educationHowToUseBenefits": {
@@ -269,7 +269,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Education and Training",
-      "icon": "fa-book hub-background-education"
+      "icon": "fa-graduation-cap hub-background-education"
     }
   },
   "educationYellowRibbonProgram": {
@@ -277,7 +277,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Education and Training",
-      "icon": "fa-book hub-background-education"
+      "icon": "fa-graduation-cap hub-background-education"
     }
   },
   "educationPost911": {
@@ -285,7 +285,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Education and Training",
-      "icon": "fa-book hub-background-education"
+      "icon": "fa-graduation-cap hub-background-education"
     }
   },
   "educationNationalCallToServiceProgram": {
@@ -293,7 +293,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Education and Training",
-      "icon": "fa-book hub-background-education"
+      "icon": "fa-graduation-cap hub-background-education"
     }
   },
   "educationInformationSharingOptOut": {
@@ -301,7 +301,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Education and Training",
-      "icon": "fa-book hub-background-education"
+      "icon": "fa-graduation-cap hub-background-education"
     }
   },
   "educationChangeGIBillBenefits": {
@@ -309,7 +309,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Education and Training",
-      "icon": "fa-book hub-background-education"
+      "icon": "fa-graduation-cap hub-background-education"
     }
   },
   "healthCare": {
@@ -429,7 +429,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Life Insurance",
-      "icon": "fa-users hub-background-life-insurance"
+      "icon": "fa-shield hub-background-life-insurance"
     }
   },
   "lifeInsuranceOptions": {
@@ -437,7 +437,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Life Insurance",
-      "icon": "fa-users hub-background-life-insurance"
+      "icon": "fa-shield hub-background-life-insurance"
     }
   },
   "lifeInsuranceTSGLI": {
@@ -445,7 +445,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Life Insurance",
-      "icon": "fa-users hub-background-life-insurance"
+      "icon": "fa-shield hub-background-life-insurance"
     }
   },
    "lifeInsuranceVGLI": {
@@ -453,7 +453,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Life Insurance",
-      "icon": "fa-users hub-background-life-insurance"
+      "icon": "fa-shield hub-background-life-insurance"
     }
   },
   "pension": {
@@ -461,7 +461,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Pension Benefits",
-      "icon": "fa-money hub-background-pension"
+      "icon": "fa-handshake-o hub-background-pension"
     }
   },
   "pensionEligibility": {
@@ -469,7 +469,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Pension Benefits",
-      "icon": "fa-money hub-background-pension"
+      "icon": "fa-handshake-o hub-background-pension"
     }
   },
   "pensionSurvivors": {
@@ -477,7 +477,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Pension Benefits",
-      "icon": "fa-money hub-background-pension"
+      "icon": "fa-handshake-o hub-background-pension"
     }
   },
   "pensionApplication": {
@@ -485,7 +485,7 @@
     "sortBy": "order",
     "metadata": {
       "name": "Pension Benefits",
-      "icon": "fa-money hub-background-pension"
+      "icon": "fa-handshake-o hub-background-pension"
     }
   },
   "careersEmployment": {
