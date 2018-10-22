@@ -12,7 +12,7 @@ const analyticsEvents = [
   },
   {
     action: ITF_CREATION_FAILED,
-    event: 'disability-526EZ-itf-not-creation',
+    event: 'disability-526EZ-itf-not-created',
   },
   {
     action: ITF_FETCH_SUCCEEDED,
@@ -23,8 +23,8 @@ const analyticsEvents = [
     event: store => {
       const state = store.getState();
       return state.user.profile.savedForms.find(f => f.form === '21-526EZ')
-        ? 'disability-526EZ-itf-not-retrieved-existing-user'
-        : 'disability-526EZ-itf-not-retrieved-new-user';
+        ? 'disability-526EZ-itf-not-retrieved-saved-form-found'
+        : 'disability-526EZ-itf-not-retrieved-saved-form-not-found';
     },
   },
 ];
