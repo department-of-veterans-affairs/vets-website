@@ -24,7 +24,7 @@ Find out how to access VA mental health services for posttraumatic stress disord
 	<a id="crisis-expander-link">Find out how to get support anytime day or night.</a></h4>
 	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner usa-alert-text">
-	    <p>Whatever you’re struggling with—chronic pain, anxiety, depression, trouble sleeping, anger, or even homelessness—we can support you. Our Veterans Crisis Line is confidential (private), free, and available 24/7.</p>
+	    <p>If you're struggling with thoughts of hurting yourself or feeling hopeless, anxious, or depressed and need support right away, our responders can offer confidential help 24/7. Many of them are Veterans themselves.</p>
 	    <p><strong>To connect with a Veterans Crisis Line responder anytime day or night:</strong></p>
 	    <ul>
               <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
@@ -54,19 +54,13 @@ Over 1.7 million Veterans received mental health services at VA last year. Our s
 **If you're already using VA medical services,** ask your primary care provider to arrange for you to see a VA mental health provider.
 
 **If you're not already using VA medical services,** contact your nearest VA medical center (VAMC) or Vet Center to talk about your needs. <br>
-[Find your nearest VA medical center or Vet Center](/facilities/?zoomLevel=4&page=1&facilityType=health).
-
-[Download our guide to getting started with VA mental health services](#).
-
-<br>
+[Find your nearest VA medical center or Vet Center](/facilities/?zoomLevel=4&page=1&facilityType=health). 
 
 ### What if I'm not sure what kind of help I need?
 
 You can call 1-877-222-VETS (<a href="tel:+18002228387">1-877-222-8387</a>) to find the right resource for your needs. If you have hearing loss, call TTY: <a href="tel:+18008778339">1-800-877-8339</a>. 
 
 We're here Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
-
-<br>
 
 ### It's hard for me to get to a VA facility in person. Can I get mental health services online?
 
@@ -136,7 +130,7 @@ No. If you don’t qualify for VA health care, you may still be able to get cert
 
 Call our general VA hotline at <a href="tel:+1-800-827-1000">1-800-827-1000</a> to find out what your care options may be. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET)
 
-**Depending on your needs, you can also:**
+**Depending on your needs and situation, you can also:**
 
 - Get free private counseling, alcohol and drug assessment, and other support for combat Veterans and families at one of our 300 community Vet Centers. <br>
 [Find a Vet Center near you](/facilities/?zoomLevel=4&page=1&facilityType=health).
@@ -169,14 +163,12 @@ Or call 1-877-222-VETS (<a href="tel:+18002228387">1-877-222-8387</a>) to find t
 We offer Same-Day Services to make sure that we can either address your mental health need, or schedule the right follow-up care, on the day you reach out to us. This will depend on how urgent your needs are, and the level of treatment you're looking for. 
 
 **Same-Day Services may include care such as:**  
-- A face-to-face visit
-- Returning a phone call
-- Providing medical advice telephone call from a nurse (nurse triage)
-- Arranging a telehealth or video care visit
-- Filling a prescription
-- Scheduling a future appointment
+- A face-to-face appointment with a VA provider (including walk-in appointments at a clinic or urgent care center)
+- A telehealth or video care appointment with a VA provider
+- A phone call with a nurse who can offer medical advice (called nurse triage)
 - Communicating with a VA health care provider through Secure Messaging
-- Walk-in appointments to a clinic or the Urgent Care Center
+- Scheduling a future appointment
+- Filling a prescription
 
 </div>
 </li>
@@ -243,7 +235,7 @@ You can also contact our **Coaching Into Care** program to speak directly with a
 <div id="questions-facility" class="usa-accordion-content">
 
 You can use our facility locator to search for VA health facilities near you. <br>
-[Find your closest VA health facility](/facilities/?zoomLevel=4&page=1&facilityType=health). 
+[Find your nearest VA health facility](/facilities/?zoomLevel=4&page=1&facilityType=health). 
 
 </div>
 </li>
@@ -254,7 +246,7 @@ You can use our facility locator to search for VA health facilities near you. <b
 
 ## Resources and Support Beyond VA
 
-You can also get support from resources offered through other government and community resources outside of VA.
+You can also get support from resources offered through other government departments and community organizations outside of VA.
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
