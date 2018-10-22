@@ -8,7 +8,7 @@ import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-fl
 const config = {
   announcements: [
     {
-      name: 'brand-consolidation',
+      name: 'brand-consolidation-va-plus-vets',
       paths: /(.)/,
       component: BrandConsolidationModal,
       disabled: !isBrandConsolidationEnabled(),
