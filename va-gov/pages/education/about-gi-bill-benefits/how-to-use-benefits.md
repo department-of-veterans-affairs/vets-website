@@ -25,7 +25,7 @@ majorlinks:
   - heading: Train for a Specific Career, Trade, or Industry
     links:
     - url: /education/about-gi-bill-benefits/how-to-use-benefits/test-fees/
-      title: Get Paid Back for Testing Fees
+      title: Get Paid Back for Test Fees
       description: Reimbursement for the cost of tests to become a licensed or certified professional, or to apply for college or a training course
     - url: /education/about-gi-bill-benefits/how-to-use-benefits/high-tech-programs/
       title: Accelerated Payments for High-Technology Programs

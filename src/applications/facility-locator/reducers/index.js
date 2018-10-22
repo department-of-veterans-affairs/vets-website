@@ -1,8 +1,8 @@
-import FacilitiesReducer from './facilities';
-import SearchQueryReducer from './searchQuery';
+import { SearchResultReducer } from './searchResult';
+import { SearchQueryReducer } from './searchQuery';
 
 const rootReducer = {
-  facilities: FacilitiesReducer,
+  searchResult: SearchResultReducer,
   searchQuery: SearchQueryReducer,
 };
 

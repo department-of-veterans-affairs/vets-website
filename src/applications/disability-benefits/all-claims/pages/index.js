@@ -19,6 +19,11 @@ import {
 } from './militaryHistory';
 
 import {
+  uiSchema as servedInCombatZoneUISchema,
+  schema as servedInCombatZoneSchema,
+} from './servedInCombatZone';
+
+import {
   uiSchema as separationTrainingPayUISchema,
   schema as separationTrainingPaySchema,
 } from '../pages/separationTrainingPay';
@@ -57,6 +62,11 @@ import {
   uiSchema as newPTSDFollowUpUISchema,
   schema as newPTSDFollowUpSchema,
 } from './newPTSDFollowUp';
+
+import {
+  uiSchema as choosePtsdTypeUISchema,
+  schema as choosePtsdTypeSchema,
+} from './choosePtsdType';
 
 import {
   uiSchema as summaryOfDisabilitiesUISchema,
@@ -138,6 +148,11 @@ export const militaryHistory = {
   schema: militaryHistorySchema,
 };
 
+export const servedInCombatZone = {
+  uiSchema: servedInCombatZoneUISchema,
+  schema: servedInCombatZoneSchema,
+};
+
 export const reservesNationalGuardService = {
   uiSchema: reservesNationalGuardUISchema,
   schema: reservesNationalGuardSchema,
@@ -171,6 +186,11 @@ export const newDisabilityFollowUp = {
 export const newPTSDFollowUp = {
   uiSchema: newPTSDFollowUpUISchema,
   schema: newPTSDFollowUpSchema,
+};
+
+export const choosePtsdType = {
+  uiSchema: choosePtsdTypeUISchema,
+  schema: choosePtsdTypeSchema,
 };
 
 export const summaryOfDisabilities = {
