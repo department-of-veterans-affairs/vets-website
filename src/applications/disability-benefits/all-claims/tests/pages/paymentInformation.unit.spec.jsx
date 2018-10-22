@@ -1,12 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import sinon from 'sinon';
 
 import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils';
-import {
-  mockApiRequest,
-  resetFetch,
-} from '../../../../../platform/testing/unit/helpers';
 
 import formConfig from '../../config/form.js';
 
@@ -15,52 +12,8 @@ const {
   uiSchema,
 } = formConfig.chapters.additionalInformation.pages.paymentInformation;
 
-const originalFetch = global.fetch;
-
-describe('526 -- fetchPaymentInformation', () => {
-  // Set up the api response before each test; running once before all the tests was
-  //  causing fetch() to return undefined for some reason.
-  beforeEach(() => {
-    mockApiRequest({
-      data: {
-        attributes: {
-          responses: [
-            {
-              paymentAccount: {
-                accountType: 'checking',
-                accountNumber: '1234567890',
-                financialInstitutionRoutingNumber: '0987654321',
-                financialInstitutionName: 'Some bank',
-              },
-            },
-          ],
-        },
-      },
-    });
-  });
-
-  // Reset the spy after every test
-  afterEach(() => resetFetch());
-
-  // Tear down the fetch mock when we're done with all the tests
-  after(() => {
-    global.fetch = originalFetch;
-  });
-
-  it('should fetch payment information from the api', () => {
-    mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        formData={{}}
-        uiSchema={uiSchema}
-      />,
-    );
-    // expect(global.fetch.calledWith('/ppiu/payment_information')).to.be.true;
-    expect(global.fetch.called).to.be.true;
-  });
-
-  it('should display masked payment information', done => {
+describe('526 -- paymentInformation', () => {
+  it('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -69,14 +22,69 @@ describe('526 -- fetchPaymentInformation', () => {
         uiSchema={uiSchema}
       />,
     );
-    setTimeout(() => {
-      const text = form.text();
-      // 'ending with' because of the srSubstitute
-      expect(text).to.include('●●●●●●ending with7890');
-      expect(text).to.include('●●●●●●ending with4321');
-      expect(text).to.include('Some bank');
-      expect(text).to.include('Checking Account');
-      done();
-    });
+
+    expect(form.find('input').length).to.equal(3);
+    expect(form.find('select').length).to.equal(1);
+  });
+
+  it('should submit with all required info', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          bankAccountType: 'Checking',
+          bankAccountNumber: '1234567890',
+          bankRoutingNumber: '123456789',
+          bankName: 'Test Bank',
+        }}
+        formData={{}}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(onSubmit.calledOnce).to.be.true;
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+  });
+
+  it('should not submit without required info', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          bankAccountType: 'Checking',
+        }}
+        formData={{}}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error-message').length).to.equal(3);
+  });
+
+  it('should submit with no info', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        formData={{}}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(onSubmit.calledOnce).to.be.true;
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
   });
 });
