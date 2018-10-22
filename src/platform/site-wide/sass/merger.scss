@@ -69,10 +69,6 @@
     a {
       text-decoration: none;
     }
-
-    p {
-      margin-top: 1em;
-    }
   }
 
   #menu-rule {
@@ -506,6 +502,12 @@
   .va-sidebarnav {
     .left-side-nav-title {
       padding-bottom: 25px;
+      > .icon-small {
+        vertical-align: middle;
+        padding-left: initial;
+        margin-right: 5px;
+        font-size: 1.7rem;
+      }
     }
 
     .usa-sidenav-list {
@@ -583,42 +585,6 @@
 
       .active-level {
         background-color: $mm-gray;
-      }
-    }
-    .fa {
-      position: relative;
-      border-radius: 50%;
-
-      &.icon-small {
-        vertical-align: middle;
-        padding-left: initial;
-        height: 32px;
-        width: 32px;
-        margin-right: 5px;
-
-        &::before {
-          position: absolute;
-          margin-top: 6.5px;
-          margin-left: 8.47px;
-        }
-      }
-      &.fa-handshake {
-        &.icon-small {
-          &::before {
-          margin-top: 7.5px;
-          margin-left: 7px;
-
-          }
-        }
-      }
-
-      &.fa-medkit {
-        &.icon-small {
-          &::before {
-            margin-top: 6px;
-            margin-left: 8px;
-          }
-        }
       }
     }
 
