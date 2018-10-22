@@ -1,3 +1,5 @@
+import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
+
 export default `
 <header class="header merger">
   <div class="incompatible-browser-warning">
@@ -17,7 +19,9 @@ export default `
         <div class="usa-accordion">
           <div class="usa-banner-header">
             <div class="usa-grid usa-banner-inner">
-            <img src="/img/tiny-usa-flag.png" alt="U.S. flag">
+            <img src="${replaceWithStagingDomain(
+              'https://www.va.gov/img/tiny-usa-flag.png',
+            )}" alt="U.S. flag">
             <p>An official website of the United States government</p>
             <button id="usa-banner-toggle" class="usa-accordion-button usa-banner-button" aria-expanded="false" aria-controls="gov-banner">
               <span class="usa-banner-button-text">Here’s how you know</span>
@@ -26,7 +30,9 @@ export default `
           </div>
           <div class="usa-banner-content usa-grid usa-accordion-content" id="gov-banner" aria-hidden="true">
             <div class="usa-banner-guidance-gov usa-width-one-half">
-              <img class="usa-banner-icon usa-media_block-img" src="/img/icon-dot-gov.svg" alt="Dot gov">
+              <img class="usa-banner-icon usa-media_block-img" src="${replaceWithStagingDomain(
+                'https://www.va.gov/img/icon-dot-gov.svg',
+              )}" alt="Dot gov">
               <div class="usa-media_block-body">
                 <p>
                   <strong>The .gov means it’s official.</strong>
@@ -36,7 +42,9 @@ export default `
               </div>
             </div>
             <div class="usa-banner-guidance-ssl usa-width-one-half">
-              <img class="usa-banner-icon usa-media_block-img" src="/img/icon-https.svg" alt="SSL">
+              <img class="usa-banner-icon usa-media_block-img" src="${replaceWithStagingDomain(
+                'https://www.va.gov/img/icon-https.svg',
+              )}" alt="SSL">
               <div class="usa-media_block-body">
                 <p>
                   <strong>The site is secure.</strong>
@@ -54,7 +62,9 @@ export default `
         <div class="va-crisis-line-inner">
           <span class="va-crisis-line-icon" aria-hidden="true"></span>
           <span class="va-crisis-line-text">Talk to a Veterans Crisis Line responder now</span>
-          <img class="va-crisis-line-arrow" src="/img/arrow-right-white.svg" aria-hidden="true"></img>
+          <img class="va-crisis-line-arrow" src="${replaceWithStagingDomain(
+            'https://www.va.gov/img/arrow-right-white.svg',
+          )}" aria-hidden="true"></img>
         </div>
       </button>
     </div>
@@ -63,8 +73,12 @@ export default `
 
   <div class="row va-flex usa-grid" id="va-header-logo-menu">
     <div class="va-header-logo-wrapper">
-      <a href="/" class="va-header-logo" title="Go to VA.gov">
-      <img src="/img/header-logo.png"/>
+      <a href="${replaceWithStagingDomain(
+        'https://www.va.gov',
+      )}" class="va-header-logo" title="Go to VA.gov">
+      <img src="${replaceWithStagingDomain(
+        'https://www.va.gov/img/header-logo.png',
+      )}"/>
       </a>
     </div>
     <div id="va-nav-controls"></div>
