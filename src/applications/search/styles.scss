@@ -49,6 +49,10 @@
     }
   }
 
+  a:visited {
+    color: $color-link-default;
+  }
+
   .search-box {
     input, button {
       margin: 0;
