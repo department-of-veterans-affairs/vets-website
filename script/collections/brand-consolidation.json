@@ -208,6 +208,14 @@
       "icon": "fa-book hub-background-education"
     }
   },
+  "educationMontgomeryActiveDuty": {
+    "pattern": "education/about-gi-bill-benefits/montgomery-active-duty/*.md",
+    "sortBy": "order",
+    "metadata": {
+      "name": "GI Bill",
+      "icon": "fa-book hub-background-education"
+    }
+  },
   "educationGIBillSurvivors": {
     "pattern": "education/survivor-dependent-benefits/*.md",
     "sortBy": "order",

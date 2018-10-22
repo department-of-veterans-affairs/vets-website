@@ -20,6 +20,7 @@ import { genderLabels } from '../../../platform/static-data/labels';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 import { getDisabilityName, transformDisabilities } from '../all-claims/utils';
+import { AddressViewField } from '../all-claims/content/contactInformation';
 
 import { VA_FORM4142_URL } from '../all-claims/constants';
 
@@ -817,5 +818,22 @@ export const PaymentDescription = () => (
   <p>
     This is the bank account information we have on file for you. We’ll pay your
     disability benefit to this account.
+  </p>
+);
+
+export const ForwardingAddressViewField = ({ formData }) => {
+  const { effectiveDate } = formData;
+  return (
+    <div>
+      <EffectiveDateViewField formData={effectiveDate} />
+      <AddressViewField formData={formData} />
+    </div>
+  );
+};
+
+const EffectiveDateViewField = ({ formData }) => (
+  <p>
+    We will use this address starting on{' '}
+    <DateWidget value={formData} options={{ monthYear: false }} />:
   </p>
 );

@@ -2,7 +2,8 @@
 import _ from 'lodash';
 import merge from 'lodash/merge';
 import fullSchema from '../config/schema';
-import dateUI from 'us-forms-system/lib/js/definitions/date';
+// import dateUI from 'us-forms-system/lib/js/definitions/date';
+import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
 
 import ReviewCardField from '../components/ReviewCardField';
@@ -19,6 +20,7 @@ import {
   validateZIP,
   validateMilitaryCity,
   validateMilitaryState,
+  isInFuture,
 } from '../validations';
 
 import { hasForwardingAddress, forwardingCountryIsUSA } from '../utils';
@@ -196,9 +198,19 @@ export const uiSchema = {
         viewComponent: ForwardingAddressViewField,
         expandUnder: 'view:hasForwardingAddress',
       },
-      effectiveDate: merge({}, dateUI('Effective date'), {
-        'ui:required': hasForwardingAddress,
-      }),
+      effectiveDate: merge(
+        dateRangeUI(
+          'Effective from',
+          'Effective to',
+          'End date must be after start date',
+        ),
+        {
+          from: {
+            'ui:required': hasForwardingAddress,
+            'ui:validations': [isInFuture],
+          },
+        },
+      ),
       country: {
         'ui:required': hasForwardingAddress,
       },
