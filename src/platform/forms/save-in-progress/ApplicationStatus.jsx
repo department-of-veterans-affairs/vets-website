@@ -7,7 +7,7 @@ import {
   formLinks,
   formDescriptions,
   formBenefits,
-} from '../../../applications/personalization/profile360/util/helpers';
+} from '../../../applications/personalization/dashboard/helpers';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import ProgressButton from '@department-of-veterans-affairs/formation/ProgressButton';
 import Modal from '@department-of-veterans-affairs/formation/Modal';

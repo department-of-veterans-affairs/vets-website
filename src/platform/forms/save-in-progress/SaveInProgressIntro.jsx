@@ -9,7 +9,7 @@ import { getNextPagePath } from 'us-forms-system/lib/js/routing';
 import {
   formDescriptions,
   formBenefits,
-} from '../../../applications/personalization/profile360/util/helpers';
+} from '../../../applications/personalization/dashboard/helpers';
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
