@@ -1,6 +1,13 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
+export const nonCombatPtsdType = (
+  <span>
+    Non-Combat PTSD <strong>other than</strong> Military Sexual Trauma or
+    Personal Assault
+  </span>
+);
+
 export const ptsdTypeDescription = (
   <div>
     <p>

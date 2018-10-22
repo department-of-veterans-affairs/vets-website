@@ -1,6 +1,10 @@
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
-import React from 'react';
-import { ptsdTypeDescription, ptsdTypeHelp } from '../content/ptsdTypeInfo';
+
+import {
+  ptsdTypeDescription,
+  ptsdTypeHelp,
+  nonCombatPtsdType,
+} from '../content/ptsdTypeInfo';
 
 import { disabilityNameTitle } from '../content/newPTSDFollowUp';
 
@@ -29,12 +33,7 @@ export const uiSchema = {
       'ui:title': 'Personal Assault',
     },
     'view:noncombatPtsdType': {
-      'ui:title': (
-        <span>
-          Non-Combat PTSD <strong>other than</strong> Military Sexual Trauma or
-          Personal Assault
-        </span>
-      ),
+      'ui:title': nonCombatPtsdType,
     },
   },
   'view:ptsdTypeHelp': {
