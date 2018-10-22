@@ -2,5 +2,5 @@
   "appName": "Search",
   "entryFile": "./search-entry.jsx",
   "entryName": "search",
-  "rootUrl": "/search",
+  "rootUrl": "/search"
 }
