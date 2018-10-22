@@ -16,6 +16,8 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
+  needsToEnter781,
+  isUploadingPtsdForm,
   servedAfter911,
 } from '../utils';
 
@@ -38,6 +40,8 @@ import {
   newDisabilityFollowUp,
   newPTSDFollowUp,
   choosePtsdType,
+  ptsdWalkthroughChoice781,
+  uploadPtsdDocuments,
   summaryOfDisabilities,
   vaMedicalRecords,
   additionalDocuments,
@@ -233,6 +237,24 @@ const formConfig = {
           depends: hasNewPtsdDisability,
           uiSchema: choosePtsdType.uiSchema,
           schema: choosePtsdType.schema,
+        },
+        ptsdWalkthroughChoice781: {
+          title: 'PTSD Walkthrough 781 Choice',
+          path: 'new-disabilities/walkthrough-781-choice',
+          depends: formData =>
+            hasNewPtsdDisability(formData) && needsToEnter781(formData),
+          uiSchema: ptsdWalkthroughChoice781.uiSchema,
+          schema: ptsdWalkthroughChoice781.schema,
+        },
+        uploadPtsdDocuments781: {
+          title: 'Upload PTSD Documents - 781',
+          path: 'new-disabilities/ptsd-781-upload',
+          depends: formData =>
+            hasNewPtsdDisability(formData) &&
+            needsToEnter781(formData) &&
+            isUploadingPtsdForm(formData),
+          uiSchema: uploadPtsdDocuments.uiSchema,
+          schema: uploadPtsdDocuments.schema,
         },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',
