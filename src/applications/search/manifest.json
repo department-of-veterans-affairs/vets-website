@@ -3,6 +3,6 @@
   "entryFile": "./search-entry.jsx",
   "entryName": "search",
   "rootUrl": "/search",
-  "production": true,
+  "production": false,
   "contentPage": "search/index.md"
 }
