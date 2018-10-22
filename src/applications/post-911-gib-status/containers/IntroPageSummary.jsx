@@ -102,13 +102,8 @@ export default function BrandConsolidationSummary() {
           </p>
           <ul>
             <li>
-              A premium{' '}
-              <strong>
-                My Health
-                <em>e</em>
-                Vet
-              </strong>{' '}
-              account, <strong>or</strong>
+              A premium <strong>My HealtheVet</strong> account,
+              <strong>or</strong>
             </li>
             <li>
               A <strong>DS Logon</strong> account (used for eBenefits and

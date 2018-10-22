@@ -11,14 +11,30 @@ aliases:
 spoke: More Resources
 children: disabilityAboutRatings
 ---
-
 <div class="va-introtext">
 
-For each disability claim, we assign a severity rating from 0% to 100% in 10% increments (for example, 10%, 20%, 30%). We base this rating on the evidence—supporting documents like a doctor’s report or medical test results—you give us as well as other information we may get from other sources like federal agencies. [File a claim now](/disability/how-to-file-claim/).
-
-We use a Combined Ratings table to calculate disability percentage if you have more than 1 disability. <a href="https://www.benefits.va.gov/COMPENSATION/rates-index.asp#combinedRatingsTable1" target="_blank">View the Combined Ratings table</a>
+Find out how we determine your disability rating.
 
 </div>
+
+### What is a disability rating?
+
+We assign you a disability rating based on the severity of your disability. We use this rating to determine your compensation rate.
+
+
+### What does VA use to decide my disability rating?
+
+We base your rating on:
+
+- The evidence you give us (like a doctor’s report or medical test results), **and**
+- The results of your VA claim (C&P) exam (if we determine you need this exam), **and**
+- Other information we may get from other sources (like federal agencies)
+
+If you have more than one disability, we use a Combined Ratings table to calculate your disability percentage. <br>
+[View the Combined Ratings table](https://www.benefits.va.gov/COMPENSATION/rates-index.asp#combinedRatingsTable1).
+
+To learn more about how disability ratings work, you can watch our video about how we decide your rating: <br>
+[Compensation 101: How did I get this rating?](https://www.youtube.com/watch?v=oM7oYzL2DCg)
 
 ### How do ratings work for a disability I had before entering the service that got worse because of my service?
 
@@ -28,9 +44,17 @@ For example, if you had an illness or injury (also known as a condition) that wa
 
 ### Can I get increased payments if I have a severe disability or dependents?
 
-You may be paid added amounts in certain instances if:
+Yes. We may increase your monthly payments if one or more of these is true for you. You have a:
 
--	You have a very severe disability or loss of limb
--	You have a spouse, child, or dependent parent
--	You have a seriously disabled spouse
+- Very severe disability or loss of limb, **or**
+- Spouse, child, or dependent parent and your combined disability is 30% or greater, **or**
+- Spouse with a serious disability
+
+
+### Is there anything else that might affect my compensation amount?
+
+Yes. Your compensation may end up being less than it otherwise would be if either of these is true. You:
+
+- Receive military retirement pay, disability severance pay, or separation pay
+- Are incarcerated in a federal, state, or local facility for more than 60 days for conviction of a felony
 

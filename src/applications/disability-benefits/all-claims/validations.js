@@ -122,3 +122,10 @@ export const validateIfHasEvidence = (
     wrappedValidator(errors, fieldData, formData, schema, messages, index);
   }
 };
+
+export const isInFuture = (err, fieldData) => {
+  const fieldDate = new Date(fieldData);
+  if (fieldDate.getTime() < Date.now()) {
+    err.addError('Start date must be in the future');
+  }
+};

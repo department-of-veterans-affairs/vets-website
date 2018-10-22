@@ -1,5 +1,8 @@
 $font-path: "~uswds/src/fonts";
 $image-path: "~uswds/src/img";
+$teamsite-dark-blue: #112e51;
+$teamsite-light-blue: #0073b4;
+$teamsite-width: 959px;
 
 @font-face {
   font-family: "FontAwesome";
@@ -35,6 +38,7 @@ $image-path: "~uswds/src/img";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-overlay";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-additional-info";
   @import "../../monitoring/DowntimeNotification/sass/m-downtime-notification";
+  @import "modules/m-layers";
 
   // ----- mobile typography -- see #6214 on vets.gov-team ---- //
 
@@ -48,4 +52,8 @@ $image-path: "~uswds/src/img";
   @import "merger";
 
   @import "consolidated-patches";
+}
+
+.merger #bg-middle-effect {
+    background: url(/va_files/2014/responsive/images/bg-middle-effect.png) repeat-y scroll center -65px $teamsite-light-blue;
 }

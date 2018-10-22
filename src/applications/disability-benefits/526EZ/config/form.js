@@ -591,9 +591,9 @@ const formConfig = {
             },
           },
         },
-        privateRecordChoice: {
+        privateRecordChoiceNew: {
           title: formData => `${formData.name} private medical records choice`,
-          path: 'supporting-evidence/:index/private-medical-records-choice',
+          path: 'supporting-evidence/:index/private-medical-records-choice-new',
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
@@ -677,9 +677,9 @@ const formConfig = {
             },
           },
         },
-        privateRecordChoiceOld: {
+        privateRecordChoice: {
           title: formData => `${formData.name} private medical records choice`,
-          path: 'supporting-evidence/:index/private-medical-records-choice-old',
+          path: 'supporting-evidence/:index/private-medical-records-choice',
           showPagePerItem: true,
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',

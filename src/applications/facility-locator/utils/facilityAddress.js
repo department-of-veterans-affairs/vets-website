@@ -1,9 +1,19 @@
+/* eslint-disable prettier/prettier */
 import { compact } from 'lodash';
+import { LocationType } from '../constants';
 
-export function buildAddressArray(facility) {
-  const {
-    address: { physical: address },
-  } = facility.attributes;
+export function buildAddressArray(location) {
+  if (location.type === LocationType.CC_PROVIDER) {
+    const { address } = location.attributes;
+
+    return compact([
+      address.street,
+      address.appt,
+      `${address.city}, ${address.state} ${address.zip}`
+    ]);
+  }
+
+  const { address: { physical: address } } = location.attributes;
 
   return compact([
     address.address1,

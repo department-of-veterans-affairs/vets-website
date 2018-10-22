@@ -1,6 +1,7 @@
 import React from 'react';
 
 import isBrandConsolidationEnabled from '../../brand-consolidation/feature-flag';
+import CallHelpDesk from '../../brand-consolidation/components/CallHelpDesk';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
@@ -14,20 +15,25 @@ function AskVAQuestions(props) {
           <p className="help-talk">
             To report a problem with this form,
             <br />
-            please call the {propertyName} Technical Help Desk:
+            please{' '}
+            <CallHelpDesk>
+              call the {propertyName} Technical Help Desk:
+            </CallHelpDesk>
           </p>
-          <p className="help-phone-number">
-            <a className="help-phone-number-link" href="tel:+1-855-574-7286">
-              1-855-574-7286
-            </a>
-            <br />
-            TTY:{' '}
-            <a className="help-phone-number-link" href="tel:+18008778339">
-              1-800-877-8339
-            </a>
-            <br />
-            Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
-          </p>
+          {!isBrandConsolidationEnabled() && (
+            <p className="help-phone-number">
+              <a className="help-phone-number-link" href="tel:+1-855-574-7286">
+                1-855-574-7286
+              </a>
+              <br />
+              TTY:{' '}
+              <a className="help-phone-number-link" href="tel:+18008778339">
+                1-800-877-8339
+              </a>
+              <br />
+              Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+            </p>
+          )}
         </div>
       </div>
     </div>

@@ -16,11 +16,9 @@
     .sign-in-nav {
       margin-left: 6px;
     }
-    z-index: 300;
     min-height: 50px;
   }
   .va-modal {
-    z-index: 301;
     font-size: 1.6rem;
   }
 
@@ -185,22 +183,6 @@
 
   }
 
-  // Once the above rule is delete, we can delete this awful block too.
-  #gov-banner {
-    @media (min-width: $small-screen) {
-      .usa-banner-guidance-gov, .usa-banner-guidance-ssl {
-        padding-bottom: 2.3rem;
-        padding-top: 4rem;
-      }
-    }
-  }
-
-  @media (max-width: $small-screen) {
-    .usa-banner-button:focus {
-      position: absolute;
-    }
-  }
-
   .va-nav-breadcrumbs-list {
     padding-left: 0;
 
@@ -235,7 +217,6 @@
   #vetnav {
     // 100% width necessary for right aligned items
     width: 100%;
-    z-index: 2;
     left: initial;
   }
 
@@ -267,7 +248,7 @@
       //   min-height: unset;
       // }
       .login-container {
-        z-index: 301;
+        // due to these been nested, this has to have a higher z-level then vet-toolbar
         position: relative;
         top: -40px;
       }
@@ -291,14 +272,6 @@
 
     .vetnav-panel a {
       padding: 0.8rem 1.0rem;
-    }
-
-    .usa-banner {
-      padding-left: .5em;
-      .usa-banner-content {
-        padding-bottom: 2.3rem;
-        padding-top: 4rem;
-      }
     }
 
     .va-header-logo-wrapper {
@@ -411,7 +384,6 @@
     .va-sidebarnav--opened {
       position: fixed;
       display: initial;
-      z-index: 1000;
     }
     .va-navigation-nextprevious {
       padding-left: 0.9375rem;
@@ -484,7 +456,6 @@
   }
 
   #preview-site-alert {
-    z-index: 1;
     color: $color-black;
     position: relative;
   }
@@ -521,7 +492,7 @@
 
   .usa-sidenav-list {
     a {
-      font-size: 17px;
+      font-size: 15px;
       text-decoration: underline;
       padding: 8px 16px 8px 30px;
 
@@ -541,6 +512,8 @@
       margin-right: 0;
 
       & > li {
+        border-top: 0;
+
         .active-menu {
           border-bottom: 0;
         }
@@ -549,12 +522,11 @@
           color: $color-link-default;
           display: inline-block;
           vertical-align: middle;
-          width: 98%;
+          width: 100%;
 
           &:focus {
             background-color: $mm-gray;
             font-weight: bold;
-            margin: 2px;
           }
 
           &:hover {
@@ -596,6 +568,7 @@
         margin-left: 16px;
         background-color: $mm-gray;
         text-decoration: none;
+        cursor: default;
 
         &.level-one {
           padding-left: 14px;
@@ -610,10 +583,6 @@
 
       .active-level {
         background-color: $mm-gray;
-
-        a {
-          width: 99%;
-        }
       }
     }
     .fa {
@@ -680,7 +649,7 @@
 
     .usa-sidenav-sub_list{
       a {
-        width: 98% !important; // sorry this is temporary
+        width: 100% !important; // sorry this is temporary
         text-decoration: underline;
         padding-left: 40px;
         font-size: 15px;
@@ -766,7 +735,12 @@
         }
 
         &[aria-expanded=true] {
+          border-bottom: 0;
           background-image: url("/img/minus-blue.svg");
+
+          &:focus {
+            border: 2px solid $color-gold;
+          }
         }
       }
 
@@ -777,14 +751,21 @@
       .usa-sidenav-list {
         a {
           font-size: 15px;
-
-          &:hover:focus {
-            width: 98%;
+          // added to deal with accordian overflow
+          // and outline not showing correctly
+          &:focus {
+            width: 98% !important;
+            margin: 2px;
           }
+        }
+      }
 
-          &:hover {
-            width: 100%;
-          }
+      .usa-current {
+        // added to deal with accordian overflow
+        // and outline not showing correctly
+        &:focus {
+          width: 99% !important;
+          margin-top: 2px;
         }
       }
     }
@@ -858,6 +839,7 @@
   }
 
   .sidenav-previous-page {
+    font-size: 15px;
     padding-bottom: 12px;
 
     @media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
@@ -870,6 +852,30 @@
         display: inline-block;
         padding: 0 0.35em 0 0;
       }
+    }
+  }
+
+  // These next two rules override some styles in user-nav.scss, should be moved there
+  // after WBC is live
+  .sign-in-links {
+    flex-shrink: 0;
+  }
+
+  .sign-in-link {
+    margin: 0;
+    @include media($medium-large-screen) {
+      &:hover, &:active {
+        background-color: $color-primary;
+        color: inherit !important;
+      }
+    }
+    // This is backwards from the mobile first approach we should be taking
+    // but the amount of overrides we would need if we did that way would be
+    // very tricky to write and maintain
+    @media (max-width: $medium-large-screen - 1) {
+      @include button-link;
+      color: $color-white !important;
+      text-decoration: none;
     }
   }
 }
@@ -893,9 +899,9 @@
 }
 
 .left-side-nav-title {
+  color: $color-black;
   padding-left: 1em;
-  // This is gross, but it works for now
-  @include media(1008px) {
+  @include media($small-desktop-screen) {
     padding-left: 0;
   }
 }
@@ -911,22 +917,8 @@ img[data-srcset] {
   min-height: 1px;
 }
 
-.sign-in-links {
-  flex-shrink: 0;
-}
-
 .vet-toolbar .va-dropdown {
   margin-left: 0;
-}
-
-.sign-in-link {
-  margin: 0;
-  // This is backwards from the mobile first approach we should be taking
-  // but the amount of overrides we would need if we did that way would be
-  // very tricky to write and maintain
-  @media (max-width: $medium-large-screen - 1) {
-    @include button-link;
-  }
 }
 
 .profile-nav {

@@ -26,6 +26,7 @@ $image-path: "~uswds/src/img";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-additional-info";
 @import "../../monitoring/DowntimeNotification/sass/m-downtime-notification";
 
+@import "modules/m-layers";
 // ----- mobile typography -- see #6214 on vets.gov-team ---- //
 
 @import "~@department-of-veterans-affairs/formation/sass/mobile-typography";
