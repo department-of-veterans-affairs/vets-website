@@ -1,4 +1,5 @@
 import { ptsdTypeDescription, ptsdTypeHelp } from '../content/ptsdTypeInfo';
+
 import { disabilityNameTitle } from '../content/newPTSDFollowUp';
 
 export const uiSchema = {
