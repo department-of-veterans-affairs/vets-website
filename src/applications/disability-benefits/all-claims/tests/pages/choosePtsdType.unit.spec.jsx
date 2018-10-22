@@ -8,6 +8,7 @@ import {
   selectCheckbox,
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
+import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('Disability benefits 718 PTSD type', () => {
   const {
@@ -83,7 +84,7 @@ describe('Disability benefits 718 PTSD type', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 
@@ -108,9 +109,9 @@ describe('Disability benefits 718 PTSD type', () => {
       />,
     );
 
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 });
