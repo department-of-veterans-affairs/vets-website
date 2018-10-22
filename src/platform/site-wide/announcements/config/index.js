@@ -2,7 +2,7 @@ import DashboardIntro from '../components/DashboardIntro';
 import Profile360Intro from '../components/Profile360Intro';
 import PersonalizationBanner from '../components/PersonalizationBanner';
 import ClaimIncreaseBanner from '../components/ClaimIncreaseBanner';
-import BrandConsolidationModal from '../components/BrandConsolidationModal';
+import VAPlusVetsModal from '../components/VAPlusVetsModal';
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 
 const config = {
@@ -10,7 +10,7 @@ const config = {
     {
       name: 'brand-consolidation-va-plus-vets',
       paths: /(.)/,
-      component: BrandConsolidationModal,
+      component: VAPlusVetsModal,
       disabled: !isBrandConsolidationEnabled(),
     },
     {

@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 
-export default function BrandConsolidationModal({ dismiss }) {
+export default function VAPlusVetsModal({ dismiss }) {
   return (
     <Modal
       cssClass="va-modal va-modal-medium announcement-brand-consolidation"
