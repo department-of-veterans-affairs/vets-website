@@ -69,10 +69,6 @@
     a {
       text-decoration: none;
     }
-
-    p {
-      margin-top: 1em;
-    }
   }
 
   #menu-rule {
@@ -183,22 +179,6 @@
 
   }
 
-  // Once the above rule is delete, we can delete this awful block too.
-  #gov-banner {
-    @media (min-width: $small-screen) {
-      .usa-banner-guidance-gov, .usa-banner-guidance-ssl {
-        padding-bottom: 2.3rem;
-        padding-top: 4rem;
-      }
-    }
-  }
-
-  @media (max-width: $small-screen) {
-    .usa-banner-button:focus {
-      position: absolute;
-    }
-  }
-
   .va-nav-breadcrumbs-list {
     padding-left: 0;
 
@@ -288,14 +268,6 @@
 
     .vetnav-panel a {
       padding: 0.8rem 1.0rem;
-    }
-
-    .usa-banner {
-      padding-left: .5em;
-      .usa-banner-content {
-        padding-bottom: 2.3rem;
-        padding-top: 4rem;
-      }
     }
 
     .va-header-logo-wrapper {
@@ -530,6 +502,12 @@
   .va-sidebarnav {
     .left-side-nav-title {
       padding-bottom: 25px;
+      > .icon-small {
+        vertical-align: middle;
+        padding-left: initial;
+        margin-right: 5px;
+        font-size: 1.7rem;
+      }
     }
 
     .usa-sidenav-list {
@@ -607,42 +585,6 @@
 
       .active-level {
         background-color: $mm-gray;
-      }
-    }
-    .fa {
-      position: relative;
-      border-radius: 50%;
-
-      &.icon-small {
-        vertical-align: middle;
-        padding-left: initial;
-        height: 32px;
-        width: 32px;
-        margin-right: 5px;
-
-        &::before {
-          position: absolute;
-          margin-top: 6.5px;
-          margin-left: 8.47px;
-        }
-      }
-      &.fa-handshake {
-        &.icon-small {
-          &::before {
-          margin-top: 7.5px;
-          margin-left: 7px;
-
-          }
-        }
-      }
-
-      &.fa-medkit {
-        &.icon-small {
-          &::before {
-            margin-top: 6px;
-            margin-left: 8px;
-          }
-        }
       }
     }
 
@@ -902,7 +844,6 @@
       text-decoration: none;
     }
   }
-
 }
 
 .usa-accordion-bordered {
@@ -926,8 +867,7 @@
 .left-side-nav-title {
   color: $color-black;
   padding-left: 1em;
-  // This is gross, but it works for now
-  @include media(1008px) {
+  @include media($small-desktop-screen) {
     padding-left: 0;
   }
 }

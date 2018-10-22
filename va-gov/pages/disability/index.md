@@ -6,7 +6,7 @@ display_title: Disability
 description: Find out if you're eligible for VA disability pay (compensation) for a service-connected disability. Learn about VA disability benefits, ratings, which conditions qualify, how to apply, and what to expect after you apply for Veterans disability.
 concurrence: complete
 lastupdate:
-icon: icon-large white fa fa-handshake-o hub-background-disability
+icon: icon-large white fa fa-file-text-o hub-background-disability
 aliases:
   - /disability-benefits/
 promo:

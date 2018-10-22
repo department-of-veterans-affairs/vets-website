@@ -3,7 +3,11 @@ import environment from '../../../../platform/utilities/environment';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { hasMilitaryRetiredPay, hasRatedDisabilities } from '../validations';
+import {
+  hasMilitaryRetiredPay,
+  hasRatedDisabilities,
+  hasNewPtsdDisability,
+} from '../validations';
 
 import {
   hasGuardOrReservePeriod,
@@ -33,6 +37,7 @@ import {
   addDisabilities,
   newDisabilityFollowUp,
   newPTSDFollowUp,
+  choosePtsdType,
   summaryOfDisabilities,
   vaMedicalRecords,
   additionalDocuments,
@@ -217,13 +222,17 @@ const formConfig = {
         },
         newPTSDFollowUp: {
           title: formData => getDisabilityName(formData.condition),
-          path: 'new-disabilities/follow-up/ptsd/:index',
-          showPagePerItem: true,
-          itemFilter: item =>
-            item.condition && item.condition.toLowerCase().includes(PTSD),
-          arrayPath: 'newDisabilities',
+          path: 'new-disabilities/ptsd-intro',
+          depends: hasNewPtsdDisability,
           uiSchema: newPTSDFollowUp.uiSchema,
           schema: newPTSDFollowUp.schema,
+        },
+        choosePtsdType: {
+          title: formData => getDisabilityName(formData.condition),
+          path: 'new-disabilities/ptsd-type',
+          depends: hasNewPtsdDisability,
+          uiSchema: choosePtsdType.uiSchema,
+          schema: choosePtsdType.schema,
         },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',

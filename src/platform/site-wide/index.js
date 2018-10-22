@@ -22,6 +22,10 @@ if (!brandConsolidation.isEnabled()) {
   require('./usa-banner-toggle');
 }
 
+if (brandConsolidation.isEnabled()) {
+  import(/* webpackChunkName: "uswds" */ 'uswds');
+}
+
 /**
  * Start up the site-wide components that live on every page, like
  * the login widget, the header menus, and the feedback widget.
