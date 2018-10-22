@@ -2,7 +2,7 @@ import SearchApp from './containers/SearchApp';
 
 const routes = {
   path: '/',
-  component: SearchApp
+  component: SearchApp,
 };
 
 export default routes;
