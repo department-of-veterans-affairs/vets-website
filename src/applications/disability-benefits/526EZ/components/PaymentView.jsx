@@ -1,7 +1,7 @@
 import React from 'react';
-import { srSubstitute } from '../utils';
+import { srSubstitute } from '../../all-claims/utils';
 import { NOBANK, accountTitleLabels } from '../constants';
-import { PaymentDescription, editNote } from '../content/paymentInformation';
+import { PaymentDescription, editNote } from '../helpers';
 
 const PaymentView = response => {
   const {
