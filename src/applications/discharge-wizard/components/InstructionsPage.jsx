@@ -38,7 +38,7 @@ class InstructionsPage extends React.Component {
                   you earned during your period of service.
                 </p>
               </div>
-              <div className="main home signup" role="main">
+              <div className="main home signup">
                 <div className="section main-menu">
                   <div className="row">
                     <div className="small-12 columns">

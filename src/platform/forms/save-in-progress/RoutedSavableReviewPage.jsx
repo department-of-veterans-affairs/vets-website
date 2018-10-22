@@ -124,7 +124,7 @@ class RoutedSavableReviewPage extends React.Component {
             <strong>We’re sorry. We can't submit your form right now.</strong>
           </p>
           <p>
-            We're working to fix the problem. Please make sure you're connected
+            We’re working to fix the problem. Please make sure you’re connected
             to the Internet, and then try saving your form again. {saveLink}.
           </p>
           {!user.login.currentlyLoggedIn && (

@@ -149,3 +149,7 @@ export const VA_FORM4142_URL =
 export const FIFTY_MB = 52428800;
 
 export const PTSD = 'ptsd';
+
+export const NINE_ELEVEN = '2001-09-11';
+
+export const ERR_MSG_CSS_CLASS = '.usa-input-error-message';
