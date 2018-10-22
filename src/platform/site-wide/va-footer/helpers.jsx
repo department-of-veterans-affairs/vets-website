@@ -26,6 +26,10 @@ export function generateLinkItems(links, column, direction = 'asc') {
     <ul className="va-footer-links">
       {orderBy(links[column], 'order', direction).map(link => (
         <li key={`${link.column}-${link.order}`}>
+          {link.label && (
+            <span className="va-footer-link-label">{link.label}</span>
+          )}
+
           <a href={link.href} onClick={captureEvent} target={link.target}>
             {link.title}
           </a>
