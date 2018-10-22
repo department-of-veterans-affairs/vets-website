@@ -238,10 +238,7 @@ export const hasPrivateEvidence = formData =>
  * @returns {boolean} true if at least one path is not empty / false otherwise
  */
 export const fieldsHaveInput = (formData, fieldPaths) =>
-  fieldPaths.reduce(
-    (accum, path) => accum || !!_.get(path, formData, ''),
-    false,
-  );
+  fieldPaths.some(path => !!_.get(path, formData, ''));
 
 export const bankFieldsHaveInput = formData =>
   fieldsHaveInput(formData, [
