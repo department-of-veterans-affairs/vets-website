@@ -12,7 +12,7 @@
   <div class="usa-grid">
     {% include "content/components/navigation-sidebar.html" %}
 
-    <div class="usa-width-three-fourths">
+    <div class="columns usa-width-three-fourths">
       {% include "content/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
       <article class="usa-content">
         <h1>{{ title }}</h1>
@@ -25,8 +25,8 @@
       {% if relatedlinks != empty %}
         {% include "content/components/navigation-links-list.html" with isRelated = true %}
       {% endif %}
-      
+
       {% include "content/includes/last-update.html" %}
-    </div> 
+    </div>
   </div>
 </main>

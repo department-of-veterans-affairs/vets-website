@@ -3,6 +3,9 @@ import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
+import CallHelpDesk from '../../../brand-consolidation/components/CallHelpDesk';
+
+import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 import recordEvent from '../../../monitoring/record-event';
 import { login, signup } from '../../../user/authentication/utilities';
 import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
@@ -18,23 +21,24 @@ const handleDsLogon = loginHandler('dslogon');
 const handleMhv = loginHandler('mhv');
 const handleIdMe = loginHandler('idme');
 
+const logoSrc = `/img/design/logo/${
+  isBrandConsolidationEnabled() ? 'va-logo.png' : 'logo-alt.png'
+}`;
+
 class SignInModal extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {
       recordEvent({ event: 'login-modal-opened' });
     }
   }
+
   renderModalContent = () => (
     <main className="login">
       <div className="row">
         <div className="columns">
           <div className="logo">
             <a href="/">
-              <img
-                alt={siteName}
-                className="va-header-logo"
-                src="/img/design/logo/logo-alt.png"
-              />
+              <img alt={siteName} className="va-header-logo" src={logoSrc} />
             </a>
           </div>
         </div>
@@ -58,10 +62,16 @@ class SignInModal extends React.Component {
               <div className="form-warning-banner">
                 <AlertBox
                   headline={`Some ${siteName} tools and features may not be working as expected`}
-                  content={`We’re sorry. We’re working to fix some problems with DS Logon right now. Please check back later or call the ${siteName} Help Desk for more information at 1-855-574-7286, TTY: 1-800-877-8339.`}
                   isVisible
                   status="warning"
-                />
+                >
+                  We’re sorry. We’re working to fix some problems with DS Logon
+                  right now. Please check back later or{' '}
+                  <CallHelpDesk>
+                    call the {siteName} Help Desk for more information at
+                    1-855-574-7286, TTY: 1-800-877-8339.
+                  </CallHelpDesk>
+                </AlertBox>
                 <br />
               </div>
             </div>
@@ -160,12 +170,15 @@ class SignInModal extends React.Component {
                 </a>
               </p>
               <p>
-                Or call the {siteName} Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>
-                <br />
-                We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
-                (ET)
+                Or{' '}
+                <CallHelpDesk>
+                  call the {siteName} Help Desk at{' '}
+                  <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+                  <a href="tel:18008778339">1-800-877-8339</a>
+                  <br />
+                  We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
+                  (ET)
+                </CallHelpDesk>
               </p>
             </div>
             <hr />
