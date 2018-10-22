@@ -6,7 +6,7 @@ display_title: Education and Training
 concurrence: complete
 lastupdate:
 order: 1
-icon: icon-large white fa fa-book hub-background-education
+icon: icon-large white fa fa-graduation-cap hub-background-education
 promo:
   - image: /img/megamenu/education-training-illustration.png
     heading: GI Bill School Feedback Tool
