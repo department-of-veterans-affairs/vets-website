@@ -180,9 +180,8 @@ class IntroductionPage extends React.Component {
                   Choice 1: Sign in to {siteName} and verify your identity
                 </h6>
                 <p>
-                  Sign in to {siteName} with either your existing My Health
-                  <em>e</em>
-                  Vet or DS Logon account (the same one you use for eBenefits or
+                  Sign in to {siteName} with either your existing My HealtheVet
+                  or DS Logon account (the same one you use for eBenefits or
                   MilConnect) or an ID.me account.
                 </p>
                 <p>
@@ -214,9 +213,8 @@ class IntroductionPage extends React.Component {
                   You can complete the application without signing in, but it’ll
                   take us longer to verify your identity. This will delay a
                   decision on your application. The fastest way to get your
-                  application processed is to sign in with a My Health
-                  <em>e</em>
-                  Vet, DS Logon, or ID.me account.
+                  application processed is to sign in with a My HealtheVet, DS
+                  Logon, or ID.me account.
                 </p>
               </li>
             )}
@@ -235,11 +233,9 @@ class IntroductionPage extends React.Component {
                     verification system available.
                   </p>
                   <p>
-                    If you signed in using your My Health
-                    <em>e</em>
-                    Vet or DS Logon account, we’ll connect your account to
-                    {siteName} through ID.me. To verify your identity through
-                    ID.me, you’ll need:
+                    If you signed in using your My HealtheVet or DS Logon
+                    account, we’ll connect your account to {siteName} through
+                    ID.me. To verify your identity through ID.me, you’ll need:
                   </p>
                   {idProofingReqs}
                   <p>

@@ -32,14 +32,14 @@ header.merger {
   width: 100%;
   margin: auto;
 
-  .va-crisis-line {
+  .va-crisis-line-container {
 
-    button.va-crisis-line-button {
+    button.va-crisis-line {
       background-image: none;
     }
   }
   @media (min-width: $medium-screen) {
-    .va-notice--banner-inner {
+    va-notice--banner-inner, .va-crisis-line-container {
       width: $teamsite-width;
       padding-left: 1rem;
     }

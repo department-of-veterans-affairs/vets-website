@@ -46,7 +46,7 @@ You’ll need to apply online.
 
 ### Do I need to sign in to Vets.gov to apply for a Veteran ID Card?
 
-No. You can complete the application without signing in, but it’ll take us longer to verify your identity. This will delay a decision on your application. The fastest way to get your application processed is to sign in with a My Health<em>e</em>Vet or DS Logon account (the same one you use for eBenefits or MilConnect) or an ID.me account.
+No. You can complete the application without signing in, but it’ll take us longer to verify your identity. This will delay a decision on your application. The fastest way to get your application processed is to sign in with a My HealtheVet or DS Logon account (the same one you use for eBenefits or MilConnect) or an ID.me account.
 
 **When you sign in to Vets.gov and verify your identity, you’ll:**
 
@@ -64,7 +64,7 @@ It depends. We process applications in the order we receive them. If your applic
 
 When you sign in to Vets.gov, we need to verify your identity to make sure you’re you—and not someone pretending to be you—before we can give you access to your personal information. This helps to keep your information safe and prevent fraud and identity theft.
 
-You can sign in with your My Health<em>e</em>Vet or DS Logon account, and we’ll connect your account to Vets.gov through ID.me. If you have a basic or advanced (non-premium) account, you’ll need to verify your identity through ID.me. We can also help you use ID.me to add an extra layer of security to your account. If you don’t have an account on Vets.gov, you can create one using ID.me.
+You can sign in with your My HealtheVet or DS Logon account, and we’ll connect your account to Vets.gov through ID.me. If you have a basic or advanced (non-premium) account, you’ll need to verify your identity through ID.me. We can also help you use ID.me to add an extra layer of security to your account. If you don’t have an account on Vets.gov, you can create one using ID.me.
 
 ID.me is our trusted technology partner that provides the strongest identity verification system available. ID.me is 1 of 4 Single Sign-On providers that meet the U.S. government’s most rigorous requirements for online identity proofing and authentication.<br>
 
