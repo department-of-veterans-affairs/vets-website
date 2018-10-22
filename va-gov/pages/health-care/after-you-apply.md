@@ -138,28 +138,6 @@ If we decide not to keep you enrolled in VA health care after this time, you hav
 
 <br>
 
-<span id="after-not-approved">
-
-#### What if my application isn’t approved and I disagree with the decision?
-
-If you disagree with the decision, you can file an appeal. We’ll send you a letter with the reason we’re not approving your application. This letter will include instructions on how to appeal the decision. <br>
-[Download our “How Do I Appeal?” booklet](https://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf).
-
-<br>
-
-<span id="after-removed-enrollment">
-
-#### What should I do if I'm already enrolled in VA health care, but I just got a letter saying VA has determined I’m not eligible and will be removed from enrollment?
-
-First, you’ll want to gather any evidence to support your eligibility to stay enrolled in VA health care and send it to us. Evidence may include documents like doctor’s reports, medical tests, or military service records. You’ll have 60 days from the date you received your letter to send us this evidence before we make our final decision.
-
-During these 60 days, you’ll keep and can continue to use your VA health care benefits.
-
-If we decide not to keep you enrolled in VA health care after this time, you have the right to appeal our decision.<br>
-[Learn how to appeal a VA decision](https://www.va.gov/vaforms/va/pdf/VA4107VHA.pdf).
-
-<br>
-
 <span id="after-cancel-enrollment">
 
 #### How do I cancel my VA health care enrollment if I no longer want or need it?
