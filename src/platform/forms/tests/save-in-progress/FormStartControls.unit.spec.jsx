@@ -47,7 +47,7 @@ describe('Schemaform <FormStartControls>', () => {
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(1);
   });
-  it('should render 1 button when logged in with an expired form', () => {
+  it('should render 3 buttons when logged in with an expired form', () => {
     const routerSpy = {
       push: sinon.spy(),
     };
