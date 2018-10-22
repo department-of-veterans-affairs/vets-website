@@ -13,6 +13,7 @@ import {
   hasOtherEvidence,
   servedAfter911,
   needsToEnter781,
+  needsToEnter781a,
   isUploadingPtsdForm,
 } from '../utils.jsx';
 
@@ -364,6 +365,31 @@ describe('526 helpers', () => {
     it('should return false if user has not selected Combat or Non-Combat PTSD types', () => {
       const formData = {};
       expect(needsToEnter781({ formData })).to.be.false;
+    });
+  });
+
+  describe('needsToEnter781a', () => {
+    it('should return true if user has selected MST PTSD types', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:mstPtsdType': true,
+        },
+      };
+      expect(needsToEnter781a(formData)).to.be.true;
+    });
+
+    it('should return true if user has selected Assault PTSD types', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:assaultPtsdType': true,
+        },
+      };
+      expect(needsToEnter781a(formData)).to.be.true;
+    });
+
+    it('should return false if user has not selected Combat or Non-Combat PTSD types', () => {
+      const formData = {};
+      expect(needsToEnter781a({ formData })).to.be.false;
     });
   });
 
