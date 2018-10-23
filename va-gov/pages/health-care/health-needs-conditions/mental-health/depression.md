@@ -100,8 +100,7 @@ You may still be able to get care:
 
 ### Where can I find more information and support?
 
-- Go to our depression web page for information about depression, treatment, and support we offer. <br>
-[Find out more about depression](https://www.mentalhealth.va.gov/depression.asp).
+- [Get information about depression, treatment, and the support we offer](https://www.mentalhealth.va.gov/depression.asp).
 - Visit our Self-Help Resources guide to get links to books, web resources, and mobile applications that have been reviewed and recommended by VA experts. <br>
 [Get self-help resources](https://www.mentalhealth.va.gov/self_help.asp).
 - Go to our Make the Connection website to get resources and watch stories of Veterans who’ve overcome depression and other mental health challenges. <br>
