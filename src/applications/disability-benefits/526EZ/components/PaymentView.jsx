@@ -41,7 +41,7 @@ const PaymentView = response => {
               We don’t have any bank account information for you in our system.
             </strong>
             <br />
-            You can still complete this form, but we'll need your payment
+            You can still complete this form, but we’ll need your payment
             information in order to pay you compensation.
           </p>
           <p>
@@ -71,8 +71,8 @@ const PaymentView = response => {
             </li>
             <li>
               Call Veterans Benefits Assistance at{' '}
-              <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday -- Friday,
-              8:00 a.m. -- 9:00 p.m. (ET).
+              <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday – Friday,
+              8:00 a.m. – 9:00 p.m. (ET).
             </li>
           </ul>
         </div>
