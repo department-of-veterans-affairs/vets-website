@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import CallToActionWidget from '../../../platform/site-wide/cta-widget';
+import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
 
 export function VetsDotGovSummary() {
   // TODO: Determine whether h2 is right--accessibility-wise, it is, but it's larger than the design
@@ -45,9 +46,11 @@ export function VetsDotGovSummary() {
           </li>
         </ul>
         If none of the above situations applies to you, and you think your
-        Statement of Benefits should be here, please call the Vets.gov Help Desk
-        at 1-855-574-7286. We’re here Monday through Friday, 8:00 a.m. to 8:00
-        p.m. (ET).
+        Statement of Benefits should be here, please{' '}
+        <CallHelpDesk>
+          call the Vets.gov Help Desk at 1-855-574-7286. We’re here Monday
+          through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+        </CallHelpDesk>
       </p>
     </div>
   );
@@ -183,9 +186,12 @@ export default function BrandConsolidationSummary() {
           </ul>
           <p>
             If none of the above situations applies to you, and you think your
-            Statement of Benefits should be here, please call the VA.gov Help
-            Desk at <a href="tel:+18555747286">1-855-574-7286</a>. We’re here
-            Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
+            Statement of Benefits should be here, please{' '}
+            <CallHelpDesk>
+              call the VA.gov Help Desk at{' '}
+              <a href="tel:+18555747286">1-855-574-7286</a>. We’re here Monday
+              through Friday, 8:00 a.m. to 8:00 p.m. (ET)
+            </CallHelpDesk>
           </p>
         </div>
       </div>
