@@ -51,7 +51,7 @@ export function replaceWithStagingDomain(href) {
  * @returns {Object} A object with the same structure as the data
  *  argument, with domains replaced
  */
-export function replaceDomainsInData(data, keyToCheck = 'href') {
+export function replaceDomainsInData(data, keyToCheck = ['href', 'src']) {
   if (prodEnvironments.has(__BUILDTYPE__)) {
     return data;
   }
@@ -66,7 +66,7 @@ export function replaceDomainsInData(data, keyToCheck = 'href') {
       let newValue = current;
 
       // We're assuming that keys provided in keyToCheck are strings
-      if (key === keyToCheck) {
+      if (keyToCheck.includes(key)) {
         newValue = replaceWithStagingDomain(current[key]);
       } else {
         newValue = replaceDomainsInData(current[key], keyToCheck);
