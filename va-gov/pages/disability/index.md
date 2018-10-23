@@ -45,7 +45,8 @@ social:
           title: "eBenefits Technical Support:"
         - url: tel:1-844-698-2311
           number: 1-844-698-2311
-          title: "Call MyVA311 for Help (TTY: 711):"        
+          title: "Call MyVA311 for Help:"
+        - title: TTY: 711
   - heading: Connect with the Veterans Benefits Administration
     admin: VBA Website
     url: https://www.benefits.va.gov/benefits/
