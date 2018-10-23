@@ -63,43 +63,43 @@ Access your VA records and documents online to manage your health and benefits.
   <h2>Get Your Records and Documents</h2>
 
   <div class="link">
-    <a href="/records/get-veteran-id-cards/"><b>Get Veteran ID Cards</b></a>
-    <p>Find out how to get different types of identification cards to show your military status or your enrollment in VA health care or the VA Choice program.</p>
+    <a href="/records/get-veteran-id-cards/"><span><b>Get Veteran ID Cards</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out how to get different types of identification cards to show your military status or your enrollment in VA health care or the VA Choice program.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="/records/get-military-service-records/"><b>Request Your Military Records (DD214)</b></a>
-    <p>View and print documents from your official military personnel file (including your DD214).</p>
+    <a href="/records/get-military-service-records/"><span><b>Request Your Military Records (DD214)</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">View and print documents from your official military personnel file (including your DD214).</p></a>
+
   </div>
 
   <div class="link">
-    <a href="/health-care/get-medical-records/"><b>Get Your VA Medical Records (called VA Blue Button)</b></a>
-    <p>Set up your personal health record and download medical records, reports, and images to share with your VA and non-VA doctors.</p>
+    <a href="/health-care/get-medical-records/"><span><b>Get Your VA Medical Records (called VA Blue Button)</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Set up your personal health record and download medical records, reports, and images to share with your VA and non-VA doctors.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="/records/download-va-letters/"><b>Download Your VA Benefit Letters</b></a>
-    <p>Download a copy of letters like your eligibility or award letter for certain benefits.</p>
+    <a href="/records/download-va-letters/"><span><b>Download Your VA Benefit Letters</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Download a copy of letters like your eligibility or award letter for certain benefits.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="/housing-assistance/home-loans/how-to-apply/"><b>Find Out How to Apply for a VA Home Loan Certificate of Eligibility</b></a>
-    <p>Get instructions for how to apply for your Certificate of Eligibility (COE), which confirms for your lender that you qualify for a VA-backed home loan. Then you can choose your loan type to learn about the rest of the loan application process.</p>
+    <a href="/housing-assistance/home-loans/how-to-apply/"><span><b>Find Out How to Apply for a VA Home Loan Certificate of Eligibility</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Get instructions for how to apply for your Certificate of Eligibility (COE), which confirms for your lender that you qualify for a VA-backed home loan. Then you can choose your loan type to learn about the rest of the loan application process.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="/discharge-upgrade-instructions/"><b>Learn How to Apply for a Discharge Upgrade</b></a>
-    <p>Answer a series of questions to get step-by-step instructions on how to apply for a discharge upgrade or correction. If your discharge gets upgraded, you'll be eligible for the VA benefits you earned during your period of service.</p>
+    <a href="/discharge-upgrade-instructions/"><span><b>Learn How to Apply for a Discharge Upgrade</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Answer a series of questions to get step-by-step instructions on how to apply for a discharge upgrade or correction. If your discharge gets upgraded, you'll be eligible for the VA benefits you earned during your period of service.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="/va-payment-history/"><b>View Your VA Payment History</b></a>
-    <p>Check the status of your VA disability, pension, and education benefits payments. You can also see payments for certain survivor benefits.</p>
+    <a href="/va-payment-history/"><span><b>View Your VA Payment History</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Check the status of your VA disability, pension, and education benefits payments. You can also see payments for certain survivor benefits.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="https://www.archives.gov/" target="_blank"><b>Search Historical Military Records (National Archives)</b></a>
-    <p>Visit the National Archives website to research military records from the Revolutionary War to the present.</p>
+    <a href="https://www.archives.gov/" class="no-external-icon" target="_blank"><span><b>Search Historical Military Records (National Archives)</b><i class="external-link-icon-black"></i><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Visit the National Archives website to research military records from the Revolutionary War to the present.</p></a>
+
   </div>
 
 </section>

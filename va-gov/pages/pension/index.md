@@ -88,28 +88,28 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   <h2 class>Get Pension Benefits</h2>
 
   <div class="link">
-    <a href="/pension/eligibility/"><b>Veterans Pension Eligibility</b></a>
-    <p>See if you qualify for VA pension benefits as a Veteran.
+    <a href="/pension/eligibility/"><span><b>Veterans Pension Eligibility</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">See if you qualify for VA pension benefits as a Veteran.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="/pension/how-to-apply/"><b>How to Apply for a VA Pension as a Veteran</b></a>
-    <p>Find out how to prepare and apply for a VA Veterans pension.</p>
+    <a href="/pension/how-to-apply/"><span><b>How to Apply for a VA Pension as a Veteran</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out how to prepare and apply for a VA Veterans pension.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="/pension/application/527EZ/introduction"><b>Apply for a Veterans Pension Online (VA Form 21P-527EZ)</b></a>
-    <p>Complete your application online now.</p>
+    <a href="/pension/application/527EZ/introduction"><span><b>Apply for a Veterans Pension Online (VA Form 21P-527EZ)</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Complete your application online now.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="/pension/aid-attendance-housebound/"><b>VA Aid and Attendance or Housebound Allowance Benefits</b></a>
-    <p>If you need help with daily activities or you're housebound, find out how to apply for extra VA pension benefits.</p>
+    <a href="/pension/aid-attendance-housebound/"><span><b>VA Aid and Attendance or Housebound Allowance Benefits</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">If you need help with daily activities or you're housebound, find out how to apply for extra VA pension benefits.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="/pension/survivors-pension/"><b>VA Survivors Pension</b></a>
-    <p>Find out if you’re eligible and how to apply for VA pension benefits as a surviving spouse or child of a deceased Veteran with wartime service.</p>
+    <a href="/pension/survivors-pension/"><span><b>VA Survivors Pension</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out if you’re eligible and how to apply for VA pension benefits as a surviving spouse or child of a deceased Veteran with wartime service.</p></a>
+
   </div>
 
 </section>
@@ -123,18 +123,17 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   <h2>Manage Your Pension Benefits</h2>
 
   <div class="link">
-    <a href="/claim-or-appeal-status/"><b>Check Your VA Claim or Appeal Status</b></a>
-    <p>Check the status of an open claim for VA disability compensation or pension benefits. If you're a surviving spouse or parent, you can view your Dependency and Indemnity Compensation (DIC) claim status.</p>
-    </div>
-
-  <div class="link">
-    <a href="/va-payment-history/"><b>View Your VA Payment History</b></a>
-    <p>Check the status of your VA disability, pension, and education payments. You can also see certain survivor benefits.</p>
+    <a href="/claim-or-appeal-status/"><span><b>Check Your VA Claim or Appeal Status</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Check the status of an open claim for VA disability compensation or pension benefits. If you're a surviving spouse or parent, you can view your Dependency and Indemnity Compensation (DIC) claim status.</p></a>
   </div>
 
   <div class="link">
-    <a href="/change-direct-deposit-and-contact-information/"><b>Change Your VA Direct Deposit and Contact Information</b></a>
-    <p>Find out how to change your VA disability direct deposit information online.</p>
+    <a href="/va-payment-history/"><span><b>View Your VA Payment History</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Check the status of your VA disability, pension, and education payments. You can also see certain survivor benefits.</p></a>
+
+  </div>
+
+  <div class="link">
+    <a href="/change-direct-deposit-and-contact-information/"><span><b>Change Your VA Direct Deposit and Contact Information</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out how to change your VA disability direct deposit information online.</p></a>
+
   </div>
 
 </section>
@@ -148,28 +147,28 @@ VA pension benefits provide tax-free monthly payments to wartime Veterans with l
   <h2>More Information and Resources</h2>
 
   <div class="link">
-    <a href="/pension/veterans-pension-rates/"><b>VA Pension Rates for Veterans</b></a>
-    <p>View VA pension rates for Veterans, including aid and attendance and housebound rates.</p>
+    <a href="/pension/veterans-pension-rates/"><span><b>VA Pension Rates for Veterans</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">View VA pension rates for Veterans, including aid and attendance and housebound rates.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="/pension/survivors-pension-rates/"><b>Rates for VA Survivors Pension Benefits</b></a>
-    <p>View pension rates for surviving spouses and children.</p>
+    <a href="/pension/survivors-pension-rates/"><span><b>Rates for VA Survivors Pension Benefits</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">View pension rates for surviving spouses and children.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/PENSION/current_protected_pension_rate_tables.asp"><b>Protected Pension Rates</b></a>
-    <p>View protected pension rates for section 306 and old law VA disability and death pension benefits.</p>
+    <a href="https://www.benefits.va.gov/PENSION/current_protected_pension_rate_tables.asp"><span><b>Protected Pension Rates</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">View protected pension rates for section 306 and old law VA disability and death pension benefits.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="/disability/va-claim-exam/"><b>VA Claim Exam (C&P Exam)</b></a>
-    <p>Find out how to schedule your VA claim exam and what to expect during and after the appointment.</p>
+    <a href="/disability/va-claim-exam/"><span><b>VA Claim Exam (C&P Exam)</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out how to schedule your VA claim exam and what to expect during and after the appointment.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="/pension/pension-management-centers/"><b>Find Your VA Pension Management Center</b></a>
-    <p>Find your regional pension management center to mail or fax your VA pension application.</p>
+    <a href="/pension/pension-management-centers/"><span><b>Find Your VA Pension Management Center</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find your regional pension management center to mail or fax your VA pension application.</p></a>
+
   </div>
 
 </section>

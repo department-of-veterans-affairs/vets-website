@@ -172,8 +172,20 @@
       }
 
       a {
+        &:hover {
+          .all-link-arrow {
+            margin-left: 10px
+          }
+
+        }
         text-decoration: none;
         padding-bottom: 0;
+        .all-link-arrow {
+          width: 11px;
+          margin-left: 5px;
+          transition: all 0.2s ease;
+          margin-bottom: 1px;
+        }
       }
     }
 
@@ -889,4 +901,13 @@ img[data-srcset] {
 
 .profile-nav {
   margin-top: 6px;
+}
+
+.external-link-icon-black {
+  background-image: url(/img/icons/exit-icon.png);
+  background-position: 100% 50%;
+  background-repeat: no-repeat;
+  background-size: 1em auto;
+  padding-right: 1.2em;
+  position: relative;
 }

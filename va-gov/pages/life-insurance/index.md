@@ -80,18 +80,18 @@ VA life insurance can offer financial security and support for Veterans, Service
   <h2>Get VA Life Insurance</h2>
 
   <div class="link">
-    <a href="/life-insurance/options-eligibility/"><b>About VA Insurance Options and Eligibility</b></a>
-    <p>Find out which life insurance plans you may qualify for—and the benefits you’ll receive with each plan.</p>
+    <a href="/life-insurance/options-eligibility/"><span><b>About VA Insurance Options and Eligibility</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out which life insurance plans you may qualify for—and the benefits you’ll receive with each plan.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="/life-insurance/totally-disabled-or-terminally-ill/"><b>Benefits for Totally Disabled or Terminally Ill Policyholders</b></a>
-    <p>Find out if you can get your insurance premium waived or receive your benefits early in certain situations.
+    <a href="/life-insurance/totally-disabled-or-terminally-ill/"><span><b>Benefits for Totally Disabled or Terminally Ill Policyholders</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out if you can get your insurance premium waived or receive your benefits early in certain situations.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="https://benefits.va.gov/insurance/bfcs.asp"><b>Beneficiary Financial Counseling and Online Will Preparation</b></a>
-    <p>If you're enrolled in a VA life insurance plan, find out if you can get free financial planning and online will preparation services.</p>
+    <a href="https://benefits.va.gov/insurance/bfcs.asp"><span><b>Beneficiary Financial Counseling and Online Will Preparation</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">If you're enrolled in a VA life insurance plan, find out if you can get free financial planning and online will preparation services.</p></a>
+
   </div>
 
 </section>
@@ -105,43 +105,43 @@ VA life insurance can offer financial security and support for Veterans, Service
   <h2>Manage Your Policy and Benefits</h2>
 
   <div class="link">
-    <a href="/life-insurance/manage-your-policy/"><b>Manage Your Policy Online</b></a>
-    <p>Find out how to check your policy's status, update your information, or pay your premium online.</p>
-    </div>
+    <a href="/life-insurance/manage-your-policy/"><span><b>Manage Your Policy Online</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out how to check your policy's status, update your information, or pay your premium online.</p></a>
 
-  <div class="link">
-    <a href="https://benefits.va.gov/INSURANCE/updatebene.asp"><b>Update Your Beneficiaries</b></a>
-    <p>Keep the information up to date about who you want to receive your insurance proceeds. This will make it easier for your family members to file a claim in their time of need.</p>
   </div>
 
   <div class="link">
-    <a href="https://benefits.va.gov/INSURANCE/sglivgli.asp"><b>File a Claim for Insurance Benefits</b></a>
-    <p>Find out how to claim VA life insurance benefits under your policy.</p>
+    <a href="https://benefits.va.gov/INSURANCE/updatebene.asp"><span><b>Update Your Beneficiaries</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Keep the information up to date about who you want to receive your insurance proceeds. This will make it easier for your family members to file a claim in their time of need.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="/claim-or-appeal-status/"><b>Check Your Appeal Status</b></a>
-    <p>Track the status of your life insurance appeal.</p>
+    <a href="https://benefits.va.gov/INSURANCE/sglivgli.asp"><span><b>File a Claim for Insurance Benefits</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out how to claim VA life insurance benefits under your policy.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/INSURANCE/converting.asp"><b>Convert to a Commercial Policy</b></a>
-    <p>Find out when and how you can convert your VA life insurance to a commercial policy.</p>
+    <a href="/claim-or-appeal-status/"><span><b>Check Your Appeal Status</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Track the status of your life insurance appeal.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="/life-insurance/file-appeal-for-tsgli/"><b>File a TSGLI Appeal (VA Form SGLV 8600A)</b></a>
-    <p>If you've received a denial letter for Traumatic Injury Protection Life Insurance benefits that instructs you to use this form, file your appeal by the date provided in your letter.</p>
+    <a href="https://www.benefits.va.gov/INSURANCE/converting.asp"><span><b>Convert to a Commercial Policy</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out when and how you can convert your VA life insurance to a commercial policy.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/INSURANCE/vgli_auto_pay.asp"><b>Enroll in VGLI Auto Pay</b></a>
-    <p>Sign up to pay your Veterans' Group Life Insurance premium automatically from your bank account.</p>
+    <a href="/life-insurance/file-appeal-for-tsgli/"><span><b>File a TSGLI Appeal (VA Form SGLV 8600A)</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">If you've received a denial letter for Traumatic Injury Protection Life Insurance benefits that instructs you to use this form, file your appeal by the date provided in your letter.</p></a>
+
+  </div>
+
+  <div class="link">
+    <a href="https://www.benefits.va.gov/INSURANCE/vgli_auto_pay.asp"><span><b>Enroll in VGLI Auto Pay</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Sign up to pay your Veterans' Group Life Insurance premium automatically from your bank account.</p></a>
+
   </div>
   
   <div class="link">
-    <a href="https://www.insurance.va.gov/UnclaimedFunds/"><b>Search for Unclaimed Insurance Funds</b></a>
-    <p>If you think we may owe you funds from a VA insurance policy, search our unclaimed funds records by the qualifying Veteran's name.</p>
+    <a href="https://www.insurance.va.gov/UnclaimedFunds/"><span><b>Search for Unclaimed Insurance Funds</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">If you think we may owe you funds from a VA insurance policy, search our unclaimed funds records by the qualifying Veteran's name.</p></a>
+
   </div>
 
 </section>
@@ -155,43 +155,43 @@ VA life insurance can offer financial security and support for Veterans, Service
   <h2>More Information and Resources</h2>
 
   <div class="link">
-    <a href="https://benefits.va.gov/insurance/lifeins101.asp"><b>How Much Life Insurance Do I Need?</b></a>
-    <p>Use our life insurance needs calculator and VGLI comparison questionnaire to help decide how much life insurance you need.</p>
+    <a href="https://benefits.va.gov/insurance/lifeins101.asp"><span><b>How Much Life Insurance Do I Need?</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Use our life insurance needs calculator and VGLI comparison questionnaire to help decide how much life insurance you need.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/INSURANCE/sgli_myths_rumors.asp"><b>Myths and Rumors About SGLI/VGLI Insurance</b></a>
-    <p>Get the facts on common myths, rumors, and misconceptions about SGLI and VGLI insurance.</p>
+    <a href="https://www.benefits.va.gov/INSURANCE/sgli_myths_rumors.asp"><span><b>Myths and Rumors About SGLI/VGLI Insurance</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Get the facts on common myths, rumors, and misconceptions about SGLI and VGLI insurance.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/INSURANCE/SOES.asp"><b>About the SGLI Online Enrollment System (SOES)</b></a>
-    <p>Learn about our new online process for enrolling in Servicemembers' Group Life Insurance.</p>
+    <a href="https://www.benefits.va.gov/INSURANCE/SOES.asp"><span><b>About the SGLI Online Enrollment System (SOES)</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Learn about our new online process for enrolling in Servicemembers' Group Life Insurance.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/INSURANCE/resources-contact.asp"><b>Contact Us</b></a>
-    <p>Find out how to reach out to ask a question about your policy or file a claim for benefits.</p>
+    <a href="https://www.benefits.va.gov/INSURANCE/resources-contact.asp"><span><b>Contact Us</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out how to reach out to ask a question about your policy or file a claim for benefits.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/INSURANCE/resources-forms.asp"><b>VA Life Insurance Forms</b></a>
-    <p>Find and download the forms you need to apply for and manage your life insurance benefits.</p>
+    <a href="https://www.benefits.va.gov/INSURANCE/resources-forms.asp"><span><b>VA Life Insurance Forms</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find and download the forms you need to apply for and manage your life insurance benefits.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/INSURANCE/ins_publications.asp"><b>Publications and Handbooks</b></a>
-    <p>Download life insurance handbooks, guides, and newsletters.</p>
+    <a href="https://www.benefits.va.gov/INSURANCE/ins_publications.asp"><span><b>Publications and Handbooks</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Download life insurance handbooks, guides, and newsletters.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/INSURANCE/payments-eft.asp"><b>Mandatory Electronic Payments</b></a>
-    <p>Learn about the law requiring us to pay all benefits by electronic funds transfer.</p>
+    <a href="https://www.benefits.va.gov/INSURANCE/payments-eft.asp"><span><b>Mandatory Electronic Payments</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Learn about the law requiring us to pay all benefits by electronic funds transfer.</p></a>
+
   </div>
 
   <div class="link">
-    <a href="https://www.benefits.va.gov/INSURANCE/uninsurable.asp"><b>Medical Conditions That May Make You Uninsurable</b></a>
-    <p>Find out which medical conditions may make it hard for you to get private life insurance after you separate from service, and what to do to make sure you have coverage. </p>
+    <a href="https://www.benefits.va.gov/INSURANCE/uninsurable.asp"><span><b>Medical Conditions That May Make You Uninsurable</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out which medical conditions may make it hard for you to get private life insurance after you separate from service, and what to do to make sure you have coverage. </p></a>
+
   </div>
 
 </section>
