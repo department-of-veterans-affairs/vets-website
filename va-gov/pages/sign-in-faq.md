@@ -44,7 +44,7 @@ aliases:
                           <li>By creating an account through ID.me (a trusted partner)</li>
                         </ul>
                         <p><strong>Note:</strong> If you have a Premium <strong>My HealtheVet</strong> or Premium <strong>DS Logon</strong> account, using it to sign in is the easiest way to get access to all VA.gov tools. Because you already verified your identity when you got your premium account, you won’t need to verify your identity again before doing common tasks on VA.gov, like checking your claims status or sending a secure message to your health care team.</p>
-                        <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
+                        <p><a href="/sign-in-faq/" class="login-required">Sign in now</a>.</p>
                       </div>
                     </div>
                   </li>
@@ -59,7 +59,7 @@ aliases:
                       <div itemprop="text">
                         <h4>Fastest way to verify your identity online</h4>
                         <p>If you have a Premium <strong>My HealtheVet</strong> or Premium <strong>DS Logon</strong> account, you can use your existing account to sign in. Because you already verified your identity when you got your premium account, you won’t need to verify your identity again before doing common tasks on VA.gov, like checking your claims status or sending a secure message to your health care team.</p>
-                        <p><a href="/faq/" class="login-required">Sign in now</a>.</p>
+                        <p><a href="/sign-in-faq/" class="login-required">Sign in now</a>.</p>
                         <h4>How to verify your identity online if you don’t have an existing premium account</h4>
                         <p>If you don’t have a Premium <strong>My HealtheVet</strong> or Premium <strong>DS Logon</strong> account, we’ll help you verify your identity using ID.me—a trusted partner that provides the strongest identity verification system available to prevent fraud and identity theft.</p>
                         <p><strong>To go through the ID.me identity-proofing process, you’ll need:</strong></p>
