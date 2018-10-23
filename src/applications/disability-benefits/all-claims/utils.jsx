@@ -263,3 +263,17 @@ const post911Periods = createSelector(
 );
 
 export const servedAfter911 = formData => !!post911Periods(formData).length;
+
+export const getPOWDisabilities = createSelector(
+  formData => formData.ratedDisabilities,
+  formData => formData.newDisabilities,
+  (ratedDisabilities = [], newDisabilities = []) => {
+    const ratedDisabilityNames = ratedDisabilities.map(disability =>
+      getDisabilityName(disability.name),
+    );
+    const newDisabilityName = newDisabilities.map(disability =>
+      getDisabilityName(disability.condition),
+    );
+    return ratedDisabilityNames.concat(newDisabilityName);
+  },
+);
