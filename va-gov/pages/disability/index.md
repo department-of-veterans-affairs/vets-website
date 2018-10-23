@@ -44,9 +44,6 @@ social:
         - url: tel:18446982311
           number: 1-844-698-2311
           title: "Call MYVA311 for Help:"   
-        - url: #
-          number: 711
-          title: "If You Have Hearing Loss, Call:"
   - heading: Connect with the Veterans Benefits Administration
     admin: VBA Website
     url: https://www.benefits.va.gov/benefits/
