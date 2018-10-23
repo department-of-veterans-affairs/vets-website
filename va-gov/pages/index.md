@@ -9,7 +9,6 @@ heading: Access and manage your VA benefits and health care
 cards:
   - heading: Health Care
     hub: health-care
-    icon: fa fa-medkit
     links:
       - url: /health-care/refill-track-prescriptions/
         title: Refill and track your prescriptions
@@ -23,7 +22,6 @@ cards:
         title: Apply now for VA health care
   - heading: Disability 
     hub: disability
-    icon: fa fa-file-text-o
     end_row: true
     links:
       - url: /claim-or-appeal-status
@@ -38,7 +36,6 @@ cards:
         title: File a claim for compensation
   - heading: Education
     hub: education
-    icon: fa fa-graduation-cap
     links:
       - url: /education/gi-bill/post-9-11/ch-33-benefit
         title: Check your Post-9/11 GI Bill® benefits
@@ -52,7 +49,6 @@ cards:
         title: Apply for education benefits
   - heading: Records
     hub: records
-    icon: fa fa-id-card
     links:
       - url: /records/get-veteran-id-cards/
         title: Get Veteran ID cards
@@ -68,50 +64,58 @@ hubs:
   - heading: Health Care
     url: /health-care/
     hub: health-care
-    icon: fa fa-medkit
     description: Apply for VA health care, find out how to access services, and manage your health and benefits online.
   - heading: Disability
     url: /disability/
     hub: disability
-    icon: fa fa-handshake-o
     description: File a claim for disability compensation for conditions related to your military service, and manage your benefits over time.
   - heading: Education and Training
     url: /education/
     hub: education
-    icon: fa fa-graduation-cap
     end_row: true
     description: Apply for and manage your GI Bill and other education benefits to help pay for college and training programs.
   - heading: Careers and Employment
     url: /careers-employment/
     hub: careers
-    icon: fa fa-briefcase
     description: Apply for vocational rehabilitation services, get support for your Veteran-owned small business, and access other career resources.
   - heading: Pension
     url: /pension/
     hub: pension
-    icon: fa fa-medkit
     description: Apply for monthly payments for wartime Veterans and survivors with limited or no income who meet certain age and disability requirements.
   - heading: Housing Assistance
     url: /housing-assistance/
     hub: housing
-    icon: fa fa-home
     end_row: true
     description: Find out if you're eligible for a VA-backed home loan. If you have a service-connected disability, see if you qualify for a housing grant to help you live more independently.
   - heading: Life Insurance
     url: /life-insurance/
     hub: life-insurance
-    icon: fa fa-users
     description: Explore VA life insurance options for Veterans, Servicemembers, and families. Manage your policy online, file claims for benefits, and access helpful resources.
   - heading: Burials and Memorials
     url: /burials-memorials/
     hub: burials
-    icon: fa fa-star
     description: Get help planning a burial in a VA national cemetery, order a headstone or other memorial item to honor a Veteran's service, and apply for survivor and dependent benefits.
   - heading: Records
     url: /records/
     hub: records
-    icon: fa fa-id-card
     description: Apply for a printed Veteran ID card, get your VA benefit letters and medical records, and learn how to apply for a discharge upgrade.
+news:
+  - img: /img/homepage/home-1.jpg
+    alt: Four Veterans standing together in front of the United States flag.
+    title: Make the Connection Website
+    href: https://maketheconnection.net/
+    description: Hear Veterans share their stories of recovery, and find resources near you.
+  - img: /img/homepage/home-2.jpg
+    alt: Prescription medicine bottles being processed through the automated system at the VA Mail Order Pharmacy.
+    title: Health Care Access and Quality
+    href: https://www.accesstocare.va.gov/
+    description: Get wait times and compare quality and patient-satisfaction data for VA health facilities.
+  - img: /img/homepage/home-3.jpg
+    alt: Close-up of an American flag patch on the sleeve of a U.S. military combat uniform.
+    title: VA Rapid Appeals
+    href: https://www.blogs.va.gov/VAntage/48141/vas-rapid-appeals-modernization-program-ramp-now-open-appeals/
+    description: Find out how to get a faster decision on a pending disability compensation appeal through the VA Rapid Appeals Modernization Program (RAMP).
+
 
 ---
 
