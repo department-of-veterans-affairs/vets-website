@@ -46,6 +46,7 @@ social:
         - url: tel:1-844-698-2311
           number: 1-844-698-2311
           title: "Call MyVA311 for Help:"
+        - url:
           title: "TTY: 711"
   - heading: Connect with the Veterans Benefits Administration
     admin: VBA Website
