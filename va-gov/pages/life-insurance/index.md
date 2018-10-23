@@ -30,6 +30,7 @@ social:
   - heading: Connect with Us  
     subsections:
       - subhead: Message Us
+        links:
         - url: https://iris.custhelp.va.gov/app/ask
           label: "Ask a Question Online"    
       - subhead: Call Us
