@@ -6,7 +6,7 @@ display_title: Housing
 concurrence: complete
 lastupdate:
 order: 1
-icon: icon-large white fa fa-home hub-background-housing
+hub: housing
 promo:
   - image: /img/megamenu/housing-assistance-illustration.png
     heading: National Call Center for Homeless Veterans

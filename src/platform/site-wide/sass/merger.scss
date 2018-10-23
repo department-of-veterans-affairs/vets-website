@@ -197,6 +197,9 @@
       .hub-main-icon {
         vertical-align: top;
         margin-top: 8px;
+        > .icon-large {
+          margin-right: 10px;
+        }
       }
     }
   }
