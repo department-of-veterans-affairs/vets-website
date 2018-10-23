@@ -19,7 +19,7 @@ aliases:
 
 <div class="va-introtext">
 
-We provide a United States flag to drape on a casket (or coffin) or place with an urn in honor of a Veteran's or a Reservist's military service. Find out how to apply for this burial honor.
+We provide a United States flag to drape on a casket (or coffin) or place with an urn in honor of the military service of a Veteran or Reservist. Find out how to apply for this burial honor.
 
 </div>
 
