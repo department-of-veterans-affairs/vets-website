@@ -149,12 +149,6 @@ const formConfig = {
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
         },
-        prisonerOfWar: {
-          title: 'Prisoner of War (POW)',
-          path: 'review-veteran-details/military-service-history/pow',
-          uiSchema: prisonerOfWar.uiSchema,
-          schema: prisonerOfWar.schema,
-        },
       },
     },
     disabilities: {
@@ -236,6 +230,12 @@ const formConfig = {
           depends: hasNewPtsdDisability,
           uiSchema: choosePtsdType.uiSchema,
           schema: choosePtsdType.schema,
+        },
+        prisonerOfWar: {
+          title: 'Prisoner of War (POW)',
+          path: 'review-veteran-details/military-service-history/pow',
+          uiSchema: prisonerOfWar.uiSchema,
+          schema: prisonerOfWar.schema,
         },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',
