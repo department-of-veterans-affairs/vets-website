@@ -53,7 +53,12 @@ class AuthorizationComponent extends React.Component {
       has30PercentDisabilityRating,
       formConfig,
     } = this.props;
-    const { authorizationMessage: AuthorizationMessage } = formConfig;
+
+    let AuthorizationMessage;
+
+    if (formConfig) {
+      AuthorizationMessage = formConfig.authorizationMessage;
+    }
 
     const content = (
       <div className="sip-authorization-container">
