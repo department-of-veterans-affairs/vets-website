@@ -35,10 +35,10 @@ crosslinks:
 social:
   - heading: Ask Questions
     subsections:
-      - subhead: Ask a Question Online
+      - subhead: Message Us
         links:
         - url: https://iris.custhelp.va.gov/app/ask
-          label: "Message Us"
+          label: "Ask a Question Online"
       - subhead: Call Us
         links:
         - url: tel:1-800-827-1000
@@ -49,11 +49,11 @@ social:
           title: "eBenefits Technical Support:"
         - url: tel:1-844-698-2311
           number: 1-844-698-2311
-          title: "Call MyVA311 for Help:"
+          title: "Call MyVA311 for help:"
         - url:
           title: "If you have hearing loss, call TTY: 711."
   - heading: Connect with the Veterans Benefits Administration
-    admin: VBA Website
+    admin: Visit our website
     url: https://www.benefits.va.gov/benefits/
     subsections:
       - subhead: Get Updates
