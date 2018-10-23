@@ -14,6 +14,8 @@ export const formBenefits = {
   '22-5495': 'education benefits',
   '40-10007': 'pre-need determination of eligibility in a VA national cemetery',
   VIC: 'Veteran ID Card',
+  'complaint-tool': 'feedback',
+  'FEEDBACK-TOOL': 'feedback',
   '21-686C': 'dependent status',
 };
 
@@ -32,7 +34,7 @@ export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
 }, {});
 
 export const formDescriptions = Object.keys(formBenefits).reduce(
-  (titles, key) => {
+  (descriptions, key) => {
     let formNumber;
     if (key === '40-10007' || key === 'VIC') {
       formNumber = '';
@@ -41,9 +43,9 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
     } else {
       formNumber = `(${key})`;
     }
-    const formTitle = `${formBenefits[key]} application ${formNumber}`;
-    titles[key] = formTitle; // eslint-disable-line no-param-reassign
-    return titles;
+    const formDescription = `${formBenefits[key]} application ${formNumber}`;
+    descriptions[key] = formDescription; // eslint-disable-line no-param-reassign
+    return descriptions;
   },
   {},
 );
@@ -98,6 +100,8 @@ export const sipEnabledForms = new Set([
   '22-5495',
   '40-10007',
   'VIC',
+  'complaint-tool',
+  'FEEDBACK-TOOL',
 ]);
 
 export function isSIPEnabledForm(savedForm) {
