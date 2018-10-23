@@ -1,15 +1,33 @@
 import React from 'react';
+import _ from '../../../../platform/utilities/data';
 
 export const getPtsdClassification = (formData, formType) => {
-  const classifications = formData['view:selectablePtsdTypes'];
+  const isCombat = _.get(
+    'view:selectablePtsdTypes.view:combatPtsdType',
+    formData,
+    false,
+  );
+  const isNonCombat = _.get(
+    'view:selectablePtsdTypes.view:noncombatPtsdType',
+    formData,
+    false,
+  );
+  const isAssault = _.get(
+    'view:selectablePtsdTypes.view:assaultPtsdType',
+    formData,
+    false,
+  );
+  const isMst = _.get(
+    'view:selectablePtsdTypes.view:mstPtsdType',
+    formData,
+    false,
+  );
   let incidentTitle;
   let incidentText;
   const is781 = formType === '781';
 
   switch (true) {
-    case classifications['view:combatPtsdType'] &&
-      classifications['view:noncombatPtsdType'] &&
-      is781:
+    case isCombat && isNonCombat && is781:
       incidentTitle =
         'Combat & Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
 
@@ -17,31 +35,29 @@ export const getPtsdClassification = (formData, formType) => {
         'Combat and Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
       break;
 
-    case classifications['view:assaultPtsdType'] &&
-      classifications['view:mstPtsdType'] &&
-      !is781:
+    case isAssault && isMst && !is781:
       incidentTitle = 'Personal Assault & Military Sexual Trauma';
       incidentText = 'Personal Assault and Military Sexual Trauma';
       break;
 
-    case classifications['view:combatPtsdType'] && is781:
+    case isCombat && is781:
       incidentTitle = 'Combat';
       incidentText = 'Combat';
       break;
 
-    case classifications['view:noncombatPtsdType'] && is781:
+    case isNonCombat && is781:
       incidentTitle =
         'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
       incidentText =
         'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
       break;
 
-    case classifications['view:assaultPtsdType'] && !is781:
+    case isAssault && !is781:
       incidentTitle = 'Personal Assault';
       incidentText = 'Personal Assault';
       break;
 
-    case classifications['view:mstPtsdType'] && !is781:
+    case isMst && !is781:
       incidentTitle = 'Military Sexual Trauma';
       incidentText = 'Military Sexual Trauma';
       break;

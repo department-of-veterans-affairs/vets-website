@@ -8,6 +8,7 @@ import {
   selectCheckbox,
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
+import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('Disability benefits 718 PTSD type', () => {
   const {
@@ -83,11 +84,11 @@ describe('Disability benefits 718 PTSD type', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should allow submission if no PTSD types selected', () => {
+  it('should require a PTSD type to be selected', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -108,9 +109,8 @@ describe('Disability benefits 718 PTSD type', () => {
       />,
     );
 
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
   });
 });

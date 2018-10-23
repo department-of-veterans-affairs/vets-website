@@ -45,6 +45,12 @@
 <meta content="{{ tag }}" property="article:tag">
 {% endfor %}
 {% endif %}
+
+{% if buildtype == 'vagovstaging' %}
+<!-- Verification of site-ownership to the Insight App Sec Scanner -->
+<meta name="insight-app-sec-validation" content="ec59f99e-d869-4e3f-82d2-a61d32c65776">
+{% endif %}
+
 {% if title === 'Home' %}
 <title>VA.gov</title>
 {% else %}

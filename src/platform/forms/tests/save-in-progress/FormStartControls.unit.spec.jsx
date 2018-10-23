@@ -47,6 +47,24 @@ describe('Schemaform <FormStartControls>', () => {
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(1);
   });
+  it('should render 3 buttons when logged in with an expired form', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    const fetchSpy = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        isExpired
+        formSaved
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}
+      />,
+    );
+    expect(tree.everySubTree('ProgressButton').length).to.equal(3);
+  });
   it('should render 4 buttons when logged in with a saved form', () => {
     const routerSpy = {
       push: sinon.spy(),

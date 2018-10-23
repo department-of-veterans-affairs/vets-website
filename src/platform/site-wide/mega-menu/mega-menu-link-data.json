@@ -10,19 +10,19 @@
                         "links": [
                             {
                                 "text": "About VA Health Benefits",
-                                "href": "/health-care/about-va-health-benefits/"
+                                "href": "https://www.va.gov/health-care/about-va-health-benefits/"
                             },
                             {
                                 "text": "How to Apply",
-                                "href": "/health-care/how-to-apply/"
+                                "href": "https://www.va.gov/health-care/how-to-apply/"
                             },
                             {
                                 "text": "Family and Caregiver Health Benefits",
-                                "href": "/health-care/family-caregiver-benefits/"
+                                "href": "https://www.va.gov/health-care/family-caregiver-benefits/"
                             },
                             {
                                 "text": "Apply Now for Health Care",
-                                "href": "/health-care/apply/application"
+                                "href": "https://www.va.gov/health-care/apply/application"
                             }
                         ]
                     },
@@ -31,29 +31,29 @@
                         "links": [
                             {
                                 "text": "Refill and Track Your Prescriptions",
-                                "href": "/health-care/refill-track-prescriptions"
+                                "href": "https://www.va.gov/health-care/refill-track-prescriptions"
                             },
                             {
                                 "text": "Send a Secure Message to Your Health Care Team",
-                                "href": "/health-care/secure-messaging"
+                                "href": "https://www.va.gov/health-care/secure-messaging"
                             },
                             {
                                 "text": "Schedule and View VA Appointments",
-                                "href": "/health-care/schedule-view-va-appointments/"
+                                "href": "https://www.va.gov/health-care/schedule-view-va-appointments/"
                             },
                             {
                                 "text": "View Your Lab and Test Results",
-                                "href": "/health-care/view-test-and-lab-results/"
+                                "href": "https://www.va.gov/health-care/view-test-and-lab-results/"
                             },
                             {
                                 "text": "Order Hearing Aid Batteries and Prosthetic Socks",
-                                "href": "/health-care/order-hearing-aid-batteries-prosthetic-socks/"
+                                "href": "https://www.va.gov/health-care/order-hearing-aid-batteries-prosthetic-socks/"
                             }
                         ]
                     },
                     "columnThree": {
                         "img": {
-                            "src": "/img/megamenu/health-care-illustration.png",
+                            "src": "https://www.va.gov/img/megamenu/health-care-illustration.png",
                             "alt": "VA Telehealth Services"
                         },
                         "link": {
@@ -64,7 +64,7 @@
                     },
                     "seeAllLink": {
                       "text": "Health Care",
-                      "href": "/health-care/"
+                      "href": "https://www.va.gov/health-care/"
                     }
                 }
             },
@@ -76,15 +76,15 @@
                         "links": [
                             {
                                 "text": "Eligibility",
-                                "href": "/disability/eligibility/"
+                                "href": "https://www.va.gov/disability/eligibility/"
                             },
                             {
                                 "text": "How to File a Claim",
-                                "href": "/disability/how-to-file-claim/"
+                                "href": "https://www.va.gov/disability/how-to-file-claim/"
                             },
                             {
                                 "text": "Survivor and Dependent Compensation (DIC)",
-                                "href": "/burials-memorials/dependency-indemnity-compensation/"
+                                "href": "https://www.va.gov/burials-memorials/dependency-indemnity-compensation/"
                             }
                         ]
                     },
@@ -93,40 +93,40 @@
                         "links": [
                             {
                                 "text": "Check Your Claim or Appeal Status",
-                                "href": "/claim-or-appeal-status/"
+                                "href": "https://www.va.gov/claim-or-appeal-status/"
                             },
                             {
                                 "text": "File for a VA Disability Increase",
-                                "href": "/disability-benefits/apply/form-526-disability-claim/"
+                                "href": "https://www.va.gov/disability-benefits/apply/form-526-disability-claim/"
                             },
                             {
                                 "text": "File an Appeal",
-                                "href": "/disability/file-an-appeal/"
+                                "href": "https://www.va.gov/disability/file-an-appeal/"
                             },
                             {
                                 "text": "Add or Remove a Dependent",
-                                "href": "/disability/add-remove-dependent/"
+                                "href": "https://www.va.gov/disability/add-remove-dependent/"
                             },
                             {
                                 "text": "Upload Evidence to Support Your Claim",
-                                "href": "/disability/upload-supporting-evidence/"
+                                "href": "https://www.va.gov/disability/upload-supporting-evidence/"
                             }
                         ]
                     },
                     "columnThree": {
                         "img": {
-                            "src": "/img/megamenu/disability-illustration.png",
+                            "src": "https://www.va.gov/img/megamenu/disability-illustration.png",
                             "alt": "Decision Ready Claims"
                         },
                         "link": {
                             "text": "Decision Ready Claims (DRC) Program",
-                            "href": "/disability/how-to-file-claim/evidence-needed/decision-ready-claims/"
+                            "href": "https://www.va.gov/disability/how-to-file-claim/evidence-needed/decision-ready-claims/"
                         },
                         "description": "Find out if you can use the DRC program to get a decision on your disability claim in 30 days or less."
                     },
                     "seeAllLink": {
                       "text": "Disability",
-                      "href": "/disability/"
+                      "href": "https://www.va.gov/disability/"
                     }
                 }
             },
@@ -138,19 +138,19 @@
                         "links": [
                             {
                                 "text": "About GI Bill Benefits",
-                                "href": "/education/about-gi-bill-benefits/"
+                                "href": "https://www.va.gov/education/about-gi-bill-benefits/"
                             },
                             {
                                 "text": "How to Apply",
-                                "href": "/education/how-to-apply/"
+                                "href": "https://www.va.gov/education/how-to-apply/"
                             },
                             {
                                 "text": "Vocational Rehabilitation and Employment",
-                                "href": "/careers-employment/vocational-rehabilitation/"
+                                "href": "https://www.va.gov/careers-employment/vocational-rehabilitation/"
                             },
                             {
                                 "text": "Survivor and Dependent Education Benefits",
-                                "href": "/education/survivor-dependent-benefits/"
+                                "href": "https://www.va.gov/education/survivor-dependent-benefits/"
                             }
                         ]
                     },
@@ -159,29 +159,29 @@
                         "links": [
                             {
                                 "text": "View Your VA Payment History",
-                                "href": "/va-payment-history/"
+                                "href": "https://www.va.gov/va-payment-history/"
                             },
                             {
                                 "text": "Check Your Post-9/11 GI Bill Benefits",
-                                "href": "/education/gi-bill/post-9-11/ch-33-benefit/"
+                                "href": "https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/"
                             },
                             {
                                 "text": "Transfer Your Post-9/11 GI Bill Benefits",
-                                "href": "/education/transfer-post-9-11-gi-bill-benefits/"
+                                "href": "https://www.va.gov/education/transfer-post-9-11-gi-bill-benefits/"
                             },
                             {
                                 "text": "Change Your GI Bill School or Program",
-                                "href": "/education/change-gi-bill-benefits/"
+                                "href": "https://www.va.gov/education/change-gi-bill-benefits/"
                             },
                             {
                                 "text": "Change Your Direct Deposit Information",
-                                "href": "/change-direct-deposit-and-contact-information/"
+                                "href": "https://www.va.gov/change-direct-deposit-and-contact-information/"
                             }
                         ]
                     },
                     "columnThree": {
                         "img": {
-                            "src": "/img/megamenu/education-training-illustration.png",
+                            "src": "https://www.va.gov/img/megamenu/education-training-illustration.png",
                             "alt": "GI Bill School Feedback"
                         },
                         "link": {
@@ -192,7 +192,7 @@
                     },
                     "seeAllLink": {
                       "text": "Education",
-                      "href": "/education/"
+                      "href": "https://www.va.gov/education/"
                     }
                 }
             },
@@ -204,15 +204,15 @@
                         "links": [
                             {
                                 "text": "About Vocational Rehabilitation and Employment",
-                                "href": "/careers-employment/vocational-rehabilitation/"
+                                "href": "https://www.va.gov/careers-employment/vocational-rehabilitation/"
                             },
                             {
                                 "text": "How to Apply",
-                                "href": "/careers-employment/vocational-rehabilitation/how-to-apply/"
+                                "href": "https://www.va.gov/careers-employment/vocational-rehabilitation/how-to-apply/"
                             },
                             {
                                 "text": "Veteran-Owned Small Business Support",
-                                "href": "/careers-employment/veteran-owned-business-support/"
+                                "href": "https://www.va.gov/careers-employment/veteran-owned-business-support/"
                             }
                         ]
                     },
@@ -225,7 +225,7 @@
                             },
                             {
                                 "text": "CareerScope Assessment",
-                                "href": "/careers-employment/careerscope-skills-assessment/"
+                                "href": "https://www.va.gov/careers-employment/careerscope-skills-assessment/"
                             },
                             {
                                 "text": "Find a Job",
@@ -234,13 +234,13 @@
                             },
                             {
                                 "text": "Print Your Civil Service Preference Letter",
-                                "href": "/records/download-va-letters/"
+                                "href": "https://www.va.gov/records/download-va-letters/"
                             }
                         ]
                     },
                     "columnThree": {
                         "img": {
-                            "src": "/img/megamenu/careers-employment-illustration.png",
+                            "src": "https://www.va.gov/img/megamenu/careers-employment-illustration.png",
                             "alt": "VA for Vets"
                         },
                         "link": {
@@ -251,7 +251,7 @@
                     },
                     "seeAllLink": {
                       "text": "Careers and Employment",
-                      "href": "/careers-employment/"
+                      "href": "https://www.va.gov/careers-employment/"
                     }
                 }
             },
@@ -263,23 +263,23 @@
                         "links": [
                             {
                                 "text": "Veterans Pension Eligibility",
-                                "href": "/pension/eligibility/"
+                                "href": "https://www.va.gov/pension/eligibility/"
                             },
                             {
                                 "text": "How to Apply",
-                                "href": "/pension/how-to-apply/"
+                                "href": "https://www.va.gov/pension/how-to-apply/"
                             },
                             {
                                 "text": "Aid and Attendance Benefits and Housebound Allowance",
-                                "href": "/pension/aid-attendance-housebound/"
+                                "href": "https://www.va.gov/pension/aid-attendance-housebound/"
                             },
                             {
                                 "text": "Survivors Pension",
-                                "href": "/pension/survivors-pension/"
+                                "href": "https://www.va.gov/pension/survivors-pension/"
                             },
                             {
                                 "text": "Apply Now for a Veterans Pension",
-                                "href": "/pension/application/527EZ"
+                                "href": "https://www.va.gov/pension/application/527EZ"
                             }
                         ]
                     },
@@ -288,21 +288,21 @@
                         "links": [
                             {
                                 "text": "Check Your Claim or Appeal Status",
-                                "href": "/claim-or-appeal-status/"
+                                "href": "https://www.va.gov/claim-or-appeal-status/"
                             },
                             {
                                 "text": "View Your VA Payment History",
-                                "href": "/va-payment-history/"
+                                "href": "https://www.va.gov/va-payment-history/"
                             },
                             {
                                 "text": "Change Your Direct Deposit and Contact Information",
-                                "href": "/change-direct-deposit-and-contact-information/"
+                                "href": "https://www.va.gov/change-direct-deposit-and-contact-information/"
                             }
                         ]
                     },
                     "columnThree": {
                         "img": {
-                            "src": "/img/megamenu/pension-illustration.png",
+                            "src": "https://www.va.gov/img/megamenu/pension-illustration.png",
                             "alt": "Electronic Pension Payments"
                         },
                         "link": {
@@ -314,7 +314,7 @@
                     },
                     "seeAllLink": {
                       "text": "Pension",
-                      "href": "/pension/"
+                      "href": "https://www.va.gov/pension/"
                     }
                 }
             },
@@ -326,16 +326,16 @@
                         "links": [
                             {
                                 "text": "About VA Home Loan Types",
-                                "href": "/housing-assistance/home-loans/loan-types/"
+                                "href": "https://www.va.gov/housing-assistance/home-loans/loan-types/"
 
                             },
                             {
                                 "text": "Check Your Appeal Status",
-                                "href": "/claim-or-appeal-status/"
+                                "href": "https://www.va.gov/claim-or-appeal-status/"
                             },
                             {
                                 "text": "How to Apply for Your COE",
-                                "href": "/housing-assistance/home-loans/how-to-apply/"
+                                "href": "https://www.va.gov/housing-assistance/home-loans/how-to-apply/"
 
                             }
                         ]
@@ -345,21 +345,21 @@
                         "links": [
                             {
                                 "text": "About Disability Housing Grants",
-                                "href": "/housing-assistance/disability-housing-grants/"
+                                "href": "https://www.va.gov/housing-assistance/disability-housing-grants/"
                             },
                             {
                                 "text": "Check Your SAH Claim Status",
-                                "href": "/claim-or-appeal-status/"
+                                "href": "https://www.va.gov/claim-or-appeal-status/"
                             },
                             {
                                 "text": "How to Apply for an SAH Grant",
-                                "href": "/housing-assistance/disability-housing-grants/how-to-apply/"
+                                "href": "https://www.va.gov/housing-assistance/disability-housing-grants/how-to-apply/"
                             }
                         ]
                     },
                     "columnThree": {
                         "img": {
-                            "src": "/img/megamenu/housing-assistance-illustration.png",
+                            "src": "https://www.va.gov/img/megamenu/housing-assistance-illustration.png",
                             "alt": "National Call Center for Homeless Veterans"
                         },
                         "link": {
@@ -370,7 +370,7 @@
                     },
                     "seeAllLink": {
                       "text": "Housing Assistance",
-                      "href": "/housing-assistance/"
+                      "href": "https://www.va.gov/housing-assistance/"
                     }
                 }
             },
@@ -382,11 +382,11 @@
                         "links": [
                             {
                                 "text": "About Life Insurance Options",
-                                "href": "/life-insurance/options-eligibility/"
+                                "href": "https://www.va.gov/life-insurance/options-eligibility/"
                             },
                             {
                                 "text": "Benefits for Totally Disabled or Terminally Ill Policyholders",
-                                "href": "/life-insurance/totally-disabled-or-terminally-ill/"
+                                "href": "https://www.va.gov/life-insurance/totally-disabled-or-terminally-ill/"
                             },
                             {
                                 "text": "Beneficiary Financial Counseling and Online Will Preparation",
@@ -399,7 +399,7 @@
                         "links": [
                             {
                                 "text": "Manage Your Policy",
-                                "href": "/life-insurance/manage-your-policy/"
+                                "href": "https://www.va.gov/life-insurance/manage-your-policy/"
                             },
                             {
                                 "text": "Update Your Beneficiaries",
@@ -411,13 +411,13 @@
                             },
                             {
                                 "text": "Check Your Appeal Status",
-                                "href": "/claim-or-appeal-status/"
+                                "href": "https://www.va.gov/claim-or-appeal-status/"
                             }
                         ]
                     },
                     "columnThree": {
                         "img": {
-                            "src": "/img/megamenu/life-insurance-illustration.png",
+                            "src": "https://www.va.gov/img/megamenu/life-insurance-illustration.png",
                             "alt": "SGLI Online Enrollment System (SOES)"
                         },
                         "link": {
@@ -428,7 +428,7 @@
                     },
                     "seeAllLink": {
                       "text": "Life Insurance",
-                      "href": "/life-insurance/"
+                      "href": "https://www.va.gov/life-insurance/"
                     }
                 }
             },
@@ -440,23 +440,23 @@
                         "links": [
                             {
                                 "text": "Eligibility",
-                                "href": "/burials-memorials/eligibility/"
+                                "href": "https://www.va.gov/burials-memorials/eligibility/"
                             },
                             {
                                 "text": "Pre-Need Burial Eligibility Determination",
-                                "href": "/burials-memorials/pre-need-eligibility/"
+                                "href": "https://www.va.gov/burials-memorials/pre-need-eligibility/"
                             },
                             {
                                 "text": "Veteran Burial Allowance",
-                                "href": "/burials-memorials/veterans-burial-allowance/"
+                                "href": "https://www.va.gov/burials-memorials/veterans-burial-allowance/"
                             },
                             {
                                 "text": "Memorial Items",
-                                "href": "/burials-memorials/memorial-items/"
+                                "href": "https://www.va.gov/burials-memorials/memorial-items/"
                             },
                             {
                                 "text": "Survivor and Dependent Compensation (DIC)",
-                                "href": "/burials-memorials/dependency-indemnity-compensation/"
+                                "href": "https://www.va.gov/burials-memorials/dependency-indemnity-compensation/"
                             }
                         ]
                     },
@@ -465,7 +465,7 @@
                         "links": [
                             {
                                 "text": "Plan a Burial for a Family Member",
-                                "href": "/burials-memorials/plan-a-burial/"
+                                "href": "https://www.va.gov/burials-memorials/plan-a-burial/"
                             },
                             {
                                 "text": "Schedule a Burial in a VA National Cemetery",
@@ -477,13 +477,13 @@
                             },
                             {
                                 "text": "Request Military Records (DD214)",
-                                "href": "/records/get-military-service-records/"
+                                "href": "https://www.va.gov/records/get-military-service-records/"
                             }
                         ]
                     },
                     "columnThree": {
                         "img": {
-                            "src": "/img/megamenu/burials-memorials-illustration.png",
+                            "src": "https://www.va.gov/img/megamenu/burials-memorials-illustration.png",
                             "alt": "National Cemetery Administration Mobile Site"
                         },
                         "link": {
@@ -494,7 +494,7 @@
                     },
                     "seeAllLink": {
                       "text": "Burials and Memorials",
-                      "href": "/burials-memorials/"
+                      "href": "https://www.va.gov/burials-memorials/"
                     }
                 }
             },
@@ -506,19 +506,19 @@
                         "links": [
                             {
                                 "text": "Get Your VA Medical Records (Blue Button)",
-                                "href": "/health-care/get-medical-records/"
+                                "href": "https://www.va.gov/health-care/get-medical-records/"
                             },
                             {
                                 "text": "Download Your VA Benefit Letters",
-                                "href": "/records/download-va-letters/"
+                                "href": "https://www.va.gov/records/download-va-letters/"
                             },
                             {
                                 "text": "Learn How to Apply for a Home Loan COE",
-                                "href": "/housing-assistance/home-loans/how-to-apply/"
+                                "href": "https://www.va.gov/housing-assistance/home-loans/how-to-apply/"
                             },
                             {
                                 "text": "Get Veteran ID Cards",
-                                "href": "/records/get-veteran-id-cards/"
+                                "href": "https://www.va.gov/records/get-veteran-id-cards/"
                             }
                         ]
                     },
@@ -527,15 +527,15 @@
                         "links": [
                             {
                                 "text": "Request Your Military Records (DD214)",
-                                "href": "/records/get-military-service-records/"
+                                "href": "https://www.va.gov/records/get-military-service-records/"
                             },
                             {
                                 "text": "How to Apply for a Discharge Upgrade",
-                                "href": "/discharge-upgrade-instructions"
+                                "href": "https://www.va.gov/discharge-upgrade-instructions"
                             },
                             {
                                 "text": "View Your VA Payment History",
-                                "href": "/va-payment-history/"
+                                "href": "https://www.va.gov/va-payment-history/"
                             },
                             {
                                 "text": "Search Historical Military Records (National Archives)",
@@ -546,18 +546,18 @@
                     },
                     "columnThree": {
                         "img": {
-                            "src": "/img/megamenu/records-illustration.png",
+                            "src": "https://www.va.gov/img/megamenu/records-illustration.png",
                             "alt": "Veteran ID Card"
                         },
                         "link": {
                             "text": "Confirm Your VA Benefit Status",
-                            "href": "/records/download-va-letters/"
+                            "href": "https://www.va.gov/records/download-va-letters/"
                         },
                         "description": "Download letters like your eligibility or award letter for certain benefits."
                     },
                     "seeAllLink": {
                       "text": "Records",
-                      "href": "/records/"
+                      "href": "https://www.va.gov/records/"
                     }
                 }
             }
@@ -668,7 +668,7 @@
           },
           "columnThree": {
               "img": {
-                  "src": "/img/vantagepoint-promo.png",
+                  "src": "https://www.va.gov/img/vantagepoint-promo.png",
                   "alt": "The VAntage Point Blog"
               },
               "link": {
@@ -681,6 +681,6 @@
     },
     {
         "title": "Find a VA Location",
-        "href": "/facilities/"
+        "href": "https://www.va.gov/facilities/"
     }
 ]

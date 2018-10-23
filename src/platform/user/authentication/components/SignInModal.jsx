@@ -24,6 +24,7 @@ const handleIdMe = loginHandler('idme');
 const logoSrc = `/img/design/logo/${
   isBrandConsolidationEnabled() ? 'va-logo.png' : 'logo-alt.png'
 }`;
+const faqHref = isBrandConsolidationEnabled() ? '/sign-in-faq/' : '/faq/';
 
 class SignInModal extends React.Component {
   componentDidUpdate(prevProps) {
@@ -153,7 +154,7 @@ class SignInModal extends React.Component {
                 information.
               </p>
               <p>
-                <a href="/faq/#what-is-idme" target="_blank">
+                <a href={`${faqHref}#what-is-idme`} target="_blank">
                   Learn more about ID.me
                 </a>
               </p>
@@ -165,7 +166,7 @@ class SignInModal extends React.Component {
             <div className="help-info">
               <h4>Having trouble signing in?</h4>
               <p>
-                <a href="/faq/" target="_blank">
+                <a href={faqHref} target="_blank">
                   Get answers to Frequently Asked Questions
                 </a>
               </p>
