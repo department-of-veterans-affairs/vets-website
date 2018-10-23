@@ -13,10 +13,12 @@
       <div class="usa-grid usa-grid-full flex-container flex-col-mobile">
       {% for card in cards %}
         <div class="usa-width-one-half hub-links-container">
-          <h3 class="hub-links-title"><i class="icon-large-baseline hub-icon-{{card.hub}} hub-color-{{card.hub}}"></i>{{ card.heading}}</h3>
+          <h3 class="hub-links-title"><i class="icon-large-baseline hub-icon-{{card.hub}} hub-color-{{card.hub}}"></i>{{ card.heading }}</h3>
           <ul class="hub-links-list">
+            {% assign parentCard = card %}
+
             {% for link in card.links %}
-            <li><a href="{{link.url}}">{{link.title}}</a></li>
+              <li><a data-nav-path="{{parentCard.heading}}->{% if link.nav_path != empty %}{{link.nav_path}}{% else %}{{ link.title }}{% endif %}" href="{{link.url}}">{{link.title}}</a></li>
             {% endfor %}
           </ul>
         </div>
@@ -118,5 +120,20 @@
   </section>
 
 </main>
+
+<script type="text/javascript">
+  var hubLinksList = document.getElementsByClassName('hub-links-list');
+
+  for (var i=0; i < hubLinksList.length; i++) {
+    hubLinksList[i].addEventListener('click', function(e) {
+      var linkData = e.target.dataset;
+
+      recordEvent({
+        event: 'nav-zone-one',
+        'nav-path': linkData.navPath,
+      });
+    });
+  }
+</script>
 
 {% include "va-gov/includes/footer.html" %}
