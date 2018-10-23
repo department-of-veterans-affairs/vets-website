@@ -1,0 +1,70 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+
+.search-app {
+  margin-bottom: 3em;
+
+  h2:first-child {
+    margin-top: 0;
+  }
+
+  [href^="http"], [rel="external"] {
+    background: none;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+
+    &.results-list {
+      li.result-item {
+        margin-top: 1em;
+
+        a.result-title {
+          text-decoration: none;
+        }
+
+        p {
+          margin: 0;
+
+          &.result-url {
+            color: $color-green;
+          }
+        }
+      }
+    }
+  }
+
+  hr {
+    border-bottom: none;
+  }
+
+  .results-footer {
+    justify-content: space-between;
+
+    .simple-pagination {
+      span.current-page {
+        padding: 0 1rem;
+      }
+    }
+  }
+
+  a:visited {
+    color: $color-link-default;
+  }
+
+  .search-box {
+    input, button {
+      margin: 0;
+      max-width: none;
+    }
+
+    button {
+      width: auto;
+      display: flex;
+      align-items: center;
+      padding: 0 1.5rem 0 1rem;
+      border-radius: 0 5px 5px 0;
+    }
+  }
+}
