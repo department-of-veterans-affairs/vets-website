@@ -76,6 +76,9 @@ social:
           label: Veterans Benefits YouTube
           external: true
           icon: fa-youtube
+        - url: "https://www.instagram.com/vabenefits/"
+          label: Veterans Benefits Instagram
+          icon: fa-instagram
 
 ---
 
