@@ -27,7 +27,7 @@ import treatmentAddressUiSchema from '../pages/treatmentAddress';
 import {
   uiSchema as paymentInfoUiSchema,
   schema as paymentInfoSchema,
-} from '../../all-claims/pages/paymentInformation';
+} from '../pages/paymentInformation';
 
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 

@@ -90,7 +90,7 @@ class RoutedSavableReviewPage extends React.Component {
       InlineErrorComponent = errorText;
     } else if (typeof errorText === 'string') {
       InlineErrorComponent = () => <p>{errorText}</p>;
-    } else if (!brandConsolidationIsEnabled) {
+    } else {
       InlineErrorComponent = () => (
         <p>
           If it still doesn’t work, please{' '}
@@ -102,18 +102,6 @@ class RoutedSavableReviewPage extends React.Component {
             (ET).
           </CallHelpDesk>
         </p>
-      );
-    } else if (brandConsolidationIsEnabled) {
-      InlineErrorComponent = () => (
-        <div>
-          <p>
-            If it still doesn’t work, please call MyVA311 for help:{' '}
-            <a href="tel:844-698-2311">1-844-698-2311</a>.
-          </p>
-          <p>
-            If you have hearing loss, call TTY: <a href="tel:711">711</a>.
-          </p>
-        </div>
       );
     }
 

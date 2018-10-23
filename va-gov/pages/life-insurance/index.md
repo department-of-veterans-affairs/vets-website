@@ -6,7 +6,7 @@ display_title: Life Insurance
 concurrence: complete
 lastupdate:
 order: 1
-icon: icon-large white fa fa-users hub-background-life-insurance
+icon: icon-large white fa fa-shield hub-background-life-insurance
 promo:
   - image: /img/megamenu/life-insurance-illustration.png
     alt:
