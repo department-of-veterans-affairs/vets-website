@@ -46,9 +46,11 @@ export function VetsDotGovSummary() {
           </li>
         </ul>
         If none of the above situations applies to you, and you think your
-        Statement of Benefits should be here, please call the Vets.gov Help Desk
-        at 1-855-574-7286. We’re here Monday through Friday, 8:00 a.m. to 8:00
-        p.m. (ET).
+        Statement of Benefits should be here, please{' '}
+        <CallHelpDesk>
+          call the Vets.gov Help Desk at 1-855-574-7286. We’re here Monday
+          through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+        </CallHelpDesk>
       </p>
     </div>
   );
