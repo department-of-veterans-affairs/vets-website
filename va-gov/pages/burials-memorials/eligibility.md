@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Eligibility For Burial in a VA National Cemetery
+title: Eligibility for Burial in a VA National Cemetery
 display_title: Eligibility
 collection: burials
 children: burialsEligibility
