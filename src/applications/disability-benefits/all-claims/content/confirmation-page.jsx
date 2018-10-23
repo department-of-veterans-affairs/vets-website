@@ -29,7 +29,7 @@ const template = (props, title, content, submissionMessage) => {
           For {first} {middle} {last} {suffix}
         </span>
         <ul className="claim-list">
-          <strong>Conditions claimed for increase</strong>
+          <strong>Conditions claimed</strong>
           <br />
           <ul className="disability-list">
             {disabilities

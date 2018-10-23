@@ -5,19 +5,19 @@ import CallHelpDesk from '../../../../platform/brand-consolidation/components/Ca
 
 export const successMessage = claimId => (
   <div>
-    <p>Thank you for filing a claim for increased disability compensation.</p>
+    <p>Thank you for filing a claim for disability compensation.</p>
     <strong>Claim ID number</strong>
     <div>{claimId}</div>
     <p>
       You can check the status of your claim online. Please allow 24 hours for
-      your increased disability claim to show up there.
+      your disability claim to show up there.
     </p>
     <p>
       <a href="/track-claims">Check the status of your claim.</a>
     </p>
     <p>
-      If you don’t see your increased disability claim online after 24 hours,
-      please call Veterans Benefits Assistance at{' '}
+      If you don’t see your disability claim online after 24 hours, please call
+      Veterans Benefits Assistance at{' '}
       <a href="tel:+18008271000">1-800-827-1000</a>, Monday – Friday, 8:00 a.m.
       – 9:00 a.m. (ET).
     </p>
@@ -26,19 +26,18 @@ export const successMessage = claimId => (
 
 export const checkLaterMessage = jobId => (
   <div>
-    <p>Thank you for filing a claim for increased disability compensation.</p>
+    <p>Thank you for filing a claim for disability compensation.</p>
     <strong>Confirmation number</strong>
     <div>{jobId}</div>
     <p>
       You can check the status of your claim online. Please allow 24 hours for
-      your increased disability claim to show up there.
+      your disability claim to show up there.
     </p>
     <p>
       <a href="/track-claims">Check the status of your claim.</a>
     </p>
     <p>
-      If you don’t see your increased disability claim online after 24 hours,
-      please{' '}
+      If you don’t see your disability claim online after 24 hours, please{' '}
       <CallHelpDesk>
         call {siteName} Help Desk at{' '}
         <a href="tel:+18555747286">1-855-574-7286</a>, Monday – Friday, 8:00
