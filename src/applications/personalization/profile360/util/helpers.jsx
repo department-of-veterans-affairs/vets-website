@@ -31,6 +31,23 @@ export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
   return titles;
 }, {});
 
+export const formDescriptions = Object.keys(formBenefits).reduce(
+  (titles, key) => {
+    let formNumber;
+    if (key === '40-10007' || key === 'VIC') {
+      formNumber = '';
+    } else if (key === '1010ez') {
+      formNumber = '(10-10EZ)';
+    } else {
+      formNumber = `(${key})`;
+    }
+    const formTitle = `${formBenefits[key]} application ${formNumber}`;
+    titles[key] = formTitle; // eslint-disable-line no-param-reassign
+    return titles;
+  },
+  {},
+);
+
 export const formLinks = {
   '21-526EZ': '/disability-benefits/apply/form-526-disability-claim/',
   '21P-527EZ': '/pension/application/527EZ/',

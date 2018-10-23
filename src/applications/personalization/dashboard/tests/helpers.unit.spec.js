@@ -2,7 +2,6 @@ import { expect } from 'chai';
 
 import {
   formTitles,
-  formDescriptions,
   formLinks,
   isSIPEnabledForm,
   sipEnabledForms,
@@ -48,36 +47,11 @@ const schemaToConfigIds = {
 
 const excludedForms = new Set(['28-1900', '28-8832', '24-0296', '21-4142']);
 
-const configs = [
-  fullSchema1010ez,
-  fullSchema686,
-  fullSchema0993,
-  fullSchema1990,
-  fullSchema1990e,
-  fullSchema1990n,
-  fullSchema1995,
-  fullSchema5490,
-  fullSchema5495,
-  fullSchemaFeedbackTool,
-  fullSchema526EZ,
-  fullSchema527EZ,
-  fullSchema530,
-  fullSchema10007,
-  fullSchemaVIC,
-];
-
 describe('profile helpers:', () => {
   describe('formTitles', () => {
     it('should have title information for each verified form', () => {
       sipEnabledForms.forEach(form => {
         expect(formTitles[form]).to.exist;
-      });
-    });
-  });
-  describe('formDescriptions', () => {
-    it('should have description information for each verified form', () => {
-      sipEnabledForms.forEach(form => {
-        expect(formDescriptions[form]).to.exist;
       });
     });
   });
@@ -90,6 +64,23 @@ describe('profile helpers:', () => {
   });
   describe('sipEnabledForms', () => {
     it('should include all and only SIP enabled forms', () => {
+      const configs = [
+        fullSchema1010ez,
+        fullSchema686,
+        fullSchema0993,
+        fullSchema1990,
+        fullSchema1990e,
+        fullSchema1990n,
+        fullSchema1995,
+        fullSchema5490,
+        fullSchema5495,
+        fullSchemaFeedbackTool,
+        fullSchema526EZ,
+        fullSchema527EZ,
+        fullSchema530,
+        fullSchema10007,
+        fullSchemaVIC,
+      ];
       const allFormIds = Object.keys(schemas).filter(
         formId => !excludedForms.has(formId),
       );
@@ -106,15 +97,6 @@ describe('profile helpers:', () => {
   describe('handleIncompleteInformation', () => {
     it('should push error into window if a form is missing title or link information', () => {
       expect(isSIPEnabledForm('missingInfoForm')).to.be.false;
-    });
-  });
-  describe('authorizableForms', () => {
-    it('should have an authorization message', () => {
-      configs.forEach(config => {
-        if (config.authorize) {
-          expect(config.authorizationMessage).to.exist;
-        }
-      });
     });
   });
 });

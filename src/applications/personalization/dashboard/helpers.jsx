@@ -53,7 +53,7 @@ export const formBenefits = {
   '21-526EZ': 'increased disability compensation',
   '21P-527EZ': 'Veterans pension benefits',
   '21P-530': 'burial benefits',
-  '1010ez': 'health care benefits',
+  '1010ez': 'health care',
   '22-0993': 'opt out',
   '22-1990': 'education benefits',
   '22-1990E': 'education benefits',
@@ -83,23 +83,6 @@ export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
   titles[key] = formTitle; // eslint-disable-line no-param-reassign
   return titles;
 }, {});
-
-export const formDescriptions = Object.keys(formBenefits).reduce(
-  (descriptions, key) => {
-    let formNumber;
-    if (key === '40-10007' || key === 'VIC') {
-      formNumber = '';
-    } else if (key === '1010ez') {
-      formNumber = '(10-10EZ)';
-    } else {
-      formNumber = `(${key})`;
-    }
-    const formDescription = `${formBenefits[key]} application ${formNumber}`;
-    descriptions[key] = formDescription; // eslint-disable-line no-param-reassign
-    return descriptions;
-  },
-  {},
-);
 
 export const formLinks = {
   '21-526EZ': `${disability526Manifest.rootUrl}/`,
