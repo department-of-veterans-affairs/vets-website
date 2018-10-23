@@ -21,13 +21,14 @@ function SearchReducer(state = initialState, action) {
 
     case FETCH_SEARCH_RESULTS_SUCCESS: {
       const { query } = action.results;
-      const { results, nextOffset, total } = action.results.web;
+      const { results, nextOffset, prevOffset, total } = action.results.web;
 
       return {
         ...state,
         query,
         results,
         total,
+        prevOffset,
         nextOffset,
         loading: false,
       };
