@@ -185,7 +185,7 @@
     "column": 4,
     "href": "https://iris.custhelp.va.gov/app/ask",
     "order": 2,
-    "target": "_blank",
+    "target": null,
     "title": "Ask a Question"
   },
   {
