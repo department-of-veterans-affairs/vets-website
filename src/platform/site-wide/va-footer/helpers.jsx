@@ -30,7 +30,7 @@ const renderInnerTag = (link, captureEvent) => [
       {link.title}
     </a>
   ) : (
-    <span className="va-footer-link-label">{link.title}</span>
+    <span className="va-footer-link-text">{link.title}</span>
   ),
 ];
 
