@@ -255,6 +255,7 @@ class SaveInProgressIntro extends React.Component {
           removeInProgressForm={this.props.removeInProgressForm}
           prefillAvailable={prefillAvailable}
           formSaved={!!savedForm}
+          gaStartEventName={this.props.gaStartEventName}
         />
         {!this.props.buttonOnly && this.props.afterButtonContent}
         <br />
@@ -301,6 +302,7 @@ SaveInProgressIntro.propTypes = {
   verifiedPrefillAlert: PropTypes.element,
   unverifiedPrefillAlert: PropTypes.element,
   downtime: PropTypes.object,
+  gaStartEventName: PropTypes.string,
 };
 
 SaveInProgressIntro.defaultProps = {
