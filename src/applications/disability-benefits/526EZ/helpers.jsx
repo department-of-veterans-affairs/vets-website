@@ -101,6 +101,43 @@ export const getReservesGuardData = formData => {
   };
 };
 
+/**
+ * Converts the treatment date range into an array of objects from just an object
+ * @param {object} treatmentDateRange object containing from/to date range
+ * @returns {array} of treatmentDateRange's
+ */
+const transformDateRange = treatmentDateRange => [treatmentDateRange];
+
+/**
+ * Cycles through the list of provider facilities and performs transformations on each property as needed
+ * @param {array} providerFacility array of objects being transformed
+ * @returns {object} containing the new Provider Facility structure
+ */
+const transformProviderFacility = providerFacility => {
+  const newProviderFacility = providerFacility.map(facility =>
+    set(
+      'treatmentDateRange',
+      transformDateRange(facility.treatmentDateRange),
+      facility,
+    ),
+  );
+  return newProviderFacility;
+};
+
+/**
+ * If any limited consent text is populated, collect it.
+ */
+export function gatherLimitedConsentText(disabilities) {
+  const fullLimitedConsent = disabilities
+    .filter(disability => disability['view:limitedConsent'])
+    .reduce((accumulator, disability) => {
+      let string = accumulator;
+      string = `${string} ${disability.limitedConsent}`;
+      return string;
+    }, '');
+  return fullLimitedConsent.trim();
+}
+
 export function transform(formConfig, form) {
   const {
     disabilities,
@@ -136,6 +173,16 @@ export function transform(formConfig, form) {
 
   const attachments = additionalDocuments.concat(privateRecords);
 
+  const providerFacility = disabilities
+    .filter(
+      disability =>
+        disability['view:selected'] === true && disability.providerFacility,
+    )
+    .reduce(
+      (accumulator, item) => accumulator.concat(item.providerFacility),
+      [],
+    );
+
   const transformedData = {
     disabilities: disabilities
       .filter(disability => disability['view:selected'] === true)
@@ -149,6 +196,10 @@ export function transform(formConfig, form) {
     // if there is at least one treatment to send
     ...(treatments.length && { treatments }),
     ...(attachments.length && { attachments }),
+    form4142: {
+      limitedConsent: gatherLimitedConsentText(disabilities),
+      providerFacility: transformProviderFacility(providerFacility),
+    },
   };
 
   const withoutViewFields = filterViewFields(transformedData);
@@ -424,8 +475,7 @@ export const additionalDocumentDescription = () => (
 );
 
 const getVACenterName = center => center.treatmentCenterName;
-const getPrivateCenterName = release =>
-  release.privateRecordRelease.treatmentCenterName;
+const getPrivateCenterName = release => release.providerFacilityName;
 const listCenters = centers => (
   <span className="treatment-centers">
     {centers.map((center, idx, list) => {
@@ -459,7 +509,7 @@ const listDocuments = documents => (
 export const evidenceSummaryView = ({ formContext, formData }) => {
   const {
     treatments,
-    privateRecordReleases,
+    providerFacility,
     privateRecords,
     additionalDocuments,
   } = formData;
@@ -488,11 +538,11 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
               We’ll get your medical records from {listCenters(treatments)}.
             </li>
           )}
-        {privateRecordReleases &&
+        {providerFacility &&
           privateRecordsSelected && (
             <li>
               We’ll get your private medical records from{' '}
-              {listCenters(privateRecordReleases)}.
+              {listCenters(providerFacility)}.
             </li>
           )}
         {privateRecords &&
