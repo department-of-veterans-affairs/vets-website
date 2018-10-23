@@ -74,8 +74,6 @@ Yes. You may be able to use one or more of the virtual options listed below.
 
 - **The VA Telemental Health program:** You can connect with a VA mental health provider through a computer or mobile device in your home or at a local VA health facility. If you're enrolled in VA health care, ask any of your providers to help connect you with our telemental health program.
 
-<br>
-
 ### Can I speak to a fellow Veteran who's been through this before?
 
 Yes. The **BeThere** peer assistance line and outreach center offers support for all Veterans and Servicemembers (including National Guard Soldiers and Reservists) and their families. You can talk privately with peer coaches who are Veterans, Servicemembers, or military spouses. 
@@ -195,7 +193,7 @@ We also treat anxiety-related conditions, like:
 	
 </div>
 </li>
-</li>	
+<li>	
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-services">What kinds of mental health services does VA provide?</button>
 <div id="questions-services" class="usa-accordion-content">
 
