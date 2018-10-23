@@ -11,6 +11,7 @@ import {
   transformDisabilities,
   queryForFacilities,
   hasOtherEvidence,
+  fieldsHaveInput,
   servedAfter911,
 } from '../utils.jsx';
 
@@ -261,6 +262,34 @@ describe('526 helpers', () => {
         },
       };
       expect(hasOtherEvidence(formData)).to.equal(true);
+    });
+  });
+
+  describe('fieldsHaveInput', () => {
+    it('should return false when empty array given', () => {
+      expect(fieldsHaveInput({ test: '123' }, [])).to.be.false;
+    });
+
+    it('should return false when empty formData given', () => {
+      expect(fieldsHaveInput({}, ['someField'])).to.be.false;
+    });
+
+    it('should return false property does not exist', () => {
+      expect(fieldsHaveInput({ test: '123' }, ['someField'])).to.be.false;
+    });
+
+    it('should return false when property is empty', () => {
+      expect(fieldsHaveInput({ test: null }, ['test'])).to.be.false;
+      expect(fieldsHaveInput({ test: '' }, ['test'])).to.be.false;
+    });
+
+    it('should return true when property is not empty', () => {
+      expect(fieldsHaveInput({ test: 'hi!' }, ['test'])).to.be.true;
+    });
+
+    it('should return true when some properties empty and some not', () => {
+      const testPaths = ['test0', 'test2', 'test4'];
+      expect(fieldsHaveInput({ test2: 'hi!' }, testPaths)).to.be.true;
     });
   });
 

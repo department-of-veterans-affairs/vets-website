@@ -183,24 +183,16 @@
   },
   {
     "column": 4,
-    "href": "https://iris.custhelp.va.gov/app/ask",
+    "label": "Call MyVA311:",
+    "href": "tel:18446982311",
     "order": 2,
     "target": null,
-    "title": "Submit a Help Request"
+    "title": "1-844-698-2311"
   },
   {
     "column": 4,
-    "href": "https://iris.custhelp.va.gov ",
     "order": 3,
-    "target": null,
-    "title": "Go to the VA Help Center"
-  },
-  {
-    "column": 4,
-    "href": "https://iris.custhelp.va.gov/app/answers/detail/a_id/1703 ",
-    "order": 4,
-    "target": null,
-    "title": "Call Us"
+    "title": "TTY: 711"
   },
   {
     "column": "bottom_rail",

@@ -82,3 +82,9 @@ $modal-layer: 400;
 .slider .prev, .slider .next, #slider-controls {
   z-index: $low-layer;
 }
+// ----- Patches to elements outside of .consolidated ----- //
+
+// "I am a" select field on /health is having an unwanted margin-top added by @us-forms-system library
+#iama {
+  margin-top: 0;
+}

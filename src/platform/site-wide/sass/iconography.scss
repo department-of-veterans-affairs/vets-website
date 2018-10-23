@@ -32,6 +32,17 @@ h1, h3, h4 {
     }
   }
 
+  &.icon-large-baseline {
+    height: 40px;
+    width: 40px;
+
+    &::before {
+      position: absolute;
+      margin-top: 7px;
+      margin-left: 11px;
+    }
+  }
+
   &.icon-small {
     height: 32px;
     width: 32px;
@@ -46,14 +57,14 @@ h1, h3, h4 {
   &.fa-medkit {
     &.icon-large {
       &::before {
-        margin-top: 9.25px;
-        margin-left: 10.5px;
+        margin-top: 10.25px;
+        margin-left: 11px;
       }
     }
 
     &.icon-small {
       &::before {
-        margin-top: 6px;
+        margin-top: 7px;
         margin-left: 8px;
       }
     }
@@ -83,31 +94,98 @@ h1, h3, h4 {
       }
     }
   }
-  &.fa-money {
 
+  &.fa-shield {
     &.icon-small {
       &::before {
-        margin-left: 7.15px;
+        margin-left: 11px;
+        margin-top: 8px;
       }
     }
-  }
-
-
-  &.fa-users {
-    &.icon-small {
+    &.icon-large {
       &::before {
-        margin-left: 6.95px;
+        margin-left: 14px;
+        margin-top: 11px;
       }
     }
   }
   &.fa-id-card {
     &.icon-small {
       &::before {
-        margin-left: 5.85px;
+        margin-left: 6px;
+        margin-top: 7px;
+      }
+    }
+    &.icon-large {
+      &::before {
+        margin-top: 10.25px;
+        margin-left: 9.5px;
       }
     }
   }
 
+  &.fa-graduation-cap {
+    &.icon-small {
+      &::before {
+        margin-left: 5.5px;
+        margin-top: 8px;
+      }
+    }
+    &.icon-large {
+      &::before {
+        margin-left: 8.2px;
+        margin-top: 11px;
+      }
+    }
+
+    &.icon-large-baseline {
+      &::before {
+        margin-top: 9px;
+      }
+    }
+  }
+
+  &.fa-file-text-o {
+    &.icon-small {
+      &::before {
+        margin-top: 7px;
+        margin-left: 9.5px;
+      }
+    }
+    &.icon-large {
+      &::before {
+        margin-top: 8px;
+      }
+    }
+  }
+
+  &.fa-briefcase {
+    &.icon-small {
+      &::before {
+        // margin-left: 5.5px;
+        margin-top: 8px;
+      }
+    }
+    &.icon-large {
+      &::before {
+        margin-left: 10.5px;
+        margin-top: 11.5px;
+      }
+    }
+  }
+
+  &.fa-star {
+    &.icon-small {
+      &::before {
+        margin-top: 7px;
+      }
+    }
+    &.icon-large {
+      &::before {
+        margin-top: 11px;
+      }
+    }
+  }
 }
 
 @mixin make-hub($hub-name, $color) {
