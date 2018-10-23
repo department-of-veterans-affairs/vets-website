@@ -8,15 +8,14 @@ h1, h3, h4 {
 }
 
 .inline {
-
   display: inline-block;
+}
 
-  .fa {
-    font-size: 20px;
-    vertical-align: bottom;
-    margin-right: 10px;
-  }
-
+.hub-main-icon {
+  display: inline-block;
+  font-size: 20px;
+  vertical-align: bottom;
+  margin-right: 10px;
 }
 
 .icon-large {
@@ -106,7 +105,8 @@ h1, h3, h4 {
   $hub-name: "disability",
   $icon: $fa-var-file-text,
   $color: $red-60,
-  $top-large: 8px,
+  $top-large: 9.5px,
+  $left-large: 13px,
   $left-small: 10px,
   $top-small: 7px
 );
