@@ -51,6 +51,10 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
                     {% endif %}
                   </a>
                 </li>
+              {% else %}
+                <li>
+                  {{link.title}}
+                </li>
               {% endif %}
             {% endfor %}
           </ul>
