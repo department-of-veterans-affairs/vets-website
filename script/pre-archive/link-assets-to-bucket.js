@@ -9,16 +9,13 @@
 
 const fs = require('fs');
 const jsdom = require('jsdom');
-
-const HOSTNAMES = require('../constants/hostnames');
-
-const BUCKET = 'https://s3-us-gov-west-1.amazonaws.com';
+const buckets = require('../constants/buckets');
 
 function linkAssetsToBucket(options, fileNames) {
-  const hostname = HOSTNAMES[options.buildtype];
-  if (!hostname) return;
+  const bucketPath = buckets[options.buildtype];
 
-  const bucketPath = `${BUCKET}/${hostname}`;
+  // Heroku deployments (review instances) won't have a bucket.
+  if (!bucketPath) return;
 
   for (const fileName of fileNames) {
     const file = fs.readFileSync(fileName);
