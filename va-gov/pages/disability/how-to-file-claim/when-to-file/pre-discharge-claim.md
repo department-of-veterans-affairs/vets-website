@@ -92,6 +92,7 @@ If you have 180 to 90 days left on active duty, you'll need to apply for benefit
 ### If you're stationed in the U.S.
 
 You can file a claim online, by mail, or in person. <br>
+[Learn more about how to apply for benefits](/disability/how-to-file-claim/).	
 [Find out how to file a claim for disability compensation](/disability-benefits/apply/).
 
 **To complete the process, you'll need to:**
