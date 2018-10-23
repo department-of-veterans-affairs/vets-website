@@ -222,7 +222,6 @@ For some types of claims, you can work with a VSO to submit a decision-ready cla
 You can start your online application right now, or find out how to file a claim by mail, in person, or with the help of a trained professional.<br>
 [Find out how to apply for disability benefits](/disability-benefits/apply/).	[Find out how to file a claim for disability compensation](/disability-benefits/apply/).
 
-
 ### More helpful resources
 
 [Get a checklist for preparing your Fully Developed Claim](https://www.benefits.va.gov/FDC/checklist.asp). <br>
