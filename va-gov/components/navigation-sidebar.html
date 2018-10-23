@@ -26,7 +26,7 @@ Used to display a side navigation bar of pages in a collection.
     <button type="button" aria-label="Close this menu" class="va-btn-close-icon va-sidebarnav-close"></button>
     {% if relatedPages != empty %}
       {% if relatedPages.metadata.name != empty %}
-        <div class="left-side-nav-title"><i class="icon-small white fa {{ relatedPages.metadata.icon }}"></i><h4>{{ relatedPages.metadata.name }}</h4></div>
+        <div class="left-side-nav-title"><i class="icon-small white hub-icon-{{ relatedPages.metadata.hub }} hub-background-{{ relatedPages.metadata.hub }}"></i><h4>{{ relatedPages.metadata.name }}</h4></div>
       {% endif %}
 
       {% if spoke != empty %}

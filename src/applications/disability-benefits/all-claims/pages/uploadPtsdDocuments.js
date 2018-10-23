@@ -15,7 +15,7 @@ export const uiSchema = {
   ptsd781: fileUploadUI('', {
     itemDescription: 'PTSD 781 form',
     hideLabelText: true,
-    fileUploadUrl: `${environment.API_URL}/v0`,
+    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
     fileTypes: [
       'pdf',
       'jpg',
