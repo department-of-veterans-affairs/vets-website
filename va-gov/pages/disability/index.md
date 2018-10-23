@@ -34,7 +34,9 @@ crosslinks:
       description: See if you're eligible for extra monthly pension payments if you need more aid than you're currently receiving.
 social:
   - heading: Ask Questions
-    links:
+    subsections:
+      - subhead: Call Us
+        links:
         - url: tel:1-800-827-1000
           number: 1-800-827-1000
           title: "VA Benefits Hotline:"
@@ -43,7 +45,10 @@ social:
           title: "eBenefits Technical Support:"
         - url: tel:1-844-698-2311
           number: 1-844-698-2311
-          title: "Call MYVA311 for Help:"   
+          title: "MYVA311 Help Desk:"
+        - url:
+          number: 711
+          title: "For Veterans With Hearing Loss:"
   - heading: Connect with the Veterans Benefits Administration
     admin: VBA Website
     url: https://www.benefits.va.gov/benefits/
@@ -68,6 +73,7 @@ social:
           label: Veterans Benefits YouTube
           external: true
           icon: fa-youtube
+
 ---
 
 <p class="va-introtext">
