@@ -17,11 +17,11 @@
 
           <h3 class="hub-links-title"><i class="icon-large-baseline fa fa-medkit hub-color-health-care"></i>Health Care</h3>
           <ul class="hub-links-list">
-            <li><a href="/health-care/refill-track-prescriptions/"#>Refill and track your prescriptions</a></li>
-            <li><a href="/health-care/secure-messaging/">Send a secure message to your health care team</a></li>
-            <li><a href="/health-care/schedule-view-va-appointments/">Schedule and view your appointments</a></li>
-            <li><a href="/health-care/view-test-and-lab-results/">View your lab and test results</a></li>
-            <li><a href="/health-care/apply/application/">Apply now for VA health care</a></li>
+            <li><a data-nav-path="Health Care->Refill and track your prescriptions" href="/health-care/refill-track-prescriptions/" onClick="window.dataLayer.push({'event':'nav-zone-one', 'nav-path':'Health Care->Refill and track your prescriptions'});">Refill and track your prescriptions</a></li>
+            <li><a data-nav-path="Health Care->Send a secure message" href="/health-care/secure-messaging/">Send a secure message to your health care team</a></li>
+            <li><a data-nav-path="Health Care->Schedule and view your appointments" href="/health-care/schedule-view-va-appointments/">Schedule and view your appointments</a></li>
+            <li><a data-nav-path="Health Care->View your lab and test results" href="/health-care/view-test-and-lab-results/">View your lab and test results</a></li>
+            <li><a data-nav-path="Health Care->Apply now for VA health care" href="/health-care/apply/application/">Apply now for VA health care</a></li>
           </ul>
 
         </div>
@@ -31,11 +31,11 @@
 
           <h3 class="hub-links-title"><i class="icon-large-baseline fa fa-file-text-o hub-color-disability"></i>Disability</h3>
           <ul class="hub-links-list">
-            <li><a href="/claim-or-appeal-status">Check your claim or appeal status</a></li>
-            <li><a href="/va-payment-history/">View your payment history</a></li>
-            <li><a href="/disability/upload-supporting-evidence/">Upload evidence to support your claim</a></li>
-            <li><a href="/disability/how-to-file-claim/">File for a VA disability increase</a></li>
-            <li><a href="/disability/how-to-file-claim/">File a claim for compensation</a></li>
+            <li><a data-nav-path="Disability->Check your claim and appeal status" href="/claim-or-appeal-status">Check your claim or appeal status</a></li>
+            <li><a data-nav-path="Disability->View your payment history" href="/va-payment-history/">View your payment history</a></li>
+            <li><a data-nav-path="Disability->Upload evidence to support your claim" href="/disability/upload-supporting-evidence/">Upload evidence to support your claim</a></li>
+            <li><a data-nav-path="Disability->File for a VA disability increase" href="/disability/how-to-file-claim/">File for a VA disability increase</a></li>
+            <li><a data-nav-path="Disability->File a claim for compensation" href="/disability/how-to-file-claim/">File a claim for compensation</a></li>
           </ul>
 
         </div>
@@ -49,11 +49,11 @@
 
           <h3 class="hub-links-title"><i class="icon-large-baseline fa fa-graduation-cap hub-color-education"></i>Education</h3>
           <ul class="hub-links-list">
-            <li><a href="/education/gi-bill/post-9-11/ch-33-benefit">Check your Post-9/11 GI Bill&reg; benefits</a></li>
-            <li><a href="/va-payment-history/">View your payment history</a></li>
-            <li><a href="/education/change-gi-bill-benefits/">Change your current education benefits</a></li>
-            <li><a href="/gi-bill-comparison-tool">Compare GI Bill benefits by school</a></li>
-            <li><a href="/education/how-to-apply/">Apply for education benefits</a></li>
+            <li><a data-nav-path="Education->Check your GI Bill benefits" href="/education/gi-bill/post-9-11/ch-33-benefit">Check your Post-9/11 GI Bill&reg; benefits</a></li>
+            <li><a data-nav-path="Education->View your payment history" href="/va-payment-history/">View your payment history</a></li>
+            <li><a data-nav-path="Education->Change your current education benefits" href="/education/change-gi-bill-benefits/">Change your current education benefits</a></li>
+            <li><a data-nav-path="Education->Compare GI Bill benefits by school" href="/gi-bill-comparison-tool">Compare GI Bill benefits by school</a></li>
+            <li><a data-nav-path="Education->Apply for education benefits" href="/education/how-to-apply/">Apply for education benefits</a></li>
           </ul>
 
         </div>
@@ -63,11 +63,11 @@
 
           <h3 class="hub-links-title"><i class="icon-large-baseline fa fa-id-card hub-color-records"></i>Records</h3>
           <ul class="hub-links-list">
-            <li><a href="/records/get-veteran-id-cards/">Get Veteran ID cards</a></li>
-            <li><a href="/health-care/get-medical-records/">Get your VA medical records</a></li>
-            <li><a href="/records/download-va-letters/">Download your benefit letters</a></li>
-            <li><a href="/housing-assistance/home-loans/how-to-apply/">Apply for a home loan COE</a></li>
-            <li><a href="/records/get-military-service-records/">Request your military records (DD214)</a></li>
+            <li><a data-nav-path="Records->Apply now for a Veteran ID Card" href="/records/get-veteran-id-cards/">Get Veteran ID cards</a></li>
+            <li><a data-nav-path="Records->Get your VA medical records" href="/health-care/get-medical-records/">Get your VA medical records</a></li>
+            <li><a data-nav-path="Records->Download your benefit letters" href="/records/download-va-letters/">Download your benefit letters</a></li>
+            <li><a data-nav-path="Records->Apply for a home loan COE" href="/housing-assistance/home-loans/how-to-apply/">Apply for a home loan COE</a></li>
+            <li><a data-nav-path="Records->Request your military records" href="/records/get-military-service-records/">Request your military records (DD214)</a></li>
           </ul>
 
         </div>
@@ -222,5 +222,20 @@
   </section>
 
 </main>
+
+<script type="text/javascript">
+  var hubLinksList = document.getElementsByClassName('hub-links-list');
+
+  for (var i=0; i < hubLinksList.length; i++) {
+    hubLinksList[i].addEventListener('click', function(e) {
+      var linkData = e.target.dataset;
+
+      window.dataLayer.push({
+        event: 'nav-zone-one',
+        'nav-path': linkData.navPath,
+      });
+    });
+  }
+</script>
 
 {% include "va-gov/includes/footer.html" %}
