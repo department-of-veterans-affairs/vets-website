@@ -12,10 +12,10 @@ export function fetchSearchResults(query, offset) {
       method: 'GET',
     };
 
-    const queryString = `/search?query=${query}`;
+    let queryString = `/search?query=${query}`;
 
     if (offset) {
-      queryString.concat(`&offset=${offset}`);
+      queryString = queryString.concat(`&offset=${offset}`);
     }
 
     apiRequest(
