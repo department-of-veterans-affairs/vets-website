@@ -761,8 +761,12 @@
         h4:first-child {
           margin-top: 0px;
         }
+        
+        > section {
+          margin-bottom: 1.5em;
+        }
 
-        section:last-child {
+        > section:last-child {
           margin-bottom: 0px;
         }
 
