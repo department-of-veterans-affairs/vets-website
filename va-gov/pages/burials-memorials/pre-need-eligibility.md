@@ -29,7 +29,7 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 
 </div>
 
-**Please note:** "Pre-need" means before time of need. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial at the time of need.<br/>
+**Please note:** "Pre-need" means before the time of need. This application is for planning for your own burial in advance. Please don't complete this form if you're requesting burial at the time of need.<br/>
 [Find out how to plan a burial](/burials-memorials/plan-a-burial/).
 
 ## How do I prepare before starting my application?
@@ -40,7 +40,7 @@ You can apply to find out in advance if you can be buried in a VA national cemet
 #### Make sure one of these describes you:
 - A Servicemember on active duty, **or**
 - A Veteran who didn't receive a dishonorable discharge when you separated from the military, **or**
-- The spouse or dependent child of a Servicemember or Veteran, even if the Servicemember or Veteran has passed, **or**
+- The spouse or dependent child of a Servicemember or Veteran, even if the Servicemember or Veteran has already passed away, **or**
 - In some cases, the adult dependent child of a Servicemember or Veteran (if you aren’t married)
 
 </li>
