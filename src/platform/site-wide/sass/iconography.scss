@@ -104,10 +104,10 @@ h1, h3, h4 {
 
 @include make-hub(
   $hub-name: "disability",
-  $icon: $fa-var-file-text-o,
+  $icon: $fa-var-file-text,
   $color: $red-60,
   $top-large: 8px,
-  $left-small: 9.5px,
+  $left-small: 10px,
   $top-small: 7px
 );
 
