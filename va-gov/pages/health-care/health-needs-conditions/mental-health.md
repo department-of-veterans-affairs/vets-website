@@ -84,8 +84,6 @@ Yes. The **BeThere** peer assistance line and outreach center offers support for
 - Call 1-844-357-PEER (<a href="tel:+18443577337">1-844-357-7337</a>)
 - Text to <a href="tel:+14803606188">1-480-360-6188</a>
 
-<br>
-
 ### What other options do I have?
 
 **If you're a combat Veteran,** you can visit one of our Vet Centers to get free individual and group counseling for you and your family. You can access these services even if you're not enrolled in VA health care and aren't receiving disability compensation.
