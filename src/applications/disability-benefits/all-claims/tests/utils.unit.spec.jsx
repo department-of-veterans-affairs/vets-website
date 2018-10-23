@@ -416,7 +416,7 @@ describe('526 helpers', () => {
       expect(needsToEnter781a(formData)).to.be.true;
     });
 
-    it('should return false if user has not selected Combat or Non-Combat PTSD types', () => {
+    it('should return false if user has not selected Assault or MST PTSD types', () => {
       const formData = {};
       expect(needsToEnter781a({ formData })).to.be.false;
     });
