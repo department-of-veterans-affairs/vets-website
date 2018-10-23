@@ -33,29 +33,32 @@ crosslinks:
       title: <b>Aid and Attendance Benefits and Housebound Allowance</b>
       description: See if you're eligible for extra monthly pension payments if you need more aid than you're currently receiving.
 social:
-  - heading: Connect with Us
-    admin: Veterans Benefits Administration
-    url: https://www.benefits.va.gov/benefits/
-    subsections:
-      - subhead: Ask Questions
-        links:
-        - url: https://iris.custhelp.va.gov/app/ask
-          label: "Ask a Question Online"
+  - heading: Ask Questions
+    links:
         - url: tel:1-800-827-1000
           number: 1-800-827-1000
           title: "VA Benefits Hotline:"
         - url: tel:1-800-983-0937
           number: 1-800-983-0937
           title: "eBenefits Technical Support:"
-        - url: tel:18774243838
-          number: 1-877-4AID-VET (1-877-424-3838)
-          title: "National Call Center for Homeless Veterans:"
+        - url: tel:18446982311
+          number: 1-844-698-2311
+          title: "Call MYVA311 for Help:"   
+        - url: #
+          number: 711
+          title: "If You Have Hearing Loss, Call:"
+  - heading: Connect with the Veterans Benefits Administration
+    admin: VBA Website
+    url: https://www.benefits.va.gov/benefits/
+    subsections:
       - subhead: Get Updates
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
           label: Veterans Benefits Email Updates
           external: true
-          icon: fa-envelope-square
+          icon: fa-envelope-square        
+      - subhead: Follow Us
+        links:      
         - url: https://twitter.com/VAVetBenefits
           label: Veterans Benefits Twitter
           external: true
