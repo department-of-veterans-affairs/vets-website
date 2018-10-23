@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import siteName from '../brand-consolidation/site-name';
+import CallHelpDesk from '../brand-consolidation/components/CallHelpDesk';
 
 export const systemDownMessage = (
   <div className="row" id="systemDownMessage">
@@ -10,7 +12,7 @@ export const systemDownMessage = (
           Please try again later.
         </h3>
         <a href="/" className="usa-button-primary">
-          Go Back to Vets.gov
+          Go Back to {siteName}
         </a>
       </div>
     </div>
@@ -23,9 +25,12 @@ export const unableToFindRecordWarning = (
       <div className="react-container">
         <h3>We weren't able to find your records.</h3>
         <h4>
-          Please call <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-          <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
-          8:00 a.m. &#8211; 8:00 p.m. (ET).
+          Please{' '}
+          <CallHelpDesk>
+            call <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+            <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
+            8:00 a.m. &#8211; 8:00 p.m. (ET).
+          </CallHelpDesk>
         </h4>
       </div>
     </div>
@@ -46,9 +51,7 @@ export const mhvAccessError = (
             </li>
             <li>
               <strong>
-                Do you need a different My Health
-                <em>e</em>
-                Vet account type?
+                Do you need a different My HealtheVet account type?
               </strong>{' '}
               You may need a higher level of access to use this tool. Learn
               about the different account types on the{' '}
@@ -56,26 +59,24 @@ export const mhvAccessError = (
                 href="https://www.myhealth.va.gov/mhv-portal-web/upgrading-your-my-healthevet-account-through-in-person-or-online-authentication"
                 target="_blank"
               >
-                My Health
-                <em>e</em>
-                Vet website.
+                My HealtheVet website.
               </a>
             </li>
             <li>
               <strong>
-                Did you forget to accept My Health
-                <em>e</em>
-                Vet's terms and conditions?
+                Did you forget to accept My HealtheVet's terms and conditions?
               </strong>{' '}
-              You need to log in to My Health
-              <em>e</em>
-              Vet and accept their terms and conditions.
+              You need to log in to My HealtheVet and accept their terms and
+              conditions.
             </li>
           </ol>
           <p>
-            If none of these reasons applies to you, please call the Vets.gov
-            Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We're here Monday
-            – Friday, 8:00 a.m. – 8:00 p.m. (ET).
+            If none of these apply to you, please{' '}
+            <CallHelpDesk>
+              call the {siteName}
+              Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We're here
+              Monday – Friday, 8:00 a.m. – 8:00 p.m. (ET).
+            </CallHelpDesk>
           </p>
         </div>
       </div>

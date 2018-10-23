@@ -14,7 +14,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .url(reviewUrl)
     .waitForElementVisible('body', Timeouts.normal)
-    .waitForElementVisible('.usa-button-primary', Timeouts.slow); // First render of React may be slow.
+    .waitForElementVisible('.main .usa-button-primary', Timeouts.slow); // First render of React may be slow.
 
   E2eHelpers.overrideVetsGovApi(client);
   E2eHelpers.overrideScrolling(client);

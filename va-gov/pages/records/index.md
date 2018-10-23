@@ -6,12 +6,12 @@ display_title: Records
 concurrence: complete
 lastupdate:
 order: 1
-icon: icon-large white fa fa-id-card hub-background-records
+hub: records
 promo:
   - image: /img/megamenu/records-illustration.png
-    heading: Veteran ID Card
-    url: "/records/get-veteran-id-cards/vic"
-    description: Apply for your Veteran ID Card to get Veteran discounts on goods and services.
+    heading: Confirm Your VA Benefit Status
+    url: "/records/download-va-letters/"
+    description: Download letters like your eligibility or award letter for certain benefits.
 social:
   - heading: Connect with Us
     admin: All VA Organizations
@@ -26,7 +26,7 @@ social:
           title: "VA Benefits Hotline:"
         - url: tel:1-877-327-0022
           number: 1-877-327-0022
-          title: "MyHealtheVet Help Desk:"
+          title: "My HealtheVet Help Desk:"
         - url: tel:1-800-983-0937
           number: 1-800-983-0937
           title: "eBenefits Technical Support:"
@@ -63,6 +63,11 @@ Access your VA records and documents online to manage your health and benefits.
   <h2>Get Your Records and Documents</h2>
 
   <div class="link">
+    <a href="/records/get-veteran-id-cards/"><b>Get Veteran ID Cards</b></a>
+    <p>Find out how to get different types of identification cards to show your military status or your enrollment in VA health care or the VA Choice program.</p>
+  </div>
+
+  <div class="link">
     <a href="/records/get-military-service-records/"><b>Request Your Military Records (DD214)</b></a>
     <p>View and print documents from your official military personnel file (including your DD214).</p>
   </div>
@@ -70,11 +75,6 @@ Access your VA records and documents online to manage your health and benefits.
   <div class="link">
     <a href="/health-care/get-medical-records/"><b>Get Your VA Medical Records (called VA Blue Button)</b></a>
     <p>Set up your personal health record and download medical records, reports, and images to share with your VA and non-VA doctors.</p>
-  </div>
-
-  <div class="link">
-    <a href="/records/get-veteran-id-cards/"><b>Get Veteran ID Cards</b></a>
-    <p>Find out how to get different types of identification cards to show your military status or your enrollment in VA health care or the VA Choice program.</p>
   </div>
 
   <div class="link">

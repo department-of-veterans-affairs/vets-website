@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const E2eHelpers = require('../../../testing/e2e/helpers');
 const Timeouts = require('../../../testing/e2e/timeouts.js');
 
-const SITEMAP_URL = `${E2eHelpers.baseUrl}/sitemap.xml`;
+const SITEMAP_URL = `${E2eHelpers.baseUrl}/sitemap-dynamic.xml`;
 const SITEMAP_LOC_NS = 'http://www.sitemaps.org/schemas/sitemap/0.9';
 const DOMAIN_REGEX = /http[s]?:\/\/(.*?)\//;
 

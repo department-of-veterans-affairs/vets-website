@@ -71,8 +71,8 @@ Your team’s goal is to plan for all the care you need to help you stay healthy
 
 - **Provide or arrange for preventive care,** such as immunizations (like flu shots) to prevent illness and screenings to help find diseases like cancer in their earliest stages—when treatment is most likely to be successful.
 
-- **Help you get care in the ways that work best for you.** This may include personal visits with your primary care provider, group clinics, and 24/7 telephone care. You can also get online educational information and secure messaging with your health care team through the My Health***e***Vet portal.<br>
-[Visit My Health***e***Vet](https://www.myhealth.va.gov/).
+- **Help you get care in the ways that work best for you.** This may include personal visits with your primary care provider, group clinics, and 24/7 telephone care. You can also get online educational information and secure messaging with your health care team through the My HealtheVet portal.<br>
+[Visit My HealtheVet](https://www.myhealth.va.gov/).
 
 - **Coordinate your care.** Team members will meet often to talk with you—and each other—about your progress and goals. And they’ll coordinate any care you may need from specialists outside the team.
 
@@ -111,7 +111,7 @@ Your health care team will have a plan in place if your primary care provider is
 
 #### Can I see a local community care provider, paid for by VA?
 
-It depends. If we can't provide the care you need, we may refer you to a community provider. Your eligibility for community care will be based on your specific needs and circumstances. 
+It depends. If we can't provide the care you need, we may refer you to a community provider. Your eligibility for community care will be based on your specific needs and circumstances.
 
 **We may refer you to a community provider if any one of these is true for you:**
 - We can’t provide the services you need, **or**

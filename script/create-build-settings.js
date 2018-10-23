@@ -14,6 +14,12 @@ function getBuildSettings(options) {
       rateLimitUnauthed: 1,
     },
     applications: {},
+
+    // This setting is for a global top-level banner to invite Vets.gov users to try the brand-consolidated VA.gov.
+    // It can be removed post-launch.
+    previewTheNewVaBanner: {
+      allowTrafficToPreview: false,
+    },
   };
 }
 

@@ -96,18 +96,6 @@ export const ADDRESS_TYPES = {
   forwardingAddress: 'forwardingAddress',
 };
 
-export const accountTitleLabels = {
-  CHECKING: 'Checking Account',
-  SAVINGS: 'Savings Account',
-  NOBANK: 'No Bank Account',
-};
-
-export const NOBANK = 'NOBANK';
-
-export const PENDING = 'PENDING';
-export const RESOLVED = 'RESOLVED';
-export const REJECTED = 'REJECTED';
-
 export const HOMELESSNESS_TYPES = {
   atRisk: 'atRisk',
   homeless: 'homeless',
@@ -147,3 +135,9 @@ export const VA_FORM4142_URL =
   'https://www.vba.va.gov/pubs/forms/VBA-21-4142-ARE.pdf';
 
 export const FIFTY_MB = 52428800;
+
+export const PTSD = 'ptsd';
+
+export const NINE_ELEVEN = '2001-09-11';
+
+export const ERR_MSG_CSS_CLASS = '.usa-input-error-message';

@@ -103,7 +103,7 @@ Send your appeal to your branch of service by mail, fax, or email. You’ll find
 <div itemprop="text">
 
 You’ll need to complete an Application for TSGLI Benefits (SGLV-8600).<br>
-<a data-popup href="https://www.benefits.va.gov/INSURANCE/forms/TSGLIForm.htm">Download Form SGLV-8600</a>.
+<a href="https://www.benefits.va.gov/INSURANCE/forms/TSGLIForm.htm">Download Form SGLV-8600</a>.
 
 </div>
 </div>

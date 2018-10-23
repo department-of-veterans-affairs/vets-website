@@ -3,7 +3,11 @@ import environment from '../../../../platform/utilities/environment';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { hasMilitaryRetiredPay, hasRatedDisabilities } from '../validations';
+import {
+  hasMilitaryRetiredPay,
+  hasRatedDisabilities,
+  hasNewPtsdDisability,
+} from '../validations';
 
 import {
   hasGuardOrReservePeriod,
@@ -12,6 +16,7 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
+  servedAfter911,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -22,6 +27,7 @@ import {
   servicePay,
   waiveRetirementPay,
   militaryHistory,
+  servedInCombatZone,
   separationTrainingPay,
   reservesNationalGuardService,
   federalOrders,
@@ -30,6 +36,9 @@ import {
   contactInformation,
   addDisabilities,
   newDisabilityFollowUp,
+  newPTSDFollowUp,
+  choosePtsdType,
+  summaryOfDisabilities,
   vaMedicalRecords,
   additionalDocuments,
   privateMedicalRecords,
@@ -37,12 +46,13 @@ import {
   evidenceTypes,
   claimExamsInfo,
   homelessOrAtRisk,
+  vaEmployee,
   summaryOfEvidence,
 } from '../pages';
 
-import fullSchema from './schema';
+import { PTSD } from '../constants';
 
-const ptsdDisabilityIds = new Set([5420, 7290, 9010, 9011]);
+import fullSchema from './schema';
 
 const formConfig = {
   urlPrefix: '/',
@@ -112,6 +122,13 @@ const formConfig = {
           path: 'review-veteran-details/military-service-history',
           uiSchema: militaryHistory.uiSchema,
           schema: militaryHistory.schema,
+        },
+        servedInCombatZone: {
+          title: 'Combat status',
+          path: 'review-veteran-details/combat-status',
+          depends: servedAfter911,
+          uiSchema: servedInCombatZone.uiSchema,
+          schema: servedInCombatZone.schema,
         },
         reservesNationalGuardService: {
           title: 'Reserves and National Guard Service',
@@ -183,10 +200,45 @@ const formConfig = {
           title: formData => getDisabilityName(formData.condition),
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
-          itemFilter: item => !ptsdDisabilityIds.has(item.diagnosticCode),
+          itemFilter: item =>
+            item.condition && !item.condition.toLowerCase().includes(PTSD),
           arrayPath: 'newDisabilities',
           uiSchema: newDisabilityFollowUp.uiSchema,
           schema: newDisabilityFollowUp.schema,
+        },
+        // Consecutive `showPagePerItem` pages that have the same arrayPath
+        // will force each item in the array to be evaluated by both pages
+        // before the next item is evaluated (e.g., if PTSD was entered first,
+        // it would still show first even though the first page was skipped).
+        // This break between the two `showPagePerItem`s ensures PTSD is sorted
+        // behind non-PTSD conditions in the form flow.
+        // TODO: forms system PR to make showPagePerItem behavior configurable
+        followUpPageBreak: {
+          title: '',
+          depends: () => false,
+          path: 'new-disabilities/page-break',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        newPTSDFollowUp: {
+          title: formData => getDisabilityName(formData.condition),
+          path: 'new-disabilities/ptsd-intro',
+          depends: hasNewPtsdDisability,
+          uiSchema: newPTSDFollowUp.uiSchema,
+          schema: newPTSDFollowUp.schema,
+        },
+        choosePtsdType: {
+          title: formData => getDisabilityName(formData.condition),
+          path: 'new-disabilities/ptsd-type',
+          depends: hasNewPtsdDisability,
+          uiSchema: choosePtsdType.uiSchema,
+          schema: choosePtsdType.schema,
+        },
+        summaryOfDisabilities: {
+          title: 'Summary of disabilities',
+          path: 'disabilities/summary',
+          uiSchema: summaryOfDisabilities.uiSchema,
+          schema: summaryOfDisabilities.schema,
         },
       },
     },
@@ -260,6 +312,12 @@ const formConfig = {
           path: 'housing-situation',
           uiSchema: homelessOrAtRisk.uiSchema,
           schema: homelessOrAtRisk.schema,
+        },
+        vaEmployee: {
+          title: 'VA employee',
+          path: 'va-employee',
+          uiSchema: vaEmployee.uiSchema,
+          schema: vaEmployee.schema,
         },
       },
     },

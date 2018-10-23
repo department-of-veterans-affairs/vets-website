@@ -3,34 +3,45 @@
 $red-70v: #8b1303;
 $red-60v: #b51d09;
 
-.va-crisis-line {
-  @include media($medium-large-screen) {
-    position: absolute;
-    right: 0;
-    bottom: -11px;
+.va-crisis-line-container {
+  position: relative;
+  margin: auto;
+  background-color: $red-60v;
+  @include media($small-desktop-screen) {
+    max-width: 97.5rem;
     background-color: transparent;
   }
-  background-color: $red-60v;
-  z-index: 2;
 }
 
-button.va-crisis-line-button {
+button.va-crisis-line {
   background-color: $red-60v;
+  display: block;
   border-radius: 0;
   color: $color-white;
-  margin: auto;
   font-size: 1em;
-  width: auto;
-  display: block;
   text-decoration: none;
   font-weight: bold;
-  display: flex;
   padding: 0;
-  align-items: center;
+  margin: 0;
+  width: 100%;
 
-  @include media($medium-large-screen) {
+  @include media($small-desktop-screen) {
+    width: auto;
+    position: absolute;
+    right: 0;
+    bottom: -12px;
     border-radius: 0 0 0.2em 0.2em;
     box-shadow: 0 2px 5px $color-base;
+  }
+}
+
+.va-crisis-line-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+
+  @include media($small-desktop-screen) {
     text-align: left;
     justify-content: space-between;
   }
@@ -44,7 +55,7 @@ button.va-crisis-line-button {
   width: 2.5em;
   height: 2em;
   padding: 0.3em 1em;
-  @include media($medium-large-screen) {
+  @include media($small-desktop-screen) {
     background-color: $red-70v;
     background-position: 0.4em 0.5em;
   }
@@ -62,7 +73,6 @@ button.va-crisis-line-button {
 }
 
 .va-crisis-panel {
-  z-index: 1;
   color: $color-base;
   &-body {
     padding: 1.5em;
@@ -115,13 +125,9 @@ button.va-crisis-line-button {
   }
 }
 
-.no-external-icon {
-  padding-right: 0;
-  background-image: none;
-  &::after {
-    display: none !important;
-    content: none;
-  }
+.va-modal-large .va-crisis-panel.va-modal-inner {
+  width: 90vw;
+  max-width: 75rem;
 }
 
 .va-footer-vcl-trigger {

@@ -5,7 +5,7 @@ title: VA Burial Benefits and Memorial Items
 display_title: Burials and Memorials
 lastupdate:
 order: 1
-icon: icon-large white fa fa-star hub-background-burials
+hub: burials
 aliases:
   - /burials-and-memorials/
 promo:
@@ -162,14 +162,17 @@ VA burial benefits can help Servicemembers, Veterans, and their family members p
   <div class="link">
     <a href="https://www.benefits.va.gov/Compensation/current_rates_dic.asp"><b>VA Survivor Benefits Rates (VA DIC)</b></a>
     <p>View current dependency and indemnity compensation rates for surviving spouses and children.</p>
+  </div>
 
   <div class="link">
     <a href="https://www.benefits.va.gov/Pension/current_rates_Parents_DIC_pen.asp"><b>Parents Dependency and Indemnity Compensation (DIC) Rates</b></a>
     <p>View current survivor benefit rates for parents.</p>
+  </div>
 
   <div class="link">
     <a href="https://www.archives.gov/veterans/replace-medals" target="_blank"><b>Replace Medals, Awards, and Decorations</b></a>
     <p>Visit the National Archives website to find out how to request replacement medals, awards, and decorations.</p>
+  </div>
 
   <div class="link">
     <a href="https://www.archives.gov/veterans" target="_blank"><b>Search Historical Military Records (National Archives)</b></a>

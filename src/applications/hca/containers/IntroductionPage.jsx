@@ -29,9 +29,7 @@ class IntroductionPage extends React.Component {
           startText="Start the Health Care Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}
-        >
-          Please complete the 10-10EZ form to apply for health care benefits.
-        </SaveInProgressIntro>
+        />
         <h4>Follow the steps below to apply for health care benefits.</h4>
         <div className="process schemaform-process">
           <ol>

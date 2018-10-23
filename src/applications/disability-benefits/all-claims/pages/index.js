@@ -19,6 +19,11 @@ import {
 } from './militaryHistory';
 
 import {
+  uiSchema as servedInCombatZoneUISchema,
+  schema as servedInCombatZoneSchema,
+} from './servedInCombatZone';
+
+import {
   uiSchema as separationTrainingPayUISchema,
   schema as separationTrainingPaySchema,
 } from '../pages/separationTrainingPay';
@@ -52,6 +57,21 @@ import {
   uiSchema as newDisabilityFollowUpUISchema,
   schema as newDisabilityFollowUpSchema,
 } from './newDisabilityFollowUp';
+
+import {
+  uiSchema as newPTSDFollowUpUISchema,
+  schema as newPTSDFollowUpSchema,
+} from './newPTSDFollowUp';
+
+import {
+  uiSchema as choosePtsdTypeUISchema,
+  schema as choosePtsdTypeSchema,
+} from './choosePtsdType';
+
+import {
+  uiSchema as summaryOfDisabilitiesUISchema,
+  schema as summaryOfDisabilitiesSchema,
+} from './summaryOfDisabilities';
 
 import {
   uiSchema as vaMedicalRecordsUISchema,
@@ -98,6 +118,11 @@ import {
   schema as homelessOrAtRiskSchema,
 } from './homelessOrAtRisk';
 
+import {
+  uiSchema as vaEmployeeUISchema,
+  schema as vaEmployeeSchema,
+} from './vaEmployee';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema,
@@ -121,6 +146,11 @@ export const separationTrainingPay = {
 export const militaryHistory = {
   uiSchema: militaryHistoryUISchema,
   schema: militaryHistorySchema,
+};
+
+export const servedInCombatZone = {
+  uiSchema: servedInCombatZoneUISchema,
+  schema: servedInCombatZoneSchema,
 };
 
 export const reservesNationalGuardService = {
@@ -151,6 +181,21 @@ export const addDisabilities = {
 export const newDisabilityFollowUp = {
   uiSchema: newDisabilityFollowUpUISchema,
   schema: newDisabilityFollowUpSchema,
+};
+
+export const newPTSDFollowUp = {
+  uiSchema: newPTSDFollowUpUISchema,
+  schema: newPTSDFollowUpSchema,
+};
+
+export const choosePtsdType = {
+  uiSchema: choosePtsdTypeUISchema,
+  schema: choosePtsdTypeSchema,
+};
+
+export const summaryOfDisabilities = {
+  uiSchema: summaryOfDisabilitiesUISchema,
+  schema: summaryOfDisabilitiesSchema,
 };
 
 export const vaMedicalRecords = {
@@ -196,4 +241,9 @@ export const claimExamsInfo = {
 export const homelessOrAtRisk = {
   uiSchema: homelessOrAtRiskUISchema,
   schema: homelessOrAtRiskSchema,
+};
+
+export const vaEmployee = {
+  uiSchema: vaEmployeeUISchema,
+  schema: vaEmployeeSchema,
 };

@@ -27,7 +27,7 @@ You may be able to get a cash-out refinance loan if you meet all of the requirem
 -	Meet VA’s—and your lender’s—standards for credit, income, and any other requirements, **and**
 -	Will live in the home you’re refinancing with the loan
 
-[See if you qualify for a VA-backed home loan Certificate of Eligibility (COE)](/housing-assistance/home-loans/eligibility/)
+[See if you qualify for a VA-backed home loan Certificate of Eligibility (COE)](/housing-assistance/home-loans/eligibility/).
 </div>
 
 <br>
@@ -57,6 +57,9 @@ The Consumer Financial Protection Bureau’s home loan toolkit can help. <br>
 #### Find a lender.
 
 You’ll go through a private bank, mortgage company, or credit union—not directly through us—to get a cash-out refinance loan. Terms and fees may vary, so contact several lenders to check out your options.
+
+**Note:** Be careful when considering home loan refinance offers. Claims that you can skip payments or get very low interest rates or other terms that sound too good to be true may be signs of a misleading offer. <br>
+[Learn more about the signs of misleading refinance offers](https://www.blogs.va.gov/VAntage/43234/va-and-the-consumer-financial-protection-bureau-warn-against-home-loan-refinancing-offers-that-sound-too-good-to-be-true/).
 
 </li>
 

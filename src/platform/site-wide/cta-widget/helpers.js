@@ -1,6 +1,6 @@
 import backendServices from '../../user/profile/constants/backendServices';
 
-export const frontendApps = {
+const frontendApps = {
   HEALTH_RECORDS: 'health-records',
   RX: 'rx',
   MESSAGING: 'messaging',
@@ -13,7 +13,35 @@ export const frontendApps = {
   VETERAN_ID_CARD: 'vic',
 };
 
-const mhvBaseUrl = () => {
+const HEALTH_TOOLS = [
+  frontendApps.HEALTH_RECORDS,
+  frontendApps.RX,
+  frontendApps.MESSAGING,
+  frontendApps.LAB_AND_TEST_RESULTS,
+  frontendApps.APPOINTMENTS,
+];
+
+const MHV_ACCOUNT_TYPES = ['Premium', 'Advanced', 'Basic'];
+
+export const hasRequiredMhvAccount = (appId, accountLevel) => {
+  switch (appId) {
+    case frontendApps.HEALTH_RECORDS:
+    case frontendApps.LAB_AND_TEST_RESULTS:
+      return MHV_ACCOUNT_TYPES.includes(accountLevel);
+    case frontendApps.RX:
+      return MHV_ACCOUNT_TYPES.slice(0, 2).includes(accountLevel);
+    case frontendApps.MESSAGING:
+    case frontendApps.APPOINTMENTS:
+      return accountLevel === 'Premium';
+    default:
+      // Not a recognized health tool.
+      return false;
+  }
+};
+
+export const isHealthTool = appId => HEALTH_TOOLS.includes(appId);
+
+export const mhvBaseUrl = () => {
   const lowerEnvironments = [
     'development',
     'vagovdev',
@@ -22,53 +50,103 @@ const mhvBaseUrl = () => {
   ];
 
   const mhvSubdomain = lowerEnvironments.includes(__BUILDTYPE__)
-    ? 'mhv-intb'
+    ? 'mhv-syst'
     : 'www';
 
   return `https://${mhvSubdomain}.myhealth.va.gov`;
 };
 
-export const continueUrl = appId => {
+export const mhvToolName = appId => {
   switch (appId) {
-    case frontendApps.GI_BILL_BENEFITS:
-      return '/education/gi-bill/post-9-11/ch-33-benefit/status';
+    case frontendApps.HEALTH_RECORDS:
+      return 'VA Blue Button';
 
-    case frontendApps.DISABILITY_BENEFITS:
-      return '/disability-benefits/apply/form-526-disability-claim/veteran-information';
+    case frontendApps.RX:
+      return 'Prescription Refill and Tracking';
 
-    case frontendApps.LETTERS:
-      return '/records/download-va-letters/letters';
+    case frontendApps.MESSAGING:
+      return 'Secure Messaging';
 
-    case frontendApps.VETERAN_ID_CARD:
-      return 'https://vicbdc.ppd.vba.va.gov/VIC';
+    case frontendApps.LAB_AND_TEST_RESULTS:
+      return 'Lab and Test Results';
 
-    default:
-      return '/';
+    case frontendApps.APPOINTMENTS:
+      return 'VA Appointments';
+
+    default: // Not a recognized health tool.
   }
+
+  return null;
 };
 
-export const redirectUrl = contentUrl => {
-  switch (contentUrl) {
-    case '/health-care/secure-messaging/':
-      return `${mhvBaseUrl()}/mhv-portal-web/secure-messaging`;
+export const toolUrl = (appId, index) => {
+  switch (appId) {
+    case frontendApps.HEALTH_RECORDS:
+      return {
+        url: `${mhvBaseUrl()}/mhv-portal-web/download-my-data`,
+        redirect: false,
+      };
 
-    case '/health-care/refill-track-prescriptions/':
-      return `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/refill-prescriptions`;
+    case frontendApps.RX:
+      return {
+        url: `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/refill-prescriptions`,
+        redirect: true,
+      };
 
-    case '/health-care/get-medical-records/':
-      return `${mhvBaseUrl()}/mhv-portal-web/download-my-data`;
+    case frontendApps.MESSAGING:
+      return {
+        url: `${mhvBaseUrl()}/mhv-portal-web/secure-messaging`,
+        redirect: true,
+      };
 
-    case '/health-care/schedule-view-va-appointments/':
-      return `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/scheduling-a-va-appointment`;
+    case frontendApps.APPOINTMENTS:
+      return {
+        url: [
+          `${mhvBaseUrl()}/mhv-portal-web/appointments`,
+          `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/scheduling-a-va-appointment`,
+        ][index],
+        redirect: false,
+      };
 
-    case '/health-care/view-test-and-lab-results/':
-      return `${mhvBaseUrl()}/mhv-portal-web/labs-tests`;
+    case frontendApps.LAB_AND_TEST_RESULTS:
+      return {
+        url: `${mhvBaseUrl()}/mhv-portal-web/labs-tests`,
+        redirect: true,
+      };
 
-    case '/claim-or-appeal-status/':
-      return '/track-claims/';
+    case frontendApps.CLAIMS_AND_APPEALS:
+      return {
+        url: '/track-claims/',
+        redirect: true,
+      };
+
+    case frontendApps.GI_BILL_BENEFITS:
+      return {
+        url: '/education/gi-bill/post-9-11/ch-33-benefit/status',
+        redirect: false,
+      };
+
+    case frontendApps.DISABILITY_BENEFITS:
+      return {
+        url:
+          '/disability-benefits/apply/form-526-disability-claim/veteran-information',
+        redirect: false,
+      };
+
+    case frontendApps.LETTERS:
+      return {
+        url: '/records/download-va-letters/letters',
+        redirect: false,
+      };
+
+    case frontendApps.VETERAN_ID_CARD:
+      return {
+        url: 'https://vicbdc.ppd.vba.va.gov/VIC',
+        redirect: false,
+      };
 
     default:
-      return null;
+      return {};
   }
 };
 
@@ -108,7 +186,7 @@ export const requiredServices = appId => {
   }
 };
 
-export const serviceDescription = appId => {
+export const serviceDescription = (appId, index) => {
   switch (appId) {
     case frontendApps.HEALTH_RECORDS:
       return 'use VA Blue Button';
@@ -123,7 +201,10 @@ export const serviceDescription = appId => {
       return 'view your VA lab and test results';
 
     case frontendApps.APPOINTMENTS:
-      return ['schedule appointments online', 'view appointments online'];
+      return [
+        'view your VA appointments online',
+        'schedule, reschedule, or cancel a VA appointment online',
+      ][index];
 
     case frontendApps.GI_BILL_BENEFITS:
       return 'check your GI Bill Benefits';

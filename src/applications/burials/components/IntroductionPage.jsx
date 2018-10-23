@@ -29,9 +29,7 @@ class IntroductionPage extends React.Component {
           startText="Start the Burial Benefits Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}
-        >
-          Please complete the 21P-530 form to apply for burial benefits.
-        </SaveInProgressIntro>
+        />
         <div className="process schemaform-process schemaform-process-sip">
           <h4>Follow the steps below to apply for burial benefits.</h4>
           <ol>

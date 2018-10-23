@@ -99,29 +99,22 @@
   },
   {
     "column": 2,
-    "href": "https://www.oit.va.gov/programs/piv/",
-    "order": 8,
-    "target": "_blank",
-    "title": "VA Information Technology and PIV Card"
-  },
-  {
-    "column": 2,
     "href": "https://www.va.gov/vso/",
-    "order": 9,
+    "order": 8,
     "target": null,
     "title": "Veterans Service Organizations (VSO)"
   },
   {
     "column": 2,
     "href": "https://www.va.gov/statedva.htm",
-    "order": 10,
+    "order": 9,
     "target": null,
     "title": "State Veterans Affairs Offices"
   },
   {
     "column": 2,
     "href": "/welcome-kit/",
-    "order": 11,
+    "order": 10,
     "target": null,
     "title": "Print Your VA Welcome Kit"
   },
@@ -190,24 +183,16 @@
   },
   {
     "column": 4,
-    "href": "https://iris.custhelp.va.gov/app/ask",
+    "label": "Call MyVA311:",
+    "href": "tel:18446982311",
     "order": 2,
     "target": null,
-    "title": "Submit a Help Request"
+    "title": "1-844-698-2311"
   },
   {
     "column": 4,
-    "href": "https://iris.custhelp.va.gov ",
     "order": 3,
-    "target": null,
-    "title": "Go to the VA Help Center"
-  },
-  {
-    "column": 4,
-    "href": "https://iris.custhelp.va.gov/app/answers/detail/a_id/1703 ",
-    "order": 4,
-    "target": null,
-    "title": "Call Us"
+    "title": "TTY: 711"
   },
   {
     "column": "bottom_rail",
@@ -218,16 +203,23 @@
   },
   {
     "column": "bottom_rail",
-    "href": "https://www.va.gov/opa/Plain_Language.asp",
+    "href": "/opa/Plain_Language.asp",
     "order": 2,
     "target": null,
     "title": "Plain Language"
   },
   {
     "column": "bottom_rail",
-    "href": "https://www.va.gov/privacy/",
+    "href": "/privacy/",
     "order": 3,
     "target": null,
-    "title": "Privacy Policy"
+    "title": "Privacy, Policies, and Legal Information"
+  },
+  {
+    "column": "bottom_rail",
+    "href": "/scorecard/",
+    "order": 4,
+    "target": null,
+    "title": "VA.gov Scorecard"
   }
 ]
