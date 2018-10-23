@@ -31,38 +31,55 @@ crosslinks:
       title: <b>Jobs for Veterans</b>
       description: Get help from the U.S. Department of Labor to find a job, get training, or explore career options.
 social:
-  - heading: Connect With Us
+  - heading: Ask Questions
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
-      - subhead: Ask Questions
+      - subhead: Message Us
         links:
-        - url: https://iris.custhelp.va.gov/app/ask
+        - url: https://gibill.custhelp.va.gov/app/home
           label: "Ask a Question Online"
+      - subhead: Call Us
+        links:
         - url: tel:1-888-GIBILL-1 (888-442-4551)
           number: 1-888-GIBILL-1 (888-442-4551)
           title: "GI Bill Hotline:"
         - url: tel:001-918-781-5678
           number: 001-918-781-5678
           title: "Students Outside the U.S.:"
+        - url: tel:1-844-698-2311
+          number: 1-844-698-2311
+          title: "Call MyVA311 for help:"
+        - url:
+          title: "If you have hearing loss, call TTY: 711."
+  - heading: Connect with the Veterans Benefits Administration
+    admin: Visit our website
+    url: https://www.benefits.va.gov/benefits/
+    subsections:
       - subhead: Get Updates
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
           label: Veterans Benefits Email Updates
           external: true
-          icon: fa-envelope-square
+          icon: fa-envelope-square        
+      - subhead: Follow Us
+        links:      
         - url: https://twitter.com/VAVetBenefits
           label: Veterans Benefits Twitter
           external: true
           icon: fa-twitter
-        - url: "https://www.facebook.com/VeteransBenefits"
+        - url: https://www.facebook.com/VeteransBenefits
           label: Veterans Benefits Facebook
           external: true
           icon: fa-facebook
-        - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+        - url: https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg
           label: Veterans Benefits YouTube
           external: true
           icon: fa-youtube
+        - url: "https://www.instagram.com/vabenefits/"
+          label: Veterans Benefits Instagram
+          icon: fa-instagram
+
 ---
 
 <p class="va-introtext">
