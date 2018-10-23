@@ -56,7 +56,7 @@ You can use this tool if you meet all of the requirements listed below.
 [Find out how to apply for VA health care](/health-care/how-to-apply/).
 
 **And you must have one of these free accounts:**
-- A premium **My HealtheVet** account, **or**
+- A Premium **My HealtheVet** account, **or**
 - A Premium **DS Logon** account (used for eBenefits and milConnect), **or**
 - A verified **ID.me** account that you can create here on VA.gov
 
@@ -99,7 +99,7 @@ No. You shouldn't use Secure Messaging when you have an urgent need, because it 
 
 To connect with a Veterans Crisis Line responder anytime, day or night:
 - Call <a href="tel:+18002738255">1-800-273-8255</a>, then press 1.
-- [Start a confidential Veterans Chat](https://www.veteranscrisisline.net/get-help/chat).
+- <a class="no-external-icon" href="https://www.veteranscrisisline.net/get-help/chat">Start a confidential Veterans Chat</a>
 - Text <a href="tel:+1838255">838255</a>.
 
 </div>

@@ -7,7 +7,7 @@ description: VA health care offers access to primary and specialty care, includi
 concurrence:
 lastupdate:
 order: 1
-icon: icon-large white fa fa-medkit hub-background-health-care
+hub: health-care
 promo:
   - image: /img/megamenu/health-care-illustration.png
     heading: VA Telehealth Services
@@ -98,7 +98,9 @@ We offer many programs and services that may help—including free health care a
 **Talk with someone right now:**
 
 Whatever you’re struggling with—homelessness, chronic pain, anxiety, depression, trouble sleeping, or anger—we can support you, day or night.<br>
-[Chat online with a trained VA staff member](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat").
+<a class="no-external-icon" href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat">
+Chat online with a trained VA staff member
+</a>
 
    </div>
   </div>

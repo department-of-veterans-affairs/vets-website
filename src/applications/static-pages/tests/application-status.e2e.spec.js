@@ -9,7 +9,7 @@ function testStatus(client, page, url) {
     .axeCheck('.main');
 
   client.expect
-    .element('a.usa-button-primary')
+    .element('main a.usa-button-primary')
     .to.have.attribute('href')
     .contains(url);
 

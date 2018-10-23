@@ -3,10 +3,15 @@ import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
+import CallHelpDesk from '../../../brand-consolidation/components/CallHelpDesk';
+
+import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 import recordEvent from '../../../monitoring/record-event';
 import { login, signup } from '../../../user/authentication/utilities';
 import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
+import { replaceWithStagingDomain } from '../../../../platform/utilities/environment/stagingDomains';
 import DowntimeBanner from '../../../../platform/monitoring/DowntimeNotification/components/Banner';
+import siteName from '../../../brand-consolidation/site-name';
 
 const loginHandler = loginType => () => {
   recordEvent({ event: `login-attempted-${loginType}` });
@@ -17,23 +22,32 @@ const handleDsLogon = loginHandler('dslogon');
 const handleMhv = loginHandler('mhv');
 const handleIdMe = loginHandler('idme');
 
+const logoSrc = replaceWithStagingDomain(
+  isBrandConsolidationEnabled()
+    ? 'https://www.va.gov/img/design/logo/va-logo.png'
+    : '/img/design/logo/logo-alt.png',
+);
+const faqHref = replaceWithStagingDomain(
+  isBrandConsolidationEnabled() ? 'https://www.va.gov/sign-in-faq/' : '/faq/',
+);
+
+const vaGovFullDomain = isBrandConsolidationEnabled()
+  ? replaceWithStagingDomain('https://www.va.gov')
+  : '';
 class SignInModal extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {
       recordEvent({ event: 'login-modal-opened' });
     }
   }
+
   renderModalContent = () => (
     <main className="login">
       <div className="row">
         <div className="columns">
           <div className="logo">
             <a href="/">
-              <img
-                alt="vets.gov"
-                className="va-header-logo"
-                src="/img/design/logo/logo-alt.png"
-              />
+              <img alt={siteName} className="va-header-logo" src={logoSrc} />
             </a>
           </div>
         </div>
@@ -41,7 +55,7 @@ class SignInModal extends React.Component {
       <div className="container">
         <div className="row">
           <div className="columns small-12">
-            <h1>Sign in to Vets.gov</h1>
+            <h1>Sign in to {siteName}</h1>
           </div>
         </div>
         <div className="row hide-for-medium-up mobile-explanation">
@@ -56,11 +70,17 @@ class SignInModal extends React.Component {
             <div className="columns small-12">
               <div className="form-warning-banner">
                 <AlertBox
-                  headline="Some Vets.gov tools and features may not be working as expected"
-                  content="We’re sorry. We’re working to fix some problems with DS Logon right now. Please check back later or call the Vets.gov Help Desk for more information at 1-855-574-7286, TTY: 1-800-877-8339."
+                  headline={`Some ${siteName} tools and features may not be working as expected`}
                   isVisible
                   status="warning"
-                />
+                >
+                  We’re sorry. We’re working to fix some problems with DS Logon
+                  right now. Please check back later or{' '}
+                  <CallHelpDesk>
+                    call the {siteName} Help Desk for more information at
+                    1-855-574-7286, TTY: 1-800-877-8339.
+                  </CallHelpDesk>
+                </AlertBox>
                 <br />
               </div>
             </div>
@@ -71,27 +91,42 @@ class SignInModal extends React.Component {
             <div className="signin-actions-container">
               <div className="top-banner">
                 <div>
-                  <img alt="ID.me" src="/img/signin/lock-icon.svg" /> Secured &
-                  powered by{' '}
-                  <img alt="ID.me" src="/img/signin/idme-icon-dark.svg" />
+                  <img
+                    alt="ID.me"
+                    src={`${vaGovFullDomain}/img/signin/lock-icon.svg`}
+                  />{' '}
+                  Secured & powered by{' '}
+                  <img
+                    alt="ID.me"
+                    src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
+                  />
                 </div>
               </div>
               <div className="signin-actions">
                 <h5>Sign in with an existing account</h5>
                 <div>
                   <button className="dslogon" onClick={handleDsLogon}>
-                    <img alt="DS Logon" src="/img/signin/dslogon-icon.svg" />
+                    <img
+                      alt="DS Logon"
+                      src={`${vaGovFullDomain}/img/signin/dslogon-icon.svg`}
+                    />
                     <strong> Sign in with DS Logon</strong>
                   </button>
                   <button className="mhv" onClick={handleMhv}>
-                    <img alt="My HealtheVet" src="/img/signin/mhv-icon.svg" />
+                    <img
+                      alt="My HealtheVet"
+                      src={`${vaGovFullDomain}/img/signin/mhv-icon.svg`}
+                    />
                     <strong> Sign in with My HealtheVet</strong>
                   </button>
                   <button
                     className="usa-button-primary va-button-primary"
                     onClick={handleIdMe}
                   >
-                    <img alt="ID.me" src="/img/signin/idme-icon-white.svg" />
+                    <img
+                      alt="ID.me"
+                      src={`${vaGovFullDomain}/img/signin/idme-icon-white.svg`}
+                    />
                     <strong> Sign in with ID.me</strong>
                   </button>
                   <span className="sidelines">OR</span>
@@ -101,7 +136,10 @@ class SignInModal extends React.Component {
                       className="idme-create usa-button usa-button-secondary"
                       onClick={signup}
                     >
-                      <img alt="ID.me" src="/img/signin/idme-icon-dark.svg" />
+                      <img
+                        alt="ID.me"
+                        src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
+                      />
                       <strong> Create an ID.me account</strong>
                     </button>
                     <p>Use your email, Google, or Facebook</p>
@@ -117,7 +155,7 @@ class SignInModal extends React.Component {
                 fingertips.
               </div>
               <p>
-                You spoke. We listened. Vets.gov is the direct result of what
+                You spoke. We listened. {siteName} is the direct result of what
                 you said you wanted most—one easy-to-use place to:
               </p>
               <ul>
@@ -142,7 +180,7 @@ class SignInModal extends React.Component {
                 information.
               </p>
               <p>
-                <a href="/faq/#what-is-idme" target="_blank">
+                <a href={`${faqHref}#what-is-idme`} target="_blank">
                   Learn more about ID.me
                 </a>
               </p>
@@ -154,39 +192,44 @@ class SignInModal extends React.Component {
             <div className="help-info">
               <h4>Having trouble signing in?</h4>
               <p>
-                <a href="/faq/" target="_blank">
+                <a href={faqHref} target="_blank">
                   Get answers to Frequently Asked Questions
                 </a>
               </p>
               <p>
-                Call the Vets.gov Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>
-                <br />
-                Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+                Or{' '}
+                <CallHelpDesk>
+                  call the {siteName} Help Desk at{' '}
+                  <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+                  <a href="tel:18008778339">1-800-877-8339</a>
+                  <br />
+                  We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
+                  (ET)
+                </CallHelpDesk>
               </p>
             </div>
             <hr />
             <div className="fed-warning">
               <p>
-                <strong>Please note:</strong> When you sign in to Vets.gov,
-                you're accessing a United States Federal Government information
-                system.
+                When you sign in to {siteName}, you’re using a United States
+                federal government information system.
               </p>
               <p>
-                By signing in, you're agreeing to access only information you
-                have the legal authority to view and use. You're also agreeing
-                to allow us to monitor and record your activity on the
-                system—and to share this information with auditors or law
-                enforcement officials as needed.
+                By signing in, you agree to only use information you have legal
+                authority to view and use. You also agree to let us monitor and
+                record your activity on the system and share this information
+                with auditors or law enforcement officials.
               </p>
               <p>
-                By signing in, you're also confirming that you understand
-                unauthorized use of this system (like gaining unauthorized
-                access to data, changing data, causing harm to the system or its
-                data, or misusing the system) is prohibited and may result in
-                criminal, civil, or administrative penalties. We can suspend or
-                stop your use of this system if we suspect any unauthorized use.
+                By signing in, you confirm that you understand the following:
+              </p>
+              <p>
+                Unauthorized use of this system is prohibited and may result in
+                criminal, civil, or administrative penalties. Unauthorized use
+                includes gaining unauthorized data access, changing data,
+                harming the system or its data, or misusing the system. We can
+                suspend or block your access to this system if we suspect any
+                unauthorized use.
               </p>
             </div>
           </div>
@@ -203,7 +246,7 @@ class SignInModal extends React.Component {
         focusSelector="button"
         onClose={this.props.onClose}
         id="signin-signup-modal"
-        title="Sign in to Vets.gov"
+        title={`Sign in to ${siteName}`}
       >
         {this.renderModalContent()}
       </Modal>

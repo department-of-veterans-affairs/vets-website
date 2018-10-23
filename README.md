@@ -246,7 +246,7 @@ the test requries features that jsdom does not provide, putting them into a
 #### E2E Troubleshooting
 Try running your `selenium` server manually:
 ```
-$ java -jar <path to GitHub>/vets-website/node_modules/selenium-server/lib/runner/selenium-server-standalone-3.1.0.jar
+$ java -jar <path to GitHub>/vets-website/node_modules/selenium-server/lib/runner/selenium-server-standalone-3.4.0.jar
 ```
 and you should see:
 ```

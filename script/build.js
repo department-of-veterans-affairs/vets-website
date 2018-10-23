@@ -9,6 +9,7 @@ const layouts = require('metalsmith-layouts');
 const liquid = require('tinyliquid');
 const markdown = require('metalsmith-markdownit');
 const moment = require('moment');
+const moveRemove = require('metalsmith-move-remove');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const watch = require('metalsmith-watch');
@@ -40,6 +41,7 @@ smith.destination(BUILD_OPTIONS.destination);
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({
   buildtype: BUILD_OPTIONS.buildtype,
+  hostUrl: BUILD_OPTIONS.hostUrl,
   mergedbuild: !!BUILD_OPTIONS['brand-consolidation-enabled'], // @deprecated - We use a separate Metalsmith directory for VA.gov. We shouldn't ever need this info in Metalsmith files.
 });
 
@@ -166,6 +168,7 @@ smith.use(createSitemaps(BUILD_OPTIONS));
 // separate pages that will each redirect to the original page.
 smith.use(createRedirects(BUILD_OPTIONS));
 
+smith.use(moveRemove(BUILD_OPTIONS));
 /* eslint-disable no-console */
 smith.build(err => {
   if (err) throw err;

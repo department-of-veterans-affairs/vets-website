@@ -21,7 +21,7 @@ You have the right to appeal any benefits decision made by the Veterans Benefits
 
 ### Have you already filed an appeal?
 
-When the Veterans Benefits Administration Regional Office receives your Notice of Disagreement, you’ll be able to check the status of your appeal on Vets.gov.
+When the Veterans Benefits Administration Regional Office receives your Notice of Disagreement, you’ll be able to check the status of your appeal on VA.gov.
 
 <a class="usa-button-primary" href="/track-claims">Track Your Appeal</a>
 
@@ -40,7 +40,7 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
     <span class="number">12-18 months</span>
     <span class="description">The Veterans Benefits Administration usually takes 12-18 months to review new appeals and decide whether to grant some or all of the appeal.</span>
   </div>
-
+  
   <div class="card information" markdown="0">
     <span class="number">5-7 years</span>
     <span class="description">When you request a review from a Veterans Law Judge at the Board of Veterans’ Appeals, it could take 5-7 years for you to get a decision.</span>
@@ -54,8 +54,8 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
       <div>
         <h4>File a Notice of Disagreement (NOD)</h4>
         <p>
-        By filing a Notice of Disagreement, you begin the appeals process. You’ll need to file a Notice of Disagreement within 1 year of the date on the letter notifying you of the claim decision. <br>
-        <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">Download a Notice of Disagreement (VA Form 21-0958)</a>.
+        By filing a Notice of Disagreement, you begin the appeals process. You’ll need to file a Notice of Disagreement within 1 year of the date on the letter notifying you of the claim decision. <br> 
+        <a href="https://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf">Download a Notice of Disagreement (VA Form 21-0958)</a>. 
         </p>
         <p>
         Fill out your Notice of Disagreement and mail it to the address provided on the VA claim decision notice letter you received, or bring it to your local regional office. An accredited representative can help you file a Notice of Disagreement. <a href="/disability/get-help-filing-claim/">Get help filing your appeal</a>.
@@ -86,7 +86,7 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
       The Decision Review Officer will finish the review and send your case to the Board of Veterans’ Appeals. The Board reviews cases in the order they’re received according to the date on the VA Form 9. A judge will begin work on your appeal when it’s among the oldest appeals ready for their review.
       </p>
       <p>
-      If you suffer from a serious illness, are in financial distress, or have other sufficient cause (a reason for needing your appeal reviewed faster), you can apply to have your appeal Advanced on Docket. If you’re over 75 years old, your appeal will receive this status automatically. Advanced on Docket appeals are prioritized so they’re always at the front of the line. <a href="/disability/file-an-appeal/request-priority-review/">Learn how to request Advanced on Docket status</a>.
+      If you suffer from a serious illness, are in financial distress, or have other sufficient cause (a reason for needing your appeal reviewed faster), you can apply to have your appeal Advanced on Docket. If you’re over 75 years old, your appeal will receive this status automatically. Advanced on Docket appeals are prioritized so they’re always at the front of the line.  <a href="/disability/file-an-appeal/request-priority-review/">Learn how to request Advanced on Docket status</a>.
       </p>
     </li>
     <li class="list-group-item">
@@ -114,3 +114,4 @@ After the Veterans Benefits Administration makes a decision on your claim, you c
 
 If you disagree with the Board’s decision, you can appeal to the Court of Appeals for Veterans Claims. You’ll need to hire a VA-accredited attorney to represent you, or you may represent yourself. You’ll need to file your Court appeal within 120 days of the Board’s decision.
 [Learn how to file a Court appeal](https://www.uscourts.cavc.gov/appeal.php).
+

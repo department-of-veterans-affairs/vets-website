@@ -11,7 +11,6 @@ order: 3
 aliases:
   - /disability-benefits/conditions/ptsd/
 ---
-
 <div class="va-introtext">
   
 Posttraumatic stress can happen after someone goes through a traumatic event such as combat, an assault, or a disaster. Most people have some stress reactions following trauma. But if the reactions don’t go away over time or they disrupt your life, you may have PTSD. Find out if you can get disability compensation or benefits if you have symptoms of PTSD. <br>
@@ -30,7 +29,7 @@ Posttraumatic stress can happen after someone goes through a traumatic event suc
 	    <p><strong>To connect with a Veterans Crisis Line responder any time day or night:</strong></p>	  
 	    <ul>
               <li>Call <a href="tel:+1-800-273-8255">1-800-273-8255</a>, then press 1.</li>
-	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Start a confidential Veterans Chat</a>.</li>
+	      <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/" class="no-external-icon" >Start a confidential Veterans Chat</a>.</li>
   	      <li>Text <a href="sms:838255">838255</a>.</li>
             </ul>
      	    <p><strong>You can also:</strong></p>	  
@@ -98,4 +97,3 @@ We’ve made great progress in treating PTSD and have brought more mental health
       document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
     });
 </script>
-

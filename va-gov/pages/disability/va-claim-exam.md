@@ -196,7 +196,7 @@ Each claim is different, but it usually takes us about 3 to 4 months to process 
 
 [See our most recent estimate for the average number of days to complete a claim](/disability/how-to-file-claim/#days-to-complete-claim).
 
-[Sign in to Vets.gov to track your claim](/track-claims/).
+[Sign in to VA.gov to track your claim](/track-claims/).
 
 </div>
 </li>
@@ -238,8 +238,28 @@ We may ask you to have a claim exam if you appeal your disability benefits decis
 
 ### What if I have more questions about my exam?
 
-* [Get answers to your questions about the VA claim exam](https://www.benefits.va.gov/compensation/claimexam.asp).
-* [Download the VA claim exam fact sheet](https://www.benefits.va.gov/compensation/docs/claimexam-factsheet.pdf#).
-* [Download the VA claim exam tip sheet](https://www.benefits.va.gov/compensation/docs/claimexam-tipssheet.pdf#).
+#### Download helpful PDFs
 
- 
+**[VA claim exam fact sheet](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-factsheet.pdf#)**<br>
+A quick guide on the claim exam process, and what you can expect during and after your exam
+
+**[VA claim exam tips](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-tipssheet.pdf#)**<br>
+Tips to help make the claim exam process easier and less stressful
+
+**[VA claim exam FAQs](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-faq.pdf#)**<br>
+Answers to frequently asked questions about the claim exam process
+
+**[Step-by-step VA claim process](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-stepbystep.pdf#)**<br>
+A quick, step-by-step overview of the claim process and exam
+
+**[Mental health exam fact sheet](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-mentalhealth-exams.pdf#)**<br>
+Information about how we evaluate mental health claims for compensation, and why it's important to go to your exam
+
+**[Review exams fact sheet](https://www.benefits.va.gov/COMPENSATION/docs/claimexam-reviewexams.pdf#)<br>**
+Information about why and when we request review exams, what will happen at the exam, and why it's important to go to your exam
+
+#### Watch informational videos
+
+You can also watch our VA claim exams video series. This series offers videos on how to prepare for your VA claim exam, how to use disability benefits questionnaires (DBQs), and what to expect at claim exams for the most common disability claims.
+
+[View the VA claim exams video series](https://www.youtube.com/playlist?list=PLrrh23QvVVYhAJ6t3vr81YvDypkezZ2yI).<br>
