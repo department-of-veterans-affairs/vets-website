@@ -57,7 +57,7 @@ Keep your pre-need decision letter and folder in a safe place. Talk to your fami
 
 ### What do my family members need to do to request my burial at the time of need?
 
-At the time of need, the person arranging your burial will need to call the National Cemetery Scheduling Office at <a href="tel:+1-800-535-1117">1-800-535-1117</a> to request a burial. They'll need your pre-need eligibility determination letter at that time.
+At the time of need, the person arranging your burial should call the National Cemetery Scheduling Office at <a href="tel:+1-800-535-1117">1-800-535-1117</a> to request a burial. They'll need your pre-need eligibility determination letter at that time.
 
 We'll also keep a copy of your letter and supporting documents in our system to help speed up burial arrangements. When your family member or authorized representative requests your burial, we'll confirm your pre-need eligibility determination based on the laws in effect at that time. <br>
 
