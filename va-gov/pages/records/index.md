@@ -13,14 +13,14 @@ promo:
     url: "/records/download-va-letters/"
     description: Download letters like your eligibility or award letter for certain benefits.
 social:
-  - heading: Connect with Us
-    admin: All VA Organizations
-    url: https://va.gov/landing_organizations.htm
+  - heading: Ask Questions
     subsections:
-      - subhead: Ask Questions
+      - subhead: Message Us
         links:
         - url: https://iris.custhelp.va.gov/app/ask
           label: "Ask a Question Online"
+      - subhead: Call Us
+        links:
         - url: tel:1-800-827-1000
           number: 1-800-827-1000
           title: "VA Benefits Hotline:"
@@ -30,12 +30,19 @@ social:
         - url: tel:1-800-983-0937
           number: 1-800-983-0937
           title: "eBenefits Technical Support:"
+        - subhead: Message Us
+  - heading: Connect with Us
+    admin: Learn more about our organizations
+    url: https://va.gov/landing_organizations.htm
+    subsections:
       - subhead: Get Updates
         links:
-        - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
-          label: Veterans Records Email Updates
-          external: true
-          icon: fa-envelope-square
+         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
+           label: Veterans Records Email Updates
+           external: true
+           icon: fa-envelope-square
+      - subhead: Follow Us  
+        links:
         - url: https://twitter.com/DeptVetAffairs/
           label: Veterans Affairs Twitter
           external: true
@@ -48,6 +55,7 @@ social:
           label: Veterans Affairs YouTube
           external: true
           icon: fa-youtube
+          
 ---
 
 <p class="va-introtext">
