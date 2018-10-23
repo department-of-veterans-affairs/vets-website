@@ -2,17 +2,16 @@
 <main>
 
   <!-- the hub -->
-  <section id="homepage-hub">
+  <section class="homepage-hub">
 
-    <!-- background, white -->
-    <div class="usa-grid usa-grid-full" id="hub-internal">
+    <div class="homepage-hub-container">
 
-      <h2>{{ heading }}</h2>
+      <h2 class="homepage-heading">{{ heading }}</h2>
 
       <!-- top row -->
-      <div class="usa-grid usa-grid-full flex-container flex-col-mobile">
+      <div class="hub-links-row">
       {% for card in cards %}
-        <div class="usa-width-one-half hub-links-container">
+        <div class="hub-links-container">
           <h3 class="hub-links-title"><i class="icon-large-baseline hub-icon-{{card.hub}} hub-color-{{card.hub}}"></i>{{ card.heading}}</h3>
           <ul class="hub-links-list">
             {% for link in card.links %}
@@ -22,12 +21,11 @@
         </div>
         {% if card.end_row == true and forloop.last != true %}
         </div>
-        <div class="usa-grid usa-grid-full flex-container flex-col-mobile">
+        <div class="hub-links-row">
         {% endif %}
       {% endfor %}
       </div>
     </div>
-    <!-- /background, white -->
 
     {% include "va-gov/includes/veteran-banner.html" %}
 
@@ -41,7 +39,7 @@
       {% for hub in hubs %}
         <div class="usa-width-one-third">
           <h4><a href="{{ hub.url }}" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small hub-icon-{{hub.hub}} hub-background-{{hub.hub}} white"></i>{{hub.heading}}</a></h4>
-          <p>{{hub.description}}</p>
+          <p class="homepage-benefits-description">{{hub.description}}</p>
         </div>
         {% if hub.end_row == true and forloop.last != true %}
         </div>
