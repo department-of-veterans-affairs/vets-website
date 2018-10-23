@@ -55,5 +55,12 @@ $teamsite-width: 959px;
 }
 
 .merger #bg-middle-effect {
-    background: url(/va_files/2014/responsive/images/bg-middle-effect.png) repeat-y scroll center -65px $teamsite-light-blue;
+  background: url(/va_files/2014/responsive/images/bg-middle-effect.png) repeat-y scroll center -65px $teamsite-light-blue;
+}
+
+// ----- Patches to elements outside of .consolidated ----- //
+
+// "I am a" select field on /health is having an unwanted margin-top added by @us-forms-system library
+#iama {
+  margin-top: 0;
 }
