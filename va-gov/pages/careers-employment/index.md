@@ -172,12 +172,12 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a class="no-external-icon" href="https://dol.gov/veterans/findajob/" target="_blank" rel="noopener"><span><b>Find a Job (Department of Labor)</b><i class="external-link-icon-black"></i><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Search for jobs, get help translating your military skills and experience to civilian jobs, and access other career resources.</p></a>
+    <a class="no-external-icon" href="https://dol.gov/veterans/findajob/" target="_blank" rel="noopener"><span><b>Find a Job (Department of Labor)</b><i class="external-link-icon-black"></i></span><p class="va-nav-linkslist-description">Search for jobs, get help translating your military skills and experience to civilian jobs, and access other career resources.</p></a>
 
   </div>
 
   <div class="link">
-    <a class="no-external-icon" href="https://www.va.gov/jobs/?utm_source=jobs_button&utm_campaign=ChooseVA_Website_Buttons"><span><b>Find VA Careers and Support</b><i class="external-link-icon-black"></i><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Get support for starting or advancing your career at VA or other federal government departments.</p></a>
+    <a class="no-external-icon" href="https://www.va.gov/jobs/?utm_source=jobs_button&utm_campaign=ChooseVA_Website_Buttons"><span><b>Find VA Careers and Support</b><i class="external-link-icon-black"></i></span><p class="va-nav-linkslist-description">Get support for starting or advancing your career at VA or other federal government departments.</p></a>
 
   </div>
 
@@ -187,7 +187,7 @@ We can support you in all stages of your job search—from returning to work wit
   </div>
 
   <div class="link">
-    <a class="no-external-icon" href="https://linkedinforgood.linkedin.com/programs/veterans" target="_blank" rel="noopener"><span><b>Get Free Classes for a Year (LinkedIn)</b><i class="external-link-icon-black"></i><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Get 1 year of free access to LinkedIn Premium and LinkedIn Learning.</p></a>
+    <a class="no-external-icon" href="https://linkedinforgood.linkedin.com/programs/veterans" target="_blank" rel="noopener"><span><b>Get Free Classes for a Year (LinkedIn)</b><i class="external-link-icon-black"></i></span><p class="va-nav-linkslist-description">Get 1 year of free access to LinkedIn Premium and LinkedIn Learning.</p></a>
 
   </div>
 

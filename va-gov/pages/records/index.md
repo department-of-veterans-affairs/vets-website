@@ -98,7 +98,7 @@ Access your VA records and documents online to manage your health and benefits.
   </div>
 
   <div class="link">
-    <a href="https://www.archives.gov/" class="no-external-icon" target="_blank"><span><b>Search Historical Military Records (National Archives)</b><i class="external-link-icon-black"></i><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Visit the National Archives website to research military records from the Revolutionary War to the present.</p></a>
+    <a href="https://www.archives.gov/" class="no-external-icon" target="_blank"><span><b>Search Historical Military Records (National Archives)</b><i class="external-link-icon-black"></i></span><p class="va-nav-linkslist-description">Visit the National Archives website to research military records from the Revolutionary War to the present.</p></a>
 
   </div>
 

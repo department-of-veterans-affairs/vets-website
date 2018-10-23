@@ -199,7 +199,7 @@ Chat online with a trained VA staff member
   </div>
 
  <div class="link">
-    <a class="no-external-icon" href="https://www.pay.gov/public/form/start/25987221" target="blank"><span><b>Make a VA Health Care Payment Online</b><i class="external-link-icon-black"></i><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Pay your VA copay securely online through Pay.gov.</p></a>
+    <a class="no-external-icon" href="https://www.pay.gov/public/form/start/25987221" target="blank"><span><b>Make a VA Health Care Payment Online</b><i class="external-link-icon-black"></i></span><p class="va-nav-linkslist-description">Pay your VA copay securely online through Pay.gov.</p></a>
 
   </div>
 
@@ -209,7 +209,7 @@ Chat online with a trained VA staff member
   </div>
 
 <div class="link">
-    <a class="no-external-icon" href="https://www.va.gov/HEALTHBENEFITS/vtp/Beneficiary_Travel.asp"><span><b>Get VA Travel Pay (Reimbursement)</b><i class="external-link-icon-black"></i><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out how to apply for reimbursement for your travel to a VA health facility.</p></a>
+    <a class="no-external-icon" href="https://www.va.gov/HEALTHBENEFITS/vtp/Beneficiary_Travel.asp"><span><b>Get VA Travel Pay (Reimbursement)</b><i class="external-link-icon-black"></i></span><p class="va-nav-linkslist-description">Find out how to apply for reimbursement for your travel to a VA health facility.</p></a>
 
   </div>
 
@@ -224,7 +224,7 @@ Chat online with a trained VA staff member
   <h2>More Information and Resources</h2>
 
   <div class="link">
-    <a class="no-external-icon" href="https://www.va.gov/healthbenefits/cost/index.asp"><span><b>VA Health Care Costs</b><i class="external-link-icon-black"></i><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Learn about your copay, financial assessment, and how VA health care works with private health insurance.</p></a>
+    <a class="no-external-icon" href="https://www.va.gov/healthbenefits/cost/index.asp"><span><b>VA Health Care Costs</b><i class="external-link-icon-black"></i></span><p class="va-nav-linkslist-description">Learn about your copay, financial assessment, and how VA health care works with private health insurance.</p></a>
 
   </div>
 
@@ -244,7 +244,7 @@ Chat online with a trained VA staff member
   </div>
 
   <div class="link">
-    <a class="no-external-icon" href="https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp"><span><b>The Veterans Choice Program</b><i class="external-link-icon-black"></i><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">If you're enrolled in VA health care, find out if you can receive care from a local community provider through the Veterans Choice Program.</p></a>
+    <a class="no-external-icon" href="https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp"><span><b>The Veterans Choice Program</b><i class="external-link-icon-black"></i></span><p class="va-nav-linkslist-description">If you're enrolled in VA health care, find out if you can receive care from a local community provider through the Veterans Choice Program.</p></a>
 
   </div>
 
@@ -264,7 +264,7 @@ Chat online with a trained VA staff member
   </div>
 
   <div class="link">
-    <a class="no-external-icon" href="https://www.va.gov/health/rights/patientrights.asp"><span><b>Patient Rights and Responsibilities</b><i class="external-link-icon-black"></i><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Read about your basic rights and responsibilities when you receive care at a VA health facility or live in a VA community living center.</p></a>
+    <a class="no-external-icon" href="https://www.va.gov/health/rights/patientrights.asp"><span><b>Patient Rights and Responsibilities</b><i class="external-link-icon-black"></i></span><p class="va-nav-linkslist-description">Read about your basic rights and responsibilities when you receive care at a VA health facility or live in a VA community living center.</p></a>
 
   </div>
 
