@@ -18,6 +18,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'protocol', type: String, defaultValue: 'http' },
   { name: 'public', type: String, defaultValue: null },
   { name: 'destination', type: String, defaultValue: null },
+  { name: 'content-directory', type: String, defaultValue: '../../vagov-content' },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -106,7 +107,7 @@ function applyBrandConsolidationOverrides(options) {
 
   Object.assign(options, {
     contentRoot: '../va-gov',
-    contentPagesRoot: '../../vagov-content',
+    contentPagesRoot: options['content-directory'],
     collections: require('./collections/brand-consolidation.json'),
     redirects: require('./vagovRedirects.json'),
     domainReplacements,
