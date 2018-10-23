@@ -136,7 +136,8 @@ This is the fastest way to get your claim processed. You'll work with an accredi
 
 Call our toll-free hotline at <a href="tel:+18008271000">1-800-827-1000</a>. <br>
 
-[Watch a video and download fact sheets](https://www.benefits.va.gov/compensation/drc.asp).
+[Get more DRC information](https://www.vets.gov/disability-benefits/apply/evidence/decision-ready-claims/).
+
 
 Or contact your local VSO.<br>
 [Find a VSO](https://www.ebenefits.va.gov/ebenefits/vso-search).<br>
