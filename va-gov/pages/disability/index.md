@@ -20,16 +20,16 @@ crosslinks:
     - url: /housing-assistance/disability-housing-grants/
       title: <b>Disability Housing Grants for Veterans</b>
       description: Find out how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.
-    - url:  https://www.benefits.va.gov/fiduciary/index.asp
+    - url: https://www.benefits.va.gov/fiduciary/index.asp
       title: <b>Fiduciary Services</b>
       description: Learn how to become a VA fiduciary to handle the financial affairs of a Veteran in need.
-    - url: "/health-care/about-va-health-benefits/long-term-care/"
+    - url: /health-care/about-va-health-benefits/long-term-care/
       title: <b>VA Nursing Homes, Assisted Living, and Home Health Care</b>
       description: Explore long-term care options for Veterans and their caregivers.
-    - url:  /careers-employment/vocational-rehabilitation/
+    - url: /careers-employment/vocational-rehabilitation/
       title: <b>Vocational Rehabilitation and Employment</b>
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
-    - url:  "/pension/aid-attendance-housebound/"
+    - url: /pension/aid-attendance-housebound/
       title: <b>Aid and Attendance Benefits and Housebound Allowance</b>
       description: See if you're eligible for extra monthly pension payments if you need more aid than you're currently receiving.
 social:
@@ -41,7 +41,7 @@ social:
         - url: tel:1-800-983-0937
           number: 1-800-983-0937
           title: "eBenefits Technical Support:"
-        - url: tel:18446982311
+        - url: tel:1-844-698-2311
           number: 1-844-698-2311
           title: "Call MYVA311 for Help:"   
   - heading: Connect with the Veterans Benefits Administration
@@ -60,11 +60,11 @@ social:
           label: Veterans Benefits Twitter
           external: true
           icon: fa-twitter
-        - url: "https://www.facebook.com/VeteransBenefits"
+        - url: https://www.facebook.com/VeteransBenefits
           label: Veterans Benefits Facebook
           external: true
           icon: fa-facebook
-        - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+        - url: https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg
           label: Veterans Benefits YouTube
           external: true
           icon: fa-youtube
