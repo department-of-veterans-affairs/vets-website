@@ -140,7 +140,8 @@ Get help from an accredited representative (a trained professional trusted to he
 
 ## What happens after I apply?
 
-[Find out what happens after you apply for a pre-need eligibility determination](/burials-memorials/pre-need-eligibility/after-you-apply/).</br>
+[Find out what happens after you apply for a pre-need eligibility determination](/burials-memorials/pre-need-eligibility/after-you-apply/).
+
 **Note:** We’ve received a large number of pre-need eligibility applications, and it’s slowing down our approval process. We’ll let you know when we’ve received your application and how long we think it’ll take to make a decision. We’re sorry for the delay.
 
 For more information, you can call 1-877-222-VETS (<a href="tel:+18772228387">1-877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>). Please wait to hear back about your application rather than applying again.
