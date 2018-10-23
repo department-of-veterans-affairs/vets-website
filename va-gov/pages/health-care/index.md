@@ -32,29 +32,37 @@ crosslinks:
       title: <b>Education and Training</b>
       description: Apply for and manage GI Bill and other education benefits to help pay for college and training programs.
 social:
-  - heading: Connect with Us
-    admin: Veterans Health Administration
-    url: https://www.va.gov/health/
+  - heading: Ask Questions
     subsections:
-      - subhead: Ask Questions
+      - subhead: Message Us
         links:
         - url: https://iris.custhelp.va.gov/app/ask
           label: "Ask a Question Online"
+      - subhead: Call Us             
+        links:
         - url: tel:1-877-222-VETS(8387)
           number: 1-877-222-VETS(8387)
           title: "Health Benefits Hotline:"
         - url: tel:1-877-327-0022
           number: 1-877-327-0022
           title: "My HealtheVet Help Desk:"
-        - url: tel:18774243838
-          number: 1-877-4AID-VET (1-877-424-3838)
-          title: "National Call Center for Homeless Veterans:"
+        - url: tel:1-844-698-2311
+          number: 1-844-698-2311
+          title: "Call MyVA311 for help:"
+        - url:
+          title: "If you have hearing loss, call TTY: 711."
+  - heading: Connect with the Veterans Health Administration 
+    admin: Visit our website
+    url: https://www.va.gov/health/
+    subsections:
       - subhead: Get Updates
         links:
         - url: https://public.govdelivery.com/accounts/USVHA/subscribers/qualify?category_id=USVHA_C4&email=dwdw%40gmail.com&commit.x=36&commit.y=11
           label: Veterans Health Email Updates
           external: true
           icon: fa-envelope-square
+      - subhead: Follow Us
+        links:
         - url: "https://www.facebook.com/VeteransHealth"
           label: Veterans Health Facebook
           external: true
