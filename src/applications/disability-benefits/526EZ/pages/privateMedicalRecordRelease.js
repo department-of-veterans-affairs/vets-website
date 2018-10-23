@@ -1,4 +1,5 @@
 import _ from '../../../../platform/utilities/data';
+import { merge } from 'lodash';
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import { uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
@@ -45,9 +46,6 @@ export const uiSchema = {
         items: {
           providerFacilityName: {
             'ui:title': 'Name of private provider or hospital',
-            'ui:errorMessages': {
-              pattern: 'Provider name must be less than 100 characters.',
-            },
           },
           'ui:validations': [validateDate],
           treatmentDateRange: dateRangeUI(
@@ -55,7 +53,7 @@ export const uiSchema = {
             'Approximate date of last treatment',
             'End of treatment must be after start of treatment',
           ),
-          providerFacilityAddress: Object.assign(addressUI('', false), {
+          providerFacilityAddress: merge(addressUI('', false), {
             street2: {
               'ui:title': 'Street 2',
             },
