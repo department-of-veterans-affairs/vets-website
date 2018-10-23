@@ -113,7 +113,7 @@ Bring your application to a regional benefit office near you. <br>
 ##### With the help of a trained professional
 
 You can work with a trained professional called an accredited representative to get help filing a claim for disability compensation. <br>
-[Get help filing your claim](/disability-benefits/apply/help/index.html).
+[Get help filing your claim](/disability/get-help-filing-claim/).	[Get help filing your claim](/disability-benefits/apply/help/index.html).
 
 </div>
 </div>
