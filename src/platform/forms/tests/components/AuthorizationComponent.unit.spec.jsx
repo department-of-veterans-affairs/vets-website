@@ -7,7 +7,7 @@ import { AuthorizationComponent } from '../../components/AuthorizationComponent'
 describe('686 <AuthorizationComponent>', () => {
   const authorize = () => true;
   const formConfig = {
-    authorizationMessage: <div>message</div>,
+    authorizationMessage: <div>authorization message</div>,
   };
   it('should render loading indicator', () => {
     const tree = shallow(
