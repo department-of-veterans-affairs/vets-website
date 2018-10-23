@@ -11,28 +11,6 @@ h1, h3, h4 {
   display: inline-block;
 }
 
-.hub-main-icon {
-  display: inline-block;
-  font-size: 20px;
-  vertical-align: bottom;
-  margin-right: 10px;
-}
-
-.icon-large {
-  height: 40px;
-  width: 40px;
-}
-
-.icon-large-baseline {
-  height: 40px;
-  width: 40px;
-}
-
-.icon-small {
-  height: 32px;
-  width: 32px;
-}
-
 @mixin make-hub($hub-name,
   $icon,
   $color,
@@ -163,3 +141,20 @@ h1, h3, h4 {
   $top-large: 10.25px,
   $left-large: 9.5px
 );
+
+.icon-large {
+  font-size: 20px;
+  height: 40px;
+  width: 40px;
+}
+
+.icon-large-baseline {
+  height: 40px;
+  width: 40px;
+}
+
+.icon-small {
+  height: 32px;
+  width: 32px;
+}
+
