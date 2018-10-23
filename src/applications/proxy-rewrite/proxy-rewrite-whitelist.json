@@ -6,6 +6,11 @@
         "cookieOnly": false
     },
     {
+        "hostname": "localhost",
+        "pathnameBeginning": "/health/",
+        "cookieOnly": false
+    },
+    {
         "hostname": "staging.va.gov",
         "pathnameBeginning": "/health/",
         "cookieOnly": false

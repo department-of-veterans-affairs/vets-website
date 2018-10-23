@@ -17,8 +17,8 @@
 }
 
 .usa-grid {
-  width: $teamsite-width;
   @media (min-width: $medium-screen) {
+    width: $teamsite-width;
     padding-left: 1px;
     padding-right: 1px;
   }
