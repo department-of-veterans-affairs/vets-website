@@ -52,13 +52,13 @@ social:
     admin: National Cemetery Administration
     url: https://www.cem.va.gov/
     subsections:
-    - subhead: Get Updates
+      - subhead: Get Updates
         links:
         - url: https://public.govdelivery.com/accounts/USVANCA/subscribers/qualify
           label: National Cemeteries Email Updates
           external: true
           icon: fa-envelope-square
-    - subhead: Follow Us
+      - subhead: Follow Us
         links:
         - url: https://twitter.com/VANatCemeteries
           label: National Cemeteries Twitter
