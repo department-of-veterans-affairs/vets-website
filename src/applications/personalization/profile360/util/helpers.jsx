@@ -1,5 +1,3 @@
-import Raven from 'raven-js';
-
 export const formBenefits = {
   '21-526EZ': 'increased disability compensation',
   '21P-527EZ': 'Veterans pension benefits',
@@ -84,38 +82,3 @@ export const trackingPrefixes = {
   VIC: 'veteran-id-card-',
   '21-686C': '686-',
 };
-
-export const sipEnabledForms = new Set([
-  '1010ez',
-  '21-686C',
-  '21-526EZ',
-  '21P-527EZ',
-  '21P-530',
-  '22-0993',
-  '22-1990',
-  '22-1990E',
-  '22-1990N',
-  '22-1995',
-  '22-5490',
-  '22-5495',
-  '40-10007',
-  'VIC',
-  'complaint-tool',
-  'FEEDBACK-TOOL',
-]);
-
-export function isSIPEnabledForm(savedForm) {
-  const formNumber = savedForm.form;
-  if (!formTitles[formNumber] || !formLinks[formNumber]) {
-    Raven.captureMessage('vets_sip_list_item_missing_info');
-    return false;
-  }
-  if (!sipEnabledForms.has(formNumber)) {
-    throw new Error(
-      `Could not find form ${
-        trackingPrefixes[formNumber]
-      } in list of sipEnabledForms`,
-    );
-  }
-  return true;
-}
