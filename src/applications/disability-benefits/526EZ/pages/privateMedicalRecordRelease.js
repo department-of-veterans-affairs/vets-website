@@ -9,9 +9,9 @@ import {
   limitedConsentTitle,
   limitedConsentTextTitle,
   limitedConsentDescription,
-  validateZIP,
 } from '../helpers';
 
+import { validateZIP } from '../../all-claims/validations';
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 import { validateDate } from 'us-forms-system/lib/js/validation';
 
