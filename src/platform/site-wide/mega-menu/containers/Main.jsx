@@ -48,10 +48,13 @@ export class Main extends React.Component {
   };
 
   updateCurrentSection = currentSection => {
-    recordEvent({
-      event: 'nav-header-second-level',
-      'nav-header-action': `Navigation - Header - Open Second Level - ${currentSection}`,
-    });
+    if (currentSection) {
+      recordEvent({
+        event: 'nav-header-second-level',
+        'nav-header-action': `Navigation - Header - Open Second Level - ${currentSection}`,
+      });
+    }
+
     this.props.updateCurrentSection(currentSection);
   };
 
