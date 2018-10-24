@@ -56,7 +56,7 @@ social:
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
-      - subhead: Get Info and Updates
+      - subhead: Get Updates
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
           label: Veterans Benefits Email Updates
