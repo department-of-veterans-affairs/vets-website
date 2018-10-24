@@ -139,11 +139,13 @@ class SearchApp extends React.Component {
   }
 
   renderResultsCount() {
-    const { prevOffset, total } = this.props.search;
+    const { prevOffset, nextOffset, total } = this.props.search;
     let currentRange;
 
     if (prevOffset) {
       currentRange = `${prevOffset + 1}-${prevOffset + PAGE_SIZE}`;
+    } else if (nextOffset) {
+      currentRange = `${nextOffset - PAGE_SIZE + 1}-${nextOffset}`;
     } else {
       currentRange = `1-${PAGE_SIZE}`;
     }
