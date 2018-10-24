@@ -81,3 +81,13 @@ footer.footer {
     color: $color-white;
   }
 }
+
+.vet-toolbar .va-dropdown {
+  span, p {
+    font-family: "Source Sans Pro";
+    font-size: 16px;
+  }
+  p {
+    padding-bottom: 0;
+  }
+}
