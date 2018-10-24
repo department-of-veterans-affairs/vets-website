@@ -31,7 +31,7 @@ social:
       - subhead: Message Us
         links:
         - url: https://iris.custhelp.va.gov/app/ask
-          label: "Ask a Question Online"
+          label: "Ask a question online"
       - subhead: Call Us
         links:      
         - url: tel:1-800-535-1117
