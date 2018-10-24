@@ -57,7 +57,7 @@ social:
         - url: https://public.govdelivery.com/accounts/USVANCA/subscribers/qualify
           label: National Cemeteries Email Updates
           external: true
-          icon: fa-envelope-square
+          icon: fa-envelope
       - subhead: Follow Us
         links:
         - url: https://twitter.com/VANatCemeteries
