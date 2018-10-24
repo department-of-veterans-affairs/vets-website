@@ -36,7 +36,7 @@ social:
       - subhead: Message Us
         links:
         - url: https://gibill.custhelp.va.gov/app/home
-          label: "Ask a Question Online"
+          label: "Ask a question online"
       - subhead: Call Us
         links:
         - url: tel:1-888-GIBILL-1 (888-442-4551)
@@ -59,7 +59,7 @@ social:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
           label: Veterans Benefits Email Updates
           external: true
-          icon: fa-envelope-square        
+          icon: fa-envelope        
       - subhead: Follow Us
         links:      
         - url: https://twitter.com/VAVetBenefits
