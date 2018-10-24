@@ -9,6 +9,7 @@
 
 const fs = require('fs');
 const jsdom = require('jsdom');
+const path = require('path');
 const buckets = require('../constants/buckets');
 
 function linkAssetsToBucket(options, fileNames) {
@@ -17,9 +18,13 @@ function linkAssetsToBucket(options, fileNames) {
   // Heroku deployments (review instances) won't have a bucket.
   if (!bucketPath) return;
 
-  for (const fileName of fileNames) {
-    const file = fs.readFileSync(fileName);
-    const dom = new jsdom.JSDOM(file.toString());
+  const htmlFileNames = fileNames.filter(
+    file => path.extname(file) === '.html',
+  );
+
+  for (const htmlFileName of htmlFileNames) {
+    const htmlFile = fs.readFileSync(htmlFileName);
+    const dom = new jsdom.JSDOM(htmlFile.toString());
 
     const assetLinkElements = Array.from(
       dom.window.document.querySelectorAll('script, img, link'),
@@ -44,8 +49,21 @@ function linkAssetsToBucket(options, fileNames) {
 
     const newContents = new Buffer(dom.serialize());
 
-    fs.writeFileSync(fileName, newContents);
+    fs.writeFileSync(htmlFileName, newContents);
     dom.window.close();
+  }
+
+  const cssFileNames = fileNames.filter(file => path.extname(file) === '.css');
+  const cssUrlRegex = new RegExp(/url\(\//, 'g');
+  const cssUrlBucket = `url(${bucketPath}/`;
+
+  for (const cssFileName of cssFileNames) {
+    const cssFile = fs.readFileSync(cssFileName);
+    const css = cssFile.toString();
+
+    const newCss = css.replace(cssUrlRegex, cssUrlBucket);
+
+    fs.writeFileSync(cssFileName, newCss);
   }
 }
 

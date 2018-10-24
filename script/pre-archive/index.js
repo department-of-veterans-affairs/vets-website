@@ -25,7 +25,7 @@ function getFiles(directory, fileList = []) {
 
     if (fileStatus.isDirectory()) {
       getFiles(filePath, fileList);
-    } else if (path.extname(file) === '.html') {
+    } else {
       fileList.push(filePath);
     }
   }
