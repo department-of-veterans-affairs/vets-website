@@ -1,4 +1,5 @@
 import _ from '../../../../platform/utilities/data';
+import merge from 'lodash/merge';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
@@ -78,7 +79,7 @@ import { FIFTY_MB } from '../../all-claims/constants';
 import { treatmentView } from '../../all-claims/content/vaMedicalRecords';
 import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
 import { additionalDocumentDescription } from '../../all-claims/content/additionalDocuments';
-import { requireOneSelected } from '../validations';
+import { requireOneSelected, isInPast } from '../validations';
 
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
@@ -185,10 +186,17 @@ const formConfig = {
                 serviceBranch: {
                   'ui:title': 'Branch of service',
                 },
-                dateRange: dateRangeUI(
-                  'Service start date',
-                  'Service end date',
-                  'End of service must be after start of service',
+                dateRange: merge(
+                  dateRangeUI(
+                    'Service start date',
+                    'Service end date',
+                    'End of service must be after start of service',
+                  ),
+                  {
+                    to: {
+                      'ui:validations': [isInPast],
+                    },
+                  },
                 ),
               },
             },
