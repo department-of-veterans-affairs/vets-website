@@ -1,6 +1,11 @@
 {
     "proxyRewriteWhitelist": [
     {
+        "hostname": "prebenefits.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": true
+    },
+    {
         "hostname": "vaww.w2k8.internet.staging.va.gov",
         "pathnameBeginning": "/",
         "cookieOnly": true
