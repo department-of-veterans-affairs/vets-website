@@ -18,7 +18,7 @@ social:
       - subhead: Message Us
         links:
         - url: https://iris.custhelp.va.gov/app/ask
-          label: "Ask a Question Online"
+          label: "Ask a question online"
       - subhead: Call Us
         links:
         - url: tel:1-800-827-1000
@@ -30,9 +30,13 @@ social:
         - url: tel:1-800-983-0937
           number: 1-800-983-0937
           title: "eBenefits Technical Support:"
-        - subhead: Message Us
+        - url: tel:1-844-698-2311
+          number: 1-844-698-2311
+          title: "Call MyVA311 for help:"
+        - url:
+          title: "If you have hearing loss, call TTY: 711."       
   - heading: Connect with Us
-    admin: Learn more about our organizations
+    admin: All VA Organizations
     url: https://va.gov/landing_organizations.htm
     subsections:
       - subhead: Get Updates
