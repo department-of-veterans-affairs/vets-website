@@ -1,7 +1,8 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Pension Management Centers
+title: Find Your VA Pension Management Center
+display_title: Pension Management Centers
 concurrence: ""
 order: 5
 spoke: More Resources
