@@ -13,7 +13,7 @@ describe('Prisoner of war info', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranDetails.pages.prisonerOfWar;
+  } = formConfig.chapters.disabilities.pages.prisonerOfWar;
 
   it('should render', () => {
     const form = mount(
