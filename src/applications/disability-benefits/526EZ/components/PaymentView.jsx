@@ -42,7 +42,7 @@ const PaymentView = response => {
             </strong>
             <br />
             You can still complete this form, but we’ll need your payment
-            information in order to pay you compensation.
+            information before we can pay you any compensation.
           </p>
           <p>
             <strong>You can update your payment information a few ways:</strong>
