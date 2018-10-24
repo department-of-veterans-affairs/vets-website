@@ -6,7 +6,7 @@
         "cookieOnly": true
     },
     {
-        "hostname": "vaww.w2k8.internet.staging.va.gov",
+        "hostname": "vaww.w2k8.testing.internet.webops.va.gov/",
         "pathnameBeginning": "/",
         "cookieOnly": true
     },
