@@ -1,7 +1,6 @@
 import merge from 'lodash/fp/merge';
 
 import environment from '../../utilities/environment';
-import conditionalStorage from '../../utilities/storage/conditionalStorage';
 
 function isJson(response) {
   const contentType = response.headers.get('content-type');
@@ -20,9 +19,7 @@ export function savedFormRequest(
 
   const defaultSettings = {
     method: 'GET',
-    headers: {
-      Authorization: `Token token=${conditionalStorage().getItem('userToken')}`,
-    },
+    credentials: 'include',
   };
 
   const settings = merge(defaultSettings, optionalSettings);

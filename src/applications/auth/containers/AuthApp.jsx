@@ -16,17 +16,10 @@ export class AuthApp extends React.Component {
     super(props);
     const { auth, token } = props.location.query;
     this.state = { error: auth === 'fail' || !token };
-    this.authSettings = {
-      headers: {
-        Authorization: `Token token=${token}`,
-      },
-    };
   }
 
   componentDidMount() {
-    if (!this.state.error) {
-      this.validateToken();
-    }
+    if (!this.state.error) this.validateToken();
   }
 
   setToken = () => {
@@ -49,9 +42,8 @@ export class AuthApp extends React.Component {
     parent.postMessage(token, environment.BASE_URL);
 
     // This will trigger a browser reload if the user is using IE or Edge.
-    if (isIE || isEdge) {
-      window.opener.location.reload();
-    }
+    if (isIE || isEdge) parent.location.reload();
+
     window.close();
   };
 
@@ -67,14 +59,9 @@ export class AuthApp extends React.Component {
     this.setToken();
   };
 
-  // Fetch the user to get the login policy and validate the token against the API.
+  // Fetch the user to get the login policy and validate the session.
   validateToken = () => {
-    apiRequest(
-      '/user',
-      this.authSettings,
-      this.handleAuthSuccess,
-      this.handleAuthError,
-    );
+    apiRequest('/user', null, this.handleAuthSuccess, this.handleAuthError);
   };
 
   renderError = () => {

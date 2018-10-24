@@ -1,18 +1,15 @@
 import Raven from 'raven-js';
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
-import conditionalStorage from '../../utilities/storage/conditionalStorage';
 import { sanitizeForm } from '../helpers';
 
 export function removeFormApi(formId) {
-  const userToken = conditionalStorage().getItem('userToken');
-
   return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
     method: 'DELETE',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       'X-Key-Inflection': 'camel',
-      Authorization: `Token token=${userToken}`,
     },
   })
     .then(res => {
@@ -52,21 +49,12 @@ export function saveFormApi(
     formData,
   });
 
-  const userToken = conditionalStorage().getItem('userToken');
-  if (!userToken) {
-    Raven.captureMessage('vets_sip_missing_token');
-    recordEvent({
-      event: `${trackingPrefix}sip-form-save-failed`,
-    });
-    return Promise.reject(new Error('Missing token'));
-  }
-
   return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
     method: 'PUT',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       'X-Key-Inflection': 'camel',
-      Authorization: `Token token=${userToken}`,
     },
     body,
   })

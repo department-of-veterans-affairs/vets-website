@@ -1,6 +1,5 @@
 import { removeFormApi } from '../../../forms/save-in-progress/api';
 import environment from '../../../utilities/environment';
-import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 import { updateLoggedInStatus } from '../../authentication/actions';
 import { setupProfileSession, teardownProfileSession } from '../utilities';
 
@@ -34,11 +33,7 @@ export function refreshProfile(forceCacheClear = false) {
 
     const response = await fetch(url, {
       method: 'GET',
-      headers: new Headers({
-        Authorization: `Token token=${conditionalStorage().getItem(
-          'userToken',
-        )}`,
-      }),
+      credentials: 'include',
     });
 
     if (!response.ok) {
