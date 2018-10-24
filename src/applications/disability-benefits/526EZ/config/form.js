@@ -49,9 +49,6 @@ import {
   authorizationToDisclose,
   evidenceSummaryView,
   GetFormHelp,
-  FDCDescription,
-  FDCWarning,
-  noFDCWarning,
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
@@ -73,6 +70,12 @@ import {
   privateRecordsChoiceHelp,
   documentDescription,
 } from '../../all-claims/content/privateMedicalRecords';
+
+import {
+  FDCDescription,
+  FDCWarning,
+  noFDCWarning,
+} from '../../all-claims/content/fullyDevelopedClaim';
 
 import { FIFTY_MB } from '../../all-claims/constants';
 
