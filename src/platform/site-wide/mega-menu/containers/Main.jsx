@@ -16,11 +16,14 @@ import MegaMenu from '@department-of-veterans-affairs/formation/MegaMenu';
 
 export function flagCurrentPageInTopLevelLinks(
   links = [],
+  href = window.location.href,
   pathName = window.location.pathname,
 ) {
   return links.map(
     link =>
-      pathName.endsWith(link.href) ? { ...link, currentPage: true } : link,
+      pathName.endsWith(link.href) || href === link.href
+        ? { ...link, currentPage: true }
+        : link,
   );
 }
 
