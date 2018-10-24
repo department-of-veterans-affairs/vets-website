@@ -43,7 +43,7 @@ social:
           title: "All Other VA Life Insurance Programs:"
         - url: tel:1-844-698-2311
           number: 1-844-698-2311
-          title: "Call MyVA311 for help:"
+          title: "Call MyVA311 for Help:"
         - url:
           title: "If you have hearing loss, call TTY: 711."
   - heading: Connect with Us 
