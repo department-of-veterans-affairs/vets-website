@@ -61,7 +61,7 @@ social:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
           label: Veterans Benefits Email Updates
           external: true
-          icon: fa-envelope-o        
+          icon: fa-envelope        
       - subhead: Follow Us
         links:      
         - url: https://twitter.com/VAVetBenefits
