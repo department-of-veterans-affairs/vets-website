@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: How to Apply for a Survivors Pension
+title: VA Survivors Pension
 display_title: Survivors Pension
 concurrence: ""
 children: pensionSurvivors
