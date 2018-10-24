@@ -42,7 +42,7 @@ export default class Footer extends React.Component {
             <a href="/" className="va-footer-logo" title="Go to VA.gov">
               <img
                 src={replaceWithStagingDomain(
-                  'http://www.va.gov/img/homepage/va-logo-white.png',
+                  'https://www.va.gov/img/homepage/va-logo-white.png',
                 )}
                 alt="VA logo"
               />
