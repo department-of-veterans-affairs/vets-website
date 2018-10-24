@@ -832,10 +832,15 @@
 
   .sign-in-link {
     margin: 0;
+
     @include media($medium-large-screen) {
       &:hover, &:active {
-        background-color: $color-primary;
+        background-color: $color-primary-darker;
         color: inherit !important;
+        text-decoration: none;
+      }
+      &:focus {
+        outline-offset: 2px;
       }
     }
     // This is backwards from the mobile first approach we should be taking
