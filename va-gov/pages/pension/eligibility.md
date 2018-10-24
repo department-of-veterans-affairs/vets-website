@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Pension Benefits Eligibility
+title: Veterans Pension Eligibility
 display_title: Eligibility
 concurrence:
 order: 1
