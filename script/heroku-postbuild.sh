@@ -8,7 +8,7 @@ echo Installing vagov_content into ${vagov_content_dir}
 git clone --depth=1 https://github.com/department-of-veterans-affairs/vagov-content ${vagov_content_dir}
 
 # cd back to the apps
-cd vagov_apps_dir
+cd ${vagov_apps_dir}
 
 # build the site as usual
 npm run build --  --entry static-pages
