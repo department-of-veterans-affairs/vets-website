@@ -42,12 +42,11 @@ Find out how to file a claim for disability compensation.
 
 ### How do I prepare before starting my application?
 
-- [Find out if you're eligible for VA disability compensation](/disability-benefits/eligibility/). [Find out if you're eligible for VA disability benefits](/disability/eligibility/).
+- [Find out if you're eligible for VA disability compensation](/disability/eligibility/).
 - Gather the supporting documents listed below that you’ll need to file a disability claim.
 - Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. <br>
 [Learn more about fully developed claims](/disability/how-to-file-claim/evidence-needed/).
-
-[Find out if you’ll need to turn in any additional (supplemental) forms with your claim](/disability/how-to-file-claim/supplemental-forms/).
+- [Find out if you’ll need to turn in any additional (supplemental) forms with your claim](/disability/how-to-file-claim/supplemental-forms/).
 
 
 <div class="feature" markdown="1" itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
@@ -113,7 +112,7 @@ Bring your application to a regional benefit office near you. <br>
 ##### With the help of a trained professional
 
 You can work with a trained professional called an accredited representative to get help filing a claim for disability compensation. <br>
-[Get help filing your claim](/disability/get-help-filing-claim/).	[Get help filing your claim](/disability-benefits/apply/help/index.html).
+[Get help filing your claim](/disability/get-help-filing-claim/).
 
 </div>
 </div>
