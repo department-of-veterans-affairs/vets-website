@@ -9,7 +9,7 @@
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype production --analyzer; npm run analyze",
     "prebuild": "node script/prebuild.js",
     "heroku-serve": "http-server",
-    "heroku-postbuild": "./script/heroku-postbuild.sh",
+    "heroku-postbuild": "sh script/heroku-postbuild.sh",
     "lint": "npm run lint:js && npm run lint:sass",
     "lint:changed": "npm run lint:js:changed && npm run lint:sass",
     "lint:js": "eslint --quiet --ext .js --ext .jsx .",
