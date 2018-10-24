@@ -22,7 +22,12 @@ class FormStartControls extends React.Component {
     this.props.router.push(this.props.startPage);
   };
 
+  captureAnalytics = () =>
+    this.props.gaStartEventName &&
+    window.dataLayer.push({ event: this.props.gaStartEventName });
+
   handleLoadPrefill = () => {
+    this.captureAnalytics();
     if (this.props.prefillAvailable) {
       this.props.fetchInProgressForm(
         this.props.formId,
@@ -45,6 +50,7 @@ class FormStartControls extends React.Component {
   };
 
   startOver = () => {
+    this.captureAnalytics();
     this.toggleModal();
     this.props.removeInProgressForm(
       this.props.formId,
@@ -125,6 +131,7 @@ FormStartControls.propTypes = {
   startPage: PropTypes.string.isRequired,
   startText: PropTypes.string,
   resumeOnly: PropTypes.bool,
+  gaStartEventName: PropTypes.string,
 };
 
 export default withRouter(FormStartControls);

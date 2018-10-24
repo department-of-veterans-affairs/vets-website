@@ -22,6 +22,9 @@ class HelpMenu extends React.Component {
             <a href={`${FACILITY_LOCATOR_URL}`}>Find a VA Location</a>
           </p>
           <p>
+            <a href="https://iris.custhelp.va.gov/app/ask">Ask a Question</a>
+          </p>
+          <p>
             <b>Call MyVA311:</b>
           </p>
           <p>
