@@ -60,7 +60,7 @@ social:
         - url: https://public.govdelivery.com/accounts/USVHA/subscribers/qualify?category_id=USVHA_C4&email=dwdw%40gmail.com&commit.x=36&commit.y=11
           label: Veterans Health Email Updates
           external: true
-          icon: fa-envelope-square
+          icon: fa-envelope-o
       - subhead: Follow Us
         links:
         - url: "https://www.facebook.com/VeteransHealth"
