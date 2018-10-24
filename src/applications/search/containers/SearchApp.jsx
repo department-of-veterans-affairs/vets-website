@@ -187,22 +187,34 @@ class SearchApp extends React.Component {
             <h4 className="highlight">More VA Search Tools</h4>
             <ul>
               <li>
-                <a href="https://www.index.va.gov/search/va/bva.jsp">
+                <a
+                  href="https://www.index.va.gov/search/va/bva.jsp"
+                  onClick="recordEvent({'event': 'nav-searchresults', 'nav-path': 'More VA Search Tools -> Look up BVA decisions'})"
+                >
                   Look up Board of Veterans' Appeals (BVA) decisions
                 </a>
               </li>
               <li>
-                <a href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.benefits.va.gov/warms">
+                <a
+                  href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.benefits.va.gov/warms"
+                  onClick="recordEvent({'event': 'nav-searchresults', 'nav-path': 'More VA Search Tools -> Search VA reference materials'})"
+                >
                   Search VA reference materials (WARMS)
                 </a>
               </li>
               <li>
-                <a href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.va.gov/vaforms,www.va.gov/vapubs,www.va.gov/vhapublications,www.vba.va.gov/pubs/forms">
+                <a
+                  href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.va.gov/vaforms,www.va.gov/vapubs,www.va.gov/vhapublications,www.vba.va.gov/pubs/forms"
+                  onClick="recordEvent({'event': 'nav-searchresults', 'nav-path': 'More VA Search Tools -> Find VA forms and publications'})"
+                >
                   Find VA forms and publications
                 </a>
               </li>
               <li>
-                <a href="https://www.vacareers.va.gov/job-search/index.asp">
+                <a
+                  href="https://www.vacareers.va.gov/job-search/index.asp"
+                  onClick="recordEvent({'event': 'nav-searchresults', 'nav-path': 'More VA Search Tools -> Explore and apply for open VA jobs'})"
+                >
                   Explore and apply for open VA jobs
                 </a>
               </li>
