@@ -903,7 +903,10 @@ img[data-srcset] {
 }
 .va-nav-linkslist-list, .merger-majorlinks {
   a {
-    &:hover {
+    &:hover, &:focus {
+      span {
+        text-decoration: underline;
+      }
       .all-link-arrow {
         margin-left: 10px;
         content: url("/img/arrow-right.svg");
