@@ -32,7 +32,7 @@ social:
       - subhead: Message Us
         links:
         - url: https://iris.custhelp.va.gov/app/ask
-          label: "Ask a Question Online"    
+          label: "Ask a question online"    
       - subhead: Call Us
         links:
         - url: tel:1-800-419-1473
@@ -46,8 +46,8 @@ social:
           title: "Call MyVA311 for help:"
         - url:
           title: "If you have hearing loss, call TTY: 711."
-  - heading: Connect with the Veterans Benefits Administration
-    admin: Visit our website
+  - heading: Connect with Us 
+    admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
       - subhead: Get Updates
@@ -55,7 +55,7 @@ social:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
           label: Veterans Benefits Email Updates
           external: true
-          icon: fa-envelope-square        
+          icon: fa-envelope        
       - subhead: Follow Us
         links:      
         - url: https://twitter.com/VAVetBenefits
