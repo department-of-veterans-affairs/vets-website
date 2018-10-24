@@ -156,10 +156,6 @@ class SearchApp extends React.Component {
   }
 
   render() {
-    if (!this.state.userInput) {
-      return null;
-    }
-
     return (
       <div className="search-app">
         <div className="row">

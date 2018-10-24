@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: What to Expect at a Memorial Service
+title: What to Expect at a Military Funeral
 template: detail-page
 collection: burials
 order: 8
@@ -11,20 +11,33 @@ spoke: More Resources
 
 <div class="va-introtext">
 
-We carry out memorial services at national cemeteries with dignity and respect. Find out what happens at a memorial service.
+We carry out memorial services at national cemeteries with dignity and respect. Find out what happens at a military funeral for a Veteran or Servicemember.
 
 </div>
 
-### What happens during the ceremony?
+## What happens during a military funeral for a Veteran or Servicemember?
 
-The ceremony, including any readings or military honors, takes place at a special area called a committal shelter (not at the gravesite). The family chooses someone to perform this short ceremony. A cemetery official is there to show guests and family members where they should go.
+There may be a brief ceremony, including any readings or military honors, led by someone of the family's choice. This ceremony will take place at a special area called a committal shelter (not at the gravesite). A cemetery official will be there to help guide guests and family members.
 
-The family may choose to have military funeral honors. This may include the playing of “Taps,” a rifle detail, a color guard, or uniformed Servicemembers who present the burial flag.
+The family may also choose to have military funeral honors performed during the ceremony. 
 
-People attending the ceremony may:
+**Military funeral honors include:**
+- The playing of “Taps”
+- A rifle detail
+- A color guard
+- Uniformed Servicemembers who present the burial flag
+
+**Note:** If you requested a headstone, marker, or medallion, we’ll arrange for it to be delivered within 60 days. <br>
+[Learn about Veterans headstones, markers, and medallions](/burials-memorials/memorial-items/headstones-markers-medallions/).
+
+## What else should I know about military funeral etiquette?
+
+**People attending a military funeral may:**
 - Bring flowers, which may go with the casket or urn when it’s taken from the committal shelter to the gravesite, **and**
 - Visit the gravesite at the end of the workday, but not immediately following the ceremony
 
-Funerals at Arlington National Cemetery are different. [Learn about Arlington National Cemetery funerals](http://www.arlingtoncemetery.mil/Funerals/About-Funerals).
+## What happens at a military funeral at Arlington National Cemetery?
 
-**Note:** If you requested a headstone, marker, or medallion, we’ll arrange for it to be delivered within 60 days. [Learn about headstones, markers, and medallions](/burials-memorials/memorial-items/headstones-markers-medallions/).
+Funerals at Arlington National Cemetery are different. <br>
+[Learn about Arlington National Cemetery funerals](http://www.arlingtoncemetery.mil/Funerals/About-Funerals).
+

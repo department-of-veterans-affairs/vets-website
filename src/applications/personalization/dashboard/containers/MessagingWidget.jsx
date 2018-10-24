@@ -38,8 +38,12 @@ class MessagingWidget extends React.Component {
       { label: 'Date', value: 'sentDate', nonSortable: true },
     ];
 
+    // eslint-disable-next-line
     const makeMessageLink = (content, id) => (
-      <Link href={`/health-care/messaging/inbox/${id}`}>{content}</Link>
+      // Messaging temporarily disabled.
+      // See: https://github.com/department-of-veterans-affairs/vets.gov-team/issues/14499
+      // <Link href={`/health-care/messaging/inbox/${id}`}>{content}</Link>
+      <Link>{content}</Link>
     );
 
     let { messages } = this.props;
