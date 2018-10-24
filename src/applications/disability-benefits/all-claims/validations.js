@@ -22,7 +22,7 @@ export function isValidZIP(value) {
 
 export function validateZIP(errors, zip) {
   if (zip && !isValidZIP(zip)) {
-    errors.addError('Please enter a valid 5 or 9 digit ZIP (dashes allowed)qq');
+    errors.addError('Please enter a valid 5 or 9 digit ZIP (dashes allowed)');
   }
 }
 
