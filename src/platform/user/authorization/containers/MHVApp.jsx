@@ -61,25 +61,19 @@ const INELIGIBLE_MESSAGES = {
 
   has_deactivated_mhv_ids: {
     headline: (
-      <span>
-        It looks like you’ve disabled your My Health
-        <em>e</em>
-        Vet account
-      </span>
+      <span>It looks like you’ve disabled your My HealtheVet account</span>
     ),
     content: (
       <div>
         <p>
           We’re sorry. We can’t give you access to the {siteName} health tools
-          because it looks like you already have a My Health
-          <em>e</em>
-          Vet account that’s been disabled.
+          because it looks like you already have a My HealtheVet account that’s
+          been disabled.
         </p>
         <p>
-          Please call the My Health
-          <em>e</em>
-          Vet Help Desk at 1-877-327-0022 (TTY: 1-800-877-8339), 7:00 a.m. -
-          7:00 p.m. (CT), and ask for help to activate your disabled account.
+          Please call the My HealtheVet Help Desk at 1-877-327-0022 (TTY:
+          1-800-877-8339), 7:00 a.m. - 7:00 p.m. (CT), and ask for help to
+          activate your disabled account.
         </p>
       </div>
     ),
@@ -87,27 +81,19 @@ const INELIGIBLE_MESSAGES = {
 
   has_multiple_active_mhv_ids: {
     headline: (
-      <span>
-        It looks like you have more than one My Health
-        <em>e</em>
-        Vet account
-      </span>
+      <span>It looks like you have more than one My HealtheVet account</span>
     ),
     content: (
       <div>
         <p>
           We’re sorry. We can’t give you access to the {siteName} health tools
           because we’ve found more than one active account for you in the My
-          Health
-          <em>e</em>
-          Vet system.
+          HealtheVet system.
         </p>
         <p>
-          Please call the My Health
-          <em>e</em>
-          Vet Help Desk at 1-877-327-0022 (TTY: 1-800-877-8339), 7:00 a.m. -
-          7:00 p.m. (CT), and ask for help to delete any extra accounts in the
-          system.
+          Please call the My HealtheVet Help Desk at 1-877-327-0022 (TTY:
+          1-800-877-8339), 7:00 a.m. - 7:00 p.m. (CT), and ask for help to
+          delete any extra accounts in the system.
         </p>
       </div>
     ),
@@ -204,11 +190,7 @@ export class MHVApp extends React.Component {
   renderPlaceholderErrorMessage() {
     const alertProps = {
       headline: (
-        <span>
-          We’re not able to process your My Health
-          <em>e</em>
-          Vet account
-        </span>
+        <span>We’re not able to process your My HealtheVet account</span>
       ),
       content: (
         <p>
@@ -253,19 +235,11 @@ export class MHVApp extends React.Component {
 
   renderAccountUnknownMessage() {
     const alertProps = {
-      headline: (
-        <span>
-          We can’t confirm your My Health
-          <em>e</em>
-          Vet account level
-        </span>
-      ),
+      headline: <span>We can’t confirm your My HealtheVet account level</span>,
       content: (
         <p>
           We’re sorry. Something went wrong on our end. We can’t confirm your My
-          Health
-          <em>e</em>
-          Vet account level right now. You can use most of the tools on
+          HealtheVet account level right now. You can use most of the tools on
           {siteName}, but you won’t be able to send secure messages or refill
           prescriptions at this time. We’re working to fix this. Please check
           back later.
@@ -297,16 +271,13 @@ export class MHVApp extends React.Component {
       headline: `We can’t give you access to ${siteName} health tools right now`,
       content: (
         <p>
-          We’re sorry. We started the process of creating the MyHealth
-          <em>e</em>
-          Vet account you’ll need to access the {siteName} health tools, but
+          We’re sorry. We started the process of creating the MyHealtheVet
+          account you’ll need to access the {siteName} health tools, but
           something went wrong on our end before we could complete it. We’ve
-          created your MyHealth
-          <em>e</em>
-          Vet account, but we still need to upgrade it to the security level
-          needed to use tools that access your health-related information. We’re
-          working to fix this so you can use the tools as soon as possible.
-          Please try signing in again later.
+          created your MyHealtheVet account, but we still need to upgrade it to
+          the security level needed to use tools that access your health-related
+          information. We’re working to fix this so you can use the tools as
+          soon as possible. Please try signing in again later.
         </p>
       ),
     };

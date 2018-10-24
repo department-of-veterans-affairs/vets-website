@@ -8,10 +8,10 @@ import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget'
 import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
 
 import ReviewCardField from '../../all-claims/components/ReviewCardField';
+import { ForwardingAddressViewField } from '../helpers';
 
 import {
   PrimaryAddressViewField,
-  ForwardingAddressViewField,
   contactInfoDescription,
   contactInfoUpdateHelp,
   phoneEmailViewField,

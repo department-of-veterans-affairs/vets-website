@@ -5,14 +5,14 @@ title: VA Burial Benefits and Memorial Items
 display_title: Burials and Memorials
 lastupdate:
 order: 1
-icon: icon-large white fa fa-star hub-background-burials
+hub: burials
 aliases:
   - /burials-and-memorials/
 promo:
   - image: /img/megamenu/burials-memorials-illustration.png
-    heading: National Cemetery Administration Mobile Site
+    heading: Find National Cemetery Administration Information
     url: "https://m.va.gov/"
-    description: Locate a grave, search for cemeteries, and find benefits information and resources from your mobile phone or tablet.
+    description: Locate a grave, search for cemeteries, and find benefits information and resources.
 crosslinks:
   - heading: Other VA Benefits and Services
     links:

@@ -532,6 +532,17 @@ const schema = {
       },
       required: ['from'],
     },
+    dateRange: {
+      type: 'object',
+      properties: {
+        from: {
+          $ref: '#/definitions/date',
+        },
+        to: {
+          $ref: '#/definitions/date',
+        },
+      },
+    },
   },
   properties: {
     alternateNames: {
@@ -773,12 +784,13 @@ const schema = {
     // Forwarding address differs from mailing address in a few key ways:
     // 1. Address lines 1-3 are max 35 chars instead of 20
     // 2. The UI is such that requiring fields must be done in the UI schema
-    // 3. There is an effectiveDate property that specifies the date at which
-    //    the forwarding address should start to be used
+    // 3. There are effectiveStartDate and effectiveEndDate properties that
+    //    specify the date at which the forwarding address should start to be
+    //    used
     forwardingAddress: _.set(
       'properties.effectiveDate',
       {
-        $ref: '#/definitions/date',
+        $ref: '#/definitions/dateRange',
       },
       _.omit(
         'required',
@@ -879,6 +891,23 @@ const schema = {
           },
         },
       },
+    },
+    bankAccountType: {
+      type: 'string',
+      enum: ['Checking', 'Savings'],
+    },
+    bankAccountNumber: {
+      type: 'string',
+      minLength: 4,
+      maxLength: 17,
+    },
+    bankRoutingNumber: {
+      type: 'string',
+      pattern: '^\\d{9}$',
+    },
+    bankName: {
+      type: 'string',
+      maxLength: 35,
     },
     isVAEmployee: {
       type: 'boolean',

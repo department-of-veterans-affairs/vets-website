@@ -15,6 +15,7 @@ relatedlinks:
 aliases:
   - /disability-benefits/apply/evidence/fully-developed-disability-claims/
 ---
+
 <div itemprop="description" class="va-introtext">
   
 Find out how you can use the Fully Developed Claims program to get a faster decision on your disability benefits claim by submitting evidence along with your claim. 
@@ -61,6 +62,9 @@ Find out how you can use the Fully Developed Claims program to get a faster deci
 - Information about any related health records that you don't have but that we can request on your behalf from a federal facility like a VA medical center or clinic
 
 **If you think your service records don't include a description of your disability**, you can also submit letters from family members, friends, clergy members, law enforcement personnel, or those you served with that can tell us more about your claimed condition and how and when it happened.
+
+**Note:** In 1973, a fire at the National Personnel Records Center (NPRC) in St. Louis destroyed records held for Veterans who were discharged from the Army and Air Force during certain periods of time. Your records may have been destroyed in the fire if you were discharged from the Army between November 1, 1912 and January 1, 1960, or if you were discharged from the Air Force between September 25, 1947 and January 1, 1964. If you think your records may have been involved in this fire, you can learn more about the fire and how to get help filing a claim. <br>
+[Learn more about the fire at the NPRC](https://www.benefits.va.gov/COMPENSATION/NPRC1973Fire.asp).
 
 </div>
 </div>
@@ -215,3 +219,9 @@ You can start your online application right now, or find out how to apply by mai
 [Find out how to apply for disability benefits](/disability/how-to-file-claim/).
 
 **Note:** Please be sure to upload all medical evidence or supporting documents at the end of the form. 
+
+
+### More helpful resources
+
+[Get a checklist for preparing your Fully Developed Claim](https://www.benefits.va.gov/FDC/checklist.asp). <br>
+[View a step-by-step graphic of the Fully Developed Claim online process](https://www.benefits.va.gov/FDC/walkthrough.asp). 

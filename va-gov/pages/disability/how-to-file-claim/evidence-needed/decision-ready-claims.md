@@ -199,12 +199,16 @@ You can expect a decision within 30 days or less from the time you submit your c
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="more-info">What if I have more questions or want more information?</button>
 <div id="more-info" class="usa-accordion-content">
   
-<a href="https://www.benefits.va.gov/compensation/DRC.asp">Watch a video on the DRC program</a>.
+[Watch a video on the DRC program](https://www.youtube.com/watch?v=l3P9CWCy9m4).
 
 **Download helpful PDFs:**<br>
 <a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet.pdf">Decision Ready Claims Fact Sheet</a><br>
 <a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-predischarge.pdf">Pre-discharge Decision Ready Claim Fact Sheet</a><br>
 <a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-factsheet-dic.pdf">Dependency and Indemnity Compensation (DIC) Decision Ready Claims Fact Sheet</a><br>
+<a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-faqs.pdf">Decision Ready Claims FAQs</a><br> 
+<a href="https://www.benefits.va.gov/COMPENSATION/docs/drc-poster.pdf">Decision Ready Claims Process Infographic</a><br>
+
+
 <br>
 
 Reach out to your local VSO or call our toll-free number at <a href="tel:+1phonenumber">1-800-827-1000</a>. We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. (ET).
