@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: How to Apply for a Veterans Pension
+title: How to Apply for a VA Pension
 display_title: How to Apply
 concurrence: ""
 order: 2
