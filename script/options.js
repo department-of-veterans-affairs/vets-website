@@ -21,7 +21,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   {
     name: 'content-directory',
     type: String,
-    defaultValue: '../../vagov-content',
+    defaultValue: '../../vagov-content/pages',
   },
 
   // Catch-all for bad arguments.
