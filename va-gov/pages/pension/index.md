@@ -35,18 +35,18 @@ social:
           label: "Ask a question online"
       - subhead: Call Us
         links:
-        - url: tel:1-800-827-1000
-          number: 1-800-827-1000
-          title: "VA Benefits Hotline:"
         - url: tel:1-877-294-6380
           number: 1-877-294-6380
           title: "Support for Current Pension Beneficiaries:"
+        - url: tel:1-800-827-1000
+          number: 1-800-827-1000
+          title: "VA Benefits Hotline:"
         - url: tel:1-800-983-0937
           number: 1-800-983-0937
           title: "eBenefits Technical Support:"
         - url: tel:1-844-698-2311
           number: 1-844-698-2311
-          title: "Call MyVA311 for help:"
+          title: "Call MyVA311 for Help:"
         - url:
           title: "If you have hearing loss, call TTY: 711."
   - heading: Connect with Us
