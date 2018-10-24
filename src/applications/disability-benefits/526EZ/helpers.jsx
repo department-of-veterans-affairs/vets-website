@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
 
+import { apiRequest } from '../../../platform/utilities/api';
 import {
   isValidUSZipCode,
   isValidCanPostalCode,
@@ -323,7 +324,7 @@ export const privateRecordsChoice = ({ formData }) => (
     <p>
       You said you were treated for {getDisabilityName(formData.name)} by a
       private doctor. If you have your private medical records, you can upload
-      them to your application. If you want us to get them for you, you‘ll need
+      them to your application. If you want us to get them for you, you’ll need
       to authorize their release.
     </p>
   </div>
@@ -849,6 +850,27 @@ export const validateIfHasEvidence = (
 export const title10DatesRequired = formData =>
   get('view:isTitle10Activated', formData, false);
 
+export function fetchPaymentInformation() {
+  return apiRequest(
+    '/ppiu/payment_information',
+    {},
+    response =>
+      // Return only the bit the UI cares about
+      response.data.attributes.responses[0].paymentAccount,
+    () => {
+      Raven.captureMessage('vets_payment_information_fetch_failure');
+      return Promise.reject();
+    },
+  );
+}
+
+export const PaymentDescription = () => (
+  <p>
+    This is the bank account information we have on file for you. We’ll pay your
+    disability benefit to this account.
+  </p>
+);
+
 export const ForwardingAddressViewField = ({ formData }) => {
   const { effectiveDate } = formData;
   return (
@@ -982,7 +1004,7 @@ export const limitedConsentDescription = (
 export const recordReleaseDescription = () => (
   <div>
     <p>
-      Please let us know where and when you received treatment. We'll request
+      Please let us know where and when you received treatment. We’ll request
       your private medical records for you. If you have records available, you
       can upload them later in the application.
     </p>

@@ -17,8 +17,8 @@
 }
 
 .usa-grid {
-  width: $teamsite-width;
   @media (min-width: $medium-screen) {
+    width: $teamsite-width;
     padding-left: 1px;
     padding-right: 1px;
   }
@@ -38,42 +38,61 @@ header.merger {
       background-image: none;
     }
   }
+
   @media (min-width: $medium-screen) {
-    va-notice--banner-inner, .va-crisis-line-container {
+
+    .va-notice--banner-inner,
+    .va-crisis-line-container {
       width: $teamsite-width;
       padding-left: 1rem;
     }
+
     #mega-menu .panel-bottom-link {
       width: 468px;
     }
   }
+
   @media (min-width: $large-screen) {
     #mega-menu .vetnav-panel {
       width: 487px;
     }
+
     #mega-menu .column-two {
       left: 240px;
     }
+
     #mega-menu .column-three {
       left: 487px;
-    }    
+    }
+
     #mega-menu .panel-bottom-link {
       width: 657px;
     }
   }
+
   @media (max-width: $large-screen - 1) {
-    #vetnav-va-benefits-and-health-care, #vetnav-about-va {
+
+    #vetnav-va-benefits-and-health-care,
+    #vetnav-about-va {
       width: 100%;
     }
+
     #mega-menu .column-three {
       display: none;
-    }    
+    }
   }
 }
 
 footer.footer {
   font-size: 16px;
   width: 100%;
+
+  @media (max-width: $medium-screen) {
+
+    .usa-grid-flex-mobile {
+      width: auto;
+    }
+  }
 }
 
 .sign-in-nav {
