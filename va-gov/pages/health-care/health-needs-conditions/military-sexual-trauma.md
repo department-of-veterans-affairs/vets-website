@@ -124,8 +124,8 @@ Or get help applying for disability compensation by:
   - [In Spanish](https://www.mentalhealth.va.gov/docs/mst/Strength_Recovery-Men_Overcoming_MST_Spanish_508.pdf)
 - Watch a video about MST, its effects on survivors, and VA services available to Veterans who’ve experienced MST. <br>
 [Watch the video](https://www.youtube.com/watch?v=b9snig5gZfk).
-- Access more fact sheets, articles, and resources, and learn more about our programs and services on our mental health website.<br>
-[Go to our mental health website](https://www.mentalhealth.va.gov/msthome.asp).
+- Access more fact sheets, articles, and resources, and learn more about our programs and services.<br>
+[Get VA information about mental health](https://www.mentalhealth.va.gov/msthome.asp).
 - Go to our Make the Connection website to hear stories from Veterans about their own experiences with the effects of MST, and find more resources and support.<br>
 <a href="http://maketheconnection.net/" class="no-external-icon">Visit Make the Connection</a>
 - Go to the Department of Defense (DoD) Safe Helpline website, a crisis support service for members of the DOD community affected by sexual assault. When you contact the Safe Helpline, you can remain anonymous (meaning you don’t have to give your name). You can get 1-on-1 advice, support, and information 24/7—by phone, text, or online chat. You can also connect with a sexual assault response coordinator near your base or installation.<br>

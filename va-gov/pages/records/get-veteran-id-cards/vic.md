@@ -6,6 +6,7 @@ display_title: Veteran ID Card
 description: Find out if you're eligible for a printed Veteran ID Card--and how to apply.
 plainlanguage:
 collection: veteranIdCards
+hideFromSidebar: true
 order: 1
 production: false
 ---
