@@ -83,156 +83,228 @@ You can also call the VA education benefits number at 1-888-GIBILL-1 (888-442-45
 <section class='usa-grid'>
   <div class="va-h-ruled--stars"></div>
 </section>
-
-<section id="get" class="merger-majorlinks">
+    
+<ul id="get" class="hub-page-link-list">
   <h2>Get GI Bill&reg; and Other Education Benefits</h2>
-
-  <div class="link">
-    <a href="/education/about-gi-bill-benefits/"><span><b>About GI Bill Benefits</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Learn how the GI Bill works and explore your options to pay for school or training.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="/education/eligibility/"><span><b>Eligibility</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">See if you're eligible for GI Bill or other VA education benefits.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="/education/how-to-apply/"><span><b>How to Apply</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Learn how to prepare and apply for the GI Bill or other VA education and training benefits. </p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="/education/after-you-apply/"><span><b>After You Apply</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out when to expect a decision from us on your application and what to do next.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="/careers-employment/vocational-rehabilitation/"><span><b>Vocational Rehabilitation and Employment</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">See if you qualify for help exploring employment options, any training you may need, and other voc rehab services.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="/careers-employment/education-and-career-counseling/"><span><b>Educational and Career Counseling (Chapter 36)</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out how to get free educational and career counseling as a recently discharged Veteran or a dependent family member.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="/education/survivor-dependent-benefits/"><span><b>VA Education Benefits for Dependents and Survivors</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out if you're eligible for Veteran dependent or survivor education benefits through a GI Bill program.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="/education/other-va-education-benefits/"><span><b>Other Educational Assistance Programs</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">If you're a Guardsman, Reservist, or Veteran who doesn't qualify for the Post-9/11 GI Bill, see if you're eligible for other VA education benefits.</p></a>
-
-  </div>
-</section>
-
+  <li class="hub-page-link-list--item">
+    <a href="/education/about-gi-bill-benefits/">
+      <span class="hub-page-link-list--header">About GI Bill Benefits
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Learn how the GI Bill works and explore your options to pay for school or training.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="/education/eligibility/">
+      <span class="hub-page-link-list--header">Eligibility
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">See if you're eligible for GI Bill or other VA education benefits.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="/education/how-to-apply/">
+      <span class="hub-page-link-list--header">How to Apply
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Learn how to prepare and apply for the GI Bill or other VA education and training benefits. </p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="/education/after-you-apply/">
+      <span class="hub-page-link-list--header">After You Apply
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Find out when to expect a decision from us on your application and what to do next.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="/careers-employment/vocational-rehabilitation/">
+      <span class="hub-page-link-list--header">Vocational Rehabilitation and Employment
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">See if you qualify for help exploring employment options, any training you may need, and other voc rehab services.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="/careers-employment/education-and-career-counseling/">
+      <span class="hub-page-link-list--header">Educational and Career Counseling (Chapter 36)
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Find out how to get free educational and career counseling as a recently discharged Veteran or a dependent family member.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="/education/survivor-dependent-benefits/">
+      <span class="hub-page-link-list--header">VA Education Benefits for Dependents and Survivors
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Find out if you're eligible for Veteran dependent or survivor education benefits through a GI Bill program.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="/education/other-va-education-benefits/">
+      <span class="hub-page-link-list--header">Other Educational Assistance Programs
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">If you're a Guardsman, Reservist, or Veteran who doesn't qualify for the Post-9/11 GI Bill, see if you're eligible for other VA education benefits.</p>
+    </a>
+  </li>
+</ul>
 <section class='usa-grid'>
   <div class="va-h-ruled--stars"></div>
 </section>
-
-<section id="manage" class="merger-majorlinks">
-
+<ul id="manage" class="hub-page-link-list">
   <h2>Manage Your Veterans Education Benefits</h2>
-
-  <div class="link">
-    <a href="/va-payment-history/"><span><b>View Your VA Payment History</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">See your payment history for VA education and other benefits you may have like disability compensation and pension.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="/education/gi-bill/post-9-11/ch-33-benefit/"><span><b>Check Your Post-9/11 GI Bill Benefits</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">See how much of your GI Bill benefits you have left to help pay for school or training.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="/education/transfer-post-9-11-gi-bill-benefits/"><span><b>Transfer Post-9/11 GI Bill Benefits</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Transfer your unused Post-9/11 GI Bill Benefits to your spouse or other dependents.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="/education/change-gi-bill-benefits/"><span><b>Change Your GI Bill School or Program</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Request a change to use a different GI Bill program or to transfer your benefits to a new school or training program.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="/change-direct-deposit-and-contact-information/"><span><b>Change Your VA Direct Deposit Information</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out how to change your GI Bill direct deposit and contact information.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="/claim-or-appeal-status/"><span><b>Check Your VA Appeal Status</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Track the status of your VA education benefits appeal.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="https://www.gibill.va.gov/wave/index.do"><span><b>Verify Your School Enrollment</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Use our online verification system (called "WAVE") to confirm you're enrolled in an approved school or training program so you keep receiving your education benefits.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp"><span><b>Apply to Restore Your GI Bill Benefits</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">If your school closed or your program ended because of a change in VA regulations or a new law, apply to have your GI Bill benefits restored.</p></a>
-
-  </div>
-
-</section>
-
+  <li class="hub-page-link-list--item">
+    <a href="/va-payment-history/">
+      <span class="hub-page-link-list--header">View Your VA Payment History
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">See your payment history for VA education and other benefits you may have like disability compensation and pension.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="/education/gi-bill/post-9-11/ch-33-benefit/">
+      <span class="hub-page-link-list--header">Check Your Post-9/11 GI Bill Benefits
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">See how much of your GI Bill benefits you have left to help pay for school or training.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="/education/transfer-post-9-11-gi-bill-benefits/">
+      <span class="hub-page-link-list--header">Transfer Post-9/11 GI Bill Benefits
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Transfer your unused Post-9/11 GI Bill Benefits to your spouse or other dependents.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="/education/change-gi-bill-benefits/">
+      <span class="hub-page-link-list--header">Change Your GI Bill School or Program
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Request a change to use a different GI Bill program or to transfer your benefits to a new school or training program.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="/change-direct-deposit-and-contact-information/">
+      <span class="hub-page-link-list--header">Change Your VA Direct Deposit Information
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Find out how to change your GI Bill direct deposit and contact information.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="/claim-or-appeal-status/">
+      <span class="hub-page-link-list--header">Check Your VA Appeal Status
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Track the status of your VA education benefits appeal.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="https://www.gibill.va.gov/wave/index.do">
+      <span class="hub-page-link-list--header">Verify Your School Enrollment
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Use our online verification system (called "WAVE") to confirm you're enrolled in an approved school or training program so you keep receiving your education benefits.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp">
+      <span class="hub-page-link-list--header">Apply to Restore Your GI Bill Benefits
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">If your school closed or your program ended because of a change in VA regulations or a new law, apply to have your GI Bill benefits restored.</p>
+    </a>
+  </li>
+</ul>
 <section class='usa-grid'>
   <div class="va-h-ruled--stars"></div>
 </section>
-
-<section id="more" class="merger-majorlinks">
+<ul id="more" class="hub-page-link-list">
   <h2>More Information and Resources</h2>
-
-  <div class="link">
-    <a href="/gi-bill-comparison-tool"><span><b>GI Bill Comparison Tool</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Learn about VA education benefits programs and compare GI Bill benefits by school.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="/education/benefit-rates/"><span><b>Post-9/11 GI Bill and Other VA Education Benefits Rates</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">View rate tables for the Post-9/11 GI Bill and other Veterans education benefits programs.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="/education/choosing-a-school/"><span><b>How to Choose GI Bill Approved Schools</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Get links to VA and non-VA resources for guidance in choosing a college or training program.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="/careers-employment/careerscope-skills-assessment/"><span><b>CareerScope Assessment</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Get a CareerScope assessment to help you figure out your career path when transitioning to civilian life.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="https://www.benefits.va.gov/gibill/resources/education_resources/debt_info.asp"><span><b>VA Education Debt and GI Bill Overpayment</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Get answers to frequently asked questions about GI Bill overpayments and VA education debt management.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="https://www.benefits.va.gov/gibill/contact_us.asp"><span><b>GI Bill Questions and Customer Help</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Contact us to ask questions and get help with your benefits online or by phone.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="https://www.benefits.va.gov/GIBILL/Feedback.asp"><span><b>GI Bill School Feedback Tool</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Find out how to give us feedback about your GI Bill school.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="https://www.benefits.va.gov/gibill/handouts_forms.asp"><span><b>Education Forms and Resources</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Download VA education benefits forms, fact sheets, and other resources.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="https://www.benefits.va.gov/gibill/my_story.asp"><span><b>My Story—How Veterans and Servicemembers Use the GI Bill</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Hear inspiring stories from Veterans and Servicemembers who’ve advanced their education and training with the Post-9/11 GI Bill.</p></a>
-
-  </div>
-
-  <div class="link">
-    <a href="https://www.benefits.va.gov/gibill/non_va_resources.asp"><span><b>Other Helpful Education Resources</b><img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow"></span><p class="va-nav-linkslist-description">Get links to non-VA resources and websites that may be useful to student Veterans and those who support them.</p></a>
-
-  </div>
-
-</section>
+  <li class="hub-page-link-list--item">
+    <a href="/gi-bill-comparison-tool">
+      <span class="hub-page-link-list--header">GI Bill Comparison Tool
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Learn about VA education benefits programs and compare GI Bill benefits by school.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="/education/benefit-rates/">
+      <span class="hub-page-link-list--header">Post-9/11 GI Bill and Other VA Education Benefits Rates
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">View rate tables for the Post-9/11 GI Bill and other Veterans education benefits programs.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="/education/choosing-a-school/">
+      <span class="hub-page-link-list--header">How to Choose GI Bill Approved Schools
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Get links to VA and non-VA resources for guidance in choosing a college or training program.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="/careers-employment/careerscope-skills-assessment/">
+      <span class="hub-page-link-list--header">CareerScope Assessment
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Get a CareerScope assessment to help you figure out your career path when transitioning to civilian life.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="https://www.benefits.va.gov/gibill/resources/education_resources/debt_info.asp">
+      <span class="hub-page-link-list--header">VA Education Debt and GI Bill Overpayment
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Get answers to frequently asked questions about GI Bill overpayments and VA education debt management.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="https://www.benefits.va.gov/gibill/contact_us.asp">
+      <span class="hub-page-link-list--header">GI Bill Questions and Customer Help
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Contact us to ask questions and get help with your benefits online or by phone.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="https://www.benefits.va.gov/GIBILL/Feedback.asp">
+      <span class="hub-page-link-list--header">GI Bill School Feedback Tool
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Find out how to give us feedback about your GI Bill school.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="https://www.benefits.va.gov/gibill/handouts_forms.asp">
+      <span class="hub-page-link-list--header">Education Forms and Resources
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Download VA education benefits forms, fact sheets, and other resources.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="https://www.benefits.va.gov/gibill/my_story.asp">
+      <span class="hub-page-link-list--header">My Story—How Veterans and Servicemembers Use the GI Bill
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Hear inspiring stories from Veterans and Servicemembers who’ve advanced their education and training with the Post-9/11 GI Bill.</p>
+    </a>
+  </li>
+  <li class="hub-page-link-list--item">
+    <a href="https://www.benefits.va.gov/gibill/non_va_resources.asp">
+      <span class="hub-page-link-list--header">Other Helpful Education Resources
+        <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow" />
+      </span>
+      <p class="hub-page-link-list--description">Get links to non-VA resources and websites that may be useful to student Veterans and those who support them.</p>
+    </a>
+  </li>
+</ul>
+    

@@ -174,21 +174,6 @@
       a {
         text-decoration: none;
         padding-bottom: 0;
-        &:hover, &:focus {
-          > span {
-            text-decoration: underline;
-          }
-          .all-link-arrow {
-            margin-left: 10px;
-            content: url("/img/arrow-right.svg");
-          }
-        }
-        .all-link-arrow {
-          width: 11px;
-          margin-left: 5px;
-          transition: all 0.15s ease;
-          margin-bottom: 2px;
-        }
       }
     }
   }
@@ -916,12 +901,42 @@ img[data-srcset] {
   padding-right: 1.2em;
   position: relative;
 }
-.va-nav-linkslist-list {
-  a {
-    &:hover, &:focus {
-      > span, > b {
-        text-decoration: underline;
+
+.hub-page-link-list {
+  // override default ul styles
+  list-style: none;
+  padding: 0;
+  .hub-page-link-list--item {
+    margin-bottom: 1em;
+    > a {
+      text-decoration: none;
+      &:hover, &:focus {
+        .all-link-arrow {
+          margin-left: 10px;
+          content: url("/img/arrow-right.svg");
+        }
       }
+      .all-link-arrow {
+        width: 11px;
+        margin-left: 5px;
+        transition: all 0.15s ease;
+        margin-bottom: 2px;
+      }
+    }
+    .hub-page-link-list--description {
+      color: $color-black;
+      margin: 0;
+
+    }
+  }
+  .hub-page-link-list--header {
+    font-weight: bold;
+  }
+
+}
+.va-nav-linkslist-list, .merger-majorlinks {
+  a {
+    &:hover {
       .all-link-arrow {
         margin-left: 10px;
         content: url("/img/arrow-right.svg");
