@@ -68,7 +68,7 @@ export default function BrandConsolidationSummary() {
           school or training.
         </p>
         <p>
-          You'll be able to view this benefit statement only if you were awarded
+          You’ll be able to view this benefit statement only if you were awarded
           education benefits.
         </p>
       </div>

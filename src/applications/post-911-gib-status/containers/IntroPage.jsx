@@ -101,7 +101,7 @@ export class IntroPage extends React.Component {
             costs for school or training.
           </p>
           <p>
-            You'll be able to view this benefit statement only if you were
+            You’ll be able to view this benefit statement only if you were
             awarded education benefits.
           </p>
           {content}
