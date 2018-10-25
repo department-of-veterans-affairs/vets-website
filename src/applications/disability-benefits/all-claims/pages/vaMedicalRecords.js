@@ -1,4 +1,3 @@
-import _ from '../../../../platform/utilities/data';
 import merge from 'lodash/merge';
 import fullSchema from '../config/schema';
 import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
@@ -75,11 +74,6 @@ export const uiSchema = {
             expandUnder: 'country',
             expandUnderCondition: USA,
           },
-          'ui:required': (formData, index) =>
-            _.get(
-              `vaTreatmentFacilities.${index}.treatmentCenterAddress.country`,
-              formData,
-            ) === USA,
         },
         city: {
           'ui:title': 'City',
