@@ -16,6 +16,10 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
+  needsToEnter781,
+  needsToEnter781a,
+  isUploadingPtsdForm,
+  isUploadingSupportingEvidence,
   servedAfter911,
 } from '../utils';
 
@@ -38,6 +42,10 @@ import {
   newDisabilityFollowUp,
   newPTSDFollowUp,
   choosePtsdType,
+  ptsdWalkthroughChoice781,
+  uploadPtsdDocuments,
+  ptsdWalkthroughChoice781a,
+  uploadPersonalPtsdDocuments,
   summaryOfDisabilities,
   vaMedicalRecords,
   additionalDocuments,
@@ -48,6 +56,8 @@ import {
   homelessOrAtRisk,
   vaEmployee,
   summaryOfEvidence,
+  supportingEvidenceChoice781a,
+  uploadingSupportingEvidence781a,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -233,6 +243,60 @@ const formConfig = {
           depends: hasNewPtsdDisability,
           uiSchema: choosePtsdType.uiSchema,
           schema: choosePtsdType.schema,
+        },
+        ptsdWalkthroughChoice781: {
+          title: 'PTSD Walkthrough 781 Choice',
+          path: 'new-disabilities/walkthrough-781-choice',
+          depends: formData =>
+            hasNewPtsdDisability(formData) && needsToEnter781(formData),
+          uiSchema: ptsdWalkthroughChoice781.uiSchema,
+          schema: ptsdWalkthroughChoice781.schema,
+        },
+        uploadPtsdDocuments781: {
+          title: 'Upload PTSD Documents - 781',
+          path: 'new-disabilities/ptsd-781-upload',
+          depends: formData =>
+            hasNewPtsdDisability(formData) &&
+            needsToEnter781(formData) &&
+            isUploadingPtsdForm(formData),
+          uiSchema: uploadPtsdDocuments.uiSchema,
+          schema: uploadPtsdDocuments.schema,
+        },
+        ptsdWalkthroughChoice781a: {
+          title: 'PTSD Walkthrough 781a Choice',
+          path: 'new-disabilities/walkthrough-781a-choice',
+          depends: formData =>
+            hasNewPtsdDisability(formData) && needsToEnter781a(formData),
+          uiSchema: ptsdWalkthroughChoice781a.uiSchema,
+          schema: ptsdWalkthroughChoice781a.schema,
+        },
+        uploadPtsdDocuments781a: {
+          title: 'Upload PTSD Documents - 781a',
+          path: 'new-disabilities/ptsd-781a-upload',
+          depends: formData =>
+            hasNewPtsdDisability(formData) &&
+            needsToEnter781a(formData) &&
+            isUploadingPtsdForm(formData),
+          uiSchema: uploadPersonalPtsdDocuments.uiSchema,
+          schema: uploadPersonalPtsdDocuments.schema,
+        },
+        supportingEvidenceChoice781a: {
+          title: 'Supporting Documents',
+          path: 'new-disabilities/supporting-evidence-choice',
+          depends: formData =>
+            hasNewPtsdDisability(formData) && needsToEnter781a(formData),
+          uiSchema: supportingEvidenceChoice781a.uiSchema,
+          schema: supportingEvidenceChoice781a.schema,
+        },
+        uploadSupportingEvidence781a: {
+          title: 'Supporting Documents',
+          path: 'new-disabilities/supporting-evidence-upload',
+          depends: formData =>
+            hasNewPtsdDisability(formData) &&
+            needsToEnter781a(formData) &&
+            isUploadingSupportingEvidence(formData),
+          uiSchema: uploadingSupportingEvidence781a.uiSchema,
+          schema: uploadingSupportingEvidence781a.schema,
         },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',

@@ -69,6 +69,26 @@ import {
 } from './choosePtsdType';
 
 import {
+  uiSchema as ptsdWalkthroughChoice781UISchema,
+  schema as ptsdWalkthroughChoice781Schema,
+} from './ptsdWalkthroughChoice781';
+
+import {
+  uiSchema as uploadPtsdDocumentsUISchema,
+  schema as uploadPtsdDocumentsSchema,
+} from './uploadPtsdDocuments';
+
+import {
+  uiSchema as ptsdWalkthroughChoice781aUISchema,
+  schema as ptsdWalkthroughChoice781aSchema,
+} from './ptsdWalkthroughChoice781a';
+
+import {
+  uiSchema as uploadPersonalPtsdDocumentsUISchema,
+  schema as uploadPersonalPtsdDocumentsSchema,
+} from './uploadPersonalPtsdDocuments';
+
+import {
   uiSchema as summaryOfDisabilitiesUISchema,
   schema as summaryOfDisabilitiesSchema,
 } from './summaryOfDisabilities';
@@ -117,6 +137,16 @@ import {
   uiSchema as homelessOrAtRiskUISchema,
   schema as homelessOrAtRiskSchema,
 } from './homelessOrAtRisk';
+
+import {
+  uiSchema as supportingEvidenceChoice781aUISchema,
+  schema as supportingEvidenceChoice781aSchema,
+} from './supportingEvidenceChoice781a';
+
+import {
+  uiSchema as uploadingSupportingEvidence781aUISchema,
+  schema as uploadingSupportingEvidence781aSchema,
+} from './uploadingSupportingEvidence781a';
 
 import {
   uiSchema as vaEmployeeUISchema,
@@ -193,6 +223,26 @@ export const choosePtsdType = {
   schema: choosePtsdTypeSchema,
 };
 
+export const ptsdWalkthroughChoice781 = {
+  uiSchema: ptsdWalkthroughChoice781UISchema,
+  schema: ptsdWalkthroughChoice781Schema,
+};
+
+export const uploadPtsdDocuments = {
+  uiSchema: uploadPtsdDocumentsUISchema,
+  schema: uploadPtsdDocumentsSchema,
+};
+
+export const ptsdWalkthroughChoice781a = {
+  uiSchema: ptsdWalkthroughChoice781aUISchema,
+  schema: ptsdWalkthroughChoice781aSchema,
+};
+
+export const uploadPersonalPtsdDocuments = {
+  uiSchema: uploadPersonalPtsdDocumentsUISchema,
+  schema: uploadPersonalPtsdDocumentsSchema,
+};
+
 export const summaryOfDisabilities = {
   uiSchema: summaryOfDisabilitiesUISchema,
   schema: summaryOfDisabilitiesSchema,
@@ -246,4 +296,14 @@ export const homelessOrAtRisk = {
 export const vaEmployee = {
   uiSchema: vaEmployeeUISchema,
   schema: vaEmployeeSchema,
+};
+
+export const supportingEvidenceChoice781a = {
+  uiSchema: supportingEvidenceChoice781aUISchema,
+  schema: supportingEvidenceChoice781aSchema,
+};
+
+export const uploadingSupportingEvidence781a = {
+  uiSchema: uploadingSupportingEvidence781aUISchema,
+  schema: uploadingSupportingEvidence781aSchema,
 };
