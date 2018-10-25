@@ -19,6 +19,7 @@ import {
   needsToEnter781,
   needsToEnter781a,
   isUploadingPtsdForm,
+  isUploadingSupportingEvidence,
   servedAfter911,
 } from '../utils';
 
@@ -55,6 +56,8 @@ import {
   homelessOrAtRisk,
   vaEmployee,
   summaryOfEvidence,
+  supportingEvidenceChoice781a,
+  uploadingSupportingEvidence781a,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -276,6 +279,24 @@ const formConfig = {
             isUploadingPtsdForm(formData),
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
+        },
+        supportingEvidenceChoice781a: {
+          title: 'Supporting Documents',
+          path: 'new-disabilities/supporting-evidence-choice',
+          depends: formData =>
+            hasNewPtsdDisability(formData) && needsToEnter781a(formData),
+          uiSchema: supportingEvidenceChoice781a.uiSchema,
+          schema: supportingEvidenceChoice781a.schema,
+        },
+        uploadSupportingEvidence781a: {
+          title: 'Supporting Documents',
+          path: 'new-disabilities/supporting-evidence-upload',
+          depends: formData =>
+            hasNewPtsdDisability(formData) &&
+            needsToEnter781a(formData) &&
+            isUploadingSupportingEvidence(formData),
+          uiSchema: uploadingSupportingEvidence781a.uiSchema,
+          schema: uploadingSupportingEvidence781a.schema,
         },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',

@@ -139,6 +139,16 @@ import {
 } from './homelessOrAtRisk';
 
 import {
+  uiSchema as supportingEvidenceChoice781aUISchema,
+  schema as supportingEvidenceChoice781aSchema,
+} from './supportingEvidenceChoice781a';
+
+import {
+  uiSchema as uploadingSupportingEvidence781aUISchema,
+  schema as uploadingSupportingEvidence781aSchema,
+} from './uploadingSupportingEvidence781a';
+
+import {
   uiSchema as vaEmployeeUISchema,
   schema as vaEmployeeSchema,
 } from './vaEmployee';
@@ -286,4 +296,14 @@ export const homelessOrAtRisk = {
 export const vaEmployee = {
   uiSchema: vaEmployeeUISchema,
   schema: vaEmployeeSchema,
+};
+
+export const supportingEvidenceChoice781a = {
+  uiSchema: supportingEvidenceChoice781aUISchema,
+  schema: supportingEvidenceChoice781aSchema,
+};
+
+export const uploadingSupportingEvidence781a = {
+  uiSchema: uploadingSupportingEvidence781aUISchema,
+  schema: uploadingSupportingEvidence781aSchema,
 };

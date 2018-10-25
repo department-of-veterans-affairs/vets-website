@@ -274,3 +274,6 @@ export const needsToEnter781a = formData =>
 
 export const isUploadingPtsdForm = formData =>
   _.get('view:uploadPtsdChoice', formData, '') === 'upload';
+
+export const isUploadingSupportingEvidence = formData =>
+  _.get('supportingDocuments', formData, '') === 'yes';
