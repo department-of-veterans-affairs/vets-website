@@ -48,6 +48,7 @@ import {
   homelessOrAtRisk,
   vaEmployee,
   summaryOfEvidence,
+  fullyDevelopedClaim,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -318,6 +319,12 @@ const formConfig = {
           path: 'va-employee',
           uiSchema: vaEmployee.uiSchema,
           schema: vaEmployee.schema,
+        },
+        fullyDevelopedClaim: {
+          title: 'Fully developed claim program',
+          path: 'fully-developed-claim',
+          uiSchema: fullyDevelopedClaim.uiSchema,
+          schema: fullyDevelopedClaim.schema,
         },
       },
     },

@@ -912,6 +912,10 @@ const schema = {
     isVAEmployee: {
       type: 'boolean',
     },
+    standardClaim: {
+      type: 'boolean',
+      default: false,
+    },
   },
 };
 
