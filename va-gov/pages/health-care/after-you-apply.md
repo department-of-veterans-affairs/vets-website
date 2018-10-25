@@ -86,7 +86,7 @@ Contact your local VA medical center or clinic and ask for:
 
 If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. [Learn more about your VA health care coverage](/health-care/about-va-health-benefits/).
 
-If you’re signed up for VA health care, you can manage your VA health and benefits online through VA.gov: <br />
+If you’re signed up for VA health care, you can manage your VA health and benefits online: <br />
 [Refill your prescriptions](/health-care/refill-track-prescriptions). <br />
 [Send a secure message to your health care team](/health-care/secure-messaging). <br />
 [Check the status of a disability or pension claim](/track-claims/).
