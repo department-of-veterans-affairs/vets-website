@@ -84,7 +84,7 @@ export default `
     <div id="va-nav-controls"></div>
     <div id="login-root" class="vet-toolbar"></div>
   </div>
-  <div class="usa-grid">
+  <div class="usa-grid padding-h-none">
     <div id="menu-rule" class="usa-one-whole"></div>
     <div id="mega-menu"></div>
   </div>
