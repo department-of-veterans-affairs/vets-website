@@ -3,8 +3,8 @@
 
 
 "@department-of-veterans-affairs/formation@^1.8.4":
-  version "1.8.5"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-1.8.5.tgz#8805c06d5c07edcf6a860e40024a822b1d19db06"
+  version "1.8.6"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-1.8.6.tgz#b157795a30aaf9a57893cdf2cd769b656a41212e"
   dependencies:
     classnames "^2.2.5"
     font-awesome "4"
