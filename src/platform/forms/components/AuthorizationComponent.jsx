@@ -11,8 +11,6 @@ import DowntimeNotification, {
 } from '../../monitoring/DowntimeNotification';
 import { getFormAuthorizationState } from '../../../applications/personalization/dashboard/helpers';
 
-import AuthorizationMessage from './AuthorizationMessage';
-
 class AuthorizationComponent extends React.Component {
   componentDidMount() {
     this.authorize();
@@ -55,6 +53,12 @@ class AuthorizationComponent extends React.Component {
       has30PercentDisabilityRating,
       formConfig,
     } = this.props;
+
+    let AuthorizationMessage;
+
+    if (formConfig) {
+      AuthorizationMessage = formConfig.authorizationMessage;
+    }
 
     const content = (
       <div className="sip-authorization-container">
