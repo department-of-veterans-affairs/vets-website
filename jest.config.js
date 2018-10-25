@@ -128,22 +128,7 @@ module.exports = {
   // testEnvironment: "jest-environment-jsdom",
 
   // Options that will be passed to the testEnvironment
-  testEnvironmentOptions: {
-    capabilities: {
-      browserName: 'chrome',
-      javascriptEnabled: true,
-      acceptSslCerts: true,
-      webStorageEnabled: true,
-      chromeOptions: {
-        args: [
-          '--headless',
-          '--no-sandbox',
-          '--disable-gpu',
-          '--window-size=1024,768',
-        ],
-      },
-    },
-  },
+  // testEnvironmentOptions: {}
 
   // Adds a location field to test results
   // testLocationInResults: false,

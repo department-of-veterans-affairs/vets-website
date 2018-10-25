@@ -1,50 +1,44 @@
-/**
- * @jest-environment jest-environment-selenium
- */
+const puppeteer = require('puppeteer');
 
-const url = 'https://preview.va.gov/health/';
-// afterEach(async () => cleanup());
-describe('Veterans Health Administration Page', () => {
-  jest.setTimeout(15000);
-  test('it renders', async () => {
-    await driver.get(url); // eslint-disable-line no-undef
-    const title = await driver.findElement(By.tagName('h1')).getText(); // eslint-disable-line no-undef
-    expect(title).toContain('Veterans Health Administration');
-  });
-  test('it toggles banner', async () => {
-    await driver.get(url); // eslint-disable-line no-undef
-    const bannerToggle = await driver // eslint-disable-line
-      .findElement(By.id('usa-banner-toggle')) // eslint-disable-line no-undef
-      .click();
-    const bannerContent = await driver // eslint-disable-line no-undef
-      .findElement(By.id('gov-banner')) // eslint-disable-line no-undef
-      .getText();
-    expect(bannerContent).toContain('.gov means it’s official');
+describe('jest-image-snapshot usage with an image received from puppeteer', () => {
+  let browser;
+  jest.setTimeout(20000);
+  beforeAll(async () => {
+    browser = await puppeteer.launch();
   });
 
-  describe('save a screenshot of the header', () => {
-    test('save a picture', async () => {
-      await driver.get(url); // eslint-disable-line no-undef
-      const image = await driver.takeScreenshot(); // eslint-disable-line no-undef
-      expect(image).toMatchImageSnapshot();
-    });
-    test('save a small picture', async () => {
-      await driver // eslint-disable-line no-undef
-        .manage()
-        .window()
-        .setSize(400, 768);
-      await driver.get(url); // eslint-disable-line no-undef
-      const image = await driver.takeScreenshot(); // eslint-disable-line no-undef
-      expect(image).toMatchImageSnapshot();
+  it('compares screenshots of elements', async () => {
+    const page = await browser.newPage();
+    page.setViewport({ width: 1024, height: 800 });
+    await page.goto('https://preview.va.gov/health/');
+    const TESTELEMENT = 'footer';
+    const element = await page.$(TESTELEMENT);
+    await page.waitFor(1000);
+    const image = await element.screenshot();
+
+    expect(image).toMatchImageSnapshot();
+  });
+  it('compares small width screenshots', async () => {
+    const page = await browser.newPage();
+    page.setViewport({ width: 400, height: 700 });
+    await page.goto('https://preview.va.gov/health/');
+    const TESTELEMENT = 'header';
+    const element = await page.$(TESTELEMENT);
+    await page.waitFor(1000);
+    const image = await element.screenshot();
+    expect(image).toMatchImageSnapshot();
+  });
+  it('checks for expanded content', async () => {
+    const page = await browser.newPage();
+    page.setViewport({ width: 1024, height: 800 });
+    await page.goto('https://preview.va.gov/health/');
+    page.click('#usa-banner-toggle');
+    await page.waitForSelector('#gov-banner', {
+      visible: true,
     });
   });
-  describe('save a screenshot of the footer', () => {
-    test('save a picture', async () => {
-      await driver.get(url); // eslint-disable-line no-undef
-      const ele = driver.findElement(By.tagName('footer')); // eslint-disable-line no-undef
-      driver.executeScript('arguments[0].scrollIntoView();', ele); // eslint-disable-line no-undef
-      const image = await driver.takeScreenshot(); // eslint-disable-line no-undef
-      expect(image).toMatchImageSnapshot();
-    });
+
+  afterAll(async () => {
+    await browser.close();
   });
 });
