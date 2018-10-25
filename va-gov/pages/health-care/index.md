@@ -66,14 +66,14 @@ social:
           icon: fa-envelope
       - subhead: Follow Us
         links:
-        - url: "https://www.facebook.com/VeteransHealth"
-          label: Veterans Health Facebook
-          external: true
-          icon: fa-facebook
         - url: "https://twitter.com/VeteransHealth"
           label: Veterans Health Twitter
           external: true
           icon: fa-twitter
+        - url: "https://www.facebook.com/VeteransHealth"
+          label: Veterans Health Facebook
+          external: true
+          icon: fa-facebook
         - url: "https://www.youtube.com/user/VeteransHealthAdmin"
           label: Veterans Health YouTube
           external: true
