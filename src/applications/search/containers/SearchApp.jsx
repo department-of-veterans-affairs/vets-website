@@ -82,13 +82,9 @@ class SearchApp extends React.Component {
   renderWebResult(result) {
     return (
       <li key={result.url} className="result-item">
-        <a
-          className="result-title"
-          href={result.url}
-          dangerouslySetInnerHTML={{
-            __html: formatResponseString(result.title),
-          }}
-        />
+        <a className="result-title" href={result.url}>
+          <h5>{result.title}</h5>
+        </a>
         <p className="result-url">{result.url}</p>
         <p
           className="result-desc"
