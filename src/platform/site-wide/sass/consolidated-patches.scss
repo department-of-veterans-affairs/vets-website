@@ -1,3 +1,7 @@
+.login .container h1 {
+  color: $color-black !important;
+}
+
 .usa-banner-inner {
   p {
     font-size: 1.2rem;
@@ -35,7 +39,6 @@ header.merger {
   margin: auto;
 
   .va-crisis-line-container {
-
     button.va-crisis-line {
       background-image: none;
     }
