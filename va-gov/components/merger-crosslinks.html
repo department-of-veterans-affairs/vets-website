@@ -21,7 +21,7 @@ different group name as the value for the `majorlinks` variable of the include.
 See https://help.shopify.com/themes/liquid/tags/theme-tags#include
 {% endcomment %}
 
-<section class='merger-majorlinks va-nav-linkslist va-nav-linkslist--related'>
+<section class='va-nav-linkslist va-nav-linkslist--related'>
 
   {% for group in crosslinks %}
 
@@ -30,17 +30,22 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
     {% endif %}
 
     {% if group.links.length > 0 %}
-      <ul class="va-nav-linkslist-list">
+      <ul class="hub-page-link-list">
       {% for link in group.links %}
         {% if link.url != empty %}
-          <li>
+          <li class="hub-page-link-list--item">
             <a href="{{link.url}}">
             {% if link.title != empty %}
-              {{ link.title }}<img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow">
+              <span class="hub-page-link-list--header">
+                {{ link.title }}
+                <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow">
+              </span>
             {% endif %}
 
             {% if link.description != empty %}
-              <p class="va-nav-linkslist-description">{{ link.description }}</p>
+              <p class="hub-page-link-list--description">
+                {{ link.description }}
+              </p>
             {% endif %}
             </a>
           </li>

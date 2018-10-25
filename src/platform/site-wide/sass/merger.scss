@@ -908,12 +908,16 @@ img[data-srcset] {
   padding: 0;
   .hub-page-link-list--item {
     margin-bottom: 1em;
+    margin: 1.6rem 0;
     > a {
       text-decoration: none;
       &:hover, &:focus {
         .all-link-arrow {
           margin-left: 10px;
           content: url("/img/arrow-right.svg");
+        }
+        .hub-page-link-list--header {
+          text-decoration: underline;
         }
       }
       .all-link-arrow {
@@ -935,19 +939,4 @@ img[data-srcset] {
 
 }
 .va-nav-linkslist-list, .merger-majorlinks {
-  a {
-    &:hover {
-      .all-link-arrow {
-        margin-left: 10px;
-        content: url("/img/arrow-right.svg");
-      }
-    }
-
-    .all-link-arrow {
-      width: 11px;
-      margin-left: 5px;
-      transition: all 0.15s ease;
-      margin-bottom: 2px;
-    }
-  }
 }
