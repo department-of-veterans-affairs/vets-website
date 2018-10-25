@@ -5,6 +5,7 @@ import CrisisPanel from './CrisisPanel';
 import DesktopLinks from './DesktopLinks';
 import MobileLinks from './MobileLinks';
 import { createLinkGroups } from '../helpers';
+import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 
 export default class Footer extends React.Component {
   constructor(props) {
@@ -39,7 +40,12 @@ export default class Footer extends React.Component {
           <MobileLinks visible={this.state.isMobile} links={this.linkObj} />
           <div className="usa-grid usa-grid-full footer-banner">
             <a href="/" className="va-footer-logo" title="Go to VA.gov">
-              <img src="/img/homepage/va-logo-white.png" alt="VA logo" />
+              <img
+                src={replaceWithStagingDomain(
+                  'https://www.va.gov/img/homepage/va-logo-white.png',
+                )}
+                alt="VA logo"
+              />
             </a>
           </div>
           <div className="usa-grid usa-grid-full va-footer-links-bottom">

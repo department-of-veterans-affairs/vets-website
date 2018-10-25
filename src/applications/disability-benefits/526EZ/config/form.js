@@ -1,4 +1,5 @@
 import _ from '../../../../platform/utilities/data';
+import merge from 'lodash/merge';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
@@ -26,7 +27,7 @@ import treatmentAddressUiSchema from '../pages/treatmentAddress';
 import {
   uiSchema as paymentInfoUiSchema,
   schema as paymentInfoSchema,
-} from '../../all-claims/pages/paymentInformation';
+} from '../pages/paymentInformation';
 
 import {
   uiSchema as reservesNationalGuardUISchema,
@@ -46,7 +47,6 @@ import {
   facilityDescription,
   download4142Notice,
   authorizationToDisclose,
-  // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
   evidenceSummaryView,
   GetFormHelp,
   FDCDescription,
@@ -56,6 +56,7 @@ import {
   veteranInfoDescription,
   editNote,
   validateIfHasEvidence,
+  patientAcknowledgmentText,
 } from '../helpers';
 
 import {
@@ -78,7 +79,7 @@ import { FIFTY_MB } from '../../all-claims/constants';
 import { treatmentView } from '../../all-claims/content/vaMedicalRecords';
 import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
 import { additionalDocumentDescription } from '../../all-claims/content/additionalDocuments';
-import { requireOneSelected } from '../validations';
+import { requireOneSelected, isInPast } from '../validations';
 
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
@@ -86,7 +87,6 @@ import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWi
 
 const {
   treatments,
-  // privateRecordReleases, // TODO: Re-enable after 4142 PDF integration
   serviceInformation: {
     properties: { servicePeriods },
   },
@@ -108,6 +108,8 @@ const {
   disabilities,
   vaTreatmentCenterAddress,
 } = fullSchema526EZ.definitions;
+
+const isProd = __BUILDTYPE__ === 'production';
 
 const formConfig = {
   urlPrefix: '/',
@@ -184,10 +186,17 @@ const formConfig = {
                 serviceBranch: {
                   'ui:title': 'Branch of service',
                 },
-                dateRange: dateRangeUI(
-                  'Service start date',
-                  'Service end date',
-                  'End of service must be after start of service',
+                dateRange: merge(
+                  dateRangeUI(
+                    'Service start date',
+                    'Service end date',
+                    'End of service must be after start of service',
+                  ),
+                  {
+                    to: {
+                      'ui:validations': [isInPast],
+                    },
+                  },
                 ),
               },
             },
@@ -579,6 +588,92 @@ const formConfig = {
             },
           },
         },
+        privateRecordChoiceNew: {
+          title: formData => `${formData.name} private medical records choice`,
+          path: 'supporting-evidence/:index/private-medical-records-choice-new',
+          showPagePerItem: true,
+          itemFilter: item => _.get('view:selected', item),
+          arrayPath: 'disabilities',
+          depends: (formData, index) =>
+            !isProd &&
+            _.get(
+              `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
+              formData,
+            ),
+          uiSchema: {
+            disabilities: {
+              items: {
+                'ui:title': disabilityNameTitle,
+                'ui:description': privateRecordsChoice,
+                'view:uploadPrivateRecords': {
+                  'ui:title':
+                    'Do you want to upload your private medical records?',
+                  'ui:widget': 'radio',
+                  'ui:options': {
+                    labels: {
+                      yes: 'Yes',
+                      no: 'No, please get them from my doctor',
+                    },
+                  },
+                },
+                'view:patientAcknowledgement': {
+                  'ui:title': ' ',
+                  'ui:help': patientAcknowledgmentText,
+                  'ui:options': {
+                    expandUnder: 'view:uploadPrivateRecords',
+                    expandUnderCondition: 'no',
+                    showFieldLabel: true,
+                  },
+                  'view:acknowledgement': {
+                    'ui:title': 'Patient Acknowledgement',
+                  },
+                  'ui:validations': [
+                    (errors, item) => {
+                      if (!item['view:acknowledgement']) {
+                        errors.addError('You must accept the acknowledgement');
+                      }
+                    },
+                  ],
+                },
+                'view:privateRecordsChoiceHelp': {
+                  'ui:description': privateRecordsChoiceHelp,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              disabilities: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  required: ['view:uploadPrivateRecords'],
+                  properties: {
+                    'view:uploadPrivateRecords': {
+                      type: 'string',
+                      enum: ['yes', 'no'],
+                    },
+                    'view:patientAcknowledgement': {
+                      type: 'object',
+                      required: ['view:acknowledgement'],
+                      properties: {
+                        'view:acknowledgement': {
+                          type: 'boolean',
+                          default: true,
+                        },
+                      },
+                    },
+                    'view:privateRecordsChoiceHelp': {
+                      type: 'object',
+                      properties: {},
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
         privateRecordChoice: {
           title: formData => `${formData.name} private medical records choice`,
           path: 'supporting-evidence/:index/private-medical-records-choice',
@@ -586,6 +681,7 @@ const formConfig = {
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) =>
+            isProd &&
             _.get(
               `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
               formData,
@@ -663,7 +759,7 @@ const formConfig = {
                 `disabilities.${index}.view:uploadPrivateRecords`,
                 formData,
               ) === 'no';
-            return hasRecords && requestsRecords;
+            return isProd && hasRecords && requestsRecords;
           },
           uiSchema: {
             disabilities: {

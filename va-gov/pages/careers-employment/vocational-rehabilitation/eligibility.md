@@ -109,8 +109,8 @@ You can apply online right now.
   [Download the NPWE program fact sheet](https://benefits.va.gov/BENEFITS/factsheets/vocrehab/Non-paidWorkExperience.pdf).
 
 **We also offer:**
-- VR&E employment coordinators—located at our VA regional offices and many of our out-based locations—who can help you access the employment services available to you. To find an employment coordinator near you, visit the VR&E section of VA.gov and look under "Resources." <br>
-[Go to VR&E on VA.gov](https://www.benefits.va.gov/vocrehab/).
+- VR&E employment coordinators—located at our VA regional offices and many of our out-based locations—who can help you access the employment services available to you. <br>
+[Find an employment coordinator near you](https://www.benefits.va.gov/VOCREHAB/docs/EmploymentCoordinators.xlsx).
 - Counselors to help you transition from military to college life. <br>
 [Learn about VetSuccess on Campus](/careers-employment/vetsuccess-on-campus/).
 - Links to more resources outside VA that can help you in your job search. <br>
