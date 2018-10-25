@@ -55,7 +55,7 @@ export const uiSchema = {
           ),
           providerFacilityAddress: merge(addressUI('', false), {
             street2: {
-              'ui:title': 'Street 2',
+              'ui:title': 'Apt. / Unit Number',
             },
             postalCode: {
               'ui:title': 'Postal Code',
@@ -111,13 +111,7 @@ export const schema = {
                 },
                 providerFacilityAddress: {
                   type: 'object',
-                  required: [
-                    'street',
-                    'city',
-                    'country',
-                    'state',
-                    'postalCode',
-                  ],
+                  required: ['street', 'city', 'country', 'postalCode'],
                   properties: {
                     street: {
                       minLength: 1,
