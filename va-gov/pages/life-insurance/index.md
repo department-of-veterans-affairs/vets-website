@@ -27,7 +27,7 @@ crosslinks:
       title: <b>VA Health Care</b>
       description: Find out how to apply for and manage your VA health care benefits.
 social:
-  - heading: Connect with Us  
+  - heading: Ask Questions
     subsections:
       - subhead: Message Us
         links:
