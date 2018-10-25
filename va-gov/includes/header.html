@@ -99,6 +99,16 @@
 </head>
 <body class="{{ body_class }} merger">
   <a class="show-on-focus" href="#content">Skip to Content</a>
+
+{% if path == '' and banner and banner.visible %}
+<div aria-live="polite" class="usa-alert usa-alert-{{ banner.type }}" style="margin-top: 0;">
+  <div class="usa-alert-body va-alert-body">
+    <h3 class="va-alert-title">{{ banner.title }}</h3>
+    {{ banner.content }}
+  </div>
+</div>
+{% endif %}
+
 {% if !noHeader %}
   {% include "va-gov/includes/top-nav.html" %}
 {% endif %}
