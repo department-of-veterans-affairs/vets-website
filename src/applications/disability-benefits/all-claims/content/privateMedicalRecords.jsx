@@ -1,6 +1,5 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
-import { VA_FORM4142_URL } from '../constants';
 
 export const privateRecordsChoiceHelp = (
   <div className="private-records-choice-help">
