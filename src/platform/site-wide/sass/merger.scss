@@ -372,11 +372,6 @@
     }
   }
 
-  #preview-site-alert {
-    color: $color-black;
-    position: relative;
-  }
-
   // TD: need to update this on formation in the MegaMenu. If no title it should still align with the link row.
   #vetnav-records-ms {
     & + div {
@@ -679,7 +674,7 @@
         h4:first-child {
           margin-top: 0px;
         }
-        
+
         > section {
           margin-bottom: 1.5em;
         }
@@ -814,4 +809,10 @@ img[data-srcset] {
 
 .profile-nav {
   margin-top: 6px;
+}
+
+.usa-alert {
+  .top-of-page {
+    margin-top: 0;
+  }
 }
