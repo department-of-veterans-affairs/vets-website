@@ -7,13 +7,13 @@ export const PtsdUploadChoiceDescription = (
   <AdditionalInfo triggerText="What does this mean?">
     <h5>Continue answering questions</h5>
     <p>
-      If you choose to answer questions, we‘ll ask you several questions to
+      If you choose to answer questions, we’ll ask you several questions to
       learn more about your PTSD.
     </p>
     <h5>Upload VA Form 21-0781</h5>
     <p>
-      If you upload a completed VA Form 21-0781, we won‘t ask you questions
-      about your PTSD, and you‘ll move to the next section of the disability
+      If you upload a completed VA Form 21-0781, we won’t ask you questions
+      about your PTSD, and you’ll move to the next section of the disability
       application.
     </p>
   </AdditionalInfo>
@@ -39,7 +39,7 @@ export const UploadPtsdDescription = ({ formData, formType }) => {
       <p>
         The following questions will help us understand more about your
         {` ${incidentText}`}
-        -related PTSD. None of the questions we‘ll ask you are required, but any
+        -related PTSD. None of the questions we’ll ask you are required, but any
         information you provide here will help us research your claim.
       </p>
       <UploadExplanation formType={formType} />
