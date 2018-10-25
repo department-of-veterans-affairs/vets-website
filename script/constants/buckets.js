@@ -16,6 +16,6 @@ module.exports = {
   [PREVIEW]: `${bucket}/${hostnames[PREVIEW]}`,
   [PRODUCTION]: `${bucket}/${hostnames[PRODUCTION]}`,
   [STAGING]: `${bucket}/${hostnames[STAGING]}`,
-  [VAGOVDEV]: `${bucket}/${hostnames[VAGOVDEV]}`,
+  [VAGOVDEV]: 'https://dev-va-gov-assets.s3-us-gov-west-1.amazonaws.com',
   [VAGOVSTAGING]: `${bucket}/${hostnames[VAGOVSTAGING]}`,
 };
