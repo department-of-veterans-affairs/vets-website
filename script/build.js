@@ -35,7 +35,7 @@ liquid.filters.humanizeDate = dt => moment(dt).format('MMMM D, YYYY');
 // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
 // add comments about any implicit dependencies you are introducing!!!
 //
-smith.source(`${BUILD_OPTIONS.contentRoot}/pages`);
+smith.source(`${BUILD_OPTIONS.contentPagesRoot}`);
 smith.destination(BUILD_OPTIONS.destination);
 
 // This lets us access the {{buildtype}} variable within liquid templates.
@@ -143,6 +143,7 @@ smith.use(createBuildSettings(BUILD_OPTIONS));
 if (BUILD_OPTIONS.watch) {
   const watchPaths = {
     [`${BUILD_OPTIONS.contentRoot}/**/*`]: '**/*.{md,html}',
+    [`${BUILD_OPTIONS.contentPagesRoot}/**/*`]: '**/*.{md,html}',
   };
   const watchMetalSmith = watch({ paths: watchPaths, livereload: true });
   smith.use(watchMetalSmith);
