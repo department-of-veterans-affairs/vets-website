@@ -144,9 +144,9 @@ import {
 } from './supportingEvidenceChoice781a';
 
 import {
-  uiSchema as uploadingSupportingEvidence781aUISchema,
-  schema as uploadingSupportingEvidence781aSchema,
-} from './uploadingSupportingEvidence781a';
+  uiSchema as uploadSupportingEvidence781aUISchema,
+  schema as uploadSupportingEvidence781aSchema,
+} from './uploadSupportingEvidence781a';
 
 import {
   uiSchema as vaEmployeeUISchema,
@@ -303,7 +303,7 @@ export const supportingEvidenceChoice781a = {
   schema: supportingEvidenceChoice781aSchema,
 };
 
-export const uploadingSupportingEvidence781a = {
-  uiSchema: uploadingSupportingEvidence781aUISchema,
-  schema: uploadingSupportingEvidence781aSchema,
+export const uploadSupportingEvidence781a = {
+  uiSchema: uploadSupportingEvidence781aUISchema,
+  schema: uploadSupportingEvidence781aSchema,
 };

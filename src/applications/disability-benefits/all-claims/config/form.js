@@ -57,7 +57,7 @@ import {
   vaEmployee,
   summaryOfEvidence,
   supportingEvidenceChoice781a,
-  uploadingSupportingEvidence781a,
+  uploadSupportingEvidence781a,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -295,8 +295,8 @@ const formConfig = {
             hasNewPtsdDisability(formData) &&
             needsToEnter781a(formData) &&
             isUploadingSupportingEvidence(formData),
-          uiSchema: uploadingSupportingEvidence781a.uiSchema,
-          schema: uploadingSupportingEvidence781a.schema,
+          uiSchema: uploadSupportingEvidence781a.uiSchema,
+          schema: uploadSupportingEvidence781a.schema,
         },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',

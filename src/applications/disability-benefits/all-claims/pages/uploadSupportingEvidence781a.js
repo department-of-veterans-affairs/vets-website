@@ -13,7 +13,7 @@ export const uiSchema = {
   ),
   'ui:description': DocumentDescription,
   ptsd781: fileUploadUI('', {
-    itemDescription: 'PTSD 781a form',
+    itemDescription: 'Adding additional evidence:',
     hideLabelText: true,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
     fileTypes: [
