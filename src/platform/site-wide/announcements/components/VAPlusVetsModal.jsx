@@ -7,7 +7,12 @@ export default class VAPlusVetsModal extends React.Component {
     if (!brandConsolidation.isEnabled()) return false;
 
     const referrer = document.referrer;
-    const wasRedirectedFromVets = !!referrer && referrer.includes('vets.gov');
+    let wasRedirectedFromVets = !!referrer && referrer.includes('vets.gov');
+
+    // Allow an override on the URL to force the Onboarding Modal to appear for testing purposes.s
+    if (__BUILDTYPE__ !== 'preview') {
+      wasRedirectedFromVets = window.location.search.includes('onboarding-modal')
+    }
 
     return wasRedirectedFromVets;
   }
