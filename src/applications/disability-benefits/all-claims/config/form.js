@@ -233,7 +233,7 @@ const formConfig = {
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
-          path: 'review-veteran-details/military-service-history/pow',
+          path: 'pow',
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
         },
