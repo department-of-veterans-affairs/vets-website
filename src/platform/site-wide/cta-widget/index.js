@@ -132,6 +132,7 @@ export class CallToActionWidget extends React.Component {
         ),
         buttonText: 'Go to My HealtheVet',
         buttonHandler: this.goToTool,
+        status: 'info',
       };
     }
 
