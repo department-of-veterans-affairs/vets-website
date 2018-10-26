@@ -20,7 +20,7 @@ const createBuildSettings = require('./create-build-settings');
 const createRedirects = require('./create-redirects');
 const createSitemaps = require('./create-sitemaps');
 const checkBrokenLinks = require('./check-broken-links');
-const checkExternalLinks = require('./check-external-links');
+const updateExternalLinks = require('./update-external-links');
 const createEnvironmentFilter = require('./create-environment-filter');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
 const leftRailNavResetLevels = require('./left-rail-nav-reset-levels');
@@ -141,7 +141,7 @@ smith.use(rewriteVaDomains(BUILD_OPTIONS));
 // In the browser, it can be accessed at window.settings.
 smith.use(createBuildSettings(BUILD_OPTIONS));
 
-smith.use(checkExternalLinks(BUILD_OPTIONS));
+smith.use(updateExternalLinks(BUILD_OPTIONS));
 
 if (BUILD_OPTIONS.watch) {
   const watchPaths = {
