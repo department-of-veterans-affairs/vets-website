@@ -3,8 +3,6 @@ const cheerio = require('cheerio');
 
 function checkExternalLinks() {
   return (files, metalsmith, done) => {
-    // const relErrors = new Map();
-    // const targetErrors = new Map();
     for (const fileName of Object.keys(files)) {
       const file = files[fileName];
       let linkUpdated = false;
