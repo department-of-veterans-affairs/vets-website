@@ -74,7 +74,7 @@ class ConnectedAcctApp extends React.Component {
             <tbody>
              <tr>
                <th scope="row">
-                 <a href="https://usajobs.gov">
+                 <a href="https://usajobs.gov" className="no-external-icon">
                  <img
                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/USAJOBS.gov_logo.svg/2000px-USAJOBS.gov_logo.svg.png"
                    alt="VA logo"
