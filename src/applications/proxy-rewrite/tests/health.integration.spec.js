@@ -8,7 +8,7 @@ const VAGOV_HEALTH_URL = 'https://staging.va.gov/health/';
 const HEADER = 'header';
 const FOOTER = 'footer';
 
-describe('jest-image-snapshot usage with an image received from puppeteer', () => {
+describe('Veterans Health Administration page', () => {
   let browser;
   let page;
   jest.setTimeout(20000);
@@ -28,16 +28,23 @@ describe('jest-image-snapshot usage with an image received from puppeteer', () =
     await page.goto(VAGOV_HEALTH_URL);
   });
 
-  it('compares screenshots of elements', async () => {
+  it('renders full screen size', async () => {
     page.setViewport(fullScreen);
+
     compareScreenshots(FOOTER);
-  });
-  it('compares small width screenshots', async () => {
-    page.setViewport(mobileScreen);
     compareScreenshots(HEADER);
+
+    page.click('#usa-banner-toggle');
+    await page.waitForSelector('#gov-banner', {
+      visible: true,
+    });
   });
-  it('checks for expanded content', async () => {
-    page.setViewport(fullScreen);
+  it('renders mobile screen size', async () => {
+    page.setViewport(mobileScreen);
+
+    compareScreenshots(FOOTER);
+    compareScreenshots(HEADER);
+
     page.click('#usa-banner-toggle');
     await page.waitForSelector('#gov-banner', {
       visible: true,
