@@ -12,6 +12,7 @@ const config = {
       paths: /(.)/,
       component: VAPlusVetsModal,
       disabled: !VAPlusVetsModal.isEnabled(),
+      persistAcrossSessions: false
     },
     {
       name: 'dashboard-intro',

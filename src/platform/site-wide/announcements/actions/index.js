@@ -32,8 +32,9 @@ export function initDismissedAnnouncements() {
   };
 }
 
-export function dismissAnnouncement(announcement) {
-  localAnnouncements(announcement);
+export function dismissAnnouncement(announcement, persistAcrossSessions = true) {
+  if (persistAcrossSessions) localAnnouncements(announcement);
+
   return {
     type: DISMISS_ANNOUNCEMENT,
     announcement,

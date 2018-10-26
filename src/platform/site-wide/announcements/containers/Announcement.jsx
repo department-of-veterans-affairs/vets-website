@@ -12,10 +12,10 @@ class Announcement extends React.Component {
   }
   dismiss = () => {
     const {
-      announcement: { name: announcementName, relatedAnnouncements = [] },
+      announcement: { name: announcementName, persistAcrossSessions = true, relatedAnnouncements = [] },
     } = this.props;
 
-    this.props.dismissAnnouncement(announcementName);
+    this.props.dismissAnnouncement(announcementName, persistAcrossSessions);
 
     relatedAnnouncements
       .filter(
