@@ -32,133 +32,52 @@ crosslinks:
       title: <b>Education and Training</b>
       description: Apply for and manage GI Bill and other education benefits to help pay for college and training programs.
 social:
-  - heading: Connect with Us
-    admin: Veterans Health Administration
-    url: https://www.va.gov/health/
+  - heading: Ask Questions
     subsections:
-      - subhead: Ask Questions
+      - subhead: Message Us
         links:
         - url: https://iris.custhelp.va.gov/app/ask
-          label: "Ask a Question Online"
+          label: "Ask a question online"
+      - subhead: Call Us             
+        links:
         - url: tel:1-877-222-VETS(8387)
           number: 1-877-222-VETS(8387)
           title: "Health Benefits Hotline:"
         - url: tel:1-877-327-0022
           number: 1-877-327-0022
           title: "My HealtheVet Help Desk:"
-        - url: tel:18774243838
-          number: 1-877-4AID-VET (1-877-424-3838)
-          title: "National Call Center for Homeless Veterans:"
+        - url: tel:1-800-983-0937
+          number: 1-800-983-0937
+          title: "eBenefits Technical Support:"        
+        - url: tel:1-844-698-2311
+          number: 1-844-698-2311
+          title: "Call MyVA311 for Help:"
+        - url:
+          title: "If you have hearing loss, call TTY: 711."
+  - heading: Connect with Us  
+    admin: Veterans Health Administration
+    url: https://www.va.gov/health/
+    subsections:
       - subhead: Get Updates
         links:
         - url: https://public.govdelivery.com/accounts/USVHA/subscribers/qualify?category_id=USVHA_C4&email=dwdw%40gmail.com&commit.x=36&commit.y=11
           label: Veterans Health Email Updates
           external: true
-          icon: fa-envelope-square
-        - url: "https://www.facebook.com/VeteransHealth"
-          label: Veterans Health Facebook
-          external: true
-          icon: fa-facebook
+          icon: fa-envelope
+      - subhead: Follow Us
+        links:
         - url: "https://twitter.com/VeteransHealth"
           label: Veterans Health Twitter
           external: true
           icon: fa-twitter
+        - url: "https://www.facebook.com/VeteransHealth"
+          label: Veterans Health Facebook
+          external: true
+          icon: fa-facebook
         - url: "https://www.youtube.com/user/VeteransHealthAdmin"
           label: Veterans Health YouTube
           external: true
           icon: fa-youtube
-hublinks:
-  - id: "get"
-    title: Get VA Health Care
-    links:
-      - url: /health-care/about-va-health-benefits/
-        label: About VA Health Benefits
-        description: Learn how VA health care works and which Veterans health care services we cover.</p>
-      - url: /health-care/eligibility/
-        label: Eligibility
-        description: Find out if you’re eligible for Veterans health care benefits and how priority groups work.
-      - url: /health-care/how-to-apply/
-        label: How to Apply
-        description: Get instructions for how to prepare and apply for VA health care online, by phone, by mail, or in person.
-      - url: /health-care/apply/application/
-        label: Apply Online (VA Form 10-10EZ)
-        description: Start your Veterans health care application now.</p>
-      - url: /health-care/after-you-apply/
-        label: After You Apply
-        description: Find out when to expect a decision on your application, and what to do next.</p>
-      - url: /health-care/family-caregiver-benefits/
-        label: Family and Caregiver Health Benefits
-        description: See if you qualify for VA medical benefits as a spouse, surviving spouse, dependent child, or caregiver.
-  - id: "manage"
-    title: Manage Your Health and Benefits
-    links:
-      - url: /health-care/refill-track-prescriptions/
-        label: Refill and Track Your VA Prescriptions
-        description: Order a prescription refill and track your shipment online.
-      - url: /health-care/secure-messaging/
-        label: Use VA Secure Messaging
-        description: Communicate privately with your VA health care team through Secure Messaging.
-      - url: /health-care/schedule-view-va-appointments/
-        label: Schedule and View Your VA Appointments
-        description: Find out how to schedule an appointment by phone, online, or through Secure Messaging.
-      - url: /health-care/view-test-and-lab-results/
-        label: View Your VA Lab and Test Results
-        description: View, download, and print your labs and test results.
-      - url: /health-care/order-hearing-aid-batteries-prosthetic-socks/
-        label: Order Hearing Aid Batteries and Prosthetic Socks
-        description: Order these items online for home delivery.
-      - url: /health-care/get-medical-records/
-        label: Get Your VA Medical Records (also called "VA Blue Button")
-        description: Set up your personal health record and download reports to share with your VA and non-VA doctors.
-      - url: /health-care/update-health-information/
-        label: Update Your Health Benefits Information (VA Form 10-10EZR)
-        description: Update your personal, financial, or insurance information after you’re enrolled in the VA health care program.
-      - url: https://www.pay.gov/public/form/start/25987221
-        external: true
-        target: _blank
-        label: Make a VA Health Care Payment Online
-        description: Pay your VA copay securely online through Pay.gov.
-      - url: /claim-or-appeal-status/
-        label: Check Your Appeal Status
-        description: Track the status of an open VA health care appeal.
-      - url: https://www.va.gov/HEALTHBENEFITS/vtp/Beneficiary_Travel.asp
-        external: true
-        label: Get VA Travel Pay (Reimbursement)
-        description: Find out how to apply for reimbursement for your travel to a VA health facility.
-  - id: "more"
-    title: More Information and Resources
-    links:
-      - url: https://www.va.gov/healthbenefits/cost/index.asp
-        external: true
-        label: VA Health Care Costs
-        description: Learn about your copay, financial assessment, and how VA health care works with private health insurance.
-      - url: /health-care/health-needs-conditions/
-        label: Mental Health and Other Health Needs and Conditions
-        description: Find out how to get care for specific needs (like mental health), and learn about service-related health concerns you should be aware of (like Agent Orange-related diseases or Camp Lejeune water contamination).
-      - url: /health-care/wellness-programs/
-        label: Veterans Programs for Health and Wellness
-        description: Explore VA programs to help you get and stay healthy in both body and mind.
-      - url: /health-care/health-needs-conditions/chemical-hazardous-materials-exposure/
-        label: Chemical or Hazardous Material Exposure
-        description: Learn about health concerns linked to exposures during military service. Learn about the special VA health registries you can join that document Veterans' exposure to Agent Orange, depleted uranium, ionizing radiation, airborne hazards, and other hazardous materials.
-      - url: https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp
-        external: true
-        label: The Veterans Choice Program
-        description: If you're enrolled in VA health care, find out if you can receive care from a local community provider through the Veterans Choice Program.
-      - url: /health-care/about-affordable-care-act/
-        label: The Affordable Care Act (ACA) and Your Health Coverage
-        description: Find out what you need to know about the Affordable Care Act and what it means for Veterans.
-      - url: https://www.research.va.gov/mvp/
-        label: The Million Veteran Program
-        description: See if you can be a part of this voluntary research study to better understand the role genes play in our health.
-      - url: https://www.accesstocare.va.gov/
-        target: _blank
-        label: Access and Quality in VA Health Care
-        description: Get information about your VA facility, like how quickly you can be seen and what other Veterans say about their experiences.
-      - url: https://www.va.gov/health/rights/patientrights.asp
-        external: true
-        label:  Patient Rights and Responsibilities
-        description: Read about your basic rights and responsibilities when you receive care at a VA health facility or live in a VA community living center.
 ---
 
 <p class="va-introtext">
@@ -206,3 +125,159 @@ Chat online with a trained VA staff member
       document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
     });
 </script>
+
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
+<section id="get" class="merger-majorlinks">
+
+  <h2>Get VA Health Care</h2>
+
+  <div class="link">
+    <a href="/health-care/about-va-health-benefits/"><b>About VA Health Benefits</b></a>
+    <p>Learn how VA health care works and which Veterans health care services we cover.</p>
+  </div>
+
+  <div class="link">
+    <a href="/health-care/eligibility/"><b>Eligibility</b></a>
+    <p>Find out if you’re eligible for Veterans health care benefits and how priority groups work.
+  </div>
+
+  <div class="link">
+    <a href="/health-care/how-to-apply/"><b>How to Apply</b></a>
+    <p>Get instructions for how to prepare and apply for VA health care online, by phone, by mail, or in person.</p>
+  </div>
+
+  <div class="link">
+    <a href="/health-care/apply/application/"><b>Apply Online (VA Form 10-10EZ)</b></a>
+    <p>Start your Veterans health care application now.</p>
+  </div>
+
+  <div class="link">
+    <a href="/health-care/after-you-apply/"><b>After You Apply</b></a>
+    <p>Find out when to expect a decision on your application, and what to do next.</p>
+  </div>
+
+  <div class="link">
+    <a href="/health-care/family-caregiver-benefits/"><b>Family and Caregiver Health Benefits</b></a>
+    <p>See if you qualify for VA medical benefits as a spouse, surviving spouse, dependent child, or caregiver.</p>
+  </div>
+
+</section>
+
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
+<section id="manage" class="merger-majorlinks">
+
+  <h2>Manage Your Health and Benefits</h2>
+
+  <div class="link">
+    <a href="/health-care/refill-track-prescriptions/"><b>Refill and Track Your VA Prescriptions</b></a>
+    <p>Order a prescription refill and track your shipment online.</p>
+    </div>
+
+  <div class="link">
+    <a href="/health-care/secure-messaging/"><b>Use VA Secure Messaging</b></a>
+    <p>Communicate privately with your VA health care team through Secure Messaging.</p>
+  </div>
+
+  <div class="link">
+    <a href="/health-care/schedule-view-va-appointments/"><b>Schedule and View Your VA Appointments</b></a>
+    <p>Find out how to schedule an appointment by phone, online, or through Secure Messaging.</p>
+  </div>
+
+  <div class="link">
+    <a href="/health-care/view-test-and-lab-results/"><b>View Your VA Lab and Test Results</b></a>
+    <p>View, download, and print your labs and test results.</p>
+  </div>
+
+  <div class="link">
+    <a href="/health-care/order-hearing-aid-batteries-prosthetic-socks/"><b>Order Hearing Aid Batteries and Prosthetic Socks</b></a>
+    <p>Order these items online for home delivery.</p>
+  </div>
+
+  <div class="link">
+    <a href="/health-care/get-medical-records/"><b>Get Your VA Medical Records (also called "VA Blue Button")</b></a>
+    <p>Set up your personal health record and download reports to share with your VA and non-VA doctors.</p>
+  </div>
+
+  <div class="link">
+    <a href="/health-care/update-health-information/"><b>Update Your Health Benefits Information (VA Form 10-10EZR)</b></a>
+    <p>Update your personal, financial, or insurance information after you’re enrolled in the VA health care program.</p>
+  </div>
+
+ <div class="link">
+    <a href="https://www.pay.gov/public/form/start/25987221" target="blank"><b>Make a VA Health Care Payment Online</b></a>
+    <p>Pay your VA copay securely online through Pay.gov.</p>
+  </div>
+
+ <div class="link">
+    <a href="/claim-or-appeal-status/"><b>Check Your Appeal Status</b></a>
+    <p>Track the status of an open VA health care appeal.</p>
+  </div>
+
+<div class="link">
+    <a href="https://www.va.gov/HEALTHBENEFITS/vtp/Beneficiary_Travel.asp"><b>Get VA Travel Pay (Reimbursement)</b></a>
+    <p>Find out how to apply for reimbursement for your travel to a VA health facility.</p>
+  </div>
+
+</section>
+
+<section class='usa-grid'>
+  <div class="va-h-ruled--stars"></div>
+</section>
+
+<section id="more" class="merger-majorlinks">
+
+  <h2>More Information and Resources</h2>
+
+  <div class="link">
+    <a href="https://www.va.gov/healthbenefits/cost/index.asp"><b>VA Health Care Costs</b></a>
+    <p>Learn about your copay, financial assessment, and how VA health care works with private health insurance.</p>
+  </div>
+
+  <div class="link">
+    <a href="/health-care/health-needs-conditions/"><b>Mental Health and Other Health Needs and Conditions</b></a>
+    <p>Find out how to get care for specific needs (like mental health), and learn about service-related health concerns you should be aware of (like Agent Orange-related diseases or Camp Lejeune water contamination).</p>
+  </div>
+
+  <div class="link">
+    <a href="/health-care/wellness-programs/"><b>Veterans Programs for Health and Wellness</b></a>
+  <p>Explore VA programs to help you get and stay healthy in both body and mind.</p>
+  </div>
+
+  <div class="link">
+    <a href="/health-care/health-needs-conditions/chemical-hazardous-materials-exposure/"><b>Chemical or Hazardous Material Exposure</b></a>
+    <p>Learn about health concerns linked to exposures during military service. Learn about the special VA health registries you can join that document Veterans' exposure to Agent Orange, depleted uranium, ionizing radiation, airborne hazards, and other hazardous materials.</p>
+  </div>
+
+<div class="link">
+    <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp"><b>The Veterans Choice Program</b></a>
+    <p>If you're enrolled in VA health care, find out if you can receive care from a local community provider through the Veterans Choice Program.</p>
+  </div>
+
+<div class="link">
+    <a href="/health-care/about-affordable-care-act/"><b>The Affordable Care Act (ACA) and Your Health Coverage</b></a>
+    <p>Find out what you need to know about the Affordable Care Act and what it means for Veterans.
+  </div>
+
+  <div class="link">
+    <a href="https://www.research.va.gov/mvp/"><b>The Million Veteran Program</b></a>
+    <p>See if you can be a part of this voluntary research study to better understand the role genes play in our health.
+  </div>
+
+  <div class="link">
+    <a href="https://www.accesstocare.va.gov/" target="_blank"><b>Access and Quality in VA Health Care</b></a>
+    <p>Get information about your VA facility, like how quickly you can be seen and what other Veterans say about their experiences.</p>
+  </div>
+
+  <div class="link">
+    <a href="https://www.va.gov/health/rights/patientrights.asp"><b>Patient Rights and Responsibilities</b></a>
+    <p>Read about your basic rights and responsibilities when you receive care at a VA health facility or live in a VA community living center.</p>
+  </div>
+
+
+</section>
