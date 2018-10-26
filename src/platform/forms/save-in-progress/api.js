@@ -9,6 +9,7 @@ export function removeFormApi(formId) {
 
   return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
     method: 'DELETE',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       'X-Key-Inflection': 'camel',
@@ -63,6 +64,7 @@ export function saveFormApi(
 
   return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
     method: 'PUT',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       'X-Key-Inflection': 'camel',
