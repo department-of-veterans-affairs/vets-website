@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 const cheerio = require('cheerio');
 
-function checkExternalLinks() {
+function updateExternalLinks() {
   return (files, metalsmith, done) => {
     for (const fileName of Object.keys(files)) {
       const file = files[fileName];
@@ -31,7 +31,6 @@ function checkExternalLinks() {
           // external link that should always open in a new tab
           // There is an escape hatch here, too
           if (
-            !linkUpdated &&
             !hrefAttr.includes('va.gov') &&
             !hrefAttr.includes('vets.gov') &&
             !link.attr('data-no-external')
@@ -58,4 +57,4 @@ function checkExternalLinks() {
   };
 }
 
-module.exports = checkExternalLinks;
+module.exports = updateExternalLinks;
