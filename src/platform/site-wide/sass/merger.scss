@@ -416,6 +416,11 @@
 
   // TODO: add this into formation
   .va-sidebarnav {
+    ul.usa-accordion {
+      > li {
+        margin-bottom: -1px;
+      }
+    }
     .left-side-nav-title {
       padding-bottom: 25px;
       > .icon-small {
@@ -658,11 +663,6 @@
   }
 
 
-  .usa-accordion {
-    & > li {
-      margin-bottom: -1px;
-    }
-  }
   .usa-accordion-bordered {
 
     &.social {
