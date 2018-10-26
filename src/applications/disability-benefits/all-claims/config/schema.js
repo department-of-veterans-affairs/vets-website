@@ -738,6 +738,9 @@ const schema = {
                     'Other',
                   ],
                 },
+                injuryDeathOther: {
+                  type: 'string',
+                },
                 injuryDeathDate: {
                   $ref: '#/definitions/date',
                 },
@@ -758,6 +761,169 @@ const schema = {
                 },
               },
             },
+          },
+        },
+      },
+    },
+    form8940: {
+      type: 'object',
+      unemployability: {
+        type: 'object',
+        properties: {
+          disabilityPreventingEmployment: {
+            type: 'string'
+          },
+          underDoctorHopitalCarePast12M: {
+            type: 'boolean'
+          },
+          doctorProvidedCare: {
+            type: 'array',
+            items: {
+              type: 'object',
+              name: {
+                type: 'string'
+              },
+              address: {
+                $ref: '#/definitions/address'
+              },
+              dates: {
+                $ref: '#/definitions/dateRange'
+              }
+            },
+          },
+          hospitalProvidedCare: {
+            type: 'array',
+            items: {
+              type: 'object',
+              name: {
+                type: 'string'
+              },
+              address: {
+                $ref: '#/definitions/address'
+              },
+              dates: {
+                $ref: '#/definitions/dateRange'
+              }
+            },
+          },
+          disabilityAffectedEmploymentFullTimeDate: {
+            $ref: '#/definitions/date'
+          },
+          lastWoredFullTimeDate: {
+            $ref: '#/definitions/date' },
+          becameTooDisabledToWorkDate: {
+            $ref: '#/definitions/date'
+          },
+          mostEarningsInAYear: {
+            type: 'string'
+          },
+          yearOfMostEarnings: {
+            type: 'string'
+          },
+          occupationDuringMostEarnings: {
+            type: 'string'
+          },
+          previousEmployers: {
+            type: 'array',
+            items: {
+              type: 'object',
+              name: {
+                type: 'string'
+              },
+              address: {
+                $ref: '#/definitions/address'
+              },
+              workType: {
+                type: 'string'
+              },
+              hoursPerWeek: {
+                type: 'string'
+              },
+              dates: {
+                $ref: '#/definitions/dateRange'
+              },
+              timeLostFromIllness: {
+                type: 'string'
+              },
+              mostEarningsInAMonth: {
+              type: 'string'
+              },
+            },
+          },
+        disabilityPreventMilitaryDuties: {
+            type: 'boolean'
+        },
+          past12MonthsEarnedIncome: {
+            type: 'string'
+          },
+          currentMonthlyEarnedIncome: {
+            type: 'string'
+          },
+          leftLastJobDueToDisability: {
+            type: 'boolean'
+          },
+          receiveExpectDisabilityRetirement: {
+            type: 'boolean'
+          },
+          receiveExpectWorkersCompensation: {
+            type: 'boolean'
+          },
+          attemptedToObtainEmploymentSinceUnemployability: {
+            type: 'boolean'
+          },
+          appliedEmployers: {
+            type: 'array',
+            items: {
+              type: 'object',
+              name: {
+                type: 'string'
+              },
+              address: {
+                $ref: '#/definitions/address'
+              },
+              workType: {
+                type: 'string'
+              },
+              date: {
+                $ref: '#/definitions/date'
+              },
+            },
+          },
+          education: {
+            type: 'string'
+          },
+          receivedOtherEducationTrainingPreUnemployability: {
+            type: 'boolean'
+          },
+          otherEducationTrainingPreUnemployability: {
+            type: 'array',
+            items: {
+              type: 'object',
+              name: {
+                type: 'string'
+              },
+              dates: {
+                $ref: '#/definitions/dateRange'
+              },
+            },
+          },
+          receivedOtherEducationTrainingPostUnemployability: {
+            type: 'boolean'
+          },
+          otherEducationTrainingPostUnemployability: {
+            type: 'array',
+            items: {
+              type: 'object',
+              name: {
+                type: 'string'
+              },
+              dates: {
+                $ref: '#/definitions/dateRange'
+              },
+            },
+          },
+          remarks: {
+            type: 'string'
           },
         },
       },
