@@ -33,17 +33,17 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
       <ul class="hub-page-link-list">
       {% for link in group.links %}
         {% if link.url != empty %}
-          <li class="hub-page-link-list--item">
+          <li class="hub-page-link-list__item">
             <a href="{{link.url}}">
             {% if link.title != empty %}
-              <span class="hub-page-link-list--header">
+              <span class="hub-page-link-list__header">
                 {{ link.title }}
                 <img class="all-link-arrow" src="/img/arrow-right-blue.svg" alt="right-arrow">
               </span>
             {% endif %}
 
             {% if link.description != empty %}
-              <p class="hub-page-link-list--description">
+              <p class="hub-page-link-list__description">
                 {{ link.description }}
               </p>
             {% endif %}
