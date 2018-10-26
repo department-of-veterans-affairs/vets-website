@@ -11,7 +11,9 @@ export default class VAPlusVetsModal extends React.Component {
 
     // Allow an override on the URL to force the Onboarding Modal to appear for testing purposes.s
     if (__BUILDTYPE__ !== 'preview') {
-      wasRedirectedFromVets = window.location.search.includes('onboarding-modal')
+      wasRedirectedFromVets = window.location.search.includes(
+        'onboarding-modal',
+      );
     }
 
     return wasRedirectedFromVets;
