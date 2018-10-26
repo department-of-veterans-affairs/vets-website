@@ -627,6 +627,9 @@ const schema = {
                     'Other',
                   ],
                 },
+                injuryDeathOther: {
+                  type: 'string',
+                },
                 injuryDeathDate: {
                   $ref: '#/definitions/date',
                 },
