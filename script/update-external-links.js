@@ -35,14 +35,13 @@ function updateExternalLinks() {
             !hrefAttr.includes('vets.gov') &&
             !link.attr('data-no-external')
           ) {
-            if (targetAttr !== '_blank') {
+            if (!targetAttr && targetAttr !== '_blank') {
               linkUpdated = true;
               link.attr('target', '_blank');
-            }
 
-            if (!relAttr || !relAttr.includes('noopener')) {
-              linkUpdated = true;
-              link.attr('rel', `noopener ${relAttr || ''}`);
+              if (!relAttr || !relAttr.includes('noopener')) {
+                link.attr('rel', `noopener ${relAttr || ''}`);
+              }
             }
           }
         });
