@@ -12,22 +12,22 @@
     },
     {
         "hostname": "dev.va.gov",
-        "pathnameBeginning": "/health/",
+        "pathnameBeginning": "/",
         "cookieOnly": false
     },
     {
         "hostname": "localhost",
-        "pathnameBeginning": "/health/",
+        "pathnameBeginning": "/",
         "cookieOnly": false
     },
     {
         "hostname": "staging.va.gov",
-        "pathnameBeginning": "/health/",
+        "pathnameBeginning": "/",
         "cookieOnly": false
     },
     {
         "hostname": "preview.va.gov",
-        "pathnameBeginning": "/health/",
+        "pathnameBeginning": "/",
         "cookieOnly": false
     },
     {
