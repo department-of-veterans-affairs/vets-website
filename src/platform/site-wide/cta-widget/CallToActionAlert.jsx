@@ -12,10 +12,10 @@ export default function CallToActionAlert({
   const alertProps = {
     headline: heading,
     content: (
-      <div className="usa-alert-text">
+      <div>
         {alertText}
         {buttonText && (
-          <button className="usa-button-primary" onClick={buttonHandler}>
+          <button className="va-button-primary" onClick={buttonHandler}>
             {buttonText}
           </button>
         )}
