@@ -1,29 +1,37 @@
 import React from 'react';
+import { Link } from 'react-router';
+import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 
-class Breadcrumbs extends React.Component {
+class ClaimsBreadcrumbs extends React.Component {
+  renderBreadcrumbs = childNodes => {
+    const crumbs = [
+      <a href="/" key="home">
+        Home
+      </a>,
+      <a href="/disability-benefits/" key="disability-benefits">
+        Disability Benefits
+      </a>,
+      <Link to="/" key="claims-home">
+        Track Your Claims and Appeals
+      </Link>,
+    ];
+
+    if (childNodes) {
+      if (React.Children.toArray(childNodes)) {
+        crumbs.push(childNodes);
+      } else {
+        crumbs.push(...childNodes);
+      }
+    }
+
+    return crumbs;
+  };
+
   render() {
     return (
-      <nav className="va-nav-breadcrumbs">
-        <ul
-          className="row va-nav-breadcrumbs-list columns claims-breadcrumbs"
-          role="menubar"
-          aria-label="Primary"
-        >
-          <li>
-            <a href="/" key="home">
-              Home
-            </a>
-          </li>
-          <li>
-            <a href="/disability-benefits/" key="disability-benefits">
-              Disability Benefits
-            </a>
-          </li>
-          {this.props.children}
-        </ul>
-      </nav>
+      <Breadcrumbs>{this.renderBreadcrumbs(this.props.children)}</Breadcrumbs>
     );
   }
 }
 
-export default Breadcrumbs;
+export default ClaimsBreadcrumbs;
