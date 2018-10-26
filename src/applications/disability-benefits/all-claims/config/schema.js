@@ -508,6 +508,7 @@ const schema = {
     },
     address: baseAddressDef,
     vaTreatmentCenterAddress: vaTreatmentCenterAddressDef,
+    centralMailAddress: baseAddressDef,
     dateRangeAllRequired: {
       type: 'object',
       properties: {
@@ -566,7 +567,7 @@ const schema = {
                 $ref: '#/definitions/dateRange',
               },
               providerFacilityAddress: {
-                $ref: '#/definitions/address',
+                $ref: '#/definitions/centralMailAddress',
               },
             },
           },
@@ -646,7 +647,7 @@ const schema = {
                   $ref: '#/definitions/fullName',
                 },
                 address: {
-                  $ref: '#/definitions/address',
+                  $ref: '#/definitions/centralMailAddress',
                 },
               },
             },
@@ -673,7 +674,7 @@ const schema = {
                 type: 'string'
               },
               address: {
-                $ref: '#/definitions/address'
+                $ref: '#/definitions/centralMailAddress'
               },
               dates: {
                 $ref: '#/definitions/dateRange'
@@ -688,7 +689,7 @@ const schema = {
                 type: 'string'
               },
               address: {
-                $ref: '#/definitions/address'
+                $ref: '#/definitions/centralMailAddress'
               },
               dates: {
                 $ref: '#/definitions/dateRange'
@@ -720,7 +721,7 @@ const schema = {
                 type: 'string'
               },
               address: {
-                $ref: '#/definitions/address'
+                $ref: '#/definitions/centralMailAddress'
               },
               workType: {
                 type: 'string'
@@ -768,7 +769,7 @@ const schema = {
                 type: 'string'
               },
               address: {
-                $ref: '#/definitions/address'
+                $ref: '#/definitions/centralMailAddress'
               },
               workType: {
                 type: 'string'
