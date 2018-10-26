@@ -699,7 +699,7 @@ const schema = {
           disabilityAffectedEmploymentFullTimeDate: {
             $ref: '#/definitions/date'
           },
-          lastWoredFullTimeDate: {
+          lastWorkedFullTimeDate: {
             $ref: '#/definitions/date' },
           becameTooDisabledToWorkDate: {
             $ref: '#/definitions/date'
@@ -727,7 +727,7 @@ const schema = {
                 type: 'string'
               },
               hoursPerWeek: {
-                type: 'string'
+                type: 'number'
               },
               dates: {
                 $ref: '#/definitions/dateRange'
