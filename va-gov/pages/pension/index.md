@@ -5,7 +5,7 @@ title: VA Pension Benefits
 display_title: Pension
 lastupdate:
 order: 1
-icon: icon-large white fa fa-money hub-background-pension
+hub: pension
 promo:
   - image: /img/megamenu/pension-illustration.png
     heading: Get Your Pension Payments Electronically
@@ -27,44 +27,56 @@ crosslinks:
       title: <b>Life Insurance</b>
       description: Explore your life insurance options and find out how to apply as a Servicemember, Veteran, or family member.
 social:
+  - heading: Ask Questions
+    subsections:
+      - subhead: Message Us
+        links:
+        - url: https://iris.custhelp.va.gov/app/ask
+          label: "Ask a question online"
+      - subhead: Call Us
+        links:
+        - url: tel:1-877-294-6380
+          number: 1-877-294-6380
+          title: "Support for Current Pension Beneficiaries:"
+        - url: tel:1-800-827-1000
+          number: 1-800-827-1000
+          title: "VA Benefits Hotline:"
+        - url: tel:1-800-983-0937
+          number: 1-800-983-0937
+          title: "eBenefits Technical Support:"
+        - url: tel:1-844-698-2311
+          number: 1-844-698-2311
+          title: "Call MyVA311 for Help:"
+        - url:
+          title: "If you have hearing loss, call TTY: 711."
   - heading: Connect with Us
     admin: Veterans Benefits Administration
     url: https://www.benefits.va.gov/benefits/
     subsections:
-      - subhead: Ask Questions
-        links:
-        - url: https://iris.custhelp.va.gov/app/ask
-          label: "Ask a Question Online"
-        - url: tel:1-800-827-1000
-          number: 1-800-827-1000
-          title: "VA Benefits Hotline:"
-        - url: tel:1-877-294-6380
-          number: 1-877-294-6380
-          title: "Support for Current Pension Beneficiaries:"
-        - url: tel:1-800-983-0937
-          number: 1-800-983-0937
-          title: "eBenefits Technical Support:"
-        - url: tel:18774243838
-          number: 1-877-4AID-VET (1-877-424-3838)
-          title: "National Call Center for Homeless Veterans:"
       - subhead: Get Updates
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
           label: Veterans Benefits Email Updates
           external: true
-          icon: fa-envelope-square
+          icon: fa-envelope
+      - subhead: Follow Us
+        links:      
         - url: https://twitter.com/VAVetBenefits
           label: Veterans Benefits Twitter
           external: true
           icon: fa-twitter
-        - url: "https://www.facebook.com/VeteransBenefits"
+        - url: https://www.facebook.com/VeteransBenefits
           label: Veterans Benefits Facebook
           external: true
           icon: fa-facebook
-        - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+        - url: https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg
           label: Veterans Benefits YouTube
           external: true
           icon: fa-youtube
+        - url: "https://www.instagram.com/vabenefits/"
+          label: Veterans Benefits Instagram
+          icon: fa-instagram
+
 ---
 
 <p class="va-introtext">

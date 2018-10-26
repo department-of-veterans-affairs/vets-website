@@ -12,20 +12,24 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
       {% if group.heading != empty %}
         <button class="usa-accordion-button usa-accordion-button-dark rail-heading"
           aria-expanded="true"
-          aria-controls="a1">
+          aria-controls="a{{forloop.index}}">
           {{ group.heading}}
         </button>
       {% endif %}
-    <div id="a1" class="usa-accordion-content">
+      <div id="a{{forloop.index}}" class="usa-accordion-content">
+      {% if group.url != empty %}
       <h4 class='va-nav-linkslist-list'>
         <a href="{{group.url}}">{{group.admin}}</a>
       </h4>
+      {% endif %}
       {% if group.subsections.length > 0 %}
 
         {% for subs in group.subsections %}
 
         <section>
+          {% if subs.subhead != empty %}
           <h4>{{ subs.subhead }}</h4>
+          {% endif %}
           <ul class="va-nav-linkslist-list social">
             {% for link in subs.links %}
               {% if link.url != empty %}
@@ -46,6 +50,10 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
                       <span>{{link.number}}</span>
                     {% endif %}
                   </a>
+                </li>
+              {% else %}
+                <li>
+                  {{link.title}}
                 </li>
               {% endif %}
             {% endfor %}

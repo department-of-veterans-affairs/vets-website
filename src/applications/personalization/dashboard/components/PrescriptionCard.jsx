@@ -1,19 +1,21 @@
-import { Link } from 'react-router';
+// import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import recordEvent from '../../../../platform/monitoring/record-event';
+// import recordEvent from '../../../../platform/monitoring/record-event';
 import { formatDate } from '../../../rx/utils/helpers';
 
-function recordDashboardClick(product) {
-  return () => {
-    recordEvent({
-      event: 'dashboard-navigation',
-      'dashboard-action': 'view-button',
-      'dashboard-product': product,
-    });
-  };
-}
+// Disabling interactivity.
+// See: https://github.com/department-of-veterans-affairs/vets.gov-team/issues/14499
+// function recordDashboardClick(product) {
+//   return () => {
+//     recordEvent({
+//       event: 'dashboard-navigation',
+//       'dashboard-action': 'view-button',
+//       'dashboard-product': product,
+//     });
+//   };
+// }
 
 export default function PrescriptionCard({ prescription }) {
   const {
@@ -39,25 +41,29 @@ export default function PrescriptionCard({ prescription }) {
         })}
       </p>
       <p>
-        {isTrackable ? (
-          <Link
-            key={`rx-${prescription.id}-track`}
-            className="rx-track-package-link usa-button"
-            href={`/health-care/prescriptions/${prescription.id}/track`}
-            onClick={recordDashboardClick('track-your-package')}
-          >
-            Track Your Package
-          </Link>
-        ) : (
-          <Link
-            className="usa-button usa-button-primary"
-            href={`/health-care/prescriptions/${prescription.id}`}
-            onClick={recordDashboardClick('view-your-prescription')}
-          >
-            View Your Prescription
-            <i className="fa fa-chevron-right" />
-          </Link>
-        )}
+        {
+          // Disabling interactivity.
+          // See: https://github.com/department-of-veterans-affairs/vets.gov-team/issues/14499
+          //   isTrackable ? (
+          //   <Link
+          //     key={`rx-${prescription.id}-track`}
+          //     className="rx-track-package-link usa-button"
+          //     href={`/health-care/prescriptions/${prescription.id}/track`}
+          //     onClick={recordDashboardClick('track-your-package')}
+          //   >
+          //     Track Your Package
+          //   </Link>
+          // ) : (
+          //   <Link
+          //     className="usa-button usa-button-primary"
+          //     href={`/health-care/prescriptions/${prescription.id}`}
+          //     onClick={recordDashboardClick('view-your-prescription')}
+          //   >
+          //     View Your Prescription
+          //     <i className="fa fa-chevron-right" />
+          //   </Link>
+          //   )
+        }
       </p>
     </div>
   );

@@ -7,6 +7,7 @@ $red-60v: #b51d09;
   position: relative;
   margin: auto;
   background-color: $red-60v;
+
   @include media($small-desktop-screen) {
     max-width: 97.5rem;
     background-color: transparent;
@@ -24,6 +25,23 @@ button.va-crisis-line {
   padding: 0;
   margin: 0;
   width: 100%;
+
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  transition-property: background-color;
+
+  &:focus {
+    outline-offset: -2px;
+  }
+
+  &:hover, &:active {
+    background-color: $red-70v;
+    .va-crisis-line-icon {
+      @include media($small-desktop-screen) {
+        background-color: $red-60v;
+      }
+    }
+  }
 
   @include media($small-desktop-screen) {
     width: auto;
@@ -55,6 +73,11 @@ button.va-crisis-line {
   width: 2.5em;
   height: 2em;
   padding: 0.3em 1em;
+
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  transition-property: background-color;
+
   @include media($small-desktop-screen) {
     background-color: $red-70v;
     background-position: 0.4em 0.5em;

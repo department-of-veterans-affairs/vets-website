@@ -38,6 +38,7 @@ import { validateAfterMarriageDate } from '../validation';
 import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import { get686AuthorizationState } from '../selectors';
 import { verifyDisabilityRating } from '../actions';
+import AuthorizationMessage from '../components/AuthorizationMessage';
 
 const {
   spouseDateOfBirth,
@@ -106,6 +107,7 @@ const formConfig = {
   transformForSubmit: transform,
   authorize: verifyDisabilityRating,
   getAuthorizationState: get686AuthorizationState,
+  authorizationMessage: AuthorizationMessage,
   trackingPrefix: '686-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

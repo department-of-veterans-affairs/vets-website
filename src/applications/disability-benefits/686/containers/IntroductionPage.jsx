@@ -54,10 +54,7 @@ class IntroductionPage extends React.Component {
             startText="Start the Declaration of Dependents Application"
             {...this.props.saveInProgressActions}
             {...this.props.saveInProgress}
-          >
-            Please complete the 686 form to apply for declaration of status of
-            dependents.
-          </SaveInProgressIntro>
+          />
         </AuthorizationComponent>
         <h4>Follow the steps below to add a dependent to your VA benefits.</h4>
         <div className="process schemaform-process">

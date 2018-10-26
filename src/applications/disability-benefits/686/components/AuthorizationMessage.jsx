@@ -3,14 +3,14 @@ import React from 'react';
 import appendQuery from 'append-query';
 import PropTypes from 'prop-types';
 
-import isBrandConsolidationEnabled from '../../brand-consolidation/feature-flag';
-import CallHelpDesk from '../../brand-consolidation/components/CallHelpDesk';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import CallHelpDesk from '../../../../platform/brand-consolidation/components/CallHelpDesk';
 
-import disabilityIncreaseManifest from '../../../applications/disability-benefits/526EZ/manifest.json';
+import disabilityIncreaseManifest from '../../526EZ/manifest.json';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 const { rootUrl: increaseRootUrl } = disabilityIncreaseManifest;
-import { profileStatuses } from '../../../applications/disability-benefits/686/helpers';
+import { profileStatuses } from '../helpers';
 
 const { SERVER_ERROR, NOT_FOUND } = profileStatuses;
 const nextQuery = { next: window.location.pathname };

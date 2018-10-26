@@ -50,7 +50,9 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('.usa-alert').text()).to.contain('In progress');
+    expect(tree.find('.usa-alert').text()).to.contain(
+      'Your form is in progress',
+    );
     expect(tree.find('.usa-alert').text()).to.contain('will expire on');
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
     expect(tree.find('withRouter(FormStartControls)').props().prefillAvailable)
@@ -294,13 +296,13 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
   });
 
-  it('should render message if signed in with an expired form', () => {
+  it('should render expired message if signed in with an expired form', () => {
     const user = {
       profile: {
         savedForms: [
           {
             form: '1010ez',
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() - 1000 },
+            metadata: { lastUpdated: 3000, expiresAt: moment().unix() },
           },
         ],
         prefillsAvailable: [],
@@ -322,8 +324,9 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
+    expect(tree.find('.usa-alert').text()).to.contain('Your form has expired');
     expect(tree.find('.usa-alert').text()).to.contain(
-      'You can save this form in progress',
+      'Your saved health care benefits application (10-10EZ) has expired. If you want to apply for health care benefits, please start a new application.',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
   });

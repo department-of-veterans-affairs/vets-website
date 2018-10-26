@@ -543,6 +543,117 @@ const schema = {
         },
       },
     },
+    form4142: {
+      type: 'object',
+      properties: {
+        limitedConsent: {
+          type: 'string',
+        },
+        providerFacility: {
+          type: 'array',
+          required: [
+            'providerFacilityName',
+            'treatmentDateRange',
+            'providerFacilityAddress',
+          ],
+          items: {
+            type: 'object',
+            properties: {
+              providerFacilityName: {
+                type: 'string',
+              },
+              treatmentDateRange: {
+                $ref: '#/definitions/dateRange',
+              },
+              providerFacilityAddress: {
+                $ref: '#/definitions/address',
+              },
+            },
+          },
+        },
+        privacyAgreementAccepted: {
+          $ref: '#/definitions/privacyAgreementAccepted',
+        },
+      },
+    },
+    form0781: {
+      type: 'object',
+      incident: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            personalAssault: {
+              type: 'boolean',
+            },
+            medalsCitations: {
+              type: 'string',
+            },
+            incidentDate: {
+              $ref: '#/definitions/date',
+            },
+            incidentLocation: {
+              type: 'string',
+            },
+            incidentDescription: {
+              type: 'string',
+            },
+            unitAssigned: {
+              type: 'string',
+            },
+            unitAssignedDates: {
+              $ref: '#/definitions/dateRange',
+            },
+            remarks: {
+              type: 'string',
+            },
+            personInvolved: {
+              type: 'array',
+              items: {
+                type: 'object',
+                name: {
+                  $ref: '#/definitions/fullName',
+                },
+                rank: {
+                  type: 'string',
+                },
+                injuryDeath: {
+                  type: 'string',
+                  enum: [
+                    'Killed in Action',
+                    'Killed Non-Battle',
+                    'Wounded in Action',
+                    'Injured Non-Battle',
+                    'Other',
+                  ],
+                },
+                injuryDeathOther: {
+                  type: 'string',
+                },
+                injuryDeathDate: {
+                  $ref: '#/definitions/date',
+                },
+                unitAssigned: {
+                  type: 'string',
+                },
+              },
+            },
+            source: {
+              type: 'array',
+              items: {
+                type: 'object',
+                name: {
+                  $ref: '#/definitions/fullName',
+                },
+                address: {
+                  $ref: '#/definitions/address',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
   properties: {
     alternateNames: {
@@ -892,8 +1003,29 @@ const schema = {
         },
       },
     },
+    bankAccountType: {
+      type: 'string',
+      enum: ['Checking', 'Savings'],
+    },
+    bankAccountNumber: {
+      type: 'string',
+      minLength: 4,
+      maxLength: 17,
+    },
+    bankRoutingNumber: {
+      type: 'string',
+      pattern: '^\\d{9}$',
+    },
+    bankName: {
+      type: 'string',
+      maxLength: 35,
+    },
     isVAEmployee: {
       type: 'boolean',
+    },
+    standardClaim: {
+      type: 'boolean',
+      default: false,
     },
   },
 };

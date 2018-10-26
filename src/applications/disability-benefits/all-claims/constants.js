@@ -96,18 +96,6 @@ export const ADDRESS_TYPES = {
   forwardingAddress: 'forwardingAddress',
 };
 
-export const accountTitleLabels = {
-  CHECKING: 'Checking Account',
-  SAVINGS: 'Savings Account',
-  NOBANK: 'No Bank Account',
-};
-
-export const NOBANK = 'NOBANK';
-
-export const PENDING = 'PENDING';
-export const RESOLVED = 'RESOLVED';
-export const REJECTED = 'REJECTED';
-
 export const HOMELESSNESS_TYPES = {
   atRisk: 'atRisk',
   homeless: 'homeless',
@@ -153,3 +141,21 @@ export const PTSD = 'ptsd';
 export const NINE_ELEVEN = '2001-09-11';
 
 export const ERR_MSG_CSS_CLASS = '.usa-input-error-message';
+
+export const submissionStatuses = {
+  // Statuses returned by the API
+  pending: 'submitted', // Submitted to EVSS, waiting response
+  retry: 'retrying',
+  succeeded: 'received', // Submitted to EVSS, received response
+  exhausted: 'exhausted', // EVSS is down or something; ran out of retries
+  failed: 'non_retryable_error', // EVSS responded with some error
+  // When the api serves a failure
+  apiFailure: 'apiFailure',
+};
+
+export const terminalStatuses = new Set([
+  submissionStatuses.succeeded,
+  submissionStatuses.exhausted,
+  submissionStatuses.retry,
+  submissionStatuses.failed,
+]);

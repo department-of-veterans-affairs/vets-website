@@ -45,6 +45,12 @@
 <meta content="{{ tag }}" property="article:tag">
 {% endfor %}
 {% endif %}
+
+{% if buildtype == 'vagovstaging' %}
+<!-- Verification of site-ownership to the Insight App Sec Scanner -->
+<meta name="insight-app-sec-validation" content="ec59f99e-d869-4e3f-82d2-a61d32c65776">
+{% endif %}
+
 {% if title === 'Home' %}
 <title>VA.gov</title>
 {% else %}
@@ -93,8 +99,27 @@
 </head>
 <body class="{{ body_class }} merger">
   <a class="show-on-focus" href="#content">Skip to Content</a>
+
+{% if path == '' and banner and banner.visible %}
+<div aria-live="polite" role="alert" class="usa-alert usa-alert-{{ banner.type }}" style="margin-top: 0;">
+  <div class="usa-alert-body va-alert-body">
+    <h3 class="va-alert-title">{{ banner.title }}</h3>
+    {{ banner.content }}
+  </div>
+</div>
+{% endif %}
+
+<div aria-live="polite" class="usa-alert usa-alert-info" style="margin: 0;">
+  <div class="usa-alert-body va-alert-body">
+    <h3 class="va-alert-title">You're viewing a preview of the new VA.gov</h3>
+    <p>We're building a new online experience to make it easier for Veterans to find, access, and manage the benefits they've earned. And we're building it with input from Veterans at every step. <b>Please note:</b> We work iteratively using agile development
+    practices, so you'll see new content, features, and functionality added to the site every day.</p>
+  </div>
+</div>
+
 {% if !noHeader %}
   {% include "va-gov/includes/top-nav.html" %}
 {% endif %}
+
 
 <script async src="/js/usa-search.js"></script>

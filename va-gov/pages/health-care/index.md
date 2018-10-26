@@ -7,7 +7,7 @@ description: VA health care offers access to primary and specialty care, includi
 concurrence:
 lastupdate:
 order: 1
-icon: icon-large white fa fa-medkit hub-background-health-care
+hub: health-care
 promo:
   - image: /img/megamenu/health-care-illustration.png
     heading: VA Telehealth Services
@@ -32,37 +32,48 @@ crosslinks:
       title: <b>Education and Training</b>
       description: Apply for and manage GI Bill and other education benefits to help pay for college and training programs.
 social:
-  - heading: Connect with Us
-    admin: Veterans Health Administration
-    url: https://www.va.gov/health/
+  - heading: Ask Questions
     subsections:
-      - subhead: Ask Questions
+      - subhead: Message Us
         links:
         - url: https://iris.custhelp.va.gov/app/ask
-          label: "Ask a Question Online"
+          label: "Ask a question online"
+      - subhead: Call Us             
+        links:
         - url: tel:1-877-222-VETS(8387)
           number: 1-877-222-VETS(8387)
           title: "Health Benefits Hotline:"
         - url: tel:1-877-327-0022
           number: 1-877-327-0022
           title: "My HealtheVet Help Desk:"
-        - url: tel:18774243838
-          number: 1-877-4AID-VET (1-877-424-3838)
-          title: "National Call Center for Homeless Veterans:"
+        - url: tel:1-800-983-0937
+          number: 1-800-983-0937
+          title: "eBenefits Technical Support:"        
+        - url: tel:1-844-698-2311
+          number: 1-844-698-2311
+          title: "Call MyVA311 for Help:"
+        - url:
+          title: "If you have hearing loss, call TTY: 711."
+  - heading: Connect with Us  
+    admin: Veterans Health Administration
+    url: https://www.va.gov/health/
+    subsections:
       - subhead: Get Updates
         links:
         - url: https://public.govdelivery.com/accounts/USVHA/subscribers/qualify?category_id=USVHA_C4&email=dwdw%40gmail.com&commit.x=36&commit.y=11
           label: Veterans Health Email Updates
           external: true
-          icon: fa-envelope-square
-        - url: "https://www.facebook.com/VeteransHealth"
-          label: Veterans Health Facebook
-          external: true
-          icon: fa-facebook
+          icon: fa-envelope
+      - subhead: Follow Us
+        links:
         - url: "https://twitter.com/VeteransHealth"
           label: Veterans Health Twitter
           external: true
           icon: fa-twitter
+        - url: "https://www.facebook.com/VeteransHealth"
+          label: Veterans Health Facebook
+          external: true
+          icon: fa-facebook
         - url: "https://www.youtube.com/user/VeteransHealthAdmin"
           label: Veterans Health YouTube
           external: true

@@ -34,9 +34,7 @@ class IntroductionPage extends React.Component {
           startText="Start the Pre-need Eligibility Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}
-        >
-          Please complete the 40-10007 form to apply for pre-need eligibility.
-        </SaveInProgressIntro>
+        />
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">

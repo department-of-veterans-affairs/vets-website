@@ -1,8 +1,28 @@
+//===================================
+// asset paths
+//===================================
 $font-path: "~uswds/src/fonts";
 $image-path: "~uswds/src/img";
+
+//===================================
+// color values
+//===================================
 $teamsite-dark-blue: #112e51;
 $teamsite-light-blue: #0073b4;
+
+//===================================
+// width values
+//===================================
 $teamsite-width: 959px;
+
+//===================================
+// Z-index values
+//===================================
+$base-layer: 0;
+$low-layer: 100;
+$middle-layer: 200;
+$top-layer: 300;
+$modal-layer: 400;
 
 @font-face {
   font-family: "FontAwesome";
@@ -11,6 +31,70 @@ $teamsite-width: 959px;
     url("~font-awesome/fonts/fontawesome-webfont.eot") format("eot");
   font-weight: normal;
   font-style: normal;
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-weight: 300;
+  src: url(/fonts/sourcesanspro-light-webfont.eot?#iefix) format("embedded-opentype"),
+    url(/fonts/sourcesanspro-light-webfont.woff2) format("woff2"),
+    url(/fonts/sourcesanspro-light-webfont.woff) format("woff"),
+    url(/fonts/sourcesanspro-light-webfont.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-weight: 400;
+  src: url(/fonts/sourcesanspro-regular-webfont.eot?#iefix) format("embedded-opentype"),
+    url(/fonts/sourcesanspro-regular-webfont.woff2) format("woff2"),
+    url(/fonts/sourcesanspro-regular-webfont.woff) format("woff"),
+    url(/fonts/sourcesanspro-regular-webfont.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: italic;
+  font-weight: 400;
+  src: url(/fonts/sourcesanspro-italic-webfont.eot?#iefix) format("embedded-opentype"),
+    url(/fonts/sourcesanspro-italic-webfont.woff2) format("woff2"),
+    url(/fonts/sourcesanspro-italic-webfont.woff) format("woff"),
+    url(/fonts/sourcesanspro-italic-webfont.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-weight: 700;
+  src: url(/fonts/sourcesanspro-bold-webfont.eot?#iefix) format("embedded-opentype"),
+    url(/fonts/sourcesanspro-bold-webfont.woff2) format("woff2"),
+    url(/fonts/sourcesanspro-bold-webfont.woff) format("woff"),
+    url(/fonts/sourcesanspro-bold-webfont.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Bitter";
+  font-style: normal;
+  font-weight: 400;
+  src:
+    local("Bitter Regular"),
+    local("Bitter-Regular"),
+    url(/fonts/bitter-regular.woff2) format("woff2"),
+    url(/fonts/bitter-regular.ttf) format("truetype");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+
+@font-face {
+  font-family: "Bitter";
+  font-style: normal;
+  font-weight: 700;
+  src:
+    local("Bitter Bold"),
+    local("Bitter-Bold"),
+    url(/fonts/bitter-bold.woff2) format("woff2"),
+    url(/fonts/bitter-bold.ttf) format("truetype");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }
 
 .consolidated {
@@ -49,11 +133,22 @@ $teamsite-width: 959px;
   @import "~@department-of-veterans-affairs/formation/sass/shame";
   // @import "slider";
   @import "iconography";
+
   @import "merger";
 
   @import "consolidated-patches";
 }
 
 .merger #bg-middle-effect {
-    background: url(/va_files/2014/responsive/images/bg-middle-effect.png) repeat-y scroll center -65px $teamsite-light-blue;
+  background: url(/va_files/2014/responsive/images/bg-middle-effect.png) repeat-y scroll center -65px $teamsite-light-blue;
+}
+
+.slider .prev, .slider .next, #slider-controls {
+  z-index: $low-layer;
+}
+// ----- Patches to elements outside of .consolidated ----- //
+
+// "I am a" select field on /health is having an unwanted margin-top added by @us-forms-system library
+#iama {
+  margin-top: 0;
 }
