@@ -33,24 +33,17 @@ export const uiSchema = {
     <PtsdNameTitle formData={formData} formType="781a" />
   ),
   'ui:description': supportingDocumentsSecondaryDescription,
-  supportingDocuments: {
+  'view:evidenceUpload781a': {
     'ui:title': 'Do you have supporting documents you would like to upload?',
-    'ui:widget': 'radio',
-    'ui:options': {
-      labels: {
-        yes: 'Yes',
-        no: 'No',
-      },
-    },
+    'ui:widget': 'yesNo',
   },
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    supportingDocuments: {
-      type: 'string',
-      enum: ['yes', 'no'],
+    'view:evidenceUpload781a': {
+      type: 'boolean',
     },
   },
 };

@@ -24,6 +24,7 @@ describe('718 record upload', () => {
           'view:selectablePtsdTypes': {
             'view:mstPtsdType': true,
           },
+          'view:evidenceUpload781a': true,
         }}
         uiSchema={uiSchema}
       />,
