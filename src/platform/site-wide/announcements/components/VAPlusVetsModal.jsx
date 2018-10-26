@@ -17,7 +17,7 @@ export default class VAPlusVetsModal extends React.Component {
 
     return (
       <Modal
-        cssClass="va-modal va-modal-medium announcement-brand-consolidation"
+        cssClass="va-modal announcement-brand-consolidation"
         visible
         onClose={dismiss}
         id="modal-announcement"
