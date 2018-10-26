@@ -82,13 +82,9 @@ class SearchApp extends React.Component {
   renderWebResult(result) {
     return (
       <li key={result.url} className="result-item">
-        <a
-          className="result-title"
-          href={result.url}
-          dangerouslySetInnerHTML={{
-            __html: formatResponseString(result.title),
-          }}
-        />
+        <a className="result-title" href={result.url}>
+          <h5>{result.title}</h5>
+        </a>
         <p className="result-url">{result.url}</p>
         <p
           className="result-desc"
@@ -139,11 +135,13 @@ class SearchApp extends React.Component {
   }
 
   renderResultsCount() {
-    const { prevOffset, total } = this.props.search;
+    const { prevOffset, nextOffset, total } = this.props.search;
     let currentRange;
 
     if (prevOffset) {
       currentRange = `${prevOffset + 1}-${prevOffset + PAGE_SIZE}`;
+    } else if (nextOffset) {
+      currentRange = `${nextOffset - PAGE_SIZE + 1}-${nextOffset}`;
     } else {
       currentRange = `1-${PAGE_SIZE}`;
     }
@@ -187,22 +185,34 @@ class SearchApp extends React.Component {
             <h4 className="highlight">More VA Search Tools</h4>
             <ul>
               <li>
-                <a href="https://www.index.va.gov/search/va/bva.jsp">
+                <a
+                  href="https://www.index.va.gov/search/va/bva.jsp"
+                  onClick="recordEvent({'event': 'nav-searchresults', 'nav-path': 'More VA Search Tools -> Look up BVA decisions'})"
+                >
                   Look up Board of Veterans' Appeals (BVA) decisions
                 </a>
               </li>
               <li>
-                <a href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.benefits.va.gov/warms">
+                <a
+                  href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.benefits.va.gov/warms"
+                  onClick="recordEvent({'event': 'nav-searchresults', 'nav-path': 'More VA Search Tools -> Search VA reference materials'})"
+                >
                   Search VA reference materials (WARMS)
                 </a>
               </li>
               <li>
-                <a href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.va.gov/vaforms,www.va.gov/vapubs,www.va.gov/vhapublications,www.vba.va.gov/pubs/forms">
+                <a
+                  href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.va.gov/vaforms,www.va.gov/vapubs,www.va.gov/vhapublications,www.vba.va.gov/pubs/forms"
+                  onClick="recordEvent({'event': 'nav-searchresults', 'nav-path': 'More VA Search Tools -> Find VA forms and publications'})"
+                >
                   Find VA forms and publications
                 </a>
               </li>
               <li>
-                <a href="https://www.vacareers.va.gov/job-search/index.asp">
+                <a
+                  href="https://www.vacareers.va.gov/job-search/index.asp"
+                  onClick="recordEvent({'event': 'nav-searchresults', 'nav-path': 'More VA Search Tools -> Explore and apply for open VA jobs'})"
+                >
                   Explore and apply for open VA jobs
                 </a>
               </li>
