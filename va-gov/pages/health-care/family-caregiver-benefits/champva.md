@@ -4,7 +4,7 @@ template: detail-page
 title: CHAMPVA Benefits
 display_title:
 concurrence: complete
-lastupdate: 2018-02-13
+lastupdate: 2018-10-17
 order: 1
 aliases:
   - /health-care/family-caregiver-health-benefits/CHAMPVA/
@@ -41,8 +41,7 @@ A service-connected disability is a disability that we’ve concluded was caused
 
 There are other factors that may affect whether you or other family members qualify for CHAMPVA. Please click on the description that matches your status to learn more:
 
-<div class="usa-accordion" aria-multiselectable="true">
-  <ul class="usa-unstyled-list">
+<ul class="usa-accordion" aria-multiselectable="true">
     <li>
       <button class="usa-button-unstyled usa-accordion-button" aria-controls="expecting">A new or expectant parent</button>
       <div id="expecting" class="usa-accordion-content">
@@ -89,6 +88,7 @@ There are other factors that may affect whether you or other family members qual
       <div id="caregiver" class="usa-accordion-content">
         <p><b>If you’re a family member caring for a Veteran with disabilities,</b> and you’re not entitled to care or services through another health plan, you may qualify for CHAMPVA.</p>
         <p><a href='https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_11-01.pdf'>Download a fact sheet on CHAMPVA for primary family caregivers</a>.</p>
+        <p><a href='https://www.va.gov/COMMUNITYCARE/programs/caregiver/index.asp'>Get more information about CHAMPVA for primary family caregivers</a>.</p>
         <p><b>If the Veteran you’re caring for was seriously injured in the line of duty on or after September 11, 2001,</b> you may qualify for health care benefits and other caregiver support through the Program of Comprehensive Assistance to Family Caregivers.</p>
         <p><a href='/health-care/family-caregiver-benefits/comprehensive-assistance'>Find out if you qualify for this program and how to apply</a>.</p>
       </div>
@@ -110,7 +110,6 @@ There are other factors that may affect whether you or other family members qual
 
 </li>
 </ul>
-</div>
 
 <br>
 

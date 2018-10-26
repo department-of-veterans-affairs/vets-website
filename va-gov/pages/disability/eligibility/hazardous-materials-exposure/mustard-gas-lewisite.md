@@ -80,3 +80,18 @@ You have to claim an actual disease or disability. It’s not enough to state th
 If you have questions about benefits related to mustard gas exposure, you can contact us via email. <a href="mailto:mustardgas@vba.va.gov">Email us at mustardgas@vba.va.gov</a>
 
 You can also get help from a trained professional trusted to help with VA-related claims. [Get help filing your claim](/disability/get-help-filing-claim/).
+
+-----
+
+### Can I get benefits if I volunteered for research involving chemical and biological testing?
+
+As many as 60,000 Veterans volunteered for medical research for the U.S. Biological and Chemical Programs. If you were involved in this research, you can get medical care through the U.S. Army if you meet both of the requirements listed below.
+
+**Both of these must be true. You:**
+
+- Volunteered for research involving chemical and biological testing between 1942 and 1975, **and**
+- Have an injury or disease directly caused by your participation in this testing 
+
+If you have questions or need help getting medical care: 
+- [Visit the U.S. Army web page](https://armymedicine.health.mil/CBTP), **or** 
+- Call <a href="tel:+18009848523">1-800-984-8523</a>

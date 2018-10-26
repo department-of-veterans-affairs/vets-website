@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
+import { createSelector } from 'reselect';
 import { apiRequest } from '../../../platform/utilities/api';
 import _ from '../../../platform/utilities/data';
 
@@ -10,6 +11,7 @@ import {
   SERVICE_CONNECTION_TYPES,
   USA,
   DATA_PATHS,
+  NINE_ELEVEN,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -161,20 +163,6 @@ export const hasForwardingAddress = formData =>
 export const forwardingCountryIsUSA = formData =>
   _.get('forwardingAddress.country', formData, '') === USA;
 
-export function fetchPaymentInformation() {
-  return apiRequest(
-    '/ppiu/payment_information',
-    {},
-    response =>
-      // Return only the bit the UI cares about
-      response.data.attributes.responses[0].paymentAccount,
-    () => {
-      Raven.captureMessage('vets_payment_information_fetch_failure');
-      return Promise.reject();
-    },
-  );
-}
-
 export function queryForFacilities(input = '') {
   // Only search if the input has a length >= 3, otherwise, return an empty array
   if (input.length < 3) {
@@ -241,3 +229,37 @@ export const hasOtherEvidence = formData =>
   _.get(DATA_PATHS.hasAdditionalDocuments, formData, false);
 export const hasPrivateEvidence = formData =>
   _.get(DATA_PATHS.hasPrivateEvidence, formData, false);
+
+/**
+ * Inspects all given paths in the formData object for presence of values
+ * @param {object} formData  full formData for the form
+ * @param {array} fieldPaths full paths in formData for other fields that
+ *                           should be checked for input
+ * @returns {boolean} true if at least one path is not empty / false otherwise
+ */
+export const fieldsHaveInput = (formData, fieldPaths) =>
+  fieldPaths.some(path => !!_.get(path, formData, ''));
+
+export const bankFieldsHaveInput = formData =>
+  fieldsHaveInput(formData, [
+    'bankAccountType',
+    'bankAccountNumber',
+    'bankRoutingNumber',
+    'bankName',
+  ]);
+
+const post911Periods = createSelector(
+  data => _.get('serviceInformation.servicePeriods', data, []),
+  periods =>
+    periods.filter(({ dateRange }) => {
+      if (!(dateRange && dateRange.to)) {
+        return false;
+      }
+
+      const toDate = new Date(dateRange.to);
+      const cutOff = new Date(NINE_ELEVEN);
+      return toDate.getTime() > cutOff.getTime();
+    }),
+);
+
+export const servedAfter911 = formData => !!post911Periods(formData).length;

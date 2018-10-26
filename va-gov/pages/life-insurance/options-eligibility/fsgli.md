@@ -101,8 +101,7 @@ Your Servicemember can log in with their CAC or DS Logon using Internet Explorer
 
 Your Servicemember will pay a premium for your coverage, which will increase as you age. Choose your age below to view current spousal coverage monthly premium rates based on the amount of insurance coverage you want.
 
-<div class="usa-accordion" aria-multiselectable="true">
-<ul class="usa-unstyled-list">
+<ul class="usa-accordion" aria-multiselectable="true">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="age-under-35">Under 35 years</button>
 <div id="age-under-35" class="usa-accordion-content">
@@ -237,7 +236,6 @@ Your Servicemember will pay a premium for your coverage, which will increase as 
 </div>
 </li>
 </ul>
-</div>
 
 If you’re signed up as a spouse in the Defense Enrollment Eligibility Reporting System (DEERS), we’ll automatically deduct the FSGLI premium from your Servicemember’s pay. If you aren’t signed up in DEERS, your Servicemember will still be responsible for premiums and back payments of unpaid premiums.
 

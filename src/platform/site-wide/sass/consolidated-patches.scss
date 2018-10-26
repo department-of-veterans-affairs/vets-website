@@ -1,10 +1,18 @@
+.login .container h1 {
+  color: $color-black !important;
+}
+
 .usa-banner-inner {
   p {
+    font-size: 1.2rem;
+    font-family: inherit;
     padding: 0;
   }
 }
 
 .login-container {
+  line-height: 0;
+
   div.row:first-child {
     display: inline-block;
   }
@@ -14,13 +22,68 @@
   padding-top: 2em;
 }
 
+.usa-grid {
+  @media (min-width: $medium-screen) {
+    width: $teamsite-width;
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+}
+
+.usa-grid-full {
+  width: $teamsite-width;
+}
+
 header.merger {
-  z-index: 300;
+  width: 100%;
+  margin: auto;
 
-  .va-crisis-line {
-
-    button.va-crisis-line-button {
+  .va-crisis-line-container {
+    button.va-crisis-line {
       background-image: none;
+    }
+  }
+
+  @media (min-width: $medium-screen) {
+
+    .va-notice--banner-inner,
+    .va-crisis-line-container {
+      width: $teamsite-width;
+      padding-left: 1rem;
+    }
+
+    #mega-menu .panel-bottom-link {
+      width: 468px;
+    }
+  }
+
+  @media (min-width: $large-screen) {
+    #mega-menu .vetnav-panel {
+      width: 487px;
+    }
+
+    #mega-menu .column-two {
+      left: 240px;
+    }
+
+    #mega-menu .column-three {
+      left: 487px;
+    }
+
+    #mega-menu .panel-bottom-link {
+      width: 657px;
+    }
+  }
+
+  @media (max-width: $large-screen - 1) {
+
+    #vetnav-va-benefits-and-health-care,
+    #vetnav-about-va {
+      width: 100%;
+    }
+
+    #mega-menu .column-three {
+      display: none;
     }
   }
 }
@@ -28,18 +91,17 @@ header.merger {
 footer.footer {
   font-size: 16px;
   width: 100%;
+
+  @media (max-width: $medium-screen) {
+
+    .usa-grid-flex-mobile {
+      width: auto;
+    }
+  }
 }
 
 .sign-in-nav {
   .sign-in-links {
     color: $color-white;
   }
-}
-
-#login-root {
-  z-index: 999;
-}
-
-#vetnav {
-  z-index: 299;
 }

@@ -16,11 +16,9 @@
     .sign-in-nav {
       margin-left: 6px;
     }
-    z-index: 300;
     min-height: 50px;
   }
   .va-modal {
-    z-index: 301;
     font-size: 1.6rem;
   }
 
@@ -71,10 +69,6 @@
     a {
       text-decoration: none;
     }
-
-    p {
-      margin-top: 1em;
-    }
   }
 
   #menu-rule {
@@ -115,51 +109,6 @@
     padding-bottom: 3em;
   }
 
-  #homepage-hub {
-
-    @include linear-gradient-background($color-old-browser-background-start, $color-old-browser-background-end);
-
-    padding-top: 3em;
-
-    #hub-internal {
-
-      width: 64%;
-
-      h2 {
-        color: $color-white;
-        text-align: center;
-        margin-bottom: 1.5em;
-      }
-
-      .usa-grid:first-of-type {
-        margin-bottom: 1.5rem;
-      }
-
-      ul {
-        list-style: none;
-        padding-left: 1rem;
-      }
-
-      .usa-width-one-half {
-        background-color: $color-white;
-        padding: 1.5em 0 2.125em 1.5em;
-
-        li {
-          padding: 0;
-        }
-      }
-    }
-  }
-
-  #hub-internal {
-    .header-title-1 {
-      font-size: 35px;
-    }
-     .header-title-2 {
-      font-size: 20px;
-    }
-  }
-
   h3, h4 {
     .fa {
       padding-right: .35em;
@@ -185,22 +134,6 @@
 
   }
 
-  // Once the above rule is delete, we can delete this awful block too.
-  #gov-banner {
-    @media (min-width: $small-screen) {
-      .usa-banner-guidance-gov, .usa-banner-guidance-ssl {
-        padding-bottom: 2.3rem;
-        padding-top: 4rem;
-      }
-    }
-  }
-
-  @media (max-width: $small-screen) {
-    .usa-banner-button:focus {
-      position: absolute;
-    }
-  }
-
   .va-nav-breadcrumbs-list {
     padding-left: 0;
 
@@ -220,6 +153,9 @@
       .hub-main-icon {
         vertical-align: top;
         margin-top: 8px;
+        > .icon-large {
+          margin-right: 10px;
+        }
       }
     }
   }
@@ -235,7 +171,6 @@
   #vetnav {
     // 100% width necessary for right aligned items
     width: 100%;
-    z-index: 2;
     left: initial;
   }
 
@@ -267,7 +202,7 @@
       //   min-height: unset;
       // }
       .login-container {
-        z-index: 301;
+        // due to these been nested, this has to have a higher z-level then vet-toolbar
         position: relative;
         top: -40px;
       }
@@ -291,14 +226,6 @@
 
     .vetnav-panel a {
       padding: 0.8rem 1.0rem;
-    }
-
-    .usa-banner {
-      padding-left: .5em;
-      .usa-banner-content {
-        padding-bottom: 2.3rem;
-        padding-top: 4rem;
-      }
     }
 
     .va-header-logo-wrapper {
@@ -352,31 +279,6 @@
       }
     }
 
-    #homepage-hub {
-
-      padding-top: 1.5em;
-
-      #hub-internal {
-
-        width: 100%;
-
-        h2 {
-          margin-bottom: 1em;
-        }
-
-        .usa-grid {
-          &:first-of-type {
-            margin-bottom: 0;
-          }
-
-          .usa-width-one-half {
-            margin-bottom: .55em;
-          }
-        }
-      }
-    }
-
-    #hub-internal,
     #homepage-benefits,
     #homepage-news,
     .va-h-ruled--stars,
@@ -411,7 +313,6 @@
     .va-sidebarnav--opened {
       position: fixed;
       display: initial;
-      z-index: 1000;
     }
     .va-navigation-nextprevious {
       padding-left: 0.9375rem;
@@ -469,24 +370,6 @@
       padding-left: 1em;
       padding-right: 1em;
     }
-
-    #homepage-hub {
-
-      #hub-internal {
-        width: 85%;
-        .usa-grid {
-          .usa-width-one-half {
-            margin-right: 2.35765%;
-          }
-        }
-      }
-    }
-  }
-
-  #preview-site-alert {
-    z-index: 1;
-    color: $color-black;
-    position: relative;
   }
 
   // TD: need to update this on formation in the MegaMenu. If no title it should still align with the link row.
@@ -521,7 +404,7 @@
 
   .usa-sidenav-list {
     a {
-      font-size: 17px;
+      font-size: 15px;
       text-decoration: underline;
       padding: 8px 16px 8px 30px;
 
@@ -533,14 +416,27 @@
 
   // TODO: add this into formation
   .va-sidebarnav {
+    ul.usa-accordion {
+      > li {
+        margin-bottom: -1px;
+      }
+    }
     .left-side-nav-title {
       padding-bottom: 25px;
+      > .icon-small {
+        vertical-align: middle;
+        padding-left: initial;
+        margin-right: 5px;
+        font-size: 1.7rem;
+      }
     }
 
     .usa-sidenav-list {
       margin-right: 0;
 
       & > li {
+        border-top: 0;
+
         .active-menu {
           border-bottom: 0;
         }
@@ -549,12 +445,11 @@
           color: $color-link-default;
           display: inline-block;
           vertical-align: middle;
-          width: 98%;
+          width: 100%;
 
           &:focus {
             background-color: $mm-gray;
             font-weight: bold;
-            margin: 2px;
           }
 
           &:hover {
@@ -596,6 +491,7 @@
         margin-left: 16px;
         background-color: $mm-gray;
         text-decoration: none;
+        cursor: default;
 
         &.level-one {
           padding-left: 14px;
@@ -610,46 +506,6 @@
 
       .active-level {
         background-color: $mm-gray;
-
-        a {
-          width: 99%;
-        }
-      }
-    }
-    .fa {
-      position: relative;
-      border-radius: 50%;
-
-      &.icon-small {
-        vertical-align: middle;
-        padding-left: initial;
-        height: 32px;
-        width: 32px;
-        margin-right: 5px;
-
-        &::before {
-          position: absolute;
-          margin-top: 6.5px;
-          margin-left: 8.47px;
-        }
-      }
-      &.fa-handshake {
-        &.icon-small {
-          &::before {
-          margin-top: 7.5px;
-          margin-left: 7px;
-
-          }
-        }
-      }
-
-      &.fa-medkit {
-        &.icon-small {
-          &::before {
-            margin-top: 6px;
-            margin-left: 8px;
-          }
-        }
       }
     }
 
@@ -680,7 +536,7 @@
 
     .usa-sidenav-sub_list{
       a {
-        width: 98% !important; // sorry this is temporary
+        width: 100% !important; // sorry this is temporary
         text-decoration: underline;
         padding-left: 40px;
         font-size: 15px;
@@ -766,7 +622,12 @@
         }
 
         &[aria-expanded=true] {
+          border-bottom: 0;
           background-image: url("/img/minus-blue.svg");
+
+          &:focus {
+            border: 2px solid $color-gold;
+          }
         }
       }
 
@@ -777,14 +638,21 @@
       .usa-sidenav-list {
         a {
           font-size: 15px;
-
-          &:hover:focus {
-            width: 98%;
+          // added to deal with accordian overflow
+          // and outline not showing correctly
+          &:focus {
+            width: 98% !important;
+            margin: 2px;
           }
+        }
+      }
 
-          &:hover {
-            width: 100%;
-          }
+      .usa-current {
+        // added to deal with accordian overflow
+        // and outline not showing correctly
+        &:focus {
+          width: 99% !important;
+          margin-top: 2px;
         }
       }
     }
@@ -795,11 +663,6 @@
   }
 
 
-  .usa-accordion {
-    & > li {
-      margin-bottom: -1px;
-    }
-  }
   .usa-accordion-bordered {
 
     &.social {
@@ -812,11 +675,15 @@
           margin-top: 0px;
         }
 
-        section:last-child {
+        > section {
+          margin-bottom: 1.5em;
+        }
+
+        > section:last-child {
           margin-bottom: 0px;
         }
 
-        > section, > h4 {
+        > h4 {
           margin: 1.5em auto;
         }
 
@@ -858,6 +725,7 @@
   }
 
   .sidenav-previous-page {
+    font-size: 15px;
     padding-bottom: 12px;
 
     @media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
@@ -881,10 +749,15 @@
 
   .sign-in-link {
     margin: 0;
+
     @include media($medium-large-screen) {
       &:hover, &:active {
-        background-color: $color-primary;
+        background-color: $color-primary-darker;
         color: inherit !important;
+        text-decoration: none;
+      }
+      &:focus {
+        outline-offset: 2px;
       }
     }
     // This is backwards from the mobile first approach we should be taking
@@ -896,7 +769,6 @@
       text-decoration: none;
     }
   }
-
 }
 
 .usa-accordion-bordered {
@@ -918,9 +790,9 @@
 }
 
 .left-side-nav-title {
+  color: $color-black;
   padding-left: 1em;
-  // This is gross, but it works for now
-  @include media(1008px) {
+  @include media($small-desktop-screen) {
     padding-left: 0;
   }
 }
@@ -942,4 +814,10 @@ img[data-srcset] {
 
 .profile-nav {
   margin-top: 6px;
+}
+
+.usa-alert {
+  .top-of-page {
+    margin-top: 0;
+  }
 }

@@ -17,6 +17,9 @@
       flex-wrap: nowrap;
     }
   }
+  a[href^="http"]:not([href*="va.gov"]):not([href*="vets.gov"]):not(.no-external-icon) {
+    background-image: url(/img/icons/exit-icon-white.png);
+  }
 }
 
 .footer-inner {
@@ -95,6 +98,7 @@
 .va-footer-accordion-content {
   background: transparent;
   > .va-footer-links {
+    list-style: none;
     > li {
       margin-bottom: 0.5em;
       > a {
@@ -112,6 +116,7 @@
 .va-footer-links {
   padding-left: 0;
   margin-top: 0;
+
   > li {
     margin-bottom: 0;
   }
@@ -192,4 +197,15 @@
 
 .va-footer-content {
   @include accessibly-hidden();
+}
+
+.va-footer-link-text {
+  color: $color-white;
+}
+
+.va-footer-link-label {
+  display: block;
+  font-weight: bold;
+  color: $color-white;
+  margin-top: 15px;
 }
