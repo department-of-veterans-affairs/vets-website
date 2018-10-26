@@ -18,7 +18,8 @@ The GI Bill covers more than just tuition. We may pay you back for the cost of c
 
 ### What kind of benefits can I get?
 
-<ul class="usa-accordion">
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="licensing-certification-kinds-of-benefits">For Licensing and Certification</button>
   
@@ -125,3 +126,4 @@ Then, mail your completed form to the nearest VA regional processing office. <br
 </div>
 </li>
 </ul>
+</div>

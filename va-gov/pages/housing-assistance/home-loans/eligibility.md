@@ -35,7 +35,8 @@ You may be able to get a COE if you didn't receive a dishonorable discharge and 
 
 </div>
 
-<ul class="usa-accordion" aria-multiselectable="true">
+<div class="usa-accordion" aria-multiselectable="true">
+<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="va-loan-eligibility-vets">Service requirements for Veterans and Servicemembers on active duty</button>
 <div id="va-loan-eligibility-vets" class="usa-accordion-content">
@@ -68,6 +69,7 @@ You may be able to get a COE if you didn't receive a dishonorable discharge and 
 </div>
 </li>
 </ul>
+</div>
 
 <br>
 

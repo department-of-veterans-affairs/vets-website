@@ -80,7 +80,8 @@ Compensation (monthly payments)
 
 Choose the scenario below that matches your situation to find out how to apply for disability benefits before discharge.
 
-<ul class="usa-accordion" aria-multiselectable="true">
+<div class="usa-accordion" aria-multiselectable="true">
+<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="bdd-program">If you have 180 to 90 days left on active duty: <br>
 Apply through the BDD program</button>
@@ -162,6 +163,7 @@ If you’re found to be medically unfit for duty, IDES will give you a proposed 
 </div>
 </li>
 </ul>
+</div>
 
 
 ### How can I get support for myself and my family as I transition to civilian life?

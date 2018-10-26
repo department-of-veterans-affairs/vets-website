@@ -18,7 +18,8 @@ If you’re the surviving spouse, child, or parent of a Servicemember who died i
 
 ## Am I eligible for VA DIC as a surviving spouse or dependent?
 
-<ul class="usa-accordion" aria-multiselectable="true">
+<div class="usa-accordion" aria-multiselectable="true">
+<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-burials-survivor-spouse">As a surviving spouse</button>
 <div id="VA-burials-survivor-spouse" class="usa-accordion-content">
@@ -70,8 +71,7 @@ You may be able to get compensation as a surviving child if you meet the require
 - Since their release from active duty and for at least 5 years immediately before their death, **or**
 - For at least 1 year before their death if they were a former Prisoner of War who died after September 30, 1999
 
-**Note:** “Totally disabling” means the Veteran’s injuries make it impossible for them to work.
-</div>
+**Note:** “Totally disabling” means the Veteran’s injuries made it impossible for them to work.
 
 </li>
 <li>
@@ -92,6 +92,7 @@ You may be able to get compensation as a surviving parent if both of the descrip
 - The Servicemember died from an injury or certain illnesses in the line of duty while on inactive training, **or**
 - The Veteran died from a service-connected illness or injury
 
+   </div>
   </div>
   </li>
  </ul>

@@ -46,7 +46,8 @@ It depends on a number of factors, like your military service history and your c
 
 Click on the statement below that describes you best to find out your benefits class and the dental benefits you may qualify for:
 
-<ul class="usa-accordion" aria-multiselectable="true">
+<div class="usa-accordion" aria-multiselectable="true">
+<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-disability">I have a service-connected disability or condition, and I get disability compensation (monthly payments).</button>
 <div id="dental-care-disability" class="usa-accordion-content">
@@ -190,6 +191,7 @@ Click on the statement below that describes you best to find out your benefits c
 </div>
 </li>
 </ul>
+</div>
 
 <br>
 

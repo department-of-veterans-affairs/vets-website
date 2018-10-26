@@ -52,7 +52,8 @@ If you have enough medical evidence in your file to support your claim, we won't
 
 ### How to schedule your VA claim exam
 
-<ul class="usa-accordion" aria-multiselectable="true">
+<div class="usa-accordion" aria-multiselectable="true">
+<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-schedule">How will you contact me to schedule the exam?</button>
 <div id="VA-claim-exam-schedule" class="usa-accordion-content">
@@ -86,12 +87,14 @@ If you canâ€™t make it to your appointment, let us know right away. You can most
 </div>
 </li>
 </ul>
+</div>
 
 <br>  
 
 ### What to expect at your VA claim exam
 
-<ul class="usa-accordion" aria-multiselectable="true">
+<div class="usa-accordion" aria-multiselectable="true">
+<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-bring">What should I bring to my VA claim exam?</button>
 <div id="VA-claim-exam-bring" class="usa-accordion-content">
@@ -175,12 +178,14 @@ If you have what we consider to be a good reason for missing your exam (called â
 </div>
 </li>
 </ul>
+</div>
 
 <br>  
 
 ### After your VA claim exam
 
-<ul class="usa-accordion" aria-multiselectable="true">
+<div class="usa-accordion" aria-multiselectable="true">
+<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="VA-claim-exam-happen">What happens after my exam?</button>
 <div id="VA-claim-exam-happen" class="usa-accordion-content">
@@ -229,6 +234,7 @@ We may ask you to have a claim exam if you appeal your disability benefits decis
 </div>
 </li>
 </ul>
+</div>
 
 ### What if I have more questions about my exam?
 

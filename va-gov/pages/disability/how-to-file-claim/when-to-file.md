@@ -28,7 +28,8 @@ Find out when you can first file a claim for service-connected benefits—and wh
 
 </div>
 
-<ul class="usa-accordion" aria-multiselectable="true">
+<div class="usa-accordion" aria-multiselectable="true">
+<ul class="usa-unstyled-list">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="claim-active-duty">Original Claim—File your first claim for disability benefits.</button>
 <div id="claim-active-duty" class="usa-accordion-content">
@@ -140,3 +141,4 @@ You can file a secondary claim to get more disability benefits for a new disabil
 </div>
 </li>
 </ul>
+</div>
