@@ -111,11 +111,7 @@ describe('Disability benefits 4142 provider medical records facility information
     form.find('form').simulate('submit');
     expect(submit.called).to.be.false;
 
-<<<<<<< HEAD
     expect(form.find('.usa-input-error').length).to.equal(6);
-=======
-    expect(form.find('.usa-input-error').length).to.equal(7);
->>>>>>> 7e477be1cc13a81bde8c182d7ffef20c6d85f5f9
 
     expect(form.find('select').length).to.equal(6);
     expect(form.find('input').length).to.equal(8);
