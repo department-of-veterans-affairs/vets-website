@@ -20,18 +20,18 @@ Used to open or close the side bar navigation bar on mobile screens. Must be use
     var element = document.getElementsByClassName("va-btn-sidebarnav-trigger")[0];
     var offset;
 
-    if (window.innerWidth < 768) {
+    if (document.body.clientWidth < 768) {
       offset = element.offsetTop;
     }
 
     window.addEventListener("resize", function() {
-      if (window.innerWidth < 768) {
+      if (document.body.clientWidth < 768) {
         offset = element.offsetTop;
       }
     }, false);
 
     window.addEventListener("scroll", function() {
-      if (window.innerWidth < 768) {
+      if (document.body.clientWidth < 768) {
         if (offset < window.pageYOffset) {
           element.classList.add("fixed-trigger");
         } else {
