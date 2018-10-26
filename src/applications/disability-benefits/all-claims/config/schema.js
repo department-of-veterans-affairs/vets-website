@@ -647,7 +647,7 @@ const schema = {
                   $ref: '#/definitions/fullName',
                 },
                 address: {
-                  $ref: '#/definitions/centralMailAddress',
+                  $ref: '#/definitions/address',
                 },
               },
             },
@@ -661,24 +661,24 @@ const schema = {
         type: 'object',
         properties: {
           disabilityPreventingEmployment: {
-            type: 'string'
+            type: 'string',
           },
           underDoctorHopitalCarePast12M: {
-            type: 'boolean'
+            type: 'boolean',
           },
           doctorProvidedCare: {
             type: 'array',
             items: {
               type: 'object',
               name: {
-                type: 'string'
+                type: 'string',
               },
               address: {
-                $ref: '#/definitions/centralMailAddress'
+                $ref: '#/definitions/address',
               },
               dates: {
-                $ref: '#/definitions/dateRange'
-              }
+                $ref: '#/definitions/dateRange',
+              },
             },
           },
           hospitalProvidedCare: {
@@ -686,134 +686,135 @@ const schema = {
             items: {
               type: 'object',
               name: {
-                type: 'string'
+                type: 'string',
               },
               address: {
-                $ref: '#/definitions/centralMailAddress'
+                $ref: '#/definitions/address',
               },
               dates: {
-                $ref: '#/definitions/dateRange'
-              }
+                $ref: '#/definitions/dateRange',
+              },
             },
           },
           disabilityAffectedEmploymentFullTimeDate: {
-            $ref: '#/definitions/date'
+            $ref: '#/definitions/date',
           },
           lastWorkedFullTimeDate: {
-            $ref: '#/definitions/date' },
+            $ref: '#/definitions/date',
+          },
           becameTooDisabledToWorkDate: {
-            $ref: '#/definitions/date'
+            $ref: '#/definitions/date',
           },
           mostEarningsInAYear: {
-            type: 'string'
+            type: 'string',
           },
           yearOfMostEarnings: {
-            type: 'string'
+            type: 'string',
           },
           occupationDuringMostEarnings: {
-            type: 'string'
+            type: 'string',
           },
           previousEmployers: {
             type: 'array',
             items: {
               type: 'object',
               name: {
-                type: 'string'
+                type: 'string',
               },
               address: {
-                $ref: '#/definitions/centralMailAddress'
+                $ref: '#/definitions/address',
               },
               workType: {
-                type: 'string'
+                type: 'string',
               },
               hoursPerWeek: {
-                type: 'number'
+                type: 'number',
               },
               dates: {
-                $ref: '#/definitions/dateRange'
+                $ref: '#/definitions/dateRange',
               },
               timeLostFromIllness: {
-                type: 'string'
+                type: 'string',
               },
               mostEarningsInAMonth: {
-              type: 'string'
+                type: 'string',
               },
             },
           },
-        disabilityPreventMilitaryDuties: {
-            type: 'boolean'
-        },
+          disabilityPreventMilitaryDuties: {
+            type: 'boolean',
+          },
           past12MonthsEarnedIncome: {
-            type: 'string'
+            type: 'string',
           },
           currentMonthlyEarnedIncome: {
-            type: 'string'
+            type: 'string',
           },
           leftLastJobDueToDisability: {
-            type: 'boolean'
+            type: 'boolean',
           },
           receiveExpectDisabilityRetirement: {
-            type: 'boolean'
+            type: 'boolean',
           },
           receiveExpectWorkersCompensation: {
-            type: 'boolean'
+            type: 'boolean',
           },
           attemptedToObtainEmploymentSinceUnemployability: {
-            type: 'boolean'
+            type: 'boolean',
           },
           appliedEmployers: {
             type: 'array',
             items: {
               type: 'object',
               name: {
-                type: 'string'
+                type: 'string',
               },
               address: {
-                $ref: '#/definitions/centralMailAddress'
+                $ref: '#/definitions/address',
               },
               workType: {
-                type: 'string'
+                type: 'string',
               },
               date: {
-                $ref: '#/definitions/date'
+                $ref: '#/definitions/date',
               },
             },
           },
           education: {
-            type: 'string'
+            type: 'string',
           },
           receivedOtherEducationTrainingPreUnemployability: {
-            type: 'boolean'
+            type: 'boolean',
           },
           otherEducationTrainingPreUnemployability: {
             type: 'array',
             items: {
               type: 'object',
               name: {
-                type: 'string'
+                type: 'string',
               },
               dates: {
-                $ref: '#/definitions/dateRange'
+                $ref: '#/definitions/dateRange',
               },
             },
           },
           receivedOtherEducationTrainingPostUnemployability: {
-            type: 'boolean'
+            type: 'boolean',
           },
           otherEducationTrainingPostUnemployability: {
             type: 'array',
             items: {
               type: 'object',
               name: {
-                type: 'string'
+                type: 'string',
               },
               dates: {
-                $ref: '#/definitions/dateRange'
+                $ref: '#/definitions/dateRange',
               },
             },
           },
           remarks: {
-            type: 'string'
+            type: 'string',
           },
         },
       },
