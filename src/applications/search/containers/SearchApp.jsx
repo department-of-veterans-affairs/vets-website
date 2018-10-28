@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import { fetchSearchResults } from '../actions';
 import { formatResponseString } from '../utils';
-import { PAGE_SIZE } from '../constants';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
@@ -24,16 +23,16 @@ class SearchApp extends React.Component {
     super(props);
 
     let userInputFromAddress = '';
-    let offset;
+    let page;
 
     if (this.props.router.location.query) {
       userInputFromAddress = this.props.router.location.query.query;
-      offset = this.props.router.location.query.offset;
+      page = this.props.router.location.query.page;
     }
 
     this.state = {
       userInput: userInputFromAddress,
-      offset,
+      page,
     };
 
     if (!userInputFromAddress) {
@@ -43,9 +42,9 @@ class SearchApp extends React.Component {
 
   componentDidMount() {
     // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
-    const { userInput, offset } = this.state;
+    const { userInput, page } = this.state;
     if (userInput) {
-      this.props.fetchSearchResults(userInput, offset);
+      this.props.fetchSearchResults(userInput, page);
     }
   }
 
@@ -57,23 +56,23 @@ class SearchApp extends React.Component {
 
   handleSearch = e => {
     e.preventDefault();
-    const { userInput, offset } = this.state;
+    const { userInput, page } = this.state;
     this.props.router.push({
       pathname: '',
       query: {
         query: encodeURIComponent(userInput),
-        offset,
+        page,
       },
     });
-    this.props.fetchSearchResults(userInput, offset);
+    this.props.fetchSearchResults(userInput, page);
   };
 
   /* eslint-disable arrow-body-style */
-  handlePageChange = offset => {
+  handlePageChange = page => {
     return e => {
       e.preventDefault();
       e.persist();
-      this.setState({ offset }, () => this.handleSearch(e));
+      this.setState({ page }, () => this.handleSearch(e));
     };
   };
   /* eslint-enable arrow-body-style */
@@ -135,20 +134,24 @@ class SearchApp extends React.Component {
   }
 
   renderResultsCount() {
-    const { prevOffset, nextOffset, total } = this.props.search;
-    let currentRange;
+    const {
+      currentPage,
+      perPage,
+      totalPages,
+      totalEntries,
+    } = this.props.search;
 
-    if (prevOffset) {
-      currentRange = `${prevOffset + 1}-${prevOffset + PAGE_SIZE}`;
-    } else if (nextOffset) {
-      currentRange = `${nextOffset - PAGE_SIZE + 1}-${nextOffset}`;
-    } else {
-      currentRange = `1-${PAGE_SIZE}`;
+    let resultRangeEnd = currentPage * perPage;
+
+    if (currentPage === totalPages) {
+      resultRangeEnd = totalEntries;
     }
+
+    const resultRangeStart = (currentPage - 1) * perPage + 1;
 
     return (
       <p>
-        Showing {currentRange} of {total} results
+        Showing {resultRangeStart} of {resultRangeEnd} results
       </p>
     );
   }
