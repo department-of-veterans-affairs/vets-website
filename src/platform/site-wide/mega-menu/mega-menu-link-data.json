@@ -96,20 +96,20 @@
                                 "href": "https://www.va.gov/claim-or-appeal-status/"
                             },
                             {
+                                "text": "View Your VA Payment History",
+                                "href": "https://www.va.gov/va-payment-history/"
+                            },
+                            {
+                                "text": "Upload Evidence to Support Your Claim",
+                                "href": "https://www.va.gov/disability/upload-supporting-evidence/"
+                            },
+                            {
                                 "text": "File for a VA Disability Increase",
                                 "href": "https://www.va.gov/disability-benefits/apply/form-526-disability-claim/"
                             },
                             {
                                 "text": "File an Appeal",
                                 "href": "https://www.va.gov/disability/file-an-appeal/"
-                            },
-                            {
-                                "text": "Add or Remove a Dependent",
-                                "href": "https://www.va.gov/disability/add-remove-dependent/"
-                            },
-                            {
-                                "text": "Upload Evidence to Support Your Claim",
-                                "href": "https://www.va.gov/disability/upload-supporting-evidence/"
                             }
                         ]
                     },
@@ -139,6 +139,10 @@
                             {
                                 "text": "About GI Bill Benefits",
                                 "href": "https://www.va.gov/education/about-gi-bill-benefits/"
+                            },
+                            {
+                                "text": "Eligibility",
+                                "href": "https://www.va.gov/education/eligibility/"
                             },
                             {
                                 "text": "How to Apply",
@@ -231,6 +235,10 @@
                                 "text": "Find a Job",
                                 "href": "https://www.dol.gov/veterans/findajob/",
                                 "target": "_blank"
+                            },
+                            {
+                                "text": "Find VA Careers and Support",
+                                "href": "https://www.va.gov/jobs/"
                             },
                             {
                                 "text": "Print Your Civil Service Preference Letter",
