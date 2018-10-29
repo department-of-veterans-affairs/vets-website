@@ -30,6 +30,8 @@
   }
 }
 
+// HACK: Hard-coding the width fixes one issue but prevents us from using this
+// class to remove the horizontal padding introduced by .usa-grid
 .usa-grid-full {
   width: $teamsite-width;
 }
@@ -106,6 +108,9 @@ footer.footer {
   }
 }
 
+// HACK: Added this new utility class to remove horizontal padding from the
+// mobile menu. .usa-grid-full cannot be used for this purpose as its width has
+// now been hard-coded
 .padding-h-none {
   padding-left: 0 !important;
   padding-right: 0 !important;
