@@ -18,7 +18,15 @@ function downloadAssets(buildOptions) {
       contents: new Buffer(fileManifest),
     };
 
-    const downloads = Object.keys(fileManifest).map(async entryName => {
+    let entryNames = Object.keys(fileManifest);
+    if (buildOptions.entry) {
+      const designatedEntries = buildOptions.entry;
+      entryNames = entryNames.filter(entryName =>
+        designatedEntries.includes(entryName),
+      );
+    }
+
+    const downloads = entryNames.map(async entryName => {
       let bundleFileName = fileManifest[entryName];
       const bundleRequest = await fetch(`${bucket}${bundleFileName}`);
 
