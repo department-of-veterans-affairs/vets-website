@@ -12,54 +12,74 @@ cards:
     links:
       - url: /health-care/refill-track-prescriptions/
         title: Refill and track your prescriptions
+        nav_path: Refill and track your prescriptions
       - url: /health-care/secure-messaging/
         title: Send a secure message to your health care team
+        nav_path: Send a secure message
       - url: /health-care/schedule-view-va-appointments/
         title: Schedule and view your appointments
+        nav_path: Schedule and view your appointments
       - url: /health-care/view-test-and-lab-results/
         title: View your lab and test results
+        nav_path: View your lab and test results
       - url: /health-care/apply/application/
         title: Apply now for VA health care
-  - heading: Disability 
+        nav_path: Apply now for VA health care
+  - heading: Disability
     hub: disability
     end_row: true
     links:
       - url: /claim-or-appeal-status
         title: Check your claim or appeal status
+        nav_path: Check your claim and appeal status
       - url: /va-payment-history/
         title: View your payment history
+        nav_path: View your payment history
       - url: /disability/upload-supporting-evidence/
         title: Upload evidence to support your claim
+        nav_path: Upload evidence to support your claim
       - url: /disability/how-to-file-claim/
         title: File for a VA disability increase
+        nav_path: File for a VA disability increase
       - url: /disability/how-to-file-claim/
         title: File a claim for compensation
+        nav_path: File a claim for compensation
   - heading: Education
     hub: education
     links:
       - url: /education/gi-bill/post-9-11/ch-33-benefit
         title: Check your Post-9/11 GI Bill® benefits
+        nav_path: Check your GI Bill benefits
       - url: /va-payment-history/
         title: View your payment history
+        nav_path: View your payment history
       - url: /education/change-gi-bill-benefits/
         title: Change your current education benefits
+        nav_path: Change your current education benefits
       - url: /gi-bill-comparison-tool
         title: Compare GI Bill benefits by school
+        nav_path: Compare GI Bill benefits by school
       - url: /education/how-to-apply/
         title: Apply for education benefits
+        nav_path: Apply for education benefits
   - heading: Records
     hub: records
     links:
       - url: /records/get-veteran-id-cards/
         title: Get Veteran ID cards
+        nav_path: Apply now for a Veteran ID Card
       - url: /health-care/get-medical-records/
         title: Get your VA medical records
+        nav_path: Get your VA medical records
       - url: /records/download-va-letters/
         title: Download your benefit letters
+        nav_path: Download your benefit letters
       - url: /housing-assistance/home-loans/how-to-apply/
         title: Apply for a home loan COE
+        nav_path: Apply for a home loan COE
       - url: /records/get-military-service-records/
         title: Request your military records (DD214)
+        nav_path: Request your military records
 hubs:
   - heading: Health Care
     url: /health-care/

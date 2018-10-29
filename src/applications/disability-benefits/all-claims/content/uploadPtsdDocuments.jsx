@@ -3,7 +3,7 @@ import React from 'react';
 export const DocumentDescription = (
   <div>
     <p>
-      You can upload your document in a pdf, .jpeg, or .png file format. You’ll
+      You can upload your document in a .pdf, .jpeg, or .png file format. You’ll
       first need to scan a copy of your document onto your computer or mobile
       phone. You can then upload the document from there. Please note that large
       files can take longer to upload with a slow Internet connection.

@@ -2,7 +2,7 @@ import environment from '../../../../platform/utilities/environment';
 
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import IntroductionPage from '../components/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
+import ConfirmationPoll from '../components/ConfirmationPoll';
 import {
   hasMilitaryRetiredPay,
   hasRatedDisabilities,
@@ -55,6 +55,7 @@ import {
   homelessOrAtRisk,
   vaEmployee,
   summaryOfEvidence,
+  fullyDevelopedClaim,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -80,7 +81,9 @@ const formConfig = {
   },
   // transformForSubmit: transform,
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: ConfirmationPoll,
+  // TODO: Remove this once we've got the api up and running
+  submit: () => Promise.resolve({ attributes: { jobId: '12345' } }),
   // footerContent: FormFooter,
   // getHelp: GetFormHelp,
   defaultDefinitions: {
@@ -361,6 +364,12 @@ const formConfig = {
           path: 'va-employee',
           uiSchema: vaEmployee.uiSchema,
           schema: vaEmployee.schema,
+        },
+        fullyDevelopedClaim: {
+          title: 'Fully developed claim program',
+          path: 'fully-developed-claim',
+          uiSchema: fullyDevelopedClaim.uiSchema,
+          schema: fullyDevelopedClaim.schema,
         },
       },
     },

@@ -53,7 +53,7 @@ export const formBenefits = {
   '21-526EZ': 'increased disability compensation',
   '21P-527EZ': 'Veterans pension benefits',
   '21P-530': 'burial benefits',
-  '1010ez': 'health care',
+  '1010ez': 'health care benefits',
   '22-0993': 'opt out',
   '22-1990': 'education benefits',
   '22-1990E': 'education benefits',
