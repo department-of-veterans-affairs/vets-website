@@ -114,15 +114,15 @@ const transformDateRange = treatmentDateRange => [treatmentDateRange];
  * @param {array} providerFacility array of objects being transformed
  * @returns {object} containing the new Provider Facility structure
  */
-const transformProviderFacility = providerFacility => {
-  const newProviderFacility = providerFacility.map(facility =>
+const transformProviderFacilities = providerFacilities => {
+  const newProviderFacilities = providerFacility.map(facility =>
     set(
       'treatmentDateRange',
       transformDateRange(facility.treatmentDateRange),
       facility,
     ),
   );
-  return newProviderFacility;
+  return newProviderFacilities;
 };
 
 /**
@@ -199,7 +199,7 @@ export function transform(formConfig, form) {
     ...(attachments.length && { attachments }),
     form4142: {
       limitedConsent: gatherLimitedConsentText(disabilities),
-      providerFacility: transformProviderFacility(providerFacilities),
+      providerFacility: transformProviderFacilities(providerFacilities),
     },
   };
 
