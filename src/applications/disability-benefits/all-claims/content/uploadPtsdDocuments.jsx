@@ -2,6 +2,7 @@ import React from 'react';
 
 export const DocumentDescription = (
   <div>
+    <h5>Upload Supporting Documents</h5>
     <p>
       You can upload your document in a pdf, .jpeg, or .png file format. You’ll
       first need to scan a copy of your document onto your computer or mobile
