@@ -11,6 +11,26 @@
         "cookieOnly": true
     },
     {
+        "hostname": "www.telehealth.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": true
+    },
+    {
+        "hostname": "www.volunteer.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": true
+    },
+    {
+        "hostname": "www.ptsd.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": true
+    },
+    {
+        "hostname": "www.nutrition.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": true
+    },
+    {
         "hostname": "vaww.w2k8.testing.internet.webops.va.gov",
         "pathnameBeginning": "/",
         "cookieOnly": true
