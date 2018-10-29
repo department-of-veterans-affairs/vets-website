@@ -65,7 +65,14 @@
     }
   }
 
-  #helpmenu {
+  .va-helpmenu-contents {
+    > p {
+      line-height: 1.2em;
+      margin-bottom: 0.8em;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
     a {
       text-decoration: none;
     }
