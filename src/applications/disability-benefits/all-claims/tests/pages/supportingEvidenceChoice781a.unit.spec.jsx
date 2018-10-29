@@ -8,9 +8,9 @@ import {
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
-describe('781a supporting evidence upload', () => {
+describe('781a supporting evidence choice', () => {
   const page =
-    formConfig.chapters.disabilities.pages.uploadSupportingEvidence781a;
+    formConfig.chapters.disabilities.pages.supportingEvidenceChoice781a;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
@@ -24,16 +24,15 @@ describe('781a supporting evidence upload', () => {
           'view:selectablePtsdTypes': {
             'view:mstPtsdType': true,
           },
-          'view:evidenceUpload781a': true,
         }}
         uiSchema={uiSchema}
       />,
     );
 
-    expect(form.find('input').length).to.equal(1);
+    expect(form.find('input').length).to.equal(2);
   });
 
-  it('should submit without an upload', () => {
+  it('should submit without an option selected', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
