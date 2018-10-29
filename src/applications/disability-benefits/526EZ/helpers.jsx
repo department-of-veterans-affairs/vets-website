@@ -174,7 +174,7 @@ export function transform(formConfig, form) {
 
   const attachments = additionalDocuments.concat(privateRecords);
 
-  const providerFacility = disabilities
+  const providerFacilities = disabilities
     .filter(
       disability =>
         disability['view:selected'] === true && disability.providerFacility,
@@ -199,7 +199,7 @@ export function transform(formConfig, form) {
     ...(attachments.length && { attachments }),
     form4142: {
       limitedConsent: gatherLimitedConsentText(disabilities),
-      providerFacility: transformProviderFacility(providerFacility),
+      providerFacility: transformProviderFacility(providerFacilities),
     },
   };
 
