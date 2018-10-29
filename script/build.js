@@ -14,7 +14,6 @@ const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const watch = require('metalsmith-watch');
 
-const webpackMetalsmithConnect = require('../config/webpack-metalsmith-connect');
 const environments = require('./constants/environments');
 const createBuildSettings = require('./create-build-settings');
 const createRedirects = require('./create-redirects');
@@ -141,6 +140,7 @@ smith.use(rewriteVaDomains(BUILD_OPTIONS));
 smith.use(createBuildSettings(BUILD_OPTIONS));
 
 if (BUILD_OPTIONS.watch) {
+  const webpackMetalsmithConnect = require('../config/webpack-metalsmith-connect');
   const watchPaths = {
     [`${BUILD_OPTIONS.contentRoot}/**/*`]: '**/*.{md,html}',
     [`${BUILD_OPTIONS.contentPagesRoot}/**/*`]: '**/*.{md,html}',
@@ -149,6 +149,7 @@ if (BUILD_OPTIONS.watch) {
   smith.use(watchMetalSmith);
   smith.use(webpackMetalsmithConnect.watchAssets(BUILD_OPTIONS));
 } else {
+  const webpackMetalsmithConnect = require('../config/webpack-metalsmith-connect');
   smith.use(webpackMetalsmithConnect.compileAssets(BUILD_OPTIONS));
 
   const isDevBuild = [environments.DEVELOPMENT, environments.VAGOVDEV].includes(
