@@ -115,7 +115,7 @@ const transformDateRange = treatmentDateRange => [treatmentDateRange];
  * @returns {object} containing the new Provider Facility structure
  */
 const transformProviderFacilities = providerFacilities => {
-  const newProviderFacilities = providerFacility.map(facility =>
+  const newProviderFacilities = providerFacilities.map(facility =>
     set(
       'treatmentDateRange',
       transformDateRange(facility.treatmentDateRange),
