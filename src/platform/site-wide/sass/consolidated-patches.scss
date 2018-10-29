@@ -73,8 +73,14 @@ header.merger {
     }
   }
 
-  @media (min-width: $medium-screen) {
+  #vetnav-menu {
+    // HACK: To override `content-box` on benefits site
+    button.vetnav-level1 {
+      box-sizing: border-box;
+    }
+  }
 
+  @media (min-width: $medium-screen) {
     .va-notice--banner-inner,
     .va-crisis-line-container {
       width: $teamsite-width;
@@ -105,7 +111,6 @@ header.merger {
   }
 
   @media (max-width: $large-screen - 1) {
-
     #vetnav-va-benefits-and-health-care,
     #vetnav-about-va {
       width: 100%;
