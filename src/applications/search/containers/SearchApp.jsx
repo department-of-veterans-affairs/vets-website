@@ -27,7 +27,7 @@ class SearchApp extends React.Component {
     let offset;
 
     if (this.props.router.location.query) {
-      userInputFromAddress = this.props.router.location.query.q;
+      userInputFromAddress = this.props.router.location.query.query;
       offset = this.props.router.location.query.offset;
     }
 
@@ -61,7 +61,7 @@ class SearchApp extends React.Component {
     this.props.router.push({
       pathname: '',
       query: {
-        q: encodeURIComponent(userInput),
+        query: encodeURIComponent(userInput),
         offset,
       },
     });
