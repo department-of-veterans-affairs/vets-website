@@ -1,66 +1,78 @@
-function addAssetHashes() {
-  // In non-development modes, we add hashes to the names of asset files in order to support
-  // cache busting. That is done via WebPack, but WebPack doesn't know anything about our HTML
-  // files, so we have to replace the references to those files in HTML and CSS files after the
-  // rest of the build has completed. This is done by reading in a manifest file created by
-  // WebPack that maps the original file names to their hashed versions. Metalsmith actions
-  // are passed a list of files that are included in the build. Those files are not yet written
-  // to disk, but the contents are held in memory.
+/* eslint-disable no-param-reassign */
 
-  return (files, metalsmith, done) => {
-    // Read in the data from the manifest file.
-    const manifestKey = Object.keys(files).find(
-      filename => filename.match(/file-manifest.json$/) !== null,
-    );
+const fetch = require('node-fetch');
+const watch = require('metalsmith-watch');
+const environments = require('./constants/environments');
+const buckets = require('./constants/buckets');
+const webpackMetalsmithConnect = require('../config/webpack-metalsmith-connect');
+const addAssetHashes = require('./add-asset-hashes');
 
-    const originalManifest = JSON.parse(files[manifestKey].contents.toString());
+function downloadAssets(buildOptions) {
+  return async (files, smith, done) => {
+    const bucket = buckets[buildOptions.buildtype];
+    const fileManifestPath = 'generated/file-manifest.json';
+    const fileManifestRequest = await fetch(`${bucket}/${fileManifestPath}`);
+    const fileManifest = await fileManifestRequest.json();
 
-    // The manifest contains the original filenames without the addition of .entry
-    // on the JS files. This finds all of those and modifies them to add .entry.
-    const manifest = {};
-    Object.keys(originalManifest).forEach(originalManifestKey => {
-      const matchData = originalManifestKey.match(/(.*)\.js$/);
-      if (matchData !== null) {
-        const newKey = `${matchData[1]}.entry.js`;
-        manifest[newKey] = originalManifest[originalManifestKey];
-      } else {
-        manifest[originalManifestKey] = originalManifest[originalManifestKey];
-      }
+    files[fileManifestPath] = {
+      contents: new Buffer(fileManifest),
+    };
+
+    const downloads = Object.keys(fileManifest).map(async entryName => {
+      let bundleFileName = fileManifest[entryName];
+      const bundleRequest = await fetch(`${bucket}${bundleFileName}`);
+
+      if (bundleFileName.startsWith('/'))
+        bundleFileName = bundleFileName.slice(1);
+
+      files[bundleFileName] = {
+        contents: await bundleRequest.arrayBuffer(),
+      };
     });
 
-    // For each file in the build, if it is a HTML or CSS file, loop over all
-    // the keys in the manifest object and do a search and replace for the
-    // key with the value.
-    Object.keys(files).forEach(filename => {
-      if (filename.match(/\.(html|css)$/) !== null) {
-        Object.keys(manifest).forEach(originalAssetFilename => {
-          const newAssetFilename = manifest[originalAssetFilename].replace(
-            '/generated/',
-            '',
-          );
-          const file = files[filename];
-          const contents = file.contents.toString();
-          const regex = new RegExp(originalAssetFilename, 'g');
-          file.contents = new Buffer(contents.replace(regex, newAssetFilename));
-        });
-      }
-    });
-
-    // Create a copy of the proxy-write files without cache-bust hashes
-    [
-      'proxy-rewrite.entry.js',
-      'styleConsolidated.css',
-      'static-pages.css',
-      'vendor.entry.js',
-      'polyfills.entry.js',
-    ].forEach(unhashedName => {
-      const hashedName = manifest[unhashedName];
-
-      files[`generated/${unhashedName}`] = files[hashedName.substr(1)]; // eslint-disable-line no-param-reassign
-    });
-
+    await downloads;
     done();
   };
 }
 
-module.exports = addAssetHashes;
+function configureAssets(buildOptions) {
+  let alreadyRegistered = false;
+
+  return (files, smith, done) => {
+    if (alreadyRegistered) {
+      done();
+      return;
+    }
+
+    const isContentDeployment = buildOptions['content-deployment'];
+    const isDevBuild = [
+      environments.DEVELOPMENT,
+      environments.VAGOVDEV,
+    ].includes(buildOptions.buildtype);
+
+    if (buildOptions.watch) {
+      const watchPaths = {
+        [`${buildOptions.contentRoot}/**/*`]: '**/*.{md,html}',
+        [`${buildOptions.contentPagesRoot}/**/*`]: '**/*.{md,html}',
+      };
+
+      const watchMetalSmith = watch({ paths: watchPaths, livereload: true });
+
+      smith.use(watchMetalSmith);
+      smith.use(webpackMetalsmithConnect.watchAssets(buildOptions));
+    } else {
+      if (isContentDeployment) {
+        smith.use(downloadAssets(buildOptions));
+      } else {
+        smith.use(webpackMetalsmithConnect.compileAssets(buildOptions));
+      }
+
+      if (!isDevBuild) smith.use(addAssetHashes(buildOptions));
+    }
+
+    alreadyRegistered = true;
+    done();
+  };
+}
+
+module.exports = configureAssets;

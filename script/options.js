@@ -18,6 +18,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'protocol', type: String, defaultValue: 'http' },
   { name: 'public', type: String, defaultValue: null },
   { name: 'destination', type: String, defaultValue: null },
+  { name: 'content-deployment', type: Boolean, defaultValue: false },
   {
     name: 'content-directory',
     type: String,
