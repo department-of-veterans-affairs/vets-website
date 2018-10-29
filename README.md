@@ -8,7 +8,7 @@ www.vets.gov with the exception of some high sensitivity endpoints that require 
 interaction such as login.
 
 As it is client side there are no secrets in this repository since, well, public secrets aren't
-very secret.
+
 
 ## I want to...
 
