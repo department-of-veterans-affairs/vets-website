@@ -25,6 +25,7 @@ export function fetchSearchResults(query, page) {
         dispatch({
           type: FETCH_SEARCH_RESULTS_SUCCESS,
           results: response.data.attributes.body,
+          meta: response.meta,
         }),
       error =>
         dispatch({

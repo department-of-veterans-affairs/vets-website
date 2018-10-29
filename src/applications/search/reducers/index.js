@@ -26,7 +26,7 @@ function SearchReducer(state = initialState, action) {
         perPage,
         totalPages,
         totalEntries,
-      } = action.results.meta.pagination;
+      } = action.meta.pagination;
       const { results } = action.results.web;
 
       return {

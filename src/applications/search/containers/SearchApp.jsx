@@ -5,11 +5,10 @@ import { connect } from 'react-redux';
 
 import { fetchSearchResults } from '../actions';
 import { formatResponseString } from '../utils';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
-
-import SimplePagination from '../components/SimplePagination';
 
 class SearchApp extends React.Component {
   static propTypes = {
@@ -82,7 +81,11 @@ class SearchApp extends React.Component {
     return (
       <li key={result.url} className="result-item">
         <a className="result-title" href={result.url}>
-          <h5>{result.title}</h5>
+          <h5
+            dangerouslySetInnerHTML={{
+              __html: formatResponseString(result.title, true),
+            }}
+          />
         </a>
         <p className="result-url">{result.url}</p>
         <p
@@ -119,16 +122,11 @@ class SearchApp extends React.Component {
   }
 
   renderResultsFooter() {
-    const { prevOffset, nextOffset } = this.props.search;
+    // const { prevOffset, nextOffset } = this.props.search;
 
     return (
       <div className="va-flex results-footer">
         <strong>Powered by Search.gov</strong>
-        <SimplePagination
-          handlePageChange={this.handlePageChange}
-          prevOffset={prevOffset}
-          nextOffset={nextOffset}
-        />
       </div>
     );
   }
@@ -190,7 +188,13 @@ class SearchApp extends React.Component {
               <li>
                 <a
                   href="https://www.index.va.gov/search/va/bva.jsp"
-                  onClick="recordEvent({'event': 'nav-searchresults', 'nav-path': 'More VA Search Tools -> Look up BVA decisions'})"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-searchresults',
+                      'nav-path':
+                        'More VA Search Tools -> Look up BVA decisions',
+                    })
+                  }
                 >
                   Look up Board of Veterans' Appeals (BVA) decisions
                 </a>
@@ -198,7 +202,13 @@ class SearchApp extends React.Component {
               <li>
                 <a
                   href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.benefits.va.gov/warms"
-                  onClick="recordEvent({'event': 'nav-searchresults', 'nav-path': 'More VA Search Tools -> Search VA reference materials'})"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-searchresults',
+                      'nav-path':
+                        'More VA Search Tools -> Search VA reference materials',
+                    })
+                  }
                 >
                   Search VA reference materials (WARMS)
                 </a>
@@ -206,7 +216,13 @@ class SearchApp extends React.Component {
               <li>
                 <a
                   href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.va.gov/vaforms,www.va.gov/vapubs,www.va.gov/vhapublications,www.vba.va.gov/pubs/forms"
-                  onClick="recordEvent({'event': 'nav-searchresults', 'nav-path': 'More VA Search Tools -> Find VA forms and publications'})"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-searchresults',
+                      'nav-path':
+                        'More VA Search Tools -> Find VA forms and publications',
+                    })
+                  }
                 >
                   Find VA forms and publications
                 </a>
@@ -214,7 +230,13 @@ class SearchApp extends React.Component {
               <li>
                 <a
                   href="https://www.vacareers.va.gov/job-search/index.asp"
-                  onClick="recordEvent({'event': 'nav-searchresults', 'nav-path': 'More VA Search Tools -> Explore and apply for open VA jobs'})"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-searchresults',
+                      'nav-path':
+                        'More VA Search Tools -> Explore and apply for open VA jobs',
+                    })
+                  }
                 >
                   Explore and apply for open VA jobs
                 </a>
