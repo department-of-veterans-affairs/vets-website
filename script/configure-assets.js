@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+/* eslint-disable no-console */
 
 const fetch = require('node-fetch');
 const watch = require('metalsmith-watch');
@@ -28,7 +29,13 @@ function downloadAssets(buildOptions) {
 
     const downloads = entryNames.map(async entryName => {
       let bundleFileName = fileManifest[entryName];
-      const bundleRequest = await fetch(`${bucket}${bundleFileName}`);
+      const bundleUrl = `${bucket}${bundleFileName}`;
+      const bundleRequest = await fetch(bundleUrl);
+
+      if (!bundleRequest.ok) {
+        console.error(`Failed to download asset: ${bundleUrl}`);
+        return;
+      }
 
       if (bundleFileName.startsWith('/'))
         bundleFileName = bundleFileName.slice(1);
@@ -36,6 +43,8 @@ function downloadAssets(buildOptions) {
       files[bundleFileName] = {
         contents: await bundleRequest.arrayBuffer(),
       };
+
+      console.log(`Successfully downloaded asset: ${bundleUrl}`);
     });
 
     await downloads;
