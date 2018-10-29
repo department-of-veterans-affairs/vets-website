@@ -150,7 +150,7 @@ class SearchApp extends React.Component {
     /* eslint-disable prettier/prettier */
     return (
       <p>
-        Showing {`${resultRangeStart}-${resultRangeEnd}`} of {totalEntries} results
+        Showing {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`} of {totalEntries} results
       </p>
     );
     /* eslint-enable prettier/prettier */
