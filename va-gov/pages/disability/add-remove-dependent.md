@@ -127,8 +127,7 @@ You can work with an accredited Veterans Service Officer (VSO). We trust these p
 
 ## More questions about adding a dependent to your VA disability compensation
 
-<div class="usa-accordion">
-<ul class="usa-unstyled-list">
+<ul class="usa-accordion">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-apply-mail">Can I file a claim for additional disability compensation for a child or spouse by mail or fax?</button>
 <div id="questions-apply-mail" class="usa-accordion-content">
@@ -213,13 +212,11 @@ If you see your dependent(s) listed there, you should be eligible for additional
 </div>
 </li>
 </ul>
-</div>
 <br>
 	
 ### Questions about adding or removing certain kinds of dependents
 
-<div class="usa-accordion">
-<ul class="usa-unstyled-list">
+<ul class="usa-accordion">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="questions-specific-Veteran-spouse">What if my spouse is also a Veteran with a combined disability rating of at least 30%? Can we both receive additional disability compensation for each other and for our children? Or can only one of us receive the additional benefit?</button>
 <div id="questions-specific-Veteran-spouse" class="usa-accordion-content">
@@ -268,4 +265,3 @@ No. We’ll track your child’s age based on the date of birth you give us when
 </div>
 </li>
 </ul>
-</div>

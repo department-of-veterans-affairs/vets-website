@@ -81,7 +81,7 @@ export class IntroPage extends React.Component {
         <div>
           {this.props.serviceAvailability === SERVICE_AVAILABILITY_STATES.up &&
             gibsWarning}
-          <h1>Check Your Post-9/11 GI Bill Benefits</h1>
+          <h1>Post-9/11 GI Bill Statement of Benefits</h1>
           {content}
         </div>
       );
@@ -101,7 +101,7 @@ export class IntroPage extends React.Component {
             costs for school or training.
           </p>
           <p>
-            You'll be able to view this benefit statement only if you were
+            You’ll be able to view this benefit statement only if you were
             awarded education benefits.
           </p>
           {content}

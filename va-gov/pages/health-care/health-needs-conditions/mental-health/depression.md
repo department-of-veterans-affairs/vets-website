@@ -91,8 +91,7 @@ You may still be able to get care:
 - **If you’ve served in a combat zone,** get free private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. <br>
 [Find a Vet Center near you](/facilities/).
 - **If you’re homeless or at risk of becoming homeless:**
-  - Visit our website to learn about VA programs for Veterans who are homeless. <br>
-  [Learn about our homelessness programs](https://www.va.gov/homeless/).
+  - [Learn about VA programs for Veterans who are homeless](https://www.va.gov/homeless/).
   - Contact the National Call Center for Homeless Veterans at 1-877-4AID-VET (<a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7 days a week. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
   - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. <br>
   [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
@@ -101,8 +100,7 @@ You may still be able to get care:
 
 ### Where can I find more information and support?
 
-- Go to the VA website for information about depression and the treatment and support we offer. <br>
-[Visit our Depression website](https://www.mentalhealth.va.gov/depression.asp).
+- [Get information about depression, treatment, and the support we offer](https://www.mentalhealth.va.gov/depression.asp).
 - Visit our Self-Help Resources guide to get links to books, web resources, and mobile applications that have been reviewed and recommended by VA experts. <br>
 [Get self-help resources](https://www.mentalhealth.va.gov/self_help.asp).
 - Go to our Make the Connection website to get resources and watch stories of Veterans who’ve overcome depression and other mental health challenges. <br> <a href="https://maketheconnection.net/" class="no-external-icon">Visit Make the Connection</a>

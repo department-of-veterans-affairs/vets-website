@@ -31,7 +31,7 @@ aliases:
 
 <div class="va-introtext">
 
-If you’re the surviving spouse, child, or parent of a Servicemember who died while serving their country, you may qualify for bereavement counseling through VA. Bereavement counseling provides assistance and support for people going through emotional and psychological stress after the death of a loved one.
+If you’re the surviving spouse, child, or parent of a Servicemember who died while serving their country, you may qualify for bereavement counseling through VA. Bereavement counseling (also sometimes called "grief counseling") provides assistance and support for people going through emotional and psychological stress after the death of a loved one.
 
 </div>
 
@@ -39,9 +39,9 @@ If you’re the surviving spouse, child, or parent of a Servicemember who died w
 
 <div class="feature" markdown=“1”>
 
-### Can I get bereavement counseling?
+### Can I get bereavement (or grief) counseling?
 
-You may qualify for bereavement counseling if you’re the surviving spouse, child, or parent of:
+**You may qualify for bereavement counseling if you’re the surviving spouse, child, or parent of:**
 - A Servicemember who died while serving their country
 - A Reservist who died while on active duty
 - A National Guard Soldier who died while on active duty
@@ -52,7 +52,7 @@ You may qualify for bereavement counseling if you’re the surviving spouse, chi
 
 ### What kinds of benefits can I get with bereavement counseling?
 
-Bereavement counseling provides a range of free transition services, like:
+**Bereavement counseling provides a range of free transition services, like:**
 
 - Outreach
 - Counseling
@@ -62,7 +62,7 @@ We provide these services at our community-based Vet Centers, or in your home or
 
 ### How do I get these benefits?
 
-To access bereavement counseling services, contact our Readjustment Counseling Service staff:
+**To access bereavement counseling services, contact our Readjustment Counseling Service staff:**
 
 - By phone at <a href='tel:+1-202-461-6530'>1-202-461-6530</a>, **or**<br>
 - By email at <a href='mailto:vetcenter.bereavement@va.gov'>vetcenter.bereavement@va.gov</a>
