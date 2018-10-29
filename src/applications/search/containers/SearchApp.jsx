@@ -45,13 +45,18 @@ class SearchApp extends React.Component {
     const { userInput, page } = this.state;
     if (userInput) {
       this.props.fetchSearchResults(userInput, page);
+      this.writeBreadcrumb();
     }
   }
 
-  handleInputChange = event => {
-    this.setState({
-      userInput: event.target.value,
-    });
+  componentDidUpdate(prevProps) {
+    if (this.props.search.query !== prevProps.search.query) {
+      this.writeBreadcrumb();
+    }
+  }
+
+  handlePageChange = page => {
+    this.setState({ page }, () => this.handleSearch());
   };
 
   handleSearch = e => {
@@ -67,9 +72,19 @@ class SearchApp extends React.Component {
     this.props.fetchSearchResults(userInput, page);
   };
 
-  handlePageChange = page => {
-    this.setState({ page }, () => this.handleSearch());
+  handleInputChange = event => {
+    this.setState({
+      userInput: event.target.value,
+    });
   };
+
+  writeBreadcrumb() {
+    const breadcrumbList = document.getElementById('va-breadcrumbs-list');
+    const lastCrumb = breadcrumbList.lastElementChild.children[0];
+    if (breadcrumbList && lastCrumb) {
+      lastCrumb.text = `Search Results for '${this.props.search.query}'`;
+    }
+  }
 
   /* eslint-disable react/no-danger */
   renderWebResult(result) {
@@ -126,6 +141,8 @@ class SearchApp extends React.Component {
           onPageSelect={this.handlePageChange}
           page={currentPage}
           pages={totalPages}
+          showLastPage
+          maxPageListLength={5}
         />
       </div>
     );
