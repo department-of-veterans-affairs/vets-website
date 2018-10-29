@@ -9,6 +9,7 @@ import recordEvent from '../../../platform/monitoring/record-event';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
+import Pagination from '@department-of-veterans-affairs/formation/Pagination';
 
 class SearchApp extends React.Component {
   static propTypes = {
@@ -54,7 +55,7 @@ class SearchApp extends React.Component {
   };
 
   handleSearch = e => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     const { userInput, page } = this.state;
     this.props.router.push({
       pathname: '',
@@ -66,15 +67,9 @@ class SearchApp extends React.Component {
     this.props.fetchSearchResults(userInput, page);
   };
 
-  /* eslint-disable arrow-body-style */
   handlePageChange = page => {
-    return e => {
-      e.preventDefault();
-      e.persist();
-      this.setState({ page }, () => this.handleSearch(e));
-    };
+    this.setState({ page }, () => this.handleSearch());
   };
-  /* eslint-enable arrow-body-style */
 
   /* eslint-disable react/no-danger */
   renderWebResult(result) {
@@ -122,11 +117,16 @@ class SearchApp extends React.Component {
   }
 
   renderResultsFooter() {
-    // const { prevOffset, nextOffset } = this.props.search;
+    const { currentPage, totalPages } = this.props.search;
 
     return (
       <div className="va-flex results-footer">
         <strong>Powered by Search.gov</strong>
+        <Pagination
+          onPageSelect={this.handlePageChange}
+          page={currentPage}
+          pages={totalPages}
+        />
       </div>
     );
   }
@@ -147,11 +147,13 @@ class SearchApp extends React.Component {
 
     const resultRangeStart = (currentPage - 1) * perPage + 1;
 
+    /* eslint-disable prettier/prettier */
     return (
       <p>
-        Showing {resultRangeStart} of {resultRangeEnd} results
+        Showing {`${resultRangeStart}-${resultRangeEnd}`} of {totalEntries} results
       </p>
     );
+    /* eslint-enable prettier/prettier */
   }
 
   render() {
