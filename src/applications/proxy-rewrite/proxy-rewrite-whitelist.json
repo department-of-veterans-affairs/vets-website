@@ -1,7 +1,12 @@
 {
     "proxyRewriteWhitelist": [
     {
-        "hostname": "prebenefits.va.gov",
+        "hostname": "www.choose.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": true
+    },
+    {
+        "hostname": "benefits.va.gov",
         "pathnameBeginning": "/",
         "cookieOnly": true
     },
@@ -12,22 +17,22 @@
     },
     {
         "hostname": "dev.va.gov",
-        "pathnameBeginning": "/health/",
+        "pathnameBeginning": "/",
         "cookieOnly": false
     },
     {
         "hostname": "localhost",
-        "pathnameBeginning": "/health/",
+        "pathnameBeginning": "/",
         "cookieOnly": false
     },
     {
         "hostname": "staging.va.gov",
-        "pathnameBeginning": "/health/",
+        "pathnameBeginning": "/",
         "cookieOnly": false
     },
     {
         "hostname": "preview.va.gov",
-        "pathnameBeginning": "/health/",
+        "pathnameBeginning": "/",
         "cookieOnly": false
     },
     {
