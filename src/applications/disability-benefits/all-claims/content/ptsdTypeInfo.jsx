@@ -1,13 +1,19 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
+export const nonCombatPtsdType = (
+  <span>
+    Non-Combat PTSD <strong>other than</strong> Military Sexual Trauma or
+    Personal Assault
+  </span>
+);
+
 export const ptsdTypeDescription = (
   <div>
     <p>
       First we‘re going to ask you about the type of event or events that
       contributed to your PTSD.
     </p>
-    <p>What type of event contributed to your PTSD? (Choose all that apply.)</p>
   </div>
 );
 
