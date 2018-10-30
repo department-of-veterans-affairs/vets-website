@@ -23,7 +23,7 @@ const UploadExplanation = ({ formType }) => (
   <div>
     <p>
       If you have already completed a Claim for Service Connection for
-      Post-Traumatic Stress Disorder (VA Form 21-0 {`21-0${formType}`}
+      Post-Traumatic Stress Disorder (VA Form {`21-0${formType}`}
       ), you can upload it here instead of answering the questions about your
       PTSD.
     </p>
