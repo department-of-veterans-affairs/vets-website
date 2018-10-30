@@ -57,7 +57,9 @@ smith.use(leftRailNavResetLevels());
 smith.use(dateInFilename(true));
 
 smith.use(assets(BUILD_OPTIONS.appAssets));
-smith.use(assets(BUILD_OPTIONS.contentAssets));
+if (BUILD_OPTIONS.contentAssets) {
+  smith.use(assets(BUILD_OPTIONS.contentAssets));
+}
 
 // smith.use(cspHash({ pattern: ['js/*.js', 'generated/*.css', 'generated/*.js'] }))
 
