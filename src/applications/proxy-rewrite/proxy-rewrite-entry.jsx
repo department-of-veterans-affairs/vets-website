@@ -42,7 +42,7 @@ function createMutationObserverCallback() {
   // Hide native elements when they're added to the DOM
   return function mutationObserved(mutations) {
     mutations.forEach(mutation => {
-      mutation.addedNodes.forEach(node => {
+      Array.from(mutation.addedNodes).forEach(node => {
         if (node.nodeType === Node.ELEMENT_NODE) {
           if (node.tagName === 'BODY') {
             node.classList.add('merger');

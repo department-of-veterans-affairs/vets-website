@@ -5,12 +5,11 @@ import { connect } from 'react-redux';
 
 import { fetchSearchResults } from '../actions';
 import { formatResponseString } from '../utils';
-import { PAGE_SIZE } from '../constants';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
-
-import SimplePagination from '../components/SimplePagination';
+import Pagination from '@department-of-veterans-affairs/formation/Pagination';
 
 class SearchApp extends React.Component {
   static propTypes = {
@@ -24,16 +23,16 @@ class SearchApp extends React.Component {
     super(props);
 
     let userInputFromAddress = '';
-    let offset;
+    let page;
 
     if (this.props.router.location.query) {
-      userInputFromAddress = this.props.router.location.query.q;
-      offset = this.props.router.location.query.offset;
+      userInputFromAddress = this.props.router.location.query.query;
+      page = this.props.router.location.query.page;
     }
 
     this.state = {
       userInput: userInputFromAddress,
-      offset,
+      page,
     };
 
     if (!userInputFromAddress) {
@@ -43,9 +42,9 @@ class SearchApp extends React.Component {
 
   componentDidMount() {
     // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
-    const { userInput, offset } = this.state;
+    const { userInput, page } = this.state;
     if (userInput) {
-      this.props.fetchSearchResults(userInput, offset);
+      this.props.fetchSearchResults(userInput, page);
     }
   }
 
@@ -56,39 +55,33 @@ class SearchApp extends React.Component {
   };
 
   handleSearch = e => {
-    e.preventDefault();
-    const { userInput, offset } = this.state;
+    if (e) e.preventDefault();
+    const { userInput, page } = this.state;
     this.props.router.push({
       pathname: '',
       query: {
-        q: encodeURIComponent(userInput),
-        offset,
+        query: encodeURIComponent(userInput),
+        page,
       },
     });
-    this.props.fetchSearchResults(userInput, offset);
+    this.props.fetchSearchResults(userInput, page);
   };
 
-  /* eslint-disable arrow-body-style */
-  handlePageChange = offset => {
-    return e => {
-      e.preventDefault();
-      e.persist();
-      this.setState({ offset }, () => this.handleSearch(e));
-    };
+  handlePageChange = page => {
+    this.setState({ page }, () => this.handleSearch());
   };
-  /* eslint-enable arrow-body-style */
 
   /* eslint-disable react/no-danger */
   renderWebResult(result) {
     return (
       <li key={result.url} className="result-item">
-        <a
-          className="result-title"
-          href={result.url}
-          dangerouslySetInnerHTML={{
-            __html: formatResponseString(result.title),
-          }}
-        />
+        <a className="result-title" href={result.url}>
+          <h5
+            dangerouslySetInnerHTML={{
+              __html: formatResponseString(result.title, true),
+            }}
+          />
+        </a>
         <p className="result-url">{result.url}</p>
         <p
           className="result-desc"
@@ -124,35 +117,43 @@ class SearchApp extends React.Component {
   }
 
   renderResultsFooter() {
-    const { prevOffset, nextOffset } = this.props.search;
+    const { currentPage, totalPages } = this.props.search;
 
     return (
       <div className="va-flex results-footer">
         <strong>Powered by Search.gov</strong>
-        <SimplePagination
-          handlePageChange={this.handlePageChange}
-          prevOffset={prevOffset}
-          nextOffset={nextOffset}
+        <Pagination
+          onPageSelect={this.handlePageChange}
+          page={currentPage}
+          pages={totalPages}
         />
       </div>
     );
   }
 
   renderResultsCount() {
-    const { prevOffset, total } = this.props.search;
-    let currentRange;
+    const {
+      currentPage,
+      perPage,
+      totalPages,
+      totalEntries,
+    } = this.props.search;
 
-    if (prevOffset) {
-      currentRange = `${prevOffset + 1}-${prevOffset + PAGE_SIZE}`;
-    } else {
-      currentRange = `1-${PAGE_SIZE}`;
+    let resultRangeEnd = currentPage * perPage;
+
+    if (currentPage === totalPages) {
+      resultRangeEnd = totalEntries;
     }
 
+    const resultRangeStart = (currentPage - 1) * perPage + 1;
+
+    /* eslint-disable prettier/prettier */
     return (
       <p>
-        Showing {currentRange} of {total} results
+        Showing {`${resultRangeStart}-${resultRangeEnd}`} of {totalEntries} results
       </p>
     );
+    /* eslint-enable prettier/prettier */
   }
 
   render() {
@@ -187,22 +188,58 @@ class SearchApp extends React.Component {
             <h4 className="highlight">More VA Search Tools</h4>
             <ul>
               <li>
-                <a href="https://www.index.va.gov/search/va/bva.jsp">
+                <a
+                  href="https://www.index.va.gov/search/va/bva.jsp"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-searchresults',
+                      'nav-path':
+                        'More VA Search Tools -> Look up BVA decisions',
+                    })
+                  }
+                >
                   Look up Board of Veterans' Appeals (BVA) decisions
                 </a>
               </li>
               <li>
-                <a href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.benefits.va.gov/warms">
+                <a
+                  href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.benefits.va.gov/warms"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-searchresults',
+                      'nav-path':
+                        'More VA Search Tools -> Search VA reference materials',
+                    })
+                  }
+                >
                   Search VA reference materials (WARMS)
                 </a>
               </li>
               <li>
-                <a href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.va.gov/vaforms,www.va.gov/vapubs,www.va.gov/vhapublications,www.vba.va.gov/pubs/forms">
+                <a
+                  href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.va.gov/vaforms,www.va.gov/vapubs,www.va.gov/vhapublications,www.vba.va.gov/pubs/forms"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-searchresults',
+                      'nav-path':
+                        'More VA Search Tools -> Find VA forms and publications',
+                    })
+                  }
+                >
                   Find VA forms and publications
                 </a>
               </li>
               <li>
-                <a href="https://www.vacareers.va.gov/job-search/index.asp">
+                <a
+                  href="https://www.vacareers.va.gov/job-search/index.asp"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-searchresults',
+                      'nav-path':
+                        'More VA Search Tools -> Explore and apply for open VA jobs',
+                    })
+                  }
+                >
                   Explore and apply for open VA jobs
                 </a>
               </li>

@@ -65,7 +65,14 @@
     }
   }
 
-  #helpmenu {
+  .va-helpmenu-contents {
+    > p {
+      line-height: 1.2em;
+      margin-bottom: 0.8em;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
     a {
       text-decoration: none;
     }
@@ -115,24 +122,18 @@
     }
   }
 
-
   .merger-majorlinks {
-
-    .link {
-
-      margin-bottom: 1em;
-
-      p {
+     .link {
+       margin-bottom: 1em;
+       p {
         margin: 0;
       }
-
-      a {
+       a {
         text-decoration: none;
         padding-bottom: 0;
       }
     }
-
-  }
+   }
 
   .va-nav-breadcrumbs-list {
     padding-left: 0;
@@ -372,11 +373,6 @@
     }
   }
 
-  #preview-site-alert {
-    color: $color-black;
-    position: relative;
-  }
-
   // TD: need to update this on formation in the MegaMenu. If no title it should still align with the link row.
   #vetnav-records-ms {
     & + div {
@@ -421,6 +417,11 @@
 
   // TODO: add this into formation
   .va-sidebarnav {
+    ul.usa-accordion {
+      > li {
+        margin-bottom: -1px;
+      }
+    }
     .left-side-nav-title {
       padding-bottom: 25px;
       > .icon-small {
@@ -580,7 +581,7 @@
       position: fixed;
       top: 0;
       width: 100%;
-      z-index: 2;
+      z-index: $top-layer;
     }
 
     svg {
@@ -663,11 +664,6 @@
   }
 
 
-  .usa-accordion {
-    & > li {
-      margin-bottom: -1px;
-    }
-  }
   .usa-accordion-bordered {
 
     &.social {
@@ -679,7 +675,7 @@
         h4:first-child {
           margin-top: 0px;
         }
-        
+
         > section {
           margin-bottom: 1.5em;
         }
@@ -754,10 +750,15 @@
 
   .sign-in-link {
     margin: 0;
+
     @include media($medium-large-screen) {
       &:hover, &:active {
-        background-color: $color-primary;
+        background-color: $color-primary-darker;
         color: inherit !important;
+        text-decoration: none;
+      }
+      &:focus {
+        outline-offset: 2px;
       }
     }
     // This is backwards from the mobile first approach we should be taking
@@ -814,4 +815,18 @@ img[data-srcset] {
 
 .profile-nav {
   margin-top: 6px;
+}
+
+.external-link-icon-black {
+  background-image: url(/img/icons/exit-icon.png);
+  background-position: 100% 50%;
+  background-repeat: no-repeat;
+  background-size: 1em auto;
+  padding-right: 1.2em;
+  position: relative;
+}
+.usa-alert {
+  .top-of-page {
+    margin-top: 0;
+  }
 }

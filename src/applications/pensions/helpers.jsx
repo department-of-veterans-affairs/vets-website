@@ -42,6 +42,7 @@ function checkStatus(guid) {
     headers.Authorization = `Token token=${userToken}`;
   }
   return fetch(`${environment.API_URL}/v0/pension_claims/${guid}`, {
+    credentials: 'include',
     headers,
     mode: 'cors',
   })
@@ -126,6 +127,7 @@ export function submit(form, formConfig) {
 
   return fetch(`${environment.API_URL}/v0/pension_claims`, {
     body,
+    credentials: 'include',
     headers,
     method: 'POST',
     mode: 'cors',
