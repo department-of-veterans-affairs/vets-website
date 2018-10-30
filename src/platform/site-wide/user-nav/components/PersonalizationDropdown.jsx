@@ -45,12 +45,31 @@ class PersonalizationDropdown extends React.Component {
       <ul>
         {brandConsolidationEnabled && (
           <li>
-            <a href="/my-va/">My VA</a>
+            <a
+              href="/my-va/"
+              onClick={() => {
+                recordEvent({
+                  event: 'nav-user',
+                  'nav-user-section': 'my-va',
+                });
+              }}
+            >
+              My VA
+            </a>
           </li>
         )}
         {brandConsolidationEnabled && (
           <li>
-            <a href={`${mhvBaseUrl()}/mhv-portal-web/home`} target="_blank">
+            <a
+              href={`${mhvBaseUrl()}/mhv-portal-web/home`}
+              target="_blank"
+              onClick={() => {
+                recordEvent({
+                  event: 'nav-user',
+                  'nav-user-section': 'my-health',
+                });
+              }}
+            >
               My Health
             </a>
           </li>
