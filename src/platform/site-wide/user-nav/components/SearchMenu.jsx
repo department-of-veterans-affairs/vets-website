@@ -15,7 +15,7 @@ const searchActionURL = () => {
       ? 'https://search.usa.gov/search'
       : 'https://search.vets.gov/search';
   }
-  return '/search';
+  return '/search/';
 };
 
 class SearchMenu extends React.Component {
