@@ -56,7 +56,9 @@ function addAssetHashes() {
     ].forEach(unhashedName => {
       const hashedName = manifest[unhashedName];
 
-      files[`generated/${unhashedName}`] = files[hashedName.substr(1)]; // eslint-disable-line no-param-reassign
+      if (hashedName) {
+        files[`generated/${unhashedName}`] = files[hashedName.substr(1)]; // eslint-disable-line no-param-reassign
+      }
     });
 
     done();
