@@ -54,6 +54,7 @@ import {
   summaryOfEvidence,
   fullyDevelopedClaim,
   newUnemploymentFollowUp,
+  unemploymentFormIntro,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -261,10 +262,21 @@ const formConfig = {
           schema: uploadPtsdDocuments.schema,
         },
         newUnemploymentFollowUp: {
-          title: 'PTSD Walkthrough 781 Choice',
+<<<<<<< Updated upstream
+          title: 'File a Claim for Individual Unemployability',
           path: 'new-disabilities/unemployment-status',
+=======
+          title: 'Unemployability Choice',
+          path: 'new-disabilities/unemployment-walkthrough-choice',
+>>>>>>> Stashed changes
           uiSchema: newUnemploymentFollowUp.uiSchema,
           schema: newUnemploymentFollowUp.schema,
+        },
+        unemploymentFormIntro: {
+          title: 'File a Claim for Individual Unemployability',
+          path: 'new-disabilities/unemployment-status',
+          uiSchema: unemploymentFormIntro.uiSchema,
+          schema: unemploymentFormIntro.schema,
         },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',
