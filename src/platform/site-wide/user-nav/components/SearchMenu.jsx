@@ -6,25 +6,13 @@ import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 
-const searchActionURL = () => {
-  if (
-    window.settings &&
-    ['preview', 'production'].includes(window.settings.type)
-  ) {
-    return isBrandConsolidationEnabled()
-      ? 'https://search.usa.gov/search'
-      : 'https://search.vets.gov/search';
-  }
-  return '/search/';
-};
-
 class SearchMenu extends React.Component {
   constructor(props) {
     super(props);
     this.makeForm = this.makeForm.bind(this);
     this.toggleSearchForm = this.toggleSearchForm.bind(this);
     this.state = {
-      searchAction: searchActionURL(),
+      searchAction: '/search/',
       searchAffiliate: isBrandConsolidationEnabled() ? 'va' : 'vets.gov_search',
     };
   }
