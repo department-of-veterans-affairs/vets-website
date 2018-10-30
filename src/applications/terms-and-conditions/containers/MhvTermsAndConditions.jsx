@@ -224,7 +224,7 @@ export class MhvTermsAndConditions extends React.Component {
     const header = !this.props.accepted && (
       <div>
         {!this.state.showCanceledMessage && (
-          <div className="usa-alert usa-alert-info no-background-image">
+          <div className="usa-alert usa-alert-info background-color-only">
             <h3 className="usa-alert-heading">
               {unagreedBannerProps.headline}
             </h3>

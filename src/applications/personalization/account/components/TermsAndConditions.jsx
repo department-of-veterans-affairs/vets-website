@@ -31,7 +31,7 @@ export default function TermsAndConditions({ mhvAccount }) {
   } else if (mhvAccount.accountState === 'needs_terms_acceptance') {
     content = (
       <div>
-        <div className="usa-alert usa-alert-info no-background-image">
+        <div className="usa-alert usa-alert-info background-color-only">
           <div className="usa-alert-body">
             <div className="usa-alert-heading">
               <strong>

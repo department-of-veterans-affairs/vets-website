@@ -351,7 +351,7 @@ const claimsIntakeAddress = (
 );
 
 export const download4142Notice = (
-  <div className="usa-alert usa-alert-warning no-background-image">
+  <div className="usa-alert usa-alert-warning background-color-only">
     <p>
       Since your doctor has your private medical records, you’ll need to fill
       out an Authorization to Disclose Information to the VA (VA Form 21-4142)
@@ -391,7 +391,7 @@ export const authorizationToDisclose = (
 );
 
 export const recordReleaseWarning = (
-  <div className="usa-alert usa-alert-warning no-background-image">
+  <div className="usa-alert usa-alert-warning background-color-only">
     <span>
       Limiting consent means that your doctor can only share records that are
       directly related to your condition. This could add to the time it takes to
