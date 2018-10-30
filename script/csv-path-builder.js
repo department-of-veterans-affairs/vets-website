@@ -29,7 +29,14 @@ function getFilesFromDir(dir, fileTypes) {
   return filesToReturn;
 }
 
-const fileList = getFilesFromDir(rootPath, ['.md', '.html']);
+const fileList = getFilesFromDir(rootPath, ['.html']);
+
+const getPageQuery = filePath => {
+  const fileContent = fs.readFileSync(filePath);
+  const data = fileContent.toString();
+
+  return cheerio.load(data);
+};
 
 const getTargetTitle = href => {
   if (href) {
@@ -50,10 +57,7 @@ const getTargetTitle = href => {
 
       if (href.includes('/introduction')) {
         filePath = `${rootPath}${href.replace('/introduction', '')}/index.html`;
-        const fileContent = fs.readFileSync(filePath);
-        const data = fileContent.toString();
-
-        const $ = cheerio.load(data);
+        const $ = getPageQuery(filePath);
 
         return $('title')
           .text()
@@ -61,10 +65,7 @@ const getTargetTitle = href => {
       }
 
       if (fs.existsSync(filePath)) {
-        const fileContent = fs.readFileSync(filePath);
-        const data = fileContent.toString();
-
-        const $ = cheerio.load(data);
+        const $ = getPageQuery(filePath);
 
         return $('title')
           .text()
@@ -75,9 +76,7 @@ const getTargetTitle = href => {
         filePath = `${rootPath}${href.split('/#')[0]}/index.html`;
 
         if (fs.existsSync(filePath)) {
-          const fileContent = fs.readFileSync(filePath);
-          const data = fileContent.toString();
-          const $ = cheerio.load(data);
+          const $ = getPageQuery(filePath);
 
           return $('title')
             .text()
@@ -105,13 +104,11 @@ const getTargetTitle = href => {
 };
 
 const fileLinks = fileList.reduce((acc, file) => {
-  const fileContent = fs.readFileSync(`${rootPath}${file}`);
-  const data = fileContent.toString();
+  const $ = getPageQuery(`${rootPath}${file}`);
 
   // eslint-disable-next-line
   console.log(`processing ${file}`);
 
-  const $ = cheerio.load(data);
   const $linkTags = $('a');
   const pageTitle = $('title')
     .text()
@@ -159,5 +156,6 @@ const json2csvParser = new Json2csvParser();
 const csv = json2csvParser.parse(fileLinks);
 
 fs.writeFileSync(`./all-links.csv`, csv);
+
 // eslint-disable-next-line
 console.log('Done generating your all-links.csv file');
