@@ -10,6 +10,7 @@ import recordEvent from '../../../platform/monitoring/record-event';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
 import Pagination from '@department-of-veterans-affairs/formation/Pagination';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 class SearchApp extends React.Component {
   static propTypes = {
@@ -110,7 +111,7 @@ class SearchApp extends React.Component {
   /* eslint-enable react/no-danger */
 
   renderResults() {
-    const { results, loading } = this.props.search;
+    const { results, loading, errors } = this.props.search;
 
     if (loading) {
       return <LoadingIndicator message="Loading results..." setFocus />;
@@ -121,6 +122,16 @@ class SearchApp extends React.Component {
         <ul className="results-list">
           {results.map(r => this.renderWebResult(r))}
         </ul>
+      );
+    }
+
+    if (errors && errors.length > 0) {
+      return (
+        <AlertBox
+          status="error"
+          headline="Something went wrong"
+          content="We're sorry, that search did not go through successfully. Please try again."
+        />
       );
     }
 

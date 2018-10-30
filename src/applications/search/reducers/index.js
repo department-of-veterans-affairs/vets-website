@@ -44,7 +44,8 @@ function SearchReducer(state = initialState, action) {
     case FETCH_SEARCH_RESULTS_FAILURE: {
       return {
         ...state,
-        error: action.error,
+        errors: action.errors,
+        results: undefined,
         loading: false,
       };
     }
