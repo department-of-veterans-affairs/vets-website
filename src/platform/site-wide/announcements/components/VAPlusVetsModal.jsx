@@ -46,11 +46,7 @@ export default class VAPlusVetsModal extends React.Component {
           Sign in with your My HealtheVet, DS Logon, or ID.me account to track
           your claims, refill your prescriptions, and more.
         </p>
-        <button
-          type="button"
-          aria-label="Dismiss this announcement"
-          onClick={dismiss}
-        >
+        <button type="button" onClick={dismiss}>
           Continue to VA.gov
         </button>
       </Modal>
