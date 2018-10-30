@@ -154,6 +154,7 @@ class SearchApp extends React.Component {
       perPage,
       totalPages,
       totalEntries,
+      loading,
     } = this.props.search;
 
     let resultRangeEnd = currentPage * perPage;
@@ -163,6 +164,8 @@ class SearchApp extends React.Component {
     }
 
     const resultRangeStart = (currentPage - 1) * perPage + 1;
+
+    if (loading) return null;
 
     /* eslint-disable prettier/prettier */
     return (
