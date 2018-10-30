@@ -7,7 +7,7 @@ const environments = require('./constants/environments');
 const hostnames = require('./constants/hostnames');
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'buildtype', type: String },
+  { name: 'buildtype', type: String, defaultValue: environments.LOCALHOST },
   { name: 'brand-consolidation-enabled', type: Boolean, defaultValue: false },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3001 },
@@ -18,6 +18,11 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'protocol', type: String, defaultValue: 'http' },
   { name: 'public', type: String, defaultValue: null },
   { name: 'destination', type: String, defaultValue: null },
+  {
+    name: 'content-directory',
+    type: String,
+    defaultValue: '../../vagov-content/pages',
+  },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -34,8 +39,11 @@ function gatherFromCommandLine() {
 }
 
 function applyDefaultOptions(options) {
+  const contentRoot = '../content';
+
   Object.assign(options, {
-    contentRoot: '../content',
+    contentRoot,
+    contentPagesRoot: `${contentRoot}/pages`,
     destination: path.resolve(__dirname, `../build/${options.buildtype}`),
     assets: {
       source: '../assets',
@@ -45,7 +53,7 @@ function applyDefaultOptions(options) {
     redirects: [],
   });
 
-  if (!options.buildtype) {
+  if (options.buildtype === environments.LOCALHOST) {
     options.buildtype = environments.DEVELOPMENT;
   } else {
     options.port = 80;
@@ -103,6 +111,7 @@ function applyBrandConsolidationOverrides(options) {
 
   Object.assign(options, {
     contentRoot: '../va-gov',
+    contentPagesRoot: options['content-directory'],
     collections: require('./collections/brand-consolidation.json'),
     redirects: require('./vagovRedirects.json'),
     domainReplacements,

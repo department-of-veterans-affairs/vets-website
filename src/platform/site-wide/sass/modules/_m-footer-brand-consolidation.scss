@@ -116,6 +116,7 @@
 .va-footer-links {
   padding-left: 0;
   margin-top: 0;
+
   > li {
     margin-bottom: 0;
   }
@@ -196,4 +197,15 @@
 
 .va-footer-content {
   @include accessibly-hidden();
+}
+
+.va-footer-link-text {
+  color: $color-white;
+}
+
+.va-footer-link-label {
+  display: block;
+  font-weight: bold;
+  color: $color-white;
+  margin-top: 15px;
 }

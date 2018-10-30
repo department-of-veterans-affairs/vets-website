@@ -64,6 +64,21 @@ import {
 } from './newPTSDFollowUp';
 
 import {
+  uiSchema as choosePtsdTypeUISchema,
+  schema as choosePtsdTypeSchema,
+} from './choosePtsdType';
+
+import {
+  uiSchema as ptsdWalkthroughChoice781UISchema,
+  schema as ptsdWalkthroughChoice781Schema,
+} from './ptsdWalkthroughChoice781';
+
+import {
+  uiSchema as uploadPtsdDocumentsUISchema,
+  schema as uploadPtsdDocumentsSchema,
+} from './uploadPtsdDocuments';
+
+import {
   uiSchema as summaryOfDisabilitiesUISchema,
   schema as summaryOfDisabilitiesSchema,
 } from './summaryOfDisabilities';
@@ -117,6 +132,11 @@ import {
   uiSchema as vaEmployeeUISchema,
   schema as vaEmployeeSchema,
 } from './vaEmployee';
+
+import {
+  uiSchema as fullyDevelopedClaimUiSchema,
+  schema as fullyDevelopedClaimSchema,
+} from './fullyDevelopedClaim';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -183,6 +203,21 @@ export const newPTSDFollowUp = {
   schema: newPTSDFollowUpSchema,
 };
 
+export const choosePtsdType = {
+  uiSchema: choosePtsdTypeUISchema,
+  schema: choosePtsdTypeSchema,
+};
+
+export const ptsdWalkthroughChoice781 = {
+  uiSchema: ptsdWalkthroughChoice781UISchema,
+  schema: ptsdWalkthroughChoice781Schema,
+};
+
+export const uploadPtsdDocuments = {
+  uiSchema: uploadPtsdDocumentsUISchema,
+  schema: uploadPtsdDocumentsSchema,
+};
+
 export const summaryOfDisabilities = {
   uiSchema: summaryOfDisabilitiesUISchema,
   schema: summaryOfDisabilitiesSchema,
@@ -236,4 +271,9 @@ export const homelessOrAtRisk = {
 export const vaEmployee = {
   uiSchema: vaEmployeeUISchema,
   schema: vaEmployeeSchema,
+};
+
+export const fullyDevelopedClaim = {
+  uiSchema: fullyDevelopedClaimUiSchema,
+  schema: fullyDevelopedClaimSchema,
 };

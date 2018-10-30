@@ -16,7 +16,7 @@ import startMobileMenuButton from '../../platform/site-wide/mobile-menu-button';
 import startFeedbackWidget from '../../platform/site-wide/feedback';
 // import startAnnouncementWidget from '../../platform/site-wide/announcements';
 import startVAFooter from '../../platform/site-wide/va-footer';
-import redirectIfNecessary from './redirects';
+// import redirectIfNecessary from './redirects';
 import { addFocusBehaviorToCrisisLineModal } from '../../platform/site-wide/accessible-VCL-modal';
 import { addOverlayTriggers } from '../../platform/site-wide/legacy/menu';
 import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
@@ -42,7 +42,7 @@ function createMutationObserverCallback() {
   // Hide native elements when they're added to the DOM
   return function mutationObserved(mutations) {
     mutations.forEach(mutation => {
-      mutation.addedNodes.forEach(node => {
+      Array.from(mutation.addedNodes).forEach(node => {
         if (node.nodeType === Node.ELEMENT_NODE) {
           if (node.tagName === 'BODY') {
             node.classList.add('merger');
@@ -152,6 +152,7 @@ if (
     getProxyRewriteCookieValue(),
   )
 ) {
-  redirectIfNecessary(window);
+  // TODO: remove comment and test
+  // redirectIfNecessary(window);
   activateInjectedAssets();
 }

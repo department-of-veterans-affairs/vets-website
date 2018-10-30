@@ -17,10 +17,10 @@ import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/action
 import { focusElement } from '../../../../platform/utilities/ui';
 
 import BetaGate from '../containers/BetaGate';
-
 import { VerifiedAlert } from '../helpers';
-
 import FormStartControls from './FormStartControls';
+
+const gaStartEventName = 'disability-526EZ-start';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -87,6 +87,7 @@ class IntroductionPage extends React.Component {
               pathname={this.props.location.pathname}
               user={user}
               authenticate={this.authenticate}
+              gaStartEventName={gaStartEventName}
               {...this.props}
             />
           )}
@@ -230,6 +231,7 @@ class IntroductionPage extends React.Component {
               pathname={this.props.location.pathname}
               user={user}
               authenticate={this.authenticate}
+              gaStartEventName={gaStartEventName}
               {...this.props}
               buttonOnly
             />

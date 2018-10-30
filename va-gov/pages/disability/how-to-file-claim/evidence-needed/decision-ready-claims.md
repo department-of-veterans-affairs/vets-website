@@ -105,8 +105,7 @@ You can't file your claim through the Decision Ready Claims program if any of th
 
 <h4>Check more exclusions for certain claim types</h4>
 
-<div class="usa-accordion" aria-multiselectable="true">
-<ul class="usa-unstyled-list">
+<ul class="usa-accordion" aria-multiselectable="true">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="exclusions-predischarge">More exclusions for pre-discharge claims</button>
 <div id="exclusions-predischarge" class="usa-accordion-content">
@@ -135,7 +134,6 @@ You can't file your DIC claim through the DRC program if any of the below factor
 </div>
 </li>
 </ul>
-</div>
 
 -----
 
@@ -166,8 +164,7 @@ You can expect a decision within 30 days or less from the time you submit your c
 
 ### More questions about the Decision Ready Claims program
 
-<div class="usa-accordion" aria-multiselectable="true">
-<ul class="usa-unstyled-list">
+<ul class="usa-accordion" aria-multiselectable="true">
 <li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="more-vso">How do I find an accredited VSO?</button>
 <div id="more-vso" class="usa-accordion-content">
@@ -219,5 +216,3 @@ Reach out to your local VSO or call our toll-free number at <a href="tel:+1phone
 </div>
 </li>
 </ul>
-</div>
-

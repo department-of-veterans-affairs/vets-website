@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
 
+import { apiRequest } from '../../../platform/utilities/api';
 import {
   isValidUSZipCode,
   isValidCanPostalCode,
@@ -667,64 +668,6 @@ export const VAFileNumberDescription = (
   </div>
 );
 
-export const FDCDescription = (
-  <div>
-    <h5>Fully developed claim program</h5>
-    <p>
-      You can apply using the Fully Developed Claim (FDC) program if you’ve
-      uploaded all the supporting documents or supplemental forms needed to
-      support your claim.
-    </p>
-    <a href="/pension/apply/fully-developed-claim/" target="_blank">
-      Learn more about the FDC program
-    </a>
-    .
-  </div>
-);
-
-export const FDCWarning = (
-  <div className="usa-alert usa-alert-info no-background-image">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Since you’ve uploaded all your supporting documents, your claim will be
-        submitted as a fully developed claim.
-      </div>
-    </div>
-  </div>
-);
-
-export const noFDCWarning = (
-  <div className="usa-alert usa-alert-info no-background-image">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        <p>
-          Since you’ll be sending in additional documents later, your
-          application doesn’t qualify for the Fully Developed Claim program.
-          We’ll review your claim through the standard claim process. With the
-          standard claim process, you have up to 1 year from the date we receive
-          your claim to turn in any information and evidence.
-        </p>
-        <p>You can turn in your evidence 1 of 3 ways:</p>
-        <ul>
-          <li>
-            Visit the Claim Status tool and upload your documents under the File
-            tab. <a href="/track-claims">Track the status of your claims.</a>
-          </li>
-          <li>
-            Call Veterans Benefits Assistance at{' '}
-            <a href="tel:1-800-827-1000">1-800-827-1000</a>, Monday – Friday,
-            8:30 a.m. – 4:30 p.m. (ET).
-          </li>
-          <li>
-            Save your application and return to it later when you have your
-            evidence ready to upload.
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-);
-
 const evidenceTypesDescription = disabilityName => (
   <p>
     What supporting evidence will you turn in that shows your {disabilityName}{' '}
@@ -799,6 +742,27 @@ export const validateIfHasEvidence = (
 export const title10DatesRequired = formData =>
   get('view:isTitle10Activated', formData, false);
 
+export function fetchPaymentInformation() {
+  return apiRequest(
+    '/ppiu/payment_information',
+    {},
+    response =>
+      // Return only the bit the UI cares about
+      response.data.attributes.responses[0].paymentAccount,
+    () => {
+      Raven.captureMessage('vets_payment_information_fetch_failure');
+      return Promise.reject();
+    },
+  );
+}
+
+export const PaymentDescription = () => (
+  <p>
+    This is the bank account information we have on file for you. We’ll pay your
+    disability benefit to this account.
+  </p>
+);
+
 export const ForwardingAddressViewField = ({ formData }) => {
   const { effectiveDate } = formData;
   return (
@@ -814,4 +778,127 @@ const EffectiveDateViewField = ({ formData }) => (
     We will use this address starting on{' '}
     <DateWidget value={formData} options={{ monthYear: false }} />:
   </p>
+);
+
+export const patientAcknowledgmentText = (
+  <AdditionalInfo triggerText="Read the full text.">
+    <h4>PATIENT AUTHORIZATION:</h4>
+    <p>
+      I voluntarily authorize and request disclosure (including paper, oral, and
+      electronic interchange) of: All my medical records; including information
+      related to my ability to perform tasks of daily living. This includes
+      specific permission to release:
+    </p>
+    <ol>
+      <li>
+        All records and other information regarding my treatment,
+        hospitalization, and outpatient care for my impairment(s) including, but
+        not limited to:
+      </li>
+      <ul>
+        <li>
+          Psychological, psychiatric, or other mental impairment(s) excluding
+          "psychotherapy notes" as defined in 45 C.F.R. §164.501,
+        </li>
+        <li>Drug abuse, alcoholism, or other substance abuse,</li>
+        <li>Sickle cell anemia,</li>
+        <li>
+          Records which may indicate the presence of a communicable or
+          non-communicable disease; and tests for or records of HIV/AIDS,
+        </li>
+        <li>Gene-related impairments (including genetic test results)</li>
+      </ul>
+      <li>
+        Information about how my impairment(s) affects my ability to complete
+        tasks and activities of daily living, and affects my ability to work.
+      </li>
+      <li>
+        Information created within 12 months after the date this authorization
+        is signed in Item 11, as well as past information.
+      </li>
+    </ol>
+    <p>
+      YOU SHOULD NOT COMPLETE THIS FORM UNLESS YOU WANT THE VA TO OBTAIN PRIVATE
+      TREATMENT RECORDS ON YOUR BEHALF. IF YOU HAVE ALREADY PROVIDED THESE
+      RECORDS OR INTEND TO OBTAIN THEM YOURSELF, THERE IS NO NEED TO FILL OUT
+      THIS FORM. DOING SO WILL LENGTHEN YOUR CLAIM PROCESSING TIME.
+    </p>
+    <h4>IMPORTANT:</h4>
+    <p>
+      In accordance with 38 C.F.R. §3.159(c), "VA will not pay any fees charged
+      by a custodian to provide records requested."
+    </p>
+    <h4>PATIENT ACKNOWLEDGEMENT:</h4>
+    <p>
+      I HEREBY AUTHORIZE the sources listed in Section IV, to release any
+      information that may have been obtained in connection with a physical,
+      psychological or psychiatric examination or treatment, with the
+      understanding that VA will use this information in determining my
+      eligibility to veterans benefits I have claimed.
+    </p>
+    <p>
+      I understand that the source being asked to provide the Veterans Benefits
+      Administration with records under this authorization may not require me to
+      execute this authorization before it provides me with treatment, payment
+      for health care, enrollment in a health plan, or eligibility for benefits
+      provided by it.
+    </p>
+    <p>
+      I understand that once my source sends this information to VA under this
+      authorization, the information will no longer be protected by the HIPAA
+      Privacy Rule, but will be protected by the Federal Privacy Act, 5 USC
+      552a, and VA may disclose this information as authorized by law.
+    </p>
+    <p>
+      I also understand that I may revoke this authorization in writing, at any
+      time except to the extent a source of information has already relied on it
+      to take an action. To revoke, I must send a written statement to the VA
+      Regional Office handling my claim or the Board of Veterans' Appeals (if my
+      claim is related to an appeal) and also send a copy directly to any of my
+      sources that I no longer wish to disclose information about me.
+    </p>
+    <p>
+      I understand that VA may use information disclosed prior to revocation to
+      decide my claim.
+    </p>
+    <p>
+      NOTE: For additional information regarding VA Form 21-4142, refer to the
+      following website:
+      <a href="https://www.benefits.va.gov/privateproviders/" target="_blank">
+        https://www.benefits.va.gov/privateproviders/
+      </a>
+      .
+    </p>
+  </AdditionalInfo>
+);
+
+export const limitedConsentTitle = (
+  <p>
+    I want to limit my consent for the VA to retrieve only specific information
+    from my private medical provider(s).
+  </p>
+);
+
+export const limitedConsentTextTitle = (
+  <p>Describe the limitation below. (Treatment dates, Disability type, etc.)</p>
+);
+
+export const limitedConsentDescription = (
+  <AdditionalInfo triggerText="What does this mean?">
+    <p>
+      If you choose to limit consent, your doctor will abide by the limitation
+      you specify. Limiting consent could add to the time it takes to get your
+      private medical records.
+    </p>
+  </AdditionalInfo>
+);
+
+export const recordReleaseDescription = () => (
+  <div>
+    <p>
+      Please let us know where and when you received treatment. We’ll request
+      your private medical records for you. If you have records available, you
+      can upload them later in the application.
+    </p>
+  </div>
 );
