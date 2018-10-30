@@ -16,9 +16,9 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@department-of-veterans-affairs/formation@^1.8.4":
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-1.10.0.tgz#87816000a37cefc4f757ed0a9c4cdbf1dab11f38"
+"@department-of-veterans-affairs/formation@^1.10.3":
+  version "1.10.3"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-1.10.3.tgz#8f5032f570fc530f585782d744ef5227818db44a"
   dependencies:
     classnames "^2.2.5"
     font-awesome "4"

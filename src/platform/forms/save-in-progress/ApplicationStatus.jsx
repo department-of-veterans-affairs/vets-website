@@ -105,7 +105,7 @@ export class ApplicationStatus extends React.Component {
           .format('M/D/YYYY [at] h:mm a');
 
         return (
-          <div className="usa-alert usa-alert-info no-background-image sip-application-status">
+          <div className="usa-alert usa-alert-info background-color-only sip-application-status">
             <h5 className="form-title saved">Your form is in progress</h5>
             <span className="saved-form-item-metadata">
               Your {formDescriptions[formId]} is in progress.
@@ -168,7 +168,7 @@ export class ApplicationStatus extends React.Component {
         );
       }
       return (
-        <div className="usa-alert usa-alert-warning no-background-image sip-application-status">
+        <div className="usa-alert usa-alert-warning background-color-only sip-application-status">
           <h5 className="form-title saved">Your form has expired</h5>
           <span className="saved-form-item-metadata">
             Your saved {formDescriptions[formId]} has expired. If you want to

@@ -18,6 +18,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'protocol', type: String, defaultValue: 'http' },
   { name: 'public', type: String, defaultValue: null },
   { name: 'destination', type: String, defaultValue: null },
+  { name: 'content-deployment', type: Boolean, defaultValue: false },
   {
     name: 'content-directory',
     type: String,
@@ -45,7 +46,7 @@ function applyDefaultOptions(options) {
     contentRoot,
     contentPagesRoot: `${contentRoot}/pages`,
     destination: path.resolve(__dirname, `../build/${options.buildtype}`),
-    assets: {
+    appAssets: {
       source: '../assets',
       destination: './',
     },
@@ -115,6 +116,10 @@ function applyBrandConsolidationOverrides(options) {
     collections: require('./collections/brand-consolidation.json'),
     redirects: require('./vagovRedirects.json'),
     domainReplacements,
+    contentAssets: {
+      source: path.join(options['content-directory'], '../assets'),
+      destination: './',
+    },
   });
 }
 
