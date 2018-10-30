@@ -53,6 +53,7 @@ import {
   vaEmployee,
   summaryOfEvidence,
   fullyDevelopedClaim,
+  newUnemploymentFollowUp,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -258,6 +259,12 @@ const formConfig = {
             isUploadingPtsdForm(formData),
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
+        },
+        newUnemploymentFollowUp: {
+          title: 'PTSD Walkthrough 781 Choice',
+          path: 'new-disabilities/unemployment-status',
+          uiSchema: newUnemploymentFollowUp.uiSchema,
+          schema: newUnemploymentFollowUp.schema,
         },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',
