@@ -111,19 +111,6 @@ const formConfig = {
           uiSchema: servicePay.uiSchema,
           schema: servicePay.schema,
         },
-        waiveRetirementPay: {
-          title: 'Waiving Retirement Pay',
-          path: 'waive-retirement-pay',
-          depends: hasMilitaryRetiredPay,
-          uiSchema: waiveRetirementPay.uiSchema,
-          schema: waiveRetirementPay.schema,
-        },
-        separationTrainingPay: {
-          title: 'Separation, Severance or Training Pay',
-          path: 'separation-training-pay',
-          uiSchema: separationTrainingPay.uiSchema,
-          schema: separationTrainingPay.schema,
-        },
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
@@ -343,6 +330,19 @@ const formConfig = {
           path: 'va-employee',
           uiSchema: vaEmployee.uiSchema,
           schema: vaEmployee.schema,
+        },
+        waiveRetirementPay: {
+          title: 'Waiving Retirement Pay',
+          path: 'waive-retirement-pay',
+          depends: hasMilitaryRetiredPay,
+          uiSchema: waiveRetirementPay.uiSchema,
+          schema: waiveRetirementPay.schema,
+        },
+        separationTrainingPay: {
+          title: 'Separation, Severance or Training Pay',
+          path: 'separation-training-pay',
+          uiSchema: separationTrainingPay.uiSchema,
+          schema: separationTrainingPay.schema,
         },
         fullyDevelopedClaim: {
           title: 'Fully developed claim program',
