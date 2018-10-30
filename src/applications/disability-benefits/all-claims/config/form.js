@@ -261,7 +261,7 @@ const formConfig = {
           schema: uploadPtsdDocuments.schema,
         },
         newUnemploymentFollowUp: {
-          title: 'PTSD Walkthrough 781 Choice',
+          title: 'File a Claim for Individual Unemployability',
           path: 'new-disabilities/unemployment-status',
           uiSchema: newUnemploymentFollowUp.uiSchema,
           schema: newUnemploymentFollowUp.schema,
