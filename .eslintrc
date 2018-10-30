@@ -5,13 +5,14 @@
     "ecmaVersion": 6,
     "sourceType": "module"
   },
-  "plugins": ["mocha"],
+  "plugins": ["mocha", "jest"],
   "extends": ["airbnb", "plugin:prettier/recommended"],
   "env": {
     "browser": true,
     "commonjs": true,
     "es6": true,
-    "mocha": true
+    "mocha": true,
+    "jest": true,
   },
   'globals': {
     '__BUILDTYPE__': true,
