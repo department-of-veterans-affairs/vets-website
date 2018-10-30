@@ -124,7 +124,7 @@ export function transform(formConfig, form) {
 }
 
 export const spouseRelationshipDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">
+  <div className="usa-alert usa-alert-info background-color-only">
     You’re applying as the{' '}
     <strong>legally married spouse or surviving spouse</strong> of the Veteran
     who’s sponsoring this application. First, we’ll ask for your information as
@@ -133,7 +133,7 @@ export const spouseRelationshipDescription = (
 );
 
 export const childRelationshipDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">
+  <div className="usa-alert usa-alert-info background-color-only">
     You’re applying as the <strong>unmarried adult child</strong> of the Veteran
     who’s sponsoring this application. First, we’ll ask for your information as
     the applicant. Then, we’ll ask for your sponsor’s information. You’ll also
@@ -142,7 +142,7 @@ export const childRelationshipDescription = (
 );
 
 export const otherRelationshipDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">
+  <div className="usa-alert usa-alert-info background-color-only">
     You’re applying on <strong>behalf</strong> of the Veteran who’s sponsoring
     this application. First, we’ll ask for your information as the applicant.
     Then, we’ll ask for the Veteran's information as the sponsor.

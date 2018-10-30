@@ -49,7 +49,7 @@ class SaveInProgressIntro extends React.Component {
             .format('M/D/YYYY [at] h:mm a');
           alert = (
             <div>
-              <div className="usa-alert usa-alert-info no-background-image schemaform-sip-alert">
+              <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
                 <div className="schemaform-sip-alert-title">
                   <strong>Your form is in progress</strong>
                 </div>
@@ -77,7 +77,7 @@ class SaveInProgressIntro extends React.Component {
         } else {
           alert = (
             <div>
-              <div className="usa-alert usa-alert-warning no-background-image schemaform-sip-alert">
+              <div className="usa-alert usa-alert-warning background-color-only schemaform-sip-alert">
                 <div className="schemaform-sip-alert-title">
                   <strong>Your form has expired</strong>
                 </div>
