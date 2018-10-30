@@ -10,14 +10,11 @@ export const PtsdUploadChoiceDescription = ({ formType }) => (
       If you choose to answer questions, we’ll ask you several questions to
       learn more about your PTSD.
     </p>
-    <h5>
-      Upload VA Form 21-0
-      {formType}
-    </h5>
+    <h5>Upload VA Form {`21-0${formType}`}</h5>
     <p>
-      If you upload a completed VA Form 21-0
-      {formType}, we won’t ask you questions about your PTSD, and you’ll move to
-      the next section of the disability application.
+      If you upload a completed VA Form {`21-0${formType}`}, we won’t ask you
+      questions about your PTSD, and you’ll move to the next section of the
+      disability application.
     </p>
   </AdditionalInfo>
 );
@@ -26,8 +23,7 @@ const UploadExplanation = ({ formType }) => (
   <div>
     <p>
       If you have already completed a Claim for Service Connection for
-      Post-Traumatic Stress Disorder (VA Form 21-0
-      {formType}
+      Post-Traumatic Stress Disorder (VA Form 21-0 {`21-0${formType}`}
       ), you can upload it here instead of answering the questions about your
       PTSD.
     </p>
