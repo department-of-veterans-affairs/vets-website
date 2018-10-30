@@ -69,6 +69,16 @@ import {
 } from './choosePtsdType';
 
 import {
+  uiSchema as ptsdWalkthroughChoice781UISchema,
+  schema as ptsdWalkthroughChoice781Schema,
+} from './ptsdWalkthroughChoice781';
+
+import {
+  uiSchema as uploadPtsdDocumentsUISchema,
+  schema as uploadPtsdDocumentsSchema,
+} from './uploadPtsdDocuments';
+
+import {
   uiSchema as summaryOfDisabilitiesUISchema,
   schema as summaryOfDisabilitiesSchema,
 } from './summaryOfDisabilities';
@@ -196,6 +206,16 @@ export const newPTSDFollowUp = {
 export const choosePtsdType = {
   uiSchema: choosePtsdTypeUISchema,
   schema: choosePtsdTypeSchema,
+};
+
+export const ptsdWalkthroughChoice781 = {
+  uiSchema: ptsdWalkthroughChoice781UISchema,
+  schema: ptsdWalkthroughChoice781Schema,
+};
+
+export const uploadPtsdDocuments = {
+  uiSchema: uploadPtsdDocumentsUISchema,
+  schema: uploadPtsdDocumentsSchema,
 };
 
 export const summaryOfDisabilities = {

@@ -37,8 +37,6 @@ export const accountTitleLabels = {
   NOBANK: 'No Bank Account',
 };
 
-export const NOBANK = 'NOBANK';
-
 export const PENDING = 'PENDING';
 export const RESOLVED = 'RESOLVED';
 export const REJECTED = 'REJECTED';

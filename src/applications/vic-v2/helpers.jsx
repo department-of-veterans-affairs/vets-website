@@ -131,6 +131,7 @@ export function fetchPreview(id) {
   return fetch(
     `${environment.API_URL}/v0/vic/profile_photo_attachments/${id}`,
     {
+      credentials: 'include',
       headers,
     },
   )
