@@ -126,6 +126,10 @@ export const validateIfHasEvidence = (
 
 export const hasNewPtsdDisability = formData =>
   some(_.get('newDisabilities', formData, []), item => {
+    if (!_.get('view:newDisabilities', formData, false)) {
+      return false;
+    }
+
     let hasPtsd = false;
     if (item && typeof item.condition === 'string') {
       hasPtsd = item.condition.toLowerCase().includes(PTSD);
