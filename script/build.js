@@ -22,6 +22,7 @@ const leftRailNavResetLevels = require('./left-rail-nav-reset-levels');
 const checkBrokenLinks = require('./check-broken-links');
 const rewriteVaDomains = require('./rewrite-va-domains');
 const configureAssets = require('./configure-assets');
+const applyFragments = require('./apply-fragments');
 const BUILD_OPTIONS = require('./options');
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -49,6 +50,7 @@ smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 // plugin chain.
 smith.use(filenames());
 
+smith.use(applyFragments(BUILD_OPTIONS));
 smith.use(collections(BUILD_OPTIONS.collections));
 smith.use(leftRailNavResetLevels());
 smith.use(dateInFilename(true));
