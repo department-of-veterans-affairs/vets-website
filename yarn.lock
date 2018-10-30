@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@department-of-veterans-affairs/formation@^1.10.0":
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-1.10.0.tgz#87816000a37cefc4f757ed0a9c4cdbf1dab11f38"
+"@department-of-veterans-affairs/formation@^1.10.2":
+  version "1.10.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-1.10.2.tgz#bfde4c46ec6fb54147e73a18698a9cb1dca90b0a"
   dependencies:
     classnames "^2.2.5"
     font-awesome "4"
