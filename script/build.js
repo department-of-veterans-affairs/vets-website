@@ -136,10 +136,10 @@ smith.use(rewriteVaDomains(BUILD_OPTIONS));
 // On the server, it can be accessed at BUILD_OPTIONS.buildSettings.
 // In the browser, it can be accessed at window.settings.
 smith.use(createBuildSettings(BUILD_OPTIONS));
+smith.use(checkBrokenLinks(BUILD_OPTIONS));
 
 configureAssets(smith, BUILD_OPTIONS);
 
-smith.use(checkBrokenLinks(BUILD_OPTIONS));
 smith.use(createSitemaps(BUILD_OPTIONS));
 smith.use(createRedirects(BUILD_OPTIONS));
 smith.use(moveRemove(BUILD_OPTIONS));
