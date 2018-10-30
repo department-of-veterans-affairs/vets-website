@@ -273,7 +273,10 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeMonthlyIncomeInfo(client, testData.data.monthlyIncome);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main')
+    .moveToElement('.main', 500, 500)
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/financial-disclosure/monthly-income',

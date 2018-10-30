@@ -24,6 +24,7 @@ function runEmailTest(
   browser.setValue(emailInput, 'anything@gmail.com');
 
   browser.click(saveEditButton);
+  browser.moveToElement('.main', 500, 500);
   browser.waitForElementVisible(transactionPending, Timeouts.normal);
 
   // Edit button should become visible again after transaction finishes

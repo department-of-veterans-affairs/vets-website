@@ -51,7 +51,10 @@ const test = E2eHelpers.createE2eTest(client => {
     Timeouts.slow,
   );
   Edu1990Helpers.completeBenefitRelinquishment(client, testData.data);
-  client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
+  client
+    .axeCheck('.main')
+    .moveToElement('.main', 500, 500)
+    .click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/benefits-eligibility/benefits-relinquishment',
