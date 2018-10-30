@@ -137,7 +137,8 @@ smith.use(rewriteVaDomains(BUILD_OPTIONS));
 // In the browser, it can be accessed at window.settings.
 smith.use(createBuildSettings(BUILD_OPTIONS));
 
-smith.use(configureAssets(BUILD_OPTIONS));
+configureAssets(smith, BUILD_OPTIONS);
+
 smith.use(checkBrokenLinks(BUILD_OPTIONS));
 smith.use(createSitemaps(BUILD_OPTIONS));
 smith.use(createRedirects(BUILD_OPTIONS));
