@@ -195,6 +195,7 @@ const formConfig = {
         },
         newDisabilityFollowUp: {
           title: formData => getDisabilityName(formData.condition),
+          depends: form => form['view:newDisabilities'] === true,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
           itemFilter: item =>
