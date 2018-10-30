@@ -1,5 +1,3 @@
-import Raven from 'raven-js';
-
 export const formBenefits = {
   '21-526EZ': 'increased disability compensation',
   '21P-527EZ': 'Veterans pension benefits',
@@ -14,6 +12,8 @@ export const formBenefits = {
   '22-5495': 'education benefits',
   '40-10007': 'pre-need determination of eligibility in a VA national cemetery',
   VIC: 'Veteran ID Card',
+  'complaint-tool': 'feedback',
+  'FEEDBACK-TOOL': 'feedback',
   '21-686C': 'dependent status',
 };
 
@@ -32,7 +32,7 @@ export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
 }, {});
 
 export const formDescriptions = Object.keys(formBenefits).reduce(
-  (titles, key) => {
+  (descriptions, key) => {
     let formNumber;
     if (key === '40-10007' || key === 'VIC') {
       formNumber = '';
@@ -41,9 +41,9 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
     } else {
       formNumber = `(${key})`;
     }
-    const formTitle = `${formBenefits[key]} application ${formNumber}`;
-    titles[key] = formTitle; // eslint-disable-line no-param-reassign
-    return titles;
+    const formDescription = `${formBenefits[key]} application ${formNumber}`;
+    descriptions[key] = formDescription; // eslint-disable-line no-param-reassign
+    return descriptions;
   },
   {},
 );
@@ -82,36 +82,3 @@ export const trackingPrefixes = {
   VIC: 'veteran-id-card-',
   '21-686C': '686-',
 };
-
-export const sipEnabledForms = new Set([
-  '1010ez',
-  '21-686C',
-  '21-526EZ',
-  '21P-527EZ',
-  '21P-530',
-  '22-0993',
-  '22-1990',
-  '22-1990E',
-  '22-1990N',
-  '22-1995',
-  '22-5490',
-  '22-5495',
-  '40-10007',
-  'VIC',
-]);
-
-export function isSIPEnabledForm(savedForm) {
-  const formNumber = savedForm.form;
-  if (!formTitles[formNumber] || !formLinks[formNumber]) {
-    Raven.captureMessage('vets_sip_list_item_missing_info');
-    return false;
-  }
-  if (!sipEnabledForms.has(formNumber)) {
-    throw new Error(
-      `Could not find form ${
-        trackingPrefixes[formNumber]
-      } in list of sipEnabledForms`,
-    );
-  }
-  return true;
-}

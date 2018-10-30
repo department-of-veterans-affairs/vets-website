@@ -17,18 +17,26 @@ Used to open or close the side bar navigation bar on mobile screens. Must be use
 
 
 <script type="text/javascript">
-  window.onload = () => {
-    if ("addEventListener" in window && "classList" in document.documentElement) {
-      var element = document.getElementsByClassName("va-btn-sidebarnav-trigger")[0];
-      var offset = element.offsetTop;
+    var element = document.getElementsByClassName("va-btn-sidebarnav-trigger")[0];
+    var offset;
 
-      window.addEventListener("scroll", function() {
+    if (document.body.clientWidth < 768) {
+      offset = element.offsetTop;
+    }
+
+    window.addEventListener("resize", function() {
+      if (document.body.clientWidth < 768) {
+        offset = element.offsetTop;
+      }
+    }, false);
+
+    window.addEventListener("scroll", function() {
+      if (document.body.clientWidth < 768) {
         if (offset < window.pageYOffset) {
           element.classList.add("fixed-trigger");
         } else {
           element.classList.remove("fixed-trigger");
         }
-      }, false);
-    }
-  };
+      }
+    }, false);
 </script>

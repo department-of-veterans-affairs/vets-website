@@ -26,14 +26,14 @@ crosslinks:
       title: <b>Fiduciary Services</b>
       description: Learn how to become a VA fiduciary to handle the financial affairs of a Veteran in need.
 social:
-  - heading: Connect with Us
-    admin: National Cemetery Administration
-    url: https://www.cem.va.gov/
+  - heading: Ask Questions
     subsections:
-      - subhead: Ask Questions
+      - subhead: Message Us
         links:
         - url: https://iris.custhelp.va.gov/app/ask
-          label: "Ask a Question Online"
+          label: "Ask a question online"
+      - subhead: Call Us
+        links:      
         - url: tel:1-800-535-1117
           number: 1-800-535-1117
           title: "National Cemetery Scheduling Office:"
@@ -43,12 +43,23 @@ social:
         - url: tel:1-800-827-1000
           number: 1-800-827-1000
           title: "VA Benefits Hotline:"
+        - url: tel:1-844-698-2311
+          number: 1-844-698-2311
+          title: "Call MyVA311 for Help:"
+        - url:
+          title: "If you have hearing loss, call TTY: 711."
+  - heading: Connect with Us
+    admin: National Cemetery Administration
+    url: https://www.cem.va.gov/
+    subsections:
       - subhead: Get Updates
         links:
         - url: https://public.govdelivery.com/accounts/USVANCA/subscribers/qualify
           label: National Cemeteries Email Updates
           external: true
-          icon: fa-envelope-square
+          icon: fa-envelope
+      - subhead: Follow Us
+        links:
         - url: https://twitter.com/VANatCemeteries
           label: National Cemeteries Twitter
           external: true

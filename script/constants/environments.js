@@ -1,4 +1,5 @@
 module.exports = {
+  LOCALHOST: 'localhost',
   DEVELOPMENT: 'development',
   STAGING: 'staging',
   PRODUCTION: 'production',

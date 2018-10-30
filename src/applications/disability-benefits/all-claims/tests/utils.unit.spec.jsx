@@ -13,6 +13,8 @@ import {
   hasOtherEvidence,
   fieldsHaveInput,
   servedAfter911,
+  needsToEnter781,
+  isUploadingPtsdForm,
 } from '../utils.jsx';
 
 import initialData from './initialData';
@@ -366,6 +368,45 @@ describe('526 helpers', () => {
         },
       };
       expect(servedAfter911(formData)).to.be.true;
+    });
+  });
+
+  describe('needsToEnter781', () => {
+    it('should return true if user has selected Combat PTSD types', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:combatPtsdType': true,
+        },
+      };
+      expect(needsToEnter781(formData)).to.be.true;
+    });
+
+    it('should return true if user has selected Non-combat PTSD types', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:noncombatPtsdType': true,
+        },
+      };
+      expect(needsToEnter781(formData)).to.be.true;
+    });
+
+    it('should return false if user has not selected Combat or Non-Combat PTSD types', () => {
+      const formData = {};
+      expect(needsToEnter781({ formData })).to.be.false;
+    });
+  });
+
+  describe('isUploadingPtsdForm', () => {
+    it('should return true if user has chosen to upload documents', () => {
+      const formData = {
+        'view:uploadPtsdChoice': 'upload',
+      };
+      expect(isUploadingPtsdForm(formData)).to.be.true;
+    });
+
+    it('should return false if user has not chosen to upload documents', () => {
+      const formData = {};
+      expect(needsToEnter781({ formData })).to.be.false;
     });
   });
 });

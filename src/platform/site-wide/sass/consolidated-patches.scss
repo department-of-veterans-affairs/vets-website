@@ -1,3 +1,7 @@
+.login .container h1 {
+  color: $color-black !important;
+}
+
 .usa-banner-inner {
   p {
     font-size: 1.2rem;
@@ -26,6 +30,8 @@
   }
 }
 
+// HACK: Hard-coding the width fixes one issue but prevents us from using this
+// class to remove the horizontal padding introduced by .usa-grid
 .usa-grid-full {
   width: $teamsite-width;
 }
@@ -35,9 +41,13 @@ header.merger {
   margin: auto;
 
   .va-crisis-line-container {
-
     button.va-crisis-line {
-      background-image: none;
+      background-image: none;  
+
+      // HACK: override rules from benefits.va.gov
+      .va-crisis-line-text {
+        color: $color-white;
+      }
     }
   }
 
@@ -112,4 +122,12 @@ footer.footer {
   p {
     padding-bottom: 0;
   }
+}
+
+// HACK: Added this new utility class to remove horizontal padding from the
+// mobile menu. .usa-grid-full cannot be used for this purpose as its width has
+// now been hard-coded
+.padding-h-none {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
