@@ -7,6 +7,7 @@
     "analyze": "webpack-bundle-analyzer build/production/generated/stats.json",
     "build": "node script/build.js",
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype production --analyzer; npm run analyze",
+    "generate-link-csv:brand-consolidation": "node script/build.js --brand-consolidation-enabled && node script/csv-path-builder",
     "prebuild": "node script/prebuild.js",
     "heroku-serve": "http-server",
     "heroku-postbuild": "sh script/heroku-postbuild.sh",
