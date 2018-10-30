@@ -1,8 +1,7 @@
 import fullSchema from '../config/schema';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import PeriodOfConfinement from '../components/PeriodOfConfinement';
-import { getPOWDisabilities } from '../utils';
-import get from '../../../../platform/utilities/data/get';
+import { addCheckboxPerNewDisability } from '../utils';
 
 export const uiSchema = {
   'ui:title': 'Prisoner of War (POW)',
@@ -27,12 +26,12 @@ export const uiSchema = {
       ),
     },
     powDisabilities: {
-      'ui:title': 'Which of these conditions are related to your POW status?',
-      'ui:required': formData => get('view:powStatus', formData, false),
+      'ui:title': ' ',
+      'ui:description':
+        'Which of these conditions are related to your POW status?',
       'ui:options': {
-        updateSchema: formData => ({
-          enum: getPOWDisabilities(formData),
-        }),
+        hideIf: formData => !formData['view:newDisabilities'],
+        updateSchema: addCheckboxPerNewDisability,
       },
     },
   },
@@ -50,7 +49,8 @@ export const schema = {
       properties: {
         confinements: fullSchema.properties.confinements,
         powDisabilities: {
-          type: 'string',
+          type: 'object',
+          properties: {},
         },
       },
     },

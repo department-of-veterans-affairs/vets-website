@@ -211,10 +211,6 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
     .concat(selectedNewDisabilities)
     .reduce((accum, curr) => {
       const disabilityName = curr.name || curr.condition;
-      if (!disabilityName) {
-        return pageSchema;
-      }
-
       const capitalizedDisabilityName = getDisabilityName(disabilityName);
       return _.set(`${capitalizedDisabilityName}`, { type: 'boolean' }, accum);
     }, {});
@@ -222,6 +218,19 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
     properties: disabilitiesViews,
   };
 };
+
+export const addCheckboxPerNewDisability = createSelector(
+  form =>
+    form.newDisabilities && Array.isArray(form.newDisabilities)
+      ? form.newDisabilities
+      : [],
+  newDisabilities => ({
+    properties: newDisabilities.reduce((accum, disability) => {
+      const formattedName = getDisabilityName(disability.condition);
+      return _.set(`${formattedName}`, { type: 'boolean' }, accum);
+    }, {}),
+  }),
+);
 
 export const hasVAEvidence = formData =>
   _.get(DATA_PATHS.hasVAEvidence, formData, false);
