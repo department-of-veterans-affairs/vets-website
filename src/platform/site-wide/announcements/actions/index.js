@@ -7,6 +7,7 @@ export const ANNOUNCEMENTS_LOCAL_STORAGE = 'DISMISSED_ANNOUNCEMENTS';
 
 const previouslyDismissedAnnouncements = (() => {
   let parsed = [];
+
   return {
     initializeFromLocalStorage() {
       const fromLocalStorage = localStorage.getItem(
@@ -21,6 +22,11 @@ const previouslyDismissedAnnouncements = (() => {
       }
       return parsed;
     },
+
+    getAll() {
+      return parsed;
+    },
+
     save(dismissedAnnouncementName) {
       parsed.push(dismissedAnnouncementName);
       localStorage.setItem(ANNOUNCEMENTS_LOCAL_STORAGE, JSON.stringify(parsed));
@@ -29,9 +35,10 @@ const previouslyDismissedAnnouncements = (() => {
 })();
 
 export function initDismissedAnnouncements() {
+  previouslyDismissedAnnouncements.initializeFromLocalStorage();
   return {
     type: INIT_DISMISSED_ANNOUNCEMENTS,
-    dismissedAnnouncements: previouslyDismissedAnnouncements.initializeFromLocalStorage(),
+    dismissedAnnouncements: previouslyDismissedAnnouncements.getAll(),
   };
 }
 
