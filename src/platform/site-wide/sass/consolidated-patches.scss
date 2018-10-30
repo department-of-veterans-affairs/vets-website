@@ -1,3 +1,20 @@
+.usa-banner-header-expanded {
+  @media (max-width: $medium-screen) {
+    #usa-banner-toggle {
+      background-image: none;
+      height: 5.6rem;
+    }
+    .usa-banner-button-text {
+      display: none;
+    }
+    .usa-banner-button:after {
+      position: absolute;
+      right: 1.5rem;
+      top: 2.15rem;
+    }
+  }
+}
+
 .login .container h1 {
   color: $color-black !important;
 }
@@ -8,6 +25,11 @@
     font-family: inherit;
     padding: 0;
   }
+}
+
+.usa-banner-content p {
+    font-family: inherit;
+    font-size: 1.5rem;
 }
 
 .login-container {
@@ -22,14 +44,16 @@
   padding-top: 2em;
 }
 
-.usa-grid {
-  @media (min-width: $medium-screen) {
+@media (min-width: $medium-screen) {
+  .usa-grid {
     width: $teamsite-width;
     padding-left: 1px;
     padding-right: 1px;
   }
 }
 
+// HACK: Hard-coding the width fixes one issue but prevents us from using this
+// class to remove the horizontal padding introduced by .usa-grid
 .usa-grid-full {
   width: $teamsite-width;
 }
@@ -40,7 +64,12 @@ header.merger {
 
   .va-crisis-line-container {
     button.va-crisis-line {
-      background-image: none;
+      background-image: none;  
+
+      // HACK: override rules from benefits.va.gov
+      .va-crisis-line-text {
+        color: $color-white;
+      }
     }
   }
 
@@ -104,4 +133,12 @@ footer.footer {
   .sign-in-links {
     color: $color-white;
   }
+}
+
+// HACK: Added this new utility class to remove horizontal padding from the
+// mobile menu. .usa-grid-full cannot be used for this purpose as its width has
+// now been hard-coded
+.padding-h-none {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }

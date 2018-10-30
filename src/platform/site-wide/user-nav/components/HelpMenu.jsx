@@ -17,7 +17,7 @@ class HelpMenu extends React.Component {
 
     if (isBrandConsolidationEnabled()) {
       dropDownContents = (
-        <div>
+        <div className="va-helpmenu-contents">
           <p>
             <a href={`${FACILITY_LOCATOR_URL}`}>Find a VA Location</a>
           </p>
@@ -25,10 +25,7 @@ class HelpMenu extends React.Component {
             <a href="https://iris.custhelp.va.gov/app/ask">Ask a Question</a>
           </p>
           <p>
-            <b>Call MyVA311:</b>
-          </p>
-          <p>
-            <a href="tel:18446982311">1-844-698-2311</a>
+            <a href="tel:18446982311">Call MyVA311: 1-844-698-2311</a>
           </p>
           <p>TTY: 711</p>
         </div>
