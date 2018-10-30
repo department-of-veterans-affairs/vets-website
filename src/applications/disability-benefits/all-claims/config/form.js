@@ -262,19 +262,15 @@ const formConfig = {
           schema: uploadPtsdDocuments.schema,
         },
         newUnemploymentFollowUp: {
-<<<<<<< Updated upstream
-          title: 'File a Claim for Individual Unemployability',
-          path: 'new-disabilities/unemployment-status',
-=======
           title: 'Unemployability Choice',
-          path: 'new-disabilities/unemployment-walkthrough-choice',
->>>>>>> Stashed changes
+          path: 'new-disabilities/unemployment-status',
           uiSchema: newUnemploymentFollowUp.uiSchema,
           schema: newUnemploymentFollowUp.schema,
         },
         unemploymentFormIntro: {
           title: 'File a Claim for Individual Unemployability',
-          path: 'new-disabilities/unemployment-status',
+          path: 'new-disabilities/unemployment-walkthrough-choice',
+          depends: formData => formData['view:unemploymentStatus'],
           uiSchema: unemploymentFormIntro.uiSchema,
           schema: unemploymentFormIntro.schema,
         },
