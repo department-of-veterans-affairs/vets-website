@@ -53,7 +53,10 @@ smith.use(collections(BUILD_OPTIONS.collections));
 smith.use(leftRailNavResetLevels());
 smith.use(dateInFilename(true));
 
-smith.use(assets(BUILD_OPTIONS.assets));
+smith.use(assets(BUILD_OPTIONS.appAssets));
+if (BUILD_OPTIONS.contentAssets) {
+  smith.use(assets(BUILD_OPTIONS.contentAssets));
+}
 
 // smith.use(cspHash({ pattern: ['js/*.js', 'generated/*.css', 'generated/*.js'] }))
 

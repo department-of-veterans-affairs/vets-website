@@ -46,7 +46,7 @@ function applyDefaultOptions(options) {
     contentRoot,
     contentPagesRoot: `${contentRoot}/pages`,
     destination: path.resolve(__dirname, `../build/${options.buildtype}`),
-    assets: {
+    appAssets: {
       source: '../assets',
       destination: './',
     },
@@ -116,6 +116,10 @@ function applyBrandConsolidationOverrides(options) {
     collections: require('./collections/brand-consolidation.json'),
     redirects: require('./vagovRedirects.json'),
     domainReplacements,
+    contentAssets: {
+      source: path.join(options['content-directory'], '../assets'),
+      destination: './',
+    },
   });
 }
 
