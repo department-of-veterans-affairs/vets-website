@@ -25,7 +25,9 @@ export default class PhotoPreview extends React.Component {
       return (
         <div className="usa-alert usa-alert-warning vic-processing-warning">
           <div className="usa-alert-body">
-            <h4 className="usa-alert-title">We’re still loading your photo</h4>
+            <h4 className="usa-alert-heading">
+              We’re still loading your photo
+            </h4>
             You can continue working on the application while we finish loading
             your photo.
           </div>

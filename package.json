@@ -162,7 +162,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^1.8.4",
+    "@department-of-veterans-affairs/formation": "^1.10.3",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "append-query": "2.0.1",
     "babel-core": "^6.26.3",
@@ -196,6 +196,7 @@
     "ismobilejs": "^0.4.0",
     "jsdom": "^11.1.0",
     "leaflet": "^1.0.3",
+    "js-yaml": "^3.12.0",
     "local-storage-fallback": "^4.1.1",
     "mapbox": "1.0.0-beta7",
     "metalsmith": "^2.1.0",
