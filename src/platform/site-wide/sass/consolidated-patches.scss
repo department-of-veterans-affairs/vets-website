@@ -21,9 +21,14 @@
 
 .usa-banner-inner {
   p {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-family: inherit;
-    padding: 0;
+    padding: 0;  
+  }
+  @media (min-width: 501px) {
+    p {
+      font-size: 1.2rem;
+    }
   }
 }
 
@@ -115,6 +120,20 @@ header.merger {
       display: none;
     }
   }
+
+  // override some styles on teamsite pages
+  .vet-toolbar .profile-nav .va-dropdown {
+    span, p {
+      font-family: "Source Sans Pro";
+      font-size: 16px;
+    }
+    p {
+      padding-bottom: 0;
+    }
+    button.va-dropdown-trigger {
+      margin-right: 40px;
+    }
+  }
 }
 
 footer.footer {
@@ -132,17 +151,6 @@ footer.footer {
 .sign-in-nav {
   .sign-in-links {
     color: $color-white;
-  }
-}
-
-// override some styles on teamsite pages
-.vet-toolbar .va-dropdown {
-  span, p {
-    font-family: "Source Sans Pro";
-    font-size: 16px;
-  }
-  p {
-    padding-bottom: 0;
   }
 }
 
