@@ -114,12 +114,13 @@
 
 {% if path == '' and banner and banner.visible %}
   <div class="usa-alert-full-width">
-    <div aria-live="polite" role="alert" class="usa-alert usa-alert-{{ banner.type }} top-of-page">
+    <div aria-live="polite" role="alert" class="usa-alert usa-alert-{{ banner.type }}">
       <div class="usa-alert-body">
         <h3 class="usa-alert-heading">{{ banner.title }}</h3>
         {{ banner.content }}
       </div>
     </div>
   </div>
+{% endif %}
 
 <script async src="/js/usa-search.js"></script>
