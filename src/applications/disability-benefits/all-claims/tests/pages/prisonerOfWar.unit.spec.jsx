@@ -78,8 +78,8 @@ describe('Prisoner of war info', () => {
     );
 
     selectRadio(form, 'root_view:powStatus', 'Y');
-    fillDate(form, 'root_confinements_0_from', '2010-05-05');
-    fillDate(form, 'root_confinements_0_to', '2011-05-05');
+    fillDate(form, 'root_view:isPOW_confinements_0_from', '2010-05-05');
+    fillDate(form, 'root_view:isPOW_confinements_0_to', '2011-05-05');
 
     form.find('.va-growable-add-btn').simulate('click');
 
@@ -105,8 +105,8 @@ describe('Prisoner of war info', () => {
     );
 
     selectRadio(form, 'root_view:powStatus', 'Y');
-    fillDate(form, 'root_confinements_0_from', '2010-05-05');
-    fillDate(form, 'root_confinements_0_to', '2011-05-05');
+    fillDate(form, 'root_view:isPOW_confinements_0_from', '2010-05-05');
+    fillDate(form, 'root_view:isPOW_confinements_0_to', '2011-05-05');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
