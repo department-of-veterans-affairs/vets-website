@@ -30,7 +30,7 @@ export function fetchSearchResults(query, page) {
       error =>
         dispatch({
           type: FETCH_SEARCH_RESULTS_FAILURE,
-          error,
+          errors: error.errors,
         }),
     );
   };
