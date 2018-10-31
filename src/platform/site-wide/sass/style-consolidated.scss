@@ -152,3 +152,8 @@ $modal-layer: 400;
 #iama {
   margin-top: 0;
 }
+
+// Place teamsite mobile menu on top of other elements
+.merger #nav-wrap {
+  z-index: $top-layer;
+}
