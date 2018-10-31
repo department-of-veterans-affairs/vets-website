@@ -90,6 +90,9 @@ class SearchApp extends React.Component {
   renderResults() {
     const { loading, errors } = this.props.search;
     const hasErrors = !!(errors && errors.length > 0);
+    const nonBlankUserInput =
+      this.state.userInput &&
+      this.state.userInput.replace(/\s/g, '').length > 0;
 
     // Reusable search input
     const searchInput = (
@@ -100,7 +103,7 @@ class SearchApp extends React.Component {
           value={this.state.userInput}
           onChange={this.handleInputChange}
         />
-        <button type="submit">
+        <button type="submit" disabled={!nonBlankUserInput}>
           <IconSearch color="#fff" />
           <span>Search</span>
         </button>
@@ -149,7 +152,7 @@ class SearchApp extends React.Component {
 
     const resultRangeStart = (currentPage - 1) * perPage + 1;
 
-    if (loading) return null;
+    if (loading || !totalEntries) return null;
 
     /* eslint-disable prettier/prettier */
     return (
