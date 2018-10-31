@@ -17,8 +17,9 @@ class ClaimsBreadcrumbs extends React.Component {
     ];
 
     if (childNodes) {
-      if (React.Children.toArray(childNodes)) {
-        crumbs.push(childNodes);
+      if (childNodes.length === undefined) {
+        const childArr = React.Children.toArray(childNodes);
+        crumbs.push(childArr);
       } else {
         crumbs.push(...childNodes);
       }
