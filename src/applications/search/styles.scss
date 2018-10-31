@@ -68,7 +68,7 @@
       width: unset;
       border-top: none;
 
-      @media (min-width: 1201px) {
+      @include media($large-screen) {
         .va-pagination-inner {
           width: unset;
         }
