@@ -132,7 +132,7 @@ node('vetsgov-general-purpose') {
         security: {
           retry(3) {
             dockerImage.inside(args) {
-              sh "cd /application && nsp check"
+              sh "cd /application && npm audit --no-color"
             }
           }
         },
