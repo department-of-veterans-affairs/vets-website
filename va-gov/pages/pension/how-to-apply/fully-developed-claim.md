@@ -139,10 +139,14 @@ With the standard claim process, we’ll handle the evidence-gathering steps lis
 
 You’ll need to turn in the information and evidence at the same time as you file your claim.
 
-<div class="usa-alert usa-alert-warning no-background-image">
+<div class="usa-alert usa-alert-warning background-color-only">
+<div class="usa-alert-body">
+<div class="usa-alert-text">
 
 **Note:** If you turn in additional information or evidence after you send in your fully developed claim, we’ll remove your claim from the FDC program and process it as a standard claim. If we decide your claim before 1 year from the date we receive the claim, you’ll have the rest of that 1-year period to turn in additional information or evidence to support your claim.
 
+</div>
+</div>
 </div>
 
 <br>
@@ -151,10 +155,14 @@ You’ll need to turn in the information and evidence at the same time as you fi
 
 You’ll need to turn in the information and evidence as soon as you can.
 
-<div class="usa-alert usa-alert-warning no-background-image">
+<div class="usa-alert usa-alert-warning background-color-only">
+<div class="usa-alert-body">
+<div class="usa-alert-text">
 
 **Note:** You have up to 1 year from the date we receive your claim to turn in any information and evidence. If we decide your claim before 1 year from the date we receive the claim, you’ll have the rest of the 1-year period to turn in additional information or evidence to support your claim.
 
+</div>
+</div>
 </div>
 </div>
 </li>

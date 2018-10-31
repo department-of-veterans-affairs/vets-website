@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 
 import { fetchSearchResults } from '../actions';
 import { formatResponseString } from '../utils';
-import { PAGE_SIZE } from '../constants';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
-
-import SimplePagination from '../components/SimplePagination';
+import Pagination from '@department-of-veterans-affairs/formation/Pagination';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 class SearchApp extends React.Component {
   static propTypes = {
@@ -24,16 +24,16 @@ class SearchApp extends React.Component {
     super(props);
 
     let userInputFromAddress = '';
-    let offset;
+    let page;
 
     if (this.props.router.location.query) {
-      userInputFromAddress = this.props.router.location.query.q;
-      offset = this.props.router.location.query.offset;
+      userInputFromAddress = this.props.router.location.query.query;
+      page = this.props.router.location.query.page;
     }
 
     this.state = {
       userInput: userInputFromAddress,
-      offset,
+      page,
     };
 
     if (!userInputFromAddress) {
@@ -43,11 +43,35 @@ class SearchApp extends React.Component {
 
   componentDidMount() {
     // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
-    const { userInput, offset } = this.state;
+    const { userInput, page } = this.state;
     if (userInput) {
-      this.props.fetchSearchResults(userInput, offset);
+      this.props.fetchSearchResults(userInput, page);
+      this.writeBreadcrumb();
     }
   }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.search.query !== prevProps.search.query) {
+      this.writeBreadcrumb();
+    }
+  }
+
+  handlePageChange = page => {
+    this.setState({ page }, () => this.handleSearch());
+  };
+
+  handleSearch = e => {
+    if (e) e.preventDefault();
+    const { userInput, page } = this.state;
+    this.props.router.push({
+      pathname: '',
+      query: {
+        query: encodeURIComponent(userInput),
+        page,
+      },
+    });
+    this.props.fetchSearchResults(userInput, page);
+  };
 
   handleInputChange = event => {
     this.setState({
@@ -55,49 +79,88 @@ class SearchApp extends React.Component {
     });
   };
 
-  handleSearch = e => {
-    e.preventDefault();
-    const { userInput, offset } = this.state;
-    this.props.router.push({
-      pathname: '',
-      query: {
-        q: encodeURIComponent(userInput),
-        offset,
-      },
-    });
-    this.props.fetchSearchResults(userInput, offset);
-  };
-
-  /* eslint-disable arrow-body-style */
-  handlePageChange = offset => {
-    return e => {
-      e.preventDefault();
-      e.persist();
-      this.setState({ offset }, () => this.handleSearch(e));
-    };
-  };
-  /* eslint-enable arrow-body-style */
-
-  /* eslint-disable react/no-danger */
-  renderWebResult(result) {
-    return (
-      <li key={result.url} className="result-item">
-        <a className="result-title" href={result.url}>
-          <h5>{result.title}</h5>
-        </a>
-        <p className="result-url">{result.url}</p>
-        <p
-          className="result-desc"
-          dangerouslySetInnerHTML={{
-            __html: formatResponseString(result.snippet),
-          }}
-        />
-      </li>
-    );
+  writeBreadcrumb() {
+    const breadcrumbList = document.getElementById('va-breadcrumbs-list');
+    const lastCrumb = breadcrumbList.lastElementChild.children[0];
+    if (breadcrumbList && lastCrumb) {
+      lastCrumb.text = `Search Results for '${this.props.search.query}'`;
+    }
   }
-  /* eslint-enable react/no-danger */
 
   renderResults() {
+    const { loading, errors } = this.props.search;
+    const hasErrors = !!(errors && errors.length > 0);
+
+    // Reusable search input
+    const searchInput = (
+      <form onSubmit={this.handleSearch} className="va-flex search-box">
+        <input
+          type="text"
+          name="query"
+          value={this.state.userInput}
+          onChange={this.handleInputChange}
+        />
+        <button type="submit">
+          <IconSearch color="#fff" />
+          <span>Search</span>
+        </button>
+      </form>
+    );
+
+    if (hasErrors && !loading) {
+      return (
+        <div className="usa-width-three-fourths medium-8 small-12 columns error">
+          <AlertBox
+            status="error"
+            headline="Your search didn't go through"
+            content="We’re sorry. Something went wrong on our end, and your search didn't go through. Please try again."
+          />
+          {searchInput}
+        </div>
+      );
+    }
+
+    return (
+      <div className="usa-width-three-fourths medium-8 small-12 columns">
+        {searchInput}
+        {this.renderResultsCount()}
+        <hr />
+        {this.renderResultsList()}
+        <hr />
+        {this.renderResultsFooter()}
+      </div>
+    );
+  }
+
+  renderResultsCount() {
+    const {
+      currentPage,
+      perPage,
+      totalPages,
+      totalEntries,
+      loading,
+    } = this.props.search;
+
+    let resultRangeEnd = currentPage * perPage;
+
+    if (currentPage === totalPages) {
+      resultRangeEnd = totalEntries;
+    }
+
+    const resultRangeStart = (currentPage - 1) * perPage + 1;
+
+    if (loading) return null;
+
+    /* eslint-disable prettier/prettier */
+    return (
+      <p>
+        Showing {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`} of {totalEntries} results
+      </p>
+    );
+    /* eslint-enable prettier/prettier */
+  }
+
+  renderResultsList() {
     const { results, loading } = this.props.search;
 
     if (loading) {
@@ -119,37 +182,43 @@ class SearchApp extends React.Component {
     );
   }
 
+  /* eslint-disable react/no-danger */
+  renderWebResult(result) {
+    return (
+      <li key={result.url} className="result-item">
+        <a className="result-title" href={result.url}>
+          <h5
+            dangerouslySetInnerHTML={{
+              __html: formatResponseString(result.title, true),
+            }}
+          />
+        </a>
+        <p className="result-url">{result.url}</p>
+        <p
+          className="result-desc"
+          dangerouslySetInnerHTML={{
+            __html: formatResponseString(result.snippet),
+          }}
+        />
+      </li>
+    );
+  }
+  /* eslint-enable react/no-danger */
+
   renderResultsFooter() {
-    const { prevOffset, nextOffset } = this.props.search;
+    const { currentPage, totalPages } = this.props.search;
 
     return (
       <div className="va-flex results-footer">
         <strong>Powered by Search.gov</strong>
-        <SimplePagination
-          handlePageChange={this.handlePageChange}
-          prevOffset={prevOffset}
-          nextOffset={nextOffset}
+        <Pagination
+          onPageSelect={this.handlePageChange}
+          page={currentPage}
+          pages={totalPages}
+          showLastPage
+          maxPageListLength={5}
         />
       </div>
-    );
-  }
-
-  renderResultsCount() {
-    const { prevOffset, nextOffset, total } = this.props.search;
-    let currentRange;
-
-    if (prevOffset) {
-      currentRange = `${prevOffset + 1}-${prevOffset + PAGE_SIZE}`;
-    } else if (nextOffset) {
-      currentRange = `${nextOffset - PAGE_SIZE + 1}-${nextOffset}`;
-    } else {
-      currentRange = `1-${PAGE_SIZE}`;
-    }
-
-    return (
-      <p>
-        Showing {currentRange} of {total} results
-      </p>
     );
   }
 
@@ -162,32 +231,20 @@ class SearchApp extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="usa-width-three-fourths medium-8 small-12 columns">
-            <form onSubmit={this.handleSearch} className="va-flex search-box">
-              <input
-                type="text"
-                name="query"
-                value={this.state.userInput}
-                onChange={this.handleInputChange}
-              />
-              <button type="submit">
-                <IconSearch color="#fff" />
-                <span>Search</span>
-              </button>
-            </form>
-            {this.renderResultsCount()}
-            <hr />
-            {this.renderResults()}
-            <hr />
-            {this.renderResultsFooter()}
-          </div>
+          {this.renderResults()}
           <div className="usa-width-one-fourth medium-4 small-12 columns sidebar">
             <h4 className="highlight">More VA Search Tools</h4>
             <ul>
               <li>
                 <a
                   href="https://www.index.va.gov/search/va/bva.jsp"
-                  onClick="recordEvent({'event': 'nav-searchresults', 'nav-path': 'More VA Search Tools -> Look up BVA decisions'})"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-searchresults',
+                      'nav-path':
+                        'More VA Search Tools -> Look up BVA decisions',
+                    })
+                  }
                 >
                   Look up Board of Veterans' Appeals (BVA) decisions
                 </a>
@@ -195,7 +252,13 @@ class SearchApp extends React.Component {
               <li>
                 <a
                   href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.benefits.va.gov/warms"
-                  onClick="recordEvent({'event': 'nav-searchresults', 'nav-path': 'More VA Search Tools -> Search VA reference materials'})"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-searchresults',
+                      'nav-path':
+                        'More VA Search Tools -> Search VA reference materials',
+                    })
+                  }
                 >
                   Search VA reference materials (WARMS)
                 </a>
@@ -203,7 +266,13 @@ class SearchApp extends React.Component {
               <li>
                 <a
                   href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.va.gov/vaforms,www.va.gov/vapubs,www.va.gov/vhapublications,www.vba.va.gov/pubs/forms"
-                  onClick="recordEvent({'event': 'nav-searchresults', 'nav-path': 'More VA Search Tools -> Find VA forms and publications'})"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-searchresults',
+                      'nav-path':
+                        'More VA Search Tools -> Find VA forms and publications',
+                    })
+                  }
                 >
                   Find VA forms and publications
                 </a>
@@ -211,7 +280,13 @@ class SearchApp extends React.Component {
               <li>
                 <a
                   href="https://www.vacareers.va.gov/job-search/index.asp"
-                  onClick="recordEvent({'event': 'nav-searchresults', 'nav-path': 'More VA Search Tools -> Explore and apply for open VA jobs'})"
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-searchresults',
+                      'nav-path':
+                        'More VA Search Tools -> Explore and apply for open VA jobs',
+                    })
+                  }
                 >
                   Explore and apply for open VA jobs
                 </a>

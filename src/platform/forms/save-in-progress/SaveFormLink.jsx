@@ -95,7 +95,7 @@ class SaveFormLink extends React.Component {
         {saveErrors.has(savedStatus) && (
           <div
             role="alert"
-            className="usa-alert usa-alert-error no-background-image schemaform-save-error"
+            className="usa-alert usa-alert-error background-color-only schemaform-save-error"
           >
             {savedStatus === SAVE_STATUSES.failure &&
               'We’re sorry. Something went wrong when saving your form. If you’re on a secure and private computer, you can leave this page open and try saving your form again in a few minutes. If you’re on a public computer, you can continue to fill out your form, but it won’t automatically save as you fill it out.'}

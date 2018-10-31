@@ -12,19 +12,17 @@ const moment = require('moment');
 const moveRemove = require('metalsmith-move-remove');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
-const watch = require('metalsmith-watch');
 
-const webpackMetalsmithConnect = require('../config/webpack-metalsmith-connect');
-const environments = require('./constants/environments');
 const createBuildSettings = require('./create-build-settings');
 const createRedirects = require('./create-redirects');
 const createSitemaps = require('./create-sitemaps');
-const checkBrokenLinks = require('./check-broken-links');
 const createEnvironmentFilter = require('./create-environment-filter');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
 const leftRailNavResetLevels = require('./left-rail-nav-reset-levels');
-const addAssetHashes = require('./configure-assets');
+const checkBrokenLinks = require('./check-broken-links');
 const rewriteVaDomains = require('./rewrite-va-domains');
+const configureAssets = require('./configure-assets');
+const applyFragments = require('./apply-fragments');
 const BUILD_OPTIONS = require('./options');
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -52,11 +50,18 @@ smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 // plugin chain.
 smith.use(filenames());
 
+if (BUILD_OPTIONS.contentFragments) {
+  smith.use(applyFragments(BUILD_OPTIONS));
+}
+
 smith.use(collections(BUILD_OPTIONS.collections));
 smith.use(leftRailNavResetLevels());
 smith.use(dateInFilename(true));
 
-smith.use(assets(BUILD_OPTIONS.assets));
+smith.use(assets(BUILD_OPTIONS.appAssets));
+if (BUILD_OPTIONS.contentAssets) {
+  smith.use(assets(BUILD_OPTIONS.contentAssets));
+}
 
 // smith.use(cspHash({ pattern: ['js/*.js', 'generated/*.css', 'generated/*.js'] }))
 
@@ -139,37 +144,14 @@ smith.use(rewriteVaDomains(BUILD_OPTIONS));
 // On the server, it can be accessed at BUILD_OPTIONS.buildSettings.
 // In the browser, it can be accessed at window.settings.
 smith.use(createBuildSettings(BUILD_OPTIONS));
+smith.use(checkBrokenLinks(BUILD_OPTIONS));
 
-if (BUILD_OPTIONS.watch) {
-  const watchPaths = {
-    [`${BUILD_OPTIONS.contentRoot}/**/*`]: '**/*.{md,html}',
-    [`${BUILD_OPTIONS.contentPagesRoot}/**/*`]: '**/*.{md,html}',
-  };
-  const watchMetalSmith = watch({ paths: watchPaths, livereload: true });
-  smith.use(watchMetalSmith);
-  smith.use(webpackMetalsmithConnect.watchAssets(BUILD_OPTIONS));
-} else {
-  smith.use(webpackMetalsmithConnect.compileAssets(BUILD_OPTIONS));
-
-  const isDevBuild = [environments.DEVELOPMENT, environments.VAGOVDEV].includes(
-    BUILD_OPTIONS.buildtype,
-  );
-  if (!isDevBuild) {
-    smith.use(addAssetHashes(BUILD_OPTIONS));
-  }
-
-  if (process.env.CHECK_BROKEN_LINKS !== 'no') {
-    smith.use(checkBrokenLinks(BUILD_OPTIONS));
-  }
-}
+configureAssets(smith, BUILD_OPTIONS);
 
 smith.use(createSitemaps(BUILD_OPTIONS));
-
-// Pages can contain an "alias" property in their metadata, which is processed into
-// separate pages that will each redirect to the original page.
 smith.use(createRedirects(BUILD_OPTIONS));
-
 smith.use(moveRemove(BUILD_OPTIONS));
+
 /* eslint-disable no-console */
 smith.build(err => {
   if (err) throw err;

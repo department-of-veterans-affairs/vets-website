@@ -278,3 +278,10 @@ export const getPOWDisabilities = createSelector(
   (newDisabilities = []) =>
     newDisabilities.map(disability => getDisabilityName(disability.condition)),
 );
+
+export const needsToEnter781 = formData =>
+  _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false) ||
+  _.get('view:selectablePtsdTypes.view:noncombatPtsdType', formData, false);
+
+export const isUploadingPtsdForm = formData =>
+  _.get('view:uploadPtsdChoice', formData, '') === 'upload';
