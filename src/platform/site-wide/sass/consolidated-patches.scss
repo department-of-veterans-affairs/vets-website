@@ -1,8 +1,21 @@
+$teamsite-large-screen: 1008px;
+
 .usa-banner-header {
   .usa-banner-inner p {
     font-size: 1.2rem;
     font-family: inherit;
     padding: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .usa-banner-header-expanded {
+    .usa-banner-button-text {
+      display: none;
+    }
+    .usa-banner-inner p {
+      font-size: 1.5rem;
+    }
   }
 }
 
@@ -27,18 +40,15 @@
   padding-top: 2em;
 }
 
-@media (min-width: $medium-screen) {
+@media (min-width: $teamsite-large-screen) {
   .usa-grid {
     width: $teamsite-width;
     padding-left: 1px;
     padding-right: 1px;
   }
-}
-
-// HACK: Hard-coding the width fixes one issue but prevents us from using this
-// class to remove the horizontal padding introduced by .usa-grid
-.usa-grid-full {
-  width: $teamsite-width;
+  .usa-grid-full {
+    width: $teamsite-width;
+  }
 }
 
 header.merger {
@@ -63,18 +73,18 @@ header.merger {
     }
   }
 
-  @media (min-width: $medium-screen) {
+  @media (min-width: $teamsite-large-screen) {
     .va-notice--banner-inner,
     .va-crisis-line-container {
       width: $teamsite-width;
       padding-left: 1rem;
     }
-
-    #mega-menu .panel-bottom-link {
-      width: 468px;
-    }
   }
 
+  #mega-menu .panel-bottom-link {
+    width: 468px;
+  }
+  
   @media (min-width: $large-screen) {
     #mega-menu .vetnav-panel {
       width: 487px;
@@ -122,13 +132,6 @@ header.merger {
 footer.footer {
   font-size: 16px;
   width: 100%;
-
-  @media (max-width: $medium-screen) {
-
-    .usa-grid-flex-mobile {
-      width: auto;
-    }
-  }
 }
 
 .sign-in-nav {
