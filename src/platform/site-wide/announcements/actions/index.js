@@ -6,10 +6,12 @@ export const DISMISS_ANNOUNCEMENT = 'DISMISS_ANNOUNCEMENT';
 export const ANNOUNCEMENTS_LOCAL_STORAGE = 'DISMISSED_ANNOUNCEMENTS';
 
 const previouslyDismissedAnnouncements = (() => {
-  let parsed = [];
+  let parsed = null;
 
   return {
     initializeFromLocalStorage() {
+      parsed = [];
+
       const fromLocalStorage = localStorage.getItem(
         ANNOUNCEMENTS_LOCAL_STORAGE,
       );
