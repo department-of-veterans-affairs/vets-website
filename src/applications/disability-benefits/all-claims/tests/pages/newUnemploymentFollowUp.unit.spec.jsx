@@ -8,11 +8,11 @@ import {
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
-describe('Unemployment Status', () => {
+describe('Unemployment 8940 walkthrough', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.newUnemploymentFollowUp;
+  } = formConfig.chapters.disabilities.pages.unemploymentFormIntro;
 
   it('should render', () => {
     const form = mount(
