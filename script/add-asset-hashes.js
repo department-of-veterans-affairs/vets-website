@@ -56,7 +56,10 @@ function addAssetHashes() {
     ].forEach(unhashedName => {
       const hashedName = manifest[unhashedName];
 
-      files[`generated/${unhashedName}`] = files[hashedName.substr(1)]; // eslint-disable-line no-param-reassign
+      // When an --entry is specified that isn't proxy-rewrite, these files won't be here
+      if (hashedName) {
+        files[`generated/${unhashedName}`] = files[hashedName.substr(1)]; // eslint-disable-line no-param-reassign
+      }
     });
 
     done();
