@@ -10,6 +10,7 @@ import recordEvent from '../../../platform/monitoring/record-event';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
 import Pagination from '@department-of-veterans-affairs/formation/Pagination';
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 class SearchApp extends React.Component {
   static propTypes = {
@@ -86,64 +87,47 @@ class SearchApp extends React.Component {
     }
   }
 
-  /* eslint-disable react/no-danger */
-  renderWebResult(result) {
-    return (
-      <li key={result.url} className="result-item">
-        <a className="result-title" href={result.url}>
-          <h5
-            dangerouslySetInnerHTML={{
-              __html: formatResponseString(result.title, true),
-            }}
-          />
-        </a>
-        <p className="result-url">{result.url}</p>
-        <p
-          className="result-desc"
-          dangerouslySetInnerHTML={{
-            __html: formatResponseString(result.snippet),
-          }}
-        />
-      </li>
-    );
-  }
-  /* eslint-enable react/no-danger */
-
   renderResults() {
-    const { results, loading } = this.props.search;
+    const { loading, errors } = this.props.search;
+    const hasErrors = !!(errors && errors.length > 0);
 
-    if (loading) {
-      return <LoadingIndicator message="Loading results..." setFocus />;
-    }
+    // Reusable search input
+    const searchInput = (
+      <form onSubmit={this.handleSearch} className="va-flex search-box">
+        <input
+          type="text"
+          name="query"
+          value={this.state.userInput}
+          onChange={this.handleInputChange}
+        />
+        <button type="submit">
+          <IconSearch color="#fff" />
+          <span>Search</span>
+        </button>
+      </form>
+    );
 
-    if (results && results.length > 0) {
+    if (hasErrors && !loading) {
       return (
-        <ul className="results-list">
-          {results.map(r => this.renderWebResult(r))}
-        </ul>
+        <div className="usa-width-three-fourths medium-8 small-12 columns error">
+          <AlertBox
+            status="error"
+            headline="Something went wrong"
+            content="We're sorry, that search did not go through successfully. Please try again."
+          />
+          {searchInput}
+        </div>
       );
     }
 
     return (
-      <p>
-        Sorry, no results found. Try again using different (or fewer) words.
-      </p>
-    );
-  }
-
-  renderResultsFooter() {
-    const { currentPage, totalPages } = this.props.search;
-
-    return (
-      <div className="va-flex results-footer">
-        <strong>Powered by Search.gov</strong>
-        <Pagination
-          onPageSelect={this.handlePageChange}
-          page={currentPage}
-          pages={totalPages}
-          showLastPage
-          maxPageListLength={5}
-        />
+      <div className="usa-width-three-fourths medium-8 small-12 columns">
+        {searchInput}
+        {this.renderResultsCount()}
+        <hr />
+        {this.renderResultsList()}
+        <hr />
+        {this.renderResultsFooter()}
       </div>
     );
   }
@@ -176,6 +160,68 @@ class SearchApp extends React.Component {
     /* eslint-enable prettier/prettier */
   }
 
+  renderResultsList() {
+    const { results, loading } = this.props.search;
+
+    if (loading) {
+      return <LoadingIndicator message="Loading results..." setFocus />;
+    }
+
+    if (results && results.length > 0) {
+      return (
+        <ul className="results-list">
+          {results.map(r => this.renderWebResult(r))}
+        </ul>
+      );
+    }
+
+    return (
+      <p>
+        Sorry, no results found. Try again using different (or fewer) words.
+      </p>
+    );
+  }
+
+  /* eslint-disable react/no-danger */
+  renderWebResult(result) {
+    return (
+      <li key={result.url} className="result-item">
+        <a className="result-title" href={result.url}>
+          <h5
+            dangerouslySetInnerHTML={{
+              __html: formatResponseString(result.title, true),
+            }}
+          />
+        </a>
+        <p className="result-url">{result.url}</p>
+        <p
+          className="result-desc"
+          dangerouslySetInnerHTML={{
+            __html: formatResponseString(result.snippet),
+          }}
+        />
+      </li>
+    );
+  }
+  /* eslint-enable react/no-danger */
+
+  renderResultsFooter() {
+    const { currentPage, totalPages } = this.props.search;
+
+    return (
+      <div className="va-flex results-footer">
+        <strong>Powered by Search.gov</strong>
+        <Pagination
+          onPageSelect={this.handlePageChange}
+          page={currentPage}
+          pages={totalPages}
+          showLastPage
+          maxPageListLength={5}
+        />
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="search-app">
@@ -185,25 +231,7 @@ class SearchApp extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="usa-width-three-fourths medium-8 small-12 columns">
-            <form onSubmit={this.handleSearch} className="va-flex search-box">
-              <input
-                type="text"
-                name="query"
-                value={this.state.userInput}
-                onChange={this.handleInputChange}
-              />
-              <button type="submit">
-                <IconSearch color="#fff" />
-                <span>Search</span>
-              </button>
-            </form>
-            {this.renderResultsCount()}
-            <hr />
-            {this.renderResults()}
-            <hr />
-            {this.renderResultsFooter()}
-          </div>
+          {this.renderResults()}
           <div className="usa-width-one-fourth medium-4 small-12 columns sidebar">
             <h4 className="highlight">More VA Search Tools</h4>
             <ul>
