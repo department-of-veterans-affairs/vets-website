@@ -13,6 +13,10 @@
     background: none;
   }
 
+  .usa-width-three-fourths.error {
+    padding-left: 1.5rem;
+  }
+
   ul {
     list-style-type: none;
     padding: 0;
@@ -36,11 +40,14 @@
     }
   }
 
-  .usa-alert-body {
-    padding-left: 1rem;
-
-    .usa-alert-text {
-      margin-top: 1rem;
+  .usa-alert {
+    margin-bottom: 2rem;
+    .usa-alert-body {
+      padding-left: 1rem;
+  
+      .usa-alert-text {
+        margin-top: 1rem;
+      }
     }
   }
 

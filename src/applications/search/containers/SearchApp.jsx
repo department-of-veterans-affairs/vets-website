@@ -87,6 +87,101 @@ class SearchApp extends React.Component {
     }
   }
 
+  renderResults() {
+    const { loading, errors } = this.props.search;
+    const hasErrors = !!(errors && errors.length > 0);
+
+    // Reusable search input
+    const searchInput = (
+      <form onSubmit={this.handleSearch} className="va-flex search-box">
+        <input
+          type="text"
+          name="query"
+          value={this.state.userInput}
+          onChange={this.handleInputChange}
+        />
+        <button type="submit">
+          <IconSearch color="#fff" />
+          <span>Search</span>
+        </button>
+      </form>
+    );
+
+    if (hasErrors && !loading) {
+      return (
+        <div className="usa-width-three-fourths medium-8 small-12 columns error">
+          <AlertBox
+            status="error"
+            headline="Something went wrong"
+            content="We're sorry, that search did not go through successfully. Please try again."
+          />
+          {searchInput}
+        </div>
+      );
+    }
+
+    return (
+      <div className="usa-width-three-fourths medium-8 small-12 columns">
+        {searchInput}
+        {this.renderResultsCount()}
+        <hr />
+        {this.renderResultsList()}
+        <hr />
+        {this.renderResultsFooter()}
+      </div>
+    );
+  }
+
+  renderResultsCount() {
+    const {
+      currentPage,
+      perPage,
+      totalPages,
+      totalEntries,
+      loading,
+    } = this.props.search;
+
+    let resultRangeEnd = currentPage * perPage;
+
+    if (currentPage === totalPages) {
+      resultRangeEnd = totalEntries;
+    }
+
+    const resultRangeStart = (currentPage - 1) * perPage + 1;
+
+    if (loading) return null;
+
+    /* eslint-disable prettier/prettier */
+    return (
+      <p>
+        Showing {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`} of {totalEntries} results
+      </p>
+    );
+    /* eslint-enable prettier/prettier */
+  }
+
+  renderResultsList() {
+    const { results, loading } = this.props.search;
+
+    if (loading) {
+      return <LoadingIndicator message="Loading results..." setFocus />;
+    }
+
+    if (results && results.length > 0) {
+      return (
+        <ul className="results-list">
+          {results.map(r => this.renderWebResult(r))}
+        </ul>
+      );
+    }
+
+    return (
+      <p>
+        Sorry, no results found. Try again using different (or fewer) words.
+      </p>
+    );
+  }
+
   /* eslint-disable react/no-danger */
   renderWebResult(result) {
     return (
@@ -110,44 +205,8 @@ class SearchApp extends React.Component {
   }
   /* eslint-enable react/no-danger */
 
-  renderResults() {
-    const { results, loading, errors } = this.props.search;
-
-    if (loading) {
-      return <LoadingIndicator message="Loading results..." setFocus />;
-    }
-
-    if (results && results.length > 0) {
-      return (
-        <ul className="results-list">
-          {results.map(r => this.renderWebResult(r))}
-        </ul>
-      );
-    }
-
-    if (errors && errors.length > 0) {
-      return (
-        <AlertBox
-          status="error"
-          headline="Something went wrong"
-          content="We're sorry, that search did not go through successfully. Please try again."
-        />
-      );
-    }
-
-    return (
-      <p>
-        Sorry, no results found. Try again using different (or fewer) words.
-      </p>
-    );
-  }
-
   renderResultsFooter() {
-    const { currentPage, totalPages, errors } = this.props.search;
-
-    if (errors && errors.length > 0) {
-      return null;
-    }
+    const { currentPage, totalPages } = this.props.search;
 
     return (
       <div className="va-flex results-footer">
@@ -163,35 +222,6 @@ class SearchApp extends React.Component {
     );
   }
 
-  renderResultsCount() {
-    const {
-      currentPage,
-      errors,
-      perPage,
-      totalPages,
-      totalEntries,
-      loading,
-    } = this.props.search;
-
-    let resultRangeEnd = currentPage * perPage;
-
-    if (currentPage === totalPages) {
-      resultRangeEnd = totalEntries;
-    }
-
-    const resultRangeStart = (currentPage - 1) * perPage + 1;
-
-    if (loading || (errors && errors.length > 0)) return null;
-
-    /* eslint-disable prettier/prettier */
-    return (
-      <p>
-        Showing {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`} of {totalEntries} results
-      </p>
-    );
-    /* eslint-enable prettier/prettier */
-  }
-
   render() {
     return (
       <div className="search-app">
@@ -201,25 +231,7 @@ class SearchApp extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="usa-width-three-fourths medium-8 small-12 columns">
-            <form onSubmit={this.handleSearch} className="va-flex search-box">
-              <input
-                type="text"
-                name="query"
-                value={this.state.userInput}
-                onChange={this.handleInputChange}
-              />
-              <button type="submit">
-                <IconSearch color="#fff" />
-                <span>Search</span>
-              </button>
-            </form>
-            {this.renderResultsCount()}
-            <hr />
-            {this.renderResults()}
-            <hr />
-            {this.renderResultsFooter()}
-          </div>
+          {this.renderResults()}
           <div className="usa-width-one-fourth medium-4 small-12 columns sidebar">
             <h4 className="highlight">More VA Search Tools</h4>
             <ul>

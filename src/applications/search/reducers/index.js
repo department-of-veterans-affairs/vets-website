@@ -37,6 +37,7 @@ function SearchReducer(state = initialState, action) {
         currentPage,
         perPage,
         totalPages,
+        errors: undefined,
         loading: false,
       };
     }
