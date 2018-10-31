@@ -9,18 +9,15 @@ class GiBillBreadcrumbs extends React.Component {
       pathname,
       query: { version },
     } = this.props.location;
-    const facilityCode = this.props.facilityCode;
     const root = { pathname: '/', query: (version ? { version } : {}) };
+    const facilityCode = this.props.facilityCode;
 
     const crumbs = [
       <a href="/" key="home">
         Home
       </a>,
       <a href="/education/" key="education">
-        Education Benefits
-      </a>,
-      <a href="/education/about-gi-bill-benefits/" key="gi-bill">
-        GI Bill
+        Education and Training
       </a>,
       <Link to={root} key="main">
         GI Bill Comparison Tool
