@@ -115,11 +115,11 @@ export const uiSchema = {
     name: {
       'ui:title': 'Name of person we can contact',
       'ui:required': formData =>
-        !!_.get('homelessnessContact.phoneNumber', formData, null),
+        _.get('homelessOrAtRisk', formData, '') === HOMELESSNESS_TYPES.homeless,
     },
     phoneNumber: merge(phoneUI('Phone number'), {
       'ui:required': formData =>
-        !!_.get('homelessnessContact.name', formData, null),
+        _.get('homelessOrAtRisk', formData, '') === HOMELESSNESS_TYPES.homeless,
     }),
   },
 };
