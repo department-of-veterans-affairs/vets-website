@@ -206,9 +206,9 @@ The VA Privacy Service works to minimize the impact on Veterans' privacy, partic
  </div> <br>
 
  <div class="link">
-  <a href="https://usa.gov"><b>USA.gov</b></a>
+  <a href="https://usa.gov" target="_blank" rel="noopener"><b>USA.gov</b></a>
  </div> <br>
 
  <div class="link">
-  <a href="https://whitehouse.gov"><b>White House</b></a>
+  <a href="https://whitehouse.gov" target="_blank" rel="noopener"><b>White House</b></a>
  </div> <br>
