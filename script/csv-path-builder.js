@@ -89,13 +89,13 @@ const getTargetTitle = href => {
 
     if (href.includes('localhost')) {
       if (href.includes('.asp')) {
-        return 'External Link';
+        return 'Original VA.gov page (Proxy)';
       }
 
       return href;
     }
 
-    if (href.includes('http')) {
+    if (href.startsWith('http')) {
       return 'External Link';
     }
   }
@@ -114,18 +114,18 @@ const fileLinks = fileList.reduce((acc, file) => {
     .text()
     .trim();
 
-  const linkObjects = $linkTags.map(function updateItem() {
-    let linkText = $(this)
+  const linkObjects = $linkTags.map((i, node) => {
+    let linkText = $(node)
       .text()
       .trim();
 
     if (
-      !$(this)
+      !$(node)
         .text()
         .trim() &&
-      $(this).children('img').length === 1
+      $(node).children('img').length === 1
     ) {
-      const src = $(this)
+      const src = $(node)
         .children('img')
         .attr('src');
 
@@ -140,10 +140,10 @@ const fileLinks = fileList.reduce((acc, file) => {
       'PAGE TITLE': pageTitle,
       'PAGE URL': file.replace('/index.html', '').replace('.html', ''),
       'LINK TEXT': linkText,
-      'LINK URL': this.attribs.href ? this.attribs.href : '',
+      'LINK URL': node.attribs.href ? node.attribs.href : '',
       'TARGET TITLE':
-        getTargetTitle(this.attribs.href) ||
-        $(this)
+        getTargetTitle(node.attribs.href) ||
+        $(node)
           .text()
           .trim(),
     };
