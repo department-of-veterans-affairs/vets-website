@@ -115,8 +115,8 @@ class SearchApp extends React.Component {
         <div className="usa-width-three-fourths medium-8 small-12 columns error">
           <AlertBox
             status="error"
-            headline="Something went wrong"
-            content="We're sorry, that search did not go through successfully. Please try again."
+            headline="Your search didn't go through"
+            content="We’re sorry. Something went wrong on our end, and your search didn't go through. Please try again."
           />
           {searchInput}
         </div>
