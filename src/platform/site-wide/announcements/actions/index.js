@@ -5,35 +5,46 @@ export const DISMISS_ANNOUNCEMENT = 'DISMISS_ANNOUNCEMENT';
 
 export const ANNOUNCEMENTS_LOCAL_STORAGE = 'DISMISSED_ANNOUNCEMENTS';
 
-function localAnnouncements(dismissedAnnouncementName) {
-  const fromLocalStorage = localStorage.getItem(ANNOUNCEMENTS_LOCAL_STORAGE);
+const previouslyDismissedAnnouncements = (() => {
   let parsed = [];
 
-  if (fromLocalStorage) {
-    try {
-      parsed = JSON.parse(fromLocalStorage);
-    } catch (err) {
-      // Value will default to an empty array
-    }
-  }
+  return {
+    initializeFromLocalStorage() {
+      const fromLocalStorage = localStorage.getItem(
+        ANNOUNCEMENTS_LOCAL_STORAGE,
+      );
+      if (fromLocalStorage) {
+        try {
+          parsed = JSON.parse(fromLocalStorage);
+        } catch (err) {
+          // Value will default to an empty array
+        }
+      }
+      return parsed;
+    },
 
-  if (dismissedAnnouncementName) {
-    parsed.push(dismissedAnnouncementName);
-    localStorage.setItem(ANNOUNCEMENTS_LOCAL_STORAGE, JSON.stringify(parsed));
-  }
+    getAll() {
+      return parsed;
+    },
 
-  return parsed;
-}
+    save(dismissedAnnouncementName) {
+      parsed.push(dismissedAnnouncementName);
+      localStorage.setItem(ANNOUNCEMENTS_LOCAL_STORAGE, JSON.stringify(parsed));
+    },
+  };
+})();
 
 export function initDismissedAnnouncements() {
+  previouslyDismissedAnnouncements.initializeFromLocalStorage();
   return {
     type: INIT_DISMISSED_ANNOUNCEMENTS,
-    dismissedAnnouncements: localAnnouncements(),
+    dismissedAnnouncements: previouslyDismissedAnnouncements.getAll(),
   };
 }
 
-export function dismissAnnouncement(announcement) {
-  localAnnouncements(announcement);
+export function dismissAnnouncement(announcement, showEverytime) {
+  if (!showEverytime) previouslyDismissedAnnouncements.save(announcement);
+
   return {
     type: DISMISS_ANNOUNCEMENT,
     announcement,
