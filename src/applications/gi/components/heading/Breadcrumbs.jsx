@@ -1,13 +1,16 @@
 import { Link, browserHistory } from 'react-router';
 import PropTypes from 'prop-types';
 import React from 'react';
+import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 
-class Breadcrumbs extends React.Component {
+class GiBillBreadcrumbs extends React.Component {
   render() {
     const {
       pathname,
       query: { version },
     } = this.props.location;
+    const facilityCode = this.props.facilityCode;
+    const root = { pathname: '/', query: (version ? { version } : {}) };
 
     const crumbs = [
       <a href="/" key="home">
@@ -16,16 +19,18 @@ class Breadcrumbs extends React.Component {
       <a href="/education/" key="education">
         Education Benefits
       </a>,
-      <a href="/education/gi-bill/" key="gi-bill">
+      <a href="/education/about-gi-bill-benefits/" key="gi-bill">
         GI Bill
       </a>,
+      <Link to={root} key="main">
+        GI Bill Comparison Tool
+      </Link>,
     ];
 
-    if (pathname.match(/search|profile/)) {
-      const root = { pathname: '/', query: version ? { version } : {} };
+    if (pathname.match(/search/)) {
       crumbs.push(
-        <Link to={root} key="main">
-          GI Bill® Comparison Tool
+        <Link to={`/search/${search}`} key="search-results">
+          Search Results
         </Link>,
       );
     }
@@ -38,21 +43,14 @@ class Breadcrumbs extends React.Component {
           </a>,
         );
       }
+      crumbs.push(
+        <Link to={`/profile/${facilityCode}`} key="result-detail">
+          School Details
+        </Link>,
+      );
     }
 
-    return (
-      <nav className="va-nav-breadcrumbs">
-        <ul
-          className="row va-nav-breadcrumbs-list columns"
-          role="menubar"
-          aria-label="Primary"
-        >
-          {crumbs.map((c, i) => (
-            <li key={i}>{c}</li>
-          ))}
-        </ul>
-      </nav>
-    );
+    return <Breadcrumbs>{crumbs}</Breadcrumbs>;
   }
 }
 
@@ -60,4 +58,4 @@ Breadcrumbs.propTypes = {
   includeSearch: PropTypes.bool,
 };
 
-export default Breadcrumbs;
+export default GiBillBreadcrumbs;
