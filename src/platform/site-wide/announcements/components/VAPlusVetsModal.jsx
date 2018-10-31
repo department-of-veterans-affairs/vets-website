@@ -10,7 +10,7 @@ export default class VAPlusVetsModal extends React.Component {
     let wasRedirectedFromVets = !!referrer && referrer.includes('vets.gov');
 
     // Allow an override on the URL to force the Onboarding Modal to appear for testing purposes.s
-    if (__BUILDTYPE__ !== 'preview') {
+    if (__BUILDTYPE__ !== 'preview' && !wasRedirectedFromVets) {
       wasRedirectedFromVets = window.location.search.includes(
         'onboarding-modal',
       );
