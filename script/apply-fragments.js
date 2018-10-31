@@ -31,6 +31,7 @@
  * title: Some VA.gov tools and features may not be working as expected
  * content: Some content
  *
+ * This would produce the same result as the original index.md.
  */
 
 const fs = require('fs');
