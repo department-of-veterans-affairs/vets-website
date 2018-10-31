@@ -39,7 +39,7 @@ const path = require('path');
 const yaml = require('js-yaml');
 
 function applyFragments(buildOptions) {
-  const fragmentsRoot = path.join(__dirname, buildOptions.contentFragments);
+  const fragmentsRoot = buildOptions.contentFragments;
 
   return (files, smith, done) => {
     for (const fileName of Object.keys(files)) {
