@@ -19,11 +19,17 @@
   color: $color-black !important;
 }
 
-.usa-banner-inner {
-  p {
+.usa-banner-inner p {
+  font-size: 1.2rem;
+  font-family: inherit;
+  padding: 0;
+}
+.usa-banner-header-expanded p {
+  font-size: 1.5rem;
+}
+@media (min-width: 501px) {
+  .usa-banner-header-expanded p {
     font-size: 1.2rem;
-    font-family: inherit;
-    padding: 0;
   }
 }
 
