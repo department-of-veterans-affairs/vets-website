@@ -143,7 +143,11 @@ class SearchApp extends React.Component {
   }
 
   renderResultsFooter() {
-    const { currentPage, totalPages } = this.props.search;
+    const { currentPage, totalPages, errors } = this.props.search;
+
+    if (errors && errors.length > 0) {
+      return null;
+    }
 
     return (
       <div className="va-flex results-footer">
@@ -162,6 +166,7 @@ class SearchApp extends React.Component {
   renderResultsCount() {
     const {
       currentPage,
+      errors,
       perPage,
       totalPages,
       totalEntries,
@@ -176,12 +181,14 @@ class SearchApp extends React.Component {
 
     const resultRangeStart = (currentPage - 1) * perPage + 1;
 
-    if (loading) return null;
+    if (loading || (errors && errors.length > 0)) return null;
 
     /* eslint-disable prettier/prettier */
     return (
       <p>
-        Showing {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`} of {totalEntries} results
+        Showing{' '}
+        {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`} of{' '}
+        {totalEntries} results
       </p>
     );
     /* eslint-enable prettier/prettier */
