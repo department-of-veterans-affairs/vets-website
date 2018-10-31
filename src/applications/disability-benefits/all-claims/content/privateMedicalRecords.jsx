@@ -1,6 +1,5 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
-import { VA_FORM4142_URL } from '../constants';
 
 export const privateRecordsChoiceHelp = (
   <div className="private-records-choice-help">
@@ -17,15 +16,7 @@ export const privateRecordsChoiceHelp = (
         If you tell us the name of the private doctor or hospital that treated
         you for your condition, we can get your medical records for you. Getting
         your records may take us some time, and this could mean that it’ll take
-        us longer to make a decision on your claim. You’ll need to fill out an
-        Authorization to Disclose Information to the VA (VA Form 21-4142) so we
-        can request your records.
-      </p>
-      <p>
-        <a href={VA_FORM4142_URL} target="_blank">
-          Download VA Form 21-4142
-        </a>
-        .
+        us longer to make a decision on your claim.
       </p>
     </AdditionalInfo>
   </div>

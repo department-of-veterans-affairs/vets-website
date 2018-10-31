@@ -102,6 +102,43 @@ export const getReservesGuardData = formData => {
   };
 };
 
+/**
+ * Converts the treatment date range into an array of objects from just an object
+ * @param {object} treatmentDateRange object containing from/to date range
+ * @returns {array} of treatmentDateRange's
+ */
+const transformDateRange = treatmentDateRange => [treatmentDateRange];
+
+/**
+ * Cycles through the list of provider facilities and performs transformations on each property as needed
+ * @param {array} providerFacility array of objects being transformed
+ * @returns {object} containing the new Provider Facility structure
+ */
+const transformProviderFacilities = providerFacilities => {
+  const newProviderFacilities = providerFacilities.map(facility =>
+    set(
+      'treatmentDateRange',
+      transformDateRange(facility.treatmentDateRange),
+      facility,
+    ),
+  );
+  return newProviderFacilities;
+};
+
+/**
+ * If any limited consent text is populated, collect it.
+ */
+export function gatherLimitedConsentText(disabilities) {
+  const fullLimitedConsent = disabilities
+    .filter(disability => disability['view:limitedConsent'])
+    .reduce((accumulator, disability) => {
+      let string = accumulator;
+      string = `${string} ${disability.limitedConsent}`;
+      return string;
+    }, '');
+  return fullLimitedConsent.trim();
+}
+
 export function transform(formConfig, form) {
   const {
     disabilities,
@@ -137,6 +174,16 @@ export function transform(formConfig, form) {
 
   const attachments = additionalDocuments.concat(privateRecords);
 
+  const providerFacilities = disabilities
+    .filter(
+      disability =>
+        disability['view:selected'] === true && disability.providerFacility,
+    )
+    .reduce(
+      (accumulator, item) => accumulator.concat(item.providerFacility),
+      [],
+    );
+
   const transformedData = {
     disabilities: disabilities
       .filter(disability => disability['view:selected'] === true)
@@ -150,6 +197,10 @@ export function transform(formConfig, form) {
     // if there is at least one treatment to send
     ...(treatments.length && { treatments }),
     ...(attachments.length && { attachments }),
+    form4142: {
+      limitedConsent: gatherLimitedConsentText(disabilities),
+      providerFacility: transformProviderFacilities(providerFacilities),
+    },
   };
 
   const withoutViewFields = filterViewFields(transformedData);
@@ -351,7 +402,7 @@ const claimsIntakeAddress = (
 );
 
 export const download4142Notice = (
-  <div className="usa-alert usa-alert-warning no-background-image">
+  <div className="usa-alert usa-alert-warning background-color-only">
     <p>
       Since your doctor has your private medical records, you’ll need to fill
       out an Authorization to Disclose Information to the VA (VA Form 21-4142)
@@ -391,7 +442,7 @@ export const authorizationToDisclose = (
 );
 
 export const recordReleaseWarning = (
-  <div className="usa-alert usa-alert-warning no-background-image">
+  <div className="usa-alert usa-alert-warning background-color-only">
     <span>
       Limiting consent means that your doctor can only share records that are
       directly related to your condition. This could add to the time it takes to
@@ -425,8 +476,7 @@ export const additionalDocumentDescription = () => (
 );
 
 const getVACenterName = center => center.treatmentCenterName;
-const getPrivateCenterName = release =>
-  release.privateRecordRelease.treatmentCenterName;
+const getPrivateCenterName = release => release.providerFacilityName;
 const listCenters = centers => (
   <span className="treatment-centers">
     {centers.map((center, idx, list) => {
@@ -460,7 +510,7 @@ const listDocuments = documents => (
 export const evidenceSummaryView = ({ formContext, formData }) => {
   const {
     treatments,
-    privateRecordReleases,
+    providerFacility,
     privateRecords,
     additionalDocuments,
   } = formData;
@@ -489,11 +539,11 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
               We’ll get your medical records from {listCenters(treatments)}.
             </li>
           )}
-        {privateRecordReleases &&
+        {providerFacility &&
           privateRecordsSelected && (
             <li>
               We’ll get your private medical records from{' '}
-              {listCenters(privateRecordReleases)}.
+              {listCenters(providerFacility)}.
             </li>
           )}
         {privateRecords &&
@@ -870,4 +920,35 @@ export const patientAcknowledgmentText = (
       .
     </p>
   </AdditionalInfo>
+);
+
+export const limitedConsentTitle = (
+  <p>
+    I want to limit my consent for the VA to retrieve only specific information
+    from my private medical provider(s).
+  </p>
+);
+
+export const limitedConsentTextTitle = (
+  <p>Describe the limitation below. (Treatment dates, Disability type, etc.)</p>
+);
+
+export const limitedConsentDescription = (
+  <AdditionalInfo triggerText="What does this mean?">
+    <p>
+      If you choose to limit consent, your doctor will abide by the limitation
+      you specify. Limiting consent could add to the time it takes to get your
+      private medical records.
+    </p>
+  </AdditionalInfo>
+);
+
+export const recordReleaseDescription = () => (
+  <div>
+    <p>
+      Please let us know where and when you received treatment. We’ll request
+      your private medical records for you. If you have records available, you
+      can upload them later in the application.
+    </p>
+  </div>
 );

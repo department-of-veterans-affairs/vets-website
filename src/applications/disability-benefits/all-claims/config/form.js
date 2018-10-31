@@ -16,6 +16,8 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
+  needsToEnter781,
+  isUploadingPtsdForm,
   servedAfter911,
 } from '../utils';
 
@@ -38,6 +40,8 @@ import {
   newDisabilityFollowUp,
   newPTSDFollowUp,
   choosePtsdType,
+  ptsdWalkthroughChoice781,
+  uploadPtsdDocuments,
   summaryOfDisabilities,
   vaMedicalRecords,
   additionalDocuments,
@@ -106,19 +110,6 @@ const formConfig = {
           path: 'service-pay',
           uiSchema: servicePay.uiSchema,
           schema: servicePay.schema,
-        },
-        waiveRetirementPay: {
-          title: 'Waiving Retirement Pay',
-          path: 'waive-retirement-pay',
-          depends: hasMilitaryRetiredPay,
-          uiSchema: waiveRetirementPay.uiSchema,
-          schema: waiveRetirementPay.schema,
-        },
-        separationTrainingPay: {
-          title: 'Separation, Severance or Training Pay',
-          path: 'separation-training-pay',
-          uiSchema: separationTrainingPay.uiSchema,
-          schema: separationTrainingPay.schema,
         },
         militaryHistory: {
           title: 'Military service history',
@@ -237,6 +228,24 @@ const formConfig = {
           uiSchema: choosePtsdType.uiSchema,
           schema: choosePtsdType.schema,
         },
+        ptsdWalkthroughChoice781: {
+          title: 'PTSD Walkthrough 781 Choice',
+          path: 'new-disabilities/walkthrough-781-choice',
+          depends: formData =>
+            hasNewPtsdDisability(formData) && needsToEnter781(formData),
+          uiSchema: ptsdWalkthroughChoice781.uiSchema,
+          schema: ptsdWalkthroughChoice781.schema,
+        },
+        uploadPtsdDocuments781: {
+          title: 'Upload PTSD Documents - 781',
+          path: 'new-disabilities/ptsd-781-upload',
+          depends: formData =>
+            hasNewPtsdDisability(formData) &&
+            needsToEnter781(formData) &&
+            isUploadingPtsdForm(formData),
+          uiSchema: uploadPtsdDocuments.uiSchema,
+          schema: uploadPtsdDocuments.schema,
+        },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',
           path: 'disabilities/summary',
@@ -321,6 +330,19 @@ const formConfig = {
           path: 'va-employee',
           uiSchema: vaEmployee.uiSchema,
           schema: vaEmployee.schema,
+        },
+        waiveRetirementPay: {
+          title: 'Waiving Retirement Pay',
+          path: 'waive-retirement-pay',
+          depends: hasMilitaryRetiredPay,
+          uiSchema: waiveRetirementPay.uiSchema,
+          schema: waiveRetirementPay.schema,
+        },
+        separationTrainingPay: {
+          title: 'Separation, Severance or Training Pay',
+          path: 'separation-training-pay',
+          uiSchema: separationTrainingPay.uiSchema,
+          schema: separationTrainingPay.schema,
         },
         fullyDevelopedClaim: {
           title: 'Fully developed claim program',

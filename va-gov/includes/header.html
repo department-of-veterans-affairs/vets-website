@@ -102,16 +102,16 @@
 
 {% if path == '' and banner and banner.visible %}
 <div aria-live="polite" role="alert" class="usa-alert usa-alert-{{ banner.type }}" style="margin-top: 0;">
-  <div class="usa-alert-body va-alert-body">
-    <h3 class="va-alert-title">{{ banner.title }}</h3>
+  <div class="usa-alert-body">
+    <h3 class="usa-alert-heading">{{ banner.title }}</h3>
     {{ banner.content }}
   </div>
 </div>
 {% endif %}
 
 <div aria-live="polite" class="usa-alert usa-alert-info" style="margin: 0;">
-  <div class="usa-alert-body va-alert-body">
-    <h3 class="va-alert-title">You're viewing a preview of the new VA.gov</h3>
+  <div class="usa-alert-body">
+    <h3 class="usa-alert-heading">You're viewing a preview of the new VA.gov</h3>
     <p>We're building a new online experience to make it easier for Veterans to find, access, and manage the benefits they've earned. And we're building it with input from Veterans at every step. <b>Please note:</b> We work iteratively using agile development
     practices, so you'll see new content, features, and functionality added to the site every day.</p>
   </div>

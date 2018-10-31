@@ -28,6 +28,10 @@ import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual } from '../utils/helpers';
 
+const otherToolsLink = (<p>
+  Can’t find what you’re looking for? <a href="https://www.va.gov/directory/guide/home.asp">Try using our other tools to search.</a>
+</p>);
+
 // This isn't valid JSX 2.x, better to get used to it now
 /* eslint-disable react/jsx-boolean-value */
 class VAMap extends Component {
@@ -160,7 +164,7 @@ class VAMap extends Component {
    * Presumably handles the case if a user manually makes a change to the
    * address bar and thereby updates the location as tracked by ReactRouter?
    * (i.e. route changes not handled through the Router)
-   * 
+   *
    * @param {Object} location ReactRouter location object
    */
   syncStateWithLocation = (location) => {
@@ -178,8 +182,8 @@ class VAMap extends Component {
 
   /**
    * Regenerates the URL based on the given parameters so that
-   * the map link stays useful for sharing. 
-   * 
+   * the map link stays useful for sharing.
+   *
    * @param {Object} params Object containing the current search fields
    */
   updateUrlParams = (params) => {
@@ -203,7 +207,7 @@ class VAMap extends Component {
 
   /**
    * Generates a bounding box from a lat/long geocoordinate.
-   * 
+   *
    *  @param position Has shape: `{latitude: x, longitude: y}`
    */
   genBBoxFromCoords = (position) => {
@@ -400,9 +404,11 @@ class VAMap extends Component {
               <div aria-live="polite" aria-relevant="additions text" className="facility-search-results">
                 <ResultsList results={results} pagination={pagination} isMobile
                   currentQuery={currentQuery} updateUrlParams={this.updateUrlParams} />
+                {otherToolsLink}
               </div>
             </TabPanel>
             <TabPanel>
+              {otherToolsLink}
               <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)}
                 style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false}
                 zoomSnap={0.5} zoomDelta={0.5} onMoveEnd={this.handleBoundsChanged}
@@ -454,6 +460,7 @@ class VAMap extends Component {
             </div>
           </div>
           <div className="columns usa-width-two-thirds medium-8 small-12" style={{ minHeight: '75vh' }}>
+            {otherToolsLink}
             <Map ref="map" center={position} zoomSnap={0.5} zoomDelta={0.5}
               zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ minHeight: '75vh', width: '100%' }}
               scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged}>

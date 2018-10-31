@@ -479,7 +479,7 @@ const vaTreatmentCenterAddressDef = (addressSchema => {
     {},
     {
       type,
-      required: ['country', 'city'],
+      required: ['country'],
       properties: _.pick(['country', 'city', 'state'], properties),
     },
   );
@@ -975,7 +975,7 @@ const schema = {
             pattern: "^([a-zA-Z0-9\\-'.#]([a-zA-Z0-9\\-'.# ])?)+$",
           },
           treatmentDateRange: {
-            $ref: '#/definitions/dateRangeAllRequired',
+            $ref: '#/definitions/dateRangeFromRequired',
           },
           treatmentCenterAddress: {
             $ref: '#/definitions/vaTreatmentCenterAddress',
