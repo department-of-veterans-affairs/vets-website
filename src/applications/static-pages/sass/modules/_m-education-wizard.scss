@@ -44,3 +44,9 @@
 .wizard-alert-heading {
   padding: 0;
 }
+
+.wizard-fieldset {
+  input[type="checkbox"], input[type="radio"] {
+    margin-left: -4rem;
+  }
+}

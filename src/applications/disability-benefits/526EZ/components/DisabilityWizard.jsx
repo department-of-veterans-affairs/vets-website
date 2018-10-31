@@ -209,6 +209,7 @@ class DisabilityWizard extends React.Component {
             )}
             {isChoosingStatus() && (
               <ErrorableRadioButtons
+                additionalFieldsetClass="wizard-fieldset"
                 name="disabilityStatus"
                 label={labelText}
                 id="disabilityStatus"
@@ -222,6 +223,7 @@ class DisabilityWizard extends React.Component {
             )}
             {isChoosingUpdate() && (
               <ErrorableCheckboxGroup
+                additionalFieldsetClass="wizard-fieldset"
                 name="disabilityUpdate"
                 label={labelText}
                 id="disabilityUpdate"
