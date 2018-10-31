@@ -200,14 +200,14 @@ node('vetsgov-general-purpose') {
       for (int i=0; i<envNames.size(); i++) {
         def envName = envNames.get(i)
 
-        def buildCommand = "npm run build -- --content-deployment --buildtype=${envName}"
+        def cmsDeployArg = ""
         if (isCMSDeploy) {
-          buildCommand = "npm run build -- --content-deployment --brand-consolidation-enabled --buildtype=${envName}"
+          cmsDeployArg = "--content-deployment"
         }
 
         builds[envName] = {
           dockerImage.inside(args) {
-            sh "cd /application && ${buildCommand}"
+            sh "cd /application && npm --no-color run build -- ${cmsDeployArg} --buildtype=${envName}"
             sh "cd /application && echo \"${buildDetails('buildtype': envName, 'ref': ref)}\" > build/${envName}/BUILD.txt"
           }
         }
