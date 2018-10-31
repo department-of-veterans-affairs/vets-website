@@ -21,6 +21,8 @@ import {
   HOMELESS_HOUSING_TYPES,
 } from '../constants';
 
+import { getHomelessOrAtRisk } from '../utils';
+
 export const uiSchema = {
   homelessOrAtRisk: {
     'ui:title': 'Are you homeless or at risk of becoming homeless?',
@@ -114,12 +116,10 @@ export const uiSchema = {
     },
     name: {
       'ui:title': 'Name of person we can contact',
-      'ui:required': formData =>
-        _.get('homelessOrAtRisk', formData, '') === HOMELESSNESS_TYPES.homeless,
+      'ui:required': getHomelessOrAtRisk,
     },
     phoneNumber: merge(phoneUI('Phone number'), {
-      'ui:required': formData =>
-        _.get('homelessOrAtRisk', formData, '') === HOMELESSNESS_TYPES.homeless,
+      'ui:required': getHomelessOrAtRisk,
     }),
   },
 };

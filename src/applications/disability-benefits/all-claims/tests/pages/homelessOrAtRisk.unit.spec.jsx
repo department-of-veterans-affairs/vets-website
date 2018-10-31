@@ -12,7 +12,7 @@ import {
   ERR_MSG_CSS_CLASS,
 } from '../../constants';
 
-describe.only('Homeless or At Risk Info', () => {
+describe('Homeless or At Risk Info', () => {
   const {
     schema,
     uiSchema,
@@ -74,7 +74,7 @@ describe.only('Homeless or At Risk Info', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should require living situation when at risk', () => {
+  it('should require living situation and contact name / number when at risk', () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
@@ -91,7 +91,7 @@ describe.only('Homeless or At Risk Info', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(3);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -124,7 +124,7 @@ describe.only('Homeless or At Risk Info', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should require at risk housing input when other option selected', () => {
+  it("should require at risk housing input when 'other' option selected", () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
@@ -137,6 +137,10 @@ describe.only('Homeless or At Risk Info', () => {
           'view:isHomeless': {
             homelessHousingSituation: AT_RISK_HOUSING_TYPES.other,
             needToLeaveHousing: true,
+          },
+          homelessnessContact: {
+            name: 'John Smith',
+            phoneNumber: '1234567890',
           },
         }}
         formData={{}}
