@@ -141,7 +141,7 @@ describe('Prisoner of war info', () => {
     expect(form.find('input[type="checkbox"]').length).to.equal(0);
     const output = form.render().text();
     expect(output).to.not.contain(
-      'Which of these conditions are related to your POW status?',
+      'Which of your new conditions was caused or affected by your POW experience?',
     );
   });
 });

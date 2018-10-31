@@ -14,21 +14,23 @@ export const uiSchema = {
       expandUnder: 'view:powStatus',
     },
     confinements: {
+      'ui:title': ' ',
+      'ui:description': 'Please tell us your dates of confinement',
       'ui:options': {
         viewField: PeriodOfConfinement,
         reviewTitle: 'Periods of confinement',
         itemName: 'Period',
       },
       items: dateRangeUI(
-        'Start of confinement',
-        'End of confinement',
+        'From',
+        'To',
         'Confinement start date must be before end date',
       ),
     },
     powDisabilities: {
       'ui:title': ' ',
       'ui:description':
-        'Which of these conditions are related to your POW status?',
+        'Which of your new conditions was caused or affected by your POW experience?',
       'ui:options': {
         hideIf: formData => !formData['view:newDisabilities'],
         updateSchema: addCheckboxPerNewDisability,
