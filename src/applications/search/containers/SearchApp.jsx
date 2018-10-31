@@ -152,7 +152,7 @@ class SearchApp extends React.Component {
 
     const resultRangeStart = (currentPage - 1) * perPage + 1;
 
-    if (loading) return null;
+    if (loading || !totalEntries) return null;
 
     /* eslint-disable prettier/prettier */
     return (
