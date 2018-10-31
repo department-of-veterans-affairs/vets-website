@@ -84,7 +84,9 @@ class DocumentRequestPage extends React.Component {
       const trackedItem = this.props.trackedItem;
       const claim = this.props.claim;
       const filesPath = `your-claims/${claim.id}/files`;
-      const itemPath = `your-claims/${claim.id}/document-request/${trackedItem.id}`;
+      const itemPath = `your-claims/${claim.id}/document-request/${
+        trackedItem.id
+      }`;
       const message = this.props.message;
 
       content = (

@@ -14,15 +14,17 @@ const location = {
   action: 'POP',
   key: null,
   basename: '/gi-bill-comparison-tool',
-  query: {}
+  query: {},
 };
 const params = {
-  facilityCode: '00000000'
+  facilityCode: '00000000',
 };
 
 describe('<GiBillApp>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<GiBillApp {...defaultProps} location={location} params={params}/>);
+    const tree = SkinDeep.shallowRender(
+      <GiBillApp {...defaultProps} location={location} params={params} />,
+    );
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
@@ -35,7 +37,9 @@ describe('<GiBillApp>', () => {
         inProgress: true,
       },
     };
-    const tree = SkinDeep.shallowRender(<GiBillApp {...props} location={location} params={params}/>);
+    const tree = SkinDeep.shallowRender(
+      <GiBillApp {...props} location={location} params={params} />,
+    );
     expect(tree.subTree('LoadingIndicator')).to.be.ok;
   });
 });

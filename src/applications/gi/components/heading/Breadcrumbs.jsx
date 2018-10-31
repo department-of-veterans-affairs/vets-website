@@ -8,8 +8,9 @@ class GiBillBreadcrumbs extends React.Component {
     const {
       pathname,
       query: { version },
+      search,
     } = this.props.location;
-    const root = { pathname: '/', query: (version ? { version } : {}) };
+    const root = { pathname: '/', query: version ? { version } : {} };
     const facilityCode = this.props.facilityCode;
 
     const crumbs = [

@@ -8,7 +8,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
 import ClaimsBreadcrumbs from '../components/Breadcrumbs';
-import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 import { getScrollOptions } from '../../../platform/utilities/ui';
 
