@@ -139,6 +139,33 @@ describe('526 helpers', () => {
             attachmentId: 'L105',
           },
         ],
+        form4142: {
+          limitedConsent: '',
+          providerFacility: [
+            {
+              providerFacilityName: 'Provider',
+              treatmentDateRange: [{ from: '2010-02-03', to: '2012-03-05' }],
+              providerFacilityAddress: {
+                street: '1234 test rd',
+                city: 'Testville',
+                postalCode: '12345',
+                country: 'USA',
+                state: 'AZ',
+              },
+            },
+            {
+              providerFacilityName: 'Another Provider',
+              treatmentDateRange: [{ from: '2010-03-04', to: '2012-02-03' }],
+              providerFacilityAddress: {
+                street: '1234 test rd',
+                city: 'Testville',
+                country: 'USA',
+                state: 'AZ',
+                postalCode: '12345',
+              },
+            },
+          ],
+        },
       },
     };
     it('should return stringified, transformed data for submit', () => {

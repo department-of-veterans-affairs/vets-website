@@ -22,7 +22,7 @@ export default class RequestedFilesInfo extends React.Component {
 
           {filesNeeded.map(item => (
             <div
-              className="file-request-list-item usa-alert usa-alert-warning no-background-image alert-with-details"
+              className="file-request-list-item usa-alert usa-alert-warning background-color-only alert-with-details"
               key={item.trackedItemId}
             >
               <div className="item-container">
@@ -49,7 +49,7 @@ export default class RequestedFilesInfo extends React.Component {
 
           {optionalFiles.map(item => (
             <div
-              className="file-request-list-item usa-alert file-request-list-item-optional no-background-image alert-with-details"
+              className="file-request-list-item usa-alert file-request-list-item-optional background-color-only alert-with-details"
               key={item.trackedItemId}
             >
               <div className="item-container">

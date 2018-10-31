@@ -63,7 +63,8 @@ describe('VA Medical Records', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(6);
+    // Required fields: Facility name, related disability, and treatment start date
+    expect(form.find('.usa-input-error-message').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -191,96 +192,6 @@ describe('VA Medical Records', () => {
                 country: 'USA',
                 city: 'APO',
                 state: 'VA',
-              },
-            },
-          ],
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-  });
-
-  it('should not require state when country is not USA', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true,
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true,
-            },
-          ],
-          vaTreatmentFacilities: [
-            {
-              treatmentCenterName: 'Sommerset VA Clinic',
-              relatedDisabilities: {
-                'Diabetes Melitus': true,
-              },
-              treatmentDateRange: {
-                from: '2010-04-05',
-                to: '2015-09-09',
-              },
-              treatmentCenterAddress: {
-                country: 'Ukraine',
-                city: 'Kiev',
-              },
-            },
-          ],
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.calledOnce).to.be.true;
-  });
-
-  it('should require state when country is USA', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true,
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true,
-            },
-          ],
-          vaTreatmentFacilities: [
-            {
-              treatmentCenterName: 'Sommerset VA Clinic',
-              relatedDisabilities: {
-                'Diabetes Melitus': true,
-              },
-              treatmentDateRange: {
-                from: '2010-04-05',
-                to: '2015-09-09',
-              },
-              treatmentCenterAddress: {
-                country: 'USA',
-                city: 'Sommerset',
               },
             },
           ],

@@ -8,8 +8,13 @@
     margin-top: 0;
   }
 
-  [href^="http"], [rel="external"] {
+  [href^="http"],
+  [rel="external"] {
     background: none;
+  }
+
+  .usa-width-three-fourths.error {
+    padding-left: 1.5rem;
   }
 
   ul {
@@ -35,6 +40,17 @@
     }
   }
 
+  .usa-alert {
+    margin-bottom: 2rem;
+    .usa-alert-body {
+      padding-left: 1rem;
+  
+      .usa-alert-text {
+        margin-top: 1rem;
+      }
+    }
+  }
+
   hr {
     border-bottom: none;
   }
@@ -54,7 +70,9 @@
   }
 
   .search-box {
-    input, button {
+
+    input,
+    button {
       margin: 0;
       max-width: none;
     }
