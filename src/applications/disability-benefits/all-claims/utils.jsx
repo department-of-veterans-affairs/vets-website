@@ -212,7 +212,7 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
     .reduce((accum, curr) => {
       const disabilityName = curr.name || curr.condition;
       const capitalizedDisabilityName = getDisabilityName(disabilityName);
-      return _.set(`${capitalizedDisabilityName}`, { type: 'boolean' }, accum);
+      return _.set(capitalizedDisabilityName, { type: 'boolean' }, accum);
     }, {});
   return {
     properties: disabilitiesViews,
@@ -227,7 +227,7 @@ export const addCheckboxPerNewDisability = createSelector(
   newDisabilities => ({
     properties: newDisabilities.reduce((accum, disability) => {
       const formattedName = getDisabilityName(disability.condition);
-      return _.set(`${formattedName}`, { type: 'boolean' }, accum);
+      return _.set(formattedName, { type: 'boolean' }, accum);
     }, {}),
   }),
 );
