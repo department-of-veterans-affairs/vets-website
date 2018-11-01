@@ -12,6 +12,7 @@ import {
   USA,
   DATA_PATHS,
   NINE_ELEVEN,
+  HOMELESSNESS_TYPES,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -211,17 +212,29 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
     .concat(selectedNewDisabilities)
     .reduce((accum, curr) => {
       const disabilityName = curr.name || curr.condition;
-      if (!disabilityName) {
-        return pageSchema;
-      }
-
       const capitalizedDisabilityName = getDisabilityName(disabilityName);
-      return _.set(`${capitalizedDisabilityName}`, { type: 'boolean' }, accum);
+      return _.set(capitalizedDisabilityName, { type: 'boolean' }, accum);
     }, {});
   return {
     properties: disabilitiesViews,
   };
 };
+
+const formattedNewDisabilitiesSelector = createSelector(
+  formData => formData.newDisabilities,
+  (newDisabilities = []) =>
+    newDisabilities.map(disability => getDisabilityName(disability.condition)),
+);
+
+export const addCheckboxPerNewDisability = createSelector(
+  formattedNewDisabilitiesSelector,
+  newDisabilities => ({
+    properties: newDisabilities.reduce(
+      (accum, disability) => _.set(disability, { type: 'boolean' }, accum),
+      {},
+    ),
+  }),
+);
 
 export const hasVAEvidence = formData =>
   _.get(DATA_PATHS.hasVAEvidence, formData, false);
@@ -268,5 +281,17 @@ export const needsToEnter781 = formData =>
   _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false) ||
   _.get('view:selectablePtsdTypes.view:noncombatPtsdType', formData, false);
 
+export const needsToEnter781a = formData =>
+  _.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false) ||
+  _.get('view:selectablePtsdTypes.view:assaultPtsdType', formData, false);
+
 export const isUploadingPtsdForm = formData =>
   _.get('view:uploadPtsdChoice', formData, '') === 'upload';
+
+export const getHomelessOrAtRisk = formData => {
+  const homelessStatus = _.get('homelessOrAtRisk', formData, '');
+  return (
+    homelessStatus === HOMELESSNESS_TYPES.homeless ||
+    homelessStatus === HOMELESSNESS_TYPES.atRisk
+  );
+};
