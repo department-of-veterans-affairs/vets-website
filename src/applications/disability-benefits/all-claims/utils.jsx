@@ -219,16 +219,19 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
   };
 };
 
+const formattedNewDisabilitiesSelector = createSelector(
+  formData => formData.newDisabilities,
+  (newDisabilities = []) =>
+    newDisabilities.map(disability => getDisabilityName(disability.condition)),
+);
+
 export const addCheckboxPerNewDisability = createSelector(
-  form =>
-    form.newDisabilities && Array.isArray(form.newDisabilities)
-      ? form.newDisabilities
-      : [],
+  formattedNewDisabilitiesSelector,
   newDisabilities => ({
-    properties: newDisabilities.reduce((accum, disability) => {
-      const formattedName = getDisabilityName(disability.condition);
-      return _.set(formattedName, { type: 'boolean' }, accum);
-    }, {}),
+    properties: newDisabilities.reduce(
+      (accum, disability) => _.set(disability, { type: 'boolean' }, accum),
+      {},
+    ),
   }),
 );
 
@@ -272,12 +275,6 @@ const post911Periods = createSelector(
 );
 
 export const servedAfter911 = formData => !!post911Periods(formData).length;
-
-export const getPOWDisabilities = createSelector(
-  formData => formData.newDisabilities,
-  (newDisabilities = []) =>
-    newDisabilities.map(disability => getDisabilityName(disability.condition)),
-);
 
 export const needsToEnter781 = formData =>
   _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false) ||
