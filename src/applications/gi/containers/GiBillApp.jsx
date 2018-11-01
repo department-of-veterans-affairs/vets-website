@@ -8,7 +8,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
 import Modals from '../containers/Modals';
 import PreviewBanner from '../components/heading/PreviewBanner';
-import Breadcrumbs from '../components/heading/Breadcrumbs';
+import GiBillBreadcrumbs from '../components/heading/GiBillBreadcrumbs';
 import AboutThisTool from '../components/content/AboutThisTool';
 
 const Disclaimer = () => (
@@ -77,6 +77,7 @@ export class GiBillApp extends React.Component {
 
   render() {
     const { constants, preview, search } = this.props;
+    const { facilityCode } = this.props.params;
     let content;
 
     if (constants.inProgress) {
@@ -95,7 +96,8 @@ export class GiBillApp extends React.Component {
                 onViewLiveVersion={this.exitPreviewMode}
               />
             )}
-            <Breadcrumbs
+            <GiBillBreadcrumbs
+              facilityCode={facilityCode}
               location={this.props.location}
               includeSearch={search.count !== null}
             />
