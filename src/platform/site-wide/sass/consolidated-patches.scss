@@ -19,6 +19,10 @@ $teamsite-large-screen: 1008px;
   }
 }
 
+.header {
+  text-align: left;
+}
+
 .login .container h1 {
   color: $color-black !important;
 }
@@ -56,6 +60,7 @@ header.merger {
   margin: auto;
 
   .va-crisis-line-container {
+    box-sizing: border-box;
     button.va-crisis-line {
       background-image: none;
 
