@@ -129,7 +129,7 @@ class SearchApp extends React.Component {
         {this.renderResultsCount()}
         <hr />
         {this.renderResultsList()}
-        <hr />
+        <hr id="hr-search-bottom" />
         {this.renderResultsFooter()}
       </div>
     );
