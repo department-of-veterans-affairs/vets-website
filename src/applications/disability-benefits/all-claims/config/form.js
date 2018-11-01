@@ -53,6 +53,7 @@ import {
   vaEmployee,
   summaryOfEvidence,
   fullyDevelopedClaim,
+  newUnemploymentFollowUp,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -110,19 +111,6 @@ const formConfig = {
           path: 'service-pay',
           uiSchema: servicePay.uiSchema,
           schema: servicePay.schema,
-        },
-        waiveRetirementPay: {
-          title: 'Waiving Retirement Pay',
-          path: 'waive-retirement-pay',
-          depends: hasMilitaryRetiredPay,
-          uiSchema: waiveRetirementPay.uiSchema,
-          schema: waiveRetirementPay.schema,
-        },
-        separationTrainingPay: {
-          title: 'Separation, Severance or Training Pay',
-          path: 'separation-training-pay',
-          uiSchema: separationTrainingPay.uiSchema,
-          schema: separationTrainingPay.schema,
         },
         militaryHistory: {
           title: 'Military service history',
@@ -259,6 +247,12 @@ const formConfig = {
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
         },
+        newUnemploymentFollowUp: {
+          title: 'File a Claim for Individual Unemployability',
+          path: 'new-disabilities/unemployment-status',
+          uiSchema: newUnemploymentFollowUp.uiSchema,
+          schema: newUnemploymentFollowUp.schema,
+        },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',
           path: 'disabilities/summary',
@@ -343,6 +337,19 @@ const formConfig = {
           path: 'va-employee',
           uiSchema: vaEmployee.uiSchema,
           schema: vaEmployee.schema,
+        },
+        waiveRetirementPay: {
+          title: 'Waiving Retirement Pay',
+          path: 'waive-retirement-pay',
+          depends: hasMilitaryRetiredPay,
+          uiSchema: waiveRetirementPay.uiSchema,
+          schema: waiveRetirementPay.schema,
+        },
+        separationTrainingPay: {
+          title: 'Separation, Severance or Training Pay',
+          path: 'separation-training-pay',
+          uiSchema: separationTrainingPay.uiSchema,
+          schema: separationTrainingPay.schema,
         },
         fullyDevelopedClaim: {
           title: 'Fully developed claim program',

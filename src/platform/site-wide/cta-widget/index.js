@@ -92,7 +92,7 @@ export class CallToActionWidget extends React.Component {
         ),
         buttonText: 'Sign In or Create an Account',
         buttonHandler: this.openLoginModal,
-        status: 'info',
+        status: 'continue',
       };
     }
 
@@ -110,7 +110,7 @@ export class CallToActionWidget extends React.Component {
         ),
         buttonText: 'Verify Your Identity',
         buttonHandler: verify,
-        status: 'warning',
+        status: 'continue',
       };
     }
 
@@ -132,6 +132,7 @@ export class CallToActionWidget extends React.Component {
         ),
         buttonText: 'Go to My HealtheVet',
         buttonHandler: this.goToTool,
+        status: 'info',
       };
     }
 
@@ -181,7 +182,7 @@ export class CallToActionWidget extends React.Component {
           ),
           buttonText: 'Verify Your Identity',
           buttonHandler: verify,
-          status: 'warning',
+          status: 'continue',
         };
 
       case 'needs_ssn_resolution':
@@ -270,7 +271,7 @@ export class CallToActionWidget extends React.Component {
        *     heading: `You’ll need to create a My HealtheVet account before you can ${this._serviceDescription`,
        *     buttonText: 'Create a My HealtheVet Account',
        *     buttonHandler: this.props.createAndUpgradeMHVAccount,
-       *     status: 'warning'
+       *     status: 'continue'
        *   };
 
        * case 'existing':
@@ -279,7 +280,7 @@ export class CallToActionWidget extends React.Component {
        *     heading: `You’ll need to upgrade your account before you can ${this._serviceDescription}`,
        *     buttonText: 'Upgrade Your Account',
        *     buttonHandler: this.props.upgradeMHVAccount,
-       *     status: 'warning'
+       *     status: 'continue'
        *   };
        */
 
@@ -360,7 +361,7 @@ export class CallToActionWidget extends React.Component {
           accountState === 'needs_terms_acceptance'
             ? redirectToTermsAndConditions
             : this.props.createAndUpgradeMHVAccount,
-        status: 'warning',
+        status: 'continue',
       };
     }
 
@@ -373,7 +374,7 @@ export class CallToActionWidget extends React.Component {
         accountState === 'needs_terms_acceptance'
           ? redirectToTermsAndConditions
           : this.props.upgradeMHVAccount,
-      status: 'warning',
+      status: 'continue',
     };
   };
 
