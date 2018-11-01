@@ -211,17 +211,29 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
     .concat(selectedNewDisabilities)
     .reduce((accum, curr) => {
       const disabilityName = curr.name || curr.condition;
-      if (!disabilityName) {
-        return pageSchema;
-      }
-
       const capitalizedDisabilityName = getDisabilityName(disabilityName);
-      return _.set(`${capitalizedDisabilityName}`, { type: 'boolean' }, accum);
+      return _.set(capitalizedDisabilityName, { type: 'boolean' }, accum);
     }, {});
   return {
     properties: disabilitiesViews,
   };
 };
+
+const formattedNewDisabilitiesSelector = createSelector(
+  formData => formData.newDisabilities,
+  (newDisabilities = []) =>
+    newDisabilities.map(disability => getDisabilityName(disability.condition)),
+);
+
+export const addCheckboxPerNewDisability = createSelector(
+  formattedNewDisabilitiesSelector,
+  newDisabilities => ({
+    properties: newDisabilities.reduce(
+      (accum, disability) => _.set(disability, { type: 'boolean' }, accum),
+      {},
+    ),
+  }),
+);
 
 export const hasVAEvidence = formData =>
   _.get(DATA_PATHS.hasVAEvidence, formData, false);

@@ -141,12 +141,6 @@ const formConfig = {
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
         },
-        prisonerOfWar: {
-          title: 'Prisoner of War (POW)',
-          path: 'review-veteran-details/military-service-history/pow',
-          uiSchema: prisonerOfWar.uiSchema,
-          schema: prisonerOfWar.schema,
-        },
       },
     },
     disabilities: {
@@ -193,6 +187,7 @@ const formConfig = {
         },
         newDisabilityFollowUp: {
           title: formData => getDisabilityName(formData.condition),
+          depends: form => form['view:newDisabilities'] === true,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
           itemFilter: item =>
@@ -252,6 +247,12 @@ const formConfig = {
           path: 'new-disabilities/unemployment-status',
           uiSchema: newUnemploymentFollowUp.uiSchema,
           schema: newUnemploymentFollowUp.schema,
+        },
+        prisonerOfWar: {
+          title: 'Prisoner of War (POW)',
+          path: 'pow',
+          uiSchema: prisonerOfWar.uiSchema,
+          schema: prisonerOfWar.schema,
         },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',
