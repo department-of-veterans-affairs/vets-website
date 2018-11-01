@@ -1,5 +1,36 @@
 import org.kohsuke.github.GitHub
 
+def getIsCMSDeploy(ref) {
+  // check to see if this ref has already been built
+  // if it has then we are doing a cms deployment, not a full pipeline
+  return sh (script: "aws s3 ls s3://vetsgov-website-builds-s3-upload/${ref}/",
+             returnStatus: true) == 0
+}
+
+def runDeploy(jobName, ref) {
+  build job: jobName, parameters: [
+    booleanParam(name: 'notify_slack', value: true),
+    stringParam(name: 'ref', value: ref),
+  ], wait: false
+}
+
+def isCMSDeploy = false
+
+def getEnvNames(isCMSDeploy) {
+  def vetsgovEnvNames = [
+    'development', 'staging', 'production'
+  ]
+  def vagovEnvNames = [
+    'preview', 'vagovdev', 'vagovstaging'
+  ]
+
+  if (isCMSDeploy) {
+    // only return va.gov envs
+    return vagovEnvNames
+  }
+  return vetsgovEnvNames + vagovEnvNames
+}
+
 def envNames = [
   // Vets.gov envs
   'development', 'staging', 'production',
@@ -87,7 +118,8 @@ node('vetsgov-general-purpose') {
 
   stage('Setup') {
     try {
-
+      // Jenkins doesn't like it when we checkout the secondary repository first
+      // so we checkout 'vets-website' first
       dir("vets-website") {
         checkout scm
       }
@@ -99,13 +131,15 @@ node('vetsgov-general-purpose') {
 
       dir("vets-website") {
         ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-  
+        isCMSDeploy = getIsCMSDeploy(ref)
+        envNames = getEnvNames(isCMSDeploy)
+
         sh "mkdir -p build"
         sh "mkdir -p logs/selenium"
         sh "mkdir -p coverage"
-  
+
         imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
-  
+
         dockerImage = docker.build("vets-website:${imageTag}")
         retry(5) {
           dockerImage.inside(args) {
@@ -120,6 +154,7 @@ node('vetsgov-general-purpose') {
   }
 
   stage('Lint|Security|Unit') {
+    if (isCMSDeploy) { return }
     try {
       parallel (
         lint: {
@@ -165,9 +200,14 @@ node('vetsgov-general-purpose') {
       for (int i=0; i<envNames.size(); i++) {
         def envName = envNames.get(i)
 
+        def cmsDeployArg = ""
+        if (isCMSDeploy) {
+          cmsDeployArg = "--content-deployment"
+        }
+
         builds[envName] = {
           dockerImage.inside(args) {
-            sh "cd /application && npm --no-color run build -- --buildtype=${envName}"
+            sh "cd /application && npm --no-color run build -- ${cmsDeployArg} --buildtype=${envName}"
             sh "cd /application && echo \"${buildDetails('buildtype': envName, 'ref': ref)}\" > build/${envName}/BUILD.txt"
           }
         }
@@ -187,7 +227,7 @@ node('vetsgov-general-purpose') {
 
   // Run E2E and accessibility tests
   stage('Integration') {
-    if (shouldBail()) { return }
+    if (shouldBail() || isCMSDeploy) { return }
     dir("vets-website") {
       try {
         parallel (
@@ -252,33 +292,24 @@ node('vetsgov-general-purpose') {
 
   stage('Deploy dev or staging') {
     try {
-      if (!isDeployable()) {
-        return
-      }
+      if (!isDeployable()) { return }
+
       dir("vets-website") {
         script {
           commit = sh(returnStdout: true, script: "git rev-parse HEAD").trim()
         }
       }
+
       if (env.BRANCH_NAME == devBranch) {
-        build job: 'deploys/vets-website-dev', parameters: [
-          booleanParam(name: 'notify_slack', value: true),
-          stringParam(name: 'ref', value: commit),
-        ], wait: false
-        build job: 'deploys/vets-website-vagovdev', parameters: [
-          booleanParam(name: 'notify_slack', value: true),
-          stringParam(name: 'ref', value: commit),
-        ], wait: false
-      }
-      if (env.BRANCH_NAME == stagingBranch) {
-        build job: 'deploys/vets-website-staging', parameters: [
-          booleanParam(name: 'notify_slack', value: true),
-          stringParam(name: 'ref', value: commit),
-        ], wait: false
-        build job: 'deploys/vets-website-vagovstaging', parameters: [
-          booleanParam(name: 'notify_slack', value: true),
-          stringParam(name: 'ref', value: commit),
-        ], wait: false
+        if (!isCMSDeploy) {
+          runDeploy('deploys/vets-website-dev', commit)
+        }
+        runDeploy('deploys/vets-website-vagovdev', commit)
+      } else if (env.BRANCH_NAME == stagingBranch) {
+        if (!isCMSDeploy) {
+          runDeploy('deploys/vets-website-staging', commit)
+        }
+        runDeploy('deploys/vets-website-vagovstaging', commit)
       }
     } catch (error) {
       notify()

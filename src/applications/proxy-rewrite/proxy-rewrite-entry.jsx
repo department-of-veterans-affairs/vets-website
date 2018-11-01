@@ -5,8 +5,6 @@ import createCommonStore from '../../platform/startup/store';
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
 
-import { initBanner } from '../../platform/site-wide/usa-banner-toggle';
-
 import startUserNavWidget from '../../platform/site-wide/user-nav';
 import addMenuListeners from '../../platform/site-wide/accessible-menus';
 import startMegaMenuWidget from '../../platform/site-wide/mega-menu';
@@ -42,7 +40,7 @@ function createMutationObserverCallback() {
   // Hide native elements when they're added to the DOM
   return function mutationObserved(mutations) {
     mutations.forEach(mutation => {
-      mutation.addedNodes.forEach(node => {
+      Array.from(mutation.addedNodes).forEach(node => {
         if (node.nodeType === Node.ELEMENT_NODE) {
           if (node.tagName === 'BODY') {
             node.classList.add('merger');
@@ -87,9 +85,6 @@ function mountReactComponents(commonStore) {
   // set up sizes for rem
   document.documentElement.style.fontSize = '10px';
   document.getElementsByTagName('body')[0].style.fontSize = '12px';
-
-  // init toggleBanner
-  initBanner();
 
   startUserNavWidget(commonStore);
   startMegaMenuWidget(commonStore);

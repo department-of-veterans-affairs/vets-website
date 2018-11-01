@@ -84,7 +84,7 @@ class FormItem extends React.Component {
       </div>
     );
     const expiredView = (
-      <div className="usa-alert usa-alert-warning saved-form-expired no-background-image">
+      <div className="usa-alert usa-alert-warning saved-form-expired background-color-only">
         <button
           className="va-alert-close notification-close va-expired-item-close"
           onClick={() => this.props.toggleModal(formId)}

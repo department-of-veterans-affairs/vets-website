@@ -16,6 +16,8 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
+  needsToEnter781,
+  isUploadingPtsdForm,
   servedAfter911,
 } from '../utils';
 
@@ -38,6 +40,8 @@ import {
   newDisabilityFollowUp,
   newPTSDFollowUp,
   choosePtsdType,
+  ptsdWalkthroughChoice781,
+  uploadPtsdDocuments,
   summaryOfDisabilities,
   vaMedicalRecords,
   additionalDocuments,
@@ -49,6 +53,7 @@ import {
   vaEmployee,
   summaryOfEvidence,
   fullyDevelopedClaim,
+  newUnemploymentFollowUp,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -107,19 +112,6 @@ const formConfig = {
           uiSchema: servicePay.uiSchema,
           schema: servicePay.schema,
         },
-        waiveRetirementPay: {
-          title: 'Waiving Retirement Pay',
-          path: 'waive-retirement-pay',
-          depends: hasMilitaryRetiredPay,
-          uiSchema: waiveRetirementPay.uiSchema,
-          schema: waiveRetirementPay.schema,
-        },
-        separationTrainingPay: {
-          title: 'Separation, Severance or Training Pay',
-          path: 'separation-training-pay',
-          uiSchema: separationTrainingPay.uiSchema,
-          schema: separationTrainingPay.schema,
-        },
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
@@ -148,12 +140,6 @@ const formConfig = {
           depends: form => hasGuardOrReservePeriod(form.serviceInformation),
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
-        },
-        prisonerOfWar: {
-          title: 'Prisoner of War (POW)',
-          path: 'review-veteran-details/military-service-history/pow',
-          uiSchema: prisonerOfWar.uiSchema,
-          schema: prisonerOfWar.schema,
         },
       },
     },
@@ -201,6 +187,7 @@ const formConfig = {
         },
         newDisabilityFollowUp: {
           title: formData => getDisabilityName(formData.condition),
+          depends: form => form['view:newDisabilities'] === true,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
           itemFilter: item =>
@@ -236,6 +223,36 @@ const formConfig = {
           depends: hasNewPtsdDisability,
           uiSchema: choosePtsdType.uiSchema,
           schema: choosePtsdType.schema,
+        },
+        ptsdWalkthroughChoice781: {
+          title: 'PTSD Walkthrough 781 Choice',
+          path: 'new-disabilities/walkthrough-781-choice',
+          depends: formData =>
+            hasNewPtsdDisability(formData) && needsToEnter781(formData),
+          uiSchema: ptsdWalkthroughChoice781.uiSchema,
+          schema: ptsdWalkthroughChoice781.schema,
+        },
+        uploadPtsdDocuments781: {
+          title: 'Upload PTSD Documents - 781',
+          path: 'new-disabilities/ptsd-781-upload',
+          depends: formData =>
+            hasNewPtsdDisability(formData) &&
+            needsToEnter781(formData) &&
+            isUploadingPtsdForm(formData),
+          uiSchema: uploadPtsdDocuments.uiSchema,
+          schema: uploadPtsdDocuments.schema,
+        },
+        newUnemploymentFollowUp: {
+          title: 'File a Claim for Individual Unemployability',
+          path: 'new-disabilities/unemployment-status',
+          uiSchema: newUnemploymentFollowUp.uiSchema,
+          schema: newUnemploymentFollowUp.schema,
+        },
+        prisonerOfWar: {
+          title: 'Prisoner of War (POW)',
+          path: 'pow',
+          uiSchema: prisonerOfWar.uiSchema,
+          schema: prisonerOfWar.schema,
         },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',
@@ -321,6 +338,19 @@ const formConfig = {
           path: 'va-employee',
           uiSchema: vaEmployee.uiSchema,
           schema: vaEmployee.schema,
+        },
+        waiveRetirementPay: {
+          title: 'Waiving Retirement Pay',
+          path: 'waive-retirement-pay',
+          depends: hasMilitaryRetiredPay,
+          uiSchema: waiveRetirementPay.uiSchema,
+          schema: waiveRetirementPay.schema,
+        },
+        separationTrainingPay: {
+          title: 'Separation, Severance or Training Pay',
+          path: 'separation-training-pay',
+          uiSchema: separationTrainingPay.uiSchema,
+          schema: separationTrainingPay.schema,
         },
         fullyDevelopedClaim: {
           title: 'Fully developed claim program',

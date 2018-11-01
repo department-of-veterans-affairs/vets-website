@@ -2,6 +2,8 @@ export const UPDATE_CURRENT_SECTION = 'UPDATE_CURRENT_SECTION';
 export const TOGGLE_PANEL_OPEN = 'TOGGLE_PANEL_OPEN';
 export const TOGGLE_DISPLAY_HIDDEN = 'TOGGLE_DISPLAY_HIDDEN';
 
+const tabletMediaQuery = window.matchMedia('(min-width: 768px)');
+
 export const togglePanel = megaMenu => ({
   type: 'TOGGLE_PANEL_OPEN',
   megaMenu,
@@ -22,7 +24,7 @@ export function updateCurrentSection(currentSection) {
 export const toggleMobileDisplayHidden = hidden => (dispatch, getState) => {
   const state = getState();
 
-  if (document.body.clientWidth >= 768) {
+  if (tabletMediaQuery.matches) {
     dispatch(toggleDisplayHidden({}));
   } else if (hidden) {
     dispatch(toggleDisplayHidden({ hidden: true }));

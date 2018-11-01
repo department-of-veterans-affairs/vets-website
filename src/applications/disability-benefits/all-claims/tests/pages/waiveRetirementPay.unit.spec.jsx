@@ -9,7 +9,7 @@ describe('Service Pay', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranDetails.pages.waiveRetirementPay;
+  } = formConfig.chapters.additionalInformation.pages.waiveRetirementPay;
 
   it('should render two radio options by default', () => {
     const form = mount(

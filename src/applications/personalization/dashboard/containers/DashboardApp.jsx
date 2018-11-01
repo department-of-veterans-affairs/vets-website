@@ -402,21 +402,6 @@ class DashboardApp extends React.Component {
             <ul className="va-nav-linkslist-list">
               <li>
                 <a
-                  href="/discharge-upgrade-instructions/"
-                  onClick={recordDashboardClick('apply-discharge')}
-                >
-                  <h4 className="va-nav-linkslist-title">
-                    How to Apply for a Discharge Upgrade
-                  </h4>
-                  <p className="va-nav-linkslist-description">
-                    Answer a series of questions to get customized step-by-step
-                    instructions on how to apply for a discharge upgrade or
-                    correction.
-                  </p>
-                </a>
-              </li>
-              <li>
-                <a
                   href="/health-care/health-records/"
                   onClick={recordDashboardClick('health-records')}
                 >
