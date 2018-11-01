@@ -9,11 +9,11 @@ const FIFTY_MB = 52428800;
 
 export const uiSchema = {
   'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781a" />
+    <PtsdNameTitle formData={formData} formType="781" />
   ),
   'ui:description': DocumentDescription,
   ptsd781: fileUploadUI('', {
-    itemDescription: 'PTSD 781a form',
+    itemDescription: 'PTSD 781 form',
     hideLabelText: true,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
     fileTypes: [
@@ -53,6 +53,7 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
+  required: ['ptsd781'],
   properties: {
     ptsd781: {
       type: 'array',

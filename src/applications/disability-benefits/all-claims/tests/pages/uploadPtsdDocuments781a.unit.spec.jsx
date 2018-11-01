@@ -7,6 +7,7 @@ import {
   DefinitionTester, // selectCheckbox
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
+import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('781a record upload', () => {
   const page = formConfig.chapters.disabilities.pages.uploadPtsdDocuments781a;
@@ -31,7 +32,7 @@ describe('781a record upload', () => {
     expect(form.find('input').length).to.equal(1);
   });
 
-  it('should submit without an upload', () => {
+  it('should require uploaded form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -50,8 +51,7 @@ describe('781a record upload', () => {
     );
 
     form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
   });
 });
