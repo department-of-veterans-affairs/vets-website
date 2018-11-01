@@ -33,7 +33,7 @@ function initApplicationSubmitMock() {
 function completeRelationshipInformation(client, data) {
   client.selectRadio('root_onBehalfOf', data.onBehalfOf);
   client.waitForElementVisible(
-    '.usa-alert.usa-alert-info.no-background-image',
+    '.usa-alert.usa-alert-info.background-color-only',
     Timeouts.slow,
   );
 }

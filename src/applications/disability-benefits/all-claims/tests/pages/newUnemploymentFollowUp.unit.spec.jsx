@@ -1,17 +1,20 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  selectRadio,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
-describe('Service Pay', () => {
+describe('Unemployment Status', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.waiveRetirementPay;
+  } = formConfig.chapters.disabilities.pages.newUnemploymentFollowUp;
 
-  it('should render two radio options by default', () => {
+  it('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -22,28 +25,10 @@ describe('Service Pay', () => {
       />,
     );
 
-    expect(form.find('input[type="radio"]').length).to.equal(2);
+    expect(form.find('input').length).to.equal(2);
   });
 
-  it('should submit when an option is selected', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{ waiveRetirementPay: false }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.calledOnce).to.be.true;
-  });
-
-  it('should fail to submit when neither option is selected', () => {
+  it('should fail to submit when no data is filled out', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -59,5 +44,24 @@ describe('Service Pay', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+  });
+
+  it('should submit when data filled in', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    selectRadio(form, 'root_view:unemploymentStatus', 'Y');
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 });
