@@ -74,12 +74,29 @@
 
     &#hr-search-bottom {
       margin-bottom: 1.5rem;
+
+      @media (max-width: $medium-screen - 1) {
+        margin-bottom: 0;
+      }
     }
   }
 
   .results-footer {
     justify-content: space-between;
     align-items: center;
+
+
+    @media (max-width: $medium-screen - 1) {
+      flex-direction: column-reverse;
+    }
+
+    .powered-by {
+      font-weight: bold;
+
+      @media (max-width: $medium-screen - 1) {
+        margin: 1rem 0 3rem;
+      }
+    }
 
     .va-pagination {
       width: unset;
@@ -89,6 +106,10 @@
         .va-pagination-inner {
           width: unset;
         }
+      }
+
+      @media (max-width: $medium-screen - 1) {
+        width: 100%;
       }
     }
 

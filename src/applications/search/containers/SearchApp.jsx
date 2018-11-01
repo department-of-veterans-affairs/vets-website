@@ -234,7 +234,7 @@ class SearchApp extends React.Component {
 
     return (
       <div className="va-flex results-footer">
-        <strong>Powered by Search.gov</strong>
+        <span className="powered-by">Powered by Search.gov</span>
         <Pagination
           onPageSelect={this.handlePageChange}
           page={currentPage}
