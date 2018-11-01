@@ -249,6 +249,35 @@ node('vetsgov-general-purpose') {
       }
     }
   }
+
+  stage('Pre-archive optimizations') {
+    if (shouldBail()) { return }
+
+    def optimizationEnvironments = [
+      'vagovdev'
+    ]
+
+    try {
+      def builds = [:]
+
+      for (int i=0; i<optimizationEnvironments.size(); i++) {
+        def envName = optimizationEnvironments.get(i)
+
+        builds[envName] = {
+          dockerImage.inside(args) {
+            sh "cd /application && node script/pre-archive/index.js --buildtype=${envName}"
+          }
+        }
+      }
+
+      parallel builds
+    } catch (error) {
+      notify()
+
+      throw error
+    }
+  }
+
   stage('Archive') {
     if (shouldBail()) { return }
 
