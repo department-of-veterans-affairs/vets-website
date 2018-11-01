@@ -9,8 +9,9 @@
 	  button.setAttribute('aria-expanded', `${!buttonOpen}`);
 	  content.setAttribute('aria-hidden', `${!contentHidden}`);
 	};
+  var mobileMediaQuery = window.matchMedia('(max-width: 767px)');
 	document.addEventListener('DOMContentLoaded', function() {
-	  if (document.body.clientWidth < 768) { // is Mobile
+	  if (mobileMediaQuery.matches) {
 	    toggleAccordion();
 	  }
 	});
