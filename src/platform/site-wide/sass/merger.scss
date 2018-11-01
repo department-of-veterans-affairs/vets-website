@@ -13,9 +13,6 @@
   }
 
   .vet-toolbar {
-    .sign-in-nav {
-      margin-left: 6px;
-    }
     min-height: 50px;
   }
   .va-modal {
@@ -181,6 +178,10 @@
       flex-direction: column;
     }
 
+    .profile-nav {
+      margin-left: -4px;
+    }
+
     .va-sidebarnav {
       display: none;
     }
@@ -245,7 +246,20 @@
       }
     }
 
+    #login-root {
+      .profile-nav {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+
     .vet-toolbar {
+      margin-left: 0;
+      [data-reactroot] {
+        align-items: baseline;
+        display: inherit;
+      }
+
       .sign-in-nav {
         font-weight: normal;
 
@@ -259,6 +273,21 @@
             -webkit-font-smoothing: antialiased;
           }
         }
+
+        .va-dropdown-trigger {
+
+          span {
+            max-width: 115px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: -6px;
+
+            @media (max-width: $xsmall-screen) {
+              max-width: 60px;
+            }
+          }
+        }
       }
 
       .va-dropdown {
@@ -269,7 +298,7 @@
           width: 100%;
           font-weight: 600;
           padding-left: 0;
-          margin-right: 1.75em;
+          margin-right: 1em;
           background-position: right 1.5rem center;
           line-height: unset;
 
