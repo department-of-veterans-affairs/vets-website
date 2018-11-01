@@ -178,10 +178,6 @@
       flex-direction: column;
     }
 
-    .profile-nav {
-      margin-left: -4px;
-    }
-
     .va-sidebarnav {
       display: none;
     }
@@ -277,7 +273,7 @@
         .va-dropdown-trigger {
 
           span {
-            max-width: 115px;
+            max-width: 102px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
