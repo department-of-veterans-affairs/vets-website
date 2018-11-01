@@ -65,7 +65,14 @@
     }
   }
 
-  #helpmenu {
+  .va-helpmenu-contents {
+    > p {
+      line-height: 1.2em;
+      margin-bottom: 0.8em;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
     a {
       text-decoration: none;
     }
@@ -115,24 +122,18 @@
     }
   }
 
-
   .merger-majorlinks {
-
-    .link {
-
-      margin-bottom: 1em;
-
-      p {
+     .link {
+       margin-bottom: 1em;
+       p {
         margin: 0;
       }
-
-      a {
+       a {
         text-decoration: none;
         padding-bottom: 0;
       }
     }
-
-  }
+   }
 
   .va-nav-breadcrumbs-list {
     padding-left: 0;
@@ -816,6 +817,14 @@ img[data-srcset] {
   margin-top: 6px;
 }
 
+.external-link-icon-black {
+  background-image: url(/img/icons/exit-icon.png);
+  background-position: 100% 50%;
+  background-repeat: no-repeat;
+  background-size: 1em auto;
+  padding-right: 1.2em;
+  position: relative;
+}
 .usa-alert {
   .top-of-page {
     margin-top: 0;

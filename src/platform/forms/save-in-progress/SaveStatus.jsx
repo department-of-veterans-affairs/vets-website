@@ -56,7 +56,7 @@ class SaveStatus extends React.Component {
         {hasError && (
           <div
             role="alert"
-            className="usa-alert usa-alert-error no-background-image schemaform-save-error"
+            className="usa-alert usa-alert-error background-color-only schemaform-save-error"
           >
             {savedStatus === SAVE_STATUSES.clientFailure &&
               `We’re sorry. We’re unable to connect to ${propertyName}. Please check that you’re connected to the Internet, so we can save your form in progress.`}
