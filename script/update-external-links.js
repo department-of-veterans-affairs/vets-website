@@ -1,6 +1,22 @@
 /* eslint-disable no-param-reassign */
 const cheerio = require('cheerio');
 
+const newTabDomains = [
+  'myhealth.va.gov',
+  'ebenefits.va.gov',
+  'www.accesstocare.va.gov',
+  'www.gibill.va.gov/wave',
+  'www.blogs.va.gov',
+  'www.data.va.gov',
+  'mobile.va.gov',
+  'www.accesstocare.va.gov',
+  'www.oit.va.gov',
+];
+
+function isVaDomainThatOpensInNewTab(href) {
+  return newTabDomains.some(domain => href.includes(domain));
+}
+
 function updateExternalLinks() {
   return (files, metalsmith, done) => {
     for (const fileName of Object.keys(files)) {
@@ -31,9 +47,9 @@ function updateExternalLinks() {
           // external link that should always open in a new tab
           // There is an escape hatch here, too
           if (
-            !hrefAttr.includes('va.gov') &&
-            !hrefAttr.includes('vets.gov') &&
-            !link.attr('data-no-external')
+            !link.attr('data-same-tab') &&
+            ((!hrefAttr.includes('va.gov') && !hrefAttr.includes('vets.gov')) ||
+              isVaDomainThatOpensInNewTab(hrefAttr))
           ) {
             if (!targetAttr && targetAttr !== '_blank') {
               linkUpdated = true;
