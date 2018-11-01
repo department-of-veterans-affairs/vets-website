@@ -248,7 +248,7 @@ const formConfig = {
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
         },
-        newUnemploymentFollowUp: {
+        newUnemployabilityFollowUp: {
           title: 'Unemployability Choice',
           path: 'new-disabilities/unemployability-status',
           uiSchema: newUnemploymentFollowUp.uiSchema,
