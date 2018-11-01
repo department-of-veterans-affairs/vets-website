@@ -105,7 +105,7 @@ export const uiSchema = {
   homelessnessContact: {
     'ui:title': ' ',
     'ui:description':
-      'Please provide the name and number of a person we can call if we need to get in touch with you.',
+      'Please provide the name of a person or place we can call if we need to get in touch with you.',
     'ui:options': {
       expandUnder: 'homelessOrAtRisk',
       expandUnderCondition: housing =>
