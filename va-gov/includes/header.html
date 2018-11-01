@@ -117,7 +117,9 @@
     <div aria-live="polite" role="alert" class="usa-alert usa-alert-{{ banner.type }}">
       <div class="usa-alert-body">
         <h3 class="usa-alert-heading">{{ banner.title }}</h3>
-        {{ banner.content }}
+        <div class="usa-alert-text">
+          {{ banner.content }}
+        </div>
       </div>
     </div>
   </div>
