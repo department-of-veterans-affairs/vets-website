@@ -828,7 +828,7 @@ img[data-srcset] {
 
 .usa-alert-full-width {
   background-color: $color-gray-lightest;
-  .usa-alert {
+  > .usa-alert {
     border-left: none;
     max-width: 1000px;
     margin: 0 auto;
