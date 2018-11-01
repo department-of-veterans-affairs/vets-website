@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 
 import moment from 'moment';
 
-import Breadcrumbs from '../components/Breadcrumbs';
+import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import AppealNotFound from '../components/appeals-v2/AppealNotFound';
 import { getAppealsV2 } from '../actions/index.jsx';
@@ -103,14 +103,11 @@ export class AppealInfo extends React.Component {
       appealContent = (
         <div>
           <div>
-            <Breadcrumbs>
-              <li>
-                <Link to="your-claims">Track Your Claims and Appeals</Link>
-              </li>
-              <li>
-                <strong>{claimHeading}</strong>
-              </li>
-            </Breadcrumbs>
+            <ClaimsBreadcrumbs>
+              <Link to={`appeals/${appeal.id}`} key="claims-appeal">
+                Status Details
+              </Link>
+            </ClaimsBreadcrumbs>
           </div>
           <div className="row">
             <AppealHeader
