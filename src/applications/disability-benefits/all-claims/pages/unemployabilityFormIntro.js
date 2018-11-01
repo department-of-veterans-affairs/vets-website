@@ -1,12 +1,12 @@
 import {
-  unemploymentTitle,
+  unemployabilityTitle,
   introDescription,
-} from '../content/unemploymentFormIntro';
+} from '../content/unemployabilityFormIntro';
 
 export const uiSchema = {
-  'ui:title': unemploymentTitle,
+  'ui:title': unemployabilityTitle,
   'ui:description': introDescription,
-  'view:unemploymentUploadChoice': {
+  'view:unemployabilityUploadChoice': {
     'ui:title': 'Please tell us what you would like to do.',
     'ui:widget': 'radio',
     'ui:options': {
@@ -22,9 +22,9 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['view:unemploymentUploadChoice'],
+  required: ['view:unemployabilityUploadChoice'],
   properties: {
-    'view:unemploymentUploadChoice': {
+    'view:unemployabilityUploadChoice': {
       type: 'string',
       enum: ['answerQuestions', 'upload'],
     },

@@ -8,11 +8,11 @@ import {
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
-describe('Unemployment 8940 Walkthrough', () => {
+describe('Unemployability 8940 Walkthrough', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.unemploymentFormIntro;
+  } = formConfig.chapters.disabilities.pages.unemployabilityFormIntro;
 
   it('should render', () => {
     const form = mount(
@@ -21,7 +21,7 @@ describe('Unemployment 8940 Walkthrough', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:unemploymentStatus': true,
+          'view:unemployabilityStatus': true,
         }}
         formData={{}}
       />,
@@ -38,7 +38,7 @@ describe('Unemployment 8940 Walkthrough', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:unemploymentStatus': true,
+          'view:unemployabilityStatus': true,
         }}
         formData={{}}
         onSubmit={onSubmit}
@@ -65,7 +65,11 @@ describe('Unemployment 8940 Walkthrough', () => {
       />,
     );
 
-    selectRadio(form, 'root_view:unemploymentUploadChoice', 'answerQuestions');
+    selectRadio(
+      form,
+      'root_view:unemployabilityUploadChoice',
+      'answerQuestions',
+    );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

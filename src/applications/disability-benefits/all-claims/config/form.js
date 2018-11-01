@@ -54,7 +54,7 @@ import {
   summaryOfEvidence,
   fullyDevelopedClaim,
   newUnemploymentFollowUp,
-  unemploymentFormIntro,
+  unemployabilityFormIntro,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -250,16 +250,16 @@ const formConfig = {
         },
         newUnemploymentFollowUp: {
           title: 'Unemployability Choice',
-          path: 'new-disabilities/unemployment-status',
+          path: 'new-disabilities/unemployability-status',
           uiSchema: newUnemploymentFollowUp.uiSchema,
           schema: newUnemploymentFollowUp.schema,
         },
-        unemploymentFormIntro: {
+        unemployabilityFormIntro: {
           title: 'File a Claim for Individual Unemployability',
-          path: 'new-disabilities/unemployment-walkthrough-choice',
-          depends: formData => formData['view:unemploymentStatus'],
-          uiSchema: unemploymentFormIntro.uiSchema,
-          schema: unemploymentFormIntro.schema,
+          path: 'new-disabilities/unemployability-walkthrough-choice',
+          depends: formData => formData['view:unemployabilityStatus'],
+          uiSchema: unemployabilityFormIntro.uiSchema,
+          schema: unemployabilityFormIntro.schema,
         },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',

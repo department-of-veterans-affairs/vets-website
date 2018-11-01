@@ -8,11 +8,11 @@ import {
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
-describe('Unemployment Status', () => {
+describe('Unemployability Status', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.newUnemploymentFollowUp;
+  } = formConfig.chapters.disabilities.pages.newUnemployabilityFollowUp;
 
   it('should render', () => {
     const form = mount(
@@ -59,7 +59,7 @@ describe('Unemployment Status', () => {
       />,
     );
 
-    selectRadio(form, 'root_view:unemploymentStatus', 'Y');
+    selectRadio(form, 'root_view:unemployabilityStatus', 'Y');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

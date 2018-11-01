@@ -141,12 +141,12 @@ import {
 import {
   uiSchema as newUnemploymentFollowUpUISchema,
   schema as newUnemploymentFollowUpSchema,
-} from './newUnemploymentFollowUp';
+} from './newUnemployabilityFollowUp';
 
 import {
-  uiSchema as unemploymentFormIntroUISchema,
-  schema as unemploymentFormIntroSchema,
-} from './unemploymentFormIntro';
+  uiSchema as unemployabilityFormIntroUISchema,
+  schema as unemployabilityFormIntroSchema,
+} from './unemployabilityFormIntro';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -293,7 +293,7 @@ export const newUnemploymentFollowUp = {
   schema: newUnemploymentFollowUpSchema,
 };
 
-export const unemploymentFormIntro = {
-  uiSchema: unemploymentFormIntroUISchema,
-  schema: unemploymentFormIntroSchema,
+export const unemployabilityFormIntro = {
+  uiSchema: unemployabilityFormIntroUISchema,
+  schema: unemployabilityFormIntroSchema,
 };

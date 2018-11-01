@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const unemploymentTitle = (
+export const unemployabilityTitle = (
   <legend className="schemaform-block-title schemaform-title-underline">
     Individual Unemployability
   </legend>
