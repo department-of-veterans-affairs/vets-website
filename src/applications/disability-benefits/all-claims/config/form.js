@@ -249,20 +249,18 @@ const formConfig = {
           uiSchema: newUnemploymentFollowUp.uiSchema,
           schema: newUnemploymentFollowUp.schema,
         },
-<<<<<<< HEAD
         unemployabilityFormIntro: {
           title: 'File a Claim for Individual Unemployability',
           path: 'new-disabilities/unemployability-walkthrough-choice',
           depends: formData => formData['view:unemployabilityStatus'],
           uiSchema: unemployabilityFormIntro.uiSchema,
           schema: unemployabilityFormIntro.schema,
-=======
+        },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
           path: 'pow',
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
->>>>>>> d8bde5b118906812e4bcde70e9df71875a5312b7
         },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',
