@@ -28,7 +28,8 @@ const BUILD_OPTIONS = require('./options');
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
 // Custom liquid filter(s)
-liquid.filters.humanizeDate = dt => moment(dt).format('MMMM D, YYYY');
+liquid.filters.humanizeDate = dt =>
+  moment(dt, 'YYYY-MM-DD').format('MMMM D, YYYY');
 
 // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
 // add comments about any implicit dependencies you are introducing!!!
