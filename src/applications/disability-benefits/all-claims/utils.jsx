@@ -12,6 +12,7 @@ import {
   USA,
   DATA_PATHS,
   NINE_ELEVEN,
+  HOMELESSNESS_TYPES,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -282,3 +283,11 @@ export const needsToEnter781 = formData =>
 
 export const isUploadingPtsdForm = formData =>
   _.get('view:uploadPtsdChoice', formData, '') === 'upload';
+
+export const getHomelessOrAtRisk = formData => {
+  const homelessStatus = _.get('homelessOrAtRisk', formData, '');
+  return (
+    homelessStatus === HOMELESSNESS_TYPES.homeless ||
+    homelessStatus === HOMELESSNESS_TYPES.atRisk
+  );
+};
