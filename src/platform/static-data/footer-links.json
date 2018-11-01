@@ -210,22 +210,29 @@
   },
   {
     "column": "bottom_rail",
-    "href": "/opa/Plain_Language.asp",
+    "href": "https://va.gov/oig/",
     "order": 2,
+    "target": null,
+    "title": "Office of Inspector General"
+  },
+  {
+    "column": "bottom_rail",
+    "href": "/opa/Plain_Language.asp",
+    "order": 3,
     "target": null,
     "title": "Plain Language"
   },
   {
     "column": "bottom_rail",
     "href": "/privacy/",
-    "order": 3,
+    "order": 4,
     "target": null,
     "title": "Privacy, Policies, and Legal Information"
   },
   {
     "column": "bottom_rail",
     "href": "/scorecard/",
-    "order": 4,
+    "order": 5,
     "target": null,
     "title": "VA.gov Scorecard"
   }
