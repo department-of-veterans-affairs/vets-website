@@ -3,7 +3,7 @@ import org.kohsuke.github.GitHub
 def getIsCMSDeploy(ref) {
   // check to see if this ref has already been built
   // if it has then we are doing a cms deployment, not a full pipeline
-  return sh (script: 'aws s3 ls s3://vetsgov-website-builds-s3-upload/${ref}/',
+  return sh (script: "aws s3 ls s3://vetsgov-website-builds-s3-upload/${ref}/",
              returnStatus: true) == 0
 }
 
