@@ -59,7 +59,7 @@ describe('Unemployment 8940 Walkthrough', () => {
       />,
     );
 
-    selectRadio(form, 'root_view:unemploymentStatus', 'Y');
+    selectRadio(form, 'root_view:unemploymentUploadChoice', 'answerQuestions');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

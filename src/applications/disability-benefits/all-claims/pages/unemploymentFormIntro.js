@@ -1,7 +1,10 @@
-import { introDescription } from '../content/unemploymentFormIntro';
+import {
+  unemploymentTitle,
+  introDescription,
+} from '../content/unemploymentFormIntro';
 
 export const uiSchema = {
-  'ui:title': 'File a Claim for Individual Unemployability',
+  'ui:title': unemploymentTitle,
   'ui:description': introDescription,
   'view:unemploymentUploadChoice': {
     'ui:title': 'Please tell us what you would like to do.',

@@ -1,12 +1,19 @@
 import React from 'react';
 
+export const unemploymentTitle = (
+  <legend className="schemaform-block-title schemaform-title-underline">
+    Individual Unemployability
+  </legend>
+);
+
 export const introDescription = (
   <div>
     <p>
       Equal to VA Form 21-8940 (Veteran’s Application for Increased Compensation
-      Based on Unemployability). Filing a claim for Individual Unemployability
-      is a two-part process:
+      Based on Unemployability).
+      <br />
     </p>
+    <p>Filing a claim for Individual Unemployability is a two-part process:</p>
     <div className="process schemaform-process">
       <ol>
         <li className="process-step list-one">
