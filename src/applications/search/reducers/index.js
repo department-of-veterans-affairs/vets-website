@@ -16,6 +16,8 @@ function SearchReducer(state = initialState, action) {
       return {
         ...state,
         loading: true,
+        results: undefined,
+        recommendedResults: undefined,
       };
     }
 
@@ -28,10 +30,12 @@ function SearchReducer(state = initialState, action) {
         totalEntries,
       } = action.meta.pagination;
       const { results } = action.results.web;
+      const recommendedResults = action.results.textBestBets;
 
       return {
         ...state,
         query,
+        recommendedResults,
         results,
         totalEntries,
         currentPage,
@@ -45,6 +49,7 @@ function SearchReducer(state = initialState, action) {
     case FETCH_SEARCH_RESULTS_FAILURE: {
       return {
         ...state,
+        recommendedResults: undefined,
         errors: action.errors,
         results: undefined,
         loading: false,
