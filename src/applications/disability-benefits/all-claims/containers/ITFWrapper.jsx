@@ -48,7 +48,8 @@ export class ITFWrapper extends React.Component {
       itf.currentITF && itf.currentITF.status === itfStatuses.active;
     const createITFCalled = itf.creationCallState !== requestStates.notCalled;
     if (
-      itf.fetchCallState === requestStates.succeeded &&
+      (itf.fetchCallState === requestStates.succeeded ||
+        itf.fetchCallState === itf.fetchCallState.failed) &&
       !hasActiveITF &&
       !createITFCalled
     ) {
