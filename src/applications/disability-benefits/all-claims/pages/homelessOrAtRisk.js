@@ -113,7 +113,7 @@ export const uiSchema = {
         housing === HOMELESSNESS_TYPES.atRisk,
     },
     name: {
-      'ui:title': 'Name of person we can contact',
+      'ui:title': 'Name',
       'ui:required': formData =>
         !!_.get('homelessnessContact.phoneNumber', formData, null),
     },
