@@ -139,9 +139,9 @@ import {
 } from './fullyDevelopedClaim';
 
 import {
-  uiSchema as newUnemploymentFollowUpUISchema,
-  schema as newUnemploymentFollowUpSchema,
-} from './newUnemployabilityFollowUp';
+  uiSchema as unemployabilityStatusUISchema,
+  schema as unemployabilityStatusSchema,
+} from './unemployabilityStatus';
 
 import {
   uiSchema as unemployabilityFormIntroUISchema,
@@ -288,9 +288,9 @@ export const fullyDevelopedClaim = {
   schema: fullyDevelopedClaimSchema,
 };
 
-export const newUnemploymentFollowUp = {
-  uiSchema: newUnemploymentFollowUpUISchema,
-  schema: newUnemploymentFollowUpSchema,
+export const unemployabilityStatus = {
+  uiSchema: unemployabilityStatusUISchema,
+  schema: unemployabilityStatusSchema,
 };
 
 export const unemployabilityFormIntro = {

@@ -12,7 +12,7 @@ describe('Unemployability Status', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.newUnemployabilityFollowUp;
+  } = formConfig.chapters.disabilities.pages.unemployabilityStatus;
 
   it('should render', () => {
     const form = mount(

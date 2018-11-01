@@ -53,7 +53,7 @@ import {
   vaEmployee,
   summaryOfEvidence,
   fullyDevelopedClaim,
-  newUnemploymentFollowUp,
+  unemployabilityStatus,
   unemployabilityFormIntro,
 } from '../pages';
 
@@ -243,11 +243,11 @@ const formConfig = {
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
         },
-        newUnemployabilityFollowUp: {
-          title: 'Unemployability Choice',
+        unemployabilityStatus: {
+          title: 'Unemployability Status',
           path: 'new-disabilities/unemployability-status',
-          uiSchema: newUnemploymentFollowUp.uiSchema,
-          schema: newUnemploymentFollowUp.schema,
+          uiSchema: unemployabilityStatus.uiSchema,
+          schema: unemployabilityStatus.schema,
         },
         unemployabilityFormIntro: {
           title: 'File a Claim for Individual Unemployability',
