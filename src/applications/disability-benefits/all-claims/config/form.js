@@ -53,6 +53,7 @@ import {
   vaEmployee,
   summaryOfEvidence,
   fullyDevelopedClaim,
+  newUnemploymentFollowUp,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -240,6 +241,12 @@ const formConfig = {
             isUploadingPtsdForm(formData),
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
+        },
+        newUnemploymentFollowUp: {
+          title: 'File a Claim for Individual Unemployability',
+          path: 'new-disabilities/unemployment-status',
+          uiSchema: newUnemploymentFollowUp.uiSchema,
+          schema: newUnemploymentFollowUp.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
