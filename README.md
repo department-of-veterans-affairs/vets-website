@@ -3,7 +3,7 @@
 ## What is this?
 
 This is the combined frontend repository for www.vets.gov. With this repository, it is possible to
-build all of the client-side (ie, anything that gets downloaded to the browser) code for
+build all of the client-side (i.e., anything that gets downloaded to the browser) code for
 www.vets.gov with the exception of some high sensitivity endpoints that require server side
 interaction such as login.
 
@@ -15,6 +15,7 @@ very secret.
 | I want to...                             | Then you should...                       |
 | ---------------------------------------- | ---------------------------------------- |
 | clone the site and install dependencies  | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, then follow the instructions below to install node, npm and yarn if needed. Finally, run `yarn install` to fetch all the dependencies. Run `yarn install` anytime `package.json` changes. |
+| fetch all dependencies                   | `yarn install`; run this any time `package.json` changes |
 | Use the git hooks provided               | You can either copy the hooks as-is right now with `cp hooks/* .git/hooks` or make sure your git hooks by using a symbolic link to the hooks distributed with vets-website with `rm -rf .git/hooks && ln -s ../hooks .git/hooks`. On Linux, you may have to do `ln -rs` instead of just `-s`. |
 | deploy the site                          | merge to master for `dev.vets.gov` and `staging.vets.gov`. Production deploys are executed by creating a release of vets-website via Jenkins. |
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
@@ -24,7 +25,7 @@ very secret.
 | build the site with optimizitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
 | reset local environment (clean out node modules and runs npm install) | `npm run reset:env`                      |
 | run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
-| run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,static-pages`. Valid application names are in `config/webpack.config.js` |
+| run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName` |
 | run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry static-pages` |
 | run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0 --public 198.162.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all tests | `npm run test` |

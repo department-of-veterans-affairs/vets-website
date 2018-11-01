@@ -65,13 +65,16 @@
     }
   }
 
-  #helpmenu {
+  .va-helpmenu-contents {
+    > p {
+      line-height: 1.2em;
+      margin-bottom: 0.8em;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
     a {
       text-decoration: none;
-    }
-
-    p {
-      margin-top: 1em;
     }
   }
 
@@ -113,75 +116,24 @@
     padding-bottom: 3em;
   }
 
-  #homepage-hub {
-
-    @include linear-gradient-background($color-old-browser-background-start, $color-old-browser-background-end);
-
-    padding-top: 3em;
-
-    #hub-internal {
-
-      width: 64%;
-
-      h2 {
-        color: $color-white;
-        text-align: center;
-        margin-bottom: 1.5em;
-      }
-
-      .usa-grid:first-of-type {
-        margin-bottom: 1.5rem;
-      }
-
-      ul {
-        list-style: none;
-        padding-left: 1rem;
-      }
-
-      .usa-width-one-half {
-        background-color: $color-white;
-        padding: 1.5em 0 2.125em 1.5em;
-
-        li {
-          padding: 0;
-        }
-      }
-    }
-  }
-
-  #hub-internal {
-    .header-title-1 {
-      font-size: 35px;
-    }
-     .header-title-2 {
-      font-size: 20px;
-    }
-  }
-
   h3, h4 {
     .fa {
       padding-right: .35em;
     }
   }
 
-
   .merger-majorlinks {
-
-    .link {
-
-      margin-bottom: 1em;
-
-      p {
+     .link {
+       margin-bottom: 1em;
+       p {
         margin: 0;
       }
-
-      a {
+       a {
         text-decoration: none;
         padding-bottom: 0;
       }
     }
-
-  }
+   }
 
   .va-nav-breadcrumbs-list {
     padding-left: 0;
@@ -202,6 +154,9 @@
       .hub-main-icon {
         vertical-align: top;
         margin-top: 8px;
+        > .icon-large {
+          margin-right: 10px;
+        }
       }
     }
   }
@@ -325,31 +280,6 @@
       }
     }
 
-    #homepage-hub {
-
-      padding-top: 1.5em;
-
-      #hub-internal {
-
-        width: 100%;
-
-        h2 {
-          margin-bottom: 1em;
-        }
-
-        .usa-grid {
-          &:first-of-type {
-            margin-bottom: 0;
-          }
-
-          .usa-width-one-half {
-            margin-bottom: .55em;
-          }
-        }
-      }
-    }
-
-    #hub-internal,
     #homepage-benefits,
     #homepage-news,
     .va-h-ruled--stars,
@@ -441,23 +371,6 @@
       padding-left: 1em;
       padding-right: 1em;
     }
-
-    #homepage-hub {
-
-      #hub-internal {
-        width: 85%;
-        .usa-grid {
-          .usa-width-one-half {
-            margin-right: 2.35765%;
-          }
-        }
-      }
-    }
-  }
-
-  #preview-site-alert {
-    color: $color-black;
-    position: relative;
   }
 
   // TD: need to update this on formation in the MegaMenu. If no title it should still align with the link row.
@@ -504,8 +417,19 @@
 
   // TODO: add this into formation
   .va-sidebarnav {
+    ul.usa-accordion {
+      > li {
+        margin-bottom: -1px;
+      }
+    }
     .left-side-nav-title {
       padding-bottom: 25px;
+      > .icon-small {
+        vertical-align: middle;
+        padding-left: initial;
+        margin-right: 5px;
+        font-size: 1.7rem;
+      }
     }
 
     .usa-sidenav-list {
@@ -585,42 +509,6 @@
         background-color: $mm-gray;
       }
     }
-    .fa {
-      position: relative;
-      border-radius: 50%;
-
-      &.icon-small {
-        vertical-align: middle;
-        padding-left: initial;
-        height: 32px;
-        width: 32px;
-        margin-right: 5px;
-
-        &::before {
-          position: absolute;
-          margin-top: 6.5px;
-          margin-left: 8.47px;
-        }
-      }
-      &.fa-handshake {
-        &.icon-small {
-          &::before {
-          margin-top: 7.5px;
-          margin-left: 7px;
-
-          }
-        }
-      }
-
-      &.fa-medkit {
-        &.icon-small {
-          &::before {
-            margin-top: 6px;
-            margin-left: 8px;
-          }
-        }
-      }
-    }
 
     h4 {
       display: inline-block;
@@ -693,7 +581,7 @@
       position: fixed;
       top: 0;
       width: 100%;
-      z-index: 2;
+      z-index: $top-layer;
     }
 
     svg {
@@ -776,11 +664,6 @@
   }
 
 
-  .usa-accordion {
-    & > li {
-      margin-bottom: -1px;
-    }
-  }
   .usa-accordion-bordered {
 
     &.social {
@@ -793,11 +676,15 @@
           margin-top: 0px;
         }
 
-        section:last-child {
+        > section {
+          margin-bottom: 1.5em;
+        }
+
+        > section:last-child {
           margin-bottom: 0px;
         }
 
-        > section, > h4 {
+        > h4 {
           margin: 1.5em auto;
         }
 
@@ -863,10 +750,15 @@
 
   .sign-in-link {
     margin: 0;
+
     @include media($medium-large-screen) {
       &:hover, &:active {
-        background-color: $color-primary;
+        background-color: $color-primary-darker;
         color: inherit !important;
+        text-decoration: none;
+      }
+      &:focus {
+        outline-offset: 2px;
       }
     }
     // This is backwards from the mobile first approach we should be taking
@@ -923,4 +815,18 @@ img[data-srcset] {
 
 .profile-nav {
   margin-top: 6px;
+}
+
+.external-link-icon-black {
+  background-image: url(/img/icons/exit-icon.png);
+  background-position: 100% 50%;
+  background-repeat: no-repeat;
+  background-size: 1em auto;
+  padding-right: 1.2em;
+  position: relative;
+}
+.usa-alert {
+  .top-of-page {
+    margin-top: 0;
+  }
 }

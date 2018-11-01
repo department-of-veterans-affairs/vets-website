@@ -92,7 +92,7 @@ export class CallToActionWidget extends React.Component {
         ),
         buttonText: 'Sign In or Create an Account',
         buttonHandler: this.openLoginModal,
-        status: 'info',
+        status: 'continue',
       };
     }
 
@@ -110,7 +110,7 @@ export class CallToActionWidget extends React.Component {
         ),
         buttonText: 'Verify Your Identity',
         buttonHandler: verify,
-        status: 'warning',
+        status: 'continue',
       };
     }
 
@@ -132,6 +132,7 @@ export class CallToActionWidget extends React.Component {
         ),
         buttonText: 'Go to My HealtheVet',
         buttonHandler: this.goToTool,
+        status: 'info',
       };
     }
 
@@ -181,7 +182,7 @@ export class CallToActionWidget extends React.Component {
           ),
           buttonText: 'Verify Your Identity',
           buttonHandler: verify,
-          status: 'warning',
+          status: 'continue',
         };
 
       case 'needs_ssn_resolution':
@@ -199,12 +200,14 @@ export class CallToActionWidget extends React.Component {
               </p>
               <h5>What you can do</h5>
               <p>
-                If you feel you’ve entered your information correctly, please
-                call the VA.gov Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>
-                ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                (ET).
+                If you feel you’ve entered your information correctly, please{' '}
+                <CallHelpDesk>
+                  call the VA.gov Help Desk at{' '}
+                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
+                  <a href="tel:18008778339">1-800-877-8339</a>
+                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
+                  (ET).
+                </CallHelpDesk>
               </p>
             </div>
           ),
@@ -222,12 +225,14 @@ export class CallToActionWidget extends React.Component {
               </p>
               <h5>What you can do</h5>
               <p>
-                If you feel you’ve entered your information correctly, please
-                call the VA.gov Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>
-                ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                (ET).
+                If you feel you’ve entered your information correctly, please{' '}
+                <CallHelpDesk>
+                  call the VA.gov Help Desk at{' '}
+                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
+                  <a href="tel:18008778339">1-800-877-8339</a>
+                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
+                  (ET).
+                </CallHelpDesk>
               </p>
             </div>
           ),
@@ -242,11 +247,14 @@ export class CallToActionWidget extends React.Component {
               <p>We’re sorry. We found more than one active account for you.</p>
               <h5>What you can do</h5>
               <p>
-                Please call the VA.gov Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>
-                ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                (ET).
+                Please{' '}
+                <CallHelpDesk>
+                  call the VA.gov Help Desk at{' '}
+                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
+                  <a href="tel:18008778339">1-800-877-8339</a>
+                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
+                  (ET).
+                </CallHelpDesk>
               </p>
             </div>
           ),
@@ -263,7 +271,7 @@ export class CallToActionWidget extends React.Component {
        *     heading: `You’ll need to create a My HealtheVet account before you can ${this._serviceDescription`,
        *     buttonText: 'Create a My HealtheVet Account',
        *     buttonHandler: this.props.createAndUpgradeMHVAccount,
-       *     status: 'warning'
+       *     status: 'continue'
        *   };
 
        * case 'existing':
@@ -272,7 +280,7 @@ export class CallToActionWidget extends React.Component {
        *     heading: `You’ll need to upgrade your account before you can ${this._serviceDescription}`,
        *     buttonText: 'Upgrade Your Account',
        *     buttonHandler: this.props.upgradeMHVAccount,
-       *     status: 'warning'
+       *     status: 'continue'
        *   };
        */
 
@@ -286,11 +294,14 @@ export class CallToActionWidget extends React.Component {
                 VA.gov health tools right now.
               </p>
               <p>
-                You can try again later or call the VA.gov Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>
-                ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                (ET).
+                You can try again later or{' '}
+                <CallHelpDesk>
+                  call the VA.gov Help Desk at{' '}
+                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
+                  <a href="tel:18008778339">1-800-877-8339</a>
+                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
+                  (ET).
+                </CallHelpDesk>
               </p>
             </div>
           ),
@@ -309,12 +320,14 @@ export class CallToActionWidget extends React.Component {
               </p>
               <h5>What you can do</h5>
               <p>
-                If you feel you’ve entered your information correctly, please
-                call the VA.gov Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>
-                ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                (ET).
+                If you feel you’ve entered your information correctly, please{' '}
+                <CallHelpDesk>
+                  call the VA.gov Help Desk at{' '}
+                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
+                  <a href="tel:18008778339">1-800-877-8339</a>
+                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
+                  (ET).
+                </CallHelpDesk>
               </p>
             </div>
           ),
@@ -348,7 +361,7 @@ export class CallToActionWidget extends React.Component {
           accountState === 'needs_terms_acceptance'
             ? redirectToTermsAndConditions
             : this.props.createAndUpgradeMHVAccount,
-        status: 'warning',
+        status: 'continue',
       };
     }
 
@@ -361,7 +374,7 @@ export class CallToActionWidget extends React.Component {
         accountState === 'needs_terms_acceptance'
           ? redirectToTermsAndConditions
           : this.props.upgradeMHVAccount,
-      status: 'warning',
+      status: 'continue',
     };
   };
 

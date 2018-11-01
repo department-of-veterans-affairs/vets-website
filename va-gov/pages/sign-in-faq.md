@@ -17,13 +17,13 @@ aliases:
             <div class="small-12 columns">
               <div itemprop="description">
                 <p>
-                  Get answers to common questions about signing in to VA.gov (a VA website) to manage your benefits and services online. Find out how to sign in with your existing <strong>My HealtheVet</strong> or <strong>DS Logon</strong> account—or how to use ID.me to create your account.
+                  Get answers to common questions about signing in to VA.gov to manage your benefits and services online. Find out how to sign in with your existing <strong>My HealtheVet</strong> or <strong>DS Logon</strong> account—or how to use ID.me to create your account.
                 </p>
               </div>
               <div class="feature">
                 <h4>Need help?</h4>
                 <p>
-                  Call MyVA311 for help: <a href="tel:+18446982311">1-844-698-2311</a>. If you have hearing loss, call TTY: 711.               
+                  Call MyVA311 for help: <a href="tel:+18446982311">1-844-698-2311</a>. If you have hearing loss, call TTY: 711.
                 </p>
               </div>
             </div>
@@ -31,8 +31,7 @@ aliases:
           <div class="row">
             <div class="small-12 columns">
               <h4>Signing in to VA.gov</h4>
-              <div class="usa-accordion" aria-multiselectable="true">
-                <ul class="usa-unstyled-list">
+              <ul class="usa-accordion" aria-multiselectable="true">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-vetsgov-0" itemprop="name">How do I sign in to VA.gov? </button>
                     <div id="faq-vetsgov-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
@@ -43,7 +42,7 @@ aliases:
                           <li>With your existing <strong>DS Logon</strong> account, <strong>or</strong></li>
                           <li>By creating an account through ID.me (a trusted partner)</li>
                         </ul>
-                        <p><strong>Note:</strong> If you have a premium <strong>My HealtheVet</strong> or premium <strong>DS Logon</strong> account, using it to sign in is the easiest way to get access to all VA.gov tools. Because you already verified your identity when you got your premium account, you won’t need to verify your identity again before doing common tasks on VA.gov, like checking your claims status or sending a secure message to your health care team.</p>
+                        <p><strong>Note:</strong> If you have a Premium <strong>My HealtheVet</strong> or Premium <strong>DS Logon</strong> account, using it to sign in is the easiest way to get access to all VA.gov tools. Because you already verified your identity when you got your premium account, you won’t need to verify your identity again before doing common tasks on VA.gov, like checking your claims status or sending a secure message to your health care team.</p>
                         <p><a href="/sign-in-faq/" class="login-required">Sign in now</a>.</p>
                       </div>
                     </div>
@@ -52,16 +51,16 @@ aliases:
                 <br/>
                 <a name="verifying-your-identity"></a>
                 <h4>Verifying your identity on VA.gov</h4>
-                <ul class="usa-unstyled-list">
+                <ul class="usa-accordion">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-verify-0" itemprop="name">How do I verify my identity online? </button>
                     <div id="faq-verify-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <h4>Fastest way to verify your identity online</h4>
-                        <p>If you have a premium <strong>My HealtheVet</strong> or premium <strong>DS Logon</strong> account, you can use your existing account to sign in. Because you already verified your identity when you got your premium account, you won’t need to verify your identity again before doing common tasks on VA.gov, like checking your claims status or sending a secure message to your health care team.</p>
+                        <p>If you have a Premium <strong>My HealtheVet</strong> or Premium <strong>DS Logon</strong> account, you can use your existing account to sign in. Because you already verified your identity when you got your premium account, you won’t need to verify your identity again before doing common tasks on VA.gov, like checking your claims status or sending a secure message to your health care team.</p>
                         <p><a href="/sign-in-faq/" class="login-required">Sign in now</a>.</p>
                         <h4>How to verify your identity online if you don’t have an existing premium account</h4>
-                        <p>If you don’t have a premium <strong>My HealtheVet</strong> or premium <strong>DS Logon</strong> account, we’ll help you verify your identity using ID.me—a trusted partner that provides the strongest identity verification system available to prevent fraud and identity theft.</p>
+                        <p>If you don’t have a Premium <strong>My HealtheVet</strong> or Premium <strong>DS Logon</strong> account, we’ll help you verify your identity using ID.me—a trusted partner that provides the strongest identity verification system available to prevent fraud and identity theft.</p>
                         <p><strong>To go through the ID.me identity-proofing process, you’ll need:</strong></p>
                         <ul>
                           <li>A smartphone (or a landline or mobile phone and a computer with an Internet connection), <strong>and</strong></li>
@@ -82,7 +81,7 @@ aliases:
                       <div itemprop="text">
                         <p>Yes. You can verify your identity in person at your nearest VA regional office. If you’re a VA patient, you can also verify your identity in person at your local VA health care facility.</p>
                         <h4>Verifying your identity in person at a VA regional office</h4>
-                        <p>You can verify your identity at your nearest VA regional office as part of the process of getting a premium <strong>DS Logon</strong> account. You can then use this account to sign in to VA.gov without having to verify your identity online.</p>
+                        <p>You can verify your identity at your nearest VA regional office as part of the process of getting a Premium <strong>DS Logon</strong> account. You can then use this account to sign in to VA.gov without having to verify your identity online.</p>
                         <p><strong>You’ll need to:</strong></p>
                         <ul>
                           <li>Bring 2 forms of ID that meet the requirements of the U.S. Citizenship and Immigration Services Form I-9. Accepted forms of ID include an unexpired U.S. passport and a current driver’s license.<br/>
@@ -93,7 +92,7 @@ aliases:
                         <p><a href="/facilities/">Find a VA regional office near you</a>.</p>
                         <p><a href="https://myaccess.dmdc.osd.mil/identitymanagement/consent?continueToUrl=%2Fidentitymanagement%2Fauthenticate.do%3Fexecution%3De4s1">Visit the DS Logon self-service website</a>.
                         <h4>Verifying your identity in person if you’re a VA patient</h4>
-                        <p>If you’re a VA patient, you can verify your identity at your local VA health care facility as part of the process of getting a premium <strong>My HealtheVet</strong> account. You can then use this account to sign in to VA.gov without having to verify your identity online.</p>
+                        <p>If you’re a VA patient, you can verify your identity at your local VA health care facility as part of the process of getting a Premium <strong>My HealtheVet</strong> account. You can then use this account to sign in to VA.gov without having to verify your identity online.</p>
                         <p><strong>You’ll need to bring:</strong></p>
                         <ul>
                           <li><strong>An Individuals’ Request for a Copy of Their Own Health Information (VA Form 10-5345a-MHV).</strong> You can download a PDF copy of this “VA release of information” form now, call ahead to ask the staff to mail you a form, or ask for a form when you get there.<br/>
@@ -110,7 +109,7 @@ aliases:
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-verify-2" itemprop="name">Can I verify my identity by phone? </button>
                     <div id="faq-verify-2" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>If you can’t verify your identity online or get to a VA regional office to do it in person, you may be able to verify your identity by phone as part of the process of getting a premium <strong>DS Logon</strong> account. You can then use this account to sign in to VA.gov without having to verify your identity online.</p>
+                        <p>If you can’t verify your identity online or get to a VA regional office to do it in person, you may be able to verify your identity by phone as part of the process of getting a Premium <strong>DS Logon</strong> account. You can then use this account to sign in to VA.gov without having to verify your identity online.</p>
                         <p>You can only use this method to verify your identity if you’ve received a VA direct deposit payment by Electronic Fund Transfer (EFT), like a disability compensation or pension payment.</p>
                         <p>To get started, call us at <a href="tel:+1phonenumber">1-800-827-1000</a>. When you’re prompted to give a reason for your call, say, “eBenefits.”</p>
                         <p><strong>You’ll need to have this information ready:</strong></p>
@@ -127,14 +126,14 @@ aliases:
                 </ul>
                 <br/>
                 <h4>Common issues with verifying identity</h4>
-                <ul class="usa-unstyled-list">
+                <ul class="usa-accordion">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-trouble-0" itemprop="name">If I can’t or don’t want to verify my identity through ID.me, what are my other options? </button>
                     <div id="faq-trouble-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
-                        <p>You can use a premium <strong>My HealtheVet</strong> or premium <strong>DS Logon</strong> account to sign in to VA.gov with a verified account. Because you already verified your identity when you got your premium account, you won’t need to verify your identity again on VA.gov.</p>
-                        <h4>How to get a premium DS Logon account</h4>
-                        <p>Follow these 2 steps to sign up for a premium <strong>DS Logon</strong> account.</p>
+                        <p>You can use a Premium <strong>My HealtheVet</strong> or Premium <strong>DS Logon</strong> account to sign in to VA.gov with a verified account. Because you already verified your identity when you got your premium account, you won’t need to verify your identity again on VA.gov.</p>
+                        <h4>How to get a Premium DS Logon account</h4>
+                        <p>Follow these 2 steps to sign up for a Premium <strong>DS Logon</strong> account.</p>
                         <p><strong>1. First, make sure you’re enrolled in the Defense Enrollment Eligibility Reporting System (DEERS).</strong> This is the database that records all the people who are eligible for military benefits.</p>
                         <ul>
                           <li><strong>If you’re a Veteran or Servicemember or qualified family caregiver, survivor, or dependent of a Veteran or Servicemember who served after 1982,</strong> you should already be enrolled in DEERS.</li>
@@ -150,15 +149,15 @@ aliases:
                         </ul>
                            <p>The registration tool will walk you through the sign-up process for your account and will prompt you to upgrade to a premium account through an online proofing process. Through this process, you’ll be asked a series of questions to prove you’re you—and not someone pretending to be you—to help protect the personal information you’ll have access to with a premium account.</p>
                            <p><a href="https://myaccess.dmdc.osd.mil/">Go to the DS Logon self-service website</a>.</p>
-                        <p><strong>Note:</strong> If you’d rather verify your identity and upgrade to a premium <strong>DS Logon</strong> account in person or by phone, read the instructions in the section above on verifying your identity.</p>
-                        <h4>How to get a premium My HealtheVet account if you’re a VA patient</h4>
-                        <p>Follow these 2 steps to sign up for a premium <strong>My HealtheVet</strong> account.</p>
+                        <p><strong>Note:</strong> If you’d rather verify your identity and upgrade to a Premium <strong>DS Logon</strong> account in person or by phone, read the instructions in the section above on verifying your identity.</p>
+                        <h4>How to get a Premium My HealtheVet account if you’re a VA patient</h4>
+                        <p>Follow these 2 steps to sign up for a Premium <strong>My HealtheVet</strong> account.</p>
                         <p><strong>1. First, sign up for an account on the My HealtheVet website.</strong> You’ll need to have your Social Security number on hand. Be sure to choose <strong>VA Patient</strong> on the registration form. This will automatically upgrade your account to an advanced account, and then you can upgrade to a premium account.</p>
                         <p><a href="https://www.myhealth.va.gov/mhv-portal-web/user-registration/">Sign up for a My HealtheVet account</a>.</p>
-                        <p><strong>Note:</strong> If you have a premium <strong>DS Logon</strong> or ID.me account, you can skip step 1 above, and go right to step 2 to sign in to <strong>My HealtheVet</strong> with either of these accounts.
+                        <p><strong>Note:</strong> If you have a Premium <strong>DS Logon</strong> or ID.me account, you can skip step 1 above, and go right to step 2 to sign in to <strong>My HealtheVet</strong> with either of these accounts.
                         <p><strong>2. Then, upgrade to a premium account.</strong></p>
                         <p>You can do this in 1 of 2 ways.</p>
-                        <h5>Upgrade your acount using your premium DS Logon or ID.me user ID and password</h5>
+                        <h5>Upgrade your account using your Premium <strong>DS Logon</strong> or ID.me user ID and password</h5>
                         <p>To do this, sign in to <strong>My HealtheVet</strong> using your premium <strong>DS Logon</strong> or ID.me user ID and password.</p>
                         <p>Once signed in, select the <strong>Upgrade Now</strong> button at the top left side of the screen. Then, on the account upgrade page, check the box certifying that you’re the owner of the account and approve the request, and click <strong>Continue</strong>.</p>
                         <p>The system will upgrade you to a premium account.</p>
@@ -240,7 +239,7 @@ aliases:
                     <div id="faq-trouble-5" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p><strong>You can try using your driver’s license or passport to verify your identity.</strong> Be sure to follow the image guidelines provided when you upload a copy of your driver’s license or passport.</p>
-                        <p><strong>Note:</strong> If you have a premium <strong>My HealtheVet</strong> or premium <strong>DS Logon</strong> account, you can sign in using those credentials and you won’t need to verify your identity. If you don’t have an existing premium account, you can find out how to get one by reading the question above about other options for verifying your identity.</p>
+                        <p><strong>Note:</strong> If you have a Premium <strong>My HealtheVet</strong> or Premium <strong>DS Logon</strong> account, you can sign in using those credentials and you won’t need to verify your identity. If you don’t have an existing premium account, you can find out how to get one by reading the question above about other options for verifying your identity.</p>
                       </div>
                     </div>
                   </li>
@@ -251,8 +250,8 @@ aliases:
                         <p>It depends on how you sign in to VA.gov.</p>
                         <ul>
                           <li><strong>If you set up a verified VA.gov account through ID.me,</strong> you need to set up 2-factor authentication. Authentication gives you an extra layer of security by letting you into your account only after you’ve signed in with a password and a 6-digit code sent directly to your mobile or home phone. This helps to make sure that no one but you can access your account—even if they get your password.</li>
-                          <li><strong>If you sign in to VA.gov using your existing premium My HealtheVet or premium DS Logon account,</strong> setting up 2-factor authentication is optional. You can set it up during the sign-in process or any time from your VA.gov profile page.</li>
-                          <li><strong>If you sign in to VA.gov using your existing basic or advanced My HealtheVet or basic DS Logon account and don’t want to verify your identity,</strong> you don’t need to add 2-factor authentication. But you won’t be able to use the site’s tools that require you to verify your identity and do common tasks, like checking your claims status or sending a secure message to your health care team.</li>
+                          <li><strong>If you sign in to VA.gov using your existing Premium My HealtheVet or Premium DS Logon account,</strong> setting up 2-factor authentication is optional. You can set it up during the sign-in process or any time from your VA.gov profile page.</li>
+                          <li><strong>If you sign in to VA.gov using your existing basic or Advanced My HealtheVet or basic DS Logon account and don’t want to verify your identity,</strong> you don’t need to add 2-factor authentication. But you won’t be able to use the site’s tools that require you to verify your identity and do common tasks, like checking your claims status or sending a secure message to your health care team.</li>
                       </div>
                     </div>
                   </li>
@@ -261,14 +260,14 @@ aliases:
                 <a name="why-verify"></a>
                 <a name="what-is-idme"></a>
                 <h4>Privacy and security on VA.gov</h4>
-                <ul class="usa-unstyled-list">
+                <ul class="usa-accordion">
                   <li markdown="1" itemscope itemtype="http://schema.org/Question">
                     <button class="usa-button-unstyled usa-accordion-button" aria-controls="faq-security-0" itemprop="name">Why should I trust VA.gov? </button>
                     <div id="faq-security-0" class="usa-accordion-content" itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
                       <div itemprop="text">
                         <p>VA.gov is an official, secure VA government website, built and maintained by U.S. Department of Veterans Affairs employees and contractors under the direction of the VA Office of the Secretary. As with all VA websites, we follow strict security policies and practices to make sure that your personal information is safe and protected.</p>
                         <p>When you sign in to VA.gov, we’ll protect your personal information by using the strongest identity verification system available to prevent fraud and identity theft. We’ll also give you the option to set up an extra layer of security (called 2-factor authentication) on your account. This helps to make sure that no one but you can access your account—even if they get your password.</p>
-                        <p>We’ve built VA.gov to help you better access our agency’s vast digital system—so you can easily find, apply for, track, and manage the benefits and services you’ve earned. We test all site content and tools with Veterans and make changes based on their feedback.</p>                    
+                        <p>We’ve built VA.gov to help you better access our agency’s vast digital system—so you can easily find, apply for, track, and manage the benefits and services you’ve earned. We test all site content and tools with Veterans and make changes based on their feedback.
                       </div>
                     </div>
                   </li>
@@ -309,12 +308,11 @@ aliases:
                       <div itemprop="text">
                         <p>This code is part of the 2-factor authentication process.</p>
                         <p>When you set up a verified VA.gov account through ID.me, you need to set up 2-factor authentication. Authentication gives you an extra layer of security by letting you into your account only after you’ve signed in with a password and a 6-digit code sent directly to your mobile or home phone. This helps to make sure that no one but you can access your account—even if they get your password.<p>
-                        <p>If you sign in to VA.gov using your existing basic or advanced <strong>My HealtheVet</strong> or basic <strong>DS Logon</strong> account and don’t want to verify your identity, or if you sign in using your existing premium <strong>My HealtheVet</strong> or premium <strong>DS Logon</strong> account, setting up 2-factor authentication is optional. You can set it up during the sign-in process or any time from your VA.gov profile page.<p>
+                        <p>If you sign in to VA.gov using your existing basic or Advanced <strong>My HealtheVet</strong> or basic <strong>DS Logon</strong> account and don’t want to verify your identity, or if you sign in using your existing Premium <strong>My Health <em>e</em>Vet</strong> or Premium <strong>DS Logon</strong> account, setting up 2-factor authentication is optional. You can set it up during the sign-in process or any time from your VA.gov profile page.<p>
                       </div>
                     </div>
                   </li>
-                 </ul>
-              </div>
+               </ul>
             </div>
           </div>
         </div>

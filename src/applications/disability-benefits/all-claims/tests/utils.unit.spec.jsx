@@ -11,7 +11,11 @@ import {
   transformDisabilities,
   queryForFacilities,
   hasOtherEvidence,
+  fieldsHaveInput,
   servedAfter911,
+  needsToEnter781,
+  needsToEnter781a,
+  isUploadingPtsdForm,
 } from '../utils.jsx';
 
 import initialData from './initialData';
@@ -264,6 +268,34 @@ describe('526 helpers', () => {
     });
   });
 
+  describe('fieldsHaveInput', () => {
+    it('should return false when empty array given', () => {
+      expect(fieldsHaveInput({ test: '123' }, [])).to.be.false;
+    });
+
+    it('should return false when empty formData given', () => {
+      expect(fieldsHaveInput({}, ['someField'])).to.be.false;
+    });
+
+    it('should return false property does not exist', () => {
+      expect(fieldsHaveInput({ test: '123' }, ['someField'])).to.be.false;
+    });
+
+    it('should return false when property is empty', () => {
+      expect(fieldsHaveInput({ test: null }, ['test'])).to.be.false;
+      expect(fieldsHaveInput({ test: '' }, ['test'])).to.be.false;
+    });
+
+    it('should return true when property is not empty', () => {
+      expect(fieldsHaveInput({ test: 'hi!' }, ['test'])).to.be.true;
+    });
+
+    it('should return true when some properties empty and some not', () => {
+      const testPaths = ['test0', 'test2', 'test4'];
+      expect(fieldsHaveInput({ test2: 'hi!' }, testPaths)).to.be.true;
+    });
+  });
+
   describe('servedAfter911', () => {
     it('should return false if no serviceInformation', () => {
       expect(servedAfter911({})).to.be.false;
@@ -337,6 +369,70 @@ describe('526 helpers', () => {
         },
       };
       expect(servedAfter911(formData)).to.be.true;
+    });
+  });
+
+  describe('needsToEnter781', () => {
+    it('should return true if user has selected Combat PTSD types', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:combatPtsdType': true,
+        },
+      };
+      expect(needsToEnter781(formData)).to.be.true;
+    });
+
+    it('should return true if user has selected Non-combat PTSD types', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:noncombatPtsdType': true,
+        },
+      };
+      expect(needsToEnter781(formData)).to.be.true;
+    });
+
+    it('should return false if user has not selected Combat or Non-Combat PTSD types', () => {
+      const formData = {};
+      expect(needsToEnter781({ formData })).to.be.false;
+    });
+  });
+
+  describe('needsToEnter781a', () => {
+    it('should return true if user has selected MST PTSD types', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:mstPtsdType': true,
+        },
+      };
+      expect(needsToEnter781a(formData)).to.be.true;
+    });
+
+    it('should return true if user has selected Assault PTSD types', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:assaultPtsdType': true,
+        },
+      };
+      expect(needsToEnter781a(formData)).to.be.true;
+    });
+
+    it('should return false if user has not selected Assault or MST PTSD types', () => {
+      const formData = {};
+      expect(needsToEnter781a({ formData })).to.be.false;
+    });
+  });
+
+  describe('isUploadingPtsdForm', () => {
+    it('should return true if user has chosen to upload documents', () => {
+      const formData = {
+        'view:uploadPtsdChoice': 'upload',
+      };
+      expect(isUploadingPtsdForm(formData)).to.be.true;
+    });
+
+    it('should return false if user has not chosen to upload documents', () => {
+      const formData = {};
+      expect(needsToEnter781({ formData })).to.be.false;
     });
   });
 });

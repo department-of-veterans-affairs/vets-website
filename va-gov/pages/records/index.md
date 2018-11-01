@@ -6,21 +6,21 @@ display_title: Records
 concurrence: complete
 lastupdate:
 order: 1
-icon: icon-large white fa fa-id-card hub-background-records
+hub: records
 promo:
   - image: /img/megamenu/records-illustration.png
     heading: Confirm Your VA Benefit Status
     url: "/records/download-va-letters/"
     description: Download letters like your eligibility or award letter for certain benefits.
 social:
-  - heading: Connect with Us
-    admin: All VA Organizations
-    url: https://va.gov/landing_organizations.htm
+  - heading: Ask Questions
     subsections:
-      - subhead: Ask Questions
+      - subhead: Message Us
         links:
         - url: https://iris.custhelp.va.gov/app/ask
-          label: "Ask a Question Online"
+          label: "Ask a question online"
+      - subhead: Call Us
+        links:
         - url: tel:1-800-827-1000
           number: 1-800-827-1000
           title: "VA Benefits Hotline:"
@@ -30,12 +30,23 @@ social:
         - url: tel:1-800-983-0937
           number: 1-800-983-0937
           title: "eBenefits Technical Support:"
+        - url: tel:1-844-698-2311
+          number: 1-844-698-2311
+          title: "Call MyVA311 for Help:"
+        - url:
+          title: "If you have hearing loss, call TTY: 711."       
+  - heading: Connect with Us
+    admin: All VA Organizations
+    url: https://va.gov/landing_organizations.htm
+    subsections:
       - subhead: Get Updates
         links:
-        - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
-          label: Veterans Records Email Updates
-          external: true
-          icon: fa-envelope-square
+         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
+           label: Veterans Records Email Updates
+           external: true
+           icon: fa-envelope-square
+      - subhead: Follow Us  
+        links:
         - url: https://twitter.com/DeptVetAffairs/
           label: Veterans Affairs Twitter
           external: true
@@ -48,6 +59,7 @@ social:
           label: Veterans Affairs YouTube
           external: true
           icon: fa-youtube
+          
 ---
 
 <p class="va-introtext">

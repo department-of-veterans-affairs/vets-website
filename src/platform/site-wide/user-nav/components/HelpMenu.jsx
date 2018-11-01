@@ -17,23 +17,17 @@ class HelpMenu extends React.Component {
 
     if (isBrandConsolidationEnabled()) {
       dropDownContents = (
-        <div>
+        <div className="va-helpmenu-contents">
           <p>
             <a href={`${FACILITY_LOCATOR_URL}`}>Find a VA Location</a>
           </p>
           <p>
-            <a href="https://iris.custhelp.va.gov/app/ask ">
-              Submit a Help Request
-            </a>
+            <a href="https://iris.custhelp.va.gov/app/ask">Ask a Question</a>
           </p>
           <p>
-            <a href="https://iris.custhelp.va.gov ">Go to VA Help Center</a>
+            <a href="tel:18446982311">Call MyVA311: 1-844-698-2311</a>
           </p>
-          <p>
-            <a href="https://iris.custhelp.va.gov/app/answers/detail/a_id/1703 ">
-              Call Us{' '}
-            </a>
-          </p>
+          <p>TTY: 711</p>
         </div>
       );
     } else {

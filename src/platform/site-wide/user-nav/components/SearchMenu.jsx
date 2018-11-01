@@ -12,10 +12,9 @@ class SearchMenu extends React.Component {
     this.makeForm = this.makeForm.bind(this);
     this.toggleSearchForm = this.toggleSearchForm.bind(this);
     this.state = {
-      searchAction: isBrandConsolidationEnabled()
-        ? 'https://search.usa.gov/search'
-        : 'https://search.vets.gov/search',
+      searchAction: '/search/',
       searchAffiliate: isBrandConsolidationEnabled() ? 'va' : 'vets.gov_search',
+      userInput: '',
     };
   }
 
@@ -27,7 +26,17 @@ class SearchMenu extends React.Component {
     this.props.clickHandler();
   }
 
+  handleInputChange = e => {
+    this.setState({
+      userInput: e.target.value,
+    });
+  };
+
   makeForm() {
+    const validUserInput =
+      this.state.userInput &&
+      this.state.userInput.replace(/\s/g, '').length > 0;
+
     return (
       <form
         acceptCharset="UTF-8"
@@ -56,8 +65,9 @@ class SearchMenu extends React.Component {
             id="query"
             name="query"
             type="text"
+            onChange={this.handleInputChange}
           />
-          <button type="submit">
+          <button type="submit" disabled={!validUserInput}>
             <IconSearch color="#fff" />
             <span className="usa-sr-only">Search</span>
           </button>

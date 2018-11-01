@@ -73,18 +73,6 @@ Depending on the type of claim you file, you may gather supporting documents you
 </div>
 
 
-<div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">
-
-<h3 itemprop="name">How do I file?</h3>
-<div itemprop="itemListElement">
-
-You can file your claim right now.
-
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
-
-</div>
-</div>
-
 <div id="react-applicationStatus"></div>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">

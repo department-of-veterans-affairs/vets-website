@@ -6,7 +6,7 @@ display_title: Disability
 description: Find out if you're eligible for VA disability pay (compensation) for a service-connected disability. Learn about VA disability benefits, ratings, which conditions qualify, how to apply, and what to expect after you apply for Veterans disability.
 concurrence: complete
 lastupdate:
-icon: icon-large white fa fa-handshake-o hub-background-disability
+hub: disability
 aliases:
   - /disability-benefits/
 promo:
@@ -20,54 +20,66 @@ crosslinks:
     - url: /housing-assistance/disability-housing-grants/
       title: <b>Disability Housing Grants for Veterans</b>
       description: Find out how to apply for a housing grant as a Veteran or Servicemember with a service-connected disability.
-    - url:  https://www.benefits.va.gov/fiduciary/index.asp
+    - url: https://www.benefits.va.gov/fiduciary/index.asp
       title: <b>Fiduciary Services</b>
       description: Learn how to become a VA fiduciary to handle the financial affairs of a Veteran in need.
-    - url: "/health-care/about-va-health-benefits/long-term-care/"
+    - url: /health-care/about-va-health-benefits/long-term-care/
       title: <b>VA Nursing Homes, Assisted Living, and Home Health Care</b>
       description: Explore long-term care options for Veterans and their caregivers.
-    - url:  /careers-employment/vocational-rehabilitation/
+    - url: /careers-employment/vocational-rehabilitation/
       title: <b>Vocational Rehabilitation and Employment</b>
       description: Find out if you qualify for help exploring employment options, any training you may need, and other voc rehab services.
-    - url:  "/pension/aid-attendance-housebound/"
+    - url: /pension/aid-attendance-housebound/
       title: <b>Aid and Attendance Benefits and Housebound Allowance</b>
       description: See if you're eligible for extra monthly pension payments if you need more aid than you're currently receiving.
 social:
-  - heading: Connect with Us
-    admin: Veterans Benefits Administration
-    url: https://www.benefits.va.gov/benefits/
+  - heading: Ask Questions
     subsections:
-      - subhead: Ask Questions
+      - subhead: Message Us
         links:
         - url: https://iris.custhelp.va.gov/app/ask
-          label: "Ask a Question Online"
+          label: "Ask a question online"
+      - subhead: Call Us
+        links:
         - url: tel:1-800-827-1000
           number: 1-800-827-1000
           title: "VA Benefits Hotline:"
         - url: tel:1-800-983-0937
           number: 1-800-983-0937
           title: "eBenefits Technical Support:"
-        - url: tel:18774243838
-          number: 1-877-4AID-VET (1-877-424-3838)
-          title: "National Call Center for Homeless Veterans:"
+        - url: tel:1-844-698-2311
+          number: 1-844-698-2311
+          title: "Call MyVA311 for Help:"
+        - url:
+          title: "If you have hearing loss, call TTY: 711."
+  - heading: Connect with Us
+    admin: Veterans Benefits Administration
+    url: https://www.benefits.va.gov/benefits/
+    subsections:
       - subhead: Get Updates
         links:
         - url: https://public.govdelivery.com/accounts/USVAVBA/subscriber/new
           label: Veterans Benefits Email Updates
           external: true
-          icon: fa-envelope-square
+          icon: fa-envelope        
+      - subhead: Follow Us
+        links:      
         - url: https://twitter.com/VAVetBenefits
           label: Veterans Benefits Twitter
           external: true
           icon: fa-twitter
-        - url: "https://www.facebook.com/VeteransBenefits"
+        - url: https://www.facebook.com/VeteransBenefits
           label: Veterans Benefits Facebook
           external: true
           icon: fa-facebook
-        - url: "https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg"
+        - url: https://www.youtube.com/channel/UCANDE7C7UST9HOzvLVtN_yg
           label: Veterans Benefits YouTube
           external: true
           icon: fa-youtube
+        - url: "https://www.instagram.com/vabenefits/"
+          label: Veterans Benefits Instagram
+          icon: fa-instagram
+
 ---
 
 <p class="va-introtext">

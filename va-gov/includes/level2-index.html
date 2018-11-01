@@ -11,7 +11,7 @@ Used for index pages in top-level paths (e.g. /healthcare/index.html)
   <div class="usa-grid usa-grid-full">
     <article class="usa-width-two-thirds">
       <div class="inline hub-main-icon">
-        <i class="{{icon}}"></i>
+        <i class="icon-large white hub-icon-{{hub}} hub-background-{{hub}}"></i>
       </div>
       <div class="inline hub-main-title">
         <h1>
@@ -19,6 +19,11 @@ Used for index pages in top-level paths (e.g. /healthcare/index.html)
         </h1>
       </div>
       {{ contents }}
+
+      {% if hublinks != empty %}
+        {% include "va-gov/components/hub-page-link-list.html" %}
+      {% endif %}
+
 
       {% if crosslinks != empty %}
         {% include "va-gov/components/merger-crosslinks.html" %}

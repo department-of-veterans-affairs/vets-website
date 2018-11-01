@@ -193,6 +193,9 @@ const configGenerator = (options, apps) => {
           : `[name].[contenthash]-${timestamp}.css`,
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new ManifestPlugin({
+        fileName: 'file-manifest.json',
+      }),
     ],
   };
 
@@ -229,11 +232,6 @@ const configGenerator = (options, apps) => {
     );
 
     baseConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
-    baseConfig.plugins.push(
-      new ManifestPlugin({
-        fileName: 'file-manifest.json',
-      }),
-    );
     baseConfig.mode = 'production';
   } else {
     baseConfig.devtool = '#eval-source-map';
