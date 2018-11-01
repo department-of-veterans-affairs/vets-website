@@ -61,7 +61,7 @@ export default `
       <button data-show="#modal-crisisline" class="va-crisis-line va-overlay-trigger">
         <div class="va-crisis-line-inner">
           <span class="va-crisis-line-icon" aria-hidden="true"></span>
-          <span class="va-crisis-line-text">Talk to a Veterans Crisis Line responder now</span>
+          <span class="va-crisis-line-text">Talk to the <strong>Veterans Crisis Line</strong> now</span>
           <img class="va-crisis-line-arrow" src="${replaceWithStagingDomain(
             'https://www.va.gov/img/arrow-right-white.svg',
           )}" aria-hidden="true"></img>
