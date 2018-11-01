@@ -305,7 +305,9 @@ node('vetsgov-general-purpose') {
           runDeploy('deploys/vets-website-dev', commit)
         }
         runDeploy('deploys/vets-website-vagovdev', commit)
-      } else if (env.BRANCH_NAME == stagingBranch) {
+      }
+
+      if (env.BRANCH_NAME == stagingBranch) {
         if (!isCMSDeploy) {
           runDeploy('deploys/vets-website-staging', commit)
         }
