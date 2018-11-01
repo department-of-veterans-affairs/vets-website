@@ -17,8 +17,8 @@
     js-tokens "^4.0.0"
 
 "@department-of-veterans-affairs/formation@^1.10.3":
-  version "1.10.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-1.10.3.tgz#8f5032f570fc530f585782d744ef5227818db44a"
+  version "1.10.4"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-1.10.4.tgz#62a19c1d57624a4581a01b205efe62a175f50f19"
   dependencies:
     classnames "^2.2.5"
     font-awesome "4"
