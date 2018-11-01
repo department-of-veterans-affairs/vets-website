@@ -11,7 +11,7 @@ class ClaimsBreadcrumbs extends React.Component {
       <a href="/disability-benefits/" key="disability-benefits">
         Disability Benefits
       </a>,
-      <Link to="/" key="claims-home">
+      <Link to="your-claims" key="claims-home">
         Track Your Claims and Appeals
       </Link>,
     ];

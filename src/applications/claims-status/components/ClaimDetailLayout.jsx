@@ -7,7 +7,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import AddingDetails from '../components/AddingDetails';
 import Notification from '../components/Notification';
-import ClaimsBreadcrumbs from '../components/Breadcrumbs';
+import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
 import { isPopulatedClaim, getClaimType } from '../utils/helpers';
 
 const MAX_CONTENTIONS = 3;

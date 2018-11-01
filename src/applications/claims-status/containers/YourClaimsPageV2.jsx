@@ -33,7 +33,7 @@ import Pagination from '@department-of-veterans-affairs/formation/Pagination';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
-import ClaimsBreadcrumbs from '../components/Breadcrumbs';
+import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 
 import siteName from '../../../platform/brand-consolidation/site-name';
 

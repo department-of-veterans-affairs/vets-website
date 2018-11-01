@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import ClaimsBreadcrumbs from '../../components/Breadcrumbs';
+import ClaimsBreadcrumbs from '../../components/ClaimsBreadcrumbs';
 
 describe('<Breadcrumbs>', () => {
   it('should render first two items', () => {

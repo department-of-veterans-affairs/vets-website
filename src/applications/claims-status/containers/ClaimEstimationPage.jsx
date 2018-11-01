@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import AskVAQuestions from '../components/AskVAQuestions';
-import ClaimsBreadcrumbs from '../components/Breadcrumbs';
+import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { setUpPage } from '../utils/page';
 import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
 

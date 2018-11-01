@@ -10,7 +10,7 @@ class GiBillBreadcrumbs extends React.Component {
       query: { version },
       search,
     } = this.props.location;
-    const root = { pathname: '/', query: version ? { version } : {} };
+    const root = { pathname: '', query: version ? { version } : {} };
     const facilityCode = this.props.facilityCode;
 
     const crumbs = [
@@ -21,13 +21,13 @@ class GiBillBreadcrumbs extends React.Component {
         Education and Training
       </a>,
       <Link to={root} key="main">
-        GI Bill Comparison Tool
+        GI Bill® Comparison Tool
       </Link>,
     ];
 
     if (pathname.match(/search/)) {
       crumbs.push(
-        <Link to={`/search/${search}`} key="search-results">
+        <Link to={`search/${search}`} key="search-results">
           Search Results
         </Link>,
       );
@@ -42,7 +42,7 @@ class GiBillBreadcrumbs extends React.Component {
         );
       }
       crumbs.push(
-        <Link to={`/profile/${facilityCode}`} key="result-detail">
+        <Link to={`profile/${facilityCode}`} key="result-detail">
           School Details
         </Link>,
       );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import ClaimsBreadcrumbs from './Breadcrumbs';
+import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
 
 export default function AppealLayout({ children }) {
   return (
