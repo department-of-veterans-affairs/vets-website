@@ -12,7 +12,7 @@ export function fetchSearchResults(query, page) {
       method: 'GET',
     };
 
-    let queryString = `/search?query=${query}`;
+    let queryString = `/search?query=${encodeURIComponent(query)}`;
 
     if (page) {
       queryString = queryString.concat(`&page=${page}`);

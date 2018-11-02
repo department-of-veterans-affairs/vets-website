@@ -66,7 +66,7 @@ class SearchApp extends React.Component {
     this.props.router.push({
       pathname: '',
       query: {
-        query: encodeURIComponent(userInput),
+        query: userInput,
         page,
       },
     });
