@@ -1,66 +1,49 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
-import siteName from '../../../platform/brand-consolidation/site-name';
 import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
-import recordEvent from '../../../platform/monitoring/record-event';
+import siteName from '../../../platform/brand-consolidation/site-name';
+import { setupProfileSession } from '../../../platform/user/profile/utilities';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
-import localStorage from '../../../platform/utilities/storage/localStorage';
 
 export class AuthApp extends React.Component {
   constructor(props) {
     super(props);
-    const { auth, token } = props.location.query;
-    this.state = { error: auth === 'fail' || !token };
+    this.state = { error: props.location.query.auth === 'fail' };
   }
 
   componentDidMount() {
-    if (!this.state.error) this.validateToken();
+    if (!this.state.error) this.validateSession();
   }
-
-  setToken = () => {
-    // Internet Explorer 6-11
-    const isIE = /*@cc_on!@*/ false || !!document.documentMode; // eslint-disable-line spaced-comment
-    // Edge 20+
-    const isEdge = !isIE && !!window.StyleMedia;
-
-    const { token } = this.props.location.query;
-    const parent = window.opener;
-
-    const storageType = localStorage.getItem('storageType');
-    const storage =
-      storageType === 'localStorage' ? localStorage : parent.sessionStorage;
-
-    storage.removeItem('userToken');
-    storage.setItem('userToken', token);
-    storage.removeItem('entryTime');
-    storage.setItem('entryTime', new Date());
-    parent.postMessage(token, environment.BASE_URL);
-
-    // This will trigger a browser reload if the user is using IE or Edge.
-    if (isIE || isEdge) parent.location.reload();
-
-    window.close();
-  };
 
   handleAuthError = () => {
     this.setState({ error: true });
   };
 
-  handleAuthSuccess = ({ data }) => {
-    // Upon successful authentication, push analytics event and store the token.
-    const userData = data.attributes.profile;
-    const loginPolicy = userData.authnContext || 'idme';
-    recordEvent({ event: `login-success-${loginPolicy}` });
-    this.setToken();
+  handleAuthSuccess = payload => {
+    setupProfileSession(payload);
+
+    const parent = window.opener;
+    parent.postMessage('loggedIn', environment.BASE_URL);
+
+    // Internet Explorer 6-11
+    const isIE = /*@cc_on!@*/ false || !!document.documentMode; // eslint-disable-line spaced-comment
+    // Edge 20+
+    const isEdge = !isIE && !!window.StyleMedia;
+
+    // Reload the parent window if the user is using IE or Edge,
+    // due to unreliable support for postMessage.
+    if (isIE || isEdge) parent.location.reload();
+
+    parent.focus();
+    window.close();
   };
 
   // Fetch the user to get the login policy and validate the session.
-  validateToken = () => {
+  validateSession = () => {
     apiRequest('/user', null, this.handleAuthSuccess, this.handleAuthError);
   };
 
@@ -180,9 +163,4 @@ export class AuthApp extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  const { login, profile } = state;
-  return { login, profile };
-};
-
-export default connect(mapStateToProps)(AuthApp);
+export default AuthApp;
