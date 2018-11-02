@@ -16,7 +16,7 @@ function createSitemaps(BUILD_OPTIONS) {
 
       // generate sitemap index that references static va sitemap and dynamic metalsmith sitemap
       const sitemapIndex = sitemap.buildSitemapIndex({
-        urls: [`${hostname}/sitemap-va.xml`, `${hostname}/sitemap-dynamic.xml`],
+        urls: [`${hostname}/sitemap-dynamic.xml`],
       });
 
       /* eslint-disable no-param-reassign */
