@@ -40,7 +40,7 @@ function updateExternalLinks() {
           // escape hatch if we need it
           if (
             targetAttr === '_blank' &&
-            !link.attr('data-allow-opener') &&
+            typeof link.attr('data-allow-opener') === 'undefined' &&
             (!relAttr || !relAttr.includes('noopener'))
           ) {
             linkUpdated = true;
@@ -51,7 +51,7 @@ function updateExternalLinks() {
           // external link that should always open in a new tab
           // There is an escape hatch here, too
           if (
-            !link.attr('data-same-tab') &&
+            typeof link.attr('data-same-tab') === 'undefined' &&
             !isNonVADomainThatOpensInSameTab(hrefAttr) &&
             ((!hrefAttr.includes('va.gov') && !hrefAttr.includes('vets.gov')) ||
               isVADomainThatOpensInNewTab(hrefAttr))
