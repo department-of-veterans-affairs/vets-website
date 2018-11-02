@@ -31,14 +31,9 @@ function generateRedirectedPages(BUILD_OPTIONS) {
   const mappings = yaml.safeLoad(mappingsFile);
 
   for (const mapping of mappings) {
-    const {
-      vets_gov_src: vetsGovSrc,
-      retain_path: retainPath,
-    } = mapping;
+    const { vets_gov_src: vetsGovSrc, retain_path: retainPath } = mapping;
 
-    let {
-      va_gov_dest: vaGovDest,
-    } = mapping;
+    const { va_gov_dest: vaGovDest } = mapping;
 
     const htmlDirectory = path.join(destination, vetsGovSrc);
 
@@ -46,20 +41,30 @@ function generateRedirectedPages(BUILD_OPTIONS) {
 
     const htmlFileName = path.join(htmlDirectory, 'index.html');
     let htmlFileContents = null;
+    let vaGovFullPath;
 
     if (!vaGovDest.startsWith('http'))
-      vaGovDest = `https://${vaGovHostDestination}/${vaGovDest}`;
+      vaGovFullPath = `https://${vaGovHostDestination}/${vaGovDest}`;
 
     console.log(`Writing redirect for ${vetsGovSrc} to ${vaGovDest}`);
 
     if (!retainPath) {
-      htmlFileContents = createStandardRedirectHtml(vaGovDest);
+      htmlFileContents = createStandardRedirectHtml(vaGovFullPath);
     } else {
-      // htmlFileContents = createAppRedirectHtml(vetsGovSrc, vaGovDest);
+      htmlFileContents = createAppRedirectHtml(
+        vetsGovSrc,
+        vaGovDest,
+        `https://${vaGovHostDestination}`,
+      );
     }
 
     fs.writeFileSync(htmlFileName, htmlFileContents);
   }
+
+  fs.writeFileSync(
+    path.join(destination, '404.html'),
+    createAppRedirectHtml('', '', `https://${vaGovHostDestination}`),
+  );
 }
 
 module.exports = generateRedirectedPages;
