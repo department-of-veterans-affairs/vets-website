@@ -33,6 +33,7 @@ class SearchApp extends React.Component {
 
     this.state = {
       userInput: userInputFromAddress,
+      currentResultsQuery: userInputFromAddress,
       page,
     };
 
@@ -62,15 +63,27 @@ class SearchApp extends React.Component {
 
   handleSearch = e => {
     if (e) e.preventDefault();
-    const { userInput, page } = this.state;
+    const { userInput, currentResultsQuery, page } = this.state;
+
+    const queryChanged = userInput !== currentResultsQuery;
+    const nextPage = queryChanged ? 1 : page;
+
+    // Update URL
     this.props.router.push({
       pathname: '',
       query: {
         query: userInput,
-        page,
+        page: nextPage,
       },
     });
-    this.props.fetchSearchResults(userInput, page);
+
+    // Fetch new results
+    this.props.fetchSearchResults(userInput, nextPage);
+
+    // Update query is necessary
+    if (queryChanged) {
+      this.setState({ currentResultsQuery: userInput });
+    }
   };
 
   handleInputChange = event => {
