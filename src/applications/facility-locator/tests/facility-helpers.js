@@ -1,4 +1,3 @@
-const isProduction = require('../../../platform/utilities/environment/isProduction');
 const mock = require('../../../platform/testing/e2e/mock-helpers');
 
 const resultsData = {
@@ -242,7 +241,11 @@ function initApplicationMock(token) {
  * existing Facility Locator App.
  */
 function ccLocatorEnabled() {
-  return !isProduction();
+  return (
+    process.env.BUILDTYPE !== 'production' &&
+    process.env.BUILDTYPE !== 'preview' &&
+    process.env.BUILDTYPE !== 'vagovprod'
+  );
 }
 
 module.exports = {
