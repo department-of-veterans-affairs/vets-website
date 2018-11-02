@@ -84,7 +84,7 @@
   .results-footer {
     justify-content: space-between;
     align-items: center;
-
+    margin-bottom: 4rem;
 
     @media (max-width: $medium-screen - 1) {
       flex-direction: column-reverse;
@@ -99,7 +99,6 @@
     }
 
     .va-pagination {
-      width: unset;
       border-top: none;
 
       @include media($large-screen) {
@@ -108,8 +107,8 @@
         }
       }
 
-      @media (max-width: $medium-screen - 1) {
-        width: 100%;
+      @include media($small-screen) {
+        width: unset;
       }
     }
 
