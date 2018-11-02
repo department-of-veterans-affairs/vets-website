@@ -82,7 +82,7 @@ class SearchApp extends React.Component {
 
     // Update query is necessary
     if (queryChanged) {
-      this.setState({ currentResultsQuery: userInput });
+      this.setState({ currentResultsQuery: userInput, page: 1 });
     }
   };
 
