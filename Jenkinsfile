@@ -255,6 +255,7 @@ node('vetsgov-general-purpose') {
 
     def optimizationEnvironments = [
       'vagovdev'
+      'vagovstaging'
     ]
 
     try {
