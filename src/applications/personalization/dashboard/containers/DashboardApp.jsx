@@ -23,6 +23,7 @@ import profileManifest from '../../profile360/manifest.json';
 import accountManifest from '../../account/manifest.json';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 import lettersManifest from '../../../letters/manifest.js';
+import facilityLocator from '../../../facility-locator/manifest';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
@@ -283,7 +284,7 @@ class DashboardApp extends React.Component {
             </p>
             <p>
               <a
-                href="/facilities"
+                href={facilityLocator.rootUrl}
                 onClick={() => {
                   recordEvent({
                     event: 'dashboard-navigation',

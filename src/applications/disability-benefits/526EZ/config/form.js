@@ -13,6 +13,7 @@ import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definiti
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import isProd from '../../../../platform/utilities/environment/isProduction';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
@@ -116,8 +117,6 @@ const {
   disabilities,
   vaTreatmentCenterAddress,
 } = fullSchema526EZ.definitions;
-
-const isProd = __BUILDTYPE__ === 'production';
 
 const formConfig = {
   urlPrefix: '/',

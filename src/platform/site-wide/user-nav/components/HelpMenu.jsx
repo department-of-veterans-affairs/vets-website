@@ -5,7 +5,7 @@ import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPan
 import IconHelp from '@department-of-veterans-affairs/formation/IconHelp';
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 
-import facilityLocatorManifest from '../../../../applications/facility-locator/manifest.json';
+import facilityLocatorManifest from '../../../../applications/facility-locator/manifest';
 
 const FACILITY_LOCATOR_URL = facilityLocatorManifest.rootUrl;
 

@@ -21,7 +21,7 @@ def getEnvNames(isCMSDeploy) {
     'development', 'staging', 'production'
   ]
   def vagovEnvNames = [
-    'preview', 'vagovdev', 'vagovstaging'
+    'preview', 'vagovdev', 'vagovstaging', 'vagovprod'
   ]
 
   if (isCMSDeploy) {
@@ -35,7 +35,7 @@ def envNames = [
   // Vets.gov envs
   'development', 'staging', 'production',
   // VA.gov envs
-  'preview', 'vagovdev', 'vagovstaging'
+  'preview', 'vagovdev', 'vagovstaging', 'vagovprod'
 ]
 
 def devBranch = 'master'
