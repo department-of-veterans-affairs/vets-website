@@ -17,6 +17,7 @@ import {
   hasPrivateEvidence,
   hasOtherEvidence,
   needsToEnter781,
+  needsToEnter781a,
   isUploadingPtsdForm,
   servedAfter911,
 } from '../utils';
@@ -42,6 +43,8 @@ import {
   choosePtsdType,
   ptsdWalkthroughChoice781,
   uploadPtsdDocuments,
+  ptsdWalkthroughChoice781a,
+  uploadPersonalPtsdDocuments,
   summaryOfDisabilities,
   vaMedicalRecords,
   additionalDocuments,
@@ -242,6 +245,24 @@ const formConfig = {
             isUploadingPtsdForm(formData),
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
+        },
+        ptsdWalkthroughChoice781a: {
+          title: 'PTSD Walkthrough 781a Choice',
+          path: 'new-disabilities/walkthrough-781a-choice',
+          depends: formData =>
+            hasNewPtsdDisability(formData) && needsToEnter781a(formData),
+          uiSchema: ptsdWalkthroughChoice781a.uiSchema,
+          schema: ptsdWalkthroughChoice781a.schema,
+        },
+        uploadPtsdDocuments781a: {
+          title: 'Upload PTSD Documents - 781a',
+          path: 'new-disabilities/ptsd-781a-upload',
+          depends: formData =>
+            hasNewPtsdDisability(formData) &&
+            needsToEnter781a(formData) &&
+            isUploadingPtsdForm(formData),
+          uiSchema: uploadPersonalPtsdDocuments.uiSchema,
+          schema: uploadPersonalPtsdDocuments.schema,
         },
         unemployabilityStatus: {
           title: 'Unemployability Status',

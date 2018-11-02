@@ -55,6 +55,9 @@ export default function setupJSDom() {
   win.scrollTo = () => {};
   win.sessionStorage = {};
   win.requestAnimationFrame = func => func();
+  win.matchMedia = () => ({
+    matches: false,
+  });
 
   global.Blob = window.Blob;
 

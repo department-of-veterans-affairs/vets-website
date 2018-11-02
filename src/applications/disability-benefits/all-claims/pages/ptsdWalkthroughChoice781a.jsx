@@ -8,10 +8,10 @@ import {
 
 export const uiSchema = {
   'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781" />
+    <PtsdNameTitle formData={formData} formType="781a" />
   ),
   'ui:description': ({ formData }) => (
-    <UploadPtsdDescription formData={formData} formType="781" />
+    <UploadPtsdDescription formData={formData} formType="781a" />
   ),
   'view:uploadPtsdChoice': {
     'ui:title': ' ',
@@ -19,12 +19,12 @@ export const uiSchema = {
     'ui:options': {
       labels: {
         answerQuestions: 'I want to answer questions',
-        upload: 'I want to upload VA Form 21-0781',
+        upload: 'I want to upload VA Form 21-0781a',
       },
     },
   },
   'view:uploadPtsdChoiceHelp': {
-    'ui:description': <PtsdUploadChoiceDescription formType="781" />,
+    'ui:description': <PtsdUploadChoiceDescription formType="781a" />,
   },
 };
 
