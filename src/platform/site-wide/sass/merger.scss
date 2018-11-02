@@ -833,4 +833,10 @@ img[data-srcset] {
     max-width: 1000px;
     margin: 0 auto;
   }
+  &-warning {
+    border-top: 1rem solid $color-gold;
+  }
+  &-info {
+    border-top: 1rem solid $color-primary-alt-dark;
+  }
 }

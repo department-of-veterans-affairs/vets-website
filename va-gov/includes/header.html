@@ -113,7 +113,7 @@
 {% endif %}
 
 {% if path == '' and banner and banner.visible %}
-  <div class="usa-alert-full-width">
+  <div class="usa-alert-full-width usa-alert-full-width-{{ banner.type }}">
     <div aria-live="polite" role="alert" class="usa-alert usa-alert-{{ banner.type }}">
       <div class="usa-alert-body">
         <h3 class="usa-alert-heading">{{ banner.title }}</h3>
