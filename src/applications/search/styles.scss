@@ -73,28 +73,30 @@
     border-bottom: none;
 
     &#hr-search-bottom {
-      margin-bottom: 1.5rem;
+      margin-bottom: 0;
 
-      @media (max-width: $medium-screen - 1) {
-        margin-bottom: 0;
+      @include media($small-screen) {
+        margin-bottom: 1.5rem;
       }
     }
   }
 
   .results-footer {
+    flex-direction: column-reverse;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 4rem;
 
-    @media (max-width: $medium-screen - 1) {
-      flex-direction: column-reverse;
+    @include media($small-screen) {
+      flex-direction: row;
     }
 
     .powered-by {
       font-weight: bold;
+      margin: 1rem 0 3rem;
 
-      @media (max-width: $medium-screen - 1) {
-        margin: 1rem 0 3rem;
+      @include media($small-screen) {
+        margin: unset;
       }
     }
 
