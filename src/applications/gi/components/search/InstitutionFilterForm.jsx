@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import isProd from '../../../../platform/utilities/environment/isProduction';
+
 import Checkbox from '../Checkbox';
 import RadioButtons from '../RadioButtons';
 import Dropdown from '../Dropdown';
@@ -137,7 +139,7 @@ class InstitutionFilterForm extends React.Component {
           label="Independent Study"
           onChange={this.handleCheckboxChange}
         />
-        {__BUILDTYPE__ !== 'production' && (
+        {!isProd() && (
           <Checkbox
             checked={filters.onlineOnly}
             name="onlineOnly"
@@ -145,7 +147,7 @@ class InstitutionFilterForm extends React.Component {
             onChange={this.handleCheckboxChange}
           />
         )}
-        {__BUILDTYPE__ !== 'production' && (
+        {!isProd() && (
           <Checkbox
             checked={filters.distanceLearning}
             name="distanceLearning"
