@@ -13,8 +13,12 @@ const newTabDomains = [
   'www.oit.va.gov',
 ];
 
-function isVaDomainThatOpensInNewTab(href) {
+function isVADomainThatOpensInNewTab(href) {
   return newTabDomains.some(domain => href.includes(domain));
+}
+
+function isNonVADomainThatOpensInSameTab(href) {
+  return href.toLowerCase().includes('veteranscrisisline.net');
 }
 
 function updateExternalLinks() {
@@ -48,8 +52,9 @@ function updateExternalLinks() {
           // There is an escape hatch here, too
           if (
             !link.attr('data-same-tab') &&
+            !isNonVADomainThatOpensInSameTab(hrefAttr) &&
             ((!hrefAttr.includes('va.gov') && !hrefAttr.includes('vets.gov')) ||
-              isVaDomainThatOpensInNewTab(hrefAttr))
+              isVADomainThatOpensInNewTab(hrefAttr))
           ) {
             if (!targetAttr && targetAttr !== '_blank') {
               linkUpdated = true;
