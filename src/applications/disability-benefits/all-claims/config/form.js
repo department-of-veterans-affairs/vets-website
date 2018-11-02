@@ -56,7 +56,8 @@ import {
   vaEmployee,
   summaryOfEvidence,
   fullyDevelopedClaim,
-  newUnemploymentFollowUp,
+  unemployabilityStatus,
+  unemployabilityFormIntro,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -263,11 +264,18 @@ const formConfig = {
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
         },
-        newUnemploymentFollowUp: {
+        unemployabilityStatus: {
+          title: 'Unemployability Status',
+          path: 'new-disabilities/unemployability-status',
+          uiSchema: unemployabilityStatus.uiSchema,
+          schema: unemployabilityStatus.schema,
+        },
+        unemployabilityFormIntro: {
           title: 'File a Claim for Individual Unemployability',
-          path: 'new-disabilities/unemployment-status',
-          uiSchema: newUnemploymentFollowUp.uiSchema,
-          schema: newUnemploymentFollowUp.schema,
+          path: 'new-disabilities/unemployability-walkthrough-choice',
+          depends: formData => formData['view:unemployabilityStatus'],
+          uiSchema: unemployabilityFormIntro.uiSchema,
+          schema: unemployabilityFormIntro.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
