@@ -24,7 +24,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     type: String,
     defaultValue: '../../vagov-content/pages',
   },
-
+  { name: 'vets-gov-to-va-gov', type: Boolean, defaultValue: false },
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
