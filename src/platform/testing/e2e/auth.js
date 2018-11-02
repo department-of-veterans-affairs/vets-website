@@ -3,12 +3,13 @@ const E2eHelpers = require('./helpers');
 const Timeouts = require('./timeouts');
 const mock = require('./mock-helpers');
 
-function setUserToken(token, client) {
+function setUserSession(token, client) {
+  client.setCookie({ name: 'token', value: token });
   client.execute(
-    inToken => {
-      window.sessionStorage.setItem('userToken', inToken);
+    () => {
+      window.localStorage.setItem('hasSession', true);
     },
-    [token],
+    [],
     val => {
       if (val.state !== 'success') {
         // eslint-disable-next-line no-console
@@ -103,7 +104,7 @@ function logIn(token, client, url, level) {
     .waitForElementVisible('body', Timeouts.normal);
 
   E2eHelpers.disableAnnouncements(client);
-  setUserToken(token, client);
+  setUserSession(token, client);
 
   client
     .url(`${E2eHelpers.baseUrl}${url}`)
@@ -135,5 +136,5 @@ module.exports = {
   initUserMock,
   logIn,
   testUnauthedUserFlow,
-  setUserToken,
+  setUserSession,
 };
