@@ -4,25 +4,35 @@ import { expect } from 'chai';
 
 import { TabItem } from '../../components/TabItem';
 
+const location = {
+  pathname: '/some path',
+};
+
 describe('<TabItem>', () => {
   it('should render tab', () => {
     const tree = SkinDeep.shallowRender(
-      <TabItem shortcut={1} tabpath="Some path" title="Title" />,
+      <TabItem
+        shortcut={1}
+        title="Title"
+        location={location}
+        tabpath="some path"
+      />,
     );
 
     expect(tree.subTree('IndexLink').props['aria-controls']).to.equal(
       'tabPanelTitle',
     );
-    expect(tree.subTree('IndexLink').props.to).to.equal('Some path');
+    expect(tree.subTree('IndexLink').props.to).to.equal('some path');
   });
 
   it('should use id if present', () => {
     const tree = SkinDeep.shallowRender(
       <TabItem
         shortcut={1}
-        tabpath="Some path"
         id="TitleHere"
         title="Title Here"
+        location={location}
+        tabpath="some path"
       />,
     );
 
@@ -30,6 +40,6 @@ describe('<TabItem>', () => {
       'tabPanelTitleHere',
     );
     expect(tree.subTree('IndexLink').props.id).to.equal('tabTitleHere');
-    expect(tree.subTree('IndexLink').props.to).to.equal('Some path');
+    expect(tree.subTree('IndexLink').props.to).to.equal('some path');
   });
 });
