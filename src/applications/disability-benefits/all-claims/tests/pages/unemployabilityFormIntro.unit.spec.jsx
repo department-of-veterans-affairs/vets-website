@@ -8,11 +8,11 @@ import {
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
-describe('Unemployment Status', () => {
+describe('Unemployability 8940 Walkthrough', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.newUnemploymentFollowUp;
+  } = formConfig.chapters.disabilities.pages.unemployabilityFormIntro;
 
   it('should render', () => {
     const form = mount(
@@ -20,7 +20,9 @@ describe('Unemployment Status', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={{
+          'view:unemployabilityStatus': true,
+        }}
         formData={{}}
       />,
     );
@@ -35,7 +37,9 @@ describe('Unemployment Status', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={{
+          'view:unemployabilityStatus': true,
+        }}
         formData={{}}
         onSubmit={onSubmit}
       />,
@@ -53,13 +57,19 @@ describe('Unemployment Status', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={{
+          'view:unemploymentStatus': true,
+        }}
         formData={{}}
         onSubmit={onSubmit}
       />,
     );
 
-    selectRadio(form, 'root_view:unemploymentStatus', 'Y');
+    selectRadio(
+      form,
+      'root_view:unemployabilityUploadChoice',
+      'answerQuestions',
+    );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

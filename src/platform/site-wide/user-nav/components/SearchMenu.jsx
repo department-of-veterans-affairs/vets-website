@@ -4,7 +4,6 @@ import classNames from 'classnames';
 
 import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
-import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 
 class SearchMenu extends React.Component {
   constructor(props) {
@@ -13,7 +12,6 @@ class SearchMenu extends React.Component {
     this.toggleSearchForm = this.toggleSearchForm.bind(this);
     this.state = {
       searchAction: '/search/',
-      searchAffiliate: isBrandConsolidationEnabled() ? 'va' : 'vets.gov_search',
       userInput: '',
     };
   }
@@ -44,15 +42,6 @@ class SearchMenu extends React.Component {
         id="search"
         method="get"
       >
-        <div className="csp-inline-patch-header">
-          <input name="utf8" type="hidden" value="&#x2713;" />
-        </div>
-        <input
-          id="affiliate"
-          name="affiliate"
-          type="hidden"
-          value={this.state.searchAffiliate}
-        />
         <label htmlFor="query" className="usa-sr-only">
           Search:
         </label>

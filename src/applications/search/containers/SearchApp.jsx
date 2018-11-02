@@ -100,6 +100,7 @@ class SearchApp extends React.Component {
         <input
           type="text"
           name="query"
+          aria-label="Enter the word or phrase you'd like to search for"
           value={this.state.userInput}
           onChange={this.handleInputChange}
         />
