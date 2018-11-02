@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+
+import HealthToolsMovingMessage from '../../../platform/static-data/HealthToolsMovingMessage';
 import { closeDisclaimer } from '../actions/disclaimer';
 import { closeAlert } from '../actions/alert.js';
 import Disclaimer from '../components/Disclaimer';
@@ -29,7 +31,10 @@ class Main extends React.Component {
           <SettingsButton />
         </div>
         <TabNav />
-        {this.props.children}
+        <div className="va-tab-content">
+          <HealthToolsMovingMessage />
+          {this.props.children}
+        </div>
       </ErrorView>
     );
   }

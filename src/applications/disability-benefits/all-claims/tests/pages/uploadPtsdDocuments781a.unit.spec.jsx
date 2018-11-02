@@ -9,8 +9,8 @@ import {
 import formConfig from '../../config/form.js';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
-describe('781 record upload', () => {
-  const page = formConfig.chapters.disabilities.pages.uploadPtsdDocuments781;
+describe('781a record upload', () => {
+  const page = formConfig.chapters.disabilities.pages.uploadPtsdDocuments781a;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
@@ -22,7 +22,7 @@ describe('781 record upload', () => {
         schema={schema}
         data={{
           'view:selectablePtsdTypes': {
-            'view:combatPtsdType': true,
+            'view:assaultPtsdType': true,
           },
         }}
         uiSchema={uiSchema}
@@ -43,7 +43,7 @@ describe('781 record upload', () => {
         schema={schema}
         data={{
           'view:selectablePtsdTypes': {
-            'view:combatPtsdType': true,
+            'view:assaultPtsdType': true,
           },
         }}
         uiSchema={uiSchema}
@@ -65,10 +65,10 @@ describe('781 record upload', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          ptsd781: [
+          ptsd781a: [
             {
               confirmationCode: 'testing',
-              name: '781.pdf',
+              name: '781a.pdf',
             },
           ],
         }}
