@@ -5,7 +5,7 @@ const mock = require('../e2e/mock-helpers');
 const expect = require('chai').expect;
 
 async function setUserSession(token, client) {
-  client.setCookie({ name: 'token', value: token });
+  client.setCookie({ name: 'token', value: token, httpOnly: true });
   client.evaluate(
     () => {
       window.localStorage.setItem('hasSession', true);

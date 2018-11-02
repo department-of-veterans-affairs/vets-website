@@ -4,7 +4,7 @@ const Timeouts = require('./timeouts');
 const mock = require('./mock-helpers');
 
 function setUserSession(token, client) {
-  client.setCookie({ name: 'token', value: token });
+  client.setCookie({ name: 'token', value: token, httpOnly: true });
   client.execute(
     () => {
       window.localStorage.setItem('hasSession', true);
