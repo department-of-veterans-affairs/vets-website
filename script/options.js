@@ -94,6 +94,7 @@ function applyEnvironmentOverrides(options) {
 
     case environments.VAGOVDEV:
     case environments.VAGOVSTAGING:
+    case environments.VAGOVPROD:
     case environments.PREVIEW:
       options.move = [{ source: 'va-robots.txt', target: 'robots.txt' }];
       options.remove = ['vets-robots.txt'];

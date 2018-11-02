@@ -11,6 +11,10 @@ const _Environments = {
     API_URL: 'https://api.va.gov',
     BASE_URL: 'https://preview.va.gov',
   },
+  vagovprod: {
+    API_URL: 'https://api.va.gov',
+    BASE_URL: 'https://www.va.gov',
+  },
   vagovstaging: {
     API_URL: 'https://staging-api.va.gov',
     BASE_URL: 'https://staging.va.gov',

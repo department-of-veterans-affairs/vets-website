@@ -1,15 +1,18 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  selectRadio,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
-describe('evidenceTypes', () => {
+describe('Unemployability Status', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.supportingEvidence.pages.evidenceTypes;
+  } = formConfig.chapters.disabilities.pages.unemployabilityStatus;
 
   it('should render', () => {
     const form = mount(
@@ -25,68 +28,40 @@ describe('evidenceTypes', () => {
     expect(form.find('input').length).to.equal(2);
   });
 
-  it('should submit when no evidence selected', () => {
+  it('should fail to submit when no data is filled out', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{
-          'view:hasEvidence': false,
-        }}
+        data={{}}
         formData={{}}
         onSubmit={onSubmit}
       />,
     );
 
     form.find('form').simulate('submit');
-    expect(onSubmit.calledOnce).to.be.true;
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-  });
-
-  it('should require at least one evidence type when evidence selected', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:hasEvidence': true,
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(onSubmit.called).to.be.false;
     expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with all required info', () => {
+  it('should submit when data filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{
-          'view:hasEvidence': true,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasVAMedicalRecords': true,
-            },
-          },
-        }}
+        data={{}}
         formData={{}}
         onSubmit={onSubmit}
       />,
     );
 
+    selectRadio(form, 'root_view:unemployabilityStatus', 'Y');
     form.find('form').simulate('submit');
-    expect(onSubmit.calledOnce).to.be.true;
     expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 });

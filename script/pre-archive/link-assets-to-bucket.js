@@ -39,6 +39,11 @@ function linkAssetsToBucket(options, fileNames) {
         assetSrc = element.getAttribute(assetSrcProp);
       }
 
+      if (!assetSrc) {
+        assetSrcProp = 'data-src';
+        assetSrc = element.getAttribute(assetSrcProp);
+      }
+
       if (!assetSrc) continue;
       if (assetSrc.startsWith('http')) continue;
 
