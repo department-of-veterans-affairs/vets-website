@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
-
 import {
   ADDRESS_TYPES,
   BACKEND_SERVICE_ERROR,
@@ -45,7 +43,6 @@ import {
 let oldFetch;
 let oldWindow;
 const setup = () => {
-  conditionalStorage().setItem('userToken', '123abc');
   oldFetch = global.fetch;
   oldWindow = global.window;
   global.fetch = sinon.stub();
@@ -65,7 +62,6 @@ const setup = () => {
 const teardown = () => {
   global.fetch = oldFetch;
   global.window = oldWindow;
-  conditionalStorage().clear();
 };
 const getState = () => ({});
 

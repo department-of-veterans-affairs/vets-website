@@ -7,9 +7,9 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import SystemDownView from '@department-of-veterans-affairs/formation/SystemDownView';
 import CallHelpDesk from '../../../brand-consolidation/components/CallHelpDesk';
 
-import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 import backendServices from '../../profile/constants/backendServices';
 import siteName from '../../../brand-consolidation/site-name';
+import { hasSession } from '../../profile/utilities';
 
 const nextQuery = { next: window.location.pathname };
 const signInUrl = appendQuery('/', nextQuery);
@@ -54,7 +54,7 @@ class RequiredLoginView extends React.Component {
         ? intersection(userServices, serviceRequired).length > 0
         : userServices.includes(serviceRequired));
 
-    return conditionalStorage().getItem('userToken') && hasRequiredServices;
+    return hasSession() && hasRequiredServices;
   };
 
   renderVerifiedContent = () => {

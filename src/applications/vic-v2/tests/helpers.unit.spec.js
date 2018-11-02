@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { mockFetch, resetFetch } from '../../../platform/testing/unit/helpers';
-import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 
 import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 import fullFormConfig from '../config/form';
@@ -33,7 +32,6 @@ function setFailedBlobResponse(stub, error) {
 describe('VIC helpers:', () => {
   describe('submit', () => {
     beforeEach(() => {
-      conditionalStorage().setItem('userToken', 'testing');
       window.VetsGov = { pollTimeout: 1 };
       window.URL = {
         createObjectURL: sinon.stub().returns('test'),
@@ -268,7 +266,6 @@ describe('VIC helpers:', () => {
 
     afterEach(() => {
       resetFetch();
-      conditionalStorage().clear();
       delete window.URL;
     });
   });
