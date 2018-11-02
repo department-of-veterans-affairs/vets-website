@@ -14,6 +14,11 @@ class TabItem extends React.Component {
     document.removeEventListener('keydown', this.tabShortcut);
   }
 
+  handleUrl() {
+    const url = this.props.location.pathname.slice(1);
+    return url;
+  }
+
   tabShortcut = evt => {
     if (evt.altKey && evt.which === 48 + this.props.shortcut) {
       this.props.router.push(this.props.tabpath);
@@ -21,17 +26,22 @@ class TabItem extends React.Component {
   };
 
   render() {
+    const { className, id, tabpath, title } = this.props;
+    const activeTab = this.handleUrl();
     return (
-      <li className={this.props.className} role="presentation">
+      <li className={className} role="presentation">
         <IndexLink
-          id={`tab${this.props.id || this.props.title}`}
-          aria-controls={`tabPanel${this.props.id || this.props.title}`}
+          id={`tab${id || title}`}
+          aria-controls={
+            activeTab === tabpath ? `tabPanel${id || title}` : null
+          }
+          aria-selected={activeTab === tabpath}
           role="tab"
           className="va-tab-trigger"
           activeClassName="va-tab-trigger--current"
-          to={this.props.tabpath}
+          to={tabpath}
         >
-          {this.props.title}
+          {title}
         </IndexLink>
       </li>
     );
