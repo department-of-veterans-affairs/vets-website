@@ -250,7 +250,7 @@
 
     .vet-toolbar {
       margin-left: 0;
-      [data-reactroot] {
+      .profile-nav-container {
         align-items: baseline;
         display: inherit;
       }
