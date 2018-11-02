@@ -38,7 +38,6 @@ export class AuthApp extends React.Component {
     // due to unreliable support for postMessage.
     if (isIE || isEdge) parent.location.reload();
 
-    parent.focus();
     window.close();
   };
 
