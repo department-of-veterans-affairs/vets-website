@@ -1,7 +1,7 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import recordEvent from '../../../monitoring/record-event';
-import { get } from '../../../utilities/data';
+import get from '../../../utilities/data/get';
 import localStorage from '../../../utilities/storage/localStorage';
 
 import {
@@ -92,7 +92,7 @@ export function setupProfileSession(payload) {
 export function teardownProfileSession() {
   // Legacy keys (entryTime, userToken) can be removed
   // after session cookie is fully in place.
-  const sessionKeys = ['loggedIn', 'userFirstName', 'entryTime', 'userToken'];
+  const sessionKeys = ['hasSession', 'userFirstName', 'entryTime', 'userToken'];
 
   for (const key of sessionKeys) {
     localStorage.removeItem(key);
