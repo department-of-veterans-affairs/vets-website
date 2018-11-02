@@ -9,6 +9,8 @@ import { setupProfileSession } from '../../../platform/user/profile/utilities';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 
+import facilityLocator from '../../facility-locator/manifest';
+
 export class AuthApp extends React.Component {
   constructor(props) {
     super(props);
@@ -107,7 +109,11 @@ export class AuthApp extends React.Component {
                 you with the right person who can help.
               </p>
               <p>
-                <a href="/facilities/?facilityType=health&page=1&zoomLevel=7">
+                <a
+                  href={`${
+                    facilityLocator.rootUrl
+                  }/?facilityType=health&page=1&zoomLevel=7`}
+                >
                   Find your nearest VA medical center.
                 </a>
               </p>
