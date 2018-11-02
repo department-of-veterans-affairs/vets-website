@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
+import { hasSession } from '../../../../platform/user/profile/utilities';
 
 export default function ButtonContainer(props) {
   const {
@@ -24,7 +24,7 @@ export default function ButtonContainer(props) {
         </button>
       )}
       {atIncreaseGuidance &&
-        !conditionalStorage().getItem('userToken') && (
+        !hasSession() && (
           <a
             className="usa-button-primary"
             href="/disability-benefits/apply/form-526-disability-claim/introduction/"
@@ -35,7 +35,7 @@ export default function ButtonContainer(props) {
           </a>
         )}
       {atIncreaseGuidance &&
-        conditionalStorage().getItem('userToken') &&
+        hasSession() &&
         !isVerified && (
           <a
             className="usa-button-primary"
