@@ -74,22 +74,44 @@
     border-bottom: none;
 
     &#hr-search-bottom {
-      margin-bottom: 1.5rem;
+      margin-bottom: 0;
+
+      @include media($small-screen) {
+        margin-bottom: 1.5rem;
+      }
     }
   }
 
   .results-footer {
+    flex-direction: column-reverse;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 4rem;
+
+    @include media($small-screen) {
+      flex-direction: row;
+    }
+
+    .powered-by {
+      font-weight: bold;
+      margin: 1rem 0 3rem;
+
+      @include media($small-screen) {
+        margin: unset;
+      }
+    }
 
     .va-pagination {
-      width: unset;
       border-top: none;
 
       @include media($large-screen) {
         .va-pagination-inner {
           width: unset;
         }
+      }
+
+      @include media($small-screen) {
+        width: unset;
       }
     }
 
