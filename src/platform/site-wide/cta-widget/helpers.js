@@ -141,7 +141,7 @@ export const toolUrl = (appId, index) => {
 
     case frontendApps.VETERAN_ID_CARD:
       return {
-        url: 'https://vicbdc.ppd.vba.va.gov/VIC',
+        url: '/records/get-veteran-id-cards/apply',
         redirect: false,
       };
 

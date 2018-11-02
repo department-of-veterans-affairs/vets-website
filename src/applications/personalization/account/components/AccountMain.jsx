@@ -11,6 +11,7 @@ import LoginSettings from './LoginSettings';
 import MultifactorMessage from './MultifactorMessage';
 import TermsAndConditions from './TermsAndConditions';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import facilityLocator from '../../../facility-locator/manifest';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
@@ -64,7 +65,9 @@ class AccountMain extends React.Component {
               person who can help.
             </p>
             <p>
-              <a href="/facilities">Find your nearest VA Medical Center</a>
+              <a href={facilityLocator.rootUrl}>
+                Find your nearest VA Medical Center
+              </a>
             </p>
           </div>
         }
@@ -103,7 +106,7 @@ class AccountMain extends React.Component {
               <p>
                 You can update the email or password you use to sign in to
                 VA.gov. Just go to the account you use to sign in (DS Logon, My
-                My HealtheVet, or ID.me) and manage your settings.
+                HealtheVet, or ID.me) and manage your settings.
               </p>
             </div>
             <div>

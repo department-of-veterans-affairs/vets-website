@@ -4,19 +4,6 @@ import classNames from 'classnames';
 
 import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
-import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
-
-const searchActionURL = () => {
-  if (
-    window.settings &&
-    ['preview', 'production'].includes(window.settings.type)
-  ) {
-    return isBrandConsolidationEnabled()
-      ? 'https://search.usa.gov/search'
-      : 'https://search.vets.gov/search';
-  }
-  return '/search/';
-};
 
 class SearchMenu extends React.Component {
   constructor(props) {
@@ -24,8 +11,7 @@ class SearchMenu extends React.Component {
     this.makeForm = this.makeForm.bind(this);
     this.toggleSearchForm = this.toggleSearchForm.bind(this);
     this.state = {
-      searchAction: searchActionURL(),
-      searchAffiliate: isBrandConsolidationEnabled() ? 'va' : 'vets.gov_search',
+      searchAction: '/search/',
       userInput: '',
     };
   }
@@ -56,15 +42,6 @@ class SearchMenu extends React.Component {
         id="search"
         method="get"
       >
-        <div className="csp-inline-patch-header">
-          <input name="utf8" type="hidden" value="&#x2713;" />
-        </div>
-        <input
-          id="affiliate"
-          name="affiliate"
-          type="hidden"
-          value={this.state.searchAffiliate}
-        />
         <label htmlFor="query" className="usa-sr-only">
           Search:
         </label>

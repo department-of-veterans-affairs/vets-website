@@ -207,7 +207,7 @@ class History extends React.Component {
 
   render() {
     return (
-      <ScrollElement id="rx-history" name="history" className="va-tab-content">
+      <ScrollElement id="rx-history" name="history">
         {this.renderContent()}
       </ScrollElement>
     );

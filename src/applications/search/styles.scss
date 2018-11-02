@@ -59,9 +59,10 @@
 
   .usa-alert {
     margin-bottom: 2rem;
+
     .usa-alert-body {
       padding-left: 1rem;
-  
+
       .usa-alert-text {
         margin-top: 1rem;
       }
@@ -70,10 +71,26 @@
 
   hr {
     border-bottom: none;
+
+    &#hr-search-bottom {
+      margin-bottom: 1.5rem;
+    }
   }
 
   .results-footer {
     justify-content: space-between;
+    align-items: center;
+
+    .va-pagination {
+      width: unset;
+      border-top: none;
+
+      @include media($large-screen) {
+        .va-pagination-inner {
+          width: unset;
+        }
+      }
+    }
 
     .simple-pagination {
       span.current-page {
