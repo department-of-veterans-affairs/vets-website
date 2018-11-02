@@ -187,10 +187,7 @@ function saveForm(saveType, formId, formData, version, returnUrl) {
       })
       .catch(resOrError => {
         let errorStatus;
-        if (
-          resOrError.status === 401 ||
-          resOrError.message === 'Missing token'
-        ) {
+        if (resOrError.status === 401) {
           dispatch(logOut());
           errorStatus = SAVE_STATUSES.noAuth;
         } else if (resOrError instanceof Response) {

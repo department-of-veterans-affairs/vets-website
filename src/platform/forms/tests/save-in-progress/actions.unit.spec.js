@@ -136,24 +136,6 @@ describe('Schemaform save / load actions:', () => {
     beforeEach(setup);
     afterEach(teardown);
 
-    it('dispatches a no-auth if the user has no session token', () => {
-      const thunk = saveAndRedirectToReturnUrl('1010ez', {});
-      const dispatch = sinon.spy();
-      conditionalStorage().removeItem('userToken');
-
-      return thunk(dispatch, getState).then(() => {
-        expect(
-          dispatch.calledWith(
-            setSaveFormStatus('saveAndRedirect', SAVE_STATUSES.pending),
-          ),
-        ).to.be.true;
-        expect(
-          dispatch.calledWith(
-            setSaveFormStatus('saveAndRedirect', SAVE_STATUSES.noAuth),
-          ),
-        ).to.be.true;
-      });
-    });
     it('dispatches a pending', done => {
       const thunk = saveAndRedirectToReturnUrl('1010ez', {});
       const dispatch = sinon.spy();
