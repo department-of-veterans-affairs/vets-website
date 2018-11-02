@@ -270,7 +270,7 @@ class Active extends React.Component {
 
   render() {
     return (
-      <ScrollElement id="rx-active" name="active" className="va-tab-content">
+      <ScrollElement id="rx-active" name="active">
         {this.renderContent()}
       </ScrollElement>
     );
