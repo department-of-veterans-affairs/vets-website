@@ -79,6 +79,16 @@ import {
 } from './uploadPtsdDocuments';
 
 import {
+  uiSchema as ptsdWalkthroughChoice781aUISchema,
+  schema as ptsdWalkthroughChoice781aSchema,
+} from './ptsdWalkthroughChoice781a';
+
+import {
+  uiSchema as uploadPersonalPtsdDocumentsUISchema,
+  schema as uploadPersonalPtsdDocumentsSchema,
+} from './uploadPersonalPtsdDocuments';
+
+import {
   uiSchema as summaryOfDisabilitiesUISchema,
   schema as summaryOfDisabilitiesSchema,
 } from './summaryOfDisabilities';
@@ -139,9 +149,14 @@ import {
 } from './fullyDevelopedClaim';
 
 import {
-  uiSchema as newUnemploymentFollowUpUISchema,
-  schema as newUnemploymentFollowUpSchema,
-} from './newUnemploymentFollowUp';
+  uiSchema as unemployabilityStatusUISchema,
+  schema as unemployabilityStatusSchema,
+} from './unemployabilityStatus';
+
+import {
+  uiSchema as unemployabilityFormIntroUISchema,
+  schema as unemployabilityFormIntroSchema,
+} from './unemployabilityFormIntro';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -223,6 +238,16 @@ export const uploadPtsdDocuments = {
   schema: uploadPtsdDocumentsSchema,
 };
 
+export const ptsdWalkthroughChoice781a = {
+  uiSchema: ptsdWalkthroughChoice781aUISchema,
+  schema: ptsdWalkthroughChoice781aSchema,
+};
+
+export const uploadPersonalPtsdDocuments = {
+  uiSchema: uploadPersonalPtsdDocumentsUISchema,
+  schema: uploadPersonalPtsdDocumentsSchema,
+};
+
 export const summaryOfDisabilities = {
   uiSchema: summaryOfDisabilitiesUISchema,
   schema: summaryOfDisabilitiesSchema,
@@ -283,7 +308,12 @@ export const fullyDevelopedClaim = {
   schema: fullyDevelopedClaimSchema,
 };
 
-export const newUnemploymentFollowUp = {
-  uiSchema: newUnemploymentFollowUpUISchema,
-  schema: newUnemploymentFollowUpSchema,
+export const unemployabilityStatus = {
+  uiSchema: unemployabilityStatusUISchema,
+  schema: unemployabilityStatusSchema,
+};
+
+export const unemployabilityFormIntro = {
+  uiSchema: unemployabilityFormIntroUISchema,
+  schema: unemployabilityFormIntroSchema,
 };

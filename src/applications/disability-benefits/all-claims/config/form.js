@@ -17,6 +17,7 @@ import {
   hasPrivateEvidence,
   hasOtherEvidence,
   needsToEnter781,
+  needsToEnter781a,
   isUploadingPtsdForm,
   servedAfter911,
 } from '../utils';
@@ -42,6 +43,8 @@ import {
   choosePtsdType,
   ptsdWalkthroughChoice781,
   uploadPtsdDocuments,
+  ptsdWalkthroughChoice781a,
+  uploadPersonalPtsdDocuments,
   summaryOfDisabilities,
   vaMedicalRecords,
   additionalDocuments,
@@ -53,7 +56,8 @@ import {
   vaEmployee,
   summaryOfEvidence,
   fullyDevelopedClaim,
-  newUnemploymentFollowUp,
+  unemployabilityStatus,
+  unemployabilityFormIntro,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -242,11 +246,36 @@ const formConfig = {
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
         },
-        newUnemploymentFollowUp: {
+        ptsdWalkthroughChoice781a: {
+          title: 'PTSD Walkthrough 781a Choice',
+          path: 'new-disabilities/walkthrough-781a-choice',
+          depends: formData =>
+            hasNewPtsdDisability(formData) && needsToEnter781a(formData),
+          uiSchema: ptsdWalkthroughChoice781a.uiSchema,
+          schema: ptsdWalkthroughChoice781a.schema,
+        },
+        uploadPtsdDocuments781a: {
+          title: 'Upload PTSD Documents - 781a',
+          path: 'new-disabilities/ptsd-781a-upload',
+          depends: formData =>
+            hasNewPtsdDisability(formData) &&
+            needsToEnter781a(formData) &&
+            isUploadingPtsdForm(formData),
+          uiSchema: uploadPersonalPtsdDocuments.uiSchema,
+          schema: uploadPersonalPtsdDocuments.schema,
+        },
+        unemployabilityStatus: {
+          title: 'Unemployability Status',
+          path: 'new-disabilities/unemployability-status',
+          uiSchema: unemployabilityStatus.uiSchema,
+          schema: unemployabilityStatus.schema,
+        },
+        unemployabilityFormIntro: {
           title: 'File a Claim for Individual Unemployability',
-          path: 'new-disabilities/unemployment-status',
-          uiSchema: newUnemploymentFollowUp.uiSchema,
-          schema: newUnemploymentFollowUp.schema,
+          path: 'new-disabilities/unemployability-walkthrough-choice',
+          depends: formData => formData['view:unemployabilityStatus'],
+          uiSchema: unemployabilityFormIntro.uiSchema,
+          schema: unemployabilityFormIntro.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',

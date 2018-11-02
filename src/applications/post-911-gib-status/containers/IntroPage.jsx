@@ -64,6 +64,9 @@ export class IntroPage extends React.Component {
   }
 
   render() {
+    // TODO: delete this code entirely when we are sure we no longer need to
+    // show the warning to users at all times
+    // eslint-disable-next-line
     const gibsWarning = (
       <div className="usa-alert usa-alert-warning intro-warning">
         <div className="usa-alert-body">
@@ -79,8 +82,6 @@ export class IntroPage extends React.Component {
     if (brandConsolidation.isEnabled()) {
       return (
         <div>
-          {this.props.serviceAvailability === SERVICE_AVAILABILITY_STATES.up &&
-            gibsWarning}
           <h1>Post-9/11 GI Bill Statement of Benefits</h1>
           {content}
         </div>
@@ -90,8 +91,6 @@ export class IntroPage extends React.Component {
     return (
       <div className="row">
         <div className="medium-8 columns">
-          {this.props.serviceAvailability === SERVICE_AVAILABILITY_STATES.up &&
-            gibsWarning}
           <h1>Post-9/11 GI Bill Statement of Benefits</h1>
           <p>
             If you were awarded Post-9/11 GI Bill education benefits, your GI

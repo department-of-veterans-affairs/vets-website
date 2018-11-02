@@ -54,6 +54,17 @@ If you're a Veteran with VA health care benefits, you can make health care appoi
  </div>
 </div>
 
+<div class="usa-alert usa-alert-info">
+<div class="usa-alert-body">
+<h4 class="usa-alert-heading">Vets.gov health tools will be moving to My HealtheVet soon</h4>
+<div class="usa-alert-text">
+
+When our tools move, we’ll show you how to get to My HealtheVet from here. You’ll be able to refill prescriptions, schedule or cancel VA health care appointments, and send secure messages to your health care team. For now, you can keep managing your health care using these tools on Vets.gov.
+
+</div>
+</div>
+</div>
+
 <br>
 
 <div itemprop="steps" itemscope itemtype ="http://schema.org/HowToSection">

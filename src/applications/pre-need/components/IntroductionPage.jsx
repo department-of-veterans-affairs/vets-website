@@ -10,6 +10,8 @@ import SaveInProgressIntro, {
   introSelector,
 } from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
+import facilityLocator from '../../facility-locator/manifest';
+
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
@@ -45,7 +47,10 @@ class IntroductionPage extends React.Component {
                   The name of the VA national cemetery where you’d prefer to be
                   buried.
                   <br />
-                  <a href="/facilities/">Find a VA national cemetery</a>.
+                  <a href={facilityLocator.rootUrl}>
+                    Find a VA national cemetery
+                  </a>
+                  .
                 </li>
                 <li>
                   Service history or the service history of the Servicemember or

@@ -2,12 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+
 import backendServices from '../../../platform/user/profile/constants/backendServices';
 import DowntimeNotification, {
   externalServices,
 } from '../../../platform/monitoring/DowntimeNotification';
+import HealthToolsMovingMessage from '../../../platform/static-data/HealthToolsMovingMessage';
 import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import { closeAlert } from '../actions';
 import ButtonSettings from '../components/buttons/ButtonSettings';
@@ -87,6 +89,7 @@ class MessagingApp extends React.Component {
                   <h1>Message your health care team</h1>
                   <ButtonSettings />
                 </div>
+                <HealthToolsMovingMessage />
                 {this.renderWarningBanner()}
               </div>
               {this.props.children}

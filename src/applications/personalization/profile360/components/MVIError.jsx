@@ -1,5 +1,6 @@
 import React from 'react';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import facilityLocator from '../../../facility-locator/manifest';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
@@ -24,7 +25,7 @@ export default function MVIError({ facilitiesClick }) {
       </p>
 
       <p>
-        <a href="/facilities/" onClick={facilitiesClick}>
+        <a href={facilityLocator} onClick={facilitiesClick}>
           Find your nearest VA Medical Center
         </a>
         .
