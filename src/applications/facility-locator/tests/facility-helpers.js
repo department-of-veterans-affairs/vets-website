@@ -243,7 +243,8 @@ function initApplicationMock(token) {
 function ccLocatorEnabled() {
   return (
     process.env.BUILDTYPE !== 'production' &&
-    process.env.BUILDTYPE !== 'preview'
+    process.env.BUILDTYPE !== 'preview' &&
+    process.env.BUILDTYPE !== 'vagovprod'
   );
 }
 

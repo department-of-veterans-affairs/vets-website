@@ -6,14 +6,13 @@ export default class VAPlusVetsModal extends React.Component {
   static isEnabled() {
     if (!brandConsolidation.isEnabled()) return false;
 
-    // Remove before launch
     if (__BUILDTYPE__ === 'preview') return false;
 
     let wasRedirectedFromVets = /^https:\/\/((dev|staging|www)\.)?vets\.gov/.test(
       document.referrer,
     );
 
-    // Allow an override on the URL to force the Onboarding Modal to appear for testing purposes.s
+    // Allow an override on the URL to force the Onboarding Modal to appear for testing purposes.
     if (__BUILDTYPE__ !== 'preview' && !wasRedirectedFromVets) {
       wasRedirectedFromVets = window.location.search.includes(
         'onboarding-modal',
