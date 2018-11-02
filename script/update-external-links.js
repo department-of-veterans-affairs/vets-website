@@ -14,7 +14,7 @@ const newTabDomains = [
 ];
 
 function isVADomainThatOpensInNewTab(href) {
-  return newTabDomains.some(domain => href.includes(domain));
+  return newTabDomains.some(domain => href.toLowerCase().includes(domain));
 }
 
 function isNonVADomainThatOpensInSameTab(href) {
