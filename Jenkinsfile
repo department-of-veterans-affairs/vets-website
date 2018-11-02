@@ -254,8 +254,8 @@ node('vetsgov-general-purpose') {
     if (shouldBail()) { return }
 
     def optimizationEnvironments = [
-      'vagovdev'
-      'vagovstaging'
+      'vagovdev',
+      'vagovstaging',
     ]
 
     try {
