@@ -3,7 +3,7 @@ import org.kohsuke.github.GitHub
 def getIsCMSDeploy(ref) {
   // check to see if this ref has already been built
   // if it has then we are doing a cms deployment, not a full pipeline
-  return sh (script: 'aws s3 ls s3://vetsgov-website-builds-s3-upload/${ref}/',
+  return sh (script: "aws s3 ls s3://vetsgov-website-builds-s3-upload/${ref}/",
              returnStatus: true) == 0
 }
 
@@ -21,7 +21,7 @@ def getEnvNames(isCMSDeploy) {
     'development', 'staging', 'production'
   ]
   def vagovEnvNames = [
-    'preview', 'vagovdev', 'vagovstaging'
+    'preview', 'vagovdev', 'vagovstaging', 'vagovprod'
   ]
 
   if (isCMSDeploy) {
@@ -35,7 +35,7 @@ def envNames = [
   // Vets.gov envs
   'development', 'staging', 'production',
   // VA.gov envs
-  'preview', 'vagovdev', 'vagovstaging'
+  'preview', 'vagovdev', 'vagovstaging', 'vagovprod'
 ]
 
 def devBranch = 'master'
@@ -249,6 +249,35 @@ node('vetsgov-general-purpose') {
       }
     }
   }
+
+  stage('Pre-archive optimizations') {
+    if (shouldBail()) { return }
+
+    def optimizationEnvironments = [
+      'vagovdev'
+    ]
+
+    try {
+      def builds = [:]
+
+      for (int i=0; i<optimizationEnvironments.size(); i++) {
+        def envName = optimizationEnvironments.get(i)
+
+        builds[envName] = {
+          dockerImage.inside(args) {
+            sh "cd /application && node script/pre-archive/index.js --buildtype=${envName}"
+          }
+        }
+      }
+
+      parallel builds
+    } catch (error) {
+      notify()
+
+      throw error
+    }
+  }
+
   stage('Archive') {
     if (shouldBail()) { return }
 
@@ -305,7 +334,9 @@ node('vetsgov-general-purpose') {
           runDeploy('deploys/vets-website-dev', commit)
         }
         runDeploy('deploys/vets-website-vagovdev', commit)
-      } else if (env.BRANCH_NAME == stagingBranch) {
+      }
+
+      if (env.BRANCH_NAME == stagingBranch) {
         if (!isCMSDeploy) {
           runDeploy('deploys/vets-website-staging', commit)
         }

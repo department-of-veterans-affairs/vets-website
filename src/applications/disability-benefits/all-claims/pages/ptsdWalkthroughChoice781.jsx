@@ -24,7 +24,7 @@ export const uiSchema = {
     },
   },
   'view:uploadPtsdChoiceHelp': {
-    'ui:description': PtsdUploadChoiceDescription,
+    'ui:description': <PtsdUploadChoiceDescription formType="781" />,
   },
 };
 

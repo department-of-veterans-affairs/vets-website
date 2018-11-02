@@ -100,6 +100,7 @@ class SearchApp extends React.Component {
         <input
           type="text"
           name="query"
+          aria-label="Enter the word or phrase you'd like to search for"
           value={this.state.userInput}
           onChange={this.handleInputChange}
         />
@@ -128,11 +129,31 @@ class SearchApp extends React.Component {
         {searchInput}
         {this.renderResultsCount()}
         <hr />
+        {this.renderRecommendedResults()}
         {this.renderResultsList()}
         <hr id="hr-search-bottom" />
         {this.renderResultsFooter()}
       </div>
     );
+  }
+
+  renderRecommendedResults() {
+    const { loading, recommendedResults } = this.props.search;
+    if (!loading && recommendedResults && recommendedResults.length > 0) {
+      return (
+        <div>
+          <h4>Our Top Recommendations for You</h4>
+          <ul className="results-list">
+            {recommendedResults.map(r =>
+              this.renderWebResult(r, 'description'),
+            )}
+          </ul>
+          <hr />
+        </div>
+      );
+    }
+
+    return null;
   }
 
   renderResultsCount() {
@@ -186,7 +207,7 @@ class SearchApp extends React.Component {
   }
 
   /* eslint-disable react/no-danger */
-  renderWebResult(result) {
+  renderWebResult(result, snippetKey = 'snippet') {
     return (
       <li key={result.url} className="result-item">
         <a className="result-title" href={result.url}>
@@ -200,7 +221,7 @@ class SearchApp extends React.Component {
         <p
           className="result-desc"
           dangerouslySetInnerHTML={{
-            __html: formatResponseString(result.snippet),
+            __html: formatResponseString(result[snippetKey]),
           }}
         />
       </li>
@@ -218,7 +239,6 @@ class SearchApp extends React.Component {
           onPageSelect={this.handlePageChange}
           page={currentPage}
           pages={totalPages}
-          showLastPage
           maxPageListLength={5}
         />
       </div>

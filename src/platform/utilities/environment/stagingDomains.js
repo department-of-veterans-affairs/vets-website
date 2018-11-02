@@ -9,7 +9,7 @@ if (__BUILDTYPE__ === 'preview') {
   currentEnv = 'preview';
 }
 
-if (__BUILDTYPE__ === 'production') {
+if (__BUILDTYPE__ === 'production' || __BUILDTYPE__ === 'vagovprod') {
   currentEnv = 'www';
 }
 

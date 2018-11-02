@@ -17,21 +17,22 @@ Used to open or close the side bar navigation bar on mobile screens. Must be use
 
 
 <script type="text/javascript">
+    var mobileMediaQuery = window.matchMedia('(max-width: 767px)');
     var element = document.getElementsByClassName("va-btn-sidebarnav-trigger")[0];
     var offset;
 
-    if (document.body.clientWidth < 768) {
+    if (mobileMediaQuery.matches) {
       offset = element.offsetTop;
     }
 
     window.addEventListener("resize", function() {
-      if (document.body.clientWidth < 768) {
+      if (mobileMediaQuery.matches) {
         offset = element.offsetTop;
       }
     }, false);
 
     window.addEventListener("scroll", function() {
-      if (document.body.clientWidth < 768) {
+      if (mobileMediaQuery.matches) {
         if (offset < window.pageYOffset) {
           element.classList.add("fixed-trigger");
         } else {

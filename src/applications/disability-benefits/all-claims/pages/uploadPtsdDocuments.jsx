@@ -53,6 +53,7 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
+  required: ['ptsd781'],
   properties: {
     ptsd781: {
       type: 'array',
