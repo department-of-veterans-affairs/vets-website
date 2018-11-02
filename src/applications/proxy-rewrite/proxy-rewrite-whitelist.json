@@ -58,7 +58,7 @@
     {
         "hostname": "www.va.gov",
         "pathnameBeginning": "/",
-        "cookieOnly": false
+        "cookieOnly": true
     },
     {
         "hostname": "www.cem.va.gov",
