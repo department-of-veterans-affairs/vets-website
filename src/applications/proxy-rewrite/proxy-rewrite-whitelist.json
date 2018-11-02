@@ -56,6 +56,11 @@
         "cookieOnly": false
     },
     {
+        "hostname": "www.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": false
+    },
+    {
         "hostname": "www.cem.va.gov",
         "pathnameBeginning": "/",
         "cookieOnly": true

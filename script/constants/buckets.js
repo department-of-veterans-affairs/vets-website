@@ -5,6 +5,7 @@ const {
   STAGING,
   VAGOVDEV,
   VAGOVSTAGING,
+  VAGOVPROD,
 } = require('./environments');
 
 const hostnames = require('./hostnames');
@@ -18,4 +19,5 @@ module.exports = {
   [STAGING]: `${bucket}/${hostnames[STAGING]}`,
   [VAGOVDEV]: 'https://dev-va-gov-assets.s3-us-gov-west-1.amazonaws.com',
   [VAGOVSTAGING]: `${bucket}/${hostnames[VAGOVSTAGING]}`,
+  [VAGOVPROD]: 'https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com',
 };
