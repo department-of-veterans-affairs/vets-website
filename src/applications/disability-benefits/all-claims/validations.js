@@ -147,7 +147,7 @@ export const isInFuture = (err, fieldData) => {
 export const isValidYear = (err, fieldData) => {
   const parsedInt = Number.parseInt(fieldData, 10);
 
-  if (!/\d{4}/.test(fieldData) || parsedInt < 1900 || parsedInt > 3000) {
+  if (!/^\d{4}$/.test(fieldData) || parsedInt < 1900 || parsedInt > 3000) {
     err.addError('Please provide a valid year');
   }
 };
