@@ -143,3 +143,11 @@ export const isInFuture = (err, fieldData) => {
     err.addError('Start date must be in the future');
   }
 };
+
+export const isValidYear = (err, fieldData) => {
+  const parsedInt = Number.parseInt(fieldData, 10);
+
+  if (!/\d{4}/.test(fieldData) || parsedInt < 1900 || parsedInt > 3000) {
+    err.addError('Please provide a valid year');
+  }
+};

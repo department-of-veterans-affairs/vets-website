@@ -1,5 +1,5 @@
 import fullSchema from '../config/schema';
-import { hasSeparationPay } from '../validations';
+import { hasSeparationPay, isValidYear } from '../validations';
 import {
   waiveTrainingPayDescription,
   separationPayDetailsDescription,
@@ -26,9 +26,8 @@ export const uiSchema = {
     },
     separationPayDate: {
       'ui:title': 'Please tell us the year you received a payment',
-      // TODO: Validate that it's a proper year (a number between 1900 and 3000).
-      'ui:field': 'NumberField',
-      'ui:validations': [],
+      // TODO: Change this to a number field to mimic the regular date field
+      'ui:validations': [isValidYear],
       'ui:errorMessages': {
         pattern: 'Please provide a valid year',
       },
