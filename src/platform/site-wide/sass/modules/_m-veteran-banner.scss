@@ -1,11 +1,7 @@
 $veteran-banner-desktop-width: 1280px;
-$veteran-banner-desktop-height: 160px;
-$veteran-banner-mobile-width: 318px;
-$veteran-banner-mobile-height: 70px;
 
 .veteran-banner {
   @include linear-gradient-background($white, $mm-gray);
-  max-width: $veteran-banner-desktop-width;
   margin: 1.5em auto 0;
   padding: 0 0.5em;
   @include media($large-screen) {
@@ -19,3 +15,7 @@ $veteran-banner-mobile-height: 70px;
   }
 }
 
+.veteran-banner-image {
+  max-width: $veteran-banner-desktop-width;
+  margin: 0 auto;
+}
