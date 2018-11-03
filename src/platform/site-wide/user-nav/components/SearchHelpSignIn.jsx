@@ -32,7 +32,6 @@ class SearchHelpSignIn extends React.Component {
     const shouldRenderSignedInContent =
       (!isLoading && this.props.isLoggedIn) || (isLoading && this.hasSession());
     const isSubdomain = isVASubdomain();
-    const signInLinkSubdomain = window.location.hostname.split('.')[0];
 
     // If we're done loading, and the user is logged in, or loading is in progress,
     // and we have information is session storage, we can go ahead and render.
@@ -77,7 +76,7 @@ class SearchHelpSignIn extends React.Component {
         {isSubdomain && (
           <a
             className="usa-button sign-in-link"
-            href={`${signInLinkSubdomain}.va.gov/my-va`}
+            href={`https://www.va.gov/my-va`}
           >
             Sign In
           </a>

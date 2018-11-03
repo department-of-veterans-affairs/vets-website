@@ -5,7 +5,7 @@
  */
 export default function isVASubdomain() {
   return !!window.location.hostname.match(
-    /www.(cem|benefits|telehealth|volunteer|ptsd|nutrition)+/,
+    /(cem|benefits|telehealth|volunteer|ptsd|nutrition).va/,
     'g',
   );
 }
