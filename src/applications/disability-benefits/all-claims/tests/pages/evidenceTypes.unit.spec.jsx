@@ -25,24 +25,6 @@ describe('evidenceTypes', () => {
     expect(form.find('input').length).to.equal(2);
   });
 
-  it('should require selecting an evidence option', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(onSubmit.called).to.be.false;
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-  });
-
   it('should submit when no evidence selected', () => {
     const onSubmit = sinon.spy();
     const form = mount(
