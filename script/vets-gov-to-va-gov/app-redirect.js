@@ -3,7 +3,7 @@ function createAppRedirectHtml(vetsGovSrc, vaGovDest, vaGovHost) {
     `` +
     `<!doctype html>
 <head>
-  <script>
+  <script nonce="**CSP_NONCE**">
     function requiresSignIn(newPath) {
       var pathsRequiringSignIn = [
         '/track-claims',
