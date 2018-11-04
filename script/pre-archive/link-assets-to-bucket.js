@@ -45,7 +45,7 @@ function linkAssetsToBucket(options, fileNames) {
       }
 
       if (!assetSrc) continue;
-      if (assetSrc.startsWith('http')) continue;
+      if (assetSrc.startsWith('http') || assetSrc.startsWith('data:')) continue;
 
       const assetBucketLocation = `${bucketPath}${assetSrc}`;
 
