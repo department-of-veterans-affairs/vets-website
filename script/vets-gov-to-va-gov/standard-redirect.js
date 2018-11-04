@@ -8,7 +8,6 @@ function createStandardRedirectHtml(vaGovDest) {
   <title>Page Moved</title>
 </head>
 <body>
-  New location: <a href="${vaGovDest}">${vaGovDest}</a>
 </body>
 `
   );

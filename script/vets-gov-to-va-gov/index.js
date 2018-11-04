@@ -52,8 +52,8 @@ function generateRedirectedPages(BUILD_OPTIONS) {
       htmlFileContents = createStandardRedirectHtml(vaGovFullPath);
     } else {
       htmlFileContents = createAppRedirectHtml(
-        vetsGovSrc,
-        vaGovDest,
+        vetsGovSrc.replace(/\/$/, ''),
+        vaGovDest.replace(/\/$/, ''),
         `https://${vaGovHostDestination}`,
       );
     }

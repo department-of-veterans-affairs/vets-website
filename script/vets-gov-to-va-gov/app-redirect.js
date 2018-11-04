@@ -4,16 +4,32 @@ function createAppRedirectHtml(vetsGovSrc, vaGovDest, vaGovHost) {
     `<!doctype html>
 <head>
   <script>
+    function requiresSignIn(newPath) {
+      var pathsRequiringSignIn = [
+        '/track-claims',
+        '/my-va',
+        '/download-va-letters',
+        '/profile',
+        '/account',
+        '/get-veteran-id-cards/apply',
+        '/health-care/health-records'
+      ];
+      return pathsRequiringSignIn.some(reactPath => newPath.indexOf(reactPath) >= 0);
+    }
     var pathname = window.location.pathname; 
     var newPath = pathname.replace('${vetsGovSrc}', '${vaGovDest}');
-    var fullUrl = '${vaGovHost}' + newPath + window.location.search;
-    document.write('<meta http-equiv=refresh content="0; url=' + fullUrl + '">');
+    var finalUrl = '${vaGovHost}' + newPath;
+    var redirectUrl = finalUrl + window.location.search;
+
+    if (requiresSignIn(newPath)) {
+      redirectUrl = '${vaGovHost}?next=' + encodeURIComponent(newPath + window.location.search);
+    }
+    document.write('<meta http-equiv=refresh content="0; url=' + redirectUrl + '">');
+    document.write('<link rel=canonical href="' + finalUrl + '">');
   </script>
-  <link rel=canonical href="${vaGovDest}">
   <title>Page Moved</title>
 </head>
 <body>
-  New location: <a href="${vaGovDest}">${vaGovDest}</a>
 </body>
 `
   );
