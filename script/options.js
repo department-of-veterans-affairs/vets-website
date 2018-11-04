@@ -24,7 +24,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     type: String,
     defaultValue: '../../vagov-content/pages',
   },
-
+  { name: 'vets-gov-to-va-gov', type: Boolean, defaultValue: false },
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
@@ -72,6 +72,10 @@ function applyEnvironmentOverrides(options) {
 
   switch (options.buildtype) {
     case environments.DEVELOPMENT:
+      options['vets-gov-to-va-gov'] = true;
+      options['brand-consolidation-enabled'] = true;
+      break;
+
     case environments.STAGING:
       options.move = [{ source: 'vets-robots.txt', target: 'robots.txt' }];
       options.remove = ['va-robots.txt'];
