@@ -3,7 +3,7 @@ function createStandardRedirectHtml(vaGovDest) {
     `` +
     `<!doctype html>
 <head>
-  <meta http-equiv=refresh content="1; url=${vaGovDest}">
+  <meta http-equiv=refresh content="0; url=${vaGovDest}">
   <link rel=canonical href="${vaGovDest}">
   <title>Page Moved</title>
 </head>
