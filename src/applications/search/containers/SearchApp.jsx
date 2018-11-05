@@ -145,7 +145,7 @@ class SearchApp extends React.Component {
           <h4>Our Top Recommendations for You</h4>
           <ul className="results-list">
             {recommendedResults.map(r =>
-              this.renderWebResult(r, 'description'),
+              this.renderWebResult(r, 'description', true),
             )}
           </ul>
           <hr />
@@ -207,10 +207,22 @@ class SearchApp extends React.Component {
   }
 
   /* eslint-disable react/no-danger */
-  renderWebResult(result, snippetKey = 'snippet') {
+  renderWebResult(result, snippetKey = 'snippet', isBestBet = false) {
     return (
       <li key={result.url} className="result-item">
-        <a className="result-title" href={result.url}>
+        <a
+          className="result-title"
+          href={result.url}
+          onClick={
+            isBestBet
+              ? () =>
+                  recordEvent({
+                    event: 'nav-searchresults',
+                    'nav-path': `Recommended Results -> ${result.title}`,
+                  })
+              : null
+          }
+        >
           <h5
             dangerouslySetInnerHTML={{
               __html: formatResponseString(result.title, true),
