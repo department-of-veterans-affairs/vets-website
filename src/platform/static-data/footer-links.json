@@ -113,7 +113,7 @@
   },
   {
     "column": 2,
-    "href": "/welcome-kit/",
+    "href": "https://www.va.gov/welcome-kit/",
     "order": 10,
     "target": null,
     "title": "Print Your VA Welcome Kit"
@@ -176,7 +176,7 @@
   },
   {
     "column": 4,
-    "href": "/find-locations/",
+    "href": "https://www.va.gov/find-locations/",
     "order": 1,
     "target": null,
     "title": "Find a VA Location"
@@ -217,21 +217,21 @@
   },
   {
     "column": "bottom_rail",
-    "href": "/opa/Plain_Language.asp",
+    "href": "https://www.va.gov/opa/Plain_Language.asp",
     "order": 3,
     "target": null,
     "title": "Plain Language"
   },
   {
     "column": "bottom_rail",
-    "href": "/privacy/",
+    "href": "https://www.va.gov/privacy/",
     "order": 4,
     "target": null,
     "title": "Privacy, Policies, and Legal Information"
   },
   {
     "column": "bottom_rail",
-    "href": "/scorecard/",
+    "href": "https://www.va.gov/scorecard/",
     "order": 5,
     "target": null,
     "title": "VA.gov Scorecard"

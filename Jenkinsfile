@@ -131,7 +131,7 @@ node('vetsgov-general-purpose') {
 
       dir("vets-website") {
         ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-        isCMSDeploy = getIsCMSDeploy(ref)
+        isCMSDeploy = false // getIsCMSDeploy(ref)
         envNames = getEnvNames(isCMSDeploy)
 
         sh "mkdir -p build"
@@ -254,7 +254,10 @@ node('vetsgov-general-purpose') {
     if (shouldBail()) { return }
 
     def optimizationEnvironments = [
-      'vagovdev'
+      'vagovdev',
+      'vagovstaging',
+      'vagovprod',
+      'preview',
     ]
 
     try {

@@ -11,6 +11,7 @@ import {
   NO_CHAPTER33_RECORD_AVAILABLE,
   SERVICE_AVAILABILITY_STATES,
   SET_SERVICE_AVAILABILITY,
+  SET_SERVICE_UPTIME_REMAINING,
 } from '../utils/constants';
 
 export function getEnrollmentData() {
@@ -72,12 +73,19 @@ export function getServiceAvailability() {
     return apiRequest('/backend_statuses/gibs')
       .then(response => {
         const availability = response.data.attributes.isAvailable;
+        const uptimeRemaining =
+          response.data.attributes.uptimeRemaining || null;
 
         dispatch({
           type: SET_SERVICE_AVAILABILITY,
           serviceAvailability: availability
             ? SERVICE_AVAILABILITY_STATES.up
             : SERVICE_AVAILABILITY_STATES.down,
+        });
+
+        dispatch({
+          type: SET_SERVICE_UPTIME_REMAINING,
+          uptimeRemaining,
         });
       })
       .catch(() => {
