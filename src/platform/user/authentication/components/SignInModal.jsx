@@ -3,7 +3,7 @@ import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
-import CallHelpDesk from '../../../brand-consolidation/components/CallHelpDesk';
+import FillSignInForm from '../../../brand-consolidation/components/FillSignInForm';
 
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 import recordEvent from '../../../monitoring/record-event';
@@ -76,10 +76,10 @@ class SignInModal extends React.Component {
                 >
                   We’re sorry. We’re working to fix some problems with DS Logon
                   right now. Please check back later or{' '}
-                  <CallHelpDesk>
+                  <FillSignInForm>
                     call the {siteName} Help Desk for more information at
                     1-855-574-7286, TTY: 1-800-877-8339.
-                  </CallHelpDesk>
+                  </FillSignInForm>
                 </AlertBox>
                 <br />
               </div>
@@ -198,14 +198,14 @@ class SignInModal extends React.Component {
               </p>
               <p>
                 Or{' '}
-                <CallHelpDesk>
+                <FillSignInForm>
                   call the {siteName} Help Desk at{' '}
                   <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
                   <a href="tel:18008778339">1-800-877-8339</a>
                   <br />
                   We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
                   (ET)
-                </CallHelpDesk>
+                </FillSignInForm>
               </p>
             </div>
             <hr />

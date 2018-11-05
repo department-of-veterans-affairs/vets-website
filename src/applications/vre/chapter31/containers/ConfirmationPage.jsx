@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import { focusElement } from '../../../../platform/utilities/ui';
 import AskVAQuestions from '../../../../platform/forms/components/AskVAQuestions';
+import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
 import siteName from '../../../../platform/brand-consolidation/site-name';
 
 const scroller = Scroll.scroller;
@@ -106,7 +107,7 @@ class ConfirmationPage extends React.Component {
             </a>
           </div>
         </div>
-        <AskVAQuestions>
+        <AskVAQuestions helpContact={CallVBACenter}>
           <p className="help-talk">Enrollment or Eligibility questions:</p>
           <p className="help-phone-number">
             <a className="help-phone-number-link" href="tel:+1-877-222-8387">

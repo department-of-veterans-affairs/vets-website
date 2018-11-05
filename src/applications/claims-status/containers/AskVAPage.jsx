@@ -5,6 +5,7 @@ import { submitRequest, getClaimDetail } from '../actions/index.jsx';
 import { setUpPage } from '../utils/page';
 
 import AskVAQuestions from '../components/AskVAQuestions';
+import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation/ErrorableCheckbox';
 
@@ -108,7 +109,7 @@ class AskVAPage extends React.Component {
             </div>
           </div>
           <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
-            <AskVAQuestions />
+            <AskVAQuestions helpContact={CallVBACenter} />
           </div>
         </div>
       </div>

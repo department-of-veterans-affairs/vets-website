@@ -8,6 +8,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import { getAppeals } from '../actions/index.jsx';
 import AppealEventItem from '../components/AppealEventItem';
 import AskVAQuestions from '../components/AskVAQuestions';
+import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
 import {
   appealStatusDescriptions,
   hearingDescriptions,
@@ -171,7 +172,7 @@ class AppealStatusPage extends React.Component {
             </div>
           </div>
           <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
-            <AskVAQuestions />
+            <AskVAQuestions helpContact={CallVBACenter} />
           </div>
         </div>
       </div>

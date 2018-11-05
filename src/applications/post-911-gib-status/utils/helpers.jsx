@@ -1,7 +1,7 @@
 import React from 'react';
 import { formatDateParsedZoneLong } from '../../../platform/utilities/date';
 import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
+import CallEduCenter from '../../../platform/brand-consolidation/components/CallEduCenter';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
@@ -211,11 +211,11 @@ export function backendErrorMessage() {
         </ul>
         <p>
           If you think your Statement of Benefits should be here, please{' '}
-          <CallHelpDesk>
+          <CallEduCenter>
             call the {propertyName} Help Desk at{' '}
             <a href="tel:18555747286">1-855-574-7286</a>. We’re here Monday
             through Friday, 8:00 a.m. to 8:00 p.m. (ET).
-          </CallHelpDesk>
+          </CallEduCenter>
         </p>
         <a className="usa-button usa-button-primary">
           Back to Post-9/11 GI Bill

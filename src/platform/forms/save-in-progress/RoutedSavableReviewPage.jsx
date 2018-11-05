@@ -8,7 +8,6 @@ import debounce from '../../utilities/data/debounce';
 
 import ReviewChapters from 'us-forms-system/lib/js/review/ReviewChapters';
 import SubmitController from 'us-forms-system/lib/js/review/SubmitController';
-import CallHelpDesk from '../../brand-consolidation/components/CallHelpDesk';
 
 import isBrandConsolidationEnabled from '../../brand-consolidation/feature-flag';
 import DowntimeNotification, {
@@ -67,6 +66,7 @@ class RoutedSavableReviewPage extends React.Component {
     const { route, user, form, location, showLoginModal } = this.props;
     const errorText = route.formConfig.errorText;
     const savedStatus = form.savedStatus;
+    const HelpContact = route.formConfig.helpContact;
 
     const saveLink = (
       <SaveFormLink
@@ -94,13 +94,13 @@ class RoutedSavableReviewPage extends React.Component {
       InlineErrorComponent = () => (
         <p>
           If it still doesn’t work, please{' '}
-          <CallHelpDesk>
+          <HelpContact>
             call the {propertyName} Help Desk at{' '}
             <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
             <a href="tel:18008778339">1-800-877-8339</a>
             ). We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
             (ET).
-          </CallHelpDesk>
+          </HelpContact>
         </p>
       );
     }

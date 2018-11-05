@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import backendServices from '../../../platform/user/profile/constants/backendServices';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
 import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
+import CallEduCenter from '../../../platform/brand-consolidation/components/CallEduCenter';
 import DowntimeNotification, {
   externalServices,
 } from '../../../platform/monitoring/DowntimeNotification';
@@ -27,12 +27,12 @@ function AppContent({ children, isDataAvailable }) {
             We weren’t able to find information about your Post-9/11 GI Bill
             Benefit Status. If you think you should be able to access this
             information, please{' '}
-            <CallHelpDesk>
+            <CallEduCenter>
               call the {propertyName} Help Desk at{' '}
               <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
               <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211;
               Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
-            </CallHelpDesk>
+            </CallEduCenter>
           </h4>
           <br />
         </div>
