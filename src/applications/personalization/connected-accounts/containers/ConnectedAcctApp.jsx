@@ -25,14 +25,6 @@ class ConnectedAcctApp extends React.Component {
     this.props.loadConnectedAccounts();
   };
 
-  closeModal = () => {
-    this.setState({ modalOpen: false });
-  };
-
-  openModal = () => {
-    this.setState({ modalOpen: true });
-  };
-
   confirmDelete = accountId => {
     this.props.deleteConnectedAccount(accountId);
   };
