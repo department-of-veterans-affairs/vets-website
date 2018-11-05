@@ -23,6 +23,10 @@
     }
   }
 
+  .facility-introtext {
+    padding: 0 15px 15px;
+  }
+
   .flex-center {
     display: flex;
     align-items: center;
@@ -619,7 +623,7 @@
   border-radius: 4px;
   border: 1px solid #6495a3;
   z-index: 9999;
-  span { 
+  span {
     float: right;
     margin: 0px 0px 2px 4px;
     font-size: 1.9rem;
@@ -628,13 +632,13 @@
     color: #818a8d;
   }
 
-  
-  h6 { 
+
+  h6 {
     font-size: 1.6rem!important;
     line-height: 1.9rem;
     margin: 0 0 0.5rem 0;
   }
-  p { 
+  p {
     margin: 0!important;
     font-size: 1.3rem;
     line-height: 1.7rem;
