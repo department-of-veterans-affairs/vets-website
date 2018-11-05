@@ -3,6 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
+import isVATeamSiteSubdomain from '../../../brand-consolidation/va-subdomain';
 import recordEvent from '../../../monitoring/record-event';
 import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 import HelpMenu from './HelpMenu';
@@ -30,6 +31,7 @@ class SearchHelpSignIn extends React.Component {
     const isLoading = this.props.isProfileLoading;
     const shouldRenderSignedInContent =
       (!isLoading && this.props.isLoggedIn) || (isLoading && this.hasSession());
+    const isSubdomain = isVATeamSiteSubdomain();
 
     // If we're done loading, and the user is logged in, or loading is in progress,
     // and we have information is session storage, we can go ahead and render.
@@ -66,9 +68,19 @@ class SearchHelpSignIn extends React.Component {
 
     return (
       <div className="sign-in-links">
-        <button className="sign-in-link" onClick={this.handleSignInSignUp}>
-          Sign In
-        </button>
+        {!isSubdomain && (
+          <button className="sign-in-link" onClick={this.handleSignInSignUp}>
+            Sign In
+          </button>
+        )}
+        {isSubdomain && (
+          <a
+            className="usa-button sign-in-link"
+            href={`https://www.va.gov/my-va`}
+          >
+            Sign In
+          </a>
+        )}
       </div>
     );
   };
