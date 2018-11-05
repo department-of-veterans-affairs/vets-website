@@ -208,38 +208,21 @@ class SearchApp extends React.Component {
 
   /* eslint-disable react/no-danger */
   renderWebResult(result, snippetKey = 'snippet', isBestBet = false) {
-    if (isBestBet) {
-      return (
-        <li key={result.url} className="result-item">
-          <a
-            className="result-title"
-            href={result.url}
-            onClick={() =>
-              recordEvent({
-                event: 'nav-searchresults',
-                'nav-path': `Recommended Results -> ${result.title}`,
-              })
-            }
-          >
-            <h5
-              dangerouslySetInnerHTML={{
-                __html: formatResponseString(result.title, true),
-              }}
-            />
-          </a>
-          <p className="result-url">{result.url}</p>
-          <p
-            className="result-desc"
-            dangerouslySetInnerHTML={{
-              __html: formatResponseString(result[snippetKey]),
-            }}
-          />
-        </li>
-      );
-    }
     return (
       <li key={result.url} className="result-item">
-        <a className="result-title" href={result.url}>
+        <a
+          className="result-title"
+          href={result.url}
+          onClick={
+            isBestBet
+              ? () =>
+                  recordEvent({
+                    event: 'nav-searchresults',
+                    'nav-path': `Recommended Results -> ${result.title}`,
+                  })
+              : null
+          }
+        >
           <h5
             dangerouslySetInnerHTML={{
               __html: formatResponseString(result.title, true),
