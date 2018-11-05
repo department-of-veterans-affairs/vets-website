@@ -17,9 +17,6 @@
       flex-wrap: nowrap;
     }
   }
-  a[href^="http"]:not([href*="va.gov"]):not([href*="vets.gov"]):not(.no-external-icon) {
-    background-image: url(/img/icons/exit-icon-white.png);
-  }
 }
 
 .footer-inner {
