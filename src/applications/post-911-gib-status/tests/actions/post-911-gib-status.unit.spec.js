@@ -10,6 +10,7 @@ import {
   GET_ENROLLMENT_DATA_SUCCESS,
   SET_SERVICE_AVAILABILITY,
   SERVICE_AVAILABILITY_STATES,
+  SET_SERVICE_UPTIME_REMAINING,
 } from '../../utils/constants';
 
 let oldFetch;
@@ -186,7 +187,7 @@ describe('getServiceAvailability', () => {
   beforeEach(setup);
   afterEach(teardown);
 
-  function apiResponse(isAvailable) {
+  function apiResponse(isAvailable, uptimeRemaining) {
     return Promise.resolve({
       headers: { get: () => 'application/json' },
       ok: true,
@@ -197,6 +198,7 @@ describe('getServiceAvailability', () => {
             id: '',
             attributes: {
               isAvailable,
+              uptimeRemaining,
               name: 'gibs',
             },
           },
@@ -247,6 +249,22 @@ describe('getServiceAvailability', () => {
         expect(action.serviceAvailability).to.equal(
           SERVICE_AVAILABILITY_STATES.down,
         );
+      })
+      .then(done, done);
+  });
+
+  it('should dispatch SET_SERVICE_UPTIME_REMAINING with the seconds until the next scheduled downtime', done => {
+    global.fetch.returns(apiResponse(false, 300));
+    const thunk = getServiceAvailability();
+    const dispatch = sinon.spy();
+
+    thunk(dispatch)
+      .then(() => {
+        // The first call is with `pending`
+        // The second call is for SET_SERVICE_AVAILABILITY
+        const action = dispatch.thirdCall.args[0];
+        expect(action.type).to.equal(SET_SERVICE_UPTIME_REMAINING);
+        expect(action.uptimeRemaining).to.equal(300);
       })
       .then(done, done);
   });
