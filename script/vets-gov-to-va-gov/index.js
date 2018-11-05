@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const yaml = require('js-yaml');
 const mkdirp = require('mkdirp');
@@ -29,6 +29,8 @@ function generateRedirectedPages(BUILD_OPTIONS) {
   );
   const mappingsFile = fs.readFileSync(mappingsFileLocation);
   const mappings = yaml.safeLoad(mappingsFile);
+
+  fs.removeSync(destination);
 
   for (const mapping of mappings) {
     const { vets_gov_src: vetsGovSrc, retain_path: retainPath } = mapping;
