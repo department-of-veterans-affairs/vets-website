@@ -3,7 +3,6 @@
 const fs = require('fs-extra');
 const path = require('path');
 const yaml = require('js-yaml');
-const mkdirp = require('mkdirp');
 
 const environments = require('../constants/environments');
 const hostnames = require('../constants/hostnames');
@@ -39,7 +38,7 @@ function generateRedirectedPages(BUILD_OPTIONS) {
 
     const htmlDirectory = path.join(destination, vetsGovSrc);
 
-    mkdirp.sync(htmlDirectory);
+    fs.ensureDirSync(htmlDirectory);
 
     const htmlFileName = path.join(htmlDirectory, 'index.html');
     let htmlFileContents = null;
