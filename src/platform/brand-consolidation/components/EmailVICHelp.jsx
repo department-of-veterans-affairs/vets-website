@@ -8,7 +8,7 @@ export default function EmailVICHelp({ children }) {
 
   return (
     <span>
-      send an email to <a href="mailto:vic@va.gov">VIC@va.gov</a>.
+      send us an email at <a href="mailto:vic@va.gov">VIC@va.gov</a>.
     </span>
   );
 }
