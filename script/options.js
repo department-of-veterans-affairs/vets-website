@@ -39,6 +39,16 @@ function gatherFromCommandLine() {
   return options;
 }
 
+function applyDeprecatedBuildtypes(options) {
+  const deprecatedEnvironments = [environments.DEVELOPMENT];
+
+  const isDeprecated = deprecatedEnvironments.includes(options.buildtype);
+  if (isDeprecated) {
+    options['vets-gov-to-va-gov'] = true;
+    options['brand-consolidation-enabled'] = true;
+  }
+}
+
 function applyDefaultOptions(options) {
   const contentRoot = '../content';
 
@@ -72,8 +82,6 @@ function applyEnvironmentOverrides(options) {
 
   switch (options.buildtype) {
     case environments.DEVELOPMENT:
-      options['vets-gov-to-va-gov'] = true;
-      options['brand-consolidation-enabled'] = true;
       break;
 
     case environments.STAGING:
@@ -132,6 +140,7 @@ function applyBrandConsolidationOverrides(options) {
 function getOptions() {
   const options = gatherFromCommandLine();
 
+  applyDeprecatedBuildtypes(options);
   applyDefaultOptions(options);
 
   const isHerokuBuild = !!process.env.HEROKU_APP_NAME;
