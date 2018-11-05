@@ -179,6 +179,9 @@ class SearchApp extends React.Component {
     return (
       <p>
         Showing {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`} of {totalEntries} results
+        <span className="usa-sr-only">
+          {' '}for "{this.props.router.location.query.query}"
+        </span>
       </p>
     );
     /* eslint-enable prettier/prettier */
