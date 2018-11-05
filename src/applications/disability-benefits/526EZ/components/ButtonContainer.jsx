@@ -59,6 +59,7 @@ export default function ButtonContainer(props) {
         <a
           className="usa-button-primary"
           href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"
+          target="_blank"
         >
           Go to eBenefits
           <span className="button-icon"> »</span>
