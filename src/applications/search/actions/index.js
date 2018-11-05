@@ -12,7 +12,7 @@ export function fetchSearchResults(query, page) {
       method: 'GET',
     };
 
-    let queryString = `/search?query=${query}`;
+    let queryString = `/search?query=${encodeURIComponent(query)}`;
 
     if (page) {
       queryString = queryString.concat(`&page=${page}`);
@@ -30,7 +30,7 @@ export function fetchSearchResults(query, page) {
       error =>
         dispatch({
           type: FETCH_SEARCH_RESULTS_FAILURE,
-          error,
+          errors: error.errors,
         }),
     );
   };

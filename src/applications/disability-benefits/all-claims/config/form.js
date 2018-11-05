@@ -17,6 +17,7 @@ import {
   hasPrivateEvidence,
   hasOtherEvidence,
   needsToEnter781,
+  needsToEnter781a,
   isUploadingPtsdForm,
   servedAfter911,
 } from '../utils';
@@ -42,6 +43,8 @@ import {
   choosePtsdType,
   ptsdWalkthroughChoice781,
   uploadPtsdDocuments,
+  ptsdWalkthroughChoice781a,
+  uploadPersonalPtsdDocuments,
   summaryOfDisabilities,
   vaMedicalRecords,
   additionalDocuments,
@@ -55,6 +58,8 @@ import {
   fullyDevelopedClaim,
   newUnemploymentFollowUp,
   medicalCare,
+  unemployabilityStatus,
+  unemployabilityFormIntro,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -113,19 +118,6 @@ const formConfig = {
           uiSchema: servicePay.uiSchema,
           schema: servicePay.schema,
         },
-        waiveRetirementPay: {
-          title: 'Waiving Retirement Pay',
-          path: 'waive-retirement-pay',
-          depends: hasMilitaryRetiredPay,
-          uiSchema: waiveRetirementPay.uiSchema,
-          schema: waiveRetirementPay.schema,
-        },
-        separationTrainingPay: {
-          title: 'Separation, Severance or Training Pay',
-          path: 'separation-training-pay',
-          uiSchema: separationTrainingPay.uiSchema,
-          schema: separationTrainingPay.schema,
-        },
         militaryHistory: {
           title: 'Military service history',
           path: 'review-veteran-details/military-service-history',
@@ -154,12 +146,6 @@ const formConfig = {
           depends: form => hasGuardOrReservePeriod(form.serviceInformation),
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
-        },
-        prisonerOfWar: {
-          title: 'Prisoner of War (POW)',
-          path: 'review-veteran-details/military-service-history/pow',
-          uiSchema: prisonerOfWar.uiSchema,
-          schema: prisonerOfWar.schema,
         },
       },
     },
@@ -207,6 +193,7 @@ const formConfig = {
         },
         newDisabilityFollowUp: {
           title: formData => getDisabilityName(formData.condition),
+          depends: form => form['view:newDisabilities'] === true,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
           itemFilter: item =>
@@ -260,6 +247,43 @@ const formConfig = {
             isUploadingPtsdForm(formData),
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
+        },
+        ptsdWalkthroughChoice781a: {
+          title: 'PTSD Walkthrough 781a Choice',
+          path: 'new-disabilities/walkthrough-781a-choice',
+          depends: formData =>
+            hasNewPtsdDisability(formData) && needsToEnter781a(formData),
+          uiSchema: ptsdWalkthroughChoice781a.uiSchema,
+          schema: ptsdWalkthroughChoice781a.schema,
+        },
+        uploadPtsdDocuments781a: {
+          title: 'Upload PTSD Documents - 781a',
+          path: 'new-disabilities/ptsd-781a-upload',
+          depends: formData =>
+            hasNewPtsdDisability(formData) &&
+            needsToEnter781a(formData) &&
+            isUploadingPtsdForm(formData),
+          uiSchema: uploadPersonalPtsdDocuments.uiSchema,
+          schema: uploadPersonalPtsdDocuments.schema,
+        },
+        unemployabilityStatus: {
+          title: 'Unemployability Status',
+          path: 'new-disabilities/unemployability-status',
+          uiSchema: unemployabilityStatus.uiSchema,
+          schema: unemployabilityStatus.schema,
+        },
+        unemployabilityFormIntro: {
+          title: 'File a Claim for Individual Unemployability',
+          path: 'new-disabilities/unemployability-walkthrough-choice',
+          depends: formData => formData['view:unemployabilityStatus'],
+          uiSchema: unemployabilityFormIntro.uiSchema,
+          schema: unemployabilityFormIntro.schema,
+        },
+        prisonerOfWar: {
+          title: 'Prisoner of War (POW)',
+          path: 'pow',
+          uiSchema: prisonerOfWar.uiSchema,
+          schema: prisonerOfWar.schema,
         },
         newUnemploymentFollowUp: {
           title: 'PTSD Walkthrough 781 Choice',
@@ -358,6 +382,19 @@ const formConfig = {
           path: 'va-employee',
           uiSchema: vaEmployee.uiSchema,
           schema: vaEmployee.schema,
+        },
+        waiveRetirementPay: {
+          title: 'Waiving Retirement Pay',
+          path: 'waive-retirement-pay',
+          depends: hasMilitaryRetiredPay,
+          uiSchema: waiveRetirementPay.uiSchema,
+          schema: waiveRetirementPay.schema,
+        },
+        separationTrainingPay: {
+          title: 'Separation, Severance or Training Pay',
+          path: 'separation-training-pay',
+          uiSchema: separationTrainingPay.uiSchema,
+          schema: separationTrainingPay.schema,
         },
         fullyDevelopedClaim: {
           title: 'Fully developed claim program',

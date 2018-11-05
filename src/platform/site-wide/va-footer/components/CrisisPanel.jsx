@@ -21,11 +21,12 @@ export default function CrisisPanel() {
 
         <div className="va-overlay-body va-crisis-panel-body">
           <h3 className="va-crisis-panel-title">
-            We're here anytime, day or night
+            We’re here anytime, day or night – 24/7
           </h3>
           <p>
-            Whatever you're struggling with, our responders can offer
-            confidential help 24/7. Many of them are Veterans themselves.
+            If you are a Veteran in crisis or concerned about one, connect with
+            our caring, qualified responders for confidential help. Many of them
+            are Veterans themselves.
           </p>
           <ul className="va-crisis-panel-list">
             <li>
@@ -34,7 +35,7 @@ export default function CrisisPanel() {
                 aria-hidden="true"
               />
               <a href="tel:18002738255">
-                Call <strong>1-800-273-8255 (Press 1)</strong>
+                Call <strong>1-800-273-8255 and press 1</strong>
               </a>
             </li>
             <li>

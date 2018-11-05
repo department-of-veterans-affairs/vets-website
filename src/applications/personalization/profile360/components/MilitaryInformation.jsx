@@ -12,6 +12,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation/Additional
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import recordEvent from '../../../../platform/monitoring/record-event';
+import facilityLocator from '../../../facility-locator/manifest';
 
 class MilitaryInformationContent extends React.Component {
   componentDidMount() {
@@ -38,7 +39,7 @@ class MilitaryInformationContent extends React.Component {
                   regional benefit office and request to be added to the Defense
                   Enrollment Eligibility Reporting System (DEERS).
                 </p>
-                <a href="/facilities">
+                <a href={facilityLocator.rootUrl}>
                   Find your nearest VA regional benefit office
                 </a>
                 .

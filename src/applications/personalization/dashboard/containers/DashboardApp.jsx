@@ -23,6 +23,7 @@ import profileManifest from '../../profile360/manifest.json';
 import accountManifest from '../../account/manifest.json';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 import lettersManifest from '../../../letters/manifest.js';
+import facilityLocator from '../../../facility-locator/manifest';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
@@ -283,7 +284,7 @@ class DashboardApp extends React.Component {
             </p>
             <p>
               <a
-                href="/facilities"
+                href={facilityLocator.rootUrl}
                 onClick={() => {
                   recordEvent({
                     event: 'dashboard-navigation',
@@ -400,21 +401,6 @@ class DashboardApp extends React.Component {
             <h2>Request Your Records</h2>
 
             <ul className="va-nav-linkslist-list">
-              <li>
-                <a
-                  href="/discharge-upgrade-instructions/"
-                  onClick={recordDashboardClick('apply-discharge')}
-                >
-                  <h4 className="va-nav-linkslist-title">
-                    How to Apply for a Discharge Upgrade
-                  </h4>
-                  <p className="va-nav-linkslist-description">
-                    Answer a series of questions to get customized step-by-step
-                    instructions on how to apply for a discharge upgrade or
-                    correction.
-                  </p>
-                </a>
-              </li>
               <li>
                 <a
                   href="/health-care/health-records/"

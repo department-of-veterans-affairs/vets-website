@@ -14,6 +14,8 @@ import {
 import { getInactivePages } from '../../platform/forms/helpers';
 import { isValidDate } from '../../platform/forms/validations';
 
+import facilityLocator from '../facility-locator/manifest';
+
 export function transform(formConfig, form) {
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
@@ -62,7 +64,7 @@ export const facilityHelp = (
   <div>
     <div>
       OR{' '}
-      <a href="/facilities" target="_blank">
+      <a href={facilityLocator.rootUrl} target="_blank">
         Find locations with the VA Facility Locator
       </a>
     </div>

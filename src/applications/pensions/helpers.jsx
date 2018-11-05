@@ -314,7 +314,7 @@ export const directDepositWarning = (
 );
 
 export const wartimeWarning = (
-  <div className="usa-alert usa-alert-warning no-background-image">
+  <div className="usa-alert usa-alert-warning background-color-only">
     <div className="usa-alert-text">
       <p>
         <strong>Note:</strong> You have indicated that you did not serve during
@@ -373,7 +373,7 @@ export const uploadMessage = (
 
 export const aidAttendanceEvidence = (
   <div>
-    <div className="usa-alert usa-alert-info no-background-image">
+    <div className="usa-alert usa-alert-info background-color-only">
       <div className="usa-alert-body">
         <div className="usa-alert-text">
           <p>
@@ -411,7 +411,7 @@ export const aidAttendanceEvidence = (
       </div>
     </div>
 
-    <div className="usa-alert usa-alert-info no-background-image">
+    <div className="usa-alert usa-alert-info background-color-only">
       <div className="usa-alert-body">
         <div className="usa-alert-text">
           <p>
@@ -487,7 +487,7 @@ export const marriageWarning = (
 );
 
 export const fdcWarning = (
-  <div className="usa-alert usa-alert-info no-background-image">
+  <div className="usa-alert usa-alert-info background-color-only">
     <div className="usa-alert-body">
       <div className="usa-alert-text">
         Your application will be submitted as a fully developed claim.
@@ -497,7 +497,7 @@ export const fdcWarning = (
 );
 
 export const noFDCWarning = (
-  <div className="usa-alert usa-alert-info no-background-image">
+  <div className="usa-alert usa-alert-info background-color-only">
     <div className="usa-alert-body">
       <div className="usa-alert-text">
         Your application doesn’t qualify for the Fully Developed Claim (FDC)

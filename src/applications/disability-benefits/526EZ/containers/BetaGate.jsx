@@ -40,7 +40,8 @@ export function BetaGate({
               </h3>
               <p>
                 We can accept only a limited number of submissions a day while
-                we’re in beta. Please check back again soon.
+                we’re in beta. We’re sorry for the inconvenience. Please try
+                again tomorrow.
               </p>
             </div>
           }
