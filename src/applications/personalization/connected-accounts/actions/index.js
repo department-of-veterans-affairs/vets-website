@@ -35,7 +35,7 @@ export function deleteConnectedAccount(accountId) {
       { method: 'DELETE' },
       () => dispatch({ type: FINISHED_DELETING_CONNECTED_ACCOUNT, accountId }),
       ({ errors }) =>
-        dispatch({ type: ERROR_DELETING_CONNECTED_ACCOUNT, errors }),
+        dispatch({ type: ERROR_DELETING_CONNECTED_ACCOUNT, accountId, errors }),
     );
   };
 }
