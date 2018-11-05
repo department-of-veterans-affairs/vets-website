@@ -11,8 +11,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import { loadConnectedAccounts, deleteConnectedAccount } from '../actions';
 import { NoConnectedApps, ConnectedApps } from '../components';
 
-import '../sass/connected-acct.scss';
-
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 class ConnectedAcctApp extends React.Component {
@@ -31,17 +29,17 @@ class ConnectedAcctApp extends React.Component {
 
   render() {
     let connectedAccountsView;
-    if (this.props.accounts.length > 0) {
+    if (this.props.loading) {
+      connectedAccountsView = (
+        <LoadingIndicator message="Loading your connected accounts..." />
+      );
+    } else if (this.props.accounts.length > 0) {
       connectedAccountsView = (
         <ConnectedApps
           confirmDelete={this.confirmDelete}
           accounts={this.props.accounts}
           propertyName={propertyName}
         />
-      );
-    } else if (this.props.loading) {
-      connectedAccountsView = (
-        <LoadingIndicator message="Loading your account information..." />
       );
     } else {
       connectedAccountsView = (

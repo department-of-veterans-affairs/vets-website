@@ -13,7 +13,7 @@ const recordAction = () => {
 export function NoConnectedApps({ errors, propertyName }) {
   let title;
   if (errors.length > 0) {
-    title = <h3>Something went wrong loading your connected Accounts.</h3>;
+    title = <h3>Sorry — we can’t seem to find any connected accounts.</h3>;
   } else {
     title = <h3>You do not have any connected accounts.</h3>;
   }
