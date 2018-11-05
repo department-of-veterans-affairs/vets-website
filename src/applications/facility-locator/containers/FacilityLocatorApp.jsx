@@ -1,29 +1,24 @@
 /* eslint-disable prettier/prettier */
 import { connect } from 'react-redux';
-import { Link, browserHistory } from 'react-router';
+import { Link } from 'react-router';
 import React from 'react';
 import DowntimeNotification, {
   externalServices,
 } from '../../../platform/monitoring/DowntimeNotification';
 import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 import { ccLocatorEnabled } from '../config';
-
-/**
- * Preserves the search form in the UI & address bar when
- * navigating back to the search/map page.
- *
- * @param {Object} e The click event
- */
-const goBackHistory = (e) => {
-  e.preventDefault();
-  browserHistory.goBack();
-};
+import appendQuery from 'append-query';
 
 class FacilityLocatorApp extends React.Component {
+  buildSearchString() {
+    const searchQueryUrl = appendQuery('/', this.props.location.query);
+    return searchQueryUrl;
+  }
+
   renderBreadcrumbs(location, selectedResult) {
     const crumbs = [
       <a href="/" key="home">Home</a>,
-      <Link onClick={goBackHistory} key="facility-locator">Find Facilities & Services</Link>
+      <Link to={this.buildSearchString()}key="facility-locator">Find Facilities & Services</Link>,
     ];
 
     if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedResult) {
