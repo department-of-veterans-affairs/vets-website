@@ -54,6 +54,7 @@ import {
   summaryOfEvidence,
   fullyDevelopedClaim,
   newUnemploymentFollowUp,
+  medicalCare,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -265,6 +266,13 @@ const formConfig = {
           path: 'new-disabilities/unemployment-status',
           uiSchema: newUnemploymentFollowUp.uiSchema,
           schema: newUnemploymentFollowUp.schema,
+        },
+        medicalCare: {
+          title: 'Medical Care',
+          path: 'new-disabilities/medical-care',
+          // depends: formData => unemploymentStatus(formData),
+          uiSchema: medicalCare.uiSchema,
+          schema: medicalCare.schema,
         },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',

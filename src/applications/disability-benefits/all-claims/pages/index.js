@@ -143,6 +143,11 @@ import {
   schema as newUnemploymentFollowUpSchema,
 } from './newUnemploymentFollowUp';
 
+import {
+  uiSchema as medicalCareUISchema,
+  schema as medicalCareSchema,
+} from './medicalCare';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema,
@@ -286,4 +291,9 @@ export const fullyDevelopedClaim = {
 export const newUnemploymentFollowUp = {
   uiSchema: newUnemploymentFollowUpUISchema,
   schema: newUnemploymentFollowUpSchema,
+};
+
+export const medicalCare = {
+  uiSchema: medicalCareUISchema,
+  schema: medicalCareSchema,
 };
