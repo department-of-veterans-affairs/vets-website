@@ -27,6 +27,7 @@ import { isFullDate } from '../../../platform/forms/validations';
 import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
 import FormFooter from '../../../platform/forms/components/FormFooter';
+import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
 import fullNameUI from '../../../platform/forms/definitions/fullName';
 import environment from '../../../platform/utilities/environment';
 import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
@@ -118,6 +119,7 @@ const formConfig = {
   preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  helpContact: CallVBACenter,
   defaultDefinitions: {
     fullName,
     centralMailVaFile,

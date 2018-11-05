@@ -16,6 +16,7 @@ import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import yearUI from 'us-forms-system/lib/js/definitions/year';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
+import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
 import environment from '../../../../platform/utilities/environment';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
@@ -77,6 +78,7 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   footerContent: FormFooter,
+  helpContact: CallVBACenter,
   savedFormMessages: {
     notFound: '',
     noAuth: '',

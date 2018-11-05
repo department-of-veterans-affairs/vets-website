@@ -6,6 +6,7 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { isFullDate } from '../../../platform/forms/validations';
 import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
 import FormFooter from '../../../platform/forms/components/FormFooter';
+import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
 import environment from '../../../platform/utilities/environment';
 import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
 import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
@@ -210,6 +211,7 @@ const formConfig = {
   subTitle: 'Form 21P-527EZ',
   preSubmitInfo,
   footerContent: FormFooter,
+  helpContact: CallVBACenter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     address: address.schema(fullSchemaPensions),

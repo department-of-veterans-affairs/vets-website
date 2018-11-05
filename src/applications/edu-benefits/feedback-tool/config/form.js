@@ -6,6 +6,7 @@ import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
+import CallEduCenter from '../../../../platform/brand-consolidation/components/CallEduCenter';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
 import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillMessage';
 import dataUtils from '../../../../platform/utilities/data/index';
@@ -163,6 +164,7 @@ const formConfig = {
   preSubmitInfo,
   getHelp: GetFormHelp,
   footerContent: FormFooter,
+  helpContact: CallEduCenter,
   transformForSubmit: transform,
   chapters: {
     applicantInformation: {

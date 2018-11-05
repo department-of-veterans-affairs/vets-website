@@ -11,6 +11,7 @@ import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
+import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
 import environment from '../../../../platform/utilities/environment';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import productionCheck from '../../../../platform/utilities/environment/isProduction';
@@ -141,6 +142,7 @@ const formConfig = {
   confirmation: ConfirmationPoll,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  helpContact: CallVBACenter,
   defaultDefinitions: {
     address,
     vaTreatmentCenterAddress,

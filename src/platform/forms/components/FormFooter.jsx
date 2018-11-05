@@ -12,7 +12,9 @@ export default class FormFooter extends React.Component {
     return (
       <div>
         {!isConfirmationPage && (
-          <AskVAQuestions>{!!GetFormHelp && <GetFormHelp />}</AskVAQuestions>
+          <AskVAQuestions helpContact={formConfig.helpContact}>
+            {!!GetFormHelp && <GetFormHelp />}
+          </AskVAQuestions>
         )}
       </div>
     );

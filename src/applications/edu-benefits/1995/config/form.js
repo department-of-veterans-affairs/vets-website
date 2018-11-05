@@ -8,6 +8,7 @@ import { urlMigration } from '../../config/migrations';
 
 import * as address from '../../../../platform/forms/definitions/address';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
+import CallEduCenter from '../../../../platform/brand-consolidation/components/CallEduCenter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
@@ -67,6 +68,7 @@ const formConfig = {
   subTitle: 'Form 22-1995',
   preSubmitInfo,
   footerContent: FormFooter,
+  helpContact: CallEduCenter,
   getHelp: GetFormHelp,
   chapters: {
     applicantInformation: {

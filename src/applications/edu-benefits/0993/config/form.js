@@ -9,6 +9,7 @@ import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillM
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 
 import GetFormHelp from '../../components/GetFormHelp';
+import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -44,6 +45,7 @@ const formConfig = {
   preSubmitInfo,
   getHelp: GetFormHelp,
   footerContent: FormFooter,
+  helpContact: CallVBACenter,
   defaultDefinitions: {
     ...fullSchema0993.definitions,
   },

@@ -1,11 +1,9 @@
 import React from 'react';
 
 import isBrandConsolidationEnabled from '../../brand-consolidation/feature-flag';
-import CallHelpDesk from '../../brand-consolidation/components/CallHelpDesk';
-
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 function AskVAQuestions(props) {
+  const HelpContact = props.helpContact;
   return (
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
@@ -16,9 +14,11 @@ function AskVAQuestions(props) {
             To report a problem with this form,
             <br />
             please{' '}
-            <CallHelpDesk>
-              call the {propertyName} Technical Help Desk:
-            </CallHelpDesk>
+            {isBrandConsolidationEnabled() ? (
+              <HelpContact />
+            ) : (
+              'call the Vets.gov Technical Help Desk:'
+            )}
           </p>
           {!isBrandConsolidationEnabled() && (
             <p className="help-phone-number">

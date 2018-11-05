@@ -3,6 +3,7 @@ import _ from 'lodash/fp';
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
 import FormFooter from '../../../platform/forms/components/FormFooter';
+import CallNCACenter from '../../../platform/brand-consolidation/components/CallNCACenter';
 import environment from '../../../platform/utilities/environment';
 import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
 
@@ -94,6 +95,7 @@ const formConfig = {
   preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  helpContact: CallNCACenter,
   defaultDefinitions: {
     fullName,
     ssn,
