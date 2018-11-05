@@ -3,7 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
-import isVASubdomain from '../../../brand-consolidation/va-subdomain';
+import isVATeamSiteSubdomain from '../../../brand-consolidation/va-subdomain';
 import recordEvent from '../../../monitoring/record-event';
 import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 import HelpMenu from './HelpMenu';
@@ -31,7 +31,7 @@ class SearchHelpSignIn extends React.Component {
     const isLoading = this.props.isProfileLoading;
     const shouldRenderSignedInContent =
       (!isLoading && this.props.isLoggedIn) || (isLoading && this.hasSession());
-    const isSubdomain = isVASubdomain();
+    const isSubdomain = isVATeamSiteSubdomain();
 
     // If we're done loading, and the user is logged in, or loading is in progress,
     // and we have information is session storage, we can go ahead and render.
