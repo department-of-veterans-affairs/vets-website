@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import isVASubdomain from '../va-subdomain';
+import isVATeamSiteSubdomain from '../va-subdomain';
 
 describe('brand-consolidation/va-subdomain', () => {
   const oldWindow = window;
@@ -16,7 +16,7 @@ describe('brand-consolidation/va-subdomain', () => {
       },
     };
 
-    expect(isVASubdomain()).to.be.false;
+    expect(isVATeamSiteSubdomain()).to.be.false;
   });
 
   it('returns true if is a VA subdomain', () => {
@@ -26,6 +26,6 @@ describe('brand-consolidation/va-subdomain', () => {
       },
     };
 
-    expect(isVASubdomain()).to.be.true;
+    expect(isVATeamSiteSubdomain()).to.be.true;
   });
 });
