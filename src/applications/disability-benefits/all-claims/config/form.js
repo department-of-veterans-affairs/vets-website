@@ -282,7 +282,7 @@ const formConfig = {
         unemployabilityFormUpload: {
           title: 'unemployabilityFormUpload',
           path: 'new-disabilities/unemployability-form-uplaod',
-          depends: formData => isUploading8940Form(formData),
+          depends: isUploading8940Form,
           uiSchema: unemployabilityFormUpload.uiSchema,
           schema: unemployabilityFormUpload.schema,
         },
