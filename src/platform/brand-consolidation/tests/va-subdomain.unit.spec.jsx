@@ -22,7 +22,7 @@ describe('brand-consolidation/va-subdomain', () => {
   it('returns true if is a VA subdomain', () => {
     window = { // eslint-disable-line
       location: {
-        hostname: 'www.benefits.va.gov',
+        hostname: 'www.BENEFITS.va.gov',
       },
     };
 
