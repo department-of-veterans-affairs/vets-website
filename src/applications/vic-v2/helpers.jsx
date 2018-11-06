@@ -4,6 +4,7 @@ import recordEvent from '../../platform/monitoring/record-event';
 import { apiRequest } from '../../platform/utilities/api';
 import environment from '../../platform/utilities/environment';
 import backendServices from '../../platform/user/profile/constants/backendServices';
+import conditionalStorage from '../../platform/utilities/storage/conditionalStorage';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 export function prefillTransformer(pages, formData, metadata, state) {
@@ -121,8 +122,10 @@ function pollStatus(guid, onDone, onError) {
 }
 
 export function fetchPreview(id) {
+  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
     'X-Key-Inflection': 'camel',
+    Authorization: `Token token=${userToken}`,
   };
 
   return fetch(

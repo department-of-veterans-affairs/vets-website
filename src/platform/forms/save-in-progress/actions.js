@@ -4,6 +4,7 @@ import 'isomorphic-fetch';
 import recordEvent from '../../monitoring/record-event';
 import { logOut } from '../../user/authentication/actions';
 import environment from '../../utilities/environment';
+import conditionalStorage from '../../utilities/storage/conditionalStorage';
 import { sanitizeForm } from '../helpers';
 import { removeFormApi, saveFormApi } from './api';
 import { REMOVING_SAVED_FORM_SUCCESS } from '../../user/profile/actions';
@@ -186,7 +187,10 @@ function saveForm(saveType, formId, formData, version, returnUrl) {
       })
       .catch(resOrError => {
         let errorStatus;
-        if (resOrError.status === 401) {
+        if (
+          resOrError.status === 401 ||
+          resOrError.message === 'Missing token'
+        ) {
           dispatch(logOut());
           errorStatus = SAVE_STATUSES.noAuth;
         } else if (resOrError instanceof Response) {
@@ -226,6 +230,12 @@ export function fetchInProgressForm(
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
     const trackingPrefix = getState().form.trackingPrefix;
+    const userToken = conditionalStorage().getItem('userToken');
+    // If we don’t have a userToken, fail safely
+    if (!userToken) {
+      dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
+      return Promise.resolve();
+    }
 
     // Update UI while we’re waiting for the API
     dispatch(setFetchFormPending(prefill));
@@ -236,6 +246,7 @@ export function fetchInProgressForm(
       headers: {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel',
+        Authorization: `Token token=${userToken}`,
       },
     })
       .then(res => {

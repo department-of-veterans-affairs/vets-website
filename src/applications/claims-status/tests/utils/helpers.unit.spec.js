@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
+import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 import siteName from '../../../../platform/brand-consolidation/site-name';
 
 import {
@@ -400,12 +401,14 @@ describe('Disability benefits helpers: ', () => {
     let fetchMock = sinon.stub();
     let oldFetch = global.fetch;
     beforeEach(() => {
+      conditionalStorage().setItem('userToken', '1234');
       oldFetch = global.fetch;
       fetchMock = sinon.stub();
       global.fetch = fetchMock;
     });
     afterEach(() => {
       global.fetch = oldFetch;
+      conditionalStorage().clear();
     });
     it('should make a fetch request', done => {
       fetchMock.returns({
