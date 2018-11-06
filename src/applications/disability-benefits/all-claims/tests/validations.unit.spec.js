@@ -44,5 +44,13 @@ describe('526 All Claims validations', () => {
       isValidYear(err, '2010');
       expect(err.addError.called).to.be.false;
     });
+
+    it('should add an error if the year is in the future', () => {
+      const err = {
+        addError: sinon.spy(),
+      };
+      isValidYear(err, '2999');
+      expect(err.addError.called).to.be.true;
+    });
   });
 });
