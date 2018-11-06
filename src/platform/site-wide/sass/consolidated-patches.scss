@@ -90,6 +90,10 @@ header.merger {
     width: 468px;
   }
 
+  #mega-menu .vetnav-panel {
+    box-sizing: border-box;
+  }
+
   @media (min-width: $large-screen) {
     #mega-menu .vetnav-panel {
       width: 487px;
