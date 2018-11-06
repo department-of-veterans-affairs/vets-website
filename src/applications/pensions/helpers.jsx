@@ -2,6 +2,7 @@ import React from 'react';
 import Raven from 'raven-js';
 import moment from 'moment';
 import environment from '../../platform/utilities/environment';
+import conditionalStorage from '../../platform/utilities/storage/conditionalStorage';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 function replacer(key, value) {
@@ -31,11 +32,15 @@ function replacer(key, value) {
 }
 
 function checkStatus(guid) {
+  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',
   };
 
+  if (userToken) {
+    headers.Authorization = `Token token=${userToken}`;
+  }
   return fetch(`${environment.API_URL}/v0/pension_claims/${guid}`, {
     credentials: 'include',
     headers,
@@ -108,10 +113,15 @@ function transform(formConfig, form) {
 }
 
 export function submit(form, formConfig) {
+  const userToken = conditionalStorage().getItem('userToken');
   const headers = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',
   };
+
+  if (userToken) {
+    headers.Authorization = `Token token=${userToken}`;
+  }
 
   const body = transform(formConfig, form);
 

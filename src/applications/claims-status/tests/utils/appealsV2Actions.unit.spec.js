@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
+
 import { getAppealsV2 } from '../../actions';
 
 import {
@@ -16,6 +18,7 @@ import {
 let oldFetch;
 
 const setup = () => {
+  conditionalStorage().setItem('userToken', '123');
   oldFetch = global.fetch;
   global.fetch = sinon.stub();
   global.fetch.returns(
@@ -32,6 +35,7 @@ const setup = () => {
 
 const teardown = () => {
   global.fetch = oldFetch;
+  conditionalStorage().clear();
 };
 
 describe('getAppealsV2', () => {

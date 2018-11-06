@@ -2,6 +2,7 @@ import _ from 'lodash/fp';
 import Raven from 'raven-js';
 
 import environment from '../../../platform/utilities/environment';
+import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 import { SET_UNAUTHORIZED } from '../actions/index.jsx';
 
 const evidenceGathering = 'Evidence gathering, review, and decision';
@@ -255,6 +256,9 @@ export function makeAuthRequest(
       mode: 'cors',
       headers: {
         'X-Key-Inflection': 'camel',
+        Authorization: `Token token=${conditionalStorage().getItem(
+          'userToken',
+        )}`,
       },
       responseType: 'json',
     },

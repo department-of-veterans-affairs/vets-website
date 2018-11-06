@@ -7,7 +7,6 @@ export const api = {
   baseUrl: `${environment.API_URL}/v0/facilities`,
   url: `${environment.API_URL}/v0/facilities/va`,
   settings: {
-    credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel',
     },

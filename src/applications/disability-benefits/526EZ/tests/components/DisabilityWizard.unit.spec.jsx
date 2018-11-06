@@ -3,6 +3,7 @@ import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 
 import createCommonStore from '../../../../../platform/startup/store';
+import conditionalStorage from '../../../../../platform/utilities/storage/conditionalStorage';
 import DisabilityWizard from '../../components/DisabilityWizard';
 import { layouts } from '../../wizardHelpers';
 import siteName from '../../../../../platform/brand-consolidation/site-name';
@@ -94,6 +95,7 @@ describe('<DisabilityWizard>', () => {
   });
   it('should show unauthenticated increase guidance page', () => {
     // mount is used for find, shallow is used for setState
+    conditionalStorage().setItem('userToken', '');
     const tree = mount(shallow(<DisabilityWizard {...defaultProps} />).get(0));
 
     tree.setState({
@@ -104,9 +106,12 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('p').text()).to.equal(
       'Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability. To apply for a disability increase, you’ll need to sign in and verify your account.',
     );
+    conditionalStorage().clear();
   });
   it('should show authenticated increase guidance page', () => {
     // mount is used for find, shallow is used for setState
+    conditionalStorage().setItem('userToken', 'abcdefg');
+
     const tree = mount(shallow(<DisabilityWizard {...defaultProps} />).get(0));
 
     tree.setState({
@@ -122,9 +127,12 @@ describe('<DisabilityWizard>', () => {
     ).to.contain(
       'Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability.',
     );
+    conditionalStorage().clear();
   });
   it('should show authenticated and verified increase guidance page', () => {
     // mount is used for find, shallow is used for setState
+    conditionalStorage().setItem('userToken', 'abcdefg');
+
     const tree = mount(
       shallow(
         <DisabilityWizard
@@ -148,5 +156,6 @@ describe('<DisabilityWizard>', () => {
     ).to.contain(
       'Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability.',
     );
+    conditionalStorage().clear();
   });
 });
