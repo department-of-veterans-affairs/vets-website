@@ -18,7 +18,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .url(`${E2eHelpers.baseUrl}/health-care/messaging`)
     .waitForElementVisible('body', Timeouts.normal)
-    .assert.title('Message Your Health Care Team: Vets.gov')
+    .assert.title('Message Your Health Care Team: VA.gov')
     .waitForElementVisible('#messaging-app', Timeouts.slow);
 
   // Inbox/Folder view

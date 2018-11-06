@@ -63,7 +63,7 @@ very secret.
 | script           | Scripts for building the repository. The most commonly used script is `build.js` which runs Metalsmith |
 | src              | All of our application code, including styles and tests |
 
-Inside the `src` directory, we have two folders `applications` and `platform`. `applications` contains the individual applications used on Vets.gov, typically associated with a particular URL. `platform` contains the shared code used by those applications: the platform we build applications on top of.
+Inside the `src` directory, we have two folders `applications` and `platform`. `applications` contains the individual applications used on VA.gov, typically associated with a particular URL. `platform` contains the shared code used by those applications: the platform we build applications on top of.
 
 ### Requirements
 
@@ -191,7 +191,7 @@ Overall, this runs pretty well.
 ### Unit Test -- Mocha
 All unit tests are named with the suffix `.unit.spec.js` and live in `tests` directories inside
 `src/applications` and `src/platform`. Keeping tests near application code keeps applications self contained
-and allows easier switching the files relevant to particular features on Vets.gov.
+and allows easier switching the files relevant to particular features on VA.gov.
 
 Unit tests are done via `mocha` with the `chai` assertion library run directly via
 the mocha test runner in Node.
