@@ -100,6 +100,7 @@
 <body class="{{ body_class }} merger">
   <a class="show-on-focus" href="#content">Skip to Content</a>
 
+{% if buildtype == 'preview' %}
 <div aria-live="polite" class="usa-alert usa-alert-info" style="margin: 0;">
   <div class="usa-alert-body">
     <h3 class="usa-alert-heading">You're viewing a preview of the new VA.gov</h3>
