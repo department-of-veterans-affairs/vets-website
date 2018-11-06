@@ -114,4 +114,4 @@ const runTest = E2eHelpers.createE2eTest(client => {
 });
 
 module.exports = runTest;
-module.exports['@disabled'];
+module.exports['@disabled'] = true;
