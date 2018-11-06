@@ -46,6 +46,7 @@ function linkAssetsToBucket(options, fileNames) {
 
       if (!assetSrc) continue;
       if (assetSrc.startsWith('http') || assetSrc.startsWith('data:')) continue;
+      if (assetSrc.includes('va_files')) continue;
 
       const assetBucketLocation = `${bucketPath}${assetSrc}`;
 
@@ -70,6 +71,17 @@ function linkAssetsToBucket(options, fileNames) {
 
     fs.writeFileSync(cssFileName, newCss);
   }
+
+  // The proxy-rewrite is a special case.
+  const proxyRewriteFileName = fileNames.find(file =>
+    file.endsWith('proxy-rewrite.entry.js'),
+  );
+  const proxyRewriteContents = fs.readFileSync(proxyRewriteFileName);
+  const newProxyRewriteContents = proxyRewriteContents
+    .toString()
+    .replace(/https:\/\/www\.va\.gov\/img/g, `${bucketPath}/img`);
+
+  fs.writeFileSync(proxyRewriteFileName, newProxyRewriteContents);
 }
 
 module.exports = linkAssetsToBucket;
