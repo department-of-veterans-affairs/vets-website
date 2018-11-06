@@ -1,4 +1,4 @@
-# Contributing to Vets.gov Projects
+# Contributing to VA.gov Projects
 
 ## How to Contribute
 

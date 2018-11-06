@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const E2eHelpers = require('../../../testing/e2e/helpers');
 const Timeouts = require('../../../testing/e2e/timeouts.js');
 
-const SITEMAP_URL = `${E2eHelpers.baseUrl}/sitemap-dynamic.xml`;
+const SITEMAP_URL = `${E2eHelpers.baseUrl}/sitemap.xml`;
 const SITEMAP_LOC_NS = 'http://www.sitemaps.org/schemas/sitemap/0.9';
 const DOMAIN_REGEX = /http[s]?:\/\/(.*?)\//;
 
@@ -27,6 +27,7 @@ function sitemapURLs() {
         '/404.html',
         // This is here because aXe bug flags the custom select component on this page
         '/facilities/',
+        '/find-locations/',
         // This is here because an aXe bug flags the autosuggest component on this page
         '/gi-bill-comparison-tool/',
       ];
