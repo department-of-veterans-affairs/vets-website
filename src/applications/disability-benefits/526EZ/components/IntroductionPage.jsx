@@ -112,12 +112,12 @@ class IntroductionPage extends React.Component {
               </div>
               <ul>
                 <li>
-                  VA medical and hospital records you may have that show your
-                  rated disability has gotten worse
+                  VA medical and hospital records that show your rated
+                  disability has gotten worse
                 </li>
                 <li>
-                  Private medical and hospital records you may have that show
-                  your rated disability has gotten worse
+                  Private medical and hospital records that show your rated
+                  disability has gotten worse
                 </li>
                 <li>
                   Supporting or lay statements from family, friends, or
