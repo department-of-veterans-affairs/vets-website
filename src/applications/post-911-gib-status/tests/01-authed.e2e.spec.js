@@ -13,9 +13,12 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('body', Timeouts.normal)
     .axeCheck('.main')
     .assert.title('Check Your Post-9/11 GI Bill Benefits Status: VA.gov')
-    .waitForElementVisible('#viewGIBS', Timeouts.slow); // First render of React may be slow.
+    .waitForElementVisible(
+      '.usa-button-primary.va-button-primary',
+      Timeouts.slow,
+    ); // First render of React may be slow.
 
-  client.click('#viewGIBS');
+  client.click('.usa-button-primary.va-button-primary');
   client.waitForElementVisible('.schemaform-title', Timeouts.slow); // First render of React may be slow.
 
   // Checking field in UserInfoSection has rendered
