@@ -113,7 +113,7 @@ class SearchControls extends Component {
 
     return (
       <div className="search-controls-container clearfix">
-        <form className="row" onSubmit={this.handleSubmit}>
+        <form id="facility-search-controls" className="row" onSubmit={this.handleSubmit}>
           <div className="columns medium-3-5">
             <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
               Search near
