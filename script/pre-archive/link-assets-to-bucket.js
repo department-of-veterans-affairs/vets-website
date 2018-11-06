@@ -62,7 +62,7 @@ function linkAssetsToBucket(options, fileNames) {
   }
 
   const cssFileNames = fileNames.filter(file => path.extname(file) === '.css');
-  const cssUrlRegex = new RegExp(/url\(\//, 'g');
+  const cssUrlRegex = new RegExp(/url\(\/(?!(va_files))/, 'g');
   const cssUrlBucket = `url(${bucketPath}/`;
 
   for (const cssFileName of cssFileNames) {
