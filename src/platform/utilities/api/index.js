@@ -2,7 +2,6 @@ import Raven from 'raven-js';
 import appendQuery from 'append-query';
 
 import environment from '../environment';
-import conditionalStorage from '../storage/conditionalStorage';
 
 function isJson(response) {
   const contentType = response.headers.get('Content-Type');
@@ -33,17 +32,12 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     },
   };
 
-  if (conditionalStorage().getItem('userToken')) {
-    defaultSettings.headers.Authorization = `Token token=${conditionalStorage().getItem(
-      'userToken',
-    )}`;
-  }
-
   const newHeaders = Object.assign(
     {},
     defaultSettings.headers,
     optionalSettings ? optionalSettings.headers : undefined,
   );
+
   const settings = Object.assign({}, defaultSettings, optionalSettings);
   settings.headers = newHeaders;
 

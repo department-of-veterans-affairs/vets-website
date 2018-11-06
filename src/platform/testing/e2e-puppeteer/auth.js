@@ -4,12 +4,13 @@ const Timeouts = require('../e2e/timeouts');
 const mock = require('../e2e/mock-helpers');
 const expect = require('chai').expect;
 
-async function setUserToken(token, client) {
-  await client.evaluate(
-    inToken => {
-      window.sessionStorage.setItem('userToken', inToken);
+async function setUserSession(token, client) {
+  client.setCookie({ name: 'token', value: token, httpOnly: true });
+  client.evaluate(
+    () => {
+      window.localStorage.setItem('hasSession', true);
     },
-    [token],
+    [],
     val => {
       if (val.state !== 'success') {
         // eslint-disable-next-line no-console
@@ -103,7 +104,7 @@ async function logIn(token, client, url, level) {
   await client.waitForSelector('body', { timeout: Timeouts.normal });
   await client.goto(newUrl);
   await E2eHelpers.disableAnnouncements(client);
-  await setUserToken(token, client);
+  await setUserSession(token, client);
   await client.goto(`${E2eHelpers.baseUrl}${url}`);
   await client.evaluate(() => {
     const current = window.VetsGov || {};
@@ -140,5 +141,5 @@ module.exports = {
   initUserMock,
   logIn,
   testUnauthedUserFlow,
-  setUserToken,
+  setUserSession,
 };
