@@ -28,7 +28,7 @@ export default function createDisabilityIncreaseApplicationStatus(store) {
                   itemType="http://schema.org/Answer"
                 >
                   <div itemProp="text">
-                    <p>You can apply online right now.</p>
+                    <p>You can file online right now.</p>
                     <DisabilityWizard />
                   </div>
                 </div>
