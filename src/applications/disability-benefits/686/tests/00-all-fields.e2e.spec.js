@@ -7,7 +7,10 @@ const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers'
 const runTest = E2eHelpers.createE2eTest(client => {
   PageHelpers.initApplicationSubmitMock();
 
-  if (process.env.BUILDTYPE !== 'production') {
+  if (
+    process.env.BUILDTYPE !== 'production' &&
+    process.env.BUILDTYPE !== 'vagovprod'
+  ) {
     // Ensure introduction page renders.
     client
       .url(
@@ -16,7 +19,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
         }/disability-benefits/apply/dependents/form-686c-dependents`,
       )
       .waitForElementVisible('body', Timeouts.normal)
-      .assert.title('Declaration of status of dependents: Vets.gov')
+      .assert.title('Declaration of status of dependents: VA.gov')
       .waitForElementVisible('.schemaform-title', Timeouts.slow) // First render of React may be slow.
       .click('.usa-button-primary');
 

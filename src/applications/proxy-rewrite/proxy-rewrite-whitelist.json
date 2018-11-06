@@ -6,6 +6,11 @@
         "cookieOnly": true
     },
     {
+        "hostname": "www.benefits.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": true
+    },
+    {
         "hostname": "benefits.va.gov",
         "pathnameBeginning": "/",
         "cookieOnly": true
