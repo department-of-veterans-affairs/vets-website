@@ -11,14 +11,34 @@ import appendQuery from 'append-query';
 
 class FacilityLocatorApp extends React.Component {
   buildSearchString() {
-    const searchQueryUrl = appendQuery('/', this.props.location.query);
+    const {
+      currentPage: page,
+      context,
+      facilityType,
+      position: location,
+      searchString: address,
+      serviceType,
+      zoomLevel,
+    } = this.props.searchQuery;
+    
+    const searchQuery = {
+      zoomLevel,
+      page,
+      address,
+      location: `${location.latitude},${location.longitude}`,
+      context,
+      facilityType,
+      serviceType,
+    };
+
+    const searchQueryUrl = appendQuery('/', searchQuery);
     return searchQueryUrl;
   }
 
   renderBreadcrumbs(location, selectedResult) {
     const crumbs = [
       <a href="/" key="home">Home</a>,
-      <Link to={this.buildSearchString()}key="facility-locator">Find Facilities & Services</Link>,
+      <Link to={this.buildSearchString()} key="facility-locator">Find Facilities & Services</Link>,
     ];
 
     if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedResult) {
@@ -55,6 +75,7 @@ class FacilityLocatorApp extends React.Component {
 function mapStateToProps(state) {
   return {
     selectedResult: state.searchResult.selectedResult,
+    searchQuery: state.searchQuery,
   };
 }
 
