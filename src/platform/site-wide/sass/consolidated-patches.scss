@@ -89,7 +89,7 @@ header.merger {
   #mega-menu .panel-bottom-link {
     width: 468px;
   }
-  
+
   @media (min-width: $large-screen) {
     #mega-menu .vetnav-panel {
       width: 487px;
@@ -119,17 +119,19 @@ header.merger {
     }
   }
 
-  // override some styles on teamsite pages
-  .vet-toolbar .profile-nav .va-dropdown {
-    span, p {
-      font-family: "Source Sans Pro";
-      font-size: 16px;
-    }
-    p {
-      padding-bottom: 0;
-    }
-    button.va-dropdown-trigger {
-      margin-right: 40px;
+  #login-root {
+    margin-left: -1.5rem;
+    .profile-nav {
+      box-sizing: border-box;
+      .va-dropdown {
+        span, p {
+          font-family: "Source Sans Pro";
+          font-size: 16px;
+        }
+        p {
+          padding-bottom: 0;
+        }
+      }
     }
   }
 }

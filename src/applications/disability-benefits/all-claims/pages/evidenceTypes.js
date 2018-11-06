@@ -61,6 +61,7 @@ export const schema = {
   properties: {
     'view:hasEvidence': {
       type: 'boolean',
+      default: true,
     },
     'view:hasEvidenceFollowUp': {
       type: 'object',

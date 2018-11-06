@@ -200,7 +200,7 @@ const configGenerator = (options, apps) => {
   };
 
   if (
-    ['production', 'staging', 'preview', 'vagovstaging'].includes(
+    ['production', 'staging', 'preview', 'vagovstaging', 'vagovprod'].includes(
       options.buildtype,
     )
   ) {
@@ -217,6 +217,10 @@ const configGenerator = (options, apps) => {
 
       case 'vagovstaging':
         sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.va.gov';
+        break;
+
+      case 'vagovprod':
+        sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.va.gov';
         break;
 
       case 'preview':

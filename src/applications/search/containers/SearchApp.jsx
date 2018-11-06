@@ -33,6 +33,7 @@ class SearchApp extends React.Component {
 
     this.state = {
       userInput: userInputFromAddress,
+      currentResultsQuery: userInputFromAddress,
       page,
     };
 
@@ -62,15 +63,27 @@ class SearchApp extends React.Component {
 
   handleSearch = e => {
     if (e) e.preventDefault();
-    const { userInput, page } = this.state;
+    const { userInput, currentResultsQuery, page } = this.state;
+
+    const queryChanged = userInput !== currentResultsQuery;
+    const nextPage = queryChanged ? 1 : page;
+
+    // Update URL
     this.props.router.push({
       pathname: '',
       query: {
-        query: encodeURIComponent(userInput),
-        page,
+        query: userInput,
+        page: nextPage,
       },
     });
-    this.props.fetchSearchResults(userInput, page);
+
+    // Fetch new results
+    this.props.fetchSearchResults(userInput, nextPage);
+
+    // Update query is necessary
+    if (queryChanged) {
+      this.setState({ currentResultsQuery: userInput, page: 1 });
+    }
   };
 
   handleInputChange = event => {
@@ -145,7 +158,7 @@ class SearchApp extends React.Component {
           <h4>Our Top Recommendations for You</h4>
           <ul className="results-list">
             {recommendedResults.map(r =>
-              this.renderWebResult(r, 'description'),
+              this.renderWebResult(r, 'description', true),
             )}
           </ul>
           <hr />
@@ -179,6 +192,9 @@ class SearchApp extends React.Component {
     return (
       <p>
         Showing {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`} of {totalEntries} results
+        <span className="usa-sr-only">
+          {' '}for "{this.props.router.location.query.query}"
+        </span>
       </p>
     );
     /* eslint-enable prettier/prettier */
@@ -207,13 +223,26 @@ class SearchApp extends React.Component {
   }
 
   /* eslint-disable react/no-danger */
-  renderWebResult(result, snippetKey = 'snippet') {
+  renderWebResult(result, snippetKey = 'snippet', isBestBet = false) {
+    const strippedTitle = formatResponseString(result.title, true);
     return (
       <li key={result.url} className="result-item">
-        <a className="result-title" href={result.url}>
+        <a
+          className="result-title"
+          href={result.url}
+          onClick={
+            isBestBet
+              ? () =>
+                  recordEvent({
+                    event: 'nav-searchresults',
+                    'nav-path': `Recommended Results -> ${strippedTitle}`,
+                  })
+              : null
+          }
+        >
           <h5
             dangerouslySetInnerHTML={{
-              __html: formatResponseString(result.title, true),
+              __html: strippedTitle,
             }}
           />
         </a>
@@ -234,7 +263,7 @@ class SearchApp extends React.Component {
 
     return (
       <div className="va-flex results-footer">
-        <strong>Powered by Search.gov</strong>
+        <span className="powered-by">Powered by Search.gov</span>
         <Pagination
           onPageSelect={this.handlePageChange}
           page={currentPage}

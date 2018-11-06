@@ -27,25 +27,25 @@ function linkAssetsToBucket(options, fileNames) {
     const dom = new jsdom.JSDOM(htmlFile.toString());
 
     const assetLinkElements = Array.from(
-      dom.window.document.querySelectorAll('script, img, link'),
+      dom.window.document.querySelectorAll(
+        'script, img, link, picture > source',
+      ),
     );
 
+    const possibleSrcProps = ['src', 'href', 'data-src', 'srcset'];
+
     for (const element of assetLinkElements) {
-      let assetSrcProp = 'src';
-      let assetSrc = element.getAttribute(assetSrcProp);
+      let assetSrcProp = null;
+      let assetSrc = null;
 
-      if (!assetSrc) {
-        assetSrcProp = 'href';
+      for (const prop of possibleSrcProps) {
+        assetSrcProp = prop;
         assetSrc = element.getAttribute(assetSrcProp);
-      }
-
-      if (!assetSrc) {
-        assetSrcProp = 'data-src';
-        assetSrc = element.getAttribute(assetSrcProp);
+        if (assetSrc) break;
       }
 
       if (!assetSrc) continue;
-      if (assetSrc.startsWith('http')) continue;
+      if (assetSrc.startsWith('http') || assetSrc.startsWith('data:')) continue;
 
       const assetBucketLocation = `${bucketPath}${assetSrc}`;
 
