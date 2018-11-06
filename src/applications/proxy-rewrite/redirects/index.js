@@ -12,8 +12,8 @@ import redirects from './disabilityRedirects.json';
 export default function redirectIfNecessary(currentWindow) {
   const matchedRedirect = redirects.find(
     redirect =>
-      redirect.domain.toLowerCase() ===
-        currentWindow.location.host.toLowerCase() &&
+      redirect.domain.replace('www.', '').toLowerCase() ===
+        currentWindow.location.host.replace('www.', '').toLowerCase() &&
       redirect.src.toLowerCase() ===
         currentWindow.location.pathname.toLowerCase(),
   );
