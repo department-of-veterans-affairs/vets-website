@@ -58,6 +58,7 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  hospitalizationHistory,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -282,6 +283,12 @@ const formConfig = {
           path: 'pow',
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
+        },
+        hospitalizationHistory: {
+          title: 'Hospitalization',
+          path: 'hospitalization-history',
+          uiSchema: hospitalizationHistory.uiSchema,
+          schema: hospitalizationHistory.schema,
         },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',
