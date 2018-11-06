@@ -16,6 +16,9 @@ function sitemapURLs() {
         .find('//xmlns:loc', SITEMAP_LOC_NS)
         .map(n => n.text().replace(DOMAIN_REGEX, `${E2eHelpers.baseUrl}/`))
         .filter(url => !url.endsWith('auth/login/callback/'))
+        .filter(url => !url.includes('playbook/'))
+        .filter(url => !url.includes('locations/southeast_dc'))
+        .filter(url => !url.includes('opa/'))
         .filter(url => !/.*opt-out-information-sharing.*/.test(url)),
     )
     .then(urls => {
@@ -30,6 +33,21 @@ function sitemapURLs() {
         '/find-locations/',
         // This is here because an aXe bug flags the autosuggest component on this page
         '/gi-bill-comparison-tool/',
+        // These pages use aria-multiselectable incorrectly, because of USWDS
+        '/sign-in-faq/',
+        '/burials-memorials/dependency-indemnity-compensation/',
+        '/disability/va-claim-exam/',
+        '/life-insurance/options-eligibility/fsgli/',
+        '/life-insurance/options-eligibility/vgli/',
+        '/housing-assistance/home-loans/how-to-apply/',
+        '/housing-assistance/home-loans/eligibility/',
+        '/pension/how-to-apply/fully-developed-claim/',
+        '/disability/how-to-file-claim/when-to-file/',
+        '/health-care/family-caregiver-benefits/champva/',
+        '/health-care/about-va-health-benefits/dental-care/',
+        '/disability/how-to-file-claim/when-to-file/pre-discharge-claim/',
+        '/disability/how-to-file-claim/evidence-needed/fully-developed-claims/',
+        '/disability/how-to-file-claim/evidence-needed/decision-ready-claims/',
       ];
       // Whitelist of URLs to only test against the 'section508' rule set and not
       // the stricter 'wcag2a' rule set. For each URL added to this list, please
