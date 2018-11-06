@@ -1,5 +1,5 @@
 /* MERGER-specific shame. This is not production ready; proof of concept only */
-
+$medium-phone-screen: 375px;
 /* OVERRIDE */
 .merger {
   .login {
@@ -180,10 +180,18 @@
         overflow: hidden;
         text-overflow: ellipsis;
         margin-bottom: -6px;
-        max-width: 102px;
+        max-width: 60px
+      }
 
-        @media (max-width: $xsmall-screen) {
-          max-width: 60px;
+      @include media($medium-phone-screen) {
+        span {
+          max-width: 102px;
+        }
+      }
+
+      @include media($medium-screen) {
+        span {
+          max-width: fit-content;
         }
       }
     }
@@ -261,7 +269,7 @@
 
     #login-root {
       .profile-nav {
-        justify-content: space-between;
+        justify-content: left;
       }
     }
 
