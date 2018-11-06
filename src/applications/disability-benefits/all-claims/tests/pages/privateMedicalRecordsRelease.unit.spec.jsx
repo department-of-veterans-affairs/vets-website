@@ -9,7 +9,7 @@ import {
   fillDate,
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
-import initialData from '../schema/initialData.js';
+import initialData from '../initialData.js';
 
 describe('Disability benefits 4142 provider medical records facility information', () => {
   const {
