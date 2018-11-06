@@ -14,9 +14,10 @@ class TabItem extends React.Component {
     document.removeEventListener('keydown', this.tabShortcut);
   }
 
-  handleUrl() {
-    const url = this.props.location.pathname.slice(1);
-    return url;
+  // Grab the current URL, trim the leading '/', and return activeTabPath
+  trimCurrentUrl() {
+    const activeTabPath = this.props.location.pathname.slice(1);
+    return activeTabPath;
   }
 
   tabShortcut = evt => {
@@ -27,7 +28,7 @@ class TabItem extends React.Component {
 
   render() {
     const { className, id, tabpath, title } = this.props;
-    const activeTab = this.handleUrl();
+    const activeTab = this.trimCurrentUrl();
     return (
       <li className={className} role="presentation">
         <IndexLink
