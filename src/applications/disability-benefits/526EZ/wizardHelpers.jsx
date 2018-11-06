@@ -12,7 +12,8 @@ export const GetStartedMessage = ({ checkDisabilityStatus, isVerified }) => {
     : ' To apply for a disability increase, you’ll need to sign in and verify your account.';
   let getStartedMessage = `Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability.${signInMessage}`;
   if (isFirst) {
-    getStartedMessage = `Since you’re filing your first disability claim, you’ll need to file on eBenefits.`;
+    getStartedMessage =
+      'Since you’re filing your first disability claim, you’ll need to file on eBenefits.';
   }
   if (isAppeal) {
     getStartedMessage = (
