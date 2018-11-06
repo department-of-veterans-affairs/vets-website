@@ -11,7 +11,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client
     .url(`${E2eHelpers.baseUrl}/burials-and-memorials/application/530`)
     .waitForElementVisible('body', Timeouts.normal)
-    .assert.title('Apply for burial benefits: VA.gov')
+    .assert.title('Apply for Burial Benefits (VA Form 21P-530): VA.gov')
     .waitForElementVisible('.schemaform-title', Timeouts.slow) // First render of React may be slow.
     .click('.schemaform-start-button');
 
