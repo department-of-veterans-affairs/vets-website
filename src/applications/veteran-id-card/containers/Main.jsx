@@ -59,7 +59,6 @@ class Main extends React.Component {
         onClick={this.handleSubmit}
       >
         Request a Veteran ID card
-        <span className="exit-icon">&nbsp;</span>
       </button>
     );
   }
