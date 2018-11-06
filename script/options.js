@@ -40,14 +40,9 @@ function gatherFromCommandLine() {
 }
 
 function applyDeprecatedBuildtypes(options) {
-  // All Vets.gov environments generate redirects to VA.gov
-  const deprecatedEnvironments = new Set([
-    environments.DEVELOPMENT,
-    environments.STAGING,
-    environments.PRODUCTION,
-  ]);
+  const deprecatedEnvironments = [environments.DEVELOPMENT];
 
-  const isDeprecated = deprecatedEnvironments.has(options.buildtype);
+  const isDeprecated = deprecatedEnvironments.includes(options.buildtype);
   if (isDeprecated) {
     options['vets-gov-to-va-gov'] = true;
     options['brand-consolidation-enabled'] = true;
