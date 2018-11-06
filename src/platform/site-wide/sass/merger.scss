@@ -817,8 +817,26 @@ img[data-srcset] {
   margin-top: 6px;
 }
 
-.usa-alert {
-  .top-of-page {
-    margin-top: 0;
+.external-link-icon-black {
+  background-image: url(/img/icons/exit-icon.png);
+  background-position: 100% 50%;
+  background-repeat: no-repeat;
+  background-size: 1em auto;
+  padding-right: 1.2em;
+  position: relative;
+}
+
+.usa-alert-full-width {
+  background-color: $color-gray-lightest;
+  > .usa-alert {
+    border-left: none;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  &-warning {
+    border-top: 1rem solid $color-gold;
+  }
+  &-info {
+    border-top: 1rem solid $color-primary-alt-dark;
   }
 }
