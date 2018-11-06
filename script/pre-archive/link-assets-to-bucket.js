@@ -12,7 +12,7 @@ const jsdom = require('jsdom');
 const path = require('path');
 const buckets = require('../constants/buckets');
 
-const TEAMSITE_PATH = 'va_files';
+const TEAMSITE_ASSETS = 'va_files';
 
 function linkAssetsToBucket(options, fileNames) {
   const bucketPath = buckets[options.buildtype];
@@ -48,7 +48,7 @@ function linkAssetsToBucket(options, fileNames) {
 
       if (!assetSrc) continue;
       if (assetSrc.startsWith('http') || assetSrc.startsWith('data:')) continue;
-      if (assetSrc.includes(TEAMSITE_PATH)) continue;
+      if (assetSrc.includes(TEAMSITE_ASSETS)) continue;
 
       const assetBucketLocation = `${bucketPath}${assetSrc}`;
 
