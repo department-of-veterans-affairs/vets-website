@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import BrandConsolidationSummary, {
@@ -9,6 +10,14 @@ import BrandConsolidationSummary, {
 import brandConsolidation from '../../../platform/brand-consolidation';
 import { getServiceAvailability } from '../actions/post-911-gib-status';
 import { SERVICE_AVAILABILITY_STATES } from '../utils/constants';
+
+const DOWNTIME_SOON_CUTOFF = 60 * 30; // 30 minutes
+const systemUpAlertHeadline = `The Post-9/11 GI Bill Benefits tool is available`;
+const systemUpAlertContent = `The tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).`;
+const downtimeAlertHeadline = `The Post-9/11 GI Bill Benefits tool is down for maintenance`;
+const downtimeAlertContent = `We’re sorry the tool isn’t available right now. The tool will be available again Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET). Please check back during that time.`;
+const downtimeSoonAlertHeadline = `The Post-9/11 GI Bill Benefits tool will be down soon for maintenance`;
+const downtimeSoonAlertContent = `The tool is available Sunday through Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET). Please check back during that time.`;
 
 export class IntroPage extends React.Component {
   constructor(props) {
@@ -33,7 +42,27 @@ export class IntroPage extends React.Component {
       }
       case SERVICE_AVAILABILITY_STATES.up: {
         content = brandConsolidation.isEnabled() ? (
-          <BrandConsolidationSummary />
+          <div>
+            <AlertBox
+              headline={downtimeSoonAlertHeadline}
+              content={downtimeSoonAlertContent}
+              isVisible={
+                this.props.uptimeRemaining &&
+                this.props.uptimeRemaining <= DOWNTIME_SOON_CUTOFF
+              }
+              status="warning"
+            />
+            <AlertBox
+              headline={systemUpAlertHeadline}
+              content={systemUpAlertContent}
+              isVisible={
+                !this.props.uptimeRemaining ||
+                this.props.uptimeRemaining > DOWNTIME_SOON_CUTOFF
+              }
+              status="success"
+            />
+            <BrandConsolidationSummary />
+          </div>
         ) : (
           <VetsDotGovSummary />
         );
@@ -42,20 +71,12 @@ export class IntroPage extends React.Component {
       case SERVICE_AVAILABILITY_STATES.down:
       default: {
         content = (
-          <div className="usa-alert usa-alert-warning">
-            <div className="usa-alert-body">
-              <h3>
-                The Post-9/11 GI Bill Benefits tool is down for maintenance
-                right now
-              </h3>
-              <p className="usa-alert-text">
-                You can use the Post-9/11 GI Bill Benefits tool Sunday through
-                Friday, 6:00 a.m. to 10:00 p.m. (ET), and Saturday 6:00 a.m. to
-                7:00 p.m. (ET). We do regular maintenance on the tool outside of
-                these hours, and during that time you won't be able to use it.
-              </p>
-            </div>
-          </div>
+          <AlertBox
+            headline={downtimeAlertHeadline}
+            content={downtimeAlertContent}
+            isVisible
+            status="error"
+          />
         );
       }
     }
@@ -64,6 +85,9 @@ export class IntroPage extends React.Component {
   }
 
   render() {
+    // TODO: delete this code entirely when we are sure we no longer need to
+    // show the warning to users at all times
+    // eslint-disable-next-line
     const gibsWarning = (
       <div className="usa-alert usa-alert-warning intro-warning">
         <div className="usa-alert-body">
@@ -79,8 +103,6 @@ export class IntroPage extends React.Component {
     if (brandConsolidation.isEnabled()) {
       return (
         <div>
-          {this.props.serviceAvailability === SERVICE_AVAILABILITY_STATES.up &&
-            gibsWarning}
           <h1>Post-9/11 GI Bill Statement of Benefits</h1>
           {content}
         </div>
@@ -90,8 +112,6 @@ export class IntroPage extends React.Component {
     return (
       <div className="row">
         <div className="medium-8 columns">
-          {this.props.serviceAvailability === SERVICE_AVAILABILITY_STATES.up &&
-            gibsWarning}
           <h1>Post-9/11 GI Bill Statement of Benefits</h1>
           <p>
             If you were awarded Post-9/11 GI Bill education benefits, your GI
@@ -115,9 +135,10 @@ export class IntroPage extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const { serviceAvailability } = state.post911GIBStatus;
+  const { serviceAvailability, uptimeRemaining } = state.post911GIBStatus;
   return {
     serviceAvailability,
+    uptimeRemaining,
   };
 };
 

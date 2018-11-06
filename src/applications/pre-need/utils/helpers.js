@@ -18,7 +18,7 @@ import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
 export const contactInfoDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">
+  <div className="usa-alert usa-alert-info background-color-only">
     <p>
       We may contact you by phone if we need more information about your
       application.
@@ -31,7 +31,7 @@ export const contactInfoDescription = (
 );
 
 export const authorizedAgentDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">
+  <div className="usa-alert usa-alert-info background-color-only">
     <p>A preparer may sign for an individual who’s:</p>
     <ul>
       <li>
@@ -50,7 +50,7 @@ export const authorizedAgentDescription = (
 );
 
 export const veteranRelationshipDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">
+  <div className="usa-alert usa-alert-info background-color-only">
     You’re applying as the <strong>Servicemember or Veteran</strong>. You’re
     applying as the Servicemember or Veteran. We’ll use your military status and
     history to decide if you qualify for burial in a VA national cemetery.
@@ -58,7 +58,7 @@ export const veteranRelationshipDescription = (
 );
 
 export const spouseRelationshipDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">
+  <div className="usa-alert usa-alert-info background-color-only">
     You’re applying as the{' '}
     <strong>legally married spouse or surviving spouse</strong> of the
     Servicemember or Veteran who’s sponsoring this application. First, we’ll ask
@@ -68,7 +68,7 @@ export const spouseRelationshipDescription = (
 );
 
 export const childRelationshipDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">
+  <div className="usa-alert usa-alert-info background-color-only">
     You’re applying as the <strong>unmarried adult child</strong> of the
     Servicemember or Veteran who’s sponsoring this application. First, we’ll ask
     for your information as the applicant. Then, we’ll ask for your sponsor’s
@@ -78,7 +78,7 @@ export const childRelationshipDescription = (
 );
 
 export const otherRelationshipDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">
+  <div className="usa-alert usa-alert-info background-color-only">
     You’re applying on <strong>behalf</strong> of the Servicemember or Veteran
     who’s sponsoring this application. First, we’ll ask for your information as
     the applicant. Then, we’ll ask for the Servicemember's or Veteran's
@@ -87,7 +87,7 @@ export const otherRelationshipDescription = (
 );
 
 export const sponsorMilitaryStatusDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">
+  <div className="usa-alert usa-alert-info background-color-only">
     If you’re not sure what your sponsor’s status is—or if it isn’t listed
     here—don’t worry. You can upload supporting documents showing your sponsor’s
     service history later in this application.
@@ -95,7 +95,7 @@ export const sponsorMilitaryStatusDescription = (
 );
 
 export const desiredCemeteryNoteDescription = (
-  <div className="usa-alert usa-alert-info no-background-image">
+  <div className="usa-alert usa-alert-info background-color-only">
     <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in
     your preferred cemetery. We’ll try to fulfill your wishes, but will assign a
     gravesite in a cemetery with available space at the time of need.

@@ -5,5 +5,6 @@ module.exports = {
   PRODUCTION: 'production',
   VAGOVDEV: 'vagovdev',
   VAGOVSTAGING: 'vagovstaging',
+  VAGOVPROD: 'vagovprod',
   PREVIEW: 'preview',
 };

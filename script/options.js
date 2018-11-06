@@ -18,12 +18,13 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'protocol', type: String, defaultValue: 'http' },
   { name: 'public', type: String, defaultValue: null },
   { name: 'destination', type: String, defaultValue: null },
+  { name: 'content-deployment', type: Boolean, defaultValue: false },
   {
     name: 'content-directory',
     type: String,
     defaultValue: '../../vagov-content/pages',
   },
-
+  { name: 'vets-gov-to-va-gov', type: Boolean, defaultValue: false },
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
@@ -38,6 +39,16 @@ function gatherFromCommandLine() {
   return options;
 }
 
+function applyDeprecatedBuildtypes(options) {
+  const deprecatedEnvironments = [environments.DEVELOPMENT];
+
+  const isDeprecated = deprecatedEnvironments.includes(options.buildtype);
+  if (isDeprecated) {
+    options['vets-gov-to-va-gov'] = true;
+    options['brand-consolidation-enabled'] = true;
+  }
+}
+
 function applyDefaultOptions(options) {
   const contentRoot = '../content';
 
@@ -45,7 +56,7 @@ function applyDefaultOptions(options) {
     contentRoot,
     contentPagesRoot: `${contentRoot}/pages`,
     destination: path.resolve(__dirname, `../build/${options.buildtype}`),
-    assets: {
+    appAssets: {
       source: '../assets',
       destination: './',
     },
@@ -71,6 +82,8 @@ function applyEnvironmentOverrides(options) {
 
   switch (options.buildtype) {
     case environments.DEVELOPMENT:
+      break;
+
     case environments.STAGING:
       options.move = [{ source: 'vets-robots.txt', target: 'robots.txt' }];
       options.remove = ['va-robots.txt'];
@@ -93,6 +106,7 @@ function applyEnvironmentOverrides(options) {
 
     case environments.VAGOVDEV:
     case environments.VAGOVSTAGING:
+    case environments.VAGOVPROD:
     case environments.PREVIEW:
       options.move = [{ source: 'va-robots.txt', target: 'robots.txt' }];
       options.remove = ['vets-robots.txt'];
@@ -112,15 +126,21 @@ function applyBrandConsolidationOverrides(options) {
   Object.assign(options, {
     contentRoot: '../va-gov',
     contentPagesRoot: options['content-directory'],
+    contentFragments: path.join(options['content-directory'], '../fragments'),
     collections: require('./collections/brand-consolidation.json'),
     redirects: require('./vagovRedirects.json'),
     domainReplacements,
+    contentAssets: {
+      source: path.join(options['content-directory'], '../assets'),
+      destination: './',
+    },
   });
 }
 
 function getOptions() {
   const options = gatherFromCommandLine();
 
+  applyDeprecatedBuildtypes(options);
   applyDefaultOptions(options);
 
   const isHerokuBuild = !!process.env.HEROKU_APP_NAME;

@@ -8,7 +8,7 @@ function getRedirectPage(redirectToPath) {
   return `
     <!doctype html>
     <head>
-      <meta http-equiv=refresh content="1; url=${absolutePath}">
+      <meta http-equiv=refresh content="0; url=${absolutePath}">
       <link rel=canonical href="${absolutePath}">
       <title>Page Moved</title>
     </head>

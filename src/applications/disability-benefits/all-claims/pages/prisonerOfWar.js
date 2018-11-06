@@ -1,8 +1,7 @@
 import fullSchema from '../config/schema';
-
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-
 import PeriodOfConfinement from '../components/PeriodOfConfinement';
+import { addCheckboxPerNewDisability } from '../utils';
 
 export const uiSchema = {
   'ui:title': 'Prisoner of War (POW)',
@@ -10,18 +9,33 @@ export const uiSchema = {
     'ui:title': 'Have you ever been a POW?',
     'ui:widget': 'yesNo',
   },
-  confinements: {
+  'view:isPOW': {
     'ui:options': {
-      viewField: PeriodOfConfinement,
-      reviewTitle: 'Periods of confinement',
       expandUnder: 'view:powStatus',
-      itemName: 'Period',
     },
-    items: dateRangeUI(
-      'Start of confinement',
-      'End of confinement',
-      'Confinement start date must be before end date',
-    ),
+    confinements: {
+      'ui:title': ' ',
+      'ui:description': 'Please tell us your dates of confinement',
+      'ui:options': {
+        viewField: PeriodOfConfinement,
+        reviewTitle: 'Periods of confinement',
+        itemName: 'Period',
+      },
+      items: dateRangeUI(
+        'From',
+        'To',
+        'Confinement start date must be before end date',
+      ),
+    },
+    powDisabilities: {
+      'ui:title': ' ',
+      'ui:description':
+        'Which of your new conditions was caused or affected by your POW experience?',
+      'ui:options': {
+        hideIf: formData => !formData['view:newDisabilities'],
+        updateSchema: addCheckboxPerNewDisability,
+      },
+    },
   },
 };
 
@@ -32,6 +46,15 @@ export const schema = {
     'view:powStatus': {
       type: 'boolean',
     },
-    confinements: fullSchema.properties.confinements,
+    'view:isPOW': {
+      type: 'object',
+      properties: {
+        confinements: fullSchema.properties.confinements,
+        powDisabilities: {
+          type: 'object',
+          properties: {},
+        },
+      },
+    },
   },
 };

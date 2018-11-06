@@ -9,7 +9,7 @@ if (
 ) {
   currentEnv = 'https://staging.va.gov';
 }
-if (global.__BUILDTYPE__.includes('production')) {
+if (['production', 'vagovprod'].includes(global.__BUILDTYPE__)) {
   currentEnv = 'https://www.va.gov';
 }
 

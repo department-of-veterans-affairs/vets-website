@@ -10,6 +10,8 @@ import SaveInProgressIntro, {
   introSelector,
 } from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
+import facilityLocator from '../../facility-locator/manifest';
+
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
@@ -108,7 +110,7 @@ class IntroductionPage extends React.Component {
                 Mail the application and other paperwork to your local regional
                 benefit office.
                 <br />
-                <a href="/facilities">
+                <a href={facilityLocator.rootUrl}>
                   Find your local regional benefit office
                 </a>
                 .

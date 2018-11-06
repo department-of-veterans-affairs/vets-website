@@ -189,10 +189,10 @@
                             "alt": "GI Bill School Feedback"
                         },
                         "link": {
-                            "text": "GI Bill® School Feedback Tool",
-                            "href": "https://www.benefits.va.gov/GIBILL/Feedback.asp"
+                            "text": "GI Bill® Comparison Tool",
+                            "href": "/gi-bill-comparison-tool"
                         },
-                        "description": "Find out how to give us feedback about your GI Bill school."
+                        "description": "Learn about education programs and compare benefits by school."
                     },
                     "seeAllLink": {
                       "text": "Education",
@@ -451,7 +451,7 @@
                                 "href": "https://www.va.gov/burials-memorials/eligibility/"
                             },
                             {
-                                "text": "Pre-Need Burial Eligibility Determination",
+                                "text": "Pre-need Burial Eligibility Determination",
                                 "href": "https://www.va.gov/burials-memorials/pre-need-eligibility/"
                             },
                             {
@@ -689,6 +689,6 @@
     },
     {
         "title": "Find a VA Location",
-        "href": "https://www.va.gov/facilities/"
+        "href": "https://www.va.gov/find-locations/"
     }
 ]
