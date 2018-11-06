@@ -12,7 +12,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   Auth.logIn(token, client, '/education/gi-bill/post-9-11/ch-33-benefit', 3)
     .waitForElementVisible('body', Timeouts.normal)
     .axeCheck('.main')
-    .assert.title('Check Benefit: Vets.gov')
+    .assert.title('Check Benefit: VA.gov')
     .waitForElementVisible('#viewGIBS', Timeouts.slow); // First render of React may be slow.
 
   client.click('#viewGIBS');
@@ -41,7 +41,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   //     Auth.logIn(token, client, '/education/gi-bill/post-9-11/ch-33-benefit/print', 3)
   //       .waitForElementVisible('body', Timeouts.normal)
   //       .axeCheck('.main')
-  //       .assert.title('Check Benefit: Vets.gov')
+  //       .assert.title('Check Benefit: VA.gov')
   //       .waitForElementVisible('.print-status', Timeouts.slow);  // First render of React may be slow.
 
   //     client.expect.element('.section-header').text.to.contain('Post-9/11 GI Bill Benefit Information');

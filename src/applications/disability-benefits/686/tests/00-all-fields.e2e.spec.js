@@ -16,7 +16,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
         }/disability-benefits/apply/dependents/form-686c-dependents`,
       )
       .waitForElementVisible('body', Timeouts.normal)
-      .assert.title('Declaration of status of dependents: Vets.gov')
+      .assert.title('Declaration of status of dependents: VA.gov')
       .waitForElementVisible('.schemaform-title', Timeouts.slow) // First render of React may be slow.
       .click('.usa-button-primary');
 
