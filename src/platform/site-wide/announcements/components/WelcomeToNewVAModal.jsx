@@ -4,11 +4,7 @@ import brandConsolidation from '../../../brand-consolidation';
 
 export default class WelcomeToNewVAModal extends React.Component {
   static isEnabled() {
-    if (!brandConsolidation.isEnabled()) return false;
-
-    if (__BUILDTYPE__ === 'preview') return false;
-
-    return true;
+    return brandConsolidation.isEnabled();
   }
 
   render() {
@@ -24,8 +20,8 @@ export default class WelcomeToNewVAModal extends React.Component {
         <div className="announcement-heading-brand-consolidation">
           <img
             className="announcement-brand-consolidation-logo"
-            src="/img/design/logo/va-plus-vets.png"
-            alt="VA.gov plus Vets.gov"
+            src="/img/design/logo/va-logo.png"
+            alt="VA.gov"
           />
         </div>
         <h3 className="announcement-title">
