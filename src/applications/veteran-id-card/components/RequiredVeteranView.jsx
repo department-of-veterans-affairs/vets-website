@@ -4,7 +4,7 @@ import React from 'react';
 import SystemDownView from '@department-of-veterans-affairs/formation/SystemDownView';
 
 import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
+import EmailVICHelp from '../../../platform/brand-consolidation/components/EmailVICHelp';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
@@ -20,11 +20,11 @@ class RequiredVeteranView extends React.Component {
           messageLine2={
             <span>
               Please{' '}
-              <CallHelpDesk>
+              <EmailVICHelp>
                 call the {propertyName} Help Desk at 1-855-574-7286, TTY:
                 1-800-877-8339. We're open Monday &#8211; Friday, 8:00 a.m.
                 &#8211; 8:00 p.m. (ET).
-              </CallHelpDesk>
+              </EmailVICHelp>
             </span>
           }
         />
