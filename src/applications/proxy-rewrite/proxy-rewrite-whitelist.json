@@ -3,37 +3,37 @@
     {
         "hostname": "www.choose.va.gov",
         "pathnameBeginning": "/",
-        "cookieOnly": true
+        "cookieOnly": false
     },
     {
         "hostname": "benefits.va.gov",
         "pathnameBeginning": "/",
-        "cookieOnly": true
+        "cookieOnly": false
     },
     {
         "hostname": "www.telehealth.va.gov",
         "pathnameBeginning": "/",
-        "cookieOnly": true
+        "cookieOnly": false
     },
     {
         "hostname": "www.volunteer.va.gov",
         "pathnameBeginning": "/",
-        "cookieOnly": true
+        "cookieOnly": false
     },
     {
         "hostname": "www.ptsd.va.gov",
         "pathnameBeginning": "/",
-        "cookieOnly": true
+        "cookieOnly": false
     },
     {
         "hostname": "www.nutrition.va.gov",
         "pathnameBeginning": "/",
-        "cookieOnly": true
+        "cookieOnly": false
     },
     {
         "hostname": "vaww.w2k8.testing.internet.webops.va.gov",
         "pathnameBeginning": "/",
-        "cookieOnly": true
+        "cookieOnly": false
     },
     {
         "hostname": "dev.va.gov",
@@ -58,17 +58,17 @@
     {
         "hostname": "www.va.gov",
         "pathnameBeginning": "/",
-        "cookieOnly": true
+        "cookieOnly": false
     },
     {
         "hostname": "www.cem.va.gov",
         "pathnameBeginning": "/",
-        "cookieOnly": true
+        "cookieOnly": false
     },
     {
         "hostname": "benefits.va.gov",
         "pathnameBeginning": "/",
-        "cookieOnly": true
+        "cookieOnly": false
     }
   ]
 }
