@@ -24,7 +24,6 @@ import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import AppealsUnavailable from '../components/AppealsUnavailable';
 import AskVAQuestions from '../components/AskVAQuestions';
-import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
 import ClaimsListItem from '../components/appeals-v2/ClaimsListItemV2';
@@ -234,7 +233,7 @@ class YourClaimsPageV2 extends React.Component {
           </div>
           <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
             <FeaturesWarning />
-            <AskVAQuestions helpContact={CallVBACenter} />
+            <AskVAQuestions />
             <div>
               <h2 className="help-heading">Can’t find your appeal?</h2>
               <p>
