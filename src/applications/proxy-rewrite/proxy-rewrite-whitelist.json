@@ -69,6 +69,6 @@
         "hostname": "www.cem.va.gov",
         "pathnameBeginning": "/",
         "cookieOnly": false
-    },
+    }
   ]
 }
