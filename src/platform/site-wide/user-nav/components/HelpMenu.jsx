@@ -5,21 +5,17 @@ import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPan
 import IconHelp from '@department-of-veterans-affairs/formation/IconHelp';
 
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
-import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 import isVATeamSiteSubdomain from '../../../brand-consolidation/va-subdomain';
 
 import facilityLocatorManifest from '../../../../applications/facility-locator/manifest';
 
-const FACILITY_LOCATOR_URL = `https://www.va.gov${
-  facilityLocatorManifest.rootUrl
-}`;
+const FACILITY_LOCATOR_URL = facilityLocatorManifest.rootUrl;
 
 class HelpMenu extends React.Component {
   render() {
-    const isSubdomain = isVATeamSiteSubdomain();
-    const facilityLocatorUrl = isSubdomain
-      ? FACILITY_LOCATOR_URL
-      : replaceWithStagingDomain(FACILITY_LOCATOR_URL);
+    const facilityLocatorUrl = isVATeamSiteSubdomain()
+      ? `https://www.va.gov${FACILITY_LOCATOR_URL}`
+      : FACILITY_LOCATOR_URL;
     const buttonText = isBrandConsolidationEnabled() ? 'Contact Us' : 'Help';
     const icon = <IconHelp color="#fff" role="presentation" />;
     let dropDownContents;
