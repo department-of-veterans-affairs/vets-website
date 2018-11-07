@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
 import React from 'react';
@@ -14,6 +13,7 @@ import { ccLocatorEnabled } from '../config';
  *
  * @param {Object} e The click event
  */
+// eslint-disable-next-line prettier/prettier
 const goBackHistory = (e) => {
   e.preventDefault();
   browserHistory.goBack();
@@ -22,15 +22,30 @@ const goBackHistory = (e) => {
 class FacilityLocatorApp extends React.Component {
   renderBreadcrumbs(location, selectedResult) {
     const crumbs = [
-      <a href="/" key="home">Home</a>,
-      <Link onClick={goBackHistory} key="facility-locator">Find Facilities & Services</Link>
+      <a href="/" key="home">
+        Home
+      </a>,
+      <Link onClick={goBackHistory} key="facility-locator">
+        Find Facilities & Services
+      </Link>,
     ];
 
     if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedResult) {
-      crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Facility Details</Link>);
-    } else if (ccLocatorEnabled() && location.pathname.match(/provider\/[a-z]+_\d/) && selectedResult) {
-      // TODO: Remove feature flag when ready to go live
-      crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Provider Details</Link>);
+      crumbs.push(
+        <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
+          Facility Details
+        </Link>,
+      );
+    } else if (
+      ccLocatorEnabled() && // TODO: Remove feature flag when ready to go live
+      location.pathname.match(/provider\/[a-z]+_\d/) &&
+      selectedResult
+    ) {
+      crumbs.push(
+        <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
+          Provider Details
+        </Link>,
+      );
     }
 
     return crumbs;
