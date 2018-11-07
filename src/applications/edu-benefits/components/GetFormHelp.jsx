@@ -1,4 +1,5 @@
 import React from 'react';
+import CallHRC from '../../../platform/brand-consolidation/components/CallHRC';
 
 function GetFormHelp() {
   return (
@@ -21,6 +22,9 @@ function GetFormHelp() {
         >
           Submit a question to Education Service
         </a>
+      </p>
+      <p className="help-talk">
+        If this form isn't working right for you, please <CallHRC />
       </p>
     </div>
   );
