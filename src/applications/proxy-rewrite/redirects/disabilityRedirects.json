@@ -171,7 +171,7 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/fdc/",
+    "src": "/fdc",
     "dest": "/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
   },
   {
