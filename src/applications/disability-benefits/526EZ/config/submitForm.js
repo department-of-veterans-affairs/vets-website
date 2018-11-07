@@ -1,7 +1,6 @@
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 export default function submitForm(form, formConfig) {
-  console.log('custom submitForm called');
   const body = formConfig.transformForSubmit
     ? formConfig.transformForSubmit(formConfig, form)
     : transformForSubmit(formConfig, form);
