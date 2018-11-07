@@ -147,7 +147,6 @@ if (
     getProxyRewriteCookieValue(),
   )
 ) {
-  // TODO: remove comment and test
   redirectIfNecessary(window);
   activateInjectedAssets();
 }
