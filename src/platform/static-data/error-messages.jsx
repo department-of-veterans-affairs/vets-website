@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import siteName from '../brand-consolidation/site-name';
-import FillSignInForm from '../brand-consolidation/components/FillSignInForm';
+import SubmitSignInForm from '../brand-consolidation/components/SubmitSignInForm';
 import CallVBACenter from '../brand-consolidation/components/CallVBACenter';
 
 export const systemDownMessage = (
@@ -73,11 +73,11 @@ export const mhvAccessError = (
           </ol>
           <p>
             If none of these apply to you, please{' '}
-            <FillSignInForm>
+            <SubmitSignInForm>
               call the {siteName}
               Help Desk at 1-855-574-7286, TTY: 1-800-877-8339. We're here
               Monday – Friday, 8:00 a.m. – 8:00 p.m. (ET).
-            </FillSignInForm>
+            </SubmitSignInForm>
           </p>
         </div>
       </div>

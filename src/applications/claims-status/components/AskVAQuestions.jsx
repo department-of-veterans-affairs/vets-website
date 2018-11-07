@@ -1,23 +1,22 @@
 import React from 'react';
+import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
 
-class AskVAQuestions extends React.Component {
-  render() {
-    return (
-      <div>
-        <h2 className="help-heading">Need help?</h2>
-        <p>Call Veterans Affairs Benefits and Services:</p>
-        <p className="help-phone-number">
-          <a className="help-phone-number-link" href="tel:+1-800-827-1000">
-            1-800-827-1000
-          </a>
-        </p>
-        <p>Monday &#8211; Friday, 8:00 a.m. &#8211; 9:00 p.m. (ET)</p>
-        <p>
-          <a href="https://iris.custhelp.com/">Submit a question to VA</a>
-        </p>
+function AskVAQuestions(props) {
+  return (
+    <div className="row">
+      <div className="usa-width-two-thirds medium-8 columns">
+        <div className="help-footer-box">
+          <h2 className="help-heading">Need help?</h2>
+          {props.children}
+          <p className="help-talk">
+            To report a problem with this form,
+            <br />
+            please <CallVBACenter />
+          </p>
+        </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default AskVAQuestions;
