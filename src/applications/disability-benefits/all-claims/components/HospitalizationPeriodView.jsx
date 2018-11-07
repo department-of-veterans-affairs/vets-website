@@ -4,9 +4,9 @@ import { formatReviewDate } from 'us-forms-system/lib/js/helpers';
 export default function HospitalizationPeriodView({ formData }) {
   let from = '';
   let to = '';
-  if (formData.dateRange) {
-    from = formatReviewDate(formData.dateRange.from);
-    to = formatReviewDate(formData.dateRange.to);
+  if (formData.hospitalizationtDateRange) {
+    from = formatReviewDate(formData.hospitalizationtDateRange.from);
+    to = formatReviewDate(formData.hospitalizationDateRange.to);
   }
 
   return (

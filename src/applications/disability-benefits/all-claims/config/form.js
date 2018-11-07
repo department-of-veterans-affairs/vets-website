@@ -278,17 +278,19 @@ const formConfig = {
           uiSchema: unemployabilityFormIntro.uiSchema,
           schema: unemployabilityFormIntro.schema,
         },
+        hospitalizationHistory: {
+          title: 'Hospitalization',
+          path: 'hospitalization-history',
+          depends: formData =>
+            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
+          uiSchema: hospitalizationHistory.uiSchema,
+          schema: hospitalizationHistory.schema,
+        },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
           path: 'pow',
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
-        },
-        hospitalizationHistory: {
-          title: 'Hospitalization',
-          path: 'hospitalization-history',
-          uiSchema: hospitalizationHistory.uiSchema,
-          schema: hospitalizationHistory.schema,
         },
         summaryOfDisabilities: {
           title: 'Summary of disabilities',

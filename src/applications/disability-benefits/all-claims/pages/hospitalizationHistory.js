@@ -47,16 +47,8 @@ export const schema = {
       items: {
         type: 'object',
         properties: {
-          hospitalizationDateRange: {
-            type: 'object',
-            properties: {
-              from: {
-                $ref: '#/definitions/date',
-              },
-              to: {
-                $ref: '#/definitions/date',
-              },
-            },
+          hospitalizationtDateRange: {
+            $ref: '#/definitions/dateRange',
           },
           hospitalName: {
             type: 'string',
