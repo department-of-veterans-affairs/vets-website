@@ -19,6 +19,7 @@ import {
   needsToEnter781,
   needsToEnter781a,
   isUploadingPtsdForm,
+  isUploading4192Form,
   servedAfter911,
 } from '../utils';
 
@@ -58,6 +59,7 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  uploadForm4192,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -276,6 +278,13 @@ const formConfig = {
           depends: formData => formData['view:unemployabilityStatus'],
           uiSchema: unemployabilityFormIntro.uiSchema,
           schema: unemployabilityFormIntro.schema,
+        },
+        uploadForm4192: {
+          title: 'Upload Form 4192',
+          path: 'new-disabilities/4192-upload',
+          depends: isUploading4192Form,
+          uiSchema: uploadForm4192.uiSchema,
+          schema: uploadForm4192.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',

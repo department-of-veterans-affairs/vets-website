@@ -158,6 +158,11 @@ import {
   schema as unemployabilityFormIntroSchema,
 } from './unemployabilityFormIntro';
 
+import {
+  uiSchema as uploadForm4192UISchema,
+  schema as uploadForm4192Schema,
+} from './uploadForm4192';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema,
@@ -316,4 +321,9 @@ export const unemployabilityStatus = {
 export const unemployabilityFormIntro = {
   uiSchema: unemployabilityFormIntroUISchema,
   schema: unemployabilityFormIntroSchema,
+};
+
+export const uploadForm4192 = {
+  uiSchema: uploadForm4192UISchema,
+  schema: uploadForm4192Schema,
 };
