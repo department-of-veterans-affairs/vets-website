@@ -41,30 +41,30 @@ Used to display a side navigation bar of pages in a collection.
               <div id="a{{ forloop.index }}" class="usa-accordion-content">
                 <ul class="usa-sidenav-list">
                   {% assign spokeName = pageSpoke %}
-
                   {% for page in relatedPages %}
                     {% if spokeName == page.spoke %}
-                      <li {% if page.path == path %}class="active-level"{% endif %}>
-                        {% if page.href != empty %}
-                          <a href="{{ page.href }}"{% if page.target != empty %}target="{{page.target}}"{% endif %} onClick="recordEvent({ event: 'nav-sidenav' });">
-                            {% if page.display_title != empty %}
-                              {{ page.display_title }}
-                            {% else %}
-                              {{ page.title }}
-                            {% endif %}
-                          </a>
-                        {% else %}
-                          <a {% if page.path == path %}class="usa-current"{% endif %}
-                              href="/{{ page.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">
-                            {% if page.display_title != empty %}
-                              {{ page.display_title }}
-                            {% else %}
-                              {{ page.title }}
-                            {% endif %}
-                          </a>
-                        {% endif %}
-                        {% if page.children != empty and page.path == path %}
-                          {% assign childPages = collections | get: page.children %}
+                      {% unless page.hideFromSidebar == true %}
+                        <li {% if page.path == path %}class="active-level"{% endif %}>
+                          {% if page.href != empty %}
+                            <a href="{{ page.href }}"{% if page.target != empty %}target="{{page.target}}"{% endif %} onClick="recordEvent({ event: 'nav-sidenav' });">
+                              {% if page.display_title != empty %}
+                                {{ page.display_title }}
+                              {% else %}
+                                {{ page.title }}
+                              {% endif %}
+                            </a>
+                          {% else %}
+                            <a {% if page.path == path %}class="usa-current"{% endif %}
+                                href="/{{ page.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">
+                              {% if page.display_title != empty %}
+                                {{ page.display_title }}
+                              {% else %}
+                                {{ page.title }}
+                              {% endif %}
+                            </a>
+                          {% endif %}
+                          {% if page.children != empty and page.path == path %}
+                            {% assign childPages = collections | get: page.children %}
                             <ul class="usa-sidenav-sub_list">
                             {% for cpage in childPages %}
                               {% unless cpage.hideFromSidebar %}
@@ -91,8 +91,9 @@ Used to display a side navigation bar of pages in a collection.
                               {% endunless %}
                             {% endfor %}
                             </ul>
-                        {% endif %}
-                      </li>
+                          {% endif %}
+                        </li>
+                      {% endunless %}
                     {% endif %}
                   {% endfor %}
                 </ul>

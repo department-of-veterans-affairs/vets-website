@@ -10,6 +10,7 @@ import FormFooter from '../../../../platform/forms/components/FormFooter';
 import CallEduCenter from '../../../../platform/brand-consolidation/components/CallEduCenter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
@@ -54,6 +55,7 @@ const formConfig = {
   footerContent: FormFooter,
   helpContact: CallEduCenter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',

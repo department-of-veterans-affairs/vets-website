@@ -5,6 +5,7 @@ import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 import contactInformationPage from '../../pages/contactInformation';
 import applicantInformation from '../../../../platform/forms/pages/applicantInformation';
 import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import {
@@ -112,6 +113,7 @@ const formConfig = {
   footerContent: FormFooter,
   helpContact: CallEduCenter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',

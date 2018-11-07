@@ -6,6 +6,7 @@ import FormFooter from '../../../../platform/forms/components/FormFooter';
 import CallEduCenter from '../../../../platform/brand-consolidation/components/CallEduCenter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import applicantServicePage from '../../pages/applicantService';
 import createOldSchoolPage from '../../pages/oldSchool';
@@ -62,6 +63,7 @@ const formConfig = {
   footerContent: FormFooter,
   helpContact: CallEduCenter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',

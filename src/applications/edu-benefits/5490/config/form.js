@@ -36,6 +36,7 @@ import FormFooter from '../../../../platform/forms/components/FormFooter';
 import CallEduCenter from '../../../../platform/brand-consolidation/components/CallEduCenter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
 import contactInformationPage from '../../pages/contactInformation';
@@ -103,6 +104,7 @@ const formConfig = {
   footerContent: FormFooter,
   helpContact: CallEduCenter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     date,
     educationType,

@@ -8,7 +8,10 @@ const runTest = E2eHelpers.createE2eTest(client => {
   PageHelpers.initDocumentUploadMock();
   PageHelpers.initApplicationSubmitMock();
 
-  if (process.env.BUILDTYPE !== 'production') {
+  if (
+    process.env.BUILDTYPE !== 'production' &&
+    process.env.BUILDTYPE !== 'vagovprod'
+  ) {
     // Ensure introduction page renders.
     client
       .url(

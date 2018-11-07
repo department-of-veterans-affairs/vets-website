@@ -59,14 +59,15 @@ class Main extends React.Component {
         onClick={this.handleSubmit}
       >
         Request a Veteran ID card
-        <span className="exit-icon">&nbsp;</span>
       </button>
     );
   }
 
   renderVicError() {
     const headline = (
-      <h4>We're sorry. Something went wrong when loading the page.</h4>
+      <h4 className="usa-alert-heading">
+        We're sorry. Something went wrong when loading the page.
+      </h4>
     );
     const content = (
       <p>
@@ -98,8 +99,8 @@ class Main extends React.Component {
       : config.messages.default;
     const content = (
       <div>
-        <h4>We can't process your request</h4>
-        <div>{detail}</div>
+        <h4 className="usa-alert-heading">We can't process your request</h4>
+        {detail}
       </div>
     );
     return <AlertBox content={content} isVisible status="error" />;

@@ -15,7 +15,7 @@ const config = {
       </p>
     ),
     VIC003: (
-      <span>
+      <p>
         We're sorry. We can't proceed with your request for a Veteran ID card
         because we can't confirm your eligibility right now. Please{' '}
         <EmailVICHelp>
@@ -23,10 +23,10 @@ const config = {
           1-800-877-8339, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
           (ET).
         </EmailVICHelp>
-      </span>
+      </p>
     ),
     VIC010: (
-      <span>
+      <p>
         We're sorry. We can't proceed with your request for a Veteran ID card
         because we can't confirm your military history right now. Please try
         again in a few minutes. If it still doesn't work, please{' '}
@@ -35,10 +35,10 @@ const config = {
           1-800-877-8339, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
           (ET).
         </EmailVICHelp>
-      </span>
+      </p>
     ),
     VIC011: (
-      <span>
+      <p>
         We're sorry. We can't proceed with your request for a Veteran ID card
         because we can't confirm your military history right now. Please try
         again in a few minutes. If it still doesn't work, please{' '}
@@ -47,10 +47,14 @@ const config = {
           1-800-877-8339, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
           (ET).
         </EmailVICHelp>
-      </span>
+      </p>
     ),
-    default:
-      "We're sorry, but something went wrong. Please try again in a few moments.",
+    default: (
+      <p>
+        We're sorry, but something went wrong. Please try again in a few
+        moments.
+      </p>
+    ),
     VICV5: (
       <p>
         We're sorry. Something went wrong on our end. We can't process your

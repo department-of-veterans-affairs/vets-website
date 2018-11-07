@@ -19,8 +19,9 @@ import { states } from '../../../platform/forms/address';
 import fullNameUI from '../../../platform/forms/definitions/fullName';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
-import FormFooter from '../../../platform/forms/components/FormFooter';
+import FormFooter from '../components/FormFooter';
 import CallHRC from '../../../platform/brand-consolidation/components/CallHRC';
+import ErrorText from '../components/ErrorText';
 import environment from '../../../platform/utilities/environment';
 import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
 import PrefillMessage from '../../../platform/forms/save-in-progress/PrefillMessage';
@@ -174,6 +175,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   helpContact: CallHRC,
+  errorText: ErrorText,
   defaultDefinitions: {
     date,
     provider,
