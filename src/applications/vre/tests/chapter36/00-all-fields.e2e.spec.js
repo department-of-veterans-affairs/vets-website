@@ -15,7 +15,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
       }/employment/vocational-rehab-and-employment/application/chapter36`,
     )
     .waitForElementVisible('body', Timeouts.normal)
-    .assert.title('Apply for vocational counseling: Vets.gov')
+    .assert.title('Apply for vocational counseling: VA.gov')
     .waitForElementVisible('.schemaform-title', Timeouts.slow) // First render of React may be slow.
     .click('.schemaform-start-button');
 

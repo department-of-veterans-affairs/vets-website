@@ -4,7 +4,7 @@ const MessagingHelpers = require('./messaging-helpers');
 const Auth = require('../../../platform/testing/e2e/auth');
 const AccountCreationHelpers = require('../../../platform/testing/e2e/account-creation-helpers');
 
-module.exports = E2eHelpers.createE2eTest(client => {
+const runTest = E2eHelpers.createE2eTest(client => {
   const token = Auth.getUserToken();
 
   MessagingHelpers.initApplicationSubmitMock(token);
@@ -13,7 +13,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Ensure main page (inbox) renders.
   Auth.logIn(token, client, '/health-care/messaging', 3)
     .waitForElementVisible('body', Timeouts.normal)
-    .assert.title('Message Your Health Care Team: Vets.gov')
+    .assert.title('Message Your Health Care Team: VA.gov')
     .waitForElementVisible('#messaging-app', Timeouts.slow);
 
   client
@@ -91,3 +91,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client.end();
 });
+
+module.exports = runTest;
+module.exports['@disabled'] = true;
