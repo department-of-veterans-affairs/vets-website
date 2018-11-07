@@ -44,6 +44,7 @@ function applyDeprecatedBuildtypes(options) {
   const deprecatedEnvironments = new Set([
     environments.DEVELOPMENT,
     environments.STAGING,
+    environments.PRODUCTION,
   ]);
 
   const isDeprecated = deprecatedEnvironments.has(options.buildtype);
