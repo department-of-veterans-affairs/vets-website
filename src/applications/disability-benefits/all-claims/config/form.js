@@ -58,6 +58,7 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  conclusionUnemployability,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -288,6 +289,12 @@ const formConfig = {
           path: 'disabilities/summary',
           uiSchema: summaryOfDisabilities.uiSchema,
           schema: summaryOfDisabilities.schema,
+        },
+        conclusionUnemployability: {
+          title: 'Conclusion',
+          path: 'disabilities/conclusion',
+          uiSchema: conclusionUnemployability.uiSchema,
+          schema: conclusionUnemployability.schema,
         },
       },
     },
