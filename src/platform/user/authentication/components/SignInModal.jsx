@@ -200,6 +200,7 @@ class SignInModal extends React.Component {
                 <a
                   href="https://www.accesstocare.va.gov/sign-in-help"
                   target="_blank"
+                  rel="noopener"
                 >
                   Submit a request to get help
                 </a>
