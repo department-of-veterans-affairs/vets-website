@@ -278,7 +278,7 @@ const formConfig = {
           uiSchema: unemployabilityFormIntro.uiSchema,
           schema: unemployabilityFormIntro.schema,
         },
-        hospitalizationHistory: {
+        medicalCareHistory: {
           title: 'Medical Care',
           path: 'medicalCare',
           depends: formData =>
