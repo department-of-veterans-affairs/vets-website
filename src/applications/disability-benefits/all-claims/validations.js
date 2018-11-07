@@ -152,6 +152,6 @@ export const isValidYear = (err, fieldData) => {
   }
 
   if (parsedInt > new Date().getFullYear()) {
-    err.addError('The year cannot be in the future');
+    err.addError('The year can’t be in the future');
   }
 };
