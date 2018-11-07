@@ -68,6 +68,7 @@ class YourClaimsPageV2 extends React.Component {
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
     }
+    setPageFocus();
   }
 
   changePage(page) {
@@ -184,7 +185,6 @@ class YourClaimsPageV2 extends React.Component {
       } else if (!this.props.canAccessClaims && bothRequestsLoaded) {
         content = <NoClaims />;
       }
-
       content = <div className="va-tab-content">{content}</div>;
     }
 
