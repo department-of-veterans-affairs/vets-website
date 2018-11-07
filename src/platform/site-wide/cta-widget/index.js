@@ -414,9 +414,13 @@ export class CallToActionWidget extends React.Component {
   };
 
   render() {
+    const { setFocus } = this.props;
     if (this.props.profile.loading || this.props.mhvAccount.loading) {
       return (
-        <LoadingIndicator setFocus message="Loading your information..." />
+        <LoadingIndicator
+          setFocus={setFocus}
+          message="Loading your information..."
+        />
       );
     }
 
@@ -439,6 +443,9 @@ export class CallToActionWidget extends React.Component {
     );
   }
 }
+CallToActionWidget.defaultProps = {
+  setFocus: true,
+};
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
