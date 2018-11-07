@@ -5,6 +5,6 @@
  */
 export default function isVATeamSiteSubdomain() {
   return !!window.location.hostname.match(
-    /(cem|benefits|telehealth|volunteer|ptsd|nutrition).va/gi,
+    /(cem|choose|benefits|telehealth|volunteer|ptsd|nutrition).va/gi,
   );
 }

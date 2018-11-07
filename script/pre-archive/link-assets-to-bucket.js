@@ -12,6 +12,8 @@ const jsdom = require('jsdom');
 const path = require('path');
 const buckets = require('../constants/buckets');
 
+const TEAMSITE_ASSETS = 'va_files';
+
 function linkAssetsToBucket(options, fileNames) {
   const bucketPath = buckets[options.buildtype];
 
@@ -46,6 +48,7 @@ function linkAssetsToBucket(options, fileNames) {
 
       if (!assetSrc) continue;
       if (assetSrc.startsWith('http') || assetSrc.startsWith('data:')) continue;
+      if (assetSrc.includes(TEAMSITE_ASSETS)) continue;
 
       const assetBucketLocation = `${bucketPath}${assetSrc}`;
 
@@ -59,7 +62,7 @@ function linkAssetsToBucket(options, fileNames) {
   }
 
   const cssFileNames = fileNames.filter(file => path.extname(file) === '.css');
-  const cssUrlRegex = new RegExp(/url\(\//, 'g');
+  const cssUrlRegex = new RegExp(/url\(\/(?!(va_files))/, 'g');
   const cssUrlBucket = `url(${bucketPath}/`;
 
   for (const cssFileName of cssFileNames) {
@@ -70,6 +73,17 @@ function linkAssetsToBucket(options, fileNames) {
 
     fs.writeFileSync(cssFileName, newCss);
   }
+
+  // The proxy-rewrite is a special case.
+  const proxyRewriteFileName = fileNames.find(file =>
+    file.endsWith('proxy-rewrite.entry.js'),
+  );
+  const proxyRewriteContents = fs.readFileSync(proxyRewriteFileName);
+  const newProxyRewriteContents = proxyRewriteContents
+    .toString()
+    .replace(/https:\/\/www\.va\.gov\/img/g, `${bucketPath}/img`);
+
+  fs.writeFileSync(proxyRewriteFileName, newProxyRewriteContents);
 }
 
 module.exports = linkAssetsToBucket;

@@ -24,7 +24,7 @@ export default class WelcomeToNewVAModal extends React.Component {
             alt="VA.gov"
           />
         </div>
-        <h3 className="announcement-title">
+        <h3 id="modal-announcement-title" className="announcement-title">
           Welcome to the New VA.gov — Built with Veterans, for Veterans
         </h3>
         <p>
