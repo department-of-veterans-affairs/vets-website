@@ -8,12 +8,12 @@
     {
         "hostname": "www.benefits.va.gov",
         "pathnameBeginning": "/",
-        "cookieOnly": true
+        "cookieOnly": false
     },
     {
         "hostname": "benefits.va.gov",
         "pathnameBeginning": "/",
-        "cookieOnly": true
+        "cookieOnly": false
     },
     {
         "hostname": "www.telehealth.va.gov",
