@@ -16,7 +16,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
       }/employment/vocational-rehab-and-employment/application/chapter31`,
     )
     .waitForElementVisible('body', Timeouts.normal)
-    .assert.title('Apply for vocational rehabilitation: Vets.gov')
+    .assert.title('Apply for vocational rehabilitation: VA.gov')
     .waitForElementVisible('.schemaform-title', Timeouts.slow)
     .click('.schemaform-start-button');
 

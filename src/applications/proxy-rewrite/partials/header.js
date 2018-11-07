@@ -24,7 +24,7 @@ export default `
             )}" alt="U.S. flag">
             <p>An official website of the United States government</p>
             <button id="usa-banner-toggle" class="usa-accordion-button usa-banner-button" aria-expanded="false" aria-controls="gov-banner">
-              <span class="usa-banner-button-text">Here’s how you know</span>
+              <span class="usa-banner-button-text">Here&rsquo;s how you know</span>
             </button>
             </div>
           </div>
@@ -35,7 +35,7 @@ export default `
               )}" alt="Dot gov">
               <div class="usa-media_block-body">
                 <p>
-                  <strong>The .gov means it’s official.</strong>
+                  <strong>The .gov means it&rsquo;s official.</strong>
                   <br>
                   Federal government websites often end in .gov or .mil. Before sharing sensitive information, make sure you're on a federal government site.
                 </p>
