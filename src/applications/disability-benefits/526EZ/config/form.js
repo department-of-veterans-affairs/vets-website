@@ -11,11 +11,11 @@ import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
-import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
 import environment from '../../../../platform/utilities/environment';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import productionCheck from '../../../../platform/utilities/environment/isProduction';
 
+import GetFormHelp from '../../components/GetFormHelp';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
 
@@ -50,7 +50,6 @@ import {
   download4142Notice,
   authorizationToDisclose,
   evidenceSummaryView,
-  GetFormHelp,
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
@@ -142,7 +141,6 @@ const formConfig = {
   confirmation: ConfirmationPoll,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
-  helpContact: CallVBACenter,
   defaultDefinitions: {
     address,
     vaTreatmentCenterAddress,
@@ -158,7 +156,6 @@ const formConfig = {
   title: 'File for increased disability compensation',
   subTitle: 'Form 21-526EZ',
   preSubmitInfo,
-  // getHelp: GetFormHelp, // TODO: May need updated form help content
   chapters: {
     veteranDetails: {
       title: isReviewPage => `${isReviewPage ? 'Review ' : ''}Veteran Details`,

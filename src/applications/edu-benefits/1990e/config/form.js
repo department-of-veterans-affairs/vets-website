@@ -5,7 +5,6 @@ import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 import additionalBenefits from '../../pages/additionalBenefits';
 import applicantInformation from '../../../../platform/forms/pages/applicantInformation';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
-import CallEduCenter from '../../../../platform/brand-consolidation/components/CallEduCenter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
@@ -70,7 +69,6 @@ const formConfig = {
   subTitle: 'Form 22-1990E',
   preSubmitInfo,
   footerContent: FormFooter,
-  helpContact: CallEduCenter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
   chapters: {

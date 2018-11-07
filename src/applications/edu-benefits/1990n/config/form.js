@@ -7,7 +7,6 @@ import schoolSelectionPage, {
 } from '../../pages/schoolSelection';
 import applicantInformationPage from '../../../../platform/forms/pages/applicantInformation';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
-import CallEduCenter from '../../../../platform/brand-consolidation/components/CallEduCenter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
@@ -53,7 +52,6 @@ const formConfig = {
   subTitle: 'Form 22-1990N',
   preSubmitInfo,
   footerContent: FormFooter,
-  helpContact: CallEduCenter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
   chapters: {

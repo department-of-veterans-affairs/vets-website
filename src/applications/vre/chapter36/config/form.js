@@ -20,7 +20,6 @@ import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 import { validateMatch } from 'us-forms-system/lib/js/validation';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
-import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 // import environment from '../../../../platform/utilities/environment';
 
@@ -161,7 +160,6 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   footerContent: FormFooter,
-  helpContact: CallVBACenter,
   savedFormMessages: {
     notFound: 'Please start over to apply for vocational counseling.',
     noAuth:

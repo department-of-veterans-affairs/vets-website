@@ -4,7 +4,6 @@ import moment from 'moment';
 
 import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
-import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp.jsx';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
@@ -129,7 +128,6 @@ const formConfig = {
   },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
-  helpContact: CallVBACenter,
   defaultDefinitions: {
     address,
     marriages,

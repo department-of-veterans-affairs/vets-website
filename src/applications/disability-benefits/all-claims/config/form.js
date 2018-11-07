@@ -1,8 +1,12 @@
 import environment from '../../../../platform/utilities/environment';
 
+import FormFooter from '../../../../platform/forms/components/FormFooter';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
+import GetFormHelp from '../../components/GetFormHelp';
+
 import {
   hasMilitaryRetiredPay,
   hasRatedDisabilities,
@@ -86,8 +90,8 @@ const formConfig = {
   confirmation: ConfirmationPoll,
   // TODO: Remove this once we've got the api up and running
   submit: () => Promise.resolve({ attributes: { jobId: '12345' } }),
-  // footerContent: FormFooter,
-  // getHelp: GetFormHelp,
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },

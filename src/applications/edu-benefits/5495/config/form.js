@@ -3,7 +3,6 @@ import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
 
 import applicantInformation from '../../../../platform/forms/pages/applicantInformation';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
-import CallEduCenter from '../../../../platform/brand-consolidation/components/CallEduCenter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
@@ -61,7 +60,6 @@ const formConfig = {
   subTitle: 'Form 22-5495',
   preSubmitInfo,
   footerContent: FormFooter,
-  helpContact: CallEduCenter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
   chapters: {

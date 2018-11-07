@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../../platform/utilities/ui';
-import AskVAQuestions from '../../../../platform/forms/components/AskVAQuestions';
-import CallEduCenter from '../../../../platform/brand-consolidation/components/CallEduCenter';
+import FormFooter from '../../../../platform/forms/components/FormFooter';
 
 import GetFormHelp from '../../components/GetFormHelp';
 
@@ -74,9 +73,7 @@ export class ConfirmationPage extends React.Component {
           </div>
         )}
         <div>
-          <AskVAQuestions helpContact={CallEduCenter}>
-            <GetFormHelp />
-          </AskVAQuestions>
+          <FormFooter getHelp={GetFormHelp} />
         </div>
       </div>
     );
