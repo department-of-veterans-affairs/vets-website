@@ -6,6 +6,7 @@ import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
 import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
 
 import {
   hasMilitaryRetiredPay,
@@ -92,6 +93,7 @@ const formConfig = {
   submit: () => Promise.resolve({ attributes: { jobId: '12345' } }),
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },

@@ -6,6 +6,7 @@ import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp.jsx';
+import ErrorText from '../../components/ErrorText';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
@@ -128,6 +129,7 @@ const formConfig = {
   },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     address,
     marriages,

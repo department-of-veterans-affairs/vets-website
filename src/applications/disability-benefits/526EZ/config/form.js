@@ -16,6 +16,7 @@ import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import productionCheck from '../../../../platform/utilities/environment/isProduction';
 
 import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
 
@@ -141,6 +142,7 @@ const formConfig = {
   confirmation: ConfirmationPoll,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     address,
     vaTreatmentCenterAddress,
