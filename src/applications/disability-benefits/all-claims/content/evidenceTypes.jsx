@@ -1,6 +1,5 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 export const evidenceTypeHelp = (
   <AdditionalInfo triggerText="Which evidence type should I choose?">
