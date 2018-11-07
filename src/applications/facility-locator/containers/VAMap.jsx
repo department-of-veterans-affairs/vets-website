@@ -27,9 +27,14 @@ import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual } from '../utils/helpers';
 
-const otherToolsLink = (<p>
-  Can’t find what you’re looking for? <a href="https://www.va.gov/directory/guide/home.asp">Try using our other tools to search.</a>
-</p>);
+const otherToolsLink = (
+  <p>
+    Can’t find what you’re looking for?
+    <a href="https://www.va.gov/directory/guide/home.asp">
+      Try using our other tools to search.
+    </a>
+  </p>
+);
 
 // This isn't valid JSX 2.x, better to get used to it now
 /* eslint-disable react/jsx-boolean-value */
