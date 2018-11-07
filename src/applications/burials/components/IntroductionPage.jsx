@@ -10,6 +10,8 @@ import SaveInProgressIntro, {
   introSelector,
 } from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 
+import facilityLocator from '../../facility-locator/manifest';
+
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
@@ -29,9 +31,7 @@ class IntroductionPage extends React.Component {
           startText="Start the Burial Benefits Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}
-        >
-          Please complete the 21P-530 form to apply for burial benefits.
-        </SaveInProgressIntro>
+        />
         <div className="process schemaform-process schemaform-process-sip">
           <h4>Follow the steps below to apply for burial benefits.</h4>
           <ol>
@@ -110,7 +110,7 @@ class IntroductionPage extends React.Component {
                 Mail the application and other paperwork to your local regional
                 benefit office.
                 <br />
-                <a href="/facilities">
+                <a href={facilityLocator.rootUrl}>
                   Find your local regional benefit office
                 </a>
                 .

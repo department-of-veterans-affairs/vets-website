@@ -3,11 +3,13 @@ import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
+import CallHelpDesk from '../../../brand-consolidation/components/CallHelpDesk';
 
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 import recordEvent from '../../../monitoring/record-event';
 import { login, signup } from '../../../user/authentication/utilities';
 import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
+import { replaceWithStagingDomain } from '../../../../platform/utilities/environment/stagingDomains';
 import DowntimeBanner from '../../../../platform/monitoring/DowntimeNotification/components/Banner';
 import siteName from '../../../brand-consolidation/site-name';
 
@@ -20,10 +22,18 @@ const handleDsLogon = loginHandler('dslogon');
 const handleMhv = loginHandler('mhv');
 const handleIdMe = loginHandler('idme');
 
-const logoSrc = `/img/design/logo/${
-  isBrandConsolidationEnabled() ? 'va-logo.png' : 'logo-alt.png'
-}`;
+const logoSrc = replaceWithStagingDomain(
+  isBrandConsolidationEnabled()
+    ? 'https://www.va.gov/img/design/logo/va-logo.png'
+    : '/img/design/logo/logo-alt.png',
+);
+const faqHref = replaceWithStagingDomain(
+  isBrandConsolidationEnabled() ? 'https://www.va.gov/sign-in-faq/' : '/faq/',
+);
 
+const vaGovFullDomain = isBrandConsolidationEnabled()
+  ? replaceWithStagingDomain('https://www.va.gov')
+  : '';
 class SignInModal extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {
@@ -61,10 +71,16 @@ class SignInModal extends React.Component {
               <div className="form-warning-banner">
                 <AlertBox
                   headline={`Some ${siteName} tools and features may not be working as expected`}
-                  content={`We’re sorry. We’re working to fix some problems with DS Logon right now. Please check back later or call the ${siteName} Help Desk for more information at 1-855-574-7286, TTY: 1-800-877-8339.`}
                   isVisible
                   status="warning"
-                />
+                >
+                  We’re sorry. We’re working to fix some problems with DS Logon
+                  right now. Please check back later or{' '}
+                  <CallHelpDesk>
+                    call the {siteName} Help Desk for more information at
+                    1-855-574-7286, TTY: 1-800-877-8339.
+                  </CallHelpDesk>
+                </AlertBox>
                 <br />
               </div>
             </div>
@@ -75,27 +91,42 @@ class SignInModal extends React.Component {
             <div className="signin-actions-container">
               <div className="top-banner">
                 <div>
-                  <img alt="ID.me" src="/img/signin/lock-icon.svg" /> Secured &
-                  powered by{' '}
-                  <img alt="ID.me" src="/img/signin/idme-icon-dark.svg" />
+                  <img
+                    alt="ID.me"
+                    src={`${vaGovFullDomain}/img/signin/lock-icon.svg`}
+                  />{' '}
+                  Secured & powered by{' '}
+                  <img
+                    alt="ID.me"
+                    src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
+                  />
                 </div>
               </div>
               <div className="signin-actions">
                 <h5>Sign in with an existing account</h5>
                 <div>
                   <button className="dslogon" onClick={handleDsLogon}>
-                    <img alt="DS Logon" src="/img/signin/dslogon-icon.svg" />
+                    <img
+                      alt="DS Logon"
+                      src={`${vaGovFullDomain}/img/signin/dslogon-icon.svg`}
+                    />
                     <strong> Sign in with DS Logon</strong>
                   </button>
                   <button className="mhv" onClick={handleMhv}>
-                    <img alt="My HealtheVet" src="/img/signin/mhv-icon.svg" />
+                    <img
+                      alt="My HealtheVet"
+                      src={`${vaGovFullDomain}/img/signin/mhv-icon.svg`}
+                    />
                     <strong> Sign in with My HealtheVet</strong>
                   </button>
                   <button
                     className="usa-button-primary va-button-primary"
                     onClick={handleIdMe}
                   >
-                    <img alt="ID.me" src="/img/signin/idme-icon-white.svg" />
+                    <img
+                      alt="ID.me"
+                      src={`${vaGovFullDomain}/img/signin/idme-icon-white.svg`}
+                    />
                     <strong> Sign in with ID.me</strong>
                   </button>
                   <span className="sidelines">OR</span>
@@ -105,7 +136,10 @@ class SignInModal extends React.Component {
                       className="idme-create usa-button usa-button-secondary"
                       onClick={signup}
                     >
-                      <img alt="ID.me" src="/img/signin/idme-icon-dark.svg" />
+                      <img
+                        alt="ID.me"
+                        src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
+                      />
                       <strong> Create an ID.me account</strong>
                     </button>
                     <p>Use your email, Google, or Facebook</p>
@@ -146,7 +180,7 @@ class SignInModal extends React.Component {
                 information.
               </p>
               <p>
-                <a href="/faq/#what-is-idme" target="_blank">
+                <a href={`${faqHref}#what-is-idme`} target="_blank">
                   Learn more about ID.me
                 </a>
               </p>
@@ -158,17 +192,18 @@ class SignInModal extends React.Component {
             <div className="help-info">
               <h4>Having trouble signing in?</h4>
               <p>
-                <a href="/faq/" target="_blank">
+                <a href={faqHref} target="_blank">
                   Get answers to Frequently Asked Questions
                 </a>
               </p>
               <p>
-                Or call the {siteName} Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>
-                <br />
-                We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
-                (ET)
+                <a
+                  href="https://www.accesstocare.va.gov/sign-in-help"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Submit a request to get help
+                </a>
               </p>
             </div>
             <hr />

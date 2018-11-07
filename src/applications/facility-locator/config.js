@@ -1,5 +1,6 @@
 /* eslint-disable arrow-body-style */
 import environment from '../../platform/utilities/environment';
+import isProduction from '../../platform/utilities/environment/isProduction';
 
 // Base URL to be used in API requests.
 export const api = {
@@ -20,7 +21,7 @@ export const api = {
  * existing Facility Locator App.
  */
 export const ccLocatorEnabled = () => {
-  return __BUILDTYPE__ !== 'production';
+  return !isProduction();
 };
 
 /* eslint-disable camelcase */

@@ -9,7 +9,7 @@ describe('Separation or Training Pay', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranDetails.pages.separationTrainingPay;
+  } = formConfig.chapters.additionalInformation.pages.separationTrainingPay;
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import isBrandConsolidationEnabled from '../../platform/brand-consolidation/feature-flag';
+import EmailVICHelp from '../../platform/brand-consolidation/components/EmailVICHelp';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
@@ -13,11 +14,47 @@ const config = {
         Veteran ID Card.
       </p>
     ),
-    VIC003: `We're sorry. We can't proceed with your request for a Veteran ID card because we can't confirm your eligibility right now. Please call the ${propertyName} Help Desk at 1-855-574-7286, TTY: 1-800-877-8339, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).`,
-    VIC010: `We're sorry. We can't proceed with your request for a Veteran ID card because we can't confirm your military history right now. Please try again in a few minutes. If it still doesn't work, please call the ${propertyName} Help Desk at 1-855-574-7286, TTY: 1-800-877-8339, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).`,
-    VIC011: `We're sorry. We can't proceed with your request for a Veteran ID card because we can't confirm your military history right now. Please try again in a few minutes. If it still doesn't work, please call the ${propertyName} Help Desk at 1-855-574-7286, TTY: 1-800-877-8339, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).`,
-    default:
-      "We're sorry, but something went wrong. Please try again in a few moments.",
+    VIC003: (
+      <p>
+        We're sorry. We can't proceed with your request for a Veteran ID card
+        because we can't confirm your eligibility right now. Please{' '}
+        <EmailVICHelp>
+          call the {propertyName} Help Desk at 1-855-574-7286, TTY:
+          1-800-877-8339, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
+          (ET).
+        </EmailVICHelp>
+      </p>
+    ),
+    VIC010: (
+      <p>
+        We're sorry. We can't proceed with your request for a Veteran ID card
+        because we can't confirm your military history right now. Please try
+        again in a few minutes. If it still doesn't work, please{' '}
+        <EmailVICHelp>
+          call the {propertyName} Help Desk at 1-855-574-7286, TTY:
+          1-800-877-8339, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
+          (ET).
+        </EmailVICHelp>
+      </p>
+    ),
+    VIC011: (
+      <p>
+        We're sorry. We can't proceed with your request for a Veteran ID card
+        because we can't confirm your military history right now. Please try
+        again in a few minutes. If it still doesn't work, please{' '}
+        <EmailVICHelp>
+          call the {propertyName} Help Desk at 1-855-574-7286, TTY:
+          1-800-877-8339, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
+          (ET).
+        </EmailVICHelp>
+      </p>
+    ),
+    default: (
+      <p>
+        We're sorry, but something went wrong. Please try again in a few
+        moments.
+      </p>
+    ),
     VICV5: (
       <p>
         We're sorry. Something went wrong on our end. We can't process your

@@ -5,10 +5,13 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import siteName from '../../../platform/brand-consolidation/site-name';
+import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import localStorage from '../../../platform/utilities/storage/localStorage';
+
+import facilityLocator from '../../facility-locator/manifest';
 
 export class AuthApp extends React.Component {
   constructor(props) {
@@ -137,7 +140,11 @@ export class AuthApp extends React.Component {
                 you with the right person who can help.
               </p>
               <p>
-                <a href="/facilities/?facilityType=health&page=1&zoomLevel=7">
+                <a
+                  href={`${
+                    facilityLocator.rootUrl
+                  }/?facilityType=health&page=1&zoomLevel=7`}
+                >
                   Find your nearest VA medical center.
                 </a>
               </p>
@@ -154,10 +161,13 @@ export class AuthApp extends React.Component {
             <div>
               <p>We’re sorry. Something went wrong on our end.</p>
               <p>
-                Please call the {siteName} Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>. We’re open Monday
-                &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+                Please{' '}
+                <CallHelpDesk>
+                  call the {siteName} Help Desk at{' '}
+                  <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+                  <a href="tel:18008778339">1-800-877-8339</a>. We’re open
+                  Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+                </CallHelpDesk>
               </p>
             </div>
           ),

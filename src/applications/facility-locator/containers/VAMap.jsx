@@ -27,6 +27,10 @@ import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual } from '../utils/helpers';
 
+const otherToolsLink = (<p>
+  Can’t find what you’re looking for? <a href="https://www.va.gov/directory/guide/home.asp">Try using our other tools to search.</a>
+</p>);
+
 // This isn't valid JSX 2.x, better to get used to it now
 /* eslint-disable react/jsx-boolean-value */
 class VAMap extends Component {
@@ -399,9 +403,11 @@ class VAMap extends Component {
               <div aria-live="polite" aria-relevant="additions text" className="facility-search-results">
                 <ResultsList results={results} pagination={pagination} isMobile
                   currentQuery={currentQuery} updateUrlParams={this.updateUrlParams} />
+                {otherToolsLink}
               </div>
             </TabPanel>
             <TabPanel>
+              {otherToolsLink}
               <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)}
                 style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false}
                 zoomSnap={0.5} zoomDelta={0.5} onMoveEnd={this.handleBoundsChanged}
@@ -452,6 +458,7 @@ class VAMap extends Component {
             </div>
           </div>
           <div className="columns usa-width-two-thirds medium-8 small-12" style={{ minHeight: '75vh' }}>
+            {otherToolsLink}
             <Map ref="map" center={position} zoomSnap={0.5} zoomDelta={0.5}
               zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ minHeight: '75vh', width: '100%' }}
               scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged}>
@@ -476,7 +483,11 @@ class VAMap extends Component {
       /* eslint-disable prettier/prettier */
       <div>
         <div className="title-section">
-          <h1>Find Facilities and Services</h1>
+          <h1>Find VA Locations</h1>
+        </div>
+
+        <div className="facility-introtext">
+          Find VA locations near you with our facility locator tool. You can search for your nearest VA medical center as well as other health facilities, benefit offices, cemeteries, and Vet Centers. You can also filter your results by service type to find locations that offer the specific service you’re looking for.
         </div>
         { isMobile.any
           ? this.renderMobileView()

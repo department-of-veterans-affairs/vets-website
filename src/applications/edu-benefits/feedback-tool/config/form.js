@@ -179,18 +179,18 @@ const formConfig = {
               'ui:options': {
                 nestedContent: {
                   [myself]: () => (
-                    <div className="usa-alert usa-alert-info no-background-image">
+                    <div className="usa-alert usa-alert-info background-color-only">
                       We’ll only share your name with the school.
                     </div>
                   ),
                   [someoneElse]: () => (
-                    <div className="usa-alert usa-alert-info no-background-image">
+                    <div className="usa-alert usa-alert-info background-color-only">
                       Your name is shared with the school, not the name of the
                       person you’re submitting feedback for.
                     </div>
                   ),
                   [anonymous]: () => (
-                    <div className="usa-alert usa-alert-info no-background-image">
+                    <div className="usa-alert usa-alert-info background-color-only">
                       Anonymous feedback is shared with the school. Your
                       personal information, however, isn’t shared with anyone
                       outside of VA.

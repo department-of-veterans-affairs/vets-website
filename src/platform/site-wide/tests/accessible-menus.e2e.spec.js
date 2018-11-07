@@ -1,11 +1,11 @@
 const E2eHelpers = require('../../testing/e2e/helpers');
 const Timeouts = require('../../testing/e2e/timeouts.js');
 
-const exploreButton = '#vetnav-menu button[aria-controls="vetnav-explore"]';
-const benefitsButton = '#vetnav-menu button[aria-controls="vetnav-benefits"]';
-const facilitiesLink = '#vetnav-menu a[href="/facilities/"]';
+const exploreButton = '#vetnav-menu button[aria-controls="vetnav-va-benefits"]';
+const benefitsButton = '#vetnav-menu button[aria-controls="vetnav-about-va"]';
+const facilitiesLink = '#vetnav-menu a[href="/find-locations/"]';
 
-module.exports = E2eHelpers.createE2eTest(client => {
+const runTest = E2eHelpers.createE2eTest(client => {
   const {
     SPACE,
     ENTER,
@@ -39,16 +39,17 @@ module.exports = E2eHelpers.createE2eTest(client => {
   const secondMenuItem = 'button[aria-controls="vetnav-healthcare"]';
   const lastMenuItem = 'a[href="/families-caregivers/"]';
 
-  const testOpenExploreMenu = (key, focusedOn, keyName) => {
+  const testOpenBenefitsMenu = (key, focusedOn, keyName) => {
     if (keyName) {
-      client.log(`   Testing opening the explore menu with ${keyName}`);
+      client.log(`   Testing opening the benefits menu with ${keyName}`);
     }
 
-    client.expect.element('#vetnav-explore').to.not.be.visible;
+    client.expect.element('#vetnav-va-benefits-and-health-care').to.not.be
+      .visible;
     client
       .focusOn(exploreButton)
       .keys(key)
-      .expect.element('#vetnav-explore').to.be.visible;
+      .expect.element('#vetnav-va-benefits-and-health-care').to.be.visible;
 
     // TODO: Uncomment this when the code that does this for clicking is merged into master
     // client.assert.isActiveElement(focusedOn);
@@ -57,12 +58,12 @@ module.exports = E2eHelpers.createE2eTest(client => {
     client.click(exploreButton);
   };
   // Space, enter, and the down arrow should open menu, focus on first element
-  testOpenExploreMenu(SPACE, firstMenuItem, 'space');
-  testOpenExploreMenu(ENTER, firstMenuItem, 'enter');
-  testOpenExploreMenu(DOWN_ARROW, firstMenuItem, 'down arrow');
+  testOpenBenefitsMenu(SPACE, firstMenuItem, 'space');
+  testOpenBenefitsMenu(ENTER, firstMenuItem, 'enter');
+  testOpenBenefitsMenu(DOWN_ARROW, firstMenuItem, 'down arrow');
 
   // Up arrow should open menu, focus on last element
-  testOpenExploreMenu(UP_ARROW, lastMenuItem, 'down arrow');
+  testOpenBenefitsMenu(UP_ARROW, lastMenuItem, 'down arrow');
 
   // Right arrow should move focus to the right
   client
@@ -230,3 +231,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client.end();
 });
+
+module.exports = runTest;
+module.exports['@disabled'] = true;

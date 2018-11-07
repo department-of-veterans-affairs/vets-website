@@ -16,10 +16,10 @@ module.exports = E2eHelpers.createE2eTest(client => {
       }/education/apply-for-education-benefits/application/5495`,
     )
     .waitForElementVisible('body', Timeouts.normal)
-    .assert.title('Apply for education benefits: Vets.gov')
-    .waitForElementVisible('.usa-button-primary', Timeouts.slow)
+    .assert.title('Dependents Request for Change: VA.gov')
+    .waitForElementVisible('.schemaform-start-button', Timeouts.slow)
     .axeCheck('.main')
-    .click('.usa-button-primary');
+    .click('.schemaform-start-button');
   E2eHelpers.overrideVetsGovApi(client);
   FormsTestHelpers.overrideFormsScrolling(client);
   E2eHelpers.expectNavigateAwayFrom(client, '/introduction');

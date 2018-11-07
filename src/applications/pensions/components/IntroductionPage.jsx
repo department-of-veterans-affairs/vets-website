@@ -29,9 +29,7 @@ class IntroductionPage extends React.Component {
           startText="Start the Pension Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}
-        >
-          Please complete the 21-527EZ form to apply for pension benefits.
-        </SaveInProgressIntro>
+        />
         <h4>Follow the steps below to apply for a Veterans pension.</h4>
         <div className="process schemaform-process schemaform-process-sip">
           <ol>
@@ -119,13 +117,13 @@ class IntroductionPage extends React.Component {
                 <strong>What if I need help filling out my application?</strong>{' '}
                 An accredited representative, like a Veterans Service Officer
                 (VSO), can help you fill out your claim.{' '}
-                <a href="/disability-benefits/apply/help/index.html">
+                <a href="/disability/get-help-filing-claim/">
                   Get help filing your claim
                 </a>
                 .
               </p>
               <h6>Learn about Veterans pension rates</h6>
-              <a href="/pension/rates/" target="_blank">
+              <a href="/pension/veterans-pension-rates/" target="_blank">
                 Find out how we decide pension rates.
               </a>
             </li>

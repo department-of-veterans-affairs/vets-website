@@ -11,6 +11,12 @@ import { FormStartControls } from '../../save-in-progress/FormStartControls';
 describe('Schemaform <FormStartControls>', () => {
   const startPage = 'testing';
 
+  const oldDataLayer = global.window.dataLayer;
+
+  afterEach(() => {
+    global.window.dataLayer = oldDataLayer;
+  });
+
   it('should render 1 button when not logged in', () => {
     const routerSpy = {
       push: sinon.spy(),
@@ -46,6 +52,24 @@ describe('Schemaform <FormStartControls>', () => {
     );
 
     expect(tree.everySubTree('ProgressButton').length).to.equal(1);
+  });
+  it('should render 3 buttons when logged in with an expired form', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    const fetchSpy = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        isExpired
+        formSaved
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}
+      />,
+    );
+    expect(tree.everySubTree('ProgressButton').length).to.equal(3);
   });
   it('should render 4 buttons when logged in with a saved form', () => {
     const routerSpy = {
@@ -177,5 +201,54 @@ describe('Schemaform <FormStartControls>', () => {
 
     expect(fetchSpy.called).to.be.true;
     expect(formDOM.querySelector('.va-modal-body')).to.be.null;
+  });
+
+  it('should not capture analytics events when starting the form', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    global.window.dataLayer = [];
+    const fetchSpy = sinon.spy();
+    const tree = ReactTestUtils.renderIntoDocument(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}
+        prefillAvailable
+      />,
+    );
+    const formDOM = getFormDOM(tree);
+    formDOM.click('.usa-button-primary');
+
+    expect(global.window.dataLayer).to.eql([]);
+  });
+
+  it('should capture analytics events when starting the form', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    global.window.dataLayer = [];
+    const fetchSpy = sinon.spy();
+    const tree = ReactTestUtils.renderIntoDocument(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}
+        gaStartEventName="testing, testing"
+        prefillAvailable
+      />,
+    );
+    const formDOM = getFormDOM(tree);
+    formDOM.click('.usa-button-primary');
+
+    expect(global.window.dataLayer).to.eql([
+      {
+        event: 'testing, testing',
+      },
+    ]);
   });
 });

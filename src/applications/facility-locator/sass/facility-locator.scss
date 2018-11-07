@@ -5,10 +5,12 @@
 @import "~react-tabs/style/react-tabs";
 
 .facility-locator {
+
   // TODO(css): Fix when #content .section h* is fixed
   .highlight {
     margin-bottom: 0.5em !important;
   }
+
   // TODO(css): Fix when #content .section h* is fixed
   h4 {
     padding: 0 !important;
@@ -23,6 +25,10 @@
     }
   }
 
+  .facility-introtext {
+    padding: 0 15px 15px;
+  }
+
   .flex-center {
     display: flex;
     align-items: center;
@@ -35,7 +41,7 @@
   }
 
   .facility-phone-table {
-     border-collapse: collapse;
+    border-collapse: collapse;
   }
 
   .pointer {
@@ -43,8 +49,8 @@
   }
 
   .facility-phone-table td {
-     border: none;
-     outline: none;
+    border: none;
+    outline: none;
   }
 
   .p1 {
@@ -103,7 +109,7 @@
     }
   }
 
-  .facility-result + .facility-result {
+  .facility-result+.facility-result {
     border-top: solid 3px $color-gray-lightest;
   }
 
@@ -156,7 +162,7 @@
     padding: 0;
   }
 
-  .react-tabs__tab + .react-tabs__tab {
+  .react-tabs__tab+.react-tabs__tab {
     border-left: none;
   }
 
@@ -173,9 +179,10 @@
         color: $color-black;
       }
     }
-     a {
-       text-decoration: none;
-     }
+
+    a {
+      text-decoration: none;
+    }
   }
 
   .fa.blue {
@@ -215,7 +222,7 @@
     border-top: none;
   }
 
-  .mobile-search-result + .mobile-search-result {
+  .mobile-search-result+.mobile-search-result {
     border-top: solid 1px $color-gray-light;
   }
 
@@ -295,18 +302,37 @@
     margin-bottom: 2rem;
     background: $color-gray-lightest;
 
-    .medium-1-2 { width: 10%!important; padding-top: 1px; }
-    .medium-3-4 { width: 28%!important; }
-    .medium-3-5 { width: 31%!important; }
+    #facility-search-controls {
+      display: flex;
+      flex-direction: column;
 
-    select:disabled {
-      background: $color-gray-lightest;
+      @include media($small-screen) {
+        flex-direction: row;
+
+        .medium-1-2 {
+          width: 10% !important;
+          padding-top: 1px;
+        }
+
+        .medium-3-4 {
+          width: 28% !important;
+        }
+
+        .medium-3-5 {
+          width: 31% !important;
+        }
+      }
+
+      select:disabled {
+        background: $color-gray-lightest;
+      }
+
+      input[type=submit] {
+        padding: 0 1rem;
+        margin-top: 2.5rem;
+      }
     }
 
-    input[type=submit] {
-      padding: 0 1rem;
-      margin-top: 2.5rem;
-    }
   }
 
   .mb2 {
@@ -345,6 +371,7 @@
   .facility-contact-link {
     font-size: 2rem;
     text-decoration: none;
+
     i {
       margin-right: 1rem;
       width: 18px;
@@ -353,6 +380,7 @@
 
   .facility-back-link {
     margin-bottom: 1.5em;
+
     i {
       margin-right: 0.75rem;
     }
@@ -399,7 +427,8 @@
       margin: 0.5em 0;
     }
 
-    a:visited, .edit-checkbox label:visited  {
+    a:visited,
+    .edit-checkbox label:visited {
       color: $color-link-default;
     }
 
@@ -461,7 +490,8 @@
       border-bottom: solid 1px $color-black;
       z-index: 1011;
 
-      &.selected, &:hover {
+      &.selected,
+      &:hover {
         color: $color-white;
         background-color: $color-primary-darker;
       }
@@ -546,7 +576,8 @@
       border-bottom: solid 1px $color-black;
       z-index: 1011;
 
-      &.selected, &:hover {
+      &.selected,
+      &:hover {
         color: $color-white;
         background-color: $color-primary-darker;
       }
@@ -592,12 +623,12 @@
   text-align: right;
   text-decoration: none;
   text-align: right;
-  padding: 0!important;
+  padding: 0 !important;
 }
 
 .cc-info-link-icon {
-  margin: 0!important;
-  font-size: 2.2rem!important;
+  margin: 0 !important;
+  font-size: 2.2rem !important;
   vertical-align: -0.2rem;
   cursor: pointer;
 }
@@ -619,7 +650,8 @@
   border-radius: 4px;
   border: 1px solid #6495a3;
   z-index: 9999;
-  span { 
+
+  span {
     float: right;
     margin: 0px 0px 2px 4px;
     font-size: 1.9rem;
@@ -628,18 +660,23 @@
     color: #818a8d;
   }
 
-  
-  h6 { 
-    font-size: 1.6rem!important;
+
+  h6 {
+    font-size: 1.6rem !important;
     line-height: 1.9rem;
     margin: 0 0 0.5rem 0;
   }
-  p { 
-    margin: 0!important;
+
+  p {
+    margin: 0 !important;
     font-size: 1.3rem;
     line-height: 1.7rem;
   }
-  a { font-size: 1.1rem; float: right;  }
+
+  a {
+    font-size: 1.1rem;
+    float: right;
+  }
 }
 
 .no-marg-right {

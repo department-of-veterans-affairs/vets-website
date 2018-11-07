@@ -1,31 +1,48 @@
 import { connect } from 'react-redux';
-import { Link, browserHistory } from 'react-router';
+import { Link } from 'react-router';
 import React from 'react';
 import DowntimeNotification, {
   externalServices,
 } from '../../../platform/monitoring/DowntimeNotification';
 import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 import { ccLocatorEnabled } from '../config';
-
-/**
- * Preserves the search form in the UI & address bar when
- * navigating back to the search/map page.
- *
- * @param {Object} e The click event
- */
-// eslint-disable-next-line prettier/prettier
-const goBackHistory = (e) => {
-  e.preventDefault();
-  browserHistory.goBack();
-};
+import appendQuery from 'append-query';
 
 class FacilityLocatorApp extends React.Component {
+  // TODO: Move this logic into a shared helper so it can be 
+  // reused on VAMap.jsx and other places we want to build
+  // complex URL strings.
+  buildSearchString() {
+    const {
+      currentPage: page,
+      context,
+      facilityType,
+      position: location,
+      searchString: address,
+      serviceType,
+      zoomLevel,
+    } = this.props.searchQuery;
+    
+    const searchQuery = {
+      zoomLevel,
+      page,
+      address,
+      location: `${location.latitude},${location.longitude}`,
+      context,
+      facilityType,
+      serviceType,
+    };
+
+    const searchQueryUrl = appendQuery('/', searchQuery);
+    return searchQueryUrl;
+  }
+
   renderBreadcrumbs(location, selectedResult) {
     const crumbs = [
       <a href="/" key="home">
         Home
       </a>,
-      <Link onClick={goBackHistory} key="facility-locator">
+      <Link to={this.buildSearchString()} key="facility-locator">
         Find Facilities & Services
       </Link>,
     ];
@@ -75,6 +92,7 @@ class FacilityLocatorApp extends React.Component {
 function mapStateToProps(state) {
   return {
     selectedResult: state.searchResult.selectedResult,
+    searchQuery: state.searchQuery,
   };
 }
 

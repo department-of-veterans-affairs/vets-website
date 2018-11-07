@@ -1,22 +1,9 @@
 import React from 'react';
 
 import isBrandConsolidationEnabled from '../../brand-consolidation/feature-flag';
+import CallHelpDesk from '../../brand-consolidation/components/CallHelpDesk';
 
-const brandConsolidationIsEnabled = isBrandConsolidationEnabled();
-
-const propertyName = brandConsolidationIsEnabled ? 'VA.gov' : 'Vets.gov';
-
-const helpDeskPhone = brandConsolidationIsEnabled
-  ? '1-844-698-2311'
-  : '1-855-574-7286';
-
-const helpDeskMessage = brandConsolidationIsEnabled ? (
-  <span>
-    MyVA311 for help: <a href={`tel:+${helpDeskPhone}`}>{helpDeskPhone}</a>.
-  </span>
-) : (
-  `the ${propertyName} Technical Help Desk:`
-);
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 function AskVAQuestions(props) {
   return (
@@ -28,20 +15,15 @@ function AskVAQuestions(props) {
           <p className="help-talk">
             To report a problem with this form,
             <br />
-            please call {helpDeskMessage}
+            please{' '}
+            <CallHelpDesk>
+              call the {propertyName} Technical Help Desk:
+            </CallHelpDesk>
           </p>
-          {brandConsolidationIsEnabled && (
-            <p>
-              If you have hearing loss, call TTY: <a href="tel:711">711</a>.
-            </p>
-          )}
-          {!brandConsolidationIsEnabled && (
+          {!isBrandConsolidationEnabled() && (
             <p className="help-phone-number">
-              <a
-                className="help-phone-number-link"
-                href={`tel:+${helpDeskPhone}`}
-              >
-                {helpDeskPhone}
+              <a className="help-phone-number-link" href="tel:+1-855-574-7286">
+                1-855-574-7286
               </a>
               <br />
               TTY:{' '}

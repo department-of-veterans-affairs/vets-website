@@ -115,7 +115,7 @@ describe('526 ITFWrapper', () => {
     expect(banner.props().status).to.equal('error');
   });
 
-  it('should not submit a new ITF if the fetch failed', () => {
+  it('should submit a new ITF if the fetch failed', () => {
     const props = merge(defaultProps, {
       itf: {
         fetchCallState: requestStates.pending,
@@ -130,7 +130,7 @@ describe('526 ITFWrapper', () => {
     tree.setProps(
       merge(props, { itf: { fetchCallState: requestStates.failed } }),
     );
-    expect(createITF.called).to.be.false;
+    expect(createITF.called).to.be.true;
   });
 
   it('should submit a new ITF if no active ITF is found', () => {

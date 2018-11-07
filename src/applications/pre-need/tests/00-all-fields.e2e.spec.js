@@ -18,10 +18,10 @@ const runTest = E2eHelpers.createE2eTest(client => {
     )
     .waitForElementVisible('body', Timeouts.normal)
     .assert.title(
-      'Apply online for pre-need determination of eligibility in a VA National Cemetery: Vets.gov',
+      'Apply online for pre-need determination of eligibility in a VA National Cemetery: VA.gov',
     )
     .waitForElementVisible('.schemaform-title', Timeouts.slow) // First render of React may be slow.
-    .click('.usa-button-primary');
+    .click('.schemaform-start-button');
 
   E2eHelpers.overrideVetsGovApi(client);
   FormsTestHelpers.overrideFormsScrolling(client);

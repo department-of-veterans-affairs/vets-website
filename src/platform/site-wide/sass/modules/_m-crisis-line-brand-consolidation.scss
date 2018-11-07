@@ -3,32 +3,63 @@
 $red-70v: #8b1303;
 $red-60v: #b51d09;
 
-.va-crisis-line {
+.va-crisis-line-container {
+  position: relative;
+  margin: auto;
+  background-color: $red-60v;
+
   @include media($small-desktop-screen) {
-    position: absolute;
-    right: 0;
-    bottom: -11px;
+    max-width: 97.5rem;
     background-color: transparent;
   }
-  background-color: $red-60v;
 }
 
-button.va-crisis-line-button {
+button.va-crisis-line {
   background-color: $red-60v;
+  display: block;
   border-radius: 0;
   color: $color-white;
-  margin: auto;
-  font-size: 1em;
-  width: auto;
-  display: block;
+  font-size: 16px;
+  font-weight: normal;
   text-decoration: none;
-  font-weight: bold;
-  display: flex;
   padding: 0;
+  margin: 0;
+  width: 100%;
+
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  transition-property: background-color;
+
+  &:focus {
+    outline-offset: -2px;
+  }
+
+  &:hover, &:active {
+    background-color: $red-70v;
+    .va-crisis-line-icon {
+      @include media($small-desktop-screen) {
+        background-color: $red-60v;
+      }
+    }
+  }
 
   @include media($small-desktop-screen) {
+    width: auto;
+    position: absolute;
+    right: 0;
+    bottom: -12px;
     border-radius: 0 0 0.2em 0.2em;
     box-shadow: 0 2px 5px $color-base;
+  }
+}
+
+.va-crisis-line-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+
+  @include media($small-desktop-screen) {
     text-align: left;
     justify-content: space-between;
   }
@@ -42,9 +73,15 @@ button.va-crisis-line-button {
   width: 2.5em;
   height: 2em;
   padding: 0.3em 1em;
+
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  transition-property: background-color;
+
   @include media($small-desktop-screen) {
     background-color: $red-70v;
     background-position: 0.4em 0.5em;
+    border-bottom-left-radius: 0.2em;
   }
 }
 
@@ -57,7 +94,6 @@ button.va-crisis-line-button {
   width: 29px;
   padding-right: 0.5em;
   padding-left: 0.5em;
-  margin-top: 10px;
 }
 
 .va-crisis-panel {

@@ -1,5 +1,6 @@
 import _ from '../../../platform/utilities/data';
-import { MILITARY_CITIES, MILITARY_STATE_VALUES } from './constants';
+import some from 'lodash/some';
+import { MILITARY_CITIES, MILITARY_STATE_VALUES, PTSD } from './constants';
 
 export const hasMilitaryRetiredPay = data =>
   _.get('view:hasMilitaryRetiredPay', data, false);
@@ -21,7 +22,7 @@ export function isValidZIP(value) {
 
 export function validateZIP(errors, zip) {
   if (zip && !isValidZIP(zip)) {
-    errors.addError('Please enter a valid 9 digit ZIP (dashes allowed)');
+    errors.addError('Please enter a valid 5 or 9 digit ZIP (dashes allowed)');
   }
 }
 
@@ -120,5 +121,25 @@ export const validateIfHasEvidence = (
   const { wrappedValidator } = options;
   if (_.get('view:hasEvidence', formData, true)) {
     wrappedValidator(errors, fieldData, formData, schema, messages, index);
+  }
+};
+
+export const hasNewPtsdDisability = formData => {
+  if (!_.get('view:newDisabilities', formData, false)) {
+    return false;
+  }
+  return some(_.get('newDisabilities', formData, []), item => {
+    let hasPtsd = false;
+    if (item && typeof item.condition === 'string') {
+      hasPtsd = item.condition.toLowerCase().includes(PTSD);
+    }
+    return hasPtsd;
+  });
+};
+
+export const isInFuture = (err, fieldData) => {
+  const fieldDate = new Date(fieldData);
+  if (fieldDate.getTime() < Date.now()) {
+    err.addError('Start date must be in the future');
   }
 };

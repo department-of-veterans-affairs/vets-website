@@ -4,18 +4,16 @@ import classNames from 'classnames';
 
 import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
-import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 
 class SearchMenu extends React.Component {
+  // TODO: make the action url environment specific
   constructor(props) {
     super(props);
     this.makeForm = this.makeForm.bind(this);
     this.toggleSearchForm = this.toggleSearchForm.bind(this);
     this.state = {
-      searchAction: isBrandConsolidationEnabled()
-        ? 'https://search.usa.gov/search'
-        : 'https://search.vets.gov/search',
-      searchAffiliate: isBrandConsolidationEnabled() ? 'va' : 'vets.gov_search',
+      searchAction: 'https://www.va.gov/search/',
+      userInput: '',
     };
   }
 
@@ -27,7 +25,17 @@ class SearchMenu extends React.Component {
     this.props.clickHandler();
   }
 
+  handleInputChange = e => {
+    this.setState({
+      userInput: e.target.value,
+    });
+  };
+
   makeForm() {
+    const validUserInput =
+      this.state.userInput &&
+      this.state.userInput.replace(/\s/g, '').length > 0;
+
     return (
       <form
         acceptCharset="UTF-8"
@@ -35,15 +43,6 @@ class SearchMenu extends React.Component {
         id="search"
         method="get"
       >
-        <div className="csp-inline-patch-header">
-          <input name="utf8" type="hidden" value="&#x2713;" />
-        </div>
-        <input
-          id="affiliate"
-          name="affiliate"
-          type="hidden"
-          value={this.state.searchAffiliate}
-        />
         <label htmlFor="query" className="usa-sr-only">
           Search:
         </label>
@@ -56,8 +55,9 @@ class SearchMenu extends React.Component {
             id="query"
             name="query"
             type="text"
+            onChange={this.handleInputChange}
           />
-          <button type="submit">
+          <button type="submit" disabled={!validUserInput}>
             <IconSearch color="#fff" />
             <span className="usa-sr-only">Search</span>
           </button>

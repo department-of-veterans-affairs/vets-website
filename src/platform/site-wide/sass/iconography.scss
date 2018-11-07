@@ -8,109 +8,18 @@ h1, h3, h4 {
 }
 
 .inline {
-
   display: inline-block;
-
-  .fa {
-    font-size: 20px;
-    vertical-align: bottom;
-    margin-right: 10px;
-  }
-
 }
 
-.fa {
-  position: relative;
-  &.icon-large {
-    height: 40px;
-    width: 40px;
-
-    &::before {
-      position: absolute;
-      margin-top: 9.5px;
-      margin-left: 11.47px;
-    }
-  }
-
-  &.icon-small {
-    height: 32px;
-    width: 32px;
-
-    &::before {
-      position: absolute;
-      margin-top: 6.5px;
-      margin-left: 8.47px;
-    }
-  }
-
-  &.fa-medkit {
-    &.icon-large {
-      &::before {
-        margin-top: 9.25px;
-        margin-left: 10.5px;
-      }
-    }
-
-    &.icon-small {
-      &::before {
-        margin-top: 6px;
-        margin-left: 8px;
-      }
-    }
-  }
-
-  &.fa-id-card {
-    &.icon-large {
-      &::before {
-        margin-top: 9.75px;
-        margin-left: 8.5px;
-      }
-    }
-  }
-
-  &.fa-handshake-o {
-    &.icon-large {
-      &::before {
-        margin-top: 9.75px;
-        margin-left: 7.75px;
-      }
-    }
-
-    &.icon-small {
-      &::before {
-        margin-top: 6.5px;
-        margin-left: 6px;
-      }
-    }
-  }
-  &.fa-money {
-
-    &.icon-small {
-      &::before {
-        margin-left: 7.15px;
-      }
-    }
-  }
-
-
-  &.fa-users {
-    &.icon-small {
-      &::before {
-        margin-left: 6.95px;
-      }
-    }
-  }
-  &.fa-id-card {
-    &.icon-small {
-      &::before {
-        margin-left: 5.85px;
-      }
-    }
-  }
-
-}
-
-@mixin make-hub($hub-name, $color) {
+@mixin make-hub($hub-name,
+  $icon,
+  $color,
+  $top-small: 6.5px,
+  $left-small: 8.47px,
+  $top-large: 9.5px,
+  $left-large: 11.47px,
+  $top-baseline: 7px,
+  $left-baseline: 11px) {
   .hub-background-#{$hub-name} {
     background: $color;
     border-radius: 50%;
@@ -118,14 +27,134 @@ h1, h3, h4 {
   .hub-color-#{$hub-name} {
     color: $color;
   }
+  .hub-icon-#{$hub-name} {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    &::before {
+      content: $icon;
+    }
+
+    position: relative;
+    &.icon-small::before {
+      position: absolute;
+      margin-top: $top-small;
+      margin-left: $left-small;
+    }
+    &.icon-large::before {
+      position: absolute;
+      margin-top: $top-large;
+      margin-left: $left-large;
+    }
+    &.icon-large-baseline::before {
+      position: absolute;
+      margin-top: $top-baseline;
+      margin-left: $left-baseline;
+    }
+  }
 }
 
-@include make-hub('health-care', $indigo-cool-60);
-@include make-hub('education', $mint-cool-50);
-@include make-hub('disability', $red-60);
-@include make-hub('careers', $orange-warm-50);
-@include make-hub('pension', $green-cool-50);
-@include make-hub('housing', $gold-50);
-@include make-hub('life-insurance', $green-warm-50);
-@include make-hub('burials', $blue-50);
-@include make-hub('records', $violet-warm-60);
+@include make-hub(
+  $hub-name: "health-care",
+  $icon: $fa-var-medkit,
+  $color: $indigo-cool-60,
+  $top-large: 10.25px,
+  $left-large: 11px,
+  $top-small: 7px,
+  $left-small: 8px
+);
+
+@include make-hub(
+  $hub-name: "education",
+  $icon: $fa-var-graduation-cap,
+  $color: $mint-cool-50,
+  $top-large: 11px,
+  $left-large: 8.2px,
+  $top-small: 8px,
+  $left-small: 5.5px,
+  $top-baseline: 9px
+);
+
+@include make-hub(
+  $hub-name: "disability",
+  $icon: $fa-var-file-text,
+  $color: $red-60,
+  $top-large: 9.5px,
+  $left-large: 13px,
+  $left-small: 10px,
+  $top-small: 7px
+);
+
+@include make-hub(
+  $hub-name: "careers",
+  $icon: $fa-var-briefcase,
+  $color: $orange-warm-50,
+  $top-large: 11.5px,
+  $left-large: 10.5px,
+  $top-small: 8px
+);
+
+@include make-hub(
+  $hub-name: "pension",
+  $icon: $fa-var-handshake-o,
+  $color: $green-cool-50,
+  $top-large: 9.75px,
+  $left-large: 7.75px,
+  $top-small: 6.5px,
+  $left-small: 6px
+);
+
+@include make-hub(
+  $hub-name: "housing",
+  $icon: $fa-var-home,
+  $color: $gold-50
+);
+
+@include make-hub(
+  $hub-name: "life-insurance",
+  $icon: $fa-var-shield,
+  $color: $green-warm-50,
+  $top-small: 8px,
+  $left-small: 11px,
+  $top-large: 11px,
+  $left-large: 14px
+);
+
+@include make-hub(
+  $hub-name: "burials",
+  $icon: $fa-var-star,
+  $color: $blue-50,
+  $top-small: 7px,
+  $top-large: 11px
+);
+
+@include make-hub(
+  $hub-name: "records",
+  $icon: $fa-var-id-card,
+  $color: $violet-warm-60,
+  $top-small: 7px,
+  $left-small: 6px,
+  $top-large: 10.25px,
+  $left-large: 9.5px
+);
+
+.icon-large {
+  font-size: 20px;
+  height: 40px;
+  width: 40px;
+}
+
+.icon-large-baseline {
+  height: 40px;
+  width: 40px;
+}
+
+.icon-small {
+  height: 32px;
+  width: 32px;
+}
+

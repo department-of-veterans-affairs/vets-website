@@ -13,6 +13,8 @@ import login from '../user/authentication/reducers';
 import profile from '../user/profile/reducers';
 import buildSettings from '../monitoring/BuildSettings/reducer';
 import megaMenu from '../site-wide/mega-menu/reducers';
+import createAnalyticsMiddleware from './analytics-middleware';
+import isProduction from '../utilities/environment/isProduction';
 
 const brandConsolidatedReducers = {
   megaMenu,
@@ -37,18 +39,21 @@ export const commonReducer = {
  * sets up the Redux devtools in development and adds redux-thunk as middleware.
  *
  * @param {Object} [appReducer={}] An object with reducer functions as properties
+ * @param {Array} analyticsEvents A list of analytics events to capture when redux actions are fired
  * @returns {Store} The Redux store with a combined reducer from the commonReducer and
  * appReducer.
  */
-export default function createCommonStore(appReducer = {}) {
+export default function createCommonStore(
+  appReducer = {},
+  analyticsEvents = [],
+) {
   const reducer = Object.assign({}, appReducer, commonReducer);
-  const useDevTools =
-    __BUILDTYPE__ !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION__;
+  const useDevTools = !isProduction() && window.__REDUX_DEVTOOLS_EXTENSION__;
 
   return createStore(
     combineReducers(reducer),
     compose(
-      applyMiddleware(thunk),
+      applyMiddleware(thunk, createAnalyticsMiddleware(analyticsEvents)),
       useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
     ),
   );

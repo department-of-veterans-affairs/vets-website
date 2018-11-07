@@ -13,6 +13,7 @@ import Pagination from '@department-of-veterans-affairs/formation/Pagination';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { getScrollOptions } from '../../../platform/utilities/ui';
 import siteName from '../../../platform/brand-consolidation/site-name';
+import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
 
 import { openGlossaryModal, openRefillModal } from '../actions/modals';
 
@@ -189,10 +190,13 @@ class Active extends React.Component {
       return (
         <p className="rx-tab-explainer rx-loading-error">
           We couldn’t retrieve your prescriptions. Please refresh this page or
-          try again later. If this problem persists, please call the {siteName}
-          Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-          <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
-          8:00 a.m. &#8211; 8:00 p.m. (ET).
+          try again later. If you keep having trouble, please{' '}
+          <CallHelpDesk>
+            call the {siteName}
+            Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+            <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
+            8:00 a.m. &#8211; 8:00 p.m. (ET).
+          </CallHelpDesk>
         </p>
       );
     }
@@ -202,11 +206,14 @@ class Active extends React.Component {
         <p>
           It looks like you don’t have any VA prescriptions to refill right now.
           If you think this is a mistake, please contact your VA health care
-          team and ask them to check your prescription records. If you need more
-          help, please call the {siteName} Help Desk at{' '}
-          <a href="tel:8555747286">1-855-574-7286</a> (TTY:{' '}
-          <a href="tel:18008778339">1-800-877-8339</a>
-          ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
+          team and ask them to check your prescription records. If you’re still
+          having trouble, please{' '}
+          <CallHelpDesk>
+            call the {siteName} Help Desk at{' '}
+            <a href="tel:8555747286">1-855-574-7286</a> (TTY:{' '}
+            <a href="tel:18008778339">1-800-877-8339</a>
+            ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. (ET).
+          </CallHelpDesk>
         </p>
       );
 
@@ -263,7 +270,7 @@ class Active extends React.Component {
 
   render() {
     return (
-      <ScrollElement id="rx-active" name="active" className="va-tab-content">
+      <ScrollElement id="rx-active" name="active">
         {this.renderContent()}
       </ScrollElement>
     );

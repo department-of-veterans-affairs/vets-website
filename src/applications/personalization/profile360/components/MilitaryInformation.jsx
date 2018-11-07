@@ -12,6 +12,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation/Additional
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import recordEvent from '../../../../platform/monitoring/record-event';
+import facilityLocator from '../../../facility-locator/manifest';
 
 class MilitaryInformationContent extends React.Component {
   componentDidMount() {
@@ -38,7 +39,7 @@ class MilitaryInformationContent extends React.Component {
                   regional benefit office and request to be added to the Defense
                   Enrollment Eligibility Reporting System (DEERS).
                 </p>
-                <a href="/facilities">
+                <a href={facilityLocator.rootUrl}>
                   Find your nearest VA regional benefit office
                 </a>
                 .
@@ -98,7 +99,7 @@ class MilitaryInformationContent extends React.Component {
     return (
       <div>
         <AdditionalInfo
-          triggerText="How do I update my military service information?"
+          triggerText="What if my military service information doesn't look right?"
           onClick={() => {
             recordEvent({
               event: 'profile-navigation',
@@ -108,12 +109,10 @@ class MilitaryInformationContent extends React.Component {
           }}
         >
           <p>
-            You'll need to file a request to change or correct your DD214 or
-            other military records.
-            <br />
-            <a href="https://iris.custhelp.va.gov/app/answers/detail/a_id/478/~/amend-or-change-dd-214-or-other-military-records">
-              Find out how to request a change to your military records
-            </a>
+            Some Veterans have reported seeing military service information that
+            doesn't seem right. We're aware of this problem, and we're working
+            to fix it as soon as possible. Thank you for your patience, and we
+            apologize for this issue.
           </p>
         </AdditionalInfo>
         <LoadingSection

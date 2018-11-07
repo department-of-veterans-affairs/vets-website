@@ -4,6 +4,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation/Additional
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
 import recordEvent from '../../../../platform/monitoring/record-event';
+import facilityLocator from '../../../facility-locator/manifest';
 
 export default function ContactInformationExplanation() {
   return (
@@ -75,7 +76,10 @@ export default function ContactInformationExplanation() {
             your nearest VA medical center.
           </li>
         </ul>
-        <a href="/facilities/">Find your nearest VA medical center</a>.
+        <a href={facilityLocator.rootUrl}>
+          Find your nearest VA medical center
+        </a>
+        .
       </AdditionalInfo>
     </div>
   );

@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 template: detail-page
-title: Headstones, Markers, Niche Covers, and Medallions
+title: Request Veterans Headstones, Grave Markers, and Medallions
 display_title: Headstones, Markers or Medallions
 order: 1
 concurrence: incomplete
@@ -12,50 +12,55 @@ aliases:
 
 <div class="va-introtext">
 
-To honor the military service of a deceased Veteran, we may provide a headstone, marker, or niche cover to identify the burial place in a federal, Department of Defense, or state Veterans cemetery. We may also provide a headstone, marker, or medallion (to attach to a privately purchased headstone or marker) for Veterans buried in private or public cemeteries. Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, national cemetery, or cemetery at a military post or base. Find out how to arrange for one of these memorial items.
+Find out how to apply for a headstone, grave marker, or medallion to honor a Veteran or eligible family member.
 
 </div>
 
 <div class="feature">
 
-### Who can be honored with a headstone, marker, or niche cover?
+### Who can be honored with a Veterans headstone, grave marker, or niche cover?
 
-- Any Veteran who died on or after November 1, 1990
-- Any Veteran buried in an unmarked grave who served before September 7, 1980
-- Any Veteran buried in an unmarked grave who served for 24 months or longer, or who died while on active duty (including training) after September 7, 1980
-- An eligible spouse or other family member buried in a national cemetery, state/tribal Veterans cemetery, military post cemetery, or military base cemetery
+Any Veteran who was not dishonorably discharged and meets any of the requirements below may be eligible for a headstone, grave marker, or niche cover.
+
+**At least one of these must be true. The Veteran:**
+
+- Died on or after November 1, 1990, **or**
+- Was buried in an unmarked grave and served before September 7, 1980, **or**
+- Was buried in an unmarked grave and served for 24 months or longer, or died while on active duty (including training) after September 7, 1980
+
+**Note:** An eligible spouse or other family member buried in a national cemetery, state or tribal Veterans cemetery, military post cemetery, or military base cemetery may also be eligible for these memorial items.
 
 <br>
 
-### Who can be honored with a medallion?
+### Who can be honored with a Veterans medallion to attach to a privately purchased headstone or marker?
 
-- Any Veteran who died before November 1, 1990
-- Any Veteran who served on or after April 6, 1917
-- Any Veteran whose grave is privately marked
+Any Veteran who was not dishonorably discharged and meets any of the requirements below may be eligible for a medallion.
+
+**At least one of these must be true. The Veteran:**
+
+- Died before November 1, 1990, **or**
+- Served on or after April 6, 1917, **or**
+- Is buried in a privately marked grave
 
 </div>
 
-<br>
+## Can I apply for one of these memorial items?
 
-### Can I apply for one of these memorial items?
-
-You can apply for this benefit if you're representing the deceased Veteran in any of the below relationships or professional roles.
+You can apply for one of these memorial items if you're representing the Veteran in any of the below relationships or professional roles.
 
 **One of these must describe your relationship or role:**
-- A family member of the deceased Veteran, **or**
-- A personal representative (someone who officially represents the deceased), **or**
+- A family member of the Veteran, **or**
+- A personal representative (someone who officially represents the Veteran), **or**
 - A representative of an accredited Veterans Service Organization, **or**
 - An employee of a state or local government whose official responsibilities include serving Veterans, **or**
-- Any person who is legally responsible for making arrangements for unclaimed remains or for details having to do with the deceased’s interment or memorialization, **or**
-- Any individual representing the deceased, if their service ended before April 6, 1917
+- Any person who is legally responsible for making arrangements for unclaimed remains or for details having to do with the Veteran’s interment or memorialization, **or**
+- Any individual representing the Veteran, if their service ended before April 6, 1917
 
-**Note:** For memorial headstones and markers that honor the memory of the deceased, the person who applies must be a member of the deceased’s family.
+**Note:** For memorial headstones and grave markers that honor the memory of the Veteran, the person who applies must be a member of the Veteran’s family.
 
-<br>
+## How do I apply for a memorial item?
 
-### How do I apply for a memorial item?
-
-**For a headstone, marker, or niche cover**, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). <br>
+**For a headstone, grave marker, or niche cover**, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). <br>
 [Download VA Form 40-1330](https://www.va.gov/vaforms/va/pdf/VA40-1330.pdf).
 
 **For a medallion** to be placed on a privately purchased headstone or marker, fill out the Claim for Government Medallion for Placement in a Private Cemetery (VA Form 40-1330M). <br>
@@ -76,13 +81,26 @@ You can apply for this benefit if you're representing the deceased Veteran in an
 
 ### What information goes on the headstone or marker?
 
-You must put a legal name, service branch, and birth and death year on a headstone or marker. State and national cemeteries also require the section and grave number. You can choose to inscribe the deceased’s full birth and death dates, the highest rank attained, awards, war service, and an emblem of belief. We may approve other requests, such as nicknames, terms of endearment (for example, “Loving Father”), or special unit identification.
+**You must put this information on the headstone or marker:**
+- The person's legal name
+- The Veteran's service branch
+- The beginning and ending years of the person's life
+- The section and grave number (if in a state or national cemetery)
+
+**You can also choose to inscribe:**
+- The full beginning and ending dates of the person's life
+- The highest rank the Veteran attained
+- The Veteran's awards and war service
+- An emblem of belief
+
+**We may approve other requests, such as:**
+- Nicknames
+- Terms of endearment (like “Loving Father”)
+- Special unit identification
 
 </div>
 
-<br>
-
-### Special arrangements
+## Special arrangements
 
 We provide memorial headstones and markers for qualified Veterans when their remains are missing, not identified, donated to science, buried at sea, or scattered.
 

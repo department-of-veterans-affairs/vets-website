@@ -1,10 +1,40 @@
-.usa-banner-inner {
-  p {
+$teamsite-large-screen: 1008px;
+
+.usa-banner-header {
+  .usa-banner-inner p {
+    font-size: 1.2rem;
+    font-family: inherit;
     padding: 0;
   }
 }
 
+@media (max-width: 480px) {
+  .usa-banner-header-expanded {
+    .usa-banner-button-text {
+      display: none;
+    }
+    .usa-banner-inner p {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+.header {
+  text-align: left;
+}
+
+.login .container h1 {
+  color: $color-black !important;
+}
+
+.usa-banner-content p {
+  font-family: inherit;
+  font-size: 1.5rem;
+}
+
 .login-container {
+  line-height: 0;
+
   div.row:first-child {
     display: inline-block;
   }
@@ -14,48 +44,99 @@
   padding-top: 2em;
 }
 
-.usa-grid {
-  width: $teamsite-width;
-  padding-left: 1px;
-}
-
-.usa-grid-full {
-  width: $teamsite-width;
+@media (min-width: $teamsite-large-screen) {
+  .usa-grid {
+    width: $teamsite-width;
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+  .usa-grid-full {
+    width: $teamsite-width;
+  }
 }
 
 header.merger {
   width: 100%;
-  border: 1px solid #01133F;
   margin: auto;
 
-  .va-crisis-line {
-
-    button.va-crisis-line-button {
+  .va-crisis-line-container {
+    box-sizing: border-box;
+    button.va-crisis-line {
       background-image: none;
+
+      // HACK: override rules from benefits.va.gov
+      .va-crisis-line-text {
+        color: $color-white;
+      }
     }
   }
-  .va-notice--banner-inner {
-    width: $teamsite-width;
-    padding-left: 1rem;
+
+  #vetnav-menu {
+    // HACK: To override `content-box` on benefits site
+    button.vetnav-level1 {
+      box-sizing: border-box;
+    }
   }
+
+  @media (min-width: $teamsite-large-screen) {
+    .va-notice--banner-inner,
+    .va-crisis-line-container {
+      width: $teamsite-width;
+      padding-left: 1rem;
+    }
+  }
+
+  #mega-menu .panel-bottom-link {
+    width: 468px;
+  }
+
+  #mega-menu .vetnav-panel {
+    box-sizing: border-box;
+  }
+
   @media (min-width: $large-screen) {
     #mega-menu .vetnav-panel {
       width: 487px;
     }
+
     #mega-menu .column-two {
       left: 240px;
     }
+
     #mega-menu .column-three {
       left: 487px;
-    }    
+    }
+
+    #mega-menu .panel-bottom-link {
+      width: 657px;
+    }
   }
+
   @media (max-width: $large-screen - 1) {
-    #vetnav-va-benefits-and-health-care, #vetnav-about-va {
+    #vetnav-va-benefits-and-health-care,
+    #vetnav-about-va {
       width: 100%;
     }
+
     #mega-menu .column-three {
       display: none;
-    }    
+    }
+  }
+
+  #login-root {
+    margin-left: -1.5rem;
+    .profile-nav {
+      box-sizing: border-box;
+      .va-dropdown {
+        span, p {
+          font-family: "Source Sans Pro";
+          font-size: 16px;
+        }
+        p {
+          padding-bottom: 0;
+        }
+      }
+    }
   }
 }
 
@@ -68,4 +149,12 @@ footer.footer {
   .sign-in-links {
     color: $color-white;
   }
+}
+
+// HACK: Added this new utility class to remove horizontal padding from the
+// mobile menu. .usa-grid-full cannot be used for this purpose as its width has
+// now been hard-coded
+.padding-h-none {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }

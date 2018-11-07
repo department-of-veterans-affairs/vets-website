@@ -20,15 +20,27 @@ export const FOOTER_EVENTS = {
   CRISIS_LINE: 'nav-footer-crisis',
 };
 
+const renderInnerTag = (link, captureEvent) => [
+  link.label ? (
+    <span className="va-footer-link-label">{link.label}</span>
+  ) : null,
+
+  link.href ? (
+    <a href={link.href} onClick={captureEvent} target={link.target}>
+      {link.title}
+    </a>
+  ) : (
+    <span className="va-footer-link-text">{link.title}</span>
+  ),
+];
+
 export function generateLinkItems(links, column, direction = 'asc') {
   const captureEvent = () => recordEvent({ event: FOOTER_EVENTS[column] });
   return (
     <ul className="va-footer-links">
       {orderBy(links[column], 'order', direction).map(link => (
         <li key={`${link.column}-${link.order}`}>
-          <a href={link.href} onClick={captureEvent} target={link.target}>
-            {link.title}
-          </a>
+          {renderInnerTag(link, captureEvent)}
         </li>
       ))}
     </ul>

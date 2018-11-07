@@ -10,8 +10,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .url(url)
     .waitForElementVisible('body', Timeouts.normal)
-    .assert.title('Apply for Health Care: Vets.gov')
-    .waitForElementVisible('.usa-button-primary', Timeouts.slow); // First render of React may be slow.
+    .assert.title('Apply for Health Care: VA.gov')
+    .waitForElementVisible('.main .usa-button-primary', Timeouts.slow); // First render of React may be slow.
 
   client.axeCheck('.main');
 
@@ -26,7 +26,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
       },
       token,
     )
-    .click('.usa-button-primary');
+    .click('.main .usa-button-primary');
 
   E2eHelpers.overrideVetsGovApi(client);
   E2eHelpers.overrideSmoothScrolling(client);
@@ -54,8 +54,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
       },
       token,
     )
-    .waitForElementPresent('.usa-button-primary', Timeouts.normal)
-    .click('.usa-button-primary');
+    .waitForElementPresent('.main .usa-button-primary', Timeouts.normal)
+    .moveToElement('.main', 500, 500)
+    .click('.main .usa-button-primary');
 
   client.waitForElementPresent('.usa-alert-error', Timeouts.slow);
   client.assert.urlContains('error');
@@ -81,8 +82,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
       },
       token,
     )
-    .waitForElementPresent('.usa-button-primary', Timeouts.normal)
-    .click('.usa-button-primary');
+    .waitForElementPresent('.main .usa-button-primary', Timeouts.normal)
+    .moveToElement('.main', 500, 500)
+    .click('.main .usa-button-primary');
 
   client.waitForElementPresent('.usa-alert-error', Timeouts.slow);
 
