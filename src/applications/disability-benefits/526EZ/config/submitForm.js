@@ -15,11 +15,9 @@ export default function submitForm(form, formConfig) {
     req.open('POST', formConfig.submitUrl);
 
     req.withCredentials = true;
-    if (conditionalStorage().getItem('userToken')) {
-      req.setRequestHeader(
-        'Authorization',
-        `Token token=${conditionalStorage().getItem('userToken')}`,
-      );
+    const userToken = conditionalStorage().getItem('userToken');
+    if (userToken) {
+      req.setRequestHeader('Authorization', `Token token=${userToken}`);
     }
 
     req.addEventListener('load', () => {
