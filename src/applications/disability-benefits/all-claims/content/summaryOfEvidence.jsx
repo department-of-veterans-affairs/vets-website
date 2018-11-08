@@ -11,7 +11,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
   const privateFacility = _.get('providerFacility', formData, []);
   // Evidence isn't always properly cleared out from form data if removed so
   // need to also check that 'no evidence' was explicitly selected
-  if (!evidenceLength || !selectedEvidence) {
+  if (!evidenceLength || (!selectedEvidence && !privateFacility)) {
     return (
       <p>
         You haven’t uploaded any evidence. This may delay us processing your
