@@ -58,6 +58,7 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  unemployabilityDisabilities,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -276,6 +277,13 @@ const formConfig = {
           depends: formData => formData['view:unemployabilityStatus'],
           uiSchema: unemployabilityFormIntro.uiSchema,
           schema: unemployabilityFormIntro.schema,
+        },
+        unemployabilityDisabilities: {
+          title: 'File a Claim for Individual Unemployability',
+          path: 'new-disabilities/unemployability-disabilities',
+          depends: formData => formData['view:unemployabilityStatus'],
+          uiSchema: unemployabilityDisabilities.uiSchema,
+          schema: unemployabilityDisabilities.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',

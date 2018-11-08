@@ -33,7 +33,9 @@ export default class SelectArrayItemsWidget extends React.Component {
           );
           const itemIsDisabled =
             typeof disabled === 'function' ? disabled(item) : false;
-          const labelWithData = <Label {...item} />;
+          const labelWithData = (
+            <Label {...item} name={item.name || item.condition} />
+          );
           const elementId = `${id}_${index}`;
 
           const widgetClasses = classNames(
