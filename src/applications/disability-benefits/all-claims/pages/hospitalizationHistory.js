@@ -1,6 +1,14 @@
+import { omit } from 'lodash';
+
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
 import HospitalizationPeriodView from '../components/HospitalizationPeriodView';
+
+import fullSchema from '../config/schema';
+
+const { address } = fullSchema.definitions;
+
+import { validateZIP } from '../../all-claims/validations';
 
 export const uiSchema = {
   hospitalizationHistory: {
@@ -20,20 +28,33 @@ export const uiSchema = {
       hospitalName: {
         'ui:title': 'Name of hospital',
       },
-      streetAddress: {
-        'ui:title': 'Street address',
-      },
-      streetAddress2: {
-        'ui:title': 'Street address (optional)',
-      },
-      city: {
-        'ui:title': 'City',
-      },
-      state: {
-        'ui:title': 'State',
-      },
-      zip: {
-        'ui:title': 'ZIP',
+      hospitalAddress: {
+        addressLine1: {
+          'ui:title': 'Street address',
+        },
+        addressLine2: {
+          'ui:title': 'Street address (optional)',
+        },
+        city: {
+          'ui:title': 'City',
+        },
+        state: {
+          'ui:title': 'State',
+          'ui:options': {
+            widgetClassNames: 'usa-input-medium',
+          },
+        },
+        zipCode: {
+          'ui:title': 'ZIP',
+          'ui:options': {
+            widgetClassNames: 'usa-input-medium',
+          },
+          'ui:validations': [
+            {
+              validator: validateZIP,
+            },
+          ],
+        },
       },
     },
   },
@@ -52,21 +73,13 @@ export const schema = {
           },
           hospitalName: {
             type: 'string',
+            minLength: 1,
+            maxLength: 100,
           },
-          streetAddress: {
-            type: 'string',
-          },
-          streetAddress2: {
-            type: 'string',
-          },
-          city: {
-            type: 'string',
-          },
-          state: {
-            type: 'string',
-          },
-          zip: {
-            type: 'string',
+          hospitalAddress: {
+            ...address,
+            required: [],
+            properties: omit(address.properties, ['addressLine3', 'country']),
           },
         },
       },
