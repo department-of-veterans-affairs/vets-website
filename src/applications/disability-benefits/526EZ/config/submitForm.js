@@ -1,4 +1,7 @@
-import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import {
+  transformForSubmit,
+  recordEvent,
+} from 'us-forms-system/lib/js/helpers';
 import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 
 export default function submitForm(form, formConfig) {
@@ -9,7 +12,6 @@ export default function submitForm(form, formConfig) {
   // Copied and pasted from USFS with a couple changes:
   // 1. Sets `withCredentials` to true
   // 2. Sends the Authorization header with the user token
-  // 2. Specifically uses GA for analytics instead of the `recordEvent`
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
     req.open('POST', formConfig.submitUrl);
@@ -22,9 +24,7 @@ export default function submitForm(form, formConfig) {
 
     req.addEventListener('load', () => {
       if (req.status >= 200 && req.status < 300) {
-        // Using GA instead
-        // recordEvent({ event: 'form-submit-successful' });
-        window.dataLayer.push({ event: 'form-submit-successful' });
+        recordEvent({ event: 'form-submit-successful' });
 
         // got this from the fetch polyfill, keeping it to be safe
         const responseBody =
