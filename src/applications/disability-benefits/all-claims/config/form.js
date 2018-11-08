@@ -291,8 +291,9 @@ const formConfig = {
           schema: summaryOfDisabilities.schema,
         },
         conclusionUnemployability: {
-          title: 'Conclusion',
-          path: 'disabilities/conclusion',
+          title: 'Conclusion 4192',
+          path: 'disabilities/conclusion-4192',
+          depends: formData => formData['view:unemployabilityStatus'],
           uiSchema: conclusionUnemployability.uiSchema,
           schema: conclusionUnemployability.schema,
         },
