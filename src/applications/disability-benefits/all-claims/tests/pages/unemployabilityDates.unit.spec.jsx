@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import {
   DefinitionTester,
-  fillData,
+  fillDate,
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
@@ -28,6 +28,7 @@ describe('Unemployability affective Dates', () => {
     );
 
     expect(form.find('input').length).to.equal(3);
+    expect(form.find('select').length).to.equal(6);
   });
 
   it('should fail to submit when no beginning date is filled out', () => {
@@ -38,7 +39,7 @@ describe('Unemployability affective Dates', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:unemployabilityStatus': true,
+          'view:unemployabilityUploadChoice': 'answerQuestions',
         }}
         formData={{}}
         onSubmit={onSubmit}
@@ -58,19 +59,19 @@ describe('Unemployability affective Dates', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:unemploymentStatus': true,
+          'view:unemployabilityUploadChoice': 'answerQuestions',
         }}
         formData={{}}
         onSubmit={onSubmit}
       />,
     );
 
-    fillData(form, '#root_disabilityAffectedEmploymentFullTimeDateMonth', '3');
-    fillData(
+    fillDate(
       form,
-      '#root_disabilityAffectedEmploymentFullTimeDateYear',
-      '2017',
+      'root_disabilityAffectedEmploymentFullTimeDate',
+      '2017-03-04"',
     );
+
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
