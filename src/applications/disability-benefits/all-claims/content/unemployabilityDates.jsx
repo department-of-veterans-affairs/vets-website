@@ -1,6 +1,12 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
+export const dateDescription = (
+  <div>
+    <h5>Disability Dates</h5>
+  </div>
+);
+
 export const dateFieldsDescription = (
   <div className="additional-info-title-help">
     <AdditionalInfo triggerText="How are these dates different? ">

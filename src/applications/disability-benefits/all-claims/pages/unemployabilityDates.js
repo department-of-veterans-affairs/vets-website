@@ -1,10 +1,15 @@
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 
-import { dateFieldsDescription } from '../content/unemployabilityDates';
+import {
+  dateFieldsDescription,
+  dateDescription,
+} from '../content/unemployabilityDates';
+
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
+  'ui:description': dateDescription,
   disabilityAffectedEmploymentFullTimeDate: currentOrPastDateUI(
     'Date you became too disabled to work',
   ),
