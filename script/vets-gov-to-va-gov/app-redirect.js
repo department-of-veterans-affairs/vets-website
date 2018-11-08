@@ -17,7 +17,7 @@ function createAppRedirectHtml(vetsGovSrc, vaGovDest, vaGovHost) {
 
       for (var i=0; i < pathsRequiringSignIn.length; i++) {
         var reactPath = pathsRequiringSignIn[i];
-        return newPath.indexOf(reactPath) >= 0;
+        if (newPath.indexOf(reactPath) >= 0) return true;
       }
     }
     var pathname = window.location.pathname;
