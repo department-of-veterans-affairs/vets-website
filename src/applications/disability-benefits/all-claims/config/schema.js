@@ -786,6 +786,9 @@ const schema = {
       type: 'string',
       enum: serviceBranches,
     },
+    hasTrainingPay: {
+      type: 'boolean',
+    },
     waiveTrainingPay: {
       type: 'boolean',
     },
