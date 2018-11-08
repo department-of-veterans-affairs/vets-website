@@ -13,7 +13,6 @@ function getRedirectPage(redirectToPath) {
       <title>Page Moved</title>
     </head>
     <body>
-      New location: <a href="${absolutePath}">${absolutePath}</a>
     </body>`;
 }
 
