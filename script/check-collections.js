@@ -24,7 +24,7 @@ const checkCollections = buildOptions => (files, metalsmith, done) => {
 
       if (file.children && !collection.includes(file.children)) {
         accum.push(
-          `Error: Your [ children: "${
+          ` Error: Your [ children: "${
             file.children
           }" ] does not exist in the collection: ${key}`,
         );
