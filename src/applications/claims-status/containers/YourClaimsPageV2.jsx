@@ -64,10 +64,7 @@ class YourClaimsPageV2 extends React.Component {
   // an initial sort needs to happen in componentDidMount
   // }
 
-  componentDidUpdate(prevProps) {
-    if (!this.props.loading && prevProps.loading) {
-      setPageFocus();
-    }
+  componentDidUpdate() {
     setPageFocus();
   }
 
