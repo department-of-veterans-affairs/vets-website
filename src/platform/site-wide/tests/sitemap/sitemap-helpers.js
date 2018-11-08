@@ -17,8 +17,6 @@ function sitemapURLs() {
         .map(n => n.text().replace(DOMAIN_REGEX, `${E2eHelpers.baseUrl}/`))
         .filter(url => !url.endsWith('auth/login/callback/'))
         .filter(url => !url.includes('playbook/'))
-        .filter(url => !url.includes('locations/southeast_dc'))
-        .filter(url => !url.includes('opa/'))
         .filter(url => !/.*opt-out-information-sharing.*/.test(url)),
     )
     .then(urls => {
