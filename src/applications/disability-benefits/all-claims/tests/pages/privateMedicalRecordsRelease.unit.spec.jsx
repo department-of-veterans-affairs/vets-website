@@ -16,7 +16,7 @@ describe('Disability benefits 4142 provider medical records facility information
     schema,
     uiSchema,
     arrayPath,
-  } = formConfig.chapters.supportingEvidence.pages.privateMedicalRecordRelease;
+  } = formConfig.chapters.supportingEvidence.pages.privateMedicalRecordsRelease;
 
   it('should render 4142 form', () => {
     const form = mount(
