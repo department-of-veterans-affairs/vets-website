@@ -1,4 +1,5 @@
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 
 export default function submitForm(form, formConfig) {
   const body = formConfig.transformForSubmit
@@ -7,12 +8,19 @@ export default function submitForm(form, formConfig) {
 
   // Copied and pasted from USFS with a couple changes:
   // 1. Sets `withCredentials` to true
+  // 2. Sends the Authorization header with the user token
   // 2. Specifically uses GA for analytics instead of the `recordEvent`
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
     req.open('POST', formConfig.submitUrl);
 
     req.withCredentials = true;
+    if (conditionalStorage().getItem('userToken')) {
+      req.setRequestHeader(
+        'Authorization',
+        `Token token=${conditionalStorage().getItem('userToken')}`,
+      );
+    }
 
     req.addEventListener('load', () => {
       if (req.status >= 200 && req.status < 300) {
