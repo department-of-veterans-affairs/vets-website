@@ -556,6 +556,16 @@ h1:focus {
 .claim-timeline {
   padding-top: 0;
 
+  h5 button {
+    all: inherit;
+  }
+
+  h5 button:focus {
+    outline: 2px solid;
+    outline-color: $color-gold-light;
+    outline-offset: 0;
+  }
+
   .section-current > .section-header {
     color: $color-primary;
   }
@@ -581,6 +591,7 @@ h1:focus {
   > .section-complete:not(.last) {
     cursor: pointer;
   }
+
 }
 
 .usa-alert {
