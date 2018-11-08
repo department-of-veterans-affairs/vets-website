@@ -24,7 +24,7 @@ const checkCollections = buildOptions => (files, metalsmith, done) => {
 
       if (file.children && !collection.includes(file.children)) {
         accum.push(
-          ` Error: Your [ children: "${
+          `Error: Your [ children: "${
             file.children
           }" ] does not exist in the collection: ${key}`,
         );
@@ -36,13 +36,15 @@ const checkCollections = buildOptions => (files, metalsmith, done) => {
 
   if (brokenCollections.length > 0) {
     console.warn(
-      '\n \nBroken Collection Error: Your collections or children in your front-matter file ',
+      '\n \nBroken Collection Error: Your collection or children in your front-matter file is broken.\n',
     );
     brokenCollections.forEach(error => {
       console.warn(error);
     });
 
-    done(new Error(`You have ${brokenCollections.length} broken collections`));
+    done(
+      new Error(`You have ${brokenCollections.length} broken collections \n`),
+    );
   }
 
   done();
