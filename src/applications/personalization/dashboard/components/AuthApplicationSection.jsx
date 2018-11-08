@@ -36,7 +36,9 @@ class AuthApplicationSection extends React.Component {
               </a>
             </p>
             <p key="vic">
-              <a href="/veteran-id-card">Apply for a Veteran ID Card</a>
+              <a href="/records/get-veteran-id-cards">
+                Apply for a Veteran ID Card
+              </a>
             </p>
             <p>
               <strong>Have a less than honorable discharge?</strong>
