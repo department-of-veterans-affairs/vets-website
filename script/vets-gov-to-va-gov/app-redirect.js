@@ -14,9 +14,13 @@ function createAppRedirectHtml(vetsGovSrc, vaGovDest, vaGovHost) {
         '/get-veteran-id-cards/apply',
         '/health-care/health-records'
       ];
-      return pathsRequiringSignIn.some(reactPath => newPath.indexOf(reactPath) >= 0);
+
+      for (var i=0; i < pathsRequiringSignIn.length; i++) {
+        var reactPath = pathsRequiringSignIn[i];
+        if (newPath.indexOf(reactPath) >= 0) return true;
+      }
     }
-    var pathname = window.location.pathname; 
+    var pathname = window.location.pathname;
     var newPath = pathname.replace('${vetsGovSrc}', '${vaGovDest}');
     var finalUrl = '${vaGovHost}' + newPath;
     var redirectUrl = finalUrl + window.location.search;
