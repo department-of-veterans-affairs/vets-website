@@ -67,6 +67,7 @@ export default function submitForm(form, formConfig) {
       reject(error);
     });
 
+    req.setRequestHeader('X-Key-Inflection', 'camel');
     req.setRequestHeader('Content-Type', 'application/json');
 
     req.send(body);
