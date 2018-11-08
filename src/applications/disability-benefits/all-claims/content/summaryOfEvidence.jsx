@@ -8,6 +8,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
   const evidenceLength = !!vaEvidence.concat(privateEvidence, layEvidence)
     .length;
   const selectedEvidence = _.get('view:hasEvidence', formData, false);
+  const privateFacility = _.get('providerFacility', formData, []);
   // Evidence isn't always properly cleared out from form data if removed so
   // need to also check that 'no evidence' was explicitly selected
   if (!evidenceLength || !selectedEvidence) {
@@ -23,6 +24,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
   let vaContent = null;
   let privateContent = null;
   let layContent = null;
+  let privateFacilityContent = null;
 
   if (vaEvidence.length) {
     const facilitiesList = vaEvidence.map(facility => (
@@ -60,11 +62,26 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
     );
   }
 
+  if (privateFacility.length) {
+    const privateFacilityList = privateFacility.map(facility => (
+      <li key={facility.providerFacilityName}>
+        {facility.providerFacilityName}
+      </li>
+    ));
+    privateFacilityContent = (
+      <div>
+        <p>We'll get your private medical records from:</p>
+        <ul>{privateFacilityList}</ul>
+      </div>
+    );
+  }
+
   return (
     <div>
       {vaContent}
       {privateContent}
       {layContent}
+      {privateFacilityContent}
     </div>
   );
 };
