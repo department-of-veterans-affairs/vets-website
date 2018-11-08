@@ -103,29 +103,6 @@ export const getReservesGuardData = formData => {
 };
 
 /**
- * Converts the treatment date range into an array of objects from just an object
- * @param {object} treatmentDateRange object containing from/to date range
- * @returns {array} of treatmentDateRange's
- */
-const transformDateRange = treatmentDateRange => [treatmentDateRange];
-
-/**
- * Cycles through the list of provider facilities and performs transformations on each property as needed
- * @param {array} providerFacility array of objects being transformed
- * @returns {object} containing the new Provider Facility structure
- */
-const transformProviderFacilities = providerFacilities => {
-  const newProviderFacilities = providerFacilities.map(facility =>
-    set(
-      'treatmentDateRange',
-      transformDateRange(facility.treatmentDateRange),
-      facility,
-    ),
-  );
-  return newProviderFacilities;
-};
-
-/**
  * If any limited consent text is populated, collect it.
  */
 export function gatherLimitedConsentText(disabilities) {
@@ -174,16 +151,6 @@ export function transform(formConfig, form) {
 
   const attachments = additionalDocuments.concat(privateRecords);
 
-  const providerFacilities = disabilities
-    .filter(
-      disability =>
-        disability['view:selected'] === true && disability.providerFacility,
-    )
-    .reduce(
-      (accumulator, item) => accumulator.concat(item.providerFacility),
-      [],
-    );
-
   const transformedData = {
     disabilities: disabilities
       .filter(disability => disability['view:selected'] === true)
@@ -197,10 +164,6 @@ export function transform(formConfig, form) {
     // if there is at least one treatment to send
     ...(treatments.length && { treatments }),
     ...(attachments.length && { attachments }),
-    form4142: {
-      limitedConsent: gatherLimitedConsentText(disabilities),
-      providerFacility: transformProviderFacilities(providerFacilities),
-    },
   };
 
   const withoutViewFields = filterViewFields(transformedData);
