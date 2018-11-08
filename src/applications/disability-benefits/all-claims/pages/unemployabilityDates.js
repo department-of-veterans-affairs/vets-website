@@ -1,12 +1,11 @@
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import monthYearUI from 'us-forms-system/lib/js/definitions/monthYear';
 
 import { dateFieldsDescription } from '../content/unemployabilityDates';
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
-  disabilityAffectedEmploymentFullTimeDate: monthYearUI(
+  disabilityAffectedEmploymentFullTimeDate: currentOrPastDateUI(
     'Date you became too disabled to work',
   ),
   lastWorkedFullTimeDate: currentOrPastDateUI('Date you last worked full-time'),
