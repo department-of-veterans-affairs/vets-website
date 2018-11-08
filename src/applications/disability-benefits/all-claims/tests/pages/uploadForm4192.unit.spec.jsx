@@ -20,11 +20,6 @@ describe('4192 record upload', () => {
         pagePerItemIndex={0}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{
-          'view:selectablePtsdTypes': {
-            'view:combatPtsdType': true,
-          },
-        }}
         uiSchema={uiSchema}
       />,
     );
@@ -41,11 +36,6 @@ describe('4192 record upload', () => {
         onSubmit={onSubmit}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{
-          'view:selectablePtsdTypes': {
-            'view:combatPtsdType': true,
-          },
-        }}
         uiSchema={uiSchema}
       />,
     );
