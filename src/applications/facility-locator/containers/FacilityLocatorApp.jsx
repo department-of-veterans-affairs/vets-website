@@ -44,9 +44,9 @@ class FacilityLocatorApp extends React.Component {
       <Link to={this.buildSearchString()} key="facility-locator">Find Facilities & Services</Link>,
     ];
 
-    if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedResult) {
+    if (location.pathname.match(/facility\/[a-z]+_(\d*\w*)/) && selectedResult) {
       crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Facility Details</Link>);
-    } else if (ccLocatorEnabled() && location.pathname.match(/provider\/[a-z]+_\d/) && selectedResult) {
+    } else if (ccLocatorEnabled() && location.pathname.match(/provider\/[a-z]+_(\d*\w*)/) && selectedResult) {
       // TODO: Remove feature flag when ready to go live
       crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Provider Details</Link>);
     }
