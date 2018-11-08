@@ -25,6 +25,7 @@ const checkBrokenLinks = require('./check-broken-links');
 const rewriteVaDomains = require('./rewrite-va-domains');
 const configureAssets = require('./configure-assets');
 const applyFragments = require('./apply-fragments');
+const checkCollections = require('./check-collections');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -149,6 +150,7 @@ function defaultBuild(BUILD_OPTIONS) {
 
   smith.use(updateExternalLinks(BUILD_OPTIONS));
   smith.use(checkBrokenLinks(BUILD_OPTIONS));
+  smith.use(checkCollections(BUILD_OPTIONS));
 
   configureAssets(smith, BUILD_OPTIONS);
 
