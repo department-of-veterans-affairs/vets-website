@@ -1,9 +1,10 @@
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import environment from '../../../../platform/utilities/environment';
-
+import fullSchema from '../config/schema';
+import { FIFTY_MB } from '../constants';
 import { DocumentDescription } from '../content/uploadFormDocuments';
 
-const FIFTY_MB = 52428800;
+const { attachments } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:title': 'Upload VA Form 21-8940',
@@ -39,24 +40,8 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['iu8940'],
+  required: ['form8940Upload'],
   properties: {
-    iu8940: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          name: {
-            type: 'string',
-          },
-          size: {
-            type: 'integer',
-          },
-          confirmationCode: {
-            type: 'string',
-          },
-        },
-      },
-    },
+    form8940Upload: attachments,
   },
 };
