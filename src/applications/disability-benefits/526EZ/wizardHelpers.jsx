@@ -1,5 +1,5 @@
 import React from 'react';
-import siteName from '../../../platform/brand-consolidation/site-name';
+import siteName from 'platform/brand-consolidation/site-name';
 
 export const GetStartedMessage = ({ checkDisabilityStatus, isVerified }) => {
   const {

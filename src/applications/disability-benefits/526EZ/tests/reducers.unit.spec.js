@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { requestStates } from '../../../../platform/utilities/constants';
+import { requestStates } from 'platform/utilities/constants';
 import { itfStatuses } from '../constants';
 
 import {

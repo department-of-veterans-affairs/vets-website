@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import { wrapWithRouterContext } from '../../../../platform/testing/unit/helpers';
+import { wrapWithRouterContext } from 'platform/testing/unit/helpers';
 
 import { Main } from '../../containers/Main';
 

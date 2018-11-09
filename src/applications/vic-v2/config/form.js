@@ -2,25 +2,25 @@
 import _ from 'lodash/fp';
 import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 
-import FormFooter from '../../../platform/forms/components/FormFooter';
-import environment from '../../../platform/utilities/environment';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IdentityFieldsWarning from '../components/IdentityFieldsWarning';
-import asyncLoader from '../../../platform/utilities/ui/asyncLoader';
+import asyncLoader from 'platform/utilities/ui/asyncLoader';
 import DD214Description from '../components/DD214Description';
 import PhotoDescription from '../components/PhotoDescription';
 import { prefillTransformer, submit, identityMatchesPrefill } from '../helpers';
-import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
-import fullNameUI from '../../../platform/forms/definitions/fullName';
+import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 import * as addressDefinition from '../definitions/address';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import { genderLabels } from '../../../platform/static-data/labels';
+import { genderLabels } from 'platform/static-data/labels';
 import { validateMatch } from 'us-forms-system/lib/js/validation';
 import validateFile from '../validation';
 

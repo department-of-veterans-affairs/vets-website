@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Scroll from 'react-scroll';
 
-import { focusElement } from '../../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 
 import { submissionStatuses } from '../constants';
 import {

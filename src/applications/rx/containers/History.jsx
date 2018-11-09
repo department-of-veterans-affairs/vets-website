@@ -10,9 +10,9 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import Pagination from '@department-of-veterans-affairs/formation/Pagination';
 import SortableTable from '@department-of-veterans-affairs/formation/SortableTable';
 
-import siteName from '../../../platform/brand-consolidation/site-name';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
-import { getScrollOptions } from '../../../platform/utilities/ui';
+import siteName from 'platform/brand-consolidation/site-name';
+import CallHelpDesk from 'platform/brand-consolidation/components/CallHelpDesk';
+import { getScrollOptions } from 'platform/utilities/ui';
 import { loadPrescriptions } from '../actions/prescriptions';
 import { openGlossaryModal } from '../actions/modals';
 import GlossaryLink from '../components/GlossaryLink';

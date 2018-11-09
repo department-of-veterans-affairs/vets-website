@@ -4,18 +4,18 @@ import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
-import backendServices from '../../../platform/user/profile/constants/backendServices';
+import backendServices from 'platform/user/profile/constants/backendServices';
 import DowntimeNotification, {
   externalServices,
-} from '../../../platform/monitoring/DowntimeNotification';
-import HealthToolsMovingMessage from '../../../platform/static-data/HealthToolsMovingMessage';
-import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
-import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
+} from 'platform/monitoring/DowntimeNotification';
+import HealthToolsMovingMessage from 'platform/static-data/HealthToolsMovingMessage';
+import MHVApp from 'platform/user/authorization/containers/MHVApp';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import { closeAlert } from '../actions';
 import ButtonSettings from '../components/buttons/ButtonSettings';
 import { isEmpty } from 'lodash';
-import siteName from '../../../platform/brand-consolidation/site-name';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
+import siteName from 'platform/brand-consolidation/site-name';
+import CallHelpDesk from 'platform/brand-consolidation/components/CallHelpDesk';
 
 const SERVICE_REQUIRED = backendServices.MESSAGING;
 

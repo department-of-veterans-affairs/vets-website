@@ -1,4 +1,4 @@
-import { createRoutesWithSaveInProgress } from '../../../platform/forms/save-in-progress/helpers';
+import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 
 import Form1995App from './Form1995App';
 import formConfig from './config/form';

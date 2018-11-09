@@ -2,9 +2,9 @@ import React from 'react';
 
 import { logout } from '../../../user/authentication/utilities';
 import dashboardManifest from '../../../../applications/personalization/dashboard/manifest';
-import recordEvent from '../../../../platform/monitoring/record-event';
-import { mhvBaseUrl } from '../../../../platform/site-wide/cta-widget/helpers';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import recordEvent from 'platform/monitoring/record-event';
+import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
 
 const LEFT_CLICK = 1;
 const dashboardLink = dashboardManifest.rootUrl;

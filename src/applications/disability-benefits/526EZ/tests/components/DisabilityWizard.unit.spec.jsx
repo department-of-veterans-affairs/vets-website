@@ -2,11 +2,11 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import createCommonStore from '../../../../../platform/startup/store';
-import conditionalStorage from '../../../../../platform/utilities/storage/conditionalStorage';
+import createCommonStore from 'platform/startup/store';
+import conditionalStorage from 'platform/utilities/storage/conditionalStorage';
 import DisabilityWizard from '../../components/DisabilityWizard';
 import { layouts } from '../../wizardHelpers';
-import siteName from '../../../../../platform/brand-consolidation/site-name';
+import siteName from 'platform/brand-consolidation/site-name';
 
 const { chooseUpdate, applyGuidance } = layouts;
 

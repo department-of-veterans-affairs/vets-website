@@ -7,7 +7,7 @@ import {
   DefinitionTester,
   fillData,
   selectRadio,
-} from '../../../../platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pre-need applicant information', () => {

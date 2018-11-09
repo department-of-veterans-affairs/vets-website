@@ -9,7 +9,7 @@ import './sass/style.scss';
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import localStorage from '../../../platform/utilities/storage/localStorage';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 import startReactApp from '../../startup/react';
 import Announcement from './containers/Announcement';

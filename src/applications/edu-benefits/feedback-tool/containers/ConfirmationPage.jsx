@@ -3,8 +3,8 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { focusElement } from '../../../../platform/utilities/ui';
-import AskVAQuestions from '../../../../platform/forms/components/AskVAQuestions';
+import { focusElement } from 'platform/utilities/ui';
+import AskVAQuestions from 'platform/forms/components/AskVAQuestions';
 
 import GetFormHelp from '../../components/GetFormHelp';
 

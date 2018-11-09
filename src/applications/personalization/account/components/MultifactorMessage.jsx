@@ -1,6 +1,6 @@
 import React from 'react';
-import { mfa } from '../../../../platform/user/authentication/utilities';
-import recordEvent from '../../../../platform/monitoring/record-event';
+import { mfa } from 'platform/user/authentication/utilities';
+import recordEvent from 'platform/monitoring/record-event';
 
 function recordAnalyticEvent() {
   recordEvent({ event: 'multifactor-link-clicked' });

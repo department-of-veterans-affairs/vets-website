@@ -7,7 +7,7 @@ import {
   DefinitionTester,
   selectCheckbox,
   fillData,
-} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../feedback-tool/config/form';
 
 describe('feedback tool issue info', () => {

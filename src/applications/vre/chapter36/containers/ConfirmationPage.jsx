@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import moment from 'moment';
 
-import { focusElement } from '../../../../platform/utilities/ui';
-import siteName from '../../../../platform/brand-consolidation/site-name';
+import { focusElement } from 'platform/utilities/ui';
+import siteName from 'platform/brand-consolidation/site-name';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {

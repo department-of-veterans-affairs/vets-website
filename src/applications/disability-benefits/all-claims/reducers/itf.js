@@ -1,6 +1,6 @@
-import get from '../../../../platform/utilities/data/get';
-import set from '../../../../platform/utilities/data/set';
-import { requestStates } from '../../../../platform/utilities/constants';
+import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
+import { requestStates } from 'platform/utilities/constants';
 import { itfStatuses } from '../constants';
 import {
   ITF_FETCH_INITIATED,

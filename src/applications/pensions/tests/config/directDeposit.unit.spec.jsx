@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import {
   DefinitionTester,
   getFormDOM,
-} from '../../../../platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import fullSchemaPensions from '../../config/form';
 
 describe('Pensions directDeposit', () => {

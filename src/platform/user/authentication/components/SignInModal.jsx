@@ -8,9 +8,9 @@ import CallHelpDesk from '../../../brand-consolidation/components/CallHelpDesk';
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 import recordEvent from '../../../monitoring/record-event';
 import { login, signup } from '../../../user/authentication/utilities';
-import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
-import { replaceWithStagingDomain } from '../../../../platform/utilities/environment/stagingDomains';
-import DowntimeBanner from '../../../../platform/monitoring/DowntimeNotification/components/Banner';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
+import DowntimeBanner from 'platform/monitoring/DowntimeNotification/components/Banner';
 import siteName from '../../../brand-consolidation/site-name';
 
 const loginHandler = loginType => () => {

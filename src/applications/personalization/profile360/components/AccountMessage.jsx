@@ -1,6 +1,6 @@
 import React from 'react';
 import accountManifest from '../../account/manifest.json';
-import siteName from '../../../../platform/brand-consolidation/site-name';
+import siteName from 'platform/brand-consolidation/site-name';
 
 export default function AccountMessage() {
   return (

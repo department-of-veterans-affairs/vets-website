@@ -1,6 +1,6 @@
 /* eslint-disable arrow-body-style */
-import environment from '../../platform/utilities/environment';
-import isProduction from '../../platform/utilities/environment/isProduction';
+import environment from 'platform/utilities/environment';
+import isProduction from 'platform/utilities/environment/isProduction';
 
 // Base URL to be used in API requests.
 export const api = {

@@ -1,4 +1,4 @@
-import { isLoggedIn } from '../../platform/user/selectors';
+import { isLoggedIn } from 'platform/user/selectors';
 import { rootUrl } from '../../applications/personalization/dashboard/manifest.js';
 
 export default function createMyVALoginWidget(store) {

@@ -6,7 +6,7 @@ import { intersection } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
+import CallHelpDesk from 'platform/brand-consolidation/components/CallHelpDesk';
 
 import {
   addDraftAttachments,

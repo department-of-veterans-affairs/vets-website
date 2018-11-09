@@ -1,16 +1,16 @@
 import _ from 'lodash/fp';
 
 import fullSchema0993 from 'vets-json-schema/dist/22-0993-schema.json';
-import fullNameUI from '../../../../platform/forms/definitions/fullName';
+import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 
-import environment from '../../../../platform/utilities/environment';
-import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillMessage';
-import FormFooter from '../../../../platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
+import FormFooter from 'platform/forms/components/FormFooter';
 
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';

@@ -1,4 +1,4 @@
-// import _ from '../../../../platform/utilities/data';
+// import _ from 'platform/utilities/data';
 import _ from 'lodash';
 import merge from 'lodash/merge';
 import fullSchema from '../config/schema';

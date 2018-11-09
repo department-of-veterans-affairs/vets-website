@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
-import siteName from '../../../platform/brand-consolidation/site-name';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
-import recordEvent from '../../../platform/monitoring/record-event';
-import { apiRequest } from '../../../platform/utilities/api';
-import environment from '../../../platform/utilities/environment';
-import localStorage from '../../../platform/utilities/storage/localStorage';
+import siteName from 'platform/brand-consolidation/site-name';
+import CallHelpDesk from 'platform/brand-consolidation/components/CallHelpDesk';
+import recordEvent from 'platform/monitoring/record-event';
+import { apiRequest } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 import facilityLocator from '../../facility-locator/manifest';
 

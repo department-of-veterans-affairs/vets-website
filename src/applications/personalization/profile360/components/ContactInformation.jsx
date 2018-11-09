@@ -2,8 +2,8 @@ import React from 'react';
 
 import DowntimeNotification, {
   externalServices,
-} from '../../../../platform/monitoring/DowntimeNotification';
-import recordEvent from '../../../../platform/monitoring/record-event';
+} from 'platform/monitoring/DowntimeNotification';
+import recordEvent from 'platform/monitoring/record-event';
 
 import accountManifest from '../../account/manifest.json';
 
@@ -23,7 +23,7 @@ import Email from '../vet360/components/Email';
 import { handleDowntimeForSection } from './DowntimeBanner';
 import ContactInformationExplanation from './ContactInformationExplanation';
 
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 

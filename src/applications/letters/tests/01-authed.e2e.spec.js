@@ -1,9 +1,9 @@
 import startCase from 'lodash/startCase';
 
-const E2eHelpers = require('../../../platform/testing/e2e/helpers');
-const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
+const E2eHelpers = require('platform/testing/e2e/helpers');
+const Timeouts = require('platform/testing/e2e/timeouts.js');
 const LettersHelpers = require('./letters-helpers.js');
-const Auth = require('../../../platform/testing/e2e/auth');
+const Auth = require('platform/testing/e2e/auth');
 
 const newAddress = LettersHelpers.newAddress.data.attributes.address;
 const oldAddress = LettersHelpers.address.data.attributes.address;

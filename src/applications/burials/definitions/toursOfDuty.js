@@ -1,5 +1,5 @@
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import ServicePeriodView from '../../../platform/forms/components/ServicePeriodView';
+import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
 
 export default {
   'ui:title': 'Service periods',

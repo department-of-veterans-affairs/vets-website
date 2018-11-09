@@ -3,7 +3,7 @@ import { get, omit, merge } from 'lodash/fp';
 import Raven from 'raven-js';
 
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import fullNameUI from '../../../platform/forms/definitions/fullName';
+import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 import TextWidget from 'us-forms-system/lib/js/widgets/TextWidget';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -12,7 +12,7 @@ import {
   stringifyFormReplacer,
   filterViewFields,
 } from 'us-forms-system/lib/js/helpers';
-import environment from '../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);

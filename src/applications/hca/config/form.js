@@ -8,25 +8,25 @@ import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
-} from '../../../platform/forms/definitions/address';
+} from 'platform/forms/definitions/address';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import dateUI from 'us-forms-system/lib/js/definitions/date';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 import currencyUI from 'us-forms-system/lib/js/definitions/currency';
 
-import { maritalStatuses } from '../../../platform/static-data/options-for-select';
-import { states } from '../../../platform/forms/address';
-import fullNameUI from '../../../platform/forms/definitions/fullName';
-import { genderLabels } from '../../../platform/static-data/labels';
-import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
+import { maritalStatuses } from 'platform/static-data/options-for-select';
+import { states } from 'platform/forms/address';
+import fullNameUI from 'platform/forms/definitions/fullName';
+import { genderLabels } from 'platform/static-data/labels';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import FormFooter from '../components/FormFooter';
 import ErrorText from '../components/ErrorText';
-import environment from '../../../platform/utilities/environment';
-import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
-import PrefillMessage from '../../../platform/forms/save-in-progress/PrefillMessage';
-import MilitaryPrefillMessage from '../../../platform/forms/save-in-progress/MilitaryPrefillMessage';
-import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
-import isProduction from '../../../platform/utilities/environment/isProduction';
+import environment from 'platform/utilities/environment';
+import applicantDescription from 'platform/forms/components/ApplicantDescription';
+import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
+import MilitaryPrefillMessage from 'platform/forms/save-in-progress/MilitaryPrefillMessage';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import isProduction from 'platform/utilities/environment/isProduction';
 
 import DowntimeMessage from '../components/DowntimeMessage';
 

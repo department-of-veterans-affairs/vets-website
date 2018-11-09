@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import ErrorableCheckboxGroup from '@department-of-veterans-affairs/formation/ErrorableCheckboxGroup';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/ErrorableRadioButtons';
 
-import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 
 import ButtonContainer from './ButtonContainer';
 import {

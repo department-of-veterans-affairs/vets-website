@@ -2,14 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   formTitles,
   formLinks,
   formConfigs,
   isFormAuthorizable,
 } from '../helpers';
-import AuthorizationComponent from '../../../../platform/forms/components/AuthorizationComponent';
+import AuthorizationComponent from 'platform/forms/components/AuthorizationComponent';
 
 class FormItem extends React.Component {
   recordDashboardClick = (formId, actionType = 'continue-button') => () => {

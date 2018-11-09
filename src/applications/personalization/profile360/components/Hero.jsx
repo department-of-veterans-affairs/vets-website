@@ -2,7 +2,7 @@ import React from 'react';
 import LoadingSection from './LoadingSection';
 import DowntimeNotification, {
   externalServices,
-} from '../../../../platform/monitoring/DowntimeNotification';
+} from 'platform/monitoring/DowntimeNotification';
 import { handleDowntimeForSection } from './DowntimeBanner';
 
 class HeroContent extends React.Component {

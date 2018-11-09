@@ -6,7 +6,7 @@ import { features } from '../routes';
 import {
   isProfileLoading,
   createIsServiceAvailableSelector,
-} from '../../../platform/user/selectors';
+} from 'platform/user/selectors';
 
 class BetaApp extends React.Component {
   static propTypes = {

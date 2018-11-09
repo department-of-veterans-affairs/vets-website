@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import { systemDownMessage } from '../../../platform/static-data/error-messages';
+import { systemDownMessage } from 'platform/static-data/error-messages';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 import { recordsNotFound } from '../utils/helpers';
 

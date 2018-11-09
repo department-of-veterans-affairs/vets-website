@@ -1,6 +1,6 @@
 import React from 'react';
-import isBrandConsolidationEnabled from '../../platform/brand-consolidation/feature-flag';
-import EmailVICHelp from '../../platform/brand-consolidation/components/EmailVICHelp';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
+import EmailVICHelp from 'platform/brand-consolidation/components/EmailVICHelp';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 

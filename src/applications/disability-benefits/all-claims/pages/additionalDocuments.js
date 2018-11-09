@@ -1,5 +1,5 @@
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import environment from '../../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 import { additionalDocumentDescription } from '../content/additionalDocuments';
 import { FIFTY_MB } from '../constants';
 

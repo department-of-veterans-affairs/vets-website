@@ -5,18 +5,15 @@ import { connect } from 'react-redux';
 import { Validator } from 'jsonschema';
 import fullSchemaIncrease from 'vets-json-schema/dist/21-526EZ-schema.json';
 
-import { apiRequest } from '../../../platform/utilities/api';
-import {
-  isValidUSZipCode,
-  isValidCanPostalCode,
-} from '../../../platform/forms/address';
-import { stateRequiredCountries } from '../../../platform/forms/definitions/address';
+import { apiRequest } from 'platform/utilities/api';
+import { isValidUSZipCode, isValidCanPostalCode } from 'platform/forms/address';
+import { stateRequiredCountries } from 'platform/forms/definitions/address';
 import { filterViewFields } from 'us-forms-system/lib/js/helpers';
-import cloneDeep from '../../../platform/utilities/data/cloneDeep';
-import set from '../../../platform/utilities/data/set';
-import get from '../../../platform/utilities/data/get';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
+import set from 'platform/utilities/data/set';
+import get from 'platform/utilities/data/get';
 import { pick } from 'lodash';
-import { genderLabels } from '../../../platform/static-data/labels';
+import { genderLabels } from 'platform/static-data/labels';
 
 import { DateWidget } from 'us-forms-system/lib/js/review/widgets';
 import { getDisabilityName, transformDisabilities } from '../all-claims/utils';

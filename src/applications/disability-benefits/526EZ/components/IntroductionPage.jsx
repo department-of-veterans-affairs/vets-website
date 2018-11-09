@@ -7,14 +7,14 @@ import moment from 'moment';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
 import SaveInProgressIntro, {
   introActions,
   introSelector,
-} from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
-import CallToActionWidget from '../../../../platform/site-wide/cta-widget';
-import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
-import { focusElement } from '../../../../platform/utilities/ui';
+} from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import CallToActionWidget from 'platform/site-wide/cta-widget';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { focusElement } from 'platform/utilities/ui';
 
 import { VerifiedAlert } from '../helpers';
 import FormStartControls from './FormStartControls';

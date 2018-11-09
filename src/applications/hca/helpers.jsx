@@ -11,8 +11,8 @@ import {
   expandArrayPages,
   createFormPageList,
 } from 'us-forms-system/lib/js/helpers';
-import { getInactivePages } from '../../platform/forms/helpers';
-import { isValidDate } from '../../platform/forms/validations';
+import { getInactivePages } from 'platform/forms/helpers';
+import { isValidDate } from 'platform/forms/validations';
 
 import facilityLocator from '../facility-locator/manifest';
 

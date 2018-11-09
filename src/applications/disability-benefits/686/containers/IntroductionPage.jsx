@@ -2,15 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { focusElement } from '../../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 import SaveInProgressIntro, {
   introActions,
   introSelector,
-} from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+} from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import AuthorizationComponent from '../../../../platform/forms/components/AuthorizationComponent';
+import AuthorizationComponent from 'platform/forms/components/AuthorizationComponent';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {

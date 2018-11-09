@@ -10,10 +10,10 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/formation/Pagination';
 
-import recordEvent from '../../../platform/monitoring/record-event';
-import { getScrollOptions } from '../../../platform/utilities/ui';
-import siteName from '../../../platform/brand-consolidation/site-name';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
+import recordEvent from 'platform/monitoring/record-event';
+import { getScrollOptions } from 'platform/utilities/ui';
+import siteName from 'platform/brand-consolidation/site-name';
+import CallHelpDesk from 'platform/brand-consolidation/components/CallHelpDesk';
 
 import { openGlossaryModal, openRefillModal } from '../actions/modals';
 

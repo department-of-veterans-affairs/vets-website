@@ -3,9 +3,9 @@ import React from 'react';
 import { isEmpty, some, includes, intersection, concat } from 'lodash';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import { mhvAccessError } from '../../../platform/static-data/error-messages';
-import siteName from '../../../platform/brand-consolidation/site-name';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
+import { mhvAccessError } from 'platform/static-data/error-messages';
+import siteName from 'platform/brand-consolidation/site-name';
+import CallHelpDesk from 'platform/brand-consolidation/components/CallHelpDesk';
 import { errorCodes } from '../config';
 
 class ErrorView extends React.Component {

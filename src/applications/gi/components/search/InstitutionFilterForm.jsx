@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import isProd from '../../../../platform/utilities/environment/isProduction';
+import isProd from 'platform/utilities/environment/isProduction';
 
 import Checkbox from '../Checkbox';
 import RadioButtons from '../RadioButtons';

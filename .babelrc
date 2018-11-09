@@ -5,7 +5,7 @@
       "targets": {
         "uglify": true,
         /* This is the full list of browsers we support, but we are not using it because we want babel-polyfill
-         * to include only polyfills for more modern browsers. 
+         * to include only polyfills for more modern browsers.
          * Older browser polyfills are in preESModulesPolyfills.js
          */
         /* "browsers": ["Chrome 60", "Firefox 57", "iOS 9", "Edge 14", "ChromeAndroid 64", "Safari 10", "ie 11"] */
@@ -23,16 +23,19 @@
     "stage-2",
   ],
   "plugins": [
-    "lodash"
+    "lodash",
+    ["module-resolver", {
+      "root": "./src"
+    }]
   ],
   // Share polyfills between files.
   "env": {
     "test": {
       "presets": ["env", "stage-2"],
-      "plugins": [ 
+      "plugins": [
         "istanbul",
         "dynamic-import-node",
-        "transform-react-remove-prop-types"
+        "transform-react-remove-prop-types",
       ]
     },
     "production": {

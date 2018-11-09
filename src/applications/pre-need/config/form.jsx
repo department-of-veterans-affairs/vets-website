@@ -2,18 +2,18 @@ import _ from 'lodash/fp';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
-import FormFooter from '../../../platform/forms/components/FormFooter';
-import environment from '../../../platform/utilities/environment';
-import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import * as address from '../definitions/address';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import fullNameUI from '../../../platform/forms/definitions/fullName';
+import fullNameUI from 'platform/forms/definitions/fullName';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 
-import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
+import applicantDescription from 'platform/forms/components/ApplicantDescription';
 
 import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
 

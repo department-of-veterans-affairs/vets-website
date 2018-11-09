@@ -1,5 +1,5 @@
 import React from 'react';
-import PrefillMessage from '../../../platform/forms/save-in-progress/PrefillMessage';
+import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
 export default function IdentifyFieldsWarning({ formData, formContext }) {
   if (formContext.prefilled && formData.processAsIdProofed) {

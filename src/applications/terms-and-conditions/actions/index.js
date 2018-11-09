@@ -1,5 +1,5 @@
-import recordEvent from '../../../platform/monitoring/record-event';
-import { apiRequest } from '../../../platform/utilities/api';
+import recordEvent from 'platform/monitoring/record-event';
+import { apiRequest } from 'platform/utilities/api';
 
 export const FETCHING_LATEST_TERMS = 'FETCHING_LATEST_TERMS';
 export const FETCH_LATEST_TERMS_FAILURE = 'FETCH_LATEST_TERMS_FAILURE';

@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
-import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
-import siteName from '../../../../platform/brand-consolidation/site-name';
+import conditionalStorage from 'platform/utilities/storage/conditionalStorage';
+import siteName from 'platform/brand-consolidation/site-name';
 
 import {
   groupTimelineActivity,

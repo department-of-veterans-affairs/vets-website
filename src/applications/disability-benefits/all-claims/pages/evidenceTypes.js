@@ -1,6 +1,6 @@
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 import { validateIfHasEvidence } from '../validations';
-import get from '../../../../platform/utilities/data/get';
+import get from 'platform/utilities/data/get';
 
 import {
   evidenceTypeHelp,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 

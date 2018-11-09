@@ -1,4 +1,4 @@
-import { apiRequest } from '../../../platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 
 export function initialAppRefresh() {
   return dispatch => {

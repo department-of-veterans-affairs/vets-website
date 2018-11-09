@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
+import conditionalStorage from 'platform/utilities/storage/conditionalStorage';
 
 export default function ButtonContainer(props) {
   const {

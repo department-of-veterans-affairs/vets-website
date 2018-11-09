@@ -1,7 +1,7 @@
 import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import siteName from '../../../../platform/brand-consolidation/site-name';
-import CallHelpDesk from '../../../../platform/brand-consolidation/components/CallHelpDesk';
+import siteName from 'platform/brand-consolidation/site-name';
+import CallHelpDesk from 'platform/brand-consolidation/components/CallHelpDesk';
 
 export const successMessage = claimId => (
   <div>

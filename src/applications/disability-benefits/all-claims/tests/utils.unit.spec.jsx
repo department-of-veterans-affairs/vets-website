@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import _ from '../../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 
 import {
   hasGuardOrReservePeriod,

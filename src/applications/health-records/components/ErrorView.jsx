@@ -4,8 +4,8 @@ import { isEmpty, some, includes, intersection, concat } from 'lodash';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { errorCodes } from '../config';
 
-import siteName from '../../../platform/brand-consolidation/site-name';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
+import siteName from 'platform/brand-consolidation/site-name';
+import CallHelpDesk from 'platform/brand-consolidation/components/CallHelpDesk';
 
 class ErrorView extends React.Component {
   renderErrorMessage() {

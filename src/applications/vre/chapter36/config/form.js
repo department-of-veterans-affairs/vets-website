@@ -2,26 +2,26 @@ import _ from 'lodash/fp';
 
 import fullSchema36 from 'vets-json-schema/dist/28-8832-schema.json';
 
-import { genderLabels } from '../../../../platform/static-data/labels.jsx';
+import { genderLabels } from 'platform/static-data/labels.jsx';
 
-import * as address from '../../../../platform/forms/definitions/address';
+import * as address from 'platform/forms/definitions/address';
 import { benefitsLabels, dischargeTypeLabels } from '../../utils/labels.jsx';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { transform } from '../helpers';
 import createVeteranInfoPage from '../../pages/veteranInfo';
 
-import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
+import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import fullNameUI from '../../../../platform/forms/definitions/fullName';
+import fullNameUI from 'platform/forms/definitions/fullName';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 import { validateMatch } from 'us-forms-system/lib/js/validation';
 
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
-// import environment from '../../../../platform/utilities/environment';
+import FormFooter from 'platform/forms/components/FormFooter';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+// import environment from 'platform/utilities/environment';
 
 const {
   applicantEmail,

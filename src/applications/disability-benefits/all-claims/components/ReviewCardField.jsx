@@ -9,9 +9,9 @@ import {
 
 import { errorSchemaIsValid } from 'us-forms-system/lib/js/validation';
 
-import set from '../../../../platform/utilities/data/set';
-import get from '../../../../platform/utilities/data/get';
-import omit from '../../../../platform/utilities/data/omit';
+import set from 'platform/utilities/data/set';
+import get from 'platform/utilities/data/get';
+import omit from 'platform/utilities/data/omit';
 
 /**
  * Displays a review card if the information inside is valid.

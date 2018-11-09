@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import CallToActionWidget from '../../../platform/site-wide/cta-widget';
-import CallHRC from '../../../platform/brand-consolidation/components/CallHRC';
+import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CallHRC from 'platform/brand-consolidation/components/CallHRC';
 
 export function VetsDotGovSummary() {
   // TODO: Determine whether h2 is right--accessibility-wise, it is, but it's larger than the design

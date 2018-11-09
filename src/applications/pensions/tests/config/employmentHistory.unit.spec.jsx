@@ -7,7 +7,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   getFormDOM,
-} from '../../../../platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pensions employment history', () => {

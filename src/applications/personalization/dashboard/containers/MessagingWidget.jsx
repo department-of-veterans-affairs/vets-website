@@ -6,11 +6,11 @@ import { Link } from 'react-router';
 import SortableTable from '@department-of-veterans-affairs/formation/SortableTable';
 import { formattedDate } from '../../../messaging/utils/helpers';
 
-import backendServices from '../../../../platform/user/profile/constants/backendServices';
-import recordEvent from '../../../../platform/monitoring/record-event';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import recordEvent from 'platform/monitoring/record-event';
 import { fetchFolder, fetchRecipients } from '../../../messaging/actions';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-import { mhvBaseUrl } from '../../../../platform/site-wide/cta-widget/helpers';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
+import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
 
 function recordDashboardClick(product) {
   return () => {

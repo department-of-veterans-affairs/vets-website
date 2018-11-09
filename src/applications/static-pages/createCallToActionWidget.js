@@ -8,7 +8,7 @@ export default async function createCallToActionWidget(store) {
   if (widgets.length) {
     const {
       default: CallToActionWidget,
-    } = await import(/* webpackChunkName: "cta-widget" */ '../../platform/site-wide/cta-widget');
+    } = await import(/* webpackChunkName: "cta-widget" */ 'platform/site-wide/cta-widget');
 
     widgets.forEach((el, index) => {
       ReactDOM.render(

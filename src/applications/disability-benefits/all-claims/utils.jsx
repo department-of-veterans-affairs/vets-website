@@ -3,8 +3,8 @@ import moment from 'moment';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
-import { apiRequest } from '../../../platform/utilities/api';
-import _ from '../../../platform/utilities/data';
+import { apiRequest } from 'platform/utilities/api';
+import _ from 'platform/utilities/data';
 
 import {
   RESERVE_GUARD_TYPES,

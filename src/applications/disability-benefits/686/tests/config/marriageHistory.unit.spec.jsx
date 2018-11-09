@@ -8,7 +8,7 @@ import {
   DefinitionTester,
   submitForm,
   getFormDOM,
-} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('686 marriage history', () => {

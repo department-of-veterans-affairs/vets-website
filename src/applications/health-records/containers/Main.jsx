@@ -10,7 +10,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation/ErrorableCheckbox';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/ErrorableRadioButtons';
 
-import HealthToolsMovingMessage from '../../../platform/static-data/HealthToolsMovingMessage';
+import HealthToolsMovingMessage from 'platform/static-data/HealthToolsMovingMessage';
 import ErrorView from '../components/ErrorView';
 import { reportTypes as reportTypesConfig } from '../config';
 import {

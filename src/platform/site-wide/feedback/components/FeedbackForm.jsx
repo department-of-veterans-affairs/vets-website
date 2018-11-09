@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { focusElement } from '../../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import ErrorableTextArea from '@department-of-veterans-affairs/formation/ErrorableTextArea';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';

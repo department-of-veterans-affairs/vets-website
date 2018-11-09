@@ -1,8 +1,8 @@
-import _ from '../../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 import { merge } from 'lodash';
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import { uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
+import { uiSchema as addressUI } from 'platform/forms/definitions/address';
 import {
   disabilityNameTitle,
   recordReleaseDescription,

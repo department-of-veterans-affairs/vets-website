@@ -3,11 +3,8 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import Raven from 'raven-js';
 
-import recordEvent from '../../../platform/monitoring/record-event';
-import {
-  scrollToFirstError,
-  focusElement,
-} from '../../../platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
+import { scrollToFirstError, focusElement } from 'platform/utilities/ui';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 

@@ -1,6 +1,6 @@
-import environment from '../../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
 import {

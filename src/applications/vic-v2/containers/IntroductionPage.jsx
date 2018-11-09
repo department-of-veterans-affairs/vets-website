@@ -3,16 +3,16 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import backendServices from '../../../platform/user/profile/constants/backendServices';
-import { focusElement } from '../../../platform/utilities/ui';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 import SaveInProgressIntro, {
   introActions,
   introSelector,
-} from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
+} from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { hasSavedForm } from '../helpers';
 
-import siteName from '../../../platform/brand-consolidation/site-name';
+import siteName from 'platform/brand-consolidation/site-name';
 
 const { animateScroll: scroll } = Scroll;
 

@@ -9,7 +9,7 @@ import { preferredContactMethodLabels } from '../utils/labels';
 const { preferredContactMethod } = schemaDefinitions;
 
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import * as address from '../../../platform/forms/definitions/address';
+import * as address from 'platform/forms/definitions/address';
 
 export default function createContactInformationPage(
   schema,

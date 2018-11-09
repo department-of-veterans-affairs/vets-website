@@ -1,7 +1,7 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-import CallHelpDesk from '../../../../platform/brand-consolidation/components/CallHelpDesk';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
+import CallHelpDesk from 'platform/brand-consolidation/components/CallHelpDesk';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 

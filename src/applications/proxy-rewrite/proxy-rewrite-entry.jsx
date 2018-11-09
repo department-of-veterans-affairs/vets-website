@@ -1,22 +1,22 @@
-import '../../platform/polyfills';
+import 'platform/polyfills';
 import cookie from 'cookie';
-import createCommonStore from '../../platform/startup/store';
+import createCommonStore from 'platform/startup/store';
 
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
 
-import startUserNavWidget from '../../platform/site-wide/user-nav';
-import addMenuListeners from '../../platform/site-wide/accessible-menus';
-import startMegaMenuWidget from '../../platform/site-wide/mega-menu';
-import startMobileMenuButton from '../../platform/site-wide/mobile-menu-button';
+import startUserNavWidget from 'platform/site-wide/user-nav';
+import addMenuListeners from 'platform/site-wide/accessible-menus';
+import startMegaMenuWidget from 'platform/site-wide/mega-menu';
+import startMobileMenuButton from 'platform/site-wide/mobile-menu-button';
 
-// import startLRNHealthCarWidget from '../../platform/site-wide/left-rail-navs/health-care';
-import startFeedbackWidget from '../../platform/site-wide/feedback';
-// import startAnnouncementWidget from '../../platform/site-wide/announcements';
-import startVAFooter from '../../platform/site-wide/va-footer';
+// import startLRNHealthCarWidget from 'platform/site-wide/left-rail-navs/health-care';
+import startFeedbackWidget from 'platform/site-wide/feedback';
+// import startAnnouncementWidget from 'platform/site-wide/announcements';
+import startVAFooter from 'platform/site-wide/va-footer';
 import redirectIfNecessary from './redirects';
-import { addFocusBehaviorToCrisisLineModal } from '../../platform/site-wide/accessible-VCL-modal';
-import { addOverlayTriggers } from '../../platform/site-wide/legacy/menu';
+import { addFocusBehaviorToCrisisLineModal } from 'platform/site-wide/accessible-VCL-modal';
+import { addOverlayTriggers } from 'platform/site-wide/legacy/menu';
 import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
 
 function createMutationObserverCallback() {
@@ -79,7 +79,7 @@ function mountReactComponents(commonStore) {
 
   // New navigation menu
   if (document.querySelector('#vetnav')) {
-    require('../../platform/site-wide/legacy/mega-menu.js');
+    require('platform/site-wide/legacy/mega-menu.js');
   }
 
   // set up sizes for rem

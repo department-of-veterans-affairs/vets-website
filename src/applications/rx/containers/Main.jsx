@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
-import HealthToolsMovingMessage from '../../../platform/static-data/HealthToolsMovingMessage';
+import HealthToolsMovingMessage from 'platform/static-data/HealthToolsMovingMessage';
 import { closeDisclaimer } from '../actions/disclaimer';
 import { closeAlert } from '../actions/alert.js';
 import Disclaimer from '../components/Disclaimer';

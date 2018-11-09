@@ -1,5 +1,5 @@
 import { mapboxToken } from './MapboxClient';
-import environment from '../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 import React, { Component } from 'react';
 
 class LocationMap extends Component {

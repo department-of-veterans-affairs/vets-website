@@ -3,21 +3,21 @@ import _ from 'lodash/fp';
 import moment from 'moment';
 
 import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import environment from '../../../../platform/utilities/environment';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp.jsx';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
-import * as address from '../../../../platform/forms/definitions/address';
-import fullNameUI from '../../../../platform/forms/definitions/fullName';
+import * as address from 'platform/forms/definitions/address';
+import fullNameUI from 'platform/forms/definitions/fullName';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import DependentField from '../components/DependentField';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
-import applicantDescription from '../../../../platform/forms/components/ApplicantDescription';
+import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import {
   getSpouseMarriageTitle,
   dependentsMinItem,
@@ -35,7 +35,7 @@ import {
 } from '../helpers.jsx';
 
 import { validateAfterMarriageDate } from '../validation';
-import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { get686AuthorizationState } from '../selectors';
 import { verifyDisabilityRating } from '../actions';
 import AuthorizationMessage from '../components/AuthorizationMessage';

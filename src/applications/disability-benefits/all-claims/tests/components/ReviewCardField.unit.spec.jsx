@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
-import set from '../../../../../platform/utilities/data/set';
+import set from 'platform/utilities/data/set';
 
 import ReviewCardField from '../../components/ReviewCardField';
 

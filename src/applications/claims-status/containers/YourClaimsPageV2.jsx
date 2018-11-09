@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import backendServices from '../../../platform/user/profile/constants/backendServices';
-import recordEvent from '../../../platform/monitoring/record-event';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import recordEvent from 'platform/monitoring/record-event';
 
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 import {
@@ -35,7 +35,7 @@ import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 
-import siteName from '../../../platform/brand-consolidation/site-name';
+import siteName from 'platform/brand-consolidation/site-name';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {

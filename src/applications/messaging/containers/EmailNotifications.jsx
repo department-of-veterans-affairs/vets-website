@@ -3,11 +3,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/ErrorableRadioButtons';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import { makeField } from '../../../platform/forms/fields';
+import { makeField } from 'platform/forms/fields';
 
 import {
   fetchPreferences,

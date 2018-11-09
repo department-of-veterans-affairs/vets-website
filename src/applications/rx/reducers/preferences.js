@@ -1,4 +1,4 @@
-import { makeField } from '../../../platform/forms/fields';
+import { makeField } from 'platform/forms/fields';
 
 const initialState = {
   email: makeField(''),

@@ -2,9 +2,9 @@
 import React from 'react';
 import Raven from 'raven-js';
 
-import { apiRequest as commonApiClient } from '../../../platform/utilities/api';
-import environment from '../../../platform/utilities/environment';
-import { formatDateShort } from '../../../platform/utilities/date';
+import { apiRequest as commonApiClient } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
+import { formatDateShort } from 'platform/utilities/date';
 import {
   BENEFIT_OPTIONS,
   STATE_CODE_TO_NAME,

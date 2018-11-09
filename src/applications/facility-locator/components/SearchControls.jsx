@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import FacilityTypeDropdown from './FacilityTypeDropdown';
 import ServiceTypeAhead from './ServiceTypeAhead';
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import { LocationType } from '../constants';
 import {
   healthServices,

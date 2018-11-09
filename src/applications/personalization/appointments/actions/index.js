@@ -1,4 +1,4 @@
-import { apiRequest } from '../../../../platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 
 export const FETCH_APPOINTMENTS = 'FETCH_APPOINTMENTS';
 export const FETCH_APPOINTMENTS_SUCCESS = 'FETCH_APPOINTMENTS_SUCCESS';

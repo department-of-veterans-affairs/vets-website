@@ -1,4 +1,4 @@
-import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
 
 import { SET_PAGE_TITLE } from '../actions';
 

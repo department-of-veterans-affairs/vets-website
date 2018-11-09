@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-import siteName from '../../../../platform/brand-consolidation/site-name';
+import siteName from 'platform/brand-consolidation/site-name';
 import {
   successMessage,
   checkLaterMessage,

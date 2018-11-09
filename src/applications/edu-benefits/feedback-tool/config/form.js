@@ -5,11 +5,11 @@ import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import fullNameUI from '../../../../platform/forms/definitions/fullName';
-import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillMessage';
-import dataUtils from '../../../../platform/utilities/data/index';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+import fullNameUI from 'platform/forms/definitions/fullName';
+import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
+import dataUtils from 'platform/utilities/data/index';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 const { get, omit, set } = dataUtils;
 

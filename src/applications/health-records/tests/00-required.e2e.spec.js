@@ -1,8 +1,8 @@
-const E2eHelpers = require('../../../platform/testing/e2e/helpers');
-const Timeouts = require('../../../platform/testing/e2e/timeouts');
+const E2eHelpers = require('platform/testing/e2e/helpers');
+const Timeouts = require('platform/testing/e2e/timeouts');
 const HealthRecordsHelpers = require('./health-records-helpers');
-const Auth = require('../../../platform/testing/e2e/auth');
-const AccountCreationHelpers = require('../../../platform/testing/e2e/account-creation-helpers');
+const Auth = require('platform/testing/e2e/auth');
+const AccountCreationHelpers = require('platform/testing/e2e/account-creation-helpers');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   const token = Auth.getUserToken();

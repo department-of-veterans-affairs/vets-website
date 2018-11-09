@@ -1,7 +1,7 @@
-import '../../platform/polyfills';
+import 'platform/polyfills';
 import './sass/facility-locator.scss';
 
-import startApp from '../../platform/startup';
+import startApp from 'platform/startup';
 
 import routes from './routes';
 import reducer from './reducers';

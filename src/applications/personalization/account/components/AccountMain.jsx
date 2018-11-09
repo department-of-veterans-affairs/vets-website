@@ -1,7 +1,7 @@
 import React from 'react';
 
-import recordEvent from '../../../../platform/monitoring/record-event';
-import localStorage from '../../../../platform/utilities/storage/localStorage';
+import recordEvent from 'platform/monitoring/record-event';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
@@ -10,7 +10,7 @@ import AccountVerification from './AccountVerification';
 import LoginSettings from './LoginSettings';
 import MultifactorMessage from './MultifactorMessage';
 import TermsAndConditions from './TermsAndConditions';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
 import facilityLocator from '../../../facility-locator/manifest';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';

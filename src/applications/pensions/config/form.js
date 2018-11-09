@@ -3,16 +3,16 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import { isFullDate } from '../../../platform/forms/validations';
-import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
-import FormFooter from '../../../platform/forms/components/FormFooter';
-import environment from '../../../platform/utilities/environment';
-import GetFormHelp from '../../../platform/forms/components/GetPensionOrBurialFormHelp';
-import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
+import { isFullDate } from 'platform/forms/validations';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import GetFormHelp from 'platform/forms/components/GetPensionOrBurialFormHelp';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
-import * as address from '../../../platform/forms/definitions/address';
-import bankAccountUI from '../../../platform/forms/definitions/bankAccount';
-import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
+import * as address from 'platform/forms/definitions/address';
+import bankAccountUI from 'platform/forms/definitions/bankAccount';
+import applicantDescription from 'platform/forms/components/ApplicantDescription';
 
 import {
   employmentDescription,
@@ -56,12 +56,12 @@ import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
-import fullNameUI from '../../../platform/forms/definitions/fullName';
+import fullNameUI from 'platform/forms/definitions/fullName';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import createNonRequiredFullName from '../../../platform/forms/definitions/nonRequiredFullName';
+import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 import otherExpensesUI from '../definitions/otherExpenses';
 import currencyUI from 'us-forms-system/lib/js/definitions/currency';
 

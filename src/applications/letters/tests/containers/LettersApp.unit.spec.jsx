@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { LettersApp, AppContent } from '../../containers/LettersApp';
 
 import reducer from '../../reducers';
-import createCommonStore from '../../../../platform/startup/store';
+import createCommonStore from 'platform/startup/store';
 
 const store = createCommonStore(reducer);
 

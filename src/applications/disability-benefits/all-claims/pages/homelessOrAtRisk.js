@@ -1,4 +1,4 @@
-import _ from '../../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 import fullSchema from '../config/schema';
 import merge from 'lodash/fp/merge';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';

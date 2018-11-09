@@ -1,6 +1,6 @@
 import React from 'react';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import environment from '../../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 
 import { DocumentDescription } from '../content/uploadPtsdDocuments';
 import { PtsdNameTitle } from '../content/ptsdClassification';

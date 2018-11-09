@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { setUpPage } from '../utils/page';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
+import CallHelpDesk from 'platform/brand-consolidation/components/CallHelpDesk';
 
 class ClaimEstimationPage extends React.Component {
   componentDidMount() {
