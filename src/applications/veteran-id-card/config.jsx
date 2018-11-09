@@ -1,6 +1,6 @@
 import React from 'react';
 import isBrandConsolidationEnabled from '../../platform/brand-consolidation/feature-flag';
-import CallHelpDesk from '../../platform/brand-consolidation/components/CallHelpDesk';
+import EmailVICHelp from '../../platform/brand-consolidation/components/EmailVICHelp';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
@@ -15,42 +15,46 @@ const config = {
       </p>
     ),
     VIC003: (
-      <span>
+      <p>
         We're sorry. We can't proceed with your request for a Veteran ID card
         because we can't confirm your eligibility right now. Please{' '}
-        <CallHelpDesk>
+        <EmailVICHelp>
           call the {propertyName} Help Desk at 1-855-574-7286, TTY:
           1-800-877-8339, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
           (ET).
-        </CallHelpDesk>
-      </span>
+        </EmailVICHelp>
+      </p>
     ),
     VIC010: (
-      <span>
+      <p>
         We're sorry. We can't proceed with your request for a Veteran ID card
         because we can't confirm your military history right now. Please try
         again in a few minutes. If it still doesn't work, please{' '}
-        <CallHelpDesk>
+        <EmailVICHelp>
           call the {propertyName} Help Desk at 1-855-574-7286, TTY:
           1-800-877-8339, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
           (ET).
-        </CallHelpDesk>
-      </span>
+        </EmailVICHelp>
+      </p>
     ),
     VIC011: (
-      <span>
+      <p>
         We're sorry. We can't proceed with your request for a Veteran ID card
         because we can't confirm your military history right now. Please try
         again in a few minutes. If it still doesn't work, please{' '}
-        <CallHelpDesk>
+        <EmailVICHelp>
           call the {propertyName} Help Desk at 1-855-574-7286, TTY:
           1-800-877-8339, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
           (ET).
-        </CallHelpDesk>
-      </span>
+        </EmailVICHelp>
+      </p>
     ),
-    default:
-      "We're sorry, but something went wrong. Please try again in a few moments.",
+    default: (
+      <p>
+        We're sorry, but something went wrong. Please try again in a few
+        moments.
+      </p>
+    ),
     VICV5: (
       <p>
         We're sorry. Something went wrong on our end. We can't process your

@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const E2eHelpers = require('../../../testing/e2e/helpers');
 const Timeouts = require('../../../testing/e2e/timeouts.js');
 
-const SITEMAP_URL = `${E2eHelpers.baseUrl}/sitemap-dynamic.xml`;
+const SITEMAP_URL = `${E2eHelpers.baseUrl}/sitemap.xml`;
 const SITEMAP_LOC_NS = 'http://www.sitemaps.org/schemas/sitemap/0.9';
 const DOMAIN_REGEX = /http[s]?:\/\/(.*?)\//;
 
@@ -16,6 +16,7 @@ function sitemapURLs() {
         .find('//xmlns:loc', SITEMAP_LOC_NS)
         .map(n => n.text().replace(DOMAIN_REGEX, `${E2eHelpers.baseUrl}/`))
         .filter(url => !url.endsWith('auth/login/callback/'))
+        .filter(url => !url.includes('playbook/'))
         .filter(url => !/.*opt-out-information-sharing.*/.test(url)),
     )
     .then(urls => {
@@ -27,8 +28,24 @@ function sitemapURLs() {
         '/404.html',
         // This is here because aXe bug flags the custom select component on this page
         '/facilities/',
+        '/find-locations/',
         // This is here because an aXe bug flags the autosuggest component on this page
         '/gi-bill-comparison-tool/',
+        // These pages use aria-multiselectable incorrectly, because of USWDS
+        '/sign-in-faq/',
+        '/burials-memorials/dependency-indemnity-compensation/',
+        '/disability/va-claim-exam/',
+        '/life-insurance/options-eligibility/fsgli/',
+        '/life-insurance/options-eligibility/vgli/',
+        '/housing-assistance/home-loans/how-to-apply/',
+        '/housing-assistance/home-loans/eligibility/',
+        '/pension/how-to-apply/fully-developed-claim/',
+        '/disability/how-to-file-claim/when-to-file/',
+        '/health-care/family-caregiver-benefits/champva/',
+        '/health-care/about-va-health-benefits/dental-care/',
+        '/disability/how-to-file-claim/when-to-file/pre-discharge-claim/',
+        '/disability/how-to-file-claim/evidence-needed/fully-developed-claims/',
+        '/disability/how-to-file-claim/evidence-needed/decision-ready-claims/',
       ];
       // Whitelist of URLs to only test against the 'section508' rule set and not
       // the stricter 'wcag2a' rule set. For each URL added to this list, please

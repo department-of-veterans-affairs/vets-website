@@ -9,6 +9,7 @@ import PrefillMessage from '../../../../platform/forms/save-in-progress/PrefillM
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 
 import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -43,6 +44,7 @@ const formConfig = {
   subTitle: 'VA Form 22-0993',
   preSubmitInfo,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   footerContent: FormFooter,
   defaultDefinitions: {
     ...fullSchema0993.definitions,

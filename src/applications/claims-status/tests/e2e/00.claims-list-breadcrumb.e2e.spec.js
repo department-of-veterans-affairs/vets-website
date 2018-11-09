@@ -8,7 +8,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   DisabilityHelpers.initClaimsListMock(token);
   // Claim is visible
   Auth.logIn(token, client, '/track-claims', 3)
-    .assert.title('Track Claims: Vets.gov')
+    .assert.title('Track Claims: VA.gov')
     .waitForElementVisible('.claim-list-item-container', Timeouts.slow);
   client
     .waitForElementVisible('.va-nav-breadcrumbs', Timeouts.normal)

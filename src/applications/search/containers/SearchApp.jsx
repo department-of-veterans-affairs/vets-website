@@ -224,6 +224,7 @@ class SearchApp extends React.Component {
 
   /* eslint-disable react/no-danger */
   renderWebResult(result, snippetKey = 'snippet', isBestBet = false) {
+    const strippedTitle = formatResponseString(result.title, true);
     return (
       <li key={result.url} className="result-item">
         <a
@@ -234,14 +235,14 @@ class SearchApp extends React.Component {
               ? () =>
                   recordEvent({
                     event: 'nav-searchresults',
-                    'nav-path': `Recommended Results -> ${result.title}`,
+                    'nav-path': `Recommended Results -> ${strippedTitle}`,
                   })
               : null
           }
         >
           <h5
             dangerouslySetInnerHTML={{
-              __html: formatResponseString(result.title, true),
+              __html: strippedTitle,
             }}
           />
         </a>

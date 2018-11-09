@@ -49,7 +49,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .waitForElementVisible('.review-answers', Timeouts.slow)
     .axeCheck('.main')
-    .click('.main a.usa-button-primary');
+    .click('a.usa-button-primary.va-button');
 
   // results page
   client.waitForElementVisible('.dw-guidance', Timeouts.slow).axeCheck('.main');
