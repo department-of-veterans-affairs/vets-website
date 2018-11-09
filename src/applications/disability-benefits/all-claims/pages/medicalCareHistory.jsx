@@ -1,17 +1,6 @@
 import React from 'react';
 
-function medicalTreatmentRequiredCheck(errors, state, formData) {
-  const careQuestion = formData.careQuestion;
-  const careReceived = formData['view:careReceived'];
-
-  if (
-    careQuestion &&
-    !careReceived.medicalTreatment['view:doctorCare'] &&
-    !careReceived.medicalTreatment['view:hospitalization']
-  ) {
-    errors.addError('Please choose one.');
-  }
-}
+import { medicalTreatmentRequiredCheck } from '../validations';
 
 const medicalCareDescription = (
   <div>

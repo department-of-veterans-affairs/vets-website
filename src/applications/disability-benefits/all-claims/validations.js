@@ -143,3 +143,16 @@ export const isInFuture = (err, fieldData) => {
     err.addError('Start date must be in the future');
   }
 };
+
+export function medicalTreatmentRequiredCheck(errors, state, formData) {
+  const careQuestion = formData.careQuestion;
+  const careReceived = formData['view:careReceived'];
+
+  if (
+    careQuestion &&
+    !careReceived.medicalTreatment['view:doctorCare'] &&
+    !careReceived.medicalTreatment['view:hospitalization']
+  ) {
+    errors.addError('Please choose one.');
+  }
+}
