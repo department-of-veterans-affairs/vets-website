@@ -278,9 +278,9 @@ const formConfig = {
           uiSchema: unemployabilityFormIntro.uiSchema,
           schema: unemployabilityFormIntro.schema,
         },
-        medicalCareHistory: {
+        medicalCareHistory8940: {
           title: 'Medical Care',
-          path: 'medicalCare',
+          path: 'medicalCare8940',
           depends: formData =>
             formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
           uiSchema: medicalCareHistory.uiSchema,

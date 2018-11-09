@@ -1,10 +1,23 @@
 import React from 'react';
 
+function medicalTreatmentRequiredCheck(errors, state, formData) {
+  const careQuestion = formData.careQuestion;
+  const careReceived = formData['view:careReceived'];
+
+  if (
+    careQuestion &&
+    !careReceived.medicalTreatment['view:doctorCare'] &&
+    !careReceived.medicalTreatment['view:hospitalization']
+  ) {
+    errors.addError('Please choose one.');
+  }
+}
+
 const medicalCareDescription = (
   <div>
     <h5>Medical care</h5>
     <p>
-      During the last 12 months, have you been under a doctor's care or
+      During the last 12 months, have you been under a doctor‘s care or
       hospitalized for these disabilities?
     </p>
   </div>
@@ -15,7 +28,7 @@ export const uiSchema = {
   'ui:description': medicalCareDescription,
   careQuestion: {
     'ui:title': ' ',
-    'ui:widget': 'radio',
+    'ui:widget': 'yesNo',
     'ui:options': {
       labels: {
         yes: 'Yes',
@@ -24,10 +37,13 @@ export const uiSchema = {
     },
   },
   'view:careReceived': {
+    'ui:title': ' ',
     'ui:options': {
       expandUnder: 'careQuestion',
-      expandUnderCondition: 'yes',
+      expandUnderCondition: true,
+      showFieldLabel: true,
     },
+    'ui:validations': [medicalTreatmentRequiredCheck],
     medicalTreatment: {
       'view:doctorCare': {
         'ui:title': 'Yes, I‘ve been under doctor‘s care',
@@ -41,10 +57,10 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
+  required: ['careQuestion'],
   properties: {
     careQuestion: {
-      type: 'string',
-      enum: ['yes', 'no'],
+      type: 'boolean',
     },
     'view:careReceived': {
       type: 'object',
