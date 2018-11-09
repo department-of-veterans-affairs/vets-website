@@ -13,7 +13,6 @@ function getRedirectPage(redirectToPath) {
       <title>Page Moved</title>
     </head>
     <body>
-      New location: <a href="${absolutePath}">${absolutePath}</a>
     </body>`;
 }
 
@@ -53,13 +52,16 @@ function createRedirects(options) {
       };
 
       for (const alias of aliases) {
-        let absolutePath = path.join(options.destination, alias);
-        if (!path.extname(absolutePath))
-          absolutePath = path.join(absolutePath, 'index.html');
+        let finalPath;
+        if (alias.startsWith('/')) {
+          finalPath = alias.slice(1);
+        }
+        if (!path.extname(finalPath))
+          finalPath = path.join(finalPath, 'index.html');
 
-        files[absolutePath] = {
+        files[finalPath] = {
           ...redirectPage,
-          path: absolutePath,
+          path: finalPath,
         };
       }
     }
