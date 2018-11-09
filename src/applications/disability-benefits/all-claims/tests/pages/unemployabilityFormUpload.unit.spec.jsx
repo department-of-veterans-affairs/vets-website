@@ -62,7 +62,7 @@ describe('8940 form upload', () => {
         schema={schema}
         data={{
           'view:unemployabilityUploadChoice': 'upload',
-          iu8940: [
+          form8940Upload: [
             {
               confirmationCode: 'testing',
               name: '8940.pdf',

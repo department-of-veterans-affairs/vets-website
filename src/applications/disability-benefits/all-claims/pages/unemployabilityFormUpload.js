@@ -9,7 +9,7 @@ const { attachments } = fullSchema.properties;
 export const uiSchema = {
   'ui:title': 'Upload VA Form 21-8940',
   'ui:description': DocumentDescription,
-  iu8940: fileUploadUI('', {
+  form8940Upload: fileUploadUI('', {
     itemDescription: 'Document Type (VA Form 21-8940)',
     hideLabelText: true,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
