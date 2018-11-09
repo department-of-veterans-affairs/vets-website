@@ -9,6 +9,11 @@ import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/Err
 
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 
+import {
+  isLoggedIn as isLoggedInSelector,
+  isLOA3,
+} from '../../../../platform/user/selectors';
+
 import ButtonContainer from './ButtonContainer';
 import {
   GetStartedMessage,
@@ -174,7 +179,7 @@ class DisabilityWizard extends React.Component {
   render() {
     const { isChoosingStatus, isChoosingUpdate, atGuidance } = this;
     const { errorMessage } = this.state;
-    const { verified: isVerified } = this.props.user.profile;
+    const { isVerified } = this.props;
     const labelText =
       'Just answer a few questions, and we’ll show you where to find the form that’s right for you.';
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
@@ -237,6 +242,7 @@ class DisabilityWizard extends React.Component {
             )}
             {
               <ButtonContainer
+                isLoggedIn={this.props.isLoggedIn}
                 isVerified={isVerified}
                 checkGuidanceStatus={this.checkGuidanceStatus}
                 isChoosingStatus={this.isChoosingStatus}
@@ -253,12 +259,10 @@ class DisabilityWizard extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  const userState = state.user;
-  return {
-    user: userState,
-  };
-}
+const mapStateToProps = state => ({
+  isLoggedIn: isLoggedInSelector(state),
+  isVerified: isLOA3(state),
+});
 
 const mapDispatchToProps = dispatch => ({
   toggleLoginModal: update => {
@@ -268,7 +272,8 @@ const mapDispatchToProps = dispatch => ({
 
 DisabilityWizard.propTypes = {
   toggleLoginModal: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
+  isVerified: PropTypes.bool.isRequired,
 };
 
 export default connect(
