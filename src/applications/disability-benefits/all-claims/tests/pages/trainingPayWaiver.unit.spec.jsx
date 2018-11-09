@@ -24,7 +24,7 @@ describe('trainingPayWaiver', () => {
     expect(form.find('input').length).to.equal(2);
   });
 
-  it('should submit without any input from user', () => {
+  it('should not submit when user does not make a selection', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -32,6 +32,26 @@ describe('trainingPayWaiver', () => {
         uiSchema={uiSchema}
         schema={schema}
         onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('should submit when user makes a selection', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={defaultDefinitions}
+        uiSchema={uiSchema}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={{
+          waiveTrainingPay: true,
+        }}
       />,
     );
 
