@@ -93,8 +93,7 @@ header.merger {
   #mega-menu .vetnav-panel {
     box-sizing: border-box;
     .mm-links {
-      font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
-    }
+      font-family: $font-stack;    }
   }
 
   @media (min-width: $large-screen) {
