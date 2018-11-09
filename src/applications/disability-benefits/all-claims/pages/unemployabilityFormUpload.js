@@ -42,6 +42,23 @@ export const schema = {
   type: 'object',
   required: ['form8940Upload'],
   properties: {
-    form8940Upload: attachments,
+    form8940Upload: {
+      type: 'array',
+      minItems: 1,
+      items: {
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string',
+          },
+          size: {
+            type: 'integer',
+          },
+          confirmationCode: {
+            type: 'string',
+          },
+        },
+      },
+    },
   },
 };
