@@ -1,17 +1,43 @@
+import React from 'react';
 import fullSchema from '../config/schema';
+import _ from '../../../../platform/utilities/data';
+import some from 'lodash/some';
+
+import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 import { disabilityOption } from '../content/ratedDisabilities';
+import {
+  DisabilitiesDescription,
+  helpDescription,
+  ratedDisabilitiesTitle,
+  newDisabilitiesTitle,
+} from '../content/unemployabilityDisabilities';
 
 const { disabilities: disabilitiesSchema } = fullSchema.properties;
 const { condition } = fullSchema.properties.newDisabilities.items.properties;
 
+const disabilitiesRequired = msg => (errors, state, formData) => {
+  const disabilitySelected = disability =>
+    disability['view:unemployabilityDisability'];
+  const allDisabilities = [
+    ..._.get('ratedDisabilities', formData, []),
+    ..._.get('newDisabilities', formData, []),
+  ];
+  const hasNewDisabilitiesSelected = some(allDisabilities, disabilitySelected);
+
+  if (!hasNewDisabilitiesSelected) {
+    errors.addError(msg);
+  }
+};
+
 export const uiSchema = {
-  'ui:title': 'Rated Disabilities',
-  'ui:description': `Below are your rated disabilities. If you’ll be filing for increased 
-    compensation because one of them has gotten worse, please choose the 
-    disability here.`,
+  'ui:title': unemployabilityTitle,
+  'ui:description': formData => <DisabilitiesDescription formData={formData} />,
   ratedDisabilities: {
-    'ui:title': ' ',
+    'ui:validations': [
+      disabilitiesRequired('Please select at least one disability,'),
+    ],
+    'ui:title': ratedDisabilitiesTitle,
     'ui:field': 'StringField',
     'ui:widget': SelectArrayItemsWidget,
     'ui:options': {
@@ -23,7 +49,9 @@ export const uiSchema = {
     },
   },
   newDisabilities: {
-    'ui:title': ' ',
+    'ui:validations': [disabilitiesRequired('')],
+
+    'ui:title': newDisabilitiesTitle,
     'ui:field': 'StringField',
     'ui:widget': SelectArrayItemsWidget,
     'ui:options': {
@@ -33,6 +61,10 @@ export const uiSchema = {
       widgetClassNames: 'widget-outline',
       keepInPageOnReview: true,
     },
+  },
+  'view:unemployabilityHelp': {
+    'ui:title': ' ',
+    'ui:description': helpDescription,
   },
 };
 
@@ -55,6 +87,10 @@ export const schema = {
           'view:descriptionInfo': { type: 'object', properties: {} },
         },
       },
+    },
+    'view:unemployabilityHelp': {
+      type: 'object',
+      properties: {},
     },
   },
 };
