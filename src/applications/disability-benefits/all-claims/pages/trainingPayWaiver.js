@@ -22,6 +22,7 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
+  required: ['waiveTrainingPay'],
   properties: {
     waiveTrainingPay,
   },
