@@ -4,8 +4,9 @@ import { waiveTrainingPayDescription } from '../content/trainingPayWaiver';
 const { waiveTrainingPay } = fullSchema.properties;
 
 export const uiSchema = {
+  'ui:title': 'Training pay waiver',
   waiveTrainingPay: {
-    'ui:title': 'Training pay waiver',
+    'ui:title': ' ',
     'ui:description': waiveTrainingPayDescription,
     'ui:widget': 'yesNo',
     'ui:options': {
