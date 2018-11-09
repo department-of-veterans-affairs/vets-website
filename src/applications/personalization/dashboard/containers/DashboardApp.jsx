@@ -244,7 +244,6 @@ class DashboardApp extends React.Component {
             </p>
           </div>
         }
-        onCloseAlert={this.dismissAlertBox('loa')}
         isVisible={
           this.state['show-loa-alert'] &&
           !localStorage.getItem('hide-loa-alert')
