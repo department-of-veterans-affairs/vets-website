@@ -386,24 +386,6 @@ export const download4142Notice = (
   </div>
 );
 
-export const authorizationToDisclose = (
-  <div>
-    <p>
-      Since your medical records are with your doctor, you’ll need to fill out
-      an Authorization to Disclose Information to the VA (VA Form 21-4142) so we
-      can request your records. You’ll need to fill out a form for each doctor.
-    </p>
-    <p>
-      <a href={VA_FORM4142_URL} target="_blank">
-        Download VA Form 21-4142
-      </a>
-      .
-    </p>
-    <p>Please print the form, fill it out, and send it to:</p>
-    {claimsIntakeAddress}
-  </div>
-);
-
 export const recordReleaseWarning = (
   <div className="usa-alert usa-alert-warning background-color-only">
     <span>
@@ -471,12 +453,7 @@ const listDocuments = documents => (
 );
 
 export const evidenceSummaryView = ({ formContext, formData }) => {
-  const {
-    treatments,
-    providerFacility,
-    privateRecords,
-    additionalDocuments,
-  } = formData;
+  const { treatments, privateRecords, additionalDocuments } = formData;
 
   const {
     'view:selectableEvidenceTypes': {
@@ -500,13 +477,6 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
           vaRecordsSelected && (
             <li>
               We’ll get your medical records from {listCenters(treatments)}.
-            </li>
-          )}
-        {providerFacility &&
-          privateRecordsSelected && (
-            <li>
-              We’ll get your private medical records from{' '}
-              {listCenters(providerFacility)}.
             </li>
           )}
         {privateRecords &&
