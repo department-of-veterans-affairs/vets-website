@@ -42,6 +42,7 @@ const aggregate = (dataArray, property, refPropPath) => {
   dataArray.forEach(item => {
     const itemIsSelected = get(refPropPath, item, true);
     if (item[property] && itemIsSelected) {
+      console.log('item is selected: ', itemIsSelected, 'for:', item);
       item[property].forEach(listItem => masterList.push(listItem));
     }
   });
@@ -133,18 +134,22 @@ export function transform(formConfig, form) {
     ? { servicePeriods, reservesNationalGuardService }
     : { servicePeriods };
 
+  const selectedDisabilities = disabilities.filter(
+    disability => disability['view:selected'],
+  );
+
   const additionalDocuments = aggregate(
-    disabilities,
+    selectedDisabilities,
     'additionalDocuments',
     'view:selectableEvidenceTypes.view:otherEvidence',
   );
   const privateRecords = aggregate(
-    disabilities,
+    selectedDisabilities,
     'privateRecords',
     'view:selectableEvidenceTypes.view:privateMedicalRecords',
   );
   const treatments = aggregate(
-    disabilities,
+    selectedDisabilities,
     'treatments',
     'view:selectableEvidenceTypes.view:vaMedicalRecords',
   );
@@ -152,9 +157,9 @@ export function transform(formConfig, form) {
   const attachments = additionalDocuments.concat(privateRecords);
 
   const transformedData = {
-    disabilities: disabilities
-      .filter(disability => disability['view:selected'] === true)
-      .map(filtered => pick(filtered, disabilityProperties)),
+    disabilities: selectedDisabilities.map(filtered =>
+      pick(filtered, disabilityProperties),
+    ),
     // Pull phone & email out of phoneEmailCard and into veteran property
     veteran: setPhoneEmailPaths(veteran),
     privacyAgreementAccepted,
