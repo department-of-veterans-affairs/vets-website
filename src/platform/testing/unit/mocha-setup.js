@@ -10,9 +10,9 @@ import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
 // import sinon from 'sinon'
 
-global.__BUILDTYPE__ = process.env.BUILDTYPE || 'localhost';
+global.__BUILDTYPE__ = process.env.BUILDTYPE || 'development';
 global.__ALL_CLAIMS_ENABLED__ =
-  global.__BUILDTYPE__ === 'localhost' ||
+  global.__BUILDTYPE__ === 'development' ||
   process.env.ALL_CLAIMS_ENABLED === 'true';
 
 chai.use(chaiAsPromised);

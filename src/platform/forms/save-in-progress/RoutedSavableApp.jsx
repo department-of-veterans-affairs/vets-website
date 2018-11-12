@@ -47,7 +47,7 @@ class RoutedSavableApp extends React.Component {
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const resumeForm = trimmedPathname.endsWith('resume');
     const devRedirect =
-      (__BUILDTYPE__ !== 'localhost' &&
+      (__BUILDTYPE__ !== 'development' &&
         !currentLocation.search.includes('skip')) ||
       currentLocation.search.includes('redirect');
     const goToStartPage = resumeForm || devRedirect;

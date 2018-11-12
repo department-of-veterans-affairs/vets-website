@@ -43,7 +43,7 @@ export const isHealthTool = appId => HEALTH_TOOLS.includes(appId);
 
 export const mhvBaseUrl = () => {
   const lowerEnvironments = [
-    'localhost',
+    'development',
     'vagovdev',
     'staging',
     'vagovstaging',
