@@ -42,7 +42,7 @@ function generateRedirectedPages(BUILD_OPTIONS) {
 
     const htmlFileName = path.join(htmlDirectory, 'index.html');
     let htmlFileContents = null;
-    let vaGovFullPath;
+    let vaGovFullPath = vaGovDest;
 
     if (!vaGovDest.startsWith('http'))
       vaGovFullPath = `https://${vaGovHostDestination}/${vaGovDest}`;

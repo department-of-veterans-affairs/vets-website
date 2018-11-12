@@ -64,10 +64,8 @@ class YourClaimsPageV2 extends React.Component {
   // an initial sort needs to happen in componentDidMount
   // }
 
-  componentDidUpdate(prevProps) {
-    if (!this.props.loading && prevProps.loading) {
-      setPageFocus();
-    }
+  componentDidUpdate() {
+    setPageFocus();
   }
 
   changePage(page) {
@@ -184,7 +182,6 @@ class YourClaimsPageV2 extends React.Component {
       } else if (!this.props.canAccessClaims && bothRequestsLoaded) {
         content = <NoClaims />;
       }
-
       content = <div className="va-tab-content">{content}</div>;
     }
 
