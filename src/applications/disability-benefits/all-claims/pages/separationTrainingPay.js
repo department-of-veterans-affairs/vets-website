@@ -1,7 +1,5 @@
-import dateUI from 'us-forms-system/lib/js/definitions/date';
 import fullSchema from '../config/schema';
-import merge from 'lodash/merge';
-import { hasSeparationPay } from '../validations';
+import { hasSeparationPay, isValidYear } from '../validations';
 import {
   waiveTrainingPayDescription,
   separationPayDetailsDescription,
@@ -26,11 +24,18 @@ export const uiSchema = {
       'ui:title': 'Separation or Severance Pay',
       'ui:description': separationPayDetailsDescription,
     },
-    separationPayDate: merge(
-      {},
-      dateUI('When did you get a separation or severance payment?'),
-      { 'ui:required': hasSeparationPay },
-    ),
+    separationPayDate: {
+      'ui:title': 'Please tell us the year you received a payment',
+      // TODO: Change this to a number field to mimic the regular date field
+      'ui:validations': [isValidYear],
+      'ui:errorMessages': {
+        pattern: 'Please provide a valid year',
+      },
+      'ui:options': {
+        widgetClassNames: 'year-input',
+      },
+      'ui:required': hasSeparationPay,
+    },
     separationPayBranch: {
       'ui:title':
         'Please choose the branch of service that gave you separation or severance pay',
@@ -50,7 +55,7 @@ export const uiSchema = {
       'ui:description': waiveTrainingPayDescription,
     },
     waiveTrainingPay: {
-      'ui:title': `I choose to waive VA compensation pay for the days I receive inactive 
+      'ui:title': `I choose to waive VA compensation pay for the days I receive inactive
       duty training pay, so I can keep my inactive duty training pay.`,
     },
   },
