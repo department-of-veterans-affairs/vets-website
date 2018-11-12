@@ -68,4 +68,9 @@ function generateRedirectedPages(BUILD_OPTIONS) {
   );
 }
 
-module.exports = generateRedirectedPages;
+function main() {
+  const options = require('../options');
+  generateRedirectedPages(options);
+}
+
+main();
