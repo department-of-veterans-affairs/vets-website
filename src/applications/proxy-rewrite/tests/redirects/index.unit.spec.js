@@ -13,7 +13,7 @@ describe('Redirect replaced pages', () => {
 
     redirectIfNecessary(fakeWindow);
 
-    expect(fakeWindow.location.href.endsWith('.gov/disability/')).to.be.true;
+    expect(fakeWindow.location.href.endsWith(':3001/disability/')).to.be.true;
   });
 
   it('should not redirect when there are no matches', () => {
