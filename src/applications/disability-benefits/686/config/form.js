@@ -39,23 +39,27 @@ import AuthorizationMessage from '../components/AuthorizationMessage';
 const { get } = dataUtils;
 
 const {
-  spouseDateOfBirth,
-  spouseVaFileNumber,
-  liveWithSpouse,
-  spouseIsVeteran,
+  maritalStatus,
   veteranSocialSecurityNumber,
   dependents,
   veteranFullName,
   previousMarriages: marriages,
-  spouseMarriages,
+  currentMarriage,
 } = fullSchema686.properties;
+
+const {
+  spouseDateOfBirth,
+  spouseVaFileNumber,
+  liveWithSpouse,
+  spouseIsVeteran,
+  spouseMarriages,
+} = currentMarriage.properties;
 
 const {
   domesticAddress,
   militaryAddress,
   internationalAddressText,
   postalCode,
-  maritalStatus,
   fullName,
   ssn,
   location,
@@ -93,7 +97,7 @@ const militaryStates = [
 const addressSchema = {
   type: 'object',
   properties: {
-    country: militaryAddress.properties.country,
+    country: militaryAddress.properties.countryDropdown,
     countryText: internationalAddressText.properties.countryText,
     street: domesticAddress.properties.street,
     street2: domesticAddress.properties.street2,
@@ -112,7 +116,7 @@ const addressSchema = {
 const locationSchema = {
   type: 'object',
   properties: {
-    countryDropdown: militaryAddress.properties.country,
+    countryDropdown: militaryAddress.properties.countryDropdown,
     countryText: internationalAddressText.properties.countryText,
     city: domesticAddress.properties.city,
     // TODO: make this just 50 states + DC
