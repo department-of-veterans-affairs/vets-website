@@ -73,7 +73,7 @@ export class ConfirmationPage extends React.Component {
           </div>
         )}
         <div>
-          <FormFooter getHelp={GetFormHelp} />
+          <FormFooter formConfig={{ getHelp: GetFormHelp }} />
         </div>
       </div>
     );

@@ -107,7 +107,7 @@ class ConfirmationPage extends React.Component {
             </a>
           </div>
         </div>
-        <FormFooter getHelp={GetFormHelp} />
+        <FormFooter formConfig={{ getHelp: GetFormHelp }} />
       </div>
     );
   }
