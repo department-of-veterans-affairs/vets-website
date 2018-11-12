@@ -1,7 +1,7 @@
 import merge from 'lodash/merge';
 import fullSchema from '../config/schema';
 import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import dateRangeUI from 'us-forms-system/lib/js/definitions/monthYearRange';
 import { treatmentView } from '../content/vaMedicalRecords';
 import { queryForFacilities, addCheckboxPerDisability } from '../utils';
 import {
@@ -58,8 +58,8 @@ export const uiSchema = {
         },
       },
       treatmentDateRange: dateRangeUI(
-        'First date you received treatment for these conditions at this facility (this doesn’t have to be exact).',
-        'Last date you received treatment for these conditions at this facility (this doesn’t have to be exact).',
+        'When did you first visit this facility?',
+        'When was your most recent visit?',
         'Date of last treatment must be after date of first treatment',
       ),
       treatmentCenterAddress: {

@@ -162,7 +162,6 @@ describe('New disabilities follow up info', () => {
 
     expect(form.find('input').length).to.equal(6);
     expect(form.find('textarea').length).to.equal(1);
-    expect(form.find('select').length).to.equal(2);
   });
 
   it('should not submit when data not filled in', () => {

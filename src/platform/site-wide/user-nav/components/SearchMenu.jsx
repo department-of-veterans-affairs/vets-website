@@ -6,12 +6,13 @@ import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
 
 class SearchMenu extends React.Component {
+  // TODO: make the action url environment specific
   constructor(props) {
     super(props);
     this.makeForm = this.makeForm.bind(this);
     this.toggleSearchForm = this.toggleSearchForm.bind(this);
     this.state = {
-      searchAction: '/search/',
+      searchAction: 'https://www.va.gov/search/',
       userInput: '',
     };
   }

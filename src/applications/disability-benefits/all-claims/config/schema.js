@@ -884,7 +884,6 @@ const schema = {
           },
           VAMistreatmentDate: {
             type: 'string',
-            format: 'date',
           },
         },
       },
