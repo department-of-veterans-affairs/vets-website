@@ -40,7 +40,6 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.metadata({
     buildtype: BUILD_OPTIONS.buildtype,
     hostUrl: BUILD_OPTIONS.hostUrl,
-    mergedbuild: true, // @deprecated - We use a separate Metalsmith directory for VA.gov. We shouldn't ever need this info in Metalsmith files.
   });
 
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
