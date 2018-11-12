@@ -54,8 +54,6 @@
     "test:integration": "jest -c=jest-integration.config.js",
     "update:schema": "./script/update-json-schema.sh",
     "watch": "node script/build.js --watch",
-    "watch:brand-consolidation": "node script/build.js --brand-consolidation-enabled --watch",
-    "watch:devpreview": "npm run watch:brand-consolidation",
     "watch:static": "npm run watch -- --entry static-pages"
   },
   "repository": {

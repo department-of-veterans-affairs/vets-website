@@ -74,6 +74,8 @@ function deriveHostUrl(options) {
 }
 
 function applyEnvironmentOverrides(options) {
+  if (options.buildtype === environments.LOCALHOST) return;
+
   const environment = environments[options.buildtype];
 
   if (!environment) {
