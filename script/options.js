@@ -37,20 +37,26 @@ function gatherFromCommandLine() {
 }
 
 function applyDefaultOptions(options) {
-  const contentRoot = '../content';
+  const isHerokuBuild = !!process.env.HEROKU_APP_NAME;
 
   Object.assign(options, {
-    contentRoot,
-    contentPagesRoot: `${contentRoot}/pages`,
+    contentRoot: '../va-gov',
+    contentPagesRoot: options['content-directory'],
+    contentFragments: path.join(options['content-directory'], '../fragments'),
+    contentAssets: {
+      source: path.join(options['content-directory'], '../assets'),
+      destination: './',
+    },
     destination: path.resolve(__dirname, `../build/${options.buildtype}`),
     appAssets: {
       source: '../assets',
       destination: './',
     },
-    collections: require('./collections/default.json'),
-    redirects: [],
+    collections: require('./collections/brand-consolidation.json'),
+    redirects: require('./vagovRedirects.json'),
   });
 
+  // Derive the complete host URL
   if (options.buildtype === environments.LOCALHOST) {
     options.buildtype = environments.DEVELOPMENT;
   } else {
@@ -59,7 +65,6 @@ function applyDefaultOptions(options) {
     options.host = hostnames[options.buildtype];
   }
 
-  const isHerokuBuild = !!process.env.HEROKU_APP_NAME;
   if (isHerokuBuild) {
     options.port = 80;
     options.protocol = 'https';
@@ -69,6 +74,10 @@ function applyDefaultOptions(options) {
   options.hostUrl = `${options.protocol}://${options.host}${
     options.port && options.port !== 80 ? `:${options.port}` : ''
   }`;
+
+  // This list also exists in stagingDomains.js
+  const domainReplacements = [{ from: 'www\\.va\\.gov', to: options.host }];
+  Object.assign(options, { domainReplacements });
 }
 
 function applyEnvironmentOverrides(options) {
@@ -113,32 +122,11 @@ function applyEnvironmentOverrides(options) {
   }
 }
 
-function applyBrandConsolidationOverrides(options) {
-  // This list also exists in stagingDomains.js
-  const domainReplacements = [{ from: 'www\\.va\\.gov', to: options.host }];
-
-  Object.assign(options, {
-    contentRoot: '../va-gov',
-    contentPagesRoot: options['content-directory'],
-    contentFragments: path.join(options['content-directory'], '../fragments'),
-    collections: require('./collections/brand-consolidation.json'),
-    redirects: require('./vagovRedirects.json'),
-    domainReplacements,
-    contentAssets: {
-      source: path.join(options['content-directory'], '../assets'),
-      destination: './',
-    },
-  });
-}
-
 function getOptions() {
   const options = gatherFromCommandLine();
 
   applyDefaultOptions(options);
   applyEnvironmentOverrides(options);
-
-  const isBrandConsolidationBuild = options['brand-consolidation-enabled'];
-  if (isBrandConsolidationBuild) applyBrandConsolidationOverrides(options);
 
   return options;
 }
