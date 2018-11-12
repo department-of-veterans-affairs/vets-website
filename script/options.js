@@ -84,6 +84,9 @@ function applyEnvironmentOverrides(options) {
   const nodeEnv = process.env.NODE_ENV;
 
   switch (options.buildtype) {
+    case environments.DEVELOPMENT:
+    case environments.STAGING:
+    case environments.PRODUCTION:
     case environments.VAGOVDEV:
     case environments.VAGOVSTAGING:
     case environments.PREVIEW:
