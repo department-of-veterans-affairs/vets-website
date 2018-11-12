@@ -1,5 +1,7 @@
 import org.kohsuke.github.GitHub
 
+env.CONCURRENCY = 10
+
 VETSGOV_BUILDTYPES = [
   'development',
   'staging',
@@ -17,35 +19,35 @@ DEV_BRANCH = 'master'
 STAGING_BRANCH = 'master'
 PROD_BRANCH = 'master'
 
-def runDeploy(jobName, ref) {
-  build job: jobName, parameters: [
-    booleanParam(name: 'notify_slack', value: true),
-    stringParam(name: 'ref', value: ref),
-  ], wait: false
-}
+IS_DEV_BRANCH = env.BRANCH_NAME == DEV_BRANCH
+IS_STAGING_BRANCH = env.BRANCH_NAME == STAGING_BRANCH
+IS_PROD_BRANCH = env.BRANCH_NAME == PROD_BRANCH
 
 def isReviewable = {
-  env.BRANCH_NAME != DEV_BRANCH &&
-    env.BRANCH_NAME != STAGING_BRANCH &&
-    env.BRANCH_NAME != PROD_BRANCH
+  !IS_DEV_BRANCH && !IS_STAGING_BRANCH && !IS_PROD_BRANCH
 }
 
-env.CONCURRENCY = 10
-
 def isDeployable = {
-  (env.BRANCH_NAME == DEV_BRANCH ||
-   env.BRANCH_NAME == STAGING_BRANCH) &&
+  (IS_DEV_BRANCH ||
+   IS_STAGING_BRANCH) &&
     !env.CHANGE_TARGET &&
     !currentBuild.nextBuild // if there's a later build on this job (branch), don't deploy
 }
 
 def shouldBail = {
   // abort the job if we're not on deployable branch (usually master) and there's a newer build going now
-  env.BRANCH_NAME != DEV_BRANCH &&
-  env.BRANCH_NAME != STAGING_BRANCH &&
-  env.BRANCH_NAME != PROD_BRANCH &&
+  !IS_DEV_BRANCH &&
+  !IS_STAGING_BRANCH &&
+  !IS_PROD_BRANCH &&
   !env.CHANGE_TARGET &&
   currentBuild.nextBuild
+}
+
+def runDeploy(jobName, ref) {
+  build job: jobName, parameters: [
+    booleanParam(name: 'notify_slack', value: true),
+    stringParam(name: 'ref', value: ref),
+  ], wait: false
 }
 
 def buildDetails = { vars ->
@@ -61,9 +63,7 @@ def buildDetails = { vars ->
 }
 
 def notify = { ->
-  if (env.BRANCH_NAME == DEV_BRANCH ||
-      env.BRANCH_NAME == STAGING_BRANCH ||
-      env.BRANCH_NAME == PROD_BRANCH) {
+  if (IS_DEV_BRANCH || IS_STAGING_BRANCH || IS_PROD_BRANCH) {
     message = "vets-website ${env.BRANCH_NAME} branch CI failed. |${env.RUN_DISPLAY_URL}".stripMargin()
     slackSend message: message,
     color: 'danger',
@@ -296,12 +296,12 @@ node('vetsgov-general-purpose') {
         }
       }
 
-      if (env.BRANCH_NAME == DEV_BRANCH) {
+      if (IS_DEV_BRANCH) {
         runDeploy('deploys/vets-website-dev', commit)
         runDeploy('deploys/vets-website-vagovdev', commit)
       }
 
-      if (env.BRANCH_NAME == STAGING_BRANCH) {
+      if (IS_STAGING_BRANCH) {
         runDeploy('deploys/vets-website-staging', commit)
         runDeploy('deploys/vets-website-vagovstaging', commit)
       }
