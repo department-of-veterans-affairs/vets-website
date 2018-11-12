@@ -55,14 +55,16 @@ function applyDefaultOptions(options) {
 }
 
 function deriveHostUrl(options) {
-  if (options.buildtype !== environments.LOCALHOST) {
+  const isHerokuBuild = !!process.env.HEROKU_APP_NAME;
+
+  if (options.buildtype !== environments.LOCALHOST || isHerokuBuild) {
     options.port = 80;
     options.protocol = 'https';
-    options.host = hostnames[options.buildtype];
 
-    const isHerokuBuild = !!process.env.HEROKU_APP_NAME;
     if (isHerokuBuild) {
       options.host = `${process.env.HEROKU_APP_NAME}.herokuapp.com`;
+    } else {
+      options.host = hostnames[options.buildtype];
     }
   }
 
@@ -91,8 +93,8 @@ function getOptions() {
   const options = gatherFromCommandLine();
 
   applyDefaultOptions(options);
-  deriveHostUrl(options);
   applyEnvironmentOverrides(options);
+  deriveHostUrl(options);
 
   return options;
 }
