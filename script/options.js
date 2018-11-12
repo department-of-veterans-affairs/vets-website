@@ -54,6 +54,21 @@ function applyDefaultOptions(options) {
   });
 }
 
+function applyEnvironmentOverrides(options) {
+  if (options.buildtype === environments.LOCALHOST) return;
+
+  const allBuildtypes = Object.keys(environments).map(key => environments[key]);
+  const isBuildtypeValid = allBuildtypes.includes(options.buildtype);
+
+  if (!isBuildtypeValid) {
+    throw new Error(`Unknown buildtype: '${options.buildtype}'`);
+  }
+
+  if (options.buildtype === environments.VAGOVPROD) {
+    process.env.NODE_ENV = 'production';
+  }
+}
+
 function deriveHostUrl(options) {
   const isHerokuBuild = !!process.env.HEROKU_APP_NAME;
 
@@ -73,20 +88,6 @@ function deriveHostUrl(options) {
   }`;
 
   options.domainReplacements = [{ from: 'www\\.va\\.gov', to: options.host }];
-}
-
-function applyEnvironmentOverrides(options) {
-  if (options.buildtype === environments.LOCALHOST) return;
-
-  const environment = environments[options.buildtype];
-
-  if (!environment) {
-    throw new Error(`Unknown buildtype: '${options.buildtype}'`);
-  }
-
-  if (environment === environments.VAGOVPROD) {
-    process.env.NODE_ENV = 'production';
-  }
 }
 
 function getOptions() {
