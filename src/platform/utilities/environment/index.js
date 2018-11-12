@@ -16,8 +16,8 @@ const _Environments = {
     BASE_URL: 'https://dev.va.gov',
   },
   localhost: {
-    API_URL: `http://${location.hostname}:3000`,
-    BASE_URL: `http://${location.hostname}:3001`,
+    API_URL: process.env.API_URL || `http://${location.hostname}:3000`,
+    BASE_URL: process.env.BASE_URL || `http://${location.hostname}:3001`,
   },
   e2e: {
     API_URL: `http://localhost:${process.env.API_PORT || 3000}`,
