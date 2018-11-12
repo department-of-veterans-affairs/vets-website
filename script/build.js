@@ -13,7 +13,6 @@ const moveRemove = require('metalsmith-move-remove');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 
-const generateRedirectedPages = require('./vets-gov-to-va-gov');
 const createBuildSettings = require('./create-build-settings');
 const createRedirects = require('./create-redirects');
 const createSitemaps = require('./create-sitemaps');
@@ -169,11 +168,7 @@ function defaultBuild(BUILD_OPTIONS) {
 
 function main() {
   const BUILD_OPTIONS = require('./options');
-  if (BUILD_OPTIONS['vets-gov-to-va-gov']) {
-    generateRedirectedPages(BUILD_OPTIONS);
-  } else {
-    defaultBuild(BUILD_OPTIONS);
-  }
+  defaultBuild(BUILD_OPTIONS);
 }
 
 main();

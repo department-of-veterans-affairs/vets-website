@@ -2,13 +2,11 @@
 
 const path = require('path');
 const commandLineArgs = require('command-line-args');
-const applyHerokuOptions = require('./heroku-helper');
 const environments = require('./constants/environments');
 const hostnames = require('./constants/hostnames');
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: environments.LOCALHOST },
-  { name: 'brand-consolidation-enabled', type: Boolean, defaultValue: false },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
@@ -24,7 +22,6 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     type: String,
     defaultValue: '../../vagov-content/pages',
   },
-  { name: 'vets-gov-to-va-gov', type: Boolean, defaultValue: false },
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
@@ -37,21 +34,6 @@ function gatherFromCommandLine() {
   }
 
   return options;
-}
-
-function applyDeprecatedBuildtypes(options) {
-  // All Vets.gov environments generate redirects to VA.gov
-  const deprecatedEnvironments = new Set([
-    environments.DEVELOPMENT,
-    environments.STAGING,
-    environments.PRODUCTION,
-  ]);
-
-  const isDeprecated = deprecatedEnvironments.has(options.buildtype);
-  if (isDeprecated) {
-    options['vets-gov-to-va-gov'] = true;
-    options['brand-consolidation-enabled'] = true;
-  }
 }
 
 function applyDefaultOptions(options) {
@@ -75,6 +57,13 @@ function applyDefaultOptions(options) {
     options.port = 80;
     options.protocol = 'https';
     options.host = hostnames[options.buildtype];
+  }
+
+  const isHerokuBuild = !!process.env.HEROKU_APP_NAME;
+  if (isHerokuBuild) {
+    options.port = 80;
+    options.protocol = 'https';
+    options.host = `${process.env.HEROKU_APP_NAME}.herokuapp.com`;
   }
 
   options.hostUrl = `${options.protocol}://${options.host}${
@@ -145,12 +134,7 @@ function applyBrandConsolidationOverrides(options) {
 function getOptions() {
   const options = gatherFromCommandLine();
 
-  applyDeprecatedBuildtypes(options);
   applyDefaultOptions(options);
-
-  const isHerokuBuild = !!process.env.HEROKU_APP_NAME;
-  if (isHerokuBuild) applyHerokuOptions(options);
-
   applyEnvironmentOverrides(options);
 
   const isBrandConsolidationBuild = options['brand-consolidation-enabled'];
