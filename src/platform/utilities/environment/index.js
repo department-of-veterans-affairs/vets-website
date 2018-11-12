@@ -16,8 +16,8 @@ const _Environments = {
     BASE_URL: 'https://dev.va.gov',
   },
   localhost: {
-    API_URL: process.env.API_URL || `http://${location.hostname}:3000`,
-    BASE_URL: process.env.BASE_URL || `http://${location.hostname}:3001`,
+    API_URL: `http://${location.hostname}:3000`,
+    BASE_URL: `http://${location.hostname}:3001`,
   },
   e2e: {
     API_URL: `http://localhost:${process.env.API_PORT || 3000}`,
@@ -26,9 +26,11 @@ const _Environments = {
 };
 
 function getEnvironment() {
-  let platform = 'localhost';
+  let platform;
 
-  if (location.port === `${process.env.WEB_PORT || 3333}`) {
+  if (location.port === '3001') {
+    platform = 'localhost';
+  } else if (location.port === `${process.env.WEB_PORT || 3333}`) {
     platform = 'e2e';
   } else {
     platform = __BUILDTYPE__;
