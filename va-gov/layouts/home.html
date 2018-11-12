@@ -6,13 +6,13 @@
 
     <div class="homepage-hub-container">
 
-      <h2 class="homepage-heading">{{ heading }}</h2>
+      <h1 class="heading-level-2 homepage-heading">{{ heading }}</h2>
 
       <!-- top row -->
       <div class="hub-links-row">
       {% for card in cards %}
         <div class="hub-links-container">
-          <h3 class="hub-links-title"><i class="icon-large-baseline hub-icon-{{card.hub}} hub-color-{{card.hub}}"></i>{{ card.heading }}</h3>
+          <h2 class="heading-level-3 hub-links-title"><i class="icon-large-baseline icon-heading hub-icon-{{card.hub}} hub-color-{{card.hub}}"></i>{{ card.heading }}</h3>
           <ul class="hub-links-list">
             {% assign parentCard = card %}
 
@@ -40,7 +40,7 @@
       <div class="usa-grid usa-grid-full homepage-benefits-row">
       {% for hub in hubs %}
         <div class="usa-width-one-third">
-          <h4><a href="{{ hub.url }}" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small hub-icon-{{hub.hub}} hub-background-{{hub.hub}} white"></i>{{hub.heading}}</a></h4>
+          <h3 class="heading-level-4"><a href="{{ hub.url }}" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small hub-icon-{{hub.hub}} hub-background-{{hub.hub}} white"></i>{{hub.heading}}</a></h4>
           <p class="homepage-benefits-description">{{hub.description}}</p>
         </div>
         {% if hub.end_row == true and forloop.last != true %}
