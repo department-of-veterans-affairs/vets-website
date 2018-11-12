@@ -7,7 +7,6 @@ const hostnames = require('./constants/hostnames');
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: environments.LOCALHOST },
-  { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'entry', type: String, defaultValue: null },
@@ -75,29 +74,14 @@ function deriveHostUrl(options) {
 }
 
 function applyEnvironmentOverrides(options) {
-  const nodeEnv = process.env.NODE_ENV;
+  const environment = environments[options.buildtype];
 
-  switch (options.buildtype) {
-    case environments.DEVELOPMENT:
-    case environments.STAGING:
-    case environments.PRODUCTION:
-    case environments.VAGOVDEV:
-    case environments.VAGOVSTAGING:
-    case environments.PREVIEW:
-      break;
+  if (!environment) {
+    throw new Error(`Unknown buildtype: '${options.buildtype}'`);
+  }
 
-    case environments.VAGOVPROD:
-      if (nodeEnv !== 'production') {
-        throw new Error(
-          `buildtype ${
-            options.buildtype
-          } expects NODE_ENV to be production, not '${nodeEnv}'`,
-        );
-      }
-      break;
-
-    default:
-      throw new Error(`Unknown buildtype: '${options.buildtype}'`);
+  if (environment === environments.VAGOVPROD) {
+    process.env.NODE_ENV = 'production';
   }
 }
 
