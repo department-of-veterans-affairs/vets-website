@@ -81,40 +81,22 @@ function applyDefaultOptions(options) {
 }
 
 function applyEnvironmentOverrides(options) {
-  const env = require('get-env')();
+  const nodeEnv = process.env.NODE_ENV;
 
   switch (options.buildtype) {
-    case environments.DEVELOPMENT:
-      break;
-
-    case environments.STAGING:
-      options.move = [{ source: 'vets-robots.txt', target: 'robots.txt' }];
-      options.remove = ['va-robots.txt'];
-      break;
-
-    case environments.PRODUCTION:
-      options.move = [{ source: 'vets-robots.txt', target: 'robots.txt' }];
-      options.remove = ['va-robots.txt'];
-
-      if (options['no-sanity-check-node-env'] === false) {
-        if (env !== 'prod') {
-          throw new Error(
-            `buildtype ${
-              options.buildtype
-            } expects NODE_ENV to be production, not '${process.env.NODE_ENV}'`,
-          );
-        }
-      }
-      break;
-
     case environments.VAGOVDEV:
     case environments.VAGOVSTAGING:
-    case environments.VAGOVPROD:
     case environments.PREVIEW:
-      options.move = [{ source: 'va-robots.txt', target: 'robots.txt' }];
-      options.remove = ['vets-robots.txt'];
+      break;
 
-      options['brand-consolidation-enabled'] = true;
+    case environments.VAGOVPROD:
+      if (nodeEnv !== 'production') {
+        throw new Error(
+          `buildtype ${
+            options.buildtype
+          } expects NODE_ENV to be production, not '${nodeEnv}'`,
+        );
+      }
       break;
 
     default:
