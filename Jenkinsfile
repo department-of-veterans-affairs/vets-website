@@ -247,6 +247,7 @@ node('vetsgov-general-purpose') {
   stage('Archive') {
     if (shouldBail()) { return }
 
+    def envNames = VETSGOV_BUILDTYPES + VAGOV_BUILDTYPES
     try {
       dockerImage.inside(args) {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
