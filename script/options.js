@@ -52,7 +52,7 @@ function applyDefaultOptions(options) {
       source: '../assets',
       destination: './',
     },
-    collections: require('./collections/brand-consolidation.json'),
+    collections: require('./collections/default.json'),
     redirects: require('./vagovRedirects.json'),
   });
 
