@@ -37,8 +37,6 @@ function gatherFromCommandLine() {
 }
 
 function applyDefaultOptions(options) {
-  const isHerokuBuild = !!process.env.HEROKU_APP_NAME;
-
   Object.assign(options, {
     contentRoot: '../va-gov',
     contentPagesRoot: options['content-directory'],
@@ -55,29 +53,25 @@ function applyDefaultOptions(options) {
     collections: require('./collections/default.json'),
     redirects: require('./vagovRedirects.json'),
   });
+}
 
-  // Derive the complete host URL
-  if (options.buildtype === environments.LOCALHOST) {
-    options.buildtype = environments.DEVELOPMENT;
-  } else {
+function deriveHostUrl(options) {
+  if (options.buildtype !== environments.LOCALHOST) {
     options.port = 80;
     options.protocol = 'https';
     options.host = hostnames[options.buildtype];
-  }
 
-  if (isHerokuBuild) {
-    options.port = 80;
-    options.protocol = 'https';
-    options.host = `${process.env.HEROKU_APP_NAME}.herokuapp.com`;
+    const isHerokuBuild = !!process.env.HEROKU_APP_NAME;
+    if (isHerokuBuild) {
+      options.host = `${process.env.HEROKU_APP_NAME}.herokuapp.com`;
+    }
   }
 
   options.hostUrl = `${options.protocol}://${options.host}${
     options.port && options.port !== 80 ? `:${options.port}` : ''
   }`;
 
-  // This list also exists in stagingDomains.js
-  const domainReplacements = [{ from: 'www\\.va\\.gov', to: options.host }];
-  Object.assign(options, { domainReplacements });
+  options.domainReplacements = [{ from: 'www\\.va\\.gov', to: options.host }];
 }
 
 function applyEnvironmentOverrides(options) {
@@ -111,6 +105,7 @@ function getOptions() {
   const options = gatherFromCommandLine();
 
   applyDefaultOptions(options);
+  deriveHostUrl(options);
   applyEnvironmentOverrides(options);
 
   return options;
