@@ -42,7 +42,6 @@ const aggregate = (dataArray, property, refPropPath) => {
   dataArray.forEach(item => {
     const itemIsSelected = get(refPropPath, item, true);
     if (item[property] && itemIsSelected) {
-      console.log('item is selected: ', itemIsSelected, 'for:', item);
       item[property].forEach(listItem => masterList.push(listItem));
     }
   });
