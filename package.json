@@ -217,7 +217,7 @@
   },
   "engines": {
     "node": "8.10.0",
-    "yarn": "1.5.1"
+    "yarn": "1.12.3"
   },
   "private": true,
   "dependencies": {
