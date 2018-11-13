@@ -48,8 +48,10 @@ class IntroductionPage extends React.Component {
       saveInProgress: { user },
     } = this.props;
 
+    const isLoggedIn = user && user.login && user.login.currentlyLoggedIn;
+
     const itfAgreement = (
-      <p className="itf-agreement">
+      <p className={`itf-agreement${isLoggedIn ? '' : ' unauthenticated'}`}>
         By clicking the button to start the disability application, you’ll
         declare your intent to file. This will reserve a potential effective
         date for when you could start getting benefits. You have 1 year from the
