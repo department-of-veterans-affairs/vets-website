@@ -5,7 +5,7 @@ function GetFormHelp() {
   return (
     <div>
       <p className="help-talk">
-        For benefit related questions, or if the form isn't working right,
+        For benefit related questions, or if the form isn’t working right,
         <br />
         please <CallVBACenter />
       </p>

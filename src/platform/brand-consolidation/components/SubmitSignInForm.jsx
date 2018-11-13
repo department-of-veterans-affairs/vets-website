@@ -8,7 +8,11 @@ export default function SubmitSignInForm({ children, startSentence }) {
 
   return (
     <span>
-      <a href="https://www.accesstocare.va.gov/sign-in-help">
+      <a
+        href="https://www.accesstocare.va.gov/sign-in-help"
+        target="_blank"
+        rel="noopener"
+      >
         {startSentence ? 'Submit' : 'submit'} a request to get help
       </a>
       .
