@@ -490,6 +490,15 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
               {listDocuments(privateRecords)}
             </li>
           )}
+        {!privateRecords &&
+          privateRecordsSelected && (
+            <li>
+              You asked us to get your private medical records from your doctor,
+              so you’ll need to fill out an Authorization to Disclose
+              Information to the VA (VA Form 21-4142). We’ll provide a link to
+              the 21-4142 after you submit your form.
+            </li>
+          )}
         {additionalDocuments &&
           otherEvidenceSelected && (
             <li>
