@@ -104,6 +104,6 @@ describe('Separation or Training Pay', () => {
 
     expect(form.find('.form-radio-buttons').length).to.equal(2);
     expect(form.find('input').length).to.equal(5); // 4 radios + year input
-    expect(form.find('select').length).to.equal(3); // month, day, service branch
+    expect(form.find('select').length).to.equal(1); // service branch
   });
 });
