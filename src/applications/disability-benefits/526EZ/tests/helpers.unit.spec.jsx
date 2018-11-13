@@ -155,7 +155,7 @@ describe('526 helpers', () => {
           'view:privateMedicalRecords': false,
           'view:otherEvidence': false,
         },
-        _.cloneDeep(formData),
+        formData,
       );
 
       expect(JSON.parse(transform(null, noUploadsSelected)).form526.attachments)
@@ -178,7 +178,7 @@ describe('526 helpers', () => {
             'view:otherEvidence': true,
           },
         },
-        _.cloneDeep(maximalData),
+        maximalData,
       );
 
       const transformedNoAttachments = transform(null, noAttachments);
