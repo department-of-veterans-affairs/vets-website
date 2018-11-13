@@ -29,6 +29,11 @@ import {
 } from '../pages/separationTrainingPay';
 
 import {
+  uiSchema as trainingPayWaiverUISchema,
+  schema as trainingPayWaiverSchema,
+} from '../pages/trainingPayWaiver';
+
+import {
   uiSchema as reservesNationalGuardUISchema,
   schema as reservesNationalGuardSchema,
 } from './reservesNationalGuardService';
@@ -67,6 +72,26 @@ import {
   uiSchema as choosePtsdTypeUISchema,
   schema as choosePtsdTypeSchema,
 } from './choosePtsdType';
+
+import {
+  uiSchema as ptsdWalkthroughChoice781UISchema,
+  schema as ptsdWalkthroughChoice781Schema,
+} from './ptsdWalkthroughChoice781';
+
+import {
+  uiSchema as uploadPtsdDocumentsUISchema,
+  schema as uploadPtsdDocumentsSchema,
+} from './uploadPtsdDocuments';
+
+import {
+  uiSchema as ptsdWalkthroughChoice781aUISchema,
+  schema as ptsdWalkthroughChoice781aSchema,
+} from './ptsdWalkthroughChoice781a';
+
+import {
+  uiSchema as uploadPersonalPtsdDocumentsUISchema,
+  schema as uploadPersonalPtsdDocumentsSchema,
+} from './uploadPersonalPtsdDocuments';
 
 import {
   uiSchema as summaryOfDisabilitiesUISchema,
@@ -128,6 +153,16 @@ import {
   schema as fullyDevelopedClaimSchema,
 } from './fullyDevelopedClaim';
 
+import {
+  uiSchema as unemployabilityStatusUISchema,
+  schema as unemployabilityStatusSchema,
+} from './unemployabilityStatus';
+
+import {
+  uiSchema as unemployabilityFormIntroUISchema,
+  schema as unemployabilityFormIntroSchema,
+} from './unemployabilityFormIntro';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema,
@@ -146,6 +181,11 @@ export const waiveRetirementPay = {
 export const separationTrainingPay = {
   uiSchema: separationTrainingPayUISchema,
   schema: separationTrainingPaySchema,
+};
+
+export const trainingPayWaiver = {
+  uiSchema: trainingPayWaiverUISchema,
+  schema: trainingPayWaiverSchema,
 };
 
 export const militaryHistory = {
@@ -196,6 +236,26 @@ export const newPTSDFollowUp = {
 export const choosePtsdType = {
   uiSchema: choosePtsdTypeUISchema,
   schema: choosePtsdTypeSchema,
+};
+
+export const ptsdWalkthroughChoice781 = {
+  uiSchema: ptsdWalkthroughChoice781UISchema,
+  schema: ptsdWalkthroughChoice781Schema,
+};
+
+export const uploadPtsdDocuments = {
+  uiSchema: uploadPtsdDocumentsUISchema,
+  schema: uploadPtsdDocumentsSchema,
+};
+
+export const ptsdWalkthroughChoice781a = {
+  uiSchema: ptsdWalkthroughChoice781aUISchema,
+  schema: ptsdWalkthroughChoice781aSchema,
+};
+
+export const uploadPersonalPtsdDocuments = {
+  uiSchema: uploadPersonalPtsdDocumentsUISchema,
+  schema: uploadPersonalPtsdDocumentsSchema,
 };
 
 export const summaryOfDisabilities = {
@@ -256,4 +316,14 @@ export const vaEmployee = {
 export const fullyDevelopedClaim = {
   uiSchema: fullyDevelopedClaimUiSchema,
   schema: fullyDevelopedClaimSchema,
+};
+
+export const unemployabilityStatus = {
+  uiSchema: unemployabilityStatusUISchema,
+  schema: unemployabilityStatusSchema,
+};
+
+export const unemployabilityFormIntro = {
+  uiSchema: unemployabilityFormIntroUISchema,
+  schema: unemployabilityFormIntroSchema,
 };

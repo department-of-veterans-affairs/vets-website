@@ -3,32 +3,34 @@ import React from 'react';
 
 import DropDownPanel from '@department-of-veterans-affairs/formation/DropDownPanel';
 import IconHelp from '@department-of-veterans-affairs/formation/IconHelp';
-import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 
-import facilityLocatorManifest from '../../../../applications/facility-locator/manifest.json';
+import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
+import isVATeamSiteSubdomain from '../../../brand-consolidation/va-subdomain';
+
+import facilityLocatorManifest from '../../../../applications/facility-locator/manifest';
 
 const FACILITY_LOCATOR_URL = facilityLocatorManifest.rootUrl;
 
 class HelpMenu extends React.Component {
   render() {
+    const facilityLocatorUrl = isVATeamSiteSubdomain()
+      ? `https://www.va.gov${FACILITY_LOCATOR_URL}`
+      : FACILITY_LOCATOR_URL;
     const buttonText = isBrandConsolidationEnabled() ? 'Contact Us' : 'Help';
     const icon = <IconHelp color="#fff" role="presentation" />;
     let dropDownContents;
 
     if (isBrandConsolidationEnabled()) {
       dropDownContents = (
-        <div>
+        <div className="va-helpmenu-contents">
           <p>
-            <a href={`${FACILITY_LOCATOR_URL}`}>Find a VA Location</a>
+            <a href={`${facilityLocatorUrl}`}>Find a VA Location</a>
           </p>
           <p>
             <a href="https://iris.custhelp.va.gov/app/ask">Ask a Question</a>
           </p>
           <p>
-            <b>Call MyVA311:</b>
-          </p>
-          <p>
-            <a href="tel:18446982311">1-844-698-2311</a>
+            <a href="tel:18446982311">Call MyVA311: 1-844-698-2311</a>
           </p>
           <p>TTY: 711</p>
         </div>

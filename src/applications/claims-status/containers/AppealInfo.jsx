@@ -5,13 +5,14 @@ import { Link } from 'react-router';
 
 import moment from 'moment';
 
-import Breadcrumbs from '../components/Breadcrumbs';
+import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import AppealNotFound from '../components/appeals-v2/AppealNotFound';
 import { getAppealsV2 } from '../actions/index.jsx';
 import AppealHeader from '../components/appeals-v2/AppealHeader';
 import AppealsV2TabNav from '../components/appeals-v2/AppealsV2TabNav';
 import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
+import { setUpPage, scrollToTop } from '../utils/page';
 
 import {
   EVENT_TYPES,
@@ -66,6 +67,11 @@ export class AppealInfo extends React.Component {
     if (!this.props.appeal) {
       this.props.getAppealsV2();
     }
+    if (!this.props.appealsLoading) {
+      setUpPage();
+    } else {
+      scrollToTop();
+    }
   }
 
   createHeading = () => {
@@ -103,14 +109,11 @@ export class AppealInfo extends React.Component {
       appealContent = (
         <div>
           <div>
-            <Breadcrumbs>
-              <li>
-                <Link to="your-claims">Track Your Claims and Appeals</Link>
-              </li>
-              <li>
-                <strong>{claimHeading}</strong>
-              </li>
-            </Breadcrumbs>
+            <ClaimsBreadcrumbs>
+              <Link to={`appeals/${appeal.id}`} key="claims-appeal">
+                Status Details
+              </Link>
+            </ClaimsBreadcrumbs>
           </div>
           <div className="row">
             <AppealHeader

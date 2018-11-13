@@ -25,7 +25,7 @@ very secret.
 | build the site with optimizitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
 | reset local environment (clean out node modules and runs npm install) | `npm run reset:env`                      |
 | run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
-| run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,static-pages`. Valid application names are in `config/webpack.config.js` |
+| run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName` |
 | run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry static-pages` |
 | run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0 --public 198.162.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all tests | `npm run test` |
@@ -63,7 +63,7 @@ very secret.
 | script           | Scripts for building the repository. The most commonly used script is `build.js` which runs Metalsmith |
 | src              | All of our application code, including styles and tests |
 
-Inside the `src` directory, we have two folders `applications` and `platform`. `applications` contains the individual applications used on Vets.gov, typically associated with a particular URL. `platform` contains the shared code used by those applications: the platform we build applications on top of.
+Inside the `src` directory, we have two folders `applications` and `platform`. `applications` contains the individual applications used on VA.gov, typically associated with a particular URL. `platform` contains the shared code used by those applications: the platform we build applications on top of.
 
 ### Requirements
 
@@ -191,7 +191,7 @@ Overall, this runs pretty well.
 ### Unit Test -- Mocha
 All unit tests are named with the suffix `.unit.spec.js` and live in `tests` directories inside
 `src/applications` and `src/platform`. Keeping tests near application code keeps applications self contained
-and allows easier switching the files relevant to particular features on Vets.gov.
+and allows easier switching the files relevant to particular features on VA.gov.
 
 Unit tests are done via `mocha` with the `chai` assertion library run directly via
 the mocha test runner in Node.

@@ -193,11 +193,14 @@ const configGenerator = (options, apps) => {
           : `[name].[contenthash]-${timestamp}.css`,
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new ManifestPlugin({
+        fileName: 'file-manifest.json',
+      }),
     ],
   };
 
   if (
-    ['production', 'staging', 'preview', 'vagovstaging'].includes(
+    ['production', 'staging', 'preview', 'vagovstaging', 'vagovprod'].includes(
       options.buildtype,
     )
   ) {
@@ -216,6 +219,10 @@ const configGenerator = (options, apps) => {
         sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.va.gov';
         break;
 
+      case 'vagovprod':
+        sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.va.gov';
+        break;
+
       case 'preview':
       default:
         sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/preview.va.gov';
@@ -229,11 +236,6 @@ const configGenerator = (options, apps) => {
     );
 
     baseConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
-    baseConfig.plugins.push(
-      new ManifestPlugin({
-        fileName: 'file-manifest.json',
-      }),
-    );
     baseConfig.mode = 'production';
   } else {
     baseConfig.devtool = '#eval-source-map';

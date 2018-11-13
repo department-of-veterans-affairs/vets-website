@@ -10,10 +10,15 @@ export default async function createCallToActionWidget(store) {
       default: CallToActionWidget,
     } = await import(/* webpackChunkName: "cta-widget" */ '../../platform/site-wide/cta-widget');
 
+    // since these widgets are on content pages, we don't want to focus on them
     widgets.forEach((el, index) => {
       ReactDOM.render(
         <Provider store={store}>
-          <CallToActionWidget appId={el.dataset.appId} index={index} />
+          <CallToActionWidget
+            appId={el.dataset.appId}
+            index={index}
+            setFocus={false}
+          />
         </Provider>,
         el,
       );

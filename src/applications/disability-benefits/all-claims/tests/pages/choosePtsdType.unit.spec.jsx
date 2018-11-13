@@ -88,7 +88,7 @@ describe('Disability benefits 718 PTSD type', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should allow submission if no PTSD types selected', () => {
+  it('should require a PTSD type to be selected', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -109,9 +109,8 @@ describe('Disability benefits 718 PTSD type', () => {
       />,
     );
 
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
   });
 });

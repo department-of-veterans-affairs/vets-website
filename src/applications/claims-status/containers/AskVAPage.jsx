@@ -5,7 +5,7 @@ import { submitRequest, getClaimDetail } from '../actions/index.jsx';
 import { setUpPage } from '../utils/page';
 
 import AskVAQuestions from '../components/AskVAQuestions';
-import Breadcrumbs from '../components/Breadcrumbs';
+import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation/ErrorableCheckbox';
 
 class AskVAPage extends React.Component {
@@ -48,16 +48,14 @@ class AskVAPage extends React.Component {
       <div>
         <div className="row">
           <div className="medium-12 columns">
-            <Breadcrumbs>
-              <li>
-                <Link to="your-claims">Your Claims</Link>
-              </li>
-              <li>
-                <Link to={`your-claims/${this.props.params.id}`}>
-                  Your Disability Compensation Claim
-                </Link>
-              </li>
-            </Breadcrumbs>
+            <ClaimsBreadcrumbs>
+              <Link to={`your-claims/${this.props.params.id}`}>
+                Status Details
+              </Link>
+              <Link to={`your-claims/${this.props.params.id}/ask-va-to-decide`}>
+                Ask for Claim Decision
+              </Link>
+            </ClaimsBreadcrumbs>
           </div>
         </div>
         <div className="row">
@@ -80,7 +78,7 @@ class AskVAPage extends React.Component {
                 </li>
                 <li>The date benefits will begin if we approve your claim</li>
               </ul>
-              <div className="usa-alert usa-alert-info no-background-image claims-alert">
+              <div className="usa-alert usa-alert-info background-color-only claims-alert">
                 <ErrorableCheckbox
                   className="claims-alert-checkbox"
                   checked={this.state.submittedDocs}

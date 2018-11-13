@@ -5,8 +5,6 @@ import createCommonStore from '../../platform/startup/store';
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
 
-import { initBanner } from '../../platform/site-wide/usa-banner-toggle';
-
 import startUserNavWidget from '../../platform/site-wide/user-nav';
 import addMenuListeners from '../../platform/site-wide/accessible-menus';
 import startMegaMenuWidget from '../../platform/site-wide/mega-menu';
@@ -16,7 +14,7 @@ import startMobileMenuButton from '../../platform/site-wide/mobile-menu-button';
 import startFeedbackWidget from '../../platform/site-wide/feedback';
 // import startAnnouncementWidget from '../../platform/site-wide/announcements';
 import startVAFooter from '../../platform/site-wide/va-footer';
-// import redirectIfNecessary from './redirects';
+import redirectIfNecessary from './redirects';
 import { addFocusBehaviorToCrisisLineModal } from '../../platform/site-wide/accessible-VCL-modal';
 import { addOverlayTriggers } from '../../platform/site-wide/legacy/menu';
 import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
@@ -42,7 +40,7 @@ function createMutationObserverCallback() {
   // Hide native elements when they're added to the DOM
   return function mutationObserved(mutations) {
     mutations.forEach(mutation => {
-      mutation.addedNodes.forEach(node => {
+      Array.from(mutation.addedNodes).forEach(node => {
         if (node.nodeType === Node.ELEMENT_NODE) {
           if (node.tagName === 'BODY') {
             node.classList.add('merger');
@@ -87,9 +85,6 @@ function mountReactComponents(commonStore) {
   // set up sizes for rem
   document.documentElement.style.fontSize = '10px';
   document.getElementsByTagName('body')[0].style.fontSize = '12px';
-
-  // init toggleBanner
-  initBanner();
 
   startUserNavWidget(commonStore);
   startMegaMenuWidget(commonStore);
@@ -152,7 +147,6 @@ if (
     getProxyRewriteCookieValue(),
   )
 ) {
-  // TODO: remove comment and test
-  // redirectIfNecessary(window);
+  redirectIfNecessary(window);
   activateInjectedAssets();
 }

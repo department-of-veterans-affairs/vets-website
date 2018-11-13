@@ -9,6 +9,7 @@ import applicantInformationPage from '../../../../platform/forms/pages/applicant
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
@@ -52,6 +53,7 @@ const formConfig = {
   preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',

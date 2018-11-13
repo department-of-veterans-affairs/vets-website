@@ -102,6 +102,20 @@ export const getReservesGuardData = formData => {
   };
 };
 
+/**
+ * If any limited consent text is populated, collect it.
+ */
+export function gatherLimitedConsentText(disabilities) {
+  const fullLimitedConsent = disabilities
+    .filter(disability => disability['view:limitedConsent'])
+    .reduce((accumulator, disability) => {
+      let string = accumulator;
+      string = `${string} ${disability.limitedConsent}`;
+      return string;
+    }, '');
+  return fullLimitedConsent.trim();
+}
+
 export function transform(formConfig, form) {
   const {
     disabilities,
@@ -351,7 +365,7 @@ const claimsIntakeAddress = (
 );
 
 export const download4142Notice = (
-  <div className="usa-alert usa-alert-warning no-background-image">
+  <div className="usa-alert usa-alert-warning background-color-only">
     <p>
       Since your doctor has your private medical records, you’ll need to fill
       out an Authorization to Disclose Information to the VA (VA Form 21-4142)
@@ -372,26 +386,8 @@ export const download4142Notice = (
   </div>
 );
 
-export const authorizationToDisclose = (
-  <div>
-    <p>
-      Since your medical records are with your doctor, you’ll need to fill out
-      an Authorization to Disclose Information to the VA (VA Form 21-4142) so we
-      can request your records. You’ll need to fill out a form for each doctor.
-    </p>
-    <p>
-      <a href={VA_FORM4142_URL} target="_blank">
-        Download VA Form 21-4142
-      </a>
-      .
-    </p>
-    <p>Please print the form, fill it out, and send it to:</p>
-    {claimsIntakeAddress}
-  </div>
-);
-
 export const recordReleaseWarning = (
-  <div className="usa-alert usa-alert-warning no-background-image">
+  <div className="usa-alert usa-alert-warning background-color-only">
     <span>
       Limiting consent means that your doctor can only share records that are
       directly related to your condition. This could add to the time it takes to
@@ -425,8 +421,7 @@ export const additionalDocumentDescription = () => (
 );
 
 const getVACenterName = center => center.treatmentCenterName;
-const getPrivateCenterName = release =>
-  release.privateRecordRelease.treatmentCenterName;
+const getPrivateCenterName = release => release.providerFacilityName;
 const listCenters = centers => (
   <span className="treatment-centers">
     {centers.map((center, idx, list) => {
@@ -458,12 +453,7 @@ const listDocuments = documents => (
 );
 
 export const evidenceSummaryView = ({ formContext, formData }) => {
-  const {
-    treatments,
-    privateRecordReleases,
-    privateRecords,
-    additionalDocuments,
-  } = formData;
+  const { treatments, privateRecords, additionalDocuments } = formData;
 
   const {
     'view:selectableEvidenceTypes': {
@@ -487,13 +477,6 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
           vaRecordsSelected && (
             <li>
               We’ll get your medical records from {listCenters(treatments)}.
-            </li>
-          )}
-        {privateRecordReleases &&
-          privateRecordsSelected && (
-            <li>
-              We’ll get your private medical records from{' '}
-              {listCenters(privateRecordReleases)}.
             </li>
           )}
         {privateRecords &&
@@ -870,4 +853,35 @@ export const patientAcknowledgmentText = (
       .
     </p>
   </AdditionalInfo>
+);
+
+export const limitedConsentTitle = (
+  <p>
+    I want to limit my consent for the VA to retrieve only specific information
+    from my private medical provider(s).
+  </p>
+);
+
+export const limitedConsentTextTitle = (
+  <p>Describe the limitation below. (Treatment dates, Disability type, etc.)</p>
+);
+
+export const limitedConsentDescription = (
+  <AdditionalInfo triggerText="What does this mean?">
+    <p>
+      If you choose to limit consent, your doctor will abide by the limitation
+      you specify. Limiting consent could add to the time it takes to get your
+      private medical records.
+    </p>
+  </AdditionalInfo>
+);
+
+export const recordReleaseDescription = () => (
+  <div>
+    <p>
+      Please let us know where and when you received treatment. We’ll request
+      your private medical records for you. If you have records available, you
+      can upload them later in the application.
+    </p>
+  </div>
 );

@@ -24,7 +24,7 @@ export default `
             )}" alt="U.S. flag">
             <p>An official website of the United States government</p>
             <button id="usa-banner-toggle" class="usa-accordion-button usa-banner-button" aria-expanded="false" aria-controls="gov-banner">
-              <span class="usa-banner-button-text">Here’s how you know</span>
+              <span class="usa-banner-button-text">Here&rsquo;s how you know</span>
             </button>
             </div>
           </div>
@@ -35,7 +35,7 @@ export default `
               )}" alt="Dot gov">
               <div class="usa-media_block-body">
                 <p>
-                  <strong>The .gov means it’s official.</strong>
+                  <strong>The .gov means it&rsquo;s official.</strong>
                   <br>
                   Federal government websites often end in .gov or .mil. Before sharing sensitive information, make sure you're on a federal government site.
                 </p>
@@ -61,7 +61,7 @@ export default `
       <button data-show="#modal-crisisline" class="va-crisis-line va-overlay-trigger">
         <div class="va-crisis-line-inner">
           <span class="va-crisis-line-icon" aria-hidden="true"></span>
-          <span class="va-crisis-line-text">Talk to a Veterans Crisis Line responder now</span>
+          <span class="va-crisis-line-text">Talk to the <strong>Veterans Crisis Line</strong> now</span>
           <img class="va-crisis-line-arrow" src="${replaceWithStagingDomain(
             'https://www.va.gov/img/arrow-right-white.svg',
           )}" aria-hidden="true"></img>
@@ -84,7 +84,10 @@ export default `
     <div id="va-nav-controls"></div>
     <div id="login-root" class="vet-toolbar"></div>
   </div>
-  <div class="usa-grid">
+  <!-- HACK: Using padding-h-none class to remove horizontal padding introduced
+  by usa-grid. Should be able to use usa-grid-full to remove padding, but that
+  class now hard-codes the width. -->
+  <div class="usa-grid padding-h-none">
     <div id="menu-rule" class="usa-one-whole"></div>
     <div id="mega-menu"></div>
   </div>

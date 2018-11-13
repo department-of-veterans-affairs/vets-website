@@ -16,24 +16,32 @@ function SearchReducer(state = initialState, action) {
       return {
         ...state,
         loading: true,
+        results: undefined,
+        recommendedResults: undefined,
       };
     }
 
     case FETCH_SEARCH_RESULTS_SUCCESS: {
       const { query } = action.results;
       const {
-        previous: prevOffset,
-        next: nextOffset,
-      } = action.results.pagination;
-      const { results, total } = action.results.web;
+        currentPage,
+        perPage,
+        totalPages,
+        totalEntries,
+      } = action.meta.pagination;
+      const { results } = action.results.web;
+      const recommendedResults = action.results.textBestBets;
 
       return {
         ...state,
         query,
+        recommendedResults,
         results,
-        total,
-        prevOffset,
-        nextOffset,
+        totalEntries,
+        currentPage,
+        perPage,
+        totalPages,
+        errors: undefined,
         loading: false,
       };
     }
@@ -41,7 +49,9 @@ function SearchReducer(state = initialState, action) {
     case FETCH_SEARCH_RESULTS_FAILURE: {
       return {
         ...state,
-        error: action.error,
+        recommendedResults: undefined,
+        errors: action.errors,
+        results: undefined,
         loading: false,
       };
     }

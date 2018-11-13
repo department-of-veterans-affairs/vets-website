@@ -33,7 +33,7 @@ import Pagination from '@department-of-veterans-affairs/formation/Pagination';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
-import Breadcrumbs from '../components/Breadcrumbs';
+import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 
 import siteName from '../../../platform/brand-consolidation/site-name';
 
@@ -64,10 +64,8 @@ class YourClaimsPageV2 extends React.Component {
   // an initial sort needs to happen in componentDidMount
   // }
 
-  componentDidUpdate(prevProps) {
-    if (!this.props.loading && prevProps.loading) {
-      setPageFocus();
-    }
+  componentDidUpdate() {
+    setPageFocus();
   }
 
   changePage(page) {
@@ -184,13 +182,12 @@ class YourClaimsPageV2 extends React.Component {
       } else if (!this.props.canAccessClaims && bothRequestsLoaded) {
         content = <NoClaims />;
       }
-
       content = <div className="va-tab-content">{content}</div>;
     }
 
     return (
       <div className="claims-container">
-        <Breadcrumbs />
+        <ClaimsBreadcrumbs />
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <div className="row">
