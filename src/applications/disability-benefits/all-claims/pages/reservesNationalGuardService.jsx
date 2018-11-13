@@ -3,9 +3,9 @@ import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import { ReservesGuardDescription } from '../utils';
 
 const {
-  unitName,
-  obligationTermOfServiceDateRange,
-} = fullSchema.properties.serviceInformation.properties.reservesNationalGuardService.properties;
+  properties: { unitName, obligationTermOfServiceDateRange },
+  required,
+} = fullSchema.properties.serviceInformation.properties.reservesNationalGuardService;
 
 export const uiSchema = {
   'ui:title': 'Reserves and National Guard Information',
@@ -32,7 +32,7 @@ export const schema = {
       properties: {
         reservesNationalGuardService: {
           type: 'object',
-          required: ['obligationTermOfServiceDateRange', 'unitName'],
+          required,
           properties: {
             obligationTermOfServiceDateRange,
             unitName,

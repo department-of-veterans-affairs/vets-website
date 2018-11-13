@@ -724,6 +724,7 @@ const schema = {
         },
         reservesNationalGuardService: {
           type: 'object',
+          required: ['unitName', 'obligationTermOfServiceDateRange'],
           properties: {
             unitName: {
               type: 'string',
