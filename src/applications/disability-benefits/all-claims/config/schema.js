@@ -724,22 +724,12 @@ const schema = {
         },
         reservesNationalGuardService: {
           type: 'object',
-          required: [
-            'unitName',
-            'obligationTermOfServiceDateRange',
-            'waiveVABenefitsToRetainTrainingPay',
-          ],
+          required: ['unitName', 'obligationTermOfServiceDateRange'],
           properties: {
             unitName: {
               type: 'string',
               maxLength: 256,
               pattern: "^([a-zA-Z0-9\\-'.#][a-zA-Z0-9\\-'.# ]?)*$",
-            },
-            unitAddress: {
-              $ref: '#/definitions/address',
-            },
-            unitPhone: {
-              $ref: '#/definitions/phone',
             },
             obligationTermOfServiceDateRange: {
               $ref: '#/definitions/dateRangeAllRequired',
@@ -785,6 +775,9 @@ const schema = {
     separationPayBranch: {
       type: 'string',
       enum: serviceBranches,
+    },
+    hasTrainingPay: {
+      type: 'boolean',
     },
     waiveTrainingPay: {
       type: 'boolean',

@@ -54,7 +54,7 @@ describe('Separation or Training Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasTrainingPay': false,
+          hasTrainingPay: false,
           'view:hasSeparationPay': false,
         }}
         formData={{}}
@@ -75,7 +75,7 @@ describe('Separation or Training Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasTrainingPay': true,
+          hasTrainingPay: true,
           'view:hasSeparationPay': true,
         }}
         formData={{}}
@@ -95,7 +95,7 @@ describe('Separation or Training Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasTrainingPay': true,
+          hasTrainingPay: true,
           'view:hasSeparationPay': true,
         }}
         formData={{}}
@@ -103,7 +103,7 @@ describe('Separation or Training Pay', () => {
     );
 
     expect(form.find('.form-radio-buttons').length).to.equal(2);
-    expect(form.find('input').length).to.equal(6); // 4 radios + year input + checkbox
+    expect(form.find('input').length).to.equal(5); // 4 radios + year input
     expect(form.find('select').length).to.equal(1); // service branch
   });
 });
