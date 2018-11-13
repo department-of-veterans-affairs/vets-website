@@ -3,6 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
 import EducationWizard from '../../components/EducationWizard';
+import { wizardConfig } from '../../utils/helpers';
 
 function getQuestion(tree, name) {
   return tree
@@ -16,7 +17,9 @@ function answerQuestion(tree, name, value) {
 
 describe('<EducationWizard>', () => {
   it('should show button and no questions', () => {
-    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    const tree = SkinDeep.shallowRender(
+      <EducationWizard config={wizardConfig} />,
+    );
 
     expect(tree.subTree('button')).not.to.be.false;
     expect(tree.subTree('#wizardOptions').props.className).to.contain(
@@ -24,7 +27,9 @@ describe('<EducationWizard>', () => {
     );
   });
   it('should show button and first question', () => {
-    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    const tree = SkinDeep.shallowRender(
+      <EducationWizard config={wizardConfig} />,
+    );
 
     tree.getMountedInstance().setState({ open: true });
     expect(tree.subTree('button')).not.to.be.false;
@@ -34,7 +39,9 @@ describe('<EducationWizard>', () => {
     expect(tree.everySubTree('ErrorableRadioButtons')).not.to.be.empty;
   });
   it('should show next relevant question', () => {
-    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    const tree = SkinDeep.shallowRender(
+      <EducationWizard config={wizardConfig} />,
+    );
 
     tree.getMountedInstance().setState({ open: true });
     expect(getQuestion(tree, 'existingApplication')).not.to.be.undefined;
@@ -42,7 +49,9 @@ describe('<EducationWizard>', () => {
     expect(getQuestion(tree, 'recentApplication')).not.to.be.undefined;
   });
   it('should reset after earlier answer changed', () => {
-    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    const tree = SkinDeep.shallowRender(
+      <EducationWizard config={wizardConfig} />,
+    );
 
     tree.getMountedInstance().setState({ open: true });
     expect(getQuestion(tree, 'existingApplication')).not.to.be.undefined;
@@ -54,7 +63,9 @@ describe('<EducationWizard>', () => {
     expect(getQuestion(tree, 'recentApplication').props.value.value).to.be.null;
   });
   it('should support multiple previous values', () => {
-    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    const tree = SkinDeep.shallowRender(
+      <EducationWizard config={wizardConfig} />,
+    );
 
     tree.getMountedInstance().setState({ open: true });
     answerQuestion(tree, 'existingApplication', 'true');
