@@ -183,6 +183,11 @@ import {
   schema as medicalCareHistorySchema,
 } from './medicalCareHistory';
 
+import {
+  uiSchema as hospitalizationHistoryUISchema,
+  schema as hospitalizationHistorySchema,
+} from './hospitalizationHistory';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema,
@@ -366,4 +371,9 @@ export const conclusionUnemployability = {
 export const medicalCareHistory = {
   uiSchema: medicalCareHistoryUISchema,
   schema: medicalCareHistorySchema,
+};
+
+export const hospitalizationHistory = {
+  uiSchema: hospitalizationHistoryUISchema,
+  schema: hospitalizationHistorySchema,
 };

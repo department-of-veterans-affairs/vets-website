@@ -64,6 +64,7 @@ import {
   unemployabilityFormUpload,
   conclusionUnemployability,
   medicalCareHistory,
+  hospitalizationHistory,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -297,6 +298,15 @@ const formConfig = {
             formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
           uiSchema: medicalCareHistory.uiSchema,
           schema: medicalCareHistory.schema,
+        },
+        hospitalizationHistory: {
+          title: 'Hospitalization',
+          path: 'hospitalization-history',
+          depends: formData =>
+            formData['view:unemployabilityUploadChoice'] ===
+              'answerQuestions' && formData['view:'],
+          uiSchema: hospitalizationHistory.uiSchema,
+          schema: hospitalizationHistory.schema,
         },
         unemployabilityDates: {
           title: 'Relevent Unemployability Dates',
