@@ -61,7 +61,7 @@ import {
   unemployabilityFormIntro,
 } from '../pages';
 
-import { formConfig781 } from './781';
+import { formConfig781, formConfig781a } from './781';
 
 import { PTSD } from '../constants';
 
@@ -239,7 +239,7 @@ const formConfig = {
           uiSchema: ptsdWalkthroughChoice781.uiSchema,
           schema: ptsdWalkthroughChoice781.schema,
         },
-        ...formConfig781(1),
+        ...formConfig781(3),
         uploadPtsdDocuments781: {
           title: 'Upload PTSD Documents - 781',
           path: 'new-disabilities/ptsd-781-upload',
@@ -258,6 +258,7 @@ const formConfig = {
           uiSchema: ptsdWalkthroughChoice781a.uiSchema,
           schema: ptsdWalkthroughChoice781a.schema,
         },
+        ...formConfig781a(3),
         uploadPtsdDocuments781a: {
           title: 'Upload PTSD Documents - 781a',
           path: 'new-disabilities/ptsd-781a-upload',
