@@ -61,6 +61,8 @@ import {
   unemployabilityFormIntro,
 } from '../pages';
 
+import { formConfig781 } from './781';
+
 import { PTSD } from '../constants';
 
 import fullSchema from './schema';
@@ -237,6 +239,7 @@ const formConfig = {
           uiSchema: ptsdWalkthroughChoice781.uiSchema,
           schema: ptsdWalkthroughChoice781.schema,
         },
+        ...formConfig781(1),
         uploadPtsdDocuments781: {
           title: 'Upload PTSD Documents - 781',
           path: 'new-disabilities/ptsd-781-upload',
