@@ -465,6 +465,7 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
       'view:privateMedicalRecords': privateRecordsSelected,
       'view:otherEvidence': otherEvidenceSelected,
     },
+    'view:uploadPrivateRecords': uploadPrivateRecords,
   } = formData;
 
   return (
@@ -484,14 +485,15 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
             </li>
           )}
         {privateRecords &&
-          privateRecordsSelected && (
+          privateRecordsSelected &&
+          uploadPrivateRecords === 'yes' && (
             <li>
               We have received the private medical records you uploaded:
               {listDocuments(privateRecords)}
             </li>
           )}
-        {!privateRecords &&
-          privateRecordsSelected && (
+        {privateRecordsSelected &&
+          uploadPrivateRecords === 'no' && (
             <li>
               You asked us to get your private medical records from your doctor,
               so you’ll need to fill out an Authorization to Disclose
