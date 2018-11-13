@@ -62,6 +62,7 @@ import {
   unemployabilityFormIntro,
   unemployabilityDates,
   unemployabilityFormUpload,
+  conclusionUnemployability,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -295,6 +296,13 @@ const formConfig = {
             formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
           uiSchema: unemployabilityDates.uiSchema,
           schema: unemployabilityDates.schema,
+        },
+        conclusionUnemployability: {
+          title: 'Conclusion 4192',
+          path: 'disabilities/conclusion-4192',
+          depends: formData => formData['view:unemployabilityStatus'],
+          uiSchema: conclusionUnemployability.uiSchema,
+          schema: conclusionUnemployability.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
