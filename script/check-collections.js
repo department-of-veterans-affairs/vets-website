@@ -1,53 +1,67 @@
 /* eslint-disable no-console */
+const path = require('path');
 
 const defaultCollections = require('../script/collections/default.json');
 const brandConsolidationCollections = require('../script/collections/brand-consolidation.json');
 
-const checkCollections = buildOptions => (files, metalsmith, done) => {
-  const collection = buildOptions['brand-consolidation-enabled']
+/**
+ * This checks whether there are broken collections in a front-matter .md file.
+ * It checks whether a collection or children is available in the MetalSmith collections list
+ * @param {object} buildOptions
+ */
+
+const checkCollections = buildOptions => {
+  // Gets the appropriate collections by build type.
+  const VALID_COLLECTIONS = buildOptions['brand-consolidation-enabled']
     ? Object.keys(brandConsolidationCollections)
     : Object.keys(defaultCollections);
 
-  const brokenCollections = Object.keys(files).reduce((accum, key) => {
-    const file = files[key];
+  return (files, metalsmith, done) => {
+    const brokenCollections = Object.keys(files)
+      .filter(fileName => path.extname(fileName) === '.html')
+      // returns an Array of Error messages for pages that have collection errors
+      .reduce((accum, key) => {
+        const file = files[key];
 
-    if (key.includes('.html')) {
-      if (file.collection.length > 0) {
-        file.collection.forEach(collectionName => {
-          if (!collection.includes(collectionName)) {
-            accum.push(
-              `Error: Your [ collection "${collectionName}" ] does not exist in the collection: ${key}`,
-            );
-          }
-        });
-      }
+        // Checks whether a page has a collection which is an Array. A page can have more then 1 collection
+        if (file.collection.length > 0) {
+          file.collection.forEach(collectionName => {
+            // Checks if the collection is valid
+            if (!VALID_COLLECTIONS.includes(collectionName)) {
+              accum.push(
+                `Error: Your [ collection "${collectionName}" ] does not exist in the collection: ${key}`,
+              );
+            }
+          });
+        }
 
-      if (file.children && !collection.includes(file.children)) {
-        accum.push(
-          `Error: Your [ children: "${
-            file.children
-          }" ] does not exist in the collection: ${key}`,
-        );
-      }
+        // Checks if a page children is valid. A child collection is always going to be a string
+        if (file.children && !VALID_COLLECTIONS.includes(file.children)) {
+          accum.push(
+            `Error: Your [ children: "${
+              file.children
+            }" ] does not exist in the collection: ${key}`,
+          );
+        }
+
+        return accum;
+      }, []);
+
+    if (brokenCollections.length > 0) {
+      console.warn(
+        '\n \nBroken Collection Error: Your collection or children in your front-matter file is broken.\n',
+      );
+      brokenCollections.forEach(error => {
+        console.warn(error);
+      });
+
+      done(
+        new Error(`You have ${brokenCollections.length} broken collections \n`),
+      );
     }
 
-    return accum;
-  }, []);
-
-  if (brokenCollections.length > 0) {
-    console.warn(
-      '\n \nBroken Collection Error: Your collection or children in your front-matter file is broken.\n',
-    );
-    brokenCollections.forEach(error => {
-      console.warn(error);
-    });
-
-    done(
-      new Error(`You have ${brokenCollections.length} broken collections \n`),
-    );
-  }
-
-  done();
+    done();
+  };
 };
 
 module.exports = checkCollections;

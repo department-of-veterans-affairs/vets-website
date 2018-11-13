@@ -149,7 +149,6 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(createBuildSettings(BUILD_OPTIONS));
 
   smith.use(updateExternalLinks(BUILD_OPTIONS));
-  smith.use(checkBrokenLinks(BUILD_OPTIONS));
   smith.use(checkCollections(BUILD_OPTIONS));
 
   configureAssets(smith, BUILD_OPTIONS);
