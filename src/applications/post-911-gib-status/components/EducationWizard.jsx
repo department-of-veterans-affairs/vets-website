@@ -19,13 +19,8 @@ export default class EducationWizard extends React.Component {
       [field]: answer === 'true',
     });
     let newState = { choices };
-    const choiceIndex = config.reduce((acc, option, index) => {
-      if (option.type === field) {
-        return index;
-      }
-      return acc;
-    }, -1);
-    if (choiceIndex > -1 && choiceIndex < config.length - 1) {
+    const choiceIndex = config.findIndex(option => option.type === field);
+    if (choiceIndex < config.length - 1) {
       const resetChoices = config.slice(choiceIndex + 1).reduce((acc, item) => {
         acc[item.type] = null;
         return acc;
