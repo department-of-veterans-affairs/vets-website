@@ -2,22 +2,25 @@ import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
 import moment from 'moment';
 
-import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import dataUtils from '../../../../platform/utilities/data/index';
-import environment from '../../../../platform/utilities/environment';
-import GetFormHelp from '../../components/GetFormHelp.jsx';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
+import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
-// import * as address from '../../../../platform/forms/definitions/address';
+
+import FormFooter from '../../../../platform/forms/components/FormFooter';
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
+import dataUtils from '../../../../platform/utilities/data/index';
+import environment from '../../../../platform/utilities/environment';
+import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import GetFormHelp from '../../components/GetFormHelp.jsx';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import DependentField from '../components/DependentField';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
+
 import {
   getSpouseMarriageTitle,
   dependentsMinItem,
@@ -31,7 +34,6 @@ import {
 } from '../helpers.jsx';
 
 import { validateAfterMarriageDate } from '../validation';
-import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import { get686AuthorizationState } from '../selectors';
 import { verifyDisabilityRating } from '../actions';
 import AuthorizationMessage from '../components/AuthorizationMessage';
@@ -71,10 +73,18 @@ const {
 previousMarriages.items.required = [];
 
 const marriageProperties = previousMarriages.items.properties;
-// const domesticAddress = veteranAddress.oneOf[0];
-// const militaryAddress = veteranAddress.oneOf[1];
-// const internationalAddressDropDown = veteranAddress.oneOf[2];
-// const internationalAddressText = veteranAddress.oneOf[3];
+
+const MARITAL_STATUS_NEVER_MARRIED = 'NEVERMARRIED';
+const REASON_DEATH = 'Death';
+const REASON_DIVORCE = 'Divorce';
+const REASON_OTHER = 'Other';
+const reasonForSeparation = {
+  type: 'string',
+  enum: [REASON_DEATH, REASON_DIVORCE, REASON_OTHER],
+};
+
+const explainSeparation =
+  previousMarriages.items.oneOf[1].properties.explainSeparation;
 
 const militaryStates = [
   { label: 'American Samoa', value: 'AS' },
@@ -165,12 +175,29 @@ function isCurrentMarriage(form, index) {
   return isMarried(form) && numMarriages - 1 === index;
 }
 
-function isLivingWithSpouse(form) {
-  return form.liveWithSpouse;
+function isNotCurrentMarriage(form, index) {
+  return !isCurrentMarriage(form, index);
 }
 
-function isLivingWithParent(form, index) {
-  return form.dependents[index].childInHousehold;
+function veteranSeparatedForOtherReason(form, index) {
+  return (
+    get(`marriages.${index}.view:pastMarriage.reasonForSeparation`, form) ===
+    REASON_OTHER
+  );
+}
+
+function spouseSeparatedForOtherReason(form, index) {
+  return (
+    get(`spouseMarriages.${index}.reasonForSeparation`, form) === REASON_OTHER
+  );
+}
+
+function isNotLivingWithSpouse(form) {
+  return !form.liveWithSpouse;
+}
+
+function isNotLivingWithParent(form, index) {
+  return !form.dependents[index].childInHousehold;
 }
 
 const spouseSelector = createSelector(
@@ -302,8 +329,13 @@ function createAddressUISchemaForKey(key, isRequiredCallback = () => true) {
   };
 }
 
-function createLocationUISchemaForKey(key, isRequiredCallback = () => true) {
+function createLocationUISchemaForKey(
+  key,
+  title = '',
+  isRequiredCallback = () => true,
+) {
   return {
+    'ui:title': title,
     countryDropdown: {
       'ui:title': 'Country',
       'ui:required': isRequiredCallback,
@@ -363,12 +395,6 @@ function calculateChildAge(form, index) {
   }
   return null;
 }
-
-// TODO: update these options
-const reasonForSeparation = _.assign(marriageProperties.reasonForSeparation, {
-  type: 'string',
-  enum: ['Death', 'Divorce', 'Other'],
-});
 
 const formConfig = {
   urlPrefix: '/',
@@ -491,13 +517,13 @@ const formConfig = {
               'ui:field': 'StringField',
               'ui:required': form =>
                 !!_.get('maritalStatus', form) &&
-                form.maritalStatus !== 'Never Married',
+                form.maritalStatus !== MARITAL_STATUS_NEVER_MARRIED,
               'ui:options': {
                 showFieldLabel: 'label',
                 keepInPageOnReview: true,
                 expandUnder: 'maritalStatus',
                 expandUnderCondition: status =>
-                  !!status && status !== 'Never Married',
+                  !!status && status !== MARITAL_STATUS_NEVER_MARRIED,
               },
               'ui:errorMessages': {
                 required: 'You must enter at least 1 marriage',
@@ -545,9 +571,6 @@ const formConfig = {
                               middle: {
                                 title: 'Former spouse’s middle name',
                               },
-                              suffix: {
-                                title: 'Former spouse’s suffix',
-                              },
                             },
                           });
                           currentSpouseSchema = _.merge(schema, {
@@ -560,9 +583,6 @@ const formConfig = {
                               },
                               middle: {
                                 title: 'Spouse’s middle name',
-                              },
-                              suffix: {
-                                title: 'Spouse’s suffix',
                               },
                             },
                           });
@@ -577,36 +597,40 @@ const formConfig = {
                 dateOfMarriage: currentOrPastDateUI(
                   'When did you get married?',
                 ),
-                locationOfMarriage: _.merge(
-                  createLocationUISchemaForKey(
-                    'marriages[INDEX].locationOfMarriage',
-                  ),
-                  {
-                    'ui:title':
-                      'Where did you get married? (city and state or foreign country)',
-                  },
+                locationOfMarriage: createLocationUISchemaForKey(
+                  'marriages[INDEX].locationOfMarriage',
+                  'Where did you get married? (city and state or foreign country)',
                 ),
                 'view:pastMarriage': {
                   'ui:options': {
                     hideIf: isCurrentMarriage,
                   },
                   dateOfSeparation: _.assign(
-                    currentOrPastDateUI('When did marriage end?'),
+                    currentOrPastDateUI('When did the marriage end?'),
                     {
-                      'ui:required': (...args) => !isCurrentMarriage(...args),
+                      'ui:required': isNotCurrentMarriage,
                       'ui:validations': [validateAfterMarriageDate],
                     },
                   ),
-                  locationOfSeparation: _.merge(
-                    createLocationUISchemaForKey(
-                      'marriages[INDEX].view:pastMarriage.locationOfSeparation',
-                      (...args) => !isCurrentMarriage(...args),
-                    ),
-                    {
-                      'ui:title':
-                        'Where did the marriage end? (city and state or foreign country)',
-                    },
+                  locationOfSeparation: createLocationUISchemaForKey(
+                    'marriages[INDEX].view:pastMarriage.locationOfSeparation',
+                    'Where did the marriage end? (city and state or foreign country)',
+                    isNotCurrentMarriage,
                   ),
+                  reasonForSeparation: {
+                    'ui:title': 'How did this marriage end?',
+                    'ui:widget': 'radio',
+                    'ui:required': isNotCurrentMarriage,
+                  },
+                  explainSeparation: {
+                    'ui:options': {
+                      expandUnder: 'reasonForSeparation',
+                      expandUnderCondition: reason =>
+                        !!reason && reason === 'Other',
+                    },
+                    'ui:title': 'Explain reason for separation',
+                    'ui:required': veteranSeparatedForOtherReason,
+                  },
                 },
               },
             },
@@ -632,6 +656,8 @@ const formConfig = {
                       properties: {
                         dateOfSeparation: marriageProperties.dateOfSeparation,
                         locationOfSeparation: locationSchema,
+                        reasonForSeparation,
+                        explainSeparation,
                       },
                     },
                   },
@@ -699,7 +725,7 @@ const formConfig = {
             spouseAddress: _.merge(
               createAddressUISchemaForKey(
                 'spouseAddress',
-                (...args) => !isLivingWithSpouse(...args),
+                isNotLivingWithSpouse,
               ),
               {
                 'ui:options': {
@@ -713,7 +739,6 @@ const formConfig = {
                 'How many times has your spouse been married (including current marriage)?',
               'ui:widget': ArrayCountWidget,
               'ui:field': 'StringField',
-              'ui:required': () => true,
               'ui:options': {
                 showFieldLabel: 'label',
                 keepInPageOnReview: true,
@@ -731,6 +756,7 @@ const formConfig = {
               'spouseSocialSecurityNumber',
               'spouseIsVeteran',
               'liveWithSpouse',
+              'spouseMarriages',
             ],
             properties: {
               spouseDateOfBirth,
@@ -755,6 +781,7 @@ const formConfig = {
               items: {
                 'ui:title': SpouseMarriageTitle,
                 dateOfMarriage: _.merge(currentOrPastDateUI(''), {
+                  'ui:required': () => true,
                   'ui:options': {
                     updateSchema: createSpouseLabelSelector(
                       spouseName =>
@@ -818,6 +845,7 @@ const formConfig = {
                   currentOrPastDateUI('When did this marriage end?'),
                   {
                     'ui:validations': [validateAfterMarriageDate],
+                    'ui:required': () => true,
                   },
                 ),
                 locationOfSeparation: _.merge(
@@ -832,6 +860,16 @@ const formConfig = {
                 reasonForSeparation: {
                   'ui:title': 'How did this marriage end?',
                   'ui:widget': 'radio',
+                  'ui:required': () => true,
+                },
+                explainSeparation: {
+                  'ui:options': {
+                    expandUnder: 'reasonForSeparation',
+                    expandUnderCondition: reason =>
+                      !!reason && reason === 'Other',
+                  },
+                  'ui:title': 'Explain reason for separation',
+                  'ui:required': spouseSeparatedForOtherReason,
                 },
               },
             },
@@ -850,6 +888,7 @@ const formConfig = {
                     dateOfSeparation: marriageProperties.dateOfSeparation,
                     locationOfSeparation: locationSchema,
                     reasonForSeparation,
+                    explainSeparation,
                   },
                 },
               },
@@ -1097,7 +1136,7 @@ const formConfig = {
                   childAddress: _.merge(
                     createAddressUISchemaForKey(
                       'dependents[INDEX].childInfo.childAddress',
-                      (...args) => !isLivingWithParent(...args),
+                      isNotLivingWithParent,
                     ),
                     {
                       'ui:title': 'Child’s Address',

@@ -41,13 +41,15 @@ export function fetchDisabilityRating({ onDone }) {
 }
 
 export function isMarried(form = {}) {
-  return ['Married', 'Separated'].includes(form.maritalStatus);
+  return ['MARRIED', 'SEPARATED'].includes(form.maritalStatus);
 }
 
 export function getMarriageTitle(index) {
-  const desc = numberToWords[index];
+  const marriageNumber = numberToWords[index];
 
-  return desc ? `${desc} marriage` : `Marriage ${index + 1}`;
+  return marriageNumber
+    ? `${marriageNumber} marriage`
+    : `Marriage ${index + 1}`;
 }
 
 export function getMarriageTitleWithCurrent(form, index) {
@@ -58,10 +60,10 @@ export function getMarriageTitleWithCurrent(form, index) {
   return getMarriageTitle(index);
 }
 export function getSpouseMarriageTitle(index) {
-  const desc = numberToWords[index];
+  const marriageNumber = numberToWords[index];
 
-  return desc
-    ? `Spouse’s ${desc.toLowerCase()} marriage`
+  return marriageNumber
+    ? `Spouse’s ${marriageNumber.toLowerCase()} marriage`
     : `Spouse marriage ${index + 1}`;
 }
 
@@ -108,7 +110,7 @@ export const disableWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
       <div className="usa-alert-text">
-        You'll need to provide all private medical records for your child's
+        You’ll need to provide all private medical records for your child’s
         disability.
       </div>
     </div>
@@ -118,7 +120,9 @@ export const disableWarning = (
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
-    form: formData,
+    dependentsApplication: {
+      form: formData,
+    },
   });
 }
 
