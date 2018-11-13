@@ -7,7 +7,6 @@ export default class EducationWizard extends React.Component {
   constructor(props) {
     super(props);
 
-    // flattens all the fields in levels into object keys
     this.state = {
       open: false,
       choices: [],
@@ -17,7 +16,7 @@ export default class EducationWizard extends React.Component {
   answerQuestion = (field, answer) => {
     const { config } = this.props;
     const choices = Object.assign(this.state.choices, {
-      [field]: answer === 'true', // make handle booleans
+      [field]: answer === 'true',
     });
     let newState = { choices };
     const choiceIndex = config.reduce((acc, option, index) => {
@@ -56,7 +55,7 @@ export default class EducationWizard extends React.Component {
           className={buttonClasses}
           onClick={() => this.setState({ open: !this.state.open })}
         >
-          Find Your Education Benefits Form
+          Troubleshoot My GI Bill Benefits
         </button>
         <div className={contentClasses} id="wizardOptions">
           <div className="wizard-content-inner">
