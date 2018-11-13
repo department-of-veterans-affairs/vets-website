@@ -288,6 +288,9 @@ export const needsToEnter781a = formData =>
 export const isUploadingPtsdForm = formData =>
   _.get('view:uploadPtsdChoice', formData, '') === 'upload';
 
+export const isUploading8940Form = formData =>
+  _.get('view:unemployabilityUploadChoice', formData, '') === 'upload';
+
 export const getHomelessOrAtRisk = formData => {
   const homelessStatus = _.get('homelessOrAtRisk', formData, '');
   return (

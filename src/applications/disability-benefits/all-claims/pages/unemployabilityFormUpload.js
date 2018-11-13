@@ -1,32 +1,17 @@
-import React from 'react';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import environment from '../../../../platform/utilities/environment';
-
+import fullSchema from '../config/schema';
+import { FIFTY_MB } from '../constants';
 import { DocumentDescription } from '../content/uploadFormDocuments';
-import { PtsdNameTitle } from '../content/ptsdClassification';
-
-const FIFTY_MB = 52428800;
 
 export const uiSchema = {
-  'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781" />
-  ),
+  'ui:title': 'Upload VA Form 21-8940',
   'ui:description': DocumentDescription,
-  ptsd781: fileUploadUI('', {
-    itemDescription: 'PTSD 781 form',
+  form8940Upload: fileUploadUI('', {
+    itemDescription: 'Document Type (VA Form 21-8940)',
     hideLabelText: true,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
-    fileTypes: [
-      'pdf',
-      'jpg',
-      'jpeg',
-      'png',
-      'gif',
-      'bmp',
-      'tif',
-      'tiff',
-      'txt',
-    ],
+    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
     maxSize: FIFTY_MB,
     createPayload: file => {
       const payload = new FormData();
@@ -53,10 +38,11 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['ptsd781'],
+  required: ['form8940Upload'],
   properties: {
-    ptsd781: {
+    form8940Upload: {
       type: 'array',
+      minItems: 1,
       items: {
         type: 'object',
         properties: {
