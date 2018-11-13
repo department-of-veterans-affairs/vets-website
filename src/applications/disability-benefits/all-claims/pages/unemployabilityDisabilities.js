@@ -34,10 +34,12 @@ export const uiSchema = {
   'ui:title': unemployabilityTitle,
   'ui:description': formData => <DisabilitiesDescription formData={formData} />,
   ratedDisabilities: {
-    'ui:validations': [
-      disabilitiesRequired('Please select at least one disability,'),
-    ],
     'ui:title': ratedDisabilitiesTitle,
+    'ui:validations': [
+      disabilitiesRequired(
+        'Please select at least one disability from the lists below.',
+      ),
+    ],
     'ui:field': 'StringField',
     'ui:widget': SelectArrayItemsWidget,
     'ui:options': {
@@ -50,7 +52,6 @@ export const uiSchema = {
   },
   newDisabilities: {
     'ui:validations': [disabilitiesRequired('')],
-
     'ui:title': newDisabilitiesTitle,
     'ui:field': 'StringField',
     'ui:widget': SelectArrayItemsWidget,
