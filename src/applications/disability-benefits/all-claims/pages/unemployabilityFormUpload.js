@@ -4,8 +4,6 @@ import fullSchema from '../config/schema';
 import { FIFTY_MB } from '../constants';
 import { DocumentDescription } from '../content/uploadFormDocuments';
 
-const { attachments } = fullSchema.properties;
-
 export const uiSchema = {
   'ui:title': 'Upload VA Form 21-8940',
   'ui:description': DocumentDescription,
