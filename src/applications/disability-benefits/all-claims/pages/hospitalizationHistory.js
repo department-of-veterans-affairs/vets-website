@@ -8,8 +8,6 @@ import fullSchema from '../config/schema';
 
 const { address } = fullSchema.definitions;
 
-import { validateZIP } from '../../all-claims/validations';
-
 export const uiSchema = {
   hospitalizationHistory: {
     'ui:title': 'Hospitalization',
@@ -49,11 +47,9 @@ export const uiSchema = {
           'ui:options': {
             widgetClassNames: 'usa-input-medium',
           },
-          'ui:validations': [
-            {
-              validator: validateZIP,
-            },
-          ],
+          'ui:errorMessages': {
+            pattern: 'Please provide valid 5 or 9 digit zip code.',
+          },
         },
       },
     },
