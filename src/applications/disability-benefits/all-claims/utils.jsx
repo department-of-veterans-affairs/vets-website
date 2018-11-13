@@ -3,6 +3,7 @@ import moment from 'moment';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
+import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import { apiRequest } from '../../../platform/utilities/api';
 import _ from '../../../platform/utilities/data';
 
@@ -156,6 +157,42 @@ export function prefillTransformer(pages, formData, metadata) {
     formData: newFormData,
     pages,
   };
+}
+
+/**
+ * Transforms the related disabilities object into an array of strings
+ * @param {Object} object - The object with dynamically generated property names
+ * @return {Array} - An array of the property names with truthy values
+ */
+export function transformRelatedDisabilities(object) {
+  return Object.keys(object).filter(key => object[key]);
+}
+
+export function transform(formConfig, form) {
+  const { data } = form;
+  // Transform the related disabilities lists into an array of strings
+  const clonedData = _.cloneDeep(data);
+
+  if (data.vaTreatmentFacilities) {
+    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
+      _.set(
+        'relatedDisabilities',
+        transformRelatedDisabilities(facility.relatedDisabilities),
+        facility,
+      ),
+    );
+    clonedData.vaTreatmentFacilities = newVAFacilities;
+  }
+
+  if (clonedData['view:isPOW']) {
+    clonedData['view:isPOW'] = transformRelatedDisabilities(
+      _.get('view:isPOW.powDisabilities', data),
+    );
+  }
+
+  return JSON.stringify({
+    form526: transformForSubmit(formConfig, _.set('data', clonedData, form)),
+  });
 }
 
 export const hasForwardingAddress = formData =>

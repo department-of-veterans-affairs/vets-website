@@ -1,0 +1,139 @@
+{
+  "data": {
+    "view:hasSeparationPay": false,
+    "view:hasTrainingPay": false,
+    "isVAEmployee": false,
+    "homelessOrAtRisk": "no",
+    "phoneEmailCard": {
+      "primaryPhone": "1231231234",
+      "emailAddress": "asdf@asdf.sd"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "asdf",
+      "city": "asdf",
+      "state": "AL",
+      "zipCode": "19234"
+    },
+    "view:contactInfoDescription": {},
+    "view:vaMedicalRecordsIntro": {},
+    "vaTreatmentFacilities": [
+      {
+        "treatmentCenterName": "asdf",
+        "treatmentDateRange": {
+          "from": "1900-01-XX",
+          "to": "1901-01-XX"
+        },
+        "treatmentCenterAddress": {
+          "country": "USA"
+        },
+        "relatedDisabilities": {
+          "First Condition": true,
+          "PTSD (post Traumatic Stress Disorder)": true
+        }
+      }
+    ],
+    "view:hasEvidence": true,
+    "view:hasEvidenceFollowUp": {
+      "view:selectableEvidenceTypes": {
+        "view:hasVAMedicalRecords": true
+      },
+      "view:evidenceTypeHelp": {}
+    },
+    "view:powStatus": false,
+    "view:unemployabilityStatus": false,
+    "ptsd781": [
+      {
+        "name": "out-of-the-tar-pit.pdf",
+        "confirmationCode": "04d1f6a6-d6b9-4e7c-8175-42bb8ee97474"
+      }
+    ],
+    "view:uploadPtsdChoice": "upload",
+    "view:uploadPtsdChoiceHelp": {},
+    "view:selectablePtsdTypes": {
+      "view:combatPtsdType": true
+    },
+    "view:ptsdTypeHelp": {},
+    "view:newDisabilities": true,
+    "newDisabilities": [
+      {
+        "condition": "PTSD (post traumatic stress disorder)"
+      }
+    ],
+    "ratedDisabilities": [
+      {
+        "name": "First Condition",
+        "ratedDisabilityId": "0",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "INCREASE",
+        "view:selected": true
+      },
+      {
+        "name": "Second Condition",
+        "ratedDisabilityId": "1",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 0,
+        "disabilityActionType": "INCREASE"
+      },
+      {
+        "name": "Third Condition",
+        "ratedDisabilityId": "1",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "INCREASE"
+      }
+    ],
+    "view:disabilitiesClarification": {},
+    "serviceInformation": {
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force",
+          "dateRange": {
+            "from": "1900-01-01",
+            "to": "1901-01-01"
+          }
+        }
+      ],
+      "view:militaryHistoryNote": {},
+      "reservesNationalGuardService": {
+        "obligationTermOfServiceDateRange": {},
+        "unitAddress": {
+          "country": "USA"
+        }
+      }
+    },
+    "view:hasMilitaryRetiredPay": false,
+    "view:hasAlternateName": false,
+    "view:uploadPrivateRecordsQualifier": {
+      "view:aboutPrivateMedicalRecords": {},
+      "view:privateRecordsChoiceHelp": {}
+    },
+    "view:faqAccordion": {},
+    "view:waiveRetirementPayDescription": {},
+    "standardClaim": false,
+    "view:fdcWarning": {},
+    "veteran": {
+      "mailingAddress": {
+        "country": "USA",
+        "city": "APO",
+        "state": "AE",
+        "zipCode": "09028",
+        "addressLine1": "123 MAIN ST",
+        "addressLine2": "BEN FRANKLIN VILLAGE"
+      },
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "privacyAgreementAccepted": true
+  }
+}
