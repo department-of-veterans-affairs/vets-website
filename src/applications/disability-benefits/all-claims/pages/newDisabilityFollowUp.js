@@ -1,7 +1,5 @@
 import React from 'react';
 import { createSelector } from 'reselect';
-import dateUI from 'us-forms-system/lib/js/definitions/date';
-import merge from 'lodash/merge';
 
 import { getDisabilityName } from '../utils';
 import disabilityLabels from '../content/disabilityLabels';
@@ -151,20 +149,18 @@ export const uiSchema = {
             getDisabilitiesList(formData, index).length > 0,
         },
         VAMistreatmentLocation: {
-          'ui:title': 'Location',
+          'ui:title': 'Please tell us where this happened',
           'ui:required': (formData, index) =>
             formData.newDisabilities[index].cause === 'VA' &&
             getDisabilitiesList(formData, index).length > 0,
         },
-        VAMistreatmentDate: merge(
-          {},
-          dateUI('Date (This date doesn’t have to be exact.)'),
-          {
-            'ui:required': (formData, index) =>
-              formData.newDisabilities[index].cause === 'VA' &&
-              getDisabilitiesList(formData, index).length > 0,
-          },
-        ),
+        VAMistreatmentDate: {
+          'ui:title':
+            'Please tell us when this happened (If you’re having trouble remembering the exact date you can provide a year.)',
+          'ui:required': (formData, index) =>
+            formData.newDisabilities[index].cause === 'VA' &&
+            getDisabilitiesList(formData, index).length > 0,
+        },
       },
     },
   },

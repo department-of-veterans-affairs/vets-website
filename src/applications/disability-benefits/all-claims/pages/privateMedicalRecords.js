@@ -1,6 +1,7 @@
 import {
   privateRecordsChoiceHelp,
   documentDescription,
+  patientAcknowledgmentText,
 } from '../content/privateMedicalRecords';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import environment from '../../../../platform/utilities/environment';
@@ -78,6 +79,26 @@ export const uiSchema = {
         _.get(DATA_PATHS.hasPrivateRecordsToUpload, data, false),
     },
   ),
+  'view:patientAcknowledgement': {
+    'ui:title': ' ',
+    'ui:help': patientAcknowledgmentText,
+    'ui:options': {
+      expandUnder: 'view:uploadPrivateRecordsQualifier',
+      expandUnderCondition: data =>
+        _.get('view:hasPrivateRecordsToUpload', data, false) === false,
+      showFieldLabel: true,
+    },
+    'view:acknowledgement': {
+      'ui:title': 'Patient Acknowledgement',
+    },
+    'ui:validations': [
+      (errors, item) => {
+        if (!item['view:acknowledgement']) {
+          errors.addError('You must accept the acknowledgement');
+        }
+      },
+    ],
+  },
 };
 
 export const schema = {
@@ -101,5 +122,15 @@ export const schema = {
       },
     },
     privateMedicalRecords: attachments,
+    'view:patientAcknowledgement': {
+      type: 'object',
+      required: ['view:acknowledgement'],
+      properties: {
+        'view:acknowledgement': {
+          type: 'boolean',
+          default: true,
+        },
+      },
+    },
   },
 };

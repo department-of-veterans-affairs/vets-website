@@ -46,7 +46,6 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
   );
   const settings = Object.assign({}, defaultSettings, optionalSettings);
   settings.headers = newHeaders;
-
   return fetch(url, settings)
     .catch(err => {
       Raven.captureMessage(`vets_client_error: ${err.message}`, {
