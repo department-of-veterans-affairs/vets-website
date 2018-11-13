@@ -178,6 +178,11 @@ import {
   schema as conclusionUnemployabilitySchema,
 } from './conclusionUnemployability';
 
+import {
+  uiSchema as medicalCareHistoryUISchema,
+  schema as medicalCareHistorySchema,
+} from './medicalCareHistory';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema,
@@ -356,4 +361,9 @@ export const unemployabilityFormUpload = {
 export const conclusionUnemployability = {
   uiSchema: conclusionUnemployabilityUISchema,
   schema: conclusionUnemployabilitySchema,
+};
+
+export const medicalCareHistory = {
+  uiSchema: medicalCareHistoryUISchema,
+  schema: medicalCareHistorySchema,
 };
