@@ -1,0 +1,8 @@
+{
+  "appName": "Connected Accounts",
+  "entryFile": "./connected-accounts-entry.jsx",
+  "entryName": "connected-accounts",
+  "rootUrl": "/connected-accounts",
+  "production": true,
+  "contentPage": "connected-accounts/index.md"
+}

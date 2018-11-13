@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
@@ -220,9 +221,9 @@ export function backendErrorMessage() {
             through Friday, 8:00 a.m. to 8:00 p.m. (ET).
           </CallHRC>
         </p>
-        <a className="usa-button usa-button-primary">
+        <Link className="usa-button usa-button-primary" to="/">
           Back to Post-9/11 GI Bill
-        </a>
+        </Link>
         <br />
         <br />
         <br />
