@@ -37,22 +37,36 @@ function linkAssetsToBucket(options, fileNames) {
     const possibleSrcProps = ['src', 'href', 'data-src', 'srcset'];
 
     for (const element of assetLinkElements) {
-      let assetSrcProp = null;
-      let assetSrc = null;
-
       for (const prop of possibleSrcProps) {
+        let assetSrcProp = null;
+        let assetSrc = null;
+
         assetSrcProp = prop;
         assetSrc = element.getAttribute(assetSrcProp);
-        if (assetSrc) break;
+
+        // Making an assumption here that we don't use srcset
+        // to point to both external and internal images
+        if (
+          !assetSrc ||
+          assetSrc.startsWith('http') ||
+          assetSrc.startsWith('data:') ||
+          assetSrc.includes(TEAMSITE_ASSETS)
+        )
+          continue;
+
+        let assetBucketLocation;
+
+        if (prop === 'srcset') {
+          const sources = assetSrc.split(',');
+          assetBucketLocation = sources
+            .map(src => `${bucketPath}${src}`)
+            .join(',');
+        } else {
+          assetBucketLocation = `${bucketPath}${assetSrc}`;
+        }
+
+        element.setAttribute(assetSrcProp, assetBucketLocation);
       }
-
-      if (!assetSrc) continue;
-      if (assetSrc.startsWith('http') || assetSrc.startsWith('data:')) continue;
-      if (assetSrc.includes(TEAMSITE_ASSETS)) continue;
-
-      const assetBucketLocation = `${bucketPath}${assetSrc}`;
-
-      element.setAttribute(assetSrcProp, assetBucketLocation);
     }
 
     const newContents = new Buffer(dom.serialize());
