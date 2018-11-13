@@ -59,6 +59,7 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  unemployabilityDates,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -277,6 +278,14 @@ const formConfig = {
           depends: formData => formData['view:unemployabilityStatus'],
           uiSchema: unemployabilityFormIntro.uiSchema,
           schema: unemployabilityFormIntro.schema,
+        },
+        unemployabilityDates: {
+          title: 'Relevent Unemployability Dates',
+          path: 'new-disabilities/unemployability-relevent-dates',
+          depends: formData =>
+            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
+          uiSchema: unemployabilityDates.uiSchema,
+          schema: unemployabilityDates.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
