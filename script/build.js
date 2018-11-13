@@ -12,6 +12,7 @@ const moment = require('moment');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 
+const getOptions = require('./options');
 const createBuildSettings = require('./create-build-settings');
 const createRedirects = require('./create-redirects');
 const createSitemaps = require('./create-sitemaps');
@@ -158,8 +159,8 @@ function defaultBuild(BUILD_OPTIONS) {
 }
 
 function main() {
-  const BUILD_OPTIONS = require('./options');
-  defaultBuild(BUILD_OPTIONS);
+  const buildOptions = getOptions();
+  defaultBuild(buildOptions);
 }
 
 main();

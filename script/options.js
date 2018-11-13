@@ -2,26 +2,26 @@
 
 const path = require('path');
 const commandLineArgs = require('command-line-args');
-const environments = require('./constants/environments');
-const hostnames = require('./constants/hostnames');
+
+const ENVIRONMENTS = require('./constants/environments');
+const HOSTNAMES = require('./constants/hostnames');
+
+const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
+const defaultHost = HOSTNAMES[defaultBuildtype];
+const defaultContentDir = '../../vagov-content/pages';
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'buildtype', type: String, defaultValue: environments.LOCALHOST },
+  { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
+  { name: 'host', type: String, defaultValue: defaultHost },
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'entry', type: String, defaultValue: null },
   { name: 'analyzer', type: Boolean, defaultValue: false },
-  { name: 'host', type: String, defaultValue: 'localhost' },
   { name: 'protocol', type: String, defaultValue: 'http' },
   { name: 'public', type: String, defaultValue: null },
   { name: 'destination', type: String, defaultValue: null },
   { name: 'content-deployment', type: Boolean, defaultValue: false },
-  {
-    name: 'content-directory',
-    type: String,
-    defaultValue: '../../vagov-content/pages',
-  },
-  // Catch-all for bad arguments.
+  { name: 'content-directory', type: String, defaultValue: defaultContentDir },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 
@@ -55,16 +55,16 @@ function applyDefaultOptions(options) {
 }
 
 function applyEnvironmentOverrides(options) {
-  if (options.buildtype === environments.LOCALHOST) return;
+  if (options.buildtype === ENVIRONMENTS.LOCALHOST) return;
 
-  const allBuildtypes = Object.keys(environments).map(key => environments[key]);
+  const allBuildtypes = Object.keys(ENVIRONMENTS).map(key => ENVIRONMENTS[key]);
   const isBuildtypeValid = allBuildtypes.includes(options.buildtype);
 
   if (!isBuildtypeValid) {
     throw new Error(`Unknown buildtype: '${options.buildtype}'`);
   }
 
-  if (options.buildtype === environments.VAGOVPROD) {
+  if (options.buildtype === ENVIRONMENTS.VAGOVPROD) {
     process.env.NODE_ENV = 'production';
   }
 }
@@ -72,14 +72,14 @@ function applyEnvironmentOverrides(options) {
 function deriveHostUrl(options) {
   const isHerokuBuild = !!process.env.HEROKU_APP_NAME;
 
-  if (options.buildtype !== environments.LOCALHOST || isHerokuBuild) {
+  if (options.buildtype !== ENVIRONMENTS.LOCALHOST || isHerokuBuild) {
     options.port = 80;
     options.protocol = 'https';
 
     if (isHerokuBuild) {
       options.host = `${process.env.HEROKU_APP_NAME}.herokuapp.com`;
     } else {
-      options.host = hostnames[options.buildtype];
+      options.host = HOSTNAMES[options.buildtype];
     }
   }
 
@@ -100,4 +100,4 @@ function getOptions() {
   return options;
 }
 
-module.exports = getOptions();
+module.exports = getOptions;
