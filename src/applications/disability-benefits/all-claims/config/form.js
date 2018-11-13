@@ -1,4 +1,5 @@
 import environment from '../../../../platform/utilities/environment';
+import _ from '../../../../platform/utilities/data';
 
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import IntroductionPage from '../components/IntroductionPage';
@@ -304,7 +305,12 @@ const formConfig = {
           path: 'hospitalization-history',
           depends: formData =>
             formData['view:unemployabilityUploadChoice'] ===
-              'answerQuestions' && formData['view:'],
+              'answerQuestions' &&
+            _.get(
+              'view:careReceived.medicalTreatment.view:hospitalization',
+              formData,
+              false,
+            ),
           uiSchema: hospitalizationHistory.uiSchema,
           schema: hospitalizationHistory.schema,
         },

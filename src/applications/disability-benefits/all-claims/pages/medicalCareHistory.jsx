@@ -1,4 +1,5 @@
 import React from 'react';
+import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 import { medicalTreatmentRequiredCheck } from '../validations';
 
@@ -13,7 +14,7 @@ const medicalCareDescription = (
 );
 
 export const uiSchema = {
-  'ui:title': ' ',
+  'ui:title': unemployabilityTitle,
   'ui:description': medicalCareDescription,
   careQuestion: {
     'ui:title': ' ',
