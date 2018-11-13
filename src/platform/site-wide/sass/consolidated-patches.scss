@@ -90,6 +90,13 @@ header.merger {
     width: 468px;
   }
 
+  #mega-menu .vetnav-panel {
+    box-sizing: border-box;
+    .mm-links {
+      font-family: $font-stack;
+    }
+  }
+
   @media (min-width: $large-screen) {
     #mega-menu .vetnav-panel {
       width: 487px;
