@@ -214,6 +214,7 @@ export function transform(formConfig, form) {
   if (clonedData.powDisabilities) {
     clonedData.powDisabilities = transformRelatedDisabilities(
       clonedData.powDisabilities,
+      claimedConditions,
     );
   }
 
