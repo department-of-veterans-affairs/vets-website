@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import appendQuery from 'append-query';
-import URLSearchParams from 'url-search-params';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import CallHelpDesk from '../../brand-consolidation/components/CallHelpDesk';
@@ -57,24 +55,8 @@ export class CallToActionWidget extends React.Component {
     if (this.isAccessible()) {
       if (this._hasRedirect && !this._popup) this.goToTool();
     } else if (this._isHealthTool) {
-      const { accountLevel, accountState, loading } = this.props.mhvAccount;
-
-      if (loading) return;
-
-      if (!accountState) {
-        this.props.fetchMHVAccount();
-      } else if (
-        new URLSearchParams(window.location.search).get('tc_accepted')
-      ) {
-        // Since T&C is still required to support the existing account states,
-        // check the existence of a query param that gets appended after
-        // successful T&C acceptance to complete account creation or upgrade.
-        if (!accountLevel && accountState !== 'register_failed') {
-          this.props.createAndUpgradeMHVAccount();
-        } else if (accountLevel && accountState !== 'upgrade_failed') {
-          this.props.upgradeMHVAccount();
-        }
-      }
+      const { accountState, loading } = this.props.mhvAccount;
+      if (!loading && !accountState) this.props.fetchMHVAccount();
     }
   }
 
@@ -342,25 +324,13 @@ export class CallToActionWidget extends React.Component {
 
     const { accountLevel } = this.props.mhvAccount;
 
-    const redirectToTermsAndConditions = () => {
-      const redirectQuery = { tc_redirect: window.location.pathname }; // eslint-disable-line camelcase
-      const termsConditionsUrl = appendQuery(
-        '/health-care/medical-information-terms-conditions/',
-        redirectQuery,
-      );
-      window.location = termsConditionsUrl;
-    };
-
     if (!accountLevel) {
       return {
         heading: `You’ll need to create a My HealtheVet account before you can ${
           this._serviceDescription
         }`,
         buttonText: 'Create a My HealtheVet Account',
-        buttonHandler:
-          accountState === 'needs_terms_acceptance'
-            ? redirectToTermsAndConditions
-            : this.props.createAndUpgradeMHVAccount,
+        buttonHandler: this.props.createAndUpgradeMHVAccount,
         status: 'continue',
       };
     }
@@ -370,10 +340,7 @@ export class CallToActionWidget extends React.Component {
         this._serviceDescription
       }`,
       buttonText: 'Upgrade Your Account',
-      buttonHandler:
-        accountState === 'needs_terms_acceptance'
-          ? redirectToTermsAndConditions
-          : this.props.upgradeMHVAccount,
+      buttonHandler: this.props.upgradeMHVAccount,
       status: 'continue',
     };
   };
