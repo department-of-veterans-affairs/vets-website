@@ -6,6 +6,7 @@ import { createSelector } from 'reselect';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import { apiRequest } from '../../../platform/utilities/api';
 import _ from '../../../platform/utilities/data';
+import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
 
 import {
   RESERVE_GUARD_TYPES,
@@ -169,11 +170,15 @@ export function transformRelatedDisabilities(object) {
 }
 
 export function transform(formConfig, form) {
-  const { data } = form;
-  // Transform the related disabilities lists into an array of strings
-  const clonedData = _.cloneDeep(data);
+  // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
+  // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
+  //  it here to remove reservesNationalGuardService if it's deeply empty.
+  const clonedData = removeDeeplyEmptyObjects(
+    JSON.parse(transformForSubmit(formConfig, form)),
+  );
 
-  if (data.vaTreatmentFacilities) {
+  // Transform the related disabilities lists into an array of strings
+  if (clonedData.vaTreatmentFacilities) {
     const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
       _.set(
         'relatedDisabilities',
@@ -183,15 +188,14 @@ export function transform(formConfig, form) {
     );
     clonedData.vaTreatmentFacilities = newVAFacilities;
   }
-
   if (clonedData['view:isPOW']) {
     clonedData['view:isPOW'] = transformRelatedDisabilities(
-      _.get('view:isPOW.powDisabilities', data),
+      _.get('view:isPOW.powDisabilities', clonedData),
     );
   }
 
   return JSON.stringify({
-    form526: transformForSubmit(formConfig, _.set('data', clonedData, form)),
+    form526: JSON.stringify(clonedData),
   });
 }
 
