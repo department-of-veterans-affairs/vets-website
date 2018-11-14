@@ -9,7 +9,7 @@ export default function GetFormHelp() {
         For questions about eligibility for burial in a VA national cemetery,
         please <CallNCACenter />
         <br />7 days a week, 8:00 a.m. - 7:30 p.m. (ET). Select option 3 to
-        speak to someone in Eligibility
+        speak to someone in Eligibility.
       </p>
       <p className="help-talk">
         For other benefit-related questions, please <CallVBACenter />
