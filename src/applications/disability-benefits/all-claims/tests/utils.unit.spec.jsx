@@ -439,15 +439,29 @@ describe('526 helpers', () => {
 
   describe('transformRelatedDisabilities', () => {
     it('should return an array of strings', () => {
+      const claimedConditions = [
+        'Some condition name',
+        'Another condition name',
+      ];
       const relatedDisabilities = {
         'Some condition name': true,
         'Another condition name': true,
         'This condition is falsey!': false,
       };
-      expect(transformRelatedDisabilities(relatedDisabilities)).to.eql([
-        'Some condition name',
-        'Another condition name',
-      ]);
+      expect(
+        transformRelatedDisabilities(relatedDisabilities, claimedConditions),
+      ).to.eql(['Some condition name', 'Another condition name']);
+    });
+    it('should not add conditions if they are not claimed', () => {
+      const claimedConditions = ['Some condition name'];
+      const relatedDisabilities = {
+        'Some condition name': true,
+        'Another condition name': true,
+        'This condition is falsey!': false,
+      };
+      expect(
+        transformRelatedDisabilities(relatedDisabilities, claimedConditions),
+      ).to.eql(['Some condition name']);
     });
   });
 });
