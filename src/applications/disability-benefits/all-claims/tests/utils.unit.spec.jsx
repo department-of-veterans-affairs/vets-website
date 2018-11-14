@@ -16,6 +16,8 @@ import {
   needsToEnter781,
   needsToEnter781a,
   isUploadingPtsdForm,
+  isAnswering781Questions,
+  isAnswering781aQuestions,
 } from '../utils.jsx';
 
 import initialData from './initialData';
@@ -432,7 +434,53 @@ describe('526 helpers', () => {
 
     it('should return false if user has not chosen to upload documents', () => {
       const formData = {};
-      expect(needsToEnter781({ formData })).to.be.false;
+      expect(needsToEnter781(formData)).to.be.false;
+    });
+  });
+
+  describe('isAnswering781Questions', () => {
+    it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:combatPtsdType': true,
+        },
+        'view:uploadPtsdChoice': 'answerQuestions',
+      };
+      expect(isAnswering781Questions(formData)).to.be.true;
+    });
+
+    it('should return false if user has chosen not to enter another incident', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:combatPtsdType': true,
+        },
+        'view:uploadPtsdChoice': 'answerQuestions',
+        doneEnteringIncidents: true,
+      };
+      expect(isAnswering781Questions({ formData })).to.be.false;
+    });
+  });
+
+  describe('isAnswering781aQuestions', () => {
+    it('should return true if user has chosen to answer questions for a 781a PTSD incident', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:assaultPtsdType': true,
+        },
+        'view:uploadPtsdChoice': 'answerQuestions',
+      };
+      expect(isAnswering781aQuestions(formData)).to.be.true;
+    });
+
+    it('should return false if user has chosen not to enter another incident', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:assaultPtsdType': true,
+        },
+        'view:uploadPtsdChoice': 'answerQuestions',
+        doneEnteringIncidents: true,
+      };
+      expect(isAnswering781aQuestions({ formData })).to.be.false;
     });
   });
 });

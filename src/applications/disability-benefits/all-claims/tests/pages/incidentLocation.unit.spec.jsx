@@ -14,11 +14,7 @@ describe('PTSD Incident location', () => {
 
   it('should render', () => {
     const form = mount(
-      <DefinitionTester
-        pagePerItemIndex={0}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
+      <DefinitionTester schema={schema} uiSchema={uiSchema} />,
     );
 
     expect(form.find('input').length).to.equal(1);

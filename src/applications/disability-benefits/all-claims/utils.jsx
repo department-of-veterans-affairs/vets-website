@@ -291,12 +291,12 @@ export const isUploadingPtsdForm = formData =>
 export const isAnswering781Questions = formData =>
   _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions' &&
   _.get('view:doneEnteringIncidents', formData, false) !== true &&
-  needsToEnter781;
+  needsToEnter781(formData);
 
 export const isAnswering781aQuestions = formData =>
   _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions' &&
   _.get('view:doneEnteringSecondaryIncidents', formData, false) !== true &&
-  needsToEnter781a;
+  needsToEnter781a(formData);
 
 export const getHomelessOrAtRisk = formData => {
   const homelessStatus = _.get('homelessOrAtRisk', formData, '');
