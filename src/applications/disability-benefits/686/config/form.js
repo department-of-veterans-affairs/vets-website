@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
-import moment from 'moment';
 
 import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
 import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
@@ -22,13 +21,25 @@ import DependentField from '../components/DependentField';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
 
 import {
-  getSpouseMarriageTitle,
-  dependentsMinItem,
-  schoolAttendanceWarning,
-  disableWarning,
+  calculateChildAge,
   childRelationshipStatusLabels,
+  dependentsMinItem,
+  disableWarning,
   getMarriageTitleWithCurrent,
+  getSpouseMarriageTitle,
+  isCurrentMarriage,
+  isDomesticAddress,
+  isInternationalAddressText,
   isMarried,
+  isMilitaryAddress,
+  isNotCurrentMarriage,
+  isNotInternationalAddressText,
+  isNotLivingWithParent,
+  isNotLivingWithSpouse,
+  isNotMilitaryAddress,
+  isUSAAddress,
+  schoolAttendanceWarning,
+  separationReasons,
   transform,
   VAFileNumberDescription,
 } from '../helpers.jsx';
@@ -41,65 +52,51 @@ import AuthorizationMessage from '../components/AuthorizationMessage';
 const { get } = dataUtils;
 
 const {
-  maritalStatus,
-  veteranSocialSecurityNumber,
-  dependents,
-  veteranFullName,
-  previousMarriages: marriages,
   currentMarriage,
+  dependents,
+  maritalStatus,
+  previousMarriages: marriages,
+  veteranFullName,
+  veteranSocialSecurityNumber,
 } = fullSchema686.properties;
 
 const {
-  spouseDateOfBirth,
-  spouseVaFileNumber,
-  liveWithSpouse,
-  spouseIsVeteran,
-  spouseMarriages,
-} = currentMarriage.properties;
-
-const {
-  domesticAddress,
-  militaryAddress,
-  internationalAddressText,
-  postalCode,
-  fullName,
-  ssn,
-  location,
   date,
-  vaFileNumber,
+  domesticAddress,
+  fullName,
+  internationalAddressText,
+  location,
+  militaryAddress,
+  postalCode,
   previousMarriages,
+  ssn,
+  vaFileNumber,
 } = fullSchema686.definitions;
 
-previousMarriages.items.required = [];
+const {
+  liveWithSpouse,
+  spouseDateOfBirth,
+  spouseIsVeteran,
+  spouseMarriages,
+  spouseVaFileNumber,
+} = currentMarriage.properties;
 
+previousMarriages.items.required = [];
 const marriageProperties = previousMarriages.items.properties;
 
 const MARITAL_STATUS_NEVER_MARRIED = 'NEVERMARRIED';
-const REASON_DEATH = 'Death';
-const REASON_DIVORCE = 'Divorce';
-const REASON_OTHER = 'Other';
+
 const reasonForSeparation = {
   type: 'string',
-  enum: [REASON_DEATH, REASON_DIVORCE, REASON_OTHER],
+  enum: [
+    separationReasons.DEATH,
+    separationReasons.DIVORCE,
+    separationReasons.OTHER,
+  ],
 };
 
 const explainSeparation =
   previousMarriages.items.oneOf[1].properties.explainSeparation;
-
-const militaryStates = [
-  { label: 'American Samoa', value: 'AS' },
-  { label: 'Armed Forces Americas (AA)', value: 'AA' },
-  { label: 'Armed Forces Europe (AE)', value: 'AE' },
-  { label: 'Armed Forces Pacific (AP)', value: 'AP' },
-  { label: 'Federated States Of Micronesia', value: 'FM' },
-  { label: 'Guam', value: 'GU' },
-  { label: 'Marshall Islands', value: 'MH' },
-  { label: 'Northern Mariana Islands', value: 'MP' },
-  { label: 'Palau', value: 'PW' },
-  { label: 'Puerto Rico', value: 'PR' },
-  { label: 'Virgin Islands', value: 'VI' },
-  { label: 'United States Minor Outlying Islands', value: 'UM' },
-];
 
 // NOTE: Required fields will be conditionally set via the ui:Schema
 // We cannot set required fields directly on the schema because some address
@@ -129,74 +126,22 @@ const locationSchema = {
     countryDropdown: militaryAddress.properties.countryDropdown,
     countryText: internationalAddressText.properties.countryText,
     city: domesticAddress.properties.city,
-    // TODO: make this just 50 states + DC
-    state: domesticAddress.properties.state,
+    state: location.oneOf[0].properties.state,
   },
 };
-
-function isMilitaryAddress(address = {}) {
-  const state = address.state;
-  return militaryStates.some(e => e.value === state);
-}
-
-function isNotMilitaryAddress(address = {}) {
-  return !isMilitaryAddress(address);
-}
-
-function isUSAAddress(address = {}) {
-  const country = address.countryDropdown;
-  return country === 'USA';
-}
-
-function isDomesticAddress(address = {}) {
-  const country = address.countryDropdown;
-  return country === 'USA' && isNotMilitaryAddress(address);
-}
-
-function isInternationalAddressDropdown(address = {}) {
-  const country = address.countryDropdown;
-  return !isDomesticAddress(address) && country !== 'Country Not In List';
-}
-
-function isInternationalAddressText(address = {}) {
-  return (
-    !isDomesticAddress(address) && !isInternationalAddressDropdown(address)
-  );
-}
-
-function isNotInternationalAddressText(address = {}) {
-  const country = address.countryDropdown;
-  return country !== 'Country Not In List';
-}
-
-function isCurrentMarriage(form, index) {
-  const numMarriages = form && form.marriages ? form.marriages.length : 0;
-  return isMarried(form) && numMarriages - 1 === index;
-}
-
-function isNotCurrentMarriage(form, index) {
-  return !isCurrentMarriage(form, index);
-}
 
 function veteranSeparatedForOtherReason(form, index) {
   return (
     get(`marriages.${index}.view:pastMarriage.reasonForSeparation`, form) ===
-    REASON_OTHER
+    reasonForSeparation.OTHER
   );
 }
 
 function spouseSeparatedForOtherReason(form, index) {
   return (
-    get(`spouseMarriages.${index}.reasonForSeparation`, form) === REASON_OTHER
+    get(`spouseMarriages.${index}.reasonForSeparation`, form) ===
+    reasonForSeparation.OTHER
   );
-}
-
-function isNotLivingWithSpouse(form) {
-  return !form.liveWithSpouse;
-}
-
-function isNotLivingWithParent(form, index) {
-  return !form.dependents[index].childInHousehold;
 }
 
 const spouseSelector = createSelector(
@@ -228,7 +173,7 @@ function createSpouseLabelSelector(nameTemplate) {
 // ex: given 'marriages[INDEX].locationOfMarriage' and `0` return
 // 'marriages[0].locationOfMarriage'
 function insertRealIndexInKey(key, index) {
-  return key.replace('INDEX', index);
+  return key.replace(/(?<=\[)INDEX(?=\])/, index);
 }
 
 // pass in the key so the address we care about can be pulled out of the
@@ -355,14 +300,6 @@ function createLocationUISchemaForKey(
       },
     },
   };
-}
-
-function calculateChildAge(form, index) {
-  if (form.dependents[index].childDateOfBirth) {
-    const childAge = form.dependents[index].childDateOfBirth;
-    return moment().diff(childAge, 'years');
-  }
-  return null;
 }
 
 const formConfig = {

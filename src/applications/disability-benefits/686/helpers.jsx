@@ -1,18 +1,19 @@
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import React from 'react';
-// import { apiRequest } from '../../../platform/utilities/api';
+import moment from 'moment';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
+// import { apiRequest } from '../../../platform/utilities/api';
 
-export const relationshipLabels = {
-  veteran: 'I am the Veteran',
-  spouse: 'Spouse or surviving spouse',
-  child: 'Unmarried adult child',
-  other: 'Other',
-};
 export const childRelationshipStatusLabels = {
   biological: 'Biological',
   adopted: 'Adopted',
   stepchild: 'Stepchild',
+};
+
+export const separationReasons = {
+  DEATH: 'Death',
+  DIVORCE: 'Divorce',
+  OTHER: 'Other',
 };
 
 const numberToWords = {
@@ -28,6 +29,21 @@ const numberToWords = {
   9: 'Tenth',
 };
 
+const militaryStates = [
+  { label: 'American Samoa', value: 'AS' },
+  { label: 'Armed Forces Americas (AA)', value: 'AA' },
+  { label: 'Armed Forces Europe (AE)', value: 'AE' },
+  { label: 'Armed Forces Pacific (AP)', value: 'AP' },
+  { label: 'Federated States Of Micronesia', value: 'FM' },
+  { label: 'Guam', value: 'GU' },
+  { label: 'Marshall Islands', value: 'MH' },
+  { label: 'Northern Mariana Islands', value: 'MP' },
+  { label: 'Palau', value: 'PW' },
+  { label: 'Puerto Rico', value: 'PR' },
+  { label: 'Virgin Islands', value: 'VI' },
+  { label: 'United States Minor Outlying Islands', value: 'UM' },
+];
+
 export function fetchDisabilityRating({ onDone }) {
   // const fetchUrl = '/dependents_applications/disability_rating';
 
@@ -42,6 +58,58 @@ export function fetchDisabilityRating({ onDone }) {
 
 export function isMarried(form = {}) {
   return ['MARRIED', 'SEPARATED'].includes(form.maritalStatus);
+}
+
+export function isMilitaryAddress(address = {}) {
+  const state = address.state;
+  return militaryStates.some(e => e.value === state);
+}
+
+export function isNotMilitaryAddress(address = {}) {
+  return !isMilitaryAddress(address);
+}
+
+export function isUSAAddress(address = {}) {
+  const country = address.countryDropdown;
+  return country === 'USA';
+}
+
+export function isDomesticAddress(address = {}) {
+  const country = address.countryDropdown;
+  return country === 'USA' && isNotMilitaryAddress(address);
+}
+
+export function isInternationalAddressDropdown(address = {}) {
+  const country = address.countryDropdown;
+  return !isDomesticAddress(address) && country !== 'Country Not In List';
+}
+
+export function isInternationalAddressText(address = {}) {
+  return (
+    !isDomesticAddress(address) && !isInternationalAddressDropdown(address)
+  );
+}
+
+export function isNotInternationalAddressText(address = {}) {
+  const country = address.countryDropdown;
+  return country !== 'Country Not In List';
+}
+
+export function isCurrentMarriage(form, index) {
+  const numMarriages = form && form.marriages ? form.marriages.length : 0;
+  return isMarried(form) && numMarriages - 1 === index;
+}
+
+export function isNotCurrentMarriage(form, index) {
+  return !isCurrentMarriage(form, index);
+}
+
+export function isNotLivingWithSpouse(form) {
+  return !form.liveWithSpouse;
+}
+
+export function isNotLivingWithParent(form, index) {
+  return !form.dependents[index].childInHousehold;
 }
 
 export function getMarriageTitle(index) {
@@ -65,6 +133,14 @@ export function getSpouseMarriageTitle(index) {
   return marriageNumber
     ? `Spouse’s ${marriageNumber.toLowerCase()} marriage`
     : `Spouse marriage ${index + 1}`;
+}
+
+export function calculateChildAge(form, index) {
+  if (form.dependents[index].childDateOfBirth) {
+    const childAge = form.dependents[index].childDateOfBirth;
+    return moment().diff(childAge, 'years');
+  }
+  return null;
 }
 
 export const VAFileNumberDescription = (
