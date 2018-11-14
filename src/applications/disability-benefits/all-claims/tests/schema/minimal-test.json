@@ -1,12 +1,12 @@
 {
   "data": {
     "view:hasSeparationPay": false,
-    "view:hasTrainingPay": false,
+    "hasTrainingPay": false,
     "isVAEmployee": false,
     "homelessOrAtRisk": "no",
     "phoneEmailCard": {
       "primaryPhone": "1231231234",
-      "emailAddress": "asdf@asdf.sd"
+      "emailAddress": "asdf@as.asdf"
     },
     "mailingAddress": {
       "country": "USA",
@@ -19,7 +19,7 @@
     "view:vaMedicalRecordsIntro": {},
     "vaTreatmentFacilities": [
       {
-        "treatmentCenterName": "asdf",
+        "treatmentCenterName": "Medical Center Name Here",
         "treatmentDateRange": {
           "from": "1900-01-XX",
           "to": "1901-01-XX"
@@ -28,8 +28,7 @@
           "country": "USA"
         },
         "relatedDisabilities": {
-          "First Condition": true,
-          "PTSD (post Traumatic Stress Disorder)": true
+          "Stress Disorder": true
         }
       }
     ],
@@ -41,25 +40,38 @@
       "view:evidenceTypeHelp": {}
     },
     "view:powStatus": false,
-    "view:unemployabilityStatus": false,
-    "ptsd781": [
+    "view:newDisabilities": true,
+    "newDisabilities": [
       {
-        "name": "out-of-the-tar-pit.pdf",
-        "confirmationCode": "04d1f6a6-d6b9-4e7c-8175-42bb8ee97474"
+        "cause": "NEW",
+        "primaryDescription": "A thing happened.",
+        "condition": "stress disorder"
       }
     ],
-    "view:uploadPtsdChoice": "upload",
+    "view:unemployabilityStatus": false,
+    "view:uploadPtsdChoice": "answerQuestions",
     "view:uploadPtsdChoiceHelp": {},
     "view:selectablePtsdTypes": {
       "view:combatPtsdType": true
     },
     "view:ptsdTypeHelp": {},
-    "view:newDisabilities": true,
-    "newDisabilities": [
-      {
-        "condition": "PTSD (post traumatic stress disorder)"
+    "serviceInformation": {
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force",
+          "dateRange": {
+            "from": "1900-01-01",
+            "to": "1901-01-01"
+          }
+        }
+      ],
+      "view:militaryHistoryNote": {},
+      "reservesNationalGuardService": {
+        "obligationTermOfServiceDateRange": {}
       }
-    ],
+    },
+    "view:hasMilitaryRetiredPay": false,
+    "view:hasAlternateName": false,
     "ratedDisabilities": [
       {
         "name": "First Condition",
@@ -69,8 +81,7 @@
         "decisionCode": "SVCCONNCTED",
         "decisionText": "Service Connected",
         "ratingPercentage": 100,
-        "disabilityActionType": "INCREASE",
-        "view:selected": true
+        "disabilityActionType": "INCREASE"
       },
       {
         "name": "Second Condition",
@@ -94,29 +105,12 @@
       }
     ],
     "view:disabilitiesClarification": {},
-    "serviceInformation": {
-      "servicePeriods": [
-        {
-          "serviceBranch": "Air Force",
-          "dateRange": {
-            "from": "1900-01-01",
-            "to": "1901-01-01"
-          }
-        }
-      ],
-      "view:militaryHistoryNote": {},
-      "reservesNationalGuardService": {
-        "obligationTermOfServiceDateRange": {},
-        "unitAddress": {
-          "country": "USA"
-        }
-      }
-    },
-    "view:hasMilitaryRetiredPay": false,
-    "view:hasAlternateName": false,
     "view:uploadPrivateRecordsQualifier": {
       "view:aboutPrivateMedicalRecords": {},
       "view:privateRecordsChoiceHelp": {}
+    },
+    "view:patientAcknowledgement": {
+      "view:acknowledgement": true
     },
     "view:faqAccordion": {},
     "view:waiveRetirementPayDescription": {},

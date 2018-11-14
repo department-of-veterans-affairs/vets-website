@@ -123,6 +123,8 @@
     "view:newDisabilities": true,
     "newDisabilities": [
       {
+        "cause": "NEW",
+        "primaryDescription": "A thing happened.",
         "condition": "PTSD (post traumatic stress disorder)"
       }
     ],
