@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, IndexRedirect, Redirect } from 'react-router';
 
-// import YourClaimsPage from './containers/YourClaimsPage';
 import YourClaimsPageV2 from './containers/YourClaimsPageV2';
 import ClaimPage from './containers/ClaimPage';
 import ClaimStatusPage from './containers/ClaimStatusPage';
@@ -21,21 +20,10 @@ const routes = [
   <Redirect
     key="/track-claims/your-claims"
     from="/disability-benefits/track-claims*"
-    to="/your-claims"/>,
-  <Route
-    component={YourClaimsPageV2}
-    key="/your-claims"
-    path="/your-claims"/>,
+    to="/your-claims"
+  />,
+  <Route component={YourClaimsPageV2} key="/your-claims" path="/your-claims" />,
   /*
-  <Route
-    component={YourClaimsPage}
-    key="/your-claims"
-    path="/your-claims"/>,
-  <Route
-    component={YourClaimsPage}
-    showClosedClaims
-    key="/your-claims/closed"
-    path="/your-claims/closed"/>,
   <Route
     component={AppealLayout}
     key="/appeals"
@@ -46,49 +34,33 @@ const routes = [
       path=":id/status"/>,
   </Route>,
   */
-  <Route
-    component={AppealInfo}
-    key="/appeals/:id"
-    path="/appeals/:id">
-    <IndexRedirect
-      to="status"/>
-    <Route
-      component={AppealsV2StatusPage}
-      key="status"
-      path="status"/>
-    <Route
-      component={AppealsV2DetailPage}
-      key="detail"
-      path="detail"/>
+  <Route component={AppealInfo} key="/appeals/:id" path="/appeals/:id">
+    <IndexRedirect to="status" />
+    <Route component={AppealsV2StatusPage} key="status" path="status" />
+    <Route component={AppealsV2DetailPage} key="detail" path="detail" />
   </Route>,
-  <Route
-    component={ClaimPage}
-    key="/your-claims/:id"
-    path="/your-claims/:id">
-    <IndexRedirect to="status"/>
-    <Route
-      component={ClaimStatusPage}
-      path="status"/>,
-    <Route
-      component={FilesPage}
-      path="files"/>,
-    <Route
-      component={DetailsPage}
-      path="details"/>,
-    <Route
-      component={AskVAPage}
-      path="ask-va-to-decide"/>
+  <Route component={ClaimPage} key="/your-claims/:id" path="/your-claims/:id">
+    <IndexRedirect to="status" />
+    <Route component={ClaimStatusPage} path="status" />,
+    <Route component={FilesPage} path="files" />,
+    <Route component={DetailsPage} path="details" />,
+    <Route component={AskVAPage} path="ask-va-to-decide" />
     <Route
       component={AdditionalEvidencePage}
       key="additional-evidence"
-      path="additional-evidence"/>,
+      path="additional-evidence"
+    />
+    ,
     <Route
       component={DocumentRequestPage}
-      path="document-request/:trackedItemId"/>
+      path="document-request/:trackedItemId"
+    />
     <Route
       component={ClaimEstimationPage}
       key="claim-estimate"
-      path="claim-estimate"/>,
+      path="claim-estimate"
+    />
+    ,
   </Route>,
 ];
 

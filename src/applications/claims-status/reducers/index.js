@@ -20,7 +20,7 @@ export default {
       claimSync,
       uploads,
       routing,
-      notifications
-    })
-  })
+      notifications,
+    }),
+  }),
 };

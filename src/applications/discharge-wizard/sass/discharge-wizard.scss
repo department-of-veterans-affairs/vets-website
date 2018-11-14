@@ -1,4 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-sidebar";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-next-previous";
 
 .discharge-wizard {
   padding-bottom: 3em;
@@ -82,12 +84,5 @@
         }
       }
     }
-  }
-
-  .usa-button[href^=http],
-  .usa-button[rel=external] {
-    background-image: url(/img/icons/exit-icon-white.png);
-    background-position: right 1.2em center;
-    padding-right: 2.9em;
   }
 }

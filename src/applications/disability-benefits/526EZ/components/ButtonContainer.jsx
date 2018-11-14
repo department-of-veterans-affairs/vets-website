@@ -2,27 +2,77 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function ButtonContainer(props) {
-  const { checkGuidanceStatus, isChoosingStatus, atGuidance, goBack, goForward, authenticate, isVerified } = props;
+  const {
+    checkGuidanceStatus,
+    isChoosingStatus,
+    atGuidance,
+    goBack,
+    goForward,
+    authenticate,
+    isVerified,
+    isLoggedIn,
+  } = props;
   const { atIncreaseGuidance, atEbenefitsGuidance } = checkGuidanceStatus();
 
-  return  (<div>
-    {!isChoosingStatus() &&
-      <button type="button" className="usa-button-secondary" onClick={goBack}><span className="button-icon">« </span>Back</button>
-    }
-    {atIncreaseGuidance && !sessionStorage.userToken &&
-      <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/" onClick={authenticate}>Sign In and Verify Your Identity<span className="button-icon"> »</span></a>
-    }
-    {atIncreaseGuidance && sessionStorage.userToken && !isVerified &&
-      <a className="usa-button-primary" href="/verify?next=/disability-benefits/526/apply-for-increase/introduction/">Verify Your Identity<span className="button-icon"> »</span></a>}
-    {atIncreaseGuidance && isVerified &&
-      <a className="usa-button-primary" href="/disability-benefits/526/apply-for-increase/introduction/">Apply for Claim for Increase<span className="button-icon"> »</span></a>}
-    {atEbenefitsGuidance &&
-      <a className="usa-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits<span className="button-icon"> »</span></a>
-    }
-    {!atGuidance() &&
-      <a className="usa-button-primary" onClick={goForward}>Next<span className="button-icon"> »</span></a>
-    }
-  </div>);
+  return (
+    <div>
+      {!isChoosingStatus() && (
+        <button type="button" className="usa-button-secondary" onClick={goBack}>
+          <span className="button-icon">« </span>
+          Back
+        </button>
+      )}
+      {atIncreaseGuidance &&
+        !isLoggedIn && (
+          <a
+            className="usa-button-primary"
+            href="/disability-benefits/apply/form-526-disability-claim/introduction/"
+            onClick={authenticate}
+          >
+            Sign In and Verify Your Identity
+            <span className="button-icon"> »</span>
+          </a>
+        )}
+      {atIncreaseGuidance &&
+        isLoggedIn &&
+        !isVerified && (
+          <a
+            className="usa-button-primary"
+            href="/verify?next=/disability-benefits/apply/form-526-disability-claim/introduction/"
+          >
+            Verify Your Identity
+            <span className="button-icon"> »</span>
+          </a>
+        )}
+      {atIncreaseGuidance &&
+        isVerified && (
+          <a
+            className="usa-button-primary"
+            href="/disability-benefits/apply/form-526-disability-claim/introduction/"
+          >
+            Apply for Claim for Increase
+            <span className="button-icon"> »</span>
+          </a>
+        )}
+      {atEbenefitsGuidance && (
+        <a
+          className="usa-button-primary"
+          href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"
+          rel="noopener"
+          target="_blank"
+        >
+          Go to eBenefits
+          <span className="button-icon"> »</span>
+        </a>
+      )}
+      {!atGuidance() && (
+        <a className="usa-button-primary" onClick={goForward}>
+          Next
+          <span className="button-icon"> »</span>
+        </a>
+      )}
+    </div>
+  );
 }
 
 ButtonContainer.propTypes = {
@@ -32,5 +82,5 @@ ButtonContainer.propTypes = {
   goBack: PropTypes.func.isRequired,
   goForward: PropTypes.func.isRequired,
   authenticate: PropTypes.func.isRequired,
-  isVerified: PropTypes.bool.isRequired
+  isVerified: PropTypes.bool.isRequired,
 };

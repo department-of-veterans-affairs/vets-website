@@ -7,15 +7,18 @@
 
 import clone from './clone';
 import cloneDeep from './cloneDeep';
+import debounce from './debounce';
 import get from './get';
 import omit from './omit';
 import set from './set';
+import unset from './unset';
 
 export default {
   clone,
   cloneDeep,
+  debounce,
   get,
   omit,
-  set
+  set,
+  unset,
 };
-

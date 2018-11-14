@@ -5,15 +5,17 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
+import conditionalStorage from '../../utilities/storage/conditionalStorage';
+
 chai.use(chaiAsPromised);
 
 const expect = chai.expect;
 
 /**
- * Wraps the given children with a new component with context from 
+ * Wraps the given children with a new component with context from
  * context and contextTypes.
  *
- * @param {object} context The context object for the new component 
+ * @param {object} context The context object for the new component
  * @param {object} contextTypes An object with a prop type description of
  * @param {React.Element} children React elements that the new component will wrap
  * @returns {React.Element} A new React element that wraps children with context
@@ -61,21 +63,27 @@ function fillDate(formDOM, partialId, dateString) {
   const date = dateString.split('-');
   const inputs = Array.from(formDOM.querySelectorAll('input, select'));
 
-  ReactTestUtils.Simulate.change(inputs.find((i) => i.id === `${partialId}Month`), {
+  ReactTestUtils.Simulate.change(
+    inputs.find(i => i.id === `${partialId}Month`),
+    {
+      target: {
+        value: date[1],
+      },
+    },
+  );
+  ReactTestUtils.Simulate.change(inputs.find(i => i.id === `${partialId}Day`), {
     target: {
-      value: date[1]
-    }
+      value: date[2],
+    },
   });
-  ReactTestUtils.Simulate.change(inputs.find((i) => i.id === `${partialId}Day`), {
-    target: {
-      value: date[2]
-    }
-  });
-  ReactTestUtils.Simulate.change(inputs.find((i) => i.id === `${partialId}Year`), {
-    target: {
-      value: date[0]
-    }
-  });
+  ReactTestUtils.Simulate.change(
+    inputs.find(i => i.id === `${partialId}Year`),
+    {
+      target: {
+        value: date[0],
+      },
+    },
+  );
 }
 
 /**
@@ -86,7 +94,11 @@ function fillDate(formDOM, partialId, dateString) {
  * @param {boolean} [shouldResolve=true] Returns a rejected promise if this is false
  */
 export function mockFetch(returnVal, shouldResolve = true) {
-  global.fetch = sinon.stub().returns(shouldResolve ? Promise.resolve(returnVal) : Promise.reject(returnVal));
+  global.fetch = sinon
+    .stub()
+    .returns(
+      shouldResolve ? Promise.resolve(returnVal) : Promise.reject(returnVal),
+    );
 }
 
 /**
@@ -96,28 +108,56 @@ export function resetFetch() {
   global.fetch.reset();
 }
 
+const getApiRequestObject = returnVal => ({
+  headers: {
+    get: () => 'application/json',
+  },
+  ok: true,
+  json: () => Promise.resolve(returnVal),
+});
+
 /**
  * This doesn't so much _mock_ the function as it does set up the fetch to return what we
  * need it to from apiRequest(). Feel free to rename this to something more appropriate.
  *
- * @param returnVal The value to return from the json promise
+ * @param {} returnVal The value to return from the json promise
  * @param {boolean} [shouldResolve=true] Returns a rejected promise if this is false
- * @param {string} [userToken='foo'] The token to set in sessionStorage, to simulate
- * and authenticated request
+ * @param {string} [userToken='foo'] The token to set in conditionalStorage(), to simulate
+ * an authenticated request
  */
-export function mockApiRequest(returnVal, shouldResolve = true, userToken = 'foo') {
-  const returnObj = {
-    headers: {
-      get: () => 'application/json',
-    },
-    ok: true,
-    json: () => Promise.resolve(returnVal)
-  };
+export function mockApiRequest(
+  returnVal,
+  shouldResolve = true,
+  userToken = 'foo',
+) {
+  const returnObj = getApiRequestObject(returnVal);
 
   mockFetch(returnObj, shouldResolve);
-  global.sessionStorage = {
-    userToken
-  };
+  conditionalStorage().setItem('userToken', userToken);
+}
+
+/**
+ * @typedef {Object} Response
+ * @property {} response - The value the fake fetch should return
+ * @property {boolean} shouldResolve - Whether the fetch promise should resolve or not
+ * ---
+ * @param {Response[]} responses - An array of responses which subsequent fetch calls should return
+ * @param {string} userToken - The user token
+ */
+export function mockMultipleApiRequests(responses, userToken = 'foo') {
+  global.fetch = sinon.stub();
+  responses.forEach((res, index) => {
+    const { response, shouldResolve } = res;
+    const formattedResponse = getApiRequestObject(response);
+    global.fetch
+      .onCall(index)
+      .returns(
+        shouldResolve
+          ? Promise.resolve(formattedResponse)
+          : Promise.reject(formattedResponse),
+      );
+  });
+  conditionalStorage().setItem('userToken', userToken);
 }
 
 export { chai, expect, wrapWithContext, wrapWithRouterContext, fillDate };

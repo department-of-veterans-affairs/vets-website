@@ -7,12 +7,14 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import recordEvent from '../../../platform/monitoring/record-event';
+import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 import { getScrollOptions } from '../../../platform/utilities/ui';
+import siteName from '../../../platform/brand-consolidation/site-name';
 
 import {
   acceptTerms,
   fetchLatestTerms,
-  fetchTermsAcceptance
+  fetchTermsAcceptance,
 } from '../actions';
 
 const ScrollElement = Scroll.Element;
@@ -21,9 +23,9 @@ const scroller = Scroll.scroller;
 const TERMS_NAME = 'mhvac';
 
 const unagreedBannerProps = {
-  headline: 'Using Vets.gov Health Tools',
-  content: 'Before you can use the health tools on Vets.gov, you’ll need to read and agree to the Terms and Conditions below. This will give us your permission to show you your VA medical information on this site.',
-  status: 'warning'
+  headline: `Using ${siteName} Health Tools`,
+  content: `Before you can use the health tools on ${siteName}, you’ll need to read and agree to the Terms and Conditions below. This will give us your permission to show you your VA medical information on this site.`,
+  status: 'warning',
 };
 
 export class MhvTermsAndConditions extends React.Component {
@@ -33,13 +35,15 @@ export class MhvTermsAndConditions extends React.Component {
       isAgreementChecked: false,
       isSubmitted: false,
       showAcceptedMessage: false,
-      showCanceledMessage: false
+      showCanceledMessage: false,
     };
   }
 
   componentDidMount() {
     this.props.fetchLatestTerms(TERMS_NAME);
-    if (sessionStorage.userToken) { this.props.fetchTermsAcceptance(TERMS_NAME); }
+    if (conditionalStorage().getItem('userToken')) {
+      this.props.fetchTermsAcceptance(TERMS_NAME);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -48,22 +52,22 @@ export class MhvTermsAndConditions extends React.Component {
     }
   }
 
-  redirect = () =>  {
+  redirect = () => {
     const redirectUrl = this.props.location.query.tc_redirect;
     if (redirectUrl) {
       const newUrl = appendQuery(redirectUrl, { tc_accepted: true }); // eslint-disable-line camelcase
       window.location.replace(newUrl);
     }
-  }
+  };
 
   handleAgreementCheck = () => {
     this.setState({ isAgreementChecked: !this.state.isAgreementChecked });
     recordEvent({
       event: 'account-navigation',
       'account-action': 'agree-check',
-      'account-section': 'terms'
+      'account-section': 'terms',
     });
-  }
+  };
 
   handleAcceptanceSuccess = () => {
     this.setState({ showAcceptedMessage: true }, () => {
@@ -71,9 +75,9 @@ export class MhvTermsAndConditions extends React.Component {
       recordEvent({ event: 'account-terms-transaction' });
       this.redirect();
     });
-  }
+  };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     this.setState({ isSubmitted: true }, () => {
       this.props.acceptTerms(TERMS_NAME);
@@ -81,11 +85,11 @@ export class MhvTermsAndConditions extends React.Component {
     recordEvent({
       event: 'account-navigation',
       'account-action': 'update-button',
-      'account-section': 'terms'
+      'account-section': 'terms',
     });
-  }
+  };
 
-  handleCancel = (e) => {
+  handleCancel = e => {
     e.preventDefault();
     this.setState({ showCanceledMessage: true }, () => {
       scroller.scrollTo('banner', getScrollOptions());
@@ -93,39 +97,42 @@ export class MhvTermsAndConditions extends React.Component {
     recordEvent({
       event: 'account-navigation',
       'account-action': 'cancel-button',
-      'account-section': 'terms'
+      'account-section': 'terms',
     });
-  }
+  };
 
   handleCloseBanner = () => {
     this.setState({
       showAcceptedMessage: false,
-      showCanceledMessage: false
+      showCanceledMessage: false,
     });
-  }
+  };
 
   renderBanner = () => {
     let bannerProps = null;
 
     if (this.state.showAcceptedMessage) {
       bannerProps = {
-        headline: 'You’ve accepted the Terms and Conditions for using Vets.gov health tools',
+        headline: `You’ve accepted the Terms and Conditions for using ${siteName} health tools`,
         content: '',
-        status: 'success'
+        status: 'success',
       };
     } else if (this.state.showCanceledMessage) {
       bannerProps = unagreedBannerProps;
     }
 
-    return bannerProps && (
-      <ScrollElement name="banner">
-        <AlertBox
-          {...bannerProps}
-          isVisible
-          onCloseAlert={this.handleCloseBanner}/>
-      </ScrollElement>
+    return (
+      bannerProps && (
+        <ScrollElement name="banner">
+          <AlertBox
+            {...bannerProps}
+            isVisible
+            onCloseAlert={this.handleCloseBanner}
+          />
+        </ScrollElement>
+      )
     );
-  }
+  };
 
   renderAgreementSection = () => {
     const shouldHideSection =
@@ -133,7 +140,9 @@ export class MhvTermsAndConditions extends React.Component {
       !this.props.user.verified ||
       this.props.accepted;
 
-    if (shouldHideSection) { return null; }
+    if (shouldHideSection) {
+      return null;
+    }
 
     const yesCheckbox = (
       <div>
@@ -142,10 +151,9 @@ export class MhvTermsAndConditions extends React.Component {
           id="agreement-checkbox"
           value="yes"
           checked={this.state.isAgreementChecked}
-          onChange={this.handleAgreementCheck}/>
-        <label
-          className="agreement-label"
-          htmlFor="agreement-checkbox">
+          onChange={this.handleAgreementCheck}
+        />
+        <label className="agreement-label" htmlFor="agreement-checkbox">
           {this.props.attributes.yesContent}
         </label>
       </div>
@@ -154,7 +162,8 @@ export class MhvTermsAndConditions extends React.Component {
     const submitButton = (
       <button
         className="usa-button submit-button"
-        disabled={!this.state.isAgreementChecked}>
+        disabled={!this.state.isAgreementChecked}
+      >
         Submit
       </button>
     );
@@ -163,7 +172,8 @@ export class MhvTermsAndConditions extends React.Component {
       <button
         className="usa-button usa-button-secondary"
         type="button"
-        onClick={this.handleCancel}>
+        onClick={this.handleCancel}
+      >
         Cancel
       </button>
     );
@@ -177,7 +187,7 @@ export class MhvTermsAndConditions extends React.Component {
         </div>
       </div>
     );
-  }
+  };
 
   /* eslint-disable react/no-danger */
   renderTermsAndConditions = () => {
@@ -187,33 +197,44 @@ export class MhvTermsAndConditions extends React.Component {
           headline="We failed to process the terms and conditions"
           content="We’re sorry. Something went wrong on our end. Please try again later."
           isVisible
-          status="error"/>
+          status="error"
+        />
       );
     }
 
     const { loading } = this.props;
 
     if (loading.acceptance && this.state.isSubmitted) {
-      return <LoadingIndicator setFocus message="Accepting terms and conditions..."/>;
+      return (
+        <LoadingIndicator
+          setFocus
+          message="Accepting terms and conditions..."
+        />
+      );
     }
 
     if (loading.tc || loading.acceptance) {
-      return <LoadingIndicator setFocus message="Loading terms and conditions..."/>;
+      return (
+        <LoadingIndicator setFocus message="Loading terms and conditions..." />
+      );
     }
 
     const { title, headerContent, termsContent } = this.props.attributes;
 
-    const header = !this.props.accepted &&  (
+    const header = !this.props.accepted && (
       <div>
-        {
-          !this.state.showCanceledMessage && (
-            <div className="usa-alert usa-alert-info no-background-image">
-              <h3>{unagreedBannerProps.headline}</h3>
-              <p>{unagreedBannerProps.content}</p>
-            </div>
-          )
-        }
-        <div className="va-introtext" dangerouslySetInnerHTML={{ __html: headerContent }}/>
+        {!this.state.showCanceledMessage && (
+          <div className="usa-alert usa-alert-info background-color-only">
+            <h3 className="usa-alert-heading">
+              {unagreedBannerProps.headline}
+            </h3>
+            <p className="usa-alert-text">{unagreedBannerProps.content}</p>
+          </div>
+        )}
+        <div
+          className="va-introtext"
+          dangerouslySetInnerHTML={{ __html: headerContent }}
+        />
         <h3>Terms and Conditions</h3>
       </div>
     );
@@ -222,22 +243,26 @@ export class MhvTermsAndConditions extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <h1>{title}</h1>
         {header}
-        <hr/>
-        <div dangerouslySetInnerHTML={{ __html: termsContent }}/>
-        <hr/>
+        <hr />
+        <div dangerouslySetInnerHTML={{ __html: termsContent }} />
+        <hr />
         {this.renderAgreementSection()}
       </form>
     );
-  }
+  };
   /* eslint-enable react/no-danger */
 
   render() {
     return (
       <main className="terms-and-conditions">
         <div className="container">
-          <div className="row primary">
+          <div className="row">
             {this.renderBanner()}
-            <div className="columns small-12" role="region" aria-label="Terms and Conditions">
+            <div
+              className="columns small-12"
+              role="region"
+              aria-label="Terms and Conditions"
+            >
               {this.renderTermsAndConditions()}
             </div>
           </div>
@@ -247,18 +272,21 @@ export class MhvTermsAndConditions extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   ...state.termsAndConditions,
   user: {
     loggedIn: state.user.login.currentlyLoggedIn,
-    verified: state.user.profile.verified
-  }
+    verified: state.user.profile.verified,
+  },
 });
 
 const mapDispatchToProps = {
   acceptTerms,
   fetchLatestTerms,
-  fetchTermsAcceptance
+  fetchTermsAcceptance,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MhvTermsAndConditions);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MhvTermsAndConditions);

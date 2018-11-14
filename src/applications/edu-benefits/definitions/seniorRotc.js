@@ -1,15 +1,15 @@
-import yearUI from '../../common/schemaform/definitions/year';
-import currencyUI from '../../common/schemaform/definitions/currency';
+import yearUI from 'us-forms-system/lib/js/definitions/year';
+import currencyUI from 'us-forms-system/lib/js/definitions/currency';
 import ScholarshipPeriodField from '../components/ScholarshipPeriodField';
 
 export default {
   'ui:title': 'ROTC scholarships',
   'ui:options': {
     itemName: 'Scholarship Period',
-    viewField: ScholarshipPeriodField
+    viewField: ScholarshipPeriodField,
   },
   items: {
     year: yearUI,
-    amount: currencyUI('Scholarship amount')
-  }
+    amount: currencyUI('Scholarship amount'),
+  },
 };

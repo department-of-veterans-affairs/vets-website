@@ -2,54 +2,60 @@ const E2eHelpers = require('../../../testing/e2e/helpers');
 const Timeouts = require('../../../testing/e2e/timeouts.js');
 const HcaHelpers = require('../../../../applications/hca/tests/hca-helpers.js');
 
-module.exports = E2eHelpers.createE2eTest(
-  (client) => {
-    const url = `${E2eHelpers.baseUrl}/health-care/apply/application`;
-    const reviewUrl = `${url}/review-and-submit?skip`;
-    const token = HcaHelpers.initSaveInProgressMock(url, client);
+module.exports = E2eHelpers.createE2eTest(client => {
+  const url = `${E2eHelpers.baseUrl}/health-care/apply/application`;
+  const reviewUrl = `${url}/review-and-submit?skip`;
+  const token = HcaHelpers.initSaveInProgressMock(url, client);
 
-    // Ensure introduction page renders.
-    client
-      .url(reviewUrl)
-      .waitForElementVisible('body', Timeouts.normal)
-      .waitForElementVisible('.usa-button-primary', Timeouts.slow);  // First render of React may be slow.
+  // Prevent announcements from interfering with browser focus
+  E2eHelpers.disableAnnouncements(client);
 
-    E2eHelpers.overrideVetsGovApi(client);
-    E2eHelpers.overrideScrolling(client);
+  // Ensure introduction page renders.
+  client
+    .url(reviewUrl)
+    .waitForElementVisible('body', Timeouts.normal)
+    .waitForElementVisible('.main .usa-button-primary', Timeouts.slow); // First render of React may be slow.
 
-    client
-      .click('.schemaform-chapter-accordion-header:first-child > .usa-button-unstyled')
-      .click('.edit-btn')
-      .fill('input[name="root_veteranFullName_first"]', 'Jane')
-      .waitForElementVisible('.saved-success-container', Timeouts.normal);
+  E2eHelpers.overrideVetsGovApi(client);
+  E2eHelpers.overrideScrolling(client);
 
-    // save and finish a form later
-    client
-      .click('.schemaform-sip-save-link');
+  client
+    .click(
+      '.schemaform-chapter-accordion-header:first-child > .usa-button-unstyled',
+    )
+    .click('.edit-btn')
+    .fill('input[name="root_veteranFullName_first"]', 'Jane')
+    .waitForElementVisible('.saved-success-container', Timeouts.normal);
 
-    E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
-    client.assert.urlContains('form-saved');
+  // save and finish a form later
+  client.click('.schemaform-sip-save-link');
 
-    // server error when saving in progress form
-    client
-      .url(reviewUrl)
-      .waitForElementVisible('body', Timeouts.normal);
+  E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
+  client.assert.urlContains('form-saved');
 
-    E2eHelpers.overrideScrolling(client);
+  // server error when saving in progress form
+  client.url(reviewUrl).waitForElementVisible('body', Timeouts.normal);
 
-    client
-      .mockData({
+  E2eHelpers.overrideScrolling(client);
+
+  client
+    .mockData(
+      {
         path: '/v0/in_progress_forms/1010ez',
         verb: 'put',
         value: {},
-        status: 500
-      }, token)
-      .waitForElementVisible('.schemaform-sip-save-link', Timeouts.normal)
-      .click('.schemaform-sip-save-link')
-      .waitForElementVisible('.usa-alert-error', Timeouts.slow);
+        status: 500,
+      },
+      token,
+    )
+    .waitForElementVisible('.schemaform-sip-save-link', Timeouts.normal)
+    .click('.schemaform-sip-save-link')
+    .waitForElementVisible('.usa-alert-error', Timeouts.slow);
 
-    client.assert.urlContains('review-and-submit');
-    client.expect.element('.usa-alert-error').text.to.contain('We’re sorry. Something went wrong when saving your form');
+  client.assert.urlContains('review-and-submit');
+  client.expect
+    .element('.usa-alert-error')
+    .text.to.contain('We’re sorry. Something went wrong when saving your form');
 
-    client.end();
-  });
+  client.end();
+});

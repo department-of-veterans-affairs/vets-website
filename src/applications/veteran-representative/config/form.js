@@ -2,12 +2,13 @@ import fullSchema from '../2122-schema.json';
 import _ from 'lodash/fp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
 
-import fullNameUI from '../../common/schemaform/definitions/fullName';
-import ssnUI from '../../common/schemaform/definitions/ssn';
-import * as addressUI from '../../common/schemaform/definitions/address.js';
-import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
-import phoneUI from '../../common/schemaform/definitions/phone';
+import fullNameUI from '../../../platform/forms/definitions/fullName';
+import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
+import * as addressUI from '../../../platform/forms/definitions/address.js';
+import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 
 import environment from '../../../platform/utilities/environment';
 
@@ -64,6 +65,7 @@ const formConfig = {
     address,
     vaFileNumber,
   },
+  preSubmitInfo,
   chapters: {
     veteranInformation: {
       title: 'Veteran Information',
@@ -87,22 +89,19 @@ const formConfig = {
               },
             }),
             veteranSSN: _.merge(ssnUI, {
-              'ui:title': 'Veteran’s Social Security number'
+              'ui:title': 'Veteran’s Social Security number',
             }),
             vaFileNumber: {
               'ui:title': 'Veteran’s VA file number',
               'ui:errorMessages': {
-                pattern: 'Your VA file number must be between 7 to 9 digits'
-              }
+                pattern: 'Your VA file number must be between 7 to 9 digits',
+              },
             },
             insuranceNumber: { 'ui:title': 'Veteran’s Insurance number' },
           },
           schema: {
             type: 'object',
-            required: [
-              'veteranFullName',
-              'veteranSSN',
-            ],
+            required: ['veteranFullName', 'veteranSSN'],
             properties: {
               veteranFullName,
               veteranSSN,
@@ -142,7 +141,7 @@ const formConfig = {
             claimantDaytimePhone: phoneUI('Daytime phone number'),
             claimantEveningPhone: phoneUI('Evening phone number'),
             appointmentDate: currentOrPastDateUI(
-              'Date of claimaint’s appointment'
+              'Date of claimaint’s appointment',
             ),
           },
           schema: {
@@ -203,13 +202,11 @@ const formConfig = {
       },
     },
     authorizationForRepresentativeAccessToRecords: {
-      title:
-        'Authorization for Representative’s Access to Records',
+      title: 'Authorization for Representative’s Access to Records',
       pages: {
         authorizationForRepresentativeAccessToRecords: {
           path: 'authorization-for-representative-access-to-records',
-          title:
-            'Authorization for representative’s access to records',
+          title: 'Authorization for representative’s access to records',
           uiSchema: {
             authorization: {
               'ui:title': authorizationForRepresentativeAccessToRecordsDescription,

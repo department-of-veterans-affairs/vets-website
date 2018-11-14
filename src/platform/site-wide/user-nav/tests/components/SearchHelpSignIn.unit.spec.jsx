@@ -10,36 +10,50 @@ const defaultProps = {
   isMenuOpen: {
     account: false,
     help: false,
-    search: false
+    search: false,
   },
   isUserRegisteredForBeta: () => {},
   isProfileLoading: false,
   userGreeting: 'test@vets.gov',
   toggleLoginModal: () => {},
-  toggleMenu: () => {}
+  toggleMenu: () => {},
 };
 
 describe('<SearchHelpSignIn>', () => {
   beforeEach(() => {
-    global.sessionStorage = {};
     global.window = {
       location: {
+        hostname: 'www.va.gov',
         replace: () => {},
-      }
+        pathname: '/',
+      },
+      settings: {
+        brandConsolidationEnabled: true,
+      },
     };
-    global.window.location.pathname = '/';
   });
 
   it('should present login links when not logged in', () => {
-    const wrapper = shallow(
-      <SearchHelpSignIn {...defaultProps}/>
-    );
+    window.settings.brandConsolidationEnabled = false;
+    const wrapper = shallow(<SearchHelpSignIn {...defaultProps} />);
     expect(wrapper.find('.sign-in-link')).to.have.lengthOf(2);
+  });
+
+  it('should present login links when not logged in on VA subdomain', () => {
+    window.settings.brandConsolidationEnabled = true;
+    window.location.hostname = 'www.benefits.va.gov';
+    const wrapper = shallow(<SearchHelpSignIn {...defaultProps} />);
+    expect(
+      wrapper
+        .find('.sign-in-link')
+        .at(0)
+        .prop('href'),
+    ).to.equal('https://www.va.gov/my-va');
   });
 
   it('should render <SignInProfileMenu/> when logged in', () => {
     const signedInProps = merge(defaultProps, { isLoggedIn: true });
-    const wrapper = shallow(<SearchHelpSignIn {...signedInProps}/>);
+    const wrapper = shallow(<SearchHelpSignIn {...signedInProps} />);
     expect(wrapper.find('SignInProfileMenu').exists()).to.be.true;
   });
 
@@ -47,13 +61,15 @@ describe('<SearchHelpSignIn>', () => {
     const loa1Props = merge(defaultProps, {
       isLoggedIn: true,
       profile: {
-        userFullName: { first: null }
-      }
+        userFullName: { first: null },
+      },
     });
-    const wrapper = shallow(
-      <SearchHelpSignIn {...loa1Props}/>
-    );
-    const dropdown = wrapper.find('SignInProfileMenu').dive().find('DropDownPanel').dive();
+    const wrapper = shallow(<SearchHelpSignIn {...loa1Props} />);
+    const dropdown = wrapper
+      .find('SignInProfileMenu')
+      .dive()
+      .find('DropDownPanel')
+      .dive();
     expect(dropdown.text()).to.contain(defaultProps.userGreeting);
   });
 });

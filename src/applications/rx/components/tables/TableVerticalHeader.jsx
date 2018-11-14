@@ -10,15 +10,18 @@ import TableRowVerticalHeader from './TableRowVerticalHeader';
 
 class TableVerticalHeader extends React.Component {
   render() {
-    const makeRows = (inputData) => {
+    const makeRows = inputData => {
       const rows = [];
       let rowKey = 1;
 
       _.forEach(inputData, (value, key) => {
-        rows.push(<TableRowVerticalHeader
-          key={rowKey++}
-          cellText={value}
-          headerText={key}/>);
+        rows.push(
+          <TableRowVerticalHeader
+            key={rowKey++}
+            cellText={value}
+            headerText={key}
+          />,
+        );
       });
 
       return rows;
@@ -35,7 +38,7 @@ class TableVerticalHeader extends React.Component {
 
 TableVerticalHeader.propTypes = {
   className: PropTypes.string,
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
 };
 
 export default TableVerticalHeader;

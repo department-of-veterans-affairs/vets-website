@@ -4,18 +4,33 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import classNames from 'classnames';
 
-import ErrorableCheckboxes from './ErrorableCheckboxes';
+import ErrorableCheckboxGroup from '@department-of-veterans-affairs/formation/ErrorableCheckboxGroup';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/ErrorableRadioButtons';
 
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 
+import {
+  isLoggedIn as isLoggedInSelector,
+  isLOA3,
+} from '../../../../platform/user/selectors';
+
 import ButtonContainer from './ButtonContainer';
 import {
-  GetStartedMessage, disabilityStatusOptions,
-  disabilityUpdateOptions, layouts, disabilityStatuses
+  GetStartedMessage,
+  disabilityStatusOptions,
+  disabilityUpdateOptions,
+  layouts,
+  disabilityStatuses,
 } from '../wizardHelpers';
 
-const { ADD, ADDANDINCREASE, APPEAL, FIRST, INCREASE, UPDATE } = disabilityStatuses;
+const {
+  ADD,
+  ADDANDINCREASE,
+  APPEAL,
+  FIRST,
+  INCREASE,
+  UPDATE,
+} = disabilityStatuses;
 
 const { chooseStatus, chooseUpdate, applyGuidance } = layouts;
 
@@ -24,7 +39,7 @@ class DisabilityWizard extends React.Component {
     super(props);
 
     this.state = {
-      currentLayout: chooseStatus
+      currentLayout: chooseStatus,
     };
   }
 
@@ -55,15 +70,18 @@ class DisabilityWizard extends React.Component {
     const updates = { add: false, increase: false };
     const regexIncrease = RegExp(/increase/i);
     if (disabilityStatus && disabilityStatus.includes(ADD)) updates.add = true;
-    if (disabilityStatus && regexIncrease.test(disabilityStatus)) updates.increase = true;
+    if (disabilityStatus && regexIncrease.test(disabilityStatus))
+      updates.increase = true;
     return updates;
-  }
+  };
 
   // Groups disability status into groups used by first screen: appeal, first, update, and undefined
   groupDisabilityStatus = () => {
     const { disabilityStatus } = this.state;
-    return [ADD, ADDANDINCREASE, INCREASE].includes(disabilityStatus) ? UPDATE : disabilityStatus;
-  }
+    return [ADD, ADDANDINCREASE, INCREASE].includes(disabilityStatus)
+      ? UPDATE
+      : disabilityStatus;
+  };
 
   isChoosingStatus = () => this.state.currentLayout === chooseStatus;
 
@@ -72,27 +90,33 @@ class DisabilityWizard extends React.Component {
   atGuidance = () => this.state.currentLayout === applyGuidance;
 
   checkGuidanceStatus = () => {
-    const { isAppeal, isIncreaseOnly, containsAdd, isFirst } = this.checkDisabilityStatus();
+    const {
+      isAppeal,
+      isIncreaseOnly,
+      containsAdd,
+      isFirst,
+    } = this.checkDisabilityStatus();
     return {
-      atAppealGuidance: (this.atGuidance() && isAppeal),
-      atIncreaseGuidance: (this.atGuidance() && isIncreaseOnly),
-      atEbenefitsGuidance: (this.atGuidance() && (containsAdd || isFirst))
+      atAppealGuidance: this.atGuidance() && isAppeal,
+      atIncreaseGuidance: this.atGuidance() && isIncreaseOnly,
+      atEbenefitsGuidance: this.atGuidance() && (containsAdd || isFirst),
     };
   };
 
   checkDisabilityStatus = () => {
     const { disabilityStatus } = this.state;
     return {
-      isUpdate: (disabilityStatus === UPDATE),
-      isAppeal: (disabilityStatus === APPEAL),
-      isFirst: (disabilityStatus === FIRST),
-      isAddOnly: (disabilityStatus === ADD),
-      containsAdd: (disabilityStatus === ADD || disabilityStatus === ADDANDINCREASE),
-      isIncreaseOnly: (disabilityStatus === INCREASE),
-      isAddAndIncrease: (disabilityStatus === ADDANDINCREASE),
-      isUndefined: (disabilityStatus === undefined)
+      isUpdate: disabilityStatus === UPDATE,
+      isAppeal: disabilityStatus === APPEAL,
+      isFirst: disabilityStatus === FIRST,
+      isAddOnly: disabilityStatus === ADD,
+      containsAdd:
+        disabilityStatus === ADD || disabilityStatus === ADDANDINCREASE,
+      isIncreaseOnly: disabilityStatus === INCREASE,
+      isAddAndIncrease: disabilityStatus === ADDANDINCREASE,
+      isUndefined: disabilityStatus === undefined,
     };
-  }
+  };
 
   answerQuestion = (field, answer) => {
     if (field === 'disabilityStatus') {
@@ -110,12 +134,16 @@ class DisabilityWizard extends React.Component {
       nextLayout = chooseUpdate;
     }
     this.setState({ currentLayout: nextLayout, errorMessage: '' });
-  }
+  };
 
   goBack = () => {
     let nextLayout = chooseStatus;
     const { atGuidance } = this;
-    const { isAddAndIncrease, isAddOnly, isIncreaseOnly } = this.checkDisabilityStatus();
+    const {
+      isAddAndIncrease,
+      isAddOnly,
+      isIncreaseOnly,
+    } = this.checkDisabilityStatus();
     const updateProvided = !!(isAddAndIncrease || isAddOnly || isIncreaseOnly);
     if (atGuidance() && updateProvided) {
       nextLayout = chooseUpdate;
@@ -125,7 +153,7 @@ class DisabilityWizard extends React.Component {
 
   displayErrorMessage = () => {
     this.setState({ errorMessage: 'Please select an option' });
-  }
+  };
 
   goForward = () => {
     const { isUpdate, isUndefined } = this.checkDisabilityStatus();
@@ -140,25 +168,31 @@ class DisabilityWizard extends React.Component {
     return this.goToNextPage();
   };
 
-  authenticate = (e) => {
+  authenticate = e => {
     e.preventDefault();
     const nextQuery = { next: e.target.getAttribute('href') };
     const nextPath = appendQuery('/', nextQuery);
     history.pushState({}, e.target.textContent, nextPath);
     this.props.toggleLoginModal(true);
-  }
+  };
 
   render() {
     const { isChoosingStatus, isChoosingUpdate, atGuidance } = this;
     const { errorMessage } = this.state;
-    const { verified: isVerified } = this.props.user.profile;
-    const labelText = 'Just answer a few questions, and we’ll show you where to find the form that’s right for you.';
+    const { isVerified } = this.props;
+    const labelText =
+      'Just answer a few questions, and we’ll show you where to find the form that’s right for you.';
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
-      'va-button-primary': !this.state.open
+      'va-button-primary': !this.state.open,
     });
-    const contentClasses = classNames('form-expanding-group-open', 'va-nav-linkslist--related', 'wizard-content', {
-      'wizard-content-closed': !this.state.open
-    });
+    const contentClasses = classNames(
+      'form-expanding-group-open',
+      'va-nav-linkslist--related',
+      'wizard-content',
+      {
+        'wizard-content-closed': !this.state.open,
+      },
+    );
 
     return (
       <div className="disability-increase-wizard">
@@ -166,40 +200,58 @@ class DisabilityWizard extends React.Component {
           aria-expanded={this.state.open ? 'true' : 'false'}
           aria-controls="wizardOptions"
           className={buttonClasses}
-          onClick={() => this.setState({ open: !this.state.open })}>
+          onClick={() => this.setState({ open: !this.state.open })}
+        >
           Find Your Disability Claim Form
         </button>
         <div className={contentClasses} id="wizardOptions">
           <div>
-            {atGuidance() && <GetStartedMessage isVerified={isVerified} checkDisabilityStatus={this.checkDisabilityStatus}/>}
-            {isChoosingStatus() &&
-            <ErrorableRadioButtons
-              name="disabilityStatus"
-              label={labelText}
-              id="disabilityStatus"
-              options={disabilityStatusOptions}
-              errorMessage={errorMessage}
-              onValueChange={({ value }) => this.answerQuestion('disabilityStatus', value)}
-              value={{ value: this.groupDisabilityStatus() }}/>
+            {atGuidance() && (
+              <GetStartedMessage
+                isVerified={isVerified}
+                checkDisabilityStatus={this.checkDisabilityStatus}
+              />
+            )}
+            {isChoosingStatus() && (
+              <ErrorableRadioButtons
+                additionalFieldsetClass="wizard-fieldset"
+                name="disabilityStatus"
+                label={labelText}
+                id="disabilityStatus"
+                options={disabilityStatusOptions}
+                errorMessage={errorMessage}
+                onValueChange={({ value }) =>
+                  this.answerQuestion('disabilityStatus', value)
+                }
+                value={{ value: this.groupDisabilityStatus() }}
+              />
+            )}
+            {isChoosingUpdate() && (
+              <ErrorableCheckboxGroup
+                additionalFieldsetClass="wizard-fieldset"
+                name="disabilityUpdate"
+                label={labelText}
+                id="disabilityUpdate"
+                options={disabilityUpdateOptions}
+                errorMessage={errorMessage}
+                onValueChange={(option, checked) =>
+                  this.answerQuestion(option.value, checked)
+                }
+                values={this.getUpdates()}
+              />
+            )}
+            {
+              <ButtonContainer
+                isLoggedIn={this.props.isLoggedIn}
+                isVerified={isVerified}
+                checkGuidanceStatus={this.checkGuidanceStatus}
+                isChoosingStatus={this.isChoosingStatus}
+                atGuidance={this.atGuidance}
+                goBack={this.goBack}
+                goForward={this.goForward}
+                authenticate={this.authenticate}
+              />
             }
-            {isChoosingUpdate() &&
-            <ErrorableCheckboxes
-              name="disabilityUpdate"
-              label={labelText}
-              id="disabilityUpdate"
-              options={disabilityUpdateOptions}
-              errorMessage={errorMessage}
-              onValueChange={(option, checked) => this.answerQuestion(option.value, checked)}
-              values={this.getUpdates()}/>
-            }
-            {<ButtonContainer
-              isVerified={isVerified}
-              checkGuidanceStatus={this.checkGuidanceStatus}
-              isChoosingStatus={this.isChoosingStatus}
-              atGuidance={this.atGuidance}
-              goBack={this.goBack}
-              goForward={this.goForward}
-              authenticate={this.authenticate}/>}
           </div>
         </div>
       </div>
@@ -207,27 +259,26 @@ class DisabilityWizard extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  const userState = state.user;
-  return {
-    user: userState
-  };
-}
+const mapStateToProps = state => ({
+  isLoggedIn: isLoggedInSelector(state),
+  isVerified: isLOA3(state),
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleLoginModal: (update) => {
-      dispatch(toggleLoginModal(update));
-    },
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  toggleLoginModal: update => {
+    dispatch(toggleLoginModal(update));
+  },
+});
 
 DisabilityWizard.propTypes = {
   toggleLoginModal: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
+  isVerified: PropTypes.bool.isRequired,
 };
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(DisabilityWizard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DisabilityWizard);
 
 export { DisabilityWizard };

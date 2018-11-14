@@ -1,0 +1,123 @@
+// Variables
+
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
+@import "../../../../platform/forms/sass/m-schemaform";
+// @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+// @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+.full-page-alert {
+  margin-bottom: 2em;
+}
+
+ul.original-disability-list {
+  li {
+    margin-bottom: 0;
+  }
+}
+
+.process-step:last-child {
+  padding-bottom: 0;
+}
+
+.list-item-connector {
+  display: block;
+  margin: 0;
+}
+
+.blue-bar-block {
+  border-left: 7px solid $color-primary;
+  padding-left: 1em;
+
+  p {
+    margin: 0.5em 0;
+  }
+}
+
+ // Bring the text of an element nested in a <label> up to the same line as the check box
+ .form-checkbox input[type="checkbox"] + label {
+  div {
+    display: inline-block;
+    // Also give a little more space between the checkbox and the label
+    padding-left: 0.7em;
+
+    *:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+// This could go in the schemaform css, but it isn't used anywhere but here for now
+.widget-outline {
+  padding: 1em;
+  border: solid 4px $color-primary-alt-light;
+  border-radius: 7px;
+  margin-top: 0.5em;
+
+  &.selected {
+    border-color: $color-primary;
+  }
+
+  &:last-child {
+    margin-bottom: 1em;
+  }
+
+  input[type="checkbox"] + label {
+    // The former margin was to separate the checkbox from the elements above it, but now
+    //  that we have the outline, we need to move the whitespace to the outside of the border.
+    margin-top: 0em;
+    margin-bottom: 0em;
+
+    // Eliminate unnecessary margin inside the label component
+    > div *:last-child {
+      margin-bottom: 0em;
+    }
+  }
+}
+
+// ReviewCardField styles
+.review-card {
+  .review-card--header {
+    background-color: $color-gray-lightest;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .review-card--title {
+      margin: 0;
+      display: inline-block;
+    }
+
+    .edit-button {
+      width: 8rem;
+      margin-right: 0;
+    }
+  }
+
+  .review-card--body {
+    padding: 1.5rem;
+    border: 2px solid $color-gray-lightest;
+    // Remove the top border because it looks like it just extends the header
+    border-top: none;
+    margin-bottom: 1em;
+
+    .review-card--title {
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    .update-button {
+      margin-top: 1rem;
+      width: 15rem;
+    }
+  }
+}
+
+// Mimics usa-form-group-year minus the float and sets the max width so the
+//  error formatting doesn't increase the size
+.year-input {
+  max-width: 7rem;
+}

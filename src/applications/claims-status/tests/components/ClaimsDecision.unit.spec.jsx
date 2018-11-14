@@ -8,8 +8,7 @@ describe('<ClaimsDecision>', () => {
   it('should render message without date sentence', () => {
     const date = null;
     const tree = SkinDeep.shallowRender(
-      <ClaimsDecision
-        completedDate={date}/>
+      <ClaimsDecision completedDate={date} />,
     );
 
     expect(tree.text()).not.to.contain('We finished reviewing your claim');
@@ -17,11 +16,10 @@ describe('<ClaimsDecision>', () => {
   it('should render message with date sentence', () => {
     const date = '2010-03-01';
     const tree = SkinDeep.shallowRender(
-      <ClaimsDecision
-        completedDate={date}/>
+      <ClaimsDecision completedDate={date} />,
     );
 
     expect(tree.text()).to.contain('We finished reviewing your claim');
-    expect(tree.text()).to.contain('Mar. 1, 2010');
+    expect(tree.text()).to.contain('March 1, 2010');
   });
 });

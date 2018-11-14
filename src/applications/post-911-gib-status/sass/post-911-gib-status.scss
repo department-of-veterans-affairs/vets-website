@@ -1,4 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-sidebar";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-next-previous";
 
 .gib-info {
   margin-bottom: 5em;
@@ -113,4 +115,10 @@
   .gi-phone-nowrap {
     white-space: nowrap;
   }
+}
+
+// Remove once temporary alert goes away from the intro page
+.intro-warning {
+  margin-top: 1em;
+  margin-bottom: 1em;
 }

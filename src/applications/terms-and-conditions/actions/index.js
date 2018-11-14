@@ -15,9 +15,10 @@ export const ACCEPT_LATEST_TERMS_SUCCESS = 'ACCEPT_LATEST_TERMS_SUCCESS';
 
 const BASE_URI = '/terms_and_conditions';
 
-const LATEST_TC_URI = (termsName) => `${BASE_URI}/${termsName}/versions/latest`;
+const LATEST_TC_URI = termsName => `${BASE_URI}/${termsName}/versions/latest`;
 
-const TC_ACCEPTANCE_URI = (termsName) => `${BASE_URI}/${termsName}/versions/latest/user_data`;
+const TC_ACCEPTANCE_URI = termsName =>
+  `${BASE_URI}/${termsName}/versions/latest/user_data`;
 
 export function fetchLatestTerms(termsName) {
   return dispatch => {
@@ -27,7 +28,7 @@ export function fetchLatestTerms(termsName) {
       LATEST_TC_URI(termsName),
       null,
       ({ data }) => dispatch({ type: FETCH_LATEST_TERMS_SUCCESS, data }),
-      errors => dispatch({ type: FETCH_LATEST_TERMS_FAILURE, errors })
+      errors => dispatch({ type: FETCH_LATEST_TERMS_FAILURE, errors }),
     );
   };
 }
@@ -40,7 +41,7 @@ export function fetchTermsAcceptance(termsName) {
       TC_ACCEPTANCE_URI(termsName),
       null,
       () => dispatch({ type: FETCH_TERMS_ACCEPTANCE_SUCCESS }),
-      () => dispatch({ type: FETCH_TERMS_ACCEPTANCE_FAILURE })
+      () => dispatch({ type: FETCH_TERMS_ACCEPTANCE_FAILURE }),
     );
   };
 }
@@ -52,7 +53,7 @@ export function acceptTerms(termsName) {
     const settings = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: termsName, })
+      body: JSON.stringify({ name: termsName }),
     };
 
     apiRequest(
@@ -62,7 +63,7 @@ export function acceptTerms(termsName) {
         recordEvent({ event: 'terms-accepted' });
         dispatch({ type: ACCEPT_LATEST_TERMS_SUCCESS });
       },
-      errors => dispatch({ type: ACCEPT_LATEST_TERMS_FAILURE, errors })
+      errors => dispatch({ type: ACCEPT_LATEST_TERMS_FAILURE, errors }),
     );
   };
 }

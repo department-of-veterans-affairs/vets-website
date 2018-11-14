@@ -1,34 +1,40 @@
 import _ from 'lodash';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+// import fullSchema526EZ from '/path/vets-json-schema/dist/21-526EZ-schema.json';
 
-import dateUI from '../../../common/schemaform/definitions/date';
-import SSNWidget from '../../../common/schemaform/widgets/SSNWidget';
+import dateUI from 'us-forms-system/lib/js/definitions/date';
+import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
+import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
 
-import ReviewCardField from '../components/ReviewCardField';
+import ReviewCardField from '../../all-claims/components/ReviewCardField';
+import { ForwardingAddressViewField } from '../helpers';
 
-import { PrimaryAddressViewField } from '../helpers';
+import {
+  PrimaryAddressViewField,
+  contactInfoDescription,
+  contactInfoUpdateHelp,
+  phoneEmailViewField,
+} from '../../all-claims/content/contactInformation';
+import {
+  ADDRESS_TYPES,
+  MILITARY_CITIES,
+  MILITARY_STATE_LABELS,
+  MILITARY_STATE_VALUES,
+  STATE_LABELS,
+  STATE_VALUES,
+  USA,
+} from '../../all-claims/constants';
 
+// These validators are staying in the increase-only form because most of them
+// rely on the data structure of the increase-only form. The all-claims form
+// has a different structure so it's easier to just keep the validations separate
+// and delete these when the time comes
 function isValidZIP(value) {
   if (value !== null) {
     return /^\d{5}(?:(?:[-\s])?\d{4})?$/.test(value);
   }
   return true;
-}
-
-function isValidPhone(value) {
-  if (value !== null) {
-    return /^\d{10}$/.test(value) || /^\d{11}$/.test(value);
-  }
-  return true;
-}
-
-function validatePhone(errors, phone) {
-  if (phone && !isValidPhone(phone)) {
-    errors.addError(
-      'Phone numbers must be at least 10 digits (dashes allowed)'
-    );
-  }
 }
 
 function validateZIP(errors, zip) {
@@ -37,567 +43,265 @@ function validateZIP(errors, zip) {
   }
 }
 
-const typeLabels = {
-  DOMESTIC: 'Domestic',
-  MILITARY: 'Military',
-  INTERNATIONAL: 'International'
-};
+function validateMilitaryCity(
+  errors,
+  city,
+  formData,
+  schema,
+  messages,
+  options,
+) {
+  const isMilitaryState = MILITARY_STATE_VALUES.includes(
+    _.get(formData, `veteran.${options.addressPath}.state`, ''),
+  );
+  const isMilitaryCity = MILITARY_CITIES.includes(city.trim().toUpperCase());
+  if (isMilitaryState && !isMilitaryCity) {
+    errors.addError(
+      'City must match APO, DPO, or FPO when using a military state code',
+    );
+  }
+}
 
-const states = [
-  'AL',
-  'AK',
-  'AS',
-  'AZ',
-  'AR',
-  'AA',
-  'AE',
-  'AP',
-  'CA',
-  'CO',
-  'CT',
-  'DE',
-  'DC',
-  'FM',
-  'FL',
-  'GA',
-  'GU',
-  'HI',
-  'ID',
-  'IL',
-  'IN',
-  'IA',
-  'KS',
-  'KY',
-  'LA',
-  'ME',
-  'MH',
-  'MD',
-  'MA',
-  'MI',
-  'MN',
-  'MS',
-  'MO',
-  'MT',
-  'NE',
-  'NV',
-  'NH',
-  'NJ',
-  'NM',
-  'NY',
-  'NC',
-  'ND',
-  'MP',
-  'OH',
-  'OK',
-  'OR',
-  'PW',
-  'PA',
-  'PR',
-  'RI',
-  'SC',
-  'SD',
-  'TN',
-  'TX',
-  'UT',
-  'VT',
-  'VI',
-  'VA',
-  'WA',
-  'WV',
-  'WI',
-  'WY',
-  'PI',
-  'UM'
-];
+function validateMilitaryState(
+  errors,
+  state,
+  formData,
+  schema,
+  messages,
+  options,
+) {
+  const isMilitaryCity = MILITARY_CITIES.includes(
+    _.get(formData, `veteran.${options.addressPath}.city`, '')
+      .trim()
+      .toUpperCase(),
+  );
+  const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
+  if (isMilitaryCity && !isMilitaryState) {
+    errors.addError('State must be AA, AE, or AP when using a military city');
+  }
+}
 
-const stateLabels = {
-  AL: 'Alabama',
-  AK: 'Alaska',
-  AS: 'American Samoa',
-  AZ: 'Arizona',
-  AR: 'Arkansas',
-  AA: 'Armed Forces Americas (AA)',
-  AE: 'Armed Forces Europe (AE)',
-  AP: 'Armed Forces Pacific (AP)',
-  CA: 'California',
-  CO: 'Colorado',
-  CT: 'Connecticut',
-  DE: 'Delaware',
-  DC: 'District Of Columbia',
-  FM: 'Federated States Of Micronesia',
-  FL: 'Florida',
-  GA: 'Georgia',
-  GU: 'Guam',
-  HI: 'Hawaii',
-  ID: 'Idaho',
-  IL: 'Illinois',
-  IN: 'Indiana',
-  IA: 'Iowa',
-  KS: 'Kansas',
-  KY: 'Kentucky',
-  LA: 'Louisiana',
-  ME: 'Maine',
-  MH: 'Marshall Islands',
-  MD: 'Maryland',
-  MA: 'Massachusetts',
-  MI: 'Michigan',
-  MN: 'Minnesota',
-  MS: 'Mississippi',
-  MO: 'Missouri',
-  MT: 'Montana',
-  NE: 'Nebraska',
-  NV: 'Nevada',
-  NH: 'New Hampshire',
-  NJ: 'New Jersey',
-  NM: 'New Mexico',
-  NY: 'New York',
-  NC: 'North Carolina',
-  ND: 'North Dakota',
-  MP: 'Northern Mariana Islands',
-  OH: 'Ohio',
-  OK: 'Oklahoma',
-  OR: 'Oregon',
-  PW: 'Palau',
-  PA: 'Pennsylvania',
-  PR: 'Puerto Rico',
-  RI: 'Rhode Island',
-  SC: 'South Carolina',
-  SD: 'South Dakota',
-  TN: 'Tennessee',
-  TX: 'Texas',
-  UT: 'Utah',
-  VT: 'Vermont',
-  VI: 'Virgin Islands',
-  VA: 'Virginia',
-  WA: 'Washington',
-  WV: 'West Virginia',
-  WI: 'Wisconsin',
-  WY: 'Wyoming',
-  PI: 'Rizal state',
-  UM: 'United States Minor Outlying Islands'
-};
+const hasForwardingAddress = formData =>
+  _.get(formData, 'veteran[view:hasForwardingAddress]', false);
+const forwardingCountryIsUSA = formData =>
+  _.get(formData, 'veteran.forwardingAddress.country', '') === USA;
 
-const countries = [
-  'USA',
-  'Afghanistan',
-  'Albania',
-  'Algeria',
-  'Angola',
-  'Anguilla',
-  'Antigua',
-  'Antigua and Barbuda',
-  'Argentina',
-  'Armenia',
-  'Australia',
-  'Austria',
-  'Azerbaijan',
-  'Azores',
-  'Bahamas',
-  'Bahrain',
-  'Bangladesh',
-  'Barbados',
-  'Barbuda',
-  'Belarus',
-  'Belgium',
-  'Belize',
-  'Benin',
-  'Bermuda',
-  'Bhutan',
-  'Bolivia',
-  'Bosnia-Herzegovina',
-  'Botswana',
-  'Brazil',
-  'Brunei',
-  'Bulgaria',
-  'Burkina Faso',
-  'Burma',
-  'Burundi',
-  'Cambodia',
-  'Cameroon',
-  'Canada',
-  'Cape Verde',
-  'Cayman Islands',
-  'Central African Republic',
-  'Chad',
-  'Chile',
-  'China',
-  'Colombia',
-  'Comoros',
-  'Congo, Democratic Republic of',
-  "Congo, People's Republic of",
-  'Costa Rica',
-  "Cote d'Ivoire",
-  'Croatia',
-  'Cuba',
-  'Cyprus',
-  'Czech Republic',
-  'Denmark',
-  'Djibouti',
-  'Dominica',
-  'Dominican Republic',
-  'Ecuador',
-  'Egypt',
-  'El Salvador',
-  'England',
-  'Equatorial Guinea',
-  'Eritrea',
-  'Estonia',
-  'Ethiopia',
-  'Fiji',
-  'Finland',
-  'France',
-  'French Guiana',
-  'Gabon',
-  'Gambia',
-  'Georgia',
-  'Germany',
-  'Ghana',
-  'Gibraltar',
-  'Great Britain',
-  'Great Britain and Gibraltar',
-  'Greece',
-  'Greenland',
-  'Grenada',
-  'Guadeloupe',
-  'Guatemala',
-  'Guinea',
-  'Guinea, Republic of Guinea',
-  'Guinea-Bissau',
-  'Guyana',
-  'Haiti',
-  'Honduras',
-  'Hong Kong',
-  'Hungary',
-  'Iceland',
-  'India',
-  'Indonesia',
-  'Iran',
-  'Iraq',
-  'Ireland',
-  'Israel (Jerusalem)',
-  'Israel (Tel Aviv)',
-  'Italy',
-  'Jamaica',
-  'Japan',
-  'Jordan',
-  'Kazakhstan',
-  'Kenya',
-  'Kosovo',
-  'Kuwait',
-  'Kyrgyzstan',
-  'Laos',
-  'Latvia',
-  'Lebanon',
-  'Leeward Islands',
-  'Lesotho',
-  'Liberia',
-  'Libya',
-  'Liechtenstein',
-  'Lithuania',
-  'Luxembourg',
-  'Macao',
-  'Macedonia',
-  'Madagascar',
-  'Malawi',
-  'Malaysia',
-  'Mali',
-  'Malta',
-  'Martinique',
-  'Mauritania',
-  'Mauritius',
-  'Mexico',
-  'Moldavia',
-  'Mongolia',
-  'Montenegro',
-  'Montserrat',
-  'Morocco',
-  'Mozambique',
-  'Namibia',
-  'Nepal',
-  'Netherlands',
-  'Netherlands Antilles',
-  'Nevis',
-  'New Caledonia',
-  'New Zealand',
-  'Nicaragua',
-  'Niger',
-  'Nigeria',
-  'North Korea',
-  'Northern Ireland',
-  'Norway',
-  'Oman',
-  'Pakistan',
-  'Panama',
-  'Papua New Guinea',
-  'Paraguay',
-  'Peru',
-  'Philippines',
-  'Philippines (restricted payments)',
-  'Poland',
-  'Portugal',
-  'Qatar',
-  'Republic of Yemen',
-  'Romania',
-  'Russia',
-  'Rwanda',
-  'Sao-Tome/Principe',
-  'Saudi Arabia',
-  'Scotland',
-  'Senegal',
-  'Serbia',
-  'Serbia/Montenegro',
-  'Seychelles',
-  'Sicily',
-  'Sierra Leone',
-  'Singapore',
-  'Slovakia',
-  'Slovenia',
-  'Somalia',
-  'South Africa',
-  'South Korea',
-  'Spain',
-  'Sri Lanka',
-  'St. Kitts',
-  'St. Lucia',
-  'St. Vincent',
-  'Sudan',
-  'Suriname',
-  'Swaziland',
-  'Sweden',
-  'Switzerland',
-  'Syria',
-  'Taiwan',
-  'Tajikistan',
-  'Tanzania',
-  'Thailand',
-  'Togo',
-  'Trinidad and Tobago',
-  'Tunisia',
-  'Turkey (Adana only)',
-  'Turkey (except Adana)',
-  'Turkmenistan',
-  'Uganda',
-  'Ukraine',
-  'United Arab Emirates',
-  'United Kingdom',
-  'Uruguay',
-  'Uzbekistan',
-  'Vanuatu',
-  'Venezuela',
-  'Vietnam',
-  'Wales',
-  'Western Samoa',
-  'Yemen Arab Republic',
-  'Zambia',
-  'Zimbabwe'
-];
+/**
+ *
+ * @param {('addressCard.mailingAddress' | 'forwardingCard.forwardingAddress')} addressPath used for path lookups
+ * @param {string} [title] Displayed as the card title in the card's header
+ * @returns {object} UI schema for an address card's content
+ */
+const addressUISchema = (addressType, title) => {
+  const updateStates = form => {
+    const currentCity = _.get(form, `veteran.${addressType}.city`, '')
+      .trim()
+      .toUpperCase();
+    if (MILITARY_CITIES.includes(currentCity)) {
+      return {
+        enum: MILITARY_STATE_VALUES,
+        enumNames: MILITARY_STATE_LABELS,
+      };
+    }
 
-export const militaryPostOfficeTypeLabels = { // TODO: determine whether these are necessary
-  APO: 'Army Post Office',
-  FPO: 'Fleet Post Office',
-  DPO: 'Diplomatic Post Office'
-};
+    return {
+      enum: STATE_VALUES,
+      enumNames: STATE_LABELS,
+    };
+  };
 
-const addressUISchema = (addressName, title) => {
   return {
+    'ui:order': [
+      'country',
+      'addressLine1',
+      'addressLine2',
+      'addressLine3',
+      'city',
+      'state',
+      'zipCode',
+    ],
     'ui:title': title,
-    type: {
-      'ui:title': 'Type',
-      'ui:options': {
-        labels: typeLabels
-      }
+    'ui:field': ReviewCardField,
+    'ui:options': {
+      viewComponent: PrimaryAddressViewField,
     },
     country: {
-      'ui:title': 'Country'
+      'ui:title': 'Country',
+    },
+    addressLine1: {
+      'ui:title': 'Street address',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address',
+      },
+    },
+    addressLine2: {
+      'ui:title': 'Street address (optional)',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address',
+      },
+    },
+    addressLine3: {
+      'ui:title': 'Street address (optional)',
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid address',
+      },
+    },
+    city: {
+      'ui:title': 'City',
+      'ui:validations': [
+        {
+          options: { addressPath: addressType },
+          validator: validateMilitaryCity,
+        },
+      ],
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid city',
+      },
     },
     state: {
       'ui:title': 'State',
+      'ui:required': ({ veteran }) =>
+        _.get(veteran, `${addressType}.country`, '') === USA,
       'ui:options': {
-        labels: stateLabels,
-        hideIf: formData => {
-          return (
-            _.get(formData, `veteran[${addressName}].country`) !== 'USA'
-          );
-        }
-      }
-    },
-    addressLine1: {
-      'ui:title': 'Street'
-    },
-    addressLine2: {
-      'ui:title': 'Line 2'
-    },
-    addressLine3: {
-      'ui:title': 'Line 3'
-    },
-    city: {
-      'ui:title': 'City'
-    },
-    militaryStateCode: {
-      'ui:title': 'Military State Code',
-      'ui:options': {
-        labels: stateLabels,
-        hideIf: formData => _.get(formData, `veteran[${addressName}].type`) !== 'MILITARY'
-      }
+        hideIf: ({ veteran }) =>
+          _.get(veteran, `${addressType}.country`, '') !== USA,
+        updateSchema: updateStates,
+      },
+      'ui:validations': [
+        {
+          options: { addressPath: addressType },
+          validator: validateMilitaryState,
+        },
+      ],
     },
     zipCode: {
       'ui:title': 'ZIP code',
       'ui:validations': [validateZIP],
+      'ui:required': ({ veteran }) =>
+        _.get(veteran, `${addressType}.country`, '') === USA,
       'ui:errorMessages': {
-        pattern: 'Please enter a valid 9 digit ZIP code (dashes allowed)'
+        pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
-        hideIf: formData =>
-          _.get(formData, `veteran[${addressName}].type`) !== 'DOMESTIC'
-      }
+        hideIf: ({ veteran }) =>
+          _.get(veteran, `${addressType}.country`, '') !== USA,
+      },
     },
-    militaryPostOfficeTypeCode: {
-      'ui:title': 'Military Post Office Type Code',
-      'ui:options': {
-        labels: militaryPostOfficeTypeLabels,
-        hideIf: formData => _.get(formData, `veteran[${addressName}].type`) !== 'MILITARY'
-      }
-    }
   };
 };
 
-const addressSchema = {
-  type: 'object',
-  required: ['country', 'addressLine1'],
-  properties: {
-    type: {
-      type: 'string',
-      'enum': ['MILITARY', 'DOMESTIC', 'INTERNATIONAL']
-    },
-    country: {
-      type: 'string',
-      'enum': countries
-    },
-    state: {
-      type: 'string',
-      'enum': states
-    },
-    addressLine1: {
-      type: 'string',
-      maxLength: 35,
-      pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
-    },
-    addressLine2: {
-      type: 'string',
-      maxLength: 35,
-      pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
-    },
-    addressLine3: {
-      type: 'string',
-      maxLength: 35,
-      pattern: "([a-zA-Z0-9-'.,,&#]([a-zA-Z0-9-'.,,&# ])?)+$"
-    },
-    city: {
-      type: 'string',
-      maxLength: 35,
-      pattern: "([a-zA-Z0-9-'.#]([a-zA-Z0-9-'.# ])?)+$"
-    },
-    zipCode: {
-      type: 'string'
-    },
-    militaryPostOfficeTypeCode: {
-      type: 'string',
-      'enum': ['APO', 'DPO', 'FPO']
-    },
-    militaryStateCode: {
-      type: 'string',
-      'enum': ['AA', 'AE', 'AP']
-    }
-  }
-};
+const {
+  mailingAddress,
+  forwardingAddress,
+  emailAddress,
+  primaryPhone,
+} = fullSchema526EZ.properties.veteran.properties;
 
 export const uiSchema = {
   veteran: {
-    'ui:title': 'Contact information',
-    'ui:field': ReviewCardField,
-    'ui:options': {
-      viewComponent: PrimaryAddressViewField
-    },
-    mailingAddress: addressUISchema('mailingAddress'),
-    primaryPhone: {
-      'ui:title': 'Primary telephone number',
-      'ui:widget': SSNWidget, // TODO: determine whether to rename widget
-      'ui:validations': [validatePhone],
-      'ui:errorMessages': {
-        pattern: 'Phone numbers must be at least 10 digits (dashes allowed)'
-      },
+    'ui:description': contactInfoDescription,
+    phoneEmailCard: {
+      'ui:title': 'Phone & email',
+      'ui:field': ReviewCardField,
       'ui:options': {
-        widgetClassNames: 'va-input-medium-large'
-      }
-    },
-    secondaryPhone: {
-      'ui:title': 'Secondary telephone number',
-      'ui:widget': SSNWidget,
-      'ui:validations': [validatePhone],
-      'ui:errorMessages': {
-        pattern: 'Phone numbers must be at least 10 digits (dashes allowed)'
+        viewComponent: phoneEmailViewField,
       },
-      'ui:options': {
-        widgetClassNames: 'va-input-medium-large'
-      }
+      primaryPhone: {
+        'ui:title': 'Phone number',
+        'ui:widget': PhoneNumberWidget,
+        'ui:reviewWidget': PhoneNumberReviewWidget,
+        'ui:errorMessages': {
+          pattern: 'Phone numbers must be 10 digits (dashes allowed)',
+        },
+        'ui:options': {
+          widgetClassNames: 'va-input-medium-large',
+        },
+      },
+      emailAddress: {
+        'ui:title': 'Email address',
+        'ui:errorMessages': {
+          pattern: 'The email you enter should be in this format x@x.xx',
+        },
+      },
     },
-    emailAddress: {
-      'ui:title': 'Email address',
-      'ui:errorMessages': {
-        pattern: 'Please put your email in this format x@x.xxx'
-      }
-    },
+    mailingAddress: addressUISchema(
+      ADDRESS_TYPES.mailingAddress,
+      'Mailing address',
+    ),
     'view:hasForwardingAddress': {
       'ui:title':
-        'I want to provide a forwarding address since my address will be changing soon.'
+        'I want to provide a forwarding address since my address will be changing soon.',
     },
     forwardingAddress: _.merge(
-      addressUISchema('forwardingAddress', 'Forwarding address'),
+      addressUISchema(ADDRESS_TYPES.forwardingAddress, 'Forwarding address'),
       {
+        'ui:order': [
+          'effectiveDate',
+          'country',
+          'addressLine1',
+          'addressLine2',
+          'addressLine3',
+          'city',
+          'state',
+          'zipCode',
+        ],
         'ui:options': {
-          expandUnder: 'view:hasForwardingAddress'
+          viewComponent: ForwardingAddressViewField,
+          expandUnder: 'view:hasForwardingAddress',
         },
+        effectiveDate: _.merge({}, dateUI('Effective date'), {
+          'ui:required': hasForwardingAddress,
+        }),
         country: {
-          'ui:required': formData => _.get("veteran['view:hasForwardingAddress']", formData)
+          'ui:required': hasForwardingAddress,
         },
         addressLine1: {
-          'ui:required': formData => _.get("veteran['view:hasForwardingAddress']", formData)
+          'ui:required': hasForwardingAddress,
         },
-        effectiveDate: dateUI('Effective date')
-      }
-    )
-  }
+        city: {
+          'ui:required': hasForwardingAddress,
+        },
+        state: {
+          'ui:required': formData =>
+            hasForwardingAddress(formData) && forwardingCountryIsUSA(formData),
+        },
+        zipCode: {
+          'ui:required': formData =>
+            hasForwardingAddress(formData) && forwardingCountryIsUSA(formData),
+        },
+      },
+    ),
+    'view:contactInfoDescription': {
+      'ui:description': contactInfoUpdateHelp,
+    },
+  },
 };
 
-export const primaryAddressSchema = {
+export const schema = {
   type: 'object',
   properties: {
     veteran: {
       type: 'object',
       properties: {
-        mailingAddress: addressSchema,
-        primaryPhone: {
-          type: 'string'
-        },
-        secondaryPhone: {
-          type: 'string'
-        },
-        emailAddress: {
-          type: 'string',
-          format: 'email'
-        },
-        'view:hasForwardingAddress': {
-          type: 'boolean'
-        },
-        forwardingAddress: _.merge({}, addressSchema, {
+        phoneEmailCard: {
           type: 'object',
+          required: ['primaryPhone', 'emailAddress'],
           properties: {
-            effectiveDate: fullSchema526EZ.definitions.date
-          }
-        })
-      }
-    }
-  }
+            primaryPhone,
+            emailAddress,
+          },
+        },
+        mailingAddress,
+        'view:hasForwardingAddress': {
+          type: 'boolean',
+        },
+        forwardingAddress,
+        'view:contactInfoDescription': {
+          type: 'object',
+          properties: {},
+        },
+      },
+    },
+  },
 };
-

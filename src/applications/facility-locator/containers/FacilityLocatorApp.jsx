@@ -1,45 +1,73 @@
+/* eslint-disable prettier/prettier */
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import React from 'react';
-import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, {
+  externalServices,
+} from '../../../platform/monitoring/DowntimeNotification';
+import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
+import { ccLocatorEnabled } from '../config';
+import appendQuery from 'append-query';
 
 class FacilityLocatorApp extends React.Component {
-  renderBreadcrumbs() {
-    const { location, selectedFacility } = this.props;
+  // TODO: Move this logic into a shared helper so it can be 
+  // reused on VAMap.jsx and other places we want to build
+  // complex URL strings.
+  buildSearchString() {
+    const {
+      currentPage: page,
+      context,
+      facilityType,
+      position: location,
+      searchString: address,
+      serviceType,
+      zoomLevel,
+    } = this.props.searchQuery;
+    
+    const searchQuery = {
+      zoomLevel,
+      page,
+      address,
+      location: `${location.latitude},${location.longitude}`,
+      context,
+      facilityType,
+      serviceType,
+    };
 
-    if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedFacility) {
-      return (
-        <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
-          <li><a href="/">Home</a></li>
-          <li>
-            <Link to="/">
-              Facility Locator
-            </Link>
-          </li>
-        </ul>
-      );
+    const searchQueryUrl = appendQuery('/', searchQuery);
+    return searchQueryUrl;
+  }
+
+  renderBreadcrumbs(location, selectedResult) {
+    const crumbs = [
+      <a href="/" key="home">Home</a>,
+      <Link to={this.buildSearchString()} key="facility-locator">Find Facilities & Services</Link>,
+    ];
+
+    if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedResult) {
+      crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Facility Details</Link>);
+    } else if (ccLocatorEnabled() && location.pathname.match(/provider\/[a-z]+_\d/) && selectedResult) {
+      // TODO: Remove feature flag when ready to go live
+      crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Provider Details</Link>);
     }
 
-    return (
-      <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
-        <li><a href="/">Home</a></li>
-      </ul>
-    );
+    return crumbs;
   }
 
   render() {
+    const { location, selectedResult } = this.props;
+
     return (
       <div>
+        <Breadcrumbs selectedFacility={selectedResult}>
+          {this.renderBreadcrumbs(location, selectedResult)}
+        </Breadcrumbs>
         <div className="row">
-          <div className="title-section">
-            <nav className="va-nav-breadcrumbs">
-              {this.renderBreadcrumbs()}
-            </nav>
-          </div>
-          <DowntimeNotification appTitle="facility locator tool" dependencies={[services.arcgis]}>
-            <div className="facility-locator">
-              {this.props.children}
-            </div>
+          <DowntimeNotification
+            appTitle="facility locator tool"
+            dependencies={[externalServices.arcgis]}
+          >
+            <div className="facility-locator">{this.props.children}</div>
           </DowntimeNotification>
         </div>
       </div>
@@ -49,8 +77,12 @@ class FacilityLocatorApp extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    selectedFacility: state.facilities.selectedFacility,
+    selectedResult: state.searchResult.selectedResult,
+    searchQuery: state.searchQuery,
   };
 }
 
-export default connect(mapStateToProps, null)(FacilityLocatorApp);
+export default connect(
+  mapStateToProps,
+  null,
+)(FacilityLocatorApp);

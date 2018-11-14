@@ -1,3 +1,8 @@
+/*
+ * NOTE: there is a version of this file for brand consolidation at
+ * brand-consolidate.scss. If you make a change to this file, please
+ * verify that you do or do not need to make the same change in the other file
+ */
 $font-path: "~uswds/src/fonts";
 $image-path: "~uswds/src/img";
 @import "~@department-of-veterans-affairs/formation/sass/core";
@@ -8,6 +13,7 @@ $image-path: "~uswds/src/img";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-alert";
 @import "modules/m-crisis-line";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-table";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-breadcrumbs";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-button";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-elements";
 @import "modules/m-search";
@@ -18,6 +24,7 @@ $image-path: "~uswds/src/img";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-overlay";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-additional-info";
 @import "../../monitoring/DowntimeNotification/sass/m-downtime-notification";
+@import "modules/m-layers";
 
 // ----- mobile typography -- see #6214 on vets.gov-team ---- //
 
@@ -26,3 +33,9 @@ $image-path: "~uswds/src/img";
 // ----- VA SHAME ---- //
 
 @import "~@department-of-veterans-affairs/formation/sass/shame";
+
+// ----- Medallia ----- //
+@import "modules/m-medallia";
+
+// "Preview the New VA.gov" banner
+@import "modules/m-preview-banner";

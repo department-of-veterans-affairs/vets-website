@@ -22,3 +22,10 @@ coverage
 yalc.lock
 /test-results.xml
 package-lock.json
+
+# Ignore user's editor/IDE prefs
+.vscode/
+.idea/
+.swp
+.swo
+all-links.csv

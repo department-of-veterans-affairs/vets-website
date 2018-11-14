@@ -1,0 +1,21 @@
+$veteran-banner-desktop-width: 1280px;
+
+.veteran-banner {
+  @include linear-gradient-background($white, $mm-gray);
+  margin: 1.5em auto 0;
+  padding: 0 0.5em;
+  @include media($large-screen) {
+    margin-top: 2.5em;
+  }
+}
+
+.homepage-hub {
+  .veteran-banner {
+    background: $color-old-browser-background-end;
+  }
+}
+
+.veteran-banner-image {
+  max-width: $veteran-banner-desktop-width;
+  margin: 0 auto;
+}

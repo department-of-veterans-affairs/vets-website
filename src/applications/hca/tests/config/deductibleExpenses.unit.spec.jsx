@@ -4,23 +4,28 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../../../platform/testing/unit/schemaform-utils';
+import {
+  DefinitionTester,
+  submitForm,
+} from '../../../../platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
-
 describe('Hca deductible expenses', () => {
-  const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.deductibleExpenses;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.householdInformation.pages.deductibleExpenses;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input, select').length)
-      .to.equal(3);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
   });
 
   it('should not submit empty form', () => {
@@ -30,7 +35,8 @@ describe('Hca deductible expenses', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 

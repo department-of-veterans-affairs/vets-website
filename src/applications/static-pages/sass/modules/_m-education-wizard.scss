@@ -28,6 +28,7 @@
   //  with the border to expand that without the opacity
   &.wizard-content-closed {
     max-height: 0 !important; // To override the id selector height
+    margin: 0;
     visibility: hidden;
 
     .wizard-content-inner {
@@ -42,4 +43,10 @@
 
 .wizard-alert-heading {
   padding: 0;
+}
+
+.wizard-fieldset {
+  input[type="checkbox"], input[type="radio"] {
+    margin-left: -4rem;
+  }
 }

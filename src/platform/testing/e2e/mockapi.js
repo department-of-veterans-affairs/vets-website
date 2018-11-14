@@ -14,7 +14,7 @@ const express = require('express');
 const winston = require('winston');
 
 const optionDefinitions = [
-  { name: 'buildtype', type: String, defaultValue: 'development' },
+  { name: 'buildtype', type: String, defaultValue: 'vagovdev' },
   { name: 'port', type: Number, defaultValue: +(process.env.API_PORT || 3000) },
   { name: 'host', type: String, defaultValue: 'localhost' },
 
@@ -45,15 +45,24 @@ function makeMockApiRouter(opts) {
 
     mockResponses[auth] = mockResponses[auth] || {};
     mockResponses[auth][verb] = mockResponses[auth][verb] || {};
-    mockResponses[auth][verb][path] = { status: req.body.status, value: req.body.value };
-    const result = { result: `set auth:${auth} ${verb} ${path} to ${JSON.stringify(req.body.value)}` };
+    mockResponses[auth][verb][path] = {
+      status: req.body.status,
+      value: req.body.value,
+    };
+    const result = {
+      result: `set auth:${auth} ${verb} ${path} to ${JSON.stringify(
+        req.body.value,
+      )}`,
+    };
     res.status(200).json(result);
   });
 
-  // Handle CORS preflight.
-  router.options('*', cors());
+  const corsOptions = { origin: true, credentials: true };
 
-  router.all('*', cors(), (req, res) => {
+  // Handle CORS preflight.
+  router.options('*', cors(corsOptions));
+
+  router.all('*', cors(corsOptions), (req, res) => {
     const auth = req.get('Authorization') || '_global';
     const verb = req.method.toLowerCase();
     const verbResponses = (mockResponses[auth] || {})[verb];
@@ -66,7 +75,9 @@ function makeMockApiRouter(opts) {
 
     if (!result) {
       res.status(500);
-      result = { error: `mock not initialized for auth: ${auth} ${verb} ${path}` };
+      result = {
+        error: `mock not initialized for auth: ${auth} ${verb} ${path}`,
+      };
     }
 
     if (result.status) {

@@ -10,17 +10,13 @@ describe('<ClaimPhase>', () => {
       1: [
         {
           type: 'filed',
-          date: '2010-05-04'
-        }
-      ]
+          date: '2010-05-04',
+        },
+      ],
     };
 
     const tree = SkinDeep.shallowRender(
-      <ClaimPhase
-        id="2"
-        current={1}
-        phase={1}
-        activity={activity}/>
+      <ClaimPhase id="2" current={1} phase={1} activity={activity} />,
     );
     expect(tree.everySubTree('.claims-evidence').length).to.equal(1);
   });
@@ -29,17 +25,13 @@ describe('<ClaimPhase>', () => {
       1: [
         {
           type: 'filed',
-          date: '2010-05-04'
-        }
-      ]
+          date: '2010-05-04',
+        },
+      ],
     };
 
     const tree = SkinDeep.shallowRender(
-      <ClaimPhase
-        id="2"
-        current={1}
-        phase={3}
-        activity={activity}/>
+      <ClaimPhase id="2" current={1} phase={3} activity={activity} />,
     );
     expect(tree.everySubTree('.claims-evidence').length).to.equal(0);
   });
@@ -48,19 +40,17 @@ describe('<ClaimPhase>', () => {
       1: [
         {
           type: 'filed',
-          date: '2010-05-04'
-        }
-      ]
+          date: '2010-05-04',
+        },
+      ],
     };
 
     const tree = SkinDeep.shallowRender(
-      <ClaimPhase
-        id="2"
-        current={1}
-        phase={1}
-        activity={activity}/>
+      <ClaimPhase id="2" current={1} phase={1} activity={activity} />,
     );
-    expect(tree.everySubTree('.claims-evidence-item')[0].text()).to.equal('Thank you. VA received your claim');
+    expect(tree.everySubTree('.claims-evidence-item')[0].text()).to.equal(
+      'Thank you. VA received your claim',
+    );
   });
   it('should display requested message', () => {
     const activity = {
@@ -68,19 +58,17 @@ describe('<ClaimPhase>', () => {
         {
           type: 'still_need_from_you_list',
           date: '2010-05-04',
-          displayName: 'Needed file'
-        }
-      ]
+          displayName: 'Needed file',
+        },
+      ],
     };
 
     const tree = SkinDeep.shallowRender(
-      <ClaimPhase
-        id="2"
-        current={1}
-        phase={1}
-        activity={activity}/>
+      <ClaimPhase id="2" current={1} phase={1} activity={activity} />,
     );
-    expect(tree.everySubTree('.claims-evidence-item')[0].text()).to.equal('We added a notice for: <Link />');
+    expect(tree.everySubTree('.claims-evidence-item')[0].text()).to.equal(
+      'We added a notice for: <Link />',
+    );
   });
   it('should display show older updates button', () => {
     const activity = {
@@ -88,42 +76,38 @@ describe('<ClaimPhase>', () => {
         {
           type: 'still_need_from_you_list',
           date: '2010-05-04',
-          displayName: 'Needed file'
+          displayName: 'Needed file',
         },
         {
           type: 'still_need_from_you_list',
           date: '2010-05-04',
-          displayName: 'Needed file'
+          displayName: 'Needed file',
         },
         {
           type: 'still_need_from_you_list',
           date: '2010-05-04',
-          displayName: 'Needed file'
+          displayName: 'Needed file',
         },
         {
           type: 'still_need_from_you_list',
           date: '2010-05-04',
-          displayName: 'Needed file'
+          displayName: 'Needed file',
         },
         {
           type: 'still_need_from_you_list',
           date: '2010-05-04',
-          displayName: 'Needed file'
+          displayName: 'Needed file',
         },
         {
           type: 'still_need_from_you_list',
           date: '2010-05-04',
-          displayName: 'Needed file'
-        }
-      ]
+          displayName: 'Needed file',
+        },
+      ],
     };
 
     const tree = SkinDeep.shallowRender(
-      <ClaimPhase
-        id="2"
-        current={1}
-        phase={1}
-        activity={activity}/>
+      <ClaimPhase id="2" current={1} phase={1} activity={activity} />,
     );
     expect(tree.everySubTree('button').length).to.equal(1);
   });
@@ -133,24 +117,20 @@ describe('<ClaimPhase>', () => {
         {
           type: 'still_need_from_you_list',
           date: '2010-05-04',
-          displayName: 'Needed file'
-        }
-      ]
+          displayName: 'Needed file',
+        },
+      ],
     };
 
     const tree = SkinDeep.shallowRender(
-      <ClaimPhase
-        id="2"
-        current={1}
-        phase={1}
-        activity={activity}/>
+      <ClaimPhase id="2" current={1} phase={1} activity={activity} />,
     );
     const instance = tree.getMountedInstance();
 
     it('should show entered description', () => {
       const output = instance.getEventDescription({
         type: 'phase_entered',
-        date: '2010-01-04'
+        date: '2010-01-04',
       });
 
       const descTree = SkinDeep.shallowRender(output);
@@ -160,7 +140,7 @@ describe('<ClaimPhase>', () => {
     it('should show file description', () => {
       const output = instance.getEventDescription({
         type: 'filed',
-        date: '2010-01-04'
+        date: '2010-01-04',
       });
 
       const descTree = SkinDeep.shallowRender(output);
@@ -170,7 +150,7 @@ describe('<ClaimPhase>', () => {
     it('should show completed description', () => {
       const output = instance.getEventDescription({
         type: 'completed',
-        date: '2010-01-04'
+        date: '2010-01-04',
       });
 
       const descTree = SkinDeep.shallowRender(output);
@@ -182,55 +162,63 @@ describe('<ClaimPhase>', () => {
         type: 'received_from_you_list',
         displayName: 'Request 1',
         status: 'WHATEVER',
-        date: '2010-01-04'
+        date: '2010-01-04',
       });
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('We have reviewed your submitted evidence for Request 1. We will notify you if we need additional information.');
+      expect(descTree.text()).to.equal(
+        'We have reviewed your submitted evidence for Request 1. We will notify you if we need additional information.',
+      );
     });
     it('should show received from you not reviewed description', () => {
       const output = instance.getEventDescription({
         type: 'received_from_you_list',
         displayName: 'Request 1',
         status: 'SUBMITTED_AWAITING_REVIEW',
-        date: '2010-01-04'
+        date: '2010-01-04',
       });
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('You or others submitted Request 1. We will notify you when we have reviewed it.');
+      expect(descTree.text()).to.equal(
+        'You or others submitted Request 1. We will notify you when we have reviewed it.',
+      );
     });
     it('should show received from others reviewed description', () => {
       const output = instance.getEventDescription({
         type: 'received_from_others_list',
         displayName: 'Request 1',
         status: 'WHATEVER',
-        date: '2010-01-04'
+        date: '2010-01-04',
       });
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('We have reviewed your submitted evidence for Request 1. We will notify you if we need additional information.');
+      expect(descTree.text()).to.equal(
+        'We have reviewed your submitted evidence for Request 1. We will notify you if we need additional information.',
+      );
     });
     it('should show received from others not reviewed description', () => {
       const output = instance.getEventDescription({
         type: 'received_from_others_list',
         displayName: 'Request 1',
         status: 'SUBMITTED_AWAITING_REVIEW',
-        date: '2010-01-04'
+        date: '2010-01-04',
       });
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('You or others submitted Request 1. We will notify you when we have reviewed it.');
+      expect(descTree.text()).to.equal(
+        'You or others submitted Request 1. We will notify you when we have reviewed it.',
+      );
     });
     it('should show still need from you not reviewed description', () => {
       const output = instance.getEventDescription({
         type: 'still_need_from_you_list',
         displayName: 'Request 1',
         status: 'WHATEVER',
-        date: '2010-01-04'
+        date: '2010-01-04',
       });
 
       const descTree = SkinDeep.shallowRender(output);
@@ -242,31 +230,35 @@ describe('<ClaimPhase>', () => {
         type: 'still_need_from_you_list',
         displayName: 'Request 1',
         status: 'SUBMITTED_AWAITING_REVIEW',
-        date: '2010-01-04'
+        date: '2010-01-04',
       });
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('You or others submitted Request 1. We will notify you when we have reviewed it.');
+      expect(descTree.text()).to.equal(
+        'You or others submitted Request 1. We will notify you when we have reviewed it.',
+      );
     });
     it('should show still need from others reviewed description', () => {
       const output = instance.getEventDescription({
         type: 'still_need_from_others_list',
         displayName: 'Request 1',
         status: 'SUBMITTED_AWAITING_REVIEW',
-        date: '2010-01-04'
+        date: '2010-01-04',
       });
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('You or others submitted Request 1. We will notify you when we have reviewed it.');
+      expect(descTree.text()).to.equal(
+        'You or others submitted Request 1. We will notify you when we have reviewed it.',
+      );
     });
     it('should show still need from others not reviewed description', () => {
       const output = instance.getEventDescription({
         type: 'still_need_from_others_list',
         displayName: 'Request 1',
         status: 'WHATEVER',
-        date: '2010-01-04'
+        date: '2010-01-04',
       });
 
       const descTree = SkinDeep.shallowRender(output);
@@ -278,7 +270,7 @@ describe('<ClaimPhase>', () => {
         type: 'never_received_from_others_list',
         displayName: 'Request 1',
         status: 'WHATEVER',
-        date: '2010-01-04'
+        date: '2010-01-04',
       });
 
       const descTree = SkinDeep.shallowRender(output);
@@ -290,7 +282,7 @@ describe('<ClaimPhase>', () => {
         type: 'never_received_from_you_list',
         displayName: 'Request 1',
         status: 'WHATEVER',
-        date: '2010-01-04'
+        date: '2010-01-04',
       });
 
       const descTree = SkinDeep.shallowRender(output);

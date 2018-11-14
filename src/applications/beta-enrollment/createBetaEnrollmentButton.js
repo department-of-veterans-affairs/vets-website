@@ -7,7 +7,5 @@ import BetaEnrollmentButton from './containers/BetaEnrollmentButton';
  * @param {*} returnUrl the URL which the user will be redirected after the service is successfully saved
  */
 export default function createBetaEnrollmentButton(feature, returnUrl) {
-  return () => {
-    return <BetaEnrollmentButton feature={feature} returnUrl={returnUrl}/>;
-  };
+  return () => <BetaEnrollmentButton feature={feature} returnUrl={returnUrl} />;
 }

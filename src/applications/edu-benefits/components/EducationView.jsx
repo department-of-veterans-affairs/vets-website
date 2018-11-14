@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatReviewDate } from '../../common/schemaform/helpers';
+import { formatReviewDate } from 'us-forms-system/lib/js/helpers';
 
 export default function EducationView({ formData }) {
   let from = '';
@@ -11,7 +11,8 @@ export default function EducationView({ formData }) {
 
   return (
     <div>
-      <strong>{formData.name}</strong><br/>
+      <strong>{formData.name}</strong>
+      <br />
       {from} &mdash; {to}
     </div>
   );

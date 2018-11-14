@@ -78,6 +78,10 @@
     border-color: $color-primary;
   }
 
+  &:last-child {
+    margin-bottom: 1em;
+  }
+
   input[type="checkbox"] + label {
     // The former margin was to separate the checkbox from the elements above it, but now
     //  that we have the outline, we need to move the whitespace to the outside of the border.
@@ -126,6 +130,7 @@
     border: 2px solid $color-gray-lightest;
     // Remove the top border because it looks like it just extends the header
     border-top: none;
+    margin-bottom: 1em;
 
     .review-card--title {
       margin: 1.5rem 0 2.5rem;
@@ -138,14 +143,32 @@
   }
 }
 
-.disability-increase-wizard {
+.disability-increase-wizard .fieldset-input .legend-label {
+  max-width: 100%;
+}
 
-  .fieldset-input {
+.async-display-widget-alert-box {
+  margin-bottom: 1em;
+}
 
-    .legend-label {
-      max-width: 100%;
-    }
+// This seems duplicative
+.blue-bar-block {
+  border-left: 7px solid $color-primary;
+  padding-left: 1em;
 
+  p {
+    margin: 0.5em 0;
   }
+}
 
+.full-page-alert {
+  margin-bottom: 2em;
+}
+
+.itf-agreement {
+  margin-top: 0;
+}
+
+.private-records-choice-help {
+  margin: 2em 0;
 }

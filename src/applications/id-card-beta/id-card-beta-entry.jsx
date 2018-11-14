@@ -1,5 +1,5 @@
 import '../../platform/polyfills';
-import '../user-profile/sass/user-profile.scss';
+import '../personalization/profile360/sass/user-profile.scss';
 
 import startApp from '../../platform/startup';
 
@@ -10,5 +10,5 @@ import manifest from './manifest.json';
 startApp({
   url: manifest.rootUrl,
   reducer,
-  routes
+  routes,
 });

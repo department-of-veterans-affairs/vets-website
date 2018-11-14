@@ -3,7 +3,7 @@
 ## What is this?
 
 This is the combined frontend repository for www.vets.gov. With this repository, it is possible to
-build all of the client-side (ie, anything that gets downloaded to the browser) code for
+build all of the client-side (i.e., anything that gets downloaded to the browser) code for
 www.vets.gov with the exception of some high sensitivity endpoints that require server side
 interaction such as login.
 
@@ -15,7 +15,8 @@ very secret.
 | I want to...                             | Then you should...                       |
 | ---------------------------------------- | ---------------------------------------- |
 | clone the site and install dependencies  | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, then follow the instructions below to install node, npm and yarn if needed. Finally, run `yarn install` to fetch all the dependencies. Run `yarn install` anytime `package.json` changes. |
-| Use the git hooks provided               | You can either copy the hooks as-is right now with `cp hooks/* .git/hooks` or make sure your git hooks by using a symbolic link to the hooks distributed with vets-website with `rm -rf .git/hooks && ln -s hooks .git/hooks`. On Linux, you may have to do `ln -rs` instead of just `-s`. |
+| fetch all dependencies                   | `yarn install`; run this any time `package.json` changes |
+| Use the git hooks provided               | You can either copy the hooks as-is right now with `cp hooks/* .git/hooks` or make sure your git hooks by using a symbolic link to the hooks distributed with vets-website with `rm -rf .git/hooks && ln -s ../hooks .git/hooks`. On Linux, you may have to do `ln -rs` instead of just `-s`. |
 | deploy the site                          | merge to master for `dev.vets.gov` and `staging.vets.gov`. Production deploys are executed by creating a release of vets-website via Jenkins. |
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
 | add new static content to the site.      | Create new files at the right location in `content/pages`. Send a PR. |
@@ -24,15 +25,15 @@ very secret.
 | build the site with optimizitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
 | reset local environment (clean out node modules and runs npm install) | `npm run reset:env`                      |
 | run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
-| run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,static-pages`. Valid application names are in `config/webpack.config.js` |
+| run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName` |
 | run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry static-pages` |
 | run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0 --public 198.162.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
 | run all unit tests and watch | `npm run test:watch` |
 | run only unit tests for a subset of tests | `npm run test:unit -- path/to/my/test.unit.spec.jsx` <br> or <br> `npm run test:unit -- --recursive 'path/to/my/**/*.unit.spec.js?(x)'` |
-| run only e2e tests                       | `npm run test:e2e`                       |
-| run only e2e tests for a subset of tests | `npm run test:e2e -- test/edu-benefits/1995/*.e2e.spec.js` (provide file paths) |
+| run only e2e tests | Make sure the site is running locally (`npm run watch`) and run the tests with `npm run test:e2e` |
+| run only e2e tests for a subset of tests | Make sure the site is running locally (`npm run watch`) and run the desired tests with `npm run test:e2e -- src/applications/edu-benefits/tests/1995/*.e2e.spec.js` (provide file paths) |
 | run e2e tests in headless mode           | `npm run test:e2e:headless`              |
 | run all linters                          | `npm run lint`                           |
 | run only javascript linter               | `npm run lint:js`                        |
@@ -62,9 +63,11 @@ very secret.
 | script           | Scripts for building the repository. The most commonly used script is `build.js` which runs Metalsmith |
 | src              | All of our application code, including styles and tests |
 
-Inside the `src` directory, we have two folders `applications` and `platform`. `applications` contains the individual applications used on Vets.gov, typically associated with a particular URL. `platform` contains the shared code used by those applications: the platform we build applications on top of.
+Inside the `src` directory, we have two folders `applications` and `platform`. `applications` contains the individual applications used on VA.gov, typically associated with a particular URL. `platform` contains the shared code used by those applications: the platform we build applications on top of.
 
 ### Requirements
+
+Users with government furnished equipment may not have admin account access. [These instructions might help](https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Design/run_vets.gov_locally_for_designers.md).
 
 The requirements for running this application are Node.js 8.10.0 and yarn 1.5.1
 
@@ -74,9 +77,9 @@ We use `nvm` to manage Node.js and other tools. Keeping your tools in sync with 
 
 > If you are on a mac and use [homebrew](http://brew.sh/), you can install `nvm` by typing in the Terminal:
 > ```bash
-> brew update && brew install nvm		
+> brew update && brew install nvm
 > ```
-> _There will be some further instructions in the success message after install "finishes"._ 
+> _There will be some further instructions in the success message after install "finishes"._
 
 Once you have `nvm` installed, you should install Node.js:
 
@@ -101,7 +104,7 @@ npm i -g yarn@1.5.1
 
 ```bash
 node --version // 8.10.0
-yarn --version // 1.5.1 
+yarn --version // 1.5.1
 ```
 
 Once you use one of the correct commands above (like `npm run watch`), the site will be available locally by typing `localhost:3001` into your browser. If you get weird errors, try `yarn install` as your first step.
@@ -188,7 +191,7 @@ Overall, this runs pretty well.
 ### Unit Test -- Mocha
 All unit tests are named with the suffix `.unit.spec.js` and live in `tests` directories inside
 `src/applications` and `src/platform`. Keeping tests near application code keeps applications self contained
-and allows easier switching the files relevant to particular features on Vets.gov.
+and allows easier switching the files relevant to particular features on VA.gov.
 
 Unit tests are done via `mocha` with the `chai` assertion library run directly via
 the mocha test runner in Node.
@@ -206,6 +209,18 @@ Note that because mocha is running the test files directly, it needs to use
 the unittests. This is why babel configuration is kept in `.babelrc`, so it can
 be shared between build and test.
 
+### Static Webserver
+The site comes bundled with a static webserver, which is used for serving the files of a certain build-type from the build directory. If there isn't already a server running on port `3001` as is the case with `npm run watch`, the static webserver will automatically be started during Nightwatch tests (E2E and Visual Regression) that will serve the files of the corresponding build.
+
+#### Running the site in production
+It is sometimes useful to ensure that a certain feature of the site will function correctly in a certain environment. For example, a common use case is to render a certain feature in all environments outside of production. In this case, it would be beneficial to ensure the production environment is not impacted. To locally run a production build of the website, follow these steps:
+
+1. `NODE_ENV=production npm run build -- --buildtype=production`
+    - This will generate the complete static website in `build/production`.
+    - NOTE: You will likely see files already in the `build/development` directory. This contains the generated content files from Metalsmith, but unless you recently executed a development build, it most likely does not contain the Webpack-compiled assets (JS/CSS) which are served from memory and not written to the file system during the watch-task.
+2. `node src/platform/testing/e2e/test-server.js --buildtype=production`
+    - You should see console output indicating that a local webserver has started, which port it is running on, and for which build-type.
+
 ### End-to-end Test -- nightwatch
 
 All end-to-end tests are under `test/\*` and are named with the suffix `.e2e.spec.js`.
@@ -218,7 +233,7 @@ for tests. On Jenkins, Headless Chrome is used.
 Nightwatch is a wrapper on Selenium. It is configured in `config/nightwatch.js`.
 To run a nightwatch test, 3 things need to execute:
 
-  1. A webserver with our site
+  1. [A webserver with our site](#static-webserver)
   2. The selenium server (which will spawn browsers like PhanomJS)
   3. The nightwatch client that talks to the Selenium server
 
@@ -232,7 +247,7 @@ the test requries features that jsdom does not provide, putting them into a
 #### E2E Troubleshooting
 Try running your `selenium` server manually:
 ```
-$ java -jar <path to GitHub>/vets-website/node_modules/selenium-server/lib/runner/selenium-server-standalone-3.1.0.jar
+$ java -jar <path to GitHub>/vets-website/node_modules/selenium-server/lib/runner/selenium-server-standalone-3.4.0.jar
 ```
 and you should see:
 ```
@@ -240,12 +255,33 @@ and you should see:
 ```
 * Selenium requires **Java 8** to run
 
-### Visual Regression Testing
-This is the first iteration of visual regression testing. It is useful to detect side effects or scope of visual changes.
+#### Executing Nightwatch Tests For a Certain Environment
+A webserver is required for Nightwatch to execute. Locally, you will likely execute E2E tests while running the local development server via `npm run watch`, followed by `npm run test:e2e`.
 
-VRT works by gathering the links for the site using the sitemap, then using Nightwatch to navigate throughout the site, capturing an image of each page that will either be used as the baseline for future comparisons or compared to the baseline. The developer must first create the baseline image set for comparisons (sometimes called the golden set), then after making their changes, run an additional task to execute the comparison. See the chart above for the commands.
+However, it is sometimes useful to execute E2E tests for a certain build-type, which is done by first running a build for that build-type, then executing the tests with the build-type passed as an argument.
+
+For example, to execute the E2E tests for Production:
+
+1. `NODE_ENV=production npm run build -- --buildtype=production`
+2. `BUILDTYPE=production npm run test:e2e`
+    - The Nightwatch startup script will see that port `3001` is not blocked (as it would be by the watch-task), and will start a [static webserver](#static-webserver) for the production build.
+
+### Visual Regression Testing
+This is the second iteration of visual regression testing. It is useful to detect side effects or scope of visual changes.
+
+VRT works by gathering the links for the site using the sitemap, then using Puppeteer to navigate throughout the site, capturing an image of each page that will either be used as the baseline for future comparisons or compared to the baseline. The developer must first create the baseline image set for comparisons (sometimes called the golden set), then after making their changes, run an additional task to execute the comparison. See the chart above for the commands.
 
 There are some [limitations](https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Engineering/Visual%20Regression%20Testing.md), one of which is that VRG only tests the page on the initial load on a single viewport - it does not interact with the page or resize the window. This means that if there are dynamic elements they will not be covered. If this is functionality that interests you, you are welcome to join a discussion about the next phase of VRG.
+
+To run visual regression testing start the server in one terminal and execute the following commands
+
+1. `npm run test:visual:baseline` - Create desktop baseline
+1. `npm run test:visual` - Compare to desktop baselines
+1. `npm run test:visual:baseline -- --mobile` - Create mobile baseline
+1. `npm run test:visual -- --mobile` - Compare to Mobile baselines
+
+All screenshots are available at `logs/visual-regression/[baseline | diff]/[mobile | desktop]`
+
 
 ### Automated Accessibility Testing -- aXe
 

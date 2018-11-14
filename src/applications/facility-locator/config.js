@@ -1,29 +1,63 @@
+/* eslint-disable arrow-body-style */
 import environment from '../../platform/utilities/environment';
+import isProduction from '../../platform/utilities/environment/isProduction';
 
 // Base URL to be used in API requests.
 export const api = {
+  baseUrl: `${environment.API_URL}/v0/facilities`,
   url: `${environment.API_URL}/v0/facilities/va`,
   settings: {
     headers: {
       'X-Key-Inflection': 'camel',
-    }
-  }
+    },
+  },
+};
+
+/**
+ * Feature Flag Function
+ *
+ * Determines, based on enviornment type, whether or not to
+ * enable Community Care Provider Locator features of the
+ * existing Facility Locator App.
+ */
+export const ccLocatorEnabled = () => {
+  return !isProduction();
 };
 
 /* eslint-disable camelcase */
 export const facilityTypes = {
-  va_health_facility: 'Health',
+  va_health_facility: 'VA Health',
   va_cemetery: 'Cemetery',
   va_benefits_facility: 'Benefits',
   vet_center: 'Vet Center',
-  health: 'Health',
+  health: 'VA Health',
+  cc_provider: 'Community Care (Non-VA Health)',
   cemetery: 'Cemetery',
   benefits: 'Benefits',
 };
 /* eslint-enable camelcase */
 
+export const healthServices = {
+  All: 'Show all facilities',
+  PrimaryCare: 'Primary Care',
+  MentalHealthCare: 'Mental Health Care',
+  DentalServices: 'Dental Services',
+  UrgentCare: 'Urgent Care',
+  EmergencyCare: 'Emergency Care',
+  Audiology: 'Audiology',
+  Cardiology: 'Cardiology',
+  Dermatology: 'Dermatology',
+  Gastroenterology: 'Gastroenterology',
+  Gynecology: 'Gynecology',
+  Ophthalmology: 'Ophthalmology',
+  Optometry: 'Optometry',
+  Orthopedics: 'Orthopedics',
+  Urology: 'Urology',
+  WomensHealth: "Women's Health",
+};
+
 export const benefitsServices = {
-  All: 'All',
+  All: 'Show all facilities',
   ApplyingForBenefits: 'Applying for benefits',
   BurialClaimAssistance: 'Burial claim help',
   DisabilityClaimAssistance: 'Disability claim help',
@@ -33,12 +67,16 @@ export const benefitsServices = {
   FamilyMemberClaimAssistance: 'Family member claim help',
   HomelessAssistance: 'Help for homeless Veterans',
   VAHomeLoanAssistance: 'VA Home Loan help',
-  InsuranceClaimAssistanceAndFinancialCounseling: 'Insurance claim help and financial counseling',
-  IntegratedDisabilityEvaluationSystemAssistance: 'Integrated Disability Evaluation System Assistance (IDES)',
+  InsuranceClaimAssistanceAndFinancialCounseling:
+    'Insurance claim help and financial counseling',
+  IntegratedDisabilityEvaluationSystemAssistance:
+    'Integrated Disability Evaluation System Assistance (IDES)',
+  Pensions: 'Pensions',
   PreDischargeClaimAssistance: 'Pre-discharge claim help',
   TransitionAssistance: 'Transition help',
   UpdatingDirectDepositInformation: 'Updating direct deposit information',
-  VocationalRehabilitationAndEmploymentAssistance: 'Vocational Rehabilitation and Employment (VR&E) help',
+  VocationalRehabilitationAndEmploymentAssistance:
+    'Vocational Rehabilitation and Employment (VR&E) help',
 };
 
 export const vetCenterServices = [
@@ -50,54 +88,4 @@ export const vetCenterServices = [
   'Substance abuse assessment and referral',
   'Employment referral',
   'Referral of other VA services',
-];
-
-export const healthFacilityServices = [
-  'AllergyAndImmunology',
-  'Audiology',
-  'CardiacSurgery',
-  'CardiologyCareServices',
-  'ColoRectalSurgery',
-  'ComplementaryAlternativeMed',
-  'DentalServices',
-  'DermatologyCareServices',
-  'Diabetes',
-  'DiagnosticServices',
-  'Dialysis',
-  'EmergencyDept',
-  'Endocrinology',
-  'ENT',
-  'EyeCare',
-  'Gastroenterology',
-  'GeneralSurgery',
-  'Gynecology',
-  'Hematology',
-  'ImagingAndRadiology',
-  'InfectiousDisease',
-  'InternalMedicine',
-  'LabServices',
-  'MentalHealthCare',
-  'Nephrology',
-  'Neurology',
-  'Neurosurgery',
-  'Oncology',
-  'Orthopedics',
-  'OutpatientMedicalSpecialty',
-  'OutpatientMHCare',
-  'OutpatientSpecMHCare',
-  'OutpatientSurgicalSpecialty',
-  'PainManagement',
-  'PlasticSurgery',
-  'Podiatry',
-  'PrimaryCare',
-  'PulmonaryRespiratoryDisease',
-  'Rehabilitation',
-  'Rheumatology',
-  'SleepMedicine',
-  'ThoracicSurgery',
-  'UrgentCare',
-  'Urology',
-  'VascularSurgery',
-  'VocationalAssistance',
-  'WellnessAndPreventativeCare',
 ];

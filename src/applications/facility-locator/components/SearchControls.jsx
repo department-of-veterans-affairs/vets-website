@@ -1,41 +1,106 @@
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { updateSearchQuery } from '../actions';
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/jsx-closing-bracket-location */
 import React, { Component } from 'react';
+import FacilityTypeDropdown from './FacilityTypeDropdown';
+import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from '../../../platform/monitoring/record-event';
-import SelectComponent from './Select';
+import { LocationType } from '../constants';
+import {
+  healthServices,
+  benefitsServices,
+  vetCenterServices,
+} from '../config';
 
 class SearchControls extends Component {
-
   handleEditSearch = () => {
-    this.props.updateSearchQuery({
-      active: false,
-    });
-  }
+    this.props.onChange({ active: false });
+  };
 
-  // TODO (bshyong): generalize to be able to handle Select box changes
-  handleQueryChange = (e) => {
-    this.props.onChange({
-      searchString: e.target.value,
-    });
-  }
+  handleQueryChange = e => {
+    this.props.onChange({ searchString: e.target.value });
+  };
 
-  handleSearch = (e) => {
-    const { onSearch } = this.props;
+  handleFacilityTypeChange = (option) => {
+    const facilityType = (option === LocationType.ALL) ? null : option;
+    this.props.onChange({ facilityType, serviceType: null });
+  };
+
+  handleServiceTypeChange = ({ target }) => {
+    const option = target.value;
+    const serviceType = (option === 'All') ? null : option;
+    this.props.onChange({ serviceType });
+  };
+
+  handleSubmit = e => {
     e.preventDefault();
 
     const { facilityType } = this.props.currentQuery;
     // Report event here to only send analytics event when a user clicks on the button
     recordEvent({
       event: 'fl-search',
-      'fl-search-fac-type': facilityType
+      'fl-search-fac-type': facilityType,
     });
 
-    onSearch();
-  }
+    this.props.onSubmit();
+  };
+
+  renderServiceTypeDropdown = () => {
+    const { facilityType, serviceType } = this.props.currentQuery;
+    const disabled = ![
+      LocationType.HEALTH,
+      LocationType.BENEFITS,
+      LocationType.VET_CENTER,
+      LocationType.CC_PROVIDER,
+    ].includes(facilityType);
+
+    let services;
+    // Determine what service types to display for the location type (if any).
+    switch (facilityType) {
+      case LocationType.HEALTH:
+        services = healthServices;
+        break;
+      case LocationType.BENEFITS:
+        services = benefitsServices;
+        break;
+      case LocationType.VET_CENTER:
+        services = vetCenterServices.reduce((result, service) => {
+          result[service] = service; // eslint-disable-line no-param-reassign
+          return result;
+        }, { All: 'Show all facilities' });
+        break;
+      case LocationType.CC_PROVIDER:
+        return <ServiceTypeAhead onSelect={this.handleServiceTypeChange} />;
+      default:
+        services = {};
+    }
+
+    // Create option elements for each VA service type.
+    const options = Object.keys(services).map((service) => (
+      <option key={service} value={service}>
+        {services[service]}
+      </option>
+    ));
+
+    return (
+      <span>
+        <label htmlFor="service-type-dropdown">
+          Service type (optional)
+        </label>
+        <select
+          id="service-type-dropdown"
+          disabled={disabled}
+          value={serviceType || ''}
+          onChange={this.handleServiceTypeChange}
+        >
+          {options}
+        </select>
+      </span>
+    );
+  };
 
   render() {
-    const { currentQuery, isMobile, onChange } = this.props;
+    const { currentQuery, isMobile } = this.props;
+
     if (currentQuery.active && isMobile) {
       return (
         <div className="search-controls-container">
@@ -48,25 +113,29 @@ class SearchControls extends Component {
 
     return (
       <div className="search-controls-container clearfix">
-        <form>
-          <div className="columns usa-width-one-third medium-4">
-            <label htmlFor="streetCityStateZip" id="streetCityStateZip-label">Enter Street, City, State or Zip</label>
-            <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString} aria-label="Street, City, State or Zip" title="Street, City, State or Zip"/>
+        <form id="facility-search-controls" className="row" onSubmit={this.handleSubmit}>
+          <div className="columns medium-3-5">
+            <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
+              Search near
+            </label>
+            <input
+              id="street-city-state-zip"
+              name="street-city-state-zip"
+              type="text"
+              onChange={this.handleQueryChange}
+              value={currentQuery.searchString}
+              title="Your location: Street, City, State or Zip" />
           </div>
-          <SelectComponent
-            optionType="facility"
-            currentQuery={currentQuery}
-            updateSearchQuery={this.props.updateSearchQuery}
-            onChange={onChange}
-            isMobile={this.props.isMobile}/>
-          <SelectComponent
-            optionType="service"
-            currentQuery={currentQuery}
-            updateSearchQuery={this.props.updateSearchQuery}
-            onChange={onChange}
-            isMobile={isMobile}/>
-          <div className="columns usa-width-one-sixth medium-2">
-            <input type="submit" value="Search" onClick={this.handleSearch}/>
+          <div className="columns medium-3-5">
+            <FacilityTypeDropdown
+              facilityType={this.props.currentQuery.facilityType}
+              onChange={this.handleFacilityTypeChange} />
+          </div>
+          <div className="columns medium-3-4">
+            {this.renderServiceTypeDropdown()}
+          </div>
+          <div className="columns medium-1-2">
+            <input type="submit" value="Search" />
           </div>
         </form>
       </div>
@@ -74,10 +143,4 @@ class SearchControls extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    updateSearchQuery,
-  }, dispatch);
-}
-
-export default connect(null, mapDispatchToProps)(SearchControls);
+export default SearchControls;

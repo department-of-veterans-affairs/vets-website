@@ -8,25 +8,33 @@ export default function MailOrFax({ onClose }) {
       <button
         className="va-modal-close"
         type="button"
-        onClick={onClose}>
-        <i className="fa fa-close"></i>
-        <span className="usa-sr-only">Close this modal</span>
+        aria-label="Close this modal"
+        onClick={onClose}
+      >
+        <i className="fa fa-close" />
       </button>
       <p>
-        Please upload your documents online here to help us process your claim quickly.
+        Please upload your documents online here to help us process your claim
+        quickly.
       </p>
-      <p>
-        If you can’t upload documents:
-      </p>
+      <p>If you can’t upload documents:</p>
       <ol>
         <li>Make copies of the documents.</li>
         <li>Make sure you write your name and claim number on every page.</li>
-        <li>Mail or fax them to the <a target="_blank" href="http://www.benefits.va.gov/COMPENSATION/mailingaddresses.asp">VA Claims Intake Center.</a></li>
+        <li>
+          Mail or fax them to the{' '}
+          <a
+            target="_blank"
+            href="http://www.benefits.va.gov/COMPENSATION/mailingaddresses.asp"
+          >
+            VA Claims Intake Center.
+          </a>
+        </li>
       </ol>
     </div>
   );
 }
 
 MailOrFax.propTypes = {
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 };

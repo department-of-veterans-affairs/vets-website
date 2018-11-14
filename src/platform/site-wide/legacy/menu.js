@@ -1,24 +1,22 @@
-/*
- * Creates trigger function that opens/closes mobile menu, 
- * mobile search menu, and the Veterans Crisis Line.
- */
+export function addOverlayTriggers() {
+  const overlays = document.querySelectorAll(
+    '.va-overlay-trigger, .va-overlay',
+  );
 
-document.addEventListener('DOMContentLoaded', () => {
-  const overlays = document.querySelectorAll('.va-overlay-trigger, .va-overlay');
-
-  const toggleOverlay = (domEvent) => {
+  const toggleOverlay = domEvent => {
     const overlayTarget = domEvent.currentTarget; // The overlay to open or close
     const clickTarget = domEvent.target; // The element clicked
 
-    /* 
-    overlayId will be _either_    
+    /*
+    overlayId will be _either_
     - The value of element.getAttribute('href')
     - The value of element.dataset.show
-    
-    A .va-overlay-trigger element should have either a data-show attribute 
+
+    A .va-overlay-trigger element should have either a data-show attribute
     (preferred) or an href attribute.
     */
-    const overlayId = overlayTarget.getAttribute('href') || overlayTarget.dataset.show;
+    const overlayId =
+      overlayTarget.getAttribute('href') || overlayTarget.dataset.show;
 
     const shouldCloseOverlay =
       overlayTarget.classList.contains('va-overlay') &&
@@ -34,8 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.classList.add('va-pos-fixed');
     }
   };
-
-  Array.from(overlays).forEach((ol) => {
+  Array.from(overlays).forEach(ol => {
     ol.addEventListener('click', toggleOverlay);
   });
-});
+}
+
+/*
+ * Creates trigger function that opens/closes mobile menu,
+ * mobile search menu, and the Veterans Crisis Line.
+ */
+document.addEventListener('DOMContentLoaded', addOverlayTriggers);

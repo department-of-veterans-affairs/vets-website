@@ -1,45 +1,38 @@
 import _ from 'lodash/fp';
 import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
 
-import applicantInformation from '../../../common/schemaform/pages/applicantInformation';
+import applicantInformation from '../../../../platform/forms/pages/applicantInformation';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
+import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import applicantServicePage from '../../pages/applicantService';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
 
-import fullNameUI from '../../../common/schemaform/definitions/fullName';
+import fullNameUI from '../../../../platform/forms/definitions/fullName';
 
-import * as personId from '../../../common/schemaform/definitions/personId';
+import * as personId from '../../../../platform/forms/definitions/personId';
 
-import IntroductionPage from '../components/IntroductionPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import {
-  transform
-} from '../helpers';
+import { transform } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
 
-import {
-  survivorBenefitsLabels
-} from '../../utils/labels';
+import { survivorBenefitsLabels } from '../../utils/labels';
 
 const {
   benefit,
   outstandingFelony,
-  veteranFullName
+  veteranFullName,
 } = fullSchema5495.properties;
 
-const {
-  school,
-  educationType,
-  date,
-  fullName
-} = fullSchema5495.definitions;
+const { school, educationType, date, fullName } = fullSchema5495.definitions;
 
 const formConfig = {
   urlPrefix: '/',
@@ -51,7 +44,8 @@ const formConfig = {
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
-    noAuth: 'Please sign in again to resume your application for education benefits.'
+    noAuth:
+      'Please sign in again to resume your application for education benefits.',
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,
@@ -60,12 +54,14 @@ const formConfig = {
     fullName,
     school,
     educationType,
-    date
+    date,
   },
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5495',
+  preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
@@ -78,11 +74,11 @@ const formConfig = {
             'gender',
             'relativeSocialSecurityNumber',
             'view:noSSN',
-            'relativeVaFileNumber'
-          ]
+            'relativeVaFileNumber',
+          ],
         }),
-        applicantService: applicantServicePage(fullSchema5495)
-      }
+        applicantService: applicantServicePage(fullSchema5495),
+      },
     },
     benefitSelection: {
       title: 'Benefit Selection',
@@ -92,21 +88,22 @@ const formConfig = {
           title: 'Benefit selection',
           uiSchema: {
             benefit: {
-              'ui:title': 'Select the benefit under which you are applying for a change in program or place of training:',
+              'ui:title':
+                'Select the benefit under which you are applying for a change in program or place of training:',
               'ui:widget': 'radio',
               'ui:options': {
-                labels: survivorBenefitsLabels
-              }
-            }
+                labels: survivorBenefitsLabels,
+              },
+            },
           },
           schema: {
             type: 'object',
             properties: {
-              benefit
-            }
-          }
-        }
-      }
+              benefit,
+            },
+          },
+        },
+      },
     },
     sponsorInformation: {
       title: 'Sponsor Information',
@@ -124,51 +121,54 @@ const formConfig = {
                 'ui:validations': [
                   (errors, fieldData, formData) => {
                     if (fieldData === formData.relativeSocialSecurityNumber) {
-                      errors.addError('Your sponsor’s SSN cannot be the same as yours.');
+                      errors.addError(
+                        'Your sponsor’s SSN cannot be the same as yours.',
+                      );
                     }
-                  }
-                ]
-              }
+                  },
+                ],
+              },
             }),
             outstandingFelony: {
-              'ui:title': 'Do you or your sponsor have an outstanding felony and/or warrant?',
-              'ui:widget': 'yesNo'
-            }
+              'ui:title':
+                'Do you or your sponsor have an outstanding felony and/or warrant?',
+              'ui:widget': 'yesNo',
+            },
           },
           schema: {
             type: 'object',
             properties: {
               veteranFullName,
               'view:veteranId': personId.schema(fullSchema5495),
-              outstandingFelony
-            }
-          }
-        }
-      }
+              outstandingFelony,
+            },
+          },
+        },
+      },
     },
     schoolSelection: {
       title: 'School Selection',
       pages: {
         newSchool: createSchoolSelectionPage(fullSchema5495, {
           required: ['educationType', 'name'],
-          fields: [
-            'educationProgram',
-            'educationObjective'
-          ],
-          title: 'School, university, program, or training facility you want to attend'
+          fields: ['educationProgram', 'educationObjective'],
+          title:
+            'School, university, program, or training facility you want to attend',
         }),
-        oldSchool: createOldSchoolPage(fullSchema5495)
-      }
+        oldSchool: createOldSchoolPage(fullSchema5495),
+      },
     },
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: contactInformationPage(fullSchema5495, 'relativeAddress'),
-        directDeposit: createDirectDepositChangePage(fullSchema5495)
-      }
-    }
-  }
+        contactInformation: contactInformationPage(
+          fullSchema5495,
+          'relativeAddress',
+        ),
+        directDeposit: createDirectDepositChangePage(fullSchema5495),
+      },
+    },
+  },
 };
-
 
 export default formConfig;

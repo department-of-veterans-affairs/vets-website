@@ -10,6 +10,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation/ErrorableCheckbox';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/ErrorableRadioButtons';
 
+import HealthToolsMovingMessage from '../../../platform/static-data/HealthToolsMovingMessage';
 import ErrorView from '../components/ErrorView';
 import { reportTypes as reportTypesConfig } from '../config';
 import {
@@ -20,7 +21,7 @@ import {
   resetForm,
   setDate,
   toggleAllReports,
-  toggleReportType
+  toggleReportType,
 } from '../actions';
 import { isValidDateRange } from '../utils/validations';
 
@@ -36,7 +37,7 @@ export class Main extends React.Component {
 
     this.state = {
       invalidStartDateFormat: false,
-      invalidEndDateFormat: false
+      invalidEndDateFormat: false,
     };
   }
 
@@ -70,9 +71,10 @@ export class Main extends React.Component {
       hasGlossaryLink = true;
       linkText = '(Learn more)';
 
-      onClick = (e) => {
+      onClick = e => {
         e.preventDefault();
-        this.props.openModal('Military Service Information', (
+        this.props.openModal(
+          'Military Service Information',
           <div>
             You will have access to your:
             <ul>
@@ -82,22 +84,26 @@ export class Main extends React.Component {
               <li>Deployment periods</li>
               <li>Retirement periods</li>
             </ul>
-          </div>
-        ));
+          </div>,
+        );
       };
     } else if (c.hold) {
       hasGlossaryLink = true;
       linkText = `(Available after ${c.hold} days)`;
-      onClick = (e) => {
+      onClick = e => {
         e.preventDefault();
-        this.props.openModal(`Available after ${c.hold} days`, c.holdExplanation);
+        this.props.openModal(
+          `Available after ${c.hold} days`,
+          c.holdExplanation,
+        );
       };
     }
 
     if (hasGlossaryLink) {
       return (
         <span>
-          {c.label} <a href="#" onClick={onClick}>
+          {c.label}{' '}
+          <a href="#" onClick={onClick}>
             {linkText}
           </a>
         </span>
@@ -112,11 +118,14 @@ export class Main extends React.Component {
     return Object.keys(reportTypesConfig).map(k => {
       const section = reportTypesConfig[k];
       const possibleTypes = section.children.map(c => c.value);
-      const availableTypes = _.intersection(Object.keys(reportTypes), possibleTypes);
+      const availableTypes = _.intersection(
+        Object.keys(reportTypes),
+        possibleTypes,
+      );
 
       const shouldRenderType = c => availableTypes.includes(c.value);
       const checkboxes = section.children.filter(shouldRenderType).map(c => {
-        const reportTypeOnChange = (checked) => {
+        const reportTypeOnChange = checked => {
           this.props.toggleReportType(c.value, checked);
         };
         return (
@@ -125,7 +134,8 @@ export class Main extends React.Component {
               name={c.value}
               label={this.renderReportCheckBoxLabel(c)}
               checked={this.props.form.reportTypes[c.value]}
-              onValueChange={reportTypeOnChange}/>
+              onValueChange={reportTypeOnChange}
+            />
           </div>
         );
       });
@@ -142,10 +152,7 @@ export class Main extends React.Component {
   renderDateOptions() {
     const {
       dateOption,
-      dateRange: {
-        start: startDate,
-        end: endDate
-      }
+      dateRange: { start: startDate, end: endDate },
     } = this.props.form;
 
     const handleFormattedDate = (start = true) => {
@@ -154,13 +161,14 @@ export class Main extends React.Component {
 
       if (start) {
         handleDateChange = this.handleStartDateChange;
-        setDateError = (errorType) => this.setState({ startDateError: errorType });
+        setDateError = errorType =>
+          this.setState({ startDateError: errorType });
       } else {
         handleDateChange = this.handleEndDateChange;
-        setDateError = (errorType) => this.setState({ endDateError: errorType });
+        setDateError = errorType => this.setState({ endDateError: errorType });
       }
 
-      return (e) => {
+      return e => {
         const dateString = e.target.value;
         const momentDate = moment(dateString, 'MM/DD/YYYY');
 
@@ -194,13 +202,13 @@ export class Main extends React.Component {
 
     const customDateOptionClass = classNames({
       'custom-date-option': true,
-      'date-range-error': this.state.startDateError || this.state.endDateError
+      'date-range-error': this.state.startDateError || this.state.endDateError,
     });
 
     const validationErrorMessages = {
       invalidFormatError: 'Enter dates in the MM/DD/YYYY date format',
       missingDateError: 'Enter a date range',
-      startDateError: 'Start date should be before end date'
+      startDateError: 'Start date should be before end date',
     };
 
     const radioButtonProps = {
@@ -214,29 +222,38 @@ export class Main extends React.Component {
         { label: 'Last year', value: '1yr' },
         {
           label: (
-            <div aria-live="assertive" className={customDateOptionClass}>
-              {
-                invalidFormatError && <p className="date-range-error">
-                  {validationErrorMessages.invalidFormatError}</p>
-              }
-              {
-                startDateError && <p className="date-range-error">
-                  {validationErrorMessages.startDateError}</p>
-              }
-              {
-                !datePickerDisabled && !invalidFormatError && missingDateError && <p className="date-range-error">
-                  {validationErrorMessages.missingDateError}</p>
-              }
+            <span aria-live="assertive" className={customDateOptionClass}>
+              {invalidFormatError && (
+                <p className="date-range-error">
+                  {validationErrorMessages.invalidFormatError}
+                </p>
+              )}
+              {startDateError && (
+                <p className="date-range-error">
+                  {validationErrorMessages.startDateError}
+                </p>
+              )}
+              {!datePickerDisabled &&
+                !invalidFormatError &&
+                missingDateError && (
+                  <p className="date-range-error">
+                    {validationErrorMessages.missingDateError}
+                  </p>
+                )}
               <span id="vets-custom-date-range">Custom date range</span>
-              <span className="usa-sr-only">You will be asked to enter a start and end date in two digit month, two digit day, four digit year format below.</span>
-            </div>
+              <span className="usa-sr-only">
+                You will be asked to enter a start and end date in two digit
+                month, two digit day, four digit year format below.
+              </span>
+            </span>
           ),
           value: 'custom',
           content: (
             <div className="date-range-fields">
+              <label className="usa-sr-only" htmlFor="custom-date-start">
+                Health record start date
+              </label>
               <DatePicker
-                aria-label="Health record start date"
-                aria-describedby="vets-custom-date-range"
                 id="custom-date-start"
                 onBlur={handleFormattedDate()}
                 onChange={this.handleStartDateChange}
@@ -246,11 +263,17 @@ export class Main extends React.Component {
                 disabled={datePickerDisabled}
                 maxDate={endDate}
                 tetherConstraints={[{ to: 'scrollParent', attachment: 'none' }]}
-                className={!datePickerDisabled && this.state.startDateError ? 'date-range-error' : ''}/>
+                className={
+                  !datePickerDisabled && this.state.startDateError
+                    ? 'date-range-error'
+                    : ''
+                }
+              />
               <span>&nbsp;to&nbsp;</span>
+              <label className="usa-sr-only" htmlFor="custom-date-end">
+                Health record end date
+              </label>
               <DatePicker
-                aria-label="Health record end date"
-                aria-describedby="vets-custom-date-range"
                 id="custom-date-end"
                 onBlur={handleFormattedDate(false)}
                 onChange={this.handleEndDateChange}
@@ -261,12 +284,17 @@ export class Main extends React.Component {
                 minDate={startDate}
                 maxDate={moment()}
                 tetherConstraints={[{ to: 'scrollParent', attachment: 'none' }]}
-                className={!datePickerDisabled && this.state.endDateError ? 'date-range-error' : ''}/>
+                className={
+                  !datePickerDisabled && this.state.endDateError
+                    ? 'date-range-error'
+                    : ''
+                }
+              />
             </div>
           ),
         },
       ],
-      onValueChange: (v) => {
+      onValueChange: v => {
         if (v.dirty) {
           this.props.changeDateOption(v.value);
           this.setState({
@@ -277,12 +305,12 @@ export class Main extends React.Component {
       },
       value: {
         value: dateOption,
-      }
+      },
     };
 
     return (
       <div>
-        <ErrorableRadioButtons {...radioButtonProps}/>
+        <ErrorableRadioButtons {...radioButtonProps} />
       </div>
     );
   }
@@ -293,10 +321,11 @@ export class Main extends React.Component {
     const checkedCount = _.countBy(types, type => selections[type]).true;
     const allValuesChecked = checkedCount === types.length;
     const noValuesChecked = !checkedCount;
-    const hasCustomDateErrors = this.state.startDateError || this.state.endDateError;
+    const hasCustomDateErrors =
+      this.state.startDateError || this.state.endDateError;
 
     if (this.props.loading || this.props.refreshing) {
-      return <LoadingIndicator message="Loading your application..."/>;
+      return <LoadingIndicator message="Loading your application..." />;
     }
 
     if (!Object.keys(selections).length) {
@@ -304,7 +333,8 @@ export class Main extends React.Component {
         <ErrorView errors={this.props.errors}>
           <p>
             The application failed to load your available health record types.
-            Click <a onClick={this.props.getEligibleClasses}>here</a> to try again.
+            Click <a onClick={this.props.getEligibleClasses}>here</a> to try
+            again.
           </p>
         </ErrorView>
       );
@@ -315,8 +345,9 @@ export class Main extends React.Component {
         <div>
           <div className="heading-wrapper">
             <h1>Get Your VA Health Records</h1>
-            <span className="blue-button-logo"></span>
+            <span className="blue-button-logo" />
           </div>
+          <HealthToolsMovingMessage />
           <form>
             {this.renderDateOptions()}
             <div>
@@ -328,9 +359,10 @@ export class Main extends React.Component {
                   name="all"
                   label="All available VA health records"
                   checked={allValuesChecked}
-                  onValueChange={(checked) => {
+                  onValueChange={checked => {
                     this.props.toggleAllReports(checked);
-                  }}/>
+                  }}
+                />
                 {this.renderInformationTypes()}
               </fieldset>
             </div>
@@ -338,10 +370,17 @@ export class Main extends React.Component {
               <button
                 onClick={this.handleSubmit}
                 type="submit"
-                disabled={noValuesChecked || hasCustomDateErrors}>
+                disabled={noValuesChecked || hasCustomDateErrors}
+              >
                 Submit
               </button>
-              <a className="usa-button usa-button-secondary" href="/health-care/" role="button">Cancel</a>
+              <a
+                className="usa-button usa-button-secondary"
+                href="/health-care/"
+                role="button"
+              >
+                Cancel
+              </a>
             </div>
           </form>
         </div>
@@ -351,17 +390,17 @@ export class Main extends React.Component {
 }
 
 Main.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const hrState = state.health.hr;
 
   return {
     form: hrState.form,
     loading: hrState.form.loading,
     refreshing: hrState.refresh.loading,
-    errors: [...hrState.form.errors, ...hrState.refresh.errors]
+    errors: [...hrState.form.errors, ...hrState.refresh.errors],
   };
 };
 
@@ -373,7 +412,10 @@ const mapDispatchToProps = {
   resetForm,
   setDate,
   toggleAllReports,
-  toggleReportType
+  toggleReportType,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Main);

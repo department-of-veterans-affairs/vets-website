@@ -1,5 +1,5 @@
 import { additionalSourcesUI } from './additionalSources';
-import currencyUI from '../../common/schemaform/definitions/currency';
+import currencyUI from 'us-forms-system/lib/js/definitions/currency';
 
 export default {
   'ui:order': [
@@ -9,7 +9,7 @@ export default {
     'blackLung',
     'serviceRetirement',
     'ssi',
-    'additionalSources'
+    'additionalSources',
   ],
   socialSecurity: currencyUI('Social Security'),
   civilService: currencyUI('US Civil Service'),
@@ -17,5 +17,5 @@ export default {
   blackLung: currencyUI('Black Lung Benefits'),
   serviceRetirement: currencyUI('Service Retirement'),
   ssi: currencyUI('Supplemental Security Income (SSI) or Public Assistance'),
-  additionalSources: additionalSourcesUI
+  additionalSources: additionalSourcesUI,
 };

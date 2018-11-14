@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatReviewDate } from '../../common/schemaform/helpers';
+import { formatReviewDate } from 'us-forms-system/lib/js/helpers';
 
 export default function ServicePeriodView({ formData }) {
   let from = '';
@@ -11,7 +11,8 @@ export default function ServicePeriodView({ formData }) {
 
   return (
     <div>
-      <strong>{formData.serviceBranch}</strong><br/>
+      <strong>{formData.serviceBranch}</strong>
+      <br />
       {from} &mdash; {to}
     </div>
   );

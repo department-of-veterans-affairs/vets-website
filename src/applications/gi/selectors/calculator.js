@@ -3,13 +3,13 @@ import { createSelector } from 'reselect';
 
 import { formatCurrency } from '../utils/helpers';
 
-const getConstants = (state) => state.constants.constants;
+const getConstants = state => state.constants.constants;
 
-const getEligibilityDetails = (state) => state.eligibility;
+const getEligibilityDetails = state => state.eligibility;
 
-const getInstitution = (state) => state.profile.attributes;
+const getInstitution = state => state.profile.attributes;
 
-const getFormInputs = (state) => state.calculator;
+const getFormInputs = state => state.calculator;
 
 const getDerivedValues = createSelector(
   getConstants,
@@ -17,7 +17,9 @@ const getDerivedValues = createSelector(
   getInstitution,
   getFormInputs,
   (constant, eligibility, institution, inputs) => {
-    if ([constant, eligibility, institution, inputs].some(e => !e || isEmpty(e))) {
+    if (
+      [constant, eligibility, institution, inputs].some(e => !e || isEmpty(e))
+    ) {
       return {};
     }
 
@@ -69,6 +71,7 @@ const getDerivedValues = createSelector(
     const numberOfDependents = +eligibility.numberOfDependents;
     const spouseActiveDuty = eligibility.spouseActiveDuty === 'yes';
     const serviceDischarge = cumulativeService === 'service discharge';
+    const purpleHeart = cumulativeService === 'purple heart';
 
     const institutionType = institution.type.toLowerCase();
     const isOJT = institutionType === 'ojt';
@@ -80,32 +83,32 @@ const getDerivedValues = createSelector(
     const institutionCountry = institution.country.toLowerCase();
 
     // VRE and post-9/11 eligibility
-    const vre911Eligible = (giBillChapter === 31 && eligForPostGiBill === 'yes');
+    const vre911Eligible = giBillChapter === 31 && eligForPostGiBill === 'yes';
 
     // VRE-without-post-911 eligibility
-    const onlyVRE = (giBillChapter === 31 && eligForPostGiBill === 'no');
+    const onlyVRE = giBillChapter === 31 && eligForPostGiBill === 'no';
 
     // Determines benefits tier
-    const tier = (vre911Eligible || serviceDischarge) ? 1 : +cumulativeService;
+    const tier =
+      vre911Eligible || serviceDischarge || purpleHeart
+        ? 1
+        : +cumulativeService;
 
-    const oldGiBill = (
-      giBillChapter === 30
-      || giBillChapter === 1607
-      || giBillChapter === 1606
-      || giBillChapter === 35
-    );
+    const oldGiBill =
+      giBillChapter === 30 ||
+      giBillChapter === 1607 ||
+      giBillChapter === 1606 ||
+      giBillChapter === 35;
 
     // Determines whether monthly benefit can only be spent on tuition/fees
-    const activeDutyThirtyOr1607 = (
+    const activeDutyThirtyOr1607 =
       militaryStatus === 'active duty' &&
-      (giBillChapter === 30 || giBillChapter === 1607)
-    );
+      (giBillChapter === 30 || giBillChapter === 1607);
     const correspondenceOrFlightUnderOldGiBill =
       isFlightOrCorrespondence && oldGiBill;
-    const ropOldAndChapter = (
+    const ropOldAndChapter =
       ['less than half', 'quarter'].includes(inputs.enrolledOld) &&
-      [30, 35, 1607].includes(giBillChapter)
-    );
+      [30, 35, 1607].includes(giBillChapter);
     const onlyTuitionFees =
       activeDutyThirtyOr1607 ||
       correspondenceOrFlightUnderOldGiBill ||
@@ -115,9 +118,9 @@ const getDerivedValues = createSelector(
     switch (giBillChapter) {
       case 30: {
         monthlyRate =
-          (enlistmentService === '3' ?
-            constant.MGIB3YRRATE :
-            constant.MGIB2YRRATE) * (isOJT ? 0.75 : 1);
+          (enlistmentService === '3'
+            ? constant.MGIB3YRRATE
+            : constant.MGIB2YRRATE) * (isOJT ? 0.75 : 1);
         break;
       }
       case 1607: {
@@ -142,13 +145,11 @@ const getDerivedValues = createSelector(
       case 31: {
         const OJT = isOJT ? 'OJT' : '';
         if (numberOfDependents <= 2) {
-          monthlyRate =
-            constant[`VRE${numberOfDependents}DEPRATE${OJT}`];
+          monthlyRate = constant[`VRE${numberOfDependents}DEPRATE${OJT}`];
         } else {
           monthlyRate =
             constant[`VRE2DEPRATE${OJT}`] +
-            ((numberOfDependents - 2) *
-            constant[`VREINCRATE${OJT}`]);
+            (numberOfDependents - 2) * constant[`VREINCRATE${OJT}`];
         }
         break;
       }
@@ -166,10 +167,9 @@ const getDerivedValues = createSelector(
     }
 
     // Set the net price (Payer of Last Resort) - getTuitionNetPrice
-    const tuitionNetPrice = Math.max(0,
-      inputs.tuitionFees -
-      inputs.scholarships -
-      inputs.tuitionAssist
+    const tuitionNetPrice = Math.max(
+      0,
+      inputs.tuitionFees - inputs.scholarships - inputs.tuitionAssist,
     );
 
     // Set the proper tuition/fees cap - getTuitionFeesCap
@@ -178,11 +178,12 @@ const getDerivedValues = createSelector(
     } else if (isCorrespondence) {
       tuitionFeesCap = constant.CORRESPONDTFCAP;
     } else if (isPublic && institutionCountry === 'usa') {
-      tuitionFeesCap = inputs.inState === 'yes'
-        ? +inputs.tuitionFees
-        : +inputs.inStateTuitionFees;
+      tuitionFeesCap =
+        inputs.inState === 'yes'
+          ? +inputs.tuitionFees
+          : +inputs.inStateTuitionFees;
     } else {
-      // Default cap for private, foreign, and for-profit institutions.
+      // Default cap for private, foreign, and for-profit institutions
       tuitionFeesCap = constant.TFCAP;
     }
 
@@ -205,28 +206,29 @@ const getDerivedValues = createSelector(
           break;
         case 'nontraditional':
           termLength = +inputs.lengthNontradTerms;
-          acadYearLength = (+inputs.numberNontradTerms) * (+inputs.lengthNontradTerms);
+          acadYearLength =
+            +inputs.numberNontradTerms * +inputs.lengthNontradTerms;
           break;
         default:
-          // noop
+        // noop
       }
     }
 
     // Calculate the rate of pursuit - getRop
-    const rop = ({
+    const rop = {
       full: 1,
       'three quarters': 0.8,
       'more than half': 0.6,
       'half or less': 0,
-    })[inputs.enrolled];
+    }[inputs.enrolled];
 
     // Calculate the rate of pursuit for Book Stipend - getRopBook
-    const ropBook = ({
+    const ropBook = {
       full: 1,
       'three quarters': 0.75,
       'more than half': 0.5,
-      'half or less': 0.25
-    })[inputs.enrolled];
+      'half or less': 0.25,
+    }[inputs.enrolled];
 
     // Calculate the rate of pursuit for Old GI Bill - getCalcRopOld
     // and Calculate the rate of pursuit for OJT - getRopOjt
@@ -234,23 +236,23 @@ const getDerivedValues = createSelector(
       // eslint-disable-next-line no-multi-assign
       ropOjt = ropOld = +inputs.working / 30;
     } else {
-      ropOld = ({
+      ropOld = {
         full: 1,
         'three quarters': 0.75,
         half: 0.5,
         'less than half': 0.5,
         quarter: 0.25,
-      })[inputs.enrolledOld];
+      }[inputs.enrolledOld];
     }
 
     // Determine yellow ribbon eligibility - getYellowRibbonEligibility
     const yellowRibbonElig = !(
-      tier < 1
-      || !institution.yr
-      || inputs.yellowRibbonRecipient === 'no'
-      || militaryStatus === 'active duty'
-      || isOJT
-      || isFlightOrCorrespondence
+      tier < 1 ||
+      !institution.yr ||
+      inputs.yellowRibbonRecipient === 'no' ||
+      militaryStatus === 'active duty' ||
+      isOJT ||
+      isFlightOrCorrespondence
     );
 
     // Determine kicker benefit level - getKickerBenefit
@@ -294,7 +296,7 @@ const getDerivedValues = createSelector(
           nameOfTerm3 = 'Term 3';
           break;
         default:
-          // noop
+        // noop
       }
 
       nameOfTerm4 = 'Total per year';
@@ -302,24 +304,27 @@ const getDerivedValues = createSelector(
 
     // Calculate Tuition Fees for Term #1 - getTuitionFeesTerm1
     const shouldHaveNoTuitionFeesTerm1 =
-      isOJT || oldGiBill ||
-      giBillChapter === 31 && isFlightOrCorrespondence;
+      isOJT || oldGiBill || (giBillChapter === 31 && isFlightOrCorrespondence);
 
     if (shouldHaveNoTuitionFeesTerm1) {
       tuitionFeesTerm1 = 0;
     } else if (giBillChapter === 31) {
       tuitionFeesTerm1 = tuitionFeesPerTerm;
     } else {
-      tuitionFeesTerm1 = Math.max(0, Math.min(
-        tier * tuitionFeesPerTerm,
-        tier * tuitionFeesCap,
-        tier * tuitionNetPrice
-      ));
+      tuitionFeesTerm1 = Math.max(
+        0,
+        Math.min(
+          tier * tuitionFeesPerTerm,
+          tier * tuitionFeesCap,
+          tier * tuitionNetPrice,
+        ),
+      );
     }
 
     // getTuitionFeesTerm2
     const shouldHaveNoTuitionFeesTerm2 =
-      isOJT || oldGiBill ||
+      isOJT ||
+      oldGiBill ||
       (giBillChapter === 31 && isFlightOrCorrespondence) ||
       (inputs.calendar === 'nontraditional' && numberOfTerms === 1);
 
@@ -328,38 +333,50 @@ const getDerivedValues = createSelector(
     } else if (giBillChapter === 31) {
       tuitionFeesTerm2 = tuitionFeesPerTerm;
     } else {
-      tuitionFeesTerm2 = Math.max(0, Math.min(
-        tier * tuitionFeesPerTerm,
-        tier * tuitionFeesCap - tuitionFeesTerm1,
-        tier * tuitionNetPrice - tuitionFeesTerm1
-      ));
+      tuitionFeesTerm2 = Math.max(
+        0,
+        Math.min(
+          tier * tuitionFeesPerTerm,
+          tier * tuitionFeesCap - tuitionFeesTerm1,
+          tier * tuitionNetPrice - tuitionFeesTerm1,
+        ),
+      );
     }
 
     // getTuitionFeesTerm3
     const shouldHaveNoTuitionFeesTerm3 =
-      isOJT || oldGiBill ||
+      isOJT ||
+      oldGiBill ||
       (giBillChapter === 31 && isFlightOrCorrespondence) ||
-      (inputs.calendar === 'semesters' || inputs.calendar === 'nontraditional' && numberOfTerms < 3);
+      (inputs.calendar === 'semesters' ||
+        (inputs.calendar === 'nontraditional' && numberOfTerms < 3));
 
     if (shouldHaveNoTuitionFeesTerm3) {
       tuitionFeesTerm3 = 0;
     } else if (giBillChapter === 31) {
       tuitionFeesTerm3 = tuitionFeesPerTerm;
     } else {
-      tuitionFeesTerm3 = Math.max(0, Math.min(
-        tier * tuitionFeesPerTerm,
-        tier * tuitionFeesCap - tuitionFeesTerm1 - tuitionFeesTerm2,
-        tier * tuitionNetPrice - tuitionFeesTerm1 - tuitionFeesTerm2
-      ));
+      tuitionFeesTerm3 = Math.max(
+        0,
+        Math.min(
+          tier * tuitionFeesPerTerm,
+          tier * tuitionFeesCap - tuitionFeesTerm1 - tuitionFeesTerm2,
+          tier * tuitionNetPrice - tuitionFeesTerm1 - tuitionFeesTerm2,
+        ),
+      );
     }
 
     // Calculate the name of Tuition Fees Total - getTuitionFeesTotal
-    const tuitionFeesTotal = tuitionFeesTerm1 + tuitionFeesTerm2 + tuitionFeesTerm3;
+    const tuitionFeesTotal =
+      tuitionFeesTerm1 + tuitionFeesTerm2 + tuitionFeesTerm3;
+
+    const yellowRibbonAmount =
+      inputs.yellowRibbonRecipient === 'yes' ? +inputs.yellowRibbonAmount : 0;
 
     // Calculate Yellow Ribbon for Term #1 - getYrBenTerm1
     const shouldHaveNoYrBenTerm1 =
       !yellowRibbonElig ||
-      +inputs.yellowRibbonAmount === 0 ||
+      yellowRibbonAmount === 0 ||
       oldGiBill ||
       giBillChapter === 31 ||
       tuitionFeesPerTerm === tuitionFeesTerm1;
@@ -367,54 +384,68 @@ const getDerivedValues = createSelector(
     if (shouldHaveNoYrBenTerm1) {
       yrBenTerm1 = 0;
     } else {
-      yrBenTerm1 = Math.max(0, Math.min(
-        tuitionFeesPerTerm - tuitionFeesTerm1,
-        tuitionNetPrice - tuitionFeesTerm1,
-        +inputs.yellowRibbonAmount * 2
-      ));
+      yrBenTerm1 = Math.max(
+        0,
+        Math.min(
+          tuitionFeesPerTerm - tuitionFeesTerm1,
+          tuitionNetPrice - tuitionFeesTerm1,
+          yellowRibbonAmount * 2,
+        ),
+      );
     }
 
     // getYrBenTerm2
     const shouldHaveNoYrBenTerm2 =
       !yellowRibbonElig ||
-      +inputs.yellowRibbonAmount === 0 ||
+      yellowRibbonAmount === 0 ||
       oldGiBill ||
       giBillChapter === 31 ||
-      inputs.calendar === 'nontraditional' && numberOfTerms === 1 ||
+      (inputs.calendar === 'nontraditional' && numberOfTerms === 1) ||
       tuitionFeesPerTerm === tuitionFeesTerm2;
 
     if (shouldHaveNoYrBenTerm2) {
       yrBenTerm2 = 0;
     } else {
-      yrBenTerm2 = Math.max(0, Math.min(
-        tuitionFeesPerTerm - tuitionFeesTerm2,
-        tuitionNetPrice - tuitionFeesTerm1 - tuitionFeesTerm2 - yrBenTerm1,
-        +inputs.yellowRibbonAmount * 2 - yrBenTerm1
-      ));
+      yrBenTerm2 = Math.max(
+        0,
+        Math.min(
+          tuitionFeesPerTerm - tuitionFeesTerm2,
+          tuitionNetPrice - tuitionFeesTerm1 - tuitionFeesTerm2 - yrBenTerm1,
+          yellowRibbonAmount * 2 - yrBenTerm1,
+        ),
+      );
     }
 
     // getYrBenTerm3
     const shouldHaveNoYrBenTerm3 =
       !yellowRibbonElig ||
-      +inputs.yellowRibbonAmount === 0 ||
+      yellowRibbonAmount === 0 ||
       oldGiBill ||
       giBillChapter === 31 ||
       inputs.calendar === 'semesters' ||
-      inputs.calendar === 'nontraditional' && numberOfTerms < 3 ||
+      (inputs.calendar === 'nontraditional' && numberOfTerms < 3) ||
       tuitionFeesPerTerm === tuitionFeesTerm3;
 
     if (shouldHaveNoYrBenTerm3) {
       yrBenTerm3 = 0;
     } else {
-      yrBenTerm3 = Math.max(0, Math.min(
-        tuitionFeesPerTerm - tuitionFeesTerm3,
-        tuitionNetPrice - tuitionFeesTerm1 - tuitionFeesTerm2 - tuitionFeesTerm3 - yrBenTerm1 - yrBenTerm1,
-        +inputs.yellowRibbonAmount * 2 - yrBenTerm1 - yrBenTerm2
-      ));
+      yrBenTerm3 = Math.max(
+        0,
+        Math.min(
+          tuitionFeesPerTerm - tuitionFeesTerm3,
+          tuitionNetPrice -
+            tuitionFeesTerm1 -
+            tuitionFeesTerm2 -
+            tuitionFeesTerm3 -
+            yrBenTerm1 -
+            yrBenTerm1,
+          yellowRibbonAmount * 2 - yrBenTerm1 - yrBenTerm2,
+        ),
+      );
     }
 
     // Calculate Yellow Ribbon for the Year - getYrBenTotal
-    if (!yellowRibbonElig || +inputs.yellowRibbonAmount === 0) {
+    if (!yellowRibbonElig || yellowRibbonAmount === 0) {
       yrBenTotal = 0;
     } else {
       yrBenTotal = yrBenTerm1 + yrBenTerm2 + yrBenTerm3;
@@ -437,56 +468,101 @@ const getDerivedValues = createSelector(
     const totalScholarshipTa = +inputs.scholarships + +inputs.tuitionAssist;
 
     // Calculate Total Left to Pay - getTotalLeftToPay
-    const totalLeftToPay =
-      Math.max(0, +inputs.tuitionFees - totalToSchool - totalScholarshipTa);
+    const totalLeftToPay = Math.max(
+      0,
+      +inputs.tuitionFees - totalToSchool - totalScholarshipTa,
+    );
 
     const totalHousingAllowance = monthlyRateFinal * termLength;
 
+    let bah;
+    // if beneficiary has indicated they are using a localized rate and beneficiaryLocationBah exists, then a localized rate has been fetched and should be used
+    const useBeneficiaryLocationRate =
+      inputs.beneficiaryLocationQuestion === 'no' &&
+      inputs.beneficiaryLocationBah !== null;
+    // if beneficiary has indicated they are using the grandfathered rate, use it when available;
+    const useGrandfatheredBeneficiaryLocationRate =
+      inputs.giBillBenefit === 'yes';
+    if (useBeneficiaryLocationRate) {
+      // sometimes there's no grandfathered rate for a zip code
+      bah =
+        useGrandfatheredBeneficiaryLocationRate &&
+        inputs.beneficiaryLocationGrandfatheredBah
+          ? inputs.beneficiaryLocationGrandfatheredBah
+          : inputs.beneficiaryLocationBah;
+    } else {
+      // sometimes there's no grandfathered rate for a zip code
+      bah =
+        useGrandfatheredBeneficiaryLocationRate && institution.bahGrandfathered
+          ? institution.bahGrandfathered
+          : institution.bah;
+    }
+
     // Calculate Housing Allowance for Term #1 - getHousingAllowTerm1
-    if (isOJT && ((militaryStatus === 'active duty') || (giBillChapter === 33 && militaryStatus === 'spouse' && spouseActiveDuty))) {
+    if (
+      isOJT &&
+      (militaryStatus === 'active duty' ||
+        (giBillChapter === 33 &&
+          militaryStatus === 'spouse' &&
+          spouseActiveDuty))
+    ) {
       housingAllowTerm1 = 0;
     } else if (isOJT && (giBillChapter === 35 || oldGiBill || onlyVRE)) {
       housingAllowTerm1 = monthlyRateFinal;
     } else if (giBillChapter === 31 && isFlightOrCorrespondence) {
       housingAllowTerm1 = 0;
     } else if ([1606, 1607].includes(giBillChapter) && isFlight) {
-      housingAllowTerm1 = Math.max(0, Math.min(
-        totalHousingAllowance,
-        tuitionFeesPerTerm *
-        (giBillChapter === 1607 ? consecutiveService : 1) * 0.55
-      ));
+      housingAllowTerm1 = Math.max(
+        0,
+        Math.min(
+          totalHousingAllowance,
+          tuitionFeesPerTerm *
+            (giBillChapter === 1607 ? consecutiveService : 1) *
+            0.55,
+        ),
+      );
     } else if ([1606, 1607].includes(giBillChapter) && isCorrespondence) {
-      housingAllowTerm1 = Math.max(0, Math.min(
-        totalHousingAllowance,
-        tuitionFeesPerTerm * (consecutiveService * 0.6)
-      ));
+      housingAllowTerm1 = Math.max(
+        0,
+        Math.min(
+          totalHousingAllowance,
+          tuitionFeesPerTerm * (consecutiveService * 0.6),
+        ),
+      );
     } else if (onlyTuitionFees) {
-      housingAllowTerm1 = Math.max(0, Math.min(
-        totalHousingAllowance,
-        tuitionFeesPerTerm
-      ));
+      housingAllowTerm1 = Math.max(
+        0,
+        Math.min(totalHousingAllowance, tuitionFeesPerTerm),
+      );
     } else if (oldGiBill || onlyVRE) {
       housingAllowTerm1 = totalHousingAllowance;
-    } else if (militaryStatus === 'active duty' || (militaryStatus === 'spouse' && spouseActiveDuty)) {
+    } else if (
+      militaryStatus === 'active duty' ||
+      (militaryStatus === 'spouse' && spouseActiveDuty)
+    ) {
       housingAllowTerm1 = rop * kickerBenefit * termLength;
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm1 = 0;
     } else if (isOJT) {
-      housingAllowTerm1 =
-        ropOjt * (tier * institution.bah + kickerBenefit);
+      housingAllowTerm1 = ropOjt * (tier * bah + kickerBenefit);
     } else if (onlineClasses === 'yes') {
       housingAllowTerm1 =
-        termLength * rop * (tier * constant.AVGBAH / 2 + kickerBenefit);
+        termLength * rop * ((tier * constant.AVGBAH) / 2 + kickerBenefit);
     } else if (institutionCountry !== 'usa') {
       housingAllowTerm1 =
-        termLength * rop * ((tier * constant.AVGBAH) + kickerBenefit);
+        termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
     } else {
-      housingAllowTerm1 =
-        termLength * rop * ((tier * institution.bah) + kickerBenefit);
+      housingAllowTerm1 = termLength * rop * (tier * bah + kickerBenefit);
     }
 
     // getHousingAllowTerm2
-    if (isOJT && ((militaryStatus === 'active duty') || (giBillChapter === 33 && militaryStatus === 'spouse' && spouseActiveDuty))) {
+    if (
+      isOJT &&
+      (militaryStatus === 'active duty' ||
+        (giBillChapter === 33 &&
+          militaryStatus === 'spouse' &&
+          spouseActiveDuty))
+    ) {
       housingAllowTerm2 = 0;
     } else if (giBillChapter === 35 && isOJT) {
       housingAllowTerm2 = 0.75 * monthlyRateFinal;
@@ -495,47 +571,61 @@ const getDerivedValues = createSelector(
     } else if (onlyVRE && isOJT) {
       housingAllowTerm2 = monthlyRateFinal;
     } else if (isOJT) {
-      housingAllowTerm2 = 0.8 * ropOjt *
-        (tier * institution.bah + kickerBenefit);
+      housingAllowTerm2 = 0.8 * ropOjt * (tier * bah + kickerBenefit);
     } else if (inputs.calendar === 'nontraditional' && numberOfTerms === 1) {
       housingAllowTerm2 = 0;
     } else if (giBillChapter === 31 && isFlightOrCorrespondence) {
       housingAllowTerm2 = 0;
     } else if ([1606, 1607].includes(giBillChapter) && isFlight) {
-      housingAllowTerm2 = Math.max(0, Math.min(
-        totalHousingAllowance,
-        tuitionFeesPerTerm *
-        (giBillChapter === 1607 ? consecutiveService : 1) * 0.55
-      ));
+      housingAllowTerm2 = Math.max(
+        0,
+        Math.min(
+          totalHousingAllowance,
+          tuitionFeesPerTerm *
+            (giBillChapter === 1607 ? consecutiveService : 1) *
+            0.55,
+        ),
+      );
     } else if ([1606, 1607].includes(giBillChapter) && isCorrespondence) {
-      housingAllowTerm2 = Math.max(0, Math.min(
-        totalHousingAllowance,
-        tuitionFeesPerTerm * (consecutiveService * 0.6)
-      ));
+      housingAllowTerm2 = Math.max(
+        0,
+        Math.min(
+          totalHousingAllowance,
+          tuitionFeesPerTerm * (consecutiveService * 0.6),
+        ),
+      );
     } else if (onlyTuitionFees) {
-      housingAllowTerm2 = Math.max(0, Math.min(
-        totalHousingAllowance,
-        tuitionFeesPerTerm
-      ));
+      housingAllowTerm2 = Math.max(
+        0,
+        Math.min(totalHousingAllowance, tuitionFeesPerTerm),
+      );
     } else if (oldGiBill || onlyVRE) {
       housingAllowTerm2 = totalHousingAllowance;
-    } else if (militaryStatus === 'active duty' || (militaryStatus === 'spouse' && spouseActiveDuty)) {
+    } else if (
+      militaryStatus === 'active duty' ||
+      (militaryStatus === 'spouse' && spouseActiveDuty)
+    ) {
       housingAllowTerm2 = rop * kickerBenefit * termLength;
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm2 = 0;
     } else if (onlineClasses === 'yes') {
       housingAllowTerm2 =
-        termLength * rop * (tier * constant.AVGBAH / 2 + kickerBenefit);
+        termLength * rop * ((tier * constant.AVGBAH) / 2 + kickerBenefit);
     } else if (institutionCountry !== 'usa') {
       housingAllowTerm2 =
         termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
     } else {
-      housingAllowTerm2 =
-        termLength * rop * (tier * institution.bah + kickerBenefit);
+      housingAllowTerm2 = termLength * rop * (tier * bah + kickerBenefit);
     }
 
     // getHousingAllowTerm3
-    if (isOJT && ((militaryStatus === 'active duty') || (giBillChapter === 33 && militaryStatus === 'spouse' && spouseActiveDuty))) {
+    if (
+      isOJT &&
+      (militaryStatus === 'active duty' ||
+        (giBillChapter === 33 &&
+          militaryStatus === 'spouse' &&
+          spouseActiveDuty))
+    ) {
       housingAllowTerm3 = 0;
     } else if (giBillChapter === 35 && isOJT) {
       housingAllowTerm3 = 0.494 * monthlyRateFinal;
@@ -544,8 +634,7 @@ const getDerivedValues = createSelector(
     } else if (onlyVRE && isOJT) {
       housingAllowTerm3 = monthlyRateFinal;
     } else if (isOJT) {
-      housingAllowTerm3 = 0.6 * ropOjt *
-        (tier * institution.bah + kickerBenefit);
+      housingAllowTerm3 = 0.6 * ropOjt * (tier * bah + kickerBenefit);
     } else if (inputs.calendar === 'semesters') {
       housingAllowTerm3 = 0;
     } else if (inputs.calendar === 'nontraditional' && numberOfTerms < 3) {
@@ -553,36 +642,45 @@ const getDerivedValues = createSelector(
     } else if (giBillChapter === 31 && isFlightOrCorrespondence) {
       housingAllowTerm3 = 0;
     } else if ([1606, 1607].includes(giBillChapter) && isFlight) {
-      housingAllowTerm3 = Math.max(0, Math.min(
-        totalHousingAllowance,
-        tuitionFeesPerTerm *
-        (giBillChapter === 1607 ? consecutiveService : 1) * 0.55
-      ));
+      housingAllowTerm3 = Math.max(
+        0,
+        Math.min(
+          totalHousingAllowance,
+          tuitionFeesPerTerm *
+            (giBillChapter === 1607 ? consecutiveService : 1) *
+            0.55,
+        ),
+      );
     } else if ([1606, 1607].includes(giBillChapter) && isCorrespondence) {
-      housingAllowTerm3 = Math.max(0, Math.min(
-        totalHousingAllowance,
-        tuitionFeesPerTerm * (consecutiveService * 0.6)
-      ));
+      housingAllowTerm3 = Math.max(
+        0,
+        Math.min(
+          totalHousingAllowance,
+          tuitionFeesPerTerm * (consecutiveService * 0.6),
+        ),
+      );
     } else if (onlyTuitionFees) {
-      housingAllowTerm3 = Math.max(0, Math.min(
-        totalHousingAllowance,
-        tuitionFeesPerTerm
-      ));
+      housingAllowTerm3 = Math.max(
+        0,
+        Math.min(totalHousingAllowance, tuitionFeesPerTerm),
+      );
     } else if (oldGiBill || onlyVRE) {
       housingAllowTerm3 = totalHousingAllowance;
-    } else if (militaryStatus === 'active duty' || (militaryStatus === 'spouse' && spouseActiveDuty)) {
+    } else if (
+      militaryStatus === 'active duty' ||
+      (militaryStatus === 'spouse' && spouseActiveDuty)
+    ) {
       housingAllowTerm3 = rop * kickerBenefit * termLength;
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm3 = 0;
     } else if (onlineClasses === 'yes') {
       housingAllowTerm3 =
-        termLength * rop * (tier * constant.AVGBAH / 2 + kickerBenefit);
+        termLength * rop * ((tier * constant.AVGBAH) / 2 + kickerBenefit);
     } else if (institutionCountry !== 'usa') {
       housingAllowTerm3 =
         termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
     } else {
-      housingAllowTerm3 =
-        termLength * rop * (tier * institution.bah + kickerBenefit);
+      housingAllowTerm3 = termLength * rop * (tier * bah + kickerBenefit);
     }
 
     // Calculate Housing Allowance Total for year - getHousingAllowTotal
@@ -595,15 +693,15 @@ const getDerivedValues = createSelector(
     } else if (onlyVRE && isOJT) {
       housingAllowTotal = monthlyRateFinal;
     } else if (isOJT) {
-      housingAllowTotal = 0.4 * ropOjt *
-        (tier * institution.bah + kickerBenefit);
+      housingAllowTotal = 0.4 * ropOjt * (tier * bah + kickerBenefit);
     } else if (onlyTuitionFees) {
-      housingAllowTotal = Math.max(0, Math.min(
-        monthlyRateFinal * acadYearLength,
-        +inputs.tuitionFees
-      ));
+      housingAllowTotal = Math.max(
+        0,
+        Math.min(monthlyRateFinal * acadYearLength, +inputs.tuitionFees),
+      );
     } else {
-      housingAllowTotal = housingAllowTerm1 + housingAllowTerm2 + housingAllowTerm3;
+      housingAllowTotal =
+        housingAllowTerm1 + housingAllowTerm2 + housingAllowTerm3;
     }
 
     // Calculate Book Stipend for Term #1 - getBookStipendTerm1
@@ -616,7 +714,7 @@ const getDerivedValues = createSelector(
     } else if (isOJT && giBillChapter === 33) {
       bookStipendTerm1 = constant.BSOJTMONTH;
     } else {
-      bookStipendTerm1 = ropBook * constant.BSCAP / numberOfTerms * tier;
+      bookStipendTerm1 = ((ropBook * constant.BSCAP) / numberOfTerms) * tier;
     }
 
     // getBookStipendTerm2
@@ -631,7 +729,7 @@ const getDerivedValues = createSelector(
     } else if (giBillChapter === 31) {
       bookStipendTerm2 = +inputs.books / numberOfTerms;
     } else {
-      bookStipendTerm2 = ropBook * constant.BSCAP / numberOfTerms * tier;
+      bookStipendTerm2 = ((ropBook * constant.BSCAP) / numberOfTerms) * tier;
     }
 
     // getBookStipendTerm3
@@ -648,7 +746,7 @@ const getDerivedValues = createSelector(
     } else if (giBillChapter === 31) {
       bookStipendTerm3 = inputs.books / numberOfTerms;
     } else {
-      bookStipendTerm3 = ropBook * constant.BSCAP / numberOfTerms * tier;
+      bookStipendTerm3 = ((ropBook * constant.BSCAP) / numberOfTerms) * tier;
     }
 
     // Calculate Book Stipend for Year - getBookStipendYear
@@ -665,7 +763,8 @@ const getDerivedValues = createSelector(
     if (isOJT) {
       totalTerm1 = 0;
     } else {
-      totalTerm1 = tuitionFeesTerm1 + yrBenTerm1 + housingAllowTerm1 + bookStipendTerm1;
+      totalTerm1 =
+        tuitionFeesTerm1 + yrBenTerm1 + housingAllowTerm1 + bookStipendTerm1;
     }
 
     // getTotalTerm2
@@ -674,7 +773,8 @@ const getDerivedValues = createSelector(
     } else if (isOJT) {
       totalTerm2 = 0;
     } else {
-      totalTerm2 = tuitionFeesTerm2 + yrBenTerm2 + housingAllowTerm2 + bookStipendTerm2;
+      totalTerm2 =
+        tuitionFeesTerm2 + yrBenTerm2 + housingAllowTerm2 + bookStipendTerm2;
     }
 
     // getTotalTerm3
@@ -685,7 +785,8 @@ const getDerivedValues = createSelector(
     } else if (isOJT) {
       totalTerm3 = 0;
     } else {
-      totalTerm3 = tuitionFeesTerm3 + yrBenTerm3 + housingAllowTerm3 + bookStipendTerm3;
+      totalTerm3 =
+        tuitionFeesTerm3 + yrBenTerm3 + housingAllowTerm3 + bookStipendTerm3;
     }
 
     // Calculate Text for Total Benefits Row - getTotalText
@@ -709,14 +810,15 @@ const getDerivedValues = createSelector(
         giBillTotalText = 'Total REAP GI Bill Benefits';
         break;
       default:
-        // noop
+      // noop
     }
 
     // Calculate Total Benefits for Year - getTotalYear
     if (isOJT) {
       totalYear = 0;
     } else {
-      totalYear = tuitionFeesTotal + yrBenTotal + housingAllowTotal + bookStipendTotal;
+      totalYear =
+        tuitionFeesTotal + yrBenTotal + housingAllowTotal + bookStipendTotal;
     }
 
     // Calculate Monthly Rate for Display - getMonthlyRateDisplay
@@ -765,9 +867,9 @@ const getDerivedValues = createSelector(
       bookStipendTerm2,
       bookStipendTerm3,
       bookStipendTotal,
-      totalToYou
+      totalToYou,
     };
-  }
+  },
 );
 
 export const getCalculatedBenefits = createSelector(
@@ -786,10 +888,13 @@ export const getCalculatedBenefits = createSelector(
     const giBillChapter = +eligibility.giBillChapter;
     const institutionType = institution.type.toLowerCase();
     const isOJT = institutionType === 'ojt';
+    const beneficiaryLocationQuestion = giBillChapter === 33;
 
     calculatedBenefits.inputs = {
       inState: false,
       tuition: true,
+      // only necessay for chapter 33 recipients who are the only beneficiaries to receive a housing allowance (BAH)
+      beneficiaryLocationQuestion,
       books: false,
       yellowRibbon: false,
       scholarships: true,
@@ -805,31 +910,33 @@ export const getCalculatedBenefits = createSelector(
     calculatedBenefits.outputs = {
       giBillPaysToSchool: {
         visible: true,
-        value: `${formatCurrency(derived.totalToSchool)}/yr`
+        value: `${formatCurrency(derived.totalToSchool)}/yr`,
       },
       tuitionAndFeesCharged: {
         visible: true,
-        value: formatCurrency(form.tuitionFees)
+        value: formatCurrency(form.tuitionFees),
       },
       yourScholarships: {
         visible: true,
-        value: formatCurrency(derived.totalScholarshipTa)
+        value: formatCurrency(derived.totalScholarshipTa),
       },
       outOfPocketTuition: {
         visible: true,
-        value: formatCurrency(derived.totalLeftToPay)
+        value: formatCurrency(derived.totalLeftToPay),
       },
       housingAllowance: {
         visible: true,
-        value: `${formatCurrency(derived.housingAllowanceMonthly)}/mo`
+        value: `${formatCurrency(derived.housingAllowanceMonthly)}/mo`,
       },
       bookStipend: {
         visible: true,
-        value: `${formatCurrency(derived.bookStipendTotal)}${institutionType === 'ojt' ? '/mo' : '/yr'}`
+        value: `${formatCurrency(derived.bookStipendTotal)}${
+          institutionType === 'ojt' ? '/mo' : '/yr'
+        }`,
       },
       totalPaidToYou: {
         visible: true,
-        value: formatCurrency(derived.totalToYou)
+        value: formatCurrency(derived.totalToYou),
       },
       perTerm: {
         tuitionFees: {
@@ -839,22 +946,22 @@ export const getCalculatedBenefits = createSelector(
             {
               label: derived.nameOfTerm1,
               value: formatCurrency(derived.tuitionFeesTerm1),
-              visible: true
+              visible: true,
             },
             {
               label: derived.nameOfTerm2,
               value: formatCurrency(derived.tuitionFeesTerm2),
-              visible: true
+              visible: true,
             },
             {
               label: derived.nameOfTerm3,
               value: formatCurrency(derived.tuitionFeesTerm3),
-              visible: true
+              visible: true,
             },
             {
               label: 'Total per year',
               value: formatCurrency(derived.tuitionFeesTotal),
-              visible: true
+              visible: true,
             },
           ],
         },
@@ -865,39 +972,41 @@ export const getCalculatedBenefits = createSelector(
             {
               label: `${derived.nameOfTerm1} (paid by school)`,
               value: formatCurrency(derived.yrBenSchoolTerm1),
-              visible: true
+              visible: true,
             },
             {
               label: `${derived.nameOfTerm1} (paid by VA)`,
               value: formatCurrency(derived.yrBenVaTerm1),
-              visible: true
+              visible: true,
             },
             {
               label: `${derived.nameOfTerm2} (paid by school)`,
               value: formatCurrency(derived.yrBenSchoolTerm2),
-              visible: true
+              visible: true,
             },
             {
               label: `${derived.nameOfTerm2} (paid by VA)`,
               value: formatCurrency(derived.yrBenVaTerm2),
-              visible: true
+              visible: true,
             },
             {
               label: `${derived.nameOfTerm3} (paid by school)`,
               value: formatCurrency(derived.yrBenSchoolTerm3),
-              visible: true
+              visible: true,
             },
             {
               label: `${derived.nameOfTerm3} (paid by VA)`,
               value: formatCurrency(derived.yrBenVaTerm3),
-              visible: true
+              visible: true,
             },
             {
               label: 'Total per year',
-              value: formatCurrency(derived.yrBenSchoolTotal + derived.yrBenVaTotal),
-              visible: true
+              value: formatCurrency(
+                derived.yrBenSchoolTotal + derived.yrBenVaTotal,
+              ),
+              visible: true,
             },
-          ]
+          ],
         },
         housingAllowance: {
           visible: true,
@@ -905,23 +1014,31 @@ export const getCalculatedBenefits = createSelector(
           terms: [
             {
               label: derived.nameOfTerm1,
-              value: `${formatCurrency(derived.housingAllowTerm1)}${isOJT ? '/mo' : ''}`,
-              visible: true
+              value: `${formatCurrency(derived.housingAllowTerm1)}${
+                isOJT ? '/mo' : ''
+              }`,
+              visible: true,
             },
             {
               label: derived.nameOfTerm2,
-              value: `${formatCurrency(derived.housingAllowTerm2)}${isOJT ? '/mo' : ''}`,
-              visible: true
+              value: `${formatCurrency(derived.housingAllowTerm2)}${
+                isOJT ? '/mo' : ''
+              }`,
+              visible: true,
             },
             {
               label: derived.nameOfTerm3,
-              value: `${formatCurrency(derived.housingAllowTerm3)}${isOJT ? '/mo' : ''}`,
-              visible: true
+              value: `${formatCurrency(derived.housingAllowTerm3)}${
+                isOJT ? '/mo' : ''
+              }`,
+              visible: true,
             },
             {
               label: derived.nameOfTerm4,
-              value: `${formatCurrency(derived.housingAllowTotal)}${isOJT ? '/mo' : ''}`, // Total if not OJT
-              visible: true
+              value: `${formatCurrency(derived.housingAllowTotal)}${
+                isOJT ? '/mo' : ''
+              }`, // Total if not OJT
+              visible: true,
             },
           ],
         },
@@ -931,27 +1048,35 @@ export const getCalculatedBenefits = createSelector(
           terms: [
             {
               label: derived.nameOfTerm1,
-              value: `${formatCurrency(derived.bookStipendTerm1)}${isOJT ? '/mo' : ''}`,
-              visible: true
+              value: `${formatCurrency(derived.bookStipendTerm1)}${
+                isOJT ? '/mo' : ''
+              }`,
+              visible: true,
             },
             {
               label: derived.nameOfTerm2,
-              value: `${formatCurrency(derived.bookStipendTerm2)}${isOJT ? '/mo' : ''}`,
-              visible: true
+              value: `${formatCurrency(derived.bookStipendTerm2)}${
+                isOJT ? '/mo' : ''
+              }`,
+              visible: true,
             },
             {
               label: derived.nameOfTerm3,
-              value: `${formatCurrency(derived.bookStipendTerm3)}${isOJT ? '/mo' : ''}`,
-              visible: true
+              value: `${formatCurrency(derived.bookStipendTerm3)}${
+                isOJT ? '/mo' : ''
+              }`,
+              visible: true,
             },
             {
               label: derived.nameOfTerm4,
-              value: `${formatCurrency(derived.bookStipendTotal)}${isOJT ? '/mo' : ''}`, // Total if not OJT
-              visible: true
+              value: `${formatCurrency(derived.bookStipendTotal)}${
+                isOJT ? '/mo' : ''
+              }`, // Total if not OJT
+              visible: true,
             },
           ],
         },
-      }
+      },
     };
 
     if (giBillChapter === 31 && !derived.onlyVRE) {
@@ -978,21 +1103,21 @@ export const getCalculatedBenefits = createSelector(
         enrolled: false,
         enrolledOld: false,
         kicker: false,
-        buyUp: false
+        buyUp: false,
       };
     }
 
     if (institutionType === 'public') {
       calculatedBenefits.inputs = {
         ...calculatedBenefits.inputs,
-        inState: true
+        inState: true,
       };
     }
 
     if (institution.yr && derived.tier === 1.0) {
       calculatedBenefits.inputs = {
         ...calculatedBenefits.inputs,
-        yellowRibbon: true
+        yellowRibbon: true,
       };
     }
 
@@ -1001,28 +1126,31 @@ export const getCalculatedBenefits = createSelector(
         ...calculatedBenefits.inputs,
         yellowRibbon: false,
         enrolled: false,
-        enrolledOld: true
+        enrolledOld: true,
       };
     }
 
     if (giBillChapter === 31) {
       calculatedBenefits.inputs = {
         ...calculatedBenefits.inputs,
-        books: true
+        books: true,
       };
     }
 
     if (giBillChapter === 30) {
       calculatedBenefits.inputs = {
         ...calculatedBenefits.inputs,
-        buyUp: true
+        buyUp: true,
       };
     }
 
-    if (['active duty', 'national guard / reserves'].includes(militaryStatus) && giBillChapter === 33) {
+    if (
+      ['active duty', 'national guard / reserves'].includes(militaryStatus) &&
+      giBillChapter === 33
+    ) {
       calculatedBenefits.inputs = {
         ...calculatedBenefits.inputs,
-        tuitionAssist: true
+        tuitionAssist: true,
       };
     }
 
@@ -1035,7 +1163,7 @@ export const getCalculatedBenefits = createSelector(
     }
 
     if (derived.numberOfTerms === 1) {
-      // Hide all term 2 and 3 calculations.
+      // Hide all term 2 and 3 calculations
       calculatedBenefits.outputs.perTerm.tuitionFees.terms[1].visible = false;
       calculatedBenefits.outputs.perTerm.tuitionFees.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.housingAllowance.terms[1].visible = false;
@@ -1049,7 +1177,7 @@ export const getCalculatedBenefits = createSelector(
     }
 
     if (derived.numberOfTerms < 3 && institutionType !== 'ojt') {
-      // Hide all term 3 calculations.
+      // Hide all term 3 calculations
       calculatedBenefits.outputs.perTerm.tuitionFees.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.housingAllowance.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.bookStipend.terms[2].visible = false;
@@ -1081,5 +1209,5 @@ export const getCalculatedBenefits = createSelector(
     }
 
     return calculatedBenefits;
-  }
+  },
 );

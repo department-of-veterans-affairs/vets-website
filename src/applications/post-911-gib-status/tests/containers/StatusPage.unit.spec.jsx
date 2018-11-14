@@ -17,24 +17,32 @@ defaultProps.post911GIBStatus = {
     dateOfBirth: '1995-11-12T06:00:00.000+0000',
     remainingEntitlement: {},
     originalEntitlement: {},
-    usedEntitlement: {}
-  }
+    usedEntitlement: {},
+  },
 };
 
 describe('<StatusPage>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<StatusPage store={store} {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(
+      <StatusPage store={store} {...defaultProps} />,
+    );
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
 
   it('should show title and print button', () => {
     window.dataLayer = [];
-    const node = findDOMNode(ReactTestUtils.renderIntoDocument(<StatusPage store={store} {...defaultProps}/>));
-    expect(node.querySelector('.schemaform-title').textContent)
-      .to.contain('Post-9/11 GI Bill Statement of Benefits');
-    expect(node.querySelector('.usa-button-primary').textContent)
-      .to.contain('Get Printable Statement of Benefits');
+    const node = findDOMNode(
+      ReactTestUtils.renderIntoDocument(
+        <StatusPage store={store} {...defaultProps} />,
+      ),
+    );
+    expect(node.querySelector('.schemaform-title').textContent).to.contain(
+      'Post-9/11 GI Bill Statement of Benefits',
+    );
+    expect(node.querySelector('.usa-button-primary').textContent).to.contain(
+      'Get Printable Statement of Benefits',
+    );
   });
 
   it('should not show intro and print button if veteran is not eligible', () => {
@@ -45,10 +53,12 @@ describe('<StatusPage>', () => {
         originalEntitlement: {},
         usedEntitlement: {},
         remainingEntitlement: {},
-      }
+      },
     };
 
-    const tree = SkinDeep.shallowRender(<StatusPage store={store} {...props}/>);
+    const tree = SkinDeep.shallowRender(
+      <StatusPage store={store} {...props} />,
+    );
     expect(tree.subTree('.va-introtext')).to.be.false;
     expect(tree.subTree('.usa-button-primary')).to.be.false;
   });

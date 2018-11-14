@@ -3,15 +3,6 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 
 const AppealHeader = ({ heading, lastUpdated }) => {
-  moment.updateLocale('en', {
-    meridiem: (hour) => {
-      if (hour < 12) {
-        return 'a.m.';
-      }
-      return 'p.m.';
-    },
-  });
-
   const formattedDateTime = moment(lastUpdated)
     .utc() // ignore user's own UTC offset (timezone)
     .utcOffset(lastUpdated) // display lastUpdated's own timezone to everyone

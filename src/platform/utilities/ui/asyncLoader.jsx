@@ -20,11 +20,11 @@ export default function asyncLoader(getComponent, message) {
     render() {
       const { Component } = this.state;
       if (Component) {
-        return <Component {...this.props}/>;
+        return <Component {...this.props} />;
       }
       return (
         <div className="async-loader">
-          <LoadingIndicator message={message || 'Loading page...'}/>
+          <LoadingIndicator message={message || 'Loading page...'} />
         </div>
       );
     }

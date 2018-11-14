@@ -1,6 +1,6 @@
 .gi-app {
 
-  ul.react-autosuggest__suggestions-list {
+  .suggestions-list {
     background: $color-white;
     border: 1px solid $color-gray;
     // Box shadow only sides and bottom of suggestion list.
@@ -21,11 +21,12 @@
     }
   }
 
-  li.react-autosuggest__suggestion {
+  .suggestion {
     padding: .5rem 1rem;
 
-    &--focused {
+    &-highlighted {
       background-color: $color-primary-alt-light;
+      cursor: pointer;
     }
   }
 

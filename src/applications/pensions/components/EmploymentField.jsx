@@ -6,8 +6,9 @@ export default function EmploymentField({ formData }) {
   return (
     <div>
       <strong>{employer}</strong>
-      <br/>
-      {moment(dateRange.from).format('MMM D, YYYY')} – {moment(dateRange.to).format('MMM D, YYYY')}
+      <br />
+      {moment(dateRange.from).format('MMM D, YYYY')} –{' '}
+      {moment(dateRange.to).format('MMM D, YYYY')}
     </div>
   );
 }

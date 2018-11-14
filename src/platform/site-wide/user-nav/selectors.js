@@ -1,18 +1,18 @@
 import { createSelector } from 'reselect';
-import _ from 'lodash';
+import { startCase, toLower } from 'lodash';
+
+import conditionalStorage from '../../utilities/storage/conditionalStorage';
 import { selectProfile } from '../../user/selectors';
 
 export const selectUserGreeting = createSelector(
   state => selectProfile(state).userFullName,
   state => selectProfile(state).email,
-  () => window.sessionStorage.userFirstName,
+  () => conditionalStorage().getItem('userFirstName'),
   (name, email, sessionFirstName) => {
-    if (name || sessionFirstName) {
-      return _.startCase(_.toLower(
-        name.first || sessionFirstName
-      ));
+    if (name.first || sessionFirstName) {
+      return startCase(toLower(name.first || sessionFirstName));
     }
 
     return email;
-  }
+  },
 );

@@ -9,7 +9,6 @@
   text-align: center;
   background-color: $color-green-lightest;
   border: 1px solid $color-green-lighter;
-  z-index: 2;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
@@ -21,7 +20,16 @@
   background-color: $color-primary-alt-lightest;
   text-align: center;
   padding: 42px 0;
+  margin: -2rem -2rem 0;
   img {
     max-width: 86px;
   }
+}
+
+.announcement-heading-brand-consolidation {
+  padding-top: 35px;
+}
+
+.announcement-brand-consolidation-logo {
+  max-width: 225px;
 }

@@ -2,7 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DowntimeNotification, { services } from '../../../platform/monitoring/DowntimeNotification';
+import backendServices from '../../../platform/user/profile/constants/backendServices';
+import DowntimeNotification, {
+  externalServices,
+} from '../../../platform/monitoring/DowntimeNotification';
 import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
 import Breadcrumbs from '../components/Breadcrumbs';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
@@ -11,14 +14,12 @@ import { refillPrescription } from '../actions/prescriptions';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';
 import GlossaryModal from '../components/GlossaryModal';
 
-const SERVICE_REQUIRED = 'rx';
+const SERVICE_REQUIRED = backendServices.RX;
 
 const AppContent = ({ children }) => (
   <div className="rx-app">
     <div className="row">
-      <div className="columns small-12">
-        {children}
-      </div>
+      <div className="columns small-12">{children}</div>
     </div>
   </div>
 );
@@ -29,10 +30,17 @@ class RxRefillsApp extends React.Component {
       <RequiredLoginView
         verify
         serviceRequired={SERVICE_REQUIRED}
-        user={this.props.user}>
-        <DowntimeNotification appTitle="prescription refill tool" dependencies={[services.mhv]}>
+        user={this.props.user}
+      >
+        <DowntimeNotification
+          appTitle="prescription refill tool"
+          dependencies={[externalServices.mhv]}
+        >
           <AppContent>
-            <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
+            <Breadcrumbs
+              location={this.props.location}
+              prescription={this.props.prescription}
+            />
             <MHVApp serviceRequired={SERVICE_REQUIRED}>
               {this.props.children}
               <ConfirmRefillModal
@@ -40,11 +48,13 @@ class RxRefillsApp extends React.Component {
                 isLoading={this.props.refillModal.loading}
                 isVisible={this.props.refillModal.visible}
                 refillPrescription={this.props.refillPrescription}
-                onCloseModal={this.props.closeRefillModal}/>
+                onCloseModal={this.props.closeRefillModal}
+              />
               <GlossaryModal
                 content={this.props.glossaryModal.content}
                 isVisible={this.props.glossaryModal.visible}
-                onCloseModal={this.props.closeGlossaryModal}/>
+                onCloseModal={this.props.closeGlossaryModal}
+              />
             </MHVApp>
           </AppContent>
         </DowntimeNotification>
@@ -54,10 +64,10 @@ class RxRefillsApp extends React.Component {
 }
 
 RxRefillsApp.propTypes = {
-  children: PropTypes.element
+  children: PropTypes.element,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const rxState = state.health.rx;
   const { modals, prescriptions } = rxState;
 
@@ -65,14 +75,17 @@ const mapStateToProps = (state) => {
     glossaryModal: modals.glossary,
     refillModal: modals.refill,
     prescription: prescriptions.currentItem,
-    user: state.user
+    user: state.user,
   };
 };
 
 const mapDispatchToProps = {
   closeGlossaryModal,
   closeRefillModal,
-  refillPrescription
+  refillPrescription,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RxRefillsApp);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(RxRefillsApp);

@@ -2,54 +2,55 @@ const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const FacilityHelpers = require('./facility-helpers');
 
-module.exports = E2eHelpers.createE2eTest(
-  (client) => {
+module.exports = E2eHelpers.createE2eTest(client => {
+  client.url(`${E2eHelpers.baseUrl}/find-locations/`);
+
+  E2eHelpers.overrideSmoothScrolling(client);
+  FacilityHelpers.initApplicationMock();
+
+  client
+    .waitForElementVisible('body', Timeouts.normal)
+    .waitForElementVisible('.facility-locator', Timeouts.slow)
+    // do not run 'wcag2a' rules because of open aXe bug https://github.com/dequelabs/axe-core/issues/214
+    .axeCheck('.main', { rules: ['section508'] });
+
+  // Traverse form controls via keyboard input
+  client
+    .sendKeys('input[name="street-city-state-zip"]', client.Keys.TAB)
+    .assert.isActiveElement('#facility-dropdown-toggle');
+
+  client
+    .sendKeys('#facility-dropdown-toggle', client.Keys.TAB)
+    .assert.isActiveElement('input[type="submit"]');
+
+  // Enter and navigate custom select via keyboard input
+  client
+    .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
+    .assert.visible('ul[class="dropdown"]');
+
+  client
+    .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
+    .assert.attributeContains('.health-icon', 'aria-selected', true);
+
+  if (FacilityHelpers.ccLocatorEnabled()) {
     client
-      .url(`${E2eHelpers.baseUrl}/facilities/`);
+      .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
+      .assert.attributeContains('.cc-provider-icon', 'aria-selected', true);
+  }
 
-    E2eHelpers.overrideSmoothScrolling(client);
-    FacilityHelpers.initApplicationMock();
+  client
+    .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
+    .assert.attributeContains('.benefits-icon', 'aria-selected', true);
 
-    client
-      .waitForElementVisible('body', Timeouts.normal)
-      .waitForElementVisible('.facility-locator', Timeouts.slow)
-      // do not run 'wcag2a' rules because of open aXe bug https://github.com/dequelabs/axe-core/issues/214
-      .axeCheck('.main', { rules: ['section508'] });
+  client
+    .sendKeys('#facility-dropdown-toggle', client.Keys.ENTER)
+    .assert.isActiveElement('#facility-dropdown-toggle');
 
-    // Traverse form controls via keyboard input
-    client
-      .sendKeys('input[name="streetCityStateZip"]', client.Keys.TAB)
-      .assert.isActiveElement('div[class="facility-dropdown-wrapper"]');
+  client.waitForElementNotPresent('ul[class="dropdown"]', Timeouts.normal);
 
-    client
-      .sendKeys('div[class="facility-dropdown-wrapper"]', client.Keys.TAB)
-      .assert.isActiveElement('div[class="facility-dropdown-wrapper disabled"]');
+  client
+    .sendKeys('#facility-dropdown-toggle', client.Keys.TAB)
+    .assert.isActiveElement('#service-type-dropdown');
 
-    client
-      .sendKeys('div[class="facility-dropdown-wrapper disabled"]', client.Keys.TAB)
-      .assert.isActiveElement('input[type="submit"]');
-
-    // Enter and navigate custom select via keyboard input
-    client
-      .sendKeys('div[class="facility-dropdown-wrapper"]', client.Keys.DOWN_ARROW)
-      .assert.isActiveElement('#AllFacilities');
-
-    client
-      .assert.visible('ul[class="dropdown"]');
-
-    client
-      .sendKeys('#AllFacilities', client.Keys.DOWN_ARROW)
-      .assert.isActiveElement('#health');
-
-    client
-      .sendKeys('#health', client.Keys.ENTER)
-      .assert.isActiveElement('div[class="facility-dropdown-wrapper"]');
-
-    client
-      .assert.hidden('ul[class="dropdown"]');
-
-    client
-      .assert.attributeContains('#health', 'aria-selected', true);
-
-    client.end();
-  });
+  client.end();
+});

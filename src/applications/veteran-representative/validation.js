@@ -1,4 +1,4 @@
-import { getFileError } from '../common/schemaform/validation';
+import { getFileError } from 'us-forms-system/lib/js/validation';
 
 export default function validateFile(errors, file) {
   const error = getFileError(file);
@@ -9,7 +9,7 @@ export default function validateFile(errors, file) {
       __errors: [],
       addError(msg) {
         this.__errors.push(msg);
-      }
+      },
     };
     /* eslint-enable no-param-reassign */
   }

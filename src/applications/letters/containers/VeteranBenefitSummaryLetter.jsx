@@ -8,9 +8,10 @@ import {
   benefitOptionsMap,
   characterOfServiceContent,
   optionsToAlwaysDisplay,
-  getBenefitOptionText
+  getBenefitOptionText,
 } from '../utils/helpers.jsx';
 import { formatDateShort } from '../../../platform/utilities/date';
+import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
 
 export class VeteranBenefitSummaryLetter extends React.Component {
   constructor() {
@@ -23,27 +24,34 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       // For Google Analytics
       event: 'letter-benefit-option-clicked',
       'letter-benefit-option': domEvent.target.id,
-      'letter-benefit-option-status': domEvent.target.checked ? 'checked' : 'unchecked'
+      'letter-benefit-option-status': domEvent.target.checked
+        ? 'checked'
+        : 'unchecked',
     });
     this.props.updateBenefitSummaryRequestOption(
       benefitOptionsMap[domEvent.target.id],
-      domEvent.target.checked);
+      domEvent.target.checked,
+    );
   }
 
   render() {
     const serviceInfo = this.props.benefitSummaryOptions.serviceInfo || [];
-    const militaryServiceRows = serviceInfo.map((service, index) => {
-      return (
-        <tr key={`service${index}`}>
-          <th scope="row" className="service-info">{(service.branch || '').toLowerCase()}</th>
-          <td className="service-info">
-            {characterOfServiceContent[(service.characterOfService || '').toLowerCase()]}
-          </td>
-          <td>{formatDateShort(service.enteredDate)}</td>
-          <td>{formatDateShort(service.releasedDate)}</td>
-        </tr>
-      );
-    });
+    const militaryServiceRows = serviceInfo.map((service, index) => (
+      <tr key={`service${index}`}>
+        <th scope="row" className="service-info">
+          {(service.branch || '').toLowerCase()}
+        </th>
+        <td className="service-info">
+          {
+            characterOfServiceContent[
+              (service.characterOfService || '').toLowerCase()
+            ]
+          }
+        </td>
+        <td>{formatDateShort(service.enteredDate)}</td>
+        <td>{formatDateShort(service.releasedDate)}</td>
+      </tr>
+    ));
 
     const benefitInfo = this.props.benefitSummaryOptions.benefitInfo;
     const requestOptions = this.props.requestOptions;
@@ -60,9 +68,15 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       // if the benefit information value is not false. For others, the
       // customization checkbox is always displayed.
       const value = benefitInfo[key];
-      const displayOption = optionsToAlwaysDisplay.includes(key) || value !== false;
+      const displayOption =
+        optionsToAlwaysDisplay.includes(key) || value !== false;
       const { isVeteran } = this.props;
-      const optionText = getBenefitOptionText(key, value, isVeteran, benefitInfo.awardEffectiveDate);
+      const optionText = getBenefitOptionText(
+        key,
+        value,
+        isVeteran,
+        benefitInfo.awardEffectiveDate,
+      );
       if (optionText && displayOption) {
         vaBenefitInfoRows.push(
           <tr key={`option${key}`}>
@@ -74,11 +88,16 @@ export class VeteranBenefitSummaryLetter extends React.Component {
                 id={key}
                 name={key}
                 type="checkbox"
-                onChange={this.handleChange}/>
-              <label/>
+                onChange={this.handleChange}
+              />
+              <label />
             </th>
-            <td><label id={`${key}Label`} htmlFor={key}>{optionText}</label></td>
-          </tr>
+            <td>
+              <label id={`${key}Label`} htmlFor={key}>
+                {optionText}
+              </label>
+            </td>
+          </tr>,
         );
       }
     });
@@ -91,9 +110,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
             <th scope="col">Statement</th>
           </tr>
         </thead>
-        <tbody>
-          {vaBenefitInfoRows}
-        </tbody>
+        <tbody>{vaBenefitInfoRows}</tbody>
       </table>
     );
 
@@ -104,7 +121,8 @@ export class VeteranBenefitSummaryLetter extends React.Component {
           <h4>Choose the information you want to include.</h4>
           <h2>Military service information</h2>
           <p>
-            Our records show the 3 most recent service periods. There may be additional service periods not shown here.
+            Our records show the 3 most recent service periods. There may be
+            additional service periods not shown here.
           </p>
           <div className="form-checkbox">
             <input
@@ -113,10 +131,10 @@ export class VeteranBenefitSummaryLetter extends React.Component {
               id="militaryService"
               name="militaryService"
               type="checkbox"
-              onChange={this.handleChange}/>
-            <label
-              name="militaryService-label"
-              htmlFor="militaryService">
+              onChange={this.handleChange}
+            />
+            />
+            <label name="militaryService-label" htmlFor="militaryService">
               Include military service information
             </label>
           </div>
@@ -129,9 +147,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
                 <th scope="col">Separation date</th>
               </tr>
             </thead>
-            <tbody>
-              {militaryServiceRows}
-            </tbody>
+            <tbody>{militaryServiceRows}</tbody>
           </table>
           <h2>VA benefit and disability information</h2>
           <p>
@@ -144,7 +160,14 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       benefitSummaryContent = (
         <div className="feature">
           <h4>Your VA Benefit Summary letter is currently unavailable</h4>
-          <div>We weren’t able to retrieve your VA Benefit Summary letter. Please call <a href="tel:855-574-7286">1-855-574-7286</a>, TTY: <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).</div>
+          <div>
+            We weren’t able to retrieve your VA Benefit Summary letter. Please{' '}
+            <CallHelpDesk>
+              call <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
+              <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211;
+              Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+            </CallHelpDesk>
+          </div>
         </div>
       );
     }
@@ -152,7 +175,10 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     return (
       <div>
         <p>
-          This letter shows your service history and some VA benefits information. You can customize this letter and use it for many things, including to apply for housing assistance, civil service jobs, and state or local property and car tax relief.
+          This letter shows your service history and some VA benefits
+          information. You can customize this letter and use it for many things,
+          including to apply for housing assistance, civil service jobs, and
+          state or local property and car tax relief.
         </p>
         {benefitSummaryContent}
       </div>
@@ -166,18 +192,21 @@ function mapStateToProps(state) {
   return {
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
-      serviceInfo: letterState.serviceInfo
+      serviceInfo: letterState.serviceInfo,
     },
     // default isVeteran to true for now - please see vets.gov-team issue #6250
     // isVeteran: (state.user.profile.veteranStatus === 'OK' ? state.user.profile.isVeteran : true),
     isVeteran: true,
     optionsAvailable: letterState.optionsAvailable,
-    requestOptions: letterState.requestOptions
+    requestOptions: letterState.requestOptions,
   };
 }
 
 const mapDispatchToProps = {
-  updateBenefitSummaryRequestOption
+  updateBenefitSummaryRequestOption,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(VeteranBenefitSummaryLetter);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(VeteranBenefitSummaryLetter);

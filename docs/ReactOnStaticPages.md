@@ -29,6 +29,17 @@ There's a simple static page widget feature that you can use to help with the fi
 
 - root: The id of the div where the React component will mount.
 - timeout: The amount of time in seconds before the error message is shown.
+- ~~production: If this widget should be rendered in production. Assumed to be true if left blank.~~
+    - To disable an application in an environment, you must add that environment as Frontmatter in the corresponding content page and set it to false. For example:
+
+    ````
+    ---
+    title: My app
+    layout: page-react.html
+    production: false
+    ---
+    ````
+    This works for any environment, so adding "staging: false" below the "production: false"  would also disable the page in the Staging environment.
 - showSpinnerUnauthed: By default, a spinner is shown only if a user has a session token. This will override that and show it always.
 - slowLoadingThreshold: The amount of time in seconds before the slow loading message is shown. This is skipped if the threshold is greater than the overall timeout. Defaulted to 6 seconds.
 - slowMessage: Message shown when the slowThreshold is passed. Defaulted to message above.

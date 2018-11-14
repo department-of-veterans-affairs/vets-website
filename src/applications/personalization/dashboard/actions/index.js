@@ -1,28 +1,20 @@
-import { removeFormApi } from '../../../common/schemaform/save-in-progress/api';
-import { getProfile } from '../../../../platform/user/profile/actions';
+import { removeFormApi } from '../../../../platform/forms/save-in-progress/api';
+import { refreshProfile } from '../../../../platform/user/profile/actions';
 
-export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
 export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';
 export const REMOVING_SAVED_FORM = 'REMOVING_SAVED_FORM';
 export const REMOVING_SAVED_FORM_SUCCESS = 'REMOVING_SAVED_FORM_SUCCESS';
 export const REMOVING_SAVED_FORM_FAILURE = 'REMOVING_SAVED_FORM_FAILURE';
 
-export function updateProfileFields(newState) {
-  return {
-    type: UPDATE_PROFILE_FIELDS,
-    newState
-  };
-}
-
 export function profileLoadingFinished() {
   return {
-    type: PROFILE_LOADING_FINISHED
+    type: PROFILE_LOADING_FINISHED,
   };
 }
 
 export function removingSavedForm() {
   return {
-    type: REMOVING_SAVED_FORM
+    type: REMOVING_SAVED_FORM,
   };
 }
 
@@ -35,7 +27,7 @@ export function removingSavedFormSuccess(formId) {
 
 export function removingSavedFormFailure() {
   return {
-    type: REMOVING_SAVED_FORM_FAILURE
+    type: REMOVING_SAVED_FORM_FAILURE,
   };
 }
 
@@ -45,7 +37,7 @@ export function removeSavedForm(formId) {
     return removeFormApi(formId)
       .then(() => {
         dispatch(removingSavedFormSuccess(formId));
-        dispatch(getProfile());
+        dispatch(refreshProfile());
       })
       .catch(() => dispatch(removingSavedFormFailure()));
   };

@@ -1,33 +1,56 @@
 import DashboardIntro from '../components/DashboardIntro';
-import ProfileIntro from '../components/ProfileIntro';
+import Profile360Intro from '../components/Profile360Intro';
 import PersonalizationBanner from '../components/PersonalizationBanner';
-import isPersonalizationEnabled from '../../../../applications/personalization/dashboard/isPersonalizationEnabled';
-
-const personalizationDisabled = !isPersonalizationEnabled();
+import ClaimIncreaseBanner from '../components/ClaimIncreaseBanner';
+import VAPlusVetsModal from '../components/VAPlusVetsModal';
+import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
+import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 
 const config = {
   announcements: [
     {
-      name: 'dashboard-intro',
-      paths: /^(\/dashboard\/)$/,
-      component: DashboardIntro,
-      relatedAnnouncements: ['personalization'],
-      disabled: personalizationDisabled
+      name: 'brand-consolidation-va-plus-vets',
+      paths: /(.)/,
+      component: VAPlusVetsModal,
+      disabled: !VAPlusVetsModal.isEnabled(),
+      showEverytime: true,
     },
     {
-      name: 'profile-intro',
-      paths: /^(\/profile\/)$/,
-      component: ProfileIntro,
+      name: 'welcome-to-new-va',
+      paths: /^\/$/,
+      component: WelcomeToNewVAModal,
+      disabled: !WelcomeToNewVAModal.isEnabled(),
+    },
+    {
+      name: 'dashboard-intro',
+      paths: isBrandConsolidationEnabled()
+        ? /^(\/my-va\/)$/
+        : /^(\/dashboard\/)$/,
+      component: DashboardIntro,
       relatedAnnouncements: ['personalization'],
-      disabled: personalizationDisabled
+    },
+    {
+      name: 'profile-360-intro',
+      paths: /^(\/profile\/)$/,
+      component: Profile360Intro,
+      relatedAnnouncements: ['personalization'],
+    },
+    {
+      name: 'claim-increase',
+      paths: /disability-benefits\/apply\/$/,
+      component: ClaimIncreaseBanner,
+    },
+    {
+      name: 'claim-increase',
+      paths: /^\/$/,
+      component: ClaimIncreaseBanner,
     },
     {
       name: 'personalization',
       paths: /(.)/,
       component: PersonalizationBanner,
-      disabled: personalizationDisabled
-    }
-  ]
+    },
+  ],
 };
 
 export default config;

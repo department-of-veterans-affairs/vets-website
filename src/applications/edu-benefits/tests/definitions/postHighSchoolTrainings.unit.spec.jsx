@@ -15,9 +15,12 @@ describe('Edu postHighSchoolTrainings', () => {
       <DefinitionTester
         schema={schema}
         definitions={definitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
-    const fields = Array.from(findDOMNode(form).querySelectorAll('input, select'));
+    const fields = Array.from(
+      findDOMNode(form).querySelectorAll('input, select'),
+    );
 
     expect(fields.length).to.equal(13);
   });
@@ -27,17 +30,21 @@ describe('Edu postHighSchoolTrainings', () => {
       <DefinitionTester
         schema={schema}
         definitions={definitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
     ReactTestUtils.Simulate.change(formDOM.querySelector('#root_0_name'), {
       target: {
-        value: 'A college name'
-      }
+        value: 'A college name',
+      },
     });
-    ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
+    ReactTestUtils.Simulate.click(
+      formDOM.querySelector('.va-growable-add-btn'),
+    );
 
-    expect(formDOM.querySelector('.va-growable-background').textContent)
-      .to.contain('A college name');
+    expect(
+      formDOM.querySelector('.va-growable-background').textContent,
+    ).to.contain('A college name');
   });
 });

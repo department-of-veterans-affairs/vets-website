@@ -204,9 +204,6 @@ label {
 .schemaform-array-row {
   outline: none;
 }
-.schemaform-array-row {
-  outline: none;
-}
 
 .schemaform-block-header {
   margin-bottom: 0.7em;
@@ -293,9 +290,10 @@ fieldset.schemaform-field-template {
 }
 
 .help-phone-number-link {
-    font-weight: bold;
-    text-decoration: none;
-    margin: 0.5em 0;
+  font-weight: bold;
+  text-decoration: none;
+  margin: 0.5em 0;
+  word-break: keep-all;
 }
 
 //duplicated/renamed from claims-status.scss
@@ -551,6 +549,11 @@ legend.schemaform-label.schemaform-file-label {
 
 .autosuggest-container {
   position: relative;
+}
+
+.autosuggest-input {
+  // override accordion styles, which are the bane of our existence
+  background-image: none !important;
 }
 
 .autosuggest-list {

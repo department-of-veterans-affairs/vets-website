@@ -59,5 +59,8 @@
   "PR": "Puerto Rico",
   "UM": "U.S. Minor Outlying Islands",
   "VI": "U.S. Virgin Islands",
-  "PI": "Virgin Island"
+  "PI": "Virgin Island",
+  "AA": "Armed Forces Americas (AA)",
+  "AE": "Armed Forces Europe (AE)",
+  "AP": "Armed Forces Pacific (AE)"
 }

@@ -8,8 +8,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import Notification from '../components/Notification';
-import Breadcrumbs from '../components/Breadcrumbs';
-import { getClaimType } from '../utils/helpers';
+import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 
 import {
@@ -22,7 +21,7 @@ import {
   cancelUpload,
   getClaimDetail,
   setFieldsDirty,
-  clearNotification
+  clearNotification,
 } from '../actions/index.jsx';
 
 const scrollToError = () => {
@@ -75,38 +74,56 @@ class DocumentRequestPage extends React.Component {
     let content;
 
     if (this.props.loading) {
-      content = <LoadingIndicator setFocus message="Loading your claim information..."/>;
+      content = (
+        <LoadingIndicator
+          setFocus
+          message="Loading your claim information..."
+        />
+      );
     } else {
       const trackedItem = this.props.trackedItem;
-      const filesPath = `your-claims/${this.props.claim.id}/files`;
-      const claimsPath = `your-claims${this.props.claim.attributes.open ? '' : '/closed'}`;
+      const claim = this.props.claim;
+      const filesPath = `your-claims/${claim.id}/files`;
+      const itemPath = `your-claims/${claim.id}/document-request/${
+        trackedItem.id
+      }`;
       const message = this.props.message;
 
       content = (
         <div>
           <div className="row">
             <div className="medium-12 columns">
-              <Breadcrumbs>
-                <li><Link to={claimsPath}>Your Claims</Link></li>
-                <li><Link to={filesPath}>Your {getClaimType(this.props.claim)} Claim</Link></li>
-              </Breadcrumbs>
+              <ClaimsBreadcrumbs>
+                <Link to={filesPath}>Status Details</Link>
+                <Link to={itemPath}>Document Request</Link>
+              </ClaimsBreadcrumbs>
             </div>
           </div>
           <div className="row">
             <div className="usa-width-two-thirds medium-8 columns">
               <div className="claim-container">
-                {message &&
+                {message && (
                   <div>
-                    <Element name="uploadError"/>
-                    <Notification title={message.title} body={message.body} type={message.type}/>
-                  </div>}
-                <h1 className="claims-header">{trackedItem.displayName}</h1>
-                {trackedItem.type.endsWith('you_list') ? <DueDate date={trackedItem.suspenseDate}/> : null}
-                {trackedItem.type.endsWith('others_list')
-                  ? <div className="optional-upload">
-                    <p><strong>Optional</strong> - We’ve asked others to send this to us, but you may upload it if you have it.</p>
+                    <Element name="uploadError" />
+                    <Notification
+                      title={message.title}
+                      body={message.body}
+                      type={message.type}
+                    />
                   </div>
-                  : null}
+                )}
+                <h1 className="claims-header">{trackedItem.displayName}</h1>
+                {trackedItem.type.endsWith('you_list') ? (
+                  <DueDate date={trackedItem.suspenseDate} />
+                ) : null}
+                {trackedItem.type.endsWith('others_list') ? (
+                  <div className="optional-upload">
+                    <p>
+                      <strong>Optional</strong> - We’ve asked others to send
+                      this to us, but you may upload it if you have it.
+                    </p>
+                  </div>
+                ) : null}
                 <p>{trackedItem.description}</p>
                 <AddFilesForm
                   field={this.props.uploadField}
@@ -115,21 +132,24 @@ class DocumentRequestPage extends React.Component {
                   files={this.props.files}
                   showMailOrFax={this.props.showMailOrFax}
                   backUrl={this.props.lastPage || filesPath}
-                  onSubmit={() => this.props.submitFiles(
-                    this.props.claim.id,
-                    this.props.trackedItem,
-                    this.props.files
-                  )}
+                  onSubmit={() =>
+                    this.props.submitFiles(
+                      this.props.claim.id,
+                      this.props.trackedItem,
+                      this.props.files,
+                    )
+                  }
                   onAddFile={this.props.addFile}
                   onRemoveFile={this.props.removeFile}
                   onFieldChange={this.props.updateField}
                   onShowMailOrFax={this.props.showMailOrFaxModal}
                   onCancel={this.props.cancelUpload}
-                  onDirtyFields={this.props.setFieldsDirty}/>
+                  onDirtyFields={this.props.setFieldsDirty}
+                />
               </div>
             </div>
             <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
-              <AskVAQuestions/>
+              <AskVAQuestions />
             </div>
           </div>
         </div>
@@ -138,7 +158,7 @@ class DocumentRequestPage extends React.Component {
 
     return (
       <div>
-        <div name="topScrollElement"></div>
+        <div name="topScrollElement" />
         {content}
       </div>
     );
@@ -149,8 +169,10 @@ function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
   let trackedItem = null;
   if (claimsState.claimDetail.detail) {
-    trackedItem = claimsState.claimDetail.detail.attributes.eventsTimeline
-      .filter(event => event.trackedItemId === parseInt(ownProps.params.trackedItemId, 10))[0];
+    trackedItem = claimsState.claimDetail.detail.attributes.eventsTimeline.filter(
+      event =>
+        event.trackedItemId === parseInt(ownProps.params.trackedItemId, 10),
+    )[0];
   }
   return {
     loading: claimsState.claimDetail.loading,
@@ -164,7 +186,7 @@ function mapStateToProps(state, ownProps) {
     uploadField: claimsState.uploads.uploadField,
     showMailOrFax: claimsState.uploads.showMailOrFax,
     lastPage: claimsState.routing.lastPage,
-    message: claimsState.notifications.message
+    message: claimsState.notifications.message,
   };
 }
 
@@ -178,9 +200,14 @@ const mapDispatchToProps = {
   getClaimDetail,
   setFieldsDirty,
   resetUploads,
-  clearNotification
+  clearNotification,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DocumentRequestPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(DocumentRequestPage),
+);
 
 export { DocumentRequestPage };

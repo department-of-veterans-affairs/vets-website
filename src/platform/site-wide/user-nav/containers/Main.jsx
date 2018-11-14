@@ -6,27 +6,32 @@ import URLSearchParams from 'url-search-params';
 import recordEvent from '../../../monitoring/record-event';
 
 import SignInModal from '../../../user/authentication/components/SignInModal';
-import {
-  isLoggedIn,
-  isProfileLoading,
-  isLOA3
-} from '../../../user/selectors';
-import { getProfile } from '../../../user/profile/actions';
+import { isLoggedIn, isProfileLoading, isLOA3 } from '../../../user/selectors';
+import { initializeProfile } from '../../../user/profile/actions';
 import { updateLoggedInStatus } from '../../../user/authentication/actions';
+import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 
 import {
   toggleLoginModal,
-  toggleSearchHelpUserMenu
+  toggleSearchHelpUserMenu,
 } from '../../../site-wide/user-nav/actions';
 
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
+
+import dashboardManifest from '../../../../applications/personalization/dashboard/manifest';
+import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+
+const brandConsolidationEnabled = isBrandConsolidationEnabled();
+
+const DASHBOARD_URL = dashboardManifest.rootUrl;
 
 // const SESSION_REFRESH_INTERVAL_MINUTES = 45;
 
 export class Main extends React.Component {
   componentDidMount() {
     window.addEventListener('message', this.setToken);
+    this.bindModalTriggers();
     this.bindNavbarLinks();
 
     // In some cases this component is mounted on a url that is part of the login process and doesn't need to make another
@@ -38,35 +43,66 @@ export class Main extends React.Component {
 
   componentDidUpdate() {
     const { currentlyLoggedIn, showLoginModal } = this.props;
-    const nextParam = this.getRedirectUrl();
-
-    const shouldRedirect =
-      currentlyLoggedIn && nextParam && !window.location.pathname.includes('verify');
-
-    if (shouldRedirect) {
-      const redirectPath = nextParam.startsWith('/') ? nextParam : `/${nextParam}`;
-      window.location.replace(redirectPath);
-    }
-
     const shouldCloseLoginModal = currentlyLoggedIn && showLoginModal;
 
-    if (shouldCloseLoginModal) { this.props.toggleLoginModal(false); }
+    if (currentlyLoggedIn) this.executeRedirect();
+
+    if (shouldCloseLoginModal) {
+      this.props.toggleLoginModal(false);
+    }
   }
 
   componentWillUnmount() {
     this.unbindNavbarLinks();
   }
 
-  setToken = (event) => {
-    if (event.data === sessionStorage.userToken) { this.props.getProfile(); }
+  setToken = event => {
+    if (event.data === conditionalStorage().getItem('userToken')) {
+      this.executeRedirect();
+      this.props.initializeProfile();
+    }
+  };
+
+  getNextParameter() {
+    const nextParam = new URLSearchParams(window.location.search).get('next');
+    if (nextParam) {
+      return nextParam.startsWith('/') ? nextParam : `/${nextParam}`;
+    }
+    return false;
   }
 
-  getRedirectUrl = () => (new URLSearchParams(window.location.search)).get('next');
+  getRedirectUrl = () => {
+    const nextParam = this.getNextParameter();
+    if (nextParam) return nextParam;
+
+    if (brandConsolidationEnabled) return null;
+
+    // remove this line when refacotring isBrandConsolidationEnabled
+    return window.location.pathname === '/' && DASHBOARD_URL;
+  };
+
+  executeRedirect() {
+    const redirectUrl = this.getRedirectUrl();
+    const shouldRedirect =
+      redirectUrl && !window.location.pathname.includes('verify');
+
+    if (shouldRedirect) {
+      window.location.replace(redirectUrl);
+    }
+  }
+
+  bindModalTriggers = () => {
+    const triggers = Array.from(
+      document.querySelectorAll('.signin-signup-modal-trigger'),
+    );
+    const openLoginModal = () => this.props.toggleLoginModal(true);
+    triggers.forEach(t => t.addEventListener('click', openLoginModal));
+  };
 
   bindNavbarLinks = () => {
     [...document.querySelectorAll('.login-required')].forEach(el => {
       el.addEventListener('click', e => {
-        if (!this.props.login.currentlyLoggedIn) {
+        if (!this.props.currentlyLoggedIn) {
           e.preventDefault();
           const nextQuery = { next: el.getAttribute('href') };
           const nextPath = appendQuery('/', nextQuery);
@@ -75,44 +111,29 @@ export class Main extends React.Component {
         }
       });
     });
-  }
+  };
 
   unbindNavbarLinks = () => {
     [...document.querySelectorAll('.login-required')].forEach(el => {
       el.removeEventListener('click');
     });
-  }
+  };
 
   checkTokenStatus = () => {
-    if (sessionStorage.userToken) {
-      // @todo once we have time to replace the confirm dialog with an actual modal we should uncomment this code.
-      // if (moment() > moment(sessionStorage.entryTime).add(SESSION_REFRESH_INTERVAL_MINUTES, 'm')) {
-      //   if (confirm('For security, you’ll be automatically signed out in 2 minutes. To stay signed in, click OK.')) {
-      //     login();
-      //   } else {
-      //     logout();
-      //   }
-      // } else {
-      //   if (this.props.getProfile()) {
-      //     this.props.updateLoggedInStatus(true);
-      //   }
-      // }
-
-      // @todo after doing the above, remove this code.
-      if (this.props.getProfile()) {
-        recordEvent({ event: 'login-user-logged-in' });
-        this.props.updateLoggedInStatus(true);
+    if (!conditionalStorage().getItem('userToken')) {
+      this.props.updateLoggedInStatus(false);
+      if (this.getNextParameter()) {
+        this.props.toggleLoginModal(true);
       }
     } else {
-      this.props.updateLoggedInStatus(false);
-      if (this.getRedirectUrl()) { this.props.toggleLoginModal(true); }
+      this.props.initializeProfile();
     }
-  }
+  };
 
   handleCloseModal = () => {
     this.props.toggleLoginModal(false);
     recordEvent({ event: 'login-modal-closed' });
-  }
+  };
 
   render() {
     return (
@@ -124,30 +145,33 @@ export class Main extends React.Component {
           isProfileLoading={this.props.isProfileLoading}
           userGreeting={this.props.userGreeting}
           toggleLoginModal={this.props.toggleLoginModal}
-          toggleMenu={this.props.toggleSearchHelpUserMenu}/>
+          toggleMenu={this.props.toggleSearchHelpUserMenu}
+        />
         <SignInModal
           onClose={this.handleCloseModal}
-          visible={this.props.showLoginModal}/>
+          visible={this.props.showLoginModal}
+        />
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    currentlyLoggedIn: isLoggedIn(state),
-    isProfileLoading: isProfileLoading(state),
-    isLOA3: isLOA3(state),
-    userGreeting: selectUserGreeting(state),
-    ...state.navigation
-  };
-};
+const mapStateToProps = state => ({
+  currentlyLoggedIn: isLoggedIn(state),
+  isProfileLoading: isProfileLoading(state),
+  isLOA3: isLOA3(state),
+  userGreeting: selectUserGreeting(state),
+  ...state.navigation,
+});
 
 const mapDispatchToProps = {
   toggleLoginModal,
   toggleSearchHelpUserMenu,
   updateLoggedInStatus,
-  getProfile
+  initializeProfile,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Main);
