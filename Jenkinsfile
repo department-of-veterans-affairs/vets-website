@@ -9,7 +9,6 @@ VETSGOV_BUILDTYPES = [
 ]
 
 VAGOV_BUILDTYPES = [
-  'preview',
   'vagovdev',
   'vagovstaging',
   'vagovprod'
