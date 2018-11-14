@@ -27,7 +27,7 @@ done
 # Ensure all running servers are terminated on script exit.
 trap 'kill $(jobs -p)' EXIT
 
-BUILDTYPE=${BUILDTYPE:-development}
+BUILDTYPE=${BUILDTYPE:-vagovdev}
 
 # Check to see if we already have an API server running on port 3000
 if [ `nc -z localhost 3000; echo $?` -ne 0 ]; then

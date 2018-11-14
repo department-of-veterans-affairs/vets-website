@@ -34,7 +34,7 @@ describe('VA Medical Records', () => {
     );
 
     expect(form.find('input').length).to.equal(6);
-    expect(form.find('select').length).to.equal(6);
+    expect(form.find('select').length).to.equal(4);
   });
 
   it('should not submit without all required info', () => {

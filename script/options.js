@@ -2,30 +2,26 @@
 
 const path = require('path');
 const commandLineArgs = require('command-line-args');
-const applyHerokuOptions = require('./heroku-helper');
-const environments = require('./constants/environments');
-const hostnames = require('./constants/hostnames');
+
+const ENVIRONMENTS = require('./constants/environments');
+const HOSTNAMES = require('./constants/hostnames');
+
+const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
+const defaultHost = HOSTNAMES[defaultBuildtype];
+const defaultContentDir = '../../vagov-content/pages';
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'buildtype', type: String, defaultValue: environments.LOCALHOST },
-  { name: 'brand-consolidation-enabled', type: Boolean, defaultValue: false },
-  { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
+  { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
+  { name: 'host', type: String, defaultValue: defaultHost },
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'entry', type: String, defaultValue: null },
   { name: 'analyzer', type: Boolean, defaultValue: false },
-  { name: 'host', type: String, defaultValue: 'localhost' },
   { name: 'protocol', type: String, defaultValue: 'http' },
   { name: 'public', type: String, defaultValue: null },
   { name: 'destination', type: String, defaultValue: null },
   { name: 'content-deployment', type: Boolean, defaultValue: false },
-  {
-    name: 'content-directory',
-    type: String,
-    defaultValue: '../../vagov-content/pages',
-  },
-  { name: 'vets-gov-to-va-gov', type: Boolean, defaultValue: false },
-  // Catch-all for bad arguments.
+  { name: 'content-directory', type: String, defaultValue: defaultContentDir },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 
@@ -39,119 +35,69 @@ function gatherFromCommandLine() {
   return options;
 }
 
-function applyDeprecatedBuildtypes(options) {
-  const deprecatedEnvironments = [environments.DEVELOPMENT];
-
-  const isDeprecated = deprecatedEnvironments.includes(options.buildtype);
-  if (isDeprecated) {
-    options['vets-gov-to-va-gov'] = true;
-    options['brand-consolidation-enabled'] = true;
-  }
-}
-
 function applyDefaultOptions(options) {
-  const contentRoot = '../content';
-
   Object.assign(options, {
-    contentRoot,
-    contentPagesRoot: `${contentRoot}/pages`,
+    contentRoot: '../va-gov',
+    contentPagesRoot: options['content-directory'],
+    contentFragments: path.join(options['content-directory'], '../fragments'),
+    contentAssets: {
+      source: path.join(options['content-directory'], '../assets'),
+      destination: './',
+    },
     destination: path.resolve(__dirname, `../build/${options.buildtype}`),
     appAssets: {
       source: '../assets',
       destination: './',
     },
     collections: require('./collections/default.json'),
-    redirects: [],
+    redirects: require('./vagovRedirects.json'),
   });
+}
 
-  if (options.buildtype === environments.LOCALHOST) {
-    options.buildtype = environments.DEVELOPMENT;
-  } else {
+function applyEnvironmentOverrides(options) {
+  if (options.buildtype === ENVIRONMENTS.LOCALHOST) return;
+
+  const allBuildtypes = Object.keys(ENVIRONMENTS).map(key => ENVIRONMENTS[key]);
+  const isBuildtypeValid = allBuildtypes.includes(options.buildtype);
+
+  if (!isBuildtypeValid) {
+    throw new Error(`Unknown buildtype: '${options.buildtype}'`);
+  }
+
+  if (options.buildtype === ENVIRONMENTS.VAGOVPROD) {
+    process.env.NODE_ENV = 'production';
+  }
+}
+
+function deriveHostUrl(options) {
+  const isHerokuBuild = !!process.env.HEROKU_APP_NAME;
+
+  if (options.buildtype !== ENVIRONMENTS.LOCALHOST || isHerokuBuild) {
     options.port = 80;
     options.protocol = 'https';
-    options.host = hostnames[options.buildtype];
+
+    if (isHerokuBuild) {
+      options.host = `${process.env.HEROKU_APP_NAME}.herokuapp.com`;
+    } else {
+      options.host = HOSTNAMES[options.buildtype];
+    }
   }
 
   options.hostUrl = `${options.protocol}://${options.host}${
     options.port && options.port !== 80 ? `:${options.port}` : ''
   }`;
-}
 
-function applyEnvironmentOverrides(options) {
-  const env = require('get-env')();
-
-  switch (options.buildtype) {
-    case environments.DEVELOPMENT:
-      break;
-
-    case environments.STAGING:
-      options.move = [{ source: 'vets-robots.txt', target: 'robots.txt' }];
-      options.remove = ['va-robots.txt'];
-      break;
-
-    case environments.PRODUCTION:
-      options.move = [{ source: 'vets-robots.txt', target: 'robots.txt' }];
-      options.remove = ['va-robots.txt'];
-
-      if (options['no-sanity-check-node-env'] === false) {
-        if (env !== 'prod') {
-          throw new Error(
-            `buildtype ${
-              options.buildtype
-            } expects NODE_ENV to be production, not '${process.env.NODE_ENV}'`,
-          );
-        }
-      }
-      break;
-
-    case environments.VAGOVDEV:
-    case environments.VAGOVSTAGING:
-    case environments.VAGOVPROD:
-    case environments.PREVIEW:
-      options.move = [{ source: 'va-robots.txt', target: 'robots.txt' }];
-      options.remove = ['vets-robots.txt'];
-
-      options['brand-consolidation-enabled'] = true;
-      break;
-
-    default:
-      throw new Error(`Unknown buildtype: '${options.buildtype}'`);
-  }
-}
-
-function applyBrandConsolidationOverrides(options) {
-  // This list also exists in stagingDomains.js
-  const domainReplacements = [{ from: 'www\\.va\\.gov', to: options.host }];
-
-  Object.assign(options, {
-    contentRoot: '../va-gov',
-    contentPagesRoot: options['content-directory'],
-    contentFragments: path.join(options['content-directory'], '../fragments'),
-    collections: require('./collections/brand-consolidation.json'),
-    redirects: require('./vagovRedirects.json'),
-    domainReplacements,
-    contentAssets: {
-      source: path.join(options['content-directory'], '../assets'),
-      destination: './',
-    },
-  });
+  options.domainReplacements = [{ from: 'www\\.va\\.gov', to: options.host }];
 }
 
 function getOptions() {
   const options = gatherFromCommandLine();
 
-  applyDeprecatedBuildtypes(options);
   applyDefaultOptions(options);
-
-  const isHerokuBuild = !!process.env.HEROKU_APP_NAME;
-  if (isHerokuBuild) applyHerokuOptions(options);
-
   applyEnvironmentOverrides(options);
-
-  const isBrandConsolidationBuild = options['brand-consolidation-enabled'];
-  if (isBrandConsolidationBuild) applyBrandConsolidationOverrides(options);
+  deriveHostUrl(options);
 
   return options;
 }
 
-module.exports = getOptions();
+module.exports = getOptions;

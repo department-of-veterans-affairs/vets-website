@@ -99,7 +99,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
     '/health-care/apply',
     '/health-care/apply/application/resume',
   );
-  testStatus(client, '/health-care/', '/health-care/apply/application/resume');
   testStatus(
     client,
     '/health-care/eligibility',
@@ -107,18 +106,12 @@ module.exports = E2eHelpers.createE2eTest(client => {
   );
 
   testStatus(client, '/pension/apply', '/pension/application/527EZ/resume');
-  testStatus(client, '/pension/', '/pension/application/527EZ/resume');
   testStatus(
     client,
     '/pension/eligibility',
     '/pension/application/527EZ/resume',
   );
 
-  testStatus(
-    client,
-    '/burials-and-memorials/',
-    '/burials-and-memorials/application/530/resume',
-  );
   testStatus(
     client,
     '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs',
@@ -128,11 +121,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
   testStatus(
     client,
     '/education/apply',
-    '/education/apply-for-education-benefits/application/1995/resume',
-  );
-  testStatus(
-    client,
-    '/education/',
     '/education/apply-for-education-benefits/application/1995/resume',
   );
   testStatus(
