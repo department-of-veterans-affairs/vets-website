@@ -107,7 +107,7 @@ const militaryStates = [
 const addressSchema = {
   type: 'object',
   properties: {
-    country: militaryAddress.properties.countryDropdown,
+    countryDropdown: militaryAddress.properties.countryDropdown,
     countryText: internationalAddressText.properties.countryText,
     street: domesticAddress.properties.street,
     street2: domesticAddress.properties.street2,
@@ -134,39 +134,38 @@ const locationSchema = {
   },
 };
 
-// pass in the key so we can grab the relevant data in the form to test
-function isMilitaryAddress(form, key) {
-  const state = get(key, form);
+function isMilitaryAddress(address = {}) {
+  const state = address.state;
   return militaryStates.some(e => e.value === state);
 }
 
-function isNotMilitaryAddress(form, key) {
-  return !isMilitaryAddress(form, key);
+function isNotMilitaryAddress(address = {}) {
+  return !isMilitaryAddress(address);
 }
 
-function isUSAAddress(form, key) {
-  const country = get(key, form);
+function isUSAAddress(address = {}) {
+  const country = address.countryDropdown;
   return country === 'USA';
 }
 
-function isDomesticAddress(form, key) {
-  const country = get(key, form);
-  return country === 'USA' && isNotMilitaryAddress(form, key);
+function isDomesticAddress(address = {}) {
+  const country = address.countryDropdown;
+  return country === 'USA' && isNotMilitaryAddress(address);
 }
 
-function isInternationalAddressDropdown(form, key) {
-  const country = get(key, form);
-  return !isDomesticAddress(form, key) && country !== 'Country Not In List';
+function isInternationalAddressDropdown(address = {}) {
+  const country = address.countryDropdown;
+  return !isDomesticAddress(address) && country !== 'Country Not In List';
 }
 
-function isInternationalAddressText(form, key) {
+function isInternationalAddressText(address = {}) {
   return (
-    !isDomesticAddress(form, key) && !isInternationalAddressDropdown(form, key)
+    !isDomesticAddress(address) && !isInternationalAddressDropdown(address)
   );
 }
 
-function isNotInternationalAddressText(form, key) {
-  const country = get(key, form);
+function isNotInternationalAddressText(address = {}) {
+  const country = address.countryDropdown;
   return country !== 'Country Not In List';
 }
 
@@ -229,14 +228,14 @@ function createSpouseLabelSelector(nameTemplate) {
 // ex: given 'marriages[INDEX].locationOfMarriage' and `0` return
 // 'marriages[0].locationOfMarriage'
 function insertRealIndexInKey(key, index) {
-  return key.replace('[INDEX]', `[${index}]`);
+  return key.replace('INDEX', index);
 }
 
 // pass in the key so the address we care about can be pulled out of the
 // entire formData object
 function createAddressUISchemaForKey(key, isRequiredCallback = () => true) {
   return {
-    country: {
+    countryDropdown: {
       'ui:title': 'Country',
       'ui:required': isRequiredCallback,
     },
@@ -244,14 +243,12 @@ function createAddressUISchemaForKey(key, isRequiredCallback = () => true) {
       'ui:title': 'Enter Country',
       'ui:required': (formData, index) =>
         isInternationalAddressText(
-          formData,
-          `${insertRealIndexInKey(key, index)}.country`,
+          get(`${insertRealIndexInKey(key, index)}`, formData),
         ),
       'ui:options': {
         hideIf: (formData, index) =>
           isNotInternationalAddressText(
-            formData,
-            `${insertRealIndexInKey(key, index)}.country`,
+            get(`${insertRealIndexInKey(key, index)}`, formData),
           ),
       },
     },
@@ -275,52 +272,38 @@ function createAddressUISchemaForKey(key, isRequiredCallback = () => true) {
     state: {
       'ui:title': 'State',
       'ui:required': (formData, index) =>
-        isDomesticAddress(
-          formData,
-          `${insertRealIndexInKey(key, index)}.country`,
-        ),
+        isDomesticAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
       'ui:options': {
         hideIf: (formData, index) =>
-          !isUSAAddress(
-            formData,
-            `${insertRealIndexInKey(key, index)}.country`,
-          ),
+          !isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
       },
     },
     postOffice: {
       'ui:title': 'Post Office',
       'ui:required': (formData, index) =>
-        isMilitaryAddress(
-          formData,
-          `${insertRealIndexInKey(key, index)}.state`,
-        ),
+        isMilitaryAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
       'ui:options': {
         hideIf: (formData, index) =>
           isNotMilitaryAddress(
-            formData,
-            `${insertRealIndexInKey(key, index)}.state`,
+            get(`${insertRealIndexInKey(key, index)}`, formData),
           ),
       },
     },
     postalType: {
       'ui:title': 'Postal Type',
       'ui:required': (formData, index) =>
-        isMilitaryAddress(
-          formData,
-          `${insertRealIndexInKey(key, index)}.state`,
-        ),
+        isMilitaryAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
       'ui:options': {
         hideIf: (formData, index) =>
           isNotMilitaryAddress(
-            formData,
-            `${insertRealIndexInKey(key, index)}.state`,
+            get(`${insertRealIndexInKey(key, index)}`, formData),
           ),
       },
     },
     postalCode: {
       'ui:title': 'Postal Code',
       'ui:required': (formData, index) =>
-        isUSAAddress(formData, `${insertRealIndexInKey(key, index)}.country`),
+        isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
       'ui:errorMessages': {
         pattern: 'Please fill in a valid postal code',
         required: 'Please fill in a valid postal code',
@@ -344,45 +327,31 @@ function createLocationUISchemaForKey(
       'ui:title': 'Enter Country',
       'ui:required': (formData, index) =>
         isInternationalAddressText(
-          formData,
-          `${insertRealIndexInKey(key, index)}.countryDropdown`,
+          get(`${insertRealIndexInKey(key, index)}`, formData),
         ),
       'ui:options': {
         hideIf: (formData, index) =>
           isNotInternationalAddressText(
-            formData,
-            `${insertRealIndexInKey(key, index)}.countryDropdown`,
+            get(`${insertRealIndexInKey(key, index)}`, formData),
           ),
       },
     },
     city: {
       'ui:title': 'City',
       'ui:required': (formData, index) =>
-        isUSAAddress(
-          formData,
-          `${insertRealIndexInKey(key, index)}.countryDropdown`,
-        ),
+        isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
       'ui:options': {
         hideIf: (formData, index) =>
-          !isUSAAddress(
-            formData,
-            `${insertRealIndexInKey(key, index)}.countryDropdown`,
-          ),
+          !isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
       },
     },
     state: {
       'ui:title': 'State',
       'ui:required': (formData, index) =>
-        isUSAAddress(
-          formData,
-          `${insertRealIndexInKey(key, index)}.countryDropdown`,
-        ),
+        isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
       'ui:options': {
         hideIf: (formData, index) =>
-          !isUSAAddress(
-            formData,
-            `${insertRealIndexInKey(key, index)}.countryDropdown`,
-          ),
+          !isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
       },
     },
   };
@@ -785,9 +754,9 @@ const formConfig = {
                   'ui:options': {
                     updateSchema: createSpouseLabelSelector(
                       spouseName =>
-                        `When did ${spouseName.first} ${
-                          spouseName.last
-                        } get married?`,
+                        `When did
+                         ${spouseName.first} ${spouseName.last}
+                         get married?`,
                     ),
                   },
                 }),
@@ -799,9 +768,9 @@ const formConfig = {
                     'ui:options': {
                       updateSchema: createSpouseLabelSelector(
                         spouseName =>
-                          `Where did ${spouseName.first} ${
-                            spouseName.last
-                          } get married? (city and state or foreign country)`,
+                          `Where did
+                           ${spouseName.first} ${spouseName.last}
+                           get married? (city and state or foreign country)`,
                       ),
                     },
                   },
@@ -812,9 +781,9 @@ const formConfig = {
                     'ui:options': {
                       updateSchema: createSpouseLabelSelector(
                         spouseName =>
-                          `First name of ${spouseName.first} ${
-                            spouseName.last
-                          }’s former spouse`,
+                          `First name of
+                           ${spouseName.first} ${spouseName.last}’s
+                           former spouse`,
                       ),
                     },
                   },
@@ -823,9 +792,9 @@ const formConfig = {
                     'ui:options': {
                       updateSchema: createSpouseLabelSelector(
                         spouseName =>
-                          `Middle name of ${spouseName.first} ${
-                            spouseName.last
-                          }’s former spouse`,
+                          `Middle name of
+                           ${spouseName.first} ${spouseName.last}’s
+                          former spouse`,
                       ),
                     },
                   },
@@ -834,9 +803,9 @@ const formConfig = {
                     'ui:options': {
                       updateSchema: createSpouseLabelSelector(
                         spouseName =>
-                          `Last name of ${spouseName.first} ${
-                            spouseName.last
-                          }’s former spouse`,
+                          `Last name of
+                           ${spouseName.first} ${spouseName.last}’s
+                           former spouse`,
                       ),
                     },
                   },
@@ -1018,8 +987,7 @@ const formConfig = {
                     'Does not have a Social Security number (foreign national, etc.)',
                 },
                 childRelationship: {
-                  'ui:title':
-                    'What’s the status of this child? (Please check all that apply.)',
+                  'ui:title': 'What’s the status of this child?',
                   'ui:options': {
                     showFieldLabel: true,
                     labels: childRelationshipStatusLabels,
