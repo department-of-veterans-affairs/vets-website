@@ -7,7 +7,7 @@ const minimumNodeVersion = '8.10.0';
 if (!(process.env.INSTALL_HOOKS === 'no')) {
   // Make sure git pre-commit hooks are installed
   ['pre-commit'].forEach(hook => {
-    const src = path.join(__dirname, `../hooks/${hook}`);
+    const src = path.join(__dirname, `hooks/${hook}`);
     const dest = path.join(__dirname, `../.git/hooks/${hook}`);
     if (fs.existsSync(src)) {
       if (!fs.existsSync(dest)) {
