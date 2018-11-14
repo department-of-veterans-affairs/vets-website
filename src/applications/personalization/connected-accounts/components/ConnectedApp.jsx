@@ -24,7 +24,7 @@ class ConnectedApp extends React.Component {
   };
 
   render() {
-    const { href, logo, title, created } = this.props.attributes;
+    const { href, logo, title, created, grants } = this.props.attributes;
     return (
       <tr>
         <th scope="row">
@@ -35,6 +35,11 @@ class ConnectedApp extends React.Component {
         <th>
           <a href={href}>{title}</a> <br />
           Connected at {moment(created).format('MMMM Do, YYYY')}
+          <ul>
+            {grants.map((a, idx) => (
+              <li key={idx}>{a.title}</li>
+            ))}
+          </ul>
         </th>
         <th>
           <button className="usa-button-primary" onClick={this.openModal}>
