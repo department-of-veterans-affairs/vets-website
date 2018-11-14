@@ -21,26 +21,26 @@ export const uiSchema = {
   'ui:title': ' ',
   'ui:description': physicalDescriptionChanges,
   physicalChanges: {
-    'view:increasedVisits': {
+    increasedVisits: {
       'ui:title':
         'Increased visits to a medical or counseling clinic or dispensary, even without a specific diagnosis or specific ailment',
     },
-    'view:pregnancyTests': {
+    pregnancyTests: {
       'ui:title': 'Pregnancy tests around the time of the incident',
     },
-    'view:hivTests': {
+    hivTests: {
       'ui:title': 'Tests for HIV or sexually transmitted diseases',
     },
-    'view:weightChanges': {
+    weightChanges: {
       'ui:title': 'Extreme weight loss or gain',
     },
-    'view:lethargy': {
+    lethargy: {
       'ui:title': 'Lethargy',
     },
-    'view:other': {
+    other: {
       'ui:title': 'Other',
     },
-    'view:noneApply': {
+    noneApply: {
       'ui:title': 'None of these apply to me',
     },
   },
@@ -48,8 +48,7 @@ export const uiSchema = {
     'ui:title': 'Please specify',
     'ui:options': {
       expandUnder: 'physicalChanges',
-      expandUnderCondition: physicalChanges =>
-        physicalChanges['view:other'] === true,
+      expandUnderCondition: physicalChanges => physicalChanges.other === true,
     },
   },
 };
@@ -61,25 +60,25 @@ export const schema = {
     physicalChanges: {
       type: 'object',
       properties: {
-        'view:increasedVisits': {
+        increasedVisits: {
           type: 'boolean',
         },
-        'view:pregnancyTests': {
+        pregnancyTests: {
           type: 'boolean',
         },
-        'view:hivTests': {
+        hivTests: {
           type: 'boolean',
         },
-        'view:weightChanges': {
+        weightChanges: {
           type: 'boolean',
         },
-        'view:lethargy': {
+        lethargy: {
           type: 'boolean',
         },
-        'view:other': {
+        other: {
           type: 'boolean',
         },
-        'view:noneApply': {
+        noneApply: {
           type: 'boolean',
         },
       },

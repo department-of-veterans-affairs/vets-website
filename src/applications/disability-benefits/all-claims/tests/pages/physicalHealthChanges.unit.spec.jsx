@@ -19,7 +19,7 @@ describe('Physical Changes 781a', () => {
         uiSchema={uiSchema}
         data={{
           physicalChanges: {
-            'view:other': true,
+            other: true,
           },
         }}
         formData={{}}
@@ -29,7 +29,7 @@ describe('Physical Changes 781a', () => {
     expect(form.find('input').length).to.equal(8);
   });
 
-  it('should not submit if no options selected', () => {
+  it('should submit if no options selected', () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
