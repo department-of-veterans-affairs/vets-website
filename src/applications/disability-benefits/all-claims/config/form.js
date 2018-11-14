@@ -270,9 +270,8 @@ const formConfig = {
         physicalHealthChanges: {
           title: 'Additional Remarks - Physical Health Changes',
           path: 'new-disabilities/ptsd-781a-physical-changes',
-          // depends: formData =>
-          //   hasNewPtsdDisability(formData) && needsToEnter781a(formData),
-          depends: isAnsweringPtsdForm,
+          depends: formData =>
+            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
           uiSchema: physicalHealthChanges.uiSchema,
           schema: physicalHealthChanges.schema,
         },
