@@ -797,6 +797,21 @@ const schema = {
             type: 'string',
             enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
           },
+          specialIssues: {
+            type: 'array',
+            items: {
+              type: 'object',
+              required: ['code', 'name'],
+              properties: {
+                name: {
+                  type: 'string',
+                },
+                code: {
+                  type: 'string',
+                },
+              },
+            },
+          },
           ratedDisabilityId: {
             type: 'string',
           },
@@ -822,6 +837,21 @@ const schema = {
                 disabilityActionType: {
                   type: 'string',
                   enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
+                },
+                specialIssues: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    required: ['code', 'name'],
+                    properties: {
+                      name: {
+                        type: 'string',
+                      },
+                      code: {
+                        type: 'string',
+                      },
+                    },
+                  },
                 },
                 ratedDisabilityId: {
                   type: 'string',
