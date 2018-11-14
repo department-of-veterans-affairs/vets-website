@@ -402,7 +402,7 @@ class DashboardApp extends React.Component {
             <ul className="va-nav-linkslist-list">
               <li>
                 <a
-                  href="/health-care/health-records/"
+                  href="/health-care/get-medical-records/"
                   onClick={recordDashboardClick('health-records')}
                 >
                   <h4 className="va-nav-linkslist-title">

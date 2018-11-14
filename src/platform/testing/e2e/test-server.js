@@ -14,7 +14,7 @@ const morgan = require('morgan');
 const appSettings = require('../../../../config/parse-app-settings');
 
 const optionDefinitions = [
-  { name: 'buildtype', type: String, defaultValue: 'development' },
+  { name: 'buildtype', type: String, defaultValue: 'vagovdev' },
   { name: 'port', type: Number, defaultValue: +(process.env.WEB_PORT || 3333) },
   { name: 'host', type: String, defaultValue: 'localhost' },
 
