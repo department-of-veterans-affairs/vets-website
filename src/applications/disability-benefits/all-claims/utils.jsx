@@ -161,12 +161,17 @@ export function prefillTransformer(pages, formData, metadata) {
 }
 
 /**
- * Transforms the related disabilities object into an array of strings
+ * Transforms the related disabilities object into an array of strings. The condition
+ *  name only gets added to the list if the property value is truthy and is in the list
+ *  of conditions claimed on the application.
+ *
  * @param {Object} object - The object with dynamically generated property names
  * @return {Array} - An array of the property names with truthy values
  */
-export function transformRelatedDisabilities(object) {
-  return Object.keys(object).filter(key => object[key]);
+export function transformRelatedDisabilities(object, claimedConditions) {
+  return Object.keys(object).filter(
+    key => object[key] && claimedConditions.includes(key),
+  );
 }
 
 export function transform(formConfig, form) {
@@ -177,6 +182,14 @@ export function transform(formConfig, form) {
     form.data,
   );
 
+  const claimedConditions = clonedData.ratedDisabilities
+    ? clonedData.ratedDisabilities.map(d => d.name)
+    : [];
+  if (clonedData.newDisabilities) {
+    clonedData.newDisabilities.forEach(d =>
+      claimedConditions.push(d.condition),
+    );
+  }
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
   // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
   //  it here to remove reservesNationalGuardService if it's deeply empty.
@@ -189,7 +202,10 @@ export function transform(formConfig, form) {
     const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
       _.set(
         'relatedDisabilities',
-        transformRelatedDisabilities(facility.relatedDisabilities),
+        transformRelatedDisabilities(
+          facility.relatedDisabilities,
+          claimedConditions,
+        ),
         facility,
       ),
     );
