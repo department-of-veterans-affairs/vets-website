@@ -1,6 +1,6 @@
 # Prescriptions Frontend
 
-The react/redux frontend for the Vets.gov prescription refill project.
+The react/redux frontend for the VA.gov prescription refill project.
 
 This is under active development!  If you would like to contribute, start by checking out our [issues](https://github.com/department-of-veterans-affairs/vets-website/issues?q=is%3Aopen+is%3Aissue+label%3ARx), or via [waffle](https://waffle.io/department-of-veterans-affairs/vets-website?search=rx).
 

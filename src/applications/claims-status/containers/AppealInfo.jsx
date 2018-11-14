@@ -12,6 +12,7 @@ import { getAppealsV2 } from '../actions/index.jsx';
 import AppealHeader from '../components/appeals-v2/AppealHeader';
 import AppealsV2TabNav from '../components/appeals-v2/AppealsV2TabNav';
 import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
+import { setUpPage, scrollToTop } from '../utils/page';
 
 import {
   EVENT_TYPES,
@@ -65,6 +66,11 @@ export class AppealInfo extends React.Component {
   componentDidMount() {
     if (!this.props.appeal) {
       this.props.getAppealsV2();
+    }
+    if (!this.props.appealsLoading) {
+      setUpPage();
+    } else {
+      scrollToTop();
     }
   }
 

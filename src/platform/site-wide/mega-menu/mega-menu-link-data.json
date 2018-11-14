@@ -189,10 +189,10 @@
                             "alt": "GI Bill School Feedback"
                         },
                         "link": {
-                            "text": "GI Bill® School Feedback Tool",
-                            "href": "https://www.benefits.va.gov/GIBILL/Feedback.asp"
+                            "text": "GI Bill® Comparison Tool",
+                            "href": "/gi-bill-comparison-tool"
                         },
-                        "description": "Find out how to give us feedback about your GI Bill school."
+                        "description": "Learn about education programs and compare benefits by school."
                     },
                     "seeAllLink": {
                       "text": "Education",

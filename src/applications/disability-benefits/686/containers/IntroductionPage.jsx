@@ -91,28 +91,20 @@ class IntroductionPage extends React.Component {
                   Download VA Form 21-674.
                 </a>
               </div>
-              <ul>
-                <AlertBox
-                  content={this.alertContent()}
-                  isVisible
-                  status="info"
-                />
-              </ul>
+              <AlertBox content={this.alertContent()} isVisible status="info" />
               <br />
               <div>
                 <h6>What if I need help filling out my application?</h6>
               </div>
-              <ul>
-                <p>
-                  An accredited representative, like a Veterans Service Officer
-                  (VSO), can help you fill out your claim.
-                </p>
-                <div>
-                  <a href="/disability-benefits/apply/help/index.html">
-                    Get help filing your claim.
-                  </a>
-                </div>
-              </ul>
+              <p>
+                An accredited representative, like a Veterans Service Officer
+                (VSO), can help you fill out your claim.
+              </p>
+              <div>
+                <a href="/disability-benefits/apply/help/index.html">
+                  Get help filing your claim.
+                </a>
+              </div>
             </li>
             <li className="process-step list-two">
               <div>

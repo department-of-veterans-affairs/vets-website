@@ -825,8 +825,18 @@ img[data-srcset] {
   padding-right: 1.2em;
   position: relative;
 }
-.usa-alert {
-  .top-of-page {
-    margin-top: 0;
+
+.usa-alert-full-width {
+  background-color: $color-gray-lightest;
+  > .usa-alert {
+    border-left: none;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  &-warning {
+    border-top: 1rem solid $color-gold;
+  }
+  &-info {
+    border-top: 1rem solid $color-primary-alt-dark;
   }
 }

@@ -33,6 +33,7 @@ import {
   militaryHistory,
   servedInCombatZone,
   separationTrainingPay,
+  trainingPayWaiver,
   reservesNationalGuardService,
   federalOrders,
   prisonerOfWar,
@@ -390,6 +391,14 @@ const formConfig = {
           uiSchema: separationTrainingPay.uiSchema,
           schema: separationTrainingPay.schema,
         },
+        trainingPayWaiver: {
+          title: 'Training pay waiver',
+          path: 'training-pay-waiver',
+          depends: formData => formData.hasTrainingPay,
+          uiSchema: trainingPayWaiver.uiSchema,
+          schema: trainingPayWaiver.schema,
+        },
+
         fullyDevelopedClaim: {
           title: 'Fully developed claim program',
           path: 'fully-developed-claim',
