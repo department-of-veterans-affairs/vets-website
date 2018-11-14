@@ -18,7 +18,7 @@ export const uiSchema = {
       hideTitle: true,
     },
     items: {
-      hospitalizationtDateRange: dateRangeUI(
+      hospitalizationDateRange: dateRangeUI(
         'From',
         'To',
         'End of hospitalization must be after start of treatment',
@@ -64,7 +64,7 @@ export const schema = {
       items: {
         type: 'object',
         properties: {
-          hospitalizationtDateRange: {
+          hospitalizationDateRange: {
             $ref: '#/definitions/dateRange',
           },
           hospitalName: {
