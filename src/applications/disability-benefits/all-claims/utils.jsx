@@ -188,9 +188,9 @@ export function transform(formConfig, form) {
     );
     clonedData.vaTreatmentFacilities = newVAFacilities;
   }
-  if (clonedData['view:isPOW']) {
-    clonedData['view:isPOW'] = transformRelatedDisabilities(
-      _.get('view:isPOW.powDisabilities', clonedData),
+  if (clonedData.powDisabilities) {
+    clonedData.powDisabilities = transformRelatedDisabilities(
+      clonedData.powDisabilities,
     );
   }
 
