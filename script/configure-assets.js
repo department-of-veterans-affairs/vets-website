@@ -8,7 +8,7 @@ const addAssetHashes = require('./add-asset-hashes');
 
 function configureAssets(smith, buildOptions) {
   const isContentDeployment = buildOptions['content-deployment'];
-  const isDevBuild = [environments.DEVELOPMENT, environments.VAGOVDEV].includes(
+  const isDevBuild = [environments.LOCALHOST, environments.VAGOVDEV].includes(
     buildOptions.buildtype,
   );
 

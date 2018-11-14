@@ -35,6 +35,7 @@ const globalEntryFiles = {
 };
 
 const configGenerator = (options, apps) => {
+  const isDev = ['localhost', 'vagovdev'].includes(options.buildtype);
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
   const baseConfig = {
     mode: 'development',
@@ -42,10 +43,10 @@ const configGenerator = (options, apps) => {
     output: {
       path: `${options.destination}/generated`,
       publicPath: '/generated/',
-      filename: ['development', 'vagovdev'].includes(options.buildtype)
+      filename: isDev
         ? '[name].entry.js'
         : `[name].entry.[chunkhash]-${timestamp}.js`,
-      chunkFilename: ['development', 'vagovdev'].includes(options.buildtype)
+      chunkFilename: isDev
         ? '[name].entry.js'
         : `[name].entry.[chunkhash]-${timestamp}.js`,
     },
@@ -188,7 +189,7 @@ const configGenerator = (options, apps) => {
       }),
 
       new ExtractTextPlugin({
-        filename: ['development', 'vagovdev'].includes(options.buildtype)
+        filename: isDev
           ? '[name].css'
           : `[name].[contenthash]-${timestamp}.css`,
       }),
