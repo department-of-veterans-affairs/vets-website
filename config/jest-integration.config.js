@@ -119,7 +119,7 @@ module.exports = {
 
   // The path to a module that runs some code to configure or set up the testing framework before each test
   setupTestFrameworkScriptFile:
-    '<rootDir>/src/platform/testing/integration/jest-setup.js',
+    '<rootDir>/../src/platform/testing/integration/jest-setup.js',
 
   // A list of paths to snapshot serializer modules Jest should use for snapshot testing
   // snapshotSerializers: [],
@@ -143,7 +143,7 @@ module.exports = {
   testPathIgnorePatterns: ['/node_modules/', '.yalc'],
 
   // The regexp pattern Jest uses to detect test files
-  testRegex: 'src/*\\/.*\\.integration\\.spec\\.jsx?$',
+  testRegex: '../src/*\\/.*\\.integration\\.spec\\.jsx?$',
 
   // This option allows the use of a custom results processor
   // testResultsProcessor: null,
