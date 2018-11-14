@@ -2,7 +2,7 @@
 The Brand Consolidation initiative is the migration of Vets.gov to VA.gov.
 
 ## Where it lives on GitHub
-The work currently lives on the `master` branch of the `vets-website` repository. It was originally a longstanding branch off of master called `brand-consolidation`, but it has since been merged into `master` as of this [pull request](https://github.com/department-of-veterans-affairs/vets-website/pull/8511)
+The work currently lives on the `master` branch of the `vets-website` repository. It was originally a longstanding branch off of master called `brand-consolidation`, but it has since been merged into `master` as of this [pull request](https://github.com/department-of-veterans-affairs/vets-website/pull/8511).
 
 ## How to build VA.gov
 To build the site, the build argument `--brand-consolidation-enabled` is passed to the build script (`script/build.js`). A shortcut for building the site in watch-mode is using `npm run watch:brand-consolidation`. Another useful command is to simply build the site, which will also run the Metalsmith link checker, `npm run build -- --brand-consolidation-enabled`. As URLs are mapped from the Vets.gov `content` directory to the new VA.gov `va-gov` directory and each instance of the former path (`href`) is updated to its new location, this command is crucial to run after any large URL changes.
