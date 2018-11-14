@@ -59,8 +59,8 @@ function linkAssetsToBucket(options, fileNames) {
         if (prop === 'srcset') {
           const sources = assetSrc.split(',');
           assetBucketLocation = sources
-            .map(src => `${bucketPath}${src}`)
-            .join(',');
+            .map(src => `${bucketPath}${src.trim()}`)
+            .join(', ');
         } else {
           assetBucketLocation = `${bucketPath}${assetSrc}`;
         }
