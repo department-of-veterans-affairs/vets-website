@@ -23,7 +23,7 @@ function createAppRedirectHtml(vetsGovSrc, vaGovDest, vaGovHost) {
     var pathname = window.location.pathname;
     var newPath;
 
-    if (pathname.indexOf('/healthcare')) {
+    if (pathname.indexOf('/healthcare') >= 0) {
       newPath = pathname.replace('healthcare', 'health-care');
     } else {
       newPath = pathname.replace('${vetsGovSrc}', '${vaGovDest}');
