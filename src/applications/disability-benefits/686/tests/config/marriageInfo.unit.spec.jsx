@@ -14,7 +14,7 @@ describe('686 marriage info', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.householdInformation.pages.marriageInfo;
+  } = formConfig.chapters.householdInformation.pages.marriageInformation;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -82,7 +82,7 @@ describe('686 marriage info', () => {
 
     const formDOM = getFormDOM(form);
 
-    formDOM.fillData('#root_maritalStatus_1', 'Never Married');
+    formDOM.fillData('#root_maritalStatus_4', 'NEVERMARRIED');
 
     submitForm(form);
 

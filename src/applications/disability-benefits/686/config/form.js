@@ -126,6 +126,7 @@ const locationSchema = {
     countryDropdown: militaryAddress.properties.countryDropdown,
     countryText: internationalAddressText.properties.countryText,
     city: domesticAddress.properties.city,
+    // state: domesticAddress.properties.state,
     state: location.oneOf[0].properties.state,
   },
 };
@@ -133,14 +134,14 @@ const locationSchema = {
 function veteranSeparatedForOtherReason(form, index) {
   return (
     get(`marriages.${index}.view:pastMarriage.reasonForSeparation`, form) ===
-    reasonForSeparation.OTHER
+    separationReasons.OTHER
   );
 }
 
 function spouseSeparatedForOtherReason(form, index) {
   return (
     get(`spouseMarriages.${index}.reasonForSeparation`, form) ===
-    reasonForSeparation.OTHER
+    separationReasons.OTHER
   );
 }
 
