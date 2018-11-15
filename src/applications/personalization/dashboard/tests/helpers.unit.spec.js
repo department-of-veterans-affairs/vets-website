@@ -45,7 +45,13 @@ const schemaToConfigIds = {
   definitions: 'N/A',
 };
 
-const excludedForms = new Set(['28-1900', '28-8832', '24-0296', '21-4142']);
+const excludedForms = new Set([
+  '28-1900',
+  '28-8832',
+  '24-0296',
+  '21-4142',
+  '21-526EZ-ALLCLAIMS',
+]);
 
 describe('profile helpers:', () => {
   describe('formTitles', () => {
