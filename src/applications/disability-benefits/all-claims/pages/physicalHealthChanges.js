@@ -46,7 +46,10 @@ export const uiSchema = {
   },
   otherExplanation: {
     'ui:title': 'Please specify',
+    'ui:widget': 'textarea',
     'ui:options': {
+      rows: 5,
+      maxLength: 32000,
       expandUnder: 'physicalChanges',
       expandUnderCondition: physicalChanges => physicalChanges.other === true,
     },
