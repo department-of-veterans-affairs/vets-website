@@ -1,12 +1,4 @@
 const _Environments = {
-  production: {
-    API_URL: 'https://api.vets.gov',
-    BASE_URL: 'https://www.vets.gov',
-  },
-  staging: {
-    API_URL: 'https://staging-api.vets.gov',
-    BASE_URL: 'https://staging.vets.gov',
-  },
   preview: {
     API_URL: 'https://api.va.gov',
     BASE_URL: 'https://preview.va.gov',
@@ -23,11 +15,7 @@ const _Environments = {
     API_URL: 'https://dev-api.va.gov',
     BASE_URL: 'https://dev.va.gov',
   },
-  development: {
-    API_URL: process.env.API_URL || 'https://dev-api.vets.gov',
-    BASE_URL: process.env.BASE_URL || 'https://dev.vets.gov',
-  },
-  local: {
+  localhost: {
     API_URL: `http://${location.hostname}:3000`,
     BASE_URL: `http://${location.hostname}:3001`,
   },
@@ -41,7 +29,7 @@ function getEnvironment() {
   let platform;
 
   if (location.port === '3001') {
-    platform = 'local';
+    platform = 'localhost';
   } else if (location.port === `${process.env.WEB_PORT || 3333}`) {
     platform = 'e2e';
   } else {

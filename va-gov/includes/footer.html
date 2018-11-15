@@ -9,7 +9,7 @@
 {% endif %}
 
 <!-- htmllint attr-bans="[]" -->
-{% if buildtype === 'development' %}
+{% if buildtype == 'localhost' or buildtype == 'vagovdev' %}
   <script>
     recordEvent({ environment: '{{ buildtype }}' });
   </script>
