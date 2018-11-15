@@ -1,6 +1,6 @@
 import { incidentDate, secondaryIncidentDate } from '../../pages';
 
-import { needsToEnter781, needsToEnter781a } from '../../utils';
+import { isAnswering781Questions, isAnswering781aQuestions } from '../../utils';
 
 export function formConfig781(iterations) {
   let configObj = {};
@@ -12,13 +12,14 @@ export function formConfig781(iterations) {
         [`incidentDate${index}`]: {
           title: 'PTSD Incident Date',
           path: `disabilities/ptsd-incident-date-${index}`,
-          depends: needsToEnter781,
+          depends: isAnswering781Questions,
           uiSchema: incidentDate.uiSchema(index),
           schema: incidentDate.schema(index),
         },
       },
     };
   }
+
   return configObj;
 }
 
@@ -32,8 +33,7 @@ export function formConfig781a(iterations) {
         [`secondaryIncidentDate${index}`]: {
           title: 'PTSD Incident Date',
           path: `disabilities/ptsd-secondary-incident-date-${index}`,
-          // The Depends will need to be refactored to account for the page index/incident Number
-          depends: needsToEnter781a,
+          depends: isAnswering781aQuestions,
           uiSchema: secondaryIncidentDate.uiSchema(index),
           schema: secondaryIncidentDate.schema(index),
         },
