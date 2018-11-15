@@ -201,9 +201,9 @@ export function transform(formConfig, form) {
   if (clonedData.vaTreatmentFacilities) {
     const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
       _.set(
-        'relatedDisabilities',
+        'treatedDisabilityNames',
         transformRelatedDisabilities(
-          facility.relatedDisabilities,
+          facility.treatedDisabilityNames,
           claimedConditions,
         ),
         facility,

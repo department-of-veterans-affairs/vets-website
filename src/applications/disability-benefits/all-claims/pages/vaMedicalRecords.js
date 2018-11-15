@@ -29,7 +29,7 @@ export const uiSchema = {
     items: {
       'ui:order': [
         'treatmentCenterName',
-        'relatedDisabilities',
+        'treatedDisabilityNames',
         'treatmentDateRange',
         'treatmentCenterAddress',
       ],
@@ -44,7 +44,7 @@ export const uiSchema = {
           },
         },
       ),
-      relatedDisabilities: {
+      treatedDisabilityNames: {
         'ui:title':
           'Please choose the conditions for which you received treatment at this facility.',
         'ui:options': {
@@ -93,9 +93,9 @@ export const schema = {
     },
     vaTreatmentFacilities: merge({}, vaTreatmentFacilities, {
       items: {
-        required: ['treatmentCenterName', 'relatedDisabilities'],
+        required: ['treatmentCenterName', 'treatedDisabilityNames'],
         properties: {
-          relatedDisabilities: {
+          treatedDisabilityNames: {
             type: 'object',
             properties: {},
           },
