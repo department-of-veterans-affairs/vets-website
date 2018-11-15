@@ -10,7 +10,7 @@ import { ccLocatorEnabled } from '../config';
 import appendQuery from 'append-query';
 
 class FacilityLocatorApp extends React.Component {
-  // TODO: Move this logic into a shared helper so it can be 
+  // TODO: Move this logic into a shared helper so it can be
   // reused on VAMap.jsx and other places we want to build
   // complex URL strings.
   buildSearchString() {
@@ -23,7 +23,7 @@ class FacilityLocatorApp extends React.Component {
       serviceType,
       zoomLevel,
     } = this.props.searchQuery;
-    
+
     const searchQuery = {
       zoomLevel,
       page,

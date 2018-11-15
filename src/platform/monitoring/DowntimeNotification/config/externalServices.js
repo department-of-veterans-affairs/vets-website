@@ -24,4 +24,6 @@ export default {
   icmhs: 'icmhs',
   // Vet360 - data source for centralized veteran contact information
   vet360: 'vet360',
+  // Search.gov API
+  search: 'search',
 };

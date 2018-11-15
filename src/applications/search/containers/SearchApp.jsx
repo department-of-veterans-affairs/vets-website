@@ -7,6 +7,9 @@ import { fetchSearchResults } from '../actions';
 import { formatResponseString } from '../utils';
 import recordEvent from '../../../platform/monitoring/record-event';
 
+import DowntimeNotification, {
+  externalServices,
+} from '../../../platform/monitoring/DowntimeNotification';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
 import Pagination from '@department-of-veterans-affairs/formation/Pagination';
@@ -283,7 +286,12 @@ class SearchApp extends React.Component {
           </div>
         </div>
         <div className="row">
-          {this.renderResults()}
+          <DowntimeNotification
+            appTitle="search"
+            dependencies={[externalServices.search]}
+          >
+            <div>{this.renderResults()}</div>
+          </DowntimeNotification>
           <div className="usa-width-one-fourth medium-4 small-12 columns sidebar">
             <h4 className="highlight">More VA Search Tools</h4>
             <ul>
