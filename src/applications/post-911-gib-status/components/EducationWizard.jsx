@@ -50,7 +50,7 @@ export default class EducationWizard extends React.Component {
           className={buttonClasses}
           onClick={() => this.setState({ open: !this.state.open })}
         >
-          Troubleshoot My GI Bill Benefits
+          {this.props.toggleText}
         </button>
         <div className={contentClasses} id="wizardOptions">
           <div className="wizard-content-inner">

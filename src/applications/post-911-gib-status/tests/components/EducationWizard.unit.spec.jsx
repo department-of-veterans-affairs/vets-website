@@ -18,7 +18,10 @@ function answerQuestion(tree, name, value) {
 describe('<EducationWizard>', () => {
   it('should show button and no questions', () => {
     const tree = SkinDeep.shallowRender(
-      <EducationWizard config={wizardConfig} />,
+      <EducationWizard
+        config={wizardConfig}
+        toggleText="Troubleshoot My GI Bill Benefits"
+      />,
     );
 
     expect(tree.subTree('button')).not.to.be.false;
@@ -28,7 +31,10 @@ describe('<EducationWizard>', () => {
   });
   it('should show button and first question', () => {
     const tree = SkinDeep.shallowRender(
-      <EducationWizard config={wizardConfig} />,
+      <EducationWizard
+        config={wizardConfig}
+        toggleText="Troubleshoot My GI Bill Benefits"
+      />,
     );
 
     tree.getMountedInstance().setState({ open: true });
@@ -40,7 +46,10 @@ describe('<EducationWizard>', () => {
   });
   it('should show next relevant question', () => {
     const tree = SkinDeep.shallowRender(
-      <EducationWizard config={wizardConfig} />,
+      <EducationWizard
+        config={wizardConfig}
+        toggleText="Troubleshoot My GI Bill Benefits"
+      />,
     );
 
     tree.getMountedInstance().setState({ open: true });
@@ -50,7 +59,10 @@ describe('<EducationWizard>', () => {
   });
   it('should reset after earlier answer changed', () => {
     const tree = SkinDeep.shallowRender(
-      <EducationWizard config={wizardConfig} />,
+      <EducationWizard
+        config={wizardConfig}
+        toggleText="Troubleshoot My GI Bill Benefits"
+      />,
     );
 
     tree.getMountedInstance().setState({ open: true });
@@ -64,7 +76,10 @@ describe('<EducationWizard>', () => {
   });
   it('should support multiple previous values', () => {
     const tree = SkinDeep.shallowRender(
-      <EducationWizard config={wizardConfig} />,
+      <EducationWizard
+        config={wizardConfig}
+        toggleText="Troubleshoot My GI Bill Benefits"
+      />,
     );
 
     tree.getMountedInstance().setState({ open: true });

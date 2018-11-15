@@ -169,7 +169,10 @@ export default function BrandConsolidationSummary() {
               There are a few situations where your Post-9/11 GI Bill Statement
               of Benefits might not be available. Answer a few questions and
               we’ll help you find out why:
-              <EducationWizard config={wizardConfig} />
+              <EducationWizard
+                config={wizardConfig}
+                toggleText="Troubleshoot My GI Bill Benefits"
+              />
             </p>
           </div>
         )}
