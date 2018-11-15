@@ -26,7 +26,8 @@ describe('Mental Changes 781a', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(11);
+    expect(form.find('input').length).to.equal(9);
+    expect(form.find('textarea').length).to.equal(1);
   });
 
   it('should submit if no options selected', () => {
@@ -39,7 +40,7 @@ describe('Mental Changes 781a', () => {
         uiSchema={uiSchema}
         data={{
           mentalChanges: {
-            'view:other': false,
+            other: false,
           },
         }}
         formData={{}}
