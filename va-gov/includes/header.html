@@ -100,16 +100,6 @@
 <body class="{{ body_class }} merger">
   <a class="show-on-focus" href="#content">Skip to Content</a>
 
-{% if buildtype == 'preview' %}
-<div aria-live="polite" class="usa-alert usa-alert-info" style="margin: 0;">
-  <div class="usa-alert-body">
-    <h3 class="usa-alert-heading">You're viewing a preview of the new VA.gov</h3>
-    <p>We're building a new online experience to make it easier for Veterans to find, access, and manage the benefits they've earned. And we're building it with input from Veterans at every step. <b>Please note:</b> We work iteratively using agile development
-    practices, so you'll see new content, features, and functionality added to the site every day.</p>
-  </div>
-</div>
-{% endif %}
-
 {% if !noHeader %}
   {% include "va-gov/includes/top-nav.html" %}
 {% endif %}
