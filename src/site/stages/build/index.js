@@ -13,17 +13,17 @@ const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 
 const getOptions = require('./options');
-const createBuildSettings = require('./create-build-settings');
+const createBuildSettings = require('./middleware/create-build-settings');
 const createRedirects = require('./create-redirects');
-const createSitemaps = require('./create-sitemaps');
-const updateExternalLinks = require('./update-external-links');
+const createSitemaps = require('./middleware/create-sitemaps');
+const updateExternalLinks = require('./middleware/update-external-links');
 const createEnvironmentFilter = require('./create-environment-filter');
-const nonceTransformer = require('./metalsmith/nonceTransformer');
-const leftRailNavResetLevels = require('./left-rail-nav-reset-levels');
-const checkBrokenLinks = require('./check-broken-links');
+const nonceTransformer = require('./middleware/nonceTransformer');
+const leftRailNavResetLevels = require('./middleware/left-rail-nav-reset-levels');
+const checkBrokenLinks = require('./middleware/check-broken-links');
 const rewriteVaDomains = require('./rewrite-va-domains');
-const configureAssets = require('./configure-assets');
-const applyFragments = require('./apply-fragments');
+const configureAssets = require('./middleware/configure-assets');
+const applyFragments = require('./middleware/apply-fragments');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
