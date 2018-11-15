@@ -49,14 +49,18 @@ export class CallToActionWidget extends React.Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (!this.props.isLoggedIn) return;
 
     if (this.isAccessible()) {
       if (this._hasRedirect && !this._popup) this.goToTool();
     } else if (this._isHealthTool) {
       const { accountState, loading } = this.props.mhvAccount;
-      if (!loading && !accountState) this.props.fetchMHVAccount();
+      const { verified } = this.props.profile;
+      const shouldRefreshMhvAccount =
+        (!loading && !accountState) ||
+        (!prevProps.profile.verified && verified);
+      if (shouldRefreshMhvAccount) this.props.fetchMHVAccount();
     }
   }
 
