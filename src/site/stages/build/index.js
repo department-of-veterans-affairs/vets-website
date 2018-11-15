@@ -1,5 +1,4 @@
 // Builds the site using Metalsmith as the top-level build runner.
-const path = require('path');
 const Metalsmith = require('metalsmith');
 const assets = require('metalsmith-assets');
 const collections = require('metalsmith-collections');
@@ -26,11 +25,9 @@ const rewriteVaDomains = require('./middleware/rewrite-va-domains');
 const configureAssets = require('./middleware/configure-assets');
 const applyFragments = require('./middleware/apply-fragments');
 
-const BUILD_OPTIONS = getOptions();
-const METALSMITH_ROOT = path.join(__dirname, '../../root');
-
 function defaultBuild() {
-  const smith = Metalsmith(METALSMITH_ROOT); // eslint-disable-line new-cap
+  const BUILD_OPTIONS = getOptions();
+  const smith = Metalsmith(BUILD_OPTIONS.siteRoot); // eslint-disable-line new-cap
 
   // Custom liquid filter(s)
   liquid.filters.humanizeDate = dt => moment(dt).format('MMMM D, YYYY');
@@ -38,7 +35,7 @@ function defaultBuild() {
   // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
   // add comments about any implicit dependencies you are introducing!!!
   //
-  smith.source(`${BUILD_OPTIONS.contentPagesRoot}`);
+  smith.source(BUILD_OPTIONS.contentPages);
   smith.destination(BUILD_OPTIONS.destination);
 
   // This lets us access the {{buildtype}} variable within liquid templates.
@@ -120,7 +117,7 @@ function defaultBuild() {
   smith.use(
     layouts({
       engine: 'liquid',
-      directory: `${BUILD_OPTIONS.contentRoot}/layouts/`,
+      directory: BUILD_OPTIONS.layouts,
       // Only apply layouts to markdown and html files.
       pattern: '**/*.{md,html}',
     }),

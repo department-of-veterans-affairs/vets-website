@@ -1,20 +1,20 @@
-{% include "includes/header.html" %}
+{% include "src/site/root/includes/header.html" %}
 
 {% if gibsAlert %}
-  {% include "includes/gibs-down.html" %}
+  {% include "src/site/root/includes/gibs-down.html" %}
 {% endif %}
 
-{% include "includes/breadcrumbs.html" %}
+{% include "src/site/root/includes/breadcrumbs.html" %}
 
 <div id="content" class="interior {{ id }}">
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
-      {% include "components/navigation-sidebar.html" %}
+      {% include "src/site/root/components/navigation-sidebar.html" %}
       <div class="usa-width-three-fourths">
-        {% include "components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
-        {% include "components/react-loader.html" %}
+        {% include "src/site/root/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+        {% include "src/site/root/components/react-loader.html" %}
       </div>
     </div>
   </main>
 </div>
-{% include "includes/footer.html" %}
+{% include "src/site/root/includes/footer.html" %}

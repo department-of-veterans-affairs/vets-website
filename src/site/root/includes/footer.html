@@ -5,7 +5,7 @@
 
 <!-- Begin generic overlay modal -->
 {% if modal %}
-  {% include "includes/modal.html" %}
+  {% include "src/site/root/includes/modal.html" %}
 {% endif %}
 
 <!-- htmllint attr-bans="[]" -->
@@ -49,13 +49,13 @@
 (function() {
   var widgets = {{ widgets | json }};
   var module = {};
-  {% include "assets/js/static-page-widgets.js" %}
+  {% include "src/site/root/assets/js/static-page-widgets.js" %}
   mountWidgets(widgets);
 })();
 </script>
 {% endif %}
 
-{% include "includes/survey-tools.html" %}
+{% include "src/site/root/includes/survey-tools.html" %}
 
 </body>
 </html>

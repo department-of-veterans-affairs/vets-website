@@ -11,23 +11,23 @@
 
 <main class="va-l-detail-page">
   <div class="usa-grid usa-grid-full">
-    {% include "components/navigation-sidebar.html" %}
+    {% include "src/site/root/components/navigation-sidebar.html" %}
 
     <div class="usa-width-three-fourths">
-      {% include "components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+      {% include "src/site/root/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
       <article class="usa-content">
         <h1>{{ title }}</h1>
         {{ contents }}
       </article>
       {% if majorlinks != empty %}
-        {% include "components/navigation-links-list.html" %}
+        {% include "src/site/root/components/navigation-links-list.html" %}
       {% endif %}
 
       {% if relatedlinks != empty %}
-        {% include "components/navigation-links-list.html" with isRelated = true %}
+        {% include "src/site/root/components/navigation-links-list.html" with isRelated = true %}
       {% endif %}
 
-      {% include "includes/last-update.html" %}
+      {% include "src/site/root/includes/last-update.html" %}
     </div>
   </div>
 </main>

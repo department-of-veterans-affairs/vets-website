@@ -36,19 +36,24 @@ function gatherFromCommandLine() {
 }
 
 function applyDefaultOptions(options) {
+  const repoRoot = path.join(__dirname, '../../../../');
+  const siteRoot = path.join(__dirname, '../../root');
+  const contentRoot = path.join(repoRoot, '../vagov-content');
+
   Object.assign(options, {
-    contentRoot: '../va-gov',
-    contentPagesRoot: options['content-directory'],
-    contentFragments: path.join(options['content-directory'], '../fragments'),
+    siteRoot,
+    contentPages: path.join(contentRoot, 'pages'),
+    contentFragments: path.join(contentRoot, 'fragments'),
     contentAssets: {
-      source: path.join(options['content-directory'], '../assets'),
+      source: path.join(contentRoot, 'assets'),
       destination: './',
     },
-    destination: path.resolve(__dirname, `../build/${options.buildtype}`),
+    destination: path.join(repoRoot, 'build', options.buildtype),
     appAssets: {
-      source: '../assets',
+      source: 'assets',
       destination: './',
     },
+    layouts: path.join(siteRoot, 'layouts'),
     collections: require('./data/collections.json'),
     redirects: require('./data/vagovRedirects.json'),
   });

@@ -1,27 +1,27 @@
-{% include "includes/header.html" %}
+{% include "src/site/root/includes/header.html" %}
 
 {% if gibsAlert %}
-  {% include "includes/gibs-down.html" %}
+  {% include "src/site/root/includes/gibs-down.html" %}
 {% endif %}
 
-{% include "includes/breadcrumbs.html" %}
+{% include "src/site/root/includes/breadcrumbs.html" %}
 
 <div id="content" class="interior {{ id }}">
 
   {% case template %}
     {% when 'level2-index' %}
-      {% include "includes/level2-index.html" %}
+      {% include "src/site/root/includes/level2-index.html" %}
 
     {% when 'detail-page' %}
-      {% include "includes/detail-page.html" %}
+      {% include "src/site/root/includes/detail-page.html" %}
 
     {% when 'topic-landing' %}
-      {% include "includes/topic-landing.html" %}
+      {% include "src/site/root/includes/topic-landing.html" %}
     {% when 'level2-index' %}
-      {% include "includes/level2-index.html" %}
+      {% include "src/site/root/includes/level2-index.html" %}
   {% else %}
     {{ contents }}
   {% endcase %}
 
 </div>
-{% include "includes/footer.html" %}
+{% include "src/site/root/includes/footer.html" %}

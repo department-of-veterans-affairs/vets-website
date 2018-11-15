@@ -21,12 +21,12 @@ Used for index pages in top-level paths (e.g. /healthcare/index.html)
       {{ contents }}
 
       {% if hublinks != empty %}
-        {% include "components/hub-page-link-list.html" %}
+        {% include "src/site/root/components/hub-page-link-list.html" %}
       {% endif %}
 
 
       {% if crosslinks != empty %}
-        {% include "components/merger-crosslinks.html" %}
+        {% include "src/site/root/components/merger-crosslinks.html" %}
       {% endif %}
 
     </article>
@@ -34,19 +34,19 @@ Used for index pages in top-level paths (e.g. /healthcare/index.html)
     <div class="usa-width-one-third" id="hub-rail">
 
       {% if administration != empty %}
-        {% include "components/merger-administration.html" %}
+        {% include "src/site/root/components/merger-administration.html" %}
       {% endif %}
 
       {% if promo != empty %}
-        {% include "components/merger-promo.html" %}
+        {% include "src/site/root/components/merger-promo.html" %}
       {% endif %}
 
       {% if social != empty %}
-        {% include "components/merger-social.html" %}
+        {% include "src/site/root/components/merger-social.html" %}
       {% endif %}
 
       {% if mobile != empty %}
-        {% include "components/merger-mobile.html" %}
+        {% include "src/site/root/components/merger-mobile.html" %}
       {% endif %}
 
     </div>
@@ -54,6 +54,6 @@ Used for index pages in top-level paths (e.g. /healthcare/index.html)
   </div>
 
 
-  {% include "includes/veteran-banner.html" %}
-  {% include "includes/social-accordion.html" %}
+  {% include "src/site/root/includes/veteran-banner.html" %}
+  {% include "src/site/root/includes/social-accordion.html" %}
 </main>
