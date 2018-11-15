@@ -173,6 +173,11 @@ export const alternateNames = {
   schema: alternateNamesSchema,
 };
 
+import {
+  uiSchema as conclusionAssaultUISchema,
+  schema as conclusionAssaultSchema,
+} from './conclusionAssault';
+
 export const servicePay = {
   uiSchema: servicePayUISchema,
   schema: servicePaySchema,
@@ -336,4 +341,9 @@ export const unemployabilityStatus = {
 export const unemployabilityFormIntro = {
   uiSchema: unemployabilityFormIntroUISchema,
   schema: unemployabilityFormIntroSchema,
+};
+
+export const conclusionAssault = {
+  uiSchema: conclusionAssaultUISchema,
+  schema: conclusionAssaultSchema,
 };
