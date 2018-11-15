@@ -1,6 +1,6 @@
 # Directories to ignore
 node_modules/
-build/
+./build/
 logs/
 
 # Files to ignore
