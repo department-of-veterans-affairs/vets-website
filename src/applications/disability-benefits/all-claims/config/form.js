@@ -47,6 +47,8 @@ import {
   ptsdWalkthroughChoice781,
   uploadPtsdDocuments,
   ptsdWalkthroughChoice781a,
+  conclusionCombat,
+  conclusionAssault,
   uploadPersonalPtsdDocuments,
   summaryOfDisabilities,
   vaMedicalRecords,
@@ -265,6 +267,26 @@ const formConfig = {
             isUploadingPtsdForm(formData),
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
+        },
+        conclusionCombat: {
+          path: 'conclusion-781',
+          title: 'Disabiity Details',
+          depends: form =>
+            form['view:uploadPtsdChoice'] === 'answerQuestions' &&
+            (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
+              form['view:selectablePtsdTypes']['view:noncombatPtsdType']),
+          uiSchema: conclusionCombat.uiSchema,
+          schema: conclusionCombat.schema,
+        },
+        conclusionAssault: {
+          path: 'conclusion-781a',
+          title: 'Disabiity Details',
+          depends: form =>
+            form['view:uploadPtsdChoice'] === 'answerQuestions' &&
+            (form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
+              form['view:selectablePtsdTypes']['view:assaultPtsdType']),
+          uiSchema: conclusionAssault.uiSchema,
+          schema: conclusionAssault.schema,
         },
         unemployabilityStatus: {
           title: 'Unemployability Status',
