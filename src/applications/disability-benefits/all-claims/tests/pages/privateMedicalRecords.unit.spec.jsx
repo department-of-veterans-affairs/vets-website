@@ -22,7 +22,7 @@ describe('526 All Claims Private medical records', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(3);
+    expect(form.find('input').length).to.equal(2);
   });
 
   it('should not expand the upload button by default', () => {
