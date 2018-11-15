@@ -168,15 +168,20 @@ import {
   schema as unemployabilityFormIntroSchema,
 } from './unemployabilityFormIntro';
 
-export const alternateNames = {
-  uiSchema: alternateNamesUISchema,
-  schema: alternateNamesSchema,
-};
+import {
+  uiSchema as conclusionCombatUISchema,
+  schema as conclusionCombatSchema,
+} from './conclusionCombat';
 
 import {
   uiSchema as conclusionAssaultUISchema,
   schema as conclusionAssaultSchema,
 } from './conclusionAssault';
+
+export const alternateNames = {
+  uiSchema: alternateNamesUISchema,
+  schema: alternateNamesSchema,
+};
 
 export const servicePay = {
   uiSchema: servicePayUISchema,
@@ -341,6 +346,11 @@ export const unemployabilityStatus = {
 export const unemployabilityFormIntro = {
   uiSchema: unemployabilityFormIntroUISchema,
   schema: unemployabilityFormIntroSchema,
+};
+
+export const conclusionCombat = {
+  uiSchema: conclusionCombatUISchema,
+  schema: conclusionCombatSchema,
 };
 
 export const conclusionAssault = {
