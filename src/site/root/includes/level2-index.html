@@ -21,12 +21,12 @@ Used for index pages in top-level paths (e.g. /healthcare/index.html)
       {{ contents }}
 
       {% if hublinks != empty %}
-        {% include "va-gov/components/hub-page-link-list.html" %}
+        {% include "components/hub-page-link-list.html" %}
       {% endif %}
 
 
       {% if crosslinks != empty %}
-        {% include "va-gov/components/merger-crosslinks.html" %}
+        {% include "components/merger-crosslinks.html" %}
       {% endif %}
 
     </article>
@@ -34,19 +34,19 @@ Used for index pages in top-level paths (e.g. /healthcare/index.html)
     <div class="usa-width-one-third" id="hub-rail">
 
       {% if administration != empty %}
-        {% include "va-gov/components/merger-administration.html" %}
+        {% include "components/merger-administration.html" %}
       {% endif %}
 
       {% if promo != empty %}
-        {% include "va-gov/components/merger-promo.html" %}
+        {% include "components/merger-promo.html" %}
       {% endif %}
 
       {% if social != empty %}
-        {% include "va-gov/components/merger-social.html" %}
+        {% include "components/merger-social.html" %}
       {% endif %}
 
       {% if mobile != empty %}
-        {% include "va-gov/components/merger-mobile.html" %}
+        {% include "components/merger-mobile.html" %}
       {% endif %}
 
     </div>
@@ -54,6 +54,6 @@ Used for index pages in top-level paths (e.g. /healthcare/index.html)
   </div>
 
 
-  {% include "va-gov/includes/veteran-banner.html" %}
-  {% include "va-gov/includes/social-accordion.html" %}
+  {% include "includes/veteran-banner.html" %}
+  {% include "includes/social-accordion.html" %}
 </main>

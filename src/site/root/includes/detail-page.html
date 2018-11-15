@@ -11,23 +11,23 @@
 
 <main class="va-l-detail-page">
   <div class="usa-grid usa-grid-full">
-    {% include "va-gov/components/navigation-sidebar.html" %}
+    {% include "components/navigation-sidebar.html" %}
 
     <div class="usa-width-three-fourths">
-      {% include "va-gov/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+      {% include "components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
       <article class="usa-content">
         <h1>{{ title }}</h1>
         {{ contents }}
       </article>
       {% if majorlinks != empty %}
-        {% include "va-gov/components/navigation-links-list.html" %}
+        {% include "components/navigation-links-list.html" %}
       {% endif %}
 
       {% if relatedlinks != empty %}
-        {% include "va-gov/components/navigation-links-list.html" with isRelated = true %}
+        {% include "components/navigation-links-list.html" with isRelated = true %}
       {% endif %}
 
-      {% include "va-gov/includes/last-update.html" %}
+      {% include "includes/last-update.html" %}
     </div>
   </div>
 </main>
