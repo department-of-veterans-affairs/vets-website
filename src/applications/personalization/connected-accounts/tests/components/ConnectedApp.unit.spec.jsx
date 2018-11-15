@@ -1,0 +1,50 @@
+import React from 'react';
+import SkinDeep from 'skin-deep';
+import { expect } from 'chai';
+import sinon from 'sinon';
+
+import { ConnectedApp } from '../../components/ConnectedApp';
+
+const account = {
+  id: 'fake-id',
+  type: 'connected_accounts',
+  attributes: {
+    href: 'example.com',
+    logo: 'example.com/fancy_duck.jpg',
+    title: 'Ducks R Us',
+    created: '2018-11-05T17:29:40+0000',
+  },
+};
+
+describe('<ConnectedApp>', () => {
+  it('clicking button opens the confirm delete modal', () => {
+    const tree = SkinDeep.shallowRender(
+      <ConnectedApp
+        {...account}
+        confirmDelete={() => null}
+        propertyName="VA.gov"
+      />,
+    );
+
+    tree.subTree('button').props.onClick({ target: {} });
+
+    expect(tree.subTree('AccountModal').props.modalOpen).to.be.true;
+  });
+
+  it('calls confirm delete', () => {
+    const confirmDelete = sinon.spy();
+
+    const tree = SkinDeep.shallowRender(
+      <div>
+        <ConnectedApp
+          {...account}
+          propertyName="VA.gov"
+          confirmDelete={confirmDelete}
+        />
+      </div>,
+    );
+
+    tree.subTree('ConnectedApp').props.confirmDelete('fake-id');
+    expect(confirmDelete.firstCall.calledWith('fake-id')).to.be.true;
+  });
+});

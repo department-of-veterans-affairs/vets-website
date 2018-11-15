@@ -20,6 +20,7 @@ import {
   needsToEnter781a,
   isUploadingPtsdForm,
   servedAfter911,
+  transform,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -32,6 +33,7 @@ import {
   militaryHistory,
   servedInCombatZone,
   separationTrainingPay,
+  trainingPayWaiver,
   reservesNationalGuardService,
   federalOrders,
   prisonerOfWar,
@@ -81,7 +83,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for disability claims increase.',
   },
-  // transformForSubmit: transform,
+  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPoll,
   // TODO: Remove this once we've got the api up and running
@@ -381,6 +383,14 @@ const formConfig = {
           uiSchema: separationTrainingPay.uiSchema,
           schema: separationTrainingPay.schema,
         },
+        trainingPayWaiver: {
+          title: 'Training pay waiver',
+          path: 'training-pay-waiver',
+          depends: formData => formData.hasTrainingPay,
+          uiSchema: trainingPayWaiver.uiSchema,
+          schema: trainingPayWaiver.schema,
+        },
+
         fullyDevelopedClaim: {
           title: 'Fully developed claim program',
           path: 'fully-developed-claim',

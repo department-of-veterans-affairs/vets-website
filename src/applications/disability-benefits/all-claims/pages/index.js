@@ -29,6 +29,11 @@ import {
 } from '../pages/separationTrainingPay';
 
 import {
+  uiSchema as trainingPayWaiverUISchema,
+  schema as trainingPayWaiverSchema,
+} from '../pages/trainingPayWaiver';
+
+import {
   uiSchema as reservesNationalGuardUISchema,
   schema as reservesNationalGuardSchema,
 } from './reservesNationalGuardService';
@@ -176,6 +181,11 @@ export const waiveRetirementPay = {
 export const separationTrainingPay = {
   uiSchema: separationTrainingPayUISchema,
   schema: separationTrainingPaySchema,
+};
+
+export const trainingPayWaiver = {
+  uiSchema: trainingPayWaiverUISchema,
+  schema: trainingPayWaiverSchema,
 };
 
 export const militaryHistory = {
