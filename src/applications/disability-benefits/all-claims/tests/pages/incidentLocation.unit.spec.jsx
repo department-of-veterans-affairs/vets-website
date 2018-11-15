@@ -6,10 +6,10 @@ import { mount } from 'enzyme';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
-import { formConfig781 } from '../../config/781';
+import formConfig from '../../config/form';
 
 describe('PTSD Incident location', () => {
-  const page = formConfig781(1).incidentLocation0;
+  const page = formConfig.chapters.disabilities.pages.incidentLocation0;
   const { schema, uiSchema } = page;
 
   it('should render', () => {
