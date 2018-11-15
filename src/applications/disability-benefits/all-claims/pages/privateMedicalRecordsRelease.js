@@ -4,14 +4,12 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import { uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
 import {
-  disabilityNameTitle,
   recordReleaseDescription,
   limitedConsentTitle,
   limitedConsentTextTitle,
   limitedConsentDescription,
 } from '../content/privateMedicalRecordsRelease';
 
-import { validateZIP } from '../validations';
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 import { validateDate } from 'us-forms-system/lib/js/validation';
 
@@ -19,7 +17,6 @@ const { address } = fullSchema526EZ.definitions;
 
 export const uiSchema = {
   'ui:description': recordReleaseDescription,
-  'ui:title': disabilityNameTitle,
   'view:limitedConsent': {
     'ui:title': limitedConsentTitle,
   },
@@ -60,11 +57,6 @@ export const uiSchema = {
           'ui:options': {
             widgetClassNames: 'usa-input-medium',
           },
-          'ui:validations': [
-            {
-              validator: validateZIP,
-            },
-          ],
         },
       }),
     },

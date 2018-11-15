@@ -1,12 +1,5 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
-import { getDisabilityName } from '../utils';
-
-export const disabilityNameTitle = ({ formData }) => (
-  <legend className="schemaform-block-title schemaform-title-underline">
-    {getDisabilityName(formData.name)}
-  </legend>
-);
 
 export const limitedConsentTitle = (
   <p>
