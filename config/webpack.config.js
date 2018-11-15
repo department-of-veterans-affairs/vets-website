@@ -91,7 +91,7 @@ const configGenerator = (options, apps) => {
               {
                 loader: 'css-loader',
                 options: {
-                  minimize: ['production', 'staging', 'preview'].includes(
+                  minimize: ['vagovprod', 'vagovstaging'].includes(
                     options.buildtype,
                   ),
                 },
@@ -200,33 +200,18 @@ const configGenerator = (options, apps) => {
     ],
   };
 
-  if (
-    ['production', 'staging', 'preview', 'vagovstaging', 'vagovprod'].includes(
-      options.buildtype,
-    )
-  ) {
+  if (['vagovstaging', 'vagovprod'].includes(options.buildtype)) {
     let sourceMap = null;
 
     switch (options.buildtype) {
-      case 'production':
-        sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.vets.gov';
-        break;
-
-      case 'staging':
-        sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.vets.gov';
-        break;
-
       case 'vagovstaging':
         sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.va.gov';
         break;
 
       case 'vagovprod':
+      default:
         sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.va.gov';
         break;
-
-      case 'preview':
-      default:
-        sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/preview.va.gov';
     }
 
     baseConfig.plugins.push(
