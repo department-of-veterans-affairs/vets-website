@@ -3,8 +3,8 @@
 const path = require('path');
 const commandLineArgs = require('command-line-args');
 
-const ENVIRONMENTS = require('./constants/environments');
-const HOSTNAMES = require('./constants/hostnames');
+const ENVIRONMENTS = require('../../constants/environments');
+const HOSTNAMES = require('../../constants/hostnames');
 
 const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const defaultHost = HOSTNAMES[defaultBuildtype];
@@ -49,8 +49,8 @@ function applyDefaultOptions(options) {
       source: '../assets',
       destination: './',
     },
-    collections: require('./collections/default.json'),
-    redirects: require('./vagovRedirects.json'),
+    collections: require('./data/collections.json'),
+    redirects: require('./data/vagovRedirects.json'),
   });
 }
 
