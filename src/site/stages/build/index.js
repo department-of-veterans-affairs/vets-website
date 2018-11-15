@@ -1,4 +1,5 @@
 // Builds the site using Metalsmith as the top-level build runner.
+const path = require('path');
 const Metalsmith = require('metalsmith');
 const assets = require('metalsmith-assets');
 const collections = require('metalsmith-collections');
@@ -25,9 +26,11 @@ const rewriteVaDomains = require('./rewrite-va-domains');
 const configureAssets = require('./configure-assets');
 const applyFragments = require('./apply-fragments');
 
+const BUILD_OPTIONS = getOptions();
+const METALSMITH_ROOT = path.join(__dirname, '../../root');
+
 function defaultBuild() {
-  const BUILD_OPTIONS = getOptions();
-  const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
+  const smith = Metalsmith(METALSMITH_ROOT); // eslint-disable-line new-cap
 
   // Custom liquid filter(s)
   liquid.filters.humanizeDate = dt => moment(dt).format('MMMM D, YYYY');
