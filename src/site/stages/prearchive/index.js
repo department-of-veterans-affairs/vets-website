@@ -41,4 +41,4 @@ function main() {
   linkAssetsToBucket(options, fileNames);
 }
 
-main();
+module.exports = main;

@@ -6,7 +6,7 @@ const yaml = require('js-yaml');
 
 const environments = require('../constants/environments');
 const hostnames = require('../constants/hostnames');
-const getOptions = require('../options');
+const getOptions = require('../build/options');
 
 const createStandardRedirectHtml = require('./standard-redirect');
 const createAppRedirectHtml = require('./app-redirect');
@@ -74,4 +74,4 @@ function main() {
   generateRedirectedPages(options);
 }
 
-main();
+module.exports = main;

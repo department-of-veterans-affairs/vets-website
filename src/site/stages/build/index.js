@@ -14,14 +14,14 @@ const permalinks = require('metalsmith-permalinks');
 
 const getOptions = require('./options');
 const createBuildSettings = require('./middleware/create-build-settings');
-const createRedirects = require('./create-redirects');
+const createRedirects = require('./middleware/create-redirects');
 const createSitemaps = require('./middleware/create-sitemaps');
 const updateExternalLinks = require('./middleware/update-external-links');
-const createEnvironmentFilter = require('./create-environment-filter');
+const createEnvironmentFilter = require('./middleware/create-environment-filter');
 const nonceTransformer = require('./middleware/nonceTransformer');
 const leftRailNavResetLevels = require('./middleware/left-rail-nav-reset-levels');
 const checkBrokenLinks = require('./middleware/check-broken-links');
-const rewriteVaDomains = require('./rewrite-va-domains');
+const rewriteVaDomains = require('./middleware/rewrite-va-domains');
 const configureAssets = require('./middleware/configure-assets');
 const applyFragments = require('./middleware/apply-fragments');
 
@@ -163,4 +163,4 @@ function main() {
   defaultBuild(buildOptions);
 }
 
-main();
+module.exports = main;
