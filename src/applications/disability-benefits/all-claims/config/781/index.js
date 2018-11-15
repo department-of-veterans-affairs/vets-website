@@ -23,19 +23,20 @@ const numberToWords = {
 export function formConfig781(iterations) {
   let configObj = {};
   for (let index = 0; index < iterations; index++) {
+    const iterationNumber = numberToWords[index];
     configObj = {
       ...configObj,
       // 781 PAGE CONFIGS GO HERE
       ...{
         [`incidentDate${index}`]: {
-          title: `PTSD 781 ${numberToWords[index]} incident date`,
+          title: `PTSD 781 ${iterationNumber} incident date`,
           path: `disabilities/ptsd-incident-date-${index}`,
           depends: isAnswering781Questions,
           uiSchema: incidentDate.uiSchema(index),
           schema: incidentDate.schema(index),
         },
         [`incidentUnitAssignment${index}`]: {
-          title: `PTSD 781 ${numberToWords[index]} incident unit assignment`,
+          title: `PTSD 781 ${iterationNumber} incident unit assignment`,
           path: `disabilities/ptsd-incident-unit-assignment-${index}`,
           depends: isAnswering781Questions,
           uiSchema: incidentUnitAssignment.uiSchema(index),
@@ -51,19 +52,20 @@ export function formConfig781(iterations) {
 export function formConfig781a(iterations) {
   let configObj = {};
   for (let index = 0; index < iterations; index++) {
+    const iterationNumber = numberToWords[index];
     configObj = {
       ...configObj,
       // 781a PAGE CONFIGS GO HERE
       ...{
         [`secondaryIncidentDate${index}`]: {
-          title: `PTSD 781a ${numberToWords[index]} incident date`,
+          title: `PTSD 781a ${iterationNumber} incident date`,
           path: `disabilities/ptsd-secondary-incident-date-${index}`,
           depends: isAnswering781aQuestions,
           uiSchema: secondaryIncidentDate.uiSchema(index),
           schema: secondaryIncidentDate.schema(index),
         },
         [`secondaryIncidentUnitAssignment${index}`]: {
-          title: `PTSD 781a ${numberToWords[index]} incident unit assignment`,
+          title: `PTSD 781a ${iterationNumber} incident unit assignment`,
           path: `disabilities/ptsd-secondary-incident-unit-assignment-${index}`,
           depends: isAnswering781Questions,
           uiSchema: secondaryIncidentUnitAssignment.uiSchema(index),
