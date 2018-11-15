@@ -124,6 +124,29 @@ export const validateIfHasEvidence = (
   }
 };
 
+// Need the Lambda to pass the disability list type, so only 1 disability list has the error message.
+export const oneDisabilityRequired = disabilityList => (
+  errors,
+  state,
+  formData,
+) => {
+  const ratedDisabilities = _.get('ratedDisabilities', formData, []);
+  const newDisabilities = _.get('newDisabilities', formData, []);
+
+  const hasNewDisabilitiesSelected = some(
+    [...newDisabilities, ...ratedDisabilities],
+    disability => disability['view:unemployabilityDisability'],
+  );
+
+  if (!hasNewDisabilitiesSelected) {
+    const errMsg =
+      disabilityList === 'new' && ratedDisabilities.length
+        ? ''
+        : 'Please select at least one disability from the lists below.';
+    errors.addError(errMsg);
+  }
+};
+
 export const hasNewPtsdDisability = formData => {
   if (!_.get('view:newDisabilities', formData, false)) {
     return false;

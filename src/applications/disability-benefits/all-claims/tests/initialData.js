@@ -59,4 +59,18 @@ export default {
       specialIssues: [],
     },
   ],
+  newDisabilities: [
+    {
+      cause: 'NEW',
+      primaryDescription:
+        'Lorem neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.',
+      condition: 'CAD',
+    },
+    {
+      cause: 'NEW',
+      primaryDescription:
+        'Lorem neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.',
+      condition: 'cancer',
+    },
+  ],
 };

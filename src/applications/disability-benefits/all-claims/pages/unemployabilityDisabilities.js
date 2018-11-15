@@ -1,7 +1,5 @@
 import React from 'react';
 import fullSchema from '../config/schema';
-import _ from '../../../../platform/utilities/data';
-import some from 'lodash/some';
 
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
@@ -9,37 +7,18 @@ import { disabilityOption } from '../content/ratedDisabilities';
 import {
   DisabilitiesDescription,
   helpDescription,
-  ratedDisabilitiesTitle,
-  newDisabilitiesTitle,
 } from '../content/unemployabilityDisabilities';
+import { oneDisabilityRequired } from '../validations';
 
 const { disabilities: disabilitiesSchema } = fullSchema.properties;
 const { condition } = fullSchema.properties.newDisabilities.items.properties;
-
-const disabilitiesRequired = msg => (errors, state, formData) => {
-  const disabilitySelected = disability =>
-    disability['view:unemployabilityDisability'];
-  const allDisabilities = [
-    ..._.get('ratedDisabilities', formData, []),
-    ..._.get('newDisabilities', formData, []),
-  ];
-  const hasNewDisabilitiesSelected = some(allDisabilities, disabilitySelected);
-
-  if (!hasNewDisabilitiesSelected) {
-    errors.addError(msg);
-  }
-};
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   'ui:description': formData => <DisabilitiesDescription formData={formData} />,
   ratedDisabilities: {
-    'ui:title': ratedDisabilitiesTitle,
-    'ui:validations': [
-      disabilitiesRequired(
-        'Please select at least one disability from the lists below.',
-      ),
-    ],
+    'ui:title': ' ',
+    'ui:validations': [oneDisabilityRequired('rated')],
     'ui:field': 'StringField',
     'ui:widget': SelectArrayItemsWidget,
     'ui:options': {
@@ -48,11 +27,12 @@ export const uiSchema = {
       selectedPropName: 'view:unemployabilityDisability',
       widgetClassNames: 'widget-outline widget-outline-group',
       keepInPageOnReview: true,
+      customTitle: 'Rated Disabilities',
     },
   },
   newDisabilities: {
-    'ui:validations': [disabilitiesRequired('')],
-    'ui:title': newDisabilitiesTitle,
+    'ui:validations': [oneDisabilityRequired('new')],
+    'ui:title': ' ',
     'ui:field': 'StringField',
     'ui:widget': SelectArrayItemsWidget,
     'ui:options': {
@@ -61,6 +41,7 @@ export const uiSchema = {
       label: disabilityOption,
       widgetClassNames: 'widget-outline',
       keepInPageOnReview: true,
+      customTitle: 'Not Yet Rated',
     },
   },
   'view:unemployabilityHelp': {

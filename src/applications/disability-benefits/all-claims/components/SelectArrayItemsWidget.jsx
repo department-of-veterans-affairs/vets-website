@@ -27,9 +27,8 @@ export default class SelectArrayItemsWidget extends React.Component {
     // Note: Much of this was stolen from CheckboxWidget
     return (
       <div>
-        {customTitle && (
-          <h3 className="all-disabilities-title">{customTitle}</h3>
-        )}
+        {customTitle &&
+          items && <h5 className="all-disabilities-title">{customTitle}</h5>}
         {items &&
           items.map((item, index) => {
             const itemIsSelected = !!get(
