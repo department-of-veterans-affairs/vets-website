@@ -166,12 +166,17 @@ export function prefillTransformer(pages, formData, metadata) {
  *  of conditions claimed on the application.
  *
  * @param {Object} object - The object with dynamically generated property names
+ * @param {Array<String>} claimedConditions - An array of lower-cased names of conditions claimed
  * @return {Array} - An array of the property names with truthy values
+ *                   NOTE: This will return all lower-cased names
  */
 export function transformRelatedDisabilities(object, claimedConditions) {
-  return Object.keys(object).filter(
-    key => object[key] && claimedConditions.includes(key),
-  );
+  return Object.keys(object)
+    .filter(
+      // The property name will be normal-cased in the object, but lower-cased in claimedConditions
+      key => object[key] && claimedConditions.includes(key.toLowerCase()),
+    )
+    .map(key => key.toLowerCase());
 }
 
 export function transform(formConfig, form) {
@@ -183,11 +188,11 @@ export function transform(formConfig, form) {
   );
 
   const claimedConditions = clonedData.ratedDisabilities
-    ? clonedData.ratedDisabilities.map(d => d.name)
+    ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
     : [];
   if (clonedData.newDisabilities) {
     clonedData.newDisabilities.forEach(d =>
-      claimedConditions.push(d.condition),
+      claimedConditions.push(d.condition.toLowerCase()),
     );
   }
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
@@ -211,11 +216,24 @@ export function transform(formConfig, form) {
     );
     clonedData.vaTreatmentFacilities = newVAFacilities;
   }
+
+  // Add POW specialIssue to new conditions
   if (clonedData.powDisabilities) {
-    clonedData.powDisabilities = transformRelatedDisabilities(
+    const powDisabilities = transformRelatedDisabilities(
       clonedData.powDisabilities,
       claimedConditions,
-    );
+    ).map(name => name.toLowerCase());
+
+    clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
+      if (powDisabilities.includes(d.condition.toLowerCase())) {
+        const newSpecialIssues = (d.specialIssues || []).slice();
+        // TODO: Make a constant with all the possibilities and use it here
+        newSpecialIssues.push({ code: 'POW', name: '' });
+        return _.set('specialIssues', newSpecialIssues, d);
+      }
+      return d;
+    });
+    delete clonedData.powDisabilities;
   }
 
   return JSON.stringify({
