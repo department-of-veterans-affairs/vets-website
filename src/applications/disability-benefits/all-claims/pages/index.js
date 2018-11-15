@@ -6,12 +6,12 @@ import {
 import {
   uiSchema as servicePayUISchema,
   schema as servicePaySchema,
-} from '../pages/servicePay';
+} from './servicePay';
 
 import {
   uiSchema as waiveRetirementPayUISchema,
   schema as waiveRetirementPaySchema,
-} from '../pages/waiveRetirementPay';
+} from './waiveRetirementPay';
 
 import {
   uiSchema as militaryHistoryUISchema,
@@ -26,12 +26,12 @@ import {
 import {
   uiSchema as separationTrainingPayUISchema,
   schema as separationTrainingPaySchema,
-} from '../pages/separationTrainingPay';
+} from './separationTrainingPay';
 
 import {
   uiSchema as trainingPayWaiverUISchema,
   schema as trainingPayWaiverSchema,
-} from '../pages/trainingPayWaiver';
+} from './trainingPayWaiver';
 
 import {
   uiSchema as reservesNationalGuardUISchema,
