@@ -51,7 +51,7 @@
     "test:visual:baseline": "./script/run-nightwatch.sh --visual --command=baseline",
     "test:visual:mobile": "./script/run-nightwatch.sh --visual --mobile",
     "test:visual:mobile:baseline": "./script/run-nightwatch.sh --visual --command=baseline --mobile",
-    "test:integration": "jest -c=jest-integration.config.js",
+    "test:integration": "jest -c=config/jest-integration.config.js",
     "update:schema": "./script/update-json-schema.sh",
     "watch": "node script/build.js --watch",
     "watch:static": "npm run watch -- --entry static-pages"
