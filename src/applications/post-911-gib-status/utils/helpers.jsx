@@ -288,7 +288,7 @@ export const wizardConfig = [
     component: () => (
       <p>
         <a href="/education/about-gi-bill-benefits/post-9-11/">
-          Find out if you're eligible for Post-9/11 GI Bill benefits
+          Find out if you’re eligible for Post-9/11 GI Bill benefits
         </a>{' '}
         or <a href="/education/apply/">apply for education benefits</a>
       </p>
@@ -351,33 +351,33 @@ export const wizardConfig = [
     previous: ['veteran', 'automaticEligibility', 'benefitsTransferred'],
     component: () => (
       <AlertBox
-        headline="We're sorry, we can't find your GI Bill Statement of Benefits right now"
+        headline="We’re sorry, we can’t find your GI Bill Statement of Benefits right now"
         content={
           <div>
             <p>
-              If you're having trouble accessing your benefit statement, it
+              If you’re having trouble accessing your benefit statement, it
               could be for 1 of 3 reasons:
             </p>
             <ul>
               <li>
-                We're still processing your education benefits application and
-                we haven't yet created a record for you. We usually process
+                We’re still processing your education benefits application and
+                we haven’t yet created a record for you. We usually process
                 applications within 60 days. If you applied less than 60 days
                 ago, please check back soon.
               </li>
               <li>
-                The name on your account doesn't exactly match the name we have
+                The name on your account doesn’t exactly match the name we have
                 in our Post-9/11 GI Bill records.
               </li>
               <li>
-                You haven't yet applied for Post-9/11 GI Bill education
+                You haven’t yet applied for Post-9/11 GI Bill education
                 benefits.
               </li>
             </ul>
             <p>
               If none of these situations apply to you, and you think your
               Statement of Benefits should be here, please call Education Call
-              Center 1-888-442-4551(1-888-GIBill1). We're here Monday through
+              Center 1-888-442-4551 (1-888-GIBill1). We’re here Monday through
               Friday, 8:00 a.m. to 7:00 p.m. (ET).
             </p>
           </div>
