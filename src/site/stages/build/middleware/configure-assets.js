@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
 
 const watch = require('metalsmith-watch');
-const environments = require('./constants/environments');
-const webpackMetalsmithConnect = require('../config/webpack-metalsmith-connect');
+const environments = require('../../../constants/environments');
+const webpack = require('./webpack');
 const downloadAssets = require('./download-assets');
 const addAssetHashes = require('./add-asset-hashes');
 
@@ -21,12 +21,12 @@ function configureAssets(smith, buildOptions) {
     const watchMetalSmith = watch({ paths: watchPaths, livereload: true });
 
     smith.use(watchMetalSmith);
-    smith.use(webpackMetalsmithConnect.watchAssets(buildOptions));
+    smith.use(webpack.watchAssets(buildOptions));
   } else {
     if (isContentDeployment) {
       smith.use(downloadAssets(buildOptions));
     } else {
-      smith.use(webpackMetalsmithConnect.compileAssets(buildOptions));
+      smith.use(webpack.compileAssets(buildOptions));
     }
 
     if (!isDevBuild) {
