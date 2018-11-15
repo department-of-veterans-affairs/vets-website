@@ -797,6 +797,41 @@ const schema = {
             type: 'string',
             enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
           },
+          specialIssues: {
+            type: 'array',
+            maxItems: 100,
+            items: {
+              type: 'object',
+              required: ['code', 'name'],
+              properties: {
+                name: {
+                  type: 'string',
+                },
+                code: {
+                  type: 'string',
+                  enum: [
+                    'ALS',
+                    'AOIV',
+                    'AOOV',
+                    'ASB',
+                    'EHCL',
+                    'GW',
+                    'HEPC',
+                    'MG',
+                    'POW',
+                    'RDN',
+                    'SHAD',
+                    'TRM',
+                    'PTSD/1',
+                    'PTSD/2',
+                    'PTSD/3',
+                    'PTSD/4',
+                    'MST',
+                  ],
+                },
+              },
+            },
+          },
           ratedDisabilityId: {
             type: 'string',
           },
@@ -822,6 +857,41 @@ const schema = {
                 disabilityActionType: {
                   type: 'string',
                   enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
+                },
+                specialIssues: {
+                  type: 'array',
+                  maxItems: 100,
+                  items: {
+                    type: 'object',
+                    required: ['code', 'name'],
+                    properties: {
+                      name: {
+                        type: 'string',
+                      },
+                      code: {
+                        type: 'string',
+                        enum: [
+                          'ALS',
+                          'AOIV',
+                          'AOOV',
+                          'ASB',
+                          'EHCL',
+                          'GW',
+                          'HEPC',
+                          'MG',
+                          'POW',
+                          'RDN',
+                          'SHAD',
+                          'TRM',
+                          'PTSD/1',
+                          'PTSD/2',
+                          'PTSD/3',
+                          'PTSD/4',
+                          'MST',
+                        ],
+                      },
+                    },
+                  },
                 },
                 ratedDisabilityId: {
                   type: 'string',
