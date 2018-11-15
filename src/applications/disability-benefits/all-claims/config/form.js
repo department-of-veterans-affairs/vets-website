@@ -20,6 +20,7 @@ import {
   needsToEnter781a,
   isUploadingPtsdForm,
   servedAfter911,
+  isAnsweringPtsdForm,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -59,6 +60,7 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  mentalHealthChanges,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -264,6 +266,14 @@ const formConfig = {
             isUploadingPtsdForm(formData),
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
+        },
+        mentalHealthChanges: {
+          title: 'Additional Remarks - Physical Health Changes',
+          path: 'new-disabilities/ptsd-781a-mental-changes',
+          depends: formData =>
+            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
+          uiSchema: mentalHealthChanges.uiSchema,
+          schema: mentalHealthChanges.schema,
         },
         unemployabilityStatus: {
           title: 'Unemployability Status',
