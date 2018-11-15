@@ -8,7 +8,7 @@ const HOSTNAMES = require('../constants/hostnames');
 
 const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const defaultHost = HOSTNAMES[defaultBuildtype];
-const defaultContentDir = '../../vagov-content/pages';
+const defaultContentDir = '../../../../../vagov-content/pages';
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
@@ -47,9 +47,13 @@ function applyDefaultOptions(options) {
       source: path.join(contentRoot, 'assets'),
       destination: './',
     },
-    destination: path.resolve(__dirname, `../build/${options.buildtype}`),
+    destination: path.resolve(
+      __dirname,
+      '../../../../build',
+      options.buildtype,
+    ),
     appAssets: {
-      source: '../assets',
+      source: '../../../../assets',
       destination: './',
     },
     layouts: path.join(__dirname, '../../layouts'),
