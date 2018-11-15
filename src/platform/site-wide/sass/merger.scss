@@ -9,7 +9,7 @@ $medium-phone-screen: 375px;
   }
 
   .va-dropdown-panel {
-    min-width: 102px;
+    min-width: 100%;
   }
 
   .vet-toolbar {
@@ -174,13 +174,12 @@ $medium-phone-screen: 375px;
 
   .sign-in-nav {
     .va-dropdown-trigger {
-      padding-bottom: 14px;
+      display: flex;
 
       span {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        margin-bottom: -6px;
         max-width: 60px
       }
 
@@ -192,7 +191,11 @@ $medium-phone-screen: 375px;
 
       @include media($medium-screen) {
         span {
-          max-width: fit-content;
+          display: inline-block;
+
+          svg {
+            display: inline-block;;
+          }
         }
       }
     }
@@ -380,12 +383,6 @@ $medium-phone-screen: 375px;
 
           .va-dropdown-trigger {
             background-position: right .8rem center;
-          }
-
-          .va-btn-withicon {
-            span {
-              display: flex;
-            }
           }
 
           .sign-in-links {
