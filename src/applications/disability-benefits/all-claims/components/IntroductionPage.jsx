@@ -45,10 +45,10 @@ class IntroductionPage extends React.Component {
             <li>
               You’re a Veteran or Servicemember who’s between 180 and 90 days
               from ending your military service,{' '}
+              <span className="list-item-connector">
+                <strong>and</strong>
+              </span>
             </li>
-            <span className="list-item-connector">
-              <strong>and</strong>
-            </span>
             <li>This is the first time you’re filing a disability claim</li>
           </ul>
         </div>

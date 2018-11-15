@@ -126,3 +126,9 @@ ul.original-disability-list {
     }
   }
 }
+
+// Mimics usa-form-group-year minus the float and sets the max width so the
+//  error formatting doesn't increase the size
+.year-input {
+  max-width: 7rem;
+}

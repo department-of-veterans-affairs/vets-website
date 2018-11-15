@@ -4,11 +4,9 @@ const Timeouts = require('../../testing/e2e/timeouts.js');
 const overlay = '#modal-crisisline';
 const firstModalItem = 'a[href="tel:18002738255"]';
 const closeControl = '.va-crisis-panel.va-modal-inner button';
-const firstOpenControl = 'button.va-crisis-line-button.va-overlay-trigger';
-const secondOpenControl =
-  'button.va-overlay-trigger.usa-button.usa-button-secondary';
-const thirdOpenControl =
-  'button.va-overlay-trigger.usa-button-unstyled.va-footer-vcl-trigger';
+const firstOpenControl = 'button.va-crisis-line.va-overlay-trigger';
+const secondOpenControl = '.homepage-button.vcl.va-overlay-trigger';
+const thirdOpenControl = 'footer .va-button-link.va-overlay-trigger';
 const lastModalItem = 'a[href="https://www.veteranscrisisline.net/"]';
 
 module.exports = E2eHelpers.createE2eTest(client => {
@@ -21,6 +19,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .waitForElementVisible('body', Timeouts.normal)
     .waitForElementVisible(firstOpenControl, Timeouts.slow)
+    .click('.announcement-brand-consolidation button')
     .axeCheck('.main');
 
   // --------------------- //
