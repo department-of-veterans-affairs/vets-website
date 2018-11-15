@@ -1,18 +1,15 @@
 import React from 'react';
 
-export const DisabilitiesDescription = ({ formData }) => {
-  console.log(formData);
-  return (
-    <div>
-      <h5>Rated, Service-Connected and New Disabilities</h5>
-      <p>
-        Below are your rated, service-connected disabilities and any new unrated
-        disabilities you’re claiming. Please choose the disability or
-        disabilities that prevent you from getting a steady job.
-      </p>
-    </div>
-  );
-};
+export const disabilitiesDescription = (
+  <div>
+    <h5>Rated, Service-Connected and New Disabilities</h5>
+    <p>
+      Below are your rated, service-connected disabilities and any new unrated
+      disabilities you’re claiming. Please choose the disability or disabilities
+      that prevent you from getting a steady job.
+    </p>
+  </div>
+);
 
 export const helpDescription = (
   <div>

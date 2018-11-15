@@ -1,11 +1,10 @@
-import React from 'react';
 import fullSchema from '../config/schema';
 
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
 import { disabilityOption } from '../content/ratedDisabilities';
 import {
-  DisabilitiesDescription,
+  disabilitiesDescription,
   helpDescription,
 } from '../content/unemployabilityDisabilities';
 import { oneDisabilityRequired } from '../validations';
@@ -15,7 +14,7 @@ const { condition } = fullSchema.properties.newDisabilities.items.properties;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
-  'ui:description': formData => <DisabilitiesDescription formData={formData} />,
+  'ui:description': disabilitiesDescription,
   ratedDisabilities: {
     'ui:title': ' ',
     'ui:validations': [oneDisabilityRequired('rated')],
