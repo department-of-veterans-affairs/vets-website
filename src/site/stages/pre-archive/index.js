@@ -33,7 +33,7 @@ function getFiles(directory, fileList = []) {
   return fileList;
 }
 
-function main() {
+function preArchive() {
   const options = gatherCommandsArgs();
   const directory = path.join(__dirname, '../../build', options.buildtype);
   const fileNames = getFiles(directory);
@@ -41,4 +41,4 @@ function main() {
   linkAssetsToBucket(options, fileNames);
 }
 
-main();
+module.exports = preArchive;

@@ -25,7 +25,8 @@ const rewriteVaDomains = require('./rewrite-va-domains');
 const configureAssets = require('./configure-assets');
 const applyFragments = require('./apply-fragments');
 
-function defaultBuild(BUILD_OPTIONS) {
+function defaultBuild() {
+  const BUILD_OPTIONS = getOptions();
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
   // Custom liquid filter(s)
@@ -158,9 +159,4 @@ function defaultBuild(BUILD_OPTIONS) {
   });
 }
 
-function main() {
-  const buildOptions = getOptions();
-  defaultBuild(buildOptions);
-}
-
-main();
+module.exports = defaultBuild;
