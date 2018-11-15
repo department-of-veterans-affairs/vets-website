@@ -21,6 +21,7 @@ import {
   isUploadingPtsdForm,
   servedAfter911,
   isNotUploadingPrivateMedical,
+  transform,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -84,7 +85,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for disability claims increase.',
   },
-  // transformForSubmit: transform,
+  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPoll,
   // TODO: Remove this once we've got the api up and running

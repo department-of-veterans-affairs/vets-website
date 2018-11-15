@@ -815,7 +815,7 @@ export class Modals extends React.Component {
 
         <Modal
           onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('calcCampusLocationQuestion')}
+          visible={this.shouldDisplayModal('calcBeneficiaryLocationQuestion')}
         >
           <h3>Housing Allowance/BAH changes</h3>
           <p>
