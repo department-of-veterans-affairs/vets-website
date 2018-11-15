@@ -2,7 +2,7 @@
 
 const watch = require('metalsmith-watch');
 const environments = require('../../constants/environments');
-const webpackMetalsmithConnect = require('../../../../../config/webpack-metalsmith-connect');
+const webpackMetalsmithConnect = require('./webpack-metalsmith-connect');
 const downloadAssets = require('./download-assets');
 const addAssetHashes = require('./add-asset-hashes');
 

@@ -10,8 +10,8 @@ const {
   webpackDevServerPlugin,
 } = require('./metalsmith-webpack');
 
-const generateWebpackConfig = require('../../../../../../webpack.config');
-const generateWebpackDevConfig = require('../../../../../../webpack.dev.config');
+const generateWebpackConfig = require('../../../../../../config/webpack.config');
+const generateWebpackDevConfig = require('../../../../../../config/webpack.dev.config');
 
 const manifests = getAppManifests(path.join(__dirname, '../../../../../../'));
 
