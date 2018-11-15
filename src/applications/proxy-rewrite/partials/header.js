@@ -14,7 +14,7 @@ export default `
 
   <div class="va-notice--banner">
     <div class="va-notice--banner-inner">
-      <!-- /src/site/includes/usa-website-header.html -->
+      <!-- /va-gov/includes/usa-website-header.html -->
       <div class="usa-banner">
         <div class="usa-accordion">
           <div class="usa-banner-header">
@@ -55,7 +55,7 @@ export default `
           </div>
         </div>
       </div>
-      <!-- /src/site/includes/usa-website-header.html -->
+      <!-- /va-gov/includes/usa-website-header.html -->
     </div>
     <div class="va-crisis-line-container">
       <button data-show="#modal-crisisline" class="va-crisis-line va-overlay-trigger">
