@@ -141,7 +141,7 @@ class SearchApp extends React.Component {
     }
 
     return (
-      <div className="usa-width-three-fourths medium-8 small-12 columns">
+      <div>
         {searchInput}
         {this.renderResultsCount()}
         <hr />
@@ -286,12 +286,14 @@ class SearchApp extends React.Component {
           </div>
         </div>
         <div className="row">
-          <DowntimeNotification
-            appTitle="search"
-            dependencies={[externalServices.search]}
-          >
-            <div>{this.renderResults()}</div>
-          </DowntimeNotification>
+          <div className="usa-width-three-fourths medium-8 small-12 columns">
+            <DowntimeNotification
+              appTitle="Search App"
+              dependencies={[externalServices.search]}
+            >
+              {this.renderResults()}
+            </DowntimeNotification>
+          </div>
           <div className="usa-width-one-fourth medium-4 small-12 columns sidebar">
             <h4 className="highlight">More VA Search Tools</h4>
             <ul>
