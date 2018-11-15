@@ -3,8 +3,10 @@ import moment from 'moment';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
+import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import { apiRequest } from '../../../platform/utilities/api';
 import _ from '../../../platform/utilities/data';
+import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
 
 import {
   RESERVE_GUARD_TYPES,
@@ -158,6 +160,69 @@ export function prefillTransformer(pages, formData, metadata) {
   };
 }
 
+/**
+ * Transforms the related disabilities object into an array of strings. The condition
+ *  name only gets added to the list if the property value is truthy and is in the list
+ *  of conditions claimed on the application.
+ *
+ * @param {Object} object - The object with dynamically generated property names
+ * @return {Array} - An array of the property names with truthy values
+ */
+export function transformRelatedDisabilities(object, claimedConditions) {
+  return Object.keys(object).filter(
+    key => object[key] && claimedConditions.includes(key),
+  );
+}
+
+export function transform(formConfig, form) {
+  // Remove rated disabilities that weren't selected
+  let clonedData = _.set(
+    'ratedDisabilities',
+    form.data.ratedDisabilities.filter(condition => condition['view:selected']),
+    form.data,
+  );
+
+  const claimedConditions = clonedData.ratedDisabilities
+    ? clonedData.ratedDisabilities.map(d => d.name)
+    : [];
+  if (clonedData.newDisabilities) {
+    clonedData.newDisabilities.forEach(d =>
+      claimedConditions.push(d.condition),
+    );
+  }
+  // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
+  // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
+  //  it here to remove reservesNationalGuardService if it's deeply empty.
+  clonedData = removeDeeplyEmptyObjects(
+    JSON.parse(transformForSubmit(formConfig, form)),
+  );
+
+  // Transform the related disabilities lists into an array of strings
+  if (clonedData.vaTreatmentFacilities) {
+    const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
+      _.set(
+        'relatedDisabilities',
+        transformRelatedDisabilities(
+          facility.relatedDisabilities,
+          claimedConditions,
+        ),
+        facility,
+      ),
+    );
+    clonedData.vaTreatmentFacilities = newVAFacilities;
+  }
+  if (clonedData.powDisabilities) {
+    clonedData.powDisabilities = transformRelatedDisabilities(
+      clonedData.powDisabilities,
+      claimedConditions,
+    );
+  }
+
+  return JSON.stringify({
+    form526: JSON.stringify(clonedData),
+  });
+}
+
 export const hasForwardingAddress = formData =>
   _.get('view:hasForwardingAddress', formData, false);
 
@@ -305,3 +370,6 @@ export const getHomelessOrAtRisk = formData => {
     homelessStatus === HOMELESSNESS_TYPES.atRisk
   );
 };
+
+export const isNotUploadingPrivateMedical = formData =>
+  _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;

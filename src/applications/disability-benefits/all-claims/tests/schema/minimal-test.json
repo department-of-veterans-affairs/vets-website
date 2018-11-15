@@ -1,0 +1,133 @@
+{
+  "data": {
+    "view:hasSeparationPay": false,
+    "hasTrainingPay": false,
+    "isVAEmployee": false,
+    "homelessOrAtRisk": "no",
+    "phoneEmailCard": {
+      "primaryPhone": "1231231234",
+      "emailAddress": "asdf@as.asdf"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "asdf",
+      "city": "asdf",
+      "state": "AL",
+      "zipCode": "19234"
+    },
+    "view:contactInfoDescription": {},
+    "view:vaMedicalRecordsIntro": {},
+    "vaTreatmentFacilities": [
+      {
+        "treatmentCenterName": "Medical Center Name Here",
+        "treatmentDateRange": {
+          "from": "1900-01-XX",
+          "to": "1901-01-XX"
+        },
+        "treatmentCenterAddress": {
+          "country": "USA"
+        },
+        "relatedDisabilities": {
+          "Stress Disorder": true
+        }
+      }
+    ],
+    "view:hasEvidence": true,
+    "view:hasEvidenceFollowUp": {
+      "view:selectableEvidenceTypes": {
+        "view:hasVAMedicalRecords": true
+      },
+      "view:evidenceTypeHelp": {}
+    },
+    "view:powStatus": false,
+    "view:newDisabilities": true,
+    "newDisabilities": [
+      {
+        "cause": "NEW",
+        "primaryDescription": "A thing happened.",
+        "condition": "stress disorder"
+      }
+    ],
+    "view:unemployabilityStatus": false,
+    "view:uploadPtsdChoice": "answerQuestions",
+    "view:uploadPtsdChoiceHelp": {},
+    "view:selectablePtsdTypes": {
+      "view:combatPtsdType": true
+    },
+    "view:ptsdTypeHelp": {},
+    "serviceInformation": {
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force",
+          "dateRange": {
+            "from": "1900-01-01",
+            "to": "1901-01-01"
+          }
+        }
+      ],
+      "view:militaryHistoryNote": {},
+      "reservesNationalGuardService": {
+        "obligationTermOfServiceDateRange": {}
+      }
+    },
+    "view:hasMilitaryRetiredPay": false,
+    "view:hasAlternateName": false,
+    "ratedDisabilities": [
+      {
+        "name": "First Condition",
+        "ratedDisabilityId": "0",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "INCREASE"
+      },
+      {
+        "name": "Second Condition",
+        "ratedDisabilityId": "1",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 0,
+        "disabilityActionType": "INCREASE"
+      },
+      {
+        "name": "Third Condition",
+        "ratedDisabilityId": "1",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "INCREASE"
+      }
+    ],
+    "view:disabilitiesClarification": {},
+    "view:uploadPrivateRecordsQualifier": {
+      "view:aboutPrivateMedicalRecords": {},
+      "view:privateRecordsChoiceHelp": {}
+    },
+    "view:patientAcknowledgement": {
+      "view:acknowledgement": true
+    },
+    "view:faqAccordion": {},
+    "view:waiveRetirementPayDescription": {},
+    "standardClaim": false,
+    "view:fdcWarning": {},
+    "veteran": {
+      "mailingAddress": {
+        "country": "USA",
+        "city": "APO",
+        "state": "AE",
+        "zipCode": "09028",
+        "addressLine1": "123 MAIN ST",
+        "addressLine2": "BEN FRANKLIN VILLAGE"
+      },
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "privacyAgreementAccepted": true
+  }
+}

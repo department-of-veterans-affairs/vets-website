@@ -20,6 +20,8 @@ import {
   needsToEnter781a,
   isUploadingPtsdForm,
   servedAfter911,
+  isNotUploadingPrivateMedical,
+  transform,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -50,6 +52,7 @@ import {
   vaMedicalRecords,
   additionalDocuments,
   privateMedicalRecords,
+  privateMedicalRecordsRelease,
   paymentInformation,
   evidenceTypes,
   claimExamsInfo,
@@ -84,7 +87,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for disability claims increase.',
   },
-  // transformForSubmit: transform,
+  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPoll,
   // TODO: Remove this once we've got the api up and running
@@ -324,6 +327,13 @@ const formConfig = {
           depends: hasPrivateEvidence,
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
+        },
+        privateMedicalRecordsRelease: {
+          title: 'Private Medical Records',
+          path: 'supporting-evidence/private-medical-records-release',
+          depends: hasPrivateEvidence && isNotUploadingPrivateMedical,
+          uiSchema: privateMedicalRecordsRelease.uiSchema,
+          schema: privateMedicalRecordsRelease.schema,
         },
         additionalDocuments: {
           title: 'Lay statements and other evidence',
