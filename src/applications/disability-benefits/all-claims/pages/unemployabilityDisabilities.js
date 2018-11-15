@@ -27,7 +27,7 @@ export const uiSchema = {
       selectedPropName: 'view:unemployabilityDisability',
       widgetClassNames: 'widget-outline widget-outline-group',
       keepInPageOnReview: true,
-      customTitle: 'Rated Disabilities',
+      customTitle: 'Rated disabilities',
     },
   },
   newDisabilities: {
@@ -41,7 +41,7 @@ export const uiSchema = {
       label: disabilityOption,
       widgetClassNames: 'widget-outline',
       keepInPageOnReview: true,
-      customTitle: 'Not Yet Rated',
+      customTitle: 'Not yet rated',
     },
   },
   'view:unemployabilityHelp': {
