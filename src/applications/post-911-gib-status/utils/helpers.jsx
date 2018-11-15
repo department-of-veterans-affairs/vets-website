@@ -287,7 +287,7 @@ export const wizardConfig = [
     previous: 'existingApplication',
     component: () => (
       <p>
-        <a href="/">
+        <a href="/education/about-gi-bill-benefits/post-9-11/">
           Find out if you're eligible for Post-9/11 GI Bill benefits
         </a>{' '}
         or <a href="/education/apply/">apply for education benefits</a>
