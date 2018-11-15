@@ -229,7 +229,7 @@ node('vetsgov-general-purpose') {
 
         builds[envName] = {
           dockerImage.inside(args) {
-            sh "cd /application && node script/pre-archive/index.js --buildtype=${envName}"
+            sh "cd /application && npm run prearchive -- --buildtype=${envName}"
           }
         }
       }
