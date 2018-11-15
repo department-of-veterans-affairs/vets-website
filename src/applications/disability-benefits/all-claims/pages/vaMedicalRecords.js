@@ -93,7 +93,6 @@ export const schema = {
     },
     vaTreatmentFacilities: merge({}, vaTreatmentFacilities, {
       items: {
-        required: ['treatmentCenterName', 'treatedDisabilityNames'],
         properties: {
           treatedDisabilityNames: {
             type: 'object',
