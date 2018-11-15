@@ -256,7 +256,7 @@ export const wizardConfig = [
     label: 'When did you apply for benefits?',
     options: [
       {
-        label: 'Within the last 60 days',
+        label: 'Less than 60 days ago',
         value: true,
       },
       {
@@ -286,12 +286,17 @@ export const wizardConfig = [
     type: 'applicationLink',
     previous: 'existingApplication',
     component: () => (
-      <p>
-        <a href="/education/about-gi-bill-benefits/post-9-11/">
-          Find out if you’re eligible for Post-9/11 GI Bill benefits
-        </a>{' '}
-        or <a href="/education/apply/">apply for education benefits</a>
-      </p>
+      <ul>
+        <li>
+          <a href="/education/about-gi-bill-benefits/post-9-11/">
+            Find out if you’re eligible for Post-9/11 GI Bill benefits.
+          </a>
+        </li>{' '}
+        <span>or </span>
+        <li>
+          <a href="/education/apply/">Apply for education benefits.</a>
+        </li>
+      </ul>
     ),
     isActive: previousValue => previousValue === false,
   },
@@ -299,7 +304,7 @@ export const wizardConfig = [
     type: 'veteran',
     previous: 'recentApplication',
     label:
-      'Are you a Veteran or servicemember claiming a benefit based on your own service?',
+      'Are you a Veteran or Servicemember claiming a benefit based on your own service?',
     options: [
       {
         label: 'Yes',
@@ -351,12 +356,12 @@ export const wizardConfig = [
     previous: ['veteran', 'automaticEligibility', 'benefitsTransferred'],
     component: () => (
       <AlertBox
-        headline="We’re sorry, we can’t find your GI Bill Statement of Benefits right now"
+        headline="We’re sorry, we can’t find your Statement of Benefits right now."
         content={
           <div>
             <p>
               If you’re having trouble accessing your benefit statement, it
-              could be for 1 of 3 reasons:
+              could be for one of these reasons:
             </p>
             <ul>
               <li>
@@ -376,9 +381,9 @@ export const wizardConfig = [
             </ul>
             <p>
               If none of these situations apply to you, and you think your
-              Statement of Benefits should be here, please call Education Call
-              Center 1-888-442-4551 (1-888-GIBill1). We’re here Monday through
-              Friday, 8:00 a.m. to 7:00 p.m. (ET).
+              Statement of Benefits should be here, please call the Education
+              Call Center at 1-888-442-4551 (1-888-GI-BILL-1). We’re here Monday
+              through Friday, 8:00 a.m. to 7:00 p.m. (ET).
             </p>
           </div>
         }
