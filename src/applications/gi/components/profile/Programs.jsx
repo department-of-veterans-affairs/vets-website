@@ -59,13 +59,13 @@ export class Programs extends React.Component {
       },
 
       onlineOnly: {
-        modal: '',
+        modal: 'onlineOnlyDistanceLearning',
         text: 'Online Only',
         link: false,
       },
 
       distanceLearning: {
-        modal: '',
+        modal: 'onlineOnlyDistanceLearning',
         text: 'Distance Learning',
         link: false,
       },

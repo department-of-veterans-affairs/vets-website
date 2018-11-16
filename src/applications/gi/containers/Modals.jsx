@@ -270,6 +270,39 @@ export class Modals extends React.Component {
 
         <Modal
           onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('onlineOnlyDistanceLearning')}
+        >
+          <h3>Online and Distance Learning</h3>
+          <p>
+            <p>
+              Under the GI Bill you’re eligible to receive a monthly housing
+              allowance if you’re enrolled in an online or distance-learning
+              course. With online learning, students have access to a teacher
+              and student resources, such as recorded lessons or online forums.
+              With distance learning, the student and teacher are in separate
+              locations and there is little interaction with fellow students.
+            </p>
+            <p>
+              We now calculate the monthly housing allowance based on where a
+              student takes their classes. So if you enroll in an online or
+              distance-learning class, your housing allowance payment will be
+              based on where you do most of your coursework, not on your
+              school’s location.
+            </p>
+            <p>
+              If you use your Post-9/11 GI Bill benefits while taking only
+              distance-learning courses, we’ll pay you a housing allowance based
+              on 50% of the national average.
+            </p>
+            <a href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp?_ga=2.144591223.39405460.1542131207-1582256389.1508352376">
+              View the current housing allowance payment rates
+            </a>
+            .
+          </p>
+        </Modal>
+
+        <Modal
+          onClose={this.props.hideModal}
           visible={this.shouldDisplayModal('eightKeys')}
         >
           <h3>8 Keys to Veteran Success</h3>
