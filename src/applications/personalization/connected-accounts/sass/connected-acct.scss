@@ -53,12 +53,14 @@
    th {
       border-bottom: none !important;
       background: lightgray !important;
+      padding-bottom: 0 !important;
    }
 }
 .va-connected-acct-row-details-block {
    th {
       background: lightgray !important;
       border-top: none;
+      padding-top: 0;
       .va-connected-acct-row-details-block-wrapper {
          margin: 1em;
          background: white;
