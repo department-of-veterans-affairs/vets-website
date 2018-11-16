@@ -915,7 +915,7 @@ const schema = {
       type: 'array',
       items: {
         type: 'object',
-        required: ['condition', 'cause', 'disabilityStartDate'],
+        required: ['condition', 'cause'],
         properties: {
           condition: {
             type: 'string',

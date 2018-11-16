@@ -98,20 +98,28 @@ header.merger {
   }
 
   @media (min-width: $large-screen) {
-    #mega-menu .vetnav-panel {
-      width: 487px;
-    }
+    #mega-menu  {
+      .vetnav-panel {
+        width: 487px;
 
-    #mega-menu .column-two {
-      left: 240px;
-    }
+        &.column-one {
+          .mm-link-container {
+            width: 200px;
+          }
+        }
 
-    #mega-menu .column-three {
-      left: 487px;
-    }
+        &.column-two {
+          left: 240px;
+        }
 
-    #mega-menu .panel-bottom-link {
-      width: 657px;
+        &.column-three {
+          left: 487px;
+        }
+      }
+
+      .panel-bottom-link {
+        width: 657px;
+      }
     }
   }
 
