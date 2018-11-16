@@ -1,10 +1,4 @@
 const prodEnvironments = [
-  // www.vets.gov
-  'production',
-
-  // preview.va.gov
-  'preview',
-
   // www.va.gov
   'vagovprod',
 ];

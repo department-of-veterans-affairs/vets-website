@@ -5,10 +5,6 @@ if (__BUILDTYPE__.includes('staging')) {
   currentEnv = 'staging';
 }
 
-if (__BUILDTYPE__ === 'preview') {
-  currentEnv = 'preview';
-}
-
 if (__BUILDTYPE__ === 'production' || __BUILDTYPE__ === 'vagovprod') {
   currentEnv = 'www';
 }
