@@ -654,6 +654,19 @@ const schema = {
         },
       },
     },
+    specialIssue: {
+      type: 'string',
+      enum: [
+        'ALS',
+        'HEPC',
+        'POW',
+        'PTSD/1',
+        'PTSD/2',
+        'PTSD/3',
+        'PTSD/4',
+        'MST',
+      ],
+    },
   },
   properties: {
     alternateNames: {
@@ -798,17 +811,7 @@ const schema = {
             enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
           },
           specialIssue: {
-            type: 'string',
-            enum: [
-              'ALS',
-              'HEPC',
-              'POW',
-              'PTSD/1',
-              'PTSD/2',
-              'PTSD/3',
-              'PTSD/4',
-              'MST',
-            ],
+            $ref: '#/definitions/specialIssue',
           },
           ratedDisabilityId: {
             type: 'string',
@@ -837,17 +840,7 @@ const schema = {
                   enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
                 },
                 specialIssue: {
-                  type: 'string',
-                  enum: [
-                    'ALS',
-                    'HEPC',
-                    'POW',
-                    'PTSD/1',
-                    'PTSD/2',
-                    'PTSD/3',
-                    'PTSD/4',
-                    'MST',
-                  ],
+                  $ref: '#/definitions/specialIssue',
                 },
                 ratedDisabilityId: {
                   type: 'string',
@@ -888,6 +881,9 @@ const schema = {
           },
           causedByDisabilityDescription: {
             type: 'string',
+          },
+          specialIssue: {
+            $ref: '#/definitions/specialIssue',
           },
           worsenedDescription: {
             type: 'string',

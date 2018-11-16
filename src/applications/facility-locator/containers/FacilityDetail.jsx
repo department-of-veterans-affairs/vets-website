@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -34,17 +33,22 @@ class FacilityDetail extends Component {
         <div>
           <LocationPhoneLink location={facility} />
         </div>
-        { website && website !== 'NULL' &&
-          <span>
-            <a href={website} target="_blank">
-              <i className="fa fa-globe" />Website
-            </a>
-          </span>
-        }
+        {website &&
+          website !== 'NULL' && (
+            <span>
+              <a href={website} target="_blank">
+                <i className="fa fa-globe" />
+                Website
+              </a>
+            </span>
+          )}
         <div>
           <LocationDirectionsLink location={facility} />
         </div>
-        <p className="p1">Planning to visit? Please call first as information on this page may change.</p>
+        <p className="p1">
+          Planning to visit? Please call first as information on this page may
+          change.
+        </p>
       </div>
     );
   }
@@ -97,7 +101,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return { facility: state.searchResult.selectedResult, currentQuery: state.searchQuery };
+  return {
+    facility: state.searchResult.selectedResult,
+    currentQuery: state.searchQuery,
+  };
 }
 
 export default connect(
