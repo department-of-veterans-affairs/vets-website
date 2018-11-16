@@ -11,9 +11,9 @@ export const uiSchema = index => ({
   'ui:title': ({ formData }) => (
     <PtsdNameTitle formData={formData} formType="781" />
   ),
-  'ui:description': ptsdDateDescription,
   [`incident${index}`]: {
-    date: currentOrPastDateUI(' '),
+    'ui:description': ptsdDateDescription,
+    incidentDate: currentOrPastDateUI(' '),
   },
 });
 
@@ -23,7 +23,11 @@ export const schema = index => ({
     [`incident${index}`]: {
       type: 'object',
       properties: {
-        date,
+        incidentDate: date,
+        'view:ptsdDateDescription': {
+          type: 'object',
+          properties: {},
+        },
       },
     },
   },

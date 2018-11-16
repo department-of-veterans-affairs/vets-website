@@ -14,16 +14,23 @@ export const uiSchema = index => ({
   'ui:description': formData => (
     <SecondaryDateDescription formData={formData} index={index} />
   ),
-  [`secondaryIncidentDate${index}`]: currentOrPastDateUI(' '),
+  [`secondaryIncident${index}`]: {
+    incidentDate: currentOrPastDateUI(' '),
+  },
 });
 
 export const schema = index => ({
   type: 'object',
   properties: {
-    [`secondaryIncidentDate${index}`]: date,
-    'view:ptsdDateSecondaryDescription': {
+    [`secondaryIncident${index}`]: {
       type: 'object',
-      properties: {},
+      properties: {
+        incidentDate: date,
+        'view:ptsdDateSecondaryDescription': {
+          type: 'object',
+          properties: {},
+        },
+      },
     },
   },
 });
