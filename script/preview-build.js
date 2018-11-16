@@ -1,7 +1,4 @@
 // Builds the site using Metalsmith as the top-level build runner.
-const fs = require('fs');
-const path = require('path');
-const matter = require('gray-matter');
 const Metalsmith = require('metalsmith');
 const collections = require('metalsmith-collections');
 const dateInFilename = require('metalsmith-date-in-filename');
@@ -20,10 +17,9 @@ const createEnvironmentFilter = require('./create-environment-filter');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
 const leftRailNavResetLevels = require('./left-rail-nav-reset-levels');
 const rewriteVaDomains = require('./rewrite-va-domains');
-const configureAssets = require('./configure-assets');
 const applyFragments = require('./apply-fragments');
 
-function defaultBuild(contentId, options, callback) {
+function createPipeline(options) {
   const BUILD_OPTIONS = getOptions(options);
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
@@ -74,9 +70,6 @@ function defaultBuild(contentId, options, callback) {
       html: true,
     }),
   );
-  smith.use(files => {
-    console.log(files[Object.keys(files)[0]].contents.toString());
-  });
 
   // Responsible for create permalink structure. Most commonly used change foo.md to foo/index.html.
   //
@@ -136,27 +129,9 @@ function defaultBuild(contentId, options, callback) {
 
   smith.use(updateExternalLinks(BUILD_OPTIONS));
 
-  // smith.use(addAssetHashes(buildOptions));
-
-  const parsedContent = matter(
-    fs.readFileSync(
-      path.join(__dirname, BUILD_OPTIONS['content-directory'], contentId),
-    ),
-  );
-
-  const files = {
-    [contentId]: Object.assign(parsedContent.data, {
-      path: contentId,
-      contents: new Buffer(parsedContent.content),
-    }),
-  };
-
-  smith.run(files, (err, newFiles) => {
-    if (err) throw err;
-    callback(Object.entries(newFiles)[0][1].contents);
-  });
+  // smith.use(addAssetHashes(BUILD_OPTIONS));
 
   return smith;
 }
 
-module.exports = defaultBuild;
+module.exports = createPipeline;

@@ -7,8 +7,10 @@
 
 const commandLineArgs = require('command-line-args');
 const path = require('path');
+const matter = require('gray-matter');
 const express = require('express');
-const buildPreview = require('./preview-build');
+const octokit = require('@octokit/rest')();
+const createPipieline = require('./preview-build');
 
 const ENVIRONMENTS = require('./constants/environments');
 const HOSTNAMES = require('./constants/hostnames');
@@ -43,11 +45,38 @@ const app = express();
 const root = path.resolve(__dirname, `../build/${options.buildtype}`);
 app.use(express.static(root));
 
+const smith = createPipieline(options);
 app.use('/content', (req, res) => {
-  buildPreview('index.md', options, html => {
-    res.set('Content-Type', 'text/html');
-    res.send(html);
-  });
+  const contentId = req.query.contentId;
+
+  octokit.repos
+    .getContent({
+      owner: 'department-of-veterans-affairs',
+      repo: 'vagov-content',
+      path: `/pages/${contentId}`,
+    })
+    .then(result => Buffer.from(result.data.content, result.data.encoding))
+    .then(matter)
+    .then(parsedContent => {
+      const files = {
+        [contentId]: Object.assign(parsedContent.data, {
+          path: contentId,
+          contents: new Buffer(parsedContent.content),
+        }),
+      };
+
+      smith.run(files, (err, newFiles) => {
+        if (err) throw err;
+        res.set('Content-Type', 'text/html');
+        // This will actually need to convert a md path to an html path, probably
+        res.send(Object.entries(newFiles)[0][1].contents);
+      });
+    })
+    .catch(err => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.sendStatus(500);
+    });
 });
 
 app.listen(options.port, options.host, () => {
