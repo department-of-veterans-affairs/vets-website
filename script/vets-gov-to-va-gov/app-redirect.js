@@ -21,7 +21,14 @@ function createAppRedirectHtml(vetsGovSrc, vaGovDest, vaGovHost) {
       }
     }
     var pathname = window.location.pathname;
-    var newPath = pathname.replace('${vetsGovSrc}', '${vaGovDest}');
+    var newPath;
+
+    if (pathname.indexOf('/healthcare') >= 0) {
+      newPath = pathname.replace('healthcare', 'health-care');
+    } else {
+      newPath = pathname.replace('${vetsGovSrc}', '${vaGovDest}');
+    }
+
     var finalUrl = '${vaGovHost}' + newPath;
     var redirectUrl = finalUrl + window.location.search;
 

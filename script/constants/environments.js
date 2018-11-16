@@ -6,5 +6,4 @@ module.exports = {
   VAGOVDEV: 'vagovdev',
   VAGOVSTAGING: 'vagovstaging',
   VAGOVPROD: 'vagovprod',
-  PREVIEW: 'preview',
 };
