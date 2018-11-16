@@ -21,7 +21,7 @@
    cursor: pointer;
    &:hover {
       th {
-         background: lightgray !important;
+         background: $color-gray-light !important;
       }
    }
    th:first-child{
@@ -52,18 +52,18 @@
 .va-connected-acct-details-toggled {
    th {
       border-bottom: none !important;
-      background: lightgray !important;
+      background: $color-gray-light !important;
       padding-bottom: 0 !important;
    }
 }
 .va-connected-acct-row-details-block {
    th {
-      background: lightgray !important;
+      background: $color-gray-light!important;
       border-top: none;
       padding-top: 0;
       .va-connected-acct-row-details-block-wrapper {
          margin: 1em;
-         background: white;
+         background: $color-white;
          border-top: none !important;
          .va-connected-acct-row-details-block-content {
             margin: 1em;
