@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { PtsdNameTitle } from '../content/ptsdClassification';
+
 const physicalDescriptionChanges = (
   <div>
     <h5>Changes in Behavior or Activities: Physical health</h5>
@@ -18,7 +20,9 @@ const physicalDescriptionChanges = (
 );
 
 export const uiSchema = {
-  'ui:title': ' ',
+  'ui:title': ({ formData }) => (
+    <PtsdNameTitle formData={formData} formType="781a" />
+  ),
   'ui:description': physicalDescriptionChanges,
   physicalChanges: {
     increasedVisits: {
