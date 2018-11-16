@@ -53,7 +53,7 @@ function applyDefaultOptions(options) {
       options.buildtype,
     ),
     appAssets: {
-      source: '../../../../assets',
+      source: '../../assets',
       destination: './',
     },
     layouts: path.join(__dirname, '../../layouts'),
