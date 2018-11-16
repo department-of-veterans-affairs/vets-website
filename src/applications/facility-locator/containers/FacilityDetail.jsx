@@ -34,7 +34,7 @@ class FacilityDetail extends Component {
         <div>
           <LocationPhoneLink location={facility} />
         </div>
-        { website &&
+        { website && website !== 'NULL' &&
           <span>
             <a href={website} target="_blank">
               <i className="fa fa-globe" />Website
