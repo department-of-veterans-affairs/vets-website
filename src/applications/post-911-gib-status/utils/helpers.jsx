@@ -356,7 +356,7 @@ export const wizardConfig = [
     previous: ['veteran', 'automaticEligibility', 'benefitsTransferred'],
     component: () => (
       <AlertBox
-        headline="We’re sorry, we can’t find your Statement of Benefits right now."
+        headline="We’re sorry. We can’t find your Statement of Benefits right now."
         content={
           <div>
             <p>
