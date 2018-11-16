@@ -53,3 +53,24 @@
   display: none;
 }
 
+//=============================
+// Additional information styles
+//=============================
+
+.additional-info-title {
+  border-bottom-right-radius: 0px;
+}
+
+.form-expanding-group {
+  > span {
+    display: none;
+  }
+}
+
+.form-expanding-group { 
+  &.form-expanding-group-open {
+    > span {
+      display: inline;
+    }
+  }
+}
