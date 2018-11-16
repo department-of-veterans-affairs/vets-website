@@ -24,29 +24,37 @@ class ConnectedApp extends React.Component {
   };
 
   toggleDetails = () => {
-    this.setState({ detailsOpen: !this.state.detailsOpen })
-  }
+    this.setState({ detailsOpen: !this.state.detailsOpen });
+  };
 
   render() {
     const { href, logo, title, created, grants } = this.props.attributes;
-    const cssPrefix = "va-connected-acct";
+    const cssPrefix = 'va-connected-acct';
+    const toggled = this.state.detailsOpen
+      ? `${cssPrefix}-details-toggled`
+      : '';
     return (
       <tr>
         <table>
           <tbody>
-            <tr className={`${cssPrefix}-row ${this.state.detailsOpen && cssPrefix + '-details-toggled'}`} onClick={this.toggleDetails}>
+            <tr
+              className={`${cssPrefix}-row ${toggled}`}
+              onClick={this.toggleDetails}
+            >
               <th scope="row">
                 <a href={href} className="no-external-icon">
                   <img src={logo} alt={`${title} logo`} width="100" />
                 </a>
               </th>
-              <th>
-                Connected on {moment(created).format('MMMM Do, YYYY')}
-              </th>
+              <th>Connected on {moment(created).format('MMMM Do, YYYY')}</th>
               <th className={`${cssPrefix}-row-details `}>
                 <a className={`${cssPrefix}-row-details-toggle`} href="#">
                   Details
-                  <i className={`fa fa-chevron-${this.state.detailsOpen ? 'down' : 'right'}`}></i>
+                  <i
+                    className={`fa fa-chevron-${
+                      this.state.detailsOpen ? 'down' : 'right'
+                    }`}
+                  />
                 </a>
                 <AccountModal
                   appName={title}
@@ -57,7 +65,7 @@ class ConnectedApp extends React.Component {
                 />
               </th>
             </tr>
-            { this.state.detailsOpen &&
+            {this.state.detailsOpen && (
               <tr className={`${cssPrefix}-row-details-block`}>
                 <th colSpan="3">
                   <div className={`${cssPrefix}-row-details-block-wrapper`}>
@@ -65,7 +73,10 @@ class ConnectedApp extends React.Component {
                       <p>
                         <a href={href}>{title}</a>
                         &nbsp;has access to the following information:
-                        <button className="usa-button-primary" onClick={this.openModal}>
+                        <button
+                          className="usa-button-primary"
+                          onClick={this.openModal}
+                        >
                           Disconnect
                         </button>
                       </p>
@@ -78,9 +89,9 @@ class ConnectedApp extends React.Component {
                   </div>
                 </th>
               </tr>
-            }
-            </tbody>
-          </table>
+            )}
+          </tbody>
+        </table>
       </tr>
     );
   }
