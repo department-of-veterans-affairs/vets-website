@@ -209,8 +209,8 @@ export class EligibilityForm extends React.Component {
 
         <RadioButtons
           label={this.renderLearnMoreLabel({
-            text: '',
-            modal: 'cumulativeService',
+            text: 'How do you want to take classes?',
+            modal: 'onlineOnlyDistanceLearning',
           })}
           name="onlineClasses"
           options={[

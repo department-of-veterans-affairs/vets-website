@@ -277,10 +277,7 @@ export class Modals extends React.Component {
             <p>
               Under the GI Bill you’re eligible to receive a monthly housing
               allowance if you’re enrolled in an online or distance-learning
-              course. With online learning, students have access to a teacher
-              and student resources, such as recorded lessons or online forums.
-              With distance learning, the student and teacher are in separate
-              locations and there is little interaction with fellow students.
+              course.
             </p>
             <p>
               We now calculate the monthly housing allowance based on where a
