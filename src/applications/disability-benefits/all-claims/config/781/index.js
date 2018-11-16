@@ -1,4 +1,5 @@
 import {
+  incidentInfo,
   incidentDate,
   incidentUnitAssignment,
   secondaryIncidentDate,
@@ -14,6 +15,13 @@ export function formConfig781(iterations) {
       ...configObj,
       // 781 PAGE CONFIGS GO HERE
       ...{
+        [`incidentInfo${index}`]: {
+          title: `781 PTSD Incident info ${index + 1}`,
+          path: `disabilities/ptsd-incident-info-${index}`,
+          depends: isAnswering781Questions,
+          uiSchema: incidentInfo.uiSchema('781'),
+          schema: incidentInfo.schema,
+        },
         [`incidentDate${index}`]: {
           title: `781 PTSD Incident date ${index + 1}`,
           path: `disabilities/ptsd-incident-date-${index}`,
@@ -42,6 +50,13 @@ export function formConfig781a(iterations) {
       ...configObj,
       // 781a PAGE CONFIGS GO HERE
       ...{
+        [`secondaryIncidentInfo${index}`]: {
+          title: `781a PTSD Incident info ${index + 1}`,
+          path: `disabilities/ptsd-secondary-incident-info-${index}`,
+          depends: isAnswering781aQuestions,
+          uiSchema: incidentInfo.uiSchema('781a'),
+          schema: incidentInfo.schema,
+        },
         [`secondaryIncidentDate${index}`]: {
           title: `781a PTSD Incident date ${index + 1}`,
           path: `disabilities/ptsd-secondary-incident-date-${index}`,
