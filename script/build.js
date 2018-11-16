@@ -75,9 +75,6 @@ function defaultBuild(BUILD_OPTIONS) {
   // translating .md files which would allow inPlace() and markdown() to be moved under the
   // permalinks() and navigation() filters making the variable stores uniform between inPlace()
   // and layout().
-  smith.use((files) => {
-    console.log(Object.entries(files).filter(([key, file]) => key.startsWith('index'))[0]);
-  });
   smith.use(inPlace({ engine: 'liquid', pattern: '*.{md,html}' }));
   smith.use(
     markdown({
