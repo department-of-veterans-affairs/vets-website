@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { PtsdNameTitle } from '../content/ptsdClassification';
+
 const mentalDescriptionChanges = (
   <div>
     <h5>Changes in mental health or substance abuse</h5>
@@ -12,7 +14,9 @@ const mentalDescriptionChanges = (
 );
 
 export const uiSchema = {
-  'ui:title': ' ',
+  'ui:title': ({ formData }) => (
+    <PtsdNameTitle formData={formData} formType="781a" />
+  ),
   'ui:description': mentalDescriptionChanges,
   mentalChanges: {
     depression: {
