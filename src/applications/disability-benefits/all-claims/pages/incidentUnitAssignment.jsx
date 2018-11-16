@@ -13,7 +13,6 @@ export const uiSchema = index => ({
   ),
   'ui:description': ptsdAssignmentDescription,
   [`incident${index}`]: {
-    type: 'object',
     [`unitAssignment`]: {
       'ui:title': ' ',
     },
