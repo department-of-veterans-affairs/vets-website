@@ -22,6 +22,7 @@ import {
   servedAfter911,
   isNotUploadingPrivateMedical,
   transform,
+  isAnsweringPtsdForm,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -62,6 +63,7 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  workBehaviorChanges,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -267,6 +269,14 @@ const formConfig = {
             isUploadingPtsdForm(formData),
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
+        },
+        workBehaviorChanges: {
+          title: 'Additional Remarks - Behavior Changes at Work',
+          path: 'new-disabilities/ptsd-781a-work-changes',
+          depends: formData =>
+            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
+          uiSchema: workBehaviorChanges.uiSchema,
+          schema: workBehaviorChanges.schema,
         },
         unemployabilityStatus: {
           title: 'Unemployability Status',
