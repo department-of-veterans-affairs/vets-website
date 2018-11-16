@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { buildAddressArray } from '../../utils/facilityAddress';
@@ -10,7 +9,10 @@ class LocationDirectionsLink extends Component {
 
     return (
       <span>
-        <a href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`} target="_blank">
+        <a
+          href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
+          target="_blank"
+        >
           <i className="fa fa-road" /> Directions
         </a>
       </span>
