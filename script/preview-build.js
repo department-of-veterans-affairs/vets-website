@@ -1,9 +1,10 @@
 // Builds the site using Metalsmith as the top-level build runner.
+const fs = require('fs');
+const path = require('path');
+const matter = require('gray-matter');
 const Metalsmith = require('metalsmith');
-const assets = require('metalsmith-assets');
 const collections = require('metalsmith-collections');
 const dateInFilename = require('metalsmith-date-in-filename');
-const filenames = require('metalsmith-filenames');
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
 const liquid = require('tinyliquid');
@@ -14,18 +15,16 @@ const permalinks = require('metalsmith-permalinks');
 
 const getOptions = require('./options');
 const createBuildSettings = require('./create-build-settings');
-const createRedirects = require('./create-redirects');
-const createSitemaps = require('./create-sitemaps');
 const updateExternalLinks = require('./update-external-links');
 const createEnvironmentFilter = require('./create-environment-filter');
 const nonceTransformer = require('./metalsmith/nonceTransformer');
 const leftRailNavResetLevels = require('./left-rail-nav-reset-levels');
-const checkBrokenLinks = require('./check-broken-links');
 const rewriteVaDomains = require('./rewrite-va-domains');
 const configureAssets = require('./configure-assets');
 const applyFragments = require('./apply-fragments');
 
-function defaultBuild(BUILD_OPTIONS) {
+function defaultBuild(contentId, options, callback) {
+  const BUILD_OPTIONS = getOptions(options);
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
   // Custom liquid filter(s)
@@ -35,7 +34,7 @@ function defaultBuild(BUILD_OPTIONS) {
   // add comments about any implicit dependencies you are introducing!!!
   //
   smith.source(`${BUILD_OPTIONS.contentPagesRoot}`);
-  smith.destination(BUILD_OPTIONS.destination);
+  // smith.destination(BUILD_OPTIONS.destination);
 
   // This lets us access the {{buildtype}} variable within liquid templates.
   smith.metadata({
@@ -45,17 +44,10 @@ function defaultBuild(BUILD_OPTIONS) {
 
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 
-  // This adds the filename into the "entry" that is passed to other plugins. Without this errors
-  // during templating end up not showing which file they came from. Load it very early in in the
-  // plugin chain.
-  smith.use(filenames());
-
   smith.use(applyFragments(BUILD_OPTIONS));
   smith.use(collections(BUILD_OPTIONS.collections));
   smith.use(leftRailNavResetLevels());
   smith.use(dateInFilename(true));
-  smith.use(assets(BUILD_OPTIONS.appAssets));
-  smith.use(assets(BUILD_OPTIONS.contentAssets));
 
   // smith.use(cspHash({ pattern: ['js/*.js', 'generated/*.css', 'generated/*.js'] }))
 
@@ -75,9 +67,6 @@ function defaultBuild(BUILD_OPTIONS) {
   // translating .md files which would allow inPlace() and markdown() to be moved under the
   // permalinks() and navigation() filters making the variable stores uniform between inPlace()
   // and layout().
-  smith.use((files) => {
-    console.log(Object.entries(files).filter(([key, file]) => key.startsWith('index'))[0]);
-  });
   smith.use(inPlace({ engine: 'liquid', pattern: '*.{md,html}' }));
   smith.use(
     markdown({
@@ -85,6 +74,9 @@ function defaultBuild(BUILD_OPTIONS) {
       html: true,
     }),
   );
+  smith.use(files => {
+    console.log(files[Object.keys(files)[0]].contents.toString());
+  });
 
   // Responsible for create permalink structure. Most commonly used change foo.md to foo/index.html.
   //
@@ -144,26 +136,27 @@ function defaultBuild(BUILD_OPTIONS) {
 
   smith.use(updateExternalLinks(BUILD_OPTIONS));
 
-  configureAssets(smith, BUILD_OPTIONS);
+  // smith.use(addAssetHashes(buildOptions));
 
-  smith.use(createSitemaps(BUILD_OPTIONS));
-  smith.use(createRedirects(BUILD_OPTIONS));
-  smith.use(checkBrokenLinks(BUILD_OPTIONS));
+  const parsedContent = matter(
+    fs.readFileSync(
+      path.join(__dirname, BUILD_OPTIONS['content-directory'], contentId),
+    ),
+  );
 
-  /* eslint-disable no-console */
-  smith.build(err => {
+  const files = {
+    [contentId]: Object.assign(parsedContent.data, {
+      path: contentId,
+      contents: new Buffer(parsedContent.content),
+    }),
+  };
+
+  smith.run(files, (err, newFiles) => {
     if (err) throw err;
-    if (BUILD_OPTIONS.watch) {
-      console.log('Metalsmith build finished!  Starting webpack-dev-server...');
-    } else {
-      console.log('Build finished!');
-    }
+    callback(Object.entries(newFiles)[0][1].contents);
   });
+
+  return smith;
 }
 
-function main() {
-  const buildOptions = getOptions();
-  defaultBuild(buildOptions);
-}
-
-main();
+module.exports = defaultBuild;

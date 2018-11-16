@@ -90,8 +90,8 @@ function deriveHostUrl(options) {
   options.domainReplacements = [{ from: 'www\\.va\\.gov', to: options.host }];
 }
 
-function getOptions() {
-  const options = gatherFromCommandLine();
+function getOptions(commandLineOptions) {
+  const options = commandLineOptions || gatherFromCommandLine();
 
   applyDefaultOptions(options);
   applyEnvironmentOverrides(options);
