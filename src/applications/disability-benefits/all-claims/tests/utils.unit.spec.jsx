@@ -17,6 +17,7 @@ import {
   needsToEnter781a,
   isUploadingPtsdForm,
   transformRelatedDisabilities,
+  isAnsweringPtsdForm,
 } from '../utils.jsx';
 
 import initialData from './initialData';
@@ -463,5 +464,19 @@ describe('526 helpers', () => {
         transformRelatedDisabilities(relatedDisabilities, claimedConditions),
       ).to.eql(['Some condition name']);
     });
+  });
+});
+
+describe('isAnsweringPtsdForm', () => {
+  it('should return true if user has chosen to answer questions', () => {
+    const formData = {
+      'view:uploadPtsdChoice': 'answerQuestions',
+    };
+    expect(isAnsweringPtsdForm(formData)).to.be.true;
+  });
+
+  it('should return false if user has chosen to not answer questions', () => {
+    const formData = {};
+    expect(needsToEnter781({ formData })).to.be.false;
   });
 });
