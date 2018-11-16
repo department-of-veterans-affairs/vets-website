@@ -21,6 +21,7 @@ const defaultContentDir = '../../vagov-content/pages';
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
+  { name: 'buildpath', type: String, defaultValue: '../build/localhost' },
   { name: 'host', type: String, defaultValue: defaultHost },
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
@@ -42,7 +43,7 @@ if (options.unexpected && options.unexpected.length !== 0) {
 
 const app = express();
 
-const root = path.resolve(__dirname, `../build/${options.buildtype}`);
+const root = path.resolve(__dirname, options.buildpath);
 app.use(express.static(root));
 
 const smith = createPipieline(options);
