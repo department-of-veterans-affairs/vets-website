@@ -1,0 +1,40 @@
+import { expect } from 'chai';
+
+import { formConfig781, formConfig781a } from '../../config/781';
+
+describe('781/781a incident form config iterators', () => {
+  describe('781 incident form config', () => {
+    it('should return a config object', () => {
+      expect(formConfig781(1)).to.be.an('object');
+    });
+
+    it('should return three incident date page config objects', () => {
+      const config = formConfig781(3);
+
+      expect(config).to.haveOwnProperty('incidentDate0');
+      expect(config).to.haveOwnProperty('incidentDate1');
+      expect(config).to.haveOwnProperty('incidentDate2');
+
+      expect(config.incidentDate0).to.be.an('object');
+      expect(config.incidentDate1).to.be.an('object');
+      expect(config.incidentDate2).to.be.an('object');
+    });
+  });
+  describe('781a incident form config', () => {
+    it('should return a config object', () => {
+      expect(formConfig781a(1)).to.be.an('object');
+    });
+
+    it('should return three incident date page config objects', () => {
+      const config = formConfig781a(3);
+
+      expect(config).to.haveOwnProperty('secondaryIncidentDate0');
+      expect(config).to.haveOwnProperty('secondaryIncidentDate1');
+      expect(config).to.haveOwnProperty('secondaryIncidentDate2');
+
+      expect(config.secondaryIncidentDate0).to.be.an('object');
+      expect(config.secondaryIncidentDate1).to.be.an('object');
+      expect(config.secondaryIncidentDate2).to.be.an('object');
+    });
+  });
+});
