@@ -52,7 +52,7 @@ const configs = [
 const excludedForms = new Set([
   '28-1900',
   '21-526EZ',
-  '21-526EZ-ALLCLAIMS',
+  '21-526EZ-ALLCLAIMS', // TODO: remove this?
   '28-8832',
   '24-0296',
   '21-4142',

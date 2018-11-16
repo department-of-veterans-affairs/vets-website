@@ -50,7 +50,7 @@ const excludedForms = new Set([
   '28-8832',
   '24-0296',
   '21-4142',
-  '21-526EZ-ALLCLAIMS',
+  '21-526EZ-ALLCLAIMS', // TODO: remove this when we can?
 ]);
 
 describe('profile helpers:', () => {

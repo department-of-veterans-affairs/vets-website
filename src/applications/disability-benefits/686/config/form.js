@@ -6,12 +6,12 @@ import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
-import fullNameUI from '../../../../platform/forms/definitions/fullName';
-import dataUtils from '../../../../platform/utilities/data/index';
-import environment from '../../../../platform/utilities/environment';
-import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
+import FormFooter from 'platform/forms/components/FormFooter';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import fullNameUI from 'platform/forms/definitions/fullName';
+import dataUtils from 'platform/utilities/data/index';
+import environment from 'platform/utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -126,7 +126,6 @@ const locationSchema = {
     countryDropdown: militaryAddress.properties.countryDropdown,
     countryText: internationalAddressText.properties.countryText,
     city: domesticAddress.properties.city,
-    // state: domesticAddress.properties.state,
     state: location.oneOf[0].properties.state,
   },
 };
@@ -174,7 +173,7 @@ function createSpouseLabelSelector(nameTemplate) {
 // ex: given 'marriages[INDEX].locationOfMarriage' and `0` return
 // 'marriages[0].locationOfMarriage'
 function insertRealIndexInKey(key, index) {
-  return key.replace(/(?<=\[)INDEX(?=\])/, index);
+  return key.replace('[INDEX]', `[${index}]`);
 }
 
 // pass in the key so the address we care about can be pulled out of the
