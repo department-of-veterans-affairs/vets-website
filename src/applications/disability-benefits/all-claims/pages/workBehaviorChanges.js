@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { PtsdNameTitle } from '../content/ptsdClassification';
+
 const workDescriptionChanges = (
   <div>
     <h5>Changes in Behavior at work</h5>
@@ -12,7 +14,9 @@ const workDescriptionChanges = (
 );
 
 export const uiSchema = {
-  'ui:title': ' ',
+  'ui:title': ({ formData }) => (
+    <PtsdNameTitle formData={formData} formType="781a" />
+  ),
   'ui:description': workDescriptionChanges,
   workBehaviorChanges: {
     changeAssignment: {
