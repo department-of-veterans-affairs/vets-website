@@ -9,7 +9,6 @@
  margin-bottom: 100px;
 }
 
-
 .va-connected-acct-null {
    padding-bottom: 40px;
 
@@ -26,7 +25,10 @@
       }
    }
    th:first-child{
-      padding-left: .8em;
+      padding: .8em;
+      img {
+         padding: 5px;
+      }
    }
    .va-connected-acct-row-details {
       .va-connected-acct-row-details-link {
@@ -39,6 +41,12 @@
 
    .va-modal-inner {
       max-width: 60rem;
+      .usa-alert {
+         border: none;
+         h3 {
+            padding: 1em !important;
+         }
+      }
    }
 }
 .va-connected-acct-details-toggled {
