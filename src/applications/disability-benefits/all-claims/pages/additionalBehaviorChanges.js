@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { PtsdNameTitle } from '../content/ptsdClassification';
+
 const additionalDescriptionChanges = (
   <div>
     <h5>Changes in Behavior or Activities: Additional Information</h5>
@@ -11,7 +13,9 @@ const additionalDescriptionChanges = (
 );
 
 export const uiSchema = {
-  'ui:title': ' ',
+  'ui:title': ({ formData }) => (
+    <PtsdNameTitle formData={formData} formType="781a" />
+  ),
   'ui:description': additionalDescriptionChanges,
   additionalChanges: {
     'ui:title': ' ',
