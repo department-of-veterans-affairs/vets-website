@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable arrow-body-style */
 import { mapboxClient } from '../components/MapboxClient';
 
@@ -16,6 +15,7 @@ import { mapboxClient } from '../components/MapboxClient';
  * @returns Object of shape { lon, lat } on valid input,
  * empty {} object otherwise
  */
+// eslint-disable-next-line prettier/prettier
 export const getBoxCenter = (bounds) => {
   if (bounds && bounds.length === 4) {
     const lonDiff = (bounds[2] - bounds[0]) / 2;
@@ -36,9 +36,10 @@ export const getBoxCenter = (bounds) => {
  * @param {String} types A valid type-of-address string as defined by the Mapbox API:
  *   https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-places-near-a-location
  *   default => `'address,postcode'`
- * 
+ *
  * @returns {String} The best approximation of the address for the coordinates
  */
+/* eslint-disable prettier/prettier */
 export const reverseGeocode = async (lon, lat, types = 'address,postcode') => {
   const { entity: { features: { 0: { place_name: placeName } } } } =
     await mapboxClient.geocodeReverse(
@@ -48,6 +49,7 @@ export const reverseGeocode = async (lon, lat, types = 'address,postcode') => {
 
   return placeName;
 };
+/* eslint-enable prettier/prettier */
 
 /**
  * Performs a reverse lookup of a geographic coordinate to
@@ -59,7 +61,7 @@ export const reverseGeocode = async (lon, lat, types = 'address,postcode') => {
  * @param @param {String} types A valid type-of-address string as defined by the Mapbox API:
  *   https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-places-near-a-location
  *   default => `'address,postcode'`
- * 
+ *
  * @returns {String} The best approximation of the address for the coordinates
  */
 export const reverseGeocodeBox = (bounds, types = 'address,postcode') => {
@@ -70,14 +72,12 @@ export const reverseGeocodeBox = (bounds, types = 'address,postcode') => {
 /**
  * Position shape: `{latitude: {number}, longitude: {number}}`
  *
- * @param {Object} pos1 
- * @param {Object} pos2 
+ * @param {Object} pos1
+ * @param {Object} pos2
  */
 export const areGeocodeEqual = (pos1, pos2) => {
-  return (
-    pos1.latitude === pos2.latitude &&
-    pos1.longitude === pos2.longitude
-  );
+  // eslint-disable-next-line prettier/prettier
+  return (pos1.latitude === pos2.latitude) && (pos1.longitude === pos2.longitude);
 };
 
 /**
@@ -85,12 +85,12 @@ export const areGeocodeEqual = (pos1, pos2) => {
  *
  * @param {string} urlParams A URL query string (e.g. key=value&key2=value2...)
  */
+// eslint-disable-next-line prettier/prettier
 export const urlParamStringToObj = (urlParams) => {
-  return urlParams.split('&').map(
-    p => {
-      const [key, value] = p.split('=');
-      return { [key]: value };
-    });
+  return urlParams.split('&').map(p => {
+    const [key, value] = p.split('=');
+    return { [key]: value };
+  });
 };
 
 /**

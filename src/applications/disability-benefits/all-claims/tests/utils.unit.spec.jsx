@@ -440,8 +440,8 @@ describe('526 helpers', () => {
   describe('transformRelatedDisabilities', () => {
     it('should return an array of strings', () => {
       const claimedConditions = [
-        'Some condition name',
-        'Another condition name',
+        'some condition name',
+        'another condition name',
       ];
       const treatedDisabilityNames = {
         'Some condition name': true,
@@ -450,10 +450,10 @@ describe('526 helpers', () => {
       };
       expect(
         transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
-      ).to.eql(['Some condition name', 'Another condition name']);
+      ).to.eql(['some condition name', 'another condition name']);
     });
     it('should not add conditions if they are not claimed', () => {
-      const claimedConditions = ['Some condition name'];
+      const claimedConditions = ['some condition name'];
       const treatedDisabilityNames = {
         'Some condition name': true,
         'Another condition name': true,
@@ -461,7 +461,7 @@ describe('526 helpers', () => {
       };
       expect(
         transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
-      ).to.eql(['Some condition name']);
+      ).to.eql(['some condition name']);
     });
   });
 });
