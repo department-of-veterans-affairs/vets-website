@@ -9,11 +9,10 @@ const layouts = require('metalsmith-layouts');
 const liquid = require('tinyliquid');
 const markdown = require('metalsmith-markdownit');
 const moment = require('moment');
-const moveRemove = require('metalsmith-move-remove');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 
-const generateRedirectedPages = require('./vets-gov-to-va-gov');
+const getOptions = require('./options');
 const createBuildSettings = require('./create-build-settings');
 const createRedirects = require('./create-redirects');
 const createSitemaps = require('./create-sitemaps');
@@ -43,7 +42,6 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.metadata({
     buildtype: BUILD_OPTIONS.buildtype,
     hostUrl: BUILD_OPTIONS.hostUrl,
-    mergedbuild: !!BUILD_OPTIONS['brand-consolidation-enabled'], // @deprecated - We use a separate Metalsmith directory for VA.gov. We shouldn't ever need this info in Metalsmith files.
   });
 
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
@@ -53,18 +51,12 @@ function defaultBuild(BUILD_OPTIONS) {
   // plugin chain.
   smith.use(filenames());
 
-  if (BUILD_OPTIONS.contentFragments) {
-    smith.use(applyFragments(BUILD_OPTIONS));
-  }
-
+  smith.use(applyFragments(BUILD_OPTIONS));
   smith.use(collections(BUILD_OPTIONS.collections));
   smith.use(leftRailNavResetLevels());
   smith.use(dateInFilename(true));
-
   smith.use(assets(BUILD_OPTIONS.appAssets));
-  if (BUILD_OPTIONS.contentAssets) {
-    smith.use(assets(BUILD_OPTIONS.contentAssets));
-  }
+  smith.use(assets(BUILD_OPTIONS.contentAssets));
 
   // smith.use(cspHash({ pattern: ['js/*.js', 'generated/*.css', 'generated/*.js'] }))
 
@@ -156,7 +148,6 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(createSitemaps(BUILD_OPTIONS));
   smith.use(createRedirects(BUILD_OPTIONS));
   smith.use(checkBrokenLinks(BUILD_OPTIONS));
-  smith.use(moveRemove(BUILD_OPTIONS));
 
   /* eslint-disable no-console */
   smith.build(err => {
@@ -170,12 +161,8 @@ function defaultBuild(BUILD_OPTIONS) {
 }
 
 function main() {
-  const BUILD_OPTIONS = require('./options');
-  if (BUILD_OPTIONS['vets-gov-to-va-gov']) {
-    generateRedirectedPages(BUILD_OPTIONS);
-  } else {
-    defaultBuild(BUILD_OPTIONS);
-  }
+  const buildOptions = getOptions();
+  defaultBuild(buildOptions);
 }
 
 main();

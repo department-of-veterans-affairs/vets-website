@@ -8,18 +8,12 @@
 function getBuildSettings(options) {
   return {
     type: options.buildtype,
-    brandConsolidationEnabled: !!options['brand-consolidation-enabled'],
+    brandConsolidationEnabled: true,
     vic: {
       rateLimitAuthed: 1,
       rateLimitUnauthed: 1,
     },
     applications: {},
-
-    // This setting is for a global top-level banner to invite Vets.gov users to try the brand-consolidated VA.gov.
-    // It can be removed post-launch.
-    previewTheNewVaBanner: {
-      allowTrafficToPreview: true,
-    },
   };
 }
 
