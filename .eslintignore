@@ -1,4 +1,4 @@
-assets/*
+src/site/assets/*
 content/*
 docs/*
 old/*
@@ -9,6 +9,5 @@ src/hca-migrate/*
 src/rx-migrate/*
 coverage/*
 .nyc_output/*
-src/applications/static-pages/static-page-widgets.js
 script/watch.js
 script/mocha.js
