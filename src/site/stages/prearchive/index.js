@@ -35,10 +35,14 @@ function getFiles(directory, fileList = []) {
 
 function main() {
   const options = gatherCommandsArgs();
-  const directory = path.join(__dirname, '../../build', options.buildtype);
+  const directory = path.join(
+    __dirname,
+    '../../../../build',
+    options.buildtype,
+  );
   const fileNames = getFiles(directory);
 
   linkAssetsToBucket(options, fileNames);
 }
 
-main();
+module.exports = main;
