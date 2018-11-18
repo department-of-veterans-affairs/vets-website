@@ -10,10 +10,10 @@ const {
   webpackDevServerPlugin,
 } = require('./metalsmith-webpack');
 
-const generateWebpackConfig = require('../../../../../../config/webpack.config');
-const generateWebpackDevConfig = require('../../../../../../config/webpack.dev.config');
+const generateWebpackConfig = require('../../../../../config/webpack.config');
+const generateWebpackDevConfig = require('../../../../../config/webpack.dev.config');
 
-const manifests = getAppManifests(path.join(__dirname, '../../../../../../'));
+const manifests = getAppManifests(path.join(__dirname, '../../../../../'));
 
 function getEntryPoints(buildOptions) {
   let manifestsToBuild = manifests;
