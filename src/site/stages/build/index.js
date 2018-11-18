@@ -13,17 +13,17 @@ const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 
 const getOptions = require('./options');
-const createBuildSettings = require('./middleware/create-build-settings');
-const createRedirects = require('./middleware/create-redirects');
-const createSitemaps = require('./middleware/create-sitemaps');
-const updateExternalLinks = require('./middleware/update-external-links');
-const createEnvironmentFilter = require('./middleware/create-environment-filter');
-const nonceTransformer = require('./middleware/nonceTransformer');
-const leftRailNavResetLevels = require('./middleware/left-rail-nav-reset-levels');
-const checkBrokenLinks = require('./middleware/check-broken-links');
-const rewriteVaDomains = require('./middleware/rewrite-va-domains');
-const configureAssets = require('./middleware/configure-assets');
-const applyFragments = require('./middleware/apply-fragments');
+const createBuildSettings = require('./plugins/create-build-settings');
+const createRedirects = require('./plugins/create-redirects');
+const createSitemaps = require('./plugins/create-sitemaps');
+const updateExternalLinks = require('./plugins/update-external-links');
+const createEnvironmentFilter = require('./plugins/create-environment-filter');
+const nonceTransformer = require('./plugins/nonceTransformer');
+const leftRailNavResetLevels = require('./plugins/left-rail-nav-reset-levels');
+const checkBrokenLinks = require('./plugins/check-broken-links');
+const rewriteVaDomains = require('./plugins/rewrite-va-domains');
+const configureAssets = require('./plugins/configure-assets');
+const applyFragments = require('./plugins/apply-fragments');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
