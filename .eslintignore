@@ -1,12 +1,7 @@
 src/site/assets/*
-content/*
 docs/*
-old/*
-vendor/*
 build/*
 src/applications/**/README.md
-src/hca-migrate/*
-src/rx-migrate/*
 coverage/*
 .nyc_output/*
 script/watch.js
