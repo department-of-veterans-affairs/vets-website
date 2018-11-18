@@ -49,7 +49,7 @@
 (function() {
   var widgets = {{ widgets | json }};
   var module = {};
-  {% include "assets/js/static-page-widgets.js" %}
+  {% include "src/site/assets/js/static-page-widgets.js" %}
   mountWidgets(widgets);
 })();
 </script>
