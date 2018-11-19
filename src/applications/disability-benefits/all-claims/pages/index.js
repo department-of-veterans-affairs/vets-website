@@ -173,6 +173,11 @@ import {
   schema as ancillaryFormsWizardIntroSchema,
 } from './ancillaryFormsWizardIntro';
 
+import {
+  uiSchema as adaptiveBenefitsUISchema,
+  schema as adaptiveBenefitsSchema,
+} from './adaptiveBenefits';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema,
@@ -346,4 +351,9 @@ export const unemployabilityFormIntro = {
 export const ancillaryFormsWizardIntro = {
   uiSchema: ancillaryFormsWizardIntroUISchema,
   schema: ancillaryFormsWizardIntroSchema,
+};
+
+export const adaptiveBenefits = {
+  uiSchema: adaptiveBenefitsUISchema,
+  schema: adaptiveBenefitsSchema,
 };

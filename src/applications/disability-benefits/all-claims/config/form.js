@@ -63,6 +63,7 @@ import {
   unemployabilityStatus,
   unemployabilityFormIntro,
   ancillaryFormsWizardIntro,
+  adaptiveBenefits,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -292,6 +293,12 @@ const formConfig = {
           path: 'additional-disability-benefits',
           uiSchema: ancillaryFormsWizardIntro.uiSchema,
           schema: ancillaryFormsWizardIntro.schema,
+        },
+        adaptiveBenefits: {
+          title: 'Automobile allowance and adaptive benefits',
+          path: 'adaptive-benefits',
+          uiSchema: adaptiveBenefits.uiSchema,
+          schema: adaptiveBenefits.schema,
         },
         // End ancillary forms wizard
         summaryOfDisabilities: {
