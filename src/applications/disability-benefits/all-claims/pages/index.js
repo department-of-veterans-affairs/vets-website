@@ -29,6 +29,11 @@ import {
 } from '../pages/separationTrainingPay';
 
 import {
+  uiSchema as trainingPayWaiverUISchema,
+  schema as trainingPayWaiverSchema,
+} from '../pages/trainingPayWaiver';
+
+import {
   uiSchema as reservesNationalGuardUISchema,
   schema as reservesNationalGuardSchema,
 } from './reservesNationalGuardService';
@@ -102,6 +107,11 @@ import {
   uiSchema as privateMedicalRecordsUISchema,
   schema as privateMedicalRecordsSchema,
 } from './privateMedicalRecords';
+
+import {
+  uiSchema as privateMedicalRecordsReleaseUISchema,
+  schema as privateMedicalRecordsReleaseSchema,
+} from './privateMedicalRecordsRelease';
 
 import {
   uiSchema as additionalDocumentsUISchema,
@@ -181,6 +191,11 @@ export const waiveRetirementPay = {
 export const separationTrainingPay = {
   uiSchema: separationTrainingPayUISchema,
   schema: separationTrainingPaySchema,
+};
+
+export const trainingPayWaiver = {
+  uiSchema: trainingPayWaiverUISchema,
+  schema: trainingPayWaiverSchema,
 };
 
 export const militaryHistory = {
@@ -266,6 +281,11 @@ export const vaMedicalRecords = {
 export const privateMedicalRecords = {
   uiSchema: privateMedicalRecordsUISchema,
   schema: privateMedicalRecordsSchema,
+};
+
+export const privateMedicalRecordsRelease = {
+  uiSchema: privateMedicalRecordsReleaseUISchema,
+  schema: privateMedicalRecordsReleaseSchema,
 };
 
 export const additionalDocuments = {

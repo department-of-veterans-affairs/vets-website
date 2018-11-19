@@ -20,6 +20,8 @@ import {
   needsToEnter781a,
   isUploadingPtsdForm,
   servedAfter911,
+  isNotUploadingPrivateMedical,
+  transform,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -32,6 +34,7 @@ import {
   militaryHistory,
   servedInCombatZone,
   separationTrainingPay,
+  trainingPayWaiver,
   reservesNationalGuardService,
   federalOrders,
   prisonerOfWar,
@@ -49,6 +52,7 @@ import {
   vaMedicalRecords,
   additionalDocuments,
   privateMedicalRecords,
+  privateMedicalRecordsRelease,
   paymentInformation,
   evidenceTypes,
   claimExamsInfo,
@@ -82,11 +86,9 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for disability claims increase.',
   },
-  // transformForSubmit: transform,
+  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPoll,
-  // TODO: Remove this once we've got the api up and running
-  submit: () => Promise.resolve({ attributes: { jobId: '12345' } }),
   // footerContent: FormFooter,
   // getHelp: GetFormHelp,
   defaultDefinitions: {
@@ -329,6 +331,13 @@ const formConfig = {
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
         },
+        privateMedicalRecordsRelease: {
+          title: 'Private Medical Records',
+          path: 'supporting-evidence/private-medical-records-release',
+          depends: hasPrivateEvidence && isNotUploadingPrivateMedical,
+          uiSchema: privateMedicalRecordsRelease.uiSchema,
+          schema: privateMedicalRecordsRelease.schema,
+        },
         additionalDocuments: {
           title: 'Lay statements and other evidence',
           path: 'supporting-evidence/additional-evidence',
@@ -390,6 +399,14 @@ const formConfig = {
           uiSchema: separationTrainingPay.uiSchema,
           schema: separationTrainingPay.schema,
         },
+        trainingPayWaiver: {
+          title: 'Training pay waiver',
+          path: 'training-pay-waiver',
+          depends: formData => formData.hasTrainingPay,
+          uiSchema: trainingPayWaiver.uiSchema,
+          schema: trainingPayWaiver.schema,
+        },
+
         fullyDevelopedClaim: {
           title: 'Fully developed claim program',
           path: 'fully-developed-claim',

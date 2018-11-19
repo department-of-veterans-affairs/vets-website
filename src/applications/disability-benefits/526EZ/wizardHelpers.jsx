@@ -1,5 +1,4 @@
 import React from 'react';
-import siteName from '../../../platform/brand-consolidation/site-name';
 
 export const GetStartedMessage = ({ checkDisabilityStatus, isVerified }) => {
   const {
@@ -13,7 +12,8 @@ export const GetStartedMessage = ({ checkDisabilityStatus, isVerified }) => {
     : ' To apply for a disability increase, you’ll need to sign in and verify your account.';
   let getStartedMessage = `Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability.${signInMessage}`;
   if (isFirst) {
-    getStartedMessage = `We’re sorry. We’re not set up to accept original claims on ${siteName} at this time. Since you’re filing your first disability claim, you’ll need to file on eBenefits.`;
+    getStartedMessage =
+      'To file your first disability claim, please go to our eBenefits website.';
   }
   if (isAppeal) {
     getStartedMessage = (
