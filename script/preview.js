@@ -56,6 +56,8 @@ const smith = createPipieline({
 
 app.use('/content', (req, res) => {
   const contentId = req.query.contentId;
+  // eslint-disable-next-line
+  console.log(`Content id: ${contentId}`);
 
   octokit.repos
     .getContent({
