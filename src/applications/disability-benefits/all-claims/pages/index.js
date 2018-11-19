@@ -79,11 +79,6 @@ import {
 } from './ptsdWalkthroughChoice781';
 
 import {
-  uiSchema as incidentInfoUISchema,
-  schema as incidentInfoSchema,
-} from './incidentInfo';
-
-import {
   uiSchema as incidentDateUISchema,
   schema as incidentDateSchema,
 } from './incidentDate';
@@ -271,11 +266,6 @@ export const choosePtsdType = {
 export const ptsdWalkthroughChoice781 = {
   uiSchema: ptsdWalkthroughChoice781UISchema,
   schema: ptsdWalkthroughChoice781Schema,
-};
-
-export const incidentInfo = {
-  uiSchema: incidentInfoUISchema,
-  schema: incidentInfoSchema,
 };
 
 export const incidentDate = {
