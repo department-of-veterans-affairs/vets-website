@@ -60,6 +60,10 @@ export function isMarried(form = {}) {
   return ['MARRIED', 'SEPARATED'].includes(form.maritalStatus);
 }
 
+export function hasBeenMarried(form = {}) {
+  return form.maritalStatus !== 'NEVERMARRIED';
+}
+
 export function isMilitaryAddress(address = {}) {
   const state = address.state;
   return militaryStates.some(e => e.value === state);
@@ -105,7 +109,7 @@ export function isNotCurrentMarriage(form, index) {
 }
 
 export function isNotLivingWithSpouse(form) {
-  return !form.liveWithSpouse;
+  return !form.currentMarriage.liveWithSpouse;
 }
 
 export function isNotLivingWithParent(form, index) {

@@ -28,6 +28,7 @@ import {
   disableWarning,
   getMarriageTitleWithCurrent,
   getSpouseMarriageTitle,
+  hasBeenMarried,
   isCurrentMarriage,
   isDomesticAddress,
   isInternationalAddressText,
@@ -56,7 +57,8 @@ const {
   currentMarriage,
   dependents,
   maritalStatus,
-  previousMarriages: marriages,
+  marriages,
+  spouseMarriages,
   veteranFullName,
   veteranSocialSecurityNumber,
 } = fullSchema686.properties;
@@ -70,6 +72,7 @@ const {
   militaryAddress,
   postalCode,
   previousMarriages,
+  marriages: marriagesDefinition,
   ssn,
   vaFileNumber,
 } = fullSchema686.definitions;
@@ -78,11 +81,11 @@ const {
   liveWithSpouse,
   spouseDateOfBirth,
   spouseIsVeteran,
-  spouseMarriages,
   spouseVaFileNumber,
 } = currentMarriage.properties;
 
 previousMarriages.items.required = [];
+marriagesDefinition.items.required = [];
 const marriageProperties = previousMarriages.items.properties;
 
 const MARITAL_STATUS_NEVER_MARRIED = 'NEVERMARRIED';
@@ -335,6 +338,7 @@ const formConfig = {
     location,
     postalCode,
     previousMarriages,
+    marriages: marriagesDefinition,
     fullName,
     ssn,
     date,
@@ -423,9 +427,7 @@ const formConfig = {
               'ui:title': 'How many times have you been married?',
               'ui:widget': ArrayCountWidget,
               'ui:field': 'StringField',
-              'ui:required': form =>
-                !!_.get('maritalStatus', form) &&
-                form.maritalStatus !== MARITAL_STATUS_NEVER_MARRIED,
+              'ui:required': hasBeenMarried,
               'ui:options': {
                 showFieldLabel: 'label',
                 keepInPageOnReview: true,
@@ -584,64 +586,70 @@ const formConfig = {
           path: 'spouse-information',
           depends: isMarried,
           uiSchema: {
-            spouseDateOfBirth: _.merge(currentOrPastDateUI(''), {
-              'ui:options': {
-                updateSchema: createSpouseLabelSelector(
-                  spouseName =>
-                    `${spouseName.first} ${spouseName.last}’s date of birth`,
-                ),
-              },
-            }),
-            spouseSocialSecurityNumber: _.merge(ssnUI, {
-              'ui:title': '',
-              'ui:options': {
-                updateSchema: createSpouseLabelSelector(
-                  spouseName =>
-                    `${spouseName.first} ${
-                      spouseName.last
-                    }’s Social Security number`,
-                ),
-              },
-            }),
-            spouseIsVeteran: {
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                updateSchema: createSpouseLabelSelector(
-                  spouseName =>
-                    `Is ${spouseName.first} ${spouseName.last} also a Veteran?`,
-                ),
-              },
-            },
-            spouseVaFileNumber: {
-              'ui:title': 'What is their VA file number?',
-              'ui:options': {
-                expandUnder: 'spouseIsVeteran',
-              },
-              'ui:errorMessages': {
-                pattern: 'Your VA file number must be between 7 to 9 digits',
-              },
-            },
-            liveWithSpouse: {
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                updateSchema: createSpouseLabelSelector(
-                  spouseName =>
-                    `Do you live with ${spouseName.first} ${spouseName.last}?`,
-                ),
-              },
-            },
-            spouseAddress: _.merge(
-              createAddressUISchemaForKey(
-                'spouseAddress',
-                isNotLivingWithSpouse,
-              ),
-              {
+            currentMarriage: {
+              spouseDateOfBirth: _.merge(currentOrPastDateUI(''), {
                 'ui:options': {
-                  expandUnder: 'liveWithSpouse',
-                  expandUnderCondition: false,
+                  updateSchema: createSpouseLabelSelector(
+                    spouseName =>
+                      `${spouseName.first} ${spouseName.last}’s date of birth`,
+                  ),
+                },
+              }),
+              spouseSocialSecurityNumber: _.merge(ssnUI, {
+                'ui:title': '',
+                'ui:options': {
+                  updateSchema: createSpouseLabelSelector(
+                    spouseName =>
+                      `${spouseName.first} ${
+                        spouseName.last
+                      }’s Social Security number`,
+                  ),
+                },
+              }),
+              spouseIsVeteran: {
+                'ui:widget': 'yesNo',
+                'ui:options': {
+                  updateSchema: createSpouseLabelSelector(
+                    spouseName =>
+                      `Is ${spouseName.first} ${
+                        spouseName.last
+                      } also a Veteran?`,
+                  ),
                 },
               },
-            ),
+              spouseVaFileNumber: {
+                'ui:title': 'What is their VA file number?',
+                'ui:options': {
+                  expandUnder: 'spouseIsVeteran',
+                },
+                'ui:errorMessages': {
+                  pattern: 'Your VA file number must be between 7 to 9 digits',
+                },
+              },
+              liveWithSpouse: {
+                'ui:widget': 'yesNo',
+                'ui:options': {
+                  updateSchema: createSpouseLabelSelector(
+                    spouseName =>
+                      `Do you live with ${spouseName.first} ${
+                        spouseName.last
+                      }?`,
+                  ),
+                },
+              },
+              spouseAddress: _.merge(
+                createAddressUISchemaForKey(
+                  'currentMarriage.spouseAddress',
+                  isNotLivingWithSpouse,
+                ),
+                {
+                  'ui:options': {
+                    expandUnder: 'liveWithSpouse',
+                    expandUnderCondition: false,
+                  },
+                },
+              ),
+            },
             spouseMarriages: {
               'ui:title':
                 'How many times has your spouse been married (including current marriage)?',
@@ -659,20 +667,24 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [
-              'spouseDateOfBirth',
-              'spouseSocialSecurityNumber',
-              'spouseIsVeteran',
-              'liveWithSpouse',
-              'spouseMarriages',
-            ],
             properties: {
-              spouseDateOfBirth,
-              spouseSocialSecurityNumber: veteranSocialSecurityNumber,
-              spouseIsVeteran,
-              spouseVaFileNumber,
-              liveWithSpouse,
-              spouseAddress: addressSchema,
+              currentMarriage: {
+                type: 'object',
+                required: [
+                  'spouseDateOfBirth',
+                  'spouseSocialSecurityNumber',
+                  'spouseIsVeteran',
+                  'liveWithSpouse',
+                ],
+                properties: {
+                  spouseDateOfBirth,
+                  spouseSocialSecurityNumber: veteranSocialSecurityNumber,
+                  spouseIsVeteran,
+                  spouseVaFileNumber,
+                  liveWithSpouse,
+                  spouseAddress: addressSchema,
+                },
+              },
               spouseMarriages,
             },
           },
@@ -694,8 +706,8 @@ const formConfig = {
                     updateSchema: createSpouseLabelSelector(
                       spouseName =>
                         `When did
-                         ${spouseName.first} ${spouseName.last}
-                         get married?`,
+                           ${spouseName.first} ${spouseName.last}
+                           get married?`,
                     ),
                   },
                 }),
@@ -708,8 +720,8 @@ const formConfig = {
                       updateSchema: createSpouseLabelSelector(
                         spouseName =>
                           `Where did
-                           ${spouseName.first} ${spouseName.last}
-                           get married? (city and state or foreign country)`,
+                             ${spouseName.first} ${spouseName.last}
+                             get married? (city and state or foreign country)`,
                       ),
                     },
                   },
@@ -721,8 +733,8 @@ const formConfig = {
                       updateSchema: createSpouseLabelSelector(
                         spouseName =>
                           `First name of
-                           ${spouseName.first} ${spouseName.last}’s
-                           former spouse`,
+                             ${spouseName.first} ${spouseName.last}’s
+                             former spouse`,
                       ),
                     },
                   },
@@ -732,8 +744,8 @@ const formConfig = {
                       updateSchema: createSpouseLabelSelector(
                         spouseName =>
                           `Middle name of
-                           ${spouseName.first} ${spouseName.last}’s
-                          former spouse`,
+                             ${spouseName.first} ${spouseName.last}’s
+                            former spouse`,
                       ),
                     },
                   },
@@ -743,8 +755,8 @@ const formConfig = {
                       updateSchema: createSpouseLabelSelector(
                         spouseName =>
                           `Last name of
-                           ${spouseName.first} ${spouseName.last}’s
-                           former spouse`,
+                             ${spouseName.first} ${spouseName.last}’s
+                             former spouse`,
                       ),
                     },
                   },
@@ -975,7 +987,8 @@ const formConfig = {
                 'view:stepChildCondition': {
                   'ui:options': {
                     expandUnder: 'childRelationship',
-                    expandUnderCondition: formData => formData === 'stepchild',
+                    expandUnderCondition: relationship =>
+                      relationship === 'stepchild',
                   },
                   'ui:required': (formData, index) =>
                     _.get(`dependents.${index}.childRelationship`, formData) ===
