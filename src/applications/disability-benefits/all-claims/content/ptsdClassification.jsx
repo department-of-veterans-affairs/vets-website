@@ -73,7 +73,7 @@ export const PtsdNameTitle = ({ formData, formType }) => {
   const { incidentTitle } = getPtsdClassification(formData, formType);
   return (
     <legend className="schemaform-block-title schemaform-title-underline">
-      {incidentTitle}
+      {`PTSD: ${incidentTitle}`}
     </legend>
   );
 };
