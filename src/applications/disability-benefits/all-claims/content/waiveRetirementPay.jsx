@@ -22,7 +22,9 @@ export const waiveRetirementPayDescription = (
       </thead>
       <tbody>
         <tr>
-          <td>$700/month</td>
+          <td>
+            <del>$700/month</del>
+          </td>
           <td>$700/month (minus taxes)</td>
           <td>$630/month</td>
         </tr>
@@ -31,7 +33,9 @@ export const waiveRetirementPayDescription = (
             <strong>$700/month (tax-free)</strong>
           </td>
           <td>
-            <strong>$700/month</strong>
+            <strong>
+              <del>$700/month</del>
+            </strong>
           </td>
           <td>
             <strong>$700/month</strong>
@@ -40,11 +44,11 @@ export const waiveRetirementPayDescription = (
       </tbody>
     </table>
     <p>
-      <strong>
+      <em>
         This is an example showing that dollar for dollar VA compensation pay
         gives you more spending power than retirement pay. Tax rates will vary
         depending on income.
-      </strong>
+      </em>
     </p>
   </div>
 );
