@@ -1,4 +1,8 @@
-import { incidentDate, secondaryIncidentDate } from '../../pages';
+import {
+  incidentDate,
+  secondaryIncidentDate,
+  eventDescription,
+} from '../../pages';
 
 import { isAnswering781Questions, isAnswering781aQuestions } from '../../utils';
 
@@ -21,6 +25,13 @@ export function formConfig781(iterations) {
     configObj = {
       ...configObj,
       // 781 PAGE CONFIGS GO HERE
+      [`eventDescription${index}`]: {
+        title: `${numberToWords[index]} 781 PTSD Event Description`,
+        path: `disabilities/ptsd-event-description-${index}`,
+        depends: isAnswering781Questions,
+        uiSchema: eventDescription.uiSchema(index),
+        schema: eventDescription.schema(index),
+      },
       [`incidentDate${index}`]: {
         title: `${numberToWords[index]} 781 PTSD Incident date`,
         path: `disabilities/ptsd-incident-date-${index}`,
