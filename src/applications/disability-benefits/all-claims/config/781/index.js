@@ -8,14 +8,12 @@ export function formConfig781(iterations) {
     configObj = {
       ...configObj,
       // 781 PAGE CONFIGS GO HERE
-      ...{
-        [`incidentDate${index}`]: {
-          title: `781 PTSD Incident date ${index + 1}`,
-          path: `disabilities/ptsd-incident-date-${index}`,
-          depends: isAnswering781Questions,
-          uiSchema: incidentDate.uiSchema(index),
-          schema: incidentDate.schema(index),
-        },
+      [`incidentDate${index}`]: {
+        title: `781 PTSD Incident date ${index + 1}`,
+        path: `disabilities/ptsd-incident-date-${index}`,
+        depends: isAnswering781Questions,
+        uiSchema: incidentDate.uiSchema(index),
+        schema: incidentDate.schema(index),
       },
     };
   }
