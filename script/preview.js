@@ -44,7 +44,7 @@ if (options.unexpected && options.unexpected.length !== 0) {
 const app = express();
 
 // eslint-disable-next-line
-console.log(options.buildpath);
+console.log(options['content-directory']);
 
 const root = path.resolve(__dirname, options.buildpath);
 app.use(express.static(root));
