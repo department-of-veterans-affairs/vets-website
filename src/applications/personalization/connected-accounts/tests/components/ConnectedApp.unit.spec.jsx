@@ -13,11 +13,12 @@ const account = {
     logo: 'example.com/fancy_duck.jpg',
     title: 'Ducks R Us',
     created: '2018-11-05T17:29:40+0000',
+    grants: ['Stuff', 'Things'],
   },
 };
 
 describe('<ConnectedApp>', () => {
-  it('clicking button opens the confirm delete modal', () => {
+  it('opening the row and clicking button opens the confirm delete modal', () => {
     const tree = SkinDeep.shallowRender(
       <ConnectedApp
         {...account}
@@ -25,6 +26,9 @@ describe('<ConnectedApp>', () => {
         propertyName="VA.gov"
       />,
     );
+
+    const row = tree.dive(['table', 'tbody', 'tr']);
+    row.props.onClick();
 
     tree.subTree('button').props.onClick({ target: {} });
 
