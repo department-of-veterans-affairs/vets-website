@@ -52,11 +52,7 @@ app.use(express.static(root));
 const smith = createPipieline({
   ...options,
   port: process.env.PORT,
-  'content-directory': path.join(__dirname, '../vagov-content/pages'),
 });
-
-// eslint-disable-next-line no-console
-console.log(path.join(__dirname, '../vagov-content/pages'));
 
 app.use('/content', (req, res) => {
   const contentId = req.query.contentId;

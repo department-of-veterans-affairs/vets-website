@@ -1,6 +1,6 @@
 # define absolute paths to each repo
 vagov_apps_dir=${PWD}
-vagov_content_dir=${vagov_apps_dir}/../vagov_content
+vagov_content_dir=${vagov_apps_dir}/vagov_content
 
 echo Installing vagov_content into ${vagov_content_dir}
 
