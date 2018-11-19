@@ -501,7 +501,7 @@ describe('isAnswering781Questions', () => {
         'view:combatPtsdType': true,
       },
       'view:uploadPtsdChoice': 'answerQuestions',
-      doneEnteringIncidents: true,
+      'view:doneEnteringIncidents': true,
     };
     expect(isAnswering781Questions({ formData })).to.be.false;
   });
@@ -522,7 +522,7 @@ describe('isAnswering781aQuestions', () => {
         'view:assaultPtsdType': true,
       },
       'view:uploadPtsdChoice': 'answerQuestions',
-      doneEnteringIncidents: true,
+      'view:doneEnteringIncidents': true,
     };
     expect(isAnswering781aQuestions({ formData })).to.be.false;
   });
