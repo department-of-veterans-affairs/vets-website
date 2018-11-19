@@ -24,6 +24,11 @@ $middle-layer: 200;
 $top-layer: 300;
 $modal-layer: 400;
 
+//===================================
+// Font-family values
+//===================================
+$font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+
 @font-face {
   font-family: "FontAwesome";
   src: url("~font-awesome/fonts/fontawesome-webfont.woff2") format("woff2"),
@@ -37,40 +42,38 @@ $modal-layer: 400;
   font-family: "Source Sans Pro";
   font-style: normal;
   font-weight: 300;
-  src: url(/fonts/sourcesanspro-light-webfont.eot?#iefix) format("embedded-opentype"),
-    url(/fonts/sourcesanspro-light-webfont.woff2) format("woff2"),
-    url(/fonts/sourcesanspro-light-webfont.woff) format("woff"),
-    url(/fonts/sourcesanspro-light-webfont.ttf) format("truetype");
+  src: url(/generated/sourcesanspro-light-webfont.eot?#iefix) format("embedded-opentype"),
+    url(/generated/sourcesanspro-light-webfont.woff2) format("woff2"),
+    url(/generated/sourcesanspro-light-webfont.woff) format("woff"),
+    url(/generated/sourcesanspro-light-webfont.ttf) format("truetype");
 }
 
 @font-face {
   font-family: "Source Sans Pro";
   font-style: normal;
   font-weight: 400;
-  src: url(/fonts/sourcesanspro-regular-webfont.eot?#iefix) format("embedded-opentype"),
-    url(/fonts/sourcesanspro-regular-webfont.woff2) format("woff2"),
-    url(/fonts/sourcesanspro-regular-webfont.woff) format("woff"),
-    url(/fonts/sourcesanspro-regular-webfont.ttf) format("truetype");
+  src: url(/generated/sourcesanspro-regular-webfont.eot?#iefix) format("embedded-opentype"),
+    url(/generated/sourcesanspro-regular-webfont.woff) format("woff"),
+    url(/generated/sourcesanspro-regular-webfont.ttf) format("truetype");
 }
 
 @font-face {
   font-family: "Source Sans Pro";
   font-style: italic;
   font-weight: 400;
-  src: url(/fonts/sourcesanspro-italic-webfont.eot?#iefix) format("embedded-opentype"),
-    url(/fonts/sourcesanspro-italic-webfont.woff2) format("woff2"),
-    url(/fonts/sourcesanspro-italic-webfont.woff) format("woff"),
-    url(/fonts/sourcesanspro-italic-webfont.ttf) format("truetype");
+  src: url(/generated/sourcesanspro-italic-webfont.eot?#iefix) format("embedded-opentype"),
+    url(/generated/sourcesanspro-italic-webfont.woff2) format("woff2"),
+    url(/generated/sourcesanspro-italic-webfont.woff) format("woff"),
+    url(/generated/sourcesanspro-italic-webfont.ttf) format("truetype");
 }
 
 @font-face {
   font-family: "Source Sans Pro";
   font-style: normal;
   font-weight: 700;
-  src: url(/fonts/sourcesanspro-bold-webfont.eot?#iefix) format("embedded-opentype"),
-    url(/fonts/sourcesanspro-bold-webfont.woff2) format("woff2"),
-    url(/fonts/sourcesanspro-bold-webfont.woff) format("woff"),
-    url(/fonts/sourcesanspro-bold-webfont.ttf) format("truetype");
+  src: url(/generated/sourcesanspro-bold-webfont.eot?#iefix) format("embedded-opentype"),
+    url(/generated/sourcesanspro-bold-webfont.woff) format("woff"),
+    url(/generated/sourcesanspro-bold-webfont.ttf) format("truetype");
 }
 
 @font-face {
@@ -98,7 +101,7 @@ $modal-layer: 400;
 }
 
 .consolidated {
-  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+  font-family: $font-stack;
   @import "~@department-of-veterans-affairs/formation/sass/core";
 
   @import "../../site-wide/user-nav/sass/user-nav";
@@ -140,7 +143,7 @@ $modal-layer: 400;
 }
 
 .merger #bg-middle-effect {
-  background: url(/va_files/2014/responsive/images/bg-middle-effect.png) repeat-y scroll center -65px $teamsite-light-blue;
+  background: url(https://benefits.va.gov/va_files/2014/responsive/images/bg-middle-effect.png) repeat-y scroll center -65px $teamsite-light-blue;
 }
 
 .slider .prev, .slider .next, #slider-controls {

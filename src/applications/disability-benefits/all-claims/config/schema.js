@@ -654,6 +654,41 @@ const schema = {
         },
       },
     },
+    specialIssues: {
+      type: 'array',
+      maxItems: 100,
+      items: {
+        type: 'object',
+        required: ['code', 'name'],
+        properties: {
+          name: {
+            type: 'string',
+          },
+          code: {
+            type: 'string',
+            enum: [
+              'ALS',
+              'AOIV',
+              'AOOV',
+              'ASB',
+              'EHCL',
+              'GW',
+              'HEPC',
+              'MG',
+              'POW',
+              'RDN',
+              'SHAD',
+              'TRM',
+              'PTSD/1',
+              'PTSD/2',
+              'PTSD/3',
+              'PTSD/4',
+              'MST',
+            ],
+          },
+        },
+      },
+    },
   },
   properties: {
     alternateNames: {
@@ -724,22 +759,12 @@ const schema = {
         },
         reservesNationalGuardService: {
           type: 'object',
-          required: [
-            'unitName',
-            'obligationTermOfServiceDateRange',
-            'waiveVABenefitsToRetainTrainingPay',
-          ],
+          required: ['unitName', 'obligationTermOfServiceDateRange'],
           properties: {
             unitName: {
               type: 'string',
               maxLength: 256,
               pattern: "^([a-zA-Z0-9\\-'.#][a-zA-Z0-9\\-'.# ]?)*$",
-            },
-            unitAddress: {
-              $ref: '#/definitions/address',
-            },
-            unitPhone: {
-              $ref: '#/definitions/phone',
             },
             obligationTermOfServiceDateRange: {
               $ref: '#/definitions/dateRangeAllRequired',
@@ -786,6 +811,9 @@ const schema = {
       type: 'string',
       enum: serviceBranches,
     },
+    hasTrainingPay: {
+      type: 'boolean',
+    },
     waiveTrainingPay: {
       type: 'boolean',
     },
@@ -803,6 +831,9 @@ const schema = {
           disabilityActionType: {
             type: 'string',
             enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
+          },
+          specialIssues: {
+            $ref: '#/definitions/specialIssues',
           },
           ratedDisabilityId: {
             type: 'string',
@@ -830,6 +861,9 @@ const schema = {
                   type: 'string',
                   enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
                 },
+                specialIssues: {
+                  $ref: '#/definitions/specialIssues',
+                },
                 ratedDisabilityId: {
                   type: 'string',
                 },
@@ -852,7 +886,7 @@ const schema = {
       type: 'array',
       items: {
         type: 'object',
-        required: ['condition', 'cause', 'disabilityStartDate'],
+        required: ['condition', 'cause'],
         properties: {
           condition: {
             type: 'string',
@@ -870,6 +904,9 @@ const schema = {
           causedByDisabilityDescription: {
             type: 'string',
           },
+          specialIssues: {
+            $ref: '#/definitions/specialIssues',
+          },
           worsenedDescription: {
             type: 'string',
           },
@@ -884,7 +921,6 @@ const schema = {
           },
           VAMistreatmentDate: {
             type: 'string',
-            format: 'date',
           },
         },
       },

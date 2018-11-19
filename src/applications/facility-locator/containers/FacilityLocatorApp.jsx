@@ -1,36 +1,68 @@
-/* eslint-disable prettier/prettier */
 import { connect } from 'react-redux';
-import { Link, browserHistory } from 'react-router';
+import { Link } from 'react-router';
 import React from 'react';
 import DowntimeNotification, {
   externalServices,
 } from '../../../platform/monitoring/DowntimeNotification';
 import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 import { ccLocatorEnabled } from '../config';
-
-/**
- * Preserves the search form in the UI & address bar when
- * navigating back to the search/map page.
- *
- * @param {Object} e The click event
- */
-const goBackHistory = (e) => {
-  e.preventDefault();
-  browserHistory.goBack();
-};
+import appendQuery from 'append-query';
 
 class FacilityLocatorApp extends React.Component {
+  // TODO: Move this logic into a shared helper so it can be
+  // reused on VAMap.jsx and other places we want to build
+  // complex URL strings.
+  buildSearchString() {
+    const {
+      currentPage: page,
+      context,
+      facilityType,
+      position: location,
+      searchString: address,
+      serviceType,
+      zoomLevel,
+    } = this.props.searchQuery;
+
+    const searchQuery = {
+      zoomLevel,
+      page,
+      address,
+      location: `${location.latitude},${location.longitude}`,
+      context,
+      facilityType,
+      serviceType,
+    };
+
+    const searchQueryUrl = appendQuery('/', searchQuery);
+    return searchQueryUrl;
+  }
+
   renderBreadcrumbs(location, selectedResult) {
     const crumbs = [
-      <a href="/" key="home">Home</a>,
-      <Link onClick={goBackHistory} key="facility-locator">Find Facilities & Services</Link>
+      <a href="/" key="home">
+        Home
+      </a>,
+      <Link to={this.buildSearchString()} key="facility-locator">
+        Find Facilities & Services
+      </Link>,
     ];
 
     if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedResult) {
-      crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Facility Details</Link>);
-    } else if (ccLocatorEnabled() && location.pathname.match(/provider\/[a-z]+_\d/) && selectedResult) {
-      // TODO: Remove feature flag when ready to go live
-      crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Provider Details</Link>);
+      crumbs.push(
+        <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
+          Facility Details
+        </Link>,
+      );
+    } else if (
+      ccLocatorEnabled() && // TODO: Remove feature flag when ready to go live
+      location.pathname.match(/provider\/[a-z]+_\d/) &&
+      selectedResult
+    ) {
+      crumbs.push(
+        <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
+          Provider Details
+        </Link>,
+      );
     }
 
     return crumbs;
@@ -60,6 +92,7 @@ class FacilityLocatorApp extends React.Component {
 function mapStateToProps(state) {
   return {
     selectedResult: state.searchResult.selectedResult,
+    searchQuery: state.searchQuery,
   };
 }
 

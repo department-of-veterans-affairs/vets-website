@@ -1,32 +1,30 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react/jsx-closing-bracket-location */
 import React, { Component } from 'react';
 import FacilityTypeDropdown from './FacilityTypeDropdown';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { LocationType } from '../constants';
-import {
-  healthServices,
-  benefitsServices,
-  vetCenterServices,
-} from '../config';
+import { healthServices, benefitsServices, vetCenterServices } from '../config';
 
 class SearchControls extends Component {
   handleEditSearch = () => {
     this.props.onChange({ active: false });
   };
 
-  handleQueryChange = e => {
+  // eslint-disable-next-line prettier/prettier
+  handleQueryChange = (e) => {
     this.props.onChange({ searchString: e.target.value });
   };
 
+  // eslint-disable-next-line prettier/prettier
   handleFacilityTypeChange = (option) => {
+    // eslint-disable-next-line prettier/prettier
     const facilityType = (option === LocationType.ALL) ? null : option;
     this.props.onChange({ facilityType, serviceType: null });
   };
 
   handleServiceTypeChange = ({ target }) => {
     const option = target.value;
+    // eslint-disable-next-line prettier/prettier
     const serviceType = (option === 'All') ? null : option;
     this.props.onChange({ serviceType });
   };
@@ -63,10 +61,13 @@ class SearchControls extends Component {
         services = benefitsServices;
         break;
       case LocationType.VET_CENTER:
-        services = vetCenterServices.reduce((result, service) => {
-          result[service] = service; // eslint-disable-line no-param-reassign
-          return result;
-        }, { All: 'Show all facilities' });
+        services = vetCenterServices.reduce(
+          (result, service) => {
+            result[service] = service; // eslint-disable-line no-param-reassign
+            return result;
+          },
+          { All: 'Show all facilities' },
+        );
         break;
       case LocationType.CC_PROVIDER:
         return <ServiceTypeAhead onSelect={this.handleServiceTypeChange} />;
@@ -75,7 +76,7 @@ class SearchControls extends Component {
     }
 
     // Create option elements for each VA service type.
-    const options = Object.keys(services).map((service) => (
+    const options = Object.keys(services).map(service => (
       <option key={service} value={service}>
         {services[service]}
       </option>
@@ -83,9 +84,7 @@ class SearchControls extends Component {
 
     return (
       <span>
-        <label htmlFor="service-type-dropdown">
-          Service type (optional)
-        </label>
+        <label htmlFor="service-type-dropdown">Service type (optional)</label>
         <select
           id="service-type-dropdown"
           disabled={disabled}
@@ -113,9 +112,16 @@ class SearchControls extends Component {
 
     return (
       <div className="search-controls-container clearfix">
-        <form className="row" onSubmit={this.handleSubmit}>
+        <form
+          id="facility-search-controls"
+          className="row"
+          onSubmit={this.handleSubmit}
+        >
           <div className="columns medium-3-5">
-            <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
+            <label
+              htmlFor="street-city-state-zip"
+              id="street-city-state-zip-label"
+            >
               Search near
             </label>
             <input
@@ -124,12 +130,14 @@ class SearchControls extends Component {
               type="text"
               onChange={this.handleQueryChange}
               value={currentQuery.searchString}
-              title="Your location: Street, City, State or Zip" />
+              title="Your location: Street, City, State or Zip"
+            />
           </div>
           <div className="columns medium-3-5">
             <FacilityTypeDropdown
               facilityType={this.props.currentQuery.facilityType}
-              onChange={this.handleFacilityTypeChange} />
+              onChange={this.handleFacilityTypeChange}
+            />
           </div>
           <div className="columns medium-3-4">
             {this.renderServiceTypeDropdown()}

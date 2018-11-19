@@ -90,21 +90,36 @@ header.merger {
     width: 468px;
   }
 
+  #mega-menu .vetnav-panel {
+    box-sizing: border-box;
+    .mm-links {
+      font-family: $font-stack;
+    }
+  }
+
   @media (min-width: $large-screen) {
-    #mega-menu .vetnav-panel {
-      width: 487px;
-    }
+    #mega-menu  {
+      .vetnav-panel {
+        width: 487px;
 
-    #mega-menu .column-two {
-      left: 240px;
-    }
+        &.column-one {
+          .mm-link-container {
+            width: 200px;
+          }
+        }
 
-    #mega-menu .column-three {
-      left: 487px;
-    }
+        &.column-two {
+          left: 240px;
+        }
 
-    #mega-menu .panel-bottom-link {
-      width: 657px;
+        &.column-three {
+          left: 487px;
+        }
+      }
+
+      .panel-bottom-link {
+        width: 657px;
+      }
     }
   }
 
@@ -121,13 +136,16 @@ header.merger {
 
   #login-root {
     margin-left: -1.5rem;
-    .profile-nav .va-dropdown {
-      span, p {
-        font-family: "Source Sans Pro";
-        font-size: 16px;
-      }
-      p {
-        padding-bottom: 0;
+    .profile-nav {
+      box-sizing: border-box;
+      .va-dropdown {
+        span, p {
+          font-family: "Source Sans Pro";
+          font-size: 16px;
+        }
+        p {
+          padding-bottom: 0;
+        }
       }
     }
   }
