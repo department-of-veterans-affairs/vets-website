@@ -104,7 +104,7 @@ function createPipeline(options) {
   smith.use(
     layouts({
       engine: 'liquid',
-      directory: `${BUILD_OPTIONS.contentRoot}/layouts/`,
+      directory: BUILD_OPTIONS.layouts,
       // Only apply layouts to markdown and html files.
       pattern: '**/*.{md,html}',
     }),
