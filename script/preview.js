@@ -49,7 +49,12 @@ console.log(options['content-directory']);
 const root = path.resolve(__dirname, options.buildpath);
 app.use(express.static(root));
 
-const smith = createPipieline(options);
+const smith = createPipieline({
+  ...options,
+  port: process.env.PORT,
+  'content-directory': path.join(__dirname, '../vagov-content/pages'),
+});
+
 app.use('/content', (req, res) => {
   const contentId = req.query.contentId;
 
@@ -85,9 +90,5 @@ app.use('/content', (req, res) => {
 
 app.listen(process.env.PORT || options.port, () => {
   // eslint-disable-next-line no-console
-  console.log(
-    `Test server listening on port ${options.port} for type ${
-      options.buildtype
-    }`,
-  );
+  console.log('Content preview server running');
 });
