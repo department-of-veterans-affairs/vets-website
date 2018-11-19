@@ -80,6 +80,9 @@ app.use('/content', (req, res) => {
     });
 });
 
+// eslint-disable-next-line no-console
+console.log(options.port);
+
 app.listen(options.port, () => {
   // eslint-disable-next-line no-console
   console.log(
