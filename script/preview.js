@@ -12,8 +12,8 @@ const express = require('express');
 const octokit = require('@octokit/rest')();
 const createPipieline = require('./preview-build');
 
-const ENVIRONMENTS = require('./constants/environments');
-const HOSTNAMES = require('./constants/hostnames');
+const ENVIRONMENTS = require('../src/site/stages/constants/environments');
+const HOSTNAMES = require('../src/site/stages/constants/hostnames');
 
 const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const defaultHost = HOSTNAMES[defaultBuildtype];
