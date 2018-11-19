@@ -133,18 +133,22 @@ export function transform(formConfig, form) {
     ? { servicePeriods, reservesNationalGuardService }
     : { servicePeriods };
 
+  const selectedDisabilities = disabilities.filter(
+    disability => disability['view:selected'],
+  );
+
   const additionalDocuments = aggregate(
-    disabilities,
+    selectedDisabilities,
     'additionalDocuments',
     'view:selectableEvidenceTypes.view:otherEvidence',
   );
   const privateRecords = aggregate(
-    disabilities,
+    selectedDisabilities,
     'privateRecords',
     'view:selectableEvidenceTypes.view:privateMedicalRecords',
   );
   const treatments = aggregate(
-    disabilities,
+    selectedDisabilities,
     'treatments',
     'view:selectableEvidenceTypes.view:vaMedicalRecords',
   );
@@ -152,9 +156,9 @@ export function transform(formConfig, form) {
   const attachments = additionalDocuments.concat(privateRecords);
 
   const transformedData = {
-    disabilities: disabilities
-      .filter(disability => disability['view:selected'] === true)
-      .map(filtered => pick(filtered, disabilityProperties)),
+    disabilities: selectedDisabilities.map(filtered =>
+      pick(filtered, disabilityProperties),
+    ),
     // Pull phone & email out of phoneEmailCard and into veteran property
     veteran: setPhoneEmailPaths(veteran),
     privacyAgreementAccepted,
@@ -461,6 +465,7 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
       'view:privateMedicalRecords': privateRecordsSelected,
       'view:otherEvidence': otherEvidenceSelected,
     },
+    'view:uploadPrivateRecords': uploadPrivateRecords,
   } = formData;
 
   return (
@@ -480,10 +485,20 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
             </li>
           )}
         {privateRecords &&
-          privateRecordsSelected && (
+          privateRecordsSelected &&
+          uploadPrivateRecords === 'yes' && (
             <li>
               We have received the private medical records you uploaded:
               {listDocuments(privateRecords)}
+            </li>
+          )}
+        {privateRecordsSelected &&
+          uploadPrivateRecords === 'no' && (
+            <li>
+              You asked us to get your private medical records from your doctor,
+              so you’ll need to fill out an Authorization to Disclose
+              Information to the VA (VA Form 21-4142). We’ll provide a link to
+              the 21-4142 after you submit your form.
             </li>
           )}
         {additionalDocuments &&
