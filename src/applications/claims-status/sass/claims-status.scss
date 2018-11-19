@@ -557,7 +557,18 @@ h1:focus {
   padding-top: 0;
 
   h5 button {
-    all: inherit;
+    background: inherit;
+    border: inherit;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-size-adjust: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    margin: inherit;
+    padding: inherit;
+    z-index: inherit;
   }
 
   h5 button:focus {
