@@ -43,6 +43,9 @@ if (options.unexpected && options.unexpected.length !== 0) {
 
 const app = express();
 
+// eslint-disable-next-line
+console.log(options.buildpath);
+
 const root = path.resolve(__dirname, options.buildpath);
 app.use(express.static(root));
 
@@ -80,10 +83,7 @@ app.use('/content', (req, res) => {
     });
 });
 
-// eslint-disable-next-line no-console
-console.log(options.port);
-
-app.listen(options.port, () => {
+app.listen(process.env.PORT || options.port, () => {
   // eslint-disable-next-line no-console
   console.log(
     `Test server listening on port ${options.port} for type ${
