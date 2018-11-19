@@ -80,7 +80,7 @@ app.use('/content', (req, res) => {
     });
 });
 
-app.listen(options.port, options.host, () => {
+app.listen(options.port, () => {
   // eslint-disable-next-line no-console
   console.log(
     `Test server listening on port ${options.port} for type ${
