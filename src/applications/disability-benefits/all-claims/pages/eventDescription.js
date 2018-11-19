@@ -32,12 +32,7 @@ export const schema = index => ({
   properties: {
     [`event${index}`]: {
       type: 'string',
-      properties: {
-        // 'view:ptsdDateDescription': {
-        //   type: 'object',
-        //   properties: {},
-        // },
-      },
+      properties: {},
     },
   },
 });

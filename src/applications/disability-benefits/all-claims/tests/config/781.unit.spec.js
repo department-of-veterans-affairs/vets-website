@@ -19,6 +19,17 @@ describe('781/781a incident form config iterators', () => {
       expect(config.incidentDate1).to.be.an('object');
       expect(config.incidentDate2).to.be.an('object');
     });
+    it('should return three event description page config objects', () => {
+      const config = formConfig781(3);
+
+      expect(config).to.haveOwnProperty('eventDescription0');
+      expect(config).to.haveOwnProperty('eventDescription1');
+      expect(config).to.haveOwnProperty('eventDescription2');
+
+      expect(config.eventDescription0).to.be.an('object');
+      expect(config.eventDescription1).to.be.an('object');
+      expect(config.eventDescription2).to.be.an('object');
+    });
     it('should contain three incident properties', () => {
       const config = formConfig781(3);
       expect(config.incidentDate0.schema.properties.incident0).to.be.an(
