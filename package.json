@@ -6,7 +6,7 @@
     "apps": "node --eval \"require('./script/manifest-helpers.js').displayApplications()\"",
     "analyze": "webpack-bundle-analyzer build/production/generated/stats.json",
     "build": "node script/build.js",
-    "build:redirects": "node script/vets-gov-to-va-gov/index.js",
+    "build:redirects": "node script/vets-gov-to-va-gov.js",
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype production --analyzer; npm run analyze",
     "generate-link-csv:brand-consolidation": "node script/build.js --brand-consolidation-enabled && node script/csv-path-builder",
     "prebuild": "node script/prebuild.js",
@@ -246,7 +246,7 @@
     "url-search-params": "^0.10.0",
     "us-forms-system": "https://github.com/usds/us-forms-system.git#f476ed0ff038403d04e531bbbae41f72290e23b5",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#6490dc3ffe58717846dc45697d3fb59a2b5fba3c",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9f9fcbbe24d92970f85013bbdec40293b3d3852b",
     "webpack-bundle-analyzer": "^2.11.1"
   }
 }
