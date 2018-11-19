@@ -44,10 +44,9 @@ if (options.unexpected && options.unexpected.length !== 0) {
 const app = express();
 
 // eslint-disable-next-line
-console.log(options['content-directory']);
+console.log(options.buildpath);
 
-const root = path.resolve(__dirname, options.buildpath);
-app.use(express.static(root));
+app.use(express.static(path.join('..', options.buildpath)));
 
 const smith = createPipieline({
   ...options,
