@@ -134,7 +134,7 @@ class AccountMain extends React.Component {
           Manage the sites and applications that you've granted access to your
           {propertyName} profile data.
         </p>
-        <a href="/connected-accounts">Manage your connected accounts</a>
+        <a href="/account/connected-accounts">Manage your connected accounts</a>
         <div className="feature">
           <h3>Have questions about signing in to {propertyName}?</h3>
           <p>

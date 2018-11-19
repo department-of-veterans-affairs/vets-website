@@ -91,7 +91,7 @@ describe('686 dependent info', () => {
       />,
     );
     selectRadio(form, 'root_childInHousehold', 'N');
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(9);
   });
 
   it('should submit form with required fields filled', () => {
@@ -110,9 +110,18 @@ describe('686 dependent info', () => {
       />,
     );
     selectRadio(form, 'root_childInHousehold', 'N');
+    const country = form.find(
+      'select#root_childInfo_childAddress_countryDropdown',
+    );
+    country.simulate('change', {
+      target: { value: 'USA' },
+    });
     fillData(form, 'input#root_childInfo_childAddress_street', 'test st');
     fillData(form, 'input#root_childInfo_childAddress_city', 'test city');
-    fillData(form, 'select#root_childInfo_childAddress_state', 'CA');
+    const state = form.find('select#root_childInfo_childAddress_state');
+    state.simulate('change', {
+      target: { value: 'CA' },
+    });
     fillData(form, 'input#root_childInfo_childAddress_postalCode', '91111');
 
     form.find('form').simulate('submit');

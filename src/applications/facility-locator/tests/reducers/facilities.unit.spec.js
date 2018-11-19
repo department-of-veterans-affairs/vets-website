@@ -1,17 +1,16 @@
-/* eslint-disable prettier/prettier */
 import { expect } from 'chai';
 
 import {
   FETCH_LOCATION_DETAIL,
   FETCH_LOCATIONS,
-  SEARCH_FAILED
+  SEARCH_FAILED,
 } from '../../utils/actionTypes';
 import { SearchResultReducer } from '../../reducers/searchResult';
 
 const INITIAL_STATE = {
   results: [],
   selectedResult: null,
-  pagination: {}
+  pagination: {},
 };
 
 describe('facilities reducer', () => {
@@ -19,7 +18,7 @@ describe('facilities reducer', () => {
     const state = SearchResultReducer(INITIAL_STATE, {
       type: FETCH_LOCATION_DETAIL,
       payload: {
-        name: 'selectedResult'
+        name: 'selectedResult',
       },
     });
 
@@ -30,10 +29,7 @@ describe('facilities reducer', () => {
     const state = SearchResultReducer(INITIAL_STATE, {
       type: FETCH_LOCATIONS,
       payload: {
-        data: [
-          { name: 'selectedResult1' },
-          { name: 'selectedResult2' },
-        ],
+        data: [{ name: 'selectedResult1' }, { name: 'selectedResult2' }],
         meta: {
           pagination: {
             currentPage: 1,
