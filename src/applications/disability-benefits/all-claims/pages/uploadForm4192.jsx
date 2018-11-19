@@ -1,5 +1,5 @@
 import { DocumentDescription } from '../content/uploadPtsdDocuments';
-import { ancillaryFormUploadUi } from '../content/ancillaryFormUploadUi';
+import { ancillaryFormUploadUi } from '../utils';
 
 export const uiSchema = {
   'ui:title': 'Upload VA Form 21-4192',

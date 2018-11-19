@@ -3,7 +3,8 @@ import moment from 'moment';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
-import { apiRequest } from '../../../platform/utilities/api';
+import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+import { apiRequest, environment } from '../../../platform/utilities/api';
 import _ from '../../../platform/utilities/data';
 
 import {
@@ -13,6 +14,7 @@ import {
   DATA_PATHS,
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
+  FIFTY_MB,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -288,6 +290,9 @@ export const needsToEnter781a = formData =>
 export const isUploadingPtsdForm = formData =>
   _.get('view:uploadPtsdChoice', formData, '') === 'upload';
 
+export const isUploading4192Form = formData =>
+  _.get('view:upload4192Choice', formData, '') === 'upload';
+
 export const getHomelessOrAtRisk = formData => {
   const homelessStatus = _.get('homelessOrAtRisk', formData, '');
   return (
@@ -295,3 +300,32 @@ export const getHomelessOrAtRisk = formData => {
     homelessStatus === HOMELESSNESS_TYPES.atRisk
   );
 };
+
+export const ancillaryFormUploadUi = itemDescription =>
+  fileUploadUI('', {
+    itemDescription,
+    hideLabelText: true,
+    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
+    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+    maxSize: FIFTY_MB,
+    createPayload: file => {
+      const payload = new FormData();
+      payload.append('supporting_evidence_attachment[file_data]', file);
+
+      return payload;
+    },
+    parseResponse: (response, file) => ({
+      name: file.name,
+      confirmationCode: response.data.attributes.guid,
+    }),
+    // this is the uiSchema passed to FileField for the attachmentId schema
+    // FileField requires this name be used
+    attachmentSchema: {
+      'ui:title': 'Document type',
+    },
+    // this is the uiSchema passed to FileField for the name schema
+    // FileField requires this name be used
+    attachmentName: {
+      'ui:title': 'Document name',
+    },
+  });

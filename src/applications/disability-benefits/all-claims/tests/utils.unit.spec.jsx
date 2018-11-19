@@ -16,6 +16,7 @@ import {
   needsToEnter781,
   needsToEnter781a,
   isUploadingPtsdForm,
+  isUploading4192Form,
 } from '../utils.jsx';
 
 import initialData from './initialData';
@@ -432,7 +433,21 @@ describe('526 helpers', () => {
 
     it('should return false if user has not chosen to upload documents', () => {
       const formData = {};
-      expect(needsToEnter781({ formData })).to.be.false;
+      expect(isUploadingPtsdForm({ formData })).to.be.false;
+    });
+  });
+
+  describe('isUploading4192Form', () => {
+    it('should return true if user has chosen to upload 4192 form', () => {
+      const formData = {
+        'view:upload4192Choice': 'upload',
+      };
+      expect(isUploading4192Form(formData)).to.be.true;
+    });
+
+    it('should return false if user has not chosen to upload 4192 form', () => {
+      const formData = {};
+      expect(isUploading4192Form({ formData })).to.be.false;
     });
   });
 });

@@ -19,6 +19,7 @@ import {
   needsToEnter781,
   needsToEnter781a,
   isUploadingPtsdForm,
+  isUploading4192Form,
   servedAfter911,
 } from '../utils';
 
@@ -282,7 +283,7 @@ const formConfig = {
         uploadForm4192: {
           title: 'Upload Form 4192',
           path: 'new-disabilities/4192-upload',
-          depends: formData => formData['view:upload4192Choice'] === 'upload',
+          depends: isUploading4192Form,
           uiSchema: uploadForm4192.uiSchema,
           schema: uploadForm4192.schema,
         },
