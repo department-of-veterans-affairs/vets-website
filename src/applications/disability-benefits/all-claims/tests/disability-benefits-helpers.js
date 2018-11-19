@@ -107,7 +107,7 @@ function completePrivateMedicalRecordsChoice(client, data) {
 function completeRecordReleaseInformation(client, data) {
   const providerFacilities = data.disabilities[0].providerFacility;
   const limitedConsentChoice = data.disabilities[0]['view:limitedConsent'];
-  const limitedConsent = data.disabilities[0].limitedConsent;
+  const { limitedConsent } = data.disabilities[0];
 
   providerFacilities.forEach((facility, i, list) => {
     client
