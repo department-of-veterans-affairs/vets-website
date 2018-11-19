@@ -65,13 +65,14 @@
       border-top: none;
       padding: 0;
       .va-connected-acct-row-details-block-wrapper {
-         margin: 1em;
+         margin: 0 1em 1em;
          background: $color-white;
          border-top: none !important;
          .va-connected-acct-row-details-block-content {
-            margin: 1em;
+            margin: 0 1em 1em;
             p {
                padding-top: .5em;
+               margin-top: 0;
                margin-bottom: 0;
                font-size: 95%;
                font-weight: bold;
