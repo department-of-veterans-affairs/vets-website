@@ -15,8 +15,8 @@ export const waiveRetirementPayDescription = (
     <table>
       <thead>
         <tr>
-          <th>VA Compensation</th>
-          <th>Military Retirement</th>
+          <th>Compensation</th>
+          <th>Retirement</th>
           <th>Take home pay</th>
         </tr>
       </thead>
