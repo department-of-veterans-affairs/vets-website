@@ -1,10 +1,9 @@
-/* eslint-disable prettier/prettier */
 import { ccLocatorEnabled } from '../config';
 
 /**
  * Single location to declare all your 'magic strings'.
  * 'Cause if you mistype an import you notice right away.
- * 
+ *
  * Mistype a string? Enjoy the browser blow up 😁
  */
 
@@ -15,7 +14,7 @@ export const LocationType = {
   ALL: 'all',
   VA_FACILITIES: 'va_facilities',
   CC_PROVIDER: 'cc_provider',
-  // Subtype of VA_FACILITIES
+  // Subtypes of VA_FACILITIES
   HEALTH: 'health',
   BENEFITS: 'benefits',
   CEMETARY: 'cemetery',
@@ -35,22 +34,10 @@ export const FacilityType = {
 /**
  * Defines the options available for the Location Type Dropdown
  */
-export const LOCATION_OPTIONS = ccLocatorEnabled()
 // TODO: Remove feature flag when going live
-  ? [
-    'all',
-    'health',
-    'cc_provider',
-    'benefits',
-    'cemetery',
-    'vet_center',
-  ] : [
-    'all',
-    'health',
-    'benefits',
-    'cemetery',
-    'vet_center',
-  ];
+export const LOCATION_OPTIONS = ccLocatorEnabled()
+  ? ['all', 'health', 'cc_provider', 'benefits', 'cemetery', 'vet_center']
+  : ['all', 'health', 'benefits', 'cemetery', 'vet_center'];
 
 /**
  * Defines the ± change in bounding box size for the map when changing zoom
