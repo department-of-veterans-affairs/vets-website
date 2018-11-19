@@ -19,15 +19,18 @@
 
 .va-connected-acct-row {
    cursor: pointer;
+   th {
+      padding-top: 0;
+      padding-bottom: 0;
+   }
    &:hover {
       th {
          background: $color-gray-lightest !important;
       }
    }
    th:first-child{
-      padding: .8em;
       img {
-         padding: 5px;
+         padding: 1em;
       }
    }
    .va-connected-acct-row-details {
@@ -60,7 +63,7 @@
    th {
       background: $color-gray-lightest !important;
       border-top: none;
-      padding-top: 0;
+      padding: 0;
       .va-connected-acct-row-details-block-wrapper {
          margin: 1em;
          background: $color-white;
@@ -69,6 +72,7 @@
             margin: 1em;
             p {
                padding-top: .5em;
+               margin-bottom: 0;
                font-size: 95%;
                font-weight: bold;
                line-height: 3.5;
