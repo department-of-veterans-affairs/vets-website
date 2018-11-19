@@ -279,8 +279,8 @@ const formConfig = {
           schema: unemployabilityFormIntro.schema,
         },
         unemployabilityDates: {
-          title: 'Relevent Unemployability Dates',
-          path: 'new-disabilities/unemployability-relevent-dates',
+          title: 'Relevant Unemployability Dates',
+          path: 'new-disabilities/unemployability-relevant-dates',
           depends: formData =>
             formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
           uiSchema: unemployabilityDates.uiSchema,
