@@ -44,9 +44,9 @@ if (options.unexpected && options.unexpected.length !== 0) {
 const app = express();
 
 // eslint-disable-next-line
-console.log(options.buildpath);
+console.log(path.join(__dirname, '..', options.buildpath));
 
-app.use(express.static(path.join('..', options.buildpath)));
+app.use(express.static(path.join(__dirname, '..', options.buildpath)));
 
 const smith = createPipieline({
   ...options,
