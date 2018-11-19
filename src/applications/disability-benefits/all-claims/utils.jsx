@@ -179,6 +179,30 @@ export function transformRelatedDisabilities(object, claimedConditions) {
     .map(key => key.toLowerCase());
 }
 
+/**
+ * Converts the treatment date range into an array of objects from just an object
+ *
+ * @param {object} treatmentDateRange object containing from/to date range
+ * @returns {array} of treatmentDateRange's
+ */
+const transformDateRange = treatmentDateRange => [treatmentDateRange];
+
+/**
+ * Cycles through the list of provider facilities and performs transformations on each property as needed
+ * @param {array} providerFacility array of objects being transformed
+ * @returns {object} containing the new Provider Facility structure
+ */
+const transformProviderFacilities = providerFacilities => {
+  const newProviderFacilities = providerFacilities.map(facility =>
+    _.set(
+      'treatmentDateRange',
+      transformDateRange(facility.treatmentDateRange),
+      facility,
+    ),
+  );
+  return newProviderFacilities;
+};
+
 export function transform(formConfig, form) {
   // Remove rated disabilities that weren't selected
   let clonedData = _.set(
@@ -234,6 +258,22 @@ export function transform(formConfig, form) {
       return d;
     });
     delete clonedData.powDisabilities;
+  }
+
+  if (clonedData.providerFacility) {
+    clonedData.form4142 = {
+      ...(clonedData.limitedConsent && {
+        limitedConsent: clonedData.limitedConsent,
+      }),
+      ...(clonedData.providerFacility && {
+        providerFacility: transformProviderFacilities(
+          clonedData.providerFacility,
+        ),
+      }),
+    };
+
+    delete clonedData.limitedConsent;
+    delete clonedData.providerFacility;
   }
 
   return JSON.stringify({

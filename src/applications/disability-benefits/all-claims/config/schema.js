@@ -571,9 +571,6 @@ const schema = {
             },
           },
         },
-        privacyAgreementAccepted: {
-          $ref: '#/definitions/privacyAgreementAccepted',
-        },
       },
     },
     form0781: {
