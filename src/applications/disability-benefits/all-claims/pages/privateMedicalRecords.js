@@ -27,7 +27,7 @@ export const uiSchema = {
       'ui:options': {
         labels: {
           Y: 'Yes',
-          N: 'No, my doctor has my medical records.',
+          N: 'No, please get my records from my doctor.',
         },
       },
     },
@@ -85,7 +85,7 @@ export const uiSchema = {
     'ui:options': {
       expandUnder: 'view:uploadPrivateRecordsQualifier',
       expandUnderCondition: data =>
-        _.get('view:hasPrivateRecordsToUpload', data, false) === false,
+        _.get('view:hasPrivateRecordsToUpload', data, true) === false,
       showFieldLabel: true,
     },
     'view:acknowledgement': {

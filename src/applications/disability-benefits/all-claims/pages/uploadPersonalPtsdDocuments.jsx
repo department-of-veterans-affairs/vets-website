@@ -2,7 +2,7 @@ import React from 'react';
 
 import { DocumentDescription } from '../content/uploadPtsdDocuments';
 import { PtsdNameTitle } from '../content/ptsdClassification';
-import { ancillaryFormUploadUi } from '../content/ancillaryFormUploadUi';
+import { ancillaryFormUploadUi } from '../utils';
 
 export const uiSchema = {
   'ui:title': ({ formData }) => (

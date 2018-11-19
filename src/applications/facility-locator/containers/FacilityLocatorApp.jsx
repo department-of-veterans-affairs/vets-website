@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import React from 'react';
@@ -10,7 +9,7 @@ import { ccLocatorEnabled } from '../config';
 import appendQuery from 'append-query';
 
 class FacilityLocatorApp extends React.Component {
-  // TODO: Move this logic into a shared helper so it can be 
+  // TODO: Move this logic into a shared helper so it can be
   // reused on VAMap.jsx and other places we want to build
   // complex URL strings.
   buildSearchString() {
@@ -23,7 +22,7 @@ class FacilityLocatorApp extends React.Component {
       serviceType,
       zoomLevel,
     } = this.props.searchQuery;
-    
+
     const searchQuery = {
       zoomLevel,
       page,
@@ -40,15 +39,30 @@ class FacilityLocatorApp extends React.Component {
 
   renderBreadcrumbs(location, selectedResult) {
     const crumbs = [
-      <a href="/" key="home">Home</a>,
-      <Link to={this.buildSearchString()} key="facility-locator">Find Facilities & Services</Link>,
+      <a href="/" key="home">
+        Home
+      </a>,
+      <Link to={this.buildSearchString()} key="facility-locator">
+        Find Facilities & Services
+      </Link>,
     ];
 
     if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedResult) {
-      crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Facility Details</Link>);
-    } else if (ccLocatorEnabled() && location.pathname.match(/provider\/[a-z]+_\d/) && selectedResult) {
-      // TODO: Remove feature flag when ready to go live
-      crumbs.push(<Link to={`/${selectedResult.id}`} key={selectedResult.id}>Provider Details</Link>);
+      crumbs.push(
+        <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
+          Facility Details
+        </Link>,
+      );
+    } else if (
+      ccLocatorEnabled() && // TODO: Remove feature flag when ready to go live
+      location.pathname.match(/provider\/[a-z]+_\d/) &&
+      selectedResult
+    ) {
+      crumbs.push(
+        <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
+          Provider Details
+        </Link>,
+      );
     }
 
     return crumbs;

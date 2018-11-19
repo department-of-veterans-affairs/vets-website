@@ -9,7 +9,6 @@ VETSGOV_BUILDTYPES = [
 ]
 
 VAGOV_BUILDTYPES = [
-  'preview',
   'vagovdev',
   'vagovstaging',
   'vagovprod'
@@ -133,7 +132,6 @@ node('vetsgov-general-purpose') {
         unit: {
           dockerImage.inside(args) {
             sh "cd /application && npm --no-color run test:coverage"
-            sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
           }
         }
       )
@@ -220,7 +218,7 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  stage('Pre-archive optimizations') {
+  stage('Prearchive optimizations') {
     if (shouldBail()) { return }
 
     try {
@@ -231,7 +229,7 @@ node('vetsgov-general-purpose') {
 
         builds[envName] = {
           dockerImage.inside(args) {
-            sh "cd /application && node script/pre-archive/index.js --buildtype=${envName}"
+            sh "cd /application && node script/prearchive.js --buildtype=${envName}"
           }
         }
       }

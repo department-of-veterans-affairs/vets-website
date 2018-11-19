@@ -1,0 +1,15 @@
+{
+  // These compilerOptions settings are required for Intellisense to function
+  // when importing modules that use the Babel module-resolver plugin
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "*": ["*", "src/*"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "coverage"
+  ]
+}

@@ -17,6 +17,7 @@ import {
   needsToEnter781a,
   isUploadingPtsdForm,
   isUploading4192Form,
+  transformRelatedDisabilities,
 } from '../utils.jsx';
 
 import initialData from './initialData';
@@ -448,6 +449,34 @@ describe('526 helpers', () => {
     it('should return false if user has not chosen to upload 4192 form', () => {
       const formData = {};
       expect(isUploading4192Form({ formData })).to.be.false;
+    });
+  });
+
+  describe('transformRelatedDisabilities', () => {
+    it('should return an array of strings', () => {
+      const claimedConditions = [
+        'some condition name',
+        'another condition name',
+      ];
+      const relatedDisabilities = {
+        'Some condition name': true,
+        'Another condition name': true,
+        'This condition is falsey!': false,
+      };
+      expect(
+        transformRelatedDisabilities(relatedDisabilities, claimedConditions),
+      ).to.eql(['some condition name', 'another condition name']);
+    });
+    it('should not add conditions if they are not claimed', () => {
+      const claimedConditions = ['some condition name'];
+      const relatedDisabilities = {
+        'Some condition name': true,
+        'Another condition name': true,
+        'This condition is falsey!': false,
+      };
+      expect(
+        transformRelatedDisabilities(relatedDisabilities, claimedConditions),
+      ).to.eql(['some condition name']);
     });
   });
 });
