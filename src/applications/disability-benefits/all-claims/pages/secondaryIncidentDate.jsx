@@ -9,7 +9,7 @@ const { date } = fullSchema.definitions;
 
 export const uiSchema = index => ({
   'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781" />
+    <PtsdNameTitle formData={formData} formType="781a" />
   ),
   'ui:description': formData => (
     <SecondaryDateDescription formData={formData} index={index} />
