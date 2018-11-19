@@ -21,6 +21,8 @@ import {
   isUploadingPtsdForm,
   servedAfter911,
   isNotUploadingPrivateMedical,
+  showPtsdCombateConclusion,
+  showPtsdAssaultConclusion,
   transform,
 } from '../utils';
 
@@ -271,20 +273,14 @@ const formConfig = {
         conclusionCombat: {
           path: 'conclusion-781',
           title: 'Disabiity Details',
-          depends: form =>
-            form['view:uploadPtsdChoice'] === 'answerQuestions' &&
-            (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
-              form['view:selectablePtsdTypes']['view:noncombatPtsdType']),
+          depends: showPtsdCombateConclusion,
           uiSchema: conclusionCombat.uiSchema,
           schema: conclusionCombat.schema,
         },
         conclusionAssault: {
           path: 'conclusion-781a',
           title: 'Disabiity Details',
-          depends: form =>
-            form['view:uploadPtsdChoice'] === 'answerQuestions' &&
-            (form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
-              form['view:selectablePtsdTypes']['view:assaultPtsdType']),
+          depends: showPtsdAssaultConclusion,
           uiSchema: conclusionAssault.uiSchema,
           schema: conclusionAssault.schema,
         },
