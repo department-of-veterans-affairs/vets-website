@@ -10,14 +10,14 @@ const moment = require('moment');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 
-const getOptions = require('./options');
-const createBuildSettings = require('./create-build-settings');
-const updateExternalLinks = require('./update-external-links');
-const createEnvironmentFilter = require('./create-environment-filter');
-const nonceTransformer = require('./metalsmith/nonceTransformer');
-const leftRailNavResetLevels = require('./left-rail-nav-reset-levels');
-const rewriteVaDomains = require('./rewrite-va-domains');
-const applyFragments = require('./apply-fragments');
+const getOptions = require('../src/site/stages/build/options');
+const createBuildSettings = require('../src/site/stages/build/plugins/create-build-settings');
+const updateExternalLinks = require('../src/site/stages/build/plugins/update-external-links');
+const createEnvironmentFilter = require('../src/site/stages/build/plugins/create-environment-filter');
+const nonceTransformer = require('../src/site/stages/build/plugins/nonceTransformer');
+const leftRailNavResetLevels = require('../src/site/stages/build/plugins/left-rail-nav-reset-levels');
+const rewriteVaDomains = require('../src/site/stages/build/plugins/rewrite-va-domains');
+const applyFragments = require('../src/site/stages/build/plugins/apply-fragments');
 
 function createPipeline(options) {
   const BUILD_OPTIONS = getOptions(options);
