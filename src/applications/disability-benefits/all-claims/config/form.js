@@ -62,6 +62,7 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  ancillaryFormsWizardIntro,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -285,6 +286,14 @@ const formConfig = {
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
         },
+        // Ancillary forms wizard
+        ancillaryFormsWizardIntro: {
+          title: 'Additional disability benefits',
+          path: 'additional-disability-benefits',
+          uiSchema: ancillaryFormsWizardIntro.uiSchema,
+          schema: ancillaryFormsWizardIntro.schema,
+        },
+        // End ancillary forms wizard
         summaryOfDisabilities: {
           title: 'Summary of disabilities',
           path: 'disabilities/summary',
