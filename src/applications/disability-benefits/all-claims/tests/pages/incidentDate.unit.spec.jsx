@@ -47,6 +47,25 @@ describe('781 Incident Date', () => {
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
+  it('should allow parttially filled in incident date', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    fillDate(form, 'root_incident0_incidentDate', '2016-07-XX');
+    form.find('form').simulate('submit');
+
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+  });
   it('should allow submission if no incident date submitted', () => {
     const onSubmit = sinon.spy();
     const form = mount(
