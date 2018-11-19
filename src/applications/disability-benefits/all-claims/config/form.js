@@ -90,8 +90,6 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPoll,
-  // TODO: Remove this once we've got the api up and running
-  submit: () => Promise.resolve({ attributes: { jobId: '12345' } }),
   // footerContent: FormFooter,
   // getHelp: GetFormHelp,
   defaultDefinitions: {
