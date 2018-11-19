@@ -67,7 +67,7 @@ export function formConfig781a(iterations) {
         [`secondaryIncidentUnitAssignment${index}`]: {
           title: `PTSD 781a ${index + 1} incident unit assignment`,
           path: `disabilities/ptsd-secondary-incident-unit-assignment-${index}`,
-          depends: isAnswering781Questions,
+          depends: isAnswering781aQuestions,
           uiSchema: secondaryIncidentUnitAssignment.uiSchema(index),
           schema: secondaryIncidentUnitAssignment.schema(index),
         },
