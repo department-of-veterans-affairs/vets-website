@@ -8,15 +8,15 @@ export const uiSchema = {
   'ui:description': benefitDescription,
   'view:modifyingHome': {
     'ui:title': 'Do you need help buying or modifying your home?',
-    widget: 'yesNo',
+    'ui:widget': 'yesNo',
   },
   'view:modifyingCar': {
     'ui:title': 'Do you need help buying or modifying your car?',
-    widget: 'yesNo',
+    'ui:widget': 'yesNo',
   },
   'view:alreadyClaimedVehicleAllowance': {
     'ui:title': 'Have you applied for an automobile allowance before?',
-    widget: 'yesNo',
+    'ui:widget': 'yesNo',
     'ui:options': {
       expandUnder: 'view:modifyingCar',
     },
