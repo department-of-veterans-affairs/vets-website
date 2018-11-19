@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-
 import fullSchema1010ez from '../../../applications/hca/config/form';
 import fullSchema0993 from '../../../applications/edu-benefits/0993/config/form';
 import fullSchema1990 from '../../../applications/edu-benefits/1990/config/form';
@@ -53,6 +52,7 @@ const configs = [
 const excludedForms = new Set([
   '28-1900',
   '21-526EZ',
+  '21-526EZ-ALLCLAIMS', // TODO: remove this?
   '28-8832',
   '24-0296',
   '21-4142',

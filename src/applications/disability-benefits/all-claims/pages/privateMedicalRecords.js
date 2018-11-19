@@ -85,7 +85,7 @@ export const uiSchema = {
     'ui:options': {
       expandUnder: 'view:uploadPrivateRecordsQualifier',
       expandUnderCondition: data =>
-        _.get('view:hasPrivateRecordsToUpload', data, false) === false,
+        _.get('view:hasPrivateRecordsToUpload', data, true) === false,
       showFieldLabel: true,
     },
     'view:acknowledgement': {

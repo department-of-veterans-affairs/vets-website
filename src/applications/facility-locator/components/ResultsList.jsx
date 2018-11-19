@@ -1,5 +1,4 @@
 /* eslint-disable arrow-body-style */
-/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -22,7 +21,12 @@ class ResultsList extends Component {
   };
 
   render() {
-    const { results, isMobile, currentQuery, pagination: { currentPage, totalPages } } = this.props;
+    const {
+      results,
+      isMobile,
+      currentQuery,
+      pagination: { currentPage, totalPages },
+    } = this.props;
 
     if (currentQuery.inProgress) {
       return (
@@ -43,19 +47,21 @@ class ResultsList extends Component {
 
     return (
       <div>
-        <p>Search results near <strong>“{currentQuery.context}”</strong></p>
+        <p>
+          Search results near <strong>“{currentQuery.context}”</strong>
+        </p>
         <div>
-          {
-            results.map(r => {
-              return isMobile ? (
-                <div key={r.id} className="mobile-search-result">
-                  <SearchResult result={r} currentLocation={currentQuery.position} />
-                </div>
-              ) : (
-                <SearchResult key={r.id} result={r} currentLocation={currentQuery.position} />
-              );
-            })
-          }
+          {results.map(r => {
+            /* eslint-disable prettier/prettier */
+            return isMobile ? (
+              <div key={r.id} className="mobile-search-result">
+                <SearchResult result={r} currentLocation={currentQuery.position} />
+              </div>
+            ) : (
+              <SearchResult key={r.id} result={r} currentLocation={currentQuery.position} />
+            );
+            /* eslint-enable prettier/prettier */
+          })}
         </div>
         <Pagination
           onPageSelect={this.handlePageSelect}
