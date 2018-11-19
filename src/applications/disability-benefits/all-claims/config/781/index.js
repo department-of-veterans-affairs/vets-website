@@ -1,4 +1,8 @@
-import { incidentDate, secondaryIncidentDate } from '../../pages';
+import {
+  incidentSupport,
+  incidentDate,
+  secondaryIncidentDate,
+} from '../../pages';
 
 import { isAnswering781Questions, isAnswering781aQuestions } from '../../utils';
 
@@ -21,6 +25,13 @@ export function formConfig781(iterations) {
     configObj = {
       ...configObj,
       // 781 PAGE CONFIGS GO HERE
+      [`incidentSupport${index}`]: {
+        title: `${numberToWords[index]} 781 PTSD Incident Support`,
+        path: `disabilities/ptsd-incident-support-${index}`,
+        depends: isAnswering781Questions,
+        uiSchema: incidentSupport.uiSchema('781'),
+        schema: incidentSupport.schema,
+      },
       [`incidentDate${index}`]: {
         title: `${numberToWords[index]} 781 PTSD Incident date`,
         path: `disabilities/ptsd-incident-date-${index}`,
@@ -39,6 +50,13 @@ export function formConfig781a(iterations) {
     configObj = {
       ...configObj,
       // 781a PAGE CONFIGS GO HERE
+      [`secondaryIncidentSupport${index}`]: {
+        title: `${numberToWords[index]} 781a PTSD Incident Support`,
+        path: `disabilities/ptsd-secondary-incident-support-${index}`,
+        depends: isAnswering781aQuestions,
+        uiSchema: incidentSupport.uiSchema('781a'),
+        schema: incidentSupport.schema,
+      },
       [`secondaryIncidentDate${index}`]: {
         title: `${numberToWords[index]} 781a PTSD Incident date`,
         path: `disabilities/ptsd-secondary-incident-date-${index}`,
