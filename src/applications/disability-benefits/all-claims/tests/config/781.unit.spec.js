@@ -19,6 +19,28 @@ describe('781/781a incident form config iterators', () => {
       expect(config.incidentDate1).to.be.an('object');
       expect(config.incidentDate2).to.be.an('object');
     });
+    it('should contain three incident properties', () => {
+      const config = formConfig781(3);
+      expect(config.incidentDate0.schema.properties.incident0).to.be.an(
+        'object',
+      );
+      expect(config.incidentDate1.schema.properties.incident1).to.be.an(
+        'object',
+      );
+      expect(config.incidentDate2.schema.properties.incident2).to.be.an(
+        'object',
+      );
+
+      expect(
+        config.incidentDate0.schema.properties.incident0,
+      ).to.haveOwnProperty('type');
+      expect(
+        config.incidentDate1.schema.properties.incident1,
+      ).to.haveOwnProperty('type');
+      expect(
+        config.incidentDate2.schema.properties.incident2,
+      ).to.haveOwnProperty('type');
+    });
   });
   describe('781a incident form config', () => {
     it('should return a config object', () => {
@@ -35,6 +57,28 @@ describe('781/781a incident form config iterators', () => {
       expect(config.secondaryIncidentDate0).to.be.an('object');
       expect(config.secondaryIncidentDate1).to.be.an('object');
       expect(config.secondaryIncidentDate2).to.be.an('object');
+    });
+    it('should contain three incident properties', () => {
+      const config = formConfig781a(3);
+      expect(
+        config.secondaryIncidentDate0.schema.properties.secondaryIncident0,
+      ).to.be.an('object');
+      expect(
+        config.secondaryIncidentDate1.schema.properties.secondaryIncident1,
+      ).to.be.an('object');
+      expect(
+        config.secondaryIncidentDate2.schema.properties.secondaryIncident2,
+      ).to.be.an('object');
+
+      expect(
+        config.secondaryIncidentDate0.schema.properties.secondaryIncident0,
+      ).to.haveOwnProperty('type');
+      expect(
+        config.secondaryIncidentDate1.schema.properties.secondaryIncident1,
+      ).to.haveOwnProperty('type');
+      expect(
+        config.secondaryIncidentDate2.schema.properties.secondaryIncident2,
+      ).to.haveOwnProperty('type');
     });
   });
 });
