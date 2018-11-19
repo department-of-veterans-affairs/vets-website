@@ -64,6 +64,7 @@ import {
   unemployabilityFormIntro,
   ancillaryFormsWizardIntro,
   adaptiveBenefits,
+  aidAndAttendance,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -299,6 +300,12 @@ const formConfig = {
           path: 'adaptive-benefits',
           uiSchema: adaptiveBenefits.uiSchema,
           schema: adaptiveBenefits.schema,
+        },
+        aidAndAttendance: {
+          title: 'Aid and Attendance benefits',
+          path: 'aid-and-attendance',
+          uiSchema: aidAndAttendance.uiSchema,
+          schema: aidAndAttendance.schema,
         },
         // End ancillary forms wizard
         summaryOfDisabilities: {

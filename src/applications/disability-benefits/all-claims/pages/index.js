@@ -178,6 +178,11 @@ import {
   schema as adaptiveBenefitsSchema,
 } from './adaptiveBenefits';
 
+import {
+  uiSchema as aidAndAttendanceUISchema,
+  schema as aidAndAttendanceSchema,
+} from './aidAndAttendance';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema,
@@ -356,4 +361,9 @@ export const ancillaryFormsWizardIntro = {
 export const adaptiveBenefits = {
   uiSchema: adaptiveBenefitsUISchema,
   schema: adaptiveBenefitsSchema,
+};
+
+export const aidAndAttendance = {
+  uiSchema: aidAndAttendanceUISchema,
+  schema: aidAndAttendanceSchema,
 };
