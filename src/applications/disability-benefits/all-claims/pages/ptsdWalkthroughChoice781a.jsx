@@ -2,8 +2,8 @@ import React from 'react';
 
 import { PtsdNameTitle } from '../content/ptsdClassification';
 import {
-  PtsdUploadChoiceDescription,
-  UploadPtsdDescription,
+  Ptsd781aUploadChoiceDescription,
+  UploadPtsd781aDescription,
 } from '../content/ptsdWalkthroughChoice';
 
 export const uiSchema = {
@@ -11,20 +11,24 @@ export const uiSchema = {
     <PtsdNameTitle formData={formData} formType="781a" />
   ),
   'ui:description': ({ formData }) => (
-    <UploadPtsdDescription formData={formData} formType="781a" />
+    <UploadPtsd781aDescription formData={formData} formType="781a" />
   ),
   'view:uploadPtsdChoice': {
     'ui:title': ' ',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
-        answerQuestions: 'I want to answer questions',
-        upload: 'I want to upload VA Form 21-0781a',
+        answerQuestions:
+          'I want to continue online with questions about my PTSD.',
+        upload:
+          'I‘ve already filled out a paper form (21-0781a) and want to upload it.',
       },
     },
   },
   'view:uploadPtsdChoiceHelp': {
-    'ui:description': <PtsdUploadChoiceDescription formType="781a" />,
+    'ui:description': ({ formData }) => (
+      <Ptsd781aUploadChoiceDescription formData={formData} formType="781a" />
+    ),
   },
 };
 
