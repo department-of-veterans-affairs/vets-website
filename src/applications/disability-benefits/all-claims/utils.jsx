@@ -200,6 +200,7 @@ const transformProviderFacilities = providerFacilities => {
       facility,
     ),
   );
+
   return newProviderFacilities;
 };
 
@@ -219,6 +220,7 @@ export function transform(formConfig, form) {
       claimedConditions.push(d.condition.toLowerCase()),
     );
   }
+
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
   // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
   //  it here to remove reservesNationalGuardService if it's deeply empty.

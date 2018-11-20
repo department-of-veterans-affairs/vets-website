@@ -551,22 +551,69 @@ const schema = {
         },
         providerFacility: {
           type: 'array',
-          required: [
-            'providerFacilityName',
-            'treatmentDateRange',
-            'providerFacilityAddress',
-          ],
+          minItems: 1,
+          maxItems: 100,
           items: {
             type: 'object',
+            required: [
+              'providerFacilityName',
+              'treatmentDateRange',
+              'providerFacilityAddress',
+            ],
             properties: {
               providerFacilityName: {
                 type: 'string',
+                minLength: 1,
+                maxLength: 100,
               },
               treatmentDateRange: {
-                $ref: '#/definitions/dateRange',
+                $ref: '#/definitions/dateRangeAllRequired',
               },
+              /* 
+               * Back end expects the following structure:
+               * "providerFacilityAddress": {
+               *  "street": "123 Main Street",
+               *   "street2": "1B",
+               *   "city": "Baltimore",
+               *   "state": "MD",
+               *   "country": "USA",
+               *   "postalCode": "21200-1111"
+               *  } 
+              */
               providerFacilityAddress: {
-                $ref: '#/definitions/address',
+                type: 'object',
+                required: ['street', 'city', 'country', 'state', 'postalCode'],
+                properties: {
+                  street: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 20,
+                  },
+                  street2: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 20,
+                  },
+                  city: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  postalCode: {
+                    type: 'string',
+                    pattern: '^\\d{5}(?:([-\\s]?)\\d{4})?$',
+                  },
+                  country: {
+                    type: 'string',
+                    enum: baseAddressDef.properties.country.enum,
+                    default: 'USA',
+                  },
+                  state: {
+                    type: 'string',
+                    enum: baseAddressDef.properties.state.enum,
+                    enumNames: baseAddressDef.properties.state.enumNames,
+                  },
+                },
               },
             },
           },
