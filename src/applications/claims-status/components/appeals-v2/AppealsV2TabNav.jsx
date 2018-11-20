@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 
 import TabItem from '../TabItem';
 
+const location = {
+  pathname: '/some path',
+};
+
 const AppealsV2TabNav = ({ appealId }) => (
   <div>
     <ul
@@ -15,6 +19,7 @@ const AppealsV2TabNav = ({ appealId }) => (
         id="v2status"
         tabpath={`appeals/${appealId}/status`}
         title="Status"
+        location={location}
       />
       <TabItem
         shortcut={2}
@@ -22,6 +27,7 @@ const AppealsV2TabNav = ({ appealId }) => (
         id="v2detail"
         tabpath={`appeals/${appealId}/detail`}
         title="Issues"
+        location={location}
       />
     </ul>
   </div>
