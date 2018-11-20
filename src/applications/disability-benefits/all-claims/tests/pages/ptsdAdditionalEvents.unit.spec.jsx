@@ -2,10 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
+import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 import {
   DefinitionTester,
-  fillDate,
+  selectRadio,
 } from '../../../../../platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
@@ -20,67 +21,59 @@ describe('781 additonal events yes/no', () => {
         pagePerItemIndex={0}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{}}
+        data={{
+          'view:selectablePtsdTypes': {
+            'view:combatPtsdType': true,
+          },
+        }}
         uiSchema={uiSchema}
       />,
     );
     expect(form.find('input').length).to.equal(2);
   });
 
-  it('should fill in additional events yes/no', () => {
+  it('should fail to submit when no data is filled out', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        onSubmit={onSubmit}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-      />,
-    );
-
-    fillDate(form, 'root_incident0_incidentDate', '2016-07-10');
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-  });
-  it('should allow parttially filled in incident date', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    fillDate(form, 'root_incident0_incidentDate', '2016-07-XX');
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-  });
-  it('should allow submission if no incident date submitted', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
+        data={{
+          'view:selectablePtsdTypes': {
+            'view:combatPtsdType': true,
+          },
+        }}
         formData={{}}
-        uiSchema={uiSchema}
+        onSubmit={onSubmit}
       />,
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('should submit when data filled in', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          'view:selectablePtsdTypes': {
+            'view:combatPtsdType': true,
+          },
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    selectRadio(form, 'root_view:enterAdditionalEvents0', 'Y');
+    form.find('form').simulate('submit');
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 });
