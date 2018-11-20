@@ -62,15 +62,12 @@
 }
 
 .form-expanding-group {
-  > span {
-    display: none;
-  }
-}
-
-.form-expanding-group { 
   &.form-expanding-group-open {
     > span {
       display: inline;
     }
+  }
+  > span {
+    display: none;
   }
 }
