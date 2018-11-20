@@ -267,7 +267,7 @@ const formConfig = {
         },
         finalIncident: {
           path: 'new-disabilities/ptsd-additional-incident',
-          title: 'Additional PTSD Event',
+          title: 'Additional PTSD event',
           depends: isAnswering781Questions(3),
           uiSchema: finalIncident.uiSchema,
           schema: finalIncident.schema,
@@ -292,8 +292,8 @@ const formConfig = {
           schema: uploadPersonalPtsdDocuments.schema,
         },
         secondaryFinalIncident: {
-          path: 'new-disabilities/ptsd-additional-incident',
-          title: 'Additional PTSD Event',
+          path: 'new-disabilities/ptsd-assault-additional-incident',
+          title: 'Additional assault PTSD event',
           depends: isAnswering781aQuestions(3),
           uiSchema: secondaryFinalIncident.uiSchema,
           schema: secondaryFinalIncident.schema,
