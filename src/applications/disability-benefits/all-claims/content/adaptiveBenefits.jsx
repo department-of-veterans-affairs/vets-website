@@ -23,7 +23,7 @@ const doubleAllowanceAlertContent = (
         catastrophe, <strong>or</strong>
       </li>
       <li>
-        Your first adapted vehicle was destroyed and it wasn’t your fault,
+        Your first adapted vehicle was destroyed and it wasn’t your fault,{' '}
         <strong>and</strong>
       </li>
       <li>

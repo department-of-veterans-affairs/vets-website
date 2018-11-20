@@ -1,4 +1,5 @@
 export const uiSchema = {
+  'ui:title': 'Aid and Attendance benefits',
   'ui:description':
     'If you need help with everyday activities or are confined to your home because of your service-connected disability, you may be eligible for extra help.',
   'view:aidAndAttendance': {
@@ -9,7 +10,10 @@ export const uiSchema = {
 };
 
 export const schema = {
-  'view:aidAndAttendance': {
-    type: 'boolean',
+  type: 'object',
+  properties: {
+    'view:aidAndAttendance': {
+      type: 'boolean',
+    },
   },
 };

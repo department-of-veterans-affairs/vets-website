@@ -23,21 +23,28 @@ export const uiSchema = {
   },
   'view:doubleAllowanceAlert': {
     'ui:description': doubleAllowanceAlert,
+    'ui:options': {
+      expandUnder: 'view:modifyingCar',
+      hideIf: formData => !formData['view:alreadyClaimedVehicleAllowance'],
+    },
   },
 };
 
 export const schema = {
-  'view:modifyingHome': {
-    type: 'boolean',
-  },
-  'view:modifyingCar': {
-    type: 'boolean',
-  },
-  'view:alreadyClaimedVehicleAllowance': {
-    type: 'boolean',
-  },
-  'view:doubleAllowanceAlert': {
-    type: 'object',
-    properties: {},
+  type: 'object',
+  properties: {
+    'view:modifyingHome': {
+      type: 'boolean',
+    },
+    'view:modifyingCar': {
+      type: 'boolean',
+    },
+    'view:alreadyClaimedVehicleAllowance': {
+      type: 'boolean',
+    },
+    'view:doubleAllowanceAlert': {
+      type: 'object',
+      properties: {},
+    },
   },
 };
