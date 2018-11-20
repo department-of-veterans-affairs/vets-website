@@ -5,7 +5,7 @@ import { isEmpty, some, includes, intersection, concat } from 'lodash';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import { mhvAccessError } from '../../../platform/static-data/error-messages';
 import siteName from '../../../platform/brand-consolidation/site-name';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
+import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
 import { errorCodes } from '../config';
 
 class ErrorView extends React.Component {
@@ -26,11 +26,11 @@ class ErrorView extends React.Component {
       detail = (
         <p>
           Please{' '}
-          <CallHelpDesk>
+          <CallVBACenter>
             call support at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
             <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
             8:00 a.m. &#8211; 8:00 p.m. (ET).
-          </CallHelpDesk>{' '}
+          </CallVBACenter>{' '}
           To refill prescriptions, you need to be registered as a VA patient
           through My HealtheVet. To register,{' '}
           <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">
@@ -52,12 +52,12 @@ class ErrorView extends React.Component {
             refresh this page
           </a>{' '}
           or try again later. If you keep having trouble, please{' '}
-          <CallHelpDesk>
+          <CallVBACenter>
             call the {siteName}
             Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
             <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
             8:00 a.m. &#8211; 8:00 p.m. (ET).
-          </CallHelpDesk>
+          </CallVBACenter>
         </p>
       );
     } else if (some(errors, errorCodeIncludes(errorCodes.accountCreation))) {
@@ -75,12 +75,12 @@ class ErrorView extends React.Component {
             try again
           </a>{' '}
           in a few minutes. If you keep having trouble, please{' '}
-          <CallHelpDesk>
+          <CallVBACenter>
             call the {siteName}
             Help Desk at <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
             <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
             8:00 a.m. &#8211; 8:00 p.m. (ET).
-          </CallHelpDesk>
+          </CallVBACenter>
         </p>
       );
     }

@@ -45,7 +45,7 @@ export const uiSchema = {
       'ui:title': 'Other',
     },
     otherExplanation: {
-      'ui:title': 'Please specify',
+      'ui:title': ' ',
       'ui:widget': 'textarea',
       'ui:options': {
         rows: 5,
