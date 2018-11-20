@@ -186,7 +186,10 @@ export default class ClaimPhase extends React.Component {
       >
         {expandCollapseIcon}
         <h5 className="section-header">
-          <button aria-expanded={this.state.open}>
+          <button
+            className="section-header-button"
+            aria-expanded={this.state.open}
+          >
             {getUserPhaseDescription(phase)}
           </button>
         </h5>
