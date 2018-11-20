@@ -12,7 +12,6 @@ export const uiSchema = index => ({
 
 export const schema = index => ({
   type: 'object',
-  required: [`view:enterAdditionalSecondaryEvents${index}`],
   properties: {
     [`view:enterAdditionalSecondaryEvents${index}`]: {
       type: 'boolean',
