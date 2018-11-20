@@ -15,7 +15,7 @@ export const uiSchema = {
     'ui:widget': 'yesNo',
   },
   'view:alreadyClaimedVehicleAllowance': {
-    'ui:title': 'Have you applied for an automobile allowance before?',
+    'ui:title': 'Have you ever applied for an automobile allowance?',
     'ui:widget': 'yesNo',
     'ui:options': {
       expandUnder: 'view:modifyingCar',
