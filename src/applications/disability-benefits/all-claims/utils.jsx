@@ -384,10 +384,10 @@ export const isNotUploadingPrivateMedical = formData =>
 
 export const showPtsdCombatConclusion = form =>
   form['view:uploadPtsdChoice'] === 'answerQuestions' &&
-  (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
-    form['view:selectablePtsdTypes']['view:noncombatPtsdType']);
+  (_.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
+    _.get('view:selectablePtsdTypes.view:noncombatPtsdType', form, false));
 
 export const showPtsdAssaultConclusion = form =>
   form['view:uploadPtsdChoice'] === 'answerQuestions' &&
-  (form['view:selectablePtsdTypes']['view:mstPtsdType'] ||
-    form['view:selectablePtsdTypes']['view:assaultPtsdType']);
+  (_.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
+    _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false));
