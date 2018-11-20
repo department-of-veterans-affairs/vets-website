@@ -58,7 +58,6 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
-  conclusionUnemployability,
 } from '../pages';
 
 import { PTSD } from '../constants';
@@ -290,12 +289,19 @@ const formConfig = {
           uiSchema: summaryOfDisabilities.uiSchema,
           schema: summaryOfDisabilities.schema,
         },
-        conclusionUnemployability: {
+        conclusion4192: {
           title: 'Conclusion 4192',
           path: 'disabilities/conclusion-4192',
           depends: formData => formData['view:unemployabilityStatus'],
-          uiSchema: conclusionUnemployability.uiSchema,
-          schema: conclusionUnemployability.schema,
+          uiSchema: {
+            'ui:title': ' ',
+            'ui:description':
+              'Thank you for taking the time to answer our questions. The information you provided will help us process your claim.',
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
       },
     },
