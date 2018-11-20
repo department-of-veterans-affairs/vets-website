@@ -582,7 +582,7 @@ const schema = {
               */
               providerFacilityAddress: {
                 type: 'object',
-                required: ['street', 'city', 'country', 'state'],
+                required: ['street', 'city', 'country', 'state', 'postalCode'],
                 properties: {
                   street: {
                     type: 'string',
