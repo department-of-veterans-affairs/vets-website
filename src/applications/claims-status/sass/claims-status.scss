@@ -569,9 +569,10 @@ h1:focus {
     margin: inherit;
     padding: inherit;
     z-index: inherit;
+
   }
 
-  h5 button:focus {
+  .section-header-button:focus {
     outline: 2px solid;
     outline-color: $color-gold-light;
     outline-offset: 0;
