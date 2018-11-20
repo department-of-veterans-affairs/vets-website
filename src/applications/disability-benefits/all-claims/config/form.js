@@ -21,7 +21,7 @@ import {
   isUploadingPtsdForm,
   servedAfter911,
   isNotUploadingPrivateMedical,
-  showPtsdCombateConclusion,
+  showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
   transform,
 } from '../utils';
@@ -273,7 +273,7 @@ const formConfig = {
         conclusionCombat: {
           path: 'conclusion-781',
           title: 'Disabiity Details',
-          depends: showPtsdCombateConclusion,
+          depends: showPtsdCombatConclusion,
           uiSchema: conclusionCombat.uiSchema,
           schema: conclusionCombat.schema,
         },

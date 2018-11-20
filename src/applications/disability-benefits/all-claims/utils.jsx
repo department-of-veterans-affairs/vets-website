@@ -382,7 +382,7 @@ export const getHomelessOrAtRisk = formData => {
 export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
 
-export const showPtsdCombateConclusion = form =>
+export const showPtsdCombatConclusion = form =>
   form['view:uploadPtsdChoice'] === 'answerQuestions' &&
   (form['view:selectablePtsdTypes']['view:combatPtsdType'] ||
     form['view:selectablePtsdTypes']['view:noncombatPtsdType']);
