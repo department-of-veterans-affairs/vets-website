@@ -5,6 +5,7 @@ export const uiSchema = {
   'view:unemployable': {
     'ui:title':
       'Does your disability prevent you from holding down a job that you could otherwise do? (This doesn’t include being retired.)',
+    'ui:widget': 'yesNo',
   },
 };
 
