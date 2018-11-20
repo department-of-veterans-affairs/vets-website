@@ -15,7 +15,7 @@ import { closeAlert } from '../actions';
 import ButtonSettings from '../components/buttons/ButtonSettings';
 import { isEmpty } from 'lodash';
 import siteName from '../../../platform/brand-consolidation/site-name';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
+import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
 
 const SERVICE_REQUIRED = backendServices.MESSAGING;
 
@@ -40,12 +40,12 @@ class MessagingApp extends React.Component {
           to your account in our system. To begin sending secure messages,
           please contact your health care team, and ask them to add you into the
           system. If you're still having trouble sending secure messages, please{' '}
-          <CallHelpDesk>
+          <CallVBACenter>
             call the {siteName} Help Desk at{' '}
             <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
             <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211; Friday,
             8:00 a.m. &#8211; 8:00 p.m. (ET).
-          </CallHelpDesk>
+          </CallVBACenter>
         </p>
       );
 

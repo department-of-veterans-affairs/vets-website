@@ -1,8 +1,13 @@
 import environment from '../../../../platform/utilities/environment';
 
+import FormFooter from '../../../../platform/forms/components/FormFooter';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
+import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
+
 import {
   hasMilitaryRetiredPay,
   hasRatedDisabilities,
@@ -88,8 +93,9 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPoll,
-  // footerContent: FormFooter,
-  // getHelp: GetFormHelp,
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
