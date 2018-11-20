@@ -3,13 +3,10 @@ import { expect } from 'chai';
 import { replaceDomainsInData } from '../../environment/stagingDomains';
 
 let currentEnv = '';
-if (
-  global.__BUILDTYPE__.includes('staging') ||
-  global.__BUILDTYPE__ === 'preview'
-) {
+if (global.__BUILDTYPE__.includes('staging')) {
   currentEnv = 'https://staging.va.gov';
 }
-if (['production', 'vagovprod'].includes(global.__BUILDTYPE__)) {
+if (['vagovprod'].includes(global.__BUILDTYPE__)) {
   currentEnv = 'https://www.va.gov';
 }
 

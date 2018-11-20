@@ -1,78 +1,154 @@
 import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
-import moment from 'moment';
 
-import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import environment from '../../../../platform/utilities/environment';
-import GetFormHelp from '../../components/GetFormHelp.jsx';
 import ErrorText from '../../components/ErrorText';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
+import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
-import * as address from '../../../../platform/forms/definitions/address';
-import fullNameUI from '../../../../platform/forms/definitions/fullName';
+
+import FormFooter from 'platform/forms/components/FormFooter';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import fullNameUI from 'platform/forms/definitions/fullName';
+import dataUtils from 'platform/utilities/data/index';
+import environment from 'platform/utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import GetFormHelp from '../../components/GetFormHelp.jsx';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import DependentField from '../components/DependentField';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
-import applicantDescription from '../../../../platform/forms/components/ApplicantDescription';
+
 import {
-  getSpouseMarriageTitle,
-  dependentsMinItem,
-  schoolAttendanceWarning,
-  disableWarning,
+  calculateChildAge,
   childRelationshipStatusLabels,
+  dependentsMinItem,
+  disableWarning,
   getMarriageTitleWithCurrent,
+  getSpouseMarriageTitle,
+  isCurrentMarriage,
+  isDomesticAddress,
+  isInternationalAddressText,
   isMarried,
+  isMilitaryAddress,
+  isNotCurrentMarriage,
+  isNotInternationalAddressText,
+  isNotLivingWithParent,
+  isNotLivingWithSpouse,
+  isNotMilitaryAddress,
+  isUSAAddress,
+  schoolAttendanceWarning,
+  separationReasons,
   transform,
-  spouseRelationshipDescription,
-  childRelationshipDescription,
-  otherRelationshipDescription,
-  isVeteran,
   VAFileNumberDescription,
 } from '../helpers.jsx';
 
 import { validateAfterMarriageDate } from '../validation';
-import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
 import { get686AuthorizationState } from '../selectors';
 import { verifyDisabilityRating } from '../actions';
 import AuthorizationMessage from '../components/AuthorizationMessage';
 
+const { get } = dataUtils;
+
 const {
-  spouseDateOfBirth,
-  spouseSocialSecurityNumber,
-  spouseVaFileNumber,
-  liveWithSpouse,
-  spouseIsVeteran,
-  claimantSocialSecurityNumber,
-  claimantFullName,
-  veteranSocialSecurityNumber,
+  currentMarriage,
   dependents,
+  maritalStatus,
+  previousMarriages: marriages,
   veteranFullName,
+  veteranSocialSecurityNumber,
 } = fullSchema686.properties;
 
 const {
-  marriages,
-  maritalStatus,
-  fullName,
-  ssn,
   date,
+  domesticAddress,
+  fullName,
+  internationalAddressText,
+  location,
+  militaryAddress,
+  postalCode,
+  previousMarriages,
+  ssn,
   vaFileNumber,
 } = fullSchema686.definitions;
 
-const marriageProperties = marriages.items.properties;
+const {
+  liveWithSpouse,
+  spouseDateOfBirth,
+  spouseIsVeteran,
+  spouseMarriages,
+  spouseVaFileNumber,
+} = currentMarriage.properties;
 
-function isCurrentMarriage(form, index) {
-  const numMarriages = form && form.marriages ? form.marriages.length : 0;
-  return isMarried(form) && numMarriages - 1 === index;
+previousMarriages.items.required = [];
+const marriageProperties = previousMarriages.items.properties;
+
+const MARITAL_STATUS_NEVER_MARRIED = 'NEVERMARRIED';
+
+const reasonForSeparation = {
+  type: 'string',
+  enum: [
+    separationReasons.DEATH,
+    separationReasons.DIVORCE,
+    separationReasons.OTHER,
+  ],
+};
+
+const explainSeparation =
+  previousMarriages.items.oneOf[1].properties.explainSeparation;
+
+// NOTE: Required fields will be conditionally set via the ui:Schema
+// We cannot set required fields directly on the schema because some address
+// fields will be hidden and thus break the form silently
+const addressSchema = {
+  type: 'object',
+  properties: {
+    countryDropdown: militaryAddress.properties.countryDropdown,
+    countryText: internationalAddressText.properties.countryText,
+    street: domesticAddress.properties.street,
+    street2: domesticAddress.properties.street2,
+    street3: domesticAddress.properties.street3,
+    city: domesticAddress.properties.city,
+    state: domesticAddress.properties.state,
+    postOffice: militaryAddress.properties.postOffice,
+    postalType: militaryAddress.properties.postalType,
+    postalCode,
+  },
+};
+
+// NOTE: Required fields will be conditionally set via the ui:Schema
+// We cannot set required fields directly on the schema because some location
+// fields will be hidden and thus break the form silently
+const locationSchema = {
+  type: 'object',
+  properties: {
+    countryDropdown: militaryAddress.properties.countryDropdown,
+    countryText: internationalAddressText.properties.countryText,
+    city: domesticAddress.properties.city,
+    state: location.oneOf[0].properties.state,
+  },
+};
+
+function veteranSeparatedForOtherReason(form, index) {
+  return (
+    get(`marriages.${index}.view:pastMarriage.reasonForSeparation`, form) ===
+    separationReasons.OTHER
+  );
 }
+
+function spouseSeparatedForOtherReason(form, index) {
+  return (
+    get(`spouseMarriages.${index}.reasonForSeparation`, form) ===
+    separationReasons.OTHER
+  );
+}
+
 const spouseSelector = createSelector(
   form =>
     form.marriages && form.marriages.length
-      ? form.marriages[0].spouseFullName
+      ? form.marriages[form.marriages.length - 1].spouseFullName
       : null,
   spouse => spouse,
 );
@@ -90,17 +166,142 @@ function createSpouseLabelSelector(nameTemplate) {
     };
   });
 }
-function calculateChildAge(form, index) {
-  if (form.dependents[index].childDateOfBirth) {
-    const childAge = form.dependents[index].childDateOfBirth;
-    return moment().diff(childAge, 'years');
-  }
-  return null;
+
+// given a `key` string that optionally includes the substring `[INDEX]`,
+// replace the instance of `[INDEX]` with the passed-in `index` value and return
+// the new key
+//
+// ex: given 'marriages[INDEX].locationOfMarriage' and `0` return
+// 'marriages[0].locationOfMarriage'
+function insertRealIndexInKey(key, index) {
+  return key.replace('[INDEX]', `[${index}]`);
 }
 
-const reasonForSeparation = _.assign(marriageProperties.reasonForSeparation, {
-  enum: ['Widowed', 'Divorced'],
-});
+// pass in the key so the address we care about can be pulled out of the
+// entire formData object
+function createAddressUISchemaForKey(key, isRequiredCallback = () => true) {
+  return {
+    countryDropdown: {
+      'ui:title': 'Country',
+      'ui:required': isRequiredCallback,
+    },
+    countryText: {
+      'ui:title': 'Enter Country',
+      'ui:required': (formData, index) =>
+        isInternationalAddressText(
+          get(`${insertRealIndexInKey(key, index)}`, formData),
+        ),
+      'ui:options': {
+        hideIf: (formData, index) =>
+          isNotInternationalAddressText(
+            get(`${insertRealIndexInKey(key, index)}`, formData),
+          ),
+      },
+    },
+    street: {
+      'ui:title': 'Street',
+      'ui:required': isRequiredCallback,
+      'ui:errorMessages': {
+        required: 'Please fill in a valid street address',
+      },
+    },
+    street2: {
+      'ui:title': 'Line 2',
+    },
+    street3: {
+      'ui:title': 'Line 3',
+    },
+    city: {
+      'ui:title': 'City',
+      'ui:required': isRequiredCallback,
+    },
+    state: {
+      'ui:title': 'State',
+      'ui:required': (formData, index) =>
+        isDomesticAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
+      'ui:options': {
+        hideIf: (formData, index) =>
+          !isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
+      },
+    },
+    postOffice: {
+      'ui:title': 'Post Office',
+      'ui:required': (formData, index) =>
+        isMilitaryAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
+      'ui:options': {
+        hideIf: (formData, index) =>
+          isNotMilitaryAddress(
+            get(`${insertRealIndexInKey(key, index)}`, formData),
+          ),
+      },
+    },
+    postalType: {
+      'ui:title': 'Postal Type',
+      'ui:required': (formData, index) =>
+        isMilitaryAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
+      'ui:options': {
+        hideIf: (formData, index) =>
+          isNotMilitaryAddress(
+            get(`${insertRealIndexInKey(key, index)}`, formData),
+          ),
+      },
+    },
+    postalCode: {
+      'ui:title': 'Postal Code',
+      'ui:required': (formData, index) =>
+        isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
+      'ui:errorMessages': {
+        pattern: 'Please fill in a valid postal code',
+        required: 'Please fill in a valid postal code',
+      },
+    },
+  };
+}
+
+function createLocationUISchemaForKey(
+  key,
+  title = '',
+  isRequiredCallback = () => true,
+) {
+  return {
+    'ui:title': title,
+    countryDropdown: {
+      'ui:title': 'Country',
+      'ui:required': isRequiredCallback,
+    },
+    countryText: {
+      'ui:title': 'Enter Country',
+      'ui:required': (formData, index) =>
+        isInternationalAddressText(
+          get(`${insertRealIndexInKey(key, index)}`, formData),
+        ),
+      'ui:options': {
+        hideIf: (formData, index) =>
+          isNotInternationalAddressText(
+            get(`${insertRealIndexInKey(key, index)}`, formData),
+          ),
+      },
+    },
+    city: {
+      'ui:title': 'City',
+      'ui:required': (formData, index) =>
+        isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
+      'ui:options': {
+        hideIf: (formData, index) =>
+          !isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
+      },
+    },
+    state: {
+      'ui:title': 'State',
+      'ui:required': (formData, index) =>
+        isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
+      'ui:options': {
+        hideIf: (formData, index) =>
+          !isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
+      },
+    },
+  };
+}
 
 const formConfig = {
   urlPrefix: '/',
@@ -131,23 +332,23 @@ const formConfig = {
   getHelp: GetFormHelp,
   errorText: ErrorText,
   defaultDefinitions: {
-    address,
-    marriages,
+    location,
+    postalCode,
+    previousMarriages,
     fullName,
     ssn,
     date,
     vaFileNumber,
   },
   chapters: {
-    applicantInformation: {
-      title: 'Applicant Information',
+    veteranInformation: {
+      title: 'Veteran Information',
       pages: {
-        applicantInformation: {
-          title: 'Applicant Information',
-          path: 'applicant-information',
+        veteranInformation: {
+          title: 'Veteran Information',
+          path: 'veteran-information',
           uiSchema: {
-            'ui:description': applicantDescription,
-            claimantFullName: _.merge(fullNameUI, {
+            veteranFullName: _.merge(fullNameUI, {
               first: {
                 'ui:title': 'Your first name',
               },
@@ -161,122 +362,18 @@ const formConfig = {
                 'ui:title': 'Your suffix',
               },
             }),
-            'view:relationshipToVet': {
-              'ui:title': 'Your relationship to the Veteran',
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  1: 'I am the Veteran',
-                  2: 'Spouse or surviving spouse',
-                  3: 'Unmarried adult child',
-                  4: 'Other',
-                },
-                nestedContent: {
-                  2: spouseRelationshipDescription,
-                  3: childRelationshipDescription,
-                  4: otherRelationshipDescription,
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['claimantFullName', 'view:relationshipToVet'],
-            properties: {
-              claimantFullName,
-              'view:relationshipToVet': {
-                type: 'string',
-                enum: ['1', '2', '3', '4'],
-              },
-            },
-          },
-        },
-        claimantInformation: {
-          path: 'claimant-information',
-          title: 'Applicant Information',
-          depends: formData => !isVeteran(formData),
-          uiSchema: {
-            claimantSocialSecurityNumber: _.merge(ssnUI, {
-              'ui:title': 'Your Social Security number',
-            }),
-            claimantAddress: address.uiSchema('Your address'),
-          },
-          schema: {
-            type: 'object',
-            required: ['claimantSocialSecurityNumber'],
-            properties: {
-              claimantSocialSecurityNumber,
-              claimantAddress: address.schema(fullSchema686, true),
-            },
-          },
-        },
-      },
-    },
-    veteranInformation: {
-      title: 'Veteran Information',
-      pages: {
-        veteranInformation: {
-          title: 'Veteran Information',
-          path: 'veteran-information',
-          uiSchema: {
-            veteranFullName: _.merge(fullNameUI, {
-              'ui:options': {
-                hideIf: formData => isVeteran(formData),
-              },
-              first: {
-                'ui:title': 'Veteran’s first name',
-                'ui:required': formData => !isVeteran(formData),
-              },
-              middle: { 'ui:title': 'Veteran’s middle name' },
-              last: {
-                'ui:title': 'Veteran’s last name',
-                'ui:required': formData => !isVeteran(formData),
-              },
-              suffix: { 'ui:title': 'Veteran’s suffix' },
-            }),
             veteranSocialSecurityNumber: _.merge(_.unset('ui:title', ssnUI), {
-              'ui:options': {
-                updateSchema: form => {
-                  if (isVeteran(form)) {
-                    return {
-                      title: 'Your Social Security number',
-                    };
-                  }
-                  return {
-                    title: 'Veteran’s Social Security number',
-                  };
-                },
-              },
+              'ui:title': 'Your Social Security number',
               'ui:required': formData => !formData['view:noSSN'],
             }),
             'view:noSSN': {
-              'ui:options': {
-                updateSchema: form => {
-                  if (isVeteran(form)) {
-                    return {
-                      title: 'I don’t have a Social Security number',
-                    };
-                  }
-                  return {
-                    title: 'I don’t know the Veteran’s Social Security number',
-                  };
-                },
-              },
+              'ui:title': 'I don’t have a Social Security number',
             },
             veteranVAfileNumber: {
               'ui:options': {
                 expandUnder: 'view:noSSN',
-                updateSchema: form => {
-                  if (isVeteran(form)) {
-                    return {
-                      title: 'Your VA file number',
-                    };
-                  }
-                  return {
-                    title: 'Veteran’s VA file number',
-                  };
-                },
               },
+              'ui:title': 'Your VA file number',
               'ui:required': formData => formData['view:noSSN'],
               'ui:help': VAFileNumberDescription,
               'ui:errorMessages': {
@@ -296,14 +393,27 @@ const formConfig = {
             },
           },
         },
+        veteranAddress: {
+          title: 'Veteran Address',
+          path: 'veteran-address',
+          uiSchema: {
+            veteranAddress: createAddressUISchemaForKey('veteranAddress'),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              veteranAddress: addressSchema,
+            },
+          },
+        },
       },
     },
     householdInformation: {
       title: 'Household Information',
       pages: {
-        marriageInfo: {
+        marriageInformation: {
           title: 'Marriage history',
-          path: 'household/marriage-info',
+          path: 'household/marriage-information',
           uiSchema: {
             maritalStatus: {
               'ui:title': 'What’s your marital status?',
@@ -315,13 +425,13 @@ const formConfig = {
               'ui:field': 'StringField',
               'ui:required': form =>
                 !!_.get('maritalStatus', form) &&
-                form.maritalStatus !== 'Never Married',
+                form.maritalStatus !== MARITAL_STATUS_NEVER_MARRIED,
               'ui:options': {
                 showFieldLabel: 'label',
                 keepInPageOnReview: true,
                 expandUnder: 'maritalStatus',
                 expandUnderCondition: status =>
-                  !!status && status !== 'Never Married',
+                  !!status && status !== MARITAL_STATUS_NEVER_MARRIED,
               },
               'ui:errorMessages': {
                 required: 'You must enter at least 1 marriage',
@@ -356,7 +466,6 @@ const formConfig = {
                     updateSchema: (function makeUpdateSchema() {
                       let formerSpouseSchema;
                       let currentSpouseSchema;
-
                       return (form, schema, uiSchema, index) => {
                         if (!formerSpouseSchema) {
                           formerSpouseSchema = _.merge(schema, {
@@ -365,29 +474,23 @@ const formConfig = {
                                 title: 'Former spouse’s first name',
                               },
                               last: {
-                                title: 'Former spouse‘s last name',
+                                title: 'Former spouse’s last name',
                               },
                               middle: {
-                                title: 'Former spouse‘s middle name',
-                              },
-                              suffix: {
-                                title: 'Former spouse‘s suffix',
+                                title: 'Former spouse’s middle name',
                               },
                             },
                           });
                           currentSpouseSchema = _.merge(schema, {
                             properties: {
                               first: {
-                                title: 'Spouse‘s first name',
+                                title: 'Spouse’s first name',
                               },
                               last: {
-                                title: 'Spouse‘s last name',
+                                title: 'Spouse’s last name',
                               },
                               middle: {
-                                title: 'Spouse‘s middle name',
-                              },
-                              suffix: {
-                                title: 'Spouse‘s suffix',
+                                title: 'Spouse’s middle name',
                               },
                             },
                           });
@@ -402,25 +505,39 @@ const formConfig = {
                 dateOfMarriage: currentOrPastDateUI(
                   'When did you get married?',
                 ),
-                locationOfMarriage: {
-                  'ui:title':
-                    'Where did you get married? (city and state or foreign country)',
-                },
+                locationOfMarriage: createLocationUISchemaForKey(
+                  'marriages[INDEX].locationOfMarriage',
+                  'Where did you get married? (city and state or foreign country)',
+                ),
                 'view:pastMarriage': {
                   'ui:options': {
                     hideIf: isCurrentMarriage,
                   },
                   dateOfSeparation: _.assign(
-                    currentOrPastDateUI('When did marriage end?'),
+                    currentOrPastDateUI('When did the marriage end?'),
                     {
-                      'ui:required': (...args) => !isCurrentMarriage(...args),
+                      'ui:required': isNotCurrentMarriage,
                       'ui:validations': [validateAfterMarriageDate],
                     },
                   ),
-                  locationOfSeparation: {
-                    'ui:title':
-                      'Where did the marriage end? (city and state or foreign country)',
-                    'ui:required': (...args) => !isCurrentMarriage(...args),
+                  locationOfSeparation: createLocationUISchemaForKey(
+                    'marriages[INDEX].view:pastMarriage.locationOfSeparation',
+                    'Where did the marriage end? (city and state or foreign country)',
+                    isNotCurrentMarriage,
+                  ),
+                  reasonForSeparation: {
+                    'ui:title': 'How did this marriage end?',
+                    'ui:widget': 'radio',
+                    'ui:required': isNotCurrentMarriage,
+                  },
+                  explainSeparation: {
+                    'ui:options': {
+                      expandUnder: 'reasonForSeparation',
+                      expandUnderCondition: reason =>
+                        !!reason && reason === 'Other',
+                    },
+                    'ui:title': 'Explain reason for separation',
+                    'ui:required': veteranSeparatedForOtherReason,
                   },
                 },
               },
@@ -441,13 +558,14 @@ const formConfig = {
                   properties: {
                     spouseFullName: marriageProperties.spouseFullName,
                     dateOfMarriage: marriageProperties.dateOfMarriage,
-                    locationOfMarriage: marriageProperties.locationOfMarriage,
+                    locationOfMarriage: locationSchema,
                     'view:pastMarriage': {
                       type: 'object',
                       properties: {
                         dateOfSeparation: marriageProperties.dateOfSeparation,
-                        locationOfSeparation:
-                          marriageProperties.locationOfSeparation,
+                        locationOfSeparation: locationSchema,
+                        reasonForSeparation,
+                        explainSeparation,
                       },
                     },
                   },
@@ -461,9 +579,9 @@ const formConfig = {
     currentSpouseInfo: {
       title: 'Spouse Information',
       pages: {
-        spouseInfo: {
+        spouseInformation: {
           title: 'Spouse information',
-          path: 'spouse-info',
+          path: 'spouse-information',
           depends: isMarried,
           uiSchema: {
             spouseDateOfBirth: _.merge(currentOrPastDateUI(''), {
@@ -513,10 +631,9 @@ const formConfig = {
               },
             },
             spouseAddress: _.merge(
-              address.uiSchema(
-                'Spouse address',
-                false,
-                form => form.liveWithSpouse === false,
+              createAddressUISchemaForKey(
+                'spouseAddress',
+                isNotLivingWithSpouse,
               ),
               {
                 'ui:options': {
@@ -551,12 +668,12 @@ const formConfig = {
             ],
             properties: {
               spouseDateOfBirth,
-              spouseSocialSecurityNumber,
+              spouseSocialSecurityNumber: veteranSocialSecurityNumber,
               spouseIsVeteran,
               spouseVaFileNumber,
               liveWithSpouse,
-              spouseAddress: address.schema(fullSchema686),
-              spouseMarriages: marriages,
+              spouseAddress: addressSchema,
+              spouseMarriages,
             },
           },
         },
@@ -572,34 +689,40 @@ const formConfig = {
               items: {
                 'ui:title': SpouseMarriageTitle,
                 dateOfMarriage: _.merge(currentOrPastDateUI(''), {
+                  'ui:required': () => true,
                   'ui:options': {
                     updateSchema: createSpouseLabelSelector(
                       spouseName =>
-                        `When did ${spouseName.first} ${
-                          spouseName.last
-                        } get married?`,
+                        `When did
+                         ${spouseName.first} ${spouseName.last}
+                         get married?`,
                     ),
                   },
                 }),
-                locationOfMarriage: {
-                  'ui:options': {
-                    updateSchema: createSpouseLabelSelector(
-                      spouseName =>
-                        `Where did ${spouseName.first} ${
-                          spouseName.last
-                        } get married? (city and state or foreign country)`,
-                    ),
+                locationOfMarriage: _.merge(
+                  createLocationUISchemaForKey(
+                    'spouseMarriages[INDEX].locationOfMarriage',
+                  ),
+                  {
+                    'ui:options': {
+                      updateSchema: createSpouseLabelSelector(
+                        spouseName =>
+                          `Where did
+                           ${spouseName.first} ${spouseName.last}
+                           get married? (city and state or foreign country)`,
+                      ),
+                    },
                   },
-                },
+                ),
                 spouseFullName: _.merge(fullNameUI, {
                   first: {
                     'ui:title': '',
                     'ui:options': {
                       updateSchema: createSpouseLabelSelector(
                         spouseName =>
-                          `First name of ${spouseName.first} ${
-                            spouseName.last
-                          }’s former spouse`,
+                          `First name of
+                           ${spouseName.first} ${spouseName.last}’s
+                           former spouse`,
                       ),
                     },
                   },
@@ -608,9 +731,9 @@ const formConfig = {
                     'ui:options': {
                       updateSchema: createSpouseLabelSelector(
                         spouseName =>
-                          `Middle name of ${spouseName.first} ${
-                            spouseName.last
-                          }’s former spouse`,
+                          `Middle name of
+                           ${spouseName.first} ${spouseName.last}’s
+                          former spouse`,
                       ),
                     },
                   },
@@ -619,9 +742,9 @@ const formConfig = {
                     'ui:options': {
                       updateSchema: createSpouseLabelSelector(
                         spouseName =>
-                          `Last name of ${spouseName.first} ${
-                            spouseName.last
-                          }’s former spouse`,
+                          `Last name of
+                           ${spouseName.first} ${spouseName.last}’s
+                           former spouse`,
                       ),
                     },
                   },
@@ -630,15 +753,31 @@ const formConfig = {
                   currentOrPastDateUI('When did this marriage end?'),
                   {
                     'ui:validations': [validateAfterMarriageDate],
+                    'ui:required': () => true,
                   },
                 ),
-                locationOfSeparation: {
-                  'ui:title':
-                    'Where did this marriage end? (city and state or foreign country)',
-                },
+                locationOfSeparation: _.merge(
+                  createLocationUISchemaForKey(
+                    'spouseMarriages[INDEX].locationOfSeparation',
+                  ),
+                  {
+                    'ui:title':
+                      'Where did this marriage end? (city and state or foreign country)',
+                  },
+                ),
                 reasonForSeparation: {
                   'ui:title': 'How did this marriage end?',
                   'ui:widget': 'radio',
+                  'ui:required': () => true,
+                },
+                explainSeparation: {
+                  'ui:options': {
+                    expandUnder: 'reasonForSeparation',
+                    expandUnderCondition: reason =>
+                      !!reason && reason === 'Other',
+                  },
+                  'ui:title': 'Explain reason for separation',
+                  'ui:required': spouseSeparatedForOtherReason,
                 },
               },
             },
@@ -650,22 +789,14 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  required: [
-                    'spouseFullName',
-                    'dateOfMarriage',
-                    'locationOfMarriage',
-                    'reasonForSeparation',
-                    'dateOfSeparation',
-                    'locationOfSeparation',
-                  ],
                   properties: {
                     dateOfMarriage: marriageProperties.dateOfMarriage,
-                    locationOfMarriage: marriageProperties.locationOfMarriage,
+                    locationOfMarriage: locationSchema,
                     spouseFullName: marriageProperties.spouseFullName,
                     dateOfSeparation: marriageProperties.dateOfSeparation,
-                    locationOfSeparation:
-                      marriageProperties.locationOfSeparation,
+                    locationOfSeparation: locationSchema,
                     reasonForSeparation,
+                    explainSeparation,
                   },
                 },
               },
@@ -795,8 +926,7 @@ const formConfig = {
                     'Does not have a Social Security number (foreign national, etc.)',
                 },
                 childRelationship: {
-                  'ui:title':
-                    'What’s the status of this child? (Please check all that apply.)',
+                  'ui:title': 'What’s the status of this child?',
                   'ui:options': {
                     showFieldLabel: true,
                     labels: childRelationshipStatusLabels,
@@ -878,14 +1008,14 @@ const formConfig = {
                     childInfo: {
                       type: 'object',
                       properties: {
-                        childAddress: address.schema(fullSchema686),
-                        personChildLiveWith: {
+                        childAddress: addressSchema,
+                        personWhoLivesWithChild: {
                           type: 'object',
                           properties: {
-                            firstName: {
+                            first: {
                               type: 'string',
                             },
-                            lastName: {
+                            last: {
                               type: 'string',
                             },
                           },
@@ -911,22 +1041,20 @@ const formConfig = {
                     expandUnderCondition: false,
                   },
                   childAddress: _.merge(
-                    address.uiSchema(
-                      'Address',
-                      false,
-                      (form, index) =>
-                        !_.get(['dependents', index, 'childInHousehold'], form),
+                    createAddressUISchemaForKey(
+                      'dependents[INDEX].childInfo.childAddress',
+                      isNotLivingWithParent,
                     ),
                     {
                       'ui:title': 'Child’s Address',
                     },
                   ),
-                  personChildLiveWith: {
-                    firstName: {
+                  personWhoLivesWithChild: {
+                    first: {
                       'ui:title':
                         'First name of person child lives with (if applicable)',
                     },
-                    lastName: {
+                    last: {
                       'ui:title':
                         'Last name of person child lives with (if applicable)',
                     },

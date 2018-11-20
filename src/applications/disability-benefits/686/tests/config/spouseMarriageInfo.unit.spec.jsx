@@ -15,7 +15,7 @@ describe('686 spouse info', () => {
     schema,
     uiSchema,
     depends,
-  } = formConfig.chapters.currentSpouseInfo.pages.spouseInfo;
+  } = formConfig.chapters.currentSpouseInfo.pages.spouseInformation;
 
   it('should render', () => {
     const form = mount(
@@ -67,11 +67,11 @@ describe('686 spouse info', () => {
 
     fillData(form, '#root_liveWithSpouseNo', 'N');
 
-    expect(form.find('input').length).to.equal(11);
-    expect(form.find('select').length).to.equal(4);
+    expect(form.find('input').length).to.equal(12);
+    expect(form.find('select').length).to.equal(3);
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(8);
+    expect(form.find('.usa-input-error').length).to.equal(7);
   });
 
   it('should render file number', () => {
@@ -143,7 +143,7 @@ describe('686 spouse info', () => {
   });
 
   it('depends should return true if married', () => {
-    const result = depends({ maritalStatus: 'Married' });
+    const result = depends({ maritalStatus: 'MARRIED' });
 
     expect(result).to.be.true;
   });
