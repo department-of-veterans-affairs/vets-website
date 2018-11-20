@@ -6,7 +6,7 @@ import { intersection } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
+import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
 
 import {
   addDraftAttachments,
@@ -318,13 +318,13 @@ export class Thread extends React.Component {
               <p>
                 You are no longer associated with this health care team and
                 cannot reply to this message. Please{' '}
-                <CallHelpDesk>
+                <CallVBACenter>
                   contact the help desk at{' '}
                   <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
                   <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211;
                   Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET) if you have any
                   questions.
-                </CallHelpDesk>
+                </CallVBACenter>
               </p>
             </div>
           }

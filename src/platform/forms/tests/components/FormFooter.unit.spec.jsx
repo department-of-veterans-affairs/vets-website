@@ -13,13 +13,16 @@ describe('FormFooter', () => {
       />,
     );
 
-    expect(wrapper.find('AskVAQuestions').length).to.equal(1);
+    expect(wrapper.text()).to.be.empty;
   });
 
   it('should not render if on the confirmation page', () => {
+    const GetFormHelp = function GetFormHelp() {
+      return <div>Help!</div>;
+    };
     const wrapper = shallow(
       <FormFooter
-        formConfig={{}}
+        formConfig={{ getHelp: GetFormHelp }}
         currentLocation={{ pathname: '/confirmation' }}
       />,
     );
@@ -40,7 +43,7 @@ describe('FormFooter', () => {
 
     expect(
       wrapper
-        .find('AskVAQuestions')
+        .find('GetFormHelp')
         .render()
         .text(),
     ).to.contain('Help!');
