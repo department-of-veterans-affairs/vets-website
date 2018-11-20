@@ -1,7 +1,6 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react/jsx-closing-bracket-location */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { object, func } from 'prop-types';
 import { fetchProviderDetail } from '../actions';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import LocationMap from '../components/LocationMap';
@@ -13,11 +12,10 @@ import ProviderDetailBlock from '../components/ProviderDetailBlock';
 
 /**
  * Container component for the CC Provider Detail page
- * 
+ *
  * (currently Routed at /facilities/provider/{id})
  */
 class ProviderDetail extends Component {
-
   componentWillMount() {
     this.props.fetchProviderDetail(this.props.params.id);
     window.scrollTo(0, 0);
@@ -30,48 +28,58 @@ class ProviderDetail extends Component {
     return (
       <div>
         <h1>{name}</h1>
-        { orgName && <h2>{orgName}</h2> }
+        {orgName && <h2>{orgName}</h2>}
         <div className="p1">
           <p>
-            <span><strong>Facility type:</strong> Community Care (Non-VA Health)</span>
+            <span>
+              <strong>Facility type:</strong> Community Care (Non-VA Health)
+            </span>
           </p>
           <LocationAddress location={location} />
         </div>
         <div>
           <LocationPhoneLink location={location} />
         </div>
-        { fax &&
+        {fax && (
           <div>
             <i className="fa fa-fax" />
-            <strong>Fax number:</strong><br />
+            <strong>Fax number:</strong>
+            <br />
             <i className="fa fa-fw" />
             {fax}
           </div>
-        }
-        { email &&
+        )}
+        {email && (
           <div>
             <i className="fa fa-envelope" />
-            <strong>Email address:</strong><br />
+            <strong>Email address:</strong>
+            <br />
             <i className="fa fa-fw" />
             <a href={`mailto:${email}`}>{email}</a>
           </div>
-        }
-        { website &&
+        )}
+        {website && (
           <div>
             <i className="fa fa-globe" />
-            <strong>Website:</strong><br />
+            <strong>Website:</strong>
+            <br />
             <i className="fa fa-fw" />
-            <a href={website} rel="noopener noreferrer" target="_blank">{website}</a>
+            <a href={website} rel="noopener noreferrer" target="_blank">
+              {website}
+            </a>
           </div>
-        }
+        )}
         <div>
           <LocationDirectionsLink location={location} />
         </div>
-        <p className="p1">Planning to visit? Please call first as information on this page may change.</p>
+        <p className="p1">
+          Planning to visit? Please call first as information on this page may
+          change.
+        </p>
         <ProviderDetailBlock provider={location} />
       </div>
     );
-  }
+  };
 
   render() {
     const { location, currentQuery } = this.props;
@@ -94,9 +102,7 @@ class ProviderDetail extends Component {
     return (
       <div className="row location-detail">
         <div className="usa-width-two-thirds medium-8 columns">
-          <div>
-            {this.renderFacilityInfo()}
-          </div>
+          <div>{this.renderFacilityInfo()}</div>
           <div>
             <AppointmentInfo location={location} />
           </div>
@@ -107,8 +113,12 @@ class ProviderDetail extends Component {
             <div className="mb2">
               <h4 className="highlight">About Community Care</h4>
               <div>
-                <a href="https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp"
-                  rel="noopener noreferrer" target="_blank" className="about-cc-link">
+                <a
+                  href="https://www.va.gov/COMMUNITYCARE/programs/veterans/VCP/index.asp"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  className="about-cc-link"
+                >
                   What's Community Care and am I eligible?
                 </a>
               </div>
@@ -120,15 +130,20 @@ class ProviderDetail extends Component {
   }
 }
 
-ProviderDetail.propTypes = {};
+ProviderDetail.propTypes = {
+  location: object.isRequired,
+  currentQuery: object.isRequired,
+  fetchProviderDetail: func.isRequired,
+  params: object.isRequired,
+};
 
+// eslint-disable-next-line prettier/prettier
 const mapStateToProps = (state) => ({
   location: state.searchResult.selectedResult,
   currentQuery: state.searchQuery,
 });
 
-const mapDispatch = {
-  fetchProviderDetail,
-};
-
-export default connect(mapStateToProps, mapDispatch)(ProviderDetail);
+export default connect(
+  mapStateToProps,
+  { fetchProviderDetail },
+)(ProviderDetail);

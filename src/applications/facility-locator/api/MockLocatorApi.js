@@ -5,22 +5,17 @@ import compact from 'lodash/compact';
 import { LocationType } from '../constants';
 import { ccLocatorEnabled } from '../config';
 
-/* eslint-disable array-bracket-spacing */
-/* eslint-disable space-in-parens */
-/* eslint-disable no-use-before-define */
-/* eslint-disable prettier/prettier */
-
 // Immitate network delay
 const delay = 0;
 
+/* eslint-disable no-use-before-define */
 class MockLocatorApi {
-
   /**
    * Sends the fetch request to vets-api to query which locations exist within the
    * given bounding box's area and optionally cenetered on the given address.
-   * 
+   *
    * Allows for filtering on location types and services provided.
-   * 
+   *
    * @param {string=} address The address associated with the bounding box's center
    * @param {number[]} bounds Array defining the bounding box of the search area
    * @param {string} locationType What kind of location? (i.e. facilityType or Provider)
@@ -28,28 +23,35 @@ class MockLocatorApi {
    * @param {number} page Which page of results to start with?
    * @returns {Promise} Promise object
    */
+  // eslint-disable-next-line prettier/prettier
   static searchWithBounds(address = null, bounds, locationType, serviceType, page) {
     const filterableLocations = ['health', 'benefits'];
     const params = compact([
       address ? `address=${address}` : null,
       ...bounds.map(c => `bbox[]=${c}`),
       locationType ? `type=${locationType}` : null,
-      filterableLocations.includes(locationType) && serviceType ? `services[]=${serviceType}` : null,
-      `page=${page}`
+      filterableLocations.includes(locationType) && serviceType
+        ? `services[]=${serviceType}`
+        : null,
+      `page=${page}`,
     ]).join('&');
 
-    return new Promise( (resolve, reject) => {
-      setTimeout( () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
         if (params && params !== '') {
           if (params.fail) {
             reject('Random failure due to fail flag being set');
           }
 
           let locations = {};
-          if (ccLocatorEnabled()) { // Feature Flag
+          // Feature Flag
+          if (ccLocatorEnabled()) {
             locations = { ...facilityData };
           } else {
-            const nonProviders = facilityData.data.filter(loc => loc.type !== LocationType.CC_PROVIDER);
+            const nonProviders = facilityData.data.filter(
+              // eslint-disable-next-line prettier/prettier
+              loc => loc.type !== LocationType.CC_PROVIDER
+            );
             locations = { ...facilityData, data: nonProviders };
           }
           resolve(locations);
@@ -61,8 +63,8 @@ class MockLocatorApi {
   }
 
   static fetchVAFacility(id) {
-    return new Promise( (resolve, reject) => {
-      setTimeout( () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
         if (id && (typeof id === 'number' || typeof id === 'string')) {
           const location = facilityData.data.filter(data => data.id === id);
           if (location && location.length > 0) {
@@ -78,12 +80,12 @@ class MockLocatorApi {
   }
 
   static fetchProviderDetail(id) {
-    return new Promise( (resolve, reject) => {
-      setTimeout( () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
         if (id && typeof id === 'string') {
           const location = facilityData.data.filter(data => data.id === id);
           if (location && location.length > 0) {
-            resolve(location[0]);
+            resolve({ data: location[0] });
           } else {
             reject(`Facility with given ID '${id}' not found!`);
           }
@@ -95,8 +97,8 @@ class MockLocatorApi {
   }
 
   static getProviderSvcs(shouldFail = false) {
-    return new Promise( (resolve, reject) => {
-      setTimeout( () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
         if (!shouldFail) {
           resolve(providerServices);
         } else {
@@ -127,9 +129,9 @@ export const facilityData = {
             address3: null,
             city: 'Los Angeles',
             state: 'CA',
-            zip: '90012-3328'
+            zip: '90012-3328',
           },
-          mailing: { }
+          mailing: {},
         },
         phone: {
           main: '213-253-5000 x',
@@ -138,7 +140,7 @@ export const facilityData = {
           patientAdvocate: '213-253-2677 x24111',
           enrollmentCoordinator: '213-253-2677 x24033',
           pharmacy: '800-952-4852 x',
-          mentalHealthClinic: '310-268-4449'
+          mentalHealthClinic: '310-268-4449',
         },
         hours: {
           monday: '700AM-530PM',
@@ -147,76 +149,70 @@ export const facilityData = {
           thursday: '700AM-530PM',
           friday: '700AM-530PM',
           saturday: '-',
-          sunday: '-'
+          sunday: '-',
         },
         services: {
           lastUpdated: '2017-07-24',
           health: [
             {
-              sl1: [
-                'DentalServices'
-              ],
-              sl2: []
+              sl1: ['DentalServices'],
+              sl2: [],
             },
             {
-              sl1: [
-                'MentalHealthCare'
-              ],
-              sl2: []
+              sl1: ['MentalHealthCare'],
+              sl2: [],
             },
             {
-              sl1: [
-                'PrimaryCare'
-              ],
-              sl2: []
-            }
-          ]
+              sl1: ['PrimaryCare'],
+              sl2: [],
+            },
+          ],
         },
         feedback: {
           health: {
             primaryCareUrgent: '0.78',
             primaryCareRoutine: '0.77',
-            effectiveDate: '2017-03-24'
-          }
+            effectiveDate: '2017-03-24',
+          },
         },
         access: {
           health: {
             primaryCare: {
               new: 15,
-              established: 3
+              established: 3,
             },
             mentalHealth: {
               new: 12,
-              established: 2
+              established: 2,
             },
             womensHealth: {
               new: null,
-              established: 9
+              established: 9,
             },
             audiology: {
               new: 48,
-              established: 0
+              established: 0,
             },
             gastroenterology: {
               new: 7,
-              established: null
+              established: null,
             },
             opthalmology: {
               new: 9,
-              established: 6
+              established: 6,
             },
             optometry: {
               new: 14,
-              established: 5
+              established: 5,
             },
             urologyClinic: {
               new: 23,
-              established: 3
+              established: 3,
             },
-            effectiveDate: '2017-08-14'
-          }
-        }
-      }
+            effectiveDate: '2017-08-14',
+          },
+        },
+      },
     },
     {
       id: 'vba_343o',
@@ -236,13 +232,13 @@ export const facilityData = {
             address3: null,
             city: 'Los Angeles',
             state: 'CA',
-            zip: '90012'
+            zip: '90012',
           },
-          mailing: { }
+          mailing: {},
         },
         phone: {
           main: '213-253-2677 Ext 24759',
-          fax: ''
+          fax: '',
         },
         hours: {
           monday: '8:00AM-2:30PM',
@@ -251,17 +247,17 @@ export const facilityData = {
           thursday: '8:00AM-2:30PM',
           friday: 'By Appointment Only',
           saturday: 'Closed',
-          sunday: 'Closed'
+          sunday: 'Closed',
         },
         services: {
           benefits: {
             other: '',
-            standard: []
-          }
+            standard: [],
+          },
         },
-        feedback: { },
-        access: { }
-      }
+        feedback: {},
+        access: {},
+      },
     },
     {
       id: 'vba_343z',
@@ -281,13 +277,13 @@ export const facilityData = {
             address3: null,
             city: 'Los Angeles',
             state: 'CA',
-            zip: '90029'
+            zip: '90029',
           },
-          mailing: { }
+          mailing: {},
         },
         phone: {
           main: '323-953-4000 Ext 1253',
-          fax: ''
+          fax: '',
         },
         hours: {
           monday: 'Closed',
@@ -296,17 +292,17 @@ export const facilityData = {
           thursday: 'Closed',
           friday: 'Closed',
           saturday: 'Closed',
-          sunday: 'Closed'
+          sunday: 'Closed',
         },
         services: {
           benefits: {
             other: '',
-            standard: []
-          }
+            standard: [],
+          },
         },
-        feedback: { },
-        access: { }
-      }
+        feedback: {},
+        access: {},
+      },
     },
     {
       id: 'vba_314y',
@@ -327,12 +323,12 @@ export const facilityData = {
             state: 'VA',
             address1: '4400 University Drive',
             address2: 'MS N 3A4',
-            address3: null
-          }
+            address3: null,
+          },
         },
         phone: {
           fax: null,
-          main: '703-993-4464'
+          main: '703-993-4464',
         },
         hours: {
           friday: '7:30AM-5:00PM',
@@ -341,17 +337,17 @@ export const facilityData = {
           tuesday: '7:30AM-5:00PM',
           saturday: 'Closed',
           thursday: '7:30AM-5:00PM',
-          wednesday: '7:30AM-5:00PM'
+          wednesday: '7:30AM-5:00PM',
         },
         services: {
           benefits: {
             other: null,
-            standard: []
-          }
+            standard: [],
+          },
         },
         feedback: {},
-        access: {}
-      }
+        access: {},
+      },
     },
     {
       id: 'nca_827',
@@ -371,7 +367,7 @@ export const facilityData = {
             state: 'VA',
             address1: '305 U.S. Ave',
             address2: null,
-            address3: null
+            address3: null,
           },
           physical: {
             zip: '22075',
@@ -379,12 +375,12 @@ export const facilityData = {
             state: 'VA',
             address1: 'Route 7',
             address2: null,
-            address3: null
-          }
+            address3: null,
+          },
         },
         phone: {
           fax: '540-825-6684',
-          main: '540-825-0027'
+          main: '540-825-0027',
         },
         hours: {
           friday: 'Sunrise - Sunset',
@@ -393,12 +389,12 @@ export const facilityData = {
           tuesday: 'Sunrise - Sunset',
           saturday: 'Sunrise - Sunset',
           thursday: 'Sunrise - Sunset',
-          wednesday: 'Sunrise - Sunset'
+          wednesday: 'Sunrise - Sunset',
         },
         services: {},
         feedback: {},
-        access: {}
-      }
+        access: {},
+      },
     },
     {
       id: 'nca_872',
@@ -418,7 +414,7 @@ export const facilityData = {
             state: 'VA',
             address1: 'P.O. Box 10',
             address2: null,
-            address3: null
+            address3: null,
           },
           physical: {
             zip: '22172',
@@ -426,12 +422,12 @@ export const facilityData = {
             state: 'VA',
             address1: '18424 Joplin Rd (Route 619)',
             address2: null,
-            address3: null
-          }
+            address3: null,
+          },
         },
         phone: {
           fax: '703-221-2185',
-          main: '703-221-2183'
+          main: '703-221-2183',
         },
         hours: {
           friday: 'Sunrise - Sunset',
@@ -440,19 +436,20 @@ export const facilityData = {
           tuesday: 'Sunrise - Sunset',
           saturday: 'Sunrise - Sunset',
           thursday: 'Sunrise - Sunset',
-          wednesday: 'Sunrise - Sunset'
+          wednesday: 'Sunrise - Sunset',
         },
         services: {},
         feedback: {},
-        access: {}
-      }
+        access: {},
+      },
     },
     {
       id: 'vba_314z',
       type: 'va_facilities',
       attributes: {
         uniqueId: '314z',
-        name: 'VetSuccess on Campus at Northern Virginia Community College (Alexandria Campus)',
+        name:
+          'VetSuccess on Campus at Northern Virginia Community College (Alexandria Campus)',
         facilityType: 'va_benefits_facility',
         classification: 'Vetsuccess On Campus',
         website: 'NULL',
@@ -466,12 +463,12 @@ export const facilityData = {
             state: 'VA',
             address1: '3001 North Beauregard St',
             address2: 'Bisdorf Building, Room 194',
-            address3: null
-          }
+            address3: null,
+          },
         },
         phone: {
           fax: '703-575-4706',
-          main: '703-323-3893'
+          main: '703-323-3893',
         },
         hours: {
           friday: '8:00AM-3:30PM',
@@ -480,17 +477,17 @@ export const facilityData = {
           tuesday: '8:00AM-3:30PM',
           saturday: 'Closed',
           thursday: '8:00AM-3:30PM',
-          wednesday: '8:00AM-3:30PM'
+          wednesday: '8:00AM-3:30PM',
         },
         services: {
           benefits: {
             other: null,
-            standard: []
-          }
+            standard: [],
+          },
         },
         feedback: {},
-        access: {}
-      }
+        access: {},
+      },
     },
     {
       id: 'vc_0228V',
@@ -511,11 +508,11 @@ export const facilityData = {
             state: 'VA',
             address1: '6940 South Kings Highway',
             address2: 'Suite 204',
-            address3: null
-          }
+            address3: null,
+          },
         },
         phone: {
-          main: '703-360-8633 x'
+          main: '703-360-8633 x',
         },
         hours: {
           friday: '800AM-430PM',
@@ -524,12 +521,12 @@ export const facilityData = {
           tuesday: '800AM-330PM',
           saturday: '-',
           thursday: '800AM-730PM',
-          wednesday: '800AM-730PM'
+          wednesday: '800AM-730PM',
         },
         services: {},
         feedback: {},
-        access: {}
-      }
+        access: {},
+      },
     },
     {
       id: 'vha_688GA',
@@ -550,8 +547,8 @@ export const facilityData = {
             state: 'VA',
             address1: '9300 Dewitt Loop',
             address2: null,
-            address3: null
-          }
+            address3: null,
+          },
         },
         phone: {
           fax: '571-231-2408 x',
@@ -560,7 +557,7 @@ export const facilityData = {
           afterHours: '202-745-8247 x',
           patientAdvocate: '202-745-8588 x',
           mentalHealthClinic: '571-231-2408',
-          enrollmentCoordinator: '202-745-8000 x6333'
+          enrollmentCoordinator: '202-745-8000 x6333',
         },
         hours: {
           friday: '730AM-400PM',
@@ -569,92 +566,78 @@ export const facilityData = {
           tuesday: '730AM-400PM',
           saturday: '-',
           thursday: '730AM-400PM',
-          wednesday: '730AM-400PM'
+          wednesday: '730AM-400PM',
         },
         services: {
           health: [
             {
-              sl1: [
-                'MentalHealthCare'
-              ],
-              sl2: []
+              sl1: ['MentalHealthCare'],
+              sl2: [],
             },
             {
-              sl1: [
-                'PrimaryCare'
-              ],
-              sl2: []
+              sl1: ['PrimaryCare'],
+              sl2: [],
             },
             {
-              sl1: [
-                'EmergencyCare'
-              ],
-              sl2: []
+              sl1: ['EmergencyCare'],
+              sl2: [],
             },
             {
-              sl1: [
-                'WomensHealth'
-              ],
-              sl2: []
+              sl1: ['WomensHealth'],
+              sl2: [],
             },
             {
-              sl1: [
-                'Audiology'
-              ],
-              sl2: []
+              sl1: ['Audiology'],
+              sl2: [],
             },
             {
-              sl1: [
-                'Dermatology'
-              ],
-              sl2: []
+              sl1: ['Dermatology'],
+              sl2: [],
             },
             {
-              sl1: [
-                'Gynecology'
-              ],
-              sl2: []
-            }
+              sl1: ['Gynecology'],
+              sl2: [],
+            },
           ],
-          lastUpdated: '2018-08-18'
+          lastUpdated: '2018-08-18',
         },
         feedback: {
           health: {
             effectiveDate: '2018-05-22',
             primaryCareUrgent: '0.74',
-            primaryCareRoutine: '0.83'
-          }
+            primaryCareRoutine: '0.83',
+          },
         },
         access: {
           health: {
             audiology: {
               new: 69.0,
-              established: 13.0
+              established: 13.0,
             },
             gynecology: {
               new: null,
-              established: 6.0
+              established: 6.0,
             },
             dermatology: {
               new: null,
-              established: 0.0
+              established: 0.0,
             },
             primaryCare: {
               new: 55.0,
-              established: 3.0
+              established: 3.0,
             },
             mentalHealth: {
               new: 34.0,
-              established: 1.0
+              established: 1.0,
             },
             womensHealth: {
               new: null,
-              established: 6.0
+              established: 6.0,
             },
-            effectiveDate: '2018-08-13'
-          }
-        }
-      }
+            effectiveDate: '2018-08-13',
+          },
+        },
+      },
     },
     {
       id: 'vba_314u',
@@ -675,12 +658,12 @@ export const facilityData = {
             state: 'VA',
             address1: '9501 Farrell Road',
             address2: '808N Suite NS-104',
-            address3: null
-          }
+            address3: null,
+          },
         },
         phone: {
           fax: '703-805-8089',
-          main: '703-805-0548'
+          main: '703-805-0548',
         },
         hours: {
           friday: 'Closed',
@@ -689,17 +672,17 @@ export const facilityData = {
           tuesday: '8:00AM-4:00PM',
           saturday: 'Closed',
           thursday: '8:00AM-4:00PM',
-          wednesday: '8:00AM-4:00PM'
+          wednesday: '8:00AM-4:00PM',
         },
         services: {
           benefits: {
             other: 'Accepts and date stamps claims ',
-            standard: []
-          }
+            standard: [],
+          },
         },
         feedback: {},
-        access: {}
-      }
+        access: {},
+      },
     },
     {
       id: 'vba_314w',
@@ -720,12 +703,12 @@ export const facilityData = {
             state: 'VA',
             address1: '808 Farrell Road',
             address2: 'Room NS 104',
-            address3: null
-          }
+            address3: null,
+          },
         },
         phone: {
           fax: '215-991-1442',
-          main: '301-400-2463'
+          main: '301-400-2463',
         },
         hours: {
           friday: '7:00AM-3:30PM',
@@ -734,17 +717,17 @@ export const facilityData = {
           tuesday: '7:00AM-3:30PM',
           saturday: 'Closed',
           thursday: '7:00AM-3:30PM',
-          wednesday: '7:00AM-3:30PM'
+          wednesday: '7:00AM-3:30PM',
         },
         services: {
           benefits: {
             other: null,
-            standard: []
-          }
+            standard: [],
+          },
         },
         feedback: {},
-        access: {}
-      }
+        access: {},
+      },
     },
     {
       id: 'vba_372d',
@@ -765,12 +748,12 @@ export const facilityData = {
             state: 'MD',
             address1: '8901 Rockville Pike',
             address2: 'Bldg 11 Room 226',
-            address3: null
-          }
+            address3: null,
+          },
         },
         phone: {
           fax: null,
-          main: '301-400-2465'
+          main: '301-400-2465',
         },
         hours: {
           friday: 'Closed',
@@ -779,20 +762,20 @@ export const facilityData = {
           tuesday: '8:00AM-4:00PM',
           saturday: 'Closed',
           thursday: '8:00AM-4:00PM',
-          wednesday: '8:00AM-4:00PM'
+          wednesday: '8:00AM-4:00PM',
         },
         services: {
           benefits: {
             other: 'Accepts and date stamps claims ',
             standard: [
               'IntegratedDisabilityEvaluationSystemAssistance',
-              'PreDischargeClaimAssistance'
-            ]
-          }
+              'PreDischargeClaimAssistance',
+            ],
+          },
         },
         feedback: {},
-        access: {}
-      }
+        access: {},
+      },
     },
     {
       id: 'vba_314x',
@@ -813,12 +796,12 @@ export const facilityData = {
             state: 'VA',
             address1: '3025 John Quick Road',
             address2: null,
-            address3: null
-          }
+            address3: null,
+          },
         },
         phone: {
           fax: '703-432-1869',
-          main: '703-432-1814'
+          main: '703-432-1814',
         },
         hours: {
           friday: '7:00AM-3:30PM',
@@ -827,17 +810,17 @@ export const facilityData = {
           tuesday: '7:00AM-3:30PM',
           saturday: 'Closed',
           thursday: '7:00AM-3:30PM',
-          wednesday: '7:00AM-3:30PM'
+          wednesday: '7:00AM-3:30PM',
         },
         services: {
           benefits: {
             other: null,
-            standard: []
-          }
+            standard: [],
+          },
         },
         feedback: {},
-        access: {}
-      }
+        access: {},
+      },
     },
     {
       id: 'ccp_1',
@@ -846,17 +829,20 @@ export const facilityData = {
         uniqueId: '1',
         name: 'Smith, Jones MD',
         orgName: 'Jones Family Medicine',
-        specialty: [{
-          name: 'Family Medicine',
-          desc: 'Family Medicine is the medical specialty which is concerned with the total health care of the individual and the family. It is the specialty in breadth which integrates the biological, clinical, and behavioral sciences. The scope of family medicine is not limited by age, sex, organ system, or disease entity.'
-        }],
+        specialty: [
+          {
+            name: 'Family Medicine',
+            desc:
+              'Family Medicine is the medical specialty which is concerned with the total health care of the individual and the family. It is the specialty in breadth which integrates the biological, clinical, and behavioral sciences. The scope of family medicine is not limited by age, sex, organ system, or disease entity.',
+          },
+        ],
         address: {
           street: '820 Chesapeake Street, Southeast',
           appt: '',
           city: 'Washington',
           state: 'DC',
           zip: '20032-3428',
-          full: '820 Chesapeake Street, Southeast, Washington, DC 20032-3428'
+          full: '820 Chesapeake Street, Southeast, Washington, DC 20032-3428',
         },
         email: 'jones.smith@docs.gov',
         phone: '202-745-8685',
@@ -869,8 +855,8 @@ export const facilityData = {
         distance: 0.5, // in miles
         network: 'TriWest',
         lat: 38.8292075900001,
-        long: -76.99237091
-      }
+        long: -76.99237091,
+      },
     },
     {
       id: 'ccp_2',
@@ -879,21 +865,25 @@ export const facilityData = {
         uniqueId: '2',
         name: 'Franklin Street Dentist',
         orgName: null,
-        specialty: [{
-          name: 'Dentistry',
-          desc: "A dentist is a person qualified by a doctorate in dental surgery (D.D.S.) or dental medicine (D.M.D.), licensed by the state to practice dentistry, and practicing within the scope of that license.  There is no difference between the two degrees: dentists who have a DMD or DDS have the same education.  Universities have the prerogative to determine what degree is awarded.  Both degrees use the same curriculum requirements set by the American Dental Association's Commission on Dental Accreditation.  Generally, three or more years of undergraduate education plus four years of dental school is required to graduate and become a general dentist.  State licensing boards accept either degree as equivalent, and both degrees allow licensed individuals to practice the same scope of general dentistry.  Additional post-graduate training is required to become a dental specialist."
-        },
-        {
-          name: 'Orthodontist',
-          desc: 'That area of dentistry concerned with the supervision, guidance and correction of the growing or mature dentofacial structures, including those conditions that require movement of teeth or correction of malrelationships and malformations of their related structures and the adjustment of relationships between and among teeth and facial bones by the application of forces and/or the stimulation and redirection of functional forces within the craniofacial complex.  Major responsibilities of orthodontic practice include the diagnosis, prevention, interception and treatment of all forms of malocclusion of the teeth and associated alterations in their surrounding structures; the design, application and control of functional and corrective appliances; and the guidance of the dentition and its supporting structures to attain and maintain optimum occlusal relations in physiologic and esthetic harmony among facial and cranial structures.'
-        }],
+        specialty: [
+          {
+            name: 'Dentistry',
+            desc:
+              "A dentist is a person qualified by a doctorate in dental surgery (D.D.S.) or dental medicine (D.M.D.), licensed by the state to practice dentistry, and practicing within the scope of that license.  There is no difference between the two degrees: dentists who have a DMD or DDS have the same education.  Universities have the prerogative to determine what degree is awarded.  Both degrees use the same curriculum requirements set by the American Dental Association's Commission on Dental Accreditation.  Generally, three or more years of undergraduate education plus four years of dental school is required to graduate and become a general dentist.  State licensing boards accept either degree as equivalent, and both degrees allow licensed individuals to practice the same scope of general dentistry.  Additional post-graduate training is required to become a dental specialist.",
+          },
+          {
+            name: 'Orthodontist',
+            desc:
+              'That area of dentistry concerned with the supervision, guidance and correction of the growing or mature dentofacial structures, including those conditions that require movement of teeth or correction of malrelationships and malformations of their related structures and the adjustment of relationships between and among teeth and facial bones by the application of forces and/or the stimulation and redirection of functional forces within the craniofacial complex.  Major responsibilities of orthodontic practice include the diagnosis, prevention, interception and treatment of all forms of malocclusion of the teeth and associated alterations in their surrounding structures; the design, application and control of functional and corrective appliances; and the guidance of the dentition and its supporting structures to attain and maintain optimum occlusal relations in physiologic and esthetic harmony among facial and cranial structures.',
+          },
+        ],
         address: {
           street: '1500 Franklin Street Northeast',
           appt: '',
           city: 'Washington',
           state: 'DC',
           zip: '20018-2000',
-          full: '1500 Franklin Street Northeast, Washington, DC 20018-2000'
+          full: '1500 Franklin Street Northeast, Washington, DC 20018-2000',
         },
         email: 'franklin@dentist.med',
         phone: '202-636-7660',
@@ -905,8 +895,8 @@ export const facilityData = {
         distance: 5.15, // in miles
         network: 'TriWest',
         lat: 38.925828,
-        long: -76.9835070199999
-      }
+        long: -76.9835070199999,
+      },
     },
     {
       id: 'ccp_3',
@@ -914,21 +904,23 @@ export const facilityData = {
       attributes: {
         uniqueId: '3',
         name: 'University of Maryland Clinic',
-        specialty: [{
-          name: 'Vaccines',
-          desc: '...shots...'
-        },
-        {
-          name: 'Check-ups',
-          desc: 'Physicals and whatnot...'
-        }],
+        specialty: [
+          {
+            name: 'Vaccines',
+            desc: '...shots...',
+          },
+          {
+            name: 'Check-ups',
+            desc: 'Physicals and whatnot...',
+          },
+        ],
         address: {
           street: '3511 University Blvd. East',
           appt: '',
           city: 'Adelphi',
           state: 'DC',
           zip: '20783',
-          full: '3511 University Blvd. East, Adelphi, MD 20783'
+          full: '3511 University Blvd. East, Adelphi, MD 20783',
         },
         email: 'clinic@uom.edu',
         phone: '240-684-2555',
@@ -941,25 +933,28 @@ export const facilityData = {
         distance: 5.15, // in miles
         network: 'TriWest',
         lat: 38.9857684400001,
-        long: -76.95675965
-      }
-    }
+        long: -76.95675965,
+      },
+    },
   ],
   links: {
-    self: 'http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1',
-    first: 'http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1&per_page=20',
+    self:
+      'http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1',
+    first:
+      'http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1&per_page=20',
     prev: null,
     next: null,
-    last: 'http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1&per_page=20'
+    last:
+      'http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1&per_page=20',
   },
   meta: {
     pagination: {
       currentPage: 1,
       perPage: 20,
       totalPages: 1,
-      totalEntries: 16
-    }
-  }
+      totalEntries: 16,
+    },
+  },
 };
 
 export const providerServices = [
@@ -969,7 +964,7 @@ export const providerServices = [
     Grouping: 'Behavioral Health & Social Service Providers',
     Classification: 'Psychologist',
     Specialization: 'Women',
-    SpecialtyDescription: null
+    SpecialtyDescription: null,
   },
   {
     SpecialtyCode: '104100000X',
@@ -977,7 +972,8 @@ export const providerServices = [
     Grouping: 'Behavioral Health & Social Service Providers',
     Classification: 'Social Worker',
     Specialization: null,
-    SpecialtyDescription: 'A social worker is a person who is qualified by a Social Work degree, and licensed, certified or registered by the state as a social worker to practice within the scope of that license.  A social worker provides assistance and counseling to clients and their families who are dealing with social, emotional and environmental problems. Social work services may be rendered to individuals, families, groups, and the public.'
+    SpecialtyDescription:
+      'A social worker is a person who is qualified by a Social Work degree, and licensed, certified or registered by the state as a social worker to practice within the scope of that license.  A social worker provides assistance and counseling to clients and their families who are dealing with social, emotional and environmental problems. Social work services may be rendered to individuals, families, groups, and the public.',
   },
   {
     SpecialtyCode: '1041C0700X',
@@ -985,7 +981,8 @@ export const providerServices = [
     Grouping: 'Behavioral Health & Social Service Providers',
     Classification: 'Social Worker',
     Specialization: 'Clinical',
-    SpecialtyDescription: 'A social worker who holds a master’s or doctoral degree in social work from an accredited school of social work in addition to at least two years of post-master’s supervised experience in a clinical setting. The social worker must be licensed, certified, or registered at the clinical level in the jurisdiction of practice. A clinical social worker provides direct services, including interventions focused on interpersonal interactions, intrapsychic dynamics, and life management issues. Clinical social work services are based on bio-psychosocial perspectives. Services consist of assessment, diagnosis, treatment (including psychotherapy and counseling), client-centered advocacy, consultation, evaluation, and prevention of mental illness, emotional, or behavioral disturbances.'
+    SpecialtyDescription:
+      'A social worker who holds a master’s or doctoral degree in social work from an accredited school of social work in addition to at least two years of post-master’s supervised experience in a clinical setting. The social worker must be licensed, certified, or registered at the clinical level in the jurisdiction of practice. A clinical social worker provides direct services, including interventions focused on interpersonal interactions, intrapsychic dynamics, and life management issues. Clinical social work services are based on bio-psychosocial perspectives. Services consist of assessment, diagnosis, treatment (including psychotherapy and counseling), client-centered advocacy, consultation, evaluation, and prevention of mental illness, emotional, or behavioral disturbances.',
   },
   {
     SpecialtyCode: '1041S0200X',
@@ -993,7 +990,7 @@ export const providerServices = [
     Grouping: 'Behavioral Health & Social Service Providers',
     Classification: 'Social Worker',
     Specialization: 'School',
-    SpecialtyDescription: 'Definition to come...'
+    SpecialtyDescription: 'Definition to come...',
   },
   {
     SpecialtyCode: '106E00000X',
@@ -1001,7 +998,8 @@ export const providerServices = [
     Grouping: 'Behavioral Health & Social Service Providers',
     Classification: 'Assistant Behavior Analyst',
     Specialization: null,
-    SpecialtyDescription: 'An assistant behavior analyst is qualified by Behavior Analyst Certification Board certification and/or a state-issued license or credential in behavior analysis to practice under the supervision of an appropriately credentialed professional behavior analyst. An assistant behavior analyst delivers services consistent with the dimensions of applied behavior analysis and supervision requirements defined in state laws or regulations and/or national certification standards. Common services may include, but are not limited to, conducting behavioral assessments, analyzing data, writing behavior-analytic treatment plans, training and supervising others in implementation of components of treatment plans, and direct implementation of treatment plans.'
+    SpecialtyDescription:
+      'An assistant behavior analyst is qualified by Behavior Analyst Certification Board certification and/or a state-issued license or credential in behavior analysis to practice under the supervision of an appropriately credentialed professional behavior analyst. An assistant behavior analyst delivers services consistent with the dimensions of applied behavior analysis and supervision requirements defined in state laws or regulations and/or national certification standards. Common services may include, but are not limited to, conducting behavioral assessments, analyzing data, writing behavior-analytic treatment plans, training and supervising others in implementation of components of treatment plans, and direct implementation of treatment plans.',
   },
   {
     SpecialtyCode: '106H00000X',
@@ -1009,7 +1007,8 @@ export const providerServices = [
     Grouping: 'Behavioral Health & Social Service Providers',
     Classification: 'Marriage & Family Therapist',
     Specialization: null,
-    SpecialtyDescription: "A marriage and family therapist is a person with a master's degree in marriage and family therapy, or a master's or doctoral degree in a related mental health field with substantially equivalent coursework in marriage and family therapy, who receives supervised clinical experience, or a person who meets the state requirements to practice as a marriage and family therapist.  A marriage and family therapist treats mental and emotional disorders within the context of marriage and family systems.   A marriage and family therapist provides mental health and counseling services to individuals, couples, families, and groups."
+    SpecialtyDescription:
+      "A marriage and family therapist is a person with a master's degree in marriage and family therapy, or a master's or doctoral degree in a related mental health field with substantially equivalent coursework in marriage and family therapy, who receives supervised clinical experience, or a person who meets the state requirements to practice as a marriage and family therapist.  A marriage and family therapist treats mental and emotional disorders within the context of marriage and family systems.   A marriage and family therapist provides mental health and counseling services to individuals, couples, families, and groups.",
   },
   {
     SpecialtyCode: '106S00000X',
@@ -1017,7 +1016,8 @@ export const providerServices = [
     Grouping: 'Behavioral Health & Social Service Providers',
     Classification: 'Behavior Technician',
     Specialization: null,
-    SpecialtyDescription: 'The behavior technician is a paraprofessional who practices under the close, ongoing supervision of a behavior analyst or assistant behavior analyst certified by the Behavior Analyst Certification Board and/or credentialed by a state (such as through licensure). The behavior technician is primarily responsible for the implementation of components of behavior-analytic treatment plans developed by the supervisor. That may include collecting data on treatment targets and conducting certain types of behavioral assessments (e.g., stimulus preference assessments). The behavior technician does not design treatment or assessment plans or procedures but provides services as assigned by the supervisor responsible for his or her work.'
+    SpecialtyDescription:
+      'The behavior technician is a paraprofessional who practices under the close, ongoing supervision of a behavior analyst or assistant behavior analyst certified by the Behavior Analyst Certification Board and/or credentialed by a state (such as through licensure). The behavior technician is primarily responsible for the implementation of components of behavior-analytic treatment plans developed by the supervisor. That may include collecting data on treatment targets and conducting certain types of behavioral assessments (e.g., stimulus preference assessments). The behavior technician does not design treatment or assessment plans or procedures but provides services as assigned by the supervisor responsible for his or her work.',
   },
   {
     SpecialtyCode: '111N00000X',
@@ -1025,7 +1025,8 @@ export const providerServices = [
     Grouping: 'Chiropractic Providers',
     Classification: 'Chiropractor',
     Specialization: null,
-    SpecialtyDescription: 'A provider qualified by a Doctor of Chiropractic (D.C.), licensed by the State and who practices chiropractic medicine -that discipline within the healing arts which deals with the nervous system and its relationship to the spinal column and its interrelationship with other body systems.'
+    SpecialtyDescription:
+      'A provider qualified by a Doctor of Chiropractic (D.C.), licensed by the State and who practices chiropractic medicine -that discipline within the healing arts which deals with the nervous system and its relationship to the spinal column and its interrelationship with other body systems.',
   },
   {
     SpecialtyCode: '111NI0013X',
@@ -1033,7 +1034,8 @@ export const providerServices = [
     Grouping: 'Chiropractic Providers',
     Classification: 'Chiropractor',
     Specialization: 'Independent Medical Examiner',
-    SpecialtyDescription: 'A special evaluator not involved with the medical care of the individual examinee that impartially evaluates the care being provided by other practitioners to clarify clinical, disability, liability or other case issues.'
+    SpecialtyDescription:
+      'A special evaluator not involved with the medical care of the individual examinee that impartially evaluates the care being provided by other practitioners to clarify clinical, disability, liability or other case issues.',
   },
   {
     SpecialtyCode: '111NI0900X',
@@ -1041,7 +1043,8 @@ export const providerServices = [
     Grouping: 'Chiropractic Providers',
     Classification: 'Chiropractor',
     Specialization: 'Internist',
-    SpecialtyDescription: 'The chiropractic internist may serve as a primary care physician or may see patients referred from other providers for evaluation and co-management. Evaluation is focused on the early detection of functional, nutritional, and pathological disorders. A chiropractic internist utilizes the diagnostic instruments necessary for proper examination. In cases where laboratory examination is necessary, a chiropractic internist utilizes a recognized reference laboratory facility. A chiropractic internist may manage his or her own cases or may refer to another specialist when prudent to do so. The chiropractic internist utilizes documented natural therapies, therapeutic lifestyle changes, patient education and other resources to promote patient health and avoidance of disease.'
+    SpecialtyDescription:
+      'The chiropractic internist may serve as a primary care physician or may see patients referred from other providers for evaluation and co-management. Evaluation is focused on the early detection of functional, nutritional, and pathological disorders. A chiropractic internist utilizes the diagnostic instruments necessary for proper examination. In cases where laboratory examination is necessary, a chiropractic internist utilizes a recognized reference laboratory facility. A chiropractic internist may manage his or her own cases or may refer to another specialist when prudent to do so. The chiropractic internist utilizes documented natural therapies, therapeutic lifestyle changes, patient education and other resources to promote patient health and avoidance of disease.',
   },
   {
     SpecialtyCode: '111NN0400X',
@@ -1049,7 +1052,8 @@ export const providerServices = [
     Grouping: 'Chiropractic Providers',
     Classification: 'Chiropractor',
     Specialization: 'Neurology',
-    SpecialtyDescription: 'Chiropractic Neurology is defined as the field of functional neurology that engages the internal - and external environment of the individual in a structured and targeted approach to affect positive changes in the nervous system and consequently the physiology and behavior of an individual. Chiropractic Neurologists are board-certified specialists in non-drug, non-surgical care for those with neurologically based health problems. There are many conditions people suffer from that are in this broad category: learning and attention disorders, headaches, vertigo, pain syndromes, developmental disorders, nerve injury, spinal cord injury, head injury or stroke, movement disorders, and many other conditions.'
+    SpecialtyDescription:
+      'Chiropractic Neurology is defined as the field of functional neurology that engages the internal - and external environment of the individual in a structured and targeted approach to affect positive changes in the nervous system and consequently the physiology and behavior of an individual. Chiropractic Neurologists are board-certified specialists in non-drug, non-surgical care for those with neurologically based health problems. There are many conditions people suffer from that are in this broad category: learning and attention disorders, headaches, vertigo, pain syndromes, developmental disorders, nerve injury, spinal cord injury, head injury or stroke, movement disorders, and many other conditions.',
   },
   {
     SpecialtyCode: '111NN1001X',
@@ -1057,7 +1061,8 @@ export const providerServices = [
     Grouping: 'Chiropractic Providers',
     Classification: 'Chiropractor',
     Specialization: 'Nutrition',
-    SpecialtyDescription: "Chiropractic Nutrition is that specialty within the chiropractic profession that deals with the overall factors that affect the patient's ability to maintain the manipulative correction and thus sustain better neurological integrity. The Chiropractic Nutrition Specialist will perform extensive research on the patient's previous health history, ethnicity, and any family history related to what the patient is being treated for. Patients fill out questionnaires concerning dietary and sleep patterns and previous or present symptomology. A nutrition examination would be performed to assess areas such as absorption rates, adrenal function, kidney health, lung health etc. The patient is often instructed on how to check the pH of their saliva and urine, test for the presence of Candida Albicans, etc., at home. Outside laboratory testing includes blood, urine, hair analysis, food allergy testing etc. The patient’s prescription and over the counter medications are recorded and analyzed."
+    SpecialtyDescription:
+      "Chiropractic Nutrition is that specialty within the chiropractic profession that deals with the overall factors that affect the patient's ability to maintain the manipulative correction and thus sustain better neurological integrity. The Chiropractic Nutrition Specialist will perform extensive research on the patient's previous health history, ethnicity, and any family history related to what the patient is being treated for. Patients fill out questionnaires concerning dietary and sleep patterns and previous or present symptomology. A nutrition examination would be performed to assess areas such as absorption rates, adrenal function, kidney health, lung health etc. The patient is often instructed on how to check the pH of their saliva and urine, test for the presence of Candida Albicans, etc., at home. Outside laboratory testing includes blood, urine, hair analysis, food allergy testing etc. The patient’s prescription and over the counter medications are recorded and analyzed.",
   },
   {
     SpecialtyCode: '133NN1002X',
@@ -1065,7 +1070,7 @@ export const providerServices = [
     Grouping: 'Dietary & Nutritional Service Providers',
     Classification: 'Nutritionist',
     Specialization: 'Nutrition, Education',
-    SpecialtyDescription: 'Definition to come...'
+    SpecialtyDescription: 'Definition to come...',
   },
   {
     SpecialtyCode: '133V00000X',
@@ -1073,7 +1078,8 @@ export const providerServices = [
     Grouping: 'Dietary & Nutritional Service Providers',
     Classification: 'Dietitian, Registered',
     Specialization: null,
-    SpecialtyDescription: 'A registered dietician (RD) is a food and nutrition expert who has successfully completed a minimum of a bachelor’s degree at a US regionally accredited university or college and course work approved by The American Dietetic Association (ADA); an ADA-accredited or approved, supervised practice program, typically 6 to 12 months in length; a national examination administered by the Commission on Dietetic Registration; and continuing professional educational requirements to maintain registration.'
+    SpecialtyDescription:
+      'A registered dietician (RD) is a food and nutrition expert who has successfully completed a minimum of a bachelor’s degree at a US regionally accredited university or college and course work approved by The American Dietetic Association (ADA); an ADA-accredited or approved, supervised practice program, typically 6 to 12 months in length; a national examination administered by the Commission on Dietetic Registration; and continuing professional educational requirements to maintain registration.',
   },
   {
     SpecialtyCode: '133VN1004X',
@@ -1081,7 +1087,7 @@ export const providerServices = [
     Grouping: 'Dietary & Nutritional Service Providers',
     Classification: 'Dietitian, Registered',
     Specialization: 'Nutrition, Pediatric',
-    SpecialtyDescription: 'Definition to come...'
+    SpecialtyDescription: 'Definition to come...',
   },
   {
     SpecialtyCode: '136A00000X',
@@ -1089,7 +1095,8 @@ export const providerServices = [
     Grouping: 'Dietary & Nutritional Service Providers',
     Classification: 'Dietetic Technician, Registered',
     Specialization: null,
-    SpecialtyDescription: 'A person trained in food and nutrition who is an integral part of health care and foodservice management teams. A dietetic technician, registered (DTR) has successfully completed at least a two-year associate’s degree at a US regionally accredited college or university; a dietetic technician program approved by The American Dietetic Association, including 450 hours of supervised practice experience; a national examination administered by the Commission on Dietetic Registration; and continuing professional educational requirements to maintain registration.'
+    SpecialtyDescription:
+      'A person trained in food and nutrition who is an integral part of health care and foodservice management teams. A dietetic technician, registered (DTR) has successfully completed at least a two-year associate’s degree at a US regionally accredited college or university; a dietetic technician program approved by The American Dietetic Association, including 450 hours of supervised practice experience; a national examination administered by the Commission on Dietetic Registration; and continuing professional educational requirements to maintain registration.',
   },
   {
     SpecialtyCode: '146D00000X',
@@ -1097,7 +1104,8 @@ export const providerServices = [
     Grouping: 'Emergency Medical Service Providers',
     Classification: 'Personal Emergency Response Attendant',
     Specialization: null,
-    SpecialtyDescription: 'Individuals that are specially trained to assist patients living at home with urgent/emergent situations.  These individuals must be able to perform CPR and basic first aid and have sufficient counseling skills to allay fears and assist in working through processes necessary to resolve the crisis.  Functions may include transportation to various facilities and businesses, contacting agencies to initiate remediation service or providing reassurance.'
+    SpecialtyDescription:
+      'Individuals that are specially trained to assist patients living at home with urgent/emergent situations.  These individuals must be able to perform CPR and basic first aid and have sufficient counseling skills to allay fears and assist in working through processes necessary to resolve the crisis.  Functions may include transportation to various facilities and businesses, contacting agencies to initiate remediation service or providing reassurance.',
   },
   {
     SpecialtyCode: '146L00000X',
@@ -1105,7 +1113,8 @@ export const providerServices = [
     Grouping: 'Emergency Medical Service Providers',
     Classification: 'Emergency Medical Technician, Paramedic',
     Specialization: null,
-    SpecialtyDescription: 'An EMT, Paramedic is an individual trained and certified to perform advanced life support (ALS) in medical emergencies based on individual state boards.'
+    SpecialtyDescription:
+      'An EMT, Paramedic is an individual trained and certified to perform advanced life support (ALS) in medical emergencies based on individual state boards.',
   },
   {
     SpecialtyCode: '146M00000X',
@@ -1113,7 +1122,8 @@ export const providerServices = [
     Grouping: 'Emergency Medical Service Providers',
     Classification: 'Emergency Medical Technician, Intermediate',
     Specialization: null,
-    SpecialtyDescription: 'An Intermediate EMT is an individual trained and certified to perform intermediate life support treatment in medical emergencies based on individual state boards.'
+    SpecialtyDescription:
+      'An Intermediate EMT is an individual trained and certified to perform intermediate life support treatment in medical emergencies based on individual state boards.',
   },
   {
     SpecialtyCode: '146N00000X',
@@ -1121,7 +1131,8 @@ export const providerServices = [
     Grouping: 'Emergency Medical Service Providers',
     Classification: 'Emergency Medical Technician, Basic',
     Specialization: null,
-    SpecialtyDescription: 'A Basic EMT is an individual trained and certified to perform basic life support treatment in medical emergencies based on individual state boards.'
+    SpecialtyDescription:
+      'A Basic EMT is an individual trained and certified to perform basic life support treatment in medical emergencies based on individual state boards.',
   },
   {
     SpecialtyCode: '152W00000X',
@@ -1129,7 +1140,8 @@ export const providerServices = [
     Grouping: 'Eye and Vision Services Providers',
     Classification: 'Optometrist',
     Specialization: null,
-    SpecialtyDescription: 'Doctors of optometry (ODs) are the primary health care professionals for the eye.  Optometrists examine, diagnose, treat, and manage diseases, injuries, and disorders of the visual system, the eye, and associated structures as well as identify related systemic conditions affecting the eye.  An optometrist has completed pre-professional undergraduate education in a college or university and four years of professional education at a college of optometry, leading to the doctor of optometry (O.D.) degree.  Some optometrists complete an optional residency in a specific area of practice.  Optometrists are eye health care professionals state-licensed to diagnose and treat diseases and disorders of the eye and visual system. '
+    SpecialtyDescription:
+      'Doctors of optometry (ODs) are the primary health care professionals for the eye.  Optometrists examine, diagnose, treat, and manage diseases, injuries, and disorders of the visual system, the eye, and associated structures as well as identify related systemic conditions affecting the eye.  An optometrist has completed pre-professional undergraduate education in a college or university and four years of professional education at a college of optometry, leading to the doctor of optometry (O.D.) degree.  Some optometrists complete an optional residency in a specific area of practice.  Optometrists are eye health care professionals state-licensed to diagnose and treat diseases and disorders of the eye and visual system. ',
   },
   {
     SpecialtyCode: '152WC0802X',
@@ -1137,7 +1149,8 @@ export const providerServices = [
     Grouping: 'Eye and Vision Services Providers',
     Classification: 'Optometrist',
     Specialization: 'Corneal and Contact Management',
-    SpecialtyDescription: 'The professional activities performed by an Optometrist related to the fitting of contact lenses to an eye, ongoing evaluation of the cornea’s ability to sustain successful contact lens wear, and treatment of any external eye or corneal condition which can affect contact lens wear.'
+    SpecialtyDescription:
+      'The professional activities performed by an Optometrist related to the fitting of contact lenses to an eye, ongoing evaluation of the cornea’s ability to sustain successful contact lens wear, and treatment of any external eye or corneal condition which can affect contact lens wear.',
   },
   {
     SpecialtyCode: '152WL0500X',
@@ -1145,7 +1158,8 @@ export const providerServices = [
     Grouping: 'Eye and Vision Services Providers',
     Classification: 'Optometrist',
     Specialization: 'Low Vision Rehabilitation',
-    SpecialtyDescription: 'Optometrists who specialize in low-vision care having training to assess visual function, prescribe low-vision devices, develop treatment plans, and recommend other vision rehabilitation services.'
+    SpecialtyDescription:
+      'Optometrists who specialize in low-vision care having training to assess visual function, prescribe low-vision devices, develop treatment plans, and recommend other vision rehabilitation services.',
   },
   {
     SpecialtyCode: '152WP0200X',
@@ -1153,7 +1167,8 @@ export const providerServices = [
     Grouping: 'Eye and Vision Services Providers',
     Classification: 'Optometrist',
     Specialization: 'Pediatrics',
-    SpecialtyDescription: 'Optometrists who work in Pediatrics are concerned with the prevention, development, diagnosis, and treatment of visual problems in children.'
+    SpecialtyDescription:
+      'Optometrists who work in Pediatrics are concerned with the prevention, development, diagnosis, and treatment of visual problems in children.',
   },
   {
     SpecialtyCode: '152WS0006X',
@@ -1161,7 +1176,8 @@ export const providerServices = [
     Grouping: 'Eye and Vision Services Providers',
     Classification: 'Optometrist',
     Specialization: 'Sports Vision',
-    SpecialtyDescription: 'An optometrist who offers services designed to care for unique vision care needs of athletes, which may include one of more of the following services:  corrective vision care unique to a specific sporting environment; protective eyewear for the prevention of sports-related injuries; vision enhancement – which may include vision therapy and techniques to improve visual skills specific to the athlete’s sport.'
+    SpecialtyDescription:
+      'An optometrist who offers services designed to care for unique vision care needs of athletes, which may include one of more of the following services:  corrective vision care unique to a specific sporting environment; protective eyewear for the prevention of sports-related injuries; vision enhancement – which may include vision therapy and techniques to improve visual skills specific to the athlete’s sport.',
   },
   {
     SpecialtyCode: '152WV0400X',
@@ -1169,7 +1185,8 @@ export const providerServices = [
     Grouping: 'Eye and Vision Services Providers',
     Classification: 'Optometrist',
     Specialization: 'Vision Therapy',
-    SpecialtyDescription: 'Optometrists who specialize in vision therapy as a treatment process used to improve vision function. It includes a broad range of developmental and rehabilitative treatment programs individually prescribed to remediate specific sensory, motor and/or visual perceptual dysfunctions.'
+    SpecialtyDescription:
+      'Optometrists who specialize in vision therapy as a treatment process used to improve vision function. It includes a broad range of developmental and rehabilitative treatment programs individually prescribed to remediate specific sensory, motor and/or visual perceptual dysfunctions.',
   },
   {
     SpecialtyCode: '152WX0102X',
@@ -1177,7 +1194,8 @@ export const providerServices = [
     Grouping: 'Eye and Vision Services Providers',
     Classification: 'Optometrist',
     Specialization: 'Occupational Vision',
-    SpecialtyDescription: 'Optometrists who work in Occupational Vision, the branch of environmental optometry, consider all aspects of the relationship between work and vision, visual performances, eye safety, and health.'
+    SpecialtyDescription:
+      'Optometrists who work in Occupational Vision, the branch of environmental optometry, consider all aspects of the relationship between work and vision, visual performances, eye safety, and health.',
   },
   {
     SpecialtyCode: '156F00000X',
@@ -1185,7 +1203,8 @@ export const providerServices = [
     Grouping: 'Eye and Vision Services Providers',
     Classification: 'Technician/Technologist',
     Specialization: null,
-    SpecialtyDescription: 'A broad category grouping different kinds of technologists and technicians. See individual definitions.'
+    SpecialtyDescription:
+      'A broad category grouping different kinds of technologists and technicians. See individual definitions.',
   },
   {
     SpecialtyCode: '172M00000X',
@@ -1193,7 +1212,8 @@ export const providerServices = [
     Grouping: 'Other Service Providers',
     Classification: 'Mechanotherapist',
     Specialization: null,
-    SpecialtyDescription: 'A practitioner of mechanotherapy examines patients by verbal inquiry, examination of the musculoskeletal system by hand, and visual inspection and observation.  In the treatment of patients, mechanotherapists employ the techniques of advised or supervised exercise; electrical neuromuscular stimulation; massage or manipulation; or air, water, heat, cold, sound, or infrared ray therapy.'
+    SpecialtyDescription:
+      'A practitioner of mechanotherapy examines patients by verbal inquiry, examination of the musculoskeletal system by hand, and visual inspection and observation.  In the treatment of patients, mechanotherapists employ the techniques of advised or supervised exercise; electrical neuromuscular stimulation; massage or manipulation; or air, water, heat, cold, sound, or infrared ray therapy.',
   },
   {
     SpecialtyCode: '172P00000X',
@@ -1201,7 +1221,8 @@ export const providerServices = [
     Grouping: 'Other Service Providers',
     Classification: 'Naprapath',
     Specialization: null,
-    SpecialtyDescription: 'Naprapathy means a branch of medicine that focuses on the evaluation and treatment of neuron-muscular conditions.  Doctors of naprapathy are connective tissue specialists.  Education and training are defined through individual states’ licensing/certification requirements.'
+    SpecialtyDescription:
+      'Naprapathy means a branch of medicine that focuses on the evaluation and treatment of neuron-muscular conditions.  Doctors of naprapathy are connective tissue specialists.  Education and training are defined through individual states’ licensing/certification requirements.',
   },
   {
     SpecialtyCode: '172V00000X',
@@ -1209,7 +1230,8 @@ export const providerServices = [
     Grouping: 'Other Service Providers',
     Classification: 'Community Health Worker',
     Specialization: null,
-    SpecialtyDescription: 'Community health workers (CHW) are lay members of communities who work either for pay or as volunteers in association with the local health care system in both urban and rural environments and usually share ethnicity, language, socioeconomic status and life experiences with the community members they serve. They have been identified by many titles such as community health advisors, lay health advocates, "promotores(as), outreach educators, community health representatives, peer health promoters, and peer health educators. CHWs offer interpretation and translation services, provide culturally appropriate health education and information, assist people in receiving the care they need, give informal counseling and guidance on health behaviors, advocate for individual and community health needs, and provide some direct services such as first aid and blood pressure screening.  Some examples of these practitioners are Community Health Aides or Practitioners established under 25 USC §1616 (l) under HHS, Indian Health Service, Public Health Service.'
+    SpecialtyDescription:
+      'Community health workers (CHW) are lay members of communities who work either for pay or as volunteers in association with the local health care system in both urban and rural environments and usually share ethnicity, language, socioeconomic status and life experiences with the community members they serve. They have been identified by many titles such as community health advisors, lay health advocates, "promotores(as), outreach educators, community health representatives, peer health promoters, and peer health educators. CHWs offer interpretation and translation services, provide culturally appropriate health education and information, assist people in receiving the care they need, give informal counseling and guidance on health behaviors, advocate for individual and community health needs, and provide some direct services such as first aid and blood pressure screening.  Some examples of these practitioners are Community Health Aides or Practitioners established under 25 USC §1616 (l) under HHS, Indian Health Service, Public Health Service.',
   },
   {
     SpecialtyCode: '209800000X',
@@ -1217,7 +1239,8 @@ export const providerServices = [
     Grouping: 'Allopathic & Osteopathic Physicians',
     Classification: 'Legal Medicine',
     Specialization: null,
-    SpecialtyDescription: 'Legal Medicine is a special field of medicine that focuses on various aspects of medicine and law. Historically, the practice of legal medicine made contributions to medicine as a scientific instrument to solve criminal perplexities. Since World War II, the domain of legal medicine has broadened to include not only aspects of medical science to solve legal and criminal problems but aspects of law as it applies to medicine. Legal Medicine continues to grow as medicolegal issues like medical malpractice and liability, government regulation of health care, issues of tort reform, and moral and ethical complexities presented by technological advances become increasingly prominent. Many medical schools have implemented courses which supply medicolegal instruction for medical students, and many law schools now offer medicolegal courses. Also, dual degree programs in law and medicine have been created to assist physicians to bridge the gap between medicine and the law.'
+    SpecialtyDescription:
+      'Legal Medicine is a special field of medicine that focuses on various aspects of medicine and law. Historically, the practice of legal medicine made contributions to medicine as a scientific instrument to solve criminal perplexities. Since World War II, the domain of legal medicine has broadened to include not only aspects of medical science to solve legal and criminal problems but aspects of law as it applies to medicine. Legal Medicine continues to grow as medicolegal issues like medical malpractice and liability, government regulation of health care, issues of tort reform, and moral and ethical complexities presented by technological advances become increasingly prominent. Many medical schools have implemented courses which supply medicolegal instruction for medical students, and many law schools now offer medicolegal courses. Also, dual degree programs in law and medicine have been created to assist physicians to bridge the gap between medicine and the law.',
   },
   {
     SpecialtyCode: '173C00000X',
@@ -1225,7 +1248,8 @@ export const providerServices = [
     Grouping: 'Other Service Providers',
     Classification: 'Reflexologist',
     Specialization: null,
-    SpecialtyDescription: 'Reflexologists perform a non-invasive complementary modality involving thumb and finger techniques to apply alternating pressure to the reflexes within the reflex maps of the body located on the feet, hands, and outer ears. Reflexologists apply pressure to specific areas (feet, hands, and ears) to promote a response from an area far removed from the tissue stimulated via the nervous system and acupuncture meridians. Reflexologists are recommended to complete a minimum of 200 hours of education, typically including anatomy & physiology, Reflexology theory, body systems, zones, meridians & relaxation response, ethics, business standards, and supervised practicum.'
+    SpecialtyDescription:
+      'Reflexologists perform a non-invasive complementary modality involving thumb and finger techniques to apply alternating pressure to the reflexes within the reflex maps of the body located on the feet, hands, and outer ears. Reflexologists apply pressure to specific areas (feet, hands, and ears) to promote a response from an area far removed from the tissue stimulated via the nervous system and acupuncture meridians. Reflexologists are recommended to complete a minimum of 200 hours of education, typically including anatomy & physiology, Reflexology theory, body systems, zones, meridians & relaxation response, ethics, business standards, and supervised practicum.',
   },
   {
     SpecialtyCode: '173F00000X',
@@ -1233,7 +1257,8 @@ export const providerServices = [
     Grouping: 'Other Service Providers',
     Classification: 'Sleep Specialist, PhD',
     Specialization: null,
-    SpecialtyDescription: 'Sleep medicine is a clinical specialty with a focus on clinical problems that require accurate diagnosis and treatment. The knowledge base of sleep medicine is derived from many disciplines including neuroanatomy, neurophysiology, respiratory physiology, pharmacology, psychology, psychiatry, neurology, general internal medicine, pulmonary medicine, and pediatrics as well as others.'
+    SpecialtyDescription:
+      'Sleep medicine is a clinical specialty with a focus on clinical problems that require accurate diagnosis and treatment. The knowledge base of sleep medicine is derived from many disciplines including neuroanatomy, neurophysiology, respiratory physiology, pharmacology, psychology, psychiatry, neurology, general internal medicine, pulmonary medicine, and pediatrics as well as others.',
   },
   {
     SpecialtyCode: '207Q00000X',
@@ -1241,7 +1266,8 @@ export const providerServices = [
     Grouping: 'Allopathic & Osteopathic Physicians',
     Classification: 'Family Medicine',
     Specialization: null,
-    SpecialtyDescription: 'Family Medicine is the medical specialty which is concerned with the total health care of the individual and the family. It is the specialty in breadth which integrates the biological, clinical, and behavioral sciences. The scope of family medicine is not limited by age, sex, organ system, or disease entity.'
+    SpecialtyDescription:
+      'Family Medicine is the medical specialty which is concerned with the total health care of the individual and the family. It is the specialty in breadth which integrates the biological, clinical, and behavioral sciences. The scope of family medicine is not limited by age, sex, organ system, or disease entity.',
   },
   {
     SpecialtyCode: '207QA0000X',
@@ -1249,7 +1275,8 @@ export const providerServices = [
     Grouping: 'Allopathic & Osteopathic Physicians',
     Classification: 'Family Medicine',
     Specialization: 'Adolescent Medicine',
-    SpecialtyDescription: 'A family medicine physician with multidisciplinary training in the unique physical, psychological and social characteristics of adolescents and their health care problems and needs.'
+    SpecialtyDescription:
+      'A family medicine physician with multidisciplinary training in the unique physical, psychological and social characteristics of adolescents and their health care problems and needs.',
   },
   {
     SpecialtyCode: '207QA0401X',
@@ -1257,7 +1284,8 @@ export const providerServices = [
     Grouping: 'Allopathic & Osteopathic Physicians',
     Classification: 'Family Medicine',
     Specialization: 'Addiction Medicine',
-    SpecialtyDescription: 'A family medicine physician who specializes in the diagnosis and treatment of addictions.'
+    SpecialtyDescription:
+      'A family medicine physician who specializes in the diagnosis and treatment of addictions.',
   },
   {
     SpecialtyCode: '207QA0505X',
@@ -1265,7 +1293,7 @@ export const providerServices = [
     Grouping: 'Allopathic & Osteopathic Physicians',
     Classification: 'Family Medicine',
     Specialization: 'Adult Medicine',
-    SpecialtyDescription: 'Definition to come.'
+    SpecialtyDescription: 'Definition to come.',
   },
   {
     SpecialtyCode: '207QB0002X',
@@ -1273,7 +1301,8 @@ export const providerServices = [
     Grouping: 'Allopathic & Osteopathic Physicians',
     Classification: 'Family Medicine',
     Specialization: 'Obesity Medicine',
-    SpecialtyDescription: 'A physician who specializes in the treatment of obesity demonstrates competency in and a thorough understanding of the treatment of obesity and the genetic, biologic, environmental, social, and behavioral factors that contribute to obesity. The obesity medicine physician employs therapeutic interventions including diet, physical activity, behavioral change, and pharmacotherapy. The obesity medicine physician utilizes a comprehensive approach, and may include additional resources such as dietitians, exercise physiologists, mental health professionals and bariatric surgeons as indicated to achieve optimal results. Additionally, the obesity medicine physician maintains competency in providing pre- peri- and post-surgical care of bariatric surgery patients, promotes the prevention of obesity, and advocates for those who suffer from obesity.'
+    SpecialtyDescription:
+      'A physician who specializes in the treatment of obesity demonstrates competency in and a thorough understanding of the treatment of obesity and the genetic, biologic, environmental, social, and behavioral factors that contribute to obesity. The obesity medicine physician employs therapeutic interventions including diet, physical activity, behavioral change, and pharmacotherapy. The obesity medicine physician utilizes a comprehensive approach, and may include additional resources such as dietitians, exercise physiologists, mental health professionals and bariatric surgeons as indicated to achieve optimal results. Additionally, the obesity medicine physician maintains competency in providing pre- peri- and post-surgical care of bariatric surgery patients, promotes the prevention of obesity, and advocates for those who suffer from obesity.',
   },
   {
     SpecialtyCode: '207QG0300X',
@@ -1281,7 +1310,8 @@ export const providerServices = [
     Grouping: 'Allopathic & Osteopathic Physicians',
     Classification: 'Family Medicine',
     Specialization: 'Geriatric Medicine',
-    SpecialtyDescription: "A family medicine physician with special knowledge of the aging process and special skills in the diagnostic, therapeutic, preventive and rehabilitative aspects of illness in the elderly. This specialist cares for geriatric patients in the patient's home, the office, long-term care settings such as nursing homes, and the hospital."
+    SpecialtyDescription:
+      "A family medicine physician with special knowledge of the aging process and special skills in the diagnostic, therapeutic, preventive and rehabilitative aspects of illness in the elderly. This specialist cares for geriatric patients in the patient's home, the office, long-term care settings such as nursing homes, and the hospital.",
   },
   {
     SpecialtyCode: '207QH0002X',
@@ -1289,7 +1319,8 @@ export const providerServices = [
     Grouping: 'Allopathic & Osteopathic Physicians',
     Classification: 'Family Medicine',
     Specialization: 'Hospice and Palliative Medicine',
-    SpecialtyDescription: 'A family medicine physician with special knowledge and skills to prevent and relieve the suffering experienced by patients with life-limiting illnesses. This specialist works with an interdisciplinary hospice or palliative care team to maximize quality of life while addressing physical, psychological, social and spiritual needs of both patient and family throughout the course of the disease, through the dying process, and beyond for the family.  This specialist has expertise in the assessment of patients with advanced disease; the relief of distressing symptoms; the coordination of interdisciplinary patient and family-centered care in diverse venues; the use of specialized care systems including hospice; the management of the imminently dying patient; and legal and ethical decision making in end-of-life care.'
+    SpecialtyDescription:
+      'A family medicine physician with special knowledge and skills to prevent and relieve the suffering experienced by patients with life-limiting illnesses. This specialist works with an interdisciplinary hospice or palliative care team to maximize quality of life while addressing physical, psychological, social and spiritual needs of both patient and family throughout the course of the disease, through the dying process, and beyond for the family.  This specialist has expertise in the assessment of patients with advanced disease; the relief of distressing symptoms; the coordination of interdisciplinary patient and family-centered care in diverse venues; the use of specialized care systems including hospice; the management of the imminently dying patient; and legal and ethical decision making in end-of-life care.',
   },
   {
     SpecialtyCode: '207QS0010X',
@@ -1297,7 +1328,8 @@ export const providerServices = [
     Grouping: 'Allopathic & Osteopathic Physicians',
     Classification: 'Family Medicine',
     Specialization: 'Sports Medicine',
-    SpecialtyDescription: 'A family medicine physician that is trained to be responsible for continuous care in the field of sports medicine, not only for the enhancement of health and fitness, but also for the prevention of injury and illness. A sports medicine physician must have knowledge and experience in the promotion of wellness and the prevention of injury. Knowledge about special areas of medicine such as exercise physiology, biomechanics, nutrition, psychology, physical rehabilitation, epidemiology, physical evaluation, injuries (treatment and prevention and referral practice) and the role of exercise in promoting a healthy lifestyle are essential to the practice of sports medicine. The sports medicine physician requires special education to provide the knowledge to improve the health care of the individual engaged in physical exercise (sports) whether as an individual or in team participation.'
+    SpecialtyDescription:
+      'A family medicine physician that is trained to be responsible for continuous care in the field of sports medicine, not only for the enhancement of health and fitness, but also for the prevention of injury and illness. A sports medicine physician must have knowledge and experience in the promotion of wellness and the prevention of injury. Knowledge about special areas of medicine such as exercise physiology, biomechanics, nutrition, psychology, physical rehabilitation, epidemiology, physical evaluation, injuries (treatment and prevention and referral practice) and the role of exercise in promoting a healthy lifestyle are essential to the practice of sports medicine. The sports medicine physician requires special education to provide the knowledge to improve the health care of the individual engaged in physical exercise (sports) whether as an individual or in team participation.',
   },
   {
     SpecialtyCode: '207QS1201X',
@@ -1305,7 +1337,8 @@ export const providerServices = [
     Grouping: 'Allopathic & Osteopathic Physicians',
     Classification: 'Family Medicine',
     Specialization: 'Sleep Medicine',
-    SpecialtyDescription: 'A Family Medicine Physician who practices Sleep Medicine is certified in the subspecialty of sleep medicine and specializes in the clinical assessment, physiologic testing, diagnosis, management and prevention of sleep and circadian rhythm disorders. Sleep specialists treat patients of any age and use multidisciplinary approaches. Disorders managed by sleep specialists include, but are not limited to, sleep related breathing disorders, insomnia, hypersomnias, circadian rhythm sleep disorders, parasomnias and sleep related movement disorders.'
+    SpecialtyDescription:
+      'A Family Medicine Physician who practices Sleep Medicine is certified in the subspecialty of sleep medicine and specializes in the clinical assessment, physiologic testing, diagnosis, management and prevention of sleep and circadian rhythm disorders. Sleep specialists treat patients of any age and use multidisciplinary approaches. Disorders managed by sleep specialists include, but are not limited to, sleep related breathing disorders, insomnia, hypersomnias, circadian rhythm sleep disorders, parasomnias and sleep related movement disorders.',
   },
   {
     SpecialtyCode: '207R00000X',
@@ -1313,7 +1346,8 @@ export const providerServices = [
     Grouping: 'Allopathic & Osteopathic Physicians',
     Classification: 'Internal Medicine',
     Specialization: null,
-    SpecialtyDescription: 'A physician who provides long-term, comprehensive care in the office and the hospital, managing both common and complex illness of adolescents, adults and the elderly. Internists are trained in the diagnosis and treatment of cancer, infections and diseases affecting the heart, blood, kidneys, joints and digestive, respiratory and vascular systems. They are also trained in the essentials of primary care internal medicine, which incorporates an understanding of disease prevention, wellness, substance abuse, mental health and effective treatment of common problems of the eyes, ears, skin, nervous system and reproductive organs.'
+    SpecialtyDescription:
+      'A physician who provides long-term, comprehensive care in the office and the hospital, managing both common and complex illness of adolescents, adults and the elderly. Internists are trained in the diagnosis and treatment of cancer, infections and diseases affecting the heart, blood, kidneys, joints and digestive, respiratory and vascular systems. They are also trained in the essentials of primary care internal medicine, which incorporates an understanding of disease prevention, wellness, substance abuse, mental health and effective treatment of common problems of the eyes, ears, skin, nervous system and reproductive organs.',
   },
   {
     SpecialtyCode: '207RA0000X',
@@ -1321,15 +1355,18 @@ export const providerServices = [
     Grouping: 'Allopathic & Osteopathic Physicians',
     Classification: 'Internal Medicine',
     Specialization: 'Adolescent Medicine',
-    SpecialtyDescription: 'An internist who specializes in adolescent medicine is a multi-disciplinary healthcare specialist trained in the unique physical, psychological and social characteristics of adolescents, their healthcare problems and needs.'
+    SpecialtyDescription:
+      'An internist who specializes in adolescent medicine is a multi-disciplinary healthcare specialist trained in the unique physical, psychological and social characteristics of adolescents, their healthcare problems and needs.',
   },
   {
     SpecialtyCode: '207RA0001X',
-    Name: 'Internal Medicine - Advanced Heart Failure and Transplant Cardiology ',
+    Name:
+      'Internal Medicine - Advanced Heart Failure and Transplant Cardiology ',
     Grouping: 'Allopathic & Osteopathic Physicians',
     Classification: 'Internal Medicine',
     Specialization: 'Advanced Heart Failure and Transplant Cardiology',
-    SpecialtyDescription: 'Specialists in Advanced Heart Failure and Transplant Cardiology would participate in the inpatient and outpatient management of patients with advanced heart failure across the spectrum from consideration for high-risk cardiac surgery, cardiac transplantation, or mechanical circulatory support, to pre-and post-operative evaluation and management of patients with cardiac transplants and mechanical support devices, and end-of-life care for patients with end-stage heart failure.'
+    SpecialtyDescription:
+      'Specialists in Advanced Heart Failure and Transplant Cardiology would participate in the inpatient and outpatient management of patients with advanced heart failure across the spectrum from consideration for high-risk cardiac surgery, cardiac transplantation, or mechanical circulatory support, to pre-and post-operative evaluation and management of patients with cardiac transplants and mechanical support devices, and end-of-life care for patients with end-stage heart failure.',
   },
   {
     SpecialtyCode: '207RA0201X',
@@ -1337,7 +1374,8 @@ export const providerServices = [
     Grouping: 'Allopathic & Osteopathic Physicians',
     Classification: 'Internal Medicine',
     Specialization: 'Allergy & Immunology',
-    SpecialtyDescription: 'An internist doctor of osteopathy that specializes in the treatment of allergy and immunologic disorders.  A doctor of osteopathy that is board eligible/certified by the American Osteopathic Board of Internal Medicine can obtain a Certificate of Special Qualifications in the field of Allergy & Immunology.'
+    SpecialtyDescription:
+      'An internist doctor of osteopathy that specializes in the treatment of allergy and immunologic disorders.  A doctor of osteopathy that is board eligible/certified by the American Osteopathic Board of Internal Medicine can obtain a Certificate of Special Qualifications in the field of Allergy & Immunology.',
   },
   {
     SpecialtyCode: '207RA0401X',
@@ -1345,8 +1383,9 @@ export const providerServices = [
     Grouping: 'Allopathic & Osteopathic Physicians',
     Classification: 'Internal Medicine',
     Specialization: 'Addiction Medicine',
-    SpecialtyDescription: 'An internist doctor of osteopathy that specializes in the treatment of addiction disorders.  A doctor of osteopathy that is board eligible/certified by the American Osteopathic Board of Internal Medicine can obtain a Certificate of Added Qualifications in the field of Addiction Medicine.'
-  }
+    SpecialtyDescription:
+      'An internist doctor of osteopathy that specializes in the treatment of addiction disorders.  A doctor of osteopathy that is board eligible/certified by the American Osteopathic Board of Internal Medicine can obtain a Certificate of Added Qualifications in the field of Addiction Medicine.',
+  },
 ];
 
 export default MockLocatorApi;

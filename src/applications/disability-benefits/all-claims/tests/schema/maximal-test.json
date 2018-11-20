@@ -82,7 +82,7 @@
           "city": "asdf",
           "state": "AL"
         },
-        "relatedDisabilities": {
+        "treatedDisabilityNames": {
           "First Condition": true,
           "PTSD (post Traumatic Stress Disorder)": true
         }
