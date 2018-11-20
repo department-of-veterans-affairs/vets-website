@@ -22,10 +22,12 @@ const doubleAllowanceAlertContent = (
         Your first adapted vehicle was destroyed as a result of a natural
         catastrophe, <strong>or</strong>
       </li>
-      <li>
-        Your first adapted vehicle was destroyed and it wasn’t your fault,{' '}
-        <strong>and</strong>
-      </li>
+      <li>Your first adapted vehicle was destroyed and it wasn’t your fault</li>
+    </ul>
+    <p style={{ paddingLeft: '2rem' }}>
+      <strong>and</strong>
+    </p>
+    <ul>
       <li>
         You didn’t receive compensation for the vehicle’s loss from a property
         insurer
