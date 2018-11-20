@@ -4,7 +4,8 @@ import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import { apiRequest, environment } from '../../../platform/utilities/api';
+import environment from '../../../platform/utilities/environment';
+import { apiRequest } from '../../../platform/utilities/api';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import _ from '../../../platform/utilities/data';
 import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
@@ -404,13 +405,9 @@ export const ancillaryFormUploadUi = itemDescription =>
       name: file.name,
       confirmationCode: response.data.attributes.guid,
     }),
-    // this is the uiSchema passed to FileField for the attachmentId schema
-    // FileField requires this name be used
     attachmentSchema: {
       'ui:title': 'Document type',
     },
-    // this is the uiSchema passed to FileField for the name schema
-    // FileField requires this name be used
     attachmentName: {
       'ui:title': 'Document name',
     },
