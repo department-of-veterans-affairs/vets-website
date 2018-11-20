@@ -179,14 +179,14 @@ import {
 } from './unemployabilityFormIntro';
 
 import {
-  uiSchema as eventDescriptionUISchema,
-  schema as eventDescriptionSchema,
-} from './eventDescription';
+  uiSchema as incidentDescriptionUISchema,
+  schema as incidentDescriptionSchema,
+} from './incidentDescription';
 
 import {
-  uiSchema as secondaryEventDescriptionUISchema,
-  schema as secondaryEventDescriptionSchema,
-} from './secondaryEventDescription';
+  uiSchema as secondaryIncidentDescriptionUISchema,
+  schema as secondaryIncidentDescriptionSchema,
+} from './secondaryIncidentDescription';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -368,12 +368,12 @@ export const unemployabilityFormIntro = {
   schema: unemployabilityFormIntroSchema,
 };
 
-export const eventDescription = {
-  uiSchema: eventDescriptionUISchema,
-  schema: eventDescriptionSchema,
+export const incidentDescription = {
+  uiSchema: incidentDescriptionUISchema,
+  schema: incidentDescriptionSchema,
 };
 
-export const secondaryEventDescription = {
-  uiSchema: secondaryEventDescriptionUISchema,
-  schema: secondaryEventDescriptionSchema,
+export const secondaryIncidentDescription = {
+  uiSchema: secondaryIncidentDescriptionUISchema,
+  schema: secondaryIncidentDescriptionSchema,
 };

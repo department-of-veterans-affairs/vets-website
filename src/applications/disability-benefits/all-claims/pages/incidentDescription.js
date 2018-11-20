@@ -2,7 +2,7 @@ import React from 'react';
 
 import { PtsdNameTitle } from '../content/ptsdClassification';
 
-const eventDescriptionInstructions = (
+const incidentDescriptionInstructions = (
   <div>
     <h3>Event description</h3>
     <p>
@@ -17,8 +17,8 @@ export const uiSchema = index => ({
   'ui:title': ({ formData }) => (
     <PtsdNameTitle formData={formData} formType="781" />
   ),
-  'ui:description': eventDescriptionInstructions,
-  [`eventDescription${index}`]: {
+  'ui:description': incidentDescriptionInstructions,
+  [`incidentDescription${index}`]: {
     'ui:title': ' ',
     'ui:widget': 'textarea',
     'ui:options': {
@@ -31,7 +31,7 @@ export const uiSchema = index => ({
 export const schema = index => ({
   type: 'object',
   properties: {
-    [`eventDescription${index}`]: {
+    [`incidentDescription${index}`]: {
       type: 'string',
       properties: {},
     },

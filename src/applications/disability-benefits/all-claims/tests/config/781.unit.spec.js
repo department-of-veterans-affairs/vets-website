@@ -19,16 +19,16 @@ describe('781/781a incident form config iterators', () => {
       expect(config.incidentDate1).to.be.an('object');
       expect(config.incidentDate2).to.be.an('object');
     });
-    it('should return three event description page config objects', () => {
+    it('should return three incident description page config objects', () => {
       const config = formConfig781(3);
 
-      expect(config).to.haveOwnProperty('eventDescription0');
-      expect(config).to.haveOwnProperty('eventDescription1');
-      expect(config).to.haveOwnProperty('eventDescription2');
+      expect(config).to.haveOwnProperty('incidentDescription0');
+      expect(config).to.haveOwnProperty('incidentDescription1');
+      expect(config).to.haveOwnProperty('incidentDescription2');
 
-      expect(config.eventDescription0).to.be.an('object');
-      expect(config.eventDescription1).to.be.an('object');
-      expect(config.eventDescription2).to.be.an('object');
+      expect(config.incidentDescription0).to.be.an('object');
+      expect(config.incidentDescription1).to.be.an('object');
+      expect(config.incidentDescription2).to.be.an('object');
     });
     it('should contain three incident properties', () => {
       const config = formConfig781(3);
@@ -69,16 +69,16 @@ describe('781/781a incident form config iterators', () => {
       expect(config.secondaryIncidentDate1).to.be.an('object');
       expect(config.secondaryIncidentDate2).to.be.an('object');
     });
-    it('should return three event description page config objects', () => {
+    it('should return three incident description page config objects', () => {
       const config = formConfig781a(3);
 
-      expect(config).to.haveOwnProperty('secondaryEventDescription0');
-      expect(config).to.haveOwnProperty('secondaryEventDescription1');
-      expect(config).to.haveOwnProperty('secondaryEventDescription2');
+      expect(config).to.haveOwnProperty('secondaryIncidentDescription0');
+      expect(config).to.haveOwnProperty('secondaryIncidentDescription1');
+      expect(config).to.haveOwnProperty('secondaryIncidentDescription2');
 
-      expect(config.secondaryEventDescription0).to.be.an('object');
-      expect(config.secondaryEventDescription1).to.be.an('object');
-      expect(config.secondaryEventDescription2).to.be.an('object');
+      expect(config.secondaryIncidentDescription0).to.be.an('object');
+      expect(config.secondaryIncidentDescription1).to.be.an('object');
+      expect(config.secondaryIncidentDescription2).to.be.an('object');
     });
     it('should contain three incident properties', () => {
       const config = formConfig781a(3);
