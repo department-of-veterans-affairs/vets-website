@@ -15,7 +15,8 @@ import {
   servedAfter911,
   needsToEnter781,
   needsToEnter781a,
-  isUploadingPtsdForm,
+  isUploading781Form,
+  isUploading781aForm,
   transformRelatedDisabilities,
 } from '../utils.jsx';
 
@@ -423,17 +424,31 @@ describe('526 helpers', () => {
     });
   });
 
-  describe('isUploadingPtsdForm', () => {
-    it('should return true if user has chosen to upload documents', () => {
+  describe('isUploading781Form', () => {
+    it('should return true if user has chosen to upload 781', () => {
       const formData = {
-        'view:uploadPtsdChoice': 'upload',
+        'view:upload781Choice': 'upload',
       };
-      expect(isUploadingPtsdForm(formData)).to.be.true;
+      expect(isUploading781Form(formData)).to.be.true;
     });
 
-    it('should return false if user has not chosen to upload documents', () => {
+    it('should return false if user has not chosen to upload 781', () => {
       const formData = {};
-      expect(needsToEnter781({ formData })).to.be.false;
+      expect(isUploading781Form({ formData })).to.be.false;
+    });
+  });
+
+  describe('isUploading781aForm', () => {
+    it('should return true if user has chosen to upload 781a', () => {
+      const formData = {
+        'view:upload781aChoice': 'upload',
+      };
+      expect(isUploading781aForm(formData)).to.be.true;
+    });
+
+    it('should return false if user has not chosen to upload 781a', () => {
+      const formData = {};
+      expect(isUploading781aForm({ formData })).to.be.false;
     });
   });
 
