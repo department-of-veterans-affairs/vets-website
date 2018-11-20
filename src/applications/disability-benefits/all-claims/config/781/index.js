@@ -53,12 +53,12 @@ export function formConfig781a(iterations) {
       // 781a PAGE CONFIGS GO HERE
       [`secondaryIncidentDate${index}`]: {
         title: `${numberToWords[index]} 781a PTSD Incident date`,
-        path: `disabilities/ptsd-secondary-incident-date-${index}`,
-        // The Depends will need to be refactored to account for the page index/incident Number
-        depends: isAnswering781aQuestions,
+        path: `disabilities/ptsd-781a-incident-date-${index}`,
+        depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentDate.uiSchema(index),
         schema: secondaryIncidentDate.schema(index),
       },
+      // This should be the last page in the config loop
       [`ptsdSecondaryAdditionalEvents${index}`]: {
         title: `${numberToWords[index]} 781a PTSD Additional events.`,
         path: `disabilities/ptsd-781a-additional-events-${index}`,

@@ -4,7 +4,7 @@ import { additionalEvents } from '../content/ptsdAdditionalEvents';
 export const uiSchema = index => ({
   'ui:title': ptsd781aNameTitle,
   'ui:description': additionalEvents,
-  [`view:doneEnteringSecondaryIncidents${index}`]: {
+  [`view:enterAdditionalSecondaryIncidents${index}`]: {
     'ui:title': 'Do you have another event or situation to tell us about?',
     'ui:widget': 'yesNo',
   },
@@ -12,9 +12,9 @@ export const uiSchema = index => ({
 
 export const schema = index => ({
   type: 'object',
-  required: [`view:doneEnteringSecondaryIncidents${index}`],
+  required: [`view:enterAdditionalSecondaryIncidents${index}`],
   properties: {
-    [`view:doneEnteringSecondaryIncidents${index}`]: {
+    [`view:enterAdditionalSecondaryIncidents${index}`]: {
       type: 'boolean',
     },
   },
