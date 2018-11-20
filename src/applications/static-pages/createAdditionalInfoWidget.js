@@ -31,7 +31,7 @@ export default function createAdditionalInfoWidget() {
       const chevron = qS(el, 'i.fa-angle-down');
       const button = qS(el, 'button');
 
-      el.addEventListener('click', e => {
+      button.addEventListener('click', () => {
         const ariaExpanded =
           button.getAttribute('aria-expanded') === 'true' ? 'false' : 'true';
 

@@ -61,7 +61,7 @@ describe('static page additional information widget', () => {
       'false',
     );
 
-    document.querySelector('.additional-info-title').click();
+    qS(document, 'button').click();
 
     expect(qS(document, '.form-expanding-group-open')).to.not.be.null;
     expect(qS(document, 'i.fa-angle-down.open')).to.not.be.null;
