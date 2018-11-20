@@ -46,18 +46,17 @@ export const uiSchema = {
     other: {
       'ui:title': 'Other',
     },
+    otherExplanation: {
+      'ui:title': ' ',
+      'ui:widget': 'textarea',
+      'ui:options': {
+        rows: 5,
+        maxLength: 32000,
+        expandUnder: 'other',
+      },
+    },
     noneApply: {
       'ui:title': 'None of these apply to me',
-    },
-  },
-  otherExplanation: {
-    'ui:title': 'Please specify',
-    'ui:widget': 'textarea',
-    'ui:options': {
-      rows: 5,
-      maxLength: 32000,
-      expandUnder: 'mentalChanges',
-      expandUnderCondition: mentalChanges => mentalChanges.other === true,
     },
   },
 };
@@ -93,13 +92,13 @@ export const schema = {
         other: {
           type: 'boolean',
         },
+        otherExplanation: {
+          type: 'string',
+        },
         noneApply: {
           type: 'boolean',
         },
       },
-    },
-    otherExplanation: {
-      type: 'string',
     },
   },
 };

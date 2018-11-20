@@ -27,7 +27,7 @@
         "treatmentCenterAddress": {
           "country": "USA"
         },
-        "relatedDisabilities": {
+        "treatedDisabilityNames": {
           "Stress Disorder": true
         }
       }
