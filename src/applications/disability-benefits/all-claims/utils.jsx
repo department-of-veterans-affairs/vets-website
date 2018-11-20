@@ -371,19 +371,21 @@ export const needsToEnter781a = formData =>
 export const isUploadingPtsdForm = formData =>
   _.get('view:uploadPtsdChoice', formData, '') === 'upload';
 
-export const isAnswering781Questions = formData =>
+export const isAnswering781Questions = index => formData =>
   _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions' &&
-  _.get('view:doneEnteringIncidents', formData, false) !== true &&
+  (index === 0 ||
+    _.get(`view:enterAdditionalIncidents${index - 1}`, formData, false)) &&
   needsToEnter781(formData);
 
-export const isAnswering781aQuestions = index => formData => {
-  console.log(index);
-  return (
-    _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions' &&
-    _.get('view:doneEnteringSecondaryIncidents', formData, false) !== true &&
-    needsToEnter781a(formData)
-  );
-};
+export const isAnswering781aQuestions = index => formData =>
+  _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions' &&
+  (index === 0 ||
+    _.get(
+      `view:enterAdditionalSecondaryIncidents${index - 1}`,
+      formData,
+      false,
+    )) &&
+  needsToEnter781a(formData);
 
 export const getHomelessOrAtRisk = formData => {
   const homelessStatus = _.get('homelessOrAtRisk', formData, '');

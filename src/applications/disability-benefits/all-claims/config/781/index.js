@@ -1,4 +1,9 @@
-import { incidentDate, secondaryIncidentDate } from '../../pages';
+import {
+  incidentDate,
+  secondaryIncidentDate,
+  ptsdAdditionalEvents,
+  ptsdSecondaryAdditionalEvents,
+} from '../../pages';
 
 import { isAnswering781Questions, isAnswering781aQuestions } from '../../utils';
 
@@ -24,9 +29,16 @@ export function formConfig781(iterations) {
       [`incidentDate${index}`]: {
         title: `${numberToWords[index]} 781 PTSD Incident date`,
         path: `disabilities/ptsd-incident-date-${index}`,
-        depends: isAnswering781Questions,
+        depends: isAnswering781Questions(index),
         uiSchema: incidentDate.uiSchema(index),
         schema: incidentDate.schema(index),
+      },
+      [`ptsdAdditionalEvents${index}`]: {
+        title: `${numberToWords[index]} 781 PTSD Additional events.`,
+        path: `disabilities/ptsd-additional-events-${index}`,
+        depends: isAnswering781Questions(index),
+        uiSchema: ptsdAdditionalEvents.uiSchema(index),
+        schema: ptsdAdditionalEvents.schema(index),
       },
     };
   }
@@ -46,6 +58,13 @@ export function formConfig781a(iterations) {
         depends: isAnswering781aQuestions,
         uiSchema: secondaryIncidentDate.uiSchema(index),
         schema: secondaryIncidentDate.schema(index),
+      },
+      [`ptsdSecondaryAdditionalEvents${index}`]: {
+        title: `${numberToWords[index]} 781a PTSD Additional events.`,
+        path: `disabilities/ptsd-781a-additional-events-${index}`,
+        depends: isAnswering781aQuestions(index),
+        uiSchema: ptsdSecondaryAdditionalEvents.uiSchema(index),
+        schema: ptsdSecondaryAdditionalEvents.schema(index),
       },
     };
   }

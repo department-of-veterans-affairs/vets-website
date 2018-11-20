@@ -1,12 +1,10 @@
-import {
-  unemployabilityTitle,
-  introDescription,
-} from '../content/unemployabilityFormIntro';
+import { ptsd781NameTitle } from '../content/ptsdClassification';
+import { additionalEvents } from '../content/ptsdAdditionalEvents';
 
 export const uiSchema = index => ({
-  'ui:title': unemployabilityTitle,
-  'ui:description': introDescription,
-  [`view:unemployabilityUploadChoice${index}`]: {
+  'ui:title': ptsd781NameTitle,
+  'ui:description': additionalEvents,
+  [`view:doneEnteringIncidents${index}`]: {
     'ui:title': 'Would you like to tell us about another event?',
     'ui:widget': 'yesNo',
   },
@@ -14,11 +12,10 @@ export const uiSchema = index => ({
 
 export const schema = index => ({
   type: 'object',
-  required: [`view:unemployabilityUploadChoice${index}`],
+  required: [`view:doneEnteringIncidents${index}`],
   properties: {
-    [`view:unemployabilityUploadChoice${index}`]: {
-      type: 'string',
-      enum: ['answerQuestions', 'upload'],
+    [`view:doneEnteringIncidents${index}`]: {
+      type: 'boolean',
     },
   },
 });

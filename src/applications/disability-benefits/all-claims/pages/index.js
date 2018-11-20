@@ -84,6 +84,11 @@ import {
 } from './incidentDate';
 
 import {
+  uiSchema as ptsdAdditionalEventsUISchema,
+  schema as ptsdAdditionalEventsSchema,
+} from './ptsdAdditionalEvents';
+
+import {
   uiSchema as uploadPtsdDocumentsUISchema,
   schema as uploadPtsdDocumentsSchema,
 } from './uploadPtsdDocuments';
@@ -97,6 +102,11 @@ import {
   uiSchema as secondaryIncidentDateUISchema,
   schema as secondaryIncidentDateSchema,
 } from './secondaryIncidentDate';
+
+import {
+  uiSchema as ptsdSecondaryAdditionalEventsUISchema,
+  schema as ptsdSecondaryAdditionalEventsSchema,
+} from './ptsdSecondaryAdditionalEvents';
 
 import {
   uiSchema as uploadPersonalPtsdDocumentsUISchema,
@@ -261,6 +271,16 @@ export const ptsdWalkthroughChoice781 = {
 export const incidentDate = {
   uiSchema: incidentDateUISchema,
   schema: incidentDateSchema,
+};
+
+export const ptsdAdditionalEvents = {
+  uiSchema: ptsdAdditionalEventsUISchema,
+  schema: ptsdAdditionalEventsSchema,
+};
+
+export const ptsdSecondaryAdditionalEvents = {
+  uiSchema: ptsdSecondaryAdditionalEventsUISchema,
+  schema: ptsdSecondaryAdditionalEventsSchema,
 };
 
 export const uploadPtsdDocuments = {

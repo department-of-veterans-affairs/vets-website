@@ -475,7 +475,7 @@ describe('isAnswering781Questions', () => {
       },
       'view:uploadPtsdChoice': 'answerQuestions',
     };
-    expect(isAnswering781Questions(formData)).to.be.true;
+    expect(isAnswering781Questions(formData)(0)).to.be.true;
   });
   it('should return false if user has chosen not to enter another incident', () => {
     const formData = {
@@ -483,9 +483,9 @@ describe('isAnswering781Questions', () => {
         'view:combatPtsdType': true,
       },
       'view:uploadPtsdChoice': 'answerQuestions',
-      'view:doneEnteringIncidents': true,
+      'view:enterAdditionalIncidents0': false,
     };
-    expect(isAnswering781Questions({ formData })).to.be.false;
+    expect(isAnswering781Questions(formData)(1)).to.be.false;
   });
 });
 describe('isAnswering781aQuestions', () => {
@@ -496,7 +496,7 @@ describe('isAnswering781aQuestions', () => {
       },
       'view:uploadPtsdChoice': 'answerQuestions',
     };
-    expect(isAnswering781aQuestions(formData)).to.be.true;
+    expect(isAnswering781aQuestions(formData)(0)).to.be.true;
   });
   it('should return false if user has chosen not to enter another incident', () => {
     const formData = {
@@ -504,8 +504,8 @@ describe('isAnswering781aQuestions', () => {
         'view:assaultPtsdType': true,
       },
       'view:uploadPtsdChoice': 'answerQuestions',
-      'view:doneEnteringIncidents': true,
+      'view:enterAdditionalSecondaryIncidents0': false,
     };
-    expect(isAnswering781aQuestions({ formData })).to.be.false;
+    expect(isAnswering781aQuestions(formData)(1)).to.be.false;
   });
 });
