@@ -183,6 +183,11 @@ import {
   schema as eventDescriptionSchema,
 } from './eventDescription';
 
+import {
+  uiSchema as secondaryEventDescriptionUISchema,
+  schema as secondaryEventDescriptionSchema,
+} from './secondaryEventDescription';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema,
@@ -366,4 +371,9 @@ export const unemployabilityFormIntro = {
 export const eventDescription = {
   uiSchema: eventDescriptionUISchema,
   schema: eventDescriptionSchema,
+};
+
+export const secondaryEventDescription = {
+  uiSchema: secondaryEventDescriptionUISchema,
+  schema: secondaryEventDescriptionSchema,
 };

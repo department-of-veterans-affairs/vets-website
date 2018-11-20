@@ -15,10 +15,10 @@ const eventDescriptionInstructions = (
 
 export const uiSchema = index => ({
   'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781" />
+    <PtsdNameTitle formData={formData} formType="781a" />
   ),
   'ui:description': eventDescriptionInstructions,
-  [`eventDescription${index}`]: {
+  [`secondaryEventDescription${index}`]: {
     'ui:title': ' ',
     'ui:widget': 'textarea',
     'ui:options': {
@@ -31,7 +31,7 @@ export const uiSchema = index => ({
 export const schema = index => ({
   type: 'object',
   properties: {
-    [`eventDescription${index}`]: {
+    [`secondaryEventDescription${index}`]: {
       type: 'string',
       properties: {},
     },
