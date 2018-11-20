@@ -58,7 +58,7 @@ describe('781/781a incident form config iterators', () => {
       expect(config.secondaryIncidentDate1).to.be.an('object');
       expect(config.secondaryIncidentDate2).to.be.an('object');
     });
-    it('should contain three incident properties', () => {
+    it('should contain three incident properties within incident date pages', () => {
       const config = formConfig781a(3);
       expect(
         config.secondaryIncidentDate0.schema.properties.secondaryIncident0,
@@ -78,6 +78,52 @@ describe('781/781a incident form config iterators', () => {
       ).to.haveOwnProperty('type');
       expect(
         config.secondaryIncidentDate2.schema.properties.secondaryIncident2,
+      ).to.haveOwnProperty('type');
+    });
+
+    it('should return three additional events yes/no page config objects', () => {
+      const config = formConfig781a(3);
+
+      expect(config).to.haveOwnProperty('ptsdSecondaryAdditionalEvents0');
+      expect(config).to.haveOwnProperty('ptsdSecondaryAdditionalEvents1');
+      expect(config).to.haveOwnProperty('ptsdSecondaryAdditionalEvents2');
+
+      expect(config.ptsdSecondaryAdditionalEvents0).to.be.an('object');
+      expect(config.ptsdSecondaryAdditionalEvents1).to.be.an('object');
+      expect(config.ptsdSecondaryAdditionalEvents2).to.be.an('object');
+    });
+    it('should contain three view additional event properties within additional events yes/no pages', () => {
+      const config = formConfig781a(3);
+      expect(
+        config.ptsdSecondaryAdditionalEvents0.schema.properties[
+          'view:enterAdditionalSecondaryEvents0'
+        ],
+      ).to.be.an('object');
+      expect(
+        config.ptsdSecondaryAdditionalEvents1.schema.properties[
+          'view:enterAdditionalSecondaryEvents1'
+        ],
+      ).to.be.an('object');
+      expect(
+        config.ptsdSecondaryAdditionalEvents2.schema.properties[
+          'view:enterAdditionalSecondaryEvents2'
+        ],
+      ).to.be.an('object');
+
+      expect(
+        config.ptsdSecondaryAdditionalEvents2.schema.properties[
+          'view:enterAdditionalSecondaryEvents2'
+        ],
+      ).to.haveOwnProperty('type');
+      expect(
+        config.ptsdSecondaryAdditionalEvents2.schema.properties[
+          'view:enterAdditionalSecondaryEvents2'
+        ],
+      ).to.haveOwnProperty('type');
+      expect(
+        config.ptsdSecondaryAdditionalEvents2.schema.properties[
+          'view:enterAdditionalSecondaryEvents2'
+        ],
       ).to.haveOwnProperty('type');
     });
   });

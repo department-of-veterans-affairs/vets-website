@@ -374,14 +374,14 @@ export const isUploadingPtsdForm = formData =>
 export const isAnswering781Questions = index => formData =>
   _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions' &&
   (index === 0 ||
-    _.get(`view:enterAdditionalIncidents${index - 1}`, formData, false)) &&
+    _.get(`view:enterAdditionalEvents${index - 1}`, formData, false)) &&
   needsToEnter781(formData);
 
 export const isAnswering781aQuestions = index => formData =>
   _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions' &&
   (index === 0 ||
     _.get(
-      `view:enterAdditionalSecondaryIncidents${index - 1}`,
+      `view:enterAdditionalSecondaryEvents${index - 1}`,
       formData,
       false,
     )) &&

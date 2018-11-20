@@ -483,7 +483,7 @@ describe('isAnswering781Questions', () => {
         'view:combatPtsdType': true,
       },
       'view:uploadPtsdChoice': 'answerQuestions',
-      'view:enterAdditionalIncidents0': true,
+      'view:enterAdditionalEvents0': true,
     };
     expect(isAnswering781Questions(1)(formData)).to.be.true;
   });
@@ -493,7 +493,7 @@ describe('isAnswering781Questions', () => {
         'view:combatPtsdType': true,
       },
       'view:uploadPtsdChoice': 'answerQuestions',
-      'view:enterAdditionalIncidents0': false,
+      'view:enterAdditionalEvents0': false,
     };
     expect(isAnswering781Questions(1)(formData)).to.be.false;
   });
@@ -514,7 +514,7 @@ describe('isAnswering781aQuestions', () => {
         'view:assaultPtsdType': true,
       },
       'view:uploadPtsdChoice': 'answerQuestions',
-      'view:enterAdditionalSecondaryIncidents0': true,
+      'view:enterAdditionalSecondaryEvents0': true,
     };
     expect(isAnswering781aQuestions(1)(formData)).to.be.true;
   });
@@ -524,7 +524,7 @@ describe('isAnswering781aQuestions', () => {
         'view:assaultPtsdType': true,
       },
       'view:uploadPtsdChoice': 'answerQuestions',
-      'view:enterAdditionalSecondaryIncidents0': false,
+      'view:enterAdditionalSecondaryEvents0': false,
     };
     expect(isAnswering781aQuestions(1)(formData)).to.be.false;
   });
