@@ -183,6 +183,11 @@ import {
   schema as aidAndAttendanceSchema,
 } from './aidAndAttendance';
 
+import {
+  uiSchema as individualUnemployabilityUISchema,
+  schema as individualUnemployabilitySchema,
+} from './individualUnemployability';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema,
@@ -366,4 +371,9 @@ export const adaptiveBenefits = {
 export const aidAndAttendance = {
   uiSchema: aidAndAttendanceUISchema,
   schema: aidAndAttendanceSchema,
+};
+
+export const individualUnemployability = {
+  uiSchema: individualUnemployabilityUISchema,
+  schema: individualUnemployabilitySchema,
 };
