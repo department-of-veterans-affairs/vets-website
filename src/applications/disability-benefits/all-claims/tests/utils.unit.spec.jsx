@@ -468,14 +468,24 @@ describe('526 helpers', () => {
   });
 });
 describe('isAnswering781Questions', () => {
-  it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
+  it('should return true if user is answering first set of 781 incident questions', () => {
     const formData = {
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
       'view:uploadPtsdChoice': 'answerQuestions',
     };
-    expect(isAnswering781Questions(formData)(0)).to.be.true;
+    expect(isAnswering781Questions(0)(formData)).to.be.true;
+  });
+  it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:combatPtsdType': true,
+      },
+      'view:uploadPtsdChoice': 'answerQuestions',
+      'view:enterAdditionalIncidents0': true,
+    };
+    expect(isAnswering781Questions(1)(formData)).to.be.true;
   });
   it('should return false if user has chosen not to enter another incident', () => {
     const formData = {
@@ -485,18 +495,28 @@ describe('isAnswering781Questions', () => {
       'view:uploadPtsdChoice': 'answerQuestions',
       'view:enterAdditionalIncidents0': false,
     };
-    expect(isAnswering781Questions(formData)(1)).to.be.false;
+    expect(isAnswering781Questions(1)(formData)).to.be.false;
   });
 });
 describe('isAnswering781aQuestions', () => {
-  it('should return true if user has chosen to answer questions for a 781a PTSD incident', () => {
+  it('should return true if user is answering first set of 781a incident questions', () => {
     const formData = {
       'view:selectablePtsdTypes': {
         'view:assaultPtsdType': true,
       },
       'view:uploadPtsdChoice': 'answerQuestions',
     };
-    expect(isAnswering781aQuestions(formData)(0)).to.be.true;
+    expect(isAnswering781aQuestions(0)(formData)).to.be.true;
+  });
+  it('should return true if user has chosen to answer questions for a 781a PTSD incident', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:assaultPtsdType': true,
+      },
+      'view:uploadPtsdChoice': 'answerQuestions',
+      'view:enterAdditionalSecondaryIncidents0': true,
+    };
+    expect(isAnswering781aQuestions(1)(formData)).to.be.true;
   });
   it('should return false if user has chosen not to enter another incident', () => {
     const formData = {
@@ -506,6 +526,6 @@ describe('isAnswering781aQuestions', () => {
       'view:uploadPtsdChoice': 'answerQuestions',
       'view:enterAdditionalSecondaryIncidents0': false,
     };
-    expect(isAnswering781aQuestions(formData)(1)).to.be.false;
+    expect(isAnswering781aQuestions(1)(formData)).to.be.false;
   });
 });
