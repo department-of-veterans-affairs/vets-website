@@ -82,5 +82,5 @@ export const ptsd781NameTitle = ({ formData }) => (
 );
 
 export const ptsd781aNameTitle = ({ formData }) => (
-  <PtsdNameTitle formData={formData} formType="781" />
+  <PtsdNameTitle formData={formData} formType="781a" />
 );
