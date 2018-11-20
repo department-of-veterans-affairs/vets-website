@@ -48,15 +48,13 @@ console.log(path.join(__dirname, '..', options.buildpath));
 
 app.use(express.static(path.join(__dirname, '..', options.buildpath)));
 
-const smith = createPipieline({
-  ...options,
-  port: process.env.PORT,
-});
-
 app.use('/content', (req, res) => {
+  const smith = createPipieline({
+    ...options,
+    port: process.env.PORT,
+  });
+
   const contentId = req.query.contentId;
-  // eslint-disable-next-line
-  console.log(`Content id: ${contentId}`);
 
   octokit.repos
     .getContent({
