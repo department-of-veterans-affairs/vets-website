@@ -26,6 +26,8 @@ import {
   isUploadingPtsdForm,
   servedAfter911,
   isNotUploadingPrivateMedical,
+  showPtsdCombatConclusion,
+  showPtsdAssaultConclusion,
   transform,
 } from '../utils';
 
@@ -52,6 +54,8 @@ import {
   ptsdWalkthroughChoice781,
   uploadPtsdDocuments,
   ptsdWalkthroughChoice781a,
+  conclusionCombat,
+  conclusionAssault,
   uploadPersonalPtsdDocuments,
   summaryOfDisabilities,
   vaMedicalRecords,
@@ -271,6 +275,20 @@ const formConfig = {
             isUploadingPtsdForm(formData),
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
+        },
+        conclusionCombat: {
+          path: 'conclusion-781',
+          title: 'Disabiity Details',
+          depends: showPtsdCombatConclusion,
+          uiSchema: conclusionCombat.uiSchema,
+          schema: conclusionCombat.schema,
+        },
+        conclusionAssault: {
+          path: 'conclusion-781a',
+          title: 'Disabiity Details',
+          depends: showPtsdAssaultConclusion,
+          uiSchema: conclusionAssault.uiSchema,
+          schema: conclusionAssault.schema,
         },
         unemployabilityStatus: {
           title: 'Unemployability Status',
