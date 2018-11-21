@@ -62,6 +62,11 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client.axeCheck('.main');
   PageHelpers.completeReservesNationalGuardInfo(client, testData.data);
   client.click('.form-progress-buttons .usa-button-primary');
+
+  // Federal Orders
+  client.axeCheck('.main');
+  PageHelpers.completeFederalOrders(client, testData.data);
+  client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/military-service-history');
 
   // Veteran Address Information

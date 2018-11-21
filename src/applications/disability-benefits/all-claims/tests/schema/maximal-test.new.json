@@ -120,6 +120,47 @@
       }
     ],
     "view:disabilitiesClarification": {},
+    "serviceInformation": {
+      "reservesNationalGuardService": {
+        "view:isTitle10Activated": false,
+        "title10Activation": {
+          "title10ActivationDate": "1902-01-01",
+          "anticipatedSeparationDate": "2019-01-01"
+        },
+        "obligationTermOfServiceDateRange": {
+          "from": "1902-01-01",
+          "to": "1903-01-01"
+        },
+        "unitName": "RNG Unit 1",
+        "unitAddress": {
+          "country": "USA",
+          "addressLine1": "asdf",
+          "addressLine2": "second line",
+          "addressLine3": "third line",
+          "city": "asdf",
+          "state": "AL",
+          "zipCode": "19234"
+        },
+        "unitPhone": "1231231234"
+      },
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force",
+          "dateRange": {
+            "from": "1900-01-01",
+            "to": "1901-01-01"
+          }
+        },
+        {
+          "serviceBranch": "Air National Guard",
+          "dateRange": {
+            "from": "1902-01-01",
+            "to": "1903-01-01"
+          }
+        }
+      ],
+      "view:militaryHistoryNote": {}
+    },
     "standardClaim": false,
     "view:fdcWarning": {},
     "privacyAgreementAccepted": true

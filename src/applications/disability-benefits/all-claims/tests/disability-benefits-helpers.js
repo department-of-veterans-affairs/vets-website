@@ -82,6 +82,18 @@ function completeReservesNationalGuardInfo(client, data) {
     .selectYesNo('root_waiveVABenefitsToRetainTrainingPay', false);
 }
 
+function completeFederalOrders(client, data) {
+  const activated =
+    data.serviceInformation.reservesNationalGuardService[
+      'view:isTitle10Activated'
+    ];
+
+  client.selectYesNo(
+    'root_serviceInformation_reservesNationalGuardService_view:isTitle10Activated',
+    activated,
+  );
+}
+
 function completeHomelessness(client, data) {
   client.selectYesNo(
     'root_veteran_homelessness_isHomeless',
@@ -432,6 +444,7 @@ module.exports = {
   completeMilitaryRetiredPay,
   completeMilitaryHistory,
   completeReservesNationalGuardInfo,
+  completeFederalOrders,
   completeHomelessness,
   selectDisabilities,
   completeEvidenceTypeInformation,
