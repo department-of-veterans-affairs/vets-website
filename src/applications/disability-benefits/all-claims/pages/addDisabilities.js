@@ -13,15 +13,9 @@ const conditionsDescriptions = new Set(
 );
 
 export const uiSchema = {
-  'view:newDisabilities': {
-    'ui:title':
-      'Do you have any new service-connected disabilities or conditions to add to your claim?',
-    'ui:widget': 'yesNo',
-  },
   newDisabilities: {
     'ui:title': 'Add a new disability',
     'ui:options': {
-      expandUnder: 'view:newDisabilities',
       viewField: NewDisability,
       reviewTitle: 'New Disabilities',
       itemName: 'Disability',
@@ -76,11 +70,7 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['view:newDisabilities'],
   properties: {
-    'view:newDisabilities': {
-      type: 'boolean',
-    },
     newDisabilities: {
       type: 'array',
       minItems: 1,
