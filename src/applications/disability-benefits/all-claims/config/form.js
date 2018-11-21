@@ -320,9 +320,7 @@ const formConfig = {
           path: 'additional-disability-benefits',
           uiSchema: {
             'ui:title': 'Additional disability benefits',
-            'view:ancillaryFormsWizardIntro': {
-              'ui:description': ancillaryFormsWizardDescription,
-            },
+            'ui:description': ancillaryFormsWizardDescription,
           },
           schema: {
             type: 'object',
