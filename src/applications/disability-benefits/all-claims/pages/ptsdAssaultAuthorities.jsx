@@ -1,10 +1,13 @@
 import React from 'react';
+import { merge } from 'lodash';
 
+import fullSchema from '../config/schema';
 import { PtsdNameTitle } from '../content/ptsdClassification';
-import {
-  PtsdAssaultAuthoritiesDescription,
-  AuthorityField,
-} from '../content/ptsdAssaultAuthorities';
+import { PtsdAssaultAuthoritiesDescription } from '../content/ptsdAssaultAuthorities';
+import AuthorityField from '../components/AuthorityField';
+import { uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
+
+const { address } = fullSchema.definitions;
 
 export const uiSchema = index => ({
   'ui:title': ({ formData }) => (
@@ -18,14 +21,20 @@ export const uiSchema = index => ({
         viewField: AuthorityField,
       },
       items: {
-        // 'ui:description': recordReleaseDescription,
-        // 'ui:title': 'Test Title',
-        // 'view:limitedConsent': {
-        //   'ui:title': limitedConsentTitle,
-        // },
         name: {
           'ui:title': 'Name of authority',
         },
+        address: merge(addressUI('', false), {
+          street2: {
+            'ui:title': 'Street 2',
+          },
+          state: {
+            'ui:title': 'State',
+          },
+          postalCode: {
+            'ui:title': 'Postal Code',
+          },
+        }),
       },
     },
   },
@@ -44,6 +53,34 @@ export const schema = index => ({
             properties: {
               name: {
                 type: 'string',
+              },
+              address: {
+                type: 'object',
+                required: [],
+                properties: {
+                  street: {
+                    type: 'string',
+                  },
+                  street2: {
+                    type: 'string',
+                  },
+                  city: {
+                    type: 'string',
+                  },
+                  postalCode: {
+                    type: 'string',
+                  },
+                  country: {
+                    type: 'string',
+                    enum: address.properties.country.enum,
+                    default: 'USA',
+                  },
+                  state: {
+                    type: 'string',
+                    enum: address.properties.state.enum,
+                    enumNames: address.properties.state.enumNames,
+                  },
+                },
               },
             },
           },

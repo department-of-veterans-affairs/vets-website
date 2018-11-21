@@ -11,14 +11,3 @@ export const PtsdAssaultAuthoritiesDescription = (
     </p>
   </div>
 );
-
-export const AuthorityField = ({ formData }) => {
-  const { name } = formData;
-
-  return (
-    <div>
-      <strong>{name}</strong>
-      <br />
-    </div>
-  );
-};
