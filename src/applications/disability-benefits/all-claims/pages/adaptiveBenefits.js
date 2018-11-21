@@ -1,3 +1,4 @@
+import get from '../../../../platform/utilities/data/get';
 import {
   benefitDescription,
   doubleAllowanceAlert,
@@ -14,18 +15,24 @@ export const uiSchema = {
     'ui:title': 'Do you need help buying or modifying your car?',
     'ui:widget': 'yesNo',
   },
-  'view:alreadyClaimedVehicleAllowance': {
-    'ui:title': 'Have you ever been granted an automobile allowance?',
-    'ui:widget': 'yesNo',
+  'view:needsCarHelp': {
     'ui:options': {
       expandUnder: 'view:modifyingCar',
     },
-  },
-  'view:doubleAllowanceAlert': {
-    'ui:description': doubleAllowanceAlert,
-    'ui:options': {
-      expandUnder: 'view:modifyingCar',
-      hideIf: formData => !formData['view:alreadyClaimedVehicleAllowance'],
+    'view:alreadyClaimedVehicleAllowance': {
+      'ui:title': 'Have you ever been granted an automobile allowance?',
+      'ui:widget': 'yesNo',
+    },
+    'view:doubleAllowanceAlert': {
+      'ui:description': doubleAllowanceAlert,
+      'ui:options': {
+        hideIf: formData =>
+          !get(
+            'view:needsCarHelp.view:alreadyClaimedVehicleAllowance',
+            formData,
+            false,
+          ),
+      },
     },
   },
 };
@@ -39,12 +46,17 @@ export const schema = {
     'view:modifyingCar': {
       type: 'boolean',
     },
-    'view:alreadyClaimedVehicleAllowance': {
-      type: 'boolean',
-    },
-    'view:doubleAllowanceAlert': {
+    'view:needsCarHelp': {
       type: 'object',
-      properties: {},
+      properties: {
+        'view:alreadyClaimedVehicleAllowance': {
+          type: 'boolean',
+        },
+        'view:doubleAllowanceAlert': {
+          type: 'object',
+          properties: {},
+        },
+      },
     },
   },
 };
