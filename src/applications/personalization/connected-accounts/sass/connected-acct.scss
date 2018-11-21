@@ -17,41 +17,55 @@
    }
 }
 
-.va-connected-acct-row {
-   cursor: pointer;
-   th {
-      padding-top: 0;
-      padding-bottom: 0;
+.va-connected-acct-row-table {
+   margin: 0;
+   &:not(.va-connected-acct-last-row) {
+      tbody{
+         tr:last-child{
+            th {
+               border-bottom: none;
+            }
+         }
+      }
    }
-   &:hover {
+   .va-connected-acct-row {
+      cursor: pointer;
       th {
-         background: $color-gray-lightest !important;
+         padding-top: 0;
+         padding-bottom: 0;
       }
-   }
-   th:first-child{
-      img {
-         padding: 1em;
+      &:hover {
+         th {
+            background: $color-gray-lightest !important;
+         }
       }
-   }
-   .va-connected-acct-row-details {
-      .va-connected-acct-row-details-toggle {
-         text-decoration: none;
+      th:first-child{
+         img {
+            padding: 1em;
+         }
       }
-      i {
-         padding-left: .5em;
+      .va-connected-acct-row-details {
+         .va-connected-acct-row-details-toggle {
+            text-decoration: none;
+         }
+         i {
+            padding-left: .5em;
+         }
       }
-   }
 
-   .va-modal-inner {
-      max-width: 60rem;
-      .usa-alert {
-         border: none;
-         h3 {
-            padding: 1em !important;
+      .va-modal-inner {
+         max-width: 60rem;
+         .usa-alert {
+            border: none;
+            h3 {
+               padding: 1em !important;
+            }
          }
       }
    }
 }
+
+
 .va-connected-acct-details-toggled {
    th {
       border-bottom: none !important;
