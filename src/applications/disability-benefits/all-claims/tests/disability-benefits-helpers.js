@@ -67,13 +67,16 @@ function completeReservesNationalGuardInfo(client, data) {
   );
 
   client
-    .fill('input[name="root_unitName"]', unitName)
+    .fill(
+      'input[name="root_serviceInformation_reservesNationalGuardService_unitName"]',
+      unitName,
+    )
     .fillDate(
-      'root_obligationTermOfServiceDateRange_from',
+      'root_serviceInformation_reservesNationalGuardService_obligationTermOfServiceDateRange_from',
       activePeriod.dateRange.from,
     )
     .fillDate(
-      'root_obligationTermOfServiceDateRange_to',
+      'root_serviceInformation_reservesNationalGuardService_obligationTermOfServiceDateRange_to',
       activePeriod.dateRange.to,
     )
     .selectYesNo('root_waiveVABenefitsToRetainTrainingPay', false);
