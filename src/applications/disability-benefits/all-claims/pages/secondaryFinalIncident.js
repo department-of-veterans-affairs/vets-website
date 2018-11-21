@@ -1,8 +1,8 @@
 import { additionalInfo } from '../content/ptsdFinalIncident';
-import { ptsd781NameTitle } from '../content/ptsdClassification';
+import { ptsd781aNameTitle } from '../content/ptsdClassification';
 
 export const uiSchema = {
-  'ui:title': ptsd781NameTitle,
+  'ui:title': ptsd781aNameTitle,
   'ui:description': additionalInfo,
   additionalSecondaryIncidentText: {
     'ui:title':

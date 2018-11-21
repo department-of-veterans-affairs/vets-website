@@ -268,7 +268,7 @@ const createFormConfig = {
         finalIncident: {
           path: 'new-disabilities/ptsd-additional-incident',
           title: 'Additional PTSD event',
-          depends: isAnswering781Questions(3),
+          depends: isAnswering781Questions(PTSD_INCIDENT_ITERATION),
           uiSchema: finalIncident.uiSchema,
           schema: finalIncident.schema,
         },
@@ -294,7 +294,7 @@ const createFormConfig = {
         secondaryFinalIncident: {
           path: 'new-disabilities/ptsd-assault-additional-incident',
           title: 'Additional assault PTSD event',
-          depends: isAnswering781aQuestions(3),
+          depends: isAnswering781aQuestions(PTSD_INCIDENT_ITERATION),
           uiSchema: secondaryFinalIncident.uiSchema,
           schema: secondaryFinalIncident.schema,
         },

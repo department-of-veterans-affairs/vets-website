@@ -6,12 +6,12 @@ import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 import {
   DefinitionTester,
-  selectRadio,
+  fillData,
 } from '../../../../../platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
-describe('781a additonal events yes/no', () => {
-  const page = formConfig.chapters.disabilities.pages.finalIncident;
+describe('781a last incident details', () => {
+  const page = formConfig.chapters.disabilities.pages.secondaryFinalIncident;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
@@ -23,13 +23,13 @@ describe('781a additonal events yes/no', () => {
         schema={schema}
         data={{
           'view:selectablePtsdTypes': {
-            'view:combatPtsdType': true,
+            'view:mstPtsdType': true,
           },
         }}
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('textarea').length).to.equal(1);
   });
 
   it('should submit when no data is filled out', () => {
@@ -41,7 +41,7 @@ describe('781a additonal events yes/no', () => {
         uiSchema={uiSchema}
         data={{
           'view:selectablePtsdTypes': {
-            'view:combatPtsdType': true,
+            'view:mstPtsdType': true,
           },
         }}
         formData={{}}
@@ -63,7 +63,7 @@ describe('781a additonal events yes/no', () => {
         uiSchema={uiSchema}
         data={{
           'view:selectablePtsdTypes': {
-            'view:combatPtsdType': true,
+            'view:mstPtsdType': true,
           },
         }}
         formData={{}}
@@ -71,9 +71,14 @@ describe('781a additonal events yes/no', () => {
       />,
     );
 
-    selectRadio(form, 'root_view:enterAdditionalSecondaryEvents0', 'Y');
+    fillData(
+      form,
+      'textarea#root_additionalSecondaryIncidentText',
+      'Lorem epsum Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+    );
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+
     expect(onSubmit.called).to.be.true;
   });
 });
