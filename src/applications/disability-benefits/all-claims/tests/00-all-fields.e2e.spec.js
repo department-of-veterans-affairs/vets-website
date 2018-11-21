@@ -17,17 +17,13 @@ const runTest = E2eHelpers.createE2eTest(client => {
   Auth.logIn(
     token,
     client,
-    '/disability-benefits/apply/form-526-disability-claim',
+    '/disability-benefits/apply/form-526-all-claims/',
     3,
   );
 
   // Ensure introduction page renders.
   client
-    .url(
-      `${
-        E2eHelpers.baseUrl
-      }/disability-benefits/apply/form-526-disability-claim`,
-    )
+    .url(`${E2eHelpers.baseUrl}/disability-benefits/apply/form-526-all-claims`)
     .waitForElementVisible('body', Timeouts.normal)
     // First render of React may be slow.
     .waitForElementVisible('.schemaform-title', Timeouts.slow)
@@ -58,7 +54,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // Reserves/National Guard Info
   client.axeCheck('.main');
   PageHelpers.completeReservesNationalGuardInfo(client, testData.data);
-  client.click('.form-progress-buttons .usa-button-primary');
+  client.pause().click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/military-service-history');
 
   // Payment Information
