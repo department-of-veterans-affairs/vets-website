@@ -22,23 +22,7 @@ describe('Add new disabilities', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
-  });
-
-  it('should render autosuggest', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:newDisabilities': true,
-        }}
-        formData={{}}
-      />,
-    );
-
-    expect(form.find('input').length).to.equal(3);
+    expect(form.find('input').length).to.equal(1);
   });
 
   it('should add another disability', () => {
@@ -49,7 +33,6 @@ describe('Add new disabilities', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:newDisabilities': true,
           newDisabilities: [
             {
               condition: 'Abnormal Heart',
@@ -79,7 +62,6 @@ describe('Add new disabilities', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:newDisabilities': true,
           newDisabilities: [
             {
               condition: 'Test',

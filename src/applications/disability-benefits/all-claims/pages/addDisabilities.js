@@ -1,6 +1,6 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
+import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import disabilityLabels from '../content/disabilityLabels';
 import NewDisability from '../components/NewDisability';
 
@@ -8,13 +8,10 @@ import fullSchema from '../config/schema';
 
 const { condition } = fullSchema.properties.newDisabilities.items.properties;
 
-const conditionsDescriptions = new Set(
-  Object.values(disabilityLabels).map(label => label.toLowerCase()),
-);
-
 export const uiSchema = {
+  'ui:description': 'Please tell us the new conditions you want to claim.',
   newDisabilities: {
-    'ui:title': 'Add a new disability',
+    'ui:title': 'New condition',
     'ui:options': {
       viewField: NewDisability,
       reviewTitle: 'New Disabilities',
@@ -22,7 +19,7 @@ export const uiSchema = {
     },
     items: {
       condition: autosuggest.uiSchema(
-        'If you know the name of your disability, please enter it here. Or, if you don’t know the name, please briefly describe your disability or condition in as much detail as possible.',
+        'If you know the name of your condition, you can type it here. You can write whatever you want and we’ll make suggestions for possible disabilities.',
         () =>
           Promise.resolve(
             Object.entries(disabilityLabels).map(([key, value]) => ({
@@ -38,31 +35,23 @@ export const uiSchema = {
       ),
       'view:descriptionInfo': {
         'ui:description': () => (
-          <AlertBox isVisible status="info">
-            <p>
-              Below are some details that may be helpful to include when
-              describing your disability:
-            </p>
-            <ul>
-              <li>The part of your body that's affected</li>
-              <li>
-                If your disability is on the right side or left side of your
-                body
-              </li>
-              <li>The part of your body that isn't working right</li>
-            </ul>
-          </AlertBox>
+          <div>
+            <p>For example, foot pain, back pain, or hearing loss.</p>
+            <AdditionalInfo triggerText="What if I don't know the name of my condition?">
+              <p>
+                If you don’t know the name of your condition or aren’t finding a
+                match, you can type in your symptoms and we’ll help you figure
+                out the name of your condition during the exam process.
+              </p>
+              <p>Shorter descriptions are better. For example:</p>
+              <ul>
+                <li>My knee hurts when I walk.</li>
+                <li>I have trouble hearing when other people talk.</li>
+                <li>My doctor says my cancer may be related to my service.</li>
+              </ul>
+            </AdditionalInfo>
+          </div>
         ),
-        'ui:options': {
-          hideIf: (formData, index) => {
-            const enteredCondition = formData.newDisabilities[index].condition;
-            if (enteredCondition) {
-              return conditionsDescriptions.has(enteredCondition.toLowerCase());
-            }
-
-            return true;
-          },
-        },
       },
     },
   },
