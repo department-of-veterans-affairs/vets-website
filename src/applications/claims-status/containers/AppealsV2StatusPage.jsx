@@ -77,7 +77,7 @@ const AppealsV2StatusPage = ({ appeal, fullName }) => {
   );
 
   return (
-    <div>
+    <div aria-labelledby="tabv2status" id="tabPanelv2status" role="tabpanel">
       <Timeline events={events} missingEvents={incompleteHistory} />
       <CurrentStatus
         title={currentStatus.title}
