@@ -43,7 +43,7 @@ export const uiSchema = index => ({
 export const schema = index => ({
   type: 'object',
   properties: {
-    [`incident${index}`]: {
+    [`secondaryIncident${index}`]: {
       type: 'object',
       properties: {
         authorities: {
