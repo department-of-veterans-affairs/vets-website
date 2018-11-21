@@ -31,7 +31,9 @@ describe('526 adaptive benefits page', () => {
         uiSchema={uiSchema}
         data={{
           'view:modifyingCar': true,
-          'view:alreadyClaimedVehicleAllowance': true,
+          'view:needsCarHelp': {
+            'view:alreadyClaimedVehicleAllowance': true,
+          },
         }}
       />,
     );
