@@ -188,11 +188,7 @@ import {
   schema as conclusionAssaultSchema,
 } from './conclusionAssault';
 
-import {
-  uiSchema as medalsUISchema,
-  schema as medalsSchema,
-} from './medals';
-
+import { uiSchema as medalsUISchema, schema as medalsSchema } from './medals';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
