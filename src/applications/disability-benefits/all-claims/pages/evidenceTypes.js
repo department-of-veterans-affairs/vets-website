@@ -2,10 +2,7 @@ import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 import { validateIfHasEvidence } from '../validations';
 import get from '../../../../platform/utilities/data/get';
 
-import {
-  evidenceTypeHelp,
-  noEvidenceDescription,
-} from '../content/evidenceTypes';
+import { evidenceTypeHelp } from '../content/evidenceTypes';
 
 export const uiSchema = {
   'view:hasEvidence': {
@@ -45,14 +42,6 @@ export const uiSchema = {
       'ui:description': evidenceTypeHelp,
     },
   },
-  'view:noEvidenceFollowUp': {
-    'ui:title': ' ',
-    'ui:description': noEvidenceDescription,
-    'ui:options': {
-      expandUnder: 'view:hasEvidence',
-      expandUnderCondition: false,
-    },
-  },
 };
 
 export const schema = {
@@ -79,10 +68,6 @@ export const schema = {
           properties: {},
         },
       },
-    },
-    'view:noEvidenceFollowUp': {
-      type: 'object',
-      properties: {},
     },
   },
 };

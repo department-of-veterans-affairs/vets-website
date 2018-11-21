@@ -1,16 +1,15 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import createCommonStore from '../../../../../platform/startup/store';
-import DisabilityWizard from '../../components/DisabilityWizard';
+import { DisabilityWizard } from '../../components/DisabilityWizard';
 import { layouts } from '../../wizardHelpers';
-import siteName from '../../../../../platform/brand-consolidation/site-name';
 
 const { chooseUpdate, applyGuidance } = layouts;
 
 const defaultProps = {
-  store: createCommonStore(),
+  isLoggedIn: false,
+  isVerified: false,
 };
 
 describe('<DisabilityWizard>', () => {
@@ -35,8 +34,7 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('.usa-input-error-message').exists()).to.equal(true);
   });
   it('should show update page', () => {
-    // mount is used for find, shallow is used for setState
-    const tree = mount(shallow(<DisabilityWizard {...defaultProps} />).get(0));
+    const tree = mount(<DisabilityWizard {...defaultProps} />);
 
     expect(tree.find('input').length).to.equal(3);
     tree.setState({ disabilityStatus: 'update', currentLayout: chooseUpdate });
@@ -50,18 +48,16 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('.usa-input-error-message').exists()).to.equal(true);
   });
   it('should show ebenefits guidance page for first claims', () => {
-    // mount is used for find, shallow is used for setState
-    const tree = mount(shallow(<DisabilityWizard {...defaultProps} />).get(0));
+    const tree = mount(<DisabilityWizard {...defaultProps} />);
 
     tree.setState({ disabilityStatus: 'first', currentLayout: applyGuidance });
     expect(tree.find('a').text()).to.equal('Go to eBenefits »');
     expect(tree.find('p').text()).to.equal(
-      `We’re sorry. We’re not set up to accept original claims on ${siteName} at this time. Since you’re filing your first disability claim, you’ll need to file on eBenefits.`,
+      'To file your first disability claim, please go to our eBenefits website.',
     );
   });
   it('should show ebenefits guidance page for new claims', () => {
-    // mount is used for find, shallow is used for setState
-    const tree = mount(shallow(<DisabilityWizard {...defaultProps} />).get(0));
+    const tree = mount(<DisabilityWizard {...defaultProps} />);
 
     tree.setState({ disabilityStatus: 'add', currentLayout: applyGuidance });
     expect(tree.find('a').text()).to.equal('Go to eBenefits »');
@@ -70,8 +66,7 @@ describe('<DisabilityWizard>', () => {
     );
   });
   it('should show ebenefits guidance page for new and increase claims', () => {
-    // mount is used for find, shallow is used for setState
-    const tree = mount(shallow(<DisabilityWizard {...defaultProps} />).get(0));
+    const tree = mount(<DisabilityWizard {...defaultProps} />);
 
     tree.setState({
       disabilityStatus: 'addAndIncrease',
@@ -83,8 +78,7 @@ describe('<DisabilityWizard>', () => {
     );
   });
   it('should show appeals guidance page', () => {
-    // mount is used for find, shallow is used for setState
-    const tree = mount(shallow(<DisabilityWizard {...defaultProps} />).get(0));
+    const tree = mount(<DisabilityWizard {...defaultProps} />);
 
     tree.setState({ disabilityStatus: 'appeal', currentLayout: applyGuidance });
     expect(tree.find('a').text()).to.equal('Learn how to file an appeal.');
@@ -93,8 +87,9 @@ describe('<DisabilityWizard>', () => {
     );
   });
   it('should show unauthenticated increase guidance page', () => {
-    // mount is used for find, shallow is used for setState
-    const tree = mount(shallow(<DisabilityWizard {...defaultProps} />).get(0));
+    const tree = mount(
+      <DisabilityWizard {...defaultProps} isLoggedIn={false} />,
+    );
 
     tree.setState({
       disabilityStatus: 'increase',
@@ -106,8 +101,9 @@ describe('<DisabilityWizard>', () => {
     );
   });
   it('should show authenticated increase guidance page', () => {
-    // mount is used for find, shallow is used for setState
-    const tree = mount(shallow(<DisabilityWizard {...defaultProps} />).get(0));
+    const tree = mount(
+      <DisabilityWizard {...defaultProps} isLoggedIn isVerified={false} />,
+    );
 
     tree.setState({
       disabilityStatus: 'increase',
@@ -124,15 +120,7 @@ describe('<DisabilityWizard>', () => {
     );
   });
   it('should show authenticated and verified increase guidance page', () => {
-    // mount is used for find, shallow is used for setState
-    const tree = mount(
-      shallow(
-        <DisabilityWizard
-          {...defaultProps}
-          user={{ profile: { verified: true } }}
-        />,
-      ).get(0),
-    );
+    const tree = mount(<DisabilityWizard isLoggedIn isVerified />);
 
     tree.setState({
       disabilityStatus: 'increase',

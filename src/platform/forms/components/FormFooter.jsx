@@ -1,19 +1,31 @@
 import React from 'react';
 
-import AskVAQuestions from './AskVAQuestions';
-
 export default class FormFooter extends React.Component {
   render() {
     const { formConfig, currentLocation } = this.props;
     const GetFormHelp = formConfig.getHelp;
-    const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
-    const isConfirmationPage = trimmedPathname.endsWith('confirmation');
+
+    if (
+      currentLocation &&
+      currentLocation.pathname.replace(/\/$/, '').endsWith('confirmation')
+    ) {
+      return null;
+    }
+
+    if (!GetFormHelp) {
+      return null;
+    }
 
     return (
-      <div>
-        {!isConfirmationPage && (
-          <AskVAQuestions>{!!GetFormHelp && <GetFormHelp />}</AskVAQuestions>
-        )}
+      <div className="row">
+        <div className="usa-width-two-thirds medium-8 columns">
+          <div className="help-footer-box">
+            <h2 className="help-heading">Need help?</h2>
+            <div>
+              <GetFormHelp />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

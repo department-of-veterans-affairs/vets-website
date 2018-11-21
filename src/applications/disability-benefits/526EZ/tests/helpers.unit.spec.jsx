@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import _ from 'lodash';
+import _ from '../../../../platform/utilities/data';
 
 import {
   validateDisability,
@@ -21,7 +21,7 @@ describe('526 helpers', () => {
     invalidDisability,
   );
   describe('transform', () => {
-    const formData = maximalData;
+    const formData = _.cloneDeep(maximalData);
     const transformedData = {
       form526: {
         disabilities: [
@@ -139,35 +139,9 @@ describe('526 helpers', () => {
             attachmentId: 'L105',
           },
         ],
-        form4142: {
-          limitedConsent: '',
-          providerFacility: [
-            {
-              providerFacilityName: 'Provider',
-              treatmentDateRange: [{ from: '2010-02-03', to: '2012-03-05' }],
-              providerFacilityAddress: {
-                street: '1234 test rd',
-                city: 'Testville',
-                postalCode: '12345',
-                country: 'USA',
-                state: 'AZ',
-              },
-            },
-            {
-              providerFacilityName: 'Another Provider',
-              treatmentDateRange: [{ from: '2010-03-04', to: '2012-02-03' }],
-              providerFacilityAddress: {
-                street: '1234 test rd',
-                city: 'Testville',
-                country: 'USA',
-                state: 'AZ',
-                postalCode: '12345',
-              },
-            },
-          ],
-        },
       },
     };
+
     it('should return stringified, transformed data for submit', () => {
       expect(transform(null, formData)).to.deep.equal(
         JSON.stringify(transformedData),
@@ -175,19 +149,41 @@ describe('526 helpers', () => {
     });
 
     it('should not submit uploads when corresponding evidence type not selected', () => {
-      const noAttachments = _.merge(maximalData, {
-        disabilities: [
-          {
-            'view:selectableEvidenceTypes': {
-              'view:privateMedicalRecords': false,
-              'view:otherEvidence': false,
-            },
+      const noUploadsSelected = _.set(
+        'data.disabilities[0].view:selectableEvidenceTypes',
+        {
+          'view:privateMedicalRecords': false,
+          'view:otherEvidence': false,
+        },
+        formData,
+      );
+
+      expect(JSON.parse(transform(null, noUploadsSelected)).form526.attachments)
+        .to.be.undefined;
+    });
+
+    it('should submit uploads when parent disability is selected', () => {
+      expect(
+        JSON.parse(transform(null, formData)).form526.attachments.length,
+      ).to.equal(transformedData.form526.attachments.length);
+    });
+
+    it('should not submit uploads when parent disability not selected', () => {
+      const noAttachments = _.set(
+        'data.disabilities[0]',
+        {
+          'view:selected': false,
+          'view:selectableEvidenceTypes': {
+            'view:privateMedicalRecords': true,
+            'view:otherEvidence': true,
           },
-        ],
-      });
+        },
+        maximalData,
+      );
 
       const transformedNoAttachments = transform(null, noAttachments);
-      expect(transformedNoAttachments.attachments).to.be.undefined;
+      expect(JSON.parse(transformedNoAttachments).form526.attachments).to.be
+        .undefined;
     });
   });
 
@@ -274,7 +270,7 @@ describe('526 helpers', () => {
     });
     it('should return original data when no disabilities returned', () => {
       const pages = [];
-      const formData = _.omit(initialData, 'disabilities');
+      const formData = _.omit('disabilities', initialData);
       const metadata = {};
 
       expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({
@@ -286,9 +282,11 @@ describe('526 helpers', () => {
     it('should return original data if disabilities is not an array', () => {
       const clonedData = _.cloneDeep(initialData);
       const pages = [];
-      const formData = _.set(clonedData, 'disabilities', {
-        someProperty: 'value',
-      });
+      const formData = _.set(
+        'disabilities',
+        { someProperty: 'value' },
+        clonedData,
+      );
       const metadata = {};
 
       expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({
@@ -300,10 +298,11 @@ describe('526 helpers', () => {
     it('should transform prefilled data when disability name has special chars', () => {
       const newName = '//()';
       const dataClone = _.set(
-        _.cloneDeep(initialData),
         'disabilities[0].name',
         newName,
+        _.cloneDeep(initialData),
       );
+
       const prefill = prefillTransformer([], dataClone, {});
       expect(prefill.formData.disabilities[0].name).to.equal(newName);
     });
@@ -316,7 +315,6 @@ describe('526 helpers', () => {
       const pages = [];
       const metadata = {};
       const formData = _.set(
-        _.cloneDeep(initialData),
         'reservesNationalGuardService',
         {
           obligationTermOfServiceDateRange: {
@@ -324,6 +322,7 @@ describe('526 helpers', () => {
             to: dateRange.to,
           },
         },
+        _.cloneDeep(initialData),
       );
 
       const newData = prefillTransformer(pages, formData, metadata);
@@ -408,7 +407,7 @@ describe('526 helpers', () => {
       };
 
       expect(getReservesGuardData(formData)).to.deep.equal(
-        _.omit(formData, 'view:isTitle10Activated'),
+        _.omit('view:isTitle10Activated', formData),
       );
     });
     it('returns null when some required data is missing', () => {

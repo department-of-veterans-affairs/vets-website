@@ -5,7 +5,7 @@ import { intersection } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import SystemDownView from '@department-of-veterans-affairs/formation/SystemDownView';
-import CallHelpDesk from '../../../brand-consolidation/components/CallHelpDesk';
+import SubmitSignInForm from '../../../brand-consolidation/components/SubmitSignInForm';
 
 import backendServices from '../../profile/constants/backendServices';
 import siteName from '../../../brand-consolidation/site-name';
@@ -91,11 +91,11 @@ class RequiredLoginView extends React.Component {
           messageLine2={
             <span>
               Please{' '}
-              <CallHelpDesk>
+              <SubmitSignInForm>
                 call the {siteName} Help Desk at 1-855-574-7286, TTY:
                 1-800-877-8339. We're open Monday &#8211; Friday, 8:00 a.m.
                 &#8211; 8:00 p.m. (ET).
-              </CallHelpDesk>
+              </SubmitSignInForm>
             </span>
           }
         />

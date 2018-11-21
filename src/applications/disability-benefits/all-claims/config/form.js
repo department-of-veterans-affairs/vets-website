@@ -1,8 +1,13 @@
 import environment from '../../../../platform/utilities/environment';
 
+import FormFooter from '../../../../platform/forms/components/FormFooter';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
+import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
+
 import {
   hasMilitaryRetiredPay,
   hasRatedDisabilities,
@@ -20,6 +25,10 @@ import {
   needsToEnter781a,
   isUploadingPtsdForm,
   servedAfter911,
+  isNotUploadingPrivateMedical,
+  showPtsdCombatConclusion,
+  showPtsdAssaultConclusion,
+  transform,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -32,6 +41,7 @@ import {
   militaryHistory,
   servedInCombatZone,
   separationTrainingPay,
+  trainingPayWaiver,
   reservesNationalGuardService,
   federalOrders,
   prisonerOfWar,
@@ -44,11 +54,14 @@ import {
   ptsdWalkthroughChoice781,
   uploadPtsdDocuments,
   ptsdWalkthroughChoice781a,
+  conclusionCombat,
+  conclusionAssault,
   uploadPersonalPtsdDocuments,
   summaryOfDisabilities,
   vaMedicalRecords,
   additionalDocuments,
   privateMedicalRecords,
+  privateMedicalRecordsRelease,
   paymentInformation,
   evidenceTypes,
   claimExamsInfo,
@@ -81,13 +94,12 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for disability claims increase.',
   },
-  // transformForSubmit: transform,
+  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPoll,
-  // TODO: Remove this once we've got the api up and running
-  submit: () => Promise.resolve({ attributes: { jobId: '12345' } }),
-  // footerContent: FormFooter,
-  // getHelp: GetFormHelp,
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
@@ -264,6 +276,20 @@ const formConfig = {
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
         },
+        conclusionCombat: {
+          path: 'conclusion-781',
+          title: 'Disabiity Details',
+          depends: showPtsdCombatConclusion,
+          uiSchema: conclusionCombat.uiSchema,
+          schema: conclusionCombat.schema,
+        },
+        conclusionAssault: {
+          path: 'conclusion-781a',
+          title: 'Disabiity Details',
+          depends: showPtsdAssaultConclusion,
+          uiSchema: conclusionAssault.uiSchema,
+          schema: conclusionAssault.schema,
+        },
         unemployabilityStatus: {
           title: 'Unemployability Status',
           path: 'new-disabilities/unemployability-status',
@@ -319,6 +345,13 @@ const formConfig = {
           depends: hasPrivateEvidence,
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
+        },
+        privateMedicalRecordsRelease: {
+          title: 'Private Medical Records',
+          path: 'supporting-evidence/private-medical-records-release',
+          depends: hasPrivateEvidence && isNotUploadingPrivateMedical,
+          uiSchema: privateMedicalRecordsRelease.uiSchema,
+          schema: privateMedicalRecordsRelease.schema,
         },
         additionalDocuments: {
           title: 'Lay statements and other evidence',
@@ -381,6 +414,14 @@ const formConfig = {
           uiSchema: separationTrainingPay.uiSchema,
           schema: separationTrainingPay.schema,
         },
+        trainingPayWaiver: {
+          title: 'Training pay waiver',
+          path: 'training-pay-waiver',
+          depends: formData => formData.hasTrainingPay,
+          uiSchema: trainingPayWaiver.uiSchema,
+          schema: trainingPayWaiver.schema,
+        },
+
         fullyDevelopedClaim: {
           title: 'Fully developed claim program',
           path: 'fully-developed-claim',

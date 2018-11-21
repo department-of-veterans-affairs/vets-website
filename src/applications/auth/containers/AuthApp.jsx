@@ -3,8 +3,8 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
 import siteName from '../../../platform/brand-consolidation/site-name';
+import SubmitSignInForm from '../../../platform/brand-consolidation/components/SubmitSignInForm';
 import { setupProfileSession } from '../../../platform/user/profile/utilities';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
@@ -131,12 +131,12 @@ export class AuthApp extends React.Component {
               <p>We’re sorry. Something went wrong on our end.</p>
               <p>
                 Please{' '}
-                <CallHelpDesk>
+                <SubmitSignInForm>
                   call the {siteName} Help Desk at{' '}
                   <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
                   <a href="tel:18008778339">1-800-877-8339</a>. We’re open
                   Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
-                </CallHelpDesk>
+                </SubmitSignInForm>
               </p>
             </div>
           ),

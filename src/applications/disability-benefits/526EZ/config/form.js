@@ -15,8 +15,9 @@ import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definiti
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
-import productionCheck from '../../../../platform/utilities/environment/isProduction';
 
+import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
 
@@ -49,14 +50,11 @@ import {
   privateRecordsChoice,
   facilityDescription,
   download4142Notice,
-  authorizationToDisclose,
   evidenceSummaryView,
-  GetFormHelp,
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
   validateIfHasEvidence,
-  patientAcknowledgmentText,
 } from '../helpers';
 
 import {
@@ -91,11 +89,6 @@ import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
 import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWidget';
 
-import {
-  uiSchema as privateMedicalRecordUISchema,
-  schema as privateMedicalRecordSchema,
-} from '../pages/privateMedicalRecordRelease';
-
 const {
   treatments,
   serviceInformation: {
@@ -120,8 +113,6 @@ const {
   vaTreatmentCenterAddress,
 } = fullSchema526EZ.definitions;
 
-const isProd = productionCheck();
-
 const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
@@ -144,6 +135,7 @@ const formConfig = {
   confirmation: ConfirmationPoll,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     address,
     vaTreatmentCenterAddress,
@@ -159,7 +151,6 @@ const formConfig = {
   title: 'File for increased disability compensation',
   subTitle: 'Form 21-526EZ',
   preSubmitInfo,
-  // getHelp: GetFormHelp, // TODO: May need updated form help content
   chapters: {
     veteranDetails: {
       title: isReviewPage => `${isReviewPage ? 'Review ' : ''}Veteran Details`,
@@ -587,92 +578,6 @@ const formConfig = {
             },
           },
         },
-        privateRecordChoiceNew: {
-          title: formData => `${formData.name} private medical records choice`,
-          path: 'supporting-evidence/:index/private-medical-records-choice-new',
-          showPagePerItem: true,
-          itemFilter: item => _.get('view:selected', item),
-          arrayPath: 'disabilities',
-          depends: (formData, index) =>
-            !isProd &&
-            _.get(
-              `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
-              formData,
-            ),
-          uiSchema: {
-            disabilities: {
-              items: {
-                'ui:title': disabilityNameTitle,
-                'ui:description': privateRecordsChoice,
-                'view:uploadPrivateRecords': {
-                  'ui:title':
-                    'Do you want to upload your private medical records?',
-                  'ui:widget': 'radio',
-                  'ui:options': {
-                    labels: {
-                      yes: 'Yes',
-                      no: 'No, please get them from my doctor',
-                    },
-                  },
-                },
-                'view:patientAcknowledgement': {
-                  'ui:title': ' ',
-                  'ui:help': patientAcknowledgmentText,
-                  'ui:options': {
-                    expandUnder: 'view:uploadPrivateRecords',
-                    expandUnderCondition: 'no',
-                    showFieldLabel: true,
-                  },
-                  'view:acknowledgement': {
-                    'ui:title': 'Patient Acknowledgement',
-                  },
-                  'ui:validations': [
-                    (errors, item) => {
-                      if (!item['view:acknowledgement']) {
-                        errors.addError('You must accept the acknowledgement');
-                      }
-                    },
-                  ],
-                },
-                'view:privateRecordsChoiceHelp': {
-                  'ui:description': privateRecordsChoiceHelp,
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              disabilities: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  required: ['view:uploadPrivateRecords'],
-                  properties: {
-                    'view:uploadPrivateRecords': {
-                      type: 'string',
-                      enum: ['yes', 'no'],
-                    },
-                    'view:patientAcknowledgement': {
-                      type: 'object',
-                      required: ['view:acknowledgement'],
-                      properties: {
-                        'view:acknowledgement': {
-                          type: 'boolean',
-                          default: true,
-                        },
-                      },
-                    },
-                    'view:privateRecordsChoiceHelp': {
-                      type: 'object',
-                      properties: {},
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
         privateRecordChoice: {
           title: formData => `${formData.name} private medical records choice`,
           path: 'supporting-evidence/:index/private-medical-records-choice',
@@ -680,7 +585,6 @@ const formConfig = {
           itemFilter: item => _.get('view:selected', item),
           arrayPath: 'disabilities',
           depends: (formData, index) =>
-            isProd &&
             _.get(
               `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
               formData,
@@ -697,7 +601,7 @@ const formConfig = {
                   'ui:options': {
                     labels: {
                       yes: 'Yes',
-                      no: 'No, my doctor has my medical records',
+                      no: 'No, please get my records from my doctor.',
                     },
                   },
                 },
@@ -741,65 +645,6 @@ const formConfig = {
               },
             },
           },
-        },
-        authorizationToDisclose: {
-          title: 'Authorization',
-          path: 'supporting-evidence/:index/authorization-to-disclose',
-          showPagePerItem: true,
-          itemFilter: item => _.get('view:selected', item),
-          arrayPath: 'disabilities',
-          depends: (formData, index) => {
-            const hasRecords = _.get(
-              `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
-              formData,
-            );
-            const requestsRecords =
-              _.get(
-                `disabilities.${index}.view:uploadPrivateRecords`,
-                formData,
-              ) === 'no';
-            return isProd && hasRecords && requestsRecords;
-          },
-          uiSchema: {
-            disabilities: {
-              items: {
-                'ui:description': authorizationToDisclose,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              disabilities: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {},
-                },
-              },
-            },
-          },
-        },
-        privateMedicalRecordRelease: {
-          title: 'Private Medical Records Release',
-          path: 'supporting-evidence/:index/private-medical-records-release',
-          showPagePerItem: true,
-          itemFilter: item => _.get('view:selected', item),
-          arrayPath: 'disabilities',
-          depends: (formData, index) => {
-            const hasRecords = _.get(
-              `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
-              formData,
-            );
-            const requestsRecords =
-              _.get(
-                `disabilities.${index}.view:uploadPrivateRecords`,
-                formData,
-              ) === 'no';
-            return !isProd && hasRecords && requestsRecords;
-          },
-          uiSchema: privateMedicalRecordUISchema,
-          schema: privateMedicalRecordSchema,
         },
         recordUpload: {
           title: 'Upload your private medical records',
