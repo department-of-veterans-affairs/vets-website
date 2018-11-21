@@ -24,6 +24,13 @@ function completeVeteranAddressInformation(client, data) {
     .fill('input[name="root_veteran_mailingAddress_zipCode"]', zipCode);
 }
 
+function completeHomelessness(client, data) {
+  client.selectYesNo(
+    'root_veteran_homelessness_isHomeless',
+    data.veteran.homelessness.isHomeless,
+  );
+}
+
 // Used.
 function completeAlternateName(client, data) {
   const hasAlternateName = data['view:hasAlternateName'];
@@ -78,8 +85,7 @@ function completeReservesNationalGuardInfo(client, data) {
     .fillDate(
       'root_serviceInformation_reservesNationalGuardService_obligationTermOfServiceDateRange_to',
       activePeriod.dateRange.to,
-    )
-    .selectYesNo('root_waiveVABenefitsToRetainTrainingPay', false);
+    );
 }
 
 function completeFederalOrders(client, data) {
@@ -94,15 +100,20 @@ function completeFederalOrders(client, data) {
   );
 }
 
-function completeHomelessness(client, data) {
-  client.selectYesNo(
-    'root_veteran_homelessness_isHomeless',
-    data.veteran.homelessness.isHomeless,
-  );
+function selectDisabilities(client) {
+  client.fillCheckbox('input[name="root_ratedDisabilities_0"]', true);
 }
 
-function selectDisabilities(client) {
-  client.fillCheckbox('input[name="root_disabilities_0"]', true);
+function completeAddDisability(client, data) {
+  const newDisability = data['view:newDisabilities'];
+
+  client.selectYesNo('root_view:newDisabilities', newDisability);
+}
+
+function completeUnemployabilityStatus(client, data) {
+  const unemployabilityStatus = data['view:unemployabilityStatus'];
+
+  client.selectYesNo('view:unemployabilityStatus', unemployabilityStatus);
 }
 
 function completeEvidenceTypeInformation(client, data) {
@@ -445,12 +456,14 @@ module.exports = {
   completeMilitaryHistory,
   completeReservesNationalGuardInfo,
   completeFederalOrders,
-  completeHomelessness,
   selectDisabilities,
+  completeAddDisability,
+  completeUnemployabilityStatus,
   completeEvidenceTypeInformation,
   completeVAFacilitiesInformation,
   completeRecordReleaseInformation,
   completePrivateMedicalRecordsChoice,
   completeApplicantInformation,
   completeVeteranAddressInformation,
+  completeHomelessness,
 };

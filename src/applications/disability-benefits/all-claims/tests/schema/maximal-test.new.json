@@ -119,7 +119,16 @@
         "disabilityActionType": "INCREASE"
       }
     ],
+    "view:unemployabilityStatus": false,
     "view:disabilitiesClarification": {},
+    "view:newDisabilities": false,
+    "newDisabilities": [
+      {
+        "cause": "NEW",
+        "primaryDescription": "A thing happened.",
+        "condition": "PTSD (post traumatic stress disorder)"
+      }
+    ],
     "serviceInformation": {
       "reservesNationalGuardService": {
         "view:isTitle10Activated": false,

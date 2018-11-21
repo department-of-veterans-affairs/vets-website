@@ -36,6 +36,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   FormsTestHelpers.overrideFormsScrolling(client);
   E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
+  // Veteran Details
   // Review Veteran Information
   client.axeCheck('.main');
   client.click('.form-progress-buttons .usa-button-primary');
@@ -69,28 +70,34 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/military-service-history');
 
-  // Veteran Address Information
-  client.axeCheck('.main');
-  PageHelpers.completeVeteranAddressInformation(client, testData.data);
-  client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/address-information');
+  // Disabilities
+  // Orientation
+  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  E2eHelpers.expectNavigateAwayFrom(client, '/disabilities/orientation');
 
-  // Payment Information
+  // Rated Disability Selection
   client.axeCheck('.main');
-  client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/payment-information');
-
-  // Homelessness
-  client.axeCheck('.main');
-  PageHelpers.completeHomelessness(client, testData.data);
-  client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/special-circumstances');
-
-  // Rated disability selection
-  client.axeCheck('.main');
-  // Just selects the first one in the list
-  PageHelpers.selectDisabilities(client);
+  PageHelpers.selectDisabilities(client); // Just selects the first one
   client.click('.form-panel .usa-button-primary');
+
+  // New Disability
+  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  E2eHelpers.expectNavigateAwayFromExact(client, '/new-disabilities');
+
+  // Add Disibility
+  client.axeCheck('.main');
+  PageHelpers.completeAddDisability(client, testData.data);
+  client.click('.form-progress-buttons .usa-button-primary');
+  E2eHelpers.expectNavigateAwayFrom(client, '/new-disabilities/add');
+
+  // Unemployability Status
+  client.axeCheck('.main');
+  PageHelpers.completeUnemployabilityStatus(client, testData.data);
+  client.click('.form-progress-buttons .usa-button-primary');
+  E2eHelpers.expectNavigateAwayFrom(
+    client,
+    '/new-disabilities/unemployability-status',
+  );
 
   // Supporting evidence
   // Orientation
@@ -106,22 +113,6 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client,
     '/supporting-evidence/0/evidence-type',
   );
-
-  // VA Medical Records Intro
-  // client.axeCheck('.main').click('.form-panel .usa-button-primary');
-  // E2eHelpers.expectNavigateAwayFrom(
-  //   client,
-  //   '/supporting-evidence/0/va-medical-records',
-  // );
-
-  // VA Facilities
-  // client.axeCheck('.main');
-  // PageHelpers.completeVAFacilitiesInformation(client, testData.data);
-  // client.click('.form-panel .usa-button-primary');
-  // E2eHelpers.expectNavigateAwayFrom(
-  //   client,
-  //   '/supporting-evidence/0/va-facilities',
-  // );
 
   // Private Medical Records
   // Intro
@@ -161,6 +152,40 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client,
     '/supporting-evidence/0/evidence-summary',
   );
+
+  // Possibly Used outside of 4142
+  // Veteran Address Information
+  // client.axeCheck('.main');
+  // PageHelpers.completeVeteranAddressInformation(client, testData.data);
+  // client.click('.form-progress-buttons .usa-button-primary');
+  // E2eHelpers.expectNavigateAwayFrom(client, '/address-information');
+
+  // Payment Information
+  // client.axeCheck('.main');
+  // client.click('.form-progress-buttons .usa-button-primary');
+  // E2eHelpers.expectNavigateAwayFrom(client, '/payment-information');
+
+  // Homelessness
+  // client.axeCheck('.main');
+  // PageHelpers.completeHomelessness(client, testData.data);
+  // client.click('.form-progress-buttons .usa-button-primary');
+  // E2eHelpers.expectNavigateAwayFrom(client, '/special-circumstances');
+
+  // VA Medical Records Intro
+  // client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  // E2eHelpers.expectNavigateAwayFrom(
+  //   client,
+  //   '/supporting-evidence/0/va-medical-records',
+  // );
+
+  // VA Facilities
+  // client.axeCheck('.main');
+  // PageHelpers.completeVAFacilitiesInformation(client, testData.data);
+  // client.click('.form-panel .usa-button-primary');
+  // E2eHelpers.expectNavigateAwayFrom(
+  //   client,
+  //   '/supporting-evidence/0/va-facilities',
+  // );
 
   // Record upload
   // E2eHelpers.expectLocation(client, '/supporting-evidence/0/documents');
