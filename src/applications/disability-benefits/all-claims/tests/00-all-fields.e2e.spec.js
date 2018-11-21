@@ -41,27 +41,34 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information');
 
-  // Veteran Alternate Name
+  // Alternate Name
   client.axeCheck('.main');
-  PageHelpers.completeVeteranAlternateNameInfo(client, testData.data);
+  PageHelpers.completeAlternateName(client, testData.data);
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/alternate-names');
+
+  // Military Retirement Pay
+  client.axeCheck('.main');
+  PageHelpers.completeMilitaryRetiredPay(client, testData.data);
+  client.click('.form-progress-buttons .usa-button-primary');
+  E2eHelpers.expectNavigateAwayFrom(client, '/service-pay');
+
+  // Military Service History
+  client.axeCheck('.main');
+  PageHelpers.completeMilitaryHistory(client, testData.data);
+  client.click('.form-progress-buttons .usa-button-primary');
+
+  // Reserves/National Guard Info
+  client.axeCheck('.main');
+  PageHelpers.completeReservesNationalGuardInfo(client, testData.data);
+  client.click('.form-progress-buttons .usa-button-primary');
+  E2eHelpers.expectNavigateAwayFrom(client, '/military-service-history');
 
   // Veteran Address Information
   client.axeCheck('.main');
   PageHelpers.completeVeteranAddressInformation(client, testData.data);
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/address-information');
-
-  // Military Service History
-  client.axeCheck('.main');
-  client.click('.form-progress-buttons .usa-button-primary');
-
-  // Reserves/National Guard Info
-  client.axeCheck('.main');
-  PageHelpers.completeReservesNationalGuardInfo(client, testData.data);
-  client.pause().click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/military-service-history');
 
   // Payment Information
   client.axeCheck('.main');

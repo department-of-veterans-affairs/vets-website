@@ -11,20 +11,6 @@ function completeApplicantInformation(client, data) {
     .selectDropdown('root_serviceBranch', data.serviceBranch);
 }
 
-function completeMilitaryHistory(client, data) {
-  data.servicePeriods.forEach((period, i, list) => {
-    const { serviceBranch, dateRange } = data.servicePeriods[i];
-
-    client
-      .selectDropdown(`root_servicePeriods_${i}_serviceBranch`, serviceBranch)
-      .fillDate(`root_servicePeriods_${i}_dateRange_from`, dateRange.from)
-      .fillDate(`root_servicePeriods_${i}_dateRange_to`, dateRange.to);
-
-    if (i < list.length - 1) client.click('.va-growable-add-btn');
-  });
-}
-
-// Used.
 function completeVeteranAddressInformation(client, data) {
   const { addressLine1, city, state, zipCode } = data.veteran.mailingAddress;
 
@@ -38,10 +24,39 @@ function completeVeteranAddressInformation(client, data) {
     .fill('input[name="root_veteran_mailingAddress_zipCode"]', zipCode);
 }
 
-function completeVeteranAlternateNameInfo(client, data) {
+// Used.
+function completeAlternateName(client, data) {
   const hasAlternateName = data['view:hasAlternateName'];
 
   client.selectYesNo('root_view:hasAlternateName', hasAlternateName);
+}
+
+function completeMilitaryRetiredPay(client, data) {
+  const retiredPay = data['view:haseMilitaryRetiredPay'];
+
+  client.selectYesNo('root_view:hasMilitaryRetiredPay', retiredPay);
+}
+
+function completeMilitaryHistory(client, data) {
+  data.servicePeriods.forEach((period, i, list) => {
+    const { serviceBranch, dateRange } = data.servicePeriods[i];
+
+    client
+      .selectDropdown(
+        `root_serviceInformation_servicePeriods_${i}_serviceBranch`,
+        serviceBranch,
+      )
+      .fillDate(
+        `root_serviceInformation_servicePeriods_${i}_dateRange_from`,
+        dateRange.from,
+      )
+      .fillDate(
+        `root_serviceInformation_servicePeriods_${i}_dateRange_to`,
+        dateRange.to,
+      );
+
+    if (i < list.length - 1) client.click('.va-growable-add-btn');
+  });
 }
 
 function completeReservesNationalGuardInfo(client, data) {
@@ -410,9 +425,8 @@ module.exports = {
   initDocumentUploadMock,
   initItfMock,
   initPaymentInformationMock,
-  completeApplicantInformation,
-  completeVeteranAlternateNameInfo,
-  completeVeteranAddressInformation,
+  completeAlternateName,
+  completeMilitaryRetiredPay,
   completeMilitaryHistory,
   completeReservesNationalGuardInfo,
   completeHomelessness,
@@ -421,4 +435,6 @@ module.exports = {
   completeVAFacilitiesInformation,
   completeRecordReleaseInformation,
   completePrivateMedicalRecordsChoice,
+  completeApplicantInformation,
+  completeVeteranAddressInformation,
 };

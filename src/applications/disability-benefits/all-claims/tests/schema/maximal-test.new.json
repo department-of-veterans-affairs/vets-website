@@ -32,6 +32,7 @@
         "effectiveDate": "2019-04-04"
       }
     },
+    "view:hasMilitaryRetiredPay": false,
     "view:hasAlternateName": false,
     "alternateNames": [
       {
