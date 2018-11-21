@@ -52,7 +52,7 @@ function initUserMock(token, level) {
               metadata: {},
             },
           ],
-          prefills_available: [],
+          prefills_available: ['21-526EZ'],
           services: [
             'facilities',
             'hca',
@@ -62,6 +62,8 @@ function initUserMock(token, level) {
             'health-records',
             'rx',
             'messaging',
+            'form-save-in-progress',
+            'form-prefill',
           ],
           va_profile: {
             status: 'OK',
