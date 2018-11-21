@@ -1,7 +1,7 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-import CallHelpDesk from '../../../../platform/brand-consolidation/components/CallHelpDesk';
+import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
@@ -78,13 +78,13 @@ export default function IdentityVerification({
         </p>
         <p>
           Or{' '}
-          <CallHelpDesk>
+          <CallVBACenter>
             call the {propertyName} Help Desk at{' '}
             <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
             <a href="tel:18008778339">1-800-877-8339</a>
             ). We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
             (ET)
-          </CallHelpDesk>
+          </CallVBACenter>
         </p>
       </div>
     </div>

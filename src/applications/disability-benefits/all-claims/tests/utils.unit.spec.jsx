@@ -15,7 +15,8 @@ import {
   servedAfter911,
   needsToEnter781,
   needsToEnter781a,
-  isUploadingPtsdForm,
+  isUploading781Form,
+  isUploading781aForm,
   transformRelatedDisabilities,
 } from '../utils.jsx';
 
@@ -394,7 +395,7 @@ describe('526 helpers', () => {
 
     it('should return false if user has not selected Combat or Non-Combat PTSD types', () => {
       const formData = {};
-      expect(needsToEnter781({ formData })).to.be.false;
+      expect(needsToEnter781(formData)).to.be.false;
     });
   });
 
@@ -419,21 +420,35 @@ describe('526 helpers', () => {
 
     it('should return false if user has not selected Assault or MST PTSD types', () => {
       const formData = {};
-      expect(needsToEnter781a({ formData })).to.be.false;
+      expect(needsToEnter781a(formData)).to.be.false;
     });
   });
 
-  describe('isUploadingPtsdForm', () => {
-    it('should return true if user has chosen to upload documents', () => {
+  describe('isUploading781Form', () => {
+    it('should return true if user has chosen to upload 781', () => {
       const formData = {
-        'view:uploadPtsdChoice': 'upload',
+        'view:upload781Choice': 'upload',
       };
-      expect(isUploadingPtsdForm(formData)).to.be.true;
+      expect(isUploading781Form(formData)).to.be.true;
     });
 
-    it('should return false if user has not chosen to upload documents', () => {
+    it('should return false if user has not chosen to upload 781', () => {
       const formData = {};
-      expect(needsToEnter781({ formData })).to.be.false;
+      expect(isUploading781Form(formData)).to.be.false;
+    });
+  });
+
+  describe('isUploading781aForm', () => {
+    it('should return true if user has chosen to upload 781a', () => {
+      const formData = {
+        'view:upload781aChoice': 'upload',
+      };
+      expect(isUploading781aForm(formData)).to.be.true;
+    });
+
+    it('should return false if user has not chosen to upload 781a', () => {
+      const formData = {};
+      expect(isUploading781aForm(formData)).to.be.false;
     });
   });
 
@@ -443,24 +458,24 @@ describe('526 helpers', () => {
         'some condition name',
         'another condition name',
       ];
-      const relatedDisabilities = {
+      const treatedDisabilityNames = {
         'Some condition name': true,
         'Another condition name': true,
         'This condition is falsey!': false,
       };
       expect(
-        transformRelatedDisabilities(relatedDisabilities, claimedConditions),
+        transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
       ).to.eql(['some condition name', 'another condition name']);
     });
     it('should not add conditions if they are not claimed', () => {
       const claimedConditions = ['some condition name'];
-      const relatedDisabilities = {
+      const treatedDisabilityNames = {
         'Some condition name': true,
         'Another condition name': true,
         'This condition is falsey!': false,
       };
       expect(
-        transformRelatedDisabilities(relatedDisabilities, claimedConditions),
+        transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
       ).to.eql(['some condition name']);
     });
   });

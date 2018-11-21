@@ -9,11 +9,97 @@
  margin-bottom: 100px;
 }
 
-
 .va-connected-acct-null {
    padding-bottom: 40px;
 
    .feature {
      margin-top: 100px;
+   }
+}
+
+.va-connected-acct-row-table {
+   margin: 0;
+   &:not(.va-connected-acct-last-row) {
+      tbody{
+         tr:last-child{
+            th {
+               border-bottom: none;
+            }
+         }
+      }
+   }
+   .va-connected-acct-row {
+      cursor: pointer;
+      th {
+         padding-top: 0;
+         padding-bottom: 0;
+      }
+      &:hover {
+         th {
+            background: $color-gray-lightest !important;
+         }
+      }
+      th:first-child{
+         img {
+            padding: 1em;
+         }
+      }
+      .va-connected-acct-row-details {
+         .va-connected-acct-row-details-toggle {
+            text-decoration: none;
+         }
+         i {
+            padding-left: .5em;
+         }
+      }
+
+      .va-modal-inner {
+         max-width: 60rem;
+         .usa-alert {
+            border: none;
+            h3 {
+               padding: 1em !important;
+            }
+         }
+      }
+   }
+}
+
+
+.va-connected-acct-details-toggled {
+   th {
+      border-bottom: none !important;
+      background: $color-gray-lightest !important;
+      padding-bottom: 0 !important;
+   }
+}
+.va-connected-acct-row-details-block {
+   th {
+      background: $color-gray-lightest !important;
+      border-top: none;
+      padding: 0;
+      .va-connected-acct-row-details-block-wrapper {
+         margin: 0 1em 1em;
+         background: $color-white;
+         border-top: none !important;
+         .va-connected-acct-row-details-block-content {
+            margin: 0 1em 1em;
+            p {
+               padding-top: .5em;
+               margin-top: 0;
+               margin-bottom: 0;
+               font-size: 95%;
+               font-weight: bold;
+               line-height: 3.5;
+            }
+            button {
+               float: right;
+            }
+            ul {
+               margin-left: 3em;
+               padding-bottom: 1em;
+            }
+         }
+      }
    }
 }
