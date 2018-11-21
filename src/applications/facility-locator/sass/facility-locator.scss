@@ -620,10 +620,16 @@
   display: inline-block;
   font-size: 1.2rem;
   background-image: none;
+  background-color: rgba(0,0,0,0);
   text-align: right;
   text-decoration: none;
   text-align: right;
   padding: 0 !important;
+  margin-bottom: 0px;
+}
+
+.cc-info-link:hover, .cc-info-link:active {
+  background-color: rgba(0,0,0,0);
 }
 
 .cc-info-link-icon {
@@ -635,6 +641,12 @@
 
 #facility-dropdown-label {
   position: relative;
+}
+
+.ccInfoCloseBtn {
+  background-color: rgba(0,0,0,0);
+  color: black;
+  padding: 0;
 }
 
 #infoBubble {

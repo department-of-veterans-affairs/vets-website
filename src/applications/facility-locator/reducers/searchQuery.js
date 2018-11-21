@@ -7,6 +7,7 @@ import {
   FETCH_LOCATIONS,
   FETCH_SERVICES,
   FETCH_SERVICES_DONE,
+  FETCH_SERVICES_FAILED,
 } from '../utils/actionTypes';
 
 const INITIAL_STATE = {
@@ -58,6 +59,12 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: false,
+        fetchSvcsInProgress: false,
+      };
+    case FETCH_SERVICES_FAILED:
+      return {
+        ...state,
+        error: true,
         fetchSvcsInProgress: false,
       };
     case SEARCH_FAILED:
