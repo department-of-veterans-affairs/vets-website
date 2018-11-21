@@ -1,4 +1,4 @@
-import { incidentDate, secondaryIncidentDate } from '../../pages';
+import { incidentDate, secondaryIncidentDate, medals } from '../../pages';
 
 import { isAnswering781Questions, isAnswering781aQuestions } from '../../utils';
 
@@ -27,6 +27,13 @@ export function formConfig781(iterations) {
         depends: isAnswering781Questions,
         uiSchema: incidentDate.uiSchema(index),
         schema: incidentDate.schema(index),
+      },
+      [`medals${index}`]: {
+        title: `${numberToWords[index]} Medals or citations`,
+        path: `disabilities/ptsd-medals-${index}`,
+        depends: isAnswering781Questions,
+        uiSchema: medals.uiSchema(index),
+        schema: medals.schema(index),
       },
     };
   }
