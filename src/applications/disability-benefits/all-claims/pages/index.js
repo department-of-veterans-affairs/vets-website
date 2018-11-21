@@ -104,14 +104,14 @@ import {
 } from './secondaryIncidentDate';
 
 import {
-  uiSchema as ptsdAssaultRecordsPermissionNoticeUISchema,
-  schema as ptsdAssaultRecordsPermissionNoticeSchema,
-} from './ptsdAssaultRecordsPermissionNotice';
+  uiSchema as secondaryIncidentPermissionNoticeUISchema,
+  schema as secondaryIncidentPermissionNoticeSchema,
+} from './secondaryIncidentPermissionNotice';
 
 import {
-  uiSchema as ptsdAssaultAuthoritiesUISchema,
-  schema as ptsdAssaultAuthoritiesSchema,
-} from './ptsdAssaultAuthorities';
+  uiSchema as secondaryIncidentAuthoritiesUISchema,
+  schema as secondaryIncidentAuthoritiesSchema,
+} from './secondaryIncidentAuthorities';
 
 import {
   uiSchema as uploadPersonalPtsdDocumentsUISchema,
@@ -298,14 +298,14 @@ export const secondaryIncidentDate = {
   schema: secondaryIncidentDateSchema,
 };
 
-export const ptsdAssaultRecordsPermissionNotice = {
-  uiSchema: ptsdAssaultRecordsPermissionNoticeUISchema,
-  schema: ptsdAssaultRecordsPermissionNoticeSchema,
+export const secondaryIncidentPermissionNotice = {
+  uiSchema: secondaryIncidentPermissionNoticeUISchema,
+  schema: secondaryIncidentPermissionNoticeSchema,
 };
 
-export const ptsdAssaultAuthorities = {
-  uiSchema: ptsdAssaultAuthoritiesUISchema,
-  schema: ptsdAssaultAuthoritiesSchema,
+export const secondaryIncidentAuthorities = {
+  uiSchema: secondaryIncidentAuthoritiesUISchema,
+  schema: secondaryIncidentAuthoritiesSchema,
 };
 
 export const uploadPersonalPtsdDocuments = {

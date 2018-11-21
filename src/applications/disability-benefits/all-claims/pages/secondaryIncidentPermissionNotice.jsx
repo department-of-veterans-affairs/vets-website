@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { PtsdNameTitle } from '../content/ptsdClassification';
-import { recordsPermissionNotice } from '../content/ptsdAssaultRecordsPermissionNotice';
+import { recordsPermissionNotice } from '../content/secondaryIncidentPermissionNotice';
 
 export const uiSchema = {
   'ui:title': ({ formData }) => (

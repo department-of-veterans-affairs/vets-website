@@ -2,9 +2,9 @@ import React from 'react';
 import { merge } from 'lodash';
 
 import fullSchema from '../config/schema';
+import AuthorityField from '../components/AuthorityField';
 import { PtsdNameTitle } from '../content/ptsdClassification';
 import { PtsdAssaultAuthoritiesDescription } from '../content/ptsdAssaultAuthorities';
-import AuthorityField from '../components/AuthorityField';
 import { uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
 
 const { address } = fullSchema.definitions;

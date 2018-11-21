@@ -2,8 +2,8 @@ import {
   incidentSupport,
   incidentDate,
   secondaryIncidentDate,
-  ptsdAssaultRecordsPermissionNotice,
-  ptsdAssaultAuthorities,
+  secondaryIncidentPermissionNotice,
+  secondaryIncidentAuthorities,
 } from '../../pages';
 
 import { isAnswering781Questions, isAnswering781aQuestions } from '../../utils';
@@ -28,14 +28,14 @@ export function formConfig781(iterations) {
       ...configObj,
       // 781 PAGE CONFIGS GO HERE
       [`incidentSupport${index}`]: {
-        title: `${numberToWords[index]} PTSD Incident Support`,
+        title: `${numberToWords[index]} PTSD incident support`,
         path: `disabilities/ptsd-incident-support-${index}`,
         depends: isAnswering781Questions,
         uiSchema: incidentSupport.uiSchema('781'),
         schema: incidentSupport.schema,
       },
       [`incidentDate${index}`]: {
-        title: `${numberToWords[index]} PTSD Incident date`,
+        title: `${numberToWords[index]} PTSD incident date`,
         path: `disabilities/ptsd-incident-date-${index}`,
         depends: isAnswering781Questions,
         uiSchema: incidentDate.uiSchema(index),
@@ -53,35 +53,33 @@ export function formConfig781a(iterations) {
       ...configObj,
       // 781a PAGE CONFIGS GO HERE
       [`secondaryIncidentSupport${index}`]: {
-        title: `${numberToWords[index]} PTSD Assault Incident Support`,
+        title: `${numberToWords[index]} PTSD assault incident support`,
         path: `disabilities/ptsd-secondary-incident-support-${index}`,
         depends: isAnswering781aQuestions,
         uiSchema: incidentSupport.uiSchema('781a'),
         schema: incidentSupport.schema,
       },
       [`secondaryIncidentDate${index}`]: {
-        title: `${numberToWords[index]} PTSD Assault Incident date`,
+        title: `${numberToWords[index]} PTSD assault incident date`,
         path: `disabilities/ptsd-secondary-incident-date-${index}`,
         // The Depends will need to be refactored to account for the page index/incident Number
         depends: isAnswering781aQuestions,
         uiSchema: secondaryIncidentDate.uiSchema(index),
         schema: secondaryIncidentDate.schema(index),
       },
-      [`ptsdAssaultRecordsPermissionNotice${index}`]: {
-        title: `${
-          numberToWords[index]
-        } PTSD Assault Incident Records Permission Notice`,
-        path: `disabilities/ptsd-assault-records-permission-notice-${index}`,
+      [`secondaryIncidentPermissionNotice${index}`]: {
+        title: `${numberToWords[index]} PTSD assault permission notice`,
+        path: `disabilities/ptsd-secondary-permission-notice-${index}`,
         depends: isAnswering781aQuestions,
-        uiSchema: ptsdAssaultRecordsPermissionNotice.uiSchema,
-        schema: ptsdAssaultRecordsPermissionNotice.schema,
+        uiSchema: secondaryIncidentPermissionNotice.uiSchema,
+        schema: secondaryIncidentPermissionNotice.schema,
       },
-      [`ptsdAssaultAuthorities${index}`]: {
-        title: `${numberToWords[index]} PTSD Assault Authorities`,
-        path: `disabilities/ptsd-assault-authorities-${index}`,
+      [`secondaryIncidentAuthorities${index}`]: {
+        title: `${numberToWords[index]} PTSD assault authorities`,
+        path: `disabilities/ptsd-secondary-authorities-${index}`,
         depends: isAnswering781aQuestions,
-        uiSchema: ptsdAssaultAuthorities.uiSchema(index),
-        schema: ptsdAssaultAuthorities.schema(index),
+        uiSchema: secondaryIncidentAuthorities.uiSchema(index),
+        schema: secondaryIncidentAuthorities.schema(index),
       },
     };
   }
