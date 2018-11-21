@@ -71,11 +71,12 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
-  ancillaryFormsWizardIntro,
   adaptiveBenefits,
   aidAndAttendance,
   individualUnemployability,
 } from '../pages';
+
+import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
 import { PTSD } from '../constants';
 
@@ -317,8 +318,21 @@ const formConfig = {
         ancillaryFormsWizardIntro: {
           title: 'Additional disability benefits',
           path: 'additional-disability-benefits',
-          uiSchema: ancillaryFormsWizardIntro.uiSchema,
-          schema: ancillaryFormsWizardIntro.schema,
+          uiSchema: {
+            'ui:title': 'Additional disability benefits',
+            'view:ancillaryFormsWizardIntro': {
+              'ui:description': ancillaryFormsWizardDescription,
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:ancillaryFormsWizardIntro': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
         },
         adaptiveBenefits: {
           title: 'Automobile allowance and adaptive benefits',

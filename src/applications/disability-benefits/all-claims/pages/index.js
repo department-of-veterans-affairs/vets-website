@@ -169,11 +169,6 @@ import {
 } from './unemployabilityFormIntro';
 
 import {
-  uiSchema as ancillaryFormsWizardIntroUISchema,
-  schema as ancillaryFormsWizardIntroSchema,
-} from './ancillaryFormsWizardIntro';
-
-import {
   uiSchema as adaptiveBenefitsUISchema,
   schema as adaptiveBenefitsSchema,
 } from './adaptiveBenefits';
@@ -366,11 +361,6 @@ export const unemployabilityStatus = {
 export const unemployabilityFormIntro = {
   uiSchema: unemployabilityFormIntroUISchema,
   schema: unemployabilityFormIntroSchema,
-};
-
-export const ancillaryFormsWizardIntro = {
-  uiSchema: ancillaryFormsWizardIntroUISchema,
-  schema: ancillaryFormsWizardIntroSchema,
 };
 
 export const adaptiveBenefits = {
