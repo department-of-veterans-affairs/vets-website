@@ -32,6 +32,18 @@
         "effectiveDate": "2019-04-04"
       }
     },
+    "view:hasAlternateName": false,
+    "alternateNames": [
+      {
+        "first": "Old",
+        "last": "Name"
+      },
+      {
+        "first": "Another",
+        "middle": "Old",
+        "last": "Name"
+      }
+    ],
     "unitName": "Alpha Bravo Charlie",
     "obligationTermOfServiceDateRange": {
       "from": "2015-05-12",

@@ -38,6 +38,12 @@ function completeVeteranAddressInformation(client, data) {
     .fill('input[name="root_veteran_mailingAddress_zipCode"]', zipCode);
 }
 
+function completeVeteranAlternateNameInfo(client, data) {
+  const hasAlternateName = data['view:hasAlternateName'];
+
+  client.selectYesNo('root_view:hasAlternateName', hasAlternateName);
+}
+
 function completeReservesNationalGuardInfo(client, data) {
   const { unitName, servicePeriods } = data;
 
@@ -405,6 +411,7 @@ module.exports = {
   initItfMock,
   initPaymentInformationMock,
   completeApplicantInformation,
+  completeVeteranAlternateNameInfo,
   completeVeteranAddressInformation,
   completeMilitaryHistory,
   completeReservesNationalGuardInfo,

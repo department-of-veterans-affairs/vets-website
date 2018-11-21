@@ -41,6 +41,12 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information');
 
+  // Veteran Alternate Name
+  client.axeCheck('.main');
+  PageHelpers.completeVeteranAlternateNameInfo(client, testData.data);
+  client.click('.form-progress-buttons .usa-button-primary');
+  E2eHelpers.expectNavigateAwayFrom(client, '/alternate-names');
+
   // Veteran Address Information
   client.axeCheck('.main');
   PageHelpers.completeVeteranAddressInformation(client, testData.data);
