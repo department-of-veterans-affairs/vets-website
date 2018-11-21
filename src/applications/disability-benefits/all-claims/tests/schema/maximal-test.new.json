@@ -170,6 +170,18 @@
       ],
       "view:militaryHistoryNote": {}
     },
+    "view:powStatus": false,
+    "view:isPOW": {
+      "confinements": [
+        {
+          "from": "1900-01-01",
+          "to": "1901-01-01"
+        }
+      ],
+      "powDisabilities": {
+        "PTSD (post Traumatic Stress Disorder)": true
+      }
+    },
     "standardClaim": false,
     "view:fdcWarning": {},
     "privacyAgreementAccepted": true

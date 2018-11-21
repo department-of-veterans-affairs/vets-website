@@ -99,6 +99,12 @@ const runTest = E2eHelpers.createE2eTest(client => {
     '/new-disabilities/unemployability-status',
   );
 
+  // POW Status
+  client.axeCheck('.main');
+  PageHelpers.completePowStatus(client, testData.data);
+  client.click('.form-progress-buttons .usa-button-primary');
+  E2eHelpers.expectNavigateAwayFrom(client, '/pow');
+
   // Supporting evidence
   // Orientation
   client.axeCheck('.main').click('.form-panel .usa-button-primary');

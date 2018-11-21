@@ -113,7 +113,13 @@ function completeAddDisability(client, data) {
 function completeUnemployabilityStatus(client, data) {
   const unemployabilityStatus = data['view:unemployabilityStatus'];
 
-  client.selectYesNo('view:unemployabilityStatus', unemployabilityStatus);
+  client.selectYesNo('root_view:unemployabilityStatus', unemployabilityStatus);
+}
+
+function completePowStatus(client, data) {
+  const powStatus = data['view:powStatus'];
+
+  client.selectYesNo('root_view:powStatus', powStatus);
 }
 
 function completeEvidenceTypeInformation(client, data) {
@@ -459,6 +465,7 @@ module.exports = {
   selectDisabilities,
   completeAddDisability,
   completeUnemployabilityStatus,
+  completePowStatus,
   completeEvidenceTypeInformation,
   completeVAFacilitiesInformation,
   completeRecordReleaseInformation,
