@@ -32,10 +32,9 @@ export default function createAdditionalInfoWidget() {
       const button = qS(el, 'button');
 
       button.addEventListener('click', () => {
-        const ariaExpanded =
-          button.getAttribute('aria-expanded') === 'true' ? 'false' : 'true';
+        const ariaExpanded = JSON.parse(button.getAttribute('aria-expanded'));
 
-        button.setAttribute('aria-expanded', ariaExpanded);
+        button.setAttribute('aria-expanded', !ariaExpanded);
         button.parentNode.classList.toggle('form-expanding-group-open');
         chevron.classList.toggle('open');
       });
