@@ -395,7 +395,7 @@ describe('526 helpers', () => {
 
     it('should return false if user has not selected Combat or Non-Combat PTSD types', () => {
       const formData = {};
-      expect(needsToEnter781({ formData })).to.be.false;
+      expect(needsToEnter781(formData)).to.be.false;
     });
   });
 
@@ -420,7 +420,7 @@ describe('526 helpers', () => {
 
     it('should return false if user has not selected Assault or MST PTSD types', () => {
       const formData = {};
-      expect(needsToEnter781a({ formData })).to.be.false;
+      expect(needsToEnter781a(formData)).to.be.false;
     });
   });
 
@@ -434,7 +434,7 @@ describe('526 helpers', () => {
 
     it('should return false if user has not chosen to upload 781', () => {
       const formData = {};
-      expect(isUploading781Form({ formData })).to.be.false;
+      expect(isUploading781Form(formData)).to.be.false;
     });
   });
 
@@ -448,7 +448,7 @@ describe('526 helpers', () => {
 
     it('should return false if user has not chosen to upload 781a', () => {
       const formData = {};
-      expect(isUploading781aForm({ formData })).to.be.false;
+      expect(isUploading781aForm(formData)).to.be.false;
     });
   });
 
