@@ -657,6 +657,19 @@ const schema = {
         },
       },
     },
+    specialIssue: {
+      type: 'string',
+      enum: [
+        'ALS',
+        'HEPC',
+        'POW',
+        'PTSD/1',
+        'PTSD/2',
+        'PTSD/3',
+        'PTSD/4',
+        'MST',
+      ],
+    },
   },
   properties: {
     alternateNames: {
@@ -800,40 +813,8 @@ const schema = {
             type: 'string',
             enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
           },
-          specialIssues: {
-            type: 'array',
-            maxItems: 100,
-            items: {
-              type: 'object',
-              required: ['code', 'name'],
-              properties: {
-                name: {
-                  type: 'string',
-                },
-                code: {
-                  type: 'string',
-                  enum: [
-                    'ALS',
-                    'AOIV',
-                    'AOOV',
-                    'ASB',
-                    'EHCL',
-                    'GW',
-                    'HEPC',
-                    'MG',
-                    'POW',
-                    'RDN',
-                    'SHAD',
-                    'TRM',
-                    'PTSD/1',
-                    'PTSD/2',
-                    'PTSD/3',
-                    'PTSD/4',
-                    'MST',
-                  ],
-                },
-              },
-            },
+          specialIssue: {
+            $ref: '#/definitions/specialIssue',
           },
           ratedDisabilityId: {
             type: 'string',
@@ -861,40 +842,8 @@ const schema = {
                   type: 'string',
                   enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
                 },
-                specialIssues: {
-                  type: 'array',
-                  maxItems: 100,
-                  items: {
-                    type: 'object',
-                    required: ['code', 'name'],
-                    properties: {
-                      name: {
-                        type: 'string',
-                      },
-                      code: {
-                        type: 'string',
-                        enum: [
-                          'ALS',
-                          'AOIV',
-                          'AOOV',
-                          'ASB',
-                          'EHCL',
-                          'GW',
-                          'HEPC',
-                          'MG',
-                          'POW',
-                          'RDN',
-                          'SHAD',
-                          'TRM',
-                          'PTSD/1',
-                          'PTSD/2',
-                          'PTSD/3',
-                          'PTSD/4',
-                          'MST',
-                        ],
-                      },
-                    },
-                  },
+                specialIssue: {
+                  $ref: '#/definitions/specialIssue',
                 },
                 ratedDisabilityId: {
                   type: 'string',
@@ -935,6 +884,9 @@ const schema = {
           },
           causedByDisabilityDescription: {
             type: 'string',
+          },
+          specialIssue: {
+            $ref: '#/definitions/specialIssue',
           },
           worsenedDescription: {
             type: 'string',
@@ -1032,7 +984,7 @@ const schema = {
       maxItems: 100,
       items: {
         type: 'object',
-        required: ['treatmentCenterName'],
+        required: ['treatmentCenterName', 'treatedDisabilityNames'],
         properties: {
           treatmentCenterName: {
             type: 'string',
@@ -1044,6 +996,14 @@ const schema = {
           },
           treatmentCenterAddress: {
             $ref: '#/definitions/vaTreatmentCenterAddress',
+          },
+          treatedDisabilityNames: {
+            type: 'array',
+            minItems: 1,
+            maxItems: 100,
+            items: {
+              type: 'string',
+            },
           },
         },
       },

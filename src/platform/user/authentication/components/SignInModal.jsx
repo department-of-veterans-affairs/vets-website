@@ -3,7 +3,7 @@ import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
-import CallHelpDesk from '../../../brand-consolidation/components/CallHelpDesk';
+import SubmitSignInForm from '../../../brand-consolidation/components/SubmitSignInForm';
 
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 import recordEvent from '../../../monitoring/record-event';
@@ -76,10 +76,10 @@ class SignInModal extends React.Component {
                 >
                   We’re sorry. We’re working to fix some problems with DS Logon
                   right now. Please check back later or{' '}
-                  <CallHelpDesk>
+                  <SubmitSignInForm>
                     call the {siteName} Help Desk for more information at
                     1-855-574-7286, TTY: 1-800-877-8339.
-                  </CallHelpDesk>
+                  </SubmitSignInForm>
                 </AlertBox>
                 <br />
               </div>
@@ -197,13 +197,7 @@ class SignInModal extends React.Component {
                 </a>
               </p>
               <p>
-                <a
-                  href="https://www.accesstocare.va.gov/sign-in-help"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  Submit a request to get help
-                </a>
+                <SubmitSignInForm startSentence />
               </p>
             </div>
             <hr />
