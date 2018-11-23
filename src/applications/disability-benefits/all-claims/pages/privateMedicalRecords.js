@@ -9,7 +9,7 @@ import _ from '../../../../platform/utilities/data';
 import fullSchema from '../config/schema';
 import { FIFTY_MB, DATA_PATHS } from '../constants';
 
-const { attachments } = fullSchema.properties;
+const { completedFormAttachments } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:description':
@@ -65,10 +65,14 @@ export const uiSchema = {
       parseResponse: (response, file) => ({
         name: file.name,
         confirmationCode: response.data.attributes.guid,
+        attachmentId: file.name,
       }),
       // this is the uiSchema passed to FileField for the attachmentId schema
       // FileField requires this name be used
-      attachmentSchema: { 'ui:title': 'Document type' },
+      attachmentSchema: {
+        'ui:title': 'Document type',
+        'ui:disabled': true,
+      },
       // this is the uiSchema passed to FileField for the name schema
       // FileField requires this name be used
       attachmentName: { 'ui:title': 'Document name' },
@@ -121,7 +125,7 @@ export const schema = {
         },
       },
     },
-    privateMedicalRecords: attachments,
+    privateMedicalRecords: completedFormAttachments,
     'view:patientAcknowledgement': {
       type: 'object',
       required: ['view:acknowledgement'],

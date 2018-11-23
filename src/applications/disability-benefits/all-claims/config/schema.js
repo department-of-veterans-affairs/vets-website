@@ -1049,6 +1049,24 @@ const schema = {
       type: 'boolean',
       default: false,
     },
+    completedFormAttachments: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['name', 'attachmentId'],
+        properties: {
+          name: {
+            type: 'string',
+          },
+          confirmationCode: {
+            type: 'string',
+          },
+          attachmentId: {
+            type: 'string',
+          },
+        },
+      },
+    },
   },
 };
 
