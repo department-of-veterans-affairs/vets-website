@@ -1,16 +1,13 @@
-import React from 'react';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import environment from '../../../../platform/utilities/environment';
 
 import { DocumentDescription } from '../content/uploadPtsdDocuments';
-import { PtsdNameTitle } from '../content/ptsdClassification';
+import { ptsd781aNameTitle } from '../content/ptsdClassification';
 
 const FIFTY_MB = 52428800;
 
 export const uiSchema = {
-  'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781a" />
-  ),
+  'ui:title': ptsd781aNameTitle,
   'ui:description': DocumentDescription,
   ptsd781a: fileUploadUI('', {
     itemDescription: 'PTSD 781a form',

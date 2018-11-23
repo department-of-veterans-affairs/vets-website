@@ -375,13 +375,13 @@ export const isUploading781aForm = formData =>
   _.get('view:upload781aChoice', formData, '') === 'upload';
 
 export const isAnswering781Questions = index => formData =>
-  _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions' &&
+  _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&
   (index === 0 ||
     _.get(`view:enterAdditionalEvents${index - 1}`, formData, false)) &&
   needsToEnter781(formData);
 
 export const isAnswering781aQuestions = index => formData =>
-  _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions' &&
+  _.get('view:upload781aChoice', formData, '') === 'answerQuestions' &&
   (index === 0 ||
     _.get(
       `view:enterAdditionalSecondaryEvents${index - 1}`,
@@ -402,11 +402,11 @@ export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
 
 export const showPtsdCombatConclusion = form =>
-  form['view:uploadPtsdChoice'] === 'answerQuestions' &&
+  form['view:upload781Choice'] === 'answerQuestions' &&
   (_.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
     _.get('view:selectablePtsdTypes.view:noncombatPtsdType', form, false));
 
 export const showPtsdAssaultConclusion = form =>
-  form['view:uploadPtsdChoice'] === 'answerQuestions' &&
+  form['view:upload781aChoice'] === 'answerQuestions' &&
   (_.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
     _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false));
