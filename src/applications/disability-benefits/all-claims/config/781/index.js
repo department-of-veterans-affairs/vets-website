@@ -55,7 +55,7 @@ export function createFormConfig781a(iterations) {
       [`secondaryIncidentSupport${index}`]: {
         title: `${numberToWords[index]} PTSD assault incident support`,
         path: `disabilities/ptsd-secondary-incident-support-${index}`,
-        depends: isAnswering781aQuestions,
+        depends: isAnswering781aQuestions(index),
         uiSchema: incidentSupport.uiSchema('781a'),
         schema: incidentSupport.schema,
       },
@@ -63,21 +63,21 @@ export function createFormConfig781a(iterations) {
         title: `${numberToWords[index]} PTSD assault incident date`,
         path: `disabilities/ptsd-secondary-incident-date-${index}`,
         // The Depends will need to be refactored to account for the page index/incident Number
-        depends: isAnswering781aQuestions,
+        depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentDate.uiSchema(index),
         schema: secondaryIncidentDate.schema(index),
       },
       [`secondaryIncidentPermissionNotice${index}`]: {
         title: `${numberToWords[index]} PTSD assault permission notice`,
         path: `disabilities/ptsd-secondary-permission-notice-${index}`,
-        depends: isAnswering781aQuestions,
+        depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentPermissionNotice.uiSchema,
         schema: secondaryIncidentPermissionNotice.schema,
       },
       [`secondaryIncidentAuthorities${index}`]: {
         title: `${numberToWords[index]} PTSD assault authorities`,
         path: `disabilities/ptsd-secondary-authorities-${index}`,
-        depends: isAnswering781aQuestions,
+        depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentAuthorities.uiSchema(index),
         schema: secondaryIncidentAuthorities.schema(index),
       },

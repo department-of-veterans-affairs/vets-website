@@ -14,7 +14,7 @@ export const uiSchema = index => ({
     <PtsdNameTitle formData={formData} formType="781a" />
   ),
   'ui:description': PtsdAssaultAuthoritiesDescription,
-  [`incident${index}`]: {
+  [`secondaryIncident${index}`]: {
     authorities: {
       'ui:options': {
         itemName: 'Authority',
