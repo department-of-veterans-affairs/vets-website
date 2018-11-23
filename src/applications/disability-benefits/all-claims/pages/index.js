@@ -84,6 +84,11 @@ import {
 } from './incidentDate';
 
 import {
+  uiSchema as individualsInvolvedUISchema,
+  schema as individualsInvolvedSchema,
+} from './individualsInvolved';
+
+import {
   uiSchema as uploadPtsdDocumentsUISchema,
   schema as uploadPtsdDocumentsSchema,
 } from './uploadPtsdDocuments';
@@ -271,6 +276,11 @@ export const ptsdWalkthroughChoice781 = {
 export const incidentDate = {
   uiSchema: incidentDateUISchema,
   schema: incidentDateSchema,
+};
+
+export const individualsInvolved = {
+  uiSchema: individualsInvolvedUISchema,
+  schema: individualsInvolvedSchema,
 };
 
 export const uploadPtsdDocuments = {
