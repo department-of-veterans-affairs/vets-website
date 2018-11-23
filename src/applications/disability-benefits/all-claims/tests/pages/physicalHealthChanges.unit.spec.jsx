@@ -26,7 +26,7 @@ describe('Physical Changes 781a', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(7);
   });
 
   it('should submit if no options selected', () => {
