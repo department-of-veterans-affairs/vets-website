@@ -6,8 +6,7 @@ import { DocumentDescription } from '../content/uploadFormDocuments';
 export const uiSchema = {
   'ui:title': 'Upload VA Form 21-8940',
   'ui:description': DocumentDescription,
-  form8940Upload: fileUploadUI('', {
-    itemDescription: 'Document Type (VA Form 21-8940)',
+  form8940Upload: fileUploadUI('Document Type (VA Form 21-8940)', {
     hideLabelText: true,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
     fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
@@ -21,17 +20,18 @@ export const uiSchema = {
     parseResponse: (response, file) => ({
       name: file.name,
       confirmationCode: response.data.attributes.guid,
+      attachmentId: 'l202',
     }),
     // this is the uiSchema passed to FileField for the attachmentId schema
     // FileField requires this name be used
-    attachmentSchema: {
-      'ui:title': 'Document type',
-    },
-    // this is the uiSchema passed to FileField for the name schema
-    // FileField requires this name be used
-    attachmentName: {
-      'ui:title': 'Document name',
-    },
+    // attachmentSchema: {
+    //   'ui:title': 'Document type',
+    // },
+    // // this is the uiSchema passed to FileField for the name schema
+    // // FileField requires this name be used
+    // attachmentName: {
+    //   'ui:title': 'Document name',
+    // },
   }),
 };
 

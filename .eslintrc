@@ -5,6 +5,11 @@
     "ecmaVersion": 6,
     "sourceType": "module"
   },
+  "settings": {
+    "import/resolver": {
+      "babel-module": {}
+    }
+  },
   "plugins": ["mocha", "jest"],
   "extends": ["airbnb", "plugin:prettier/recommended"],
   "env": {
@@ -14,9 +19,9 @@
     "mocha": true,
     "jest": true,
   },
-  'globals': {
-    '__BUILDTYPE__': true,
-    'PerformanceObserver': true
+  "globals": {
+    "__BUILDTYPE__": true,
+    "PerformanceObserver": true
   },
   "rules": {
     // Override airbnb style.
