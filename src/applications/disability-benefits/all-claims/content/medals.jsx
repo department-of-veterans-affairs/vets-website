@@ -11,8 +11,8 @@ export const MedalsDescription = ({ formData, index, formType }) => {
       {isFirstIncident && (
         <p>
           Now we’ll ask about the event or events that caused your{' '}
-          {incidentText}. If there is more than one event or situation you want
-          to tell us about, we’ll ask questions about each one separately.
+          {incidentText} PTSD. If there is more than one event or situation you
+          want to tell us about, we’ll ask questions about each one separately.
         </p>
       )}
       <p>

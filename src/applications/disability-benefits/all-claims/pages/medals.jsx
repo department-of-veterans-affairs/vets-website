@@ -7,7 +7,7 @@ export const uiSchema = index => ({
   'ui:title': ({ formData }) => (
     <PtsdNameTitle formData={formData} formType="781" />
   ),
-  'ui:description': formData => (
+  'ui:description': ({ formData }) => (
     <MedalsDescription formData={formData} index={index} formType="781" />
   ),
   [`medals${index}`]: {
