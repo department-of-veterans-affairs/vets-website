@@ -23,7 +23,8 @@ import {
   hasOtherEvidence,
   needsToEnter781,
   needsToEnter781a,
-  isUploadingPtsdForm,
+  isUploading781Form,
+  isUploading781aForm,
   servedAfter911,
   isNotUploadingPrivateMedical,
   showPtsdCombatConclusion,
@@ -257,7 +258,7 @@ const createFormConfig = {
           depends: formData =>
             hasNewPtsdDisability(formData) &&
             needsToEnter781(formData) &&
-            isUploadingPtsdForm(formData),
+            isUploading781Form(formData),
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
         },
@@ -276,7 +277,7 @@ const createFormConfig = {
           depends: formData =>
             hasNewPtsdDisability(formData) &&
             needsToEnter781a(formData) &&
-            isUploadingPtsdForm(formData),
+            isUploading781aForm(formData),
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
         },
