@@ -654,6 +654,19 @@ const schema = {
         },
       },
     },
+    specialIssue: {
+      type: 'string',
+      enum: [
+        'ALS',
+        'HEPC',
+        'POW',
+        'PTSD/1',
+        'PTSD/2',
+        'PTSD/3',
+        'PTSD/4',
+        'MST',
+      ],
+    },
   },
   properties: {
     alternateNames: {
@@ -797,6 +810,9 @@ const schema = {
             type: 'string',
             enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
           },
+          specialIssue: {
+            $ref: '#/definitions/specialIssue',
+          },
           ratedDisabilityId: {
             type: 'string',
           },
@@ -823,6 +839,9 @@ const schema = {
                   type: 'string',
                   enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
                 },
+                specialIssue: {
+                  $ref: '#/definitions/specialIssue',
+                },
                 ratedDisabilityId: {
                   type: 'string',
                 },
@@ -845,7 +864,7 @@ const schema = {
       type: 'array',
       items: {
         type: 'object',
-        required: ['condition', 'cause', 'disabilityStartDate'],
+        required: ['condition', 'cause'],
         properties: {
           condition: {
             type: 'string',
@@ -862,6 +881,9 @@ const schema = {
           },
           causedByDisabilityDescription: {
             type: 'string',
+          },
+          specialIssue: {
+            $ref: '#/definitions/specialIssue',
           },
           worsenedDescription: {
             type: 'string',
@@ -959,7 +981,7 @@ const schema = {
       maxItems: 100,
       items: {
         type: 'object',
-        required: ['treatmentCenterName'],
+        required: ['treatmentCenterName', 'treatedDisabilityNames'],
         properties: {
           treatmentCenterName: {
             type: 'string',
@@ -971,6 +993,14 @@ const schema = {
           },
           treatmentCenterAddress: {
             $ref: '#/definitions/vaTreatmentCenterAddress',
+          },
+          treatedDisabilityNames: {
+            type: 'array',
+            minItems: 1,
+            maxItems: 100,
+            items: {
+              type: 'string',
+            },
           },
         },
       },

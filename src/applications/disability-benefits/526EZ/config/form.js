@@ -16,6 +16,8 @@ import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
+import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
 
@@ -49,7 +51,6 @@ import {
   facilityDescription,
   download4142Notice,
   evidenceSummaryView,
-  GetFormHelp,
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
@@ -134,6 +135,7 @@ const formConfig = {
   confirmation: ConfirmationPoll,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     address,
     vaTreatmentCenterAddress,
@@ -149,7 +151,6 @@ const formConfig = {
   title: 'File for increased disability compensation',
   subTitle: 'Form 21-526EZ',
   preSubmitInfo,
-  // getHelp: GetFormHelp, // TODO: May need updated form help content
   chapters: {
     veteranDetails: {
       title: isReviewPage => `${isReviewPage ? 'Review ' : ''}Veteran Details`,
@@ -600,7 +601,7 @@ const formConfig = {
                   'ui:options': {
                     labels: {
                       yes: 'Yes',
-                      no: 'No, my doctor has my medical records',
+                      no: 'No, please get my records from my doctor.',
                     },
                   },
                 },
