@@ -6,7 +6,6 @@ import { mount } from 'enzyme';
 import {
   DefinitionTester,
   fillData,
-  fillDate,
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 import initialData from '../initialData.js';
@@ -31,7 +30,7 @@ describe('Hospitalization Interview Questions', () => {
     );
 
     expect(form);
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(7);
   });
 
   it('should add a hospital', () => {
@@ -54,11 +53,6 @@ describe('Hospitalization Interview Questions', () => {
       form,
       'input#root_hospitalizationHistory_0_hospitalName',
       'Local facility',
-    );
-    fillDate(
-      form,
-      'root_providerFacility_0_treatmentDateRange_from',
-      '1950-1-3',
     );
 
     form.find('form').simulate('submit');
