@@ -1,11 +1,8 @@
-import React from 'react';
-import { PtsdNameTitle } from '../content/ptsdClassification';
+import { ptsd781NameTitle } from '../content/ptsdClassification';
 import { individualsInvolved } from '../content/individualsInvolved';
 
 export const uiSchema = index => ({
-  'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781a" />
-  ),
+  'ui:title': ptsd781NameTitle,
   'ui:description': individualsInvolved,
   [`view:individualsInvolved${index}`]: {
     'ui:title':

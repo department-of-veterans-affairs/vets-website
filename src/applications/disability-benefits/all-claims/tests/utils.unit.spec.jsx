@@ -488,7 +488,7 @@ describe('isAnswering781Questions', () => {
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
-      'view:uploadPtsdChoice': 'answerQuestions',
+      'view:upload781Choice': 'answerQuestions',
     };
     expect(isAnswering781Questions(0)(formData)).to.be.true;
   });
@@ -497,7 +497,7 @@ describe('isAnswering781Questions', () => {
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
-      'view:uploadPtsdChoice': 'answerQuestions',
+      'view:upload781Choice': 'answerQuestions',
       'view:enterAdditionalEvents0': true,
     };
     expect(isAnswering781Questions(1)(formData)).to.be.true;
@@ -507,7 +507,7 @@ describe('isAnswering781Questions', () => {
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
-      'view:uploadPtsdChoice': 'answerQuestions',
+      'view:upload781Choice': 'answerQuestions',
       'view:enterAdditionalEvents0': false,
     };
     expect(isAnswering781Questions(1)(formData)).to.be.false;
@@ -519,7 +519,7 @@ describe('isAnswering781aQuestions', () => {
       'view:selectablePtsdTypes': {
         'view:assaultPtsdType': true,
       },
-      'view:uploadPtsdChoice': 'answerQuestions',
+      'view:upload781aChoice': 'answerQuestions',
     };
     expect(isAnswering781aQuestions(0)(formData)).to.be.true;
   });
@@ -528,7 +528,7 @@ describe('isAnswering781aQuestions', () => {
       'view:selectablePtsdTypes': {
         'view:assaultPtsdType': true,
       },
-      'view:uploadPtsdChoice': 'answerQuestions',
+      'view:upload781aChoice': 'answerQuestions',
       'view:enterAdditionalSecondaryEvents0': true,
     };
     expect(isAnswering781aQuestions(1)(formData)).to.be.true;
@@ -538,7 +538,7 @@ describe('isAnswering781aQuestions', () => {
       'view:selectablePtsdTypes': {
         'view:assaultPtsdType': true,
       },
-      'view:uploadPtsdChoice': 'answerQuestions',
+      'view:upload781aChoice': 'answerQuestions',
       'view:enterAdditionalSecondaryEvents0': false,
     };
     expect(isAnswering781aQuestions(1)(formData)).to.be.false;
