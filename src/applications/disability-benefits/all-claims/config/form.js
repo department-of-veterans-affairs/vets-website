@@ -29,6 +29,7 @@ import {
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
   transform,
+  isAnsweringPtsdForm,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -71,6 +72,7 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  additionalRemarks781,
 } from '../pages';
 
 import { createFormConfig781, createFormConfig781a } from './781';
@@ -260,6 +262,14 @@ const createFormConfig = {
             isUploadingPtsdForm(formData),
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
+        },
+        additionalRemarks781: {
+          title: 'Additional Remarks - 781',
+          path: 'new-disabilities/additional-remarks-781',
+          depends: formData =>
+            needsToEnter781(formData) && isAnsweringPtsdForm(formData),
+          uiSchema: additionalRemarks781.uiSchema,
+          schema: additionalRemarks781.schema,
         },
         ptsdWalkthroughChoice781a: {
           title: 'PTSD Walkthrough 781a Choice',

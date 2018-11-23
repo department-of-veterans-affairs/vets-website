@@ -389,6 +389,9 @@ export const getHomelessOrAtRisk = formData => {
   );
 };
 
+export const isAnsweringPtsdForm = formData =>
+  _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions';
+
 export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
 
