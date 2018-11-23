@@ -2,17 +2,17 @@ import React from 'react';
 
 import { getPtsdClassification } from './ptsdClassification';
 
-export const MedalsDescription = ({ formData, index }) => {
-  const { incidentText } = getPtsdClassification(formData, '781');
+export const MedalsDescription = ({ formData, index, formType }) => {
+  const { incidentText } = getPtsdClassification(formData, formType);
   const isFirstIncident = index === 0;
   return (
     <div>
       <h5>Medals or Citations</h5>
       {isFirstIncident && (
         <p>
-          Now we‘ll ask about the event that caused your {incidentText}. If
-          there is more than one event or situation related to your PTSD, we‘ll
-          ask questions about each one separately.
+          Now we’ll ask about the event or events that caused your{' '}
+          {incidentText}. If there is more than one event or situation you want
+          to tell us about, we’ll ask questions about each one separately.
         </p>
       )}
       <p>

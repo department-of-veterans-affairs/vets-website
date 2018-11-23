@@ -8,7 +8,7 @@ export const uiSchema = index => ({
     <PtsdNameTitle formData={formData} formType="781" />
   ),
   'ui:description': formData => (
-    <MedalsDescription formData={formData} index={index} />
+    <MedalsDescription formData={formData} index={index} formType="781" />
   ),
   [`medals${index}`]: {
     'ui:title': ' ',
@@ -27,7 +27,7 @@ export const schema = index => ({
   type: 'object',
   properties: {
     [`medals${index}`]: {
-      type: 'string',
+      type: 'boolean',
       properties: {},
     },
     [`medalType${index}`]: {
