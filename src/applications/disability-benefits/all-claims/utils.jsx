@@ -209,9 +209,9 @@ export function transform(formConfig, form) {
   if (clonedData.vaTreatmentFacilities) {
     const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
       _.set(
-        'relatedDisabilities',
+        'treatedDisabilityNames',
         transformRelatedDisabilities(
-          facility.relatedDisabilities,
+          facility.treatedDisabilityNames,
           claimedConditions,
         ),
         facility,
@@ -371,8 +371,11 @@ export const needsToEnter781a = formData =>
   _.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false) ||
   _.get('view:selectablePtsdTypes.view:assaultPtsdType', formData, false);
 
-export const isUploadingPtsdForm = formData =>
-  _.get('view:uploadPtsdChoice', formData, '') === 'upload';
+export const isUploading781Form = formData =>
+  _.get('view:upload781Choice', formData, '') === 'upload';
+
+export const isUploading781aForm = formData =>
+  _.get('view:upload781aChoice', formData, '') === 'upload';
 
 export const isUploading4192Form = formData =>
   _.get('view:upload4192Choice', formData, '') === 'upload';
@@ -422,3 +425,13 @@ export const ancillaryFormUploadUi = itemDescription =>
       'ui:title': 'Document name',
     },
   });
+
+export const showPtsdCombatConclusion = form =>
+  form['view:uploadPtsdChoice'] === 'answerQuestions' &&
+  (_.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
+    _.get('view:selectablePtsdTypes.view:noncombatPtsdType', form, false));
+
+export const showPtsdAssaultConclusion = form =>
+  form['view:uploadPtsdChoice'] === 'answerQuestions' &&
+  (_.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
+    _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false));

@@ -22,6 +22,7 @@ export function ConnectedApps({ confirmDelete, propertyName, accounts }) {
                 key={idx}
                 confirmDelete={confirmDelete}
                 propertyName={propertyName}
+                isLast={idx + 1 === accounts.length}
                 {...a}
               />
             ))}

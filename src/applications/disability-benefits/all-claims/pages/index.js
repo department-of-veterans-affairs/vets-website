@@ -6,12 +6,12 @@ import {
 import {
   uiSchema as servicePayUISchema,
   schema as servicePaySchema,
-} from '../pages/servicePay';
+} from './servicePay';
 
 import {
   uiSchema as waiveRetirementPayUISchema,
   schema as waiveRetirementPaySchema,
-} from '../pages/waiveRetirementPay';
+} from './waiveRetirementPay';
 
 import {
   uiSchema as militaryHistoryUISchema,
@@ -26,12 +26,12 @@ import {
 import {
   uiSchema as separationTrainingPayUISchema,
   schema as separationTrainingPaySchema,
-} from '../pages/separationTrainingPay';
+} from './separationTrainingPay';
 
 import {
   uiSchema as trainingPayWaiverUISchema,
   schema as trainingPayWaiverSchema,
-} from '../pages/trainingPayWaiver';
+} from './trainingPayWaiver';
 
 import {
   uiSchema as reservesNationalGuardUISchema,
@@ -182,6 +182,16 @@ import {
   uiSchema as uploadForm4192UISchema,
   schema as uploadForm4192Schema,
 } from './uploadForm4192';
+
+import {
+  uiSchema as conclusionCombatUISchema,
+  schema as conclusionCombatSchema,
+} from './conclusionCombat';
+
+import {
+  uiSchema as conclusionAssaultUISchema,
+  schema as conclusionAssaultSchema,
+} from './conclusionAssault';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -366,4 +376,14 @@ export const unemployabilityFormIntro = {
 export const uploadForm4192 = {
   uiSchema: uploadForm4192UISchema,
   schema: uploadForm4192Schema,
+};
+
+export const conclusionCombat = {
+  uiSchema: conclusionCombatUISchema,
+  schema: conclusionCombatSchema,
+};
+
+export const conclusionAssault = {
+  uiSchema: conclusionAssaultUISchema,
+  schema: conclusionAssaultSchema,
 };
