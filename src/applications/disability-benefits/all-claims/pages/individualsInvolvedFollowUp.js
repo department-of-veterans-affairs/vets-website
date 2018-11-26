@@ -1,6 +1,9 @@
 import React from 'react';
 import { ptsd781NameTitle } from '../content/ptsdClassification';
-import { individualsInvolved } from '../content/individualsInvolved';
+import {
+  individualsInvolved,
+  personDescriptionText,
+} from '../content/individualsInvolved';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 
@@ -16,12 +19,8 @@ export const uiSchema = index => ({
       },
       items: {
         name: fullNameUI,
-        'view:Or': {
-          'ui:title': ' ',
-          'ui:description': 'Or',
-        },
         personDescription: {
-          'ui:title': 'Description of the person',
+          'ui:title': personDescriptionText,
           'ui:widget': 'textarea',
         },
         'view:serviceMember': {
@@ -59,6 +58,13 @@ export const uiSchema = index => ({
             },
           },
         },
+        injuryDeathOther: {
+          'ui:title': ' ',
+          'ui:options': {
+            expandUnder: 'injuryDeath',
+            expandUnderCondition: 'Other',
+          },
+        },
       },
     },
   },
@@ -78,10 +84,6 @@ export const schema = index => ({
               name: {
                 $ref: '#/definitions/fullName',
               },
-              'view:Or': {
-                type: 'object',
-                properties: {},
-              },
               personDescription: {
                 type: 'string',
               },
@@ -100,12 +102,15 @@ export const schema = index => ({
               injuryDeath: {
                 type: 'string',
                 enum: [
-                  'Killed in Action',
-                  'Killed Non-Battle',
-                  'Wounded in Action',
-                  'Injured Non-Battle',
+                  'Killed in action',
+                  'Killed non-battle',
+                  'Wounded in action',
+                  'Injured non-battle',
                   'Other',
                 ],
+              },
+              injuryDeathOther: {
+                type: 'string',
               },
             },
           },
