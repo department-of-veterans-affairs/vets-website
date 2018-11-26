@@ -26,10 +26,13 @@ const runTest = E2eHelpers.createE2eTest(client => {
     .url(`${E2eHelpers.baseUrl}/disability-benefits/apply/form-526-all-claims`)
     .waitForElementVisible('body', Timeouts.normal)
     // First render of React may be slow.
-    .waitForElementVisible('.schemaform-title', Timeouts.slow)
+    .waitForElementVisible(
+      '.schemaform-intro .usa-button-primary',
+      Timeouts.slow,
+    )
     .click('.schemaform-intro .usa-button-primary')
     // Click past the `You already have an Intent to File` screen.
-    .waitForElementVisible('.usa-grid .usa-button-primary', Timeouts.normal)
+    .waitForElementVisible('.usa-grid .usa-button-primary', Timeouts.slow)
     .click('.usa-grid .usa-button-primary');
 
   E2eHelpers.overrideVetsGovApi(client);
@@ -105,7 +108,11 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/pow');
 
-  // Supporting evidence
+  // Summary of Disabilities
+  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  E2eHelpers.expectNavigateAwayFrom(client, '/disabilities/summary');
+
+  // Supporting Evidence
   // Orientation
   client.axeCheck('.main').click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/orientation');
