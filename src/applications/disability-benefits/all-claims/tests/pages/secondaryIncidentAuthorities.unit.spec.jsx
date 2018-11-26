@@ -39,27 +39,39 @@ describe('PTSD Assault permission notice', () => {
       />,
     );
 
-    fillData(form, 'input#root_incident0_authorities_0_name', 'Authority Name');
     fillData(
       form,
-      'select#root_incident0_authorities_0_address_country',
+      'input#root_secondaryIncident0_authorities_0_name',
+      'Authority Name',
+    );
+    fillData(
+      form,
+      'select#root_secondaryIncident0_authorities_0_address_country',
       'USA',
     );
     fillData(
       form,
-      'input#root_incident0_authorities_0_address_street',
+      'input#root_secondaryIncident0_authorities_0_address_street',
       '123 Street',
     );
     fillData(
       form,
-      'input#root_incident0_authorities_0_address_street2',
+      'input#root_secondaryIncident0_authorities_0_address_street2',
       'Apt B',
     );
-    fillData(form, 'input#root_incident0_authorities_0_address_city', 'Test');
-    fillData(form, 'select#root_incident0_authorities_0_address_state', 'AL');
     fillData(
       form,
-      'input#root_incident0_authorities_0_address_postalCode',
+      'input#root_secondaryIncident0_authorities_0_address_city',
+      'Test',
+    );
+    fillData(
+      form,
+      'select#root_secondaryIncident0_authorities_0_address_state',
+      'AL',
+    );
+    fillData(
+      form,
+      'input#root_secondaryIncident0_authorities_0_address_postalCode',
       '12345',
     );
     form.find('form').simulate('submit');
