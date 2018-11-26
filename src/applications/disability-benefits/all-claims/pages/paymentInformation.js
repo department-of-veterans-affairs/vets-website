@@ -1,5 +1,7 @@
 import fullSchema from '../config/schema';
 import { bankFieldsHaveInput } from '../utils';
+import ReviewCardField from '../components/ReviewCardField';
+import PaymentView from '../components/PaymentView';
 
 const {
   bankAccountType,
@@ -12,42 +14,56 @@ export const uiSchema = {
   'ui:title': 'Payment information',
   'ui:description':
     'This is the bank account information we have on file for you. We’ll pay your disability benefit to this account.',
-  bankAccountType: {
-    'ui:title': 'Account type',
+  'view:bankAccount': {
+    'ui:field': ReviewCardField,
     'ui:options': {
-      widgetClassNames: 'va-select-medium-large',
+      viewComponent: PaymentView,
+      startInEdit: formData =>
+        Object.keys(formData).every(key => !formData[key]),
+      volatileData: true,
     },
-    'ui:required': bankFieldsHaveInput,
-  },
-  bankAccountNumber: {
-    'ui:title': 'Account number',
-    'ui:options': {
-      widgetClassNames: 'va-input-medium-large',
+    bankAccountType: {
+      'ui:title': 'Account type',
+      'ui:options': {
+        widgetClassNames: 'va-select-medium-large',
+      },
+      'ui:required': bankFieldsHaveInput,
     },
-    'ui:required': bankFieldsHaveInput,
-  },
-  bankRoutingNumber: {
-    'ui:title': 'Routing number',
-    'ui:errorMessages': {
-      pattern: 'Routing number must be 9 digits',
+    bankAccountNumber: {
+      'ui:title': 'Account number',
+      'ui:options': {
+        widgetClassNames: 'va-input-medium-large',
+      },
+      'ui:required': bankFieldsHaveInput,
     },
-    'ui:options': {
-      widgetClassNames: 'va-input-medium-large',
+    bankRoutingNumber: {
+      'ui:title': 'Routing number',
+      'ui:errorMessages': {
+        pattern: 'Routing number must be 9 digits',
+      },
+      'ui:options': {
+        widgetClassNames: 'va-input-medium-large',
+      },
+      'ui:required': bankFieldsHaveInput,
     },
-    'ui:required': bankFieldsHaveInput,
-  },
-  bankName: {
-    'ui:title': 'Bank name',
-    'ui:required': bankFieldsHaveInput,
+    bankName: {
+      'ui:title': 'Bank name',
+      'ui:required': bankFieldsHaveInput,
+    },
   },
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    bankAccountType,
-    bankAccountNumber,
-    bankRoutingNumber,
-    bankName,
+    'view:bankAccount': {
+      type: 'object',
+      properties: {
+        bankAccountType,
+        bankAccountNumber,
+        bankRoutingNumber,
+        bankName,
+      },
+    },
   },
 };
