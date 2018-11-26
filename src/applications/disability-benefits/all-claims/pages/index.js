@@ -6,12 +6,12 @@ import {
 import {
   uiSchema as servicePayUISchema,
   schema as servicePaySchema,
-} from '../pages/servicePay';
+} from './servicePay';
 
 import {
   uiSchema as waiveRetirementPayUISchema,
   schema as waiveRetirementPaySchema,
-} from '../pages/waiveRetirementPay';
+} from './waiveRetirementPay';
 
 import {
   uiSchema as militaryHistoryUISchema,
@@ -26,12 +26,12 @@ import {
 import {
   uiSchema as separationTrainingPayUISchema,
   schema as separationTrainingPaySchema,
-} from '../pages/separationTrainingPay';
+} from './separationTrainingPay';
 
 import {
   uiSchema as trainingPayWaiverUISchema,
   schema as trainingPayWaiverSchema,
-} from '../pages/trainingPayWaiver';
+} from './trainingPayWaiver';
 
 import {
   uiSchema as reservesNationalGuardUISchema,
@@ -109,6 +109,11 @@ import {
 } from './privateMedicalRecords';
 
 import {
+  uiSchema as privateMedicalRecordsReleaseUISchema,
+  schema as privateMedicalRecordsReleaseSchema,
+} from './privateMedicalRecordsRelease';
+
+import {
   uiSchema as additionalDocumentsUISchema,
   schema as additionalDocumentsSchema,
 } from './additionalDocuments';
@@ -162,6 +167,16 @@ import {
   uiSchema as unemployabilityFormIntroUISchema,
   schema as unemployabilityFormIntroSchema,
 } from './unemployabilityFormIntro';
+
+import {
+  uiSchema as conclusionCombatUISchema,
+  schema as conclusionCombatSchema,
+} from './conclusionCombat';
+
+import {
+  uiSchema as conclusionAssaultUISchema,
+  schema as conclusionAssaultSchema,
+} from './conclusionAssault';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -273,6 +288,11 @@ export const privateMedicalRecords = {
   schema: privateMedicalRecordsSchema,
 };
 
+export const privateMedicalRecordsRelease = {
+  uiSchema: privateMedicalRecordsReleaseUISchema,
+  schema: privateMedicalRecordsReleaseSchema,
+};
+
 export const additionalDocuments = {
   uiSchema: additionalDocumentsUISchema,
   schema: additionalDocumentsSchema,
@@ -326,4 +346,14 @@ export const unemployabilityStatus = {
 export const unemployabilityFormIntro = {
   uiSchema: unemployabilityFormIntroUISchema,
   schema: unemployabilityFormIntroSchema,
+};
+
+export const conclusionCombat = {
+  uiSchema: conclusionCombatUISchema,
+  schema: conclusionCombatSchema,
+};
+
+export const conclusionAssault = {
+  uiSchema: conclusionAssaultUISchema,
+  schema: conclusionAssaultSchema,
 };
