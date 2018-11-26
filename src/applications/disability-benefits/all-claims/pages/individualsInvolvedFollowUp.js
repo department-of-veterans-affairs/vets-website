@@ -14,7 +14,7 @@ export const uiSchema = index => ({
     personInvolved: {
       'ui:title': 'hey',
       'ui:options': {
-        itemName: 'Service Period',
+        itemName: 'Individual',
         viewField: ({ formData }) => <h5>hey</h5>,
       },
       items: {
@@ -65,6 +65,11 @@ export const uiSchema = index => ({
             expandUnderCondition: 'Other',
           },
         },
+        'view:msggg': {
+          'ui:title': ' ',
+          'ui:description':
+            'If anyone else was killed or injured in this event, you can add them now.',
+        },
       },
     },
   },
@@ -111,6 +116,10 @@ export const schema = index => ({
               },
               injuryDeathOther: {
                 type: 'string',
+              },
+              'view:msggg': {
+                type: 'object',
+                properties: {},
               },
             },
           },
