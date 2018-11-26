@@ -73,9 +73,8 @@ describe('ConfirmationPoll', () => {
       successResponse,
       failureResponse,
     ]);
-    // TODO: Figure out why this is causing an error in the console even though the test passes
-    //  It may have something to do with unmounting the component before a `setState` goes through
-    mount(<ConfirmationPoll pollRate={10} />);
+
+    mount(<ConfirmationPoll {...defaultProps} pollRate={10} />);
     // Should stop after the first success
     setTimeout(() => {
       expect(global.fetch.callCount).to.equal(3);

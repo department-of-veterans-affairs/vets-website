@@ -77,6 +77,7 @@ export default class EducationWizard extends React.Component {
                       additionalFieldsetClass="wizard-fieldset"
                       name={type}
                       id={type}
+                      key={type}
                       options={options}
                       onValueChange={({ value }) =>
                         this.answerQuestion(type, value)

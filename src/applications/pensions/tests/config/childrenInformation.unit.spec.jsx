@@ -116,7 +116,7 @@ describe('Child information page', () => {
     const data = Object.assign({}, dependentData());
     data.dependents[0].childDateOfBirth = moment()
       .subtract(19, 'years')
-      .toString();
+      .toISOString();
 
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
@@ -139,7 +139,7 @@ describe('Child information page', () => {
     const data = Object.assign({}, dependentData());
     data.dependents[0].childDateOfBirth = moment()
       .subtract(19, 'years')
-      .toString();
+      .toISOString();
 
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(

@@ -15,7 +15,7 @@ function answerQuestion(tree, name, value) {
   getQuestion(tree, name).props.onValueChange({ value });
 }
 
-describe('<EducationWizard>', () => {
+describe.only('<EducationWizard>', () => {
   it('should show button and no questions', () => {
     const tree = SkinDeep.shallowRender(
       <EducationWizard
