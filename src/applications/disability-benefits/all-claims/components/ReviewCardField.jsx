@@ -18,6 +18,15 @@ import omit from '../../../../platform/utilities/data/omit';
  *
  * For use on a schema of type 'object' or 'array'.
  * Intended to wrap objects or arrays to avoid duplicate functionality here.
+ *
+ * ui:options available:
+ *   viewComponent - ReactNode that should be shown instead of edit fields
+ *                   It's passed the same formData the field is
+ *   startInEdit   - Either a function or a value that will be evaluated as truthy or not
+ *                   If a function is used, it's passed the formData and expects a boolean return value
+ *   volatileData  - If this is truthy, the component pattern changes slightly so only completely new
+ *                   data can be entered, but not edited.
+ *                   This is useful for bank account information.
  */
 export default class ReviewCardField extends React.Component {
   static defaultProps = {
@@ -53,9 +62,22 @@ export default class ReviewCardField extends React.Component {
       );
     }
 
+    const invalidInitialData = !errorSchemaIsValid(props.errorSchema);
+    const startInEditConfigOption = get(
+      'ui:options.startInEdit',
+      this.props.uiSchema,
+      false,
+    );
+
+    // There are times when the data isn't invalid, but we want to start in edit mode anyhow
+    let shouldStartInEdit = startInEditConfigOption;
+    if (typeof startInEditConfigOption === 'function') {
+      shouldStartInEdit = startInEditConfigOption(this.props.formData);
+    }
+
     this.state = {
       // Set initial state based on whether all the data is valid
-      editing: !errorSchemaIsValid(props.errorSchema),
+      editing: invalidInitialData || shouldStartInEdit,
     };
   }
 
