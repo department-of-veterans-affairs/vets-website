@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 
 require('isomorphic-fetch');
-const buckets = require('../../constants/buckets');
+const buckets = require('../../../constants/buckets');
 
 function downloadAssets(buildOptions) {
   return async (files, smith, done) => {
