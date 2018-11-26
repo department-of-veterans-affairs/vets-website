@@ -15,7 +15,6 @@ export default function SubmitSignInForm({ children, startSentence }) {
       >
         {startSentence ? 'Submit' : 'submit'} a request to get help signing in
       </a>
-      .
     </span>
   );
 }
