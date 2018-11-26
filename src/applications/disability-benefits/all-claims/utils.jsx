@@ -410,8 +410,11 @@ export const needsToEnter781a = formData =>
   _.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false) ||
   _.get('view:selectablePtsdTypes.view:assaultPtsdType', formData, false);
 
-export const isUploadingPtsdForm = formData =>
-  _.get('view:uploadPtsdChoice', formData, '') === 'upload';
+export const isUploading781Form = formData =>
+  _.get('view:upload781Choice', formData, '') === 'upload';
+
+export const isUploading781aForm = formData =>
+  _.get('view:upload781aChoice', formData, '') === 'upload';
 
 export const getHomelessOrAtRisk = formData => {
   const homelessStatus = _.get('homelessOrAtRisk', formData, '');
