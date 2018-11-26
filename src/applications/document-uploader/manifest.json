@@ -1,0 +1,8 @@
+{
+  "appName": "Document Uploader",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "document-uploader",
+  "rootUrl": "/document-uploader",
+  "contentPage": "document-uploader",
+  "production": false
+}
