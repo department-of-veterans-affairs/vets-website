@@ -500,7 +500,7 @@ describe('isAnswering781Questions', () => {
       'view:uploadPtsdChoice': 'answerQuestions',
       'view:doneEnteringIncidents': true,
     };
-    expect(isAnswering781Questions({ formData })).to.be.false;
+    expect(isAnswering781Questions(formData)).to.be.false;
   });
 });
 describe('isAnswering781aQuestions', () => {
@@ -519,8 +519,8 @@ describe('isAnswering781aQuestions', () => {
         'view:assaultPtsdType': true,
       },
       'view:uploadPtsdChoice': 'answerQuestions',
-      'view:doneEnteringIncidents': true,
+      'view:doneEnteringSecondaryIncidents': true,
     };
-    expect(isAnswering781aQuestions({ formData })).to.be.false;
+    expect(isAnswering781aQuestions(formData)).to.be.false;
   });
 });
