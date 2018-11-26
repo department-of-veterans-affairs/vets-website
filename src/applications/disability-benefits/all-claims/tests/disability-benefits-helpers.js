@@ -122,45 +122,43 @@ function completePowStatus(client, data) {
   client.selectYesNo('root_view:powStatus', powStatus);
 }
 
-function completeEvidenceTypeInformation(client, data) {
-  const evidenceTypes = data.disabilities[0]['view:selectableEvidenceTypes'];
+function completeEvidenceTypes(client, data) {
+  const hasEvidence = data['view:hasEvidence'];
+  const evidenceTypes =
+    data['view:hasEvidenceFollowUp']['view:selectableEvidenceTypes'];
 
   client
+    .selectYesNo('root_view:hasEvidence', hasEvidence)
     // .fillCheckbox(
-    //   'input[name="root_view:selectableEvidenceTypes_view:vaMedicalRecords"]',
+    //   'input[name="root_view:hasEvidenceFollowUp_view:selectableEvidenceTypes_view:hasVAMedicalRecords"]',
     //   evidenceTypes['view:vaMedicalRecords'],
     // )
     .fillCheckbox(
-      'input[name="root_view:selectableEvidenceTypes_view:privateMedicalRecords"]',
+      'input[name="root_view:hasEvidenceFollowUp_view:selectableEvidenceTypes_view:hasPrivateMedicalRecords"]',
       evidenceTypes['view:privateMedicalRecords'],
     );
   // .fillCheckbox(
-  //   'input[name="root_view:selectableEvidenceTypes_view:otherEvidence"]',
+  //   'input[name="root_view:hasEvidenceFollowUp_view:selectableEvidenceTypes_view:hasOtherEvidence"]',
   //   evidenceTypes['view:otherEvidence'],
   // );
 }
 
 function completePrivateMedicalRecordsChoice(client, data) {
-  const pmrChoice = data.disabilities[0]['view:uploadPrivateRecords'];
-  const acknowledgementChoice =
-    data.disabilities[0]['view:patientAcknowledgement'];
+  const pmrChoice =
+    data['view:uploadPrivateRecordsQualifier'][
+      'view:hasPrivateMedicalRecordsToUpload'
+    ];
 
-  client
-    .selectRadio('root_view:uploadPrivateRecords', pmrChoice)
-    .fillCheckbox(
-      'input[name="root_view:patientAcknowledgement_view:acknowledgement"]',
-      acknowledgementChoice['view:acknowledgement'],
-    )
-    .fillCheckbox(
-      'input[name="root_view:patientAcknowledgement_view:acknowledgement"]',
-      acknowledgementChoice['view:acknowledgement'],
-    );
+  client.selectYesNo(
+    'root_view:uploadPrivateRecordsQualifier_view:hasPrivateRecordsToUpload',
+    pmrChoice,
+  );
 }
 
 function completeRecordReleaseInformation(client, data) {
-  const providerFacilities = data.disabilities[0].providerFacility;
-  const limitedConsentChoice = data.disabilities[0]['view:limitedConsent'];
-  const { limitedConsent } = data.disabilities[0];
+  const providerFacilities = data.providerFacility;
+  const limitedConsentChoice = data['view:limitedConsent'];
+  const { limitedConsent } = data;
 
   providerFacilities.forEach((facility, i, list) => {
     client
@@ -466,7 +464,7 @@ module.exports = {
   completeAddDisability,
   completeUnemployabilityStatus,
   completePowStatus,
-  completeEvidenceTypeInformation,
+  completeEvidenceTypes,
   completeVAFacilitiesInformation,
   completeRecordReleaseInformation,
   completePrivateMedicalRecordsChoice,

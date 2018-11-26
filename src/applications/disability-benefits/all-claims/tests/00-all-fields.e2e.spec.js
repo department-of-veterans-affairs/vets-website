@@ -75,13 +75,13 @@ const runTest = E2eHelpers.createE2eTest(client => {
 
   // Disabilities
   // Orientation
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/disabilities/orientation');
 
   // Rated Disability Selection
   client.axeCheck('.main');
   PageHelpers.selectDisabilities(client); // Just selects the first one
-  client.click('.form-panel .usa-button-primary');
+  client.click('.form-progress-buttons .usa-button-primary');
 
   // New Disability
   client.axeCheck('.main').click('.form-panel .usa-button-primary');
@@ -109,62 +109,51 @@ const runTest = E2eHelpers.createE2eTest(client => {
   E2eHelpers.expectNavigateAwayFrom(client, '/pow');
 
   // Summary of Disabilities
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/disabilities/summary');
 
   // Supporting Evidence
   // Orientation
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/orientation');
 
-  // Evidence Type
+  // Evidence Types
   client.axeCheck('.main');
-  E2eHelpers.expectLocation(client, '/supporting-evidence/0/evidence-type');
-  PageHelpers.completeEvidenceTypeInformation(client, testData.data);
-  client.click('.form-panel .usa-button-primary');
+  PageHelpers.completeEvidenceTypes(client, testData.data);
+  client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
-    '/supporting-evidence/0/evidence-type',
+    '/supporting-evidence/evidence-types',
   );
 
-  // Private Medical Records
-  // Intro
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFromExact(
-    client,
-    '/supporting-evidence/0/private-medical-records',
-  );
-
-  // Patient Acknowledgement
+  // Private Medical Records Choice
   client.axeCheck('.main');
   PageHelpers.completePrivateMedicalRecordsChoice(client, testData.data);
-  client.click('.form-panel .usa-button-primary');
+  client
+    .click('.form-progress-buttons .usa-button-primary')
+    .click('.form-progress-buttons .usa-button-primary'); // I have to click the button twice. Unsure why.
   E2eHelpers.expectNavigateAwayFromExact(
     client,
-    '/supporting-evidence/0/private-medical-records',
+    '/supporting-evidence/private-medical-records',
   );
 
-  // Release
+  // Private Medical Records Release
   E2eHelpers.expectLocation(
     client,
-    '/supporting-evidence/0/private-medical-records-release',
+    '/supporting-evidence/private-medical-records-release',
   );
   client.axeCheck('.main');
   PageHelpers.completeRecordReleaseInformation(client, testData.data);
-  client.click('.form-panel .usa-button-primary');
+  client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
-    '/supporting-evidence/0/private-medical-records-release',
+    '/supporting-evidence/private-medical-records-release',
   );
 
   // Evidence Summary
-  E2eHelpers.expectLocation(client, '/supporting-evidence/0/evidence-summary');
-  client.axeCheck('.main');
-  client.click('.form-panel .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(
-    client,
-    '/supporting-evidence/0/evidence-summary',
-  );
+  E2eHelpers.expectLocation(client, '/supporting-evidence/summary');
+  client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
+  E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/summary');
 
   // Possibly Used outside of 4142
   // Veteran Address Information
