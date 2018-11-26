@@ -13,7 +13,7 @@ export const uiSchema = {
   'ui:description': ({ formData }) => (
     <UploadPtsdDescription formData={formData} formType="781" />
   ),
-  'view:uploadPtsdChoice': {
+  'view:upload781Choice': {
     'ui:title': ' ',
     'ui:widget': 'radio',
     'ui:options': {
@@ -25,7 +25,7 @@ export const uiSchema = {
       },
     },
   },
-  'view:uploadPtsdChoiceHelp': {
+  'view:upload781ChoiceHelp': {
     'ui:description': <PtsdUploadChoiceDescription formType="781" />,
   },
 };
@@ -33,11 +33,11 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:uploadPtsdChoice': {
+    'view:upload781Choice': {
       type: 'string',
       enum: ['answerQuestions', 'upload'],
     },
-    'view:uploadPtsdChoiceHelp': {
+    'view:upload781ChoiceHelp': {
       type: 'object',
       properties: {},
     },
