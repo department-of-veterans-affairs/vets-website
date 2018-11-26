@@ -1,8 +1,8 @@
-import App from './containers/App';
+import DocumentUploaderApp from './containers/DocumentUploaderApp';
 
 const routes = {
   path: '/',
-  component: App,
+  component: DocumentUploaderApp,
 };
 
 export default routes;
