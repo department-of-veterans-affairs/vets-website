@@ -15,9 +15,10 @@ import {
   servedAfter911,
   needsToEnter781,
   needsToEnter781a,
-  isUploadingPtsdForm,
   isAnswering781Questions,
   isAnswering781aQuestions,
+  isUploading781Form,
+  isUploading781aForm,
   transformRelatedDisabilities,
 } from '../utils.jsx';
 
@@ -396,7 +397,7 @@ describe('526 helpers', () => {
 
     it('should return false if user has not selected Combat or Non-Combat PTSD types', () => {
       const formData = {};
-      expect(needsToEnter781({ formData })).to.be.false;
+      expect(needsToEnter781(formData)).to.be.false;
     });
   });
 
@@ -421,70 +422,67 @@ describe('526 helpers', () => {
 
     it('should return false if user has not selected Assault or MST PTSD types', () => {
       const formData = {};
-      expect(needsToEnter781a({ formData })).to.be.false;
+      expect(needsToEnter781a(formData)).to.be.false;
     });
   });
 
-  describe('isUploadingPtsdForm', () => {
-    it('should return true if user has chosen to upload documents', () => {
+  describe('isUploading781Form', () => {
+    it('should return true if user has chosen to upload 781', () => {
       const formData = {
-        'view:uploadPtsdChoice': 'upload',
+        'view:upload781Choice': 'upload',
       };
-      expect(isUploadingPtsdForm(formData)).to.be.true;
+      expect(isUploading781Form(formData)).to.be.true;
     });
 
-    it('should return false if user has not chosen to upload documents', () => {
+    it('should return false if user has not chosen to upload 781', () => {
       const formData = {};
-      expect(needsToEnter781(formData)).to.be.false;
+      expect(isUploading781Form(formData)).to.be.false;
     });
   });
 
-  describe('isAnswering781Questions', () => {
-    it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
+  describe('isUploading781aForm', () => {
+    it('should return true if user has chosen to upload 781a', () => {
       const formData = {
-        'view:selectablePtsdTypes': {
-          'view:combatPtsdType': true,
-        },
-        'view:uploadPtsdChoice': 'answerQuestions',
+        'view:upload781aChoice': 'upload',
       };
-      expect(isAnswering781Questions(formData)).to.be.true;
+      expect(isUploading781aForm(formData)).to.be.true;
     });
 
-    it('should return false if user has chosen not to enter another incident', () => {
-      const formData = {
-        'view:selectablePtsdTypes': {
-          'view:combatPtsdType': true,
-        },
-        'view:uploadPtsdChoice': 'answerQuestions',
-        doneEnteringIncidents: true,
-      };
-      expect(isAnswering781Questions({ formData })).to.be.false;
+    it('should return false if user has not chosen to upload 781a', () => {
+      const formData = {};
+      expect(isUploading781aForm(formData)).to.be.false;
     });
   });
 
-  describe('isAnswering781aQuestions', () => {
-    it('should return true if user has chosen to answer questions for a 781a PTSD incident', () => {
-      const formData = {
-        'view:selectablePtsdTypes': {
-          'view:assaultPtsdType': true,
-        },
-        'view:uploadPtsdChoice': 'answerQuestions',
+  describe('transformRelatedDisabilities', () => {
+    it('should return an array of strings', () => {
+      const claimedConditions = [
+        'some condition name',
+        'another condition name',
+      ];
+      const treatedDisabilityNames = {
+        'Some condition name': true,
+        'Another condition name': true,
+        'This condition is falsey!': false,
       };
-      expect(isAnswering781aQuestions(formData)).to.be.true;
+      expect(
+        transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
+      ).to.eql(['some condition name', 'another condition name']);
     });
-
-    it('should return false if user has chosen not to enter another incident', () => {
-      const formData = {
-        'view:selectablePtsdTypes': {
-          'view:assaultPtsdType': true,
-        },
-        'view:uploadPtsdChoice': 'answerQuestions',
-        doneEnteringIncidents: true,
+    it('should not add conditions if they are not claimed', () => {
+      const claimedConditions = ['some condition name'];
+      const treatedDisabilityNames = {
+        'Some condition name': true,
+        'Another condition name': true,
+        'This condition is falsey!': false,
       };
-      expect(isAnswering781aQuestions({ formData })).to.be.false;
+      expect(
+        transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
+      ).to.eql(['some condition name']);
     });
   });
 });
+
 describe('isAnswering781Questions', () => {
   it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
     const formData = {
@@ -506,6 +504,7 @@ describe('isAnswering781Questions', () => {
     expect(isAnswering781Questions({ formData })).to.be.false;
   });
 });
+
 describe('isAnswering781aQuestions', () => {
   it('should return true if user has chosen to answer questions for a 781a PTSD incident', () => {
     const formData = {

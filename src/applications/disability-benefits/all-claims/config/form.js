@@ -1,8 +1,13 @@
 import environment from '../../../../platform/utilities/environment';
 
+import FormFooter from '../../../../platform/forms/components/FormFooter';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
+import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
+
 import {
   hasMilitaryRetiredPay,
   hasRatedDisabilities,
@@ -18,9 +23,12 @@ import {
   hasOtherEvidence,
   needsToEnter781,
   needsToEnter781a,
-  isUploadingPtsdForm,
+  isUploading781Form,
+  isUploading781aForm,
   servedAfter911,
   isNotUploadingPrivateMedical,
+  showPtsdCombatConclusion,
+  showPtsdAssaultConclusion,
   transform,
 } from '../utils';
 
@@ -47,6 +55,8 @@ import {
   ptsdWalkthroughChoice781,
   uploadPtsdDocuments,
   ptsdWalkthroughChoice781a,
+  conclusionCombat,
+  conclusionAssault,
   uploadPersonalPtsdDocuments,
   summaryOfDisabilities,
   vaMedicalRecords,
@@ -64,13 +74,13 @@ import {
   unemployabilityFormIntro,
 } from '../pages';
 
-import { formConfig781, formConfig781a } from './781';
+import { createFormConfig781, createFormConfig781a } from './781';
 
-import { PTSD } from '../constants';
+import { PTSD, PTSD_INCIDENT_ITERATION } from '../constants';
 
 import fullSchema from './schema';
 
-const formConfig = {
+const createFormConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
@@ -90,8 +100,9 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPoll,
-  // footerContent: FormFooter,
-  // getHelp: GetFormHelp,
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
@@ -240,14 +251,14 @@ const formConfig = {
           uiSchema: ptsdWalkthroughChoice781.uiSchema,
           schema: ptsdWalkthroughChoice781.schema,
         },
-        ...formConfig781(3),
+        ...createFormConfig781(PTSD_INCIDENT_ITERATION),
         uploadPtsdDocuments781: {
           title: 'Upload PTSD Documents - 781',
           path: 'new-disabilities/ptsd-781-upload',
           depends: formData =>
             hasNewPtsdDisability(formData) &&
             needsToEnter781(formData) &&
-            isUploadingPtsdForm(formData),
+            isUploading781Form(formData),
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
         },
@@ -259,16 +270,30 @@ const formConfig = {
           uiSchema: ptsdWalkthroughChoice781a.uiSchema,
           schema: ptsdWalkthroughChoice781a.schema,
         },
-        ...formConfig781a(3),
+        ...createFormConfig781a(PTSD_INCIDENT_ITERATION),
         uploadPtsdDocuments781a: {
           title: 'Upload PTSD Documents - 781a',
           path: 'new-disabilities/ptsd-781a-upload',
           depends: formData =>
             hasNewPtsdDisability(formData) &&
             needsToEnter781a(formData) &&
-            isUploadingPtsdForm(formData),
+            isUploading781aForm(formData),
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
+        },
+        conclusionCombat: {
+          path: 'conclusion-781',
+          title: 'Disabiity Details',
+          depends: showPtsdCombatConclusion,
+          uiSchema: conclusionCombat.uiSchema,
+          schema: conclusionCombat.schema,
+        },
+        conclusionAssault: {
+          path: 'conclusion-781a',
+          title: 'Disabiity Details',
+          depends: showPtsdAssaultConclusion,
+          uiSchema: conclusionAssault.uiSchema,
+          schema: conclusionAssault.schema,
         },
         unemployabilityStatus: {
           title: 'Unemployability Status',
@@ -413,4 +438,4 @@ const formConfig = {
   },
 };
 
-export default formConfig;
+export default createFormConfig;
