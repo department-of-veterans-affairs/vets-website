@@ -2,6 +2,7 @@ import {
   incidentDate,
   secondaryIncidentDate,
   individualsInvolved,
+  individualsInvolvedFollowUp,
   ptsdAdditionalEvents,
   ptsdSecondaryAdditionalEvents,
 } from '../../pages';
@@ -35,11 +36,18 @@ export function createFormConfig781(iterations) {
         schema: incidentDate.schema(index),
       },
       [`individualsInvolved${index}`]: {
-        title: `${numberToWords[index]} 781 PTSD Individuals Involved`,
+        title: `${numberToWords[index]} 781 PTSD Individuals Involved yes/no`,
         path: `disabilities/ptsd-individuals-involved-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: individualsInvolved.uiSchema(index),
         schema: individualsInvolved.schema(index),
+      },
+      [`individualsInvolvedFollowUp${index}`]: {
+        title: `${numberToWords[index]} 781 PTSD Individuals Involved`,
+        path: `disabilities/ptsd-individuals-involved-questions-${index}`,
+        depends: isAnswering781Questions(index),
+        uiSchema: individualsInvolvedFollowUp.uiSchema(index),
+        schema: individualsInvolvedFollowUp.schema(index),
       },
       [`ptsdAdditionalEvents${index}`]: {
         title: `${numberToWords[index]} 781 PTSD Additional events.`,

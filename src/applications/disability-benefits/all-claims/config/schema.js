@@ -520,6 +520,20 @@ const schema = {
       },
       required: ['from', 'to'],
     },
+    fullName: {
+      type: 'object',
+      properties: {
+        first: {
+          type: 'string',
+        },
+        last: {
+          type: 'string',
+        },
+        middle: {
+          type: 'string',
+        },
+      },
+    },
     dateRangeFromRequired: {
       type: 'object',
       properties: {

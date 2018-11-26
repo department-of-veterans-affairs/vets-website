@@ -89,6 +89,11 @@ import {
 } from './individualsInvolved';
 
 import {
+  uiSchema as individualsInvolvedFollowUpUISchema,
+  schema as individualsInvolvedFollowUpSchema,
+} from './individualsInvolvedFollowUp';
+
+import {
   uiSchema as ptsdAdditionalEventsUISchema,
   schema as ptsdAdditionalEventsSchema,
 } from './ptsdAdditionalEvents';
@@ -291,6 +296,11 @@ export const incidentDate = {
 export const individualsInvolved = {
   uiSchema: individualsInvolvedUISchema,
   schema: individualsInvolvedSchema,
+};
+
+export const individualsInvolvedFollowUp = {
+  uiSchema: individualsInvolvedFollowUpUISchema,
+  schema: individualsInvolvedFollowUpSchema,
 };
 
 export const ptsdAdditionalEvents = {
