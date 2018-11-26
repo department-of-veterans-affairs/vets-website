@@ -267,8 +267,7 @@ const createFormConfig = {
         additionalRemarks781: {
           title: 'Additional Remarks - 781',
           path: 'new-disabilities/additional-remarks-781',
-          depends: formData =>
-            needsToEnter781(formData) && isAnsweringPtsdForm(formData),
+          depends: formData => isAnsweringPtsdForm(formData),
           uiSchema: additionalRemarks781.uiSchema,
           schema: additionalRemarks781.schema,
         },
