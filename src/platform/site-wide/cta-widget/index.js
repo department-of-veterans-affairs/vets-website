@@ -5,7 +5,8 @@ import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import CallHelpDesk from '../../brand-consolidation/components/CallHelpDesk';
+import CallVBACenter from '../../brand-consolidation/components/CallVBACenter';
+import SubmitSignInForm from '../../brand-consolidation/components/SubmitSignInForm';
 
 import { toggleLoginModal } from '../user-nav/actions';
 import { verify } from '../../user/authentication/utilities';
@@ -149,13 +150,13 @@ export class CallToActionWidget extends React.Component {
             <h5>What you can do</h5>
             <p>
               You can try again later or{' '}
-              <CallHelpDesk>
+              <CallVBACenter>
                 call the VA.gov Help Desk at{' '}
                 <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
                 <a href="tel:18008778339">1-800-877-8339</a>
                 ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
                 (ET).
-              </CallHelpDesk>
+              </CallVBACenter>
             </p>
           </div>
         ),
@@ -201,13 +202,13 @@ export class CallToActionWidget extends React.Component {
               <h5>What you can do</h5>
               <p>
                 If you feel you’ve entered your information correctly, please{' '}
-                <CallHelpDesk>
+                <SubmitSignInForm>
                   call the VA.gov Help Desk at{' '}
                   <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
                   <a href="tel:18008778339">1-800-877-8339</a>
                   ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
                   (ET).
-                </CallHelpDesk>
+                </SubmitSignInForm>
               </p>
             </div>
           ),
@@ -226,13 +227,13 @@ export class CallToActionWidget extends React.Component {
               <h5>What you can do</h5>
               <p>
                 If you feel you’ve entered your information correctly, please{' '}
-                <CallHelpDesk>
+                <SubmitSignInForm>
                   call the VA.gov Help Desk at{' '}
                   <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
                   <a href="tel:18008778339">1-800-877-8339</a>
                   ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
                   (ET).
-                </CallHelpDesk>
+                </SubmitSignInForm>
               </p>
             </div>
           ),
@@ -248,13 +249,13 @@ export class CallToActionWidget extends React.Component {
               <h5>What you can do</h5>
               <p>
                 Please{' '}
-                <CallHelpDesk>
+                <SubmitSignInForm>
                   call the VA.gov Help Desk at{' '}
                   <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
                   <a href="tel:18008778339">1-800-877-8339</a>
                   ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
                   (ET).
-                </CallHelpDesk>
+                </SubmitSignInForm>
               </p>
             </div>
           ),
@@ -295,13 +296,13 @@ export class CallToActionWidget extends React.Component {
               </p>
               <p>
                 You can try again later or{' '}
-                <CallHelpDesk>
+                <CallVBACenter>
                   call the VA.gov Help Desk at{' '}
                   <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
                   <a href="tel:18008778339">1-800-877-8339</a>
                   ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
                   (ET).
-                </CallHelpDesk>
+                </CallVBACenter>
               </p>
             </div>
           ),
@@ -321,13 +322,13 @@ export class CallToActionWidget extends React.Component {
               <h5>What you can do</h5>
               <p>
                 If you feel you’ve entered your information correctly, please{' '}
-                <CallHelpDesk>
+                <SubmitSignInForm>
                   call the VA.gov Help Desk at{' '}
                   <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
                   <a href="tel:18008778339">1-800-877-8339</a>
                   ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
                   (ET).
-                </CallHelpDesk>
+                </SubmitSignInForm>
               </p>
             </div>
           ),
@@ -414,9 +415,13 @@ export class CallToActionWidget extends React.Component {
   };
 
   render() {
+    const { setFocus } = this.props;
     if (this.props.profile.loading || this.props.mhvAccount.loading) {
       return (
-        <LoadingIndicator setFocus message="Loading your information..." />
+        <LoadingIndicator
+          setFocus={setFocus}
+          message="Loading your information..."
+        />
       );
     }
 
@@ -439,6 +444,9 @@ export class CallToActionWidget extends React.Component {
     );
   }
 }
+CallToActionWidget.defaultProps = {
+  setFocus: true,
+};
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);

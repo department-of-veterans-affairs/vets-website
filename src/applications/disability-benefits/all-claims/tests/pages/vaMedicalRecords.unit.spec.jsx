@@ -34,7 +34,7 @@ describe('VA Medical Records', () => {
     );
 
     expect(form.find('input').length).to.equal(6);
-    expect(form.find('select').length).to.equal(6);
+    expect(form.find('select').length).to.equal(4);
   });
 
   it('should not submit without all required info', () => {
@@ -89,7 +89,7 @@ describe('VA Medical Records', () => {
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
-              relatedDisabilities: {
+              treatedDisabilityNames: {
                 'Diabetes Melitus': true,
               },
               treatmentDateRange: {
@@ -135,7 +135,7 @@ describe('VA Medical Records', () => {
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
-              relatedDisabilities: {
+              treatedDisabilityNames: {
                 'Diabetes Melitus': true,
               },
               treatmentDateRange: {
@@ -181,7 +181,7 @@ describe('VA Medical Records', () => {
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
-              relatedDisabilities: {
+              treatedDisabilityNames: {
                 'Diabetes Melitus': true,
               },
               treatmentDateRange: {

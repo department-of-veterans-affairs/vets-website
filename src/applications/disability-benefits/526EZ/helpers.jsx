@@ -103,29 +103,6 @@ export const getReservesGuardData = formData => {
 };
 
 /**
- * Converts the treatment date range into an array of objects from just an object
- * @param {object} treatmentDateRange object containing from/to date range
- * @returns {array} of treatmentDateRange's
- */
-const transformDateRange = treatmentDateRange => [treatmentDateRange];
-
-/**
- * Cycles through the list of provider facilities and performs transformations on each property as needed
- * @param {array} providerFacility array of objects being transformed
- * @returns {object} containing the new Provider Facility structure
- */
-const transformProviderFacilities = providerFacilities => {
-  const newProviderFacilities = providerFacilities.map(facility =>
-    set(
-      'treatmentDateRange',
-      transformDateRange(facility.treatmentDateRange),
-      facility,
-    ),
-  );
-  return newProviderFacilities;
-};
-
-/**
  * If any limited consent text is populated, collect it.
  */
 export function gatherLimitedConsentText(disabilities) {
@@ -156,38 +133,32 @@ export function transform(formConfig, form) {
     ? { servicePeriods, reservesNationalGuardService }
     : { servicePeriods };
 
+  const selectedDisabilities = disabilities.filter(
+    disability => disability['view:selected'],
+  );
+
   const additionalDocuments = aggregate(
-    disabilities,
+    selectedDisabilities,
     'additionalDocuments',
     'view:selectableEvidenceTypes.view:otherEvidence',
   );
   const privateRecords = aggregate(
-    disabilities,
+    selectedDisabilities,
     'privateRecords',
     'view:selectableEvidenceTypes.view:privateMedicalRecords',
   );
   const treatments = aggregate(
-    disabilities,
+    selectedDisabilities,
     'treatments',
     'view:selectableEvidenceTypes.view:vaMedicalRecords',
   );
 
   const attachments = additionalDocuments.concat(privateRecords);
 
-  const providerFacilities = disabilities
-    .filter(
-      disability =>
-        disability['view:selected'] === true && disability.providerFacility,
-    )
-    .reduce(
-      (accumulator, item) => accumulator.concat(item.providerFacility),
-      [],
-    );
-
   const transformedData = {
-    disabilities: disabilities
-      .filter(disability => disability['view:selected'] === true)
-      .map(filtered => pick(filtered, disabilityProperties)),
+    disabilities: selectedDisabilities.map(filtered =>
+      pick(filtered, disabilityProperties),
+    ),
     // Pull phone & email out of phoneEmailCard and into veteran property
     veteran: setPhoneEmailPaths(veteran),
     privacyAgreementAccepted,
@@ -197,10 +168,6 @@ export function transform(formConfig, form) {
     // if there is at least one treatment to send
     ...(treatments.length && { treatments }),
     ...(attachments.length && { attachments }),
-    form4142: {
-      limitedConsent: gatherLimitedConsentText(disabilities),
-      providerFacility: transformProviderFacilities(providerFacilities),
-    },
   };
 
   const withoutViewFields = filterViewFields(transformedData);
@@ -423,24 +390,6 @@ export const download4142Notice = (
   </div>
 );
 
-export const authorizationToDisclose = (
-  <div>
-    <p>
-      Since your medical records are with your doctor, you’ll need to fill out
-      an Authorization to Disclose Information to the VA (VA Form 21-4142) so we
-      can request your records. You’ll need to fill out a form for each doctor.
-    </p>
-    <p>
-      <a href={VA_FORM4142_URL} target="_blank">
-        Download VA Form 21-4142
-      </a>
-      .
-    </p>
-    <p>Please print the form, fill it out, and send it to:</p>
-    {claimsIntakeAddress}
-  </div>
-);
-
 export const recordReleaseWarning = (
   <div className="usa-alert usa-alert-warning background-color-only">
     <span>
@@ -508,12 +457,7 @@ const listDocuments = documents => (
 );
 
 export const evidenceSummaryView = ({ formContext, formData }) => {
-  const {
-    treatments,
-    providerFacility,
-    privateRecords,
-    additionalDocuments,
-  } = formData;
+  const { treatments, privateRecords, additionalDocuments } = formData;
 
   const {
     'view:selectableEvidenceTypes': {
@@ -521,6 +465,7 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
       'view:privateMedicalRecords': privateRecordsSelected,
       'view:otherEvidence': otherEvidenceSelected,
     },
+    'view:uploadPrivateRecords': uploadPrivateRecords,
   } = formData;
 
   return (
@@ -539,18 +484,21 @@ export const evidenceSummaryView = ({ formContext, formData }) => {
               We’ll get your medical records from {listCenters(treatments)}.
             </li>
           )}
-        {providerFacility &&
-          privateRecordsSelected && (
-            <li>
-              We’ll get your private medical records from{' '}
-              {listCenters(providerFacility)}.
-            </li>
-          )}
         {privateRecords &&
-          privateRecordsSelected && (
+          privateRecordsSelected &&
+          uploadPrivateRecords === 'yes' && (
             <li>
               We have received the private medical records you uploaded:
               {listDocuments(privateRecords)}
+            </li>
+          )}
+        {privateRecordsSelected &&
+          uploadPrivateRecords === 'no' && (
+            <li>
+              You asked us to get your private medical records from your doctor,
+              so you’ll need to fill out an Authorization to Disclose
+              Information to the VA (VA Form 21-4142). We’ll provide a link to
+              the 21-4142 after you submit your form.
             </li>
           )}
         {additionalDocuments &&
@@ -676,23 +624,6 @@ export const VerifiedAlert = (
       </div>
     </div>
     <br />
-  </div>
-);
-
-export const GetFormHelp = () => (
-  <div>
-    <p className="help-talk">For help filling out this form, please call:</p>
-    <p className="help-phone-number">
-      <a className="help-phone-number-link" href="tel:+1-877-222-8387">
-        1-877-222-VETS
-      </a>{' '}
-      (
-      <a className="help-phone-number-link" href="tel:+1-877-222-8387">
-        1-877-222-8387
-      </a>
-      )<br />
-      Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
-    </p>
   </div>
 );
 

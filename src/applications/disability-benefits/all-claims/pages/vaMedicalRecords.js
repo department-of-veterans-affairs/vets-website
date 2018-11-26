@@ -1,7 +1,7 @@
 import merge from 'lodash/merge';
 import fullSchema from '../config/schema';
 import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
-import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
+import dateRangeUI from 'us-forms-system/lib/js/definitions/monthYearRange';
 import { treatmentView } from '../content/vaMedicalRecords';
 import { queryForFacilities, addCheckboxPerDisability } from '../utils';
 import {
@@ -29,7 +29,7 @@ export const uiSchema = {
     items: {
       'ui:order': [
         'treatmentCenterName',
-        'relatedDisabilities',
+        'treatedDisabilityNames',
         'treatmentDateRange',
         'treatmentCenterAddress',
       ],
@@ -44,7 +44,7 @@ export const uiSchema = {
           },
         },
       ),
-      relatedDisabilities: {
+      treatedDisabilityNames: {
         'ui:title':
           'Please choose the conditions for which you received treatment at this facility.',
         'ui:options': {
@@ -58,8 +58,8 @@ export const uiSchema = {
         },
       },
       treatmentDateRange: dateRangeUI(
-        'First date you received treatment for these conditions at this facility (this doesn’t have to be exact).',
-        'Last date you received treatment for these conditions at this facility (this doesn’t have to be exact).',
+        'When did you first visit this facility?',
+        'When was your most recent visit?',
         'Date of last treatment must be after date of first treatment',
       ),
       treatmentCenterAddress: {
@@ -93,9 +93,8 @@ export const schema = {
     },
     vaTreatmentFacilities: merge({}, vaTreatmentFacilities, {
       items: {
-        required: ['treatmentCenterName', 'relatedDisabilities'],
         properties: {
-          relatedDisabilities: {
+          treatedDisabilityNames: {
             type: 'object',
             properties: {},
           },
