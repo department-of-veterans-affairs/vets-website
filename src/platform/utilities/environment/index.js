@@ -1,3 +1,8 @@
+/*
+ * Information on the current environment.
+ * @module platform/utilities/environment
+ */
+
 const ENVIRONMENTS = require('../../../site/constants/environments');
 
 const RESERVED_E2E_PORT = process.env.WEB_PORT || 3333;
@@ -25,8 +30,8 @@ const ENVIRONMENT_CONFIGURATIONS = {
   },
 };
 
-const currentEnvironment = process.env.BUILDTYPE;
-const currentEnvironmentConfig = ENVIRONMENT_CONFIGURATIONS[currentEnvironment];
+const currentEnvironmentConfig =
+  ENVIRONMENT_CONFIGURATIONS[process.env.BUILDTYPE];
 
 if (location.port === RESERVED_E2E_PORT) {
   // E2E tests are an edge case - they test a certain build-type,
@@ -41,9 +46,53 @@ if (location.port === RESERVED_E2E_PORT) {
 }
 
 module.exports = {
-  ...currentEnvironmentConfig,
-  isProduction: () => currentEnvironment === ENVIRONMENTS.VAGOVPROD,
-  isStaging: () => currentEnvironment === ENVIRONMENTS.VAGOVSTAGING,
-  isDev: () => currentEnvironment === ENVIRONMENTS.VAGOVDEV,
-  isLocal: () => currentEnvironment === ENVIRONMENTS.LOCALHOST,
+  /**
+   * The name of the current environment.
+   * @type {string}
+   */
+  BUILDTYPE: process.env.BUILDTYPE,
+
+  /**
+   * The URL of which the FE of the website is currently executing.
+   * @type {string}
+   */
+  BASE_URL: currentEnvironmentConfig.BASE_URL,
+
+  /**
+   * The URL of which the API is currently executing.
+   * @type {string}
+   */
+  API_URL: currentEnvironmentConfig.API_URL,
+
+  /**
+   * Helper method for determining whether the current environment is considered a production environment.
+   * @returns {boolean}
+   */
+  isProduction() {
+    return this.BUILDTYPE === ENVIRONMENTS.VAGOVPROD;
+  },
+
+  /**
+   * Helper method for determining whether the current environment is considered a staging environment.
+   * @returns {boolean}
+   */
+  isStaging() {
+    return this.BUILDTYPE === ENVIRONMENTS.VAGOVSTAGING;
+  },
+
+  /**
+   * Helper method for determining whether the current environment is considered a dev environment.
+   * @returns {boolean}
+   */
+  isDev() {
+    return this.BUILDTYPE === ENVIRONMENTS.VAGOVDEV;
+  },
+
+  /**
+   * Helper method for determining whether the current environment is considered a local environment.
+   * @returns {boolean}
+   */
+  isLocal() {
+    return this.BUILDTYPE === ENVIRONMENTS.LOCALHOST;
+  },
 };
