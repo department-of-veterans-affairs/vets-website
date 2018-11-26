@@ -15,8 +15,8 @@ export const DocumentDescription = (
     </ul>
     <p>
       <em>
-        Large files can be more difficult to upload with a slow Internet
-        connection
+        A 1MB file equals about 500 pages of text. A photo is usually about 6MB.
+        Large files can take longer to upload with a slow Internet connection.
       </em>
     </p>
   </div>
