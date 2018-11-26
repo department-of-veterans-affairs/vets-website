@@ -1,4 +1,8 @@
-import { incidentDate, secondaryIncidentDate } from '../../pages';
+import {
+  incidentDate,
+  secondaryIncidentDate,
+  secondaryUploadSources,
+} from '../../pages';
 
 import { isAnswering781Questions, isAnswering781aQuestions } from '../../utils';
 
@@ -46,6 +50,14 @@ export function createFormConfig781a(iterations) {
         depends: isAnswering781aQuestions,
         uiSchema: secondaryIncidentDate.uiSchema(index),
         schema: secondaryIncidentDate.schema(index),
+      },
+      [`secondaryUploadSources${index}`]: {
+        title: `${numberToWords[index]} 781a PTSD Upload Supporting Sources`,
+        path: `disabilities/ptsd-secondary-upload-supporting-sources-${index}`,
+        // The Depends will need to be refactored to account for the page index/incident Number
+        depends: isAnswering781aQuestions,
+        uiSchema: secondaryUploadSources.uiSchema(index),
+        schema: secondaryUploadSources.schema(index),
       },
     };
   }
