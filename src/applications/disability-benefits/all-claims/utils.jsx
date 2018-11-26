@@ -3,10 +3,17 @@ import moment from 'moment';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
+import { omit } from 'lodash';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import { apiRequest } from '../../../platform/utilities/api';
 import _ from '../../../platform/utilities/data';
+import fullSchema from './config/schema';
 import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
+
+import {
+  schema as addressSchema,
+  uiSchema as addressUI,
+} from '../../../platform/forms/definitions/address';
 
 import {
   RESERVE_GUARD_TYPES,
@@ -343,6 +350,44 @@ export const bankFieldsHaveInput = formData =>
     'bankRoutingNumber',
     'bankName',
   ]);
+
+export function incidentLocationSchemas() {
+  const addressOmitions = [
+    'addressLine1',
+    'addressLine2',
+    'addressLine3',
+    'postalCode',
+    'zipCode',
+  ];
+
+  const addressSchemaConfig = addressSchema(fullSchema);
+  const addressUIConfig = omit(addressUI(' '), addressOmitions);
+
+  return {
+    addressUI: {
+      ...addressUIConfig,
+      state: {
+        ...addressUIConfig.state,
+        'ui:title': 'State/Province',
+      },
+      additionalDetails: {
+        'ui:title':
+          'Additional details (Include address, landmark, military installation, or other location.)',
+        'ui:widget': 'textarea',
+      },
+      'ui:order': ['country', 'state', 'city', 'additionalDetails'],
+    },
+    addressSchema: {
+      ...addressSchemaConfig,
+      properties: {
+        ...omit(addressSchemaConfig.properties, addressOmitions),
+        additionalDetails: {
+          type: 'string',
+        },
+      },
+    },
+  };
+}
 
 const post911Periods = createSelector(
   data => _.get('serviceInformation.servicePeriods', data, []),

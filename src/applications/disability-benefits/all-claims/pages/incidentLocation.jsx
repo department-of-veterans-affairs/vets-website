@@ -1,10 +1,7 @@
 import React from 'react';
 
 import { PtsdNameTitle } from '../content/ptsdClassification';
-import {
-  incidentLocationSchemas,
-  ptsdLocationDescription,
-} from '../content/incidentLocation';
+import { incidentLocationSchemas, ptsdLocationDescription } from '../utils';
 
 const { addressUI, addressSchema } = incidentLocationSchemas();
 
