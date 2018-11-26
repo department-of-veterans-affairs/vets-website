@@ -1,84 +1,78 @@
 import { expect } from 'chai';
 
-import { formConfig781, formConfig781a } from '../../config/781';
+import { createFormConfig781, createFormConfig781a } from '../../config/781';
+
+import { PTSD_INCIDENT_ITERATION } from '../../constants';
 
 describe('781/781a incident form config iterators', () => {
   describe('781 incident form config', () => {
     it('should return a config object', () => {
-      expect(formConfig781(1)).to.be.an('object');
+      expect(createFormConfig781(PTSD_INCIDENT_ITERATION)).to.be.an('object');
     });
 
     it('should return three incident date page config objects', () => {
-      const config = formConfig781(3);
+      const config = createFormConfig781(PTSD_INCIDENT_ITERATION);
 
-      expect(config).to.haveOwnProperty('incidentDate0');
-      expect(config).to.haveOwnProperty('incidentDate1');
-      expect(config).to.haveOwnProperty('incidentDate2');
+      const testMultipleIncidentDateProps = () => {
+        for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+          expect(config).to.haveOwnProperty(`incidentDate${i}`);
 
-      expect(config.incidentDate0).to.be.an('object');
-      expect(config.incidentDate1).to.be.an('object');
-      expect(config.incidentDate2).to.be.an('object');
+          expect(config[`incidentDate${i}`]).to.be.an('object');
+        }
+      };
+      testMultipleIncidentDateProps();
     });
     it('should contain three incident properties', () => {
-      const config = formConfig781(3);
-      expect(config.incidentDate0.schema.properties.incident0).to.be.an(
-        'object',
-      );
-      expect(config.incidentDate1.schema.properties.incident1).to.be.an(
-        'object',
-      );
-      expect(config.incidentDate2.schema.properties.incident2).to.be.an(
-        'object',
-      );
+      const config = createFormConfig781(PTSD_INCIDENT_ITERATION);
 
-      expect(
-        config.incidentDate0.schema.properties.incident0,
-      ).to.haveOwnProperty('type');
-      expect(
-        config.incidentDate1.schema.properties.incident1,
-      ).to.haveOwnProperty('type');
-      expect(
-        config.incidentDate2.schema.properties.incident2,
-      ).to.haveOwnProperty('type');
+      const testMultipleIncidentDateObjects = () => {
+        for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+          expect(
+            config[`incidentDate${i}`].schema.properties[`incident${i}`],
+          ).to.be.an('object');
+          expect(
+            config[`incidentDate${i}`].schema.properties[`incident${i}`],
+          ).to.haveOwnProperty('type');
+        }
+      };
+      testMultipleIncidentDateObjects();
     });
   });
   describe('781a incident form config', () => {
     it('should return a config object', () => {
-      expect(formConfig781a(1)).to.be.an('object');
+      expect(createFormConfig781a(PTSD_INCIDENT_ITERATION)).to.be.an('object');
     });
 
     it('should return three incident date page config objects', () => {
-      const config = formConfig781a(3);
+      const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
 
-      expect(config).to.haveOwnProperty('secondaryIncidentDate0');
-      expect(config).to.haveOwnProperty('secondaryIncidentDate1');
-      expect(config).to.haveOwnProperty('secondaryIncidentDate2');
+      const testMultipleIncidentDateProps = () => {
+        for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+          expect(config).to.haveOwnProperty(`secondaryIncidentDate${i}`);
 
-      expect(config.secondaryIncidentDate0).to.be.an('object');
-      expect(config.secondaryIncidentDate1).to.be.an('object');
-      expect(config.secondaryIncidentDate2).to.be.an('object');
+          expect(config[`secondaryIncidentDate${i}`]).to.be.an('object');
+        }
+      };
+      testMultipleIncidentDateProps();
     });
     it('should contain three incident properties', () => {
-      const config = formConfig781a(3);
-      expect(
-        config.secondaryIncidentDate0.schema.properties.secondaryIncident0,
-      ).to.be.an('object');
-      expect(
-        config.secondaryIncidentDate1.schema.properties.secondaryIncident1,
-      ).to.be.an('object');
-      expect(
-        config.secondaryIncidentDate2.schema.properties.secondaryIncident2,
-      ).to.be.an('object');
+      const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
 
-      expect(
-        config.secondaryIncidentDate0.schema.properties.secondaryIncident0,
-      ).to.haveOwnProperty('type');
-      expect(
-        config.secondaryIncidentDate1.schema.properties.secondaryIncident1,
-      ).to.haveOwnProperty('type');
-      expect(
-        config.secondaryIncidentDate2.schema.properties.secondaryIncident2,
-      ).to.haveOwnProperty('type');
+      const testMultipleIncidentDateObjects = () => {
+        for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+          expect(
+            config[`secondaryIncidentDate${i}`].schema.properties[
+              `secondaryIncident${i}`
+            ],
+          ).to.be.an('object');
+          expect(
+            config[`secondaryIncidentDate${i}`].schema.properties[
+              `secondaryIncident${i}`
+            ],
+          ).to.haveOwnProperty('type');
+        }
+      };
+      testMultipleIncidentDateObjects();
     });
   });
 });

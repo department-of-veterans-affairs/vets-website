@@ -20,7 +20,7 @@ const numberToWords = {
   9: 'Tenth',
 };
 
-export function formConfig781(iterations) {
+export function createFormConfig781(iterations) {
   let configObj = {};
   for (let index = 0; index < iterations; index++) {
     configObj = {
@@ -46,7 +46,7 @@ export function formConfig781(iterations) {
   return configObj;
 }
 
-export function formConfig781a(iterations) {
+export function createFormConfig781a(iterations) {
   let configObj = {};
   for (let index = 0; index < iterations; index++) {
     configObj = {
