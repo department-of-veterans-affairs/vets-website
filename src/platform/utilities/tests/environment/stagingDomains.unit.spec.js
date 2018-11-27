@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 
 import { replaceDomainsInData } from '../../environment/stagingDomains';
-import environment from '../../environment';
+import ENVIRONMENT from '../../../../site/constants/environments';
 
 let currentEnv = '';
-if (environment.isStaging()) {
+if (global.__BUILDTYPE__ === ENVIRONMENT.VAGOVSTAGING) {
   currentEnv = 'https://staging.va.gov';
 }
-if (environment.isProduction()) {
+if (global.__BUILDTYPE__ === ENVIRONMENT.VAGOVPROD) {
   currentEnv = 'https://www.va.gov';
 }
 
