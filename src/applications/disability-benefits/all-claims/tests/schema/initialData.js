@@ -59,4 +59,58 @@ export default {
       specialIssues: [],
     },
   ],
+  incident0: {
+    medalsCitations: 'Medal A',
+    incidentDate: '1992-01-01',
+    incidentLocation: 'Location',
+    incidentDescription: 'Incident description',
+    unitAssigned: 'Unit A',
+    unitAssignedDates: {
+      from: '1990-01-01',
+      to: '1999-01-01',
+    },
+    remarks: 'Remarks text',
+    personInvolved: [
+      {
+        first: 'John',
+        last: 'Doe',
+        rank: 'Private',
+        injuryDeath: 'Other',
+        injuryDeathOther: 'Other text',
+        injuryDeathDate: '1992-1-1',
+        unitAssigned: 'Unit A',
+      },
+      {
+        first: 'Jane',
+        last: 'Doe',
+      },
+    ],
+    source: [
+      {
+        name: 'Source Name',
+        address: {
+          country: 'USA',
+          city: 'Detroit',
+          state: 'MI',
+          zipCode: '234563453',
+          addressLine1: '234 Maple St.',
+        },
+      },
+    ],
+  },
+  incident1: {
+    incidentLocation: 'Location',
+  },
+  incident2: {
+    incidentLocation: 'Location',
+  },
+  secondaryIncident0: {
+    incidentLocation: 'Location',
+  },
+  secondaryIncident1: {
+    incidentLocation: 'Location',
+  },
+  secondaryIncident2: {
+    incidentLocation: 'Location',
+  },
 };

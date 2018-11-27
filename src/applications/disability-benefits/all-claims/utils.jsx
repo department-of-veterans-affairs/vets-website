@@ -15,6 +15,7 @@ import {
   DATA_PATHS,
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
+  PTSD_INCIDENT_ITERATION,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -191,6 +192,13 @@ export function transformProviderFacilities(providerFacilities) {
   }));
 }
 
+export function transformIncident(incident, personalAssault) {
+  return {
+    ...incident,
+    personalAssault,
+  };
+}
+
 export function transform(formConfig, form) {
   // Remove rated disabilities that weren't selected
   let clonedData = _.set(
@@ -263,6 +271,25 @@ export function transform(formConfig, form) {
 
     delete clonedData.limitedConsent;
     delete clonedData.providerFacility;
+  }
+
+  const incidents = [];
+  for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+    if (clonedData[`incident${i}`]) {
+      incidents.push(transformIncident(clonedData[`incident${i}`], false));
+      delete clonedData[`incident${i}`];
+    }
+    if (clonedData[`secondaryIncident${i}`]) {
+      incidents.push(
+        transformIncident(clonedData[`secondaryIncident${i}`], true),
+      );
+      delete clonedData[`secondaryIncident${i}`];
+    }
+  }
+  if (incidents.length > 0) {
+    clonedData.form0781 = {
+      incident: incidents,
+    };
   }
 
   return JSON.stringify({

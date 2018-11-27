@@ -233,6 +233,24 @@
       "primaryPhone": "4445551212",
       "emailAddress": "test2@test1.net"
     },
-    "privacyAgreementAccepted": true
+    "privacyAgreementAccepted": true,
+    "incident0": {
+      "incidentLocation": "Location"
+    },
+    "incident1": {
+      "incidentLocation": "Location"
+    },
+    "incident2": {
+      "incidentLocation": "Location"
+    },
+    "secondaryIncident0": {
+      "incidentLocation": "Location"
+    },
+    "secondaryIncident1": {
+      "incidentLocation": "Location"
+    },
+    "secondaryIncident2": {
+      "incidentLocation": "Location"
+    }
   }
 }
