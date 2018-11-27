@@ -5,10 +5,12 @@
 
 import ENVIRONMENTS from '../../../site/constants/environments';
 
+// eslint-disable-next-line no-undef
+const BUILDTYPE = __BUILDTYPE__;
+
 const {
   WEB_PORT: RESERVED_E2E_PORT = 3333,
   API_PORT: E2E_API_PORT = 3000,
-  BUILDTYPE = ENVIRONMENTS.VAGOVDEV,
 } = process.env;
 
 const ENVIRONMENT_CONFIGURATIONS = {

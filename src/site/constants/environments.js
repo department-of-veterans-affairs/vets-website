@@ -1,3 +1,8 @@
+/**
+ * All possible values for the environment name, also known as the build-type.
+ * @module site/environments
+ */
+
 module.exports = {
   LOCALHOST: 'localhost',
   DEVELOPMENT: 'development',
