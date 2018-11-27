@@ -1,4 +1,5 @@
 import React from 'react';
+import { spy } from 'sinon';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
@@ -24,6 +25,7 @@ describe('Schemaform: ReviewCardField', () => {
       },
     },
     uiSchema: {
+      'ui:title': 'Thing',
       'ui:field': ReviewCardField,
       'ui:options': { viewComponent },
     },
@@ -38,7 +40,10 @@ describe('Schemaform: ReviewCardField', () => {
       // This isn't actually fixing the failed prop types warnings...
       onBlur: () => {},
     },
-    formData: {},
+    formData: {
+      field1: 'asdf',
+    },
+    onChange: spy(),
   };
 
   it('sould render', () => {
@@ -137,5 +142,111 @@ describe('Schemaform: ReviewCardField', () => {
     const props = set('formContext.onReviewPage', true, defaultProps);
     const tree = shallow(<ReviewCardField {...props} />);
     expect(tree.find('ObjectField').length).to.equal(1);
+  });
+
+  it('should handle a custom reviewTitle', () => {
+    const props = set(
+      'uiSchema.ui:options.reviewTitle',
+      'Thingy',
+      defaultProps,
+    );
+    const tree = shallow(<ReviewCardField {...props} />);
+    expect(tree.find('.review-card--title').text()).to.equal('Thingy');
+  });
+
+  describe('startInEdit', () => {
+    it('should handle truthy values', () => {
+      const props = set('uiSchema.ui:options.startInEdit', true, defaultProps);
+      const tree = shallow(<ReviewCardField {...props} />);
+      expect(tree.find('.input-section').length).to.equal(1);
+    });
+
+    it('should handle falsey values', () => {
+      const props = set('uiSchema.ui:options.startInEdit', false, defaultProps);
+      const tree = shallow(<ReviewCardField {...props} />);
+      expect(tree.find('.input-section').length).to.equal(0);
+    });
+
+    it('should handle functions', () => {
+      const props = set(
+        'uiSchema.ui:options.startInEdit',
+        formData => formData.field1 === 'asdf',
+        defaultProps,
+      );
+      const tree = shallow(<ReviewCardField {...props} />);
+      expect(tree.find('.input-section').length).to.equal(1);
+    });
+  });
+
+  it('should handle a custom editTitle', () => {
+    const editModeProps = set(
+      'uiSchema.ui:options.startInEdit',
+      true,
+      defaultProps,
+    );
+    const props = set('uiSchema.ui:options.editTitle', 'Thingy', editModeProps);
+    const tree = shallow(<ReviewCardField {...props} />);
+    expect(tree.find('.review-card--title').text()).to.equal('Thingy');
+  });
+
+  describe('volatileData', () => {
+    const defaultVDProps = set(
+      'uiSchema.ui:options.volatileData',
+      true,
+      defaultProps,
+    );
+
+    it('should remove the edit button from the header in review mode', () => {
+      const tree = shallow(<ReviewCardField {...defaultVDProps} />);
+      expect(tree.find('.review-card--header .edit-button').length).to.equal(0);
+    });
+
+    it('should add a "New X" button in review mode', () => {
+      const tree = shallow(<ReviewCardField {...defaultVDProps} />);
+      const editButtons = tree.find('.edit-button');
+      expect(editButtons.length).to.equal(1);
+      expect(editButtons.first().text()).to.equal('New Thing');
+    });
+
+    it('should handle a custom itemName', () => {
+      const props = set(
+        'uiSchema.ui:options.itemName',
+        'Doodad',
+        defaultVDProps,
+      );
+      const tree = shallow(<ReviewCardField {...props} />);
+      expect(tree.find('.edit-button').text()).to.equal('New Doodad');
+    });
+
+    it('should not allow canceling if starting in edit mode', () => {
+      const props = set('uiSchema.ui:options.startInEdit', true, defaultProps);
+      const tree = shallow(<ReviewCardField {...props} />);
+      expect(tree.find('.cancel-button').length).to.equal(0);
+    });
+
+    it('should add a cancel button in edit mode', () => {
+      const tree = shallow(<ReviewCardField {...defaultVDProps} />);
+      // Start editing
+      tree.find('.usa-button-primary').simulate('click');
+      expect(tree.find('.cancel-button').length).to.equal(1);
+    });
+
+    it('should handle canceling an update', () => {
+      defaultVDProps.onChange.reset();
+      // Start in review mode with some data
+      const tree = shallow(<ReviewCardField {...defaultVDProps} />);
+      // Start editing
+      tree.find('.usa-button-primary').simulate('click');
+
+      // Ideally, we'd enter some data in here, but because the onChange is a
+      //  prop that's passed to the field, it wouldn't really test the actual
+      //  functionality here. Instead, we'll just test that the cancel calls
+      //  onChange with the original data.
+      // It's not a comprehensive test.
+
+      // Cancel update
+      tree.find('.cancel-button').simulate('click');
+      expect(defaultVDProps.onChange.calledWith(defaultVDProps.formData));
+    });
   });
 });
