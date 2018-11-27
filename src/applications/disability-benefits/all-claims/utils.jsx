@@ -420,12 +420,12 @@ export const isUploading781aForm = formData =>
   _.get('view:upload781aChoice', formData, '') === 'upload';
 
 export const isAnswering781Questions = formData =>
-  _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions' &&
+  _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&
   _.get('view:doneEnteringIncidents', formData, false) !== true &&
   needsToEnter781(formData);
 
 export const isAnswering781aQuestions = formData =>
-  _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions' &&
+  _.get('view:upload781aChoice', formData, '') === 'answerQuestions' &&
   _.get('view:doneEnteringSecondaryIncidents', formData, false) !== true &&
   needsToEnter781a(formData);
 

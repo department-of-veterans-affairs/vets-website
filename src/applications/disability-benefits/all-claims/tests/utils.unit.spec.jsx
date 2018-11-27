@@ -489,7 +489,7 @@ describe('isAnswering781Questions', () => {
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
-      'view:uploadPtsdChoice': 'answerQuestions',
+      'view:upload781Choice': 'answerQuestions',
     };
     expect(isAnswering781Questions(formData)).to.be.true;
   });
@@ -498,10 +498,10 @@ describe('isAnswering781Questions', () => {
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
-      'view:uploadPtsdChoice': 'answerQuestions',
+      'view:upload781Choice': 'answerQuestions',
       'view:doneEnteringIncidents': true,
     };
-    expect(isAnswering781Questions({ formData })).to.be.false;
+    expect(isAnswering781Questions(formData)).to.be.false;
   });
 });
 
@@ -511,7 +511,7 @@ describe('isAnswering781aQuestions', () => {
       'view:selectablePtsdTypes': {
         'view:assaultPtsdType': true,
       },
-      'view:uploadPtsdChoice': 'answerQuestions',
+      'view:upload781aChoice': 'answerQuestions',
     };
     expect(isAnswering781aQuestions(formData)).to.be.true;
   });
@@ -520,10 +520,10 @@ describe('isAnswering781aQuestions', () => {
       'view:selectablePtsdTypes': {
         'view:assaultPtsdType': true,
       },
-      'view:uploadPtsdChoice': 'answerQuestions',
-      'view:doneEnteringIncidents': true,
+      'view:upload781aChoice': 'answerQuestions',
+      'view:doneEnteringSecondaryIncidents': true,
     };
-    expect(isAnswering781aQuestions({ formData })).to.be.false;
+    expect(isAnswering781aQuestions(formData)).to.be.false;
   });
 
   describe('transformRelatedDisabilities', () => {
