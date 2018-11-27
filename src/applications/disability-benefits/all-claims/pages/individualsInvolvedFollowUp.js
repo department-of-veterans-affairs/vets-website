@@ -16,6 +16,9 @@ export const uiSchema = index => ({
     'ui:options': {
       itemName: 'Individual',
       viewField: ({ formData }) => <h5>hey</h5>,
+      updateSchema: (formData, index) => {
+        console.log(formData, index);
+      },
     },
     items: {
       name: fullNameUI,
@@ -31,13 +34,15 @@ export const uiSchema = index => ({
         'ui:title': 'What was their rank at the time of the event?',
         'ui:options': {
           expandUnder: `view:serviceMember${index}`,
+          expandUnderCondition: value => value,
         },
       },
       unitAssigned: {
         'ui:title': 'What unit were they assigned to at the time of the event?',
         'ui:options': {
           expandUnder: `view:serviceMember${index}`,
-          expandUnderCondition: true,
+          expandUnderCondition: value => value,
+          hideIf: formData => formData,
         },
       },
       injuryDeathDate: currentOrPastDateUI('Date they were injured or killed'),
@@ -58,7 +63,10 @@ export const uiSchema = index => ({
         'ui:title': ' ',
         'ui:options': {
           expandUnder: `injuryDeath${index}`,
-          expandUnderCondition: 'Other',
+          expandUnderCondition: value => {
+            console.log(value);
+            return value === 'Other';
+          },
         },
       },
       'view:msggg': {
@@ -109,6 +117,7 @@ export const schema = index => ({
               'Injured non-battle',
               'Other',
             ],
+            default: 'Injured non-battle',
           },
           injuryDeathOther: {
             type: 'string',
