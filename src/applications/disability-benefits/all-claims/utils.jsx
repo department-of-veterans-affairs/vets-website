@@ -380,7 +380,7 @@ export const isAnswering781Questions = formData =>
   needsToEnter781(formData);
 
 export const isAnswering781aQuestions = formData =>
-  _.get('view:upload781aChoice', formData, '') === 'answerQuestions' &&
+  _.get('view:upload781aPtsdChoice', formData, '') === 'answerQuestions' &&
   _.get('view:doneEnteringSecondaryIncidents', formData, false) !== true &&
   needsToEnter781a(formData);
 
