@@ -3,6 +3,8 @@ import environment from '../../../../platform/utilities/environment';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
+import submitForm from './submitForm';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
 import GetFormHelp from '../../components/GetFormHelp';
@@ -83,7 +85,10 @@ import fullSchema from './schema';
 const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
-  submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
+  submitUrl: `${
+    environment.API_URL
+  }/v0/disability_compensation_form/submit_all_claim`,
+  submit: submitForm,
   trackingPrefix: 'disability-526EZ-',
   // formId: '21-526EZ-all-claims',
   formId: '21-526EZ', // To test prefill, we'll use the 526 increase form ID for now
@@ -319,6 +324,20 @@ const formConfig = {
           path: 'disabilities/summary',
           uiSchema: summaryOfDisabilities.uiSchema,
           schema: summaryOfDisabilities.schema,
+        },
+        conclusion4192: {
+          title: 'Conclusion 4192',
+          path: 'disabilities/conclusion-4192',
+          depends: formData => formData['view:unemployabilityStatus'],
+          uiSchema: {
+            'ui:title': ' ',
+            'ui:description':
+              'Thank you for taking the time to answer our questions. The information you provided will help us process your claim.',
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
       },
     },
