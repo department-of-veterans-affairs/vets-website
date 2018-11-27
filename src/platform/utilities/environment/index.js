@@ -75,7 +75,7 @@ export default {
   /** The name of the environment under which the site is currently executing. */
   BUILDTYPE: environment.BUILDTYPE,
   /** The address of the FE website configured for this environment. */
-  BASE_URL: 'https://dev.va.gov',
+  BASE_URL: environment.BASE_URL,
   /** The address of the API configured for this environment. */
-  API_URL: 'https://dev-api.va.gov',
+  API_URL: environment.API_URL,
 };
