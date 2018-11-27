@@ -21,7 +21,7 @@ export const uiSchema = {
         answerQuestions:
           'I want to continue online with questions about my PTSD.',
         upload:
-          'I‘ve already filled out a paper form (21-0781a) and want to upload it.',
+          'I’ve already filled out a paper form (21-0781a) and want to upload it.',
       },
     },
   },

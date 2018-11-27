@@ -4,16 +4,16 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation/Additional
 import { getPtsdClassification } from './ptsdClassification';
 
 export const PtsdUploadChoiceDescription = ({ formType }) => (
-  <AdditionalInfo triggerText="What does this mean?">
+  <AdditionalInfo triggerText="Which should I choose?">
     <p>
       <strong>Answer questions:</strong> If you choose this option, we’ll ask
       you several questions about the events related to your PTSD. If you have
-      evidence or documents to include, you will be able to upload that.
+      evidence or documents to include, you’ll be able to upload them.
     </p>
     <p>
       <strong>Upload a form:</strong> If you choose to upload a completed VA
       Form
-      {`21-0${formType}`}, you‘ll move to the next section of the disability
+      {` 21-0${formType}`}, you’ll move to the next section of the disability
       application.
     </p>
   </AdditionalInfo>
@@ -22,9 +22,9 @@ export const PtsdUploadChoiceDescription = ({ formType }) => (
 const UploadExplanation = ({ formType }) => (
   <div>
     <p>
-      You can either answer the questions online, or if you‘ve already completed
+      You can either answer the questions online, or if you’ve already completed
       a Claim for Service Connection for Post-Traumatic Stress Disorder (VA Form
-      {`21-0${formType}`}
+      {` 21-0${formType}`}
       ), you can upload the form.
     </p>
     <p>How would you like to provide information about your PTSD?</p>
@@ -36,7 +36,7 @@ export const UploadPtsdDescription = ({ formData, formType }) => {
   return (
     <div>
       <p>
-        Now we‘re going to ask you questions about your
+        Now we’re going to ask you questions about your
         {` ${incidentText}`}
         -related PTSD. All of the questions are optional, but any information
         you provide here will help us research your claim.
@@ -47,11 +47,11 @@ export const UploadPtsdDescription = ({ formData, formType }) => {
 };
 
 export const Ptsd781aUploadChoiceDescription = ({ formType }) => (
-  <AdditionalInfo triggerText="What does this mean?">
+  <AdditionalInfo triggerText="Which should I choose?">
     <p>
-      <strong>Answer questions:</strong> If you choose this option, we‘ll ask
+      <strong>Answer questions:</strong> If you choose this option, we’ll ask
       you several questions about the events related to your PTSD. If you have
-      evidence or documents to include, you will be able to upload that.
+      evidence or documents to include, you’ll be able to upload them.
     </p>
     <p>
       <strong>Upload a form:</strong> If you choose to upload a completed
@@ -64,7 +64,7 @@ export const Ptsd781aUploadChoiceDescription = ({ formType }) => (
 const Upload781aExplanation = ({ formType }) => (
   <div>
     <p>
-      You can either answer the questions online, or if you‘ve already completed
+      You can either answer the questions online, or if you’ve already completed
       a Claim for Service Connection for Post-Traumatic Stress Disorder
       Secondary to Personal Assault (VA Form {`21-0${formType}`}
       ), you can upload the form.
@@ -78,7 +78,7 @@ export const UploadPtsd781aDescription = ({ formData, formType }) => {
   return (
     <div>
       <p>
-        Now we‘re going to ask you questions about your
+        Now we’re going to ask you questions about your
         {` ${incidentText}`}
         -related PTSD. All of the questions are optional, but any information
         you provide here will help us research your claim.
