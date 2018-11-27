@@ -5,10 +5,16 @@
 
 module.exports = {
   LOCALHOST: 'localhost',
-  DEVELOPMENT: 'development',
-  STAGING: 'staging',
-  PRODUCTION: 'production',
   VAGOVDEV: 'vagovdev',
   VAGOVSTAGING: 'vagovstaging',
   VAGOVPROD: 'vagovprod',
+
+  /** @deprecated The Vets.gov dev environment. */
+  DEVELOPMENT: 'development',
+
+  /** @deprecated The Vets.gov staging environment. */
+  STAGING: 'staging',
+
+  /** @deprecated The Vets.gov production environment */
+  PRODUCTION: 'production',
 };
