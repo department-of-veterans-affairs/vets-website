@@ -3,35 +3,41 @@
  * @module platform/utilities/environment
  */
 
-const ENVIRONMENTS = require('../../../site/constants/environments');
+import ENVIRONMENTS from '../../../site/constants/environments';
 
-const RESERVED_E2E_PORT = process.env.WEB_PORT || 3333;
-const E2E_API_PORT = process.env.API_PORT;
+const {
+  WEB_PORT: RESERVED_E2E_PORT = 3333,
+  API_PORT: E2E_API_PORT = 3000,
+  BUILDTYPE = ENVIRONMENTS.LOCALHOST,
+} = process.env;
 
 const ENVIRONMENT_CONFIGURATIONS = {
   [ENVIRONMENTS.VAGOVPROD]: {
+    BUILDTYPE: ENVIRONMENTS.VAGOVPROD,
     API_URL: 'https://api.va.gov',
     BASE_URL: 'https://www.va.gov',
   },
 
   [ENVIRONMENTS.VAGOVSTAGING]: {
+    BUILDTYPE: ENVIRONMENTS.VAGOVSTAGING,
     API_URL: 'https://staging-api.va.gov',
     BASE_URL: 'https://staging.va.gov',
   },
 
   [ENVIRONMENTS.VAGOVDEV]: {
+    BUILDTYPE: ENVIRONMENTS.VAGOVDEV,
     API_URL: 'https://dev-api.va.gov',
     BASE_URL: 'https://dev.va.gov',
   },
 
   [ENVIRONMENTS.LOCALHOST]: {
+    BUILDTYPE: ENVIRONMENTS.LOCALHOST,
     API_URL: `http://${location.hostname}:3000`,
     BASE_URL: `http://${location.hostname}:3001`,
   },
 };
 
-const currentEnvironmentConfig =
-  ENVIRONMENT_CONFIGURATIONS[process.env.BUILDTYPE];
+const currentEnvConfig = ENVIRONMENT_CONFIGURATIONS[BUILDTYPE];
 
 if (location.port === RESERVED_E2E_PORT) {
   // E2E tests are an edge case - they test a certain build-type,
@@ -42,57 +48,39 @@ if (location.port === RESERVED_E2E_PORT) {
     BASE_URL: `http://localhost:${RESERVED_E2E_PORT}`,
   };
 
-  Object.assign(currentEnvironmentConfig, e2eConfig);
+  Object.assign(currentEnvConfig, e2eConfig);
 }
 
-module.exports = {
-  /**
-   * The name of the current environment.
-   * @type {string}
-   */
-  BUILDTYPE: process.env.BUILDTYPE,
+/**
+ * Determines whether the current environment is a production environment.
+ * @returns {boolean}
+ */
+export function isProduction() {
+  return BUILDTYPE === ENVIRONMENTS.VAGOVPROD;
+}
 
-  /**
-   * The URL of which the FE of the website is currently executing.
-   * @type {string}
-   */
-  BASE_URL: currentEnvironmentConfig.BASE_URL,
+/**
+ * Determines whether the current environment is a staging environment.
+ * @returns {boolean}
+ */
+export function isStaging() {
+  return BUILDTYPE === ENVIRONMENTS.VAGOVSTAGING;
+}
 
-  /**
-   * The URL of which the API is currently executing.
-   * @type {string}
-   */
-  API_URL: currentEnvironmentConfig.API_URL,
+/**
+ * Determines whether the current environment is a dev environment.
+ * @returns {boolean}
+ */
+export function isDev() {
+  return BUILDTYPE === ENVIRONMENTS.VAGOVDEV;
+}
 
-  /**
-   * Helper method for determining whether the current environment is considered a production environment.
-   * @returns {boolean}
-   */
-  isProduction() {
-    return this.BUILDTYPE === ENVIRONMENTS.VAGOVPROD;
-  },
+/**
+ * Determines whether the current environment is a local environment.
+ * @returns {boolean}
+ */
+export function isLocal() {
+  return BUILDTYPE === ENVIRONMENTS.LOCALHOST;
+}
 
-  /**
-   * Helper method for determining whether the current environment is considered a staging environment.
-   * @returns {boolean}
-   */
-  isStaging() {
-    return this.BUILDTYPE === ENVIRONMENTS.VAGOVSTAGING;
-  },
-
-  /**
-   * Helper method for determining whether the current environment is considered a dev environment.
-   * @returns {boolean}
-   */
-  isDev() {
-    return this.BUILDTYPE === ENVIRONMENTS.VAGOVDEV;
-  },
-
-  /**
-   * Helper method for determining whether the current environment is considered a local environment.
-   * @returns {boolean}
-   */
-  isLocal() {
-    return this.BUILDTYPE === ENVIRONMENTS.LOCALHOST;
-  },
-};
+export default currentEnvConfig;
