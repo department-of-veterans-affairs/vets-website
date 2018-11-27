@@ -26,7 +26,6 @@ import applicantDescription from '../../../platform/forms/components/ApplicantDe
 import PrefillMessage from '../../../platform/forms/save-in-progress/PrefillMessage';
 import MilitaryPrefillMessage from '../../../platform/forms/save-in-progress/MilitaryPrefillMessage';
 import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
-import isProduction from '../../../platform/utilities/environment/isProduction';
 
 import DowntimeMessage from '../components/DowntimeMessage';
 
@@ -417,7 +416,7 @@ const formConfig = {
           path: 'military-service/service-information',
           title: 'Service periods',
           uiSchema: {
-            'ui:description': !isProduction()
+            'ui:description': !environment.isProduction()
               ? MilitaryPrefillMessage
               : undefined,
             lastServiceBranch: {

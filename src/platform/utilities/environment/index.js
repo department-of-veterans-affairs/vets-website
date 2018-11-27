@@ -1,5 +1,5 @@
 /*
- * Information on the current environment.
+ * Configuration for the current environment.
  * @module platform/utilities/environment
  */
 
@@ -51,31 +51,33 @@ if (location.port === RESERVED_E2E_PORT) {
   Object.assign(environment, e2eConfig);
 }
 
-/** Determines whether the current environment is a production environment. */
-export function isProduction() {
-  return BUILDTYPE === ENVIRONMENTS.VAGOVPROD;
-}
-
-/** Determines whether the current environment is a staging environment. */
-export function isStaging() {
-  return BUILDTYPE === ENVIRONMENTS.VAGOVSTAGING;
-}
-
-/** Determines whether the current environment is a dev environment. */
-export function isDev() {
-  return BUILDTYPE === ENVIRONMENTS.VAGOVDEV;
-}
-
-/** Determines whether the current environment is a local environment. */
-export function isLocal() {
-  return BUILDTYPE === ENVIRONMENTS.LOCALHOST;
-}
-
 export default {
   /** The name of the environment under which the site is currently executing. */
   BUILDTYPE: environment.BUILDTYPE,
+
   /** The address of the FE website configured for this environment. */
   BASE_URL: environment.BASE_URL,
+
   /** The address of the API configured for this environment. */
   API_URL: environment.API_URL,
+
+  /** Determines whether the current environment is a production environment. */
+  isProduction() {
+    return BUILDTYPE === ENVIRONMENTS.VAGOVPROD;
+  },
+
+  /** Determines whether the current environment is a staging environment. */
+  isStaging() {
+    return BUILDTYPE === ENVIRONMENTS.VAGOVSTAGING;
+  },
+
+  /** Determines whether the current environment is a dev environment. */
+  isDev() {
+    return BUILDTYPE === ENVIRONMENTS.VAGOVDEV;
+  },
+
+  /** Determines whether the current environment is a local environment. */
+  isLocalhost() {
+    return BUILDTYPE === ENVIRONMENTS.LOCALHOST;
+  },
 };

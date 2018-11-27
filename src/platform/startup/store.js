@@ -14,7 +14,7 @@ import profile from '../user/profile/reducers';
 import buildSettings from '../monitoring/BuildSettings/reducer';
 import megaMenu from '../site-wide/mega-menu/reducers';
 import createAnalyticsMiddleware from './analytics-middleware';
-import isProduction from '../utilities/environment/isProduction';
+import environment from '../utilities/environment';
 
 const brandConsolidatedReducers = {
   megaMenu,
@@ -48,7 +48,8 @@ export default function createCommonStore(
   analyticsEvents = [],
 ) {
   const reducer = Object.assign({}, appReducer, commonReducer);
-  const useDevTools = !isProduction() && window.__REDUX_DEVTOOLS_EXTENSION__;
+  const useDevTools =
+    !environment.isProduction() && window.__REDUX_DEVTOOLS_EXTENSION__;
 
   return createStore(
     combineReducers(reducer),
