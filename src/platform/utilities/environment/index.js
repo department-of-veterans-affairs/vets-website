@@ -44,13 +44,8 @@ const environment = ENVIRONMENT_CONFIGURATIONS[BUILDTYPE];
 if (location.port === RESERVED_E2E_PORT.toString()) {
   // E2E tests are an edge case - they test a certain build-type,
   // but execute under the localhost hostname.
-
-  const e2eConfig = {
-    API_URL: `http://localhost:${E2E_API_PORT}`,
-    BASE_URL: `http://localhost:${RESERVED_E2E_PORT}`,
-  };
-
-  Object.assign(environment, e2eConfig);
+  environment.API_URL = `http://localhost:${E2E_API_PORT}`;
+  environment.BASE_URL = `http://localhost:${RESERVED_E2E_PORT}`;
 }
 
 export default {
