@@ -3,7 +3,6 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation/Additional
 
 export const uiDescription = (
   <div>
-    <p>For example, foot pain, back pain, or hearing loss.</p>
     <AdditionalInfo triggerText="What if I don’t know the name of my condition?">
       <p>
         If you don’t know the name of your condition or aren’t finding a match,
