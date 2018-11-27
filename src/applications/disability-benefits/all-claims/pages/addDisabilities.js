@@ -1,7 +1,6 @@
-import React from 'react';
 import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
-import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import disabilityLabels from '../content/disabilityLabels';
+import { uiDescription } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
 
 import fullSchema from '../config/schema';
@@ -34,24 +33,7 @@ export const uiSchema = {
         },
       ),
       'view:descriptionInfo': {
-        'ui:description': () => (
-          <div>
-            <p>For example, foot pain, back pain, or hearing loss.</p>
-            <AdditionalInfo triggerText="What if I don't know the name of my condition?">
-              <p>
-                If you don’t know the name of your condition or aren’t finding a
-                match, you can type in your symptoms and we’ll help you figure
-                out the name of your condition during the exam process.
-              </p>
-              <p>Shorter descriptions are better. For example:</p>
-              <ul>
-                <li>My knee hurts when I walk.</li>
-                <li>I have trouble hearing when other people talk.</li>
-                <li>My doctor says my cancer may be related to my service.</li>
-              </ul>
-            </AdditionalInfo>
-          </div>
-        ),
+        'ui:description': uiDescription,
       },
     },
   },
