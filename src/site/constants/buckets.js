@@ -1,6 +1,5 @@
 const {
   DEVELOPMENT,
-  PREVIEW,
   PRODUCTION,
   STAGING,
   VAGOVDEV,
@@ -14,7 +13,6 @@ const bucket = 'https://s3-us-gov-west-1.amazonaws.com';
 
 module.exports = {
   [DEVELOPMENT]: `${bucket}/${hostnames[DEVELOPMENT]}`,
-  [PREVIEW]: 'https://preview-va-gov-assets.s3-us-gov-west-1.amazonaws.com',
   [PRODUCTION]: `${bucket}/${hostnames[PRODUCTION]}`,
   [STAGING]: `${bucket}/${hostnames[STAGING]}`,
   [VAGOVDEV]: 'https://dev-va-gov-assets.s3-us-gov-west-1.amazonaws.com',
