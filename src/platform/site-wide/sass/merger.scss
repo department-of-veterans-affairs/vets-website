@@ -180,7 +180,8 @@ $medium-phone-screen: 375px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 60px
+        max-width: 60px;
+        padding-left: 6px;
       }
 
       @include media($medium-phone-screen) {
@@ -192,6 +193,7 @@ $medium-phone-screen: 375px;
       @include media($medium-screen) {
         span {
           display: inline-block;
+          padding-left: 0;
 
           svg {
             display: inline-block;
