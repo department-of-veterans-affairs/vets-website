@@ -4,9 +4,16 @@
  */
 
 module.exports = {
+  /** The local-dev environment. */
   LOCALHOST: 'localhost',
+
+  /** The VA.gov dev environment */
   VAGOVDEV: 'vagovdev',
+
+  /** The VA.gov staging environment. */
   VAGOVSTAGING: 'vagovstaging',
+
+  /** The VA.gov production environment. */
   VAGOVPROD: 'vagovprod',
 
   /** @deprecated The Vets.gov dev environment. */
