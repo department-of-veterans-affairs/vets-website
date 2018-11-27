@@ -41,7 +41,7 @@ const ENVIRONMENT_CONFIGURATIONS = {
 
 const environment = ENVIRONMENT_CONFIGURATIONS[BUILDTYPE];
 
-if (location.port === RESERVED_E2E_PORT) {
+if (location.port === RESERVED_E2E_PORT.toString()) {
   // E2E tests are an edge case - they test a certain build-type,
   // but execute under the localhost hostname.
 
