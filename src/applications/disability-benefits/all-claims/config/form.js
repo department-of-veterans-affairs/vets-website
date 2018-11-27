@@ -80,7 +80,7 @@ import { PTSD, PTSD_INCIDENT_ITERATION } from '../constants';
 
 import fullSchema from './schema';
 
-const createFormConfig = {
+const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
@@ -438,4 +438,4 @@ const createFormConfig = {
   },
 };
 
-export default createFormConfig;
+export default formConfig;
