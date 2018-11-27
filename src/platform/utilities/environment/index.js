@@ -65,21 +65,21 @@ export default {
 
   /** Determines whether the current environment is a production environment. */
   isProduction() {
-    return BUILDTYPE === ENVIRONMENTS.VAGOVPROD;
+    return this.BUILDTYPE === ENVIRONMENTS.VAGOVPROD;
   },
 
   /** Determines whether the current environment is a staging environment. */
   isStaging() {
-    return BUILDTYPE === ENVIRONMENTS.VAGOVSTAGING;
+    return this.BUILDTYPE === ENVIRONMENTS.VAGOVSTAGING;
   },
 
   /** Determines whether the current environment is a dev environment. */
   isDev() {
-    return BUILDTYPE === ENVIRONMENTS.VAGOVDEV;
+    return this.BUILDTYPE === ENVIRONMENTS.VAGOVDEV;
   },
 
   /** Determines whether the current environment is a local environment. */
   isLocalhost() {
-    return BUILDTYPE === ENVIRONMENTS.LOCALHOST;
+    return this.BUILDTYPE === ENVIRONMENTS.LOCALHOST;
   },
 };
