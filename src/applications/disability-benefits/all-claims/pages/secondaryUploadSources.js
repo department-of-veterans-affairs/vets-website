@@ -52,7 +52,7 @@ export const uiSchema = index => ({
     maxSize: FIFTY_MB,
     createPayload: file => {
       const payload = new FormData();
-      payload.append('disability_details_attachment[file_data]', file);
+      payload.append('supporting_evidence_attachment[file_data]', file);
 
       return payload;
     },
