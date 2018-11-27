@@ -8,11 +8,6 @@ import ENVIRONMENTS from '../../../site/constants/environments';
 // eslint-disable-next-line no-undef
 const BUILDTYPE = __BUILDTYPE__;
 
-const {
-  WEB_PORT: RESERVED_E2E_PORT = 3333,
-  API_PORT: E2E_API_PORT = 3000,
-} = process.env;
-
 const ENVIRONMENT_CONFIGURATIONS = {
   [ENVIRONMENTS.VAGOVPROD]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVPROD,
@@ -34,18 +29,23 @@ const ENVIRONMENT_CONFIGURATIONS = {
 
   [ENVIRONMENTS.LOCALHOST]: {
     BUILDTYPE: ENVIRONMENTS.LOCALHOST,
-    BASE_URL: `http://${location.hostname}:3001`,
+    BASE_URL: `http://${location.hostname}:${location.port}`,
     API_URL: `http://${location.hostname}:3000`,
   },
 };
 
 const environment = ENVIRONMENT_CONFIGURATIONS[BUILDTYPE];
+const isPort80 = location.port === '' || location.port === 80;
 
-if (location.port === RESERVED_E2E_PORT.toString()) {
-  // E2E tests are an edge case - they test a certain build-type,
-  // but execute under the localhost hostname.
-  environment.API_URL = `http://localhost:${E2E_API_PORT}`;
-  environment.BASE_URL = `http://localhost:${RESERVED_E2E_PORT}`;
+if (!isPort80) {
+  // It's possible that we're executing a certain build-type under a hostname
+  // other than the host that it's configured. This is the case for integration tests,
+  // where we're testing the vagovprod (production) build-type by serving the production-compiled files,
+  // but on a server running under localhost. This would also be the case if we're testing the
+  // production environment on our local machines.
+  const LOCALHOST_ENV = ENVIRONMENT_CONFIGURATIONS[ENVIRONMENTS.LOCALHOST];
+  environment.API_URL = LOCALHOST_ENV.API_URL;
+  environment.BASE_URL = LOCALHOST_ENV.BASE_URL;
 }
 
 export default {

@@ -180,10 +180,6 @@ const configGenerator = (buildOptions, apps) => {
     plugins: [
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(buildOptions.buildtype),
-        'process.env': {
-          API_PORT: process.env.API_PORT || 3000,
-          WEB_PORT: process.env.WEB_PORT || 3333,
-        },
       }),
 
       new ExtractTextPlugin({
