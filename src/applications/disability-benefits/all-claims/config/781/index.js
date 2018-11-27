@@ -27,14 +27,14 @@ export function createFormConfig781(iterations) {
       ...configObj,
       // 781 PAGE CONFIGS GO HERE
       [`incidentDate${index}`]: {
-        title: `${numberToWords[index]} 781 PTSD incident date`,
+        title: `${numberToWords[index]} PTSD incident date`,
         path: `disabilities/ptsd-incident-date-${index}`,
         depends: isAnswering781Questions,
         uiSchema: incidentDate.uiSchema(index),
         schema: incidentDate.schema(index),
       },
       [`incidentUnitAssignment${index}`]: {
-        title: `${numberToWords[index]} 781 PTSD incident unit assignment`,
+        title: `${numberToWords[index]} PTSD incident unit assignment`,
         path: `disabilities/ptsd-incident-unit-assignment-${index}`,
         depends: isAnswering781Questions,
         uiSchema: incidentUnitAssignment.uiSchema(index),
@@ -53,14 +53,14 @@ export function createFormConfig781a(iterations) {
       ...configObj,
       // 781a PAGE CONFIGS GO HERE
       [`secondaryIncidentDate${index}`]: {
-        title: `${numberToWords[index]} 781a PTSD Incident date`,
+        title: `${numberToWords[index]} PTSD assault incident date`,
         path: `disabilities/ptsd-secondary-incident-date-${index}`,
         depends: isAnswering781aQuestions,
         uiSchema: secondaryIncidentDate.uiSchema(index),
         schema: secondaryIncidentDate.schema(index),
       },
       [`secondaryIncidentUnitAssignment${index}`]: {
-        title: `${numberToWords[index]} 781a PTSD incident unit assignment`,
+        title: `${numberToWords[index]} PTSD assualt incident unit assignment`,
         path: `disabilities/ptsd-secondary-incident-unit-assignment-${index}`,
         depends: isAnswering781aQuestions,
         uiSchema: secondaryIncidentUnitAssignment.uiSchema(index),

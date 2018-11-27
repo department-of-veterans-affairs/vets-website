@@ -37,17 +37,17 @@ describe('781 Unit Assignment Details', () => {
 
     fillData(
       form,
-      'input#root_secondaryIncident0_unitAssignment',
+      'input#root_secondaryIncident0_unitAssigned',
       '21st Airborne',
     );
     fillDate(
       form,
-      'root_secondaryIncident0_unitAssignmentDates_from',
+      'root_secondaryIncident0_unitAssignedDates_from',
       '2016-07-10',
     );
     fillDate(
       form,
-      'root_secondaryIncident0_unitAssignmentDates_to',
+      'root_secondaryIncident0_unitAssignedDates_to',
       '2017-06-12',
     );
 

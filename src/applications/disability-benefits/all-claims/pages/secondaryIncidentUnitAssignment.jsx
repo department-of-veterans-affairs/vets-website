@@ -13,10 +13,10 @@ export const uiSchema = index => ({
   ),
   'ui:description': ptsdAssignmentDescription,
   [`secondaryIncident${index}`]: {
-    [`unitAssignment`]: {
+    [`unitAssigned`]: {
       'ui:title': ' ',
     },
-    [`unitAssignmentDates`]: {
+    [`unitAssignedDates`]: {
       ...dateRangeUI('From', 'To', 'The date must be after Start date'),
       'ui:title': ptsdAssignmentDatesDescription,
     },
@@ -29,11 +29,11 @@ export const schema = index => ({
     [`secondaryIncident${index}`]: {
       type: 'object',
       properties: {
-        [`unitAssignment`]: {
+        [`unitAssigned`]: {
           type: 'string',
           maxLength: 100,
         },
-        [`unitAssignmentDates`]: {
+        [`unitAssignedDates`]: {
           type: 'object',
           properties: {
             from: {

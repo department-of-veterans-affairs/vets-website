@@ -34,9 +34,9 @@ describe('781 Unit Assignment Details', () => {
       />,
     );
 
-    fillData(form, 'input#root_incident0_unitAssignment', '21st Airborne');
-    fillDate(form, 'root_incident0_unitAssignmentDates_from', '2016-07-10');
-    fillDate(form, 'root_incident0_unitAssignmentDates_to', '2017-06-12');
+    fillData(form, 'input#root_incident0_unitAssigned', '21st Airborne');
+    fillDate(form, 'root_incident0_unitAssignedDates_from', '2016-07-10');
+    fillDate(form, 'root_incident0_unitAssignedDates_to', '2017-06-12');
 
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
