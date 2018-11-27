@@ -109,11 +109,11 @@ export function isNotCurrentMarriage(form, index) {
 }
 
 export function isNotLivingWithSpouse(form) {
-  return !form.currentMarriage.liveWithSpouse;
+  return form.currentMarriage && !form.currentMarriage.liveWithSpouse;
 }
 
 export function isNotLivingWithParent(form, index) {
-  return !form.dependents[index].childInHousehold;
+  return form.dependents && !form.dependents[index].childInHousehold;
 }
 
 export function getMarriageTitle(index) {
