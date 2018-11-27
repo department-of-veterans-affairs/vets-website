@@ -10,121 +10,117 @@ import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPas
 export const uiSchema = index => ({
   'ui:title': ptsd781NameTitle,
   'ui:description': individualsInvolved,
-  [`incident${index}`]: {
-    personInvolved: {
-      'ui:title': 'hey',
-      'ui:options': {
-        itemName: 'Individual',
-        viewField: ({ formData }) => <h5>hey</h5>,
+  // [`incident${index}`]: {
+  [`personInvolved${index}`]: {
+    'ui:title': 'hey',
+    'ui:options': {
+      itemName: 'Individual',
+      viewField: ({ formData }) => <h5>hey</h5>,
+    },
+    items: {
+      name: fullNameUI,
+      personDescription: {
+        'ui:title': personDescriptionText,
+        'ui:widget': 'textarea',
       },
-      items: {
-        name: fullNameUI,
-        personDescription: {
-          'ui:title': personDescriptionText,
-          'ui:widget': 'textarea',
+      [`view:serviceMember${index}`]: {
+        'ui:title': 'Were they a Servicemember',
+        'ui:widget': 'yesNo',
+      },
+      rank: {
+        'ui:title': 'What was their rank at the time of the event?',
+        'ui:options': {
+          expandUnder: `view:serviceMember${index}`,
         },
-        'view:serviceMember': {
-          'ui:title': 'Were they a Servicemember',
-          'ui:widget': 'yesNo',
+      },
+      unitAssigned: {
+        'ui:title': 'What unit were they assigned to at the time of the event?',
+        'ui:options': {
+          expandUnder: `view:serviceMember${index}`,
+          expandUnderCondition: true,
         },
-        rank: {
-          'ui:title': 'What was their rank at the time of the event?',
-          'ui:options': {
-            expandUnder: 'view:serviceMember',
-            expandUnderCondition: true,
+      },
+      injuryDeathDate: currentOrPastDateUI('Date they were injured or killed'),
+      [`injuryDeath${index}`]: {
+        'ui:title': 'How were they injured or killed?',
+        'ui:widget': 'radio',
+        'ui:options': {
+          labels: {
+            killedInAction: 'Killed in action',
+            woundedInAction: 'Wounded in action',
+            killedInNonBattle: 'Killed non-battle',
+            injuredInNonBattle: 'Injured non-battle',
+            other: 'Other',
           },
         },
-        unitAssigned: {
-          'ui:title':
-            'What unit were they assigned to at the time of the event?',
-          'ui:options': {
-            expandUnder: 'view:serviceMember',
-            expandUnderCondition: true,
-          },
+      },
+      injuryDeathOther: {
+        'ui:title': ' ',
+        'ui:options': {
+          expandUnder: `injuryDeath${index}`,
+          expandUnderCondition: 'Other',
         },
-        injuryDeathDate: currentOrPastDateUI(
-          'Date they were injured or killed',
-        ),
-        injuryDeath: {
-          'ui:title': 'How were they injured or killed?',
-          'ui:widget': 'radio',
-          'ui:options': {
-            labels: {
-              killedInAction: 'Killed in action',
-              woundedInAction: 'Wounded in action',
-              killedInNonBattle: 'Killed non-battle',
-              injuredInNonBattle: 'Injured non-battle',
-              other: 'Other',
-            },
-          },
-        },
-        injuryDeathOther: {
-          'ui:title': ' ',
-          'ui:options': {
-            expandUnder: 'injuryDeath',
-            expandUnderCondition: 'Other',
-          },
-        },
-        'view:msggg': {
-          'ui:title': ' ',
-          'ui:description':
-            'If anyone else was killed or injured in this event, you can add them now.',
-        },
+      },
+      'view:msggg': {
+        'ui:title': ' ',
+        'ui:description':
+          'If anyone else was killed or injured in this event, you can add them now.',
       },
     },
   },
+  // },
 });
 
 export const schema = index => ({
   type: 'object',
   properties: {
-    [`incident${index}`]: {
-      type: 'object',
-      properties: {
-        personInvolved: {
-          type: 'array',
-          items: {
+    // [`incident${index}`]: {
+    //   type: 'object',
+    //   properties: {
+    [`personInvolved${index}`]: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          name: {
+            $ref: '#/definitions/fullName',
+          },
+          personDescription: {
+            type: 'string',
+          },
+          [`view:serviceMember${index}`]: {
+            type: 'boolean',
+          },
+          rank: {
+            type: 'string',
+          },
+          unitAssigned: {
+            type: 'string',
+          },
+          injuryDeathDate: {
+            $ref: '#/definitions/date',
+          },
+          [`injuryDeath${index}`]: {
+            type: 'string',
+            enum: [
+              'Killed in action',
+              'Killed non-battle',
+              'Wounded in action',
+              'Injured non-battle',
+              'Other',
+            ],
+          },
+          injuryDeathOther: {
+            type: 'string',
+          },
+          'view:msggg': {
             type: 'object',
-            properties: {
-              name: {
-                $ref: '#/definitions/fullName',
-              },
-              personDescription: {
-                type: 'string',
-              },
-              'view:serviceMember': {
-                type: 'boolean',
-              },
-              rank: {
-                type: 'string',
-              },
-              unitAssigned: {
-                type: 'string',
-              },
-              injuryDeathDate: {
-                $ref: '#/definitions/date',
-              },
-              injuryDeath: {
-                type: 'string',
-                enum: [
-                  'Killed in action',
-                  'Killed non-battle',
-                  'Wounded in action',
-                  'Injured non-battle',
-                  'Other',
-                ],
-              },
-              injuryDeathOther: {
-                type: 'string',
-              },
-              'view:msggg': {
-                type: 'object',
-                properties: {},
-              },
-            },
+            properties: {},
           },
         },
       },
     },
   },
+  // },
+  // },
 });

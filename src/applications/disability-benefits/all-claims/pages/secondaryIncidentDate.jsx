@@ -24,10 +24,6 @@ export const schema = index => ({
       type: 'object',
       properties: {
         incidentDate: date,
-        'view:ptsdDateSecondaryDescription': {
-          type: 'object',
-          properties: {},
-        },
       },
     },
   },
