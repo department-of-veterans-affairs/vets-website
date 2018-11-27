@@ -15,6 +15,8 @@ import {
   servedAfter911,
   needsToEnter781,
   needsToEnter781a,
+  isAnswering781Questions,
+  isAnswering781aQuestions,
   isUploading781Form,
   isUploading781aForm,
   transformRelatedDisabilities,
@@ -478,5 +480,47 @@ describe('526 helpers', () => {
         transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
       ).to.eql(['some condition name']);
     });
+  });
+});
+describe('isAnswering781Questions', () => {
+  it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:combatPtsdType': true,
+      },
+      'view:upload781Choice': 'answerQuestions',
+    };
+    expect(isAnswering781Questions(formData)).to.be.true;
+  });
+  it('should return false if user has chosen not to enter another incident', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:combatPtsdType': true,
+      },
+      'view:upload781Choice': 'answerQuestions',
+      'view:doneEnteringIncidents': true,
+    };
+    expect(isAnswering781Questions(formData)).to.be.false;
+  });
+});
+describe('isAnswering781aQuestions', () => {
+  it('should return true if user has chosen to answer questions for a 781a PTSD incident', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:assaultPtsdType': true,
+      },
+      'view:upload781aChoice': 'answerQuestions',
+    };
+    expect(isAnswering781aQuestions(formData)).to.be.true;
+  });
+  it('should return false if user has chosen not to enter another incident', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:assaultPtsdType': true,
+      },
+      'view:upload781aChoice': 'answerQuestions',
+      'view:doneEnteringSecondaryIncidents': true,
+    };
+    expect(isAnswering781aQuestions(formData)).to.be.false;
   });
 });
