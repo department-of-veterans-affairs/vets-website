@@ -1,11 +1,12 @@
 import { mhvBaseUrl } from '../../site-wide/cta-widget/helpers';
+import environment from '.';
 
 let currentEnv = 'dev';
-if (__BUILDTYPE__.includes('staging')) {
+if (environment.isStaging()) {
   currentEnv = 'staging';
 }
 
-if (__BUILDTYPE__ === 'production' || __BUILDTYPE__ === 'vagovprod') {
+if (environment.isProduction()) {
   currentEnv = 'www';
 }
 
@@ -18,10 +19,6 @@ const domainReplacements = [
   },
   { from: 'https://www\\.myhealth\\.va\\.gov', to: mhvBaseUrl() },
 ];
-
-// This doesn't include preview because we want to redirect to staging urls
-// in preview
-const prodEnvironments = new Set(['production']);
 
 export function replaceWithStagingDomain(href) {
   let newHref = href;
@@ -48,7 +45,7 @@ export function replaceWithStagingDomain(href) {
  *  argument, with domains replaced
  */
 export function replaceDomainsInData(data, keyToCheck = ['href', 'src']) {
-  if (prodEnvironments.has(__BUILDTYPE__)) {
+  if (environment.isProduction()) {
     return data;
   }
 

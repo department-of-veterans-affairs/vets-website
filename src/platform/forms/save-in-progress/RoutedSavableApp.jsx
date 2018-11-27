@@ -15,6 +15,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 
 import { isInProgress } from '../helpers';
 import { getSaveInProgressState } from './selectors';
+import environment from '../../utilities/environment';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -47,7 +48,7 @@ class RoutedSavableApp extends React.Component {
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const resumeForm = trimmedPathname.endsWith('resume');
     const devRedirect =
-      (__BUILDTYPE__ !== 'localhost' &&
+      (!environment.isLocalhost() &&
         !currentLocation.search.includes('skip')) ||
       currentLocation.search.includes('redirect');
     const goToStartPage = resumeForm || devRedirect;
