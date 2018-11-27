@@ -24,7 +24,7 @@ describe('Summary of Evidence', () => {
     expect(form.find('li').length).to.equal(0);
   });
 
-  it("should render 'no evidence' warning when 'no evidence' selected", () => {
+  it("should render private medical facility list when 'no evidence' selected", () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -32,14 +32,37 @@ describe('Summary of Evidence', () => {
         uiSchema={uiSchema}
         data={{
           'view:hasEvidence': false,
+          providerFacility: [
+            {
+              providerFacilityName: 'Provider',
+              treatmentDateRange: [{ from: '2010-02-03', to: '2012-03-05' }],
+              providerFacilityAddress: {
+                street: '1234 test rd',
+                city: 'Testville',
+                postalCode: '12345',
+                country: 'USA',
+                state: 'AZ',
+              },
+            },
+            {
+              providerFacilityName: 'Another Provider',
+              treatmentDateRange: [{ from: '2010-03-04', to: '2012-02-03' }],
+              providerFacilityAddress: {
+                street: '1234 test rd',
+                city: 'Testville',
+                country: 'USA',
+                state: 'AZ',
+                postalCode: '12345',
+              },
+            },
+          ],
         }}
       />,
     );
 
-    expect(form.render().text()).to.contain(
-      'You haven’t uploaded any evidence.',
-    );
-    expect(form.find('li').length).to.equal(0);
+    expect(form.render().text()).to.contain('Provider');
+    expect(form.render().text()).to.contain('Another Provider');
+    expect(form.find('li').length).to.equal(2);
   });
 
   it('should render VA evidence list when VA evidence submitted', () => {
