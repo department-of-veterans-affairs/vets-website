@@ -15,9 +15,13 @@ export const uiSchema = {
   'ui:description':
     'This is the bank account information we have on file for you. We’ll pay your disability benefit to this account.',
   'view:bankAccount': {
+    'ui:title': 'Payment Information',
     'ui:field': ReviewCardField,
     'ui:options': {
       viewComponent: PaymentView,
+      reviewTitle: 'Payment information',
+      editTitle: 'Add new bank account',
+      itemName: 'account',
       startInEdit: formData =>
         Object.keys(formData).every(key => !formData[key]),
       volatileData: true,
