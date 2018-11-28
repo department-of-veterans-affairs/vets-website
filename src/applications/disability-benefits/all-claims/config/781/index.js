@@ -27,14 +27,14 @@ export function createFormConfig781(iterations) {
       ...configObj,
       // 781 PAGE CONFIGS GO HERE
       [`incidentDate${index}`]: {
-        title: `${numberToWords[index]} 781 PTSD Incident date`,
+        title: `${numberToWords[index]} Assault PTSD Incident date`,
         path: `disabilities/ptsd-incident-date-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: incidentDate.uiSchema(index),
         schema: incidentDate.schema(index),
       },
       [`ptsdAdditionalEvents${index}`]: {
-        title: `${numberToWords[index]} 781 PTSD Additional events.`,
+        title: `${numberToWords[index]} Combat PTSD Additional events.`,
         path: `disabilities/ptsd-additional-events-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: ptsdAdditionalEvents.uiSchema(index),
@@ -52,7 +52,7 @@ export function createFormConfig781a(iterations) {
       ...configObj,
       // 781a PAGE CONFIGS GO HERE
       [`secondaryIncidentDate${index}`]: {
-        title: `${numberToWords[index]} 781a PTSD Incident date`,
+        title: `${numberToWords[index]} Assault PTSD Incident date`,
         path: `disabilities/ptsd-781a-incident-date-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentDate.uiSchema(index),
@@ -60,7 +60,7 @@ export function createFormConfig781a(iterations) {
       },
       // This should be the last page in the config loop
       [`ptsdSecondaryAdditionalEvents${index}`]: {
-        title: `${numberToWords[index]} 781a PTSD Additional events.`,
+        title: `${numberToWords[index]} Assault PTSD Additional events.`,
         path: `disabilities/ptsd-781a-additional-events-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: ptsdSecondaryAdditionalEvents.uiSchema(index),
