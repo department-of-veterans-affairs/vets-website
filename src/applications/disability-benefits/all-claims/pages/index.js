@@ -188,6 +188,11 @@ import {
   schema as conclusionAssaultSchema,
 } from './conclusionAssault';
 
+import {
+  uiSchema as newDisabilitiesUISchema,
+  schema as newDisabilitiesSchema,
+} from './newDisabilities';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema,
@@ -376,4 +381,9 @@ export const conclusionCombat = {
 export const conclusionAssault = {
   uiSchema: conclusionAssaultUISchema,
   schema: conclusionAssaultSchema,
+};
+
+export const newDisabilities = {
+  uiSchema: newDisabilitiesUISchema,
+  schema: newDisabilitiesSchema,
 };
