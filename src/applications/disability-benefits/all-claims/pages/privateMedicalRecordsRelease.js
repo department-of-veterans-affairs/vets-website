@@ -1,8 +1,6 @@
 import _ from '../../../../platform/utilities/data';
-import { merge } from 'lodash';
-import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
+import fullSchema from '../config/schema';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
-import { uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
 import {
   recordReleaseDescription,
   limitedConsentTitle,
@@ -13,7 +11,10 @@ import {
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 import { validateDate } from 'us-forms-system/lib/js/validation';
 
-const { address } = fullSchema526EZ.definitions;
+const { form4142 } = fullSchema.definitions;
+
+const providerFacilities = form4142.properties.providerFacility;
+const limitedConsent = form4142.properties.limitedConsent;
 
 export const uiSchema = {
   'ui:description': recordReleaseDescription,
@@ -34,7 +35,7 @@ export const uiSchema = {
   },
   providerFacility: {
     'ui:options': {
-      itemName: 'Provider',
+      itemName: 'Provider Facility',
       viewField: PrivateProviderTreatmentView,
       hideTitle: true,
     },
@@ -48,9 +49,29 @@ export const uiSchema = {
         'Approximate date of last treatment',
         'End of treatment must be after start of treatment',
       ),
-      providerFacilityAddress: merge(addressUI('', false), {
+      providerFacilityAddress: {
+        'ui:order': [
+          'country',
+          'street',
+          'street2',
+          'city',
+          'state',
+          'postalCode',
+        ],
+        country: {
+          'ui:title': 'Country',
+        },
+        street: {
+          'ui:title': 'Street',
+        },
         street2: {
           'ui:title': 'Street 2',
+        },
+        city: {
+          'ui:title': 'City',
+        },
+        state: {
+          'ui:title': 'State',
         },
         postalCode: {
           'ui:title': 'Postal Code',
@@ -58,83 +79,19 @@ export const uiSchema = {
             widgetClassNames: 'usa-input-medium',
           },
         },
-      }),
+      },
     },
   },
 };
 
 export const schema = {
   type: 'object',
-  required: ['providerFacility'],
   properties: {
-    providerFacility: {
-      type: 'array',
-      minItems: 1,
-      maxItems: 100,
-      items: {
-        type: 'object',
-        required: ['providerFacilityName', 'providerFacilityAddress'],
-        properties: {
-          providerFacilityName: {
-            type: 'string',
-            minLength: 1,
-            maxLength: 100,
-          },
-          treatmentDateRange: {
-            type: 'object',
-            properties: {
-              from: {
-                $ref: '#/definitions/date',
-              },
-              to: {
-                $ref: '#/definitions/date',
-              },
-            },
-            required: ['from', 'to'],
-          },
-          providerFacilityAddress: {
-            type: 'object',
-            required: ['street', 'city', 'country'],
-            properties: {
-              street: {
-                minLength: 1,
-                maxLength: 20,
-                type: 'string',
-              },
-              street2: {
-                minLength: 1,
-                maxLength: 20,
-                type: 'string',
-              },
-              city: {
-                minLength: 1,
-                maxLength: 30,
-                type: 'string',
-              },
-              postalCode: {
-                type: 'string',
-              },
-              country: {
-                type: 'string',
-                enum: address.properties.country.enum,
-                default: 'USA',
-              },
-              state: {
-                type: 'string',
-                enum: address.properties.state.enum,
-                enumNames: address.properties.state.enumNames,
-              },
-            },
-          },
-        },
-      },
-    },
+    providerFacility: providerFacilities,
     'view:limitedConsent': {
       type: 'boolean',
     },
-    limitedConsent: {
-      type: 'string',
-    },
+    limitedConsent,
     'view:privateRecordsChoiceHelp': {
       type: 'object',
       properties: {},

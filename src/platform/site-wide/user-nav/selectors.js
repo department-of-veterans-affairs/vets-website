@@ -13,6 +13,6 @@ export const selectUserGreeting = createSelector(
       return startCase(toLower(name.first || sessionFirstName));
     }
 
-    return email;
+    return 'My Account';
   },
 );

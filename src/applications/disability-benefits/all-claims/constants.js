@@ -138,6 +138,9 @@ export const FIFTY_MB = 52428800;
 
 export const PTSD = 'ptsd';
 
+// Max number of incident iterations a user can go through.
+export const PTSD_INCIDENT_ITERATION = 3;
+
 export const NINE_ELEVEN = '2001-09-11';
 
 export const ERR_MSG_CSS_CLASS = '.usa-input-error-message';
