@@ -3,6 +3,8 @@ import environment from '../../../../platform/utilities/environment';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
+import submitForm from './submitForm';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
 import GetFormHelp from '../../components/GetFormHelp';
@@ -23,9 +25,10 @@ import {
   hasOtherEvidence,
   needsToEnter781,
   needsToEnter781a,
-  isUploadingPtsdForm,
   isAnswering781Questions,
   isAnswering781aQuestions,
+  isUploading781Form,
+  isUploading781aForm,
   servedAfter911,
   isNotUploadingPrivateMedical,
   showPtsdCombatConclusion,
@@ -75,6 +78,7 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  newDisabilities,
 } from '../pages';
 
 import { createFormConfig781, createFormConfig781a } from './781';
@@ -83,10 +87,13 @@ import { PTSD, PTSD_INCIDENT_ITERATION } from '../constants';
 
 import fullSchema from './schema';
 
-const createFormConfig = {
+const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
-  submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
+  submitUrl: `${
+    environment.API_URL
+  }/v0/disability_compensation_form/submit_all_claim`,
+  submit: submitForm,
   trackingPrefix: 'disability-526EZ-',
   // formId: '21-526EZ-all-claims',
   formId: '21-526EZ', // To test prefill, we'll use the 526 increase form ID for now
@@ -184,16 +191,13 @@ const createFormConfig = {
         newDisabilities: {
           title: 'New disabilities',
           path: 'new-disabilities',
-          uiSchema: {
-            'ui:title': 'New disabilities',
-            'ui:description':
-              'Now we’ll ask you about your new service-connected disabilities or conditions.',
-          },
-          schema: { type: 'object', properties: {} },
+          uiSchema: newDisabilities.uiSchema,
+          schema: newDisabilities.schema,
         },
         addDisabilities: {
           title: 'Add a new disability',
           path: 'new-disabilities/add',
+          depends: form => form['view:newDisabilities'] === true,
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
         },
@@ -261,7 +265,7 @@ const createFormConfig = {
           depends: formData =>
             hasNewPtsdDisability(formData) &&
             needsToEnter781(formData) &&
-            isUploadingPtsdForm(formData),
+            isUploading781Form(formData),
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
         },
@@ -287,7 +291,7 @@ const createFormConfig = {
           depends: formData =>
             hasNewPtsdDisability(formData) &&
             needsToEnter781a(formData) &&
-            isUploadingPtsdForm(formData),
+            isUploading781aForm(formData),
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
         },
@@ -336,6 +340,20 @@ const createFormConfig = {
           path: 'disabilities/summary',
           uiSchema: summaryOfDisabilities.uiSchema,
           schema: summaryOfDisabilities.schema,
+        },
+        conclusion4192: {
+          title: 'Conclusion 4192',
+          path: 'disabilities/conclusion-4192',
+          depends: formData => formData['view:unemployabilityStatus'],
+          uiSchema: {
+            'ui:title': ' ',
+            'ui:description':
+              'Thank you for taking the time to answer our questions. The information you provided will help us process your claim.',
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
       },
     },
@@ -455,4 +473,4 @@ const createFormConfig = {
   },
 };
 
-export default createFormConfig;
+export default formConfig;
