@@ -6,7 +6,8 @@ export const benefitChoices = [
   },
   {
     title: 'Disability Benefits',
-    description: 'Find benefits for an illness or injury related to my service.',
+    description:
+      'Find benefits for an illness or injury related to my service.',
     slug: 'disability',
   },
   {
@@ -21,12 +22,14 @@ export const benefitChoices = [
   },
   {
     title: 'Careers and Employment',
-    description: 'Find a job, build skills, or get support for my own business.',
+    description:
+      'Find a job, build skills, or get support for my own business.',
     slug: 'careers',
   },
   {
     title: 'Pensions',
-    description: 'Get financial support for my disability or for care related to aging.',
+    description:
+      'Get financial support for my disability or for care related to aging.',
     slug: 'pensions',
   },
   {
@@ -41,7 +44,8 @@ export const benefitChoices = [
   },
   {
     title: 'Burials and Memorials',
-    description: 'Apply for burial in a VA cemetery or for allowances to cover burial costs.',
+    description:
+      'Apply for burial in a VA cemetery or for allowances to cover burial costs.',
     slug: 'burials',
   },
   {
