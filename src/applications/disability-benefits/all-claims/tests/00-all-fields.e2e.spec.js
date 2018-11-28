@@ -84,14 +84,10 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client.click('.form-progress-buttons .usa-button-primary');
 
   // New Disability
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFromExact(client, '/new-disabilities');
-
-  // Add Disibility
   client.axeCheck('.main');
-  PageHelpers.completeAddDisability(client, testData.data);
-  client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/new-disabilities/add');
+  PageHelpers.completeNewDisability(client, testData.data);
+  client.click('.form-panel .usa-button-primary');
+  E2eHelpers.expectNavigateAwayFromExact(client, '/new-disabilities');
 
   // Unemployability Status
   client.axeCheck('.main');
@@ -155,7 +151,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/summary');
 
-  // Possibly Used outside of 4142
+  // Possibly used outside of flow to, and including, 4142
   // Veteran Address Information
   // client.axeCheck('.main');
   // PageHelpers.completeVeteranAddressInformation(client, testData.data);

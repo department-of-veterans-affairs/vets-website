@@ -1,37 +1,6 @@
 const mock = require('../../../../platform/testing/e2e/mock-helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 
-// Unused?
-function completeApplicantInformation(client, data) {
-  client
-    .fillName('root_fullName', data.fullName)
-    .selectDropdown('root_gender', data.gender)
-    .fill('input[name="root_socialSecurityNumber"]', data.socialSecurityNumber)
-    .fillDate('root_dateOfBirth', data.dateOfBirth)
-    .selectDropdown('root_serviceBranch', data.serviceBranch);
-}
-
-function completeVeteranAddressInformation(client, data) {
-  const { addressLine1, city, state, zipCode } = data.veteran.mailingAddress;
-
-  client
-    .fill(
-      'input[name="root_veteran_mailingAddress_addressLine1"]',
-      addressLine1,
-    )
-    .fill('input[name="root_veteran_mailingAddress_city"]', city)
-    .selectDropdown('root_veteran_mailingAddress_state', state)
-    .fill('input[name="root_veteran_mailingAddress_zipCode"]', zipCode);
-}
-
-function completeHomelessness(client, data) {
-  client.selectYesNo(
-    'root_veteran_homelessness_isHomeless',
-    data.veteran.homelessness.isHomeless,
-  );
-}
-
-// Used.
 function completeAlternateName(client, data) {
   const hasAlternateName = data['view:hasAlternateName'];
 
@@ -104,10 +73,10 @@ function selectDisabilities(client) {
   client.fillCheckbox('input[name="root_ratedDisabilities_0"]', true);
 }
 
-function completeAddDisability(client, data) {
-  const newDisability = data['view:newDisabilities'];
+function completeNewDisability(client, data) {
+  const newDisabilities = data['root_view:newDisabilities'];
 
-  client.selectYesNo('root_view:newDisabilities', newDisability);
+  client.selectYesNo('root_view:newDisabilities', newDisabilities);
 }
 
 function completeUnemployabilityStatus(client, data) {
@@ -214,45 +183,6 @@ function completeRecordReleaseInformation(client, data) {
   });
 }
 
-function completeVAFacilitiesInformation(client, data) {
-  data.treatments.forEach((treatment, i, list) => {
-    client
-      .waitForElementVisible(
-        `input[name="root_treatments_${i}_treatment_treatmentCenterName"]`,
-        Timeouts.normal,
-      )
-      .selectDropdown(
-        `root_treatments_${i}_treatment_startTreatmentMonth`,
-        data.treatments[0].startTreatmentMonth,
-      )
-      .selectDropdown(
-        `root_treatments_${i}_treatment_startTreatmentDay`,
-        data.treatments[0].startTreatmentDay,
-      )
-      .fill(
-        `input[name="root_treatments_${i}_treatment_startTreatmentYear"]`,
-        data.treatments[0].startTreatmentYear,
-      )
-      .selectDropdown(
-        `root_treatments_${i}_treatment_endTreatmentMonth`,
-        data.treatments[0].endTreatmentMonth,
-      )
-      .selectDropdown(
-        `root_treatments_${i}_treatment_endTreatmentDay`,
-        data.treatments[0].endTreatmentDay,
-      )
-      .fill(
-        `input[name="root_treatments_${i}_treatment_endTreatmentYear"]`,
-        data.treatments[0].endTreatmentYear,
-      )
-      .fill(
-        `input[name="root_treatments_${i}_treatment_treatmentCenterName"]`,
-        data.treatments[0].treatmentCenterName,
-      );
-    if (i < list.length - 1) client.click('.va-growable-add-btn');
-  });
-}
-
 function initInProgressMock(token) {
   mock(token, {
     path: '/v0/in_progress_forms/21-526EZ',
@@ -308,9 +238,9 @@ function initInProgressMock(token) {
   });
 }
 
-function initApplicationSubmitMock() {
+function initDocumentUploadMock() {
   mock(null, {
-    path: '/v0/21-526EZ',
+    path: '/v0/claim_attachments',
     verb: 'post',
     value: {
       data: {
@@ -322,9 +252,9 @@ function initApplicationSubmitMock() {
   });
 }
 
-function initDocumentUploadMock() {
+function initApplicationSubmitMock() {
   mock(null, {
-    path: '/v0/claim_attachments',
+    path: '/v0/21-526EZ',
     verb: 'post',
     value: {
       data: {
@@ -449,10 +379,79 @@ function initPaymentInformationMock(token) {
   });
 }
 
+// Possibly used outside of flow to, and including, 4142
+// function completeApplicantInformation(client, data) {
+//   client
+//     .fillName('root_fullName', data.fullName)
+//     .selectDropdown('root_gender', data.gender)
+//     .fill('input[name="root_socialSecurityNumber"]', data.socialSecurityNumber)
+//     .fillDate('root_dateOfBirth', data.dateOfBirth)
+//     .selectDropdown('root_serviceBranch', data.serviceBranch);
+// }
+
+// function completeVeteranAddressInformation(client, data) {
+//   const { addressLine1, city, state, zipCode } = data.veteran.mailingAddress;
+
+//   client
+//     .fill(
+//       'input[name="root_veteran_mailingAddress_addressLine1"]',
+//       addressLine1,
+//     )
+//     .fill('input[name="root_veteran_mailingAddress_city"]', city)
+//     .selectDropdown('root_veteran_mailingAddress_state', state)
+//     .fill('input[name="root_veteran_mailingAddress_zipCode"]', zipCode);
+// }
+
+// function completeHomelessness(client, data) {
+//   client.selectYesNo(
+//     'root_veteran_homelessness_isHomeless',
+//     data.veteran.homelessness.isHomeless,
+//   );
+// }
+
+// function completeVAFacilitiesInformation(client, data) {
+//   data.treatments.forEach((treatment, i, list) => {
+//     client
+//       .waitForElementVisible(
+//         `input[name="root_treatments_${i}_treatment_treatmentCenterName"]`,
+//         Timeouts.normal,
+//       )
+//       .selectDropdown(
+//         `root_treatments_${i}_treatment_startTreatmentMonth`,
+//         data.treatments[0].startTreatmentMonth,
+//       )
+//       .selectDropdown(
+//         `root_treatments_${i}_treatment_startTreatmentDay`,
+//         data.treatments[0].startTreatmentDay,
+//       )
+//       .fill(
+//         `input[name="root_treatments_${i}_treatment_startTreatmentYear"]`,
+//         data.treatments[0].startTreatmentYear,
+//       )
+//       .selectDropdown(
+//         `root_treatments_${i}_treatment_endTreatmentMonth`,
+//         data.treatments[0].endTreatmentMonth,
+//       )
+//       .selectDropdown(
+//         `root_treatments_${i}_treatment_endTreatmentDay`,
+//         data.treatments[0].endTreatmentDay,
+//       )
+//       .fill(
+//         `input[name="root_treatments_${i}_treatment_endTreatmentYear"]`,
+//         data.treatments[0].endTreatmentYear,
+//       )
+//       .fill(
+//         `input[name="root_treatments_${i}_treatment_treatmentCenterName"]`,
+//         data.treatments[0].treatmentCenterName,
+//       );
+//     if (i < list.length - 1) client.click('.va-growable-add-btn');
+//   });
+// }
+
 module.exports = {
   initInProgressMock,
-  initApplicationSubmitMock,
   initDocumentUploadMock,
+  initApplicationSubmitMock,
   initItfMock,
   initPaymentInformationMock,
   completeAlternateName,
@@ -461,14 +460,10 @@ module.exports = {
   completeReservesNationalGuardInfo,
   completeFederalOrders,
   selectDisabilities,
-  completeAddDisability,
+  completeNewDisability,
   completeUnemployabilityStatus,
   completePowStatus,
   completeEvidenceTypes,
-  completeVAFacilitiesInformation,
-  completeRecordReleaseInformation,
   completePrivateMedicalRecordsChoice,
-  completeApplicantInformation,
-  completeVeteranAddressInformation,
-  completeHomelessness,
+  completeRecordReleaseInformation,
 };
