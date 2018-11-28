@@ -193,6 +193,11 @@ import {
   schema as secondaryUploadSourcesSchema,
 } from './secondaryUploadSources';
 
+import {
+  uiSchema as newDisabilitiesUISchema,
+  schema as newDisabilitiesSchema,
+} from './newDisabilities';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema,
@@ -386,4 +391,9 @@ export const conclusionAssault = {
 export const secondaryUploadSources = {
   uiSchema: secondaryUploadSourcesUISchema,
   schema: secondaryUploadSourcesSchema,
+};
+
+export const newDisabilities = {
+  uiSchema: newDisabilitiesUISchema,
+  schema: newDisabilitiesSchema,
 };

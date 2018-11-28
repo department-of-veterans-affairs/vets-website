@@ -4,6 +4,7 @@ import LazyLoad from 'vanilla-lazyload/dist/lazyload';
 import createCommonStore from '../../platform/startup/store';
 import startSitewideComponents from '../../platform/site-wide';
 
+import createAdditionalInfoWidget from './createAdditionalInfoWidget';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
@@ -73,6 +74,8 @@ import './sidebar-navigation.js';
 
 const store = createCommonStore();
 startSitewideComponents(store);
+
+createAdditionalInfoWidget();
 
 if (pensionPages.has(location.pathname)) {
   const applyLink = brandConsolidation.isEnabled()

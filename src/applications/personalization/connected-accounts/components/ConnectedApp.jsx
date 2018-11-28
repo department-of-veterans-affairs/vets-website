@@ -33,9 +33,10 @@ class ConnectedApp extends React.Component {
     const toggled = this.state.detailsOpen
       ? `${cssPrefix}-details-toggled`
       : '';
+    const lastClass = this.props.isLast ? `${cssPrefix}-last-row` : '';
     return (
       <tr>
-        <table>
+        <table className={`${cssPrefix}-row-table ${lastClass}`}>
           <tbody>
             <tr
               className={`${cssPrefix}-row ${toggled}`}
@@ -103,6 +104,7 @@ ConnectedApp.propTypes = {
   attribtues: PropTypes.object.isRequired,
   confirmDelete: PropTypes.func.isRequired,
   propertyName: PropTypes.string.isRequired,
+  isLast: PropTypes.bool,
 };
 
 export { ConnectedApp };

@@ -17,7 +17,7 @@ const pendingResponse = {
   response: {
     data: {
       attributes: {
-        transactionStatus: submissionStatuses.pending,
+        status: submissionStatuses.pending,
       },
     },
   },
@@ -28,10 +28,8 @@ const successResponse = {
   response: {
     data: {
       attributes: {
-        transactionStatus: submissionStatuses.succeeded,
-        metadata: {
-          claimId: '123abc',
-        },
+        status: submissionStatuses.succeeded,
+        claimId: '123abc',
       },
     },
   },
@@ -42,7 +40,7 @@ const failureResponse = {
   response: {
     data: {
       attributes: {
-        transactionStatus: submissionStatuses.failed,
+        status: submissionStatuses.failed,
       },
     },
   },

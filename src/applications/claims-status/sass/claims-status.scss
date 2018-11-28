@@ -556,6 +556,27 @@ h1:focus {
 .claim-timeline {
   padding-top: 0;
 
+  .section-header-button {
+    background: inherit;
+    border: inherit;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-size-adjust: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    margin: inherit;
+    padding: inherit;
+    z-index: inherit;
+  }
+
+  .section-header-button:focus {
+    outline: 2px solid;
+    outline-color: $color-gold-light;
+    outline-offset: 0;
+  }
+
   .section-current > .section-header {
     color: $color-primary;
   }

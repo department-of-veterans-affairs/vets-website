@@ -179,6 +179,18 @@ export function transformRelatedDisabilities(object, claimedConditions) {
     .map(key => key.toLowerCase());
 }
 
+/**
+ * Cycles through the list of provider facilities and performs transformations on each property as needed
+ * @param {array} providerFacilities array of objects being transformed
+ * @returns {array} containing the new Provider Facility structure
+ */
+export function transformProviderFacilities(providerFacilities) {
+  return providerFacilities.map(facility => ({
+    ...facility,
+    treatmentDateRange: [facility.treatmentDateRange],
+  }));
+}
+
 export function transform(formConfig, form) {
   // Remove rated disabilities that weren't selected
   let clonedData = _.set(
@@ -195,6 +207,7 @@ export function transform(formConfig, form) {
       claimedConditions.push(d.condition.toLowerCase()),
     );
   }
+
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
   // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
   //  it here to remove reservesNationalGuardService if it's deeply empty.
@@ -234,6 +247,22 @@ export function transform(formConfig, form) {
       return d;
     });
     delete clonedData.powDisabilities;
+  }
+
+  if (clonedData.providerFacility) {
+    clonedData.form4142 = {
+      ...(clonedData.limitedConsent && {
+        limitedConsent: clonedData.limitedConsent,
+      }),
+      ...(clonedData.providerFacility && {
+        providerFacility: transformProviderFacilities(
+          clonedData.providerFacility,
+        ),
+      }),
+    };
+
+    delete clonedData.limitedConsent;
+    delete clonedData.providerFacility;
   }
 
   return JSON.stringify({
@@ -368,8 +397,11 @@ export const needsToEnter781a = formData =>
   _.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false) ||
   _.get('view:selectablePtsdTypes.view:assaultPtsdType', formData, false);
 
-export const isUploadingPtsdForm = formData =>
-  _.get('view:uploadPtsdChoice', formData, '') === 'upload';
+export const isUploading781Form = formData =>
+  _.get('view:upload781Choice', formData, '') === 'upload';
+
+export const isUploading781aForm = formData =>
+  _.get('view:upload781aChoice', formData, '') === 'upload';
 
 export const isAnswering781Questions = formData =>
   _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions' &&
