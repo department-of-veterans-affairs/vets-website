@@ -16,7 +16,7 @@ export const AdditionalResourcesLinks = () => (
       </a>
     </p>
     <p>
-      <a href="https://www.benefits.va.gov/GIBILL/Feedback.asp" target="_blank">
+      <a href="/education/gi-bill-school-feedback">
         Submit a complaint through our Feedback System
       </a>
     </p>
