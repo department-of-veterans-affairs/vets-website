@@ -1,10 +1,10 @@
 import React from 'react';
 
 export default function AuthorityField({ formData }) {
-  const { name } = formData;
+  const { name, phone } = formData;
   const {
-    street,
-    street2,
+    addressLine1,
+    addressLine2,
     city,
     state,
     postalCode,
@@ -15,15 +15,13 @@ export default function AuthorityField({ formData }) {
     <div>
       <strong>{name}</strong>
       <br />
-      <strong>
-        {street} {street2}
-      </strong>
+      {addressLine1} {addressLine2}
       <br />
-      <strong>
-        {city} {state} {postalCode}
-      </strong>
+      {city} {state} {postalCode}
       <br />
-      <strong>{country}</strong>
+      {country}
+      <br />
+      {phone}
     </div>
   );
 }

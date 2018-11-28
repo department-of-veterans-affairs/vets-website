@@ -1,13 +1,22 @@
 import React from 'react';
-import { merge } from 'lodash';
+import { merge, omit } from 'lodash';
 
 import fullSchema from '../config/schema';
 import AuthorityField from '../components/AuthorityField';
 import { PtsdNameTitle } from '../content/ptsdClassification';
 import { PtsdAssaultAuthoritiesDescription } from '../content/ptsdAssaultAuthorities';
-import { uiSchema as addressUI } from '../../../../platform/forms/definitions/address';
+import { isValidPhone } from '../../../../platform/forms/validations';
+import {
+  uiSchema as addressUI,
+  schema as addressSchema,
+} from '../../../../platform/forms/definitions/address';
+import { validateZIP } from '../validations';
 
-const { address } = fullSchema.definitions;
+const validatePhone = (errors, phone) => {
+  if (!isValidPhone(phone)) {
+    errors.addError('Phone numbers must be 10 digits (dashes allowed)');
+  }
+};
 
 export const uiSchema = index => ({
   'ui:title': ({ formData }) => (
@@ -25,61 +34,65 @@ export const uiSchema = index => ({
           'ui:title': 'Name of authority',
         },
         address: merge(addressUI('', false), {
-          street2: {
+          'ui:order': [
+            'country',
+            'addressLine1',
+            'addressLine2',
+            'city',
+            'state',
+            'zipCode',
+          ],
+          addressLine1: {
+            'ui:title': 'Street',
+          },
+          addressLine2: {
             'ui:title': 'Street 2',
           },
           state: {
             'ui:title': 'State',
           },
-          postalCode: {
+          zipCode: {
             'ui:title': 'Postal Code',
+            'ui:validations': [validateZIP],
           },
         }),
+        phone: {
+          'ui:title': 'Primary phone number',
+          'ui:validations': [validatePhone],
+        },
       },
     },
   },
 });
 
-export const schema = index => ({
-  type: 'object',
-  properties: {
-    [`secondaryIncident${index}`]: {
-      type: 'object',
-      properties: {
-        authorities: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              name: {
-                type: 'string',
-              },
-              address: {
-                type: 'object',
-                required: [],
-                properties: {
-                  street: {
-                    type: 'string',
+export const schema = index => {
+  const address = addressSchema(fullSchema);
+
+  return {
+    type: 'object',
+    properties: {
+      [`secondaryIncident${index}`]: {
+        type: 'object',
+        properties: {
+          authorities: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                name: {
+                  type: 'string',
+                },
+                address: {
+                  ...address,
+                  properties: {
+                    ...omit(address.properties, ['addressLine3', 'postalCode']),
+                    zipCode: {
+                      type: 'string',
+                    },
                   },
-                  street2: {
-                    type: 'string',
-                  },
-                  city: {
-                    type: 'string',
-                  },
-                  postalCode: {
-                    type: 'string',
-                  },
-                  country: {
-                    type: 'string',
-                    enum: address.properties.country.enum,
-                    default: 'USA',
-                  },
-                  state: {
-                    type: 'string',
-                    enum: address.properties.state.enum,
-                    enumNames: address.properties.state.enumNames,
-                  },
+                },
+                phone: {
+                  type: 'string',
                 },
               },
             },
@@ -87,5 +100,5 @@ export const schema = index => ({
         },
       },
     },
-  },
-});
+  };
+};

@@ -24,8 +24,8 @@ describe('PTSD Assault permission notice', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(5);
-    expect(form.find('select').length).to.equal(2);
+    expect(form.find('input').length).to.equal(7);
+    expect(form.find('select').length).to.equal(1);
   });
 
   it('should add an authority', () => {
@@ -51,12 +51,12 @@ describe('PTSD Assault permission notice', () => {
     );
     fillData(
       form,
-      'input#root_secondaryIncident0_authorities_0_address_street',
+      'input#root_secondaryIncident0_authorities_0_address_addressLine1',
       '123 Street',
     );
     fillData(
       form,
-      'input#root_secondaryIncident0_authorities_0_address_street2',
+      'input#root_secondaryIncident0_authorities_0_address_addressLine2',
       'Apt B',
     );
     fillData(
@@ -71,8 +71,13 @@ describe('PTSD Assault permission notice', () => {
     );
     fillData(
       form,
-      'input#root_secondaryIncident0_authorities_0_address_postalCode',
-      '12345',
+      'input#root_secondaryIncident0_authorities_0_address_zipCode',
+      '12345-1234',
+    );
+    fillData(
+      form,
+      'input#root_secondaryIncident0_authorities_0_phone',
+      '555-123-1234',
     );
     form.find('form').simulate('submit');
 
