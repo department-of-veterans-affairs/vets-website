@@ -413,6 +413,11 @@ export const isAnswering781aQuestions = formData =>
   _.get('view:doneEnteringSecondaryIncidents', formData, false) !== true &&
   needsToEnter781a(formData);
 
+export const isUploading781aSupportingDocuments = formData =>
+  _.get('view:uploadChoice0', formData, '') === true ||
+  _.get('view:uploadChoice1', formData, '') === true ||
+  _.get('view:uploadChoice2', formData, '') === true;
+
 export const getHomelessOrAtRisk = formData => {
   const homelessStatus = _.get('homelessOrAtRisk', formData, '');
   return (

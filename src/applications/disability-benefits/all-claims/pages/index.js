@@ -198,6 +198,11 @@ import {
   schema as newDisabilitiesSchema,
 } from './newDisabilities';
 
+import {
+  uiSchema as secondaryUploadSourcesChoiceUISchema,
+  schema as secondaryUploadSourcesChoiceSchema,
+} from './secondaryUploadSourcesChoice';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema,
@@ -396,4 +401,9 @@ export const secondaryUploadSources = {
 export const newDisabilities = {
   uiSchema: newDisabilitiesUISchema,
   schema: newDisabilitiesSchema,
+};
+
+export const secondaryUploadSourcesChoice = {
+  uiSchema: secondaryUploadSourcesChoiceUISchema,
+  schema: secondaryUploadSourcesChoiceSchema,
 };
