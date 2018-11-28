@@ -11,6 +11,7 @@ const sharedDescription = (
     have a chance to provide more information later.)
   </p>
 );
+
 const eventHelpText = (
   <AdditionalInfo triggerText="What if I can’t remember the date?">
     <p>
@@ -24,6 +25,7 @@ const eventHelpText = (
     </p>
   </AdditionalInfo>
 );
+
 export const ptsdDateDescription = (
   <div>
     <h5>Event date</h5>
