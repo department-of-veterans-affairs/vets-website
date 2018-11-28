@@ -3,9 +3,6 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import environment from '../../../utilities/environment';
-import ENVIRONMENTS from '../../../../site/constants/environments';
-
 import { RoutedSavableApp } from '../../save-in-progress/RoutedSavableApp';
 import {
   LOAD_STATUSES,
@@ -235,8 +232,6 @@ describe('Schemaform <RoutedSavableApp>', () => {
     };
 
     // Only redirects in production or if ?redirect is in the URL
-    const buildType = environment.BUILDTYPE;
-    environment.BUILDTYPE = ENVIRONMENTS.VAGOVPROD;
     const tree = SkinDeep.shallowRender(
       <RoutedSavableApp
         formConfig={formConfig}
@@ -252,7 +247,6 @@ describe('Schemaform <RoutedSavableApp>', () => {
     tree.getMountedInstance().componentDidMount();
 
     expect(router.replace.calledWith('/introduction')).to.be.true;
-    environment.BUILDTYPE = buildType;
   });
   it('should load a saved form when starting in the middle of a form and logged in', () => {
     const formConfig = {
@@ -279,8 +273,6 @@ describe('Schemaform <RoutedSavableApp>', () => {
     const fetchInProgressForm = sinon.spy();
 
     // Only redirects in production or if ?redirect is in the URL
-    const buildType = environment.BUILDTYPE;
-    environment.BUILDTYPE = ENVIRONMENTS.VAGOVPROD;
     const tree = SkinDeep.shallowRender(
       <RoutedSavableApp
         formConfig={formConfig}
@@ -314,7 +306,6 @@ describe('Schemaform <RoutedSavableApp>', () => {
         false,
       ),
     ).to.be.true;
-    environment.BUILDTYPE = buildType;
   });
   it('should load a pre-filled form when starting in the middle of a form and logged in', () => {
     const formConfig = {
@@ -341,8 +332,6 @@ describe('Schemaform <RoutedSavableApp>', () => {
     const fetchInProgressForm = sinon.spy();
 
     // Only redirects in production or if ?redirect is in the URL
-    const buildType = environment.BUILDTYPE;
-    environment.BUILDTYPE = ENVIRONMENTS.VAGOVPROD;
     const tree = SkinDeep.shallowRender(
       <RoutedSavableApp
         formConfig={formConfig}
@@ -376,7 +365,6 @@ describe('Schemaform <RoutedSavableApp>', () => {
         true,
       ),
     ).to.be.true;
-    environment.BUILDTYPE = buildType;
   });
   it('should skip pre-fill when skipPrefill is true', () => {
     const formConfig = {
@@ -404,8 +392,6 @@ describe('Schemaform <RoutedSavableApp>', () => {
     const fetchInProgressForm = sinon.spy();
 
     // Only redirects in production or if ?redirect is in the URL
-    const buildType = environment.BUILDTYPE;
-    environment.BUILDTYPE = ENVIRONMENTS.VAGOVPROD;
     const tree = SkinDeep.shallowRender(
       <RoutedSavableApp
         formConfig={formConfig}
@@ -435,6 +421,5 @@ describe('Schemaform <RoutedSavableApp>', () => {
 
     expect(fetchInProgressForm.called).to.be.false;
     expect(router.replace.calledWith('/first-in-form-page')).to.be.true;
-    environment.BUILDTYPE = buildType;
   });
 });
