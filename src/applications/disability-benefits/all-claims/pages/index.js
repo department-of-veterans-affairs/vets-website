@@ -179,6 +179,11 @@ import {
 } from './unemployabilityFormIntro';
 
 import {
+  uiSchema as hospitalizationHistoryUISchema,
+  schema as hospitalizationHistorySchema,
+} from './hospitalizationHistory';
+
+import {
   uiSchema as conclusionCombatUISchema,
   schema as conclusionCombatSchema,
 } from './conclusionCombat';
@@ -371,6 +376,11 @@ export const unemployabilityStatus = {
 export const unemployabilityFormIntro = {
   uiSchema: unemployabilityFormIntroUISchema,
   schema: unemployabilityFormIntroSchema,
+};
+
+export const hospitalizationHistory = {
+  uiSchema: hospitalizationHistoryUISchema,
+  schema: hospitalizationHistorySchema,
 };
 
 export const conclusionCombat = {
