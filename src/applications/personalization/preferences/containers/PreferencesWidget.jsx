@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
+import isProduction from '../../../../platform/utilities/environment/isProduction';
+
 function AccordionWrapper({ children }) {
   return (
     <div className="usa-accordion">
-      <ul className="usa-unstyled-list">
-        {children}
-      </ul>
+      <ul className="usa-unstyled-list">{children}</ul>
     </div>
   );
 }
@@ -15,11 +15,17 @@ function AccordionWrapper({ children }) {
 function AccordionItem({ onToggle, expanded, buttonText, name, children }) {
   return (
     <li>
-      <button className="usa-button-unstyled usa-accordion-button" aria-controls={name} aria-expanded={!!expanded} onClick={onToggle} name={name}>{buttonText}</button>
+      <button
+        className="usa-button-unstyled usa-accordion-button"
+        aria-controls={name}
+        aria-expanded={!!expanded}
+        onClick={onToggle}
+        name={name}
+      >
+        {buttonText}
+      </button>
       <div id={name} className="usa-accordion-content" aria-hidden={!expanded}>
-        <div itemProp="text">
-          {children}
-        </div>
+        <div itemProp="text">{children}</div>
       </div>
     </li>
   );
@@ -32,16 +38,16 @@ class PreferencesWidget extends React.Component {
     this.state = {};
   }
 
-  handleAccordionToggle = (e) => {
+  handleAccordionToggle = e => {
     e.preventDefault();
     this.setState({
       [e.target.name]: !this.state[e.target.name],
     });
-  }
+  };
 
   render() {
     // do not show in production
-    if (document.location.hostname === 'www.vets.gov') {
+    if (isProduction()) {
       return null;
     }
 
@@ -54,12 +60,22 @@ class PreferencesWidget extends React.Component {
           </div>
           <div>
             <AccordionWrapper>
-              <AccordionItem onToggle={this.handleAccordionToggle} name="exampleBenefit" buttonText="Example Benefit" expanded={this.state.exampleBenefit}>
+              <AccordionItem
+                onToggle={this.handleAccordionToggle}
+                name="exampleBenefit"
+                buttonText="Example Benefit"
+                expanded={this.state.exampleBenefit}
+              >
                 <p>TBD benefit content</p>
               </AccordionItem>
             </AccordionWrapper>
             <AccordionWrapper>
-              <AccordionItem onToggle={this.handleAccordionToggle} name="exampleBenefitTwo" buttonText="Example Benefit Two" expanded={this.state.exampleBenefitTwo}>
+              <AccordionItem
+                onToggle={this.handleAccordionToggle}
+                name="exampleBenefitTwo"
+                buttonText="Example Benefit Two"
+                expanded={this.state.exampleBenefitTwo}
+              >
                 <p>TBD benefit content</p>
               </AccordionItem>
             </AccordionWrapper>
@@ -70,13 +86,14 @@ class PreferencesWidget extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    ...state,
-  };
-};
+const mapStateToProps = state => ({
+  ...state,
+});
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(PreferencesWidget);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PreferencesWidget);
 export { PreferencesWidget };

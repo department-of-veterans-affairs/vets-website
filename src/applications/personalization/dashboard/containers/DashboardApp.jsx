@@ -6,13 +6,15 @@ import { withRouter } from 'react-router';
 import backendServices from '../../../../platform/user/profile/constants/backendServices';
 import recordEvent from '../../../../platform/monitoring/record-event';
 import localStorage from '../../../../platform/utilities/storage/localStorage';
+import isProduction from '../../../../platform/utilities/environment/isProduction';
+
 import { removeSavedForm } from '../actions';
 
 import FormList from '../components/FormList';
 import MessagingWidget from './MessagingWidget';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PrescriptionsWidget from './PrescriptionsWidget';
-import PreferencesWidget from '../../preferences/PreferencesWidget';
+import PreferencesWidget from '../../preferences/containers/PreferencesWidget';
 
 import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, {
@@ -61,7 +63,7 @@ class DashboardApp extends React.Component {
   componentDidMount() {
     scrollToTop();
 
-    if (document.location.hostname !== 'www.vets.gov') {
+    if (!isProduction()) {
       if (!localStorage.getItem('dashboardLastVisitedAt')) {
         this.props.router.push('preferences');
       }

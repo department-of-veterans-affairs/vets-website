@@ -1,6 +1,7 @@
 import DashboardApp from './containers/DashboardApp';
 import DashboardAppWrapper from './containers/DashboardAppWrapper';
-import SetPreferences from '../preferences/SetPreferences';
+import SetPreferences from '../preferences/containers/SetPreferences';
+import isProduction from '../../../platform/utilities/environment/isProduction';
 
 const preferencesRoute = {
   path: 'preferences',
@@ -10,7 +11,7 @@ const preferencesRoute = {
 };
 
 // do not allow route in production
-if (document.location.hostname === 'www.vets.gov') {
+if (isProduction()) {
   preferencesRoute.onEnter = (nextState, replace) => replace('/');
 }
 

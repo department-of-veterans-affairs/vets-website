@@ -12,11 +12,12 @@
     flex: 1;
 
     .preference-item {
-      flex: 1;
+      flex: 0 auto;
       margin: 1rem;
       padding: 1.5rem;
       background: $color-gray-lightest;
       cursor: pointer;
+      width: 313.75px;
 
       .form-checkbox {
         input[type=checkbox] {

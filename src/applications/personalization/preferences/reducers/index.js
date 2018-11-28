@@ -4,7 +4,7 @@ import {
   DASHBOARD_PREFERENCE_SET,
   DASHBOARD_PREFERENCES_SAVED,
   DASHBOARD_PREFERENCES_FETCHED,
-} from './actions';
+} from '../actions';
 
 const initialState = {
   dashboard: {},
