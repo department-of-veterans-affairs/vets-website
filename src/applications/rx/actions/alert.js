@@ -2,12 +2,12 @@ export function openAlert(status, content) {
   return {
     type: 'OPEN_ALERT',
     status,
-    content
+    content,
   };
 }
 
 export function closeAlert() {
   return {
-    type: 'CLOSE_ALERT'
+    type: 'CLOSE_ALERT',
   };
 }

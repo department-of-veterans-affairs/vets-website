@@ -11,7 +11,7 @@ class MessageWriteGroup extends React.Component {
       'msg-write-group',
       'msg-field',
       { 'msg-compose-error': !!this.props.errorMessage },
-      { 'usa-input-error': !!this.props.errorMessage }
+      { 'usa-input-error': !!this.props.errorMessage },
     );
 
     return (
@@ -22,12 +22,18 @@ class MessageWriteGroup extends React.Component {
           errorMessage={this.props.errorMessage}
           onValueChange={this.props.onTextChange}
           placeholder={this.props.placeholder}
-          text={this.props.messageText}/>
+          text={this.props.messageText}
+        />
         <MessageAttachments
           files={this.props.files}
-          onClose={this.props.onAttachmentsClose}/>
+          onClose={this.props.onAttachmentsClose}
+        />
         <MessageSend
-          disabled={!this.props.messageText.value.length || this.props.sendingMessage || this.props.disabled}
+          disabled={
+            !this.props.messageText.value.length ||
+            this.props.sendingMessage ||
+            this.props.disabled
+          }
           allowedMimeTypes={this.props.allowedMimeTypes}
           attachedFiles={this.props.files}
           maxFiles={this.props.maxFiles}
@@ -38,7 +44,8 @@ class MessageWriteGroup extends React.Component {
           onSave={this.props.onSave}
           onSend={this.props.onSend}
           onDelete={this.props.onDelete}
-          sendingMessage={this.props.sendingMessage}/>
+          sendingMessage={this.props.sendingMessage}
+        />
       </div>
     );
   }
@@ -54,7 +61,7 @@ MessageWriteGroup.propTypes = {
   maxTotalFileSize: PropTypes.number,
   messageText: PropTypes.shape({
     value: PropTypes.string,
-    dirty: PropTypes.bool
+    dirty: PropTypes.bool,
   }).isRequired,
   onAttachmentsClose: PropTypes.func,
   onAttachmentUpload: PropTypes.func,
@@ -64,7 +71,7 @@ MessageWriteGroup.propTypes = {
   onSend: PropTypes.func,
   onTextChange: PropTypes.func,
   placeholder: PropTypes.string,
-  sendingMessage: PropTypes.bool
+  sendingMessage: PropTypes.bool,
 };
 
 export default MessageWriteGroup;

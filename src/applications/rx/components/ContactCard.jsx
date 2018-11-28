@@ -23,7 +23,7 @@ class ContactCard extends React.Component {
           {this.props.facilityName}
         </div>
         {phoneNumber}
-        <MessageProviderLink/>
+        <MessageProviderLink />
       </div>
     );
   }
@@ -31,7 +31,7 @@ class ContactCard extends React.Component {
 
 ContactCard.propTypes = {
   facilityName: PropTypes.string.isRequired,
-  phoneNumber: PropTypes.string
+  phoneNumber: PropTypes.string,
 };
 
 export default ContactCard;

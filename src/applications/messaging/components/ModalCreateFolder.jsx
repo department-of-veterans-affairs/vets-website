@@ -40,28 +40,37 @@ class ModalCreateFolder extends React.Component {
     let modalContents;
 
     if (this.props.loading) {
-      modalContents = <LoadingIndicator message="Creating your folder..."/>;
+      modalContents = <LoadingIndicator message="Creating your folder..." />;
     } else {
       modalContents = (
         <form onSubmit={this.handleSubmit}>
-          <h3>
-            Create new folder
-          </h3>
+          <h3>Create new folder</h3>
           <ErrorableTextInput
-            errorMessage={error.hasError ? createNewFolderSettings.errorMessages[error.type] : undefined}
+            errorMessage={
+              error.hasError
+                ? createNewFolderSettings.errorMessages[error.type]
+                : undefined
+            }
             label="Please enter a new folder name:"
             onValueChange={this.handleValueChange}
             name="newFolderName"
             charMax={createNewFolderSettings.maxLength}
-            field={this.props.newFolderName}/>
+            field={this.props.newFolderName}
+          />
           <div className="va-modal-button-group">
             <button
               disabled={error.hasError || !this.props.newFolderName.dirty}
-              type="submit">Create</button>
+              type="submit"
+            >
+              Create
+            </button>
             <button
               className="usa-button-secondary"
               onClick={this.props.onClose}
-              type="button">Cancel</button>
+              type="button"
+            >
+              Cancel
+            </button>
           </div>
         </form>
       );
@@ -73,7 +82,8 @@ class ModalCreateFolder extends React.Component {
         contents={modalContents}
         id={this.props.id}
         onClose={this.props.onClose}
-        visible={this.props.visible}/>
+        visible={this.props.visible}
+      />
     );
   }
 }
@@ -88,7 +98,7 @@ ModalCreateFolder.propTypes = {
   onClose: PropTypes.func,
   onSubmit: PropTypes.func,
   onValueChange: PropTypes.func,
-  visible: PropTypes.bool.isRequired
+  visible: PropTypes.bool.isRequired,
 };
 
 export default ModalCreateFolder;

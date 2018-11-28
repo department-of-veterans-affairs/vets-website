@@ -16,11 +16,8 @@ class ButtonDelete extends React.Component {
     const buttonClass = classNames(this.props.className, 'msg-btn-delete');
 
     return (
-      <button
-        onClick={this.handleClick}
-        className={buttonClass}
-        type="button">
-        <i className="fa fa-trash"></i>
+      <button onClick={this.handleClick} className={buttonClass} type="button">
+        <i className="fa fa-trash" />
         <span>Delete</span>
       </button>
     );
@@ -29,7 +26,7 @@ class ButtonDelete extends React.Component {
 
 ButtonDelete.propTypes = {
   className: PropTypes.string,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 };
 
 export default ButtonDelete;

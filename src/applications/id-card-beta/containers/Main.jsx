@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { registerBeta } from '../actions';
 
 class Main extends React.Component {
-
   componentDidMount() {
     this.props.registerBeta();
   }
@@ -17,7 +16,9 @@ class Main extends React.Component {
     if (this.props.status === 'failed') {
       message = 'Activation failed, please contact beta product manager.';
     } else {
-      message = 'Beta features activated for user '.concat(this.props.username).concat('. Thank you.');
+      message = 'Beta features activated for user '
+        .concat(this.props.username)
+        .concat('. Thank you.');
     }
 
     const view = (
@@ -31,15 +32,11 @@ class Main extends React.Component {
       </div>
     );
 
-    return (
-      <div>
-        {view}
-      </div>
-    );
+    return <div>{view}</div>;
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const idState = state.idbeta;
   const userState = state.user;
   return {
@@ -56,5 +53,8 @@ const mapDispatchToProps = {
   registerBeta,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Main);
 export { Main };

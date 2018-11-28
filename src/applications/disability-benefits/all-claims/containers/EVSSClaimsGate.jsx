@@ -12,14 +12,18 @@ export function EVSSClaimsGate({ user, location, children }) {
     return children;
   }
 
-  if (user.login.currentlyLoggedIn && !user.profile.services.includes(backendServices.EVSS_CLAIMS)) {
+  if (
+    user.login.currentlyLoggedIn &&
+    !user.profile.services.includes(backendServices.EVSS_CLAIMS)
+  ) {
     return (
       <div className="usa-grid full-page-alert">
         <AlertBox
           isVisible
           headline="We’re sorry. It looks like we’re missing some information needed for your application"
           content="For help with your application, please call Veterans Benefits Assistance at 1-800-827-1000, Monday – Friday, 8:00 a.m. to 9:00 p.m. (ET)."
-          status="error"/>
+          status="error"
+        />
       </div>
     );
   }
@@ -28,14 +32,15 @@ export function EVSSClaimsGate({ user, location, children }) {
     <RequiredLoginView
       serviceRequired={backendServices.EVSS_CLAIMS}
       user={user}
-      verify>
+      verify
+    >
       {children}
     </RequiredLoginView>
   );
 }
 
-const mapStateToProps = (store) => ({
-  user: store.user
+const mapStateToProps = store => ({
+  user: store.user,
 });
 
 export default connect(mapStateToProps)(EVSSClaimsGate);

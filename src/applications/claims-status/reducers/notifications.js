@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 import { CLEAR_NOTIFICATION, SET_NOTIFICATION } from '../actions/index.jsx';
 
 const initialState = {
-  message: null
+  message: null,
 };
 
 export default function notificationsReducer(state = initialState, action) {

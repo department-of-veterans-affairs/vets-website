@@ -10,13 +10,13 @@ const props = {
 
 describe('<ButtonCreateFolder>', () => {
   it('should render correctly', () => {
-    const tree = SkinDeep.shallowRender(<ButtonCreateFolder {...props}/>);
+    const tree = SkinDeep.shallowRender(<ButtonCreateFolder {...props} />);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
   it('should have the expected classname', () => {
-    const tree = SkinDeep.shallowRender(<ButtonCreateFolder {...props}/>);
+    const tree = SkinDeep.shallowRender(<ButtonCreateFolder {...props} />);
 
     expect(tree.props.className).to.equal('va-icon-link msg-btn-newfolder');
   });

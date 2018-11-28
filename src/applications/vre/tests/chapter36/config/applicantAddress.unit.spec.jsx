@@ -3,11 +3,17 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../chapter36/config/form.js';
 
 describe('VRE chapter 36 applicant address', () => {
-  const { schema, uiSchema } = formConfig.chapters.contactInformation.pages.applicantAddress;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.contactInformation.pages.applicantAddress;
   it('renders applicant address form', () => {
     const form = mount(
       <DefinitionTester
@@ -15,7 +21,8 @@ describe('VRE chapter 36 applicant address', () => {
         schema={schema}
         data={{}}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     expect(form.find('input').length).to.equal(4);
     expect(form.find('select').length).to.equal(2);
@@ -30,7 +37,8 @@ describe('VRE chapter 36 applicant address', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -48,7 +56,8 @@ describe('VRE chapter 36 applicant address', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     fillData(form, 'select#root_applicantAddress_country', 'USA');
     fillData(form, 'input#root_applicantAddress_street', '123 test st');

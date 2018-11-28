@@ -17,16 +17,19 @@ class ModalConfirmDelete extends React.Component {
   render() {
     const modalContents = (
       <form>
-        <h3>
-            Are you sure you want to delete this draft?
-        </h3>
+        <h3>Are you sure you want to delete this draft?</h3>
         <p>This draft will not be recoverable after deletion.</p>
         <div className="va-modal-button-group">
-          <button type="submit" onClick={this.handleDelete}>Yes, delete forever</button>
+          <button type="submit" onClick={this.handleDelete}>
+            Yes, delete forever
+          </button>
           <button
             className="usa-button-secondary"
             onClick={this.props.onClose}
-            type="button">Cancel</button>
+            type="button"
+          >
+            Cancel
+          </button>
         </div>
       </form>
     );
@@ -37,7 +40,8 @@ class ModalConfirmDelete extends React.Component {
         contents={modalContents}
         id={this.props.id}
         onClose={this.props.onClose}
-        visible={this.props.visible}/>
+        visible={this.props.visible}
+      />
     );
   }
 }
@@ -47,7 +51,7 @@ ModalConfirmDelete.propTypes = {
   id: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-  visible: PropTypes.bool.isRequired
+  visible: PropTypes.bool.isRequired,
 };
 
 export default ModalConfirmDelete;

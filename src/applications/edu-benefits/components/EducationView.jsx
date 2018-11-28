@@ -11,7 +11,8 @@ export default function EducationView({ formData }) {
 
   return (
     <div>
-      <strong>{formData.name}</strong><br/>
+      <strong>{formData.name}</strong>
+      <br />
       {from} &mdash; {to}
     </div>
   );

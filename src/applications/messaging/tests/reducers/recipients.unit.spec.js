@@ -4,7 +4,7 @@ import recipientsReducer from '../../reducers/recipients';
 
 import {
   FETCH_RECIPIENTS_FAILURE,
-  FETCH_RECIPIENTS_SUCCESS
+  FETCH_RECIPIENTS_SUCCESS,
 } from '../../utils/constants';
 
 import { recipients } from '../messaging-helpers';
@@ -12,7 +12,7 @@ import { recipients } from '../messaging-helpers';
 describe('recipients reducer', () => {
   it('should have no data when it fails to load recipients', () => {
     const state = recipientsReducer(undefined, {
-      type: FETCH_RECIPIENTS_FAILURE
+      type: FETCH_RECIPIENTS_FAILURE,
     });
 
     expect(state.data).to.be.null;
@@ -21,13 +21,13 @@ describe('recipients reducer', () => {
   it('should populate the list of possible recipients on success', () => {
     const state = recipientsReducer(undefined, {
       type: FETCH_RECIPIENTS_SUCCESS,
-      recipients
+      recipients,
     });
 
-    recipients.data.forEach((recipient) => {
+    recipients.data.forEach(recipient => {
       expect(state.data).to.deep.contain({
         label: recipient.attributes.name,
-        value: recipient.attributes.triageTeamId
+        value: recipient.attributes.triageTeamId,
       });
     });
   });

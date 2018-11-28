@@ -3,11 +3,16 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm, getFormDOM } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  submitForm,
+  getFormDOM,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pensions spouse marriage history', () => {
-  const marriageHistory = formConfig.chapters.householdInformation.pages.spouseMarriageHistory;
+  const marriageHistory =
+    formConfig.chapters.householdInformation.pages.spouseMarriageHistory;
   const uiSchema = marriageHistory.uiSchema.spouseMarriages.items;
   const schema = marriageHistory.schema.properties.spouseMarriages.items;
   const depends = marriageHistory.depends;
@@ -17,7 +22,8 @@ describe('Pensions spouse marriage history', () => {
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -29,29 +35,40 @@ describe('Pensions spouse marriage history', () => {
       <DefinitionTester
         schema={schema}
         data={{
-          marriages: [{
-            spouseFullName: {
-              first: 'Jane',
-              last: 'Doe'
-            }
-          }]
+          marriages: [
+            {
+              spouseFullName: {
+                first: 'Jane',
+                last: 'Doe',
+              },
+            },
+          ],
         }}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('legend')[1].textContent).to.contain('Jane Doe');
-    expect(formDOM.querySelector('label[for="root_locationOfMarriage"]').textContent).to.contain('Jane Doe');
+    expect(formDOM.querySelectorAll('legend')[1].textContent).to.contain(
+      'Jane Doe',
+    );
+    expect(
+      formDOM.querySelector('label[for="root_locationOfMarriage"]').textContent,
+    ).to.contain('Jane Doe');
   });
 
   describe('page title', () => {
     const pageTitle = marriageHistory.title;
     it('uses word for index', () => {
-      expect(pageTitle({}, { pagePerItemIndex: 0 })).to.equal('Spouse’s first marriage');
+      expect(pageTitle({}, { pagePerItemIndex: 0 })).to.equal(
+        'Spouse’s first marriage',
+      );
     });
     it('uses number when at index ten or greater', () => {
-      expect(pageTitle({}, { pagePerItemIndex: 10 })).to.equal('Spouse marriage 11');
+      expect(pageTitle({}, { pagePerItemIndex: 10 })).to.equal(
+        'Spouse marriage 11',
+      );
     });
   });
 
@@ -62,7 +79,8 @@ describe('Pensions spouse marriage history', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -80,7 +98,8 @@ describe('Pensions spouse marriage history', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);

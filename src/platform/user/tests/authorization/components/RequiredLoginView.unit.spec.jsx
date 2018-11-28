@@ -33,7 +33,7 @@ describe('<RequiredLoginView>', () => {
 
   const anonymousUser = {
     login: {
-      currentlyLoggedIn: false
+      currentlyLoggedIn: false,
     },
     profile: {
       accountType: null,
@@ -44,15 +44,15 @@ describe('<RequiredLoginView>', () => {
         first: null,
         last: null,
         middle: null,
-        suffix: null
-      }
+        suffix: null,
+      },
     },
-    verified: false
+    verified: false,
   };
 
   const loa1User = {
     login: {
-      currentlyLoggedIn: true
+      currentlyLoggedIn: true,
     },
     profile: {
       accountType: 1,
@@ -64,15 +64,15 @@ describe('<RequiredLoginView>', () => {
         first: null,
         last: null,
         middle: null,
-        suffix: null
+        suffix: null,
       },
-      verified: false
-    }
+      verified: false,
+    },
   };
 
   const loa3User = {
     login: {
-      currentlyLoggedIn: true
+      currentlyLoggedIn: true,
     },
     profile: {
       accountType: 3,
@@ -80,16 +80,21 @@ describe('<RequiredLoginView>', () => {
       email: 'fake@aol.com',
       gender: 'M',
       // TODO: use services that actually require LOA3 for clarity?
-      services: [backendServices.FACILITIES, backendServices.HCA, backendServices.USER_PROFILE, backendServices.EDUCATION_BENEFITS],
+      services: [
+        backendServices.FACILITIES,
+        backendServices.HCA,
+        backendServices.USER_PROFILE,
+        backendServices.EDUCATION_BENEFITS,
+      ],
       status: 'OK',
       userFullName: {
         first: 'WILLIAM',
         last: 'RYAN',
         middle: 'PETER',
-        suffix: null
+        suffix: null,
       },
-      verified: true
-    }
+      verified: true,
+    },
   };
 
   const defaultProps = {
@@ -97,12 +102,12 @@ describe('<RequiredLoginView>', () => {
     serviceRequired: backendServices.HCA,
     user: loa1User,
     loginUrl: 'http://fake-login-url',
-    verifyUrl: 'http://fake-verify-url'
+    verifyUrl: 'http://fake-verify-url',
   };
 
   class TestChildComponent extends React.Component {
     render() {
-      return (<div>Child Component {this.props.name}</div>);
+      return <div>Child Component {this.props.name}</div>;
     }
   }
 
@@ -111,7 +116,7 @@ describe('<RequiredLoginView>', () => {
     const tree = SkinDeep.shallowRender(
       <RequiredLoginView {...mergedProps}>
         <div>Test Child</div>
-      </RequiredLoginView>
+      </RequiredLoginView>,
     );
 
     const vdom = tree.getRenderOutput();
@@ -126,40 +131,45 @@ describe('<RequiredLoginView>', () => {
 
   it('should render a loading graphic while loading', () => {
     const { tree } = setup({
-      user: { profile: { loading: true } }
+      user: { profile: { loading: true } },
     });
     const loadingIndicatorElement = tree.dive(['LoadingIndicator']);
-    expect(loadingIndicatorElement.text()).to.contain('Loading your information');
+    expect(loadingIndicatorElement.text()).to.contain(
+      'Loading your information',
+    );
   });
 
   it('should display children when service is available', () => {
     const loa3Props = _.merge({}, defaultProps, { user: loa3User });
     const tree = SkinDeep.shallowRender(
       <RequiredLoginView {...loa3Props}>
-        <TestChildComponent name="one"/>
-        <TestChildComponent name="two"/>
-        <TestChildComponent name="three"/>
-      </RequiredLoginView>
+        <TestChildComponent name="one" />
+        <TestChildComponent name="two" />
+        <TestChildComponent name="three" />
+      </RequiredLoginView>,
     );
 
     // Child components should not be passed an isDataAvailable prop
-    tree.props.children.forEach((child) => {
+    tree.props.children.forEach(child => {
       expect(child.props.isDataAvailable).to.be.undefined;
     });
   });
 
   it('should display children and pass prop when service is not available', () => {
-    const props = _.merge({}, defaultProps, { user: loa3User, serviceRequired: backendServices.MESSAGING });
+    const props = _.merge({}, defaultProps, {
+      user: loa3User,
+      serviceRequired: backendServices.MESSAGING,
+    });
     const tree = SkinDeep.shallowRender(
       <RequiredLoginView {...props}>
-        <TestChildComponent name="one"/>
-        <TestChildComponent name="two"/>
-        <TestChildComponent name="three"/>
-      </RequiredLoginView>
+        <TestChildComponent name="one" />
+        <TestChildComponent name="two" />
+        <TestChildComponent name="three" />
+      </RequiredLoginView>,
     );
 
     // Each direct child component should be passed a false isDataAvailable prop
-    tree.props.children.forEach((child) => {
+    tree.props.children.forEach(child => {
       expect(child.props.isDataAvailable).to.equal(false);
     });
   });
@@ -175,8 +185,16 @@ describe('<RequiredLoginView>', () => {
 
     describe('does not need verification', () => {
       it('should display children elements', () => {
-        const { tree } = setup({ verify: false, serviceRequired: backendServices.USER_PROFILE });
-        expect(tree.subTree('div').subTree('div').text()).to.equal('Test Child');
+        const { tree } = setup({
+          verify: false,
+          serviceRequired: backendServices.USER_PROFILE,
+        });
+        expect(
+          tree
+            .subTree('div')
+            .subTree('div')
+            .text(),
+        ).to.equal('Test Child');
       });
     });
   });
@@ -184,22 +202,35 @@ describe('<RequiredLoginView>', () => {
   describe('logged in at LOA 3', () => {
     it('should display children elements', () => {
       const { tree } = setup({ user: loa3User });
-      expect(tree.subTree('div').subTree('div').text()).to.equal('Test Child');
+      expect(
+        tree
+          .subTree('div')
+          .subTree('div')
+          .text(),
+      ).to.equal('Test Child');
     });
 
     describe('user profile with SERVER_ERROR', () => {
       it('should display server error message', () => {
-        const serverErrorProfile = _.merge({}, loa3User, { profile: { status: 'SERVER_ERROR' } });
+        const serverErrorProfile = _.merge({}, loa3User, {
+          profile: { status: 'SERVER_ERROR' },
+        });
         const { tree } = setup({ user: serverErrorProfile });
-        expect(tree.toString()).to.contain('Sorry, our system is temporarily down while we fix a few things');
+        expect(tree.toString()).to.contain(
+          'Sorry, our system is temporarily down while we fix a few things',
+        );
       });
     });
 
     describe('user profile NOT_FOUND', () => {
       it('should display not found message', () => {
-        const notFoundProfile = _.merge({}, loa3User, { profile: { status: 'NOT_FOUND' } });
+        const notFoundProfile = _.merge({}, loa3User, {
+          profile: { status: 'NOT_FOUND' },
+        });
         const { tree } = setup({ user: notFoundProfile });
-        expect(tree.subTree('SystemDownView').props.messageLine1).to.equal('We couldn’t find your records with that information.');
+        expect(tree.subTree('SystemDownView').props.messageLine1).to.equal(
+          'We couldn’t find your records with that information.',
+        );
       });
     });
   });

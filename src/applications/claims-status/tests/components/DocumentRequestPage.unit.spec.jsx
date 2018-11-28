@@ -8,10 +8,7 @@ import { DocumentRequestPage } from '../../containers/DocumentRequestPage';
 
 describe('<DocumentRequestPage>', () => {
   it('should render loading div', () => {
-    const tree = SkinDeep.shallowRender(
-      <DocumentRequestPage
-        loading/>
-    );
+    const tree = SkinDeep.shallowRender(<DocumentRequestPage loading />);
     expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
     expect(tree.everySubTree('.claim-container')).to.be.empty;
   });
@@ -21,24 +18,25 @@ describe('<DocumentRequestPage>', () => {
     };
     const claim = {
       id: 1,
-      attributes: {}
+      attributes: {},
     };
     const message = {
       title: 'Test',
-      body: 'Testing'
+      body: 'Testing',
     };
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
         trackedItem={trackedItem}
         claim={claim}
-        message={message}/>
+        message={message}
+      />,
     );
     expect(tree.subTree('Notification')).not.to.be.false;
   });
   it('should clear upload error when leaving', () => {
     const claim = {
       id: 1,
-      attributes: {}
+      attributes: {},
     };
     const trackedItem = {
       type: 'still_need_from_you_list',
@@ -46,7 +44,7 @@ describe('<DocumentRequestPage>', () => {
     const message = {
       title: 'test',
       body: 'test',
-      type: 'error'
+      type: 'error',
     };
     const clearNotification = sinon.spy();
 
@@ -55,7 +53,8 @@ describe('<DocumentRequestPage>', () => {
         trackedItem={trackedItem}
         claim={claim}
         clearNotification={clearNotification}
-        message={message}/>
+        message={message}
+      />,
     );
     expect(tree.subTree('Notification')).not.to.be.false;
     tree.getMountedInstance().componentWillUnmount();
@@ -64,7 +63,7 @@ describe('<DocumentRequestPage>', () => {
   it('should not clear notification after completed upload', () => {
     const claim = {
       id: 1,
-      attributes: {}
+      attributes: {},
     };
     const trackedItem = {
       type: 'still_need_from_you_list',
@@ -72,7 +71,7 @@ describe('<DocumentRequestPage>', () => {
     const message = {
       title: 'test',
       body: 'test',
-      type: 'error'
+      type: 'error',
     };
     const clearNotification = sinon.spy();
 
@@ -82,7 +81,8 @@ describe('<DocumentRequestPage>', () => {
         claim={claim}
         uploadComplete
         clearNotification={clearNotification}
-        message={message}/>
+        message={message}
+      />,
     );
     expect(tree.subTree('Notification')).not.to.be.false;
     tree.getMountedInstance().componentWillUnmount();
@@ -91,16 +91,14 @@ describe('<DocumentRequestPage>', () => {
   it('should render due date info', () => {
     const trackedItem = {
       type: 'still_need_from_you_list',
-      suspenseDate: '2010-05-10'
+      suspenseDate: '2010-05-10',
     };
     const claim = {
       id: 1,
-      attributes: {}
+      attributes: {},
     };
     const tree = SkinDeep.shallowRender(
-      <DocumentRequestPage
-        claim={claim}
-        trackedItem={trackedItem}/>
+      <DocumentRequestPage claim={claim} trackedItem={trackedItem} />,
     );
     expect(tree.subTree('DueDate')).not.to.be.false;
     expect(tree.subTree('DueDate').props.date).to.eql(trackedItem.suspenseDate);
@@ -108,34 +106,33 @@ describe('<DocumentRequestPage>', () => {
   it('should render optional upload alert', () => {
     const trackedItem = {
       type: 'still_need_from_others_list',
-      suspenseDate: '2010-05-10'
+      suspenseDate: '2010-05-10',
     };
     const claim = {
       id: 1,
-      attributes: {}
+      attributes: {},
     };
     const tree = SkinDeep.shallowRender(
-      <DocumentRequestPage
-        claim={claim}
-        trackedItem={trackedItem}/>
+      <DocumentRequestPage claim={claim} trackedItem={trackedItem} />,
     );
     expect(tree.subTree('.optional-upload')).not.to.be.false;
   });
   it('should handle submit files', () => {
     const trackedItem = {
       type: 'still_need_from_you_list',
-      suspenseDate: '2010-05-10'
+      suspenseDate: '2010-05-10',
     };
     const claim = {
       id: 1,
-      attributes: {}
+      attributes: {},
     };
     const onSubmit = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
         claim={claim}
         trackedItem={trackedItem}
-        submitFiles={onSubmit}/>
+        submitFiles={onSubmit}
+      />,
     );
     tree.subTree('AddFilesForm').props.onSubmit();
     expect(onSubmit.called).to.be.true;
@@ -143,11 +140,11 @@ describe('<DocumentRequestPage>', () => {
   it('should reset uploads and set title on mount', () => {
     const trackedItem = {
       type: 'still_need_from_you_list',
-      displayName: 'Testing'
+      displayName: 'Testing',
     };
     const claim = {
       id: 1,
-      attributes: {}
+      attributes: {},
     };
     const resetUploads = sinon.spy();
     const mainDiv = document.createElement('div');
@@ -159,7 +156,8 @@ describe('<DocumentRequestPage>', () => {
         files={[]}
         uploadField={{ value: null, dirty: false }}
         trackedItem={trackedItem}
-        resetUploads={resetUploads}/>
+        resetUploads={resetUploads}
+      />,
     );
 
     expect(document.title).to.equal('Request for Testing');
@@ -168,18 +166,18 @@ describe('<DocumentRequestPage>', () => {
   it('should set details and go to files page if complete', () => {
     const trackedItem = {
       type: 'still_need_from_you_list',
-      displayName: 'Testing'
+      displayName: 'Testing',
     };
     const claim = {
       id: 1,
-      attributes: {}
+      attributes: {},
     };
     const router = {
       push: sinon.spy(),
-      replace: sinon.spy()
+      replace: sinon.spy(),
     };
     const params = {
-      id: 339
+      id: 339,
     };
     const getClaimDetail = sinon.spy();
     const resetUploads = sinon.spy();
@@ -194,10 +192,13 @@ describe('<DocumentRequestPage>', () => {
         router={router}
         params={params}
         getClaimDetail={getClaimDetail}
-        resetUploads={resetUploads}/>
+        resetUploads={resetUploads}
+      />,
     );
 
-    tree.getMountedInstance().componentWillReceiveProps({ uploadComplete: true });
+    tree
+      .getMountedInstance()
+      .componentWillReceiveProps({ uploadComplete: true });
     expect(getClaimDetail.calledWith(1)).to.be.true;
     expect(router.push.calledWith('your-claims/1/files')).to.be.true;
   });

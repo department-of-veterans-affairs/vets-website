@@ -8,8 +8,9 @@ class ButtonManageFolders extends React.Component {
       <Link
         className="va-icon-link msg-btn-managefolders"
         to="/settings"
-        onClick={this.props.onClick}>
-        <i className="fa fa-folder"></i>
+        onClick={this.props.onClick}
+      >
+        <i className="fa fa-folder" />
         <span>Manage folders</span>
       </Link>
     );
@@ -17,7 +18,7 @@ class ButtonManageFolders extends React.Component {
 }
 
 ButtonManageFolders.propTypes = {
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 export default ButtonManageFolders;

@@ -9,19 +9,17 @@ import {
   ITF_FETCH_FAILED,
   ITF_CREATION_INITIATED,
   ITF_CREATION_SUCCEEDED,
-  ITF_CREATION_FAILED
+  ITF_CREATION_FAILED,
 } from '../actions';
 
 import reducers from '../reducers';
-
 
 const initialState = {
   fetchCallState: requestStates.notCalled,
   creationCallState: requestStates.notCalled,
   currentITF: null,
-  previousITF: null
+  previousITF: null,
 };
-
 
 describe('ITF reducer', () => {
   const { itf } = reducers;
@@ -41,22 +39,22 @@ describe('ITF reducer', () => {
             intentToFile: [
               {
                 type: 'something not compensation',
-                status: itfStatuses.active
+                status: itfStatuses.active,
               },
               {
                 type: 'compensation',
                 status: itfStatuses.active,
-                expirationDate: '2014-07-28T19:53:45.810+0000'
+                expirationDate: '2014-07-28T19:53:45.810+0000',
               },
               {
                 // duplicate ITF with later expiration date; should use the active one
                 type: 'compensation',
                 status: itfStatuses.duplicate,
-                expirationDate: '2015-07-28T19:53:45.810+0000'
-              }
-            ]
-          }
-        }
+                expirationDate: '2015-07-28T19:53:45.810+0000',
+              },
+            ],
+          },
+        },
       };
       const newState = itf(initialState, action);
       expect(newState.currentITF.status).to.equal(itfStatuses.active);
@@ -70,21 +68,21 @@ describe('ITF reducer', () => {
             intentToFile: [
               {
                 type: 'something not compensation',
-                status: itfStatuses.active
+                status: itfStatuses.active,
               },
               {
                 type: 'compensation',
                 status: itfStatuses.expired,
-                expirationDate: '2014-07-28T19:53:45.810+0000'
+                expirationDate: '2014-07-28T19:53:45.810+0000',
               },
               {
                 type: 'compensation',
                 status: itfStatuses.duplicate,
-                expirationDate: '2015-07-28T19:53:45.810+0000'
-              }
-            ]
-          }
-        }
+                expirationDate: '2015-07-28T19:53:45.810+0000',
+              },
+            ],
+          },
+        },
       };
       const newState = itf(initialState, action);
       expect(newState.currentITF.status).to.equal(itfStatuses.duplicate);
@@ -106,9 +104,9 @@ describe('ITF reducer', () => {
       type: ITF_CREATION_SUCCEEDED,
       data: {
         attributes: {
-          intentToFile: 'new itf'
-        }
-      }
+          intentToFile: 'new itf',
+        },
+      },
     };
     const newState = itf({ currentITF: 'old itf' }, action);
     expect(newState.previousITF).to.equal('old itf');

@@ -7,14 +7,18 @@ import { DefinitionTester } from '../../../../platform/testing/unit/schemaform-u
 import formConfig from '../../config/form.js';
 
 describe('authorization for representative access to records', () => {
-  const { schema, uiSchema } = formConfig.chapters.authorizationForRepresentativeAccessToRecords.pages.authorizationForRepresentativeAccessToRecords;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.authorizationForRepresentativeAccessToRecords.pages.authorizationForRepresentativeAccessToRecords;
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input[type="checkbox"]').length).to.equal(1);
@@ -28,7 +32,8 @@ describe('authorization for representative access to records', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');

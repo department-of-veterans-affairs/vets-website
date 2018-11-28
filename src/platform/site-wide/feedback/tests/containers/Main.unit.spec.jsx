@@ -19,13 +19,12 @@ const defaultProps = {
   sendFeedback() {},
   clearError() {},
   errorMessage: null,
-  formIsSubmittable: true
+  formIsSubmittable: true,
 };
 
 describe('<Main/>', () => {
-
   it('should render with DefaultView', () => {
-    const wrapper = enzyme.shallow(<Main {...defaultProps}/>);
+    const wrapper = enzyme.shallow(<Main {...defaultProps} />);
     expect(wrapper.find(DefaultView)).to.have.lengthOf(1);
   });
 
@@ -34,13 +33,16 @@ describe('<Main/>', () => {
     const formValues = { description: 'test', email: 'test@test.com' };
     const overrides = { formIsVisible: true, formValues, sendFeedback };
     const props = { ...defaultProps, ...overrides };
-    const wrapper = enzyme.shallow(<Main {...props}/>);
+    const wrapper = enzyme.shallow(<Main {...props} />);
     const feedbackFormWrapper = wrapper.find(FeedbackForm);
 
     expect(feedbackFormWrapper).to.have.lengthOf(1);
 
     const event = { preventDefault: sinon.spy() };
-    feedbackFormWrapper.dive().find('form').simulate('submit', event);
+    feedbackFormWrapper
+      .dive()
+      .find('form')
+      .simulate('submit', event);
 
     expect(sendFeedback.calledOnce).to.be.true;
     expect(event.preventDefault.calledOnce).to.be.true;
@@ -51,8 +53,7 @@ describe('<Main/>', () => {
 
   it('should render FeedbackSubmitted', () => {
     const props = { ...defaultProps, feedbackReceived: true };
-    const wrapper = enzyme.shallow(<Main {...props}/>);
+    const wrapper = enzyme.shallow(<Main {...props} />);
     expect(wrapper.find(FeedbackSubmitted)).to.have.lengthOf(1);
   });
-
 });

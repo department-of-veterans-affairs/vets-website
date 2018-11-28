@@ -1,7 +1,7 @@
 import {
   isBlank,
   isNotBlank,
-  validateIfDirty
+  validateIfDirty,
 } from '../../../platform/forms/validations';
 
 import { makeField } from '../../../platform/forms/fields';
@@ -11,13 +11,11 @@ export function validateNumAttachments(files, maxAttachments) {
 }
 
 export function validateFileSize(files, max) {
-  return !!files.find((file) => { return file.size > max; });
+  return !!files.find(file => file.size > max);
 }
 
 export function validateTotalFileSize(files, max) {
-  const total = files.reduce((sum, file) => {
-    return sum + file.size;
-  }, 0);
+  const total = files.reduce((sum, file) => sum + file.size, 0);
   return total > max;
 }
 
@@ -56,7 +54,10 @@ export function isValidSubjectLine(category, subject) {
 export function validateFolderName(folderName, existingFolders = []) {
   const err = {};
   // TODO: Refactor isNotBlank validator to trim input.
-  const trimmedFolderName = makeField(folderName.value.trim(), folderName.dirty);
+  const trimmedFolderName = makeField(
+    folderName.value.trim(),
+    folderName.dirty,
+  );
 
   if (!validateIfDirty(trimmedFolderName, isNotBlank)) {
     err.hasError = true;
@@ -65,15 +66,14 @@ export function validateFolderName(folderName, existingFolders = []) {
 
   // Disallows anything other than a-z, 0-9, and space
   // (case insensitive)
-  const allowedRegExp = /[^a-z0-9\s]/ig;
+  const allowedRegExp = /[^a-z0-9\s]/gi;
   if (allowedRegExp.test(trimmedFolderName.value)) {
     err.hasError = true;
     err.type = 'patternMismatch';
   }
 
-  const doesFolderExist = (folder) => {
-    return trimmedFolderName.value.toLowerCase() === folder.name.toLowerCase();
-  };
+  const doesFolderExist = folder =>
+    trimmedFolderName.value.toLowerCase() === folder.name.toLowerCase();
 
   if (existingFolders.find(doesFolderExist)) {
     err.hasError = true;
@@ -93,8 +93,5 @@ export function isEmptySearch(search) {
   const isEmptyFrom = isEmpty(search.from.field.value);
   const isEmptySubject = isEmpty(search.subject.field.value);
 
-  return isEmptyStartDate &&
-         isEmptyEndDate &&
-         isEmptyFrom &&
-         isEmptySubject;
+  return isEmptyStartDate && isEmptyEndDate && isEmptyFrom && isEmptySubject;
 }

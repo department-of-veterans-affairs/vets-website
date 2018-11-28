@@ -14,15 +14,13 @@ class MessageAttachments extends React.Component {
   }
 
   handleAttachmentDelete(domEvent) {
-    const attachmentIndex = JSON.parse(domEvent.currentTarget.dataset.args).attachment;
+    const attachmentIndex = JSON.parse(domEvent.currentTarget.dataset.args)
+      .attachment;
     this.props.onClose(attachmentIndex);
   }
 
   render() {
-    const cssClass = classNames(
-      'msg-attachments',
-      this.props.cssClass
-    );
+    const cssClass = classNames('msg-attachments', this.props.cssClass);
 
     const files = this.props.files.map((file, index) => {
       const fileSize = formatFileSize(file.size);
@@ -34,20 +32,17 @@ class MessageAttachments extends React.Component {
             attachmentIndex={index}
             fileName={file.name}
             fileSize={fileSize}
-            onClose={this.handleAttachmentDelete}/>
+            onClose={this.handleAttachmentDelete}
+          />
         </li>
       );
     });
 
     return (
-      <div
-        className={cssClass}
-        hidden={!this.props.files.length}>
+      <div className={cssClass} hidden={!this.props.files.length}>
         <div>
           <div className="msg-attachments-title">Attachments:</div>
-          <ul className="msg-attachments-list">
-            {files}
-          </ul>
+          <ul className="msg-attachments-list">{files}</ul>
         </div>
       </div>
     );
@@ -58,7 +53,7 @@ MessageAttachments.propTypes = {
   cssClass: PropTypes.string,
   files: PropTypes.array.isRequired,
   hidden: PropTypes.bool,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 };
 
 export default MessageAttachments;

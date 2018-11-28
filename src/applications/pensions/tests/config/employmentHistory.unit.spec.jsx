@@ -4,17 +4,25 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, getFormDOM } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  getFormDOM,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pensions employment history', () => {
-  const { depends, schema, uiSchema } = formConfig.chapters.workHistory.pages.employmentHistory;
+  const {
+    depends,
+    schema,
+    uiSchema,
+  } = formConfig.chapters.workHistory.pages.employmentHistory;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -26,7 +34,8 @@ describe('Pensions employment history', () => {
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -40,7 +49,8 @@ describe('Pensions employment history', () => {
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -57,7 +67,8 @@ describe('Pensions employment history', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -76,14 +87,18 @@ describe('Pensions employment history', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
     formDOM.setYesNo('#root_view\\:workedBeforeDisabledYes', 'Y');
 
     formDOM.fillData('#root_view\\:history_jobs_0_employer', 'Smith');
-    formDOM.fillData('#root_view\\:history_jobs_0_address_street', '101 Elm st');
+    formDOM.fillData(
+      '#root_view\\:history_jobs_0_address_street',
+      '101 Elm st',
+    );
     formDOM.fillData('#root_view\\:history_jobs_0_address_city', 'Northampton');
     formDOM.fillData('#root_view\\:history_jobs_0_address_state', 'MA');
     formDOM.fillData('#root_view\\:history_jobs_0_address_postalCode', '01060');
@@ -103,24 +118,27 @@ describe('Pensions employment history', () => {
 
     formDOM.click('.va-growable-add-btn');
 
-    expect(formDOM.querySelector('.va-growable-background').textContent)
-      .to.contain('Smith');
+    expect(
+      formDOM.querySelector('.va-growable-background').textContent,
+    ).to.contain('Smith');
   });
   it('depends should return true if under 65', () => {
-    const result = depends(
-      {
-        veteranDateOfBirth: moment().startOf('day').subtract(64, 'years').format('YYYY-MM-DD')
-      }
-    );
+    const result = depends({
+      veteranDateOfBirth: moment()
+        .startOf('day')
+        .subtract(64, 'years')
+        .format('YYYY-MM-DD'),
+    });
 
     expect(result).to.be.true;
   });
   it('depends should return false if 65', () => {
-    const result = depends(
-      {
-        veteranDateOfBirth: moment().startOf('day').subtract(65, 'years').format('YYYY-MM-DD')
-      }
-    );
+    const result = depends({
+      veteranDateOfBirth: moment()
+        .startOf('day')
+        .subtract(65, 'years')
+        .format('YYYY-MM-DD'),
+    });
 
     expect(result).to.be.false;
   });

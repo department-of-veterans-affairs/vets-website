@@ -16,7 +16,7 @@ class TabItem extends React.Component {
   }
 
   tabShortcut(evt) {
-    if (evt.altKey && evt.which === (48 + this.props.shortcut)) {
+    if (evt.altKey && evt.which === 48 + this.props.shortcut) {
       this.props.router.push(this.props.tabpath);
     }
   }
@@ -30,7 +30,8 @@ class TabItem extends React.Component {
           role="tab"
           className="va-tab-trigger"
           activeClassName="va-tab-trigger--current"
-          to={this.props.tabpath}>
+          to={this.props.tabpath}
+        >
           {this.props.title}
         </IndexLink>
       </li>

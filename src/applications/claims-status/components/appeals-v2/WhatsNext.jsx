@@ -5,18 +5,17 @@ import DurationCard from './DurationCard';
 
 const WhatsNext = ({ nextEvents }) => {
   const { header, events } = nextEvents;
-  const eventsList = events.map((event, index) => {
-    return (
-      <NextEvent
-        key={event.title}
-        title={event.title}
-        description={event.description}
-        durationText={event.durationText}
-        cardDescription={event.cardDescription}
-        // show a separator after all events except the last one
-        showSeparator={(index !== events.length - 1)}/>
-    );
-  });
+  const eventsList = events.map((event, index) => (
+    <NextEvent
+      key={event.title}
+      title={event.title}
+      description={event.description}
+      durationText={event.durationText}
+      cardDescription={event.cardDescription}
+      // show a separator after all events except the last one
+      showSeparator={index !== events.length - 1}
+    />
+  ));
 
   // Some current status types (really, just pendingSoc) have multiple
   // NextEvents that each have the same duration. In these cases, we want to
@@ -30,7 +29,8 @@ const WhatsNext = ({ nextEvents }) => {
     headerDurationCard = (
       <DurationCard
         durationText={durationText}
-        cardDescription={cardDescription}/>
+        cardDescription={cardDescription}
+      />
     );
   }
 
@@ -39,9 +39,7 @@ const WhatsNext = ({ nextEvents }) => {
       <h2>What happens next?</h2>
       <p>{header}</p>
       {headerDurationCard}
-      <ul className="appeals-next-list">
-        {eventsList}
-      </ul>
+      <ul className="appeals-next-list">{eventsList}</ul>
     </div>
   );
 };
@@ -53,14 +51,15 @@ WhatsNext.propTypes = {
       durationText: PropTypes.string.isRequired,
       cardDescription: PropTypes.string.isRequired,
     }),
-    events: PropTypes.arrayOf(PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      description: PropTypes.element.isRequired,
-      durationText: PropTypes.string.isRequired,
-      cardDescription: PropTypes.string.isRequired
-    })).isRequired
+    events: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        description: PropTypes.element.isRequired,
+        durationText: PropTypes.string.isRequired,
+        cardDescription: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
   }).isRequired,
 };
 
 export default WhatsNext;
-

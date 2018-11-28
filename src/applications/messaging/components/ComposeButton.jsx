@@ -24,7 +24,8 @@ class ComposeButton extends React.Component {
       <button
         disabled={disabled}
         onClick={this.goToComposeMessage}
-        className={classes}>
+        className={classes}
+      >
         Compose a message
       </button>
     );

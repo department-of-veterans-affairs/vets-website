@@ -7,14 +7,18 @@ import { DefinitionTester } from '../../../../platform/testing/unit/schemaform-u
 import formConfig from '../../config/form.js';
 
 describe('limitation of consent', () => {
-  const { schema, uiSchema } = formConfig.chapters.limitationOfConsent.pages.limitationOfConsent;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.limitationOfConsent.pages.limitationOfConsent;
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input[type="checkbox"]').length).to.equal(4);
@@ -28,7 +32,8 @@ describe('limitation of consent', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');

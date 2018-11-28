@@ -11,6 +11,7 @@ import debounce from './debounce';
 import get from './get';
 import omit from './omit';
 import set from './set';
+import unset from './unset';
 
 export default {
   clone,
@@ -19,4 +20,5 @@ export default {
   get,
   omit,
   set,
+  unset,
 };

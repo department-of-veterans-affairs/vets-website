@@ -33,11 +33,15 @@ class ToolTip extends React.Component {
   render() {
     return (
       <div className="hca-tooltip">
-        <button tabIndex={this.props.tabIndex} onClick={this.handleOpen}>More Info</button>
+        <button tabIndex={this.props.tabIndex} onClick={this.handleOpen}>
+          More Info
+        </button>
         <div aria-hidden={this.state.closed}>
           {this.props.toolTipText}
-          <br/>
-          <button tabIndex={this.props.tabIndex} onClick={this.handleClose}>Close</button>
+          <br />
+          <button tabIndex={this.props.tabIndex} onClick={this.handleClose}>
+            Close
+          </button>
         </div>
       </div>
     );

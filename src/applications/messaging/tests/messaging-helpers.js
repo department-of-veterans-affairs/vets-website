@@ -8,13 +8,13 @@ export const folders = {
         folderId: 0,
         name: 'Inbox',
         systemFolder: true,
-        unreadCount: 0
+        unreadCount: 0,
       },
       id: '0',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/folders/0'
+        self: 'http://www.example.com/v0/messaging/health/folders/0',
       },
-      type: 'folders'
+      type: 'folders',
     },
 
     {
@@ -23,13 +23,13 @@ export const folders = {
         folderId: -2,
         name: 'Drafts',
         systemFolder: true,
-        unreadCount: 3
+        unreadCount: 3,
       },
       id: '-2',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/folders/-2'
+        self: 'http://www.example.com/v0/messaging/health/folders/-2',
       },
-      type: 'folders'
+      type: 'folders',
     },
 
     {
@@ -38,13 +38,13 @@ export const folders = {
         folderId: -1,
         name: 'Sent',
         systemFolder: true,
-        unreadCount: 0
+        unreadCount: 0,
       },
       id: '-1',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/folders/-1'
+        self: 'http://www.example.com/v0/messaging/health/folders/-1',
       },
-      type: 'folders'
+      type: 'folders',
     },
 
     {
@@ -53,13 +53,13 @@ export const folders = {
         folderId: -3,
         name: 'Deleted',
         systemFolder: true,
-        unreadCount: 0
+        unreadCount: 0,
       },
       id: '-3',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/folders/-3'
+        self: 'http://www.example.com/v0/messaging/health/folders/-3',
       },
-      type: 'folders'
+      type: 'folders',
     },
 
     {
@@ -68,13 +68,13 @@ export const folders = {
         folderId: 123,
         name: 'Test Folder 1',
         systemFolder: false,
-        unreadCount: 0
+        unreadCount: 0,
       },
       id: '123',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/folders/123'
+        self: 'http://www.example.com/v0/messaging/health/folders/123',
       },
-      type: 'folders'
+      type: 'folders',
     },
 
     {
@@ -83,22 +83,24 @@ export const folders = {
         folderId: 456,
         name: 'Test Folder 2',
         systemFolder: false,
-        unreadCount: 0
+        unreadCount: 0,
       },
       id: '456',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/folders/456'
+        self: 'http://www.example.com/v0/messaging/health/folders/456',
       },
-      type: 'folders'
+      type: 'folders',
     },
   ],
 
   links: {
-    first: 'http://www.example.com/v0/messaging/health/folders?page=1&per_page=100',
-    last: 'http://www.example.com/v0/messaging/health/folders?page=1&per_page=100',
+    first:
+      'http://www.example.com/v0/messaging/health/folders?page=1&per_page=100',
+    last:
+      'http://www.example.com/v0/messaging/health/folders?page=1&per_page=100',
     next: null,
     prev: null,
-    self: 'http://www.example.com/v0/messaging/health/folders?per_page=100'
+    self: 'http://www.example.com/v0/messaging/health/folders?per_page=100',
   },
 
   meta: {
@@ -106,9 +108,9 @@ export const folders = {
       currentPage: 1,
       perPage: 100,
       totalEntries: 7,
-      totalPages: 1
-    }
-  }
+      totalPages: 1,
+    },
+  },
 };
 
 // Inbox messages
@@ -126,13 +128,13 @@ export const messages = {
         senderId: 2,
         senderName: 'Clinician',
         sentDate: '2016-12-21T05:54:26.000Z',
-        subject: 'Prescription Request'
+        subject: 'Prescription Request',
       },
       id: '123',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/messages/123'
+        self: 'http://www.example.com/v0/messaging/health/messages/123',
       },
-      type: 'messages'
+      type: 'messages',
     },
 
     {
@@ -147,13 +149,13 @@ export const messages = {
         senderId: 2,
         senderName: 'Clinician',
         sentDate: '2016-11-15T18:33:05.000Z',
-        subject: 'Appointment Schedule'
+        subject: 'Appointment Schedule',
       },
       id: '456',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/messages/456'
+        self: 'http://www.example.com/v0/messaging/health/messages/456',
       },
-      type: 'messages'
+      type: 'messages',
     },
 
     {
@@ -168,22 +170,24 @@ export const messages = {
         senderId: 2,
         senderName: 'Clinician',
         sentDate: '2016-11-15T18:33:05.000Z',
-        subject: 'Question About Test Results'
+        subject: 'Question About Test Results',
       },
       id: '789',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/messages/789'
+        self: 'http://www.example.com/v0/messaging/health/messages/789',
       },
-      type: 'messages'
-    }
+      type: 'messages',
+    },
   ],
 
   links: {
-    first: 'http://www.example.com/v0/messaging/health/folders/0/messages?page=1&per_page=10',
-    last: 'http://www.example.com/v0/messaging/health/folders/0/messages?page=1&per_page=10',
+    first:
+      'http://www.example.com/v0/messaging/health/folders/0/messages?page=1&per_page=10',
+    last:
+      'http://www.example.com/v0/messaging/health/folders/0/messages?page=1&per_page=10',
     next: null,
     prev: null,
-    self: 'http://www.example.com/v0/messaging/health/folders/0/messages?'
+    self: 'http://www.example.com/v0/messaging/health/folders/0/messages?',
   },
 
   meta: {
@@ -191,12 +195,12 @@ export const messages = {
       currentPage: 1,
       perPage: 10,
       totalEntries: 2,
-      totalPages: 1
+      totalPages: 1,
     },
     sort: {
-      sentDate: 'DESC'
-    }
-  }
+      sentDate: 'DESC',
+    },
+  },
 };
 
 // First message in Inbox
@@ -213,37 +217,38 @@ export const message = {
       senderId: 2,
       senderName: 'Clinician',
       sentDate: '2016-12-21T05:54:26.000Z',
-      subject: 'Prescription Request'
+      subject: 'Prescription Request',
     },
     id: '123',
     links: {
-      self: 'http://www.example.com/v0/messaging/health/messages/123'
+      self: 'http://www.example.com/v0/messaging/health/messages/123',
     },
     relationships: {
       attachments: {
         data: [
           {
             id: '667987',
-            type: 'attachments'
-          }
-        ]
-      }
+            type: 'attachments',
+          },
+        ],
+      },
     },
-    type: 'messages'
+    type: 'messages',
   },
   included: [
     {
       attributes: {
         messageId: 123,
-        name: 'Attachment 2'
+        name: 'Attachment 2',
       },
       id: '12',
       links: {
-        download: 'https://dev-api.vets.gov/v0/messaging/health/messages/123/attachments/12'
+        download:
+          'https://dev-api.vets.gov/v0/messaging/health/messages/123/attachments/12',
       },
-      type: 'attachments'
-    }
-  ]
+      type: 'attachments',
+    },
+  ],
 };
 
 // Draft
@@ -260,16 +265,16 @@ export const draft = {
       senderId: 1,
       senderName: 'Veteran',
       sentDate: null,
-      subject: 'Prescription Request'
+      subject: 'Prescription Request',
     },
     id: '1024',
     links: {
-      self: 'http://www.example.com/v0/messaging/health/messages/1024'
+      self: 'http://www.example.com/v0/messaging/health/messages/1024',
     },
     relationships: {},
-    type: 'messages'
+    type: 'messages',
   },
-  included: []
+  included: [],
 };
 
 // Thread of first message in Inbox
@@ -289,11 +294,11 @@ export const thread = {
         senderId: 1,
         senderName: 'Veteran',
         sentDate: '2016-12-21T03:31:26.000Z',
-        subject: 'Prescription Request'
+        subject: 'Prescription Request',
       },
       links: {
-        self: 'http://www.example.com/v0/messaging/health/messages/3'
-      }
+        self: 'http://www.example.com/v0/messaging/health/messages/3',
+      },
     },
     {
       id: '2',
@@ -309,11 +314,11 @@ export const thread = {
         senderId: 2,
         senderName: 'Clinician',
         sentDate: '2016-12-20T10:28:15.000Z',
-        subject: 'Prescription Request'
+        subject: 'Prescription Request',
       },
       links: {
-        self: 'http://www.example.com/v0/messaging/health/messages/2'
-      }
+        self: 'http://www.example.com/v0/messaging/health/messages/2',
+      },
     },
     {
       id: '1',
@@ -329,13 +334,13 @@ export const thread = {
         senderId: 1,
         senderName: 'Veteran',
         sentDate: '2016-12-18T05:54:26.000Z',
-        subject: 'Prescription Request'
+        subject: 'Prescription Request',
       },
       links: {
-        self: 'http://www.example.com/v0/messaging/health/messages/1'
-      }
-    }
-  ]
+        self: 'http://www.example.com/v0/messaging/health/messages/1',
+      },
+    },
+  ],
 };
 
 export const recipients = {
@@ -344,48 +349,50 @@ export const recipients = {
       attributes: {
         name: 'Triage Team 1',
         relationType: 'PATIENT',
-        triageTeamId: 0
+        triageTeamId: 0,
       },
       id: '0',
-      type: 'triage_teams'
+      type: 'triage_teams',
     },
     {
       attributes: {
         name: 'Triage Team 2',
         relationType: 'PATIENT',
-        triageTeamId: 1
+        triageTeamId: 1,
       },
       id: '1',
-      type: 'triage_teams'
+      type: 'triage_teams',
     },
     {
       attributes: {
         name: 'Triage Team 1',
         relationType: 'PATIENT',
-        triageTeamId: 2
+        triageTeamId: 2,
       },
       id: '2',
-      type: 'triage_teams'
-    }
+      type: 'triage_teams',
+    },
   ],
   links: {
-    first: 'https://dev-api.vets.gov/v0/messaging/health/recipients?page=1&per_page=10',
-    last: 'https://dev-api.vets.gov/v0/messaging/health/recipients?page=1&per_page=10',
+    first:
+      'https://dev-api.vets.gov/v0/messaging/health/recipients?page=1&per_page=10',
+    last:
+      'https://dev-api.vets.gov/v0/messaging/health/recipients?page=1&per_page=10',
     next: null,
     prev: null,
-    self: 'https://dev-api.vets.gov/v0/messaging/health/recipients?'
+    self: 'https://dev-api.vets.gov/v0/messaging/health/recipients?',
   },
   meta: {
     pagination: {
       currentPage: 1,
       perPage: 10,
       totalEntries: 1,
-      totalPages: 1
+      totalPages: 1,
     },
     sort: {
-      name: 'ASC'
-    }
-  }
+      name: 'ASC',
+    },
+  },
 };
 
 const preferences = {
@@ -394,9 +401,9 @@ const preferences = {
     type: 'messaging_preferences',
     attributes: {
       emailAddress: 'test@vets.gov',
-      frequency: 'none'
-    }
-  }
+      frequency: 'none',
+    },
+  },
 };
 
 // Create API routes
@@ -413,8 +420,8 @@ export function initApplicationSubmitMock(token) {
     value: {
       data: {
         ...folders.data[0],
-      }
-    }
+      },
+    },
   });
 
   mock(token, {
@@ -441,7 +448,7 @@ export function initApplicationSubmitMock(token) {
     value: {
       data: {
         ...thread.data[2],
-      }
+      },
     },
   });
 

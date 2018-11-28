@@ -19,16 +19,16 @@ const defaultProps = {
     city: 'Town',
     stateCode: 'MA',
     countryName: 'USA',
-    zipCode: '02138'
+    zipCode: '02138',
   },
   errorMessages: {},
   countries: ['USA', 'Antlantis', 'Elseweyre'],
-  onInput: () => {}
+  onInput: () => {},
 };
 
 describe('<Address>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<Address {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<Address {...defaultProps} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
@@ -37,16 +37,17 @@ describe('<Address>', () => {
     const militaryFields = {
       type: 'MILITARY',
       city: 'APO',
-      stateCode: 'AE'
+      stateCode: 'AE',
     };
     const props = {
       ...defaultProps,
       address: {
-        ...defaultProps.address, ...militaryFields
-      }
+        ...defaultProps.address,
+        ...militaryFields,
+      },
     };
 
-    const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
+    const component = ReactTestUtils.renderIntoDocument(<Address {...props} />);
     const form = getFormDOM(component);
 
     expect(form.getElement('input[name="city"]').value).to.contain('APO');
@@ -56,7 +57,7 @@ describe('<Address>', () => {
   it('should call onInput with correct args when user types in input', () => {
     const onInputSpy = sinon.spy();
     const props = { ...defaultProps, onInput: onInputSpy };
-    const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
+    const component = ReactTestUtils.renderIntoDocument(<Address {...props} />);
     const form = getFormDOM(component);
 
     const addressLine1 = '321 Niam';
@@ -66,7 +67,9 @@ describe('<Address>', () => {
   });
 
   it('should populate country dropdown with countries prop', () => {
-    const component = ReactTestUtils.renderIntoDocument(<Address {...defaultProps}/>);
+    const component = ReactTestUtils.renderIntoDocument(
+      <Address {...defaultProps} />,
+    );
     const form = getFormDOM(component);
 
     const countriesElement = form.getElement('[name="country"]');
@@ -78,14 +81,16 @@ describe('<Address>', () => {
   });
 
   it('should add military state codes to the state dropdown', () => {
-    const component = ReactTestUtils.renderIntoDocument(<Address {...defaultProps}/>);
+    const component = ReactTestUtils.renderIntoDocument(
+      <Address {...defaultProps} />,
+    );
     const form = getFormDOM(component);
 
     const statesElement = form.getElement('[name="state"]');
     const stateNames = Array.from(statesElement.options).map(o => o.value);
 
     // Check to make sure the stateNames contains all the military state codes
-    Array.from(MILITARY_STATES).forEach((code) => {
+    Array.from(MILITARY_STATES).forEach(code => {
       expect(stateNames).to.include(code);
     });
   });
@@ -95,7 +100,7 @@ describe('<Address>', () => {
     props.address.type = ADDRESS_TYPES.military;
     props.address.city = 'APO';
 
-    const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
+    const component = ReactTestUtils.renderIntoDocument(<Address {...props} />);
     const form = getFormDOM(component);
 
     const statesElement = form.getElement('[name="state"]');
@@ -108,11 +113,11 @@ describe('<Address>', () => {
     expect(stateNames).to.eql(Array.from(MILITARY_STATES));
   });
 
-  it('should hide state and zip fields when USA isn\'t selected', () => {
+  it("should hide state and zip fields when USA isn't selected", () => {
     const props = cloneDeep(defaultProps);
     props.address.countryName = 'Somewhere';
 
-    const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
+    const component = ReactTestUtils.renderIntoDocument(<Address {...props} />);
     const form = getFormDOM(component);
 
     // getElement throws an error if the element isn't found
@@ -127,15 +132,17 @@ describe('<Address>', () => {
       countryName: 'Please enter a valid country', // Nonsense!
       stateCode: 'Please enter a state',
       zipCode: 'Please enter a valid Zip code',
-      city: 'Please enter a city'
+      city: 'Please enter a city',
     };
 
     const props = Object.assign({}, defaultProps, { errorMessages });
 
-    const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
+    const component = ReactTestUtils.renderIntoDocument(<Address {...props} />);
     const form = getFormDOM(component);
 
-    const errors = Array.from(form.querySelectorAll('.usa-input-error-message')).map(span => span.textContent);
+    const errors = Array.from(
+      form.querySelectorAll('.usa-input-error-message'),
+    ).map(span => span.textContent);
 
     // Make sure every error message is rendered
     Object.values(errorMessages).forEach(message => {
@@ -145,11 +152,14 @@ describe('<Address>', () => {
 
   it('should show state name for domestic addresses', () => {
     // default is domestic
-    const component = ReactTestUtils.renderIntoDocument(<Address {...defaultProps}/>);
+    const component = ReactTestUtils.renderIntoDocument(
+      <Address {...defaultProps} />,
+    );
     const tree = getFormDOM(component);
 
     // Get the text that's actually displaying for the selected option
-    const stateName = tree.getElement('[name="state"]').selectedOptions[0].textContent;
+    const stateName = tree.getElement('[name="state"]').selectedOptions[0]
+      .textContent;
     expect(stateName).to.equal('Massachusetts');
   });
 
@@ -158,11 +168,12 @@ describe('<Address>', () => {
     const props = cloneDeep(defaultProps);
     props.address.stateCode = 'AA';
 
-    const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
+    const component = ReactTestUtils.renderIntoDocument(<Address {...props} />);
     const tree = getFormDOM(component);
 
     // Get the text that's actually displaying for the selected option
-    const stateName = tree.getElement('[name="state"]').selectedOptions[0].textContent;
+    const stateName = tree.getElement('[name="state"]').selectedOptions[0]
+      .textContent;
     expect(stateName).to.equal('Armed Forces Americas (AA)');
   });
 
@@ -173,7 +184,7 @@ describe('<Address>', () => {
     //  the state and zip fields.
     props.address.countryName = 'Elsweyre';
 
-    const component = ReactTestUtils.renderIntoDocument(<Address {...props}/>);
+    const component = ReactTestUtils.renderIntoDocument(<Address {...props} />);
     const tree = getFormDOM(component);
 
     // Make sure we have as many fields as we expect...

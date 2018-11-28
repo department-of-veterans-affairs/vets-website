@@ -18,8 +18,9 @@ class ToggleThread extends React.Component {
       <button
         className="messaging-toggle-thread"
         type="button"
-        onClick={this.props.onClick}>
-        <i className={iconClass}></i>
+        onClick={this.props.onClick}
+      >
+        <i className={iconClass} />
         <span>{buttonText}</span>
       </button>
     );
@@ -28,7 +29,7 @@ class ToggleThread extends React.Component {
 
 ToggleThread.propTypes = {
   messagesCollapsed: PropTypes.bool,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 export default ToggleThread;

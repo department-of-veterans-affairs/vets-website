@@ -3,11 +3,17 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../chapter31/config/form.js';
 
 describe('VRE chapter 31 military history', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.militaryHistory;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.militaryHistory.pages.militaryHistory;
   it('renders military info', () => {
     const form = mount(
       <DefinitionTester
@@ -15,7 +21,8 @@ describe('VRE chapter 31 military history', () => {
         schema={schema}
         data={{}}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(12);
@@ -29,7 +36,8 @@ describe('VRE chapter 31 military history', () => {
         schema={schema}
         data={{}}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(12);
@@ -45,7 +53,8 @@ describe('VRE chapter 31 military history', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     fillData(form, 'input#root_serviceHistory_0_serviceBranch', 'Army');
     fillData(form, 'select#root_serviceHistory_0_dateRange_fromMonth', '1');
@@ -71,7 +80,8 @@ describe('VRE chapter 31 military history', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');

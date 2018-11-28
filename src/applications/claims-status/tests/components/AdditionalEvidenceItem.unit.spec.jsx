@@ -10,17 +10,20 @@ describe('<AdditionalEvidenceItem>', () => {
       uploadDate: '2010-01-01',
       type: 'other_documents_list',
       fileType: 'Test Type',
-      filename: 'testfile.pdf'
+      filename: 'testfile.pdf',
     };
 
-    const tree = SkinDeep.shallowRender(
-      <AdditionalEvidenceItem
-        item={item}/>
-    );
+    const tree = SkinDeep.shallowRender(<AdditionalEvidenceItem item={item} />);
 
-    expect(tree.subTree('.additional-evidence').text()).to.equal('Additional evidence');
-    expect(tree.subTree('.submission-description').text()).contain('File: testfile.pdf');
-    expect(tree.subTree('.submission-description').text()).contain('Type: Test Type');
+    expect(tree.subTree('.additional-evidence').text()).to.equal(
+      'Additional evidence',
+    );
+    expect(tree.subTree('.submission-description').text()).contain(
+      'File: testfile.pdf',
+    );
+    expect(tree.subTree('.submission-description').text()).contain(
+      'Type: Test Type',
+    );
     expect(tree.everySubTree('.submission-date')).not.to.be.empty;
   });
   it('should render additional evidence item without date', () => {
@@ -29,13 +32,10 @@ describe('<AdditionalEvidenceItem>', () => {
       uploadDate: null,
       type: 'other_documents_list',
       fileType: 'Test Type',
-      filename: 'testfile.pdf'
+      filename: 'testfile.pdf',
     };
 
-    const tree = SkinDeep.shallowRender(
-      <AdditionalEvidenceItem
-        item={item}/>
-    );
+    const tree = SkinDeep.shallowRender(<AdditionalEvidenceItem item={item} />);
 
     expect(tree.everySubTree('.submission-date')).to.be.empty;
   });

@@ -7,7 +7,6 @@ import recordEvent from '../../../../../../platform/monitoring/record-event';
 import LoadingButton from './LoadingButton';
 
 class Vet360EditModalActionButtons extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -25,7 +24,7 @@ class Vet360EditModalActionButtons extends React.Component {
     });
   };
 
-  confirmDeleteAction = (e) => {
+  confirmDeleteAction = e => {
     e.preventDefault();
     recordEvent({
       event: 'profile-navigation',
@@ -42,15 +41,17 @@ class Vet360EditModalActionButtons extends React.Component {
       'profile-section': this.props.analyticsSectionName,
     });
     this.setState({ deleteInitiated: true });
-  }
+  };
 
   renderDeleteAction() {
     if (this.props.deleteEnabled) {
       return (
         <div className="right">
-          <button className="usa-button-secondary button-link"
-            onClick={this.handleDeleteInitiated}>
-            <i className="fa fa-trash"></i> <span>Delete</span>
+          <button
+            className="usa-button-secondary button-link"
+            onClick={this.handleDeleteInitiated}
+          >
+            <i className="fa fa-trash" /> <span>Delete</span>
           </button>
         </div>
       );
@@ -63,25 +64,34 @@ class Vet360EditModalActionButtons extends React.Component {
     const alertContent = (
       <div>
         <h3>Are you sure?</h3>
-        <p>This will delete your {toLower(this.props.title)} across many VA records. You can always come back to your profile later if you'd like to add this information back in.</p>
+        <p>
+          This will delete your {toLower(this.props.title)} across many VA
+          records. You can always come back to your profile later if you'd like
+          to add this information back in.
+        </p>
         <div>
           <LoadingButton
-            isLoading={this.props.transactionRequest && this.props.transactionRequest.isPending}
-            onClick={this.confirmDeleteAction}>
+            isLoading={
+              this.props.transactionRequest &&
+              this.props.transactionRequest.isPending
+            }
+            onClick={this.confirmDeleteAction}
+          >
             Confirm
           </LoadingButton>
-          <button type="button" className="usa-button-secondary" onClick={this.cancelDeleteAction}>Cancel</button>
+          <button
+            type="button"
+            className="usa-button-secondary"
+            onClick={this.cancelDeleteAction}
+          >
+            Cancel
+          </button>
         </div>
       </div>
     );
 
     if (this.state.deleteInitiated) {
-      return (
-        <AlertBox
-          isVisible
-          status="warning"
-          content={alertContent}/>
-      );
+      return <AlertBox isVisible status="warning" content={alertContent} />;
     }
 
     return (
@@ -98,7 +108,7 @@ Vet360EditModalActionButtons.propTypes = {
   title: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  transactionRequest: PropTypes.object
+  transactionRequest: PropTypes.object,
 };
 
 Vet360EditModalActionButtons.defaultProps = {

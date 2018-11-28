@@ -13,21 +13,31 @@ const props = {
 
 describe('<ModalAttachments>', () => {
   it('should render correctly', () => {
-    const tree = SkinDeep.shallowRender(<ModalAttachments {...props}/>);
+    const tree = SkinDeep.shallowRender(<ModalAttachments {...props} />);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
   it('should render the expected child elements', () => {
-    const tree = SkinDeep.shallowRender(<ModalAttachments {...props}/>);
+    const tree = SkinDeep.shallowRender(<ModalAttachments {...props} />);
 
     expect(tree.subTree('Modal')).to.be.ok;
   });
 
   it('should render the expected text in child elements', () => {
-    const tree = SkinDeep.shallowRender(<ModalAttachments {...props}/>);
+    const tree = SkinDeep.shallowRender(<ModalAttachments {...props} />);
 
-    expect(tree.dive(['Modal']).subTree('h3').text()).to.equal(props.title);
-    expect(tree.dive(['Modal']).subTree('p').text()).to.equal(props.text);
+    expect(
+      tree
+        .dive(['Modal'])
+        .subTree('h3')
+        .text(),
+    ).to.equal(props.title);
+    expect(
+      tree
+        .dive(['Modal'])
+        .subTree('p')
+        .text(),
+    ).to.equal(props.text);
   });
 });

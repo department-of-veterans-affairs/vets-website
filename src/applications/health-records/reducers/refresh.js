@@ -8,7 +8,7 @@ const initialState = {
     succeeded: [],
   },
   loading: false,
-  errors: []
+  errors: [],
 };
 
 export default function refresh(state = initialState, action) {
@@ -29,9 +29,11 @@ export default function refresh(state = initialState, action) {
         groupBy(extractStatus => {
           const { lastUpdated, status } = extractStatus.attributes;
           const isOutdated = now.diff(lastUpdated, 'hours', true) > 24;
-          if (isOutdated) { return 'incomplete'; }
-          return (status === 'OK') ? 'succeeded' : 'failed';
-        })(action.data)
+          if (isOutdated) {
+            return 'incomplete';
+          }
+          return status === 'OK' ? 'succeeded' : 'failed';
+        })(action.data),
       );
       return { ...state, statuses };
     }

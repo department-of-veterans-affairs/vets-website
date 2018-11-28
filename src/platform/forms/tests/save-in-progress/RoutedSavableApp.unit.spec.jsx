@@ -4,7 +4,10 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
 import { RoutedSavableApp } from '../../save-in-progress/RoutedSavableApp';
-import { LOAD_STATUSES, PREFILL_STATUSES } from '../../save-in-progress/actions';
+import {
+  LOAD_STATUSES,
+  PREFILL_STATUSES,
+} from '../../save-in-progress/actions';
 
 let oldWindow;
 
@@ -32,20 +35,23 @@ describe('Schemaform <RoutedSavableApp>', () => {
     const formConfig = {};
     const currentLocation = {
       pathname: 'introduction',
-      search: ''
+      search: '',
     };
-    const routes = [{
-      pageList: [{ path: currentLocation.pathname }]
-    }];
+    const routes = [
+      {
+        pageList: [{ path: currentLocation.pathname }],
+      },
+    ];
 
     const tree = SkinDeep.shallowRender(
       <RoutedSavableApp
         formConfig={formConfig}
         routes={routes}
         currentLocation={currentLocation}
-        loadedStatus={LOAD_STATUSES.notAttempted}>
-        <div className="child"/>
-      </RoutedSavableApp>
+        loadedStatus={LOAD_STATUSES.notAttempted}
+      >
+        <div className="child" />
+      </RoutedSavableApp>,
     );
 
     expect(tree.everySubTree('.child')).not.to.be.empty;
@@ -54,15 +60,17 @@ describe('Schemaform <RoutedSavableApp>', () => {
   });
   it('should render the loading screen', () => {
     const formConfig = {
-      title: 'Testing'
+      title: 'Testing',
     };
     const currentLocation = {
       pathname: 'test',
-      search: ''
+      search: '',
     };
-    const routes = [{
-      pageList: [{ path: currentLocation.pathname }]
-    }];
+    const routes = [
+      {
+        pageList: [{ path: currentLocation.pathname }],
+      },
+    ];
 
     const tree = SkinDeep.shallowRender(
       <RoutedSavableApp
@@ -70,30 +78,36 @@ describe('Schemaform <RoutedSavableApp>', () => {
         routes={routes}
         currentLocation={currentLocation}
         loadedStatus={LOAD_STATUSES.pending}
-        updateLogInUrl={() => {}}>
-        <div className="child"/>
-      </RoutedSavableApp>
+        updateLogInUrl={() => {}}
+      >
+        <div className="child" />
+      </RoutedSavableApp>,
     );
 
     expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
   });
   it('should route when prefill unfilled', () => {
     const formConfig = {
-      title: 'Testing'
+      title: 'Testing',
     };
     const currentLocation = {
       pathname: 'test',
-      search: ''
+      search: '',
     };
-    const routes = [{
-      pageList: [{
-        path: 'intro'
-      }, {
-        path: 'test-path'
-      }]
-    }];
+    const routes = [
+      {
+        pageList: [
+          {
+            path: 'intro',
+          },
+          {
+            path: 'test-path',
+          },
+        ],
+      },
+    ];
     const router = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
 
     const tree = SkinDeep.shallowRender(
@@ -103,32 +117,35 @@ describe('Schemaform <RoutedSavableApp>', () => {
         currentLocation={currentLocation}
         loadedStatus={LOAD_STATUSES.pending}
         prefillStatus={PREFILL_STATUSES.pending}
-        updateLogInUrl={() => {}}>
-        <div className="child"/>
-      </RoutedSavableApp>
+        updateLogInUrl={() => {}}
+      >
+        <div className="child" />
+      </RoutedSavableApp>,
     );
 
     tree.getMountedInstance().componentWillReceiveProps({
       prefillStatus: PREFILL_STATUSES.unfilled,
       router,
-      routes
+      routes,
     });
 
     expect(router.push.calledWith('test-path')).to.be.true;
   });
   it('should route and reset fetch status on success', () => {
     const formConfig = {
-      title: 'Testing'
+      title: 'Testing',
     };
     const currentLocation = {
       pathname: 'test',
-      search: ''
+      search: '',
     };
-    const routes = [{
-      pageList: [{ path: currentLocation.pathname }]
-    }];
+    const routes = [
+      {
+        pageList: [{ path: currentLocation.pathname }],
+      },
+    ];
     const router = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
     const returnUrl = 'test-path';
     const setFetchFormStatus = sinon.spy();
@@ -139,34 +156,38 @@ describe('Schemaform <RoutedSavableApp>', () => {
         routes={routes}
         currentLocation={currentLocation}
         loadedStatus={LOAD_STATUSES.pending}
-        updateLogInUrl={() => {}}>
-        <div className="child"/>
-      </RoutedSavableApp>
+        updateLogInUrl={() => {}}
+      >
+        <div className="child" />
+      </RoutedSavableApp>,
     );
 
     tree.getMountedInstance().componentWillReceiveProps({
       router,
       returnUrl,
       loadedStatus: LOAD_STATUSES.success,
-      setFetchFormStatus
+      setFetchFormStatus,
     });
 
     expect(router.push.calledWith(returnUrl)).to.be.true;
-    expect(setFetchFormStatus.calledWith(LOAD_STATUSES.notAttempted)).to.be.true;
+    expect(setFetchFormStatus.calledWith(LOAD_STATUSES.notAttempted)).to.be
+      .true;
   });
   it('should route to error when failed', () => {
     const formConfig = {
-      title: 'Testing'
+      title: 'Testing',
     };
     const currentLocation = {
       pathname: 'test',
-      search: ''
+      search: '',
     };
-    const routes = [{
-      pageList: [{ path: currentLocation.pathname }]
-    }];
+    const routes = [
+      {
+        pageList: [{ path: currentLocation.pathname }],
+      },
+    ];
     const router = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
 
     const tree = SkinDeep.shallowRender(
@@ -175,36 +196,39 @@ describe('Schemaform <RoutedSavableApp>', () => {
         routes={routes}
         currentLocation={currentLocation}
         loadedStatus={LOAD_STATUSES.pending}
-        updateLogInUrl={() => {}}>
-        <div className="child"/>
-      </RoutedSavableApp>
+        updateLogInUrl={() => {}}
+      >
+        <div className="child" />
+      </RoutedSavableApp>,
     );
 
     tree.getMountedInstance().componentWillReceiveProps({
       router,
       loadedStatus: LOAD_STATUSES.failure,
-      formConfig: { urlPrefix: '/' }
+      formConfig: { urlPrefix: '/' },
     });
 
     expect(router.push.calledWith('/error')).to.be.true;
   });
   it('should route to the first page if started in the middle and not logged in', () => {
     const formConfig = {
-      title: 'Testing'
+      title: 'Testing',
     };
     const currentLocation = {
       pathname: 'test',
-      search: ''
+      search: '',
     };
-    const routes = [{
-      pageList: [
-        { path: '/introduction' },
-        { path: currentLocation.pathname }, // You are here
-        { path: '/lastPage' }
-      ]
-    }];
+    const routes = [
+      {
+        pageList: [
+          { path: '/introduction' },
+          { path: currentLocation.pathname }, // You are here
+          { path: '/lastPage' },
+        ],
+      },
+    ];
     const router = {
-      replace: sinon.spy()
+      replace: sinon.spy(),
     };
 
     // Only redirects in production or if ?redirect is in the URL
@@ -216,9 +240,10 @@ describe('Schemaform <RoutedSavableApp>', () => {
         routes={routes}
         router={router}
         currentLocation={currentLocation}
-        loadedStatus={LOAD_STATUSES.pending}>
-        <div className="child"/>
-      </RoutedSavableApp>
+        loadedStatus={LOAD_STATUSES.pending}
+      >
+        <div className="child" />
+      </RoutedSavableApp>,
     );
 
     tree.getMountedInstance().componentDidMount();
@@ -229,22 +254,24 @@ describe('Schemaform <RoutedSavableApp>', () => {
   it('should load a saved form when starting in the middle of a form and logged in', () => {
     const formConfig = {
       title: 'Testing',
-      formId: 'testForm'
+      formId: 'testForm',
     };
     const currentLocation = {
       pathname: 'test',
-      search: ''
+      search: '',
     };
-    const routes = [{
-      pageList: [
-        { path: '/introduction' },
-        { path: currentLocation.pathname }, // You are here
-        { path: '/lastPage' }
-      ]
-    }];
+    const routes = [
+      {
+        pageList: [
+          { path: '/introduction' },
+          { path: currentLocation.pathname }, // You are here
+          { path: '/lastPage' },
+        ],
+      },
+    ];
     const router = {
       push: sinon.spy(),
-      replace: sinon.spy()
+      replace: sinon.spy(),
     };
     const fetchInProgressForm = sinon.spy();
 
@@ -258,9 +285,10 @@ describe('Schemaform <RoutedSavableApp>', () => {
         router={router}
         currentLocation={currentLocation}
         profileIsLoading
-        loadedStatus={LOAD_STATUSES.pending}>
-        <div className="child"/>
-      </RoutedSavableApp>
+        loadedStatus={LOAD_STATUSES.pending}
+      >
+        <div className="child" />
+      </RoutedSavableApp>,
     );
 
     // When logged in, the component gets mounted before the profile is finished
@@ -273,32 +301,39 @@ describe('Schemaform <RoutedSavableApp>', () => {
       formConfig,
       router,
       routes,
-      fetchInProgressForm
+      fetchInProgressForm,
     });
 
-    expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, false))
-      .to.be.true;
+    expect(
+      fetchInProgressForm.calledWith(
+        formConfig.formId,
+        formConfig.migrations,
+        false,
+      ),
+    ).to.be.true;
     __BUILDTYPE__ = buildType;
   });
   it('should load a pre-filled form when starting in the middle of a form and logged in', () => {
     const formConfig = {
       title: 'Testing',
-      formId: 'testForm'
+      formId: 'testForm',
     };
     const currentLocation = {
       pathname: 'test',
-      search: ''
+      search: '',
     };
-    const routes = [{
-      pageList: [
-        { path: '/introduction' },
-        { path: currentLocation.pathname }, // You are here
-        { path: '/lastPage' }
-      ]
-    }];
+    const routes = [
+      {
+        pageList: [
+          { path: '/introduction' },
+          { path: currentLocation.pathname }, // You are here
+          { path: '/lastPage' },
+        ],
+      },
+    ];
     const router = {
       replace: sinon.spy(),
-      push: sinon.spy()
+      push: sinon.spy(),
     };
     const fetchInProgressForm = sinon.spy();
 
@@ -312,9 +347,10 @@ describe('Schemaform <RoutedSavableApp>', () => {
         router={router}
         currentLocation={currentLocation}
         profileIsLoading
-        loadedStatus={LOAD_STATUSES.pending}>
-        <div className="child"/>
-      </RoutedSavableApp>
+        loadedStatus={LOAD_STATUSES.pending}
+      >
+        <div className="child" />
+      </RoutedSavableApp>,
     );
 
     // When logged in, the component gets mounted before the profile is finished
@@ -327,33 +363,40 @@ describe('Schemaform <RoutedSavableApp>', () => {
       formConfig,
       router,
       routes,
-      fetchInProgressForm
+      fetchInProgressForm,
     });
 
-    expect(fetchInProgressForm.calledWith(formConfig.formId, formConfig.migrations, true))
-      .to.be.true;
+    expect(
+      fetchInProgressForm.calledWith(
+        formConfig.formId,
+        formConfig.migrations,
+        true,
+      ),
+    ).to.be.true;
     __BUILDTYPE__ = buildType;
   });
   it('should skip pre-fill when skipPrefill is true', () => {
     const formConfig = {
       title: 'Testing',
-      formId: 'testForm'
+      formId: 'testForm',
     };
     const currentLocation = {
       pathname: 'test',
-      search: ''
+      search: '',
     };
-    const routes = [{
-      pageList: [
-        { path: '/introduction' },
-        { path: '/first-in-form-page' },
-        { path: currentLocation.pathname }, // You are here
-        { path: '/lastPage' }
-      ]
-    }];
+    const routes = [
+      {
+        pageList: [
+          { path: '/introduction' },
+          { path: '/first-in-form-page' },
+          { path: currentLocation.pathname }, // You are here
+          { path: '/lastPage' },
+        ],
+      },
+    ];
     const router = {
       replace: sinon.spy(),
-      push: sinon.spy()
+      push: sinon.spy(),
     };
     const fetchInProgressForm = sinon.spy();
 
@@ -367,9 +410,10 @@ describe('Schemaform <RoutedSavableApp>', () => {
         router={router}
         currentLocation={currentLocation}
         profileIsLoading
-        loadedStatus={LOAD_STATUSES.pending}>
-        <div className="child"/>
-      </RoutedSavableApp>
+        loadedStatus={LOAD_STATUSES.pending}
+      >
+        <div className="child" />
+      </RoutedSavableApp>,
     );
 
     // When logged in, the component gets mounted before the profile is finished
@@ -383,7 +427,7 @@ describe('Schemaform <RoutedSavableApp>', () => {
       formConfig,
       router,
       routes,
-      fetchInProgressForm
+      fetchInProgressForm,
     });
 
     expect(fetchInProgressForm.called).to.be.false;

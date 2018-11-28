@@ -17,20 +17,24 @@ class FormPage extends React.Component {
       <div>
         <h1>How to Apply for a Discharge Upgrade</h1>
         <div className="medium-8">
-          <FormQuestions formValues={this.props.formValues} updateField={this.props.updateField}/>
+          <FormQuestions
+            formValues={this.props.formValues}
+            updateField={this.props.updateField}
+          />
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    formValues: state.dischargeWizard.form,
-  };
-};
+const mapStateToProps = state => ({
+  formValues: state.dischargeWizard.form,
+});
 const mapDispatchToProps = {
   updateField,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(FormPage);

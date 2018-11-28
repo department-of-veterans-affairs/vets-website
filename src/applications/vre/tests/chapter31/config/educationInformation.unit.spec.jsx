@@ -3,11 +3,17 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../chapter31/config/form.js';
 
 describe('VRE chapter 31 education information', () => {
-  const { schema, uiSchema } = formConfig.chapters.educationInformation.pages.educationInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.educationInformation.pages.educationInformation;
   it('renders education info', () => {
     const form = mount(
       <DefinitionTester
@@ -15,7 +21,8 @@ describe('VRE chapter 31 education information', () => {
         schema={schema}
         data={{}}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(4);
@@ -30,7 +37,8 @@ describe('VRE chapter 31 education information', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -48,7 +56,8 @@ describe('VRE chapter 31 education information', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     fillData(form, 'input#root_yearsOfEducation', '10');
@@ -66,7 +75,8 @@ describe('VRE chapter 31 education information', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     fillData(form, 'input#root_yearsOfEducation', '10');
     fillData(form, 'input#root_previousPrograms_0_program', 'Test');

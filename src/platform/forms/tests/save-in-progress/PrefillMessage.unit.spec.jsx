@@ -6,16 +6,12 @@ import PrefillMessage from '../../save-in-progress/PrefillMessage';
 
 describe('Schemaform <PrefillMessage>', () => {
   it('should render', () => {
-    const tree = shallow(
-      <PrefillMessage formContext={{ prefilled: true }}/>
-    );
+    const tree = shallow(<PrefillMessage formContext={{ prefilled: true }} />);
 
     expect(tree.text()).to.contain('prefilled some of your information');
   });
   it('should not render when not prefilled', () => {
-    const tree = shallow(
-      <PrefillMessage formContext={{ prefilled: false }}/>
-    );
+    const tree = shallow(<PrefillMessage formContext={{ prefilled: false }} />);
 
     expect(tree.text()).not.to.contain('prefilled some of your information');
   });
@@ -23,7 +19,7 @@ describe('Schemaform <PrefillMessage>', () => {
     const tree = shallow(
       <PrefillMessage formContext={{ prefilled: true }}>
         Test message
-      </PrefillMessage>
+      </PrefillMessage>,
     );
 
     expect(tree.text()).not.to.contain('prefilled some of your information');

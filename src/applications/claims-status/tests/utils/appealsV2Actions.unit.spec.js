@@ -3,9 +3,7 @@ import sinon from 'sinon';
 
 import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 
-import {
-  getAppealsV2,
-} from '../../actions';
+import { getAppealsV2 } from '../../actions';
 
 import {
   FETCH_APPEALS_PENDING,
@@ -23,13 +21,16 @@ const setup = () => {
   conditionalStorage().setItem('userToken', '123');
   oldFetch = global.fetch;
   global.fetch = sinon.stub();
-  global.fetch.returns(Promise.resolve({
-    headers: { get: () => 'application/json' },
-    ok: true,
-    json: () => Promise.resolve({
-      data: []
-    })
-  }));
+  global.fetch.returns(
+    Promise.resolve({
+      headers: { get: () => 'application/json' },
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          data: [],
+        }),
+    }),
+  );
 };
 
 const teardown = () => {
@@ -41,24 +42,26 @@ describe('getAppealsV2', () => {
   beforeEach(setup);
   afterEach(teardown);
 
-  it('dispatches FETCH_APPEALS_PENDING', (done) => {
+  it('dispatches FETCH_APPEALS_PENDING', done => {
     const thunk = getAppealsV2();
     const dispatch = sinon.spy();
     thunk(dispatch)
       .then(() => {
         const action = dispatch.firstCall.args[0];
         expect(action.type).to.equal(FETCH_APPEALS_PENDING);
-      }).then(done, done);
+      })
+      .then(done, done);
   });
 
-  it('dispatches FETCH_APPEALS_SUCCESS', (done) => {
+  it('dispatches FETCH_APPEALS_SUCCESS', done => {
     const thunk = getAppealsV2();
     const dispatch = sinon.spy();
     thunk(dispatch)
       .then(() => {
         const action = dispatch.secondCall.args[0];
         expect(action.type).to.equal(FETCH_APPEALS_SUCCESS);
-      }).then(done, done);
+      })
+      .then(done, done);
   });
 
   const appealsErrors = {
@@ -66,21 +69,26 @@ describe('getAppealsV2', () => {
     404: RECORD_NOT_FOUND_ERROR,
     422: VALIDATION_ERROR,
     502: BACKEND_SERVICE_ERROR,
-    504: FETCH_APPEALS_ERROR // works for any unspecified error code
+    504: FETCH_APPEALS_ERROR, // works for any unspecified error code
   };
 
-  Object.keys(appealsErrors).forEach((code) => {
-    it(`Dispatches ${appealsErrors[code]} when GET fails with ${code}`, (done) => {
-      global.fetch.returns(Promise.reject({
-        errors: [{ status: `${code}` }],
-      }));
+  Object.keys(appealsErrors).forEach(code => {
+    it(`Dispatches ${
+      appealsErrors[code]
+    } when GET fails with ${code}`, done => {
+      global.fetch.returns(
+        Promise.reject({
+          errors: [{ status: `${code}` }],
+        }),
+      );
       const thunk = getAppealsV2();
       const dispatch = sinon.spy();
       thunk(dispatch)
         .then(() => {
           const action = dispatch.secondCall.args[0];
           expect(action.type).to.equal(appealsErrors[code]);
-        }).then(done, done);
+        })
+        .then(done, done);
     });
   });
 });

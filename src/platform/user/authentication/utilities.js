@@ -5,8 +5,20 @@ import recordEvent from '../../monitoring/record-event';
 import { apiRequest } from '../../utilities/api';
 import environment from '../../utilities/environment';
 
+import brandConsolidation from '../../brand-consolidation';
+
+let successRelay = 'vetsgov';
+if (brandConsolidation.isEnabled()) {
+  if (brandConsolidation.isPreview()) {
+    successRelay = 'preview_vagov';
+  } else {
+    successRelay = 'vagov';
+  }
+}
+
 const SESSIONS_URI = `${environment.API_URL}/sessions`;
-const redirectUrl = (type) => `${SESSIONS_URI}/${type}/new`;
+const redirectUrl = type =>
+  `${SESSIONS_URI}/${type}/new?success_relay=${successRelay}`;
 
 const MHV_URL = redirectUrl('mhv');
 const DSLOGON_URL = redirectUrl('dslogon');
@@ -15,17 +27,24 @@ const MFA_URL = redirectUrl('mfa');
 const VERIFY_URL = redirectUrl('verify');
 const LOGOUT_URL = redirectUrl('slo');
 
-const loginUrl = (policy) => {
+const loginUrl = policy => {
   switch (policy) {
-    case 'mhv': return MHV_URL;
-    case 'dslogon': return DSLOGON_URL;
-    default: return IDME_URL;
+    case 'mhv':
+      return MHV_URL;
+    case 'dslogon':
+      return DSLOGON_URL;
+    default:
+      return IDME_URL;
   }
 };
 
 function popup(popupUrl, clickedEvent, openedEvent) {
   recordEvent({ event: clickedEvent });
-  const popupWindow = window.open('', 'vets.gov-popup', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+  const popupWindow = window.open(
+    '',
+    'vets.gov-popup',
+    'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750',
+  );
   if (popupWindow) {
     recordEvent({ event: openedEvent });
     popupWindow.focus();
@@ -33,13 +52,17 @@ function popup(popupUrl, clickedEvent, openedEvent) {
     return apiRequest(
       popupUrl,
       null,
-      ({ url }) => { popupWindow.location = url; },
-      () => { popupWindow.location = `${environment.BASE_URL}/auth/login/callback`; }
+      ({ url }) => {
+        popupWindow.location = url;
+      },
+      () => {
+        popupWindow.location = `${environment.BASE_URL}/auth/login/callback`;
+      },
     ).then(() => popupWindow);
   }
 
   Raven.captureMessage('Failed to open new window', {
-    extra: { url: popupUrl }
+    extra: { url: popupUrl },
   });
 
   return Promise.reject(new Error('Failed to open new window'));
@@ -62,5 +85,9 @@ export function logout() {
 }
 
 export function signup() {
-  return popup(appendQuery(IDME_URL, { signup: true }), 'register-link-clicked', 'register-link-opened');
+  return popup(
+    appendQuery(IDME_URL, { signup: true }),
+    'register-link-clicked',
+    'register-link-opened',
+  );
 }

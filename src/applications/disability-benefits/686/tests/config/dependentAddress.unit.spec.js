@@ -3,26 +3,32 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, selectRadio } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+  selectRadio,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('686 dependent info', () => {
-  const { schema, uiSchema, arrayPath } = formConfig.chapters.unMarriedChildren.pages.childrenAddress;
-  const dependentData = () => {
-    return {
-      'view:hasUnmarriedChildren': true,
-      dependents: [
-        {
-          fullName: {
-            first: 'Jane',
-            last: 'Doe'
-          },
-          childSocialSecurityNumber: '222-24-2525',
-          childRelationship: 'biological',
-        }
-      ]
-    };
-  };
+  const {
+    schema,
+    uiSchema,
+    arrayPath,
+  } = formConfig.chapters.unMarriedChildren.pages.childrenAddress;
+  const dependentData = () => ({
+    'view:hasUnmarriedChildren': true,
+    dependents: [
+      {
+        fullName: {
+          first: 'Jane',
+          last: 'Doe',
+        },
+        childSocialSecurityNumber: '222-24-2525',
+        childRelationship: 'biological',
+      },
+    ],
+  });
   it('should render', () => {
     const form = mount(
       <DefinitionTester
@@ -31,7 +37,8 @@ describe('686 dependent info', () => {
         schema={schema}
         data={dependentData()}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     expect(form.find('input').length).to.equal(2);
   });
@@ -45,7 +52,8 @@ describe('686 dependent info', () => {
         schema={schema}
         data={dependentData()}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
@@ -62,7 +70,8 @@ describe('686 dependent info', () => {
         data={dependentData()}
         onSubmit={onSubmit}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     selectRadio(form, 'root_childInHousehold', 'Y');
     form.find('form').simulate('submit');
@@ -78,10 +87,11 @@ describe('686 dependent info', () => {
         schema={schema}
         data={dependentData()}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     selectRadio(form, 'root_childInHousehold', 'N');
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(9);
   });
 
   it('should submit form with required fields filled', () => {
@@ -96,12 +106,22 @@ describe('686 dependent info', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     selectRadio(form, 'root_childInHousehold', 'N');
+    const country = form.find(
+      'select#root_childInfo_childAddress_countryDropdown',
+    );
+    country.simulate('change', {
+      target: { value: 'USA' },
+    });
     fillData(form, 'input#root_childInfo_childAddress_street', 'test st');
     fillData(form, 'input#root_childInfo_childAddress_city', 'test city');
-    fillData(form, 'select#root_childInfo_childAddress_state', 'CA');
+    const state = form.find('select#root_childInfo_childAddress_state');
+    state.simulate('change', {
+      target: { value: 'CA' },
+    });
     fillData(form, 'input#root_childInfo_childAddress_postalCode', '91111');
 
     form.find('form').simulate('submit');
@@ -109,4 +129,3 @@ describe('686 dependent info', () => {
     expect(onSubmit.called).to.be.true;
   });
 });
-

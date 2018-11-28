@@ -12,35 +12,37 @@ const props = {
   options: [
     {
       label: 'Prescription name',
-      value: 'prescriptionName'
+      value: 'prescriptionName',
     },
     {
       label: 'Facility name',
-      value: 'facilityName'
+      value: 'facilityName',
     },
     {
       label: 'Last submit date',
-      value: 'lastSubmitDate'
+      value: 'lastSubmitDate',
     },
     {
       label: 'Last fill date',
-      value: 'refillDate'
-    }
+      value: 'refillDate',
+    },
   ],
   selected: {
     order: 'ASC',
-    value: 'prescriptionName'
-  }
+    value: 'prescriptionName',
+  },
 };
 
 describe('<SortMenu>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<SortMenu {...props}/>);
+    const tree = SkinDeep.shallowRender(<SortMenu {...props} />);
     expect(tree.getRenderOutput()).to.exist;
   });
 
   it('should render the correct options', () => {
-    const tree = SkinDeep.shallowRender(<SortMenu {...props}/>).dive(['select']);
+    const tree = SkinDeep.shallowRender(<SortMenu {...props} />).dive([
+      'select',
+    ]);
     const options = tree.everySubTree('option');
     expect(options).to.have.length(props.options.length);
     options.forEach((option, index) => {
@@ -51,7 +53,7 @@ describe('<SortMenu>', () => {
   });
 
   it('should render the sort links for string-based sorts', () => {
-    const tree = SkinDeep.shallowRender(<SortMenu {...props}/>).dive(['ul']);
+    const tree = SkinDeep.shallowRender(<SortMenu {...props} />).dive(['ul']);
     const links = tree.everySubTree('li');
     expect(links).to.have.length(2);
     expect(links[0].text()).to.equal('A-Z');
@@ -64,8 +66,9 @@ describe('<SortMenu>', () => {
         {...props}
         selected={{
           order: 'ASC',
-          value: 'refillDate'
-        }}/>
+          value: 'refillDate',
+        }}
+      />,
     ).dive(['ul']);
     const links = tree.everySubTree('li');
     expect(links).to.have.length(2);
@@ -74,7 +77,7 @@ describe('<SortMenu>', () => {
   });
 
   it('should set the string-based ascending order link to active', () => {
-    const tree = SkinDeep.shallowRender(<SortMenu {...props}/>);
+    const tree = SkinDeep.shallowRender(<SortMenu {...props} />);
     const activeLink = tree.subTree('.rx-sort-active');
     expect(activeLink).to.be.ok;
     expect(activeLink.text()).to.equal('A-Z');
@@ -86,8 +89,9 @@ describe('<SortMenu>', () => {
         {...props}
         selected={{
           order: 'DESC',
-          value: 'prescriptionName'
-        }}/>
+          value: 'prescriptionName',
+        }}
+      />,
     );
     const activeLink = tree.subTree('.rx-sort-active');
     expect(activeLink).to.be.ok;
@@ -100,8 +104,9 @@ describe('<SortMenu>', () => {
         {...props}
         selected={{
           order: 'ASC',
-          value: 'lastSubmitDate'
-        }}/>
+          value: 'lastSubmitDate',
+        }}
+      />,
     );
     const activeLink = tree.subTree('.rx-sort-active');
     expect(activeLink).to.be.ok;
@@ -114,8 +119,9 @@ describe('<SortMenu>', () => {
         {...props}
         selected={{
           order: 'DESC',
-          value: 'lastSubmitDate'
-        }}/>
+          value: 'lastSubmitDate',
+        }}
+      />,
     );
     const activeLink = tree.subTree('.rx-sort-active');
     expect(activeLink).to.be.ok;
@@ -130,9 +136,10 @@ describe('<SortMenu>', () => {
         {...props}
         selected={{
           order: 'DESC',
-          value: 'lastSubmitDate'
+          value: 'lastSubmitDate',
         }}
-        onChange={onChange}/>
+        onChange={onChange}
+      />,
     );
 
     sortMenu.handleChange({ target: { value: 'refillSubmitDate' } });
@@ -147,12 +154,15 @@ describe('<SortMenu>', () => {
         {...props}
         selected={{
           order: 'DESC',
-          value: 'lastSubmitDate'
+          value: 'lastSubmitDate',
         }}
-        onClick={onClick}/>
+        onClick={onClick}
+      />,
     );
 
-    sortMenu.handleClick('lastSubmitDate', 'DESC')({ preventDefault: () => {} });
+    sortMenu.handleClick('lastSubmitDate', 'DESC')({
+      preventDefault: () => {},
+    });
     expect(onClick.calledWith('lastSubmitDate', 'DESC')).to.be.true;
   });
 });

@@ -10,11 +10,12 @@ export default function sortListByFuzzyMatch(value, list, prop = 'label') {
       // if the search term is just one word, split the
       // list into words and find the best match
       if (score > 0 && !val.includes(' ')) {
-        score = Math.min.apply(null,
+        score = Math.min.apply(
+          null,
           label
             .split(/[ ,]/)
             .map(word => fastLevenshtein.get(word, val))
-            .filter(wordScore => wordScore < val.length)
+            .filter(wordScore => wordScore < val.length),
         );
       } else if (score > 0) {
         score = fastLevenshtein.get(label, val);
@@ -22,7 +23,7 @@ export default function sortListByFuzzyMatch(value, list, prop = 'label') {
 
       return {
         score,
-        original: option
+        original: option,
       };
     })
     .sort((a, b) => {
@@ -36,4 +37,3 @@ export default function sortListByFuzzyMatch(value, list, prop = 'label') {
     })
     .map(sorted => sorted.original);
 }
-

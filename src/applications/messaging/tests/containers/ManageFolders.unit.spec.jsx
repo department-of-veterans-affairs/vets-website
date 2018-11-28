@@ -7,14 +7,14 @@ import { ManageFolders } from '../../containers/ManageFolders';
 const props = {
   folders: [
     { folderId: 101, name: 'Personal folder 1', count: 1 },
-    { folderId: 102, name: 'Personal folder 2', count: 0 }
+    { folderId: 102, name: 'Personal folder 2', count: 0 },
   ],
   deleteFolder: () => {},
-  dispatch: () => {}
+  dispatch: () => {},
 };
 
 describe('ManageFolders', () => {
-  const tree = SkinDeep.shallowRender(<ManageFolders {...props}/>);
+  const tree = SkinDeep.shallowRender(<ManageFolders {...props} />);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();

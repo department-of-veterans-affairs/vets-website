@@ -13,9 +13,9 @@ function initMHVTermsMocks(token, termsName = 'mhvac', bypass = true) {
         attributes: {
           name: 'mhvac',
           yesContent: 'I agree',
-        }
-      }
-    }
+        },
+      },
+    },
   });
 
   mock(token, {
@@ -27,17 +27,17 @@ function initMHVTermsMocks(token, termsName = 'mhvac', bypass = true) {
         type: 'termsAndConditions',
         attributes: {
           createdAt: bypass ? 'today' : null,
-        }
-      }
-    }
+        },
+      },
+    },
   });
 
   mock(token, {
     path: `/v0/terms_and_conditions/${termsName}/versions/latest/user_data`,
     verb: 'post',
     value: {
-      data: {}
-    }
+      data: {},
+    },
   });
 
   mock(token, {
@@ -46,10 +46,10 @@ function initMHVTermsMocks(token, termsName = 'mhvac', bypass = true) {
     value: {
       data: {
         attributes: {
-          accountState: bypass ? 'upgraded' : 'needs_terms_acceptance'
-        }
-      }
-    }
+          accountState: bypass ? 'upgraded' : 'needs_terms_acceptance',
+        },
+      },
+    },
   });
 }
 

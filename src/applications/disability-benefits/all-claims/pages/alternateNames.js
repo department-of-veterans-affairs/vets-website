@@ -6,7 +6,7 @@ const { alternateNames: alternateNamesSchema } = fullSchema.properties;
 export const uiSchema = {
   'view:hasAlternateName': {
     'ui:title': 'Have you served under a different name?',
-    'ui:widget': 'yesNo'
+    'ui:widget': 'yesNo',
   },
   alternateNames: {
     'ui:description': 'What name did you serve under?',
@@ -14,7 +14,7 @@ export const uiSchema = {
       viewField: FullNameField,
       reviewTitle: 'Other names',
       expandUnder: 'view:hasAlternateName',
-      itemName: 'Name'
+      itemName: 'Name',
     },
     items: {
       first: {
@@ -25,9 +25,9 @@ export const uiSchema = {
       },
       last: {
         'ui:title': 'Last name',
-      }
-    }
-  }
+      },
+    },
+  },
 };
 
 export const schema = {
@@ -35,8 +35,8 @@ export const schema = {
   properties: {
     'view:hasAlternateName': {
       type: 'boolean',
-      properties: {}
+      properties: {},
     },
-    alternateNames: alternateNamesSchema
-  }
+    alternateNames: alternateNamesSchema,
+  },
 };

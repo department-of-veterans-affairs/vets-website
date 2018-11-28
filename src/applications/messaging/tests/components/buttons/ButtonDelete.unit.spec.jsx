@@ -12,13 +12,13 @@ const props = {
 
 describe('<ButtonDelete>', () => {
   it('should render correctly', () => {
-    const tree = SkinDeep.shallowRender(<ButtonDelete {...props}/>);
+    const tree = SkinDeep.shallowRender(<ButtonDelete {...props} />);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
   it('should have the expected classname', () => {
-    const tree = SkinDeep.shallowRender(<ButtonDelete {...props}/>);
+    const tree = SkinDeep.shallowRender(<ButtonDelete {...props} />);
 
     expect(tree.props.className).to.equal('msg-btn-delete');
   });
@@ -26,8 +26,7 @@ describe('<ButtonDelete>', () => {
   it('should handle click action properly', () => {
     const onClick = sinon.spy();
     const buttonDelete = ReactTestUtils.renderIntoDocument(
-      <ButtonDelete
-        onClick={onClick}/>
+      <ButtonDelete onClick={onClick} />,
     );
 
     buttonDelete.handleClick();

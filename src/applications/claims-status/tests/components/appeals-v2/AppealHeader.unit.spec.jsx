@@ -12,17 +12,17 @@ describe('<AppealHeader/>', () => {
   const formattedDate = 'Up to date as of January 03, 2018, at 9:30 a.m. (ET)';
 
   it('renders', () => {
-    const wrapper = shallow(<AppealHeader {...defaultProps}/>);
+    const wrapper = shallow(<AppealHeader {...defaultProps} />);
     expect(wrapper.type()).to.equal('div');
   });
 
   it('renders the heading text passed in as a prop', () => {
-    const wrapper = shallow(<AppealHeader {...defaultProps}/>);
+    const wrapper = shallow(<AppealHeader {...defaultProps} />);
     expect(wrapper.find('h1').text()).to.equal(defaultProps.heading);
   });
 
   it('renders a last updated <p/> with a formatted date and time', () => {
-    const wrapper = shallow(<AppealHeader {...defaultProps}/>);
+    const wrapper = shallow(<AppealHeader {...defaultProps} />);
     expect(wrapper.find('p').text()).to.equal(formattedDate);
   });
 });

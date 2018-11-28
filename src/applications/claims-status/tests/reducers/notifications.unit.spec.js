@@ -8,8 +8,8 @@ describe('notificationsReducer', () => {
       type: SET_NOTIFICATION,
       message: {
         title: 'Testing',
-        body: 'Body'
-      }
+        body: 'Body',
+      },
     });
 
     expect(state.message.title).to.equal('Testing');
@@ -17,7 +17,7 @@ describe('notificationsReducer', () => {
   });
   it('should clear a notification', () => {
     const state = notificationsReducer(undefined, {
-      type: CLEAR_NOTIFICATION
+      type: CLEAR_NOTIFICATION,
     });
 
     expect(state.message).to.be.null;

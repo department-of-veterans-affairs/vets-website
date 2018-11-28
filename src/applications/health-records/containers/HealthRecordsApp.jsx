@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DowntimeNotification, { externalServices } from '../../../platform/monitoring/DowntimeNotification';
+import DowntimeNotification, {
+  externalServices,
+} from '../../../platform/monitoring/DowntimeNotification';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
 import backendServices from '../../../platform/user/profile/constants/backendServices';
@@ -15,9 +17,7 @@ const SERVICE_REQUIRED = backendServices.HEALTH_RECORDS;
 const AppContent = ({ children }) => (
   <div className="bb-app">
     <div className="row">
-      <div className="columns small-12">
-        {children}
-      </div>
+      <div className="columns small-12">{children}</div>
     </div>
   </div>
 );
@@ -28,10 +28,14 @@ export class HealthRecordsApp extends React.Component {
       <RequiredLoginView
         verify
         serviceRequired={SERVICE_REQUIRED}
-        user={this.props.user}>
-        <DowntimeNotification appTitle="health records tool" dependencies={[externalServices.mhv]}>
+        user={this.props.user}
+      >
+        <DowntimeNotification
+          appTitle="health records tool"
+          dependencies={[externalServices.mhv]}
+        >
           <AppContent>
-            <Breadcrumbs location={this.props.location}/>
+            <Breadcrumbs location={this.props.location} />
             <MHVApp serviceRequired={SERVICE_REQUIRED}>
               {this.props.children}
               <Modal
@@ -40,7 +44,8 @@ export class HealthRecordsApp extends React.Component {
                 id="bb-glossary-modal"
                 onClose={this.props.closeModal}
                 title={this.props.modal.title}
-                visible={this.props.modal.visible}/>
+                visible={this.props.modal.visible}
+              />
             </MHVApp>
           </AppContent>
         </DowntimeNotification>
@@ -50,19 +55,22 @@ export class HealthRecordsApp extends React.Component {
 }
 
 HealthRecordsApp.propTypes = {
-  children: PropTypes.element
+  children: PropTypes.element,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const hrState = state.health.hr;
 
   return {
     modal: hrState.modal,
-    user: state.user
+    user: state.user,
   };
 };
 const mapDispatchToProps = {
   closeModal,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HealthRecordsApp);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HealthRecordsApp);

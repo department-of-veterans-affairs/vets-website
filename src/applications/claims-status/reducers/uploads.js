@@ -11,7 +11,7 @@ import {
   SHOW_MAIL_OR_FAX,
   CANCEL_UPLOAD,
   SET_FIELDS_DIRTY,
-  SET_UPLOADER
+  SET_UPLOADER,
 } from '../actions/index.jsx';
 
 import { makeField, dirtyAllFields } from '../../../platform/forms/fields';
@@ -24,7 +24,7 @@ const initialState = {
   uploadError: false,
   uploadField: makeField(''),
   showMailOrFax: false,
-  uploader: null
+  uploader: null,
 };
 
 export default function claimDetailReducer(state = initialState, action) {
@@ -33,29 +33,31 @@ export default function claimDetailReducer(state = initialState, action) {
       return initialState;
     }
     case ADD_FILE: {
-      const files = Array.prototype.map.call(action.files, (file) => {
-        return {
-          file,
-          docType: makeField('')
-        };
-      });
+      const files = Array.prototype.map.call(action.files, file => ({
+        file,
+        docType: makeField(''),
+      }));
 
       return _.set('files', state.files.concat(files), state);
     }
     case REMOVE_FILE: {
-      return _.set('files', state.files.filter((file, index) => index !== action.index), state);
+      return _.set(
+        'files',
+        state.files.filter((file, index) => index !== action.index),
+        state,
+      );
     }
     case SET_UPLOADING: {
       return _.assign(state, {
         uploading: action.uploading,
         uploadError: false,
         uploadComplete: false,
-        uploader: action.uploader
+        uploader: action.uploader,
       });
     }
     case SET_UPLOADER: {
       return _.assign(state, {
-        uploader: action.uploader
+        uploader: action.uploader,
       });
     }
     case SET_PROGRESS: {
@@ -66,14 +68,14 @@ export default function claimDetailReducer(state = initialState, action) {
         uploading: false,
         uploadComplete: true,
         uploader: null,
-        files: []
+        files: [],
       });
     }
     case SET_UPLOAD_ERROR: {
       return _.assign(state, {
         uploading: false,
         uploadError: true,
-        uploader: null
+        uploader: null,
       });
     }
     case UPDATE_FIELD: {
@@ -85,7 +87,7 @@ export default function claimDetailReducer(state = initialState, action) {
     case CANCEL_UPLOAD: {
       return _.assign(state, {
         uploading: false,
-        uploader: null
+        uploader: null,
       });
     }
     case SET_FIELDS_DIRTY: {
@@ -95,4 +97,3 @@ export default function claimDetailReducer(state = initialState, action) {
       return state;
   }
 }
-

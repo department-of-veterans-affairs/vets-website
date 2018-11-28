@@ -23,7 +23,7 @@ describe('<Vet360EditModal/>', () => {
       onSubmit() {},
       render: () => <div>Rendered output</div>,
       title: 'Edit Some Field',
-      transactionRequest: null
+      transactionRequest: null,
     };
   });
 
@@ -33,13 +33,21 @@ describe('<Vet360EditModal/>', () => {
     sinon.stub(props, 'getInitialFormValues').returns(initialFormValues);
     sinon.stub(props, 'onChange');
 
-    component = enzyme.shallow(<Vet360EditModal {...props}/>);
+    component = enzyme.shallow(<Vet360EditModal {...props} />);
 
-    expect(props.onChange.calledWith(initialFormValues), 'onChange was called to initialize the modal with the result of getInitialFormValues').to.be.true;
-    expect(component.html(), 'The render prop was called and rendered into the component').to.contain('Rendered output');
+    expect(
+      props.onChange.calledWith(initialFormValues),
+      'onChange was called to initialize the modal with the result of getInitialFormValues',
+    ).to.be.true;
+    expect(
+      component.html(),
+      'The render prop was called and rendered into the component',
+    ).to.contain('Rendered output');
 
     component.setProps({ field: null });
-    expect(component.html(), 'The render prop is not called when the field prop is falsey').to.not.contain('Rendered output');
+    expect(
+      component.html(),
+      'The render prop is not called when the field prop is falsey',
+    ).to.not.contain('Rendered output');
   });
-
 });

@@ -12,11 +12,14 @@ import FormStartControls from './FormStartControls';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
+  scroller.scrollTo(
+    'topScrollElement',
+    window.VetsGov.scroll || {
+      duration: 500,
+      delay: 0,
+      smooth: true,
+    },
+  );
 };
 
 class FormSaved extends React.Component {
@@ -35,29 +38,58 @@ class FormSaved extends React.Component {
     const { formId, lastSavedDate } = this.props;
     const { profile } = this.props.user;
     const { verified } = profile;
-    const prefillAvailable = !!(profile && profile.prefillsAvailable.includes(formId));
+    const prefillAvailable = !!(
+      profile && profile.prefillsAvailable.includes(formId)
+    );
     const { success } = this.props.route.formConfig.savedFormMessages || {};
-    const expirationDate = moment.unix(this.props.expirationDate).format('M/D/YYYY');
+    const expirationDate = moment
+      .unix(this.props.expirationDate)
+      .format('M/D/YYYY');
 
     return (
       <div>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <strong>Your {formTitles[formId]} application has been saved.</strong><br/>
-            {!!lastSavedDate && !!expirationDate && <div className="saved-form-metadata-container">
-              <span className="saved-form-metadata">Last saved on {moment(lastSavedDate).format('M/D/YYYY [at] h:mm a')}</span>
-              <p className="expires-container">Your saved application <span className="expires">will expire on {expirationDate}.</span></p>
-            </div>}
+            <strong>
+              Your {formTitles[formId]} application has been saved.
+            </strong>
+            <br />
+            {!!lastSavedDate &&
+              !!expirationDate && (
+                <div className="saved-form-metadata-container">
+                  <span className="saved-form-metadata">
+                    Last saved on{' '}
+                    {moment(lastSavedDate).format('M/D/YYYY [at] h:mm a')}
+                  </span>
+                  <p className="expires-container">
+                    Your saved application{' '}
+                    <span className="expires">
+                      will expire on {expirationDate}.
+                    </span>
+                  </p>
+                </div>
+              )}
             {success}
-            If you’re logged in through a public computer, please sign out of your account before you log off to keep your information secure.
+            If you’re logged in through a public computer, please sign out of
+            your account before you log off to keep your information secure.
           </div>
         </div>
-        {!verified && <div className="usa-alert usa-alert-warning">
-          <div className="usa-alert-body">
-            We want to keep your information safe with the highest level of security. Please <a href={`/verify?next=${window.location.pathname}`} className="verify-link">verify your identity</a>.
+        {!verified && (
+          <div className="usa-alert usa-alert-warning">
+            <div className="usa-alert-body">
+              We want to keep your information safe with the highest level of
+              security. Please{' '}
+              <a
+                href={`/verify?next=${window.location.pathname}`}
+                className="verify-link"
+              >
+                verify your identity
+              </a>
+              .
+            </div>
           </div>
-        </div>}
-        <br/>
+        )}
+        <br />
         <FormStartControls
           startPage={this.props.route.pageList[1].path}
           router={this.props.router}
@@ -68,7 +100,8 @@ class FormSaved extends React.Component {
           prefillTransformer={this.props.prefillTransformer}
           removeInProgressForm={this.props.removeInProgressForm}
           prefillAvailable={prefillAvailable}
-          formSaved/>
+          formSaved
+        />
       </div>
     );
   }
@@ -76,10 +109,12 @@ class FormSaved extends React.Component {
 
 FormSaved.propTypes = {
   route: PropTypes.shape({
-    pageList: PropTypes.arrayOf(PropTypes.shape({
-      path: PropTypes.string
-    })),
-    formConfig: PropTypes.object.isRequired
+    pageList: PropTypes.arrayOf(
+      PropTypes.shape({
+        path: PropTypes.string,
+      }),
+    ),
+    formConfig: PropTypes.object.isRequired,
   }),
   lastSavedDate: PropTypes.number.isRequired,
 };
@@ -92,15 +127,20 @@ function mapStateToProps(state) {
     expirationDate: state.form.expirationDate,
     migrations: state.form.migrations,
     prefillTransformer: state.form.prefillTransformer,
-    user: state.user
+    user: state.user,
   };
 }
 
 const mapDispatchToProps = {
   fetchInProgressForm,
-  removeInProgressForm
+  removeInProgressForm,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormSaved));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(FormSaved),
+);
 
 export { FormSaved };

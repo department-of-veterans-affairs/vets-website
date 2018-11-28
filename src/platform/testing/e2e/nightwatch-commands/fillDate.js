@@ -8,8 +8,7 @@
  */
 exports.command = function fillDate(fieldName, dateString) {
   const date = dateString.split('-');
-  this
-    .selectDropdown(`${fieldName}Month`, parseInt(date[1], 10).toString())
+  this.selectDropdown(`${fieldName}Month`, parseInt(date[1], 10).toString())
     .selectDropdown(`${fieldName}Day`, parseInt(date[2], 10).toString())
     .fill(`input[name="${fieldName}Year"]`, parseInt(date[0], 10).toString());
 

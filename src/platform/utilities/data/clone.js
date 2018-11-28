@@ -22,4 +22,3 @@ export default function clone(object) {
   }
   /* eslint-enable no-prototype-builtins */
 }
-

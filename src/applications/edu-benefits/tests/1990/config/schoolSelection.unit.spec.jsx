@@ -3,12 +3,18 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, getFormDOM } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  getFormDOM,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 
 import formConfig1990 from '../../../1990/config/form';
 
 describe('Edu 1990 schoolSelection', () => {
-  const { schema, uiSchema } = formConfig1990.chapters.schoolSelection.pages.schoolSelection;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig1990.chapters.schoolSelection.pages.schoolSelection;
 
   // They should all render
   it('should render', () => {
@@ -17,7 +23,8 @@ describe('Edu 1990 schoolSelection', () => {
         schema={schema}
         data={{}}
         definitions={formConfig1990.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -35,7 +42,8 @@ describe('Edu 1990 schoolSelection', () => {
         onSubmit={onSubmit}
         data={{}}
         definitions={formConfig1990.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
     formDOM.submitForm();
@@ -51,12 +59,15 @@ describe('Edu 1990 schoolSelection', () => {
         onSubmit={onSubmit}
         data={{}}
         definitions={formConfig1990.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
     formDOM.fillData('#root_educationProgram_educationType', 'college');
 
-    expect(formDOM.querySelectorAll('input,select,textarea').length).to.equal(14);
+    expect(formDOM.querySelectorAll('input,select,textarea').length).to.equal(
+      14,
+    );
   });
   it('should hide non va assistance question', () => {
     const onSubmit = sinon.spy();
@@ -66,14 +77,17 @@ describe('Edu 1990 schoolSelection', () => {
         onSubmit={onSubmit}
         data={{
           currentlyActiveDuty: {
-            yes: true
-          }
+            yes: true,
+          },
         }}
         definitions={formConfig1990.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select,textarea').length).to.equal(6);
+    expect(formDOM.querySelectorAll('input,select,textarea').length).to.equal(
+      6,
+    );
   });
 });

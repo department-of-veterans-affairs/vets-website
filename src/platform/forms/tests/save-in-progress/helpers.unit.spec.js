@@ -8,11 +8,11 @@ describe('createRoutes', () => {
         firstChapter: {
           pages: {
             testPage: {
-              path: 'test-page'
-            }
-          }
-        }
-      }
+              path: 'test-page',
+            },
+          },
+        },
+      },
     };
 
     const routes = createRoutesWithSaveInProgress(formConfig);

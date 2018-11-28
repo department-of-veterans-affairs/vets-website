@@ -9,26 +9,36 @@ const props = {
   fileName: 'fileName',
   fileSize: '1000',
   cssClass: 'cssClass',
-  onClose: () => {}
+  onClose: () => {},
 };
 
 describe('<MessageUploadedAttachment>', () => {
   it('should render correctly', () => {
-    const tree = SkinDeep.shallowRender(<MessageUploadedAttachment {...props}/>);
+    const tree = SkinDeep.shallowRender(
+      <MessageUploadedAttachment {...props} />,
+    );
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
   it('should have the expected classname', () => {
-    const tree = SkinDeep.shallowRender(<MessageUploadedAttachment {...props}/>);
+    const tree = SkinDeep.shallowRender(
+      <MessageUploadedAttachment {...props} />,
+    );
 
     expect(tree.props.className).to.equal(`msg-attachment ${props.cssClass}`);
   });
 
   it('should render the expected text', () => {
-    const tree = SkinDeep.shallowRender(<MessageUploadedAttachment {...props}/>);
+    const tree = SkinDeep.shallowRender(
+      <MessageUploadedAttachment {...props} />,
+    );
 
-    expect(tree.subTree('.msg-attachment-name').text()).to.equal(props.fileName);
-    expect(tree.subTree('.msg-attachment-size').text()).to.equal(`(${props.fileSize})`);
+    expect(tree.subTree('.msg-attachment-name').text()).to.equal(
+      props.fileName,
+    );
+    expect(tree.subTree('.msg-attachment-size').text()).to.equal(
+      `(${props.fileSize})`,
+    );
   });
 });

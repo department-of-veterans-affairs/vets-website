@@ -16,13 +16,15 @@ const initialState = {
     body: makeField(''),
     category: makeField(''),
     recipient: makeField(''),
-    subject: makeField('')
-  }
+    subject: makeField(''),
+  },
 };
 
 describe('compose reducer', () => {
   it('should delete a new message', () => {
-    const newState = composeReducer(initialState, { type: DELETE_COMPOSE_MESSAGE });
+    const newState = composeReducer(initialState, {
+      type: DELETE_COMPOSE_MESSAGE,
+    });
     expect(newState).to.eql(initialState);
   });
 
@@ -30,7 +32,7 @@ describe('compose reducer', () => {
     const fileSet = ['test1.txt', 'test2.gif'];
     const newState = composeReducer(initialState, {
       type: ADD_COMPOSE_ATTACHMENTS,
-      files: fileSet
+      files: fileSet,
     });
 
     expect(newState.message.attachments).to.eql(fileSet);
@@ -39,12 +41,12 @@ describe('compose reducer', () => {
   it('should maintain a growing list of attachments for a new message', () => {
     let newState = composeReducer(initialState, {
       type: ADD_COMPOSE_ATTACHMENTS,
-      files: ['test1.png', 'test2.txt']
+      files: ['test1.png', 'test2.txt'],
     });
 
     newState = composeReducer(newState, {
       type: ADD_COMPOSE_ATTACHMENTS,
-      files: ['test3.jpg']
+      files: ['test3.jpg'],
     });
 
     expect(newState.message.attachments).to.have.lengthOf(3);
@@ -56,17 +58,13 @@ describe('compose reducer', () => {
   it('should delete attachments from a new message', () => {
     const attachmentsState = Object.assign({}, initialState, {
       message: {
-        attachments: [
-          'test1',
-          'test2',
-          'test3'
-        ]
-      }
+        attachments: ['test1', 'test2', 'test3'],
+      },
     });
 
     let newState = composeReducer(attachmentsState, {
       type: DELETE_COMPOSE_ATTACHMENT,
-      index: 1
+      index: 1,
     });
 
     expect(newState.message.attachments).to.have.lengthOf(2);
@@ -75,7 +73,7 @@ describe('compose reducer', () => {
 
     newState = composeReducer(newState, {
       type: DELETE_COMPOSE_ATTACHMENT,
-      index: 1
+      index: 1,
     });
 
     expect(newState.message.attachments).to.have.lengthOf(1);
@@ -87,7 +85,7 @@ describe('compose reducer', () => {
     const newState = composeReducer(initialState, {
       type: SET_MESSAGE_FIELD,
       field: recipient,
-      path: 'message.recipient'
+      path: 'message.recipient',
     });
 
     expect(newState.message.recipient).to.eql(recipient);
@@ -98,7 +96,7 @@ describe('compose reducer', () => {
     const newState = composeReducer(initialState, {
       type: SET_MESSAGE_FIELD,
       field: category,
-      path: 'message.category'
+      path: 'message.category',
     });
 
     expect(newState.message.category).to.eql(category);
@@ -109,7 +107,7 @@ describe('compose reducer', () => {
     const newState = composeReducer(initialState, {
       type: SET_MESSAGE_FIELD,
       field: subject,
-      path: 'message.subject'
+      path: 'message.subject',
     });
 
     expect(newState.message.subject).to.eql(subject);
@@ -120,7 +118,7 @@ describe('compose reducer', () => {
     const newState = composeReducer(initialState, {
       type: SET_MESSAGE_FIELD,
       field: text,
-      path: 'message.text'
+      path: 'message.text',
     });
 
     expect(newState.message.text).to.eql(text);

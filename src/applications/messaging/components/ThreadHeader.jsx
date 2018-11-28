@@ -16,7 +16,7 @@ class ThreadHeader extends React.Component {
       folderMessageCount,
       isNewMessage,
       message,
-      threadMessageCount
+      threadMessageCount,
     } = this.props;
 
     const folderName = currentFolder.name;
@@ -34,7 +34,8 @@ class ThreadHeader extends React.Component {
           messageCount={folderMessageCount}
           onItemSelect={this.props.onMessageSelect}
           itemNumber={currentMessageNumber}
-          totalItems={folderMessageCount}/>
+          totalItems={folderMessageCount}
+        />
       );
     }
 
@@ -42,7 +43,8 @@ class ThreadHeader extends React.Component {
       toggleThread = (
         <ToggleThread
           messagesCollapsed={this.props.messagesCollapsed}
-          onClick={this.props.onToggleThread}/>
+          onClick={this.props.onToggleThread}
+        />
       );
     }
 
@@ -52,8 +54,7 @@ class ThreadHeader extends React.Component {
     // Also hide the 'Move' button for drafts and sent messages,
     // since they can’t be moved to other folders.
     if (folderName !== 'Sent' && folderName !== 'Drafts') {
-      deleteButton =
-        <ButtonDelete onClick={this.props.onDeleteMessage}/>;
+      deleteButton = <ButtonDelete onClick={this.props.onDeleteMessage} />;
 
       const { folders, moveToIsOpen } = this.props;
 
@@ -65,13 +66,14 @@ class ThreadHeader extends React.Component {
           messageId={message.messageId}
           onChooseFolder={this.props.onChooseFolder}
           onCreateFolder={this.props.onCreateFolder}
-          onToggleMoveTo={this.props.onToggleMoveTo}/>
+          onToggleMoveTo={this.props.onToggleMoveTo}
+        />
       );
     }
 
     const titleClass = classNames({
       'messaging-thread-title': true,
-      'show-for-small-only': isNewMessage
+      'show-for-small-only': isNewMessage,
     });
 
     const titleSection = (
@@ -87,7 +89,7 @@ class ThreadHeader extends React.Component {
     return (
       <div className="messaging-thread-header">
         <div className="messaging-thread-nav">
-          <ButtonBack url={folderUrl(folderName)}/>
+          <ButtonBack url={folderUrl(folderName)} />
           {messageNav}
           {moveTo}
           {deleteButton}
@@ -100,7 +102,7 @@ class ThreadHeader extends React.Component {
 
 ThreadHeader.propTypes = {
   currentFolder: PropTypes.shape({
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
   }),
   currentMessageNumber: PropTypes.number.isRequired,
   folderMessageCount: PropTypes.number.isRequired,
@@ -109,13 +111,13 @@ ThreadHeader.propTypes = {
       folderId: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
       count: PropTypes.number.isRequired,
-      unreadCount: PropTypes.number.isRequired
-    })
+      unreadCount: PropTypes.number.isRequired,
+    }),
   ).isRequired,
   isNewMessage: PropTypes.bool,
   message: PropTypes.shape({
     messageId: PropTypes.number,
-    subject: PropTypes.string
+    subject: PropTypes.string,
   }).isRequired,
   messagesCollapsed: PropTypes.bool,
   moveToIsOpen: PropTypes.bool,
@@ -125,7 +127,7 @@ ThreadHeader.propTypes = {
   onMessageSelect: PropTypes.func,
   onToggleThread: PropTypes.func,
   onToggleMoveTo: PropTypes.func,
-  threadMessageCount: PropTypes.number
+  threadMessageCount: PropTypes.number,
 };
 
 export default ThreadHeader;

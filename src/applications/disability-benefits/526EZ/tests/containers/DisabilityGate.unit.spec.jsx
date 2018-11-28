@@ -10,12 +10,12 @@ describe('DisabilityGate', () => {
   it("should render the children if pre-fill hasn't returned yet", () => {
     const props = {
       prefillStatus: PREFILL_STATUSES.notAttempted,
-      disabilities: [{}]
+      disabilities: [{}],
     };
     const tree = shallow(
       <DisabilityGate {...props}>
         <div className="testing">123</div>
-      </DisabilityGate>
+      </DisabilityGate>,
     );
     expect(tree.find('.testing').length).to.equal(1);
     tree.setProps(merge({ prefillStatus: PREFILL_STATUSES.pending }));
@@ -25,12 +25,12 @@ describe('DisabilityGate', () => {
   it('should render the children if there is at least one eligible disability', () => {
     const props = {
       prefillStatus: PREFILL_STATUSES.success,
-      disabilities: [{ foo: 'well, it isn\'t ineligible... ' }]
+      disabilities: [{ foo: "well, it isn't ineligible... " }],
     };
     const tree = shallow(
       <DisabilityGate {...props}>
         <div className="testing">123</div>
-      </DisabilityGate>
+      </DisabilityGate>,
     );
     expect(tree.find('.testing').length).to.equal(1);
   });
@@ -38,12 +38,12 @@ describe('DisabilityGate', () => {
   it('should render an alert if there are no eligible disabilities', () => {
     const props = {
       prefillStatus: PREFILL_STATUSES.success,
-      disabilities: [] // Would have been emptied in transformDisabilities
+      disabilities: [], // Would have been emptied in transformDisabilities
     };
     const tree = shallow(
       <DisabilityGate {...props}>
         <div className="testing">123</div>
-      </DisabilityGate>
+      </DisabilityGate>,
     );
     expect(tree.find('.testing').length).to.equal(0);
     expect(tree.find('AlertBox').length).to.equal(1);
@@ -57,7 +57,7 @@ describe('DisabilityGate', () => {
     const tree = shallow(
       <DisabilityGate {...props}>
         <div className="testing">123</div>
-      </DisabilityGate>
+      </DisabilityGate>,
     );
     expect(tree.find('.testing').length).to.equal(0);
     expect(tree.find('AlertBox').length).to.equal(1);

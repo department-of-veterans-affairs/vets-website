@@ -18,9 +18,7 @@ const routes = {
   path: '/',
   component: DashboardAppWrapper,
   indexRoute: { component: DashboardApp },
-  childRoutes: [
-    preferencesRoute,
-  ]
+  childRoutes: [preferencesRoute],
 };
 
 export default routes;

@@ -35,10 +35,10 @@ const eligibleDataClasses = {
         'varadiology',
         'vahth',
         'wellness',
-        'dodmilitaryservice'
-      ]
-    }
-  }
+        'dodmilitaryservice',
+      ],
+    },
+  },
 };
 
 const extractStatuses = {
@@ -48,69 +48,68 @@ const extractStatuses = {
       lastUpdated: 'Thu, 19 Jan 2017 14:37:50 EST',
       status: 'OK',
       createdOn: 'Thu, 19 Jan 2017 14:37:47 EST',
-      stationNumber: ''
+      stationNumber: '',
     },
     {
       extractType: 'ImagingStudy',
       lastUpdated: 'Thu, 19 Jan 2017 14:37:49 EST',
       status: 'ERROR',
       createdOn: 'Thu, 19 Jan 2017 14:37:47 EST',
-      stationNumber: ''
+      stationNumber: '',
     },
     {
       extractType: 'VPR',
       lastUpdated: 'Thu, 19 Jan 2017 14:37:59 EST',
       status: 'OK',
       createdOn: 'Thu, 19 Jan 2017 14:37:47 EST',
-      stationNumber: ''
+      stationNumber: '',
     },
     {
       extractType: 'DodMilitaryService',
       lastUpdated: 'Thu, 19 Jan 2017 14:37:48 EST',
       status: 'OK',
       createdOn: 'Thu, 19 Jan 2017 14:37:47 EST',
-      stationNumber: ''
+      stationNumber: '',
     },
     {
       extractType: 'WellnessReminders',
       lastUpdated: 'Thu, 19 Jan 2017 14:37:58 EST',
       status: 'OK',
       createdOn: 'Thu, 19 Jan 2017 14:37:47 EST',
-      stationNumber: ''
+      stationNumber: '',
     },
     {
       extractType: 'Allergy',
       lastUpdated: 'Thu, 19 Jan 2017 14:37:52 EST',
       status: 'OK',
       createdOn: 'Thu, 19 Jan 2017 14:37:47 EST',
-      stationNumber: ''
+      stationNumber: '',
     },
     {
       extractType: 'Appointments',
       lastUpdated: 'Thu, 19 Jan 2017 14:37:48 EST',
       status: 'ERROR',
       createdOn: 'Thu, 19 Jan 2017 14:37:47 EST',
-      stationNumber: ''
-    }
-  ]
+      stationNumber: '',
+    },
+  ],
 };
-
 
 // Create API routes
 function initApplicationMock(token) {
   mock(token, {
     path: '/v0/health_records/refresh',
     verb: 'get',
-    value: extractStatuses
+    value: extractStatuses,
   });
 
   mock(token, {
     path: '/v0/health_records/eligible_data_classes',
     verb: 'get',
-    value: eligibleDataClasses
+    value: eligibleDataClasses,
   });
 }
 
 module.exports = {
-  initApplicationMock
+  initApplicationMock,
 };

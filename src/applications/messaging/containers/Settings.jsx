@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {
-  toggleFolderNav
-} from '../actions';
+import { toggleFolderNav } from '../actions';
 
 import TabItem from '../components/TabItem';
 
@@ -15,19 +13,26 @@ export class Settings extends React.Component {
           <button
             className="messaging-menu-button"
             type="button"
-            onClick={this.props.toggleFolderNav}>
+            onClick={this.props.toggleFolderNav}
+          >
             Menu
           </button>
           <h3>Settings</h3>
         </div>
         <div id="messaging-settings">
           <ul className="va-tabs" role="tablist">
-            <TabItem shortcut={1} tabpath="settings/folders" title="Manage folders"/>
-            <TabItem shortcut={2} tabpath="settings/notifications" title="Email notifications"/>
+            <TabItem
+              shortcut={1}
+              tabpath="settings/folders"
+              title="Manage folders"
+            />
+            <TabItem
+              shortcut={2}
+              tabpath="settings/notifications"
+              title="Email notifications"
+            />
           </ul>
-          <div id="tab-content">
-            {this.props.children}
-          </div>
+          <div id="tab-content">{this.props.children}</div>
         </div>
       </div>
     );
@@ -35,7 +40,10 @@ export class Settings extends React.Component {
 }
 
 const mapDispatchToProps = {
-  toggleFolderNav
+  toggleFolderNav,
 };
 
-export default connect(null, mapDispatchToProps)(Settings);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Settings);

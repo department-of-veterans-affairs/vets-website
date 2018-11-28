@@ -8,11 +8,11 @@ describe('<PastEvent', () => {
     title: 'Test',
     description: 'Some test event',
     liClass: 'class-goes-here',
-    date: 'June 01, 2015'
+    date: 'June 01, 2015',
   };
 
   it('should render an <li/>', () => {
-    const wrapper = shallow(<PastEvent {...defaultProps}/>);
+    const wrapper = shallow(<PastEvent {...defaultProps} />);
     expect(wrapper.type()).to.equal('li');
   });
 });

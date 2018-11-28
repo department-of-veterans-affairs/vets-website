@@ -11,7 +11,7 @@ export function formatDate(date, options = {}) {
   const isValidDate =
     momentDate.isValid() &&
     (!options.validateInPast ||
-    momentDate.isSameOrBefore(moment().endOf('day')));
+      momentDate.isSameOrBefore(moment().endOf('day')));
 
   return isValidDate
     ? momentDate.format(options.format || 'MMMM DD, YYYY')
@@ -20,17 +20,13 @@ export function formatDate(date, options = {}) {
 
 export function getModalTerm(term) {
   const allTerms = glossary.Prescription.concat(glossary.Refill);
-  const content = allTerms.filter((obj) => {
-    return obj.term === term;
-  });
+  const content = allTerms.filter(obj => obj.term === term);
   return content;
 }
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}/v0/prescriptions`;
-  const url = resource[0] === '/'
-    ? [baseUrl, resource].join('')
-    : resource;
+  const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
 
   return commonApiClient(url, optionalSettings, success, error);
 }

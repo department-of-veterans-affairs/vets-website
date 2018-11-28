@@ -13,7 +13,8 @@ class MessageWrite extends React.Component {
           onValueChange={this.props.onValueChange}
           placeholder={this.props.placeholder}
           name="messageText"
-          field={this.props.text}/>
+          field={this.props.text}
+        />
       </div>
     );
   }
@@ -27,8 +28,8 @@ MessageWrite.propTypes = {
   placeholder: PropTypes.string,
   text: PropTypes.shape({
     value: PropTypes.string,
-    dirty: PropTypes.bool
-  }).isRequired
+    dirty: PropTypes.bool,
+  }).isRequired,
 };
 
 export default MessageWrite;

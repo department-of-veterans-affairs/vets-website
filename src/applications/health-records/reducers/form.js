@@ -13,12 +13,14 @@ const initialState = {
   reportTypes: {},
   ready: false,
   requestDate: null,
-  inProgress: false
+  inProgress: false,
 };
 
-const initializeReportTypes = (eligibleClasses) => {
+const initializeReportTypes = eligibleClasses => {
   const reportTypes = {};
-  eligibleClasses.forEach((type) => { reportTypes[type] = false; });
+  eligibleClasses.forEach(type => {
+    reportTypes[type] = false;
+  });
   return reportTypes;
 };
 
@@ -32,7 +34,7 @@ export default function form(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        reportTypes: initializeReportTypes(action.classes)
+        reportTypes: initializeReportTypes(action.classes),
       };
     case 'START_DATE_CHANGED':
       return set('dateRange.start', action.date, state);
@@ -43,7 +45,11 @@ export default function form(state = initialState, action) {
     case 'REPORT_TYPE_TOGGLED':
       return set(`reportTypes.${action.reportType}`, action.checked, state);
     case 'ALL_REPORTS_TOGGLED':
-      return set('reportTypes', mapValues(state.reportTypes, () => action.checked), state);
+      return set(
+        'reportTypes',
+        mapValues(state.reportTypes, () => action.checked),
+        state,
+      );
     case 'FORM_SUBMITTING':
       return set('inProgress', true, state);
     case 'FORM_SUCCESS':

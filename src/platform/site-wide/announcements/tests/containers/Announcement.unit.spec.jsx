@@ -16,32 +16,28 @@ describe('<Announcement/>', () => {
       profile: {},
       dismissed: [],
       initDismissedAnnouncements() {},
-      dismissAnnouncement() {}
+      dismissAnnouncement() {},
     };
   });
 
   it('calls the init action when isInitialized is false', () => {
     props.isInitialized = false;
     props.initDismissedAnnouncements = sinon.stub();
-    enzyme.shallow(<Announcement {...props}/>);
+    enzyme.shallow(<Announcement {...props} />);
     expect(props.initDismissedAnnouncements.called).to.be.true;
   });
 
   it('renders an empty div when there is no announcement', () => {
-    const wrapper = enzyme.shallow(<Announcement {...props}/>);
+    const wrapper = enzyme.shallow(<Announcement {...props} />);
     expect(wrapper.html()).to.be.equal('<div></div>');
   });
 
   it('renders a child announcement component when there is an announcement prop', () => {
     props.announcement = {
       name: 'dummy',
-      component: ({ announcement }) => {
-        return (
-          <span>{announcement.name}</span>
-        );
-      }
+      component: ({ announcement }) => <span>{announcement.name}</span>,
     };
-    const wrapper = enzyme.shallow(<Announcement {...props}/>);
+    const wrapper = enzyme.shallow(<Announcement {...props} />);
     expect(wrapper.html()).to.be.equal('<span>dummy</span>');
   });
 
@@ -50,14 +46,14 @@ describe('<Announcement/>', () => {
     props.announcement = {
       name: 'dummy',
       relatedAnnouncements: ['dummy2', 'dummy3'],
-      component: ({ announcement, dismiss }) => {
-        return (
-          <button type="button" onClick={dismiss}>{announcement.name}</button>
-        );
-      }
+      component: ({ announcement, dismiss }) => (
+        <button type="button" onClick={dismiss}>
+          {announcement.name}
+        </button>
+      ),
     };
 
-    const wrapper = enzyme.shallow(<Announcement {...props}/>);
+    const wrapper = enzyme.shallow(<Announcement {...props} />);
     const button = wrapper.find('component').dive();
 
     button.simulate('click');

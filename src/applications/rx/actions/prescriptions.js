@@ -4,23 +4,26 @@ import { apiRequest } from '../utils/helpers';
 export function loadPrescription(id) {
   return dispatch => {
     const urls = [`/${id}`, `/${id}/trackings`];
-    const errorHandler =
-      () => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE' });
+    const errorHandler = () => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE' });
 
     dispatch({ type: 'LOADING_DETAIL' });
 
     // Fetch both the prescription and its tracking history and
     // wait for retrieval and read of both resources to resolve.
-    Promise.all(urls.map(
-      url => apiRequest(url, null, response => response, errorHandler)
-    ))
-      .then(data => dispatch({
-        type: 'LOAD_PRESCRIPTION_SUCCESS',
-        data: {
-          rx: data[0].data,
-          trackings: data[1].data
-        }
-      }))
+    Promise.all(
+      urls.map(url =>
+        apiRequest(url, null, response => response, errorHandler),
+      ),
+    )
+      .then(data =>
+        dispatch({
+          type: 'LOAD_PRESCRIPTION_SUCCESS',
+          data: {
+            rx: data[0].data,
+            trackings: data[1].data,
+          },
+        }),
+      )
       .catch(errorHandler);
   };
 }
@@ -52,22 +55,24 @@ export function loadPrescriptions(options) {
 
   return dispatch => {
     dispatch({
-      type: options.active ? 'LOADING_ACTIVE' : 'LOADING_HISTORY'
+      type: options.active ? 'LOADING_ACTIVE' : 'LOADING_HISTORY',
     });
 
     apiRequest(
       url,
       null,
-      data => dispatch({
-        type: 'LOAD_PRESCRIPTIONS_SUCCESS',
-        active: options.active,
-        data
-      }),
-      response => dispatch({
-        type: 'LOAD_PRESCRIPTIONS_FAILURE',
-        active: options.active,
-        errors: response.errors,
-      })
+      data =>
+        dispatch({
+          type: 'LOAD_PRESCRIPTIONS_SUCCESS',
+          active: options.active,
+          data,
+        }),
+      response =>
+        dispatch({
+          type: 'LOAD_PRESCRIPTIONS_FAILURE',
+          active: options.active,
+          errors: response.errors,
+        }),
     );
   };
 }
@@ -86,15 +91,17 @@ export function refillPrescription(prescription) {
       apiRequest(
         url,
         { method: 'PATCH' },
-        () => dispatch({
-          type: 'REFILL_SUCCESS',
-          prescription
-        }),
-        response => dispatch({
-          type: 'REFILL_FAILURE',
-          errors: response.errors,
-          prescription
-        })
+        () =>
+          dispatch({
+            type: 'REFILL_SUCCESS',
+            prescription,
+          }),
+        response =>
+          dispatch({
+            type: 'REFILL_FAILURE',
+            errors: response.errors,
+            prescription,
+          }),
       );
     };
   }

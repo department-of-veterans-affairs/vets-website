@@ -4,25 +4,30 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 import moment from 'moment';
 
-import { DefinitionTester, getFormDOM } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  getFormDOM,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
 describe('Child information page', () => {
-  const { schema, uiSchema, arrayPath } = formConfig.chapters.householdInformation.pages.childrenInformation;
-  const dependentData = () => {
-    return {
-      'view:hasDependents': true,
-      dependents: [
-        {
-          fullName: {
-            first: 'Jane',
-            last: 'Doe'
-          },
-          dependentRelationship: 'child',
-        }
-      ]
-    };
-  };
+  const {
+    schema,
+    uiSchema,
+    arrayPath,
+  } = formConfig.chapters.householdInformation.pages.childrenInformation;
+  const dependentData = () => ({
+    'view:hasDependents': true,
+    dependents: [
+      {
+        fullName: {
+          first: 'Jane',
+          last: 'Doe',
+        },
+        dependentRelationship: 'child',
+      },
+    ],
+  });
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -31,11 +36,14 @@ describe('Child information page', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={dependentData()}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(8);
+    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(
+      8,
+    );
   });
 
   it('should show errors when required fields are empty', () => {
@@ -48,7 +56,8 @@ describe('Child information page', () => {
         schema={schema}
         onSubmit={onSubmit}
         data={dependentData()}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
     formDOM.submitForm(form);
@@ -66,7 +75,8 @@ describe('Child information page', () => {
         schema={schema}
         onSubmit={onSubmit}
         data={dependentData()}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
     formDOM.setCheckbox('#root_view\\:noSSN', true);
@@ -87,7 +97,8 @@ describe('Child information page', () => {
         schema={schema}
         data={dependentData()}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -103,7 +114,9 @@ describe('Child information page', () => {
 
   it('should ask if the child is in school', () => {
     const data = Object.assign({}, dependentData());
-    data.dependents[0].childDateOfBirth = moment().subtract(19, 'years').toString();
+    data.dependents[0].childDateOfBirth = moment()
+      .subtract(19, 'years')
+      .toString();
 
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
@@ -114,7 +127,8 @@ describe('Child information page', () => {
         schema={schema}
         data={data}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -123,7 +137,9 @@ describe('Child information page', () => {
 
   it('should ask if the child is disabled', () => {
     const data = Object.assign({}, dependentData());
-    data.dependents[0].childDateOfBirth = moment().subtract(19, 'years').toString();
+    data.dependents[0].childDateOfBirth = moment()
+      .subtract(19, 'years')
+      .toString();
 
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
@@ -134,7 +150,8 @@ describe('Child information page', () => {
         schema={schema}
         data={data}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);

@@ -3,11 +3,17 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../chapter36/config/form.js';
 
 describe('VRE chapter 36 contact information', () => {
-  const { schema, uiSchema } = formConfig.chapters.contactInformation.pages.contactInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.contactInformation.pages.contactInformation;
   it('renders contact information form', () => {
     const form = mount(
       <DefinitionTester
@@ -15,7 +21,8 @@ describe('VRE chapter 36 contact information', () => {
         schema={schema}
         data={{}}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     expect(form.find('input').length).to.equal(4);
   });
@@ -29,7 +36,8 @@ describe('VRE chapter 36 contact information', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     fillData(form, 'input#root_applicantPrimaryPhone', '8017777777');
     fillData(form, 'input#root_applicantOtherPhone', '8017777777');
@@ -51,7 +59,8 @@ describe('VRE chapter 36 contact information', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     fillData(form, 'input#root_applicantEmail', 'test@test.com');
     fillData(form, 'input[name="root_view:confirmEmail"]', 'test@nottest.com');

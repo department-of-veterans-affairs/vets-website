@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import {
   isPendingTransaction,
-  isFailedTransaction
+  isFailedTransaction,
 } from '../../util/transactions';
 
 import Vet360TransactionInlineErrorMessage from './TransactionInlineErrorMessage';
@@ -15,7 +15,7 @@ export default class Vet360Transaction extends React.Component {
     children: PropTypes.node.isRequired,
     refreshTransaction: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
-    transaction: PropTypes.object
+    transaction: PropTypes.object,
   };
 
   render() {
@@ -24,22 +24,27 @@ export default class Vet360Transaction extends React.Component {
       refreshTransaction,
       title,
       transaction,
-      transactionRequest
+      transactionRequest,
     } = this.props;
 
     const method = transactionRequest ? transactionRequest.method : 'PUT';
     const hasError = transaction && isFailedTransaction(transaction);
     const classes = classNames('vet360-profile-field-content', {
-      'usa-input-error': hasError
+      'usa-input-error': hasError,
     });
-
 
     return (
       <div className={classes}>
-        {hasError && <Vet360TransactionInlineErrorMessage {...this.props}/>}
+        {hasError && <Vet360TransactionInlineErrorMessage {...this.props} />}
         {transaction && isPendingTransaction(transaction) ? (
-          <Vet360TransactionPending title={title} refreshTransaction={refreshTransaction} method={method}/>
-        ) : children}
+          <Vet360TransactionPending
+            title={title}
+            refreshTransaction={refreshTransaction}
+            method={method}
+          />
+        ) : (
+          children
+        )}
       </div>
     );
   }

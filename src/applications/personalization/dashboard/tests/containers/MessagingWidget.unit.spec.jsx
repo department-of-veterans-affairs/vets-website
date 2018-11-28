@@ -18,7 +18,7 @@ const props = {
       senderName: 'Clinician',
       recipientId: 789,
       recipientName: 'Veteran',
-      readReceipt: 'UNREAD'
+      readReceipt: 'UNREAD',
     },
     {
       messageId: 123,
@@ -31,33 +31,39 @@ const props = {
       senderName: 'Clinician',
       recipientId: 789,
       recipientName: 'Veteran',
-      readReceipt: 'READ'
+      readReceipt: 'READ',
     },
   ],
 };
 
 describe('<MessagingWidget>', () => {
   it('should not render if messaging is inaccessible', () => {
-    const tree = SkinDeep.shallowRender(<MessagingWidget/>);
+    const tree = SkinDeep.shallowRender(<MessagingWidget />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.equal(null);
   });
 
   it('should render if messaging is accessible', () => {
-    const tree = SkinDeep.shallowRender(<MessagingWidget {...props}/>);
+    const tree = SkinDeep.shallowRender(<MessagingWidget {...props} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.be.ok;
   });
 
   it('should render only unread messages', () => {
-    const tree = SkinDeep.shallowRender(<MessagingWidget {...props}/>);
-    const messageRows = tree.dive(['.msg-table-list', 'table', 'tbody']).everySubTree('.messaging-message-row');
+    const tree = SkinDeep.shallowRender(<MessagingWidget {...props} />);
+    const messageRows = tree
+      .dive(['.msg-table-list', 'table', 'tbody'])
+      .everySubTree('.messaging-message-row');
     expect(messageRows.length).to.equal(1);
   });
 
   it('should render empty state properly', () => {
-    const tree = SkinDeep.shallowRender(<MessagingWidget { ...{ canAccessMessaging: true }}/>);
+    const tree = SkinDeep.shallowRender(
+      <MessagingWidget {...{ canAccessMessaging: true }} />,
+    );
     const emptyState = tree.dive(['p']);
-    expect(emptyState.text()).to.have.string('You don’t have any unread messages from your health care team.');
+    expect(emptyState.text()).to.have.string(
+      'You don’t have any unread messages from your health care team.',
+    );
   });
 });

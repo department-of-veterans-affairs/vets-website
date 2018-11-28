@@ -10,5 +10,5 @@ import reducer from './reducers';
 // This will need a url when/if it gets turned back on
 startApp({
   reducer,
-  routes
+  routes,
 });

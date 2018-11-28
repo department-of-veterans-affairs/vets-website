@@ -13,13 +13,13 @@ const defaultProps = {
   utilitiesMenuIsOpen: {
     search: false,
     help: false,
-    account: false
-  }
+    account: false,
+  },
 };
 
 describe('<Main>', () => {
   it('should render', () => {
-    const wrapper = shallow(<Main {...defaultProps}/>);
+    const wrapper = shallow(<Main {...defaultProps} />);
     expect(wrapper.find('SearchHelpSignIn').exists()).to.be.true;
     expect(wrapper.find('SignInModal').exists()).to.be.true;
   });

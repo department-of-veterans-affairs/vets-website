@@ -21,9 +21,9 @@ class MoveTo extends React.Component {
     // to the form, which is why we’re using currentTarget.
     // instead of target.
     const folderId = +domEvent.currentTarget.messagingMoveToFolder.value;
-    const moveToFolder = this.props.folders.find((folder) => {
-      return folder.folderId === folderId;
-    });
+    const moveToFolder = this.props.folders.find(
+      folder => folder.folderId === folderId,
+    );
 
     this.props.onChooseFolder(this.props.messageId, moveToFolder);
   }
@@ -31,40 +31,33 @@ class MoveTo extends React.Component {
   render() {
     // Only list Inbox, and veteran-defined folders
     // and exclude the current folder.
-    const folders = this.props.folders.filter((folder) => {
+    const folders = this.props.folders.filter(folder => {
       const folderId = folder.folderId;
       const isEligibleFolder =
-        folderId >= 0 &&
-        folderId !== this.props.currentFolder.folderId;
+        folderId >= 0 && folderId !== this.props.currentFolder.folderId;
       return isEligibleFolder;
     });
 
-    const folderOptions = folders.map((folder) => {
-      return (
-        <li key={folder.folderId}>
-          <MoveToOption
-            folderName={folder.name}
-            folderId={folder.folderId}
-            messageId={this.props.messageId}/>
-        </li>
-      );
-    });
+    const folderOptions = folders.map(folder => (
+      <li key={folder.folderId}>
+        <MoveToOption
+          folderName={folder.name}
+          folderId={folder.folderId}
+          messageId={this.props.messageId}
+        />
+      </li>
+    ));
 
     return (
       <div className="msg-move-to">
-        <ButtonMove onClick={this.props.onToggleMoveTo}/>
-        <form
-          hidden={!this.props.isOpen}
-          onChange={this.handleChooseFolder}>
+        <ButtonMove onClick={this.props.onToggleMoveTo} />
+        <form hidden={!this.props.isOpen} onChange={this.handleChooseFolder}>
           <fieldset>
-            <legend className="usa-sr-only">
-              Move this message to
-            </legend>
+            <legend className="usa-sr-only">Move this message to</legend>
             <ul className="msg-move-to-options">
               {folderOptions}
               <li>
-                <ButtonCreateFolder
-                  onClick={this.openCreateFolderModal}/>
+                <ButtonCreateFolder onClick={this.openCreateFolderModal} />
               </li>
             </ul>
           </fieldset>
@@ -79,15 +72,15 @@ MoveTo.propTypes = {
     folderId: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     count: PropTypes.number.isRequired,
-    unreadCount: PropTypes.number.isRequired
+    unreadCount: PropTypes.number.isRequired,
   }),
   folders: PropTypes.arrayOf(
     PropTypes.shape({
       folderId: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
       count: PropTypes.number.isRequired,
-      unreadCount: PropTypes.number.isRequired
-    })
+      unreadCount: PropTypes.number.isRequired,
+    }),
   ).isRequired,
   isOpen: PropTypes.bool,
   messageId: PropTypes.number,

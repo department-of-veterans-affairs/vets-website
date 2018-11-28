@@ -10,13 +10,13 @@ This is high-level view of the current (S)CSS architecture, and a set of guideli
 
 ## Background
 
-As Vets.gov has grown to encompass more features and products, our CSS has grown with it. The beta version of the site used the Foundation CSS framework, with custom CSS added as needed. Subsequent versions of the site shifted to the [United States Web Design Standards](https://standards.usa.gov) (USWDS) framework. 
+As VA.gov has grown to encompass more features and products, our CSS has grown with it. The beta version of the site used the Foundation CSS framework, with custom CSS added as needed. Subsequent versions of the site shifted to the [United States Web Design Standards](https://standards.usa.gov) (USWDS) framework. 
 
 Portions of the site still use the Foundation grid. Newer templates use the USWDS grid. Most of the site's components use VA-specific CSS.
 
 ## Current dependencies
 
-Vets.gov uses Sass as its preprocessor with SCSS syntax.
+VA.gov uses Sass as its preprocessor with SCSS syntax.
 
 - USWDS 0.10.0
     - normalize.css

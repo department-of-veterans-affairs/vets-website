@@ -3,9 +3,9 @@ import moment from 'moment';
 import recordEvent from '../../../platform/monitoring/record-event';
 
 function getDataClasses(formData) {
-  return Object.keys(formData.reportTypes).filter((reportType) => {
-    return formData.reportTypes[reportType];
-  });
+  return Object.keys(formData.reportTypes).filter(
+    reportType => formData.reportTypes[reportType],
+  );
 }
 
 function getFromDate(formData) {
@@ -66,26 +66,28 @@ export function resetForm() {
 }
 
 export function getEligibleClasses() {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({ type: 'FETCHING_ELIGIBLE_CLASSES' });
 
     return apiRequest(
       '/eligible_data_classes',
       null,
-      (response) => dispatch({
-        type: 'FETCH_ELIGIBLE_CLASSES_SUCCESS',
-        classes: response.data.attributes.dataClasses
-      }),
-      (response) => dispatch({
-        type: 'FETCH_ELIGIBLE_CLASSES_FAILURE',
-        errors: response.errors
-      })
+      response =>
+        dispatch({
+          type: 'FETCH_ELIGIBLE_CLASSES_SUCCESS',
+          classes: response.data.attributes.dataClasses,
+        }),
+      response =>
+        dispatch({
+          type: 'FETCH_ELIGIBLE_CLASSES_FAILURE',
+          errors: response.errors,
+        }),
     );
   };
 }
 
 export function submitForm(formData) {
-  return (dispatch) => {
+  return dispatch => {
     recordEvent({
       event: 'health-record-request',
     });
@@ -98,15 +100,15 @@ export function submitForm(formData) {
       body: JSON.stringify({
         dataClasses: getDataClasses(formData),
         fromDate: getFromDate(formData),
-        toDate: getToDate(formData)
-      })
+        toDate: getToDate(formData),
+      }),
     };
 
     return apiRequest(
       '/',
       settings,
       () => dispatch({ type: 'FORM_SUCCESS' }),
-      () => dispatch({ type: 'FORM_FAILURE' })
+      () => dispatch({ type: 'FORM_FAILURE' }),
     );
   };
 }

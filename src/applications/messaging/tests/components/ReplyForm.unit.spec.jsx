@@ -18,17 +18,13 @@ const props = {
 
 describe('<ReplyForm>', () => {
   it('should render correctly', () => {
-    const tree = SkinDeep.shallowRender(
-      <ReplyForm {...props}/>
-    );
+    const tree = SkinDeep.shallowRender(<ReplyForm {...props} />);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
   it('should have the expected id', () => {
-    const tree = SkinDeep.shallowRender(
-      <ReplyForm {...props}/>
-    );
+    const tree = SkinDeep.shallowRender(<ReplyForm {...props} />);
     expect(tree.props.id).to.equal('msg-reply');
   });
 });

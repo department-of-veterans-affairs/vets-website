@@ -12,7 +12,7 @@ const initialState = {
       order: 'ASC',
     },
     page: 1,
-    pages: 1
+    pages: 1,
   },
   history: {
     loading: false,
@@ -21,11 +21,11 @@ const initialState = {
       order: 'DESC',
     },
     page: 1,
-    pages: 1
+    pages: 1,
   },
   detail: {
-    loading: false
-  }
+    loading: false,
+  },
 };
 
 function sortByName(items) {
@@ -49,14 +49,23 @@ function sortByLastFillDate(items) {
 }
 
 function updateRefillStatus(items, id) {
-  const itemToUpdate = items.findIndex((item) => {
-    // The + converts to a number for comparison
-    return +item.id === id;
-  });
+  const itemToUpdate = items.findIndex(
+    item =>
+      // The + converts to a number for comparison
+      +item.id === id,
+  );
 
   // Update the refill status
-  const isRefillable = set('attributes.isRefillable', false, items[itemToUpdate]);
-  const refillStatus = set('attributes.refillStatus', 'submitted', isRefillable);
+  const isRefillable = set(
+    'attributes.isRefillable',
+    false,
+    items[itemToUpdate],
+  );
+  const refillStatus = set(
+    'attributes.refillStatus',
+    'submitted',
+    isRefillable,
+  );
 
   const updatedItems = set(itemToUpdate, refillStatus, items);
 
@@ -82,7 +91,11 @@ export default function prescriptions(state = initialState, action) {
     case 'LOAD_PRESCRIPTIONS_FAILURE': {
       const section = action.active ? 'active' : 'history';
       const loadingState = set(`${section}.loading`, false, state);
-      const errorState = set(`${section}.errors`, action.errors || [], loadingState);
+      const errorState = set(
+        `${section}.errors`,
+        action.errors || [],
+        loadingState,
+      );
       return set('items', null, errorState);
     }
 
@@ -103,14 +116,14 @@ export default function prescriptions(state = initialState, action) {
           loading: false,
           sort: { value: sortValue, order: sortOrder },
           page: pagination.currentPage,
-          pages: pagination.totalPages
+          pages: pagination.totalPages,
         };
       } else {
         newState.history = {
           loading: false,
           sort: { value: sortValue, order: sortOrder },
           page: pagination.currentPage,
-          pages: pagination.totalPages
+          pages: pagination.totalPages,
         };
       }
 
@@ -118,31 +131,58 @@ export default function prescriptions(state = initialState, action) {
     }
 
     case 'REFILL_SUCCESS': {
-      const newItems = updateRefillStatus(state.items, action.prescription.prescriptionId);
+      const newItems = updateRefillStatus(
+        state.items,
+        action.prescription.prescriptionId,
+      );
       return set('items', newItems, state);
     }
 
     case 'SORT_PRESCRIPTIONS': {
-      const newState = set('active.sort', {
-        value: action.sort,
-        order: action.order,
-      }, state);
+      const newState = set(
+        'active.sort',
+        {
+          value: action.sort,
+          order: action.order,
+        },
+        state,
+      );
       const order = action.order.toLowerCase();
 
       switch (action.sort) {
         case 'prescriptionName':
-          return set('items', _.orderBy(state.items, sortByName, [order]), newState);
+          return set(
+            'items',
+            _.orderBy(state.items, sortByName, [order]),
+            newState,
+          );
         case 'facilityName':
-          return set('items', _.orderBy(state.items, sortByFacilityName, [order]), newState);
+          return set(
+            'items',
+            _.orderBy(state.items, sortByFacilityName, [order]),
+            newState,
+          );
         case 'lastSubmitDate':
-          return set('items', _.orderBy(state.items, sortByLastSubmitDate, [order]), newState);
+          return set(
+            'items',
+            _.orderBy(state.items, sortByLastSubmitDate, [order]),
+            newState,
+          );
         case 'lastFillDate':
-          return set('items', _.orderBy(state.items, sortByLastFillDate, [order]), newState);
+          return set(
+            'items',
+            _.orderBy(state.items, sortByLastFillDate, [order]),
+            newState,
+          );
         default:
-          return set('active.sort', {
-            value: 'prescriptionName',
-            order: 'ASC',
-          }, state);
+          return set(
+            'active.sort',
+            {
+              value: 'prescriptionName',
+              order: 'ASC',
+            },
+            state,
+          );
       }
     }
 

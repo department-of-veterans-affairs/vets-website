@@ -10,14 +10,14 @@ describe('User navigation selectors', () => {
       user: {
         profile: {
           userFullName: { first: null },
-          email: 'test@test.gov'
-        }
-      }
+          email: 'test@test.gov',
+        },
+      },
     };
 
-    it('should return email', () => {
+    it('should return My Account', () => {
       const result = selectUserGreeting(state);
-      expect(result).to.equal('test@test.gov');
+      expect(result).to.equal('My Account');
     });
 
     it('should return session name', () => {
@@ -29,7 +29,7 @@ describe('User navigation selectors', () => {
     it('should return profile name', () => {
       conditionalStorage().setItem('userFirstName', 'Joe');
       const result = selectUserGreeting(
-        set('user.profile.userFullName.first', 'Jane', state)
+        set('user.profile.userFullName.first', 'Jane', state),
       );
       expect(result).to.equal('Jane');
     });

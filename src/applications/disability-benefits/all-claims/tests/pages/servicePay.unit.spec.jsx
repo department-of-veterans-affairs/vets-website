@@ -6,7 +6,10 @@ import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
 describe('Service Pay', () => {
-  const { schema, uiSchema } = formConfig.chapters.veteranDetails.pages.servicePay;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.veteranDetails.pages.servicePay;
 
   it('should render two radio options by default', () => {
     const form = mount(
@@ -15,7 +18,8 @@ describe('Service Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
-        formData={{}}/>
+        formData={{}}
+      />,
     );
 
     expect(form.find('input[type="radio"]').length).to.equal(2);
@@ -30,7 +34,8 @@ describe('Service Pay', () => {
         uiSchema={uiSchema}
         data={{ 'view:hasMilitaryRetiredPay': false }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -47,7 +52,8 @@ describe('Service Pay', () => {
         uiSchema={uiSchema}
         data={{ 'view:hasMilitaryRetiredPay': true }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -64,10 +70,11 @@ describe('Service Pay', () => {
         uiSchema={uiSchema}
         data={{
           'view:hasMilitaryRetiredPay': true,
-          militaryRetiredPayBranch: 'Army'
+          militaryRetiredPayBranch: 'Army',
         }}
         formData={{}}
-        onSubmit={onSubmit}/>
+        onSubmit={onSubmit}
+      />,
     );
 
     form.find('form').simulate('submit');

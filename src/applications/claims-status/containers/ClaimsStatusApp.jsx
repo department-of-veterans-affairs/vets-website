@@ -8,14 +8,12 @@ import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
 function AppContent({ children, isDataAvailable }) {
-  const canUseApp = isDataAvailable === true || typeof isDataAvailable === 'undefined';
+  const canUseApp =
+    isDataAvailable === true || typeof isDataAvailable === 'undefined';
   return (
     <div className="claims-status-content">
-      {!canUseApp && <ClaimsAppealsUnavailable/>}
-      {canUseApp &&
-        <div>
-          {children}
-        </div>}
+      {!canUseApp && <ClaimsAppealsUnavailable />}
+      {canUseApp && <div>{children}</div>}
     </div>
   );
 }
@@ -25,11 +23,13 @@ class ClaimsStatusApp extends React.Component {
     return (
       <RequiredLoginView
         verify
-        serviceRequired={[backendServices.EVSS_CLAIMS, backendServices.APPEALS_STATUS]}
-        user={this.props.user}>
-        <AppContent>
-          {this.props.children}
-        </AppContent>
+        serviceRequired={[
+          backendServices.EVSS_CLAIMS,
+          backendServices.APPEALS_STATUS,
+        ]}
+        user={this.props.user}
+      >
+        <AppContent>{this.props.children}</AppContent>
       </RequiredLoginView>
     );
   }

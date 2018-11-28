@@ -5,14 +5,16 @@ class InfoPair extends React.Component {
   render() {
     const { additionalClass } = this.props;
 
-    const gridRowClasses = additionalClass ?
-      `usa-grid-full ${additionalClass}`
+    const gridRowClasses = additionalClass
+      ? `usa-grid-full ${additionalClass}`
       : 'usa-grid-full';
 
     const row = (
       <div className={gridRowClasses}>
         <div className="usa-width-one-third">
-          <span><strong>{this.props.label}: </strong></span>
+          <span>
+            <strong>{this.props.label}: </strong>
+          </span>
         </div>
         <div className="usa-width-two-thirds" id={this.props.id}>
           {this.props.value}
@@ -31,9 +33,7 @@ class InfoPair extends React.Component {
       rowToDisplay = this.props.value && row;
     }
 
-    return (
-      rowToDisplay || null
-    );
+    return rowToDisplay || null;
   }
 }
 
@@ -42,8 +42,7 @@ InfoPair.propTypes = {
   value: PropTypes.any,
   id: PropTypes.string,
   additionalClass: PropTypes.string,
-  displayIfZero: PropTypes.bool
+  displayIfZero: PropTypes.bool,
 };
 
 export default InfoPair;
-

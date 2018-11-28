@@ -9,13 +9,9 @@ const Issues = ({ issues }) => {
   const denied = issues.filter(i => i.status === 'denied');
   const withdrawn = issues.filter(i => i.status === 'withdrawn');
 
-  const getListItems = (item, i) => {
-    return (
-      <li key={`${item.status}-${i}`}>
-        {item.description}
-      </li>
-    );
-  };
+  const getListItems = (item, i) => (
+    <li key={`${item.status}-${i}`}>{item.description}</li>
+  );
 
   const openListItems = open.map(getListItems);
   const remandListItems = remand.map(getListItems);
@@ -23,7 +19,7 @@ const Issues = ({ issues }) => {
   const deniedListItems = denied.map(getListItems);
   const withdrawnListItems = withdrawn.map(getListItems);
 
-  const openSection = (openListItems.length) ? <ul>{openListItems}</ul> : null;
+  const openSection = openListItems.length ? <ul>{openListItems}</ul> : null;
 
   let remandSection = null;
   if (remandListItems.length) {
@@ -77,7 +73,11 @@ const Issues = ({ issues }) => {
   }
 
   let closedItems = null;
-  if (grantedListItems.length || deniedListItems.length || withdrawnListItems.length) {
+  if (
+    grantedListItems.length ||
+    deniedListItems.length ||
+    withdrawnListItems.length
+  ) {
     // Closed panel should render as expanded by default only if no active panel present
     closedItems = (
       <CollapsiblePanel panelName={'Closed'} startOpen={!activeItems}>
@@ -100,9 +100,13 @@ const Issues = ({ issues }) => {
 Issues.propTypes = {
   issues: PropTypes.arrayOf(
     PropTypes.shape({
-      status: PropTypes.oneOf(
-        ['open', 'remand', 'granted', 'denied', 'withdrawn']
-      ).isRequired,
+      status: PropTypes.oneOf([
+        'open',
+        'remand',
+        'granted',
+        'denied',
+        'withdrawn',
+      ]).isRequired,
       description: PropTypes.string.isRequired,
     }),
   ).isRequired,

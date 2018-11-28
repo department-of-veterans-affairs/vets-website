@@ -16,11 +16,12 @@ import checkValidPath from './checkValidPath';
 export default function get(path, object, defaultValue) {
   const arrayPath = Array.isArray(path) ? path : deconstructPath(path);
   checkValidPath(arrayPath);
-  const currentValue = arrayPath.reduce((current, next) => {
-    return typeof current === 'undefined' ? current : current[next];
-  }, object);
+  const currentValue = arrayPath.reduce(
+    (current, next) =>
+      typeof current === 'undefined' ? current : current[next],
+    object,
+  );
 
   // Should this clone? the current value? It might use a different ref--not sure.
-  return (typeof currentValue !== 'undefined') ? currentValue : defaultValue;
+  return typeof currentValue !== 'undefined' ? currentValue : defaultValue;
 }
-

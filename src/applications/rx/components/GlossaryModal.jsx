@@ -20,23 +20,22 @@ class GlossaryModal extends React.Component {
     if (this.props.isVisible) {
       element = (
         <div>
-          <GlossaryList terms={this.props.content}/>
+          <GlossaryList terms={this.props.content} />
           <button
             className="va-modal-close"
             type="button"
             aria-label="Close this modal"
-            onClick={this.handleCloseModal}>
-            <i className="fa fa-close"></i>
+            onClick={this.handleCloseModal}
+          >
+            <i className="fa fa-close" />
           </button>
-          <Link
-            to="/glossary"
-            onClick={this.props.onCloseModal}>
+          <Link to="/glossary" onClick={this.props.onCloseModal}>
             See all status definitions
           </Link>
         </div>
       );
     } else {
-      element = (<div/>);
+      element = <div />;
     }
 
     return (
@@ -47,17 +46,20 @@ class GlossaryModal extends React.Component {
         id="rx-glossary-modal"
         title="Glossary"
         onClose={this.handleCloseModal}
-        visible={this.props.isVisible}/>
+        visible={this.props.isVisible}
+      />
     );
   }
 }
 
 GlossaryModal.propTypes = {
-  content: PropTypes.arrayOf(PropTypes.shape({
-    term: PropTypes.string,
-    definition: PropTypes.string
-  })),
-  onCloseModal: PropTypes.func
+  content: PropTypes.arrayOf(
+    PropTypes.shape({
+      term: PropTypes.string,
+      definition: PropTypes.string,
+    }),
+  ),
+  onCloseModal: PropTypes.func,
 };
 
 export default GlossaryModal;

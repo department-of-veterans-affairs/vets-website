@@ -12,7 +12,7 @@ const props = {
 
 describe('<ErrorView>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<ErrorView {...props}/>);
+    const tree = SkinDeep.shallowRender(<ErrorView {...props} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
@@ -22,8 +22,8 @@ describe('<ErrorView>', () => {
     global.window = { location: { reload: () => {} } };
     const errorView = ReactTestUtils.renderIntoDocument(
       <ErrorView {...props}>
-        <div id="children"/>
-      </ErrorView>
+        <div id="children" />
+      </ErrorView>,
     );
     const children = ReactDOM.findDOMNode(errorView).children;
 
@@ -37,8 +37,8 @@ describe('<ErrorView>', () => {
     const nonBlockingErrors = [{ code: 'RX000' }];
     const errorView = ReactTestUtils.renderIntoDocument(
       <ErrorView errors={nonBlockingErrors}>
-        <div id="children"/>
-      </ErrorView>
+        <div id="children" />
+      </ErrorView>,
     );
     const children = ReactDOM.findDOMNode(errorView).children;
 
@@ -47,19 +47,17 @@ describe('<ErrorView>', () => {
   });
 
   it('should render alert errors as expected', () => {
-    const alertErrors = [
-      { code: 'RX101' }
-    ];
-    const errorView = SkinDeep.shallowRender(<ErrorView errors={alertErrors}/>);
+    const alertErrors = [{ code: 'RX101' }];
+    const errorView = SkinDeep.shallowRender(
+      <ErrorView errors={alertErrors} />,
+    );
 
     expect(errorView.subTree('AlertBox')).to.be.ok;
   });
 
   it('should render non-alert errors correctly', () => {
-    const errors = [
-      { code: 'RX135' }
-    ];
-    const errorView = SkinDeep.shallowRender(<ErrorView errors={errors}/>);
+    const errors = [{ code: 'RX135' }];
+    const errorView = SkinDeep.shallowRender(<ErrorView errors={errors} />);
 
     expect(errorView.props.className).to.equal('rx-app-error rx-tab-explainer');
   });

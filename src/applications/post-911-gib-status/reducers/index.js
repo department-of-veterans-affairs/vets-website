@@ -7,13 +7,14 @@ import {
   GET_ENROLLMENT_DATA_SUCCESS,
   NO_CHAPTER33_RECORD_AVAILABLE,
   SERVICE_AVAILABILITY_STATES,
-  SET_SERVICE_AVAILABILITY
+  SET_SERVICE_AVAILABILITY,
+  SET_SERVICE_UPTIME_REMAINING,
 } from '../utils/constants';
 
 const initialState = {
   enrollmentData: null,
   availability: 'awaitingResponse',
-  serviceAvailability: SERVICE_AVAILABILITY_STATES.unrequested
+  serviceAvailability: SERVICE_AVAILABILITY_STATES.unrequested,
 };
 
 function post911GIBStatus(state = initialState, action) {
@@ -22,7 +23,7 @@ function post911GIBStatus(state = initialState, action) {
       return {
         ...state,
         enrollmentData: action.data,
-        availability: 'available'
+        availability: 'available',
       };
     case BACKEND_SERVICE_ERROR:
       return set('availability', 'backendServiceError', state);
@@ -34,11 +35,13 @@ function post911GIBStatus(state = initialState, action) {
       return set('availability', 'unavailable', state);
     case SET_SERVICE_AVAILABILITY:
       return set('serviceAvailability', action.serviceAvailability, state);
+    case SET_SERVICE_UPTIME_REMAINING:
+      return set('uptimeRemaining', action.uptimeRemaining, state);
     default:
       return state;
   }
 }
 
 export default {
-  post911GIBStatus
+  post911GIBStatus,
 };

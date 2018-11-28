@@ -22,7 +22,7 @@ class TableRowVerticalHeader extends React.Component {
 
 TableRowVerticalHeader.propTypes = {
   headerText: PropTypes.string.isRequired,
-  cellText: PropTypes.node
+  cellText: PropTypes.node,
 };
 
 export default TableRowVerticalHeader;

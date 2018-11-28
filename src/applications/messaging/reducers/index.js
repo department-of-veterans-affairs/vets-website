@@ -23,7 +23,7 @@ export default {
       modals,
       preferences,
       recipients,
-      search
-    })
-  })
+      search,
+    }),
+  }),
 };

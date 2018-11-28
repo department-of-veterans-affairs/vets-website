@@ -18,7 +18,7 @@ import {
   openCreateFolderModal,
   setNewFolderName,
   toggleFolderNav,
-  toggleManagedFolders
+  toggleManagedFolders,
 } from '../actions';
 
 import ButtonClose from '../components/buttons/ButtonClose';
@@ -32,7 +32,9 @@ export class Main extends React.Component {
     super(props);
     this.handleFolderChange = this.handleFolderChange.bind(this);
     this.handleFolderNameChange = this.handleFolderNameChange.bind(this);
-    this.handleSubmitCreateNewFolder = this.handleSubmitCreateNewFolder.bind(this);
+    this.handleSubmitCreateNewFolder = this.handleSubmitCreateNewFolder.bind(
+      this,
+    );
     this.loadApp = this.loadApp.bind(this);
   }
 
@@ -42,8 +44,12 @@ export class Main extends React.Component {
 
   loadApp() {
     const { folders, recipients } = this.props;
-    if (!folders || !folders.length) { this.props.fetchFolders(); }
-    if (!recipients) { this.props.fetchRecipients(); }
+    if (!folders || !folders.length) {
+      this.props.fetchFolders();
+    }
+    if (!recipients) {
+      this.props.fetchRecipients();
+    }
   }
 
   handleFolderChange() {
@@ -70,38 +76,42 @@ export class Main extends React.Component {
     const loading = this.props.loading;
 
     if (loading.folders || loading.recipients) {
-      return <LoadingIndicator message="Loading your application..."/>;
+      return <LoadingIndicator message="Loading your application..." />;
     }
 
-    if (!this.props.folders || !this.props.folders.length || !this.props.recipients) {
+    if (
+      !this.props.folders ||
+      !this.props.folders.length ||
+      !this.props.recipients
+    ) {
       return (
         <ErrorView errors={this.props.errors}>
           <p>
-            The application failed to load.
-            Click <a onClick={this.loadApp}>here</a> to try again.
+            The application failed to load. Click{' '}
+            <a onClick={this.loadApp}>here</a> to try again.
           </p>
         </ErrorView>
       );
     }
 
     if (loading.deletingFolder) {
-      return <LoadingIndicator message="Deleting your folder..."/>;
+      return <LoadingIndicator message="Deleting your folder..." />;
     }
 
     if (loading.deletingMessage) {
-      return <LoadingIndicator message="Deleting your message..."/>;
+      return <LoadingIndicator message="Deleting your message..." />;
     }
 
     if (loading.movingMessage) {
-      return <LoadingIndicator message="Moving your message..."/>;
+      return <LoadingIndicator message="Moving your message..." />;
     }
 
     if (loading.savingDraft) {
-      return <LoadingIndicator message="Saving your message..."/>;
+      return <LoadingIndicator message="Saving your message..." />;
     }
 
     const navClass = classNames({
-      opened: this.props.nav.visible
+      opened: this.props.nav.visible,
     });
 
     return (
@@ -110,8 +120,9 @@ export class Main extends React.Component {
           <div id="messaging-nav" className={navClass}>
             <ButtonClose
               className="messaging-folder-nav-close"
-              onClick={this.props.toggleFolderNav}/>
-            <ComposeButton/>
+              onClick={this.props.toggleFolderNav}
+            />
+            <ComposeButton />
             <FolderNav
               currentFolderId={this.props.currentFolderId}
               folders={this.props.folders}
@@ -119,7 +130,8 @@ export class Main extends React.Component {
               onToggleFolders={this.props.toggleManagedFolders}
               onCreateNewFolder={this.props.openCreateFolderModal}
               onFolderChange={this.handleFolderChange}
-              toggleFolderNav={this.props.toggleFolderNav}/>
+              toggleFolderNav={this.props.toggleFolderNav}
+            />
           </div>
           <div id="messaging-content" aria-live="assertive">
             {this.props.children}
@@ -130,7 +142,8 @@ export class Main extends React.Component {
             title={this.props.attachmentsModal.message.title}
             id="messaging-add-attachments"
             onClose={this.props.closeAttachmentsModal}
-            visible={this.props.attachmentsModal.visible}/>
+            visible={this.props.attachmentsModal.visible}
+          />
           <ModalCreateFolder
             cssClass="messaging-modal"
             folders={this.props.folders}
@@ -140,7 +153,8 @@ export class Main extends React.Component {
             onValueChange={this.handleFolderNameChange}
             onSubmit={this.handleSubmitCreateNewFolder}
             visible={this.props.createFolderModal.visible}
-            newFolderName={this.props.createFolderModal.newFolderName}/>
+            newFolderName={this.props.createFolderModal.newFolderName}
+          />
         </div>
       </ErrorView>
     );
@@ -148,10 +162,10 @@ export class Main extends React.Component {
 }
 
 Main.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const msgState = state.health.msg;
 
   const folders = [];
@@ -159,7 +173,11 @@ const mapStateToProps = (state) => {
     folders.push(v);
   });
 
-  const currentFolderId = _.get(msgState.folders.ui.lastRequestedFolder, 'id', 0);
+  const currentFolderId = _.get(
+    msgState.folders.ui.lastRequestedFolder,
+    'id',
+    0,
+  );
 
   return {
     attachmentsModal: msgState.modals.attachments,
@@ -185,7 +203,10 @@ const mapDispatchToProps = {
   openCreateFolderModal,
   setNewFolderName,
   toggleFolderNav,
-  toggleManagedFolders
+  toggleManagedFolders,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Main);

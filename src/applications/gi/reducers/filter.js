@@ -13,12 +13,12 @@ const INITIAL_STATE = {
   typeName: 'ALL',
 };
 
-export default function (state = INITIAL_STATE, action) {
+export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case INSTITUTION_FILTER_CHANGED:
       return {
         ...INITIAL_STATE,
-        ...action.filter
+        ...action.filter,
       };
     default:
       return state;

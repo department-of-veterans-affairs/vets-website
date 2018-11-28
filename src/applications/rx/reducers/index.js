@@ -15,7 +15,7 @@ export default {
       errors,
       modals,
       preferences,
-      prescriptions
-    })
-  })
+      prescriptions,
+    }),
+  }),
 };

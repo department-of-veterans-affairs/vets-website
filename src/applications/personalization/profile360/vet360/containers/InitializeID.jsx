@@ -7,18 +7,16 @@ import {
   INIT_VET360_ID,
   ANALYTICS_FIELD_MAP,
   API_ROUTES,
-  VET360_INITIALIZATION_STATUS
+  VET360_INITIALIZATION_STATUS,
 } from '../constants';
 
 import {
   createTransaction,
   fetchTransactions,
-  refreshTransaction
+  refreshTransaction,
 } from '../actions';
 
-import {
-  selectVet360InitializationStatus
-} from '../selectors';
+import { selectVet360InitializationStatus } from '../selectors';
 
 import TransactionPending from '../components/base/TransactionPending';
 
@@ -37,7 +35,13 @@ class InitializeVet360ID extends React.Component {
     const method = 'POST';
     const body = null;
     const analytics = ANALYTICS_FIELD_MAP.INIT_VET360_ID;
-    return this.props.createTransaction(route, method, fieldName, body, analytics);
+    return this.props.createTransaction(
+      route,
+      method,
+      fieldName,
+      body,
+      analytics,
+    );
   }
 
   refreshTransaction = () => {
@@ -48,8 +52,12 @@ class InitializeVet360ID extends React.Component {
 
     const { transactionId } = this.props.transaction.data.attributes;
     const initializationTransactionRefreshRoute = `/profile/person/status/${transactionId}`;
-    this.props.refreshTransaction(this.props.transaction, ANALYTICS_FIELD_MAP.INIT_VET360_ID, initializationTransactionRefreshRoute);
-  }
+    this.props.refreshTransaction(
+      this.props.transaction,
+      ANALYTICS_FIELD_MAP.INIT_VET360_ID,
+      initializationTransactionRefreshRoute,
+    );
+  };
 
   render() {
     switch (this.props.status) {
@@ -61,7 +69,13 @@ class InitializeVet360ID extends React.Component {
           <AlertBox
             isVisible
             status="info"
-            content={<p>We’re sorry. Something went wrong on our end. Please refresh this page or try again later.</p>}/>
+            content={
+              <p>
+                We’re sorry. Something went wrong on our end. Please refresh
+                this page or try again later.
+              </p>
+            }
+          />
         );
 
       case VET360_INITIALIZATION_STATUS.INITIALIZING:
@@ -73,30 +87,37 @@ class InitializeVet360ID extends React.Component {
 
       case VET360_INITIALIZATION_STATUS.UNINITALIZED:
       default:
-        return <div/>;
+        return <div />;
     }
   }
 }
 
-const mapStateToProps = (state) => {
-  const { status, transaction, transactionRequest } = selectVet360InitializationStatus(state);
+const mapStateToProps = state => {
+  const {
+    status,
+    transaction,
+    transactionRequest,
+  } = selectVet360InitializationStatus(state);
   return {
     status,
     transaction,
-    transactionRequest
+    transactionRequest,
   };
 };
 
 const mapDispatchToProps = {
   createTransaction,
   fetchTransactions,
-  refreshTransaction
+  refreshTransaction,
 };
 
 /**
  * A Container for initializing the user into Vet360 if they are not already. Otherwise, this container will initialize the Vet360 app state by fetching all transactions.
  */
-const InitializeVet360IDContainer = connect(mapStateToProps, mapDispatchToProps)(InitializeVet360ID);
+const InitializeVet360IDContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(InitializeVet360ID);
 
 export default InitializeVet360IDContainer;
 export { InitializeVet360ID };

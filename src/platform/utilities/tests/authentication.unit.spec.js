@@ -7,7 +7,7 @@ import {
   mfa,
   verify,
   logout,
-  signup
+  signup,
 } from '../../user/authentication/utilities';
 
 import { mockApiRequest, resetFetch } from '../../testing/unit/helpers';
@@ -19,77 +19,91 @@ const fakeWindow = () => {
   oldWindow = global.window;
   windowOpen = sinon.stub().returns({
     focus: f => f,
-    location: ''
+    location: '',
   });
   global.window = {
     open: windowOpen,
-    dataLayer: []
+    dataLayer: [],
   };
 };
 
 describe('auth URL helpers', () => {
   beforeEach(fakeWindow);
-  afterEach(() => { global.window = oldWindow; });
+  afterEach(() => {
+    global.window = oldWindow;
+  });
 
   describe('when able to open a window', () => {
     afterEach(resetFetch);
 
-    it('should open a window to an error page', (done) => {
-      mockApiRequest({ error: 'Couldn\'t find url' }, false);
-      login('idme').then(popup => {
-        expect(windowOpen.calledOnce).to.be.true;
-        expect(popup.location).to.include('/auth/login/callback');
-        done();
-      }).catch(done);
+    it('should open a window to an error page', done => {
+      mockApiRequest({ error: "Couldn't find url" }, false);
+      login('idme')
+        .then(popup => {
+          expect(windowOpen.calledOnce).to.be.true;
+          expect(popup.location).to.include('/auth/login/callback');
+          done();
+        })
+        .catch(done);
     });
 
-    it('should open a window for signup', (done) => {
+    it('should open a window for signup', done => {
       mockApiRequest({ url: 'signup-url' });
-      signup().then(popup => {
-        expect(windowOpen.calledOnce).to.be.true;
-        expect(popup.location).to.eq('signup-url');
-        done();
-      }).catch(done);
+      signup()
+        .then(popup => {
+          expect(windowOpen.calledOnce).to.be.true;
+          expect(popup.location).to.eq('signup-url');
+          done();
+        })
+        .catch(done);
     });
 
-    it('should open a window for login', (done) => {
+    it('should open a window for login', done => {
       mockApiRequest({ url: 'login-url' });
-      login('idme').then(popup => {
-        expect(windowOpen.calledOnce).to.be.true;
-        expect(popup.location).to.eq('login-url');
-        done();
-      }).catch(done);
+      login('idme')
+        .then(popup => {
+          expect(windowOpen.calledOnce).to.be.true;
+          expect(popup.location).to.eq('login-url');
+          done();
+        })
+        .catch(done);
     });
 
-    it('should open a window for logout', (done) => {
+    it('should open a window for logout', done => {
       mockApiRequest({ url: 'logout-url' });
-      logout().then(popup => {
-        expect(windowOpen.calledOnce).to.be.true;
-        expect(popup.location).to.eq('logout-url');
-        done();
-      }).catch(done);
+      logout()
+        .then(popup => {
+          expect(windowOpen.calledOnce).to.be.true;
+          expect(popup.location).to.eq('logout-url');
+          done();
+        })
+        .catch(done);
     });
 
-    it('should open a window for mfa', (done) => {
+    it('should open a window for mfa', done => {
       mockApiRequest({ url: 'mfa-url' });
-      mfa().then(popup => {
-        expect(windowOpen.calledOnce).to.be.true;
-        expect(popup.location).to.eq('mfa-url');
-        done();
-      }).catch(done);
+      mfa()
+        .then(popup => {
+          expect(windowOpen.calledOnce).to.be.true;
+          expect(popup.location).to.eq('mfa-url');
+          done();
+        })
+        .catch(done);
     });
 
-    it('should open a window for verify', (done) => {
+    it('should open a window for verify', done => {
       mockApiRequest({ url: 'verify-url' });
-      verify().then(popup => {
-        expect(windowOpen.calledOnce).to.be.true;
-        expect(popup.location).to.eq('verify-url');
-        done();
-      }).catch(done);
+      verify()
+        .then(popup => {
+          expect(windowOpen.calledOnce).to.be.true;
+          expect(popup.location).to.eq('verify-url');
+          done();
+        })
+        .catch(done);
     });
   });
 
-  it('should handle failure to open window', (done) => {
+  it('should handle failure to open window', done => {
     global.window.open = sinon.stub().returns(null);
     const mockRaven = sinon.stub(Raven, 'captureMessage');
     login('idme').catch(error => {

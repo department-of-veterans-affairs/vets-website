@@ -10,13 +10,13 @@ const props = {
 
 describe('<ButtonMove>', () => {
   it('should render correctly', () => {
-    const tree = SkinDeep.shallowRender(<ButtonMove {...props}/>);
+    const tree = SkinDeep.shallowRender(<ButtonMove {...props} />);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
   it('should have the expected classname', () => {
-    const tree = SkinDeep.shallowRender(<ButtonMove {...props}/>);
+    const tree = SkinDeep.shallowRender(<ButtonMove {...props} />);
 
     expect(tree.props.className).to.equal('messaging-move');
   });

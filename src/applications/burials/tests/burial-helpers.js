@@ -8,7 +8,10 @@ function completeClaimantInformation(client, data) {
 
   if (data.relationship.type === 'other') {
     client
-      .waitForElementVisible('input[name="root_relationship_other"]', Timeouts.normal)
+      .waitForElementVisible(
+        'input[name="root_relationship_other"]',
+        Timeouts.normal,
+      )
       .fill('input[name="root_relationship_other"]', data.relationship.other)
       // Not sure what to do with this, exactly, but I'll make it an option.
       .clickIf('#root_relationship_view:isEntity', data.relationship.isEntity);
@@ -18,7 +21,10 @@ function completeClaimantInformation(client, data) {
 function completeVeteranInformation(client, data) {
   client
     .fillName('root_veteranFullName', data.veteranFullName)
-    .fill('input[name="root_veteranSocialSecurityNumber"]', data.veteranSocialSecurityNumber)
+    .fill(
+      'input[name="root_veteranSocialSecurityNumber"]',
+      data.veteranSocialSecurityNumber,
+    )
     .fill('input[name="root_vaFileNumber"]', data.vaFileNumber)
     .fillDate('root_veteranDateOfBirth', data.veteranDateOfBirth)
     .fill('input[name="root_placeOfBirth"]', data.placeOfBirth);
@@ -28,24 +34,45 @@ function completeBurialInformation(client, data) {
   client
     .fillDate('root_deathDate', data.deathDate)
     .fillDate('root_burialDate', data.burialDate)
-    .selectRadio('root_locationOfDeath_location', data.locationOfDeath.location);
+    .selectRadio(
+      'root_locationOfDeath_location',
+      data.locationOfDeath.location,
+    );
 
   if (data.locationOfDeath.location === 'other') {
-    client.fill('input[name="root_locationOfDeath_other"]', data.locationOfDeath.other);
+    client.fill(
+      'input[name="root_locationOfDeath_other"]',
+      data.locationOfDeath.other,
+    );
   }
 }
 
 function completeServicePeriods(client, data) {
   data.toursOfDuty.forEach((tour, index) => {
     client
-      .waitForElementVisible(`input[name="root_toursOfDuty_${index}_dateRange_fromYear"]`, Timeouts.normal)
+      .waitForElementVisible(
+        `input[name="root_toursOfDuty_${index}_dateRange_fromYear"]`,
+        Timeouts.normal,
+      )
       .fillDate(`root_toursOfDuty_${index}_dateRange_from`, tour.dateRange.from)
       .fillDate(`root_toursOfDuty_${index}_dateRange_to`, tour.dateRange.to)
-      .fill(`input[name="root_toursOfDuty_${index}_serviceBranch"]`, tour.serviceBranch)
+      .fill(
+        `input[name="root_toursOfDuty_${index}_serviceBranch"]`,
+        tour.serviceBranch,
+      )
       .fill(`input[name="root_toursOfDuty_${index}_rank"]`, tour.rank)
-      .fill(`input[name="root_toursOfDuty_${index}_serviceNumber"]`, tour.serviceNumber)
-      .fill(`input[name="root_toursOfDuty_${index}_placeOfEntry"]`, tour.placeOfEntry)
-      .fill(`input[name="root_toursOfDuty_${index}_placeOfSeparation"]`, tour.placeOfEntry);
+      .fill(
+        `input[name="root_toursOfDuty_${index}_serviceNumber"]`,
+        tour.serviceNumber,
+      )
+      .fill(
+        `input[name="root_toursOfDuty_${index}_placeOfEntry"]`,
+        tour.placeOfEntry,
+      )
+      .fill(
+        `input[name="root_toursOfDuty_${index}_placeOfSeparation"]`,
+        tour.placeOfEntry,
+      );
 
     // Keep adding them until we're finished.
     if (index < data.toursOfDuty.length - 1) {
@@ -71,8 +98,14 @@ function completePreviousNames(client, data) {
 
 function completeBenefitSelection(client, data) {
   client
-    .clickIf('input[name="root_view:claimedBenefits_burialAllowance"]', data['view:claimedBenefits'].burialAllowance)
-    .clickIf('input[name="root_view:claimedBenefits_plotAllowance"]', data['view:claimedBenefits'].plotAllowance);
+    .clickIf(
+      'input[name="root_view:claimedBenefits_burialAllowance"]',
+      data['view:claimedBenefits'].burialAllowance,
+    )
+    .clickIf(
+      'input[name="root_view:claimedBenefits_plotAllowance"]',
+      data['view:claimedBenefits'].plotAllowance,
+    );
 
   // TODO: Uncomment this when we get file upload working and testable
   // if (data['view:claimedBenefits'].transportation) {
@@ -83,16 +116,25 @@ function completeBenefitSelection(client, data) {
 }
 
 function completeBurialAllowance(client, data) {
-  client.selectRadio('root_burialAllowanceRequested', data.burialAllowanceRequested);
+  client.selectRadio(
+    'root_burialAllowanceRequested',
+    data.burialAllowanceRequested,
+  );
 
   if (data.burialAllowanceRequested === 'vaMC') {
     client.fill('input[name="root_burialCost"]', data.burialCost);
   }
 
   if (data.relationship.type === 'spouse') {
-    client.selectYesNo('root_previouslyReceivedAllowance', data.previouslyReceivedAllowance);
+    client.selectYesNo(
+      'root_previouslyReceivedAllowance',
+      data.previouslyReceivedAllowance,
+    );
   } else if (data.relationship.type === 'other') {
-    client.selectYesNo('root_benefitsUnclaimedRemains', data.benefitsUnclaimedRemains);
+    client.selectYesNo(
+      'root_benefitsUnclaimedRemains',
+      data.benefitsUnclaimedRemains,
+    );
   }
 }
 
@@ -107,7 +149,10 @@ function completePlotAllowance(client, data) {
 
   client.selectYesNo('root_govtContributions', data.govtContributions);
   if (data.govtContributions) {
-    client.fill('input[name="root_amountGovtContribution"]', data.amountGovtContribution);
+    client.fill(
+      'input[name="root_amountGovtContribution"]',
+      data.amountGovtContribution,
+    );
   }
 }
 
@@ -121,7 +166,6 @@ function completeClaimantContactInformation(client, data) {
     .fill('input[name="root_claimantPhone"]', data.claimantPhone);
 }
 
-
 function initApplicationSubmitMock() {
   mock(null, {
     path: '/v0/burial_claims',
@@ -132,10 +176,10 @@ function initApplicationSubmitMock() {
           regionalOffice: [],
           guid: '1234',
           confirmationNumber: '123fake-submission-id-567',
-          submittedAt: '2016-05-16'
-        }
-      }
-    }
+          submittedAt: '2016-05-16',
+        },
+      },
+    },
   });
   mock(null, {
     path: '/v0/burial_claims/1234',
@@ -144,9 +188,9 @@ function initApplicationSubmitMock() {
       data: {
         attributes: {
           state: 'success',
-        }
-      }
-    }
+        },
+      },
+    },
   });
 }
 
@@ -161,5 +205,5 @@ module.exports = {
   completePlotAllowance,
   completeClaimantContactInformation,
 
-  initApplicationSubmitMock
+  initApplicationSubmitMock,
 };

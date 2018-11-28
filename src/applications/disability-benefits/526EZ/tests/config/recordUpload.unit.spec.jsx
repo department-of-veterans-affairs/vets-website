@@ -3,7 +3,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, // selectCheckbox 
+import {
+  DefinitionTester, // selectCheckbox
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
@@ -11,17 +12,20 @@ import initialData from '../schema/initialData.js';
 const invalidDocumentData = {
   disabilities: [
     {
-      privateRecords: [{
-        confirmationCode: 'testing',
-        name: 'someDocument.pdf'
-      }],
-      disability: { // Is this extra nesting necessary?
+      privateRecords: [
+        {
+          confirmationCode: 'testing',
+          name: 'someDocument.pdf',
+        },
+      ],
+      disability: {
+        // Is this extra nesting necessary?
         diagnosticText: 'PTSD',
         decisionCode: 'Filler text', // Should this be a string?
         // Is this supposed to be an array?
         specialIssues: {
           specialIssueCode: 'Filler text',
-          specialIssueName: 'Filler text'
+          specialIssueName: 'Filler text',
         },
         ratedDisabilityId: '12345',
         disabilityActionType: 'Filler text',
@@ -31,23 +35,24 @@ const invalidDocumentData = {
         secondaryDisabilities: [
           {
             diagnosticText: 'First secondary disability',
-            disabilityActionType: 'Filler text'
+            disabilityActionType: 'Filler text',
           },
           {
             diagnosticText: 'Second secondary disability',
-            disabilityActionType: 'Filler text'
-          }
-        ]
-      }
+            disabilityActionType: 'Filler text',
+          },
+        ],
+      },
     },
     {
-      disability: { // Is this extra nesting necessary?
+      disability: {
+        // Is this extra nesting necessary?
         diagnosticText: 'Second Disability',
         decisionCode: 'Filler text', // Should this be a string?
         // Is this supposed to be an array?
         specialIssues: {
           specialIssueCode: 'Filler text',
-          specialIssueName: 'Filler text'
+          specialIssueName: 'Filler text',
         },
         ratedDisabilityId: '54321',
         disabilityActionType: 'Filler text',
@@ -57,33 +62,36 @@ const invalidDocumentData = {
         secondaryDisabilities: [
           {
             diagnosticText: 'First secondary disability',
-            disabilityActionType: 'Filler text'
+            disabilityActionType: 'Filler text',
           },
           {
             diagnosticText: 'Second secondary disability',
-            disabilityActionType: 'Filler text'
-          }
-        ]
-      }
-    }
-  ]
+            disabilityActionType: 'Filler text',
+          },
+        ],
+      },
+    },
+  ],
 };
 
 const validDocumentData = {
   disabilities: [
     {
-      privateRecords: [{
-        name: 'Form526.pdf',
-        confirmationCode: '123456',
-        attachmentId: 'L015'
-      }],
-      disability: { // Is this extra nesting necessary?
+      privateRecords: [
+        {
+          name: 'Form526.pdf',
+          confirmationCode: '123456',
+          attachmentId: 'L015',
+        },
+      ],
+      disability: {
+        // Is this extra nesting necessary?
         diagnosticText: 'PTSD',
         decisionCode: 'Filler text', // Should this be a string?
         // Is this supposed to be an array?
         specialIssues: {
           specialIssueCode: 'Filler text',
-          specialIssueName: 'Filler text'
+          specialIssueName: 'Filler text',
         },
         ratedDisabilityId: '12345',
         disabilityActionType: 'Filler text',
@@ -93,23 +101,24 @@ const validDocumentData = {
         secondaryDisabilities: [
           {
             diagnosticText: 'First secondary disability',
-            disabilityActionType: 'Filler text'
+            disabilityActionType: 'Filler text',
           },
           {
             diagnosticText: 'Second secondary disability',
-            disabilityActionType: 'Filler text'
-          }
-        ]
-      }
+            disabilityActionType: 'Filler text',
+          },
+        ],
+      },
     },
     {
-      disability: { // Is this extra nesting necessary?
+      disability: {
+        // Is this extra nesting necessary?
         diagnosticText: 'Second Disability',
         decisionCode: 'Filler text', // Should this be a string?
         // Is this supposed to be an array?
         specialIssues: {
           specialIssueCode: 'Filler text',
-          specialIssueName: 'Filler text'
+          specialIssueName: 'Filler text',
         },
         ratedDisabilityId: '54321',
         disabilityActionType: 'Filler text',
@@ -119,16 +128,16 @@ const validDocumentData = {
         secondaryDisabilities: [
           {
             diagnosticText: 'First secondary disability',
-            disabilityActionType: 'Filler text'
+            disabilityActionType: 'Filler text',
           },
           {
             diagnosticText: 'Second secondary disability',
-            disabilityActionType: 'Filler text'
-          }
-        ]
-      }
-    }
-  ]
+            disabilityActionType: 'Filler text',
+          },
+        ],
+      },
+    },
+  ],
 };
 
 describe('526EZ record upload', () => {
@@ -136,13 +145,15 @@ describe('526EZ record upload', () => {
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
-    const form = mount(<DefinitionTester
-      arrayPath={arrayPath}
-      pagePerItemIndex={0}
-      definitions={formConfig.defaultDefinitions}
-      schema={schema}
-      data={initialData}
-      uiSchema={uiSchema}/>
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={initialData}
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(1);
@@ -150,14 +161,16 @@ describe('526EZ record upload', () => {
 
   it('should not submit without an upload', () => {
     const onSubmit = sinon.spy();
-    const form = mount(<DefinitionTester
-      arrayPath={arrayPath}
-      pagePerItemIndex={0}
-      onSubmit={onSubmit}
-      definitions={formConfig.defaultDefinitions}
-      schema={schema}
-      data={initialData}
-      uiSchema={uiSchema}/>
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={initialData}
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -168,14 +181,16 @@ describe('526EZ record upload', () => {
 
   it('should not submit without required info', () => {
     const onSubmit = sinon.spy();
-    const form = mount(<DefinitionTester
-      arrayPath={arrayPath}
-      onSubmit={onSubmit}
-      pagePerItemIndex={0}
-      definitions={formConfig.defaultDefinitions}
-      schema={schema}
-      data={invalidDocumentData}
-      uiSchema={uiSchema}/>
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        onSubmit={onSubmit}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={invalidDocumentData}
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -186,16 +201,17 @@ describe('526EZ record upload', () => {
 
   it('should submit with valid data', () => {
     const onSubmit = sinon.spy();
-    const form = mount(<DefinitionTester
-      arrayPath={arrayPath}
-      onSubmit={onSubmit}
-      pagePerItemIndex={0}
-      definitions={formConfig.defaultDefinitions}
-      schema={schema}
-      data={validDocumentData}
-      uiSchema={uiSchema}/>
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        onSubmit={onSubmit}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={validDocumentData}
+        uiSchema={uiSchema}
+      />,
     );
-
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);

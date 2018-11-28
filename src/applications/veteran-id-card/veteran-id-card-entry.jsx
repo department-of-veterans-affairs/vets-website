@@ -10,7 +10,9 @@ import reducer from './reducers';
 
 startApp({
   reducer,
-  component: (<VeteranIDCard>
-    <Main/>
-  </VeteranIDCard>)
+  component: (
+    <VeteranIDCard>
+      <Main />
+    </VeteranIDCard>
+  ),
 });

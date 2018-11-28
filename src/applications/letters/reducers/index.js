@@ -3,7 +3,7 @@ import Raven from 'raven-js';
 import _ from 'lodash/fp';
 import {
   benefitOptionsMap,
-  optionsToAlwaysDisplay
+  optionsToAlwaysDisplay,
 } from '../utils/helpers.jsx';
 import {
   AVAILABILITY_STATUSES,
@@ -31,7 +31,7 @@ import {
   SAVE_ADDRESS_FAILURE,
   UPDATE_BENFIT_SUMMARY_REQUEST_OPTION,
   START_EDITING_ADDRESS,
-  CANCEL_EDITING_ADDRESS
+  CANCEL_EDITING_ADDRESS,
 } from '../utils/constants';
 
 export const initialState = {
@@ -57,7 +57,7 @@ function letters(state = initialState, action) {
   switch (action.type) {
     case GET_LETTERS_SUCCESS: {
       const letterDownloadStatus = {};
-      _.forEach((letter) => {
+      _.forEach(letter => {
         letterDownloadStatus[letter.letterType] = DOWNLOAD_STATUSES.pending;
       }, action.data.data.attributes.letters);
 
@@ -66,30 +66,54 @@ function letters(state = initialState, action) {
         letters: action.data.data.attributes.letters,
         fullName: action.data.data.attributes.fullName,
         lettersAvailability: AVAILABILITY_STATUSES.available,
-        letterDownloadStatus
+        letterDownloadStatus,
       };
     }
     case BACKEND_SERVICE_ERROR:
-      return _.set('lettersAvailability', AVAILABILITY_STATUSES.backendServiceError, state);
+      return _.set(
+        'lettersAvailability',
+        AVAILABILITY_STATUSES.backendServiceError,
+        state,
+      );
     case BACKEND_AUTHENTICATION_ERROR:
-      return _.set('lettersAvailability', AVAILABILITY_STATUSES.backendAuthenticationError, state);
+      return _.set(
+        'lettersAvailability',
+        AVAILABILITY_STATUSES.backendAuthenticationError,
+        state,
+      );
     case INVALID_ADDRESS_PROPERTY:
-      return _.set('lettersAvailability', AVAILABILITY_STATUSES.invalidAddressProperty, state);
+      return _.set(
+        'lettersAvailability',
+        AVAILABILITY_STATUSES.invalidAddressProperty,
+        state,
+      );
     case GET_LETTERS_FAILURE:
-      return _.set('lettersAvailability', AVAILABILITY_STATUSES.unavailable, state);
+      return _.set(
+        'lettersAvailability',
+        AVAILABILITY_STATUSES.unavailable,
+        state,
+      );
     case LETTER_ELIGIBILITY_ERROR:
-      return _.set('lettersAvailability', AVAILABILITY_STATUSES.letterEligibilityError, state);
+      return _.set(
+        'lettersAvailability',
+        AVAILABILITY_STATUSES.letterEligibilityError,
+        state,
+      );
     case GET_ADDRESS_SUCCESS: {
       const { attributes } = action.data.data;
       return {
         ...state,
         address: attributes.address,
         canUpdate: attributes.controlInformation.canUpdate,
-        addressAvailability: AVAILABILITY_STATUSES.available
+        addressAvailability: AVAILABILITY_STATUSES.available,
       };
     }
     case GET_ADDRESS_FAILURE:
-      return _.set('addressAvailability', AVAILABILITY_STATUSES.unavailable, state);
+      return _.set(
+        'addressAvailability',
+        AVAILABILITY_STATUSES.unavailable,
+        state,
+      );
     case GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS: {
       // Gather all possible displayed options that the user may toggle on/off.
       const benefitInfo = action.data.data.attributes.benefitInformation;
@@ -97,11 +121,12 @@ function letters(state = initialState, action) {
       Object.keys(benefitInfo).forEach(key => {
         if (
           // the option should always be displayed or vets-api says it is available
-          (optionsToAlwaysDisplay.includes(key) || (benefitInfo[key] !== false))
+          (optionsToAlwaysDisplay.includes(key) ||
+            benefitInfo[key] !== false) &&
           // and the option is not yet in the possibleOptions array
-          && !possibleOptions.includes[key]
+          !possibleOptions.includes[key] &&
           // and the option is a customization option that vets-api supports
-          && REQUEST_OPTIONS[key]
+          REQUEST_OPTIONS[key]
         ) {
           possibleOptions.push(key);
         }
@@ -112,7 +137,7 @@ function letters(state = initialState, action) {
       // Set all request body options to true so that on page load, all options
       // are checked.
       const requestOptions = { militaryService: true };
-      _.forEach((option) => {
+      _.forEach(option => {
         requestOptions[benefitOptionsMap[option]] = true;
       }, possibleOptions);
 
@@ -121,19 +146,35 @@ function letters(state = initialState, action) {
         benefitInfo: action.data.data.attributes.benefitInformation,
         serviceInfo: action.data.data.attributes.militaryService,
         optionsAvailable: true,
-        requestOptions
+        requestOptions,
       };
     }
     case GET_BENEFIT_SUMMARY_OPTIONS_FAILURE:
       return _.set('optionsAvailable', false, state);
     case UPDATE_BENFIT_SUMMARY_REQUEST_OPTION:
-      return _.set(['requestOptions', action.propertyPath], action.value, state);
+      return _.set(
+        ['requestOptions', action.propertyPath],
+        action.value,
+        state,
+      );
     case GET_LETTER_PDF_DOWNLOADING:
-      return _.set(['letterDownloadStatus', action.data], DOWNLOAD_STATUSES.downloading, state);
+      return _.set(
+        ['letterDownloadStatus', action.data],
+        DOWNLOAD_STATUSES.downloading,
+        state,
+      );
     case GET_LETTER_PDF_SUCCESS:
-      return _.set(['letterDownloadStatus', action.data], DOWNLOAD_STATUSES.success, state);
+      return _.set(
+        ['letterDownloadStatus', action.data],
+        DOWNLOAD_STATUSES.success,
+        state,
+      );
     case GET_LETTER_PDF_FAILURE:
-      return _.set(['letterDownloadStatus', action.data], DOWNLOAD_STATUSES.failure, state);
+      return _.set(
+        ['letterDownloadStatus', action.data],
+        DOWNLOAD_STATUSES.failure,
+        state,
+      );
     case SAVE_ADDRESS_PENDING: {
       const newState = _.set('savePending', true, state);
       newState.isEditingAddress = false;
@@ -151,14 +192,16 @@ function letters(state = initialState, action) {
 
       // Log error if the countries response is not what we expect
       if (!Array.isArray(countryList) || countryList.length === 0) {
-        Raven.captureMessage(`vets_letters_unexpected_country_response: ${countryList}`);
+        Raven.captureMessage(
+          `vets_letters_unexpected_country_response: ${countryList}`,
+        );
         countriesAvailable = false;
       }
 
       return {
         ...state,
         countries: countryList,
-        countriesAvailable
+        countriesAvailable,
       };
     }
     case GET_ADDRESS_COUNTRIES_FAILURE:
@@ -169,13 +212,15 @@ function letters(state = initialState, action) {
 
       // Log error if the states response is not what we expect
       if (!Array.isArray(stateList) || stateList.length === 0) {
-        Raven.captureMessage(`vets_letters_unexpected_state_response: ${stateList}`);
+        Raven.captureMessage(
+          `vets_letters_unexpected_state_response: ${stateList}`,
+        );
         statesAvailable = false;
       }
       return {
         ...state,
         states: stateList,
-        statesAvailable
+        statesAvailable,
       };
     }
     case GET_ADDRESS_STATES_FAILURE:
@@ -190,5 +235,5 @@ function letters(state = initialState, action) {
 }
 
 export default {
-  letters
+  letters,
 };

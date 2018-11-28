@@ -11,11 +11,12 @@ export function registerBeta(service) {
     dispatch({ type: REGISTERING_SERVICE, service });
 
     const settings = {
-      method: 'POST'
+      method: 'POST',
     };
 
-    return apiRequest(`/beta_registration/${service}`, settings)
-      .then(() => dispatch({ type: REGISTER_SERVICE, service }));
+    return apiRequest(`/beta_registration/${service}`, settings).then(() =>
+      dispatch({ type: REGISTER_SERVICE, service }),
+    );
   };
 }
 
@@ -24,10 +25,11 @@ export function unregisterBeta(service) {
     dispatch({ type: UNREGISTERING_SERVICE, service });
 
     const settings = {
-      method: 'DELETE'
+      method: 'DELETE',
     };
 
-    return apiRequest(`/beta_registration/${service}`, settings)
-      .then(() => dispatch({ type: UNREGISTER_SERVICE, service }));
+    return apiRequest(`/beta_registration/${service}`, settings).then(() =>
+      dispatch({ type: UNREGISTER_SERVICE, service }),
+    );
   };
 }

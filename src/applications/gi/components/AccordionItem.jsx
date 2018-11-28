@@ -23,10 +23,19 @@ class AccordionItem extends React.Component {
     const expanded = this.state.expanded;
     return (
       <li>
-        <button onClick={this.toggle} className="usa-accordion-button" aria-expanded={expanded} aria-controls={this.id}>
+        <button
+          onClick={this.toggle}
+          className="usa-accordion-button"
+          aria-expanded={expanded}
+          aria-controls={this.id}
+        >
           <h2>{this.props.button}</h2>
         </button>
-        <div id={this.id} className="usa-accordion-content" aria-hidden={!expanded}>
+        <div
+          id={this.id}
+          className="usa-accordion-content"
+          aria-hidden={!expanded}
+        >
           {this.props.children}
         </div>
       </li>
@@ -41,7 +50,7 @@ AccordionItem.propTypes = {
 };
 
 AccordionItem.defaultProps = {
-  expanded: true
+  expanded: true,
 };
 
 export default AccordionItem;

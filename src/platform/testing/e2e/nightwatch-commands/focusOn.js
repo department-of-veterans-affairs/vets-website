@@ -4,10 +4,12 @@
  * @param {string} selector  CSS selector pointing to the element to focus on
  */
 exports.command = function focusOn(selector) {
-  this.execute((sel) => {
-    document.querySelector(sel).focus();
-  }, [selector]);
+  this.execute(
+    sel => {
+      document.querySelector(sel).focus();
+    },
+    [selector],
+  );
 
   return this;
 };
-

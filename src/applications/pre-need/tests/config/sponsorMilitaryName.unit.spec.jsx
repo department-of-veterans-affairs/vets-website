@@ -3,18 +3,26 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, selectRadio } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+  selectRadio,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pre-need sponsor military name', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.sponsorMilitaryName;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.militaryHistory.pages.sponsorMilitaryName;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(2);
@@ -27,7 +35,8 @@ describe('Pre-need sponsor military name', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -43,7 +52,8 @@ describe('Pre-need sponsor military name', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     selectRadio(form, 'root_application_veteran_view:hasServiceName', 'N');
@@ -60,7 +70,8 @@ describe('Pre-need sponsor military name', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     selectRadio(form, 'root_application_veteran_view:hasServiceName', 'Y');
@@ -76,7 +87,8 @@ describe('Pre-need sponsor military name', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     selectRadio(form, 'root_application_veteran_view:hasServiceName', 'Y');

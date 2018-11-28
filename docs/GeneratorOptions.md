@@ -31,7 +31,7 @@ This value will be used as the page title. If you're creating a form, it will al
 
 Most of our React applications have their own folder in src/applications, so normally you want to pick a new folder. However, if you're building an application that's related to other applications, there may be a folder that your app should go in. An example would be if you were creating a new education form, you would probably create your app in edu-benefits/newform.
 
-### What should be the name of your app's entry bundle? Examples: '0993-edu-benefits' or 'complaint-tool'
+### What should be the name of your app's entry bundle? Examples: '0993-edu-benefits' or 'feedback-tool'
 
 This is the name of the bundle that Webpack builds for your application. They're normally lower case with dashes separating words. This is primarily used to link your bundle to the content page that is created as a base for your application. It doesn't show up in your code anywhere. It's also separate from the entry file.
 

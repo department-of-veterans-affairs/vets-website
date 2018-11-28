@@ -33,23 +33,27 @@ module.exports = {
           value: 'labsandtests',
           label: 'VA laboratory results',
           hold: 3,
-          holdExplanation: 'Some information may need to be reviewed by a member of your VA health care team before it’s added to your record. VA lab results will be available 3 calendar days after they’ve been verified.',
+          holdExplanation:
+            'Some information may need to be reviewed by a member of your VA health care team before it’s added to your record. VA lab results will be available 3 calendar days after they’ve been verified.',
         },
         {
           value: 'vapathology',
           label: 'VA pathology reports',
           hold: 14,
-          holdExplanation: 'Some information may need to be reviewed by a member of your VA health care team before it’s added to your record. VA pathology reports will be available 14 calendar days after they’ve been completed. Studies done at a non-VA facility may not be available or may not include an interpretation.',
+          holdExplanation:
+            'Some information may need to be reviewed by a member of your VA health care team before it’s added to your record. VA pathology reports will be available 14 calendar days after they’ve been completed. Studies done at a non-VA facility may not be available or may not include an interpretation.',
         },
         {
           value: 'varadiology',
           label: 'VA radiology reports',
           hold: 3,
-          holdExplanation: 'Some information may need to be reviewed by a member of your VA health care team before it’s added to your record. VA radiology reports will be available 3 calendar days after they’ve been completed. Studies done at a non-VA facility may not be available or may not include an interpretation.',
+          holdExplanation:
+            'Some information may need to be reviewed by a member of your VA health care team before it’s added to your record. VA radiology reports will be available 3 calendar days after they’ve been completed. Studies done at a non-VA facility may not be available or may not include an interpretation.',
         },
         {
           value: 'vaekg',
-          label: 'History of electrocardiograms (EKGs) performed at VA facilities',
+          label:
+            'History of electrocardiograms (EKGs) performed at VA facilities',
         },
         {
           value: 'vachemlabs',
@@ -64,19 +68,22 @@ module.exports = {
           value: 'vaproblemlist',
           label: 'VA Problem List',
           hold: 3,
-          holdExplanation: 'Your VA problem list contains active health problems that your VA health care team is helping you manage. This information will be available 3 days after it’s been entered.',
+          holdExplanation:
+            'Your VA problem list contains active health problems that your VA health care team is helping you manage. This information will be available 3 days after it’s been entered.',
         },
         {
           value: 'vaadmissionsanddischarges',
           label: 'VA Admissions and Discharges',
           hold: 3,
-          holdExplanation: 'Some information may need to be reviewed by a member of your VA health care team before it’s added to your record. Discharge summaries will be available 3 days after they’re completed.',
+          holdExplanation:
+            'Some information may need to be reviewed by a member of your VA health care team before it’s added to your record. Discharge summaries will be available 3 days after they’re completed.',
         },
         {
           value: 'vaprogressnotes',
           label: 'VA Notes starting from Jan 01, 2013',
           hold: 3,
-          holdExplanation: 'Some information may need to be reviewed by a member of your VA health care team before it’s added to your record. VA notes starting from Jan 1, 2013 will be available 3 days after they’ve been completed and signed by all required members of your VA health care team.',
+          holdExplanation:
+            'Some information may need to be reviewed by a member of your VA health care team before it’s added to your record. VA notes starting from Jan 1, 2013 will be available 3 days after they’ve been completed and signed by all required members of your VA health care team.',
         },
         {
           value: 'wellness',
@@ -179,7 +186,8 @@ module.exports = {
       children: [
         {
           value: 'vademographics',
-          label: 'VA demographics from VA treating facilities in the last 3 years',
+          label:
+            'VA demographics from VA treating facilities in the last 3 years',
         },
         {
           value: 'seidemographics',
@@ -198,13 +206,11 @@ module.exports = {
           value: 'dodmilitaryservice',
           label: 'Information from the Department of Defense',
         },
-      ]
+      ],
     },
   },
 
   errorCodes: {
-    accountCreation: [
-      'MHVAC1',
-    ]
-  }
+    accountCreation: ['MHVAC1'],
+  },
 };

@@ -51,7 +51,8 @@ class RadioButtons extends React.Component {
       toolTip = (
         <ToolTip
           tabIndex={this.props.tabIndex}
-          toolTipText={this.props.toolTipText}/>
+          toolTipText={this.props.toolTipText}
+        />
       );
     }
 
@@ -74,12 +75,15 @@ class RadioButtons extends React.Component {
         optionLabel = obj.label;
         optionValue = obj.value;
         if (obj.additional) {
-          optionAdditional = (<div>{obj.additional}</div>);
+          optionAdditional = <div>{obj.additional}</div>;
         }
       }
       const checked = optionValue === storedValue ? 'checked=true' : '';
       const radioButton = (
-        <div key={optionAdditional ? undefined : index} className="form-radio-buttons">
+        <div
+          key={optionAdditional ? undefined : index}
+          className="form-radio-buttons"
+        >
           <input
             autoComplete="false"
             checked={checked}
@@ -87,10 +91,12 @@ class RadioButtons extends React.Component {
             name={this.props.name}
             type="radio"
             value={optionValue}
-            onChange={this.handleChange}/>
+            onChange={this.handleChange}
+          />
           <label
             name={`${this.props.name}-${index}-label`}
-            htmlFor={`${this.inputId}-${index}`}>
+            htmlFor={`${this.inputId}-${index}`}
+          >
             {optionLabel}
           </label>
         </div>
@@ -104,7 +110,8 @@ class RadioButtons extends React.Component {
           <ExpandingGroup
             additionalClass="form-expanding-group-active-radio"
             open={checked}
-            key={index}>
+            key={index}
+          >
             {radioButton}
             <div>{optionAdditional}</div>
           </ExpandingGroup>
@@ -117,8 +124,11 @@ class RadioButtons extends React.Component {
     return (
       <div className={this.props.errorMessage ? 'usa-input-error' : ''}>
         <label
-          className={this.props.errorMessage ? 'usa-input-error-label' : undefined}
-          htmlFor={this.inputId}>
+          className={
+            this.props.errorMessage ? 'usa-input-error-label' : undefined
+          }
+          htmlFor={this.inputId}
+        >
           {this.props.label}
           {requiredSpan}
         </label>
@@ -132,29 +142,18 @@ class RadioButtons extends React.Component {
 
 RadioButtons.propTypes = {
   errorMessage: PropTypes.string,
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element
-  ]).isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   name: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.shape({
-        label: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.element,
-        ]),
-        value: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.bool
-        ]),
-        additional: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.element
-        ])
-      })
-    ])).isRequired,
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+        additional: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+      }),
+    ]),
+  ).isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   required: PropTypes.bool,

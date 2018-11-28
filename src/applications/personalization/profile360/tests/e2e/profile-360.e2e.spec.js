@@ -4,7 +4,11 @@ const createMockEndpoint = require('../../../../../platform/testing/e2e/mock-hel
 const Auth = require('../../../../../platform/testing/e2e/auth');
 const routes = require('./routes.json');
 
-function runEmailTest(browser, fieldName = 'email', initialValue = 'veteran@gmail.com') {
+function runEmailTest(
+  browser,
+  fieldName = 'email',
+  initialValue = 'veteran@gmail.com',
+) {
   const fieldWrapper = `[data-field-name="${fieldName}"]`;
   const editButton = `${fieldWrapper} [data-action="edit"]`;
   const editModal = `${fieldWrapper} #profile-edit-modal form[data-ready=true]`;
@@ -36,12 +40,18 @@ function runAddressTest(browser, fieldName, initialLine1, initialLine2) {
 }
 
 function runHeroTests(browser) {
-  browser.assert.containsText('[data-field-name="fullName"]', 'First Middle Last');
+  browser.assert.containsText(
+    '[data-field-name="fullName"]',
+    'First Middle Last',
+  );
 }
 
 function runPersonalInformationTest(browser) {
   browser.assert.containsText('[data-field-name="gender"]', 'Male');
-  browser.assert.containsText('[data-field-name="birthDate"]', 'March 21, 1972');
+  browser.assert.containsText(
+    '[data-field-name="birthDate"]',
+    'March 21, 1972',
+  );
 }
 
 function runMilitaryInformationTests(browser) {
@@ -53,8 +63,18 @@ function beginTests(browser) {
   runPersonalInformationTest(browser);
   runMilitaryInformationTests(browser);
 
-  runAddressTest(browser, 'mailingAddress', '1493 Martin Luther King Rd, string string', 'Fulton, New York 97062');
-  runAddressTest(browser, 'residentialAddress', 'PSC 808 Box 37', 'FPO, Armed Forces Europe (AE) 09618');
+  runAddressTest(
+    browser,
+    'mailingAddress',
+    '1493 Martin Luther King Rd, string string',
+    'Fulton, New York 97062',
+  );
+  runAddressTest(
+    browser,
+    'residentialAddress',
+    'PSC 808 Box 37',
+    'FPO, Armed Forces Europe (AE) 09618',
+  );
 
   runPhoneTest(browser, 'homePhone', '+ 1 (503) 222-2222 x0000');
   runPhoneTest(browser, 'mobilePhone', '+ 1 (503) 555-1234 x0000');
@@ -74,20 +94,21 @@ function begin(browser) {
   browser.perform(done => {
     const token = Auth.getUserToken();
 
-    createMockRoutes(token)
-      .then(() => {
-        // Login to access the Profile
-        Auth.logIn(token, browser, '/profile', 3)
-          .waitForElementVisible('.va-profile-wrapper', Timeouts.slow);
+    createMockRoutes(token).then(() => {
+      // Login to access the Profile
+      Auth.logIn(token, browser, '/profile', 3).waitForElementVisible(
+        '.va-profile-wrapper',
+        Timeouts.slow,
+      );
 
-        E2eHelpers.overrideSmoothScrolling(browser);
+      E2eHelpers.overrideSmoothScrolling(browser);
 
-        // There's so much data loading async that it's easiest to just do a slow timeout
-        // and not try to wait for all elements to finish loading.
-        browser.pause(Timeouts.slow);
-        beginTests(browser, token);
-        done();
-      });
+      // There's so much data loading async that it's easiest to just do a slow timeout
+      // and not try to wait for all elements to finish loading.
+      browser.pause(Timeouts.slow);
+      beginTests(browser, token);
+      done();
+    });
   });
 }
 

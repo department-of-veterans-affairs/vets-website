@@ -4,7 +4,7 @@ import React from 'react';
 import {
   validateFileSize,
   validateNumAttachments,
-  validateTotalFileSize
+  validateTotalFileSize,
 } from '../../utils/validations.js';
 
 import ButtonDelete from '../buttons/ButtonDelete';
@@ -26,7 +26,10 @@ class MessageSend extends React.Component {
 
         if (validateNumAttachments(files, this.props.maxFiles)) {
           hasError = { type: 'tooMany' };
-        } else if (validateFileSize(files, this.props.maxFileSize) || validateTotalFileSize(files, this.props.maxTotalFileSize)) {
+        } else if (
+          validateFileSize(files, this.props.maxFileSize) ||
+          validateTotalFileSize(files, this.props.maxTotalFileSize)
+        ) {
           hasError = { type: 'tooLarge' };
         }
 
@@ -52,17 +55,18 @@ class MessageSend extends React.Component {
           id="msg-attachments-input"
           label="Attach a file"
           name="messageAttachments"
-          onChange={this.handleAttachmentsChange}/>
-        <ButtonDelete
-          className="va-icon-link"
-          onClick={this.props.onDelete}/>
+          onChange={this.handleAttachmentsChange}
+        />
+        <ButtonDelete className="va-icon-link" onClick={this.props.onDelete} />
       </span>
     );
   }
 
   render() {
     const isDisabled = this.props.disabled;
-    const spinnerIcon = this.props.sendingMessage && <i className="fa fa-spinner fa-spin"/>;
+    const spinnerIcon = this.props.sendingMessage && (
+      <i className="fa fa-spinner fa-spin" />
+    );
 
     return (
       <div className="msg-send-group">
@@ -70,13 +74,19 @@ class MessageSend extends React.Component {
           <button
             disabled={isDisabled}
             type="button"
-            onClick={this.props.onSend}>{spinnerIcon} Send</button>
+            onClick={this.props.onSend}
+          >
+            {spinnerIcon} Send
+          </button>
           <button
             disabled={isDisabled}
             className="usa-button-secondary msg-btn-save"
             type="button"
             value="save"
-            onClick={this.props.onSave}>Save As Draft</button>
+            onClick={this.props.onSave}
+          >
+            Save As Draft
+          </button>
         </div>
         {this.renderExtraActionButtons()}
       </div>
@@ -95,7 +105,7 @@ MessageSend.propTypes = {
   onSave: PropTypes.func.isRequired,
   onSend: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-  sendingMessage: PropTypes.bool
+  sendingMessage: PropTypes.bool,
 };
 
 export default MessageSend;

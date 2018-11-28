@@ -9,8 +9,8 @@ describe('calculator reducer', () => {
       {
         type: 'CALCULATOR_INPUTS_CHANGED',
         field: 'field',
-        value: 'value'
-      }
+        value: 'value',
+      },
     );
 
     expect(state).to.eql({ field: 'value' });
@@ -22,8 +22,8 @@ describe('calculator reducer', () => {
       {
         type: 'CALCULATOR_INPUTS_CHANGED',
         field: 'tuitionFees',
-        value: '$1000.00'
-      }
+        value: '$1000.00',
+      },
     );
 
     expect(state).to.eql({ tuitionFees: 1000 });
@@ -35,8 +35,8 @@ describe('calculator reducer', () => {
       {
         type: 'CALCULATOR_INPUTS_CHANGED',
         field: 'inState',
-        value: 'yes'
-      }
+        value: 'yes',
+      },
     );
 
     expect(state).to.eql({
@@ -53,8 +53,8 @@ describe('calculator reducer', () => {
       {
         type: 'CALCULATOR_INPUTS_CHANGED',
         field: 'inState',
-        value: 'no'
-      }
+        value: 'no',
+      },
     );
 
     expect(state).to.eql({
@@ -72,23 +72,24 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: 5000,
-        housingAllowanceCity: 'New York, NY'
+        housingAllowanceCity: 'New York, NY',
       };
 
       const action = {
         type: 'FETCH_BAH_FAILED',
         beneficiaryZIPFetched: '88888',
         error: {
-          message: 'Record not found'
-        }
+          message: 'Record not found',
+        },
       };
 
       const expectedState = {
-        beneficiaryZIPError: 'No rates for this zip code found. Try another zip code',
+        beneficiaryZIPError:
+          'No rates for this zip code found. Try another zip code',
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
         beneficiaryLocationGrandfatheredBah: null,
-        housingAllowanceCity: ''
+        housingAllowanceCity: '',
       };
 
       const newState = calculatorReducer(previousState, action);
@@ -101,7 +102,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: 5000,
-        housingAllowanceCity: 'New York, NY'
+        housingAllowanceCity: 'New York, NY',
       };
 
       const action = {
@@ -114,7 +115,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
         beneficiaryLocationGrandfatheredBah: null,
-        housingAllowanceCity: ''
+        housingAllowanceCity: '',
       };
 
       const newState = calculatorReducer(previousState, action);
@@ -127,15 +128,15 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '99999',
         beneficiaryLocationBah: 5000,
-        housingAllowanceCity: 'New York, NY'
+        housingAllowanceCity: 'New York, NY',
       };
 
       const action = {
         type: 'FETCH_BAH_FAILED',
         beneficiaryZIPFetched: '88888',
         error: {
-          message: 'error'
-        }
+          message: 'error',
+        },
       };
 
       const newState = calculatorReducer(previousState, action);
@@ -150,7 +151,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: 5000,
-        housingAllowanceCity: 'New York, NY'
+        housingAllowanceCity: 'New York, NY',
       };
 
       const action = {
@@ -164,7 +165,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
         beneficiaryLocationGrandfatheredBah: null,
-        housingAllowanceCity: 'Loading...'
+        housingAllowanceCity: 'Loading...',
       };
 
       const newState = calculatorReducer(previousState, action);
@@ -180,7 +181,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
-        housingAllowanceCity: 'Loading...'
+        housingAllowanceCity: 'Loading...',
       };
 
       const action = {
@@ -190,10 +191,10 @@ describe('calculator reducer', () => {
           data: {
             attributes: {
               mhaRate: 5000,
-              mhaName: 'Los Angeles, CA'
-            }
-          }
-        }
+              mhaName: 'Los Angeles, CA',
+            },
+          },
+        },
       };
 
       const expectedState = {
@@ -202,7 +203,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: 5000,
         beneficiaryLocationGrandfatheredBah: undefined,
-        housingAllowanceCity: 'Los Angeles, CA'
+        housingAllowanceCity: 'Los Angeles, CA',
       };
 
       const newState = calculatorReducer(previousState, action);
@@ -217,7 +218,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
         beneficiaryLocationGrandfatheredBah: null,
-        housingAllowanceCity: 'Loading...'
+        housingAllowanceCity: 'Loading...',
       };
 
       const action = {
@@ -227,10 +228,10 @@ describe('calculator reducer', () => {
           data: {
             attributes: {
               mhaRate: 5000,
-              mhaName: 'Los Angeles, CA'
-            }
-          }
-        }
+              mhaName: 'Los Angeles, CA',
+            },
+          },
+        },
       };
 
       const newState = calculatorReducer(previousState, action);
@@ -245,12 +246,12 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
-        housingAllowanceCity: 'Loading...'
+        housingAllowanceCity: 'Loading...',
       };
 
       const action = {
         type: 'BENEFICIARY_ZIP_CODE_CHANGED',
-        beneficiaryZIP: '1111'
+        beneficiaryZIP: '1111',
       };
 
       const expectedState = {
@@ -259,7 +260,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
         beneficiaryLocationGrandfatheredBah: null,
-        housingAllowanceCity: ''
+        housingAllowanceCity: '',
       };
 
       const newState = calculatorReducer(previousState, action);
@@ -273,12 +274,12 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
-        housingAllowanceCity: 'Loading...'
+        housingAllowanceCity: 'Loading...',
       };
 
       const action = {
         type: 'BENEFICIARY_ZIP_CODE_CHANGED',
-        beneficiaryZIP: '1dd'
+        beneficiaryZIP: '1dd',
       };
 
       const expectedState = {
@@ -287,7 +288,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
         beneficiaryLocationGrandfatheredBah: null,
-        housingAllowanceCity: ''
+        housingAllowanceCity: '',
       };
 
       const newState = calculatorReducer(previousState, action);
@@ -301,12 +302,12 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
-        housingAllowanceCity: 'Loading...'
+        housingAllowanceCity: 'Loading...',
       };
 
       const action = {
         type: 'BENEFICIARY_ZIP_CODE_CHANGED',
-        beneficiaryZIP: '1111111'
+        beneficiaryZIP: '1111111',
       };
 
       const expectedState = {
@@ -315,7 +316,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
         beneficiaryLocationGrandfatheredBah: null,
-        housingAllowanceCity: ''
+        housingAllowanceCity: '',
       };
 
       const newState = calculatorReducer(previousState, action);
@@ -332,32 +333,29 @@ describe('calculator reducer', () => {
           degreeLevel: 'graduate',
           contributionAmount: 5000,
           index: 0,
-          numberOfStudents: 20
+          numberOfStudents: 20,
         },
         {
           divisionProfessionalSchool: 'division2',
           degreeLevel: 'undergraduate',
           contributionAmount: 5,
           index: 1,
-          numberOfStudents: 25
+          numberOfStudents: 25,
         },
         {
           divisionProfessionalSchool: 'division3',
           degreeLevel: 'undergraduate',
           contributionAmount: 25,
           index: 2,
-          numberOfStudents: 30
-        }
-      ]
+          numberOfStudents: 30,
+        },
+      ],
     };
-    const state = calculatorReducer(
-      previousState,
-      {
-        type: 'CALCULATOR_INPUTS_CHANGED',
-        field: 'yellowRibbonDegreeLevel',
-        value: 'undergraduate'
-      }
-    );
+    const state = calculatorReducer(previousState, {
+      type: 'CALCULATOR_INPUTS_CHANGED',
+      field: 'yellowRibbonDegreeLevel',
+      value: 'undergraduate',
+    });
 
     expect(state).to.eql({
       ...previousState,
@@ -367,10 +365,9 @@ describe('calculator reducer', () => {
       yellowRibbonAmount: 5,
       yellowRibbonProgramIndex: 1,
       yellowRibbonMaxAmount: 5,
-      yellowRibbonMaxNumberOfStudents: 25
+      yellowRibbonMaxNumberOfStudents: 25,
     });
   });
-
 
   it('should update yellowRibbonAmount when yellowRibbonDivision is changed', () => {
     const previousState = {
@@ -381,32 +378,29 @@ describe('calculator reducer', () => {
           degreeLevel: 'graduate',
           contributionAmount: 5000,
           index: 0,
-          numberOfStudents: 20
+          numberOfStudents: 20,
         },
         {
           divisionProfessionalSchool: 'division2',
           degreeLevel: 'undergraduate',
           contributionAmount: 5,
           index: 1,
-          numberOfStudents: 25
+          numberOfStudents: 25,
         },
         {
           divisionProfessionalSchool: 'division3',
           degreeLevel: 'undergraduate',
           contributionAmount: 25,
           index: 2,
-          numberOfStudents: 30
-        }
-      ]
+          numberOfStudents: 30,
+        },
+      ],
     };
-    const state = calculatorReducer(
-      previousState,
-      {
-        type: 'CALCULATOR_INPUTS_CHANGED',
-        field: 'yellowRibbonDivision',
-        value: 'division3'
-      }
-    );
+    const state = calculatorReducer(previousState, {
+      type: 'CALCULATOR_INPUTS_CHANGED',
+      field: 'yellowRibbonDivision',
+      value: 'division3',
+    });
 
     expect(state).to.eql({
       ...previousState,
@@ -415,10 +409,9 @@ describe('calculator reducer', () => {
       yellowRibbonAmount: 25,
       yellowRibbonMaxAmount: 25,
       yellowRibbonMaxNumberOfStudents: 30,
-      yellowRibbonProgramIndex: 2
+      yellowRibbonProgramIndex: 2,
     });
   });
-
 
   it('should add yellowRibbonDegreeLevelOptions, yellowRibbonDivisonOptions, yellowRibbonAmount, yellowRibbonDegreeLevel, and yellowRibbonDivision when institution has yellowRibbonPrograms', () => {
     const state = calculatorReducer(
@@ -433,25 +426,25 @@ describe('calculator reducer', () => {
                   divisionProfessionalSchool: 'division1',
                   degreeLevel: 'graduate',
                   contributionAmount: 5000,
-                  numberOfStudents: 20
+                  numberOfStudents: 20,
                 },
                 {
                   divisionProfessionalSchool: 'division2',
                   degreeLevel: 'undergraduate',
                   contributionAmount: 5,
-                  numberOfStudents: 25
+                  numberOfStudents: 25,
                 },
                 {
                   divisionProfessionalSchool: 'division3',
                   degreeLevel: 'undergraduate',
                   contributionAmount: 25,
-                  numberOfStudents: 30
-                }
-              ]
-            }
-          }
-        }
-      }
+                  numberOfStudents: 30,
+                },
+              ],
+            },
+          },
+        },
+      },
     );
 
     expect(state).to.include({
@@ -460,32 +453,35 @@ describe('calculator reducer', () => {
       yellowRibbonAmount: 5000,
       yellowRibbonMaxNumberOfStudents: 20,
       yellowRibbonMaxAmount: 5000,
-      yellowRibbonProgramIndex: 0
+      yellowRibbonProgramIndex: 0,
     });
     expect(state.yellowRibbonDivisionOptions).to.eql(['division1']);
-    expect(state.yellowRibbonDegreeLevelOptions).to.eql(['graduate', 'undergraduate']);
+    expect(state.yellowRibbonDegreeLevelOptions).to.eql([
+      'graduate',
+      'undergraduate',
+    ]);
     expect(state.yellowRibbonPrograms).to.eql([
       {
         divisionProfessionalSchool: 'division1',
         degreeLevel: 'graduate',
         contributionAmount: 5000,
         index: 0,
-        numberOfStudents: 20
+        numberOfStudents: 20,
       },
       {
         divisionProfessionalSchool: 'division2',
         degreeLevel: 'undergraduate',
         contributionAmount: 5,
         index: 1,
-        numberOfStudents: 25
+        numberOfStudents: 25,
       },
       {
         divisionProfessionalSchool: 'division3',
         degreeLevel: 'undergraduate',
         contributionAmount: 25,
         index: 2,
-        numberOfStudents: 30
-      }
+        numberOfStudents: 30,
+      },
     ]);
   });
 });

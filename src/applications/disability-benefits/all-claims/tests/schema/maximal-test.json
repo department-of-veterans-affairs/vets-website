@@ -1,0 +1,238 @@
+{
+  "data": {
+    "standardClaim": false,
+    "view:fdcWarning": {},
+    "view:hasSeparationPay": true,
+    "view:separationPayDetails": {
+      "view:separationPayDetailsDescription": {},
+      "separationPayDate": "1",
+      "separationPayBranch": "Air Force"
+    },
+    "view:hasTrainingPay": true,
+    "view:waiveTrainingPay": {
+      "view:waiveTrainingPayDescription": {},
+      "waiveTrainingPay": true
+    },
+    "view:waiveRetirementPayDescription": {},
+    "waiveRetirementPay": false,
+    "isVAEmployee": true,
+    "homelessOrAtRisk": "atRisk",
+    "view:isAtRisk": {
+      "atRiskHousingSituation": "other",
+      "otherAtRiskHousing": "Situation description"
+    },
+    "homelessnessContact": {
+      "name": "Name",
+      "phoneNumber": "1231231234"
+    },
+    "bankAccountType": "Checking",
+    "bankAccountNumber": "1233",
+    "bankRoutingNumber": "123412345",
+    "bankName": "BigBank Name",
+    "phoneEmailCard": {
+      "primaryPhone": "1231231234",
+      "emailAddress": "asdf@adsf.asdf"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "asdf",
+      "addressLine2": "line 2",
+      "addressLine3": "line 3",
+      "city": "asdf",
+      "state": "AL",
+      "zipCode": "19234"
+    },
+    "view:hasForwardingAddress": true,
+    "forwardingAddress": {
+      "country": "USA",
+      "addressLine1": "adsf",
+      "addressLine2": "line 2",
+      "addressLine3": "line 3",
+      "city": "asdf",
+      "state": "OH",
+      "zipCode": "12343",
+      "effectiveDate": {
+        "from": "2019-01-01",
+        "to": "2020-01-01"
+      }
+    },
+    "view:contactInfoDescription": {},
+    "additionalDocuments": [
+      {
+        "confirmationCode": "354c6d40-b7f5-4c6d-9393-3b2de6969e94",
+        "attachmentId": "L015",
+        "name": "Document Name"
+      }
+    ],
+    "view:uploadPrivateRecordsQualifier": {
+      "view:aboutPrivateMedicalRecords": {},
+      "view:hasPrivateRecordsToUpload": false,
+      "view:privateRecordsChoiceHelp": {}
+    },
+    "view:vaMedicalRecordsIntro": {},
+    "vaTreatmentFacilities": [
+      {
+        "treatmentCenterName": "VA Clinic Name",
+        "treatmentDateRange": {
+          "from": "1904-01-01",
+          "to": "1905-01-01"
+        },
+        "treatmentCenterAddress": {
+          "country": "USA",
+          "city": "asdf",
+          "state": "AL"
+        },
+        "treatedDisabilityNames": {
+          "First Condition": true,
+          "PTSD (post Traumatic Stress Disorder)": true
+        }
+      }
+    ],
+    "view:hasEvidence": true,
+    "view:hasEvidenceFollowUp": {
+      "view:selectableEvidenceTypes": {
+        "view:hasVAMedicalRecords": true,
+        "view:hasPrivateMedicalRecords": true,
+        "view:hasOtherEvidence": true
+      },
+      "view:evidenceTypeHelp": {}
+    },
+    "view:powStatus": true,
+    "view:isPOW": {
+      "confinements": [
+        {
+          "from": "1900-01-01",
+          "to": "1901-01-01"
+        }
+      ],
+      "powDisabilities": {
+        "PTSD (post Traumatic Stress Disorder)": true
+      }
+    },
+    "view:unemployabilityUploadChoice": "answerQuestions",
+    "view:unemployabilityStatus": true,
+    "view:upload781Choice": "answerQuestions",
+    "view:upload781ChoiceHelp": {},
+    "view:upload781aChoice": "answerQuestions",
+    "view:upload781aChoiceHelp": {},
+    "view:selectablePtsdTypes": {
+      "view:combatPtsdType": true,
+      "view:mstPtsdType": true,
+      "view:assaultPtsdType": true,
+      "view:noncombatPtsdType": true
+    },
+    "view:ptsdTypeHelp": {},
+    "view:newDisabilities": true,
+    "newDisabilities": [
+      {
+        "cause": "NEW",
+        "primaryDescription": "A thing happened.",
+        "condition": "PTSD (post traumatic stress disorder)"
+      }
+    ],
+    "ratedDisabilities": [
+      {
+        "name": "First Condition",
+        "ratedDisabilityId": "0",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "INCREASE",
+        "view:selected": true
+      },
+      {
+        "name": "Second Condition",
+        "ratedDisabilityId": "1",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 0,
+        "disabilityActionType": "INCREASE",
+        "view:selected": false
+      },
+      {
+        "name": "Third Condition",
+        "ratedDisabilityId": "1",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "INCREASE"
+      }
+    ],
+    "view:disabilitiesClarification": {},
+    "serviceInformation": {
+      "reservesNationalGuardService": {
+        "view:isTitle10Activated": true,
+        "title10Activation": {
+          "title10ActivationDate": "1902-01-01",
+          "anticipatedSeparationDate": "2019-01-01"
+        },
+        "obligationTermOfServiceDateRange": {
+          "from": "1902-01-01",
+          "to": "1903-01-01"
+        },
+        "unitName": "RNG Unit 1",
+        "unitAddress": {
+          "country": "USA",
+          "addressLine1": "asdf",
+          "addressLine2": "second line",
+          "addressLine3": "third line",
+          "city": "asdf",
+          "state": "AL",
+          "zipCode": "19234"
+        },
+        "unitPhone": "1231231234"
+      },
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force",
+          "dateRange": {
+            "from": "1900-01-01",
+            "to": "1901-01-01"
+          }
+        },
+        {
+          "serviceBranch": "Air National Guard",
+          "dateRange": {
+            "from": "1902-01-01",
+            "to": "1903-01-01"
+          }
+        }
+      ],
+      "view:militaryHistoryNote": {}
+    },
+    "view:hasMilitaryRetiredPay": true,
+    "militaryRetiredPayBranch": "Air Force",
+    "view:hasAlternateName": true,
+    "alternateNames": [
+      {
+        "first": "Old",
+        "last": "Name"
+      },
+      {
+        "first": "Another",
+        "middle": "Old",
+        "last": "Name"
+      }
+    ],
+    "view:faqAccordion": {},
+    "veteran": {
+      "mailingAddress": {
+        "country": "USA",
+        "city": "APO",
+        "state": "AE",
+        "zipCode": "09028",
+        "addressLine1": "123 MAIN ST",
+        "addressLine2": "BEN FRANKLIN VILLAGE"
+      },
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "privacyAgreementAccepted": true
+  }
+}

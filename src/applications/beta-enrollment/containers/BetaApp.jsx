@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import objectValues from 'lodash/fp/values';
 import { features } from '../routes';
-import { isProfileLoading, createIsServiceAvailableSelector } from '../../../platform/user/selectors';
+import {
+  isProfileLoading,
+  createIsServiceAvailableSelector,
+} from '../../../platform/user/selectors';
 
 class BetaApp extends React.Component {
-
   static propTypes = {
-    featureName: PropTypes.oneOf(objectValues(features)).isRequired
+    featureName: PropTypes.oneOf(objectValues(features)).isRequired,
   };
 
   render() {
@@ -21,10 +23,12 @@ class BetaApp extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const isServiceAvailable = createIsServiceAvailableSelector(ownProps.featureName);
+  const isServiceAvailable = createIsServiceAvailableSelector(
+    ownProps.featureName,
+  );
   return {
     loading: isProfileLoading(state),
-    isUserRegisteredForBeta: isServiceAvailable(state)
+    isUserRegisteredForBeta: isServiceAvailable(state),
   };
 };
 

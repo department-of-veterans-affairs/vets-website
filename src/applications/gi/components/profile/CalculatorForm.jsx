@@ -8,7 +8,6 @@ import { formatCurrency } from '../../utils/helpers';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation/ErrorableTextInput';
 
 class CalculatorForm extends React.Component {
-
   constructor(props) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -32,18 +31,18 @@ class CalculatorForm extends React.Component {
     this.props.onInputChange({ field, value });
   }
 
-  handleBeneficiaryZIPCodeChanged = (event) => {
+  handleBeneficiaryZIPCodeChanged = event => {
     if (!event.dirty) {
       this.props.onBeneficiaryZIPCodeChanged(event.value);
     }
-  }
+  };
 
   resetBuyUp(event) {
     event.preventDefault();
     if (this.props.inputs.buyUpAmount > 600) {
       this.props.onInputChange({
         field: 'buyUpAmount',
-        value: 600
+        value: 600,
       });
     }
   }
@@ -51,7 +50,8 @@ class CalculatorForm extends React.Component {
   renderLearnMoreLabel({ text, modal }) {
     return (
       <span>
-        {text} (<a onClick={this.props.onShowModal.bind(this, modal)}>Learn more</a>)
+        {text} (
+        <a onClick={this.props.onShowModal.bind(this, modal)}>Learn more</a>)
       </span>
     );
   }
@@ -62,67 +62,63 @@ class CalculatorForm extends React.Component {
       <RadioButtons
         label="Are you an in-state student?"
         name="inState"
-        options={[
-          { value: 'yes', label: 'Yes' },
-          { value: 'no', label: 'No' }
-        ]}
+        options={[{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }]}
         value={this.props.inputs.inState}
-        onChange={this.handleInputChange}/>
+        onChange={this.handleInputChange}
+      />
     );
   }
 
-  renderGbBenefit = () => {
-    return (
-      <div>
-        <RadioButtons
-          label={this.renderLearnMoreLabel({
-            text: 'Did you use your Post-9/11 GI Bill benefit before January 1, 2018?',
-            modal: 'whenUsedGiBill'
-          })}
-          name="giBillBenefit"
-          options={[
-            { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' }
-          ]}
-          value={this.props.inputs.giBillBenefit}
-          onChange={this.handleInputChange}/>
-      </div>
-    );
-  }
+  renderGbBenefit = () => (
+    <div>
+      <RadioButtons
+        label={this.renderLearnMoreLabel({
+          text:
+            'Did you use your Post-9/11 GI Bill benefit before January 1, 2018?',
+          modal: 'whenUsedGiBill',
+        })}
+        name="giBillBenefit"
+        options={[{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }]}
+        value={this.props.inputs.giBillBenefit}
+        onChange={this.handleInputChange}
+      />
+    </div>
+  );
 
   renderTuition() {
     if (!this.props.displayedInputs.tuition) return null;
 
-    const inStateTuitionInput =
-      this.props.inputs.inState === 'no' && (
-        <div>
-          <label htmlFor="inStateTuitionFees">
-            {this.renderLearnMoreLabel({
-              text: 'In-state tuition and fees per year',
-              modal: 'calcInStateTuition'
-            })}
-          </label>
-          <input
-            type="text"
-            name="inStateTuitionFees"
-            value={formatCurrency(this.props.inputs.inStateTuitionFees)}
-            onChange={this.handleInputChange}/>
-        </div>
-      );
+    const inStateTuitionInput = this.props.inputs.inState === 'no' && (
+      <div>
+        <label htmlFor="inStateTuitionFees">
+          {this.renderLearnMoreLabel({
+            text: 'In-state tuition and fees per year',
+            modal: 'calcInStateTuition',
+          })}
+        </label>
+        <input
+          type="text"
+          name="inStateTuitionFees"
+          value={formatCurrency(this.props.inputs.inStateTuitionFees)}
+          onChange={this.handleInputChange}
+        />
+      </div>
+    );
 
     return (
       <div>
         <label htmlFor="tuitionFees">
           {this.renderLearnMoreLabel({
             text: 'Tuition and fees per year',
-            modal: 'calcTuition'
+            modal: 'calcTuition',
           })}
         </label>
         <input
           type="text"
           name="tuitionFees"
           value={formatCurrency(this.props.inputs.tuitionFees)}
-          onChange={this.handleInputChange}/>
+          onChange={this.handleInputChange}
+        />
         {inStateTuitionInput}
       </div>
     );
@@ -137,7 +133,8 @@ class CalculatorForm extends React.Component {
           type="text"
           name="books"
           value={formatCurrency(this.props.inputs.books)}
-          onChange={this.handleInputChange}/>
+          onChange={this.handleInputChange}
+        />
       </div>
     );
   }
@@ -150,10 +147,17 @@ class CalculatorForm extends React.Component {
       yellowRibbonDivisionOptions,
     } = this.props.inputs;
 
-    yellowRibbonDegreeLevelOptions =  yellowRibbonDegreeLevelOptions
-      .map(value => ({ value, label: value }));
-    yellowRibbonDegreeLevelOptions.unshift({ value: 'customAmount', label: 'Enter an amount' });
-    yellowRibbonDivisionOptions = yellowRibbonDivisionOptions.map(value => ({ value, label: value }));
+    yellowRibbonDegreeLevelOptions = yellowRibbonDegreeLevelOptions.map(
+      value => ({ value, label: value }),
+    );
+    yellowRibbonDegreeLevelOptions.unshift({
+      value: 'customAmount',
+      label: 'Enter an amount',
+    });
+    yellowRibbonDivisionOptions = yellowRibbonDivisionOptions.map(value => ({
+      value,
+      label: value,
+    }));
     const showYellowRibbonOptions = yellowRibbonDegreeLevelOptions.length > 1;
     const showYellowRibbonDetails = yellowRibbonDivisionOptions.length > 0;
 
@@ -162,16 +166,17 @@ class CalculatorForm extends React.Component {
         <RadioButtons
           label={this.renderLearnMoreLabel({
             text: 'Will you be a Yellow Ribbon recipient?',
-            modal: 'calcYr'
+            modal: 'calcYr',
           })}
           name="yellowRibbonRecipient"
           options={[
             { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' }
+            { value: 'no', label: 'No' },
           ]}
           value={this.props.inputs.yellowRibbonRecipient}
-          onChange={this.handleInputChange}/>
-        { this.props.inputs.yellowRibbonRecipient === 'yes' ?
+          onChange={this.handleInputChange}
+        />
+        {this.props.inputs.yellowRibbonRecipient === 'yes' ? (
           <div>
             <Dropdown
               label="Degree Level"
@@ -181,7 +186,8 @@ class CalculatorForm extends React.Component {
               options={yellowRibbonDegreeLevelOptions}
               visible={showYellowRibbonOptions}
               value={this.props.inputs.yellowRibbonDegreeLevel}
-              onChange={this.handleInputChange}/>
+              onChange={this.handleInputChange}
+            />
             <Dropdown
               label="Division or school"
               name={'yellowRibbonDivision'}
@@ -190,7 +196,8 @@ class CalculatorForm extends React.Component {
               options={yellowRibbonDivisionOptions}
               visible={showYellowRibbonDetails}
               value={this.props.inputs.yellowRibbonDivision}
-              onChange={this.handleInputChange}/>
+              onChange={this.handleInputChange}
+            />
             <div>
               <label htmlFor="yellowRibbonContributionAmount">
                 Yellow Ribbon amount from school per year
@@ -200,19 +207,29 @@ class CalculatorForm extends React.Component {
                 type="text"
                 name="yellowRibbonAmount"
                 value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
-                onChange={this.handleInputChange}/>
+                onChange={this.handleInputChange}
+              />
             </div>
             <AlertBox
               isVisible={showYellowRibbonDetails}
               key={this.props.inputs.yellowRibbonProgramIndex}
-              status="info">
+              status="info"
+            >
               <div>
-                Maximum amount per student: <strong>{formatCurrency(this.props.inputs.yellowRibbonMaxAmount)}/yr</strong><br></br>
-                Number of students: <strong>{this.props.inputs.yellowRibbonMaxNumberOfStudents}</strong>
+                Maximum amount per student:{' '}
+                <strong>
+                  {formatCurrency(this.props.inputs.yellowRibbonMaxAmount)}
+                  /yr
+                </strong>
+                <br />
+                Number of students:{' '}
+                <strong>
+                  {this.props.inputs.yellowRibbonMaxNumberOfStudents}
+                </strong>
               </div>
             </AlertBox>
           </div>
-          : null }
+        ) : null}
       </div>
     );
   }
@@ -224,14 +241,15 @@ class CalculatorForm extends React.Component {
         <label htmlFor="scholarships">
           {this.renderLearnMoreLabel({
             text: 'Scholarships (excluding Pell)',
-            modal: 'calcScholarships'
+            modal: 'calcScholarships',
           })}
         </label>
         <input
           type="text"
           name="scholarships"
           value={formatCurrency(this.props.inputs.scholarships)}
-          onChange={this.handleInputChange}/>
+          onChange={this.handleInputChange}
+        />
       </div>
     );
   }
@@ -243,14 +261,15 @@ class CalculatorForm extends React.Component {
         <label htmlFor="tuitionAssist">
           {this.renderLearnMoreLabel({
             text: 'How much are you receiving in military tuition assistance',
-            modal: 'calcTuitionAssist'
+            modal: 'calcTuitionAssist',
           })}
         </label>
         <input
           type="text"
           name="tuitionAssist"
           value={formatCurrency(this.props.inputs.tuitionAssist)}
-          onChange={this.handleInputChange}/>
+          onChange={this.handleInputChange}
+        />
       </div>
     );
   }
@@ -258,29 +277,34 @@ class CalculatorForm extends React.Component {
   renderEnrolled() {
     const {
       enrolled: shouldRenderEnrolled,
-      enrolledOld: shouldRenderEnrolledOld
+      enrolledOld: shouldRenderEnrolledOld,
     } = this.props.displayedInputs;
 
     if (!shouldRenderEnrolled && !shouldRenderEnrolledOld) {
       return null;
     }
 
-    const options = shouldRenderEnrolled ? [
-      { value: 'full', label: 'Full Time' },
-      { value: 'three quarters', label: '¾ Time' },
-      { value: 'more than half', label: 'More than ½ time' },
-      { value: 'half or less', label: '½ Time or less' },
-    ] : [
-      { value: 'full', label: 'Full Time' },
-      { value: 'three quarters', label: '¾ Time' },
-      { value: 'half', label: '½ Time' },
-      { value: 'less than half', label: 'Less than ½ time more than ¼ time' },
-      { value: 'quarter', label: '¼ Time or less' },
-    ];
+    const options = shouldRenderEnrolled
+      ? [
+          { value: 'full', label: 'Full Time' },
+          { value: 'three quarters', label: '¾ Time' },
+          { value: 'more than half', label: 'More than ½ time' },
+          { value: 'half or less', label: '½ Time or less' },
+        ]
+      : [
+          { value: 'full', label: 'Full Time' },
+          { value: 'three quarters', label: '¾ Time' },
+          { value: 'half', label: '½ Time' },
+          {
+            value: 'less than half',
+            label: 'Less than ½ time more than ¼ time',
+          },
+          { value: 'quarter', label: '¼ Time or less' },
+        ];
 
     const {
       enrolled: enrolledValue,
-      enrolledOld: enrolledOldValue
+      enrolledOld: enrolledOldValue,
     } = this.props.inputs;
 
     const name = shouldRenderEnrolled ? 'enrolled' : 'enrolledOld';
@@ -291,14 +315,15 @@ class CalculatorForm extends React.Component {
         <Dropdown
           label={this.renderLearnMoreLabel({
             text: 'Enrolled',
-            modal: 'calcEnrolled'
+            modal: 'calcEnrolled',
           })}
           name={name}
           alt="Enrolled"
           options={options}
           visible
           value={value}
-          onChange={this.handleInputChange}/>
+          onChange={this.handleInputChange}
+        />
       </div>
     );
   }
@@ -318,11 +343,12 @@ class CalculatorForm extends React.Component {
             options={[
               { value: '3', label: 'Three' },
               { value: '2', label: 'Two' },
-              { value: '1', label: 'One' }
+              { value: '1', label: 'One' },
             ]}
             visible
             value={this.props.inputs.numberNontradTerms}
-            onChange={this.handleInputChange}/>
+            onChange={this.handleInputChange}
+          />
           <Dropdown
             label="How long is each term?"
             name="lengthNontradTerms"
@@ -339,11 +365,12 @@ class CalculatorForm extends React.Component {
               { value: '9', label: '9 months' },
               { value: '10', label: '10 months' },
               { value: '11', label: '11 months' },
-              { value: '12', label: '12 months' }
+              { value: '12', label: '12 months' },
             ]}
             visible
             value={this.props.inputs.lengthNontradTerms}
-            onChange={this.handleInputChange}/>
+            onChange={this.handleInputChange}
+          />
         </div>
       );
     }
@@ -353,18 +380,19 @@ class CalculatorForm extends React.Component {
         <Dropdown
           label={this.renderLearnMoreLabel({
             text: 'School Calendar',
-            modal: 'calcSchoolCalendar'
+            modal: 'calcSchoolCalendar',
           })}
           name="calendar"
           alt="School calendar"
           options={[
             { value: 'semesters', label: 'Semesters' },
             { value: 'quarters', label: 'Quarters' },
-            { value: 'nontraditional', label: 'Non-Traditional' }
+            { value: 'nontraditional', label: 'Non-Traditional' },
           ]}
           visible
           value={this.props.inputs.calendar}
-          onChange={this.handleInputChange}/>
+          onChange={this.handleInputChange}
+        />
         {dependentDropdowns}
       </div>
     );
@@ -383,7 +411,8 @@ class CalculatorForm extends React.Component {
             type="text"
             name="kickerAmount"
             value={formatCurrency(this.props.inputs.kickerAmount)}
-            onChange={this.handleInputChange}/>
+            onChange={this.handleInputChange}
+          />
         </div>
       );
     }
@@ -393,15 +422,16 @@ class CalculatorForm extends React.Component {
         <RadioButtons
           label={this.renderLearnMoreLabel({
             text: 'Eligible for kicker bonus?',
-            modal: 'calcKicker'
+            modal: 'calcKicker',
           })}
           name="kickerEligible"
           options={[
             { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' }
+            { value: 'no', label: 'No' },
           ]}
           value={this.props.inputs.kickerEligible}
-          onChange={this.handleInputChange}/>
+          onChange={this.handleInputChange}
+        />
         {amountInput}
       </div>
     );
@@ -415,12 +445,20 @@ class CalculatorForm extends React.Component {
     if (this.props.inputs.beneficiaryLocationQuestion === 'no') {
       amountInput = (
         <div>
-          <ErrorableTextInput errorMessage={this.props.inputs.beneficiaryZIPError}
-            label={<span>At what ZIP Code will you be taking the majority of classes?</span>}
+          <ErrorableTextInput
+            errorMessage={this.props.inputs.beneficiaryZIPError}
+            label={
+              <span>
+                At what ZIP Code will you be taking the majority of classes?
+              </span>
+            }
             name="beneficiaryZIPCode"
             field={{ value: this.props.inputs.beneficiaryZIP }}
-            onValueChange={this.handleBeneficiaryZIPCodeChanged}/>
-          <p><strong>{this.props.inputs.housingAllowanceCity}</strong></p>
+            onValueChange={this.handleBeneficiaryZIPCodeChanged}
+          />
+          <p>
+            <strong>{this.props.inputs.housingAllowanceCity}</strong>
+          </p>
         </div>
       );
     }
@@ -430,15 +468,16 @@ class CalculatorForm extends React.Component {
         <RadioButtons
           label={this.renderLearnMoreLabel({
             text: 'Will the majority of your classes be on the main campus?',
-            modal: 'calcBeneficiaryLocationQuestion'
+            modal: 'calcBeneficiaryLocationQuestion',
           })}
           name="beneficiaryLocationQuestion"
           options={[
             { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' }
+            { value: 'no', label: 'No' },
           ]}
           value={this.props.inputs.beneficiaryLocationQuestion}
-          onChange={this.handleInputChange}/>
+          onChange={this.handleInputChange}
+        />
         {amountInput}
       </div>
     );
@@ -452,13 +491,16 @@ class CalculatorForm extends React.Component {
     if (this.props.inputs.buyUp === 'yes') {
       amountInput = (
         <div>
-          <label htmlFor="buyUpAmount">How much did you pay toward buy-up (up to $600)?</label>
+          <label htmlFor="buyUpAmount">
+            How much did you pay toward buy-up (up to $600)?
+          </label>
           <input
             type="text"
             name="buyUpAmount"
             value={formatCurrency(this.props.inputs.buyUpAmount)}
             onChange={this.handleInputChange}
-            onBlur={this.resetBuyUp}/>
+            onBlur={this.resetBuyUp}
+          />
         </div>
       );
     }
@@ -470,10 +512,11 @@ class CalculatorForm extends React.Component {
           name="buyUp"
           options={[
             { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' }
+            { value: 'no', label: 'No' },
           ]}
           value={this.props.inputs.buyUp}
-          onChange={this.handleInputChange}/>
+          onChange={this.handleInputChange}
+        />
         {amountInput}
       </div>
     );
@@ -486,7 +529,7 @@ class CalculatorForm extends React.Component {
         <Dropdown
           label={this.renderLearnMoreLabel({
             text: 'Will be working',
-            modal: 'calcWorking'
+            modal: 'calcWorking',
           })}
           name="working"
           alt="Will be working"
@@ -505,11 +548,12 @@ class CalculatorForm extends React.Component {
             { value: '8', label: '8 hrs / week' },
             { value: '6', label: '6 hrs / week' },
             { value: '4', label: '4 hrs / week' },
-            { value: '2', label: '2 hrs / week' }
+            { value: '2', label: '2 hrs / week' },
           ]}
           visible
           value={this.props.inputs.working}
-          onChange={this.handleInputChange}/>
+          onChange={this.handleInputChange}
+        />
       </div>
     );
   }
@@ -540,7 +584,7 @@ CalculatorForm.propTypes = {
   inputs: PropTypes.object,
   displayedInputs: PropTypes.object,
   onShowModal: PropTypes.func,
-  onInputChange: PropTypes.func
+  onInputChange: PropTypes.func,
 };
 
 export default CalculatorForm;

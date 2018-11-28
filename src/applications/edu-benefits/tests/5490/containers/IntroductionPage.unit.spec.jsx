@@ -9,20 +9,21 @@ describe('Edu 5490 <IntroductionPage>', () => {
     const tree = shallow(
       <IntroductionPage
         route={{
-          formConfig: {
-          }
+          formConfig: {},
         }}
         saveInProgress={{
           user: {
-            login: {
-            },
+            login: {},
             profile: {
-              services: []
-            }
-          }
-        }}/>
+              services: [],
+            },
+          },
+        }}
+      />,
     );
-    expect(tree.find('FormTitle').props().title).to.contain('eligible dependent');
+    expect(tree.find('FormTitle').props().title).to.contain(
+      'eligible dependent',
+    );
     expect(tree.find('Connect(SaveInProgressIntro)').exists()).to.be.true;
     expect(tree.find('.process-step').length).to.equal(4);
   });

@@ -7,22 +7,23 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
-  showModal
+  showModal,
 } from '../../actions';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import EligibilityForm from '../search/EligibilityForm';
 import CalculatorForm from '../profile/CalculatorForm';
 
-const CalculatorResultRow = ({ label, value, header, bold, visible }) => (visible ? (
-  <div className={classNames('row', 'calculator-result', { bold })}>
-    <div className="small-6 columns">
-      {header ? <h5>{label}:</h5> : <div>{label}:</div>}
+const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
+  visible ? (
+    <div className={classNames('row', 'calculator-result', { bold })}>
+      <div className="small-6 columns">
+        {header ? <h5>{label}:</h5> : <div>{label}:</div>}
+      </div>
+      <div className="small-6 columns value">
+        {header ? <h5>{value}</h5> : <div>{value}</div>}
+      </div>
     </div>
-    <div className="small-6 columns value">
-      {header ? <h5>{value}</h5> : <div>{value}</div>}
-    </div>
-  </div>
-) : null);
+  ) : null;
 
 export class Calculator extends React.Component {
   constructor(props) {
@@ -52,13 +53,17 @@ export class Calculator extends React.Component {
 
     return (
       <div className="eligibility-details">
-        <button onClick={this.toggleEligibilityForm} className="usa-button-secondary">
+        <button
+          onClick={this.toggleEligibilityForm}
+          className="usa-button-secondary"
+        >
           {expanded ? 'Hide' : 'Edit'} eligibility details
         </button>
-        {expanded ?
+        {expanded ? (
           <div className="form-expanding-group-open">
-            <EligibilityForm/>
-          </div> : null}
+            <EligibilityForm />
+          </div>
+        ) : null}
       </div>
     );
   }
@@ -66,7 +71,7 @@ export class Calculator extends React.Component {
   renderCalculatorForm() {
     const {
       calculator: inputs,
-      calculated: { inputs: displayed }
+      calculated: { inputs: displayed },
     } = this.props;
     const expanded = this.state.showCalculatorForm;
 
@@ -74,18 +79,21 @@ export class Calculator extends React.Component {
       <div className="calculator-inputs">
         <button
           onClick={this.toggleCalculatorForm}
-          className="usa-button-secondary">
+          className="usa-button-secondary"
+        >
           {expanded ? 'Hide' : 'Edit'} calculator fields
         </button>
-        {expanded ?
+        {expanded ? (
           <div className="form-expanding-group-open">
             <CalculatorForm
               inputs={inputs}
               displayedInputs={displayed}
               onShowModal={this.props.showModal}
               onInputChange={this.props.calculatorInputChange}
-              onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}/>
-          </div> : null}
+              onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
+            />
+          </div>
+        ) : null}
       </div>
     );
   }
@@ -94,7 +102,9 @@ export class Calculator extends React.Component {
     const { perTerm } = this.props.calculated.outputs;
 
     const sections = Object.keys(perTerm).map(section => {
-      const { visible, title, terms } = this.props.calculated.outputs.perTerm[section];
+      const { visible, title, terms } = this.props.calculated.outputs.perTerm[
+        section
+      ];
       if (!visible) return null;
 
       const learnMoreLink = `http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#${section.toLowerCase()}`;
@@ -103,9 +113,11 @@ export class Calculator extends React.Component {
         <div key={section} className="per-term-section">
           <div className="link-header">
             <h5>{title}</h5>
-            &nbsp;(<a href={learnMoreLink} target="_blank">
+            &nbsp;(
+            <a href={learnMoreLink} target="_blank">
               Learn more
-            </a>)
+            </a>
+            )
           </div>
           {terms.map(term => (
             <CalculatorResultRow
@@ -113,7 +125,8 @@ export class Calculator extends React.Component {
               label={term.label}
               value={term.value}
               bold={term.label === 'Total per year'}
-              visible={term.visible}/>
+              visible={term.visible}
+            />
           ))}
         </div>
       );
@@ -121,7 +134,10 @@ export class Calculator extends React.Component {
 
     return (
       <div>
-        <h3>Estimated benefits per {this.props.calculator.type === 'OJT' ? 'month' : 'term'}</h3>
+        <h3>
+          Estimated benefits per{' '}
+          {this.props.calculator.type === 'OJT' ? 'month' : 'term'}
+        </h3>
         {sections}
       </div>
     );
@@ -129,7 +145,7 @@ export class Calculator extends React.Component {
 
   render() {
     if (isEmpty(this.props.calculated)) {
-      return <LoadingIndicator message="Loading your estimated benefits..."/>;
+      return <LoadingIndicator message="Loading your estimated benefits..." />;
     }
 
     // const it = this.props.profile.attributes;
@@ -148,39 +164,46 @@ export class Calculator extends React.Component {
               label="GI Bill pays to school"
               value={outputs.giBillPaysToSchool.value}
               visible={outputs.giBillPaysToSchool.visible}
-              header/>
+              header
+            />
             <CalculatorResultRow
               label="Tuition and fees charged"
               value={outputs.tuitionAndFeesCharged.value}
-              visible={outputs.tuitionAndFeesCharged.visible}/>
+              visible={outputs.tuitionAndFeesCharged.visible}
+            />
             <CalculatorResultRow
               label="Your scholarships"
               value={outputs.yourScholarships.value}
-              visible={outputs.yourScholarships.visible}/>
+              visible={outputs.yourScholarships.visible}
+            />
             <CalculatorResultRow
               label="Out of pocket tuition"
               value={outputs.outOfPocketTuition.value}
               bold
-              visible={outputs.outOfPocketTuition.visible}/>
+              visible={outputs.outOfPocketTuition.visible}
+            />
           </div>
           <div className="total-paid-to-you">
             <CalculatorResultRow
               label="Housing allowance"
               value={outputs.housingAllowance.value}
               visible={outputs.housingAllowance.visible}
-              header/>
+              header
+            />
             <CalculatorResultRow
               label="Book stipend"
               value={outputs.bookStipend.value}
               visible={outputs.bookStipend.visible}
-              header/>
+              header
+            />
             <CalculatorResultRow
               label="Total paid to you"
               value={outputs.totalPaidToYou.value}
               bold
-              visible={outputs.totalPaidToYou.visible}/>
+              visible={outputs.totalPaidToYou.visible}
+            />
           </div>
-          <hr/>
+          <hr />
           {this.renderPerTermSections()}
         </div>
       </div>
@@ -188,12 +211,10 @@ export class Calculator extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => {
-  return {
-    calculator: state.calculator,
-    calculated: getCalculatedBenefits(state, props)
-  };
-};
+const mapStateToProps = (state, props) => ({
+  calculator: state.calculator,
+  calculated: getCalculatedBenefits(state, props),
+});
 
 const mapDispatchToProps = {
   calculatorInputChange,
@@ -201,4 +222,7 @@ const mapDispatchToProps = {
   showModal,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Calculator);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Calculator);

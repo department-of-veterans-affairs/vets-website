@@ -4,7 +4,6 @@ import _ from 'lodash';
 
 import ToolTip from './ToolTip';
 
-
 /**
  * A form checkbox with a label that can display error messages.
  *
@@ -53,7 +52,8 @@ class Checkbox extends React.Component {
       toolTip = (
         <ToolTip
           tabIndex={this.props.tabIndex}
-          toolTipText={this.props.toolTipText}/>
+          toolTipText={this.props.toolTipText}
+        />
       );
     }
 
@@ -63,7 +63,9 @@ class Checkbox extends React.Component {
       requiredSpan = <span className="form-required-span">*</span>;
     }
 
-    let className = `form-checkbox${this.props.errorMessage ? ' usa-input-error' : ''}`;
+    let className = `form-checkbox${
+      this.props.errorMessage ? ' usa-input-error' : ''
+    }`;
     if (!_.isUndefined(this.props.className)) {
       className = `${className} ${this.props.className}`;
     }
@@ -77,11 +79,15 @@ class Checkbox extends React.Component {
           id={this.inputId}
           name={this.props.name}
           type="checkbox"
-          onChange={this.handleChange}/>
+          onChange={this.handleChange}
+        />
         <label
-          className={this.props.errorMessage ? 'usa-input-error-label' : undefined}
+          className={
+            this.props.errorMessage ? 'usa-input-error-label' : undefined
+          }
           name={`${this.props.name}-label`}
-          htmlFor={this.inputId}>
+          htmlFor={this.inputId}
+        >
           {this.props.label}
           {requiredSpan}
         </label>
@@ -96,10 +102,7 @@ Checkbox.propTypes = {
   checked: PropTypes.bool,
   errorMessage: PropTypes.string,
   name: PropTypes.string,
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object
-  ]).isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   onChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
 };

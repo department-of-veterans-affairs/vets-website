@@ -167,4 +167,12 @@
 
 .itf-agreement {
   margin-top: 0;
+  
+  &.unauthenticated {
+    margin-top: 1em;
+  }
+}
+
+.private-records-choice-help {
+  margin: 2em 0;
 }

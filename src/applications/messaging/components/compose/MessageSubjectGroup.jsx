@@ -13,16 +13,15 @@ class MessageSubjectGroup extends React.Component {
     let errMessage;
     if (hasErrorMsg) {
       errMessage = (
-        <div className="usa-input-error-message">
-          {this.props.errorMessage}
-        </div>);
+        <div className="usa-input-error-message">{this.props.errorMessage}</div>
+      );
     }
 
     const errItemClass = classNames(
       this.props.cssErrorClass,
       'msg-subject-group',
       { 'usa-input-error': hasErrorMsg },
-      { 'msg-compose-error': hasErrorMsg }
+      { 'msg-compose-error': hasErrorMsg },
     );
 
     return (
@@ -33,14 +32,16 @@ class MessageSubjectGroup extends React.Component {
             categories={this.props.categories}
             category={this.props.category}
             cssClass="msg-category"
-            onValueChange={this.props.onCategoryChange}/>
+            onValueChange={this.props.onCategoryChange}
+          />
           <MessageSubject
             charMax={this.props.charMax}
             cssClass="msg-subject"
             onValueChange={this.props.onSubjectChange}
             placeholder={this.props.subjectPlaceholder}
             required={this.props.subjectRequired}
-            subject={this.props.subject}/>
+            subject={this.props.subject}
+          />
         </div>
       </div>
     );
@@ -51,7 +52,7 @@ MessageSubjectGroup.propTypes = {
   categories: PropTypes.array,
   category: PropTypes.shape({
     value: PropTypes.string,
-    dirty: PropTypes.bool
+    dirty: PropTypes.bool,
   }),
   charMax: PropTypes.number,
   cssErrorClass: PropTypes.string,
@@ -61,9 +62,9 @@ MessageSubjectGroup.propTypes = {
   onSubjectChange: PropTypes.func,
   subject: PropTypes.shape({
     value: PropTypes.string,
-    dirty: PropTypes.bool
+    dirty: PropTypes.bool,
   }),
-  subjectPlaceholder: PropTypes.string
+  subjectPlaceholder: PropTypes.string,
 };
 
 export default MessageSubjectGroup;

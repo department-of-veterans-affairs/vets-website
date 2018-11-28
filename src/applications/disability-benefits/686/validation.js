@@ -9,4 +9,3 @@ export function validateAfterMarriageDate(errors, dateOfSeparation, formData) {
     errors.addError('Date marriage ended must be after date of marriage');
   }
 }
-

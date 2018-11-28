@@ -9,6 +9,6 @@ export default {
       form,
       modal,
       refresh,
-    })
-  })
+    }),
+  }),
 };

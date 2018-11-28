@@ -11,9 +11,8 @@ import {
   FETCH_TERMS_ACCEPTANCE_SUCCESS,
   ACCEPTING_LATEST_TERMS,
   ACCEPT_LATEST_TERMS_FAILURE,
-  ACCEPT_LATEST_TERMS_SUCCESS
+  ACCEPT_LATEST_TERMS_SUCCESS,
 } from '../../actions';
-
 
 describe('Terms and conditions reducer', () => {
   it('should be loading when accepting terms', () => {
@@ -34,7 +33,7 @@ describe('Terms and conditions reducer', () => {
   it('should handle failed acceptance of terms', () => {
     const state = reducer(undefined, {
       type: ACCEPT_LATEST_TERMS_FAILURE,
-      errors: [{ title: 'error', code: 500 }]
+      errors: [{ title: 'error', code: 500 }],
     });
     expect(state.accepted).to.be.false;
     expect(state.errors).to.exist;
@@ -44,7 +43,7 @@ describe('Terms and conditions reducer', () => {
   it('should handle failed fetch of terms', () => {
     const state = reducer(undefined, {
       type: FETCH_LATEST_TERMS_FAILURE,
-      errors: [{ title: 'error', code: 500 }]
+      errors: [{ title: 'error', code: 500 }],
     });
     expect(state.errors).to.exist;
     expect(state.loading.tc).to.be.false;
@@ -53,7 +52,7 @@ describe('Terms and conditions reducer', () => {
   it('should handle failed fetch of terms acceptance', () => {
     const state = reducer(undefined, {
       type: FETCH_TERMS_ACCEPTANCE_FAILURE,
-      errors: [{ title: 'error', code: 404 }]
+      errors: [{ title: 'error', code: 404 }],
     });
     expect(state.errors).to.not.exist;
     expect(state.accepted).to.be.false;
@@ -69,7 +68,7 @@ describe('Terms and conditions reducer', () => {
   it('should handle successful fetch of terms', () => {
     const state = reducer(undefined, {
       type: FETCH_LATEST_TERMS_SUCCESS,
-      data: { attributes: { termsContent: 'foo bar' } }
+      data: { attributes: { termsContent: 'foo bar' } },
     });
     expect(state.attributes.termsContent).to.eq('foo bar');
     expect(state.loading.tc).to.be.false;

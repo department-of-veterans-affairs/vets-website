@@ -25,7 +25,8 @@ class DiscardChangesModal extends React.Component {
           <button
             className="usa-button-secondary"
             type="button"
-            onClick={this.props.onClose}>
+            onClick={this.props.onClose}
+          >
             Cancel
           </button>
         </div>
@@ -37,7 +38,8 @@ class DiscardChangesModal extends React.Component {
         cssClass="rx-modal"
         contents={contents}
         onClose={this.props.onClose}
-        visible={this.props.visible}/>
+        visible={this.props.visible}
+      />
     );
   }
 }
@@ -45,7 +47,7 @@ class DiscardChangesModal extends React.Component {
 DiscardChangesModal.propTypes = {
   onClose: PropTypes.func,
   onSubmit: PropTypes.func,
-  visible: PropTypes.bool.isRequired
+  visible: PropTypes.bool.isRequired,
 };
 
 export default DiscardChangesModal;

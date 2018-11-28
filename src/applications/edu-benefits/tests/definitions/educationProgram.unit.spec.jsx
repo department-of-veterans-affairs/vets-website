@@ -5,15 +5,20 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester } from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import * as formConfig from '../../definitions/educationProgram';
-import { address, educationProgram, educationType, date } from 'vets-json-schema/dist/definitions.json';
+import {
+  address,
+  educationProgram,
+  educationType,
+  date,
+} from 'vets-json-schema/dist/definitions.json';
 
 const schemaWithEdu = {
   definitions: {
     educationProgram,
     educationType,
     date,
-    address
-  }
+    address,
+  },
 };
 
 describe('Edu educationProgram', () => {
@@ -25,7 +30,8 @@ describe('Edu educationProgram', () => {
         schema={schema(schemaWithEdu)}
         data={{}}
         definitions={{ educationType }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = findDOMNode(form);
@@ -42,7 +48,8 @@ describe('Edu educationProgram', () => {
         schema={schema(schemaWithEdu)}
         data={{}}
         definitions={{ educationType }}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = findDOMNode(form);
@@ -54,8 +61,8 @@ describe('Edu educationProgram', () => {
     // Change the education type to one that requires an address
     ReactTestUtils.Simulate.change(find('#root_educationType'), {
       target: {
-        value: 'college'
-      }
+        value: 'college',
+      },
     });
 
     // Address input should be shown

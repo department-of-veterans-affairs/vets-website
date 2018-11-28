@@ -2,7 +2,10 @@ import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import recordEvent from '../../../monitoring/record-event';
 import conditionalStorage from '../../../utilities/storage/conditionalStorage';
-import { isVet360Configured, mockContactInformation } from '../../../../applications/personalization/profile360/vet360/util/local-vet360';
+import {
+  isVet360Configured,
+  mockContactInformation,
+} from '../../../../applications/personalization/profile360/vet360/util/local-vet360';
 
 export function mapRawUserDataToState(json) {
   const {
@@ -20,20 +23,14 @@ export function mapRawUserDataToState(json) {
           loa,
           middleName: middle,
           multifactor,
-          verified
+          verified,
         },
         services,
-        vaProfile: {
-          status
-        },
+        vaProfile: { status },
         vet360ContactInformation,
-        veteranStatus: {
-          isVeteran,
-          status: veteranStatus,
-          servedInMilitary,
-        },
-      }
-    }
+        veteranStatus: { isVeteran, status: veteranStatus, servedInMilitary },
+      },
+    },
   } = camelCaseKeysRecursive(json);
 
   return {
@@ -52,15 +49,17 @@ export function mapRawUserDataToState(json) {
     userFullName: {
       first,
       middle,
-      last
+      last,
     },
     verified,
-    vet360: isVet360Configured() ? vet360ContactInformation : mockContactInformation,
+    vet360: isVet360Configured()
+      ? vet360ContactInformation
+      : mockContactInformation,
     veteranStatus: {
       isVeteran,
       veteranStatus,
-      servedInMilitary
-    }
+      servedInMilitary,
+    },
   };
 }
 

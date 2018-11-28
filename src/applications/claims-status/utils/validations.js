@@ -7,7 +7,7 @@ export const FILE_TYPES = [
   'jpeg',
   'jpg',
   'bmp',
-  'txt'
+  'txt',
 ];
 
 export function isNotBlank(value) {

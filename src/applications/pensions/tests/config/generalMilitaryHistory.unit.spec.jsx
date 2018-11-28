@@ -3,17 +3,24 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, getFormDOM } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  getFormDOM,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pensions general military history', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryHistory.pages.general;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.militaryHistory.pages.general;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -27,7 +34,8 @@ describe('Pensions general military history', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -45,18 +53,22 @@ describe('Pensions general military history', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('input[type="radio"]'), {
-      target: {
-        value: 'Y'
-      }
-    });
+    ReactTestUtils.Simulate.change(
+      formDOM.querySelector('input[type="radio"]'),
+      {
+        target: {
+          value: 'Y',
+        },
+      },
+    );
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(7);
 
@@ -73,38 +85,54 @@ describe('Pensions general military history', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('input[type="radio"]'), {
-      target: {
-        value: 'Y'
-      }
-    });
+    ReactTestUtils.Simulate.change(
+      formDOM.querySelector('input[type="radio"]'),
+      {
+        target: {
+          value: 'Y',
+        },
+      },
+    );
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_previousNames_0_first'), {
-      target: {
-        value: 'Jane'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_previousNames_0_last'), {
-      target: {
-        value: 'Doe'
-      }
-    });
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_previousNames_0_suffix'), {
-      target: {
-        value: 'Jr.'
-      }
-    });
-    ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
+    ReactTestUtils.Simulate.change(
+      formDOM.querySelector('#root_previousNames_0_first'),
+      {
+        target: {
+          value: 'Jane',
+        },
+      },
+    );
+    ReactTestUtils.Simulate.change(
+      formDOM.querySelector('#root_previousNames_0_last'),
+      {
+        target: {
+          value: 'Doe',
+        },
+      },
+    );
+    ReactTestUtils.Simulate.change(
+      formDOM.querySelector('#root_previousNames_0_suffix'),
+      {
+        target: {
+          value: 'Jr.',
+        },
+      },
+    );
+    ReactTestUtils.Simulate.click(
+      formDOM.querySelector('.va-growable-add-btn'),
+    );
 
-    expect(formDOM.querySelector('.va-growable-background').textContent)
-      .to.contain('Jane Doe, Jr.');
+    expect(
+      formDOM.querySelector('.va-growable-background').textContent,
+    ).to.contain('Jane Doe, Jr.');
   });
   it('should require combat after 9/11 question', () => {
     const onSubmit = sinon.spy();
@@ -112,16 +140,19 @@ describe('Pensions general military history', () => {
       <DefinitionTester
         schema={schema}
         data={{
-          servicePeriods: [{
-            activeServiceDateRange: {
-              to: '2006-05-06',
-              from: '2007-03-04'
-            }
-          }]
+          servicePeriods: [
+            {
+              activeServiceDateRange: {
+                to: '2006-05-06',
+                from: '2007-03-04',
+              },
+            },
+          ],
         }}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);
@@ -134,7 +165,6 @@ describe('Pensions general military history', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-
   it('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
@@ -142,7 +172,8 @@ describe('Pensions general military history', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     const formDOM = getFormDOM(form);

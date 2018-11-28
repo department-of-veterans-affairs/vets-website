@@ -11,28 +11,60 @@ function completeApplicantInformation(client, data) {
 }
 
 function selectDisabilities(client) {
-  client
-    .fillCheckbox('input[name="root_disabilities_0"]', true);
+  client.fillCheckbox('input[name="root_disabilities_0"]', true);
 }
 
 function completeEvidenceTypeInformation(client, data) {
   client
-    .fillCheckbox('input[name="root_view:vaMedicalRecords"]', data.disabilities[0]['view:vaMedicalRecords'])
-    .fillCheckbox('input[name="root_view:privateMedicalRecords"]', data.disabilities[0]['view:privateMedicalRecords'])
-    .fillCheckbox('input[name="root_view:otherEvidence"]', data.disabilities[0]['view:otherEvidence']);
+    .fillCheckbox(
+      'input[name="root_view:vaMedicalRecords"]',
+      data.disabilities[0]['view:vaMedicalRecords'],
+    )
+    .fillCheckbox(
+      'input[name="root_view:privateMedicalRecords"]',
+      data.disabilities[0]['view:privateMedicalRecords'],
+    )
+    .fillCheckbox(
+      'input[name="root_view:otherEvidence"]',
+      data.disabilities[0]['view:otherEvidence'],
+    );
 }
 
 function completeVAFacilitiesInformation(client, data) {
   data.treatments.forEach((treatment, i, list) => {
     client
-      .waitForElementVisible(`input[name="root_treatments_${i}_treatment_treatmentCenterName"]`, Timeouts.normal)
-      .selectDropdown(`root_treatments_${i}_treatment_startTreatmentMonth`, data.treatments[0].startTreatmentMonth)
-      .selectDropdown(`root_treatments_${i}_treatment_startTreatmentDay`, data.treatments[0].startTreatmentDay)
-      .fill(`input[name="root_treatments_${i}_treatment_startTreatmentYear"]`, data.treatments[0].startTreatmentYear)
-      .selectDropdown(`root_treatments_${i}_treatment_endTreatmentMonth`, data.treatments[0].endTreatmentMonth)
-      .selectDropdown(`root_treatments_${i}_treatment_endTreatmentDay`, data.treatments[0].endTreatmentDay)
-      .fill(`input[name="root_treatments_${i}_treatment_endTreatmentYear"]`, data.treatments[0].endTreatmentYear)
-      .fill(`input[name="root_treatments_${i}_treatment_treatmentCenterName"]`, data.treatments[0].treatmentCenterName);
+      .waitForElementVisible(
+        `input[name="root_treatments_${i}_treatment_treatmentCenterName"]`,
+        Timeouts.normal,
+      )
+      .selectDropdown(
+        `root_treatments_${i}_treatment_startTreatmentMonth`,
+        data.treatments[0].startTreatmentMonth,
+      )
+      .selectDropdown(
+        `root_treatments_${i}_treatment_startTreatmentDay`,
+        data.treatments[0].startTreatmentDay,
+      )
+      .fill(
+        `input[name="root_treatments_${i}_treatment_startTreatmentYear"]`,
+        data.treatments[0].startTreatmentYear,
+      )
+      .selectDropdown(
+        `root_treatments_${i}_treatment_endTreatmentMonth`,
+        data.treatments[0].endTreatmentMonth,
+      )
+      .selectDropdown(
+        `root_treatments_${i}_treatment_endTreatmentDay`,
+        data.treatments[0].endTreatmentDay,
+      )
+      .fill(
+        `input[name="root_treatments_${i}_treatment_endTreatmentYear"]`,
+        data.treatments[0].endTreatmentYear,
+      )
+      .fill(
+        `input[name="root_treatments_${i}_treatment_treatmentCenterName"]`,
+        data.treatments[0].treatmentCenterName,
+      );
     if (i < list.length - 1) client.click('.va-growable-add-btn');
   });
 }
@@ -40,27 +72,67 @@ function completeVAFacilitiesInformation(client, data) {
 function completeRecordReleaseInformation(client, data) {
   data.treatments.forEach((treatment, i, list) => {
     client
-      .waitForElementVisible(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterName"]`, Timeouts.normal)
-      .fill(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_startTreatmentYear"]`,
-        data.treatments[0].startTreatmentYear)
-      .selectDropdown(`root_privateRecordReleases_${i}_privateRecordRelease_startTreatmentMonth`, data.treatments[0].startTreatmentMonth)
-      .selectDropdown(`root_privateRecordReleases_${i}_privateRecordRelease_startTreatmentDay`, data.treatments[0].startTreatmentDay)
-      .fill(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_endTreatmentYear"]`, data.treatments[0].endTreatmentYear)
-      .selectDropdown(`root_privateRecordReleases_${i}_privateRecordRelease_endTreatmentMonth`, data.treatments[0].endTreatmentMonth)
-      .selectDropdown(`root_privateRecordReleases_${i}_privateRecordRelease_endTreatmentDay`, data.treatments[0].endTreatmentDay)
-      .fill(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterName"]`, data.treatments[0].treatmentCenterName)
-      .fill(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterCountry"]`, data.treatments[0].treatmentCenterCountry)
-      .fill(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterCity"]`, data.treatments[0].treatmentCenterCity)
-      .fill(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterState"]`, data.treatments[0].treatmentCenterState)
-      .fill(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterStreet1"]`, data.treatments[0].treatmentCenterStreet)
-      .fill(`input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterPostalCode"]`, data.treatments[0].treatmentCenterPostalCode);
+      .waitForElementVisible(
+        `input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterName"]`,
+        Timeouts.normal,
+      )
+      .fill(
+        `input[name="root_privateRecordReleases_${i}_privateRecordRelease_startTreatmentYear"]`,
+        data.treatments[0].startTreatmentYear,
+      )
+      .selectDropdown(
+        `root_privateRecordReleases_${i}_privateRecordRelease_startTreatmentMonth`,
+        data.treatments[0].startTreatmentMonth,
+      )
+      .selectDropdown(
+        `root_privateRecordReleases_${i}_privateRecordRelease_startTreatmentDay`,
+        data.treatments[0].startTreatmentDay,
+      )
+      .fill(
+        `input[name="root_privateRecordReleases_${i}_privateRecordRelease_endTreatmentYear"]`,
+        data.treatments[0].endTreatmentYear,
+      )
+      .selectDropdown(
+        `root_privateRecordReleases_${i}_privateRecordRelease_endTreatmentMonth`,
+        data.treatments[0].endTreatmentMonth,
+      )
+      .selectDropdown(
+        `root_privateRecordReleases_${i}_privateRecordRelease_endTreatmentDay`,
+        data.treatments[0].endTreatmentDay,
+      )
+      .fill(
+        `input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterName"]`,
+        data.treatments[0].treatmentCenterName,
+      )
+      .fill(
+        `input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterCountry"]`,
+        data.treatments[0].treatmentCenterCountry,
+      )
+      .fill(
+        `input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterCity"]`,
+        data.treatments[0].treatmentCenterCity,
+      )
+      .fill(
+        `input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterState"]`,
+        data.treatments[0].treatmentCenterState,
+      )
+      .fill(
+        `input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterStreet1"]`,
+        data.treatments[0].treatmentCenterStreet,
+      )
+      .fill(
+        `input[name="root_privateRecordReleases_${i}_privateRecordRelease_treatmentCenterPostalCode"]`,
+        data.treatments[0].treatmentCenterPostalCode,
+      );
     if (i < list.length - 1) client.click('.va-growable-add-btn');
   });
 }
 
 function completePrivateMedicalRecordsChoice(client, data) {
-  client
-    .selectRadio('root_view:uploadPrivateRecords', data.disabilities[0]['view:uploadPrivateRecords']);
+  client.selectRadio(
+    'root_view:uploadPrivateRecords',
+    data.disabilities[0]['view:uploadPrivateRecords'],
+  );
 }
 
 function initApplicationSubmitMock() {
@@ -70,10 +142,10 @@ function initApplicationSubmitMock() {
     value: {
       data: {
         attributes: {
-          guid: '123fake-submission-id-567'
-        }
-      }
-    }
+          guid: '123fake-submission-id-567',
+        },
+      },
+    },
   });
 }
 
@@ -84,10 +156,10 @@ function initDocumentUploadMock() {
     value: {
       data: {
         attributes: {
-          guid: '123fake-submission-id-567'
-        }
-      }
-    }
+          guid: '123fake-submission-id-567',
+        },
+      },
+    },
   });
 }
 
@@ -99,5 +171,5 @@ module.exports = {
   completeEvidenceTypeInformation,
   completeVAFacilitiesInformation,
   completeRecordReleaseInformation,
-  completePrivateMedicalRecordsChoice
+  completePrivateMedicalRecordsChoice,
 };

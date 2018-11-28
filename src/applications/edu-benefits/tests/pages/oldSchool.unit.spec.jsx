@@ -3,7 +3,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  submitForm,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import createOldSchoolPage from '../../pages/oldSchool';
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 
@@ -12,14 +15,11 @@ describe('Edu oldSchool page', () => {
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{}}
-        uiSchema={uiSchema}/>
+      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
     );
 
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input'))
-      .to.not.be.empty;
+    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')).to
+      .not.be.empty;
   });
 
   it('should have no required inputs', () => {
@@ -30,7 +30,8 @@ describe('Edu oldSchool page', () => {
         onSubmit={onSubmit}
         schema={schema}
         data={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     // Submit the form with no information

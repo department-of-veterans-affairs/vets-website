@@ -26,7 +26,9 @@ class ConfirmRefillModal extends React.Component {
 
     if (this.props.prescription) {
       const prescription = this.props.prescription;
-      const spinnerIcon = this.props.isLoading && <i className="fa fa-spin fa-spinner"/>;
+      const spinnerIcon = this.props.isLoading && (
+        <i className="fa fa-spin fa-spinner" />
+      );
 
       innerElement = (
         <form onSubmit={this.handleConfirmRefill}>
@@ -35,25 +37,37 @@ class ConfirmRefillModal extends React.Component {
               className="va-modal-close"
               type="button"
               aria-label="Close this modal"
-              onClick={this.handleCloseModal}>
-              <i className="fa fa-close"></i>
+              onClick={this.handleCloseModal}
+            >
+              <i className="fa fa-close" />
             </button>
             <span className="rx-modal-drug">
               {prescription.prescriptionName}
             </span>
             <div className="rx-modal-rxnumber">
-              <strong>Prescription <abbr title="number">#</abbr>:</strong> {prescription.prescriptionNumber}
+              <strong>
+                Prescription <abbr title="number">#</abbr>:
+              </strong>{' '}
+              {prescription.prescriptionNumber}
             </div>
             <div className="rx-modal-facility">
               <strong>Facility name:</strong> {prescription.facilityName}
             </div>
             <div className="rx-modal-lastrefilled">
-              <strong>Last submit date:</strong> {formatDate(prescription.refillSubmitDate)}
+              <strong>Last submit date:</strong>{' '}
+              {formatDate(prescription.refillSubmitDate)}
             </div>
             <div className="va-modal-button-group cf">
-              <button type="submit" disabled={this.props.isLoading}>{spinnerIcon} Order refill</button>
-              <button type="button" className="usa-button-secondary"
-                onClick={this.handleCloseModal}>Cancel</button>
+              <button type="submit" disabled={this.props.isLoading}>
+                {spinnerIcon} Order refill
+              </button>
+              <button
+                type="button"
+                className="usa-button-secondary"
+                onClick={this.handleCloseModal}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </form>
@@ -68,7 +82,8 @@ class ConfirmRefillModal extends React.Component {
         id="rx-confirm-refill"
         onClose={this.props.onCloseModal}
         title="Confirm refill"
-        visible={this.props.isVisible}/>
+        visible={this.props.isVisible}
+      />
     );
   }
 }
@@ -76,12 +91,12 @@ class ConfirmRefillModal extends React.Component {
 ConfirmRefillModal.propTypes = {
   prescription: PropTypes.shape({
     prescriptionId: PropTypes.number.isRequired,
-    prescriptionName: PropTypes.string.isRequired
+    prescriptionName: PropTypes.string.isRequired,
   }),
   isLoading: PropTypes.bool,
   isVisible: PropTypes.bool,
   refillPrescription: PropTypes.func,
-  onCloseModal: PropTypes.func
+  onCloseModal: PropTypes.func,
 };
 
 export default ConfirmRefillModal;

@@ -11,7 +11,10 @@ export default function VeteranIDCard({ location, children }) {
       id="vic2"
       waitForProfile
       renderLimitedContent={RateLimitContent}
-      bypassLimit={({ user }) => user.profile.savedForms.some(f => f.form === 'VIC')}>
+      bypassLimit={({ user }) =>
+        user.profile.savedForms.some(f => f.form === 'VIC')
+      }
+    >
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>

@@ -13,15 +13,21 @@ const props = {
 
 describe('<MessageAttachmentsViewItem>', () => {
   it('should render correctly', () => {
-    const tree = SkinDeep.shallowRender(<MessageAttachmentsViewItem {...props}/>);
+    const tree = SkinDeep.shallowRender(
+      <MessageAttachmentsViewItem {...props} />,
+    );
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
   it('should have the expected default icon classname', () => {
-    const tree = SkinDeep.shallowRender(<MessageAttachmentsViewItem {...props}/>);
+    const tree = SkinDeep.shallowRender(
+      <MessageAttachmentsViewItem {...props} />,
+    );
 
-    expect(tree.subTree('i').props.className).to.equal('fa fa-paperclip msg-attachment-icon');
+    expect(tree.subTree('i').props.className).to.equal(
+      'fa fa-paperclip msg-attachment-icon',
+    );
   });
 
   it('should handle download correctly when URL is provided', () => {
@@ -30,7 +36,7 @@ describe('<MessageAttachmentsViewItem>', () => {
     global.window = { open: windowOpen };
 
     const messageAttachmentsViewItem = ReactTestUtils.renderIntoDocument(
-      <MessageAttachmentsViewItem {...props }/>
+      <MessageAttachmentsViewItem {...props} />,
     );
     // set downloadURL to avoid running actual apiRequest
     messageAttachmentsViewItem.downloadUrl = props.url;

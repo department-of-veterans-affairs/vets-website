@@ -11,18 +11,19 @@ class GlossaryPage extends React.Component {
 
   render() {
     let key = 0;
-    const sections = Object.keys(glossary).map((sect) => {
-      return (<GlossaryList
+    const sections = Object.keys(glossary).map(sect => (
+      <GlossaryList
         key={key++}
         title={`${sect} statuses`}
-        terms={glossary[sect]}/>);
-    });
+        terms={glossary[sect]}
+      />
+    ));
 
     return (
       <section>
         <div className="rx-app-title">
           <h1>Glossary</h1>
-          <SettingsButton/>
+          <SettingsButton />
         </div>
         {sections}
       </section>

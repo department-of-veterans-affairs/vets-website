@@ -1,7 +1,7 @@
 import {
   createPageList,
   createFormPageList,
-  createRoutes
+  createRoutes,
 } from 'us-forms-system/lib/js/helpers';
 import RoutedSavablePage from './RoutedSavablePage';
 import RoutedSavableReviewPage from './RoutedSavableReviewPage';
@@ -9,7 +9,12 @@ import FormSaved from './FormSaved';
 import SaveInProgressErrorPage from './SaveInProgressErrorPage';
 
 export function createRoutesWithSaveInProgress(formConfig) {
-  const protectedRoutes = new Set(['introduction', 'review-and-submit', 'confirmation', '*']);
+  const protectedRoutes = new Set([
+    'introduction',
+    'review-and-submit',
+    'confirmation',
+    '*',
+  ]);
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
   const newRoutes = createRoutes(formConfig);
@@ -25,7 +30,9 @@ export function createRoutesWithSaveInProgress(formConfig) {
 
     // rewrite review page component
     if (route.path === 'review-and-submit') {
-      newRoute = Object.assign({}, route, { component: RoutedSavableReviewPage });
+      newRoute = Object.assign({}, route, {
+        component: RoutedSavableReviewPage,
+      });
       newRoutes[index] = newRoute;
     }
   });
@@ -35,20 +42,20 @@ export function createRoutesWithSaveInProgress(formConfig) {
       path: 'form-saved',
       component: FormSaved,
       pageList,
-      formConfig
+      formConfig,
     });
 
     newRoutes.splice(newRoutes.length - 1, 0, {
       path: 'error',
       component: SaveInProgressErrorPage,
       pageList, // In case we need it for startOver?
-      formConfig
+      formConfig,
     });
 
     newRoutes.splice(newRoutes.length - 1, 0, {
       path: 'resume',
       pageList,
-      formConfig
+      formConfig,
     });
   }
 

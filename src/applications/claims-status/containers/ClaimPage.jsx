@@ -18,8 +18,12 @@ function mapStateToProps() {
 }
 
 const mapDispatchToProps = {
-  getClaimDetail
+  getClaimDetail,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ClaimPage));
-
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ClaimPage),
+);

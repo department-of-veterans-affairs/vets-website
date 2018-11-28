@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 const initialState = {
   content: '',
   status: 'info',
-  visible: false
+  visible: false,
 };
 
 export default function alert(state = initialState, action) {
@@ -13,7 +13,7 @@ export default function alert(state = initialState, action) {
       return {
         content: action.content,
         status: action.status,
-        visible: true
+        visible: true,
       };
 
     case 'CLOSE_ALERT':
@@ -29,7 +29,7 @@ export default function alert(state = initialState, action) {
       return {
         content: <b>Failed to save changes. {error}</b>,
         status: 'error',
-        visible: true
+        visible: true,
       };
     }
 
@@ -37,19 +37,24 @@ export default function alert(state = initialState, action) {
       return {
         content: <b>Your changes have been saved.</b>,
         status: 'success',
-        visible: true
+        visible: true,
       };
 
     case 'REFILL_FAILURE': {
       return {
         content: (
           <div>
-            <h4 className="usa-alert-heading">Prescription refill unsuccessful</h4>
-            <p>We couldn’t process this request. Please try again or <a href="/health-care/messaging">message your provider</a>.</p>
+            <h4 className="usa-alert-heading">
+              Prescription refill unsuccessful
+            </h4>
+            <p>
+              We couldn’t process this request. Please try again or{' '}
+              <a href="/health-care/messaging">message your provider</a>.
+            </p>
           </div>
         ),
         status: 'error',
-        visible: true
+        visible: true,
       };
     }
 
@@ -59,11 +64,13 @@ export default function alert(state = initialState, action) {
       return {
         content: (
           <b>
-            Refill for <Link to={`/${rx.prescriptionId}`}>{rx.prescriptionName}</Link> has been requested.
+            Refill for{' '}
+            <Link to={`/${rx.prescriptionId}`}>{rx.prescriptionName}</Link> has
+            been requested.
           </b>
         ),
         status: 'success',
-        visible: true
+        visible: true,
       };
     }
 

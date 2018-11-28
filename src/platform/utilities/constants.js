@@ -3,5 +3,5 @@ export const requestStates = {
   notCalled: 'not called',
   pending: 'pending',
   succeeded: 'succeeded',
-  failed: 'failed'
+  failed: 'failed',
 };

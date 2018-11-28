@@ -8,7 +8,10 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import { getAppeals } from '../actions/index.jsx';
 import AppealEventItem from '../components/AppealEventItem';
 import AskVAQuestions from '../components/AskVAQuestions';
-import { appealStatusDescriptions, hearingDescriptions } from '../utils/appeal-helpers';
+import {
+  appealStatusDescriptions,
+  hearingDescriptions,
+} from '../utils/appeal-helpers';
 import { setPageFocus } from '../utils/page';
 
 class AppealStatusPage extends React.Component {
@@ -47,11 +50,15 @@ class AppealStatusPage extends React.Component {
   renderHearingInfo() {
     const { appeal } = this.props;
 
-    const activeHearings = _.filter(appeal.attributes.hearings, (h) => {
-      return moment().isBefore(h.date);
-    });
+    const activeHearings = _.filter(appeal.attributes.hearings, h =>
+      moment().isBefore(h.date),
+    );
 
-    const upcomingHearing = _.orderBy(activeHearings, [e => moment(e.date).unix()], ['asc'])[0];
+    const upcomingHearing = _.orderBy(
+      activeHearings,
+      [e => moment(e.date).unix()],
+      ['asc'],
+    )[0];
 
     if (upcomingHearing) {
       const hearingContent = hearingDescriptions[upcomingHearing.type];
@@ -72,7 +79,10 @@ class AppealStatusPage extends React.Component {
       return (
         <div>
           <p>
-            The NOD is the first step in your appeal. As your appeal moves through the process, the history of your appeal will be added here. On average, Veterans with appeals in the NOD stage, wait about 18 months for VBA to complete the necessary action.
+            The NOD is the first step in your appeal. As your appeal moves
+            through the process, the history of your appeal will be added here.
+            On average, Veterans with appeals in the NOD stage, wait about 18
+            months for VBA to complete the necessary action.
           </p>
         </div>
       );
@@ -81,7 +91,7 @@ class AppealStatusPage extends React.Component {
     return (
       <ol className="events-list">
         {previousHistory.map((e, i) => (
-          <AppealEventItem key={i} event={e}/>
+          <AppealEventItem key={i} event={e} />
         ))}
       </ol>
     );
@@ -91,7 +101,9 @@ class AppealStatusPage extends React.Component {
     const { appeal, loading } = this.props;
 
     if (loading) {
-      return <LoadingIndicator message="Loading your appeal status..." setFocus/>;
+      return (
+        <LoadingIndicator message="Loading your appeal status..." setFocus />
+      );
     }
 
     if (!appeal) {
@@ -99,7 +111,11 @@ class AppealStatusPage extends React.Component {
     }
 
     // always show merged event on top
-    const events = _.orderBy(appeal.attributes.events, [e => e.type === 'merged', e => moment(e.date).unix()], ['desc', 'desc']);
+    const events = _.orderBy(
+      appeal.attributes.events,
+      [e => e.type === 'merged', e => moment(e.date).unix()],
+      ['desc', 'desc'],
+    );
     const lastEvent = events[0];
     const previousHistory = events.slice(1);
     const { status } = appealStatusDescriptions(lastEvent, previousHistory);
@@ -108,8 +124,13 @@ class AppealStatusPage extends React.Component {
       <div className="claims-container">
         <div className="row">
           <div>
-            <h1 className="claims-container-title">Your Compensation Appeal Status</h1>
-            <p>This information is accurate as of {moment().format('MMMM DD, YYYY')}.</p>
+            <h1 className="claims-container-title">
+              Your Compensation Appeal Status
+            </h1>
+            <p>
+              This information is accurate as of{' '}
+              {moment().format('MMMM DD, YYYY')}.
+            </p>
           </div>
         </div>
         <div className="row">
@@ -127,12 +148,17 @@ class AppealStatusPage extends React.Component {
             <div className="row">
               <div className="last-status">
                 <div className="content">
-                  <i className="claims-status-icon last-status-content-icon fa fa-check-circle"></i>
+                  <i className="claims-status-icon last-status-content-icon fa fa-check-circle" />
                   <h5>{status.title}</h5>
-                  <strong>{moment(lastEvent.date).format('MMMM DD, YYYY')}</strong>
+                  <strong>
+                    {moment(lastEvent.date).format('MMMM DD, YYYY')}
+                  </strong>
                   {status.description}
                   <p>
-                    <a href="/disability-benefits/claims-appeal/">Learn more about the appeals process</a>.
+                    <a href="/disability-benefits/claims-appeal/">
+                      Learn more about the appeals process
+                    </a>
+                    .
                   </p>
                 </div>
               </div>
@@ -145,7 +171,7 @@ class AppealStatusPage extends React.Component {
             </div>
           </div>
           <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
-            <AskVAQuestions/>
+            <AskVAQuestions />
           </div>
         </div>
       </div>
@@ -159,9 +185,16 @@ function mapStateToProps(state, ownProps) {
   const appeal = appeals.find(a => a.id === ownProps.params.id);
 
   // append starting event for post-remand and post-cavc remand appeals
-  if (appeal && appeal.attributes.type !== 'original' && appeal.attributes.prior_decision_date) {
+  if (
+    appeal &&
+    appeal.attributes.type !== 'original' &&
+    appeal.attributes.prior_decision_date
+  ) {
     appeal.attributes.events.unshift({
-      type: appeal.attributes.type === 'post_cavc_remand' ? 'cavc_decision' : 'bva_remand',
+      type:
+        appeal.attributes.type === 'post_cavc_remand'
+          ? 'cavc_decision'
+          : 'bva_remand',
       date: appeal.attributes.prior_decision_date,
     });
   }
@@ -173,6 +206,11 @@ const mapDispatchToProps = {
   getAppeals,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AppealStatusPage));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AppealStatusPage),
+);
 
 export { AppealStatusPage };

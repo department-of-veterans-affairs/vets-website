@@ -49,7 +49,12 @@ class DownloadLink extends React.Component {
       response => {
         response.blob().then(blob => {
           if (window.navigator.msSaveOrOpenBlob) {
-            window.navigator.msSaveOrOpenBlob(blob, `health_record_${moment().format('MMDDYYYY')}.${this.props.docType}`);
+            window.navigator.msSaveOrOpenBlob(
+              blob,
+              `health_record_${moment().format('MMDDYYYY')}.${
+                this.props.docType
+              }`,
+            );
           } else {
             const downloadUrl = URL.createObjectURL(blob);
             this.downloadUrl = downloadUrl;
@@ -58,7 +63,9 @@ class DownloadLink extends React.Component {
           this.setState({ downloading: false });
         });
       },
-      () => { this.setState({ downloading: false }); }
+      () => {
+        this.setState({ downloading: false });
+      },
     );
   }
 
@@ -67,7 +74,9 @@ class DownloadLink extends React.Component {
 
     return (
       <button onClick={this.downloadHealthRecord}>
-        {this.state.downloading ? <i className="fa fa-spinner fa-pulse"></i> : null}
+        {this.state.downloading ? (
+          <i className="fa fa-spinner fa-pulse" />
+        ) : null}
         {this.state.downloading ? loadingMessage : this.props.name}
       </button>
     );

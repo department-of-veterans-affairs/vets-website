@@ -6,9 +6,15 @@ export default function MissingVet360IDError() {
     <AlertBox
       isVisible
       status="info"
-      content={<div>
-        <h4>Contact information is coming soon</h4>
-        <p>We’re working to give you access to review and edit your contact information. Please check back soon.</p>
-      </div>}/>
+      content={
+        <div>
+          <h4>Contact information is coming soon</h4>
+          <p>
+            We’re working to give you access to review and edit your contact
+            information. Please check back soon.
+          </p>
+        </div>
+      }
+    />
   );
 }

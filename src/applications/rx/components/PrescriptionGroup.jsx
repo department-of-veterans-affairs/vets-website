@@ -22,12 +22,14 @@ class PrescriptionGroup extends React.Component {
 
 PrescriptionGroup.propTypes = {
   title: PropTypes.string.isRequired,
-  items: PropTypes.arrayOf(PropTypes.shape({
-    attributes: PropTypes.object,
-    id: PropTypes.string,
-    type: PropTypes.func,
-    links: PropTypes.object
-  })).isRequired
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      attributes: PropTypes.object,
+      id: PropTypes.string,
+      type: PropTypes.func,
+      links: PropTypes.object,
+    }),
+  ).isRequired,
 };
 
 export default PrescriptionGroup;

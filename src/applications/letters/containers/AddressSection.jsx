@@ -4,7 +4,10 @@ import Scroll from 'react-scroll';
 import Raven from 'raven-js';
 
 import recordEvent from '../../../platform/monitoring/record-event';
-import { scrollToFirstError, focusElement } from '../../../platform/utilities/ui';
+import {
+  scrollToFirstError,
+  focusElement,
+} from '../../../platform/utilities/ui';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 
@@ -18,12 +21,12 @@ import {
   isInternationalAddress,
   isMilitaryAddress,
   resetDisallowedAddressFields,
-  isAddressEmpty
+  isAddressEmpty,
 } from '../utils/helpers';
 import {
   saveAddress,
   editAddress,
-  cancelEditingAddress
+  cancelEditingAddress,
 } from '../actions/letters';
 import Address from '../components/Address';
 import AddressContent from '../components/AddressContent';
@@ -33,28 +36,35 @@ import {
   postalCodeValidations,
   stateValidations,
   countryValidations,
-  cityValidations
+  cityValidations,
 } from '../utils/validations';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
-  scroller.scrollTo('addressScrollElement', window.VetsGov.scroll || {
-    duration: 500,
-    delay: 0,
-    smooth: true
-  });
+  scroller.scrollTo(
+    'addressScrollElement',
+    window.VetsGov.scroll || {
+      duration: 500,
+      delay: 0,
+      smooth: true,
+    },
+  );
 };
 
 const noAddressBanner = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
-      <h3 className="usa-alert-heading">VA does not have a valid address on file for you</h3>
-      <div className="usa-alert-text">You will need to update your address before we can provide you any letters.</div>
+      <h3 className="usa-alert-heading">
+        VA does not have a valid address on file for you
+      </h3>
+      <div className="usa-alert-text">
+        You will need to update your address before we can provide you any
+        letters.
+      </div>
     </div>
   </div>
 );
-
 
 export class AddressSection extends React.Component {
   constructor(props) {
@@ -92,7 +102,10 @@ export class AddressSection extends React.Component {
    * ensures we populate the form's initial state as soon as the prop becomes available
    */
   componentWillReceiveProps(nextProps) {
-    if (!this.state.hasLoadedAddress && Object.keys(nextProps.savedAddress).length > 0) {
+    if (
+      !this.state.hasLoadedAddress &&
+      Object.keys(nextProps.savedAddress).length > 0
+    ) {
       this.setState({
         hasLoadedAddress: true,
         editableAddress: nextProps.savedAddress,
@@ -131,7 +144,7 @@ export class AddressSection extends React.Component {
 
     // All validations passed; there are no error messages to report
     return undefined;
-  }
+  };
 
   /**
    * Runs validation for all fields, returning a complete errorMessages object.
@@ -150,20 +163,23 @@ export class AddressSection extends React.Component {
    */
   validateAll = (address, fieldsToValidate, shouldValidateAll = false) => {
     const errorMessages = {};
-    Object.keys(AddressSection.fieldValidations).forEach((fieldName) => {
+    Object.keys(AddressSection.fieldValidations).forEach(fieldName => {
       // Only validate the field if it's been modified
       if (fieldsToValidate[fieldName] || shouldValidateAll) {
         errorMessages[fieldName] = this.validateField(fieldName, address);
       }
-
     });
 
     return errorMessages;
-  }
+  };
 
   // TODO: Make sure this doesn't allow us to save the address if there are validation errors
   saveAddress = () => {
-    const errorMessages = this.validateAll(this.state.editableAddress, this.state.fieldsToValidate, true);
+    const errorMessages = this.validateAll(
+      this.state.editableAddress,
+      this.state.fieldsToValidate,
+      true,
+    );
     // If there are errors, show them, but don't stop editing and don't save
     // There may be properties that are initialized to undefined, so we're checking
     //  to see if any of the properties are truthy
@@ -172,7 +188,7 @@ export class AddressSection extends React.Component {
       const fieldsToValidate = Object.assign({}, this.state.fieldsToValidate);
 
       // Ideally, we'd only loop once, but errorMessages is so small and this is nicer to read
-      Object.keys(errorMessages).forEach(key => fieldsToValidate[key] = true); // eslint-disable-line no-return-assign
+      Object.keys(errorMessages).forEach(key => (fieldsToValidate[key] = true)); // eslint-disable-line no-return-assign
 
       scrollToFirstError();
 
@@ -182,11 +198,11 @@ export class AddressSection extends React.Component {
 
     this.setState({
       // Reset all the error messages in case they go to edit again; should be pointless
-      errorMessages: {}
+      errorMessages: {},
     });
     this.props.saveAddress(this.state.editableAddress);
     scrollToTop();
-  }
+  };
 
   handleCancel = () => {
     recordEvent({ event: 'letter-update-address-cancel' });
@@ -194,31 +210,36 @@ export class AddressSection extends React.Component {
     this.setState({
       errorMessages: {},
       fieldsToValidate: {},
-      editableAddress: this.props.savedAddress
+      editableAddress: this.props.savedAddress,
     });
     scrollToTop();
-  }
+  };
 
   startEditing = () => {
     recordEvent({ event: 'letter-update-address-started' });
     this.props.editAddress();
     scrollToTop();
-  }
+  };
 
-  dirtyInput = (fieldName) => {
+  dirtyInput = fieldName => {
     let fieldsToValidate = this.state.fieldsToValidate;
     // When a field is blurred, add it to the fields we want to validate
     if (!fieldsToValidate[fieldName]) {
-      fieldsToValidate = Object.assign({}, this.state.fieldsToValidate, { [fieldName]: true });
+      fieldsToValidate = Object.assign({}, this.state.fieldsToValidate, {
+        [fieldName]: true,
+      });
 
       // Make sure to _actually_ validate it
-      const errorMessages = this.validateAll(this.state.editableAddress, fieldsToValidate);
+      const errorMessages = this.validateAll(
+        this.state.editableAddress,
+        fieldsToValidate,
+      );
       this.setState({
         fieldsToValidate,
-        errorMessages
+        errorMessages,
       });
     }
-  }
+  };
 
   /**
    * Handles changing input from the Address component.
@@ -228,7 +249,9 @@ export class AddressSection extends React.Component {
    *                              Useful for select fields which don't trigger the onBlur event.
    */
   handleChange = (fieldName, update, forceDirty = false) => {
-    let address = Object.assign({}, this.state.editableAddress, { [fieldName]: update });
+    let address = Object.assign({}, this.state.editableAddress, {
+      [fieldName]: update,
+    });
     let fieldsToValidate = this.state.fieldsToValidate;
     // if country is changing we should clear the state
     if (fieldName === 'countryName') {
@@ -246,7 +269,9 @@ export class AddressSection extends React.Component {
 
     // Force the input to dirty if necessary
     if (forceDirty && !fieldsToValidate[fieldName]) {
-      fieldsToValidate = Object.assign({}, this.state.fieldsToValidate, { [fieldName]: true });
+      fieldsToValidate = Object.assign({}, this.state.fieldsToValidate, {
+        [fieldName]: true,
+      });
     }
 
     // Update the error messages
@@ -257,7 +282,7 @@ export class AddressSection extends React.Component {
       editableAddress: address,
       errorMessages,
     });
-  }
+  };
 
   closeAddressHelp = () => this.setState({ addressHelpVisible: false });
 
@@ -270,7 +295,7 @@ export class AddressSection extends React.Component {
     const streetAddressLines = [
       address.addressOne,
       address.addressTwo ? `, ${address.addressTwo}` : '',
-      address.addressThree ? ` ${address.addressThree}` : ''
+      address.addressThree ? ` ${address.addressThree}` : '',
     ];
     const streetAddress = streetAddressLines.join('').toLowerCase();
 
@@ -304,15 +329,20 @@ export class AddressSection extends React.Component {
             errorMessages={this.state.errorMessages}
             countries={this.props.countries}
             states={this.props.states}
-            required/>
-          <button className="usa-button-primary" onClick={this.saveAddress}>Update</button>
-          <button className="usa-button-secondary" onClick={this.handleCancel}>Cancel</button>
+            required
+          />
+          <button className="usa-button-primary" onClick={this.saveAddress}>
+            Update
+          </button>
+          <button className="usa-button-secondary" onClick={this.handleCancel}>
+            Cancel
+          </button>
         </div>
       );
     } else if (this.props.savePending) {
       addressFields = (
         <div>
-          <LoadingIndicator message="Updating your address..."/>
+          <LoadingIndicator message="Updating your address..." />
         </div>
       );
     } else {
@@ -326,19 +356,29 @@ export class AddressSection extends React.Component {
 
       addressFields = (
         <div>
-          <h5 className="letters-address">{(this.props.recipientName || '').toLowerCase()}</h5>
+          <h5 className="letters-address">
+            {(this.props.recipientName || '').toLowerCase()}
+          </h5>
           {emptyAddress && noAddressBanner}
           {!emptyAddress && displayAddress}
-          <button className="address-help-btn" onClick={this.openAddressHelp}>What is this?</button>
-          {this.props.canUpdate &&
-            <button className="usa-button-secondary edit-address" onClick={this.startEditing}>Edit address</button>
-          }
+          <button className="address-help-btn" onClick={this.openAddressHelp}>
+            What is this?
+          </button>
+          {this.props.canUpdate && (
+            <button
+              className="usa-button-secondary edit-address"
+              onClick={this.startEditing}
+            >
+              Edit address
+            </button>
+          )}
           <Modal
             title="Address usage"
             onClose={this.closeAddressHelp}
             visible={this.state.addressHelpVisible}
             id="address-help"
-            contents={addressModalContent}/>
+            contents={addressModalContent}
+          />
         </div>
       );
     }
@@ -346,17 +386,19 @@ export class AddressSection extends React.Component {
     let addressContent;
     // If countries and states are not available when they try to update their address,
     // they will see this warning message instead of the address fields.
-    if (this.props.isEditingAddress && (!this.props.countriesAvailable || !this.props.statesAvailable)) {
+    if (
+      this.props.isEditingAddress &&
+      (!this.props.countriesAvailable || !this.props.statesAvailable)
+    ) {
       addressContent = (
-        <div className="step-content">
-          {addressUpdateUnavailable}
-        </div>
+        <div className="step-content">{addressUpdateUnavailable}</div>
       );
     } else {
       addressContent = (
         <AddressContent
           saveError={this.props.saveAddressError}
-          addressObject={addressContentLines}>
+          addressObject={addressContentLines}
+        >
           {addressFields}
         </AddressContent>
       );
@@ -364,7 +406,7 @@ export class AddressSection extends React.Component {
 
     return (
       <div>
-        <Element name="addressScrollElement"/>
+        <Element name="addressScrollElement" />
         <div aria-live="polite" aria-relevant="additions">
           {/* Warning message goes here while editing with no address on record */}
           {emptyAddress && this.props.isEditingAddress && noAddressBanner}
@@ -381,7 +423,7 @@ AddressSection.fieldValidations = {
   zipCode: postalCodeValidations,
   stateCode: stateValidations,
   countryName: countryValidations,
-  city: cityValidations
+  city: cityValidations,
 };
 
 function mapStateToProps(state) {
@@ -396,7 +438,7 @@ function mapStateToProps(state) {
     states,
     statesAvailable,
     saveAddressError,
-    savePending
+    savePending,
   } = state.letters;
 
   return {
@@ -410,14 +452,17 @@ function mapStateToProps(state) {
     countriesAvailable,
     states,
     statesAvailable,
-    isEditingAddress
+    isEditingAddress,
   };
 }
 
 const mapDispatchToProps = {
   saveAddress,
   editAddress,
-  cancelEditingAddress
+  cancelEditingAddress,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddressSection);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AddressSection);

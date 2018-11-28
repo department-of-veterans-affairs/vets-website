@@ -3,18 +3,26 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester, fillData, selectRadio } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+  selectRadio,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pre-need veteran information', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.veteranInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.applicantInformation.pages.veteranInformation;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(10);
@@ -28,7 +36,8 @@ describe('Pre-need veteran information', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -44,7 +53,8 @@ describe('Pre-need veteran information', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     selectRadio(form, 'root_application_veteran_gender', 'Female');
@@ -63,12 +73,21 @@ describe('Pre-need veteran information', () => {
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
-    fillData(form, 'input#root_application_veteran_militaryServiceNumber', '1234');
+    fillData(
+      form,
+      'input#root_application_veteran_militaryServiceNumber',
+      '1234',
+    );
     fillData(form, 'input#root_application_veteran_vaClaimNumber', '12345678');
-    fillData(form, 'input#root_application_veteran_placeOfBirth', 'Amherst, MA');
+    fillData(
+      form,
+      'input#root_application_veteran_placeOfBirth',
+      'Amherst, MA',
+    );
     selectRadio(form, 'root_application_veteran_gender', 'Female');
     selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
     fillData(form, 'select#root_application_veteran_militaryStatus', 'A');

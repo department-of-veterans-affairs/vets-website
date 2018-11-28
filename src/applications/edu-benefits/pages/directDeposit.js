@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 import bankAccountUI from '../../../platform/forms/definitions/bankAccount';
 
 const defaults = {
-  required: []
+  required: [],
 };
 
 export default function createDirectDepositPage(schema, options) {
@@ -23,9 +23,9 @@ export default function createDirectDepositPage(schema, options) {
       type: 'object',
       properties: {
         bankAccount: _.merge(bankAccount, {
-          required
-        })
-      }
-    }
+          required,
+        }),
+      },
+    },
   };
 }

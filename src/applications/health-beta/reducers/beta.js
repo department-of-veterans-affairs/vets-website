@@ -1,14 +1,13 @@
-
 import {
   BETA_REGISTERING,
   BETA_REGISTER_SUCCESS,
-  BETA_REGISTER_FAILURE
+  BETA_REGISTER_FAILURE,
 } from '../actions';
 
 const initialState = {
   username: null,
   stats: null,
-  loading: false
+  loading: false,
 };
 
 function beta(state = initialState, action) {
@@ -16,20 +15,20 @@ function beta(state = initialState, action) {
     case BETA_REGISTERING:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case BETA_REGISTER_SUCCESS:
       return {
         ...state,
         username: action.username,
         stats: action.stats,
-        loading: false
+        loading: false,
       };
     case BETA_REGISTER_FAILURE:
       return {
         ...state,
         stats: action.stats,
-        loading: false
+        loading: false,
       };
     default:
       return state;

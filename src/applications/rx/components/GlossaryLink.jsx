@@ -21,14 +21,17 @@ class GlossaryLink extends React.Component {
         className="rx-trigger"
         data-term={this.props.term}
         onClick={this.handleClick}
-        type="button">{this.props.term}</button>
+        type="button"
+      >
+        {this.props.term}
+      </button>
     );
   }
 }
 
 GlossaryLink.propTypes = {
   onClick: PropTypes.func,
-  term: PropTypes.string.isRequired
+  term: PropTypes.string.isRequired,
 };
 
 export default GlossaryLink;

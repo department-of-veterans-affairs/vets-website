@@ -18,7 +18,7 @@ import {
   FETCH_CLAIMS_SUCCESS,
   FETCH_CLAIMS_ERROR,
   ROWS_PER_PAGE,
-  CHANGE_INDEX_PAGE
+  CHANGE_INDEX_PAGE,
 } from '../utils/appeals-v2-helpers';
 
 // -------------------- v2 and v1 -------------
@@ -62,21 +62,22 @@ export const HIDE_30_DAY_NOTICE = 'HIDE_30_DAY_NOTICE';
 export function setNotification(message) {
   return {
     type: SET_NOTIFICATION,
-    message
+    message,
   };
 }
 
 export function getAppeals(filter) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({ type: FETCH_APPEALS });
 
-    makeAuthRequest('/v0/appeals',
+    makeAuthRequest(
+      '/v0/appeals',
       null,
       dispatch,
       appeals => {
         dispatch({ type: SET_APPEALS, filter, appeals: appeals.data });
       },
-      () => dispatch({ type: SET_APPEALS_UNAVAILABLE })
+      () => dispatch({ type: SET_APPEALS_UNAVAILABLE }),
     );
   };
 }
@@ -85,18 +86,18 @@ export function fetchAppealsSuccess(response) {
   const appeals = response.data;
   return {
     type: FETCH_APPEALS_SUCCESS,
-    appeals
+    appeals,
   };
 }
 
 export function getAppealsV2() {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({ type: FETCH_APPEALS_PENDING });
     return apiRequest(
       '/appeals',
       null,
-      (appeals) => dispatch(fetchAppealsSuccess(appeals)),
-      (response) => {
+      appeals => dispatch(fetchAppealsSuccess(appeals)),
+      response => {
         const status = getStatus(response);
         const action = { type: '' };
         switch (status) {
@@ -118,7 +119,7 @@ export function getAppealsV2() {
         }
         Raven.captureException(`vets_appeals_v2_err_get_appeals ${status}`);
         return dispatch(action);
-      }
+      },
     );
   };
 }
@@ -129,7 +130,7 @@ export function fetchClaimsSuccess(response) {
   return {
     type: FETCH_CLAIMS_SUCCESS,
     claims,
-    pages
+    pages,
   };
 }
 
@@ -140,7 +141,7 @@ export function pollRequest({
   request = apiRequest,
   shouldFail,
   shouldSucceed,
-  target
+  target,
 }) {
   return request(
     target,
@@ -156,13 +157,17 @@ export function pollRequest({
         return;
       }
 
-      setTimeout(
-        pollRequest,
+      setTimeout(pollRequest, pollingInterval, {
+        onError,
+        onSuccess,
         pollingInterval,
-        { onError, onSuccess, pollingInterval, request, shouldFail, shouldSucceed, target }
-      );
+        request,
+        shouldFail,
+        shouldSucceed,
+        target,
+      });
     },
-    error => onError(error)
+    error => onError(error),
   );
 }
 
@@ -171,20 +176,21 @@ export function getSyncStatus(claimsAsyncResponse) {
 }
 
 export function getClaimsV2(poll = pollRequest) {
-
-  return (dispatch) => {
+  return dispatch => {
     dispatch({ type: FETCH_CLAIMS_PENDING });
 
     poll({
       onError: response => {
-        Raven.captureException(`vets_claims_v2_err_get_claims ${getStatus(response)}`);
+        Raven.captureException(
+          `vets_claims_v2_err_get_claims ${getStatus(response)}`,
+        );
         dispatch({ type: FETCH_CLAIMS_ERROR });
       },
       onSuccess: response => dispatch(fetchClaimsSuccess(response)),
       pollingInterval: window.VetsGov.pollTimeout || 1000,
       shouldFail: response => getSyncStatus(response) === 'FAILED',
       shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',
-      target: '/evss_claims_async'
+      target: '/evss_claims_async',
     });
   };
 }
@@ -192,39 +198,39 @@ export function getClaimsV2(poll = pollRequest) {
 export function filterClaims(filter) {
   return {
     type: FILTER_CLAIMS,
-    filter
+    filter,
   };
 }
 export function sortClaims(sortProperty) {
   return {
     type: SORT_CLAIMS,
-    sortProperty
+    sortProperty,
   };
 }
 export function changePage(page) {
   return {
     type: CHANGE_CLAIMS_PAGE,
-    page
+    page,
   };
 }
 
 export function changePageV2(page) {
   return {
     type: CHANGE_INDEX_PAGE,
-    page
+    page,
   };
 }
 
 export function setUnavailable() {
   return {
-    type: SET_CLAIMS_UNAVAILABLE
+    type: SET_CLAIMS_UNAVAILABLE,
   };
 }
 
 export function getClaimDetail(id, router, poll = pollRequest) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
-      type: GET_CLAIM_DETAIL
+      type: GET_CLAIM_DETAIL,
     });
     poll({
       onError: response => {
@@ -234,7 +240,12 @@ export function getClaimDetail(id, router, poll = pollRequest) {
           router.replace('your-claims');
         }
       },
-      onSuccess: response => dispatch({ type: SET_CLAIM_DETAIL, claim: response.data, meta: response.meta }),
+      onSuccess: response =>
+        dispatch({
+          type: SET_CLAIM_DETAIL,
+          claim: response.data,
+          meta: response.meta,
+        }),
       pollingInterval: window.VetsGov.pollTimeout || 1000,
       shouldFail: response => getSyncStatus(response) === 'FAILED',
       shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',
@@ -244,56 +255,63 @@ export function getClaimDetail(id, router, poll = pollRequest) {
 }
 
 export function submitRequest(id) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
-      type: SUBMIT_DECISION_REQUEST
+      type: SUBMIT_DECISION_REQUEST,
     });
-    makeAuthRequest(`/v0/evss_claims/${id}/request_decision`,
+    makeAuthRequest(
+      `/v0/evss_claims/${id}/request_decision`,
       { method: 'POST' },
       dispatch,
       () => {
         dispatch({ type: SET_DECISION_REQUESTED });
-        dispatch(setNotification({
-          title: 'Request received',
-          body: 'Thank you. We have your claim request and will make a decision.'
-        }));
+        dispatch(
+          setNotification({
+            title: 'Request received',
+            body:
+              'Thank you. We have your claim request and will make a decision.',
+          }),
+        );
       },
       error => {
         dispatch({ type: SET_DECISION_REQUEST_ERROR, error });
-      }
+      },
     );
   };
 }
 
 export function resetUploads() {
   return {
-    type: RESET_UPLOADS
+    type: RESET_UPLOADS,
   };
 }
 
 export function addFile(files) {
   return {
     type: ADD_FILE,
-    files
+    files,
   };
 }
 
 export function removeFile(index) {
   return {
     type: REMOVE_FILE,
-    index
+    index,
   };
 }
 
 function calcProgress(totalFiles, totalSize, filesComplete, bytesComplete) {
   const ratio = 0.8;
 
-  return ((filesComplete / totalFiles) * (1 - ratio)) + ((bytesComplete / totalSize) * ratio);
+  return (
+    (filesComplete / totalFiles) * (1 - ratio) +
+    (bytesComplete / totalSize) * ratio
+  );
 }
 
 export function clearNotification() {
   return {
-    type: CLEAR_NOTIFICATION
+    type: CLEAR_NOTIFICATION,
   };
 }
 
@@ -308,7 +326,7 @@ export function submitFiles(claimId, trackedItem, files) {
     event: 'claims-upload-start',
   });
 
-  return (dispatch) => {
+  return dispatch => {
     dispatch(clearNotification());
     dispatch({
       type: SET_UPLOADING,
@@ -316,97 +334,132 @@ export function submitFiles(claimId, trackedItem, files) {
     });
     dispatch({
       type: SET_PROGRESS,
-      progress: 0
+      progress: 0,
     });
-    require.ensure([], (require) => {
-      const { FineUploaderBasic } = require('fine-uploader/lib/core');
-      const uploader = new FineUploaderBasic({
-        request: {
-          endpoint: `${environment.API_URL}/v0/evss_claims/${claimId}/documents`,
-          inputName: 'file',
-          customHeaders: {
-            'X-Key-Inflection': 'camel',
-            Authorization: `Token token=${conditionalStorage().getItem('userToken')}`
-          }
-        },
-        cors: {
-          expected: true,
-          sendCredentials: true
-        },
-        multiple: false,
-        callbacks: {
-          onAllComplete: () => {
-            if (!hasError) {
-              recordEvent({
-                event: 'claims-upload-success',
-              });
-              dispatch({
-                type: DONE_UPLOADING,
-              });
-              dispatch(setNotification({
-                title: 'We have your evidence',
-                body: <span>Thank you for sending us {trackedItem ? trackedItem.displayName : 'additional evidence'}. We’ll let you know when we’ve reviewed it.<br/>Note: It may take a few minutes for your uploaded file to show here. If you don’t see your file, please try refreshing the page.</span>
-              }));
-            } else {
-              recordEvent({
-                event: 'claims-upload-failure',
-              });
-              dispatch({
-                type: SET_UPLOAD_ERROR
-              });
-              dispatch(setNotification({
-                title: 'Error uploading files',
-                body: 'There was an error uploading your files. Please try again',
-                type: 'error'
-              }));
-            }
+    require.ensure(
+      [],
+      require => {
+        const { FineUploaderBasic } = require('fine-uploader/lib/core');
+        const uploader = new FineUploaderBasic({
+          request: {
+            endpoint: `${
+              environment.API_URL
+            }/v0/evss_claims/${claimId}/documents`,
+            inputName: 'file',
+            customHeaders: {
+              'X-Key-Inflection': 'camel',
+              Authorization: `Token token=${conditionalStorage().getItem(
+                'userToken',
+              )}`,
+            },
           },
-          onTotalProgress: (bytes) => {
-            bytesComplete = bytes;
-            dispatch({
-              type: SET_PROGRESS,
-              progress: calcProgress(totalFiles, totalSize, filesComplete, bytesComplete)
-            });
+          cors: {
+            expected: true,
+            sendCredentials: true,
           },
-          onComplete: () => {
-            filesComplete++;
-            dispatch({
-              type: SET_PROGRESS,
-              progress: calcProgress(totalFiles, totalSize, filesComplete, bytesComplete)
-            });
-          },
-          onError: (id, name, reason) => {
-            const errorCode = reason.substr(-3);
-            // this is a little hackish, but uploader expects a json response
-            if (!errorCode.startsWith('2')) {
-              hasError = true;
-            }
-            if (errorCode === '401') {
+          multiple: false,
+          callbacks: {
+            onAllComplete: () => {
+              if (!hasError) {
+                recordEvent({
+                  event: 'claims-upload-success',
+                });
+                dispatch({
+                  type: DONE_UPLOADING,
+                });
+                dispatch(
+                  setNotification({
+                    title: 'We have your evidence',
+                    body: (
+                      <span>
+                        Thank you for sending us{' '}
+                        {trackedItem
+                          ? trackedItem.displayName
+                          : 'additional evidence'}
+                        . We’ll let you know when we’ve reviewed it.
+                        <br />
+                        Note: It may take a few minutes for your uploaded file
+                        to show here. If you don’t see your file, please try
+                        refreshing the page.
+                      </span>
+                    ),
+                  }),
+                );
+              } else {
+                recordEvent({
+                  event: 'claims-upload-failure',
+                });
+                dispatch({
+                  type: SET_UPLOAD_ERROR,
+                });
+                dispatch(
+                  setNotification({
+                    title: 'Error uploading files',
+                    body:
+                      'There was an error uploading your files. Please try again',
+                    type: 'error',
+                  }),
+                );
+              }
+            },
+            onTotalProgress: bytes => {
+              bytesComplete = bytes;
               dispatch({
-                type: SET_UNAUTHORIZED
+                type: SET_PROGRESS,
+                progress: calcProgress(
+                  totalFiles,
+                  totalSize,
+                  filesComplete,
+                  bytesComplete,
+                ),
               });
-            }
-          }
-        }
-      });
-      dispatch({
-        type: SET_UPLOADER,
-        uploader
-      });
-      dispatch({
-        type: SET_PROGRESS,
-        progress: filesComplete / files.length
-      });
-
-      /* eslint-disable camelcase */
-      files.forEach(({ file, docType }) => {
-        uploader.addFiles(file, {
-          tracked_item_id: trackedItemId,
-          document_type: docType.value
+            },
+            onComplete: () => {
+              filesComplete++;
+              dispatch({
+                type: SET_PROGRESS,
+                progress: calcProgress(
+                  totalFiles,
+                  totalSize,
+                  filesComplete,
+                  bytesComplete,
+                ),
+              });
+            },
+            onError: (id, name, reason) => {
+              const errorCode = reason.substr(-3);
+              // this is a little hackish, but uploader expects a json response
+              if (!errorCode.startsWith('2')) {
+                hasError = true;
+              }
+              if (errorCode === '401') {
+                dispatch({
+                  type: SET_UNAUTHORIZED,
+                });
+              }
+            },
+          },
         });
-      });
-      /* eslint-enable camelcase */
-    }, 'claims-uploader');
+        dispatch({
+          type: SET_UPLOADER,
+          uploader,
+        });
+        dispatch({
+          type: SET_PROGRESS,
+          progress: filesComplete / files.length,
+        });
+
+        /* eslint-disable camelcase */
+        files.forEach(({ file, docType }) => {
+          uploader.addFiles(file, {
+            tracked_item_id: trackedItemId,
+            document_type: docType.value,
+          });
+        });
+        /* eslint-enable camelcase */
+      },
+      'claims-uploader',
+    );
   };
 }
 
@@ -414,14 +467,14 @@ export function updateField(path, field) {
   return {
     type: UPDATE_FIELD,
     path,
-    field
+    field,
   };
 }
 
 export function showMailOrFaxModal(visible) {
   return {
     type: SHOW_MAIL_OR_FAX,
-    visible
+    visible,
   };
 }
 
@@ -437,33 +490,33 @@ export function cancelUpload() {
     }
 
     dispatch({
-      type: CANCEL_UPLOAD
+      type: CANCEL_UPLOAD,
     });
   };
 }
 
 export function setFieldsDirty() {
   return {
-    type: SET_FIELDS_DIRTY
+    type: SET_FIELDS_DIRTY,
   };
 }
 
 export function showConsolidatedMessage(visible) {
   return {
     type: SHOW_CONSOLIDATED_MODAL,
-    visible
+    visible,
   };
 }
 
 export function setLastPage(page) {
   return {
     type: SET_LAST_PAGE,
-    page
+    page,
   };
 }
 
 export function hide30DayNotice() {
   return {
-    type: HIDE_30_DAY_NOTICE
+    type: HIDE_30_DAY_NOTICE,
   };
 }

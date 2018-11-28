@@ -13,7 +13,8 @@ class MessageSubject extends React.Component {
           onValueChange={this.props.onValueChange}
           required={this.props.required}
           name="messageSubject"
-          field={this.props.subject}/>
+          field={this.props.subject}
+        />
       </div>
     );
   }
@@ -27,8 +28,8 @@ MessageSubject.propTypes = {
   required: PropTypes.bool,
   subject: PropTypes.shape({
     value: PropTypes.string,
-    dirty: PropTypes.bool
-  }).isRequired
+    dirty: PropTypes.bool,
+  }).isRequired,
 };
 
 export default MessageSubject;

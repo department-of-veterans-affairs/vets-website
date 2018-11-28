@@ -1,7 +1,12 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
-import { countries, states, isValidUSZipCode, isValidCanPostalCode } from '../../../platform/forms/address';
+import {
+  countries,
+  states,
+  isValidUSZipCode,
+  isValidCanPostalCode,
+} from '../../../platform/forms/address';
 
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
@@ -11,7 +16,8 @@ function validatePostalCodes(errors, address) {
     isValidPostalCode = isValidUSZipCode(address.postalCode);
   }
   if (address.country === 'CAN') {
-    isValidPostalCode = isValidPostalCode && isValidCanPostalCode(address.postalCode);
+    isValidPostalCode =
+      isValidPostalCode && isValidCanPostalCode(address.postalCode);
   }
 
   // Add error message for postal code if it is invalid
@@ -25,20 +31,25 @@ export const countriesWithStateCodes = new Set(['USA', 'CAN']);
 function validateAddress(errors, address, formData, currentSchema) {
   // Adds error message for state if it is blank and one of the following countries:
   // USA, Canada
-  if (countriesWithStateCodes.has(address.country)
-    && address.state === undefined
-    && currentSchema.required.length) {
+  if (
+    countriesWithStateCodes.has(address.country) &&
+    address.state === undefined &&
+    currentSchema.required.length
+  ) {
     errors.state.addError('Please select a state or province');
   }
 
-  const hasAddressInfo = countriesWithStateCodes.has(address.country)
-    && !currentSchema.required.length
-    && typeof address.street !== 'undefined'
-    && typeof address.city !== 'undefined'
-    && typeof address.postalCode !== 'undefined';
+  const hasAddressInfo =
+    countriesWithStateCodes.has(address.country) &&
+    !currentSchema.required.length &&
+    typeof address.street !== 'undefined' &&
+    typeof address.city !== 'undefined' &&
+    typeof address.postalCode !== 'undefined';
 
   if (hasAddressInfo && typeof address.state === 'undefined') {
-    errors.state.addError('Please enter a state or province, or remove other address information.');
+    errors.state.addError(
+      'Please enter a state or province, or remove other address information.',
+    );
   }
 
   validatePostalCodes(errors, address);
@@ -46,12 +57,12 @@ function validateAddress(errors, address, formData, currentSchema) {
 
 const countryValues = countries.map(object => object.value);
 const countryNames = countries.map(object => object.label);
-const militaryStates = states.USA
-  .filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA')
-  .map(state => state.value);
-const militaryLabels = states.USA
-  .filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA')
-  .map(state => state.label);
+const militaryStates = states.USA.filter(
+  state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA',
+).map(state => state.value);
+const militaryLabels = states.USA.filter(
+  state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA',
+).map(state => state.label);
 const usaStates = states.USA.map(state => state.value);
 const usaLabels = states.USA.map(state => state.label);
 const canProvinces = states.CAN.map(state => state.value);
@@ -78,21 +89,21 @@ export function schema(currentSchema, isRequired = false) {
     required: isRequired ? requiredFields : [],
     properties: _.assign(addressSchema.properties, {
       country: {
-        'default': 'USA',
+        default: 'USA',
         type: 'string',
-        'enum': countryValues,
-        enumNames: countryNames
+        enum: countryValues,
+        enumNames: countryNames,
       },
       state: {
         title: 'State',
         type: 'string',
-        maxLength: 3
+        maxLength: 3,
       },
       postalCode: {
         type: 'string',
-        maxLength: 6
-      }
-    })
+        maxLength: 6,
+      },
+    }),
   };
 }
 
@@ -106,8 +117,21 @@ export function schema(currentSchema, isRequired = false) {
  * @param {boolean} ignoreRequired - Ignore the required fields array, to avoid overwriting form specific
  *   customizations
  */
-export function uiSchema(label = 'Address', useStreet3 = false, isRequired = null, ignoreRequired = false) {
-  let fieldOrder = ['country', 'street', 'street2', 'street3', 'city', 'state', 'postalCode'];
+export function uiSchema(
+  label = 'Address',
+  useStreet3 = false,
+  isRequired = null,
+  ignoreRequired = false,
+) {
+  let fieldOrder = [
+    'country',
+    'street',
+    'street2',
+    'street3',
+    'city',
+    'state',
+    'postalCode',
+  ];
   if (!useStreet3) {
     fieldOrder = fieldOrder.filter(field => field !== 'street3');
   }
@@ -119,9 +143,10 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
     (currentCountry, city, addressSchema) => {
       const schemaUpdate = {
         properties: addressSchema.properties,
-        required: addressSchema.required
+        required: addressSchema.required,
       };
-      const country = currentCountry || addressSchema.properties.country.default;
+      const country =
+        currentCountry || addressSchema.properties.country.default;
       const required = addressSchema.required.length > 0;
 
       let stateList;
@@ -137,53 +162,98 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
       if (stateList) {
         // We have a list and it’s different, so we need to make schema updates
         if (addressSchema.properties.state.enum !== stateList) {
-          const withEnum = _.set('state.enum', stateList, schemaUpdate.properties);
-          schemaUpdate.properties = _.set('state.enumNames', labelList, withEnum);
+          const withEnum = _.set(
+            'state.enum',
+            stateList,
+            schemaUpdate.properties,
+          );
+          schemaUpdate.properties = _.set(
+            'state.enumNames',
+            labelList,
+            withEnum,
+          );
 
           // all the countries with state lists require the state field, so add that if necessary
-          if (!ignoreRequired && required && !addressSchema.required.some(field => field === 'state')) {
+          if (
+            !ignoreRequired &&
+            required &&
+            !addressSchema.required.some(field => field === 'state')
+          ) {
             schemaUpdate.required = addressSchema.required.concat('state');
           }
         }
-      // We don’t have a state list for the current country, but there’s an enum in the schema
-      // so we need to update it
+        // We don’t have a state list for the current country, but there’s an enum in the schema
+        // so we need to update it
       } else if (addressSchema.properties.state.enum) {
         const withoutEnum = _.unset('state.enum', schemaUpdate.properties);
         schemaUpdate.properties = _.unset('state.enumNames', withoutEnum);
         if (!ignoreRequired && required) {
-          schemaUpdate.required = addressSchema.required.filter(field => field !== 'state');
+          schemaUpdate.required = addressSchema.required.filter(
+            field => field !== 'state',
+          );
         }
       }
 
       // Canada has a different title than others, so set that when necessary
-      if (country === 'CAN' && addressSchema.properties.state.title !== 'Province') {
-        schemaUpdate.properties = _.set('state.title', 'Province', schemaUpdate.properties);
-      } else if (country !== 'CAN' && addressSchema.properties.state.title !== 'State') {
-        schemaUpdate.properties = _.set('state.title', 'State', schemaUpdate.properties);
+      if (
+        country === 'CAN' &&
+        addressSchema.properties.state.title !== 'Province'
+      ) {
+        schemaUpdate.properties = _.set(
+          'state.title',
+          'Province',
+          schemaUpdate.properties,
+        );
+      } else if (
+        country !== 'CAN' &&
+        addressSchema.properties.state.title !== 'State'
+      ) {
+        schemaUpdate.properties = _.set(
+          'state.title',
+          'State',
+          schemaUpdate.properties,
+        );
       }
 
       // We constrain the state list when someone picks a city that’s a military base
-      if (country === 'USA' && isMilitaryCity(city) && schemaUpdate.properties.state.enum !== militaryStates) {
-        const withEnum = _.set('state.enum', militaryStates, schemaUpdate.properties);
-        schemaUpdate.properties = _.set('state.enumNames', militaryLabels, withEnum);
+      if (
+        country === 'USA' &&
+        isMilitaryCity(city) &&
+        schemaUpdate.properties.state.enum !== militaryStates
+      ) {
+        const withEnum = _.set(
+          'state.enum',
+          militaryStates,
+          schemaUpdate.properties,
+        );
+        schemaUpdate.properties = _.set(
+          'state.enumNames',
+          militaryLabels,
+          withEnum,
+        );
       }
 
       // Hide the state field for non US and CAN addresses
       if (!stateList && !schemaUpdate.properties.state['ui:hidden']) {
-        schemaUpdate.properties = _.set('state.ui:hidden', true, schemaUpdate.properties);
+        schemaUpdate.properties = _.set(
+          'state.ui:hidden',
+          true,
+          schemaUpdate.properties,
+        );
       } else if (stateList && schemaUpdate.properties.state['ui:hidden']) {
-        schemaUpdate.properties = _.unset('state.ui:hidden', schemaUpdate.properties);
+        schemaUpdate.properties = _.unset(
+          'state.ui:hidden',
+          schemaUpdate.properties,
+        );
       }
 
       return schemaUpdate;
-    }
+    },
   );
 
   return {
     'ui:title': label,
-    'ui:validations': [
-      validateAddress
-    ],
+    'ui:validations': [validateAddress],
     'ui:options': {
       updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {
         let currentSchema = addressSchema;
@@ -198,31 +268,31 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
         return addressChangeSelector({
           formData,
           addressSchema: currentSchema,
-          path
+          path,
         });
-      }
+      },
     },
     'ui:order': fieldOrder,
     country: {
-      'ui:title': 'Country'
+      'ui:title': 'Country',
     },
     street: {
-      'ui:title': 'Street'
+      'ui:title': 'Street',
     },
     street2: {
-      'ui:title': 'Line 2'
+      'ui:title': 'Line 2',
     },
     street3: {
-      'ui:title': 'Line 3'
+      'ui:title': 'Line 3',
     },
     city: {
-      'ui:title': 'City'
+      'ui:title': 'City',
     },
     postalCode: {
       'ui:title': 'Postal code',
       'ui:options': {
-        widgetClassNames: 'usa-input-medium'
-      }
-    }
+        widgetClassNames: 'usa-input-medium',
+      },
+    },
   };
 }

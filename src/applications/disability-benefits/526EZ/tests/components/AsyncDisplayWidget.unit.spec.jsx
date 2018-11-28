@@ -5,21 +5,24 @@ import { shallow } from 'enzyme';
 
 import AsyncDisplayWidget from '../../components/AsyncDisplayWidget';
 
-
 const viewComponent = () => <div id="view-component">View component</div>;
 
 describe('AsyncDisplayWidget', () => {
   it('should throw an error if ui:options are not present', () => {
-    expect(() => shallow(<AsyncDisplayWidget/>)).to.throw('No ui:options supplied');
+    expect(() => shallow(<AsyncDisplayWidget />)).to.throw(
+      'No ui:options supplied',
+    );
   });
 
   it('should throw an error if viewComponent is not a React element', () => {
     const props = {
       options: {
-        viewComponent: 'not a function'
-      }
+        viewComponent: 'not a function',
+      },
     };
-    expect(() => shallow(<AsyncDisplayWidget {...props}/>)).to.throw('requires viewComponent');
+    expect(() => shallow(<AsyncDisplayWidget {...props} />)).to.throw(
+      'requires viewComponent',
+    );
   });
 
   it('should fire the callback provided', () => {});
@@ -28,10 +31,12 @@ describe('AsyncDisplayWidget', () => {
     const props = {
       options: {
         viewComponent,
-        callback: () => 'not a promise'
-      }
+        callback: () => 'not a promise',
+      },
     };
-    expect(() => shallow(<AsyncDisplayWidget {...props}/>)).to.throw('callback to return a Promise');
+    expect(() => shallow(<AsyncDisplayWidget {...props} />)).to.throw(
+      'callback to return a Promise',
+    );
   });
 
   it('should initially render a loading indicator', () => {
@@ -39,10 +44,10 @@ describe('AsyncDisplayWidget', () => {
       options: {
         viewComponent,
         // May need to set a timeout if this proves flaky
-        callback: () => Promise.resolve()
-      }
+        callback: () => Promise.resolve(),
+      },
     };
-    const widget = shallow(<AsyncDisplayWidget {...props}/>);
+    const widget = shallow(<AsyncDisplayWidget {...props} />);
     // It'll only show the LoadingIndicator for the briefest of moments
     expect(widget.find('LoadingIndicator').length).to.equal(1);
   });
@@ -52,10 +57,10 @@ describe('AsyncDisplayWidget', () => {
       options: {
         viewComponent,
         // May need to set a timeout if this proves flaky
-        callback: () => Promise.reject()
-      }
+        callback: () => Promise.reject(),
+      },
     };
-    const widget = shallow(<AsyncDisplayWidget {...props}/>);
+    const widget = shallow(<AsyncDisplayWidget {...props} />);
     // After briefly flashing the LoadingIndicator, it'll display the error
     widget.setState({ promiseState: 'REJECTED' });
     expect(widget.find('AlertBox').length).to.equal(1);
@@ -68,11 +73,11 @@ describe('AsyncDisplayWidget', () => {
         viewComponent,
         // May need to set a timeout if this proves flaky
         callback: () => Promise.reject(),
-        failureComponent
+        failureComponent,
       },
-      debug: true
+      debug: true,
     };
-    const widget = shallow(<AsyncDisplayWidget {...props}/>);
+    const widget = shallow(<AsyncDisplayWidget {...props} />);
     // After briefly flashing the LoadingIndicator, it'll display the error
     widget.setState({ promiseState: 'REJECTED' });
     expect(widget.find('failureComponent').length).to.equal(1);
@@ -83,10 +88,10 @@ describe('AsyncDisplayWidget', () => {
       options: {
         viewComponent,
         // May need to set a timeout if this proves flaky
-        callback: () => Promise.resolve()
-      }
+        callback: () => Promise.resolve(),
+      },
     };
-    const widget = shallow(<AsyncDisplayWidget {...props}/>);
+    const widget = shallow(<AsyncDisplayWidget {...props} />);
     // After briefly flashing the LoadingIndicator, it'll display the viewComponent
     widget.setState({ promiseState: 'RESOLVED' });
     expect(widget.find('viewComponent').length).to.equal(1);
@@ -98,27 +103,28 @@ describe('AsyncDisplayWidget', () => {
       options: {
         viewComponent,
         // May need to set a timeout if this proves flaky
-        callback: () => Promise.resolve(viewComponentProps)
-      }
+        callback: () => Promise.resolve(viewComponentProps),
+      },
     };
-    const widget = shallow(<AsyncDisplayWidget {...props}/>);
+    const widget = shallow(<AsyncDisplayWidget {...props} />);
     // After briefly flashing the LoadingIndicator, it'll display the viewComponent
     widget.setState({ data: viewComponentProps, promiseState: 'RESOLVED' });
     expect(widget.find('viewComponent').props()).to.eql(viewComponentProps);
   });
 
-  it('should set the promise state and data when the promise resolves', (done) => {
+  it('should set the promise state and data when the promise resolves', done => {
     const viewComponentProps = { prop1: 'adf', prop2: 'asdff' };
     const props = {
       options: {
         viewComponent,
         // May need to set a timeout if this proves flaky
-        callback: () => new Promise((resolve) => {
-          setTimeout(() => resolve(viewComponentProps), 100);
-        })
-      }
+        callback: () =>
+          new Promise(resolve => {
+            setTimeout(() => resolve(viewComponentProps), 100);
+          }),
+      },
     };
-    const widget = shallow(<AsyncDisplayWidget {...props}/>);
+    const widget = shallow(<AsyncDisplayWidget {...props} />);
     setTimeout(() => {
       const { promiseState, data } = widget.state();
       expect(promiseState).to.equal('RESOLVED');
@@ -127,18 +133,19 @@ describe('AsyncDisplayWidget', () => {
     }, 200);
   });
 
-  it('should set the promise state to rejeted when the promise is rejected', (done) => {
+  it('should set the promise state to rejeted when the promise is rejected', done => {
     const viewComponentProps = { prop1: 'adf', prop2: 'asdff' };
     const props = {
       options: {
         viewComponent,
         // May need to set a timeout if this proves flaky
-        callback: () => new Promise((resolve, reject) => {
-          setTimeout(() => reject(viewComponentProps), 100);
-        })
-      }
+        callback: () =>
+          new Promise((resolve, reject) => {
+            setTimeout(() => reject(viewComponentProps), 100);
+          }),
+      },
     };
-    const widget = shallow(<AsyncDisplayWidget {...props}/>);
+    const widget = shallow(<AsyncDisplayWidget {...props} />);
     setTimeout(() => {
       const { promiseState, data } = widget.state();
       expect(promiseState).to.equal('REJECTED');

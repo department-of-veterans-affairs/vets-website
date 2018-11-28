@@ -4,11 +4,18 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 import moment from 'moment';
 
-import { DefinitionTester, fillData, fillDate } from '../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+  fillDate,
+} from '../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Hca serviceInformation', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryService.pages.serviceInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.militaryService.pages.serviceInformation;
 
   it('renders military info', () => {
     const form = mount(
@@ -17,7 +24,8 @@ describe('Hca serviceInformation', () => {
         schema={schema}
         data={{}}
         formData={{}}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     expect(form.find('input').length).to.equal(2);
@@ -33,7 +41,8 @@ describe('Hca serviceInformation', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -51,11 +60,18 @@ describe('Hca serviceInformation', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     fillData(form, 'select#root_lastServiceBranch', 'army');
     fillDate(form, 'root_lastEntryDate', '1990-1-1');
-    fillDate(form, 'root_lastDischargeDate', moment().add(130, 'days').format('YYYY-MM-DD'));
+    fillDate(
+      form,
+      'root_lastDischargeDate',
+      moment()
+        .add(130, 'days')
+        .format('YYYY-MM-DD'),
+    );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -71,7 +87,8 @@ describe('Hca serviceInformation', () => {
         data={{}}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     fillData(form, 'select#root_lastServiceBranch', 'army');
     fillDate(form, 'root_lastEntryDate', '1990-1-1');

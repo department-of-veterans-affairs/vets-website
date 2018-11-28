@@ -12,7 +12,7 @@ import {
   BACKEND_SERVICE_ERROR,
   claimsAvailability,
   appealsAvailability,
-  CHANGE_INDEX_PAGE
+  CHANGE_INDEX_PAGE,
 } from '../utils/appeals-v2-helpers';
 
 // NOTE: Pagination is controlled by reducers in ./claims-list.js
@@ -23,7 +23,7 @@ const initialState = {
   claimsLoading: false,
   appealsLoading: false,
   page: 1,
-  pages: 1
+  pages: 1,
 };
 
 export default function claimsV2Reducer(state = initialState, action) {
@@ -35,13 +35,13 @@ export default function claimsV2Reducer(state = initialState, action) {
         claims: action.claims,
         claimsLoading: false,
         pages: action.pages,
-        claimsAvailability: claimsAvailability.AVAILABLE
+        claimsAvailability: claimsAvailability.AVAILABLE,
       });
     case FETCH_CLAIMS_ERROR:
       // TO-DO: Parse errors out
       return _.merge(state, {
         claimsLoading: false,
-        claimsAvailability: claimsAvailability.UNAVAILABLE
+        claimsAvailability: claimsAvailability.UNAVAILABLE,
       });
     case FETCH_APPEALS_PENDING:
       return _.set('appealsLoading', true, state);
@@ -50,7 +50,7 @@ export default function claimsV2Reducer(state = initialState, action) {
         appeals: action.appeals,
         appealsLoading: false,
         available: true,
-        v2Availability: appealsAvailability.AVAILABLE
+        v2Availability: appealsAvailability.AVAILABLE,
       });
     case USER_FORBIDDEN_ERROR:
       return _.merge(state, {

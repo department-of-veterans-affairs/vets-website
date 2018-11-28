@@ -8,8 +8,9 @@ class ButtonSettings extends React.Component {
       <Link
         className="va-icon-link msg-btn-settings"
         to="/settings"
-        onClick={this.props.onClick}>
-        <i className="fa fa-cog"></i>
+        onClick={this.props.onClick}
+      >
+        <i className="fa fa-cog" />
         <span>Settings</span>
       </Link>
     );
@@ -17,7 +18,7 @@ class ButtonSettings extends React.Component {
 }
 
 ButtonSettings.propTypes = {
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 export default ButtonSettings;

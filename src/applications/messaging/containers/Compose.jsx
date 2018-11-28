@@ -39,7 +39,7 @@ export class Compose extends React.Component {
     if (redirect) {
       this.context.router.replace({
         pathname: redirect.url,
-        state: { preserveAlert: true }
+        state: { preserveAlert: true },
       });
       return;
     }
@@ -51,7 +51,7 @@ export class Compose extends React.Component {
     if (redirect) {
       this.context.router.replace({
         pathname: redirect.url,
-        state: { preserveAlert: true }
+        state: { preserveAlert: true },
       });
     }
   }
@@ -64,7 +64,7 @@ export class Compose extends React.Component {
       category: message.category.value,
       subject: message.subject.value,
       body: message.body.value,
-      recipientId: +message.recipient.value
+      recipientId: +message.recipient.value,
     };
   }
 
@@ -84,10 +84,11 @@ export class Compose extends React.Component {
 
   isValidForm() {
     const message = this.dirtyComposeForm();
-    const valid = validations.isValidRecipient(message.recipient) &&
-                  validations.isValidCategory(message.category) &&
-                  validations.isValidSubject(message.subject) &&
-                  validations.isValidMessageBody(message.body);
+    const valid =
+      validations.isValidRecipient(message.recipient) &&
+      validations.isValidCategory(message.category) &&
+      validations.isValidSubject(message.subject) &&
+      validations.isValidMessageBody(message.body);
     return valid;
   }
 
@@ -120,7 +121,7 @@ export class Compose extends React.Component {
 
   render() {
     if (this.props.loading.recipients) {
-      return <LoadingIndicator message="Loading your application..."/>;
+      return <LoadingIndicator message="Loading your application..." />;
     }
 
     return (
@@ -128,7 +129,8 @@ export class Compose extends React.Component {
         <div id="messaging-content-header">
           <a
             className="messaging-cancel-link"
-            onClick={this.props.toggleConfirmDelete}>
+            onClick={this.props.toggleConfirmDelete}
+          >
             Cancel
           </a>
           <h3>New message</h3>
@@ -136,7 +138,8 @@ export class Compose extends React.Component {
             className="messaging-send-button"
             type="button"
             onClick={this.sendMessage}
-            disabled={!this.props.message.body.value.length}>
+            disabled={!this.props.message.body.value.length}
+          >
             Send
           </button>
         </div>
@@ -147,35 +150,47 @@ export class Compose extends React.Component {
           onAttachmentUpload={this.props.addComposeAttachments}
           onAttachmentsError={this.props.openAttachmentsModal}
           onBodyChange={this.props.setMessageField.bind(null, 'message.body')}
-          onCategoryChange={this.props.setMessageField.bind(null, 'message.category')}
+          onCategoryChange={this.props.setMessageField.bind(
+            null,
+            'message.category',
+          )}
           onFetchRecipients={this.props.fetchRecipients}
-          onRecipientChange={this.props.setMessageField.bind(null, 'message.recipient')}
+          onRecipientChange={this.props.setMessageField.bind(
+            null,
+            'message.recipient',
+          )}
           onSaveMessage={this.saveDraftIfNoAttachments}
           onSendMessage={this.sendMessage}
-          onSubjectChange={this.props.setMessageField.bind(null, 'message.subject')}
+          onSubjectChange={this.props.setMessageField.bind(
+            null,
+            'message.subject',
+          )}
           sendingMessage={this.props.loading.sendingMessage}
-          toggleConfirmDelete={this.props.toggleConfirmDelete}/>
-        <NoticeBox/>
+          toggleConfirmDelete={this.props.toggleConfirmDelete}
+        />
+        <NoticeBox />
         <ModalConfirmDelete
           cssClass="messaging-modal"
           onClose={this.props.toggleConfirmDelete}
           onDelete={this.handleConfirmDelete}
-          visible={this.props.deleteConfirmModal.visible}/>
+          visible={this.props.deleteConfirmModal.visible}
+        />
         <ModalConfirmSave
           cssClass="messaging-modal"
           onClose={this.props.toggleConfirmSave}
           onSave={this.saveDraft}
-          visible={this.props.saveConfirmModal.visible}/>
+          visible={this.props.saveConfirmModal.visible}
+        />
       </div>
     );
   }
 }
 
 Compose.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const msgState = state.health.msg;
 
   return {
@@ -184,7 +199,7 @@ const mapStateToProps = (state) => {
     message: msgState.compose.message,
     recipients: msgState.recipients.data,
     redirect: msgState.folders.ui.redirect,
-    saveConfirmModal: msgState.modals.saveConfirm
+    saveConfirmModal: msgState.modals.saveConfirm,
   };
 };
 
@@ -201,4 +216,7 @@ const mapDispatchToProps = {
   toggleConfirmSave,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Compose);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Compose);

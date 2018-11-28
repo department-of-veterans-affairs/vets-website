@@ -4,7 +4,7 @@ import {
 } from '../utils/constants';
 
 const initialState = {
-  errors: []
+  errors: [],
 };
 
 export default function loading(state = initialState, action) {

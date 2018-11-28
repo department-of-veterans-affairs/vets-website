@@ -39,8 +39,8 @@ export function createServiceMap(maintenanceWindows = []) {
       attributes: {
         externalService,
         startTime: startTimeRaw,
-        endTime: endTimeRaw
-      }
+        endTime: endTimeRaw,
+      },
     } = maintenanceWindow;
 
     const startTime = moment(startTimeRaw);
@@ -51,7 +51,7 @@ export function createServiceMap(maintenanceWindows = []) {
       externalService,
       status,
       startTime,
-      endTime
+      endTime,
     });
   }
 
@@ -71,6 +71,8 @@ export function getSoonestDowntime(serviceMap, serviceNames) {
     .filter(service => service.status !== externalServiceStatus.ok)
     .reduce((mostUrgentService, service) => {
       if (!mostUrgentService) return service;
-      return mostUrgentService.startTime.isBefore(service.startTime) ? mostUrgentService : service;
+      return mostUrgentService.startTime.isBefore(service.startTime)
+        ? mostUrgentService
+        : service;
     }, null);
 }

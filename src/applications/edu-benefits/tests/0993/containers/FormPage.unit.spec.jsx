@@ -7,7 +7,7 @@ import { FormPage } from '../../../0993/containers/FormPage';
 
 describe('Schemaform <FormPage>', () => {
   const location = {
-    pathname: '/testing/0'
+    pathname: '/testing/0',
   };
 
   it('should render', () => {
@@ -17,34 +17,34 @@ describe('Schemaform <FormPage>', () => {
         schema: {},
         uiSchema: {},
         errorMessages: {},
-        title: ''
+        title: '',
       },
       pageList: [
         {
-          path: 'testing'
-        }
-      ]
+          path: 'testing',
+        },
+      ],
     };
     const form = {
       pages: {
         testPage: {
           schema: {},
           uiSchema: {},
-        }
+        },
       },
-      data: {}
+      data: {},
     };
     const user = {
       profile: {
-        savedForms: []
+        savedForms: [],
       },
       login: {
-        currentlyLoggedIn: true
-      }
+        currentlyLoggedIn: true,
+      },
     };
 
     const tree = SkinDeep.shallowRender(
-      <FormPage form={form} route={route} user={user} location={location}/>
+      <FormPage form={form} route={route} user={user} location={location} />,
     );
 
     expect(tree.everySubTree('SchemaForm')).not.to.be.empty;
@@ -62,7 +62,7 @@ describe('Schemaform <FormPage>', () => {
       setData = sinon.spy();
       onSubmit = sinon.spy();
       router = {
-        push: sinon.spy()
+        push: sinon.spy(),
       };
       route = {
         pageConfig: {
@@ -70,42 +70,42 @@ describe('Schemaform <FormPage>', () => {
           schema: {},
           uiSchema: {},
           errorMessages: {},
-          title: ''
+          title: '',
         },
         pageList: [
           {
-            path: 'previous-page'
+            path: 'previous-page',
           },
           {
             path: 'testing',
-            pageKey: 'testPage'
+            pageKey: 'testPage',
           },
           {
-            path: 'next-page'
-          }
-        ]
+            path: 'next-page',
+          },
+        ],
       };
       form = {
         pages: {
           testPage: {
             schema: {},
             uiSchema: {},
-          }
+          },
         },
         data: {},
         testPage: {
           schema: {},
           uiSchema: {},
-          data: {}
-        }
+          data: {},
+        },
       };
       user = {
         profile: {
-          savedForms: []
+          savedForms: [],
         },
         login: {
-          currentlyLoggedIn: false
-        }
+          currentlyLoggedIn: false,
+        },
       };
 
       tree = SkinDeep.shallowRender(
@@ -116,7 +116,8 @@ describe('Schemaform <FormPage>', () => {
           user={user}
           onSubmit={onSubmit}
           location={location}
-          route={route}/>
+          route={route}
+        />,
       );
     });
     it('change', () => {
@@ -139,8 +140,8 @@ describe('Schemaform <FormPage>', () => {
     global.window = {
       location: {
         pathname: '/benefit/static/form/page',
-        replace: sinon.spy()
-      }
+        replace: sinon.spy(),
+      },
     };
     const route = {
       pageConfig: {
@@ -148,20 +149,20 @@ describe('Schemaform <FormPage>', () => {
         schema: {},
         uiSchema: {},
         errorMessages: {},
-        title: ''
+        title: '',
       },
       pageList: [
         {
-          path: 'first-page'
+          path: 'first-page',
         },
         {
-          path: 'previous-page'
+          path: 'previous-page',
         },
         {
           path: 'testing',
-          pageKey: 'testPage'
-        }
-      ]
+          pageKey: 'testPage',
+        },
+      ],
     };
     const form = {
       pages: {
@@ -169,20 +170,20 @@ describe('Schemaform <FormPage>', () => {
           depends: () => false,
           schema: {},
           uiSchema: {},
-        }
+        },
       },
-      data: {}
+      data: {},
     };
     const user = {
       profile: {
-        savedForms: []
+        savedForms: [],
       },
       login: {
-        currentlyLoggedIn: false
-      }
+        currentlyLoggedIn: false,
+      },
     };
     const router = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
 
     const tree = SkinDeep.shallowRender(
@@ -191,7 +192,8 @@ describe('Schemaform <FormPage>', () => {
         form={form}
         user={user}
         route={route}
-        location={location}/>
+        location={location}
+      />,
     );
 
     tree.getMountedInstance().goBack();
@@ -206,13 +208,13 @@ describe('Schemaform <FormPage>', () => {
         showPagePerItem: true,
         arrayPath: 'arrayProp',
         errorMessages: {},
-        title: ''
+        title: '',
       },
       pageList: [
         {
-          path: 'testing'
-        }
-      ]
+          path: 'testing',
+        },
+      ],
     };
     const form = {
       pages: {
@@ -220,28 +222,28 @@ describe('Schemaform <FormPage>', () => {
           schema: {
             properties: {
               arrayProp: {
-                items: [{}]
-              }
-            }
+                items: [{}],
+              },
+            },
           },
           uiSchema: {
             arrayProp: {
-              items: {}
-            }
-          }
-        }
+              items: {},
+            },
+          },
+        },
       },
       data: {
-        arrayProp: [{}]
-      }
+        arrayProp: [{}],
+      },
     };
     const user = {
       profile: {
-        savedForms: []
+        savedForms: [],
       },
       login: {
-        currentlyLoggedIn: false
-      }
+        currentlyLoggedIn: false,
+      },
     };
 
     const tree = SkinDeep.shallowRender(
@@ -250,12 +252,19 @@ describe('Schemaform <FormPage>', () => {
         user={user}
         route={route}
         params={{ index: 0 }}
-        location={location}/>
+        location={location}
+      />,
     );
 
-    expect(tree.subTree('SchemaForm').props.schema).to.equal(form.pages.testPage.schema.properties.arrayProp.items[0]);
-    expect(tree.subTree('SchemaForm').props.uiSchema).to.equal(form.pages.testPage.uiSchema.arrayProp.items);
-    expect(tree.subTree('SchemaForm').props.data).to.equal(form.data.arrayProp[0]);
+    expect(tree.subTree('SchemaForm').props.schema).to.equal(
+      form.pages.testPage.schema.properties.arrayProp.items[0],
+    );
+    expect(tree.subTree('SchemaForm').props.uiSchema).to.equal(
+      form.pages.testPage.uiSchema.arrayProp.items,
+    );
+    expect(tree.subTree('SchemaForm').props.data).to.equal(
+      form.data.arrayProp[0],
+    );
   });
   it('should handle change in array page', () => {
     const setData = sinon.spy();
@@ -265,13 +274,13 @@ describe('Schemaform <FormPage>', () => {
         showPagePerItem: true,
         arrayPath: 'arrayProp',
         errorMessages: {},
-        title: ''
+        title: '',
       },
       pageList: [
         {
-          path: 'testing'
-        }
-      ]
+          path: 'testing',
+        },
+      ],
     };
     const form = {
       pages: {
@@ -279,28 +288,28 @@ describe('Schemaform <FormPage>', () => {
           schema: {
             properties: {
               arrayProp: {
-                items: [{}]
-              }
-            }
+                items: [{}],
+              },
+            },
           },
           uiSchema: {
             arrayProp: {
-              items: {}
-            }
-          }
-        }
+              items: {},
+            },
+          },
+        },
       },
       data: {
-        arrayProp: [{}]
-      }
+        arrayProp: [{}],
+      },
     };
     const user = {
       profile: {
-        savedForms: []
+        savedForms: [],
       },
       login: {
-        currentlyLoggedIn: false
-      }
+        currentlyLoggedIn: false,
+      },
     };
 
     const tree = SkinDeep.shallowRender(
@@ -310,7 +319,8 @@ describe('Schemaform <FormPage>', () => {
         user={user}
         route={route}
         params={{ index: 0 }}
-        location={location}/>
+        location={location}
+      />,
     );
 
     tree.getMountedInstance().onChange({ test: 2 });
@@ -318,9 +328,9 @@ describe('Schemaform <FormPage>', () => {
     expect(setData.firstCall.args[0]).to.eql({
       arrayProp: [
         {
-          test: 2
-        }
-      ]
+          test: 2,
+        },
+      ],
     });
   });
   it('should update data when submitting on array page', () => {
@@ -331,13 +341,13 @@ describe('Schemaform <FormPage>', () => {
         showPagePerItem: true,
         arrayPath: 'arrayProp',
         errorMessages: {},
-        title: ''
+        title: '',
       },
       pageList: [
         {
-          path: 'testing'
-        }
-      ]
+          path: 'testing',
+        },
+      ],
     };
     const form = {
       pages: {
@@ -345,31 +355,31 @@ describe('Schemaform <FormPage>', () => {
           schema: {
             properties: {
               arrayProp: {
-                items: [{}]
-              }
-            }
+                items: [{}],
+              },
+            },
           },
           uiSchema: {
             arrayProp: {
-              items: {}
-            }
-          }
-        }
+              items: {},
+            },
+          },
+        },
       },
       data: {
-        arrayProp: [{}]
-      }
+        arrayProp: [{}],
+      },
     };
     const user = {
       profile: {
-        savedForms: []
+        savedForms: [],
       },
       login: {
-        currentlyLoggedIn: false
-      }
+        currentlyLoggedIn: false,
+      },
     };
     const router = {
-      push: sinon.spy()
+      push: sinon.spy(),
     };
 
     const tree = SkinDeep.shallowRender(
@@ -380,7 +390,8 @@ describe('Schemaform <FormPage>', () => {
         user={user}
         route={route}
         location={location}
-        params={{ index: 0 }}/>
+        params={{ index: 0 }}
+      />,
     );
 
     tree.getMountedInstance().onSubmit({ formData: { test: 2 } });
@@ -388,9 +399,9 @@ describe('Schemaform <FormPage>', () => {
     expect(setData.firstCall.args[0]).to.eql({
       arrayProp: [
         {
-          test: 2
-        }
-      ]
+          test: 2,
+        },
+      ],
     });
   });
 });

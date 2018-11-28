@@ -17,18 +17,14 @@ function createQueryString(query) {
 
 export function createUrlWithQuery(url, query) {
   const queryString = createQueryString(query);
-  const fullUrl = queryString
-    ? `${url}?${queryString}`
-    : url;
+  const fullUrl = queryString ? `${url}?${queryString}` : url;
 
   return fullUrl;
 }
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}/v0/messaging/health`;
-  const url = resource[0] === '/'
-    ? [baseUrl, resource].join('')
-    : resource;
+  const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
 
   return commonApiClient(url, optionalSettings, success, error);
 }
@@ -57,7 +53,9 @@ export function formatFileSize(bytes, decimalplaces = 2) {
 }
 
 export function formattedDate(date, options = {}) {
-  if (!date) { return 'Not available'; }
+  if (!date) {
+    return 'Not available';
+  }
 
   const now = moment();
   const momentDate = moment(date);
@@ -67,7 +65,8 @@ export function formattedDate(date, options = {}) {
     dateString = (
       <span>
         {momentDate.format('HH:mm')}
-        &nbsp;<abbr title="Eastern Standard Time">EST</abbr>
+        &nbsp;
+        <abbr title="Eastern Standard Time">EST</abbr>
       </span>
     );
   } else if (momentDate.isSame(now, 'y')) {
@@ -86,11 +85,15 @@ export function formattedDate(date, options = {}) {
         relativeTime: {
           m: '1 minute',
           h: '1 hour',
-          d: '1 day'
-        }
+          d: '1 day',
+        },
       });
 
-      dateString = <span>{dateString} ({momentDate.fromNow()})</span>;
+      dateString = (
+        <span>
+          {dateString} ({momentDate.fromNow()})
+        </span>
+      );
     }
   }
 

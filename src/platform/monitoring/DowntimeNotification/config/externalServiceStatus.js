@@ -4,5 +4,5 @@
 export default {
   down: 'down',
   downtimeApproaching: 'downtimeApproaching',
-  ok: 'ok'
+  ok: 'ok',
 };

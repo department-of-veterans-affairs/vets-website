@@ -13,10 +13,8 @@ class ButtonBack extends React.Component {
 
   render() {
     return (
-      <button
-        className="msg-btn-back"
-        onClick={this.onClick}>
-        <i className="fa fa-chevron-left"></i>
+      <button className="msg-btn-back" onClick={this.onClick}>
+        <i className="fa fa-chevron-left" />
         <span>Back</span>
       </button>
     );
@@ -24,11 +22,11 @@ class ButtonBack extends React.Component {
 }
 
 ButtonBack.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
 };
 
 ButtonBack.propTypes = {
-  url: PropTypes.string.isRequired
+  url: PropTypes.string.isRequired,
 };
 
 export default ButtonBack;

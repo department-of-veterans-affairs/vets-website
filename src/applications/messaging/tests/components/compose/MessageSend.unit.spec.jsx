@@ -15,18 +15,18 @@ const props = {
   maxTotalFileSize: 10000000,
   onSave: () => {},
   onSend: () => {},
-  onDelete: () => {}
+  onDelete: () => {},
 };
 
 describe('<MessageSend>', () => {
   it('should render correctly', () => {
-    const tree = SkinDeep.shallowRender(<MessageSend {...props}/>);
+    const tree = SkinDeep.shallowRender(<MessageSend {...props} />);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
   it('should have the expected classname', () => {
-    const tree = SkinDeep.shallowRender(<MessageSend {...props}/>);
+    const tree = SkinDeep.shallowRender(<MessageSend {...props} />);
 
     expect(tree.props.className).to.equal('msg-send-group');
   });
@@ -40,15 +40,13 @@ describe('<MessageSend>', () => {
           {
             name: 'fileName',
             size: 1000000,
-          }
+          },
         ],
-      }
+      },
     };
     const onAttachmentUpload = sinon.spy();
     const messageAttachments = ReactTestUtils.renderIntoDocument(
-      <MessageSend
-        {...props }
-        onAttachmentUpload={onAttachmentUpload}/>
+      <MessageSend {...props} onAttachmentUpload={onAttachmentUpload} />,
     );
 
     messageAttachments.handleAttachmentsChange(domEvent);
@@ -69,15 +67,13 @@ describe('<MessageSend>', () => {
           {
             name: 'fileName2',
             size: 500000,
-          }
+          },
         ],
-      }
+      },
     };
     const onAttachmentsError = sinon.spy();
     const messageAttachments = ReactTestUtils.renderIntoDocument(
-      <MessageSend
-        {...props }
-        onAttachmentsError={onAttachmentsError}/>
+      <MessageSend {...props} onAttachmentsError={onAttachmentsError} />,
     );
 
     messageAttachments.handleAttachmentsChange(domEvent);
@@ -96,13 +92,11 @@ describe('<MessageSend>', () => {
             size: 5000000,
           },
         ],
-      }
+      },
     };
     const onAttachmentsError = sinon.spy();
     const messageAttachments = ReactTestUtils.renderIntoDocument(
-      <MessageSend
-        {...props }
-        onAttachmentsError={onAttachmentsError}/>
+      <MessageSend {...props} onAttachmentsError={onAttachmentsError} />,
     );
 
     messageAttachments.handleAttachmentsChange(domEvent);

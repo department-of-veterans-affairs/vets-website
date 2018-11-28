@@ -4,11 +4,17 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  submitForm,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../5490/config/form';
 
 describe('Edu 5490 benefitHistory', () => {
-  const { schema, uiSchema } = formConfig.chapters.benefitSelection.pages.benefitHistory;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.benefitSelection.pages.benefitHistory;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -16,10 +22,12 @@ describe('Edu 5490 benefitHistory', () => {
         schema={schema}
         data={{}}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').length)
-      .to.equal(7);
+    expect(
+      ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').length,
+    ).to.equal(7);
   });
 
   it('should expand options conditionally', () => {
@@ -28,50 +36,75 @@ describe('Edu 5490 benefitHistory', () => {
         schema={schema}
         data={{}}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
     // Starts with 7 inputs (tested above)
     // Re-tested here for posterity; can be removed before merging
-    expect(Array.from(formDOM.querySelectorAll('input,select')).length)
-      .to.equal(7);
+    expect(
+      Array.from(formDOM.querySelectorAll('input,select')).length,
+    ).to.equal(7);
 
     const inputs = Array.from(formDOM.querySelectorAll('input'));
-    const claimed = inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService');
+    const claimed = inputs.find(
+      i => i.id === 'root_previousBenefits_view:claimedSponsorService',
+    );
 
     // claimedSponsorService starts as unchecked
     expect(claimed.checked).to.be.false;
 
     // Expand both of the expandables
-    ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:ownServiceBenefits'), {
-      target: {
-        checked: true
-      }
-    });
-    ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService'), {
-      target: {
-        checked: true
-      }
-    });
+    ReactTestUtils.Simulate.change(
+      inputs.find(
+        i => i.id === 'root_previousBenefits_view:ownServiceBenefits',
+      ),
+      {
+        target: {
+          checked: true,
+        },
+      },
+    );
+    ReactTestUtils.Simulate.change(
+      inputs.find(
+        i => i.id === 'root_previousBenefits_view:claimedSponsorService',
+      ),
+      {
+        target: {
+          checked: true,
+        },
+      },
+    );
 
     // Should expand to 16
-    expect(Array.from(formDOM.querySelectorAll('input,select')).length)
-      .to.equal(17);
+    expect(
+      Array.from(formDOM.querySelectorAll('input,select')).length,
+    ).to.equal(17);
 
     expect(claimed.checked).to.be.true;
 
     // Collapse the fields
-    ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:ownServiceBenefits'), {
-      target: {
-        checked: false
-      }
-    });
-    ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService'), {
-      target: {
-        checked: false
-      }
-    });
+    ReactTestUtils.Simulate.change(
+      inputs.find(
+        i => i.id === 'root_previousBenefits_view:ownServiceBenefits',
+      ),
+      {
+        target: {
+          checked: false,
+        },
+      },
+    );
+    ReactTestUtils.Simulate.change(
+      inputs.find(
+        i => i.id === 'root_previousBenefits_view:claimedSponsorService',
+      ),
+      {
+        target: {
+          checked: false,
+        },
+      },
+    );
 
     // We have indeed unchecked the box
     expect(claimed.checked).to.be.false;
@@ -102,27 +135,35 @@ describe('Edu 5490 benefitHistory', () => {
         onSubmit={onSubmit}
         data={{}}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
     // Submit form without entering any data first -- should succeed
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be
+      .empty;
 
     expect(onSubmit.called).to.be.true;
 
     // Check the someone else's service box
     const inputs = Array.from(formDOM.querySelectorAll('input'));
-    ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService'), {
-      target: {
-        checked: true
-      }
-    });
+    ReactTestUtils.Simulate.change(
+      inputs.find(
+        i => i.id === 'root_previousBenefits_view:claimedSponsorService',
+      ),
+      {
+        target: {
+          checked: true,
+        },
+      },
+    );
 
     // Submit form -- should fail
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.not.be.empty;
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.not.be
+      .empty;
 
     // Should only have been called the first time
     expect(onSubmit.calledOnce).to.be.true;
@@ -134,39 +175,56 @@ describe('Edu 5490 benefitHistory', () => {
         schema={schema}
         data={{}}
         definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}/>
+        uiSchema={uiSchema}
+      />,
     );
     const formDOM = findDOMNode(form);
 
     // Check the someone else's service box
     const inputs = Array.from(formDOM.querySelectorAll('input'));
-    ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService'), {
-      target: {
-        checked: true
-      }
-    });
+    ReactTestUtils.Simulate.change(
+      inputs.find(
+        i => i.id === 'root_previousBenefits_view:claimedSponsorService',
+      ),
+      {
+        target: {
+          checked: true,
+        },
+      },
+    );
 
     // SSN should be required
     // Looks for the required span in the label
-    expect(formDOM.querySelector('label[for="root_previousBenefits_view:veteranId_veteranSocialSecurityNumber"] > span.schemaform-required-span'))
-      .to.not.be.null;
+    expect(
+      formDOM.querySelector(
+        'label[for="root_previousBenefits_view:veteranId_veteranSocialSecurityNumber"] > span.schemaform-required-span',
+      ),
+    ).to.not.be.null;
 
     // Check the noSSN box
     ReactTestUtils.Simulate.change(
-      Array.from(formDOM.querySelectorAll('input')).find((i) => i.id === 'root_previousBenefits_view:veteranId_view:noSSN'),
+      Array.from(formDOM.querySelectorAll('input')).find(
+        i => i.id === 'root_previousBenefits_view:veteranId_view:noSSN',
+      ),
       {
         target: {
-          checked: true
-        }
-      }
+          checked: true,
+        },
+      },
     );
 
     // File number should exist, be required
-    expect(formDOM.querySelector('label[for="root_previousBenefits_view:veteranId_vaFileNumber"] > span.schemaform-required-span'))
-      .to.not.be.null;
+    expect(
+      formDOM.querySelector(
+        'label[for="root_previousBenefits_view:veteranId_vaFileNumber"] > span.schemaform-required-span',
+      ),
+    ).to.not.be.null;
 
     // SSN should not be required
-    expect(formDOM.querySelector('label[for="root_previousBenefits_view:veteranId_veteranSocialSecurityNumber"] > span.schemaform-required-span'))
-      .to.be.null;
+    expect(
+      formDOM.querySelector(
+        'label[for="root_previousBenefits_view:veteranId_veteranSocialSecurityNumber"] > span.schemaform-required-span',
+      ),
+    ).to.be.null;
   });
 });

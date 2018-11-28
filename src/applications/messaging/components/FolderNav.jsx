@@ -32,7 +32,7 @@ class FolderNav extends React.Component {
 
     const linkClass = classNames({
       'messaging-folder-nav-link': true,
-      'usa-current': this.props.currentFolderId === folder.folderId
+      'usa-current': this.props.currentFolderId === folder.folderId,
     });
 
     return (
@@ -41,7 +41,8 @@ class FolderNav extends React.Component {
         className={linkClass}
         data-folderid={folder.folderId}
         to={folderUrl(folder.name)}
-        onClick={this.props.onFolderChange}>
+        onClick={this.props.onFolderChange}
+      >
         {folder.name}
         {count}
       </Link>
@@ -54,7 +55,7 @@ class FolderNav extends React.Component {
     const myFolderLinks = folderList.map(this.makeFolderLink);
     const myFoldersClass = classNames({
       'messaging-my-folders': true,
-      'usa-current': this.props.currentFolderId > 0
+      'usa-current': this.props.currentFolderId > 0,
     });
 
     /* Render 'My folders' as expanded or collapsed. */
@@ -62,9 +63,9 @@ class FolderNav extends React.Component {
     let myFoldersList;
 
     if (this.props.isExpanded) {
-      const myFolderListItems = folderList.map((folder, i) => {
-        return <li key={folder.folderId}>{myFolderLinks[i]}</li>;
-      });
+      const myFolderListItems = folderList.map((folder, i) => (
+        <li key={folder.folderId}>{myFolderLinks[i]}</li>
+      ));
 
       myFoldersList = (
         <ul className="messaging-folder-subnav usa-sidenav-sub_list">
@@ -76,14 +77,19 @@ class FolderNav extends React.Component {
     const iconClass = classNames({
       fa: true,
       'fa-caret-down': !this.props.isExpanded,
-      'fa-caret-up': this.props.isExpanded
+      'fa-caret-up': this.props.isExpanded,
     });
 
     return (
       <li key="myFolders">
-        <a role="button" tabIndex="0" className={myFoldersClass} onClick={this.props.onToggleFolders}>
+        <a
+          role="button"
+          tabIndex="0"
+          className={myFoldersClass}
+          onClick={this.props.onToggleFolders}
+        >
           <span>My folders</span>
-          <i className={iconClass}></i>
+          <i className={iconClass} />
         </a>
         {myFoldersList}
       </li>
@@ -101,21 +107,17 @@ class FolderNav extends React.Component {
       folderList = folderList.slice(0, 4);
     }
 
-    folderList = folderList.map(folder => {
-      return (
-        <li key={folder.folderId}>
-          {this.makeFolderLink(folder)}
-        </li>
-      );
-    });
+    folderList = folderList.map(folder => (
+      <li key={folder.folderId}>{this.makeFolderLink(folder)}</li>
+    ));
 
     folderList.push(myFolders);
 
     const folderActions = (
       <li className="messaging-folder-nav-actions">
-        <ButtonManageFolders onClick={this.props.toggleFolderNav}/>
-        <ButtonCreateFolder onClick={this.handleCreateNewFolder}/>
-        <ButtonSettings onClick={this.props.toggleFolderNav}/>
+        <ButtonManageFolders onClick={this.props.toggleFolderNav} />
+        <ButtonCreateFolder onClick={this.handleCreateNewFolder} />
+        <ButtonSettings onClick={this.props.toggleFolderNav} />
       </li>
     );
 
@@ -135,8 +137,8 @@ FolderNav.propTypes = {
       folderId: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
       count: PropTypes.number.isRequired,
-      unreadCount: PropTypes.number.isRequired
-    })
+      unreadCount: PropTypes.number.isRequired,
+    }),
   ).isRequired,
   isExpanded: PropTypes.bool,
   onCreateNewFolder: PropTypes.func,

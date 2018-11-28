@@ -10,24 +10,24 @@ import {
   OPEN_ATTACHMENTS_MODAL,
   OPEN_CREATE_FOLDER,
   SET_NEW_FOLDER_NAME,
-  TOGGLE_CONFIRM_DELETE
+  TOGGLE_CONFIRM_DELETE,
 } from '../../utils/constants';
 
 const initialState = {
   deleteConfirm: {
-    visible: false
+    visible: false,
   },
   attachments: {
     visible: false,
     message: {
       title: null,
-      text: null
-    }
+      text: null,
+    },
   },
   createFolder: {
     visible: false,
-    newFolderName: makeField('')
-  }
+    newFolderName: makeField(''),
+  },
 };
 
 describe('modals reducer', () => {
@@ -41,21 +41,23 @@ describe('modals reducer', () => {
   it('should open an error modal for attachments that are too big', () => {
     const newState = modalsReducer(initialState, {
       type: OPEN_ATTACHMENTS_MODAL,
-      error: { type: 'tooLarge' }
+      error: { type: 'tooLarge' },
     });
     expect(newState.attachments.visible).to.be.true;
-    expect(newState.attachments.message)
-      .to.eql(composeMessage.errors.attachments.tooLarge);
+    expect(newState.attachments.message).to.eql(
+      composeMessage.errors.attachments.tooLarge,
+    );
   });
 
   it('should open an error modal for too many attachments', () => {
     const newState = modalsReducer(initialState, {
       type: OPEN_ATTACHMENTS_MODAL,
-      error: { type: 'tooMany' }
+      error: { type: 'tooMany' },
     });
     expect(newState.attachments.visible).to.be.true;
-    expect(newState.attachments.message)
-      .to.eql(composeMessage.errors.attachments.tooMany);
+    expect(newState.attachments.message).to.eql(
+      composeMessage.errors.attachments.tooMany,
+    );
   });
 
   it('should close the attachments error modal', () => {
@@ -75,7 +77,7 @@ describe('modals reducer', () => {
     const messageId = 12345;
     const newState = modalsReducer(initialState, {
       type: OPEN_CREATE_FOLDER,
-      messageId
+      messageId,
     });
     expect(newState.createFolder.visible).to.be.true;
     expect(newState.createFolder.newFolderName).to.eql(makeField(''));
@@ -92,14 +94,14 @@ describe('modals reducer', () => {
     const state = {
       createFolder: {
         visible: true,
-        folderName: makeField('')
-      }
+        folderName: makeField(''),
+      },
     };
 
     let folderName = makeField('testing 12345', true);
     let newState = modalsReducer(state, {
       type: SET_NEW_FOLDER_NAME,
-      folderName
+      folderName,
     });
 
     expect(newState.createFolder.newFolderName).to.eql(folderName);
@@ -107,7 +109,7 @@ describe('modals reducer', () => {
     folderName = makeField('foo bar 67890', true);
     newState = modalsReducer(newState, {
       type: SET_NEW_FOLDER_NAME,
-      folderName
+      folderName,
     });
 
     expect(newState.createFolder.newFolderName).to.eql(folderName);

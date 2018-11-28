@@ -13,7 +13,7 @@ import {
   fetchPreferences,
   savePreferences,
   setNotificationEmail,
-  setNotificationFrequency
+  setNotificationFrequency,
 } from '../actions';
 
 import ModalDiscardChanges from '../components/ModalDiscardChanges';
@@ -38,7 +38,7 @@ export class EmailNotifications extends React.Component {
     e.preventDefault();
     const {
       emailAddress: { value: emailAddress },
-      frequency: { value: frequency }
+      frequency: { value: frequency },
     } = this.props.preferences;
     this.props.savePreferences({ emailAddress, frequency });
     recordEvent({
@@ -53,7 +53,8 @@ export class EmailNotifications extends React.Component {
     let message;
 
     if (isSaveable) {
-      message = 'You haven’t saved your changes. Are you sure you want to leave this page without saving?';
+      message =
+        'You haven’t saved your changes. Are you sure you want to leave this page without saving?';
       event.returnValue = message; // eslint-disable-line no-param-reassign
     }
 
@@ -64,27 +65,24 @@ export class EmailNotifications extends React.Component {
     const { emailAddress, frequency } = this.props.preferences;
     const isSaveable = emailAddress.dirty || frequency.dirty;
 
-    const saveButtonClass = classNames(
-      'usa-button',
-      { 'usa-button-disabled': !isSaveable }
-    );
+    const saveButtonClass = classNames('usa-button', {
+      'usa-button-disabled': !isSaveable,
+    });
 
     return (
       <div className="msg-notifications-save">
-        <button
-          className={saveButtonClass}
-          disabled={!isSaveable}>
+        <button className={saveButtonClass} disabled={!isSaveable}>
           Save changes
         </button>
-        {
-          isSaveable &&
-          (<button
+        {isSaveable && (
+          <button
             className="usa-button-secondary"
             type="button"
-            onClick={() => this.setState({ discardChanges: true })}>
+            onClick={() => this.setState({ discardChanges: true })}
+          >
             Cancel
-          </button>)
-        }
+          </button>
+        )}
       </div>
     );
   }
@@ -95,7 +93,7 @@ export class EmailNotifications extends React.Component {
     if (isLoadingPreferences) {
       return (
         <div className="va-tab-content">
-          <LoadingIndicator message="Loading your preferences..."/>
+          <LoadingIndicator message="Loading your preferences..." />
         </div>
       );
     }
@@ -103,7 +101,7 @@ export class EmailNotifications extends React.Component {
     if (isSavingPreferences) {
       return (
         <div className="va-tab-content">
-          <LoadingIndicator message="Saving your preferences..."/>
+          <LoadingIndicator message="Saving your preferences..." />
         </div>
       );
     }
@@ -125,23 +123,27 @@ export class EmailNotifications extends React.Component {
                 type="radio"
                 value="on"
                 checked={isNotified}
-                onChange={() => this.props.setNotificationFrequency(
-                  makeField('each_message', true)
-                )}/>
+                onChange={() =>
+                  this.props.setNotificationFrequency(
+                    makeField('each_message', true),
+                  )
+                }
+              />
               <label htmlFor="notifications-on">On</label>
-              {
-                isNotified && <div className="form-expanding-group-open">
+              {isNotified && (
+                <div className="form-expanding-group-open">
                   <ErrorableRadioButtons
                     name="frequency"
                     label=""
                     options={[
                       { label: 'Each message', value: 'each_message' },
-                      { label: 'Once a day', value: 'daily' }
+                      { label: 'Once a day', value: 'daily' },
                     ]}
                     onValueChange={v => this.props.setNotificationFrequency(v)}
-                    value={frequency}/>
+                    value={frequency}
+                  />
                 </div>
-              }
+              )}
             </div>
             <div>
               <input
@@ -149,48 +151,50 @@ export class EmailNotifications extends React.Component {
                 type="radio"
                 value="off"
                 checked={!isNotified}
-                onChange={() => this.props.setNotificationFrequency(
-                  makeField('none', true)
-                )}/>
+                onChange={() =>
+                  this.props.setNotificationFrequency(makeField('none', true))
+                }
+              />
               <label htmlFor="notifications-off">Off</label>
             </div>
           </div>
-          {
-            frequency.value !== 'none' &&
-            (<ErrorableTextInput
+          {frequency.value !== 'none' && (
+            <ErrorableTextInput
               name="emailAddress"
               label="Send email notifications to:"
               onValueChange={({ value }) =>
                 this.props.setNotificationEmail({ value, dirty: true })
               }
-              field={emailAddress}/>)
-          }
+              field={emailAddress}
+            />
+          )}
           {this.renderSaveButtons()}
         </form>
         <ModalDiscardChanges
           onClose={() => this.setState({ discardChanges: false })}
           onSubmit={this.props.fetchPreferences}
-          visible={this.state.discardChanges}/>
+          visible={this.state.discardChanges}
+        />
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const msgState = state.health.msg;
 
   const {
     preferences,
     loading: {
       preferences: isLoadingPreferences,
-      savingPreferences: isSavingPreferences
-    }
+      savingPreferences: isSavingPreferences,
+    },
   } = msgState;
 
   return {
     preferences,
     isLoadingPreferences,
-    isSavingPreferences
+    isSavingPreferences,
   };
 };
 
@@ -198,7 +202,10 @@ const mapDispatchToProps = {
   fetchPreferences,
   savePreferences,
   setNotificationEmail,
-  setNotificationFrequency
+  setNotificationFrequency,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EmailNotifications);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EmailNotifications);

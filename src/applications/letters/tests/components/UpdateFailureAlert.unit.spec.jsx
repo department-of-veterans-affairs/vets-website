@@ -11,20 +11,24 @@ const defaultProps = {
     addressOne: '123 Main St N',
     city: 'Bigtowne',
     stateCode: 'BS',
-    countryName: 'Elsweyre'
-  }
+    countryName: 'Elsweyre',
+  },
 };
 
 describe('<UpdateFailureAlert>', () => {
   it('should render address and warning', () => {
     // Have to wrap the stateless (function) component in <div></div> so renderIntoDocument() is happy
-    const tree = ReactTestUtils.renderIntoDocument(<div><UpdateFailureAlert {...defaultProps}/></div>);
+    const tree = ReactTestUtils.renderIntoDocument(
+      <div>
+        <UpdateFailureAlert {...defaultProps} />
+      </div>,
+    );
     const component = getFormDOM(tree);
 
-    const addressBlock = component.getElement('#warning-address-block').textContent;
-    Object.keys(defaultProps.addressObject).forEach((key) => {
+    const addressBlock = component.getElement('#warning-address-block')
+      .textContent;
+    Object.keys(defaultProps.addressObject).forEach(key => {
       expect(addressBlock).to.contain(defaultProps.addressObject[key]);
     });
   });
 });
-

@@ -14,7 +14,7 @@ export default {
   idme: 'idme',
   // Master Veteran Index (source of veteran profile info)
   mvi: 'mvi',
-  // MyHealtheVet
+  // My HealtheVet
   mhv: 'mhv',
   // The Image Management System (education forms)
   tims: 'tims',
@@ -23,5 +23,5 @@ export default {
   // Intake, conversion, and mail handling services (central mail)
   icmhs: 'icmhs',
   // Vet360 - data source for centralized veteran contact information
-  vet360: 'vet360'
+  vet360: 'vet360',
 };

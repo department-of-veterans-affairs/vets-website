@@ -14,12 +14,22 @@ import UploadStatus from './UploadStatus';
 import MailOrFax from './MailOrFax';
 import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
 import { getScrollOptions } from '../../../platform/utilities/ui';
-import { validateIfDirty, isNotBlank, isValidFile, isValidDocument, isValidFileSize, isValidFileType, FILE_TYPES } from '../utils/validations';
+import {
+  validateIfDirty,
+  isNotBlank,
+  isValidFile,
+  isValidDocument,
+  isValidFileSize,
+  isValidFileType,
+  FILE_TYPES,
+} from '../utils/validations';
 import { setFocus } from '../utils/page';
 
-const displayTypes = FILE_TYPES.map(type => (type === 'pdf' ? 'pdf (unlocked)' : type)).join(', ');
+const displayTypes = FILE_TYPES.map(
+  type => (type === 'pdf' ? 'pdf (unlocked)' : type),
+).join(', ');
 
-const scrollToFile = (position) => {
+const scrollToFile = position => {
   const options = getScrollOptions({ offset: -25 });
   Scroll.scroller.scrollTo(`documentScroll${position}`, options);
 };
@@ -58,18 +68,28 @@ class AddFilesForm extends React.Component {
       this.props.onAddFile(files);
       setTimeout(() => {
         scrollToFile(this.props.files.length - 1);
-        setFocus(document.querySelectorAll('.document-item-container')[this.props.files.length - 1]);
+        setFocus(
+          document.querySelectorAll('.document-item-container')[
+            this.props.files.length - 1
+          ],
+        );
       });
     } else if (!isValidFileType(file)) {
-      this.setState({ errorMessage: 'Please choose a file from one of the accepted types.' });
+      this.setState({
+        errorMessage: 'Please choose a file from one of the accepted types.',
+      });
     } else if (!isValidFileSize(file)) {
       this.setState({
-        errorMessage: 'The file you selected is larger than the 25MB maximum file size and could not be added.'
+        errorMessage:
+          'The file you selected is larger than the 25MB maximum file size and could not be added.',
       });
     }
   }
   submit() {
-    if (this.props.files.length > 0 && this.props.files.every(isValidDocument)) {
+    if (
+      this.props.files.length > 0 &&
+      this.props.files.every(isValidDocument)
+    ) {
       this.props.onSubmit();
     } else {
       this.props.onDirtyFields();
@@ -80,24 +100,37 @@ class AddFilesForm extends React.Component {
     return (
       <div>
         <div>
-          <p><a href onClick={(evt) => {
-            evt.preventDefault();
-            recordEvent({
-              event: 'claims-mailfax-modal',
-            });
-            this.props.onShowMailOrFax(true);
-          }}>Need to mail or fax your files</a>?</p>
+          <p>
+            <a
+              href
+              onClick={evt => {
+                evt.preventDefault();
+                recordEvent({
+                  event: 'claims-mailfax-modal',
+                });
+                this.props.onShowMailOrFax(true);
+              }}
+            >
+              Need to mail or fax your files
+            </a>
+            ?
+          </p>
         </div>
-        <Element name="filesList"/>
+        <Element name="filesList" />
         <div>
           <ErrorableFileInput
             errorMessage={this.getErrorMessage()}
-            label={<span className="claims-upload-input-title">Select files to upload</span>}
+            label={
+              <span className="claims-upload-input-title">
+                Select files to upload
+              </span>
+            }
             accept={FILE_TYPES.map(type => `.${type}`).join(',')}
             onChange={this.add}
             buttonText="Add Files"
             name="fileUpload"
-            additionalErrorClass="claims-upload-input-error-message"/>
+            additionalErrorClass="claims-upload-input-error-message"
+          />
         </div>
         <div className="file-requirements">
           <p className="file-requirement-header">Accepted file types:</p>
@@ -107,41 +140,51 @@ class AddFilesForm extends React.Component {
         </div>
         {this.props.files.map(({ file, docType }, index) => (
           <div key={index} className="document-item-container">
-            <Element name={`documentScroll${index}`}/>
+            <Element name={`documentScroll${index}`} />
             <div>
               <div className="document-title-row">
                 <div className="document-title-text-container">
                   <div>
                     <span className="document-title">{file.name}</span>
                   </div>
-                  <div>
-                    {displayFileSize(file.size)}
-                  </div>
+                  <div>{displayFileSize(file.size)}</div>
                 </div>
                 <div className="remove-document-button">
-                  <button className="usa-button-secondary" onClick={() => this.props.onRemoveFile(index)}>Remove</button>
+                  <button
+                    className="usa-button-secondary"
+                    onClick={() => this.props.onRemoveFile(index)}
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
-              <div className="clearfix"></div>
+              <div className="clearfix" />
               <ErrorableSelect
                 required
-                errorMessage={validateIfDirty(docType, isNotBlank) ? undefined : 'Please provide a response'}
+                errorMessage={
+                  validateIfDirty(docType, isNotBlank)
+                    ? undefined
+                    : 'Please provide a response'
+                }
                 name="docType"
                 label="What type of document is this?"
                 options={DOC_TYPES}
                 value={docType}
                 emptyDescription="Select a description"
-                onValueChange={(update) => this.props.onFieldChange(`files[${index}].docType`, update)}/>
+                onValueChange={update =>
+                  this.props.onFieldChange(`files[${index}].docType`, update)
+                }
+              />
             </div>
           </div>
         ))}
         <div>
-          <button
-            className="usa-button"
-            onClick={this.submit}>
+          <button className="usa-button" onClick={this.submit}>
             Submit Files for Review
           </button>
-          <Link to={this.props.backUrl} className="claims-files-cancel">Cancel</Link>
+          <Link to={this.props.backUrl} className="claims-files-cancel">
+            Cancel
+          </Link>
         </div>
         <Modal
           onClose={() => true}
@@ -149,17 +192,24 @@ class AddFilesForm extends React.Component {
           hideCloseButton
           cssClass=""
           id="upload-status"
-          contents={<UploadStatus
-            progress={this.props.progress}
-            files={this.props.files.length}
-            onCancel={this.props.onCancel}/>}/>
+          contents={
+            <UploadStatus
+              progress={this.props.progress}
+              files={this.props.files.length}
+              onCancel={this.props.onCancel}
+            />
+          }
+        />
         <Modal
           onClose={() => true}
           visible={this.props.showMailOrFax}
           hideCloseButton
           focusSelector="button"
           cssClass=""
-          contents={<MailOrFax onClose={() => this.props.onShowMailOrFax(false)}/>}/>
+          contents={
+            <MailOrFax onClose={() => this.props.onShowMailOrFax(false)} />
+          }
+        />
       </div>
     );
   }
@@ -176,7 +226,7 @@ AddFilesForm.propTypes = {
   onRemoveFile: PropTypes.func.isRequired,
   onFieldChange: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  onDirtyFields: PropTypes.func.isRequired
+  onDirtyFields: PropTypes.func.isRequired,
 };
 
 export default AddFilesForm;

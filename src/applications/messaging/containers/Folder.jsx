@@ -17,7 +17,7 @@ import {
   setSearchParam,
   toggleAdvancedSearch,
   toggleFolderMoveTo,
-  toggleFolderNav
+  toggleFolderNav,
 } from '../actions';
 
 import ComposeButton from '../components/ComposeButton';
@@ -58,7 +58,7 @@ export class Folder extends React.Component {
     if (redirect && redirect.url !== this.props.location.pathname) {
       this.context.router.push({
         pathname: redirect.url,
-        state: { preserveAlert: true }
+        state: { preserveAlert: true },
       });
       return;
     }
@@ -100,16 +100,14 @@ export class Folder extends React.Component {
       'filter[[sender_name][eq]]',
       'filter[[sender_name][match]]',
       'filter[[subject][eq]]',
-      'filter[[subject][match]]'
+      'filter[[subject][match]]',
     ];
     return _.pick(this.props.location.query, queryParams);
   }
 
   formattedSortParam(value, order) {
     const formattedValue = _.snakeCase(value);
-    const sort = order === 'DESC'
-      ? `-${formattedValue}`
-      : formattedValue;
+    const sort = order === 'DESC' ? `-${formattedValue}` : formattedValue;
     return sort;
   }
 
@@ -150,7 +148,7 @@ export class Folder extends React.Component {
   handlePageSelect(page) {
     this.context.router.push({
       ...this.props.location,
-      query: { ...this.props.location.query, page }
+      query: { ...this.props.location.query, page },
     });
   }
 
@@ -158,7 +156,7 @@ export class Folder extends React.Component {
     const sort = this.formattedSortParam(value, order);
     this.context.router.push({
       ...this.props.location,
-      query: { ...this.props.location.query, sort }
+      query: { ...this.props.location.query, sort },
     });
   }
 
@@ -167,7 +165,7 @@ export class Folder extends React.Component {
 
     this.context.router.push({
       ...this.props.location,
-      query: filters
+      query: filters,
     });
   }
 
@@ -187,7 +185,8 @@ export class Folder extends React.Component {
         messageCount={totalEntries}
         onItemSelect={this.handlePageSelect}
         itemNumber={currentPage}
-        totalItems={totalPages}/>
+        totalItems={totalPages}
+      />
     );
   }
 
@@ -199,7 +198,7 @@ export class Folder extends React.Component {
     const fields = [
       { label: 'most recent', value: 'sentDate', order: 'DESC' },
       { label: 'subject line', value: 'subject', order: 'ASC' },
-      { label: 'sender', value: 'senderName', order: 'ASC' }
+      { label: 'sender', value: 'senderName', order: 'ASC' },
     ];
 
     const folderName = this.props.attributes.name;
@@ -216,18 +215,13 @@ export class Folder extends React.Component {
       }
     }
 
-    const sortOptions = fields.map(field => {
-      return (
-        <option
-          key={field.value}
-          value={field.value}
-          data-order={field.order}>
-          Sort by {field.label}
-        </option>
-      );
-    });
+    const sortOptions = fields.map(field => (
+      <option key={field.value} value={field.value} data-order={field.order}>
+        Sort by {field.label}
+      </option>
+    ));
 
-    const handleSort = (event) => {
+    const handleSort = event => {
       const menu = event.target;
       const selectedIndex = menu.selectedIndex;
       const sortValue = menu.value;
@@ -237,11 +231,14 @@ export class Folder extends React.Component {
 
     return (
       <div className="msg-folder-sort-select">
-        <label htmlFor="folderSort" className="usa-sr-only">Sort by</label>
+        <label htmlFor="folderSort" className="usa-sr-only">
+          Sort by
+        </label>
         <select
           id="folderSort"
           value={this.props.sort.value}
-          onChange={handleSort}>
+          onChange={handleSort}
+        >
           {sortOptions}
         </select>
       </div>
@@ -253,9 +250,13 @@ export class Folder extends React.Component {
 
     if (!messages || messages.length === 0) {
       if (filter) {
-        return <p className="msg-nomessages">No messages found for your search.</p>;
+        return (
+          <p className="msg-nomessages">No messages found for your search.</p>
+        );
       }
-      return <p className="msg-nomessages">You have no messages in this folder.</p>;
+      return (
+        <p className="msg-nomessages">You have no messages in this folder.</p>
+      );
     }
 
     // Create sortable table headers.
@@ -264,7 +265,7 @@ export class Folder extends React.Component {
       { label: 'From', value: 'senderName' },
       { label: 'Subject line', value: 'subject' },
       { label: '', value: 'hasAttachment', nonSortable: true },
-      { label: 'Date', value: 'sentDate' }
+      { label: 'Date', value: 'sentDate' },
     ];
 
     const { folderId, name: folderName } = attributes;
@@ -291,16 +292,16 @@ export class Folder extends React.Component {
       folders.push(v);
     });
 
-    const makeMessageLink = (content, id) => {
-      return <Link to={`/${this.props.params.folderName}/${id}`}>{content}</Link>;
-    };
+    const makeMessageLink = (content, id) => (
+      <Link to={`/${this.props.params.folderName}/${id}`}>{content}</Link>
+    );
 
     const data = messages.map(message => {
       const id = message.messageId;
       const rowClass = classNames({
         'messaging-message-row': true,
         'messaging-message-row--unread':
-          markUnread && message.readReceipt !== 'READ'
+          markUnread && message.readReceipt !== 'READ',
       });
 
       const moveToButton = (
@@ -311,10 +312,13 @@ export class Folder extends React.Component {
           messageId={id}
           onChooseFolder={this.props.moveMessageToFolder}
           onCreateFolder={this.props.openMoveToNewFolderModal}
-          onToggleMoveTo={() => this.props.toggleFolderMoveTo(id)}/>
+          onToggleMoveTo={() => this.props.toggleFolderMoveTo(id)}
+        />
       );
 
-      const attachmentIcon = message.attachment ? (<i className="fa fa-paperclip" aria-label="Message has an attachment"></i>) : null;
+      const attachmentIcon = message.attachment ? (
+        <i className="fa fa-paperclip" aria-label="Message has an attachment" />
+      ) : null;
 
       return {
         id,
@@ -324,7 +328,7 @@ export class Folder extends React.Component {
         senderName: makeMessageLink(message.senderName, id),
         subject: makeMessageLink(message.subject, id),
         sentDate: makeMessageLink(formattedDate(message.sentDate), id),
-        moveToButton
+        moveToButton,
       };
     });
 
@@ -334,13 +338,14 @@ export class Folder extends React.Component {
         currentSort={this.props.sort}
         data={data}
         fields={fields}
-        onSort={this.handleSort}/>
+        onSort={this.handleSort}
+      />
     );
   }
 
   render() {
     if (this.props.loading.folder) {
-      return <LoadingIndicator message="Loading the folder..."/>;
+      return <LoadingIndicator message="Loading the folder..." />;
     }
 
     const { folderId, name: folderName } = this.props.attributes;
@@ -379,22 +384,28 @@ export class Folder extends React.Component {
       const folderMessages = this.makeMessagesTable();
 
       let messageSearch;
-      if (this.props.messages && this.props.messages.length || this.props.filter) {
-        messageSearch = (<MessageSearch
-          hasRecipientField={folderName === 'Sent' || folderName === 'Drafts'}
-          isAdvancedVisible={this.props.isAdvancedVisible}
-          onAdvancedSearch={this.props.toggleAdvancedSearch}
-          onDateChange={this.props.setDateRange}
-          onError={this.props.openAlert}
-          onFieldChange={this.props.setSearchParam}
-          onSubmit={this.handleSearch}
-          params={this.props.searchParams}/>);
+      if (
+        (this.props.messages && this.props.messages.length) ||
+        this.props.filter
+      ) {
+        messageSearch = (
+          <MessageSearch
+            hasRecipientField={folderName === 'Sent' || folderName === 'Drafts'}
+            isAdvancedVisible={this.props.isAdvancedVisible}
+            onAdvancedSearch={this.props.toggleAdvancedSearch}
+            onDateChange={this.props.setDateRange}
+            onError={this.props.openAlert}
+            onFieldChange={this.props.setSearchParam}
+            onSubmit={this.handleSearch}
+            params={this.props.searchParams}
+          />
+        );
       }
 
       componentContent = (
         <div>
           <div id="messaging-folder-controls">
-            <ComposeButton/>
+            <ComposeButton />
             {messageSearch}
             {messageNav}
           </div>
@@ -406,13 +417,12 @@ export class Folder extends React.Component {
 
     return (
       <div>
-        <div
-          id="messaging-content-header"
-          className="messaging-folder-header">
+        <div id="messaging-content-header" className="messaging-folder-header">
           <button
             className="messaging-menu-button"
             type="button"
-            onClick={this.props.toggleFolderNav}>
+            onClick={this.props.toggleFolderNav}
+          >
             Menu
           </button>
           <h3>{folderName}</h3>
@@ -424,10 +434,10 @@ export class Folder extends React.Component {
 }
 
 Folder.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const msgState = state.health.msg;
   const folder = msgState.folders.data.currentItem;
   const { attributes, filter, messages, pagination, sort } = folder;
@@ -445,7 +455,7 @@ const mapStateToProps = (state) => {
     pagination,
     redirect,
     searchParams: msgState.search.params,
-    sort
+    sort,
   };
 };
 
@@ -458,7 +468,10 @@ const mapDispatchToProps = {
   setSearchParam,
   toggleAdvancedSearch,
   toggleFolderMoveTo,
-  toggleFolderNav
+  toggleFolderNav,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Folder);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Folder);

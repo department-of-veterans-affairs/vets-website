@@ -3,13 +3,13 @@ import vet360 from '../vet360/reducers';
 import {
   FETCH_HERO_SUCCESS,
   FETCH_PERSONAL_INFORMATION_SUCCESS,
-  FETCH_MILITARY_INFORMATION_SUCCESS
+  FETCH_MILITARY_INFORMATION_SUCCESS,
 } from '../actions';
 
 const initialState = {
   hero: null,
   personalInformation: null,
-  militaryInformation: null
+  militaryInformation: null,
 };
 
 function vaProfile(state = initialState, action) {
@@ -30,5 +30,5 @@ function vaProfile(state = initialState, action) {
 
 export default {
   vaProfile,
-  vet360
+  vet360,
 };

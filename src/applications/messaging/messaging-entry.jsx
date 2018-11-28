@@ -12,7 +12,7 @@ import startSitewideComponents from '../../platform/site-wide';
 
 import routes from './routes.jsx';
 import reducer from './reducers';
-import manifest from './manifest.json';
+import manifest from './manifest';
 import { updateRoute } from './actions';
 
 const store = createCommonStore(reducer);
@@ -20,13 +20,13 @@ const store = createCommonStore(reducer);
 startSitewideComponents(store);
 
 const history = useRouterHistory(createHistory)({
-  basename: manifest.rootUrl
+  basename: manifest.rootUrl,
 });
 
-history.listen((location) => store.dispatch(updateRoute(location)));
+history.listen(location => store.dispatch(updateRoute(location)));
 
 startReactApp(
   <Provider store={store}>
-    <Router history={history} routes={routes}/>
-  </Provider>
+    <Router history={history} routes={routes} />
+  </Provider>,
 );

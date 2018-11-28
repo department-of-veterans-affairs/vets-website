@@ -8,26 +8,26 @@ const uiSchema = {
       'ui:options': {
         labels: {
           Y: 'Before military service',
-          N: 'After military service'
+          N: 'After military service',
         },
-        yesNoReverse: true
-      }
+        yesNoReverse: true,
+      },
     },
     name: {
-      'ui:title': 'Main job'
+      'ui:title': 'Main job',
     },
     months: {
-      'ui:title': 'Number of months worked'
+      'ui:title': 'Number of months worked',
     },
     licenseOrRating: {
-      'ui:title': 'Licenses or rating'
-    }
+      'ui:title': 'Licenses or rating',
+    },
   },
   'ui:options': {
     itemName: 'Employment Period',
     viewField: EmploymentPeriodView,
-    hideTitle: true
-  }
+    hideTitle: true,
+  },
 };
 
 export default uiSchema;

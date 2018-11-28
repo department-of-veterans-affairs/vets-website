@@ -11,7 +11,7 @@ const defaultProps = createCommonStore(reducer).getState();
 
 describe('<LandingPage>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<LandingPage {...defaultProps}/>);
+    const tree = SkinDeep.shallowRender(<LandingPage {...defaultProps} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
@@ -21,10 +21,10 @@ describe('<LandingPage>', () => {
       ...defaultProps,
       router: { push: sinon.spy() },
       location: { query: {} },
-      autocomplete: { searchTerm: 'foo' }
+      autocomplete: { searchTerm: 'foo' },
     };
 
-    const tree = SkinDeep.shallowRender(<LandingPage {...props}/>);
+    const tree = SkinDeep.shallowRender(<LandingPage {...props} />);
     tree.getMountedInstance().handleSubmit({ preventDefault: () => {} });
     expect(props.router.push.called).to.be.true;
   });
