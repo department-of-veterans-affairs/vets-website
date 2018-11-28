@@ -482,7 +482,6 @@ describe('526 helpers', () => {
     });
   });
 });
-
 describe('isAnswering781Questions', () => {
   it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
     const formData = {
@@ -504,7 +503,6 @@ describe('isAnswering781Questions', () => {
     expect(isAnswering781Questions(formData)).to.be.false;
   });
 });
-
 describe('isAnswering781aQuestions', () => {
   it('should return true if user has chosen to answer questions for a 781a PTSD incident', () => {
     const formData = {
@@ -524,33 +522,5 @@ describe('isAnswering781aQuestions', () => {
       'view:doneEnteringSecondaryIncidents': true,
     };
     expect(isAnswering781aQuestions(formData)).to.be.false;
-  });
-
-  describe('transformRelatedDisabilities', () => {
-    it('should return an array of strings', () => {
-      const claimedConditions = [
-        'some condition name',
-        'another condition name',
-      ];
-      const relatedDisabilities = {
-        'Some condition name': true,
-        'Another condition name': true,
-        'This condition is falsey!': false,
-      };
-      expect(
-        transformRelatedDisabilities(relatedDisabilities, claimedConditions),
-      ).to.eql(['some condition name', 'another condition name']);
-    });
-    it('should not add conditions if they are not claimed', () => {
-      const claimedConditions = ['some condition name'];
-      const relatedDisabilities = {
-        'Some condition name': true,
-        'Another condition name': true,
-        'This condition is falsey!': false,
-      };
-      expect(
-        transformRelatedDisabilities(relatedDisabilities, claimedConditions),
-      ).to.eql(['some condition name']);
-    });
   });
 });
