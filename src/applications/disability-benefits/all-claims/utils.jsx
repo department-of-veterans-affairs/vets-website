@@ -319,6 +319,22 @@ export const addCheckboxPerNewDisability = createSelector(
   }),
 );
 
+/**
+ * Returns an object where all the fields are prefixed with `view:` if they aren't already
+ */
+export const viewifyFields = formData => {
+  const newFormData = {};
+  Object.keys(formData).forEach(key => {
+    const viewKey = /^view:/.test(key) ? key : `view:${key}`;
+    // Recurse if necessary
+    newFormData[viewKey] =
+      typeof formData[key] === 'object' && !Array.isArray(formData[key])
+        ? viewifyFields(formData[key])
+        : formData[key];
+  });
+  return newFormData;
+};
+
 export const hasVAEvidence = formData =>
   _.get(DATA_PATHS.hasVAEvidence, formData, false);
 export const hasOtherEvidence = formData =>

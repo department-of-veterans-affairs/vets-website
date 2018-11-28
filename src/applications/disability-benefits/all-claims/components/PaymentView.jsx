@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { isEqual } from 'lodash';
+
 import { accountTitleLabels } from '../constants';
 import { srSubstitute } from '../utils';
 
@@ -21,15 +24,31 @@ const mask = (string, unmaskedLength) => {
   );
 };
 
-const PaymentView = ({ formData }) => {
+export const PaymentView = ({ formData, originalData }) => {
   const {
     bankAccountType,
     bankAccountNumber,
     bankRoutingNumber,
     bankName,
   } = formData;
+
+  const dataChanged = isEqual(formData, originalData);
+
   return (
     <div>
+      {!dataChanged && (
+        <p>We’re currently paying your compensation to this account</p>
+      )}
+      {dataChanged && (
+        <p>
+          We’ll add this new bank account to your disability application.{' '}
+          <strong>
+            This new account won’t be updated in all VA systems right away.
+          </strong>{' '}
+          Your current payments will continue to be deposited into the previous
+          account we showed.
+        </p>
+      )}
       <div className="blue-bar-block">
         <p>
           <strong>
@@ -44,4 +63,8 @@ const PaymentView = ({ formData }) => {
   );
 };
 
-export default PaymentView;
+const mapStateToProps = state => ({
+  originalData: state.form.data['view:originalBankAccount'],
+});
+
+export default connect(mapStateToProps)(PaymentView);
