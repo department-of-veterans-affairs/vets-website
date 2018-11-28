@@ -34,7 +34,9 @@ const ENVIRONMENT_CONFIGURATIONS = {
 
   [ENVIRONMENTS.LOCALHOST]: {
     BUILDTYPE: ENVIRONMENTS.LOCALHOST,
-    BASE_URL: `http://${location.hostname}:${location.port}`,
+    BASE_URL: `http://${location.hostname}${
+      location.port ? `:${location.port}` : ''
+    }`,
     API_URL: `http://${location.hostname}:3000`,
   },
 };
