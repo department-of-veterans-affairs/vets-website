@@ -49,8 +49,10 @@
       }
     ],
     "view:unemployabilityStatus": false,
-    "view:uploadPtsdChoice": "answerQuestions",
-    "view:uploadPtsdChoiceHelp": {},
+    "view:upload781Choice": "answerQuestions",
+    "view:upload781ChoiceHelp": {},
+    "view:upload781aChoice": "answerQuestions",
+    "view:upload781aChoiceHelp": {},
     "view:selectablePtsdTypes": {
       "view:combatPtsdType": true
     },
