@@ -75,6 +75,7 @@ import {
   unemployabilityStatus,
   unemployabilityFormIntro,
   hospitalizationHistory,
+  recentJobApplications,
   newDisabilities,
 } from '../pages';
 
@@ -319,6 +320,14 @@ const formConfig = {
             formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
           uiSchema: hospitalizationHistory.uiSchema,
           schema: hospitalizationHistory.schema,
+        },
+        recentJobApplications: {
+          title: 'Recent Job Applications',
+          path: 'recent-job-applications',
+          depends: formData =>
+            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
+          uiSchema: recentJobApplications.uiSchema,
+          schema: recentJobApplications.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',

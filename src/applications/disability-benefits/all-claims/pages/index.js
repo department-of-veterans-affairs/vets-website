@@ -383,6 +383,11 @@ export const hospitalizationHistory = {
   schema: hospitalizationHistorySchema,
 };
 
+export const recentJobApplications = {
+  uiSchema: null,
+  schema: null,
+};
+
 export const conclusionCombat = {
   uiSchema: conclusionCombatUISchema,
   schema: conclusionCombatSchema,
