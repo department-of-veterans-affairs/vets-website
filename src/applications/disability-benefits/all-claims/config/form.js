@@ -322,10 +322,8 @@ const formConfig = {
           schema: hospitalizationHistory.schema,
         },
         recentJobApplications: {
-          title: 'Recent Job Applications',
+          title: 'Recent job applications',
           path: 'recent-job-applications',
-          depends: formData =>
-            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
           uiSchema: recentJobApplications.uiSchema,
           schema: recentJobApplications.schema,
         },
