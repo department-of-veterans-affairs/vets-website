@@ -86,7 +86,7 @@ class IntroductionPage extends React.Component {
                 If you need help filing a disability claim, you can contact a VA
                 regional office and ask to speak to a counselor. To find the
                 nearest regional office, please call{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>.
+                <a href="tel:18008271000">1-800-827-1000</a>.
               </p>
               <p>
                 An accredited representative, like a Veterans Service Officer
