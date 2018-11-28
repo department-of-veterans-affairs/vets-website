@@ -87,7 +87,7 @@ export default class EducationWizard extends React.Component {
                     />
                   );
                 }
-                return <Component />;
+                return <Component key={type} />;
               }
             })}
           </div>
