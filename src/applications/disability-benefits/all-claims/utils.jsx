@@ -190,6 +190,52 @@ export function transformProviderFacilities(providerFacilities) {
   }));
 }
 
+/**
+ * This is mostly copied from us-forms' own stringifyFormReplacer, but with the
+ * address street and zip code property names updated to match the ones we use
+ * in our form.
+ */
+export function customReplacer(key, value) {
+  // an object with country is an address
+  if (
+    value &&
+    typeof value.country !== 'undefined' &&
+    (!value.addressLine1 || !value.city || !value.zipCode)
+  ) {
+    return undefined;
+  }
+
+  // clean up empty objects, which we have no reason to send
+  if (typeof value === 'object') {
+    const fields = Object.keys(value);
+    if (
+      fields.length === 0 ||
+      fields.every(field => value[field] === undefined)
+    ) {
+      return undefined;
+    }
+
+    // autosuggest widgets save value and label info, but we should just return the value
+    if (value.widget === 'autosuggest') {
+      return value.id;
+    }
+
+    // Exclude file data
+    if (value.confirmationCode && value.file) {
+      return _.omit('file', value);
+    }
+  }
+
+  // Clean up empty objects in arrays
+  if (Array.isArray(value)) {
+    const newValues = value.filter(v => !!customReplacer(key, v));
+    // If every item in the array is cleared, remove the whole array
+    return newValues.length > 0 ? newValues : undefined;
+  }
+
+  return value;
+}
+
 export function transform(formConfig, form) {
   // Remove rated disabilities that weren't selected
   let clonedData = _.set(
@@ -211,7 +257,7 @@ export function transform(formConfig, form) {
   // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
   //  it here to remove reservesNationalGuardService if it's deeply empty.
   clonedData = removeDeeplyEmptyObjects(
-    JSON.parse(transformForSubmit(formConfig, form)),
+    JSON.parse(transformForSubmit(formConfig, form, customReplacer)),
   );
 
   // Transform the related disabilities lists into an array of strings
@@ -264,9 +310,7 @@ export function transform(formConfig, form) {
     delete clonedData.providerFacility;
   }
 
-  return JSON.stringify({
-    form526: JSON.stringify(clonedData),
-  });
+  return JSON.stringify({ form526: clonedData });
 }
 
 export const hasForwardingAddress = formData =>
