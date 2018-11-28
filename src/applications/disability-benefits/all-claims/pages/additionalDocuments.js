@@ -1,6 +1,6 @@
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import environment from '../../../../platform/utilities/environment';
-import { additionalDocumentDescription } from '../content/additionalDocuments';
+import { uploadDescription } from '../content/fileUploadDescriptions';
 import { FIFTY_MB } from '../constants';
 
 import full526EZSchema from '../config/schema.js';
@@ -48,7 +48,7 @@ export const uiSchema = {
         'ui:title': 'Document name',
       },
     }),
-    { 'ui:description': additionalDocumentDescription },
+    { 'ui:description': uploadDescription },
   ),
 };
 
