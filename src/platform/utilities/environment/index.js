@@ -5,6 +5,11 @@
 
 import ENVIRONMENTS from '../../../site/constants/environments';
 
+// __BUILDTYPE__ is defined as a global variable in our Webpack config, ultimately used
+// to indicate the name of our current environment as passed from our build script. This should
+// be the only reference to this value throughout our client-side code. Other modules should
+// instead import this module and interface with it instead.
+
 // eslint-disable-next-line no-undef
 const BUILDTYPE = __BUILDTYPE__;
 
@@ -48,33 +53,43 @@ if (!isPort80) {
   environment.BASE_URL = LOCALHOST_ENV.BASE_URL;
 }
 
-export default {
-  /** The name of the environment under which the site is currently executing. */
+export default Object.freeze({
+  /**
+   * The name of the environment under which the site is currently executing.
+   * Rather than checking this value directly, you should consider using one of
+   * the helper functions for checking the environment instead. However, if you choose
+   * to do so, you should import the environment names from module:site/constants/environments
+   * and compare it using the constants defined there.
+   * */
   BUILDTYPE: environment.BUILDTYPE,
 
   /** The address of the FE website configured for this environment. */
   BASE_URL: environment.BASE_URL,
 
-  /** The address of the API configured for this environment. */
+  /**
+   * The address of the API configured for this environment. Rather than using this directly,
+   * you should instead consider using the API helper function defined in
+   * platform/utilities/api to fetch data.
+   */
   API_URL: environment.API_URL,
 
   /** Determines whether the current environment is a production environment. */
   isProduction() {
-    return this.BUILDTYPE === ENVIRONMENTS.VAGOVPROD;
+    return environment.BUILDTYPE === ENVIRONMENTS.VAGOVPROD;
   },
 
   /** Determines whether the current environment is a staging environment. */
   isStaging() {
-    return this.BUILDTYPE === ENVIRONMENTS.VAGOVSTAGING;
+    return environment.BUILDTYPE === ENVIRONMENTS.VAGOVSTAGING;
   },
 
   /** Determines whether the current environment is a dev environment. */
   isDev() {
-    return this.BUILDTYPE === ENVIRONMENTS.VAGOVDEV;
+    return environment.BUILDTYPE === ENVIRONMENTS.VAGOVDEV;
   },
 
   /** Determines whether the current environment is a local environment. */
   isLocalhost() {
-    return this.BUILDTYPE === ENVIRONMENTS.LOCALHOST;
+    return environment.BUILDTYPE === ENVIRONMENTS.LOCALHOST;
   },
-};
+});
