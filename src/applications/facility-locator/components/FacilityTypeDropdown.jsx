@@ -103,7 +103,7 @@ class FacilityTypeDropdown extends Component {
                 {this.state.showBubble && (
                   <div id="infoBubble">
                     <button
-                      className="ccInfoCloseBtn"
+                      className="cc-info-close-btn"
                       onClick={this.toggleCCInfo}
                     >
                       X
