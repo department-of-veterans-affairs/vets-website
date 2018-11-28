@@ -104,9 +104,11 @@ class FacilityTypeDropdown extends Component {
                   <div id="infoBubble">
                     <button
                       className="cc-info-close-btn"
+                      type="button"
+                      aria-label="Close info bubble"
                       onClick={this.toggleCCInfo}
                     >
-                      X
+                      <i className="fa fa-close" />
                     </button>
                     <h6>What Is Community Care and Am I Eligible?</h6>
                     <p>

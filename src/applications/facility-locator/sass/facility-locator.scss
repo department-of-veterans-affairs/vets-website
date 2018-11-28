@@ -620,7 +620,7 @@
   display: inline-block;
   font-size: 1.2rem;
   background-image: none;
-  background-color: rgba(0,0,0,0);
+  background-color: transparent;
   text-align: right;
   text-decoration: none;
   text-align: right;
@@ -629,7 +629,7 @@
 }
 
 .cc-info-link:hover, .cc-info-link:active {
-  background-color: rgba(0,0,0,0);
+  background-color: transparent;
 }
 
 .cc-info-link-icon {
@@ -644,12 +644,15 @@
 }
 
 .cc-info-close-btn {
-  background-color: rgba(0,0,0,0);
+  background-color: transparent;
   color: $color-gray-light;
   padding: 0;
   float: right;
   font-weight: normal;
   font-size: 130%;
+}
+.cc-info-close-btn:hover, .cc-info-close-btn:active {
+  background-color: transparent;
 }
 
 #infoBubble {
