@@ -191,20 +191,14 @@ export function transformProviderFacilities(providerFacilities) {
 }
 
 /**
- * This is mostly copied from us-forms' own stringifyFormReplacer, but with the
- * address street and zip code property names updated to match the ones we use
- * in our form.
+ * This is mostly copied from us-forms' own stringifyFormReplacer, but with
+ * the incomplete / empty address check removed, since we don't need this
+ * for any of the 3 addresses (mailing, forwarding, treatment facility) in our
+ * form. Leaving it in breaks treatment facility addresses because by design
+ * they don't have street / line 1 addresses, so would get incorrectly filtered
+ * out. Trivia: this check is also gone in the latest us-forms replacer.
  */
 export function customReplacer(key, value) {
-  // an object with country is an address
-  if (
-    value &&
-    typeof value.country !== 'undefined' &&
-    (!value.addressLine1 || !value.city || !value.zipCode)
-  ) {
-    return undefined;
-  }
-
   // clean up empty objects, which we have no reason to send
   if (typeof value === 'object') {
     const fields = Object.keys(value);
