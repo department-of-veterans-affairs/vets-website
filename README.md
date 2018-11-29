@@ -14,7 +14,7 @@ very secret.
 
 | I want to...                             | Then you should...                       |
 | ---------------------------------------- | ---------------------------------------- |
-| clone the site and install dependencies  | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, then follow the instructions below to install node, npm and yarn if needed. Next, clone the VA.gov content repository into a sibling, as described below. Finally, run `yarn install` to fetch all the dependencies. Run `yarn install` anytime `package.json` changes. |
+| clone the site and install dependencies  | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, then follow the instructions below to install node, npm and yarn if needed. Next, clone the VA.gov content repository into a sibling directory as described below. Finally, run `yarn install` to fetch all the dependencies. Run `yarn install` anytime `package.json` changes. |
 | fetch all dependencies                   | `yarn install`; run this any time `package.json` changes |
 | Use the git hooks provided               | You can either copy the hooks as-is right now with `cp script/hooks/* .git/hooks` or make sure your git hooks by using a symbolic link to the hooks distributed with vets-website with `rm -rf .git/hooks && ln -s ../script/hooks .git/hooks`. On Linux, you may have to do `ln -rs` instead of just `-s`. |
 | deploy the site                          | merge to master for `dev.va.gov` and `staging.va.gov`. Production deploys are executed by creating a release of vets-website via Jenkins. |
