@@ -3,21 +3,19 @@
 .preferences-grid {
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-around;
   align-items: stretch;
   margin: 0 -1rem;
 
   .preference-item-wrapper {
     display: flex;
-    flex: 1;
+    width: 313.75px;
 
     .preference-item {
-      flex: 0 auto;
       margin: 1rem;
       padding: 1.5rem;
       background: $color-gray-lightest;
       cursor: pointer;
-      width: 313.75px;
+      width: 100%;
 
       .form-checkbox {
         input[type=checkbox] {
