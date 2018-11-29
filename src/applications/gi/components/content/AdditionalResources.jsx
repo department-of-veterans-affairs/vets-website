@@ -16,7 +16,7 @@ export const AdditionalResourcesLinks = () => (
       </a>
     </p>
     <p>
-      <a href="/education/gi-bill-school-feedback">
+      <a href="/education/submit-school-feedback">
         Submit a complaint through our Feedback System
       </a>
     </p>
