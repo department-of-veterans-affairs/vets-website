@@ -1,15 +1,11 @@
-import React from 'react';
-
-import { PtsdNameTitle } from '../content/ptsdClassification';
+import { ptsd781aNameTitle } from '../content/ptsdClassification';
 import { ptsdLocationDescription } from '../content/incidentLocation';
 import { incidentLocationSchemas } from '../utils';
 
 const { addressUI, addressSchema } = incidentLocationSchemas();
 
 export const uiSchema = index => ({
-  'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781a" />
-  ),
+  'ui:title': ptsd781aNameTitle,
   'ui:description': ptsdLocationDescription,
   [`secondaryIncidentLocation${index}`]: addressUI,
 });
