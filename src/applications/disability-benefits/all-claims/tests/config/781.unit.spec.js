@@ -22,7 +22,6 @@ describe('781/781a incident form config iterators', () => {
       const config = createFormConfig781(PTSD_INCIDENT_ITERATION);
       for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
         expect(config).to.haveOwnProperty(`incidentDate${i}`);
-
         expect(config[`incidentDate${i}`]).to.be.an('object');
       }
     });
@@ -35,6 +34,31 @@ describe('781/781a incident form config iterators', () => {
         ).to.be.an('object');
         expect(
           config[`incidentDate${i}`].schema.properties[`incident${i}`],
+        ).to.haveOwnProperty('type');
+      }
+    });
+
+    it('should return three additional events yes/no page config objects', () => {
+      const config = createFormConfig781(PTSD_INCIDENT_ITERATION);
+      for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+        expect(config).to.haveOwnProperty(`ptsdAdditionalEvents${i}`);
+
+        expect(config[`ptsdAdditionalEvents${i}`]).to.be.an('object');
+      }
+    });
+    it('should contain three view additional event properties within additional events yes/no pages', () => {
+      const config = createFormConfig781(PTSD_INCIDENT_ITERATION);
+      for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+        expect(
+          config[`ptsdAdditionalEvents${i}`].schema.properties[
+            `view:enterAdditionalEvents${i}`
+          ],
+        ).to.be.an('object');
+
+        expect(
+          config[`ptsdAdditionalEvents${i}`].schema.properties[
+            `view:enterAdditionalEvents${i}`
+          ],
         ).to.haveOwnProperty('type');
       }
     });
@@ -94,6 +118,23 @@ describe('781a incident form config', () => {
       expect(
         config[`secondaryIncidentDate${i}`].schema.properties[
           `secondaryIncident${i}`
+        ],
+      ).to.haveOwnProperty('type');
+    }
+  });
+
+  it('should contain three view additional event properties within additional events yes/no pages', () => {
+    const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
+    for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+      expect(
+        config[`ptsdSecondaryAdditionalEvents${i}`].schema.properties[
+          `view:enterAdditionalSecondaryEvents${i}`
+        ],
+      ).to.be.an('object');
+
+      expect(
+        config[`ptsdSecondaryAdditionalEvents${i}`].schema.properties[
+          `view:enterAdditionalSecondaryEvents${i}`
         ],
       ).to.haveOwnProperty('type');
     }
