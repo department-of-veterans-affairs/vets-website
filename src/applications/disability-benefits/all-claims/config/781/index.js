@@ -1,6 +1,9 @@
 import {
+  incidentSupport,
   incidentDate,
   secondaryIncidentDate,
+  secondaryIncidentPermissionNotice,
+  secondaryIncidentAuthorities,
   ptsdAdditionalEvents,
   ptsdSecondaryAdditionalEvents,
 } from '../../pages';
@@ -26,13 +29,21 @@ export function createFormConfig781(iterations) {
     configObj = {
       ...configObj,
       // 781 PAGE CONFIGS GO HERE
+      [`incidentSupport${index}`]: {
+        title: `${numberToWords[index]} PTSD incident support`,
+        path: `disabilities/ptsd-incident-support-${index}`,
+        depends: isAnswering781Questions(index),
+        uiSchema: incidentSupport.uiSchema('781'),
+        schema: incidentSupport.schema,
+      },
       [`incidentDate${index}`]: {
-        title: `${numberToWords[index]} Combat PTSD Incident date`,
+        title: `${numberToWords[index]} PTSD incident date`,
         path: `disabilities/ptsd-incident-date-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: incidentDate.uiSchema(index),
         schema: incidentDate.schema(index),
       },
+      // This should be the last page in the config loop
       [`ptsdAdditionalEvents${index}`]: {
         title: `${numberToWords[index]} Combat PTSD Additional events.`,
         path: `disabilities/ptsd-additional-events-${index}`,
@@ -51,12 +62,33 @@ export function createFormConfig781a(iterations) {
     configObj = {
       ...configObj,
       // 781a PAGE CONFIGS GO HERE
+      [`secondaryIncidentSupport${index}`]: {
+        title: `${numberToWords[index]} PTSD assault incident support`,
+        path: `disabilities/ptsd-secondary-incident-support-${index}`,
+        depends: isAnswering781aQuestions(index),
+        uiSchema: incidentSupport.uiSchema('781a'),
+        schema: incidentSupport.schema,
+      },
       [`secondaryIncidentDate${index}`]: {
-        title: `${numberToWords[index]} Assault PTSD Incident date`,
-        path: `disabilities/ptsd-781a-incident-date-${index}`,
+        title: `${numberToWords[index]} PTSD assault incident date`,
+        path: `disabilities/ptsd-secondary-incident-date-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentDate.uiSchema(index),
         schema: secondaryIncidentDate.schema(index),
+      },
+      [`secondaryIncidentPermissionNotice${index}`]: {
+        title: `${numberToWords[index]} PTSD assault permission notice`,
+        path: `disabilities/ptsd-secondary-permission-notice-${index}`,
+        depends: isAnswering781aQuestions(index),
+        uiSchema: secondaryIncidentPermissionNotice.uiSchema,
+        schema: secondaryIncidentPermissionNotice.schema,
+      },
+      [`secondaryIncidentAuthorities${index}`]: {
+        title: `${numberToWords[index]} PTSD assault authorities`,
+        path: `disabilities/ptsd-secondary-authorities-${index}`,
+        depends: isAnswering781aQuestions(index),
+        uiSchema: secondaryIncidentAuthorities.uiSchema(index),
+        schema: secondaryIncidentAuthorities.schema(index),
       },
       // This should be the last page in the config loop
       [`ptsdSecondaryAdditionalEvents${index}`]: {
