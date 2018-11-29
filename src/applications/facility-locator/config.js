@@ -1,6 +1,11 @@
 /* eslint-disable arrow-body-style */
 import environment from '../../platform/utilities/environment';
 
+// TODO: Remove me when done bug fixing
+// const environment = {
+//   API_URL: 'http://staging-api.va.gov',
+// };
+
 // Base URL to be used in API requests.
 export const api = {
   baseUrl: `${environment.API_URL}/v0/facilities`,
