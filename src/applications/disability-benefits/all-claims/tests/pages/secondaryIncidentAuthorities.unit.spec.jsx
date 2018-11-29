@@ -24,7 +24,7 @@ describe('PTSD Assault permission notice', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(6);
     expect(form.find('select').length).to.equal(1);
   });
 
@@ -73,11 +73,6 @@ describe('PTSD Assault permission notice', () => {
       form,
       'input#root_secondaryIncident0_authorities_0_address_zipCode',
       '12345-1234',
-    );
-    fillData(
-      form,
-      'input#root_secondaryIncident0_authorities_0_phone',
-      '555-123-1234',
     );
     form.find('form').simulate('submit');
 

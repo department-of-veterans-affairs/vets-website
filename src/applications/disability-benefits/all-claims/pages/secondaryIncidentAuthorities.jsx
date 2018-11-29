@@ -5,18 +5,11 @@ import fullSchema from '../config/schema';
 import AuthorityField from '../components/AuthorityField';
 import { PtsdNameTitle } from '../content/ptsdClassification';
 import { PtsdAssaultAuthoritiesDescription } from '../content/ptsdAssaultAuthorities';
-import { isValidPhone } from '../../../../platform/forms/validations';
 import {
   uiSchema as addressUI,
   schema as addressSchema,
 } from '../../../../platform/forms/definitions/address';
 import { validateZIP } from '../validations';
-
-const validatePhone = (errors, phone) => {
-  if (!isValidPhone(phone)) {
-    errors.addError('Phone numbers must be 10 digits (dashes allowed)');
-  }
-};
 
 export const uiSchema = index => ({
   'ui:title': ({ formData }) => (
@@ -56,10 +49,6 @@ export const uiSchema = index => ({
             'ui:validations': [validateZIP],
           },
         }),
-        phone: {
-          'ui:title': 'Primary phone number',
-          'ui:validations': [validatePhone],
-        },
       },
     },
   },
@@ -90,9 +79,6 @@ export const schema = index => {
                       type: 'string',
                     },
                   },
-                },
-                phone: {
-                  type: 'string',
                 },
               },
             },
