@@ -18,17 +18,16 @@ import {
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
- * NOTE: This will cause React to get angry if used in a <p> because the DOM is "invalid."
  *
  * @param {ReactElement|ReactComponent|String} srIgnored -- Thing to be displayed visually,
  *                                                           but ignored by screen readers
  * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
  */
 export const srSubstitute = (srIgnored, substitutionText) => (
-  <div style={{ display: 'inline' }}>
+  <span>
     <span aria-hidden>{srIgnored}</span>
     <span className="sr-only">{substitutionText}</span>
-  </div>
+  </span>
 );
 
 export const hasGuardOrReservePeriod = formData => {
@@ -402,6 +401,22 @@ export const isUploading781Form = formData =>
 
 export const isUploading781aForm = formData =>
   _.get('view:upload781aChoice', formData, '') === 'upload';
+
+export const isAnswering781Questions = index => formData =>
+  _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&
+  (index === 0 ||
+    _.get(`view:enterAdditionalEvents${index - 1}`, formData, false)) &&
+  needsToEnter781(formData);
+
+export const isAnswering781aQuestions = index => formData =>
+  _.get('view:upload781aChoice', formData, '') === 'answerQuestions' &&
+  (index === 0 ||
+    _.get(
+      `view:enterAdditionalSecondaryEvents${index - 1}`,
+      formData,
+      false,
+    )) &&
+  needsToEnter781a(formData);
 
 export const getHomelessOrAtRisk = formData => {
   const homelessStatus = _.get('homelessOrAtRisk', formData, '');

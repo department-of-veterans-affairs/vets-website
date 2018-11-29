@@ -1,19 +1,16 @@
-import React from 'react';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import environment from '../../../../platform/utilities/environment';
 
 import { uploadDescription } from '../content/fileUploadDescriptions';
-import { PtsdNameTitle } from '../content/ptsdClassification';
+import { ptsd781aNameTitle } from '../content/ptsdClassification';
 
 const FIFTY_MB = 52428800;
 
 export const uiSchema = {
-  'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781" />
-  ),
+  'ui:title': ptsd781aNameTitle,
   'ui:description': uploadDescription,
-  ptsd781: fileUploadUI('', {
-    itemDescription: 'PTSD 781 form',
+  ptsd781a: fileUploadUI('', {
+    itemDescription: 'PTSD 781a form',
     hideLabelText: true,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
     fileTypes: [
@@ -53,9 +50,9 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['ptsd781'],
+  required: ['ptsd781a'],
   properties: {
-    ptsd781: {
+    ptsd781a: {
       type: 'array',
       items: {
         type: 'object',

@@ -27,7 +27,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Verify text on page
   client.expect
     .element('.claims-container h1')
-    .text.to.equal('Track Your Compensation Appeals and Claims');
+    .text.to.equal('Track Your Appeals and Claims');
 
   client.expect
     .element('.claim-list-item-header-v2')
