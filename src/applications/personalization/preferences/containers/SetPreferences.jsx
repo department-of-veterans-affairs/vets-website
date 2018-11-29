@@ -32,10 +32,10 @@ class SetPreferences extends React.Component {
             help you get started.
           </p>
           <div>
-            <div className="preferences-row">
+            <div className="preferences-grid">
               {benefitChoices.map((item, itemIndex) => (
                 <PreferenceOption
-                  key={`{i}-${itemIndex}`}
+                  key={itemIndex}
                   item={item}
                   onChange={this.handlePreferenceToggle}
                   checked={!!this.props.preferences.dashboard[item.slug]}
