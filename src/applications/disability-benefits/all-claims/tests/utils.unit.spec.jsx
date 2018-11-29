@@ -20,6 +20,7 @@ import {
   isUploading781Form,
   isUploading781aForm,
   transformRelatedDisabilities,
+  transformMVPData,
 } from '../utils.jsx';
 
 import initialData from './initialData';
@@ -164,6 +165,7 @@ describe('526 helpers', () => {
       expect(getDisabilityName(249481)).to.equal('Unknown Condition');
     });
   });
+
   describe('transformDisabilities', () => {
     const rawDisability = initialData.ratedDisabilities[1];
     const formattedDisability = Object.assign(
@@ -187,6 +189,7 @@ describe('526 helpers', () => {
       expect(transformDisabilities([ineligibleDisability])).to.deep.equal([]);
     });
   });
+
   describe('queryForFacilities', () => {
     const originalFetch = global.fetch;
     beforeEach(() => {
@@ -481,46 +484,73 @@ describe('526 helpers', () => {
       ).to.eql(['some condition name']);
     });
   });
-});
-describe('isAnswering781Questions', () => {
-  it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
-    const formData = {
-      'view:selectablePtsdTypes': {
-        'view:combatPtsdType': true,
-      },
-      'view:upload781Choice': 'answerQuestions',
-    };
-    expect(isAnswering781Questions(formData)).to.be.true;
+
+  describe('transformMVPData', () => {
+    it('should omit the veteran property and spread its subproperties', () => {
+      const formData = {
+        veteran: {
+          emailAddress: 'asdf',
+          mailingAddress: { foo: 'bar' },
+          primaryPhone: '1231231234',
+        },
+      };
+      expect(transformMVPData(formData)).to.eql(formData.veteran);
+    });
+    it('should nest service periods and reservesNationalGuardService under serviceInformation', () => {
+      const formData = {
+        servicePeriods: [{ from: 'adf', to: 'asdf' }],
+        reservesNationalGuardService: 'asdf',
+      };
+      expect(transformMVPData(formData)).to.eql({
+        serviceInformation: formData,
+      });
+    });
+    it('should handle no pre-filled information', () => {
+      expect(transformMVPData({})).to.eql({});
+    });
   });
-  it('should return false if user has chosen not to enter another incident', () => {
-    const formData = {
-      'view:selectablePtsdTypes': {
-        'view:combatPtsdType': true,
-      },
-      'view:upload781Choice': 'answerQuestions',
-      'view:doneEnteringIncidents': true,
-    };
-    expect(isAnswering781Questions(formData)).to.be.false;
+
+  describe('isAnswering781Questions', () => {
+    it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:combatPtsdType': true,
+        },
+        'view:upload781Choice': 'answerQuestions',
+      };
+      expect(isAnswering781Questions(formData)).to.be.true;
+    });
+    it('should return false if user has chosen not to enter another incident', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:combatPtsdType': true,
+        },
+        'view:upload781Choice': 'answerQuestions',
+        'view:doneEnteringIncidents': true,
+      };
+      expect(isAnswering781Questions(formData)).to.be.false;
+    });
   });
-});
-describe('isAnswering781aQuestions', () => {
-  it('should return true if user has chosen to answer questions for a 781a PTSD incident', () => {
-    const formData = {
-      'view:selectablePtsdTypes': {
-        'view:assaultPtsdType': true,
-      },
-      'view:upload781aChoice': 'answerQuestions',
-    };
-    expect(isAnswering781aQuestions(formData)).to.be.true;
-  });
-  it('should return false if user has chosen not to enter another incident', () => {
-    const formData = {
-      'view:selectablePtsdTypes': {
-        'view:assaultPtsdType': true,
-      },
-      'view:upload781aChoice': 'answerQuestions',
-      'view:doneEnteringSecondaryIncidents': true,
-    };
-    expect(isAnswering781aQuestions(formData)).to.be.false;
+
+  describe('isAnswering781aQuestions', () => {
+    it('should return true if user has chosen to answer questions for a 781a PTSD incident', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:assaultPtsdType': true,
+        },
+        'view:upload781aChoice': 'answerQuestions',
+      };
+      expect(isAnswering781aQuestions(formData)).to.be.true;
+    });
+    it('should return false if user has chosen not to enter another incident', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:assaultPtsdType': true,
+        },
+        'view:upload781aChoice': 'answerQuestions',
+        'view:doneEnteringSecondaryIncidents': true,
+      };
+      expect(isAnswering781aQuestions(formData)).to.be.false;
+    });
   });
 });
