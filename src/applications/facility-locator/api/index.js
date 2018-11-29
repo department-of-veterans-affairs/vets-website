@@ -1,5 +1,5 @@
 import MockApi from './MockLocatorApi';
 import LiveApi from './LocatorApi';
+import environment from '../../../platform/utilities/environment';
 
-/* global __BUILDTYPE__ */
-export default (__BUILDTYPE__ === 'localhost' ? MockApi : LiveApi);
+export default (environment.isLocalhost() ? MockApi : LiveApi);
