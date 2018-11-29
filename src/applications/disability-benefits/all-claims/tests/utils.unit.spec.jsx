@@ -488,7 +488,7 @@ describe('526 helpers', () => {
     });
   });
 });
-describe.only('transform', () => {
+describe('transform', () => {
   const transformedMinimalData = {
     form526: {
       hasTrainingPay: false,
