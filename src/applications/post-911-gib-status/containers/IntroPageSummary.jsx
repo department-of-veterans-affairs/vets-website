@@ -164,16 +164,14 @@ export default function BrandConsolidationSummary() {
         itemType="http://schema.org/Answer"
       >
         {!isProduction() && (
-          <div itemProp="text">
-            <p>
-              There are a few situations where your Post-9/11 GI Bill Statement
-              of Benefits might not be available. Answer a few questions and
-              we’ll help you find out why:
-              <EducationWizard
-                config={wizardConfig}
-                toggleText="Troubleshoot My GI Bill Benefits"
-              />
-            </p>
+          <div className="intro-wizard" itemProp="text">
+            There are a few situations where your Post-9/11 GI Bill Statement of
+            Benefits might not be available. Answer a few questions and we’ll
+            help you find out why:
+            <EducationWizard
+              config={wizardConfig}
+              toggleText="Troubleshoot My GI Bill Benefits"
+            />
           </div>
         )}
         {isProduction() && (
