@@ -1,10 +1,10 @@
-# vets.gov - beta [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=testing/vets-website/master)](http://jenkins.vetsgov-internal/job/department-of-veterans-affairs/job/vets-website/job/master/) [![Test Coverage](https://codeclimate.com/github/department-of-veterans-affairs/vets-website/badges/coverage.svg)](https://codeclimate.com/github/department-of-veterans-affairs/vets-website/coverage)
+# VA.gov [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=testing/vets-website/master)](http://jenkins.vetsgov-internal/job/department-of-veterans-affairs/job/vets-website/job/master/) [![Test Coverage](https://codeclimate.com/github/department-of-veterans-affairs/vets-website/badges/coverage.svg)](https://codeclimate.com/github/department-of-veterans-affairs/vets-website/coverage)
 
 ## What is this?
 
-This is the combined frontend repository for www.vets.gov. With this repository, it is possible to
+This is the combined frontend repository for www.va.gov. With this repository, it is possible to
 build all of the client-side (i.e., anything that gets downloaded to the browser) code for
-www.vets.gov with the exception of some high sensitivity endpoints that require server side
+www.va.gov with the exception of some high sensitivity endpoints that require server side
 interaction such as login.
 
 As it is client side there are no secrets in this repository since, well, public secrets aren't
@@ -17,7 +17,7 @@ very secret.
 | clone the site and install dependencies  | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, then follow the instructions below to install node, npm and yarn if needed. Finally, run `yarn install` to fetch all the dependencies. Run `yarn install` anytime `package.json` changes. |
 | fetch all dependencies                   | `yarn install`; run this any time `package.json` changes |
 | Use the git hooks provided               | You can either copy the hooks as-is right now with `cp hooks/* .git/hooks` or make sure your git hooks by using a symbolic link to the hooks distributed with vets-website with `rm -rf .git/hooks && ln -s ../hooks .git/hooks`. On Linux, you may have to do `ln -rs` instead of just `-s`. |
-| deploy the site                          | merge to master for `dev.vets.gov` and `staging.vets.gov`. Production deploys are executed by creating a release of vets-website via Jenkins. |
+| deploy the site                          | merge to master for `dev.va.gov` and `staging.va.gov`. Production deploys are executed by creating a release of vets-website via Jenkins. |
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
 | add new static content to the site.      | Create new files at the right location in `content/pages`. Send a PR. |
 | build the site with dev features enabled. | `npm run build`                          |
