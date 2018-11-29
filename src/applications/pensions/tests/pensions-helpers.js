@@ -267,10 +267,14 @@ function completeDependentInfo(client, data, index) {
       .selectYesNo('root_disabled', data.dependents[index].disabled);
   }
 
-  client.selectYesNo(
-    'root_previouslyMarried',
-    data.dependents[index].previouslyMarried,
-  );
+  client
+    .waitForElementPresent('#root_previouslyMarriedYes', Timeouts.normal)
+    .moveToElement('#root_previouslyMarriedYes', 0, 200)
+    .pause(1000)
+    .selectYesNo(
+      'root_previouslyMarried',
+      data.dependents[index].previouslyMarried,
+    );
 
   if (data.dependents[index].previouslyMarried) {
     client
