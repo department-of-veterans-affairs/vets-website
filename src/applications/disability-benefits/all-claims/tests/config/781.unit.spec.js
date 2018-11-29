@@ -46,6 +46,7 @@ describe('781/781a incident form config iterators', () => {
         expect(config[`ptsdAdditionalEvents${i}`]).to.be.an('object');
       }
     });
+
     it('should contain three view additional event properties within additional events yes/no pages', () => {
       const config = createFormConfig781(PTSD_INCIDENT_ITERATION);
       for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
@@ -120,6 +121,15 @@ describe('781a incident form config', () => {
           `secondaryIncident${i}`
         ],
       ).to.haveOwnProperty('type');
+    }
+  });
+
+  it('should return three additional events yes/no page config objects', () => {
+    const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
+
+    for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+      expect(config).to.haveOwnProperty(`ptsdSecondaryAdditionalEvents${i}`);
+      expect(config[`ptsdSecondaryAdditionalEvents${i}`]).to.be.an('object');
     }
   });
 
