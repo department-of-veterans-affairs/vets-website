@@ -253,18 +253,18 @@ function completeDependentInfo(client, data, index) {
   // These pauses seem to have something to do with the messages that expand underneath
 
   if (typeof data.dependents[index].attendingCollege !== 'undefined') {
-    client
-      .selectYesNo(
-        'root_attendingCollege',
-        data.dependents[index].attendingCollege,
-      )
-      .pause(1000);
+    client.selectYesNo(
+      'root_attendingCollege',
+      data.dependents[index].attendingCollege,
+    );
   }
 
   if (typeof data.dependents[index].disabled !== 'undefined') {
     client
-      .selectYesNo('root_disabled', data.dependents[index].disabled)
-      .pause(1000);
+      .waitForElementPresent('#root_disabledYes', Timeouts.normal)
+      .moveToElement('#root_disabledYes', 0, 200)
+      .pause(1000)
+      .selectYesNo('root_disabled', data.dependents[index].disabled);
   }
 
   client.selectYesNo(
@@ -274,6 +274,8 @@ function completeDependentInfo(client, data, index) {
 
   if (data.dependents[index].previouslyMarried) {
     client
+      .waitForElementPresent('#root_marriedYes', Timeouts.normal)
+      .moveToElement('#root_marriedYes', 0, 200)
       .pause(1000)
       .selectYesNo('root_married', data.dependents[index].married);
   }
