@@ -45,13 +45,15 @@ class ServiceTypeAhead extends Component {
   )
 
   shouldShow = (input, svc) => {
-    /* eslint-disable prettier/prettier */
     return (
       input.length >= 2 &&
-      svc && svc.name &&
-      svc.name.trim().toLowerCase().includes(input.toLowerCase())
+      svc &&
+      svc.name &&
+      svc.name
+        .trim()
+        .toLowerCase()
+        .includes(input.toLowerCase())
     );
-    /* eslint-enable prettier/prettier */
   };
 
   render() {
