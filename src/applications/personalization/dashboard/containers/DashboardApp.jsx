@@ -16,11 +16,9 @@ import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PrescriptionsWidget from './PrescriptionsWidget';
 import PreferencesWidget from '../../preferences/containers/PreferencesWidget';
 
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-import Modal from '@department-of-veterans-affairs/formation/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import profileManifest from '../../profile360/manifest.json';
@@ -69,55 +67,12 @@ class DashboardApp extends React.Component {
       }
     }
   }
-  dismissModal = () => {
-    this.setState({
-      modalDismissed: true,
-    });
-  };
 
   dismissAlertBox = name => () => {
     this.setState({
       [`show-${name}-alert`]: false,
     });
     localStorage.setItem(`hide-${name}-alert`, true);
-  };
-
-  renderDowntimeNotification = (downtime, children) => {
-    switch (downtime.status) {
-      case 'downtimeApproaching':
-        return (
-          <div
-            className="downtime-notification row-padded"
-            data-status={status}
-          >
-            <Modal
-              id="downtime-approaching-modal"
-              title="Some parts of your homepage will be down for maintenance soon"
-              status="info"
-              onClose={this.dismissModal}
-              visible={!this.state.modalDismissed}
-            >
-              <p>
-                We’ll be making updates to some tools and features on{' '}
-                {downtime.startTime.format('MMMM Do')} between{' '}
-                {downtime.startTime.format('LT')} and{' '}
-                {downtime.endTime.format('LT')} If you have trouble using parts
-                of the dashboard during that time, please check back soon.
-              </p>
-              <button
-                type="button"
-                className="usa-button-secondary"
-                onClick={this.dismissModal}
-              >
-                Continue
-              </button>
-            </Modal>
-            {children}
-          </div>
-        );
-      default:
-        return children;
-    }
   };
 
   renderWidgetDowntimeNotification = (appName, sectionTitle) => (
@@ -481,26 +436,7 @@ class DashboardApp extends React.Component {
       </div>
     );
 
-    return (
-      <div name="topScrollElement">
-        <RequiredLoginView
-          serviceRequired={[backendServices.USER_PROFILE]}
-          user={this.props.user}
-        >
-          <DowntimeNotification
-            appTitle="user dashboard"
-            dependencies={[
-              externalServices.mvi,
-              externalServices.mhv,
-              externalServices.appeals,
-            ]}
-            render={this.renderDowntimeNotification}
-          >
-            {view}
-          </DowntimeNotification>
-        </RequiredLoginView>
-      </div>
-    );
+    return <div name="topScrollElement">{view}</div>;
   }
 }
 
