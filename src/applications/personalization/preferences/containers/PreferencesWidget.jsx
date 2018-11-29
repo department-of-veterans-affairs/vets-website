@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-import isProduction from 'platform/utilities/environment/isProduction';
+import environment from 'platform/utilities/environment';
 
 function AccordionWrapper({ children }) {
   return (
@@ -47,7 +47,7 @@ class PreferencesWidget extends React.Component {
 
   render() {
     // do not show in production
-    if (isProduction()) {
+    if (environment.isProduction()) {
       return null;
     }
 

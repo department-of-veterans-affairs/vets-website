@@ -84,6 +84,11 @@ import {
 } from './incidentDate';
 
 import {
+  uiSchema as ptsdAdditionalEventsUISchema,
+  schema as ptsdAdditionalEventsSchema,
+} from './ptsdAdditionalEvents';
+
+import {
   uiSchema as uploadPtsdDocumentsUISchema,
   schema as uploadPtsdDocumentsSchema,
 } from './uploadPtsdDocuments';
@@ -97,6 +102,11 @@ import {
   uiSchema as secondaryIncidentDateUISchema,
   schema as secondaryIncidentDateSchema,
 } from './secondaryIncidentDate';
+
+import {
+  uiSchema as ptsdSecondaryAdditionalEventsUISchema,
+  schema as ptsdSecondaryAdditionalEventsSchema,
+} from './ptsdSecondaryAdditionalEvents';
 
 import {
   uiSchema as uploadPersonalPtsdDocumentsUISchema,
@@ -177,6 +187,11 @@ import {
   uiSchema as unemployabilityFormIntroUISchema,
   schema as unemployabilityFormIntroSchema,
 } from './unemployabilityFormIntro';
+
+import {
+  uiSchema as hospitalizationHistoryUISchema,
+  schema as hospitalizationHistorySchema,
+} from './hospitalizationHistory';
 
 import {
   uiSchema as conclusionCombatUISchema,
@@ -278,6 +293,16 @@ export const incidentDate = {
   schema: incidentDateSchema,
 };
 
+export const ptsdAdditionalEvents = {
+  uiSchema: ptsdAdditionalEventsUISchema,
+  schema: ptsdAdditionalEventsSchema,
+};
+
+export const ptsdSecondaryAdditionalEvents = {
+  uiSchema: ptsdSecondaryAdditionalEventsUISchema,
+  schema: ptsdSecondaryAdditionalEventsSchema,
+};
+
 export const uploadPtsdDocuments = {
   uiSchema: uploadPtsdDocumentsUISchema,
   schema: uploadPtsdDocumentsSchema,
@@ -371,6 +396,11 @@ export const unemployabilityStatus = {
 export const unemployabilityFormIntro = {
   uiSchema: unemployabilityFormIntroUISchema,
   schema: unemployabilityFormIntroSchema,
+};
+
+export const hospitalizationHistory = {
+  uiSchema: hospitalizationHistoryUISchema,
+  schema: hospitalizationHistorySchema,
 };
 
 export const conclusionCombat = {

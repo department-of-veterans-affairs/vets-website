@@ -1,7 +1,7 @@
 import DashboardApp from './containers/DashboardApp';
 import DashboardAppWrapper from './containers/DashboardAppWrapper';
 import SetPreferences from '../preferences/containers/SetPreferences';
-import isProduction from 'platform/utilities/environment/isProduction';
+import environment from 'platform/utilities/environment';
 
 const preferencesRoute = {
   path: 'preferences',
@@ -11,7 +11,7 @@ const preferencesRoute = {
 };
 
 // do not allow route in production
-if (isProduction()) {
+if (environment.isProduction()) {
   preferencesRoute.onEnter = (nextState, replace) => replace('/');
 }
 
