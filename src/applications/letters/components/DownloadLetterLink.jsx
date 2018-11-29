@@ -6,7 +6,7 @@ import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { getLetterPdf } from '../actions/letters';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
-import CallHelpDesk from '../../../platform/brand-consolidation/components/CallHelpDesk';
+import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
 
 export class DownloadLetterLink extends React.Component {
   // Either download the pdf or open it in a new window, depending on the
@@ -67,11 +67,11 @@ export class DownloadLetterLink extends React.Component {
               <p className="usa-alert-text">
                 Your letter isn’t available at this time. If you need help with
                 accessing your letter, please{' '}
-                <CallHelpDesk>
+                <CallVBACenter>
                   call <a href="tel:18555747286">1-855-574-7286</a>, TTY:{' '}
                   <a href="tel:18008778339">1-800-877-8339</a>, Monday &#8211;
                   Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
-                </CallHelpDesk>
+                </CallVBACenter>
               </p>
             </div>
           </div>

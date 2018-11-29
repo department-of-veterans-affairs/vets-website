@@ -89,7 +89,7 @@ describe('VA Medical Records', () => {
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
-              relatedDisabilities: {
+              treatedDisabilityNames: {
                 'Diabetes Melitus': true,
               },
               treatmentDateRange: {
@@ -135,7 +135,7 @@ describe('VA Medical Records', () => {
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
-              relatedDisabilities: {
+              treatedDisabilityNames: {
                 'Diabetes Melitus': true,
               },
               treatmentDateRange: {
@@ -181,7 +181,7 @@ describe('VA Medical Records', () => {
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
-              relatedDisabilities: {
+              treatedDisabilityNames: {
                 'Diabetes Melitus': true,
               },
               treatmentDateRange: {

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import mountWidgets from '../../../../assets/js/static-page-widgets';
+import mountWidgets from '../../../site/assets/js/static-page-widgets';
 
 describe('static page widget', () => {
   it('should display a spinner', () => {

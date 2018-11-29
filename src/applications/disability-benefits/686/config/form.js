@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
 
+import ErrorText from '../../components/ErrorText';
 import fullSchema686 from 'vets-json-schema/dist/21-686C-schema.json';
 import ArrayCountWidget from 'us-forms-system/lib/js/widgets/ArrayCountWidget';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
@@ -329,6 +330,7 @@ const formConfig = {
   },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     location,
     postalCode,

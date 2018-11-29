@@ -4,7 +4,7 @@ import appendQuery from 'append-query';
 import PropTypes from 'prop-types';
 
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-import CallHelpDesk from '../../../../platform/brand-consolidation/components/CallHelpDesk';
+import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
 
 import disabilityIncreaseManifest from '../../526EZ/manifest.json';
 
@@ -43,11 +43,11 @@ export default class AuthorizationMessage extends React.Component {
           messageLine2={
             <span>
               Please{' '}
-              <CallHelpDesk>
+              <CallVBACenter>
                 call the {propertyName} Help Desk at 1-855-574-7286, TTY:
                 1-800-877-8339. We're open Monday &#8211; Friday, 8:00 a.m.
                 &#8211; 8:00 p.m. (ET).
-              </CallHelpDesk>
+              </CallVBACenter>
             </span>
           }
         />
