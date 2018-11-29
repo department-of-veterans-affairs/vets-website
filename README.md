@@ -55,9 +55,6 @@ very secret.
 | assets           | Static assets such as images or fonts. These may get some optimization-style processing done on them, but in general files here are expected to show up directly in the output. |
 | build            | Output of the site build. A subdirectory is generated per `buildtype` so `--buildtype=development` appears in `build/development`. This directory is suitable for synchronizing into S3 for deployment |
 | config           | Contains config files for the site.      |
-| content/pages    | Static content for the site. If a file is added here, it will appear on the website by default. |
-| content/layouts  | Collection of layouts that can be used by content/pages. Must be html. No Markdown. |
-| content/includes | Collection of HTML fragments shared between layouts. Must be html. No Markdown. |
 | logs             | Directory for log output from build tools. Currently only used by nightwatch and selenium for end-to-end testing. |
 | node\_modules    | install location of npm modules. Managed by npm. |
 | script           | Scripts for building the repository. The most commonly used script is `build.js` which runs Metalsmith |
