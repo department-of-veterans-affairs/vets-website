@@ -198,6 +198,11 @@ import {
   schema as newDisabilitiesSchema,
 } from './newDisabilities';
 
+import {
+  uiSchema as incomeDetailsUISchema,
+  schema as incomeDetailsSchema,
+} from './incomeDetails';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema,
@@ -396,4 +401,9 @@ export const conclusionAssault = {
 export const newDisabilities = {
   uiSchema: newDisabilitiesUISchema,
   schema: newDisabilitiesSchema,
+};
+
+export const incomeDetails = {
+  uiSchema: incomeDetailsUISchema,
+  schema: incomeDetailsSchema,
 };
