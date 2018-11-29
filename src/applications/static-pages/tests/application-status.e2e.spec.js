@@ -15,7 +15,7 @@ function testStatus(client, page, url) {
 
   client
     .click('.usa-button-secondary')
-    .waitForElementPresent('.va-modal', Timeouts.normal)
+    .waitForElementPresent('#start-over-modal-title', Timeouts.normal)
     .expect.element('#start-over-modal-title')
     .text.equals('Starting over will delete your in-progress form.');
 
