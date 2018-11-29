@@ -403,6 +403,22 @@ export const isUploading781Form = formData =>
 export const isUploading781aForm = formData =>
   _.get('view:upload781aChoice', formData, '') === 'upload';
 
+export const isAnswering781Questions = index => formData =>
+  _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&
+  (index === 0 ||
+    _.get(`view:enterAdditionalEvents${index - 1}`, formData, false)) &&
+  needsToEnter781(formData);
+
+export const isAnswering781aQuestions = index => formData =>
+  _.get('view:upload781aChoice', formData, '') === 'answerQuestions' &&
+  (index === 0 ||
+    _.get(
+      `view:enterAdditionalSecondaryEvents${index - 1}`,
+      formData,
+      false,
+    )) &&
+  needsToEnter781a(formData);
+
 export const getHomelessOrAtRisk = formData => {
   const homelessStatus = _.get('homelessOrAtRisk', formData, '');
   return (

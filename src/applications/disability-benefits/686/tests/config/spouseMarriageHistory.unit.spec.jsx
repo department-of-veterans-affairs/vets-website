@@ -8,7 +8,7 @@ import {
   fillData,
   fillDate,
   selectRadio,
-} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('686 spouse marriage history', () => {

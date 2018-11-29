@@ -79,6 +79,16 @@ import {
 } from './ptsdWalkthroughChoice781';
 
 import {
+  uiSchema as incidentDateUISchema,
+  schema as incidentDateSchema,
+} from './incidentDate';
+
+import {
+  uiSchema as ptsdAdditionalEventsUISchema,
+  schema as ptsdAdditionalEventsSchema,
+} from './ptsdAdditionalEvents';
+
+import {
   uiSchema as uploadPtsdDocumentsUISchema,
   schema as uploadPtsdDocumentsSchema,
 } from './uploadPtsdDocuments';
@@ -87,6 +97,16 @@ import {
   uiSchema as ptsdWalkthroughChoice781aUISchema,
   schema as ptsdWalkthroughChoice781aSchema,
 } from './ptsdWalkthroughChoice781a';
+
+import {
+  uiSchema as secondaryIncidentDateUISchema,
+  schema as secondaryIncidentDateSchema,
+} from './secondaryIncidentDate';
+
+import {
+  uiSchema as ptsdSecondaryAdditionalEventsUISchema,
+  schema as ptsdSecondaryAdditionalEventsSchema,
+} from './ptsdSecondaryAdditionalEvents';
 
 import {
   uiSchema as uploadPersonalPtsdDocumentsUISchema,
@@ -169,6 +189,11 @@ import {
 } from './unemployabilityFormIntro';
 
 import {
+  uiSchema as hospitalizationHistoryUISchema,
+  schema as hospitalizationHistorySchema,
+} from './hospitalizationHistory';
+
+import {
   uiSchema as conclusionCombatUISchema,
   schema as conclusionCombatSchema,
 } from './conclusionCombat';
@@ -177,6 +202,11 @@ import {
   uiSchema as conclusionAssaultUISchema,
   schema as conclusionAssaultSchema,
 } from './conclusionAssault';
+
+import {
+  uiSchema as newDisabilitiesUISchema,
+  schema as newDisabilitiesSchema,
+} from './newDisabilities';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -258,6 +288,21 @@ export const ptsdWalkthroughChoice781 = {
   schema: ptsdWalkthroughChoice781Schema,
 };
 
+export const incidentDate = {
+  uiSchema: incidentDateUISchema,
+  schema: incidentDateSchema,
+};
+
+export const ptsdAdditionalEvents = {
+  uiSchema: ptsdAdditionalEventsUISchema,
+  schema: ptsdAdditionalEventsSchema,
+};
+
+export const ptsdSecondaryAdditionalEvents = {
+  uiSchema: ptsdSecondaryAdditionalEventsUISchema,
+  schema: ptsdSecondaryAdditionalEventsSchema,
+};
+
 export const uploadPtsdDocuments = {
   uiSchema: uploadPtsdDocumentsUISchema,
   schema: uploadPtsdDocumentsSchema,
@@ -266,6 +311,11 @@ export const uploadPtsdDocuments = {
 export const ptsdWalkthroughChoice781a = {
   uiSchema: ptsdWalkthroughChoice781aUISchema,
   schema: ptsdWalkthroughChoice781aSchema,
+};
+
+export const secondaryIncidentDate = {
+  uiSchema: secondaryIncidentDateUISchema,
+  schema: secondaryIncidentDateSchema,
 };
 
 export const uploadPersonalPtsdDocuments = {
@@ -348,6 +398,11 @@ export const unemployabilityFormIntro = {
   schema: unemployabilityFormIntroSchema,
 };
 
+export const hospitalizationHistory = {
+  uiSchema: hospitalizationHistoryUISchema,
+  schema: hospitalizationHistorySchema,
+};
+
 export const conclusionCombat = {
   uiSchema: conclusionCombatUISchema,
   schema: conclusionCombatSchema,
@@ -356,4 +411,9 @@ export const conclusionCombat = {
 export const conclusionAssault = {
   uiSchema: conclusionAssaultUISchema,
   schema: conclusionAssaultSchema,
+};
+
+export const newDisabilities = {
+  uiSchema: newDisabilitiesUISchema,
+  schema: newDisabilitiesSchema,
 };

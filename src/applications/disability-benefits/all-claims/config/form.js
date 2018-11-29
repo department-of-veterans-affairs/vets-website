@@ -3,6 +3,8 @@ import environment from '../../../../platform/utilities/environment';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
+import submitForm from './submitForm';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
 import GetFormHelp from '../../components/GetFormHelp';
@@ -72,16 +74,23 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  hospitalizationHistory,
+  newDisabilities,
 } from '../pages';
 
-import { PTSD } from '../constants';
+import { createFormConfig781, createFormConfig781a } from './781';
+
+import { PTSD, PTSD_INCIDENT_ITERATION } from '../constants';
 
 import fullSchema from './schema';
 
 const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
-  submitUrl: `${environment.API_URL}/v0/disability_compensation_form/submit`,
+  submitUrl: `${
+    environment.API_URL
+  }/v0/disability_compensation_form/submit_all_claim`,
+  submit: submitForm,
   trackingPrefix: 'disability-526EZ-',
   // formId: '21-526EZ-all-claims',
   formId: '21-526EZ', // To test prefill, we'll use the 526 increase form ID for now
@@ -179,16 +188,13 @@ const formConfig = {
         newDisabilities: {
           title: 'New disabilities',
           path: 'new-disabilities',
-          uiSchema: {
-            'ui:title': 'New disabilities',
-            'ui:description':
-              'Now we’ll ask you about your new service-connected disabilities or conditions.',
-          },
-          schema: { type: 'object', properties: {} },
+          uiSchema: newDisabilities.uiSchema,
+          schema: newDisabilities.schema,
         },
         addDisabilities: {
           title: 'Add a new disability',
           path: 'new-disabilities/add',
+          depends: form => form['view:newDisabilities'] === true,
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
         },
@@ -249,6 +255,7 @@ const formConfig = {
           uiSchema: ptsdWalkthroughChoice781.uiSchema,
           schema: ptsdWalkthroughChoice781.schema,
         },
+        ...createFormConfig781(PTSD_INCIDENT_ITERATION),
         uploadPtsdDocuments781: {
           title: 'Upload PTSD Documents - 781',
           path: 'new-disabilities/ptsd-781-upload',
@@ -267,6 +274,7 @@ const formConfig = {
           uiSchema: ptsdWalkthroughChoice781a.uiSchema,
           schema: ptsdWalkthroughChoice781a.schema,
         },
+        ...createFormConfig781a(PTSD_INCIDENT_ITERATION),
         uploadPtsdDocuments781a: {
           title: 'Upload PTSD Documents - 781a',
           path: 'new-disabilities/ptsd-781a-upload',
@@ -303,6 +311,14 @@ const formConfig = {
           depends: formData => formData['view:unemployabilityStatus'],
           uiSchema: unemployabilityFormIntro.uiSchema,
           schema: unemployabilityFormIntro.schema,
+        },
+        hospitalizationHistory: {
+          title: 'Hospitalization',
+          path: 'hospitalization-history',
+          depends: formData =>
+            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
+          uiSchema: hospitalizationHistory.uiSchema,
+          schema: hospitalizationHistory.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
