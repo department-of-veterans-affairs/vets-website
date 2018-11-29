@@ -31,17 +31,15 @@ class SetPreferences extends React.Component {
             apply. Select one or more of the types of benefits below, and we’ll
             help you get started.
           </p>
-          <div>
-            <div className="preferences-grid">
-              {benefitChoices.map((item, itemIndex) => (
-                <PreferenceOption
-                  key={itemIndex}
-                  item={item}
-                  onChange={this.handlePreferenceToggle}
-                  checked={!!this.props.preferences.dashboard[item.slug]}
-                />
-              ))}
-            </div>
+          <div className="preferences-grid">
+            {benefitChoices.map((item, itemIndex) => (
+              <PreferenceOption
+                key={itemIndex}
+                item={item}
+                onChange={this.handlePreferenceToggle}
+                checked={!!this.props.preferences.dashboard[item.slug]}
+              />
+            ))}
           </div>
           <div>
             <button
