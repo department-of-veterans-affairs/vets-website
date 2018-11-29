@@ -1,9 +1,8 @@
-import React from 'react';
 import { merge, omit } from 'lodash';
 
 import fullSchema from '../config/schema';
 import AuthorityField from '../components/AuthorityField';
-import { PtsdNameTitle } from '../content/ptsdClassification';
+import { ptsd781aNameTitle } from '../content/ptsdClassification';
 import { PtsdAssaultAuthoritiesDescription } from '../content/ptsdAssaultAuthorities';
 import {
   uiSchema as addressUI,
@@ -12,9 +11,7 @@ import {
 import { validateZIP } from '../validations';
 
 export const uiSchema = index => ({
-  'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781a" />
-  ),
+  'ui:title': ptsd781aNameTitle,
   'ui:description': PtsdAssaultAuthoritiesDescription,
   [`secondaryIncident${index}`]: {
     authorities: {
