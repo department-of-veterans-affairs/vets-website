@@ -54,7 +54,7 @@ class PreferencesWidget extends React.Component {
     return (
       <div className="row user-profile-row">
         <div className="small-12 columns">
-          <div className="titleContainer">
+          <div className="title-container">
             <h2>Find VA Benefits</h2>
             <Link to="preferences">Find VA Benefits Settings</Link>
           </div>
