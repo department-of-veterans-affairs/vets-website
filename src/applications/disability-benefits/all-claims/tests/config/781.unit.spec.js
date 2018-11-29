@@ -37,6 +37,39 @@ describe('781/781a incident form config iterators', () => {
       };
       testMultipleIncidentDateObjects();
     });
+
+    it('should return three additional events yes/no page config objects', () => {
+      const config = createFormConfig781(PTSD_INCIDENT_ITERATION);
+
+      const testMultipleAdditionalEventsProps = () => {
+        for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+          expect(config).to.haveOwnProperty(`ptsdAdditionalEvents${i}`);
+
+          expect(config[`ptsdAdditionalEvents${i}`]).to.be.an('object');
+        }
+      };
+      testMultipleAdditionalEventsProps();
+    });
+    it('should contain three view additional event properties within additional events yes/no pages', () => {
+      const config = createFormConfig781(PTSD_INCIDENT_ITERATION);
+
+      const testMultipleAdditionalEventsObjects = () => {
+        for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+          expect(
+            config[`ptsdAdditionalEvents${i}`].schema.properties[
+              `view:enterAdditionalEvents${i}`
+            ],
+          ).to.be.an('object');
+
+          expect(
+            config[`ptsdAdditionalEvents${i}`].schema.properties[
+              `view:enterAdditionalEvents${i}`
+            ],
+          ).to.haveOwnProperty('type');
+        }
+      };
+      testMultipleAdditionalEventsObjects();
+    });
   });
 
   it('should return three incident location page config objects', () => {
@@ -64,7 +97,7 @@ describe('781/781a incident form config iterators', () => {
       };
       testMultipleIncidentDateProps();
     });
-    it('should contain three incident properties', () => {
+    it('should contain three incident properties within incident date pages', () => {
       const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
 
       const testMultipleIncidentDateObjects = () => {
@@ -89,6 +122,41 @@ describe('781/781a incident form config iterators', () => {
       for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
         expect(config).to.haveOwnProperty(`secondaryIncidentLocation${i}`);
         expect(config[`secondaryIncidentLocation${i}`]).to.be.an('object');
+      }
+    });
+
+    it('should return three additional events yes/no page config objects', () => {
+      const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
+
+      const testMultipleAdditionalEventsProps = () => {
+        for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+          expect(config).to.haveOwnProperty(
+            `ptsdSecondaryAdditionalEvents${i}`,
+          );
+
+          expect(config[`ptsdSecondaryAdditionalEvents${i}`]).to.be.an(
+            'object',
+          );
+        }
+      };
+      testMultipleAdditionalEventsProps();
+    });
+
+    it('should contain three view additional event properties within additional events yes/no pages', () => {
+      const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
+
+      for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+        expect(
+          config[`ptsdSecondaryAdditionalEvents${i}`].schema.properties[
+            `view:enterAdditionalSecondaryEvents${i}`
+          ],
+        ).to.be.an('object');
+
+        expect(
+          config[`ptsdSecondaryAdditionalEvents${i}`].schema.properties[
+            `view:enterAdditionalSecondaryEvents${i}`
+          ],
+        ).to.haveOwnProperty('type');
       }
     });
   });

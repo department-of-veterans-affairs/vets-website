@@ -3,6 +3,8 @@ import {
   incidentLocation,
   secondaryIncidentDate,
   secondaryIncidentLocation,
+  ptsdAdditionalEvents,
+  ptsdSecondaryAdditionalEvents,
 } from '../../pages';
 
 import { isAnswering781Questions, isAnswering781aQuestions } from '../../utils';
@@ -29,7 +31,7 @@ export function createFormConfig781(iterations) {
       [`incidentDate${index}`]: {
         title: `${numberToWords[index]} PTSD incident date`,
         path: `disabilities/ptsd-incident-date-${index}`,
-        depends: isAnswering781Questions,
+        depends: isAnswering781Questions(index),
         uiSchema: incidentDate.uiSchema(index),
         schema: incidentDate.schema(index),
       },
@@ -39,6 +41,13 @@ export function createFormConfig781(iterations) {
         depends: isAnswering781Questions,
         uiSchema: incidentLocation.uiSchema(index),
         schema: incidentLocation.schema(index),
+      },
+      [`ptsdAdditionalEvents${index}`]: {
+        title: `${numberToWords[index]} PTSD incident Additional events.`,
+        path: `disabilities/ptsd-additional-events-${index}`,
+        depends: isAnswering781Questions(index),
+        uiSchema: ptsdAdditionalEvents.uiSchema(index),
+        schema: ptsdAdditionalEvents.schema(index),
       },
     };
   }
@@ -65,6 +74,16 @@ export function createFormConfig781a(iterations) {
         depends: isAnswering781aQuestions,
         uiSchema: secondaryIncidentLocation.uiSchema(index),
         schema: secondaryIncidentLocation.schema(index),
+      },
+      // This should be the last page in the config loop
+      [`ptsdSecondaryAdditionalEvents${index}`]: {
+        title: `${
+          numberToWords[index]
+        } PTSD assault incident additional events.`,
+        path: `disabilities/ptsd-781a-additional-events-${index}`,
+        depends: isAnswering781aQuestions(index),
+        uiSchema: ptsdSecondaryAdditionalEvents.uiSchema(index),
+        schema: ptsdSecondaryAdditionalEvents.schema(index),
       },
     };
   }

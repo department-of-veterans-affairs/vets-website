@@ -1,18 +1,15 @@
-import React from 'react';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 
-import { ptsd781aNameTitle } from '../content/ptsdClassification';
-import { SecondaryDateDescription } from '../content/incidentDate';
+import { ptsd781NameTitle } from '../content/ptsdClassification';
+import { ptsdDateDescription } from '../content/incidentDate';
 import fullSchema from '../config/schema';
 
 const { date } = fullSchema.definitions;
 
 export const uiSchema = index => ({
-  'ui:title': ptsd781aNameTitle,
-  'ui:description': ({ formData }) => (
-    <SecondaryDateDescription formData={formData} index={index} />
-  ),
-  [`secondaryIncident${index}`]: {
+  'ui:title': ptsd781NameTitle,
+  [`incident${index}`]: {
+    'ui:description': ptsdDateDescription,
     incidentDate: currentOrPastDateUI(' '),
   },
 });
@@ -20,10 +17,14 @@ export const uiSchema = index => ({
 export const schema = index => ({
   type: 'object',
   properties: {
-    [`secondaryIncident${index}`]: {
+    [`incident${index}`]: {
       type: 'object',
       properties: {
         incidentDate: date,
+        'view:ptsdDateDescription': {
+          type: 'object',
+          properties: {},
+        },
       },
     },
   },
