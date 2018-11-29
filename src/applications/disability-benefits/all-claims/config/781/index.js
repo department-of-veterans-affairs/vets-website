@@ -38,7 +38,7 @@ export function createFormConfig781(iterations) {
       [`incidentUnitAssignment${index}`]: {
         title: `${numberToWords[index]} PTSD incident unit assignment`,
         path: `disabilities/ptsd-incident-unit-assignment-${index}`,
-        depends: isAnswering781Questions,
+        depends: isAnswering781Questions(index),
         uiSchema: incidentUnitAssignment.uiSchema(index),
         schema: incidentUnitAssignment.schema(index),
       },
@@ -64,14 +64,14 @@ export function createFormConfig781a(iterations) {
       [`secondaryIncidentDate${index}`]: {
         title: `${numberToWords[index]} PTSD assault incident date`,
         path: `disabilities/ptsd-secondary-incident-date-${index}`,
-        depends: isAnswering781aQuestions,
+        depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentDate.uiSchema(index),
         schema: secondaryIncidentDate.schema(index),
       },
       [`secondaryIncidentUnitAssignment${index}`]: {
         title: `${numberToWords[index]} PTSD assualt incident unit assignment`,
         path: `disabilities/ptsd-secondary-incident-unit-assignment-${index}`,
-        depends: isAnswering781aQuestions,
+        depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentUnitAssignment.uiSchema(index),
         schema: secondaryIncidentUnitAssignment.schema(index),
       },
