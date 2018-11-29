@@ -55,9 +55,11 @@ const props = {
   router: () => {},
 };
 
+const context = { router: {} };
+
 describe('Folder', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<Folder {...props} />);
+    const tree = SkinDeep.shallowRender(<Folder {...props} />, context);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
@@ -65,6 +67,7 @@ describe('Folder', () => {
   it('should show a loading screen', () => {
     const tree = SkinDeep.shallowRender(
       <Folder {...props} loading={{ folder: true }} />,
+      context,
     );
     expect(tree.subTree('LoadingIndicator')).to.not.be.false;
     expect(tree.subTree('MessageSearch')).to.be.false;
@@ -73,7 +76,10 @@ describe('Folder', () => {
   });
 
   it('should show an error message without a reload', () => {
-    const tree = SkinDeep.shallowRender(<Folder {...props} attributes={{}} />);
+    const tree = SkinDeep.shallowRender(
+      <Folder {...props} attributes={{}} />,
+      context,
+    );
     expect(tree.subTree('.msg-loading-error')).to.not.be.false;
     expect(tree.subTree('.msg-reload')).to.be.false;
     expect(tree.subTree('MessageSearch')).to.be.false;
@@ -88,6 +94,7 @@ describe('Folder', () => {
         attributes={{}}
         lastRequestedFolder={{ id: 0, query: {} }}
       />,
+      context,
     );
     expect(tree.subTree('.msg-loading-error')).to.not.be.false;
     expect(tree.subTree('.msg-reload')).to.be.not.be.false;
@@ -109,6 +116,7 @@ describe('Folder', () => {
           totalEntries: 0,
         }}
       />,
+      context,
     );
     expect(tree.dive(['h3']).text()).to.equal('Inbox');
     expect(tree.subTree('.msg-nomessages')).to.not.be.false;
@@ -130,6 +138,7 @@ describe('Folder', () => {
           totalEntries: 0,
         }}
       />,
+      context,
     );
     expect(tree.dive(['h3']).text()).to.equal('Inbox');
     expect(tree.subTree('.msg-nomessages')).to.not.be.false;
@@ -139,7 +148,7 @@ describe('Folder', () => {
   });
 
   it('should show folder controls and messages', () => {
-    const tree = SkinDeep.shallowRender(<Folder {...props} />);
+    const tree = SkinDeep.shallowRender(<Folder {...props} />, context);
     expect(tree.dive(['h3']).text()).to.equal('Inbox');
     expect(tree.subTree('ComposeButton')).to.not.be.false;
     expect(tree.subTree('MessageSearch')).to.not.be.false;
@@ -161,6 +170,7 @@ describe('Folder', () => {
           totalEntries: 2,
         }}
       />,
+      context,
     );
     expect(tree.dive(['h3']).text()).to.equal('Inbox');
     expect(tree.subTree('ComposeButton')).to.not.be.false;
