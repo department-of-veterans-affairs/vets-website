@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 
-import backendServices from '../../../../platform/user/profile/constants/backendServices';
-import recordEvent from '../../../../platform/monitoring/record-event';
-import localStorage from '../../../../platform/utilities/storage/localStorage';
-import isProduction from '../../../../platform/utilities/environment/isProduction';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import recordEvent from 'platform/monitoring/record-event';
+import localStorage from 'platform/utilities/storage/localStorage';
+import isProduction from 'platform/utilities/environment/isProduction';
 
 import { removeSavedForm } from '../actions';
 
@@ -16,16 +16,16 @@ import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PrescriptionsWidget from './PrescriptionsWidget';
 import PreferencesWidget from '../../preferences/containers/PreferencesWidget';
 
-import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, {
   externalServices,
-} from '../../../../platform/monitoring/DowntimeNotification';
+} from 'platform/monitoring/DowntimeNotification';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import profileManifest from '../../profile360/manifest.json';
 import accountManifest from '../../account/manifest.json';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
 import lettersManifest from '../../../letters/manifest.js';
 import facilityLocator from '../../../facility-locator/manifest';
 

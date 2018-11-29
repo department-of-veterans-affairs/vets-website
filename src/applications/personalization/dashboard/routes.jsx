@@ -1,7 +1,7 @@
 import DashboardApp from './containers/DashboardApp';
 import DashboardAppWrapper from './containers/DashboardAppWrapper';
 import SetPreferences from '../preferences/containers/SetPreferences';
-import isProduction from '../../../platform/utilities/environment/isProduction';
+import isProduction from 'platform/utilities/environment/isProduction';
 
 const preferencesRoute = {
   path: 'preferences',

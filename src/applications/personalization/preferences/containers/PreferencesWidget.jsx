@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-import isProduction from '../../../../platform/utilities/environment/isProduction';
+import isProduction from 'platform/utilities/environment/isProduction';
 
 function AccordionWrapper({ children }) {
   return (

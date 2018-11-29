@@ -1,4 +1,4 @@
-import localStorage from '../../../../platform/utilities/storage/localStorage';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 export const DASHBOARD_PREFERENCE_SET = 'DASHBOARD_PREFERENCE_SET';
 export const DASHBOARD_PREFERENCES_SAVED = 'DASHBOARD_PREFERENCES_SAVED';
