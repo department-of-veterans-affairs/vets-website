@@ -38,7 +38,7 @@ export function createFormConfig781(iterations) {
       [`incidentLocation${index}`]: {
         title: `${numberToWords[index]} PTSD incident location`,
         path: `disabilities/ptsd-incident-location-${index}`,
-        depends: isAnswering781Questions,
+        depends: isAnswering781aQuestions(index),
         uiSchema: incidentLocation.uiSchema(index),
         schema: incidentLocation.schema(index),
       },
@@ -64,14 +64,14 @@ export function createFormConfig781a(iterations) {
         title: `${numberToWords[index]} PTSD assault incident date`,
         path: `disabilities/ptsd-secondary-incident-date-${index}`,
         // The Depends will need to be refactored to account for the page index/incident Number
-        depends: isAnswering781aQuestions,
+        depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentDate.uiSchema(index),
         schema: secondaryIncidentDate.schema(index),
       },
       [`secondaryIncidentLocation${index}`]: {
         title: `${numberToWords[index]} PTSD assault incident location`,
         path: `disabilities/ptsd-secondary-incident-location-${index}`,
-        depends: isAnswering781aQuestions,
+        depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentLocation.uiSchema(index),
         schema: secondaryIncidentLocation.schema(index),
       },
