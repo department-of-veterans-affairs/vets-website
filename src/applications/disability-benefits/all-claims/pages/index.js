@@ -79,6 +79,11 @@ import {
 } from './ptsdWalkthroughChoice781';
 
 import {
+  uiSchema as incidentSupportUISchema,
+  schema as incidentSupportSchema,
+} from './incidentSupport';
+
+import {
   uiSchema as incidentDateUISchema,
   schema as incidentDateSchema,
 } from './incidentDate';
@@ -112,6 +117,16 @@ import {
   uiSchema as secondaryFinalIncidentUISchema,
   schema as secondaryFinalIncidentSchema,
 } from './secondaryFinalIncident';
+
+import {
+  uiSchema as secondaryIncidentPermissionNoticeUISchema,
+  schema as secondaryIncidentPermissionNoticeSchema,
+} from './secondaryIncidentPermissionNotice';
+
+import {
+  uiSchema as secondaryIncidentAuthoritiesUISchema,
+  schema as secondaryIncidentAuthoritiesSchema,
+} from './secondaryIncidentAuthorities';
 
 import {
   uiSchema as ptsdSecondaryAdditionalEventsUISchema,
@@ -197,6 +212,11 @@ import {
   uiSchema as unemployabilityFormIntroUISchema,
   schema as unemployabilityFormIntroSchema,
 } from './unemployabilityFormIntro';
+
+import {
+  uiSchema as hospitalizationHistoryUISchema,
+  schema as hospitalizationHistorySchema,
+} from './hospitalizationHistory';
 
 import {
   uiSchema as conclusionCombatUISchema,
@@ -293,6 +313,11 @@ export const ptsdWalkthroughChoice781 = {
   schema: ptsdWalkthroughChoice781Schema,
 };
 
+export const incidentSupport = {
+  uiSchema: incidentSupportUISchema,
+  schema: incidentSupportSchema,
+};
+
 export const incidentDate = {
   uiSchema: incidentDateUISchema,
   schema: incidentDateSchema,
@@ -321,6 +346,16 @@ export const ptsdWalkthroughChoice781a = {
 export const secondaryIncidentDate = {
   uiSchema: secondaryIncidentDateUISchema,
   schema: secondaryIncidentDateSchema,
+};
+
+export const secondaryIncidentPermissionNotice = {
+  uiSchema: secondaryIncidentPermissionNoticeUISchema,
+  schema: secondaryIncidentPermissionNoticeSchema,
+};
+
+export const secondaryIncidentAuthorities = {
+  uiSchema: secondaryIncidentAuthoritiesUISchema,
+  schema: secondaryIncidentAuthoritiesSchema,
 };
 
 export const uploadPersonalPtsdDocuments = {
@@ -411,6 +446,11 @@ export const finalIncident = {
 export const secondaryFinalIncident = {
   uiSchema: secondaryFinalIncidentUISchema,
   schema: secondaryFinalIncidentSchema,
+};
+
+export const hospitalizationHistory = {
+  uiSchema: hospitalizationHistoryUISchema,
+  schema: hospitalizationHistorySchema,
 };
 
 export const conclusionCombat = {
