@@ -22,9 +22,8 @@ very secret.
 | add new static content to the site.      | Create new files at the right location in `content/pages`. Send a PR. |
 | build the site with dev features enabled. | `npm run build`                          |
 | build the production site (dev features disabled). | `npm run build -- --buildtype vagovprod` Note the extra `--` is required otherwise npm eats the buildtype argument instead of passing it on. |
-| build the site with optimizitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
 | reset local environment (clean out node modules and runs npm install) | `npm run reset:env`                      |
-| run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
+| run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype`. |
 | run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName` |
 | run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry static-pages` |
 | run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0 --public 198.162.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
@@ -45,7 +44,7 @@ very secret.
 | get the latest json schema               | `yarn remove vets-json-schema; yarn add https://github.com/department-of-veterans-affairs/vets-json-schema.git#{latest commit hash}` |
 | check test coverage                      | `npm run test:coverage`                  |
 | run bundle analyzer on our production JS bundles | `npm run build-analyze`                  |
-| generate a stats file for analysis by bundle analyzer | `NODE_ENV=production npm run build -- -- buildtype=vagovprod --analyzer`                  |
+| generate a stats file for analysis by bundle analyzer | `npm run build -- -- buildtype=vagovprod --analyzer`                  |
 | load the analyzer tool on a stats file  | `npm run analyze`                  |
 
 ## Directory structure
@@ -121,16 +120,9 @@ The `vets-website` build will know to look for a sibling directory called `vagov
 ### Build
 The build is abstracted by the command `npm run build` which really just exectues
 `scripts/build.js` --  a simple Javscript program that configures Metalscript and Webpack
-based on things in `config/`, commandline flags, and the `NODE_ENV` environment variable.
-
-*WARNING: `--buildtype` and `NODE_ENV` are unrelated!*
+based on things in `config/`, and command line arguments.
 
 `--buildtype` changes what constants are defined which enables/disables features from the code.
-
-`NODE_ENV` changes the optimizations applies such as disabling React PropType checks and
-enabling minification + javascript chunking.
-
-(Note: The `NODE_ENV` env variable dependency is a questionable design choice. It should
 
 #### Metalsmith -- Static content builds and top-level file watching.
 The `build.js` script relies on [Metalsmith's Javascript
