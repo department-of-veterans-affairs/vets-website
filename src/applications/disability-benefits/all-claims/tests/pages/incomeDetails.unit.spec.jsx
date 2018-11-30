@@ -10,7 +10,7 @@ import {
 import formConfig from '../../config/form.js';
 import initialData from '../initialData.js';
 
-describe('Hospitalization Interview Questions', () => {
+describe('Income Details Questions', () => {
   const {
     schema,
     uiSchema,
@@ -33,30 +33,67 @@ describe('Hospitalization Interview Questions', () => {
     expect(form.find('input').length).to.equal(3);
   });
 
-  //   it('should add a hospital', () => {
-  //     const onSubmit = sinon.spy();
-  //     const form = mount(
-  //       <DefinitionTester
-  //         arrayPath={arrayPath}
-  //         pagePerItemIndex={0}
-  //         onSubmit={onSubmit}
-  //         definitions={formConfig.defaultDefinitions}
-  //         schema={schema}
-  //         data={initialData}
-  //         formData={initialData}
-  //         uiSchema={uiSchema}
-  //       />,
-  //     );
-  //
-  //     //  No fields are required
-  //     fillData(
-  //       form,
-  //       'input#root_hospitalizationHistory_0_hospitalName',
-  //       'Local facility',
-  //     );
-  //
-  //     form.find('form').simulate('submit');
-  //     expect(onSubmit.called).to.be.true;
-  //     expect(form.find('.usa-input-error').length).to.equal(0);
-  //   });
+  it('should add income details', () => {
+    const onSubmit = sinon.spy();
+
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={initialData}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    fillData(form, 'input#root_mostIncome', '10000');
+    fillData(form, 'input#root_yearEarned', '2012');
+
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error').length).to.equal(0);
+  });
+
+  it('should not submit when income is not all numbers', () => {
+    const onSubmit = sinon.spy();
+
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={initialData}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    fillData(form, 'input#root_mostIncome', 'abcde');
+
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error').length).to.equal(1);
+  });
+
+  it('should not submit when year is not valid', () => {
+    const onSubmit = sinon.spy();
+
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={initialData}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    fillData(form, 'input#root_yearEarned', '0000');
+
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error').length).to.equal(1);
+  });
 });

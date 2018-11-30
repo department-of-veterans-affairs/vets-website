@@ -1,6 +1,8 @@
 import React from 'react';
 import { PtsdNameTitle } from '../content/ptsdClassification';
 
+import { isValidYear } from '../validations';
+
 const incomeDescription = (
   <div>
     <p>
@@ -27,8 +29,9 @@ export const uiSchema = {
   },
   yearEarned: {
     'ui:title': 'Year earned',
+    'ui:validations': [isValidYear],
     'ui:errorMessages': {
-      pattern: 'Please enter 4 digit year',
+      pattern: 'Please provide a valid year',
     },
   },
   job: {
@@ -45,7 +48,6 @@ export const schema = {
     },
     yearEarned: {
       type: 'string',
-      pattern: '^[0-9]{4}$',
     },
     job: {
       type: 'string',
