@@ -6,7 +6,7 @@ import { Validator } from 'jsonschema';
 import formConfig from '../../config/form';
 import fullSchema from '../../config/schema';
 
-describe.only('526 all claims schema tests', () => {
+describe('526 all claims schema tests', () => {
   const v = new Validator();
   const files = fs.readdirSync(__dirname);
   files.filter(file => file.endsWith('json')).forEach(file => {
