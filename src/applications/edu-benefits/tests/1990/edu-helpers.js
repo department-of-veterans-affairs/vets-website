@@ -1,4 +1,5 @@
 const mock = require('../../../../platform/testing/e2e/mock-helpers');
+const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 
 // Create API routes
 function initApplicationSubmitMock(form) {
@@ -343,6 +344,8 @@ function completeSchoolSelection(client, data) {
       'root_educationProgram_educationType',
       data.educationProgram.educationType,
     )
+    .waitForElementPresent('#root_educationProgram_name', Timeouts.normal)
+    .moveTo('#root_educationProgram_name', 0, 200)
     .fill(
       'input[name="root_educationProgram_name"]',
       data.educationProgram.name,
