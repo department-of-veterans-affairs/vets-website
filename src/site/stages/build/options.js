@@ -3,8 +3,8 @@
 const path = require('path');
 const commandLineArgs = require('command-line-args');
 
-const ENVIRONMENTS = require('../constants/environments');
-const HOSTNAMES = require('../constants/hostnames');
+const ENVIRONMENTS = require('../../constants/environments');
+const HOSTNAMES = require('../../constants/hostnames');
 
 const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const defaultHost = HOSTNAMES[defaultBuildtype];
