@@ -51,7 +51,6 @@ very secret.
 
 | Directory        | Description                              |
 | ---------------- | ---------------------------------------- |
-| assets           | Static assets such as images or fonts. These may get some optimization-style processing done on them, but in general files here are expected to show up directly in the output. |
 | build            | Output of the site build. A subdirectory is generated per `buildtype` so `--buildtype=development` appears in `build/development`. This directory is suitable for synchronizing into S3 for deployment |
 | config           | Contains config files for the site.      |
 | logs             | Directory for log output from build tools. Currently only used by nightwatch and selenium for end-to-end testing. |
