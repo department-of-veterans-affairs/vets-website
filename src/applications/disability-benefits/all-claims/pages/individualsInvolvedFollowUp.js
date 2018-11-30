@@ -5,6 +5,7 @@ import {
   personDescriptionText,
 } from '../content/individualsInvolved';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
+import _ from '../../../../platform/utilities/data';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 
 export const uiSchema = index => ({
@@ -16,37 +17,67 @@ export const uiSchema = index => ({
     'ui:options': {
       itemName: 'Individual',
       viewField: ({ formData }) => <h5>hey</h5>,
-      updateSchema: (formData, index) => {
-        console.log(formData, index);
-      },
     },
     items: {
+      'ui:options': {
+        updateSchema: (formData, schema, uiSchema, itemIndex) => {
+          let schemaProps = schema.properties;
+
+          const serviceMemberSelected = _.get(
+            [`personInvolved${index}`, itemIndex, 'view:serviceMember'],
+            formData,
+            false,
+          );
+          const injuryOtherSelected =
+            _.get(
+              [`personInvolved${index}`, itemIndex, 'injuryDeath'],
+              formData,
+              '',
+            ) === 'Other';
+
+          if (serviceMemberSelected) {
+            schemaProps = {
+              ...schemaProps,
+              rank: {
+                type: 'string',
+              },
+              unitAssigned: {
+                type: 'string',
+              },
+            };
+          }
+
+          if (injuryOtherSelected) {
+            schemaProps.injuryDeathOther = {
+              type: 'string',
+            };
+          }
+          return { ...schema, properties: schemaProps };
+        },
+      },
       name: fullNameUI,
       personDescription: {
         'ui:title': personDescriptionText,
         'ui:widget': 'textarea',
       },
-      [`view:serviceMember${index}`]: {
+      'view:serviceMember': {
         'ui:title': 'Were they a Servicemember',
         'ui:widget': 'yesNo',
       },
       rank: {
         'ui:title': 'What was their rank at the time of the event?',
         'ui:options': {
-          expandUnder: `view:serviceMember${index}`,
-          expandUnderCondition: value => value,
+          expandUnder: 'view:serviceMember',
         },
       },
       unitAssigned: {
         'ui:title': 'What unit were they assigned to at the time of the event?',
         'ui:options': {
-          expandUnder: `view:serviceMember${index}`,
-          expandUnderCondition: value => value,
-          hideIf: formData => formData,
+          expandUnder: 'view:serviceMember',
         },
       },
       injuryDeathDate: currentOrPastDateUI('Date they were injured or killed'),
-      [`injuryDeath${index}`]: {
+      injuryDeath: {
         'ui:title': 'How were they injured or killed?',
         'ui:widget': 'radio',
         'ui:options': {
@@ -62,11 +93,8 @@ export const uiSchema = index => ({
       injuryDeathOther: {
         'ui:title': ' ',
         'ui:options': {
-          expandUnder: `injuryDeath${index}`,
-          expandUnderCondition: value => {
-            console.log(value);
-            return value === 'Other';
-          },
+          expandUnder: 'injuryDeath',
+          expandUnderCondition: 'Other',
         },
       },
       'view:msggg': {
@@ -96,19 +124,13 @@ export const schema = index => ({
           personDescription: {
             type: 'string',
           },
-          [`view:serviceMember${index}`]: {
+          'view:serviceMember': {
             type: 'boolean',
-          },
-          rank: {
-            type: 'string',
-          },
-          unitAssigned: {
-            type: 'string',
           },
           injuryDeathDate: {
             $ref: '#/definitions/date',
           },
-          [`injuryDeath${index}`]: {
+          injuryDeath: {
             type: 'string',
             enum: [
               'Killed in action',
@@ -117,10 +139,6 @@ export const schema = index => ({
               'Injured non-battle',
               'Other',
             ],
-            default: 'Injured non-battle',
-          },
-          injuryDeathOther: {
-            type: 'string',
           },
           'view:msggg': {
             type: 'object',
