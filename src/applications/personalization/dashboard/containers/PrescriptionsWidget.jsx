@@ -12,7 +12,7 @@ import PrescriptionCard from '../components/PrescriptionCard';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
 import { mhvBaseUrl } from '../../../../platform/site-wide/cta-widget/helpers';
-import isProduction from '../../../../platform/utilities/environment/isProduction';
+import environment from '../../../../platform/utilities/environment';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
@@ -79,7 +79,7 @@ class PrescriptionsWidget extends React.Component {
             {isBrandConsolidationEnabled() ? (
               <a
                 href={`${mhvBaseUrl()}/mhv-portal-web/${
-                  isProduction() ? 'web/myhealthevet/' : ''
+                  environment.isProduction() ? 'web/myhealthevet/' : ''
                 }refill-prescriptions`}
                 target="_blank"
               >
