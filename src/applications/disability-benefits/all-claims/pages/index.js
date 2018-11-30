@@ -219,6 +219,11 @@ import {
 } from './individualUnemployability';
 
 import {
+  uiSchema as physicalHealthChangesUISchema,
+  schema as physicalHealthChangesSchema,
+} from './physicalHealthChanges';
+
+import {
   uiSchema as hospitalizationHistoryUISchema,
   schema as hospitalizationHistorySchema,
 } from './hospitalizationHistory';
@@ -456,6 +461,11 @@ export const aidAndAttendance = {
 export const individualUnemployability = {
   uiSchema: individualUnemployabilityUISchema,
   schema: individualUnemployabilitySchema,
+};
+
+export const physicalHealthChanges = {
+  uiSchema: physicalHealthChangesUISchema,
+  schema: physicalHealthChangesSchema,
 };
 
 export const hospitalizationHistory = {

@@ -28,6 +28,7 @@ import {
   isUploading781Form,
   isUploading781aForm,
   servedAfter911,
+  isAnsweringPtsdForm,
   isNotUploadingPrivateMedical,
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
@@ -77,6 +78,7 @@ import {
   adaptiveBenefits,
   aidAndAttendance,
   individualUnemployability,
+  physicalHealthChanges,
   hospitalizationHistory,
   newDisabilities,
 } from '../pages';
@@ -289,6 +291,14 @@ const formConfig = {
             isUploading781aForm(formData),
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
+        },
+        physicalHealthChanges: {
+          title: 'Additional Remarks - Physical Health Changes',
+          path: 'new-disabilities/ptsd-781a-physical-changes',
+          depends: formData =>
+            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
+          uiSchema: physicalHealthChanges.uiSchema,
+          schema: physicalHealthChanges.schema,
         },
         conclusionCombat: {
           path: 'conclusion-781',
