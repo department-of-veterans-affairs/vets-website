@@ -535,7 +535,7 @@ describe('transform', () => {
   const transformedMaximalData = {
     form526: {
       standardClaim: false,
-      separationPayDate: '1',
+      separationPayDate: '2019-01-01',
       separationPayBranch: 'Air Force',
       waiveTrainingPay: true,
       waiveRetirementPay: false,
