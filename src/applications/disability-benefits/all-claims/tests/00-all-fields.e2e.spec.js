@@ -28,7 +28,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // First render of React may be slow.
     .waitForElementVisible(
       '.schemaform-intro .usa-button-primary',
-      Timeouts.slow,
+      Timeouts.verySlow,
     )
     .click('.schemaform-intro .usa-button-primary')
     // Click past the `You already have an Intent to File` screen.
