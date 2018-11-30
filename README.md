@@ -51,7 +51,7 @@ very secret.
 
 | Directory        | Description                              |
 | ---------------- | ---------------------------------------- |
-| build            | Output of the site build. A subdirectory is generated per `buildtype` so `--buildtype=development` appears in `build/development`. This directory is suitable for synchronizing into S3 for deployment |
+| build            | Output of the site build. A subdirectory is generated per `buildtype` so `--buildtype=localhost` appears in `build/localhost`. This directory is suitable for synchronizing into S3 for deployment |
 | config           | Contains config files for the site.      |
 | logs             | Directory for log output from build tools. Currently only used by nightwatch and selenium for end-to-end testing. |
 | node\_modules    | install location of npm modules. Managed by npm. |
