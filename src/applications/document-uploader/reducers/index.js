@@ -1,16 +1,11 @@
-import {
-  SET_VETERAN,
-  SET_FILES,
-  SET_COMMENTS,
-  SET_STATUS,
-} from '../actions';
+import { SET_VETERAN, SET_FILES, SET_COMMENTS, SET_STATUS } from '../actions';
 
 const initialState = {
   veteran: {
     firstName: '',
     lastName: '',
     email: '',
-    fileNumber: ''
+    fileNumber: '',
   },
   comments: '',
   files: [],
@@ -18,20 +13,20 @@ const initialState = {
 };
 
 function documentUploader(state = initialState, action) {
-  switch(action.type) {
+  switch (action.type) {
     case SET_VETERAN:
-      return {...state, veteran: action.veteran}
+      return { ...state, veteran: action.veteran };
     case SET_FILES:
-      return {...state, files: action.files}
+      return { ...state, files: action.files };
     case SET_COMMENTS:
-      return {...state, comments: action.comments}
+      return { ...state, comments: action.comments };
     case SET_STATUS:
-      return {...state, status: action.status}
+      return { ...state, status: action.status };
     default:
-      return state
+      return state;
   }
 }
 
 export default {
-  documentUploader
+  documentUploader,
 };

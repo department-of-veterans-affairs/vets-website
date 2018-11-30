@@ -7,30 +7,26 @@ class DocumentUploaderApp extends React.Component {
   render() {
     return (
       <div className="usa-grid">
-        <DocumentUploader 
-          {...this.props}
-        />
+        <DocumentUploader {...this.props} />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    ...state.documentUploader
-  }
-}
+const mapStateToProps = state => ({
+  ...state.documentUploader,
+});
 
 const mapDispatchToProps = {
   setVeteran,
   setComments,
   setFiles,
   submitFiles,
-}
+};
 
 export default connect(
-  mapStateToProps, 
-  mapDispatchToProps
-)(DocumentUploaderApp)
+  mapStateToProps,
+  mapDispatchToProps,
+)(DocumentUploaderApp);
 
 export { DocumentUploaderApp };
