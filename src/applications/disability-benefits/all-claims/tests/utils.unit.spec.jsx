@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import _ from '../../../../platform/utilities/data';
 
+import formConfig from '../config/form';
+
 import {
   hasGuardOrReservePeriod,
   ReservesGuardDescription,
@@ -20,7 +22,16 @@ import {
   isUploading781Form,
   isUploading781aForm,
   transformRelatedDisabilities,
+  transform,
 } from '../utils.jsx';
+
+import {
+  transformedMinimalData,
+  transformedMaximalData,
+} from './schema/transformedData';
+
+import minimalData from './schema/minimal-test.json';
+import maximalData from './schema/maximal-test.json';
 
 import initialData from './initialData';
 
@@ -480,6 +491,19 @@ describe('526 helpers', () => {
         transformRelatedDisabilities(treatedDisabilityNames, claimedConditions),
       ).to.eql(['some condition name']);
     });
+  });
+});
+describe('transform', () => {
+  it('should transform minimal data correctly', () => {
+    expect(JSON.parse(transform(formConfig, minimalData))).to.deep.equal(
+      transformedMinimalData,
+    );
+  });
+
+  it('should transform maximal data correctly', () => {
+    expect(JSON.parse(transform(formConfig, maximalData))).to.deep.equal(
+      transformedMaximalData,
+    );
   });
 });
 describe('isAnswering781Questions', () => {
