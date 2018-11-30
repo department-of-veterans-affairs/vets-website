@@ -2353,6 +2353,13 @@ convert-source-map@~1.1.0:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-1.1.3.tgz#4829c877e9fe49b3161f3bf3673888e204699860"
 
+cookie-parser@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/cookie-parser/-/cookie-parser-1.4.3.tgz#0fe31fa19d000b95f4aadf1f53fdc2b8a203baa5"
+  dependencies:
+    cookie "0.3.1"
+    cookie-signature "1.0.6"
+
 cookie-signature@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
@@ -10866,9 +10873,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#9f9fcbbe24d92970f85013bbdec40293b3d3852b":
-  version "3.113.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9f9fcbbe24d92970f85013bbdec40293b3d3852b"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#c30b03763019fc71b3ae6ee2907ff2ee2cbf1bad":
+  version "3.117.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#c30b03763019fc71b3ae6ee2907ff2ee2cbf1bad"
 
 vm-browserify@0.0.4, vm-browserify@~0.0.1:
   version "0.0.4"

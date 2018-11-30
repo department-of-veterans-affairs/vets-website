@@ -80,26 +80,36 @@ class FacilityTypeDropdown extends Component {
           return (
             <div>
               <label
+                aria-live="polite"
+                aria-relevant="additions"
                 htmlFor="facility-dropdown-toggle"
                 id="facility-dropdown-label"
               >
                 Search for
                 {selectedItem === LocationType.CC_PROVIDER && (
                   <span className="cc-info-link-span">
-                    <a
+                    <button
                       onClick={this.toggleCCInfo}
                       title="Click for More Information"
+                      aria-label="Click for more information about the Community Care Program"
                       rel="noopener noreferrer"
                       target="_blank"
                       className="cc-info-link"
                     >
                       <i className="fa fa-info-circle cc-info-link-icon" />
-                    </a>
+                    </button>
                   </span>
                 )}
                 {this.state.showBubble && (
                   <div id="infoBubble">
-                    <span onClick={this.toggleCCInfo}>X</span>
+                    <button
+                      className="cc-info-close-btn"
+                      type="button"
+                      aria-label="Close info bubble"
+                      onClick={this.toggleCCInfo}
+                    >
+                      <i className="fa fa-close" />
+                    </button>
                     <h6>What Is Community Care and Am I Eligible?</h6>
                     <p>
                       The Veterans Choice Program is one of several programs

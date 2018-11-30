@@ -4,8 +4,8 @@ const fs = require('fs-extra');
 const path = require('path');
 const yaml = require('js-yaml');
 
-const environments = require('../constants/environments');
-const hostnames = require('../constants/hostnames');
+const environments = require('../../constants/environments');
+const hostnames = require('../../constants/hostnames');
 const getOptions = require('../build/options');
 
 const createStandardRedirectHtml = require('./standard-redirect');
