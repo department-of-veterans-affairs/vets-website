@@ -214,6 +214,11 @@ import {
 } from './unemployabilityFormIntro';
 
 import {
+  uiSchema as physicalHealthChangesUISchema,
+  schema as physicalHealthChangesSchema,
+} from './physicalHealthChanges';
+
+import {
   uiSchema as hospitalizationHistoryUISchema,
   schema as hospitalizationHistorySchema,
 } from './hospitalizationHistory';
@@ -446,6 +451,11 @@ export const finalIncident = {
 export const secondaryFinalIncident = {
   uiSchema: secondaryFinalIncidentUISchema,
   schema: secondaryFinalIncidentSchema,
+};
+
+export const physicalHealthChanges = {
+  uiSchema: physicalHealthChangesUISchema,
+  schema: physicalHealthChangesSchema,
 };
 
 export const hospitalizationHistory = {
