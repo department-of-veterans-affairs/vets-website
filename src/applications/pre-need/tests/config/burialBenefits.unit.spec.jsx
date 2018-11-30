@@ -8,12 +8,14 @@ import {
   fillData,
   selectRadio,
 } from '../../../../platform/testing/unit/schemaform-utils';
+import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 import formConfig from '../../config/form';
 
 let fetchMock;
 let oldFetch;
 
 const mockFetch = () => {
+  conditionalStorage().setItem('userToken', '1234');
   oldFetch = global.fetch;
   fetchMock = sinon.stub();
   global.fetch = fetchMock;
@@ -44,6 +46,7 @@ const mockFetch = () => {
 
 const unMockFetch = () => {
   global.fetch = oldFetch;
+  conditionalStorage().clear();
 };
 
 describe('Pre-need burial benefits', () => {
