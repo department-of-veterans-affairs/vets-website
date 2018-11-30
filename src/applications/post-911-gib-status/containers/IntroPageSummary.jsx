@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import CallToActionWidget from '../../../platform/site-wide/cta-widget';
 import CallHRC from '../../../platform/brand-consolidation/components/CallHRC';
-import isProduction from '../../../platform/utilities/environment/isProduction';
+import environment from '../../../platform/utilities/environment';
 
 import EducationWizard from '../components/EducationWizard';
 import { wizardConfig } from '../utils/helpers';
@@ -163,7 +163,7 @@ export default function BrandConsolidationSummary() {
         itemScope
         itemType="http://schema.org/Answer"
       >
-        {!isProduction() && (
+        {!environment.isProduction() && (
           <div className="intro-wizard" itemProp="text">
             There are a few situations where your Post-9/11 GI Bill Statement of
             Benefits might not be available. Answer a few questions and we’ll
@@ -174,7 +174,7 @@ export default function BrandConsolidationSummary() {
             />
           </div>
         )}
-        {isProduction() && (
+        {environment.isProduction() && (
           <div itemProp="text">
             <p>
               Your Post-9/11 GI Bill Statement of Benefits might not be
