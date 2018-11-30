@@ -51,12 +51,12 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(filenames());
 
   smith.use(applyFragments(BUILD_OPTIONS));
+  smith.use(checkCollections(BUILD_OPTIONS));
   smith.use(collections(BUILD_OPTIONS.collections));
   smith.use(leftRailNavResetLevels());
   smith.use(dateInFilename(true));
   smith.use(assets(BUILD_OPTIONS.appAssets));
   smith.use(assets(BUILD_OPTIONS.contentAssets));
-  smith.use(checkCollections(BUILD_OPTIONS));
 
   // smith.use(cspHash({ pattern: ['js/*.js', 'generated/*.css', 'generated/*.js'] }))
 
