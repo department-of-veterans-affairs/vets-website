@@ -151,14 +151,6 @@ export function transformMVPData(formData) {
 
   // Nest servicePeriods and reservesNationalGuardService under serviceInformation
   //  without creating a serviceInformation property unnecessarily
-  const serviceInformation = {};
-  if (formData.servicePeriods) {
-    serviceInformation.servicePeriods = formData.servicePeriods;
-  }
-  if (formData.reservesNationalGuardService) {
-    serviceInformation.reservesNationalGuardService =
-      formData.reservesNationalGuardService;
-  }
   const { servicePeriods, reservesNationalGuardService } = formData;
   if (servicePeriods || reservesNationalGuardService) {
     newFormData.serviceInformation = {
