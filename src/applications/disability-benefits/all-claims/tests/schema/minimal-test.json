@@ -16,47 +16,24 @@
       "zipCode": "19234"
     },
     "view:contactInfoDescription": {},
-    "view:vaMedicalRecordsIntro": {},
-    "vaTreatmentFacilities": [
-      {
-        "treatmentCenterName": "Medical Center Name Here",
-        "treatmentDateRange": {
-          "from": "1900-01-XX",
-          "to": "1901-01-XX"
-        },
-        "treatmentCenterAddress": {
-          "country": "USA"
-        },
-        "treatedDisabilityNames": {
-          "Stress Disorder": true
-        }
-      }
-    ],
     "view:hasEvidence": true,
-    "view:hasEvidenceFollowUp": {
-      "view:selectableEvidenceTypes": {
-        "view:hasVAMedicalRecords": true
-      },
-      "view:evidenceTypeHelp": {}
-    },
     "view:powStatus": false,
-    "view:newDisabilities": true,
-    "newDisabilities": [
+    "view:unemployabilityStatus": false,
+    "view:newDisabilities": false,
+    "ratedDisabilities": [
       {
-        "cause": "NEW",
-        "primaryDescription": "A thing happened.",
-        "condition": "stress disorder"
+        "name": "First Condition",
+        "ratedDisabilityId": "0",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "INCREASE",
+        "view:selected": true
       }
     ],
-    "view:unemployabilityStatus": false,
-    "view:upload781Choice": "answerQuestions",
-    "view:upload781ChoiceHelp": {},
-    "view:upload781aChoice": "answerQuestions",
-    "view:upload781aChoiceHelp": {},
-    "view:selectablePtsdTypes": {
-      "view:combatPtsdType": true
-    },
-    "view:ptsdTypeHelp": {},
+    "view:disabilitiesClarification": {},
     "serviceInformation": {
       "servicePeriods": [
         {
@@ -74,62 +51,8 @@
     },
     "view:hasMilitaryRetiredPay": false,
     "view:hasAlternateName": false,
-    "ratedDisabilities": [
-      {
-        "name": "First Condition",
-        "ratedDisabilityId": "0",
-        "ratingDecisionId": "63655",
-        "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
-        "disabilityActionType": "INCREASE"
-      },
-      {
-        "name": "Second Condition",
-        "ratedDisabilityId": "1",
-        "ratingDecisionId": "63655",
-        "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 0,
-        "disabilityActionType": "INCREASE"
-      },
-      {
-        "name": "Third Condition",
-        "ratedDisabilityId": "1",
-        "ratingDecisionId": "63655",
-        "diagnosticCode": 5238,
-        "decisionCode": "SVCCONNCTED",
-        "decisionText": "Service Connected",
-        "ratingPercentage": 100,
-        "disabilityActionType": "INCREASE"
-      }
-    ],
-    "view:disabilitiesClarification": {},
-    "view:uploadPrivateRecordsQualifier": {
-      "view:aboutPrivateMedicalRecords": {},
-      "view:privateRecordsChoiceHelp": {}
-    },
-    "view:patientAcknowledgement": {
-      "view:acknowledgement": true
-    },
     "view:faqAccordion": {},
-    "view:waiveRetirementPayDescription": {},
     "standardClaim": false,
-    "view:fdcWarning": {},
-    "veteran": {
-      "mailingAddress": {
-        "country": "USA",
-        "city": "APO",
-        "state": "AE",
-        "zipCode": "09028",
-        "addressLine1": "123 MAIN ST",
-        "addressLine2": "BEN FRANKLIN VILLAGE"
-      },
-      "primaryPhone": "4445551212",
-      "emailAddress": "test2@test1.net"
-    },
-    "privacyAgreementAccepted": true
+    "view:fdcWarning": {}
   }
 }
