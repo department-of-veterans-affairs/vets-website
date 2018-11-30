@@ -26,6 +26,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     .url(`${E2eHelpers.baseUrl}/disability-benefits/apply/form-526-all-claims`)
     .waitForElementVisible('body', Timeouts.normal)
     // First render of React may be slow.
+    .waitForElementVisible('.schemaform-title', Timeouts.slow) // First render of React may be slow.
     .waitForElementVisible(
       '.schemaform-intro .usa-button-primary',
       Timeouts.verySlow,
