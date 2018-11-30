@@ -35,6 +35,12 @@
   margin-bottom: 7rem;
 }
 
+.search-results-count:focus {
+  outline: 2px solid #f9c642;
+  outline-offset: 2px;
+  z-index: 3;
+}
+
 .search-select-school-fieldset {
   .no-results-box {
     background-color: $color-gray-lightest;
