@@ -33,7 +33,7 @@ class ServiceTypeAhead extends Component {
   handleOnSelect = (selectedItem) => {
     this.props.onSelect({
       target: {
-        value: selectedItem.Name.trim(),
+        value: selectedItem.name.trim(),
       },
     });
   };
@@ -48,8 +48,9 @@ class ServiceTypeAhead extends Component {
     return (
       input.length >= 2 &&
       svc &&
-      svc.Name &&
-      svc.Name.trim()
+      svc.name &&
+      svc.name
+        .trim()
         .toLowerCase()
         .includes(input.toLowerCase())
     );
@@ -58,7 +59,7 @@ class ServiceTypeAhead extends Component {
   render() {
     const { services } = this.state;
     // eslint-disable-next-line prettier/prettier
-    const renderService = (s) => { return (s && s.Name) ? s.Name.trim() : ''; };
+    const renderService = (s) => { return (s && s.name) ? s.name.trim() : ''; };
 
     return (
       <Downshift onChange={this.handleOnSelect} itemToString={renderService}>
@@ -85,7 +86,7 @@ class ServiceTypeAhead extends Component {
                     .filter(svc => this.shouldShow(inputValue, svc))
                     .map((svc, index) => (
                       <div
-                        key={svc.Name}
+                        key={svc.name}
                         {...getItemProps({
                           item: svc,
                           // eslint-disable-next-line prettier/prettier
