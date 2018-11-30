@@ -8,6 +8,8 @@ function testStatus(client, page, url) {
     .waitForElementVisible('.sip-application-status', Timeouts.slow)
     .axeCheck('.main');
 
+  E2eHelpers.overrideScrolling(client);
+
   client.expect
     .element('main a.usa-button-primary')
     .to.have.attribute('href')
