@@ -17,14 +17,14 @@ import dateUI from 'us-forms-system/lib/js/definitions/date';
 
 export const uiSchema = {
   'ui:title': 'Recent job applications',
-  'view:hasRecentJobApplications': {
+  'view:hasAppliedEmployers': {
     'ui:title': recentJobApplicationsDescription(),
     'ui:widget': 'yesNo',
   },
   appliedEmployers: {
     'ui:options': {
       viewField: ArrayField,
-      expandUnder: 'view:hasRecentJobApplications',
+      expandUnder: 'view:hasAppliedEmployers',
       itemName: 'Job',
     },
     items: {
@@ -71,7 +71,7 @@ export const schema = () => {
   return {
     type: 'object',
     properties: {
-      'view:hasRecentJobApplications': {
+      'view:hasAppliedEmployers': {
         type: 'boolean',
         properties: {},
       },
