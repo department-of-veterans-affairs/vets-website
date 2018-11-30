@@ -34,11 +34,11 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .text.equals('Hearing Loss (New), skin condition (New), jungle rot (New)');
 
   // timeline
-  client.expect.element('.list-five.section-current').to.be.present;
   client.expect.element('.list-one.section-complete').to.be.present;
   client.expect.element('.list-two.section-complete').to.be.present;
-  client.expect.element('.list-three.section-complete').to.be.present;
-  client.expect.element('.list-four.section-complete').to.be.present;
+  client.expect.element('.list-three.section-current').to.be.present;
+  client.expect.element('.list-four').to.be.present;
+  client.expect.element('.list-five.last').to.be.present;
 
   // timeline expand
   client
