@@ -3,7 +3,12 @@ const E2eHelpers = require('./helpers');
 
 function mock(token, json) {
   return new Promise((resolve, reject) => {
-    const jsonWithToken = token ? { ...json, token } : json;
+    const jsonWithToken = token
+      ? {
+          ...json,
+          auth: `Token token=${token}`,
+        }
+      : json;
 
     request(
       {

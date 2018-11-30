@@ -9,7 +9,6 @@
 
 const bodyParser = require('body-parser');
 const commandLineArgs = require('command-line-args');
-const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const express = require('express');
 const winston = require('winston');
@@ -33,40 +32,40 @@ function stripTrailingSlash(path) {
 }
 
 function makeMockApiRouter(opts) {
-  // mockResponses[token][verb][response]
+  // mockResponses[auth][verb][response]
   const mockResponses = {};
-  const corsOptions = { origin: true, credentials: true };
 
   const router = express.Router(); // eslint-disable-line new-cap
   router.post('/mock', (req, res) => {
-    const token = req.body.token || '_global';
+    const auth = req.body.auth || '_global';
     const verb = (req.body.verb || 'get').toLowerCase();
     const path = stripTrailingSlash(req.body.path);
 
-    opts.logger.verbose(`mock: ${token} ${verb} ${path}`);
+    opts.logger.verbose(`mock: ${auth} ${verb} ${path}`);
 
-    mockResponses[token] = mockResponses[token] || {};
-    mockResponses[token][verb] = mockResponses[token][verb] || {};
-    mockResponses[token][verb][path] = {
+    mockResponses[auth] = mockResponses[auth] || {};
+    mockResponses[auth][verb] = mockResponses[auth][verb] || {};
+    mockResponses[auth][verb][path] = {
       status: req.body.status,
       value: req.body.value,
     };
     const result = {
-      result: `set token: ${token} ${verb} ${path} to ${JSON.stringify(
+      result: `set auth:${auth} ${verb} ${path} to ${JSON.stringify(
         req.body.value,
       )}`,
     };
-
     res.status(200).json(result);
   });
+
+  const corsOptions = { origin: true, credentials: true };
 
   // Handle CORS preflight.
   router.options('*', cors(corsOptions));
 
   router.all('*', cors(corsOptions), (req, res) => {
-    const token = req.cookies.token || '_global';
+    const auth = req.get('Authorization') || '_global';
     const verb = req.method.toLowerCase();
-    const verbResponses = (mockResponses[token] || {})[verb];
+    const verbResponses = (mockResponses[auth] || {})[verb];
     const path = stripTrailingSlash(req.path);
 
     let result = null;
@@ -77,7 +76,7 @@ function makeMockApiRouter(opts) {
     if (!result) {
       res.status(500);
       result = {
-        error: `mock not initialized for token: ${token} ${verb} ${path}`,
+        error: `mock not initialized for auth: ${auth} ${verb} ${path}`,
       };
     }
 
@@ -85,7 +84,7 @@ function makeMockApiRouter(opts) {
       res.status(result.status);
     }
 
-    opts.logger.debug(token, verb, path, result.value);
+    opts.logger.debug(auth, verb, path, result.value);
     res.json(result.value);
   });
 
@@ -96,7 +95,6 @@ options.logger = winston;
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cookieParser());
 app.use(makeMockApiRouter(options));
 app.listen(options.port, options.host, () => {
   // eslint-disable-next-line no-console
