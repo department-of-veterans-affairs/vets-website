@@ -81,6 +81,7 @@ import {
   physicalHealthChanges,
   hospitalizationHistory,
   newDisabilities,
+  ancillaryFormsWizardSummary,
 } from '../pages';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
@@ -376,6 +377,13 @@ const formConfig = {
           path: 'individual-unemployability',
           uiSchema: individualUnemployability.uiSchema,
           schema: individualUnemployability.schema,
+        },
+        ancillaryFormsWizardSummary: {
+          title: 'Summary of additional benefits',
+          path: 'additional-disability-benefits-summary',
+          depends: ancillaryFormsWizardSummary.depends,
+          uiSchema: ancillaryFormsWizardSummary.uiSchema,
+          schema: ancillaryFormsWizardSummary.schema,
         },
         // End ancillary forms wizard
         summaryOfDisabilities: {
