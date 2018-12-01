@@ -112,23 +112,31 @@ class VAMap extends Component {
     }
 
     /*
-    Future testing to fix excessive searches being fired:
+      Notes:
+
       Going to need a couple new flags in the Redux store to properly
       track state of the app. For example, a flag to know when Mapbox API
       requests are done as all they do is update the Redux store, but intuiting
       whether or not the data in the fields that were updated represents a valid
-      state for triggering a new search is ambiguous at best.
+      state for triggering a new search is ambiguous at best nor should we simply
+      fire off a new search each time something changes in Redux.
 
-      New Flags:
+      New Flag Ideas:
         - geocodeInProgress
-        - revGeocodeInProgress
+        - revGeocodeInProgress - should be a separate flag as both operations happen
         - searchRequested - To track that the user clicked the search button
           (could have used inProgress but it gets tripped by other Actions)
         - 
       
-      The boundary checking of the current code doesn't actually work.
-      Array equality isn't something that should be done with the operator.
+      The boundary checking of the current code below doesn't actually work.
+      Array equality isn't something that should be done with the operator,
+      and using the new method below causes `searchWithBounds` to never fire.
+      Goes in line with needing clearer ideas of what state of the app ==
+      when to fire off a new search, zoom out, or even just do nothing.
 
+      Near as I can tell this.zoomOut.cancel() does nothing.
+
+      Future testing to fix excessive searches being fired:
     // If we're not searching but the flag to request a search is on
     if (!newQuery.searchBoundsInProgress && newQuery.inProgress) {
       if (this.didParamsChange(currentQuery, newQuery)) {
