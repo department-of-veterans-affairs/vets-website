@@ -12,6 +12,7 @@ import {
   FETCH_SERVICES,
   FETCH_SERVICES_DONE,
   FETCH_SERVICES_FAILED,
+  CLEAR_SEARCH_RESULTS,
 } from '../utils/actionTypes';
 import LocatorApi from '../api';
 import { LocationType, BOUNDING_RADIUS } from '../constants';
@@ -27,6 +28,10 @@ import { ccLocatorEnabled } from '../config';
 export const updateSearchQuery = (query) => ({
   type: SEARCH_QUERY_UPDATED,
   payload: { ...query },
+});
+
+export const clearSearchResults = () => ({
+  type: CLEAR_SEARCH_RESULTS,
 });
 
 /**

@@ -18,8 +18,8 @@ class SearchControls extends Component {
   // eslint-disable-next-line prettier/prettier
   handleFacilityTypeChange = (option) => {
     // eslint-disable-next-line prettier/prettier
-    const facilityType = (option === LocationType.ALL) ? null : option;
-    this.props.onChange({ facilityType, serviceType: null });
+    // const facilityType = (option === LocationType.ALL) ? null : option;
+    this.props.onChange({ facilityType: option, serviceType: null });
   };
 
   handleServiceTypeChange = ({ target }) => {

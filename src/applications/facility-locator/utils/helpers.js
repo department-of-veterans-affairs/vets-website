@@ -81,6 +81,42 @@ export const areGeocodeEqual = (pos1, pos2) => {
 };
 
 /**
+ * Compares two geographic bounding boxes to determine if they are equal.
+ *
+ * A bounding box is expected to be of the shape
+ *   [lat1, long1, lat2, long2]
+ *
+ * @param {number[]} box1 The first bounding box's coords
+ * @param {number[]} box2 The second bounding box's coords
+ */
+export const areBoundsEqual = (box1, box2) => {
+  if (!box1 || !box2 || box1.length !== 4 || box2.length !== 4) {
+    return false;
+  }
+  const upperLeft1 = {
+    latitude: box1[0],
+    longitude: box1[1],
+  };
+  const lowerRight1 = {
+    latitude: box1[2],
+    longitude: box1[3],
+  };
+  const upperLeft2 = {
+    latitude: box1[0],
+    longitude: box1[1],
+  };
+  const lowerRight2 = {
+    latitude: box1[2],
+    longitude: box1[3],
+  };
+
+  return (
+    areGeocodeEqual(upperLeft1, upperLeft2) &&
+    areGeocodeEqual(lowerRight1, lowerRight2)
+  );
+};
+
+/**
  * A utility to break URL query strings up into a queriable object
  *
  * @param {string} urlParams A URL query string (e.g. key=value&key2=value2...)
