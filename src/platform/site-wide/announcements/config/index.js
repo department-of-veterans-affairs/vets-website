@@ -1,10 +1,9 @@
-import DashboardIntro from '../components/DashboardIntro';
+import RecommendationsIntro from '../components/RecommendationsIntro';
 import Profile360Intro from '../components/Profile360Intro';
 import PersonalizationBanner from '../components/PersonalizationBanner';
 import ClaimIncreaseBanner from '../components/ClaimIncreaseBanner';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
 import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
-import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 
 const config = {
   announcements: [
@@ -22,12 +21,9 @@ const config = {
       disabled: !WelcomeToNewVAModal.isEnabled(),
     },
     {
-      name: 'dashboard-intro',
-      paths: isBrandConsolidationEnabled()
-        ? /^(\/my-va\/)$/
-        : /^(\/dashboard\/)$/,
-      component: DashboardIntro,
-      relatedAnnouncements: ['personalization'],
+      name: 'recommendations-intro',
+      paths: /^(\/my-va\/)$/,
+      component: RecommendationsIntro,
     },
     {
       name: 'profile-360-intro',
