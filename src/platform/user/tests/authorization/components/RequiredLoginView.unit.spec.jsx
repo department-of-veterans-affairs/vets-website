@@ -5,14 +5,14 @@ import _ from 'lodash';
 import sinon from 'sinon';
 import RequiredLoginView from '../../../authorization/components/RequiredLoginView.jsx';
 import backendServices from '../../../profile/constants/backendServices';
-import localStorage from '../../../../utilities/storage/localStorage';
+import conditionalStorage from '../../../../utilities/storage/conditionalStorage';
 
 describe('<RequiredLoginView>', () => {
   const redirectFunc = sinon.spy();
   let oldWindow;
 
   const initialSetup = () => {
-    localStorage.setItem('hasSession', true);
+    conditionalStorage().setItem('userToken', 'abcdefg');
     oldWindow = global.window;
 
     global.window = {
@@ -25,7 +25,7 @@ describe('<RequiredLoginView>', () => {
 
   const teardown = () => {
     global.window = oldWindow;
-    localStorage.clear();
+    conditionalStorage().clear();
   };
 
   beforeEach(initialSetup);

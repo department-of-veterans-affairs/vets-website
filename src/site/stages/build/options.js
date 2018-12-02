@@ -72,8 +72,16 @@ function applyEnvironmentOverrides(options) {
     throw new Error(`Unknown buildtype: '${options.buildtype}'`);
   }
 
-  if (options.buildtype === ENVIRONMENTS.VAGOVPROD) {
-    process.env.NODE_ENV = 'production';
+  const optimizedEnvs = new Set([
+    ENVIRONMENTS.VAGOVPROD,
+    ENVIRONMENTS.VAGOVSTAGING,
+  ]);
+  const isOptimizedBuild = optimizedEnvs.has(options.buildtype);
+
+  if (isOptimizedBuild && process.env.NODE_ENV !== 'production') {
+    throw new Error(
+      'To build a production-like environment, the "NODE_ENV" environment variable must be set to "production".',
+    );
   }
 }
 

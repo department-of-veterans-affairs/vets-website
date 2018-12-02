@@ -209,6 +209,26 @@ import {
 } from './mentalHealthChanges';
 
 import {
+  uiSchema as adaptiveBenefitsUISchema,
+  schema as adaptiveBenefitsSchema,
+} from './adaptiveBenefits';
+
+import {
+  uiSchema as aidAndAttendanceUISchema,
+  schema as aidAndAttendanceSchema,
+} from './aidAndAttendance';
+
+import {
+  uiSchema as individualUnemployabilityUISchema,
+  schema as individualUnemployabilitySchema,
+} from './individualUnemployability';
+
+import {
+  uiSchema as physicalHealthChangesUISchema,
+  schema as physicalHealthChangesSchema,
+} from './physicalHealthChanges';
+
+import {
   uiSchema as hospitalizationHistoryUISchema,
   schema as hospitalizationHistorySchema,
 } from './hospitalizationHistory';
@@ -436,8 +456,28 @@ export const unemployabilityFormIntro = {
 export const mentalHealthChanges = {
   uiSchema: mentalHealthChangesUISchema,
   schema: mentalHealthChangesSchema,
-
 };
+
+export const adaptiveBenefits = {
+  uiSchema: adaptiveBenefitsUISchema,
+  schema: adaptiveBenefitsSchema,
+};
+
+export const aidAndAttendance = {
+  uiSchema: aidAndAttendanceUISchema,
+  schema: aidAndAttendanceSchema,
+};
+
+export const individualUnemployability = {
+  uiSchema: individualUnemployabilityUISchema,
+  schema: individualUnemployabilitySchema,
+};
+
+export const physicalHealthChanges = {
+  uiSchema: physicalHealthChangesUISchema,
+  schema: physicalHealthChangesSchema,
+};
+
 export const hospitalizationHistory = {
   uiSchema: hospitalizationHistoryUISchema,
   schema: hospitalizationHistorySchema,

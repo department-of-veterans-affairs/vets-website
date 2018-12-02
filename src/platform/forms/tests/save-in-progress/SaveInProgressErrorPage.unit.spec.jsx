@@ -6,15 +6,18 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import { SaveInProgressErrorPage } from '../../save-in-progress/SaveInProgressErrorPage';
 import { LOAD_STATUSES } from '../../save-in-progress/actions';
+import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 
 let oldFetch;
 const setup = () => {
+  conditionalStorage().setItem('userToken', '123abc');
   oldFetch = global.fetch;
   global.fetch = sinon.stub();
   global.fetch.returns(Promise.resolve({ ok: true }));
 };
 const teardown = () => {
   global.fetch = oldFetch;
+  conditionalStorage().clear();
 };
 
 describe('<SaveInProgressErrorPage>', () => {

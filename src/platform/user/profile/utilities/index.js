@@ -1,9 +1,7 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import recordEvent from '../../../monitoring/record-event';
-import get from '../../../utilities/data/get';
-import localStorage from '../../../utilities/storage/localStorage';
-
+import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 import {
   isVet360Configured,
   mockContactInformation,
@@ -65,36 +63,19 @@ export function mapRawUserDataToState(json) {
   };
 }
 
-// Flag to indicate an active session for initial page loads.
-// It's distinct from the currentlyLoggedIn state, which
-// serves as confirmation that the user is logged in and
-// as a trigger to properly update any components that subscribe to it.
-export const hasSession = () => localStorage.getItem('hasSession');
-
 export function setupProfileSession(payload) {
-  localStorage.setItem('hasSession', true);
-  const userData = get('data.attributes.profile', payload, {});
-  const { firstName, authnContext: loginPolicy = 'idme', loa } = userData;
-
-  // Since localStorage coerces everything into String,
-  // this avoids setting the first name to the string 'null'.
-  if (firstName) localStorage.setItem('userFirstName', firstName);
-
-  // Report success for the login method.
-  recordEvent({ event: `login-success-${loginPolicy}` });
-
-  // Report out the current level of assurance for the user.
-  if (loa && loa.current) {
-    recordEvent({ event: `login-loa-current-${loa.current}` });
+  const userData = payload.data.attributes.profile;
+  // Since sessionStorage/localStorage coerces everything into String,
+  // this conditional avoids setting the first name to the string 'null'.
+  if (userData.first_name) {
+    conditionalStorage().setItem('userFirstName', userData.first_name);
   }
+  // Report out the current level of assurance for the user
+  recordEvent({ event: `login-loa-current-${userData.loa.current}` });
 }
 
 export function teardownProfileSession() {
-  // Legacy keys (entryTime, userToken) can be removed
-  // after session cookie is fully in place.
-  const sessionKeys = ['hasSession', 'userFirstName', 'entryTime', 'userToken'];
-
-  for (const key of sessionKeys) {
-    localStorage.removeItem(key);
+  for (const key of ['entryTime', 'userToken', 'userFirstName']) {
+    conditionalStorage().removeItem(key);
   }
 }

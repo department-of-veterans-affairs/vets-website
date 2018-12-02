@@ -24,6 +24,7 @@ describe('<MHVApp>', () => {
     serviceRequired: backendServices.RX,
     createMHVAccount: sinon.spy(),
     fetchMHVAccount: sinon.spy(),
+    refreshProfile: sinon.spy(),
     upgradeMHVAccount: sinon.spy(),
   };
 
@@ -31,6 +32,7 @@ describe('<MHVApp>', () => {
     global.window.location.replace = sinon.spy();
     props.createMHVAccount.reset();
     props.fetchMHVAccount.reset();
+    props.refreshProfile.reset();
     props.upgradeMHVAccount.reset();
   };
 
