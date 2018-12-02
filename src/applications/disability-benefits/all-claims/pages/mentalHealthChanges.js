@@ -33,7 +33,7 @@ export const uiSchema = {
     substance: {
       'ui:title': 'Substance abuse such as alcohol or drugs',
     },
-    hypervigillance: {
+    hypervigilance: {
       'ui:title': 'Hypervigilance, heightened fight or flight response',
     },
     agoraphobia: {
@@ -80,7 +80,7 @@ export const schema = {
         substance: {
           type: 'boolean',
         },
-        hypervigillance: {
+        hypervigilance: {
           type: 'boolean',
         },
         agoraphobia: {

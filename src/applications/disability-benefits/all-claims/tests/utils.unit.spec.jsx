@@ -494,7 +494,7 @@ describe('isAnsweringPtsdForm', () => {
 
   it('should return false if user has chosen to not answer questions', () => {
     const formData = {};
-    expect(needsToEnter781({ formData })).to.be.false;
+    expect(needsToEnter781(formData)).to.be.false;
   });
 });
 
