@@ -311,7 +311,7 @@ const formConfig = {
         additionalBehaviorChanges: {
           title: 'Additional Remarks - Additional Behavior Changes',
           path: 'new-disabilities/ptsd-781a-additional-changes',
-          depends: formData => isAnswering781aQuestions(0)(formData),
+          depends: isAnswering781aQuestions(0),
           uiSchema: additionalBehaviorChanges.uiSchema,
           schema: additionalBehaviorChanges.schema,
         },
