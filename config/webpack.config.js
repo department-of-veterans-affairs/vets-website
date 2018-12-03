@@ -6,6 +6,8 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
+const ENVIRONMENTS = require('../src/site/constants/environments');
+const BUCKETS = require('../src/site/constants/buckets');
 
 require('babel-polyfill');
 
@@ -34,19 +36,23 @@ const globalEntryFiles = {
   ],
 };
 
-const configGenerator = (options, apps) => {
-  const isDev = ['localhost', 'vagovdev'].includes(options.buildtype);
+const configGenerator = (buildOptions, apps) => {
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
+  const isOptimizedBuild = [
+    ENVIRONMENTS.VAGOVSTAGING,
+    ENVIRONMENTS.VAGOVPROD,
+  ].includes(buildOptions.buildtype);
+
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
     output: {
-      path: `${options.destination}/generated`,
+      path: `${buildOptions.destination}/generated`,
       publicPath: '/generated/',
-      filename: isDev
+      filename: !isOptimizedBuild
         ? '[name].entry.js'
         : `[name].entry.[chunkhash]-${timestamp}.js`,
-      chunkFilename: isDev
+      chunkFilename: !isOptimizedBuild
         ? '[name].entry.js'
         : `[name].entry.[chunkhash]-${timestamp}.js`,
     },
@@ -91,9 +97,7 @@ const configGenerator = (options, apps) => {
               {
                 loader: 'css-loader',
                 options: {
-                  minimize: ['vagovprod', 'vagovstaging'].includes(
-                    options.buildtype,
-                  ),
+                  minimize: isOptimizedBuild,
                 },
               },
               { loader: 'sass-loader' },
@@ -175,21 +179,11 @@ const configGenerator = (options, apps) => {
     },
     plugins: [
       new webpack.DefinePlugin({
-        __BUILDTYPE__: JSON.stringify(options.buildtype),
-        'process.env': {
-          API_PORT: process.env.API_PORT || 3000,
-          WEB_PORT: process.env.WEB_PORT || 3333,
-          API_URL: process.env.API_URL
-            ? JSON.stringify(process.env.API_URL)
-            : null,
-          BASE_URL: process.env.BASE_URL
-            ? JSON.stringify(process.env.BASE_URL)
-            : null,
-        },
+        __BUILDTYPE__: JSON.stringify(buildOptions.buildtype),
       }),
 
       new ExtractTextPlugin({
-        filename: isDev
+        filename: !isOptimizedBuild
           ? '[name].css'
           : `[name].[contenthash]-${timestamp}.css`,
       }),
@@ -200,23 +194,12 @@ const configGenerator = (options, apps) => {
     ],
   };
 
-  if (['vagovstaging', 'vagovprod'].includes(options.buildtype)) {
-    let sourceMap = null;
-
-    switch (options.buildtype) {
-      case 'vagovstaging':
-        sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/staging.va.gov';
-        break;
-
-      case 'vagovprod':
-      default:
-        sourceMap = 'https://s3-us-gov-west-1.amazonaws.com/www.va.gov';
-        break;
-    }
+  if (isOptimizedBuild) {
+    const bucket = BUCKETS[buildOptions.buildtype];
 
     baseConfig.plugins.push(
       new webpack.SourceMapDevToolPlugin({
-        append: `\n//# sourceMappingURL=${sourceMap}/generated/[url]`,
+        append: `\n//# sourceMappingURL=${bucket}/generated/[url]`,
         filename: '[file].map',
       }),
     );
@@ -227,7 +210,7 @@ const configGenerator = (options, apps) => {
     baseConfig.devtool = '#eval-source-map';
   }
 
-  if (options.analyzer) {
+  if (buildOptions.analyzer) {
     baseConfig.plugins.push(
       new BundleAnalyzerPlugin({
         analyzerMode: 'disabled',

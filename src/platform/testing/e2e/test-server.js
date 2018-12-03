@@ -12,9 +12,10 @@ const fallback = require('express-history-api-fallback');
 const path = require('path');
 const morgan = require('morgan');
 const appSettings = require('../../../../config/parse-app-settings');
+const ENVIRONMENTS = require('../../../site/constants/environments');
 
 const optionDefinitions = [
-  { name: 'buildtype', type: String, defaultValue: 'vagovdev' },
+  { name: 'buildtype', type: String, defaultValue: ENVIRONMENTS.VAGOVDEV },
   { name: 'port', type: Number, defaultValue: +(process.env.WEB_PORT || 3333) },
   { name: 'host', type: String, defaultValue: 'localhost' },
 
