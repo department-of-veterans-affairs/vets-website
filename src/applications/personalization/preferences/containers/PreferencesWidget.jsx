@@ -4,32 +4,10 @@ import { connect } from 'react-redux';
 
 import environment from 'platform/utilities/environment';
 
-function AccordionWrapper({ children }) {
-  return (
-    <div className="usa-accordion">
-      <ul className="usa-unstyled-list">{children}</ul>
-    </div>
-  );
-}
+import PreferenceList from '../components/PreferenceList';
 
-function AccordionItem({ onToggle, expanded, buttonText, name, children }) {
-  return (
-    <li>
-      <button
-        className="usa-button-unstyled usa-accordion-button"
-        aria-controls={name}
-        aria-expanded={!!expanded}
-        onClick={onToggle}
-        name={name}
-      >
-        {buttonText}
-      </button>
-      <div id={name} className="usa-accordion-content" aria-hidden={!expanded}>
-        <div itemProp="text">{children}</div>
-      </div>
-    </li>
-  );
-}
+import { setPreference, savePreferences, fetchPreferences } from '../actions';
+import { benefitChoices } from '../helpers';
 
 class PreferencesWidget extends React.Component {
   constructor(props) {
@@ -38,11 +16,15 @@ class PreferencesWidget extends React.Component {
     this.state = {};
   }
 
-  handleAccordionToggle = e => {
-    e.preventDefault();
+  handleViewToggle = slug => {
     this.setState({
-      [e.target.name]: !this.state[e.target.name],
+      [slug]: !this.state[slug],
     });
+  };
+
+  handleRemove = async slug => {
+    await this.props.setPreference(slug, false);
+    this.props.savePreferences(this.props.preferences.dashboard);
   };
 
   render() {
@@ -50,36 +32,39 @@ class PreferencesWidget extends React.Component {
     if (environment.isProduction()) {
       return null;
     }
+    const hasSelectedBenefits = Object.values(
+      this.props.preferences.dashboard,
+    ).find(item => !!item);
+
+    const selectedBenefits = benefitChoices.filter(
+      item => !!this.props.preferences.dashboard[item.slug],
+    );
 
     return (
       <div className="row user-profile-row">
         <div className="small-12 columns">
           <div className="title-container">
             <h2>Find VA Benefits</h2>
-            <Link to="preferences">Find VA Benefits Settings</Link>
+            {hasSelectedBenefits && (
+              <Link className="usa-button" to="preferences">
+                Find VA Benefits
+              </Link>
+            )}
           </div>
-          <div>
-            <AccordionWrapper>
-              <AccordionItem
-                onToggle={this.handleAccordionToggle}
-                name="exampleBenefit"
-                buttonText="Example Benefit"
-                expanded={this.state.exampleBenefit}
-              >
-                <p>TBD benefit content</p>
-              </AccordionItem>
-            </AccordionWrapper>
-            <AccordionWrapper>
-              <AccordionItem
-                onToggle={this.handleAccordionToggle}
-                name="exampleBenefitTwo"
-                buttonText="Example Benefit Two"
-                expanded={this.state.exampleBenefitTwo}
-              >
-                <p>TBD benefit content</p>
-              </AccordionItem>
-            </AccordionWrapper>
-          </div>
+          {!hasSelectedBenefits && (
+            <div>
+              <p>You haven’t selected any benefits to learn about.</p>
+              <Link to="preferences">Select benefits now</Link>
+            </div>
+          )}
+          {hasSelectedBenefits && (
+            <PreferenceList
+              benefits={selectedBenefits}
+              view={this.state}
+              handleViewToggle={this.handleViewToggle}
+              handleRemove={this.handleRemove}
+            />
+          )}
         </div>
       </div>
     );
@@ -88,9 +73,14 @@ class PreferencesWidget extends React.Component {
 
 const mapStateToProps = state => ({
   ...state,
+  preferences: state.preferences,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  setPreference,
+  savePreferences,
+  fetchPreferences,
+};
 
 export default connect(
   mapStateToProps,
