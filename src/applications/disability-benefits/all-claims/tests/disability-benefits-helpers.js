@@ -69,7 +69,7 @@ function completeReservesNationalGuardInfo(client, data) {
 function completeFederalOrders(client, data) {
   const activated =
     data.serviceInformation.reservesNationalGuardService[
-    'view:isTitle10Activated'
+      'view:isTitle10Activated'
     ];
 
   client.selectYesNo(
@@ -124,7 +124,7 @@ function completeEvidenceTypes(client, data) {
 function completePrivateMedicalRecordsChoice(client, data) {
   const pmrChoice =
     data['view:uploadPrivateRecordsQualifier'][
-    'view:hasPrivateMedicalRecordsToUpload'
+      'view:hasPrivateMedicalRecordsToUpload'
     ];
 
   client.selectYesNo(
