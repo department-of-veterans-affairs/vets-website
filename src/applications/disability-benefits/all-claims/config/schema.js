@@ -701,18 +701,21 @@ const schema = {
         },
       },
     },
-    specialIssue: {
-      type: 'string',
-      enum: [
-        'ALS',
-        'HEPC',
-        'POW',
-        'PTSD/1',
-        'PTSD/2',
-        'PTSD/3',
-        'PTSD/4',
-        'MST',
-      ],
+    specialIssues: {
+      type: 'array',
+      items: {
+        type: 'string',
+        enum: [
+          'ALS',
+          'HEPC',
+          'POW',
+          'PTSD/1',
+          'PTSD/2',
+          'PTSD/3',
+          'PTSD/4',
+          'MST',
+        ],
+      },
     },
   },
   properties: {
@@ -857,8 +860,8 @@ const schema = {
             type: 'string',
             enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
           },
-          specialIssue: {
-            $ref: '#/definitions/specialIssue',
+          specialIssues: {
+            $ref: '#/definitions/specialIssues',
           },
           ratedDisabilityId: {
             type: 'string',
@@ -886,8 +889,8 @@ const schema = {
                   type: 'string',
                   enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
                 },
-                specialIssue: {
-                  $ref: '#/definitions/specialIssue',
+                specialIssues: {
+                  $ref: '#/definitions/specialIssues',
                 },
                 ratedDisabilityId: {
                   type: 'string',
@@ -929,8 +932,8 @@ const schema = {
           causedByDisabilityDescription: {
             type: 'string',
           },
-          specialIssue: {
-            $ref: '#/definitions/specialIssue',
+          specialIssues: {
+            $ref: '#/definitions/specialIssues',
           },
           worsenedDescription: {
             type: 'string',
