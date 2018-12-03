@@ -1105,6 +1105,41 @@ const schema = {
       type: 'boolean',
       default: false,
     },
+    mentalChanges: {
+      type: 'object',
+      properties: {
+        depression: {
+          type: 'boolean',
+        },
+        obsessive: {
+          type: 'boolean',
+        },
+        prescription: {
+          type: 'boolean',
+        },
+        substance: {
+          type: 'boolean',
+        },
+        hypervigilance: {
+          type: 'boolean',
+        },
+        agoraphobia: {
+          type: 'boolean',
+        },
+        fear: {
+          type: 'boolean',
+        },
+        other: {
+          type: 'boolean',
+        },
+        otherExplanation: {
+          type: 'string',
+        },
+        noneApply: {
+          type: 'boolean',
+        },
+      },
+    },
   },
 };
 
