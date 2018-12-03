@@ -5,11 +5,11 @@ import { bindActionCreators } from 'redux';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 
-import { focusElement } from '../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 import SaveInProgressIntro, {
   introActions,
   introSelector,
-} from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
+} from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {

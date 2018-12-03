@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { makeField } from '../../../../platform/forms/fields';
+import { makeField } from 'platform/forms/fields';
 import { composeMessage } from '../../config';
 import modalsReducer from '../../reducers/modals';
 

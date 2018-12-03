@@ -1,5 +1,5 @@
 /* eslint-disable arrow-body-style */
-import environment from '../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 
 // TODO: Remove me when done bug fixing
 // const environment = {

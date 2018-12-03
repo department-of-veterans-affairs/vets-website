@@ -4,8 +4,8 @@ import _ from 'lodash';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import siteName from '../../../platform/brand-consolidation/site-name';
-import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
+import siteName from 'platform/brand-consolidation/site-name';
+import CallVBACenter from 'platform/brand-consolidation/components/CallVBACenter';
 import { closeAlert } from '../actions/alert.js';
 import { loadPrescription } from '../actions/prescriptions';
 import SettingsButton from '../components/SettingsButton';

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { formatPartialDate } from '../../utils/helpers';
-import { makeField } from '../../../../platform/forms/fields';
+import { makeField } from 'platform/forms/fields';
 
 describe('edu helpers:', () => {
   describe('formatPartialDate', () => {

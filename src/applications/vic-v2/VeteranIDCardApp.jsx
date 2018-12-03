@@ -1,8 +1,8 @@
 import React from 'react';
 
-import RoutedSavableApp from '../../platform/forms/save-in-progress/RoutedSavableApp';
+import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from './config/form';
-import RateLimiter from '../../platform/monitoring/RateLimiter';
+import RateLimiter from 'platform/monitoring/RateLimiter';
 import RateLimitContent from './components/RateLimitContent';
 
 export default function VeteranIDCard({ location, children }) {

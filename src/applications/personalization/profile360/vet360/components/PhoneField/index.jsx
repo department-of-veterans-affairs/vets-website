@@ -4,7 +4,7 @@ import pickBy from 'lodash/pickBy';
 
 import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from '../../constants';
 
-import { isValidPhone } from '../../../../../../platform/forms/validations';
+import { isValidPhone } from 'platform/forms/validations';
 
 import Vet360ProfileField from '../../containers/ProfileField';
 

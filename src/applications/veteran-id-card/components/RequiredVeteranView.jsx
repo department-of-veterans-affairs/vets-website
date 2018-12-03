@@ -3,8 +3,8 @@ import React from 'react';
 
 import SystemDownView from '@department-of-veterans-affairs/formation/SystemDownView';
 
-import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
-import EmailVICHelp from '../../../platform/brand-consolidation/components/EmailVICHelp';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
+import EmailVICHelp from 'platform/brand-consolidation/components/EmailVICHelp';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 

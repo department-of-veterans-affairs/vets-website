@@ -1,9 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import {
-  mockFetch,
-  resetFetch,
-} from '../../../../platform/testing/unit/helpers.js';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers.js';
 
 import {
   beneficiaryZIPCodeChanged,

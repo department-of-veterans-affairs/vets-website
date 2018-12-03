@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-// import recordEvent from '../../../../platform/monitoring/record-event';
+// import recordEvent from 'platform/monitoring/record-event';
 import { formatDate } from '../../../rx/utils/helpers';
 
 // Disabling interactivity.

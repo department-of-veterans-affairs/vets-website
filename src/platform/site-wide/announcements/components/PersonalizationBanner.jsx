@@ -1,5 +1,5 @@
 import React from 'react';
-import { rootUrl } from '../../../../applications/personalization/dashboard/manifest.js';
+import { rootUrl } from 'applications/personalization/dashboard/manifest.js';
 
 export default function PersonalizationBanner({ dismiss, isLoggedIn }) {
   if (!isLoggedIn) return <div />;

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
   externalServiceStatus,
-} from '../../../../platform/monitoring/DowntimeNotification';
-import DowntimeApproaching from '../../../../platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
-import recordEvent from '../../../../platform/monitoring/record-event';
+} from 'platform/monitoring/DowntimeNotification';
+import DowntimeApproaching from 'platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
+import recordEvent from 'platform/monitoring/record-event';
 
 import Vet360TransactionReporter from '../vet360/containers/TransactionReporter';
 

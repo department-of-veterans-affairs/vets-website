@@ -7,8 +7,8 @@ import {
   DefinitionTester,
   fillData,
   selectRadio,
-} from '../../../../platform/testing/unit/schemaform-utils';
-import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
+} from 'platform/testing/unit/schemaform-utils';
+import conditionalStorage from 'platform/utilities/storage/conditionalStorage';
 import formConfig from '../../config/form';
 
 let fetchMock;

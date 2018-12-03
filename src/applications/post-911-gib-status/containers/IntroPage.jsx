@@ -7,7 +7,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import BrandConsolidationSummary, {
   VetsDotGovSummary,
 } from './IntroPageSummary';
-import brandConsolidation from '../../../platform/brand-consolidation';
+import brandConsolidation from 'platform/brand-consolidation';
 import { getServiceAvailability } from '../actions/post-911-gib-status';
 import { SERVICE_AVAILABILITY_STATES } from '../utils/constants';
 

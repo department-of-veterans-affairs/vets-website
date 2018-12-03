@@ -9,7 +9,7 @@ import {
   SET_MESSAGE_FIELD,
 } from '../utils/constants';
 
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from '../utils/helpers';
 
 export function deleteComposeMessage() {

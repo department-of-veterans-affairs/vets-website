@@ -2,7 +2,7 @@ import {
   transformForSubmit,
   recordEvent,
 } from 'us-forms-system/lib/js/helpers';
-import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
+import conditionalStorage from 'platform/utilities/storage/conditionalStorage';
 
 export default function submitForm(form, formConfig) {
   const body = formConfig.transformForSubmit

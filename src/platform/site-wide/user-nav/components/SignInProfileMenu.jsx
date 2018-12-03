@@ -6,7 +6,7 @@ import IconUser from '@department-of-veterans-affairs/formation/IconUser';
 import LegacyDropdown from './LegacyDropdown';
 import PersonalizationDropdown from './PersonalizationDropdown';
 
-import isPersonalizationEnabled from '../../../../applications/personalization/dashboard/isPersonalizationEnabled';
+import isPersonalizationEnabled from 'applications/personalization/dashboard/isPersonalizationEnabled';
 
 class SignInProfileMenu extends React.Component {
   render() {

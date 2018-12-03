@@ -7,7 +7,7 @@ import IconHelp from '@department-of-veterans-affairs/formation/IconHelp';
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 import isVATeamSiteSubdomain from '../../../brand-consolidation/va-subdomain';
 
-import facilityLocatorManifest from '../../../../applications/facility-locator/manifest';
+import facilityLocatorManifest from 'applications/facility-locator/manifest';
 
 const FACILITY_LOCATOR_URL = facilityLocatorManifest.rootUrl;
 

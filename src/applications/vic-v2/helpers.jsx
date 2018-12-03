@@ -1,10 +1,10 @@
 import _ from 'lodash/fp';
 import Raven from 'raven-js';
-import recordEvent from '../../platform/monitoring/record-event';
-import { apiRequest } from '../../platform/utilities/api';
-import environment from '../../platform/utilities/environment';
-import backendServices from '../../platform/user/profile/constants/backendServices';
-import conditionalStorage from '../../platform/utilities/storage/conditionalStorage';
+import recordEvent from 'platform/monitoring/record-event';
+import { apiRequest } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import conditionalStorage from 'platform/utilities/storage/conditionalStorage';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 
 export function prefillTransformer(pages, formData, metadata, state) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import CallHRC from '../../../platform/brand-consolidation/components/CallHRC';
+import CallHRC from 'platform/brand-consolidation/components/CallHRC';
 
 function GetFormHelp() {
   return (

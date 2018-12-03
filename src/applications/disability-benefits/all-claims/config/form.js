@@ -1,7 +1,7 @@
-import environment from '../../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import submitForm from './submitForm';
 

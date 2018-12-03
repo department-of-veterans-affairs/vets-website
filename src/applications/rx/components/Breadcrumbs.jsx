@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { Link } from 'react-router';
 import React from 'react';
 
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 class Breadcrumbs extends React.Component {
   constructor(props) {

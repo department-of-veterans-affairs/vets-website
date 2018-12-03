@@ -1,11 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {
-  mockFetch,
-  resetFetch,
-} from '../../../../platform/testing/unit/helpers';
-import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import conditionalStorage from 'platform/utilities/storage/conditionalStorage';
 
 import {
   conditionallyShowPrefillMessage,

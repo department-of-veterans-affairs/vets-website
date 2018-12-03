@@ -2,11 +2,11 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { focusElement } from '../../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 import SaveInProgressIntro, {
   introActions,
   introSelector,
-} from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+} from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 

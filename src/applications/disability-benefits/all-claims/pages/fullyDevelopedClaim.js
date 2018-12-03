@@ -1,5 +1,5 @@
 import fullSchema from '../config/schema';
-import get from '../../../../platform/utilities/data/get';
+import get from 'platform/utilities/data/get';
 import {
   FDCDescription,
   FDCWarning,

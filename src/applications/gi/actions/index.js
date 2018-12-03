@@ -1,6 +1,6 @@
 import _, { snakeCase } from 'lodash';
 
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import { api } from '../config';
 
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';

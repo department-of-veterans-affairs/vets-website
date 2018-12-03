@@ -1,4 +1,4 @@
-import _ from '../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 import some from 'lodash/some';
 import { MILITARY_CITIES, MILITARY_STATE_VALUES, PTSD } from './constants';
 

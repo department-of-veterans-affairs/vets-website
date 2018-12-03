@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
-import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
-import backendServices from '../../../../platform/user/profile/constants/backendServices';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import backendServices from 'platform/user/profile/constants/backendServices';
 
 export function EVSSClaimsGate({ user, location, children }) {
   // Short-circuit the check on the intro page

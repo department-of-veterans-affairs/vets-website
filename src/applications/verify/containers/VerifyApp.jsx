@@ -4,11 +4,11 @@ import URLSearchParams from 'url-search-params';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import recordEvent from '../../../platform/monitoring/record-event';
-import { verify } from '../../../platform/user/authentication/utilities';
-import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
-import siteName from '../../../platform/brand-consolidation/site-name';
-import SubmitSignInForm from '../../../platform/brand-consolidation/components/SubmitSignInForm';
+import recordEvent from 'platform/monitoring/record-event';
+import { verify } from 'platform/user/authentication/utilities';
+import conditionalStorage from 'platform/utilities/storage/conditionalStorage';
+import siteName from 'platform/brand-consolidation/site-name';
+import SubmitSignInForm from 'platform/brand-consolidation/components/SubmitSignInForm';
 
 export class VerifyApp extends React.Component {
   componentDidMount() {

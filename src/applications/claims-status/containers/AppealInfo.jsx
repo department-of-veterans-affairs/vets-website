@@ -20,8 +20,8 @@ import {
   RECORD_NOT_FOUND_ERROR,
   AVAILABLE,
 } from '../utils/appeals-v2-helpers';
-import siteName from '../../../platform/brand-consolidation/site-name';
-import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
+import siteName from 'platform/brand-consolidation/site-name';
+import CallVBACenter from 'platform/brand-consolidation/components/CallVBACenter';
 
 const appealsDownMessage = (
   <div className="row" id="appealsDownMessage">

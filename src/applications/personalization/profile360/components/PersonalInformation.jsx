@@ -1,14 +1,14 @@
 import React from 'react';
 import DowntimeNotification, {
   externalServices,
-} from '../../../../platform/monitoring/DowntimeNotification';
+} from 'platform/monitoring/DowntimeNotification';
 import moment from 'moment';
 import LoadFail from './LoadFail';
 import LoadingSection from './LoadingSection';
 import { handleDowntimeForSection } from './DowntimeBanner';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import facilityLocator from '../../../facility-locator/manifest';
 
 function Gender({ gender }) {

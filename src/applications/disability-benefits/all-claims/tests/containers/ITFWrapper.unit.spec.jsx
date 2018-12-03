@@ -6,7 +6,7 @@ import { merge } from 'lodash/fp';
 
 import { ITFWrapper } from '../../containers/ITFWrapper';
 import { itfStatuses } from '../../constants';
-import { requestStates } from '../../../../../platform/utilities/constants';
+import { requestStates } from 'platform/utilities/constants';
 
 const fetchITF = sinon.spy();
 const createITF = sinon.spy();

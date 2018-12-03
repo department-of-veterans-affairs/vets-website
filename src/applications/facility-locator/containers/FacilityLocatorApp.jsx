@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import React from 'react';
 import DowntimeNotification, {
   externalServices,
-} from '../../../platform/monitoring/DowntimeNotification';
+} from 'platform/monitoring/DowntimeNotification';
 import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 import { ccLocatorEnabled } from '../config';
 import appendQuery from 'append-query';

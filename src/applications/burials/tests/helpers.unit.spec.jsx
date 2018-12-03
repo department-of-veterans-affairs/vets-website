@@ -3,8 +3,8 @@ import sinon from 'sinon';
 
 import { submit } from '../helpers.jsx';
 
-import { mockFetch, resetFetch } from '../../../platform/testing/unit/helpers';
-import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import conditionalStorage from 'platform/utilities/storage/conditionalStorage';
 
 function setFetchResponse(stub, data, headers = {}) {
   const response = new Response();

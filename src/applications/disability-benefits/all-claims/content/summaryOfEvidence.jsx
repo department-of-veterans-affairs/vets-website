@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from '../../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 
 export const summaryOfEvidenceDescription = ({ formData }) => {
   const vaEvidence = _.get('vaTreatmentFacilities', formData, []);

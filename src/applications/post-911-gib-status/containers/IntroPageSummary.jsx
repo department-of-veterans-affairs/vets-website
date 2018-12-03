@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import CallToActionWidget from '../../../platform/site-wide/cta-widget';
-import CallHRC from '../../../platform/brand-consolidation/components/CallHRC';
-import environment from '../../../platform/utilities/environment';
+import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CallHRC from 'platform/brand-consolidation/components/CallHRC';
+import environment from 'platform/utilities/environment';
 
 import EducationWizard from '../components/EducationWizard';
 import { wizardConfig } from '../utils/helpers';

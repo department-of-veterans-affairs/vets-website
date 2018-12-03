@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 
 import DowntimeNotification, {
   externalServices,
-} from '../../../platform/monitoring/DowntimeNotification';
+} from 'platform/monitoring/DowntimeNotification';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
-import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
-import backendServices from '../../../platform/user/profile/constants/backendServices';
-import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
+import MHVApp from 'platform/user/authorization/containers/MHVApp';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import { closeModal } from '../actions/modal';
 import Breadcrumbs from '../components/Breadcrumbs';
 

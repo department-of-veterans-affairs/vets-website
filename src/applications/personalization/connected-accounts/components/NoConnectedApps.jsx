@@ -1,6 +1,6 @@
 import React from 'react';
 
-import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 const recordAction = () => {
   recordEvent({

@@ -1,4 +1,4 @@
-import _ from '../../../../platform/utilities/data';
+import _ from 'platform/utilities/data';
 import merge from 'lodash/merge';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
@@ -8,13 +8,13 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 import submitForm from '../../all-claims/config/submitForm';
 
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
+import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
 
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import environment from '../../../../platform/utilities/environment';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';

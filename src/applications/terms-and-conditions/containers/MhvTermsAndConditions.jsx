@@ -6,10 +6,10 @@ import appendQuery from 'append-query';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
-import recordEvent from '../../../platform/monitoring/record-event';
-import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
-import { getScrollOptions } from '../../../platform/utilities/ui';
-import siteName from '../../../platform/brand-consolidation/site-name';
+import recordEvent from 'platform/monitoring/record-event';
+import conditionalStorage from 'platform/utilities/storage/conditionalStorage';
+import { getScrollOptions } from 'platform/utilities/ui';
+import siteName from 'platform/brand-consolidation/site-name';
 
 import {
   acceptTerms,

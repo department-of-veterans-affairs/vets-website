@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { loadPrescriptions } from '../../../rx/actions/prescriptions';
-import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import PrescriptionCard from '../components/PrescriptionCard';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
-import { mhvBaseUrl } from '../../../../platform/site-wide/cta-widget/helpers';
-import environment from '../../../../platform/utilities/environment';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
+import CallVBACenter from 'platform/brand-consolidation/components/CallVBACenter';
+import { mhvBaseUrl } from 'platform/site-wide/cta-widget/helpers';
+import environment from 'platform/utilities/environment';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 

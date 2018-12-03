@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { cloneDeep } from 'lodash';
 
-import { getFormDOM } from '../../../../platform/testing/unit/schemaform-utils';
+import { getFormDOM } from 'platform/testing/unit/schemaform-utils';
 import Address from '../../components/Address.jsx';
 
 import { MILITARY_STATES, ADDRESS_TYPES } from '../../utils/constants';

@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
-import fullNameUI from '../../../platform/forms/definitions/fullName';
+import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'us-forms-system/lib/js/definitions/ssn';
 
 export default function createVeteranInfoPage(formSchema, extra) {
