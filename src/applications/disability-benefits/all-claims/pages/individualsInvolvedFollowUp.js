@@ -21,7 +21,7 @@ export const uiSchema = index => ({
       },
       items: {
         'ui:options': {
-          updateSchema: (formData, schema, uiSchema, itemIndex) => {
+          updateSchema: (formData, schema, itemsUISchema, itemIndex) => {
             let schemaProps = schema.properties;
             const serviceMemberSelected = _.get(
               [
