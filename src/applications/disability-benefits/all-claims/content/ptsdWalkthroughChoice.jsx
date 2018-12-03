@@ -55,7 +55,7 @@ export const Ptsd781aUploadChoiceDescription = ({ formType }) => (
     </p>
     <p>
       <strong>Upload a form:</strong> If you choose to upload a completed VA
-      Form {` 21-0${formType}`} form, you’ll move to the next section of the
+      Form {` 21-0${formType}`}, you’ll move to the next section of the
       disability application.
     </p>
   </AdditionalInfo>
