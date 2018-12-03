@@ -1,5 +1,5 @@
 exports.command = function openUrl(url, disableForesee = true) {
-  this.openUrl(url);
+  this.url(url);
 
   if (disableForesee) {
     this.execute(() => {
