@@ -137,6 +137,31 @@ export function transformDisabilities(disabilities = []) {
   );
 }
 
+export function transformMVPData(formData) {
+  const newFormData = _.omit(
+    ['veteran', 'servicePeriods', 'reservesNationalGuardService'],
+    formData,
+  );
+
+  // Spread the properties in formData.veteran
+  Object.keys(_.get('veteran', formData, {})).forEach(key => {
+    newFormData[key] = formData.veteran[key];
+  });
+
+  // Nest servicePeriods and reservesNationalGuardService under serviceInformation
+  //  without creating a serviceInformation property unnecessarily
+  const { servicePeriods, reservesNationalGuardService } = formData;
+  if (servicePeriods || reservesNationalGuardService) {
+    newFormData.serviceInformation = {
+      ..._.get('serviceInformation', newFormData, {}),
+      servicePeriods,
+      reservesNationalGuardService,
+    };
+  }
+
+  return newFormData;
+}
+
 export function prefillTransformer(pages, formData, metadata) {
   const { disabilities } = formData;
   if (!disabilities || !Array.isArray(disabilities)) {
@@ -148,7 +173,7 @@ export function prefillTransformer(pages, formData, metadata) {
   const newFormData = _.set(
     'ratedDisabilities',
     transformDisabilities(disabilities),
-    formData,
+    transformMVPData(formData),
   );
   delete newFormData.disabilities;
 

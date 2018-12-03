@@ -75,10 +75,15 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  adaptiveBenefits,
+  aidAndAttendance,
+  individualUnemployability,
   physicalHealthChanges,
   hospitalizationHistory,
   newDisabilities,
 } from '../pages';
+
+import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
 import { createFormConfig781, createFormConfig781a } from './781';
 
@@ -336,6 +341,43 @@ const formConfig = {
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
         },
+        // Ancillary forms wizard
+        ancillaryFormsWizardIntro: {
+          title: 'Additional disability benefits',
+          path: 'additional-disability-benefits',
+          uiSchema: {
+            'ui:title': 'Additional disability benefits',
+            'ui:description': ancillaryFormsWizardDescription,
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:ancillaryFormsWizardIntro': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
+        adaptiveBenefits: {
+          title: 'Automobile allowance and adaptive benefits',
+          path: 'adaptive-benefits',
+          uiSchema: adaptiveBenefits.uiSchema,
+          schema: adaptiveBenefits.schema,
+        },
+        aidAndAttendance: {
+          title: 'Aid and Attendance benefits',
+          path: 'aid-and-attendance',
+          uiSchema: aidAndAttendance.uiSchema,
+          schema: aidAndAttendance.schema,
+        },
+        individualUnemployability: {
+          title: 'Individual Unemployability',
+          path: 'individual-unemployability',
+          uiSchema: individualUnemployability.uiSchema,
+          schema: individualUnemployability.schema,
+        },
+        // End ancillary forms wizard
         summaryOfDisabilities: {
           title: 'Summary of disabilities',
           path: 'disabilities/summary',
