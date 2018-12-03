@@ -479,12 +479,11 @@ describe('Validations unit tests', () => {
       expect(isValidPartialMonthYearInPast('2', '2001')).to.be.true;
     });
     it('should validate month and year that is current', () => {
+      const currentMonthIndexedAtOne = moment().month() + 1;
+
       expect(
         isValidPartialMonthYearInPast(
-          moment()
-            .add(1, 'month')
-            .month()
-            .toString(),
+          currentMonthIndexedAtOne.toString(),
           moment()
             .year()
             .toString(),

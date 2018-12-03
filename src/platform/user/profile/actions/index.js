@@ -1,7 +1,8 @@
 import { removeFormApi } from '../../../forms/save-in-progress/api';
 import environment from '../../../utilities/environment';
+import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 import { updateLoggedInStatus } from '../../authentication/actions';
-import { teardownProfileSession } from '../utilities';
+import { setupProfileSession, teardownProfileSession } from '../utilities';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
 export const PROFILE_LOADING_FINISHED = 'PROFILE_LOADING_FINISHED';
@@ -34,6 +35,11 @@ export function refreshProfile(forceCacheClear = false) {
     const response = await fetch(url, {
       method: 'GET',
       credentials: 'include',
+      headers: new Headers({
+        Authorization: `Token token=${conditionalStorage().getItem(
+          'userToken',
+        )}`,
+      }),
     });
 
     if (!response.ok) {
@@ -51,13 +57,11 @@ export function refreshProfile(forceCacheClear = false) {
 export function initializeProfile() {
   return async dispatch => {
     try {
-      await dispatch(refreshProfile());
+      const payload = await dispatch(refreshProfile());
+      setupProfileSession(payload);
       dispatch(updateLoggedInStatus(true));
     } catch (error) {
-      if (error.status === 401) {
-        dispatch(updateLoggedInStatus(false));
-        teardownProfileSession();
-      }
+      if (error.status === 401) teardownProfileSession();
       dispatch(profileLoadingFinished());
     }
   };
