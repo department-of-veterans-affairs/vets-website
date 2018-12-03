@@ -1,9 +1,11 @@
 import {
-  incidentSupport,
   incidentDate,
   incidentUnitAssignment,
   secondaryIncidentDate,
   secondaryIncidentUnitAssignment,
+  incidentDescription,
+  secondaryIncidentDescription,
+  incidentSupport,
   secondaryIncidentPermissionNotice,
   secondaryIncidentAuthorities,
   ptsdAdditionalEvents,
@@ -31,6 +33,20 @@ export function createFormConfig781(iterations) {
     configObj = {
       ...configObj,
       // 781 PAGE CONFIGS GO HERE
+      [`incidentDate${index}`]: {
+        title: `${numberToWords[index]} 781 PTSD Incident date`,
+        path: `disabilities/ptsd-incident-date-${index}`,
+        depends: isAnswering781Questions(index),
+        uiSchema: incidentDate.uiSchema(index),
+        schema: incidentDate.schema(index),
+      },
+      [`incidentDescription${index}`]: {
+        title: `${numberToWords[index]} 781 PTSD Event Description`,
+        path: `disabilities/ptsd-incident-description-${index}`,
+        depends: isAnswering781Questions(index),
+        uiSchema: incidentDescription.uiSchema(index),
+        schema: incidentDescription.schema(index),
+      },
       [`incidentSupport${index}`]: {
         title: `${numberToWords[index]} PTSD incident support`,
         path: `disabilities/ptsd-incident-support-${index}`,
@@ -72,6 +88,21 @@ export function createFormConfig781a(iterations) {
     configObj = {
       ...configObj,
       // 781a PAGE CONFIGS GO HERE
+      [`secondaryIncidentDate${index}`]: {
+        title: `${numberToWords[index]} 781a PTSD Incident date`,
+        path: `disabilities/ptsd-secondary-incident-date-${index}`,
+        // The Depends will need to be refactored to account for the page index/incident Number
+        depends: isAnswering781aQuestions(index),
+        uiSchema: secondaryIncidentDate.uiSchema(index),
+        schema: secondaryIncidentDate.schema(index),
+      },
+      [`secondaryIncidentDescription${index}`]: {
+        title: `${numberToWords[index]} 781a PTSD Event Description`,
+        path: `disabilities/ptsd-secondary-incident-description-${index}`,
+        depends: isAnswering781aQuestions(index),
+        uiSchema: secondaryIncidentDescription.uiSchema(index),
+        schema: secondaryIncidentDescription.schema(index),
+      },
       [`secondaryIncidentSupport${index}`]: {
         title: `${numberToWords[index]} PTSD assault incident support`,
         path: `disabilities/ptsd-secondary-incident-support-${index}`,
