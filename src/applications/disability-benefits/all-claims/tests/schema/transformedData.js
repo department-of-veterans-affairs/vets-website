@@ -43,6 +43,7 @@ export const transformedMinimalData = {
 
 export const transformedMaximalData = {
   form526: {
+    hasTrainingPay: true,
     standardClaim: false,
     separationPayDate: '2019-01-01',
     separationPayBranch: 'Air Force',

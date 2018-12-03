@@ -8,7 +8,7 @@
       "separationPayDate": "2019-01-01",
       "separationPayBranch": "Air Force"
     },
-    "view:hasTrainingPay": true,
+    "hasTrainingPay": true,
     "view:waiveTrainingPay": {
       "view:waiveTrainingPayDescription": {},
       "waiveTrainingPay": true
