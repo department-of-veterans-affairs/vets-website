@@ -15,9 +15,9 @@ describe('User navigation selectors', () => {
       },
     };
 
-    it('should return email', () => {
+    it('should return My Account', () => {
       const result = selectUserGreeting(state);
-      expect(result).to.equal('test@test.gov');
+      expect(result).to.equal('My Account');
     });
 
     it('should return session name', () => {

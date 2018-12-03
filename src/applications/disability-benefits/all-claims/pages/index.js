@@ -79,9 +79,19 @@ import {
 } from './ptsdWalkthroughChoice781';
 
 import {
+  uiSchema as incidentSupportUISchema,
+  schema as incidentSupportSchema,
+} from './incidentSupport';
+
+import {
   uiSchema as incidentDateUISchema,
   schema as incidentDateSchema,
 } from './incidentDate';
+
+import {
+  uiSchema as ptsdAdditionalEventsUISchema,
+  schema as ptsdAdditionalEventsSchema,
+} from './ptsdAdditionalEvents';
 
 import {
   uiSchema as uploadPtsdDocumentsUISchema,
@@ -97,6 +107,21 @@ import {
   uiSchema as secondaryIncidentDateUISchema,
   schema as secondaryIncidentDateSchema,
 } from './secondaryIncidentDate';
+
+import {
+  uiSchema as secondaryIncidentPermissionNoticeUISchema,
+  schema as secondaryIncidentPermissionNoticeSchema,
+} from './secondaryIncidentPermissionNotice';
+
+import {
+  uiSchema as secondaryIncidentAuthoritiesUISchema,
+  schema as secondaryIncidentAuthoritiesSchema,
+} from './secondaryIncidentAuthorities';
+
+import {
+  uiSchema as ptsdSecondaryAdditionalEventsUISchema,
+  schema as ptsdSecondaryAdditionalEventsSchema,
+} from './ptsdSecondaryAdditionalEvents';
 
 import {
   uiSchema as uploadPersonalPtsdDocumentsUISchema,
@@ -179,6 +204,36 @@ import {
 } from './unemployabilityFormIntro';
 
 import {
+  uiSchema as mentalHealthChangesUISchema,
+  schema as mentalHealthChangesSchema,
+} from './mentalHealthChanges';
+
+import {
+  uiSchema as adaptiveBenefitsUISchema,
+  schema as adaptiveBenefitsSchema,
+} from './adaptiveBenefits';
+
+import {
+  uiSchema as aidAndAttendanceUISchema,
+  schema as aidAndAttendanceSchema,
+} from './aidAndAttendance';
+
+import {
+  uiSchema as individualUnemployabilityUISchema,
+  schema as individualUnemployabilitySchema,
+} from './individualUnemployability';
+
+import {
+  uiSchema as physicalHealthChangesUISchema,
+  schema as physicalHealthChangesSchema,
+} from './physicalHealthChanges';
+
+import {
+  uiSchema as hospitalizationHistoryUISchema,
+  schema as hospitalizationHistorySchema,
+} from './hospitalizationHistory';
+
+import {
   uiSchema as conclusionCombatUISchema,
   schema as conclusionCombatSchema,
 } from './conclusionCombat';
@@ -192,6 +247,11 @@ import {
   uiSchema as additionalRemarks781UISchema,
   schema as additionalRemarks781Schema,
 } from './additionalRemarks781';
+
+import {
+  uiSchema as newDisabilitiesUISchema,
+  schema as newDisabilitiesSchema,
+} from './newDisabilities';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -273,9 +333,24 @@ export const ptsdWalkthroughChoice781 = {
   schema: ptsdWalkthroughChoice781Schema,
 };
 
+export const incidentSupport = {
+  uiSchema: incidentSupportUISchema,
+  schema: incidentSupportSchema,
+};
+
 export const incidentDate = {
   uiSchema: incidentDateUISchema,
   schema: incidentDateSchema,
+};
+
+export const ptsdAdditionalEvents = {
+  uiSchema: ptsdAdditionalEventsUISchema,
+  schema: ptsdAdditionalEventsSchema,
+};
+
+export const ptsdSecondaryAdditionalEvents = {
+  uiSchema: ptsdSecondaryAdditionalEventsUISchema,
+  schema: ptsdSecondaryAdditionalEventsSchema,
 };
 
 export const uploadPtsdDocuments = {
@@ -291,6 +366,16 @@ export const ptsdWalkthroughChoice781a = {
 export const secondaryIncidentDate = {
   uiSchema: secondaryIncidentDateUISchema,
   schema: secondaryIncidentDateSchema,
+};
+
+export const secondaryIncidentPermissionNotice = {
+  uiSchema: secondaryIncidentPermissionNoticeUISchema,
+  schema: secondaryIncidentPermissionNoticeSchema,
+};
+
+export const secondaryIncidentAuthorities = {
+  uiSchema: secondaryIncidentAuthoritiesUISchema,
+  schema: secondaryIncidentAuthoritiesSchema,
 };
 
 export const uploadPersonalPtsdDocuments = {
@@ -373,6 +458,36 @@ export const unemployabilityFormIntro = {
   schema: unemployabilityFormIntroSchema,
 };
 
+export const mentalHealthChanges = {
+  uiSchema: mentalHealthChangesUISchema,
+  schema: mentalHealthChangesSchema,
+};
+
+export const adaptiveBenefits = {
+  uiSchema: adaptiveBenefitsUISchema,
+  schema: adaptiveBenefitsSchema,
+};
+
+export const aidAndAttendance = {
+  uiSchema: aidAndAttendanceUISchema,
+  schema: aidAndAttendanceSchema,
+};
+
+export const individualUnemployability = {
+  uiSchema: individualUnemployabilityUISchema,
+  schema: individualUnemployabilitySchema,
+};
+
+export const physicalHealthChanges = {
+  uiSchema: physicalHealthChangesUISchema,
+  schema: physicalHealthChangesSchema,
+};
+
+export const hospitalizationHistory = {
+  uiSchema: hospitalizationHistoryUISchema,
+  schema: hospitalizationHistorySchema,
+};
+
 export const conclusionCombat = {
   uiSchema: conclusionCombatUISchema,
   schema: conclusionCombatSchema,
@@ -386,4 +501,9 @@ export const conclusionAssault = {
 export const additionalRemarks781 = {
   uiSchema: additionalRemarks781UISchema,
   schema: additionalRemarks781Schema,
+};
+
+export const newDisabilities = {
+  uiSchema: newDisabilitiesUISchema,
+  schema: newDisabilitiesSchema,
 };

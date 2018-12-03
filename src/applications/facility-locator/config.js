@@ -1,6 +1,10 @@
 /* eslint-disable arrow-body-style */
 import environment from '../../platform/utilities/environment';
-import isProduction from '../../platform/utilities/environment/isProduction';
+
+// TODO: Remove me when done bug fixing
+// const environment = {
+//   API_URL: 'http://staging-api.va.gov',
+// };
 
 // Base URL to be used in API requests.
 export const api = {
@@ -21,7 +25,7 @@ export const api = {
  * existing Facility Locator App.
  */
 export const ccLocatorEnabled = () => {
-  return !isProduction();
+  return !environment.isProduction();
 };
 
 /* eslint-disable camelcase */
