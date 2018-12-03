@@ -9,30 +9,41 @@ import formConfig from '../../config/form';
 
 describe('hca <DemographicField>', () => {
   it('should render ObjectField', () => {
+    const formContext = {
+      reviewMode: false,
+    };
     const registry = {
       fields: {
         ObjectField,
       },
-    };
-    const formContext = {
-      reviewMode: false,
+      definitions: {},
+      widgets: {},
+      formContext,
     };
 
     const tree = SkinDeep.shallowRender(
-      <DemographicField formContext={formContext} registry={registry} />,
+      <DemographicField
+        formContext={formContext}
+        onChange={f => f}
+        registry={registry}
+        schema={{}}
+      />,
     );
 
     expect(tree.subTree('ObjectField')).not.to.be.false;
     expect(tree.subTree('ObjectField').props.formContext).to.equal(formContext);
   });
   it('should render review version', () => {
+    const formContext = {
+      reviewMode: true,
+    };
     const registry = {
       fields: {
         ObjectField,
       },
-    };
-    const formContext = {
-      reviewMode: true,
+      definitions: {},
+      widgets: {},
+      formContext,
     };
     const demographicInformation =
       formConfig.chapters.veteranInformation.pages.demographicInformation;
@@ -40,6 +51,7 @@ describe('hca <DemographicField>', () => {
     const tree = SkinDeep.shallowRender(
       <DemographicField
         formContext={formContext}
+        onChange={f => f}
         schema={
           demographicInformation.schema.properties['view:demographicCategories']
         }

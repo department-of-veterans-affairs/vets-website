@@ -13,9 +13,8 @@ export default function SubmitSignInForm({ children, startSentence }) {
         target="_blank"
         rel="noopener"
       >
-        {startSentence ? 'Submit' : 'submit'} a request to get help
+        {startSentence ? 'Submit' : 'submit'} a request to get help signing in
       </a>
-      .
     </span>
   );
 }
