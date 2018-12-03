@@ -23,7 +23,6 @@ import {
   isUploading781Form,
   isUploading781aForm,
   transformRelatedDisabilities,
-  isAnsweringPtsdForm,
   transformMVPData,
   transform,
 } from '../utils.jsx';
