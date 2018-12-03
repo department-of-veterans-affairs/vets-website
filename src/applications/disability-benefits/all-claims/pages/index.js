@@ -204,6 +204,16 @@ import {
 } from './unemployabilityFormIntro';
 
 import {
+  uiSchema as incidentDescriptionUISchema,
+  schema as incidentDescriptionSchema,
+} from './incidentDescription';
+
+import {
+  uiSchema as secondaryIncidentDescriptionUISchema,
+  schema as secondaryIncidentDescriptionSchema,
+} from './secondaryIncidentDescription';
+
+import {
   uiSchema as mentalHealthChangesUISchema,
   schema as mentalHealthChangesSchema,
 } from './mentalHealthChanges';
@@ -456,6 +466,16 @@ export const unemployabilityStatus = {
 export const unemployabilityFormIntro = {
   uiSchema: unemployabilityFormIntroUISchema,
   schema: unemployabilityFormIntroSchema,
+};
+
+export const incidentDescription = {
+  uiSchema: incidentDescriptionUISchema,
+  schema: incidentDescriptionSchema,
+};
+
+export const secondaryIncidentDescription = {
+  uiSchema: secondaryIncidentDescriptionUISchema,
+  schema: secondaryIncidentDescriptionSchema,
 };
 
 export const mentalHealthChanges = {
