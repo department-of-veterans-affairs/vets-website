@@ -29,7 +29,6 @@ import {
   isUploading781aForm,
   servedAfter911,
   isAnsweringPtsdForm,
-  isAnswering781aQuestions,
   isNotUploadingPrivateMedical,
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
@@ -295,18 +294,11 @@ const formConfig = {
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
         },
-        additionalBehaviorChanges: {
-          title: 'Additional Remarks - Additional Behavior Changes',
-          path: 'new-disabilities/ptsd-781a-additional-changes',
-          depends: formData =>
-            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
-          uiSchema: additionalBehaviorChanges.uiSchema,
-          schema: additionalBehaviorChanges.schema,
-        },
         physicalHealthChanges: {
           title: 'Additional Remarks - Physical Health Changes',
           path: 'new-disabilities/ptsd-781a-physical-changes',
-          depends: formData => isAnswering781aQuestions(0)(formData),
+          depends: formData =>
+            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
           uiSchema: physicalHealthChanges.uiSchema,
           schema: physicalHealthChanges.schema,
         },
@@ -317,6 +309,14 @@ const formConfig = {
             needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
           uiSchema: mentalHealthChanges.uiSchema,
           schema: mentalHealthChanges.schema,
+        },
+        additionalBehaviorChanges: {
+          title: 'Additional Remarks - Additional Behavior Changes',
+          path: 'new-disabilities/ptsd-781a-additional-changes',
+          depends: formData =>
+            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
+          uiSchema: additionalBehaviorChanges.uiSchema,
+          schema: additionalBehaviorChanges.schema,
         },
         conclusionCombat: {
           path: 'conclusion-781',

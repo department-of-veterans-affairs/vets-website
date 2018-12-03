@@ -488,6 +488,7 @@ export const getHomelessOrAtRisk = formData => {
     homelessStatus === HOMELESSNESS_TYPES.atRisk
   );
 };
+
 export const isAnsweringPtsdForm = formData =>
   _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions';
 
