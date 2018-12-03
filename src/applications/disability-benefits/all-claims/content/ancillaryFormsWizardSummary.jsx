@@ -17,16 +17,16 @@ export default class SummaryDescription extends React.Component {
   render() {
     const assistanceNeeded = {
       houseAssistance: this.props.formData['view:modifyingHome']
-        ? 'House assistance'
+        ? 'Adapted housing assistance'
         : null,
       carAssistance: this.props.formData['view:modifyingCar']
-        ? 'Vehicle assistance'
+        ? 'Automobile allowance'
         : null,
       aidAndAttendance: this.props.formData['view:aidAndAttendance']
-        ? 'Aid and attendance'
+        ? 'Aid and Attendance'
         : null,
       individualUnemployability: this.props.formData['view:unemployable']
-        ? 'Individual unemployability'
+        ? 'Individual Unemployability'
         : null,
     };
 
