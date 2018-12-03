@@ -79,6 +79,11 @@ import {
 } from './ptsdWalkthroughChoice781';
 
 import {
+  uiSchema as incidentSupportUISchema,
+  schema as incidentSupportSchema,
+} from './incidentSupport';
+
+import {
   uiSchema as incidentDateUISchema,
   schema as incidentDateSchema,
 } from './incidentDate';
