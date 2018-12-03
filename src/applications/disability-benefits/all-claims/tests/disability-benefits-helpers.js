@@ -22,8 +22,10 @@ function completeCombatZonePost911(client, data) {
 function completeMilitaryHistory(client, data) {
   // With prefill there is already an entry for military history so need to click Add Another first
   client.click('.va-growable-add-btn');
-  data.servicePeriods.forEach((period, i, list) => {
-    const { serviceBranch, dateRange } = data.servicePeriods[i];
+  const { servicePeriods } = data.serviceInformation;
+
+  servicePeriods.forEach((period, i, list) => {
+    const { serviceBranch, dateRange } = servicePeriods[i];
 
     // increment i by 1 because of prefill
     client
@@ -45,11 +47,10 @@ function completeMilitaryHistory(client, data) {
 }
 
 function completeReservesNationalGuardInfo(client, data) {
-  const { unitName, servicePeriods } = data;
-
-  const activePeriod = servicePeriods.find(
-    period => period.serviceBranch === 'Army Reserve',
-  );
+  const {
+    unitName,
+    obligationTermOfServiceDateRange,
+  } = data.serviceInformation.reservesNationalGuardService;
 
   client
     .fill(
@@ -58,11 +59,11 @@ function completeReservesNationalGuardInfo(client, data) {
     )
     .fillDate(
       'root_serviceInformation_reservesNationalGuardService_obligationTermOfServiceDateRange_from',
-      activePeriod.dateRange.from,
+      obligationTermOfServiceDateRange.from,
     )
     .fillDate(
       'root_serviceInformation_reservesNationalGuardService_obligationTermOfServiceDateRange_to',
-      activePeriod.dateRange.to,
+      obligationTermOfServiceDateRange.to,
     );
 }
 

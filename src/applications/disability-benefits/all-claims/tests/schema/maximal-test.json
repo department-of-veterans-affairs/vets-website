@@ -1,74 +1,135 @@
 {
   "data": {
-    "veteran": {
-      "homelessness": {
-        "isHomeless": false,
-        "pointOfContact": {
-          "pointOfContactName": "John",
-          "primaryPhone": "1231231231"
-        }
-      },
-      "phoneEmailCard": {
-        "primaryPhone": "4445551212",
-        "emailAddress": "test2@test1.net"
-      },
-      "mailingAddress": {
-        "country": "USA",
-        "addressLine1": "123 MAIN ST",
-        "addressLine2": "BEN FRANKLIN VILLAGE",
-        "city": "APO",
-        "state": "AE",
-        "zipCode": "09028"
-      },
-      "view:hasForwardingAddress": true,
-      "forwardingAddress": {
-        "country": "USA",
-        "addressLine1": "123 Anystreet",
-        "addressLine2": "Viking Drive",
-        "addressLine3": "Some Suite",
-        "city": "Anyville",
-        "state": "AK",
-        "zipCode": "33492",
-        "effectiveDate": "2019-04-04"
+    "standardClaim": false,
+    "view:fdcWarning": {},
+    "view:hasSeparationPay": true,
+    "view:separationPayDetails": {
+      "view:separationPayDetailsDescription": {},
+      "separationPayDate": "2019-01-01",
+      "separationPayBranch": "Air Force"
+    },
+    "view:hasTrainingPay": true,
+    "view:waiveTrainingPay": {
+      "view:waiveTrainingPayDescription": {},
+      "waiveTrainingPay": true
+    },
+    "view:waiveRetirementPayDescription": {},
+    "waiveRetirementPay": false,
+    "isVAEmployee": true,
+    "homelessOrAtRisk": "atRisk",
+    "view:isAtRisk": {
+      "atRiskHousingSituation": "other",
+      "otherAtRiskHousing": "Situation description"
+    },
+    "homelessnessContact": {
+      "name": "Name",
+      "phoneNumber": "1231231234"
+    },
+    "bankAccountType": "Checking",
+    "bankAccountNumber": "1233",
+    "bankRoutingNumber": "123412345",
+    "bankName": "BigBank Name",
+    "phoneEmailCard": {
+      "primaryPhone": "1231231234",
+      "emailAddress": "asdf@adsf.asdf"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "asdf",
+      "addressLine2": "line 2",
+      "addressLine3": "line 3",
+      "city": "asdf",
+      "state": "AL",
+      "zipCode": "19234"
+    },
+    "view:hasForwardingAddress": true,
+    "forwardingAddress": {
+      "country": "USA",
+      "addressLine1": "adsf",
+      "addressLine2": "line 2",
+      "addressLine3": "line 3",
+      "city": "asdf",
+      "state": "OH",
+      "zipCode": "12343",
+      "effectiveDate": {
+        "from": "2019-01-01",
+        "to": "2020-01-01"
       }
     },
-    "view:hasMilitaryRetiredPay": false,
-    "view:hasAlternateName": false,
-    "alternateNames": [
+    "view:contactInfoDescription": {},
+    "additionalDocuments": [
       {
-        "first": "Old",
-        "last": "Name"
-      },
-      {
-        "first": "Another",
-        "middle": "Old",
-        "last": "Name"
+        "confirmationCode": "354c6d40-b7f5-4c6d-9393-3b2de6969e94",
+        "attachmentId": "L015",
+        "name": "Document Name"
       }
     ],
-    "unitName": "Alpha Bravo Charlie",
-    "obligationTermOfServiceDateRange": {
-      "from": "2015-05-12",
-      "to": "2017-05-12"
+    "view:uploadPrivateRecordsQualifier": {
+      "view:aboutPrivateMedicalRecords": {},
+      "view:hasPrivateRecordsToUpload": false,
+      "view:privateRecordsChoiceHelp": {}
     },
-    "waiveVABenefitsToRetainTrainingPay": false,
-    "servicePeriods": [
+    "view:vaMedicalRecordsIntro": {},
+    "vaTreatmentFacilities": [
       {
-        "serviceBranch": "Air National Guard",
-        "dateRange": {
-          "from": "1980-03-06",
-          "to": "1990-02-04"
-        }
-      },
-      {
-        "serviceBranch": "Army Reserve",
-        "dateRange": {
-          "from": "1990-07-05",
-          "to": "2000-02-04"
+        "treatmentCenterName": "VA Clinic Name",
+        "treatmentDateRange": {
+          "from": "1904-01-01",
+          "to": "1905-01-01"
+        },
+        "treatmentCenterAddress": {
+          "country": "USA",
+          "city": "asdf",
+          "state": "AL"
+        },
+        "treatedDisabilityNames": {
+          "First Condition": true,
+          "PTSD (post Traumatic Stress Disorder)": true
         }
       }
     ],
-    "servedInCombatZonePost911": false,
-    "view:militaryHistoryNote": {},
+    "view:hasEvidence": true,
+    "view:hasEvidenceFollowUp": {
+      "view:selectableEvidenceTypes": {
+        "view:hasVAMedicalRecords": true,
+        "view:hasPrivateMedicalRecords": true,
+        "view:hasOtherEvidence": true
+      },
+      "view:evidenceTypeHelp": {}
+    },
+    "view:powStatus": true,
+    "view:isPOW": {
+      "confinements": [
+        {
+          "from": "1900-01-01",
+          "to": "1901-01-01"
+        }
+      ],
+      "powDisabilities": {
+        "PTSD (post Traumatic Stress Disorder)": true
+      }
+    },
+    "view:unemployabilityUploadChoice": "answerQuestions",
+    "view:unemployabilityStatus": true,
+    "view:upload781Choice": "answerQuestions",
+    "view:upload781ChoiceHelp": {},
+    "view:upload781aChoice": "answerQuestions",
+    "view:upload781aChoiceHelp": {},
+    "view:selectablePtsdTypes": {
+      "view:combatPtsdType": true,
+      "view:mstPtsdType": true,
+      "view:assaultPtsdType": true,
+      "view:noncombatPtsdType": true
+    },
+    "view:ptsdTypeHelp": {},
+    "view:newDisabilities": true,
+    "newDisabilities": [
+      {
+        "cause": "NEW",
+        "primaryDescription": "A thing happened.",
+        "condition": "PTSD (post traumatic stress disorder)"
+      }
+    ],
     "ratedDisabilities": [
       {
         "name": "First Condition",
@@ -103,16 +164,7 @@
         "disabilityActionType": "INCREASE"
       }
     ],
-    "view:unemployabilityStatus": false,
     "view:disabilitiesClarification": {},
-    "view:newDisabilities": false,
-    "newDisabilities": [
-      {
-        "cause": "NEW",
-        "primaryDescription": "A thing happened.",
-        "condition": "PTSD (post traumatic stress disorder)"
-      }
-    ],
     "serviceInformation": {
       "reservesNationalGuardService": {
         "view:isTitle10Activated": false,
@@ -154,55 +206,21 @@
       ],
       "view:militaryHistoryNote": {}
     },
-    "view:hasEvidence": true,
-    "view:hasEvidenceFollowUp": {
-      "view:selectableEvidenceTypes": {
-        "view:hasVAMedicalRecords": true,
-        "view:hasPrivateMedicalRecords": true,
-        "view:hasOtherEvidence": true
-      },
-      "view:evidenceTypeHelp": {}
-    },
-    "view:powStatus": false,
-    "view:isPOW": {
-      "confinements": [
-        {
-          "from": "1900-01-01",
-          "to": "1901-01-01"
-        }
-      ],
-      "powDisabilities": {
-        "PTSD (post Traumatic Stress Disorder)": true
-      }
-    },
-    "standardClaim": false,
-    "view:fdcWarning": {},
-    "privacyAgreementAccepted": true,
-    "view:uploadPrivateRecordsQualifier": {
-      "view:aboutPrivateMedicalRecords": {},
-      "view:hasPrivateRecordsToUpload": false,
-      "view:privateRecordsChoiceHelp": {}
-    },
-    "view:patientAcknowledgement": {
-      "view:acknowledgement": true
-    },
-    "providerFacility": [
+    "view:hasMilitaryRetiredPay": false,
+    "militaryRetiredPayBranch": "Air Force",
+    "view:hasAlternateName": false,
+    "alternateNames": [
       {
-        "providerFacilityName": "Sesame Street Clinic",
-        "treatmentDateRange": {
-          "from": "2000-01-01",
-          "to": "2018-01-01"
-        },
-        "providerFacilityAddress": {
-          "street": "123 Sesame St.",
-          "city": "Philidelphia",
-          "postalCode": "10203",
-          "country": "USA",
-          "state": "PA"
-        }
+        "first": "Old",
+        "last": "Name"
+      },
+      {
+        "first": "Another",
+        "middle": "Old",
+        "last": "Name"
       }
     ],
-    "view:limitedConsent": true,
-    "limitedConsent": "Only Dibeetus"
+    "view:faqAccordion": {},
+    "privacyAgreementAccepted": true
   }
 }
