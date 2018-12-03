@@ -54,8 +54,8 @@ export const Ptsd781aUploadChoiceDescription = ({ formType }) => (
       evidence or documents to include, you’ll be able to upload them.
     </p>
     <p>
-      <strong>Upload a form:</strong> If you choose to upload a completed
-      {` 21-0${formType}`} form, you’ll move to the next section of the
+      <strong>Upload a form:</strong> If you choose to upload a completed VA
+      Form {` 21-0${formType}`} form, you’ll move to the next section of the
       disability application.
     </p>
   </AdditionalInfo>
