@@ -68,8 +68,8 @@ export default class SummaryDescription extends React.Component {
           </div>
         )}
         {this.state.carAssistance && (
-          <ul>
-            <li>
+          <div>
+            <p>
               To file a claim for a one-time payment to help you buy a specially
               equipped vehicle, you’ll need to fill out an Application for
               Automobile or Other Conveyance and Adaptive Equipment (VA Form
@@ -80,8 +80,8 @@ export default class SummaryDescription extends React.Component {
                 </a>
                 .
               </div>
-            </li>
-            <li>
+            </p>
+            <p>
               To file a claim for adaptive equipment, you’ll need to fill out an
               Application for Adaptive Equipment—Motor Vehicle (VA Form
               10-1394).
@@ -90,8 +90,8 @@ export default class SummaryDescription extends React.Component {
                   Download VA Form 10-1394.
                 </a>
               </div>
-            </li>
-          </ul>
+            </p>
+          </div>
         )}
         {this.state.aidAndAttendance && (
           <div>
@@ -115,28 +115,26 @@ export default class SummaryDescription extends React.Component {
               To file a claim for Individual Unemployability, you’ll need to
               fill out:
             </p>
-            <ul>
-              <li>
-                A Veteran’s Application for Increased Compensation Based on
-                Unemployability (VA Form 21-8940)
-                <div>
-                  <a href="https://www.vba.va.gov/pubs/forms/vba-21-8940-are.pdf">
-                    Download VA Form 21-8940
-                  </a>
-                  , <strong>and</strong>
-                </div>
-              </li>
-              <li>
-                A Request for Employment Information in Connection with Claim
-                for Disability Benefits (VA Form 21-4192)
-                <div>
-                  <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf">
-                    Download VA Form 21-4192
-                  </a>
-                  .
-                </div>
-              </li>
-            </ul>
+            <p>
+              A Veteran’s Application for Increased Compensation Based on
+              Unemployability (VA Form 21-8940)
+              <div>
+                <a href="https://www.vba.va.gov/pubs/forms/vba-21-8940-are.pdf">
+                  Download VA Form 21-8940
+                </a>
+                , <strong>and</strong>
+              </div>
+            </p>
+            <p>
+              A Request for Employment Information in Connection with Claim for
+              Disability Benefits (VA Form 21-4192)
+              <div>
+                <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf">
+                  Download VA Form 21-4192
+                </a>
+                .
+              </div>
+            </p>
           </div>
         )}
       </div>
