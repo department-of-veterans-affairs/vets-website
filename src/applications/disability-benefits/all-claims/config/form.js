@@ -28,7 +28,8 @@ import {
   isUploading781Form,
   isUploading781aForm,
   servedAfter911,
-  isAnsweringPtsdForm,
+  isAnswering781aQuestions,
+  isAnswering781Questions,
   isNotUploadingPrivateMedical,
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
@@ -76,6 +77,7 @@ import {
   unemployabilityStatus,
   unemployabilityFormIntro,
   additionalRemarks781,
+  additionalBehaviorChanges,
   mentalHealthChanges,
   adaptiveBenefits,
   aidAndAttendance,
@@ -278,7 +280,7 @@ const createFormConfig = {
         additionalRemarks781: {
           title: 'Additional Remarks - 781',
           path: 'new-disabilities/additional-remarks-781',
-          depends: formData => isAnsweringPtsdForm(formData),
+          depends: isAnswering781Questions(0),
           uiSchema: additionalRemarks781.uiSchema,
           schema: additionalRemarks781.schema,
         },
@@ -304,18 +306,23 @@ const createFormConfig = {
         physicalHealthChanges: {
           title: 'Additional Remarks - Physical Health Changes',
           path: 'new-disabilities/ptsd-781a-physical-changes',
-          depends: formData =>
-            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
+          depends: isAnswering781aQuestions(0),
           uiSchema: physicalHealthChanges.uiSchema,
           schema: physicalHealthChanges.schema,
         },
         mentalHealthChanges: {
           title: 'Additional Remarks - Physical Health Changes',
           path: 'new-disabilities/ptsd-781a-mental-changes',
-          depends: formData =>
-            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
+          depends: isAnswering781aQuestions(0),
           uiSchema: mentalHealthChanges.uiSchema,
           schema: mentalHealthChanges.schema,
+        },
+        additionalBehaviorChanges: {
+          title: 'Additional Remarks - Additional Behavior Changes',
+          path: 'new-disabilities/ptsd-781a-additional-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: additionalBehaviorChanges.uiSchema,
+          schema: additionalBehaviorChanges.schema,
         },
         conclusionCombat: {
           path: 'conclusion-781',
