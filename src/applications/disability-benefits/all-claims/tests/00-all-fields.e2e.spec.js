@@ -1,7 +1,7 @@
 const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('./disability-benefits-helpers');
-const testData = require('./schema/maximal-test.new.json');
+const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
 const Auth = require('../../../../platform/testing/e2e/auth');
 
@@ -24,7 +24,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // Ensure introduction page renders.
   client
     // eslint-disable-next-line prettier/prettier
-    .url(`${E2eHelpers.baseUrl}/disability-benefits/apply/form-526-all-claims/introduction`,)
+    .url(`${E2eHelpers.baseUrl}/disability-benefits/apply/form-526-all-claims/introduction`)
     .waitForElementVisible('body', Timeouts.normal)
     .assert.title('Apply for disability benefits: VA.gov')
     // First render of React may be slow.
@@ -44,137 +44,147 @@ const runTest = E2eHelpers.createE2eTest(client => {
 
   // Veteran Details
   // Review Veteran Information
+  E2eHelpers.expectLocation(client, '/veteran-information');
   client.axeCheck('.main');
   client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information');
 
   // Alternate Name
+  E2eHelpers.expectLocation(client, '/alternate-names');
   client.axeCheck('.main');
   PageHelpers.completeAlternateName(client, testData.data);
   client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/alternate-names');
 
   // Military Retirement Pay
+  E2eHelpers.expectLocation(client, '/service-pay');
   client.axeCheck('.main');
   PageHelpers.completeMilitaryRetiredPay(client, testData.data);
   client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/service-pay');
 
   // Military Service History
+  E2eHelpers.expectLocation(client, 'military-service-history');
   client.axeCheck('.main');
   PageHelpers.completeMilitaryHistory(client, testData.data);
   client.click('.form-progress-buttons .usa-button-primary');
 
+  // Combat Zone Post 9/11
+  E2eHelpers.expectLocation(client, '/combat-status');
+  client.axeCheck('.main');
+  PageHelpers.completeCombatZonePost911(client, testData.data);
+  client.click('.form-progress-buttons .usa-button-primary');
+
   // Reserves/National Guard Info
+  E2eHelpers.expectLocation(client, 'reserves-national-guard');
   client.axeCheck('.main');
   PageHelpers.completeReservesNationalGuardInfo(client, testData.data);
   client.click('.form-progress-buttons .usa-button-primary');
 
   // Federal Orders
+  E2eHelpers.expectLocation(client, '/federal-orders');
   client.axeCheck('.main');
   PageHelpers.completeFederalOrders(client, testData.data);
   client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/military-service-history');
 
   // Disabilities
   // Orientation
+  E2eHelpers.expectLocation(client, '/disabilities/orientation');
   client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/disabilities/orientation');
 
   // Rated Disability Selection
+  E2eHelpers.expectLocation(client, '/disabilities/rated-disabilities');
   client.axeCheck('.main');
   PageHelpers.selectDisabilities(client); // Just selects the first one
   client.click('.form-progress-buttons .usa-button-primary');
 
   // New Disability
+  E2eHelpers.expectLocation(client, '/new-disabilities');
   client.axeCheck('.main');
   PageHelpers.completeNewDisability(client, testData.data);
   client.click('.form-panel .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFromExact(client, '/new-disabilities');
 
   // Unemployability Status
+  E2eHelpers.expectLocation(client, '/new-disabilities/unemployability-status');
   client.axeCheck('.main');
   PageHelpers.completeUnemployabilityStatus(client, testData.data);
   client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(
-    client,
-    '/new-disabilities/unemployability-status',
-  );
 
   // POW Status
+  E2eHelpers.expectLocation(client, '/pow');
   client.axeCheck('.main');
   PageHelpers.completePowStatus(client, testData.data);
   client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/pow');
 
-  // Summary of Disabilities
-  client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/disabilities/summary');
-
-  // Supporting Evidence
-  // Orientation
-  client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/orientation');
-
-  // Evidence Types
+  // Additional disability benefits
+  E2eHelpers.expectLocation(client, 'additional-disability-benefits');
   client.axeCheck('.main');
-  PageHelpers.completeEvidenceTypes(client, testData.data);
   client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(
-    client,
-    '/supporting-evidence/evidence-types',
-  );
 
-  // Private Medical Records Choice
-  client.axeCheck('.main');
-  PageHelpers.completePrivateMedicalRecordsChoice(client, testData.data);
-  client
-    .click('.form-progress-buttons .usa-button-primary')
-    .click('.form-progress-buttons .usa-button-primary'); // I have to click the button twice. Unsure why.
-  E2eHelpers.expectNavigateAwayFromExact(
-    client,
-    '/supporting-evidence/private-medical-records',
-  );
+  // start 4142
+  // // Summary of Disabilities
+  // E2eHelpers.expectLocation(client, '/disabilities/summary');
+  // client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
 
-  // Private Medical Records Release
-  E2eHelpers.expectLocation(
-    client,
-    '/supporting-evidence/private-medical-records-release',
-  );
-  client.axeCheck('.main');
-  PageHelpers.completeRecordReleaseInformation(client, testData.data);
-  client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(
-    client,
-    '/supporting-evidence/private-medical-records-release',
-  );
+  // // Supporting Evidence
+  // // Orientation
+  // E2eHelpers.expectLocation(client, '/supporting-evidence/orientation');
+  // client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
 
-  // Evidence Summary
-  E2eHelpers.expectLocation(client, '/supporting-evidence/summary');
-  client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/supporting-evidence/summary');
+  // // Evidence Types
+  // E2eHelpers.expectLocation(client, '/supporting-evidence/evidence-types');
+  // client.axeCheck('.main');
+  // PageHelpers.completeEvidenceTypes(client, testData.data);
+  // client.click('.form-progress-buttons .usa-button-primary');
+
+  // // Private Medical Records Choice
+  // E2eHelpers.expectLocation(
+  //   client,
+  //   '/supporting-evidence/private-medical-records',
+  // );
+  // client.axeCheck('.main');
+  // PageHelpers.completePrivateMedicalRecordsChoice(client, testData.data);
+  // client
+  //   .click('.form-progress-buttons .usa-button-primary')
+  //   .click('.form-progress-buttons .usa-button-primary'); // I have to click the button twice. Unsure why.
+
+  // // Private Medical Records Release
+  // E2eHelpers.expectLocation(
+  //   client,
+  //   '/supporting-evidence/private-medical-records-release',
+  // );
+  // client.axeCheck('.main');
+  // PageHelpers.completeRecordReleaseInformation(client, testData.data);
+  // client.click('.form-progress-buttons .usa-button-primary');
+  // E2eHelpers.expectLocation(
+  //   client,
+  //   '/supporting-evidence/private-medical-records-release',
+  // );
+  // end 4142
+
+  // // Evidence Summary
+  // E2eHelpers.expectLocation(client, '/supporting-evidence/summary');
+  // client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
+  // E2eHelpers.expectLocation(client, '/supporting-evidence/summary');
 
   // Possibly used outside of flow to, and including, 4142
   // Veteran Address Information
   // client.axeCheck('.main');
   // PageHelpers.completeVeteranAddressInformation(client, testData.data);
   // client.click('.form-progress-buttons .usa-button-primary');
-  // E2eHelpers.expectNavigateAwayFrom(client, '/address-information');
+  // E2eHelpers.expectLocation(client, '/address-information');
 
   // Payment Information
   // client.axeCheck('.main');
   // client.click('.form-progress-buttons .usa-button-primary');
-  // E2eHelpers.expectNavigateAwayFrom(client, '/payment-information');
+  // E2eHelpers.expectLocation(client, '/payment-information');
 
   // Homelessness
   // client.axeCheck('.main');
   // PageHelpers.completeHomelessness(client, testData.data);
   // client.click('.form-progress-buttons .usa-button-primary');
-  // E2eHelpers.expectNavigateAwayFrom(client, '/special-circumstances');
+  // E2eHelpers.expectLocation(client, '/special-circumstances');
 
   // VA Medical Records Intro
   // client.axeCheck('.main').click('.form-panel .usa-button-primary');
-  // E2eHelpers.expectNavigateAwayFrom(
+  // E2eHelpers.expectLocation(
   //   client,
   //   '/supporting-evidence/0/va-medical-records',
   // );
@@ -183,7 +193,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // client.axeCheck('.main');
   // PageHelpers.completeVAFacilitiesInformation(client, testData.data);
   // client.click('.form-panel .usa-button-primary');
-  // E2eHelpers.expectNavigateAwayFrom(
+  // E2eHelpers.expectLocation(
   //   client,
   //   '/supporting-evidence/0/va-facilities',
   // );
@@ -222,7 +232,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // E2eHelpers.expectLocation(client, '/chapter-five/page-one');
   // client.axeCheck('.main');
   // client.click('.form-panel .usa-button-primary');
-  // E2eHelpers.expectNavigateAwayFrom(client, '/chapter-five/page-one');
+  // E2eHelpers.expectLocation(client, '/chapter-five/page-one');
 
   // Review and Submit Page.
   // client.waitForElementVisible(
@@ -238,7 +248,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // Accept privacy agreement
   // client.click('input[type="checkbox"]');
   // client.click('.form-progress-buttons .usa-button-primary');
-  // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
+  // E2eHelpers.expectLocation(client, '/review-and-submit');
   // client.expect
   //   .element('.js-test-location')
   //   .attribute('data-location')

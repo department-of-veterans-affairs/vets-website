@@ -8,26 +8,35 @@ function completeAlternateName(client, data) {
 }
 
 function completeMilitaryRetiredPay(client, data) {
-  const retiredPay = data['view:haseMilitaryRetiredPay'];
+  const retiredPay = data['view:hasMilitaryRetiredPay'];
 
   client.selectYesNo('root_view:hasMilitaryRetiredPay', retiredPay);
 }
 
+function completeCombatZonePost911(client, data) {
+  const served = data.servedInCombatZonePost911;
+
+  client.selectYesNo('root_servedInCombatZonePost911', served);
+}
+
 function completeMilitaryHistory(client, data) {
+  // With prefill there is already an entry for military history so need to click Add Another first
+  client.click('.va-growable-add-btn');
   data.servicePeriods.forEach((period, i, list) => {
     const { serviceBranch, dateRange } = data.servicePeriods[i];
 
+    // increment i by 1 because of prefill
     client
       .selectDropdown(
-        `root_serviceInformation_servicePeriods_${i}_serviceBranch`,
+        `root_serviceInformation_servicePeriods_${i + 1}_serviceBranch`,
         serviceBranch,
       )
       .fillDate(
-        `root_serviceInformation_servicePeriods_${i}_dateRange_from`,
+        `root_serviceInformation_servicePeriods_${i + 1}_dateRange_from`,
         dateRange.from,
       )
       .fillDate(
-        `root_serviceInformation_servicePeriods_${i}_dateRange_to`,
+        `root_serviceInformation_servicePeriods_${i + 1}_dateRange_to`,
         dateRange.to,
       );
 
@@ -60,7 +69,7 @@ function completeReservesNationalGuardInfo(client, data) {
 function completeFederalOrders(client, data) {
   const activated =
     data.serviceInformation.reservesNationalGuardService[
-      'view:isTitle10Activated'
+    'view:isTitle10Activated'
     ];
 
   client.selectYesNo(
@@ -115,7 +124,7 @@ function completeEvidenceTypes(client, data) {
 function completePrivateMedicalRecordsChoice(client, data) {
   const pmrChoice =
     data['view:uploadPrivateRecordsQualifier'][
-      'view:hasPrivateMedicalRecordsToUpload'
+    'view:hasPrivateMedicalRecordsToUpload'
     ];
 
   client.selectYesNo(
@@ -456,6 +465,7 @@ module.exports = {
   initPaymentInformationMock,
   completeAlternateName,
   completeMilitaryRetiredPay,
+  completeCombatZonePost911,
   completeMilitaryHistory,
   completeReservesNationalGuardInfo,
   completeFederalOrders,
