@@ -24,7 +24,7 @@ export default function RecommendationsIntro({ dismiss }) {
         aria-label="No thanks"
         onClick={dismiss}
       >
-        No Thanks
+        No, Thanks
       </button>
     </Modal>
   );
