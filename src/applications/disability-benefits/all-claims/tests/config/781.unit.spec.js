@@ -23,15 +23,15 @@ describe('781/781a incident form config iterators', () => {
       testMultipleIncidentDateProps();
     });
     it('should return three incident description page config objects', () => {
-      const config = formConfig781(3);
+      const config = createFormConfig781(PTSD_INCIDENT_ITERATION);
+      const testMultipleIncidentDescriptionProps = () => {
+        for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+          expect(config).to.haveOwnProperty(`incidentDate${i}`);
 
-      expect(config).to.haveOwnProperty('incidentDescription0');
-      expect(config).to.haveOwnProperty('incidentDescription1');
-      expect(config).to.haveOwnProperty('incidentDescription2');
-
-      expect(config.incidentDescription0).to.be.an('object');
-      expect(config.incidentDescription1).to.be.an('object');
-      expect(config.incidentDescription2).to.be.an('object');
+          expect(config[`incidentDescription{i}`]).to.be.an('object');
+        }
+      };
+      testMultipleIncidentDescriptionProps();
     });
     it('should contain three incident properties', () => {
       const config = createFormConfig781(PTSD_INCIDENT_ITERATION);
@@ -67,17 +67,18 @@ describe('781/781a incident form config iterators', () => {
       testMultipleIncidentDateProps();
     });
     it('should return three incident description page config objects', () => {
-      const config = formConfig781a(3);
+      const config = createFormConfig781(PTSD_INCIDENT_ITERATION);
+      const testMultipleIncidentDescriptionProps = () => {
+        for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+          expect(config).to.haveOwnProperty(`incidentDate${i}`);
 
-      expect(config).to.haveOwnProperty('secondaryIncidentDescription0');
-      expect(config).to.haveOwnProperty('secondaryIncidentDescription1');
-      expect(config).to.haveOwnProperty('secondaryIncidentDescription2');
-
-      expect(config.secondaryIncidentDescription0).to.be.an('object');
-      expect(config.secondaryIncidentDescription1).to.be.an('object');
-      expect(config.secondaryIncidentDescription2).to.be.an('object');
+          expect(config[`secondaryIncidentDescription{i}`]).to.be.an('object');
+        }
+      };
+      testMultipleIncidentDescriptionProps();
     });
-    it('should contain three incident properties', () => {
+
+    it('should contain three incident properties within incident date pages', () => {
       const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
 
       const testMultipleIncidentDateObjects = () => {
