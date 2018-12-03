@@ -313,6 +313,7 @@ function completeNetWorthInfo(client, data) {
     .fill('input[name$="stocks"]', data.stocks)
     .fill('input[name$="realProperty"]', data.realProperty)
     .click('body')
+    .moveTo('.pensions-sources-add-btn', 0, 200)
     .click('.pensions-sources-add-btn')
     .waitForElementPresent(
       'input[name$="additionalSources_0_name"]',
@@ -338,6 +339,7 @@ function completeMonthlyIncomeInfo(client, data) {
     .fill('input[name$="serviceRetirement"]', data.serviceRetirement)
     .fill('input[name$="ssi"]', data.ssi)
     .click('body')
+    .moveTo('.pensions-sources-add-btn', 0, 200)
     .click('.pensions-sources-add-btn')
     .waitForElementPresent(
       'input[name$="additionalSources_0_name"]',
@@ -359,6 +361,7 @@ function completeExpectedIncomeInfo(client, data) {
     .fill('input[name$="salary"]', data.salary)
     .fill('input[name$="interest"]', data.interest)
     .click('body')
+    .moveTo('.pensions-sources-add-btn', 0, 200)
     .click('.pensions-sources-add-btn')
     .waitForElementPresent(
       'input[name$="additionalSources_0_name"]',

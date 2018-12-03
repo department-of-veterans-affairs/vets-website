@@ -4,7 +4,7 @@ const Auth = require('../../../platform/testing/e2e/auth');
 
 function testStatus(client, page, url) {
   client
-    .url(`${E2eHelpers.baseUrl}${page}`)
+    .openUrl(`${E2eHelpers.baseUrl}${page}`)
     .waitForElementVisible('.sip-application-status', Timeouts.slow)
     .axeCheck('.main');
 
