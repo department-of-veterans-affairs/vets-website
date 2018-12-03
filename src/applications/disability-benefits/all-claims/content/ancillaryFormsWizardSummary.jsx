@@ -45,7 +45,7 @@ const carAssistanceContent = (
 const aidAndAttendanceContent = (
   <CollapsiblePanel panelName="Aid and Attendance">
     <p>
-      To apply for Aid and Attendance benefits, you'll need to turn in an
+      To apply for Aid and Attendance benefits, you’ll need to turn in an
       Examination for Housebound Status or Permanent Need for Regular Aid and
       Attendance (VA Form 21-2680), which your doctor needs to fill out.
     </p>
@@ -63,26 +63,28 @@ const individualUnemployabilityContent = (
     <p>
       To file a claim for Individual Unemployability, you’ll need to fill out:
     </p>
-    <p>
-      A Veteran’s Application for Increased Compensation Based on
-      Unemployability (VA Form 21-8940)
-      <div>
-        <a href="https://www.vba.va.gov/pubs/forms/vba-21-8940-are.pdf">
-          Download VA Form 21-8940
-        </a>
-        , <strong>and</strong>
-      </div>
-    </p>
-    <p>
-      A Request for Employment Information in Connection with Claim for
-      Disability Benefits (VA Form 21-4192)
-      <div>
-        <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf">
-          Download VA Form 21-4192
-        </a>
-        .
-      </div>
-    </p>
+    <ul>
+      <li>
+        A Veteran’s Application for Increased Compensation Based on
+        Unemployability (VA Form 21-8940)
+        <div>
+          <a href="https://www.vba.va.gov/pubs/forms/vba-21-8940-are.pdf">
+            Download VA Form 21-8940
+          </a>
+          , <strong>and</strong>
+        </div>
+      </li>
+      <li>
+        A Request for Employment Information in Connection with Claim for
+        Disability Benefits (VA Form 21-4192)
+        <div>
+          <a href="https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf">
+            Download VA Form 21-4192
+          </a>
+          .
+        </div>
+      </li>
+    </ul>
   </CollapsiblePanel>
 );
 
