@@ -29,6 +29,7 @@ import {
   isUploading781aForm,
   servedAfter911,
   isAnsweringPtsdForm,
+  isAnswering781aQuestions,
   isNotUploadingPrivateMedical,
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
@@ -305,8 +306,7 @@ const formConfig = {
         physicalHealthChanges: {
           title: 'Additional Remarks - Physical Health Changes',
           path: 'new-disabilities/ptsd-781a-physical-changes',
-          depends: formData =>
-            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
+          depends: formData => isAnswering781aQuestions(0)(formData),
           uiSchema: physicalHealthChanges.uiSchema,
           schema: physicalHealthChanges.schema,
         },
