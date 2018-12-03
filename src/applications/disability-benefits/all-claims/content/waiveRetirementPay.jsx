@@ -1,14 +1,54 @@
 import React from 'react';
 
 export const waiveRetirementPayDescription = (
-  <p>
-    If you decide to receive VA compensation pay, it may reduce the amount you
-    get for retirement pay.{' '}
-    <strong>
-      VA compensation isn’t taxable, so it may be the greater benefit.
-    </strong>{' '}
-    If you choose to not receive VA compensation pay so you can continue to get
-    retirement pay, any VA compensation payments you’re already getting will
-    stop, and you won’t get any more from this application.
-  </p>
+  <div>
+    <p>
+      If you’re eligible for both retirement pay and VA compensation pay, you
+      can choose whether you want to receive VA compensation pay to balance your
+      current retirement pay or get your full retirement pay at the current tax
+      rate.
+    </p>
+    <p>
+      VA compensation pay isn’t taxable. Military retirement pay is taxable.
+      Dollar for dollar VA compensation pay is always the greater benefit.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Compensation</th>
+          <th>Retirement</th>
+          <th>Take home pay</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <del>$700/month</del>
+          </td>
+          <td>$700/month (minus taxes)</td>
+          <td>$630/month</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>$700/month (tax-free)</strong>
+          </td>
+          <td>
+            <strong>
+              <del>$700/month</del>
+            </strong>
+          </td>
+          <td>
+            <strong>$700/month</strong>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <em>
+        This is an example showing that dollar for dollar VA compensation pay
+        gives you more spending power than retirement pay. Tax rates will vary
+        depending on income.
+      </em>
+    </p>
+  </div>
 );

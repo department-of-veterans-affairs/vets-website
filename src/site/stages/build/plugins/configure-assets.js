@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 const watch = require('metalsmith-watch');
-const environments = require('../../constants/environments');
+const environments = require('../../../constants/environments');
 const webpackMetalsmithConnect = require('../webpack');
 const downloadAssets = require('./download-assets');
 const addAssetHashes = require('./add-asset-hashes');

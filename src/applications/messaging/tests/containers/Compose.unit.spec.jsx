@@ -30,8 +30,10 @@ const props = {
   router: {},
 };
 
+const context = { router: {} };
+
 describe('Compose', () => {
-  const tree = SkinDeep.shallowRender(<Compose {...props} />);
+  const tree = SkinDeep.shallowRender(<Compose {...props} />, context);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();

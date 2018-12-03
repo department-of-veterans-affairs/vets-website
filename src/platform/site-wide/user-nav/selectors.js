@@ -6,13 +6,12 @@ import { selectProfile } from '../../user/selectors';
 
 export const selectUserGreeting = createSelector(
   state => selectProfile(state).userFullName,
-  state => selectProfile(state).email,
   () => conditionalStorage().getItem('userFirstName'),
-  (name, email, sessionFirstName) => {
+  (name, sessionFirstName) => {
     if (name.first || sessionFirstName) {
       return startCase(toLower(name.first || sessionFirstName));
     }
 
-    return email;
+    return 'My Account';
   },
 );
