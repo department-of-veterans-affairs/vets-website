@@ -483,7 +483,6 @@ describe('526 helpers', () => {
     });
   });
 });
-<<<<<<< HEAD
 
 describe('isAnsweringPtsdForm', () => {
   it('should return true if user has chosen to answer questions', () => {
@@ -496,7 +495,9 @@ describe('isAnsweringPtsdForm', () => {
   it('should return false if user has chosen to not answer questions', () => {
     const formData = {};
     expect(needsToEnter781({ formData })).to.be.false;
-=======
+  });
+});
+
 describe('isAnswering781Questions', () => {
   it('should return true if user is answering first set of 781 incident questions', () => {
     const formData = {
@@ -557,6 +558,5 @@ describe('isAnswering781aQuestions', () => {
       'view:enterAdditionalSecondaryEvents0': false,
     };
     expect(isAnswering781aQuestions(1)(formData)).to.be.false;
->>>>>>> e8f9324053a40baab4e31d8df6c81a5d9f6956dc
   });
 });
