@@ -29,7 +29,7 @@
     "bankAccountNumber": "1233",
     "bankRoutingNumber": "123412345",
     "bankName": "BigBank Name",
-    "phoneEmailCard": {
+    "phoneAndEmail": {
       "primaryPhone": "1231231234",
       "emailAddress": "asdf@adsf.asdf"
     },

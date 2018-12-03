@@ -845,7 +845,7 @@ const schema = {
     waiveTrainingPay: {
       type: 'boolean',
     },
-    disabilities: {
+    ratedDisabilities: {
       type: 'array',
       minItems: 1,
       maxItems: 100,
@@ -984,11 +984,17 @@ const schema = {
         }),
       ),
     ),
-    emailAddress: {
-      $ref: '#/definitions/email',
-    },
-    primaryPhone: {
-      $ref: '#/definitions/phone',
+    phoneAndEmail: {
+      type: 'object',
+      required: ['primaryPhone', 'emailAddress'],
+      properties: {
+        primaryPhone: {
+          $ref: '#/definitions/phone',
+        },
+        emailAddress: {
+          $ref: '#/definitions/email',
+        },
+      },
     },
     homelessOrAtRisk: {
       type: 'string',
