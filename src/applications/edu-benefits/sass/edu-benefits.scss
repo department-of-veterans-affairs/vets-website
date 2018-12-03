@@ -35,7 +35,7 @@
   margin-bottom: 7rem;
 }
 
-.search-results-count:focus {
+.search-results-count:focus, .schemaform-widget-wrapper textarea:focus {
   outline: 2px solid #f9c642;
   outline-offset: 2px;
   z-index: 3;
