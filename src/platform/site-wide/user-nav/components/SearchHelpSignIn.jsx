@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
 import isVATeamSiteSubdomain from '../../../brand-consolidation/va-subdomain';
 import recordEvent from '../../../monitoring/record-event';
-import { hasSession } from '../../../user/profile/utilities';
+import conditionalStorage from '../../../utilities/storage/conditionalStorage';
 import HelpMenu from './HelpMenu';
 import SearchMenu from './SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
@@ -25,15 +25,16 @@ class SearchHelpSignIn extends React.Component {
   handleHelpMenuClick = this.handleMenuClick('help');
   handleAccountMenuClick = this.handleMenuClick('account');
 
+  hasSession = () => conditionalStorage().getItem('userFirstName');
+
   renderSignInContent = () => {
     const isLoading = this.props.isProfileLoading;
     const shouldRenderSignedInContent =
-      (!isLoading && this.props.isLoggedIn) || (isLoading && hasSession());
-
+      (!isLoading && this.props.isLoggedIn) || (isLoading && this.hasSession());
     const isSubdomain = isVATeamSiteSubdomain();
 
-    // Render if (1) profile has loaded and the user is confirmed logged in or
-    // (2) loading is in progress and the session is still considered active.
+    // If we're done loading, and the user is logged in, or loading is in progress,
+    // and we have information is session storage, we can go ahead and render.
     if (shouldRenderSignedInContent) {
       return (
         <SignInProfileMenu

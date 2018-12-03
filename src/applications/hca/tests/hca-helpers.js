@@ -507,7 +507,7 @@ function initSaveInProgressMock(url, client) {
 
   client.url(url).waitForElementVisible('body', Timeouts.normal);
 
-  Auth.setUserSession(token, client);
+  Auth.setUserToken(token, client);
 
   return token;
 }
