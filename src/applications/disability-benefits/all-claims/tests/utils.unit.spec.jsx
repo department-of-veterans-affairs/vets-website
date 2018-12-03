@@ -17,7 +17,6 @@ import {
   servedAfter911,
   needsToEnter781,
   needsToEnter781a,
-  isAnsweringPtsdForm,
   isAnswering781Questions,
   isAnswering781aQuestions,
   isUploading781Form,
@@ -499,13 +498,6 @@ describe('526 helpers', () => {
 });
 
 describe('isAnsweringPtsdForm', () => {
-  it('should return true if user has chosen to answer questions', () => {
-    const formData = {
-      'view:uploadPtsdChoice': 'answerQuestions',
-    };
-    expect(isAnsweringPtsdForm(formData)).to.be.true;
-  });
-
   it('should return false if user has chosen to not answer questions', () => {
     const formData = {};
     expect(needsToEnter781(formData)).to.be.false;
