@@ -7,12 +7,19 @@ const { addressUI, addressSchema } = incidentLocationSchemas();
 export const uiSchema = index => ({
   'ui:title': ptsd781NameTitle,
   'ui:description': ptsdLocationDescription,
-  [`incidentLocation${index}`]: addressUI,
+  [`incident${index}`]: {
+    incidentLocation: addressUI,
+  },
 });
 
 export const schema = index => ({
   type: 'object',
   properties: {
-    [`incidentLocation${index}`]: addressSchema,
+    [`incident${index}`]: {
+      type: 'object',
+      properties: {
+        incidentLocation: addressSchema,
+      },
+    },
   },
 });

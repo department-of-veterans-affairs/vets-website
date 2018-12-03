@@ -5,7 +5,10 @@ import { mount } from 'enzyme';
 
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
-import { DefinitionTester } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('PTSD Incident location', () => {
@@ -18,6 +21,35 @@ describe('PTSD Incident location', () => {
     );
 
     expect(form.find('input').length).to.equal(1);
+  });
+
+  it('should fill in incident location', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        onSubmit={onSubmit}
+        schema={schema}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    fillData(
+      form,
+      'input#root_incident0_incidentLocation_street1',
+      '123 Test Street',
+    );
+    // fillData(
+    //   form,
+    //   'input#root_incident0_incidentLocation_addressLine2',
+    //   'Apt B',
+    // );
+    fillData(form, 'input#root_incident0_incidentLocation_city', 'Test');
+    // fillData(form, 'input#root_incident0_incidentLocation_state', 'SC');
+    // fillData(form, 'input#root_incident0_incidentLocation_country', 'USA');
+    form.find('form').simulate('submit');
+
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 
   it('should submit without validation errors', () => {
