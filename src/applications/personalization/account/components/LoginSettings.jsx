@@ -32,28 +32,16 @@ export default function LoginSettings() {
   return (
     <div>
       <h5>ID.me settings</h5>
-      {isBrandConsolidationEnabled() ? (
-        <div>
-          <p>
-            <a href="https://wallet.id.me/settings" target="_blank">
-              Manage your ID.me account.
-            </a>
-          </p>
-          <AdditionalInfo triggerText="What is ID.me?">
-            {idMeAnswer}
-          </AdditionalInfo>
-        </div>
-      ) : (
+      <div>
         <p>
-          Want to change the email you use to sign in to ID.me, or update your
-          ID.me password or other account settings?
-          <br />
           <a href="https://wallet.id.me/settings" target="_blank">
-            Go to ID.me to manage your account
+            Manage your ID.me account.
           </a>
-          {idMeAnswer}
         </p>
-      )}
+        <AdditionalInfo triggerText="What is ID.me?">
+          {idMeAnswer}
+        </AdditionalInfo>
+      </div>
     </div>
   );
 }

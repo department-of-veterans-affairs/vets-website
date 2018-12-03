@@ -29,24 +29,26 @@ describe('Schemaform: ReviewCardField', () => {
       'ui:field': ReviewCardField,
       'ui:options': { viewComponent },
     },
-    // This isn't actually fixing the failed prop types warnings...
-    idSchema: { $id: 'something' },
+    idSchema: {
+      $id: 'something',
+      field1: { $id: 'field1' },
+      field2: { $id: 'field2' },
+    },
     errorSchema: {
       field1: { __errors: [] },
       field2: { __errors: [] },
     },
     formContext: {
       onError: () => {},
-      // This isn't actually fixing the failed prop types warnings...
-      onBlur: () => {},
     },
     formData: {
       field1: 'asdf',
     },
     onChange: spy(),
+    onBlur: () => {},
   };
 
-  it('sould render', () => {
+  it('should render', () => {
     const wrapper = shallow(<ReviewCardField {...defaultProps} />);
     expect(wrapper.type()).to.equal('div');
   });

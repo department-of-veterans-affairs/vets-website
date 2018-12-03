@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import _ from '../../../../platform/utilities/data';
 
+import formConfig from '../config/form';
+
 import {
   hasGuardOrReservePeriod,
   ReservesGuardDescription,
@@ -15,11 +17,24 @@ import {
   servedAfter911,
   needsToEnter781,
   needsToEnter781a,
+  isAnsweringPtsdForm,
+  isAnswering781Questions,
+  isAnswering781aQuestions,
   isUploading781Form,
   isUploading781aForm,
   transformRelatedDisabilities,
   viewifyFields,
+  transformMVPData,
+  transform,
 } from '../utils.jsx';
+
+import {
+  transformedMinimalData,
+  transformedMaximalData,
+} from './schema/transformedData';
+
+import minimalData from './schema/minimal-test.json';
+import maximalData from './schema/maximal-test.json';
 
 import initialData from './initialData';
 
@@ -163,6 +178,7 @@ describe('526 helpers', () => {
       expect(getDisabilityName(249481)).to.equal('Unknown Condition');
     });
   });
+
   describe('transformDisabilities', () => {
     const rawDisability = initialData.ratedDisabilities[1];
     const formattedDisability = Object.assign(
@@ -186,6 +202,7 @@ describe('526 helpers', () => {
       expect(transformDisabilities([ineligibleDisability])).to.deep.equal([]);
     });
   });
+
   describe('queryForFacilities', () => {
     const originalFetch = global.fetch;
     beforeEach(() => {
@@ -506,5 +523,154 @@ describe('526 helpers', () => {
       };
       expect(viewifyFields(formData)).to.eql(viewifiedFormData);
     });
+  });
+});
+
+describe('isAnsweringPtsdForm', () => {
+  it('should return true if user has chosen to answer questions', () => {
+    const formData = {
+      'view:uploadPtsdChoice': 'answerQuestions',
+    };
+    expect(isAnsweringPtsdForm(formData)).to.be.true;
+  });
+
+  it('should return false if user has chosen to not answer questions', () => {
+    const formData = {};
+    expect(needsToEnter781(formData)).to.be.false;
+  });
+});
+
+describe('isAnswering781Questions', () => {
+  it('should return true if user is answering first set of 781 incident questions', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:combatPtsdType': true,
+      },
+      'view:upload781Choice': 'answerQuestions',
+    };
+    expect(isAnswering781Questions(0)(formData)).to.be.true;
+  });
+  it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:combatPtsdType': true,
+      },
+      'view:upload781Choice': 'answerQuestions',
+      'view:enterAdditionalEvents0': true,
+    };
+    expect(isAnswering781Questions(1)(formData)).to.be.true;
+  });
+  it('should return false if user has chosen not to enter another incident', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:combatPtsdType': true,
+      },
+      'view:upload781Choice': 'answerQuestions',
+      'view:enterAdditionalEvents0': false,
+    };
+    expect(isAnswering781Questions(1)(formData)).to.be.false;
+  });
+});
+
+describe('transformMVPData', () => {
+  it('should omit the veteran property and spread its subproperties', () => {
+    const formData = {
+      veteran: {
+        emailAddress: 'asdf',
+        mailingAddress: { foo: 'bar' },
+        primaryPhone: '1231231234',
+      },
+    };
+    expect(transformMVPData(formData)).to.eql(formData.veteran);
+  });
+  it('should nest service periods and reservesNationalGuardService under serviceInformation', () => {
+    const formData = {
+      servicePeriods: [{ from: 'adf', to: 'asdf' }],
+      reservesNationalGuardService: 'asdf',
+    };
+    expect(transformMVPData(formData)).to.eql({
+      serviceInformation: formData,
+    });
+  });
+  it('should handle no pre-filled information', () => {
+    expect(transformMVPData({})).to.eql({});
+  });
+});
+
+describe('transform', () => {
+  it('should transform minimal data correctly', () => {
+    expect(JSON.parse(transform(formConfig, minimalData))).to.deep.equal(
+      transformedMinimalData,
+    );
+  });
+
+  it('should transform maximal data correctly', () => {
+    expect(JSON.parse(transform(formConfig, maximalData))).to.deep.equal(
+      transformedMaximalData,
+    );
+  });
+});
+
+describe('isAnswering781Questions', () => {
+  it('should return true if user is answering first set of 781 incident questions', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:combatPtsdType': true,
+      },
+      'view:upload781Choice': 'answerQuestions',
+    };
+    expect(isAnswering781Questions(0)(formData)).to.be.true;
+  });
+  it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:combatPtsdType': true,
+      },
+      'view:upload781Choice': 'answerQuestions',
+      'view:enterAdditionalEvents0': true,
+    };
+    expect(isAnswering781Questions(1)(formData)).to.be.true;
+  });
+  it('should return false if user has chosen not to enter another incident', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:combatPtsdType': true,
+      },
+      'view:upload781Choice': 'answerQuestions',
+      'view:enterAdditionalEvents0': false,
+    };
+    expect(isAnswering781Questions(1)(formData)).to.be.false;
+  });
+});
+
+describe('isAnswering781aQuestions', () => {
+  it('should return true if user is answering first set of 781a incident questions', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:assaultPtsdType': true,
+      },
+      'view:upload781aChoice': 'answerQuestions',
+    };
+    expect(isAnswering781aQuestions(0)(formData)).to.be.true;
+  });
+  it('should return true if user has chosen to answer questions for a 781a PTSD incident', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:assaultPtsdType': true,
+      },
+      'view:upload781aChoice': 'answerQuestions',
+      'view:enterAdditionalSecondaryEvents0': true,
+    };
+    expect(isAnswering781aQuestions(1)(formData)).to.be.true;
+  });
+  it('should return false if user has chosen not to enter another incident', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:assaultPtsdType': true,
+      },
+      'view:upload781aChoice': 'answerQuestions',
+      'view:enterAdditionalSecondaryEvents0': false,
+    };
+    expect(isAnswering781aQuestions(1)(formData)).to.be.false;
   });
 });
