@@ -209,6 +209,11 @@ import {
 } from './additionalBehaviorChanges';
 
 import {
+  uiSchema as mentalHealthChangesUISchema,
+  schema as mentalHealthChangesSchema,
+} from './mentalHealthChanges';
+
+import {
   uiSchema as adaptiveBenefitsUISchema,
   schema as adaptiveBenefitsSchema,
 } from './adaptiveBenefits';
@@ -456,6 +461,11 @@ export const unemployabilityFormIntro = {
 export const additionalBehaviorChanges = {
   uiSchema: additionalBehaviorChangesUISchema,
   schema: additionalBehaviorChangesSchema,
+};
+
+export const mentalHealthChanges = {
+  uiSchema: mentalHealthChangesUISchema,
+  schema: mentalHealthChangesSchema,
 };
 
 export const adaptiveBenefits = {

@@ -76,6 +76,7 @@ import {
   unemployabilityStatus,
   unemployabilityFormIntro,
   additionalBehaviorChanges,
+  mentalHealthChanges,
   adaptiveBenefits,
   aidAndAttendance,
   individualUnemployability,
@@ -308,6 +309,14 @@ const formConfig = {
             needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
           uiSchema: physicalHealthChanges.uiSchema,
           schema: physicalHealthChanges.schema,
+        },
+        mentalHealthChanges: {
+          title: 'Additional Remarks - Physical Health Changes',
+          path: 'new-disabilities/ptsd-781a-mental-changes',
+          depends: formData =>
+            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
+          uiSchema: mentalHealthChanges.uiSchema,
+          schema: mentalHealthChanges.schema,
         },
         conclusionCombat: {
           path: 'conclusion-781',
