@@ -32,20 +32,14 @@ describe('PTSD Incident location', () => {
         uiSchema={uiSchema}
       />,
     );
-
+    fillData(form, 'select#root_incident0_incidentLocation_country', 'USA');
+    fillData(form, 'select#root_incident0_incidentLocation_state', 'SC');
+    fillData(form, 'input#root_incident0_incidentLocation_city', 'Test');
     fillData(
       form,
-      'input#root_incident0_incidentLocation_street1',
-      '123 Test Street',
+      'textarea#root_incident0_incidentLocation_additionalDetails',
+      'Detail text',
     );
-    // fillData(
-    //   form,
-    //   'input#root_incident0_incidentLocation_addressLine2',
-    //   'Apt B',
-    // );
-    fillData(form, 'input#root_incident0_incidentLocation_city', 'Test');
-    // fillData(form, 'input#root_incident0_incidentLocation_state', 'SC');
-    // fillData(form, 'input#root_incident0_incidentLocation_country', 'USA');
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error-message').length).to.equal(0);

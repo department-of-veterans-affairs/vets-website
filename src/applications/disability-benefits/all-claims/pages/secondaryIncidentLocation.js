@@ -8,7 +8,7 @@ export const uiSchema = index => ({
   'ui:title': ptsd781aNameTitle,
   'ui:description': ptsdLocationDescription,
   [`secondaryIncident${index}`]: {
-    secondaryIncidentLocation: addressUI,
+    incidentLocation: addressUI,
   },
 });
 

@@ -48,7 +48,7 @@ export function createFormConfig781(iterations) {
       [`incidentLocation${index}`]: {
         title: `${numberToWords[index]} PTSD incident location`,
         path: `disabilities/ptsd-incident-location-${index}`,
-        depends: isAnswering781aQuestions(index),
+        depends: isAnswering781Questions(index),
         uiSchema: incidentLocation.uiSchema(index),
         schema: incidentLocation.schema(index),
       },
