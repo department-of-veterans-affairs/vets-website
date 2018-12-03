@@ -95,28 +95,34 @@ const runTest = E2eHelpers.createE2eTest(client => {
   PageHelpers.selectDisabilities(client); // Just selects the first one
   client.click('.form-progress-buttons .usa-button-primary');
 
-  // New Disability
-  E2eHelpers.expectLocation(client, '/new-disabilities');
-  client.axeCheck('.main');
-  PageHelpers.completeNewDisability(client, testData.data);
-  client.click('.form-panel .usa-button-primary');
+  // // New Disability
+  // E2eHelpers.expectLocation(client, '/new-disabilities');
+  // client.axeCheck('.main');
+  // PageHelpers.completeNewDisability(client, testData.data);
+  // client.click('.form-progress-buttons .usa-button-primary');
 
-  // Unemployability Status
-  E2eHelpers.expectLocation(client, '/new-disabilities/unemployability-status');
-  client.axeCheck('.main');
-  PageHelpers.completeUnemployabilityStatus(client, testData.data);
-  client.click('.form-progress-buttons .usa-button-primary');
+  // // PTSD
+  // E2eHelpers.expectLocation(
+  //   client,
+  //   '/disabilities/ptsd-incident-description-0',
+  // );
 
-  // POW Status
-  E2eHelpers.expectLocation(client, '/pow');
-  client.axeCheck('.main');
-  PageHelpers.completePowStatus(client, testData.data);
-  client.click('.form-progress-buttons .usa-button-primary');
+  // // Unemployability Status
+  // E2eHelpers.expectLocation(client, '/new-disabilities/unemployability-status');
+  // client.axeCheck('.main');
+  // PageHelpers.completeUnemployabilityStatus(client, testData.data);
+  // client.click('.form-progress-buttons .usa-button-primary');
 
-  // Additional disability benefits
-  E2eHelpers.expectLocation(client, 'additional-disability-benefits');
-  client.axeCheck('.main');
-  client.click('.form-progress-buttons .usa-button-primary');
+  // // POW Status
+  // E2eHelpers.expectLocation(client, '/pow');
+  // client.axeCheck('.main');
+  // PageHelpers.completePowStatus(client, testData.data);
+  // client.click('.form-progress-buttons .usa-button-primary');
+
+  // // Additional disability benefits
+  // E2eHelpers.expectLocation(client, 'additional-disability-benefits');
+  // client.axeCheck('.main');
+  // client.click('.form-progress-buttons .usa-button-primary');
 
   // start 4142
   // // Summary of Disabilities
