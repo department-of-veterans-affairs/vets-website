@@ -11,9 +11,9 @@ export default function RecommendationsIntro({ dismiss }) {
         We can help you find and apply for benefits.
       </h3>
       <p>
-        Our new Find VA Benefits tool will help you discover VA benefits and
-        provide you with detailed directions on how to apply for them. Get
-        started by clicking the Find VA Benefits Now button below.
+        Our new “Find VA Benefits” tool can help you quickly learn which
+        benefits you may be eligible for, and how to apply. Get started by
+        clicking on the “Find VA Benefits Now” button below.
       </p>
       <a className="usa-button" href="preferences/">
         Find VA Benefits Now
