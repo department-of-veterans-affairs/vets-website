@@ -137,7 +137,7 @@ export class Main extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="profile-nav-container">
         <SearchHelpSignIn
           isLOA3={this.props.isLOA3}
           isLoggedIn={this.props.currentlyLoggedIn}

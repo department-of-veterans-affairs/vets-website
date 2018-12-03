@@ -1,15 +1,13 @@
 import React from 'react';
 
-import { PtsdNameTitle } from '../content/ptsdClassification';
+import { ptsd781aNameTitle } from '../content/ptsdClassification';
 import {
   Ptsd781aUploadChoiceDescription,
   UploadPtsd781aDescription,
 } from '../content/ptsdWalkthroughChoice';
 
 export const uiSchema = {
-  'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781a" />
-  ),
+  'ui:title': ptsd781aNameTitle,
   'ui:description': ({ formData }) => (
     <UploadPtsd781aDescription formData={formData} formType="781a" />
   ),

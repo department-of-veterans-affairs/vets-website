@@ -8,12 +8,11 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
+import ENVIRONMENTS from '../../../site/constants/environments';
+
 // import sinon from 'sinon'
 
-global.__BUILDTYPE__ = process.env.BUILDTYPE || 'vagovdev';
-global.__ALL_CLAIMS_ENABLED__ =
-  global.__BUILDTYPE__ === 'vagovdev' ||
-  process.env.ALL_CLAIMS_ENABLED === 'true';
+global.__BUILDTYPE__ = process.env.BUILDTYPE || ENVIRONMENTS.VAGOVDEV;
 
 chai.use(chaiAsPromised);
 

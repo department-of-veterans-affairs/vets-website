@@ -18,17 +18,16 @@ import {
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
- * NOTE: This will cause React to get angry if used in a <p> because the DOM is "invalid."
  *
  * @param {ReactElement|ReactComponent|String} srIgnored -- Thing to be displayed visually,
  *                                                           but ignored by screen readers
  * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
  */
 export const srSubstitute = (srIgnored, substitutionText) => (
-  <div style={{ display: 'inline' }}>
+  <span>
     <span aria-hidden>{srIgnored}</span>
     <span className="sr-only">{substitutionText}</span>
-  </div>
+  </span>
 );
 
 export const hasGuardOrReservePeriod = formData => {
@@ -138,6 +137,31 @@ export function transformDisabilities(disabilities = []) {
   );
 }
 
+export function transformMVPData(formData) {
+  const newFormData = _.omit(
+    ['veteran', 'servicePeriods', 'reservesNationalGuardService'],
+    formData,
+  );
+
+  // Spread the properties in formData.veteran
+  Object.keys(_.get('veteran', formData, {})).forEach(key => {
+    newFormData[key] = formData.veteran[key];
+  });
+
+  // Nest servicePeriods and reservesNationalGuardService under serviceInformation
+  //  without creating a serviceInformation property unnecessarily
+  const { servicePeriods, reservesNationalGuardService } = formData;
+  if (servicePeriods || reservesNationalGuardService) {
+    newFormData.serviceInformation = {
+      ..._.get('serviceInformation', newFormData, {}),
+      servicePeriods,
+      reservesNationalGuardService,
+    };
+  }
+
+  return newFormData;
+}
+
 export function prefillTransformer(pages, formData, metadata) {
   const { disabilities } = formData;
   if (!disabilities || !Array.isArray(disabilities)) {
@@ -149,7 +173,7 @@ export function prefillTransformer(pages, formData, metadata) {
   const newFormData = _.set(
     'ratedDisabilities',
     transformDisabilities(disabilities),
-    formData,
+    transformMVPData(formData),
   );
   delete newFormData.disabilities;
 
@@ -191,6 +215,46 @@ export function transformProviderFacilities(providerFacilities) {
   }));
 }
 
+/**
+ * This is mostly copied from us-forms' own stringifyFormReplacer, but with
+ * the incomplete / empty address check removed, since we don't need this
+ * for any of the 3 addresses (mailing, forwarding, treatment facility) in our
+ * form. Leaving it in breaks treatment facility addresses because by design
+ * they don't have street / line 1 addresses, so would get incorrectly filtered
+ * out. Trivia: this check is also gone in the latest us-forms replacer.
+ */
+export function customReplacer(key, value) {
+  // clean up empty objects, which we have no reason to send
+  if (typeof value === 'object') {
+    const fields = Object.keys(value);
+    if (
+      fields.length === 0 ||
+      fields.every(field => value[field] === undefined)
+    ) {
+      return undefined;
+    }
+
+    // autosuggest widgets save value and label info, but we should just return the value
+    if (value.widget === 'autosuggest') {
+      return value.id;
+    }
+
+    // Exclude file data
+    if (value.confirmationCode && value.file) {
+      return _.omit('file', value);
+    }
+  }
+
+  // Clean up empty objects in arrays
+  if (Array.isArray(value)) {
+    const newValues = value.filter(v => !!customReplacer(key, v));
+    // If every item in the array is cleared, remove the whole array
+    return newValues.length > 0 ? newValues : undefined;
+  }
+
+  return value;
+}
+
 export function transform(formConfig, form) {
   // Remove rated disabilities that weren't selected
   let clonedData = _.set(
@@ -212,7 +276,7 @@ export function transform(formConfig, form) {
   // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
   //  it here to remove reservesNationalGuardService if it's deeply empty.
   clonedData = removeDeeplyEmptyObjects(
-    JSON.parse(transformForSubmit(formConfig, form)),
+    JSON.parse(transformForSubmit(formConfig, form, customReplacer)),
   );
 
   // Transform the related disabilities lists into an array of strings
@@ -265,9 +329,7 @@ export function transform(formConfig, form) {
     delete clonedData.providerFacility;
   }
 
-  return JSON.stringify({
-    form526: JSON.stringify(clonedData),
-  });
+  return JSON.stringify({ form526: clonedData });
 }
 
 export const hasForwardingAddress = formData =>
@@ -403,6 +465,22 @@ export const isUploading781Form = formData =>
 export const isUploading781aForm = formData =>
   _.get('view:upload781aChoice', formData, '') === 'upload';
 
+export const isAnswering781Questions = index => formData =>
+  _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&
+  (index === 0 ||
+    _.get(`view:enterAdditionalEvents${index - 1}`, formData, false)) &&
+  needsToEnter781(formData);
+
+export const isAnswering781aQuestions = index => formData =>
+  _.get('view:upload781aChoice', formData, '') === 'answerQuestions' &&
+  (index === 0 ||
+    _.get(
+      `view:enterAdditionalSecondaryEvents${index - 1}`,
+      formData,
+      false,
+    )) &&
+  needsToEnter781a(formData);
+
 export const getHomelessOrAtRisk = formData => {
   const homelessStatus = _.get('homelessOrAtRisk', formData, '');
   return (
@@ -410,6 +488,8 @@ export const getHomelessOrAtRisk = formData => {
     homelessStatus === HOMELESSNESS_TYPES.atRisk
   );
 };
+export const isAnsweringPtsdForm = formData =>
+  _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions';
 
 export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
