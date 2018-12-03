@@ -26,9 +26,9 @@ describe('781/781a incident form config iterators', () => {
       const config = createFormConfig781(PTSD_INCIDENT_ITERATION);
       const testMultipleIncidentDescriptionProps = () => {
         for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
-          expect(config).to.haveOwnProperty(`incidentDate${i}`);
+          expect(config).to.haveOwnProperty(`incidentDescription${i}`);
 
-          expect(config[`incidentDescription{i}`]).to.be.an('object');
+          expect(config[`incidentDescription${i}`]).to.be.an('object');
         }
       };
       testMultipleIncidentDescriptionProps();
@@ -67,12 +67,12 @@ describe('781/781a incident form config iterators', () => {
       testMultipleIncidentDateProps();
     });
     it('should return three incident description page config objects', () => {
-      const config = createFormConfig781(PTSD_INCIDENT_ITERATION);
+      const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
       const testMultipleIncidentDescriptionProps = () => {
         for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
-          expect(config).to.haveOwnProperty(`incidentDate${i}`);
+          expect(config).to.haveOwnProperty(`secondaryIncidentDescription${i}`);
 
-          expect(config[`secondaryIncidentDescription{i}`]).to.be.an('object');
+          expect(config[`secondaryIncidentDescription${i}`]).to.be.an('object');
         }
       };
       testMultipleIncidentDescriptionProps();
