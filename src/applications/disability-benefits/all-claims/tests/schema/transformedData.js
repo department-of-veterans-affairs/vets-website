@@ -47,7 +47,7 @@ export const transformedMaximalData = {
     separationPayDate: '2019-01-01',
     separationPayBranch: 'Air Force',
     waiveTrainingPay: true,
-    waiveRetirementPay: false,
+    // waiveRetirementPay: false,
     isVAEmployee: true,
     homelessOrAtRisk: 'atRisk',
     atRiskHousingSituation: 'other',
