@@ -214,6 +214,11 @@ import {
 } from './secondaryIncidentDescription';
 
 import {
+  uiSchema as mentalHealthChangesUISchema,
+  schema as mentalHealthChangesSchema,
+} from './mentalHealthChanges';
+
+import {
   uiSchema as adaptiveBenefitsUISchema,
   schema as adaptiveBenefitsSchema,
 } from './adaptiveBenefits';
@@ -466,6 +471,11 @@ export const incidentDescription = {
 export const secondaryIncidentDescription = {
   uiSchema: secondaryIncidentDescriptionUISchema,
   schema: secondaryIncidentDescriptionSchema,
+};
+
+export const mentalHealthChanges = {
+  uiSchema: mentalHealthChangesUISchema,
+  schema: mentalHealthChangesSchema,
 };
 
 export const adaptiveBenefits = {
