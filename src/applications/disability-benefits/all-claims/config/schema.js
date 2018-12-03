@@ -651,6 +651,9 @@ const schema = {
             remarks: {
               type: 'string',
             },
+            additionalChanges: {
+              type: 'string',
+            },
             personInvolved: {
               type: 'array',
               items: {

@@ -488,8 +488,6 @@ export const getHomelessOrAtRisk = formData => {
     homelessStatus === HOMELESSNESS_TYPES.atRisk
   );
 };
-export const isAnsweringPtsdForm = formData =>
-  _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions';
 
 export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
@@ -498,11 +496,11 @@ export const isAnsweringPtsdForm = formData =>
   _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions';
 
 export const showPtsdCombatConclusion = form =>
-  form['view:uploadPtsdChoice'] === 'answerQuestions' &&
+  form['view:upload781Choice'] === 'answerQuestions' &&
   (_.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
     _.get('view:selectablePtsdTypes.view:noncombatPtsdType', form, false));
 
 export const showPtsdAssaultConclusion = form =>
-  form['view:uploadPtsdChoice'] === 'answerQuestions' &&
+  form['view:upload781aChoice'] === 'answerQuestions' &&
   (_.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
     _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false));
