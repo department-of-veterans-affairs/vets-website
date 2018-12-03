@@ -119,12 +119,7 @@ export const transformedMaximalData = {
         cause: 'NEW',
         primaryDescription: 'A thing happened.',
         condition: 'PTSD (post traumatic stress disorder)',
-        specialIssues: [
-          {
-            code: 'POW',
-            name: '',
-          },
-        ],
+        specialIssues: ['POW'],
       },
     ],
     ratedDisabilities: [
