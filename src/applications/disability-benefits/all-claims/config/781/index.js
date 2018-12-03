@@ -10,7 +10,11 @@ import {
   ptsdSecondaryAdditionalEvents,
 } from '../../pages';
 
-import { isAnswering781Questions, isAnswering781aQuestions } from '../../utils';
+import {
+  isAnswering781Questions,
+  isAnswering781aQuestions,
+  isAddingIndividuals,
+} from '../../utils';
 
 const numberToWords = {
   0: 'First',
@@ -55,7 +59,7 @@ export function createFormConfig781(iterations) {
       [`individualsInvolvedFollowUp${index}`]: {
         title: `${numberToWords[index]} PTSD individuals Involved`,
         path: `disabilities/ptsd-individuals-involved-questions-${index}`,
-        depends: isAnswering781Questions(index),
+        depends: isAddingIndividuals(index),
         uiSchema: individualsInvolvedFollowUp.uiSchema(index),
         schema: individualsInvolvedFollowUp.schema(index),
       },
