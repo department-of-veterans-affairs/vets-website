@@ -102,7 +102,7 @@ export class Main extends React.Component {
 
     const { key, newValue } = event;
     if (!key || (key === 'hasSession' && !newValue)) {
-      window.location.reload();
+      this.props.updateLoggedInStatus(false);
     }
   };
 
