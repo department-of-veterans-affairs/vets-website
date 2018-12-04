@@ -13,13 +13,13 @@ import {
 const INITIAL_STATE = {
   searchString: '',
   serviceType: null,
-  facilityType: null,
+  facilityType: 'all', // default to All Facilities
   position: {
     latitude: 40.17887331434698,
     longitude: -99.27246093750001,
   },
   bounds: [-77.53653, 38.3976763, -76.53653, 39.3976763],
-  context: 20004,
+  context: '20004',
   currentPage: 1,
   zoomLevel: 4,
   inProgress: false,

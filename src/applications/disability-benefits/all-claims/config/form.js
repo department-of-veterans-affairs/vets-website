@@ -28,7 +28,7 @@ import {
   isUploading781Form,
   isUploading781aForm,
   servedAfter911,
-  isAnsweringPtsdForm,
+  isAnswering781aQuestions,
   isNotUploadingPrivateMedical,
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
@@ -75,6 +75,8 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  additionalBehaviorChanges,
+  mentalHealthChanges,
   adaptiveBenefits,
   aidAndAttendance,
   individualUnemployability,
@@ -295,10 +297,23 @@ const formConfig = {
         physicalHealthChanges: {
           title: 'Additional Remarks - Physical Health Changes',
           path: 'new-disabilities/ptsd-781a-physical-changes',
-          depends: formData =>
-            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
+          depends: isAnswering781aQuestions(0),
           uiSchema: physicalHealthChanges.uiSchema,
           schema: physicalHealthChanges.schema,
+        },
+        mentalHealthChanges: {
+          title: 'Additional Remarks - Physical Health Changes',
+          path: 'new-disabilities/ptsd-781a-mental-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: mentalHealthChanges.uiSchema,
+          schema: mentalHealthChanges.schema,
+        },
+        additionalBehaviorChanges: {
+          title: 'Additional Remarks - Additional Behavior Changes',
+          path: 'new-disabilities/ptsd-781a-additional-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: additionalBehaviorChanges.uiSchema,
+          schema: additionalBehaviorChanges.schema,
         },
         conclusionCombat: {
           path: 'conclusion-781',
