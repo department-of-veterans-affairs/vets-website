@@ -33,7 +33,7 @@ class ServiceTypeAhead extends Component {
   handleOnSelect = (selectedItem) => {
     this.props.onSelect({
       target: {
-        value: selectedItem.name.trim(),
+        value: selectedItem.specialtyCode.trim(),
       },
     });
   };
