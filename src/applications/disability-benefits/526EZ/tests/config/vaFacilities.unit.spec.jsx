@@ -29,7 +29,7 @@ describe('Disability benefits 526EZ VA facility', () => {
     arrayPath,
   } = formConfig.chapters.supportingEvidence.pages.vaFacilities;
 
-  // remove fetch from debounced function:w
+  // remove fetch from debounced function
   uiSchema.disabilities.items.treatments.items.treatmentCenterName[
     'ui:options'
   ].getOptions = () => Promise.resolve([]);
