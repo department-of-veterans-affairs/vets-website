@@ -8,12 +8,6 @@ const Auth = require('../../../../platform/testing/e2e/auth');
 const runTest = E2eHelpers.createE2eTest(client => {
   const token = Auth.getUserToken();
 
-  PageHelpers.initInProgressMock(token);
-  PageHelpers.initDocumentUploadMock();
-  PageHelpers.initApplicationSubmitMock();
-  PageHelpers.initItfMock(token);
-  PageHelpers.initPaymentInformationMock(token);
-
   Auth.logIn(
     token,
     client,
@@ -21,13 +15,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     3,
   );
 
+  PageHelpers.initInProgressMock(token);
+  PageHelpers.initDocumentUploadMock();
+  PageHelpers.initApplicationSubmitMock();
+  PageHelpers.initItfMock(token);
+  PageHelpers.initPaymentInformationMock(token);
+
   // Ensure introduction page renders.
-  client
-    // eslint-disable-next-line prettier/prettier
-    .openUrl(`${E2eHelpers.baseUrl}/disability-benefits/apply/form-526-all-claims/introduction`)
-    .waitForElementVisible('body', Timeouts.normal)
-    .assert.containsText('body', 'error')
-    .assert.title('Apply for disability benefits: VA.gov')
+  client.assert
+    .title('Apply for disability benefits: VA.gov')
     // First render of React may be slow.
     .waitForElementVisible('.schemaform-title', Timeouts.slow) // First render of React may be slow.
     .waitForElementVisible(
