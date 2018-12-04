@@ -1,16 +1,14 @@
-const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
-const Timeouts = require('../../../../platform/testing/e2e/timeouts');
+const E2eHelpers = require('platform/testing/e2e/helpers');
+const Timeouts = require('platform/testing/e2e/timeouts');
 const PageHelpers = require('./686-helpers');
 const testData = require('./schema/maximal-test.json');
-const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
+const ENVIRONMENTS = require('../../../../site/constants/environments');
+const FormsTestHelpers = require('platform/testing/e2e/form-helpers');
 
 const runTest = E2eHelpers.createE2eTest(client => {
   PageHelpers.initApplicationSubmitMock();
 
-  if (
-    process.env.BUILDTYPE !== 'production' &&
-    process.env.BUILDTYPE !== 'vagovprod'
-  ) {
+  if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
     // Ensure introduction page renders.
     client
       .url(

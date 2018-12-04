@@ -77,3 +77,10 @@ export const PtsdNameTitle = ({ formData, formType }) => {
     </legend>
   );
 };
+export const ptsd781NameTitle = ({ formData }) => (
+  <PtsdNameTitle formData={formData} formType="781" />
+);
+
+export const ptsd781aNameTitle = ({ formData }) => (
+  <PtsdNameTitle formData={formData} formType="781a" />
+);

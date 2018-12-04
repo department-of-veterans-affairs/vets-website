@@ -67,10 +67,8 @@ import {
   disabilitiesClarification,
 } from '../../all-claims/content/ratedDisabilities';
 
-import {
-  privateRecordsChoiceHelp,
-  documentDescription,
-} from '../../all-claims/content/privateMedicalRecords';
+import { privateRecordsChoiceHelp } from '../../all-claims/content/privateMedicalRecords';
+import { uploadDescription } from '../../all-claims/content/fileUploadDescriptions';
 
 import {
   FDCDescription,
@@ -82,7 +80,6 @@ import { FIFTY_MB } from '../../all-claims/constants';
 
 import { treatmentView } from '../../all-claims/content/vaMedicalRecords';
 import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
-import { additionalDocumentDescription } from '../../all-claims/content/additionalDocuments';
 import { requireOneSelected, isInPast } from '../validations';
 
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
@@ -711,7 +708,7 @@ const formConfig = {
                       'ui:title': 'Document name',
                     },
                   }),
-                  { 'ui:description': documentDescription },
+                  { 'ui:description': uploadDescription },
                 ),
               },
             },
@@ -790,7 +787,7 @@ const formConfig = {
                       'ui:title': 'Document name',
                     },
                   }),
-                  { 'ui:description': additionalDocumentDescription },
+                  { 'ui:description': uploadDescription },
                 ),
               },
             },
