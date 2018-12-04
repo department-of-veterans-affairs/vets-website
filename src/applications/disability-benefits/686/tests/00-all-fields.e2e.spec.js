@@ -11,7 +11,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
     // Ensure introduction page renders.
     client
-      .url(
+      .openUrl(
         `${
           E2eHelpers.baseUrl
         }/disability-benefits/apply/dependents/form-686c-dependents`,

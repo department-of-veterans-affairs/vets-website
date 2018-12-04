@@ -16,7 +16,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     ESCAPE,
   } = client.Keys;
 
-  client.url(`${E2eHelpers.baseUrl}/`);
+  client.openUrl(`${E2eHelpers.baseUrl}/`);
 
   E2eHelpers.overrideSmoothScrolling(client);
 
