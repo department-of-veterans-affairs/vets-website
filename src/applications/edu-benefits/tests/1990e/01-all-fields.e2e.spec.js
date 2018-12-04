@@ -10,7 +10,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Introduction page renders
   client
-    .url(
+    .openUrl(
       `${
         E2eHelpers.baseUrl
       }/education/apply-for-education-benefits/application/1990E`,

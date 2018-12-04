@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign, no-continue */
-const BUILD_TYPE = require('../../constants/environments');
+const BUILD_TYPE = require('../../../constants/environments');
 
 // This doesn't include preview because we want to redirect to staging urls
 // in preview

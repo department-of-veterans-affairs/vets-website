@@ -6,13 +6,13 @@
 
     <div class="homepage-hub-container">
 
-      <h1 class="heading-level-2 homepage-heading">{{ heading }}</h2>
+      <h1 class="heading-level-2 homepage-heading">{{ heading }}</h1>
 
       <!-- top row -->
       <div class="hub-links-row">
       {% for card in cards %}
         <div class="hub-links-container">
-          <h2 class="heading-level-3 hub-links-title"><i class="icon-large-baseline icon-heading hub-icon-{{card.hub}} hub-color-{{card.hub}}"></i>{{ card.heading }}</h3>
+          <h2 class="heading-level-3 hub-links-title"><i class="icon-large-baseline icon-heading hub-icon-{{card.hub}} hub-color-{{card.hub}}"></i>{{ card.heading }}</h2>
           <ul class="hub-links-list">
             {% assign parentCard = card %}
 

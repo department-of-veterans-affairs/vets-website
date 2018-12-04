@@ -1,5 +1,5 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
 import ButtonBack from '../../../components/buttons/ButtonBack';
@@ -8,16 +8,14 @@ const props = {
   url: 'www.vets.gov',
 };
 
+const context = {
+  router: {},
+};
+
 describe('<ButtonBack>', () => {
   it('should render correctly', () => {
-    const tree = SkinDeep.shallowRender(<ButtonBack {...props} />);
+    const tree = shallow(<ButtonBack {...props} />, { context });
 
-    expect(tree.getRenderOutput()).to.exist;
-  });
-
-  it('should have the expected classname', () => {
-    const tree = SkinDeep.shallowRender(<ButtonBack {...props} />);
-
-    expect(tree.props.className).to.equal('msg-btn-back');
+    expect(tree.find('.msg-btn-back').exists()).to.be.true;
   });
 });

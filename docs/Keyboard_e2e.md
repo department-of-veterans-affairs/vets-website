@@ -19,7 +19,7 @@ module.exports = {
     const { ENTER, TAB } = client.Keys;
 
     client
-      .url('http://localhost:8080')
+      .openUrl('http://localhost:8080')
       .waitForElementVisible('[data-nwId="body-index"]')
       .assert.isActiveElement('[data-nwId="body-index"]')
       .keys(TAB)
