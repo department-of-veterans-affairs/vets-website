@@ -1,6 +1,8 @@
 import { merge, omit } from 'lodash';
 import fullSchema from '../config/schema';
 
+const { date } = fullSchema.definitions;
+
 import {
   recentJobApplicationsDescription,
   substantiallyGainfulEmployment,
@@ -10,10 +12,13 @@ import {
   uiSchema as addressUI,
   schema as addressSchema,
 } from '../../../../platform/forms/definitions/address';
+
+const address = addressSchema(fullSchema);
+
 import { validateZIP } from '../validations';
 
-import ArrayField from 'us-forms-system/lib/js/fields/ArrayField';
-import dateUI from 'us-forms-system/lib/js/definitions/date';
+import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/date';
+import RecentJobApplicationField from '../components/RecentJobApplicationField';
 
 export const uiSchema = {
   'ui:title': 'Recent job applications',
@@ -23,7 +28,7 @@ export const uiSchema = {
   },
   appliedEmployers: {
     'ui:options': {
-      viewField: ArrayField,
+      viewField: RecentJobApplicationField,
       expandUnder: 'view:hasAppliedEmployers',
       itemName: 'Job',
     },
@@ -41,7 +46,7 @@ export const uiSchema = {
           'zipCode',
         ],
         addressLine1: {
-          'ui:title': 'Street',
+          'ui:title': 'Street 1',
         },
         addressLine2: {
           'ui:title': 'Street 2',
@@ -57,7 +62,7 @@ export const uiSchema = {
       workType: {
         'ui:title': 'Type of work',
       },
-      date: dateUI('Date you applied'),
+      date: currentOrPastDateUI('Date you applied'),
     },
   },
   substantiallyGainfulEmploymentInfo: {
@@ -66,19 +71,17 @@ export const uiSchema = {
   },
 };
 
-export const schema = () => {
-  const address = addressSchema(fullSchema);
-  return {
-    type: 'object',
-    properties: {
-      'view:hasAppliedEmployers': {
-        type: 'boolean',
-        properties: {},
-      },
-      appliedEmployers: {
-        type: 'array',
-        items: {
-          type: 'object',
+export const schema = {
+  type: 'object',
+  properties: {
+    'view:hasAppliedEmployers': {
+      type: 'boolean',
+    },
+    appliedEmployers: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
           name: {
             type: 'string',
           },
@@ -94,15 +97,13 @@ export const schema = () => {
           workType: {
             type: 'string',
           },
-          date: {
-            $ref: '#/definitions/date',
-          },
+          date,
         },
       },
-      substantiallyGainfulEmploymentInfo: {
-        type: 'object',
-        properties: {},
-      },
     },
-  };
+    substantiallyGainfulEmploymentInfo: {
+      type: 'object',
+      properties: {},
+    },
+  },
 };
