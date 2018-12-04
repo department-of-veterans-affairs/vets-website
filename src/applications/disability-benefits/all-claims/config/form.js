@@ -275,6 +275,13 @@ const formConfig = {
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
         },
+        conclusionCombat: {
+          path: 'ptsd-conclusion-combat',
+          title: 'PTSD combat conclusion',
+          depends: showPtsdCombatConclusion,
+          uiSchema: conclusionCombat.uiSchema,
+          schema: conclusionCombat.schema,
+        },
         ptsdWalkthroughChoice781a: {
           title: 'PTSD Walkthrough 781a Choice',
           path: 'new-disabilities/walkthrough-781a-choice',
@@ -314,13 +321,6 @@ const formConfig = {
           depends: isAnswering781aQuestions(0),
           uiSchema: additionalBehaviorChanges.uiSchema,
           schema: additionalBehaviorChanges.schema,
-        },
-        conclusionCombat: {
-          path: 'ptsd-conclusion-combat',
-          title: 'PTSD combat conclusion',
-          depends: showPtsdCombatConclusion,
-          uiSchema: conclusionCombat.uiSchema,
-          schema: conclusionCombat.schema,
         },
         conclusionAssault: {
           path: 'ptsd-conclusion-assault',
