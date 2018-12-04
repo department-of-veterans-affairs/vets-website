@@ -4,7 +4,7 @@ import {
   convertToDateField,
   validateCurrentOrPastDate,
 } from 'us-forms-system/lib/js/validation';
-import { isValidDateRange } from '../../platform/forms/validations';
+import { isValidDateRange } from 'platform/forms/validations';
 
 function calculateEndDate() {
   const endDateLimit = 730;

@@ -1,1 +1,1 @@
-export * from '../../../../platform/user/profile/actions';
+export * from 'platform/user/profile/actions';

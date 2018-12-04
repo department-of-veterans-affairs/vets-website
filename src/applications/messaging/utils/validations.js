@@ -2,9 +2,9 @@ import {
   isBlank,
   isNotBlank,
   validateIfDirty,
-} from '../../../platform/forms/validations';
+} from 'platform/forms/validations';
 
-import { makeField } from '../../../platform/forms/fields';
+import { makeField } from 'platform/forms/fields';
 
 export function validateNumAttachments(files, maxAttachments) {
   return files.length > maxAttachments;

@@ -28,7 +28,7 @@ The Metalsmith website currently exists in a separate directory, `va-gov/`. This
 The Webpack code under the `src/` directory has access to the feature flag under `src/platform/feature-flag`. It can be consumed for conditional rendering like -
 
 ```
-import isBrandConsolidationEnabled from '../../platform/brand-consolidation/feature-flag';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
 
 export default function  SomeComponent() {
     if (isBrandConsolidationEnabled())  return <h1>We are running on VA.gov</h1>
@@ -39,8 +39,8 @@ export default function  SomeComponent() {
 There are also some minimal React helper components that abstract this:
 
 ```
-import VetsDotGov from '../../platform/brand-consolidation/containers/VetsDotGov'
-import BrandConsolidation  from ../../platform/brand-consolidation/containers/BrandConsolidation'
+import VetsDotGov from 'platform/brand-consolidation/containers/VetsDotGov'
+import BrandConsolidation  from platform/brand-consolidation/containers/BrandConsolidation'
 
 export default function  SomeComponent() {
     return (

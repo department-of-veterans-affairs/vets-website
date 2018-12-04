@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import { dirtyAllFields } from '../../../platform/forms/fields';
+import { dirtyAllFields } from 'platform/forms/fields';
 import NoticeBox from '../components/NoticeBox';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
 import ModalConfirmSave from '../components/compose/ModalConfirmSave';

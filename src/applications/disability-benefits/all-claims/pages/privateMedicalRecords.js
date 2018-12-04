@@ -4,8 +4,8 @@ import {
 } from '../content/privateMedicalRecords';
 import { uploadDescription } from '../content/fileUploadDescriptions';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import environment from '../../../../platform/utilities/environment';
-import _ from '../../../../platform/utilities/data';
+import environment from 'platform/utilities/environment';
+import _ from 'platform/utilities/data';
 import fullSchema from '../config/schema';
 import { FIFTY_MB, DATA_PATHS } from '../constants';
 
@@ -16,8 +16,8 @@ export const uiSchema = {
     'Now we’ll ask you about your private medical records for your claimed disability.',
   'view:aboutPrivateMedicalRecords': {
     'ui:title': 'About private medical records',
-    'ui:description': `If you have your private medical records, you can upload them to your 
-      application. If you want us to get them for you, you’ll need to 
+    'ui:description': `If you have your private medical records, you can upload them to your
+      application. If you want us to get them for you, you’ll need to
       authorize their release.`,
   },
   'view:uploadPrivateRecordsQualifier': {

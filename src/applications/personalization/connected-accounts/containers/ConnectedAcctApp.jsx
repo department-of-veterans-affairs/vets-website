@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import backendServices from '../../../../platform/user/profile/constants/backendServices';
-import { selectUser } from '../../../../platform/user/selectors';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import { selectUser } from 'platform/user/selectors';
 
-import RequiredLoginView from '../../../../platform/user/authorization/components/RequiredLoginView';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 

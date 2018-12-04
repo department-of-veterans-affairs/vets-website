@@ -1,5 +1,5 @@
-const mock = require('../../../platform/testing/e2e/mock-helpers');
-const ENVIRONMENTS = require('../../../site/constants/environments');
+const mock = require('platform/testing/e2e/mock-helpers');
+const ENVIRONMENTS = require('site/constants/environments');
 
 const resultsData = {
   data: [

@@ -1,6 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import { externalServiceStatus } from '../../../../platform/monitoring/DowntimeNotification';
+import { externalServiceStatus } from 'platform/monitoring/DowntimeNotification';
 
 function DowntimeBanner({ downtime, section }) {
   return (

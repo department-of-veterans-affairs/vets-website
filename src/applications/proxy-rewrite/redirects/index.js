@@ -1,4 +1,4 @@
-import environment from '../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 // These pages are old va.gov pages that we are redirecting to
 // pages that we control
 // import redirects from './otherDomainRedirects.json';

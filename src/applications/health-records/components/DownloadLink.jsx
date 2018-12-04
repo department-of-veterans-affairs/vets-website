@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-import recordEvent from '../../../platform/monitoring/record-event';
-import { apiRequest } from '../../../platform/utilities/api';
+import recordEvent from 'platform/monitoring/record-event';
+import { apiRequest } from 'platform/utilities/api';
 
 class DownloadLink extends React.Component {
   constructor(props) {

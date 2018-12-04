@@ -4,7 +4,7 @@ import { shallow, mount } from 'enzyme';
 
 import { EVSSClaimsGate } from '../../containers/EVSSClaimsGate';
 
-import backendServices from '../../../../../platform/user/profile/constants/backendServices';
+import backendServices from 'platform/user/profile/constants/backendServices';
 
 describe('EVSSClaimsGate', () => {
   const disallowedUser = {

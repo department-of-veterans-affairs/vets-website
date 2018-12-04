@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
 
 import SignInLink from '../components/SignInLink';
 import { SAVE_STATUSES, saveErrors } from './actions';

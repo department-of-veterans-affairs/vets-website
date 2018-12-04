@@ -9,7 +9,7 @@ import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
-import { getScrollOptions } from '../../../platform/utilities/ui';
+import { getScrollOptions } from 'platform/utilities/ui';
 
 import {
   addFile,

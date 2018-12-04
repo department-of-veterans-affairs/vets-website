@@ -4,7 +4,7 @@ import moment from 'moment';
 import React from 'react';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
-import backendServices from '../../../../platform/user/profile/constants/backendServices';
+import backendServices from 'platform/user/profile/constants/backendServices';
 import {
   APPEAL_V2_TYPE,
   claimsAvailability,
@@ -16,7 +16,7 @@ import {
   getClaimsV2,
 } from '../../../claims-status/actions/index.jsx';
 import { scrollToTop } from '../../../claims-status/utils/page';
-import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 import ClaimsUnavailable from '../../../claims-status/components/ClaimsUnavailable';
 import AppealsUnavailable from '../../../claims-status/components/AppealsUnavailable';
@@ -24,7 +24,7 @@ import ClaimsAppealsUnavailable from '../../../claims-status/components/ClaimsAp
 
 import DowntimeNotification, {
   externalServices,
-} from '../../../../platform/monitoring/DowntimeNotification';
+} from 'platform/monitoring/DowntimeNotification';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import ClaimsListItem from '../components/ClaimsListItem';

@@ -1,8 +1,8 @@
-import '../../platform/polyfills';
+import 'platform/polyfills';
 import LazyLoad from 'vanilla-lazyload/dist/lazyload';
 
-import createCommonStore from '../../platform/startup/store';
-import startSitewideComponents from '../../platform/site-wide';
+import createCommonStore from 'platform/startup/store';
+import startSitewideComponents from 'platform/site-wide';
 
 import createAdditionalInfoWidget from './createAdditionalInfoWidget';
 import createApplicationStatus from './createApplicationStatus';
@@ -13,7 +13,7 @@ import createEducationApplicationStatus from '../edu-benefits/components/createE
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import create526EmailForm from '../disability-benefits/526EZ/components/create526EmailForm';
 
-import brandConsolidation from '../../platform/brand-consolidation';
+import brandConsolidation from 'platform/brand-consolidation';
 
 const pensionPages = new Set([
   '/pension/',

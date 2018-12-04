@@ -1,5 +1,5 @@
 import React from 'react';
-import CallNCACenter from '../../../platform/brand-consolidation/components/CallNCACenter';
+import CallNCACenter from 'platform/brand-consolidation/components/CallNCACenter';
 
 export default function ErrorText() {
   return (

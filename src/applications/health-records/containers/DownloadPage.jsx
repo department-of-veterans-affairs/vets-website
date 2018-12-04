@@ -11,8 +11,8 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import DownloadLink from '../components/DownloadLink';
 import { openModal, closeModal } from '../actions/modal';
 
-import siteName from '../../../platform/brand-consolidation/site-name';
-import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
+import siteName from 'platform/brand-consolidation/site-name';
+import CallVBACenter from 'platform/brand-consolidation/components/CallVBACenter';
 
 export class DownloadPage extends React.Component {
   renderIncompleteMessage = () => {

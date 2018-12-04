@@ -4,8 +4,8 @@ import { has, head } from 'lodash';
 import { initiateIdRequest, timeoutRedirect } from '../actions';
 import config from '../config';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import siteName from '../../../platform/brand-consolidation/site-name';
-import EmailVICHelp from '../../../platform/brand-consolidation/components/EmailVICHelp';
+import siteName from 'platform/brand-consolidation/site-name';
+import EmailVICHelp from 'platform/brand-consolidation/components/EmailVICHelp';
 
 class Main extends React.Component {
   constructor(props) {

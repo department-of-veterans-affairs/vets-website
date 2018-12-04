@@ -7,7 +7,7 @@ import {
   isTab,
   isReverseTab,
   getTabbableElements,
-} from '../../platform/utilities/accessibility/';
+} from 'platform/utilities/accessibility/';
 
 class SideBarMenu {
   constructor(menuTrigger) {

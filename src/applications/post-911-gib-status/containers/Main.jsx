@@ -5,7 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import {
   systemDownMessage,
   unableToFindRecordWarning,
-} from '../../../platform/static-data/error-messages';
+} from 'platform/static-data/error-messages';
 
 import { getEnrollmentData } from '../actions/post-911-gib-status';
 // import { noChapter33BenefitsWarning } from '../utils/helpers.jsx';

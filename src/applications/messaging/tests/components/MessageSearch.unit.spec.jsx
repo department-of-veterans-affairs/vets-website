@@ -4,7 +4,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { makeField } from '../../../../platform/forms/fields';
+import { makeField } from 'platform/forms/fields';
 import MessageSearch from '../../components/MessageSearch';
 
 const props = {

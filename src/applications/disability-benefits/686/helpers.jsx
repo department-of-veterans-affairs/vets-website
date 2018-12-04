@@ -2,7 +2,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation/Additional
 import React from 'react';
 import moment from 'moment';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
-// import { apiRequest } from '../../../platform/utilities/api';
+// import { apiRequest } from 'platform/utilities/api';
 
 export const childRelationshipStatusLabels = {
   biological: 'Biological',

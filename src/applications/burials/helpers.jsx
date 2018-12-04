@@ -3,7 +3,7 @@ import Raven from 'raven-js';
 import moment from 'moment';
 
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
-import { apiRequest } from '../../platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 
 function checkStatus(guid) {
   const headers = { 'Content-Type': 'application/json' };

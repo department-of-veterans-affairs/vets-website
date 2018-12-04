@@ -1,4 +1,4 @@
-import { isValidCentralMailPostalCode } from '../../platform/forms/address/validations';
+import { isValidCentralMailPostalCode } from 'platform/forms/address/validations';
 
 export default [
   // 0 > 1, move user back to address page if zip code is bad

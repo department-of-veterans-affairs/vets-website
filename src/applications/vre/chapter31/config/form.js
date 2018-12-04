@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 
 import fullSchema31 from 'vets-json-schema/dist/28-1900-schema.json';
 
-import * as address from '../../../../platform/forms/definitions/address';
+import * as address from 'platform/forms/definitions/address';
 import currencyUI from 'us-forms-system/lib/js/definitions/currency';
 import phoneUI from 'us-forms-system/lib/js/definitions/phone';
 import DD214Description from '../components/DD214Description';
@@ -10,14 +10,14 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import EducationPeriodView from '../components/EducationPeriodView';
 
-import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
+import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import yearUI from 'us-forms-system/lib/js/definitions/year';
 
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import environment from '../../../../platform/utilities/environment';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import {
   disabilityRatingLabels,

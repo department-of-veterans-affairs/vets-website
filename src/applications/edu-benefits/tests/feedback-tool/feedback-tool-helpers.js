@@ -1,5 +1,5 @@
-const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
-const mock = require('../../../../platform/testing/e2e/mock-helpers.js');
+const Timeouts = require('platform/testing/e2e/timeouts.js');
+const mock = require('platform/testing/e2e/mock-helpers.js');
 
 function initApplicationSubmitMock() {
   mock(null, {

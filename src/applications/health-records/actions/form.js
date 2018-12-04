@@ -1,6 +1,6 @@
 import { apiRequest } from '../utils/helpers';
 import moment from 'moment';
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 function getDataClasses(formData) {
   return Object.keys(formData.reportTypes).filter(

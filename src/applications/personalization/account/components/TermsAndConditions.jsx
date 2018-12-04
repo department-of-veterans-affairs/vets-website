@@ -1,6 +1,6 @@
 import React from 'react';
-import recordEvent from '../../../../platform/monitoring/record-event';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import recordEvent from 'platform/monitoring/record-event';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 

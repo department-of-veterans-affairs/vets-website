@@ -7,7 +7,7 @@ import { PtsdAssaultAuthoritiesDescription } from '../content/ptsdAssaultAuthori
 import {
   uiSchema as addressUI,
   schema as addressSchema,
-} from '../../../../platform/forms/definitions/address';
+} from 'platform/forms/definitions/address';
 import { validateZIP } from '../validations';
 
 export const uiSchema = index => ({

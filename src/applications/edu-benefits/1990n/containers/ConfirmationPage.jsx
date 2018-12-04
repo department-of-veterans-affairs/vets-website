@@ -3,8 +3,8 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { focusElement } from '../../../../platform/utilities/ui';
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import { focusElement } from 'platform/utilities/ui';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 const scroller = Scroll.scroller;

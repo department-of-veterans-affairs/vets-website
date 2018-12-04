@@ -3,7 +3,7 @@ import Dropzone from 'react-dropzone';
 
 import ErrorableFileInput from '@department-of-veterans-affairs/formation/ErrorableFileInput';
 import ProgressBar from '@department-of-veterans-affairs/formation/ProgressBar';
-import { scrollAndFocus } from '../../../platform/utilities/ui';
+import { scrollAndFocus } from 'platform/utilities/ui';
 import PhotoPreview from '../components/PhotoPreview';
 import CropperController from '../components/CropperController';
 

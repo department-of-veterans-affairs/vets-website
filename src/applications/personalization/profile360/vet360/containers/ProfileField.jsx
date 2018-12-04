@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import recordEvent from '../../../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 import * as VET360 from '../constants';
 

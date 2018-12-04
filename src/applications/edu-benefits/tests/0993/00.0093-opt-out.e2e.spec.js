@@ -1,9 +1,9 @@
-const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
+const E2eHelpers = require('platform/testing/e2e/helpers');
 const manifest = require('../../0993/manifest.json');
-const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
+const Timeouts = require('platform/testing/e2e/timeouts.js');
 const PageHelpers = require('./0993-helpers');
 const testData = require('./schema/maximal-test.json');
-const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
+const FormsTestHelpers = require('platform/testing/e2e/form-helpers');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   PageHelpers.initApplicationSubmitMock('0993');

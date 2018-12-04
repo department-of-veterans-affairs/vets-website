@@ -3,9 +3,9 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { focusElement } from '../../../platform/utilities/ui';
-import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
-import CallVBACenter from '../../../platform/brand-consolidation/components/CallVBACenter';
+import { focusElement } from 'platform/utilities/ui';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
+import CallVBACenter from 'platform/brand-consolidation/components/CallVBACenter';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 const scroller = Scroll.scroller;

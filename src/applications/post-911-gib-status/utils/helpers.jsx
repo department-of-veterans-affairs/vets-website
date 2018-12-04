@@ -3,9 +3,9 @@ import { Link } from 'react-router';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
-import { formatDateParsedZoneLong } from '../../../platform/utilities/date';
-import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
-import CallHRC from '../../../platform/brand-consolidation/components/CallHRC';
+import { formatDateParsedZoneLong } from 'platform/utilities/date';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
+import CallHRC from 'platform/brand-consolidation/components/CallHRC';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 

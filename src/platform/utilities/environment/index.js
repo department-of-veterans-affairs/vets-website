@@ -3,7 +3,7 @@
  * @module platform/utilities/environment
  */
 
-import ENVIRONMENTS from '../../../site/constants/environments';
+import ENVIRONMENTS from 'site/constants/environments';
 
 // __BUILDTYPE__ is defined as a global variable in our Webpack config, ultimately used
 // to indicate the name of our current environment as passed from our build script. This should

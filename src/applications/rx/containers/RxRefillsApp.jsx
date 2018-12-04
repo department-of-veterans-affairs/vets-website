@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import backendServices from '../../../platform/user/profile/constants/backendServices';
+import backendServices from 'platform/user/profile/constants/backendServices';
 import DowntimeNotification, {
   externalServices,
-} from '../../../platform/monitoring/DowntimeNotification';
-import MHVApp from '../../../platform/user/authorization/containers/MHVApp';
+} from 'platform/monitoring/DowntimeNotification';
+import MHVApp from 'platform/user/authorization/containers/MHVApp';
 import Breadcrumbs from '../components/Breadcrumbs';
-import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import { closeRefillModal, closeGlossaryModal } from '../actions/modals';
 import { refillPrescription } from '../actions/prescriptions';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';

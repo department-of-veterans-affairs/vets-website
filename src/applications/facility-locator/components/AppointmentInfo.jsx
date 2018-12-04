@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { get, some, pull, startCase } from 'lodash';
 import classNames from 'classnames';
 import moment from 'moment';
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 /**
  * VA Facility Appointments

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
+import conditionalStorage from 'platform/utilities/storage/conditionalStorage';
 
 import {
   ADDRESS_TYPES,

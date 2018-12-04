@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { replaceDomainsInData } from '../../environment/stagingDomains';
-import ENVIRONMENT from '../../../../site/constants/environments';
+import ENVIRONMENT from 'site/constants/environments';
 
 let currentEnv = '';
 if (global.__BUILDTYPE__ === ENVIRONMENT.VAGOVSTAGING) {

@@ -5,15 +5,15 @@ import fullSchema1990n from 'vets-json-schema/dist/22-1990N-schema.json';
 import schoolSelectionPage, {
   schoolSelectionOptionsFor,
 } from '../../pages/schoolSelection';
-import applicantInformationPage from '../../../../platform/forms/pages/applicantInformation';
-import FormFooter from '../../../../platform/forms/components/FormFooter';
-import environment from '../../../../platform/utilities/environment';
+import applicantInformationPage from 'platform/forms/pages/applicantInformation';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
-import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
 
