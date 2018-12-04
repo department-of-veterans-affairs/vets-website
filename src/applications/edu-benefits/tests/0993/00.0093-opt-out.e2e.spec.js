@@ -12,7 +12,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   FormsTestHelpers.overrideFormsScrolling(client);
 
   client
-    .url(
+    .openUrl(
       `${
         E2eHelpers.baseUrl
       }/education/opt-out-information-sharing/opt-out-form-0993/`,
