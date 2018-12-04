@@ -1099,6 +1099,29 @@ const schema = {
       type: 'boolean',
       default: false,
     },
+    privateMedicalRecordAttachments: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['name', 'attachmentId'],
+        properties: {
+          name: {
+            type: 'string',
+          },
+          confirmationCode: {
+            type: 'string',
+          },
+          attachmentId: {
+            type: 'string',
+            enum: ['L107', 'L023'],
+            enumNames: [
+              'VA Form 21-4142 - Authorization To Disclose Information',
+              'Correspondence',
+            ],
+          },
+        },
+      },
+    },
     completedFormAttachments: {
       type: 'array',
       items: {
