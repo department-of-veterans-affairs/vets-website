@@ -26,6 +26,10 @@ const runTest = E2eHelpers.createE2eTest(client => {
     // eslint-disable-next-line prettier/prettier
     .openUrl(`${E2eHelpers.baseUrl}/disability-benefits/apply/form-526-all-claims/introduction`)
     .waitForElementVisible('body', Timeouts.normal)
+    .getText('body', result => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+    })
     .assert.title('Apply for disability benefits: VA.gov')
     // First render of React may be slow.
     .waitForElementVisible('.schemaform-title', Timeouts.slow) // First render of React may be slow.
