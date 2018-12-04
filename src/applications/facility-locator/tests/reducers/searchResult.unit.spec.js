@@ -4,6 +4,7 @@ import {
   FETCH_LOCATION_DETAIL,
   FETCH_LOCATIONS,
   SEARCH_FAILED,
+  CLEAR_SEARCH_RESULTS,
 } from '../../utils/actionTypes';
 import { SearchResultReducer } from '../../reducers/searchResult';
 
@@ -45,6 +46,14 @@ describe('facilities reducer', () => {
   it('should handle failure case', () => {
     const state = SearchResultReducer(INITIAL_STATE, {
       type: SEARCH_FAILED,
+    });
+
+    expect(state).to.eql(INITIAL_STATE);
+  });
+
+  it('should handle clearing search results', () => {
+    const state = SearchResultReducer(INITIAL_STATE, {
+      type: CLEAR_SEARCH_RESULTS,
     });
 
     expect(state).to.eql(INITIAL_STATE);

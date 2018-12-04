@@ -100,14 +100,14 @@ function logIn(token, client, url, level) {
   initLogoutMock(token);
 
   client
-    .url(`${E2eHelpers.baseUrl}${url}`)
+    .openUrl(`${E2eHelpers.baseUrl}${url}`)
     .waitForElementVisible('body', Timeouts.normal);
 
   E2eHelpers.disableAnnouncements(client);
   setUserSession(token, client);
 
   client
-    .url(`${E2eHelpers.baseUrl}${url}`)
+    .openUrl(`${E2eHelpers.baseUrl}${url}`)
     .waitForElementVisible('body', Timeouts.normal);
 
   E2eHelpers.overrideSmoothScrolling(client);
@@ -121,7 +121,7 @@ function testUnauthedUserFlow(client, path) {
 
   initLogoutMock(token);
 
-  client.url(appURL).waitForElementVisible('body', Timeouts.normal);
+  client.openUrl(appURL).waitForElementVisible('body', Timeouts.normal);
 
   client
     .waitForElementVisible('.login', Timeouts.normal)
