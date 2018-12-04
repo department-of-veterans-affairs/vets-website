@@ -9,7 +9,7 @@ const initialState = {
   },
   comments: '',
   files: [],
-  status: '',
+  status: 'initial',
 };
 
 function documentUploader(state = initialState, action) {

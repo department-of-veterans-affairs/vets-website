@@ -12,13 +12,14 @@ export const SUBMITTING_FILES = `${prefix}SUBMITTING_FILES`;
 export const API_ERROR = `${prefix}API_ERROR`;
 
 const status = {
-  fetching: 'fetching location',
-  pending: 'pending reciept of documents',
-  uploaded: 'document uploaded',
-  recieved: 'recieved by central mail',
-  processing: 'processing by downstream system',
-  success: 'document has been recieved by DHMS',
-  error: 'error in the api',
+  initial: 'initial',
+  fetching: 'fetching',
+  pending: 'pending',
+  uploaded: 'uploaded',
+  recieved: 'recieved',
+  processing: 'processing',
+  success: 'success',
+  error: 'error',
 };
 
 export function setVeteran(veteran) {
@@ -80,10 +81,24 @@ function updateUploadStatus(dispatch, endpoint, interval) {
     const responseStatus = resp.data.attributes.status;
     dispatch(setStatus(status[responseStatus]));
 
-    if (status === 'success' || status === 'error') {
+    const cancelResponses = ['recieved', 'processing', 'success', 'error'];
+
+    if (cancelResponses.includes(responseStatus)) {
       clearInterval(interval);
     }
   });
+}
+
+function cancelablePollForStatus(endpoint, dispatch) {
+  const poll = setInterval(() => {
+    updateUploadStatus(dispatch, endpoint, poll);
+  }, 3000);
+}
+
+export function pollForStatus(endpoint) {
+  return async dispatch => {
+    cancelablePollForStatus(endpoint, dispatch);
+  };
 }
 
 export function submitFiles(veteran, files, comments) {
@@ -101,9 +116,7 @@ export function submitFiles(veteran, files, comments) {
         uploadFilesToLocation(veteran, files, comments, upload.location)
           .then(() => {
             const endpoint = `${uploadsEndpoint}/${upload.guid}`;
-            const poll = setInterval(() => {
-              updateUploadStatus(dispatch, endpoint, poll);
-            }, 3000);
+            cancelablePollForStatus(endpoint, dispatch);
           })
           .catch(() => {
             dispatch(setStatus(status.error));

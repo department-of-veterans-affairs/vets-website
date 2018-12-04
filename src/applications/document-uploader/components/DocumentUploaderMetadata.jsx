@@ -5,6 +5,17 @@ export class DocumentUploaderMetadata extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.buildFiles = this.buildFiles.bind(this);
+  }
+
+  buildFiles(event, main) {
+    const files = Array.from(event.target.files);
+    if (main) {
+      const supporting = this.props.files;
+      supporting.shift();
+      return [...files, ...supporting];
+    }
+    return [this.props.files[0], ...files];
   }
 
   handleChange(event) {
@@ -12,8 +23,11 @@ export class DocumentUploaderMetadata extends React.Component {
       case 'comments':
         this.props.setComments(event.target.value);
         break;
-      case 'files':
-        this.props.setFiles(Array.from(event.target.files));
+      case 'mainFile':
+        this.props.setFiles(this.buildFiles(event, true));
+        break;
+      case 'supportingFiles':
+        this.props.setFiles(this.buildFiles(event, false));
         break;
       default: {
         const vet = { ...this.props.veteran };
@@ -31,6 +45,13 @@ export class DocumentUploaderMetadata extends React.Component {
       this.props.files,
       this.props.comments,
     );
+  }
+
+  handleNumberLength(event) {
+    if (event.target.value.length >= 9) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
   }
 
   render() {
@@ -72,13 +93,24 @@ export class DocumentUploaderMetadata extends React.Component {
             name="fileNumber"
             id="veterans-file-number"
             value={this.props.veteran.fileNumber}
+            onKeyPress={this.handleNumberLength}
             onChange={this.handleChange}
           />
 
-          <label htmlFor="files">Files</label>
+          <label htmlFor="mainFile">Main File</label>
           <input
             type="file"
-            name="files"
+            name="mainFile"
+            id="files"
+            onChange={this.handleChange}
+            required
+            multiple
+          />
+
+          <label htmlFor="supportFiles">Supporting Files</label>
+          <input
+            type="file"
+            name="supportingFiles"
             id="files"
             onChange={this.handleChange}
             required
@@ -99,6 +131,7 @@ export class DocumentUploaderMetadata extends React.Component {
             type="submit"
             name="submit"
             id="submit"
+            disabled={this.props.status !== 'ready'}
             onClick={this.handleSubmit}
             value="Upload files to VA"
           />

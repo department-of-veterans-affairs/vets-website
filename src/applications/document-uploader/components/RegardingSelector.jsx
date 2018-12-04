@@ -14,6 +14,12 @@ export class RegardingSelector extends React.Component {
   }
 
   render() {
+    const options = ['Disability', 'Pension', 'Appeals', 'Other'];
+    const optionElements = options.map((option, i) => (
+      <option value={option.lowerCase} key={i}>
+        {option}
+      </option>
+    ));
     return (
       <div className="usa-input-grid">
         <label htmlFor="document-uploader-regarding">
@@ -25,14 +31,8 @@ export class RegardingSelector extends React.Component {
           value={this.props.veteran.regarding}
           onChange={this.handleChange}
         >
-          <option value=""> Select </option>
-          <option value="nothing">nothing</option>
-          <option value="applying-for-disability">
-            applying-for-disability
-          </option>
-          <option value="submitting-documents-in-support">
-            submitting-documents-in-support
-          </option>
+          <option value=""> Select a topic </option>
+          {optionElements}
         </select>
       </div>
     );
