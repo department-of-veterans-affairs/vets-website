@@ -90,6 +90,11 @@ export const areGeocodeEqual = (pos1, pos2) => {
  * @param {number[]} box2 The second bounding box's coords
  */
 export const areBoundsEqual = (box1, box2) => {
+  // Bounding boxes need 4 coordinates to be valid
+  // upperLeft (lat1,long1) --> __|_____
+  //                              |    |
+  //                              |    |
+  //                              ¯¯¯¯¯|¯¯ <-- (lat2,long2) lowerRight
   if (!box1 || !box2 || box1.length !== 4 || box2.length !== 4) {
     return false;
   }

@@ -26,7 +26,7 @@ import VetCenterMarker from '../components/markers/VetCenterMarker';
 import ProviderMarker from '../components/markers/ProviderMarker';
 import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
-import { areGeocodeEqual, areBoundsEqual } from '../utils/helpers';
+import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
 
 const otherToolsLink = (
   <p>
@@ -215,14 +215,14 @@ class VAMap extends Component {
    * @param {object} previous Previous component props
    * @param {object} current Current componet props
    */
-  didParamsChange = (previous, current) => {
+  /* didParamsChange = (previous, current) => {
     return (
       current.searchString !== previous.searchString ||
       current.facilityType !== previous.facilityType ||
       current.serviceType !== previous.serviceType ||
       !areBoundsEqual(current.bounds, previous.bounds)
     );
-  };
+  }; */
 
   /**
    * Presumably handles the case if a user manually makes a change to the
