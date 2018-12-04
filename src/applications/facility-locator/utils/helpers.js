@@ -37,12 +37,12 @@ export const areBoundsEqual = (box1, box2) => {
     longitude: box1[3],
   };
   const upperLeft2 = {
-    latitude: box1[0],
-    longitude: box1[1],
+    latitude: box2[0],
+    longitude: box2[1],
   };
   const lowerRight2 = {
-    latitude: box1[2],
-    longitude: box1[3],
+    latitude: box2[2],
+    longitude: box2[3],
   };
 
   return (
