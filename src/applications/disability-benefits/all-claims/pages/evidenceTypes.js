@@ -7,7 +7,7 @@ import { evidenceTypeHelp } from '../content/evidenceTypes';
 export const uiSchema = {
   'view:hasEvidence': {
     'ui:title':
-      'Do you have any evidence that you’d like to submit with your claim?',
+      'Is there any evidence you’d like us to review as part of your claim?',
     'ui:widget': 'yesNo',
   },
   'view:hasEvidenceFollowUp': {
@@ -17,7 +17,7 @@ export const uiSchema = {
     'ui:required': formData => get('view:hasEvidence', formData, false),
     'view:selectableEvidenceTypes': {
       'ui:title':
-        'What type of evidence do you want to submit with your claim?',
+        'What type of evidence do you want us to review as part of your claim?',
       'ui:options': { showFieldLabel: true },
       'ui:validations': [
         {

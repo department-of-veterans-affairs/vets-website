@@ -551,28 +551,72 @@ const schema = {
         },
         providerFacility: {
           type: 'array',
-          required: [
-            'providerFacilityName',
-            'treatmentDateRange',
-            'providerFacilityAddress',
-          ],
+          minItems: 1,
+          maxItems: 100,
           items: {
             type: 'object',
+            required: [
+              'providerFacilityName',
+              'treatmentDateRange',
+              'providerFacilityAddress',
+            ],
             properties: {
               providerFacilityName: {
                 type: 'string',
+                minLength: 1,
+                maxLength: 100,
               },
               treatmentDateRange: {
-                $ref: '#/definitions/dateRange',
+                $ref: '#/definitions/dateRangeAllRequired',
               },
+              /*
+               * Back end expects the following structure:
+               * "providerFacilityAddress": {
+               *  "street": "123 Main Street",
+               *   "street2": "1B",
+               *   "city": "Baltimore",
+               *   "state": "MD",
+               *   "country": "USA",
+               *   "postalCode": "21200-1111"
+               *  }
+              */
               providerFacilityAddress: {
-                $ref: '#/definitions/address',
+                type: 'object',
+                required: ['street', 'city', 'country', 'state', 'postalCode'],
+                properties: {
+                  street: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 20,
+                  },
+                  street2: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 20,
+                  },
+                  city: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  postalCode: {
+                    type: 'string',
+                    pattern: '^\\d{5}(?:([-\\s]?)\\d{4})?$',
+                  },
+                  country: {
+                    type: 'string',
+                    enum: baseAddressDef.properties.country.enum,
+                    default: 'USA',
+                  },
+                  state: {
+                    type: 'string',
+                    enum: baseAddressDef.properties.state.enum,
+                    enumNames: baseAddressDef.properties.state.enumNames,
+                  },
+                },
               },
             },
           },
-        },
-        privacyAgreementAccepted: {
-          $ref: '#/definitions/privacyAgreementAccepted',
         },
       },
     },
@@ -605,6 +649,9 @@ const schema = {
               $ref: '#/definitions/dateRange',
             },
             remarks: {
+              type: 'string',
+            },
+            additionalChanges: {
               type: 'string',
             },
             personInvolved: {
@@ -654,18 +701,21 @@ const schema = {
         },
       },
     },
-    specialIssue: {
-      type: 'string',
-      enum: [
-        'ALS',
-        'HEPC',
-        'POW',
-        'PTSD/1',
-        'PTSD/2',
-        'PTSD/3',
-        'PTSD/4',
-        'MST',
-      ],
+    specialIssues: {
+      type: 'array',
+      items: {
+        type: 'string',
+        enum: [
+          'ALS',
+          'HEPC',
+          'POW',
+          'PTSD/1',
+          'PTSD/2',
+          'PTSD/3',
+          'PTSD/4',
+          'MST',
+        ],
+      },
     },
   },
   properties: {
@@ -810,8 +860,8 @@ const schema = {
             type: 'string',
             enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
           },
-          specialIssue: {
-            $ref: '#/definitions/specialIssue',
+          specialIssues: {
+            $ref: '#/definitions/specialIssues',
           },
           ratedDisabilityId: {
             type: 'string',
@@ -839,8 +889,8 @@ const schema = {
                   type: 'string',
                   enum: ['NONE', 'NEW', 'SECONDARY', 'INCREASE', 'REOPEN'],
                 },
-                specialIssue: {
-                  $ref: '#/definitions/specialIssue',
+                specialIssues: {
+                  $ref: '#/definitions/specialIssues',
                 },
                 ratedDisabilityId: {
                   type: 'string',
@@ -882,8 +932,8 @@ const schema = {
           causedByDisabilityDescription: {
             type: 'string',
           },
-          specialIssue: {
-            $ref: '#/definitions/specialIssue',
+          specialIssues: {
+            $ref: '#/definitions/specialIssues',
           },
           worsenedDescription: {
             type: 'string',

@@ -119,7 +119,7 @@ function cleanUp() {
 }
 
 function begin(browser) {
-  browser.url(`${E2eHelpers.baseUrl}/find-locations/`);
+  browser.openUrl(`${E2eHelpers.baseUrl}/find-locations/`);
   E2eHelpers.overrideSmoothScrolling(browser);
   FacilityHelpers.initApplicationMock();
 
