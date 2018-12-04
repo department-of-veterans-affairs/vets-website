@@ -40,10 +40,7 @@ class ClaimsDecision extends React.Component {
         <p>
           Has your condition gotten worse since you filed your claim? You can
           file a new claim for an increase in disability compensation.
-          <a
-            href="/disability-benefits/apply/form-526-disability-claim/introduction"
-            target="_blank"
-          >
+          <a href="/disability-benefits/apply/form-526-disability-claim/introduction">
             File for a VA disability increase
           </a>
           .
