@@ -21,6 +21,7 @@ describe('<RequestedFilesInfo>', () => {
   it('should display requested items', () => {
     const filesNeeded = [
       {
+        trackedItemId: 1,
         type: 'still_need_from_you_list',
         displayName: 'Request 1',
         description: 'Some description',
@@ -51,6 +52,7 @@ describe('<RequestedFilesInfo>', () => {
   it('should display optional files', () => {
     const optionalFiles = [
       {
+        trackedItemId: 1,
         type: 'still_need_from_others_list',
         status: 'NEEDED',
       },

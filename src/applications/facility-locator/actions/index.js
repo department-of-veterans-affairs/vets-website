@@ -11,6 +11,7 @@ import {
   FETCH_LOCATIONS,
   FETCH_SERVICES,
   FETCH_SERVICES_DONE,
+  FETCH_SERVICES_FAILED,
 } from '../utils/actionTypes';
 import LocatorApi from '../api';
 import { LocationType, BOUNDING_RADIUS } from '../constants';
@@ -96,7 +97,7 @@ export const fetchProviderDetail = (id) => {
  */
 // eslint-disable-next-line prettier/prettier
 export const searchWithBounds = ({ bounds, facilityType, serviceType, page = 1 }) => {
-  const needsAddress = [LocationType.CC_PROVIDER, Location.ALL];
+  const needsAddress = [LocationType.CC_PROVIDER, LocationType.ALL];
   // eslint-disable-next-line prettier/prettier
   return (dispatch) => {
     if (needsAddress.includes(facilityType) && ccLocatorEnabled()) {
@@ -244,7 +245,7 @@ export const getProviderSvcs = () => {
     try {
       const data = await LocatorApi.getProviderSvcs();
       if (data.errors) {
-        dispatch({ type: SEARCH_FAILED, error: data.errors });
+        dispatch({ type: FETCH_SERVICES_FAILED, error: data.errors });
         return [];
       }
       // Great Success!
@@ -252,7 +253,7 @@ export const getProviderSvcs = () => {
       return data;
     }
     catch (error) {
-      dispatch({ type: SEARCH_FAILED, error });
+      dispatch({ type: FETCH_SERVICES_FAILED, error });
       return ['Services Temporarily Unavailable'];
     }
   };
