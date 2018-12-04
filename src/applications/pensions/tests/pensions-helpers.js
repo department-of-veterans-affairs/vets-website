@@ -253,27 +253,33 @@ function completeDependentInfo(client, data, index) {
   // These pauses seem to have something to do with the messages that expand underneath
 
   if (typeof data.dependents[index].attendingCollege !== 'undefined') {
-    client
-      .selectYesNo(
-        'root_attendingCollege',
-        data.dependents[index].attendingCollege,
-      )
-      .pause(1000);
+    client.selectYesNo(
+      'root_attendingCollege',
+      data.dependents[index].attendingCollege,
+    );
   }
 
   if (typeof data.dependents[index].disabled !== 'undefined') {
     client
-      .selectYesNo('root_disabled', data.dependents[index].disabled)
-      .pause(1000);
+      .waitForElementPresent('#root_disabledYes', Timeouts.normal)
+      .moveToElement('#root_disabledYes', 0, 200)
+      .pause(1000)
+      .selectYesNo('root_disabled', data.dependents[index].disabled);
   }
 
-  client.selectYesNo(
-    'root_previouslyMarried',
-    data.dependents[index].previouslyMarried,
-  );
+  client
+    .waitForElementPresent('#root_previouslyMarriedYes', Timeouts.normal)
+    .moveToElement('#root_previouslyMarriedYes', 0, 200)
+    .pause(1000)
+    .selectYesNo(
+      'root_previouslyMarried',
+      data.dependents[index].previouslyMarried,
+    );
 
   if (data.dependents[index].previouslyMarried) {
     client
+      .waitForElementPresent('#root_marriedYes', Timeouts.normal)
+      .moveToElement('#root_marriedYes', 0, 200)
       .pause(1000)
       .selectYesNo('root_married', data.dependents[index].married);
   }
@@ -307,6 +313,7 @@ function completeNetWorthInfo(client, data) {
     .fill('input[name$="stocks"]', data.stocks)
     .fill('input[name$="realProperty"]', data.realProperty)
     .click('body')
+    .moveTo('.pensions-sources-add-btn', 0, 200)
     .click('.pensions-sources-add-btn')
     .waitForElementPresent(
       'input[name$="additionalSources_0_name"]',
@@ -332,6 +339,7 @@ function completeMonthlyIncomeInfo(client, data) {
     .fill('input[name$="serviceRetirement"]', data.serviceRetirement)
     .fill('input[name$="ssi"]', data.ssi)
     .click('body')
+    .moveTo('.pensions-sources-add-btn', 0, 200)
     .click('.pensions-sources-add-btn')
     .waitForElementPresent(
       'input[name$="additionalSources_0_name"]',
@@ -353,6 +361,7 @@ function completeExpectedIncomeInfo(client, data) {
     .fill('input[name$="salary"]', data.salary)
     .fill('input[name$="interest"]', data.interest)
     .click('body')
+    .moveTo('.pensions-sources-add-btn', 0, 200)
     .click('.pensions-sources-add-btn')
     .waitForElementPresent(
       'input[name$="additionalSources_0_name"]',

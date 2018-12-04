@@ -18,7 +18,7 @@ class LocatorApi {
    */
   // eslint-disable-next-line prettier/prettier
   static searchWithBounds(address = null, bounds, locationType, serviceType, page) {
-    const filterableLocations = ['health', 'benefits'];
+    const filterableLocations = ['health', 'benefits', 'cc_provider'];
     const params = compact([
       address ? `address=${address}` : null,
       ...bounds.map(c => `bbox[]=${c}`),

@@ -10,7 +10,7 @@
 const fs = require('fs');
 const jsdom = require('jsdom');
 const path = require('path');
-const buckets = require('../constants/buckets');
+const buckets = require('../../constants/buckets');
 
 const TEAMSITE_ASSETS = 'va_files';
 

@@ -3,8 +3,8 @@ import React from 'react';
 import appendQuery from 'append-query';
 import PropTypes from 'prop-types';
 
-import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
-import CallVBACenter from '../../../../platform/brand-consolidation/components/CallVBACenter';
+import isBrandConsolidationEnabled from 'platform/brand-consolidation/feature-flag';
+import CallVBACenter from 'platform/brand-consolidation/components/CallVBACenter';
 
 import disabilityIncreaseManifest from '../../526EZ/manifest.json';
 

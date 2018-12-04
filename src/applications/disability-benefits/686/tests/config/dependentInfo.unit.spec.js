@@ -8,7 +8,7 @@ import {
   fillData,
   selectRadio,
   selectCheckbox,
-} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('686 dependent info', () => {
@@ -27,7 +27,7 @@ describe('686 dependent info', () => {
             first: 'Jane',
             last: 'Doe',
           },
-          childDateOfBirth: '1-10-2000',
+          childDateOfBirth: '2000-01-10',
         },
       ],
     });
@@ -47,7 +47,7 @@ describe('686 dependent info', () => {
 
   it('should show disabled if child is less than 18 years old', () => {
     const props = dependentData();
-    props.dependents[0].childDateOfBirth = '1-10-2010';
+    props.dependents[0].childDateOfBirth = '2010-01-10';
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
@@ -63,7 +63,7 @@ describe('686 dependent info', () => {
 
   it('should not show disabled or inSchool if child is older than 23', () => {
     const props = dependentData();
-    props.dependents[0].childDateOfBirth = '1-10-1986';
+    props.dependents[0].childDateOfBirth = '1986-01-10';
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
