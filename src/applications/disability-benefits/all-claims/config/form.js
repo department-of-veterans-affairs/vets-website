@@ -30,7 +30,6 @@ import {
   isUploading781Form,
   isUploading781aForm,
   servedAfter911,
-  isAnswering781aQuestions,
   isNotUploadingPrivateMedical,
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
