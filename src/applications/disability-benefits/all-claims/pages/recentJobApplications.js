@@ -1,8 +1,6 @@
 import { merge, omit } from 'lodash';
 import fullSchema from '../config/schema';
 
-const { date } = fullSchema.definitions;
-
 import {
   recentJobApplicationsDescription,
   substantiallyGainfulEmployment,
@@ -13,12 +11,13 @@ import {
   schema as addressSchema,
 } from '../../../../platform/forms/definitions/address';
 
-const address = addressSchema(fullSchema);
-
 import { validateZIP } from '../validations';
 
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/date';
 import RecentJobApplicationField from '../components/RecentJobApplicationField';
+
+const address = addressSchema(fullSchema);
+const { date } = fullSchema.definitions;
 
 export const uiSchema = {
   'ui:title': 'Recent job applications',
@@ -65,7 +64,7 @@ export const uiSchema = {
       date: currentOrPastDateUI('Date you applied'),
     },
   },
-  substantiallyGainfulEmploymentInfo: {
+  'view:substantiallyGainfulEmploymentInfo': {
     'ui:title': ' ',
     'ui:description': substantiallyGainfulEmployment(),
   },
@@ -101,7 +100,7 @@ export const schema = {
         },
       },
     },
-    substantiallyGainfulEmploymentInfo: {
+    'view:substantiallyGainfulEmploymentInfo': {
       type: 'object',
       properties: {},
     },
