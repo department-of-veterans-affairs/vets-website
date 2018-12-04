@@ -305,7 +305,7 @@ export function transform(formConfig, form) {
       if (powDisabilities.includes(d.condition.toLowerCase())) {
         const newSpecialIssues = (d.specialIssues || []).slice();
         // TODO: Make a constant with all the possibilities and use it here
-        newSpecialIssues.push({ code: 'POW', name: '' });
+        newSpecialIssues.push('POW');
         return _.set('specialIssues', newSpecialIssues, d);
       }
       return d;
@@ -488,18 +488,16 @@ export const getHomelessOrAtRisk = formData => {
     homelessStatus === HOMELESSNESS_TYPES.atRisk
   );
 };
-export const isAnsweringPtsdForm = formData =>
-  _.get('view:uploadPtsdChoice', formData, '') === 'answerQuestions';
 
 export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
 
 export const showPtsdCombatConclusion = form =>
-  form['view:uploadPtsdChoice'] === 'answerQuestions' &&
+  form['view:upload781Choice'] === 'answerQuestions' &&
   (_.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
     _.get('view:selectablePtsdTypes.view:noncombatPtsdType', form, false));
 
 export const showPtsdAssaultConclusion = form =>
-  form['view:uploadPtsdChoice'] === 'answerQuestions' &&
+  form['view:upload781aChoice'] === 'answerQuestions' &&
   (_.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
     _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false));
