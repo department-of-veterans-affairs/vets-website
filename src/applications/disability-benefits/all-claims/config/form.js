@@ -28,7 +28,7 @@ import {
   isUploading781Form,
   isUploading781aForm,
   servedAfter911,
-  isAnsweringPtsdForm,
+  isAnswering781aQuestions,
   isNotUploadingPrivateMedical,
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
@@ -76,6 +76,7 @@ import {
   unemployabilityStatus,
   unemployabilityFormIntro,
   socialBehaviorChanges,
+  additionalBehaviorChanges,
   mentalHealthChanges,
   adaptiveBenefits,
   aidAndAttendance,
@@ -294,29 +295,33 @@ const formConfig = {
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
         },
-        socialBehaviorChanges: {
-          title: 'Additional Remarks - Social Behavior Changes',
-          path: 'new-disabilities/ptsd-781a-social-changes',
-          depends: formData =>
-            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
-          uiSchema: socialBehaviorChanges.uiSchema,
-          schema: socialBehaviorChanges.schema,
-        },
         physicalHealthChanges: {
           title: 'Additional Remarks - Physical Health Changes',
           path: 'new-disabilities/ptsd-781a-physical-changes',
-          depends: formData =>
-            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
+          depends: isAnswering781aQuestions(0),
           uiSchema: physicalHealthChanges.uiSchema,
           schema: physicalHealthChanges.schema,
+        },
+        socialBehaviorChanges: {
+          title: 'Additional Remarks - Social Behavior Changes',
+          path: 'new-disabilities/ptsd-781a-social-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: socialBehaviorChanges.uiSchema,
+          schema: socialBehaviorChanges.schema,
         },
         mentalHealthChanges: {
           title: 'Additional Remarks - Physical Health Changes',
           path: 'new-disabilities/ptsd-781a-mental-changes',
-          depends: formData =>
-            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
+          depends: isAnswering781aQuestions(0),
           uiSchema: mentalHealthChanges.uiSchema,
           schema: mentalHealthChanges.schema,
+        },
+        additionalBehaviorChanges: {
+          title: 'Additional Remarks - Additional Behavior Changes',
+          path: 'new-disabilities/ptsd-781a-additional-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: additionalBehaviorChanges.uiSchema,
+          schema: additionalBehaviorChanges.schema,
         },
         conclusionCombat: {
           path: 'conclusion-781',

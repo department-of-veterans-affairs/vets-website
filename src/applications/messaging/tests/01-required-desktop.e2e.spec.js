@@ -16,7 +16,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
 
   // Ensure messaging home page renders
   client
-    .url(`${E2eHelpers.baseUrl}/health-care/messaging`)
+    .openUrl(`${E2eHelpers.baseUrl}/health-care/messaging`)
     .waitForElementVisible('body', Timeouts.normal)
     .assert.title('Message Your Health Care Team: VA.gov')
     .waitForElementVisible('#messaging-app', Timeouts.slow);

@@ -209,6 +209,11 @@ import {
 } from './socialBehaviorChanges';
 
 import {
+  uiSchema as additionalBehaviorChangesUISchema,
+  schema as additionalBehaviorChangesSchema,
+} from './additionalBehaviorChanges';
+
+import {
   uiSchema as incidentDescriptionUISchema,
   schema as incidentDescriptionSchema,
 } from './incidentDescription';
@@ -472,6 +477,12 @@ export const socialBehaviorChanges = {
   uiSchema: socialBehaviorChangesUISchema,
   schema: socialBehaviorChangesSchema,
 };
+
+export const additionalBehaviorChanges = {
+  uiSchema: additionalBehaviorChangesUISchema,
+  schema: additionalBehaviorChangesSchema,
+};
+
 export const incidentDescription = {
   uiSchema: incidentDescriptionUISchema,
   schema: incidentDescriptionSchema,
