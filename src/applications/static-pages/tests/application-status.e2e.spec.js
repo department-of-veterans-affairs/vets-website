@@ -4,9 +4,11 @@ const Auth = require('../../../platform/testing/e2e/auth');
 
 function testStatus(client, page, url) {
   client
-    .url(`${E2eHelpers.baseUrl}${page}`)
+    .openUrl(`${E2eHelpers.baseUrl}${page}`)
     .waitForElementVisible('.sip-application-status', Timeouts.slow)
     .axeCheck('.main');
+
+  E2eHelpers.overrideScrolling(client);
 
   client.expect
     .element('main a.usa-button-primary')
@@ -14,8 +16,10 @@ function testStatus(client, page, url) {
     .contains(url);
 
   client
+    .waitForElementPresent('.usa-button-secondary', Timeouts.normal)
+    .moveTo('.usa-button-secondary', 0, 200)
     .click('.usa-button-secondary')
-    .waitForElementPresent('.va-modal', Timeouts.normal)
+    .waitForElementPresent('#start-over-modal-title', Timeouts.normal)
     .expect.element('#start-over-modal-title')
     .text.equals('Starting over will delete your in-progress form.');
 
