@@ -2,7 +2,7 @@
 /* eslint-disable arrow-body-style */
 import isEmpty from 'lodash/isEmpty';
 import { mapboxClient } from '../components/MapboxClient';
-import { reverseGeocodeBox } from '../utils/helpers';
+import { reverseGeocodeBox } from '../utils/mapHelpers';
 import {
   SEARCH_STARTED,
   SEARCH_QUERY_UPDATED,
