@@ -10,7 +10,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
 
   // renders introduction page
   client
-    .url(
+    .openUrl(
       `${
         E2eHelpers.baseUrl
       }/employment/vocational-rehab-and-employment/application/chapter31`,
