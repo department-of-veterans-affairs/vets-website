@@ -5,11 +5,11 @@ import URLSearchParams from 'url-search-params';
 
 import recordEvent from '../../../monitoring/record-event';
 
+import { updateLoggedInStatus } from '../../../user/authentication/actions';
 import SignInModal from '../../../user/authentication/components/SignInModal';
 import { isLoggedIn, isProfileLoading, isLOA3 } from '../../../user/selectors';
 import { initializeProfile } from '../../../user/profile/actions';
 import { hasSession } from '../../../user/profile/utilities';
-import { updateLoggedInStatus } from '../../../user/authentication/actions';
 
 import {
   toggleLoginModal,
@@ -31,6 +31,7 @@ const DASHBOARD_URL = dashboardManifest.rootUrl;
 export class Main extends React.Component {
   componentDidMount() {
     window.addEventListener('message', this.handleLoginSuccess);
+    window.addEventListener('storage', this.handleSessionChange);
     this.bindModalTriggers();
     this.bindNavbarLinks();
 
@@ -93,6 +94,15 @@ export class Main extends React.Component {
     if (event.data === 'loggedIn') {
       this.executeRedirect();
       this.props.initializeProfile();
+    }
+  };
+
+  handleSessionChange = event => {
+    if (!this.props.currentlyLoggedIn) return;
+
+    const { key, newValue } = event;
+    if (!key || (key === 'hasSession' && !newValue)) {
+      window.location.reload();
     }
   };
 
