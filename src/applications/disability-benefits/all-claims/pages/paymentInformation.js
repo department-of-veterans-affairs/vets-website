@@ -58,8 +58,6 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  // I think uiRequired might be what we're looking for?
-  // required: ??
   properties: {
     'view:bankAccount': {
       type: 'object',

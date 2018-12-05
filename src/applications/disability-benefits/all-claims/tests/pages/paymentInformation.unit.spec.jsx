@@ -68,7 +68,9 @@ describe('526 -- paymentInformation', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          bankAccountType: 'Checking',
+          'view:bankAccount': {
+            bankAccountType: 'Checking',
+          },
         }}
         formData={{}}
         uiSchema={uiSchema}
@@ -78,7 +80,7 @@ describe('526 -- paymentInformation', () => {
 
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.false;
-    expect(form.find('.usa-input-error-message').length).to.equal(4);
+    expect(form.find('.usa-input-error-message').length).to.equal(3);
   });
 
   it('should submit with no info', () => {

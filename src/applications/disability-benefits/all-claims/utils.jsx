@@ -445,10 +445,10 @@ export const fieldsHaveInput = (formData, fieldPaths) =>
 
 export const bankFieldsHaveInput = formData =>
   fieldsHaveInput(formData, [
-    'bankAccountType',
-    'bankAccountNumber',
-    'bankRoutingNumber',
-    'bankName',
+    'view:bankAccount.bankAccountType',
+    'view:bankAccount.bankAccountNumber',
+    'view:bankAccount.bankRoutingNumber',
+    'view:bankAccount.bankName',
   ]);
 
 const post911Periods = createSelector(
