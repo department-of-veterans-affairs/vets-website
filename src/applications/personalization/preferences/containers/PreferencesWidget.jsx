@@ -23,13 +23,16 @@ class PreferencesWidget extends React.Component {
   }
 
   componentWillMount() {
-    const { savedMessage } = this.state;
     const savedRecently = moment().isBefore(
       this.props.preferences.savedAt + 5000,
     );
-    if (savedRecently && !savedMessage) {
+    if (savedRecently) {
       this.setSavedMessage();
     }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.state.savedMessageTimer);
   }
 
   setSavedMessage = () => {
