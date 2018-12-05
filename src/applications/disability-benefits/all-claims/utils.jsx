@@ -312,7 +312,7 @@ export function transform(formConfig, form) {
       if (powDisabilities.includes(d.condition.toLowerCase())) {
         const newSpecialIssues = (d.specialIssues || []).slice();
         // TODO: Make a constant with all the possibilities and use it here
-        newSpecialIssues.push({ code: 'POW', name: '' });
+        newSpecialIssues.push('POW');
         return _.set('specialIssues', newSpecialIssues, d);
       }
       return d;
