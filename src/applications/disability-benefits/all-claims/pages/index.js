@@ -259,6 +259,11 @@ import {
 } from './conclusionAssault';
 
 import {
+  uiSchema as additionalRemarks781UISchema,
+  schema as additionalRemarks781Schema,
+} from './additionalRemarks781';
+
+import {
   uiSchema as newDisabilitiesUISchema,
   schema as newDisabilitiesSchema,
 } from './newDisabilities';
@@ -521,6 +526,11 @@ export const conclusionCombat = {
 export const conclusionAssault = {
   uiSchema: conclusionAssaultUISchema,
   schema: conclusionAssaultSchema,
+};
+
+export const additionalRemarks781 = {
+  uiSchema: additionalRemarks781UISchema,
+  schema: additionalRemarks781Schema,
 };
 
 export const newDisabilities = {
