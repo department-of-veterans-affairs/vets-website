@@ -288,6 +288,8 @@ import {
   schema as newDisabilitiesSchema,
 } from './newDisabilities';
 
+import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
+
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
   schema: alternateNamesSchema,
@@ -577,3 +579,5 @@ export const newDisabilities = {
   uiSchema: newDisabilitiesUISchema,
   schema: newDisabilitiesSchema,
 };
+
+export { ancillaryFormsWizardSummary };
