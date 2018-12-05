@@ -44,7 +44,7 @@ describe('781/781a incident form config iterators', () => {
       };
       testMultipleIncidentMedalsProps();
     });
-    it('should contain three incident properties', () => {
+    it('should return three incident date page config objects', () => {
       const config = createFormConfig781(PTSD_INCIDENT_ITERATION);
 
       const testMultipleIncidentDateObjects = () => {

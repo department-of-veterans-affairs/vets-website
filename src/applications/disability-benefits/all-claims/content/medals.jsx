@@ -2,12 +2,12 @@ import React from 'react';
 
 import { getPtsdClassification } from './ptsdClassification';
 
-export const MedalsDescription = ({ formData, index, formType }) => {
-  const { incidentText } = getPtsdClassification(formData, formType);
+export const MedalsDescription = ({ formData, index }) => {
+  const { incidentText } = getPtsdClassification(formData, '781');
   const isFirstIncident = index === 0;
   return (
     <div>
-      <h5>Medals or Citations</h5>
+      <h3>Medals or Citations</h3>
       {isFirstIncident && (
         <p>
           Now we’ll ask about the event or events that caused your{' '}
