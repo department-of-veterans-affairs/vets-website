@@ -1198,10 +1198,10 @@ const schema = {
           },
           hospitalAddress: {
             type: 'object',
-            properties: _.omit(baseAddressDef.properties, [
-              'addressLine3',
-              'country',
-            ]),
+            properties: _.omit(
+              ['addressLine3', 'country'],
+              baseAddressDef.properties,
+            ),
           },
         },
       },
