@@ -11,10 +11,12 @@ describe('<AppealsV2DetailPage/>', () => {
   it('renders', () => {
     const wrapper = shallow(<AppealsV2DetailPage {...defaultProps} />);
     expect(wrapper.type()).to.equal('div');
+    wrapper.unmount();
   });
 
   it('renders the <Issues/> component', () => {
     const wrapper = shallow(<AppealsV2DetailPage {...defaultProps} />);
     expect(wrapper.find('Issues').length).to.equal(1);
+    wrapper.unmount();
   });
 });

@@ -83,6 +83,7 @@ describe('<AddressSection>', () => {
     expect(contentHeader).to.contain(
       'Downloaded documents will list your address as:',
     );
+    tree.unmount();
   });
 
   it('should display a loading spinner if address save in progress', () => {
@@ -96,6 +97,7 @@ describe('<AddressSection>', () => {
       .find('LoadingIndicator')
       .dive();
     expect(spinner.text()).to.contain('Updating your address...');
+    tree.unmount();
   });
 
   it('should format 1 address line', () => {
@@ -109,6 +111,7 @@ describe('<AddressSection>', () => {
       .find('.address-block div.letters-address.street')
       .text();
     expect(addressBlockText).to.contain('2476 main street');
+    tree.unmount();
   });
 
   it('should format address 2 address lines', () => {
@@ -126,6 +129,7 @@ describe('<AddressSection>', () => {
       .text();
 
     expect(addressBlockText).to.contain('2476 main street, ste #12');
+    tree.unmount();
   });
 
   it('should format address 3 address lines', () => {
@@ -148,18 +152,21 @@ describe('<AddressSection>', () => {
       .find('.address-block div.letters-address.street')
       .text();
     expect(addressBlockText).to.contain('2476 main street, ste #12 west');
+    tree.unmount();
   });
 
   it('should render an edit button if user is allowed to edit address', () => {
     const component = shallow(<AddressSection {...defaultProps} />);
     const editButton = component.find('.usa-button-secondary');
     expect(editButton).to.have.lengthOf(1);
+    component.unmount();
   });
 
   it('should not render an edit button if user not allowed to edit address', () => {
     const cannotEditProps = { ...defaultProps, canUpdate: false };
     const component = shallow(<AddressSection {...cannotEditProps} />);
     expect(component.find('usa-button-secondary')).to.have.lengthOf(0);
+    component.unmount();
   });
 
   it('should call editAddress() when Edit button is clicked', () => {
@@ -322,6 +329,7 @@ describe('<AddressSection>', () => {
     const tree = shallow(<AddressSection {...props}/>); // eslint-disable-line
 
     expect(editSpy.called).to.be.true;
+    tree.unmount();
   });
 
   it('should not start editing by calling editAddress() if address is empty but user !canUpdate', () => {
@@ -331,6 +339,7 @@ describe('<AddressSection>', () => {
 
     const component = shallow(<AddressSection {...props}/>); // eslint-disable-line
     expect(editSpy.called).to.be.false;
+    component.unmount();
   });
 
   it('should render an address help button', () => {
@@ -483,6 +492,7 @@ describe('<AddressSection>', () => {
         expect(AddressSection.fieldValidations[key].some(v => v.called)).to.be
           .true;
       });
+      tree.unmount();
     });
   });
 });

@@ -125,10 +125,9 @@ describe('526 helpers', () => {
         },
       };
 
-      const renderedText = shallow(ReservesGuardDescription(form))
-        .render()
-        .text();
-      expect(renderedText).to.contain('Marine Corps Reserve');
+      const renderedText = shallow(ReservesGuardDescription(form));
+      expect(renderedText.render().text()).to.contain('Marine Corps Reserve');
+      renderedText.unmount();
     });
 
     it('should return null when no service periods present', () => {

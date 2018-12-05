@@ -9,6 +9,7 @@ describe('<SupportingDocumentsDescription>', () => {
     const tree = shallow(<SupportingDocumentsDescription />);
 
     expect(tree.find('AdditionalInfo').length).to.equal(2);
+    tree.unmount();
   });
   it('should render service member text', () => {
     const tree = mount(

@@ -44,5 +44,6 @@ describe('EVSSClaimsGate', () => {
       </EVSSClaimsGate>,
     );
     expect(tree.find('RequiredLoginView').length).to.equal(1);
+    tree.unmount();
   });
 });
