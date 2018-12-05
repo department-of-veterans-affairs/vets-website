@@ -207,5 +207,33 @@ export const transformedMaximalData = {
       },
     ],
     privacyAgreementAccepted: true,
+    form0781: {
+      incident: [
+        {
+          incidentLocation: 'Location A',
+          personalAssault: false,
+        },
+        {
+          incidentLocation: 'Location B',
+          personalAssault: false,
+        },
+        {
+          incidentLocation: 'Location C',
+          personalAssault: false,
+        },
+        {
+          incidentLocation: 'Location D',
+          personalAssault: true,
+        },
+        {
+          incidentLocation: 'Location E',
+          personalAssault: true,
+        },
+        {
+          incidentLocation: 'Location F',
+          personalAssault: true,
+        },
+      ],
+    },
   },
 };

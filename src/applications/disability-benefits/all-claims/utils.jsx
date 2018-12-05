@@ -264,6 +264,8 @@ export function customReplacer(key, value) {
 }
 
 export function transform(formConfig, form) {
+  // return;
+
   // Remove rated disabilities that weren't selected
   let clonedData = _.set(
     'ratedDisabilities',
@@ -286,6 +288,8 @@ export function transform(formConfig, form) {
   clonedData = removeDeeplyEmptyObjects(
     JSON.parse(transformForSubmit(formConfig, form, customReplacer)),
   );
+
+  // console.log(form.data);
 
   // Transform the related disabilities lists into an array of strings
   if (clonedData.vaTreatmentFacilities) {
@@ -343,6 +347,8 @@ export function transform(formConfig, form) {
       incidents.push(transformIncident(clonedData[`incident${i}`], false));
       delete clonedData[`incident${i}`];
     }
+  }
+  for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
     if (clonedData[`secondaryIncident${i}`]) {
       incidents.push(
         transformIncident(clonedData[`secondaryIncident${i}`], true),
@@ -352,7 +358,7 @@ export function transform(formConfig, form) {
   }
   if (incidents.length > 0) {
     clonedData.form0781 = {
-      incident: incidents,
+      incident: [...incidents],
     };
   }
 

@@ -234,23 +234,29 @@
       "emailAddress": "test2@test1.net"
     },
     "privacyAgreementAccepted": true,
+    "view:enterAdditionalEvents0": true,
+    "view:enterAdditionalEvents1": true,
+    "view:enterAdditionalEvents2": true,
+    "view:enterAdditionalSecondaryEvents0": true,
+    "view:enterAdditionalSecondaryEvents1": true,
+    "view:enterAdditionalSecondaryEvents2": true,
     "incident0": {
-      "incidentLocation": "Location"
+      "incidentLocation": "Location A"
     },
     "incident1": {
-      "incidentLocation": "Location"
+      "incidentLocation": "Location B"
     },
     "incident2": {
-      "incidentLocation": "Location"
+      "incidentLocation": "Location C"
     },
     "secondaryIncident0": {
-      "incidentLocation": "Location"
+      "incidentLocation": "Location D"
     },
     "secondaryIncident1": {
-      "incidentLocation": "Location"
+      "incidentLocation": "Location E"
     },
     "secondaryIncident2": {
-      "incidentLocation": "Location"
+      "incidentLocation": "Location F"
     }
   }
 }
