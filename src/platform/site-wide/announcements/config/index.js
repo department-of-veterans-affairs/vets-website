@@ -1,4 +1,4 @@
-import RecommendationsIntro from '../components/RecommendationsIntro';
+import FindVABenefitsIntro from '../components/FindVABenefitsIntro';
 import Profile360Intro from '../components/Profile360Intro';
 import PersonalizationBanner from '../components/PersonalizationBanner';
 import ClaimIncreaseBanner from '../components/ClaimIncreaseBanner';
@@ -21,9 +21,9 @@ const config = {
       disabled: !WelcomeToNewVAModal.isEnabled(),
     },
     {
-      name: 'recommendations-intro',
+      name: 'find-va-benefits-intro',
       paths: /^(\/my-va\/)$/,
-      component: RecommendationsIntro,
+      component: FindVABenefitsIntro,
     },
     {
       name: 'profile-360-intro',

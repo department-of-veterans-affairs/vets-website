@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 
-export default function RecommendationsIntro({ dismiss }) {
+export default function FindVABenefitsIntro({ dismiss }) {
   return (
     <Modal visible onClose={dismiss} id="modal-announcement">
       <div className="announcement-heading">
