@@ -89,6 +89,11 @@ import {
 } from './incidentDate';
 
 import {
+  uiSchema as finalIncidentUISchema,
+  schema as finalIncidentSchema,
+} from './finalIncident';
+
+import {
   uiSchema as ptsdAdditionalEventsUISchema,
   schema as ptsdAdditionalEventsSchema,
 } from './ptsdAdditionalEvents';
@@ -107,6 +112,11 @@ import {
   uiSchema as secondaryIncidentDateUISchema,
   schema as secondaryIncidentDateSchema,
 } from './secondaryIncidentDate';
+
+import {
+  uiSchema as secondaryFinalIncidentUISchema,
+  schema as secondaryFinalIncidentSchema,
+} from './secondaryFinalIncident';
 
 import {
   uiSchema as secondaryIncidentPermissionNoticeUISchema,
@@ -259,6 +269,12 @@ import {
 } from './conclusionAssault';
 
 import { uiSchema as medalsUISchema, schema as medalsSchema } from './medals';
+
+import {
+  uiSchema as additionalRemarks781UISchema,
+  schema as additionalRemarks781Schema,
+} from './additionalRemarks781';
+
 import {
   uiSchema as newDisabilitiesUISchema,
   schema as newDisabilitiesSchema,
@@ -469,6 +485,16 @@ export const unemployabilityFormIntro = {
   schema: unemployabilityFormIntroSchema,
 };
 
+export const finalIncident = {
+  uiSchema: finalIncidentUISchema,
+  schema: finalIncidentSchema,
+};
+
+export const secondaryFinalIncident = {
+  uiSchema: secondaryFinalIncidentUISchema,
+  schema: secondaryFinalIncidentSchema,
+};
+
 export const additionalBehaviorChanges = {
   uiSchema: additionalBehaviorChangesUISchema,
   schema: additionalBehaviorChangesSchema,
@@ -527,6 +553,10 @@ export const conclusionAssault = {
 export const medals = {
   uiSchema: medalsUISchema,
   schema: medalsSchema,
+};
+export const additionalRemarks781 = {
+  uiSchema: additionalRemarks781UISchema,
+  schema: additionalRemarks781Schema,
 };
 
 export const newDisabilities = {
