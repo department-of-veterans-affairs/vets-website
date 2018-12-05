@@ -17,19 +17,7 @@ const props = {
 describe('<PreferenceOption>', () => {
   it('should render', () => {
     const component = shallow(<PreferenceOption {...props} />);
-    expect(component.debug()).to
-      .equal(`<div className="preference-item-wrapper">
-  <div className="preference-item" onClick={[undefined]}>
-    <div className="right">
-      <Checkbox name="healthcare" checked={true} label="" onChange={[undefined]} />
-    </div>
-    <h5>
-      Health Care
-    </h5>
-    <p>
-      Get health care coverage.
-    </p>
-  </div>
-</div>`);
+    expect(component.html()).to.contain('Health Care');
+    expect(component.html()).to.contain('Get health care coverage.');
   });
 });

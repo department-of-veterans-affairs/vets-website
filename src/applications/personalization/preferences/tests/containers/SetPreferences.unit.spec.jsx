@@ -28,38 +28,18 @@ describe('<SetPreferences>', () => {
     props.isLoading = false;
     const component = shallow(<SetPreferences {...props} />);
 
-    expect(component.debug()).to.equal(`<div className="row user-profile-row">
-  <div className="small-12 columns">
-    <h1 id="dashboard-title">
-      Find VA Benefits
-    </h1>
-    <p className="va-introtext">
-      Tell us which benefits you’re interested in, so we can help you apply. Select one or more of the types of benefits below, and we’ll help you get started.
-    </p>
-    <div className="preferences-grid">
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-    </div>
-    <div>
-      <LoadingButton isLoading={false} onClick={[Function]}>
-        <span>
-          Save Preferences
-        </span>
-      </LoadingButton>
-      <Link to="/" className="usa-button usa-button-secondary" onlyActiveOnIndex={false} style={{...}}>
-        Cancel
-      </Link>
-    </div>
-  </div>
-</div>`);
+    expect(component.find('LoadingButton').props().isLoading).to.be.false;
+    expect(component.find('LoadingButton').html()).to.contain('Save');
+    expect(
+      component
+        .find('Link')
+        .first()
+        .html(),
+    ).to.contain('Cancel');
+    expect(component.find('h1').html()).to.contain('Find VA Benefits');
+    expect(component.find('p').html()).to.contain(
+      'Tell us which benefits you’re interested in, so we can help you apply. Select one or more of the types of benefits below, and we’ll help you get started.',
+    );
   });
   it('should handle updates', () => {
     props.isLoading = false;
@@ -82,37 +62,6 @@ describe('<SetPreferences>', () => {
     props.isLoading = true;
     const component = shallow(<SetPreferences {...props} />);
 
-    expect(component.debug()).to.equal(`<div className="row user-profile-row">
-  <div className="small-12 columns">
-    <h1 id="dashboard-title">
-      Find VA Benefits
-    </h1>
-    <p className="va-introtext">
-      Tell us which benefits you’re interested in, so we can help you apply. Select one or more of the types of benefits below, and we’ll help you get started.
-    </p>
-    <div className="preferences-grid">
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-      <Component item={{...}} onChange={[Function]} checked={false} />
-    </div>
-    <div>
-      <LoadingButton isLoading={true} onClick={[Function]}>
-        <span>
-          Save Preferences
-        </span>
-      </LoadingButton>
-      <Link to="/" className="usa-button usa-button-secondary" onlyActiveOnIndex={false} style={{...}}>
-        Cancel
-      </Link>
-    </div>
-  </div>
-</div>`);
+    expect(component.find('LoadingButton').props().isLoading).to.be.true;
   });
 });

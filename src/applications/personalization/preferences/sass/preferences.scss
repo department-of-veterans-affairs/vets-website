@@ -16,14 +16,24 @@
       background: $color-gray-lightest;
       cursor: pointer;
       width: 100%;
-
-      .form-checkbox {
-        input[type=checkbox] {
-          cursor: pointer;
+      .title-container {
+        display: flex;
+        align-items: center;
+        .title-item {
+          margin: 0;
+          &:first-child {
+            flex: 1;
+          }
         }
-
-        label {
-          margin-top: 0;
+        .form-checkbox {
+          margin: 0;
+          flex: 0;
+          input[type=checkbox] {
+            cursor: pointer;
+          }
+          label {
+            margin-top: 0;
+          }
         }
       }
     }
@@ -35,10 +45,9 @@
   justify-content: space-between;
   align-items: baseline;
   margin-bottom: 2rem;
-
-   div {
-     flex: 1;
-   }
+  .va-button-link {
+    text-decoration: none;
+  }
 }
 
 .form-expanding-group {

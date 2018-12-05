@@ -1,25 +1,25 @@
 import React from 'react';
 
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+
 const healthFAQ = () => (
-  <div>
-    <ul>
-      <li>
-        <a href="/health-care/eligibility/">
-          See if you’re eligible for VA health care benefits.
-        </a>
-      </li>
-      <li>
-        <a href="/health-care/how-to-apply/">
-          Learn how to apply online, by mail, or in person.
-        </a>
-      </li>
-      <li>
-        <a href="/health-care/about-va-health-benefits/">
-          Find out what kinds of health care and services are covered.
-        </a>
-      </li>
-    </ul>
-  </div>
+  <ul>
+    <li>
+      <a href="/health-care/eligibility/">
+        See if you’re eligible for VA health care benefits.
+      </a>
+    </li>
+    <li>
+      <a href="/health-care/how-to-apply/">
+        Learn how to apply online, by mail, or in person.
+      </a>
+    </li>
+    <li>
+      <a href="/health-care/about-va-health-benefits/">
+        Find out what kinds of health care and services are covered.
+      </a>
+    </li>
+  </ul>
 );
 
 const disabilityFAQ = () => (
@@ -79,41 +79,53 @@ const disabilityFAQ = () => (
 );
 
 const educationFAQ = () => (
-  <div>
-    <ul>
-      <li>
-        <a href="/education/eligibility">
-          See if you’re eligible for education benefits.
-        </a>
-      </li>
-      <li>
-        <a href="/education/about-gi-bill-benefits">
-          Learn about the different types of GI Bill benefits.
-        </a>
-      </li>
-      <li>
-        <a href="/gi-bill-comparison-tool">
-          Compare schools, tuition costs, and benefits offered.
-        </a>
-      </li>
-      <li>
-        <a href="/education/after-you-apply">
-          Find out what to expect after you apply.
-        </a>
-      </li>
-      <li>
-        <a href="/education/transfer-post-9-11-gi-bill-benefits">
-          Learn how to transfer Post-9/11 GI Bill benefits to family members.
-        </a>
-      </li>
-      <li>
-        <a href="/careers-employment/vocational-rehabilitation">
-          Consider vocational rehabilitation if you have a service-connected
-          disability.
-        </a>
-      </li>
-    </ul>
-  </div>
+  <ul>
+    <li>
+      <a href="/education/eligibility">
+        See if you’re eligible for education benefits.
+      </a>
+    </li>
+    <li>
+      <a href="/education/about-gi-bill-benefits">
+        Learn about the different types of GI Bill benefits.
+      </a>
+    </li>
+    <li>
+      <a href="/gi-bill-comparison-tool">
+        Compare schools, tuition costs, and benefits offered.
+      </a>
+    </li>
+    <li>
+      <a href="/education/after-you-apply">
+        Find out what to expect after you apply.
+      </a>
+    </li>
+    <li>
+      <a href="/education/transfer-post-9-11-gi-bill-benefits">
+        Learn how to transfer Post-9/11 GI Bill benefits to family members.
+      </a>
+    </li>
+    <li>
+      <a href="/careers-employment/vocational-rehabilitation">
+        Consider vocational rehabilitation if you have a service-connected
+        disability.
+      </a>
+    </li>
+  </ul>
+);
+
+const healthCareAlert = () => (
+  <AlertBox
+    status="warning"
+    headline="If you’re homeless or at risk of becoming homeless"
+  >
+    <p>
+      If you or someone you know is at risk of becoming homeless, call the
+      National Call Center for Homeless Veterans at 1-877-4AID-VET (
+      <a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7
+      days a week. You’ll talk privately with a trained VA counselor for free.
+    </p>
+  </AlertBox>
 );
 
 export const benefitChoices = [
@@ -127,6 +139,7 @@ export const benefitChoices = [
     ctaText: 'Apply Now for Health Care',
     faqTitle: 'What should I do before I apply for health care?',
     faqComponent: healthFAQ,
+    alert: healthCareAlert,
   },
   {
     title: 'Disability Benefits',

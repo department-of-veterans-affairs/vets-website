@@ -1,6 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import moment from 'moment';
+
+import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 import environment from 'platform/utilities/environment';
 
@@ -16,29 +20,62 @@ class PreferencesWidget extends React.Component {
     this.state = {};
   }
 
+  componentWillMount() {
+    const { savedMessage } = this.state;
+    const savedRecently = moment().isBefore(
+      this.props.preferences.savedAt + 5000,
+    );
+    if (savedRecently && !savedMessage) {
+      this.setSavedMessage();
+    }
+  }
+
+  setSavedMessage = () => {
+    // Clear any existing saved message timer
+    if (this.state.savedMessageTimer) {
+      clearTimeout(this.state.savedMessageTimer);
+    }
+
+    // Display preferences saved message
+    this.setState({ savedMessage: true });
+
+    // Create new message timer
+    const savedMessageTimer = setTimeout(
+      () => this.setState({ savedMessage: false }),
+      5000,
+    );
+    // Set new message timer to state
+    this.setState({ savedMessageTimer });
+  };
+
+  handleRemove = async slug => {
+    await this.props.setPreference(slug, false);
+    this.props.savePreferences(this.props.preferences.dashboard);
+    this.setSavedMessage();
+  };
+
   handleViewToggle = slug => {
     this.setState({
       [slug]: !this.state[slug],
     });
   };
 
-  handleRemove = async slug => {
-    await this.props.setPreference(slug, false);
-    this.props.savePreferences(this.props.preferences.dashboard);
-  };
-
   render() {
+    const {
+      preferences: { dashboard },
+    } = this.props;
+    const { savedMessage } = this.state;
     // do not show in production
     if (environment.isProduction()) {
       return null;
     }
-    const hasSelectedBenefits = Object.values(
-      this.props.preferences.dashboard,
-    ).find(item => !!item);
-
     const selectedBenefits = benefitChoices.filter(
-      item => !!this.props.preferences.dashboard[item.slug],
+      item => !!dashboard[item.slug],
     );
+    const hasSelectedBenefits = !!selectedBenefits.length;
+    const selectedBenefitAlerts = selectedBenefits
+      .filter(item => !!item.alert)
+      .map(item => item.alert);
 
     return (
       <div className="row user-profile-row">
@@ -46,16 +83,42 @@ class PreferencesWidget extends React.Component {
           <div className="title-container">
             <h2>Find VA Benefits</h2>
             {hasSelectedBenefits && (
-              <Link className="usa-button" to="preferences">
+              <Link
+                className="usa-button usa-button-secondary"
+                to="preferences"
+              >
                 Find VA Benefits
               </Link>
             )}
           </div>
+          <ReactCSSTransitionGroup
+            transitionName="form-expanding-group-inner"
+            transitionAppear
+            transitionAppearTimeout={500}
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={500}
+          >
+            {savedMessage && (
+              <AlertBox
+                status="success"
+                headline="We saved your preferences."
+              />
+            )}
+          </ReactCSSTransitionGroup>
           {!hasSelectedBenefits && (
             <div>
               <p>You haven’t selected any benefits to learn about.</p>
               <Link to="preferences">Select benefits now</Link>
             </div>
+          )}
+          {/* eslint-disable */}
+          {selectedBenefitAlerts.length > 0 && (
+            <div>
+              alerts.map((Alert, index) => (<Alert key={index} />
+              ))
+            </div>
+          )}
+          {/* eslint-enable */}
           )}
           {hasSelectedBenefits && (
             <PreferenceList
