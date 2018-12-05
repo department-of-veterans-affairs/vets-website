@@ -1207,6 +1207,14 @@ const schema = {
         },
       },
     },
+    ptsdIncidents: {
+      type: 'array',
+      items: { $ref: '#/definitions/ptsdIncident' },
+    },
+    secondaryPtsdIncidents: {
+      type: 'array',
+      items: { $ref: '#/definitions/secondaryPtsdIncident' },
+    },
   },
 };
 
