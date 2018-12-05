@@ -12,7 +12,7 @@ const lastModalItem = 'a[href="https://www.veteranscrisisline.net/"]';
 module.exports = E2eHelpers.createE2eTest(client => {
   const { ENTER, ESCAPE, TAB, SHIFT } = client.Keys;
 
-  client.url(`${E2eHelpers.baseUrl}/`);
+  client.openUrl(`${E2eHelpers.baseUrl}/`);
 
   E2eHelpers.overrideSmoothScrolling(client);
 

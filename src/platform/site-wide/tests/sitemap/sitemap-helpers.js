@@ -62,7 +62,7 @@ function runTests(client, segment, only508List) {
         // eslint-disable-next-line no-console
         console.log(url);
       })
-      .url(url)
+      .openUrl(url)
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck(
         'document',
