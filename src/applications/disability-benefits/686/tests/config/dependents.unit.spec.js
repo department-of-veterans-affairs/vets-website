@@ -41,6 +41,7 @@ describe('686 dependent info', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit form if applicant has no dependents', () => {
@@ -60,6 +61,7 @@ describe('686 dependent info', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should expand dependent info if applicant has dependents', () => {
@@ -74,6 +76,7 @@ describe('686 dependent info', () => {
     selectRadio(form, 'root_view:hasUnmarriedChildren', 'Y');
 
     expect(form.find('input').length).to.equal(6);
+    form.unmount();
   });
 
   it('should submit form with all required fills filled', () => {
@@ -96,6 +99,7 @@ describe('686 dependent info', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should add another dependent', () => {
@@ -116,5 +120,6 @@ describe('686 dependent info', () => {
     fillData(form, 'input#root_dependents_0_childDateOfBirthYear', '1986');
     form.find('.va-growable-add-btn').simulate('click');
     expect(form.find('.va-growable-background').length).to.equal(2);
+    form.unmount();
   });
 });

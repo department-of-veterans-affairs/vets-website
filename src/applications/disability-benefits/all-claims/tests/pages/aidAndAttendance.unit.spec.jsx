@@ -20,5 +20,6 @@ describe('526 aid and attendance page', () => {
       />,
     );
     expect(form.find('input').length).to.equal(2);
+    form.unmount();
   });
 });

@@ -96,5 +96,6 @@ describe('<SelectArrayItemsWidget>', () => {
         selected: !!initiallySelected,
       });
     });
+    wrapper.unmount();
   });
 });

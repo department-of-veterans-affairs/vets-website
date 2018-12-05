@@ -64,6 +64,7 @@ describe('<Issues/>', () => {
     // open items are in the first ul within the first accordion's content
     const openContentList = wrapper.find('.usa-accordion-content > ul');
     expect(openContentList.find('li').length).to.equal(props.issues.length);
+    wrapper.unmount();
   });
 
   it('should render a list of closed items when items exist', () => {
@@ -77,6 +78,7 @@ describe('<Issues/>', () => {
     // closed items are in accordion > div > ul > li
     const remandDiv = wrapper.find('.usa-accordion-content > div');
     expect(remandDiv.find('ul > li').length).to.equal(props.issues.length);
+    wrapper.unmount();
   });
 
   it('should pass auto-expand prop to active panel when both active and closed panels present', () => {

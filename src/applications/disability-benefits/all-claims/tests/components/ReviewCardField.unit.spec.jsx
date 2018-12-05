@@ -135,6 +135,7 @@ describe('Schemaform: ReviewCardField', () => {
 
     // Also check that the validation error is rendered while we're at it
     expect(wrapper.text()).to.contain('Arbitrary error string here');
+    wrapper.unmount();
   });
 
   it('should render the appropriate field in reviewMode according to the data type', () => {

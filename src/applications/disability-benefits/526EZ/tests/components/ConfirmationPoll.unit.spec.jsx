@@ -72,10 +72,11 @@ describe('ConfirmationPoll', () => {
       failureResponse,
     ]);
 
-    mount(<ConfirmationPoll {...defaultProps} pollRate={10} />);
+    const wrapper = mount(<ConfirmationPoll {...defaultProps} pollRate={10} />);
     // Should stop after the first success
     setTimeout(() => {
       expect(global.fetch.callCount).to.equal(3);
+      wrapper.unmount();
       done();
     }, 50);
   });

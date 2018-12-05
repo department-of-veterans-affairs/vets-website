@@ -19,6 +19,7 @@ describe('686 <AuthorizationMessage>', () => {
     expect(tree.find('SystemDownView').text()).to.contain(
       'Sorry, our system is temporarily down while we fix a few things. Please try again later.Go Back to Vets.gov',
     );
+    tree.unmount();
   });
 
   it('should render NOT_FOUND profile status error message', () => {
@@ -32,6 +33,7 @@ describe('686 <AuthorizationMessage>', () => {
     expect(tree.find('SystemDownView').text()).to.contain(
       'We couldn’t find your records with that information.',
     );
+    tree.unmount();
   });
 
   it('should render unverified error message', () => {

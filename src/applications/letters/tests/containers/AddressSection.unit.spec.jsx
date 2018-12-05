@@ -171,6 +171,7 @@ describe('<AddressSection>', () => {
     // Poke the edit button
     tree.find('button.usa-button-secondary').simulate('click');
     expect(editSpy.called).to.be.true;
+    tree.unmount();
   });
 
   it('should render edit fields when isEditingAddress is true', () => {
@@ -186,6 +187,7 @@ describe('<AddressSection>', () => {
     // Click the save button
     tree.find('button.usa-button-primary').simulate('click');
     expect(saveSpy.calledWith(tree.state('editableAddress'))).to.be.true;
+    tree.unmount();
   });
 
   it('should call cancelEditingAddress when Cancel button is clicked', () => {
@@ -194,6 +196,7 @@ describe('<AddressSection>', () => {
     // Click the cancel button
     tree.find('button.usa-button-secondary').simulate('click');
     expect(cancelEditSpy.called).to.be.true;
+    tree.unmount();
   });
 
   // NOTE: This is a bit of a misnomer; it only tests if countries are unavailable, but that should be sufficient
@@ -206,12 +209,14 @@ describe('<AddressSection>', () => {
     expect(tree.find('.usa-alert-heading').text()).to.contain(
       'Address update unavailable',
     );
+    tree.unmount();
   });
 
   it('should load address in new props after mounting', () => {
     const tree = mount(<AddressSection {...defaultProps} />);
 
     expect(tree.state('editableAddress')).to.equal(defaultProps.savedAddress);
+    tree.unmount();
   });
 
   it('should update editableAddress when the input changes', () => {
@@ -225,6 +230,7 @@ describe('<AddressSection>', () => {
       .find('input[name="addressOne"]')
       .simulate('change', { target: { value: newAddress } });
     expect(tree.state('editableAddress').addressOne).to.equal(newAddress);
+    tree.unmount();
   });
 
   it('should not call saveAddress when Cancel is clicked', () => {
@@ -234,6 +240,7 @@ describe('<AddressSection>', () => {
     // Try to save
     tree.find('button.usa-button-secondary').simulate('click');
     expect(saveSpy.called).to.be.false;
+    tree.unmount();
   });
 
   it('should not call saveAddress when Update is clicked with invalid data', () => {
@@ -248,6 +255,7 @@ describe('<AddressSection>', () => {
     // Try to save
     tree.find('button.usa-button-primary').simulate('click');
     expect(saveSpy.called).to.be.false;
+    tree.unmount();
   });
 
   it('should display error messages for validation failures', () => {
@@ -280,6 +288,7 @@ describe('<AddressSection>', () => {
     // NOTE: This isn't a _comprehensive_ test that ensures changing the input will do what we
     //  expect, but the e2e test should make sure that the wiring from the input to handleChange
     //  is up and running as expected.
+    tree.unmount();
   });
 
   it('should reset disallowed address fields when type changes', () => {
@@ -293,6 +302,7 @@ describe('<AddressSection>', () => {
       .find('select[name="country"]')
       .simulate('change', { target: { value: 'Elsweyre' } });
     expect(tree.state('editableAddress').stateCode).to.equal('');
+    tree.unmount();
   });
 
   // Not sure how to test this bit yet...
@@ -326,6 +336,7 @@ describe('<AddressSection>', () => {
   it('should render an address help button', () => {
     const tree = mount(<AddressSection {...defaultProps} />);
     expect(tree.find('.address-help-btn').exists()).to.be.true;
+    tree.unmount();
   });
 
   it('should render an empty address warning on the edit screen', () => {
@@ -342,6 +353,7 @@ describe('<AddressSection>', () => {
         .first()
         .text(),
     ).to.equal('VA does not have a valid address on file for you');
+    tree.unmount();
   });
 
   it('should render an empty address warning on the view screen', () => {
@@ -354,6 +366,7 @@ describe('<AddressSection>', () => {
         .first()
         .text(),
     ).to.equal('VA does not have a valid address on file for you');
+    tree.unmount();
   });
 
   describe('validation', () => {
@@ -380,6 +393,7 @@ describe('<AddressSection>', () => {
           validator => validator.called,
         ),
       ).to.be.true;
+      tree.unmount();
     });
 
     it('should return the first error message it finds', () => {
@@ -401,6 +415,7 @@ describe('<AddressSection>', () => {
           .slice(1)
           .every(validator => !validator.called),
       ).to.be.true;
+      tree.unmount();
     });
 
     it('should run validations on modified fields only', () => {
@@ -426,6 +441,7 @@ describe('<AddressSection>', () => {
           expect(validationsCalled).to.be.false;
         }
       });
+      tree.unmount();
     });
 
     it('should run validation against dropdowns immediately', () => {
@@ -454,6 +470,7 @@ describe('<AddressSection>', () => {
       expect(tree.find('.usa-input-error').text()).to.contain(
         'Please select a country',
       );
+      tree.unmount();
     });
 
     it('should run validations on all fields before saving the address', () => {
