@@ -89,6 +89,11 @@ import {
 } from './incidentDate';
 
 import {
+  uiSchema as incidentUnitAssignmentUISchema,
+  schema as incidentUnitAssignmentSchema,
+} from './incidentUnitAssignment';
+
+import {
   uiSchema as finalIncidentUISchema,
   schema as finalIncidentSchema,
 } from './finalIncident';
@@ -112,6 +117,11 @@ import {
   uiSchema as secondaryIncidentDateUISchema,
   schema as secondaryIncidentDateSchema,
 } from './secondaryIncidentDate';
+
+import {
+  uiSchema as secondaryIncidentUnitAssignmentUISchema,
+  schema as secondaryIncidentUnitAssignmentSchema,
+} from './secondaryIncidentUnitAssignment';
 
 import {
   uiSchema as secondaryFinalIncidentUISchema,
@@ -368,6 +378,11 @@ export const incidentDate = {
   schema: incidentDateSchema,
 };
 
+export const incidentUnitAssignment = {
+  uiSchema: incidentUnitAssignmentUISchema,
+  schema: incidentUnitAssignmentSchema,
+};
+
 export const ptsdAdditionalEvents = {
   uiSchema: ptsdAdditionalEventsUISchema,
   schema: ptsdAdditionalEventsSchema,
@@ -391,6 +406,11 @@ export const ptsdWalkthroughChoice781a = {
 export const secondaryIncidentDate = {
   uiSchema: secondaryIncidentDateUISchema,
   schema: secondaryIncidentDateSchema,
+};
+
+export const secondaryIncidentUnitAssignment = {
+  uiSchema: secondaryIncidentUnitAssignmentUISchema,
+  schema: secondaryIncidentUnitAssignmentSchema,
 };
 
 export const secondaryIncidentPermissionNotice = {
