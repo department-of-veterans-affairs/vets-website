@@ -1,97 +1,97 @@
 const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
-const Timeouts = require('../../../../platform/testing/e2e/timeouts');
-const PageHelpers = require('./disability-benefits-helpers');
-const testData = require('./schema/maximal-test.json');
-const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
-const Auth = require('../../../../platform/testing/e2e/auth');
+// const Timeouts = require('../../../../platform/testing/e2e/timeouts');
+// const PageHelpers = require('./disability-benefits-helpers');
+// const testData = require('./schema/maximal-test.json');
+// const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
+// const Auth = require('../../../../platform/testing/e2e/auth');
 
 const runTest = E2eHelpers.createE2eTest(client => {
-  const token = Auth.getUserToken();
+  // const token = Auth.getUserToken();
 
-  Auth.logIn(
-    token,
-    client,
-    '/disability-benefits/apply/form-526-all-claims/',
-    3,
-  );
+  // Auth.logIn(
+  //   token,
+  //   client,
+  //   '/disability-benefits/apply/form-526-all-claims/',
+  //   3,
+  // );
 
-  PageHelpers.initInProgressMock(token);
-  PageHelpers.initDocumentUploadMock();
-  PageHelpers.initApplicationSubmitMock();
-  PageHelpers.initItfMock(token);
-  PageHelpers.initPaymentInformationMock(token);
+  // PageHelpers.initInProgressMock(token);
+  // PageHelpers.initDocumentUploadMock();
+  // PageHelpers.initApplicationSubmitMock();
+  // PageHelpers.initItfMock(token);
+  // PageHelpers.initPaymentInformationMock(token);
 
-  // Ensure introduction page renders.
-  client.assert
-    .title('Apply for disability benefits: VA.gov')
-    // First render of React may be slow.
-    .waitForElementVisible('.schemaform-title', Timeouts.slow) // First render of React may be slow.
-    .waitForElementVisible(
-      '.schemaform-intro .usa-button-primary',
-      Timeouts.verySlow,
-    )
-    .click('.schemaform-intro .usa-button-primary')
-    // Click past the `You already have an Intent to File` screen.
-    .waitForElementVisible('.usa-grid .usa-button-primary', Timeouts.slow)
-    .click('.usa-grid .usa-button-primary');
+  // // Ensure introduction page renders.
+  // client.assert
+  //   .title('Apply for disability benefits: VA.gov')
+  //   // First render of React may be slow.
+  //   .waitForElementVisible('.schemaform-title', Timeouts.slow) // First render of React may be slow.
+  //   .waitForElementVisible(
+  //     '.schemaform-intro .usa-button-primary',
+  //     Timeouts.verySlow,
+  //   )
+  //   .click('.schemaform-intro .usa-button-primary')
+  //   // Click past the `You already have an Intent to File` screen.
+  //   .waitForElementVisible('.usa-grid .usa-button-primary', Timeouts.slow)
+  //   .click('.usa-grid .usa-button-primary');
 
-  E2eHelpers.overrideVetsGovApi(client);
-  FormsTestHelpers.overrideFormsScrolling(client);
-  E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
+  // E2eHelpers.overrideVetsGovApi(client);
+  // FormsTestHelpers.overrideFormsScrolling(client);
+  // E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
-  // Veteran Details
-  // Review Veteran Information
-  E2eHelpers.expectLocation(client, '/veteran-information');
-  client.axeCheck('.main');
-  client.click('.form-progress-buttons .usa-button-primary');
+  // // Veteran Details
+  // // Review Veteran Information
+  // E2eHelpers.expectLocation(client, '/veteran-information');
+  // client.axeCheck('.main');
+  // client.click('.form-progress-buttons .usa-button-primary');
 
-  // Alternate Name
-  E2eHelpers.expectLocation(client, '/alternate-names');
-  client.axeCheck('.main');
-  PageHelpers.completeAlternateName(client, testData.data);
-  client.click('.form-progress-buttons .usa-button-primary');
+  // // Alternate Name
+  // E2eHelpers.expectLocation(client, '/alternate-names');
+  // client.axeCheck('.main');
+  // PageHelpers.completeAlternateName(client, testData.data);
+  // client.click('.form-progress-buttons .usa-button-primary');
 
-  // Military Retirement Pay
-  E2eHelpers.expectLocation(client, '/service-pay');
-  client.axeCheck('.main');
-  PageHelpers.completeMilitaryRetiredPay(client, testData.data);
-  client.click('.form-progress-buttons .usa-button-primary');
+  // // Military Retirement Pay
+  // E2eHelpers.expectLocation(client, '/service-pay');
+  // client.axeCheck('.main');
+  // PageHelpers.completeMilitaryRetiredPay(client, testData.data);
+  // client.click('.form-progress-buttons .usa-button-primary');
 
-  // Military Service History
-  E2eHelpers.expectLocation(client, 'military-service-history');
-  client.axeCheck('.main');
-  PageHelpers.completeMilitaryHistory(client, testData.data);
-  client.click('.form-progress-buttons .usa-button-primary');
+  // // Military Service History
+  // E2eHelpers.expectLocation(client, 'military-service-history');
+  // client.axeCheck('.main');
+  // PageHelpers.completeMilitaryHistory(client, testData.data);
+  // client.click('.form-progress-buttons .usa-button-primary');
 
-  // Combat Zone Post 9/11
-  E2eHelpers.expectLocation(client, '/combat-status');
-  client.axeCheck('.main');
-  PageHelpers.completeCombatZonePost911(client, testData.data);
-  client.click('.form-progress-buttons .usa-button-primary');
+  // // Combat Zone Post 9/11
+  // E2eHelpers.expectLocation(client, '/combat-status');
+  // client.axeCheck('.main');
+  // PageHelpers.completeCombatZonePost911(client, testData.data);
+  // client.click('.form-progress-buttons .usa-button-primary');
 
-  // Reserves/National Guard Info
-  E2eHelpers.expectLocation(client, 'reserves-national-guard');
-  client.axeCheck('.main');
-  PageHelpers.completeReservesNationalGuardInfo(client, testData.data);
-  client.click('.form-progress-buttons .usa-button-primary');
+  // // Reserves/National Guard Info
+  // E2eHelpers.expectLocation(client, 'reserves-national-guard');
+  // client.axeCheck('.main');
+  // PageHelpers.completeReservesNationalGuardInfo(client, testData.data);
+  // client.click('.form-progress-buttons .usa-button-primary');
 
-  // Federal Orders
-  E2eHelpers.expectLocation(client, '/federal-orders');
-  client.axeCheck('.main');
-  PageHelpers.completeFederalOrders(client, testData.data);
-  client.click('.form-progress-buttons .usa-button-primary');
+  // // Federal Orders
+  // E2eHelpers.expectLocation(client, '/federal-orders');
+  // client.axeCheck('.main');
+  // PageHelpers.completeFederalOrders(client, testData.data);
+  // client.click('.form-progress-buttons .usa-button-primary');
 
-  // Disabilities
-  // Orientation
-  E2eHelpers.expectLocation(client, '/disabilities/orientation');
-  client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
+  // // Disabilities
+  // // Orientation
+  // E2eHelpers.expectLocation(client, '/disabilities/orientation');
+  // client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
 
-  // Rated Disability Selection
-  E2eHelpers.expectLocation(client, '/disabilities/rated-disabilities');
-  client.axeCheck('.main');
-  PageHelpers.selectDisabilities(client); // Just selects the first one
-  client.click('.form-progress-buttons .usa-button-primary');
-
+  // // Rated Disability Selection
+  // E2eHelpers.expectLocation(client, '/disabilities/rated-disabilities');
+  // client.axeCheck('.main');
+  // PageHelpers.selectDisabilities(client); // Just selects the first one
+  // client.click('.form-progress-buttons .usa-button-primary');
+  // ****
   // // New Disability
   // E2eHelpers.expectLocation(client, '/new-disabilities');
   // client.axeCheck('.main');
