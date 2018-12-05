@@ -3,9 +3,10 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import BusyEnrollmentAlert from '../../components/BusyEnrollmentAlert';
 import { focusElement } from '../../../../platform/utilities/ui';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+
+import BusyEnrollmentAlert from '../../components/BusyEnrollmentAlert';
 
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 const scroller = Scroll.scroller;
