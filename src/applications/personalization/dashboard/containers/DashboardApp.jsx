@@ -6,7 +6,6 @@ import { withRouter } from 'react-router';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
-import environment from 'platform/utilities/environment';
 
 import { removeSavedForm } from '../actions';
 
@@ -14,8 +13,6 @@ import FormList from '../components/FormList';
 import MessagingWidget from './MessagingWidget';
 import ClaimsAppealsWidget from './ClaimsAppealsWidget';
 import PrescriptionsWidget from './PrescriptionsWidget';
-
-import { fetchPreferences } from '../../preferences/actions';
 import PreferencesWidget from '../../preferences/containers/PreferencesWidget';
 
 import DowntimeNotification, {
@@ -62,14 +59,6 @@ class DashboardApp extends React.Component {
 
   componentDidMount() {
     scrollToTop();
-
-    if (!environment.isProduction()) {
-      this.props.fetchPreferences();
-
-      if (!localStorage.getItem('dashboardLastVisitedAt')) {
-        this.props.router.push('preferences');
-      }
-    }
   }
 
   dismissAlertBox = name => () => {
@@ -469,7 +458,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  fetchPreferences,
   removeSavedForm,
 };
 
