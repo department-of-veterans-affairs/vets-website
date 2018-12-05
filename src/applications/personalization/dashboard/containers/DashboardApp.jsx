@@ -6,7 +6,6 @@ import { withRouter } from 'react-router';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
-import environment from 'platform/utilities/environment';
 
 import { removeSavedForm } from '../actions';
 
@@ -60,12 +59,6 @@ class DashboardApp extends React.Component {
 
   componentDidMount() {
     scrollToTop();
-
-    if (!environment.isProduction()) {
-      if (!localStorage.getItem('dashboardLastVisitedAt')) {
-        this.props.router.push('preferences');
-      }
-    }
   }
 
   dismissAlertBox = name => () => {

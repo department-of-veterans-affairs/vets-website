@@ -5,7 +5,8 @@ import Checkbox from '../../../gi/components/Checkbox.jsx';
 export default ({ item, onChange, checked }) => {
   const itemContent = (
     <div className="preference-item" onClick={onChange(item.slug)}>
-      <div className="right">
+      <div className="title-container">
+        <h5 className="title-item">{item.title}</h5>
         <Checkbox
           name={item.slug}
           checked={checked}
@@ -13,7 +14,6 @@ export default ({ item, onChange, checked }) => {
           onChange={onChange(item.slug)}
         />
       </div>
-      <h5>{item.title}</h5>
       <p>{item.description}</p>
     </div>
   );
