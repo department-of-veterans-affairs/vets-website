@@ -78,6 +78,7 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  additionalRemarks781,
   additionalBehaviorChanges,
   mentalHealthChanges,
   adaptiveBenefits,
@@ -284,6 +285,13 @@ const formConfig = {
           depends: isAnswering781Questions(PTSD_INCIDENT_ITERATION),
           uiSchema: finalIncident.uiSchema,
           schema: finalIncident.schema,
+        },
+        additionalRemarks781: {
+          title: 'Additional Remarks - 781',
+          path: 'new-disabilities/additional-remarks-781',
+          depends: isAnswering781Questions(0),
+          uiSchema: additionalRemarks781.uiSchema,
+          schema: additionalRemarks781.schema,
         },
         ptsdWalkthroughChoice781a: {
           title: 'PTSD Walkthrough 781a Choice',
