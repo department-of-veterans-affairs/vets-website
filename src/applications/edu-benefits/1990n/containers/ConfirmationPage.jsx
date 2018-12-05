@@ -3,6 +3,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
+import BusyEnrollmentAlert from '../../components/BusyEnrollmentAlert';
 import { focusElement } from '../../../../platform/utilities/ui';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
@@ -57,6 +58,7 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
+        <BusyEnrollmentAlert />
         <h3 className="confirmation-page-title">Claim received</h3>
         <p>
           We usually process claims within <strong>30 days</strong>.
