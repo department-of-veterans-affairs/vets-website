@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import _ from '../../../../platform/utilities/data';
 
+import formConfig from '../config/form';
+
 import {
   hasGuardOrReservePeriod,
   ReservesGuardDescription,
@@ -20,13 +22,20 @@ import {
   isUploading781Form,
   isUploading781aForm,
   transformRelatedDisabilities,
-  transformIncident,
+  transformMVPData,
   transform,
+  transformIncident,
 } from '../utils.jsx';
 
-import formConfig from '../config/form';
-import initialData from './schema/initialData';
+import {
+  transformedMinimalData,
+  transformedMaximalData,
+} from './schema/transformedData';
+
+import minimalData from './schema/minimal-test.json';
 import maximalData from './schema/maximal-test.json';
+
+import initialData from './initialData';
 
 import { SERVICE_CONNECTION_TYPES } from '../../all-claims/constants';
 
@@ -546,15 +555,33 @@ describe('526 helpers', () => {
     });
   });
 });
+
+describe('isAnsweringPtsdForm', () => {
+  it('should return false if user has chosen to not answer questions', () => {
+    const formData = {};
+    expect(needsToEnter781(formData)).to.be.false;
+  });
+});
+
 describe('isAnswering781Questions', () => {
+  it('should return true if user is answering first set of 781 incident questions', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:combatPtsdType': true,
+      },
+      'view:upload781Choice': 'answerQuestions',
+    };
+    expect(isAnswering781Questions(0)(formData)).to.be.true;
+  });
   it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
     const formData = {
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
       },
       'view:upload781Choice': 'answerQuestions',
+      'view:enterAdditionalEvents0': true,
     };
-    expect(isAnswering781Questions(formData)).to.be.true;
+    expect(isAnswering781Questions(1)(formData)).to.be.true;
   });
   it('should return false if user has chosen not to enter another incident', () => {
     const formData = {
@@ -562,20 +589,102 @@ describe('isAnswering781Questions', () => {
         'view:combatPtsdType': true,
       },
       'view:upload781Choice': 'answerQuestions',
-      'view:doneEnteringIncidents': true,
+      'view:enterAdditionalEvents0': false,
     };
-    expect(isAnswering781Questions(formData)).to.be.false;
+    expect(isAnswering781Questions(1)(formData)).to.be.false;
   });
 });
+
+describe('transformMVPData', () => {
+  it('should omit the veteran property and spread its subproperties', () => {
+    const formData = {
+      veteran: {
+        emailAddress: 'asdf',
+        mailingAddress: { foo: 'bar' },
+        primaryPhone: '1231231234',
+      },
+    };
+    expect(transformMVPData(formData)).to.eql(formData.veteran);
+  });
+  it('should nest service periods and reservesNationalGuardService under serviceInformation', () => {
+    const formData = {
+      servicePeriods: [{ from: 'adf', to: 'asdf' }],
+      reservesNationalGuardService: 'asdf',
+    };
+    expect(transformMVPData(formData)).to.eql({
+      serviceInformation: formData,
+    });
+  });
+  it('should handle no pre-filled information', () => {
+    expect(transformMVPData({})).to.eql({});
+  });
+});
+
+describe('transform', () => {
+  it('should transform minimal data correctly', () => {
+    expect(JSON.parse(transform(formConfig, minimalData))).to.deep.equal(
+      transformedMinimalData,
+    );
+  });
+
+  it('should transform maximal data correctly', () => {
+    expect(JSON.parse(transform(formConfig, maximalData))).to.deep.equal(
+      transformedMaximalData,
+    );
+  });
+});
+
+describe('isAnswering781Questions', () => {
+  it('should return true if user is answering first set of 781 incident questions', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:combatPtsdType': true,
+      },
+      'view:upload781Choice': 'answerQuestions',
+    };
+    expect(isAnswering781Questions(0)(formData)).to.be.true;
+  });
+  it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:combatPtsdType': true,
+      },
+      'view:upload781Choice': 'answerQuestions',
+      'view:enterAdditionalEvents0': true,
+    };
+    expect(isAnswering781Questions(1)(formData)).to.be.true;
+  });
+  it('should return false if user has chosen not to enter another incident', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:combatPtsdType': true,
+      },
+      'view:upload781Choice': 'answerQuestions',
+      'view:enterAdditionalEvents0': false,
+    };
+    expect(isAnswering781Questions(1)(formData)).to.be.false;
+  });
+});
+
 describe('isAnswering781aQuestions', () => {
-  it('should return true if user has chosen to answer questions for a 781a PTSD incident', () => {
+  it('should return true if user is answering first set of 781a incident questions', () => {
     const formData = {
       'view:selectablePtsdTypes': {
         'view:assaultPtsdType': true,
       },
       'view:upload781aChoice': 'answerQuestions',
     };
-    expect(isAnswering781aQuestions(formData)).to.be.true;
+    expect(isAnswering781aQuestions(0)(formData)).to.be.true;
+  });
+  it('should return true if user has chosen to answer questions for a 781a PTSD incident', () => {
+    const formData = {
+      'view:selectablePtsdTypes': {
+        'view:assaultPtsdType': true,
+      },
+      'view:upload781aChoice': 'answerQuestions',
+      'view:enterAdditionalSecondaryEvents0': true,
+    };
+    expect(isAnswering781aQuestions(1)(formData)).to.be.true;
   });
   it('should return false if user has chosen not to enter another incident', () => {
     const formData = {
@@ -583,8 +692,8 @@ describe('isAnswering781aQuestions', () => {
         'view:assaultPtsdType': true,
       },
       'view:upload781aChoice': 'answerQuestions',
-      'view:doneEnteringSecondaryIncidents': true,
+      'view:enterAdditionalSecondaryEvents0': false,
     };
-    expect(isAnswering781aQuestions(formData)).to.be.false;
+    expect(isAnswering781aQuestions(1)(formData)).to.be.false;
   });
 });

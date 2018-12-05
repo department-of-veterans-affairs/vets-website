@@ -320,7 +320,8 @@ export class SchoolSelectField extends React.Component {
           <div aria-live="polite" aria-relevant="additions text">
             {showSearchResults &&
               searchResultsCount > 0 && (
-                <div
+                <span
+                  className="search-results-count"
                   // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
                   tabIndex="0"
                   ref={el => {
@@ -328,7 +329,7 @@ export class SchoolSelectField extends React.Component {
                   }}
                 >
                   {`${searchResultsCount} results for ${institutionQuery}`}
-                </div>
+                </span>
               )}
             {showSearchResults &&
               showInstitutions && (

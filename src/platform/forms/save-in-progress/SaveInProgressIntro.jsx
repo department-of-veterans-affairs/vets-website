@@ -101,7 +101,7 @@ class SaveInProgressIntro extends React.Component {
               <div className="usa-alert-body">
                 <strong>Note:</strong> Since you’re signed in to your account,
                 we can prefill part of your application based on your account
-                details. You can also save your form in progress, and come back
+                details. You can also save your form in progress and come back
                 later to finish filling it out.
               </div>
             </div>

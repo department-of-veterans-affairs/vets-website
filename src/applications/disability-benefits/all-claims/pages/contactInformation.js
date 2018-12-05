@@ -143,14 +143,13 @@ const addressUISchema = (addressType, title) => {
 const {
   mailingAddress,
   forwardingAddress,
-  emailAddress,
-  primaryPhone,
+  phoneAndEmail,
 } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:title': 'Contact information',
   'ui:description': contactInfoDescription,
-  phoneEmailCard: {
+  phoneAndEmail: {
     'ui:title': 'Phone & email',
     'ui:field': ReviewCardField,
     'ui:options': {
@@ -238,14 +237,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    phoneEmailCard: {
-      type: 'object',
-      required: ['primaryPhone', 'emailAddress'],
-      properties: {
-        primaryPhone,
-        emailAddress,
-      },
-    },
+    phoneAndEmail,
     mailingAddress,
     'view:hasForwardingAddress': {
       type: 'boolean',
