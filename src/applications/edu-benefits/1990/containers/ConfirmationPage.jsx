@@ -96,11 +96,11 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
+        <BusyEnrollmentAlert />
         <h3 className="confirmation-page-title">Claim received</h3>
         <p>
           We usually process claims within <strong>30 days</strong>.
         </p>
-        <BusyEnrollmentAlert />
         <p>
           We may contact you for more information or documents.
           <br />
