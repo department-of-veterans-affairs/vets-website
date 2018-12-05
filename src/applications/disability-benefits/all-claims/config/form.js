@@ -82,6 +82,7 @@ import {
   individualUnemployability,
   physicalHealthChanges,
   hospitalizationHistory,
+  recentEarnedIncome,
   newDisabilities,
 } from '../pages';
 
@@ -349,6 +350,12 @@ const formConfig = {
             formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
           uiSchema: hospitalizationHistory.uiSchema,
           schema: hospitalizationHistory.schema,
+        },
+        recentEarnedIncome: {
+          title: 'Recent earnings',
+          path: 'recent-earnings',
+          uiSchema: recentEarnedIncome.uiSchema,
+          schema: recentEarnedIncome.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
