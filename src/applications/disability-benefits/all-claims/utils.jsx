@@ -15,7 +15,6 @@ import {
   DATA_PATHS,
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
-  PTSD_INCIDENT_ITERATION,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -264,8 +263,6 @@ export function customReplacer(key, value) {
 }
 
 export function transform(formConfig, form) {
-  // return;
-
   // Remove rated disabilities that weren't selected
   let clonedData = _.set(
     'ratedDisabilities',
@@ -341,24 +338,32 @@ export function transform(formConfig, form) {
     delete clonedData.providerFacility;
   }
 
-  const incidents = [];
-  for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
-    if (clonedData[`incident${i}`]) {
-      incidents.push(transformIncident(clonedData[`incident${i}`], false));
-      delete clonedData[`incident${i}`];
-    }
-  }
-  for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
-    if (clonedData[`secondaryIncident${i}`]) {
-      incidents.push(
-        transformIncident(clonedData[`secondaryIncident${i}`], true),
+  const incidentKeys = [
+    'incident0',
+    'incident1',
+    'incident2',
+    'secondaryIncident0',
+    'secondaryIncident1',
+    'secondaryIncident2',
+  ];
+
+  const incidents = incidentKeys
+    .filter(incidentKey => clonedData[incidentKey])
+    .map(incidentKey => {
+      const incident = transformIncident(
+        clonedData[incidentKey],
+        incidentKey.includes('secondary'),
       );
-      delete clonedData[`secondaryIncident${i}`];
-    }
-  }
+      return incident;
+    });
+
+  incidentKeys.forEach(incidentKey => {
+    delete clonedData[incidentKey];
+  });
+
   if (incidents.length > 0) {
     clonedData.form0781 = {
-      incident: [...incidents],
+      incident: incidents,
     };
   }
 
