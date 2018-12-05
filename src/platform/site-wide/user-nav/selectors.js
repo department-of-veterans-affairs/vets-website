@@ -11,7 +11,7 @@ export const selectUserGreeting = createSelector(
   state => selectProfile(state).email,
   () => conditionalStorage().getItem('userFirstName'),
   (name, email, sessionFirstName) => {
-    if (name.firsts || sessionFirstName) {
+    if (name.first || sessionFirstName) {
       return startCase(toLower(name.first || sessionFirstName));
     }
 
