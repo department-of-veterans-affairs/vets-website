@@ -41,7 +41,7 @@ describe('781 Incident Date', () => {
       />,
     );
 
-    fillDate(form, 'root_incident0_incidentDate', '2016-07-10');
+    fillDate(form, 'root_incident0_date', '2016-07-10');
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error-message').length).to.equal(0);
@@ -60,7 +60,7 @@ describe('781 Incident Date', () => {
       />,
     );
 
-    fillDate(form, 'root_incident0_incidentDate', '2016-07-XX');
+    fillDate(form, 'root_incident0_date', '2016-07-XX');
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error-message').length).to.equal(0);

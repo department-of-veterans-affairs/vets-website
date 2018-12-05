@@ -738,6 +738,7 @@ const schema = {
               },
               address: {
                 type: 'object',
+                required: [],
                 properties: {
                   ..._.omit(['addressLine3'], baseAddressDef.properties),
                   country: {
