@@ -13,6 +13,8 @@ import PreferenceList from '../components/PreferenceList';
 import { setPreference, savePreferences, fetchPreferences } from '../actions';
 import { benefitChoices } from '../helpers';
 
+const BenefitAlert = ({ alert: Alert }) => <Alert />;
+
 class PreferencesWidget extends React.Component {
   constructor(props) {
     super(props);
@@ -111,14 +113,13 @@ class PreferencesWidget extends React.Component {
               <Link to="preferences">Select benefits now</Link>
             </div>
           )}
-          {/* eslint-disable */}
           {selectedBenefitAlerts.length > 0 && (
             <div>
-              alerts.map((Alert, index) => (<Alert key={index} />
-              ))
+              {selectedBenefitAlerts.map((alert, index) => (
+                <BenefitAlert alert={alert} key={index} />
+              ))}
             </div>
           )}
-          {/* eslint-enable */}
           {hasSelectedBenefits && (
             <PreferenceList
               benefits={selectedBenefits}
