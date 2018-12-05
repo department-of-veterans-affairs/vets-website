@@ -3,7 +3,7 @@ export const transformedMinimalData = {
     hasTrainingPay: false,
     isVAEmployee: false,
     homelessOrAtRisk: 'no',
-    phoneEmailCard: {
+    phoneAndEmail: {
       primaryPhone: '1231231234',
       emailAddress: 'asdf@as.asdf',
     },
@@ -43,6 +43,7 @@ export const transformedMinimalData = {
 
 export const transformedMaximalData = {
   form526: {
+    hasTrainingPay: true,
     standardClaim: false,
     separationPayDate: '2019-01-01',
     separationPayBranch: 'Air Force',
@@ -57,7 +58,7 @@ export const transformedMaximalData = {
     bankAccountNumber: '1233',
     bankRoutingNumber: '123412345',
     bankName: 'BigBank Name',
-    phoneEmailCard: {
+    phoneAndEmail: {
       primaryPhone: '1231231234',
       emailAddress: 'asdf@adsf.asdf',
     },

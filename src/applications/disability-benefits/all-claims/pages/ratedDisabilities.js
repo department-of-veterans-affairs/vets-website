@@ -5,7 +5,7 @@ import {
   disabilitiesClarification,
 } from '../content/ratedDisabilities';
 
-const { disabilities: disabilitiesSchema } = fullSchema.properties;
+const { ratedDisabilities } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:title': 'Rated Disabilities',
@@ -31,7 +31,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    ratedDisabilities: disabilitiesSchema,
+    ratedDisabilities,
     'view:disabilitiesClarification': {
       type: 'object',
       properties: {},
