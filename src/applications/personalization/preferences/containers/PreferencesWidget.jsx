@@ -119,7 +119,6 @@ class PreferencesWidget extends React.Component {
             </div>
           )}
           {/* eslint-enable */}
-          )}
           {hasSelectedBenefits && (
             <PreferenceList
               benefits={selectedBenefits}
