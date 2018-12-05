@@ -1,12 +1,10 @@
-import { omit } from 'lodash';
-
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
 import HospitalizationPeriodView from '../components/HospitalizationPeriodView';
 
 import fullSchema from '../config/schema';
 
-const { address } = fullSchema.definitions;
+const { hospitalizationHistory } = fullSchema.properties;
 
 export const uiSchema = {
   hospitalizationHistory: {
@@ -58,27 +56,5 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  properties: {
-    hospitalizationHistory: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          hospitalizationDateRange: {
-            $ref: '#/definitions/dateRange',
-          },
-          hospitalName: {
-            type: 'string',
-            minLength: 1,
-            maxLength: 100,
-          },
-          hospitalAddress: {
-            ...address,
-            required: [],
-            properties: omit(address.properties, ['addressLine3', 'country']),
-          },
-        },
-      },
-    },
-  },
+  properties: hospitalizationHistory,
 };

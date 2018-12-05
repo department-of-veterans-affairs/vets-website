@@ -4,13 +4,13 @@ import { ptsd781NameTitle } from '../content/ptsdClassification';
 import { ptsdDateDescription } from '../content/incidentDate';
 import fullSchema from '../config/schema';
 
-const { date } = fullSchema.definitions;
+const { date } = fullSchema.definitions.ptsdIncident.properties;
 
 export const uiSchema = index => ({
   'ui:title': ptsd781NameTitle,
   [`incident${index}`]: {
     'ui:description': ptsdDateDescription,
-    incidentDate: currentOrPastDateUI(' '),
+    date: currentOrPastDateUI(' '),
   },
 });
 
@@ -20,7 +20,7 @@ export const schema = index => ({
     [`incident${index}`]: {
       type: 'object',
       properties: {
-        incidentDate: date,
+        date,
         'view:ptsdDateDescription': {
           type: 'object',
           properties: {},
