@@ -44,6 +44,7 @@
     "test:unit:rx": "BABEL_ENV=test mocha test/helper.js --opts src/platform/testing/unit/mocha.opts --recursive 'test/rx/**/*.unit.spec.js?(x)' ",
     "test:unit:gi": "BABEL_ENV=test mocha test/helper.js --opts src/platform/testing/unit/mocha.opts --recursive 'test/gibct/**/*.unit.spec.js?(x)' ",
     "test:unit:login": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'test/login/**/*.unit.spec.js?(x)' ",
+    "test:unit:plugins": "BABEL_ENV=test mocha --inspect --opts src/platform/testing/unit/mocha.opts --recursive 'src/site/stages/build/plugins/**/*.spec.js?(x)' ",
     "test:unit:personalization": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/applications/personalization/**/tests/**/*.unit.spec.js?(x)' ",
     "test:unit:db": "BABEL_ENV=test mocha --opts src/platform/testing/unit/mocha.opts --recursive 'test/disability-benefits/**/*.unit.spec.js?(x)' ",
     "test:watch": "node script/watch.js",
