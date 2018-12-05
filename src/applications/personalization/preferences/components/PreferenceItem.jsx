@@ -66,7 +66,7 @@ export default function PreferenceItem({
       >
         <FAQComponent />
       </AdditionalInfo>
-      <Link className="usa-button" to={ctaLink}>
+      <Link className="usa-button va-button-primary" to={ctaLink}>
         {ctaText}
       </Link>
     </div>

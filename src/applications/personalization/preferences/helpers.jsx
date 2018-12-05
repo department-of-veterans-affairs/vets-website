@@ -132,7 +132,7 @@ export const benefitChoices = [
   {
     title: 'Health Care',
     description: 'Get health care coverage.',
-    slug: 'healthcare',
+    code: 'health-care',
     introduction:
       'With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can access Veterans health care services like home health and geriatric (elder) care, and you can get medical equipment, prosthetics, and prescriptions.',
     ctaLink: '/health-care',
@@ -145,7 +145,7 @@ export const benefitChoices = [
     title: 'Disability Benefits',
     description:
       'Find benefits for an illness or injury related to my service.',
-    slug: 'disability',
+    code: 'disability',
     introduction:
       'You may be able to get VA disability compensation (pay) if you got sick or injured while serving in the military - or if a condition that you already had got worse because of your service. You may qualify even if your condition didn’t appear until years after your service ended.',
     ctaLink: '/disability', // TODO: update link
@@ -156,7 +156,7 @@ export const benefitChoices = [
   {
     title: 'Appeals',
     description: 'Appeal the decision VA made on my disability claim.',
-    slug: 'appeals',
+    code: 'appeals',
     introduction:
       'With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can access Veterans health care services like home health and geriatric (elder) care, and you can get medical equipment, prosthetics, and prescriptions.', // TODO: update text
     ctaLink: '/health-care', // TODO: update link
@@ -167,7 +167,7 @@ export const benefitChoices = [
   {
     title: 'Education and Training',
     description: 'Go back to school or get training or certification.',
-    slug: 'education',
+    code: 'education-training',
     introduction:
       'Education benefits like the GI Bill can help you find and pay for the cost of a college or graduate degree program, or training for a specific career, trade or industry.',
     ctaLink: '/education',
@@ -179,7 +179,7 @@ export const benefitChoices = [
     title: 'Careers and Employment',
     description:
       'Find a job, build skills, or get support for my own business.',
-    slug: 'careers', // TODO: update rest
+    code: 'careers-employment', // TODO: update rest
     introduction:
       'With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can access Veterans health care services like home health and geriatric (elder) care, and you can get medical equipment, prosthetics, and prescriptions.',
     ctaLink: '/health-care',
@@ -191,7 +191,7 @@ export const benefitChoices = [
     title: 'Pensions',
     description:
       'Get financial support for my disability or for care related to aging.',
-    slug: 'pensions', // TODO: update rest
+    code: 'pension', // TODO: update rest
     introduction:
       'With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can access Veterans health care services like home health and geriatric (elder) care, and you can get medical equipment, prosthetics, and prescriptions.',
     ctaLink: '/health-care',
@@ -202,7 +202,7 @@ export const benefitChoices = [
   {
     title: 'Housing Assistance',
     description: 'Find, buy, build, modify, or refinance a place to live.',
-    slug: 'housing', // TODO: update rest
+    code: 'housing-assistance', // TODO: update rest
     introduction:
       'With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can access Veterans health care services like home health and geriatric (elder) care, and you can get medical equipment, prosthetics, and prescriptions.',
     ctaLink: '/health-care',
@@ -213,7 +213,7 @@ export const benefitChoices = [
   {
     title: 'Life Insurance',
     description: 'Learn about my life insurance options.',
-    slug: 'life-insurance', // TODO: update rest
+    code: 'life-insurance', // TODO: update rest
     introduction:
       'With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can access Veterans health care services like home health and geriatric (elder) care, and you can get medical equipment, prosthetics, and prescriptions.',
     ctaLink: '/health-care',
@@ -225,7 +225,7 @@ export const benefitChoices = [
     title: 'Burials and Memorials',
     description:
       'Apply for burial in a VA cemetery or for allowances to cover burial costs.',
-    slug: 'burials', // TODO: update rest
+    code: 'burials-memorials', // TODO: update rest
     introduction:
       'With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can access Veterans health care services like home health and geriatric (elder) care, and you can get medical equipment, prosthetics, and prescriptions.',
     ctaLink: '/health-care',
@@ -236,7 +236,7 @@ export const benefitChoices = [
   {
     title: 'Family and Caregiver Benefits',
     description: 'Learn about benefits for family members and caregivers.',
-    slug: 'family', // TODO: update rest
+    code: 'family-caregiver-benefits', // TODO: update rest
     introduction:
       'With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can access Veterans health care services like home health and geriatric (elder) care, and you can get medical equipment, prosthetics, and prescriptions.',
     ctaLink: '/health-care',
@@ -245,3 +245,22 @@ export const benefitChoices = [
     faqComponent: healthFAQ,
   },
 ];
+
+// takes the user's selected benefits, as stored in the Redux store, and
+// converts it to the JSON expected by the v0/user/preferences POST request body
+export function preparePreferencesForSaving(preferences) {
+  const processedData = [
+    {
+      preference: {
+        code: 'benefits',
+      },
+      user_preferences: [],
+    },
+  ];
+  Object.entries(preferences).forEach(([key, value]) => {
+    if (value) {
+      processedData[0].user_preferences.push({ code: key });
+    }
+  });
+  return JSON.stringify(processedData);
+}

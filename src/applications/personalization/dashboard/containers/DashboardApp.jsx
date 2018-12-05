@@ -275,9 +275,7 @@ class DashboardApp extends React.Component {
     const view = (
       <div className="row user-profile-row">
         <div className="usa-width-two-thirds medium-8 small-12 columns">
-          <h1 id="dashboard-title">
-            {isBrandConsolidationEnabled() ? 'My VA' : 'Your Homepage'}
-          </h1>
+          <h1 id="dashboard-title">My VA</h1>
           <div className="va-introtext">
             <p>
               Access the tools and information you’ll need to track and manage
