@@ -5,10 +5,10 @@
     "view:hasSeparationPay": true,
     "view:separationPayDetails": {
       "view:separationPayDetailsDescription": {},
-      "separationPayDate": "1",
+      "separationPayDate": "2019-01-01",
       "separationPayBranch": "Air Force"
     },
-    "view:hasTrainingPay": true,
+    "hasTrainingPay": true,
     "view:waiveTrainingPay": {
       "view:waiveTrainingPayDescription": {},
       "waiveTrainingPay": true
@@ -29,7 +29,7 @@
     "bankAccountNumber": "1233",
     "bankRoutingNumber": "123412345",
     "bankName": "BigBank Name",
-    "phoneEmailCard": {
+    "phoneAndEmail": {
       "primaryPhone": "1231231234",
       "emailAddress": "asdf@adsf.asdf"
     },
@@ -221,18 +221,6 @@
       }
     ],
     "view:faqAccordion": {},
-    "veteran": {
-      "mailingAddress": {
-        "country": "USA",
-        "city": "APO",
-        "state": "AE",
-        "zipCode": "09028",
-        "addressLine1": "123 MAIN ST",
-        "addressLine2": "BEN FRANKLIN VILLAGE"
-      },
-      "primaryPhone": "4445551212",
-      "emailAddress": "test2@test1.net"
-    },
     "privacyAgreementAccepted": true
   }
 }

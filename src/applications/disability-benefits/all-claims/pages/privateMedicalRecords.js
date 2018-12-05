@@ -1,8 +1,8 @@
 import {
   privateRecordsChoiceHelp,
-  documentDescription,
   patientAcknowledgmentText,
 } from '../content/privateMedicalRecords';
+import { uploadDescription } from '../content/fileUploadDescriptions';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import environment from '../../../../platform/utilities/environment';
 import _ from '../../../../platform/utilities/data';
@@ -74,7 +74,7 @@ export const uiSchema = {
       attachmentName: { 'ui:title': 'Document name' },
     }),
     {
-      'ui:description': documentDescription,
+      'ui:description': uploadDescription,
       'ui:required': data =>
         _.get(DATA_PATHS.hasPrivateRecordsToUpload, data, false),
     },
