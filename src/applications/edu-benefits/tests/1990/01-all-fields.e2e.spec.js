@@ -10,7 +10,7 @@ const test = E2eHelpers.createE2eTest(client => {
 
   // Ensure introduction page renders
   client
-    .url(
+    .openUrl(
       `${
         E2eHelpers.baseUrl
       }/education/apply-for-education-benefits/application/1990`,

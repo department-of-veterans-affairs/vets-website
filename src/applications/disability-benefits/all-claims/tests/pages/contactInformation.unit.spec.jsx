@@ -25,7 +25,7 @@ describe('Disability benefits 526EZ contact information', () => {
         schema={schema}
         data={{
           mailingAddress: {},
-          phoneEmailCard: {},
+          phoneAndEmail: {},
         }}
         formData={{}}
         uiSchema={uiSchema}
@@ -47,7 +47,7 @@ describe('Disability benefits 526EZ contact information', () => {
           mailingAddress: {
             country: 'USA',
           },
-          phoneEmailCard: {},
+          phoneAndEmail: {},
         }}
         formData={{}}
         uiSchema={uiSchema}
@@ -69,7 +69,7 @@ describe('Disability benefits 526EZ contact information', () => {
           mailingAddress: {
             country: 'Afghanistan',
           },
-          phoneEmailCard: {},
+          phoneAndEmail: {},
         }}
         formData={{}}
         uiSchema={uiSchema}
@@ -92,7 +92,7 @@ describe('Disability benefits 526EZ contact information', () => {
             country: 'USA',
             city: 'APO',
           },
-          phoneEmailCard: {},
+          phoneAndEmail: {},
         }}
         formData={{}}
         uiSchema={uiSchema}
@@ -118,7 +118,7 @@ describe('Disability benefits 526EZ contact information', () => {
             country: 'USA',
             city: 'Detroit',
           },
-          phoneEmailCard: {},
+          phoneAndEmail: {},
         }}
         formData={{}}
         uiSchema={uiSchema}
@@ -139,7 +139,7 @@ describe('Disability benefits 526EZ contact information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          phoneEmailCard: {
+          phoneAndEmail: {
             primaryPhone: '1231231231',
             emailAddress: 'a@b.co',
           },
@@ -169,7 +169,7 @@ describe('Disability benefits 526EZ contact information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          phoneEmailCard: {
+          phoneAndEmail: {
             primaryPhone: '1231231231',
             emailAddress: 'a@b.co',
           },
@@ -207,7 +207,7 @@ describe('Disability benefits 526EZ contact information', () => {
             country: '',
             addressLine1: '',
           },
-          phoneEmailCard: {},
+          phoneAndEmail: {},
         }}
         formData={{}}
         uiSchema={uiSchema}
@@ -227,7 +227,7 @@ describe('Disability benefits 526EZ contact information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          phoneEmailCard: {
+          phoneAndEmail: {
             primaryPhone: '1231231231',
             emailAddress: 'a@b.co',
           },
@@ -268,7 +268,7 @@ describe('Disability benefits 526EZ contact information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          phoneEmailCard: {
+          phoneAndEmail: {
             primaryPhone: '1231231231',
             emailAddress: 'a@b.co',
           },
@@ -309,7 +309,7 @@ describe('Disability benefits 526EZ contact information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          phoneEmailCard: {
+          phoneAndEmail: {
             primaryPhone: '1231231231',
             emailAddress: 'a@b.co',
           },
@@ -350,7 +350,7 @@ describe('Disability benefits 526EZ contact information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          phoneEmailCard: {
+          phoneAndEmail: {
             primaryPhone: '1231231231',
             emailAddress: 'a@b.co',
           },
@@ -392,7 +392,7 @@ describe('Disability benefits 526EZ contact information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          phoneEmailCard: {
+          phoneAndEmail: {
             primaryPhone: '',
             emailAddress: '',
           },
@@ -429,7 +429,7 @@ describe('Disability benefits 526EZ contact information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          phoneEmailCard: {
+          phoneAndEmail: {
             primaryPhone: '1231231231',
             emailAddress: 'a@b.co',
           },
