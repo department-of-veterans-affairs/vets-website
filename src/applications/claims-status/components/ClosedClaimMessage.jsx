@@ -82,7 +82,7 @@ export default function ClosedClaimMessage({ claims, onClose }) {
         />
       </button>
       <div className="usa-alert-body">
-        <h4 className="usa-alert-title">Recently closed:</h4>
+        <h4 className="usa-alert-heading">Recently closed:</h4>
         {closedClaims.map(claim => (
           <p className="usa-alert-text claims-closed-text" key={claim.id}>
             <Link

@@ -5,6 +5,8 @@ import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
+import CallVBACenter from '../../brand-consolidation/components/CallVBACenter';
+import SubmitSignInForm from '../../brand-consolidation/components/SubmitSignInForm';
 
 import { toggleLoginModal } from '../user-nav/actions';
 import { verify } from '../../user/authentication/utilities';
@@ -21,33 +23,27 @@ import titleCase from '../../utilities/data/titleCase';
 import CallToActionAlert from './CallToActionAlert';
 
 import {
-  frontendApps,
-  continueUrl,
-  redirectUrl,
+  hasRequiredMhvAccount,
+  isHealthTool,
+  mhvToolName,
   requiredServices,
   serviceDescription,
+  toolUrl,
 } from './helpers';
-
-const HEALTH_TOOLS = [
-  frontendApps.HEALTH_RECORDS,
-  frontendApps.RX,
-  frontendApps.MESSAGING,
-  frontendApps.LAB_AND_TEST_RESULTS,
-  frontendApps.APPOINTMENTS,
-];
-
-const MHV_ACCOUNT_TYPES = ['Premium', 'Advanced', 'Basic'];
 
 export class CallToActionWidget extends React.Component {
   constructor(props) {
     super(props);
-    const { appId } = props;
-    this._isHealthTool = HEALTH_TOOLS.includes(appId);
+    const { appId, index } = props;
+    const { url, redirect } = toolUrl(appId, index);
+
+    this._hasRedirect = redirect;
+    this._isHealthTool = isHealthTool(appId);
     this._popup = null;
-    this._continueUrl = continueUrl(appId);
-    this._redirectUrl = redirectUrl(window.location.pathname);
     this._requiredServices = requiredServices(appId);
-    this._serviceDescription = serviceDescription(appId);
+    this._serviceDescription = serviceDescription(appId, index);
+    this._mhvToolName = mhvToolName(appId);
+    this._toolUrl = url;
   }
 
   componentDidMount() {
@@ -60,7 +56,7 @@ export class CallToActionWidget extends React.Component {
     if (!this.props.isLoggedIn) return;
 
     if (this.isAccessible()) {
-      if (this._redirectUrl) this.redirect();
+      if (this._hasRedirect && !this._popup) this.goToTool();
     } else if (this._isHealthTool) {
       const { accountLevel, accountState, loading } = this.props.mhvAccount;
 
@@ -97,7 +93,7 @@ export class CallToActionWidget extends React.Component {
         ),
         buttonText: 'Sign In or Create an Account',
         buttonHandler: this.openLoginModal,
-        status: 'warning',
+        status: 'continue',
       };
     }
 
@@ -115,7 +111,7 @@ export class CallToActionWidget extends React.Component {
         ),
         buttonText: 'Verify Your Identity',
         buttonHandler: verify,
-        status: 'warning',
+        status: 'continue',
       };
     }
 
@@ -123,6 +119,24 @@ export class CallToActionWidget extends React.Component {
   };
 
   getHealthToolContent = () => {
+    if (this.isAccessible()) {
+      return {
+        heading: 'My HealtheVet will open in a new tab',
+        alertText: (
+          <p>
+            You may need to sign in again on My HealtheVet before you can use
+            the site’s {this._mhvToolName} tool. If you do, please sign in with
+            the same account you used to sign in here on VA.gov. You also may
+            need to disable your browser’s pop-up blocker so that My HealtheVet
+            will be able to open.
+          </p>
+        ),
+        buttonText: 'Go to My HealtheVet',
+        buttonHandler: this.goToTool,
+        status: 'info',
+      };
+    }
+
     if (this.props.mhvAccount.errors) {
       return {
         heading: 'Some VA.gov health tools aren’t working right now',
@@ -135,10 +149,14 @@ export class CallToActionWidget extends React.Component {
             </p>
             <h5>What you can do</h5>
             <p>
-              You can try again later or call the VA.gov Help Desk at{' '}
-              <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-              <a href="tel:18008778339">1-800-877-8339</a>
-              ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m. (ET).
+              You can try again later or{' '}
+              <CallVBACenter>
+                call the VA.gov Help Desk at{' '}
+                <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
+                <a href="tel:18008778339">1-800-877-8339</a>
+                ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
+                (ET).
+              </CallVBACenter>
             </p>
           </div>
         ),
@@ -146,19 +164,7 @@ export class CallToActionWidget extends React.Component {
       };
     }
 
-    if (!this.isAccessible()) return this.getInaccessibleHealthToolContent();
-
-    return {
-      heading: 'My HealtheVet should open in a new tab',
-      alertText: (
-        <p>
-          If you don’t see My HealtheVet open in a new tab, try disabling your
-          browser’s popup blocker.
-        </p>
-      ),
-      buttonText: 'Go to My HealtheVet',
-      buttonHandler: this.redirect,
-    };
+    return this.getInaccessibleHealthToolContent();
   };
 
   getInaccessibleHealthToolContent = () => {
@@ -177,7 +183,7 @@ export class CallToActionWidget extends React.Component {
           ),
           buttonText: 'Verify Your Identity',
           buttonHandler: verify,
-          status: 'warning',
+          status: 'continue',
         };
 
       case 'needs_ssn_resolution':
@@ -195,12 +201,14 @@ export class CallToActionWidget extends React.Component {
               </p>
               <h5>What you can do</h5>
               <p>
-                If you feel you’ve entered your information correctly, please
-                call the VA.gov Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>
-                ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                (ET).
+                If you feel you’ve entered your information correctly, please{' '}
+                <SubmitSignInForm>
+                  call the VA.gov Help Desk at{' '}
+                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
+                  <a href="tel:18008778339">1-800-877-8339</a>
+                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
+                  (ET).
+                </SubmitSignInForm>
               </p>
             </div>
           ),
@@ -218,12 +226,14 @@ export class CallToActionWidget extends React.Component {
               </p>
               <h5>What you can do</h5>
               <p>
-                If you feel you’ve entered your information correctly, please
-                call the VA.gov Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>
-                ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                (ET).
+                If you feel you’ve entered your information correctly, please{' '}
+                <SubmitSignInForm>
+                  call the VA.gov Help Desk at{' '}
+                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
+                  <a href="tel:18008778339">1-800-877-8339</a>
+                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
+                  (ET).
+                </SubmitSignInForm>
               </p>
             </div>
           ),
@@ -238,11 +248,14 @@ export class CallToActionWidget extends React.Component {
               <p>We’re sorry. We found more than one active account for you.</p>
               <h5>What you can do</h5>
               <p>
-                Please call the VA.gov Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>
-                ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                (ET).
+                Please{' '}
+                <SubmitSignInForm>
+                  call the VA.gov Help Desk at{' '}
+                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
+                  <a href="tel:18008778339">1-800-877-8339</a>
+                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
+                  (ET).
+                </SubmitSignInForm>
               </p>
             </div>
           ),
@@ -259,7 +272,7 @@ export class CallToActionWidget extends React.Component {
        *     heading: `You’ll need to create a My HealtheVet account before you can ${this._serviceDescription`,
        *     buttonText: 'Create a My HealtheVet Account',
        *     buttonHandler: this.props.createAndUpgradeMHVAccount,
-       *     status: 'warning'
+       *     status: 'continue'
        *   };
 
        * case 'existing':
@@ -268,7 +281,7 @@ export class CallToActionWidget extends React.Component {
        *     heading: `You’ll need to upgrade your account before you can ${this._serviceDescription}`,
        *     buttonText: 'Upgrade Your Account',
        *     buttonHandler: this.props.upgradeMHVAccount,
-       *     status: 'warning'
+       *     status: 'continue'
        *   };
        */
 
@@ -282,11 +295,14 @@ export class CallToActionWidget extends React.Component {
                 VA.gov health tools right now.
               </p>
               <p>
-                You can try again later or call the VA.gov Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>
-                ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                (ET).
+                You can try again later or{' '}
+                <CallVBACenter>
+                  call the VA.gov Help Desk at{' '}
+                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
+                  <a href="tel:18008778339">1-800-877-8339</a>
+                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
+                  (ET).
+                </CallVBACenter>
               </p>
             </div>
           ),
@@ -305,12 +321,14 @@ export class CallToActionWidget extends React.Component {
               </p>
               <h5>What you can do</h5>
               <p>
-                If you feel you’ve entered your information correctly, please
-                call the VA.gov Help Desk at{' '}
-                <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
-                <a href="tel:18008778339">1-800-877-8339</a>
-                ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
-                (ET).
+                If you feel you’ve entered your information correctly, please{' '}
+                <SubmitSignInForm>
+                  call the VA.gov Help Desk at{' '}
+                  <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
+                  <a href="tel:18008778339">1-800-877-8339</a>
+                  ). We’re here Monday&#8211;Friday, 8:00 a.m.&#8211;8:00 p.m.
+                  (ET).
+                </SubmitSignInForm>
               </p>
             </div>
           ),
@@ -344,7 +362,7 @@ export class CallToActionWidget extends React.Component {
           accountState === 'needs_terms_acceptance'
             ? redirectToTermsAndConditions
             : this.props.createAndUpgradeMHVAccount,
-        status: 'warning',
+        status: 'continue',
       };
     }
 
@@ -357,36 +375,19 @@ export class CallToActionWidget extends React.Component {
         accountState === 'needs_terms_acceptance'
           ? redirectToTermsAndConditions
           : this.props.upgradeMHVAccount,
-      status: 'warning',
+      status: 'continue',
     };
   };
 
   isAccessible = () => {
-    // Until MHV account eligibility rules no longer have to accommodate the
-    // pre-brand consolidation flow, the frontend will gate access using the MHV
-    // account level instead of the available services list from the backend,
-    // which will already have validated the MHV account level policies.
-
     if (this._isHealthTool) {
-      // return this.props.availableServices.has(this._requiredServices);
-
+      // Until MHV account eligibility rules no longer have to accommodate the
+      // pre-brand consolidation flow, the frontend will gate access using the MHV
+      // account level instead of the available services list from the backend,
+      // which will already have validated the MHV account level policies.
       const { appId, mhvAccount } = this.props;
-
-      switch (appId) {
-        case 'health-records':
-          return MHV_ACCOUNT_TYPES.includes(mhvAccount.accountLevel);
-        case 'rx':
-          return MHV_ACCOUNT_TYPES.slice(0, 2).includes(
-            mhvAccount.accountLevel,
-          );
-        case 'messaging':
-        case 'lab-and-test-results':
-        case 'appointments':
-          return mhvAccount.accountLevel === 'Premium';
-        default:
-          // Not a recognized health tool.
-          return false;
-      }
+      return hasRequiredMhvAccount(appId, mhvAccount.accountLevel);
+      // return this.props.availableServices.has(this._requiredServices);
     }
 
     // Only check whether the account is verified here and leave any handling
@@ -396,19 +397,31 @@ export class CallToActionWidget extends React.Component {
 
   openLoginModal = () => this.props.toggleLoginModal(true);
 
-  redirect = () => {
-    if (this._redirectUrl.startsWith('/')) {
-      window.location = this._redirectUrl;
-    } else if (!this._popup) {
-      this._popup = window.open(this._redirectUrl, 'redirect-popup');
+  goToTool = () => {
+    const url = this._toolUrl;
+    if (!url) return;
+
+    if (url.startsWith('/')) {
+      window.location = url;
+    } else {
+      this._popup = window.open(url, 'cta-popup');
       if (this._popup) this._popup.focus();
+      else {
+        // Indicate an attempted pop-up to avoid automatically showing a
+        // pop-up later on a component update triggered by a state change.
+        this._popup = true;
+      }
     }
   };
 
   render() {
+    const { setFocus } = this.props;
     if (this.props.profile.loading || this.props.mhvAccount.loading) {
       return (
-        <LoadingIndicator setFocus message="Loading your information..." />
+        <LoadingIndicator
+          setFocus={setFocus}
+          message="Loading your information..."
+        />
       );
     }
 
@@ -418,17 +431,22 @@ export class CallToActionWidget extends React.Component {
 
     if (this.props.children) return this.props.children;
 
-    const buttonClass = this._continueUrl.startsWith('/')
+    const isInternalLink = this._toolUrl.startsWith('/');
+    const buttonClass = isInternalLink
       ? classNames('usa-button-primary', 'va-button-primary')
       : '';
+    const target = isInternalLink ? '_self' : '_blank';
 
     return (
-      <a className={buttonClass} href={this._continueUrl}>
+      <a className={buttonClass} href={this._toolUrl} target={target}>
         {titleCase(this._serviceDescription)}
       </a>
     );
   }
 }
+CallToActionWidget.defaultProps = {
+  setFocus: true,
+};
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);

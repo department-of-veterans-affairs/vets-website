@@ -242,6 +242,7 @@ export function fetchInProgressForm(
 
     // Query the api and return a promise (for navigation / error handling afterward)
     return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel',

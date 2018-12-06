@@ -12,7 +12,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Ensure index page renders.
   Auth.logIn(token, client, '/health-care/health-records', 3)
-    .assert.title('Get Your VA Health Records: Vets.gov')
+    .assert.title('Get Your VA Health Records: VA.gov')
     .waitForElementVisible('.blue-button-logo', Timeouts.normal)
     .axeCheck('.main');
 

@@ -8,12 +8,13 @@ import {
 } from '../../../../../platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
+import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('Prisoner of war info', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranDetails.pages.prisonerOfWar;
+  } = formConfig.chapters.disabilities.pages.prisonerOfWar;
 
   it('should render', () => {
     const form = mount(
@@ -22,7 +23,6 @@ describe('Prisoner of war info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
-        formData={{}}
       />,
     );
 
@@ -36,7 +36,6 @@ describe('Prisoner of war info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
-        formData={{}}
       />,
     );
 
@@ -54,32 +53,28 @@ describe('Prisoner of war info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
-        formData={{}}
         onSubmit={onSubmit}
       />,
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
 
   it('should add another period', () => {
-    const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
-        formData={{}}
-        onSubmit={onSubmit}
       />,
     );
 
     selectRadio(form, 'root_view:powStatus', 'Y');
-    fillDate(form, 'root_confinements_0_from', '2010-05-05');
-    fillDate(form, 'root_confinements_0_to', '2011-05-05');
+    fillDate(form, 'root_view:isPOW_confinements_0_from', '2010-05-05');
+    fillDate(form, 'root_view:isPOW_confinements_0_to', '2011-05-05');
 
     form.find('.va-growable-add-btn').simulate('click');
 
@@ -99,17 +94,54 @@ describe('Prisoner of war info', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
-        formData={{}}
         onSubmit={onSubmit}
       />,
     );
 
     selectRadio(form, 'root_view:powStatus', 'Y');
-    fillDate(form, 'root_confinements_0_from', '2010-05-05');
-    fillDate(form, 'root_confinements_0_to', '2011-05-05');
+    fillDate(form, 'root_view:isPOW_confinements_0_from', '2010-05-05');
+    fillDate(form, 'root_view:isPOW_confinements_0_to', '2011-05-05');
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+  });
+
+  it('should show new disabilities', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          newDisabilities: [{ condition: 'ASHD' }, { condition: 'scars' }],
+          'view:newDisabilities': true,
+        }}
+      />,
+    );
+
+    selectRadio(form, 'root_view:powStatus', 'Y');
+    expect(form.find('input[type="checkbox"]').length).to.equal(2);
+    const output = form.render().text();
+    expect(output).to.contain('ASHD');
+    expect(output).to.contain('Scars');
+  });
+
+  it('should not show new disabilities section when none entered', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+      />,
+    );
+
+    selectRadio(form, 'root_view:powStatus', 'Y');
+    expect(form.find('input[type="checkbox"]').length).to.equal(0);
+    const output = form.render().text();
+    expect(output).to.not.contain(
+      'Which of your new conditions was caused or affected by your POW experience?',
+    );
   });
 });

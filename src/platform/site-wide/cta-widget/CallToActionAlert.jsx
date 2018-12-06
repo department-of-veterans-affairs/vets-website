@@ -9,13 +9,16 @@ export default function CallToActionAlert({
   buttonHandler,
   status,
 }) {
+  const buttonClass =
+    status === 'continue' ? 'va-button-primary' : 'usa-button-primary';
+
   const alertProps = {
     headline: heading,
     content: (
-      <div className="usa-alert-text">
+      <div>
         {alertText}
         {buttonText && (
-          <button className="usa-button-primary" onClick={buttonHandler}>
+          <button className={buttonClass} onClick={buttonHandler}>
             {buttonText}
           </button>
         )}

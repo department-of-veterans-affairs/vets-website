@@ -1,5 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+import facilityLocator from '../../../../../facility-locator/manifest';
 
 import {
   LOW_CONFIDENCE_ADDRESS_ERROR_CODES,
@@ -35,7 +36,9 @@ export default function Vet360EditModalErrorMessage({
             deceased. If this isn’t true, please contact your nearest VA medical
             center.
           </p>
-          <a href="/facilities/">Find your nearest VA medical center</a>
+          <a href={facilityLocator.rootUrl}>
+            Find your nearest VA medical center
+          </a>
         </div>
       );
       break;

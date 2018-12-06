@@ -23,15 +23,32 @@ describe('<SearchHelpSignIn>', () => {
   beforeEach(() => {
     global.window = {
       location: {
+        hostname: 'www.va.gov',
         replace: () => {},
+        pathname: '/',
+      },
+      settings: {
+        brandConsolidationEnabled: true,
       },
     };
-    global.window.location.pathname = '/';
   });
 
   it('should present login links when not logged in', () => {
+    window.settings.brandConsolidationEnabled = false;
     const wrapper = shallow(<SearchHelpSignIn {...defaultProps} />);
     expect(wrapper.find('.sign-in-link')).to.have.lengthOf(2);
+  });
+
+  it('should present login links when not logged in on VA subdomain', () => {
+    window.settings.brandConsolidationEnabled = true;
+    window.location.hostname = 'www.benefits.va.gov';
+    const wrapper = shallow(<SearchHelpSignIn {...defaultProps} />);
+    expect(
+      wrapper
+        .find('.sign-in-link')
+        .at(0)
+        .prop('href'),
+    ).to.equal('https://www.va.gov/my-va');
   });
 
   it('should render <SignInProfileMenu/> when logged in', () => {

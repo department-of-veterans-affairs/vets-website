@@ -28,7 +28,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   Auth.logIn(token, client, '/download-va-letters/letters', 3)
     .waitForElementVisible('body', Timeouts.normal)
     .axeCheck('.main')
-    .assert.title('Download VA Letters and Documents: Vets.gov')
+    .assert.title('Download VA Letters and Documents: VA.gov')
     .waitForElementVisible('.letters', Timeouts.slow); // First render of React may be slow.
 
   client.axeCheck('.main');
@@ -77,7 +77,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .setValue('select[name="state"]', newAddress.stateCode)
     .clearValue('input[name="postalCode"]')
     .fill('input[name="postalCode"]', newAddress.zipCode)
-    .click('.usa-button-primary') // submits new data
+    .click('.main .usa-button-primary') // submits new data
     .waitForElementVisible('.city-state', Timeouts.normal)
     .expect.element('.city-state')
     .text.to.contain('Chicago, Illinois 60602');

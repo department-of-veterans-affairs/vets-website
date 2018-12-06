@@ -16,11 +16,14 @@ import MegaMenu from '@department-of-veterans-affairs/formation/MegaMenu';
 
 export function flagCurrentPageInTopLevelLinks(
   links = [],
+  href = window.location.href,
   pathName = window.location.pathname,
 ) {
   return links.map(
     link =>
-      pathName.endsWith(link.href) ? { ...link, currentPage: true } : link,
+      pathName.endsWith(link.href) || href === link.href
+        ? { ...link, currentPage: true }
+        : link,
   );
 }
 
@@ -48,10 +51,13 @@ export class Main extends React.Component {
   };
 
   updateCurrentSection = currentSection => {
-    recordEvent({
-      event: 'nav-header-second-level',
-      'nav-header-action': `Navigation - Header - Open Second Level - ${currentSection}`,
-    });
+    if (currentSection) {
+      recordEvent({
+        event: 'nav-header-second-level',
+        'nav-header-action': `Navigation - Header - Open Second Level - ${currentSection}`,
+      });
+    }
+
     this.props.updateCurrentSection(currentSection);
   };
 

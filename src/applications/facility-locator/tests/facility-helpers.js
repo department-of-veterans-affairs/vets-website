@@ -1,4 +1,5 @@
 const mock = require('../../../platform/testing/e2e/mock-helpers');
+const ENVIRONMENTS = require('../../../site/constants/environments');
 
 const resultsData = {
   data: [
@@ -233,6 +234,18 @@ function initApplicationMock(token) {
   });
 }
 
+/**
+ * Feature Flag Function
+ *
+ * Determines, based on enviornment type, whether or not to
+ * enable Community Care Provider Locator features of the
+ * existing Facility Locator App.
+ */
+function ccLocatorEnabled() {
+  return process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD;
+}
+
 module.exports = {
   initApplicationMock,
+  ccLocatorEnabled,
 };

@@ -9,9 +9,9 @@ const runTest = E2eHelpers.createE2eTest(client => {
   PageHelpers.initApplicationSubmitMock();
 
   client
-    .url(`${E2eHelpers.baseUrl}/veteran-representative`)
+    .openUrl(`${E2eHelpers.baseUrl}/veteran-representative`)
     .waitForElementVisible('body', Timeouts.normal)
-    .assert.title('Appoint VSO as representative: Vets.gov')
+    .assert.title('Appoint VSO as representative: VA.gov')
     .waitForElementVisible('.schemaform-title', Timeouts.slow)
     .click('.usa-button-primary');
 

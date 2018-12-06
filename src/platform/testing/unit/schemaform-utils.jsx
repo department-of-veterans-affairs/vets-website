@@ -315,14 +315,15 @@ export function selectRadio(form, fieldName, value) {
  * given date string.
  *
  * @param {Enzyme} form The enzyme object that contains a form
- * @param {string} partialId The id for the date field, without the month/day/year prefix
+ * @param {string} partialName The name for the date field, without the month/day/year prefix.
  * @param {string} dateString The date to fill in the input
  */
-export function fillDate(form, partialId, dateString) {
+export function fillDate(form, partialName, dateString) {
   const date = dateString.split('-');
-  const month = form.find(`select#${partialId}Month`);
-  const day = form.find(`select#${partialId}Day`);
-  const year = form.find(`input#${partialId}Year`);
+
+  const month = form.find(`select[name="${partialName}Month"]`);
+  const day = form.find(`select[name="${partialName}Day"]`);
+  const year = form.find(`input[name="${partialName}Year"]`);
 
   month.simulate('change', {
     target: { value: date[1] },

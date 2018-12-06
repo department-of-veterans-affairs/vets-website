@@ -9,6 +9,8 @@ import applicantDescription from '../../../platform/forms/components/ApplicantDe
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import ErrorText from '../components/ErrorText';
+
 import {
   burialDateWarning,
   fileHelp,
@@ -118,6 +120,7 @@ const formConfig = {
   preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     fullName,
     centralMailVaFile,

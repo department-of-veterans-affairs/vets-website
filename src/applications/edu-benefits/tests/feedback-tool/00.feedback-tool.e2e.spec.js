@@ -9,9 +9,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
   PageHelpers.initApplicationSubmitMock();
 
   client
-    .url(`${E2eHelpers.baseUrl}/education/gi-bill-school-feedback`)
+    .openUrl(`${E2eHelpers.baseUrl}/education/gi-bill-school-feedback`)
     .waitForElementVisible('body', Timeouts.normal)
-    .assert.title('GI Bill® School Feedback Tool: Vets.gov')
+    .assert.title('GI Bill® School Feedback Tool: VA.gov')
     .waitForElementVisible('.schemaform-title', Timeouts.slow)
     .click('.schemaform-start-button');
 

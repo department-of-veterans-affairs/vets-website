@@ -742,19 +742,19 @@ class GuidancePage extends React.Component {
                   <p>Learn more about:</p>
                   <ul>
                     <li>
-                      <a href="https://www.vets.gov/health-care/health-conditions/military-sexual-trauma/">
+                      <a href="/health-care/health-conditions/military-sexual-trauma/">
                         VA health benefits for Veterans who have experienced
                         military sexual trauma
                       </a>
                     </li>
                     <li>
-                      <a href="https://www.vets.gov/health-care/health-conditions/mental-health/">
+                      <a href="/health-care/health-conditions/mental-health/">
                         VA health benefits for Veterans with mental health
                         conditions
                       </a>
                     </li>
                     <li>
-                      <a href="https://www.vets.gov/health-care/health-conditions/mental-health/ptsd/">
+                      <a href="/health-care/health-conditions/mental-health/ptsd/">
                         VA health benefits for Veterans with PTSD
                       </a>
                     </li>

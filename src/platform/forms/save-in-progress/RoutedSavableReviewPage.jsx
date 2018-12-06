@@ -9,6 +9,8 @@ import debounce from '../../utilities/data/debounce';
 import ReviewChapters from 'us-forms-system/lib/js/review/ReviewChapters';
 import SubmitController from 'us-forms-system/lib/js/review/SubmitController';
 
+import isBrandConsolidationEnabled from '../../brand-consolidation/feature-flag';
+import CallHRC from '../../brand-consolidation/components/CallHRC';
 import DowntimeNotification, {
   externalServiceStatus,
 } from '../../monitoring/DowntimeNotification';
@@ -25,6 +27,8 @@ import {
 import { getFormContext } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
 
+const brandConsolidationIsEnabled = isBrandConsolidationEnabled();
+const propertyName = brandConsolidationIsEnabled ? 'VA.gov' : 'Vets.gov';
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo(
@@ -73,7 +77,7 @@ class RoutedSavableReviewPage extends React.Component {
         saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
         toggleLoginModal={this.props.toggleLoginModal}
       >
-        save your application
+        Save your form
       </SaveFormLink>
     );
 
@@ -89,10 +93,14 @@ class RoutedSavableReviewPage extends React.Component {
     } else {
       InlineErrorComponent = () => (
         <p>
-          If it still doesn’t work, please call the Vets.gov Help Desk at{' '}
-          <a href="tel:855-574-7286">1-855-574-7286</a>, TTY:{' '}
-          <a href="tel:18008778339">1-800-877-8339</a>. We’re here Monday
-          &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET).
+          If it still doesn’t work, please{' '}
+          <CallHRC>
+            call the {propertyName} Help Desk at{' '}
+            <a href="tel:855-574-7286">1-855-574-7286</a> (TTY:{' '}
+            <a href="tel:18008778339">1-800-877-8339</a>
+            ). We’re here Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m.
+            (ET).
+          </CallHRC>
         </p>
       );
     }
@@ -101,16 +109,16 @@ class RoutedSavableReviewPage extends React.Component {
       <div className="usa-alert usa-alert-error schemaform-failure-alert">
         <div className="usa-alert-body">
           <p className="schemaform-warning-header">
-            <strong>We’re sorry, the application didn’t go through.</strong>
+            <strong>We’re sorry. We can't submit your form right now.</strong>
           </p>
           <p>
-            We’re working to fix the problem, but it may take us a little while.
-            Please {saveLink} and try submitting it again tomorrow.
+            We’re working to fix the problem. Please make sure you’re connected
+            to the Internet, and then try saving your form again. {saveLink}.
           </p>
           {!user.login.currentlyLoggedIn && (
             <p>
-              If you don’t have an account, you’ll have to start over. Please
-              try submitting your application again tomorrow.
+              If you don’t have an account, you’ll have to start over. Try
+              submitting your form again tomorrow.
             </p>
           )}
           <InlineErrorComponent />

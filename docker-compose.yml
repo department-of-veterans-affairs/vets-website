@@ -15,7 +15,7 @@ services:
       - 3000
     command: ./script/run-docker-nightwatch.sh
   selenium-chrome:
-    image: selenium/standalone-chrome
+    image: selenium/standalone-chrome:3.14.0-francium
     links:
       - vets-website
     shm_size: 2g

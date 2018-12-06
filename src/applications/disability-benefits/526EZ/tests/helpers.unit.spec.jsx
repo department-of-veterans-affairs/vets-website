@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import _ from 'lodash';
+import _ from '../../../../platform/utilities/data';
 
 import {
   validateDisability,
@@ -21,7 +21,7 @@ describe('526 helpers', () => {
     invalidDisability,
   );
   describe('transform', () => {
-    const formData = maximalData;
+    const formData = _.cloneDeep(maximalData);
     const transformedData = {
       form526: {
         disabilities: [
@@ -69,28 +69,6 @@ describe('526 helpers', () => {
           primaryPhone: '4445551212',
           emailAddress: 'test2@test1.net',
         },
-        attachments: [
-          {
-            name: 'Screen Shot 2018-07-09 at 11.25.49 AM.png',
-            confirmationCode: '9664f488-1243-4b25-805e-75ad7e4cf765',
-            attachmentId: 'L105',
-          },
-          {
-            name: 'Screen Shot 2018-07-09 at 11.24.39 AM.png',
-            confirmationCode: '66bfab89-6e2b-4361-a905-754dfbff7df7',
-            attachmentId: 'L105',
-          },
-          {
-            name: 'Screen Shot 2018-07-09 at 3.29.08 PM.png',
-            confirmationCode: 'a58ae568-d190-49cd-aa04-b1b1da5eae35',
-            attachmentId: 'L105',
-          },
-          {
-            name: 'Screen Shot 2018-07-09 at 2.02.39 PM.png',
-            confirmationCode: 'f23194e4-c534-42c6-9e96-16c08d8230a5',
-            attachmentId: 'L105',
-          },
-        ],
         privacyAgreementAccepted: true,
         serviceInformation: {
           servicePeriods: [
@@ -139,14 +117,76 @@ describe('526 helpers', () => {
             },
           },
         ],
+        attachments: [
+          {
+            name: 'Screen Shot 2018-07-09 at 11.25.49 AM.png',
+            confirmationCode: '9664f488-1243-4b25-805e-75ad7e4cf765',
+            attachmentId: 'L105',
+          },
+          {
+            name: 'Screen Shot 2018-07-09 at 11.24.39 AM.png',
+            confirmationCode: '66bfab89-6e2b-4361-a905-754dfbff7df7',
+            attachmentId: 'L105',
+          },
+          {
+            name: 'Screen Shot 2018-07-09 at 3.29.08 PM.png',
+            confirmationCode: 'a58ae568-d190-49cd-aa04-b1b1da5eae35',
+            attachmentId: 'L105',
+          },
+          {
+            name: 'Screen Shot 2018-07-09 at 2.02.39 PM.png',
+            confirmationCode: 'f23194e4-c534-42c6-9e96-16c08d8230a5',
+            attachmentId: 'L105',
+          },
+        ],
       },
     };
+
     it('should return stringified, transformed data for submit', () => {
       expect(transform(null, formData)).to.deep.equal(
         JSON.stringify(transformedData),
       );
     });
+
+    it('should not submit uploads when corresponding evidence type not selected', () => {
+      const noUploadsSelected = _.set(
+        'data.disabilities[0].view:selectableEvidenceTypes',
+        {
+          'view:privateMedicalRecords': false,
+          'view:otherEvidence': false,
+        },
+        formData,
+      );
+
+      expect(JSON.parse(transform(null, noUploadsSelected)).form526.attachments)
+        .to.be.undefined;
+    });
+
+    it('should submit uploads when parent disability is selected', () => {
+      expect(
+        JSON.parse(transform(null, formData)).form526.attachments.length,
+      ).to.equal(transformedData.form526.attachments.length);
+    });
+
+    it('should not submit uploads when parent disability not selected', () => {
+      const noAttachments = _.set(
+        'data.disabilities[0]',
+        {
+          'view:selected': false,
+          'view:selectableEvidenceTypes': {
+            'view:privateMedicalRecords': true,
+            'view:otherEvidence': true,
+          },
+        },
+        maximalData,
+      );
+
+      const transformedNoAttachments = transform(null, noAttachments);
+      expect(JSON.parse(transformedNoAttachments).form526.attachments).to.be
+        .undefined;
+    });
   });
+
   describe('validateDisability', () => {
     it('should reject invalid disability data', () => {
       expect(validateDisability(invalidDisability)).to.equal(false);
@@ -230,7 +270,7 @@ describe('526 helpers', () => {
     });
     it('should return original data when no disabilities returned', () => {
       const pages = [];
-      const formData = _.omit(initialData, 'disabilities');
+      const formData = _.omit('disabilities', initialData);
       const metadata = {};
 
       expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({
@@ -242,9 +282,11 @@ describe('526 helpers', () => {
     it('should return original data if disabilities is not an array', () => {
       const clonedData = _.cloneDeep(initialData);
       const pages = [];
-      const formData = _.set(clonedData, 'disabilities', {
-        someProperty: 'value',
-      });
+      const formData = _.set(
+        'disabilities',
+        { someProperty: 'value' },
+        clonedData,
+      );
       const metadata = {};
 
       expect(prefillTransformer(pages, formData, metadata)).to.deep.equal({
@@ -256,10 +298,11 @@ describe('526 helpers', () => {
     it('should transform prefilled data when disability name has special chars', () => {
       const newName = '//()';
       const dataClone = _.set(
-        _.cloneDeep(initialData),
         'disabilities[0].name',
         newName,
+        _.cloneDeep(initialData),
       );
+
       const prefill = prefillTransformer([], dataClone, {});
       expect(prefill.formData.disabilities[0].name).to.equal(newName);
     });
@@ -272,7 +315,6 @@ describe('526 helpers', () => {
       const pages = [];
       const metadata = {};
       const formData = _.set(
-        _.cloneDeep(initialData),
         'reservesNationalGuardService',
         {
           obligationTermOfServiceDateRange: {
@@ -280,6 +322,7 @@ describe('526 helpers', () => {
             to: dateRange.to,
           },
         },
+        _.cloneDeep(initialData),
       );
 
       const newData = prefillTransformer(pages, formData, metadata);
@@ -364,7 +407,7 @@ describe('526 helpers', () => {
       };
 
       expect(getReservesGuardData(formData)).to.deep.equal(
-        _.omit(formData, 'view:isTitle10Activated'),
+        _.omit('view:isTitle10Activated', formData),
       );
     });
     it('returns null when some required data is missing', () => {

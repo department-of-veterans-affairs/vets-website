@@ -4,9 +4,10 @@ import sinon from 'sinon';
 import _ from '../data';
 import deconstructPath from '../data/deconstructPath';
 import checkValidPath from '../data/checkValidPath';
+import removeDeeplyEmptyObjects from '../data/removeDeeplyEmptyObjects';
 
 // Could split these out into separate files...
-describe('data utils (lodash replacements)', () => {
+describe('data utils', () => {
   describe('deconstructPath', () => {
     it('should deconstruct a string path', () => {
       const strPath = 'a.b.c';
@@ -54,7 +55,10 @@ describe('data utils (lodash replacements)', () => {
       },
       string: 'string!',
       array: ['0', 1, null, { s: 'thing', o: { k: 'I am nested' } }],
-      func: function() { return this.int; }, // eslint-disable-line
+      // eslint-disable-next-line
+      func: function() {
+        return this.int;
+      },
       arrowFunction: () => this.int,
     };
 
@@ -316,6 +320,12 @@ describe('data utils (lodash replacements)', () => {
       expect(newObj.b).to.equal(obj.b);
     });
 
+    it('should return the same reference to the root object if no fields are omitted', () => {
+      const obj = { a: 'a' };
+      const newObj = _.omit(['b'], obj);
+      expect(newObj).to.equal(obj);
+    });
+
     it('should omit all the fields passed in', () => {
       const obj = {
         a: 'a',
@@ -461,6 +471,38 @@ describe('data utils (lodash replacements)', () => {
       Object.keys(o).forEach(key => {
         expect(o[key]).to.eql(newObj[key]);
       });
+    });
+  });
+
+  describe('removeDeeplyEmptyObjects', () => {
+    it('should not remove non-empty objects', () => {
+      const data = { level1: { level2: "I'm not empty!" } };
+      expect(removeDeeplyEmptyObjects(data)).to.equal(data);
+    });
+    it('should remove empty objects', () => {
+      const data = { level1: {} };
+      expect(removeDeeplyEmptyObjects(data)).to.eql({});
+    });
+    it('should remove deeply empty objects', () => {
+      const data = { level1: { level2: {} } };
+      expect(removeDeeplyEmptyObjects(data)).to.eql({});
+    });
+    it('should remove deeply empty objects while keeping deeply non-empty objects', () => {
+      const data = { level1: { level2: {}, level2Filled: 'I am full' } };
+      expect(removeDeeplyEmptyObjects(data)).to.eql({
+        level1: { level2Filled: 'I am full' },
+      });
+    });
+    it('should remove multiple sibling objects', () => {
+      const data = { level1: { first: {}, second: {} } };
+      expect(removeDeeplyEmptyObjects(data)).to.eql({});
+    });
+    it('should consider null and undefined as empty by default', () => {
+      const data = {
+        noGood: undefined,
+        stillNoGood: null,
+      };
+      expect(removeDeeplyEmptyObjects(data)).to.eql({});
     });
   });
 });

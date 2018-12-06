@@ -10,7 +10,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Claim is visible
   Auth.logIn(token, client, '/track-claims', 3)
-    .assert.title('Track Claims: Vets.gov')
     .waitForElementVisible('.claim-list-item-container', Timeouts.slow)
     .axeCheck('.main'); // TODO: Figure out why this is failing
 
@@ -28,7 +27,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Verify text on page
   client.expect
     .element('.claims-container h1')
-    .text.to.equal('Track Your Compensation Appeals and Claims');
+    .text.to.equal('Check Your Claim or Appeal Status');
 
   client.expect
     .element('.claim-list-item-header-v2')

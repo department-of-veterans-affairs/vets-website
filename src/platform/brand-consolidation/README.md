@@ -12,7 +12,8 @@ The brand-consolidated VA.gov site currently lives at the following locations:
 
 - Dev: https://dev.va.gov
 - Staging: https://staging.va.gov
-- Production: https://preview.va.gov
+- Preview: https://preview.va.gov
+- Production: https://www.va.gov
 
 As with Vets.gov environments, the VA.gov Dev and VA.gov Staging environments are built automatically when a change is merged into the `master` branch. Production has to be built manually, however, by running a Preview build in the Jenkins Deploy menu and passing the latest commit SHA.
 

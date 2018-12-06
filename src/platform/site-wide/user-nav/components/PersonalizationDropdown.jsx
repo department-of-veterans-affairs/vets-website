@@ -3,6 +3,7 @@ import React from 'react';
 import { logout } from '../../../user/authentication/utilities';
 import dashboardManifest from '../../../../applications/personalization/dashboard/manifest';
 import recordEvent from '../../../../platform/monitoring/record-event';
+import { mhvBaseUrl } from '../../../../platform/site-wide/cta-widget/helpers';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
 
 const LEFT_CLICK = 1;
@@ -44,14 +45,30 @@ class PersonalizationDropdown extends React.Component {
       <ul>
         {brandConsolidationEnabled && (
           <li>
-            <a href="/my-va/">My VA</a>
+            <a
+              href="/my-va/"
+              onClick={() => {
+                recordEvent({
+                  event: 'nav-user',
+                  'nav-user-section': 'my-va',
+                });
+              }}
+            >
+              My VA
+            </a>
           </li>
         )}
         {brandConsolidationEnabled && (
           <li>
             <a
-              href="https://www.myhealth.va.gov/mhv-portal-web/home"
+              href={`${mhvBaseUrl()}/mhv-portal-web/home`}
               target="_blank"
+              onClick={() => {
+                recordEvent({
+                  event: 'nav-user',
+                  'nav-user-section': 'my-health',
+                });
+              }}
             >
               My Health
             </a>

@@ -4,7 +4,7 @@ const RxHelpers = require('./rx-helpers');
 const Auth = require('../../../platform/testing/e2e/auth');
 const AccountCreationHelpers = require('../../../platform/testing/e2e/account-creation-helpers');
 
-module.exports = E2eHelpers.createE2eTest(client => {
+const runTest = E2eHelpers.createE2eTest(client => {
   const token = Auth.getUserToken();
 
   RxHelpers.initApplicationSubmitMock(token);
@@ -12,7 +12,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Ensure active page renders
   Auth.logIn(token, client, '/health-care/prescriptions', 3)
-    .assert.title('Refill Prescriptions: Vets.gov')
+    .assert.title('VA Prescription Refill and Tracking: VA.gov')
     .waitForElementVisible('#rx-active', Timeouts.normal)
     .axeCheck('.main');
 
@@ -112,3 +112,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client.end();
 });
+
+module.exports = runTest;
+module.exports['@disabled'] = true;

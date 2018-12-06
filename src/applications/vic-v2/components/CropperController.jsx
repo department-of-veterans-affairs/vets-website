@@ -166,7 +166,7 @@ export default class CropperControls extends React.Component {
   constructor(props) {
     super(props);
 
-    const windowWidth = window.innerWidth;
+    const windowWidth = document.body.clientWidth;
     this.state = {
       windowWidth,
       zoomMin: 0.2,

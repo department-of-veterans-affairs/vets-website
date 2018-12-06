@@ -10,6 +10,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingI
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation/ErrorableCheckbox';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation/ErrorableRadioButtons';
 
+import HealthToolsMovingMessage from '../../../platform/static-data/HealthToolsMovingMessage';
 import ErrorView from '../components/ErrorView';
 import { reportTypes as reportTypesConfig } from '../config';
 import {
@@ -346,6 +347,7 @@ export class Main extends React.Component {
             <h1>Get Your VA Health Records</h1>
             <span className="blue-button-logo" />
           </div>
+          <HealthToolsMovingMessage />
           <form>
             {this.renderDateOptions()}
             <div>

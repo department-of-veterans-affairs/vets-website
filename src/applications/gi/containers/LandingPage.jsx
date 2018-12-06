@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
+
 import {
   clearAutocompleteSuggestions,
   fetchAutocompleteSuggestions,
@@ -13,6 +15,8 @@ import VideoSidebar from '../components/content/VideoSidebar';
 import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
 
+const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
+
 export class LandingPage extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +26,7 @@ export class LandingPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.setPageTitle('GI Bill® Comparison Tool: Vets.gov');
+    this.props.setPageTitle(`GI Bill® Comparison Tool: ${propertyName}`);
   }
 
   handleSubmit(event) {

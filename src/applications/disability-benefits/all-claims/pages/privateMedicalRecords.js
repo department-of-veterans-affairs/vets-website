@@ -1,7 +1,8 @@
 import {
   privateRecordsChoiceHelp,
-  documentDescription,
+  patientAcknowledgmentText,
 } from '../content/privateMedicalRecords';
+import { uploadDescription } from '../content/fileUploadDescriptions';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import environment from '../../../../platform/utilities/environment';
 import _ from '../../../../platform/utilities/data';
@@ -26,7 +27,7 @@ export const uiSchema = {
       'ui:options': {
         labels: {
           Y: 'Yes',
-          N: 'No, my doctor has my medical records.',
+          N: 'No, please get my records from my doctor.',
         },
       },
     },
@@ -73,11 +74,31 @@ export const uiSchema = {
       attachmentName: { 'ui:title': 'Document name' },
     }),
     {
-      'ui:description': documentDescription,
+      'ui:description': uploadDescription,
       'ui:required': data =>
         _.get(DATA_PATHS.hasPrivateRecordsToUpload, data, false),
     },
   ),
+  'view:patientAcknowledgement': {
+    'ui:title': ' ',
+    'ui:help': patientAcknowledgmentText,
+    'ui:options': {
+      expandUnder: 'view:uploadPrivateRecordsQualifier',
+      expandUnderCondition: data =>
+        _.get('view:hasPrivateRecordsToUpload', data, true) === false,
+      showFieldLabel: true,
+    },
+    'view:acknowledgement': {
+      'ui:title': 'Patient Acknowledgement',
+    },
+    'ui:validations': [
+      (errors, item) => {
+        if (!item['view:acknowledgement']) {
+          errors.addError('You must accept the acknowledgement');
+        }
+      },
+    ],
+  },
 };
 
 export const schema = {
@@ -101,5 +122,15 @@ export const schema = {
       },
     },
     privateMedicalRecords: attachments,
+    'view:patientAcknowledgement': {
+      type: 'object',
+      required: ['view:acknowledgement'],
+      properties: {
+        'view:acknowledgement': {
+          type: 'boolean',
+          default: true,
+        },
+      },
+    },
   },
 };

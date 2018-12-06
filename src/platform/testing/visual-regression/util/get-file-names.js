@@ -1,5 +1,5 @@
 const path = require('path');
-const mkdirp = require('mkdirp');
+const fs = require('fs-extra');
 const { baseUrl } = require('../../e2e-puppeteer/helpers');
 const commandLineArgs = require('command-line-args');
 
@@ -38,7 +38,7 @@ function getFileNames(route) {
 async function createDirectoryIfNotExist(filePath) {
   const directory = path.dirname(filePath);
   return new Promise((resolve, reject) => {
-    mkdirp(directory, err => (err ? reject(err) : resolve()));
+    fs.ensureDir(directory, err => (err ? reject(err) : resolve()));
   });
 }
 

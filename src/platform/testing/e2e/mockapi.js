@@ -14,7 +14,7 @@ const express = require('express');
 const winston = require('winston');
 
 const optionDefinitions = [
-  { name: 'buildtype', type: String, defaultValue: 'development' },
+  { name: 'buildtype', type: String, defaultValue: 'vagovdev' },
   { name: 'port', type: Number, defaultValue: +(process.env.API_PORT || 3000) },
   { name: 'host', type: String, defaultValue: 'localhost' },
 

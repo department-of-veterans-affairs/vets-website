@@ -16,11 +16,10 @@ import CallToActionWidget from '../../../../platform/site-wide/cta-widget';
 import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
 import { focusElement } from '../../../../platform/utilities/ui';
 
-import BetaGate from '../containers/BetaGate';
-
 import { VerifiedAlert } from '../helpers';
-
 import FormStartControls from './FormStartControls';
+
+const gaStartEventName = 'disability-526EZ-start';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -49,8 +48,10 @@ class IntroductionPage extends React.Component {
       saveInProgress: { user },
     } = this.props;
 
+    const isLoggedIn = user && user.login && user.login.currentlyLoggedIn;
+
     const itfAgreement = (
-      <p className="itf-agreement">
+      <p className={`itf-agreement${isLoggedIn ? '' : ' unauthenticated'}`}>
         By clicking the button to start the disability application, you’ll
         declare your intent to file. This will reserve a potential effective
         date for when you could start getting benefits. You have 1 year from the
@@ -60,38 +61,37 @@ class IntroductionPage extends React.Component {
 
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for increased disability compensation" />
+        <FormTitle title="File for increased disability compensation" />
         <p>
           Equal to VA Form 21-526EZ (Application for Disability Compensation and
           Related Compensation Benefits).
         </p>
-        <BetaGate>
-          {isBrandConsolidationEnabled() ? (
-            <CallToActionWidget appId="disability-benefits">
-              <SaveInProgressIntro
-                {...this.props}
-                verifiedPrefillAlert={VerifiedAlert}
-                verifyRequiredPrefill={
-                  this.props.route.formConfig.verifyRequiredPrefill
-                }
-                prefillEnabled={this.props.route.formConfig.prefillEnabled}
-                messages={this.props.route.formConfig.savedFormMessages}
-                pageList={this.props.route.pageList}
-                startText="Start the Disability Compensation Application"
-                {...this.props.saveInProgressActions}
-                {...this.props.saveInProgress}
-              />
-            </CallToActionWidget>
-          ) : (
-            <FormStartControls
-              pathname={this.props.location.pathname}
-              user={user}
-              authenticate={this.authenticate}
+        {isBrandConsolidationEnabled() ? (
+          <CallToActionWidget appId="disability-benefits">
+            <SaveInProgressIntro
               {...this.props}
+              verifiedPrefillAlert={VerifiedAlert}
+              verifyRequiredPrefill={
+                this.props.route.formConfig.verifyRequiredPrefill
+              }
+              prefillEnabled={this.props.route.formConfig.prefillEnabled}
+              messages={this.props.route.formConfig.savedFormMessages}
+              pageList={this.props.route.pageList}
+              startText="Start the Disability Compensation Application"
+              {...this.props.saveInProgressActions}
+              {...this.props.saveInProgress}
             />
-          )}
-          {itfAgreement}
-        </BetaGate>
+          </CallToActionWidget>
+        ) : (
+          <FormStartControls
+            pathname={this.props.location.pathname}
+            user={user}
+            authenticate={this.authenticate}
+            gaStartEventName={gaStartEventName}
+            {...this.props}
+          />
+        )}
+        {itfAgreement}
         <h4>
           Follow the steps below to file a claim for increased disability
           compensation.
@@ -104,12 +104,12 @@ class IntroductionPage extends React.Component {
               </div>
               <div>
                 <h6>
-                  When you apply for a disability increase, be sure to have
-                  these on hand:
+                  When you apply for a disability increase you’ll have a chance
+                  to provide evidence to support your claim. Evidence could
+                  include:
                 </h6>
               </div>
               <ul>
-                <li>Your Social Security number</li>
                 <li>
                   VA medical and hospital records that show your rated
                   disability has gotten worse
@@ -117,6 +117,11 @@ class IntroductionPage extends React.Component {
                 <li>
                   Private medical and hospital records that show your rated
                   disability has gotten worse
+                </li>
+                <li>
+                  Supporting or lay statements from family, friends, or
+                  coworkers with knowledge about your disability that has gotten
+                  worse
                 </li>
               </ul>
               <p>
@@ -126,18 +131,18 @@ class IntroductionPage extends React.Component {
                 aid and attendance benefits.
                 <br />
                 <a href="/disability-benefits/apply/supplemental-forms/">
-                  Learn Learn what additional forms you may need to file with
-                  your disability claim
+                  Learn what additional forms you may need to file with your
+                  disability claim
                 </a>
                 .
               </p>
               <p>
-                <strong>What if I need help filling out my application?</strong>
+                <strong>What if I need help with my application?</strong>
               </p>
               <p>
                 If you need help submitting a claim for increase, you can
                 contact a VA regional office and ask to speak to a counselor. To
-                find the regional office nearest you, please call{' '}
+                find the nearest regional office, please call{' '}
                 <a href="tel:1-800-827-1000">1-800-827-1000</a>. An accredited
                 representative, like a Veterans Service Officer (VSO), can also
                 help you with your claim.
@@ -156,7 +161,7 @@ class IntroductionPage extends React.Component {
                     </p>
                     <p>
                       Before filing a claim for increase, you might want to
-                      check whether you’re already receiving the maximum
+                      check to see if you’re already receiving the maximum
                       disability rating for your claimed condition.
                     </p>
                     <p>
@@ -202,35 +207,34 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <BetaGate>
-          {isBrandConsolidationEnabled() ? (
-            <CallToActionWidget appId="disability-benefits">
-              <SaveInProgressIntro
-                {...this.props}
-                buttonOnly
-                verifiedPrefillAlert={VerifiedAlert}
-                verifyRequiredPrefill={
-                  this.props.route.formConfig.verifyRequiredPrefill
-                }
-                prefillEnabled={this.props.route.formConfig.prefillEnabled}
-                messages={this.props.route.formConfig.savedFormMessages}
-                pageList={this.props.route.pageList}
-                startText="Start the Disability Compensation Application"
-                {...this.props.saveInProgressActions}
-                {...this.props.saveInProgress}
-              />
-            </CallToActionWidget>
-          ) : (
-            <FormStartControls
-              pathname={this.props.location.pathname}
-              user={user}
-              authenticate={this.authenticate}
+        {isBrandConsolidationEnabled() ? (
+          <CallToActionWidget appId="disability-benefits">
+            <SaveInProgressIntro
               {...this.props}
               buttonOnly
+              verifiedPrefillAlert={VerifiedAlert}
+              verifyRequiredPrefill={
+                this.props.route.formConfig.verifyRequiredPrefill
+              }
+              prefillEnabled={this.props.route.formConfig.prefillEnabled}
+              messages={this.props.route.formConfig.savedFormMessages}
+              pageList={this.props.route.pageList}
+              startText="Start the Disability Compensation Application"
+              {...this.props.saveInProgressActions}
+              {...this.props.saveInProgress}
             />
-          )}
-          {itfAgreement}
-        </BetaGate>
+          </CallToActionWidget>
+        ) : (
+          <FormStartControls
+            pathname={this.props.location.pathname}
+            user={user}
+            authenticate={this.authenticate}
+            gaStartEventName={gaStartEventName}
+            {...this.props}
+            buttonOnly
+          />
+        )}
+        {itfAgreement}
         {/* TODO: Remove inline style after I figure out why .omb-info--container has a left padding */}
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="11/30/2017" />

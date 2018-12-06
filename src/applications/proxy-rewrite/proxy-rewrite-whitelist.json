@@ -1,0 +1,74 @@
+{
+    "proxyRewriteWhitelist": [
+    {
+        "hostname": "www.choose.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": false
+    },
+    {
+        "hostname": "www.benefits.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": false
+    },
+    {
+        "hostname": "benefits.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": false
+    },
+    {
+        "hostname": "www.telehealth.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": true
+    },
+    {
+        "hostname": "www.volunteer.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": true
+    },
+    {
+        "hostname": "www.ptsd.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": true
+    },
+    {
+        "hostname": "www.nutrition.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": true
+    },
+    {
+        "hostname": "vaww.w2k8.testing.internet.webops.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": false
+    },
+    {
+        "hostname": "dev.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": false
+    },
+    {
+        "hostname": "localhost",
+        "pathnameBeginning": "/",
+        "cookieOnly": false
+    },
+    {
+        "hostname": "staging.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": false
+    },
+    {
+        "hostname": "preview.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": false
+    },
+    {
+        "hostname": "www.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": false
+    },
+    {
+        "hostname": "www.cem.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": false
+    }
+  ]
+}

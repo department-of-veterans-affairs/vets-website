@@ -1,7 +1,5 @@
 import React from 'react';
-import isBrandConsolidationEnabled from '../../../platform/brand-consolidation/feature-flag';
-
-const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
+import siteName from '../../../platform/brand-consolidation/site-name';
 
 class ClaimsAppealsUnavailable extends React.Component {
   render() {
@@ -12,8 +10,8 @@ class ClaimsAppealsUnavailable extends React.Component {
             Claim and Appeal status is unavailable
           </h4>
           <p className="usa-alert-text">
-            {propertyName} is having trouble loading claims and appeals
-            information at this time. Please check back again in a hour.
+            {siteName} is having trouble loading claims and appeals information
+            at this time. Please check back again in a hour.
           </p>
         </div>
       </div>

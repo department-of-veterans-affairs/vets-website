@@ -19,7 +19,8 @@ import { states } from '../../../platform/forms/address';
 import fullNameUI from '../../../platform/forms/definitions/fullName';
 import { genderLabels } from '../../../platform/static-data/labels';
 import { externalServices } from '../../../platform/monitoring/DowntimeNotification';
-import FormFooter from '../../../platform/forms/components/FormFooter';
+import FormFooter from '../components/FormFooter';
+import ErrorText from '../components/ErrorText';
 import environment from '../../../platform/utilities/environment';
 import applicantDescription from '../../../platform/forms/components/ApplicantDescription';
 import PrefillMessage from '../../../platform/forms/save-in-progress/PrefillMessage';
@@ -171,6 +172,7 @@ const formConfig = {
   preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     date,
     provider,
@@ -414,10 +416,9 @@ const formConfig = {
           path: 'military-service/service-information',
           title: 'Service periods',
           uiSchema: {
-            'ui:description':
-              __BUILDTYPE__ !== 'production'
-                ? MilitaryPrefillMessage
-                : undefined,
+            'ui:description': !environment.isProduction()
+              ? MilitaryPrefillMessage
+              : undefined,
             lastServiceBranch: {
               'ui:title': 'Last branch of service',
               'ui:options': {

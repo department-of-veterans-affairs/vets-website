@@ -1,5 +1,4 @@
 import createBetaEnrollmentButton from './createBetaEnrollmentButton';
-import create526EnrollmentButton from './create526EnrollmentButton';
 
 export const features = {
   healthAccount: 'health_account',
@@ -16,7 +15,6 @@ const routes = {
       path: 'personalization',
       component: createBetaEnrollmentButton(features.dashboard, '/dashboard'),
     },
-    { path: 'claim-increase', component: create526EnrollmentButton() },
   ],
 };
 

@@ -10,6 +10,7 @@ import backendServices from '../../../../platform/user/profile/constants/backend
 import recordEvent from '../../../../platform/monitoring/record-event';
 import { fetchFolder, fetchRecipients } from '../../../messaging/actions';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
+import { mhvBaseUrl } from '../../../../platform/site-wide/cta-widget/helpers';
 
 function recordDashboardClick(product) {
   return () => {
@@ -37,8 +38,12 @@ class MessagingWidget extends React.Component {
       { label: 'Date', value: 'sentDate', nonSortable: true },
     ];
 
+    // eslint-disable-next-line
     const makeMessageLink = (content, id) => (
-      <Link href={`/health-care/messaging/inbox/${id}`}>{content}</Link>
+      // Messaging temporarily disabled.
+      // See: https://github.com/department-of-veterans-affairs/vets.gov-team/issues/14499
+      // <Link href={`/health-care/messaging/inbox/${id}`}>{content}</Link>
+      <Link>{content}</Link>
     );
 
     let { messages } = this.props;
@@ -98,7 +103,7 @@ class MessagingWidget extends React.Component {
         <p>
           {isBrandConsolidationEnabled() ? (
             <a
-              href="https://www.myhealth.va.gov/mhv-portal-web/secure-messaging"
+              href={`${mhvBaseUrl()}/mhv-portal-web/secure-messaging`}
               target="_blank"
             >
               View all your secure messages

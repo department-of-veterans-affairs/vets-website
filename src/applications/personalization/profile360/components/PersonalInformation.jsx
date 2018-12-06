@@ -9,6 +9,7 @@ import { handleDowntimeForSection } from './DowntimeBanner';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
 import recordEvent from '../../../../platform/monitoring/record-event';
+import facilityLocator from '../../../facility-locator/manifest';
 
 function Gender({ gender }) {
   let content = 'This information is not available right now.';
@@ -66,7 +67,7 @@ class PersonalInformationContent extends React.Component {
             Please contact your nearest VA medical center to update your
             personal information.
             <br />
-            <a href="/facilities/?facilityType=health">
+            <a href={`${facilityLocator.rootUrl}/?facilityType=health`}>
               Find your nearest VA medical center
             </a>
           </p>
@@ -78,7 +79,7 @@ class PersonalInformationContent extends React.Component {
             Please contact your nearest VA regional benefit office to update
             your personal information.
             <br />
-            <a href="/facilities/?facilityType=benefits">
+            <a href={`${facilityLocator.rootUrl}/?facilityType=benefits`}>
               Find your nearest VA regional benefit office
             </a>
           </p>

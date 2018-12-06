@@ -5,6 +5,7 @@ import post911GIBStatus from '../../reducers';
 import {
   SET_SERVICE_AVAILABILITY,
   SERVICE_AVAILABILITY_STATES,
+  SET_SERVICE_UPTIME_REMAINING,
 } from '../../utils/constants';
 
 const initialState = {
@@ -71,5 +72,14 @@ describe('post911GIBStatus reducer', () => {
     });
 
     expect(state.serviceAvailability).to.equal(SERVICE_AVAILABILITY_STATES.up);
+  });
+
+  it('should handle setting the uptime remaining', () => {
+    const state = post911GIBStatus.post911GIBStatus(initialState, {
+      type: SET_SERVICE_UPTIME_REMAINING,
+      uptimeRemaining: 300,
+    });
+
+    expect(state.uptimeRemaining).to.equal(300);
   });
 });

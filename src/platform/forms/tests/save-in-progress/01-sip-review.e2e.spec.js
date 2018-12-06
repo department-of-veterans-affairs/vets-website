@@ -12,9 +12,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Ensure introduction page renders.
   client
-    .url(reviewUrl)
+    .openUrl(reviewUrl)
     .waitForElementVisible('body', Timeouts.normal)
-    .waitForElementVisible('.usa-button-primary', Timeouts.slow); // First render of React may be slow.
+    .waitForElementVisible('.main .usa-button-primary', Timeouts.slow); // First render of React may be slow.
 
   E2eHelpers.overrideVetsGovApi(client);
   E2eHelpers.overrideScrolling(client);
@@ -34,7 +34,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client.assert.urlContains('form-saved');
 
   // server error when saving in progress form
-  client.url(reviewUrl).waitForElementVisible('body', Timeouts.normal);
+  client.openUrl(reviewUrl).waitForElementVisible('body', Timeouts.normal);
 
   E2eHelpers.overrideScrolling(client);
 

@@ -32,9 +32,7 @@ export class IntroductionPage extends React.Component {
           startText="Start the Education Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}
-        >
-          Please complete the 22-1995 form to apply for education benefits.
-        </SaveInProgressIntro>
+        />
         <h4>Follow the steps below to apply for education benefits.</h4>
         <div className="process schemaform-process">
           <ol>

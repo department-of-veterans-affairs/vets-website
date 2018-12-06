@@ -14,7 +14,7 @@ function DowntimeBanner({ downtime, section }) {
             We’re sorry. The system that handles {section} information is down
             for maintenance right now. We hope to be finished with our work by{' '}
             {downtime.startTime.format('MMMM Do')},{' '}
-            {downtime.endTime.format('LT')}. Please check back soon.
+            {downtime.endTime.format('LT')} Please check back soon.
           </p>
         </div>
       }

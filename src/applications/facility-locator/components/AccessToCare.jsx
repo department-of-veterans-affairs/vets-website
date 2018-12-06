@@ -4,19 +4,22 @@ import moment from 'moment';
 
 import StatsBar from './StatsBar';
 
+/**
+ * VA Facility Statistics & Feedback from Vets/Patients
+ */
 export default class AccessToCare extends Component {
   render() {
-    const { facility } = this.props;
+    const { location } = this.props;
 
-    if (!facility) {
+    if (!location) {
       return null;
     }
 
-    if (facility.attributes.facilityType !== 'va_health_facility') {
+    if (location.attributes.facilityType !== 'va_health_facility') {
       return null;
     }
 
-    const healthFeedbackAttrs = facility.attributes.feedback.health;
+    const healthFeedbackAttrs = location.attributes.feedback.health;
 
     if (
       isEmpty(

@@ -63,4 +63,5 @@ FormStartControls.PropTypes = {
   handleLoadPrefill: PropTypes.func.isRequired,
   startText: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
+  gaStartEventName: PropTypes.string,
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import siteName from '../../../platform/brand-consolidation/site-name';
 
 class ClaimsUnavailable extends React.Component {
   render() {
@@ -7,9 +8,9 @@ class ClaimsUnavailable extends React.Component {
         <div className="usa-alert-body">
           <h4 className="claims-alert-header">Claim status is unavailable</h4>
           <p className="usa-alert-text">
-            Vets.gov is having trouble loading claims information at this time.
-            Please check back again in a hour. Please note: You are still able
-            to review appeals information.
+            {siteName} is having trouble loading claims information at this
+            time. Please check back again in a hour. Please note: You are still
+            able to review appeals information.
           </p>
         </div>
       </div>

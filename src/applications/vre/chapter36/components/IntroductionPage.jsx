@@ -31,9 +31,7 @@ class IntroductionPage extends React.Component {
           startText="Start the VR&E Application"
           {...this.props.saveInProgressActions}
           {...this.props.saveInProgress}
-        >
-          Please complete the Chapter 36 form to apply for benefits
-        </SaveInProgressIntro>
+        />
         <div className="process schemaform-process schemaform-process-sip">
           <h4>
             Follow the steps below to apply for educational and vocational

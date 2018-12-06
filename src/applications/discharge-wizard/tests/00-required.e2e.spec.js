@@ -2,7 +2,7 @@ const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 
 module.exports = E2eHelpers.createE2eTest(client => {
-  client.url(`${E2eHelpers.baseUrl}/discharge-upgrade-instructions/`);
+  client.openUrl(`${E2eHelpers.baseUrl}/discharge-upgrade-instructions/`);
 
   E2eHelpers.overrideSmoothScrolling(client);
 
@@ -15,7 +15,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // questions page
   client
-    .click('.usa-button-primary')
+    .click('.main .usa-button-primary')
     .waitForElementVisible('.dw-questions', Timeouts.normal);
 
   E2eHelpers.overrideScrolling(client);
@@ -49,7 +49,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .waitForElementVisible('.review-answers', Timeouts.slow)
     .axeCheck('.main')
-    .click('a.usa-button-primary');
+    .click('a.usa-button-primary.va-button');
 
   // results page
   client.waitForElementVisible('.dw-guidance', Timeouts.slow).axeCheck('.main');

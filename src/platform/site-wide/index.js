@@ -2,11 +2,11 @@
  * Module for site wide components
  * @module platform/site-wide
  */
-
 import '../monitoring/sentry.js';
 import './legacy/menu'; // Used in the footer.
 import './accessible-VCL-modal';
 import './moment-setup';
+import './popups';
 import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
@@ -20,6 +20,10 @@ import brandConsolidation from '../brand-consolidation';
 
 if (!brandConsolidation.isEnabled()) {
   require('./usa-banner-toggle');
+}
+
+if (brandConsolidation.isEnabled()) {
+  import(/* webpackChunkName: "uswds" */ 'uswds');
 }
 
 /**
@@ -58,7 +62,7 @@ export default function startSitewideComponents(commonStore) {
   if (brandConsolidation.isEnabled()) {
     startMegaMenuWidget(commonStore);
     startMobileMenuButton(commonStore);
-    startVAFooter(commonStore);
+    startVAFooter();
   }
 
   startMetrics();

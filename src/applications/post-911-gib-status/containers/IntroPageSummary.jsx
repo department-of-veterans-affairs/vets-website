@@ -2,6 +2,11 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import CallToActionWidget from '../../../platform/site-wide/cta-widget';
+import CallHRC from '../../../platform/brand-consolidation/components/CallHRC';
+import environment from '../../../platform/utilities/environment';
+
+import EducationWizard from '../components/EducationWizard';
+import { wizardConfig } from '../utils/helpers';
 
 export function VetsDotGovSummary() {
   // TODO: Determine whether h2 is right--accessibility-wise, it is, but it's larger than the design
@@ -45,9 +50,11 @@ export function VetsDotGovSummary() {
           </li>
         </ul>
         If none of the above situations applies to you, and you think your
-        Statement of Benefits should be here, please call the Vets.gov Help Desk
-        at 1-855-574-7286. We’re here Monday through Friday, 8:00 a.m. to 8:00
-        p.m. (ET).
+        Statement of Benefits should be here, please{' '}
+        <CallHRC>
+          call the Vets.gov Help Desk at 1-855-574-7286. We’re here Monday
+          through Friday, 8:00 a.m. to 8:00 p.m. (ET).
+        </CallHRC>
       </p>
     </div>
   );
@@ -58,12 +65,15 @@ export default function BrandConsolidationSummary() {
     <div itemScope itemType="http://schema.org/FAQPage">
       <div itemProp="description" className="va-introtext">
         <p>
-          If you served on active duty after September 10, 2001, you and your
-          dependents may qualify for Post-9/11 GI Bill education benefits. These
-          benefits can help cover all or some of the costs for school or
-          training. Check to see if you have any Post-9/11 GI Bill benefits, and
-          find out how much money you have left to use for your education or
-          training.
+          If you were awarded Post-9/11 GI Bill education benefits, your GI Bill
+          Statement of Benefits will show you how much of your benefits you’ve
+          used and how much you have left to use for your education or training.
+          These education benefits can help cover some or all of the costs for
+          school or training.
+        </p>
+        <p>
+          You’ll be able to view this benefit statement only if you were awarded
+          education benefits.
         </p>
       </div>
       <CallToActionWidget appId="gi-bill-benefits" />
@@ -92,7 +102,7 @@ export default function BrandConsolidationSummary() {
             <li>Received a decision from us on your application</li>
           </ul>
           <p>
-            <a href="https://www.vets.gov/education/apply/">
+            <a href="/education/apply/">
               Find out how to apply for Post-9/11 GI Bill benefits
             </a>
             .
@@ -102,13 +112,8 @@ export default function BrandConsolidationSummary() {
           </p>
           <ul>
             <li>
-              A premium{' '}
-              <strong>
-                My Health
-                <em>e</em>
-                Vet
-              </strong>{' '}
-              account, <strong>or</strong>
+              A premium <strong>My HealtheVet</strong> account,
+              <strong>or</strong>
             </li>
             <li>
               A <strong>DS Logon</strong> account (used for eBenefits and
@@ -158,41 +163,57 @@ export default function BrandConsolidationSummary() {
         itemScope
         itemType="http://schema.org/Answer"
       >
-        <div itemProp="text">
-          <p>
-            Your Post-9/11 GI Bill Statement of Benefits might not be available
-            if one of these is true:
-          </p>
-          <ul>
-            <li>
-              The name on the account you’re signed in with doesn’t exactly
-              match the name we have in our Post-9/11 GI Bill records.
-            </li>
-            <li>
-              We’re still processing your education benefits application, so we
-              haven’t created a record yet for you. We usually process
-              applications within 60 days. If you applied less than 60 days ago,
-              please check back soon.
-            </li>
-            <li>
-              You haven’t applied yet for Post-9/11 GI Bill education benefits.{' '}
-              <br />
-              <a href="/education/apply/">Apply for education benefits</a>.
-            </li>
-            <li>You’re not eligible for Post-9/11 GI Bill benefits.</li>
-            <li>
-              You’re trying to access the tool during its scheduled downtime.
-              This tool is available Sunday through Friday, 6:00 a.m. to 10:00
-              p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).
-            </li>
-          </ul>
-          <p>
-            If none of the above situations applies to you, and you think your
-            Statement of Benefits should be here, please call the VA.gov Help
-            Desk at <a href="tel:+18555747286">1-855-574-7286</a>. We’re here
-            Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET)
-          </p>
-        </div>
+        {!environment.isProduction() && (
+          <div className="intro-wizard" itemProp="text">
+            There are a few situations where your Post-9/11 GI Bill Statement of
+            Benefits might not be available. Answer a few questions and we’ll
+            help you find out why:
+            <EducationWizard
+              config={wizardConfig}
+              toggleText="Troubleshoot My GI Bill Benefits"
+            />
+          </div>
+        )}
+        {environment.isProduction() && (
+          <div itemProp="text">
+            <p>
+              Your Post-9/11 GI Bill Statement of Benefits might not be
+              available if one of these is true:
+            </p>
+            <ul>
+              <li>
+                The name on the account you’re signed in with doesn’t exactly
+                match the name we have in our Post-9/11 GI Bill records.
+              </li>
+              <li>
+                We’re still processing your education benefits application, so
+                we haven’t created a record yet for you. We usually process
+                applications within 60 days. If you applied less than 60 days
+                ago, please check back soon.
+              </li>
+              <li>
+                You haven’t applied yet for Post-9/11 GI Bill education
+                benefits. <br />
+                <a href="/education/apply/">Apply for education benefits</a>.
+              </li>
+              <li>You’re not eligible for Post-9/11 GI Bill benefits.</li>
+              <li>
+                You’re trying to access the tool during its scheduled downtime.
+                This tool is available Sunday through Friday, 6:00 a.m. to 10:00
+                p.m. (ET), and Saturday 6:00 a.m. to 7:00 p.m. (ET).
+              </li>
+            </ul>
+            <p>
+              If none of the above situations applies to you, and you think your
+              Statement of Benefits should be here, please{' '}
+              <CallHRC>
+                call the VA.gov Help Desk at{' '}
+                <a href="tel:+18555747286">1-855-574-7286</a>. We’re here Monday
+                through Friday, 8:00 a.m. to 8:00 p.m. (ET)
+              </CallHRC>
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

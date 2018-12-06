@@ -24,9 +24,17 @@ import startReactApp from './react';
  * @param {object} appInfo.reducer An object containing reducer functions. Will have
  * combineReducers run on it after being merged with the common, cross-site reducer.
  * @param {string} appInfo.url The base url for the React application
+ * @param {array} appInfo.analyticsEvents An array which contains analytics events to collect
+ * when the respective actions are fired.
  */
-export default function startApp({ routes, component, reducer, url }) {
-  const store = createCommonStore(reducer);
+export default function startApp({
+  routes,
+  component,
+  reducer,
+  url,
+  analyticsEvents,
+}) {
+  const store = createCommonStore(reducer, analyticsEvents);
 
   let history = browserHistory;
   if (url) {

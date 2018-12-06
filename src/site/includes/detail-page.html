@@ -1,0 +1,33 @@
+{% comment %}
+
+=====================
+ Detail Page with side navigation, next + previous links,
+ and related links.
+=====================
+
+- Use for interior detail pages that do not have child content.
+
+{% endcomment %}
+
+<main class="va-l-detail-page">
+  <div class="usa-grid usa-grid-full">
+    {% include "src/site/components/navigation-sidebar.html" %}
+
+    <div class="usa-width-three-fourths">
+      {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+      <article class="usa-content">
+        <h1>{{ title }}</h1>
+        {{ contents }}
+      </article>
+      {% if majorlinks != empty %}
+        {% include "src/site/components/navigation-links-list.html" %}
+      {% endif %}
+
+      {% if relatedlinks != empty %}
+        {% include "src/site/components/navigation-links-list.html" with isRelated = true %}
+      {% endif %}
+
+      {% include "src/site/includes/last-update.html" %}
+    </div>
+  </div>
+</main>

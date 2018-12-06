@@ -6,7 +6,7 @@ class ClaimsDecision extends React.Component {
   render() {
     const completedDate = this.props.completedDate;
     return (
-      <div className="usa-alert usa-alert-info claims-alert-status no-background-image">
+      <div className="usa-alert usa-alert-info claims-alert-status background-color-only">
         <h4 className="claims-alert-header">Your claim decision is ready</h4>
         <p>
           {completedDate

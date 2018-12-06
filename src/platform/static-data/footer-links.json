@@ -99,29 +99,22 @@
   },
   {
     "column": 2,
-    "href": "https://www.oit.va.gov/programs/piv/",
-    "order": 8,
-    "target": "_blank",
-    "title": "VA Information Technology and PIV Card"
-  },
-  {
-    "column": 2,
     "href": "https://www.va.gov/vso/",
-    "order": 9,
+    "order": 8,
     "target": null,
     "title": "Veterans Service Organizations (VSO)"
   },
   {
     "column": 2,
     "href": "https://www.va.gov/statedva.htm",
-    "order": 10,
+    "order": 9,
     "target": null,
     "title": "State Veterans Affairs Offices"
   },
   {
     "column": 2,
-    "href": "/welcome-kit/",
-    "order": 11,
+    "href": "https://www.va.gov/welcome-kit/",
+    "order": 10,
     "target": null,
     "title": "Print Your VA Welcome Kit"
   },
@@ -183,7 +176,7 @@
   },
   {
     "column": 4,
-    "href": "/facilities",
+    "href": "https://www.va.gov/find-locations/",
     "order": 1,
     "target": null,
     "title": "Find a VA Location"
@@ -193,21 +186,20 @@
     "href": "https://iris.custhelp.va.gov/app/ask",
     "order": 2,
     "target": null,
-    "title": "Submit a Help Request"
+    "title": "Ask a Question"
   },
   {
     "column": 4,
-    "href": "https://iris.custhelp.va.gov ",
+    "label": "Call MyVA311:",
+    "href": "tel:18446982311",
     "order": 3,
     "target": null,
-    "title": "Go to the VA Help Center"
+    "title": "1-844-698-2311"
   },
   {
     "column": 4,
-    "href": "https://iris.custhelp.va.gov/app/answers/detail/a_id/1703 ",
     "order": 4,
-    "target": null,
-    "title": "Call Us"
+    "title": "TTY: 711"
   },
   {
     "column": "bottom_rail",
@@ -218,86 +210,30 @@
   },
   {
     "column": "bottom_rail",
-    "href": "https://www.oprm.va.gov/foia/",
+    "href": "https://www.va.gov/oig/",
     "order": 2,
     "target": null,
-    "title": "FOIA"
-  },
-  {
-    "column": "bottom_rail",
-    "href": "https://www.va.gov/oig/",
-    "order": 3,
-    "target": "_blank",
-    "title": "Inspector General"
-  },
-  {
-    "column": "bottom_rail",
-    "href": "https://www.va.gov/orm/NOFEAR_Select.asp",
-    "order": 4,
-    "target": null,
-    "title": "No FEAR Act"
-  },
-  {
-    "column": "bottom_rail",
-    "href": "https://www.va.gov/about_va/va_notices.asp",
-    "order": 5,
-    "target": null,
-    "title": "Notices"
+    "title": "Office of Inspector General"
   },
   {
     "column": "bottom_rail",
     "href": "https://www.va.gov/opa/Plain_Language.asp",
-    "order": 6,
+    "order": 3,
     "target": null,
     "title": "Plain Language"
   },
   {
     "column": "bottom_rail",
     "href": "https://www.va.gov/privacy/",
-    "order": 7,
+    "order": 4,
     "target": null,
-    "title": "Privacy Policy"
+    "title": "Privacy, Policies, and Legal Information"
   },
   {
     "column": "bottom_rail",
-    "href": "https://www.va.gov/orpm/",
-    "order": 8,
+    "href": "https://www.va.gov/scorecard/",
+    "order": 5,
     "target": null,
-    "title": "Regulations"
-  },
-  {
-    "column": "bottom_rail",
-    "href": "https://www.va.gov/transparency/",
-    "order": 9,
-    "target": null,
-    "title": "Transparency"
-  },
-  {
-    "column": "bottom_rail",
-    "href": "https://www.usa.gov",
-    "order": 10,
-    "target": "_blank",
-    "title": "USA.gov"
-  },
-  {
-    "column": "bottom_rail",
-    "href": "https://www.va.gov/webpolicylinks.asp",
-    "order": 11,
-    "target": null,
-    "title": "Web Policies"
-  },
-  {
-    "column": "bottom_rail",
-    "href": "https://www.va.gov/accountability/",
-    "order": 12,
-    "target": null,
-    "title": "Whistleblower Rights and Protections"
-  },
-  {
-    "column": "bottom_rail",
-    "href": "https://www.whitehouse.gov",
-    "order": 13,
-    "target": "_blank",
-    "title": "White House"
+    "title": "VA.gov Scorecard"
   }
 ]

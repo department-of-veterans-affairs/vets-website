@@ -1,18 +1,26 @@
+import { mhvBaseUrl } from '../../site-wide/cta-widget/helpers';
+import environment from '.';
+
 let currentEnv = 'dev';
-if (__BUILDTYPE__.includes('staging') || __BUILDTYPE__ === 'preview') {
+if (environment.isStaging()) {
   currentEnv = 'staging';
+}
+
+if (environment.isProduction()) {
+  currentEnv = 'www';
 }
 
 // This list also exists in script/options.js
 const domainReplacements = [
-  { from: 'www\\.va\\.gov', to: `${currentEnv}.va.gov` },
+  {
+    from: 'https://www\\.va\\.gov',
+    // use relative links on dev to accomodate localhost
+    to: currentEnv === 'dev' ? '' : `https://${currentEnv}.va.gov`,
+  },
+  { from: 'https://www\\.myhealth\\.va\\.gov', to: mhvBaseUrl() },
 ];
 
-// This doesn't include preview because we want to redirect to staging urls
-// in preview
-const prodEnvironments = new Set(['production']);
-
-function replaceWithStagingDomain(href) {
+export function replaceWithStagingDomain(href) {
   let newHref = href;
   domainReplacements.forEach(domain => {
     newHref = newHref.replace(new RegExp(domain.from, 'g'), domain.to);
@@ -36,8 +44,8 @@ function replaceWithStagingDomain(href) {
  * @returns {Object} A object with the same structure as the data
  *  argument, with domains replaced
  */
-export function replaceDomainsInData(data, keyToCheck = 'href') {
-  if (prodEnvironments.has(__BUILDTYPE__)) {
+export function replaceDomainsInData(data, keyToCheck = ['href', 'src']) {
+  if (environment.isProduction()) {
     return data;
   }
 
@@ -51,7 +59,7 @@ export function replaceDomainsInData(data, keyToCheck = 'href') {
       let newValue = current;
 
       // We're assuming that keys provided in keyToCheck are strings
-      if (key === keyToCheck) {
+      if (keyToCheck.includes(key)) {
         newValue = replaceWithStagingDomain(current[key]);
       } else {
         newValue = replaceDomainsInData(current[key], keyToCheck);

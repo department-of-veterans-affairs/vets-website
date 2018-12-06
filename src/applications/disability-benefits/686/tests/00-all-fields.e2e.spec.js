@@ -1,22 +1,23 @@
-const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
-const Timeouts = require('../../../../platform/testing/e2e/timeouts');
+const E2eHelpers = require('platform/testing/e2e/helpers');
+const Timeouts = require('platform/testing/e2e/timeouts');
 const PageHelpers = require('./686-helpers');
 const testData = require('./schema/maximal-test.json');
-const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
+const ENVIRONMENTS = require('../../../../site/constants/environments');
+const FormsTestHelpers = require('platform/testing/e2e/form-helpers');
 
 const runTest = E2eHelpers.createE2eTest(client => {
   PageHelpers.initApplicationSubmitMock();
 
-  if (process.env.BUILDTYPE !== 'production') {
+  if (process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD) {
     // Ensure introduction page renders.
     client
-      .url(
+      .openUrl(
         `${
           E2eHelpers.baseUrl
         }/disability-benefits/apply/dependents/form-686c-dependents`,
       )
       .waitForElementVisible('body', Timeouts.normal)
-      .assert.title('Declaration of status of dependents: Vets.gov')
+      .assert.title('Declaration of status of dependents: VA.gov')
       .waitForElementVisible('.schemaform-title', Timeouts.slow) // First render of React may be slow.
       .click('.usa-button-primary');
 

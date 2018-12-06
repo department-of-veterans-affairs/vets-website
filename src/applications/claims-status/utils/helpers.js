@@ -252,6 +252,7 @@ export function makeAuthRequest(
   const options = _.merge(
     {
       method: 'GET',
+      credentials: 'include',
       mode: 'cors',
       headers: {
         'X-Key-Inflection': 'camel',

@@ -6,9 +6,9 @@ require('es6-promise').polyfill();
 
 import 'isomorphic-fetch';
 
-global.__BUILDTYPE__ = process.env.BUILDTYPE || 'development';
+global.__BUILDTYPE__ = process.env.BUILDTYPE || 'localhost';
 global.__ALL_CLAIMS_ENABLED__ =
-  global.__BUILDTYPE__ === 'development' ||
+  global.__BUILDTYPE__ === 'localhost' ||
   process.env.ALL_CLAIMS_ENABLED === 'true';
 
 /**
@@ -48,6 +48,14 @@ export default function setupJSDom() {
   win.dataLayer = [];
   win.scrollTo = () => {};
   win.sessionStorage = {};
+  win.settings = {};
+  win.matchMedia = jest.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+  }));
 
   win.requestAnimationFrame = func => func();
 

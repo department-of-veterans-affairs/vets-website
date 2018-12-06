@@ -1,8 +1,11 @@
 import _ from '../../../../platform/utilities/data';
+import merge from 'lodash/merge';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // NOTE: Easier to run schema locally with hot reload for dev
 // import fullSchema526EZ from '/path/Sites/vets-json-schema/dist/21-526EZ-schema.json';
+
+import submitForm from '../../all-claims/config/submitForm';
 
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
@@ -13,6 +16,8 @@ import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 
+import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPoll from '../components/ConfirmationPoll';
 
@@ -26,7 +31,7 @@ import treatmentAddressUiSchema from '../pages/treatmentAddress';
 import {
   uiSchema as paymentInfoUiSchema,
   schema as paymentInfoSchema,
-} from '../../all-claims/pages/paymentInformation';
+} from '../pages/paymentInformation';
 
 import {
   uiSchema as reservesNationalGuardUISchema,
@@ -45,13 +50,7 @@ import {
   privateRecordsChoice,
   facilityDescription,
   download4142Notice,
-  authorizationToDisclose,
-  // recordReleaseWarning, // TODO: Re-enable after 4142 PDF integration
   evidenceSummaryView,
-  GetFormHelp,
-  FDCDescription,
-  FDCWarning,
-  noFDCWarning,
   getEvidenceTypesDescription,
   veteranInfoDescription,
   editNote,
@@ -68,17 +67,20 @@ import {
   disabilitiesClarification,
 } from '../../all-claims/content/ratedDisabilities';
 
+import { privateRecordsChoiceHelp } from '../../all-claims/content/privateMedicalRecords';
+import { uploadDescription } from '../../all-claims/content/fileUploadDescriptions';
+
 import {
-  privateRecordsChoiceHelp,
-  documentDescription,
-} from '../../all-claims/content/privateMedicalRecords';
+  FDCDescription,
+  FDCWarning,
+  noFDCWarning,
+} from '../../all-claims/content/fullyDevelopedClaim';
 
 import { FIFTY_MB } from '../../all-claims/constants';
 
 import { treatmentView } from '../../all-claims/content/vaMedicalRecords';
 import { evidenceTypeHelp } from '../../all-claims/content/evidenceTypes';
-import { additionalDocumentDescription } from '../../all-claims/content/additionalDocuments';
-import { requireOneSelected } from '../validations';
+import { requireOneSelected, isInPast } from '../validations';
 
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 import PhoneNumberWidget from 'us-forms-system/lib/js/widgets/PhoneNumberWidget';
@@ -86,7 +88,6 @@ import PhoneNumberReviewWidget from 'us-forms-system/lib/js/review/PhoneNumberWi
 
 const {
   treatments,
-  // privateRecordReleases, // TODO: Re-enable after 4142 PDF integration
   serviceInformation: {
     properties: { servicePeriods },
   },
@@ -126,10 +127,12 @@ const formConfig = {
       'Please sign in again to resume your application for disability claims increase.',
   },
   transformForSubmit: transform,
+  submit: submitForm,
   introduction: IntroductionPage,
   confirmation: ConfirmationPoll,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     address,
     vaTreatmentCenterAddress,
@@ -142,10 +145,9 @@ const formConfig = {
     dateRangeAllRequired,
     disabilities,
   },
-  title: 'Apply for increased disability compensation',
+  title: 'File for increased disability compensation',
   subTitle: 'Form 21-526EZ',
   preSubmitInfo,
-  // getHelp: GetFormHelp, // TODO: May need updated form help content
   chapters: {
     veteranDetails: {
       title: isReviewPage => `${isReviewPage ? 'Review ' : ''}Veteran Details`,
@@ -184,10 +186,17 @@ const formConfig = {
                 serviceBranch: {
                   'ui:title': 'Branch of service',
                 },
-                dateRange: dateRangeUI(
-                  'Service start date',
-                  'Service end date',
-                  'End of service must be after start of service',
+                dateRange: merge(
+                  dateRangeUI(
+                    'Service start date',
+                    'Service end date',
+                    'End of service must be after start of service',
+                  ),
+                  {
+                    to: {
+                      'ui:validations': [isInPast],
+                    },
+                  },
                 ),
               },
             },
@@ -234,7 +243,7 @@ const formConfig = {
                 },
                 pointOfContact: {
                   'ui:description':
-                    'Please provide the name and number of a person we should call if we need to get in touch with you.',
+                    'Please provide the name and number of a person we can call if we need to get in touch with you',
                   'ui:options': {
                     expandUnder: 'isHomeless',
                   },
@@ -244,15 +253,9 @@ const formConfig = {
                       pattern:
                         "Full names can only contain letters, numbers, spaces, dashes ('-'), and forward slashes ('/')",
                     },
-                    'ui:required': formData => {
-                      const {
-                        homelessness: homelessOrAtRisk,
-                      } = formData.veteran;
-                      if (homelessOrAtRisk.isHomeless !== true) {
-                        return false;
-                      }
-                      return !!homelessOrAtRisk.pointOfContact.primaryPhone;
-                    },
+                    'ui:required': formData =>
+                      _.get('veteran.homelessness.isHomeless', formData, '') ===
+                      true,
                   },
                   primaryPhone: {
                     'ui:title': 'Phone number',
@@ -265,16 +268,9 @@ const formConfig = {
                       pattern:
                         'Phone numbers must be 10 digits (dashes allowed)',
                     },
-                    'ui:required': formData => {
-                      const {
-                        homelessness: homelessOrAtRisk,
-                      } = formData.veteran;
-                      if (homelessOrAtRisk.isHomeless !== true) {
-                        return false;
-                      }
-                      return !!homelessOrAtRisk.pointOfContact
-                        .pointOfContactName;
-                    },
+                    'ui:required': formData =>
+                      _.get('veteran.homelessness.isHomeless', formData, '') ===
+                      true,
                   },
                 },
               },
@@ -302,7 +298,7 @@ const formConfig = {
           path: 'select-disabilities',
           uiSchema: {
             'ui:description':
-              'Below are your rated disabilities. Please choose the disability that you’re filing for an increase because the condition has gotten worse.',
+              'Below are your rated disabilities. Please choose the disability for which you’re filing an increase because the condition has gotten worse.',
             disabilities: {
               'ui:field': 'StringField',
               'ui:widget': SelectArrayItemsWidget,
@@ -364,7 +360,7 @@ const formConfig = {
                 'ui:title': disabilityNameTitle,
                 'view:hasEvidence': {
                   'ui:title':
-                    'Do you have any evidence that you would like to submit with your claim?',
+                    'Do you have any evidence that you’d like to submit with your claim?',
                   'ui:description': '',
                   'ui:widget': 'yesNo',
                 },
@@ -602,7 +598,7 @@ const formConfig = {
                   'ui:options': {
                     labels: {
                       yes: 'Yes',
-                      no: 'No, my doctor has my medical records',
+                      no: 'No, please get my records from my doctor.',
                     },
                   },
                 },
@@ -647,151 +643,6 @@ const formConfig = {
             },
           },
         },
-        authorizationToDisclose: {
-          title: 'Authorization',
-          path: 'supporting-evidence/:index/authorization-to-disclose',
-          showPagePerItem: true,
-          itemFilter: item => _.get('view:selected', item),
-          arrayPath: 'disabilities',
-          depends: (formData, index) => {
-            const hasRecords = _.get(
-              `disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`,
-              formData,
-            );
-            const requestsRecords =
-              _.get(
-                `disabilities.${index}.view:uploadPrivateRecords`,
-                formData,
-              ) === 'no';
-            return hasRecords && requestsRecords;
-          },
-          uiSchema: {
-            disabilities: {
-              items: {
-                'ui:description': authorizationToDisclose,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              disabilities: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {},
-                },
-              },
-            },
-          },
-        },
-        // TODO: Re-enable after 4142 PDF integration
-        // privateMedicalRecordRelease: {
-        //   title: '',
-        //   path: 'supporting-evidence/:index/private-medical-records-release',
-        //   showPagePerItem: true,
-        //   itemFilter: (item) => _.get('view:selected', item),
-        //   arrayPath: 'disabilities',
-        //   depends: (formData, index) => {
-        //     const hasRecords = _.get(`disabilities.${index}.view:selectableEvidenceTypes.view:privateMedicalRecords`, formData);
-        //     const requestsRecords = _.get(`disabilities.${index}.view:uploadPrivateRecords`, formData) === 'no';
-        //     return hasRecords && requestsRecords;
-        //   },
-        //   uiSchema: {
-        //     disabilities: {
-        //       items: {
-        //         'ui:description': 'Please let us know where and when you received treatment. We’ll request your private medical records for you. If you have your private medical records available, you can upload them later in the application',
-        //         privateRecordReleases: {
-        //           'ui:options': {
-        //             itemName: 'Private Medical Record Release',
-        //             viewField: treatmentView
-        //           },
-        //           items: {
-        //             'ui:order': [
-        //               'treatmentCenterName',
-        //               'privateMedicalRecordsReleaseRestricted',
-        //               'view:releaseRestrictedNotice',
-        //               'treatmentDateRange',
-        //               'treatmentCenterAddress'
-        //             ],
-        //             treatmentCenterName: {
-        //               'ui:title': 'Name of private provider or hospital'
-        //             },
-        //             treatmentDateRange: dateRangeUI(
-        //               'Approximate date of first treatment',
-        //               'Approximate date of last treatment',
-        //               'Date of last treatment must be after date of first treatment'
-        //             ),
-        //             privateMedicalRecordsReleaseRestricted: {
-        //               'ui:title': 'I give my consent, or permission, to my doctor to only release records related to this condition'
-        //             },
-        //             'view:releaseRestrictedNotice': {
-        //               'ui:description': () => recordReleaseWarning,
-        //               'ui:options': {
-        //                 expandUnder: 'privateMedicalRecordsReleaseRestricted'
-        //               }
-        //             },
-        //             treatmentCenterAddress: {
-        //               'ui:order': [
-        //                 'country',
-        //                 'addressLine1',
-        //                 'addressLine2',
-        //                 'city',
-        //                 'state',
-        //                 'zipCode'
-        //               ],
-        //               // TODO: confirm validation for PCIU address across all usage
-        //               // 'ui:validations': [validateAddress],
-        //               country: {
-        //                 'ui:title': 'Country'
-        //               },
-        //               addressLine1: {
-        //                 'ui:title': 'Street address'
-        //               },
-        //               addressLine2: {
-        //                 'ui:title': 'Street address'
-        //               },
-        //               city: {
-        //                 'ui:title': 'City'
-        //               },
-        //               state: {
-        //                 'ui:title': 'State'
-        //               },
-        //               zipCode: {
-        //                 'ui:title': 'Postal code',
-        //                 'ui:options': {
-        //                   widgetClassNames: 'usa-input-medium',
-        //                 }
-        //               }
-        //             }
-        //           }
-        //         }
-        //       }
-        //     }
-        //   },
-        //   schema: {
-        //     type: 'object',
-        //     properties: {
-        //       disabilities: {
-        //         type: 'array',
-        //         items: {
-        //           type: 'object',
-        //           properties: {
-        //             privateRecordReleases: _.set(
-        //               'items.properties.view:releaseRestrictedNotice',
-        //               {
-        //                 type: 'object',
-        //                 'ui:collapsed': true,
-        //                 properties: {}
-        //               },
-        //               privateRecordReleases
-        //             )
-        //           }
-        //         }
-        //       }
-        //     },
-        //   }
-        // },
         recordUpload: {
           title: 'Upload your private medical records',
           depends: (formData, index) => {
@@ -857,7 +708,7 @@ const formConfig = {
                       'ui:title': 'Document name',
                     },
                   }),
-                  { 'ui:description': documentDescription },
+                  { 'ui:description': uploadDescription },
                 ),
               },
             },
@@ -936,7 +787,7 @@ const formConfig = {
                       'ui:title': 'Document name',
                     },
                   }),
-                  { 'ui:description': additionalDocumentDescription },
+                  { 'ui:description': uploadDescription },
                 ),
               },
             },
@@ -1004,7 +855,7 @@ const formConfig = {
                 labels: {
                   Y: 'Yes, I have uploaded all my supporting documents.',
                   N:
-                    'No, I have some extra information that I will submit to VA later.',
+                    'No, I have some extra information that I’ll submit to VA later.',
                 },
               },
             },

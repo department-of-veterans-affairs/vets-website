@@ -2,19 +2,19 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import Breadcrumbs from '../../components/Breadcrumbs';
+import ClaimsBreadcrumbs from '../../components/ClaimsBreadcrumbs';
 
 describe('<Breadcrumbs>', () => {
   it('should render first two items', () => {
     const tree = SkinDeep.shallowRender(
-      <Breadcrumbs>
-        <li>Testing</li>
-      </Breadcrumbs>,
+      <ClaimsBreadcrumbs>
+        <a href="#">Testing</a>
+      </ClaimsBreadcrumbs>,
     );
 
-    const items = tree.everySubTree('li');
-    expect(items[0].subTree('a').props.href).to.equal('/');
-    expect(items[1].subTree('a').props.href).to.equal('/disability-benefits/');
+    const items = tree.everySubTree('a');
+    expect(items[0].props.href).to.equal('/');
+    expect(items[1].props.href).to.equal('/disability-benefits/');
     expect(items[2].text()).to.equal('Testing');
   });
 });

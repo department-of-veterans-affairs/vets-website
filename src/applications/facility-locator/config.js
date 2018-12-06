@@ -1,7 +1,14 @@
+/* eslint-disable arrow-body-style */
 import environment from '../../platform/utilities/environment';
+
+// TODO: Remove me when done bug fixing
+// const environment = {
+//   API_URL: 'http://staging-api.va.gov',
+// };
 
 // Base URL to be used in API requests.
 export const api = {
+  baseUrl: `${environment.API_URL}/v0/facilities`,
   url: `${environment.API_URL}/v0/facilities/va`,
   settings: {
     headers: {
@@ -10,13 +17,26 @@ export const api = {
   },
 };
 
+/**
+ * Feature Flag Function
+ *
+ * Determines, based on enviornment type, whether or not to
+ * enable Community Care Provider Locator features of the
+ * existing Facility Locator App.
+ */
+export const ccLocatorEnabled = () => {
+  return !environment.isProduction();
+};
+
 /* eslint-disable camelcase */
 export const facilityTypes = {
-  va_health_facility: 'Health',
+  all: 'All Facilities',
+  va_health_facility: 'VA Health',
   va_cemetery: 'Cemetery',
   va_benefits_facility: 'Benefits',
   vet_center: 'Vet Center',
-  health: 'Health',
+  health: 'VA Health',
+  cc_provider: 'Community Care (Non-VA Health)',
   cemetery: 'Cemetery',
   benefits: 'Benefits',
 };

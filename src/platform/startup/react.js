@@ -22,7 +22,7 @@ export default function startReactApp(component, root = null) {
       window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;
   }
 
-  // Create a Vets.gov global that all code can use. This is mostly useful for overrides for
+  // Create a VA.gov global that all code can use. This is mostly useful for overrides for
   // think like api URL endpoints during testing.
   window.VetsGov = window.VetsGov || {
     api: {

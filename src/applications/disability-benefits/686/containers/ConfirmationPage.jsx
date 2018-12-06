@@ -3,8 +3,9 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import { focusElement } from '../../../../platform/utilities/ui';
-import AskVAQuestions from '../../../../platform/forms/components/AskVAQuestions';
+import { focusElement } from 'platform/utilities/ui';
+import FormFooter from 'platform/forms/components/FormFooter';
+import GetFormHelp from '../../components/GetFormHelp';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -45,7 +46,12 @@ export class ConfirmationPage extends React.Component {
           you’ll need to also fill out a Request for Approval of School
           Attendance (VA Form 21-674).
         </p>
-        <a href="https://www.vets.gov">Download VA Form 21-674.</a>
+        <a
+          target="_blank"
+          href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
+        >
+          Download VA Form 21-674.
+        </a>
         <div className="confirmation-guidance-container">
           <h4 className="confirmation-guidance-heading">
             What happens after I apply?
@@ -78,21 +84,7 @@ export class ConfirmationPage extends React.Component {
             </ul>
           )}
         </div>
-        <AskVAQuestions>
-          <p className="help-talk">Enrollment or Eligibility questions:</p>
-          <p className="help-phone-number">
-            <a className="help-phone-number-link" href="tel:+1-877-222-8387">
-              1-877-222-8387
-            </a>
-            <br />
-            TTY:{' '}
-            <a className="help-phone-number-link" href="tel:+18008778339">
-              1-800-877-8339
-            </a>
-            <br />
-            Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
-          </p>
-        </AskVAQuestions>
+        <FormFooter formConfig={{ getHelp: GetFormHelp }} />
       </div>
     );
   }

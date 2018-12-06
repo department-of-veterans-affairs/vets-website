@@ -9,6 +9,6 @@ describe('<AppealLayout>', () => {
     const tree = SkinDeep.shallowRender(<AppealLayout>Testing</AppealLayout>);
 
     expect(tree.text()).to.contain('Testing');
-    expect(tree.subTree('Breadcrumbs')).not.to.be.false;
+    expect(tree.subTree('ClaimsBreadcrumbs')).not.to.be.false;
   });
 });

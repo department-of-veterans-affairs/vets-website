@@ -14,7 +14,7 @@ export default {
   idme: 'idme',
   // Master Veteran Index (source of veteran profile info)
   mvi: 'mvi',
-  // MyHealtheVet
+  // My HealtheVet
   mhv: 'mhv',
   // The Image Management System (education forms)
   tims: 'tims',

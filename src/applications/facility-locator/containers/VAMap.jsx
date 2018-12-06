@@ -1,42 +1,52 @@
-import { bindActionCreators } from 'redux';
+/* eslint-disable react/jsx-closing-bracket-location */
+/* eslint-disable arrow-body-style */
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import {
-  updateSearchQuery,
-  searchWithAddress,
-  searchWithBounds,
-  fetchVAFacility,
-} from '../actions';
-import { map, find, compact, isEmpty, debounce } from 'lodash';
+import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
-import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
 import isMobile from 'ismobilejs';
+import { map, compact, isEmpty, debounce } from 'lodash';
+import {
+  updateSearchQuery,
+  genBBoxFromAddress,
+  searchWithBounds,
+  fetchVAFacility,
+  clearSearchResults,
+} from '../actions';
+import SearchControls from '../components/SearchControls';
+import ResultsList from '../components/ResultsList';
+import SearchResult from '../components/SearchResult';
 import CemeteryMarker from '../components/markers/CemeteryMarker';
 import HealthMarker from '../components/markers/HealthMarker';
 import BenefitsMarker from '../components/markers/BenefitsMarker';
 import VetCenterMarker from '../components/markers/VetCenterMarker';
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import ResultsList from '../components/ResultsList';
-import SearchControls from '../components/SearchControls';
-import MobileSearchResult from '../components/MobileSearchResult';
+import ProviderMarker from '../components/markers/ProviderMarker';
 import { facilityTypes } from '../config';
+import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
+import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
 
+const otherToolsLink = (
+  <p>
+    Can’t find what you’re looking for?
+    <a href="https://www.va.gov/directory/guide/home.asp">
+      Try using our other tools to search.
+    </a>
+  </p>
+);
+
+// This isn't valid JSX 2.x, better to get used to it now
+/* eslint-disable react/jsx-boolean-value */
 class VAMap extends Component {
-  static contextTypes = {
-    router: PropTypes.object,
-  };
-
   constructor(props) {
     super(props);
 
     this.zoomOut = debounce(
-      () => this.refs.map.leafletElement.zoomOut(0.75),
+      () => this.refs.map.leafletElement.zoomOut(BOUNDING_RADIUS),
       2500,
-      {
-        leading: true,
-      },
+      { leading: true },
     );
 
     this.listener = browserHistory.listen(location => {
@@ -47,103 +57,133 @@ class VAMap extends Component {
   componentDidMount() {
     const { location, currentQuery } = this.props;
 
-    // navigating back from a facility page preserves previous search results
-    if (!isEmpty(this.props.facilities)) {
+    // navigating back from *Detail page preserves previous search results
+    if (!isEmpty(this.props.results)) {
       return;
     }
 
-    this.props.updateSearchQuery({
-      facilityType: location.query.facilityType,
-      serviceType: location.query.serviceType,
-    });
-    if (location.query.address) {
+    // Relevant when loading a "shareable" URL
+    if (!isEmpty(location.query)) {
       this.props.updateSearchQuery({
-        searchString: location.query.address,
+        facilityType: location.query.facilityType,
+        serviceType: location.query.serviceType,
       });
-      this.props.searchWithAddress({
+    }
+
+    if (location.query.address) {
+      this.props.genBBoxFromAddress({
         searchString: location.query.address,
         context: location.query.context,
       });
     } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(currentPosition => {
-        this.props.updateSearchQuery({
-          position: currentPosition.coords,
-        });
-
-        this.reverseGeocode(currentPosition.coords);
+        this.genBBoxFromCoords(currentPosition.coords);
       });
     } else {
-      this.props.searchWithBounds(
-        currentQuery.bounds,
-        currentQuery.facilityType,
-        currentQuery.serviceType,
-        currentQuery.currentPage,
-      );
+      this.props.searchWithBounds({
+        bounds: currentQuery.bounds,
+        facilityType: currentQuery.facilityType,
+        serviceType: currentQuery.serviceType,
+        page: currentQuery.currentPage,
+      });
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const { currentQuery } = this.props;
     const newQuery = nextProps.currentQuery;
+    let resultsPage = newQuery.currentPage;
 
-    if (currentQuery.position !== newQuery.position) {
+    if (!areGeocodeEqual(currentQuery.position, newQuery.position)) {
       this.updateUrlParams({
-        location: `${newQuery.position.latitude},${
-          newQuery.position.longitude
-        }`,
+        // eslint-disable-next-line prettier/prettier
+        location: `${newQuery.position.latitude},${newQuery.position.longitude}`, // don't break the string
         context: newQuery.context,
         address: newQuery.searchString,
       });
     }
 
-    // reset to page 1 if zoom level changes
+    // Reset to page 1 if zoom level changes
     if (
       currentQuery.zoomLevel !== newQuery.zoomLevel &&
       currentQuery.currentPage !== 1
     ) {
-      this.props.updateSearchQuery({
-        currentPage: 1,
-      });
+      resultsPage = 1;
     }
 
+    /*
+      Notes:
+
+      Going to need a couple new flags in the Redux store to properly
+      track state of the app. For example, a flag to know when Mapbox API
+      requests are done as all they do is update the Redux store, but intuiting
+      whether or not the data in the fields that were updated represents a valid
+      state for triggering a new search is ambiguous at best nor should we simply
+      fire off a new search each time something changes in Redux.
+
+      New Flag Ideas:
+        - geocodeInProgress
+        - revGeocodeInProgress - should be a separate flag as both operations happen
+        - searchRequested - To track that the user clicked the search button
+          (could have used inProgress but it gets tripped by other Actions)
+        - 
+      
+      The boundary checking of the current code below doesn't actually work.
+      Array equality isn't something that should be done with the operator,
+      and using the new method below causes `searchWithBounds` to never fire.
+      Goes in line with needing clearer ideas of what state of the app ==
+      when to fire off a new search, zoom out, or even just do nothing.
+
+      Near as I can tell this.zoomOut.cancel() does nothing.
+
+      Future testing to fix excessive searches being fired:
+    // If we're not searching but the flag to request a search is on
+    if (!newQuery.searchBoundsInProgress && newQuery.inProgress) {
+      if (this.didParamsChange(currentQuery, newQuery)) {
+        this.props.clearSearchResults();
+      }
+    */
     if (
       newQuery.bounds &&
       currentQuery.bounds !== newQuery.bounds &&
       !newQuery.searchBoundsInProgress
     ) {
-      this.props.searchWithBounds(
-        newQuery.bounds,
-        newQuery.facilityType,
-        newQuery.serviceType,
-        newQuery.currentPage,
-      );
+      this.props.searchWithBounds({
+        bounds: newQuery.bounds,
+        facilityType: newQuery.facilityType,
+        serviceType: newQuery.serviceType,
+        page: resultsPage,
+      });
     }
 
-    if (!isEmpty(nextProps.facilities) || newQuery.inProgress) {
+    if (!isEmpty(nextProps.results) || newQuery.inProgress) {
       this.zoomOut.cancel();
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { currentQuery } = prevProps;
-    const newQuery = this.props.currentQuery;
+    const { currentQuery: prevQuery } = prevProps;
+    const updatedQuery = this.props.currentQuery;
 
-    const shouldUpdateSearchQuery =
-      isEmpty(this.props.facilities) &&
-      !newQuery.inProgress &&
-      currentQuery.inProgress &&
-      newQuery.bounds &&
-      parseInt(newQuery.zoomLevel, 10) > 2 &&
-      !newQuery.error;
+    /* eslint-disable prettier/prettier */
+    const shouldZoomOut = ( // ToTriggerNewSearch
+      (!updatedQuery.searchBoundsInProgress && prevQuery.searchBoundsInProgress) && // search completed
+      isEmpty(this.props.results) &&
+      updatedQuery.bounds &&
+      parseInt(updatedQuery.zoomLevel, 10) > 2 &&
+      !updatedQuery.error
+    );
+    /* eslint-enable prettier/prettier */
 
-    if (shouldUpdateSearchQuery) {
+    if (shouldZoomOut) {
       if (isMobile.any) {
+        // manual zoom-out for mobile
         this.props.updateSearchQuery({
           bounds: [
-            newQuery.bounds[0] - 0.75,
-            newQuery.bounds[1] - 0.75,
-            newQuery.bounds[2] + 0.75,
-            newQuery.bounds[3] + 0.75,
+            updatedQuery.bounds[0] - BOUNDING_RADIUS,
+            updatedQuery.bounds[1] - BOUNDING_RADIUS,
+            updatedQuery.bounds[2] + BOUNDING_RADIUS,
+            updatedQuery.bounds[3] + BOUNDING_RADIUS,
           ],
         });
       } else {
@@ -151,102 +191,141 @@ class VAMap extends Component {
       }
     }
 
-    if (!isEmpty(this.props.facilities) || currentQuery.inProgress) {
+    // If we have results OR the search is still running
+    if (
+      !isEmpty(this.props.results) ||
+      (prevQuery.inProgress && updatedQuery.inProgress)
+    ) {
       this.zoomOut.cancel();
     }
   }
 
   componentWillUnmount() {
-    // call the func returned by browserHistory.listen to unbound the listener
+    // call the func returned by browserHistory.listen to unbind the listener
     this.listener();
   }
 
-  syncStateWithLocation(location) {
+  /**
+   * Helper method to compare search parameters between
+   * component updates/renders.
+   *
+   * Currently compares search string, location type,
+   * service type, and map bounding box.
+   *
+   * @param {object} previous Previous component props
+   * @param {object} current Current componet props
+   */
+  /* didParamsChange = (previous, current) => {
+    return (
+      current.searchString !== previous.searchString ||
+      current.facilityType !== previous.facilityType ||
+      current.serviceType !== previous.serviceType ||
+      !areBoundsEqual(current.bounds, previous.bounds)
+    );
+  }; */
+
+  /**
+   * Presumably handles the case if a user manually makes a change to the
+   * address bar and thereby updates the location as tracked by ReactRouter?
+   * (i.e. route changes not handled through the Router)
+   *
+   * @param {Object} location ReactRouter location object
+   */
+  // eslint-disable-next-line prettier/prettier
+  syncStateWithLocation = (location) => {
     if (
       location.query.address &&
       this.props.currentQuery.searchString !== location.query.address &&
       !this.props.currentQuery.inProgress
     ) {
-      this.props.searchWithAddress({
+      this.props.genBBoxFromAddress({
         searchString: location.query.address,
         context: location.query.context,
       });
     }
-  }
-
-  // pushes coordinates to URL so that map link is useful for sharing
-  // TODO (bshyong): try out existing query-string npm library
-  updateUrlParams = params => {
-    const { location, currentQuery } = this.props;
-    const queryParams = compact(
-      map(
-        {
-          ...location.query,
-          zoomLevel: currentQuery.zoomLevel,
-          page: currentQuery.currentPage,
-          address: currentQuery.searchString,
-          facilityType: currentQuery.facilityType,
-          serviceType: currentQuery.serviceType,
-          ...params,
-        },
-        (v, k) => {
-          if (v) {
-            return `${k}=${v}`;
-          }
-          return null;
-        },
-      ),
-    ).join('&');
-
-    browserHistory.push(`/facilities${location.pathname}?${queryParams}`);
   };
 
-  // takes obj of form {latitude: 0, longitude: 0}
-  reverseGeocode(position) {
-    mapboxClient.geocodeReverse(
-      position,
-      {
-        types: 'address',
-      },
-      (err, res) => {
-        const coordinates = res.features[0].center;
-        const placeName = res.features[0].place_name;
-        const zipCode = find(res.features[0].context, v =>
-          v.id.includes('postcode'),
-        ).text;
+  /**
+   * Regenerates the URL based on the given parameters so that
+   * the map link stays useful for sharing.
+   *
+   * @param {Object} params Object containing the current search fields
+   */
+  // eslint-disable-next-line prettier/prettier
+  updateUrlParams = (params) => {
+    // TODO (bshyong): try out existing query-string npm library
+    const { location, currentQuery } = this.props;
+    const queryParams = {
+      ...location.query,
+      zoomLevel: currentQuery.zoomLevel,
+      page: currentQuery.currentPage,
+      address: currentQuery.searchString,
+      facilityType: currentQuery.facilityType,
+      serviceType: currentQuery.serviceType,
+      ...params,
+    };
 
-        this.props.updateSearchQuery({
-          bounds: res.features[0].bbox || [
-            coordinates[0] - 0.75,
-            coordinates[1] - 0.75,
-            coordinates[0] + 0.75,
-            coordinates[1] + 0.75,
-          ],
-          searchString: placeName,
-          context: zipCode,
-        });
+    /* eslint-disable prettier/prettier */
+    const queryString = compact(
+      map(queryParams, (value, key) => {
+        return (value) ? `${key}=${value}` : null;
+      })
+    ).join('&');
+    /* eslint-enable prettier/prettier */
 
-        this.updateUrlParams({
-          address: placeName,
-          context: zipCode,
-        });
-      },
-    );
-  }
+    browserHistory.push(`/find-locations${location.pathname}?${queryString}`);
+  };
+
+  /**
+   * Generates a bounding box from a lat/long geocoordinate.
+   *
+   *  @param position Has shape: `{latitude: x, longitude: y}`
+   */
+  // eslint-disable-next-line prettier/prettier
+  genBBoxFromCoords = (position) => {
+    mapboxClient.geocodeReverse(position, { types: 'address' }, (err, res) => {
+      const coordinates = res.features[0].center;
+      const placeName = res.features[0].place_name;
+      const zipCode =
+        res.features[0].context.find(v => v.id.includes('postcode')).text || '';
+
+      this.props.updateSearchQuery({
+        bounds: res.features[0].bbox || [
+          coordinates[0] - BOUNDING_RADIUS,
+          coordinates[1] - BOUNDING_RADIUS,
+          coordinates[0] + BOUNDING_RADIUS,
+          coordinates[1] + BOUNDING_RADIUS,
+        ],
+        searchString: placeName,
+        context: zipCode,
+        position,
+      });
+
+      this.updateUrlParams({
+        address: placeName,
+        context: zipCode,
+      });
+    });
+  };
 
   handleSearch = () => {
-    const { currentQuery } = this.props;
+    const { currentQuery, location } = this.props;
+    const { query: prevQuery } = location;
 
-    this.updateUrlParams({
-      address: currentQuery.searchString,
-    });
+    // Don't recalculate if we didn't change search location
+    if (currentQuery.searchString !== prevQuery.address) {
+      this.updateUrlParams({
+        address: currentQuery.searchString,
+      });
 
-    this.props.searchWithAddress(currentQuery);
+      this.props.genBBoxFromAddress(currentQuery);
+    }
   };
 
   handleBoundsChanged = () => {
     const { currentQuery } = this.props;
     const { position } = currentQuery;
+    const { leafletElement } = this.refs.map;
 
     let center = {
       lat: position.latitude,
@@ -256,9 +335,9 @@ class VAMap extends Component {
     let zoom = currentQuery.zoomLevel;
 
     if (this.refs.map) {
-      center = this.refs.map.leafletElement.getCenter();
-      zoom = this.refs.map.leafletElement.getZoom();
-      const bounds = this.refs.map.leafletElement.getBounds();
+      center = leafletElement.getCenter();
+      zoom = leafletElement.getZoom();
+      const bounds = leafletElement.getBounds();
 
       boundsArray = [
         bounds._southWest.lng,
@@ -288,190 +367,170 @@ class VAMap extends Component {
     }, 1);
   };
 
-  renderFacilityMarkers() {
-    const { facilities } = this.props;
+  /**
+   * Use the list of search results to generate pushpins for the map.
+   */
+  renderFacilityMarkers = () => {
+    const { results } = this.props;
 
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
-    const linkAction = (id, e) => {
+    const linkAction = (id, isProvider = false, e) => {
       e.preventDefault();
-      this.context.router.push(`facility/${id}`);
+      if (isProvider) {
+        this.context.router.push(`provider/${id}`);
+      } else {
+        this.context.router.push(`facility/${id}`);
+      }
     };
 
-    return facilities.map(f => {
+    return results.map(r => {
       const iconProps = {
-        key: f.id,
-        position: [f.attributes.lat, f.attributes.long],
+        key: r.id,
+        position: [r.attributes.lat, r.attributes.long],
         onClick: () => {
-          const searchResult = document.getElementById(f.id);
+          const searchResult = document.getElementById(r.id);
           if (searchResult) {
-            Array.from(
-              document.getElementsByClassName('facility-result'),
-            ).forEach(e => {
+            // eslint-disable-next-line prettier/prettier
+            Array.from(document.getElementsByClassName('facility-result')).forEach(e => {
               e.classList.remove('active');
             });
             searchResult.classList.add('active');
-            document.getElementById('searchResultsContainer').scrollTop =
-              searchResult.offsetTop;
+            // eslint-disable-next-line prettier/prettier
+            document.getElementById('searchResultsContainer').scrollTop = searchResult.offsetTop;
           }
-          this.props.fetchVAFacility(f.id, f);
+          this.props.fetchVAFacility(r.id, r);
         },
       };
 
+      /* eslint-disable prettier/prettier */
       const popupContent = (
         <div>
-          <a onClick={linkAction.bind(this, f.id)}>
-            <h5>{f.attributes.name}</h5>
-          </a>
-          <p>
-            Facility type:{' '}
-            <strong>{facilityTypes[f.attributes.facilityType]}</strong>
-          </p>
+          { (r.type === LocationType.CC_PROVIDER) ? (
+            <div>
+              <a onClick={linkAction.bind(this, r.id, true)}>
+                <h5>{r.attributes.name}</h5>
+              </a>
+              <h6>{r.attributes.orgName}</h6>
+              <p>Services: <strong>{r.attributes.specialty.map(s => s.name.trim()).join(', ')}</strong></p>
+            </div>
+          ) : (
+            <div>
+              <a onClick={linkAction.bind(this, r.id, false)}>
+                <h5>{r.attributes.name}</h5>
+              </a>
+              <p>Facility type: <strong>{facilityTypes[r.attributes.facilityType]}</strong></p>
+            </div>
+          )}
         </div>
       );
+      /* eslint-enable prettier/prettier */
 
-      switch (f.attributes.facilityType) {
-        case 'va_health_facility':
+      switch (r.attributes.facilityType) {
+        case FacilityType.VA_HEALTH_FACILITY:
           return <HealthMarker {...iconProps}>{popupContent}</HealthMarker>;
-        case 'va_cemetery':
+        case FacilityType.VA_CEMETARY:
           return <CemeteryMarker {...iconProps}>{popupContent}</CemeteryMarker>;
-        case 'va_benefits_facility':
+        case FacilityType.VA_BENEFITS_FACILITY:
           return <BenefitsMarker {...iconProps}>{popupContent}</BenefitsMarker>;
-        case 'vet_center':
-          return (
-            <VetCenterMarker {...iconProps}>{popupContent}</VetCenterMarker>
-          );
+        case FacilityType.VET_CENTER:
+          // eslint-disable-next-line prettier/prettier
+          return <VetCenterMarker {...iconProps}>{popupContent}</VetCenterMarker>;
+        case undefined:
+          if (r.type === LocationType.CC_PROVIDER) {
+            // eslint-disable-next-line prettier/prettier
+            return <ProviderMarker {...iconProps}>{popupContent}</ProviderMarker>;
+          }
+          return null;
         default:
           return null;
       }
     });
-  }
+  };
 
-  renderSelectedFacility() {
-    const { selectedFacility } = this.props;
-
-    if (selectedFacility) {
-      return (
-        <div className="mobile-search-result">
-          <MobileSearchResult facility={selectedFacility} />
-        </div>
-      );
-    }
-
-    return null;
-  }
-
-  renderMobileView() {
+  renderMobileView = () => {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
-    const { currentQuery, facilities, pagination } = this.props;
+    const { currentQuery, results, pagination, selectedResult } = this.props;
 
     return (
+      /* eslint-disable prettier/prettier */
       <div>
         <div className="columns small-12">
-          <SearchControls
-            currentQuery={currentQuery}
-            onChange={this.props.updateSearchQuery}
-            onSubmit={this.handleSearch}
-            isMobile
-          />
+          <SearchControls currentQuery={currentQuery} onChange={this.props.updateSearchQuery}
+            onSubmit={this.handleSearch} isMobile={true} />
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
               <Tab className="small-6 tab">View Map</Tab>
             </TabList>
             <TabPanel>
-              <div className="facility-search-results">
-                <p>
-                  Search Results near <strong>“{currentQuery.context}”</strong>
-                </p>
-                <ResultsList
-                  facilities={facilities}
-                  pagination={pagination}
-                  isMobile
-                  currentQuery={currentQuery}
-                  updateUrlParams={this.updateUrlParams}
-                />
+              <div aria-live="polite" aria-relevant="additions text" className="facility-search-results">
+                <ResultsList results={results} pagination={pagination} isMobile
+                  currentQuery={currentQuery} updateUrlParams={this.updateUrlParams} />
+                {otherToolsLink}
               </div>
             </TabPanel>
             <TabPanel>
-              <Map
-                ref="map"
-                center={position}
-                zoom={parseInt(currentQuery.zoomLevel, 10)}
-                style={{ width: '100%', maxHeight: '55vh' }}
-                scrollWheelZoom={false}
-                zoomSnap={0.5}
-                zoomDelta={0.5}
-                onMoveEnd={this.handleBoundsChanged}
-                onLoad={this.handleBoundsChanged}
-                onViewReset={this.handleBoundsChanged}
-              >
+              {otherToolsLink}
+              <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)}
+                style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false}
+                zoomSnap={0.5} zoomDelta={0.5} onMoveEnd={this.handleBoundsChanged}
+                onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
                 <TileLayer
                   url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-                  attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot;>OpenStreetMap</a> contributors, <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
-                />
+                  attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
+                    <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
+                    Imagery © <a href="http://mapbox.com">Mapbox</a>' />
                 <FeatureGroup ref="facilityMarkers">
                   {this.renderFacilityMarkers()}
                 </FeatureGroup>
               </Map>
-              {this.renderSelectedFacility()}
+              { selectedResult && (
+                <div className="mobile-search-result">
+                  <SearchResult result={selectedResult} />
+                </div>
+              )}
             </TabPanel>
           </Tabs>
         </div>
       </div>
+      /* eslint-enable prettier/prettier */
     );
-  }
+  };
 
-  renderDesktopView() {
+  renderDesktopView = () => {
     // defaults to White House coordinates initially
-    const { currentQuery, facilities, pagination } = this.props;
+    const { currentQuery, results, pagination } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
 
     return (
+      /* eslint-disable prettier/prettier */
       <div className="desktop-container">
         <div>
-          <SearchControls
-            currentQuery={currentQuery}
-            onChange={this.props.updateSearchQuery}
-            onSubmit={this.handleSearch}
-          />
+          <SearchControls currentQuery={currentQuery}
+            onChange={this.props.updateSearchQuery} onSubmit={this.handleSearch} />
         </div>
         <div className="row">
-          <div
-            className="columns usa-width-one-third medium-4 small-12"
-            style={{ maxHeight: '75vh', overflowY: 'auto' }}
-            id="searchResultsContainer"
-          >
-            <div className="facility-search-results">
+          <div className="columns usa-width-one-third medium-4 small-12"
+            style={{ maxHeight: '75vh', overflowY: 'auto' }} id="searchResultsContainer">
+            <div aria-live="polite" aria-relevant="additions text" className="facility-search-results">
               <div>
-                <ResultsList
-                  facilities={facilities}
-                  pagination={pagination}
-                  currentQuery={currentQuery}
-                  updateUrlParams={this.updateUrlParams}
-                />
+                <ResultsList results={results} pagination={pagination}
+                  currentQuery={currentQuery} updateUrlParams={this.updateUrlParams} />
               </div>
             </div>
           </div>
-          <div
-            className="columns usa-width-two-thirds medium-8 small-12"
-            style={{ minHeight: '75vh' }}
-          >
-            <Map
-              ref="map"
-              center={position}
-              zoomSnap={0.5}
-              zoomDelta={0.5}
-              zoom={parseInt(currentQuery.zoomLevel, 10)}
-              style={{ minHeight: '75vh', width: '100%' }}
-              scrollWheelZoom={false}
-              onMoveEnd={this.handleBoundsChanged}
-            >
+          <div className="columns usa-width-two-thirds medium-8 small-12" style={{ minHeight: '75vh' }}>
+            {otherToolsLink}
+            <Map ref="map" center={position} zoomSnap={0.5} zoomDelta={0.5}
+              zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ minHeight: '75vh', width: '100%' }}
+              scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged}>
               <TileLayer
                 url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-                attribution="Map data &copy; <a href=&quot;http://openstreetmap.org&quot;>OpenStreetMap</a> contributors, <a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, Imagery © <a href=&quot;http://mapbox.com&quot;>Mapbox</a>"
-              />
+                attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
+                  <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
+                  Imagery © <a href="http://mapbox.com">Mapbox</a>' />
               <FeatureGroup ref="facilityMarkers">
                 {this.renderFacilityMarkers()}
               </FeatureGroup>
@@ -479,44 +538,51 @@ class VAMap extends Component {
           </div>
         </div>
       </div>
+      /* eslint-enable prettier/prettier */
     );
-  }
+  };
 
   render() {
-    // render mobile view for mobile devices
     return (
+      /* eslint-disable prettier/prettier */
       <div>
         <div className="title-section">
-          <h1>Facility and Service Locator</h1>
+          <h1>Find VA Locations</h1>
         </div>
-        {isMobile.any ? this.renderMobileView() : this.renderDesktopView()}
+
+        <div className="facility-introtext">
+          Find VA locations near you with our facility locator tool. You can search for your nearest VA medical center as well as other health facilities, benefit offices, cemeteries, and Vet Centers. You can also filter your results by service type to find locations that offer the specific service you’re looking for.
+        </div>
+        { isMobile.any
+          ? this.renderMobileView()
+          : this.renderDesktopView()
+        }
       </div>
+      /* eslint-enable prettier/prettier */
     );
   }
 }
+
+VAMap.contextTypes = {
+  router: PropTypes.object,
+};
 
 function mapStateToProps(state) {
   return {
     currentQuery: state.searchQuery,
-    facilities: state.facilities.facilities,
-    pagination: state.facilities.pagination,
-    selectedFacility: state.facilities.selectedFacility,
+    results: state.searchResult.results,
+    pagination: state.searchResult.pagination,
+    selectedResult: state.searchResult.selectedResult,
   };
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      fetchVAFacility,
-      updateSearchQuery,
-      searchWithAddress,
-      searchWithBounds,
-    },
-    dispatch,
-  );
 }
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  {
+    fetchVAFacility,
+    updateSearchQuery,
+    genBBoxFromAddress,
+    searchWithBounds,
+    clearSearchResults,
+  },
 )(VAMap);

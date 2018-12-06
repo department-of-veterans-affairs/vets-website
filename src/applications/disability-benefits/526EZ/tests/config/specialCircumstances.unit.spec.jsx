@@ -80,13 +80,12 @@ describe('Disability benefits 526EZ special circumstances', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should submit form when veteran indicates they are homeless but have no POC', () => {
+  it('should not submit form when veteran indicates they are homeless but have no POC', () => {
     const onSubmit = sinon.spy();
     const formData = {
       veteran: {
         homelessness: {
           isHomeless: true,
-          pointOfContact: {},
         },
       },
     };
@@ -103,8 +102,8 @@ describe('Disability benefits 526EZ special circumstances', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    expect(form.find('.usa-input-error').length).to.equal(2);
+    expect(onSubmit.called).to.be.false;
   });
 
   it('should not submit form when veteran indicates only POC name', () => {

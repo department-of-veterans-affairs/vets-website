@@ -12,10 +12,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
   Auth.logIn(token, client, '/education/gi-bill/post-9-11/ch-33-benefit', 3)
     .waitForElementVisible('body', Timeouts.normal)
     .axeCheck('.main')
-    .assert.title('Check Benefit: Vets.gov')
-    .waitForElementVisible('#viewGIBS', Timeouts.slow); // First render of React may be slow.
+    .assert.title('Check Your Post-9/11 GI Bill Benefits Status: VA.gov')
+    .waitForElementVisible(
+      '.usa-button-primary.va-button-primary',
+      Timeouts.slow,
+    ); // First render of React may be slow.
 
-  client.click('#viewGIBS');
+  client.click('.usa-button-primary.va-button-primary');
   client.waitForElementVisible('.schemaform-title', Timeouts.slow); // First render of React may be slow.
 
   // Checking field in UserInfoSection has rendered
@@ -41,7 +44,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   //     Auth.logIn(token, client, '/education/gi-bill/post-9-11/ch-33-benefit/print', 3)
   //       .waitForElementVisible('body', Timeouts.normal)
   //       .axeCheck('.main')
-  //       .assert.title('Check Benefit: Vets.gov')
+  //       .assert.title('Check Benefit: VA.gov')
   //       .waitForElementVisible('.print-status', Timeouts.slow);  // First render of React may be slow.
 
   //     client.expect.element('.section-header').text.to.contain('Post-9/11 GI Bill Benefit Information');

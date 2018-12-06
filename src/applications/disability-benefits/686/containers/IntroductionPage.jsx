@@ -2,15 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { focusElement } from '../../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation/OMBInfo';
 import FormTitle from 'us-forms-system/lib/js/components/FormTitle';
 import SaveInProgressIntro, {
   introActions,
   introSelector,
-} from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+} from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
-import AuthorizationComponent from '../components/AuthorizationComponent';
+import AuthorizationComponent from 'platform/forms/components/AuthorizationComponent';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -54,10 +54,7 @@ class IntroductionPage extends React.Component {
             startText="Start the Declaration of Dependents Application"
             {...this.props.saveInProgressActions}
             {...this.props.saveInProgress}
-          >
-            Please complete the 686 form to apply for declaration of status of
-            dependents.
-          </SaveInProgressIntro>
+          />
         </AuthorizationComponent>
         <h4>Follow the steps below to add a dependent to your VA benefits.</h4>
         <div className="process schemaform-process">
@@ -94,28 +91,20 @@ class IntroductionPage extends React.Component {
                   Download VA Form 21-674.
                 </a>
               </div>
-              <ul>
-                <AlertBox
-                  content={this.alertContent()}
-                  isVisible
-                  status="info"
-                />
-              </ul>
+              <AlertBox content={this.alertContent()} isVisible status="info" />
               <br />
               <div>
                 <h6>What if I need help filling out my application?</h6>
               </div>
-              <ul>
-                <p>
-                  An accredited representative, like a Veterans Service Officer
-                  (VSO), can help you fill out your claim.
-                </p>
-                <div>
-                  <a href="/disability-benefits/apply/help/index.html">
-                    Get help filing your claim.
-                  </a>
-                </div>
-              </ul>
+              <p>
+                An accredited representative, like a Veterans Service Officer
+                (VSO), can help you fill out your claim.
+              </p>
+              <div>
+                <a href="/disability-benefits/apply/help/index.html">
+                  Get help filing your claim.
+                </a>
+              </div>
             </li>
             <li className="process-step list-two">
               <div>

@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
-
 export default function ButtonContainer(props) {
   const {
     checkGuidanceStatus,
@@ -12,6 +10,7 @@ export default function ButtonContainer(props) {
     goForward,
     authenticate,
     isVerified,
+    isLoggedIn,
   } = props;
   const { atIncreaseGuidance, atEbenefitsGuidance } = checkGuidanceStatus();
 
@@ -24,7 +23,7 @@ export default function ButtonContainer(props) {
         </button>
       )}
       {atIncreaseGuidance &&
-        !conditionalStorage().getItem('userToken') && (
+        !isLoggedIn && (
           <a
             className="usa-button-primary"
             href="/disability-benefits/apply/form-526-disability-claim/introduction/"
@@ -35,7 +34,7 @@ export default function ButtonContainer(props) {
           </a>
         )}
       {atIncreaseGuidance &&
-        conditionalStorage().getItem('userToken') &&
+        isLoggedIn &&
         !isVerified && (
           <a
             className="usa-button-primary"
@@ -59,6 +58,8 @@ export default function ButtonContainer(props) {
         <a
           className="usa-button-primary"
           href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"
+          rel="noopener"
+          target="_blank"
         >
           Go to eBenefits
           <span className="button-icon"> »</span>

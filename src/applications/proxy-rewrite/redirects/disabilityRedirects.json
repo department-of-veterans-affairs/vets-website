@@ -1,0 +1,187 @@
+[
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/types-disability.asp",
+    "dest": "/disability/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-index.asp",
+    "dest": "/disability/eligibility/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-index.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-environmental_hazards.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/specific-environmental-hazards/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-agent_orange.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/agentorange-c123.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/c-123-aircraft/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-asbestos.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/asbestos/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-mustard.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/mustard-gas-lewisite/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-camp-lejeune-water.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/camp-lejeune-water-contamination/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-ionizing_radiation.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/ionizing-radiation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-radiogenic_diseases.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/ionizing-radiation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-project_112_shad.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/project-112-shad/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-gulfwar.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/gulf-war-illness-southwest-asia/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-one_year.asp",
+    "dest": "/disability/eligibility/illnesses-within-one-year-of-discharge/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-index.asp",
+    "dest": "/disability/eligibility/special-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-auto-allowance.asp",
+    "dest": "/disability/eligibility/special-claims/automobile-allowance-adaptive-equipment/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-birth_defects.asp",
+    "dest": "/disability/eligibility/special-claims/birth-defects/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-clothing_allowance.asp",
+    "dest": "/disability/eligibility/special-claims/clothing-allowance/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-dental.asp",
+    "dest": "/disability/eligibility/special-claims/dental-care/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-convalescence.asp",
+    "dest": "/disability/eligibility/special-claims/temporary-increase-after-surgery-or-cast/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-hospital_treatment.asp",
+    "dest": "/disability/eligibility/special-claims/temporary-increase-for-time-in-hospital/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-prestabilization.asp",
+    "dest": "/disability/eligibility/special-claims/temporary-rating-prestabilization/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-1151.asp",
+    "dest": "/disability/eligibility/special-claims/1151-claims-title-38/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-individual_unemployability.asp",
+    "dest": "/disability/eligibility/special-claims/unemployability/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/apply.asp",
+    "dest": "/disability/how-to-file-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/process.asp",
+    "dest": "/disability/how-to-file-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/types-claims.asp",
+    "dest": "/disability/how-to-file-claim/when-to-file/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/predischarge/index.asp",
+    "dest": "/disability/how-to-file-claim/when-to-file/pre-discharge-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/predischarge/",
+    "dest": "/disability/how-to-file-claim/when-to-file/pre-discharge-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/predischarge/claims-pre-discharge-benefits-delivery-at-discharge.asp",
+    "dest": "/disability/how-to-file-claim/when-to-file/pre-discharge-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/predischarge/claims-pre-discharge-overseas-intake-sites.asp",
+    "dest": "/disability/how-to-file-claim/when-to-file/pre-discharge-claim/file-while-overseas/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/evidence.asp",
+    "dest": "/disability/how-to-file-claim/evidence-needed/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/drc.asp",
+    "dest": "/disability/how-to-file-claim/evidence-needed/decision-ready-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/fdc/index.asp",
+    "dest": "/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/fdc/",
+    "dest": "/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/effective_dates.asp",
+    "dest": "/disability/about-disability-ratings/effective-date/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claimexam.asp",
+    "dest": "/disability/va-claim-exam/"
+  }
+]

@@ -22,9 +22,17 @@ class FormStartControls extends React.Component {
     this.props.router.push(this.props.startPage);
   };
 
+  captureAnalytics = () =>
+    this.props.gaStartEventName &&
+    window.dataLayer.push({ event: this.props.gaStartEventName });
+
   handleLoadPrefill = () => {
+    this.captureAnalytics();
+    // temp hack to fix the fact that the START button doesn't work
+    // this.goToBeginning();
     if (this.props.prefillAvailable) {
       this.props.fetchInProgressForm(
+        // TODO: where does this come from?
         this.props.formId,
         this.props.migrations,
         true,
@@ -45,6 +53,7 @@ class FormStartControls extends React.Component {
   };
 
   startOver = () => {
+    this.captureAnalytics();
     this.toggleModal();
     this.props.removeInProgressForm(
       this.props.formId,
@@ -57,16 +66,22 @@ class FormStartControls extends React.Component {
     if (this.props.formSaved) {
       return (
         <div>
-          <ProgressButton
-            onButtonClick={this.handleLoadForm}
-            buttonText="Continue Your Application"
-            buttonClass="usa-button-primary no-text-transform"
-          />
+          {!this.props.isExpired && (
+            <ProgressButton
+              onButtonClick={this.handleLoadForm}
+              buttonText="Continue Your Application"
+              buttonClass="usa-button-primary no-text-transform"
+            />
+          )}
           {!this.props.resumeOnly && (
             <ProgressButton
               onButtonClick={this.toggleModal}
-              buttonText="Start Over"
-              buttonClass="usa-button-secondary"
+              buttonText="Start a New Application"
+              buttonClass={
+                this.props.isExpired
+                  ? 'usa-button-primary'
+                  : 'usa-button-secondary'
+              }
             />
           )}
           <Modal
@@ -79,7 +94,7 @@ class FormStartControls extends React.Component {
             <p>Are you sure you want to start over?</p>
             <ProgressButton
               onButtonClick={this.startOver}
-              buttonText="Start Over"
+              buttonText="Start a New Application"
               buttonClass="usa-button-primary"
             />
             <ProgressButton
@@ -119,6 +134,7 @@ FormStartControls.propTypes = {
   startPage: PropTypes.string.isRequired,
   startText: PropTypes.string,
   resumeOnly: PropTypes.bool,
+  gaStartEventName: PropTypes.string,
 };
 
 export default withRouter(FormStartControls);

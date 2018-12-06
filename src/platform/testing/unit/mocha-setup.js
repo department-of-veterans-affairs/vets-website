@@ -8,12 +8,11 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
+import ENVIRONMENTS from '../../../site/constants/environments';
+
 // import sinon from 'sinon'
 
-global.__BUILDTYPE__ = process.env.BUILDTYPE || 'development';
-global.__ALL_CLAIMS_ENABLED__ =
-  global.__BUILDTYPE__ === 'development' ||
-  process.env.ALL_CLAIMS_ENABLED === 'true';
+global.__BUILDTYPE__ = process.env.BUILDTYPE || ENVIRONMENTS.VAGOVDEV;
 
 chai.use(chaiAsPromised);
 
@@ -55,6 +54,9 @@ export default function setupJSDom() {
   win.scrollTo = () => {};
   win.sessionStorage = {};
   win.requestAnimationFrame = func => func();
+  win.matchMedia = () => ({
+    matches: false,
+  });
 
   global.Blob = window.Blob;
 

@@ -87,6 +87,7 @@ export default class EducationWizard extends React.Component {
         <div className={contentClasses} id="wizardOptions">
           <div className="wizard-content-inner">
             <ErrorableRadioButtons
+              additionalFieldsetClass="wizard-fieldset"
               name="newBenefit"
               id="newBenefit"
               options={[
@@ -104,6 +105,7 @@ export default class EducationWizard extends React.Component {
             />
             {newBenefit === 'yes' && (
               <ErrorableRadioButtons
+                additionalFieldsetClass="wizard-fieldset"
                 name="serviceBenefitBasedOn"
                 id="serviceBenefitBasedOn"
                 options={[
@@ -119,6 +121,7 @@ export default class EducationWizard extends React.Component {
             )}
             {newBenefit === 'no' && (
               <ErrorableRadioButtons
+                additionalFieldsetClass="wizard-fieldset"
                 name="transferredEduBenefits"
                 id="transferredEduBenefits"
                 options={[
@@ -142,6 +145,7 @@ export default class EducationWizard extends React.Component {
             )}
             {serviceBenefitBasedOn === 'own' && (
               <ErrorableRadioButtons
+                additionalFieldsetClass="wizard-fieldset"
                 name="nationalCallToService"
                 id="nationalCallToService"
                 options={[
@@ -162,6 +166,7 @@ export default class EducationWizard extends React.Component {
             )}
             {serviceBenefitBasedOn === 'other' && (
               <ErrorableRadioButtons
+                additionalFieldsetClass="wizard-fieldset"
                 name="sponsorDeceasedDisabledMIA"
                 id="sponsorDeceasedDisabledMIA"
                 options={[

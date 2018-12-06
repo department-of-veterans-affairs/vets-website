@@ -35,6 +35,7 @@ import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
 import contactInformationPage from '../../pages/contactInformation';
@@ -101,6 +102,7 @@ const formConfig = {
   preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     date,
     educationType,

@@ -8,6 +8,7 @@ import {
   NO_CHAPTER33_RECORD_AVAILABLE,
   SERVICE_AVAILABILITY_STATES,
   SET_SERVICE_AVAILABILITY,
+  SET_SERVICE_UPTIME_REMAINING,
 } from '../utils/constants';
 
 const initialState = {
@@ -34,6 +35,8 @@ function post911GIBStatus(state = initialState, action) {
       return set('availability', 'unavailable', state);
     case SET_SERVICE_AVAILABILITY:
       return set('serviceAvailability', action.serviceAvailability, state);
+    case SET_SERVICE_UPTIME_REMAINING:
+      return set('uptimeRemaining', action.uptimeRemaining, state);
     default:
       return state;
   }

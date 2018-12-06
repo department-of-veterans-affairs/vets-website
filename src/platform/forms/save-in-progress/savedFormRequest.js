@@ -20,6 +20,7 @@ export function savedFormRequest(
 
   const defaultSettings = {
     method: 'GET',
+    credentials: 'include',
     headers: {
       Authorization: `Token token=${conditionalStorage().getItem('userToken')}`,
     },

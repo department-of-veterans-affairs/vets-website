@@ -3,7 +3,7 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const FacilityHelpers = require('./facility-helpers');
 
 module.exports = E2eHelpers.createE2eTest(client => {
-  client.url(`${E2eHelpers.baseUrl}/facilities/`);
+  client.openUrl(`${E2eHelpers.baseUrl}/find-locations/`);
 
   E2eHelpers.overrideSmoothScrolling(client);
   FacilityHelpers.initApplicationMock();
@@ -31,6 +31,12 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
     .assert.attributeContains('.health-icon', 'aria-selected', true);
+
+  if (FacilityHelpers.ccLocatorEnabled()) {
+    client
+      .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
+      .assert.attributeContains('.cc-provider-icon', 'aria-selected', true);
+  }
 
   client
     .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)

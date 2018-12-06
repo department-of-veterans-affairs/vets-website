@@ -1,13 +1,17 @@
 /* eslint-disable camelcase, strict */
 'use strict';
 
+const fs = require('fs-extra');
 const chromedriver = require('chromedriver');
 const seleniumServer = require('selenium-server');
 
 require('babel-register');
 require('babel-polyfill');
 
+const selenium_logs = './logs/selenium';
 const selenium_server_port = process.env.SELENIUM_PORT || 4444;
+
+fs.ensureDirSync(selenium_logs);
 
 module.exports = {
   src_folders: ['./src'],
@@ -47,7 +51,7 @@ module.exports = {
         },
         start_process: true,
         server_path: seleniumServer.path,
-        log_path: './logs/selenium',
+        log_path: selenium_logs,
         host: '127.0.0.1',
         port: selenium_server_port,
       },

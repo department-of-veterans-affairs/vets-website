@@ -7,14 +7,13 @@ describe('Redirect replaced pages', () => {
     const fakeWindow = {
       location: {
         host: 'www.benefits.va.gov',
-        pathname: '/homeloans/',
+        pathname: '/compensation/types-disability.asp',
       },
     };
 
     redirectIfNecessary(fakeWindow);
 
-    expect(fakeWindow.location.href.endsWith('.gov/housing-assistance/')).to.be
-      .true;
+    expect(fakeWindow.location.href.endsWith('.gov/disability/')).to.be.true;
   });
 
   it('should not redirect when there are no matches', () => {

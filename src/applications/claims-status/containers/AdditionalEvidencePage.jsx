@@ -7,8 +7,7 @@ import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
-import Breadcrumbs from '../components/Breadcrumbs';
-import { getClaimType } from '../utils/helpers';
+import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 import { getScrollOptions } from '../../../platform/utilities/ui';
 
@@ -75,22 +74,18 @@ class AdditionalEvidencePage extends React.Component {
       );
     } else {
       const claim = this.props.claim;
-      const filesPath = `your-claims/${claim.id}/files`;
-      const claimsPath = 'your-claims';
+      const claimsPath = `your-claims/${claim.id}/files`;
+      const filesPath = `your-claims/${claim.id}/additional-evidence`;
       const message = this.props.message;
 
       content = (
         <div>
           <div className="row">
             <div className="medium-12 columns">
-              <Breadcrumbs>
-                <li>
-                  <Link to={claimsPath}>Your Claims</Link>
-                </li>
-                <li>
-                  <Link to={filesPath}>Your {getClaimType(claim)} Claim</Link>
-                </li>
-              </Breadcrumbs>
+              <ClaimsBreadcrumbs>
+                <Link to={claimsPath}>Status Details</Link>
+                <Link to={filesPath}>Additional Evidence</Link>
+              </ClaimsBreadcrumbs>
             </div>
           </div>
           <div className="row">

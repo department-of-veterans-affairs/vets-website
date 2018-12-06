@@ -5,6 +5,7 @@ import applicantInformation from '../../../../platform/forms/pages/applicantInfo
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
+import ErrorText from '../../components/ErrorText';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
 import applicantServicePage from '../../pages/applicantService';
 import createOldSchoolPage from '../../pages/oldSchool';
@@ -60,6 +61,7 @@ const formConfig = {
   preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',

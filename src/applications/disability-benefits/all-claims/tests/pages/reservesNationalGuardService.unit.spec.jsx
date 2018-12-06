@@ -26,8 +26,8 @@ describe('Reserve information', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(9);
-    expect(form.find('select').length).to.equal(6);
+    expect(form.find('input').length).to.equal(3);
+    expect(form.find('select').length).to.equal(4);
   });
 
   it('should fail to submit when no data is filled out', () => {
@@ -44,7 +44,7 @@ describe('Reserve information', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(6);
+    expect(form.find('.usa-input-error-message').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -75,31 +75,6 @@ describe('Reserve information', () => {
       form,
       'input#root_serviceInformation_reservesNationalGuardService_unitName',
       'Unit',
-    );
-    fillData(
-      form,
-      'input#root_serviceInformation_reservesNationalGuardService_unitPhone',
-      '5555555555',
-    );
-    fillData(
-      form,
-      'input#root_serviceInformation_reservesNationalGuardService_unitAddress_addressLine1',
-      '123 1st st',
-    );
-    fillData(
-      form,
-      'input#root_serviceInformation_reservesNationalGuardService_unitAddress_city',
-      'boston',
-    );
-    fillData(
-      form,
-      'select#root_serviceInformation_reservesNationalGuardService_unitAddress_state',
-      'MA',
-    );
-    fillData(
-      form,
-      'input#root_serviceInformation_reservesNationalGuardService_unitAddress_zipCode',
-      '33333',
     );
 
     form.find('form').simulate('submit');

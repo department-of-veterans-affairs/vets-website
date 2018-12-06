@@ -8,8 +8,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import Notification from '../components/Notification';
-import Breadcrumbs from '../components/Breadcrumbs';
-import { getClaimType } from '../utils/helpers';
+import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 
 import {
@@ -83,24 +82,21 @@ class DocumentRequestPage extends React.Component {
       );
     } else {
       const trackedItem = this.props.trackedItem;
-      const filesPath = `your-claims/${this.props.claim.id}/files`;
-      const claimsPath = 'your-claims';
+      const claim = this.props.claim;
+      const filesPath = `your-claims/${claim.id}/files`;
+      const itemPath = `your-claims/${claim.id}/document-request/${
+        trackedItem.id
+      }`;
       const message = this.props.message;
 
       content = (
         <div>
           <div className="row">
             <div className="medium-12 columns">
-              <Breadcrumbs>
-                <li>
-                  <Link to={claimsPath}>Your Claims</Link>
-                </li>
-                <li>
-                  <Link to={filesPath}>
-                    Your {getClaimType(this.props.claim)} Claim
-                  </Link>
-                </li>
-              </Breadcrumbs>
+              <ClaimsBreadcrumbs>
+                <Link to={filesPath}>Status Details</Link>
+                <Link to={itemPath}>Document Request</Link>
+              </ClaimsBreadcrumbs>
             </div>
           </div>
           <div className="row">

@@ -25,7 +25,7 @@ describe('Disability benefits 526EZ contact information', () => {
         schema={schema}
         data={{
           mailingAddress: {},
-          phoneEmailCard: {},
+          phoneAndEmail: {},
         }}
         formData={{}}
         uiSchema={uiSchema}
@@ -47,7 +47,7 @@ describe('Disability benefits 526EZ contact information', () => {
           mailingAddress: {
             country: 'USA',
           },
-          phoneEmailCard: {},
+          phoneAndEmail: {},
         }}
         formData={{}}
         uiSchema={uiSchema}
@@ -69,7 +69,7 @@ describe('Disability benefits 526EZ contact information', () => {
           mailingAddress: {
             country: 'Afghanistan',
           },
-          phoneEmailCard: {},
+          phoneAndEmail: {},
         }}
         formData={{}}
         uiSchema={uiSchema}
@@ -92,7 +92,7 @@ describe('Disability benefits 526EZ contact information', () => {
             country: 'USA',
             city: 'APO',
           },
-          phoneEmailCard: {},
+          phoneAndEmail: {},
         }}
         formData={{}}
         uiSchema={uiSchema}
@@ -118,7 +118,7 @@ describe('Disability benefits 526EZ contact information', () => {
             country: 'USA',
             city: 'Detroit',
           },
-          phoneEmailCard: {},
+          phoneAndEmail: {},
         }}
         formData={{}}
         uiSchema={uiSchema}
@@ -139,7 +139,7 @@ describe('Disability benefits 526EZ contact information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          phoneEmailCard: {
+          phoneAndEmail: {
             primaryPhone: '1231231231',
             emailAddress: 'a@b.co',
           },
@@ -169,7 +169,7 @@ describe('Disability benefits 526EZ contact information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          phoneEmailCard: {
+          phoneAndEmail: {
             primaryPhone: '1231231231',
             emailAddress: 'a@b.co',
           },
@@ -207,17 +207,17 @@ describe('Disability benefits 526EZ contact information', () => {
             country: '',
             addressLine1: '',
           },
-          phoneEmailCard: {},
+          phoneAndEmail: {},
         }}
         formData={{}}
         uiSchema={uiSchema}
       />,
     );
 
-    // (2 x country), date month, date day, country
-    expect(form.find('select').length).to.equal(4);
-    // (2 x (street 1, 2, 3, city)), phone, email, fwding address checkbox, date year
-    expect(form.find('input').length).to.equal(12);
+    // (2 x country), 2x date month, 2x date day, country
+    expect(form.find('select').length).to.equal(6);
+    // (2 x (street 1, 2, 3, city)), phone, email, fwding address checkbox, 2x date year
+    expect(form.find('input').length).to.equal(13);
   });
 
   it('validates that forwarding state is military type if forwarding city is military type', () => {
@@ -227,7 +227,7 @@ describe('Disability benefits 526EZ contact information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          phoneEmailCard: {
+          phoneAndEmail: {
             primaryPhone: '1231231231',
             emailAddress: 'a@b.co',
           },
@@ -240,7 +240,9 @@ describe('Disability benefits 526EZ contact information', () => {
           },
           'view:hasForwardingAddress': true,
           forwardingAddress: {
-            effectiveDate: '2019-01-01',
+            effectiveDate: {
+              from: '2019-01-01',
+            },
             country: 'USA',
             addressLine1: '123 Any Street',
             city: 'APO',
@@ -266,7 +268,7 @@ describe('Disability benefits 526EZ contact information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          phoneEmailCard: {
+          phoneAndEmail: {
             primaryPhone: '1231231231',
             emailAddress: 'a@b.co',
           },
@@ -279,11 +281,96 @@ describe('Disability benefits 526EZ contact information', () => {
           },
           'view:hasForwardingAddress': true,
           forwardingAddress: {
-            effectiveDate: '2019-01-01',
+            effectiveDate: {
+              from: '2019-01-01',
+            },
             country: 'USA',
             addressLine1: '123 Any Street',
             city: 'Anytown',
             state: 'AA',
+            zipCode: '12345',
+          },
+        }}
+        formData={{}}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('validates that effective date is in the future', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          phoneAndEmail: {
+            primaryPhone: '1231231231',
+            emailAddress: 'a@b.co',
+          },
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '123 Any Street',
+            city: 'Anytown',
+            state: 'MI',
+            zipCode: '12345',
+          },
+          'view:hasForwardingAddress': true,
+          forwardingAddress: {
+            effectiveDate: {
+              from: '2018-10-12',
+            },
+            country: 'USA',
+            addressLine1: '123 Any Street',
+            city: 'Detroit',
+            state: 'MI',
+            zipCode: '12345',
+          },
+        }}
+        formData={{}}
+        uiSchema={uiSchema}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('validates that effective end date is after start date', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          phoneAndEmail: {
+            primaryPhone: '1231231231',
+            emailAddress: 'a@b.co',
+          },
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '123 Any Street',
+            city: 'Anytown',
+            state: 'MI',
+            zipCode: '12345',
+          },
+          'view:hasForwardingAddress': true,
+          forwardingAddress: {
+            effectiveDate: {
+              from: '2099-10-12',
+              to: '2099-10-12',
+            },
+            country: 'USA',
+            addressLine1: '123 Any Street',
+            city: 'Detroit',
+            state: 'MI',
             zipCode: '12345',
           },
         }}
@@ -305,7 +392,7 @@ describe('Disability benefits 526EZ contact information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          phoneEmailCard: {
+          phoneAndEmail: {
             primaryPhone: '',
             emailAddress: '',
           },
@@ -316,7 +403,9 @@ describe('Disability benefits 526EZ contact information', () => {
           },
           'view:hasForwardingAddress': true,
           forwardingAddress: {
-            effectiveDate: '',
+            effectiveDate: {
+              from: '',
+            },
             country: '',
             addressLine1: '',
             city: '',
@@ -340,7 +429,7 @@ describe('Disability benefits 526EZ contact information', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          phoneEmailCard: {
+          phoneAndEmail: {
             primaryPhone: '1231231231',
             emailAddress: 'a@b.co',
           },
@@ -353,7 +442,9 @@ describe('Disability benefits 526EZ contact information', () => {
           },
           'view:hasForwardingAddress': true,
           forwardingAddress: {
-            effectiveDate: '2019-01-01',
+            effectiveDate: {
+              from: '2019-01-01',
+            },
             country: 'USA',
             addressLine1: '234 Maple St.',
             city: 'Detroit',

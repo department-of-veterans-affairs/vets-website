@@ -1,8 +1,10 @@
 import '../../platform/polyfills';
+import LazyLoad from 'vanilla-lazyload/dist/lazyload';
 
 import createCommonStore from '../../platform/startup/store';
 import startSitewideComponents from '../../platform/site-wide';
 
+import createAdditionalInfoWidget from './createAdditionalInfoWidget';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
@@ -35,6 +37,7 @@ const ctaTools = new Set([
   '/health-care/schedule-view-va-appointments/',
   '/health-care/view-test-and-lab-results/',
   '/records/download-va-letters/',
+  '/records/get-veteran-id-cards/vic/',
 ]);
 
 const burialPages = new Set([
@@ -71,6 +74,8 @@ import './sidebar-navigation.js';
 
 const store = createCommonStore();
 startSitewideComponents(store);
+
+createAdditionalInfoWidget();
 
 if (pensionPages.has(location.pathname)) {
   const applyLink = brandConsolidation.isEnabled()
@@ -119,7 +124,7 @@ if (burialPages.has(location.pathname)) {
   });
 }
 
-if (disabilityPages.has(location.pathname) && __BUILDTYPE__ !== 'production') {
+if (disabilityPages.has(location.pathname) && brandConsolidation.isEnabled()) {
   createDisabilityIncreaseApplicationStatus(store);
 }
 
@@ -131,3 +136,9 @@ if (location.pathname === '/disability-benefits/increase-claims-testing/') {
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
 }
+
+/* eslint-disable no-unused-vars,camelcase */
+const lazyLoad = new LazyLoad({
+  elements_selector: '.lazy',
+});
+/* eslint-enable */

@@ -9,7 +9,7 @@ import {
   formConfigs,
   isFormAuthorizable,
 } from '../helpers';
-import AuthorizationComponent from '../../../disability-benefits/686/components/AuthorizationComponent';
+import AuthorizationComponent from '../../../../platform/forms/components/AuthorizationComponent';
 
 class FormItem extends React.Component {
   recordDashboardClick = (formId, actionType = 'continue-button') => () => {
@@ -84,7 +84,7 @@ class FormItem extends React.Component {
       </div>
     );
     const expiredView = (
-      <div className="usa-alert usa-alert-warning saved-form-expired no-background-image">
+      <div className="usa-alert usa-alert-warning saved-form-expired background-color-only">
         <button
           className="va-alert-close notification-close va-expired-item-close"
           onClick={() => this.props.toggleModal(formId)}

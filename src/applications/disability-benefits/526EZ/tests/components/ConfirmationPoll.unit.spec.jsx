@@ -17,7 +17,7 @@ const pendingResponse = {
   response: {
     data: {
       attributes: {
-        transactionStatus: submissionStatuses.pending,
+        status: submissionStatuses.pending,
       },
     },
   },
@@ -28,10 +28,8 @@ const successResponse = {
   response: {
     data: {
       attributes: {
-        transactionStatus: submissionStatuses.succeeded,
-        metadata: {
-          claimId: '123abc',
-        },
+        status: submissionStatuses.succeeded,
+        claimId: '123abc',
       },
     },
   },
@@ -42,7 +40,7 @@ const failureResponse = {
   response: {
     data: {
       attributes: {
-        transactionStatus: submissionStatuses.failed,
+        status: submissionStatuses.failed,
       },
     },
   },
@@ -73,9 +71,8 @@ describe('ConfirmationPoll', () => {
       successResponse,
       failureResponse,
     ]);
-    // TODO: Figure out why this is causing an error in the console even though the test passes
-    //  It may have something to do with unmounting the component before a `setState` goes through
-    shallow(<ConfirmationPoll pollRate={10} />);
+
+    mount(<ConfirmationPoll {...defaultProps} pollRate={10} />);
     // Should stop after the first success
     setTimeout(() => {
       expect(global.fetch.callCount).to.equal(3);

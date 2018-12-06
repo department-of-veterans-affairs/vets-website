@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
+import siteName from '../../../brand-consolidation/site-name';
 
 export default function ProfileIntro({ dismiss, profile }) {
   if (profile.loading) return <div />;
@@ -11,7 +12,7 @@ export default function ProfileIntro({ dismiss, profile }) {
         <img alt="profile icon" src="/img/profile-announcement.svg" />
       </div>
       <h3 className="announcement-title">
-        Welcome to your new Vets.gov profile
+        Welcome to your new {siteName} profile
       </h3>
       <p>
         Review your contact, personal, and military service information—and find
