@@ -3,6 +3,8 @@ import {
   incidentLocation,
   secondaryIncidentDate,
   secondaryIncidentLocation,
+  incidentUnitAssignment,
+  secondaryIncidentUnitAssignment,
   incidentDescription,
   secondaryIncidentDescription,
   incidentSupport,
@@ -54,6 +56,13 @@ export function createFormConfig781(iterations) {
         uiSchema: incidentSupport.uiSchema('781'),
         schema: incidentSupport.schema,
       },
+      [`incidentUnitAssignment${index}`]: {
+        title: `${numberToWords[index]} PTSD incident unit assignment`,
+        path: `disabilities/ptsd-incident-unit-assignment-${index}`,
+        depends: isAnswering781Questions(index),
+        uiSchema: incidentUnitAssignment.uiSchema(index),
+        schema: incidentUnitAssignment.schema(index),
+      },
       [`incidentLocation${index}`]: {
         title: `${numberToWords[index]} PTSD incident location`,
         path: `disabilities/ptsd-incident-location-${index}`,
@@ -71,6 +80,7 @@ export function createFormConfig781(iterations) {
       },
     };
   }
+
   return configObj;
 }
 
@@ -101,6 +111,13 @@ export function createFormConfig781a(iterations) {
         uiSchema: incidentSupport.uiSchema('781a'),
         schema: incidentSupport.schema,
       },
+      [`secondaryIncidentUnitAssignment${index}`]: {
+        title: `${numberToWords[index]} PTSD assualt incident unit assignment`,
+        path: `disabilities/ptsd-secondary-incident-unit-assignment-${index}`,
+        depends: isAnswering781aQuestions(index),
+        uiSchema: secondaryIncidentUnitAssignment.uiSchema(index),
+        schema: secondaryIncidentUnitAssignment.schema(index),
+      },
       [`secondaryIncidentLocation${index}`]: {
         title: `${numberToWords[index]} PTSD assault incident location`,
         path: `disabilities/ptsd-secondary-incident-location-${index}`,
@@ -124,9 +141,7 @@ export function createFormConfig781a(iterations) {
       },
       // This should be the last page in the config loop
       [`ptsdSecondaryAdditionalEvents${index}`]: {
-        title: `${
-          numberToWords[index]
-        } PTSD assault incident additional events.`,
+        title: `${numberToWords[index]} PTSD assault additional events.`,
         path: `disabilities/ptsd-781a-additional-events-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: ptsdSecondaryAdditionalEvents.uiSchema(index),
