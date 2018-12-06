@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
 import { replaceDomainsInData } from '../../environment/stagingDomains';
-import HOSTNAME from '../../../../site/constants/hostnames';
+import HOSTNAMES from '../../../../site/constants/hostnames';
 
-const currentEnv = `https://${HOSTNAME[global.__BUILDTYPE__]}`;
+const currentEnv = `https://${HOSTNAMES[global.__BUILDTYPE__]}`;
 
 describe('Staging va.gov domain replacement', () => {
   describe('replaceDomainsInData', () => {
