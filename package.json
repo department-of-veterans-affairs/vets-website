@@ -114,6 +114,7 @@
     "eslint-config-airbnb": "^15.1.0",
     "eslint-config-prettier": "^3.1.0",
     "eslint-import-resolver-babel-module": "^4.0.0",
+    "eslint-plugin-enzyme-always-unmount": "./script/custom-eslint/enzyme-always-unmount",
     "eslint-plugin-jest": "^21.26.1",
     "eslint-plugin-jsx-a11y": "5.1",
     "eslint-plugin-mocha": "^5.2.0",
