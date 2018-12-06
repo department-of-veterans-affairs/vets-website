@@ -8,11 +8,8 @@ class ClaimsBreadcrumbs extends React.Component {
       <a href="/" key="home">
         Home
       </a>,
-      <a href="/disability-benefits/" key="disability-benefits">
-        Disability Benefits
-      </a>,
       <Link to="your-claims" key="claims-home">
-        Track Your Claims and Appeals
+        Check Your Claims and Appeals
       </Link>,
     ];
 

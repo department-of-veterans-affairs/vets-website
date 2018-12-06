@@ -29,10 +29,6 @@ describe('Disability benefits 526EZ VA facility', () => {
     arrayPath,
   } = formConfig.chapters.supportingEvidence.pages.vaFacilities;
 
-  // remove fetch from debounced function
-  uiSchema.disabilities.items.treatments.items.treatmentCenterName[
-    'ui:options'
-  ].getOptions = () => Promise.resolve([]);
   it('renders VA facility form', () => {
     const form = mount(
       <DefinitionTester
@@ -48,6 +44,7 @@ describe('Disability benefits 526EZ VA facility', () => {
 
     expect(form.find('select').length).to.equal(6); // from/to months, days; country, state
     expect(form.find('input').length).to.equal(4); // facility name, from/to years, city
+    form.unmount();
   });
 
   it('should add a VA facility', () => {
@@ -103,6 +100,7 @@ describe('Disability benefits 526EZ VA facility', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should validate the treatmentCenterName', () => {
@@ -143,6 +141,7 @@ describe('Disability benefits 526EZ VA facility', () => {
         .first()
         .text(),
     ).to.contain('100 characters');
+    form.unmount();
   });
 
   it('validates that state is military type if city is military type', () => {
@@ -181,6 +180,7 @@ describe('Disability benefits 526EZ VA facility', () => {
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
+    form.unmount();
   });
 
   it('validates that city is military type if state is military type', () => {
@@ -219,6 +219,7 @@ describe('Disability benefits 526EZ VA facility', () => {
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
+    form.unmount();
   });
 
   it('expands state when country is USA', () => {
@@ -262,6 +263,7 @@ describe('Disability benefits 526EZ VA facility', () => {
     expect(
       form.find('select#root_treatments_0_treatmentCenterAddress_state').length,
     ).to.equal(1);
+    form.unmount();
   });
 
   it('does not submit (and renders error messages) when no fields touched', () => {
@@ -285,5 +287,6 @@ describe('Disability benefits 526EZ VA facility', () => {
 
     expect(form.find('select').length).to.equal(6); // from/to months, days; country, state
     expect(form.find('input').length).to.equal(4); // facility name, from/to years, city
+    form.unmount();
   });
 });
