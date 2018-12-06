@@ -36,19 +36,20 @@ export const uiSchema = {
     parseResponse: (response, file) => ({
       name: file.name,
       confirmationCode: response.data.attributes.guid,
-      // attachmentId: 'VA Form 21-781 - Statement in Support of Claim for PTSD',
+      attachmentId: 'VA Form 21-781 - Statement in Support of Claim for PTSD',
     }),
     // this is the uiSchema passed to FileField for the attachmentId schema
     // FileField requires this name be used
     attachmentSchema: {
       'ui:title': 'Document type',
-      'ui:readonly': true,
+      'ui:disabled': true,
+      // className: 'test-class',
     },
     // this is the uiSchema passed to FileField for the name schema
     // FileField requires this name be used
-    attachmentName: {
-      'ui:title': 'Document name',
-    },
+    // attachmentName: {
+    //   'ui:title': 'Document name',
+    // },
   }),
 };
 
