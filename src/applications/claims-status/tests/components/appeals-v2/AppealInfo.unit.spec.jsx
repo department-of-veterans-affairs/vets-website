@@ -65,6 +65,7 @@ describe('<AppealInfo/>', () => {
     const props = merge({}, { children }, defaultProps);
     const wrapper = shallow(<AppealInfo {...props} />);
     expect(wrapper.find('span.test').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should pass appeal as a prop to its children', () => {
