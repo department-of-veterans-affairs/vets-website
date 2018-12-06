@@ -216,9 +216,20 @@ export function transformProviderFacilities(providerFacilities) {
 }
 
 export function transformIncident(incident, personalAssault) {
+  const toIncidentLocationString = incidentLocation =>
+    [
+      incidentLocation.city,
+      incidentLocation.state,
+      incidentLocation.country,
+      incidentLocation.additionalDetails,
+    ]
+      .filter(locationField => locationField && locationField.length > 0)
+      .join(', ');
+
   return {
     ...incident,
     personalAssault,
+    incidentLocation: toIncidentLocationString(incident.incidentLocation),
   };
 }
 

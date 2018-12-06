@@ -24,7 +24,6 @@ import {
   transformRelatedDisabilities,
   transformMVPData,
   transform,
-  transformIncident,
 } from '../utils.jsx';
 
 import {
@@ -183,7 +182,7 @@ describe('526 helpers', () => {
       expect(
         JSON.parse(transform(formConfig, maximalData)).form526.form0781.incident
           .length,
-      ).to.eql(6);
+      ).to.eql(3);
     });
   });
 
@@ -208,55 +207,6 @@ describe('526 helpers', () => {
         rawDisability,
       );
       expect(transformDisabilities([ineligibleDisability])).to.deep.equal([]);
-    });
-  });
-
-  describe('transformIncident', () => {
-    it('should transform an incident', () => {
-      const transformedIncident = {
-        medalsCitations: 'Medal A',
-        incidentDate: '1992-01-01',
-        incidentLocation: 'Location',
-        incidentDescription: 'Incident description',
-        unitAssigned: 'Unit A',
-        unitAssignedDates: {
-          from: '1990-01-01',
-          to: '1999-01-01',
-        },
-        remarks: 'Remarks text',
-        personInvolved: [
-          {
-            first: 'John',
-            last: 'Doe',
-            rank: 'Private',
-            injuryDeath: 'Other',
-            injuryDeathOther: 'Other text',
-            injuryDeathDate: '1992-1-1',
-            unitAssigned: 'Unit A',
-          },
-          {
-            first: 'Jane',
-            last: 'Doe',
-          },
-        ],
-        source: [
-          {
-            name: 'Source Name',
-            address: {
-              country: 'USA',
-              city: 'Detroit',
-              state: 'MI',
-              zipCode: '234563453',
-              addressLine1: '234 Maple St.',
-            },
-          },
-        ],
-        personalAssault: false,
-      };
-
-      expect(transformIncident(initialData.incident0, false)).to.eql(
-        transformedIncident,
-      );
     });
   });
 

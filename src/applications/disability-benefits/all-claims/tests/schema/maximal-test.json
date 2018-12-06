@@ -221,42 +221,91 @@
       }
     ],
     "view:faqAccordion": {},
-    "veteran": {
-      "mailingAddress": {
-        "country": "USA",
-        "city": "APO",
-        "state": "AE",
-        "zipCode": "09028",
-        "addressLine1": "123 MAIN ST",
-        "addressLine2": "BEN FRANKLIN VILLAGE"
-      },
-      "primaryPhone": "4445551212",
-      "emailAddress": "test2@test1.net"
-    },
     "privacyAgreementAccepted": true,
     "view:enterAdditionalEvents0": true,
-    "view:enterAdditionalEvents1": true,
-    "view:enterAdditionalEvents2": true,
-    "view:enterAdditionalSecondaryEvents0": true,
-    "view:enterAdditionalSecondaryEvents1": true,
-    "view:enterAdditionalSecondaryEvents2": true,
     "incident0": {
-      "incidentLocation": "Location A"
+      "medalsCitations": "Medal A",
+      "incidentDate": "1992-01-01",
+      "incidentLocation": {
+        "city": "Test",
+        "state": "TN",
+        "country": "USA",
+        "additionalDetails": "Other"
+      },
+      "incidentDescription": "Incident description",
+      "unitAssigned": "Unit A",
+      "unitAssignedDates": {
+        "from": "1990-01-01",
+        "to": "1999-01-01"
+      },
+      "remarks": "Remarks text",
+      "personInvolved": [
+        {
+          "first": "John",
+          "last": "Doe",
+          "rank": "Private",
+          "injuryDeath": "Other",
+          "injuryDeathOther": "Other text",
+          "injuryDeathDate": "1992-1-1",
+          "unitAssigned": "Unit A"
+        },
+        {
+          "first": "Jane",
+          "last": "Doe"
+        }
+      ],
+      "source": [
+        {
+          "name": "Source Name",
+          "address": {
+            "country": "USA",
+            "city": "Detroit",
+            "state": "MI",
+            "zipCode": "234563453",
+            "addressLine1": "234 Maple St."
+          }
+        }
+      ]
     },
     "incident1": {
-      "incidentLocation": "Location B"
+      "incidentLocation": {
+        "city": "",
+        "state": "",
+        "country": "USA",
+        "additionalDetails": "Other"
+      }
     },
     "incident2": {
-      "incidentLocation": "Location C"
+      "incidentLocation": {
+        "city": "Test",
+        "state": "TN",
+        "country": "USA",
+        "additionalDetails": ""
+      }
     },
     "secondaryIncident0": {
-      "incidentLocation": "Location D"
+      "incidentLocation": {
+        "city": "",
+        "state": "",
+        "country": "",
+        "additionalDetails": ""
+      }
     },
     "secondaryIncident1": {
-      "incidentLocation": "Location E"
+      "incidentLocation": {
+        "city": "",
+        "state": "",
+        "country": "",
+        "additionalDetails": ""
+      }
     },
     "secondaryIncident2": {
-      "incidentLocation": "Location F"
+      "incidentLocation": {
+        "city": "",
+        "state": "",
+        "country": "",
+        "additionalDetails": ""
+      }
     }
   }
 }
