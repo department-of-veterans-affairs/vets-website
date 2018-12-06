@@ -1,10 +1,17 @@
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
+import fullSchema from '../config/schema';
+
 import {
   ptsdAssignmentDescription,
   ptsdAssignmentDatesDescription,
 } from '../content/incidentUnitAssignment';
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
+
+const {
+  unitAssigned,
+  unitAssignedDates,
+} = fullSchema.definitions.secondaryPtsdIncident.properties;
 
 export const uiSchema = index => ({
   'ui:title': ptsd781aNameTitle,
@@ -26,21 +33,8 @@ export const schema = index => ({
     [`secondaryIncident${index}`]: {
       type: 'object',
       properties: {
-        unitAssigned: {
-          type: 'string',
-          maxLength: 100,
-        },
-        unitAssignedDates: {
-          type: 'object',
-          properties: {
-            from: {
-              type: 'string',
-            },
-            to: {
-              type: 'string',
-            },
-          },
-        },
+        unitAssigned,
+        unitAssignedDates,
       },
     },
   },
