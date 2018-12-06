@@ -239,11 +239,6 @@ import {
 } from './secondaryIncidentDescription';
 
 import {
-  uiSchema as otherSourcesUISchema,
-  schema as otherSourcesSchema,
-} from './otherSources';
-
-import {
   uiSchema as secondaryOtherSourcesUISchema,
   schema as secondaryOtherSourcesSchema,
 } from './secondaryOtherSources';
@@ -543,11 +538,6 @@ export const incidentDescription = {
 export const secondaryIncidentDescription = {
   uiSchema: secondaryIncidentDescriptionUISchema,
   schema: secondaryIncidentDescriptionSchema,
-};
-
-export const otherSources = {
-  uiSchema: otherSourcesUISchema,
-  schema: otherSourcesSchema,
 };
 
 export const secondaryOtherSources = {
