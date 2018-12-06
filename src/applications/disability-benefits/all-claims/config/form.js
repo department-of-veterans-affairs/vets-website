@@ -88,6 +88,7 @@ import {
   hospitalizationHistory,
   newDisabilities,
   ancillaryFormsWizardSummary,
+  incomeDetails,
 } from '../pages';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
@@ -375,6 +376,14 @@ const formConfig = {
             formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
           uiSchema: hospitalizationHistory.uiSchema,
           schema: hospitalizationHistory.schema,
+        },
+        incomeDetails: {
+          title: 'Income details',
+          path: 'new-disabilities/income-details',
+          depends: formData =>
+            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
+          uiSchema: incomeDetails.uiSchema,
+          schema: incomeDetails.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
