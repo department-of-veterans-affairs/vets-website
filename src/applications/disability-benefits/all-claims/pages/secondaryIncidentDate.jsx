@@ -22,9 +22,7 @@ export const schema = index => ({
   properties: {
     [`secondaryIncident${index}`]: {
       type: 'object',
-      properties: {
-        date,
-      },
+      properties: { date },
     },
   },
 });
