@@ -718,11 +718,28 @@ const schema = {
         ],
       },
     },
+    unitAssigned: {
+      type: 'string',
+      maxLength: 100,
+    },
+    unitAssignedDates: {
+      type: 'object',
+      properties: {
+        from: {
+          type: 'string',
+        },
+        to: {
+          type: 'string',
+        },
+      },
+    },
     ptsdIncident: {
       type: 'object',
       properties: {
         date: { $ref: '#/definitions/date' },
         description: { type: 'string' },
+        unitAssigned: { $ref: '#/definitions/unitAssigned' },
+        unitAssignedDates: { $ref: '#/definitions/unitAssignedDates' },
       },
     },
     secondaryPtsdIncident: {
@@ -754,6 +771,8 @@ const schema = {
                   },
                 },
               },
+              unitAssigned: { $ref: '#/definitions/unitAssigned' },
+              unitAssignedDates: { $ref: '#/definitions/unitAssignedDates' },
             },
           },
         },
