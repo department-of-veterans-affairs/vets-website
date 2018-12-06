@@ -480,7 +480,9 @@ const formConfig = {
         privateMedicalRecordsRelease: {
           title: 'Private Medical Records',
           path: 'supporting-evidence/private-medical-records-release',
-          depends: hasPrivateEvidence && isNotUploadingPrivateMedical,
+          depends: formData =>
+            hasPrivateEvidence(formData) &&
+            isNotUploadingPrivateMedical(formData),
           uiSchema: privateMedicalRecordsRelease.uiSchema,
           schema: privateMedicalRecordsRelease.schema,
         },
