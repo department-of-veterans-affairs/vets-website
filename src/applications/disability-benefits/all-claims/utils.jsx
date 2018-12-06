@@ -510,3 +510,6 @@ export const showPtsdAssaultConclusion = form =>
   form['view:upload781aChoice'] === 'answerQuestions' &&
   (_.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
     _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false));
+
+export const wantsHelpWithOtherSourcesSecondary = index => formData =>
+  _.get(`otherSources${index}`, formData, '') === 'yes';

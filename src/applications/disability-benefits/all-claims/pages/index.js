@@ -249,6 +249,11 @@ import {
 } from './secondaryOtherSources';
 
 import {
+  uiSchema as secondaryOtherSourcesHelpUISchema,
+  schema as secondaryOtherSourcesHelpSchema,
+} from './secondaryOtherSourcesHelp';
+
+import {
   uiSchema as mentalHealthChangesUISchema,
   schema as mentalHealthChangesSchema,
 } from './mentalHealthChanges';
@@ -548,6 +553,11 @@ export const otherSources = {
 export const secondaryOtherSources = {
   uiSchema: secondaryOtherSourcesUISchema,
   schema: secondaryOtherSourcesSchema,
+};
+
+export const secondaryOtherSourcesHelp = {
+  uiSchema: secondaryOtherSourcesHelpUISchema,
+  schema: secondaryOtherSourcesHelpSchema,
 };
 
 export const mentalHealthChanges = {

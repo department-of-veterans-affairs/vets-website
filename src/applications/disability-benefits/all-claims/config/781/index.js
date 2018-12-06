@@ -12,9 +12,14 @@ import {
   ptsdSecondaryAdditionalEvents,
   otherSources,
   secondaryOtherSources,
+  secondaryOtherSourcesHelp,
 } from '../../pages';
 
-import { isAnswering781Questions, isAnswering781aQuestions } from '../../utils';
+import {
+  isAnswering781Questions,
+  isAnswering781aQuestions,
+  wantsHelpWithOtherSourcesSecondary,
+} from '../../utils';
 
 const numberToWords = {
   0: 'First',
@@ -52,7 +57,7 @@ export function createFormConfig781(iterations) {
       [`otherSources${index}`]: {
         title: `${numberToWords[index]} 781 PTSD Other sources of information`,
         path: `disabilities/ptsd-other-sources-${index}`,
-        depends: isAnswering781Questions,
+        depends: isAnswering781Questions(index),
         uiSchema: otherSources.uiSchema(index),
         schema: otherSources.schema(index),
       },
@@ -107,9 +112,20 @@ export function createFormConfig781a(iterations) {
       [`secondaryOtherSources${index}`]: {
         title: `${numberToWords[index]} 781a PTSD Other sources of information`,
         path: `disabilities/ptsd-secondary-other-sources-${index}`,
-        depends: isAnswering781aQuestions,
+        depends: isAnswering781aQuestions(index),
         uiSchema: secondaryOtherSources.uiSchema(index),
         schema: secondaryOtherSources.schema(index),
+      },
+      [`secondaryOtherSourcesHelp${index}`]: {
+        title: `${
+          numberToWords[index]
+        } 781a PTSD Help with other sources of information`,
+        path: `disabilities/ptsd-secondary-other-sources-help-${index}`,
+        depends:
+          isAnswering781aQuestions(index) &&
+          wantsHelpWithOtherSourcesSecondary(index),
+        uiSchema: secondaryOtherSourcesHelp.uiSchema(index),
+        schema: secondaryOtherSourcesHelp.schema(index),
       },
       [`secondaryIncidentSupport${index}`]: {
         title: `${numberToWords[index]} PTSD assault incident support`,
