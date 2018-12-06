@@ -28,7 +28,6 @@ function sitemapURLs() {
         '/404.html',
         // This is here because aXe bug flags the custom select component on this page
         '/find-locations/',
-        '/find-locations/',
         // This is here because an aXe bug flags the autosuggest component on this page
         '/gi-bill-comparison-tool/',
         // These pages use aria-multiselectable incorrectly, because of USWDS
