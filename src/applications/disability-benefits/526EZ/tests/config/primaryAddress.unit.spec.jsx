@@ -37,6 +37,7 @@ describe('Disability benefits 526EZ primary address', () => {
     expect(form.find('select').length).to.equal(1);
     // street 1, 2, 3, city, phone, email, fwding address checkbox
     expect(form.find('input').length).to.equal(7);
+    form.unmount();
   });
 
   it('shows state and zip when country is USA', () => {
@@ -60,6 +61,7 @@ describe('Disability benefits 526EZ primary address', () => {
     expect(form.find('select').length).to.equal(2);
     // street 1, 2, 3, city, zip, phone, email, fwding address checkbox
     expect(form.find('input').length).to.equal(8);
+    form.unmount();
   });
 
   it('hides state and zip when country is not USA', () => {
@@ -81,6 +83,7 @@ describe('Disability benefits 526EZ primary address', () => {
     expect(form.find('select').length).to.equal(1);
     // street 1, 2, 3, city, phone, email, fwding address checkbox
     expect(form.find('input').length).to.equal(7);
+    form.unmount();
   });
 
   it('restricts state options to military state codes when city is a military city code', () => {
@@ -108,6 +111,7 @@ describe('Disability benefits 526EZ primary address', () => {
     expect(stateDropdownOptions.length).to.equal(
       MILITARY_STATE_VALUES.length + 1,
     );
+    form.unmount();
   });
 
   it('does not restrict state options  when city is not a military city code', () => {
@@ -133,6 +137,7 @@ describe('Disability benefits 526EZ primary address', () => {
     );
     // The `+1` is for the empty option in the dropdown
     expect(stateDropdownOptions.length).to.equal(STATE_VALUES.length + 1);
+    form.unmount();
   });
 
   it('validates that state is military type if city is military type', () => {
@@ -165,6 +170,7 @@ describe('Disability benefits 526EZ primary address', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('validates that city is military type if state is military type', () => {
@@ -197,6 +203,7 @@ describe('Disability benefits 526EZ primary address', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('expands forwarding address fields when forwarding address checked', () => {
@@ -226,6 +233,7 @@ describe('Disability benefits 526EZ primary address', () => {
     expect(form.find('select').length).to.equal(4);
     // (2 x (street 1, 2, 3, city)), phone, email, fwding address checkbox, date year
     expect(form.find('input').length).to.equal(12);
+    form.unmount();
   });
 
   it('validates that forwarding state is military type if forwarding city is military type', () => {
@@ -267,6 +275,7 @@ describe('Disability benefits 526EZ primary address', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('validates that forwarding city is military type if forwarding state is military type', () => {
@@ -308,6 +317,7 @@ describe('Disability benefits 526EZ primary address', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('does not submit without required info', () => {
@@ -345,6 +355,7 @@ describe('Disability benefits 526EZ primary address', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(9);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('does submit with required info', () => {
@@ -386,5 +397,6 @@ describe('Disability benefits 526EZ primary address', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

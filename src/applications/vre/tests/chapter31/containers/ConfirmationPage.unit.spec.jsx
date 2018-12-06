@@ -38,5 +38,6 @@ describe('VRE Chapter 31 <ConfirmationPage>', () => {
         .at(0)
         .text(),
     ).to.contain('We’ve received your application.');
+    tree.unmount();
   });
 });

@@ -38,6 +38,7 @@ describe('<YourClaimsPageV2>', () => {
   it('should render', () => {
     const wrapper = shallow(<YourClaimsPageV2 />);
     expect(wrapper.type()).to.equal('div');
+    wrapper.unmount();
   });
 
   it('should render a loading indicator if both requests loading', () => {
@@ -46,6 +47,7 @@ describe('<YourClaimsPageV2>', () => {
     props.claimsLoading = true;
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('LoadingIndicator').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should render a loading indicator if one list empty and other loading', () => {
@@ -54,23 +56,27 @@ describe('<YourClaimsPageV2>', () => {
     props.list = [];
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('LoadingIndicator').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should render a list of claims and appeals', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
     expect(wrapper.find('AppealListItem').length).to.equal(1);
     expect(wrapper.find('ClaimsListItem').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should render a closed claim message if show30DayNotice is true', () => {
     const props = _.set('show30DayNotice', true, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('ClosedClaimMessage').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should render Pagination', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
     expect(wrapper.find('Pagination').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should render a no claims message when no claims or appeals present', () => {
@@ -79,6 +85,7 @@ describe('<YourClaimsPageV2>', () => {
     props.list = [];
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('NoClaims').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should not render error messages if appeals are loading', () => {
@@ -88,6 +95,7 @@ describe('<YourClaimsPageV2>', () => {
     expect(wrapper.find('ClaimsUnavailable').length).to.equal(0);
     expect(wrapper.find('ClaimsUnauthorized').length).to.equal(0);
     expect(wrapper.find('AppealsUnavailable').length).to.equal(0);
+    wrapper.unmount();
   });
 
   it('should not render error messages if claims are loading', () => {
@@ -97,23 +105,27 @@ describe('<YourClaimsPageV2>', () => {
     expect(wrapper.find('ClaimsUnavailable').length).to.equal(0);
     expect(wrapper.find('ClaimsUnauthorized').length).to.equal(0);
     expect(wrapper.find('AppealsUnavailable').length).to.equal(0);
+    wrapper.unmount();
   });
 
   it('should not render claims and appeals unavailable when neither is unavailable', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
     expect(wrapper.find('ClaimsAppealsUnavailable').length).to.equal(0);
+    wrapper.unmount();
   });
 
   it('should render claims unavailable when claims are unavailable', () => {
     const props = _.set('claimsAvailable', false, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('ClaimsUnavailable').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should render appeals unavailable when appeals are unavailable', () => {
     const props = _.set('appealsAvailable', false, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('AppealsUnavailable').length).to.equal(1);
+    wrapper.unmount();
   });
 
   // NOTE: We need to cover the actual opening and closing of the modal in an e2e test
@@ -126,26 +138,31 @@ describe('<YourClaimsPageV2>', () => {
       .find('.claims-combined')
       .simulate('click', { preventDefault: () => {} });
     expect(messageSpy.callCount).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should render a FeaturesWarning component', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
     expect(wrapper.find('FeaturesWarning').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should render an AskVAQuestions warning component', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
     expect(wrapper.find('AskVAQuestions').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should render 30 day notice', () => {
     const props = _.set('show30DayNotice', true, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('ClosedClaimMessage').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should not render 30 day notice', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
     expect(wrapper.find('ClosedClaimMessage').length).to.equal(0);
+    wrapper.unmount();
   });
 });

@@ -24,6 +24,7 @@ describe('<KeywordSearch>', () => {
 
     const input = tree.find('input');
     expect(input.props().value).to.equal('hello');
+    tree.unmount();
   });
 
   it('should open suggestion list when input is filled with text', () => {
@@ -51,6 +52,7 @@ describe('<KeywordSearch>', () => {
     expect(suggestionList.length).to.equal(1);
     const suggestions = tree.find('.suggestion');
     expect(suggestions.length).to.equal(2);
+    tree.unmount();
   });
 
   it('should call on select when an suggestion is selected', () => {
@@ -80,5 +82,6 @@ describe('<KeywordSearch>', () => {
     suggestions.at(1).simulate('click');
     expect(onFilterChange.called).to.be.true;
     expect(onFilterChange.args[0]).to.deep.equal(['name', 'item2']);
+    tree.unmount();
   });
 });

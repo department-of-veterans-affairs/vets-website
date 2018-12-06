@@ -14,5 +14,6 @@ describe('<PastEvent', () => {
   it('should render an <li/>', () => {
     const wrapper = shallow(<PastEvent {...defaultProps} />);
     expect(wrapper.type()).to.equal('li');
+    wrapper.unmount();
   });
 });

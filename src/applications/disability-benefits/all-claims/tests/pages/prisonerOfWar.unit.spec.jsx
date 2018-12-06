@@ -27,6 +27,7 @@ describe('Prisoner of war info', () => {
     );
 
     expect(form.find('input').length).to.equal(2);
+    form.unmount();
   });
 
   it('should render confinement fields', () => {
@@ -43,6 +44,7 @@ describe('Prisoner of war info', () => {
 
     expect(form.find('input').length).to.equal(4);
     expect(form.find('select').length).to.equal(4);
+    form.unmount();
   });
 
   it('should fail to submit when no data is filled out', () => {
@@ -60,6 +62,7 @@ describe('Prisoner of war info', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should add another period', () => {
@@ -84,6 +87,7 @@ describe('Prisoner of war info', () => {
         .first()
         .text(),
     ).to.contain('05/05/2011');
+    form.unmount();
   });
 
   it('should submit when data filled in', () => {
@@ -105,6 +109,7 @@ describe('Prisoner of war info', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should show new disabilities', () => {
@@ -125,6 +130,7 @@ describe('Prisoner of war info', () => {
     const output = form.render().text();
     expect(output).to.contain('ASHD');
     expect(output).to.contain('Scars');
+    form.unmount();
   });
 
   it('should not show new disabilities section when none entered', () => {
@@ -143,5 +149,6 @@ describe('Prisoner of war info', () => {
     expect(output).to.not.contain(
       'Which of your new conditions was caused or affected by your POW experience?',
     );
+    form.unmount();
   });
 });

@@ -51,6 +51,7 @@ describe('Homeless or At Risk Info', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.calledOnce).to.be.true;
+    form.unmount();
   });
 
   it('should require living situation, needToLeave, and contact name / number when homeless', () => {
@@ -72,6 +73,7 @@ describe('Homeless or At Risk Info', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(4);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should require living situation and contact name / number when at risk', () => {
@@ -93,6 +95,7 @@ describe('Homeless or At Risk Info', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(3);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it("should require homeless housing input when 'other' selected", () => {
@@ -122,6 +125,7 @@ describe('Homeless or At Risk Info', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it("should require at risk housing input when 'other' option selected", () => {
@@ -151,6 +155,7 @@ describe('Homeless or At Risk Info', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit when all fields filled', () => {
@@ -181,5 +186,6 @@ describe('Homeless or At Risk Info', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.calledOnce).to.be.true;
+    form.unmount();
   });
 });

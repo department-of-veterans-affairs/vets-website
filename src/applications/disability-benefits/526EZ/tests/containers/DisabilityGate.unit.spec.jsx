@@ -20,6 +20,7 @@ describe('DisabilityGate', () => {
     expect(tree.find('.testing').length).to.equal(1);
     tree.setProps(merge({ prefillStatus: PREFILL_STATUSES.pending }));
     expect(tree.find('.testing').length).to.equal(1);
+    tree.unmount();
   });
 
   it('should render the children if there is at least one eligible disability', () => {
@@ -33,6 +34,7 @@ describe('DisabilityGate', () => {
       </DisabilityGate>,
     );
     expect(tree.find('.testing').length).to.equal(1);
+    tree.unmount();
   });
 
   it('should render an alert if there are no eligible disabilities', () => {
@@ -47,6 +49,7 @@ describe('DisabilityGate', () => {
     );
     expect(tree.find('.testing').length).to.equal(0);
     expect(tree.find('AlertBox').length).to.equal(1);
+    tree.unmount();
   });
 
   it('should render an alert if the pre-fill call failed', () => {
@@ -61,5 +64,6 @@ describe('DisabilityGate', () => {
     );
     expect(tree.find('.testing').length).to.equal(0);
     expect(tree.find('AlertBox').length).to.equal(1);
+    tree.unmount();
   });
 });

@@ -9,6 +9,7 @@ describe('<SupportingDocumentsDescription>', () => {
     const tree = shallow(<SupportingDocumentsDescription />);
 
     expect(tree.find('AdditionalInfo').length).to.equal(2);
+    tree.unmount();
   });
   it('should render service member text', () => {
     const tree = mount(
@@ -31,6 +32,7 @@ describe('<SupportingDocumentsDescription>', () => {
     expect(tree.find('.additional-info-content').text()).to.contain(
       'your DD214',
     );
+    tree.unmount();
   });
   it('should render sponsor text', () => {
     const tree = mount(
@@ -53,6 +55,7 @@ describe('<SupportingDocumentsDescription>', () => {
     expect(tree.find('.additional-info-content').text()).to.contain(
       'sponsor’s DD214',
     );
+    tree.unmount();
   });
   it('should render child text', () => {
     const tree = mount(
@@ -78,5 +81,6 @@ describe('<SupportingDocumentsDescription>', () => {
     expect(tree.find('.additional-info-content').text()).to.contain(
       'need to provide supporting documents',
     );
+    tree.unmount();
   });
 });

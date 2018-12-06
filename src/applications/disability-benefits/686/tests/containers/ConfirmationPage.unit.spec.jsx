@@ -47,6 +47,7 @@ describe('686 <ConfirmationPage>', () => {
         .first()
         .text(),
     ).to.contain('We process applications in the order we receive them.');
+    tree.unmount();
   });
 
   it('should render without the response properties', () => {
@@ -73,5 +74,6 @@ describe('686 <ConfirmationPage>', () => {
         .first()
         .text(),
     ).to.contain('We process applications in the order we receive them.');
+    tree.unmount();
   });
 });

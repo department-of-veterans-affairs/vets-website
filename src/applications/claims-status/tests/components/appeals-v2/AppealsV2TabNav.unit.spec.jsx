@@ -25,5 +25,6 @@ describe('<AppealsV2TabNav/>', () => {
     expect(tabs.length).to.equal(2);
     expect(statusTab.length).to.equal(1);
     expect(detailTab.length).to.equal(1);
+    wrapper.unmount();
   });
 });
