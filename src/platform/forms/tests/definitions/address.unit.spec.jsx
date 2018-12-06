@@ -38,6 +38,7 @@ describe('Schemaform definition address', () => {
         .find('option')
         .everyWhere(n => !!n.props().value),
     ).to.be.true;
+    form.unmount();
   }).timeout(4000);
 
   it('should have required inputs if required', () => {

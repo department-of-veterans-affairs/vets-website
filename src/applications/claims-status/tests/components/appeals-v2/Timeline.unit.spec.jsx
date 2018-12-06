@@ -124,6 +124,7 @@ describe('<Timeline/>', () => {
     expect(expanderProps.missingEvents).to.be.false;
     expect(expanderProps.dateRange).to.equal(formattedDateRange);
     expect(expanderProps.onToggle).to.equal(wrapper.instance().toggleExpanded);
+    wrapper.unmount();
   });
 
   it('should pass updated props to Expander when state toggled', () => {

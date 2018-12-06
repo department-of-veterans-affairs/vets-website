@@ -23,6 +23,7 @@ describe('Additional Remarks 781', () => {
     );
 
     expect(form.find('textarea').length).to.equal(1);
+    form.unmount();
   });
 
   it('should submit if field is untouched', () => {
@@ -42,5 +43,6 @@ describe('Additional Remarks 781', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

@@ -22,6 +22,7 @@ describe('781 Unit Assignment Details', () => {
     );
     expect(form.find('input').length).to.equal(3);
     expect(form.find('select').length).to.equal(4);
+    form.unmount();
   });
 
   it('should fill in unit assignment details', () => {
@@ -41,6 +42,7 @@ describe('781 Unit Assignment Details', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should allow submission if no assigned unit details are submitted', () => {
@@ -56,5 +58,6 @@ describe('781 Unit Assignment Details', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

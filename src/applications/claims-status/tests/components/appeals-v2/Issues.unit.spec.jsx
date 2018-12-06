@@ -27,6 +27,7 @@ describe('<Issues/>', () => {
     // Note: this probably isn't possible in real-world usage
     const wrapper = shallow(<Issues {...emptyIssues} />);
     expect(wrapper.find('CollapsiblePanel').length).to.equal(0);
+    wrapper.unmount();
   });
 
   it('should render one panel when only an open issue is passed in', () => {

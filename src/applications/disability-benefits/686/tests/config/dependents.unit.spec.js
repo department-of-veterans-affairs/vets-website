@@ -26,6 +26,7 @@ describe('686 dependent info', () => {
       />,
     );
     expect(form.find('input').length).to.equal(2);
+    form.unmount();
   });
 
   it('should not submit empty form', () => {

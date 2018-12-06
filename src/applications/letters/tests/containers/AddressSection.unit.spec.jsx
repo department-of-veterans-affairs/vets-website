@@ -186,6 +186,7 @@ describe('<AddressSection>', () => {
 
     expect(tree.find('input')).to.have.lengthOf(5);
     expect(tree.find('select')).to.have.lengthOf(2);
+    tree.unmount();
   });
 
   it('should call saveAddress() when Update button is clicked', () => {
@@ -273,6 +274,7 @@ describe('<AddressSection>', () => {
       .find('select[name="country"]')
       .simulate('change', { target: { value: '' } });
     expect(tree.find('.usa-input-error')).to.have.lengthOf(1);
+    tree.unmount();
   });
 
   it('should infer new address type', () => {
