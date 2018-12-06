@@ -5,11 +5,10 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 import SubmitSignInForm from '../../../brand-consolidation/components/SubmitSignInForm';
 
-import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
+import environment from '../../../utilities/environment';
 import recordEvent from '../../../monitoring/record-event';
 import { login, signup } from '../../../user/authentication/utilities';
 import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
-import { replaceWithStagingDomain } from '../../../../platform/utilities/environment/stagingDomains';
 import DowntimeBanner from '../../../../platform/monitoring/DowntimeNotification/components/Banner';
 import siteName from '../../../brand-consolidation/site-name';
 
@@ -22,20 +21,9 @@ const handleDsLogon = loginHandler('dslogon');
 const handleMhv = loginHandler('mhv');
 const handleIdMe = loginHandler('idme');
 
-const logoSrc = replaceWithStagingDomain(
-  isBrandConsolidationEnabled()
-    ? 'https://www.va.gov/img/design/logo/va-logo.png'
-    : '/img/design/logo/logo-alt.png',
-);
-const faqHref = replaceWithStagingDomain(
-  isBrandConsolidationEnabled()
-    ? 'https://www.va.gov/sign-in-faq/'
-    : '/sign-in-faq/',
-);
+const vaGovFullDomain = environment.BASE_URL;
+const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 
-const vaGovFullDomain = isBrandConsolidationEnabled()
-  ? replaceWithStagingDomain('https://www.va.gov')
-  : '';
 class SignInModal extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {
@@ -182,7 +170,7 @@ class SignInModal extends React.Component {
                 information.
               </p>
               <p>
-                <a href={`${faqHref}#what-is-idme`} target="_blank">
+                <a href="/sign-in-faq/#what-is-idme" target="_blank">
                   Learn more about ID.me
                 </a>
               </p>
@@ -194,7 +182,7 @@ class SignInModal extends React.Component {
             <div className="help-info">
               <h4>Having trouble signing in?</h4>
               <p>
-                <a href={faqHref} target="_blank">
+                <a href="/sign-in-faq/" target="_blank">
                   Get answers to Frequently Asked Questions
                 </a>
               </p>
