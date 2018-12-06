@@ -10,7 +10,6 @@ import {
   secondaryIncidentAuthorities,
   ptsdAdditionalEvents,
   ptsdSecondaryAdditionalEvents,
-  otherSources,
   secondaryOtherSources,
   secondaryOtherSourcesHelp,
 } from '../../pages';
@@ -53,13 +52,6 @@ export function createFormConfig781(iterations) {
         depends: isAnswering781Questions(index),
         uiSchema: incidentDescription.uiSchema(index),
         schema: incidentDescription.schema(index),
-      },
-      [`otherSources${index}`]: {
-        title: `${numberToWords[index]} 781 PTSD Other sources of information`,
-        path: `disabilities/ptsd-other-sources-${index}`,
-        depends: isAnswering781Questions(index),
-        uiSchema: otherSources.uiSchema(index),
-        schema: otherSources.schema(index),
       },
       [`incidentSupport${index}`]: {
         title: `${numberToWords[index]} PTSD incident support`,
