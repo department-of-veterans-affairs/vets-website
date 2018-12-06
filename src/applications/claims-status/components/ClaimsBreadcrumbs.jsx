@@ -9,7 +9,7 @@ class ClaimsBreadcrumbs extends React.Component {
         Home
       </a>,
       <Link to="your-claims" key="claims-home">
-        Track Your Claims and Appeals
+        Check Your Claims and Appeals
       </Link>,
     ];
 
