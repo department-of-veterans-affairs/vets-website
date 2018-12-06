@@ -109,6 +109,7 @@ describe('Pre-need definition address', () => {
     fillData(form, 'input#root_street', '123 street');
 
     expect(form.find('input#root_street').props().value).to.equal('123 street');
+    form.unmount();
   }).timeout(4000);
 
   it('should update country field in empty address', () => {

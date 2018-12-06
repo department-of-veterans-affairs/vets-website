@@ -30,6 +30,7 @@ describe('Homeless or At Risk Info', () => {
     );
 
     expect(form.find('input').length).to.equal(3);
+    form.unmount();
   });
 
   it('should submit when user not homeless or at risk', () => {

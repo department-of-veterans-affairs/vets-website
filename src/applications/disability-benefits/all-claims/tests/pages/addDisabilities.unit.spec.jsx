@@ -23,6 +23,7 @@ describe('Add new disabilities', () => {
     );
 
     expect(form.find('input').length).to.equal(1);
+    form.unmount();
   });
 
   it('should add another disability', () => {

@@ -76,6 +76,7 @@ describe('Appeals V2 Docket', () => {
     const props = { ...defaultProps, aod: true };
     const wrapper = shallow(<Docket {...props} />);
     expect(wrapper.text()).to.contain('Your appeal is Advanced on Docket.');
+    wrapper.unmount();
   });
 
   it('should display postCavcRemand text', () => {
