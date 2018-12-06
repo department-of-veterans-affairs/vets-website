@@ -45,6 +45,7 @@ const config = {
       name: 'personalization',
       paths: /(.)/,
       component: PersonalizationBanner,
+      disabled: true,
     },
   ],
 };
