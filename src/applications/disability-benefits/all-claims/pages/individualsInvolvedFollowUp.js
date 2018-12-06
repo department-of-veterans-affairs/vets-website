@@ -110,7 +110,7 @@ export const uiSchema = index => ({
             expandUnderCondition: 'Other',
           },
         },
-        'view:msggg': {
+        'view:individualAddMsg': {
           'ui:title': ' ',
           'ui:description':
             'If anyone else was killed or injured in this event, you can add them now.',
@@ -153,7 +153,7 @@ export const schema = index => ({
                   'Other',
                 ],
               },
-              'view:msggg': {
+              'view:individualAddMsg': {
                 type: 'object',
                 properties: {},
               },
