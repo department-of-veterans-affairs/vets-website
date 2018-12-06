@@ -4,7 +4,7 @@ import { PtsdNameTitle } from '../content/ptsdClassification';
 import {
   otherSourcesDescription,
   otherSourcesHelpText,
-} from '../content/otherSources';
+} from '../content/secondaryOtherSources';
 
 export const uiSchema = index => ({
   'ui:title': ({ formData }) => (
