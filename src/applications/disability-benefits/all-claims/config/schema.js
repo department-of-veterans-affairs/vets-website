@@ -744,8 +744,8 @@ const schema = {
                   country: {
                     default: 'USA',
                     type: 'string',
-                    enum: countries.map(object => object.value),
-                    enumNames: countries.map(object => object.label),
+                    enum: countries.map(country => country.value),
+                    enumNames: countries.map(country => country.label),
                   },
                   state: {
                     title: 'State',
