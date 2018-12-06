@@ -279,7 +279,16 @@ export function transform(formConfig, form) {
   // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
   //  it here to remove reservesNationalGuardService if it's deeply empty.
   clonedData = removeDeeplyEmptyObjects(
-    JSON.parse(transformForSubmit(formConfig, form, customReplacer)),
+    JSON.parse(
+      transformForSubmit(
+        formConfig,
+        {
+          ...form,
+          data: clonedData,
+        },
+        customReplacer,
+      ),
+    ),
   );
 
   // Transform the related disabilities lists into an array of strings
