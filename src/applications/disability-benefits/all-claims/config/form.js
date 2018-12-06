@@ -34,6 +34,7 @@ import {
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
   transform,
+  isAnsweringPtsdForm,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -79,6 +80,7 @@ import {
   unemployabilityStatus,
   unemployabilityFormIntro,
   additionalRemarks781,
+  workBehaviorChanges,
   additionalBehaviorChanges,
   mentalHealthChanges,
   adaptiveBenefits,
@@ -320,6 +322,13 @@ const formConfig = {
           uiSchema: secondaryFinalIncident.uiSchema,
           schema: secondaryFinalIncident.schema,
         },
+        workBehaviorChanges: {
+          title: 'Additional Remarks - Behavior Changes at Work',
+          path: 'new-disabilities/ptsd-781a-work-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: workBehaviorChanges.uiSchema,
+          schema: workBehaviorChanges.schema,
+        },
         physicalHealthChanges: {
           title: 'Additional Remarks - Physical Health Changes',
           path: 'new-disabilities/ptsd-781a-physical-changes',
@@ -328,7 +337,7 @@ const formConfig = {
           schema: physicalHealthChanges.schema,
         },
         mentalHealthChanges: {
-          title: 'Additional Remarks - Physical Health Changes',
+          title: 'Additional Remarks - Mental Health Changes',
           path: 'new-disabilities/ptsd-781a-mental-changes',
           depends: isAnswering781aQuestions(0),
           uiSchema: mentalHealthChanges.uiSchema,
