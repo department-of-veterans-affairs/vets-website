@@ -25,10 +25,11 @@ import {
   hasOtherEvidence,
   needsToEnter781,
   needsToEnter781a,
+  isAnswering781Questions,
+  isAnswering781aQuestions,
   isUploading781Form,
   isUploading781aForm,
   servedAfter911,
-  isAnsweringPtsdForm,
   isNotUploadingPrivateMedical,
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
@@ -58,6 +59,8 @@ import {
   ptsdWalkthroughChoice781,
   uploadPtsdDocuments,
   ptsdWalkthroughChoice781a,
+  finalIncident,
+  secondaryFinalIncident,
   conclusionCombat,
   conclusionAssault,
   uploadPersonalPtsdDocuments,
@@ -75,6 +78,8 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  additionalRemarks781,
+  additionalBehaviorChanges,
   mentalHealthChanges,
   adaptiveBenefits,
   aidAndAttendance,
@@ -82,6 +87,7 @@ import {
   physicalHealthChanges,
   hospitalizationHistory,
   newDisabilities,
+  ancillaryFormsWizardSummary,
 } from '../pages';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
@@ -274,6 +280,20 @@ const createFormConfig = {
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
         },
+        finalIncident: {
+          path: 'new-disabilities/ptsd-additional-incident',
+          title: 'Additional PTSD event',
+          depends: isAnswering781Questions(PTSD_INCIDENT_ITERATION),
+          uiSchema: finalIncident.uiSchema,
+          schema: finalIncident.schema,
+        },
+        additionalRemarks781: {
+          title: 'Additional Remarks - 781',
+          path: 'new-disabilities/additional-remarks-781',
+          depends: isAnswering781Questions(0),
+          uiSchema: additionalRemarks781.uiSchema,
+          schema: additionalRemarks781.schema,
+        },
         ptsdWalkthroughChoice781a: {
           title: 'PTSD Walkthrough 781a Choice',
           path: 'new-disabilities/walkthrough-781a-choice',
@@ -293,21 +313,33 @@ const createFormConfig = {
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
         },
+        secondaryFinalIncident: {
+          path: 'new-disabilities/ptsd-assault-additional-incident',
+          title: 'Additional assault PTSD event',
+          depends: isAnswering781aQuestions(PTSD_INCIDENT_ITERATION),
+          uiSchema: secondaryFinalIncident.uiSchema,
+          schema: secondaryFinalIncident.schema,
+        },
         physicalHealthChanges: {
           title: 'Additional Remarks - Physical Health Changes',
           path: 'new-disabilities/ptsd-781a-physical-changes',
-          depends: formData =>
-            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
+          depends: isAnswering781aQuestions(0),
           uiSchema: physicalHealthChanges.uiSchema,
           schema: physicalHealthChanges.schema,
         },
         mentalHealthChanges: {
           title: 'Additional Remarks - Physical Health Changes',
           path: 'new-disabilities/ptsd-781a-mental-changes',
-          depends: formData =>
-            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
+          depends: isAnswering781aQuestions(0),
           uiSchema: mentalHealthChanges.uiSchema,
           schema: mentalHealthChanges.schema,
+        },
+        additionalBehaviorChanges: {
+          title: 'Additional Remarks - Additional Behavior Changes',
+          path: 'new-disabilities/ptsd-781a-additional-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: additionalBehaviorChanges.uiSchema,
+          schema: additionalBehaviorChanges.schema,
         },
         conclusionCombat: {
           path: 'conclusion-781',
@@ -385,6 +417,13 @@ const createFormConfig = {
           path: 'individual-unemployability',
           uiSchema: individualUnemployability.uiSchema,
           schema: individualUnemployability.schema,
+        },
+        ancillaryFormsWizardSummary: {
+          title: 'Summary of additional benefits',
+          path: 'additional-disability-benefits-summary',
+          depends: ancillaryFormsWizardSummary.depends,
+          uiSchema: ancillaryFormsWizardSummary.uiSchema,
+          schema: ancillaryFormsWizardSummary.schema,
         },
         // End ancillary forms wizard
         summaryOfDisabilities: {

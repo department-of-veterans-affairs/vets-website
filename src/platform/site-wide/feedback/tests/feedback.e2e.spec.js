@@ -15,7 +15,7 @@ const selectors = {
 
 function begin(browser) {
   browser
-    .url(E2eHelpers.baseUrl)
+    .openUrl(E2eHelpers.baseUrl)
     .waitForElementVisible(selectors.root, Timeouts.slow)
     .axeCheck('document');
 
