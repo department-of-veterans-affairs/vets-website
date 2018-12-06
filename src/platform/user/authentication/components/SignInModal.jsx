@@ -28,7 +28,9 @@ const logoSrc = replaceWithStagingDomain(
     : '/img/design/logo/logo-alt.png',
 );
 const faqHref = replaceWithStagingDomain(
-  isBrandConsolidationEnabled() ? 'https://www.va.gov/sign-in-faq/' : '/faq/',
+  isBrandConsolidationEnabled()
+    ? 'https://www.va.gov/sign-in-faq/'
+    : '/sign-in-faq/',
 );
 
 const vaGovFullDomain = isBrandConsolidationEnabled()

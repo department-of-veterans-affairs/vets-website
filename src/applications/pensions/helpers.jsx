@@ -517,7 +517,7 @@ export const expeditedProcessDescription = (
       forms for additional benefits, you can apply using the Fully Developed
       Claim (FDC) program.
     </p>
-    <a href="/pension/apply/fully-developed-claim/" target="_blank">
+    <a href="/pension/how-to-apply/fully-developed-claim/" target="_blank">
       Learn more about the FDC program
     </a>
     .

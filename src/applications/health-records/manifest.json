@@ -2,6 +2,6 @@
   "appName": "Health Records",
   "entryFile": "./health-records-entry.jsx",
   "entryName": "health-records",
-  "rootUrl": "/health-care/health-records",
+  "rootUrl": "/health-care/get-medical-records",
   "production": true
 }

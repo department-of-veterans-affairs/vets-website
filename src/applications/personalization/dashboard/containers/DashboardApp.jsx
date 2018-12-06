@@ -110,9 +110,7 @@ class DashboardApp extends React.Component {
           <li>
             <a
               href={
-                isBrandConsolidationEnabled()
-                  ? '/disability/'
-                  : '/disability-benefits/'
+                isBrandConsolidationEnabled() ? '/disability/' : '/disability/'
               }
               onClick={recordDashboardClick('disability-benefits')}
             >
@@ -148,7 +146,10 @@ class DashboardApp extends React.Component {
             </a>
           </li>
           <li>
-            <a href="/employment/" onClick={recordDashboardClick('employment')}>
+            <a
+              href="/careers-employment/"
+              onClick={recordDashboardClick('employment')}
+            >
               <h4 className="va-nav-linkslist-title">Careers and Employment</h4>
               <p className="va-nav-linkslist-description">
                 Find out if you're eligible for Vocational Rehabilitation and
@@ -328,7 +329,7 @@ class DashboardApp extends React.Component {
             <ul className="va-nav-linkslist-list">
               <li>
                 <a
-                  href="/health-care/schedule-an-appointment/"
+                  href="/health-care/schedule-view-va-appointments/"
                   onClick={recordDashboardClick('schedule-appointment')}
                 >
                   <h4 className="va-nav-linkslist-title">

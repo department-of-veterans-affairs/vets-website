@@ -17,13 +17,15 @@ class AuthApplicationSection extends React.Component {
               </a>
             </p>
             <p key="rx">
-              <a href="/health-care/prescriptions">Refill your prescription</a>
+              <a href="/health-care/refill-track-prescriptions/">
+                Refill your prescription
+              </a>
             </p>
             <p key="messaging">
               <a href="/health-care/messaging">Message your health care team</a>
             </p>
             <p key="health-records">
-              <a href="/health-care/health-records">
+              <a href="/health-care/get-medical-records">
                 Get your VA health records
               </a>
             </p>

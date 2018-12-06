@@ -11,7 +11,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   AccountCreationHelpers.initMHVTermsMocks(token);
 
   // Ensure index page renders.
-  Auth.logIn(token, client, '/health-care/health-records', 3)
+  Auth.logIn(token, client, '/health-care/get-medical-records', 3)
     .assert.title('Get Your VA Health Records: VA.gov')
     .waitForElementVisible('.blue-button-logo', Timeouts.normal)
     .axeCheck('.main');

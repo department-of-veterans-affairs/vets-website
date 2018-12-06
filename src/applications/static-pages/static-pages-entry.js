@@ -17,7 +17,7 @@ import brandConsolidation from '../../platform/brand-consolidation';
 
 const pensionPages = new Set([
   '/pension/',
-  '/pension/apply/',
+  '/pension/how-to-apply/',
   '/pension/how-to-apply/',
   '/pension/eligibility/',
 ]);
@@ -41,14 +41,14 @@ const ctaTools = new Set([
 ]);
 
 const burialPages = new Set([
-  '/burials-and-memorials/',
-  '/burials-and-memorials/survivor-and-dependent-benefits/burial-costs/',
+  '/burials-memorials/',
+  '/burials-memorials/veterans-burial-allowance/',
   '/burials-memorials/veterans-burial-allowance/',
 ]);
 
 const eduPages = new Set([
   '/education/',
-  '/education/apply/',
+  '/education/how-to-apply/',
   '/education/eligibility/',
   '/education/how-to-apply/',
 ]);
@@ -57,9 +57,9 @@ const eduOptOutPage = '/education/opt-out-information-sharing/';
 
 const disabilityPages = new Set([
   // Vets.gov paths
-  '/disability-benefits/',
-  '/disability-benefits/apply/',
-  '/disability-benefits/eligibility/',
+  '/disability/',
+  '/disability/how-to-file-claim/',
+  '/disability/eligibility/',
   // VA.gov paths
   '/disability/',
   '/disability/how-to-file-claim/',
@@ -80,7 +80,7 @@ createAdditionalInfoWidget();
 if (pensionPages.has(location.pathname)) {
   const applyLink = brandConsolidation.isEnabled()
     ? '/pension/how-to-apply/'
-    : '/pension/apply/';
+    : '/pension/how-to-apply/';
   createApplicationStatus(store, {
     formId: '21P-527EZ',
     applyHeading: 'How do I apply?',
@@ -128,7 +128,9 @@ if (disabilityPages.has(location.pathname) && brandConsolidation.isEnabled()) {
   createDisabilityIncreaseApplicationStatus(store);
 }
 
-if (location.pathname === '/disability-benefits/increase-claims-testing/') {
+if (
+  location.pathname === '/disability-benefits/apply/form-526-disability-claim/'
+) {
   create526EmailForm(store);
 }
 

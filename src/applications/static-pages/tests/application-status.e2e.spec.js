@@ -100,7 +100,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   testStatus(
     client,
-    '/health-care/apply',
+    '/health-care/how-to-apply/',
     '/health-care/apply/application/resume',
   );
   testStatus(

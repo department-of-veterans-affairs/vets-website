@@ -8,11 +8,11 @@ function createAppRedirectHtml(vetsGovSrc, vaGovDest, vaGovHost) {
       var pathsRequiringSignIn = [
         '/track-claims',
         '/my-va',
-        '/download-va-letters',
+        '/records/download-va-letters',
         '/profile',
         '/account',
         '/get-veteran-id-cards/apply',
-        '/health-care/health-records'
+        '/health-care/get-medical-records'
       ];
 
       for (var i=0; i < pathsRequiringSignIn.length; i++) {
