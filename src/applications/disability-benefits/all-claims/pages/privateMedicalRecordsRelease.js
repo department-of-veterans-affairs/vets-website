@@ -11,7 +11,7 @@ import {
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 import { validateDate } from 'us-forms-system/lib/js/validation';
 
-const { form4142 } = fullSchema.definitions;
+const { form4142 } = fullSchema.properties;
 
 const providerFacilities = form4142.properties.providerFacility;
 const limitedConsent = form4142.properties.limitedConsent;
