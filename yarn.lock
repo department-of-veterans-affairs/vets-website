@@ -3340,9 +3340,6 @@ eslint-module-utils@^2.2.0:
     debug "^2.6.8"
     pkg-dir "^1.0.0"
 
-eslint-plugin-enzyme-always-unmount@./script/custom-eslint/enzyme-always-unmount:
-  version "0.0.1"
-
 eslint-plugin-import@^2.14.0:
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.14.0.tgz#6b17626d2e3e6ad52cfce8807a845d15e22111a8"
@@ -3407,6 +3404,9 @@ eslint-plugin-scanjs-rules@^0.1.4:
   dependencies:
     babel-eslint ">=4.1.1"
     eslint ">=1.1"
+
+eslint-plugin-va-enzyme@./script/custom-eslint/va-enzyme:
+  version "1.0.0"
 
 eslint-restricted-globals@^0.1.1:
   version "0.1.1"

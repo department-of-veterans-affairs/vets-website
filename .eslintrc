@@ -10,7 +10,7 @@
       "babel-module": {}
     }
   },
-  "plugins": ["mocha", "jest", "enzyme-always-unmount"],
+  "plugins": ["mocha", "jest", "va-enzyme"],
   "extends": ["airbnb", "plugin:prettier/recommended"],
   "env": {
     "browser": true,
@@ -24,8 +24,8 @@
   },
   "rules": {
     // Override airbnb style.
-    "enzyme-always-unmount/no-matching-unmount": 2,
     "camelcase": [2, { "properties": "always" }],
+    "va-enzyme/unmount": 2,
     "func-names": 2,
     "import/no-extraneous-dependencies": 0,
     "no-console": 2,

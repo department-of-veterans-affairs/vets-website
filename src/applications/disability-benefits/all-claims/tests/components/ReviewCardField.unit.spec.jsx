@@ -56,14 +56,14 @@ describe('Schemaform: ReviewCardField', () => {
 
   it('should throw an error if no viewComponent is found', () => {
     expect(() => {
-      // eslint-disable-next-line enzyme-always-unmount/no-matching-unmount
+      // eslint-disable-next-line va-enzyme/unmount
       shallow(<ReviewCardField {...defaultProps} uiSchema={{}} />);
     }).to.throw('viewComponent');
   });
 
   it('should throw an error if schema type is not object or array', () => {
     expect(() => {
-      // eslint-disable-next-line enzyme-always-unmount/no-matching-unmount
+      // eslint-disable-next-line va-enzyme/unmount
       shallow(
         <ReviewCardField {...defaultProps} schema={{ type: 'string' }} />,
       );
@@ -214,7 +214,7 @@ describe('Schemaform: ReviewCardField', () => {
     );
 
     it('should remove the edit button from the header in review mode', () => {
-      // eslint-disable-next-line enzyme-always-unmount/no-matching-unmount
+      // eslint-disable-next-line va-enzyme/unmount
       const tree = shallow(<ReviewCardField {...defaultVDProps} />);
       expect(tree.find('.review-card--header .edit-button').length).to.equal(0);
     });

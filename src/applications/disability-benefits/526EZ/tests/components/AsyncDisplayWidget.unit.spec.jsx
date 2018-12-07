@@ -9,7 +9,7 @@ const viewComponent = () => <div id="view-component">View component</div>;
 
 describe('AsyncDisplayWidget', () => {
   it('should throw an error if ui:options are not present', () => {
-    // eslint-disable-next-line enzyme-always-unmount/no-matching-unmount
+    // eslint-disable-next-line va-enzyme/unmount
     expect(() => shallow(<AsyncDisplayWidget />)).to.throw(
       'No ui:options supplied',
     );
@@ -21,7 +21,7 @@ describe('AsyncDisplayWidget', () => {
         viewComponent: 'not a function',
       },
     };
-    // eslint-disable-next-line enzyme-always-unmount/no-matching-unmount
+    // eslint-disable-next-line va-enzyme/unmount
     expect(() => shallow(<AsyncDisplayWidget {...props} />)).to.throw(
       'requires viewComponent',
     );
@@ -36,7 +36,7 @@ describe('AsyncDisplayWidget', () => {
         callback: () => 'not a promise',
       },
     };
-    // eslint-disable-next-line enzyme-always-unmount/no-matching-unmount
+    // eslint-disable-next-line va-enzyme/unmount
     expect(() => shallow(<AsyncDisplayWidget {...props} />)).to.throw(
       'callback to return a Promise',
     );

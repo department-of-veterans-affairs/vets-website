@@ -1,5 +1,5 @@
 module.exports.rules = {
-  'no-matching-unmount': context => {
+  unmount: context => {
     let shallowMountNode = null;
     let unmountNode = null;
     return {
