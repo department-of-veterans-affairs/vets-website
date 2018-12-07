@@ -2,7 +2,7 @@ import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
 import HospitalizationPeriodView from '../components/HospitalizationPeriodView';
 
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json'
 
 const { hospitalizationHistory } = fullSchema.properties;
 
