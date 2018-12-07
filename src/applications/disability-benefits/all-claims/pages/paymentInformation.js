@@ -13,16 +13,13 @@ const {
 export const uiSchema = {
   'view:bankAccount': {
     'ui:title': 'Payment Information',
-    'ui:description':
-      'We’re currently paying your compensation to this account',
     'ui:field': ReviewCardField,
     'ui:options': {
       viewComponent: PaymentView,
       reviewTitle: 'Payment information',
       editTitle: 'Add new bank account',
       itemName: 'account',
-      startInEdit: formData =>
-        Object.keys(formData).every(key => !formData[key]),
+      startInEdit: formData => !formData['view:hasPrefilledBank'],
       volatileData: true,
     },
     bankAccountType: {
