@@ -4,7 +4,7 @@ import fullSchema from '../config/schema';
 import { uploadDescription } from '../content/fileUploadDescriptions';
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
 
-const { completedFormAttachments } = fullSchema.properties;
+const { attachments } = fullSchema.properties;
 
 const FIFTY_MB = 52428800;
 
@@ -36,17 +36,13 @@ export const uiSchema = {
     parseResponse: (response, file) => ({
       name: file.name,
       confirmationCode: response.data.attributes.guid,
-      attachmentId:
-        'VA Form 21-0781a-Statement in Support of Claim for PTSD Secondary to Personal Assault',
+      attachmentId: 'L229',
     }),
     // this is the uiSchema passed to FileField for the attachmentId schema
     // FileField requires this name be used
     attachmentSchema: {
       'ui:title': 'Document type',
-      'ui:disabled': true,
-      'ui:widget': 'textarea',
     },
-    classNames: 'upload-completed-form',
   }),
 };
 
@@ -54,6 +50,6 @@ export const schema = {
   type: 'object',
   required: ['ptsd781a'],
   properties: {
-    ptsd781a: completedFormAttachments,
+    ptsd781a: attachments,
   },
 };
