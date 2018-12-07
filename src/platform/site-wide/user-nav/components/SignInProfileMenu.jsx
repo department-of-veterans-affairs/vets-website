@@ -13,20 +13,40 @@ class SignInProfileMenu extends React.Component {
     const icon = <IconUser color="#fff" role="presentation" />;
 
     return (
-      <DropDownPanel
-        buttonText={this.props.greeting}
-        clickHandler={this.props.clickHandler}
-        id="account-menu"
-        icon={icon}
-        isOpen={this.props.isOpen}
-        disabled={this.props.disabled}
-      >
-        {isPersonalizationEnabled() ? (
-          <PersonalizationDropdown />
-        ) : (
-          <LegacyDropdown />
-        )}
-      </DropDownPanel>
+      <div>
+        <div className="show-for-medium-up">
+          <DropDownPanel
+            buttonText={this.props.greeting}
+            clickHandler={this.props.clickHandler}
+            id="account-menu"
+            icon={icon}
+            isOpen={this.props.isOpen}
+            disabled={this.props.disabled}
+          >
+            {isPersonalizationEnabled() ? (
+              <PersonalizationDropdown />
+            ) : (
+              <LegacyDropdown />
+            )}
+          </DropDownPanel>
+        </div>
+        <div className="show-for-small-only">
+          <DropDownPanel
+            buttonText={this.props.greetingMobile}
+            clickHandler={this.props.clickHandler}
+            id="account-menu"
+            icon={icon}
+            isOpen={this.props.isOpen}
+            disabled={this.props.disabled}
+          >
+            {isPersonalizationEnabled() ? (
+              <PersonalizationDropdown />
+            ) : (
+              <LegacyDropdown />
+            )}
+          </DropDownPanel>
+        </div>
+      </div>
     );
   }
 }

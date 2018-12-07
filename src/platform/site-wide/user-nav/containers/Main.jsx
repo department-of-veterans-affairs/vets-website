@@ -17,7 +17,7 @@ import {
 } from '../../../site-wide/user-nav/actions';
 
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
-import { selectUserGreeting } from '../selectors';
+import { selectUserGreeting, selectUserGreetingMobile } from '../selectors';
 
 import dashboardManifest from '../../../../applications/personalization/dashboard/manifest';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
@@ -144,6 +144,7 @@ export class Main extends React.Component {
           isMenuOpen={this.props.utilitiesMenuIsOpen}
           isProfileLoading={this.props.isProfileLoading}
           userGreeting={this.props.userGreeting}
+          userGreetingMobile={this.props.userGreetingMobile}
           toggleLoginModal={this.props.toggleLoginModal}
           toggleMenu={this.props.toggleSearchHelpUserMenu}
         />
@@ -161,6 +162,7 @@ const mapStateToProps = state => ({
   isProfileLoading: isProfileLoading(state),
   isLOA3: isLOA3(state),
   userGreeting: selectUserGreeting(state),
+  userGreetingMobile: selectUserGreetingMobile(state),
   ...state.navigation,
 });
 
