@@ -1,4 +1,5 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
@@ -30,20 +31,30 @@ describe('526 -- paymentInformation', () => {
 
   it('should submit with all required info', () => {
     const onSubmit = sinon.spy();
+    const fakeStore = {
+      getState: () => ({ form: { data: {} } }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
     const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          bankAccountType: 'Checking',
-          bankAccountNumber: '1234567890',
-          bankRoutingNumber: '123456789',
-          bankName: 'Test Bank',
-        }}
-        formData={{}}
-        uiSchema={uiSchema}
-        onSubmit={onSubmit}
-      />,
+      // The page's PaymentView is connected to the redux store
+      <Provider store={fakeStore}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={{
+            'view:bankAccount': {
+              bankAccountType: 'Checking',
+              bankAccountNumber: '1234567890',
+              bankRoutingNumber: '123456789',
+              bankName: 'Test Bank',
+            },
+          }}
+          formData={{}}
+          uiSchema={uiSchema}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -59,7 +70,9 @@ describe('526 -- paymentInformation', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          bankAccountType: 'Checking',
+          'view:bankAccount': {
+            bankAccountType: 'Checking',
+          },
         }}
         formData={{}}
         uiSchema={uiSchema}

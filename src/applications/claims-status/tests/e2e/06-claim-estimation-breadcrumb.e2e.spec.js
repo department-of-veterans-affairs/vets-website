@@ -28,16 +28,16 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementVisible('.claims-paragraph-header', Timeouts.normal);
 
   client.expect.element(
-    '.va-nav-breadcrumbs-list li:nth-of-type(5) a[aria-current="page"]',
+    '.va-nav-breadcrumbs-list li:nth-of-type(4) a[aria-current="page"]',
   ).to.be.present;
   client.expect
     .element(
-      '.va-nav-breadcrumbs-list li:nth-of-type(5) a[aria-current="page"]',
+      '.va-nav-breadcrumbs-list li:nth-of-type(4) a[aria-current="page"]',
     )
     .text.to.equal('Estimated Decision Date');
   client.expect
     .element(
-      '.va-nav-breadcrumbs-list li:nth-of-type(5) a[aria-current="page"]',
+      '.va-nav-breadcrumbs-list li:nth-of-type(4) a[aria-current="page"]',
     )
     .to.have.css('pointer-events')
     .which.equal('none');

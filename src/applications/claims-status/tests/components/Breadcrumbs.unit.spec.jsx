@@ -14,7 +14,7 @@ describe('<Breadcrumbs>', () => {
 
     const items = tree.everySubTree('a');
     expect(items[0].props.href).to.equal('/');
-    expect(items[1].props.href).to.equal('/disability-benefits/');
-    expect(items[2].text()).to.equal('Testing');
+    expect(items[1].props.href).to.equal('#');
+    expect(items[1].text()).to.equal('Testing');
   });
 });
