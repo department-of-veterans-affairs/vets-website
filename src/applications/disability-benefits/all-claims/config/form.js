@@ -380,6 +380,8 @@ const formConfig = {
         recentJobApplications: {
           title: 'Recent job applications',
           path: 'recent-job-applications',
+          depends: formData =>
+            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
           uiSchema: recentJobApplications.uiSchema,
           schema: recentJobApplications.schema,
         },
