@@ -86,6 +86,7 @@ import {
   individualUnemployability,
   physicalHealthChanges,
   hospitalizationHistory,
+  militaryDutyImpact,
   newDisabilities,
   ancillaryFormsWizardSummary,
 } from '../pages';
@@ -375,6 +376,14 @@ const formConfig = {
             formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
           uiSchema: hospitalizationHistory.uiSchema,
           schema: hospitalizationHistory.schema,
+        },
+        militaryDutyImpact: {
+          title: 'Impact on military duty',
+          page: 'military-duty-impact',
+          depends: formData =>
+            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
+          uiSchema: militaryDutyImpact.uiSchema,
+          schema: militaryDutyImpact.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
