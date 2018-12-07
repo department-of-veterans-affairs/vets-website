@@ -11,7 +11,6 @@ export const selectUserGreetingMobile = createSelector(
     if (name.first || sessionFirstName) {
       return startCase(toLower(name.first || sessionFirstName));
     }
-
     return 'My Account';
   },
 );
@@ -24,7 +23,6 @@ export const selectUserGreeting = createSelector(
     if (name.first || sessionFirstName) {
       return startCase(toLower(name.first || sessionFirstName));
     }
-
     return email;
   },
 );
