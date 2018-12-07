@@ -167,7 +167,7 @@
     "view:disabilitiesClarification": {},
     "serviceInformation": {
       "reservesNationalGuardService": {
-        "view:isTitle10Activated": false,
+        "view:isTitle10Activated": true,
         "title10Activation": {
           "title10ActivationDate": "1902-01-01",
           "anticipatedSeparationDate": "2019-01-01"
@@ -206,9 +206,9 @@
       ],
       "view:militaryHistoryNote": {}
     },
-    "view:hasMilitaryRetiredPay": false,
+    "view:hasMilitaryRetiredPay": true,
     "militaryRetiredPayBranch": "Air Force",
-    "view:hasAlternateName": false,
+    "view:hasAlternateName": true,
     "alternateNames": [
       {
         "first": "Old",
