@@ -529,3 +529,13 @@ export const showPtsdAssaultConclusion = form =>
 
 export const wantsHelpWithOtherSourcesSecondary = index => formData =>
   _.get(`otherSources${index}`, formData, '') === 'yes';
+
+export const wantsHelpWithPrivateRecordsSecondary = index => formData =>
+  _.get(
+    `otherSourcesHelp${index}.view:helpPrivateMedicalTreatment`,
+    formData,
+    '',
+  );
+
+export const wantsHelpRequestingStatementsSecondary = index => formData =>
+  _.get(`otherSourcesHelp${index}.view:helpRequestingStatements`, formData, '');

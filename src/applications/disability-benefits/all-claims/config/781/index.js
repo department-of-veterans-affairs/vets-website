@@ -18,6 +18,8 @@ import {
   isAnswering781Questions,
   isAnswering781aQuestions,
   wantsHelpWithOtherSourcesSecondary,
+  wantsHelpWithPrivateRecordsSecondary,
+  wantsHelpRequestingStatementsSecondary,
 } from '../../utils';
 
 const numberToWords = {
@@ -94,6 +96,20 @@ export function createFormConfig781a(iterations) {
         uiSchema: secondaryIncidentDate.uiSchema(index),
         schema: secondaryIncidentDate.schema(index),
       },
+      [`secondaryIncidentUnitAssignment${index}`]: {
+        title: `${numberToWords[index]} PTSD assualt incident unit assignment`,
+        path: `disabilities/ptsd-secondary-incident-unit-assignment-${index}`,
+        depends: isAnswering781aQuestions(index),
+        uiSchema: secondaryIncidentUnitAssignment.uiSchema(index),
+        schema: secondaryIncidentUnitAssignment.schema(index),
+      },
+      [`secondaryIncidentSupport${index}`]: {
+        title: `${numberToWords[index]} PTSD assault incident support`,
+        path: `disabilities/ptsd-secondary-incident-support-${index}`,
+        depends: isAnswering781aQuestions(index),
+        uiSchema: incidentSupport.uiSchema('781a'),
+        schema: incidentSupport.schema,
+      },
       [`secondaryIncidentDescription${index}`]: {
         title: `${numberToWords[index]} 781a PTSD Event Description`,
         path: `disabilities/ptsd-secondary-incident-description-${index}`,
@@ -119,31 +135,21 @@ export function createFormConfig781a(iterations) {
         uiSchema: secondaryOtherSourcesHelp.uiSchema(index),
         schema: secondaryOtherSourcesHelp.schema(index),
       },
-      [`secondaryIncidentSupport${index}`]: {
-        title: `${numberToWords[index]} PTSD assault incident support`,
-        path: `disabilities/ptsd-secondary-incident-support-${index}`,
-        depends: isAnswering781aQuestions(index),
-        uiSchema: incidentSupport.uiSchema('781a'),
-        schema: incidentSupport.schema,
-      },
-      [`secondaryIncidentUnitAssignment${index}`]: {
-        title: `${numberToWords[index]} PTSD assualt incident unit assignment`,
-        path: `disabilities/ptsd-secondary-incident-unit-assignment-${index}`,
-        depends: isAnswering781aQuestions(index),
-        uiSchema: secondaryIncidentUnitAssignment.uiSchema(index),
-        schema: secondaryIncidentUnitAssignment.schema(index),
-      },
       [`secondaryIncidentPermissionNotice${index}`]: {
         title: `${numberToWords[index]} PTSD assault permission notice`,
         path: `disabilities/ptsd-secondary-permission-notice-${index}`,
-        depends: isAnswering781aQuestions(index),
+        depends:
+          isAnswering781aQuestions(index) &&
+          wantsHelpWithPrivateRecordsSecondary(index),
         uiSchema: secondaryIncidentPermissionNotice.uiSchema,
         schema: secondaryIncidentPermissionNotice.schema,
       },
       [`secondaryIncidentAuthorities${index}`]: {
         title: `${numberToWords[index]} PTSD assault authorities`,
         path: `disabilities/ptsd-secondary-authorities-${index}`,
-        depends: isAnswering781aQuestions(index),
+        depends:
+          isAnswering781aQuestions(index) &&
+          wantsHelpRequestingStatementsSecondary(index),
         uiSchema: secondaryIncidentAuthorities.uiSchema(index),
         schema: secondaryIncidentAuthorities.schema(index),
       },
