@@ -1167,10 +1167,11 @@ const schema = {
           },
           attachmentId: {
             type: 'string',
-            enum: ['L107', 'L023'],
+            enum: ['L107', 'L023', 'L023'],
             enumNames: [
-              'VA Form 21-4142 - Authorization To Disclose Information',
-              'Correspondence',
+              'VA 21-4142 Authorization for Release of Information',
+              'Multiple Documents',
+              'Other',
             ],
           },
         },
