@@ -49,7 +49,7 @@ export default function alert(state = initialState, action) {
             </h4>
             <p>
               We couldn’t process this request. Please try again or{' '}
-              <a href="/health-care/messaging">message your provider</a>.
+              <a href="/health-care/secure-messaging/">message your provider</a>.
             </p>
           </div>
         ),

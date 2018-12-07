@@ -55,7 +55,7 @@ class ClaimsDecision extends React.Component {
         </p>
         <p>
           Are you enrolled in VA health care? If not, you can apply now.
-          <a href="/health-care/apply/" target="_blank">
+          <a href="/health-care/how-to-apply/" target="_blank">
             Apply for VA health care
           </a>
           .

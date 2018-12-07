@@ -111,7 +111,7 @@ class MessagingWidget extends React.Component {
           ) : (
             <span>
               <Link
-                href="/health-care/messaging"
+                href="/health-care/secure-messaging/"
                 onClick={recordDashboardClick('view-all-messages')}
               >
                 View all your secure messages
