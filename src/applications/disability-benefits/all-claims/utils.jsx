@@ -276,7 +276,16 @@ export function transform(formConfig, form) {
   // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
   //  it here to remove reservesNationalGuardService if it's deeply empty.
   clonedData = removeDeeplyEmptyObjects(
-    JSON.parse(transformForSubmit(formConfig, form, customReplacer)),
+    JSON.parse(
+      transformForSubmit(
+        formConfig,
+        {
+          ...form,
+          data: clonedData,
+        },
+        customReplacer,
+      ),
+    ),
   );
 
   // Transform the related disabilities lists into an array of strings
@@ -410,6 +419,22 @@ export const addCheckboxPerNewDisability = createSelector(
   }),
 );
 
+/**
+ * Returns an object where all the fields are prefixed with `view:` if they aren't already
+ */
+export const viewifyFields = formData => {
+  const newFormData = {};
+  Object.keys(formData).forEach(key => {
+    const viewKey = /^view:/.test(key) ? key : `view:${key}`;
+    // Recurse if necessary
+    newFormData[viewKey] =
+      typeof formData[key] === 'object' && !Array.isArray(formData[key])
+        ? viewifyFields(formData[key])
+        : formData[key];
+  });
+  return newFormData;
+};
+
 export const hasVAEvidence = formData =>
   _.get(DATA_PATHS.hasVAEvidence, formData, false);
 export const hasOtherEvidence = formData =>
@@ -429,10 +454,10 @@ export const fieldsHaveInput = (formData, fieldPaths) =>
 
 export const bankFieldsHaveInput = formData =>
   fieldsHaveInput(formData, [
-    'bankAccountType',
-    'bankAccountNumber',
-    'bankRoutingNumber',
-    'bankName',
+    'view:bankAccount.bankAccountType',
+    'view:bankAccount.bankAccountNumber',
+    'view:bankAccount.bankRoutingNumber',
+    'view:bankAccount.bankName',
   ]);
 
 const post911Periods = createSelector(

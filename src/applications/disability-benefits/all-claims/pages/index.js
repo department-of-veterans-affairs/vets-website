@@ -89,6 +89,16 @@ import {
 } from './incidentDate';
 
 import {
+  uiSchema as incidentUnitAssignmentUISchema,
+  schema as incidentUnitAssignmentSchema,
+} from './incidentUnitAssignment';
+
+import {
+  uiSchema as finalIncidentUISchema,
+  schema as finalIncidentSchema,
+} from './finalIncident';
+
+import {
   uiSchema as ptsdAdditionalEventsUISchema,
   schema as ptsdAdditionalEventsSchema,
 } from './ptsdAdditionalEvents';
@@ -107,6 +117,16 @@ import {
   uiSchema as secondaryIncidentDateUISchema,
   schema as secondaryIncidentDateSchema,
 } from './secondaryIncidentDate';
+
+import {
+  uiSchema as secondaryIncidentUnitAssignmentUISchema,
+  schema as secondaryIncidentUnitAssignmentSchema,
+} from './secondaryIncidentUnitAssignment';
+
+import {
+  uiSchema as secondaryFinalIncidentUISchema,
+  schema as secondaryFinalIncidentSchema,
+} from './secondaryFinalIncident';
 
 import {
   uiSchema as secondaryIncidentPermissionNoticeUISchema,
@@ -264,9 +284,16 @@ import {
 } from './conclusionAssault';
 
 import {
+  uiSchema as additionalRemarks781UISchema,
+  schema as additionalRemarks781Schema,
+} from './additionalRemarks781';
+
+import {
   uiSchema as newDisabilitiesUISchema,
   schema as newDisabilitiesSchema,
 } from './newDisabilities';
+
+import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -358,6 +385,11 @@ export const incidentDate = {
   schema: incidentDateSchema,
 };
 
+export const incidentUnitAssignment = {
+  uiSchema: incidentUnitAssignmentUISchema,
+  schema: incidentUnitAssignmentSchema,
+};
+
 export const ptsdAdditionalEvents = {
   uiSchema: ptsdAdditionalEventsUISchema,
   schema: ptsdAdditionalEventsSchema,
@@ -381,6 +413,11 @@ export const ptsdWalkthroughChoice781a = {
 export const secondaryIncidentDate = {
   uiSchema: secondaryIncidentDateUISchema,
   schema: secondaryIncidentDateSchema,
+};
+
+export const secondaryIncidentUnitAssignment = {
+  uiSchema: secondaryIncidentUnitAssignmentUISchema,
+  schema: secondaryIncidentUnitAssignmentSchema,
 };
 
 export const secondaryIncidentPermissionNotice = {
@@ -473,6 +510,16 @@ export const unemployabilityFormIntro = {
   schema: unemployabilityFormIntroSchema,
 };
 
+export const finalIncident = {
+  uiSchema: finalIncidentUISchema,
+  schema: finalIncidentSchema,
+};
+
+export const secondaryFinalIncident = {
+  uiSchema: secondaryFinalIncidentUISchema,
+  schema: secondaryFinalIncidentSchema,
+};
+
 export const additionalBehaviorChanges = {
   uiSchema: additionalBehaviorChangesUISchema,
   schema: additionalBehaviorChangesSchema,
@@ -533,7 +580,14 @@ export const conclusionAssault = {
   schema: conclusionAssaultSchema,
 };
 
+export const additionalRemarks781 = {
+  uiSchema: additionalRemarks781UISchema,
+  schema: additionalRemarks781Schema,
+};
+
 export const newDisabilities = {
   uiSchema: newDisabilitiesUISchema,
   schema: newDisabilitiesSchema,
 };
+
+export { ancillaryFormsWizardSummary };
