@@ -1,5 +1,5 @@
 import React from 'react';
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import { PtsdNameTitle } from '../content/ptsdClassification';
 

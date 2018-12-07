@@ -43,7 +43,7 @@ describe('781a Incident Date', () => {
       />,
     );
 
-    fillDate(form, 'root_secondaryIncident0_date', '2016-07-10');
+    fillDate(form, 'root_secondaryIncident0_incidentDate', '2016-07-10');
     form.find('form').simulate('submit');
 
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
