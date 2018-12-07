@@ -380,8 +380,6 @@ const formConfig = {
         militaryDutyImpact: {
           title: 'Impact on military duty',
           page: 'military-duty-impact',
-          depends: formData =>
-            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
           uiSchema: militaryDutyImpact.uiSchema,
           schema: militaryDutyImpact.schema,
         },
