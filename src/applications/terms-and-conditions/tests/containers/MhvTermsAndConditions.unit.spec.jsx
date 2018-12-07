@@ -95,7 +95,7 @@ describe('<MhvTermsAndConditions>', () => {
   it('should redirect after acceptance if there is a redirect URL', () => {
     const newProps = set(
       'location.query.tc_redirect',
-      '/health-care/refill-track-prescriptions/',
+      '/health-care/prescriptions',
       props,
     );
     const wrapper = shallow(<MhvTermsAndConditions {...newProps} />);
