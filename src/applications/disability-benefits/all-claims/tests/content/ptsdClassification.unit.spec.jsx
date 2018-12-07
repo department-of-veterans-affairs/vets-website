@@ -115,5 +115,6 @@ describe('PtsdNameTitle', () => {
       <PtsdNameTitle formData={formData} formType="781" />,
     );
     expect(wrapper.find('legend').length).to.equal(1);
+    wrapper.unmount();
   });
 });

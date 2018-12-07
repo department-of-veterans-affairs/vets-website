@@ -40,6 +40,7 @@ describe('<SetPreferences>', () => {
     expect(component.find('p').html()).to.contain(
       'Tell us which benefits you’re interested in, so we can help you apply. Select one or more of the types of benefits below, and we’ll help you get started.',
     );
+    component.unmount();
   });
   it('should handle updates', () => {
     props.isLoading = false;
@@ -57,11 +58,13 @@ describe('<SetPreferences>', () => {
       .simulate('click');
     expect(push.args[0][0]).to.equal('/');
     expect(savePreferences.args[0][0].healthcare).to.equal(false);
+    component.unmount();
   });
   it('should render loading view', () => {
     props.isLoading = true;
     const component = shallow(<SetPreferences {...props} />);
 
     expect(component.find('LoadingButton').props().isLoading).to.be.true;
+    component.unmount();
   });
 });

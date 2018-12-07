@@ -23,6 +23,7 @@ describe('Service Pay', () => {
     );
 
     expect(form.find('input[type="radio"]').length).to.equal(2);
+    form.unmount();
   });
 
   it('should submit when an option is selected', () => {
@@ -41,6 +42,7 @@ describe('Service Pay', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.calledOnce).to.be.true;
+    form.unmount();
   });
 
   it('should fail to submit when neither option is selected', () => {
@@ -59,5 +61,6 @@ describe('Service Pay', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 });

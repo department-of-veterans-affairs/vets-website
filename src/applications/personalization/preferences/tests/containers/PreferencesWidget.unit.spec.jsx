@@ -19,10 +19,12 @@ describe('<PreferencesWidget>', () => {
     expect(component.html()).to.contain(
       'You haven’t selected any benefits to learn about.',
     );
+    component.unmount();
   });
   it('should render view with preferences', () => {
     props.preferences.dashboard.education = true;
     const component = shallow(<PreferencesWidget {...props} />);
     expect(component.find('PreferenceList').length).to.equal(1);
+    component.unmount();
   });
 });
