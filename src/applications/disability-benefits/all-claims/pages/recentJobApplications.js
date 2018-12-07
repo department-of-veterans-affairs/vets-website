@@ -21,88 +21,95 @@ const { date } = fullSchema.definitions;
 
 export const uiSchema = {
   'ui:title': 'Recent job applications',
-  'view:hasAppliedEmployers': {
-    'ui:title': recentJobApplicationsDescription(),
-    'ui:widget': 'yesNo',
-  },
-  appliedEmployers: {
-    'ui:options': {
-      viewField: RecentJobApplicationField,
-      expandUnder: 'view:hasAppliedEmployers',
-      itemName: 'Job',
+  unemployability: {
+    'view:hasAppliedEmployers': {
+      'ui:title': recentJobApplicationsDescription(),
+      'ui:widget': 'yesNo',
     },
-    items: {
-      name: {
-        'ui:title': "Company's Name",
+    appliedEmployers: {
+      'ui:options': {
+        viewField: RecentJobApplicationField,
+        expandUnder: 'view:hasAppliedEmployers',
+        itemName: 'Job',
       },
-      address: merge(addressUI('', false), {
-        'ui:order': [
-          'country',
-          'addressLine1',
-          'addressLine2',
-          'city',
-          'state',
-          'zipCode',
-        ],
-        addressLine1: {
-          'ui:title': 'Street 1',
+      items: {
+        name: {
+          'ui:title': "Company's Name",
         },
-        addressLine2: {
-          'ui:title': 'Street 2',
+        address: merge(addressUI('', false), {
+          'ui:order': [
+            'country',
+            'addressLine1',
+            'addressLine2',
+            'city',
+            'state',
+            'zipCode',
+          ],
+          addressLine1: {
+            'ui:title': 'Street 1',
+          },
+          addressLine2: {
+            'ui:title': 'Street 2',
+          },
+          state: {
+            'ui:title': 'State',
+          },
+          zipCode: {
+            'ui:title': 'Postal Code',
+            'ui:validations': [validateZIP],
+          },
+        }),
+        workType: {
+          'ui:title': 'Type of work',
         },
-        state: {
-          'ui:title': 'State',
-        },
-        zipCode: {
-          'ui:title': 'Postal Code',
-          'ui:validations': [validateZIP],
-        },
-      }),
-      workType: {
-        'ui:title': 'Type of work',
+        date: currentOrPastDateUI('Date you applied'),
       },
-      date: currentOrPastDateUI('Date you applied'),
     },
-  },
-  'view:substantiallyGainfulEmploymentInfo': {
-    'ui:title': ' ',
-    'ui:description': substantiallyGainfulEmployment(),
+    'view:substantiallyGainfulEmploymentInfo': {
+      'ui:title': ' ',
+      'ui:description': substantiallyGainfulEmployment(),
+    },
   },
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    'view:hasAppliedEmployers': {
-      type: 'boolean',
-    },
-    appliedEmployers: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          name: {
-            type: 'string',
-          },
-          address: {
-            ...address,
+    unemployability: {
+      type: 'object',
+      properties: {
+        'view:hasAppliedEmployers': {
+          type: 'boolean',
+        },
+        appliedEmployers: {
+          type: 'array',
+          items: {
+            type: 'object',
             properties: {
-              ...omit(address.properties, ['addressLine3', 'postalCode']),
-              zipCode: {
+              name: {
                 type: 'string',
               },
+              address: {
+                ...address,
+                properties: {
+                  ...omit(address.properties, ['addressLine3', 'postalCode']),
+                  zipCode: {
+                    type: 'string',
+                  },
+                },
+              },
+              workType: {
+                type: 'string',
+              },
+              date,
             },
           },
-          workType: {
-            type: 'string',
-          },
-          date,
+        },
+        'view:substantiallyGainfulEmploymentInfo': {
+          type: 'object',
+          properties: {},
         },
       },
-    },
-    'view:substantiallyGainfulEmploymentInfo': {
-      type: 'object',
-      properties: {},
     },
   },
 };
