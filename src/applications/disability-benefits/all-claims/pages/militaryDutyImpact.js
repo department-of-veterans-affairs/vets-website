@@ -12,6 +12,9 @@ export const uiSchema = {
           alsoNo: 'I’m not serving in the Reserves or the National Guard.',
         },
       },
+      'ui:errorMessages': {
+        required: 'Please select one of the three options provided',
+      },
     },
   },
 };
@@ -21,6 +24,7 @@ export const schema = {
   properties: {
     unemployability: {
       type: 'object',
+      required: ['disabilityPreventMilitaryDuties'],
       properties: {
         disabilityPreventMilitaryDuties: {
           type: 'string',
