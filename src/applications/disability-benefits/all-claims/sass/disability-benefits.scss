@@ -124,9 +124,11 @@ ul.original-disability-list {
   max-width: 7rem;
 }
 
-.schemaform-widget-wrapper input {
+.upload-completed-form .schemaform-widget-wrapper textarea {
   background-color: transparent;
   border: none;
   font-weight: bold;
   padding-left: 0;
+  height: auto;
+  resize: none;
 }

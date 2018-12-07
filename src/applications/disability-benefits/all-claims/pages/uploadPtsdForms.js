@@ -43,13 +43,9 @@ export const uiSchema = {
     attachmentSchema: {
       'ui:title': 'Document type',
       'ui:disabled': true,
-      // className: 'test-class',
+      'ui:widget': 'textarea',
     },
-    // this is the uiSchema passed to FileField for the name schema
-    // FileField requires this name be used
-    // attachmentName: {
-    //   'ui:title': 'Document name',
-    // },
+    classNames: 'upload-completed-form',
   }),
 };
 

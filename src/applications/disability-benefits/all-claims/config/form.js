@@ -57,13 +57,13 @@ import {
   newPTSDFollowUp,
   choosePtsdType,
   ptsdWalkthroughChoice781,
-  uploadPtsdDocuments,
+  uploadPtsdForms,
   ptsdWalkthroughChoice781a,
   finalIncident,
   secondaryFinalIncident,
   conclusionCombat,
   conclusionAssault,
-  uploadPersonalPtsdDocuments,
+  uploadSecondaryPtsdForms,
   summaryOfDisabilities,
   vaMedicalRecords,
   additionalDocuments,
@@ -277,8 +277,8 @@ const formConfig = {
             hasNewPtsdDisability(formData) &&
             needsToEnter781(formData) &&
             isUploading781Form(formData),
-          uiSchema: uploadPtsdDocuments.uiSchema,
-          schema: uploadPtsdDocuments.schema,
+          uiSchema: uploadPtsdForms.uiSchema,
+          schema: uploadPtsdForms.schema,
         },
         finalIncident: {
           path: 'new-disabilities/ptsd-additional-incident',
@@ -310,8 +310,8 @@ const formConfig = {
             hasNewPtsdDisability(formData) &&
             needsToEnter781a(formData) &&
             isUploading781aForm(formData),
-          uiSchema: uploadPersonalPtsdDocuments.uiSchema,
-          schema: uploadPersonalPtsdDocuments.schema,
+          uiSchema: uploadSecondaryPtsdForms.uiSchema,
+          schema: uploadSecondaryPtsdForms.schema,
         },
         secondaryFinalIncident: {
           path: 'new-disabilities/ptsd-assault-additional-incident',

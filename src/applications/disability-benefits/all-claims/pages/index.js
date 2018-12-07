@@ -104,9 +104,9 @@ import {
 } from './ptsdAdditionalEvents';
 
 import {
-  uiSchema as uploadPtsdDocumentsUISchema,
-  schema as uploadPtsdDocumentsSchema,
-} from './uploadPtsdDocuments';
+  uiSchema as uploadPtsdFormsUISchema,
+  schema as uploadPtsdFormsSchema,
+} from './uploadPtsdForms';
 
 import {
   uiSchema as ptsdWalkthroughChoice781aUISchema,
@@ -144,9 +144,9 @@ import {
 } from './ptsdSecondaryAdditionalEvents';
 
 import {
-  uiSchema as uploadPersonalPtsdDocumentsUISchema,
-  schema as uploadPersonalPtsdDocumentsSchema,
-} from './uploadPersonalPtsdDocuments';
+  uiSchema as uploadSecondaryPtsdFormsUISchema,
+  schema as uploadSecondaryPtsdFormsSchema,
+} from './uploadSecondaryPtsdForms';
 
 import {
   uiSchema as summaryOfDisabilitiesUISchema,
@@ -395,9 +395,9 @@ export const ptsdSecondaryAdditionalEvents = {
   schema: ptsdSecondaryAdditionalEventsSchema,
 };
 
-export const uploadPtsdDocuments = {
-  uiSchema: uploadPtsdDocumentsUISchema,
-  schema: uploadPtsdDocumentsSchema,
+export const uploadPtsdForms = {
+  uiSchema: uploadPtsdFormsUISchema,
+  schema: uploadPtsdFormsSchema,
 };
 
 export const ptsdWalkthroughChoice781a = {
@@ -425,9 +425,9 @@ export const secondaryIncidentAuthorities = {
   schema: secondaryIncidentAuthoritiesSchema,
 };
 
-export const uploadPersonalPtsdDocuments = {
-  uiSchema: uploadPersonalPtsdDocumentsUISchema,
-  schema: uploadPersonalPtsdDocumentsSchema,
+export const uploadSecondaryPtsdForms = {
+  uiSchema: uploadSecondaryPtsdFormsUISchema,
+  schema: uploadSecondaryPtsdFormsSchema,
 };
 
 export const summaryOfDisabilities = {
