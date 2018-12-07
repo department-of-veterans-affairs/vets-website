@@ -4,7 +4,7 @@
     "hasTrainingPay": false,
     "isVAEmployee": false,
     "homelessOrAtRisk": "no",
-    "phoneEmailCard": {
+    "phoneAndEmail": {
       "primaryPhone": "1231231234",
       "emailAddress": "asdf@as.asdf"
     },

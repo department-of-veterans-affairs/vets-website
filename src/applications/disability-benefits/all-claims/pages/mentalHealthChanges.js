@@ -1,4 +1,5 @@
 import React from 'react';
+import fullSchema from '../config/schema';
 
 import { PtsdNameTitle } from '../content/ptsdClassification';
 
@@ -12,6 +13,8 @@ const mentalDescriptionChanges = (
     </p>
   </div>
 );
+
+const { mentalChanges } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:title': ({ formData }) => (
@@ -63,42 +66,5 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-
-  properties: {
-    mentalChanges: {
-      type: 'object',
-      properties: {
-        depression: {
-          type: 'boolean',
-        },
-        obsessive: {
-          type: 'boolean',
-        },
-        prescription: {
-          type: 'boolean',
-        },
-        substance: {
-          type: 'boolean',
-        },
-        hypervigilance: {
-          type: 'boolean',
-        },
-        agoraphobia: {
-          type: 'boolean',
-        },
-        fear: {
-          type: 'boolean',
-        },
-        other: {
-          type: 'boolean',
-        },
-        otherExplanation: {
-          type: 'string',
-        },
-        noneApply: {
-          type: 'boolean',
-        },
-      },
-    },
-  },
+  properties: { mentalChanges },
 };
