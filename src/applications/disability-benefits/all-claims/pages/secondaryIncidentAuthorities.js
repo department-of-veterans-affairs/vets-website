@@ -1,6 +1,6 @@
 import { merge } from 'lodash';
 
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json'
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import AuthorityField from '../components/AuthorityField';
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
 import { PtsdAssaultAuthoritiesDescription } from '../content/ptsdAssaultAuthorities';

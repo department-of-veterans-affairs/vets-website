@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { getDisabilityName } from '../utils';
 import disabilityLabels from '../content/disabilityLabels';
 
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json'
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import {
   CauseTitle,
   disabilityNameTitle,

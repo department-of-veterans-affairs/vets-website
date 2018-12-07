@@ -1,7 +1,7 @@
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import ServicePeriodView from '../../../../platform/forms/components/ServicePeriodView';
 
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json'
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 export const uiSchema = {
   serviceInformation: {

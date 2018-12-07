@@ -1,5 +1,5 @@
 import _ from '../../../../platform/utilities/data';
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json'
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import {
   recordReleaseDescription,

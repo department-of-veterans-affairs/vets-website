@@ -1,6 +1,6 @@
 import React from 'react';
 
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json'
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
 
 const incidentDescriptionInstructions = (

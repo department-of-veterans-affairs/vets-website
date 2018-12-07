@@ -1,4 +1,4 @@
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json'
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { hasSeparationPay, isValidYear } from '../validations';
 import { separationPayDetailsDescription } from '../content/separationTrainingPay';
 
