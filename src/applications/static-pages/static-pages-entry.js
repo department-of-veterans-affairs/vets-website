@@ -21,7 +21,6 @@ const pensionPages = new Set([
 
 const healthcarePages = new Set([
   '/health-care/',
-  '/health-care/apply/',
   '/health-care/how-to-apply/',
   '/health-care/eligibility/',
 ]);
