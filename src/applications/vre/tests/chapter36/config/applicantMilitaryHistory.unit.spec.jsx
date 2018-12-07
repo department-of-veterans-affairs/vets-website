@@ -26,6 +26,7 @@ describe('VRE chapter 36 applicant military history', () => {
     );
 
     expect(form.find('input').length).to.equal(2);
+    form.unmount();
   });
 
   it('renders military history fields if has service', () => {
@@ -43,6 +44,7 @@ describe('VRE chapter 36 applicant military history', () => {
 
     expect(form.find('input').length).to.equal(5);
     expect(form.find('select').length).to.equal(5);
+    form.unmount();
   });
 
   it('does not submit without required info', () => {
@@ -62,6 +64,7 @@ describe('VRE chapter 36 applicant military history', () => {
     expect(form.find('.usa-input-error').length).to.equal(1);
 
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('submits with required info', () => {
@@ -85,5 +88,6 @@ describe('VRE chapter 36 applicant military history', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

@@ -13,6 +13,7 @@ describe('<CurrentStatus/>', () => {
   it('should render', () => {
     const wrapper = shallow(<CurrentStatus {...defaultProps} />);
     expect(wrapper.type()).to.equal('div');
+    wrapper.unmount();
   });
 
   it('should render title and description from passed in props', () => {

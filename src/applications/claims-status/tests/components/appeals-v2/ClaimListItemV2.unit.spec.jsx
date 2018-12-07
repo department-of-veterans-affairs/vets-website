@@ -17,6 +17,7 @@ describe('<ClaimsListItemV2>', () => {
     };
     const tree = shallow(<ClaimsListItemV2 claim={claim} />);
     expect(tree.find('.communications').text()).to.equal('');
+    tree.unmount();
   });
 
   it('should show closed status', () => {
@@ -33,6 +34,7 @@ describe('<ClaimsListItemV2>', () => {
         .first()
         .text(),
     ).to.equal('Status: Closed');
+    tree.unmount();
   });
 
   it('should show the status', () => {
@@ -49,6 +51,7 @@ describe('<ClaimsListItemV2>', () => {
         .first()
         .text(),
     ).to.equal('Status: Initial review');
+    tree.unmount();
   });
 
   it('should show development letter flag', () => {
@@ -65,6 +68,7 @@ describe('<ClaimsListItemV2>', () => {
     expect(tree.find('.communications').text()).to.contain(
       'We sent you a development letter',
     );
+    tree.unmount();
   });
 
   it('should show decision letter flag', () => {
@@ -81,6 +85,7 @@ describe('<ClaimsListItemV2>', () => {
     expect(tree.find('.communications').text()).to.contain(
       'We sent you a decision letter',
     );
+    tree.unmount();
   });
 
   it('should show items needed flag', () => {
@@ -97,6 +102,7 @@ describe('<ClaimsListItemV2>', () => {
     expect(tree.find('.communications').text()).to.contain(
       'Items need attention',
     );
+    tree.unmount();
   });
 
   it('should hide flags when complete', () => {
@@ -111,6 +117,7 @@ describe('<ClaimsListItemV2>', () => {
     };
     const tree = shallow(<ClaimsListItemV2 claim={claim} />);
     expect(tree.find('.communications').text()).to.equal('');
+    tree.unmount();
   });
 
   it('should render a status circle with the `open` class', () => {
@@ -125,6 +132,7 @@ describe('<ClaimsListItemV2>', () => {
     const circle = tree.find('.status-circle').first();
     expect(circle.hasClass('open')).to.be.true;
     expect(circle.hasClass('closed')).to.be.false;
+    tree.unmount();
   });
 
   it('should render a status circle with the `closed` class', () => {
@@ -139,6 +147,7 @@ describe('<ClaimsListItemV2>', () => {
     const circle = tree.find('.status-circle').first();
     expect(circle.hasClass('open')).to.be.false;
     expect(circle.hasClass('closed')).to.be.true;
+    tree.unmount();
   });
 
   it('should render a link to the claim status page', () => {
@@ -156,5 +165,6 @@ describe('<ClaimsListItemV2>', () => {
         .first()
         .props().to,
     ).to.equal(`your-claims/${claim.id}/status`);
+    tree.unmount();
   });
 });
