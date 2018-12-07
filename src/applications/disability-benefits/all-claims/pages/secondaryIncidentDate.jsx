@@ -5,7 +5,7 @@ import { ptsd781aNameTitle } from '../content/ptsdClassification';
 import { SecondaryDateDescription } from '../content/incidentDate';
 import fullSchema from '../config/schema';
 
-const { date } = fullSchema.definitions;
+const { date } = fullSchema.definitions.secondaryPtsdIncident.properties;
 
 export const uiSchema = index => ({
   'ui:title': ptsd781aNameTitle,
@@ -13,7 +13,7 @@ export const uiSchema = index => ({
     <SecondaryDateDescription formData={formData} index={index} />
   ),
   [`secondaryIncident${index}`]: {
-    incidentDate: currentOrPastDateUI(' '),
+    date: currentOrPastDateUI(' '),
   },
 });
 
@@ -22,9 +22,7 @@ export const schema = index => ({
   properties: {
     [`secondaryIncident${index}`]: {
       type: 'object',
-      properties: {
-        incidentDate: date,
-      },
+      properties: { date },
     },
   },
 });

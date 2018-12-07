@@ -19,7 +19,11 @@ describe('781 Unit Assignment Details', () => {
 
   it('should render', () => {
     const form = mount(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} />,
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+      />,
     );
     expect(form.find('input').length).to.equal(3);
     expect(form.find('select').length).to.equal(4);
@@ -29,6 +33,7 @@ describe('781 Unit Assignment Details', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         schema={schema}
         uiSchema={uiSchema}
@@ -60,6 +65,7 @@ describe('781 Unit Assignment Details', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         schema={schema}
         uiSchema={uiSchema}
