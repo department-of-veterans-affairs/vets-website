@@ -41,29 +41,53 @@ describe('Recent Job Applications', () => {
       />,
     );
 
-    selectRadio(form, 'root_view:hasAppliedEmployers', 'Y');
+    selectRadio(form, 'root_unemployability_view:hasAppliedEmployers', 'Y');
 
-    fillData(form, 'input#root_appliedEmployers_0_name', companyName);
-    fillData(form, 'select#root_appliedEmployers_0_address_country', 'USA');
     fillData(
       form,
-      'input#root_appliedEmployers_0_address_addressLine1',
+      'input#root_unemployability_appliedEmployers_0_name',
+      companyName,
+    );
+    fillData(
+      form,
+      'select#root_unemployability_appliedEmployers_0_address_country',
+      'USA',
+    );
+    fillData(
+      form,
+      'input#root_unemployability_appliedEmployers_0_address_addressLine1',
       '123 Street',
     );
     fillData(
       form,
-      'input#root_appliedEmployers_0_address_addressLine2',
+      'input#root_unemployability_appliedEmployers_0_address_addressLine2',
       'Apt B',
     );
-    fillData(form, 'input#root_appliedEmployers_0_address_city', 'Testcity');
-    fillData(form, 'select#root_appliedEmployers_0_address_state', 'AL');
     fillData(
       form,
-      'input#root_appliedEmployers_0_address_zipCode',
+      'input#root_unemployability_appliedEmployers_0_address_city',
+      'Testcity',
+    );
+    fillData(
+      form,
+      'select#root_unemployability_appliedEmployers_0_address_state',
+      'AL',
+    );
+    fillData(
+      form,
+      'input#root_unemployability_appliedEmployers_0_address_zipCode',
       '12345-1234',
     );
-    fillData(form, 'input#root_appliedEmployers_0_workType', 'green collards');
-    fillDate(form, 'root_appliedEmployers_0_date', '2010-01-01');
+    fillData(
+      form,
+      'input#root_unemployability_appliedEmployers_0_workType',
+      'green collards',
+    );
+    fillDate(
+      form,
+      'root_unemployability_appliedEmployers_0_date',
+      '2010-01-01',
+    );
 
     form.find('.va-growable-add-btn').simulate('click');
 
@@ -91,7 +115,7 @@ describe('Recent Job Applications', () => {
       />,
     );
 
-    selectRadio(form, 'root_view:hasAppliedEmployers', 'N');
+    selectRadio(form, 'root_unemployability_view:hasAppliedEmployers', 'N');
     expect(form.find('input').length).to.equal(2);
     expect(form.find('select').length).to.equal(0);
 
