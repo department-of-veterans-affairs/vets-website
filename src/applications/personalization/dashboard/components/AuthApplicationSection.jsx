@@ -22,7 +22,9 @@ class AuthApplicationSection extends React.Component {
               </a>
             </p>
             <p key="messaging">
-              <a href="/health-care/secure-messaging/">Message your health care team</a>
+              <a href="/health-care/secure-messaging/">
+                Message your health care team
+              </a>
             </p>
             <p key="health-records">
               <a href="/health-care/get-medical-records">

@@ -5,8 +5,7 @@ import isBrandConsolidationEnabled from '../../../../platform/brand-consolidatio
 const propertyName = isBrandConsolidationEnabled() ? 'VA.gov' : 'Vets.gov';
 
 export default function TermsAndConditions({ mhvAccount }) {
-  const termsConditionsUrl =
-    '/health-care/medical-information-terms-conditions';
+  const termsConditionsUrl = '/health-care/';
   let content = null;
 
   if (mhvAccount.termsAndConditionsAccepted) {
