@@ -379,6 +379,8 @@ const formConfig = {
         recentEarnedIncome: {
           title: 'Recent earnings',
           path: 'recent-earnings',
+          depends: formData =>
+            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
           uiSchema: recentEarnedIncome.uiSchema,
           schema: recentEarnedIncome.schema,
         },
