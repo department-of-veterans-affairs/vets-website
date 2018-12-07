@@ -44,6 +44,7 @@ describe('<PreferenceItem>', () => {
       .first()
       .simulate('click');
     expect(handleViewToggle.args[0][0]).to.equal(benefitChoices[0].slug);
+    component.unmount();
   });
 
   it('should render remove view', () => {
@@ -58,5 +59,6 @@ describe('<PreferenceItem>', () => {
       .first()
       .simulate('click');
     expect(handleRemove.args[0][0]).to.equal(benefitChoices[0].slug);
+    component.unmount();
   });
 });

@@ -51,6 +51,7 @@ describe('Schemaform: ReviewCardField', () => {
   it('should render', () => {
     const wrapper = shallow(<ReviewCardField {...defaultProps} />);
     expect(wrapper.type()).to.equal('div');
+    wrapper.unmount();
   });
 
   it('should throw an error if no viewComponent is found', () => {
@@ -72,6 +73,7 @@ describe('Schemaform: ReviewCardField', () => {
     const wrapper = shallow(<ReviewCardField {...defaultProps} />);
     expect(wrapper.find('viewComponent').length).to.equal(1);
     expect(wrapper.find('.input-section').length).to.equal(0);
+    wrapper.unmount();
   });
 
   it('should start in edit mode', () => {
@@ -84,6 +86,7 @@ describe('Schemaform: ReviewCardField', () => {
     );
     expect(wrapper.find('viewComponent').length).to.equal(0);
     expect(wrapper.find('.input-section').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should pass formData the custom view component', () => {
@@ -91,6 +94,7 @@ describe('Schemaform: ReviewCardField', () => {
     expect(wrapper.find('viewComponent').props()).to.eql({
       formData: defaultProps.formData,
     });
+    wrapper.unmount();
   });
 
   it('should transition to edit mode', () => {
@@ -101,6 +105,7 @@ describe('Schemaform: ReviewCardField', () => {
     wrapper.find('.usa-button-secondary').simulate('click');
     expect(wrapper.find('viewComponent').length).to.equal(0);
     expect(wrapper.find('.input-section').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should transition to view mode', () => {
@@ -117,6 +122,7 @@ describe('Schemaform: ReviewCardField', () => {
     wrapper.find('.update-button').simulate('click');
     expect(wrapper.find('.input-section').length).to.equal(0);
     expect(wrapper.find('viewComponent').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should not transition to view mode if there are validation errors', () => {
@@ -138,12 +144,14 @@ describe('Schemaform: ReviewCardField', () => {
 
     // Also check that the validation error is rendered while we're at it
     expect(wrapper.text()).to.contain('Arbitrary error string here');
+    wrapper.unmount();
   });
 
   it('should render the appropriate field in reviewMode according to the data type', () => {
     const props = set('formContext.onReviewPage', true, defaultProps);
     const tree = shallow(<ReviewCardField {...props} />);
     expect(tree.find('ObjectField').length).to.equal(1);
+    tree.unmount();
   });
 
   it('should handle a custom reviewTitle', () => {

@@ -27,6 +27,7 @@ describe('VRE chapter 31 work information', () => {
     );
 
     expect(form.find('input').length).to.equal(2);
+    form.unmount();
   });
 
   it('renders job information form when working is true', () => {
@@ -44,6 +45,7 @@ describe('VRE chapter 31 work information', () => {
 
     expect(form.find('input').length).to.equal(9);
     expect(form.find('select').length).to.equal(2);
+    form.unmount();
   });
 
   it('submits with required information', () => {
@@ -64,6 +66,7 @@ describe('VRE chapter 31 work information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('does not submit without required information', () => {
@@ -84,5 +87,6 @@ describe('VRE chapter 31 work information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 });
