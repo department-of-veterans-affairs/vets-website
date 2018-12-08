@@ -37,7 +37,7 @@ const accountsDifferContent = (
   </p>
 );
 
-export const PaymentView = ({ formData, originalData = {} }) => {
+export const PaymentView = ({ formData = {}, originalData = {} }) => {
   const bankAccountType =
     formData.bankAccountType || originalData['view:bankAccountType'];
   const bankAccountNumber =
