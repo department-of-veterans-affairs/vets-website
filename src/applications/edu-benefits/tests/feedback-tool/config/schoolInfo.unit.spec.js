@@ -39,6 +39,7 @@ describe('feedback tool school info', () => {
       />,
     );
     expect(form.find('input').length).to.equal(7);
+    form.unmount();
   });
 
   it('should render international address fields', () => {
@@ -59,6 +60,7 @@ describe('feedback tool school info', () => {
       />,
     );
     expect(form.find('input').length).to.equal(8);
+    form.unmount();
   });
 
   it('should not submit without required information', () => {
@@ -89,6 +91,7 @@ describe('feedback tool school info', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should not submit without required international address information', () => {
@@ -114,6 +117,7 @@ describe('feedback tool school info', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with required information', () => {
@@ -174,5 +178,6 @@ describe('feedback tool school info', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

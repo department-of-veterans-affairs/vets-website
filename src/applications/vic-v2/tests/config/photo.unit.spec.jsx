@@ -26,6 +26,7 @@ describe('VIC photo upload', () => {
       .componentPromise.then(() => {
         form.update();
         expect(form.find('input').length).to.equal(3);
+        form.unmount();
         done();
       });
   });
@@ -45,6 +46,7 @@ describe('VIC photo upload', () => {
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   // Sighted path
@@ -71,6 +73,7 @@ describe('VIC photo upload', () => {
       .componentPromise.then(() => {
         form.update();
         expect(form.find('.usa-input-error-message').length).to.equal(1);
+        form.unmount();
         done();
       });
   });

@@ -23,6 +23,7 @@ describe('summaryOfDisabilitiesDescription', () => {
     );
 
     expect(wrapper.find('li').length).to.equal(2);
+    wrapper.unmount();
   });
 
   it('does not render unselected rated disabilities', () => {
@@ -44,6 +45,7 @@ describe('summaryOfDisabilitiesDescription', () => {
     );
 
     expect(wrapper.find('li').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('renders new disabilities', () => {
@@ -60,5 +62,6 @@ describe('summaryOfDisabilitiesDescription', () => {
     );
 
     expect(wrapper.find('li').length).to.equal(3);
+    wrapper.unmount();
   });
 });

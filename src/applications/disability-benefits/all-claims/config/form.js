@@ -96,7 +96,7 @@ import { createFormConfig781, createFormConfig781a } from './781';
 
 import { PTSD, PTSD_INCIDENT_ITERATION } from '../constants';
 
-import fullSchema from './schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const formConfig = {
   urlPrefix: '/',
