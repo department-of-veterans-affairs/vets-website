@@ -29,6 +29,7 @@ describe('526 <FormStartControls>', () => {
       'sign in and verify your identity',
     );
     expect(authenticate.called).to.be.true;
+    tree.unmount();
   });
   it('should render authenticated view', () => {
     const tree = shallow(
@@ -52,6 +53,7 @@ describe('526 <FormStartControls>', () => {
       'If you have a premium DS Logon or My HealtheVet account',
     );
     expect(tree.find('a').text()).to.contain('Verify Your Identity');
+    tree.unmount();
   });
   it('should render verified view', () => {
     const tree = shallow(
@@ -73,5 +75,6 @@ describe('526 <FormStartControls>', () => {
     );
 
     expect(tree.find('Connect').exists()).to.be.true;
+    tree.unmount();
   });
 });

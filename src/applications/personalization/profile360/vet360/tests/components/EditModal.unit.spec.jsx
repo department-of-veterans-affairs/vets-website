@@ -49,5 +49,6 @@ describe('<Vet360EditModal/>', () => {
       component.html(),
       'The render prop is not called when the field prop is falsey',
     ).to.not.contain('Rendered output');
+    component.unmount();
   });
 });

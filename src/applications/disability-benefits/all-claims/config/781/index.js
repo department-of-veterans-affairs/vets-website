@@ -82,7 +82,7 @@ export function createFormConfig781a(iterations) {
       ...configObj,
       // 781a PAGE CONFIGS GO HERE
       [`secondaryIncidentDate${index}`]: {
-        title: `${numberToWords[index]} PTSD assault incident support`,
+        title: `${numberToWords[index]} PTSD assault incident date`,
         path: `disabilities/ptsd-secondary-incident-date-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentDate.uiSchema(index),

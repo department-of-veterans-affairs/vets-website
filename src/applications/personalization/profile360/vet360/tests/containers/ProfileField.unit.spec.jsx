@@ -49,6 +49,7 @@ describe('<Vet360ProfileField/>', () => {
       component.find('Content'),
       'the Content was rendered',
     ).to.have.lengthOf(1);
+    component.unmount();
   });
 
   it('conditional render based on existence of data', () => {
@@ -66,6 +67,7 @@ describe('<Vet360ProfileField/>', () => {
       component.html(),
       'the add-button was rendered instead of the Content',
     ).to.contain('button');
+    component.unmount();
   });
 
   it('renders the EditModal prop', () => {
@@ -87,6 +89,7 @@ describe('<Vet360ProfileField/>', () => {
       args,
       'All props were passed to the EditModal constructor',
     ).to.have.all.keys(Object.keys(props));
+    component.unmount();
   });
 
   it('renders the edit link', () => {
@@ -112,5 +115,6 @@ describe('<Vet360ProfileField/>', () => {
       onEditClick,
       'No onEditClick prop should be passed if there is a transaction processing',
     ).to.be.false;
+    component.unmount();
   });
 });
