@@ -24,14 +24,17 @@ describe('Summary of Evidence', () => {
     expect(form.find('li').length).to.equal(0);
   });
 
-  it("should render private medical facility list when 'no evidence' selected", () => {
+  it("should render private medical facility list when 'no records to upload' is selected", () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasEvidence': false,
+          'view:hasEvidence': true,
+          'view:uploadPrivateRecordsQualifier': {
+            'view:hasPrivateRecordsToUpload': false,
+          },
           providerFacility: [
             {
               providerFacilityName: 'Provider',
