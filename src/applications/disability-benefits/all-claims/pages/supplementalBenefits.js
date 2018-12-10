@@ -18,13 +18,13 @@ const supplementalBenefitsHelp = (
 
 export const uiSchema = {
   'ui:title': 'Supplemental benefits',
-  hasDisabilityBenefits: {
+  receiveExpectDisabilityRetirement: {
     'ui:title':
       'Do you receive, or expect to receive, disability retirement benefits?',
     'ui:widget': 'yesNo',
     'ui:options': {},
   },
-  hasWorkersCompensation: {
+  receiveExpectWorkersCompensation: {
     'ui:title':
       'Do you receive, or expect to receive, workers‘ compensation benefits? ',
     'ui:widget': 'yesNo',
@@ -38,10 +38,10 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    hasDisabilityBenefits: {
+    receiveExpectDisabilityRetirement: {
       type: 'boolean',
     },
-    hasWorkersCompensation: {
+    receiveExpectWorkersCompensation: {
       type: 'boolean',
     },
     'view:supplementalBenefitsHelp': {
