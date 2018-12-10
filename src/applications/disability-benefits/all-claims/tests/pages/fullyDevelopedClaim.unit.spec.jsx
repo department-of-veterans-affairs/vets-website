@@ -23,6 +23,7 @@ describe('Fully Developed Claim', () => {
     );
 
     expect(form.find('input').length).to.equal(2);
+    form.unmount();
   });
 
   // Value should default `false`; form should submit without any user input
@@ -41,5 +42,6 @@ describe('Fully Developed Claim', () => {
 
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+    form.unmount();
   });
 });

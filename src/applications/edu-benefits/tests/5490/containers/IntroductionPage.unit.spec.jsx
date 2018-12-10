@@ -26,5 +26,6 @@ describe('Edu 5490 <IntroductionPage>', () => {
     );
     expect(tree.find('Connect(SaveInProgressIntro)').exists()).to.be.true;
     expect(tree.find('.process-step').length).to.equal(4);
+    tree.unmount();
   });
 });

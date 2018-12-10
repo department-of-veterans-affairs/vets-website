@@ -29,6 +29,7 @@ describe('VRE chapter 36 veteran information', () => {
 
     expect(form.find('input').length).to.equal(8);
     expect(form.find('select').length).to.equal(3);
+    form.unmount();
   });
 
   it('renders veteran date of death field when view:isVeteran is false', () => {
@@ -46,6 +47,7 @@ describe('VRE chapter 36 veteran information', () => {
 
     expect(form.find('input').length).to.equal(7);
     expect(form.find('select').length).to.equal(5);
+    form.unmount();
   });
 
   it('renders veteran gender when view:isVeteran is true', () => {
@@ -63,6 +65,7 @@ describe('VRE chapter 36 veteran information', () => {
 
     expect(form.find('input').length).to.equal(8);
     expect(form.find('select').length).to.equal(3);
+    form.unmount();
   });
 
   it('does not submit without required veteran information', () => {
@@ -83,6 +86,7 @@ describe('VRE chapter 36 veteran information', () => {
     expect(form.find('.usa-input-error').length).to.equal(6);
 
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('submits with only required information with ssn', () => {
@@ -111,6 +115,7 @@ describe('VRE chapter 36 veteran information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('submits with only required information with va file number', () => {
@@ -141,5 +146,6 @@ describe('VRE chapter 36 veteran information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

@@ -26,6 +26,7 @@ describe('PTSD Assault permission notice', () => {
 
     expect(form.find('input').length).to.equal(6);
     expect(form.find('select').length).to.equal(1);
+    form.unmount();
   });
 
   it('should add an authority', () => {
@@ -78,6 +79,7 @@ describe('PTSD Assault permission notice', () => {
 
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should allow submission with no authorities', () => {
@@ -95,5 +97,6 @@ describe('PTSD Assault permission notice', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });
