@@ -22,6 +22,7 @@ describe('PTSD Secondary Incident location', () => {
     );
 
     expect(form.find('input').length).to.equal(1);
+    form.unmount();
   });
 
   it('should fill in incident location', () => {
@@ -57,6 +58,7 @@ describe('PTSD Secondary Incident location', () => {
 
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should submit without validation errors', () => {
@@ -73,5 +75,6 @@ describe('PTSD Secondary Incident location', () => {
 
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });
