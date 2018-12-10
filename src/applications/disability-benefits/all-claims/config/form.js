@@ -379,7 +379,7 @@ const formConfig = {
         },
         supplementalBenefits: {
           title: 'Supplemental Benefits',
-          path: 'supplemenntal-benefits',
+          path: 'supplemental-benefits',
           depends: formData =>
             formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
           uiSchema: supplementalBenefits.uiSchema,
