@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { fetchSearchResults } from '../actions';
 import { formatResponseString } from '../utils';
 import recordEvent from '../../../platform/monitoring/record-event';
+import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 import IconSearch from '@department-of-veterans-affairs/formation/IconSearch';
@@ -229,7 +230,7 @@ class SearchApp extends React.Component {
       <li key={result.url} className="result-item">
         <a
           className="result-title"
-          href={result.url}
+          href={replaceWithStagingDomain(result.url)}
           onClick={
             isBestBet
               ? () =>
@@ -246,7 +247,7 @@ class SearchApp extends React.Component {
             }}
           />
         </a>
-        <p className="result-url">{result.url}</p>
+        <p className="result-url">{replaceWithStagingDomain(result.url)}</p>
         <p
           className="result-desc"
           dangerouslySetInnerHTML={{

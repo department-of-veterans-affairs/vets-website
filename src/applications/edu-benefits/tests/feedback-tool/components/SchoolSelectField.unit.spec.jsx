@@ -25,6 +25,7 @@ describe('<SchoolSelectField>', () => {
     expect(tree.find('.institution-name').exists()).to.be.false;
     expect(tree.find('.loading-indicator-container').exists()).to.be.false;
     expect(tree.find('.va-pagination').exists()).to.be.false;
+    tree.unmount();
   });
 
   it('should render institution results view', () => {
@@ -66,6 +67,7 @@ describe('<SchoolSelectField>', () => {
     expect(tree.find('.loading-indicator-container').exists()).to.be.false;
     expect(tree.find('#root_school_view:manualSchoolEntry_name').exists()).to.be
       .false;
+    tree.unmount();
   });
 
   it('should only render available institution information', () => {
@@ -126,6 +128,7 @@ describe('<SchoolSelectField>', () => {
         .find('.institution-country')
         .text(),
     ).to.eql('testCountry');
+    tree.unmount();
   });
 
   it('should render institutions loading view', () => {
@@ -155,6 +158,7 @@ describe('<SchoolSelectField>', () => {
     );
     expect(tree.find('#root_school_view:manualSchoolEntry_name').exists()).to.be
       .false;
+    tree.unmount();
   });
 
   it('should render pagination loading view', () => {
@@ -184,6 +188,7 @@ describe('<SchoolSelectField>', () => {
     );
     expect(tree.find('#root_school_view:manualSchoolEntry_name').exists()).to.be
       .false;
+    tree.unmount();
   });
 
   it('should render an error view', () => {
@@ -206,6 +211,7 @@ describe('<SchoolSelectField>', () => {
     );
 
     expect(tree.find('.usa-input-error').exists()).to.be.true;
+    tree.unmount();
   });
 
   it('should render no results or loading views when showSearchResults is false', () => {
@@ -249,6 +255,7 @@ describe('<SchoolSelectField>', () => {
     expect(tree.find('.loading-indicator-container').exists()).to.be.false;
     expect(tree.find('#root_school_view:manualSchoolEntry_name').exists()).to.be
       .false;
+    tree.unmount();
   });
 
   // handleManualSchoolEntryToggled
@@ -279,6 +286,7 @@ describe('<SchoolSelectField>', () => {
     expect(onChange.firstCall.args[0]).to.eql({
       'view:manualSchoolEntryChecked': true,
     });
+    tree.unmount();
   });
 
   // handleSearchInputChange
@@ -308,6 +316,7 @@ describe('<SchoolSelectField>', () => {
     expect(searchInputChange.firstCall.args[0]).to.eql({
       searchInputValue: 'tests',
     });
+    tree.unmount();
   });
 
   // handleSearchClick
@@ -348,6 +357,7 @@ describe('<SchoolSelectField>', () => {
         'view:manualSchoolEntryChecked': false,
         'view:institutionQuery': 'test',
       });
+      tree.unmount();
       done();
     }, 200);
   });
@@ -402,6 +412,9 @@ describe('<SchoolSelectField>', () => {
           showPaginationLoading={false}
         />,
       );
+    });
+    afterEach(() => {
+      tree.unmount();
     });
     it('should call `selectInstitution` and `onChange` props properly when domestic institution selected', () => {
       tree
@@ -493,5 +506,6 @@ describe('<SchoolSelectField>', () => {
     expect(onChange.calledOnce).to.eql(true);
     expect(onChange.firstCall.args[0]).to.eql({});
     expect(clearSearch.calledOnce).to.eql(true);
+    tree.unmount();
   });
 });

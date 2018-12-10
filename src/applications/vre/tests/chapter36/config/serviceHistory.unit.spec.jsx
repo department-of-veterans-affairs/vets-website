@@ -29,6 +29,7 @@ describe('VRE chapter 36 military history', () => {
 
     expect(form.find('input').length).to.equal(3);
     expect(form.find('select').length).to.equal(5);
+    form.unmount();
   });
 
   it('does not submit without required info', () => {
@@ -50,6 +51,7 @@ describe('VRE chapter 36 military history', () => {
     expect(form.find('.usa-input-error').length).to.equal(4);
 
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('submits with required info', () => {
@@ -103,5 +105,6 @@ describe('VRE chapter 36 military history', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

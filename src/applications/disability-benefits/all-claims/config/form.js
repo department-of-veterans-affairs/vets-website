@@ -78,6 +78,7 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  additionalRemarks781,
   additionalBehaviorChanges,
   mentalHealthChanges,
   adaptiveBenefits,
@@ -86,6 +87,7 @@ import {
   physicalHealthChanges,
   hospitalizationHistory,
   newDisabilities,
+  ancillaryFormsWizardSummary,
 } from '../pages';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
@@ -94,7 +96,7 @@ import { createFormConfig781, createFormConfig781a } from './781';
 
 import { PTSD, PTSD_INCIDENT_ITERATION } from '../constants';
 
-import fullSchema from './schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const formConfig = {
   urlPrefix: '/',
@@ -285,6 +287,13 @@ const formConfig = {
           uiSchema: finalIncident.uiSchema,
           schema: finalIncident.schema,
         },
+        additionalRemarks781: {
+          title: 'Additional Remarks - 781',
+          path: 'new-disabilities/additional-remarks-781',
+          depends: isAnswering781Questions(0),
+          uiSchema: additionalRemarks781.uiSchema,
+          schema: additionalRemarks781.schema,
+        },
         ptsdWalkthroughChoice781a: {
           title: 'PTSD Walkthrough 781a Choice',
           path: 'new-disabilities/walkthrough-781a-choice',
@@ -408,6 +417,13 @@ const formConfig = {
           path: 'individual-unemployability',
           uiSchema: individualUnemployability.uiSchema,
           schema: individualUnemployability.schema,
+        },
+        ancillaryFormsWizardSummary: {
+          title: 'Summary of additional benefits',
+          path: 'additional-disability-benefits-summary',
+          depends: ancillaryFormsWizardSummary.depends,
+          uiSchema: ancillaryFormsWizardSummary.uiSchema,
+          schema: ancillaryFormsWizardSummary.schema,
         },
         // End ancillary forms wizard
         summaryOfDisabilities: {

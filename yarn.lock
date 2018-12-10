@@ -22,9 +22,9 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
-"@department-of-veterans-affairs/formation@^1.12.1":
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-1.12.1.tgz#3801a6484d353ba263f64d2425715456327f0938"
+"@department-of-veterans-affairs/formation@^1.12.2":
+  version "1.12.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-1.12.2.tgz#555a37300bdd4d8ea36b18b45831c9b0e38169e0"
   dependencies:
     classnames "^2.2.5"
     font-awesome "4"
@@ -10866,9 +10866,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#c30b03763019fc71b3ae6ee2907ff2ee2cbf1bad":
-  version "3.117.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#c30b03763019fc71b3ae6ee2907ff2ee2cbf1bad"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#92816fb3a3d5166dba1404e14c2e12739ba3b3b2":
+  version "3.118.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#92816fb3a3d5166dba1404e14c2e12739ba3b3b2"
 
 vm-browserify@0.0.4, vm-browserify@~0.0.1:
   version "0.0.4"

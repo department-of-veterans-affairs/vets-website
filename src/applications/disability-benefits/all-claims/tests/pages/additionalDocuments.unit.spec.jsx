@@ -44,6 +44,7 @@ describe('526EZ document upload', () => {
     );
 
     expect(form.find('input').length).to.equal(1);
+    form.unmount();
   });
 
   it('should not submit without an upload', () => {
@@ -64,6 +65,7 @@ describe('526EZ document upload', () => {
 
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.equal(false);
+    form.unmount();
   });
 
   it('should not submit without required info', () => {
@@ -84,6 +86,7 @@ describe('526EZ document upload', () => {
 
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.equal(false);
+    form.unmount();
   });
 
   it('should submit with valid data', () => {
@@ -103,5 +106,6 @@ describe('526EZ document upload', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.equal(true);
+    form.unmount();
   });
 });
