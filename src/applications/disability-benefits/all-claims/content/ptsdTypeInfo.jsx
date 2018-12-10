@@ -1,6 +1,13 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
+export const nonCombatPtsdType = (
+  <span>
+    Non-combat PTSD <strong>other than</strong> Military sexual trauma or
+    Personal assault
+  </span>
+);
+
 export const ptsdTypeDescription = (
   <div>
     <p>
@@ -31,7 +38,9 @@ export const ptsdTypeHelp = (
       Examples of personal assault include: assault, battery, robbery, mugging,
       stalking, or harassment.
     </p>
-    <h5>Non-combat</h5>
+    <h5>
+      Non-combat PTSD other than Military sexual trauma or Personal assault
+    </h5>
     <p>
       This means you experienced an event such as a car accident, hurricane, or
       plane crash, or witnessing the death, injury, or threat to another person

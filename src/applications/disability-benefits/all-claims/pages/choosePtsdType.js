@@ -1,6 +1,10 @@
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
-import { ptsdTypeDescription, ptsdTypeHelp } from '../content/ptsdTypeInfo';
+import {
+  ptsdTypeDescription,
+  ptsdTypeHelp,
+  nonCombatPtsdType,
+} from '../content/ptsdTypeInfo';
 
 import { disabilityNameTitle } from '../content/newPTSDFollowUp';
 
@@ -29,7 +33,7 @@ export const uiSchema = {
       'ui:title': 'Personal assault',
     },
     'view:noncombatPtsdType': {
-      'ui:title': 'Non-combat',
+      'ui:title': nonCombatPtsdType,
     },
   },
   'view:ptsdTypeHelp': {
