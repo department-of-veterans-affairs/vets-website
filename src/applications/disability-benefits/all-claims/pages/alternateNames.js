@@ -1,5 +1,5 @@
 import FullNameField from 'us-forms-system/lib/js/fields/FullNameField';
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const { alternateNames: alternateNamesSchema } = fullSchema.properties;
 
