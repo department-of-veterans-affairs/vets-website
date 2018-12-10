@@ -288,6 +288,11 @@ import {
   schema as newDisabilitiesSchema,
 } from './newDisabilities';
 
+import {
+  uiSchema as unemployabilityAdditionalInformationUISchema,
+  schema as unemployabilityAdditionalInformationSchema,
+} from './unemployabilityAdditionalInformation';
+
 import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
 
 export const alternateNames = {
@@ -578,6 +583,11 @@ export const additionalRemarks781 = {
 export const newDisabilities = {
   uiSchema: newDisabilitiesUISchema,
   schema: newDisabilitiesSchema,
+};
+
+export const unemployabilityAdditionalInformation = {
+  uiSchema: unemployabilityAdditionalInformationUISchema,
+  schema: unemployabilityAdditionalInformationSchema,
 };
 
 export { ancillaryFormsWizardSummary };
