@@ -5,7 +5,7 @@ import { DefinitionTester } from '../../../../../platform/testing/unit/schemafor
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
-describe('Work Behavior Changes 781a', () => {
+describe('Social Behavior Changes 781a', () => {
   const {
     schema,
     uiSchema,
@@ -51,5 +51,26 @@ describe('Work Behavior Changes 781a', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+  });
+
+  it('should not render textarea if other not selected', () => {
+    const onSubmit = sinon.spy();
+
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          socialBehaviorChanges: {
+            other: false,
+          },
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    expect(form.find('textarea').length).to.equal(0);
   });
 });
