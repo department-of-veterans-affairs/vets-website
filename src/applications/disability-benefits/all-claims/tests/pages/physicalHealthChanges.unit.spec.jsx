@@ -27,6 +27,7 @@ describe('Physical Changes 781a', () => {
     );
 
     expect(form.find('input').length).to.equal(7);
+    form.unmount();
   });
 
   it('should submit if no options selected', () => {
@@ -50,5 +51,6 @@ describe('Physical Changes 781a', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

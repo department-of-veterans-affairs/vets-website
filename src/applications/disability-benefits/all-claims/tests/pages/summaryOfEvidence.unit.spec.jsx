@@ -22,16 +22,20 @@ describe('Summary of Evidence', () => {
 
     expect(form.render().text()).to.contain('Summary of evidence');
     expect(form.find('li').length).to.equal(0);
+    form.unmount();
   });
 
-  it("should render private medical facility list when 'no evidence' selected", () => {
+  it("should render private medical facility list when 'no records to upload' is selected", () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasEvidence': false,
+          'view:hasEvidence': true,
+          'view:uploadPrivateRecordsQualifier': {
+            'view:hasPrivateRecordsToUpload': false,
+          },
           providerFacility: [
             {
               providerFacilityName: 'Provider',
@@ -63,6 +67,7 @@ describe('Summary of Evidence', () => {
     expect(form.render().text()).to.contain('Provider');
     expect(form.render().text()).to.contain('Another Provider');
     expect(form.find('li').length).to.equal(2);
+    form.unmount();
   });
 
   it('should render VA evidence list when VA evidence submitted', () => {
@@ -82,6 +87,7 @@ describe('Summary of Evidence', () => {
     );
 
     expect(form.find('li').length).to.equal(2);
+    form.unmount();
   });
 
   it('should render private evidence list when private evidence submitted', () => {
@@ -113,6 +119,7 @@ describe('Summary of Evidence', () => {
         .render()
         .text(),
     ).to.contain(fileName2);
+    form.unmount();
   });
 
   it('should render lay evidence list when lay evidence submitted', () => {
@@ -144,5 +151,6 @@ describe('Summary of Evidence', () => {
         .render()
         .text(),
     ).to.contain(fileName2);
+    form.unmount();
   });
 });

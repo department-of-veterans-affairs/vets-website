@@ -1,4 +1,4 @@
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { waiveRetirementPayDescription } from '../content/waiveRetirementPay';
 
 const { waiveRetirementPay: waiveRetirementPaySchema } = fullSchema.properties;

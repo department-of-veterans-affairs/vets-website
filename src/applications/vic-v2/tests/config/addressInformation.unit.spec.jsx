@@ -26,6 +26,7 @@ describe('VIC address information', () => {
 
     expect(form.find('input').length).to.equal(4);
     expect(form.find('select').length).to.equal(2);
+    form.unmount();
   });
 
   it('should not submit without required info', () => {
@@ -44,6 +45,7 @@ describe('VIC address information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with all info filled in', () => {
@@ -66,6 +68,7 @@ describe('VIC address information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
   it('should submit without state if allowed', () => {
     const onSubmit = sinon.spy();
@@ -87,6 +90,7 @@ describe('VIC address information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
   it('should not submit with invalid postal code', () => {
     const onSubmit = sinon.spy();
@@ -108,5 +112,6 @@ describe('VIC address information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 });

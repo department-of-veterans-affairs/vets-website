@@ -13,6 +13,7 @@ describe('<AppealsV2StatusPage/>', () => {
   it('should render', () => {
     const wrapper = shallow(<AppealsV2StatusPage {...defaultProps} />);
     expect(wrapper.type()).to.equal('div');
+    wrapper.unmount();
   });
 
   it('should render an unexpanded <Timeline/>', () => {
@@ -22,12 +23,14 @@ describe('<AppealsV2StatusPage/>', () => {
     const pastEvents = timeline.find('PastEvent');
     expect(expander.length).to.equal(1);
     expect(pastEvents.length).to.equal(0);
+    wrapper.unmount();
   });
 
   it('should pass down events as props to Timeline', () => {
     const wrapper = shallow(<AppealsV2StatusPage {...defaultProps} />);
     const pastEvents = wrapper.find('Timeline').props().events;
     expect(pastEvents).to.equal(defaultProps.appeal.attributes.events);
+    wrapper.unmount();
   });
 
   it('should render a <CurrentStatus/> with title and description', () => {
@@ -37,6 +40,7 @@ describe('<AppealsV2StatusPage/>', () => {
     // and util code so here we're just testing that both props exist
     expect(statusProps.title).to.exist;
     expect(statusProps.description).to.exist;
+    wrapper.unmount();
   });
 
   it('should render an <AlertsList/> with alerts', () => {
@@ -47,6 +51,7 @@ describe('<AppealsV2StatusPage/>', () => {
     expect(alertsProps.alerts.length).to.equal(
       defaultProps.appeal.attributes.alerts.length,
     );
+    wrapper.unmount();
   });
 
   it('should render a <WhatsNext/> with nextEvents', () => {
@@ -57,17 +62,20 @@ describe('<AppealsV2StatusPage/>', () => {
     // Testing against a specific string would require duplicating component
     // and util code so here we're just testing that the nextEvents prop exists
     expect(whatsNextProps.nextEvents).to.exist;
+    wrapper.unmount();
   });
 
   it('should render a <Docket/> when applicable', () => {
     const wrapper = shallow(<AppealsV2StatusPage {...onDocketProps} />);
     expect(wrapper.find('Docket').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should not render a <Docket/> when appeal status is a forbidden type', () => {
     // The appeal in defaultProps has a status of pending_soc, so the docket shouldn't be shown
     const wrapper = shallow(<AppealsV2StatusPage {...defaultProps} />);
     expect(wrapper.find('Docket').length).to.equal(0);
+    wrapper.unmount();
   });
 
   it('should not render a <Docket/> when appeal type is a forbidden type', () => {
@@ -81,6 +89,7 @@ describe('<AppealsV2StatusPage/>', () => {
     };
     const wrapper = shallow(<AppealsV2StatusPage {...props} />);
     expect(wrapper.find('Docket').length).to.equal(0);
+    wrapper.unmount();
   });
 
   it('should not render a <Docket/> when appeal is closed', () => {
@@ -91,5 +100,6 @@ describe('<AppealsV2StatusPage/>', () => {
     };
     const wrapper = shallow(<AppealsV2StatusPage {...props} />);
     expect(wrapper.find('Docket').length).to.equal(0);
+    wrapper.unmount();
   });
 });

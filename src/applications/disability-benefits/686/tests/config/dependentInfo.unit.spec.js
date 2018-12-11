@@ -43,6 +43,7 @@ describe('686 dependent info', () => {
       />,
     );
     expect(form.find('input').length).to.equal(8);
+    form.unmount();
   });
 
   it('should show disabled if child is less than 18 years old', () => {
@@ -59,6 +60,7 @@ describe('686 dependent info', () => {
       />,
     );
     expect(form.find('input').length).to.equal(7);
+    form.unmount();
   });
 
   it('should not show disabled or inSchool if child is older than 23', () => {
@@ -75,6 +77,7 @@ describe('686 dependent info', () => {
       />,
     );
     expect(form.find('input').length).to.equal(6);
+    form.unmount();
   });
 
   it('should not submit empty form', () => {
@@ -93,6 +96,7 @@ describe('686 dependent info', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit form with required fields filled', () => {
@@ -114,6 +118,7 @@ describe('686 dependent info', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should expand view:stepChildCondition if stepChild is selected', () => {
@@ -130,6 +135,7 @@ describe('686 dependent info', () => {
 
     selectRadio(form, 'root_childRelationship', 'stepchild');
     expect(form.find('input').length).to.equal(10);
+    form.unmount();
   });
 
   it('should expand info boxes if child is in school and disabled', () => {
@@ -148,5 +154,6 @@ describe('686 dependent info', () => {
     selectCheckbox(form, 'root_disabled', true);
 
     expect(form.find('.usa-alert-warning').length).to.equal(2);
+    form.unmount();
   });
 });

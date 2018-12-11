@@ -7,15 +7,18 @@ describe('<AppealNotFound/>', () => {
   it('renders', () => {
     const wrapper = shallow(<AppealNotFound />);
     expect(wrapper.type()).to.equal('div');
+    wrapper.unmount();
   });
 
   it('renders a heading', () => {
     const wrapper = shallow(<AppealNotFound />);
     expect(wrapper.find('h1').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('renders a React Router link back to claims page', () => {
     const wrapper = shallow(<AppealNotFound />);
     expect(wrapper.find('Link').length).to.equal(1);
+    wrapper.unmount();
   });
 });

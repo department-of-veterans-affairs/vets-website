@@ -28,6 +28,7 @@ describe('Military history', () => {
 
     expect(form.find('input').length).to.equal(2);
     expect(form.find('select').length).to.equal(5);
+    form.unmount();
   });
 
   it('should fail to submit when no data is filled out', () => {
@@ -46,6 +47,7 @@ describe('Military history', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should add another service period', () => {
@@ -85,6 +87,7 @@ describe('Military history', () => {
         .first()
         .text(),
     ).to.contain('Army');
+    form.unmount();
   });
 
   it('should submit when data filled in', () => {
@@ -119,5 +122,6 @@ describe('Military history', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });
