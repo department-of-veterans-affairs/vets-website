@@ -88,7 +88,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
     ));
     privateEvidenceContent = (
       <div>
-        <p>We'll get your private medical records from:</p>
+        <p>We’ll get your private medical records from:</p>
         <ul>{privateEvidenceList}</ul>
       </div>
     );
