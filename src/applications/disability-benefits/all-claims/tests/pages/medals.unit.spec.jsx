@@ -49,7 +49,7 @@ describe('781 medals', () => {
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
 
-    form.umount();
+    form.unmount();
   });
   it('should allow submission if no medals submitted', () => {
     const onSubmit = sinon.spy();
