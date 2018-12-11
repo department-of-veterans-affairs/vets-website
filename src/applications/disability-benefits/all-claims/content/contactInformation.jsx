@@ -96,6 +96,13 @@ export const phoneEmailViewField = ({ formData }) => {
   );
 };
 
+export const forwardingAddressDescription = () => (
+  <p>
+    If you give us a temporary or forwarding address, we’ll look at the dates
+    you provide to see if we need to use this address when scheduling any exams.
+  </p>
+);
+
 export const contactInfoDescription = () => (
   <p>
     This is the contact information we have on file for you. We’ll send any
