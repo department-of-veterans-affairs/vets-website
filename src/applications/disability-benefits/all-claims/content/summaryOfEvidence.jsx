@@ -4,14 +4,20 @@ import _ from '../../../../platform/utilities/data';
 export const summaryOfEvidenceDescription = ({ formData }) => {
   const vaEvidence = _.get('vaTreatmentFacilities', formData, []);
   const privateEvidence = _.get('privateMedicalRecords', formData, []);
+  const privateFacility = _.get('providerFacility', formData, []).filter(
+    facility => facility.providerFacilityName,
+  );
   const layEvidence = _.get('additionalDocuments', formData, []);
-  const evidenceLength = !!vaEvidence.concat(privateEvidence, layEvidence)
-    .length;
+  const evidenceLength = !!vaEvidence.concat(
+    privateEvidence,
+    layEvidence,
+    privateFacility,
+  ).length;
   const selectedEvidence = _.get('view:hasEvidence', formData, false);
-  const privateFacility = _.get('providerFacility', formData, []);
+
   // Evidence isn't always properly cleared out from form data if removed so
   // need to also check that 'no evidence' was explicitly selected
-  if ((!evidenceLength || !selectedEvidence) && !privateFacility) {
+  if (!evidenceLength || !selectedEvidence) {
     return (
       <p>
         You haven’t uploaded any evidence. This may delay us processing your
@@ -37,7 +43,6 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
       </div>
     );
   }
-
   if (privateEvidence.length) {
     const privateEvidenceList = privateEvidence.map(upload => (
       <li key={upload.name}>{upload.name}</li>

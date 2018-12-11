@@ -5,13 +5,13 @@ import { mount } from 'enzyme';
 
 import {
   DefinitionTester,
-  fillDate,
+  fillData,
+  selectRadio,
 } from '../../../../../platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
-import { ERR_MSG_CSS_CLASS } from '../../constants';
 
-describe('781a Incident Date', () => {
-  const page = formConfig.chapters.disabilities.pages.secondaryIncidentDate0;
+describe('781 medals', () => {
+  const page = formConfig.chapters.disabilities.pages.medals0;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
@@ -25,12 +25,10 @@ describe('781a Incident Date', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(1);
-    expect(form.find('select').length).to.equal(2);
-    form.unmount();
+    expect(form.find('input').length).to.equal(2);
   });
 
-  it('should fill in incident date', () => {
+  it('should fill in Medal citation', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -42,15 +40,15 @@ describe('781a Incident Date', () => {
         uiSchema={uiSchema}
       />,
     );
+    selectRadio(form, 'root_incident0_view:medals', 'Y');
+    fillData(form, 'input#root_incident0_medalsCitations', 'Medal Of Honor');
 
-    fillDate(form, 'root_secondaryIncident0_incidentDate', '2016-07-10');
     form.find('form').simulate('submit');
 
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
-    form.unmount();
   });
-  it('should allow submission if no incident date submitted', () => {
+  it('should allow submission if no medals submitted', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -65,8 +63,7 @@ describe('781a Incident Date', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
-    form.unmount();
   });
 });
