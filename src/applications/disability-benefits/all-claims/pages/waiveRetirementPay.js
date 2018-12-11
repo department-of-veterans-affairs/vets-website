@@ -14,7 +14,7 @@ export const uiSchema = {
     'ui:options': {
       labels: {
         Y: 'I want to receive VA compensation pay.',
-        N: ' I don’t want to receive tax-free VA compensation pay.', // waiveRetirementPay = true because yesNoReverse
+        N: ' I don’t want to receive tax-free VA compensation pay.',
       },
     },
   },
