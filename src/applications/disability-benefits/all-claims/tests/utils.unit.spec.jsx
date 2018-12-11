@@ -182,7 +182,7 @@ describe('526 helpers', () => {
       expect(
         JSON.parse(transform(formConfig, maximalData)).form526.form0781.incident
           .length,
-      ).to.eql(3);
+      ).to.eql(6);
     });
   });
 

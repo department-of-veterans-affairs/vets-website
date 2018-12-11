@@ -188,6 +188,9 @@ export const transformedMaximalData = {
     ],
     privacyAgreementAccepted: true,
     form0781: {
+      remarks: '781 Remarks',
+      additionalIncidentText: 'Additional incident text',
+      additionalSecondaryIncidentText: 'Additional secondary incident text',
       incident: [
         {
           personalAssault: false,
@@ -200,7 +203,6 @@ export const transformedMaximalData = {
             from: '1990-01-01',
             to: '1999-01-01',
           },
-          remarks: 'Remarks text',
           personInvolved: [
             {
               first: 'John',
@@ -230,12 +232,199 @@ export const transformedMaximalData = {
           ],
         },
         {
-          incidentLocation: 'USA, Other',
           personalAssault: false,
+          medalsCitations: 'Medal A',
+          incidentDate: '1992-01-01',
+          incidentLocation: 'Test, TN, USA, Other',
+          incidentDescription: 'Incident description',
+          unitAssigned: 'Unit A',
+          unitAssignedDates: {
+            from: '1990-01-01',
+            to: '1999-01-01',
+          },
+          personInvolved: [
+            {
+              first: 'John',
+              last: 'Doe',
+              rank: 'Private',
+              injuryDeath: 'Other',
+              injuryDeathOther: 'Other text',
+              injuryDeathDate: '1992-1-1',
+              unitAssigned: 'Unit A',
+            },
+            {
+              first: 'Jane',
+              last: 'Doe',
+            },
+          ],
+          source: [
+            {
+              name: 'Source Name',
+              address: {
+                country: 'USA',
+                city: 'Detroit',
+                state: 'MI',
+                zipCode: '234563453',
+                addressLine1: '234 Maple St.',
+              },
+            },
+          ],
         },
         {
-          incidentLocation: '',
+          personalAssault: false,
+          medalsCitations: 'Medal A',
+          incidentDate: '1992-01-01',
+          incidentLocation: 'Test, TN, USA, Other',
+          incidentDescription: 'Incident description',
+          unitAssigned: 'Unit A',
+          unitAssignedDates: {
+            from: '1990-01-01',
+            to: '1999-01-01',
+          },
+          personInvolved: [
+            {
+              first: 'John',
+              last: 'Doe',
+              rank: 'Private',
+              injuryDeath: 'Other',
+              injuryDeathOther: 'Other text',
+              injuryDeathDate: '1992-1-1',
+              unitAssigned: 'Unit A',
+            },
+            {
+              first: 'Jane',
+              last: 'Doe',
+            },
+          ],
+          source: [
+            {
+              name: 'Source Name',
+              address: {
+                country: 'USA',
+                city: 'Detroit',
+                state: 'MI',
+                zipCode: '234563453',
+                addressLine1: '234 Maple St.',
+              },
+            },
+          ],
+        },
+        {
           personalAssault: true,
+          medalsCitations: 'Medal A',
+          incidentDate: '1992-01-01',
+          incidentLocation: 'Test, TN, USA, Other',
+          incidentDescription: 'Incident description',
+          unitAssigned: 'Unit A',
+          unitAssignedDates: {
+            from: '1990-01-01',
+            to: '1999-01-01',
+          },
+          personInvolved: [
+            {
+              first: 'John',
+              last: 'Doe',
+              rank: 'Private',
+              injuryDeath: 'Other',
+              injuryDeathOther: 'Other text',
+              injuryDeathDate: '1992-1-1',
+              unitAssigned: 'Unit A',
+            },
+            {
+              first: 'Jane',
+              last: 'Doe',
+            },
+          ],
+          source: [
+            {
+              name: 'Source Name',
+              address: {
+                country: 'USA',
+                city: 'Detroit',
+                state: 'MI',
+                zipCode: '234563453',
+                addressLine1: '234 Maple St.',
+              },
+            },
+          ],
+        },
+        {
+          personalAssault: true,
+          medalsCitations: 'Medal A',
+          incidentDate: '1992-01-01',
+          incidentLocation: 'Test, TN, USA, Other',
+          incidentDescription: 'Incident description',
+          unitAssigned: 'Unit A',
+          unitAssignedDates: {
+            from: '1990-01-01',
+            to: '1999-01-01',
+          },
+          personInvolved: [
+            {
+              first: 'John',
+              last: 'Doe',
+              rank: 'Private',
+              injuryDeath: 'Other',
+              injuryDeathOther: 'Other text',
+              injuryDeathDate: '1992-1-1',
+              unitAssigned: 'Unit A',
+            },
+            {
+              first: 'Jane',
+              last: 'Doe',
+            },
+          ],
+          source: [
+            {
+              name: 'Source Name',
+              address: {
+                country: 'USA',
+                city: 'Detroit',
+                state: 'MI',
+                zipCode: '234563453',
+                addressLine1: '234 Maple St.',
+              },
+            },
+          ],
+        },
+        {
+          personalAssault: true,
+          medalsCitations: 'Medal A',
+          incidentDate: '1992-01-01',
+          incidentLocation: 'Test, TN, USA, Other',
+          incidentDescription: 'Incident description',
+          unitAssigned: 'Unit A',
+          unitAssignedDates: {
+            from: '1990-01-01',
+            to: '1999-01-01',
+          },
+          personInvolved: [
+            {
+              first: 'John',
+              last: 'Doe',
+              rank: 'Private',
+              injuryDeath: 'Other',
+              injuryDeathOther: 'Other text',
+              injuryDeathDate: '1992-1-1',
+              unitAssigned: 'Unit A',
+            },
+            {
+              first: 'Jane',
+              last: 'Doe',
+            },
+          ],
+          source: [
+            {
+              name: 'Source Name',
+              address: {
+                country: 'USA',
+                city: 'Detroit',
+                state: 'MI',
+                zipCode: '234563453',
+                addressLine1: '234 Maple St.',
+              },
+            },
+          ],
         },
       ],
     },

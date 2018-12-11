@@ -306,8 +306,6 @@ export function transform(formConfig, form) {
     ),
   );
 
-  // console.log(form.data);
-
   // Transform the related disabilities lists into an array of strings
   if (clonedData.vaTreatmentFacilities) {
     const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
@@ -384,8 +382,16 @@ export function transform(formConfig, form) {
   if (incidents.length > 0) {
     clonedData.form0781 = {
       incident: incidents,
+      remarks: clonedData.additionalRemarks781,
+      additionalIncidentText: clonedData.additionalIncidentText,
+      additionalSecondaryIncidentText:
+        clonedData.additionalSecondaryIncidentText,
     };
   }
+
+  delete clonedData.additionalRemarks781;
+  delete clonedData.additionalIncidentText;
+  delete clonedData.additionalSecondaryIncidentText;
 
   return JSON.stringify({ form526: clonedData });
 }

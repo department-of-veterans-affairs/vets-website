@@ -223,6 +223,11 @@
     "view:faqAccordion": {},
     "privacyAgreementAccepted": true,
     "view:enterAdditionalEvents0": true,
+    "view:enterAdditionalEvents1": true,
+    "view:enterAdditionalEvents2": true,
+    "view:enterAdditionalSecondaryEvents0": true,
+    "view:enterAdditionalSecondaryEvents1": true,
+    "view:enterAdditionalSecondaryEvents2": true,
     "incident0": {
       "medalsCitations": "Medal A",
       "incidentDate": "1992-01-01",
@@ -238,7 +243,6 @@
         "from": "1990-01-01",
         "to": "1999-01-01"
       },
-      "remarks": "Remarks text",
       "personInvolved": [
         {
           "first": "John",
@@ -268,44 +272,222 @@
       ]
     },
     "incident1": {
-      "incidentLocation": {
-        "city": "",
-        "state": "",
-        "country": "USA",
-        "additionalDetails": "Other"
-      }
-    },
-    "incident2": {
+      "medalsCitations": "Medal A",
+      "incidentDate": "1992-01-01",
       "incidentLocation": {
         "city": "Test",
         "state": "TN",
         "country": "USA",
-        "additionalDetails": ""
-      }
+        "additionalDetails": "Other"
+      },
+      "incidentDescription": "Incident description",
+      "unitAssigned": "Unit A",
+      "unitAssignedDates": {
+        "from": "1990-01-01",
+        "to": "1999-01-01"
+      },
+      "personInvolved": [
+        {
+          "first": "John",
+          "last": "Doe",
+          "rank": "Private",
+          "injuryDeath": "Other",
+          "injuryDeathOther": "Other text",
+          "injuryDeathDate": "1992-1-1",
+          "unitAssigned": "Unit A"
+        },
+        {
+          "first": "Jane",
+          "last": "Doe"
+        }
+      ],
+      "source": [
+        {
+          "name": "Source Name",
+          "address": {
+            "country": "USA",
+            "city": "Detroit",
+            "state": "MI",
+            "zipCode": "234563453",
+            "addressLine1": "234 Maple St."
+          }
+        }
+      ]
+    },
+    "incident2": {
+      "medalsCitations": "Medal A",
+      "incidentDate": "1992-01-01",
+      "incidentLocation": {
+        "city": "Test",
+        "state": "TN",
+        "country": "USA",
+        "additionalDetails": "Other"
+      },
+      "incidentDescription": "Incident description",
+      "unitAssigned": "Unit A",
+      "unitAssignedDates": {
+        "from": "1990-01-01",
+        "to": "1999-01-01"
+      },
+      "personInvolved": [
+        {
+          "first": "John",
+          "last": "Doe",
+          "rank": "Private",
+          "injuryDeath": "Other",
+          "injuryDeathOther": "Other text",
+          "injuryDeathDate": "1992-1-1",
+          "unitAssigned": "Unit A"
+        },
+        {
+          "first": "Jane",
+          "last": "Doe"
+        }
+      ],
+      "source": [
+        {
+          "name": "Source Name",
+          "address": {
+            "country": "USA",
+            "city": "Detroit",
+            "state": "MI",
+            "zipCode": "234563453",
+            "addressLine1": "234 Maple St."
+          }
+        }
+      ]
     },
     "secondaryIncident0": {
+      "medalsCitations": "Medal A",
+      "incidentDate": "1992-01-01",
       "incidentLocation": {
-        "city": "",
-        "state": "",
-        "country": "",
-        "additionalDetails": ""
-      }
+        "city": "Test",
+        "state": "TN",
+        "country": "USA",
+        "additionalDetails": "Other"
+      },
+      "incidentDescription": "Incident description",
+      "unitAssigned": "Unit A",
+      "unitAssignedDates": {
+        "from": "1990-01-01",
+        "to": "1999-01-01"
+      },
+      "personInvolved": [
+        {
+          "first": "John",
+          "last": "Doe",
+          "rank": "Private",
+          "injuryDeath": "Other",
+          "injuryDeathOther": "Other text",
+          "injuryDeathDate": "1992-1-1",
+          "unitAssigned": "Unit A"
+        },
+        {
+          "first": "Jane",
+          "last": "Doe"
+        }
+      ],
+      "source": [
+        {
+          "name": "Source Name",
+          "address": {
+            "country": "USA",
+            "city": "Detroit",
+            "state": "MI",
+            "zipCode": "234563453",
+            "addressLine1": "234 Maple St."
+          }
+        }
+      ]
     },
     "secondaryIncident1": {
+      "medalsCitations": "Medal A",
+      "incidentDate": "1992-01-01",
       "incidentLocation": {
-        "city": "",
-        "state": "",
-        "country": "",
-        "additionalDetails": ""
-      }
+        "city": "Test",
+        "state": "TN",
+        "country": "USA",
+        "additionalDetails": "Other"
+      },
+      "incidentDescription": "Incident description",
+      "unitAssigned": "Unit A",
+      "unitAssignedDates": {
+        "from": "1990-01-01",
+        "to": "1999-01-01"
+      },
+      "personInvolved": [
+        {
+          "first": "John",
+          "last": "Doe",
+          "rank": "Private",
+          "injuryDeath": "Other",
+          "injuryDeathOther": "Other text",
+          "injuryDeathDate": "1992-1-1",
+          "unitAssigned": "Unit A"
+        },
+        {
+          "first": "Jane",
+          "last": "Doe"
+        }
+      ],
+      "source": [
+        {
+          "name": "Source Name",
+          "address": {
+            "country": "USA",
+            "city": "Detroit",
+            "state": "MI",
+            "zipCode": "234563453",
+            "addressLine1": "234 Maple St."
+          }
+        }
+      ]
     },
     "secondaryIncident2": {
+      "medalsCitations": "Medal A",
+      "incidentDate": "1992-01-01",
       "incidentLocation": {
-        "city": "",
-        "state": "",
-        "country": "",
-        "additionalDetails": ""
-      }
-    }
+        "city": "Test",
+        "state": "TN",
+        "country": "USA",
+        "additionalDetails": "Other"
+      },
+      "incidentDescription": "Incident description",
+      "unitAssigned": "Unit A",
+      "unitAssignedDates": {
+        "from": "1990-01-01",
+        "to": "1999-01-01"
+      },
+      "personInvolved": [
+        {
+          "first": "John",
+          "last": "Doe",
+          "rank": "Private",
+          "injuryDeath": "Other",
+          "injuryDeathOther": "Other text",
+          "injuryDeathDate": "1992-1-1",
+          "unitAssigned": "Unit A"
+        },
+        {
+          "first": "Jane",
+          "last": "Doe"
+        }
+      ],
+      "source": [
+        {
+          "name": "Source Name",
+          "address": {
+            "country": "USA",
+            "city": "Detroit",
+            "state": "MI",
+            "zipCode": "234563453",
+            "addressLine1": "234 Maple St."
+          }
+        }
+      ]
+    },
+    "additionalRemarks781": "781 Remarks",
+    "additionalIncidentText": "Additional incident text",
+    "additionalSecondaryIncidentText": "Additional secondary incident text"
   }
 }
