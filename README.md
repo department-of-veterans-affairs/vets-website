@@ -1,6 +1,6 @@
 # VA.gov [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=testing/vets-website/master)](http://jenkins.vetsgov-internal/job/testing/job/vets-website/job/master/)
 
-## What is this?
+## What is this
 
 This is the combined frontend repository for www.va.gov. With this repository, it is possible to
 build all of the client-side (i.e., anything that gets downloaded to the browser) code for
