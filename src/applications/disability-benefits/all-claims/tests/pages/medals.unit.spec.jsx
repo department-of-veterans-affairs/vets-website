@@ -26,6 +26,7 @@ describe('781 medals', () => {
       />,
     );
     expect(form.find('input').length).to.equal(2);
+    form.unmount();
   });
 
   it('should fill in Medal citation', () => {
@@ -47,6 +48,8 @@ describe('781 medals', () => {
 
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+
+    form.umount();
   });
   it('should allow submission if no medals submitted', () => {
     const onSubmit = sinon.spy();
@@ -65,5 +68,7 @@ describe('781 medals', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+
+    form.unmount();
   });
 });
