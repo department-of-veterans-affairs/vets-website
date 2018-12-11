@@ -6,7 +6,7 @@ FROM node:8
 RUN groupadd --gid 504 jenkins \
   && useradd --uid 504 --gid jenkins --shell /bin/bash --create-home jenkins
 
-ENV YARN_VERSION 1.5.1
+ENV YARN_VERSION 1.12.3
 ENV NODE_ENV production
 
 RUN apt-get update && apt-get install -y netcat \
