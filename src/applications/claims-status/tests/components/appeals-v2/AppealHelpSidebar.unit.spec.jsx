@@ -9,6 +9,7 @@ describe('<AppealHelpSidebar>', () => {
     const wrapper = shallow(<AppealHelpSidebar {...props} />);
 
     expect(wrapper.type()).to.equal('div');
+    wrapper.unmount();
   });
 
   const boardVersionText = 'Call the Board of Veterans’ Appeals';
@@ -22,6 +23,7 @@ describe('<AppealHelpSidebar>', () => {
         .first()
         .text(),
     ).to.equal(boardVersionText);
+    wrapper.unmount();
   });
 
   it('should render the board version if location is "aoj" and aoj is "other"', () => {
@@ -34,6 +36,7 @@ describe('<AppealHelpSidebar>', () => {
         .first()
         .text(),
     ).to.equal(boardVersionText);
+    wrapper.unmount();
   });
 
   it('should render the vba version', () => {
@@ -46,6 +49,7 @@ describe('<AppealHelpSidebar>', () => {
         .first()
         .text(),
     ).to.equal('Call the Veterans Affairs Benefits and Services');
+    wrapper.unmount();
   });
 
   it.skip('should render the vha version', () => {
@@ -58,6 +62,7 @@ describe('<AppealHelpSidebar>', () => {
         .first()
         .text(),
     ).to.equal();
+    wrapper.unmount();
   });
 
   it.skip('should render the nca version', () => {
@@ -70,5 +75,6 @@ describe('<AppealHelpSidebar>', () => {
         .first()
         .text(),
     ).to.equal();
+    wrapper.unmount();
   });
 });

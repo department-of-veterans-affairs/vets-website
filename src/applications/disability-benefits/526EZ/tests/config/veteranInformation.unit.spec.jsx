@@ -27,5 +27,6 @@ describe.skip('526EZ veteran information', () => {
 
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });
