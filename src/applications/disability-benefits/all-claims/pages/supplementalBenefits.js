@@ -1,6 +1,10 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
+import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
+
+const supplementalBenefitsTitle = <h4>Supplemental benefits</h4>;
+
 const supplementalBenefitsHelp = (
   <AdditionalInfo triggerText="How do these benefits affect my claim?">
     <p>
@@ -17,7 +21,8 @@ const supplementalBenefitsHelp = (
 );
 
 export const uiSchema = {
-  'ui:title': 'Supplemental benefits',
+  'ui:title': unemployabilityTitle,
+  'ui:description': supplementalBenefitsTitle,
   receiveExpectDisabilityRetirement: {
     'ui:title':
       'Do you receive, or expect to receive, disability retirement benefits?',
