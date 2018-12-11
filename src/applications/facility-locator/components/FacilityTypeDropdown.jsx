@@ -52,8 +52,6 @@ class FacilityTypeDropdown extends Component {
     // Set focus on the correct element (508)
     if (this.state.showBubble) {
       this.focusCCInfoCloseBtn();
-    } else {
-      this.focusCCInfoIcon();
     }
   }
 
@@ -64,6 +62,9 @@ class FacilityTypeDropdown extends Component {
     this.setState({
       showBubble: !this.state.showBubble,
     });
+
+    // Refocus the "i" button
+    this.focusCCInfoIcon();
   };
 
   render() {
@@ -116,8 +117,6 @@ class FacilityTypeDropdown extends Component {
               <div className="row">
                 <div className="columns medium-4">
                   <label
-                    aria-live="polite"
-                    aria-relevant="additions"
                     htmlFor="facility-dropdown-toggle"
                     id="facility-dropdown-label"
                   >
@@ -161,7 +160,11 @@ class FacilityTypeDropdown extends Component {
                   </span>
                 )}
                 {this.state.showBubble && (
-                  <div id="infoBubble">
+                  <div
+                    aria-live="polite"
+                    aria-relevant="additions"
+                    id="infoBubble"
+                  >
                     <button
                       className="cc-info-close-btn"
                       type="button"
