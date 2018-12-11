@@ -60,7 +60,7 @@ export default function PreferenceItem({
       </div>
       <p className="va-introtext">{introduction}</p>
       <AdditionalInfo
-        tagName={'h4'}
+        tagName={'h5'}
         additionalClass="benefit-faq"
         triggerText={faqTitle}
       >
