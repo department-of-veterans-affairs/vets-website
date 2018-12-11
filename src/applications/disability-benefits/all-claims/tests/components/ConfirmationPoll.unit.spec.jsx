@@ -60,8 +60,9 @@ describe('ConfirmationPoll', () => {
 
   it('should make an api call after mounting', () => {
     mockApiRequest(successResponse.response);
-    shallow(<ConfirmationPoll />);
+    const component = shallow(<ConfirmationPoll />);
     expect(global.fetch.calledOnce).to.be.true;
+    component.unmount();
   });
 
   it('should continue to make api calls until the response is not pending', done => {
@@ -72,10 +73,11 @@ describe('ConfirmationPoll', () => {
       failureResponse,
     ]);
 
-    mount(<ConfirmationPoll {...defaultProps} pollRate={10} />);
+    const form = mount(<ConfirmationPoll {...defaultProps} pollRate={10} />);
     // Should stop after the first success
     setTimeout(() => {
       expect(global.fetch.callCount).to.equal(3);
+      form.unmount();
       done();
     }, 50);
   });
@@ -96,6 +98,7 @@ describe('ConfirmationPoll', () => {
         disabilities: defaultProps.disabilities,
         submittedAt: defaultProps.submittedAt,
       });
+      tree.unmount();
       done();
     }, 500);
   });

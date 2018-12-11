@@ -132,6 +132,7 @@ describe('686 marriage history', () => {
         .text()
         .includes('Former spouse'),
     ).to.be.true;
+    form.unmount();
   });
 
   it('should submit with valid data', () => {
@@ -171,5 +172,6 @@ describe('686 marriage history', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

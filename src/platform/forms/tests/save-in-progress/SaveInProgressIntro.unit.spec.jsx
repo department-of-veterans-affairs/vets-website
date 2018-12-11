@@ -60,6 +60,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(
       tree.find('withRouter(FormStartControls)').props().startPage,
     ).to.equal('testing');
+    tree.unmount();
   });
   it('should pass prefills available prop', () => {
     const user = {
@@ -91,6 +92,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(tree.find('withRouter(FormStartControls)').props().prefillAvailable)
       .to.be.true;
+    tree.unmount();
   });
   it('should render sign in message', () => {
     const user = {
@@ -125,6 +127,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(tree.find('.va-button-link').exists()).to.be.true;
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
+    tree.unmount();
   });
 
   it('should render prefill Notification when prefill enabled and not signed in', () => {
@@ -165,6 +168,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
     expect(tree.find('.va-button-link').exists()).to.be.true;
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
+    tree.unmount();
   });
 
   it('should render message if signed in with no saved form', () => {
@@ -194,6 +198,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       'You can save this form in progress',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
+    tree.unmount();
   });
 
   it('should render prefill notification if signed in with no saved form and prefill available', () => {
@@ -223,6 +228,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       'Note: Since you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your form in progress and come back later to finish filling it out.',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
+    tree.unmount();
   });
 
   it('should over-ride the default retentionPeriod prop when one supplied', () => {
@@ -261,6 +267,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(tree.find('.usa-alert').text()).to.contain('1 year');
     expect(tree.find('.usa-alert').text()).to.not.contain('60 days');
+    tree.unmount();
   });
 
   it('should render loading indicator while profile is loading', () => {
@@ -294,6 +301,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(tree.find('LoadingIndicator').exists()).to.be.true;
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
+    tree.unmount();
   });
 
   it('should render expired message if signed in with an expired form', () => {
@@ -329,6 +337,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       'Your saved health care benefits application (10-10EZ) has expired. If you want to apply for health care benefits, please start a new application.',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
+    tree.unmount();
   });
   it('should render sign in message from render prop', () => {
     const user = {
@@ -366,6 +375,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(renderSpy.called).to.be.true;
     expect(tree.text()).to.contain('Render prop info');
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
+    tree.unmount();
   });
 
   it('should render downtime notification', () => {
@@ -403,6 +413,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.find('Connect(DowntimeNotification)').exists()).to.be.true;
+    tree.unmount();
   });
 
   it('should not render downtime notification when logged in', () => {
@@ -441,5 +452,6 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.find('Connect(DowntimeNotification)').exists()).to.be.false;
+    tree.unmount();
   });
 });

@@ -25,6 +25,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     expect(form.find('input[type="checkbox"]').length).to.equal(
       initialData.disabilities.length,
     );
+    form.unmount();
   });
 
   it('fails to submit without selecting a condition', () => {
@@ -39,6 +40,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
+    form.unmount();
   });
 
   it('successfully submits when at least one condition is selected', () => {
@@ -58,6 +60,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
       .onChange({ target: { checked: true } });
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
+    form.unmount();
   });
 
   it('renders the information about each disability', () => {
@@ -98,5 +101,6 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
         .last()
         .text(),
     ).to.equal('Current rating: 0%');
+    form.unmount();
   });
 });

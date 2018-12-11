@@ -28,18 +28,21 @@ describe('<Timeline/>', () => {
   it('should render', () => {
     const component = shallow(<Timeline {...defaultProps} />);
     expect(component.exists()).to.be.true;
+    component.unmount();
   });
 
   it('should render one expander item if events present', () => {
     const wrapper = shallow(<Timeline {...defaultProps} />);
     const expander = wrapper.find('Expander');
     expect(expander.length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should not render any past events by default', () => {
     const wrapper = shallow(<Timeline {...defaultProps} />);
     const pastEvents = wrapper.find('PastEvent');
     expect(pastEvents.exists()).to.be.false;
+    wrapper.unmount();
   });
 
   it('should toggle expanded state when toggleExpanded called', () => {
@@ -55,6 +58,7 @@ describe('<Timeline/>', () => {
     expect(wrapper.state('expanded')).to.equal(true);
     instance.toggleExpanded(clickEvent);
     expect(wrapper.state('expanded')).to.equal(false);
+    wrapper.unmount();
   });
 
   it('should render past events when expanded state is true', () => {
@@ -66,6 +70,7 @@ describe('<Timeline/>', () => {
     expect(wrapper.find('PastEvent').length).to.equal(
       defaultProps.events.length,
     );
+    wrapper.unmount();
   });
 
   it('should render nothing for past events if no events in list', () => {
@@ -74,6 +79,7 @@ describe('<Timeline/>', () => {
     expect(wrapper.find('PastEvent').length).to.equal(0);
     wrapper.setState({ expanded: true });
     expect(wrapper.find('PastEvent').length).to.equal(0);
+    wrapper.unmount();
   });
 
   it('should pass formatted date range to the Expander', () => {
@@ -81,6 +87,7 @@ describe('<Timeline/>', () => {
     const expander = wrapper.find('Expander');
     const { dateRange } = expander.props();
     expect(dateRange).to.equal(formattedDateRange);
+    wrapper.unmount();
   });
 
   it('should pass empty string as dateRange to Expander when no events', () => {
@@ -89,6 +96,7 @@ describe('<Timeline/>', () => {
     const expander = wrapper.find('Expander');
     const { dateRange } = expander.props();
     expect(dateRange).to.equal('');
+    wrapper.unmount();
   });
 
   it('should pass all required props to PastEvents', () => {
@@ -106,6 +114,7 @@ describe('<Timeline/>', () => {
     expect(firstProps.description).to.equal(description);
     expect(firstProps.liClass).to.equal(liClass);
     expect(firstProps.date).to.equal(date);
+    wrapper.unmount();
   });
 
   it('should pass all required props to Expander', () => {
@@ -115,6 +124,7 @@ describe('<Timeline/>', () => {
     expect(expanderProps.missingEvents).to.be.false;
     expect(expanderProps.dateRange).to.equal(formattedDateRange);
     expect(expanderProps.onToggle).to.equal(wrapper.instance().toggleExpanded);
+    wrapper.unmount();
   });
 
   it('should pass updated props to Expander when state toggled', () => {
@@ -122,6 +132,7 @@ describe('<Timeline/>', () => {
     wrapper.setState({ expanded: true });
     const expanderProps = wrapper.find('Expander').props();
     expect(expanderProps.expanded).to.be.true;
+    wrapper.unmount();
   });
 
   it('should not render unknown events', () => {
@@ -143,5 +154,6 @@ describe('<Timeline/>', () => {
     const wrapper = shallow(<Timeline {...props} />);
     wrapper.setState({ expanded: true });
     expect(wrapper.find('PastEvent').length).to.equal(1);
+    wrapper.unmount();
   });
 });
