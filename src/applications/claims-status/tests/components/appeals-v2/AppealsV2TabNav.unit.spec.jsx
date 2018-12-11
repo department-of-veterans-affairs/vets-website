@@ -11,6 +11,7 @@ describe('<AppealsV2TabNav/>', () => {
   it('should render', () => {
     const wrapper = shallow(<AppealsV2TabNav {...defaultProps} />);
     expect(wrapper.type()).to.equal('div');
+    wrapper.unmount();
   });
 
   it('should render 2 tabs: Status and Detail', () => {
@@ -25,5 +26,6 @@ describe('<AppealsV2TabNav/>', () => {
     expect(tabs.length).to.equal(2);
     expect(statusTab.length).to.equal(1);
     expect(detailTab.length).to.equal(1);
+    wrapper.unmount();
   });
 });

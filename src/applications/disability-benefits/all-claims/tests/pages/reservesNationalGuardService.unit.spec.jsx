@@ -28,6 +28,7 @@ describe('Reserve information', () => {
 
     expect(form.find('input').length).to.equal(3);
     expect(form.find('select').length).to.equal(4);
+    form.unmount();
   });
 
   it('should fail to submit when no data is filled out', () => {
@@ -46,6 +47,7 @@ describe('Reserve information', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit when data filled in', () => {
@@ -80,5 +82,6 @@ describe('Reserve information', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

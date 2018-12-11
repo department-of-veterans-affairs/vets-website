@@ -32,10 +32,7 @@ class ClaimsDecision extends React.Component {
           If we decided that an issue you claimed wasn’t service connected, and
           you have new evidence that you haven’t submitted yet, you can ask VA
           to reopen your claim.{' '}
-          <a
-            href="/disability-benefits/apply/claim-types/reopened-claim/"
-            target="_blank"
-          >
+          <a href="/disability/how-to-file-claim/when-to-file/" target="_blank">
             Find out how to reopen your claim
           </a>
           .
@@ -43,11 +40,8 @@ class ClaimsDecision extends React.Component {
         <p>
           Has your condition gotten worse since you filed your claim? You can
           file a new claim for an increase in disability compensation.
-          <a
-            href="/disability-benefits/apply/claim-types/new-claim/"
-            target="_blank"
-          >
-            Find out how to file a new claim
+          <a href="/disability-benefits/apply/form-526-disability-claim/introduction">
+            File for a VA disability increase
           </a>
           .
         </p>

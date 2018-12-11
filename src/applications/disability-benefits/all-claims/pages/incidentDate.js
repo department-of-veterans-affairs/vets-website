@@ -2,9 +2,9 @@ import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPas
 
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import { ptsdDateDescription } from '../content/incidentDate';
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const { date } = fullSchema.definitions;
+const { incidentDate } = fullSchema.definitions.ptsdIncident.properties;
 
 export const uiSchema = index => ({
   'ui:title': ptsd781NameTitle,
@@ -19,13 +19,7 @@ export const schema = index => ({
   properties: {
     [`incident${index}`]: {
       type: 'object',
-      properties: {
-        incidentDate: date,
-        'view:ptsdDateDescription': {
-          type: 'object',
-          properties: {},
-        },
-      },
+      properties: { incidentDate },
     },
   },
 });

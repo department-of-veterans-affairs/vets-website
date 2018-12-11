@@ -7,6 +7,7 @@ describe('<Alert/>', () => {
   it('should render', () => {
     const wrapper = shallow(<Alert />);
     expect(wrapper.type()).to.equal('li');
+    wrapper.unmount();
   });
 
   it('should apply warning styling on take_action alert types', () => {
@@ -14,6 +15,7 @@ describe('<Alert/>', () => {
     const wrapper = shallow(<Alert {...props} />);
     const alertDiv = wrapper.find('.usa-alert-warning');
     expect(alertDiv.length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should apply info styling on info alert types', () => {
@@ -21,6 +23,7 @@ describe('<Alert/>', () => {
     const wrapper = shallow(<Alert {...props} />);
     const alertDiv = wrapper.find('.usa-alert-info');
     expect(alertDiv.length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('should display a title passed in as a prop', () => {
@@ -32,6 +35,7 @@ describe('<Alert/>', () => {
       .render()
       .text();
     expect(renderedTitle).to.equal(title);
+    wrapper.unmount();
   });
 
   it('should display a description passed in as a prop', () => {
@@ -43,5 +47,6 @@ describe('<Alert/>', () => {
       .render()
       .text();
     expect(alertContent).to.equal(description.props.children);
+    wrapper.unmount();
   });
 });

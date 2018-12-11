@@ -2,16 +2,14 @@ import React from 'react';
 import { Link, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
+import LoadingButton from '../../profile360/vet360/components/base/LoadingButton';
+
 import PreferenceOption from '../components/PreferenceOption';
 import { benefitChoices } from '../helpers';
 
 import { setPreference, savePreferences, fetchPreferences } from '../actions';
 
 class SetPreferences extends React.Component {
-  componentDidMount() {
-    this.props.fetchPreferences();
-  }
-
   handleSave = () => {
     this.props.savePreferences(this.props.preferences.dashboard);
     this.props.router.push('/');
@@ -22,6 +20,7 @@ class SetPreferences extends React.Component {
   };
 
   render() {
+    const isLoading = this.props.isLoading;
     return (
       <div className="row user-profile-row">
         <div className="small-12 columns">
@@ -42,13 +41,9 @@ class SetPreferences extends React.Component {
             ))}
           </div>
           <div>
-            <button
-              type="button"
-              className="usa-button"
-              onClick={this.handleSave}
-            >
-              Save Preferences
-            </button>
+            <LoadingButton isLoading={isLoading} onClick={this.handleSave}>
+              <span>Save Preferences</span>
+            </LoadingButton>
             <Link to="/" className="usa-button usa-button-secondary">
               Cancel
             </Link>

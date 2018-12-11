@@ -1,5 +1,6 @@
 import React from 'react';
 
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { PtsdNameTitle } from '../content/ptsdClassification';
 
 const incidentDescriptionInstructions = (
@@ -13,17 +14,21 @@ const incidentDescriptionInstructions = (
   </div>
 );
 
+const { description } = fullSchema.definitions.ptsdIncident.properties;
+
 export const uiSchema = index => ({
   'ui:title': ({ formData }) => (
     <PtsdNameTitle formData={formData} formType="781" />
   ),
   'ui:description': incidentDescriptionInstructions,
-  [`incidentDescription${index}`]: {
-    'ui:title': ' ',
-    'ui:widget': 'textarea',
-    'ui:options': {
-      rows: 5,
-      maxLength: 32000,
+  [`incident${index}`]: {
+    description: {
+      'ui:title': ' ',
+      'ui:widget': 'textarea',
+      'ui:options': {
+        rows: 5,
+        maxLength: 32000,
+      },
     },
   },
 });
@@ -31,9 +36,11 @@ export const uiSchema = index => ({
 export const schema = index => ({
   type: 'object',
   properties: {
-    [`incidentDescription${index}`]: {
-      type: 'string',
-      properties: {},
+    [`incident${index}`]: {
+      type: 'object',
+      properties: {
+        description,
+      },
     },
   },
 });
