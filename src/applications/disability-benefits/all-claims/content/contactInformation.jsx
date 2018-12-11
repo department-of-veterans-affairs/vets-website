@@ -8,8 +8,8 @@ export const AddressViewField = ({ formData }) => {
     addressLine2,
     addressLine3,
     city,
-    state,
     country,
+    state,
     zipCode,
   } = formData;
   let zipString;
