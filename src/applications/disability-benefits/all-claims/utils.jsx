@@ -569,3 +569,10 @@ export const showPtsdCombatConclusion = form =>
 export const showPtsdAssaultConclusion = form =>
   _.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
   _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false);
+
+export const needsToEnterUnemployability = formData =>
+  _.get('view:unemployable', formData, false);
+
+export const needsToAnswerUnemployability = formData =>
+  needsToEnterUnemployability(formData) &&
+  _.get('view:unemployabilityUploadChoice', formData, '') === 'answerQuestions';

@@ -34,6 +34,8 @@ import {
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
   transform,
+  needsToEnterUnemployability,
+  needsToAnswerUnemployability,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -76,7 +78,6 @@ import {
   vaEmployee,
   summaryOfEvidence,
   fullyDevelopedClaim,
-  unemployabilityStatus,
   unemployabilityFormIntro,
   additionalRemarks781,
   additionalBehaviorChanges,
@@ -355,27 +356,6 @@ const formConfig = {
           uiSchema: conclusionAssault.uiSchema,
           schema: conclusionAssault.schema,
         },
-        unemployabilityStatus: {
-          title: 'Unemployability Status',
-          path: 'new-disabilities/unemployability-status',
-          uiSchema: unemployabilityStatus.uiSchema,
-          schema: unemployabilityStatus.schema,
-        },
-        unemployabilityFormIntro: {
-          title: 'File a Claim for Individual Unemployability',
-          path: 'new-disabilities/unemployability-walkthrough-choice',
-          depends: formData => formData['view:unemployabilityStatus'],
-          uiSchema: unemployabilityFormIntro.uiSchema,
-          schema: unemployabilityFormIntro.schema,
-        },
-        hospitalizationHistory: {
-          title: 'Hospitalization',
-          path: 'hospitalization-history',
-          depends: formData =>
-            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
-          uiSchema: hospitalizationHistory.uiSchema,
-          schema: hospitalizationHistory.schema,
-        },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
           path: 'pow',
@@ -418,6 +398,20 @@ const formConfig = {
           uiSchema: individualUnemployability.uiSchema,
           schema: individualUnemployability.schema,
         },
+        unemployabilityFormIntro: {
+          title: 'File a Claim for Individual Unemployability',
+          path: 'unemployability-walkthrough-choice',
+          depends: needsToEnterUnemployability,
+          uiSchema: unemployabilityFormIntro.uiSchema,
+          schema: unemployabilityFormIntro.schema,
+        },
+        hospitalizationHistory: {
+          title: 'Hospitalization',
+          path: 'hospitalization-history',
+          depends: needsToAnswerUnemployability,
+          uiSchema: hospitalizationHistory.uiSchema,
+          schema: hospitalizationHistory.schema,
+        },
         ancillaryFormsWizardSummary: {
           title: 'Summary of additional benefits',
           path: 'additional-disability-benefits-summary',
@@ -435,7 +429,7 @@ const formConfig = {
         conclusion4192: {
           title: 'Conclusion 4192',
           path: 'disabilities/conclusion-4192',
-          depends: formData => formData['view:unemployabilityStatus'],
+          depends: needsToEnterUnemployability,
           uiSchema: {
             'ui:title': ' ',
             'ui:description':
