@@ -27,7 +27,6 @@ function sitemapURLs() {
         // of one of the elements, search won't work.
         '/404.html',
         // This is here because aXe bug flags the custom select component on this page
-        '/facilities/',
         '/find-locations/',
         // This is here because an aXe bug flags the autosuggest component on this page
         '/gi-bill-comparison-tool/',
