@@ -6,7 +6,6 @@ import {
 import IndividualsInvolvedCard from '../components/IndividualsInvolvedCard';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
 
-import _ from '../../../../platform/utilities/data';
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
 
 export const uiSchema = index => ({
@@ -20,51 +19,6 @@ export const uiSchema = index => ({
         viewField: IndividualsInvolvedCard,
       },
       items: {
-        'ui:options': {
-          updateSchema: (formData, schema, itemsUISchema, itemIndex) => {
-            let schemaProps = schema.properties;
-            const serviceMemberSelected = _.get(
-              [
-                `incident${index}`,
-                'personInvolved',
-                itemIndex,
-                'view:serviceMember',
-              ],
-              formData,
-              false,
-            );
-            const injuryOtherSelected =
-              _.get(
-                [
-                  `incident${index}`,
-                  'personInvolved',
-                  itemIndex,
-                  'injuryDeath',
-                ],
-                formData,
-                '',
-              ) === 'Other';
-
-            if (serviceMemberSelected) {
-              schemaProps = {
-                ...schemaProps,
-                rank: {
-                  type: 'string',
-                },
-                unitAssigned: {
-                  type: 'string',
-                },
-              };
-            }
-
-            if (injuryOtherSelected) {
-              schemaProps.injuryDeathOther = {
-                type: 'string',
-              };
-            }
-            return { ...schema, properties: schemaProps };
-          },
-        },
         name: fullNameUI,
         personDescription: {
           'ui:title': personDescriptionText,
@@ -140,6 +94,14 @@ export const schema = index => ({
               'view:serviceMember': {
                 type: 'boolean',
               },
+              rank: {
+                type: 'string',
+                'ui:collapsed': true,
+              },
+              unitAssigned: {
+                type: 'string',
+                'ui:collapsed': true,
+              },
               injuryDeathDate: {
                 $ref: '#/definitions/date',
               },
@@ -152,6 +114,10 @@ export const schema = index => ({
                   'Injured non-battle',
                   'Other',
                 ],
+              },
+              injuryDeathOther: {
+                type: 'string',
+                'ui:collapsed': true,
               },
               'view:individualAddMsg': {
                 type: 'object',
