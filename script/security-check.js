@@ -1,4 +1,9 @@
 /* eslint-disable no-console */
+/*
+ * This script parses the yarn audit JSON results to find security advisories
+ * that affect modules in our dependencies list that are moderate or higher
+ * and aren't in our exceptions list
+ */
 const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
@@ -48,6 +53,10 @@ Security advisory:
   Details: ${adv.data.advisory.url}
       `);
     });
+  } else {
+    console.log(
+      'No security advisories rated moderate or higher found for non-dev dependencies.',
+    );
   }
 
   process.exit(validAdvisories.length);
