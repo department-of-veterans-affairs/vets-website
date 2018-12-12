@@ -69,7 +69,7 @@ export default function PreferenceItem({
               additionalClass="benefit-faq"
               triggerText={faq.title}
             >
-              <FAQComponent />;
+              <FAQComponent />
             </AdditionalInfo>
           );
         })}

@@ -379,7 +379,7 @@ export const benefitChoices = [
     introduction:
       'We can support your job search at every stage, whether you’re returning to work with a service-connected disability, looking for new skills and training, or starting or growing your own business. ',
     ctaLink: '/careers-employment',
-    ctaText: 'View All Related Benefits.',
+    ctaText: 'View All Related Benefits',
     faqs: [
       {
         title: 'What kinds of career and employment benefits does VA offer?',
