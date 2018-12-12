@@ -4,6 +4,7 @@ import PersonalizationBanner from '../components/PersonalizationBanner';
 import ClaimIncreaseBanner from '../components/ClaimIncreaseBanner';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
 import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
+import environment from 'platform/utilities/environment';
 
 const config = {
   announcements: [
@@ -24,6 +25,7 @@ const config = {
       name: 'find-va-benefits-intro',
       paths: /^(\/my-va\/)$/,
       component: FindVABenefitsIntro,
+      disabled: environment.isProduction(),
     },
     {
       name: 'profile-360-intro',
