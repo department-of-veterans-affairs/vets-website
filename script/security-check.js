@@ -16,7 +16,7 @@ const exceptions = JSON.parse(
 
 const dependencySet = new Set(Object.keys(packageJSON.dependencies));
 const exceptionSet = new Set(exceptions);
-const severitySet = new Set(['high', 'critical', 'moderate']);
+const severitySet = new Set(['high', 'critical', 'moderate', 'low']);
 
 function getAffectedModule(data) {
   return data.resolution.path.split('>')[0];
