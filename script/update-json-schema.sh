@@ -2,7 +2,7 @@
 
 # Find the versions
 NEW_VERSION=$(git ls-remote --tags git://github.com/department-of-veterans-affairs/vets-json-schema/ | awk -F / '{ print $3 }' | sort -V -r | head -n 1)
-OLD_VERSION=$(grep -oP '(?<=department-of-veterans-affairs/vets-json-schema#)(.*)(?=",$)' package.json)
+OLD_VERSION=$(grep -o -e 'department-of-veterans-affairs\/vets-json-schema#\(.*\)",\?$' package.json | awk -F '[#"]' '{ print $2 }')
 
 # Set up color output
 GREEN='\033[0;32m'
