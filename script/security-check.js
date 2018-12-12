@@ -4,19 +4,18 @@
  * that affect modules in our dependencies list that are moderate or higher
  * and aren't in our exceptions list
  */
-const fs = require('fs');
-const path = require('path');
 const { spawn } = require('child_process');
 
 const packageJSON = require('../package.json');
 
-const exceptions = JSON.parse(
-  fs.readFileSync(path.join(__dirname, '../.nsprc'), 'utf8'),
-).exceptions;
+const exceptionSet = new Set([
+  'https://npmjs.com/advisories/577',
+  'https://npmjs.com/advisories/157',
+]);
+
+const severitySet = new Set(['high', 'critical', 'moderate']);
 
 const dependencySet = new Set(Object.keys(packageJSON.dependencies));
-const exceptionSet = new Set(exceptions);
-const severitySet = new Set(['high', 'critical', 'moderate']);
 
 function getAffectedModule(data) {
   return data.resolution.path.split('>')[0];
