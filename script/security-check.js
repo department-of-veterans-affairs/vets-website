@@ -62,19 +62,23 @@ Security advisory:
   process.exit(validAdvisories.length);
 }
 
-const child = spawn('yarn', ['audit', '--json']);
-let auditOutput = '';
+function runAudit() {
+  const child = spawn('yarn', ['audit', '--json']);
+  let auditOutput = '';
 
-child.stdout.setEncoding('utf8');
+  child.stdout.setEncoding('utf8');
 
-child.stdout.on('data', data => {
-  auditOutput += data;
-});
+  child.stdout.on('data', data => {
+    auditOutput += data;
+  });
 
-child.stderr.on('data', data => {
-  console.error(data);
-});
+  child.stderr.on('data', data => {
+    console.error(data);
+  });
 
-child.on('close', () => {
-  processAuditResults(auditOutput);
-});
+  child.on('close', () => {
+    processAuditResults(auditOutput);
+  });
+}
+
+runAudit();
