@@ -258,9 +258,9 @@
           "last": "Doe"
         }
       ],
-      "source": [
+      "authorities": [
         {
-          "name": "Source Name",
+          "name": "Authority Name",
           "address": {
             "country": "USA",
             "city": "Detroit",
@@ -300,18 +300,6 @@
           "first": "Jane",
           "last": "Doe"
         }
-      ],
-      "source": [
-        {
-          "name": "Source Name",
-          "address": {
-            "country": "USA",
-            "city": "Detroit",
-            "state": "MI",
-            "zipCode": "234563453",
-            "addressLine1": "234 Maple St."
-          }
-        }
       ]
     },
     "incident2": {
@@ -342,18 +330,6 @@
         {
           "first": "Jane",
           "last": "Doe"
-        }
-      ],
-      "source": [
-        {
-          "name": "Source Name",
-          "address": {
-            "country": "USA",
-            "city": "Detroit",
-            "state": "MI",
-            "zipCode": "234563453",
-            "addressLine1": "234 Maple St."
-          }
         }
       ]
     },
@@ -386,18 +362,6 @@
           "first": "Jane",
           "last": "Doe"
         }
-      ],
-      "source": [
-        {
-          "name": "Source Name",
-          "address": {
-            "country": "USA",
-            "city": "Detroit",
-            "state": "MI",
-            "zipCode": "234563453",
-            "addressLine1": "234 Maple St."
-          }
-        }
       ]
     },
     "secondaryIncident1": {
@@ -428,18 +392,6 @@
         {
           "first": "Jane",
           "last": "Doe"
-        }
-      ],
-      "source": [
-        {
-          "name": "Source Name",
-          "address": {
-            "country": "USA",
-            "city": "Detroit",
-            "state": "MI",
-            "zipCode": "234563453",
-            "addressLine1": "234 Maple St."
-          }
         }
       ]
     },
@@ -472,22 +424,23 @@
           "first": "Jane",
           "last": "Doe"
         }
-      ],
-      "source": [
-        {
-          "name": "Source Name",
-          "address": {
-            "country": "USA",
-            "city": "Detroit",
-            "state": "MI",
-            "zipCode": "234563453",
-            "addressLine1": "234 Maple St."
-          }
-        }
       ]
     },
     "additionalRemarks781": "781 Remarks",
     "additionalIncidentText": "Additional incident text",
-    "additionalSecondaryIncidentText": "Additional secondary incident text"
+    "additionalSecondaryIncidentText": "Additional secondary incident text",
+    "physicalChanges": {
+      "increasedVisits": true,
+      "other": true,
+      "otherExplanation": "Other physical change"
+    },
+    "mentalChanges": {
+      "depression": true,
+      "fear": true,
+      "hypervigilance": true,
+      "other": true,
+      "otherExplanation": "Other mental change"
+    },
+    "additionalChanges": "Additional changes test"
   }
 }
