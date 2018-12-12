@@ -14,10 +14,10 @@ export default function PreferenceItem({
     title,
     introduction,
     slug,
+    ctaDescription,
     ctaLink,
     ctaText,
-    faqTitle,
-    faqComponent: FAQComponent,
+    faqs,
   } = benefit;
 
   if (isRemoving) {
@@ -59,16 +59,27 @@ export default function PreferenceItem({
         </button>
       </div>
       <p className="va-introtext">{introduction}</p>
-      <AdditionalInfo
-        tagName={'h5'}
-        additionalClass="benefit-faq"
-        triggerText={faqTitle}
-      >
-        <FAQComponent />
-      </AdditionalInfo>
-      <Link className="usa-button" to={ctaLink}>
-        {ctaText}
-      </Link>
+      {faqs &&
+        faqs.map((faq, idx) => {
+          const FAQComponent = faq.component;
+          return (
+            <AdditionalInfo
+              key={idx}
+              tagName={'h5'}
+              additionalClass="benefit-faq"
+              triggerText={faq.title}
+            >
+              <FAQComponent />;
+            </AdditionalInfo>
+          );
+        })}
+      {ctaDescription && ctaDescription}
+      {ctaLink &&
+        ctaText && (
+          <Link className="usa-button" to={ctaLink}>
+            {ctaText}
+          </Link>
+        )}
     </div>
   );
 }
