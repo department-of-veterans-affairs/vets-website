@@ -34,8 +34,6 @@ import {
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
   transform,
-  needsToEnterUnemployability,
-  needsToAnswerUnemployability,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
@@ -78,7 +76,6 @@ import {
   vaEmployee,
   summaryOfEvidence,
   fullyDevelopedClaim,
-  unemployabilityFormIntro,
   additionalRemarks781,
   additionalBehaviorChanges,
   mentalHealthChanges,
@@ -86,7 +83,6 @@ import {
   aidAndAttendance,
   individualUnemployability,
   physicalHealthChanges,
-  hospitalizationHistory,
   newDisabilities,
   ancillaryFormsWizardSummary,
 } from '../pages';
@@ -94,6 +90,8 @@ import {
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
 import { createFormConfig781, createFormConfig781a } from './781';
+
+import createformConfig8940 from './8940';
 
 import { PTSD, PTSD_INCIDENT_ITERATION } from '../constants';
 
@@ -398,20 +396,7 @@ const formConfig = {
           uiSchema: individualUnemployability.uiSchema,
           schema: individualUnemployability.schema,
         },
-        unemployabilityFormIntro: {
-          title: 'File a Claim for Individual Unemployability',
-          path: 'unemployability-walkthrough-choice',
-          depends: needsToEnterUnemployability,
-          uiSchema: unemployabilityFormIntro.uiSchema,
-          schema: unemployabilityFormIntro.schema,
-        },
-        hospitalizationHistory: {
-          title: 'Hospitalization',
-          path: 'hospitalization-history',
-          depends: needsToAnswerUnemployability,
-          uiSchema: hospitalizationHistory.uiSchema,
-          schema: hospitalizationHistory.schema,
-        },
+        ...createformConfig8940(),
         ancillaryFormsWizardSummary: {
           title: 'Summary of additional benefits',
           path: 'additional-disability-benefits-summary',
@@ -425,20 +410,6 @@ const formConfig = {
           path: 'disabilities/summary',
           uiSchema: summaryOfDisabilities.uiSchema,
           schema: summaryOfDisabilities.schema,
-        },
-        conclusion4192: {
-          title: 'Conclusion 4192',
-          path: 'disabilities/conclusion-4192',
-          depends: needsToEnterUnemployability,
-          uiSchema: {
-            'ui:title': ' ',
-            'ui:description':
-              'Thank you for taking the time to answer our questions. The information you provided will help us process your claim.',
-          },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
         },
       },
     },
@@ -548,7 +519,6 @@ const formConfig = {
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
         },
-
         fullyDevelopedClaim: {
           title: 'Fully developed claim program',
           path: 'fully-developed-claim',
