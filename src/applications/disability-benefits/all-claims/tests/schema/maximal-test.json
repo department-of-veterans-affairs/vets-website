@@ -272,7 +272,7 @@
       ]
     },
     "incident1": {
-      "medalsCitations": "Medal A",
+      "medalsCitations": "Medal B",
       "incidentDate": "1992-01-01",
       "incidentLocation": {
         "city": "Test",
@@ -286,24 +286,10 @@
         "from": "1990-01-01",
         "to": "1999-01-01"
       },
-      "personInvolved": [
-        {
-          "first": "John",
-          "last": "Doe",
-          "rank": "Private",
-          "injuryDeath": "Other",
-          "injuryDeathOther": "Other text",
-          "injuryDeathDate": "1992-1-1",
-          "unitAssigned": "Unit A"
-        },
-        {
-          "first": "Jane",
-          "last": "Doe"
-        }
-      ]
+      "personInvolved": []
     },
     "incident2": {
-      "medalsCitations": "Medal A",
+      "medalsCitations": "Medal C",
       "incidentDate": "1992-01-01",
       "incidentLocation": {
         "city": "Test",
@@ -347,22 +333,7 @@
       "unitAssignedDates": {
         "from": "1990-01-01",
         "to": "1999-01-01"
-      },
-      "personInvolved": [
-        {
-          "first": "John",
-          "last": "Doe",
-          "rank": "Private",
-          "injuryDeath": "Other",
-          "injuryDeathOther": "Other text",
-          "injuryDeathDate": "1992-1-1",
-          "unitAssigned": "Unit A"
-        },
-        {
-          "first": "Jane",
-          "last": "Doe"
-        }
-      ]
+      }
     },
     "secondaryIncident1": {
       "medalsCitations": "Medal A",
@@ -378,22 +349,7 @@
       "unitAssignedDates": {
         "from": "1990-01-01",
         "to": "1999-01-01"
-      },
-      "personInvolved": [
-        {
-          "first": "John",
-          "last": "Doe",
-          "rank": "Private",
-          "injuryDeath": "Other",
-          "injuryDeathOther": "Other text",
-          "injuryDeathDate": "1992-1-1",
-          "unitAssigned": "Unit A"
-        },
-        {
-          "first": "Jane",
-          "last": "Doe"
-        }
-      ]
+      }
     },
     "secondaryIncident2": {
       "medalsCitations": "Medal A",
@@ -409,22 +365,7 @@
       "unitAssignedDates": {
         "from": "1990-01-01",
         "to": "1999-01-01"
-      },
-      "personInvolved": [
-        {
-          "first": "John",
-          "last": "Doe",
-          "rank": "Private",
-          "injuryDeath": "Other",
-          "injuryDeathOther": "Other text",
-          "injuryDeathDate": "1992-1-1",
-          "unitAssigned": "Unit A"
-        },
-        {
-          "first": "Jane",
-          "last": "Doe"
-        }
-      ]
+      }
     },
     "additionalRemarks781": "781 Remarks",
     "additionalIncidentText": "Additional incident text",

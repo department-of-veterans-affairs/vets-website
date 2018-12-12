@@ -227,49 +227,34 @@ export const transformedMaximalData = {
               last: 'Doe',
             },
           ],
-          // source: [
-          //   {
-          //     name: 'Source Name',
-          //     address: {
-          //       country: 'USA',
-          //       city: 'Detroit',
-          //       state: 'MI',
-          //       zipCode: '234563453',
-          //       addressLine1: '234 Maple St.',
-          //     },
-          //   },
-          // ],
-        },
-        {
-          personalAssault: false,
-          medalsCitations: 'Medal A',
-          incidentDate: '1992-01-01',
-          incidentLocation: 'Test, TN, USA, Other',
-          incidentDescription: 'Incident description',
-          unitAssigned: 'Unit A',
-          unitAssignedDates: {
-            from: '1990-01-01',
-            to: '1999-01-01',
-          },
-          personInvolved: [
+          source: [
             {
-              first: 'John',
-              last: 'Doe',
-              rank: 'Private',
-              injuryDeath: 'Other',
-              injuryDeathOther: 'Other text',
-              injuryDeathDate: '1992-1-1',
-              unitAssigned: 'Unit A',
-            },
-            {
-              first: 'Jane',
-              last: 'Doe',
+              name: 'Authority Name',
+              address: {
+                country: 'USA',
+                city: 'Detroit',
+                state: 'MI',
+                zipCode: '234563453',
+                addressLine1: '234 Maple St.',
+              },
             },
           ],
         },
         {
           personalAssault: false,
-          medalsCitations: 'Medal A',
+          medalsCitations: 'Medal B',
+          incidentDate: '1992-01-01',
+          incidentLocation: 'Test, TN, USA, Other',
+          incidentDescription: 'Incident description',
+          unitAssigned: 'Unit A',
+          unitAssignedDates: {
+            from: '1990-01-01',
+            to: '1999-01-01',
+          },
+        },
+        {
+          personalAssault: false,
+          medalsCitations: 'Medal C',
           incidentDate: '1992-01-01',
           incidentLocation: 'Test, TN, USA, Other',
           incidentDescription: 'Incident description',
@@ -305,21 +290,6 @@ export const transformedMaximalData = {
             from: '1990-01-01',
             to: '1999-01-01',
           },
-          personInvolved: [
-            {
-              first: 'John',
-              last: 'Doe',
-              rank: 'Private',
-              injuryDeath: 'Other',
-              injuryDeathOther: 'Other text',
-              injuryDeathDate: '1992-1-1',
-              unitAssigned: 'Unit A',
-            },
-            {
-              first: 'Jane',
-              last: 'Doe',
-            },
-          ],
         },
         {
           personalAssault: true,
@@ -332,21 +302,6 @@ export const transformedMaximalData = {
             from: '1990-01-01',
             to: '1999-01-01',
           },
-          personInvolved: [
-            {
-              first: 'John',
-              last: 'Doe',
-              rank: 'Private',
-              injuryDeath: 'Other',
-              injuryDeathOther: 'Other text',
-              injuryDeathDate: '1992-1-1',
-              unitAssigned: 'Unit A',
-            },
-            {
-              first: 'Jane',
-              last: 'Doe',
-            },
-          ],
         },
         {
           personalAssault: true,
@@ -359,21 +314,6 @@ export const transformedMaximalData = {
             from: '1990-01-01',
             to: '1999-01-01',
           },
-          personInvolved: [
-            {
-              first: 'John',
-              last: 'Doe',
-              rank: 'Private',
-              injuryDeath: 'Other',
-              injuryDeathOther: 'Other text',
-              injuryDeathDate: '1992-1-1',
-              unitAssigned: 'Unit A',
-            },
-            {
-              first: 'Jane',
-              last: 'Doe',
-            },
-          ],
         },
       ],
     },
