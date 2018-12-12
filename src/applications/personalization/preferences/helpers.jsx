@@ -342,7 +342,7 @@ export const benefitChoices = [
     },
     faqs: [
       {
-        title: 'What should I do before I apply for disability compensation?',
+        title: 'How do I file a claim for disability compensation?',
         component: disabilityFAQ,
       },
     ],
