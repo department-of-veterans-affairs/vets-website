@@ -121,13 +121,13 @@ node('vetsgov-general-purpose') {
         },
 
         // Check package.json for known vulnerabilities
-        // security: {
-        //   retry(3) {
-        //     dockerImage.inside(args) {
-        //       sh "cd /application && nsp check"
-        //     }
-        //   }
-        // },
+        security: {
+          retry(3) {
+            dockerImage.inside(args) {
+              sh "cd /application && npm run security-check"
+            }
+          }
+        },
 
         unit: {
           dockerImage.inside(args) {
