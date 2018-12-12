@@ -25,6 +25,7 @@
     "nightwatch-visual": "node src/platform/testing/visual-regression/index.js",
     "postinstall": "npm rebuild node-sass",
     "reset:env": "./script/reset-environment.sh",
+    "security-check": "node ./script/security-check.js",
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "./script/run-nightwatch.sh",
     "test:e2e:headless": "./script/run-nightwatch.sh --env headless",
@@ -218,7 +219,7 @@
   },
   "engines": {
     "node": "8.10.0",
-    "yarn": "1.5.1"
+    "yarn": "1.12.3"
   },
   "private": true,
   "dependencies": {
