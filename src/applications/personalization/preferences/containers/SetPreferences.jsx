@@ -2,14 +2,17 @@ import React from 'react';
 import { Link, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import get from 'platform/utilities/data/get';
 import LoadingButton from '../../profile360/vet360/components/base/LoadingButton';
 
 import PreferenceOption from '../components/PreferenceOption';
-import { benefitChoices } from '../helpers';
+import {
+  benefitChoices,
+  SaveFailedMessageComponent,
+  RetrieveFailedMessageComponent,
+} from '../helpers';
 import { LOADING_STATES } from '../constants';
 
 import {
@@ -78,7 +81,7 @@ class SetPreferences extends React.Component {
       const helperData = benefitChoices.find(
         choice => choice.code === benefit.code,
       );
-      hydratedBenefit.title = get('title', helperData, benefit.description);
+      hydratedBenefit.title = helperData.shortTitle || helperData.title;
       hydratedBenefit.description = get(
         'description',
         helperData,
@@ -98,20 +101,7 @@ class SetPreferences extends React.Component {
       return <LoadingIndicator message={'Loading benefit choices...'} />;
     }
     if (loadingStatus === LOADING_STATES.error) {
-      return (
-        <AlertBox
-          status="error"
-          headline="We can’t show your selected benefit information right now"
-        >
-          <p>
-            We’re sorry. Something went wrong on our end, and we can’t show you
-            information about the benefits you chose. Please check back later.
-          </p>
-          <p>
-            <a onClick={() => this.goHome()}>Go back to My VA</a>
-          </p>
-        </AlertBox>
-      );
+      return <RetrieveFailedMessageComponent showLink />;
     }
     if (loadingStatus === LOADING_STATES.loaded) {
       return (
@@ -127,13 +117,7 @@ class SetPreferences extends React.Component {
               />
             ))}
           </div>
-          {saveStatus === LOADING_STATES.error && (
-            <AlertBox
-              status="error"
-              headline="We couldn’t save your update"
-              content="We’re sorry. Something went wrong on our end, and we couldn’t save your update. Please try again or check back later."
-            />
-          )}
+          {saveStatus === LOADING_STATES.error && SaveFailedMessageComponent}
           <div>
             <LoadingButton
               isLoading={saveStatus === LOADING_STATES.pending}

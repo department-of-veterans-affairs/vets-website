@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import moment from 'moment';
 
-import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
 import environment from 'platform/utilities/environment';
@@ -16,7 +15,13 @@ import {
   savePreferences,
   fetchUserSelectedBenefits,
 } from '../actions';
-import { benefitChoices } from '../helpers';
+import {
+  benefitChoices,
+  deduplicate,
+  SaveSucceededMessageComponent,
+  SaveFailedMessageComponent,
+  RetrieveFailedMessageComponent,
+} from '../helpers';
 import { LOADING_STATES } from '../constants';
 
 const BenefitAlert = ({ alert: Alert }) => <Alert />;
@@ -73,33 +78,43 @@ class PreferencesWidget extends React.Component {
     });
   };
 
-  renderContent(loadingStatus, dashboard) {
+  handleCloseAlert = () => {
+    clearTimeout(this.state.savedMessageTimer);
+    this.setState({ savedMessage: false });
+  };
+
+  renderContent() {
+    const {
+      preferences: {
+        dashboard,
+        userBenefitsLoadingStatus: loadingStatus,
+        saveStatus,
+      },
+    } = this.props;
     const selectedBenefits = benefitChoices.filter(
       item => !!dashboard[item.code],
     );
     const hasSelectedBenefits = !!selectedBenefits.length;
-    const selectedBenefitAlerts = selectedBenefits
+    let selectedBenefitAlerts = selectedBenefits
       .filter(item => !!item.alert)
       .map(item => item.alert);
+    selectedBenefitAlerts = deduplicate(selectedBenefitAlerts);
 
     if (loadingStatus === LOADING_STATES.pending) {
       return <LoadingIndicator message={'Loading your selections...'} />;
     }
     if (loadingStatus === LOADING_STATES.error) {
-      return (
-        <AlertBox
-          status="error"
-          headline="We can’t show your selected benefit information right now"
-          content="We’re sorry. Something went wrong on our end, and we can’t show you information about the benefits you chose. Please check back later."
-        />
-      );
+      return <RetrieveFailedMessageComponent />;
+    }
+    if (saveStatus === LOADING_STATES.error) {
+      return SaveFailedMessageComponent;
     }
     if (loadingStatus === LOADING_STATES.loaded) {
       if (!hasSelectedBenefits) {
         return (
           <div>
             <p>You haven’t selected any benefits to learn about.</p>
-            <Link to="preferences">Select benefits now</Link>
+            <Link to="preferences">Select benefits now.</Link>
           </div>
         );
       }
@@ -134,7 +149,7 @@ class PreferencesWidget extends React.Component {
       return null;
     }
     const {
-      preferences: { dashboard, userBenefitsLoadingStatus },
+      preferences: { userBenefitsLoadingStatus },
     } = this.props;
     const { savedMessage } = this.state;
 
@@ -160,13 +175,12 @@ class PreferencesWidget extends React.Component {
             transitionLeaveTimeout={500}
           >
             {savedMessage && (
-              <AlertBox
-                status="success"
-                headline="We saved your preferences."
+              <SaveSucceededMessageComponent
+                handleCloseAlert={this.handleCloseAlert}
               />
             )}
           </ReactCSSTransitionGroup>
-          {this.renderContent(userBenefitsLoadingStatus, dashboard)}
+          {this.renderContent()}
         </div>
       </div>
     );

@@ -4,21 +4,50 @@ import { Link } from 'react-router';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
+const CallToAction = ({ cta }) => {
+  const { description, link, text } = cta;
+  return (
+    <div>
+      {description && description}
+      {link &&
+        text && (
+          <Link className="usa-button va-button-primary" to={link}>
+            {text}
+          </Link>
+        )}
+    </div>
+  );
+};
+
+const FAQItem = ({ faq }) => {
+  const { title, component: FAQComponent } = faq;
+  return (
+    <AdditionalInfo
+      tagName={'h5'}
+      additionalClass="benefit-faq"
+      triggerText={title}
+    >
+      <FAQComponent />
+    </AdditionalInfo>
+  );
+};
+
+const FAQList = ({ faqs }) => (
+  <div>
+    {faqs.map((faq, idx) => (
+      <FAQItem faq={faq} key={idx} />
+    ))}
+  </div>
+);
+
 export default function PreferenceItem({
   handleViewToggle,
   handleRemove,
   isRemoving,
   benefit,
 }) {
-  const {
-    title,
-    introduction,
-    code,
-    ctaLink,
-    ctaText,
-    faqTitle,
-    faqComponent: FAQComponent,
-  } = benefit;
+  const { title, introduction, code, cta, faqs } = benefit;
+  const hasCTA = cta.description || (cta.link && cta.text);
 
   if (isRemoving) {
     return (
@@ -59,16 +88,8 @@ export default function PreferenceItem({
         </button>
       </div>
       <p className="va-introtext">{introduction}</p>
-      <AdditionalInfo
-        tagName={'h4'}
-        additionalClass="benefit-faq"
-        triggerText={faqTitle}
-      >
-        <FAQComponent />
-      </AdditionalInfo>
-      <Link className="usa-button va-button-primary" to={ctaLink}>
-        {ctaText}
-      </Link>
+      {faqs && <FAQList faqs={faqs} />}
+      {hasCTA && <CallToAction cta={cta} />}
     </div>
   );
 }
