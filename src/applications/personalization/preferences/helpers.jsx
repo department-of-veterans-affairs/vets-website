@@ -317,8 +317,10 @@ export const benefitChoices = [
     slug: 'healthcare',
     introduction:
       'With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists like cardiologists, gynecologists, and mental health providers. You can access Veterans health care services like home health or geriatric (elder) care, and get medical equipment, prosthetics, and prescriptions.',
-    ctaLink: '/health-care/apply/application/introduction',
-    ctaText: 'Apply Now for VA Health Care',
+    cta: {
+      link: '/health-care/apply/application/introduction',
+      text: 'Apply Now for VA Health Care',
+    },
     faqs: [
       {
         title: 'How do I apply for VA health care?',
@@ -334,9 +336,11 @@ export const benefitChoices = [
     slug: 'disability',
     introduction:
       'You may be able to get VA disability compensation (pay) if you got sick or injured while serving in the military—or if a condition that you already had got worse because of your service. You may qualify even if your condition didn’t appear until years after your service ended.',
-    ctaLink:
-      'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation',
-    ctaText: 'File a Claim now on eBenefits',
+    cta: {
+      link:
+        'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation',
+      text: 'File a Claim now on eBenefits',
+    },
     faqs: [
       {
         title: 'What should I do before I apply for disability compensation?',
@@ -363,8 +367,10 @@ export const benefitChoices = [
     slug: 'education',
     introduction:
       'Education benefits like the GI Bill can help you find and pay for the cost of a college or graduate degree program, or training for a specific career, trade, or industry. If you have a service-connected disability, you may also want to consider applying for vocational rehabilitation and employment services.',
-    ctaLink: '/education/apply',
-    ctaText: 'Apply Now for Education Benefits',
+    cta: {
+      link: '/education/apply',
+      text: 'Apply Now for Education Benefits',
+    },
     faqs: [
       {
         title: 'How do I apply for and manage education benefits?',
@@ -379,8 +385,10 @@ export const benefitChoices = [
     slug: 'careers',
     introduction:
       'We can support your job search at every stage, whether you’re returning to work with a service-connected disability, looking for new skills and training, or starting or growing your own business. ',
-    ctaLink: '/careers-employment',
-    ctaText: 'View All Related Benefits',
+    cta: {
+      link: '/careers-employment',
+      text: 'View All Related Benefits',
+    },
     faqs: [
       {
         title: 'What kinds of career and employment benefits does VA offer?',
@@ -396,8 +404,10 @@ export const benefitChoices = [
     slug: 'pensions',
     introduction:
       'If you’re a wartime Veteran with low or no income, and you meet certain age or disability requirements, you may be able to get monthly payments through our pension program. Survivors of wartime Veterans may also qualify for a VA pension.  ',
-    ctaLink: '/pension/application/527EZ/introduction',
-    ctaText: 'Apply Now for Pension Benefits',
+    cta: {
+      link: '/pension/application/527EZ/introduction',
+      text: 'Apply Now for Pension Benefits',
+    },
     faqs: [
       {
         title: 'How do I apply for VA pension benefits?',
@@ -411,9 +421,11 @@ export const benefitChoices = [
     slug: 'housing',
     introduction:
       'We may be able to help you buy or build a home, or repair or refinance your current home. If you have a service-connected disability, you may want to consider applying for a grant to help you make changes to your home that will help you live more independently. ',
-    ctaDescription: housingCTADescription,
-    ctaLink: '/health-care',
-    ctaText: 'Apply for a Home Loan COE',
+    cta: {
+      description: housingCTADescription,
+      link: '/health-care',
+      text: 'Apply for a Home Loan COE',
+    },
     faqs: [
       {
         title: 'What kinds of home loans and grants does VA offer?	',
@@ -428,7 +440,7 @@ export const benefitChoices = [
     slug: 'life-insurance',
     introduction:
       'You may be able to get VA life insurance during and after your active duty service. You may also be able to add coverage for your spouse and dependent children.',
-    ctaDescription: lifeInsuranceCTADescription,
+    cta: { description: lifeInsuranceCTADescription },
     faqs: [
       {
         title: 'What VA life insurance options may be right for me?',
@@ -444,10 +456,12 @@ export const benefitChoices = [
     slug: 'burials',
     introduction:
       'We can help you plan a burial or memorial service or honor a Veteran’s service with memorial items. If you’re the surviving family member of a Veteran, you may also be able to get help paying for burial costs and other benefits.',
-    ctaDescription: burialCTADescription,
-    ctaLink:
-      '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/introduction',
-    ctaText: 'Apply for Pre-Need Burial Eligibility',
+    cta: {
+      description: burialCTADescription,
+      link:
+        '/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/introduction',
+      text: 'Apply for Pre-Need Burial Eligibility',
+    },
     faqs: [
       {
         title: 'What burial benefits and memorial items does VA offer?',
@@ -461,8 +475,10 @@ export const benefitChoices = [
     slug: 'family',
     introduction:
       'If you’re the family member of a Veteran or Servicemember, you may qualify for benefits yourself. If you’re a caregiver for a Veteran with service-connected disabilities, you may qualify for additional benefits and support for yourself and the Veteran you’re caring for.',
-    ctaLink: '/health-care/family-caregiver-benefits/',
-    ctaText: 'View All Related Benefits',
+    cta: {
+      link: '/health-care/family-caregiver-benefits/',
+      text: 'View All Related Benefits',
+    },
     faqs: [
       {
         title: 'What kinds of family and caregiver benefits does VA offer?',
