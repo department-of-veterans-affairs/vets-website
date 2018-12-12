@@ -88,7 +88,7 @@ export class IntroductionPage extends React.Component {
               <p>
                 We offer tools and counseling programs to help you make the most
                 of your educational options.{' '}
-                <a href="/education/tools-programs/">
+                <a href="/education/about-gi-bill-benefits/how-to-use-benefits/">
                   Learn about career counseling options.
                 </a>
               </p>

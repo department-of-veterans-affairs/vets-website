@@ -30,7 +30,7 @@ export function NoConnectedApps({ errors, propertyName }) {
             security on {propertyName}.
           </p>
 
-          <a href="/faq" onClick={recordAction}>
+          <a href="/sign-in-faq/" onClick={recordAction}>
             Go to {propertyName} FAQs
           </a>
         </div>
