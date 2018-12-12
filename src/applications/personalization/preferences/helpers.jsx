@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
@@ -245,3 +246,44 @@ export const benefitChoices = [
     faqComponent: healthFAQ,
   },
 ];
+
+export const RetrieveFailedMessageComponent = ({ showLink }) => (
+  <AlertBox
+    status="error"
+    className="preferences-alert"
+    headline="We can’t show your selected benefit information right now."
+  >
+    <div>
+      <p>
+        We’re sorry. Something went wrong on our end, and we can’t show you
+        information about the benefits you chose. Please check back later.
+      </p>
+      {showLink && <Link to="/">Go back to my VA</Link>}
+    </div>
+  </AlertBox>
+);
+
+export const SaveFailedMessageComponent = (
+  <AlertBox
+    status="error"
+    className="preferences-alert"
+    headline="We couldn’t save your update"
+  >
+    <div>
+      <span>
+        We’re sorry. Something went wrong on our end, and we couldn’t save your
+        update.
+      </span>
+      <br />
+      <span>Please try again or check back later.</span>
+    </div>
+  </AlertBox>
+);
+
+export const SaveSucceededMessageComponent = handleCloseAlert => (
+  <AlertBox
+    onCloseAlert={handleCloseAlert}
+    status="success"
+    headline="We’ve saved your preferences."
+  />
+);
