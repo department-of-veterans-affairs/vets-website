@@ -8,7 +8,7 @@ import {
   SET_SAVE_PREFERENCES_REQUEST_STATUS,
   SET_DASHBOARD_USER_PREFERENCES,
   SET_AVAILABLE_BENEFITS,
-} from '../actions';
+} from '../actions/actions';
 
 const initialState = {
   dashboard: {},

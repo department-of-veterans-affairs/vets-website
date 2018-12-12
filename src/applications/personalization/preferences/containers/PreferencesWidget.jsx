@@ -15,7 +15,7 @@ import {
   setPreference,
   savePreferences,
   fetchUserSelectedBenefits,
-} from '../actions';
+} from '../actions/actions';
 import { benefitChoices } from '../helpers';
 import { LOADING_STATES } from '../constants';
 

@@ -17,7 +17,7 @@ import {
   savePreferences,
   fetchAvailableBenefits,
   fetchUserSelectedBenefits,
-} from '../actions';
+} from '../actions/actions';
 
 class SetPreferences extends React.Component {
   componentWillMount() {
