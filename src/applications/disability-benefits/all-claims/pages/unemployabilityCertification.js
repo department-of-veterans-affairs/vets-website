@@ -2,11 +2,13 @@ export const uiSchema = {
   'ui:title': 'Certification',
   unemployability: {
     'view:statementsAreTrue': {
-      'ui:title': ' ',
-      'ui:description':
+      'ui:title':
         'I certify that because of my service-connected disabilities, I’m unable to hold down a steady job and that the statements in this claim are true and complete to the best of my knowledge and belief. I understand that these statements will be considered in deciding my eligibility for Individual Unemployability benefits.',
       'view:statementsAreTrueAccept': {
         'ui:title': 'I accept',
+      },
+      'ui:options': {
+        showFieldLabel: true,
       },
       'ui:validations': [
         (errors, item) => {
@@ -17,11 +19,13 @@ export const uiSchema = {
       ],
     },
     'view:informOfReturnToWork': {
-      'ui:title': ' ',
-      'ui:description':
+      'ui:title':
         'I understand that if I become eligible for Individual Unemployability benefits, I must immediately inform VA if I return to work. I also understand that total disability benefits paid to me after I begin work may be considered an overpayment, and I may be asked to repay money to VA.',
       'view:informOfReturnToWorkAccept': {
         'ui:title': 'I accept',
+      },
+      'ui:options': {
+        showFieldLabel: true,
       },
       'ui:validations': [
         (errors, item) => {
@@ -46,7 +50,6 @@ export const schema = {
           properties: {
             'view:statementsAreTrueAccept': {
               type: 'boolean',
-              default: false,
             },
           },
         },
@@ -56,7 +59,6 @@ export const schema = {
           properties: {
             'view:informOfReturnToWorkAccept': {
               type: 'boolean',
-              default: false,
             },
           },
         },
