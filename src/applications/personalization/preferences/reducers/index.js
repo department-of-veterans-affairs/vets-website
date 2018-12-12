@@ -8,7 +8,7 @@ import {
   SET_SAVE_PREFERENCES_REQUEST_STATUS,
   SET_DASHBOARD_USER_PREFERENCES,
   SET_AVAILABLE_BENEFITS,
-} from '../actions/actions';
+} from '../actions';
 
 const initialState = {
   dashboard: {},
@@ -33,7 +33,7 @@ export default function preferences(state = initialState, action) {
       return _.set(`dashboard`, action.preferences, state);
     }
     case SET_DASHBOARD_PREFERENCE: {
-      return _.set(`dashboard.${action.slug}`, action.value, state);
+      return _.set(`dashboard.${action.code}`, action.value, state);
     }
     case SAVED_DASHBOARD_PREFERENCES: {
       return _.set('savedAt', Date.now(), state);

@@ -17,7 +17,7 @@ import {
   savePreferences,
   fetchAvailableBenefits,
   fetchUserSelectedBenefits,
-} from '../actions/actions';
+} from '../actions';
 
 class SetPreferences extends React.Component {
   componentWillMount() {
@@ -64,7 +64,7 @@ class SetPreferences extends React.Component {
     this.props.savePreferences(this.props.preferences.dashboard);
   };
 
-  handlePreferenceToggle = code => () => {
+  handlePreferenceToggle = code => {
     this.props.setPreference(code, !this.props.preferences.dashboard[code]);
   };
 

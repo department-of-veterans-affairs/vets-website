@@ -13,7 +13,7 @@ export default function PreferenceItem({
   const {
     title,
     introduction,
-    slug,
+    code,
     ctaLink,
     ctaText,
     faqTitle,
@@ -33,13 +33,13 @@ export default function PreferenceItem({
           </p>
           <button
             className="usa-button-primary"
-            onClick={() => handleRemove(slug)}
+            onClick={() => handleRemove(code)}
           >
             Remove
           </button>
           <button
             className="usa-button-secondary"
-            onClick={() => handleViewToggle(slug)}
+            onClick={() => handleViewToggle(code)}
           >
             Cancel
           </button>
@@ -53,7 +53,7 @@ export default function PreferenceItem({
         <h3>{title}</h3>
         <button
           className="va-button-link"
-          onClick={() => handleViewToggle(slug)}
+          onClick={() => handleViewToggle(code)}
         >
           <i className="fa fa-close" /> <span>Remove</span>
         </button>
