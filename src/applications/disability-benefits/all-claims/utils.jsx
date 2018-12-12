@@ -3,12 +3,19 @@ import moment from 'moment';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
+import { omit } from 'lodash';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import { apiRequest } from '../../../platform/utilities/api';
 import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
+import fullSchema from './config/schema';
 import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
 import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+
+import {
+  schema as addressSchema,
+  uiSchema as addressUI,
+} from '../../../platform/forms/definitions/address';
 
 import {
   RESERVE_GUARD_TYPES,
@@ -463,6 +470,44 @@ export const bankFieldsHaveInput = formData =>
     'view:bankAccount.bankName',
   ]);
 
+export function incidentLocationSchemas() {
+  const addressOmitions = [
+    'addressLine1',
+    'addressLine2',
+    'addressLine3',
+    'postalCode',
+    'zipCode',
+  ];
+
+  const addressSchemaConfig = addressSchema(fullSchema);
+  const addressUIConfig = omit(addressUI(' '), addressOmitions);
+
+  return {
+    addressUI: {
+      ...addressUIConfig,
+      state: {
+        ...addressUIConfig.state,
+        'ui:title': 'State/Province',
+      },
+      additionalDetails: {
+        'ui:title':
+          'Additional details (Include address, landmark, military installation, or other location.)',
+        'ui:widget': 'textarea',
+      },
+      'ui:order': ['country', 'state', 'city', 'additionalDetails'],
+    },
+    addressSchema: {
+      ...addressSchemaConfig,
+      properties: {
+        ...omit(addressSchemaConfig.properties, addressOmitions),
+        additionalDetails: {
+          type: 'string',
+        },
+      },
+    },
+  };
+}
+
 const post911Periods = createSelector(
   data => _.get('serviceInformation.servicePeriods', data, []),
   periods =>
@@ -521,14 +566,12 @@ export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
 
 export const showPtsdCombatConclusion = form =>
-  form['view:upload781Choice'] === 'answerQuestions' &&
-  (_.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
-    _.get('view:selectablePtsdTypes.view:noncombatPtsdType', form, false));
+  _.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
+  _.get('view:selectablePtsdTypes.view:noncombatPtsdType', form, false);
 
 export const showPtsdAssaultConclusion = form =>
-  form['view:upload781aChoice'] === 'answerQuestions' &&
-  (_.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
-    _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false));
+  _.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
+  _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false);
 
 export const ancillaryFormUploadUi = (label, itemDescription) =>
   fileUploadUI(label, {
