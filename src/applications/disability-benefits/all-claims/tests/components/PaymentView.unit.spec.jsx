@@ -8,6 +8,7 @@ describe('AllClaims PaymentView', () => {
   it('should render with no data', () => {
     const tree = shallow(<PaymentView />);
     expect(tree.find('.blue-bar-block').length).to.equal(1);
+    tree.unmount();
   });
 
   it('should render with formData and no originalData', () => {
@@ -24,6 +25,7 @@ describe('AllClaims PaymentView', () => {
     expect(text).to.contain('Bank routing number: ●●●●●ending with3123');
     expect(text).to.contain('Bank name: Big Bank');
     expect(tree.find('AlertBox').length).to.equal(1);
+    tree.unmount();
   });
 
   it('should render with originalData only', () => {
@@ -42,6 +44,7 @@ describe('AllClaims PaymentView', () => {
     expect(text).to.contain('Account number: ●●●●●●ending with1234');
     expect(text).to.contain('Bank routing number: ●●●●●ending with3123');
     expect(text).to.contain('Bank name: Big Bank');
+    tree.unmount();
   });
 
   it('should render with different formData than originalData', () => {
@@ -66,5 +69,6 @@ describe('AllClaims PaymentView', () => {
     expect(text).to.contain('Bank routing number: ●●●●●ending with3123');
     expect(text).to.contain('Bank name: Big Bank');
     expect(tree.find('AlertBox').length).to.equal(1);
+    tree.unmount();
   });
 });
