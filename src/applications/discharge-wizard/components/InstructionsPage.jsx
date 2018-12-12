@@ -6,7 +6,11 @@ class InstructionsPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    const defaultOpenFaqItem =
+      document.location.hash && document.location.hash.slice(1);
+    this.state = {
+      [defaultOpenFaqItem]: true,
+    };
   }
 
   componentDidMount() {
@@ -86,12 +90,13 @@ class InstructionsPage extends React.Component {
                         <ul className="usa-unstyled-list">
                           <li itemScope itemType="http://schema.org/Question">
                             <button
+                              id="other-options"
                               className="usa-button-unstyled usa-accordion-button"
                               aria-controls="dbq4"
                               itemProp="name"
-                              aria-expanded={!!this.state.q1}
+                              aria-expanded={!!this.state['other-options']}
                               onClick={this.handleFAQToggle}
-                              name="q1"
+                              name="other-options"
                             >
                               Can I get VA benefits without a discharge upgrade?
                             </button>
