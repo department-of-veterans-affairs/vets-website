@@ -20,5 +20,6 @@ describe('<PreferenceList>', () => {
   it('should render', () => {
     const component = shallow(<PreferenceList {...props} />);
     expect(component.find('PreferenceItem').length).to.equal(10);
+    component.unmount();
   });
 });

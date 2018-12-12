@@ -4,7 +4,6 @@ import sinon from 'sinon';
 import { submit } from '../helpers.jsx';
 
 import { mockFetch, resetFetch } from '../../../platform/testing/unit/helpers';
-import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 
 function setFetchResponse(stub, data, headers = {}) {
   const response = new Response();
@@ -17,7 +16,6 @@ function setFetchResponse(stub, data, headers = {}) {
 describe('Burials helpers', () => {
   describe('submit', () => {
     beforeEach(() => {
-      conditionalStorage().setItem('userToken', 'testing');
       window.VetsGov = { pollTimeout: 1 };
       window.URL = {
         createObjectURL: sinon.stub().returns('test'),
@@ -143,7 +141,6 @@ describe('Burials helpers', () => {
       );
     });
     afterEach(() => {
-      conditionalStorage().clear();
       resetFetch();
       delete window.URL;
     });

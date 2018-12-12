@@ -47,6 +47,7 @@ describe('686 spouse info', () => {
         .find('#root_currentMarriage_spouseSocialSecurityNumber-label')
         .text(),
     ).to.contain('Jane Doe');
+    form.unmount();
   });
 
   it('should render spouse address and contrib fields', () => {
@@ -69,6 +70,7 @@ describe('686 spouse info', () => {
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(6);
+    form.unmount();
   });
 
   it('should render file number', () => {
@@ -88,6 +90,7 @@ describe('686 spouse info', () => {
 
     expect(form.find('input').length).to.equal(8);
     expect(form.find('select').length).to.equal(2);
+    form.unmount();
   });
 
   it('should not submit empty form', () => {
@@ -105,6 +108,7 @@ describe('686 spouse info', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with valid data', () => {
@@ -132,6 +136,7 @@ describe('686 spouse info', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('depends should return true if married', () => {

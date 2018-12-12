@@ -1,6 +1,7 @@
 import React from 'react';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-import { PtsdNameTitle } from '../content/ptsdClassification';
+import { ptsd781aNameTitle } from '../content/ptsdClassification';
 
 const mentalDescriptionChanges = (
   <div>
@@ -13,10 +14,10 @@ const mentalDescriptionChanges = (
   </div>
 );
 
+const { mentalChanges } = fullSchema.properties;
+
 export const uiSchema = {
-  'ui:title': ({ formData }) => (
-    <PtsdNameTitle formData={formData} formType="781a" />
-  ),
+  'ui:title': ptsd781aNameTitle,
   'ui:description': mentalDescriptionChanges,
   mentalChanges: {
     depression: {
@@ -63,42 +64,5 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-
-  properties: {
-    mentalChanges: {
-      type: 'object',
-      properties: {
-        depression: {
-          type: 'boolean',
-        },
-        obsessive: {
-          type: 'boolean',
-        },
-        prescription: {
-          type: 'boolean',
-        },
-        substance: {
-          type: 'boolean',
-        },
-        hypervigilance: {
-          type: 'boolean',
-        },
-        agoraphobia: {
-          type: 'boolean',
-        },
-        fear: {
-          type: 'boolean',
-        },
-        other: {
-          type: 'boolean',
-        },
-        otherExplanation: {
-          type: 'string',
-        },
-        noneApply: {
-          type: 'boolean',
-        },
-      },
-    },
-  },
+  properties: { mentalChanges },
 };

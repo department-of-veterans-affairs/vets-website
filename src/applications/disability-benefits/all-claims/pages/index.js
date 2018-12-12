@@ -89,6 +89,11 @@ import {
 } from './incidentDate';
 
 import {
+  uiSchema as incidentLocationUISchema,
+  schema as incidentLocationSchema,
+} from './incidentLocation';
+
+import {
   uiSchema as incidentUnitAssignmentUISchema,
   schema as incidentUnitAssignmentSchema,
 } from './incidentUnitAssignment';
@@ -117,6 +122,11 @@ import {
   uiSchema as secondaryIncidentDateUISchema,
   schema as secondaryIncidentDateSchema,
 } from './secondaryIncidentDate';
+
+import {
+  uiSchema as secondaryIncidentLocationUISchema,
+  schema as secondaryIncidentLocationSchema,
+} from './secondaryIncidentLocation';
 
 import {
   uiSchema as secondaryIncidentUnitAssignmentUISchema,
@@ -224,6 +234,11 @@ import {
 } from './unemployabilityFormIntro';
 
 import {
+  uiSchema as socialBehaviorChangesUISchema,
+  schema as socialBehaviorChangesSchema,
+} from './socialBehaviorChanges';
+
+import {
   uiSchema as additionalBehaviorChangesUISchema,
   schema as additionalBehaviorChangesSchema,
 } from './additionalBehaviorChanges';
@@ -277,6 +292,8 @@ import {
   uiSchema as conclusionAssaultUISchema,
   schema as conclusionAssaultSchema,
 } from './conclusionAssault';
+
+import { uiSchema as medalsUISchema, schema as medalsSchema } from './medals';
 
 import {
   uiSchema as secondaryUploadSourcesUISchema,
@@ -390,6 +407,11 @@ export const incidentDate = {
   schema: incidentDateSchema,
 };
 
+export const incidentLocation = {
+  uiSchema: incidentLocationUISchema,
+  schema: incidentLocationSchema,
+};
+
 export const incidentUnitAssignment = {
   uiSchema: incidentUnitAssignmentUISchema,
   schema: incidentUnitAssignmentSchema,
@@ -418,6 +440,11 @@ export const ptsdWalkthroughChoice781a = {
 export const secondaryIncidentDate = {
   uiSchema: secondaryIncidentDateUISchema,
   schema: secondaryIncidentDateSchema,
+};
+
+export const secondaryIncidentLocation = {
+  uiSchema: secondaryIncidentLocationUISchema,
+  schema: secondaryIncidentLocationSchema,
 };
 
 export const secondaryIncidentUnitAssignment = {
@@ -515,6 +542,11 @@ export const unemployabilityFormIntro = {
   schema: unemployabilityFormIntroSchema,
 };
 
+export const socialBehaviorChanges = {
+  uiSchema: socialBehaviorChangesUISchema,
+  schema: socialBehaviorChangesSchema,
+};
+
 export const finalIncident = {
   uiSchema: finalIncidentUISchema,
   schema: finalIncidentSchema,
@@ -583,6 +615,11 @@ export const conclusionAssault = {
 export const secondaryUploadSources = {
   uiSchema: secondaryUploadSourcesUISchema,
   schema: secondaryUploadSourcesSchema,
+};
+
+export const medals = {
+  uiSchema: medalsUISchema,
+  schema: medalsSchema,
 };
 
 export const additionalRemarks781 = {

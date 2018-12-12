@@ -27,6 +27,7 @@ describe('servedInCombatZone', () => {
     );
 
     expect(form.find('input').length).to.equal(2);
+    form.unmount();
   });
 
   it('should not submit without required info', () => {
@@ -45,6 +46,7 @@ describe('servedInCombatZone', () => {
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.false;
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+    form.unmount();
   });
 
   it('should submit with required info', () => {
@@ -64,5 +66,6 @@ describe('servedInCombatZone', () => {
     form.find('form').simulate('submit');
     expect(onSubmit.calledOnce).to.be.true;
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+    form.unmount();
   });
 });

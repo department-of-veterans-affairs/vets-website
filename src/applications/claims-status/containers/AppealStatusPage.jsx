@@ -155,7 +155,7 @@ class AppealStatusPage extends React.Component {
                   </strong>
                   {status.description}
                   <p>
-                    <a href="/disability-benefits/claims-appeal/">
+                    <a href="/disability/file-an-appeal/">
                       Learn more about the appeals process
                     </a>
                     .

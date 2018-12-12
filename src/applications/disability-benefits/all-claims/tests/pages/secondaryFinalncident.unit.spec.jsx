@@ -30,6 +30,7 @@ describe('781a last incident details', () => {
       />,
     );
     expect(form.find('textarea').length).to.equal(1);
+    form.unmount();
   });
 
   it('should submit when no data is filled out', () => {
@@ -52,6 +53,7 @@ describe('781a last incident details', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should submit when data filled in', () => {
@@ -80,5 +82,6 @@ describe('781a last incident details', () => {
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
 
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });
