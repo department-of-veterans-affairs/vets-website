@@ -63,7 +63,7 @@ class FacilityTypeDropdown extends Component {
       showBubble: !this.state.showBubble,
     });
 
-    // Refocus the "i" button
+    // Refocus the "i" info button
     this.focusCCInfoIcon();
   };
 
