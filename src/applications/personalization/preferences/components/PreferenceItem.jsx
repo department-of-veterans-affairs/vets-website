@@ -47,7 +47,6 @@ export default function PreferenceItem({
   benefit,
 }) {
   const { title, introduction, code, cta, faqs } = benefit;
-  const hasCTA = cta.description || (cta.link && cta.text);
 
   if (isRemoving) {
     return (
@@ -89,7 +88,7 @@ export default function PreferenceItem({
       </div>
       <p className="va-introtext">{introduction}</p>
       {faqs && <FAQList faqs={faqs} />}
-      {hasCTA && <CallToAction cta={cta} />}
+      {cta && <CallToAction cta={cta} />}
     </div>
   );
 }
