@@ -165,8 +165,7 @@ const burialFAQ = () => (
     </li>
     <li>
       <a href="/burials-memorials/dependency-indemnity-compensation/">
-        Find out what benefits are available for surviving spouses, children,
-        and parents.
+        Learn about compensation for surviving spouses, children, and parents.
       </a>
     </li>
   </ul>
