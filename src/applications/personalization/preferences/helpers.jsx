@@ -280,6 +280,10 @@ export const SaveFailedMessageComponent = (
   </AlertBox>
 );
 
-export const SaveSucceededMessageComponent = (
-  <AlertBox status="success" headline="We’ve saved your preferences." />
+export const SaveSucceededMessageComponent = handleCloseAlert => (
+  <AlertBox
+    onCloseAlert={handleCloseAlert}
+    status="success"
+    headline="We’ve saved your preferences."
+  />
 );
