@@ -742,19 +742,19 @@ class GuidancePage extends React.Component {
                   <p>Learn more about:</p>
                   <ul>
                     <li>
-                      <a href="/health-care/health-conditions/military-sexual-trauma/">
+                      <a href="/health-care/health-needs-conditions/military-sexual-trauma/">
                         VA health benefits for Veterans who have experienced
                         military sexual trauma
                       </a>
                     </li>
                     <li>
-                      <a href="/health-care/health-conditions/mental-health/">
+                      <a href="/health-care/health-needs-conditions/mental-health/">
                         VA health benefits for Veterans with mental health
                         conditions
                       </a>
                     </li>
                     <li>
-                      <a href="/health-care/health-conditions/mental-health/ptsd/">
+                      <a href="/health-care/health-needs-conditions/mental-health/ptsd/">
                         VA health benefits for Veterans with PTSD
                       </a>
                     </li>
@@ -785,7 +785,7 @@ class GuidancePage extends React.Component {
         <li>
           <a
             target="_blank"
-            href="/health-care/health-conditions/military-sexual-trauma/"
+            href="/health-care/health-needs-conditions/military-sexual-trauma/"
           >
             VA health benefits for Veterans who experience military sexual
             trauma
@@ -794,7 +794,7 @@ class GuidancePage extends React.Component {
         <li>
           <a
             target="_blank"
-            href="/health-care/health-conditions/mental-health/"
+            href="/health-care/health-needs-conditions/mental-health/"
           >
             VA health benefits for Veterans with mental health conditions
           </a>
@@ -802,7 +802,7 @@ class GuidancePage extends React.Component {
         <li>
           <a
             target="_blank"
-            href="/health-care/health-conditions/mental-health/ptsd/"
+            href="/health-care/health-needs-conditions/mental-health/ptsd/"
           >
             VA health benefits for Veterans with PTSD
           </a>
