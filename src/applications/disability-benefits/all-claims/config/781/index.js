@@ -1,7 +1,9 @@
 import {
   incidentDate,
-  incidentUnitAssignment,
+  incidentLocation,
   secondaryIncidentDate,
+  secondaryIncidentLocation,
+  incidentUnitAssignment,
   secondaryIncidentUnitAssignment,
   incidentDescription,
   secondaryIncidentDescription,
@@ -10,6 +12,7 @@ import {
   secondaryIncidentAuthorities,
   ptsdAdditionalEvents,
   ptsdSecondaryAdditionalEvents,
+  medals,
 } from '../../pages';
 
 import { isAnswering781Questions, isAnswering781aQuestions } from '../../utils';
@@ -33,6 +36,13 @@ export function createFormConfig781(iterations) {
     configObj = {
       ...configObj,
       // 781 PAGE CONFIGS GO HERE
+      [`medals${index}`]: {
+        title: `${numberToWords[index]} Medals or citations`,
+        path: `disabilities/ptsd-medals-${index}`,
+        depends: isAnswering781Questions(index),
+        uiSchema: medals.uiSchema(index),
+        schema: medals.schema(index),
+      },
       [`incidentDate${index}`]: {
         title: `${numberToWords[index]} PTSD incident date`,
         path: `disabilities/ptsd-incident-date-${index}`,
@@ -61,9 +71,16 @@ export function createFormConfig781(iterations) {
         uiSchema: incidentUnitAssignment.uiSchema(index),
         schema: incidentUnitAssignment.schema(index),
       },
+      [`incidentLocation${index}`]: {
+        title: `${numberToWords[index]} PTSD incident location`,
+        path: `disabilities/ptsd-incident-location-${index}`,
+        depends: isAnswering781Questions(index),
+        uiSchema: incidentLocation.uiSchema(index),
+        schema: incidentLocation.schema(index),
+      },
       // This should be the last page in the config loop
       [`ptsdAdditionalEvents${index}`]: {
-        title: `${numberToWords[index]} Combat PTSD Additional events.`,
+        title: `${numberToWords[index]} PTSD incident Additional events.`,
         path: `disabilities/ptsd-additional-events-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: ptsdAdditionalEvents.uiSchema(index),
@@ -108,6 +125,13 @@ export function createFormConfig781a(iterations) {
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentUnitAssignment.uiSchema(index),
         schema: secondaryIncidentUnitAssignment.schema(index),
+      },
+      [`secondaryIncidentLocation${index}`]: {
+        title: `${numberToWords[index]} PTSD assault incident location`,
+        path: `disabilities/ptsd-secondary-incident-location-${index}`,
+        depends: isAnswering781aQuestions(index),
+        uiSchema: secondaryIncidentLocation.uiSchema(index),
+        schema: secondaryIncidentLocation.schema(index),
       },
       [`secondaryIncidentPermissionNotice${index}`]: {
         title: `${numberToWords[index]} PTSD assault permission notice`,

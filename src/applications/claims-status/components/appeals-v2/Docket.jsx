@@ -98,7 +98,7 @@ function Docket({
         <p>
           <a
             target="_blank"
-            href="/disability-benefits/claims-appeal/request-a-priority-review/"
+            href="/disability/file-an-appeal/request-priority-review/"
           >
             Learn more about requesting Advanced on Docket status.
           </a>

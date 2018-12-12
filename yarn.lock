@@ -3405,6 +3405,9 @@ eslint-plugin-scanjs-rules@^0.1.4:
     babel-eslint ">=4.1.1"
     eslint ">=1.1"
 
+eslint-plugin-va-enzyme@./script/custom-eslint/va-enzyme:
+  version "1.0.0"
+
 eslint-restricted-globals@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/eslint-restricted-globals/-/eslint-restricted-globals-0.1.1.tgz#35f0d5cbc64c2e3ed62e93b4b1a7af05ba7ed4d7"
