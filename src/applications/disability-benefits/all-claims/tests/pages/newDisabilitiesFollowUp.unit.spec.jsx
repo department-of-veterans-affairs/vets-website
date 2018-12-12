@@ -41,6 +41,7 @@ describe('New disabilities follow up info', () => {
     );
 
     expect(form.find('input').length).to.equal(4);
+    form.unmount();
   });
 
   it('should render NEW disability follow up questions', () => {
@@ -71,6 +72,7 @@ describe('New disabilities follow up info', () => {
 
     expect(form.find('input').length).to.equal(4);
     expect(form.find('textarea').length).to.equal(1);
+    form.unmount();
   });
 
   it('should render SECONDARY disability follow up questions', () => {
@@ -102,6 +104,7 @@ describe('New disabilities follow up info', () => {
     expect(form.find('input').length).to.equal(4);
     expect(form.find('select').length).to.equal(1);
     expect(form.find('select').find('option').length).to.equal(2);
+    form.unmount();
   });
 
   it('should render WORSENED disability followup questions', () => {
@@ -132,6 +135,7 @@ describe('New disabilities follow up info', () => {
 
     expect(form.find('input').length).to.equal(5);
     expect(form.find('textarea').length).to.equal(1);
+    form.unmount();
   });
 
   it('should render VA mistreatment disability followup questions', () => {
@@ -162,6 +166,7 @@ describe('New disabilities follow up info', () => {
 
     expect(form.find('input').length).to.equal(6);
     expect(form.find('textarea').length).to.equal(1);
+    form.unmount();
   });
 
   it('should not submit when data not filled in', () => {
@@ -188,6 +193,7 @@ describe('New disabilities follow up info', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit when data filled in', () => {
@@ -217,5 +223,6 @@ describe('New disabilities follow up info', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.calledOnce).to.be.true;
+    form.unmount();
   });
 });

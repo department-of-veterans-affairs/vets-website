@@ -30,13 +30,6 @@ function overrideSmoothScrolling(client) {
   });
 }
 
-function overrideScrolling(client) {
-  overrideSmoothScrolling(client);
-  client.execute(() => {
-    window.scrollTo = () => null;
-  });
-}
-
 // via http://stackoverflow.com/questions/11131875
 function overrideAnimations(client) {
   const styles = `* {
@@ -66,6 +59,14 @@ function overrideAnimations(client) {
     },
     [styles],
   );
+}
+
+function overrideScrolling(client) {
+  overrideAnimations(client);
+  overrideSmoothScrolling(client);
+  client.execute(() => {
+    window.scrollTo = () => null;
+  });
 }
 
 function disableAnnouncements(client) {

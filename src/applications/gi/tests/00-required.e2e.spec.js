@@ -5,7 +5,7 @@ const GiHelpers = require('./gibct-helpers');
 module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.initApplicationMock();
 
-  client.url(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
+  client.openUrl(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
 
   E2eHelpers.overrideSmoothScrolling(client);
   client.timeoutsAsyncScript(2000);

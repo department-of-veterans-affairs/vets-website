@@ -13,11 +13,13 @@ describe('Appeals V2 DocketCard', () => {
   it('should render', () => {
     const wrapper = shallow(<DocketCard {...defaultProps} />);
     expect(wrapper.type()).to.equal('div');
+    wrapper.unmount();
   });
 
   it('should show the number of appeals ahead of the appellant', () => {
     const wrapper = shallow(<DocketCard {...defaultProps} />);
     expect(wrapper.find('.appeals-ahead').text()).to.equal('109,238');
+    wrapper.unmount();
   });
 
   it('should show the total number of appeals on the docket', () => {
@@ -28,6 +30,7 @@ describe('Appeals V2 DocketCard', () => {
         .first()
         .text(),
     ).to.equal('283,941');
+    wrapper.unmount();
   });
 
   it('should show a visual representaton of where the appellant is in the line', () => {
@@ -40,5 +43,6 @@ describe('Appeals V2 DocketCard', () => {
         .first()
         .prop('style').width,
     ).to.equal(`${computedWidth}%`);
+    wrapper.unmount();
   });
 });

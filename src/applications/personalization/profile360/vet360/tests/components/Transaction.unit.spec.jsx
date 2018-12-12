@@ -56,5 +56,6 @@ describe('<Vet360Transaction/>', () => {
       component.html(),
       'does not render children components when there is a pending transaction',
     ).to.not.contain('Children');
+    component.unmount();
   });
 });

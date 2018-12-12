@@ -28,16 +28,14 @@ export const getPtsdClassification = (formData, formType) => {
 
   switch (true) {
     case isCombat && isNonCombat && is781:
-      incidentTitle =
-        'Combat & Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      incidentTitle = 'Combat & Non-combat';
 
-      incidentText =
-        'Combat and Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      incidentText = 'Combat and Non-combat';
       break;
 
     case isAssault && isMst && !is781:
-      incidentTitle = 'Personal Assault & Military Sexual Trauma';
-      incidentText = 'Personal Assault and Military Sexual Trauma';
+      incidentTitle = 'Personal assault & Military sexual trauma';
+      incidentText = 'Personal assault and Military sexual trauma';
       break;
 
     case isCombat && is781:
@@ -46,20 +44,18 @@ export const getPtsdClassification = (formData, formType) => {
       break;
 
     case isNonCombat && is781:
-      incidentTitle =
-        'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
-      incidentText =
-        'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault';
+      incidentTitle = 'Non-combat';
+      incidentText = 'Non-combat';
       break;
 
     case isAssault && !is781:
-      incidentTitle = 'Personal Assault';
-      incidentText = 'Personal Assault';
+      incidentTitle = 'Personal assault';
+      incidentText = 'Personal assault';
       break;
 
     case isMst && !is781:
-      incidentTitle = 'Military Sexual Trauma';
-      incidentText = 'Military Sexual Trauma';
+      incidentTitle = 'Military sexual trauma';
+      incidentText = 'Military sexual trauma';
       break;
 
     default:

@@ -35,6 +35,7 @@ describe('VA Medical Records', () => {
 
     expect(form.find('input').length).to.equal(6);
     expect(form.find('select').length).to.equal(4);
+    form.unmount();
   });
 
   it('should not submit without all required info', () => {
@@ -66,6 +67,7 @@ describe('VA Medical Records', () => {
     // Required fields: Facility name, related disability, and treatment start date
     expect(form.find('.usa-input-error-message').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with all required info', () => {
@@ -112,6 +114,7 @@ describe('VA Medical Records', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.calledOnce).to.be.true;
+    form.unmount();
   });
 
   it('should require military city when military state selected', () => {
@@ -158,6 +161,7 @@ describe('VA Medical Records', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should require military state when military city entered', () => {
@@ -204,5 +208,6 @@ describe('VA Medical Records', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 });
