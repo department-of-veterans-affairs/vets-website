@@ -90,7 +90,7 @@ const template = (props, title, content, submissionMessage) => {
         more information.
       </p>
       <br />
-      <a href="/disability-benefits/after-you-apply/">
+      <a href="/disability/after-you-file-claim/">
         Learn more about what happens after you file a disability claim.
       </a>
       <div className="confirmation-guidance-container">
@@ -140,7 +140,7 @@ export const submitErrorContent = props =>
         at 1-800-827-1000, Monday – Friday, 8:30 a.m. – 4:30 p.m. (ET). Or, you
         can get in touch with your nearest Veterans Service Officer (VSO).
       </p>{' '}
-      <a href="/disability-benefits/apply/help/">Contact your nearest VSO.</a>
+      <a href="/disability/get-help-filing-claim/">Contact your nearest VSO.</a>
     </div>,
     errorMessage(),
   );
