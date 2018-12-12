@@ -23,6 +23,8 @@ function getAffectedModule(data) {
 }
 
 function processAuditResults(audit) {
+  // The output isn't valid JSON, it's a list of JSON
+  // objects separated by newlines
   const advisories = audit
     .trim()
     .split('\n')
