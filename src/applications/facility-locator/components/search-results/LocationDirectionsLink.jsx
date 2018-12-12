@@ -13,7 +13,8 @@ class LocationDirectionsLink extends Component {
           href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
           target="_blank"
         >
-          <i className="fa fa-road" /> Directions
+          <i className="fa fa-road" />
+          Directions
         </a>
       </span>
     );

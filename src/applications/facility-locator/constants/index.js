@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { ccLocatorEnabled } from '../config';
 
 /**
@@ -29,6 +30,17 @@ export const FacilityType = {
   VA_CEMETARY: 'va_cemetery',
   VA_BENEFITS_FACILITY: 'va_benefits_facility',
   VET_CENTER: 'vet_center',
+};
+
+/**
+ *
+ */
+export const PinNames = {
+  va_health_facility: 'health',
+  cc_provider: 'cc-provider',
+  va_cemetery: 'cemetery',
+  va_benefits_facility: 'benefits',
+  vet_center: 'vet-centers',
 };
 
 /**
