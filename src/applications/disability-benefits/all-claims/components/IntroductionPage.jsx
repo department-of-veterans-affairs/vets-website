@@ -73,7 +73,7 @@ class IntroductionPage extends React.Component {
                 out another form if you’re claiming a dependent or applying for
                 aid and attendance benefits.
                 <br />
-                <a href="/disability-benefits/apply/supplemental-forms/">
+                <a href="/disability/how-to-file-claim/supplemental-forms/">
                   Learn what additional forms you may need to file with your
                   disability claim
                 </a>
