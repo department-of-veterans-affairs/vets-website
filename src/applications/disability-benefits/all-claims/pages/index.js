@@ -532,11 +532,6 @@ export const unemployabilityFormIntro = {
   schema: unemployabilityFormIntroSchema,
 };
 
-export const workBehaviorChanges = {
-  uiSchema: workBehaviorChangesUISchema,
-  schema: workBehaviorChangesSchema,
-};
-
 export const finalIncident = {
   uiSchema: finalIncidentUISchema,
   schema: finalIncidentSchema,
@@ -545,6 +540,11 @@ export const finalIncident = {
 export const secondaryFinalIncident = {
   uiSchema: secondaryFinalIncidentUISchema,
   schema: secondaryFinalIncidentSchema,
+};
+
+export const workBehaviorChanges = {
+  uiSchema: workBehaviorChangesUISchema,
+  schema: workBehaviorChangesSchema,
 };
 
 export const additionalBehaviorChanges = {

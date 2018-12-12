@@ -337,7 +337,7 @@ const formConfig = {
           schema: physicalHealthChanges.schema,
         },
         mentalHealthChanges: {
-          title: 'Additional Remarks - Physical Health Changes',
+          title: 'Additional Remarks - Mental Health Changes',
           path: 'new-disabilities/ptsd-781a-mental-changes',
           depends: isAnswering781aQuestions(0),
           uiSchema: mentalHealthChanges.uiSchema,
