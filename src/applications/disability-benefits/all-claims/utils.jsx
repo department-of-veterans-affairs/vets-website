@@ -236,11 +236,15 @@ export function transformIncident(incident, personalAssault) {
       .filter(locationField => locationField && locationField.length > 0)
       .join(', ');
 
-  return {
+  const transformed = {
     ...incident,
     personalAssault,
     incidentLocation: toIncidentLocationString(incident.incidentLocation),
   };
+
+  delete transformed.authorities;
+
+  return transformed;
 }
 
 /**
@@ -396,7 +400,57 @@ export function transform(formConfig, form) {
       additionalIncidentText: clonedData.additionalIncidentText,
       additionalSecondaryIncidentText:
         clonedData.additionalSecondaryIncidentText,
+      otherInformation: [],
     };
+
+    if (clonedData.physicalChanges) {
+      const {
+        physicalChanges,
+      } = formConfig.chapters.disabilities.pages.physicalHealthChanges.uiSchema;
+      const physicalChangeInfo = [];
+
+      Object.keys(clonedData.physicalChanges)
+        .filter(key => key !== 'other' && key !== 'otherExplanation')
+        .forEach(key => {
+          physicalChangeInfo.push(physicalChanges[key]['ui:title']);
+        });
+
+      if (clonedData.physicalChanges.otherExplanation) {
+        physicalChangeInfo.push(clonedData.physicalChanges.otherExplanation);
+      }
+      clonedData.form0781.otherInformation = [
+        ...clonedData.form0781.otherInformation,
+        ...physicalChangeInfo,
+      ];
+      delete clonedData.physicalChanges;
+    }
+
+    if (clonedData.mentalChanges) {
+      const {
+        mentalChanges,
+      } = formConfig.chapters.disabilities.pages.mentalHealthChanges.uiSchema;
+      const mentalChangeInfo = [];
+
+      Object.keys(clonedData.mentalChanges)
+        .filter(key => key !== 'other' && key !== 'otherExplanation')
+        .forEach(key => {
+          mentalChangeInfo.push(mentalChanges[key]['ui:title']);
+        });
+
+      if (clonedData.mentalChanges.otherExplanation) {
+        mentalChangeInfo.push(clonedData.mentalChanges.otherExplanation);
+      }
+      clonedData.form0781.otherInformation = [
+        ...clonedData.form0781.otherInformation,
+        ...mentalChangeInfo,
+      ];
+      delete clonedData.mentalChanges;
+    }
+
+    if (clonedData.additionalChanges) {
+      clonedData.form0781.otherInformation.push(clonedData.additionalChanges);
+      delete clonedData.additionalChanges;
+    }
   }
 
   delete clonedData.additionalRemarks781;

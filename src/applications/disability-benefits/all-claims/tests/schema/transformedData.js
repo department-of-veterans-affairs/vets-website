@@ -191,6 +191,15 @@ export const transformedMaximalData = {
       remarks: '781 Remarks',
       additionalIncidentText: 'Additional incident text',
       additionalSecondaryIncidentText: 'Additional secondary incident text',
+      otherInformation: [
+        'Increased visits to a medical or counseling clinic or dispensary, even without a specific diagnosis or specific ailment',
+        'Other physical change',
+        'Episodes of depression, panic attacks, or anxiety without an identifiable cause',
+        'Increased fear of surroundings, inability to go to certain areas',
+        'Hypervigilance, heightened fight or flight response',
+        'Other mental change',
+        'Additional changes test',
+      ],
       incident: [
         {
           personalAssault: false,
