@@ -31,14 +31,11 @@ describe('<PreferenceItem>', () => {
       'With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists like cardiologists, gynecologists, and mental health providers. You can access Veterans health care services like home health or geriatric (elder) care, and get medical equipment, prosthetics, and prescriptions.',
     );
     // Display benefit-specific FAQs
-    expect(component.find('AdditionalInfo').length).to.equal(1);
+    expect(component.find('FAQList').length).to.equal(1);
     // Display benefit-specific CTA
-    expect(
-      component
-        .find('Link.usa-button')
-        .first()
-        .html(),
-    ).to.contain('Apply Now for VA Health Care');
+    expect(component.find('CallToAction').html()).to.contain(
+      'Apply Now for VA Health Care',
+    );
     component
       .find('button')
       .first()
