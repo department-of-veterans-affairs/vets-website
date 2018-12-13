@@ -25,6 +25,7 @@
     "nightwatch-visual": "node src/platform/testing/visual-regression/index.js",
     "postinstall": "npm rebuild node-sass",
     "reset:env": "./script/reset-environment.sh",
+    "security-check": "node ./script/security-check.js",
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "./script/run-nightwatch.sh",
     "test:e2e:headless": "./script/run-nightwatch.sh --env headless",
@@ -219,7 +220,7 @@
   },
   "engines": {
     "node": "8.10.0",
-    "yarn": "1.5.1"
+    "yarn": "1.12.3"
   },
   "private": true,
   "dependencies": {
@@ -248,7 +249,7 @@
     "url-search-params": "^0.10.0",
     "us-forms-system": "https://github.com/usds/us-forms-system.git#f476ed0ff038403d04e531bbbae41f72290e23b5",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#92816fb3a3d5166dba1404e14c2e12739ba3b3b2",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#1067172de60a32f5d268fbfe0a71292e66da3a39",
     "webpack-bundle-analyzer": "^2.11.1"
   }
 }
