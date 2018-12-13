@@ -54,6 +54,7 @@ describe('Opt Out <ConfirmationPage>', () => {
     ).to.contain(
       'We may contact you if we have questions or need more information. You can print this page for your records.',
     );
+    tree.unmount();
   });
 
   it('should render without the response properties', () => {
@@ -85,5 +86,6 @@ describe('Opt Out <ConfirmationPage>', () => {
     ).to.contain(
       'We may contact you if we have questions or need more information. You can print this page for your records.',
     );
+    tree.unmount();
   });
 });

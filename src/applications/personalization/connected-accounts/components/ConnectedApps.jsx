@@ -22,6 +22,7 @@ export function ConnectedApps({ confirmDelete, propertyName, accounts }) {
                 key={idx}
                 confirmDelete={confirmDelete}
                 propertyName={propertyName}
+                isLast={idx + 1 === accounts.length}
                 {...a}
               />
             ))}
@@ -37,7 +38,7 @@ export function ConnectedApps({ confirmDelete, propertyName, accounts }) {
           </p>
 
           <a
-            href="/faq"
+            href="/sign-in-faq/"
             onClick={() =>
               recordEvent({
                 event: 'account-navigation',

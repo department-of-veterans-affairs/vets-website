@@ -22,28 +22,6 @@ export const privateRecordsChoiceHelp = (
   </div>
 );
 
-export const documentDescription = () => (
-  <div>
-    <p>
-      You can upload your document in a pdf, .jpeg, or .png file format. You’ll
-      first need to scan a copy of your document onto your computer or mobile
-      phone. You can then upload the document from there. Please note that large
-      files can take longer to upload with a slow Internet connection.
-      <br />
-      File upload guidelines:
-    </p>
-    <ul>
-      <li>You can upload files in a .pdf, .jpeg, or .png format</li>
-      <li>Files can be a maximum of 50MB each</li>
-    </ul>
-    <p>
-      <em>
-        Large files can take longer to upload with a slow Internet connection.
-      </em>
-    </p>
-  </div>
-);
-
 export const patientAcknowledgmentText = (
   <AdditionalInfo triggerText="Read the full text.">
     <h4>PATIENT AUTHORIZATION:</h4>

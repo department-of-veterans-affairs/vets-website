@@ -19,6 +19,7 @@ describe('<Vet360ProfileField/>', () => {
   it('renders nothing when there are no successful or errored transactions', () => {
     const component = enzyme.shallow(<Vet360TransactionReporter {...props} />);
     expect(component.text()).to.be.equal('');
+    component.unmount();
   });
 
   it('renders a success or error component when there are success or errored transactions', () => {
@@ -37,6 +38,7 @@ describe('<Vet360ProfileField/>', () => {
       vet360TransactionErrorBanner,
       'the errored transaction rendered',
     ).to.have.lengthOf(1);
+    component.unmount();
   });
 
   it('calls clearTransaction on each errored transaction', () => {
@@ -57,5 +59,6 @@ describe('<Vet360ProfileField/>', () => {
       props.clearTransaction.callCount,
       'Closing the success banner resulted in a call to clearTransaction for each successful transaction',
     ).to.be.equal(props.erroredTransactions.length);
+    component.unmount();
   });
 });

@@ -19,12 +19,13 @@ import * as autosuggest from 'us-forms-system/lib/js/definitions/autosuggest';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import GetFormHelp from '../components/GetFormHelp';
+import ErrorText from '../components/ErrorText';
 import EligibleBuriedView from '../components/EligibleBuriedView';
 import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
 import { validateSponsorDeathDate } from '../validation';
 
 import {
-  GetFormHelp,
   isVeteran,
   isAuthorizedAgent,
   formatName,
@@ -94,6 +95,7 @@ const formConfig = {
   preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  errorText: ErrorText,
   defaultDefinitions: {
     fullName,
     ssn,

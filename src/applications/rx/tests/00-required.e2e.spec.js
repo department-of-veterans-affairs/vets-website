@@ -11,7 +11,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   AccountCreationHelpers.initMHVTermsMocks(token);
 
   // Ensure active page renders
-  Auth.logIn(token, client, '/health-care/prescriptions', 3)
+  Auth.logIn(token, client, '/health-care/refill-track-prescriptions/', 3)
     .assert.title('VA Prescription Refill and Tracking: VA.gov')
     .waitForElementVisible('#rx-active', Timeouts.normal)
     .axeCheck('.main');
@@ -88,7 +88,9 @@ const runTest = E2eHelpers.createE2eTest(client => {
 
   // Ensure history card renders
   client
-    .click('.va-nav-breadcrumbs a[href="/health-care/prescriptions/"]')
+    .click(
+      '.va-nav-breadcrumbs a[href="/health-care/refill-track-prescriptions/"]',
+    )
     .waitForElementVisible('#rx-active', Timeouts.slow)
     .click('.va-tabs li:last-child a')
     .waitForElementVisible('#rx-history', Timeouts.normal)

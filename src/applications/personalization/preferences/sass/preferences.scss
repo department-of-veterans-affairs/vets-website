@@ -1,0 +1,67 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.preferences-grid {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: stretch;
+  margin: 0 -1rem;
+
+  .preference-item-wrapper {
+    display: flex;
+    width: 313.75px;
+
+    .preference-item {
+      margin: 1rem;
+      padding: 1.5rem;
+      background: $color-gray-lightest;
+      cursor: pointer;
+      width: 100%;
+      .title-container {
+        display: flex;
+        align-items: center;
+        .title-item {
+          margin: 0;
+          &:first-child {
+            flex: 1;
+          }
+        }
+        .form-checkbox {
+          margin: 0;
+          flex: 0;
+          input[type=checkbox] {
+            cursor: pointer;
+          }
+          label {
+            margin-top: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2rem;
+  .va-button-link {
+    text-decoration: none;
+  }
+  h2 {
+    margin-top: 0.5em;
+  }
+}
+
+.form-expanding-group {
+  margin-bottom: 2rem;
+}
+
+.va-introtext {
+  font-size: 1.6rem;
+}
+
+.preferences-alert {
+  max-width: 77rem;
+  margin-bottom: 1.5em;
+}

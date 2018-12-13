@@ -3,10 +3,19 @@ import moment from 'moment';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
+import { omit } from 'lodash';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import { apiRequest } from '../../../platform/utilities/api';
+import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
+import fullSchema from './config/schema';
 import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
+import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+
+import {
+  schema as addressSchema,
+  uiSchema as addressUI,
+} from '../../../platform/forms/definitions/address';
 
 import {
   RESERVE_GUARD_TYPES,
@@ -15,20 +24,20 @@ import {
   DATA_PATHS,
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
+  TWENTY_FIVE_MB,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
- * NOTE: This will cause React to get angry if used in a <p> because the DOM is "invalid."
  *
  * @param {ReactElement|ReactComponent|String} srIgnored -- Thing to be displayed visually,
  *                                                           but ignored by screen readers
  * @param {String} substitutionText -- Text for screen readers to say instead of srIgnored
  */
 export const srSubstitute = (srIgnored, substitutionText) => (
-  <div style={{ display: 'inline' }}>
+  <span>
     <span aria-hidden>{srIgnored}</span>
     <span className="sr-only">{substitutionText}</span>
-  </div>
+  </span>
 );
 
 export const hasGuardOrReservePeriod = formData => {
@@ -138,6 +147,47 @@ export function transformDisabilities(disabilities = []) {
   );
 }
 
+export function transformMVPData(formData) {
+  const newFormData = _.omit(
+    ['veteran', 'servicePeriods', 'reservesNationalGuardService'],
+    formData,
+  );
+
+  // Spread the properties in formData.veteran
+  Object.keys(_.get('veteran', formData, {})).forEach(key => {
+    newFormData[key] = formData.veteran[key];
+  });
+
+  // Nest servicePeriods and reservesNationalGuardService under serviceInformation
+  //  without creating a serviceInformation property unnecessarily
+  const { servicePeriods, reservesNationalGuardService } = formData;
+  if (servicePeriods || reservesNationalGuardService) {
+    newFormData.serviceInformation = {
+      ..._.get('serviceInformation', newFormData, {}),
+      servicePeriods,
+      reservesNationalGuardService,
+    };
+  }
+
+  return newFormData;
+}
+
+/**
+ * Returns an object where all the fields are prefixed with `view:` if they aren't already
+ */
+export const viewifyFields = formData => {
+  const newFormData = {};
+  Object.keys(formData).forEach(key => {
+    const viewKey = /^view:/.test(key) ? key : `view:${key}`;
+    // Recurse if necessary
+    newFormData[viewKey] =
+      typeof formData[key] === 'object' && !Array.isArray(formData[key])
+        ? viewifyFields(formData[key])
+        : formData[key];
+  });
+  return newFormData;
+};
+
 export function prefillTransformer(pages, formData, metadata) {
   const { disabilities } = formData;
   if (!disabilities || !Array.isArray(disabilities)) {
@@ -149,9 +199,35 @@ export function prefillTransformer(pages, formData, metadata) {
   const newFormData = _.set(
     'ratedDisabilities',
     transformDisabilities(disabilities),
-    formData,
+    transformMVPData(formData),
   );
   delete newFormData.disabilities;
+
+  // Pre-fill hidden bank info for use in the PaymentView
+  const bankAccount = {
+    bankAccountType: newFormData.bankAccountType,
+    bankAccountNumber: newFormData.bankAccountNumber,
+    bankRoutingNumber: newFormData.bankRoutingNumber,
+    bankName: newFormData.bankName,
+  };
+  newFormData['view:originalBankAccount'] = viewifyFields(bankAccount);
+
+  // Let the payment info card start in review mode if we have pre-filled bank information
+  if (
+    Object.values(newFormData['view:originalBankAccount']).some(
+      value => !!value,
+    )
+  ) {
+    newFormData['view:bankAccount'] = {
+      'view:hasPrefilledBank': true,
+    };
+  }
+
+  // Remove bank fields since they're already in view:originalBankAccount
+  delete newFormData.bankAccountType;
+  delete newFormData.bankAccountNumber;
+  delete newFormData.bankRoutingNumber;
+  delete newFormData.bankName;
 
   return {
     metadata,
@@ -179,6 +255,58 @@ export function transformRelatedDisabilities(object, claimedConditions) {
     .map(key => key.toLowerCase());
 }
 
+/**
+ * Cycles through the list of provider facilities and performs transformations on each property as needed
+ * @param {array} providerFacilities array of objects being transformed
+ * @returns {array} containing the new Provider Facility structure
+ */
+export function transformProviderFacilities(providerFacilities) {
+  return providerFacilities.map(facility => ({
+    ...facility,
+    treatmentDateRange: [facility.treatmentDateRange],
+  }));
+}
+
+/**
+ * This is mostly copied from us-forms' own stringifyFormReplacer, but with
+ * the incomplete / empty address check removed, since we don't need this
+ * for any of the 3 addresses (mailing, forwarding, treatment facility) in our
+ * form. Leaving it in breaks treatment facility addresses because by design
+ * they don't have street / line 1 addresses, so would get incorrectly filtered
+ * out. Trivia: this check is also gone in the latest us-forms replacer.
+ */
+export function customReplacer(key, value) {
+  // clean up empty objects, which we have no reason to send
+  if (typeof value === 'object') {
+    const fields = Object.keys(value);
+    if (
+      fields.length === 0 ||
+      fields.every(field => value[field] === undefined)
+    ) {
+      return undefined;
+    }
+
+    // autosuggest widgets save value and label info, but we should just return the value
+    if (value.widget === 'autosuggest') {
+      return value.id;
+    }
+
+    // Exclude file data
+    if (value.confirmationCode && value.file) {
+      return _.omit('file', value);
+    }
+  }
+
+  // Clean up empty objects in arrays
+  if (Array.isArray(value)) {
+    const newValues = value.filter(v => !!customReplacer(key, v));
+    // If every item in the array is cleared, remove the whole array
+    return newValues.length > 0 ? newValues : undefined;
+  }
+
+  return value;
+}
+
 export function transform(formConfig, form) {
   // Remove rated disabilities that weren't selected
   let clonedData = _.set(
@@ -195,20 +323,30 @@ export function transform(formConfig, form) {
       claimedConditions.push(d.condition.toLowerCase()),
     );
   }
+
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
   // The transformForSubmit's JSON.stringify transformer doesn't remove deeply empty objects, so we call
   //  it here to remove reservesNationalGuardService if it's deeply empty.
   clonedData = removeDeeplyEmptyObjects(
-    JSON.parse(transformForSubmit(formConfig, form)),
+    JSON.parse(
+      transformForSubmit(
+        formConfig,
+        {
+          ...form,
+          data: clonedData,
+        },
+        customReplacer,
+      ),
+    ),
   );
 
   // Transform the related disabilities lists into an array of strings
   if (clonedData.vaTreatmentFacilities) {
     const newVAFacilities = clonedData.vaTreatmentFacilities.map(facility =>
       _.set(
-        'relatedDisabilities',
+        'treatedDisabilityNames',
         transformRelatedDisabilities(
-          facility.relatedDisabilities,
+          facility.treatedDisabilityNames,
           claimedConditions,
         ),
         facility,
@@ -228,7 +366,7 @@ export function transform(formConfig, form) {
       if (powDisabilities.includes(d.condition.toLowerCase())) {
         const newSpecialIssues = (d.specialIssues || []).slice();
         // TODO: Make a constant with all the possibilities and use it here
-        newSpecialIssues.push({ code: 'POW', name: '' });
+        newSpecialIssues.push('POW');
         return _.set('specialIssues', newSpecialIssues, d);
       }
       return d;
@@ -236,9 +374,23 @@ export function transform(formConfig, form) {
     delete clonedData.powDisabilities;
   }
 
-  return JSON.stringify({
-    form526: JSON.stringify(clonedData),
-  });
+  if (clonedData.providerFacility) {
+    clonedData.form4142 = {
+      ...(clonedData.limitedConsent && {
+        limitedConsent: clonedData.limitedConsent,
+      }),
+      ...(clonedData.providerFacility && {
+        providerFacility: transformProviderFacilities(
+          clonedData.providerFacility,
+        ),
+      }),
+    };
+
+    delete clonedData.limitedConsent;
+    delete clonedData.providerFacility;
+  }
+
+  return JSON.stringify({ form526: clonedData });
 }
 
 export const hasForwardingAddress = formData =>
@@ -338,11 +490,49 @@ export const fieldsHaveInput = (formData, fieldPaths) =>
 
 export const bankFieldsHaveInput = formData =>
   fieldsHaveInput(formData, [
-    'bankAccountType',
-    'bankAccountNumber',
-    'bankRoutingNumber',
-    'bankName',
+    'view:bankAccount.bankAccountType',
+    'view:bankAccount.bankAccountNumber',
+    'view:bankAccount.bankRoutingNumber',
+    'view:bankAccount.bankName',
   ]);
+
+export function incidentLocationSchemas() {
+  const addressOmitions = [
+    'addressLine1',
+    'addressLine2',
+    'addressLine3',
+    'postalCode',
+    'zipCode',
+  ];
+
+  const addressSchemaConfig = addressSchema(fullSchema);
+  const addressUIConfig = omit(addressUI(' '), addressOmitions);
+
+  return {
+    addressUI: {
+      ...addressUIConfig,
+      state: {
+        ...addressUIConfig.state,
+        'ui:title': 'State/Province',
+      },
+      additionalDetails: {
+        'ui:title':
+          'Additional details (Include address, landmark, military installation, or other location.)',
+        'ui:widget': 'textarea',
+      },
+      'ui:order': ['country', 'state', 'city', 'additionalDetails'],
+    },
+    addressSchema: {
+      ...addressSchemaConfig,
+      properties: {
+        ...omit(addressSchemaConfig.properties, addressOmitions),
+        additionalDetails: {
+          type: 'string',
+        },
+      },
+    },
+  };
+}
 
 const post911Periods = createSelector(
   data => _.get('serviceInformation.servicePeriods', data, []),
@@ -368,8 +558,27 @@ export const needsToEnter781a = formData =>
   _.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false) ||
   _.get('view:selectablePtsdTypes.view:assaultPtsdType', formData, false);
 
-export const isUploadingPtsdForm = formData =>
-  _.get('view:uploadPtsdChoice', formData, '') === 'upload';
+export const isUploading781Form = formData =>
+  _.get('view:upload781Choice', formData, '') === 'upload';
+
+export const isUploading781aForm = formData =>
+  _.get('view:upload781aChoice', formData, '') === 'upload';
+
+export const isAnswering781Questions = index => formData =>
+  _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&
+  (index === 0 ||
+    _.get(`view:enterAdditionalEvents${index - 1}`, formData, false)) &&
+  needsToEnter781(formData);
+
+export const isAnswering781aQuestions = index => formData =>
+  _.get('view:upload781aChoice', formData, '') === 'answerQuestions' &&
+  (index === 0 ||
+    _.get(
+      `view:enterAdditionalSecondaryEvents${index - 1}`,
+      formData,
+      false,
+    )) &&
+  needsToEnter781a(formData);
 
 export const getHomelessOrAtRisk = formData => {
   const homelessStatus = _.get('homelessOrAtRisk', formData, '');
@@ -381,3 +590,46 @@ export const getHomelessOrAtRisk = formData => {
 
 export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
+
+export const showPtsdCombatConclusion = form =>
+  _.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
+  _.get('view:selectablePtsdTypes.view:noncombatPtsdType', form, false);
+
+export const showPtsdAssaultConclusion = form =>
+  _.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
+  _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false);
+
+export const ancillaryFormUploadUi = (label, itemDescription) =>
+  fileUploadUI(label, {
+    itemDescription,
+    hideLabelText: !label,
+    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
+    fileTypes: [
+      'pdf',
+      'jpg',
+      'jpeg',
+      'png',
+      'gif',
+      'bmp',
+      'tif',
+      'tiff',
+      'txt',
+    ],
+    maxSize: TWENTY_FIVE_MB,
+    createPayload: file => {
+      const payload = new FormData();
+      payload.append('supporting_evidence_attachment[file_data]', file);
+
+      return payload;
+    },
+    parseResponse: (response, file) => ({
+      name: file.name,
+      confirmationCode: response.data.attributes.guid,
+    }),
+    attachmentSchema: {
+      'ui:title': 'Document type',
+    },
+    attachmentName: {
+      'ui:title': 'Document name',
+    },
+  });

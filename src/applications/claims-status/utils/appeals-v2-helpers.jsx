@@ -1093,7 +1093,7 @@ export function getNextEvents(currentStatus, details) {
                 about your appeal. A transcript of your hearing will be made and
                 added to your appeal file. The judge won’t make a decision about
                 your appeal at the hearing.{' '}
-                <a href="/disability-benefits/claims-appeal/hearings/">
+                <a href="/disability/file-an-appeal/board-of-veterans-appeals/">
                   Learn more about hearings
                 </a>
                 , including how to request a different type of hearing or
@@ -1117,7 +1117,7 @@ export function getNextEvents(currentStatus, details) {
                 about your appeal. A transcript of your hearing will be made and
                 added to your appeal file. The judge won’t make a decision about
                 your appeal at the hearing.{' '}
-                <a href="/disability-benefits/claims-appeal/hearings/">
+                <a href="/disability/file-an-appeal/board-of-veterans-appeals/">
                   Learn more about hearings
                 </a>
                 , including how to prepare for, reschedule, or cancel your

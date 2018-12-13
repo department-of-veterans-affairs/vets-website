@@ -1,5 +1,5 @@
 import merge from 'lodash/merge';
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/monthYearRange';
 import { treatmentView } from '../content/vaMedicalRecords';
@@ -29,7 +29,7 @@ export const uiSchema = {
     items: {
       'ui:order': [
         'treatmentCenterName',
-        'relatedDisabilities',
+        'treatedDisabilityNames',
         'treatmentDateRange',
         'treatmentCenterAddress',
       ],
@@ -44,7 +44,7 @@ export const uiSchema = {
           },
         },
       ),
-      relatedDisabilities: {
+      treatedDisabilityNames: {
         'ui:title':
           'Please choose the conditions for which you received treatment at this facility.',
         'ui:options': {
@@ -93,9 +93,8 @@ export const schema = {
     },
     vaTreatmentFacilities: merge({}, vaTreatmentFacilities, {
       items: {
-        required: ['treatmentCenterName', 'relatedDisabilities'],
         properties: {
-          relatedDisabilities: {
+          treatedDisabilityNames: {
             type: 'object',
             properties: {},
           },
