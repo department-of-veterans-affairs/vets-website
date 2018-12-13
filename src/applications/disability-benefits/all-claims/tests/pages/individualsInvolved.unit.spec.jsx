@@ -30,6 +30,7 @@ describe('781 individuals involved yes/no', () => {
       />,
     );
     expect(form.find('input').length).to.equal(2);
+    form.unmount();
   });
 
   it('should submit when no data is filled out', () => {
@@ -52,6 +53,7 @@ describe('781 individuals involved yes/no', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should submit when data filled in', () => {
@@ -75,5 +77,6 @@ describe('781 individuals involved yes/no', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });
