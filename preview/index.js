@@ -10,14 +10,14 @@ const path = require('path');
 const matter = require('gray-matter');
 const express = require('express');
 const octokit = require('@octokit/rest')();
-const createPipieline = require('./preview-build');
+const createPipieline = require('../src/site/stages/preview');
 
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const HOSTNAMES = require('../src/site/constants/hostnames');
 
 const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const defaultHost = HOSTNAMES[defaultBuildtype];
-const defaultContentDir = '../../vagov-content/pages';
+const defaultContentDir = '../../../../../vagov-content/pages';
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
