@@ -311,6 +311,11 @@ import {
 import { uiSchema as medalsUISchema, schema as medalsSchema } from './medals';
 
 import {
+  uiSchema as secondaryUploadSourcesUISchema,
+  schema as secondaryUploadSourcesSchema,
+} from './secondaryUploadSources';
+
+import {
   uiSchema as additionalRemarks781UISchema,
   schema as additionalRemarks781Schema,
 } from './additionalRemarks781';
@@ -319,6 +324,11 @@ import {
   uiSchema as newDisabilitiesUISchema,
   schema as newDisabilitiesSchema,
 } from './newDisabilities';
+
+import {
+  uiSchema as secondaryUploadSourcesChoiceUISchema,
+  schema as secondaryUploadSourcesChoiceSchema,
+} from './secondaryUploadSourcesChoice';
 
 import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
 
@@ -632,10 +642,16 @@ export const conclusionAssault = {
   schema: conclusionAssaultSchema,
 };
 
+export const secondaryUploadSources = {
+  uiSchema: secondaryUploadSourcesUISchema,
+  schema: secondaryUploadSourcesSchema,
+};
+
 export const medals = {
   uiSchema: medalsUISchema,
   schema: medalsSchema,
 };
+
 export const additionalRemarks781 = {
   uiSchema: additionalRemarks781UISchema,
   schema: additionalRemarks781Schema,
@@ -644,6 +660,11 @@ export const additionalRemarks781 = {
 export const newDisabilities = {
   uiSchema: newDisabilitiesUISchema,
   schema: newDisabilitiesSchema,
+};
+
+export const secondaryUploadSourcesChoice = {
+  uiSchema: secondaryUploadSourcesChoiceUISchema,
+  schema: secondaryUploadSourcesChoiceSchema,
 };
 
 export { ancillaryFormsWizardSummary };
