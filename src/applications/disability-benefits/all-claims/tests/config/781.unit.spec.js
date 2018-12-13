@@ -161,5 +161,25 @@ describe('781/781a incident form config iterators', () => {
         ).to.haveOwnProperty('type');
       }
     });
+
+    it('should return three secondary upload sources page config objects', () => {
+      const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
+
+      for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+        expect(config).to.haveOwnProperty(`secondaryUploadSources${i}`);
+
+        expect(config[`secondaryUploadSources${i}`]).to.be.an('object');
+      }
+    });
+
+    it('should return three secondary upload sources choice page config objects', () => {
+      const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
+
+      for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+        expect(config).to.haveOwnProperty(`secondaryUploadSourcesChoice${i}`);
+
+        expect(config[`secondaryUploadSourcesChoice${i}`]).to.be.an('object');
+      }
+    });
   });
 });

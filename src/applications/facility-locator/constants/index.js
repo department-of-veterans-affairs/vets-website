@@ -32,6 +32,20 @@ export const FacilityType = {
 };
 
 /**
+ * Enum for map pins.
+ * Location types mapped to the filename prefix for the png/svg.
+ */
+/* eslint-disable camelcase */
+export const PinNames = {
+  va_health_facility: 'health',
+  cc_provider: 'cc-provider',
+  va_cemetery: 'cemetery',
+  va_benefits_facility: 'benefits',
+  vet_center: 'vet-centers',
+};
+/* eslint-enable camelcase */
+
+/**
  * Defines the options available for the Location Type Dropdown
  */
 // TODO: Remove feature flag when going live
