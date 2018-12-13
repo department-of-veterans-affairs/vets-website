@@ -11,9 +11,12 @@ import {
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 import { validateDate } from 'us-forms-system/lib/js/validation';
 
-const { form4142 } = fullSchema.properties;
+const { form4142 } = fullSchema.definitions;
 
-const providerFacilities = form4142.properties.providerFacility;
+const {
+  providerFacilityName,
+  providerFacilityAddress,
+} = form4142.properties.providerFacility.items.properties;
 const limitedConsent = form4142.properties.limitedConsent;
 
 export const uiSchema = {
@@ -87,7 +90,27 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    providerFacility: providerFacilities,
+    providerFacility: {
+      type: 'array',
+      minItems: 1,
+      maxItems: 100,
+      items: {
+        type: 'object',
+        required: [
+          'providerFacilityName',
+          'treatmentDateRange',
+          'providerFacilityAddress',
+        ],
+        properties: {
+          providerFacilityName,
+          treatmentDateRange: {
+            type: 'object',
+            $ref: '#/definitions/dateRangeAllRequired',
+          },
+          providerFacilityAddress,
+        },
+      },
+    },
     'view:limitedConsent': {
       type: 'boolean',
     },

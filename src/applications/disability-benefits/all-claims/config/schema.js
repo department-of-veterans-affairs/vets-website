@@ -568,7 +568,10 @@ const schema = {
                 maxLength: 100,
               },
               treatmentDateRange: {
-                $ref: '#/definitions/dateRangeAllRequired',
+                type: 'array',
+                items: {
+                  $ref: '#/definitions/dateRangeAllRequired',
+                },
               },
               /*
                * Back end expects the following structure:
