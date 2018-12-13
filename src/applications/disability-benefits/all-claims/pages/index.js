@@ -89,6 +89,16 @@ import {
 } from './incidentDate';
 
 import {
+  uiSchema as individualsInvolvedUISchema,
+  schema as individualsInvolvedSchema,
+} from './individualsInvolved';
+
+import {
+  uiSchema as individualsInvolvedFollowUpUISchema,
+  schema as individualsInvolvedFollowUpSchema,
+} from './individualsInvolvedFollowUp';
+
+import {
   uiSchema as incidentLocationUISchema,
   schema as incidentLocationSchema,
 } from './incidentLocation';
@@ -400,6 +410,16 @@ export const incidentSupport = {
 export const incidentDate = {
   uiSchema: incidentDateUISchema,
   schema: incidentDateSchema,
+};
+
+export const individualsInvolved = {
+  uiSchema: individualsInvolvedUISchema,
+  schema: individualsInvolvedSchema,
+};
+
+export const individualsInvolvedFollowUp = {
+  uiSchema: individualsInvolvedFollowUpUISchema,
+  schema: individualsInvolvedFollowUpSchema,
 };
 
 export const incidentLocation = {
