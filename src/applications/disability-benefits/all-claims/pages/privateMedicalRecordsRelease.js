@@ -80,7 +80,7 @@ export const uiSchema = {
           'ui:validations': [validateZIP],
           'ui:errorMessages': {
             pattern:
-              'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
+              'Please enter a valid 5- or 9-digit Postal code (dashes allowed)',
           },
           'ui:options': {
             widgetClassNames: 'usa-input-medium',
