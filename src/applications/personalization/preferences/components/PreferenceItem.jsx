@@ -8,22 +8,14 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 const CallToAction = ({ cta }) => {
   const { description, link, text } = cta;
   const hasLinkAndText = link && text;
-  const isExternalLink = link && link.includes('http');
   return (
     <div>
       {description}
-      {hasLinkAndText &&
-        !isExternalLink && (
-          <Link className="usa-button" to={link}>
-            {text}
-          </Link>
-        )}
-      {hasLinkAndText &&
-        isExternalLink && (
-          <a className="usa-button" href={link}>
-            {text}
-          </a>
-        )}
+      {hasLinkAndText && (
+        <a className="usa-button" href={link}>
+          {text}
+        </a>
+      )}
     </div>
   );
 };
