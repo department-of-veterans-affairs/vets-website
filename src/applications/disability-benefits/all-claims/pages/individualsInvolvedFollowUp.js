@@ -19,7 +19,7 @@ export const uiSchema = index => ({
         viewField: IndividualsInvolvedCard,
       },
       items: {
-        fullName: fullNameUI,
+        name: fullNameUI,
         personDescription: {
           'ui:title': personDescriptionText,
           'ui:widget': 'textarea',
@@ -85,7 +85,7 @@ export const schema = index => ({
           items: {
             type: 'object',
             properties: {
-              fullName: {
+              name: {
                 type: 'object',
                 properties: {
                   first: {

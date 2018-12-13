@@ -77,21 +77,9 @@ describe('781 individuals involved', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(
-      form,
-      'input#root_incident0_personInvolved_0_fullName_first',
-      'John',
-    );
-    fillData(
-      form,
-      'input#root_incident0_personInvolved_0_fullName_last',
-      'Doe',
-    );
-    fillData(
-      form,
-      'input#root_incident0_personInvolved_0_fullName_middle',
-      'Phil',
-    );
+    fillData(form, 'input#root_incident0_personInvolved_0_name_first', 'John');
+    fillData(form, 'input#root_incident0_personInvolved_0_name_last', 'Doe');
+    fillData(form, 'input#root_incident0_personInvolved_0_name_middle', 'Phil');
     fillData(
       form,
       'textarea#root_incident0_personInvolved_0_personDescription',
