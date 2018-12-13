@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
