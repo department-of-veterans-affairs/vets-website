@@ -425,7 +425,7 @@ export const benefitChoices = [
     cta: {
       description: housingCTADescription,
       link:
-        'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan&_ga=2.26749749.986087660.1544627138-757629982.1539696635',
+        'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan',
       text: 'Apply for a Home Loan COE',
     },
     faqs: [
