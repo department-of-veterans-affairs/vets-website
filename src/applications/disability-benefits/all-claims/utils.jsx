@@ -564,10 +564,8 @@ export const isUploading781Form = formData =>
 export const isUploading781aForm = formData =>
   _.get('view:upload781aChoice', formData, '') === 'upload';
 
-export const isUploading781aSupportingDocuments = formData =>
-  _.get('view:uploadChoice0', formData, '') === true ||
-  _.get('view:uploadChoice1', formData, '') === true ||
-  _.get('view:uploadChoice2', formData, '') === true;
+export const isUploading781aSupportingDocuments = index => formData =>
+  _.get(`view:uploadChoice${index}`, formData, false);
 
 export const isAnswering781Questions = index => formData =>
   _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&

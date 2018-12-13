@@ -116,7 +116,6 @@ export function createFormConfig781a(iterations) {
           numberToWords[index]
         } 781a PTSD Upload Supporting Sources Choice`,
         path: `disabilities/ptsd-secondary-upload-supporting-sources-choice-${index}`,
-        // The Depends will need to be refactored to account for the page index/incident Number
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryUploadSourcesChoice.uiSchema(index),
         schema: secondaryUploadSourcesChoice.schema(index),
@@ -124,8 +123,7 @@ export function createFormConfig781a(iterations) {
       [`secondaryUploadSources${index}`]: {
         title: `${numberToWords[index]} 781a PTSD Upload Supporting Sources`,
         path: `disabilities/ptsd-secondary-upload-supporting-sources-${index}`,
-        // The Depends will need to be refactored to account for the page index/incident Number
-        depends: isUploading781aSupportingDocuments,
+        depends: isUploading781aSupportingDocuments(index),
         uiSchema: secondaryUploadSources.uiSchema(index),
         schema: secondaryUploadSources.schema(index),
       },
