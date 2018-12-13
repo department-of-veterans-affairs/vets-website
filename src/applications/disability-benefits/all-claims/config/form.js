@@ -80,6 +80,7 @@ import {
   unemployabilityStatus,
   unemployabilityFormIntro,
   workBehaviorChanges,
+  socialBehaviorChanges,
   additionalRemarks781,
   additionalBehaviorChanges,
   mentalHealthChanges,
@@ -335,6 +336,13 @@ const formConfig = {
           depends: isAnswering781aQuestions(0),
           uiSchema: physicalHealthChanges.uiSchema,
           schema: physicalHealthChanges.schema,
+        },
+        socialBehaviorChanges: {
+          title: 'Additional Remarks - Social Behavior Changes',
+          path: 'new-disabilities/ptsd-781a-social-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: socialBehaviorChanges.uiSchema,
+          schema: socialBehaviorChanges.schema,
         },
         mentalHealthChanges: {
           title: 'Additional Remarks - Mental Health Changes',
