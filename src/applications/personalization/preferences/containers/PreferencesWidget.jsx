@@ -18,7 +18,6 @@ import {
 } from '../actions';
 import {
   benefitChoices,
-  deduplicate,
   SaveSucceededMessageComponent,
   SaveFailedMessageComponent,
   RetrieveFailedMessageComponent,
