@@ -234,6 +234,11 @@ import {
 } from './unemployabilityFormIntro';
 
 import {
+  uiSchema as workBehaviorChangesUISchema,
+  schema as workBehaviorChangesSchema,
+} from './workBehaviorChanges';
+
+import {
   uiSchema as socialBehaviorChangesUISchema,
   schema as socialBehaviorChangesSchema,
 } from './socialBehaviorChanges';
@@ -555,6 +560,11 @@ export const finalIncident = {
 export const secondaryFinalIncident = {
   uiSchema: secondaryFinalIncidentUISchema,
   schema: secondaryFinalIncidentSchema,
+};
+
+export const workBehaviorChanges = {
+  uiSchema: workBehaviorChangesUISchema,
+  schema: workBehaviorChangesSchema,
 };
 
 export const additionalBehaviorChanges = {
