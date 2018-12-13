@@ -12,6 +12,7 @@ import {
   secondaryIncidentAuthorities,
   ptsdAdditionalEvents,
   ptsdSecondaryAdditionalEvents,
+  medals,
 } from '../../pages';
 
 import { isAnswering781Questions, isAnswering781aQuestions } from '../../utils';
@@ -35,6 +36,13 @@ export function createFormConfig781(iterations) {
     configObj = {
       ...configObj,
       // 781 PAGE CONFIGS GO HERE
+      [`medals${index}`]: {
+        title: `${numberToWords[index]} Medals or citations`,
+        path: `disabilities/ptsd-medals-${index}`,
+        depends: isAnswering781Questions(index),
+        uiSchema: medals.uiSchema(index),
+        schema: medals.schema(index),
+      },
       [`incidentDate${index}`]: {
         title: `${numberToWords[index]} PTSD incident date`,
         path: `disabilities/ptsd-incident-date-${index}`,

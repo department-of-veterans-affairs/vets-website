@@ -234,6 +234,11 @@ import {
 } from './unemployabilityFormIntro';
 
 import {
+  uiSchema as socialBehaviorChangesUISchema,
+  schema as socialBehaviorChangesSchema,
+} from './socialBehaviorChanges';
+
+import {
   uiSchema as additionalBehaviorChangesUISchema,
   schema as additionalBehaviorChangesSchema,
 } from './additionalBehaviorChanges';
@@ -287,6 +292,8 @@ import {
   uiSchema as conclusionAssaultUISchema,
   schema as conclusionAssaultSchema,
 } from './conclusionAssault';
+
+import { uiSchema as medalsUISchema, schema as medalsSchema } from './medals';
 
 import {
   uiSchema as additionalRemarks781UISchema,
@@ -525,6 +532,11 @@ export const unemployabilityFormIntro = {
   schema: unemployabilityFormIntroSchema,
 };
 
+export const socialBehaviorChanges = {
+  uiSchema: socialBehaviorChangesUISchema,
+  schema: socialBehaviorChangesSchema,
+};
+
 export const finalIncident = {
   uiSchema: finalIncidentUISchema,
   schema: finalIncidentSchema,
@@ -590,6 +602,10 @@ export const conclusionAssault = {
   schema: conclusionAssaultSchema,
 };
 
+export const medals = {
+  uiSchema: medalsUISchema,
+  schema: medalsSchema,
+};
 export const additionalRemarks781 = {
   uiSchema: additionalRemarks781UISchema,
   schema: additionalRemarks781Schema,
