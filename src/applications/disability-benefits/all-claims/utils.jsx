@@ -632,7 +632,5 @@ export const ancillaryFormUploadUi = (label, itemDescription) =>
     attachmentSchema: {
       'ui:title': 'Document type',
     },
-    attachmentName: {
-      'ui:title': 'Document name',
-    },
+    attachmentName: false,
   });
