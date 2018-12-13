@@ -5,7 +5,15 @@ import { buildAddressArray } from '../../utils/facilityAddress';
 class LocationDirectionsLink extends Component {
   render() {
     const { location } = this.props;
-    const address = buildAddressArray(location).join(', ');
+    let address = buildAddressArray(location);
+
+    if (address.length !== 0) {
+      address = address.join(', ');
+    } else {
+      // If we don't have an address fallback on coords
+      const { lat, long } = location.attributes;
+      address = `${lat},${long}`;
+    }
 
     return (
       <span>
