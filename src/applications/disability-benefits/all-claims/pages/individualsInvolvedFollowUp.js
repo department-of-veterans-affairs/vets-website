@@ -19,7 +19,7 @@ export const uiSchema = index => ({
         viewField: IndividualsInvolvedCard,
       },
       items: {
-        name: fullNameUI,
+        fullName: fullNameUI,
         personDescription: {
           'ui:title': personDescriptionText,
           'ui:widget': 'textarea',
@@ -85,8 +85,23 @@ export const schema = index => ({
           items: {
             type: 'object',
             properties: {
-              name: {
-                $ref: '#/definitions/fullName',
+              fullName: {
+                type: 'object',
+                properties: {
+                  first: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                  middle: {
+                    type: 'string',
+                  },
+                  last: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 30,
+                  },
+                },
               },
               personDescription: {
                 type: 'string',
