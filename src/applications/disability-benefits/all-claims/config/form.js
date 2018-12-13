@@ -34,7 +34,6 @@ import {
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
   transform,
-  isAnsweringPtsdForm,
 } from '../utils';
 
 import { veteranInfoDescription } from '../content/veteranDetails';
