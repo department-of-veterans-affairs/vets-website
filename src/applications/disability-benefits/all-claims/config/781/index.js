@@ -36,6 +36,7 @@ const numberToWords = {
   9: 'Tenth',
 };
 
+// This removes "First " from the title if there is only one incident.
 const setReviewTitle = (title, index, formType) => formData => {
   const additionalIncidentKey = `view:enterAdditional${
     formType === '781a' ? 'Secondary' : ''
