@@ -2,7 +2,6 @@ import {
   transformForSubmit,
   recordEvent,
 } from 'us-forms-system/lib/js/helpers';
-import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 
 export default function submitForm(form, formConfig) {
   const body = formConfig.transformForSubmit
@@ -17,10 +16,6 @@ export default function submitForm(form, formConfig) {
     req.open('POST', formConfig.submitUrl);
 
     req.withCredentials = true;
-    const userToken = conditionalStorage().getItem('userToken');
-    if (userToken) {
-      req.setRequestHeader('Authorization', `Token token=${userToken}`);
-    }
 
     req.addEventListener('load', () => {
       if (req.status >= 200 && req.status < 300) {

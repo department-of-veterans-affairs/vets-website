@@ -88,7 +88,7 @@ class PrescriptionsWidget extends React.Component {
             ) : (
               <span>
                 <Link
-                  href="/health-care/prescriptions"
+                  href="/health-care/refill-track-prescriptions/"
                   onClick={recordDashboardClick('view-all-prescriptions')}
                 >
                   View all your prescriptions

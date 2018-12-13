@@ -143,7 +143,7 @@ class AccountMain extends React.Component {
             security on {propertyName}.
           </p>
           <a
-            href="/faq"
+            href="/sign-in-faq/"
             onClick={() =>
               recordEvent({
                 event: 'account-navigation',

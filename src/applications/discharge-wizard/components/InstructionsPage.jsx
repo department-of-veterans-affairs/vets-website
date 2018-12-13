@@ -6,7 +6,11 @@ class InstructionsPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    const defaultOpenFaqItem =
+      document.location.hash && document.location.hash.slice(1);
+    this.state = {
+      [defaultOpenFaqItem]: true,
+    };
   }
 
   componentDidMount() {
@@ -86,12 +90,13 @@ class InstructionsPage extends React.Component {
                         <ul className="usa-unstyled-list">
                           <li itemScope itemType="http://schema.org/Question">
                             <button
+                              id="other-options"
                               className="usa-button-unstyled usa-accordion-button"
                               aria-controls="dbq4"
                               itemProp="name"
-                              aria-expanded={!!this.state.q1}
+                              aria-expanded={!!this.state['other-options']}
                               onClick={this.handleFAQToggle}
-                              name="q1"
+                              name="other-options"
                             >
                               Can I get VA benefits without a discharge upgrade?
                             </button>
@@ -145,19 +150,19 @@ class InstructionsPage extends React.Component {
                                 <p>Learn more about:</p>
                                 <ul>
                                   <li>
-                                    <a href="/health-care/health-conditions/military-sexual-trauma/">
+                                    <a href="/health-care/health-needs-conditions/military-sexual-trauma/">
                                       VA health benefits for Veterans who've
                                       experienced military sexual trauma
                                     </a>
                                   </li>
                                   <li>
-                                    <a href="/health-care/health-conditions/mental-health/">
+                                    <a href="/health-care/health-needs-conditions/mental-health/">
                                       VA health benefits for Veterans with
                                       mental health conditions
                                     </a>
                                   </li>
                                   <li>
-                                    <a href="/health-care/health-conditions/mental-health/ptsd/">
+                                    <a href="/health-care/health-needs-conditions/mental-health/ptsd/">
                                       VA health benefits for Veterans with PTSD
                                     </a>
                                   </li>
