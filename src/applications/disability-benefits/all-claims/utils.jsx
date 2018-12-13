@@ -298,21 +298,25 @@ export function transformIncident(incident, personalAssault) {
   return transformed;
 }
 
+export function getPtsdChangeFieldTitles(changeFields, formConfig) {
+  const titles = [];
+  Object.keys(changeFields)
+    .filter(key => key !== 'other' && key !== 'otherExplanation')
+    .forEach(key => {
+      titles.push(formConfig[key]['ui:title']);
+    });
+  return titles;
+}
+
 export function transformPtsdOtherInformation(formData, formConfig) {
   let otherInformation = [];
 
   if (formData.physicalChanges) {
-    const {
-      physicalChanges,
-    } = formConfig.chapters.disabilities.pages.physicalHealthChanges.uiSchema;
-    const physicalChangeInfo = [];
-
-    Object.keys(formData.physicalChanges)
-      .filter(key => key !== 'other' && key !== 'otherExplanation')
-      .forEach(key => {
-        physicalChangeInfo.push(physicalChanges[key]['ui:title']);
-      });
-
+    const physicalChangeInfo = getPtsdChangeFieldTitles(
+      formData.physicalChanges,
+      formConfig.chapters.disabilities.pages.physicalHealthChanges.uiSchema
+        .physicalChanges,
+    );
     if (formData.physicalChanges.otherExplanation) {
       physicalChangeInfo.push(formData.physicalChanges.otherExplanation);
     }
@@ -320,22 +324,29 @@ export function transformPtsdOtherInformation(formData, formConfig) {
   }
 
   if (formData.mentalChanges) {
-    const {
-      mentalChanges,
-    } = formConfig.chapters.disabilities.pages.mentalHealthChanges.uiSchema;
-    const mentalChangeInfo = [];
-
-    Object.keys(formData.mentalChanges)
-      .filter(key => key !== 'other' && key !== 'otherExplanation')
-      .forEach(key => {
-        mentalChangeInfo.push(mentalChanges[key]['ui:title']);
-      });
-
+    const mentalChangeInfo = getPtsdChangeFieldTitles(
+      formData.mentalChanges,
+      formConfig.chapters.disabilities.pages.mentalHealthChanges.uiSchema
+        .mentalChanges,
+    );
     if (formData.mentalChanges.otherExplanation) {
       mentalChangeInfo.push(formData.mentalChanges.otherExplanation);
     }
     otherInformation = [...otherInformation, ...mentalChangeInfo];
   }
+
+  // // needs work behavior changes page
+  // if (formData.workBehaviorChanges) {
+  //   const workChangeInfo = getPtsdChangeFieldTitles(
+  //     formData.mentalChanges,
+  //     formConfig.chapters.disabilities.pages.workBehaviorChanges.uiSchema
+  //       .workBehaviorChanges,
+  //   );
+  //   if (formData.workBehaviorChanges.otherExplanation) {
+  //     workChangeInfo.push(formData.workBehaviorChanges.otherExplanation);
+  //   }
+  //   otherInformation = [...otherInformation, ...workChangeInfo];
+  // }
 
   if (formData.additionalChanges) {
     otherInformation.push(formData.additionalChanges);
@@ -507,14 +518,15 @@ export function transform(formConfig, form) {
     if (otherInformation.length > 0) {
       clonedData.form0781.otherInformation = otherInformation;
     }
-  }
 
-  delete clonedData.physicalChanges;
-  delete clonedData.mentalChanges;
-  delete clonedData.additionalChanges;
-  delete clonedData.additionalRemarks781;
-  delete clonedData.additionalIncidentText;
-  delete clonedData.additionalSecondaryIncidentText;
+    delete clonedData.physicalChanges;
+    delete clonedData.mentalChanges;
+    delete clonedData.workBehaviorChanges;
+    delete clonedData.additionalChanges;
+    delete clonedData.additionalRemarks781;
+    delete clonedData.additionalIncidentText;
+    delete clonedData.additionalSecondaryIncidentText;
+  }
 
   return JSON.stringify({ form526: clonedData });
 }

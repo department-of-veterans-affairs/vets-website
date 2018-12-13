@@ -382,6 +382,12 @@
       "other": true,
       "otherExplanation": "Other mental change"
     },
+    "workBehaviorChanges": {
+      "performanceChanges": true,
+      "resign": true,
+      "other": true,
+      "otherExplanation": "Other work behavior change"
+    },
     "additionalChanges": "Additional changes test"
   }
 }
