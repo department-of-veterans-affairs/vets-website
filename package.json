@@ -10,7 +10,7 @@
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype production --analyzer; npm run analyze",
     "generate-link-csv:brand-consolidation": "node script/build.js --brand-consolidation-enabled && node script/csv-path-builder",
     "prebuild": "node script/prebuild.js",
-    "heroku-serve": "node script/preview.js",
+    "heroku-serve": "http-server",
     "heroku-postbuild": "sh script/heroku-postbuild.sh",
     "lint": "npm run lint:js && npm run lint:sass",
     "lint:changed": "npm run lint:js:changed && npm run lint:sass",
@@ -226,7 +226,7 @@
   "dependencies": {
     "@department-of-veterans-affairs/formation": "^1.12.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
-    "@octokit/rest": "^15.17.0",
+    "@octokit/rest": "^16.2.0",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "blob-polyfill": "^2.0.20171115",
     "camelcase-keys-recursive": "^0.8.2",
