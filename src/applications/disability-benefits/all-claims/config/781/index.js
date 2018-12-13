@@ -43,7 +43,7 @@ const numberToWords = {
 const setReviewTitle = (title, index, formType) => formData => {
   const additionalIncidentKey = `view:enterAdditional${
     formType === '781a' ? 'Secondary' : ''
-    }Events${index}`;
+  }Events${index}`;
 
   let formattedTitle = title;
 
@@ -159,7 +159,7 @@ export function createFormConfig781a(iterations) {
       [`secondaryUploadSourcesChoice${index}`]: {
         title: `${
           numberToWords[index]
-          } 781a PTSD Upload Supporting Sources Choice`,
+        } 781a PTSD Upload Supporting Sources Choice`,
         path: `disabilities/ptsd-secondary-upload-supporting-sources-choice-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryUploadSourcesChoice.uiSchema(index),
