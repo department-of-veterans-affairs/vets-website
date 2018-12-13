@@ -26,15 +26,20 @@ export function fetchUserSelectedBenefits() {
       null,
       response => {
         // We just want to get an array of Benefits preferences
-        const selectedBenefits = response.data.attributes.userPreferences
-          .find(
-            preferenceGroup =>
-              preferenceGroup.code === PREFERENCE_CODES.benefits,
-          )
-          .userPreferences.reduce((acc, pref) => {
-            acc[pref.code] = true;
-            return acc;
-          }, {});
+        let selectedBenefits = response.data.attributes.userPreferences;
+        if (selectedBenefits.length) {
+          selectedBenefits = selectedBenefits
+            .find(
+              preferenceGroup =>
+                preferenceGroup.code === PREFERENCE_CODES.benefits,
+            )
+            .userPreferences.reduce((acc, pref) => {
+              acc[pref.code] = true;
+              return acc;
+            }, {});
+        } else {
+          selectedBenefits = {};
+        }
 
         dispatch({
           type: SET_DASHBOARD_USER_PREFERENCES,
