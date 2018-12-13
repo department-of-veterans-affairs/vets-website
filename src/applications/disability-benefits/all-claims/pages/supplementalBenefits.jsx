@@ -27,7 +27,6 @@ export const uiSchema = {
     'ui:title':
       'Do you receive, or expect to receive, disability retirement benefits?',
     'ui:widget': 'yesNo',
-    'ui:options': {},
   },
   receiveExpectWorkersCompensation: {
     'ui:title':
@@ -51,7 +50,6 @@ export const schema = {
     },
     'view:supplementalBenefitsHelp': {
       type: 'object',
-      properties: {},
     },
   },
 };

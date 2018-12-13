@@ -5,6 +5,8 @@ import { DefinitionTester } from '../../../../../platform/testing/unit/schemafor
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
+import { ERR_MSG_CSS_CLASS } from '../../constants';
+
 describe('Supplmental Benefits 8940', () => {
   const {
     schema,
@@ -41,7 +43,7 @@ describe('Supplmental Benefits 8940', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
