@@ -36,63 +36,85 @@ const numberToWords = {
   9: 'Tenth',
 };
 
+const setReviewTitle = (title, index, formType) => formData => {
+  const additionalIncidentKey = `view:enterAdditional${
+    formType === '781a' ? 'Secondary' : ''
+  }Events${index}`;
+
+  let formattedTitle = title;
+
+  if (formData[additionalIncidentKey]) {
+    formattedTitle = `${numberToWords[index]} ${title}`;
+  }
+  return formattedTitle;
+};
+
 export function createFormConfig781(iterations) {
   let configObj = {};
+  const formType = '781';
   for (let index = 0; index < iterations; index++) {
     configObj = {
       ...configObj,
       // 781 PAGE CONFIGS GO HERE
       [`medals${index}`]: {
-        title: `${numberToWords[index]} Medals or citations`,
+        title: setReviewTitle('Medals or citations', index, formType),
         path: `disabilities/ptsd-medals-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: medals.uiSchema(index),
         schema: medals.schema(index),
       },
       [`incidentDate${index}`]: {
-        title: `${numberToWords[index]} PTSD incident date`,
+        title: setReviewTitle('PTSD incident date', index, formType),
         path: `disabilities/ptsd-incident-date-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: incidentDate.uiSchema(index),
         schema: incidentDate.schema(index),
       },
       [`incidentUnitAssignment${index}`]: {
-        title: `${numberToWords[index]} PTSD incident unit assignment`,
+        title: setReviewTitle('PTSD incident unit assignment', index, formType),
         path: `disabilities/ptsd-incident-unit-assignment-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: incidentUnitAssignment.uiSchema(index),
         schema: incidentUnitAssignment.schema(index),
       },
       [`incidentLocation${index}`]: {
-        title: `${numberToWords[index]} PTSD incident location`,
+        title: setReviewTitle('PTSD incident location', index, formType),
         path: `disabilities/ptsd-incident-location-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: incidentLocation.uiSchema(index),
         schema: incidentLocation.schema(index),
       },
       [`individualsInvolved${index}`]: {
-        title: `${numberToWords[index]} PTSD individuals Involved yes/no`,
+        title: setReviewTitle(
+          'PTSD incident were any individuals involved?',
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-individuals-involved-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: individualsInvolved.uiSchema(index),
         schema: individualsInvolved.schema(index),
       },
       [`incidentSupport${index}`]: {
-        title: `${numberToWords[index]} PTSD incident support`,
+        title: setReviewTitle('PTSD incident support', index, formType),
         path: `disabilities/ptsd-incident-support-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: incidentSupport.uiSchema('781'),
         schema: incidentSupport.schema,
       },
       [`individualsInvolvedFollowUp${index}`]: {
-        title: `${numberToWords[index]} PTSD individuals Involved`,
+        title: setReviewTitle(
+          'PTSD incident individuals involved',
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-individuals-involved-questions-${index}`,
         depends: isAddingIndividuals(index),
         uiSchema: individualsInvolvedFollowUp.uiSchema(index),
         schema: individualsInvolvedFollowUp.schema(index),
       },
       [`incidentDescription${index}`]: {
-        title: `${numberToWords[index]} 781 PTSD Event Description`,
+        title: setReviewTitle('PTSD Event Description', index, formType),
         path: `disabilities/ptsd-incident-description-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: incidentDescription.uiSchema(index),
@@ -100,7 +122,11 @@ export function createFormConfig781(iterations) {
       },
       // This should be the last page in the config loop
       [`ptsdAdditionalEvents${index}`]: {
-        title: `${numberToWords[index]} PTSD incident Additional events.`,
+        title: setReviewTitle(
+          'PTSD incident Additional events.',
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-additional-events-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: ptsdAdditionalEvents.uiSchema(index),
@@ -114,54 +140,71 @@ export function createFormConfig781(iterations) {
 
 export function createFormConfig781a(iterations) {
   let configObj = {};
+  const formType = '781a';
   for (let index = 0; index < iterations; index++) {
     configObj = {
       ...configObj,
       // 781a PAGE CONFIGS GO HERE
       [`secondaryIncidentDate${index}`]: {
-        title: `${numberToWords[index]} PTSD assault incident date`,
+        title: setReviewTitle('PTSD assault incident date', index, formType),
         path: `disabilities/ptsd-secondary-incident-date-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentDate.uiSchema(index),
         schema: secondaryIncidentDate.schema(index),
       },
       [`secondaryIncidentDescription${index}`]: {
-        title: `${numberToWords[index]} 781a PTSD Event Description`,
+        title: setReviewTitle(
+          'PTSD assault event description',
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-secondary-incident-description-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentDescription.uiSchema(index),
         schema: secondaryIncidentDescription.schema(index),
       },
       [`secondaryIncidentSupport${index}`]: {
-        title: `${numberToWords[index]} PTSD assault incident support`,
+        title: setReviewTitle('PTSD assault incident support', index, formType),
         path: `disabilities/ptsd-secondary-incident-support-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: incidentSupport.uiSchema('781a'),
         schema: incidentSupport.schema,
       },
       [`secondaryIncidentUnitAssignment${index}`]: {
-        title: `${numberToWords[index]} PTSD assualt incident unit assignment`,
+        title: setReviewTitle(
+          'PTSD assualt incident unit assignment',
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-secondary-incident-unit-assignment-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentUnitAssignment.uiSchema(index),
         schema: secondaryIncidentUnitAssignment.schema(index),
       },
       [`secondaryIncidentLocation${index}`]: {
-        title: `${numberToWords[index]} PTSD assault incident location`,
+        title: setReviewTitle(
+          'PTSD assault incident location',
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-secondary-incident-location-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentLocation.uiSchema(index),
         schema: secondaryIncidentLocation.schema(index),
       },
       [`secondaryIncidentPermissionNotice${index}`]: {
-        title: `${numberToWords[index]} PTSD assault permission notice`,
+        title: setReviewTitle(
+          'PTSD assault permission notice',
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-secondary-permission-notice-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentPermissionNotice.uiSchema,
         schema: secondaryIncidentPermissionNotice.schema,
       },
       [`secondaryIncidentAuthorities${index}`]: {
-        title: `${numberToWords[index]} PTSD assault authorities`,
+        title: setReviewTitle('PTSD assault authorities', index, formType),
         path: `disabilities/ptsd-secondary-authorities-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentAuthorities.uiSchema(index),
@@ -169,7 +212,11 @@ export function createFormConfig781a(iterations) {
       },
       // This should be the last page in the config loop
       [`ptsdSecondaryAdditionalEvents${index}`]: {
-        title: `${numberToWords[index]} PTSD assault additional events.`,
+        title: setReviewTitle(
+          'PTSD assault additional events',
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-781a-additional-events-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: ptsdSecondaryAdditionalEvents.uiSchema(index),
