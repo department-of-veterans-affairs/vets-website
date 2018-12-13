@@ -354,8 +354,7 @@ const formConfig = {
         workBehaviorChanges: {
           title: 'Additional Remarks - Behavior Changes at Work',
           path: 'new-disabilities/ptsd-781a-work-changes',
-          depends: formData =>
-            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
+          depends: isAnswering781aQuestions(0),
           uiSchema: workBehaviorChanges.uiSchema,
           schema: workBehaviorChanges.schema,
         },
