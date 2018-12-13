@@ -9,7 +9,6 @@ export const uiSchema = index => ({
       'Was anyone killed or injured, not including yourself, during this event?',
     'ui:widget': 'yesNo',
     'ui:options': {
-      hideOnReview: true,
       labels: {
         N: 'No, nobody else was injured or killed.',
       },
