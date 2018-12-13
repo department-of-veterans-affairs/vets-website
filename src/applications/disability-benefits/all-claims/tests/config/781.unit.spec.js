@@ -164,14 +164,11 @@ describe('781/781a incident form config iterators', () => {
     it('should return three secondary upload sources page config objects', () => {
       const config = createFormConfig781a(PTSD_INCIDENT_ITERATION);
 
-      const testMultipleSecondaryUploadSourcesProps = () => {
-        for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
-          expect(config).to.haveOwnProperty(`secondaryUploadSources${i}`);
+      for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+        expect(config).to.haveOwnProperty(`secondaryUploadSources${i}`);
 
-          expect(config[`secondaryUploadSources${i}`]).to.be.an('object');
-        }
-      };
-      testMultipleSecondaryUploadSourcesProps();
+        expect(config[`secondaryUploadSources${i}`]).to.be.an('object');
+      }
     });
   });
 });

@@ -99,7 +99,7 @@ import { PTSD, PTSD_INCIDENT_ITERATION } from '../constants';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const createFormConfig = {
+const formConfig = {
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${
@@ -573,4 +573,4 @@ const createFormConfig = {
   },
 };
 
-export default createFormConfig;
+export default formConfig;
