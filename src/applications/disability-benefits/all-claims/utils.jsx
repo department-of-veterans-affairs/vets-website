@@ -6,9 +6,11 @@ import { createSelector } from 'reselect';
 import { omit } from 'lodash';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import { apiRequest } from '../../../platform/utilities/api';
+import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
 import fullSchema from './config/schema';
 import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
+import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 
 import {
   schema as addressSchema,
@@ -22,6 +24,7 @@ import {
   DATA_PATHS,
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
+  TWENTY_FIVE_MB,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -576,3 +579,38 @@ export const needsToEnterUnemployability = formData =>
 export const needsToAnswerUnemployability = formData =>
   needsToEnterUnemployability(formData) &&
   _.get('view:unemployabilityUploadChoice', formData, '') === 'answerQuestions';
+
+export const ancillaryFormUploadUi = (label, itemDescription) =>
+  fileUploadUI(label, {
+    itemDescription,
+    hideLabelText: !label,
+    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
+    fileTypes: [
+      'pdf',
+      'jpg',
+      'jpeg',
+      'png',
+      'gif',
+      'bmp',
+      'tif',
+      'tiff',
+      'txt',
+    ],
+    maxSize: TWENTY_FIVE_MB,
+    createPayload: file => {
+      const payload = new FormData();
+      payload.append('supporting_evidence_attachment[file_data]', file);
+
+      return payload;
+    },
+    parseResponse: (response, file) => ({
+      name: file.name,
+      confirmationCode: response.data.attributes.guid,
+    }),
+    attachmentSchema: {
+      'ui:title': 'Document type',
+    },
+    attachmentName: {
+      'ui:title': 'Document name',
+    },
+  });
