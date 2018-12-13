@@ -1,5 +1,4 @@
-import compact from 'lodash/compact';
-import isEmpty from 'lodash/isEmpty';
+import { compact, isEmpty } from 'lodash/compact';
 import { LocationType } from '../constants';
 
 export function buildAddressArray(location) {

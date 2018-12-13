@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { ccLocatorEnabled } from '../config';
 
 /**
@@ -33,8 +32,10 @@ export const FacilityType = {
 };
 
 /**
- *
+ * Enum for map pins.
+ * Location types mapped to the filename prefix for the png/svg.
  */
+/* eslint-disable camelcase */
 export const PinNames = {
   va_health_facility: 'health',
   cc_provider: 'cc-provider',
@@ -42,6 +43,7 @@ export const PinNames = {
   va_benefits_facility: 'benefits',
   vet_center: 'vet-centers',
 };
+/* eslint-enable camelcase */
 
 /**
  * Defines the options available for the Location Type Dropdown
