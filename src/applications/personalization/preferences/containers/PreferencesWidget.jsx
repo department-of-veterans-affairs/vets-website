@@ -6,6 +6,7 @@ import moment from 'moment';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
+import deduplicate from 'platform/utilities/data/deduplicate';
 import environment from 'platform/utilities/environment';
 
 import PreferenceList from '../components/PreferenceList';
@@ -78,10 +79,10 @@ class PreferencesWidget extends React.Component {
       item => !!dashboard[item.slug],
     );
     const hasSelectedBenefits = !!selectedBenefits.length;
-    const selectedBenefitAlerts = selectedBenefits
+    let selectedBenefitAlerts = selectedBenefits
       .filter(item => !!item.alert)
       .map(item => item.alert);
-
+    selectedBenefitAlerts = deduplicate(selectedBenefitAlerts);
     return (
       <div className="row user-profile-row">
         <div className="small-12 columns">
@@ -113,7 +114,7 @@ class PreferencesWidget extends React.Component {
           {!hasSelectedBenefits && (
             <div>
               <p>You haven’t selected any benefits to learn about.</p>
-              <Link to="preferences">Select benefits now</Link>
+              <Link to="preferences">Select benefits now.</Link>
             </div>
           )}
           {selectedBenefitAlerts.length > 0 && (
