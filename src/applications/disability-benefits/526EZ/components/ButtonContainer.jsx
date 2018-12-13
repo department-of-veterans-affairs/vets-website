@@ -11,6 +11,7 @@ export default function ButtonContainer(props) {
     authenticate,
     isVerified,
     isLoggedIn,
+    handleKeyPress,
   } = props;
   const { atIncreaseGuidance, atEbenefitsGuidance } = checkGuidanceStatus();
 
@@ -66,10 +67,16 @@ export default function ButtonContainer(props) {
         </a>
       )}
       {!atGuidance() && (
-        <a className="usa-button-primary" onClick={goForward}>
+        <div
+          className="usa-button-primary"
+          role="button"
+          tabIndex="0"
+          onClick={goForward}
+          onKeyPress={handleKeyPress}
+        >
           Next
           <span className="button-icon"> »</span>
-        </a>
+        </div>
       )}
     </div>
   );
