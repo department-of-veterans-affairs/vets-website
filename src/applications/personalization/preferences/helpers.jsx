@@ -492,11 +492,6 @@ export const benefitChoices = [
   },
 ];
 
-export const deduplicate = items => {
-  const uniques = new Set(items);
-  return Array.from(uniques);
-};
-
 export const RetrieveFailedMessageComponent = ({ showLink }) => (
   <AlertBox
     status="error"

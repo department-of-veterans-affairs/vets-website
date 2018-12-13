@@ -6,12 +6,13 @@ import moment from 'moment';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
+import deduplicate from 'platform/utilities/data/deduplicate';
 import environment from 'platform/utilities/environment';
 
 import PreferenceList from '../components/PreferenceList';
 
 import { setPreference, savePreferences, fetchPreferences } from '../actions';
-import { benefitChoices, deduplicate } from '../helpers';
+import { benefitChoices } from '../helpers';
 
 const BenefitAlert = ({ alert: Alert }) => <Alert />;
 
