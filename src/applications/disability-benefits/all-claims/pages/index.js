@@ -89,6 +89,16 @@ import {
 } from './incidentDate';
 
 import {
+  uiSchema as individualsInvolvedUISchema,
+  schema as individualsInvolvedSchema,
+} from './individualsInvolved';
+
+import {
+  uiSchema as individualsInvolvedFollowUpUISchema,
+  schema as individualsInvolvedFollowUpSchema,
+} from './individualsInvolvedFollowUp';
+
+import {
   uiSchema as incidentLocationUISchema,
   schema as incidentLocationSchema,
 } from './incidentLocation';
@@ -232,6 +242,11 @@ import {
   uiSchema as unemployabilityFormIntroUISchema,
   schema as unemployabilityFormIntroSchema,
 } from './unemployabilityFormIntro';
+
+import {
+  uiSchema as workBehaviorChangesUISchema,
+  schema as workBehaviorChangesSchema,
+} from './workBehaviorChanges';
 
 import {
   uiSchema as socialBehaviorChangesUISchema,
@@ -397,6 +412,16 @@ export const incidentDate = {
   schema: incidentDateSchema,
 };
 
+export const individualsInvolved = {
+  uiSchema: individualsInvolvedUISchema,
+  schema: individualsInvolvedSchema,
+};
+
+export const individualsInvolvedFollowUp = {
+  uiSchema: individualsInvolvedFollowUpUISchema,
+  schema: individualsInvolvedFollowUpSchema,
+};
+
 export const incidentLocation = {
   uiSchema: incidentLocationUISchema,
   schema: incidentLocationSchema,
@@ -545,6 +570,11 @@ export const finalIncident = {
 export const secondaryFinalIncident = {
   uiSchema: secondaryFinalIncidentUISchema,
   schema: secondaryFinalIncidentSchema,
+};
+
+export const workBehaviorChanges = {
+  uiSchema: workBehaviorChangesUISchema,
+  schema: workBehaviorChangesSchema,
 };
 
 export const additionalBehaviorChanges = {
