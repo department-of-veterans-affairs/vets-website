@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
@@ -6,14 +7,22 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
 const CallToAction = ({ cta }) => {
   const { description, link, text } = cta;
+  const hasLinkAndText = link && text;
+  const isExternalLink = link && link.includes('http');
   return (
     <div>
-      {description && description}
-      {link &&
-        text && (
+      {description}
+      {hasLinkAndText &&
+        !isExternalLink && (
           <Link className="usa-button va-button-primary" to={link}>
             {text}
           </Link>
+        )}
+      {hasLinkAndText &&
+        isExternalLink && (
+          <a className="usa-button va-button-primary" href={link}>
+            {text}
+          </a>
         )}
     </div>
   );
@@ -92,3 +101,22 @@ export default function PreferenceItem({
     </div>
   );
 }
+
+PreferenceItem.propTypes = {
+  handleViewToggle: PropTypes.func.isRequired,
+  handleRemove: PropTypes.func.isRequired,
+  isRemoving: PropTypes.bool.isRequired,
+  benefit: PropTypes.shape({
+    title: PropTypes.string,
+    slug: PropTypes.string,
+    description: PropTypes.string,
+    introduction: PropTypes.string,
+    alert: PropTypes.func,
+    faqs: PropTypes.array,
+    cta: PropTypes.shape({
+      description: PropTypes.element,
+      link: PropTypes.string,
+      text: PropTypes.string,
+    }),
+  }),
+};

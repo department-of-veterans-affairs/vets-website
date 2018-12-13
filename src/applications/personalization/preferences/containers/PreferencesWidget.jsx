@@ -6,6 +6,7 @@ import moment from 'moment';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
+import deduplicate from 'platform/utilities/data/deduplicate';
 import environment from 'platform/utilities/environment';
 
 import PreferenceList from '../components/PreferenceList';

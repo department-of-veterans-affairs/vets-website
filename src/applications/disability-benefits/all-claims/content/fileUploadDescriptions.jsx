@@ -11,7 +11,7 @@ export const uploadDescription = (
     </p>
     <ul>
       <li>You can upload files in a .pdf, .jpeg, or .png format</li>
-      <li>Files can be a maximum of 50MB each</li>
+      <li>Files can be a maximum of 25MB each</li>
     </ul>
     <p>
       <em>
