@@ -279,15 +279,11 @@ export function concatIncidentLocationString(incidentLocation) {
 }
 
 export function getPtsdChangeFieldTitles(changeFields, formConfig) {
-  const titles = [];
-  Object.keys(changeFields)
+  return Object.keys(changeFields)
     .filter(
       key => key !== 'other' && key !== 'otherExplanation' && formConfig[key],
     )
-    .forEach(key => {
-      titles.push(formConfig[key]['ui:title']);
-    });
-  return titles;
+    .map(key => formConfig[key]['ui:title']);
 }
 
 /**
