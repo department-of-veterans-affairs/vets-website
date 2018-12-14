@@ -44,7 +44,7 @@ describe.only('preferencesReducer', () => {
     expect(newState.availableBenefits).to.be.deep.equal([]);
   });
 
-  it('sets the `allBenefitsLoadingStatus` when the `SET_SAVE_PREFERENCES_REQUEST_STATUS` action is dispatched', () => {
+  it('sets the `saveStatus` when the `SET_SAVE_PREFERENCES_REQUEST_STATUS` action is dispatched', () => {
     action = {
       type: preferencesActions.SET_SAVE_PREFERENCES_REQUEST_STATUS,
       status: 'loaded',
@@ -53,5 +53,21 @@ describe.only('preferencesReducer', () => {
     expect(newState.saveStatus).to.equal('loaded');
     expect(newState.dashboard).to.be.deep.equal({});
     expect(newState.availableBenefits).to.be.deep.equal([]);
+  });
+
+  it('sets the `availableBenefits` when the `SET_AVAILABLE_BENEFITS` action is dispatched', () => {
+    action = {
+      type: preferencesActions.SET_AVAILABLE_BENEFITS,
+      preferences: [
+        { code: 'benefits', title: 'benefits' },
+        { code: 'benefits', title: 'benefits' },
+      ],
+    };
+    const newState = reducer(state, action);
+    expect(newState.availableBenefits).to.deep.equal([
+      { code: 'benefits', title: 'benefits' },
+      { code: 'benefits', title: 'benefits' },
+    ]);
+    expect(newState.dashboard).to.be.deep.equal({});
   });
 });
