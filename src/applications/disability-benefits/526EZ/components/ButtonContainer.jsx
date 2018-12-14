@@ -67,7 +67,7 @@ export default function ButtonContainer(props) {
         </a>
       )}
       {!atGuidance() && (
-        <div
+        <a
           className="usa-button-primary"
           role="button"
           tabIndex="0"
@@ -76,7 +76,7 @@ export default function ButtonContainer(props) {
         >
           Next
           <span className="button-icon"> »</span>
-        </div>
+        </a>
       )}
     </div>
   );
