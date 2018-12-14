@@ -8,6 +8,10 @@
 
 <div id="content" class="interior {{ id }}">
 
+  {% if !heading %}
+    {% assign heading = title %}
+  {% endif %}
+
   {% case template %}
     {% when 'level2-index' %}
       {% include "src/site/includes/level2-index.html" %}
@@ -17,8 +21,6 @@
 
     {% when 'topic-landing' %}
       {% include "src/site/includes/topic-landing.html" %}
-    {% when 'level2-index' %}
-      {% include "src/site/includes/level2-index.html" %}
   {% else %}
     {{ contents }}
   {% endcase %}

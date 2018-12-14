@@ -27,6 +27,7 @@ describe('feedback tool issue info', () => {
     );
 
     expect(form.find('input').length).to.equal(12);
+    form.unmount();
   });
 
   it('should not submit without required information', () => {
@@ -43,6 +44,7 @@ describe('feedback tool issue info', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with required information', () => {
@@ -62,5 +64,6 @@ describe('feedback tool issue info', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

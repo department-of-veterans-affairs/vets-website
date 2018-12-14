@@ -1,22 +1,9 @@
 import { mhvBaseUrl } from '../../site-wide/cta-widget/helpers';
 import environment from '.';
 
-let currentEnv = 'dev';
-if (environment.isStaging()) {
-  currentEnv = 'staging';
-}
-
-if (environment.isProduction()) {
-  currentEnv = 'www';
-}
-
 // This list also exists in script/options.js
 const domainReplacements = [
-  {
-    from: 'https://www\\.va\\.gov',
-    // use relative links on dev to accomodate localhost
-    to: currentEnv === 'dev' ? '' : `https://${currentEnv}.va.gov`,
-  },
+  { from: 'https://www\\.va\\.gov', to: environment.BASE_URL },
   { from: 'https://www\\.myhealth\\.va\\.gov', to: mhvBaseUrl() },
 ];
 

@@ -19,9 +19,11 @@ import {
   needsToEnter781a,
   isAnswering781Questions,
   isAnswering781aQuestions,
+  isUploading781aSupportingDocuments,
   isUploading781Form,
   isUploading781aForm,
   transformRelatedDisabilities,
+  viewifyFields,
   transformMVPData,
   transform,
 } from '../utils.jsx';
@@ -125,10 +127,9 @@ describe('526 helpers', () => {
         },
       };
 
-      const renderedText = shallow(ReservesGuardDescription(form))
-        .render()
-        .text();
-      expect(renderedText).to.contain('Marine Corps Reserve');
+      const renderedText = shallow(ReservesGuardDescription(form));
+      expect(renderedText.render().text()).to.contain('Marine Corps Reserve');
+      renderedText.unmount();
     });
 
     it('should return null when no service periods present', () => {
@@ -495,6 +496,33 @@ describe('526 helpers', () => {
       ).to.eql(['some condition name']);
     });
   });
+
+  describe('viewifyFields', () => {
+    const formData = {
+      prop1: {
+        'view:nestedProp': {
+          anotherNestedProp: 'value',
+          'view:doubleView': 'whoa, man--it’s like inception',
+        },
+        siblingProp: 'another value',
+      },
+      'view:prop2': 'this is a string',
+    };
+
+    it('should prefix all the property names with "view:" if needed', () => {
+      const viewifiedFormData = {
+        'view:prop1': {
+          'view:nestedProp': {
+            'view:anotherNestedProp': 'value',
+            'view:doubleView': 'whoa, man--it’s like inception',
+          },
+          'view:siblingProp': 'another value',
+        },
+        'view:prop2': 'this is a string',
+      };
+      expect(viewifyFields(formData)).to.eql(viewifiedFormData);
+    });
+  });
 });
 
 describe('isAnsweringPtsdForm', () => {
@@ -636,5 +664,17 @@ describe('isAnswering781aQuestions', () => {
       'view:enterAdditionalSecondaryEvents0': false,
     };
     expect(isAnswering781aQuestions(1)(formData)).to.be.false;
+  });
+
+  describe('isUploading781aSupportingDocuments', () => {
+    it('', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:assaultPtsdType': true,
+        },
+        'view:uploadChoice0': true,
+      };
+      expect(isUploading781aSupportingDocuments(0)(formData)).to.be.true;
+    });
   });
 });

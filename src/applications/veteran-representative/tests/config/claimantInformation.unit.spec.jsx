@@ -26,6 +26,7 @@ describe('claimant information', () => {
 
     expect(form.find('input').length).to.equal(11);
     expect(form.find('select').length).to.equal(6);
+    form.unmount();
   });
 
   it('should not continue without required info', () => {
@@ -44,6 +45,7 @@ describe('claimant information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(8);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should continue with all info filled in', () => {
@@ -71,5 +73,6 @@ describe('claimant information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

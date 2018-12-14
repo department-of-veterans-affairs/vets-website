@@ -27,6 +27,7 @@ describe('<ProfileView/>', () => {
     expect(wrapper.find('ContactInformation')).to.have.lengthOf(1);
     expect(wrapper.find('PersonalInformation')).to.have.lengthOf(1);
     expect(wrapper.find('MilitaryInformation')).to.have.lengthOf(1);
+    wrapper.unmount();
   });
 
   it('should prompt to increase LOA when a user is not verified', () => {
@@ -34,6 +35,7 @@ describe('<ProfileView/>', () => {
     const wrapper = enzyme.shallow(<ProfileView {...props} />);
     expect(wrapper.find('IdentityVerification')).to.have.lengthOf(1);
     expect(wrapper.find('Hero')).to.have.lengthOf(0);
+    wrapper.unmount();
   });
 
   it('should show an MVI error when status is not OK', () => {
@@ -41,5 +43,6 @@ describe('<ProfileView/>', () => {
     const wrapper = enzyme.shallow(<ProfileView {...props} />);
     expect(wrapper.find('MVIError')).to.have.lengthOf(1);
     expect(wrapper.find('Hero')).to.have.lengthOf(0);
+    wrapper.unmount();
   });
 });

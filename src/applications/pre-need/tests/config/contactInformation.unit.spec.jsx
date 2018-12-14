@@ -25,6 +25,7 @@ describe('Pre-need applicant contact information', () => {
 
     expect(form.find('input').length).to.equal(6);
     expect(form.find('select').length).to.equal(2);
+    form.unmount();
   });
 
   it('should not submit empty form', () => {
@@ -42,6 +43,7 @@ describe('Pre-need applicant contact information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(6);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with valid data', () => {
@@ -70,5 +72,6 @@ describe('Pre-need applicant contact information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

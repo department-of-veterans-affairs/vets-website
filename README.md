@@ -1,4 +1,4 @@
-# VA.gov [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=testing/vets-website/master)](http://jenkins.vetsgov-internal/job/department-of-veterans-affairs/job/vets-website/job/master/)
+# VA.gov [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=testing/vets-website/master)](http://jenkins.vetsgov-internal/job/testing/job/vets-website/job/master/)
 
 ## What is this?
 
@@ -65,7 +65,7 @@ Inside the `src` directory, we have two folders `applications` and `platform`. `
 
 Users with government furnished equipment may not have admin account access. [These instructions might help](https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Design/run_vets.gov_locally_for_designers.md).
 
-The requirements for running this application are Node.js 8.10.0 and yarn 1.5.1
+The requirements for running this application are Node.js 8.10.0 and yarn 1.12.3
 
 Once you have nvm installed you should now install node.js version 8.10.0 by running:
 
@@ -94,13 +94,13 @@ nvm alias default 8.10.0
 
 Next install Yarn:
 ```bash
-npm i -g yarn@1.5.1
+npm i -g yarn@1.12.3
 ```
 ### Verify your local requirements are set
 
 ```bash
 node --version // 8.10.0
-yarn --version // 1.5.1
+yarn --version // 1.12.3
 ```
 
 Once you use one of the correct commands above (like `npm run watch`), the site will be available locally by typing `localhost:3001` into your browser. If you get weird errors, try `yarn install` as your first step.
