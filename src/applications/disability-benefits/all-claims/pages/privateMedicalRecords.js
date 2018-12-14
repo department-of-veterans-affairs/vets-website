@@ -4,15 +4,19 @@ import {
 } from '../content/privateMedicalRecords';
 import { uploadDescription } from '../content/fileUploadDescriptions';
 import _ from '../../../../platform/utilities/data';
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import fullSchema from '../config/schema';
 import { ancillaryFormUploadUi } from '../utils';
 import { DATA_PATHS } from '../constants';
 
-const { attachments } = fullSchema.properties;
+const { privateMedicalRecordAttachments } = fullSchema.properties;
 
 const fileUploadUi = ancillaryFormUploadUi(
   'Upload your private medical records',
   ' ',
+  {
+    attachmentId: '',
+    addAnotherLabel: 'Add Another Document',
+  },
 );
 
 export const uiSchema = {
@@ -93,7 +97,7 @@ export const schema = {
         },
       },
     },
-    privateMedicalRecords: attachments,
+    privateMedicalRecords: privateMedicalRecordAttachments,
     'view:patientAcknowledgement': {
       type: 'object',
       required: ['view:acknowledgement'],
