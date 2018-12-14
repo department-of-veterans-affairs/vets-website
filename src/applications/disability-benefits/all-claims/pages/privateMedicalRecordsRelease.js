@@ -1,5 +1,5 @@
 import _ from '../../../../platform/utilities/data';
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import {
   recordReleaseDescription,
@@ -11,7 +11,9 @@ import {
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 import { validateDate } from 'us-forms-system/lib/js/validation';
 
-const { form4142 } = fullSchema.definitions;
+import { validateZIP } from '../validations';
+
+const { form4142 } = fullSchema.properties;
 
 const providerFacilities = form4142.properties.providerFacility;
 const limitedConsent = form4142.properties.limitedConsent;
@@ -75,6 +77,11 @@ export const uiSchema = {
         },
         postalCode: {
           'ui:title': 'Postal Code',
+          'ui:validations': [validateZIP],
+          'ui:errorMessages': {
+            pattern:
+              'Please enter a valid 5- or 9-digit Postal code (dashes allowed)',
+          },
           'ui:options': {
             widgetClassNames: 'usa-input-medium',
           },

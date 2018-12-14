@@ -40,6 +40,7 @@ describe('<SelectArrayItemsWidget>', () => {
     expect(wrapper.find('input[type="checkbox"]').length).to.equal(
       defaultProps.value.length,
     );
+    wrapper.unmount();
   });
 
   it('should render a custom label component for the checkboxes', () => {
@@ -47,6 +48,7 @@ describe('<SelectArrayItemsWidget>', () => {
     expect(wrapper.find('labelElement').length).to.equal(
       defaultProps.value.length,
     );
+    wrapper.unmount();
   });
 
   it('should pass the custom label the form data for that item', () => {
@@ -54,6 +56,7 @@ describe('<SelectArrayItemsWidget>', () => {
     wrapper.find('labelElement').forEach((element, index) => {
       expect(element.props()).to.eql(defaultProps.value[index]);
     });
+    wrapper.unmount();
   });
 
   it('should call onChange with the toggled the selected property when the checkbox is toggled', () => {
@@ -96,5 +99,6 @@ describe('<SelectArrayItemsWidget>', () => {
         selected: !!initiallySelected,
       });
     });
+    wrapper.unmount();
   });
 });

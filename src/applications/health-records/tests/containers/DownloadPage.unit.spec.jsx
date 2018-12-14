@@ -24,6 +24,7 @@ describe('<DownloadPage>', () => {
     const alertBox = wrapper.find('AlertBox');
     expect(alertBox.exists()).to.be.true;
     expect(alertBox.prop('status')).to.equal('success');
+    wrapper.unmount();
   });
 
   it('should render refresh error correctly', () => {
@@ -33,6 +34,7 @@ describe('<DownloadPage>', () => {
     const alertBox = wrapper.find('AlertBox');
     expect(alertBox.exists()).to.be.true;
     expect(alertBox.prop('status')).to.equal('warning');
+    wrapper.unmount();
   });
 
   it('should render report generation error correctly', () => {
@@ -42,6 +44,7 @@ describe('<DownloadPage>', () => {
     const alertBox = wrapper.find('AlertBox');
     expect(alertBox.exists()).to.be.true;
     expect(alertBox.prop('status')).to.equal('error');
+    wrapper.unmount();
   });
 
   it('should render generic skipped update warning correctly', () => {
@@ -54,6 +57,7 @@ describe('<DownloadPage>', () => {
     expect(alertBox.prop('headline')).to.equal(
       'Parts of your health record may not be current.',
     );
+    wrapper.unmount();
   });
 
   it('should render skipped update warning for specific categories', () => {
@@ -79,6 +83,7 @@ describe('<DownloadPage>', () => {
       expect(alertBox.exists()).to.be.true;
       expect(alertBox.prop('status')).to.equal('warning');
       expect(alertBox.prop('headline')).to.equal(expectedHeadlines[index]);
+      wrapper.unmount();
     });
   });
 });

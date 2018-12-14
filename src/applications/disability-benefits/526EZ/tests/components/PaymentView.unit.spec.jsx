@@ -14,6 +14,7 @@ describe('Disability benefits 526EZ payment view', () => {
   it('should render payment info when available', () => {
     const wrapper = shallow(<PaymentView />);
     expect(wrapper.type()).to.equal('div');
+    wrapper.unmount();
   });
 
   it('should render payment info when provided', () => {
@@ -22,6 +23,7 @@ describe('Disability benefits 526EZ payment view', () => {
       // Looks a little different in the UI, but this is how its read by the screen reader
       'Account number: ●●●●●ending with6789',
     );
+    wrapper.unmount();
   });
 
   it('should render help when no payment info provided', () => {
@@ -29,5 +31,6 @@ describe('Disability benefits 526EZ payment view', () => {
     expect(wrapper.render().text()).to.contain(
       'You can update your payment information a few ways:',
     );
+    wrapper.unmount();
   });
 });

@@ -25,6 +25,7 @@ describe('brand-consolidation/feature-flag', () => {
 
     const component = enzyme.shallow(<SharedComponent />);
     expect(component.text()).to.be.equal('Vets.gov');
+    component.unmount();
   });
 
   it('renders VA.gov when the feature-flag is true', () => {
@@ -32,5 +33,6 @@ describe('brand-consolidation/feature-flag', () => {
 
     const component = enzyme.shallow(<SharedComponent />);
     expect(component.text()).to.be.equal('VA.gov');
+    component.unmount();
   });
 });

@@ -1,5 +1,5 @@
 import merge from 'lodash/merge';
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/monthYearRange';
 import { treatmentView } from '../content/vaMedicalRecords';

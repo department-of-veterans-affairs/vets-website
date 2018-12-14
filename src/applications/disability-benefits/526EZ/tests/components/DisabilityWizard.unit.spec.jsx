@@ -20,18 +20,21 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('#wizardOptions').props().className).to.contain(
       'wizard-content-closed',
     );
+    tree.unmount();
   });
   it('should show status page', () => {
     const tree = mount(<DisabilityWizard {...defaultProps} />);
 
     expect(tree.find('input').length).to.equal(3);
     expect(tree.find('a').href).to.be.undefined;
+    tree.unmount();
   });
   it('should validate status page on submit', () => {
     const tree = mount(<DisabilityWizard {...defaultProps} />);
 
     tree.find('a').simulate('click');
     expect(tree.find('.usa-input-error-message').exists()).to.equal(true);
+    tree.unmount();
   });
   it('should show update page', () => {
     const tree = mount(<DisabilityWizard {...defaultProps} />);
@@ -39,6 +42,7 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('input').length).to.equal(3);
     tree.setState({ disabilityStatus: 'update', currentLayout: chooseUpdate });
     expect(tree.find('input').length).to.equal(2);
+    tree.unmount();
   });
   it('should validate update page on submit', () => {
     const tree = mount(<DisabilityWizard {...defaultProps} />);
@@ -46,6 +50,7 @@ describe('<DisabilityWizard>', () => {
     tree.setState({ disabilityStatus: 'update', currentLayout: chooseUpdate });
     tree.find('a').simulate('click');
     expect(tree.find('.usa-input-error-message').exists()).to.equal(true);
+    tree.unmount();
   });
   it('should show ebenefits guidance page for first claims', () => {
     const tree = mount(<DisabilityWizard {...defaultProps} />);
@@ -55,6 +60,7 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('p').text()).to.equal(
       'To file your first disability claim, please go to our eBenefits website.',
     );
+    tree.unmount();
   });
   it('should show ebenefits guidance page for new claims', () => {
     const tree = mount(<DisabilityWizard {...defaultProps} />);
@@ -64,6 +70,7 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('p').text()).to.equal(
       'Since you have a new condition to add to your rated disability claim, you’ll need to file your disability claim on eBenefits.',
     );
+    tree.unmount();
   });
   it('should show ebenefits guidance page for new and increase claims', () => {
     const tree = mount(<DisabilityWizard {...defaultProps} />);
@@ -76,6 +83,7 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('p').text()).to.equal(
       'Since you have a new condition and a condition that has gotten worse, you’ll need to file your disability claim on eBenefits.',
     );
+    tree.unmount();
   });
   it('should show appeals guidance page', () => {
     const tree = mount(<DisabilityWizard {...defaultProps} />);
@@ -85,6 +93,7 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('p').text()).to.equal(
       'If you disagree with our decision on your disability claim, you can appeal it. Learn how to file an appeal.',
     );
+    tree.unmount();
   });
   it('should show unauthenticated increase guidance page', () => {
     const tree = mount(
@@ -99,6 +108,7 @@ describe('<DisabilityWizard>', () => {
     expect(tree.find('p').text()).to.equal(
       'Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability. To apply for a disability increase, you’ll need to sign in and verify your account.',
     );
+    tree.unmount();
   });
   it('should show authenticated increase guidance page', () => {
     const tree = mount(
@@ -118,6 +128,7 @@ describe('<DisabilityWizard>', () => {
     ).to.contain(
       'Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability.',
     );
+    tree.unmount();
   });
   it('should show authenticated and verified increase guidance page', () => {
     const tree = mount(<DisabilityWizard isLoggedIn isVerified />);
@@ -136,5 +147,6 @@ describe('<DisabilityWizard>', () => {
     ).to.contain(
       'Since you have a condition that’s gotten worse to add to your claim, you’ll need to file a claim for increased disability.',
     );
+    tree.unmount();
   });
 });

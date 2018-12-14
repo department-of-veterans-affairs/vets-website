@@ -25,6 +25,7 @@ describe('Pre-need sponsor mailing address', () => {
 
     expect(form.find('input').length).to.equal(4);
     expect(form.find('select').length).to.equal(2);
+    form.unmount();
   });
 
   it('should submit empty form', () => {
@@ -42,6 +43,7 @@ describe('Pre-need sponsor mailing address', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should submit with valid data', () => {
@@ -68,5 +70,6 @@ describe('Pre-need sponsor mailing address', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

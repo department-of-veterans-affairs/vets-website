@@ -126,8 +126,8 @@ class VAMap extends Component {
         - revGeocodeInProgress - should be a separate flag as both operations happen
         - searchRequested - To track that the user clicked the search button
           (could have used inProgress but it gets tripped by other Actions)
-        - 
-      
+        -
+
       The boundary checking of the current code below doesn't actually work.
       Array equality isn't something that should be done with the operator,
       and using the new method below causes `searchWithBounds` to never fire.
@@ -451,6 +451,7 @@ class VAMap extends Component {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const { currentQuery, results, pagination, selectedResult } = this.props;
+    const facilityLocatorMarkers = this.renderFacilityMarkers();
 
     return (
       /* eslint-disable prettier/prettier */
@@ -481,9 +482,12 @@ class VAMap extends Component {
                   attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
                     <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
                     Imagery © <a href="http://mapbox.com">Mapbox</a>' />
-                <FeatureGroup ref="facilityMarkers">
-                  {this.renderFacilityMarkers()}
-                </FeatureGroup>
+                {facilityLocatorMarkers.length > 0 &&
+                  <FeatureGroup
+                    ref="facilityMarkers">
+                    {facilityLocatorMarkers}
+                  </FeatureGroup>
+                }
               </Map>
               { selectedResult && (
                 <div className="mobile-search-result">
@@ -503,6 +507,7 @@ class VAMap extends Component {
     const { currentQuery, results, pagination } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
+    const facilityLocatorMarkers = this.renderFacilityMarkers();
 
     return (
       /* eslint-disable prettier/prettier */
@@ -531,9 +536,12 @@ class VAMap extends Component {
                 attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
                   <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
                   Imagery © <a href="http://mapbox.com">Mapbox</a>' />
-              <FeatureGroup ref="facilityMarkers">
-                {this.renderFacilityMarkers()}
-              </FeatureGroup>
+              {facilityLocatorMarkers.length > 0 &&
+                <FeatureGroup
+                  ref="facilityMarkers">
+                  {facilityLocatorMarkers}
+                </FeatureGroup>
+              }
             </Map>
           </div>
         </div>

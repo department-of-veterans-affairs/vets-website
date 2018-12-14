@@ -25,6 +25,7 @@ describe('veteran service organization information', () => {
     );
 
     expect(form.find('input').length).to.equal(4);
+    form.unmount();
   });
 
   it('should not submit without required info', () => {
@@ -43,6 +44,7 @@ describe('veteran service organization information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should continue with all info filled in', () => {
@@ -65,5 +67,6 @@ describe('veteran service organization information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

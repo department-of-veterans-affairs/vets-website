@@ -29,5 +29,6 @@ describe('IntroductionPage', () => {
     expect(formStartControls.first().props().gaStartEventName).to.equal(
       'disability-526EZ-start',
     );
+    tree.unmount();
   });
 });

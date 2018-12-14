@@ -18,6 +18,7 @@ describe('686 <AuthorizationComponent>', () => {
       />,
     );
     expect(tree.find('LoadingIndicator'));
+    tree.unmount();
   });
 
   it('should display inner content if authorized', () => {
@@ -36,6 +37,7 @@ describe('686 <AuthorizationComponent>', () => {
         .first()
         .text(),
     ).to.contain('Inner content');
+    tree.unmount();
   });
 
   it('should not display inner content if not authorized', () => {
@@ -51,5 +53,6 @@ describe('686 <AuthorizationComponent>', () => {
         .first()
         .text(),
     ).to.not.contain('Inner content');
+    tree.unmount();
   });
 });
