@@ -11,7 +11,7 @@ const CallToAction = ({ cta }) => {
     <div>
       {description}
       {hasLinkAndText && (
-        <a className="usa-button" href={link}>
+        <a className="usa-button va-button-primary" href={link}>
           {text}
         </a>
       )}
