@@ -298,6 +298,10 @@ import {
   schema as hospitalizationHistorySchema,
 } from './hospitalizationHistory';
 
+import * as uploadUnemployabilitySupportingDocuments from './uploadUnemployabilitySupportingDocuments';
+
+import * as uploadUnemployabilitySupportingDocumentsChoice from './uploadUnemployabilitySupportingDocumentsChoice';
+
 import {
   uiSchema as conclusionCombatUISchema,
   schema as conclusionCombatSchema,
@@ -631,6 +635,10 @@ export const hospitalizationHistory = {
   uiSchema: hospitalizationHistoryUISchema,
   schema: hospitalizationHistorySchema,
 };
+
+export { uploadUnemployabilitySupportingDocuments };
+
+export { uploadUnemployabilitySupportingDocumentsChoice };
 
 export const conclusionCombat = {
   uiSchema: conclusionCombatUISchema,
