@@ -76,6 +76,7 @@ import {
   vaEmployee,
   summaryOfEvidence,
   fullyDevelopedClaim,
+  workBehaviorChanges,
   socialBehaviorChanges,
   additionalRemarks781,
   additionalBehaviorChanges,
