@@ -24,6 +24,7 @@ describe('Recent Job Applications', () => {
     );
 
     expect(form.find('input').length).to.equal(3);
+    form.unmount();
   });
 
   it('should select alsoNo', () => {
@@ -47,6 +48,7 @@ describe('Recent Job Applications', () => {
 
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should not allow submission with no selection', () => {
@@ -65,5 +67,6 @@ describe('Recent Job Applications', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 });
