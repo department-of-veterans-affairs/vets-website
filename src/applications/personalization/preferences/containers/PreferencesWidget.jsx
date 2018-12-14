@@ -161,7 +161,7 @@ class PreferencesWidget extends React.Component {
             {userBenefitsLoadingStatus !== LOADING_STATES.pending && (
               <Link
                 className="usa-button usa-button-secondary"
-                to="preferences"
+                to="find-benefits"
               >
                 Find VA Benefits
               </Link>
