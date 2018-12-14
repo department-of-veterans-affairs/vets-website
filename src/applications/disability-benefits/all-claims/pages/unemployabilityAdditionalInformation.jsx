@@ -21,12 +21,14 @@ const additionalInformationDescription = (
 export const uiSchema = {
   'ui:title': 'Individual Unemployability',
   'ui:description': additionalInformationDescription,
-  remarks: {
-    'ui:title': ' ',
-    'ui:widget': 'textarea',
-    'ui:options': {
-      rows: 5,
-      maxLength: 3200,
+  unemployability: {
+    remarks: {
+      'ui:title': ' ',
+      'ui:widget': 'textarea',
+      'ui:options': {
+        rows: 5,
+        maxLength: 3200,
+      },
     },
   },
 };
