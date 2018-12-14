@@ -10,6 +10,7 @@ describe('ITFBanner', () => {
     expect(tree.text()).to.contain(
       'Your Intent to File request didn’t go through',
     );
+    tree.unmount();
   });
 
   it('should render an itf found message', () => {
@@ -17,6 +18,7 @@ describe('ITFBanner', () => {
     expect(tree.text()).to.contain(
       'Our records show that you already have an Intent to File',
     );
+    tree.unmount();
   });
 
   it('should render an itf created message', () => {
@@ -24,9 +26,17 @@ describe('ITFBanner', () => {
     expect(tree.text()).to.contain(
       'Thank you for submitting your Intent to File request',
     );
+    tree.unmount();
   });
 
   it('should throw an error', () => {
-    expect(() => mount(<ITFBanner status="nonsense" />)).to.throw();
+    let tree;
+    expect(() => {
+      // component throws error in render; mount doesn't return reference until render is ran
+      // mount component correctly and use setProps to trigger error state
+      tree = mount(<ITFBanner status="error" />);
+      tree.setProps({ status: 'nonsense' });
+    }).to.throw();
+    tree.unmount();
   });
 });

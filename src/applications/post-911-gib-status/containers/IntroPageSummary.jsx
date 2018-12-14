@@ -38,7 +38,7 @@ export function VetsDotGovSummary() {
           </li>
           <li>
             You haven’t yet applied for Post-9/11 GI Bill education benefits.{' '}
-            <a href="/education/apply/" target="_blank">
+            <a href="/education/how-to-apply/" target="_blank">
               Apply for education benefits.
             </a>
           </li>
@@ -102,7 +102,7 @@ export default function BrandConsolidationSummary() {
             <li>Received a decision from us on your application</li>
           </ul>
           <p>
-            <a href="/education/apply/">
+            <a href="/education/how-to-apply/">
               Find out how to apply for Post-9/11 GI Bill benefits
             </a>
             .
@@ -194,7 +194,10 @@ export default function BrandConsolidationSummary() {
               <li>
                 You haven’t applied yet for Post-9/11 GI Bill education
                 benefits. <br />
-                <a href="/education/apply/">Apply for education benefits</a>.
+                <a href="/education/how-to-apply/">
+                  Apply for education benefits
+                </a>
+                .
               </li>
               <li>You’re not eligible for Post-9/11 GI Bill benefits.</li>
               <li>

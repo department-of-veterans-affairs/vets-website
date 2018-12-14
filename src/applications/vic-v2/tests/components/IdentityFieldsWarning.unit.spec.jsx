@@ -18,6 +18,7 @@ describe('<IdentifyFieldsWarning>', () => {
     );
 
     expect(tree.find('PrefillMessage').exists()).to.be.true;
+    tree.unmount();
   });
   it('should render warning', () => {
     const tree = shallow(
@@ -32,6 +33,7 @@ describe('<IdentifyFieldsWarning>', () => {
     );
 
     expect(tree.find('.usa-alert-warning').exists()).to.be.true;
+    tree.unmount();
   });
   it('should render nothing', () => {
     const tree = shallow(
@@ -46,5 +48,6 @@ describe('<IdentifyFieldsWarning>', () => {
     );
 
     expect(tree.html()).to.be.null;
+    tree.unmount();
   });
 });

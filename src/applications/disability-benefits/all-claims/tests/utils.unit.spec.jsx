@@ -19,6 +19,7 @@ import {
   needsToEnter781a,
   isAnswering781Questions,
   isAnswering781aQuestions,
+  isUploading781aSupportingDocuments,
   isUploading781Form,
   isUploading781aForm,
   transformRelatedDisabilities,
@@ -126,10 +127,9 @@ describe('526 helpers', () => {
         },
       };
 
-      const renderedText = shallow(ReservesGuardDescription(form))
-        .render()
-        .text();
-      expect(renderedText).to.contain('Marine Corps Reserve');
+      const renderedText = shallow(ReservesGuardDescription(form));
+      expect(renderedText.render().text()).to.contain('Marine Corps Reserve');
+      renderedText.unmount();
     });
 
     it('should return null when no service periods present', () => {
@@ -664,5 +664,17 @@ describe('isAnswering781aQuestions', () => {
       'view:enterAdditionalSecondaryEvents0': false,
     };
     expect(isAnswering781aQuestions(1)(formData)).to.be.false;
+  });
+
+  describe('isUploading781aSupportingDocuments', () => {
+    it('', () => {
+      const formData = {
+        'view:selectablePtsdTypes': {
+          'view:assaultPtsdType': true,
+        },
+        'view:uploadChoice0': true,
+      };
+      expect(isUploading781aSupportingDocuments(0)(formData)).to.be.true;
+    });
   });
 });
