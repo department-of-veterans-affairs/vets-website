@@ -640,19 +640,19 @@ export const ancillaryFormUploadUi = (label, itemDescription) =>
   });
 
 export const wantsHelpWithOtherSourcesSecondary = index => formData =>
-  _.get(`otherSources${index}`, formData, '') === 'yes' &&
+  _.get(`incident${index}.otherSources`, formData, '') === 'yes' &&
   isAnswering781aQuestions(index)(formData);
 
 export const wantsHelpWithPrivateRecordsSecondary = index => formData =>
   _.get(
-    `otherSourcesHelp${index}.view:helpPrivateMedicalTreatment`,
+    `incident${index}.otherSourcesHelp.view:helpPrivateMedicalTreatment`,
     formData,
     '',
   ) && isAnswering781aQuestions(index)(formData);
 
 export const wantsHelpRequestingStatementsSecondary = index => formData =>
   _.get(
-    `otherSourcesHelp${index}.view:helpRequestingStatements`,
+    `incident${index}.otherSourcesHelp.view:helpRequestingStatements`,
     formData,
     '',
   ) && isAnswering781aQuestions(index)(formData);

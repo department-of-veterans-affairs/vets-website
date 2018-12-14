@@ -14,14 +14,16 @@ export const uiSchema = index => ({
     <PtsdNameTitle formData={formData} formType="781a" />
   ),
   'ui:description': otherSourcesHelpDescription,
-  [`otherSourcesHelp${index}`]: {
-    'view:helpPrivateMedicalTreatment': {
-      'ui:title':
-        'I’d like your help getting my private medical treatment or counseling records.',
-    },
-    'view:helpRequestingStatements': {
-      'ui:title':
-        'I’d like your help requesting statements I made to military or civilian authorities.',
+  [`incident${index}`]: {
+    otherSourcesHelp: {
+      'view:helpPrivateMedicalTreatment': {
+        'ui:title':
+          'I’d like your help getting my private medical treatment or counseling records.',
+      },
+      'view:helpRequestingStatements': {
+        'ui:title':
+          'I’d like your help requesting statements I made to military or civilian authorities.',
+      },
     },
   },
 });
@@ -29,14 +31,19 @@ export const uiSchema = index => ({
 export const schema = index => ({
   type: 'object',
   properties: {
-    [`otherSourcesHelp${index}`]: {
+    [`incident${index}`]: {
       type: 'object',
       properties: {
-        'view:helpPrivateMedicalTreatment': {
-          type: 'boolean',
-        },
-        'view:helpRequestingStatements': {
-          type: 'boolean',
+        otherSourcesHelp: {
+          type: 'object',
+          properties: {
+            'view:helpPrivateMedicalTreatment': {
+              type: 'boolean',
+            },
+            'view:helpRequestingStatements': {
+              type: 'boolean',
+            },
+          },
         },
       },
     },
