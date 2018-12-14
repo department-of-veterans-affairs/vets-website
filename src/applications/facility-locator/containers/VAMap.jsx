@@ -559,7 +559,10 @@ class VAMap extends Component {
         </div>
 
         <div className="facility-introtext">
-          Find VA locations near you with our facility locator tool. You can search for your nearest VA medical center as well as other health facilities, benefit offices, cemeteries, and Vet Centers. You can also filter your results by service type to find locations that offer the specific service you’re looking for.
+          Find VA locations near you with our facility locator tool. You can search for your nearest 
+          VA medical center as well as other health facilities, benefit offices, cemeteries, community 
+          care providers, and Vet Centers. You can also filter your results by service type to find 
+          locations that offer the specific service you’re looking for.
         </div>
         { isMobile.any
           ? this.renderMobileView()
