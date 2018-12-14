@@ -23,34 +23,41 @@ const supplementalBenefitsHelp = (
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   'ui:description': supplementalBenefitsTitle,
-  receiveExpectDisabilityRetirement: {
-    'ui:title':
-      'Do you receive, or expect to receive, disability retirement benefits?',
-    'ui:widget': 'yesNo',
-  },
-  receiveExpectWorkersCompensation: {
-    'ui:title':
-      'Do you receive, or expect to receive, workers‘ compensation benefits? ',
-    'ui:widget': 'yesNo',
-    'ui:options': {},
-  },
-  'view:supplementalBenefitsHelp': {
-    'ui:description': supplementalBenefitsHelp,
+  unemployability: {
+    receiveExpectDisabilityRetirement: {
+      'ui:title':
+        'Do you receive, or expect to receive, disability retirement benefits?',
+      'ui:widget': 'yesNo',
+    },
+    receiveExpectWorkersCompensation: {
+      'ui:title':
+        'Do you receive, or expect to receive, workers‘ compensation benefits? ',
+      'ui:widget': 'yesNo',
+      'ui:options': {},
+    },
+    'view:supplementalBenefitsHelp': {
+      'ui:description': supplementalBenefitsHelp,
+    },
   },
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    receiveExpectDisabilityRetirement: {
-      type: 'boolean',
-    },
-    receiveExpectWorkersCompensation: {
-      type: 'boolean',
-    },
-    'view:supplementalBenefitsHelp': {
+    unemployability: {
       type: 'object',
-      properties: {},
+      properties: {
+        receiveExpectDisabilityRetirement: {
+          type: 'boolean',
+        },
+        receiveExpectWorkersCompensation: {
+          type: 'boolean',
+        },
+        'view:supplementalBenefitsHelp': {
+          type: 'object',
+          properties: {},
+        },
+      },
     },
   },
 };
