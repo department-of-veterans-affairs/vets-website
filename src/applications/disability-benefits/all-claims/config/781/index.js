@@ -162,14 +162,22 @@ export function createFormConfig781a(iterations) {
         schema: secondaryIncidentDate.schema(index),
       },
       [`secondaryUploadSourcesChoice${index}`]: {
-        title: `781a PTSD Upload Supporting Sources Choice`,
+        title: setReviewTitle(
+          '781a PTSD Upload Supporting Sources Choice',
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-secondary-upload-supporting-sources-choice-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryUploadSourcesChoice.uiSchema(index),
         schema: secondaryUploadSourcesChoice.schema(index),
       },
       [`secondaryUploadSources${index}`]: {
-        title: `781a PTSD Upload Supporting Sources`,
+        title: setReviewTitle(
+          `781a PTSD Upload Supporting Sources`,
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-secondary-upload-supporting-sources-${index}`,
         depends: isUploading781aSupportingDocuments(index),
         uiSchema: secondaryUploadSources.uiSchema(index),
