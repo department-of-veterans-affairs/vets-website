@@ -32,7 +32,7 @@ const UploadExplanation = ({ formType }) => (
 );
 
 export const UploadPtsdDescription = ({ formData, formType }) => {
-  const { incidentText } = getPtsdClassification(formData);
+  const { incidentText } = getPtsdClassification(formData, formType);
   return (
     <div>
       <p>

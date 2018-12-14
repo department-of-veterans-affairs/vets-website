@@ -78,6 +78,8 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  workBehaviorChanges,
+  socialBehaviorChanges,
   additionalRemarks781,
   additionalBehaviorChanges,
   mentalHealthChanges,
@@ -295,6 +297,13 @@ const formConfig = {
           uiSchema: additionalRemarks781.uiSchema,
           schema: additionalRemarks781.schema,
         },
+        conclusionCombat: {
+          path: 'ptsd-conclusion-combat',
+          title: 'PTSD combat conclusion',
+          depends: showPtsdCombatConclusion,
+          uiSchema: conclusionCombat.uiSchema,
+          schema: conclusionCombat.schema,
+        },
         ptsdWalkthroughChoice781a: {
           title: 'PTSD Walkthrough 781a Choice',
           path: 'new-disabilities/walkthrough-781a-choice',
@@ -328,12 +337,26 @@ const formConfig = {
           uiSchema: physicalHealthChanges.uiSchema,
           schema: physicalHealthChanges.schema,
         },
+        socialBehaviorChanges: {
+          title: 'Additional Remarks - Social Behavior Changes',
+          path: 'new-disabilities/ptsd-781a-social-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: socialBehaviorChanges.uiSchema,
+          schema: socialBehaviorChanges.schema,
+        },
         mentalHealthChanges: {
-          title: 'Additional Remarks - Physical Health Changes',
+          title: 'Additional Remarks - Mental Health Changes',
           path: 'new-disabilities/ptsd-781a-mental-changes',
           depends: isAnswering781aQuestions(0),
           uiSchema: mentalHealthChanges.uiSchema,
           schema: mentalHealthChanges.schema,
+        },
+        workBehaviorChanges: {
+          title: 'Additional Remarks - Behavior Changes at Work',
+          path: 'new-disabilities/ptsd-781a-work-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: workBehaviorChanges.uiSchema,
+          schema: workBehaviorChanges.schema,
         },
         additionalBehaviorChanges: {
           title: 'Additional Remarks - Additional Behavior Changes',
@@ -342,16 +365,9 @@ const formConfig = {
           uiSchema: additionalBehaviorChanges.uiSchema,
           schema: additionalBehaviorChanges.schema,
         },
-        conclusionCombat: {
-          path: 'conclusion-781',
-          title: 'Disabiity Details',
-          depends: showPtsdCombatConclusion,
-          uiSchema: conclusionCombat.uiSchema,
-          schema: conclusionCombat.schema,
-        },
         conclusionAssault: {
-          path: 'conclusion-781a',
-          title: 'Disabiity Details',
+          path: 'ptsd-conclusion-assault',
+          title: 'PTSD assault conclusion',
           depends: showPtsdAssaultConclusion,
           uiSchema: conclusionAssault.uiSchema,
           schema: conclusionAssault.schema,
@@ -489,7 +505,9 @@ const formConfig = {
         privateMedicalRecordsRelease: {
           title: 'Private Medical Records',
           path: 'supporting-evidence/private-medical-records-release',
-          depends: hasPrivateEvidence && isNotUploadingPrivateMedical,
+          depends: formData =>
+            hasPrivateEvidence(formData) &&
+            isNotUploadingPrivateMedical(formData),
           uiSchema: privateMedicalRecordsRelease.uiSchema,
           schema: privateMedicalRecordsRelease.schema,
         },
@@ -561,7 +579,6 @@ const formConfig = {
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
         },
-
         fullyDevelopedClaim: {
           title: 'Fully developed claim program',
           path: 'fully-developed-claim',
