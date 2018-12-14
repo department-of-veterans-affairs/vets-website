@@ -131,7 +131,7 @@ describe('526 All Claims Private medical records', () => {
 
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.false;
-    expect(form.find(errorClass).length).to.equal(2); // name, doc type req'd
+    expect(form.find(errorClass).length).to.equal(1); // name, doc type req'd
     form.unmount();
   });
 
