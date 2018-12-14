@@ -702,6 +702,9 @@ export const isUploading781Form = formData =>
 export const isUploading781aForm = formData =>
   _.get('view:upload781aChoice', formData, '') === 'upload';
 
+export const isUploading781aSupportingDocuments = index => formData =>
+  _.get(`view:uploadChoice${index}`, formData, false);
+
 export const isAnswering781Questions = index => formData =>
   _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&
   (index === 0 ||
@@ -771,7 +774,5 @@ export const ancillaryFormUploadUi = (label, itemDescription) =>
     attachmentSchema: {
       'ui:title': 'Document type',
     },
-    attachmentName: {
-      'ui:title': 'Document name',
-    },
+    attachmentName: false,
   });

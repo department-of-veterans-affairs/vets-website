@@ -131,7 +131,7 @@ class ProviderDetail extends Component {
 }
 
 ProviderDetail.propTypes = {
-  location: object.isRequired,
+  location: object, // technically req, but comes in off a REST call in didMount
   currentQuery: object.isRequired,
   fetchProviderDetail: func.isRequired,
   params: object.isRequired,

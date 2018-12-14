@@ -5,6 +5,8 @@ import {
   incidentDate,
   incidentLocation,
   secondaryIncidentDate,
+  secondaryUploadSources,
+  secondaryUploadSourcesChoice,
   secondaryIncidentLocation,
   incidentUnitAssignment,
   secondaryIncidentUnitAssignment,
@@ -20,6 +22,7 @@ import {
 import {
   isAnswering781Questions,
   isAnswering781aQuestions,
+  isUploading781aSupportingDocuments,
   isAddingIndividuals,
 } from '../../utils';
 
@@ -152,6 +155,22 @@ export function createFormConfig781a(iterations) {
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentDate.uiSchema(index),
         schema: secondaryIncidentDate.schema(index),
+      },
+      [`secondaryUploadSourcesChoice${index}`]: {
+        title: `${
+          numberToWords[index]
+        } 781a PTSD Upload Supporting Sources Choice`,
+        path: `disabilities/ptsd-secondary-upload-supporting-sources-choice-${index}`,
+        depends: isAnswering781aQuestions(index),
+        uiSchema: secondaryUploadSourcesChoice.uiSchema(index),
+        schema: secondaryUploadSourcesChoice.schema(index),
+      },
+      [`secondaryUploadSources${index}`]: {
+        title: `${numberToWords[index]} 781a PTSD Upload Supporting Sources`,
+        path: `disabilities/ptsd-secondary-upload-supporting-sources-${index}`,
+        depends: isUploading781aSupportingDocuments(index),
+        uiSchema: secondaryUploadSources.uiSchema(index),
+        schema: secondaryUploadSources.schema(index),
       },
       [`secondaryIncidentDescription${index}`]: {
         title: setReviewTitle(
