@@ -7,6 +7,7 @@ import { queryForFacilities, addCheckboxPerDisability } from '../utils';
 import {
   validateMilitaryTreatmentCity,
   validateMilitaryTreatmentState,
+  startedAfterServicePeriod,
 } from '../validations';
 import { USA } from '../constants';
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
@@ -57,10 +58,16 @@ export const uiSchema = {
           required: 'Please select at least one condition',
         },
       },
-      treatmentDateRange: dateRangeUI(
-        'When did you first visit this facility?',
-        'When was your most recent visit?',
-        'Date of last treatment must be after date of first treatment',
+      treatmentDateRange: merge(
+        {},
+        dateRangeUI(
+          'When did you first visit this facility?',
+          'When was your most recent visit?',
+          'Date of last treatment must be after date of first treatment',
+        ),
+        {
+          from: { 'ui:validations': [startedAfterServicePeriod] },
+        },
       ),
       treatmentCenterAddress: {
         'ui:order': ['country', 'state', 'city'],
