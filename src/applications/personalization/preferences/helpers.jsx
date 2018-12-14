@@ -326,7 +326,10 @@ export const benefitChoices = [
         component: healthFAQ,
       },
     ],
-    alert: homelessnessAlert,
+    alert: {
+      name: 'health-care',
+      component: homelessnessAlert,
+    },
   },
   {
     title: 'Disability Compensation',
@@ -394,7 +397,10 @@ export const benefitChoices = [
         component: careersFAQ,
       },
     ],
-    alert: homelessnessAlert,
+    alert: {
+      name: 'careers-employment',
+      component: homelessnessAlert,
+    },
   },
   {
     title: 'Pension',
@@ -431,7 +437,10 @@ export const benefitChoices = [
         component: housingFAQ,
       },
     ],
-    alert: homelessnessAlert,
+    alert: {
+      name: 'housing-assistance',
+      component: homelessnessAlert,
+    },
   },
   {
     title: 'Life Insurance',
@@ -488,7 +497,10 @@ export const benefitChoices = [
         component: survivorFAQ,
       },
     ],
-    alert: homelessnessAlert,
+    alert: {
+      name: 'family-caregiver-benefits',
+      component: homelessnessAlert,
+    },
   },
 ];
 

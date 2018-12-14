@@ -78,12 +78,23 @@ class PreferencesWidget extends React.Component {
     });
   };
 
-  handleCloseAlert = () => {
+  handleCloseSavedAlert = () => {
     clearTimeout(this.state.savedMessageTimer);
     this.setState({ savedMessage: false });
   };
 
-  renderContent() {
+  handleCloseBenefitAlert = async name => {
+    const dismissedBenefitAlerts = await localStorage.getItem(
+      'DISMISSED_BENEFIT_ALERTS',
+    ); // TODO: use constant instead
+    dismissedBenefitAlerts.push(name);
+    await localStorage.setItem(
+      'DISMISSED_BENEFIT_ALERTS',
+      dismissedBenefitAlerts,
+    );
+  };
+
+  renderContent = async () => {
     const {
       preferences: {
         dashboard,
@@ -95,9 +106,12 @@ class PreferencesWidget extends React.Component {
       item => !!dashboard[item.code],
     );
     const hasSelectedBenefits = !!selectedBenefits.length;
+    const dismissedBenefitAlerts = await localStorage.getItem('DISMISSED_BENEFIT_ALERTS');
     let selectedBenefitAlerts = selectedBenefits
       .filter(item => !!item.alert)
-      .map(item => item.alert);
+      .map(item => item.alert)
+      .filter(alert => !dismissedBenefitAlerts.includes(alert.name))
+      .map(alert => alert.component);
     selectedBenefitAlerts = deduplicate(selectedBenefitAlerts);
 
     if (loadingStatus === LOADING_STATES.pending) {
@@ -132,7 +146,7 @@ class PreferencesWidget extends React.Component {
           content.unshift(
             <div key="benefit-alerts">
               {selectedBenefitAlerts.map((alert, index) => (
-                <BenefitAlert alert={alert} key={index} />
+                <BenefitAlert alert={alert} key={index} onClose={this.handleCloseBenefitAlert} />
               ))}
             </div>,
           );
@@ -176,7 +190,7 @@ class PreferencesWidget extends React.Component {
           >
             {savedMessage && (
               <SaveSucceededMessageComponent
-                handleCloseAlert={this.handleCloseAlert}
+                handleCloseAlert={this.handleCloseSavedAlert}
               />
             )}
           </ReactCSSTransitionGroup>

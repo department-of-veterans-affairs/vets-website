@@ -117,7 +117,7 @@ export function savePreferences(benefitsData) {
     return apiRequest(
       '/user/preferences',
       { headers, method, body },
-      () => {
+      async () => {
         dispatch({
           type: SAVED_DASHBOARD_PREFERENCES,
         });
@@ -126,6 +126,18 @@ export function savePreferences(benefitsData) {
           type: SET_SAVE_PREFERENCES_REQUEST_STATUS,
           status: LOADING_STATES.loaded,
         });
+        const dismissedBenefitAlerts = await localStorage.getItem(
+          'DISMISSED_BENEFIT_ALERTS',
+        );
+        Object.keys(benefitsData).forEach(([key, value]) => {
+          if (value && !dismissedBenefitAlerts.includes(key)) {
+            dismissedBenefitAlerts.push(key);
+          }
+        });
+        await localStorage.setItem(
+          'DISMISSED_BENEFIT_ALERTS',
+          dismissedBenefitAlerts,
+        );
       },
       () => {
         dispatch({
