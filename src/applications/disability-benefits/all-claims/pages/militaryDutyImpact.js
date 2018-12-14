@@ -9,7 +9,7 @@ export const uiSchema = {
         labels: {
           yes: 'Yes',
           no: 'No',
-          alsoNo: 'I’m not serving in the Reserves or the National Guard.',
+          reservesNo: 'I’m not serving in the Reserves or the National Guard.',
         },
       },
       'ui:errorMessages': {
@@ -28,7 +28,7 @@ export const schema = {
       properties: {
         disabilityPreventMilitaryDuties: {
           type: 'string',
-          enum: ['yes', 'no', 'alsoNo'],
+          enum: ['yes', 'no', 'reservesNo'],
         },
       },
     },
