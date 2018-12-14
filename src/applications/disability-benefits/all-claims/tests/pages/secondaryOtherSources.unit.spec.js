@@ -27,6 +27,7 @@ describe('Add secondary other sources of information', () => {
     );
 
     expect(form.find('input').length).to.equal(2);
+    form.unmount();
   });
 
   it('should submit', () => {
@@ -50,5 +51,6 @@ describe('Add secondary other sources of information', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });
