@@ -52,6 +52,7 @@ describe('GI Feedback Tool <ConfirmationPage>', () => {
     ).to.contain(
       'We may contact you if we have questions or need more information.',
     );
+    tree.unmount();
   });
   it('should render without the name properties', () => {
     const form = {
@@ -79,6 +80,7 @@ describe('GI Feedback Tool <ConfirmationPage>', () => {
     ).to.contain(
       'We may contact you if we have questions or need more information.',
     );
+    tree.unmount();
   });
   it('should render without the response properties', () => {
     const form = {
@@ -109,5 +111,6 @@ describe('GI Feedback Tool <ConfirmationPage>', () => {
     ).to.contain(
       'We may contact you if we have questions or need more information.',
     );
+    tree.unmount();
   });
 });

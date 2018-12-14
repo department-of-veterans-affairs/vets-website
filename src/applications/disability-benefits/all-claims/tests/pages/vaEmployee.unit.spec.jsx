@@ -21,5 +21,6 @@ describe('526 vaEmployee', () => {
     );
 
     expect(form.find('input').length).to.equal(2);
+    form.unmount();
   });
 });

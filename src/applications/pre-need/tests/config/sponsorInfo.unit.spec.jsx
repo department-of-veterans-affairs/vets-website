@@ -27,6 +27,7 @@ describe('Pre-need sponsor information', () => {
 
     expect(form.find('input').length).to.equal(19);
     expect(form.find('select').length).to.equal(4);
+    form.unmount();
   });
 
   it('should not submit empty form', () => {
@@ -44,6 +45,7 @@ describe('Pre-need sponsor information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(7);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with required information', () => {
@@ -71,6 +73,7 @@ describe('Pre-need sponsor information', () => {
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should reveal date of death question', () => {
@@ -90,5 +93,6 @@ describe('Pre-need sponsor information', () => {
     selectRadio(form, 'root_application_veteran_isDeceased', 'yes');
     expect(form.find('input').length).to.equal(20);
     expect(form.find('select').length).to.equal(6);
+    form.unmount();
   });
 });

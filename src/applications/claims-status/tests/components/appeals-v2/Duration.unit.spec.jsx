@@ -12,11 +12,13 @@ describe('<DurationCard/>', () => {
   it('should render', () => {
     const wrapper = shallow(<DurationCard {...defaultProps} />);
     expect(wrapper.type()).to.equal('div');
+    wrapper.unmount();
   });
 
   it('should not render if no duration text passed in', () => {
     const wrapper = shallow(<DurationCard />);
     expect(wrapper.type()).to.equal(null);
+    wrapper.unmount();
   });
 
   it('should render a passed in durationText string', () => {
@@ -26,6 +28,7 @@ describe('<DurationCard/>', () => {
       .render()
       .text();
     expect(renderedDuration).to.equal(defaultProps.durationText);
+    wrapper.unmount();
   });
 
   it('should render a passed in cardDescription string', () => {
@@ -35,5 +38,6 @@ describe('<DurationCard/>', () => {
       .render()
       .text();
     expect(renderedDescription).to.contain(defaultProps.cardDescription);
+    wrapper.unmount();
   });
 });

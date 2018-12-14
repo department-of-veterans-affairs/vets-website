@@ -27,6 +27,7 @@ describe('VRE chapter 31 applicant address', () => {
     );
     expect(form.find('input').length).to.equal(6);
     expect(form.find('select').length).to.equal(2);
+    form.unmount();
   });
 
   it('does not submit without required info', () => {
@@ -46,6 +47,7 @@ describe('VRE chapter 31 applicant address', () => {
     expect(form.find('.usa-input-error').length).to.equal(5);
 
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('submits with veteran address', () => {
@@ -71,6 +73,7 @@ describe('VRE chapter 31 applicant address', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('submits with veteranAddress and veteranNewAddress', () => {
@@ -101,5 +104,6 @@ describe('VRE chapter 31 applicant address', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

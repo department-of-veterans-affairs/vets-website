@@ -39,6 +39,7 @@ describe('VRE Chapter 36 <ConfirmationPage>', () => {
         .at(0)
         .text(),
     ).to.contain('We’ve received your application.');
+    tree.unmount();
   });
 
   it('should render applicant name', () => {
@@ -65,5 +66,6 @@ describe('VRE Chapter 36 <ConfirmationPage>', () => {
         .text()
         .trim(),
     ).to.equal('for Jane  Doe');
+    tree.unmount();
   });
 });

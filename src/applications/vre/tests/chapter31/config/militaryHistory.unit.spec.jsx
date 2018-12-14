@@ -27,6 +27,7 @@ describe('VRE chapter 31 military history', () => {
 
     expect(form.find('input').length).to.equal(12);
     expect(form.find('select').length).to.equal(5);
+    form.unmount();
   });
 
   it('renders military info', () => {
@@ -42,6 +43,7 @@ describe('VRE chapter 31 military history', () => {
 
     expect(form.find('input').length).to.equal(12);
     expect(form.find('select').length).to.equal(5);
+    form.unmount();
   });
 
   it('submits with required info', () => {
@@ -69,6 +71,7 @@ describe('VRE chapter 31 military history', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('does not submit without info', () => {
@@ -88,5 +91,6 @@ describe('VRE chapter 31 military history', () => {
     expect(form.find('.usa-input-error').length).to.equal(4);
 
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 });
