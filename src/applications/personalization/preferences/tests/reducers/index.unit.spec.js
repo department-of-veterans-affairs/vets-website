@@ -1,9 +1,10 @@
+import sinon from 'sinon';
 import { expect } from 'chai';
 
 import * as preferencesActions from '../../actions';
 import reducer from '../../reducers';
 
-describe.only('preferencesReducer', () => {
+describe('preferencesReducer', () => {
   let state;
   let action;
 
@@ -69,5 +70,53 @@ describe.only('preferencesReducer', () => {
       { code: 'benefits', title: 'benefits' },
     ]);
     expect(newState.dashboard).to.be.deep.equal({});
+  });
+
+  it('sets the `dashboard` when the `SET_DASHBOARD_USER_PREFERENCES` action is dispatched', () => {
+    action = {
+      type: preferencesActions.SET_DASHBOARD_USER_PREFERENCES,
+      preferences: { appeals: true, 'education-training': false },
+    };
+    const newState = reducer(state, action);
+    expect(newState.dashboard).to.be.deep.equal({
+      appeals: true,
+      'education-training': false,
+    });
+    expect(newState.availableBenefits).to.be.deep.equal([]);
+  });
+
+  it('updates the correct prop on `dashboard` when the `SET_DASHBOARD_PREFERENCE` action is dispatched', () => {
+    state = {
+      availableBenefits: [],
+      dashboard: {
+        appeals: true,
+        'education-training': false,
+      },
+    };
+    action = {
+      type: preferencesActions.SET_DASHBOARD_PREFERENCE,
+      code: 'education-training',
+      value: true,
+    };
+    const newState = reducer(state, action);
+    expect(newState.dashboard).to.be.deep.equal({
+      appeals: true,
+      'education-training': true,
+    });
+    expect(newState.availableBenefits).to.be.deep.equal([]);
+  });
+
+  it('uses Date.now() to set the `savedAt` timestamp when the `SAVED_DASHBOARD_PREFERENCES` action is dispatched', () => {
+    const ts = 1544809132931;
+    const dateNowStub = sinon.stub(Date, 'now').callsFake(() => ts);
+    action = {
+      type: preferencesActions.SAVED_DASHBOARD_PREFERENCES,
+    };
+    const newState = reducer(state, action);
+    expect(dateNowStub.called);
+    expect(newState.savedAt).to.equal(ts);
+    expect(newState.dashboard).to.be.deep.equal({});
+    expect(newState.availableBenefits).to.be.deep.equal([]);
+    dateNowStub.restore();
   });
 });

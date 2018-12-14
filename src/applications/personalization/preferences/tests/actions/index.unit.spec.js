@@ -1,7 +1,19 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers.js';
-import { setPreference, SET_DASHBOARD_PREFERENCE } from '../../actions';
+import {
+  fetchAvailableBenefits,
+  savePreferences,
+  fetchUserSelectedBenefits,
+  setPreference,
+  SET_DASHBOARD_PREFERENCE,
+  SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
+  SET_SAVE_PREFERENCES_REQUEST_STATUS,
+  SET_AVAILABLE_BENEFITS,
+  SET_DASHBOARD_USER_PREFERENCES,
+  SET_DASHBOARD_PREFERENCE,
+  SAVED_DASHBOARD_PREFERENCES,
+} from '../../actions';
 
 function setFetchResponse(stub, data) {
   const response = new Response(null, {
