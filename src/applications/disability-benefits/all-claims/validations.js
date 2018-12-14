@@ -1,5 +1,6 @@
 import _ from '../../../platform/utilities/data';
 import some from 'lodash/some';
+import moment from 'moment';
 import { MILITARY_CITIES, MILITARY_STATE_VALUES, PTSD } from './constants';
 
 export const hasMilitaryRetiredPay = data =>
@@ -155,3 +156,25 @@ export const isValidYear = (err, fieldData) => {
     err.addError('The year can’t be in the future');
   }
 };
+
+export function startedAfterServicePeriod(err, fieldData, formData) {
+  const earliestServiceStartDate = formData.serviceInformation.servicePeriods
+    .map(period => new Date(period.dateRange.from))
+    .reduce((earliestDate, current) => {
+      if (current < earliestDate) {
+        return current;
+      }
+
+      return earliestDate;
+    });
+
+  const treatmentStartDate = moment(fieldData, 'YYYY-MM');
+  const firstServiceStartDate = moment(earliestServiceStartDate);
+  // If the moment is earlier than the moment passed to moment.diff(),
+  // the return value will be negative.
+  if (treatmentStartDate.diff(firstServiceStartDate) < 0) {
+    console.error('diff: ', treatmentStartDate.diff(firstServiceStartDate));
+    console.error('uh oh! treatment date precedes first service start date');
+    err.addError('The treatment must start after the earliest service period');
+  }
+}
