@@ -5,8 +5,8 @@ import { uploadDescription } from '../content/fileUploadDescriptions';
 export const uiSchema = {
   'ui:title': 'Upload supporting documents',
   'ui:description': uploadDescription,
-  'view:uploadUnemployabilitySupportingDocuments': ancillaryFormUploadUi(
-    ' ',
+  unemployabilitySupportingDocuments: ancillaryFormUploadUi(
+    '',
     'Individual Unemployability 8940 form supporting documents',
   ),
 };
@@ -14,7 +14,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:uploadUnemployabilitySupportingDocuments': {
+    unemployabilitySupportingDocuments: {
       type: 'array',
       items: {
         type: 'object',
