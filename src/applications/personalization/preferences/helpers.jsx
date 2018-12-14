@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
+import localStorage from 'platform/utilities/storage/localStorage';
+
 export const DISMISSED_BENEFIT_ALERTS = 'DISMISSED_BENEFIT_ALERTS';
 
 const appealsFAQ = () => (
@@ -566,12 +568,11 @@ export const SaveSucceededMessageComponent = ({ handleCloseAlert }) => (
 export const getDismissedBenefitAlerts = () =>
   JSON.parse(localStorage.getItem(DISMISSED_BENEFIT_ALERTS)) || [];
 
-export const setDismissedBenefitAlerts = dismissedBenefitAlerts => {
-  return localStorage.setItem(
+export const setDismissedBenefitAlerts = dismissedBenefitAlerts =>
+  localStorage.setItem(
     DISMISSED_BENEFIT_ALERTS,
     JSON.stringify(dismissedBenefitAlerts),
   );
-};
 
 export const dismissBenefitAlert = name => {
   const dismissedBenefitAlerts = new Set(getDismissedBenefitAlerts());

@@ -25,7 +25,7 @@ describe('getDismissedBenefitAlerts', () => {
     dismissBenefitAlert('test');
 
     const result = getDismissedBenefitAlerts();
-    expect(result).to.be.deep.equal(['dummy1']);
+    expect(result).to.be.deep.equal(['test']);
   });
 });
 
@@ -58,13 +58,14 @@ describe('restoreDismissedBenefitAlerts', () => {
 
   it('should remove alerts from the dismissed list', () => {
     dismissBenefitAlert('test-1');
-    const result = restoreDismissedBenefitAlerts(['test-1']);
+    restoreDismissedBenefitAlerts(['test-1']);
+    const result = getDismissedBenefitAlerts();
     expect(result).to.deep.equal([]);
   });
 });
 describe('getNewSelections', () => {
   it('should return a list of recently added benefit choices', () => {
     const result = getNewSelections({ 'test-1': true }, { 'test-2': true });
-    expect(result).to.deep.equal(['test-1']);
+    expect(result).to.deep.equal(['test-2']);
   });
 });
