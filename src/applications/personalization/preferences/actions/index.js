@@ -38,7 +38,7 @@ export function fetchUserSelectedBenefits() {
               return acc;
             }, {});
         } else {
-          selectedBenefits = {};
+          selectedBenefits = [];
         }
 
         dispatch({
