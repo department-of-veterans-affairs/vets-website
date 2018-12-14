@@ -1,7 +1,7 @@
 import { uploadDescription } from '../content/fileUploadDescriptions';
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import { ancillaryFormUploadUi } from '../utils';
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import fullSchema from '../config/schema';
 
 const { completedFormAttachments } = fullSchema.properties;
 
