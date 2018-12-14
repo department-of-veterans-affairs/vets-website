@@ -176,15 +176,14 @@ export default class ReviewCardField extends React.Component {
           >
             {volatileData ? 'Save' : 'Done'}
           </button>
-          {volatileData &&
-            this.state.canCancel && (
-              <button
-                className="usa-button-secondary cancel-button"
-                onClick={this.cancelUpdate}
-              >
-                Cancel
-              </button>
-            )}
+          {volatileData && this.state.canCancel && (
+            <button
+              className="usa-button-secondary cancel-button"
+              onClick={this.cancelUpdate}
+            >
+              Cancel
+            </button>
+          )}
         </div>
       </div>
     );

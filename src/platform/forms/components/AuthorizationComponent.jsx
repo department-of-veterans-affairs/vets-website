@@ -62,24 +62,21 @@ class AuthorizationComponent extends React.Component {
 
     const content = (
       <div className="sip-authorization-container">
-        {isLoading &&
-          isVisible && (
-            <LoadingIndicator message="Please wait while we check your information." />
-          )}
-        {!isLoading &&
-          isVisible &&
-          !isAuthorized && (
-            <AlertBox
-              status="error"
-              isVisible
-              className="sip-authorization-message"
-            >
-              <AuthorizationMessage
-                has30PercentDisabilityRating={has30PercentDisabilityRating}
-                user={{ isLoggedIn, isVerified, profileStatus }}
-              />
-            </AlertBox>
-          )}
+        {isLoading && isVisible && (
+          <LoadingIndicator message="Please wait while we check your information." />
+        )}
+        {!isLoading && isVisible && !isAuthorized && (
+          <AlertBox
+            status="error"
+            isVisible
+            className="sip-authorization-message"
+          >
+            <AuthorizationMessage
+              has30PercentDisabilityRating={has30PercentDisabilityRating}
+              user={{ isLoggedIn, isVerified, profileStatus }}
+            />
+          </AlertBox>
+        )}
         {isAuthorized && this.props.children}
       </div>
     );

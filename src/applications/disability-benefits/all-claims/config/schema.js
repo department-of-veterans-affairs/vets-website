@@ -580,7 +580,7 @@ const schema = {
                *   "country": "USA",
                *   "postalCode": "21200-1111"
                *  }
-              */
+               */
               providerFacilityAddress: {
                 type: 'object',
                 required: ['street', 'city', 'country', 'state', 'postalCode'],

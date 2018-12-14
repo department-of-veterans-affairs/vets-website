@@ -12,10 +12,9 @@ export const uiSchema = {
     'ui:title': 'What type of pay you would like to receive?',
     'ui:widget': 'yesNo',
     'ui:options': {
-      yesNoReverse: true, // If veteran elects to not receive VA pay, they waive their VA pay
       labels: {
         Y: 'I want to receive VA compensation pay.',
-        N: ' I don’t want to receive tax-free VA compensation pay.', // waiveRetirementPay = true because yesNoReverse
+        N: 'I don’t want to receive tax-free VA compensation pay.',
       },
     },
   },

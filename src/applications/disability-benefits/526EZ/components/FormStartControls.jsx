@@ -22,18 +22,17 @@ export default function FormStartControls(props) {
           </button>
         </div>
       )}
-      {!user.profile.verified &&
-        user.login.currentlyLoggedIn && (
-          <div>
-            {UnverifiedAlert}
-            <a
-              href={`/verify?next=${window.location.pathname}`}
-              className="usa-button-primary verify-link"
-            >
-              Verify Your Identity
-            </a>
-          </div>
-        )}
+      {!user.profile.verified && user.login.currentlyLoggedIn && (
+        <div>
+          {UnverifiedAlert}
+          <a
+            href={`/verify?next=${window.location.pathname}`}
+            className="usa-button-primary verify-link"
+          >
+            Verify Your Identity
+          </a>
+        </div>
+      )}
       {user.profile.verified && (
         <SaveInProgressIntro
           {...props}

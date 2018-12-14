@@ -218,53 +218,51 @@ class IntroductionPage extends React.Component {
                 </p>
               </li>
             )}
-            {signedIn &&
-              !idProofed && (
-                <li className="process-step list-two">
-                  <div>
-                    <h5>Verify Your Identity</h5>
-                  </div>
-                  <p>
-                    After you gather the documents needed to apply, we suggest
-                    you verify your identity as an extra security measure to
-                    make sure only you can access your Veteran ID Card. To do
-                    this, you’ll need to use ID.me, our Veteran-owned, trusted
-                    technology partner that provides the strongest identity
-                    verification system available.
-                  </p>
-                  <p>
-                    If you signed in using your My HealtheVet or DS Logon
-                    account, we’ll connect your account to {siteName} through
-                    ID.me. To verify your identity through ID.me, you’ll need:
-                  </p>
-                  {idProofingReqs}
-                  <p>
-                    Verifying your identity is a one-time process that’ll take
-                    about 5-10 minutes. Once you’ve gone through the
-                    identity-proofing process, you won't need to do it again.
-                  </p>
-                  <p>
-                    In addition to providing extra security measures, when
-                    you’re signed in to your account, your application process
-                    can go more smoothly. Here’s why:
-                  </p>
-                  {accountBenefits}
-                </li>
-              )}
-            {signedIn &&
-              idProofed && (
-                <li className="process-step list-two">
-                  <div>
-                    <h5>Sign In</h5>
-                  </div>
-                  <p>
-                    We’re able to process your application faster since you’re
-                    signed in to your account.
-                  </p>{' '}
-                  Other benefits to being signed in include:
-                  {accountBenefits}
-                </li>
-              )}
+            {signedIn && !idProofed && (
+              <li className="process-step list-two">
+                <div>
+                  <h5>Verify Your Identity</h5>
+                </div>
+                <p>
+                  After you gather the documents needed to apply, we suggest you
+                  verify your identity as an extra security measure to make sure
+                  only you can access your Veteran ID Card. To do this, you’ll
+                  need to use ID.me, our Veteran-owned, trusted technology
+                  partner that provides the strongest identity verification
+                  system available.
+                </p>
+                <p>
+                  If you signed in using your My HealtheVet or DS Logon account,
+                  we’ll connect your account to {siteName} through ID.me. To
+                  verify your identity through ID.me, you’ll need:
+                </p>
+                {idProofingReqs}
+                <p>
+                  Verifying your identity is a one-time process that’ll take
+                  about 5-10 minutes. Once you’ve gone through the
+                  identity-proofing process, you won't need to do it again.
+                </p>
+                <p>
+                  In addition to providing extra security measures, when you’re
+                  signed in to your account, your application process can go
+                  more smoothly. Here’s why:
+                </p>
+                {accountBenefits}
+              </li>
+            )}
+            {signedIn && idProofed && (
+              <li className="process-step list-two">
+                <div>
+                  <h5>Sign In</h5>
+                </div>
+                <p>
+                  We’re able to process your application faster since you’re
+                  signed in to your account.
+                </p>{' '}
+                Other benefits to being signed in include:
+                {accountBenefits}
+              </li>
+            )}
             <li className="process-step list-three">
               <div>
                 <h5>Apply</h5>
@@ -297,26 +295,25 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <h2 className="help-heading">Ready to get started?</h2>
-        {signedIn &&
-          !idProofed && (
-            <div>
-              <p>
-                <strong>
-                  Verify your identity before you apply for a Veteran ID Card.
-                </strong>
-                <br />
-                <a
-                  className="usa-button usa-button-primary"
-                  href="/verify?next=%2Fveteran-id-card%2Fapply"
-                >
-                  Verify Your Identity
-                </a>
-              </p>
+        {signedIn && !idProofed && (
+          <div>
+            <p>
               <strong>
-                Start the Veteran ID Card application without signing in.
+                Verify your identity before you apply for a Veteran ID Card.
               </strong>
-            </div>
-          )}
+              <br />
+              <a
+                className="usa-button usa-button-primary"
+                href="/verify?next=%2Fveteran-id-card%2Fapply"
+              >
+                Verify Your Identity
+              </a>
+            </p>
+            <strong>
+              Start the Veteran ID Card application without signing in.
+            </strong>
+          </div>
+        )}
         {!signedIn && (
           <div>
             <p>
@@ -347,7 +344,7 @@ class IntroductionPage extends React.Component {
         />
         {(!signedIn || !idProofed) && (
           <p>
-            <a href="/faq">
+            <a href="/sign-in-faq/">
               Get more information about signing in to {siteName}
             </a>
             .

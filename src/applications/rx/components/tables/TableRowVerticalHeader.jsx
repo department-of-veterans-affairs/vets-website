@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 /*
-* Table row with a header as its first cell.
-* headerText: string, required
-* cellText: string, optional
-* Child of Rx detail page.
-*/
+ * Table row with a header as its first cell.
+ * headerText: string, required
+ * cellText: string, optional
+ * Child of Rx detail page.
+ */
 import React from 'react';
 
 class TableRowVerticalHeader extends React.Component {

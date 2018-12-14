@@ -8,18 +8,17 @@ export class AdditionalInformation extends React.Component {
 
     if (isOJT) return null;
 
-    const typeOfAccreditation = it.accredited &&
-      it.accreditationType && (
-        <div>
-          <strong>
-            <a onClick={this.props.onShowModal.bind(this, 'typeAccredited')}>
-              Type of accreditation:
-            </a>
-          </strong>
-          &nbsp;
-          {it.accreditationType.toUpperCase()}
-        </div>
-      );
+    const typeOfAccreditation = it.accredited && it.accreditationType && (
+      <div>
+        <strong>
+          <a onClick={this.props.onShowModal.bind(this, 'typeAccredited')}>
+            Type of accreditation:
+          </a>
+        </strong>
+        &nbsp;
+        {it.accreditationType.toUpperCase()}
+      </div>
+    );
 
     const vetTuitionPolicy = it.vetWebsiteLink && (
       <div>

@@ -157,17 +157,20 @@ const spouseSelector = createSelector(
 );
 
 function createSpouseLabelSelector(nameTemplate) {
-  return createSelector(spouseSelector, spouseFullName => {
-    if (spouseFullName) {
-      return {
-        title: nameTemplate(spouseFullName),
-      };
-    }
+  return createSelector(
+    spouseSelector,
+    spouseFullName => {
+      if (spouseFullName) {
+        return {
+          title: nameTemplate(spouseFullName),
+        };
+      }
 
-    return {
-      title: null,
-    };
-  });
+      return {
+        title: null,
+      };
+    },
+  );
 }
 
 // given a `key` string that optionally includes the substring `[INDEX]`,

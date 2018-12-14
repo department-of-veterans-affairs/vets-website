@@ -8,9 +8,8 @@ const DIFF_THRESHOLD = 0.01;
 // A wrapper around fs.readFile to return a promise
 async function readFile(fileName) {
   return new Promise((resolve, reject) => {
-    fs.readFile(
-      fileName,
-      (err, result) => (err ? reject(err) : resolve(result)),
+    fs.readFile(fileName, (err, result) =>
+      err ? reject(err) : resolve(result),
     );
   });
 }

@@ -60,36 +60,35 @@ class ConfirmationPage extends React.Component {
         <h2 className="schemaform-confirmation-section-header">
           What happens after I apply?
         </h2>
-        {verified &&
-          userSignedIn && (
-            <div>
-              <p>
-                We’ll send you emails updating you on the status of your
-                application. You can also print this page for your records. You
-                should receive your Veteran ID Card by mail in about 60 days.
-                <br />
-                In the meantime, you can print a temporary digital Veteran ID
-                Card.
-              </p>
-              <div className="id-card-preview">
-                {!!response.photo && (
-                  <VeteranIDCard
-                    veteranFullName={veteranFullNameStr}
-                    veteranBranchCode={serviceBranch}
-                    caseId={response.caseId}
-                    veteranPhotoUrl={response.photo}
-                  />
-                )}
-              </div>
-              <button
-                type="button"
-                className="va-button-link"
-                onClick={() => window.print()}
-              >
-                Print your temporary Veteran ID Card.
-              </button>
+        {verified && userSignedIn && (
+          <div>
+            <p>
+              We’ll send you emails updating you on the status of your
+              application. You can also print this page for your records. You
+              should receive your Veteran ID Card by mail in about 60 days.
+              <br />
+              In the meantime, you can print a temporary digital Veteran ID
+              Card.
+            </p>
+            <div className="id-card-preview">
+              {!!response.photo && (
+                <VeteranIDCard
+                  veteranFullName={veteranFullNameStr}
+                  veteranBranchCode={serviceBranch}
+                  caseId={response.caseId}
+                  veteranPhotoUrl={response.photo}
+                />
+              )}
             </div>
-          )}
+            <button
+              type="button"
+              className="va-button-link"
+              onClick={() => window.print()}
+            >
+              Print your temporary Veteran ID Card.
+            </button>
+          </div>
+        )}
         {(!verified || !userSignedIn) && (
           <div>
             <p>

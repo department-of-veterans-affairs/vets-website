@@ -130,9 +130,9 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(nonceTransformer);
 
   /*
-  * This will replace links in static pages with a staging domain,
-  * if it is in the list of domains to replace
-  */
+   * This will replace links in static pages with a staging domain,
+   * if it is in the list of domains to replace
+   */
   smith.use(rewriteVaDomains(BUILD_OPTIONS));
 
   // Create the data passed from the content build to the assets compiler.

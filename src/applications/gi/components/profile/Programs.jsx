@@ -77,17 +77,15 @@ export class Programs extends React.Component {
     const icon = available ? 'fa fa-check' : 'fa fa-remove';
 
     const link =
-      (available &&
-        program.link &&
-        program.link.href && (
-          <span>
-            &nbsp;(
-            <a href={program.link.href} target="_blank">
-              {program.link.text}
-            </a>
-            )
-          </span>
-        )) ||
+      (available && program.link && program.link.href && (
+        <span>
+          &nbsp;(
+          <a href={program.link.href} target="_blank">
+            {program.link.text}
+          </a>
+          )
+        </span>
+      )) ||
       '';
 
     const label = program.modal ? (

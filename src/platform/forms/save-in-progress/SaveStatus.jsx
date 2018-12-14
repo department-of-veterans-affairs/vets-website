@@ -62,10 +62,9 @@ class SaveStatus extends React.Component {
               `We’re sorry. We’re unable to connect to ${propertyName}. Please check that you’re connected to the Internet, so we can save your form in progress.`}
             {savedStatus === SAVE_STATUSES.failure &&
               'We’re sorry, but we’re having some issues and are working to fix them. You can continue filling out the form, but it will not be automatically saved as you fill it out.'}
-            {!isLoggedIn &&
-              savedStatus === SAVE_STATUSES.noAuth && (
-                <span>Sorry, you’re no longer signed in. {signInLink}.</span>
-              )}
+            {!isLoggedIn && savedStatus === SAVE_STATUSES.noAuth && (
+              <span>Sorry, you’re no longer signed in. {signInLink}.</span>
+            )}
           </div>
         )}
       </div>

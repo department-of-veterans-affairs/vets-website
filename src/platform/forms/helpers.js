@@ -16,19 +16,21 @@ export function getPageList(routes, prefix = '') {
 }
 
 export function groupPagesIntoChapters(routes, prefix = '') {
-  const pageList = routes.filter(route => route.chapter).map(page => {
-    const obj = {
-      name: page.name,
-      chapter: page.chapter,
-      path: `${prefix}${page.path}`,
-    };
+  const pageList = routes
+    .filter(route => route.chapter)
+    .map(page => {
+      const obj = {
+        name: page.name,
+        chapter: page.chapter,
+        path: `${prefix}${page.path}`,
+      };
 
-    if (page.depends) {
-      obj.depends = page.depends;
-    }
+      if (page.depends) {
+        obj.depends = page.depends;
+      }
 
-    return obj;
-  });
+      return obj;
+    });
 
   const pageGroups = _.groupBy(pageList, page => page.chapter);
 

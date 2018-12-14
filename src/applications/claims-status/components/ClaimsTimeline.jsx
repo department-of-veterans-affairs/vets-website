@@ -53,8 +53,9 @@ export default class ClaimsTimeline extends React.Component {
             {everPhaseBack &&
               ' There may be times when a claim moves forward to “Preparation for notification” and then briefly back to this stage for more processing.'}
           </p>
-          {currentPhaseBack &&
-            phase === LAST_EVIDENCE_GATHERING_PHASE && <PhaseBackWarning />}
+          {currentPhaseBack && phase === LAST_EVIDENCE_GATHERING_PHASE && (
+            <PhaseBackWarning />
+          )}
         </ClaimPhase>
         <ClaimPhase
           phase={4}

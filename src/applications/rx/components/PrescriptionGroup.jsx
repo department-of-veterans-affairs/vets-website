@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
  * Properties:
  * - `title`: String containing the section heading for this group.
  * - `items`: Array of items.
-*/
+ */
 
 import React from 'react';
 

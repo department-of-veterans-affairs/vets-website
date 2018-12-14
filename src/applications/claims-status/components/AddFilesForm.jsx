@@ -25,8 +25,8 @@ import {
 } from '../utils/validations';
 import { setFocus } from '../utils/page';
 
-const displayTypes = FILE_TYPES.map(
-  type => (type === 'pdf' ? 'pdf (unlocked)' : type),
+const displayTypes = FILE_TYPES.map(type =>
+  type === 'pdf' ? 'pdf (unlocked)' : type,
 ).join(', ');
 
 const scrollToFile = position => {

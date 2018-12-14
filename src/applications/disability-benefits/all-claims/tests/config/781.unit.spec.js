@@ -28,7 +28,18 @@ describe('781/781a incident form config iterators', () => {
         expect(config[`incidentDescription${i}`]).to.be.an('object');
       }
     });
-    it('should contain three incident properties', () => {
+    it('should return three medals page config objects', () => {
+      const config = createFormConfig781(PTSD_INCIDENT_ITERATION);
+      const testMultipleIncidentMedalsProps = () => {
+        for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+          expect(config).to.haveOwnProperty(`medals${i}`);
+
+          expect(config[`medals${i}`]).to.be.an('object');
+        }
+      };
+      testMultipleIncidentMedalsProps();
+    });
+    it('should return three incident date page config objects', () => {
       const config = createFormConfig781(PTSD_INCIDENT_ITERATION);
 
       for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {

@@ -40,17 +40,16 @@ class FormItem extends React.Component {
       <div className="card information">
         <div className="saved-form-information">
           <h5 className="form-title saved">{itemTitle}</h5>
-          {!!lastSaved &&
-            !!expirationDate && (
-              <div className="saved-form-metadata-container">
-                <span>
-                  <strong>Last saved on:</strong> {lastSavedDateTime}
-                </span>
-                <p>
-                  <strong>Expires on:</strong> {expirationDate}
-                </p>
-              </div>
-            )}
+          {!!lastSaved && !!expirationDate && (
+            <div className="saved-form-metadata-container">
+              <span>
+                <strong>Last saved on:</strong> {lastSavedDateTime}
+              </span>
+              <p>
+                <strong>Expires on:</strong> {expirationDate}
+              </p>
+            </div>
+          )}
         </div>
         <div className="row small-collapse">
           <div className="small-12 medium-8 large-8 columns">

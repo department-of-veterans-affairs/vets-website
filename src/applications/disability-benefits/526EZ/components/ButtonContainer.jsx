@@ -22,38 +22,34 @@ export default function ButtonContainer(props) {
           Back
         </button>
       )}
-      {atIncreaseGuidance &&
-        !isLoggedIn && (
-          <a
-            className="usa-button-primary"
-            href="/disability-benefits/apply/form-526-disability-claim/introduction/"
-            onClick={authenticate}
-          >
-            Sign In and Verify Your Identity
-            <span className="button-icon"> »</span>
-          </a>
-        )}
-      {atIncreaseGuidance &&
-        isLoggedIn &&
-        !isVerified && (
-          <a
-            className="usa-button-primary"
-            href="/verify?next=/disability-benefits/apply/form-526-disability-claim/introduction/"
-          >
-            Verify Your Identity
-            <span className="button-icon"> »</span>
-          </a>
-        )}
-      {atIncreaseGuidance &&
-        isVerified && (
-          <a
-            className="usa-button-primary"
-            href="/disability-benefits/apply/form-526-disability-claim/introduction/"
-          >
-            Apply for Claim for Increase
-            <span className="button-icon"> »</span>
-          </a>
-        )}
+      {atIncreaseGuidance && !isLoggedIn && (
+        <a
+          className="usa-button-primary"
+          href="/disability-benefits/apply/form-526-disability-claim/introduction/"
+          onClick={authenticate}
+        >
+          Sign In and Verify Your Identity
+          <span className="button-icon"> »</span>
+        </a>
+      )}
+      {atIncreaseGuidance && isLoggedIn && !isVerified && (
+        <a
+          className="usa-button-primary"
+          href="/verify?next=/disability-benefits/apply/form-526-disability-claim/introduction/"
+        >
+          Verify Your Identity
+          <span className="button-icon"> »</span>
+        </a>
+      )}
+      {atIncreaseGuidance && isVerified && (
+        <a
+          className="usa-button-primary"
+          href="/disability-benefits/apply/form-526-disability-claim/introduction/"
+        >
+          Apply for Claim for Increase
+          <span className="button-icon"> »</span>
+        </a>
+      )}
       {atEbenefitsGuidance && (
         <a
           className="usa-button-primary"

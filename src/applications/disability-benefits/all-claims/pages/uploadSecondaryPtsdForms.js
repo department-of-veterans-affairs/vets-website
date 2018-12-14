@@ -1,48 +1,16 @@
-import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import environment from '../../../../platform/utilities/environment';
-import fullSchema from '../config/schema';
 import { uploadDescription } from '../content/fileUploadDescriptions';
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
+import { ancillaryFormUploadUi } from '../utils';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const { attachments } = fullSchema.properties;
-
-const FIFTY_MB = 52428800;
+const secondarySupportStatement = 'L229';
 
 export const uiSchema = {
   'ui:title': ptsd781aNameTitle,
   'ui:description': uploadDescription,
-  ptsd781a: fileUploadUI('', {
-    itemDescription: 'PTSD 781a form',
-    hideLabelText: true,
-    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
-    fileTypes: [
-      'pdf',
-      'jpg',
-      'jpeg',
-      'png',
-      'gif',
-      'bmp',
-      'tif',
-      'tiff',
-      'txt',
-    ],
-    maxSize: FIFTY_MB,
-    createPayload: file => {
-      const payload = new FormData();
-      payload.append('supporting_evidence_attachment[file_data]', file);
-
-      return payload;
-    },
-    parseResponse: (response, file) => ({
-      name: file.name,
-      confirmationCode: response.data.attributes.guid,
-      attachmentId: 'L229',
-    }),
-    // this is the uiSchema passed to FileField for the attachmentId schema
-    // FileField requires this name be used
-    attachmentSchema: {
-      'ui:title': 'Document type',
-    },
+  ptsd781a: ancillaryFormUploadUi('', 'PTSD 781a form', {
+    attachmentId: secondarySupportStatement,
   }),
 };
 

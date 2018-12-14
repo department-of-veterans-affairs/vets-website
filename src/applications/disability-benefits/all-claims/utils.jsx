@@ -6,9 +6,11 @@ import { createSelector } from 'reselect';
 import { omit } from 'lodash';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import { apiRequest } from '../../../platform/utilities/api';
+import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
-import fullSchema from './config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
+import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
 
 import {
   schema as addressSchema,
@@ -22,6 +24,7 @@ import {
   DATA_PATHS,
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
+  TWENTY_FIVE_MB,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -169,6 +172,22 @@ export function transformMVPData(formData) {
   return newFormData;
 }
 
+/**
+ * Returns an object where all the fields are prefixed with `view:` if they aren't already
+ */
+export const viewifyFields = formData => {
+  const newFormData = {};
+  Object.keys(formData).forEach(key => {
+    const viewKey = /^view:/.test(key) ? key : `view:${key}`;
+    // Recurse if necessary
+    newFormData[viewKey] =
+      typeof formData[key] === 'object' && !Array.isArray(formData[key])
+        ? viewifyFields(formData[key])
+        : formData[key];
+  });
+  return newFormData;
+};
+
 export function prefillTransformer(pages, formData, metadata) {
   const { disabilities } = formData;
   if (!disabilities || !Array.isArray(disabilities)) {
@@ -183,6 +202,32 @@ export function prefillTransformer(pages, formData, metadata) {
     transformMVPData(formData),
   );
   delete newFormData.disabilities;
+
+  // Pre-fill hidden bank info for use in the PaymentView
+  const bankAccount = {
+    bankAccountType: newFormData.bankAccountType,
+    bankAccountNumber: newFormData.bankAccountNumber,
+    bankRoutingNumber: newFormData.bankRoutingNumber,
+    bankName: newFormData.bankName,
+  };
+  newFormData['view:originalBankAccount'] = viewifyFields(bankAccount);
+
+  // Let the payment info card start in review mode if we have pre-filled bank information
+  if (
+    Object.values(newFormData['view:originalBankAccount']).some(
+      value => !!value,
+    )
+  ) {
+    newFormData['view:bankAccount'] = {
+      'view:hasPrefilledBank': true,
+    };
+  }
+
+  // Remove bank fields since they're already in view:originalBankAccount
+  delete newFormData.bankAccountType;
+  delete newFormData.bankAccountNumber;
+  delete newFormData.bankRoutingNumber;
+  delete newFormData.bankName;
 
   return {
     metadata,
@@ -426,22 +471,6 @@ export const addCheckboxPerNewDisability = createSelector(
   }),
 );
 
-/**
- * Returns an object where all the fields are prefixed with `view:` if they aren't already
- */
-export const viewifyFields = formData => {
-  const newFormData = {};
-  Object.keys(formData).forEach(key => {
-    const viewKey = /^view:/.test(key) ? key : `view:${key}`;
-    // Recurse if necessary
-    newFormData[viewKey] =
-      typeof formData[key] === 'object' && !Array.isArray(formData[key])
-        ? viewifyFields(formData[key])
-        : formData[key];
-  });
-  return newFormData;
-};
-
 export const hasVAEvidence = formData =>
   _.get(DATA_PATHS.hasVAEvidence, formData, false);
 export const hasOtherEvidence = formData =>
@@ -563,11 +592,56 @@ export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
 
 export const showPtsdCombatConclusion = form =>
-  form['view:upload781Choice'] === 'answerQuestions' &&
-  (_.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
-    _.get('view:selectablePtsdTypes.view:noncombatPtsdType', form, false));
+  _.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
+  _.get('view:selectablePtsdTypes.view:noncombatPtsdType', form, false);
 
 export const showPtsdAssaultConclusion = form =>
-  form['view:upload781aChoice'] === 'answerQuestions' &&
-  (_.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
-    _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false));
+  _.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
+  _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false);
+
+export const ancillaryFormUploadUi = (
+  label,
+  itemDescription,
+  {
+    attachmentId = '',
+    widgetType = 'select',
+    customClasses = '',
+    isDisabled = false,
+    addAnotherLabel = 'Add Another',
+  },
+) =>
+  fileUploadUI(label, {
+    itemDescription,
+    hideLabelText: !label,
+    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
+    addAnotherLabel,
+    fileTypes: [
+      'pdf',
+      'jpg',
+      'jpeg',
+      'png',
+      'gif',
+      'bmp',
+      'tif',
+      'tiff',
+      'txt',
+    ],
+    maxSize: TWENTY_FIVE_MB,
+    createPayload: file => {
+      const payload = new FormData();
+      payload.append('supporting_evidence_attachment[file_data]', file);
+
+      return payload;
+    },
+    parseResponse: (response, file) => ({
+      name: file.name,
+      confirmationCode: response.data.attributes.guid,
+      attachmentId,
+    }),
+    attachmentSchema: {
+      'ui:title': 'Document type',
+      'ui:disabled': isDisabled,
+      'ui:widget': widgetType,
+    },
+    classNames: customClasses,
+  });

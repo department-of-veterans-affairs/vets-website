@@ -32,28 +32,26 @@ export default function SubmittedTrackedItem({ item }) {
           <span className="submission-status">No longer needed</span>
         </div>
       )}
-      {!closed &&
-        reviewed && (
-          <div>
-            <span className="submission-status reviewed-file">
-              <i className="fa fa-check-circle submission-icon" />
-              Reviewed by VA
-            </span>
-            <span className="submission-date reviewed-file">
-              {moment(getItemDate(item)).format('MMM D, YYYY')}
-            </span>
-          </div>
-        )}
-      {!closed &&
-        !reviewed && (
-          <div>
-            <span className="submission-status">Submitted</span>
-            <span className="submission-date">
-              {moment(getItemDate(item)).format('MMM D, YYYY')}
-              {' (pending)'}
-            </span>
-          </div>
-        )}
+      {!closed && reviewed && (
+        <div>
+          <span className="submission-status reviewed-file">
+            <i className="fa fa-check-circle submission-icon" />
+            Reviewed by VA
+          </span>
+          <span className="submission-date reviewed-file">
+            {moment(getItemDate(item)).format('MMM D, YYYY')}
+          </span>
+        </div>
+      )}
+      {!closed && !reviewed && (
+        <div>
+          <span className="submission-status">Submitted</span>
+          <span className="submission-date">
+            {moment(getItemDate(item)).format('MMM D, YYYY')}
+            {' (pending)'}
+          </span>
+        </div>
+      )}
     </div>
   );
 }

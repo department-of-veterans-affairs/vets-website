@@ -92,13 +92,12 @@ class FilesPage extends React.Component {
               </div>
             ) : null}
 
-            {documentsTurnedIn.map(
-              (item, itemIndex) =>
-                item.trackedItemId ? (
-                  <SubmittedTrackedItem item={item} key={itemIndex} />
-                ) : (
-                  <AdditionalEvidenceItem item={item} key={itemIndex} />
-                ),
+            {documentsTurnedIn.map((item, itemIndex) =>
+              item.trackedItemId ? (
+                <SubmittedTrackedItem item={item} key={itemIndex} />
+              ) : (
+                <AdditionalEvidenceItem item={item} key={itemIndex} />
+              ),
             )}
           </div>
         </div>

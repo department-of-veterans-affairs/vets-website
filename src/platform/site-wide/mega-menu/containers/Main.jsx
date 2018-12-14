@@ -19,11 +19,10 @@ export function flagCurrentPageInTopLevelLinks(
   href = window.location.href,
   pathName = window.location.pathname,
 ) {
-  return links.map(
-    link =>
-      pathName.endsWith(link.href) || href === link.href
-        ? { ...link, currentPage: true }
-        : link,
+  return links.map(link =>
+    pathName.endsWith(link.href) || href === link.href
+      ? { ...link, currentPage: true }
+      : link,
   );
 }
 

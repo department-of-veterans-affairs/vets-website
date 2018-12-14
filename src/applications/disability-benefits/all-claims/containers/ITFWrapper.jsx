@@ -61,9 +61,8 @@ export class ITFWrapper extends React.Component {
    * Checks to see if the given pathname should be blocked from making any ITF calls.
    */
   shouldBlockITF(pathname) {
-    return this.props.noITFPages.some(
-      noITFPath =>
-        noITFPath.test ? noITFPath.test(pathname) : noITFPath === pathname,
+    return this.props.noITFPages.some(noITFPath =>
+      noITFPath.test ? noITFPath.test(pathname) : noITFPath === pathname,
     );
   }
 
