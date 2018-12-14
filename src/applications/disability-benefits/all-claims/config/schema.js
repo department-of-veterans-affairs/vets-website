@@ -714,26 +714,6 @@ const schema = {
       },
     },
   },
-  attachments: {
-    type: 'array',
-    items: {
-      type: 'object',
-      required: ['name', 'attachmentId'],
-      properties: {
-        name: {
-          type: 'string',
-        },
-        confirmationCode: {
-          type: 'string',
-        },
-        attachmentId: {
-          type: 'string',
-          enum: documentTypes526.map(doc => doc.value),
-          enumNames: documentTypes526.map(doc => doc.label),
-        },
-      },
-    },
-  },
   properties: {
     alternateNames: {
       type: 'array',
@@ -1078,7 +1058,24 @@ const schema = {
       },
     },
     attachments: {
-      $ref: '#/definitions/attachments',
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['name', 'attachmentId'],
+        properties: {
+          name: {
+            type: 'string',
+          },
+          confirmationCode: {
+            type: 'string',
+          },
+          attachmentId: {
+            type: 'string',
+            enum: documentTypes526.map(doc => doc.value),
+            enumNames: documentTypes526.map(doc => doc.label),
+          },
+        },
+      },
     },
     bankAccountType: {
       type: 'string',
