@@ -11,6 +11,8 @@ import {
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 import { validateDate } from 'us-forms-system/lib/js/validation';
 
+import { validateZIP } from '../validations';
+
 const { form4142 } = fullSchema.properties;
 
 const providerFacilities = form4142.properties.providerFacility;
@@ -75,6 +77,11 @@ export const uiSchema = {
         },
         postalCode: {
           'ui:title': 'Postal Code',
+          'ui:validations': [validateZIP],
+          'ui:errorMessages': {
+            pattern:
+              'Please enter a valid 5- or 9-digit Postal code (dashes allowed)',
+          },
           'ui:options': {
             widgetClassNames: 'usa-input-medium',
           },

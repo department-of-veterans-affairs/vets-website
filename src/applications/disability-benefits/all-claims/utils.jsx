@@ -564,6 +564,9 @@ export const isUploading781Form = formData =>
 export const isUploading781aForm = formData =>
   _.get('view:upload781aChoice', formData, '') === 'upload';
 
+export const isUploading781aSupportingDocuments = index => formData =>
+  _.get(`view:uploadChoice${index}`, formData, false);
+
 export const isAnswering781Questions = index => formData =>
   _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&
   (index === 0 ||
@@ -579,6 +582,10 @@ export const isAnswering781aQuestions = index => formData =>
       false,
     )) &&
   needsToEnter781a(formData);
+
+export const isAddingIndividuals = index => formData =>
+  isAnswering781Questions(index)(formData) &&
+  _.get(`view:individualsInvolved${index}`, formData, false);
 
 export const getHomelessOrAtRisk = formData => {
   const homelessStatus = _.get('homelessOrAtRisk', formData, '');
@@ -644,4 +651,5 @@ export const ancillaryFormUploadUi = (
       'ui:widget': widgetType,
     },
     classNames: customClasses,
+    attachmentName: false,
   });
