@@ -267,35 +267,15 @@ export function transformProviderFacilities(providerFacilities) {
   }));
 }
 
-export function transformIncident(incident, personalAssault) {
-  const toIncidentLocationString = incidentLocation =>
-    [
-      incidentLocation.city,
-      incidentLocation.state,
-      incidentLocation.country,
-      incidentLocation.additionalDetails,
-    ]
-      .filter(locationField => locationField && locationField.length > 0)
-      .join(', ');
-
-  let sources = [];
-
-  const transformed = {
-    ...incident,
-    personalAssault,
-    incidentLocation: toIncidentLocationString(incident.incidentLocation),
-  };
-
-  if (incident.authorities) {
-    sources = [...sources, ...incident.authorities];
-    delete transformed.authorities;
-  }
-
-  if (sources.length > 0) {
-    transformed.source = sources;
-  }
-
-  return transformed;
+export function concatIncidentLocationString(incidentLocation) {
+  return [
+    incidentLocation.city,
+    incidentLocation.state,
+    incidentLocation.country,
+    incidentLocation.additionalDetails,
+  ]
+    .filter(locationField => locationField && locationField.length > 0)
+    .join(', ');
 }
 
 export function getPtsdChangeFieldTitles(changeFields, formConfig) {
@@ -444,13 +424,13 @@ export function transform(formConfig, form) {
 
   const incidents = incidentKeys
     .filter(incidentKey => clonedData[incidentKey])
-    .map(incidentKey => {
-      const incident = transformIncident(
-        clonedData[incidentKey],
-        incidentKey.includes('secondary'),
-      );
-      return incident;
-    });
+    .map(incidentKey => ({
+      ...clonedData[incidentKey],
+      personalAssault: incidentKey.includes('secondary'),
+      incidentLocation: concatIncidentLocationString(
+        clonedData[incidentKey].incidentLocation,
+      ),
+    }));
 
   incidentKeys.forEach(incidentKey => {
     delete clonedData[incidentKey];

@@ -263,7 +263,7 @@
           }
         }
       ],
-      "authorities": [
+      "source": [
         {
           "name": "Authority Name",
           "address": {
