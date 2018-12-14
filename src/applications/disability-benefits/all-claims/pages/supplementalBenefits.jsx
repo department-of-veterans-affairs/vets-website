@@ -50,6 +50,7 @@ export const schema = {
     },
     'view:supplementalBenefitsHelp': {
       type: 'object',
+      properties: {},
     },
   },
 };
