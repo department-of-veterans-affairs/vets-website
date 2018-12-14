@@ -1,7 +1,11 @@
 import FullNameField from 'us-forms-system/lib/js/fields/FullNameField';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import get from '../../../../platform/utilities/data/get';
 
 const { alternateNames: alternateNamesSchema } = fullSchema.properties;
+
+const hasAlternateName = formData =>
+  get('view:hasAlternateName', formData, true);
 
 export const uiSchema = {
   'view:hasAlternateName': {
@@ -19,12 +23,14 @@ export const uiSchema = {
     items: {
       first: {
         'ui:title': 'First name',
+        'ui:required': hasAlternateName,
       },
       middle: {
         'ui:title': 'Middle name',
       },
       last: {
         'ui:title': 'Last name',
+        'ui:required': hasAlternateName,
       },
     },
   },
