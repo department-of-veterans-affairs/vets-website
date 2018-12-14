@@ -173,8 +173,8 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
   // If the moment is earlier than the moment passed to moment.diff(),
   // the return value will be negative.
   if (treatmentStartDate.diff(firstServiceStartDate) < 0) {
-    console.error('diff: ', treatmentStartDate.diff(firstServiceStartDate));
-    console.error('uh oh! treatment date precedes first service start date');
-    err.addError('The treatment must start after the earliest service period');
+    err.addError(
+      'Treatment must start after the start of the earliest service period',
+    );
   }
 }
