@@ -14,7 +14,7 @@ export default function PreferenceList({
         <PreferenceItem
           key={index}
           benefit={benefit}
-          isRemoving={view[benefit.slug]}
+          isRemoving={!!view[benefit.slug]}
           handleViewToggle={handleViewToggle}
           handleRemove={handleRemove}
         />
