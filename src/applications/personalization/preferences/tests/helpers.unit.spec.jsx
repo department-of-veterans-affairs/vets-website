@@ -1,11 +1,70 @@
 import { expect } from 'chai';
 
-import { deduplicate } from '../helpers';
+import localStorage from 'platform/utilities/storage/localStorage';
 
-describe('deduplicate', () => {
-  it('should return a list of unique items', () => {
-    const uniques = deduplicate([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]);
-    expect(uniques).to.have.members([1, 2, 3, 4, 5]);
-    expect(uniques.length).to.equal(5);
+import {
+  DISMISSED_BENEFIT_ALERTS,
+  getDismissedBenefitAlerts,
+  setDismissedBenefitAlerts,
+  dismissBenefitAlert,
+  restoreDismissedBenefitAlerts,
+  getNewSelections,
+} from '../helpers';
+
+describe('getDismissedBenefitAlerts', () => {
+  beforeEach(() => {
+    localStorage.removeItem(DISMISSED_BENEFIT_ALERTS);
+  });
+
+  it('returns an empty array from localStorage', () => {
+    const result = getDismissedBenefitAlerts();
+    expect(result).to.deep.equal([]);
+  });
+
+  it('returns previously-dismissed benefit announcements', () => {
+    dismissBenefitAlert('test');
+
+    const result = getDismissedBenefitAlerts();
+    expect(result).to.be.deep.equal(['dummy1']);
+  });
+});
+
+describe('setDismissedBenefitAlerts', () => {
+  beforeEach(() => {
+    localStorage.removeItem(DISMISSED_BENEFIT_ALERTS);
+  });
+
+  it('sets a list of benefit alerts to local storage', () => {
+    setDismissedBenefitAlerts(['test-1', 'test-2']);
+    const result = getDismissedBenefitAlerts();
+    expect(result).to.deep.equal(['test-1', 'test-2']);
+  });
+});
+describe('dismissBenefitAlert', () => {
+  beforeEach(() => {
+    localStorage.removeItem(DISMISSED_BENEFIT_ALERTS);
+  });
+
+  it('add a benefit alert name to the list of dismissed alerts', () => {
+    dismissBenefitAlert('test-1');
+    const result = getDismissedBenefitAlerts();
+    expect(result).to.deep.equal(['test-1']);
+  });
+});
+describe('restoreDismissedBenefitAlerts', () => {
+  beforeEach(() => {
+    localStorage.removeItem(DISMISSED_BENEFIT_ALERTS);
+  });
+
+  it('should remove alerts from the dismissed list', () => {
+    dismissBenefitAlert('test-1');
+    const result = restoreDismissedBenefitAlerts(['test-1']);
+    expect(result).to.deep.equal([]);
+  });
+});
+describe('getNewSelections', () => {
+  it('should return a list of recently added benefit choices', () => {
+    const result = getNewSelections({ 'test-1': true }, { 'test-2': true });
+    expect(result).to.deep.equal(['test-1']);
   });
 });

@@ -1,7 +1,11 @@
 import { apiRequest } from 'platform/utilities/api';
 
 import { LOADING_STATES, PREFERENCE_CODES } from '../constants';
-import { transformPreferencesForSaving } from '../helpers';
+import {
+  benefitChoices,
+  transformPreferencesForSaving,
+  restoreDismissedBenefitAlerts,
+} from '../helpers';
 
 export const SET_USER_PREFERENCE_REQUEST_STATUS =
   'SET_USER_PREFERENCE_REQUEST_STATUS';
@@ -126,19 +130,21 @@ export function savePreferences(benefitsData) {
           type: SET_SAVE_PREFERENCES_REQUEST_STATUS,
           status: LOADING_STATES.loaded,
         });
-        const dismissedBenefitAlerts = await new Set(
-          localStorage.getItem('DISMISSED_BENEFIT_ALERTS'),
+        // TODO: use getNewSelections helper with staged and saved data
+        const newBenefitSelections = Object.keys(benefitsData).filter(
+          key => !!benefitsData[key],
         );
-        // TODO: only remove new benefits
-        Object.keys(benefitsData).forEach(([key, value]) => {
-          if (value && dismissedBenefitAlerts.includes(key)) {
-            dismissedBenefitAlerts.remove(key);
-          }
-        });
-        await localStorage.setItem(
-          'DISMISSED_BENEFIT_ALERTS',
-          Array.from(dismissedBenefitAlerts),
-        );
+
+        // Get alert names for new selections
+        const newBenefitAlerts = benefitChoices
+          .filter(
+            choice =>
+              newBenefitSelections.includes(choice.code) && !!choice.alert,
+          )
+          .map(choice => choice.alert.name);
+
+        // Remove new benefit alerts from dismissed list
+        restoreDismissedBenefitAlerts(newBenefitAlerts);
       },
       () => {
         dispatch({

@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
+export const DISMISSED_BENEFIT_ALERTS = 'DISMISSED_BENEFIT_ALERTS';
+
 const appealsFAQ = () => (
   <ul>
     <li>
@@ -295,19 +297,23 @@ const educationFAQ = () => (
   </ul>
 );
 
-const homelessnessAlert = () => (
-  <AlertBox
-    status="warning"
-    headline="If you’re homeless or at risk of becoming homeless:"
-  >
-    <p>
-      You can talk with someone right now. Call the National Call Center for
-      Homeless Veterans at 1-877-4AID-VET (
-      <a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day, 7
-      days a week. You’ll talk privately with a trained VA counselor for free.
-    </p>
-  </AlertBox>
-);
+const homelessnessAlert = {
+  name: 'homelessness-alert',
+  component: () => (
+    <AlertBox
+      status="warning"
+      headline="If you’re homeless or at risk of becoming homeless:"
+    >
+      <p>
+        You can talk with someone right now. Call the National Call Center for
+        Homeless Veterans at 1-877-4AID-VET (
+        <a href="tel:+18774243838">1-877-424-3838</a>) for help 24 hours a day,
+        7 days a week. You’ll talk privately with a trained VA counselor for
+        free.
+      </p>
+    </AlertBox>
+  ),
+};
 
 export const benefitChoices = [
   {
@@ -326,10 +332,7 @@ export const benefitChoices = [
         component: healthFAQ,
       },
     ],
-    alert: {
-      name: 'health-care',
-      component: homelessnessAlert,
-    },
+    alert: homelessnessAlert,
   },
   {
     title: 'Disability Compensation',
@@ -397,10 +400,7 @@ export const benefitChoices = [
         component: careersFAQ,
       },
     ],
-    alert: {
-      name: 'careers-employment',
-      component: homelessnessAlert,
-    },
+    alert: homelessnessAlert,
   },
   {
     title: 'Pension',
@@ -437,10 +437,7 @@ export const benefitChoices = [
         component: housingFAQ,
       },
     ],
-    alert: {
-      name: 'housing-assistance',
-      component: homelessnessAlert,
-    },
+    alert: homelessnessAlert,
   },
   {
     title: 'Life Insurance',
@@ -497,10 +494,7 @@ export const benefitChoices = [
         component: survivorFAQ,
       },
     ],
-    alert: {
-      name: 'family-caregiver-benefits',
-      component: homelessnessAlert,
-    },
+    alert: homelessnessAlert,
   },
 ];
 
@@ -568,3 +562,32 @@ export const SaveSucceededMessageComponent = ({ handleCloseAlert }) => (
     headline="We’ve saved your preferences."
   />
 );
+
+export const getDismissedBenefitAlerts = () =>
+  JSON.parse(localStorage.getItem(DISMISSED_BENEFIT_ALERTS)) || [];
+
+export const setDismissedBenefitAlerts = dismissedBenefitAlerts => {
+  return localStorage.setItem(
+    DISMISSED_BENEFIT_ALERTS,
+    JSON.stringify(dismissedBenefitAlerts),
+  );
+};
+
+export const dismissBenefitAlert = name => {
+  const dismissedBenefitAlerts = new Set(getDismissedBenefitAlerts());
+  dismissedBenefitAlerts.add(name);
+  setDismissedBenefitAlerts(Array.from(dismissedBenefitAlerts));
+};
+
+export const restoreDismissedBenefitAlerts = newBenefitAlerts => {
+  const dismissedBenefitAlerts = new Set(getDismissedBenefitAlerts());
+  newBenefitAlerts.forEach(alert => {
+    dismissedBenefitAlerts.delete(alert);
+  });
+  setDismissedBenefitAlerts(Array.from(dismissedBenefitAlerts));
+};
+
+export const getNewSelections = (previousSelections, nextSelections) =>
+  Object.keys(nextSelections).filter(
+    key => !!nextSelections[key] && !previousSelections[key],
+  );
