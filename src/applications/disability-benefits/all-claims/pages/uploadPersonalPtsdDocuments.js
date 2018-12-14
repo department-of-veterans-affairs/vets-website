@@ -1,7 +1,7 @@
 import { uploadDescription } from '../content/fileUploadDescriptions';
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
 import { ancillaryFormUploadUi } from '../utils';
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const { attachments } = fullSchema.properties;
 const secondarySupportStatement = 'L229';

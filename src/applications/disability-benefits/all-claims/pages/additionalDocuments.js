@@ -1,7 +1,7 @@
 import { uploadDescription } from '../content/fileUploadDescriptions';
 import { ancillaryFormUploadUi } from '../utils';
 
-import full526EZSchema from '../config/schema';
+import full526EZSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const { attachments } = full526EZSchema.properties;
 
