@@ -118,7 +118,7 @@ export function createFormConfig781a(iterations) {
         schema: secondaryIncidentDescription.schema(index),
       },
       [`secondaryOtherSources${index}`]: {
-        title: `${numberToWords[index]} 781a PTSD Other sources of information`,
+        title: `781a PTSD Other sources of information`,
         path: `disabilities/ptsd-secondary-other-sources-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryOtherSources.uiSchema(index),
