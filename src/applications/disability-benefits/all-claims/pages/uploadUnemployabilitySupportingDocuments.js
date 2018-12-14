@@ -6,7 +6,7 @@ export const uiSchema = {
   'ui:title': 'Upload supporting documents',
   'ui:description': uploadDescription,
   'view:uploadUnemployabilitySupportingDocuments': ancillaryFormUploadUi(
-    '',
+    ' ',
     'Individual Unemployability 8940 form supporting documents',
   ),
 };
