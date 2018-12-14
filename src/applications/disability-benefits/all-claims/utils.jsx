@@ -528,14 +528,19 @@ export const showPtsdAssaultConclusion = form =>
     _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false));
 
 export const wantsHelpWithOtherSourcesSecondary = index => formData =>
-  _.get(`otherSources${index}`, formData, '') === 'yes';
+  _.get(`otherSources${index}`, formData, '') === 'yes' &&
+  isAnswering781aQuestions(index)(formData);
 
 export const wantsHelpWithPrivateRecordsSecondary = index => formData =>
   _.get(
     `otherSourcesHelp${index}.view:helpPrivateMedicalTreatment`,
     formData,
     '',
-  );
+  ) && isAnswering781aQuestions(index)(formData);
 
 export const wantsHelpRequestingStatementsSecondary = index => formData =>
-  _.get(`otherSourcesHelp${index}.view:helpRequestingStatements`, formData, '');
+  _.get(
+    `otherSourcesHelp${index}.view:helpRequestingStatements`,
+    formData,
+    '',
+  ) && isAnswering781aQuestions(index)(formData);

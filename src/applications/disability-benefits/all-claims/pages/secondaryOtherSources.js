@@ -11,13 +11,15 @@ export const uiSchema = index => ({
     <PtsdNameTitle formData={formData} formType="781a" />
   ),
   'ui:description': otherSourcesDescription,
-  [`otherSources${index}`]: {
-    'ui:title': ' ',
-    'ui:widget': 'radio',
-    'ui:options': {
-      labels: {
-        yes: 'Yes, I’d like help getting supporting evidence and information',
-        no: 'No, I don’t need help with this.',
+  [`incident${index}`]: {
+    otherSources: {
+      'ui:title': ' ',
+      'ui:widget': 'radio',
+      'ui:options': {
+        labels: {
+          yes: 'Yes, I’d like help getting supporting evidence and information',
+          no: 'No, I don’t need help with this.',
+        },
       },
     },
   },
@@ -29,9 +31,14 @@ export const uiSchema = index => ({
 export const schema = index => ({
   type: 'object',
   properties: {
-    [`otherSources${index}`]: {
-      type: 'string',
-      enum: ['yes', 'no'],
+    [`incident${index}`]: {
+      type: 'object',
+      properties: {
+        otherSources: {
+          type: 'string',
+          enum: ['yes', 'no'],
+        },
+      },
     },
     'view:otherSourcesHelp': {
       type: 'object',

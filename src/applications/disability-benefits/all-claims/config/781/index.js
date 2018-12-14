@@ -127,27 +127,21 @@ export function createFormConfig781a(iterations) {
       [`secondaryOtherSourcesHelp${index}`]: {
         title: `781a PTSD Help with other sources of information`,
         path: `disabilities/ptsd-secondary-other-sources-help-${index}`,
-        depends:
-          isAnswering781aQuestions(index) &&
-          wantsHelpWithOtherSourcesSecondary(index),
+        depends: wantsHelpWithOtherSourcesSecondary(index),
         uiSchema: secondaryOtherSourcesHelp.uiSchema(index),
         schema: secondaryOtherSourcesHelp.schema(index),
       },
       [`secondaryIncidentPermissionNotice${index}`]: {
         title: `${numberToWords[index]} PTSD assault permission notice`,
         path: `disabilities/ptsd-secondary-permission-notice-${index}`,
-        depends:
-          isAnswering781aQuestions(index) &&
-          wantsHelpWithPrivateRecordsSecondary(index),
+        depends: wantsHelpWithPrivateRecordsSecondary(index),
         uiSchema: secondaryIncidentPermissionNotice.uiSchema,
         schema: secondaryIncidentPermissionNotice.schema,
       },
       [`secondaryIncidentAuthorities${index}`]: {
         title: `${numberToWords[index]} PTSD assault authorities`,
         path: `disabilities/ptsd-secondary-authorities-${index}`,
-        depends:
-          isAnswering781aQuestions(index) &&
-          wantsHelpRequestingStatementsSecondary(index),
+        depends: wantsHelpRequestingStatementsSecondary(index),
         uiSchema: secondaryIncidentAuthorities.uiSchema(index),
         schema: secondaryIncidentAuthorities.schema(index),
       },
