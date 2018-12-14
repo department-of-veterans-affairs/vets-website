@@ -394,7 +394,7 @@ const formConfig = {
           schema: hospitalizationHistory.schema,
         },
         unemployabilityCertification: {
-          title: 'Certification',
+          title: 'Unemployability Certification',
           path: 'unemployability-certification',
           depends: formData =>
             formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
