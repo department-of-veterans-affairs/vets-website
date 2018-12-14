@@ -301,58 +301,13 @@ export function transformIncident(incident, personalAssault) {
 export function getPtsdChangeFieldTitles(changeFields, formConfig) {
   const titles = [];
   Object.keys(changeFields)
-    .filter(key => key !== 'other' && key !== 'otherExplanation')
+    .filter(
+      key => key !== 'other' && key !== 'otherExplanation' && formConfig[key],
+    )
     .forEach(key => {
       titles.push(formConfig[key]['ui:title']);
     });
   return titles;
-}
-
-export function transformPtsdOtherInformation(formData, formConfig) {
-  let otherInformation = [];
-
-  if (formData.physicalChanges) {
-    const physicalChangeInfo = getPtsdChangeFieldTitles(
-      formData.physicalChanges,
-      formConfig.chapters.disabilities.pages.physicalHealthChanges.uiSchema
-        .physicalChanges,
-    );
-    if (formData.physicalChanges.otherExplanation) {
-      physicalChangeInfo.push(formData.physicalChanges.otherExplanation);
-    }
-    otherInformation = [...otherInformation, ...physicalChangeInfo];
-  }
-
-  if (formData.mentalChanges) {
-    const mentalChangeInfo = getPtsdChangeFieldTitles(
-      formData.mentalChanges,
-      formConfig.chapters.disabilities.pages.mentalHealthChanges.uiSchema
-        .mentalChanges,
-    );
-    if (formData.mentalChanges.otherExplanation) {
-      mentalChangeInfo.push(formData.mentalChanges.otherExplanation);
-    }
-    otherInformation = [...otherInformation, ...mentalChangeInfo];
-  }
-
-  // // needs work behavior changes page
-  // if (formData.workBehaviorChanges) {
-  //   const workChangeInfo = getPtsdChangeFieldTitles(
-  //     formData.mentalChanges,
-  //     formConfig.chapters.disabilities.pages.workBehaviorChanges.uiSchema
-  //       .workBehaviorChanges,
-  //   );
-  //   if (formData.workBehaviorChanges.otherExplanation) {
-  //     workChangeInfo.push(formData.workBehaviorChanges.otherExplanation);
-  //   }
-  //   otherInformation = [...otherInformation, ...workChangeInfo];
-  // }
-
-  if (formData.additionalChanges) {
-    otherInformation.push(formData.additionalChanges);
-  }
-
-  return otherInformation;
 }
 
 /**
@@ -508,18 +463,37 @@ export function transform(formConfig, form) {
       additionalIncidentText: clonedData.additionalIncidentText,
       additionalSecondaryIncidentText:
         clonedData.additionalSecondaryIncidentText,
+      otherInformation: [
+        ...getPtsdChangeFieldTitles(
+          clonedData.physicalChanges,
+          formConfig.chapters.disabilities.pages.physicalHealthChanges.uiSchema
+            .physicalChanges,
+        ),
+        _.get('physicalChanges.otherExplanation', clonedData, ''),
+        ...getPtsdChangeFieldTitles(
+          clonedData.socialBehaviorChanges,
+          formConfig.chapters.disabilities.pages.socialBehaviorChanges.uiSchema
+            .socialBehaviorChanges,
+        ),
+        _.get('socialBehaviorChanges.otherExplanation', clonedData, ''),
+        ...getPtsdChangeFieldTitles(
+          clonedData.mentalChanges,
+          formConfig.chapters.disabilities.pages.mentalHealthChanges.uiSchema
+            .mentalChanges,
+        ),
+        _.get('mentalChanges.otherExplanation', clonedData, ''),
+        ...getPtsdChangeFieldTitles(
+          clonedData.workBehaviorChanges,
+          formConfig.chapters.disabilities.pages.workBehaviorChanges.uiSchema
+            .workBehaviorChanges,
+        ),
+        _.get('workBehaviorChanges.otherExplanation', clonedData, ''),
+        _.get('additionalChanges', clonedData, ''),
+      ].filter(info => info.length > 0),
     };
 
-    const otherInformation = transformPtsdOtherInformation(
-      clonedData,
-      formConfig,
-    );
-
-    if (otherInformation.length > 0) {
-      clonedData.form0781.otherInformation = otherInformation;
-    }
-
     delete clonedData.physicalChanges;
+    delete clonedData.socialBehaviorChanges;
     delete clonedData.mentalChanges;
     delete clonedData.workBehaviorChanges;
     delete clonedData.additionalChanges;

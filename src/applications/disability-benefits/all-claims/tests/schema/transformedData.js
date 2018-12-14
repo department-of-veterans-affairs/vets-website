@@ -194,10 +194,16 @@ export const transformedMaximalData = {
       otherInformation: [
         'Increased visits to a medical or counseling clinic or dispensary, even without a specific diagnosis or specific ailment',
         'Other physical change',
+        'Withdrawal from friends',
+        'Unexplained social behavior changes',
+        'Other social change',
         'Episodes of depression, panic attacks, or anxiety without an identifiable cause',
         'Increased fear of surroundings, inability to go to certain areas',
         'Hypervigilance, heightened fight or flight response',
         'Other mental change',
+        'Changes in performance and performance evaluations',
+        'Resigning from your job',
+        'Other work change',
         'Additional changes test',
       ],
       incident: [
@@ -214,17 +220,22 @@ export const transformedMaximalData = {
           },
           personInvolved: [
             {
-              first: 'John',
-              last: 'Doe',
+              name: {
+                first: 'John',
+                middle: 'Jay',
+                last: 'Doe',
+              },
               rank: 'Private',
-              injuryDeath: 'Other',
+              injuryDeath: 'Injured non-battle',
               injuryDeathOther: 'Other text',
               injuryDeathDate: '1992-1-1',
               unitAssigned: 'Unit A',
             },
             {
-              first: 'Jane',
-              last: 'Doe',
+              name: {
+                first: 'Jane',
+                last: 'Doe',
+              },
             },
           ],
           source: [
@@ -265,8 +276,10 @@ export const transformedMaximalData = {
           },
           personInvolved: [
             {
-              first: 'John',
-              last: 'Doe',
+              name: {
+                first: 'John',
+                last: 'Doe',
+              },
               rank: 'Private',
               injuryDeath: 'Other',
               injuryDeathOther: 'Other text',
@@ -274,8 +287,10 @@ export const transformedMaximalData = {
               unitAssigned: 'Unit A',
             },
             {
-              first: 'Jane',
-              last: 'Doe',
+              name: {
+                first: 'Jane',
+                last: 'Doe',
+              },
             },
           ],
         },

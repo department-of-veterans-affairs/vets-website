@@ -245,17 +245,22 @@
       },
       "personInvolved": [
         {
-          "first": "John",
-          "last": "Doe",
+          "name": {
+            "first": "John",
+            "middle": "Jay",
+            "last": "Doe"
+          },
           "rank": "Private",
-          "injuryDeath": "Other",
+          "injuryDeath": "Injured non-battle",
           "injuryDeathOther": "Other text",
           "injuryDeathDate": "1992-1-1",
           "unitAssigned": "Unit A"
         },
         {
-          "first": "Jane",
-          "last": "Doe"
+          "name": {
+            "first": "Jane",
+            "last": "Doe"
+          }
         }
       ],
       "authorities": [
@@ -305,8 +310,10 @@
       },
       "personInvolved": [
         {
-          "first": "John",
-          "last": "Doe",
+          "name": {
+            "first": "John",
+            "last": "Doe"
+          },
           "rank": "Private",
           "injuryDeath": "Other",
           "injuryDeathOther": "Other text",
@@ -314,8 +321,10 @@
           "unitAssigned": "Unit A"
         },
         {
-          "first": "Jane",
-          "last": "Doe"
+          "name": {
+            "first": "Jane",
+            "last": "Doe"
+          }
         }
       ]
     },
@@ -375,6 +384,12 @@
       "other": true,
       "otherExplanation": "Other physical change"
     },
+    "socialBehaviorChanges" : {
+      "withdrawal": true,
+      "unexplained": true,
+      "other": true,
+      "otherExplanation": "Other social change"
+    },
     "mentalChanges": {
       "depression": true,
       "fear": true,
@@ -386,7 +401,7 @@
       "performanceChanges": true,
       "resign": true,
       "other": true,
-      "otherExplanation": "Other work behavior change"
+      "otherExplanation": "Other work change"
     },
     "additionalChanges": "Additional changes test"
   }
