@@ -510,10 +510,6 @@ export function transformPreferencesForSaving(preferences) {
   });
   return JSON.stringify(processedData);
 }
-export const deduplicate = items => {
-  const uniques = new Set(items);
-  return Array.from(uniques);
-};
 
 export const RetrieveFailedMessageComponent = ({ showLink }) => (
   <AlertBox

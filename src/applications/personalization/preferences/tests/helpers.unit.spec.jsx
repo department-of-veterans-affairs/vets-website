@@ -1,11 +1,25 @@
 import { expect } from 'chai';
 
-import { deduplicate } from '../helpers';
+import { transformPreferencesForSaving } from '../helpers';
 
-describe('deduplicate', () => {
-  it('should return a list of unique items', () => {
-    const uniques = deduplicate([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]);
-    expect(uniques).to.have.members([1, 2, 3, 4, 5]);
-    expect(uniques.length).to.equal(5);
+describe('transformPreferencesForSaving', () => {
+  let preferences;
+  it('should return the correct JSON data', () => {
+    preferences = {
+      'pref-one': false,
+      prefTwo: true,
+      'another-preference': true,
+    };
+    const formattedPreferences = transformPreferencesForSaving(preferences);
+    expect(formattedPreferences).to.be.a('string');
+    const benefitPreferences = JSON.parse(formattedPreferences)[0];
+    expect(benefitPreferences).to.be.an('object');
+    expect(benefitPreferences.preference).to.deep.equal({
+      code: 'benefits',
+    });
+    expect(benefitPreferences.user_preferences).to.deep.equal([
+      { code: 'prefTwo' },
+      { code: 'another-preference' },
+    ]);
   });
 });

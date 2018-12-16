@@ -11,7 +11,6 @@ import {
   SET_SAVE_PREFERENCES_REQUEST_STATUS,
   SET_AVAILABLE_BENEFITS,
   SET_DASHBOARD_USER_PREFERENCES,
-  SET_DASHBOARD_PREFERENCE,
   SAVED_DASHBOARD_PREFERENCES,
 } from '../../actions';
 
@@ -33,7 +32,7 @@ function setFetchFailure(stub, data) {
   stub.resolves(response);
 }
 
-describe.only('preferences actions', () => {
+describe('preferences actions', () => {
   describe('setPreference', () => {
     it('should return a SET_DASHBOARD_PREFERENCE action, setting the preference to `true` by default', () => {
       expect(setPreference('preference-code')).to.eql({
