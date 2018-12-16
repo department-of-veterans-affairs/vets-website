@@ -120,8 +120,8 @@ export const schema = index => ({
                 type: 'string',
                 enum: [
                   'Killed in action',
-                  'Killed non-battle',
                   'Wounded in action',
+                  'Killed non-battle',
                   'Injured non-battle',
                   'Other',
                 ],
