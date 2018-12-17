@@ -91,7 +91,7 @@ class PreferencesWidget extends React.Component {
             {hasSelectedBenefits && (
               <Link
                 className="usa-button usa-button-secondary"
-                to="preferences"
+                to="find-benefits"
               >
                 Find VA Benefits
               </Link>
@@ -114,7 +114,7 @@ class PreferencesWidget extends React.Component {
           {!hasSelectedBenefits && (
             <div>
               <p>You haven’t selected any benefits to learn about.</p>
-              <Link to="preferences">Select benefits now.</Link>
+              <Link to="find-benefits">Select benefits now.</Link>
             </div>
           )}
           {selectedBenefitAlerts.length > 0 && (
