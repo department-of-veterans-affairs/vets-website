@@ -1,4 +1,4 @@
-import merge from 'lodash/merge';
+import set from '../../../../platform/utilities/data/set';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { uiSchema as autoSuggestUiSchema } from 'us-forms-system/lib/js/definitions/autosuggest';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/monthYearRange';
@@ -91,15 +91,13 @@ export const schema = {
       type: 'object',
       properties: {},
     },
-    vaTreatmentFacilities: merge({}, vaTreatmentFacilities, {
-      items: {
-        properties: {
-          treatedDisabilityNames: {
-            type: 'object',
-            properties: {},
-          },
-        },
+    vaTreatmentFacilities: set(
+      'items.properties.treatedDisabilityNames',
+      {
+        type: 'object',
+        properties: {},
       },
-    }),
+      vaTreatmentFacilities,
+    ),
   },
 };

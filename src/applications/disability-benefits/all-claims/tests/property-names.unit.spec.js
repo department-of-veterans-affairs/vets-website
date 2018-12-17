@@ -9,6 +9,11 @@ const ignoreList = {
   // propName: ['list', 'of', 'pages'],
   newDisabilities: ['addDisabilities', 'newDisabilityFollowUp'],
   serviceInformation: ['federalOrders', 'reservesNationalGuardService'],
+  unemployability: [
+    'hospitalizationHistory',
+    'unemployabilityAdditionalInformation',
+    'supplementalBenefits',
+  ],
 };
 
 describe('Root property names', () => {
