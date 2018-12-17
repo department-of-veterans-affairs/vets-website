@@ -114,7 +114,7 @@ class PreferencesWidget extends React.Component {
         return (
           <div>
             <p>You haven’t selected any benefits to learn about.</p>
-            <Link to="preferences">Select benefits now.</Link>
+            <Link to="find-benefits">Select benefits now.</Link>
           </div>
         );
       }
