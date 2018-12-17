@@ -33,7 +33,6 @@ export const uiSchema = {
       'ui:title':
         'Do you receive, or expect to receive, workers‘ compensation benefits? ',
       'ui:widget': 'yesNo',
-      'ui:options': {},
     },
     'view:supplementalBenefitsHelp': {
       'ui:description': supplementalBenefitsHelp,
