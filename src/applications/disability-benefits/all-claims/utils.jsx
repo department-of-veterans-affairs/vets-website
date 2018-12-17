@@ -319,9 +319,14 @@ export function transform(formConfig, form) {
     ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
     : [];
   if (clonedData.newDisabilities) {
-    clonedData.newDisabilities.forEach(d =>
-      claimedConditions.push(d.condition.toLowerCase()),
-    );
+    clonedData.newDisabilities.forEach((d, i) => {
+      const loweredCondition = d.condition.toLowerCase();
+      // PTSD is skipping the cause page and needs to have a default cause of true set.
+      if (loweredCondition.includes('ptsd')) {
+        clonedData.newDisabilities[i].cause = 'NEW';
+      }
+      claimedConditions.push(loweredCondition);
+    });
   }
 
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
