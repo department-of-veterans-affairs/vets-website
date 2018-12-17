@@ -7,7 +7,7 @@ const additionalInformationDescription = (
       your claim, please add it here.
     </p>
     <p>
-      It‘s important to tell us why your service-connected disability \is the
+      It‘s important to tell us why your service-connected disability is the
       reason you‘re no longer able to work. Providing specific examples will
       help us understand your claim.
     </p>
