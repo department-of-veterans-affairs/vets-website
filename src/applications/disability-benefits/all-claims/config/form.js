@@ -88,6 +88,8 @@ import {
   individualUnemployability,
   physicalHealthChanges,
   hospitalizationHistory,
+  unemployabilityAdditionalInformation,
+  supplementalBenefits,
   newDisabilities,
   ancillaryFormsWizardSummary,
 } from '../pages';
@@ -391,6 +393,22 @@ const formConfig = {
             formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
           uiSchema: hospitalizationHistory.uiSchema,
           schema: hospitalizationHistory.schema,
+        },
+        supplementalBenefits: {
+          title: 'Supplemental Benefits',
+          path: 'supplemental-benefits',
+          depends: formData =>
+            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
+          uiSchema: supplementalBenefits.uiSchema,
+          schema: supplementalBenefits.schema,
+        },
+        unemployabilityAdditionalInformation: {
+          title: '8940 Additional Information',
+          path: 'unemployability-additional-information',
+          depends: formData =>
+            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
+          uiSchema: unemployabilityAdditionalInformation.uiSchema,
+          schema: unemployabilityAdditionalInformation.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',

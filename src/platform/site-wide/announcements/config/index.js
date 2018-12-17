@@ -1,3 +1,4 @@
+import DashboardIntro from '../components/DashboardIntro';
 import FindVABenefitsIntro from '../components/FindVABenefitsIntro';
 import Profile360Intro from '../components/Profile360Intro';
 import PersonalizationBanner from '../components/PersonalizationBanner';
@@ -22,10 +23,18 @@ const config = {
       disabled: !WelcomeToNewVAModal.isEnabled(),
     },
     {
-      name: 'find-va-benefits-intro',
+      name: 'dashboard-intro',
+      paths: /^(\/my-va\/)$/,
+      component: DashboardIntro,
+      disabled: !environment.isProduction(),
+      relatedAnnouncements: ['personalization'],
+    },
+    {
+      name: 'find-benefits-intro',
       paths: /^(\/my-va\/)$/,
       component: FindVABenefitsIntro,
       disabled: environment.isProduction(),
+      relatedAnnouncements: ['personalization'],
     },
     {
       name: 'profile-360-intro',
