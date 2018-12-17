@@ -29,3 +29,4 @@ package-lock.json
 .swp
 .swo
 all-links.csv
+junit.xml
