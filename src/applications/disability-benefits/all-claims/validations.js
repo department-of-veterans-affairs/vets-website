@@ -160,6 +160,16 @@ export const isValidYear = (err, fieldData) => {
 };
 
 export function startedAfterServicePeriod(err, fieldData, formData) {
+  const { serviceInformation } = formData;
+  if (
+    !serviceInformation ||
+    !serviceInformation.servicePeriods ||
+    !Array.isArray(serviceInformation.servicePeriods) ||
+    !serviceInformation.servicePeriods.length
+  ) {
+    return;
+  }
+
   const earliestServiceStartDate = formData.serviceInformation.servicePeriods
     .map(period => new Date(period.dateRange.from))
     .reduce((earliestDate, current) => {
@@ -174,9 +184,9 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
   const firstServiceStartDate = moment(earliestServiceStartDate);
   // If the moment is earlier than the moment passed to moment.diff(),
   // the return value will be negative.
-  if (treatmentStartDate.diff(firstServiceStartDate) < 0) {
+  if (treatmentStartDate.diff(firstServiceStartDate, 'month') < 0) {
     err.addError(
-      'Treatment must start after the start of the earliest service period',
+      'Your first treatment date needs to be after the start of your earliest service period.',
     );
   }
 }
