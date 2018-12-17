@@ -8,7 +8,7 @@ import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import isMobile from 'ismobilejs';
-import { map, compact, isEmpty, debounce } from 'lodash';
+import { isEmpty, debounce } from 'lodash';
 import {
   updateSearchQuery,
   genBBoxFromAddress,
@@ -27,6 +27,7 @@ import ProviderMarker from '../components/markers/ProviderMarker';
 import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
+import buildQueryString from '../../../platform/utilities/data/buildQueryString';
 
 const otherToolsLink = (
   <p>
@@ -265,15 +266,20 @@ class VAMap extends Component {
       ...params,
     };
 
-    /* eslint-disable prettier/prettier */
-    const queryString = compact(
-      map(queryParams, (value, key) => {
-        return (value) ? `${key}=${value}` : null;
-      })
-    ).join('&');
-    /* eslint-enable prettier/prettier */
+    // /* eslint-disable prettier/prettier */
+    // const queryString = compact(
+    //   map(queryParams, (value, key) => {
+    //     return (value) ? `${key}=${value}` : null;
+    //   })
+    // ).join('&');
+    // /* eslint-enable prettier/prettier */
 
-    browserHistory.push(`/find-locations${location.pathname}?${queryString}`);
+    const queryStringObj = buildQueryString(
+      `/find-locations${location.pathname}`,
+      queryParams,
+    );
+
+    browserHistory.push(queryStringObj);
   };
 
   /**

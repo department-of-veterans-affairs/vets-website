@@ -5,6 +5,7 @@
  *   currying for simplicity.
  */
 
+import buildQueryString from './buildQueryString';
 import clone from './clone';
 import cloneDeep from './cloneDeep';
 import debounce from './debounce';
@@ -14,6 +15,7 @@ import set from './set';
 import unset from './unset';
 
 export default {
+  buildQueryString,
   clone,
   cloneDeep,
   debounce,
