@@ -7,12 +7,14 @@ import {
   fetchUserSelectedBenefits,
   setPreference,
   SET_DASHBOARD_PREFERENCE,
+  SET_USER_PREFERENCE_REQUEST_STATUS,
   SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
   SET_SAVE_PREFERENCES_REQUEST_STATUS,
   SET_AVAILABLE_BENEFITS,
   SET_DASHBOARD_USER_PREFERENCES,
   SAVED_DASHBOARD_PREFERENCES,
 } from '../../actions';
+import { LOADING_STATES } from '../../constants';
 
 function setFetchResponse(stub, data) {
   const response = new Response(null, {
@@ -50,197 +52,297 @@ describe('preferences actions', () => {
     });
   });
 
-  // describe('restoreFromPrefill', () => {
-  //   it('should dispatch RESTORE_FROM_PREFILL_STARTED and RESTORE_FROM_PREFILL_SUCCEEDED actions', done => {
-  //     const payload = { test: 'test' };
-  //     mockFetch();
-  //     setFetchResponse(global.fetch.onFirstCall(), payload);
+  describe('fetchUserSelectedBenefits', () => {
+    beforeEach(() => {
+      mockFetch();
+    });
+    afterEach(() => {
+      resetFetch();
+    });
+    it(`should dispatch the SET_USER_PREFERENCE_REQUEST_STATUS action with 'pending' immediately`, done => {
+      const dispatch = sinon.spy();
 
-  //     const dispatch = sinon.spy();
+      fetchUserSelectedBenefits()(dispatch);
 
-  //     const restoreInformation = {
-  //       institutionSelected: {
-  //         test: 'test',
-  //       },
-  //       institutionQuery: 'testQuery',
-  //       page: 1,
-  //       searchInputValue: 'test',
-  //     };
+      expect(
+        dispatch.firstCall.calledWith({
+          type: SET_USER_PREFERENCE_REQUEST_STATUS,
+          status: LOADING_STATES.pending,
+        }),
+      ).to.be.true;
+      done();
+    });
 
-  //     restoreFromPrefill(restoreInformation)(dispatch);
+    it(`should call the API`, done => {
+      const dispatch = sinon.spy();
 
-  //     expect(
-  //       dispatch.firstCall.calledWith({
-  //         type: 'RESTORE_FROM_PREFILL_STARTED',
-  //         institutionSelected: {
-  //           test: 'test',
-  //         },
-  //         institutionQuery: 'testQuery',
-  //         page: 1,
-  //         searchInputValue: 'test',
-  //       }),
-  //     ).to.be.true;
+      fetchUserSelectedBenefits()(dispatch);
 
-  //     setTimeout(() => {
-  //       expect(dispatch.secondCall.args[0]).to.eql({
-  //         type: 'RESTORE_FROM_PREFILL_SUCCEEDED',
-  //         payload,
-  //         institutionQuery: 'testQuery',
-  //       });
-  //       resetFetch();
-  //       done();
-  //     }, 0);
-  //   });
+      setTimeout(() => {
+        expect(global.fetch.firstCall.args[0]).to.contain(
+          '/v0/user/preferences',
+        );
+        expect(global.fetch.firstCall.args[1].method).to.eql('GET');
+        done();
+      }, 0);
+    });
 
-  //   it('should dispatch LOAD_SCHOOLS_STARTED and LOAD_SCHOOLS_FAILED actions', done => {
-  //     const error = { test: 'test' };
-  //     mockFetch();
-  //     setFetchFailure(global.fetch.onFirstCall(), error);
+    it(`should dispatch the SET_USER_PREFERENCE_REQUEST_STATUS action with 'error' on request failure`, done => {
+      const error = { test: 'test' };
+      setFetchFailure(global.fetch.onFirstCall(), error);
 
-  //     const dispatch = sinon.spy();
+      const dispatch = sinon.spy();
 
-  //     const restoreInformation = {
-  //       institutionSelected: {
-  //         test: 'test',
-  //       },
-  //       institutionQuery: 'testQuery',
-  //       page: 1,
-  //       searchInputValue: 'test',
-  //     };
+      fetchUserSelectedBenefits()(dispatch);
 
-  //     restoreFromPrefill(restoreInformation)(dispatch);
+      setTimeout(() => {
+        expect(
+          dispatch.secondCall.calledWith({
+            type: SET_USER_PREFERENCE_REQUEST_STATUS,
+            status: LOADING_STATES.error,
+          }),
+        ).to.be.true;
+        done();
+      }, 0);
+    });
 
-  //     expect(
-  //       dispatch.firstCall.calledWith({
-  //         type: 'RESTORE_FROM_PREFILL_STARTED',
-  //         institutionSelected: {
-  //           test: 'test',
-  //         },
-  //         institutionQuery: 'testQuery',
-  //         page: 1,
-  //         searchInputValue: 'test',
-  //       }),
-  //     ).to.be.true;
+    it(`should dispatch the SET_USER_PREFERENCE_REQUEST_STATUS action with 'loaded' and the SET_DASHBOARD_USER_PREFERENCES action on request success`, done => {
+      const response = {
+        data: {
+          attributes: {
+            userPreferences: [
+              {
+                code: 'benefits',
+                userPreferences: [
+                  {
+                    code: 'pensions',
+                    description: 'pension benefits',
+                  },
+                  {
+                    code: 'health-care',
+                    description: 'health care benefits',
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      };
+      setFetchResponse(global.fetch.onFirstCall(), response);
 
-  //     setTimeout(() => {
-  //       expect(dispatch.secondCall.args[0]).to.eql({
-  //         type: 'RESTORE_FROM_PREFILL_FAILED',
-  //         error,
-  //         institutionQuery: 'testQuery',
-  //       });
-  //       resetFetch();
-  //       done();
-  //     }, 0);
-  //   });
-  // });
+      const dispatch = sinon.spy();
 
-  // describe('searchInputChange', () => {
-  //   it('should return a SEARCH_INPUT_CHANGED action', () => {
-  //     expect(searchInputChange({ searchInputValue: 'test' })).to.eql({
-  //       type: 'SEARCH_INPUT_CHANGED',
-  //       searchInputValue: 'test',
-  //     });
-  //   });
-  // });
-  // describe('searchSchools', () => {
-  //   it('should dispatch LOAD_SCHOOLS_STARTED and LOAD_SCHOOLS_SUCCEEDED actions', done => {
-  //     const payload = { test: 'test' };
-  //     mockFetch();
-  //     setFetchResponse(global.fetch.onFirstCall(), payload);
+      fetchUserSelectedBenefits()(dispatch);
 
-  //     const dispatch = sinon.spy();
+      setTimeout(() => {
+        expect(dispatch.secondCall.args[0]).to.eql({
+          type: SET_DASHBOARD_USER_PREFERENCES,
+          preferences: { pensions: true, 'health-care': true },
+        });
+        expect(
+          dispatch.thirdCall.calledWith({
+            type: SET_USER_PREFERENCE_REQUEST_STATUS,
+            status: LOADING_STATES.loaded,
+          }),
+        ).to.be.true;
+        done();
+      }, 0);
+    });
+  });
 
-  //     const schoolSearchQuery = {
-  //       institutionQuery: 'testQuery',
-  //       page: 1,
-  //     };
+  describe('fetchAvailableBenefits', () => {
+    beforeEach(() => {
+      mockFetch();
+    });
+    afterEach(() => {
+      resetFetch();
+    });
+    it(`should immediately dispatch the SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS action with 'pending'`, done => {
+      const dispatch = sinon.spy();
 
-  //     searchSchools(schoolSearchQuery)(dispatch);
+      fetchAvailableBenefits()(dispatch);
 
-  //     expect(
-  //       dispatch.firstCall.calledWith({
-  //         type: 'LOAD_SCHOOLS_STARTED',
-  //         institutionQuery: 'testQuery',
-  //         page: 1,
-  //       }),
-  //     ).to.be.true;
+      expect(
+        dispatch.firstCall.calledWith({
+          type: SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
+          status: LOADING_STATES.pending,
+        }),
+      ).to.be.true;
 
-  //     setTimeout(() => {
-  //       expect(dispatch.secondCall.args[0]).to.eql({
-  //         type: 'LOAD_SCHOOLS_SUCCEEDED',
-  //         payload,
-  //         institutionQuery: 'testQuery',
-  //       });
-  //       resetFetch();
-  //       done();
-  //     }, 0);
-  //   });
+      done();
+    });
 
-  //   it('should dispatch LOAD_SCHOOLS_STARTED and LOAD_SCHOOLS_FAILED actions', done => {
-  //     const error = { test: 'test' };
-  //     mockFetch();
-  //     setFetchFailure(global.fetch.onFirstCall(), error);
+    it(`should call the API`, done => {
+      const dispatch = sinon.spy();
 
-  //     const dispatch = sinon.spy();
+      fetchAvailableBenefits()(dispatch);
 
-  //     const schoolSearchQuery = {
-  //       institutionQuery: 'testQuery',
-  //       page: 1,
-  //     };
+      setTimeout(() => {
+        expect(global.fetch.firstCall.args[0]).to.contain(
+          '/v0/user/preferences/choices/benefits',
+        );
+        expect(global.fetch.firstCall.args[1].method).to.eql('GET');
+        done();
+      }, 0);
+    });
 
-  //     searchSchools(schoolSearchQuery)(dispatch);
+    it(`should dispatch the SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS action with 'error' on request failure`, done => {
+      const error = { test: 'test' };
+      setFetchFailure(global.fetch.onFirstCall(), error);
 
-  //     expect(
-  //       dispatch.firstCall.calledWith({
-  //         type: 'LOAD_SCHOOLS_STARTED',
-  //         institutionQuery: 'testQuery',
-  //         page: 1,
-  //       }),
-  //     ).to.be.true;
+      const dispatch = sinon.spy();
 
-  //     setTimeout(() => {
-  //       expect(dispatch.secondCall.args[0]).to.eql({
-  //         type: 'LOAD_SCHOOLS_FAILED',
-  //         error,
-  //         institutionQuery: 'testQuery',
-  //       });
-  //       resetFetch();
-  //       done();
-  //     }, 0);
-  //   });
-  // });
-  // describe('selectInstitution', () => {
-  //   it('should return an INSTITUTION_SELECTED action', () => {
-  //     const action = selectInstitution({
-  //       address1: 'testAddress1',
-  //       address2: 'testAddress2',
-  //       address3: 'testAddress3',
-  //       city: 'testCity',
-  //       facilityCode: 'testFacilityCode',
-  //       name: 'testName',
-  //       state: 'testState',
-  //     });
+      fetchAvailableBenefits()(dispatch);
 
-  //     expect(action).to.eql({
-  //       type: 'INSTITUTION_SELECTED',
-  //       address1: 'testAddress1',
-  //       address2: 'testAddress2',
-  //       address3: 'testAddress3',
-  //       city: 'testCity',
-  //       facilityCode: 'testFacilityCode',
-  //       name: 'testName',
-  //       state: 'testState',
-  //     });
-  //   });
-  // });
-  // describe('toggleManualSchoolEntry', () => {
-  //   it('should return an MANUAL_SCHOOL_ENTRY_TOGGLED action', () => {
-  //     const action = toggleManualSchoolEntry(true);
+      setTimeout(() => {
+        expect(
+          dispatch.secondCall.calledWith({
+            type: SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
+            status: LOADING_STATES.error,
+          }),
+        ).to.be.true;
+        done();
+      }, 0);
+    });
 
-  //     expect(action).to.eql({
-  //       type: 'MANUAL_SCHOOL_ENTRY_TOGGLED',
-  //       manualSchoolEntryChecked: true,
-  //     });
-  //   });
-  // });
+    it(`should dispatch the SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS action with 'loaded' and the SET_AVAILABLE_BENEFITS action on request success`, done => {
+      const response = {
+        data: {
+          attributes: {
+            code: 'benefits',
+            title: 'Available Benefits',
+            preferenceChoices: [
+              {
+                code: 'pensions',
+                description: 'pension benefits',
+              },
+            ],
+          },
+        },
+      };
+      setFetchResponse(global.fetch.onFirstCall(), response);
+
+      const dispatch = sinon.spy();
+
+      fetchAvailableBenefits()(dispatch);
+
+      setTimeout(() => {
+        expect(dispatch.secondCall.args[0]).to.eql({
+          type: SET_AVAILABLE_BENEFITS,
+          preferences: [{ code: 'pensions', description: 'pension benefits' }],
+        });
+        expect(
+          dispatch.thirdCall.calledWith({
+            type: SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
+            status: LOADING_STATES.loaded,
+          }),
+        ).to.be.true;
+        done();
+      }, 0);
+    });
+  });
+
+  describe('savePreferences', () => {
+    const benefitsData = {
+      pensions: true,
+      burials: false,
+    };
+    beforeEach(() => {
+      mockFetch();
+    });
+    afterEach(() => {
+      resetFetch();
+    });
+    it(`should immediately dispatch the SET_SAVE_PREFERENCES_REQUEST_STATUS action with 'pending'`, done => {
+      const dispatch = sinon.spy();
+
+      savePreferences(benefitsData)(dispatch);
+
+      expect(
+        dispatch.firstCall.calledWith({
+          type: SET_SAVE_PREFERENCES_REQUEST_STATUS,
+          status: LOADING_STATES.pending,
+        }),
+      ).to.be.true;
+
+      done();
+    });
+
+    it(`should call the API`, done => {
+      const dispatch = sinon.spy();
+
+      savePreferences(benefitsData)(dispatch);
+
+      setTimeout(() => {
+        expect(global.fetch.firstCall.args[0]).to.contain(
+          '/v0/user/preferences',
+        );
+        expect(global.fetch.firstCall.args[1].method).to.eql('POST');
+        expect(JSON.parse(global.fetch.firstCall.args[1].body)).to.eql([
+          {
+            preference: {
+              code: 'benefits',
+            },
+            // eslint-disable-next-line camelcase
+            user_preferences: [{ code: 'pensions' }],
+          },
+        ]);
+        done();
+      }, 0);
+    });
+
+    it(`should dispatch the SET_SAVE_PREFERENCES_REQUEST_STATUS action with 'error' on request failure`, done => {
+      const error = { test: 'test' };
+      setFetchFailure(global.fetch.onFirstCall(), error);
+
+      const dispatch = sinon.spy();
+
+      savePreferences(benefitsData)(dispatch);
+
+      setTimeout(() => {
+        expect(
+          dispatch.secondCall.calledWith({
+            type: SET_SAVE_PREFERENCES_REQUEST_STATUS,
+            status: LOADING_STATES.error,
+          }),
+        ).to.be.true;
+        done();
+      }, 0);
+    });
+
+    it(`should dispatch the SET_SAVE_PREFERENCES_REQUEST_STATUS action with 'loaded' and the SAVED_DASHBOARD_PREFERENCES action on request success`, done => {
+      const response = {
+        data: {
+          attributes: {
+            code: 'benefits',
+            title: 'Available Benefits',
+            preferenceChoices: [
+              {
+                code: 'pensions',
+                description: 'pension benefits',
+              },
+            ],
+          },
+        },
+      };
+      setFetchResponse(global.fetch.onFirstCall(), response);
+
+      const dispatch = sinon.spy();
+
+      savePreferences(benefitsData)(dispatch);
+
+      setTimeout(() => {
+        expect(dispatch.secondCall.args[0]).to.eql({
+          type: SAVED_DASHBOARD_PREFERENCES,
+        });
+        expect(
+          dispatch.thirdCall.calledWith({
+            type: SET_SAVE_PREFERENCES_REQUEST_STATUS,
+            status: LOADING_STATES.loaded,
+          }),
+        ).to.be.true;
+        done();
+      }, 0);
+    });
+  });
 });

@@ -25,7 +25,7 @@ export function fetchUserSelectedBenefits() {
       '/user/preferences',
       null,
       response => {
-        // We just want to get an array of Benefits preferences
+        // We just want to get an array of Benefits preferences);
         let selectedBenefits = response.data.attributes.userPreferences;
         if (selectedBenefits.length) {
           selectedBenefits = selectedBenefits

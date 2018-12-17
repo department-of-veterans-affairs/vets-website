@@ -494,6 +494,9 @@ export const benefitChoices = [
 // takes the user's selected benefits, as stored in the Redux store, and
 // converts it to the JSON expected by the v0/user/preferences POST request body
 export function transformPreferencesForSaving(preferences) {
+  if (typeof preferences !== 'object') {
+    return null;
+  }
   const processedData = [
     {
       preference: {
