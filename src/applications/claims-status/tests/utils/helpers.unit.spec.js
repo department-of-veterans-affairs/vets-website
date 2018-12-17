@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
-import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 import siteName from '../../../../platform/brand-consolidation/site-name';
 
 import {
@@ -401,14 +400,12 @@ describe('Disability benefits helpers: ', () => {
     let fetchMock = sinon.stub();
     let oldFetch = global.fetch;
     beforeEach(() => {
-      conditionalStorage().setItem('userToken', '1234');
       oldFetch = global.fetch;
       fetchMock = sinon.stub();
       global.fetch = fetchMock;
     });
     afterEach(() => {
       global.fetch = oldFetch;
-      conditionalStorage().clear();
     });
     it('should make a fetch request', done => {
       fetchMock.returns({
@@ -471,10 +468,9 @@ describe('Disability benefits helpers: ', () => {
       const contents = getStatusContents(type, details);
       expect(contents.title).to.equal('Your hearing has been scheduled');
       // TO-DO: Update with real content
-      const descText = shallow(contents.description)
-        .render()
-        .text();
-      expect(descText).to.contain(expectedDescSnippet);
+      const descText = shallow(contents.description);
+      expect(descText.render().text()).to.contain(expectedDescSnippet);
+      descText.unmount();
     });
 
     it('returns sane object when given unknown type', () => {
@@ -518,6 +514,7 @@ describe('Disability benefits helpers: ', () => {
       expect(allowedList.find('li').length).to.equal(allowedDisposition.length);
       expect(deniedList.find('li').length).to.equal(deniedDisposition.length);
       expect(remandList.find('li').length).to.equal(remandDisposition.length);
+      wrapper.unmount();
     });
 
     it('returns the right number of allowed / denied items for bva_decision status', () => {
@@ -542,6 +539,7 @@ describe('Disability benefits helpers: ', () => {
 
       expect(allowedList.find('li').length).to.equal(allowedDisposition.length);
       expect(deniedList.find('li').length).to.equal(deniedDisposition.length);
+      wrapper.unmount();
     });
   });
 
@@ -661,24 +659,22 @@ describe('Disability benefits helpers: ', () => {
   describe('makeDecisionReviewContent', () => {
     it('returns the default content if no additional content is provided', () => {
       const decisionReviewContent = makeDecisionReviewContent();
-      const descText = shallow(decisionReviewContent)
-        .render()
-        .text();
-      expect(descText).to.equal(
+      const descText = shallow(decisionReviewContent);
+      expect(descText.render().text()).to.equal(
         'A Veterans Law Judge, working with their team of attorneys, will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.',
       );
+      descText.unmount();
     });
 
     it('returns additional content when provided', () => {
       const decisionReviewContent = makeDecisionReviewContent(
         'Once your representative has completed their review, your case will be returned to the Board. ',
       );
-      const descText = shallow(decisionReviewContent)
-        .render()
-        .text();
-      expect(descText).to.equal(
+      const descText = shallow(decisionReviewContent);
+      expect(descText.render().text()).to.equal(
         'Once your representative has completed their review, your case will be returned to the Board. A Veterans Law Judge, working with their team of attorneys, will review all of the available evidence and write a decision. For each issue you’re appealing, they can decide to:Grant: The judge disagrees with the original decision and decides in your favor.Deny: The judge agrees with the original decision.Remand: The judge sends the issue back to the Veterans Benefits Administration to gather more evidence or to fix a mistake before deciding whether to grant or deny.Note: About 60% of all cases have at least 1 issue remanded.',
       );
+      descText.unmount();
     });
   });
 

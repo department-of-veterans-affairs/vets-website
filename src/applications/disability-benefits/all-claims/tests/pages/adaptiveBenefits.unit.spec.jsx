@@ -21,6 +21,7 @@ describe('526 adaptive benefits page', () => {
     );
     expect(form.find('input').length).to.equal(4);
     expect(form.find('AlertBox').length).to.equal(0);
+    form.unmount();
   });
 
   it('should show the double vehicle allowance alert', () => {
@@ -39,5 +40,6 @@ describe('526 adaptive benefits page', () => {
     );
     expect(form.find('input').length).to.equal(6);
     expect(form.find('AlertBox').length).to.equal(1);
+    form.unmount();
   });
 });

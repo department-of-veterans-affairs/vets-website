@@ -30,6 +30,7 @@ describe('<WhatsNext/>', () => {
   it('renders', () => {
     const wrapper = shallow(<WhatsNext {...defaultProps} />);
     expect(wrapper.type()).to.equal('div');
+    wrapper.unmount();
   });
 
   it('renders a header title', () => {
@@ -47,6 +48,7 @@ describe('<WhatsNext/>', () => {
       .render()
       .text();
     expect(headerText).to.equal(testHeaderText);
+    wrapper.unmount();
   });
 
   it('renders a header DurationCard if headerCard property exists', () => {
@@ -63,11 +65,13 @@ describe('<WhatsNext/>', () => {
 
     const wrapper = shallow(<WhatsNext {...props} />);
     expect(wrapper.find('DurationCard').length).to.equal(1);
+    wrapper.unmount();
   });
 
   it('does not render a header DurationCard if no headerCard property exists', () => {
     const wrapper = shallow(<WhatsNext {...defaultProps} />);
     expect(wrapper.find('DurationCard').length).to.equal(0);
+    wrapper.unmount();
   });
 
   it('renders a list of all next events for a given currentStatus', () => {
@@ -82,5 +86,6 @@ describe('<WhatsNext/>', () => {
     const wrapper = shallow(<WhatsNext {...props} />);
     const nextEventList = wrapper.find('NextEvent');
     expect(nextEventList.length).to.equal(eventsList.length);
+    wrapper.unmount();
   });
 });

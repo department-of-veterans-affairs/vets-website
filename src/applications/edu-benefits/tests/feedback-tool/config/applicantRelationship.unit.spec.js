@@ -26,6 +26,7 @@ describe('feedback tool applicant info', () => {
     );
 
     expect(form.find('input').length).to.equal(3);
+    form.unmount();
   });
 
   it('should not submit without required information', () => {
@@ -42,6 +43,7 @@ describe('feedback tool applicant info', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with required information', () => {
@@ -59,6 +61,7 @@ describe('feedback tool applicant info', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should render myself', () => {
@@ -74,6 +77,7 @@ describe('feedback tool applicant info', () => {
 
     selectRadio(form, 'root_onBehalfOf', 'Myself');
     expect(form.find('input').length).to.equal(3);
+    form.unmount();
   });
 
   it('should render someone else', () => {
@@ -89,6 +93,7 @@ describe('feedback tool applicant info', () => {
 
     selectRadio(form, 'root_onBehalfOf', 'Someone else');
     expect(form.find('input').length).to.equal(3);
+    form.unmount();
   });
 
   it('should render anonymous', () => {
@@ -104,5 +109,6 @@ describe('feedback tool applicant info', () => {
 
     selectRadio(form, 'root_onBehalfOf', 'Anonymous');
     expect(form.find('input').length).to.equal(4);
+    form.unmount();
   });
 });

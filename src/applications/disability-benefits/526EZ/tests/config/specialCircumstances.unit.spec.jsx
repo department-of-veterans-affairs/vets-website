@@ -34,6 +34,7 @@ describe('Disability benefits 526EZ special circumstances', () => {
     );
 
     expect(form.find('input[type="radio"]').length).to.equal(2);
+    form.unmount();
   });
 
   it('should not submit form without required fields', () => {
@@ -52,6 +53,7 @@ describe('Disability benefits 526EZ special circumstances', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit form when veteran indicates not homeless', () => {
@@ -78,6 +80,7 @@ describe('Disability benefits 526EZ special circumstances', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should not submit form when veteran indicates they are homeless but have no POC', () => {
@@ -104,6 +107,7 @@ describe('Disability benefits 526EZ special circumstances', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should not submit form when veteran indicates only POC name', () => {
@@ -133,6 +137,7 @@ describe('Disability benefits 526EZ special circumstances', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should not submit form when veteran indicates only POC phone', () => {
@@ -162,6 +167,7 @@ describe('Disability benefits 526EZ special circumstances', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit form when veteran indicates all required POC info', () => {
@@ -192,5 +198,6 @@ describe('Disability benefits 526EZ special circumstances', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

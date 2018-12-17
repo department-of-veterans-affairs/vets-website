@@ -29,6 +29,7 @@ describe('feedback tool applicant info', () => {
 
     expect(form.find('input').length).to.equal(2);
     expect(form.find('select').length).to.equal(5);
+    form.unmount();
   });
 
   it('should submit without any information', () => {
@@ -49,5 +50,6 @@ describe('feedback tool applicant info', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

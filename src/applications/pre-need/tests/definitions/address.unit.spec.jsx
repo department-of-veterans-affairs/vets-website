@@ -40,6 +40,7 @@ describe('Pre-need definition address', () => {
           .find('option')
           .everyWhere(n => !!n.props().value),
       ).to.be.true;
+      form.unmount();
     },
     4000,
   );
@@ -58,6 +59,7 @@ describe('Pre-need definition address', () => {
         .find('label')
         .find('span.schemaform-required-span');
       expect(requiredInputs.length).to.not.equal(0);
+      form.unmount();
     },
     4000,
   );
@@ -106,6 +108,7 @@ describe('Pre-need definition address', () => {
 
       fillData(form, 'select#root_country', 'BEL');
       expect(form.find('input#root_state').exists()).to.be.false;
+      form.unmount();
     },
     4000,
   );
@@ -122,6 +125,7 @@ describe('Pre-need definition address', () => {
       expect(form.find('input#root_street').props().value).to.equal(
         '123 street',
       );
+      form.unmount();
     },
     4000,
   );
@@ -136,6 +140,7 @@ describe('Pre-need definition address', () => {
       fillData(form, 'select#root_country', 'CAN');
 
       expect(form.find('select#root_country').props().value).to.equal('CAN');
+      form.unmount();
     },
     4000,
   );
@@ -154,6 +159,7 @@ describe('Pre-need definition address', () => {
       form.find('form').simulate('submit');
 
       expect(form.find('.usa-input-error-message').length).to.equal(1);
+      form.unmount();
     },
     4000,
   );

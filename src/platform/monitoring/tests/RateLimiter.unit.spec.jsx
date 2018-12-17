@@ -40,6 +40,7 @@ describe('<RateLimiter>', () => {
       expect(tree.state('rateLimitDisabled')).to.be.false;
       // expect(sessionStorage.setItem.called).to.be.false;  HACK: cannot mock session storage (https://github.com/facebook/jest/issues/6798)
       expect(tree.text()).to.contain('Limited content');
+      tree.unmount();
       done();
     });
   });
@@ -75,6 +76,7 @@ describe('<RateLimiter>', () => {
 
     expect(tree.find('LoadingIndicator').exists()).to.be.true;
     // expect(window.sessionStorage.setItem.called).to.be.false; HACK: cannot mock session storage (https://github.com/facebook/jest/issues/6798)
+    tree.unmount();
   });
   it('should display real content when over threshold', () => {
     window.settings = {
@@ -107,6 +109,7 @@ describe('<RateLimiter>', () => {
 
     expect(tree.text()).to.contain('Real content');
     // expect(window.sessionStorage.setItem.called).to.be.true; HACK: cannot mock session storage (https://github.com/facebook/jest/issues/6798)  });
+    tree.unmount();
   });
   it('should display real content when bypassLimit returns true', () => {
     window.settings = {
@@ -139,6 +142,7 @@ describe('<RateLimiter>', () => {
     );
 
     expect(tree.text()).to.contain('Real content');
+    tree.unmount();
   });
   it('should display real content when disabled through session storage', done => {
     window.sessionStorage.setItem('app_rateLimitDisabled', 'true');
@@ -174,6 +178,7 @@ describe('<RateLimiter>', () => {
     process.nextTick(() => {
       tree.update();
       expect(tree.text()).to.contain('Real content');
+      tree.unmount();
       done();
     });
   });
