@@ -12,10 +12,7 @@ const ignoreList = {
   unemployability: [
     'hospitalizationHistory',
     'unemployabilityAdditionalInformation',
-<<<<<<< HEAD
-=======
     'supplementalBenefits',
->>>>>>> 67b99138bbf8f93dcd76d59aae3bbce6048fd063
   ],
 };
 
