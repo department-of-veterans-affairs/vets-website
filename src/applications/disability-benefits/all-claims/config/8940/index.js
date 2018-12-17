@@ -1,4 +1,8 @@
-import { hospitalizationHistory, unemployabilityFormIntro } from '../../pages';
+import {
+  hospitalizationHistory,
+  unemployabilityAdditionalInformation,
+  unemployabilityFormIntro,
+} from '../../pages';
 import environment from '../../../../../platform/utilities/environment';
 
 import {
@@ -23,6 +27,13 @@ export default function() {
         depends: needsToAnswerUnemployability,
         uiSchema: hospitalizationHistory.uiSchema,
         schema: hospitalizationHistory.schema,
+      },
+      unemployabilityAdditionalInformation: {
+        title: '8940 Additional Information',
+        path: 'unemployability-additional-information',
+        depends: needsToAnswerUnemployability,
+        uiSchema: unemployabilityAdditionalInformation.uiSchema,
+        schema: unemployabilityAdditionalInformation.schema,
       },
       conclusion4192: {
         title: 'Conclusion 4192',
