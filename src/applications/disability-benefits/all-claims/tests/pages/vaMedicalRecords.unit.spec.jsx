@@ -5,7 +5,7 @@ import { DefinitionTester } from '../../../../../platform/testing/unit/schemafor
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
-describe.only('VA Medical Records', () => {
+describe('VA Medical Records', () => {
   const {
     schema,
     uiSchema,
