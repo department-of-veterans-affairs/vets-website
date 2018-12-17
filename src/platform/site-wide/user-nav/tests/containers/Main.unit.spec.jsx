@@ -22,5 +22,6 @@ describe('<Main>', () => {
     const wrapper = shallow(<Main {...defaultProps} />);
     expect(wrapper.find('SearchHelpSignIn').exists()).to.be.true;
     expect(wrapper.find('SignInModal').exists()).to.be.true;
+    wrapper.unmount();
   });
 });

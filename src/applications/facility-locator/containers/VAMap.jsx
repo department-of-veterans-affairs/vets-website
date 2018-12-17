@@ -1,8 +1,7 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable react/jsx-closing-bracket-location */
+/* eslint-disable arrow-body-style */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
@@ -14,7 +13,8 @@ import {
   updateSearchQuery,
   genBBoxFromAddress,
   searchWithBounds,
-  fetchVAFacility
+  fetchVAFacility,
+  clearSearchResults,
 } from '../actions';
 import SearchControls from '../components/SearchControls';
 import ResultsList from '../components/ResultsList';
@@ -26,22 +26,28 @@ import VetCenterMarker from '../components/markers/VetCenterMarker';
 import ProviderMarker from '../components/markers/ProviderMarker';
 import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
-import { areGeocodeEqual } from '../utils/helpers';
+import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
 
-const otherToolsLink = (<p>
-  Can’t find what you’re looking for? <a href="https://www.va.gov/directory/guide/home.asp">Try using our other tools to search.</a>
-</p>);
+const otherToolsLink = (
+  <p>
+    Can’t find what you’re looking for?
+    <a href="https://www.va.gov/directory/guide/home.asp">
+      Try using our other tools to search.
+    </a>
+  </p>
+);
 
 // This isn't valid JSX 2.x, better to get used to it now
 /* eslint-disable react/jsx-boolean-value */
 class VAMap extends Component {
-
   constructor(props) {
     super(props);
 
-    this.zoomOut = debounce(() => this.refs.map.leafletElement.zoomOut(BOUNDING_RADIUS), 2500, {
-      leading: true,
-    });
+    this.zoomOut = debounce(
+      () => this.refs.map.leafletElement.zoomOut(BOUNDING_RADIUS),
+      2500,
+      { leading: true },
+    );
 
     this.listener = browserHistory.listen(location => {
       this.syncStateWithLocation(location);
@@ -57,26 +63,20 @@ class VAMap extends Component {
     }
 
     // Relevant when loading a "shareable" URL
-    this.props.updateSearchQuery({
-      facilityType: location.query.facilityType,
-      serviceType: location.query.serviceType,
-    });
+    if (!isEmpty(location.query)) {
+      this.props.updateSearchQuery({
+        facilityType: location.query.facilityType,
+        serviceType: location.query.serviceType,
+      });
+    }
 
     if (location.query.address) {
-      // Unneccesary, genBBoxFromAddress fires the same action at the end
-      /* this.props.updateSearchQuery({
-        searchString: location.query.address,
-      }); */
       this.props.genBBoxFromAddress({
         searchString: location.query.address,
         context: location.query.context,
       });
     } else if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((currentPosition) => {
-        // Unnecessary, genBBoxFromCoords updates the query too
-        // this.props.updateSearchQuery({
-        //   position: currentPosition.coords,
-        // });
+      navigator.geolocation.getCurrentPosition(currentPosition => {
         this.genBBoxFromCoords(currentPosition.coords);
       });
     } else {
@@ -96,18 +96,58 @@ class VAMap extends Component {
 
     if (!areGeocodeEqual(currentQuery.position, newQuery.position)) {
       this.updateUrlParams({
-        location: `${newQuery.position.latitude},${newQuery.position.longitude}`,
+        // eslint-disable-next-line prettier/prettier
+        location: `${newQuery.position.latitude},${newQuery.position.longitude}`, // don't break the string
         context: newQuery.context,
         address: newQuery.searchString,
       });
     }
 
     // Reset to page 1 if zoom level changes
-    if ((currentQuery.zoomLevel !== newQuery.zoomLevel) && (currentQuery.currentPage !== 1)) {
+    if (
+      currentQuery.zoomLevel !== newQuery.zoomLevel &&
+      currentQuery.currentPage !== 1
+    ) {
       resultsPage = 1;
     }
 
-    if (newQuery.bounds && (currentQuery.bounds !== newQuery.bounds) && !newQuery.searchBoundsInProgress) {
+    /*
+      Notes:
+
+      Going to need a couple new flags in the Redux store to properly
+      track state of the app. For example, a flag to know when Mapbox API
+      requests are done as all they do is update the Redux store, but intuiting
+      whether or not the data in the fields that were updated represents a valid
+      state for triggering a new search is ambiguous at best nor should we simply
+      fire off a new search each time something changes in Redux.
+
+      New Flag Ideas:
+        - geocodeInProgress
+        - revGeocodeInProgress - should be a separate flag as both operations happen
+        - searchRequested - To track that the user clicked the search button
+          (could have used inProgress but it gets tripped by other Actions)
+        -
+
+      The boundary checking of the current code below doesn't actually work.
+      Array equality isn't something that should be done with the operator,
+      and using the new method below causes `searchWithBounds` to never fire.
+      Goes in line with needing clearer ideas of what state of the app ==
+      when to fire off a new search, zoom out, or even just do nothing.
+
+      Near as I can tell this.zoomOut.cancel() does nothing.
+
+      Future testing to fix excessive searches being fired:
+    // If we're not searching but the flag to request a search is on
+    if (!newQuery.searchBoundsInProgress && newQuery.inProgress) {
+      if (this.didParamsChange(currentQuery, newQuery)) {
+        this.props.clearSearchResults();
+      }
+    */
+    if (
+      newQuery.bounds &&
+      currentQuery.bounds !== newQuery.bounds &&
+      !newQuery.searchBoundsInProgress
+    ) {
       this.props.searchWithBounds({
         bounds: newQuery.bounds,
         facilityType: newQuery.facilityType,
@@ -122,27 +162,28 @@ class VAMap extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { currentQuery } = prevProps;
-    const newQuery = this.props.currentQuery;
+    const { currentQuery: prevQuery } = prevProps;
+    const updatedQuery = this.props.currentQuery;
 
-    const shouldUpdateSearchQuery = (
+    /* eslint-disable prettier/prettier */
+    const shouldZoomOut = ( // ToTriggerNewSearch
+      (!updatedQuery.searchBoundsInProgress && prevQuery.searchBoundsInProgress) && // search completed
       isEmpty(this.props.results) &&
-      !newQuery.inProgress &&
-      currentQuery.inProgress &&
-      newQuery.bounds &&
-      parseInt(newQuery.zoomLevel, 10) > 2 &&
-      !newQuery.error
+      updatedQuery.bounds &&
+      parseInt(updatedQuery.zoomLevel, 10) > 2 &&
+      !updatedQuery.error
     );
+    /* eslint-enable prettier/prettier */
 
-    if (shouldUpdateSearchQuery) {
+    if (shouldZoomOut) {
       if (isMobile.any) {
         // manual zoom-out for mobile
         this.props.updateSearchQuery({
           bounds: [
-            newQuery.bounds[0] - BOUNDING_RADIUS,
-            newQuery.bounds[1] - BOUNDING_RADIUS,
-            newQuery.bounds[2] + BOUNDING_RADIUS,
-            newQuery.bounds[3] + BOUNDING_RADIUS,
+            updatedQuery.bounds[0] - BOUNDING_RADIUS,
+            updatedQuery.bounds[1] - BOUNDING_RADIUS,
+            updatedQuery.bounds[2] + BOUNDING_RADIUS,
+            updatedQuery.bounds[3] + BOUNDING_RADIUS,
           ],
         });
       } else {
@@ -150,7 +191,11 @@ class VAMap extends Component {
       }
     }
 
-    if (!isEmpty(this.props.results) || currentQuery.inProgress) {
+    // If we have results OR the search is still running
+    if (
+      !isEmpty(this.props.results) ||
+      (prevQuery.inProgress && updatedQuery.inProgress)
+    ) {
       this.zoomOut.cancel();
     }
   }
@@ -161,24 +206,44 @@ class VAMap extends Component {
   }
 
   /**
+   * Helper method to compare search parameters between
+   * component updates/renders.
+   *
+   * Currently compares search string, location type,
+   * service type, and map bounding box.
+   *
+   * @param {object} previous Previous component props
+   * @param {object} current Current componet props
+   */
+  /* didParamsChange = (previous, current) => {
+    return (
+      current.searchString !== previous.searchString ||
+      current.facilityType !== previous.facilityType ||
+      current.serviceType !== previous.serviceType ||
+      !areBoundsEqual(current.bounds, previous.bounds)
+    );
+  }; */
+
+  /**
    * Presumably handles the case if a user manually makes a change to the
    * address bar and thereby updates the location as tracked by ReactRouter?
    * (i.e. route changes not handled through the Router)
    *
    * @param {Object} location ReactRouter location object
    */
+  // eslint-disable-next-line prettier/prettier
   syncStateWithLocation = (location) => {
     if (
-      location.query.address
-      && this.props.currentQuery.searchString !== location.query.address
-      && !this.props.currentQuery.inProgress
+      location.query.address &&
+      this.props.currentQuery.searchString !== location.query.address &&
+      !this.props.currentQuery.inProgress
     ) {
       this.props.genBBoxFromAddress({
         searchString: location.query.address,
         context: location.query.context,
       });
     }
-  }
+  };
 
   /**
    * Regenerates the URL based on the given parameters so that
@@ -186,10 +251,11 @@ class VAMap extends Component {
    *
    * @param {Object} params Object containing the current search fields
    */
+  // eslint-disable-next-line prettier/prettier
   updateUrlParams = (params) => {
     // TODO (bshyong): try out existing query-string npm library
     const { location, currentQuery } = this.props;
-    const queryParams = compact(map({
+    const queryParams = {
       ...location.query,
       zoomLevel: currentQuery.zoomLevel,
       page: currentQuery.currentPage,
@@ -197,12 +263,17 @@ class VAMap extends Component {
       facilityType: currentQuery.facilityType,
       serviceType: currentQuery.serviceType,
       ...params,
-    }, (value, key) => {
-      if (value) { return `${key}=${value}`; }
-      return null;
-    })).join('&');
+    };
 
-    browserHistory.push(`/facilities${location.pathname}?${queryParams}`);
+    /* eslint-disable prettier/prettier */
+    const queryString = compact(
+      map(queryParams, (value, key) => {
+        return (value) ? `${key}=${value}` : null;
+      })
+    ).join('&');
+    /* eslint-enable prettier/prettier */
+
+    browserHistory.push(`/find-locations${location.pathname}?${queryString}`);
   };
 
   /**
@@ -210,13 +281,13 @@ class VAMap extends Component {
    *
    *  @param position Has shape: `{latitude: x, longitude: y}`
    */
+  // eslint-disable-next-line prettier/prettier
   genBBoxFromCoords = (position) => {
-    mapboxClient.geocodeReverse(position, {
-      types: 'address',
-    }, (err, res) => {
+    mapboxClient.geocodeReverse(position, { types: 'address' }, (err, res) => {
       const coordinates = res.features[0].center;
       const placeName = res.features[0].place_name;
-      const zipCode = res.features[0].context.find(v => v.id.includes('postcode')).text || '';
+      const zipCode =
+        res.features[0].context.find(v => v.id.includes('postcode')).text || '';
 
       this.props.updateSearchQuery({
         bounds: res.features[0].bbox || [
@@ -227,26 +298,29 @@ class VAMap extends Component {
         ],
         searchString: placeName,
         context: zipCode,
-        position
+        position,
       });
 
-        this.updateUrlParams({
-          address: placeName,
-          context: zipCode,
-        });
-      },
-    );
-  }
+      this.updateUrlParams({
+        address: placeName,
+        context: zipCode,
+      });
+    });
+  };
 
   handleSearch = () => {
-    const { currentQuery } = this.props;
+    const { currentQuery, location } = this.props;
+    const { query: prevQuery } = location;
 
-    this.updateUrlParams({
-      address: currentQuery.searchString,
-    });
+    // Don't recalculate if we didn't change search location
+    if (currentQuery.searchString !== prevQuery.address) {
+      this.updateUrlParams({
+        address: currentQuery.searchString,
+      });
 
-    this.props.genBBoxFromAddress(currentQuery);
-  }
+      this.props.genBBoxFromAddress(currentQuery);
+    }
+  };
 
   handleBoundsChanged = () => {
     const { currentQuery } = this.props;
@@ -316,16 +390,19 @@ class VAMap extends Component {
         onClick: () => {
           const searchResult = document.getElementById(r.id);
           if (searchResult) {
+            // eslint-disable-next-line prettier/prettier
             Array.from(document.getElementsByClassName('facility-result')).forEach(e => {
               e.classList.remove('active');
             });
             searchResult.classList.add('active');
+            // eslint-disable-next-line prettier/prettier
             document.getElementById('searchResultsContainer').scrollTop = searchResult.offsetTop;
           }
           this.props.fetchVAFacility(r.id, r);
         },
       };
 
+      /* eslint-disable prettier/prettier */
       const popupContent = (
         <div>
           { (r.type === LocationType.CC_PROVIDER) ? (
@@ -334,7 +411,7 @@ class VAMap extends Component {
                 <h5>{r.attributes.name}</h5>
               </a>
               <h6>{r.attributes.orgName}</h6>
-              <p>Services: <strong>{r.attributes.specialty.map(s => s.name).join(', ')}</strong></p>
+              <p>Services: <strong>{r.attributes.specialty.map(s => s.name.trim()).join(', ')}</strong></p>
             </div>
           ) : (
             <div>
@@ -346,55 +423,42 @@ class VAMap extends Component {
           )}
         </div>
       );
+      /* eslint-enable prettier/prettier */
 
       switch (r.attributes.facilityType) {
         case FacilityType.VA_HEALTH_FACILITY:
-          return (
-            <HealthMarker {...iconProps}>
-              {popupContent}
-            </HealthMarker>
-          );
+          return <HealthMarker {...iconProps}>{popupContent}</HealthMarker>;
         case FacilityType.VA_CEMETARY:
-          return (
-            <CemeteryMarker {...iconProps}>
-              {popupContent}
-            </CemeteryMarker>
-          );
+          return <CemeteryMarker {...iconProps}>{popupContent}</CemeteryMarker>;
         case FacilityType.VA_BENEFITS_FACILITY:
-          return (
-            <BenefitsMarker {...iconProps}>
-              {popupContent}
-            </BenefitsMarker>
-          );
+          return <BenefitsMarker {...iconProps}>{popupContent}</BenefitsMarker>;
         case FacilityType.VET_CENTER:
-          return (
-            <VetCenterMarker {...iconProps}>
-              {popupContent}
-            </VetCenterMarker>
-          );
+          // eslint-disable-next-line prettier/prettier
+          return <VetCenterMarker {...iconProps}>{popupContent}</VetCenterMarker>;
         case undefined:
           if (r.type === LocationType.CC_PROVIDER) {
-            return (
-              <ProviderMarker {...iconProps}>
-                {popupContent}
-              </ProviderMarker>
-            );
+            // eslint-disable-next-line prettier/prettier
+            return <ProviderMarker {...iconProps}>{popupContent}</ProviderMarker>;
           }
           return null;
-        default: return null;
+        default:
+          return null;
       }
     });
-  }
+  };
 
   renderMobileView = () => {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const { currentQuery, results, pagination, selectedResult } = this.props;
+    const facilityLocatorMarkers = this.renderFacilityMarkers();
 
     return (
+      /* eslint-disable prettier/prettier */
       <div>
         <div className="columns small-12">
-          <SearchControls currentQuery={currentQuery} onChange={this.props.updateSearchQuery} onSubmit={this.handleSearch} isMobile={true} />
+          <SearchControls currentQuery={currentQuery} onChange={this.props.updateSearchQuery}
+            onSubmit={this.handleSearch} isMobile={true} />
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
@@ -418,36 +482,39 @@ class VAMap extends Component {
                   attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
                     <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
                     Imagery © <a href="http://mapbox.com">Mapbox</a>' />
-                <FeatureGroup ref="facilityMarkers">
-                  {this.renderFacilityMarkers()}
-                </FeatureGroup>
+                {facilityLocatorMarkers.length > 0 &&
+                  <FeatureGroup
+                    ref="facilityMarkers">
+                    {facilityLocatorMarkers}
+                  </FeatureGroup>
+                }
               </Map>
-              { selectedResult &&
+              { selectedResult && (
                 <div className="mobile-search-result">
                   <SearchResult result={selectedResult} />
                 </div>
-              }
+              )}
             </TabPanel>
           </Tabs>
         </div>
       </div>
+      /* eslint-enable prettier/prettier */
     );
-  }
+  };
 
   renderDesktopView = () => {
     // defaults to White House coordinates initially
     const { currentQuery, results, pagination } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
+    const facilityLocatorMarkers = this.renderFacilityMarkers();
 
     return (
+      /* eslint-disable prettier/prettier */
       <div className="desktop-container">
         <div>
-          <SearchControls
-            currentQuery={currentQuery}
-            onChange={this.props.updateSearchQuery}
-            onSubmit={this.handleSearch}
-          />
+          <SearchControls currentQuery={currentQuery}
+            onChange={this.props.updateSearchQuery} onSubmit={this.handleSearch} />
         </div>
         <div className="row">
           <div className="columns usa-width-one-third medium-4 small-12"
@@ -469,18 +536,23 @@ class VAMap extends Component {
                 attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
                   <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
                   Imagery © <a href="http://mapbox.com">Mapbox</a>' />
-              <FeatureGroup ref="facilityMarkers">
-                {this.renderFacilityMarkers()}
-              </FeatureGroup>
+              {facilityLocatorMarkers.length > 0 &&
+                <FeatureGroup
+                  ref="facilityMarkers">
+                  {facilityLocatorMarkers}
+                </FeatureGroup>
+              }
             </Map>
           </div>
         </div>
       </div>
+      /* eslint-enable prettier/prettier */
     );
-  }
+  };
 
   render() {
     return (
+      /* eslint-disable prettier/prettier */
       <div>
         <div className="title-section">
           <h1>Find VA Locations</h1>
@@ -494,6 +566,7 @@ class VAMap extends Component {
           : this.renderDesktopView()
         }
       </div>
+      /* eslint-enable prettier/prettier */
     );
   }
 }
@@ -511,16 +584,13 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
+export default connect(
+  mapStateToProps,
+  {
     fetchVAFacility,
     updateSearchQuery,
     genBBoxFromAddress,
     searchWithBounds,
-  }, dispatch);
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+    clearSearchResults,
+  },
 )(VAMap);

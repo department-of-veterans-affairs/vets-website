@@ -9,11 +9,13 @@ describe('Schemaform <PrefillMessage>', () => {
     const tree = shallow(<PrefillMessage formContext={{ prefilled: true }} />);
 
     expect(tree.text()).to.contain('prefilled some of your information');
+    tree.unmount();
   });
   it('should not render when not prefilled', () => {
     const tree = shallow(<PrefillMessage formContext={{ prefilled: false }} />);
 
     expect(tree.text()).not.to.contain('prefilled some of your information');
+    tree.unmount();
   });
   it('should render child message', () => {
     const tree = shallow(
@@ -24,5 +26,6 @@ describe('Schemaform <PrefillMessage>', () => {
 
     expect(tree.text()).not.to.contain('prefilled some of your information');
     expect(tree.text()).to.contain('Test message');
+    tree.unmount();
   });
 });

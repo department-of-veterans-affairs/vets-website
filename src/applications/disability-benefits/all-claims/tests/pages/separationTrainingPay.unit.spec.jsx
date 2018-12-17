@@ -26,6 +26,7 @@ describe('Separation or Training Pay', () => {
     // Expect two questions with two radio inputs each
     expect(form.find('.form-radio-buttons').length).to.equal(2);
     expect(form.find('input').length).to.equal(4);
+    form.unmount();
   });
 
   it('should fail to submit if no answers provided', () => {
@@ -44,6 +45,7 @@ describe('Separation or Training Pay', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit if both questions answered with a no', () => {
@@ -54,7 +56,7 @@ describe('Separation or Training Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasTrainingPay': false,
+          hasTrainingPay: false,
           'view:hasSeparationPay': false,
         }}
         formData={{}}
@@ -65,6 +67,7 @@ describe('Separation or Training Pay', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.calledOnce).to.be.true;
+    form.unmount();
   });
 
   it('should not submit if both answers are Yes but no other info provided', () => {
@@ -75,7 +78,7 @@ describe('Separation or Training Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasTrainingPay': true,
+          hasTrainingPay: true,
           'view:hasSeparationPay': true,
         }}
         formData={{}}
@@ -86,6 +89,7 @@ describe('Separation or Training Pay', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should expand more questions when answers are Yes', () => {
@@ -95,7 +99,7 @@ describe('Separation or Training Pay', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasTrainingPay': true,
+          hasTrainingPay: true,
           'view:hasSeparationPay': true,
         }}
         formData={{}}
@@ -103,7 +107,8 @@ describe('Separation or Training Pay', () => {
     );
 
     expect(form.find('.form-radio-buttons').length).to.equal(2);
-    expect(form.find('input').length).to.equal(6); // 4 radios + year input + checkbox
-    expect(form.find('select').length).to.equal(3); // month, day, service branch
+    expect(form.find('input').length).to.equal(5); // 4 radios + year input
+    expect(form.find('select').length).to.equal(1); // service branch
+    form.unmount();
   });
 });

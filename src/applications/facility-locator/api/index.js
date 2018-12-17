@@ -1,6 +1,5 @@
-/* eslint-disable prettier/prettier */
 import MockApi from './MockLocatorApi';
 import LiveApi from './LocatorApi';
+import environment from '../../../platform/utilities/environment';
 
-/* global __BUILDTYPE__ */
-export default (__BUILDTYPE__ === 'development') ? MockApi : LiveApi;
+export default (environment.isLocalhost() ? MockApi : LiveApi);

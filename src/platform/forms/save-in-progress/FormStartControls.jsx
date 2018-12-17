@@ -28,8 +28,11 @@ class FormStartControls extends React.Component {
 
   handleLoadPrefill = () => {
     this.captureAnalytics();
+    // temp hack to fix the fact that the START button doesn't work
+    // this.goToBeginning();
     if (this.props.prefillAvailable) {
       this.props.fetchInProgressForm(
+        // TODO: where does this come from?
         this.props.formId,
         this.props.migrations,
         true,

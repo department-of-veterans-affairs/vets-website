@@ -9,6 +9,7 @@ const viewComponent = () => <div id="view-component">View component</div>;
 
 describe('AsyncDisplayWidget', () => {
   it('should throw an error if ui:options are not present', () => {
+    // eslint-disable-next-line va-enzyme/unmount
     expect(() => shallow(<AsyncDisplayWidget />)).to.throw(
       'No ui:options supplied',
     );
@@ -20,6 +21,7 @@ describe('AsyncDisplayWidget', () => {
         viewComponent: 'not a function',
       },
     };
+    // eslint-disable-next-line va-enzyme/unmount
     expect(() => shallow(<AsyncDisplayWidget {...props} />)).to.throw(
       'requires viewComponent',
     );
@@ -34,6 +36,7 @@ describe('AsyncDisplayWidget', () => {
         callback: () => 'not a promise',
       },
     };
+    // eslint-disable-next-line va-enzyme/unmount
     expect(() => shallow(<AsyncDisplayWidget {...props} />)).to.throw(
       'callback to return a Promise',
     );
@@ -50,6 +53,7 @@ describe('AsyncDisplayWidget', () => {
     const widget = shallow(<AsyncDisplayWidget {...props} />);
     // It'll only show the LoadingIndicator for the briefest of moments
     expect(widget.find('LoadingIndicator').length).to.equal(1);
+    widget.unmount();
   });
 
   it('should render a failure message if the callback promise is rejected', () => {
@@ -64,6 +68,7 @@ describe('AsyncDisplayWidget', () => {
     // After briefly flashing the LoadingIndicator, it'll display the error
     widget.setState({ promiseState: 'REJECTED' });
     expect(widget.find('AlertBox').length).to.equal(1);
+    widget.unmount();
   });
 
   it('should render a custom failure message', () => {
@@ -81,6 +86,7 @@ describe('AsyncDisplayWidget', () => {
     // After briefly flashing the LoadingIndicator, it'll display the error
     widget.setState({ promiseState: 'REJECTED' });
     expect(widget.find('failureComponent').length).to.equal(1);
+    widget.unmount();
   });
 
   it('should render a the viewComponent if the callback promise is resolved', () => {
@@ -95,6 +101,7 @@ describe('AsyncDisplayWidget', () => {
     // After briefly flashing the LoadingIndicator, it'll display the viewComponent
     widget.setState({ promiseState: 'RESOLVED' });
     expect(widget.find('viewComponent').length).to.equal(1);
+    widget.unmount();
   });
 
   it('should pass the callback return result to viewComponent', () => {
@@ -110,6 +117,7 @@ describe('AsyncDisplayWidget', () => {
     // After briefly flashing the LoadingIndicator, it'll display the viewComponent
     widget.setState({ data: viewComponentProps, promiseState: 'RESOLVED' });
     expect(widget.find('viewComponent').props()).to.eql(viewComponentProps);
+    widget.unmount();
   });
 
   it('should set the promise state and data when the promise resolves', done => {
@@ -129,6 +137,7 @@ describe('AsyncDisplayWidget', () => {
       const { promiseState, data } = widget.state();
       expect(promiseState).to.equal('RESOLVED');
       expect(data).to.eql(viewComponentProps);
+      widget.unmount();
       done();
     }, 200);
   });
@@ -150,6 +159,7 @@ describe('AsyncDisplayWidget', () => {
       const { promiseState, data } = widget.state();
       expect(promiseState).to.equal('REJECTED');
       expect(data).to.eql(viewComponentProps);
+      widget.unmount();
       done();
     }, 200);
   });

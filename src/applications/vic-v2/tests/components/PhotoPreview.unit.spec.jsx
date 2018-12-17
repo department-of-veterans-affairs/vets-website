@@ -25,6 +25,7 @@ describe('<PhotoPreview>', () => {
     );
 
     expect(tree.find('img').props().src).to.equal('testing');
+    tree.unmount();
   });
 
   it('should fetch file metadata and update', done => {
@@ -61,12 +62,14 @@ describe('<PhotoPreview>', () => {
     );
 
     expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    tree.unmount();
   });
 
   it('should render no photo chosen', () => {
     const tree = shallow(<PhotoPreview />);
 
     expect(tree.text()).to.contain('No photo chosen');
+    tree.unmount();
   });
 
   it('should render processing message', () => {
@@ -75,5 +78,6 @@ describe('<PhotoPreview>', () => {
     );
 
     expect(tree.find('.usa-alert-warning').exists()).to.be.true;
+    tree.unmount();
   });
 });

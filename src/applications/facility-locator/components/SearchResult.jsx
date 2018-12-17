@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable arrow-body-style */
 import React from 'react';
 import PropTypes from 'prop-types';

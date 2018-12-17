@@ -6,7 +6,7 @@ import { addStatusToIssues } from '../utils/appeals-v2-helpers';
 const AppealsV2DetailPage = ({ appeal }) => {
   const issues = addStatusToIssues(appeal.attributes.issues);
   return (
-    <div>
+    <div aria-labelledby="tabv2detail" id="tabPanelv2detail" role="tabpanel">
       <Issues issues={issues} />
     </div>
   );

@@ -94,6 +94,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
     expect(tree.find('Connect(DowntimeNotification)').exists()).to.be.true;
     expect(tree.find('withRouter(Connect(SubmitController))').exists()).to.be
       .true;
+    tree.unmount();
   });
 
   it('should auto save after change', () => {
@@ -158,6 +159,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
     instance.debouncedAutoSave();
 
     expect(autoSave.called).to.be.true;
+    tree.unmount();
   });
 
   describe('downtime banner', () => {
@@ -223,22 +225,28 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       },
     };
 
-    const tree = shallow(
-      <RoutedSavableReviewPage
-        router={router}
-        setData={setData}
-        openChapters={[]}
-        form={form}
-        user={user}
-        onSubmit={onSubmit}
-        setEditMode={f => f}
-        setPrivacyAgreement={f => f}
-        formConfig={route.formConfig}
-        pageList={route.pageList}
-        path={route.path}
-        location={location}
-      />,
-    );
+    let tree;
+    beforeEach(() => {
+      tree = shallow(
+        <RoutedSavableReviewPage
+          router={router}
+          setData={setData}
+          openChapters={[]}
+          form={form}
+          user={user}
+          onSubmit={onSubmit}
+          setEditMode={f => f}
+          setPrivacyAgreement={f => f}
+          formConfig={route.formConfig}
+          pageList={route.pageList}
+          path={route.path}
+          location={location}
+        />,
+      );
+    });
+    afterEach(() => {
+      tree.unmount();
+    });
 
     it('should not be displayed when service is up', () => {
       const submit = shallow(
@@ -249,6 +257,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
 
       expect(submit.find('.not-down').exists()).to.be.true;
       expect(submit.find('AlertBox').exists()).to.be.false;
+      submit.unmount();
     });
 
     it('should be displayed when service is down', () => {
@@ -260,6 +269,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
 
       expect(submit.find('.not-down').exists()).to.be.false;
       expect(submit.find('AlertBox').exists()).to.be.true;
+      submit.unmount();
     });
   });
 });

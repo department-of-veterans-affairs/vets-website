@@ -39,6 +39,7 @@ describe('526 ITFWrapper', () => {
     );
     expect(fetchITF.called).to.be.false;
     expect(tree.text()).to.equal('It worked!');
+    tree.unmount();
   });
 
   it('should not make an api call on the intro page with a trailing slash', () => {
@@ -50,6 +51,7 @@ describe('526 ITFWrapper', () => {
     );
     expect(fetchITF.called).to.be.false;
     expect(tree.text()).to.equal('It worked!');
+    tree.unmount();
   });
 
   it('should not make an api call on the confirmation page', () => {
@@ -61,15 +63,17 @@ describe('526 ITFWrapper', () => {
     );
     expect(fetchITF.called).to.be.false;
     expect(tree.text()).to.equal('It worked!');
+    tree.unmount();
   });
 
   it('should fetch the ITF if the form is loaded not on the intro or confirmation pages', () => {
-    mount(
+    const tree = mount(
       <ITFWrapper {...defaultProps}>
         <p>Shouldn't see me yet...</p>
       </ITFWrapper>,
     );
     expect(fetchITF.called).to.be.true;
+    tree.unmount();
   });
 
   it('should fetch the ITF if the form is loaded on the intro and navigated to the next page', () => {
@@ -84,6 +88,7 @@ describe('526 ITFWrapper', () => {
     expect(fetchITF.called).to.be.false;
     tree.setProps(merge(props, { location: { pathname: '/middle' } }));
     expect(fetchITF.called).to.be.true;
+    tree.unmount();
   });
 
   it('should render a loading indicator', () => {
@@ -97,6 +102,7 @@ describe('526 ITFWrapper', () => {
       merge(defaultProps, { itf: { fetchCallState: requestStates.pending } }),
     );
     expect(tree.find('LoadingIndicator').length).to.equal(1);
+    tree.unmount();
   });
 
   it('should render an error message if the ITF fetch failed', () => {
@@ -113,6 +119,7 @@ describe('526 ITFWrapper', () => {
     const banner = tree.find('ITFBanner');
     expect(banner.length).to.equal(1);
     expect(banner.props().status).to.equal('error');
+    tree.unmount();
   });
 
   it('should submit a new ITF if the fetch failed', () => {
@@ -131,6 +138,7 @@ describe('526 ITFWrapper', () => {
       merge(props, { itf: { fetchCallState: requestStates.failed } }),
     );
     expect(createITF.called).to.be.true;
+    tree.unmount();
   });
 
   it('should submit a new ITF if no active ITF is found', () => {
@@ -144,6 +152,7 @@ describe('526 ITFWrapper', () => {
       merge(defaultProps, { itf: { fetchCallState: requestStates.succeeded } }),
     );
     expect(createITF.called).to.be.true;
+    tree.unmount();
   });
 
   it('should render an error message if the ITF creation failed', () => {
@@ -162,6 +171,7 @@ describe('526 ITFWrapper', () => {
     const banner = tree.find('ITFBanner');
     expect(banner.length).to.equal(1);
     expect(banner.props().status).to.equal('error');
+    tree.unmount();
   });
 
   it('should render a success message for fetched ITF', () => {
@@ -185,6 +195,7 @@ describe('526 ITFWrapper', () => {
     expect(banner.length).to.equal(1);
     expect(bannerProps.status).to.equal('itf-found');
     expect(bannerProps.currentExpDate).to.equal(expirationDate);
+    tree.unmount();
   });
 
   it('should render a success message for newly created ITF', () => {
@@ -214,5 +225,6 @@ describe('526 ITFWrapper', () => {
     expect(bannerProps.status).to.equal('itf-created');
     expect(bannerProps.currentExpDate).to.equal(expirationDate);
     expect(bannerProps.previousExpDate).to.equal(previousExpirationDate);
+    tree.unmount();
   });
 });

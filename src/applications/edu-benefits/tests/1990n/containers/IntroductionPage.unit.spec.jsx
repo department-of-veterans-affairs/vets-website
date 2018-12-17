@@ -24,5 +24,6 @@ describe('Edu 1990n <IntroductionPage>', () => {
     expect(tree.find('FormTitle').props().title).to.contain('Call to Service');
     expect(tree.find('Connect(SaveInProgressIntro)').exists()).to.be.true;
     expect(tree.find('.process-step').length).to.equal(4);
+    tree.unmount();
   });
 });
