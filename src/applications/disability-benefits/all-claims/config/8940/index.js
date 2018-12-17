@@ -2,6 +2,7 @@ import {
   hospitalizationHistory,
   unemployabilityAdditionalInformation,
   unemployabilityFormIntro,
+  supplementalBenefits,
 } from '../../pages';
 import environment from '../../../../../platform/utilities/environment';
 
@@ -27,6 +28,13 @@ export default function() {
         depends: needsToAnswerUnemployability,
         uiSchema: hospitalizationHistory.uiSchema,
         schema: hospitalizationHistory.schema,
+      },
+      supplementalBenefits: {
+        title: 'Supplemental Benefits',
+        path: 'supplemental-benefits',
+        depends: needsToAnswerUnemployability,
+        uiSchema: supplementalBenefits.uiSchema,
+        schema: supplementalBenefits.schema,
       },
       unemployabilityAdditionalInformation: {
         title: '8940 Additional Information',
