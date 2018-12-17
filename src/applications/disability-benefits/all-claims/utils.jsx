@@ -327,7 +327,6 @@ export function transform(formConfig, form) {
       }
       claimedConditions.push(loweredCondition);
     });
-    console.log(clonedData.newDisabilities);
   }
 
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
