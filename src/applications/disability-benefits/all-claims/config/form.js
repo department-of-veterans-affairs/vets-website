@@ -78,6 +78,7 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  workBehaviorChanges,
   socialBehaviorChanges,
   additionalRemarks781,
   additionalBehaviorChanges,
@@ -87,6 +88,8 @@ import {
   individualUnemployability,
   physicalHealthChanges,
   hospitalizationHistory,
+  unemployabilityAdditionalInformation,
+  supplementalBenefits,
   newDisabilities,
   ancillaryFormsWizardSummary,
 } from '../pages';
@@ -343,11 +346,18 @@ const formConfig = {
           schema: socialBehaviorChanges.schema,
         },
         mentalHealthChanges: {
-          title: 'Additional Remarks - Physical Health Changes',
+          title: 'Additional Remarks - Mental Health Changes',
           path: 'new-disabilities/ptsd-781a-mental-changes',
           depends: isAnswering781aQuestions(0),
           uiSchema: mentalHealthChanges.uiSchema,
           schema: mentalHealthChanges.schema,
+        },
+        workBehaviorChanges: {
+          title: 'Additional Remarks - Behavior Changes at Work',
+          path: 'new-disabilities/ptsd-781a-work-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: workBehaviorChanges.uiSchema,
+          schema: workBehaviorChanges.schema,
         },
         additionalBehaviorChanges: {
           title: 'Additional Remarks - Additional Behavior Changes',
@@ -383,6 +393,22 @@ const formConfig = {
             formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
           uiSchema: hospitalizationHistory.uiSchema,
           schema: hospitalizationHistory.schema,
+        },
+        supplementalBenefits: {
+          title: 'Supplemental Benefits',
+          path: 'supplemental-benefits',
+          depends: formData =>
+            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
+          uiSchema: supplementalBenefits.uiSchema,
+          schema: supplementalBenefits.schema,
+        },
+        unemployabilityAdditionalInformation: {
+          title: '8940 Additional Information',
+          path: 'unemployability-additional-information',
+          depends: formData =>
+            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
+          uiSchema: unemployabilityAdditionalInformation.uiSchema,
+          schema: unemployabilityAdditionalInformation.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
@@ -562,7 +588,6 @@ const formConfig = {
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
         },
-
         fullyDevelopedClaim: {
           title: 'Fully developed claim program',
           path: 'fully-developed-claim',

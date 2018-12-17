@@ -89,6 +89,16 @@ import {
 } from './incidentDate';
 
 import {
+  uiSchema as individualsInvolvedUISchema,
+  schema as individualsInvolvedSchema,
+} from './individualsInvolved';
+
+import {
+  uiSchema as individualsInvolvedFollowUpUISchema,
+  schema as individualsInvolvedFollowUpSchema,
+} from './individualsInvolvedFollowUp';
+
+import {
   uiSchema as incidentLocationUISchema,
   schema as incidentLocationSchema,
 } from './incidentLocation';
@@ -234,6 +244,11 @@ import {
 } from './unemployabilityFormIntro';
 
 import {
+  uiSchema as workBehaviorChangesUISchema,
+  schema as workBehaviorChangesSchema,
+} from './workBehaviorChanges';
+
+import {
   uiSchema as socialBehaviorChangesUISchema,
   schema as socialBehaviorChangesSchema,
 } from './socialBehaviorChanges';
@@ -284,6 +299,11 @@ import {
 } from './hospitalizationHistory';
 
 import {
+  uiSchema as supplementalBenefitsUISchema,
+  schema as supplementalBenefitsSchema,
+} from './supplementalBenefits';
+
+import {
   uiSchema as conclusionCombatUISchema,
   schema as conclusionCombatSchema,
 } from './conclusionCombat';
@@ -296,6 +316,11 @@ import {
 import { uiSchema as medalsUISchema, schema as medalsSchema } from './medals';
 
 import {
+  uiSchema as secondaryUploadSourcesUISchema,
+  schema as secondaryUploadSourcesSchema,
+} from './secondaryUploadSources';
+
+import {
   uiSchema as additionalRemarks781UISchema,
   schema as additionalRemarks781Schema,
 } from './additionalRemarks781';
@@ -304,6 +329,16 @@ import {
   uiSchema as newDisabilitiesUISchema,
   schema as newDisabilitiesSchema,
 } from './newDisabilities';
+
+import {
+  uiSchema as unemployabilityAdditionalInformationUISchema,
+  schema as unemployabilityAdditionalInformationSchema,
+} from './unemployabilityAdditionalInformation';
+
+import {
+  uiSchema as secondaryUploadSourcesChoiceUISchema,
+  schema as secondaryUploadSourcesChoiceSchema,
+} from './secondaryUploadSourcesChoice';
 
 import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
 
@@ -395,6 +430,16 @@ export const incidentSupport = {
 export const incidentDate = {
   uiSchema: incidentDateUISchema,
   schema: incidentDateSchema,
+};
+
+export const individualsInvolved = {
+  uiSchema: individualsInvolvedUISchema,
+  schema: individualsInvolvedSchema,
+};
+
+export const individualsInvolvedFollowUp = {
+  uiSchema: individualsInvolvedFollowUpUISchema,
+  schema: individualsInvolvedFollowUpSchema,
 };
 
 export const incidentLocation = {
@@ -547,6 +592,11 @@ export const secondaryFinalIncident = {
   schema: secondaryFinalIncidentSchema,
 };
 
+export const workBehaviorChanges = {
+  uiSchema: workBehaviorChangesUISchema,
+  schema: workBehaviorChangesSchema,
+};
+
 export const additionalBehaviorChanges = {
   uiSchema: additionalBehaviorChangesUISchema,
   schema: additionalBehaviorChangesSchema,
@@ -592,6 +642,11 @@ export const hospitalizationHistory = {
   schema: hospitalizationHistorySchema,
 };
 
+export const supplementalBenefits = {
+  uiSchema: supplementalBenefitsUISchema,
+  schema: supplementalBenefitsSchema,
+};
+
 export const conclusionCombat = {
   uiSchema: conclusionCombatUISchema,
   schema: conclusionCombatSchema,
@@ -602,10 +657,16 @@ export const conclusionAssault = {
   schema: conclusionAssaultSchema,
 };
 
+export const secondaryUploadSources = {
+  uiSchema: secondaryUploadSourcesUISchema,
+  schema: secondaryUploadSourcesSchema,
+};
+
 export const medals = {
   uiSchema: medalsUISchema,
   schema: medalsSchema,
 };
+
 export const additionalRemarks781 = {
   uiSchema: additionalRemarks781UISchema,
   schema: additionalRemarks781Schema,
@@ -614,6 +675,16 @@ export const additionalRemarks781 = {
 export const newDisabilities = {
   uiSchema: newDisabilitiesUISchema,
   schema: newDisabilitiesSchema,
+};
+
+export const unemployabilityAdditionalInformation = {
+  uiSchema: unemployabilityAdditionalInformationUISchema,
+  schema: unemployabilityAdditionalInformationSchema,
+};
+
+export const secondaryUploadSourcesChoice = {
+  uiSchema: secondaryUploadSourcesChoiceUISchema,
+  schema: secondaryUploadSourcesChoiceSchema,
 };
 
 export { ancillaryFormsWizardSummary };

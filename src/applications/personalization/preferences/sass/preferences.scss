@@ -48,10 +48,17 @@
   .va-button-link {
     text-decoration: none;
   }
+  h2 {
+    margin-top: 0.5em;
+  }
 }
 
 .form-expanding-group {
   margin-bottom: 2rem;
+}
+
+.va-introtext {
+  font-size: 1.6rem;
 }
 
 .preferences-alert {
