@@ -1,8 +1,44 @@
 import React from 'react';
-import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
+
+const CallToAction = ({ cta }) => {
+  const { description, link, text } = cta;
+  const hasLinkAndText = link && text;
+  return (
+    <div>
+      {description}
+      {hasLinkAndText && (
+        <a className="usa-button va-button-primary" href={link}>
+          {text}
+        </a>
+      )}
+    </div>
+  );
+};
+
+const FAQItem = ({ faq }) => {
+  const { title, component: FAQComponent } = faq;
+  return (
+    <AdditionalInfo
+      tagName={'h5'}
+      additionalClass="benefit-faq"
+      triggerText={title}
+    >
+      <FAQComponent />
+    </AdditionalInfo>
+  );
+};
+
+const FAQList = ({ faqs }) => (
+  <div>
+    {faqs.map((faq, idx) => (
+      <FAQItem faq={faq} key={idx} />
+    ))}
+  </div>
+);
 
 export default function PreferenceItem({
   handleViewToggle,
@@ -10,15 +46,7 @@ export default function PreferenceItem({
   isRemoving,
   benefit,
 }) {
-  const {
-    title,
-    introduction,
-    slug,
-    ctaLink,
-    ctaText,
-    faqTitle,
-    faqComponent: FAQComponent,
-  } = benefit;
+  const { title, introduction, slug, cta, faqs } = benefit;
 
   if (isRemoving) {
     return (
@@ -59,16 +87,27 @@ export default function PreferenceItem({
         </button>
       </div>
       <p className="va-introtext">{introduction}</p>
-      <AdditionalInfo
-        tagName={'h4'}
-        additionalClass="benefit-faq"
-        triggerText={faqTitle}
-      >
-        <FAQComponent />
-      </AdditionalInfo>
-      <Link className="usa-button" to={ctaLink}>
-        {ctaText}
-      </Link>
+      {faqs && <FAQList faqs={faqs} />}
+      {cta && <CallToAction cta={cta} />}
     </div>
   );
 }
+
+PreferenceItem.propTypes = {
+  handleViewToggle: PropTypes.func.isRequired,
+  handleRemove: PropTypes.func.isRequired,
+  isRemoving: PropTypes.bool.isRequired,
+  benefit: PropTypes.shape({
+    title: PropTypes.string,
+    slug: PropTypes.string,
+    description: PropTypes.string,
+    introduction: PropTypes.string,
+    alert: PropTypes.func,
+    faqs: PropTypes.array,
+    cta: PropTypes.shape({
+      description: PropTypes.element,
+      link: PropTypes.string,
+      text: PropTypes.string,
+    }),
+  }),
+};

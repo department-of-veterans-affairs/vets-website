@@ -22,6 +22,7 @@ describe('authorization for representative access to records', () => {
     );
 
     expect(form.find('input[type="checkbox"]').length).to.equal(1);
+    form.unmount();
   });
 
   it('should continue without any check boxes filled in', () => {
@@ -40,5 +41,6 @@ describe('authorization for representative access to records', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

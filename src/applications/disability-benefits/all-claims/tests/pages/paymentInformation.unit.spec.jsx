@@ -26,6 +26,7 @@ describe('526 -- paymentInformation', () => {
 
     expect(form.find('input').length).to.equal(3);
     expect(form.find('select').length).to.equal(1);
+    form.unmount();
   });
 
   it('should submit with all required info', () => {
@@ -59,6 +60,7 @@ describe('526 -- paymentInformation', () => {
     form.find('form').simulate('submit');
     expect(onSubmit.calledOnce).to.be.true;
     expect(form.find('.usa-input-error-message').length).to.equal(0);
+    form.unmount();
   });
 
   it('should not submit without required info', () => {
@@ -81,6 +83,7 @@ describe('526 -- paymentInformation', () => {
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.false;
     expect(form.find('.usa-input-error-message').length).to.equal(3);
+    form.unmount();
   });
 
   it('should submit with no info', () => {
@@ -99,5 +102,6 @@ describe('526 -- paymentInformation', () => {
     form.find('form').simulate('submit');
     expect(onSubmit.calledOnce).to.be.true;
     expect(form.find('.usa-input-error-message').length).to.equal(0);
+    form.unmount();
   });
 });

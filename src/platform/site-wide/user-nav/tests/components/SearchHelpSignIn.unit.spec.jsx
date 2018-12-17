@@ -37,6 +37,7 @@ describe('<SearchHelpSignIn>', () => {
     window.settings.brandConsolidationEnabled = false;
     const wrapper = shallow(<SearchHelpSignIn {...defaultProps} />);
     expect(wrapper.find('.sign-in-link')).to.have.lengthOf(2);
+    wrapper.unmount();
   });
 
   it('should present login links when not logged in on VA subdomain', () => {
@@ -49,12 +50,14 @@ describe('<SearchHelpSignIn>', () => {
         .at(0)
         .prop('href'),
     ).to.equal('https://www.va.gov/my-va');
+    wrapper.unmount();
   });
 
   it('should render <SignInProfileMenu/> when logged in', () => {
     const signedInProps = merge(defaultProps, { isLoggedIn: true });
     const wrapper = shallow(<SearchHelpSignIn {...signedInProps} />);
     expect(wrapper.find('SignInProfileMenu').exists()).to.be.true;
+    wrapper.unmount();
   });
 
   it('should display email for an LOA1 user without a firstname', () => {
@@ -71,5 +74,6 @@ describe('<SearchHelpSignIn>', () => {
       .find('DropDownPanel')
       .dive();
     expect(dropdown.text()).to.contain(defaultProps.userGreeting);
+    wrapper.unmount();
   });
 });

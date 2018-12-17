@@ -27,6 +27,7 @@ describe('781a Incident Date', () => {
     );
     expect(form.find('input').length).to.equal(1);
     expect(form.find('select').length).to.equal(2);
+    form.unmount();
   });
 
   it('should fill in incident date', () => {
@@ -42,11 +43,12 @@ describe('781a Incident Date', () => {
       />,
     );
 
-    fillDate(form, 'root_secondaryIncident0_date', '2016-07-10');
+    fillDate(form, 'root_secondaryIncident0_incidentDate', '2016-07-10');
     form.find('form').simulate('submit');
 
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
   it('should allow submission if no incident date submitted', () => {
     const onSubmit = sinon.spy();
@@ -65,5 +67,6 @@ describe('781a Incident Date', () => {
     form.find('form').simulate('submit');
     expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

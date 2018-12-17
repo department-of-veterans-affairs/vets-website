@@ -25,6 +25,7 @@ describe('VRE chapter 31 contact information', () => {
       />,
     );
     expect(form.find('input').length).to.equal(4);
+    form.unmount();
   });
 
   it('submits with info', () => {
@@ -48,6 +49,7 @@ describe('VRE chapter 31 contact information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('does not submit with non matching email addresses', () => {
@@ -69,5 +71,6 @@ describe('VRE chapter 31 contact information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 });

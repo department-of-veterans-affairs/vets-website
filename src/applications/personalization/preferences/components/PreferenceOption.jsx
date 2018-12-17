@@ -6,7 +6,7 @@ export default ({ item, onChange, checked }) => {
   const itemContent = (
     <div className="preference-item" onClick={onChange(item.slug)}>
       <div className="title-container">
-        <h5 className="title-item">{item.title}</h5>
+        <h5 className="title-item">{item.shortTitle || item.title}</h5>
         <Checkbox
           name={item.slug}
           checked={checked}

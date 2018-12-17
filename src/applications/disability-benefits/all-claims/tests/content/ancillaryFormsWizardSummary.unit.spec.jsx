@@ -22,5 +22,6 @@ describe('526 All Claims -- Ancillary forms wizard summary content', () => {
     expect(collapsiblePanels.last().props().panelName).to.equal(
       'Aid and Attendance',
     );
+    tree.unmount();
   });
 });
