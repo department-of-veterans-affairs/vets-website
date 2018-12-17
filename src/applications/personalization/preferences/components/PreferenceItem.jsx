@@ -77,7 +77,7 @@ export default function PreferenceItem({
   }
   return (
     <div>
-      <div className="title-container va-nav-linkslist-heading">
+      <div className="title-container preference-item-title">
         <h3>{title}</h3>
         <button
           className="va-button-link"

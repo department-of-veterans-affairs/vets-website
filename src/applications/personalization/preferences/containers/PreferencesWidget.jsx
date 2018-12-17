@@ -154,34 +154,32 @@ class PreferencesWidget extends React.Component {
     const { savedMessage } = this.state;
 
     return (
-      <div className="row user-profile-row">
-        <div className="small-12 columns">
-          <div className="title-container">
-            <h2>Find VA Benefits</h2>
-            {userBenefitsLoadingStatus !== LOADING_STATES.pending && (
-              <Link
-                className="usa-button usa-button-secondary"
-                to="find-benefits"
-              >
-                Find VA Benefits
-              </Link>
-            )}
-          </div>
-          <ReactCSSTransitionGroup
-            transitionName="form-expanding-group-inner"
-            transitionAppear
-            transitionAppearTimeout={500}
-            transitionEnterTimeout={500}
-            transitionLeaveTimeout={500}
-          >
-            {savedMessage && (
-              <SaveSucceededMessageComponent
-                handleCloseAlert={this.handleCloseAlert}
-              />
-            )}
-          </ReactCSSTransitionGroup>
-          {this.renderContent()}
+      <div>
+        <div className="title-container">
+          <h2>Find VA Benefits</h2>
+          {userBenefitsLoadingStatus !== LOADING_STATES.pending && (
+            <Link
+              className="usa-button usa-button-secondary"
+              to="find-benefits"
+            >
+              Find VA Benefits
+            </Link>
+          )}
         </div>
+        <ReactCSSTransitionGroup
+          transitionName="form-expanding-group-inner"
+          transitionAppear
+          transitionAppearTimeout={500}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+        >
+          {savedMessage && (
+            <SaveSucceededMessageComponent
+              handleCloseAlert={this.handleCloseAlert}
+            />
+          )}
+        </ReactCSSTransitionGroup>
+        {this.renderContent()}
       </div>
     );
   }
