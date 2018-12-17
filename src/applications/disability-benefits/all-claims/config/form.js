@@ -259,14 +259,14 @@ const formConfig = {
           schema: newPTSDFollowUp.schema,
         },
         choosePtsdType: {
-          title: formData => getDisabilityName(formData.condition),
+          title: 'Factors that contributed to PTSD',
           path: 'new-disabilities/ptsd-type',
           depends: hasNewPtsdDisability,
           uiSchema: choosePtsdType.uiSchema,
           schema: choosePtsdType.schema,
         },
         ptsdWalkthroughChoice781: {
-          title: 'PTSD Walkthrough 781 Choice',
+          title: 'Answer online questions or upload paper 21-0781',
           path: 'new-disabilities/walkthrough-781-choice',
           depends: formData =>
             hasNewPtsdDisability(formData) && needsToEnter781(formData),
@@ -292,7 +292,7 @@ const formConfig = {
           schema: finalIncident.schema,
         },
         additionalRemarks781: {
-          title: 'Additional Remarks - 781',
+          title: 'Additional Remarks',
           path: 'new-disabilities/additional-remarks-781',
           depends: isAnswering781Questions(0),
           uiSchema: additionalRemarks781.uiSchema,
@@ -306,7 +306,7 @@ const formConfig = {
           schema: conclusionCombat.schema,
         },
         ptsdWalkthroughChoice781a: {
-          title: 'PTSD Walkthrough 781a Choice',
+          title: 'Answer online questions or upload paper 21-0781A?',
           path: 'new-disabilities/walkthrough-781a-choice',
           depends: formData =>
             hasNewPtsdDisability(formData) && needsToEnter781a(formData),
@@ -332,35 +332,35 @@ const formConfig = {
           schema: secondaryFinalIncident.schema,
         },
         physicalHealthChanges: {
-          title: 'Additional Remarks - Physical Health Changes',
+          title: 'Additional changes in behavior - physical',
           path: 'new-disabilities/ptsd-781a-physical-changes',
           depends: isAnswering781aQuestions(0),
           uiSchema: physicalHealthChanges.uiSchema,
           schema: physicalHealthChanges.schema,
         },
         socialBehaviorChanges: {
-          title: 'Additional Remarks - Social Behavior Changes',
+          title: 'Additional changes in behavior - social',
           path: 'new-disabilities/ptsd-781a-social-changes',
           depends: isAnswering781aQuestions(0),
           uiSchema: socialBehaviorChanges.uiSchema,
           schema: socialBehaviorChanges.schema,
         },
         mentalHealthChanges: {
-          title: 'Additional Remarks - Mental Health Changes',
+          title: 'Additional changes in behavior - mental/substance abuse',
           path: 'new-disabilities/ptsd-781a-mental-changes',
           depends: isAnswering781aQuestions(0),
           uiSchema: mentalHealthChanges.uiSchema,
           schema: mentalHealthChanges.schema,
         },
         workBehaviorChanges: {
-          title: 'Additional Remarks - Behavior Changes at Work',
+          title: 'Additional changes in behavior - work',
           path: 'new-disabilities/ptsd-781a-work-changes',
           depends: isAnswering781aQuestions(0),
           uiSchema: workBehaviorChanges.uiSchema,
           schema: workBehaviorChanges.schema,
         },
         additionalBehaviorChanges: {
-          title: 'Additional Remarks - Additional Behavior Changes',
+          title: 'Additional changes in behavior - more information',
           path: 'new-disabilities/ptsd-781a-additional-changes',
           depends: isAnswering781aQuestions(0),
           uiSchema: additionalBehaviorChanges.uiSchema,

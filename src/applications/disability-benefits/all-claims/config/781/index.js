@@ -39,7 +39,18 @@ const numberToWords = {
   9: 'Tenth',
 };
 
-// This removes "First " from the title if there is only one incident.
+const REVIEW_TITLE_TOKEN = '[index]';
+
+/**
+ * This removes "First " from the title if there is only one incident.
+ *
+ * @param {string} [title] Displayed as the section summary header.
+ * If contains REVIEW_TITLE_TOKEN and there is more than one incident, replaces REVIEW_TITLE_TOKEN with numberToWords[index].toLowerCase().
+ * If does not contain REVIEW_TITLE_TOKEN appends numberToWords[index] to front of title.
+ * @param {int} index Index of numberToWords
+ * @param {string} formType Indicates what type of form is calling function; 781, 781a
+ * @returns {object} UI schema for an address card's content
+ */
 const setReviewTitle = (title, index, formType) => formData => {
   const additionalIncidentKey = `view:enterAdditional${
     formType === '781a' ? 'Secondary' : ''
@@ -48,7 +59,17 @@ const setReviewTitle = (title, index, formType) => formData => {
   let formattedTitle = title;
 
   if (formData[additionalIncidentKey]) {
-    formattedTitle = `${numberToWords[index]} ${title}`;
+    if (title.search(REVIEW_TITLE_TOKEN) > 0) {
+      formattedTitle = title.replace(
+        REVIEW_TITLE_TOKEN,
+        ` ${numberToWords[index].toLowerCase()} `,
+      );
+    } else {
+      // If does not contain REVIEW_TITLE_TOKEN put numberToWords[index] at start of title
+      formattedTitle = `${numberToWords[index]} ${title}`;
+    }
+  } else {
+    formattedTitle = title.replace(REVIEW_TITLE_TOKEN, ' '); // can do this without a search check
   }
   return formattedTitle;
 };
@@ -61,28 +82,44 @@ export function createFormConfig781(iterations) {
       ...configObj,
       // 781 PAGE CONFIGS GO HERE
       [`medals${index}`]: {
-        title: setReviewTitle('Medals or citations', index, formType),
+        title: setReviewTitle(
+          `Medals or citations associated with${REVIEW_TITLE_TOKEN}event`,
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-medals-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: medals.uiSchema(index),
         schema: medals.schema(index),
       },
       [`incidentDate${index}`]: {
-        title: setReviewTitle('PTSD incident date', index, formType),
+        title: setReviewTitle(
+          `Date of${REVIEW_TITLE_TOKEN}event`,
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-incident-date-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: incidentDate.uiSchema(index),
         schema: incidentDate.schema(index),
       },
       [`incidentUnitAssignment${index}`]: {
-        title: setReviewTitle('PTSD incident unit assignment', index, formType),
+        title: setReviewTitle(
+          `Unit assignment for${REVIEW_TITLE_TOKEN}event`,
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-incident-unit-assignment-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: incidentUnitAssignment.uiSchema(index),
         schema: incidentUnitAssignment.schema(index),
       },
       [`incidentLocation${index}`]: {
-        title: setReviewTitle('PTSD incident location', index, formType),
+        title: setReviewTitle(
+          `Location of${REVIEW_TITLE_TOKEN}event`,
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-incident-location-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: incidentLocation.uiSchema(index),
@@ -90,7 +127,7 @@ export function createFormConfig781(iterations) {
       },
       [`individualsInvolved${index}`]: {
         title: setReviewTitle(
-          'PTSD incident were any individuals involved?',
+          `Were other people involved in the${REVIEW_TITLE_TOKEN}event?`,
           index,
           formType,
         ),
@@ -118,7 +155,11 @@ export function createFormConfig781(iterations) {
         schema: individualsInvolvedFollowUp.schema(index),
       },
       [`incidentDescription${index}`]: {
-        title: setReviewTitle('PTSD Event Description', index, formType),
+        title: setReviewTitle(
+          `Description of${REVIEW_TITLE_TOKEN}event`,
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-incident-description-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: incidentDescription.uiSchema(index),
@@ -126,11 +167,7 @@ export function createFormConfig781(iterations) {
       },
       // This should be the last page in the config loop
       [`ptsdAdditionalEvents${index}`]: {
-        title: setReviewTitle(
-          'PTSD incident Additional events.',
-          index,
-          formType,
-        ),
+        title: 'Add another event or situation?',
         path: `disabilities/ptsd-additional-events-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: ptsdAdditionalEvents.uiSchema(index),
@@ -150,7 +187,11 @@ export function createFormConfig781a(iterations) {
       ...configObj,
       // 781a PAGE CONFIGS GO HERE
       [`secondaryIncidentDate${index}`]: {
-        title: setReviewTitle('PTSD assault incident date', index, formType),
+        title: setReviewTitle(
+          `Date of${REVIEW_TITLE_TOKEN}event`,
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-secondary-incident-date-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentDate.uiSchema(index),
@@ -174,7 +215,7 @@ export function createFormConfig781a(iterations) {
       },
       [`secondaryIncidentDescription${index}`]: {
         title: setReviewTitle(
-          'PTSD assault event description',
+          `Description of${REVIEW_TITLE_TOKEN}event`,
           index,
           formType,
         ),
@@ -192,7 +233,7 @@ export function createFormConfig781a(iterations) {
       },
       [`secondaryIncidentUnitAssignment${index}`]: {
         title: setReviewTitle(
-          'PTSD assualt incident unit assignment',
+          `Unit assignment for${REVIEW_TITLE_TOKEN}event`,
           index,
           formType,
         ),
@@ -203,7 +244,7 @@ export function createFormConfig781a(iterations) {
       },
       [`secondaryIncidentLocation${index}`]: {
         title: setReviewTitle(
-          'PTSD assault incident location',
+          `Location of${REVIEW_TITLE_TOKEN}event`,
           index,
           formType,
         ),
@@ -224,7 +265,7 @@ export function createFormConfig781a(iterations) {
         schema: secondaryIncidentPermissionNotice.schema,
       },
       [`secondaryIncidentAuthorities${index}`]: {
-        title: setReviewTitle('PTSD assault authorities', index, formType),
+        title: 'Reports from authorities',
         path: `disabilities/ptsd-secondary-authorities-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryIncidentAuthorities.uiSchema(index),
@@ -232,11 +273,7 @@ export function createFormConfig781a(iterations) {
       },
       // This should be the last page in the config loop
       [`ptsdSecondaryAdditionalEvents${index}`]: {
-        title: setReviewTitle(
-          'PTSD assault additional events',
-          index,
-          formType,
-        ),
+        title: 'Add another event or situation?',
         path: `disabilities/ptsd-781a-additional-events-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: ptsdSecondaryAdditionalEvents.uiSchema(index),
