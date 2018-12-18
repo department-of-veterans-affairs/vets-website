@@ -20,10 +20,6 @@ export const uiSchema = index => ({
     unitAssigned: {
       'ui:title':
         'Name of the unit you were assigned to when this event happened. (This can include your division, wing, battalion, cavalry, ship, etc.)',
-      // hideLabelText: true,
-      'ui:options': {
-        // hideLabelText: true,
-      },
     },
     unitAssignedDates: {
       ...dateRangeUI('From', 'To', 'The date must be after Start date'),
