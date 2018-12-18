@@ -72,18 +72,25 @@ function activateHeaderFooter(observer) {
 
 function renderFooter() {
   const subFooter = document.querySelectorAll('#sub-footer .small-print');
-  const lastUpdated = subFooter.item(0).textContent;
-  const lastUpdatedPanel = document.createElement('div');
-
-  lastUpdatedPanel.classList.add('usa-grid');
-  lastUpdatedPanel.classList.add('footer-lastupdated');
-  lastUpdatedPanel.append(lastUpdated);
+  const lastUpdated = subFooter && subFooter.item(0).textContent;
 
   startVAFooter(() => {
     addOverlayTriggers();
     addFocusBehaviorToCrisisLineModal();
 
-    document.getElementById(footerElemementId).prepend(lastUpdatedPanel);
+    if (lastUpdated) {
+      const lastUpdatedPanel = document.createElement('div');
+      const innerPanel = document.createElement('div');
+
+      lastUpdatedPanel.classList.add('footer-lastupdated');
+      innerPanel.classList.add('usa-grid');
+      innerPanel.append(lastUpdated);
+      lastUpdatedPanel.append(innerPanel);
+
+      document
+        .getElementById(footerElemementId)
+        .parentElement.prepend(lastUpdatedPanel);
+    }
   });
 }
 
