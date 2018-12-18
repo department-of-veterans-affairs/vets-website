@@ -309,17 +309,12 @@ class VAMap extends Component {
   };
 
   handleSearch = () => {
-    const { currentQuery, location } = this.props;
-    const { query: prevQuery } = location;
+    const { currentQuery } = this.props;
+    this.updateUrlParams({
+      address: currentQuery.searchString,
+    });
 
-    // Don't recalculate if we didn't change search location
-    if (currentQuery.searchString !== prevQuery.address) {
-      this.updateUrlParams({
-        address: currentQuery.searchString,
-      });
-
-      this.props.genBBoxFromAddress(currentQuery);
-    }
+    this.props.genBBoxFromAddress(currentQuery);
   };
 
   handleBoundsChanged = () => {
