@@ -251,9 +251,8 @@
             "last": "Doe"
           },
           "rank": "Private",
-          "injuryDeath": "Injured non-battle",
-          "injuryDeathOther": "Other text",
-          "injuryDeathDate": "1992-1-1",
+          "injuryDeath": "injuredNonBattle",
+          "injuryDeathDate": "1992-01-01",
           "unitAssigned": "Unit A"
         },
         {
@@ -315,9 +314,9 @@
             "last": "Doe"
           },
           "rank": "Private",
-          "injuryDeath": "Other",
+          "injuryDeath": "other",
           "injuryDeathOther": "Other text",
-          "injuryDeathDate": "1992-1-1",
+          "injuryDeathDate": "1992-01-01",
           "unitAssigned": "Unit A"
         },
         {
