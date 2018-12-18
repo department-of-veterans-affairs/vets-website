@@ -123,7 +123,7 @@ export function createFormConfig781(iterations) {
           index,
           formType,
         ),
-        path: `disabilities/ptsd-incident-support2-${index}`,
+        path: `disabilities/ptsd-incident-support-additional-break-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: incidentSupport.uiSchema('781'),
         schema: incidentSupport.schema,
