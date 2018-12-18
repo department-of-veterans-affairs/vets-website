@@ -24,7 +24,7 @@ import HealthMarker from '../components/markers/HealthMarker';
 import BenefitsMarker from '../components/markers/BenefitsMarker';
 import VetCenterMarker from '../components/markers/VetCenterMarker';
 import ProviderMarker from '../components/markers/ProviderMarker';
-import { facilityTypes } from '../config';
+import { facilityTypes, ccLocatorEnabled } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
 
@@ -309,17 +309,12 @@ class VAMap extends Component {
   };
 
   handleSearch = () => {
-    const { currentQuery, location } = this.props;
-    const { query: prevQuery } = location;
+    const { currentQuery } = this.props;
+    this.updateUrlParams({
+      address: currentQuery.searchString,
+    });
 
-    // Don't recalculate if we didn't change search location
-    if (currentQuery.searchString !== prevQuery.address) {
-      this.updateUrlParams({
-        address: currentQuery.searchString,
-      });
-
-      this.props.genBBoxFromAddress(currentQuery);
-    }
+    this.props.genBBoxFromAddress(currentQuery);
   };
 
   handleBoundsChanged = () => {
@@ -559,7 +554,11 @@ class VAMap extends Component {
         </div>
 
         <div className="facility-introtext">
-          Find VA locations near you with our facility locator tool. You can search for your nearest VA medical center as well as other health facilities, benefit offices, cemeteries, and Vet Centers. You can also filter your results by service type to find locations that offer the specific service you’re looking for.
+          Find VA locations near you with our facility locator tool. You can search for your nearest 
+          VA medical center as well as other health facilities, benefit offices, cemeteries, 
+          { ccLocatorEnabled() && <span> community care providers, </span> }
+          and Vet Centers. You can also filter your results by service type to find 
+          locations that offer the specific service you’re looking for.
         </div>
         { isMobile.any
           ? this.renderMobileView()
