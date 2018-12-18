@@ -7,11 +7,6 @@ export const uiSchema = index => ({
   [`view:individualsInvolved${index}`]: {
     'ui:title': 'Was any other person injured or killed during this event?',
     'ui:widget': 'yesNo',
-    'ui:options': {
-      labels: {
-        N: 'No, nobody else was injured or killed.',
-      },
-    },
   },
 });
 
