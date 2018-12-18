@@ -1,14 +1,16 @@
 import _ from 'lodash';
 import { grossIncomeAdditionalInfo } from '../content/recentEarnedIncome';
 import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 const currentMonthlyEarnedIncomeCurrency = currencyUI(
   "What's your current gross monthly income?",
 );
 
 export const uiSchema = {
-  'ui:title': 'Recent earnings',
+  'ui:title': unemployabilityTitle,
   unemployability: {
+    'ui:title': 'Recent earnings',
     past12MonthsEarnedIncome: currencyUI(
       'What was your gross income over the past 12 months?',
     ),
