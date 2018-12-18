@@ -164,9 +164,13 @@ export function createFormConfig781(iterations) {
         schema: individualsInvolvedFollowUp.schema(index),
       },
       // 10. TAKE A BREAK
-      [`incidentSupport${index}`]: {
-        title: setReviewTitle('PTSD incident support', index, formType),
-        path: `disabilities/ptsd-incident-support-${index}`,
+      [`incidentSupportAdditional${index}`]: {
+        title: setReviewTitle(
+          'PTSD incident support additional break',
+          index,
+          formType,
+        ),
+        path: `disabilities/ptsd-incident-support-additional-break-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: incidentSupport.uiSchema('781'),
         schema: incidentSupport.schema,
