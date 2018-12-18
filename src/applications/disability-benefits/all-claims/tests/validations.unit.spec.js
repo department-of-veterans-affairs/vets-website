@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import { isValidYear } from '../validations';
+import { isValidYear, startedAfterServicePeriod } from '../validations';
 
 describe('526 All Claims validations', () => {
   describe('isValidYear', () => {
@@ -51,6 +51,100 @@ describe('526 All Claims validations', () => {
       };
       isValidYear(err, '2999');
       expect(err.addError.called).to.be.true;
+    });
+  });
+
+  describe('startedAfterServicePeriod', () => {
+    it('should add error if treatment start date is before earliest service start date', () => {
+      const err = { addError: sinon.spy() };
+
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [
+            { dateRange: { from: '2003-03-12' } },
+            { dateRange: { from: '2000-01-14' } },
+            { dateRange: { from: '2011-12-25' } },
+          ],
+        },
+      };
+
+      startedAfterServicePeriod(err, '1999-12-XX', formData);
+      expect(err.addError.calledOnce).to.be.true;
+    });
+
+    it('should not add error if treatment start date monthYear is the same as earliest service start date', () => {
+      const err = { addError: sinon.spy() };
+
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [
+            { dateRange: { from: '2003-03-12' } },
+            { dateRange: { from: '2000-01-14' } },
+            { dateRange: { from: '2011-12-25' } },
+          ],
+        },
+      };
+
+      startedAfterServicePeriod(err, '2000-01-XX', formData);
+      expect(err.addError.called).to.be.false;
+    });
+
+    it('should not add error if treatment start date is after earliest service start date', () => {
+      const err = { addError: sinon.spy() };
+
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [
+            { dateRange: { from: '2003-03-12' } },
+            { dateRange: { from: '2000-01-14' } },
+            { dateRange: { from: '2011-12-25' } },
+          ],
+        },
+      };
+
+      startedAfterServicePeriod(err, '2000-02-XX', formData);
+      expect(err.addError.called).to.be.false;
+    });
+
+    it('should not add error if serviceInformation is missing', () => {
+      const err = { addError: sinon.spy() };
+
+      const formData = {};
+
+      startedAfterServicePeriod(err, '1999-12-XX', formData);
+      expect(err.addError.called).to.be.false;
+    });
+
+    it('should not add error if servicePeriod is missing', () => {
+      const err = { addError: sinon.spy() };
+
+      const formData = { serviceInformation: {} };
+
+      startedAfterServicePeriod(err, '1999-12-XX', formData);
+      expect(err.addError.called).to.be.false;
+    });
+    it('should not add error if servicePeriod is not an array', () => {
+      const err = { addError: sinon.spy() };
+
+      const formData = {
+        serviceInformation: {
+          servicePeriods: 12,
+        },
+      };
+
+      startedAfterServicePeriod(err, '1999-12-XX', formData);
+      expect(err.addError.called).to.be.false;
+    });
+
+    it('should not add error if servicePeriod is empty', () => {
+      const err = { addError: sinon.spy() };
+
+      const formData = {
+        serviceInformation: { servicePeriods: [] },
+      };
+
+      startedAfterServicePeriod(err, '1999-12-XX', formData);
+      expect(err.addError.called).to.be.false;
     });
   });
 });
