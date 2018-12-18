@@ -15,7 +15,7 @@ export default function FindVABenefitsIntro({ dismiss }) {
         benefits you may be eligible for, and how to apply. Get started by
         clicking on the “Find VA Benefits Now” button below.
       </p>
-      <a onClick={dismiss} className="usa-button" href="preferences/">
+      <a onClick={dismiss} className="usa-button" href="find-benefits/">
         Find VA Benefits Now
       </a>
       <button
