@@ -83,6 +83,7 @@ export function createFormConfig781(iterations) {
     configObj = {
       ...configObj,
       // 781 PAGE CONFIGS GO HERE
+      // 3.  MEDALS OR  CITATIONS
       [`medals${index}`]: {
         title: setReviewTitle(
           `Medals or citations associated with${REVIEW_TITLE_TOKEN}event`,
@@ -94,6 +95,7 @@ export function createFormConfig781(iterations) {
         uiSchema: medals.uiSchema(index),
         schema: medals.schema(index),
       },
+      // 4. EVENT DATE
       [`incidentDate${index}`]: {
         title: setReviewTitle(
           `Date of${REVIEW_TITLE_TOKEN}event`,
@@ -105,6 +107,7 @@ export function createFormConfig781(iterations) {
         uiSchema: incidentDate.uiSchema(index),
         schema: incidentDate.schema(index),
       },
+      // 5. UNIT ASSIGNMENT
       [`incidentUnitAssignment${index}`]: {
         title: setReviewTitle(
           `Unit assignment for${REVIEW_TITLE_TOKEN}event`,
@@ -116,6 +119,7 @@ export function createFormConfig781(iterations) {
         uiSchema: incidentUnitAssignment.uiSchema(index),
         schema: incidentUnitAssignment.schema(index),
       },
+      // 6. EVENT LOCATION
       [`incidentLocation${index}`]: {
         title: setReviewTitle(
           `Location of${REVIEW_TITLE_TOKEN}event`,
@@ -127,6 +131,7 @@ export function createFormConfig781(iterations) {
         uiSchema: incidentLocation.uiSchema(index),
         schema: incidentLocation.schema(index),
       },
+      // 7. INDIVIDUALS INVOLVED Y/N
       [`individualsInvolved${index}`]: {
         title: setReviewTitle(
           `Were other people involved in the${REVIEW_TITLE_TOKEN}event?`,
@@ -138,6 +143,7 @@ export function createFormConfig781(iterations) {
         uiSchema: individualsInvolved.uiSchema(index),
         schema: individualsInvolved.schema(index),
       },
+      // 8. TAKE A BREAK
       [`incidentSupport${index}`]: {
         title: setReviewTitle('PTSD incident support', index, formType),
         path: `disabilities/ptsd-incident-support-${index}`,
@@ -145,6 +151,7 @@ export function createFormConfig781(iterations) {
         uiSchema: incidentSupport.uiSchema('781'),
         schema: incidentSupport.schema,
       },
+      // 9. INDIVIDUALS INVOLVED DETAILS (if Yes for step 7)
       [`individualsInvolvedFollowUp${index}`]: {
         title: setReviewTitle(
           'PTSD incident individuals involved',
@@ -156,6 +163,15 @@ export function createFormConfig781(iterations) {
         uiSchema: individualsInvolvedFollowUp.uiSchema(index),
         schema: individualsInvolvedFollowUp.schema(index),
       },
+      // 10. TAKE A BREAK
+      [`incidentSupport${index}`]: {
+        title: setReviewTitle('PTSD incident support', index, formType),
+        path: `disabilities/ptsd-incident-support-${index}`,
+        depends: isAnswering781Questions(index),
+        uiSchema: incidentSupport.uiSchema('781'),
+        schema: incidentSupport.schema,
+      },
+      // 11. EVENT DESCRIPTION
       [`incidentDescription${index}`]: {
         title: setReviewTitle(
           `Description of${REVIEW_TITLE_TOKEN}event`,
@@ -167,6 +183,7 @@ export function createFormConfig781(iterations) {
         uiSchema: incidentDescription.uiSchema(index),
         schema: incidentDescription.schema(index),
       },
+      // 12. ADDITIONAL EVENTS OR SITUATIONS Y/N
       // This should be the last page in the config loop
       [`ptsdAdditionalEvents${index}`]: {
         title: 'Add another event or situation?',

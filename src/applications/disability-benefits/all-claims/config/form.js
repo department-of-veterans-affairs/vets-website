@@ -248,6 +248,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
+        // 781/a - 1. REVIEW INTRODUCTION PAGE
         newPTSDFollowUp: {
           title: formData => getDisabilityName(formData.condition),
           path: 'new-disabilities/ptsd-intro',
@@ -255,6 +256,7 @@ const formConfig = {
           uiSchema: newPTSDFollowUp.uiSchema,
           schema: newPTSDFollowUp.schema,
         },
+        // 781/a - 2. SELECT ONE (OR ALL) OF THE PTSD TYPES LISTED
         choosePtsdType: {
           title: 'Factors that contributed to PTSD',
           path: 'new-disabilities/ptsd-type',
@@ -262,6 +264,8 @@ const formConfig = {
           uiSchema: choosePtsdType.uiSchema,
           schema: choosePtsdType.schema,
         },
+        // 781 - 2a.  SELECT UPLOAD OPTION
+        // 781 - 2b. SELECT 'I WANT TO ANSWER QUESTIONS' AND LAUNCH INTERVIEW
         ptsdWalkthroughChoice781: {
           title: 'Answer online questions or upload paper 21-0781',
           path: 'new-disabilities/walkthrough-781-choice',
@@ -270,7 +274,9 @@ const formConfig = {
           uiSchema: ptsdWalkthroughChoice781.uiSchema,
           schema: ptsdWalkthroughChoice781.schema,
         },
+        // 781 - Pages 3 - 12 (Event Loop)
         ...createFormConfig781(PTSD_INCIDENT_ITERATION),
+        // 781 - ?. ???
         uploadPtsdDocuments781: {
           title: 'Upload PTSD Documents - 781',
           path: 'new-disabilities/ptsd-781-upload',
@@ -281,6 +287,7 @@ const formConfig = {
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
         },
+        // 781 - 13. ADDITIONAL EVENTS (ONLY DISPLAYS FOR 4TH EVENT)
         finalIncident: {
           path: 'new-disabilities/ptsd-additional-incident',
           title: 'Additional PTSD event',
@@ -288,6 +295,7 @@ const formConfig = {
           uiSchema: finalIncident.uiSchema,
           schema: finalIncident.schema,
         },
+        // 781 - 14. ADDITIONAL REMARKS
         additionalRemarks781: {
           title: 'Additional Remarks',
           path: 'new-disabilities/additional-remarks-781',
@@ -295,6 +303,7 @@ const formConfig = {
           uiSchema: additionalRemarks781.uiSchema,
           schema: additionalRemarks781.schema,
         },
+        // 781 - 15. PTSD CONCLUSION
         conclusionCombat: {
           path: 'ptsd-conclusion-combat',
           title: 'PTSD combat conclusion',
@@ -302,6 +311,8 @@ const formConfig = {
           uiSchema: conclusionCombat.uiSchema,
           schema: conclusionCombat.schema,
         },
+        // 781a - 2a. SELECT UPLOAD OPTION
+        // 781a - 2b. SELECT 'I WANT TO ANSWER QUESTIONS' AND LAUNCH INTERVIEW
         ptsdWalkthroughChoice781a: {
           title: 'Answer online questions or upload paper 21-0781A?',
           path: 'new-disabilities/walkthrough-781a-choice',
@@ -310,7 +321,9 @@ const formConfig = {
           uiSchema: ptsdWalkthroughChoice781a.uiSchema,
           schema: ptsdWalkthroughChoice781a.schema,
         },
+        // 781a - Pages 3 - 10 (Event Loop)
         ...createFormConfig781a(PTSD_INCIDENT_ITERATION),
+        // 781a - ?. ???
         uploadPtsdDocuments781a: {
           title: 'Upload PTSD Documents - 781a',
           path: 'new-disabilities/ptsd-781a-upload',
@@ -321,7 +334,7 @@ const formConfig = {
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
         },
-        // 11. ADDITIONAL EVENTS (ONLY DISPLAYS FOR 4TH EVENT)
+        // 781a - 11. ADDITIONAL EVENTS (ONLY DISPLAYS FOR 4TH EVENT)
         secondaryFinalIncident: {
           path: 'new-disabilities/ptsd-assault-additional-incident',
           title: 'Additional assault PTSD event',
@@ -329,7 +342,7 @@ const formConfig = {
           uiSchema: secondaryFinalIncident.uiSchema,
           schema: secondaryFinalIncident.schema,
         },
-        // 12. BEHAVIOR CHANGES: PHYSICAL
+        // 781a - 12. BEHAVIOR CHANGES: PHYSICAL
         physicalHealthChanges: {
           title: 'Additional changes in behavior - physical',
           path: 'new-disabilities/ptsd-781a-physical-changes',
@@ -337,7 +350,7 @@ const formConfig = {
           uiSchema: physicalHealthChanges.uiSchema,
           schema: physicalHealthChanges.schema,
         },
-        // 13. BEHAVIOR CHANGES: MENTAL/SUBSTANCE ABUSE
+        // 781a - 13. BEHAVIOR CHANGES: MENTAL/SUBSTANCE ABUSE
         socialBehaviorChanges: {
           title: 'Additional changes in behavior - social',
           path: 'new-disabilities/ptsd-781a-social-changes',
@@ -345,7 +358,7 @@ const formConfig = {
           uiSchema: socialBehaviorChanges.uiSchema,
           schema: socialBehaviorChanges.schema,
         },
-        // 14. BEHAVIOR CHANGES: AT WORK
+        // 781a - 14. BEHAVIOR CHANGES: AT WORK
         mentalHealthChanges: {
           title: 'Additional changes in behavior - mental/substance abuse',
           path: 'new-disabilities/ptsd-781a-mental-changes',
@@ -353,7 +366,7 @@ const formConfig = {
           uiSchema: mentalHealthChanges.uiSchema,
           schema: mentalHealthChanges.schema,
         },
-        // 15. BEHAVIOR CHANGES: SOCIAL
+        // 781a - 15. BEHAVIOR CHANGES: SOCIAL
         workBehaviorChanges: {
           title: 'Additional changes in behavior - work',
           path: 'new-disabilities/ptsd-781a-work-changes',
@@ -361,7 +374,7 @@ const formConfig = {
           uiSchema: workBehaviorChanges.uiSchema,
           schema: workBehaviorChanges.schema,
         },
-        // 16. BEHAVIOR CHANGES: ADDITIONAL INFORMATION
+        // 781a - 16. BEHAVIOR CHANGES: ADDITIONAL INFORMATION
         additionalBehaviorChanges: {
           title: 'Additional changes in behavior - more information',
           path: 'new-disabilities/ptsd-781a-additional-changes',
@@ -369,7 +382,7 @@ const formConfig = {
           uiSchema: additionalBehaviorChanges.uiSchema,
           schema: additionalBehaviorChanges.schema,
         },
-        // 17. PTSD CONCLUSION
+        // 781a - 17. PTSD CONCLUSION
         conclusionAssault: {
           path: 'ptsd-conclusion-assault',
           title: 'PTSD assault conclusion',
