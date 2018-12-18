@@ -2,7 +2,6 @@ import React from 'react';
 
 export const uploadDescription = () => (
   <div>
-    <h3>Supporting documents</h3>
     <p>
       When you file a claim for Individual Unemployability, you'll have a chance
       to provide supporting documents that show your disability prevents you
