@@ -12,7 +12,7 @@ export const uiSchema = index => ({
   'ui:title': ptsd781NameTitle,
   'ui:description': individualsDescription,
   [`incident${index}`]: {
-    personInvolved: {
+    personsInvolved: {
       'ui:title': ' ',
       'ui:options': {
         itemName: 'Individual',
@@ -51,8 +51,8 @@ export const uiSchema = index => ({
             labels: {
               killedInAction: 'Killed in action',
               woundedInAction: 'Wounded in action',
-              killedInNonBattle: 'Killed non-battle',
-              injuredInNonBattle: 'Injured non-battle',
+              killedNonBattle: 'Killed non-battle',
+              injuredNonBattle: 'Injured non-battle',
               other: 'Other',
             },
           },
@@ -80,7 +80,7 @@ export const schema = index => ({
     [`incident${index}`]: {
       type: 'object',
       properties: {
-        personInvolved: {
+        personsInvolved: {
           type: 'array',
           items: {
             type: 'object',
@@ -119,11 +119,11 @@ export const schema = index => ({
               injuryDeath: {
                 type: 'string',
                 enum: [
-                  'Killed in action',
-                  'Killed non-battle',
-                  'Wounded in action',
-                  'Injured non-battle',
-                  'Other',
+                  'killedInAction',
+                  'killedNonBattle',
+                  'woundedInAction',
+                  'injuredNonBattle',
+                  'other',
                 ],
               },
               injuryDeathOther: {

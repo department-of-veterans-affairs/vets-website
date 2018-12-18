@@ -243,7 +243,7 @@
         "from": "1990-01-01",
         "to": "1999-01-01"
       },
-      "personInvolved": [
+      "personsInvolved": [
         {
           "name": {
             "first": "John",
@@ -263,7 +263,7 @@
           }
         }
       ],
-      "source": [
+      "sources": [
         {
           "name": "Authority Name",
           "address": {
@@ -291,7 +291,7 @@
         "from": "1990-01-01",
         "to": "1999-01-01"
       },
-      "personInvolved": []
+      "personsInvolved": []
     },
     "incident2": {
       "medalsCitations": "Medal C",
@@ -308,7 +308,7 @@
         "from": "1990-01-01",
         "to": "1999-01-01"
       },
-      "personInvolved": [
+      "personsInvolved": [
         {
           "name": {
             "first": "John",

@@ -181,8 +181,8 @@ describe('526 helpers', () => {
   describe('transform', () => {
     it('should transform each incident', () => {
       expect(
-        JSON.parse(transform(formConfig, maximalData)).form526.form0781.incident
-          .length,
+        JSON.parse(transform(formConfig, maximalData)).form526.form0781
+          .incidents.length,
       ).to.eql(6);
     });
   });

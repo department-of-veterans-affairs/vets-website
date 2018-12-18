@@ -206,7 +206,7 @@ export const transformedMaximalData = {
         'Other work change',
         'Additional changes test',
       ],
-      incident: [
+      incidents: [
         {
           personalAssault: false,
           medalsCitations: 'Medal A',
@@ -218,7 +218,7 @@ export const transformedMaximalData = {
             from: '1990-01-01',
             to: '1999-01-01',
           },
-          personInvolved: [
+          personsInvolved: [
             {
               name: {
                 first: 'John',
@@ -238,7 +238,7 @@ export const transformedMaximalData = {
               },
             },
           ],
-          source: [
+          sources: [
             {
               name: 'Authority Name',
               address: {
@@ -274,7 +274,7 @@ export const transformedMaximalData = {
             from: '1990-01-01',
             to: '1999-01-01',
           },
-          personInvolved: [
+          personsInvolved: [
             {
               name: {
                 first: 'John',

@@ -25,6 +25,7 @@ import {
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
   TWENTY_FIVE_MB,
+  PTSD_INCIDENT_ITERATION,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -278,6 +279,19 @@ export function concatIncidentLocationString(incidentLocation) {
     .join(', ');
 }
 
+export function getFlatIncidentKeys() {
+  const incidentKeys = [];
+
+  for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+    incidentKeys.push(`incident${i}`);
+  }
+  for (let i = 0; i < PTSD_INCIDENT_ITERATION; i++) {
+    incidentKeys.push(`secondaryIncident${i}`);
+  }
+
+  return incidentKeys;
+}
+
 export function getPtsdChangeFieldTitles(changeFields, formConfig) {
   return Object.keys(changeFields)
     .filter(
@@ -409,14 +423,7 @@ export function transform(formConfig, form) {
     delete clonedData.providerFacility;
   }
 
-  const incidentKeys = [
-    'incident0',
-    'incident1',
-    'incident2',
-    'secondaryIncident0',
-    'secondaryIncident1',
-    'secondaryIncident2',
-  ];
+  const incidentKeys = getFlatIncidentKeys();
 
   const incidents = incidentKeys
     .filter(incidentKey => clonedData[incidentKey])
@@ -434,7 +441,7 @@ export function transform(formConfig, form) {
 
   if (incidents.length > 0) {
     clonedData.form0781 = {
-      incident: incidents,
+      incidents,
       remarks: clonedData.additionalRemarks781,
       additionalIncidentText: clonedData.additionalIncidentText,
       additionalSecondaryIncidentText:
