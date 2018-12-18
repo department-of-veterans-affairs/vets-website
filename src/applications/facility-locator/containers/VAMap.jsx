@@ -14,6 +14,7 @@ import {
   genBBoxFromAddress,
   searchWithBounds,
   fetchVAFacility,
+  clearSearchResults,
 } from '../actions';
 import SearchControls from '../components/SearchControls';
 import ResultsList from '../components/ResultsList';
@@ -25,7 +26,7 @@ import VetCenterMarker from '../components/markers/VetCenterMarker';
 import ProviderMarker from '../components/markers/ProviderMarker';
 import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
-import { areGeocodeEqual } from '../utils/helpers';
+import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
 
 const otherToolsLink = (
   <p>
@@ -62,10 +63,12 @@ class VAMap extends Component {
     }
 
     // Relevant when loading a "shareable" URL
-    this.props.updateSearchQuery({
-      facilityType: location.query.facilityType,
-      serviceType: location.query.serviceType,
-    });
+    if (!isEmpty(location.query)) {
+      this.props.updateSearchQuery({
+        facilityType: location.query.facilityType,
+        serviceType: location.query.serviceType,
+      });
+    }
 
     if (location.query.address) {
       this.props.genBBoxFromAddress({
@@ -108,6 +111,38 @@ class VAMap extends Component {
       resultsPage = 1;
     }
 
+    /*
+      Notes:
+
+      Going to need a couple new flags in the Redux store to properly
+      track state of the app. For example, a flag to know when Mapbox API
+      requests are done as all they do is update the Redux store, but intuiting
+      whether or not the data in the fields that were updated represents a valid
+      state for triggering a new search is ambiguous at best nor should we simply
+      fire off a new search each time something changes in Redux.
+
+      New Flag Ideas:
+        - geocodeInProgress
+        - revGeocodeInProgress - should be a separate flag as both operations happen
+        - searchRequested - To track that the user clicked the search button
+          (could have used inProgress but it gets tripped by other Actions)
+        -
+
+      The boundary checking of the current code below doesn't actually work.
+      Array equality isn't something that should be done with the operator,
+      and using the new method below causes `searchWithBounds` to never fire.
+      Goes in line with needing clearer ideas of what state of the app ==
+      when to fire off a new search, zoom out, or even just do nothing.
+
+      Near as I can tell this.zoomOut.cancel() does nothing.
+
+      Future testing to fix excessive searches being fired:
+    // If we're not searching but the flag to request a search is on
+    if (!newQuery.searchBoundsInProgress && newQuery.inProgress) {
+      if (this.didParamsChange(currentQuery, newQuery)) {
+        this.props.clearSearchResults();
+      }
+    */
     if (
       newQuery.bounds &&
       currentQuery.bounds !== newQuery.bounds &&
@@ -127,31 +162,28 @@ class VAMap extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { currentQuery } = prevProps;
-    const newQuery = this.props.currentQuery;
+    const { currentQuery: prevQuery } = prevProps;
+    const updatedQuery = this.props.currentQuery;
 
     /* eslint-disable prettier/prettier */
-    // A long block of logic AND'ing is easier to read when seen wrapped in a "block"
-    // Yes, it's equivalent without the paren, but understanding is faster with 'em
-    const shouldUpdateSearchQuery = (
+    const shouldZoomOut = ( // ToTriggerNewSearch
+      (!updatedQuery.searchBoundsInProgress && prevQuery.searchBoundsInProgress) && // search completed
       isEmpty(this.props.results) &&
-      !newQuery.inProgress &&
-      currentQuery.inProgress &&
-      newQuery.bounds &&
-      parseInt(newQuery.zoomLevel, 10) > 2 &&
-      !newQuery.error
+      updatedQuery.bounds &&
+      parseInt(updatedQuery.zoomLevel, 10) > 2 &&
+      !updatedQuery.error
     );
     /* eslint-enable prettier/prettier */
 
-    if (shouldUpdateSearchQuery) {
+    if (shouldZoomOut) {
       if (isMobile.any) {
         // manual zoom-out for mobile
         this.props.updateSearchQuery({
           bounds: [
-            newQuery.bounds[0] - BOUNDING_RADIUS,
-            newQuery.bounds[1] - BOUNDING_RADIUS,
-            newQuery.bounds[2] + BOUNDING_RADIUS,
-            newQuery.bounds[3] + BOUNDING_RADIUS,
+            updatedQuery.bounds[0] - BOUNDING_RADIUS,
+            updatedQuery.bounds[1] - BOUNDING_RADIUS,
+            updatedQuery.bounds[2] + BOUNDING_RADIUS,
+            updatedQuery.bounds[3] + BOUNDING_RADIUS,
           ],
         });
       } else {
@@ -159,7 +191,11 @@ class VAMap extends Component {
       }
     }
 
-    if (!isEmpty(this.props.results) || currentQuery.inProgress) {
+    // If we have results OR the search is still running
+    if (
+      !isEmpty(this.props.results) ||
+      (prevQuery.inProgress && updatedQuery.inProgress)
+    ) {
       this.zoomOut.cancel();
     }
   }
@@ -168,6 +204,25 @@ class VAMap extends Component {
     // call the func returned by browserHistory.listen to unbind the listener
     this.listener();
   }
+
+  /**
+   * Helper method to compare search parameters between
+   * component updates/renders.
+   *
+   * Currently compares search string, location type,
+   * service type, and map bounding box.
+   *
+   * @param {object} previous Previous component props
+   * @param {object} current Current componet props
+   */
+  /* didParamsChange = (previous, current) => {
+    return (
+      current.searchString !== previous.searchString ||
+      current.facilityType !== previous.facilityType ||
+      current.serviceType !== previous.serviceType ||
+      !areBoundsEqual(current.bounds, previous.bounds)
+    );
+  }; */
 
   /**
    * Presumably handles the case if a user manually makes a change to the
@@ -218,7 +273,7 @@ class VAMap extends Component {
     ).join('&');
     /* eslint-enable prettier/prettier */
 
-    browserHistory.push(`/facilities${location.pathname}?${queryString}`);
+    browserHistory.push(`/find-locations${location.pathname}?${queryString}`);
   };
 
   /**
@@ -254,13 +309,17 @@ class VAMap extends Component {
   };
 
   handleSearch = () => {
-    const { currentQuery } = this.props;
+    const { currentQuery, location } = this.props;
+    const { query: prevQuery } = location;
 
-    this.updateUrlParams({
-      address: currentQuery.searchString,
-    });
+    // Don't recalculate if we didn't change search location
+    if (currentQuery.searchString !== prevQuery.address) {
+      this.updateUrlParams({
+        address: currentQuery.searchString,
+      });
 
-    this.props.genBBoxFromAddress(currentQuery);
+      this.props.genBBoxFromAddress(currentQuery);
+    }
   };
 
   handleBoundsChanged = () => {
@@ -392,6 +451,7 @@ class VAMap extends Component {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const { currentQuery, results, pagination, selectedResult } = this.props;
+    const facilityLocatorMarkers = this.renderFacilityMarkers();
 
     return (
       /* eslint-disable prettier/prettier */
@@ -422,9 +482,12 @@ class VAMap extends Component {
                   attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
                     <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
                     Imagery © <a href="http://mapbox.com">Mapbox</a>' />
-                <FeatureGroup ref="facilityMarkers">
-                  {this.renderFacilityMarkers()}
-                </FeatureGroup>
+                {facilityLocatorMarkers.length > 0 &&
+                  <FeatureGroup
+                    ref="facilityMarkers">
+                    {facilityLocatorMarkers}
+                  </FeatureGroup>
+                }
               </Map>
               { selectedResult && (
                 <div className="mobile-search-result">
@@ -444,6 +507,7 @@ class VAMap extends Component {
     const { currentQuery, results, pagination } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
+    const facilityLocatorMarkers = this.renderFacilityMarkers();
 
     return (
       /* eslint-disable prettier/prettier */
@@ -472,9 +536,12 @@ class VAMap extends Component {
                 attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
                   <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
                   Imagery © <a href="http://mapbox.com">Mapbox</a>' />
-              <FeatureGroup ref="facilityMarkers">
-                {this.renderFacilityMarkers()}
-              </FeatureGroup>
+              {facilityLocatorMarkers.length > 0 &&
+                <FeatureGroup
+                  ref="facilityMarkers">
+                  {facilityLocatorMarkers}
+                </FeatureGroup>
+              }
             </Map>
           </div>
         </div>
@@ -524,5 +591,6 @@ export default connect(
     updateSearchQuery,
     genBBoxFromAddress,
     searchWithBounds,
+    clearSearchResults,
   },
 )(VAMap);

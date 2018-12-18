@@ -23,13 +23,15 @@ describe('<Announcement/>', () => {
   it('calls the init action when isInitialized is false', () => {
     props.isInitialized = false;
     props.initDismissedAnnouncements = sinon.stub();
-    enzyme.shallow(<Announcement {...props} />);
+    const wrapper = enzyme.shallow(<Announcement {...props} />);
     expect(props.initDismissedAnnouncements.called).to.be.true;
+    wrapper.unmount();
   });
 
   it('renders an empty div when there is no announcement', () => {
     const wrapper = enzyme.shallow(<Announcement {...props} />);
     expect(wrapper.html()).to.be.equal('<div></div>');
+    wrapper.unmount();
   });
 
   it('renders a child announcement component when there is an announcement prop', () => {
@@ -39,6 +41,7 @@ describe('<Announcement/>', () => {
     };
     const wrapper = enzyme.shallow(<Announcement {...props} />);
     expect(wrapper.html()).to.be.equal('<span>dummy</span>');
+    wrapper.unmount();
   });
 
   it('can dismiss announcements and any related announcements using a dismiss prop', () => {
@@ -63,5 +66,6 @@ describe('<Announcement/>', () => {
     expect(props.dismissAnnouncement.getCall(0).args[0]).to.be.equal('dummy');
     expect(props.dismissAnnouncement.getCall(1).args[0]).to.be.equal('dummy2');
     expect(props.dismissAnnouncement.getCall(2).args[0]).to.be.equal('dummy3');
+    wrapper.unmount();
   });
 });

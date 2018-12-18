@@ -31,12 +31,14 @@ describe('<AccountMain/>', () => {
     expect(wrapper.find('LoginSettings')).to.have.lengthOf(1);
     expect(wrapper.find('AccountVerification')).to.have.lengthOf(1);
     expect(wrapper.html()).to.contain('We’ve verified your identity.');
+    wrapper.unmount();
   });
 
   it('should prompt to increase LOA when a user is not verified', () => {
     props.profile.loa = 1;
     const wrapper = enzyme.shallow(<AccountMain {...props} />);
     expect(wrapper.html()).to.contain('Verify Your identity');
+    wrapper.unmount();
   });
 
   it('should show an MVI error when status is not OK', () => {
@@ -45,5 +47,6 @@ describe('<AccountMain/>', () => {
     expect(wrapper.html()).to.contain(
       'We’re having trouble matching your information to our Veteran records',
     );
+    wrapper.unmount();
   });
 });

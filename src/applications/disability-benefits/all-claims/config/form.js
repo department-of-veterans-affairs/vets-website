@@ -25,10 +25,11 @@ import {
   hasOtherEvidence,
   needsToEnter781,
   needsToEnter781a,
+  isAnswering781Questions,
+  isAnswering781aQuestions,
   isUploading781Form,
   isUploading781aForm,
   servedAfter911,
-  isAnsweringPtsdForm,
   isNotUploadingPrivateMedical,
   showPtsdCombatConclusion,
   showPtsdAssaultConclusion,
@@ -58,6 +59,8 @@ import {
   ptsdWalkthroughChoice781,
   uploadPtsdDocuments,
   ptsdWalkthroughChoice781a,
+  finalIncident,
+  secondaryFinalIncident,
   conclusionCombat,
   conclusionAssault,
   uploadPersonalPtsdDocuments,
@@ -75,13 +78,20 @@ import {
   fullyDevelopedClaim,
   unemployabilityStatus,
   unemployabilityFormIntro,
+  workBehaviorChanges,
+  socialBehaviorChanges,
+  additionalRemarks781,
+  additionalBehaviorChanges,
   mentalHealthChanges,
   adaptiveBenefits,
   aidAndAttendance,
   individualUnemployability,
   physicalHealthChanges,
   hospitalizationHistory,
+  unemployabilityAdditionalInformation,
+  supplementalBenefits,
   newDisabilities,
+  ancillaryFormsWizardSummary,
 } from '../pages';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
@@ -90,7 +100,7 @@ import { createFormConfig781, createFormConfig781a } from './781';
 
 import { PTSD, PTSD_INCIDENT_ITERATION } from '../constants';
 
-import fullSchema from './schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const formConfig = {
   urlPrefix: '/',
@@ -274,6 +284,27 @@ const formConfig = {
           uiSchema: uploadPtsdDocuments.uiSchema,
           schema: uploadPtsdDocuments.schema,
         },
+        finalIncident: {
+          path: 'new-disabilities/ptsd-additional-incident',
+          title: 'Additional PTSD event',
+          depends: isAnswering781Questions(PTSD_INCIDENT_ITERATION),
+          uiSchema: finalIncident.uiSchema,
+          schema: finalIncident.schema,
+        },
+        additionalRemarks781: {
+          title: 'Additional Remarks - 781',
+          path: 'new-disabilities/additional-remarks-781',
+          depends: isAnswering781Questions(0),
+          uiSchema: additionalRemarks781.uiSchema,
+          schema: additionalRemarks781.schema,
+        },
+        conclusionCombat: {
+          path: 'ptsd-conclusion-combat',
+          title: 'PTSD combat conclusion',
+          depends: showPtsdCombatConclusion,
+          uiSchema: conclusionCombat.uiSchema,
+          schema: conclusionCombat.schema,
+        },
         ptsdWalkthroughChoice781a: {
           title: 'PTSD Walkthrough 781a Choice',
           path: 'new-disabilities/walkthrough-781a-choice',
@@ -293,32 +324,51 @@ const formConfig = {
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
         },
+        secondaryFinalIncident: {
+          path: 'new-disabilities/ptsd-assault-additional-incident',
+          title: 'Additional assault PTSD event',
+          depends: isAnswering781aQuestions(PTSD_INCIDENT_ITERATION),
+          uiSchema: secondaryFinalIncident.uiSchema,
+          schema: secondaryFinalIncident.schema,
+        },
         physicalHealthChanges: {
           title: 'Additional Remarks - Physical Health Changes',
           path: 'new-disabilities/ptsd-781a-physical-changes',
-          depends: formData =>
-            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
+          depends: isAnswering781aQuestions(0),
           uiSchema: physicalHealthChanges.uiSchema,
           schema: physicalHealthChanges.schema,
         },
+        socialBehaviorChanges: {
+          title: 'Additional Remarks - Social Behavior Changes',
+          path: 'new-disabilities/ptsd-781a-social-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: socialBehaviorChanges.uiSchema,
+          schema: socialBehaviorChanges.schema,
+        },
         mentalHealthChanges: {
-          title: 'Additional Remarks - Physical Health Changes',
+          title: 'Additional Remarks - Mental Health Changes',
           path: 'new-disabilities/ptsd-781a-mental-changes',
-          depends: formData =>
-            needsToEnter781a(formData) && isAnsweringPtsdForm(formData),
+          depends: isAnswering781aQuestions(0),
           uiSchema: mentalHealthChanges.uiSchema,
           schema: mentalHealthChanges.schema,
         },
-        conclusionCombat: {
-          path: 'conclusion-781',
-          title: 'Disabiity Details',
-          depends: showPtsdCombatConclusion,
-          uiSchema: conclusionCombat.uiSchema,
-          schema: conclusionCombat.schema,
+        workBehaviorChanges: {
+          title: 'Additional Remarks - Behavior Changes at Work',
+          path: 'new-disabilities/ptsd-781a-work-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: workBehaviorChanges.uiSchema,
+          schema: workBehaviorChanges.schema,
+        },
+        additionalBehaviorChanges: {
+          title: 'Additional Remarks - Additional Behavior Changes',
+          path: 'new-disabilities/ptsd-781a-additional-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: additionalBehaviorChanges.uiSchema,
+          schema: additionalBehaviorChanges.schema,
         },
         conclusionAssault: {
-          path: 'conclusion-781a',
-          title: 'Disabiity Details',
+          path: 'ptsd-conclusion-assault',
+          title: 'PTSD assault conclusion',
           depends: showPtsdAssaultConclusion,
           uiSchema: conclusionAssault.uiSchema,
           schema: conclusionAssault.schema,
@@ -343,6 +393,22 @@ const formConfig = {
             formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
           uiSchema: hospitalizationHistory.uiSchema,
           schema: hospitalizationHistory.schema,
+        },
+        supplementalBenefits: {
+          title: 'Supplemental Benefits',
+          path: 'supplemental-benefits',
+          depends: formData =>
+            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
+          uiSchema: supplementalBenefits.uiSchema,
+          schema: supplementalBenefits.schema,
+        },
+        unemployabilityAdditionalInformation: {
+          title: '8940 Additional Information',
+          path: 'unemployability-additional-information',
+          depends: formData =>
+            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
+          uiSchema: unemployabilityAdditionalInformation.uiSchema,
+          schema: unemployabilityAdditionalInformation.schema,
         },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
@@ -385,6 +451,13 @@ const formConfig = {
           path: 'individual-unemployability',
           uiSchema: individualUnemployability.uiSchema,
           schema: individualUnemployability.schema,
+        },
+        ancillaryFormsWizardSummary: {
+          title: 'Summary of additional benefits',
+          path: 'additional-disability-benefits-summary',
+          depends: ancillaryFormsWizardSummary.depends,
+          uiSchema: ancillaryFormsWizardSummary.uiSchema,
+          schema: ancillaryFormsWizardSummary.schema,
         },
         // End ancillary forms wizard
         summaryOfDisabilities: {
@@ -441,7 +514,9 @@ const formConfig = {
         privateMedicalRecordsRelease: {
           title: 'Private Medical Records',
           path: 'supporting-evidence/private-medical-records-release',
-          depends: hasPrivateEvidence && isNotUploadingPrivateMedical,
+          depends: formData =>
+            hasPrivateEvidence(formData) &&
+            isNotUploadingPrivateMedical(formData),
           uiSchema: privateMedicalRecordsRelease.uiSchema,
           schema: privateMedicalRecordsRelease.schema,
         },
@@ -513,7 +588,6 @@ const formConfig = {
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
         },
-
         fullyDevelopedClaim: {
           title: 'Fully developed claim program',
           path: 'fully-developed-claim',

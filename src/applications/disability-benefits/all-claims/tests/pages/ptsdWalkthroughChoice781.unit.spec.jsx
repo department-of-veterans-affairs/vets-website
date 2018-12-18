@@ -32,5 +32,6 @@ describe('781 choice screen', () => {
 
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

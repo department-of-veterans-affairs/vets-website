@@ -16,7 +16,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     ESCAPE,
   } = client.Keys;
 
-  client.url(`${E2eHelpers.baseUrl}/`);
+  client.openUrl(`${E2eHelpers.baseUrl}/`);
 
   E2eHelpers.overrideSmoothScrolling(client);
 
@@ -37,7 +37,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // Explore benefits menu items
   const firstMenuItem = 'button[aria-controls="vetnav-disability"]';
   const secondMenuItem = 'button[aria-controls="vetnav-healthcare"]';
-  const lastMenuItem = 'a[href="/families-caregivers/"]';
+  const lastMenuItem = 'a[href="/"""]';
 
   const testOpenBenefitsMenu = (key, focusedOn, keyName) => {
     if (keyName) {
@@ -98,7 +98,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     '#vetnav-healthcare a[href="/health-care/apply/application/"]';
 
   // Disability menu items
-  // const disFirstItem = '#vetnav-disability a[href="/disability-benefits/"]';
+  // const disFirstItem = '#vetnav-disability a[href="/disability/"]';
 
   // Open the menu
   client.click(exploreButton);
@@ -158,7 +158,8 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // client.assert.isActiveElement(hcFirstItem);
 
   // -- Non-sub menu buttons -- //
-  const prescriptionsLink = 'a[href="/health-care/prescriptions"]';
+  const prescriptionsLink =
+    'a[href="/health-care/refill-track-prescriptions/"]';
 
   client.click(benefitsButton);
 

@@ -11,6 +11,7 @@ describe('<FeedbackSubmitted/>', () => {
     );
     const text = wrapper.text();
     expect(text.includes('We’ll get back to you soon.')).to.be.true;
+    wrapper.unmount();
   });
 
   it('should render without follow-up message', () => {
@@ -19,5 +20,6 @@ describe('<FeedbackSubmitted/>', () => {
     );
     const text = wrapper.text();
     expect(text.includes('We’ll get back to you soon.')).to.be.false;
+    wrapper.unmount();
   });
 });

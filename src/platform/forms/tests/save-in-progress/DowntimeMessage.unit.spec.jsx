@@ -15,6 +15,7 @@ describe('<DowntimeMessage>', () => {
         .dive()
         .text(),
     ).to.contain('We’re sorry it’s not working right now.');
+    tree.unmount();
   });
 
   it('should render with window message', () => {
@@ -31,5 +32,6 @@ describe('<DowntimeMessage>', () => {
         'MMMM Do, LT',
       )}`,
     );
+    tree.unmount();
   });
 });

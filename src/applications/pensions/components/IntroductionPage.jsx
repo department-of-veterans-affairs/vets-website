@@ -92,7 +92,7 @@ class IntroductionPage extends React.Component {
                       without asking you for more information.
                     </p>
                     <a
-                      href="/pension/apply/fully-developed-claim/"
+                      href="/pension/how-to-apply/fully-developed-claim/"
                       target="_blank"
                     >
                       Learn more about the FDC Program

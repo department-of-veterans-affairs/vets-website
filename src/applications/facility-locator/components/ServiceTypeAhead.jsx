@@ -31,10 +31,9 @@ class ServiceTypeAhead extends Component {
 
   // eslint-disable-next-line prettier/prettier
   handleOnSelect = (selectedItem) => {
+    const value = selectedItem ? selectedItem.specialtyCode.trim() : null;
     this.props.onSelect({
-      target: {
-        value: selectedItem.name.trim(),
-      },
+      target: { value },
     });
   };
 

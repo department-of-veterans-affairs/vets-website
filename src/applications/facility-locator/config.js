@@ -11,6 +11,7 @@ export const api = {
   baseUrl: `${environment.API_URL}/v0/facilities`,
   url: `${environment.API_URL}/v0/facilities/va`,
   settings: {
+    credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel',
     },
@@ -30,6 +31,7 @@ export const ccLocatorEnabled = () => {
 
 /* eslint-disable camelcase */
 export const facilityTypes = {
+  all: 'All Facilities',
   va_health_facility: 'VA Health',
   va_cemetery: 'Cemetery',
   va_benefits_facility: 'Benefits',
