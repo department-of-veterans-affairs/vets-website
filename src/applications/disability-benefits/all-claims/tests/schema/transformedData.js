@@ -227,7 +227,7 @@ export const transformedMaximalData = {
               },
               rank: 'Private',
               injuryDeath: 'injuredNonBattle',
-              injuryDeathDate: '1992-1-1',
+              injuryDeathDate: '1992-01-01',
               unitAssigned: 'Unit A',
             },
             {
@@ -282,7 +282,7 @@ export const transformedMaximalData = {
               rank: 'Private',
               injuryDeath: 'other',
               injuryDeathOther: 'Other text',
-              injuryDeathDate: '1992-1-1',
+              injuryDeathDate: '1992-01-01',
               unitAssigned: 'Unit A',
             },
             {
