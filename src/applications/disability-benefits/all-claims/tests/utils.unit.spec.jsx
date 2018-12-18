@@ -702,12 +702,14 @@ describe('isAnswering781aQuestions', () => {
   describe('needsToAnswerUnemployability', () => {
     it('should return true if user selects to answer unemployability questions', () => {
       const formData = {
+        'view:unemployable': true,
         'view:unemployabilityUploadChoice': 'answerQuestions',
       };
       expect(needsToAnswerUnemployability(formData)).to.be.true;
     });
     it('should return false if user selects to upload an 8940 form', () => {
       const formData = {
+        'view:unemployable': true,
         'view:unemployabilityUploadChoice': 'upload',
       };
       expect(needsToEnterUnemployability(formData)).to.be.false;
