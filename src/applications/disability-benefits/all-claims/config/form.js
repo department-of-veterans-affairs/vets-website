@@ -76,8 +76,6 @@ import {
   vaEmployee,
   summaryOfEvidence,
   fullyDevelopedClaim,
-  unemployabilityStatus,
-  unemployabilityFormIntro,
   workBehaviorChanges,
   socialBehaviorChanges,
   additionalRemarks781,
@@ -87,8 +85,6 @@ import {
   aidAndAttendance,
   individualUnemployability,
   physicalHealthChanges,
-  hospitalizationHistory,
-  recentJobApplications,
   newDisabilities,
   ancillaryFormsWizardSummary,
 } from '../pages';
@@ -96,6 +92,8 @@ import {
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
 import { createFormConfig781, createFormConfig781a } from './781';
+
+import createformConfig8940 from './8940';
 
 import { PTSD, PTSD_INCIDENT_ITERATION } from '../constants';
 
@@ -372,35 +370,6 @@ const formConfig = {
           uiSchema: conclusionAssault.uiSchema,
           schema: conclusionAssault.schema,
         },
-        unemployabilityStatus: {
-          title: 'Unemployability Status',
-          path: 'new-disabilities/unemployability-status',
-          uiSchema: unemployabilityStatus.uiSchema,
-          schema: unemployabilityStatus.schema,
-        },
-        unemployabilityFormIntro: {
-          title: 'File a Claim for Individual Unemployability',
-          path: 'new-disabilities/unemployability-walkthrough-choice',
-          depends: formData => formData['view:unemployabilityStatus'],
-          uiSchema: unemployabilityFormIntro.uiSchema,
-          schema: unemployabilityFormIntro.schema,
-        },
-        hospitalizationHistory: {
-          title: 'Hospitalization',
-          path: 'hospitalization-history',
-          depends: formData =>
-            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
-          uiSchema: hospitalizationHistory.uiSchema,
-          schema: hospitalizationHistory.schema,
-        },
-        recentJobApplications: {
-          title: 'Recent job applications',
-          path: 'recent-job-applications',
-          depends: formData =>
-            formData['view:unemployabilityUploadChoice'] === 'answerQuestions',
-          uiSchema: recentJobApplications.uiSchema,
-          schema: recentJobApplications.schema,
-        },
         prisonerOfWar: {
           title: 'Prisoner of War (POW)',
           path: 'pow',
@@ -443,6 +412,7 @@ const formConfig = {
           uiSchema: individualUnemployability.uiSchema,
           schema: individualUnemployability.schema,
         },
+        ...createformConfig8940(),
         ancillaryFormsWizardSummary: {
           title: 'Summary of additional benefits',
           path: 'additional-disability-benefits-summary',
@@ -456,20 +426,6 @@ const formConfig = {
           path: 'disabilities/summary',
           uiSchema: summaryOfDisabilities.uiSchema,
           schema: summaryOfDisabilities.schema,
-        },
-        conclusion4192: {
-          title: 'Conclusion 4192',
-          path: 'disabilities/conclusion-4192',
-          depends: formData => formData['view:unemployabilityStatus'],
-          uiSchema: {
-            'ui:title': ' ',
-            'ui:description':
-              'Thank you for taking the time to answer our questions. The information you provided will help us process your claim.',
-          },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
         },
       },
     },
