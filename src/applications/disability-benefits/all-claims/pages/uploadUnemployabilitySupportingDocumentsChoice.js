@@ -1,7 +1,8 @@
 import { uploadDescription } from '../content/uploadUnemployabilitySupportingDocuments';
+import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 export const uiSchema = {
-  'ui:title': 'Supporting Documents',
+  'ui:title': unemployabilityTitle,
   'ui:description': uploadDescription,
   'view:uploadUnemployabilitySupportingDocumentsChoice': {
     'ui:title': ' ',

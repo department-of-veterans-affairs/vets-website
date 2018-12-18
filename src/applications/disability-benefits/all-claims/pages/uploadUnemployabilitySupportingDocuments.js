@@ -1,9 +1,9 @@
 import { ancillaryFormUploadUi } from '../utils';
-
 import { uploadDescription } from '../content/fileUploadDescriptions';
+import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 export const uiSchema = {
-  'ui:title': 'Upload supporting documents',
+  'ui:title': unemployabilityTitle,
   'ui:description': uploadDescription,
   unemployabilitySupportingDocuments: ancillaryFormUploadUi(
     '',
