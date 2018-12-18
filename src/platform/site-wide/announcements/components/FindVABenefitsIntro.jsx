@@ -1,8 +1,6 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
 
-import { findBenefitsRoute } from 'applications/personalization/dashboard/routes';
-
 export default function FindVABenefitsIntro({ dismiss }) {
   return (
     <Modal visible onClose={dismiss} id="modal-announcement">
@@ -17,7 +15,7 @@ export default function FindVABenefitsIntro({ dismiss }) {
         benefits you may be eligible for, and how to apply. Get started by
         clicking on the “Find VA Benefits Now” button below.
       </p>
-      <a onClick={dismiss} className="usa-button" href={findBenefitsRoute.path}>
+      <a onClick={dismiss} className="usa-button" href="find-benefits/">
         Find VA Benefits Now
       </a>
       <button

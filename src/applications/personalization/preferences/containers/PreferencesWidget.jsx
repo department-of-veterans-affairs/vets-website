@@ -10,7 +10,6 @@ import deduplicate from 'platform/utilities/data/deduplicate';
 import environment from 'platform/utilities/environment';
 
 import PreferenceList from '../components/PreferenceList';
-import { findBenefitsRoute } from '../../dashboard/routes';
 
 import {
   setPreference,
@@ -115,7 +114,7 @@ class PreferencesWidget extends React.Component {
         return (
           <div>
             <p>You haven’t selected any benefits to learn about.</p>
-            <Link to={findBenefitsRoute.path}>Select benefits now.</Link>
+            <Link to="find-benefits">Select benefits now.</Link>
           </div>
         );
       }
@@ -162,7 +161,7 @@ class PreferencesWidget extends React.Component {
             {userBenefitsLoadingStatus !== LOADING_STATES.pending && (
               <Link
                 className="usa-button usa-button-secondary"
-                to={findBenefitsRoute.path}
+                to="find-benefits"
               >
                 Find VA Benefits
               </Link>
