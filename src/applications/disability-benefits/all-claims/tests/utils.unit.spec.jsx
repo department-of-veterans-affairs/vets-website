@@ -712,7 +712,7 @@ describe('isAnswering781aQuestions', () => {
         'view:unemployable': true,
         'view:unemployabilityUploadChoice': 'upload',
       };
-      expect(needsToEnterUnemployability(formData)).to.be.false;
+      expect(needsToAnswerUnemployability(formData)).to.be.false;
     });
   });
 });
