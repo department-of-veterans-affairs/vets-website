@@ -30,6 +30,7 @@ class SetPreferences extends React.Component {
             apply. Select one or more of the types of benefits below, and we’ll
             help you get started.
           </p>
+          <h3>I want to:</h3>
           <div className="preferences-grid">
             {benefitChoices.map((item, itemIndex) => (
               <PreferenceOption

@@ -234,11 +234,6 @@ import {
 } from './fullyDevelopedClaim';
 
 import {
-  uiSchema as unemployabilityStatusUISchema,
-  schema as unemployabilityStatusSchema,
-} from './unemployabilityStatus';
-
-import {
   uiSchema as unemployabilityFormIntroUISchema,
   schema as unemployabilityFormIntroSchema,
 } from './unemployabilityFormIntro';
@@ -303,6 +298,11 @@ import * as uploadUnemployabilitySupportingDocuments from './uploadUnemployabili
 import * as uploadUnemployabilitySupportingDocumentsChoice from './uploadUnemployabilitySupportingDocumentsChoice';
 
 import {
+  uiSchema as supplementalBenefitsUISchema,
+  schema as supplementalBenefitsSchema,
+} from './supplementalBenefits';
+
+import {
   uiSchema as conclusionCombatUISchema,
   schema as conclusionCombatSchema,
 } from './conclusionCombat';
@@ -328,6 +328,11 @@ import {
   uiSchema as newDisabilitiesUISchema,
   schema as newDisabilitiesSchema,
 } from './newDisabilities';
+
+import {
+  uiSchema as unemployabilityAdditionalInformationUISchema,
+  schema as unemployabilityAdditionalInformationSchema,
+} from './unemployabilityAdditionalInformation';
 
 import {
   uiSchema as secondaryUploadSourcesChoiceUISchema,
@@ -561,11 +566,6 @@ export const fullyDevelopedClaim = {
   schema: fullyDevelopedClaimSchema,
 };
 
-export const unemployabilityStatus = {
-  uiSchema: unemployabilityStatusUISchema,
-  schema: unemployabilityStatusSchema,
-};
-
 export const unemployabilityFormIntro = {
   uiSchema: unemployabilityFormIntroUISchema,
   schema: unemployabilityFormIntroSchema,
@@ -640,6 +640,11 @@ export { uploadUnemployabilitySupportingDocuments };
 
 export { uploadUnemployabilitySupportingDocumentsChoice };
 
+export const supplementalBenefits = {
+  uiSchema: supplementalBenefitsUISchema,
+  schema: supplementalBenefitsSchema,
+};
+
 export const conclusionCombat = {
   uiSchema: conclusionCombatUISchema,
   schema: conclusionCombatSchema,
@@ -668,6 +673,11 @@ export const additionalRemarks781 = {
 export const newDisabilities = {
   uiSchema: newDisabilitiesUISchema,
   schema: newDisabilitiesSchema,
+};
+
+export const unemployabilityAdditionalInformation = {
+  uiSchema: unemployabilityAdditionalInformationUISchema,
+  schema: unemployabilityAdditionalInformationSchema,
 };
 
 export const secondaryUploadSourcesChoice = {
