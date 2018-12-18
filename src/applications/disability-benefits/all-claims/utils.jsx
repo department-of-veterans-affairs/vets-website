@@ -647,3 +647,8 @@ export const ancillaryFormUploadUi = (label, itemDescription) =>
     },
     attachmentName: false,
   });
+
+export const isUploadingSupportingDocuments = formData =>
+  _.get('view:unemployabilityUploadChoice', formData, ' ') ===
+    'answerQuestions' &&
+  _.get('view:uploadUnemployabilitySupportingDocumentsChoice', formData, true);

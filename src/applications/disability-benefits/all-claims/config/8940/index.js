@@ -11,6 +11,7 @@ import environment from '../../../../../platform/utilities/environment';
 import {
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
+  isUploadingSupportingDocuments,
 } from '../../utils';
 
 export default function() {
@@ -56,9 +57,7 @@ export default function() {
       uploadUnemployabilitySupportingDocuments: {
         title: 'Upload supporting documents',
         path: 'upload-unemployability-supporting-documents',
-        depends: formData =>
-          formData['view:unemployabilityUploadChoice'] === 'answerQuestions' &&
-          formData['view:uploadUnemployabilitySupportingDocumentsChoice'],
+        depends: formData => isUploadingSupportingDocuments(formData),
         uiSchema: uploadUnemployabilitySupportingDocuments.uiSchema,
         schema: uploadUnemployabilitySupportingDocuments.schema,
       },
