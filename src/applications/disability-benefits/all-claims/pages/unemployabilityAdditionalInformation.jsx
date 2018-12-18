@@ -1,4 +1,5 @@
 import React from 'react';
+import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 const additionalInformationDescription = (
   <div>
@@ -19,7 +20,7 @@ const additionalInformationDescription = (
 );
 
 export const uiSchema = {
-  'ui:title': 'Individual Unemployability',
+  'ui:title': unemployabilityTitle,
   'ui:description': additionalInformationDescription,
   unemployability: {
     remarks: {
