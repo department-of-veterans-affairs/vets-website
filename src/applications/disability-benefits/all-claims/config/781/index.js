@@ -117,8 +117,12 @@ export function createFormConfig781(iterations) {
         uiSchema: individualsInvolvedFollowUp.uiSchema(index),
         schema: individualsInvolvedFollowUp.schema(index),
       },
-      [`incidentSupport2${index}`]: {
-        title: setReviewTitle('PTSD incident support', index, formType),
+      [`incidentSupportAdditional${index}`]: {
+        title: setReviewTitle(
+          'PTSD incident support additional break',
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-incident-support2-${index}`,
         depends: isAnswering781Questions(index),
         uiSchema: incidentSupport.uiSchema('781'),
