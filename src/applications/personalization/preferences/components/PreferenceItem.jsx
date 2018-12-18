@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
@@ -8,22 +7,14 @@ import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 const CallToAction = ({ cta }) => {
   const { description, link, text } = cta;
   const hasLinkAndText = link && text;
-  const isExternalLink = link && link.includes('http');
   return (
     <div>
       {description}
-      {hasLinkAndText &&
-        !isExternalLink && (
-          <Link className="usa-button" to={link}>
-            {text}
-          </Link>
-        )}
-      {hasLinkAndText &&
-        isExternalLink && (
-          <a className="usa-button" href={link}>
-            {text}
-          </a>
-        )}
+      {hasLinkAndText && (
+        <a className="usa-button va-button-primary" href={link}>
+          {text}
+        </a>
+      )}
     </div>
   );
 };
@@ -55,7 +46,7 @@ export default function PreferenceItem({
   isRemoving,
   benefit,
 }) {
-  const { title, introduction, slug, cta, faqs } = benefit;
+  const { title, introduction, code, cta, faqs } = benefit;
 
   if (isRemoving) {
     return (
@@ -70,13 +61,13 @@ export default function PreferenceItem({
           </p>
           <button
             className="usa-button-primary"
-            onClick={() => handleRemove(slug)}
+            onClick={() => handleRemove(code)}
           >
             Remove
           </button>
           <button
             className="usa-button-secondary"
-            onClick={() => handleViewToggle(slug)}
+            onClick={() => handleViewToggle(code)}
           >
             Cancel
           </button>
@@ -90,7 +81,7 @@ export default function PreferenceItem({
         <h3>{title}</h3>
         <button
           className="va-button-link"
-          onClick={() => handleViewToggle(slug)}
+          onClick={() => handleViewToggle(code)}
         >
           <i className="fa fa-close" /> <span>Remove</span>
         </button>
