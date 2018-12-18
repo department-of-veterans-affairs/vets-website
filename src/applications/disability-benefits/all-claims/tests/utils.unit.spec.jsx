@@ -26,6 +26,8 @@ import {
   viewifyFields,
   transformMVPData,
   transform,
+  needsToEnterUnemployability,
+  needsToAnswerUnemployability,
 } from '../utils.jsx';
 
 import {
@@ -684,6 +686,42 @@ describe('isAnswering781aQuestions', () => {
         'view:uploadChoice0': true,
       };
       expect(isUploading781aSupportingDocuments(0)(formData)).to.be.true;
+    });
+  });
+
+  describe('needsToEnterUnemployability', () => {
+    it('should return true if user selects yes', () => {
+      const formData = {
+        'view:unemployable': true,
+      };
+      expect(needsToEnterUnemployability(formData)).to.be.true;
+    });
+    it('should return false if user does not select anything', () => {
+      const formData = {};
+      expect(needsToEnterUnemployability(formData)).to.be.false;
+    });
+    it('should return false if user selects no', () => {
+      const formData = {
+        'view:unemployable': false,
+      };
+      expect(needsToEnterUnemployability(formData)).to.be.false;
+    });
+  });
+
+  describe('needsToAnswerUnemployability', () => {
+    it('should return true if user selects to answer unemployability questions', () => {
+      const formData = {
+        'view:unemployable': true,
+        'view:unemployabilityUploadChoice': 'answerQuestions',
+      };
+      expect(needsToAnswerUnemployability(formData)).to.be.true;
+    });
+    it('should return false if user selects to upload an 8940 form', () => {
+      const formData = {
+        'view:unemployable': true,
+        'view:unemployabilityUploadChoice': 'upload',
+      };
+      expect(needsToAnswerUnemployability(formData)).to.be.false;
     });
   });
 });
