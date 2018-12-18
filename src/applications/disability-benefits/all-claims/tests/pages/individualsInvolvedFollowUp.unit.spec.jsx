@@ -108,7 +108,7 @@ describe('781 individuals involved', () => {
       '2010-05-05',
     );
 
-    selectRadio(form, 'root_incident0_personsInvolved_0_injuryDeath', 'Other');
+    selectRadio(form, 'root_incident0_personsInvolved_0_injuryDeath', 'other');
 
     fillData(
       form,
