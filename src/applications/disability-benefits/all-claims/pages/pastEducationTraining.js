@@ -2,12 +2,14 @@ import EducationTrainingField from '../components/EducationTrainingField';
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import { validateDate } from 'us-forms-system/lib/js/validation';
 import fullSchema from '../config/schema';
+import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 const { dateRange } = fullSchema.definitions;
 
 export const uiSchema = {
-  'ui:title': 'Education & training',
+  'ui:title': unemployabilityTitle,
   unemployability: {
+    'ui:title': 'Education & training',
     education: {
       'ui:title': 'What’s the highest level of education you’ve completed?',
     },
