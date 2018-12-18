@@ -13,7 +13,9 @@ import startMobileMenuButton from '../../platform/site-wide/mobile-menu-button';
 // import startLRNHealthCarWidget from '../../platform/site-wide/left-rail-navs/health-care';
 import startFeedbackWidget from '../../platform/site-wide/feedback';
 // import startAnnouncementWidget from '../../platform/site-wide/announcements';
-import startVAFooter from '../../platform/site-wide/va-footer';
+import startVAFooter, {
+  footerElemementId,
+} from '../../platform/site-wide/va-footer';
 import redirectIfNecessary from './redirects';
 import { addFocusBehaviorToCrisisLineModal } from '../../platform/site-wide/accessible-VCL-modal';
 import { addOverlayTriggers } from '../../platform/site-wide/legacy/menu';
@@ -68,6 +70,23 @@ function activateHeaderFooter(observer) {
   document.body.appendChild(footerContainer);
 }
 
+function renderFooter() {
+  const subFooter = document.querySelectorAll('#sub-footer .small-print');
+  const lastUpdated = subFooter.item(0).textContent;
+  const lastUpdatedPanel = document.createElement('div');
+
+  lastUpdatedPanel.classList.add('usa-grid');
+  lastUpdatedPanel.classList.add('footer-lastupdated');
+  lastUpdatedPanel.append(lastUpdated);
+
+  startVAFooter(() => {
+    addOverlayTriggers();
+    addFocusBehaviorToCrisisLineModal();
+
+    document.getElementById(footerElemementId).prepend(lastUpdatedPanel);
+  });
+}
+
 function mountReactComponents(commonStore) {
   const crisisModal = document.getElementById('modal-crisisline');
   if (crisisModal) {
@@ -92,10 +111,7 @@ function mountReactComponents(commonStore) {
   // startLRNHealthCarWidget(commonStore);
   startFeedbackWidget(commonStore);
   // startAnnouncementWidget(commonStore);
-  startVAFooter(() => {
-    addOverlayTriggers();
-    addFocusBehaviorToCrisisLineModal();
-  });
+  renderFooter();
 }
 
 function activateInjectedAssets() {
