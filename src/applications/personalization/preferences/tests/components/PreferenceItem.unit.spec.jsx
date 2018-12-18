@@ -40,7 +40,7 @@ describe('<PreferenceItem>', () => {
       .find('button')
       .first()
       .simulate('click');
-    expect(handleViewToggle.args[0][0]).to.equal(benefitChoices[0].slug);
+    expect(handleViewToggle.args[0][0]).to.equal(benefitChoices[0].code);
     component.unmount();
   });
 
@@ -55,7 +55,7 @@ describe('<PreferenceItem>', () => {
       .find('button')
       .first()
       .simulate('click');
-    expect(handleRemove.args[0][0]).to.equal(benefitChoices[0].slug);
+    expect(handleRemove.args[0][0]).to.equal(benefitChoices[0].code);
     component.unmount();
   });
 });
