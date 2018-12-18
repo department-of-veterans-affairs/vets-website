@@ -3,12 +3,14 @@ import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 import { validateDate } from 'us-forms-system/lib/js/validation';
 import fullSchema from '../config/schema';
 import { RecentEducationTrainingTitle } from '../content/recentEducationTraining';
+import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 const { dateRange } = fullSchema.definitions;
 
 export const uiSchema = {
-  'ui:title': 'Recent Education & training',
+  'ui:title': unemployabilityTitle,
   unemployability: {
+    'ui:title': 'Recent Education & training',
     receivedOtherEducationTrainingPostUnemployability: {
       'ui:title': RecentEducationTrainingTitle,
       'ui:widget': 'yesNo',
