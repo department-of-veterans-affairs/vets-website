@@ -61,7 +61,7 @@ export const uiSchema = index => ({
           'ui:title': ' ',
           'ui:options': {
             expandUnder: 'injuryDeath',
-            expandUnderCondition: 'Other',
+            expandUnderCondition: 'other',
           },
         },
         'view:individualAddMsg': {
