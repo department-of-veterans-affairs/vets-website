@@ -49,12 +49,13 @@ const REVIEW_TITLE_TOKEN = '[index]';
  * If does not contain REVIEW_TITLE_TOKEN appends numberToWords[index] to front of title.
  * @param {int} index Index of numberToWords
  * @param {string} formType Indicates what type of form is calling function; 781, 781a
- * @returns {object} UI schema for an address card's content
+ * @returns {object} title
  */
 const setReviewTitle = (title, index, formType) => formData => {
+  const additionalIncidentKeyIndex = index === 0 ? index : index - 1;
   const additionalIncidentKey = `view:enterAdditional${
     formType === '781a' ? 'Secondary' : ''
-  }Events${index}`;
+  }Events${additionalIncidentKeyIndex}`;
 
   let formattedTitle = title;
 
@@ -71,6 +72,7 @@ const setReviewTitle = (title, index, formType) => formData => {
   } else {
     formattedTitle = title.replace(REVIEW_TITLE_TOKEN, ' '); // can do this without a search check
   }
+
   return formattedTitle;
 };
 
@@ -186,6 +188,7 @@ export function createFormConfig781a(iterations) {
     configObj = {
       ...configObj,
       // 781a PAGE CONFIGS GO HERE
+      // 3. Event Date
       [`secondaryIncidentDate${index}`]: {
         title: setReviewTitle(
           `Date of${REVIEW_TITLE_TOKEN}event`,
@@ -197,40 +200,7 @@ export function createFormConfig781a(iterations) {
         uiSchema: secondaryIncidentDate.uiSchema(index),
         schema: secondaryIncidentDate.schema(index),
       },
-      [`secondaryUploadSourcesChoice${index}`]: {
-        title: `${
-          numberToWords[index]
-        } 781a PTSD Upload Supporting Sources Choice`,
-        path: `disabilities/ptsd-secondary-upload-supporting-sources-choice-${index}`,
-        depends: isAnswering781aQuestions(index),
-        uiSchema: secondaryUploadSourcesChoice.uiSchema(index),
-        schema: secondaryUploadSourcesChoice.schema(index),
-      },
-      [`secondaryUploadSources${index}`]: {
-        title: `${numberToWords[index]} 781a PTSD Upload Supporting Sources`,
-        path: `disabilities/ptsd-secondary-upload-supporting-sources-${index}`,
-        depends: isUploading781aSupportingDocuments(index),
-        uiSchema: secondaryUploadSources.uiSchema(index),
-        schema: secondaryUploadSources.schema(index),
-      },
-      [`secondaryIncidentDescription${index}`]: {
-        title: setReviewTitle(
-          `Description of${REVIEW_TITLE_TOKEN}event`,
-          index,
-          formType,
-        ),
-        path: `disabilities/ptsd-secondary-incident-description-${index}`,
-        depends: isAnswering781aQuestions(index),
-        uiSchema: secondaryIncidentDescription.uiSchema(index),
-        schema: secondaryIncidentDescription.schema(index),
-      },
-      [`secondaryIncidentSupport${index}`]: {
-        title: setReviewTitle('PTSD assault incident support', index, formType),
-        path: `disabilities/ptsd-secondary-incident-support-${index}`,
-        depends: isAnswering781aQuestions(index),
-        uiSchema: incidentSupport.uiSchema('781a'),
-        schema: incidentSupport.schema,
-      },
+      // 4. Unit Assignment
       [`secondaryIncidentUnitAssignment${index}`]: {
         title: setReviewTitle(
           `Unit assignment for${REVIEW_TITLE_TOKEN}event`,
@@ -242,6 +212,7 @@ export function createFormConfig781a(iterations) {
         uiSchema: secondaryIncidentUnitAssignment.uiSchema(index),
         schema: secondaryIncidentUnitAssignment.schema(index),
       },
+      // 5. Event Location
       [`secondaryIncidentLocation${index}`]: {
         title: setReviewTitle(
           `Location of${REVIEW_TITLE_TOKEN}event`,
@@ -253,6 +224,30 @@ export function createFormConfig781a(iterations) {
         uiSchema: secondaryIncidentLocation.uiSchema(index),
         schema: secondaryIncidentLocation.schema(index),
       },
+      // 6. Take a break
+      [`secondaryIncidentSupport${index}`]: {
+        title: setReviewTitle('PTSD assault incident support', index, formType),
+        path: `disabilities/ptsd-secondary-incident-support-${index}`,
+        depends: isAnswering781aQuestions(index),
+        uiSchema: incidentSupport.uiSchema('781a'),
+        schema: incidentSupport.schema,
+      },
+      // 7. Event Description
+      [`secondaryIncidentDescription${index}`]: {
+        title: setReviewTitle(
+          `Description of${REVIEW_TITLE_TOKEN}event`,
+          index,
+          formType,
+        ),
+        path: `disabilities/ptsd-secondary-incident-description-${index}`,
+        depends: isAnswering781aQuestions(index),
+        uiSchema: secondaryIncidentDescription.uiSchema(index),
+        schema: secondaryIncidentDescription.schema(index),
+      },
+      // 8. OTHER SOURCES OF INFORMATION Y/N
+
+      // 8a. OTHER SOURCES OF INFORMATION: NEED HELP
+      // If Yes, then PMR explanation page
       [`secondaryIncidentPermissionNotice${index}`]: {
         title: setReviewTitle(
           'PTSD assault permission notice',
@@ -264,6 +259,7 @@ export function createFormConfig781a(iterations) {
         uiSchema: secondaryIncidentPermissionNotice.uiSchema,
         schema: secondaryIncidentPermissionNotice.schema,
       },
+      // 8b. OTHER SOURCES OF INFORMATION: REPORTS FROM AUTHORITIES
       [`secondaryIncidentAuthorities${index}`]: {
         title: 'Reports from authorities',
         path: `disabilities/ptsd-secondary-authorities-${index}`,
@@ -271,6 +267,28 @@ export function createFormConfig781a(iterations) {
         uiSchema: secondaryIncidentAuthorities.uiSchema(index),
         schema: secondaryIncidentAuthorities.schema(index),
       },
+      // 9. SUPPORTING DOCUMENTS UPLOAD
+      [`secondaryUploadSourcesChoice${index}`]: {
+        title: `${
+          numberToWords[index]
+        } 781a PTSD Upload Supporting Sources Choice`,
+        path: `disabilities/ptsd-secondary-upload-supporting-sources-choice-${index}`,
+        depends: isAnswering781aQuestions(index),
+        uiSchema: secondaryUploadSourcesChoice.uiSchema(index),
+        schema: secondaryUploadSourcesChoice.schema(index),
+      },
+      [`secondaryUploadSources${index}`]: {
+        title: setReviewTitle(
+          '781a PTSD Upload Supporting Sources',
+          index,
+          formType,
+        ),
+        path: `disabilities/ptsd-secondary-upload-supporting-sources-${index}`,
+        depends: isUploading781aSupportingDocuments(index),
+        uiSchema: secondaryUploadSources.uiSchema(index),
+        schema: secondaryUploadSources.schema(index),
+      },
+      // 10. ADDITIONAL EVENTS OR SITUATIONS Y/N
       // This should be the last page in the config loop
       [`ptsdSecondaryAdditionalEvents${index}`]: {
         title: 'Add another event or situation?',

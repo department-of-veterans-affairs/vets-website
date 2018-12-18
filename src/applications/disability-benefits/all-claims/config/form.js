@@ -324,6 +324,7 @@ const formConfig = {
           uiSchema: uploadPersonalPtsdDocuments.uiSchema,
           schema: uploadPersonalPtsdDocuments.schema,
         },
+        // 11. ADDITIONAL EVENTS (ONLY DISPLAYS FOR 4TH EVENT)
         secondaryFinalIncident: {
           path: 'new-disabilities/ptsd-assault-additional-incident',
           title: 'Additional assault PTSD event',
@@ -331,6 +332,7 @@ const formConfig = {
           uiSchema: secondaryFinalIncident.uiSchema,
           schema: secondaryFinalIncident.schema,
         },
+        // 12. BEHAVIOR CHANGES: PHYSICAL
         physicalHealthChanges: {
           title: 'Additional changes in behavior - physical',
           path: 'new-disabilities/ptsd-781a-physical-changes',
@@ -338,6 +340,7 @@ const formConfig = {
           uiSchema: physicalHealthChanges.uiSchema,
           schema: physicalHealthChanges.schema,
         },
+        // 13. BEHAVIOR CHANGES: MENTAL/SUBSTANCE ABUSE
         socialBehaviorChanges: {
           title: 'Additional changes in behavior - social',
           path: 'new-disabilities/ptsd-781a-social-changes',
@@ -345,6 +348,7 @@ const formConfig = {
           uiSchema: socialBehaviorChanges.uiSchema,
           schema: socialBehaviorChanges.schema,
         },
+        // 14. BEHAVIOR CHANGES: AT WORK
         mentalHealthChanges: {
           title: 'Additional changes in behavior - mental/substance abuse',
           path: 'new-disabilities/ptsd-781a-mental-changes',
@@ -352,6 +356,7 @@ const formConfig = {
           uiSchema: mentalHealthChanges.uiSchema,
           schema: mentalHealthChanges.schema,
         },
+        // 15. BEHAVIOR CHANGES: SOCIAL
         workBehaviorChanges: {
           title: 'Additional changes in behavior - work',
           path: 'new-disabilities/ptsd-781a-work-changes',
@@ -359,6 +364,7 @@ const formConfig = {
           uiSchema: workBehaviorChanges.uiSchema,
           schema: workBehaviorChanges.schema,
         },
+        // 16. BEHAVIOR CHANGES: ADDITIONAL INFORMATION
         additionalBehaviorChanges: {
           title: 'Additional changes in behavior - more information',
           path: 'new-disabilities/ptsd-781a-additional-changes',
@@ -366,6 +372,7 @@ const formConfig = {
           uiSchema: additionalBehaviorChanges.uiSchema,
           schema: additionalBehaviorChanges.schema,
         },
+        // 17. PTSD CONCLUSION
         conclusionAssault: {
           path: 'ptsd-conclusion-assault',
           title: 'PTSD assault conclusion',
