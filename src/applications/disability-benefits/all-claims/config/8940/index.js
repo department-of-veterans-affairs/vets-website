@@ -44,6 +44,13 @@ export default function() {
         uiSchema: unemployabilityAdditionalInformation.uiSchema,
         schema: unemployabilityAdditionalInformation.schema,
       },
+      militaryDutyImpact: {
+        title: 'Impact on military duty',
+        path: 'military-duty-impact',
+        depends: needsToEnterUnemployability,
+        uiSchema: militaryDutyImpact.uiSchema,
+        schema: militaryDutyImpact.schema,
+      },
       conclusion4192: {
         title: 'Conclusion 4192',
         path: 'disabilities/conclusion-4192',
@@ -52,13 +59,6 @@ export default function() {
           'ui:title': ' ',
           'ui:description':
             'Thank you for taking the time to answer our questions. The information you provided will help us process your claim.',
-        },
-        militaryDutyImpact: {
-          title: 'Impact on military duty',
-          path: 'military-duty-impact',
-          depends: needsToEnterUnemployability,
-          uiSchema: militaryDutyImpact.uiSchema,
-          schema: militaryDutyImpact.schema,
         },
         schema: {
           type: 'object',
