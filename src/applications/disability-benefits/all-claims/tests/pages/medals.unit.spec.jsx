@@ -6,7 +6,6 @@ import { mount } from 'enzyme';
 import {
   DefinitionTester,
   fillData,
-  selectRadio,
 } from '../../../../../platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
@@ -25,7 +24,7 @@ describe('781 medals', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('input').length).to.equal(1);
     form.unmount();
   });
 
@@ -41,7 +40,6 @@ describe('781 medals', () => {
         uiSchema={uiSchema}
       />,
     );
-    selectRadio(form, 'root_incident0_view:medals', 'Y');
     fillData(form, 'input#root_incident0_medalsCitations', 'Medal Of Honor');
 
     form.find('form').simulate('submit');

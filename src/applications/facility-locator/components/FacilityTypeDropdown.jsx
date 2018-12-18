@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import Downshift from 'downshift';
 import { facilityTypes } from '../config';
 import { keyMap } from '../utils/helpers';
-import { LOCATION_OPTIONS, LocationType } from '../constants';
+import { LOCATION_OPTIONS /* LocationType */ } from '../constants';
 
 const facilityOptionClasses = (item, selected) =>
   classNames(
@@ -22,6 +22,13 @@ class FacilityTypeDropdown extends Component {
     this.state = {
       showBubble: false,
     };
+  }
+  /*
+    Below is connected to the CC Provider Tooltip
+      -- Requires Design Research per rluu/lhunt
+      https://github.com/department-of-veterans-affairs/vets.gov-team/issues/15606#issuecomment-447103739
+      -- Commenting out for now as quick fix
+      -- Plus side: 508 is 👍
 
     // eslint-disable-next-line prettier/prettier
     this.setCCInfoRef = (element) => {
@@ -66,6 +73,7 @@ class FacilityTypeDropdown extends Component {
     // Refocus the "i" info button
     this.focusCCInfoIcon();
   };
+  */
 
   render() {
     const facilityType = this.props.facilityType || 'all';
@@ -145,7 +153,7 @@ class FacilityTypeDropdown extends Component {
                   </ul>
                 )}
               </div>
-              <div className="columns medium-8">
+              {/* <div className="columns medium-8">
                 {selectedItem === LocationType.CC_PROVIDER && (
                   <span className="cc-info-link-span">
                     <button
@@ -190,7 +198,7 @@ class FacilityTypeDropdown extends Component {
                     </p>
                   </div>
                 )}
-              </div>
+              </div> */}
             </div>
           );
         }}

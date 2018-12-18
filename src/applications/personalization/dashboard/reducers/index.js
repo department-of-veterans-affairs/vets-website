@@ -4,7 +4,7 @@ import recipients from '../../../messaging/reducers/recipients';
 import folders from '../../../messaging/reducers/folders';
 import preferences from '../../preferences/reducers';
 import appointments from '../../appointments/reducers';
-import authorization from '../../../../applications/disability-benefits/686/reducers/authorization';
+import authorization from 'applications/disability-benefits/686/reducers/authorization';
 
 import { combineReducers } from 'redux';
 
