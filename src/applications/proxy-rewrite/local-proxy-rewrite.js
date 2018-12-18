@@ -6,9 +6,9 @@ const BUCKETS = require('../../site/constants/buckets');
 const ENVIRONMENTS = require('../../site/constants/environments');
 const HOSTNAMES = require('../../site/constants/hostnames');
 
-function injectLocalBundle(buildOptions) {
-  const { hostUrl: localhost } = buildOptions;
-  const prodBucket = `https://${BUCKETS[ENVIRONMENTS.VAGOVPROD]}`;
+function injectLocalBundle() {
+  const prodBucket = BUCKETS[ENVIRONMENTS.VAGOVPROD];
+  const prodBucketRegex = new RegExp(prodBucket.replace(/\./g, '\\.'), 'g');
 
   return async (req, res, next) => {
     const {
@@ -25,7 +25,7 @@ function injectLocalBundle(buildOptions) {
     const vaPageResponse = await fetch(vaGovUrl);
     let vaPageHtml = await vaPageResponse.text();
 
-    vaPageHtml = vaPageHtml.replace(prodBucket, localhost);
+    vaPageHtml = vaPageHtml.replace(prodBucketRegex, '');
     res.send(vaPageHtml);
   };
 }
@@ -34,6 +34,14 @@ function fallbackToTeamSiteServer(buildOptions) {
   const prodDomain = `https://${HOSTNAMES[ENVIRONMENTS.VAGOVPROD]}`;
 
   return (req, res, next) => {
+    // Webpack bundles are stored in memory, so we can't validate those
+    // files by checking the local file system. Instead, we just assume
+    // all Webpack-generated files will be served locally.
+    if (req.path.startsWith('/generated/')) {
+      next();
+      return;
+    }
+
     const fullFilePath = path.join(buildOptions.destination, req.path);
 
     fs.pathExists(fullFilePath, (err, existsOnLocalhost) => {
