@@ -4,7 +4,7 @@ import path from 'path';
 import { Validator } from 'jsonschema';
 
 import formConfig from '../../config/form';
-import fullSchema from '../../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 describe('526 all claims schema tests', () => {
   const v = new Validator();
