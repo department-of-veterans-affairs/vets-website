@@ -689,7 +689,7 @@ describe('isAnswering781aQuestions', () => {
     });
     it('should return false if user does not select anything', () => {
       const formData = {};
-      expect(needsToEnterUnemployability(formData)).to.be.true;
+      expect(needsToEnterUnemployability(formData)).to.be.false;
     });
     it('should return false if user selects no', () => {
       const formData = {
