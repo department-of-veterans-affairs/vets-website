@@ -1,5 +1,6 @@
 import { merge, omit } from 'lodash';
 import fullSchema from '../config/schema';
+import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 import {
   recentJobApplicationsDescription,
@@ -20,8 +21,9 @@ const address = addressSchema(fullSchema);
 const { date } = fullSchema.definitions;
 
 export const uiSchema = {
-  'ui:title': 'Recent job applications',
+  'ui:title': unemployabilityTitle,
   unemployability: {
+    'ui:title': 'Recent job applications',
     'view:hasAppliedEmployers': {
       'ui:title': recentJobApplicationsDescription(),
       'ui:widget': 'yesNo',
