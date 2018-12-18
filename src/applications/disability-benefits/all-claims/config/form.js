@@ -85,12 +85,6 @@ import {
   aidAndAttendance,
   individualUnemployability,
   physicalHealthChanges,
-<<<<<<< HEAD
-  hospitalizationHistory,
-  uploadUnemployabilitySupportingDocumentsChoice,
-  uploadUnemployabilitySupportingDocuments,
-=======
->>>>>>> f6d36f930a6cffecd69c1cb24e79ec8366b869b2
   newDisabilities,
   ancillaryFormsWizardSummary,
 } from '../pages';
@@ -110,7 +104,7 @@ const formConfig = {
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${
     environment.API_URL
-    }/v0/disability_compensation_form/submit_all_claim`,
+  }/v0/disability_compensation_form/submit_all_claim`,
   submit: submitForm,
   trackingPrefix: 'disability-526EZ-',
   // formId: '21-526EZ-all-claims',
