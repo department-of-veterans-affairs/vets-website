@@ -6,6 +6,8 @@ const BUCKETS = require('../../site/constants/buckets');
 const ENVIRONMENTS = require('../../site/constants/environments');
 const HOSTNAMES = require('../../site/constants/hostnames');
 
+const vaGovCache = {};
+
 function injectLocalBundle() {
   const prodBucket = BUCKETS[ENVIRONMENTS.VAGOVPROD];
   const prodBucketRegex = new RegExp(prodBucket.replace(/\./g, '\\.'), 'g');
@@ -20,13 +22,14 @@ function injectLocalBundle() {
       return;
     }
 
-    req.vaGovUrl = vaGovUrl;
+    if (!vaGovCache[vaGovUrl]) {
+      const vaPageResponse = await fetch(vaGovUrl);
+      const vaPageHtml = await vaPageResponse.text();
 
-    const vaPageResponse = await fetch(vaGovUrl);
-    let vaPageHtml = await vaPageResponse.text();
+      vaGovCache[vaGovUrl] = vaPageHtml.replace(prodBucketRegex, '');
+    }
 
-    vaPageHtml = vaPageHtml.replace(prodBucketRegex, '');
-    res.send(vaPageHtml);
+    res.send(vaGovCache[vaGovUrl]);
   };
 }
 
