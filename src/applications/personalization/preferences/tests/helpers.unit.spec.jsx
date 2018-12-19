@@ -9,6 +9,7 @@ import {
   dismissBenefitAlert,
   restoreDismissedBenefitAlerts,
   getNewSelections,
+  transformPreferencesForSaving,
 } from '../helpers';
 
 describe('getDismissedBenefitAlerts', () => {
@@ -67,5 +68,26 @@ describe('getNewSelections', () => {
   it('should return a list of recently added benefit choices', () => {
     const result = getNewSelections({ 'test-1': true }, { 'test-2': true });
     expect(result).to.deep.equal(['test-2']);
+  });
+});
+describe('transformPreferencesForSaving', () => {
+  let preferences;
+  it('should return the correct JSON data', () => {
+    preferences = {
+      'pref-one': false,
+      prefTwo: true,
+      'another-preference': true,
+    };
+    const formattedPreferences = transformPreferencesForSaving(preferences);
+    expect(formattedPreferences).to.be.a('string');
+    const benefitPreferences = JSON.parse(formattedPreferences)[0];
+    expect(benefitPreferences).to.be.an('object');
+    expect(benefitPreferences.preference).to.deep.equal({
+      code: 'benefits',
+    });
+    expect(benefitPreferences.user_preferences).to.deep.equal([
+      { code: 'prefTwo' },
+      { code: 'another-preference' },
+    ]);
   });
 });

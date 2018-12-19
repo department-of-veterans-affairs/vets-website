@@ -23,7 +23,10 @@ const props = {
     },
     allBenefitsLoadingStatus: LOADING_STATES.loaded,
     userBenefitsLoadingStatus: LOADING_STATES.loaded,
-    availableBenefits: benefitChoices.map(item => item.code),
+    availableBenefits: benefitChoices.map(item => ({
+      code: item.code, // TODO: determine whether we can simply return item
+      description: item.description,
+    })),
   },
   router: {
     push,

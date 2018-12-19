@@ -61,7 +61,7 @@ const survivorFAQ = () => (
       </a>
     </li>
     <li>
-      <a href="/burials-and-memorials/survivor-and-dependent-benefits/">
+      <a href="/burials-memorials/dependency-indemnity-compensation/">
         Learn about burial and memorial benefits for survivors.
       </a>
     </li>
@@ -96,15 +96,17 @@ const healthFAQ = () => (
 const housingFAQ = () => (
   <ul>
     <li>
-      <a href="/health-care/eligibility/">Compare different VA loan types.</a>
+      <a href="/housing-assistance/home-loans/loan-types/">
+        Compare different VA loan types.
+      </a>
     </li>
     <li>
-      <a href="/health-care/how-to-apply/">
+      <a href="/housing-assistance/home-loans/eligibility/">
         Find out if you may be eligible for a VA-backed or VA direct home loan.
       </a>
     </li>
     <li>
-      <a href="/health-care/how-to-apply/">
+      <a href="/housing-assistance/disability-housing-grants/">
         Learn about grants for adapting your home to meet service-connected
         disability needs.
       </a>
@@ -216,7 +218,7 @@ const disabilityFAQ = () => (
         </a>
       </li>
       <li>
-        <a href="/disability/how-to-file-claim">
+        <a href="/disability/how-to-file-claim/when-to-file/">
           Learn about the different claim types.
         </a>
       </li>
@@ -430,7 +432,8 @@ export const benefitChoices = [
       'We may be able to help you buy or build a home, or repair or refinance your current home. If you have a service-connected disability, you may want to consider applying for a grant to help you make changes to your home that will help you live more independently. ',
     cta: {
       description: housingCTADescription,
-      link: '/health-care',
+      link:
+        'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan',
       text: 'Apply for a Home Loan COE',
     },
     faqs: [
@@ -482,10 +485,6 @@ export const benefitChoices = [
     code: 'family-caregiver-benefits', // TODO: update rest
     introduction:
       'If you’re the family member of a Veteran or Servicemember, you may qualify for benefits yourself. If you’re a caregiver for a Veteran with service-connected disabilities, you may qualify for additional benefits and support for yourself and the Veteran you’re caring for.',
-    cta: {
-      link: '/health-care/family-caregiver-benefits/',
-      text: 'View All Related Benefits',
-    },
     faqs: [
       {
         title: 'What kinds of family and caregiver benefits does VA offer?',
@@ -503,6 +502,9 @@ export const benefitChoices = [
 // takes the user's selected benefits, as stored in the Redux store, and
 // converts it to the JSON expected by the v0/user/preferences POST request body
 export function transformPreferencesForSaving(preferences) {
+  if (typeof preferences !== 'object') {
+    return null;
+  }
   const processedData = [
     {
       preference: {
@@ -519,10 +521,6 @@ export function transformPreferencesForSaving(preferences) {
   });
   return JSON.stringify(processedData);
 }
-export const deduplicate = items => {
-  const uniques = new Set(items);
-  return Array.from(uniques);
-};
 
 export const RetrieveFailedMessageComponent = ({ showLink }) => (
   <AlertBox

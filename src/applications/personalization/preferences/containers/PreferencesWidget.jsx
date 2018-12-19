@@ -89,7 +89,7 @@ class PreferencesWidget extends React.Component {
     dismissBenefitAlert(name);
   };
 
-  renderContent = async () => {
+  renderContent = () => {
     const {
       preferences: {
         dashboard,
@@ -123,7 +123,7 @@ class PreferencesWidget extends React.Component {
         return (
           <div>
             <p>You haven’t selected any benefits to learn about.</p>
-            <Link to="preferences">Select benefits now.</Link>
+            <Link to="find-benefits">Select benefits now.</Link>
           </div>
         );
       }
@@ -174,7 +174,7 @@ class PreferencesWidget extends React.Component {
             {userBenefitsLoadingStatus !== LOADING_STATES.pending && (
               <Link
                 className="usa-button usa-button-secondary"
-                to="preferences"
+                to="find-benefits"
               >
                 Find VA Benefits
               </Link>

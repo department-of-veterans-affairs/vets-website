@@ -22,6 +22,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'destination', type: String, defaultValue: null },
   { name: 'content-deployment', type: Boolean, defaultValue: false },
   { name: 'content-directory', type: String, defaultValue: defaultContentDir },
+  { name: 'local-proxy-rewrite', type: Boolean, defaultValue: false },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 
@@ -106,8 +107,8 @@ function deriveHostUrl(options) {
   options.domainReplacements = [{ from: 'www\\.va\\.gov', to: options.host }];
 }
 
-function getOptions() {
-  const options = gatherFromCommandLine();
+function getOptions(commandLineOptions) {
+  const options = commandLineOptions || gatherFromCommandLine();
 
   applyDefaultOptions(options);
   applyEnvironmentOverrides(options);

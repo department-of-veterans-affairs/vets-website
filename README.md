@@ -41,7 +41,7 @@ very secret.
 | run automated accessibility tests        | `npm run build && npm run test:accessibility` |
 | run visual regression testing            | Start the site. Generate your baseline image set using `npm run test:visual:baseline`. Make your changes. Then run `npm run test:visual`.  |
 | test for broken links                    | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
-| add new npm modules                      | `yarn add my-module --dev`. There are no non-dev modules here. |
+| add new npm modules                      | `yarn add my-module`. Use the `--dev` flag for modules that are build or test related. |
 | get the latest json schema               | `yarn remove vets-json-schema; yarn add https://github.com/department-of-veterans-affairs/vets-json-schema.git#{latest commit hash}` |
 | check test coverage                      | `npm run test:coverage`                  |
 | run bundle analyzer on our production JS bundles | `npm run build-analyze`                  |
