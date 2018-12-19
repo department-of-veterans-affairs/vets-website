@@ -80,12 +80,17 @@ function renderFooter() {
 
     if (lastUpdated) {
       const lastUpdatedPanel = document.createElement('div');
-      const innerPanel = document.createElement('div');
 
-      lastUpdatedPanel.classList.add('footer-lastupdated');
-      innerPanel.classList.add('usa-grid');
-      innerPanel.append(lastUpdated);
-      lastUpdatedPanel.append(innerPanel);
+      lastUpdatedPanel.innerHTML = `
+        <div class="footer-lastupdated">
+          <div class="usa-grid">
+            <div class="col-md-3"></div>
+            <div class="col-md-9">
+              ${lastUpdated}
+            </div>
+          </div>
+        </div>
+      `;
 
       document
         .getElementById(footerElemementId)

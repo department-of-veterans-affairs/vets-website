@@ -157,7 +157,10 @@ footer.footer {
 
 .footer-lastupdated {
   background: $color-white;
-  color: $color-base;
+  color: $color-gray-dark;
+  font-size: 1em;
+  border: 2px solid $color-gray-light;
+  padding: 5px 0;
 }
 
 .sign-in-nav {
