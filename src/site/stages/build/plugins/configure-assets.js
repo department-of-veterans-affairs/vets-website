@@ -16,6 +16,9 @@ function configureAssets(smith, buildOptions) {
     const watchPaths = {
       [`${buildOptions.contentRoot}/**/*`]: '**/*.{md,html}',
       [`${buildOptions.contentPagesRoot}/**/*`]: '**/*.{md,html}',
+      'src/site/includes/**/*': '**/*.{md,html}',
+      'src/site/components/**/*': '**/*.{md,html}',
+      'src/site/layouts/**/*': '**/*.{md,html}',
     };
 
     const watchMetalSmith = watch({ paths: watchPaths, livereload: true });
