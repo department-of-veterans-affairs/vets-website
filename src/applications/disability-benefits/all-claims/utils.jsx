@@ -319,7 +319,7 @@ export function transform(formConfig, form) {
     ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
     : [];
   if (clonedData.newDisabilities) {
-    clonedData.newDisabilities.forEach((d, i) => {
+    clonedData.newDisabilities.forEach(d => {
       const loweredCondition = d.condition.toLowerCase();
       // PTSD is skipping the cause page and needs to have a default cause of NEW set.
       if (loweredCondition.includes('ptsd')) {
