@@ -69,7 +69,6 @@ export default function ButtonContainer(props) {
       {!atGuidance() && (
         <button
           className="usa-button-primary"
-          tabIndex="0"
           onClick={goForward}
           onKeyPress={handleKeyPress}
         >
