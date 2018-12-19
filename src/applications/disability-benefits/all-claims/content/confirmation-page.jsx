@@ -32,11 +32,9 @@ const template = (props, title, content, submissionMessage) => {
           <strong>Conditions claimed</strong>
           <br />
           <ul className="disability-list">
-            {disabilities
-              .filter(item => item['view:selected'])
-              .map((disability, i) => (
-                <li key={i}>{disability.name}</li>
-              ))}
+            {disabilities.map((disability, i) => (
+              <li key={i}>{disability}</li>
+            ))}
           </ul>
           {submissionMessage}
           <li>
