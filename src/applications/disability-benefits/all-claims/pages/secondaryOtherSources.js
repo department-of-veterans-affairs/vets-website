@@ -14,7 +14,7 @@ export const uiSchema = index => ({
   [`incident${index}`]: {
     otherSources: {
       'ui:title': 'Would you like us to help you gather this information?',
-      'ui:widget': 'yesNo',
+      'ui:widget': 'radio',
       'ui:options': {
         labels: {
           yes: 'Yes, I’d like help getting supporting evidence and information',
@@ -35,7 +35,8 @@ export const schema = index => ({
       type: 'object',
       properties: {
         otherSources: {
-          type: 'boolean',
+          type: 'string',
+          enum: ['yes', 'no'],
         },
       },
     },

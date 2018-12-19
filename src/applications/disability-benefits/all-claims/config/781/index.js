@@ -272,14 +272,22 @@ export function createFormConfig781a(iterations) {
       },
       // 8. OTHER SOURCES OF INFORMATION Y/N
       [`secondaryOtherSources${index}`]: {
-        title: `781a PTSD Other sources of information`,
+        title: setReviewTitle(
+          `781a PTSD Other sources of information`,
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-secondary-other-sources-${index}`,
         depends: isAnswering781aQuestions(index),
         uiSchema: secondaryOtherSources.uiSchema(index),
         schema: secondaryOtherSources.schema(index),
       },
       [`secondaryOtherSourcesHelp${index}`]: {
-        title: `781a PTSD Help with other sources of information`,
+        title: setReviewTitle(
+          `781a PTSD Help with other sources of information`,
+          index,
+          formType,
+        ),
         path: `disabilities/ptsd-secondary-other-sources-help-${index}`,
         depends: wantsHelpWithOtherSourcesSecondary(index),
         uiSchema: secondaryOtherSourcesHelp.uiSchema(index),
