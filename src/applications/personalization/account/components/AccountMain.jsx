@@ -110,7 +110,7 @@ class AccountMain extends React.Component {
               </p>
             </div>
             <div>
-              <h5>DS Login</h5>
+              <h5>DS Logon</h5>
               <a
                 href="https://myaccess.dmdc.osd.mil/identitymanagement"
                 target="_blank"
