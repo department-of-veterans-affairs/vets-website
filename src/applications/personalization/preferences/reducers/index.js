@@ -1,5 +1,6 @@
 import _ from 'lodash/fp';
 
+import { LOADING_STATES, PREFERENCE_CODES } from '../constants';
 import {
   SET_DASHBOARD_PREFERENCE,
   SAVED_DASHBOARD_PREFERENCES,
@@ -30,7 +31,25 @@ export default function preferences(state = initialState, action) {
       return _.set(`availableBenefits`, action.preferences, state);
     }
     case SET_DASHBOARD_USER_PREFERENCES: {
-      return _.set(`dashboard`, action.preferences, state);
+      let selectedBenefits = {};
+      const preferenceGroups = action.payload.data.attributes.userPreferences;
+      if (preferenceGroups.length) {
+        selectedBenefits = preferenceGroups
+          .find(
+            preferenceGroup =>
+              preferenceGroup.code === PREFERENCE_CODES.benefits,
+          )
+          .userPreferences.reduce((acc, pref) => {
+            acc[pref.code] = true;
+            return acc;
+          }, selectedBenefits);
+      }
+
+      return {
+        ...state,
+        dashboard: selectedBenefits,
+        userBenefitsLoadingStatus: LOADING_STATES.loaded,
+      };
     }
     case SET_DASHBOARD_PREFERENCE: {
       return _.set(`dashboard.${action.code}`, action.value, state);
