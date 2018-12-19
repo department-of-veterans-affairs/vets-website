@@ -14,7 +14,6 @@ function configureAssets(smith, buildOptions) {
 
   if (buildOptions.watch) {
     const watchPaths = {
-      [`${buildOptions.contentRoot}/**/*`]: '**/*.{md,html}',
       [`${buildOptions.contentPagesRoot}/**/*`]: '**/*.{md,html}',
       'src/site/includes/**/*': '**/*.{md,html}',
       'src/site/components/**/*': '**/*.{md,html}',
