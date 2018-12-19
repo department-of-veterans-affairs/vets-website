@@ -18,7 +18,7 @@ import {
 
 import {
   hasGuardOrReservePeriod,
-  getDisabilityName,
+  capitalizeEachWord,
   prefillTransformer,
   hasVAEvidence,
   hasPrivateEvidence,
@@ -224,7 +224,7 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
         },
         newDisabilityFollowUp: {
-          title: formData => getDisabilityName(formData.condition),
+          title: formData => capitalizeEachWord(formData.condition),
           depends: form => form['view:newDisabilities'] === true,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
@@ -250,7 +250,7 @@ const formConfig = {
         },
         // 781/a - 1. REVIEW INTRODUCTION PAGE
         newPTSDFollowUp: {
-          title: formData => getDisabilityName(formData.condition),
+          title: formData => capitalizeEachWord(formData.condition),
           path: 'new-disabilities/ptsd-intro',
           depends: hasNewPtsdDisability,
           uiSchema: newPTSDFollowUp.uiSchema,

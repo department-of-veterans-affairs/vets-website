@@ -112,7 +112,7 @@ export const isInFuture = (errors, fieldData) => {
   }
 };
 
-const capitalizeEach = word => {
+const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
   return `${capFirstLetter}${word.slice(1)}`;
 };
@@ -123,15 +123,17 @@ const capitalizeEach = word => {
  * @param {string} name the lower-case name of a disability
  * @returns {string} the input name, but with all words capitalized
  */
-export const getDisabilityName = name => {
+export const capitalizeEachWord = name => {
   if (name && typeof name === 'string') {
     return name
       .split(/ +/)
-      .map(capitalizeEach)
+      .map(capitalizeWord)
       .join(' ');
   }
 
-  Raven.captureMessage('form_526: no name supplied for ratedDisability');
+  Raven.captureMessage(
+    `form_526_v2: no 'name' argument supplied to capitalizeEachWord`,
+  );
   return 'Unknown Condition';
 };
 
@@ -455,7 +457,7 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
     .concat(selectedNewDisabilities)
     .reduce((accum, curr) => {
       const disabilityName = curr.name || curr.condition;
-      const capitalizedDisabilityName = getDisabilityName(disabilityName);
+      const capitalizedDisabilityName = capitalizeEachWord(disabilityName);
       return _.set(capitalizedDisabilityName, { type: 'boolean' }, accum);
     }, {});
   return {
@@ -466,7 +468,7 @@ export const addCheckboxPerDisability = (form, pageSchema) => {
 const formattedNewDisabilitiesSelector = createSelector(
   formData => formData.newDisabilities,
   (newDisabilities = []) =>
-    newDisabilities.map(disability => getDisabilityName(disability.condition)),
+    newDisabilities.map(disability => capitalizeEachWord(disability.condition)),
 );
 
 export const addCheckboxPerNewDisability = createSelector(
