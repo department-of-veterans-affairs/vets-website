@@ -65,7 +65,7 @@ function applyDefaultOptions(options) {
     collections: require('./data/collections.json'),
     redirects: require('./data/vagovRedirects.json'),
     watchPaths: {
-      [`${contentPagesRoot}/**/*`]: '**/*.{md,html}',
+      [`${contentRoot}/**/*`]: '**/*.{md,html}',
       [`${includes}/**/*`]: '**/*.{md,html}',
       [`${components}/**/*`]: '**/*.{md,html}',
       [`${layouts}/**/*`]: '**/*.{md,html}',
