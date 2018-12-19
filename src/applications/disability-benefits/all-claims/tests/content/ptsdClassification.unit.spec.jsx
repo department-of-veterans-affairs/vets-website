@@ -26,7 +26,7 @@ describe('781 getPtsdClassification', () => {
   it('Non-combat classification content is correct', () => {
     const formData = {
       'view:selectablePtsdTypes': {
-        'view:noncombatPtsdType': true,
+        'view:nonCombatPtsdType': true,
       },
     };
 
@@ -42,7 +42,7 @@ describe('781 getPtsdClassification', () => {
     const formData = {
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
-        'view:noncombatPtsdType': true,
+        'view:nonCombatPtsdType': true,
       },
     };
 
