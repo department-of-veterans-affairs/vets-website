@@ -17,12 +17,13 @@
   }
 
   &:first-child {
-    background-color: $color-primary-lightest;
-    padding: 1em;
+    background-color: $mm-gray;
     border: none;
 
     img {
-      margin-bottom: 1em;
+    }
+    section {
+      padding: 1em;
     }
   }
 
