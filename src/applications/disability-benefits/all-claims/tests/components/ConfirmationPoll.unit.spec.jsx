@@ -9,7 +9,7 @@ import {
 
 import {
   ConfirmationPoll,
-  disabilitiesSelector,
+  selectAllDisabilityNames,
 } from '../../components/ConfirmationPoll';
 import { submissionStatuses } from '../../constants';
 
@@ -106,7 +106,7 @@ describe('ConfirmationPoll', () => {
     }, 500);
   });
 
-  describe('disabilitiesSelector', () => {
+  describe('selectAllDisabilityNames', () => {
     it('should return selected rated disability names', () => {
       const state = {
         form: {
@@ -133,7 +133,7 @@ describe('ConfirmationPoll', () => {
         },
       };
 
-      const selectedDisabilities = disabilitiesSelector(state);
+      const selectedDisabilities = selectAllDisabilityNames(state);
       const { ratedDisabilities } = state.form.data;
 
       expect(selectedDisabilities.length).to.equal(2);
@@ -159,7 +159,7 @@ describe('ConfirmationPoll', () => {
         },
       };
 
-      const selectedDisabilities = disabilitiesSelector(state);
+      const selectedDisabilities = selectAllDisabilityNames(state);
       const { newDisabilities } = state.form.data;
 
       expect(selectedDisabilities.length).to.equal(2);
@@ -203,7 +203,7 @@ describe('ConfirmationPoll', () => {
         },
       };
 
-      const selectedDisabilities = disabilitiesSelector(state);
+      const selectedDisabilities = selectAllDisabilityNames(state);
       const { newDisabilities, ratedDisabilities } = state.form.data;
 
       expect(selectedDisabilities.length).to.equal(4);

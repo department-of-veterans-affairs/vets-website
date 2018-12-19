@@ -110,7 +110,7 @@ export class ConfirmationPoll extends React.Component {
   }
 }
 
-export const disabilitiesSelector = createSelector(
+export const selectAllDisabilityNames = createSelector(
   state => state.form.data.ratedDisabilities,
   state => state.form.data.newDisabilities,
   (ratedDisabilities = [], newDisabilities = []) =>
@@ -123,7 +123,7 @@ export const disabilitiesSelector = createSelector(
 function mapStateToProps(state) {
   return {
     fullName: state.user.profile.userFullName,
-    disabilities: disabilitiesSelector(state),
+    disabilities: selectAllDisabilityNames(state),
     submittedAt: state.form.submission.submittedAt,
     jobId: state.form.submission.response.attributes.jobId,
   };
