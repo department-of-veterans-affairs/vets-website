@@ -209,44 +209,28 @@ export const transformedMaximalData = {
       incidents: [
         {
           personalAssault: false,
-          medalsCitations: 'Medal A',
-          incidentDate: '1992-01-01',
-          incidentLocation: 'Test, TN, USA, Other',
-          incidentDescription: 'Incident description',
-          unitAssigned: 'Unit A',
+          medalsCitations: 'Medal A and Medal B',
+          incidentDate: '1992-03-04',
+          incidentLocation:
+            'Test, MS, USA, Additional first incident location details',
+          incidentDescription: 'First PTSD event description',
+          unitAssigned: 'Division 1',
           unitAssignedDates: {
-            from: '1990-01-01',
-            to: '1999-01-01',
+            from: '1991-03-03',
+            to: '1996-03-06',
           },
           personsInvolved: [
             {
               name: {
                 first: 'John',
-                middle: 'Jay',
+                middle: 'H',
                 last: 'Doe',
               },
-              rank: 'Private',
+              rank: 'Sgt',
               injuryDeath: 'injuredNonBattle',
-              injuryDeathDate: '1992-01-01',
-              unitAssigned: 'Unit A',
-            },
-            {
-              name: {
-                first: 'Jane',
-                last: 'Doe',
-              },
-            },
-          ],
-          sources: [
-            {
-              name: 'Authority Name',
-              address: {
-                country: 'USA',
-                city: 'Detroit',
-                state: 'MI',
-                zipCode: '234563453',
-                addressLine1: '234 Maple St.',
-              },
+              injuryDeathDate: '1992-07-03',
+              unitAssigned: 'Unit B',
+              description: 'John H Doe description',
             },
           ],
         },
@@ -295,10 +279,33 @@ export const transformedMaximalData = {
         },
         {
           personalAssault: true,
-          medalsCitations: 'Medal A',
+          incidentDate: '1994-04-03',
+          incidentLocation:
+            'City Name, AZ, USA, First 781a PTSD incident location additional details',
+          incidentDescription: 'First 781a PTSD incident description',
+          unitAssigned: 'Unit Name',
+          unitAssignedDates: {
+            from: '1992-02-16',
+            to: '1995-04-04',
+          },
+          sources: [
+            {
+              address: {
+                addressLine1: '123 Test St',
+                city: 'Test',
+                country: 'USA',
+                state: 'PA',
+                zipCode: '12345',
+              },
+              name: 'Police',
+            },
+          ],
+        },
+        {
+          personalAssault: true,
           incidentDate: '1992-01-01',
           incidentLocation: 'Test, TN, USA, Other',
-          incidentDescription: 'Incident description',
+          incidentDescription: 'Second 781a PTSD incident description',
           unitAssigned: 'Unit A',
           unitAssignedDates: {
             from: '1990-01-01',
@@ -307,22 +314,9 @@ export const transformedMaximalData = {
         },
         {
           personalAssault: true,
-          medalsCitations: 'Medal A',
           incidentDate: '1992-01-01',
           incidentLocation: 'Test, TN, USA, Other',
-          incidentDescription: 'Incident description',
-          unitAssigned: 'Unit A',
-          unitAssignedDates: {
-            from: '1990-01-01',
-            to: '1999-01-01',
-          },
-        },
-        {
-          personalAssault: true,
-          medalsCitations: 'Medal A',
-          incidentDate: '1992-01-01',
-          incidentLocation: 'Test, TN, USA, Other',
-          incidentDescription: 'Incident description',
+          incidentDescription: 'Third 781a PTSD incident description',
           unitAssigned: 'Unit A',
           unitAssignedDates: {
             from: '1990-01-01',

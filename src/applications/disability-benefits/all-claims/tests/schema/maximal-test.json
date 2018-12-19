@@ -229,51 +229,36 @@
     "view:enterAdditionalSecondaryEvents1": true,
     "view:enterAdditionalSecondaryEvents2": true,
     "incident0": {
-      "medalsCitations": "Medal A",
-      "incidentDate": "1992-01-01",
-      "incidentLocation": {
-        "city": "Test",
-        "state": "TN",
-        "country": "USA",
-        "additionalDetails": "Other"
-      },
-      "incidentDescription": "Incident description",
-      "unitAssigned": "Unit A",
-      "unitAssignedDates": {
-        "from": "1990-01-01",
-        "to": "1999-01-01"
-      },
+      "incidentDescription": "First PTSD event description",
       "personsInvolved": [
         {
           "name": {
             "first": "John",
-            "middle": "Jay",
+            "middle": "H",
             "last": "Doe"
           },
-          "rank": "Private",
+          "description": "John H Doe description",
+          "view:serviceMember": true,
+          "rank": "Sgt",
+          "unitAssigned": "Unit B",
+          "injuryDeathDate": "1992-07-03",
           "injuryDeath": "injuredNonBattle",
-          "injuryDeathDate": "1992-01-01",
-          "unitAssigned": "Unit A"
-        },
-        {
-          "name": {
-            "first": "Jane",
-            "last": "Doe"
-          }
+          "view:individualAddMsg": {}
         }
       ],
-      "sources": [
-        {
-          "name": "Authority Name",
-          "address": {
-            "country": "USA",
-            "city": "Detroit",
-            "state": "MI",
-            "zipCode": "234563453",
-            "addressLine1": "234 Maple St."
-          }
-        }
-      ]
+      "incidentLocation": {
+        "country": "USA",
+        "city": "Test",
+        "state": "MS",
+        "additionalDetails": "Additional first incident location details"
+      },
+      "unitAssigned": "Division 1",
+      "unitAssignedDates": {
+        "from": "1991-03-03",
+        "to": "1996-03-06"
+      },
+      "incidentDate": "1992-03-04",
+      "medalsCitations": "Medal A and Medal B"
     },
     "incident1": {
       "medalsCitations": "Medal B",
@@ -328,23 +313,33 @@
       ]
     },
     "secondaryIncident0": {
-      "medalsCitations": "Medal A",
-      "incidentDate": "1992-01-01",
+        "sources": [
+        {
+          "name": "Police",
+          "address": {
+            "country": "USA",
+            "addressLine1": "123 Test St",
+            "city": "Test",
+            "state": "PA",
+            "zipCode": "12345"
+          }
+        }
+      ],
+      "incidentDescription": "First 781a PTSD incident description",
       "incidentLocation": {
-        "city": "Test",
-        "state": "TN",
         "country": "USA",
-        "additionalDetails": "Other"
+        "city": "City Name",
+        "state": "AZ",
+        "additionalDetails": "First 781a PTSD incident location additional details"
       },
-      "incidentDescription": "Incident description",
-      "unitAssigned": "Unit A",
+      "unitAssigned": "Unit Name",
       "unitAssignedDates": {
-        "from": "1990-01-01",
-        "to": "1999-01-01"
-      }
+        "from": "1992-02-16",
+        "to": "1995-04-04"
+      },
+      "incidentDate": "1994-04-03"
     },
     "secondaryIncident1": {
-      "medalsCitations": "Medal A",
       "incidentDate": "1992-01-01",
       "incidentLocation": {
         "city": "Test",
@@ -352,7 +347,7 @@
         "country": "USA",
         "additionalDetails": "Other"
       },
-      "incidentDescription": "Incident description",
+      "incidentDescription": "Second 781a PTSD incident description",
       "unitAssigned": "Unit A",
       "unitAssignedDates": {
         "from": "1990-01-01",
@@ -360,7 +355,6 @@
       }
     },
     "secondaryIncident2": {
-      "medalsCitations": "Medal A",
       "incidentDate": "1992-01-01",
       "incidentLocation": {
         "city": "Test",
@@ -368,7 +362,7 @@
         "country": "USA",
         "additionalDetails": "Other"
       },
-      "incidentDescription": "Incident description",
+      "incidentDescription": "Third 781a PTSD incident description",
       "unitAssigned": "Unit A",
       "unitAssignedDates": {
         "from": "1990-01-01",

@@ -86,7 +86,7 @@ describe('781 individuals involved', () => {
     );
     fillData(
       form,
-      'textarea#root_incident0_personsInvolved_0_personDescription',
+      'textarea#root_incident0_personsInvolved_0_description',
       '6ft tall brown hair green eyes.',
     );
 

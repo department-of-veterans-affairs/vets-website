@@ -20,7 +20,7 @@ export const uiSchema = index => ({
       },
       items: {
         name: fullNameUI,
-        personDescription: {
+        description: {
           'ui:title': personDescriptionText,
           'ui:widget': 'textarea',
         },
@@ -99,7 +99,7 @@ export const schema = index => ({
                   },
                 },
               },
-              personDescription: {
+              description: {
                 type: 'string',
               },
               'view:serviceMember': {
