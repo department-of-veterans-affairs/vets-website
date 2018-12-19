@@ -52,7 +52,7 @@ describe('Hospitalization Interview Questions', () => {
     //  No fields are required
     fillData(
       form,
-      'input#root_hospitalizationHistory_0_hospitalName',
+      'input#root_unemployability_hospitalizationHistory_0_hospitalName',
       'Local facility',
     );
 

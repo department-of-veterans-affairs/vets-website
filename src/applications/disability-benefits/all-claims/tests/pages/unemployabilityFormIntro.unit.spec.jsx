@@ -21,7 +21,7 @@ describe('Unemployability 8940 Walkthrough', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:unemployabilityStatus': true,
+          'view:unemployable': true,
         }}
         formData={{}}
       />,
@@ -39,7 +39,7 @@ describe('Unemployability 8940 Walkthrough', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:unemployabilityStatus': true,
+          'view:unemployable': true,
         }}
         formData={{}}
         onSubmit={onSubmit}
@@ -60,7 +60,7 @@ describe('Unemployability 8940 Walkthrough', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:unemploymentStatus': true,
+          'view:unemployable': true,
         }}
         formData={{}}
         onSubmit={onSubmit}

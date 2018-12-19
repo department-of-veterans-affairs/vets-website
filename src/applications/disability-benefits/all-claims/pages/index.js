@@ -234,11 +234,6 @@ import {
 } from './fullyDevelopedClaim';
 
 import {
-  uiSchema as unemployabilityStatusUISchema,
-  schema as unemployabilityStatusSchema,
-} from './unemployabilityStatus';
-
-import {
   uiSchema as unemployabilityFormIntroUISchema,
   schema as unemployabilityFormIntroSchema,
 } from './unemployabilityFormIntro';
@@ -567,11 +562,6 @@ export const vaEmployee = {
 export const fullyDevelopedClaim = {
   uiSchema: fullyDevelopedClaimUiSchema,
   schema: fullyDevelopedClaimSchema,
-};
-
-export const unemployabilityStatus = {
-  uiSchema: unemployabilityStatusUISchema,
-  schema: unemployabilityStatusSchema,
 };
 
 export const unemployabilityFormIntro = {
