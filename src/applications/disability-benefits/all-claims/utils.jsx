@@ -323,7 +323,8 @@ export function transform(formConfig, form) {
       const loweredCondition = d.condition.toLowerCase();
       // PTSD is skipping the cause page and needs to have a default cause of NEW set.
       if (loweredCondition.includes('ptsd')) {
-        clonedData.newDisabilities[i].cause = 'NEW';
+        /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["d"] }] */
+        d.cause = 'NEW';
       }
       claimedConditions.push(loweredCondition);
     });
