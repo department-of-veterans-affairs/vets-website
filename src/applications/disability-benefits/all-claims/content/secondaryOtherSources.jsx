@@ -11,10 +11,9 @@ export const otherSourcesDescription = (
     </p>
     <p>
       If you have supporting (lay) statements from friends, family, or clergy,
-      or have copies of reports from authorities, you‘ll be able to upload those
+      or have copies of reports from authorities, you’ll be able to upload those
       later in the application.
     </p>
-    <p>Would you like us to help you gather this information?</p>
   </div>
 );
 

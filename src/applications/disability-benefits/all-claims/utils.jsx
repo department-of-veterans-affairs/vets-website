@@ -319,9 +319,15 @@ export function transform(formConfig, form) {
     ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
     : [];
   if (clonedData.newDisabilities) {
-    clonedData.newDisabilities.forEach(d =>
-      claimedConditions.push(d.condition.toLowerCase()),
-    );
+    clonedData.newDisabilities.forEach(d => {
+      const loweredCondition = d.condition.toLowerCase();
+      // PTSD is skipping the cause page and needs to have a default cause of NEW set.
+      if (loweredCondition.includes('ptsd')) {
+        /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["d"] }] */
+        d.cause = 'NEW';
+      }
+      claimedConditions.push(loweredCondition);
+    });
   }
 
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
@@ -607,6 +613,13 @@ export const showPtsdCombatConclusion = form =>
 export const showPtsdAssaultConclusion = form =>
   _.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
   _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false);
+
+export const needsToEnterUnemployability = formData =>
+  _.get('view:unemployable', formData, false);
+
+export const needsToAnswerUnemployability = formData =>
+  needsToEnterUnemployability(formData) &&
+  _.get('view:unemployabilityUploadChoice', formData, '') === 'answerQuestions';
 
 export const ancillaryFormUploadUi = (label, itemDescription) =>
   fileUploadUI(label, {
