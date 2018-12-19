@@ -67,16 +67,15 @@ export default function ButtonContainer(props) {
         </a>
       )}
       {!atGuidance() && (
-        <a
+        <button
           className="usa-button-primary"
-          role="button"
           tabIndex="0"
           onClick={goForward}
           onKeyPress={handleKeyPress}
         >
           Next
           <span className="button-icon"> »</span>
-        </a>
+        </button>
       )}
     </div>
   );
