@@ -89,6 +89,9 @@ const individualUnemployabilityContent = (
 );
 
 export default function summaryDescription({ formData }) {
+  const showUnemployableContent =
+    formData['view:unemployable'] &&
+    !formData['view:unemployabilityUploadChoice'];
   return (
     <div>
       <p>
@@ -98,7 +101,7 @@ export default function summaryDescription({ formData }) {
       {formData['view:modifyingHome'] && houseAssistanceContent}
       {formData['view:modifyingCar'] && carAssistanceContent}
       {formData['view:aidAndAttendance'] && aidAndAttendanceContent}
-      {formData['view:unemployable'] && individualUnemployabilityContent}
+      {showUnemployableContent && individualUnemployabilityContent}
     </div>
   );
 }

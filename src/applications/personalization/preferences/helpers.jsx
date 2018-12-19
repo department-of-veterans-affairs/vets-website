@@ -315,7 +315,7 @@ export const benefitChoices = [
   {
     title: 'Health Care',
     description: 'Get health care coverage.',
-    slug: 'healthcare',
+    code: 'health-care',
     introduction:
       'With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists like cardiologists, gynecologists, and mental health providers. You can access Veterans health care services like home health or geriatric (elder) care, and get medical equipment, prosthetics, and prescriptions.',
     cta: {
@@ -334,7 +334,7 @@ export const benefitChoices = [
     title: 'Disability Compensation',
     description:
       'Find benefits for an illness or injury related to my service.',
-    slug: 'disability',
+    code: 'disability',
     introduction:
       'You may be able to get VA disability compensation (pay) if you got sick or injured while serving in the military—or if a condition that you already had got worse because of your service. You may qualify even if your condition didn’t appear until years after your service ended.',
     cta: {
@@ -352,7 +352,7 @@ export const benefitChoices = [
   {
     title: 'Appeals',
     description: 'Appeal the decision VA made on my disability claim.',
-    slug: 'appeals',
+    code: 'appeals',
     introduction:
       'If you disagree with our decision on your claim for disability compensation, you can file an appeal. You can also get help from a trained professional like a Veterans Service Officer (VSO) who specializes in filing appeals.',
     faqs: [
@@ -365,7 +365,7 @@ export const benefitChoices = [
   {
     title: 'Education and Training',
     description: 'Go back to school or get training or certification.',
-    slug: 'education',
+    code: 'education-training',
     introduction:
       'Education benefits like the GI Bill can help you find and pay for the cost of a college or graduate degree program, or training for a specific career, trade, or industry. If you have a service-connected disability, you may also want to consider applying for vocational rehabilitation and employment services.',
     cta: {
@@ -383,7 +383,7 @@ export const benefitChoices = [
     title: 'Careers and Employment',
     description:
       'Find a job, build skills, or get support for my own business.',
-    slug: 'careers',
+    code: 'careers-employment', // TODO: update rest
     introduction:
       'We can support your job search at every stage, whether you’re returning to work with a service-connected disability, looking for new skills and training, or starting or growing your own business. ',
     cta: {
@@ -402,7 +402,7 @@ export const benefitChoices = [
     title: 'Pension',
     description:
       'Get financial support for my disability or for care related to aging.',
-    slug: 'pensions',
+    code: 'pension', // TODO: update rest
     introduction:
       'If you’re a wartime Veteran with low or no income, and you meet certain age or disability requirements, you may be able to get monthly payments through our pension program. Survivors of wartime Veterans may also qualify for a VA pension.  ',
     cta: {
@@ -419,7 +419,7 @@ export const benefitChoices = [
   {
     title: 'Housing Assistance',
     description: 'Find, buy, build, modify, or refinance a place to live.',
-    slug: 'housing',
+    code: 'housing-assistance', // TODO: update rest
     introduction:
       'We may be able to help you buy or build a home, or repair or refinance your current home. If you have a service-connected disability, you may want to consider applying for a grant to help you make changes to your home that will help you live more independently. ',
     cta: {
@@ -439,7 +439,7 @@ export const benefitChoices = [
   {
     title: 'Life Insurance',
     description: 'Learn about my life insurance options.',
-    slug: 'life-insurance',
+    code: 'life-insurance', // TODO: update rest
     introduction:
       'You may be able to get VA life insurance during and after your active duty service. You may also be able to add coverage for your spouse and dependent children.',
     cta: { description: lifeInsuranceCTADescription },
@@ -455,7 +455,7 @@ export const benefitChoices = [
     shortTitle: 'Burials and Memorials',
     description:
       'Apply for burial in a VA cemetery or for allowances to cover burial costs.',
-    slug: 'burials',
+    code: 'burials-memorials', // TODO: update rest
     introduction:
       'We can help you plan a burial or memorial service or honor a Veteran’s service with memorial items. If you’re the surviving family member of a Veteran, you may also be able to get help paying for burial costs and other benefits.',
     cta: {
@@ -474,7 +474,7 @@ export const benefitChoices = [
   {
     title: 'Family and Caregiver Benefits',
     description: 'Learn about benefits for family members and caregivers.',
-    slug: 'family',
+    code: 'family-caregiver-benefits', // TODO: update rest
     introduction:
       'If you’re the family member of a Veteran or Servicemember, you may qualify for benefits yourself. If you’re a caregiver for a Veteran with service-connected disabilities, you may qualify for additional benefits and support for yourself and the Veteran you’re caring for.',
     faqs: [
@@ -490,6 +490,29 @@ export const benefitChoices = [
     alert: homelessnessAlert,
   },
 ];
+
+// takes the user's selected benefits, as stored in the Redux store, and
+// converts it to the JSON expected by the v0/user/preferences POST request body
+export function transformPreferencesForSaving(preferences) {
+  if (typeof preferences !== 'object') {
+    return null;
+  }
+  const processedData = [
+    {
+      preference: {
+        code: 'benefits',
+      },
+      // eslint-disable-next-line camelcase
+      user_preferences: [],
+    },
+  ];
+  Object.entries(preferences).forEach(([key, value]) => {
+    if (value) {
+      processedData[0].user_preferences.push({ code: key });
+    }
+  });
+  return JSON.stringify(processedData);
+}
 
 export const RetrieveFailedMessageComponent = ({ showLink }) => (
   <AlertBox
@@ -524,7 +547,7 @@ export const SaveFailedMessageComponent = (
   </AlertBox>
 );
 
-export const SaveSucceededMessageComponent = handleCloseAlert => (
+export const SaveSucceededMessageComponent = ({ handleCloseAlert }) => (
   <AlertBox
     onCloseAlert={handleCloseAlert}
     status="success"
