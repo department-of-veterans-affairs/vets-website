@@ -21,7 +21,7 @@ describe('Add secondary other sources of information help ', () => {
           'view:selectablePtsdTypes': {
             'view:combatPtsdType': true,
           },
-          otherSources0: 'yes',
+          otherSources0: true,
         }}
         formData={{}}
       />,
@@ -43,7 +43,7 @@ describe('Add secondary other sources of information help ', () => {
           'view:selectablePtsdTypes': {
             'view:combatPtsdType': true,
           },
-          otherSources0: 'yes',
+          otherSources0: true,
         }}
         formData={{}}
         onSubmit={onSubmit}
