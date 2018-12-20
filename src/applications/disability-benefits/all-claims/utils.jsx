@@ -655,7 +655,7 @@ export const ancillaryFormUploadUi = (label, itemDescription) =>
   });
 
 export const wantsHelpWithOtherSourcesSecondary = index => formData =>
-  _.get(`incident${index}.otherSources`, formData, '') === 'yes' &&
+  _.get(`incident${index}.otherSources`, formData, '') &&
   isAnswering781aQuestions(index)(formData);
 
 export const wantsHelpWithPrivateRecordsSecondary = index => formData =>
