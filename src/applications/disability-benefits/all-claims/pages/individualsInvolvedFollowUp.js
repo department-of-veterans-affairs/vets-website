@@ -36,7 +36,7 @@ export const uiSchema = index => ({
         },
         unitAssigned: {
           'ui:title':
-            'What unit were they assigned to at the time of the event?',
+            'What unit were they assigned to at the time of the event? (This could include their division, wing, battalion, cavalry, ship, etc.)',
           'ui:options': {
             expandUnder: 'view:serviceMember',
           },

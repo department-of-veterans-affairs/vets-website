@@ -11,7 +11,7 @@ const additionalRemarksDescription = (
       below.
     </p>
     <p>
-      You'll have a chance to upload any supporting documents or statements to
+      You’ll have a chance to upload any supporting documents or statements to
       support your claim later in the application.
     </p>
   </div>

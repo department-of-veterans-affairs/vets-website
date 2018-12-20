@@ -19,7 +19,7 @@ export const introExplanationText = (
       will be saved.
     </p>
     <p>
-      Keep in mind, if you're in crisis, we can support you. Our Veterans Crisis
+      Keep in mind, if you’re in crisis, we can support you. Our Veterans Crisis
       Line is confidential (private), free, and available 24/7. To connect with
       a Veterans Crisis Line responder anytime, day or night:
     </p>

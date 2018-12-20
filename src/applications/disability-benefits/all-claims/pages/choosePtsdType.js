@@ -27,7 +27,7 @@ export const uiSchema = {
       'ui:title': 'Combat',
     },
     'view:mstPtsdType': {
-      'ui:title': 'Military sexual trauma',
+      'ui:title': 'Sexual trauma',
     },
     'view:assaultPtsdType': {
       'ui:title': 'Personal assault',
