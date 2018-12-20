@@ -37,9 +37,9 @@ export const UploadPtsdDescription = ({ formData, formType }) => {
     <div>
       <p>
         Now we're going to ask you questions about your
-        {` ${incidentText}`}
-        -related PTSD. All of the questions are optional, but any information
-        you provide here will help us research your claim.
+        {` ${incidentText}-related PTSD. `}
+        All of the questions are optional, but any information you provide here
+        will help us research your claim.
       </p>
       <UploadExplanation formType={formType} />
     </div>

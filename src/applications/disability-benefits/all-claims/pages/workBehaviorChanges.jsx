@@ -4,7 +4,7 @@ import { ptsd781aNameTitle } from '../content/ptsdClassification';
 
 const workDescriptionChanges = (
   <div>
-    <h5>Changes in Behavior at work</h5>
+    <h5>Changes in behavior at work</h5>
     <p>
       Please tell us about any issue you had at work as a result of the
       event(s). You may have experienced some or none of these. (Please check
