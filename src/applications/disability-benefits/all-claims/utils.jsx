@@ -25,6 +25,7 @@ import {
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
   TWENTY_FIVE_MB,
+  causeTypes,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -320,16 +321,24 @@ export function transform(formConfig, form) {
   const claimedConditions = clonedData.ratedDisabilities
     ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
     : [];
+
   if (clonedData.newDisabilities) {
-    clonedData.newDisabilities.forEach(d => {
-      const loweredCondition = d.condition.toLowerCase();
+    const withPtsdCause = clonedData.newDisabilities.map(disability => {
       // PTSD is skipping the cause page and needs to have a default cause of NEW set.
-      if (loweredCondition.includes('ptsd')) {
-        /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["d"] }] */
-        d.cause = 'NEW';
+      if (disability.condition.toLowerCase().includes('ptsd')) {
+        return _.set('cause', causeTypes.NEW, disability);
       }
-      claimedConditions.push(loweredCondition);
+
+      return disability;
     });
+
+    clonedData.newPrimaryDisabilities = withPtsdCause.filter(
+      disability => disability.cause !== causeTypes.SECONDARY,
+    );
+    clonedData.newSecondaryDisabilities = withPtsdCause.filter(
+      disability => disability.cause === causeTypes.SECONDARY,
+    );
+    delete clonedData.newDisabilities;
   }
 
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.

@@ -170,3 +170,10 @@ export const accountTitleLabels = {
   SAVINGS: 'Savings Account',
   NOBANK: 'No Bank Account',
 };
+
+export const causeTypes = {
+  NEW: 'NEW',
+  SECONDARY: 'SECONDARY',
+  WORSENED: 'WORSENED',
+  VA: 'VA',
+};
