@@ -22,6 +22,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'destination', type: String, defaultValue: null },
   { name: 'content-deployment', type: Boolean, defaultValue: false },
   { name: 'content-directory', type: String, defaultValue: defaultContentDir },
+  { name: 'local-proxy-rewrite', type: Boolean, defaultValue: false },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 

@@ -80,7 +80,7 @@ describe('Disability benefits 718 PTSD type', () => {
     );
     selectCheckbox(
       form,
-      'root_view:selectablePtsdTypes_view:noncombatPtsdType',
+      'root_view:selectablePtsdTypes_view:nonCombatPtsdType',
       true,
     );
 
