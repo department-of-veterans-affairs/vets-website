@@ -87,29 +87,30 @@ describe('preferencesReducer', () => {
   });
 
   describe('SET_DASHBOARD_USER_PREFERENCES', () => {
-    const sampleUserPrefsResponse = {
-      data: {
-        id: '',
-        type: 'arrays',
-        attributes: {
-          userPreferences: [
-            {
-              code: 'benefits',
-              title:
-                'the benefits a veteran is interested in, so VA.gov can help you apply for them',
-              userPreferences: [
-                {
-                  code: 'education-training',
-                  description: 'Info about education and training benefits',
-                },
-              ],
-            },
-          ],
-        },
-      },
-    };
+    let userPreferencesResponse;
 
-    it('correctly parses the server payload and updates the state', () => {
+    it('correctly parses the server payload and updates the state when the user has set preferences', () => {
+      userPreferencesResponse = {
+        data: {
+          id: '',
+          type: 'arrays',
+          attributes: {
+            userPreferences: [
+              {
+                code: 'benefits',
+                title:
+                  'the benefits a veteran is interested in, so VA.gov can help you apply for them',
+                userPreferences: [
+                  {
+                    code: 'education-training',
+                    description: 'Info about education and training benefits',
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      };
       state = {
         dashboard: {
           appeals: true,
@@ -118,12 +119,36 @@ describe('preferencesReducer', () => {
       };
       action = {
         type: preferencesActions.SET_DASHBOARD_USER_PREFERENCES,
-        payload: sampleUserPrefsResponse,
+        payload: userPreferencesResponse,
       };
       const newState = reducer(state, action);
       expect(newState.dashboard).to.be.deep.equal({
         'education-training': true,
       });
+      expect(newState.userBenefitsLoadingStatus).to.eql('loaded');
+    });
+    it('correctly parses the server payload and updates the state when the user has not set preferences', () => {
+      userPreferencesResponse = {
+        data: {
+          id: '',
+          type: 'arrays',
+          attributes: {
+            userPreferences: [],
+          },
+        },
+      };
+      state = {
+        dashboard: {
+          appeals: true,
+          'education-training': false,
+        },
+      };
+      action = {
+        type: preferencesActions.SET_DASHBOARD_USER_PREFERENCES,
+        payload: userPreferencesResponse,
+      };
+      const newState = reducer(state, action);
+      expect(newState.dashboard).to.be.deep.equal({});
       expect(newState.userBenefitsLoadingStatus).to.eql('loaded');
     });
   });
