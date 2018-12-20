@@ -123,10 +123,15 @@ function completeNewDisability(client, data) {
 
 function addNewDisability(client, data) {
   data.newDisabilities.forEach((disability, i, list) => {
-    client.fill(
-      `input[name="root_newDisabilities_${i}_condition"]`,
-      disability.condition,
-    );
+    client
+      .waitForElementVisible(
+        `input[name="root_newDisabilities_${i}_condition"]`,
+        Timeouts.normal,
+      )
+      .fill(
+        `input[name="root_newDisabilities_${i}_condition"]`,
+        disability.condition,
+      );
     if (i < list.length - 1) client.click('.va-growable-add-btn');
   });
 }
