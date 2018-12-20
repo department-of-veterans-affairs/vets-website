@@ -4,15 +4,15 @@ import { ptsd781NameTitle } from '../content/ptsdClassification';
 
 const additionalRemarksDescription = (
   <div>
-    <h3>Additional Remarks</h3>
+    <h3>Additional information</h3>
     <p>
-      If there is anything else you would like to tell us about the stressful
-      events that contributed to your PTSD, you can provide that information
+      If there is anything else you would like to tell us about the events or
+      situations that contributed to your PTSD, you can provide that information
       below.
     </p>
     <p>
-      If you have any supporting documents or buddy statements to support your
-      claim, you‘ll have a chance to upload those later in the application.
+      You'll have a chance to upload any supporting documents or statements to
+      support your claim later in the application.
     </p>
   </div>
 );

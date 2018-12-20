@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const individualsInvolved = <h5>Individuals Involved</h5>;
+export const individualsInvolved = <h5>Individuals involved</h5>;
 
 export const personDescriptionText = (
   <div>
