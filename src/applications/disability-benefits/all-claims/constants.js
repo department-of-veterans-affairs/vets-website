@@ -177,3 +177,7 @@ export const causeTypes = {
   WORSENED: 'WORSENED',
   VA: 'VA',
 };
+
+export const specialIssueTypes = {
+  POW: 'POW',
+};

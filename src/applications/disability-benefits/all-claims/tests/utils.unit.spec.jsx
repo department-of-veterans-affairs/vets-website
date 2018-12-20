@@ -591,7 +591,7 @@ describe('transformMVPData', () => {
   });
 });
 
-describe('transform', () => {
+describe.only('transform', () => {
   it('should transform minimal data correctly', () => {
     expect(JSON.parse(transform(formConfig, minimalData))).to.deep.equal(
       transformedMinimalData,
