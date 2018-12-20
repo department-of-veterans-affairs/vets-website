@@ -119,7 +119,7 @@
       "view:combatPtsdType": true,
       "view:mstPtsdType": true,
       "view:assaultPtsdType": true,
-      "view:noncombatPtsdType": true
+      "view:nonCombatPtsdType": true
     },
     "view:ptsdTypeHelp": {},
     "view:newDisabilities": true,
