@@ -21,6 +21,7 @@ class ConnectedApp extends React.Component {
 
   confirmDelete = () => {
     this.props.confirmDelete(this.props.id);
+    this.closeModal();
   };
 
   toggleDetails = () => {

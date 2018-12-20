@@ -11,9 +11,14 @@ import {
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 import { validateDate } from 'us-forms-system/lib/js/validation';
 
+import { validateZIP } from '../validations';
+
 const { form4142 } = fullSchema.properties;
 
-const providerFacilities = form4142.properties.providerFacility;
+const {
+  providerFacilityName,
+  providerFacilityAddress,
+} = form4142.properties.providerFacility.items.properties;
 const limitedConsent = form4142.properties.limitedConsent;
 
 export const uiSchema = {
@@ -75,6 +80,11 @@ export const uiSchema = {
         },
         postalCode: {
           'ui:title': 'Postal Code',
+          'ui:validations': [validateZIP],
+          'ui:errorMessages': {
+            pattern:
+              'Please enter a valid 5- or 9-digit Postal code (dashes allowed)',
+          },
           'ui:options': {
             widgetClassNames: 'usa-input-medium',
           },
@@ -87,7 +97,27 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    providerFacility: providerFacilities,
+    providerFacility: {
+      type: 'array',
+      minItems: 1,
+      maxItems: 100,
+      items: {
+        type: 'object',
+        required: [
+          'providerFacilityName',
+          'treatmentDateRange',
+          'providerFacilityAddress',
+        ],
+        properties: {
+          providerFacilityName,
+          treatmentDateRange: {
+            type: 'object',
+            $ref: '#/definitions/dateRangeAllRequired',
+          },
+          providerFacilityAddress,
+        },
+      },
+    },
     'view:limitedConsent': {
       type: 'boolean',
     },

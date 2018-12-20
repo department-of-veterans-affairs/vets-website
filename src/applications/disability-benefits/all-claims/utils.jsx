@@ -3,10 +3,19 @@ import moment from 'moment';
 import Raven from 'raven-js';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
+import { omit } from 'lodash';
 import { transformForSubmit } from 'us-forms-system/lib/js/helpers';
 import { apiRequest } from '../../../platform/utilities/api';
+import environment from '../../../platform/utilities/environment';
 import _ from '../../../platform/utilities/data';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import removeDeeplyEmptyObjects from '../../../platform/utilities/data/removeDeeplyEmptyObjects';
+import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
+
+import {
+  schema as addressSchema,
+  uiSchema as addressUI,
+} from '../../../platform/forms/definitions/address';
 
 import {
   RESERVE_GUARD_TYPES,
@@ -15,6 +24,7 @@ import {
   DATA_PATHS,
   NINE_ELEVEN,
   HOMELESSNESS_TYPES,
+  TWENTY_FIVE_MB,
 } from './constants';
 /**
  * Show one thing, have a screen reader say another.
@@ -162,6 +172,22 @@ export function transformMVPData(formData) {
   return newFormData;
 }
 
+/**
+ * Returns an object where all the fields are prefixed with `view:` if they aren't already
+ */
+export const viewifyFields = formData => {
+  const newFormData = {};
+  Object.keys(formData).forEach(key => {
+    const viewKey = /^view:/.test(key) ? key : `view:${key}`;
+    // Recurse if necessary
+    newFormData[viewKey] =
+      typeof formData[key] === 'object' && !Array.isArray(formData[key])
+        ? viewifyFields(formData[key])
+        : formData[key];
+  });
+  return newFormData;
+};
+
 export function prefillTransformer(pages, formData, metadata) {
   const { disabilities } = formData;
   if (!disabilities || !Array.isArray(disabilities)) {
@@ -176,6 +202,32 @@ export function prefillTransformer(pages, formData, metadata) {
     transformMVPData(formData),
   );
   delete newFormData.disabilities;
+
+  // Pre-fill hidden bank info for use in the PaymentView
+  const bankAccount = {
+    bankAccountType: newFormData.bankAccountType,
+    bankAccountNumber: newFormData.bankAccountNumber,
+    bankRoutingNumber: newFormData.bankRoutingNumber,
+    bankName: newFormData.bankName,
+  };
+  newFormData['view:originalBankAccount'] = viewifyFields(bankAccount);
+
+  // Let the payment info card start in review mode if we have pre-filled bank information
+  if (
+    Object.values(newFormData['view:originalBankAccount']).some(
+      value => !!value,
+    )
+  ) {
+    newFormData['view:bankAccount'] = {
+      'view:hasPrefilledBank': true,
+    };
+  }
+
+  // Remove bank fields since they're already in view:originalBankAccount
+  delete newFormData.bankAccountType;
+  delete newFormData.bankAccountNumber;
+  delete newFormData.bankRoutingNumber;
+  delete newFormData.bankName;
 
   return {
     metadata,
@@ -267,9 +319,15 @@ export function transform(formConfig, form) {
     ? clonedData.ratedDisabilities.map(d => d.name.toLowerCase())
     : [];
   if (clonedData.newDisabilities) {
-    clonedData.newDisabilities.forEach(d =>
-      claimedConditions.push(d.condition.toLowerCase()),
-    );
+    clonedData.newDisabilities.forEach(d => {
+      const loweredCondition = d.condition.toLowerCase();
+      // PTSD is skipping the cause page and needs to have a default cause of NEW set.
+      if (loweredCondition.includes('ptsd')) {
+        /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["d"] }] */
+        d.cause = 'NEW';
+      }
+      claimedConditions.push(loweredCondition);
+    });
   }
 
   // Have to do this first or it messes up the results from transformRelatedDisabilities for some reason.
@@ -310,15 +368,17 @@ export function transform(formConfig, form) {
       claimedConditions,
     ).map(name => name.toLowerCase());
 
-    clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
-      if (powDisabilities.includes(d.condition.toLowerCase())) {
-        const newSpecialIssues = (d.specialIssues || []).slice();
-        // TODO: Make a constant with all the possibilities and use it here
-        newSpecialIssues.push('POW');
-        return _.set('specialIssues', newSpecialIssues, d);
-      }
-      return d;
-    });
+    if (clonedData.newDisabilities) {
+      clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
+        if (powDisabilities.includes(d.condition.toLowerCase())) {
+          const newSpecialIssues = (d.specialIssues || []).slice();
+          // TODO: Make a constant with all the possibilities and use it here
+          newSpecialIssues.push('POW');
+          return _.set('specialIssues', newSpecialIssues, d);
+        }
+        return d;
+      });
+    }
     delete clonedData.powDisabilities;
   }
 
@@ -419,22 +479,6 @@ export const addCheckboxPerNewDisability = createSelector(
   }),
 );
 
-/**
- * Returns an object where all the fields are prefixed with `view:` if they aren't already
- */
-export const viewifyFields = formData => {
-  const newFormData = {};
-  Object.keys(formData).forEach(key => {
-    const viewKey = /^view:/.test(key) ? key : `view:${key}`;
-    // Recurse if necessary
-    newFormData[viewKey] =
-      typeof formData[key] === 'object' && !Array.isArray(formData[key])
-        ? viewifyFields(formData[key])
-        : formData[key];
-  });
-  return newFormData;
-};
-
 export const hasVAEvidence = formData =>
   _.get(DATA_PATHS.hasVAEvidence, formData, false);
 export const hasOtherEvidence = formData =>
@@ -459,6 +503,44 @@ export const bankFieldsHaveInput = formData =>
     'view:bankAccount.bankRoutingNumber',
     'view:bankAccount.bankName',
   ]);
+
+export function incidentLocationSchemas() {
+  const addressOmitions = [
+    'addressLine1',
+    'addressLine2',
+    'addressLine3',
+    'postalCode',
+    'zipCode',
+  ];
+
+  const addressSchemaConfig = addressSchema(fullSchema);
+  const addressUIConfig = omit(addressUI(' '), addressOmitions);
+
+  return {
+    addressUI: {
+      ...addressUIConfig,
+      state: {
+        ...addressUIConfig.state,
+        'ui:title': 'State/Province',
+      },
+      additionalDetails: {
+        'ui:title':
+          'Additional details (Include address, landmark, military installation, or other location.)',
+        'ui:widget': 'textarea',
+      },
+      'ui:order': ['country', 'state', 'city', 'additionalDetails'],
+    },
+    addressSchema: {
+      ...addressSchemaConfig,
+      properties: {
+        ...omit(addressSchemaConfig.properties, addressOmitions),
+        additionalDetails: {
+          type: 'string',
+        },
+      },
+    },
+  };
+}
 
 const post911Periods = createSelector(
   data => _.get('serviceInformation.servicePeriods', data, []),
@@ -490,6 +572,9 @@ export const isUploading781Form = formData =>
 export const isUploading781aForm = formData =>
   _.get('view:upload781aChoice', formData, '') === 'upload';
 
+export const isUploading781aSupportingDocuments = index => formData =>
+  _.get(`view:uploadChoice${index}`, formData, false);
+
 export const isAnswering781Questions = index => formData =>
   _.get('view:upload781Choice', formData, '') === 'answerQuestions' &&
   (index === 0 ||
@@ -506,6 +591,10 @@ export const isAnswering781aQuestions = index => formData =>
     )) &&
   needsToEnter781a(formData);
 
+export const isAddingIndividuals = index => formData =>
+  isAnswering781Questions(index)(formData) &&
+  _.get(`view:individualsInvolved${index}`, formData, false);
+
 export const getHomelessOrAtRisk = formData => {
   const homelessStatus = _.get('homelessOrAtRisk', formData, '');
   return (
@@ -518,11 +607,82 @@ export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
 
 export const showPtsdCombatConclusion = form =>
-  form['view:upload781Choice'] === 'answerQuestions' &&
-  (_.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
-    _.get('view:selectablePtsdTypes.view:noncombatPtsdType', form, false));
+  _.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
+  _.get('view:selectablePtsdTypes.view:noncombatPtsdType', form, false);
 
 export const showPtsdAssaultConclusion = form =>
-  form['view:upload781aChoice'] === 'answerQuestions' &&
-  (_.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
-    _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false));
+  _.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
+  _.get('view:selectablePtsdTypes.view:assaultPtsdType', form, false);
+
+export const needsToEnterUnemployability = formData =>
+  _.get('view:unemployable', formData, false);
+
+export const needsToAnswerUnemployability = formData =>
+  needsToEnterUnemployability(formData) &&
+  _.get('view:unemployabilityUploadChoice', formData, '') === 'answerQuestions';
+
+export const ancillaryFormUploadUi = (
+  label,
+  itemDescription,
+  {
+    attachmentId = '',
+    widgetType = 'select',
+    customClasses = '',
+    isDisabled = false,
+    addAnotherLabel = 'Add Another',
+  },
+) =>
+  fileUploadUI(label, {
+    itemDescription,
+    hideLabelText: !label,
+    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
+    addAnotherLabel,
+    fileTypes: [
+      'pdf',
+      'jpg',
+      'jpeg',
+      'png',
+      'gif',
+      'bmp',
+      'tif',
+      'tiff',
+      'txt',
+    ],
+    maxSize: TWENTY_FIVE_MB,
+    createPayload: file => {
+      const payload = new FormData();
+      payload.append('supporting_evidence_attachment[file_data]', file);
+
+      return payload;
+    },
+    parseResponse: (response, file) => ({
+      name: file.name,
+      confirmationCode: response.data.attributes.guid,
+      attachmentId,
+    }),
+    attachmentSchema: {
+      'ui:title': 'Document type',
+      'ui:disabled': isDisabled,
+      'ui:widget': widgetType,
+    },
+    classNames: customClasses,
+    attachmentName: false,
+  });
+
+export const wantsHelpWithOtherSourcesSecondary = index => formData =>
+  _.get(`incident${index}.otherSources`, formData, '') &&
+  isAnswering781aQuestions(index)(formData);
+
+export const wantsHelpWithPrivateRecordsSecondary = index => formData =>
+  _.get(
+    `incident${index}.otherSourcesHelp.view:helpPrivateMedicalTreatment`,
+    formData,
+    '',
+  ) && isAnswering781aQuestions(index)(formData);
+
+export const wantsHelpRequestingStatementsSecondary = index => formData =>
+  _.get(
+    `incident${index}.otherSourcesHelp.view:helpRequestingStatements`,
+    formData,
+    '',
+  ) && isAnswering781aQuestions(index)(formData);
