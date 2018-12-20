@@ -6,9 +6,7 @@ import { getPtsdClassification } from './ptsdClassification';
 const sharedDescription = (
   <p>
     Please tell us when this event happened. If the event happened over a period
-    of time, please tell us around when the event started. (If you’re having
-    trouble remembering the exact date you can provide a month and year. You'll
-    have a chance to provide more information later.)
+    of time, please tell us around when the event started.
   </p>
 );
 
@@ -28,7 +26,7 @@ const eventHelpText = (
 
 export const ptsdDateDescription = (
   <div>
-    <h5>Event date</h5>
+    <h5>Approximate event date</h5>
     {sharedDescription}
     {eventHelpText}
   </div>
