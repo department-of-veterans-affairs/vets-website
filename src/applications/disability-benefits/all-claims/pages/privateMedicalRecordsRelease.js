@@ -29,8 +29,8 @@ export const uiSchema = {
       expandUnder: 'view:limitedConsent',
       expandUnderCondition: true,
     },
-    'ui:required': (formData, index) =>
-      _.get(`disabilities.${index}.view:limitedConsent`, formData),
+    'ui:required': formData =>
+      _.get('view:limitedConsent', formData, '') === true,
   },
   'view:privateRecordsChoiceHelp': {
     'ui:description': limitedConsentDescription,
