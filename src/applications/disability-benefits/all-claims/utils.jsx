@@ -668,3 +668,21 @@ export const ancillaryFormUploadUi = (
     classNames: customClasses,
     attachmentName: false,
   });
+
+export const wantsHelpWithOtherSourcesSecondary = index => formData =>
+  _.get(`incident${index}.otherSources`, formData, '') &&
+  isAnswering781aQuestions(index)(formData);
+
+export const wantsHelpWithPrivateRecordsSecondary = index => formData =>
+  _.get(
+    `incident${index}.otherSourcesHelp.view:helpPrivateMedicalTreatment`,
+    formData,
+    '',
+  ) && isAnswering781aQuestions(index)(formData);
+
+export const wantsHelpRequestingStatementsSecondary = index => formData =>
+  _.get(
+    `incident${index}.otherSourcesHelp.view:helpRequestingStatements`,
+    formData,
+    '',
+  ) && isAnswering781aQuestions(index)(formData);
