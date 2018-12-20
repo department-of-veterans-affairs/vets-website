@@ -91,12 +91,18 @@ const runTest = E2eHelpers.createE2eTest(client => {
   client.axeCheck('.main');
   PageHelpers.selectDisabilities(client); // Just selects the first one
   client.click('.form-progress-buttons .usa-button-primary');
-  // ****
-  // // New Disability
-  // E2eHelpers.expectLocation(client, '/new-disabilities');
-  // client.axeCheck('.main');
-  // PageHelpers.completeNewDisability(client, testData.data);
-  // client.click('.form-progress-buttons .usa-button-primary');
+
+  // New Disability
+  E2eHelpers.expectLocation(client, '/new-disabilities');
+  client.axeCheck('.main');
+  PageHelpers.completeNewDisability(client, testData.data);
+  client.click('.form-progress-buttons .usa-button-primary');
+
+  // New Disability - Add
+  E2eHelpers.expectLocation(client, '/new-disabilities/add');
+  client.axeCheck('.main');
+  PageHelpers.addNewDisability(client, testData.data);
+  client.click('.form-progress-buttons .usa-button-primary');
 
   // // PTSD
   // E2eHelpers.expectLocation(
@@ -269,4 +275,4 @@ const runTest = E2eHelpers.createE2eTest(client => {
 });
 
 module.exports = runTest;
-module.exports['@disabled'] = true;
+// module.exports['@disabled'] = true;

@@ -5,12 +5,29 @@ function completeAlternateName(client, data) {
   const hasAlternateName = data['view:hasAlternateName'];
 
   client.selectYesNo('root_view:hasAlternateName', hasAlternateName);
+  if (hasAlternateName) {
+    data.alternateNames.forEach((name, i, list) => {
+      const { first, middle, last } = name;
+      client
+        .fill(`input[name="root_alternateNames_${i}_first"]`, first)
+        .fill(`input[name="root_alternateNames_${i}_middle"]`, middle)
+        .fill(`input[name="root_alternateNames_${i}_last"]`, last);
+
+      if (i < list.length - 1) client.click('.va-growable-add-btn');
+    });
+  }
 }
 
 function completeMilitaryRetiredPay(client, data) {
   const retiredPay = data['view:hasMilitaryRetiredPay'];
 
   client.selectYesNo('root_view:hasMilitaryRetiredPay', retiredPay);
+  if (retiredPay) {
+    client.selectDropdown(
+      'root_militaryRetiredPayBranch',
+      data.militaryRetiredPayBranch,
+    );
+  }
 }
 
 function completeCombatZonePost911(client, data) {
@@ -68,25 +85,50 @@ function completeReservesNationalGuardInfo(client, data) {
 }
 
 function completeFederalOrders(client, data) {
-  const activated =
-    data.serviceInformation.reservesNationalGuardService[
-      'view:isTitle10Activated'
-    ];
+  const reservesNationalGuardService =
+    data.serviceInformation.reservesNationalGuardService;
+  const activated = reservesNationalGuardService['view:isTitle10Activated'];
 
   client.selectYesNo(
     'root_serviceInformation_reservesNationalGuardService_view:isTitle10Activated',
     activated,
   );
+  if (activated) {
+    const {
+      title10ActivationDate,
+      anticipatedSeparationDate,
+    } = reservesNationalGuardService.title10Activation;
+    client
+      .fillDate(
+        'root_serviceInformation_reservesNationalGuardService_title10Activation_title10ActivationDate',
+        title10ActivationDate,
+      )
+      .fillDate(
+        'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
+        anticipatedSeparationDate,
+      );
+  }
 }
 
 function selectDisabilities(client) {
+  // Prefill data allows this to work
   client.fillCheckbox('input[name="root_ratedDisabilities_0"]', true);
 }
 
 function completeNewDisability(client, data) {
-  const newDisabilities = data['root_view:newDisabilities'];
+  const newDisabilities = data['view:newDisabilities'];
 
   client.selectYesNo('root_view:newDisabilities', newDisabilities);
+}
+
+function addNewDisability(client, data) {
+  data.newDisabilities.forEach((disability, i, list) => {
+    client.fill(
+      `input[name="root_newDisabilities_${i}_condition"]`,
+      disability.condition,
+    );
+    if (i < list.length - 1) client.click('.va-growable-add-btn');
+  });
 }
 
 function completeUnemployabilityStatus(client, data) {
@@ -472,6 +514,7 @@ module.exports = {
   completeFederalOrders,
   selectDisabilities,
   completeNewDisability,
+  addNewDisability,
   completeUnemployabilityStatus,
   completePowStatus,
   completeEvidenceTypes,

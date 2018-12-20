@@ -221,6 +221,7 @@
       }
     ],
     "view:faqAccordion": {},
-    "privacyAgreementAccepted": true
+    "privacyAgreementAccepted": true,
+    "servedInCombatZonePost911": true
   }
 }
