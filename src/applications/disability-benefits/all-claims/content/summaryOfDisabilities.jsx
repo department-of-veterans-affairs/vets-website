@@ -9,7 +9,9 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
         .map(disability => capitalizeEachWord(disability.name))
     : [];
   const newDisabilityNames = newDisabilities
-    ? newDisabilities.map(disability => capitalizeEachWord(disability.condition))
+    ? newDisabilities.map(disability =>
+        capitalizeEachWord(disability.condition),
+      )
     : [];
   const selectedDisabilitiesList = ratedDisabilityNames
     .concat(newDisabilityNames)
