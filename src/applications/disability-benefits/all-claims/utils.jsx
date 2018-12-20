@@ -132,7 +132,7 @@ export const capitalizeEachWord = name => {
   }
 
   Raven.captureMessage(
-    `form_526_v2: no 'name' argument supplied to capitalizeEachWord`,
+    `form_526_v1 / form_526_v2: no 'name' argument supplied to capitalizeEachWord`,
   );
   return 'Unknown Condition';
 };
