@@ -68,7 +68,7 @@ import {
 } from '../../all-claims/content/ratedDisabilities';
 
 import { privateRecordsChoiceHelp } from '../../all-claims/content/privateMedicalRecords';
-import { uploadDescription } from '../../all-claims/content/fileUploadDescriptions';
+import { UploadDescription } from '../../all-claims/content/fileUploadDescriptions';
 
 import {
   FDCDescription,
@@ -708,7 +708,7 @@ const formConfig = {
                       'ui:title': 'Document name',
                     },
                   }),
-                  { 'ui:description': uploadDescription },
+                  { 'ui:description': UploadDescription },
                 ),
               },
             },
