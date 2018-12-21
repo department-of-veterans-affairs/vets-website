@@ -9,6 +9,8 @@ import React from 'react';
 import startReactApp from '../../startup/react';
 import Footer from './components/Footer';
 
+export const footerElemementId = 'footerNav';
+
 /**
  * Sets up the login widget with the given store at login-root
  *
@@ -17,6 +19,6 @@ import Footer from './components/Footer';
 export default function startVAFooter(handleFooterDidMount) {
   startReactApp(
     <Footer handleFooterDidMount={handleFooterDidMount} />,
-    document.getElementById('footerNav'),
+    document.getElementById(footerElemementId),
   );
 }

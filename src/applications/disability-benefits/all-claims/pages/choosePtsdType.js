@@ -3,7 +3,8 @@ import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 import {
   ptsdTypeDescription,
   ptsdTypeHelp,
-  nonCombatPtsdType,
+  ptsdTypeEnum,
+  nonCombatPtsdTypeLong,
 } from '../content/ptsdTypeInfo';
 
 import { disabilityNameTitle } from '../content/newPTSDFollowUp';
@@ -24,16 +25,16 @@ export const uiSchema = {
       atLeastOne: 'Please select at least one event type',
     },
     'view:combatPtsdType': {
-      'ui:title': 'Combat',
+      'ui:title': ptsdTypeEnum.combatPtsdType,
     },
     'view:mstPtsdType': {
-      'ui:title': 'Military sexual trauma',
+      'ui:title': ptsdTypeEnum.mstPtsdType,
     },
     'view:assaultPtsdType': {
-      'ui:title': 'Personal assault',
+      'ui:title': ptsdTypeEnum.assaultPtsdType,
     },
-    'view:noncombatPtsdType': {
-      'ui:title': nonCombatPtsdType,
+    'view:nonCombatPtsdType': {
+      'ui:title': nonCombatPtsdTypeLong,
     },
   },
   'view:ptsdTypeHelp': {
@@ -57,7 +58,7 @@ export const schema = {
         'view:assaultPtsdType': {
           type: 'boolean',
         },
-        'view:noncombatPtsdType': {
+        'view:nonCombatPtsdType': {
           type: 'boolean',
         },
       },

@@ -264,6 +264,16 @@ import {
 } from './secondaryIncidentDescription';
 
 import {
+  uiSchema as secondaryOtherSourcesUISchema,
+  schema as secondaryOtherSourcesSchema,
+} from './secondaryOtherSources';
+
+import {
+  uiSchema as secondaryOtherSourcesHelpUISchema,
+  schema as secondaryOtherSourcesHelpSchema,
+} from './secondaryOtherSourcesHelp';
+
+import {
   uiSchema as mentalHealthChangesUISchema,
   schema as mentalHealthChangesSchema,
 } from './mentalHealthChanges';
@@ -605,6 +615,16 @@ export const incidentDescription = {
 export const secondaryIncidentDescription = {
   uiSchema: secondaryIncidentDescriptionUISchema,
   schema: secondaryIncidentDescriptionSchema,
+};
+
+export const secondaryOtherSources = {
+  uiSchema: secondaryOtherSourcesUISchema,
+  schema: secondaryOtherSourcesSchema,
+};
+
+export const secondaryOtherSourcesHelp = {
+  uiSchema: secondaryOtherSourcesHelpUISchema,
+  schema: secondaryOtherSourcesHelpSchema,
 };
 
 export const mentalHealthChanges = {
