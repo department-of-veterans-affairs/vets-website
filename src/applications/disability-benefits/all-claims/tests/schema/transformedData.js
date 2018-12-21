@@ -223,8 +223,6 @@ export const transformedMaximalData = {
             {
               name: {
                 first: 'John',
-                middle: 'H',
-                last: 'Doe',
               },
               rank: 'Sgt',
               injuryDeath: 'injuredNonBattle',

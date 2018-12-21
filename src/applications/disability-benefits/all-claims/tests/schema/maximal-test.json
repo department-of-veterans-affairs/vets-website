@@ -233,9 +233,7 @@
       "personsInvolved": [
         {
           "name": {
-            "first": "John",
-            "middle": "H",
-            "last": "Doe"
+            "first": "John"
           },
           "description": "John H Doe description",
           "view:serviceMember": true,

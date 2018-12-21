@@ -268,6 +268,12 @@ export function transformProviderFacilities(providerFacilities) {
   }));
 }
 
+/**
+ * Concatenates incident location address object into location string. This will ignore null
+ *  or undefined address fields
+ * @param {Object} incidentLocation location address with city, state, country, and additional details
+ * @returns {String} incident location string
+ */
 export function concatIncidentLocationString(incidentLocation) {
   return [
     incidentLocation.city,
@@ -279,6 +285,9 @@ export function concatIncidentLocationString(incidentLocation) {
     .join(', ');
 }
 
+/**
+ * Returns an array of the maximum set of PTSD incident form data field names
+ */
 export function getFlatIncidentKeys() {
   const incidentKeys = [];
 
@@ -295,7 +304,11 @@ export function getFlatIncidentKeys() {
 export function getPtsdChangeFieldTitles(changeFields, formConfig) {
   return Object.keys(changeFields)
     .filter(
-      key => key !== 'other' && key !== 'otherExplanation' && formConfig[key],
+      key =>
+        key !== 'other' &&
+        key !== 'otherExplanation' &&
+        formConfig[key] &&
+        typeof formConfig[key]['ui:title'] === 'string',
     )
     .map(key => formConfig[key]['ui:title']);
 }

@@ -1,3 +1,4 @@
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import {
   individualsDescription,
@@ -7,6 +8,10 @@ import IndividualsInvolvedCard from '../components/IndividualsInvolvedCard';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
 
 import currentOrPastDateUI from 'us-forms-system/lib/js/definitions/currentOrPastDate';
+
+const {
+  personsInvolved,
+} = fullSchema.properties.form0781.properties.incidents.items.properties;
 
 export const uiSchema = index => ({
   'ui:title': ptsd781NameTitle,
@@ -19,6 +24,17 @@ export const uiSchema = index => ({
         viewField: IndividualsInvolvedCard,
       },
       items: {
+        'ui:order': [
+          'name',
+          'description',
+          'view:serviceMember',
+          'rank',
+          'unitAssigned',
+          'injuryDeathDate',
+          'injuryDeath',
+          'injuryDeathOther',
+          'view:individualAddMsg',
+        ],
         name: fullNameUI,
         description: {
           'ui:title': personDescriptionText,
@@ -81,54 +97,25 @@ export const schema = index => ({
       type: 'object',
       properties: {
         personsInvolved: {
-          type: 'array',
+          ...personsInvolved,
           items: {
-            type: 'object',
+            ...personsInvolved.items,
             properties: {
-              name: {
-                type: 'object',
-                properties: {
-                  first: {
-                    type: 'string',
-                  },
-                  middle: {
-                    type: 'string',
-                  },
-                  last: {
-                    type: 'string',
-                  },
-                },
-              },
-              description: {
-                type: 'string',
-              },
-              'view:serviceMember': {
-                type: 'boolean',
-              },
+              ...personsInvolved.items.properties,
               rank: {
-                type: 'string',
+                ...personsInvolved.items.properties.rank,
                 'ui:collapsed': true,
               },
               unitAssigned: {
-                type: 'string',
+                ...personsInvolved.items.properties.unitAssigned,
                 'ui:collapsed': true,
-              },
-              injuryDeathDate: {
-                $ref: '#/definitions/date',
-              },
-              injuryDeath: {
-                type: 'string',
-                enum: [
-                  'killedInAction',
-                  'killedNonBattle',
-                  'woundedInAction',
-                  'injuredNonBattle',
-                  'other',
-                ],
               },
               injuryDeathOther: {
-                type: 'string',
+                ...personsInvolved.items.properties.injuryDeathOther,
                 'ui:collapsed': true,
+              },
+              'view:serviceMember': {
+                type: 'boolean',
               },
               'view:individualAddMsg': {
                 type: 'object',

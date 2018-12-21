@@ -1,6 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import React from 'react';
 import _ from '../../../../platform/utilities/data';
 
 import formConfig from '../config/form';
@@ -28,6 +29,9 @@ import {
   transform,
   needsToEnterUnemployability,
   needsToAnswerUnemployability,
+  concatIncidentLocationString,
+  getFlatIncidentKeys,
+  getPtsdChangeFieldTitles,
 } from '../utils.jsx';
 
 import {
@@ -40,7 +44,10 @@ import maximalData from './schema/maximal-test.json';
 
 import initialData from './initialData';
 
-import { SERVICE_CONNECTION_TYPES } from '../../all-claims/constants';
+import {
+  SERVICE_CONNECTION_TYPES,
+  PTSD_INCIDENT_ITERATION,
+} from '../../all-claims/constants';
 
 describe('526 helpers', () => {
   describe('hasGuardOrReservePeriod', () => {
@@ -177,15 +184,6 @@ describe('526 helpers', () => {
     });
     it('should return Unknown Condition when name is not a string', () => {
       expect(getDisabilityName(249481)).to.equal('Unknown Condition');
-    });
-  });
-
-  describe('transform', () => {
-    it('should transform each incident', () => {
-      expect(
-        JSON.parse(transform(formConfig, maximalData)).form526.form0781
-          .incidents.length,
-      ).to.eql(6);
     });
   });
 
@@ -722,6 +720,75 @@ describe('isAnswering781aQuestions', () => {
         'view:unemployabilityUploadChoice': 'upload',
       };
       expect(needsToAnswerUnemployability(formData)).to.be.false;
+    });
+  });
+
+  describe('concatIncidentLocationString', () => {
+    it('should concat full address', () => {
+      const locationString = concatIncidentLocationString({
+        city: 'Test',
+        state: 'TN',
+        country: 'USA',
+        additionalDetails: 'details',
+      });
+
+      expect(locationString).to.eql('Test, TN, USA, details');
+    });
+
+    it('should handle null and undefined values', () => {
+      const locationString = concatIncidentLocationString({
+        city: 'Test',
+        state: null,
+        additionalDetails: 'details',
+      });
+
+      expect(locationString).to.eql('Test, details');
+    });
+  });
+
+  describe('getFlatIncidentKeys', () => {
+    it('should return correct amount of incident keys', () => {
+      expect(getFlatIncidentKeys().length).to.eql(PTSD_INCIDENT_ITERATION * 2);
+    });
+  });
+
+  describe('getPtsdChangeFieldTitles', () => {
+    const uiSchema = {
+      field1: {
+        'ui:title': 'field1',
+      },
+      field2: {
+        'ui:title': 'field2',
+      },
+      field3: <div>test</div>,
+    };
+
+    it('should return UI titles', () => {
+      const fieldTitles = getPtsdChangeFieldTitles(
+        {
+          field1: true,
+          field2: true,
+          other: true,
+          otherExplanation: 'Other change',
+        },
+        uiSchema,
+      );
+
+      expect(fieldTitles.length).to.eql(2);
+    });
+
+    it('should ignore invalid ui:title values', () => {
+      const fieldTitles = getPtsdChangeFieldTitles(
+        {
+          field1: true,
+          field3: true,
+          other: true,
+          otherExplanation: 'Other social change',
+        },
+        uiSchema,
+      );
+
+      expect(fieldTitles.length).to.eql(1);
     });
   });
 });
