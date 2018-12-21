@@ -1,10 +1,6 @@
 import { validateBooleanGroup } from 'us-forms-system/lib/js/validation';
 
-import {
-  ptsdTypeDescription,
-  ptsdTypeHelp,
-  nonCombatPtsdType,
-} from '../content/ptsdTypeInfo';
+import { ptsdTypeHelp, nonCombatPtsdType } from '../content/ptsdTypeInfo';
 
 import { disabilityNameTitle } from '../content/newPTSDFollowUp';
 
