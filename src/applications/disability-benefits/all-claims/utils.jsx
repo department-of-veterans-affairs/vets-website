@@ -281,7 +281,7 @@ export function concatIncidentLocationString(incidentLocation) {
     incidentLocation.country,
     incidentLocation.additionalDetails,
   ]
-    .filter(locationField => locationField && locationField.length > 0)
+    .filter(locationField => locationField)
     .join(', ');
 }
 
