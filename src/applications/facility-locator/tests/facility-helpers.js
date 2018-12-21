@@ -242,7 +242,7 @@ function initApplicationMock(token) {
  * existing Facility Locator App.
  */
 function ccLocatorEnabled() {
-  return process.env.BUILDTYPE !== ENVIRONMENTS.VAGOVPROD;
+  return true;
 }
 
 module.exports = {
