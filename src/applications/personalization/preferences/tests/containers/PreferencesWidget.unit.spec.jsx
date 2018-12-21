@@ -17,8 +17,10 @@ const props = {
 
 describe('<PreferencesWidget>', () => {
   it('should render empty view', () => {
-    props.preferences.dashboard['education-training'] = false;
     props.preferences.dashboard['health-care'] = false;
+    props.preferences.dashboard['education-training'] = false;
+    props.setDismissedBenefitAlerts = () => true;
+    props.preferences.dismissedBenefitAlerts = [];
     const component = shallow(<PreferencesWidget {...props} />);
     expect(component.find('Link').length).to.equal(1);
     expect(component.find('Link').html()).to.contain('Select benefits now.');
@@ -29,8 +31,10 @@ describe('<PreferencesWidget>', () => {
     component.unmount();
   });
   it('should render view with preferences', () => {
-    props.preferences.dashboard['education-training'] = true;
     props.preferences.dashboard['health-care'] = true;
+    props.preferences.dashboard['education-training'] = true;
+    props.setDismissedBenefitAlerts = () => true;
+    props.preferences.dismissedBenefitAlerts = [];
     const component = shallow(<PreferencesWidget {...props} />);
     expect(component.find('Link').length).to.equal(1);
     expect(component.find('Link').html()).to.contain('Find VA Benefits');

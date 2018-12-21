@@ -102,7 +102,10 @@ PreferenceItem.propTypes = {
     slug: PropTypes.string,
     description: PropTypes.string,
     introduction: PropTypes.string,
-    alert: PropTypes.func,
+    alert: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      component: PropTypes.func.isRequired,
+    }),
     faqs: PropTypes.array,
     cta: PropTypes.shape({
       description: PropTypes.element,
