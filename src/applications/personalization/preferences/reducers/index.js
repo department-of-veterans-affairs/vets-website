@@ -8,11 +8,13 @@ import {
   SET_SAVE_PREFERENCES_REQUEST_STATUS,
   SET_DASHBOARD_USER_PREFERENCES,
   SET_AVAILABLE_BENEFITS,
+  SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
 } from '../actions';
 
 const initialState = {
   dashboard: {},
   availableBenefits: [],
+  dismissedBenefitAlerts: [],
 };
 
 export default function preferences(state = initialState, action) {
@@ -37,6 +39,9 @@ export default function preferences(state = initialState, action) {
     }
     case SAVED_DASHBOARD_PREFERENCES: {
       return _.set('savedAt', Date.now(), state);
+    }
+    case SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS: {
+      return _.set(`dismissedBenefitAlerts`, action.value, state);
     }
     default: {
       return state;

@@ -16,6 +16,7 @@ import {
   setPreference,
   savePreferences,
   fetchUserSelectedBenefits,
+  setDismissedBenefitAlerts,
 } from '../actions';
 import {
   benefitChoices,
@@ -54,8 +55,8 @@ class PreferencesWidget extends React.Component {
 
   componentDidUpdate(prevProps) {
     const shouldUpdateSelectedBenefits = !_.isEqual(
-      prevProps.preferences.dashboard,
-      this.props.preferences.dashboard,
+      prevProps.preferences,
+      this.props.preferences,
     );
     if (shouldUpdateSelectedBenefits) {
       this.setSelectedBenefits();
@@ -73,11 +74,13 @@ class PreferencesWidget extends React.Component {
     const selectedBenefits = benefitChoices.filter(
       item => !!dashboard[item.code],
     );
-    this.setState({ selectedBenefits }, this.getDismissedBenefitAlerts);
+    this.setState({ selectedBenefits }, this.getDisplayedBenefitAlerts);
   };
 
-  getDismissedBenefitAlerts = () => {
-    const dismissedBenefitAlerts = getDismissedBenefitAlerts();
+  getDisplayedBenefitAlerts = () => {
+    const dismissedAlerts = getDismissedBenefitAlerts();
+    this.props.setDismissedBenefitAlerts(dismissedAlerts);
+    const { dismissedBenefitAlerts } = this.props.preferences;
     const selectedBenefitAlerts = this.state.selectedBenefits
       .filter(item => !!item.alert)
       .map(item => item.alert);
@@ -125,7 +128,7 @@ class PreferencesWidget extends React.Component {
 
   handleCloseBenefitAlert = name => {
     dismissBenefitAlert(name);
-    this.getDismissedBenefitAlerts();
+    this.getDisplayedBenefitAlerts();
   };
 
   renderContent = () => {
@@ -234,6 +237,7 @@ const mapDispatchToProps = {
   setPreference,
   savePreferences,
   fetchUserSelectedBenefits,
+  setDismissedBenefitAlerts,
 };
 
 export default connect(
