@@ -787,7 +787,7 @@ const formConfig = {
                       'ui:title': 'Document name',
                     },
                   }),
-                  { 'ui:description': uploadDescription },
+                  { 'ui:description': UploadDescription },
                 ),
               },
             },

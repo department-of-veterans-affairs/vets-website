@@ -14,7 +14,7 @@ const physicalDescriptionChanges = (
     </p>
     <p>
       Please identify any changes in your physical health as a result of the
-      event(s).
+      event(s). (Check any that apply.)
     </p>
   </div>
 );
