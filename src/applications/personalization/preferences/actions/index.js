@@ -4,7 +4,8 @@ import { LOADING_STATES, PREFERENCE_CODES } from '../constants';
 import {
   benefitChoices,
   transformPreferencesForSaving,
-  restoreDismissedBenefitAlerts,
+  restoreDismissedBenefitAlerts, // eslint-disable-line no-unused-vars
+  getNewSelections,
 } from '../helpers';
 
 export const SET_USER_PREFERENCE_REQUEST_STATUS =
@@ -108,7 +109,7 @@ export function setPreference(code, value = true) {
 }
 
 export function savePreferences(benefitsData) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({
       type: SET_SAVE_PREFERENCES_REQUEST_STATUS,
       status: LOADING_STATES.pending,
@@ -131,20 +132,20 @@ export function savePreferences(benefitsData) {
           status: LOADING_STATES.loaded,
         });
         // TODO: use getNewSelections helper with staged and saved data
-        const newBenefitSelections = Object.keys(benefitsData).filter(
-          key => !!benefitsData[key],
+        const newBenefitSelections = getNewSelections(
+          getState().preferences.savedPreferences,
+          benefitsData,
         );
-
         // Get alert names for new selections
-        const newBenefitAlerts = benefitChoices
+        const newBenefitAlerts = benefitChoices // eslint-disable-line no-unused-vars
           .filter(
             choice =>
-              newBenefitSelections.includes(choice.code) && !!choice.alert,
+              !!choice.alert && newBenefitSelections.includes(choice.code),
           )
           .map(choice => choice.alert.name);
-
+        // TODO: enable and test once getNewSelections helper is used to determine new selections
         // Remove new benefit alerts from dismissed list
-        restoreDismissedBenefitAlerts(newBenefitAlerts);
+        // restoreDismissedBenefitAlerts(newBenefitAlerts);
       },
       () => {
         dispatch({
