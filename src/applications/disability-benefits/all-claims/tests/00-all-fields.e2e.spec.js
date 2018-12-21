@@ -109,11 +109,47 @@ const runTest = E2eHelpers.createE2eTest(client => {
     PageHelpers.addNewDisability(client, testData.data);
     client.click('.form-progress-buttons .usa-button-primary');
 
-    // // PTSD
+    // New Disability - Follow up
+    E2eHelpers.expectLocation(client, '/new-disabilities/follow-up');
+    client.axeCheck('.main');
+    client.click('.form-progress-buttons .usa-button-primary');
+
+    // ***********************
+    // 781/a - PTSD
+    // ***********************
+
+    // PTSD - Intro
+    E2eHelpers.expectLocation(client, '/new-disabilities/ptsd-intro');
+    client.axeCheck('.main');
+    client.click('.form-progress-buttons .usa-button-primary');
+
+    // PTSD - Type
+    E2eHelpers.expectLocation(client, '/new-disabilities/ptsd-type');
+    client.axeCheck('.main');
+    PageHelpers.selectPtsdTypes(client, testData.data);
+    client.click('.form-progress-buttons .usa-button-primary');
+
+    // PTSD - 781 - Walkthrough Choice
+    E2eHelpers.expectLocation(
+      client,
+      '/new-disabilities/walkthrough-781-choice',
+    );
+    client.axeCheck('.main');
+    PageHelpers.selectWalkthrough781Choice(client, testData.data);
+    client.click('.form-progress-buttons .usa-button-primary');
+
+    // // PTSD - 781 - Medals
     // E2eHelpers.expectLocation(
     //   client,
-    //   '/disabilities/ptsd-incident-description-0',
+    //   '/new-disabilities/walkthrough-781-choice',
     // );
+    // client.axeCheck('.main');
+    // PageHelpers.selectWalkthrough781Choice(client, testData.data);
+    // client.click('.form-progress-buttons .usa-button-primary');
+
+    // ***********************
+    // 8940 - Unemployability
+    // ***********************
 
     // // Unemployability Status
     // E2eHelpers.expectLocation(client, '/new-disabilities/unemployability-status');
