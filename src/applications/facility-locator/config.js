@@ -27,7 +27,7 @@ export const api = {
  * existing Facility Locator App.
  */
 export const ccLocatorEnabled = () => {
-  return !environment.isProduction() || !!localStorage.enableCCLocator;
+  return true;
 };
 
 /* eslint-disable camelcase */
