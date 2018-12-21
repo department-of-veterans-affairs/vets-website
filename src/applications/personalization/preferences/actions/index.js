@@ -115,3 +115,8 @@ export function savePreferences(benefitsData) {
     );
   };
 }
+
+export function deletePreferences() {
+  // TODO: flesh out with a call to the DELETE
+  // /v0/user/preferences/:code/delete_all endpoint
+}

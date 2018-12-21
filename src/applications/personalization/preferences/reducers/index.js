@@ -47,12 +47,19 @@ export default function preferences(state = initialState, action) {
 
       return {
         ...state,
-        dashboard: selectedBenefits,
+        dashboard: { ...selectedBenefits },
+        dashboardBackup: { ...selectedBenefits },
         userBenefitsLoadingStatus: LOADING_STATES.loaded,
       };
     }
     case SET_DASHBOARD_PREFERENCE: {
-      return _.set(`dashboard.${action.code}`, action.value, state);
+      const newState = { ...state };
+      if (action.value) {
+        newState.dashboard[action.code] = true;
+      } else {
+        delete newState.dashboard[action.code];
+      }
+      return newState;
     }
     case SAVED_DASHBOARD_PREFERENCES: {
       return _.set('savedAt', Date.now(), state);
