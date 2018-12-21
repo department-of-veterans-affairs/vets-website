@@ -437,18 +437,6 @@ $medium-phone-screen: 375px;
     }
   }
 
-  .usa-sidenav-list {
-    a {
-      font-size: 15px;
-      text-decoration: underline;
-      padding: 8px 16px 8px 30px;
-
-      &.va-button-primary {
-        padding: 1rem 2rem;
-      }
-    }
-  }
-
   button.va-modal-close > i.fa.fa-close{
     color: $color-black;
   }
