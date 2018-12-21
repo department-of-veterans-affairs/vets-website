@@ -351,14 +351,6 @@ const formConfig = {
           schema: physicalHealthChanges.schema,
         },
         // 781a - 13. BEHAVIOR CHANGES: MENTAL/SUBSTANCE ABUSE
-        socialBehaviorChanges: {
-          title: 'Additional changes in behavior - social',
-          path: 'new-disabilities/ptsd-781a-social-changes',
-          depends: isAnswering781aQuestions(0),
-          uiSchema: socialBehaviorChanges.uiSchema,
-          schema: socialBehaviorChanges.schema,
-        },
-        // 781a - 14. BEHAVIOR CHANGES: AT WORK
         mentalHealthChanges: {
           title: 'Additional changes in behavior - mental/substance abuse',
           path: 'new-disabilities/ptsd-781a-mental-changes',
@@ -366,13 +358,21 @@ const formConfig = {
           uiSchema: mentalHealthChanges.uiSchema,
           schema: mentalHealthChanges.schema,
         },
-        // 781a - 15. BEHAVIOR CHANGES: SOCIAL
+        // 781a - 14. BEHAVIOR CHANGES: AT WORK
         workBehaviorChanges: {
           title: 'Additional changes in behavior - work',
           path: 'new-disabilities/ptsd-781a-work-changes',
           depends: isAnswering781aQuestions(0),
           uiSchema: workBehaviorChanges.uiSchema,
           schema: workBehaviorChanges.schema,
+        },
+        // 781a - 15. BEHAVIOR CHANGES: SOCIAL
+        socialBehaviorChanges: {
+          title: 'Additional changes in behavior - social',
+          path: 'new-disabilities/ptsd-781a-social-changes',
+          depends: isAnswering781aQuestions(0),
+          uiSchema: socialBehaviorChanges.uiSchema,
+          schema: socialBehaviorChanges.schema,
         },
         // 781a - 16. BEHAVIOR CHANGES: ADDITIONAL INFORMATION
         additionalBehaviorChanges: {

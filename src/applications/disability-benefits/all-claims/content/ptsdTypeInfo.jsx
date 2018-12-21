@@ -1,9 +1,24 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation/AdditionalInfo';
 
-export const nonCombatPtsdType = (
+const combatPtsdType = 'Combat';
+
+const mstPtsdType = 'Sexual trauma';
+
+const assaultPtsdType = 'Personal assault';
+
+const nonCombatPtsdType = 'Non-combat PTSD';
+
+export const ptsdTypeEnum = {
+  combatPtsdType,
+  mstPtsdType,
+  assaultPtsdType,
+  nonCombatPtsdType,
+};
+
+export const nonCombatPtsdTypeLong = (
   <span>
-    Non-combat PTSD <strong>other than</strong> sexual trauma or personal
+    {nonCombatPtsdType} <strong>other than</strong> sexual trauma or personal
     assault
   </span>
 );

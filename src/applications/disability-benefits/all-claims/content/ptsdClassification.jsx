@@ -8,7 +8,7 @@ export const getPtsdClassification = (formData, formType) => {
     false,
   );
   const isNonCombat = _.get(
-    'view:selectablePtsdTypes.view:noncombatPtsdType',
+    'view:selectablePtsdTypes.view:nonCombatPtsdType',
     formData,
     false,
   );

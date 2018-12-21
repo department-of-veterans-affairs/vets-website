@@ -3,12 +3,7 @@ import React from 'react';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
 
-const incidentDescriptionInstructions = (
-  <div>
-    <h3>Event description</h3>
-    <p>Please tell us where this event happened. Be as specific as you can.</p>
-  </div>
-);
+const incidentDescriptionInstructions = <h3>Event description</h3>;
 
 const { description } = fullSchema.definitions.secondaryPtsdIncident.properties;
 
@@ -17,7 +12,8 @@ export const uiSchema = index => ({
   'ui:description': incidentDescriptionInstructions,
   [`secondaryIncident${index}`]: {
     description: {
-      'ui:title': ' ',
+      'ui:title':
+        'Please tell us what happened during the event or situation. Provide the level of detail that you‘re comfortable sharing. You don‘t have to repeat any information that you‘ve already shared.',
       'ui:widget': 'textarea',
       'ui:options': {
         rows: 5,
