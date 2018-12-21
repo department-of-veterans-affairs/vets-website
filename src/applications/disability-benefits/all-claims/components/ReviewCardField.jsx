@@ -164,7 +164,7 @@ export default class ReviewCardField extends React.Component {
       <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
           <h4 className="review-card--title">{title}</h4>
-          {subtitle && <div>{subtitle}</div>}
+          {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
           <SchemaField
             name={idSchema.$id}
             required={required}
