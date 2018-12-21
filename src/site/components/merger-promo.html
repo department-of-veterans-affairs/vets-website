@@ -6,7 +6,7 @@ Right-rail promo + illo
 See https://help.shopify.com/themes/liquid/tags/theme-tags#include
 {% endcomment %}
 
-<div class="merger-r-rail" id="promo">
+<div class="merger-r-rail hub-promo" id="promo">
 
   {% for group in promo %}
 
@@ -21,7 +21,7 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
     {% endif %}
 
     {% if group.heading != empty %}
-      <section>
+      <section class="hub-promo-text">
         <h4 class="heading"><a href="{{group.url}}">{{ group.heading }}</a></h4>
     {% endif %}
 

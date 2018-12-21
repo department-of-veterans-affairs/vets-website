@@ -1,50 +1,18 @@
-import fileUploadUI from 'us-forms-system/lib/js/definitions/file';
-import environment from '../../../../platform/utilities/environment';
-
 import { uploadDescription } from '../content/fileUploadDescriptions';
 import { ptsd781NameTitle } from '../content/ptsdClassification';
+import { ancillaryFormUploadUi } from '../utils';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const FIFTY_MB = 52428800;
+const { completedFormAttachments } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:title': ptsd781NameTitle,
   'ui:description': uploadDescription,
-  ptsd781: fileUploadUI('', {
-    itemDescription: 'PTSD 781 form',
-    hideLabelText: true,
-    fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
-    fileTypes: [
-      'pdf',
-      'jpg',
-      'jpeg',
-      'png',
-      'gif',
-      'bmp',
-      'tif',
-      'tiff',
-      'txt',
-    ],
-    maxSize: FIFTY_MB,
-    createPayload: file => {
-      const payload = new FormData();
-      payload.append('supporting_evidence_attachment[file_data]', file);
-
-      return payload;
-    },
-    parseResponse: (response, file) => ({
-      name: file.name,
-      confirmationCode: response.data.attributes.guid,
-    }),
-    // this is the uiSchema passed to FileField for the attachmentId schema
-    // FileField requires this name be used
-    attachmentSchema: {
-      'ui:title': 'Document type',
-    },
-    // this is the uiSchema passed to FileField for the name schema
-    // FileField requires this name be used
-    attachmentName: {
-      'ui:title': 'Document name',
-    },
+  ptsd781: ancillaryFormUploadUi('', 'PTSD 781 form', {
+    attachmentId: 'VA Form 21-781 - Statement in Support of Claim for PTSD',
+    widgetType: 'textarea',
+    customClasses: 'upload-completed-form',
+    isDisabled: true,
   }),
 };
 
@@ -52,22 +20,6 @@ export const schema = {
   type: 'object',
   required: ['ptsd781'],
   properties: {
-    ptsd781: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          name: {
-            type: 'string',
-          },
-          size: {
-            type: 'integer',
-          },
-          confirmationCode: {
-            type: 'string',
-          },
-        },
-      },
-    },
+    ptsd781: completedFormAttachments,
   },
 };

@@ -3,7 +3,6 @@ import Raven from 'raven-js';
 import get from '../../../platform/utilities/data/get';
 import recordEvent from '../../../platform/monitoring/record-event';
 import environment from '../../../platform/utilities/environment';
-import conditionalStorage from '../../../platform/utilities/storage/conditionalStorage';
 import { apiRequest } from '../../../platform/utilities/api';
 import { makeAuthRequest } from '../utils/helpers';
 import {
@@ -348,9 +347,6 @@ export function submitFiles(claimId, trackedItem, files) {
             inputName: 'file',
             customHeaders: {
               'X-Key-Inflection': 'camel',
-              Authorization: `Token token=${conditionalStorage().getItem(
-                'userToken',
-              )}`,
             },
           },
           cors: {

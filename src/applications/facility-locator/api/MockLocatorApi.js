@@ -936,6 +936,37 @@ export const facilityData = {
         long: -76.95675965,
       },
     },
+    {
+      id: 'ccp_4',
+      type: 'cc_provider',
+      attributes: {
+        uniqueId: '4',
+        name: 'University of Broken Data',
+        specialty: [
+          {
+            name: 'Bad Data',
+            desc: '...b0rk...',
+          },
+          {
+            name: 'Eyyy Lmao',
+            desc: 'LUL  IceCold...',
+          },
+        ],
+        address: {},
+        email: 'b0rkb0rk@br0k.edu',
+        phone: '240-123-0199',
+        schedPhone: '866-606-8198',
+        fax: '240-123-0198',
+        website: 'http://b0rk.org',
+        prefContact: 'phone',
+        accNewPatients: true,
+        gender: 'Male',
+        distance: 3.65, // in miles
+        network: 'LHASNRM',
+        lat: 38.9857684400001,
+        long: -76.95675965,
+      },
+    },
   ],
   links: {
     self:

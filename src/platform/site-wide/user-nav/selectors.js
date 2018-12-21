@@ -1,12 +1,13 @@
 import { createSelector } from 'reselect';
 import { startCase, toLower } from 'lodash';
 
-import conditionalStorage from '../../utilities/storage/conditionalStorage';
+import localStorage from '../../utilities/storage/localStorage';
 import { selectProfile } from '../../user/selectors';
 
 export const selectUserGreetingMobile = createSelector(
   state => selectProfile(state).userFullName,
-  () => conditionalStorage().getItem('userFirstName'),
+  state => selectProfile(state).email,
+  () => localStorage.getItem('userFirstName'),
   (name, email, sessionFirstName) => {
     if (name.first || sessionFirstName) {
       return startCase(toLower(name.first || sessionFirstName));
@@ -18,7 +19,7 @@ export const selectUserGreetingMobile = createSelector(
 export const selectUserGreeting = createSelector(
   state => selectProfile(state).userFullName,
   state => selectProfile(state).email,
-  () => conditionalStorage().getItem('userFirstName'),
+  () => localStorage.getItem('userFirstName'),
   (name, email, sessionFirstName) => {
     if (name.first || sessionFirstName) {
       return startCase(toLower(name.first || sessionFirstName));

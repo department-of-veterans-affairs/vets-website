@@ -17,5 +17,6 @@ describe('<ButtonBack>', () => {
     const tree = shallow(<ButtonBack {...props} />, { context });
 
     expect(tree.find('.msg-btn-back').exists()).to.be.true;
+    tree.unmount();
   });
 });

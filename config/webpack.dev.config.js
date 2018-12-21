@@ -1,3 +1,4 @@
+const setupLocalProxyRewrite = require('../src/applications/proxy-rewrite/local-proxy-rewrite');
 const appSettings = require('./parse-app-settings');
 
 function generateWebpackDevConfig(buildOptions) {
@@ -51,34 +52,12 @@ function generateWebpackDevConfig(buildOptions) {
         res.type('html');
         next();
       });
+
+      if (buildOptions['local-proxy-rewrite']) {
+        setupLocalProxyRewrite(app, buildOptions);
+      }
     },
   };
-
-  // Route all API requests through webpack's node-http-proxy
-  // Useful for local development.
-  try {
-    // Check to see if we have a proxy config file
-    // eslint-disable-next-line import/no-unresolved
-    const api = require('./config.proxy.js').api;
-    devServerConfig.proxy = {
-      '/api/v0/*': {
-        target: `https://${api.host}/`,
-        auth: api.auth,
-        secure: true,
-        changeOrigin: true,
-        pathRewrite: { '^/api': '' },
-        rewrite: function rewrite(req) {
-          /* eslint-disable no-param-reassign */
-          req.headers.host = api.host;
-          /* eslint-enable no-param-reassign */
-        },
-      },
-    };
-    // eslint-disable-next-line no-console
-    console.log('API proxy enabled');
-  } catch (e) {
-    // No proxy config file found.
-  }
 
   return devServerConfig;
 }

@@ -1,67 +1,72 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { mount } from 'enzyme';
+
 import {
   DefinitionTester,
-  selectRadio,
-} from '../../../../../platform/testing/unit/schemaform-utils.jsx';
-import { mount } from 'enzyme';
+  fillData,
+} from '../../../../../platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
-describe('Unemployability Status', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.disabilities.pages.unemployabilityStatus;
+describe('781 medals', () => {
+  const page = formConfig.chapters.disabilities.pages.medals0;
+  const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        uiSchema={uiSchema}
         data={{}}
-        formData={{}}
+        uiSchema={uiSchema}
       />,
     );
-
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('input').length).to.equal(1);
+    form.unmount();
   });
 
-  it('should fail to submit when no data is filled out', () => {
+  it('should fill in Medal citation', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        onSubmit={onSubmit}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-        onSubmit={onSubmit}
       />,
     );
+    fillData(form, 'input#root_incident0_medalsCitations', 'Medal Of Honor');
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-  });
 
-  it('should submit when data filled in', () => {
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+
+    form.unmount();
+  });
+  it('should allow submission if no medals submitted', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        onSubmit={onSubmit}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
         formData={{}}
-        onSubmit={onSubmit}
+        uiSchema={uiSchema}
       />,
     );
 
-    selectRadio(form, 'root_view:unemployabilityStatus', 'Y');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+
+    form.unmount();
   });
 });

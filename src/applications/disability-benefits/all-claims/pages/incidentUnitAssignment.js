@@ -1,6 +1,6 @@
 import dateRangeUI from 'us-forms-system/lib/js/definitions/dateRange';
 
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import {
   ptsdAssignmentDescription,
@@ -18,7 +18,8 @@ export const uiSchema = index => ({
   'ui:description': ptsdAssignmentDescription,
   [`incident${index}`]: {
     unitAssigned: {
-      'ui:title': ' ',
+      'ui:title':
+        'Name of the unit you were assigned to when this event happened. (This can include your division, wing, battalion, cavalry, ship, etc.)',
     },
     unitAssignedDates: {
       ...dateRangeUI('From', 'To', 'The date must be after Start date'),
