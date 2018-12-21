@@ -1,6 +1,5 @@
 /* eslint-disable arrow-body-style */
 import environment from '../../platform/utilities/environment';
-import localStorage from '../../platform/utilities/storage/localStorage';
 
 // TODO: Remove me when done bug fixing
 // const environment = {
