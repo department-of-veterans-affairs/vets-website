@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 
+import deduplicate from 'platform/utilities/data/deduplicate';
 import localStorage from 'platform/utilities/storage/localStorage';
 
 export const DISMISSED_BENEFIT_ALERTS = 'DISMISSED_BENEFIT_ALERTS';
@@ -391,7 +392,7 @@ export const benefitChoices = [
     title: 'Careers and Employment',
     description:
       'Find a job, build skills, or get support for my own business.',
-    code: 'careers-employment', // TODO: update rest
+    code: 'careers-employment',
     introduction:
       'We can support your job search at every stage, whether you’re returning to work with a service-connected disability, looking for new skills and training, or starting or growing your own business. ',
     cta: {
@@ -410,7 +411,7 @@ export const benefitChoices = [
     title: 'Pension',
     description:
       'Get financial support for my disability or for care related to aging.',
-    code: 'pension', // TODO: update rest
+    code: 'pension',
     introduction:
       'If you’re a wartime Veteran with low or no income, and you meet certain age or disability requirements, you may be able to get monthly payments through our pension program. Survivors of wartime Veterans may also qualify for a VA pension.  ',
     cta: {
@@ -427,7 +428,7 @@ export const benefitChoices = [
   {
     title: 'Housing Assistance',
     description: 'Find, buy, build, modify, or refinance a place to live.',
-    code: 'housing-assistance', // TODO: update rest
+    code: 'housing-assistance',
     introduction:
       'We may be able to help you buy or build a home, or repair or refinance your current home. If you have a service-connected disability, you may want to consider applying for a grant to help you make changes to your home that will help you live more independently. ',
     cta: {
@@ -447,7 +448,7 @@ export const benefitChoices = [
   {
     title: 'Life Insurance',
     description: 'Learn about my life insurance options.',
-    code: 'life-insurance', // TODO: update rest
+    code: 'life-insurance',
     introduction:
       'You may be able to get VA life insurance during and after your active duty service. You may also be able to add coverage for your spouse and dependent children.',
     cta: { description: lifeInsuranceCTADescription },
@@ -460,10 +461,9 @@ export const benefitChoices = [
   },
   {
     title: 'Burial Benefits and Memorial Items',
-    shortTitle: 'Burials and Memorials',
     description:
       'Apply for burial in a VA cemetery or for allowances to cover burial costs.',
-    code: 'burials-memorials', // TODO: update rest
+    code: 'burials-memorials',
     introduction:
       'We can help you plan a burial or memorial service or honor a Veteran’s service with memorial items. If you’re the surviving family member of a Veteran, you may also be able to get help paying for burial costs and other benefits.',
     cta: {
@@ -482,7 +482,7 @@ export const benefitChoices = [
   {
     title: 'Family and Caregiver Benefits',
     description: 'Learn about benefits for family members and caregivers.',
-    code: 'family-caregiver-benefits', // TODO: update rest
+    code: 'family-caregiver-benefits',
     introduction:
       'If you’re the family member of a Veteran or Servicemember, you may qualify for benefits yourself. If you’re a caregiver for a Veteran with service-connected disabilities, you may qualify for additional benefits and support for yourself and the Veteran you’re caring for.',
     faqs: [
@@ -563,27 +563,56 @@ export const SaveSucceededMessageComponent = ({ handleCloseAlert }) => (
   />
 );
 
+/**
+ * Removes the specified items from the provided list.
+ * Incidentally, the provided list is also deduplicated
+ * as it is converted into a set for more efficient removal.
+ * @export
+ * @param {Array} list
+ * @param {Array} items
+ * @returns {Array}
+ */
+export const filterItems = (list, items) => {
+  const filteredList = new Set(list);
+  items.forEach(item => filteredList.delete(item));
+  return Array.from(filteredList);
+};
+
 export const getDismissedBenefitAlerts = () =>
   JSON.parse(localStorage.getItem(DISMISSED_BENEFIT_ALERTS)) || [];
 
+/**
+ * Deduplicates and stores a list of dismissed benefit alerts
+ * to local storage.
+ *
+ * @param {Array} dismissedBenefitAlerts
+ */
 export const setDismissedBenefitAlerts = dismissedBenefitAlerts =>
   localStorage.setItem(
     DISMISSED_BENEFIT_ALERTS,
-    JSON.stringify(dismissedBenefitAlerts),
+    JSON.stringify(deduplicate(dismissedBenefitAlerts)),
   );
 
 export const dismissBenefitAlert = name => {
-  const dismissedBenefitAlerts = new Set(getDismissedBenefitAlerts());
-  dismissedBenefitAlerts.add(name);
-  setDismissedBenefitAlerts(Array.from(dismissedBenefitAlerts));
+  const dismissedBenefitAlerts = getDismissedBenefitAlerts();
+  dismissedBenefitAlerts.push(name);
+  setDismissedBenefitAlerts(dismissedBenefitAlerts);
 };
 
+/**
+ * Filters any new benefit alerts from the list of
+ * dismissed benefit alerts and sets the updated
+ * list to local storage.
+ *
+ * @param {Array} newBenefitAlerts
+ */
 export const restoreDismissedBenefitAlerts = newBenefitAlerts => {
-  const dismissedBenefitAlerts = new Set(getDismissedBenefitAlerts());
-  newBenefitAlerts.forEach(alert => {
-    dismissedBenefitAlerts.delete(alert);
-  });
-  setDismissedBenefitAlerts(Array.from(dismissedBenefitAlerts));
+  let dismissedBenefitAlerts = getDismissedBenefitAlerts();
+  dismissedBenefitAlerts = filterItems(
+    dismissedBenefitAlerts,
+    newBenefitAlerts,
+  );
+  setDismissedBenefitAlerts(dismissedBenefitAlerts);
 };
 
 export const getNewSelections = (previousSelections, nextSelections) =>

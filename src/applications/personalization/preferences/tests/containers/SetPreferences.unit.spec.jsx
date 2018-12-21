@@ -24,7 +24,7 @@ const props = {
     allBenefitsLoadingStatus: LOADING_STATES.loaded,
     userBenefitsLoadingStatus: LOADING_STATES.loaded,
     availableBenefits: benefitChoices.map(item => ({
-      code: item.code, // TODO: determine whether we can simply return item
+      code: item.code,
       description: item.description,
     })),
   },

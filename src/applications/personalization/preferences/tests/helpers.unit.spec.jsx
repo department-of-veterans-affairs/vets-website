@@ -10,6 +10,7 @@ import {
   restoreDismissedBenefitAlerts,
   getNewSelections,
   transformPreferencesForSaving,
+  filterItems,
 } from '../helpers';
 
 describe('getDismissedBenefitAlerts', () => {
@@ -66,7 +67,10 @@ describe('restoreDismissedBenefitAlerts', () => {
 });
 describe('getNewSelections', () => {
   it('should return a list of recently added benefit choices', () => {
-    const result = getNewSelections({ 'test-1': true }, { 'test-2': true });
+    const result = getNewSelections(
+      { 'test-1': true },
+      { 'test-1': true, 'test-2': true },
+    );
     expect(result).to.deep.equal(['test-2']);
   });
 });
@@ -89,5 +93,12 @@ describe('transformPreferencesForSaving', () => {
       { code: 'prefTwo' },
       { code: 'another-preference' },
     ]);
+  });
+  describe('filterItems', () => {
+    it('should return a list with the specified items filtered out', () => {
+      const filteredList = filterItems([1, 2, 6, 6], [1, 2, 3, 4, 5]);
+      expect(filteredList).to.have.members([6]);
+      expect(filteredList.length).to.equal(1);
+    });
   });
 });

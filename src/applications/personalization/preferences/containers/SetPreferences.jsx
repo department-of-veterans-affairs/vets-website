@@ -81,7 +81,7 @@ class SetPreferences extends React.Component {
       const helperData = benefitChoices.find(
         choice => choice.code === benefit.code,
       );
-      hydratedBenefit.title = helperData.shortTitle || helperData.title;
+      hydratedBenefit.title = helperData.title;
       hydratedBenefit.description = get(
         'description',
         helperData,
