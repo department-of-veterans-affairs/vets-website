@@ -9,14 +9,6 @@
   list-style: none;
 }
 
-.homepage-hub, .va-sidebarnav, .vet-toolbar {
-  [href^="http"]:not(.usa-button-primary), [rel="external"] {
-    background-image: none;
-    padding-right: 0px;
-
-  }
-}
-
 .homepage-hub {
   @include linear-gradient-background($color-old-browser-background-start, $color-old-browser-background-end);
   padding-top: 1.5em;

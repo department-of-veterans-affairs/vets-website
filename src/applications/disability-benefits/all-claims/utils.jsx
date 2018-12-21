@@ -560,7 +560,7 @@ export const servedAfter911 = formData => !!post911Periods(formData).length;
 
 export const needsToEnter781 = formData =>
   _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false) ||
-  _.get('view:selectablePtsdTypes.view:noncombatPtsdType', formData, false);
+  _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', formData, false);
 
 export const needsToEnter781a = formData =>
   _.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false) ||
@@ -608,7 +608,7 @@ export const isNotUploadingPrivateMedical = formData =>
 
 export const showPtsdCombatConclusion = form =>
   _.get('view:selectablePtsdTypes.view:combatPtsdType', form, false) ||
-  _.get('view:selectablePtsdTypes.view:noncombatPtsdType', form, false);
+  _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', form, false);
 
 export const showPtsdAssaultConclusion = form =>
   _.get('view:selectablePtsdTypes.view:mstPtsdType', form, false) ||
