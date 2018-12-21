@@ -678,11 +678,15 @@ export const wantsHelpWithPrivateRecordsSecondary = index => formData =>
     `incident${index}.otherSourcesHelp.view:helpPrivateMedicalTreatment`,
     formData,
     '',
-  ) && isAnswering781aQuestions(index)(formData);
+  ) &&
+  isAnswering781aQuestions(index)(formData) &&
+  wantsHelpWithOtherSourcesSecondary(index)(formData);
 
 export const wantsHelpRequestingStatementsSecondary = index => formData =>
   _.get(
     `incident${index}.otherSourcesHelp.view:helpRequestingStatements`,
     formData,
     '',
-  ) && isAnswering781aQuestions(index)(formData);
+  ) &&
+  isAnswering781aQuestions(index)(formData) &&
+  wantsHelpWithOtherSourcesSecondary(index)(formData);
