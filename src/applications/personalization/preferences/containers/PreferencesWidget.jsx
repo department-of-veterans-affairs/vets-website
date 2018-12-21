@@ -149,22 +149,28 @@ class PreferencesWidget extends React.Component {
       return null;
     }
     const {
-      preferences: { userBenefitsLoadingStatus },
+      preferences: { dashboard, userBenefitsLoadingStatus: loadingStatus },
     } = this.props;
+    const isLoaded = loadingStatus !== LOADING_STATES.pending;
+    const selectedBenefits = benefitChoices.filter(
+      item => !!dashboard[item.code],
+    );
+    const hasSelectedBenefits = !!selectedBenefits.length;
     const { savedMessage } = this.state;
 
     return (
       <div>
         <div className="title-container">
           <h2>Find VA Benefits</h2>
-          {userBenefitsLoadingStatus !== LOADING_STATES.pending && (
-            <Link
-              className="usa-button usa-button-secondary"
-              to="find-benefits"
-            >
-              Find VA Benefits
-            </Link>
-          )}
+          {isLoaded &&
+            hasSelectedBenefits && (
+              <Link
+                className="usa-button usa-button-secondary"
+                to="find-benefits"
+              >
+                Find VA Benefits
+              </Link>
+            )}
         </div>
         <ReactCSSTransitionGroup
           transitionName="form-expanding-group-inner"
