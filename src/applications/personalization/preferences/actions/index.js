@@ -1,6 +1,6 @@
 import { apiRequest } from 'platform/utilities/api';
 
-import { LOADING_STATES, PREFERENCE_CODES } from '../constants';
+import { LOADING_STATES } from '../constants';
 import { transformPreferencesForSaving } from '../helpers';
 
 export const SET_USER_PREFERENCE_REQUEST_STATUS =
@@ -25,30 +25,9 @@ export function fetchUserSelectedBenefits() {
       '/user/preferences',
       null,
       response => {
-        // We just want to get an array of Benefits preferences
-        let selectedBenefits = response.data.attributes.userPreferences;
-        if (selectedBenefits.length) {
-          selectedBenefits = selectedBenefits
-            .find(
-              preferenceGroup =>
-                preferenceGroup.code === PREFERENCE_CODES.benefits,
-            )
-            .userPreferences.reduce((acc, pref) => {
-              acc[pref.code] = true;
-              return acc;
-            }, {});
-        } else {
-          selectedBenefits = {};
-        }
-
         dispatch({
           type: SET_DASHBOARD_USER_PREFERENCES,
-          preferences: selectedBenefits,
-        });
-
-        dispatch({
-          type: SET_USER_PREFERENCE_REQUEST_STATUS,
-          status: LOADING_STATES.loaded,
+          payload: response,
         });
       },
       () => {
