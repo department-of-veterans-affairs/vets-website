@@ -5,7 +5,7 @@ import NewDisability from '../components/NewDisability';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const { condition } = fullSchema.properties.newDisabilities.items.properties;
+const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 export const uiSchema = {
   'ui:description': 'Please tell us the new conditions you want to claim.',

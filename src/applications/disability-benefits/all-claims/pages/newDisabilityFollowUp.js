@@ -20,7 +20,7 @@ const {
   worsenedEffects,
   VAMistreatmentDescription,
   VAMistreatmentLocation,
-} = fullSchema.properties.newDisabilities.items.properties;
+} = fullSchema.definitions.newDisabilities.items.properties;
 
 const getDisabilitiesList = createSelector(
   formData => formData.ratedDisabilities,

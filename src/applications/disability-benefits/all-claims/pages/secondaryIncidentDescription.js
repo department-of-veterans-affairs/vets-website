@@ -5,7 +5,9 @@ import { ptsd781aNameTitle } from '../content/ptsdClassification';
 
 const incidentDescriptionInstructions = <h3>Event description</h3>;
 
-const { description } = fullSchema.definitions.secondaryPtsdIncident.properties;
+const {
+  incidentDescription,
+} = fullSchema.definitions.secondaryPtsdIncident.properties;
 
 export const uiSchema = index => ({
   'ui:title': ptsd781aNameTitle,
@@ -29,7 +31,7 @@ export const schema = index => ({
     [`secondaryIncident${index}`]: {
       type: 'object',
       properties: {
-        incidentDescription: description,
+        incidentDescription,
       },
     },
   },
