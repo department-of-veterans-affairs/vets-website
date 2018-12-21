@@ -50,6 +50,7 @@ Security advisory:
   Title: ${adv.data.advisory.title}
   Module name: ${adv.data.advisory.module_name}
   Dependency: ${getAffectedModule(adv.data)}
+  Path: ${adv.data.resolution.path}
   Severity: ${adv.data.advisory.severity}
   Details: ${adv.data.advisory.url}
       `);

@@ -10,6 +10,7 @@ export const uiSchema = {
     ...ancillaryFormUploadUi(
       'Lay statements or other evidence',
       'Adding additional evidence:',
+      {},
     ),
     'ui:description': uploadDescription,
   },

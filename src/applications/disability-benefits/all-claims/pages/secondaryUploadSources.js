@@ -9,6 +9,7 @@ export const uiSchema = index => ({
   [`secondaryUploadSources${index}`]: ancillaryFormUploadUi(
     '',
     'PTSD 781a form supporting documents',
+    {},
   ),
 });
 

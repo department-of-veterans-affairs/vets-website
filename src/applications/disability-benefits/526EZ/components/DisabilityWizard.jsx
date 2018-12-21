@@ -136,6 +136,12 @@ class DisabilityWizard extends React.Component {
     this.setState({ currentLayout: nextLayout, errorMessage: '' });
   };
 
+  handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      this.goToNextPage();
+    }
+  };
+
   goBack = () => {
     let nextLayout = chooseStatus;
     const { atGuidance } = this;
@@ -250,6 +256,7 @@ class DisabilityWizard extends React.Component {
                 goBack={this.goBack}
                 goForward={this.goForward}
                 authenticate={this.authenticate}
+                handleKeyPress={this.handleKeyPress}
               />
             }
           </div>
