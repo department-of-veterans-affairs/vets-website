@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import moment from 'moment';
+import _ from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
@@ -23,11 +24,12 @@ import {
   RetrieveFailedMessageComponent,
   dismissBenefitAlert,
   getDismissedBenefitAlerts,
-  filterItems,
 } from '../helpers';
 import { LOADING_STATES } from '../constants';
 
-const BenefitAlert = ({ alert: Alert }) => <Alert />;
+const BenefitAlert = ({ alert: Alert, onClose }) => (
+  <Alert onCloseAlert={onClose} />
+);
 const ALERT_DELAY = 5000;
 
 class PreferencesWidget extends React.Component {
@@ -39,6 +41,9 @@ class PreferencesWidget extends React.Component {
 
   componentWillMount() {
     this.props.fetchUserSelectedBenefits();
+    if (!_.isEmpty(this.props.preferences.dashboard)) {
+      this.setSelectedBenefits();
+    }
     const savedRecently = moment().isBefore(
       this.props.preferences.savedAt + ALERT_DELAY,
     );
@@ -47,9 +52,41 @@ class PreferencesWidget extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const shouldUpdateSelectedBenefits = !_.isEqual(
+      prevProps.preferences.dashboard,
+      this.props.preferences.dashboard,
+    );
+    if (shouldUpdateSelectedBenefits) {
+      this.setSelectedBenefits();
+    }
+  }
+
   componentWillUnmount() {
     clearTimeout(this.state.savedMessageTimer);
   }
+
+  setSelectedBenefits = () => {
+    const {
+      preferences: { dashboard },
+    } = this.props;
+    const selectedBenefits = benefitChoices.filter(
+      item => !!dashboard[item.code],
+    );
+    this.setState({ selectedBenefits }, this.getDismissedBenefitAlerts);
+  };
+
+  getDismissedBenefitAlerts = () => {
+    const dismissedBenefitAlerts = getDismissedBenefitAlerts();
+    const selectedBenefitAlerts = this.state.selectedBenefits
+      .filter(item => !!item.alert)
+      .map(item => item.alert);
+    let displayedBenefitAlerts = selectedBenefitAlerts.filter(
+      alert => !dismissedBenefitAlerts.includes(alert.name),
+    );
+    displayedBenefitAlerts = deduplicate(displayedBenefitAlerts);
+    this.setState({ displayedBenefitAlerts });
+  };
 
   setSavedMessage = () => {
     // Clear any existing saved message timer
@@ -86,31 +123,18 @@ class PreferencesWidget extends React.Component {
     this.setState({ savedMessage: false });
   };
 
-  handleCloseBenefitAlert = async name => {
+  handleCloseBenefitAlert = name => {
     dismissBenefitAlert(name);
+    this.getDismissedBenefitAlerts();
   };
 
   renderContent = () => {
     const {
-      preferences: {
-        dashboard,
-        userBenefitsLoadingStatus: loadingStatus,
-        saveStatus,
-      },
+      preferences: { userBenefitsLoadingStatus: loadingStatus, saveStatus },
     } = this.props;
-    const selectedBenefits = benefitChoices.filter(
-      item => !!dashboard[item.code],
-    );
-    const hasSelectedBenefits = !!selectedBenefits.length;
-    const dismissedBenefitAlerts = getDismissedBenefitAlerts();
-    const selectedBenefitAlerts = selectedBenefits
-      .filter(item => !!item.alert)
-      .map(item => item.alert);
-    let displayedBenefitAlerts = filterItems(
-      selectedBenefitAlerts,
-      dismissedBenefitAlerts,
-    ).map(alert => alert.component);
-    displayedBenefitAlerts = deduplicate(displayedBenefitAlerts);
+    const { selectedBenefits, displayedBenefitAlerts } = this.state;
+
+    const hasSelectedBenefits = selectedBenefits && !!selectedBenefits.length;
 
     if (loadingStatus === LOADING_STATES.pending) {
       return <LoadingIndicator message={'Loading your selections...'} />;
@@ -140,14 +164,14 @@ class PreferencesWidget extends React.Component {
             handleRemove={this.handleRemove}
           />,
         ];
-        if (displayedBenefitAlerts.length) {
+        if (displayedBenefitAlerts && displayedBenefitAlerts.length) {
           content.unshift(
             <div key="benefit-alerts">
-              {displayedBenefitAlerts.map((alert, index) => (
+              {displayedBenefitAlerts.map(({ component, name }, index) => (
                 <BenefitAlert
-                  alert={alert}
+                  alert={component}
                   key={index}
-                  onClose={this.handleCloseBenefitAlert}
+                  onClose={() => this.handleCloseBenefitAlert(name)}
                 />
               ))}
             </div>,

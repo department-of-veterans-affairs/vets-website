@@ -304,10 +304,11 @@ const educationFAQ = () => (
 
 const homelessnessAlert = {
   name: 'homelessness-alert',
-  component: () => (
+  component: ({ onCloseAlert }) => (
     <AlertBox
       status="warning"
       headline="If you’re homeless or at risk of becoming homeless:"
+      onCloseAlert={onCloseAlert}
     >
       <p>
         You can talk with someone right now. Call the National Call Center for

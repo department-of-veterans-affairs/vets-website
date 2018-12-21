@@ -132,10 +132,14 @@ export function savePreferences(benefitsData) {
           status: LOADING_STATES.loaded,
         });
         // TODO: use getNewSelections helper with staged and saved data
-        const newBenefitSelections = getNewSelections(
-          getState().preferences.savedPreferences,
-          benefitsData,
-        );
+        // const newBenefitSelections = getNewSelections(
+        //   getState().preferences.savedPreferences,
+        //   benefitsData,
+        // );
+        // TODO: remove this mock newBenefitSelections
+        // This re-enables an alert whenever any relevant benefit is included
+        // not only if it is a new addition to the selected benefits
+        const newBenefitSelections = Object.keys(benefitsData);
         // Get alert names for new selections
         const newBenefitAlerts = benefitChoices // eslint-disable-line no-unused-vars
           .filter(
@@ -143,9 +147,8 @@ export function savePreferences(benefitsData) {
               !!choice.alert && newBenefitSelections.includes(choice.code),
           )
           .map(choice => choice.alert.name);
-        // TODO: enable and test once getNewSelections helper is used to determine new selections
         // Remove new benefit alerts from dismissed list
-        // restoreDismissedBenefitAlerts(newBenefitAlerts);
+        restoreDismissedBenefitAlerts(newBenefitAlerts);
       },
       () => {
         dispatch({
