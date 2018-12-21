@@ -111,10 +111,10 @@ describe('preferencesReducer', () => {
       const newState = reducer(state, action);
       expect(newState.dashboard).to.be.deep.equal({ pref2: true });
     });
-    it('does not touch the dashboardBackup when updating the dashboard', () => {
+    it('does not touch the savedDashboard when updating the dashboard', () => {
       state = {
         dashboard: { pref1: true, pref2: true },
-        dashboardBackup: { pref1: true, pref2: true },
+        savedDashboard: { pref1: true, pref2: true },
       };
       action = {
         type: preferencesActions.SET_DASHBOARD_PREFERENCE,
@@ -122,7 +122,7 @@ describe('preferencesReducer', () => {
         value: false,
       };
       const newState = reducer(state, action);
-      expect(newState.dashboardBackup).to.be.deep.equal({
+      expect(newState.savedDashboard).to.be.deep.equal({
         pref1: true,
         pref2: true,
       });
@@ -168,7 +168,7 @@ describe('preferencesReducer', () => {
       expect(newState.dashboard).to.be.deep.equal({
         'education-training': true,
       });
-      expect(newState.dashboardBackup).to.be.deep.equal({
+      expect(newState.savedDashboard).to.be.deep.equal({
         'education-training': true,
       });
       expect(newState.userBenefitsLoadingStatus).to.eql('loaded');
@@ -195,7 +195,7 @@ describe('preferencesReducer', () => {
       };
       const newState = reducer(state, action);
       expect(newState.dashboard).to.be.deep.equal({});
-      expect(newState.dashboardBackup).to.be.deep.equal({});
+      expect(newState.savedDashboard).to.be.deep.equal({});
       expect(newState.userBenefitsLoadingStatus).to.eql('loaded');
     });
   });

@@ -48,7 +48,7 @@ export default function preferences(state = initialState, action) {
       return {
         ...state,
         dashboard: { ...selectedBenefits },
-        dashboardBackup: { ...selectedBenefits },
+        savedDashboard: { ...selectedBenefits },
         userBenefitsLoadingStatus: LOADING_STATES.loaded,
       };
     }
