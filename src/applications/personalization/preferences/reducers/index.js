@@ -9,11 +9,13 @@ import {
   SET_SAVE_PREFERENCES_REQUEST_STATUS,
   SET_DASHBOARD_USER_PREFERENCES,
   SET_AVAILABLE_BENEFITS,
+  SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
 } from '../actions';
 
 const initialState = {
   dashboard: {},
   availableBenefits: [],
+  dismissedBenefitAlerts: [],
 };
 
 export default function preferences(state = initialState, action) {
@@ -47,15 +49,25 @@ export default function preferences(state = initialState, action) {
 
       return {
         ...state,
-        dashboard: selectedBenefits,
+        dashboard: { ...selectedBenefits },
+        savedDashboard: { ...selectedBenefits },
         userBenefitsLoadingStatus: LOADING_STATES.loaded,
       };
     }
     case SET_DASHBOARD_PREFERENCE: {
-      return _.set(`dashboard.${action.code}`, action.value, state);
+      const newState = { ...state };
+      if (action.value) {
+        newState.dashboard[action.code] = true;
+      } else {
+        delete newState.dashboard[action.code];
+      }
+      return newState;
     }
     case SAVED_DASHBOARD_PREFERENCES: {
       return _.set('savedAt', Date.now(), state);
+    }
+    case SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS: {
+      return _.set(`dismissedBenefitAlerts`, action.value, state);
     }
     default: {
       return state;

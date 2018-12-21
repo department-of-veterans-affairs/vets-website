@@ -188,7 +188,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/formation": "^1.12.2",
+    "@department-of-veterans-affairs/formation": "^1.16.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@octokit/rest": "^16.2.0",
     "blob-polyfill": "^2.0.20171115",
