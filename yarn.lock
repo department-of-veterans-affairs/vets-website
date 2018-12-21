@@ -22,10 +22,10 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
-"@department-of-veterans-affairs/formation@^1.16.1":
-  version "1.16.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-1.16.1.tgz#88e183aa39ac412f57ae406f04d063409df8fd8c"
-  integrity sha512-FcpdqY3jYdBX9E3YR/YrMVlfTcL7s9lndV/+U3ngRsmbO3DWIzSTOXAbF7/JSn0mk9pg1UVE7h6h5FSy+ghWBw==
+"@department-of-veterans-affairs/formation@^1.16.2":
+  version "1.16.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-1.16.2.tgz#01967308752e4e06cd1f90c12e88c80e62e6810b"
+  integrity sha512-s0WRjINy6NWK5Zo75nsqRGpoZJcPWYGzHm2muI/EZ98CuHk+m6TxhhHIkVxUa2ui0hkptsK+EE6+rdaxJjqUlw==
   dependencies:
     classnames "^2.2.5"
     font-awesome "4"
