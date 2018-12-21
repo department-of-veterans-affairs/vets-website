@@ -1,6 +1,9 @@
+import { PTSD_INCIDENT_ITERATION } from '../constants';
+
 const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts');
-const PageHelpers = require('./disability-benefits-helpers');
+const PageHelpers = require('./e2e/disability-benefits-helpers');
+const Page781Helpers = require('./e2e/page-781-helpers');
 const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
 const Auth = require('../../../../platform/testing/e2e/auth');
@@ -138,15 +141,31 @@ const runTest = E2eHelpers.createE2eTest(client => {
     PageHelpers.selectWalkthrough781Choice(client, testData.data);
     client.click('.form-progress-buttons .usa-button-primary');
 
-    // // PTSD - 781 - Medals
-    // E2eHelpers.expectLocation(
-    //   client,
-    //   '/new-disabilities/walkthrough-781-choice',
-    // );
-    // client.axeCheck('.main');
-    // PageHelpers.selectWalkthrough781Choice(client, testData.data);
-    // client.click('.form-progress-buttons .usa-button-primary');
+    for (let index = 0; index < PTSD_INCIDENT_ITERATION; index++) {
+      if (Page781Helpers.getPtsdIncident(testData.data, index)) {
+        // PTSD - 781 - Medals
+        E2eHelpers.expectLocation(
+          client,
+          `/new-disabilities/ptsd-medals-0${index}`,
+        );
+        client.axeCheck('.main');
+        Page781Helpers.completePtsdMedals(client, testData.data, index);
+        client.click('.form-progress-buttons .usa-button-primary');
 
+        // PSTD - 781 - ADDITIONAL EVENTS OR SITUATIONS Y/N
+        E2eHelpers.expectLocation(
+          client,
+          `disabilities/ptsd-additional-events-${index}`,
+        );
+        client.axeCheck('.main');
+        Page781Helpers.completePtsdAdditionalEvents(
+          client,
+          testData.data,
+          index,
+        );
+        client.click('.form-progress-buttons .usa-button-primary');
+      }
+    }
     // ***********************
     // 8940 - Unemployability
     // ***********************

@@ -222,6 +222,27 @@
     ],
     "view:faqAccordion": {},
     "privacyAgreementAccepted": true,
-    "servedInCombatZonePost911": true
+    "servedInCombatZonePost911": true,
+    "incident0": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
+    "incident1": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
+    "incident2": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
   }
 }
