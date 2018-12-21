@@ -104,6 +104,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
 
     // New Disability - Add
     E2eHelpers.expectLocation(client, '/new-disabilities/add');
+    // do not run 'wcag2a' rules because of open aXe bug https://github.com/dequelabs/axe-core/issues/214
     client.axeCheck('.main', { rules: ['section508'] });
     PageHelpers.addNewDisability(client, testData.data);
     client.click('.form-progress-buttons .usa-button-primary');
