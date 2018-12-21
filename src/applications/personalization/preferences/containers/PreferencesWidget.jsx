@@ -162,14 +162,15 @@ class PreferencesWidget extends React.Component {
       <div>
         <div className="title-container">
           <h2>Find VA Benefits</h2>
-          {isLoaded && hasSelectedBenefits && (
-            <Link
-              className="usa-button usa-button-secondary"
-              to="find-benefits"
-            >
-              Find VA Benefits
-            </Link>
-          )}
+          {isLoaded &&
+            hasSelectedBenefits && (
+              <Link
+                className="usa-button usa-button-secondary"
+                to="find-benefits"
+              >
+                Find VA Benefits
+              </Link>
+            )}
         </div>
         <ReactCSSTransitionGroup
           transitionName="form-expanding-group-inner"
