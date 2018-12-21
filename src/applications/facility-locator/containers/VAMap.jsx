@@ -266,14 +266,6 @@ class VAMap extends Component {
       ...params,
     };
 
-    // /* eslint-disable prettier/prettier */
-    // const queryString = compact(
-    //   map(queryParams, (value, key) => {
-    //     return (value) ? `${key}=${value}` : null;
-    //   })
-    // ).join('&');
-    // /* eslint-enable prettier/prettier */
-
     const queryStringObj = buildQueryString(
       `/find-locations${location.pathname}`,
       queryParams,
