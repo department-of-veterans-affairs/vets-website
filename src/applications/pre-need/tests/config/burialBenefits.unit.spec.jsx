@@ -8,14 +8,12 @@ import {
   fillData,
   selectRadio,
 } from '../../../../platform/testing/unit/schemaform-utils';
-import conditionalStorage from '../../../../platform/utilities/storage/conditionalStorage';
 import formConfig from '../../config/form';
 
 let fetchMock;
 let oldFetch;
 
 const mockFetch = () => {
-  conditionalStorage().setItem('userToken', '1234');
   oldFetch = global.fetch;
   fetchMock = sinon.stub();
   global.fetch = fetchMock;
@@ -46,7 +44,6 @@ const mockFetch = () => {
 
 const unMockFetch = () => {
   global.fetch = oldFetch;
-  conditionalStorage().clear();
 };
 
 describe('Pre-need burial benefits', () => {
@@ -66,6 +63,7 @@ describe('Pre-need burial benefits', () => {
     );
 
     expect(form.find('input').length).to.equal(4);
+    form.unmount();
   });
 
   it('should not submit empty form', () => {
@@ -83,6 +81,7 @@ describe('Pre-need burial benefits', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should fill in currently buried persons list', () => {
@@ -111,6 +110,7 @@ describe('Pre-need burial benefits', () => {
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should fill in desired cemetery', done => {
@@ -143,6 +143,7 @@ describe('Pre-need burial benefits', () => {
           .value,
       ).to.equal('ABRAHAM LINCOLN NATIONAL CEMETERY');
 
+      form.unmount();
       done();
     });
   });
@@ -186,6 +187,7 @@ describe('Pre-need burial benefits', () => {
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should fill cemetery for currently buried person', done => {
@@ -222,6 +224,7 @@ describe('Pre-need burial benefits', () => {
           .props().value,
       ).to.equal('ABRAHAM LINCOLN NATIONAL CEMETERY');
 
+      form.unmount();
       done();
     });
   });

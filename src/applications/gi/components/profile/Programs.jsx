@@ -57,6 +57,18 @@ export class Programs extends React.Component {
         text: 'Priority Enrollment',
         link: false,
       },
+
+      onlineOnly: {
+        modal: 'onlineOnlyDistanceLearning',
+        text: 'Online Only',
+        link: false,
+      },
+
+      distanceLearning: {
+        modal: 'onlineOnlyDistanceLearning',
+        text: 'Distance Learning',
+        link: false,
+      },
     };
   }
 

@@ -57,6 +57,7 @@ describe('Schemaform <RoutedSavableFormPage>', () => {
 
     expect(tree.find('SaveStatus').exists()).to.be.true;
     expect(tree.find('SaveFormLink').exists()).to.be.true;
+    tree.unmount();
   });
 
   it('should auto save on change', () => {
@@ -110,5 +111,6 @@ describe('Schemaform <RoutedSavableFormPage>', () => {
     tree.instance().onChange({ tests: 1 });
     expect(autosave.called).to.be.true;
     expect(setData.called).to.be.true;
+    tree.unmount();
   });
 });

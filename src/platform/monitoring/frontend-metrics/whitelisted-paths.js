@@ -7,6 +7,6 @@
 export const whitelistedPaths = [
   '/',
   '/disability/',
-  '/facilities/',
+  '/find-locations/',
   '/disability/how-to-file-claim/',
 ];

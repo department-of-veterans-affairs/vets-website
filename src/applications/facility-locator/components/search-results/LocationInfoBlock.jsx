@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
@@ -11,21 +10,26 @@ import ProviderServiceDescription from '../ProviderServiceDescription';
 const LocationInfoBlock = ({ location, currentLocation }) => {
   const { name } = location.attributes;
   const isProvider = location.type === LocationType.CC_PROVIDER;
+  // eslint-disable-next-line prettier/prettier
   const distance = (currentLocation)
     ? distBetween(
-      currentLocation.latitude, currentLocation.longitude,
-      location.attributes.lat, location.attributes.long
-    )
+        currentLocation.latitude,
+        currentLocation.longitude,
+        location.attributes.lat,
+        location.attributes.long,
+      )
     : null;
 
   return (
     <div>
-      { isProvider ? (
+      {isProvider ? (
         <span>
           <Link to={`provider/${location.id}`}>
             <h5>{name}</h5>
           </Link>
-          { location.attributes.orgName && <h6>{location.attributes.orgName}</h6> }
+          {location.attributes.orgName && (
+            <h6>{location.attributes.orgName}</h6>
+          )}
           <ProviderServiceDescription provider={location} />
         </span>
       ) : (
@@ -39,7 +43,11 @@ const LocationInfoBlock = ({ location, currentLocation }) => {
       <p>
         <LocationAddress location={location} />
       </p>
-      { distance && <p><strong>Distance:</strong> {distance.toFixed(1)} miles</p> }
+      {distance && (
+        <p>
+          <strong>Distance:</strong> {distance.toFixed(1)} miles
+        </p>
+      )}
     </div>
   );
 };

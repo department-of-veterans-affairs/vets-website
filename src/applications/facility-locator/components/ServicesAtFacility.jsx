@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { object } from 'prop-types';
 import { isEmpty } from 'lodash';
@@ -114,13 +113,18 @@ class ServicesAtFacility extends Component {
       return null;
     }
 
-    const alertHeading = 'This list may not include all of the services available at this location.';
-    const alertContent = 'Please check on the facility’s website or call them for this information.';
+    const alertHeading =
+      'This list may not include all of the services available at this location.';
+    const alertContent =
+      'Please check on the facility’s website or call them for this information.';
 
     return (
       <div>
-        <p style={{ margin: '0 0 0.5em' }}>Services current as of&nbsp;
-          <strong>{moment(services.last_updated).format('MMMM D, YYYY')}</strong>
+        <p style={{ margin: '0 0 0.5em' }}>
+          Services current as of&nbsp;
+          <strong>
+            {moment(services.last_updated).format('MMMM D, YYYY')}
+          </strong>
         </p>
 
         <div className="mb2">

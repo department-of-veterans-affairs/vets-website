@@ -1,6 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-sidebar";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-next-previous";
+@import '../../static-pages/sass/modules/_m-education-wizard.scss';
 
 .gib-info {
   margin-bottom: 5em;
@@ -120,5 +121,9 @@
 // Remove once temporary alert goes away from the intro page
 .intro-warning {
   margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.intro-wizard {
   margin-bottom: 1em;
 }

@@ -22,6 +22,7 @@ describe('VRE chapter 36 dependent information', () => {
     );
 
     expect(form.find('input').length).to.equal(9);
+    form.unmount();
   });
 
   it('should submit without information', () => {
@@ -38,5 +39,6 @@ describe('VRE chapter 36 dependent information', () => {
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

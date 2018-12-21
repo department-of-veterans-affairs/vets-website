@@ -27,6 +27,7 @@ describe('VRE chapter 31 disability information', () => {
     );
 
     expect(form.find('input').length).to.equal(4);
+    form.unmount();
   });
 
   it('should not submit empty form', () => {
@@ -44,6 +45,7 @@ describe('VRE chapter 31 disability information', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('renders hospital information form when in hospital is true', () => {
@@ -61,6 +63,7 @@ describe('VRE chapter 31 disability information', () => {
 
     expect(form.find('input').length).to.equal(9);
     expect(form.find('select').length).to.equal(3);
+    form.unmount();
   });
 
   it('should fill in hospital information', () => {
@@ -108,5 +111,6 @@ describe('VRE chapter 31 disability information', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

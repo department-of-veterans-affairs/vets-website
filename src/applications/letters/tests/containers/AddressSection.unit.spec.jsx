@@ -83,6 +83,7 @@ describe('<AddressSection>', () => {
     expect(contentHeader).to.contain(
       'Downloaded documents will list your address as:',
     );
+    tree.unmount();
   });
 
   it('should display a loading spinner if address save in progress', () => {
@@ -96,6 +97,7 @@ describe('<AddressSection>', () => {
       .find('LoadingIndicator')
       .dive();
     expect(spinner.text()).to.contain('Updating your address...');
+    tree.unmount();
   });
 
   it('should format 1 address line', () => {
@@ -109,6 +111,7 @@ describe('<AddressSection>', () => {
       .find('.address-block div.letters-address.street')
       .text();
     expect(addressBlockText).to.contain('2476 main street');
+    tree.unmount();
   });
 
   it('should format address 2 address lines', () => {
@@ -126,6 +129,7 @@ describe('<AddressSection>', () => {
       .text();
 
     expect(addressBlockText).to.contain('2476 main street, ste #12');
+    tree.unmount();
   });
 
   it('should format address 3 address lines', () => {
@@ -148,18 +152,21 @@ describe('<AddressSection>', () => {
       .find('.address-block div.letters-address.street')
       .text();
     expect(addressBlockText).to.contain('2476 main street, ste #12 west');
+    tree.unmount();
   });
 
   it('should render an edit button if user is allowed to edit address', () => {
     const component = shallow(<AddressSection {...defaultProps} />);
     const editButton = component.find('.usa-button-secondary');
     expect(editButton).to.have.lengthOf(1);
+    component.unmount();
   });
 
   it('should not render an edit button if user not allowed to edit address', () => {
     const cannotEditProps = { ...defaultProps, canUpdate: false };
     const component = shallow(<AddressSection {...cannotEditProps} />);
     expect(component.find('usa-button-secondary')).to.have.lengthOf(0);
+    component.unmount();
   });
 
   it('should call editAddress() when Edit button is clicked', () => {
@@ -171,6 +178,7 @@ describe('<AddressSection>', () => {
     // Poke the edit button
     tree.find('button.usa-button-secondary').simulate('click');
     expect(editSpy.called).to.be.true;
+    tree.unmount();
   });
 
   it('should render edit fields when isEditingAddress is true', () => {
@@ -178,6 +186,7 @@ describe('<AddressSection>', () => {
 
     expect(tree.find('input')).to.have.lengthOf(5);
     expect(tree.find('select')).to.have.lengthOf(2);
+    tree.unmount();
   });
 
   it('should call saveAddress() when Update button is clicked', () => {
@@ -186,6 +195,7 @@ describe('<AddressSection>', () => {
     // Click the save button
     tree.find('button.usa-button-primary').simulate('click');
     expect(saveSpy.calledWith(tree.state('editableAddress'))).to.be.true;
+    tree.unmount();
   });
 
   it('should call cancelEditingAddress when Cancel button is clicked', () => {
@@ -194,6 +204,7 @@ describe('<AddressSection>', () => {
     // Click the cancel button
     tree.find('button.usa-button-secondary').simulate('click');
     expect(cancelEditSpy.called).to.be.true;
+    tree.unmount();
   });
 
   // NOTE: This is a bit of a misnomer; it only tests if countries are unavailable, but that should be sufficient
@@ -206,12 +217,14 @@ describe('<AddressSection>', () => {
     expect(tree.find('.usa-alert-heading').text()).to.contain(
       'Address update unavailable',
     );
+    tree.unmount();
   });
 
   it('should load address in new props after mounting', () => {
     const tree = mount(<AddressSection {...defaultProps} />);
 
     expect(tree.state('editableAddress')).to.equal(defaultProps.savedAddress);
+    tree.unmount();
   });
 
   it('should update editableAddress when the input changes', () => {
@@ -225,6 +238,7 @@ describe('<AddressSection>', () => {
       .find('input[name="addressOne"]')
       .simulate('change', { target: { value: newAddress } });
     expect(tree.state('editableAddress').addressOne).to.equal(newAddress);
+    tree.unmount();
   });
 
   it('should not call saveAddress when Cancel is clicked', () => {
@@ -234,6 +248,7 @@ describe('<AddressSection>', () => {
     // Try to save
     tree.find('button.usa-button-secondary').simulate('click');
     expect(saveSpy.called).to.be.false;
+    tree.unmount();
   });
 
   it('should not call saveAddress when Update is clicked with invalid data', () => {
@@ -248,6 +263,7 @@ describe('<AddressSection>', () => {
     // Try to save
     tree.find('button.usa-button-primary').simulate('click');
     expect(saveSpy.called).to.be.false;
+    tree.unmount();
   });
 
   it('should display error messages for validation failures', () => {
@@ -258,6 +274,7 @@ describe('<AddressSection>', () => {
       .find('select[name="country"]')
       .simulate('change', { target: { value: '' } });
     expect(tree.find('.usa-input-error')).to.have.lengthOf(1);
+    tree.unmount();
   });
 
   it('should infer new address type', () => {
@@ -280,6 +297,7 @@ describe('<AddressSection>', () => {
     // NOTE: This isn't a _comprehensive_ test that ensures changing the input will do what we
     //  expect, but the e2e test should make sure that the wiring from the input to handleChange
     //  is up and running as expected.
+    tree.unmount();
   });
 
   it('should reset disallowed address fields when type changes', () => {
@@ -293,6 +311,7 @@ describe('<AddressSection>', () => {
       .find('select[name="country"]')
       .simulate('change', { target: { value: 'Elsweyre' } });
     expect(tree.state('editableAddress').stateCode).to.equal('');
+    tree.unmount();
   });
 
   // Not sure how to test this bit yet...
@@ -312,6 +331,7 @@ describe('<AddressSection>', () => {
     const tree = shallow(<AddressSection {...props}/>); // eslint-disable-line
 
     expect(editSpy.called).to.be.true;
+    tree.unmount();
   });
 
   it('should not start editing by calling editAddress() if address is empty but user !canUpdate', () => {
@@ -321,11 +341,13 @@ describe('<AddressSection>', () => {
 
     const component = shallow(<AddressSection {...props}/>); // eslint-disable-line
     expect(editSpy.called).to.be.false;
+    component.unmount();
   });
 
   it('should render an address help button', () => {
     const tree = mount(<AddressSection {...defaultProps} />);
     expect(tree.find('.address-help-btn').exists()).to.be.true;
+    tree.unmount();
   });
 
   it('should render an empty address warning on the edit screen', () => {
@@ -342,6 +364,7 @@ describe('<AddressSection>', () => {
         .first()
         .text(),
     ).to.equal('VA does not have a valid address on file for you');
+    tree.unmount();
   });
 
   it('should render an empty address warning on the view screen', () => {
@@ -354,6 +377,7 @@ describe('<AddressSection>', () => {
         .first()
         .text(),
     ).to.equal('VA does not have a valid address on file for you');
+    tree.unmount();
   });
 
   describe('validation', () => {
@@ -380,6 +404,7 @@ describe('<AddressSection>', () => {
           validator => validator.called,
         ),
       ).to.be.true;
+      tree.unmount();
     });
 
     it('should return the first error message it finds', () => {
@@ -401,6 +426,7 @@ describe('<AddressSection>', () => {
           .slice(1)
           .every(validator => !validator.called),
       ).to.be.true;
+      tree.unmount();
     });
 
     it('should run validations on modified fields only', () => {
@@ -426,6 +452,7 @@ describe('<AddressSection>', () => {
           expect(validationsCalled).to.be.false;
         }
       });
+      tree.unmount();
     });
 
     it('should run validation against dropdowns immediately', () => {
@@ -454,6 +481,7 @@ describe('<AddressSection>', () => {
       expect(tree.find('.usa-input-error').text()).to.contain(
         'Please select a country',
       );
+      tree.unmount();
     });
 
     it('should run validations on all fields before saving the address', () => {
@@ -466,6 +494,7 @@ describe('<AddressSection>', () => {
         expect(AddressSection.fieldValidations[key].some(v => v.called)).to.be
           .true;
       });
+      tree.unmount();
     });
   });
 });

@@ -48,8 +48,10 @@ class IntroductionPage extends React.Component {
       saveInProgress: { user },
     } = this.props;
 
+    const isLoggedIn = user && user.login && user.login.currentlyLoggedIn;
+
     const itfAgreement = (
-      <p className="itf-agreement">
+      <p className={`itf-agreement${isLoggedIn ? '' : ' unauthenticated'}`}>
         By clicking the button to start the disability application, you’ll
         declare your intent to file. This will reserve a potential effective
         date for when you could start getting benefits. You have 1 year from the
@@ -128,7 +130,7 @@ class IntroductionPage extends React.Component {
                 out another form if you’re claiming a dependent or applying for
                 aid and attendance benefits.
                 <br />
-                <a href="/disability-benefits/apply/supplemental-forms/">
+                <a href="/disability/how-to-file-claim/supplemental-forms/">
                   Learn what additional forms you may need to file with your
                   disability claim
                 </a>
@@ -163,7 +165,7 @@ class IntroductionPage extends React.Component {
                       disability rating for your claimed condition.
                     </p>
                     <p>
-                      <a href="/disability-benefits/eligibility/ratings/">
+                      <a href="/disability/about-disability-ratings/">
                         Learn how VA assigns disability ratings
                       </a>
                       .
