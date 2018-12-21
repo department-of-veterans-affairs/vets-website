@@ -23,6 +23,7 @@ import {
   RetrieveFailedMessageComponent,
   dismissBenefitAlert,
   getDismissedBenefitAlerts,
+  filterItems,
 } from '../helpers';
 import { LOADING_STATES } from '../constants';
 
@@ -102,12 +103,14 @@ class PreferencesWidget extends React.Component {
     );
     const hasSelectedBenefits = !!selectedBenefits.length;
     const dismissedBenefitAlerts = getDismissedBenefitAlerts();
-    let selectedBenefitAlerts = selectedBenefits
+    const selectedBenefitAlerts = selectedBenefits
       .filter(item => !!item.alert)
-      .map(item => item.alert)
-      .filter(alert => !dismissedBenefitAlerts.includes(alert.name))
-      .map(alert => alert.component);
-    selectedBenefitAlerts = deduplicate(selectedBenefitAlerts);
+      .map(item => item.alert);
+    let displayedBenefitAlerts = filterItems(
+      selectedBenefitAlerts,
+      dismissedBenefitAlerts,
+    ).map(alert => alert.component);
+    displayedBenefitAlerts = deduplicate(displayedBenefitAlerts);
 
     if (loadingStatus === LOADING_STATES.pending) {
       return <LoadingIndicator message={'Loading your selections...'} />;
@@ -137,10 +140,10 @@ class PreferencesWidget extends React.Component {
             handleRemove={this.handleRemove}
           />,
         ];
-        if (selectedBenefitAlerts.length) {
+        if (displayedBenefitAlerts.length) {
           content.unshift(
             <div key="benefit-alerts">
-              {selectedBenefitAlerts.map((alert, index) => (
+              {displayedBenefitAlerts.map((alert, index) => (
                 <BenefitAlert
                   alert={alert}
                   key={index}
