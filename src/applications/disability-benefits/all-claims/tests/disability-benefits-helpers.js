@@ -129,6 +129,7 @@ function addNewDisability(client, data) {
     );
     if (i < list.length - 1) client.click('.va-growable-add-btn');
   });
+  client.click('body');
 }
 
 function completeUnemployabilityStatus(client, data) {
