@@ -122,7 +122,7 @@ describe('preferences actions', () => {
       }, 0);
     });
 
-    it(`should dispatch the SET_USER_PREFERENCE_REQUEST_STATUS action with 'loaded' and the SET_DASHBOARD_USER_PREFERENCES action on request success`, done => {
+    it(`should dispatch the SET_DASHBOARD_USER_PREFERENCES action with the response on request success`, done => {
       const response = {
         data: {
           attributes: {
@@ -153,14 +153,8 @@ describe('preferences actions', () => {
       setTimeout(() => {
         expect(dispatch.secondCall.args[0]).to.eql({
           type: SET_DASHBOARD_USER_PREFERENCES,
-          preferences: { pensions: true, 'health-care': true },
+          payload: response,
         });
-        expect(
-          dispatch.thirdCall.calledWith({
-            type: SET_USER_PREFERENCE_REQUEST_STATUS,
-            status: LOADING_STATES.loaded,
-          }),
-        ).to.be.true;
         done();
       }, 0);
     });

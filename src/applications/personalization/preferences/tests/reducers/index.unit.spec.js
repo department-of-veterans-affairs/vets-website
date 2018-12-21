@@ -72,40 +72,6 @@ describe('preferencesReducer', () => {
     expect(newState.dashboard).to.be.deep.equal({});
   });
 
-  it('sets the `dashboard` when the `SET_DASHBOARD_USER_PREFERENCES` action is dispatched', () => {
-    action = {
-      type: preferencesActions.SET_DASHBOARD_USER_PREFERENCES,
-      preferences: { appeals: true, 'education-training': false },
-    };
-    const newState = reducer(state, action);
-    expect(newState.dashboard).to.be.deep.equal({
-      appeals: true,
-      'education-training': false,
-    });
-    expect(newState.availableBenefits).to.be.deep.equal([]);
-  });
-
-  it('updates the correct prop on `dashboard` when the `SET_DASHBOARD_PREFERENCE` action is dispatched', () => {
-    state = {
-      availableBenefits: [],
-      dashboard: {
-        appeals: true,
-        'education-training': false,
-      },
-    };
-    action = {
-      type: preferencesActions.SET_DASHBOARD_PREFERENCE,
-      code: 'education-training',
-      value: true,
-    };
-    const newState = reducer(state, action);
-    expect(newState.dashboard).to.be.deep.equal({
-      appeals: true,
-      'education-training': true,
-    });
-    expect(newState.availableBenefits).to.be.deep.equal([]);
-  });
-
   it('uses Date.now() to set the `savedAt` timestamp when the `SAVED_DASHBOARD_PREFERENCES` action is dispatched', () => {
     const ts = 1544809132931;
     const dateNowStub = sinon.stub(Date, 'now').callsFake(() => ts);
@@ -118,5 +84,72 @@ describe('preferencesReducer', () => {
     expect(newState.dashboard).to.be.deep.equal({});
     expect(newState.availableBenefits).to.be.deep.equal([]);
     dateNowStub.restore();
+  });
+
+  describe('SET_DASHBOARD_USER_PREFERENCES', () => {
+    let userPreferencesResponse;
+
+    it('correctly parses the server payload and updates the state when the user has set preferences', () => {
+      userPreferencesResponse = {
+        data: {
+          id: '',
+          type: 'arrays',
+          attributes: {
+            userPreferences: [
+              {
+                code: 'benefits',
+                title:
+                  'the benefits a veteran is interested in, so VA.gov can help you apply for them',
+                userPreferences: [
+                  {
+                    code: 'education-training',
+                    description: 'Info about education and training benefits',
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      };
+      state = {
+        dashboard: {
+          appeals: true,
+          'education-training': false,
+        },
+      };
+      action = {
+        type: preferencesActions.SET_DASHBOARD_USER_PREFERENCES,
+        payload: userPreferencesResponse,
+      };
+      const newState = reducer(state, action);
+      expect(newState.dashboard).to.be.deep.equal({
+        'education-training': true,
+      });
+      expect(newState.userBenefitsLoadingStatus).to.eql('loaded');
+    });
+    it('correctly parses the server payload and updates the state when the user has not set preferences', () => {
+      userPreferencesResponse = {
+        data: {
+          id: '',
+          type: 'arrays',
+          attributes: {
+            userPreferences: [],
+          },
+        },
+      };
+      state = {
+        dashboard: {
+          appeals: true,
+          'education-training': false,
+        },
+      };
+      action = {
+        type: preferencesActions.SET_DASHBOARD_USER_PREFERENCES,
+        payload: userPreferencesResponse,
+      };
+      const newState = reducer(state, action);
+      expect(newState.dashboard).to.be.deep.equal({});
+      expect(newState.userBenefitsLoadingStatus).to.eql('loaded');
+    });
   });
 });
