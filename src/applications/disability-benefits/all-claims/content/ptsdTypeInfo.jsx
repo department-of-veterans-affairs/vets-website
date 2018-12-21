@@ -8,18 +8,9 @@ export const nonCombatPtsdType = (
   </span>
 );
 
-export const ptsdTypeDescription = (
-  <div>
-    <p>
-      First we‘re going to ask you about the type of event or events that
-      contributed to your PTSD.
-    </p>
-  </div>
-);
-
 export const ptsdTypeHelp = (
   <AdditionalInfo triggerText="Which should I choose?">
-    <h4>Types of Stressful events</h4>
+    <h4>Types of stressful events</h4>
     <h5>Combat</h5>
     <p>
       This means you participated in a fight or encounter with a military enemy

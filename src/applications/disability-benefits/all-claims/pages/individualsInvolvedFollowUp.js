@@ -25,7 +25,7 @@ export const uiSchema = index => ({
           'ui:widget': 'textarea',
         },
         'view:serviceMember': {
-          'ui:title': 'Were they a Servicemember',
+          'ui:title': 'Were they a Servicemember?',
           'ui:widget': 'yesNo',
         },
         rank: {

@@ -10,7 +10,6 @@ import { disabilityNameTitle } from '../content/newPTSDFollowUp';
 
 export const uiSchema = {
   'ui:title': disabilityNameTitle,
-  'ui:description': ptsdTypeDescription,
   'view:selectablePtsdTypes': {
     'ui:title':
       'What type of event contributed to your PTSD? (Choose all that apply.)',

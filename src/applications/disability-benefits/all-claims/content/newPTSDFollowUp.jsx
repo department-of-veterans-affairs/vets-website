@@ -9,11 +9,6 @@ export const disabilityNameTitle = (
 export const introExplanationText = (
   <div>
     <p>
-      As you go through these questions, your responses will be saved. So, if
-      you need to take a break and come back to your application, your
-      information will be here for you.
-    </p>
-    <p>
       Your responses will be saved as you go through these questions. If you
       need to take a break and come back to your application, your information
       will be saved.
