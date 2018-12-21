@@ -112,7 +112,7 @@ export function savePreferences(benefitsData) {
     return apiRequest(
       '/user/preferences',
       { headers, method, body },
-      async () => {
+      () => {
         dispatch({
           type: SAVED_DASHBOARD_PREFERENCES,
         });

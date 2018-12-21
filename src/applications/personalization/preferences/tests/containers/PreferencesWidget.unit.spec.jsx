@@ -18,6 +18,8 @@ const props = {
 describe('<PreferencesWidget>', () => {
   it('should render empty view', () => {
     props.preferences.dashboard['education-training'] = false;
+    props.setDismissedBenefitAlerts = () => true;
+    props.preferences.dismissedBenefitAlerts = [];
     const component = shallow(<PreferencesWidget {...props} />);
     expect(component.html()).to.contain(
       'You haven’t selected any benefits to learn about.',
@@ -26,6 +28,8 @@ describe('<PreferencesWidget>', () => {
   });
   it('should render view with preferences', () => {
     props.preferences.dashboard['education-training'] = true;
+    props.setDismissedBenefitAlerts = () => true;
+    props.preferences.dismissedBenefitAlerts = [];
     const component = shallow(<PreferencesWidget {...props} />);
     expect(component.find('PreferenceList').length).to.equal(1);
     component.unmount();
