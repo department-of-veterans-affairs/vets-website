@@ -681,7 +681,7 @@ const schema = {
     secondaryPtsdIncident: {
       type: 'object',
       properties: {
-        source: {
+        sources: {
           type: 'array',
           items: {
             type: 'object',
