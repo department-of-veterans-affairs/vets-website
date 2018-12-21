@@ -5,6 +5,7 @@ import DowntimeNotification, {
   externalServices,
 } from '../../../platform/monitoring/DowntimeNotification';
 import buildQueryString from '../../../platform/utilities/data/buildQueryString';
+import { validateIdString } from '../utils/helpers';
 import Breadcrumbs from '@department-of-veterans-affairs/formation/Breadcrumbs';
 import { ccLocatorEnabled } from '../config';
 
@@ -40,10 +41,14 @@ class FacilityLocatorApp extends React.Component {
       </Link>,
     ];
 
-    if (
-      location.pathname.match(/facility\/[a-z]{1,10}_[a-zA-Z0-9]{1,10}/) &&
-      selectedResult
-    ) {
+    // Matches on all of the following URL shapes.
+    // The first item would not match our previous regex,
+    // and the breadcrumb would not add a third link.
+    //
+    // find-locations/facility/nca_s1130
+    // find-locations/facility/vha_691GE
+    // find-locations/facility/nca_827
+    if (validateIdString(location.pathname, '/facility') && selectedResult) {
       crumbs.push(
         <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
           Facility Details
@@ -51,7 +56,7 @@ class FacilityLocatorApp extends React.Component {
       );
     } else if (
       ccLocatorEnabled() && // TODO: Remove feature flag when ready to go live
-      location.pathname.match(/provider\/[a-z]{1,10}_[a-zA-Z0-9]{1,10}/) &&
+      validateIdString(location.pathname, '/provider') &&
       selectedResult
     ) {
       crumbs.push(

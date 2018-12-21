@@ -39,7 +39,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .click('input[type="submit"]')
     .waitForElementVisible('.facility-result', Timeouts.normal);
 
-  // check detail page with ID pattern _, letter, digits
+  // check detail page with ID pattern letters_, letter, digits
   client
     .waitForElementVisible('.facility-result a h5', Timeouts.normal)
     .click('.facility-result a h5')
@@ -61,13 +61,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .click('.va-nav-breadcrumbs-list li:nth-of-type(2) a')
     .waitForElementVisible('.facility-result', Timeouts.normal);
 
-  // check detail page with ID pattern _, digits, letter
+  // check detail page with ID pattern letters_, digits, letters
   client
     .waitForElementVisible(
       '.facility-result:nth-of-type(2) a h5',
       Timeouts.normal,
     )
-    .click('.facility-result a h5')
+    .click('.facility-result:nth-of-type(2) a h5')
     .waitForElementVisible('.facility-detail', Timeouts.slow);
 
   client.waitForElementVisible('a[aria-current="page"', Timeouts.normal);
@@ -80,7 +80,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .click('.va-nav-breadcrumbs-list li:nth-of-type(2) a')
     .waitForElementVisible('.facility-result', Timeouts.normal);
 
-  // check detail page with ID pattern _, digits
+  // check detail page with ID pattern letters_, digits
   client
     .waitForElementVisible(
       '.facility-result:nth-of-type(3) a h5',

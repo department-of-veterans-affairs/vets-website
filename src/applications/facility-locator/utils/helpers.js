@@ -75,3 +75,18 @@ export const keyMap = {
   UP: 38,
   DOWN: 40,
 };
+
+/**
+ *
+ * @param {Object} urlObj Typically location.pathname
+ * @param {String} urlPrefixString Types like "/facility" or "/provider"
+ */
+export const validateIdString = (urlObj, urlPrefixString) => {
+  /* eslint-disable prettier/prettier, no-useless-escape */
+  const regex = '\/[a-z]{1,15}_[a-zA-Z0-9]{1,15}$';
+  /* eslint-enable prettier/prettier, no-useless-escape */
+  const unparsedString = `${urlPrefixString}${regex}`;
+  const validString = urlObj.match(unparsedString);
+
+  return validString;
+};

@@ -5,7 +5,7 @@ import appendQuery from 'append-query';
  * assemble and append a valid query string to URLs.
  *
  * basePath {String} - Will often be '/' for React app base
- * searchQuery {Object || String} - Search parameters in key/value pairs
+ * searchQuery {Object} {String} - Search parameters in key/value format
  */
 export default function buildQueryString(basePath, searchQuery) {
   const searchQueryUrl = appendQuery(basePath, searchQuery);
