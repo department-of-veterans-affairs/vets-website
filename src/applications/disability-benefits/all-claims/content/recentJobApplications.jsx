@@ -27,9 +27,5 @@ export const substantiallyGainfulEmployment = () => (
         person.
       </li>
     </ul>
-    <p>
-      Do not include applications to Veterans Health Adminstration's Compensated
-      Work Therapy Program in this listing.
-    </p>
   </AdditionalInfo>
 );
