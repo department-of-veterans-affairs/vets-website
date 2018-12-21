@@ -11,5 +11,5 @@ export const ptsdAssignmentDescription = (
 );
 
 export const ptsdAssignmentDatesDescription = (
-  <p>Dates you were assigned to this unit</p>
+  <p>Approximate dates you were assigned to this unit</p>
 );
