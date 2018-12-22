@@ -45,7 +45,7 @@ import {
   waiveRetirementPay,
   militaryHistory,
   servedInCombatZone,
-  separationTrainingPay,
+  trainingPay,
   trainingPayWaiver,
   reservesNationalGuardService,
   federalOrders,
@@ -87,6 +87,7 @@ import {
   physicalHealthChanges,
   newDisabilities,
   ancillaryFormsWizardSummary,
+  separationPay,
 } from '../pages';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
@@ -181,6 +182,18 @@ const formConfig = {
           depends: form => hasGuardOrReservePeriod(form.serviceInformation),
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
+        },
+        separationPay: {
+          title: 'Separation or Severance Pay',
+          path: 'separation-pay',
+          uiSchema: separationPay.uiSchema,
+          schema: separationPay.schema,
+        },
+        trainingPay: {
+          title: 'Training Pay',
+          path: 'training-pay',
+          uiSchema: trainingPay.uiSchema,
+          schema: trainingPay.schema,
         },
       },
     },
@@ -541,12 +554,6 @@ const formConfig = {
           depends: hasMilitaryRetiredPay,
           uiSchema: waiveRetirementPay.uiSchema,
           schema: waiveRetirementPay.schema,
-        },
-        separationTrainingPay: {
-          title: 'Separation, Severance or Training Pay',
-          path: 'separation-training-pay',
-          uiSchema: separationTrainingPay.uiSchema,
-          schema: separationTrainingPay.schema,
         },
         trainingPayWaiver: {
           title: 'Training pay waiver',
