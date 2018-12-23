@@ -55,12 +55,12 @@ const familyFAQ = () => (
       <a href="/careers-employment/dependent-benefits">
         See if you're eligible for educational and career counseling.
       </a>
-    </li>  
+    </li>
     <li>
       <a href="/life-insurance/options-eligibility/fsgli">
         Learn about Family Servicemembers' Group Life Insurance (FSGLI).
       </a>
-    </li>  
+    </li>
     <li>
       <a href="/health-care/about-va-health-benefits/long-term-care">
         Consider options for assisted living and home health care.
