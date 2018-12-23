@@ -17,7 +17,7 @@ import {
 } from '../../../site-wide/user-nav/actions';
 
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
-import { selectUserGreeting, selectUserGreetingMobile } from '../selectors';
+import { selectUserGreeting } from '../selectors';
 
 import dashboardManifest from '../../../../applications/personalization/dashboard/manifest';
 import isBrandConsolidationEnabled from '../../../../platform/brand-consolidation/feature-flag';
@@ -166,7 +166,6 @@ const mapStateToProps = state => ({
   isProfileLoading: isProfileLoading(state),
   isLOA3: isLOA3(state),
   userGreeting: selectUserGreeting(state),
-  userGreetingMobile: selectUserGreetingMobile(state),
   ...state.navigation,
 });
 

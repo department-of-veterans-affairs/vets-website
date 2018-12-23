@@ -14,38 +14,20 @@ class SignInProfileMenu extends React.Component {
 
     return (
       <div>
-        <div className="show-for-medium-up">
-          <DropDownPanel
-            buttonText={this.props.greeting}
-            clickHandler={this.props.clickHandler}
-            id="account-menu"
-            icon={icon}
-            isOpen={this.props.isOpen}
-            disabled={this.props.disabled}
-          >
-            {isPersonalizationEnabled() ? (
-              <PersonalizationDropdown />
-            ) : (
-              <LegacyDropdown />
-            )}
-          </DropDownPanel>
-        </div>
-        <div className="show-for-small-only">
-          <DropDownPanel
-            buttonText={this.props.greetingMobile}
-            clickHandler={this.props.clickHandler}
-            id="account-menu"
-            icon={icon}
-            isOpen={this.props.isOpen}
-            disabled={this.props.disabled}
-          >
-            {isPersonalizationEnabled() ? (
-              <PersonalizationDropdown />
-            ) : (
-              <LegacyDropdown />
-            )}
-          </DropDownPanel>
-        </div>
+        <DropDownPanel
+          buttonText={this.props.greeting}
+          clickHandler={this.props.clickHandler}
+          id="account-menu"
+          icon={icon}
+          isOpen={this.props.isOpen}
+          disabled={this.props.disabled}
+        >
+          {isPersonalizationEnabled() ? (
+            <PersonalizationDropdown />
+          ) : (
+            <LegacyDropdown />
+          )}
+        </DropDownPanel>
       </div>
     );
   }
@@ -54,7 +36,10 @@ class SignInProfileMenu extends React.Component {
 SignInProfileMenu.propTypes = {
   clickHandler: PropTypes.func.isRequired,
   cssClass: PropTypes.string,
-  greeting: PropTypes.node,
+  greeting: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.node),
+  ]),
   isOpen: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,
 };
