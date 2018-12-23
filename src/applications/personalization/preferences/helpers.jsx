@@ -73,7 +73,8 @@ const survivorFAQ = () => (
   <ul>
     <li>
       <a href="/burials-memorials/veterans-burial-allowance">
-        Apply for a Veteran's burial allowance to help cover burial and funeral costs.
+        Apply for a Veteran's burial allowance to help cover burial and funera
+        l costs.
       </a>
     </li>
     <li>
