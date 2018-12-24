@@ -662,7 +662,7 @@ export const ancillaryFormUploadUi = (
     }),
     attachmentSchema: {
       'ui:title': 'Document type',
-      'ui:disabled': isDisabled,
+    //  'ui:disabled': isDisabled,
       'ui:widget': widgetType,
     },
     classNames: customClasses,
