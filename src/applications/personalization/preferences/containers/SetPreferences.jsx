@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import { isEqual } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation/LoadingIndicator';
 
@@ -67,9 +68,18 @@ class SetPreferences extends React.Component {
     this.props.savePreferences(this.props.preferences.dashboard);
   };
 
-  handlePreferenceToggle = code => {
-    this.props.setPreference(code, !this.props.preferences.dashboard[code]);
+  handlePreferenceToggle = (code, value) => {
+    this.props.setPreference(code, value);
   };
+
+  // checks to see if the current state of the dashboard (ie preferences
+  // selected by the user) is different from how they were when they were pulled
+  // from the server
+  userHasNotMadeChange = () =>
+    isEqual(
+      this.props.preferences.dashboard,
+      this.props.preferences.dashboardBackup,
+    );
 
   // hydrate benefit options from the backend with data from the benefitChoices
   // helper array. We are storing user-facing info in the benefitChoices array
@@ -81,7 +91,7 @@ class SetPreferences extends React.Component {
       const helperData = benefitChoices.find(
         choice => choice.code === benefit.code,
       );
-      hydratedBenefit.title = get('title', helperData, benefit.description);
+      hydratedBenefit.title = helperData.title;
       hydratedBenefit.description = get(
         'description',
         helperData,
@@ -122,6 +132,7 @@ class SetPreferences extends React.Component {
             <LoadingButton
               isLoading={saveStatus === LOADING_STATES.pending}
               onClick={this.handleSave}
+              disabled={this.userHasNotMadeChange()}
             >
               <span>Save Preferences</span>
             </LoadingButton>
