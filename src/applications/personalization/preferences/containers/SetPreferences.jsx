@@ -68,8 +68,8 @@ class SetPreferences extends React.Component {
     this.props.savePreferences(this.props.preferences.dashboard);
   };
 
-  handlePreferenceToggle = code => {
-    this.props.setPreference(code, !this.props.preferences.dashboard[code]);
+  handlePreferenceToggle = (code, value) => {
+    this.props.setPreference(code, value);
   };
 
   // checks to see if the current state of the dashboard (ie preferences

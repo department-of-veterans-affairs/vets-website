@@ -42,8 +42,23 @@ const careersFAQ = () => (
 const familyFAQ = () => (
   <ul>
     <li>
+      <a href="/health-care/family-caregiver-benefits">
+        Find out if you qualify for health care benefits.
+      </a>
+    </li>
+    <li>
       <a href="/education/transfer-post-9-11-gi-bill-benefits">
         Find out how to transfer Post-9/11 GI Bill benefits to family members.
+      </a>
+    </li>
+    <li>
+      <a href="/careers-employment/dependent-benefits">
+        See if you’re eligible for educational and career counseling.
+      </a>
+    </li>
+    <li>
+      <a href="/life-insurance/options-eligibility/fsgli">
+        Learn about Family Servicemembers’ Group Life Insurance (FSGLI).
       </a>
     </li>
     <li>
@@ -57,17 +72,28 @@ const familyFAQ = () => (
 const survivorFAQ = () => (
   <ul>
     <li>
-      <a href="/pension/survivors-pension/">
+      <a href="/burials-memorials/veterans-burial-allowance">
+        Apply for a Veteran’s burial allowance to help cover burial and funeral
+        costs.
+      </a>
+    </li>
+    <li>
+      <a href="/burials-memorials/bereavement-counseling">
+        Find out if you qualify for bereavement counseling.
+      </a>
+    </li>
+    <li>
+      <a href="/burials-memorials/dependency-indemnity-compensation">
+        Learn about compensation for survivors.
+      </a>
+    </li>
+    <li>
+      <a href="/pension/survivors-pension">
         See if you’re eligible for pension benefits based on income.
       </a>
     </li>
     <li>
-      <a href="/burials-memorials/dependency-indemnity-compensation/">
-        Learn about burial and memorial benefits for survivors.
-      </a>
-    </li>
-    <li>
-      <a href="/education/survivor-dependent-benefits/">
+      <a href="/education/survivor-dependent-benefits">
         Find out about other education and training benefits for survivors.
       </a>
     </li>
