@@ -53,12 +53,12 @@ const familyFAQ = () => (
     </li>
     <li>
       <a href="/careers-employment/dependent-benefits">
-        See if you're eligible for educational and career counseling.
+        See if you’re eligible for educational and career counseling.
       </a>
     </li>
     <li>
       <a href="/life-insurance/options-eligibility/fsgli">
-        Learn about Family Servicemembers' Group Life Insurance (FSGLI).
+        Learn about Family Servicemembers’ Group Life Insurance (FSGLI).
       </a>
     </li>
     <li>
@@ -73,7 +73,7 @@ const survivorFAQ = () => (
   <ul>
     <li>
       <a href="/burials-memorials/veterans-burial-allowance">
-        Apply for a Veteran's burial allowance to help cover burial and funeral
+        Apply for a Veteran’s burial allowance to help cover burial and funeral
         costs.
       </a>
     </li>
