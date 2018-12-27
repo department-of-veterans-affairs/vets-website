@@ -21,36 +21,43 @@ const incomeDescription = (
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
   'ui:description': incomeDescription,
-  mostIncome: {
-    'ui:title': 'What was the most money you ever earned in one year?',
-    'ui:errorMessages': {
-      pattern: 'Sorry, you must enter all digits',
+  unemployability: {
+    mostIncome: {
+      'ui:title': 'What was the most money you ever earned in one year?',
+      'ui:errorMessages': {
+        pattern: 'Sorry, you must enter all digits',
+      },
     },
-  },
-  yearEarned: {
-    'ui:title': 'Year earned',
-    'ui:validations': [isValidYear],
-    'ui:errorMessages': {
-      pattern: 'Please provide a valid year',
+    yearEarned: {
+      'ui:title': 'Year earned',
+      'ui:validations': [isValidYear],
+      'ui:errorMessages': {
+        pattern: 'Please provide a valid year',
+      },
     },
-  },
-  job: {
-    'ui:title': 'What was your job that year?',
+    job: {
+      'ui:title': 'What was your job that year?',
+    },
   },
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    mostIncome: {
-      type: 'string',
-      pattern: '^[0-9]*$',
-    },
-    yearEarned: {
-      type: 'string',
-    },
-    job: {
-      type: 'string',
+    unemployability: {
+      type: 'object',
+      properties: {
+        mostIncome: {
+          type: 'string',
+          pattern: '^[0-9]*$',
+        },
+        yearEarned: {
+          type: 'string',
+        },
+        job: {
+          type: 'string',
+        },
+      },
     },
   },
 };

@@ -31,6 +31,7 @@ describe('Income Details Questions', () => {
 
     expect(form);
     expect(form.find('input').length).to.equal(3);
+    form.unmount();
   });
 
   it('should add income details', () => {
@@ -47,12 +48,13 @@ describe('Income Details Questions', () => {
       />,
     );
 
-    fillData(form, 'input#root_mostIncome', '10000');
-    fillData(form, 'input#root_yearEarned', '2012');
+    fillData(form, 'input#root_unemployability_mostIncome', '10000');
+    fillData(form, 'input#root_unemployability_yearEarned', '2012');
 
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.false;
     expect(form.find('.usa-input-error').length).to.equal(0);
+    form.unmount();
   });
 
   it('should not submit when income is not all numbers', () => {
@@ -69,11 +71,12 @@ describe('Income Details Questions', () => {
       />,
     );
 
-    fillData(form, 'input#root_mostIncome', 'abcde');
+    fillData(form, 'input#root_unemployability_mostIncome', 'abcde');
 
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.false;
     expect(form.find('.usa-input-error').length).to.equal(1);
+    form.unmount();
   });
 
   it('should not submit when year is not valid', () => {
@@ -90,10 +93,11 @@ describe('Income Details Questions', () => {
       />,
     );
 
-    fillData(form, 'input#root_yearEarned', '0000');
+    fillData(form, 'input#root_unemployability_yearEarned', '0000');
 
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.false;
     expect(form.find('.usa-input-error').length).to.equal(1);
+    form.unmount();
   });
 });
