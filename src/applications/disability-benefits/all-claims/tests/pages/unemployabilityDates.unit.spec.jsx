@@ -8,6 +8,8 @@ import {
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
+import { ERR_MSG_CSS_CLASS } from '../../constants';
+
 describe('Unemployability affective Dates', () => {
   const {
     schema,
@@ -29,6 +31,7 @@ describe('Unemployability affective Dates', () => {
 
     expect(form.find('input').length).to.equal(3);
     expect(form.find('select').length).to.equal(6);
+    form.unmount();
   });
 
   it('should fail to submit when no beginning date is filled out', () => {
@@ -47,8 +50,9 @@ describe('Unemployability affective Dates', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit when beginning date is filled in', () => {
@@ -68,12 +72,13 @@ describe('Unemployability affective Dates', () => {
 
     fillDate(
       form,
-      'root_disabilityAffectedEmploymentFullTimeDate',
+      'root_unempoloyability_disabilityAffectedEmploymentFullTimeDate',
       '2017-03-04"',
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });
