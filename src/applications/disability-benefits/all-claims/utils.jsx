@@ -628,7 +628,6 @@ export const ancillaryFormUploadUi = (
     attachmentId = '',
     widgetType = 'select',
     customClasses = '',
-    isDisabled = false,
     addAnotherLabel = 'Add Another',
   },
 ) =>
@@ -662,7 +661,6 @@ export const ancillaryFormUploadUi = (
     }),
     attachmentSchema: {
       'ui:title': 'Document type',
-    //  'ui:disabled': isDisabled,
       'ui:widget': widgetType,
     },
     classNames: customClasses,
