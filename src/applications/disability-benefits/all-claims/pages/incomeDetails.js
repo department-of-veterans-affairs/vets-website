@@ -1,24 +1,8 @@
-import React from 'react';
-
-import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
-
 import { isValidYear } from '../validations';
-
 import currencyUI from 'us-forms-system/lib/js/definitions/currency';
 
-const incomeDescription = (
-  <div>
-    <h3>Income details</h3>
-    <p>
-      Now we‘re going to ask you about your income history. Please provide your
-      gross income, which is all the money you earned through employment for the
-      year before taxes. You should include military pay but you don‘t need to
-      include Social Security benefits, VA benefits, stock dividends, or
-      investment income. If you can‘t remember the exact dollar amount, you can
-      give an estimated amount.
-    </p>
-  </div>
-);
+import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
+import { incomeDescription } from '../content/incomeDetails';
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,
