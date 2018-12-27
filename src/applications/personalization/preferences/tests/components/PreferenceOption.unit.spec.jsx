@@ -19,5 +19,6 @@ describe('<PreferenceOption>', () => {
     const component = shallow(<PreferenceOption {...props} />);
     expect(component.html()).to.contain('Health Care');
     expect(component.html()).to.contain('Get health care coverage.');
+    component.unmount();
   });
 });

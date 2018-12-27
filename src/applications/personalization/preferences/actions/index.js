@@ -1,33 +1,162 @@
-import localStorage from 'platform/utilities/storage/localStorage';
+import { apiRequest } from 'platform/utilities/api';
 
-export const DASHBOARD_PREFERENCE_SET = 'DASHBOARD_PREFERENCE_SET';
-export const DASHBOARD_PREFERENCES_SAVED = 'DASHBOARD_PREFERENCES_SAVED';
-export const DASHBOARD_PREFERENCES_FETCHED = 'DASHBOARD_PREFERENCES_FETCHED';
+import {
+  benefitChoices,
+  transformPreferencesForSaving,
+  restoreDismissedBenefitAlerts,
+  getDismissedBenefitAlerts, // eslint-disable-line no-unused-vars
+  // getNewSelections,
+} from '../helpers';
+import { LOADING_STATES } from '../constants';
 
-export function fetchPreferences() {
-  const savedPrefs = localStorage.getItem('dashboard-preferences');
-  localStorage.setItem('dashboardLastVisitedAt', Date.now());
+export const SET_USER_PREFERENCE_REQUEST_STATUS =
+  'SET_USER_PREFERENCE_REQUEST_STATUS';
+export const SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS =
+  'SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS';
+export const SET_SAVE_PREFERENCES_REQUEST_STATUS =
+  'SET_SAVE_PREFERENCES_REQUEST_STATUS';
+export const SET_AVAILABLE_BENEFITS = 'SET_AVAILABLE_BENEFITS';
+export const SET_DASHBOARD_USER_PREFERENCES = 'SET_DASHBOARD_USER_PREFERENCES';
+export const SET_DASHBOARD_PREFERENCE = 'SET_DASHBOARD_PREFERENCE';
+export const SAVED_DASHBOARD_PREFERENCES = 'SAVED_DASHBOARD_PREFERENCES';
+export const SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS =
+  'SET_DISMISSED_DASHBOARD_PREFERENCE_ALERTS';
 
-  return {
-    type: DASHBOARD_PREFERENCES_FETCHED,
-    data: (savedPrefs && JSON.parse(savedPrefs)) || {},
+// load the benefits the user has picked to learn more about
+export function fetchUserSelectedBenefits() {
+  return dispatch => {
+    dispatch({
+      type: SET_USER_PREFERENCE_REQUEST_STATUS,
+      status: LOADING_STATES.pending,
+    });
+    return apiRequest(
+      '/user/preferences',
+      null,
+      response => {
+        dispatch({
+          type: SET_DASHBOARD_USER_PREFERENCES,
+          payload: response,
+        });
+      },
+      () => {
+        dispatch({
+          type: SET_USER_PREFERENCE_REQUEST_STATUS,
+          status: LOADING_STATES.error,
+        });
+      },
+    );
   };
 }
 
-export function setPreference(slug, value = true) {
+// load all available benefits
+export function fetchAvailableBenefits() {
+  return dispatch => {
+    dispatch({
+      type: SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
+      status: LOADING_STATES.pending,
+    });
+
+    return apiRequest(
+      '/user/preferences/choices/benefits',
+      null,
+      response => {
+        const availableBenefits = response.data.attributes.preferenceChoices;
+
+        dispatch({
+          type: SET_AVAILABLE_BENEFITS,
+          preferences: availableBenefits,
+        });
+
+        dispatch({
+          type: SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
+          status: LOADING_STATES.loaded,
+        });
+      },
+      () => {
+        dispatch({
+          type: SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
+          status: LOADING_STATES.error,
+        });
+      },
+    );
+  };
+}
+
+export function setPreference(code, value = true) {
   return {
-    type: DASHBOARD_PREFERENCE_SET,
-    slug,
+    type: SET_DASHBOARD_PREFERENCE,
+    code,
     value,
   };
 }
 
-export function savePreferences(data) {
-  // TODO: persist preferences to API
-  localStorage.setItem('dashboard-preferences', JSON.stringify(data));
-
+export function setDismissedBenefitAlerts(value = []) {
   return {
-    type: DASHBOARD_PREFERENCES_SAVED,
-    data,
+    type: SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
+    value,
   };
+}
+
+export function savePreferences(benefitsData) {
+  // eslint-disable-next-line no-unused-vars
+  return (dispatch, getState) => {
+    dispatch({
+      type: SET_SAVE_PREFERENCES_REQUEST_STATUS,
+      status: LOADING_STATES.pending,
+    });
+
+    const body = transformPreferencesForSaving(benefitsData);
+
+    const method = 'POST';
+    const headers = { 'Content-Type': 'application/json' };
+    return apiRequest(
+      '/user/preferences',
+      { headers, method, body },
+      () => {
+        dispatch({
+          type: SAVED_DASHBOARD_PREFERENCES,
+        });
+
+        dispatch({
+          type: SET_SAVE_PREFERENCES_REQUEST_STATUS,
+          status: LOADING_STATES.loaded,
+        });
+
+        // TODO: use getNewSelections helper with staged and saved data
+        // const newBenefitSelections = getNewSelections(
+        //   getState().preferences.savedPreferences,
+        //   benefitsData,
+        // );
+        // TODO: remove this mock newBenefitSelections
+        // This re-enables an alert whenever any relevant benefit is included
+        // not only if it is a new addition to the selected benefits
+        const newBenefitSelections = Object.keys(benefitsData);
+        // Get alert names for new selections
+
+        const newBenefitAlerts = benefitChoices // eslint-disable-line no-unused-vars
+          .filter(
+            choice =>
+              !!choice.alert && newBenefitSelections.includes(choice.code),
+          )
+          .map(choice => choice.alert.name);
+
+        // Remove new benefit alerts from dismissed list
+        restoreDismissedBenefitAlerts(newBenefitAlerts);
+        const dismissedAlerts = getDismissedBenefitAlerts();
+
+        dispatch(setDismissedBenefitAlerts(dismissedAlerts));
+      },
+      () => {
+        dispatch({
+          type: SET_SAVE_PREFERENCES_REQUEST_STATUS,
+          status: LOADING_STATES.error,
+        });
+      },
+    );
+  };
+}
+
+export function deletePreferences() {
+  // TODO: flesh out with a call to the DELETE
+  // /v0/user/preferences/:code/delete_all endpoint
 }

@@ -28,6 +28,7 @@ describe('VIC veteran information', () => {
 
     expect(form.find('input').length).to.equal(7);
     expect(form.find('select').length).to.equal(4);
+    form.unmount();
   });
 
   it('should not submit without required info', () => {
@@ -46,6 +47,7 @@ describe('VIC veteran information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(6);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with all info filled in', () => {
@@ -70,5 +72,6 @@ describe('VIC veteran information', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

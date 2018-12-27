@@ -48,14 +48,14 @@ class ClaimsDecision extends React.Component {
         <p>
           If you disagree with the decision on your claim, you can file an
           appeal.{' '}
-          <a href="/disability-benefits/claims-appeal/" target="_blank">
+          <a href="/disability/file-an-appeal/" target="_blank">
             Learn more about filing an appeal
           </a>
           .
         </p>
         <p>
           Are you enrolled in VA health care? If not, you can apply now.
-          <a href="/health-care/apply/" target="_blank">
+          <a href="/health-care/how-to-apply/" target="_blank">
             Apply for VA health care
           </a>
           .

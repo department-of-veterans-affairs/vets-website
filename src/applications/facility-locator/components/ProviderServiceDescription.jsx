@@ -17,7 +17,7 @@ const ProviderServiceDescription = ({ provider, details = false }) => {
     if (specialty.length < 1) return null;
 
     return (
-      <ul style={{ listStyle: 'none' }}>
+      <ul>
         {specialty.map(s => (
           <li key={s.name}>
             <u>{s.name}</u>: {s.desc}

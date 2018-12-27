@@ -26,15 +26,15 @@ describe('781 getPtsdClassification', () => {
   it('Non-combat classification content is correct', () => {
     const formData = {
       'view:selectablePtsdTypes': {
-        'view:noncombatPtsdType': true,
+        'view:nonCombatPtsdType': true,
       },
     };
 
     expect(getPtsdClassification(formData, '781').incidentText).to.equal(
-      'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault',
+      'Non-combat',
     );
     expect(getPtsdClassification(formData, '781').incidentTitle).to.equal(
-      'Non-Combat PTSD other than Military Sexual Trauma or Personal Assault',
+      'Non-combat',
     );
   });
 
@@ -42,15 +42,15 @@ describe('781 getPtsdClassification', () => {
     const formData = {
       'view:selectablePtsdTypes': {
         'view:combatPtsdType': true,
-        'view:noncombatPtsdType': true,
+        'view:nonCombatPtsdType': true,
       },
     };
 
     expect(getPtsdClassification(formData, '781').incidentText).to.equal(
-      'Combat and Non-Combat PTSD other than Military Sexual Trauma or Personal Assault',
+      'Combat and Non-combat',
     );
     expect(getPtsdClassification(formData, '781').incidentTitle).to.equal(
-      'Combat & Non-Combat PTSD other than Military Sexual Trauma or Personal Assault',
+      'Combat & Non-combat',
     );
   });
 });
@@ -64,10 +64,10 @@ describe('781a getPtsdClassification', () => {
     };
 
     expect(getPtsdClassification(formData, '781a').incidentText).to.equal(
-      'Personal Assault',
+      'Personal assault',
     );
     expect(getPtsdClassification(formData, '781a').incidentTitle).to.equal(
-      'Personal Assault',
+      'Personal assault',
     );
   });
 
@@ -79,10 +79,10 @@ describe('781a getPtsdClassification', () => {
     };
 
     expect(getPtsdClassification(formData, '781a').incidentText).to.equal(
-      'Military Sexual Trauma',
+      'Military sexual trauma',
     );
     expect(getPtsdClassification(formData, '781a').incidentTitle).to.equal(
-      'Military Sexual Trauma',
+      'Military sexual trauma',
     );
   });
 
@@ -95,10 +95,10 @@ describe('781a getPtsdClassification', () => {
     };
 
     expect(getPtsdClassification(formData, '781a').incidentText).to.equal(
-      'Personal Assault and Military Sexual Trauma',
+      'Personal assault and Military sexual trauma',
     );
     expect(getPtsdClassification(formData, '781a').incidentTitle).to.equal(
-      'Personal Assault & Military Sexual Trauma',
+      'Personal assault & Military sexual trauma',
     );
   });
 });
@@ -115,5 +115,6 @@ describe('PtsdNameTitle', () => {
       <PtsdNameTitle formData={formData} formType="781" />,
     );
     expect(wrapper.find('legend').length).to.equal(1);
+    wrapper.unmount();
   });
 });

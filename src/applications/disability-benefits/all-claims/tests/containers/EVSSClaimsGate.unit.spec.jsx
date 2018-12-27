@@ -31,6 +31,7 @@ describe('EVSSClaimsGate', () => {
       </EVSSClaimsGate>,
     );
     expect(tree.text()).to.equal('It worked!');
+    tree.unmount();
   });
 
   it('should render a RequiredLoginView', () => {
@@ -43,5 +44,6 @@ describe('EVSSClaimsGate', () => {
       </EVSSClaimsGate>,
     );
     expect(tree.find('RequiredLoginView').length).to.equal(1);
+    tree.unmount();
   });
 });

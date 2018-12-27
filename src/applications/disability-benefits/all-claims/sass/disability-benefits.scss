@@ -86,15 +86,11 @@ ul.original-disability-list {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-height: 5rem;
 
     .review-card--title {
       margin: 0;
       display: inline-block;
-    }
-
-    .edit-button {
-      width: 8rem;
-      margin-right: 0;
     }
   }
 
@@ -109,10 +105,16 @@ ul.original-disability-list {
       margin: 1.5rem 0 2.5rem;
     }
 
-    .update-button {
+    .update-button, .cancel-button {
+      width: auto;
       margin-top: 1rem;
-      width: 15rem;
     }
+  }
+
+  .edit-button {
+    width: auto;
+    min-width: 8rem;
+    margin-right: 0;
   }
 }
 
@@ -128,4 +130,17 @@ ul.original-disability-list {
 
 #root_yearEarned {
   max-width: 25%;
+}
+
+.patient-acknowldegment-help {
+  max-width: 80vw; 
+}
+
+.upload-completed-form .schemaform-widget-wrapper textarea {
+  background-color: transparent;
+  border: none;
+  font-weight: bold;
+  padding-left: 0;
+  height: auto;
+  resize: none;
 }
