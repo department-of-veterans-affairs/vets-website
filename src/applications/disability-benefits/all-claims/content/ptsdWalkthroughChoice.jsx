@@ -23,8 +23,9 @@ const UploadExplanation = ({ formType }) => (
   <div>
     <p>
       You can either answer the questions online, or if you’ve already completed
-      a Claim for Service Connection for Post-Traumatic Stress Disorder (VA Form{' '}
-      {`21-0${formType}`}
+      a Claim for Service Connection for Post-Traumatic Stress Disorder{' '}
+      {formType === '781a' && 'Secondary to Personal Assault '}
+      (VA Form {`21-0${formType}`}
       ), you can upload the form.
     </p>
     <p>How would you like to provide information about your PTSD?</p>
