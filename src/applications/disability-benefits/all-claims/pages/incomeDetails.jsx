@@ -4,6 +4,8 @@ import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 import { isValidYear } from '../validations';
 
+import currencyUI from 'us-forms-system/lib/js/definitions/currency';
+
 const incomeDescription = (
   <div>
     <h3>Income details</h3>
@@ -22,12 +24,9 @@ export const uiSchema = {
   'ui:title': unemployabilityTitle,
   'ui:description': incomeDescription,
   unemployability: {
-    mostIncome: {
-      'ui:title': 'What was the most money you ever earned in one year?',
-      'ui:errorMessages': {
-        pattern: 'Sorry, you must enter all digits',
-      },
-    },
+    mostIncome: currencyUI(
+      'What was the most money you ever earned in one year?',
+    ),
     yearEarned: {
       'ui:title': 'Year earned',
       'ui:validations': [isValidYear],
@@ -48,8 +47,7 @@ export const schema = {
       type: 'object',
       properties: {
         mostIncome: {
-          type: 'string',
-          pattern: '^[0-9]*$',
+          type: 'number',
         },
         yearEarned: {
           type: 'string',
