@@ -7,16 +7,21 @@ import {
   fetchUserSelectedBenefits,
   setPreference,
   setDismissedBenefitAlerts,
-  SET_DASHBOARD_PREFERENCE,
-  SET_USER_PREFERENCE_REQUEST_STATUS,
-  SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
-  SET_SAVE_PREFERENCES_REQUEST_STATUS,
+  deletePreferences,
+  FETCH_ALL_PREFERENCES_PENDING,
+  FETCH_ALL_PREFERENCES_FAILED,
+  FETCH_ALL_PREFERENCES_SUCCEEDED,
+  FETCH_USER_PREFERENCES_PENDING,
+  FETCH_USER_PREFERENCES_FAILED,
+  FETCH_USER_PREFERENCES_SUCCEEDED,
+  SAVE_USER_PREFERENCES_PENDING,
+  SAVE_USER_PREFERENCES_FAILED,
+  SAVE_USER_PREFERENCES_SUCCEEDED,
+  SET_USER_PREFERENCE,
+  SET_ALL_USER_PREFERENCES,
   SET_AVAILABLE_BENEFITS,
-  SET_DASHBOARD_USER_PREFERENCES,
-  SAVED_DASHBOARD_PREFERENCES,
   SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
 } from '../../actions';
-import { LOADING_STATES } from '../../constants';
 
 function setFetchResponse(stub, data) {
   const response = new Response(null, {
@@ -37,37 +42,6 @@ function setFetchFailure(stub, data) {
 }
 
 describe('preferences actions', () => {
-  describe('setPreference', () => {
-    it('should return a SET_DASHBOARD_PREFERENCE action, setting the preference to `true` by default', () => {
-      expect(setPreference('preference-code')).to.eql({
-        type: SET_DASHBOARD_PREFERENCE,
-        code: 'preference-code',
-        value: true,
-      });
-    });
-    it('should return a SET_DASHBOARD_PREFERENCE action, setting it to the correct value', () => {
-      expect(setPreference('preference-code', false)).to.eql({
-        type: SET_DASHBOARD_PREFERENCE,
-        code: 'preference-code',
-        value: false,
-      });
-    });
-  });
-  describe('setDismissedBenefitAlerts', () => {
-    it('should return a SET_DASHBOARD_PREFERENCE_BENEFIT_ALERTS action, setting the dismissedBenefitAlerts to `[]` by default', () => {
-      expect(setDismissedBenefitAlerts()).to.eql({
-        type: SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
-        value: [],
-      });
-    });
-    it('should return a SET_DASHBOARD_PREFERENCE_BENEFIT_ALERTS action, setting it to the correct value', () => {
-      const value = ['homelessness-alert'];
-      expect(setDismissedBenefitAlerts(value)).to.eql({
-        type: SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
-        value,
-      });
-    });
-  });
   describe('fetchUserSelectedBenefits', () => {
     beforeEach(() => {
       mockFetch();
@@ -75,15 +49,14 @@ describe('preferences actions', () => {
     afterEach(() => {
       resetFetch();
     });
-    it(`should dispatch the SET_USER_PREFERENCE_REQUEST_STATUS action with 'pending' immediately`, done => {
+    it(`should dispatch the FETCH_USER_PREFERENCES_PENDING action immediately`, done => {
       const dispatch = sinon.spy();
 
       fetchUserSelectedBenefits()(dispatch);
 
       expect(
         dispatch.firstCall.calledWith({
-          type: SET_USER_PREFERENCE_REQUEST_STATUS,
-          status: LOADING_STATES.pending,
+          type: FETCH_USER_PREFERENCES_PENDING,
         }),
       ).to.be.true;
       done();
@@ -103,7 +76,7 @@ describe('preferences actions', () => {
       }, 0);
     });
 
-    it(`should dispatch the SET_USER_PREFERENCE_REQUEST_STATUS action with 'error' on request failure`, done => {
+    it(`should dispatch the FETCH_USER_PREFERENCES_FAILED action on request failure`, done => {
       const error = { test: 'test' };
       setFetchFailure(global.fetch.onFirstCall(), error);
 
@@ -114,15 +87,14 @@ describe('preferences actions', () => {
       setTimeout(() => {
         expect(
           dispatch.secondCall.calledWith({
-            type: SET_USER_PREFERENCE_REQUEST_STATUS,
-            status: LOADING_STATES.error,
+            type: FETCH_USER_PREFERENCES_FAILED,
           }),
         ).to.be.true;
         done();
       }, 0);
     });
 
-    it(`should dispatch the SET_DASHBOARD_USER_PREFERENCES action with the response on request success`, done => {
+    it(`should dispatch the FETCH_USER_PREFERENCES_SUCCEEDED and SET_ALL_USER_PREFERENCES actions on request success`, done => {
       const response = {
         data: {
           attributes: {
@@ -152,14 +124,18 @@ describe('preferences actions', () => {
 
       setTimeout(() => {
         expect(dispatch.secondCall.args[0]).to.eql({
-          type: SET_DASHBOARD_USER_PREFERENCES,
+          type: SET_ALL_USER_PREFERENCES,
           payload: response,
         });
+        expect(
+          dispatch.thirdCall.calledWith({
+            type: FETCH_USER_PREFERENCES_SUCCEEDED,
+          }),
+        ).to.be.true;
         done();
       }, 0);
     });
   });
-
   describe('fetchAvailableBenefits', () => {
     beforeEach(() => {
       mockFetch();
@@ -167,15 +143,14 @@ describe('preferences actions', () => {
     afterEach(() => {
       resetFetch();
     });
-    it(`should immediately dispatch the SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS action with 'pending'`, done => {
+    it(`should immediately dispatch the FETCH_ALL_PREFERENCES_PENDING action`, done => {
       const dispatch = sinon.spy();
 
       fetchAvailableBenefits()(dispatch);
 
       expect(
         dispatch.firstCall.calledWith({
-          type: SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
-          status: LOADING_STATES.pending,
+          type: FETCH_ALL_PREFERENCES_PENDING,
         }),
       ).to.be.true;
 
@@ -196,7 +171,7 @@ describe('preferences actions', () => {
       }, 0);
     });
 
-    it(`should dispatch the SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS action with 'error' on request failure`, done => {
+    it(`should dispatch the FETCH_ALL_PREFERENCES_FAILED on request failure`, done => {
       const error = { test: 'test' };
       setFetchFailure(global.fetch.onFirstCall(), error);
 
@@ -207,15 +182,14 @@ describe('preferences actions', () => {
       setTimeout(() => {
         expect(
           dispatch.secondCall.calledWith({
-            type: SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
-            status: LOADING_STATES.error,
+            type: FETCH_ALL_PREFERENCES_FAILED,
           }),
         ).to.be.true;
         done();
       }, 0);
     });
 
-    it(`should dispatch the SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS action with 'loaded' and the SET_AVAILABLE_BENEFITS action on request success`, done => {
+    it(`should dispatch the FETCH_ALL_PREFERENCES_SUCCEEDED and the SET_AVAILABLE_BENEFITS actions on request success`, done => {
       const response = {
         data: {
           attributes: {
@@ -243,15 +217,44 @@ describe('preferences actions', () => {
         });
         expect(
           dispatch.thirdCall.calledWith({
-            type: SET_ALL_PREFERENCE_OPTIONS_REQUEST_STATUS,
-            status: LOADING_STATES.loaded,
+            type: FETCH_ALL_PREFERENCES_SUCCEEDED,
           }),
         ).to.be.true;
         done();
       }, 0);
     });
   });
-
+  describe('setPreference', () => {
+    it('should return a SET_USER_PREFERENCE action, setting the preference to `true` by default', () => {
+      expect(setPreference('preference-code')).to.eql({
+        type: SET_USER_PREFERENCE,
+        code: 'preference-code',
+        value: true,
+      });
+    });
+    it('should return a SET_USER_PREFERENCE action, setting it to the correct value', () => {
+      expect(setPreference('preference-code', false)).to.eql({
+        type: SET_USER_PREFERENCE,
+        code: 'preference-code',
+        value: false,
+      });
+    });
+  });
+  describe('setDismissedBenefitAlerts', () => {
+    it('should return a SET_DASHBOARD_PREFERENCE_BENEFIT_ALERTS action, setting the dismissedBenefitAlerts to `[]` by default', () => {
+      expect(setDismissedBenefitAlerts()).to.eql({
+        type: SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
+        value: [],
+      });
+    });
+    it('should return a SET_DASHBOARD_PREFERENCE_BENEFIT_ALERTS action, setting it to the correct value', () => {
+      const value = ['homelessness-alert'];
+      expect(setDismissedBenefitAlerts(value)).to.eql({
+        type: SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
+        value,
+      });
+    });
+  });
   describe('savePreferences', () => {
     const benefitsData = {
       pensions: true,
@@ -263,15 +266,14 @@ describe('preferences actions', () => {
     afterEach(() => {
       resetFetch();
     });
-    it(`should immediately dispatch the SET_SAVE_PREFERENCES_REQUEST_STATUS action with 'pending'`, done => {
+    it(`should immediately dispatch the SAVE_USER_PREFERENCES_PENDING action`, done => {
       const dispatch = sinon.spy();
 
       savePreferences(benefitsData)(dispatch);
 
       expect(
         dispatch.firstCall.calledWith({
-          type: SET_SAVE_PREFERENCES_REQUEST_STATUS,
-          status: LOADING_STATES.pending,
+          type: SAVE_USER_PREFERENCES_PENDING,
         }),
       ).to.be.true;
 
@@ -301,7 +303,7 @@ describe('preferences actions', () => {
       }, 0);
     });
 
-    it(`should dispatch the SET_SAVE_PREFERENCES_REQUEST_STATUS action with 'error' on request failure`, done => {
+    it(`should dispatch the SAVE_USER_PREFERENCES_FAILED action on request failure`, done => {
       const error = { test: 'test' };
       setFetchFailure(global.fetch.onFirstCall(), error);
 
@@ -312,15 +314,14 @@ describe('preferences actions', () => {
       setTimeout(() => {
         expect(
           dispatch.secondCall.calledWith({
-            type: SET_SAVE_PREFERENCES_REQUEST_STATUS,
-            status: LOADING_STATES.error,
+            type: SAVE_USER_PREFERENCES_FAILED,
           }),
         ).to.be.true;
         done();
       }, 0);
     });
 
-    it(`should dispatch the SET_SAVE_PREFERENCES_REQUEST_STATUS action with 'loaded' and the SAVED_DASHBOARD_PREFERENCES action on request success`, done => {
+    it(`should dispatch the SAVE_USER_PREFERENCES_SUCCEEDED on request success`, done => {
       const response = {
         data: {
           attributes: {
@@ -342,13 +343,89 @@ describe('preferences actions', () => {
       savePreferences(benefitsData)(dispatch);
 
       setTimeout(() => {
-        expect(dispatch.secondCall.args[0]).to.eql({
-          type: SAVED_DASHBOARD_PREFERENCES,
-        });
         expect(
-          dispatch.thirdCall.calledWith({
-            type: SET_SAVE_PREFERENCES_REQUEST_STATUS,
-            status: LOADING_STATES.loaded,
+          dispatch.secondCall.calledWith({
+            type: SAVE_USER_PREFERENCES_SUCCEEDED,
+          }),
+        ).to.be.true;
+        done();
+      }, 0);
+    });
+  });
+  describe('deletePreferences', () => {
+    beforeEach(() => {
+      mockFetch();
+    });
+    afterEach(() => {
+      resetFetch();
+    });
+    it(`should immediately dispatch the SAVE_USER_PREFERENCES_PENDING action`, done => {
+      const dispatch = sinon.spy();
+
+      deletePreferences()(dispatch);
+
+      expect(
+        dispatch.firstCall.calledWith({
+          type: SAVE_USER_PREFERENCES_PENDING,
+        }),
+      ).to.be.true;
+
+      done();
+    });
+
+    it(`should call the API`, done => {
+      const dispatch = sinon.spy();
+
+      deletePreferences()(dispatch);
+
+      setTimeout(() => {
+        expect(global.fetch.firstCall.args[0]).to.contain(
+          '/v0/user/preferences/benefits/delete_all',
+        );
+        expect(global.fetch.firstCall.args[1].method).to.eql('DELETE');
+        done();
+      }, 0);
+    });
+
+    it(`should dispatch the SAVE_USER_PREFERENCES_FAILED on request failure`, done => {
+      const error = { test: 'test' };
+      setFetchFailure(global.fetch.onFirstCall(), error);
+
+      const dispatch = sinon.spy();
+
+      deletePreferences()(dispatch);
+
+      setTimeout(() => {
+        expect(
+          dispatch.secondCall.calledWith({
+            type: SAVE_USER_PREFERENCES_FAILED,
+          }),
+        ).to.be.true;
+        done();
+      }, 0);
+    });
+
+    it(`should dispatch the SAVE_USER_PREFERENCES_SUCCEEDED`, done => {
+      const response = {
+        data: {
+          id: 'string',
+          type: 'string',
+          attributes: {
+            preferenceCode: 'string',
+            userPreferences: [],
+          },
+        },
+      };
+      setFetchResponse(global.fetch.onFirstCall(), response);
+
+      const dispatch = sinon.spy();
+
+      deletePreferences()(dispatch);
+
+      setTimeout(() => {
+        expect(
+          dispatch.secondCall.calledWith({
+            type: SAVE_USER_PREFERENCES_SUCCEEDED,
           }),
         ).to.be.true;
         done();
