@@ -3,13 +3,12 @@ import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation/Modal';
-import CallHelpDesk from '../../../brand-consolidation/components/CallHelpDesk';
+import SubmitSignInForm from '../../../brand-consolidation/components/SubmitSignInForm';
 
-import isBrandConsolidationEnabled from '../../../brand-consolidation/feature-flag';
+import environment from '../../../utilities/environment';
 import recordEvent from '../../../monitoring/record-event';
 import { login, signup } from '../../../user/authentication/utilities';
 import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
-import { replaceWithStagingDomain } from '../../../../platform/utilities/environment/stagingDomains';
 import DowntimeBanner from '../../../../platform/monitoring/DowntimeNotification/components/Banner';
 import siteName from '../../../brand-consolidation/site-name';
 
@@ -22,18 +21,9 @@ const handleDsLogon = loginHandler('dslogon');
 const handleMhv = loginHandler('mhv');
 const handleIdMe = loginHandler('idme');
 
-const logoSrc = replaceWithStagingDomain(
-  isBrandConsolidationEnabled()
-    ? 'https://www.va.gov/img/design/logo/va-logo.png'
-    : '/img/design/logo/logo-alt.png',
-);
-const faqHref = replaceWithStagingDomain(
-  isBrandConsolidationEnabled() ? 'https://www.va.gov/sign-in-faq/' : '/faq/',
-);
+const vaGovFullDomain = environment.BASE_URL;
+const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 
-const vaGovFullDomain = isBrandConsolidationEnabled()
-  ? replaceWithStagingDomain('https://www.va.gov')
-  : '';
 class SignInModal extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {
@@ -76,10 +66,10 @@ class SignInModal extends React.Component {
                 >
                   We’re sorry. We’re working to fix some problems with DS Logon
                   right now. Please check back later or{' '}
-                  <CallHelpDesk>
+                  <SubmitSignInForm>
                     call the {siteName} Help Desk for more information at
                     1-855-574-7286, TTY: 1-800-877-8339.
-                  </CallHelpDesk>
+                  </SubmitSignInForm>
                 </AlertBox>
                 <br />
               </div>
@@ -180,7 +170,7 @@ class SignInModal extends React.Component {
                 information.
               </p>
               <p>
-                <a href={`${faqHref}#what-is-idme`} target="_blank">
+                <a href="/sign-in-faq/#what-is-idme" target="_blank">
                   Learn more about ID.me
                 </a>
               </p>
@@ -192,18 +182,12 @@ class SignInModal extends React.Component {
             <div className="help-info">
               <h4>Having trouble signing in?</h4>
               <p>
-                <a href={faqHref} target="_blank">
+                <a href="/sign-in-faq/" target="_blank">
                   Get answers to Frequently Asked Questions
                 </a>
               </p>
               <p>
-                <a
-                  href="https://www.accesstocare.va.gov/sign-in-help"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  Submit a request to get help
-                </a>
+                <SubmitSignInForm startSentence />
               </p>
             </div>
             <hr />

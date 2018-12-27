@@ -36,6 +36,7 @@ describe('<Vet360EditModalActionButtons/>', () => {
       component.find('.usa-button-secondary.button-link'),
       'renders delete button',
     ).to.have.lengthOf(1);
+    component.unmount();
   });
 
   it('renders correctly when delete triggered', () => {
@@ -67,6 +68,7 @@ describe('<Vet360EditModalActionButtons/>', () => {
       component.find('.usa-button-secondary.button-link'),
       'hide delete button',
     ).to.have.lengthOf(0);
+    component.unmount();
   });
 
   it('renders correctly when delete disabled', () => {
@@ -88,5 +90,6 @@ describe('<Vet360EditModalActionButtons/>', () => {
       component.find('.usa-button-secondary.button-link'),
       'hide delete button',
     ).to.have.lengthOf(0);
+    component.unmount();
   });
 });

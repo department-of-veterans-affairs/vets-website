@@ -124,7 +124,7 @@ node('vetsgov-general-purpose') {
         security: {
           retry(3) {
             dockerImage.inside(args) {
-              sh "cd /application && nsp check"
+              sh "cd /application && npm run security-check"
             }
           }
         },
@@ -218,7 +218,7 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  stage('Pre-archive optimizations') {
+  stage('Prearchive optimizations') {
     if (shouldBail()) { return }
 
     try {
@@ -229,7 +229,7 @@ node('vetsgov-general-purpose') {
 
         builds[envName] = {
           dockerImage.inside(args) {
-            sh "cd /application && node script/pre-archive/index.js --buildtype=${envName}"
+            sh "cd /application && node script/prearchive.js --buildtype=${envName}"
           }
         }
       }

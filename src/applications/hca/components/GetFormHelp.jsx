@@ -1,4 +1,5 @@
 import React from 'react';
+import CallHRC from '../../../platform/brand-consolidation/components/CallHRC';
 
 function GetFormHelp() {
   return (
@@ -15,6 +16,9 @@ function GetFormHelp() {
         </a>
         <br />
         Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. (ET)
+      </p>
+      <p className="help-talk">
+        If this form isn't working right for you, please <CallHRC />
       </p>
     </div>
   );

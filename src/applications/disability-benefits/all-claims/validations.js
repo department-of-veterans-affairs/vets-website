@@ -22,7 +22,9 @@ export function isValidZIP(value) {
 
 export function validateZIP(errors, zip) {
   if (zip && !isValidZIP(zip)) {
-    errors.addError('Please enter a valid 5 or 9 digit ZIP (dashes allowed)');
+    errors.addError(
+      'Please enter a valid 5 or 9 digit Postal code (dashes allowed)',
+    );
   }
 }
 
@@ -147,6 +149,9 @@ export const oneDisabilityRequired = disabilityList => (
   }
 };
 
+export const isDisabilityPtsd = disability =>
+  disability.toLowerCase().includes(PTSD);
+
 export const hasNewPtsdDisability = formData => {
   if (!_.get('view:newDisabilities', formData, false)) {
     return false;
@@ -154,7 +159,7 @@ export const hasNewPtsdDisability = formData => {
   return some(_.get('newDisabilities', formData, []), item => {
     let hasPtsd = false;
     if (item && typeof item.condition === 'string') {
-      hasPtsd = item.condition.toLowerCase().includes(PTSD);
+      hasPtsd = isDisabilityPtsd(item.condition);
     }
     return hasPtsd;
   });

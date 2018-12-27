@@ -110,7 +110,7 @@ class AccountMain extends React.Component {
               </p>
             </div>
             <div>
-              <h5>DS Login</h5>
+              <h5>DS Logon</h5>
               <a
                 href="https://myaccess.dmdc.osd.mil/identitymanagement"
                 target="_blank"
@@ -134,7 +134,7 @@ class AccountMain extends React.Component {
           Manage the sites and applications that you've granted access to your
           {propertyName} profile data.
         </p>
-        <a href="/connected-accounts">Manage your connected accounts</a>
+        <a href="/account/connected-accounts">Manage your connected accounts</a>
         <div className="feature">
           <h3>Have questions about signing in to {propertyName}?</h3>
           <p>
@@ -143,7 +143,7 @@ class AccountMain extends React.Component {
             security on {propertyName}.
           </p>
           <a
-            href="/faq"
+            href="/sign-in-faq/"
             onClick={() =>
               recordEvent({
                 event: 'account-navigation',

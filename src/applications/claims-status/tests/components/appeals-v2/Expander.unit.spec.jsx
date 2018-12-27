@@ -16,6 +16,7 @@ describe('<Expander/>', () => {
   it('should render as an <li/>', () => {
     const wrapper = shallow(<Expander {...defaultProps} />);
     expect(wrapper.type()).to.equal('li');
+    wrapper.unmount();
   });
 
   it('should render a button that calls onToggle prop when clicked', () => {
@@ -28,6 +29,7 @@ describe('<Expander/>', () => {
     const toggleButton = wrapper.find('button');
     toggleButton.simulate('click');
     expect(toggleSpy.calledOnce).to.be.true;
+    wrapper.unmount();
   });
 
   it('should render the correct expanded attributes', () => {
@@ -43,6 +45,7 @@ describe('<Expander/>', () => {
         .text(),
     ).to.equal('Hide past events');
     expect(wrapper.find('.section-expanded').exists()).to.be.true;
+    wrapper.unmount();
   });
 
   it('should render the correct unexpanded attributes', () => {
@@ -54,6 +57,7 @@ describe('<Expander/>', () => {
         .text(),
     ).to.equal('See past events');
     expect(wrapper.find('.section-unexpanded').exists()).to.be.true;
+    wrapper.unmount();
   });
 
   it('should render the missing events alert', () => {
@@ -64,6 +68,7 @@ describe('<Expander/>', () => {
     };
     const wrapper = shallow(<Expander {...props} />);
     expect(wrapper.find('.usa-alert').exists()).to.be.true;
+    wrapper.unmount();
   });
 
   it('should not render the missing events alert when there are no missing events', () => {
@@ -73,5 +78,6 @@ describe('<Expander/>', () => {
     };
     const wrapper = shallow(<Expander {...props} />);
     expect(wrapper.find('.usa-alert').exists()).to.be.false;
+    wrapper.unmount();
   });
 });

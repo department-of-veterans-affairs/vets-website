@@ -676,14 +676,14 @@
           },
           "columnThree": {
               "img": {
-                  "src": "https://www.va.gov/img/vantagepoint-promo.png",
-                  "alt": "The VAntage Point Blog"
+                  "src": "https://www.va.gov/img/va-financial-report-fy2018.jpeg",
+                  "alt": "Agency Financial Report"
               },
               "link": {
-                  "text": "The VAntage Point Blog",
-                  "href": "https://www.blogs.va.gov/VAntage/"
+                  "text": "Agency Financial Report",
+                  "href": "https://www.va.gov/finance/afr/index.asp"
               },
-              "description": "Stay up to date on VA benefits, services, and programs."
+              "description": "View the 2018 report on VA’s progress in providing benefits and health care."
           }
       }
     },

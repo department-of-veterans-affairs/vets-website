@@ -5,11 +5,17 @@
  * @param {Object} object
  */
 export default function omit(fields, object) {
-  return Object.keys(object).reduce((newObj, k) => {
+  let fieldOmitted = false;
+
+  const withOmittedFields = Object.keys(object).reduce((newObj, k) => {
     if (!fields.includes(k)) {
       newObj[k] = object[k]; // eslint-disable-line
+    } else {
+      fieldOmitted = true;
     }
 
     return newObj;
   }, {});
+
+  return fieldOmitted ? withOmittedFields : object;
 }

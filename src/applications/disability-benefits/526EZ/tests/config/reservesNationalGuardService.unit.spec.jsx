@@ -36,6 +36,7 @@ describe('Disability benefits 526EZ reservesNationalGuardService', () => {
     );
 
     expect(form.find('input[type="radio"]').length).to.equal(2);
+    form.unmount();
   });
 
   it('requires title 10 dates when title 10 activation indicated', () => {
@@ -56,6 +57,7 @@ describe('Disability benefits 526EZ reservesNationalGuardService', () => {
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(2);
+    form.unmount();
   });
 
   it('does not submit without all required info', () => {
@@ -73,6 +75,7 @@ describe('Disability benefits 526EZ reservesNationalGuardService', () => {
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(4);
+    form.unmount();
   });
 
   it('does submit with all required info', () => {
@@ -98,5 +101,6 @@ describe('Disability benefits 526EZ reservesNationalGuardService', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.calledOnce).to.be.true;
+    form.unmount();
   });
 });

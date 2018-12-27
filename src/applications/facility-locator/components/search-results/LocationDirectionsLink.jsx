@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { buildAddressArray } from '../../utils/facilityAddress';
@@ -6,12 +5,25 @@ import { buildAddressArray } from '../../utils/facilityAddress';
 class LocationDirectionsLink extends Component {
   render() {
     const { location } = this.props;
-    const address = buildAddressArray(location).join(', ');
+    let address = buildAddressArray(location);
+
+    if (address.length !== 0) {
+      address = address.join(', ');
+    } else {
+      // If we don't have an address fallback on coords
+      const { lat, long } = location.attributes;
+      address = `${lat},${long}`;
+    }
 
     return (
       <span>
-        <a href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`} target="_blank">
-          <i className="fa fa-road" /> Directions
+        <a
+          href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <i className="fa fa-road" />
+          Directions
         </a>
       </span>
     );

@@ -31,6 +31,7 @@ describe('<ConfirmationPage>', () => {
     expect(tree.text()).to.contain(
       'We’ll send you emails updating you on the status of your application. You can also print this page for your records.',
     );
+    tree.unmount();
   });
   it('should render not signed in', () => {
     const tree = shallow(
@@ -44,6 +45,7 @@ describe('<ConfirmationPage>', () => {
     expect(tree.text()).to.contain(
       'We’ll send you emails updating you on the status of your application. You can also print this page for your records.',
     );
+    tree.unmount();
   });
   xit('should render verified and signed in', () => {
     const tree = shallow(
@@ -62,5 +64,6 @@ describe('<ConfirmationPage>', () => {
     expect(tree.find('VeteranIDCard').props().veteranPhotoUrl).to.equal(
       'imagesrc',
     );
+    tree.unmount();
   });
 });
