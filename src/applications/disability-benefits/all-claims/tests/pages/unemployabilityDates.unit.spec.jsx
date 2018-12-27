@@ -72,7 +72,7 @@ describe('Unemployability affective Dates', () => {
 
     fillDate(
       form,
-      'root_unempoloyability_disabilityAffectedEmploymentFullTimeDate',
+      'root_unemployability_disabilityAffectedEmploymentFullTimeDate',
       '2017-03-04"',
     );
 

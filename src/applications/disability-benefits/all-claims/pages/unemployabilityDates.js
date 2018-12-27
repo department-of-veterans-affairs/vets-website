@@ -28,10 +28,10 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['disabilityAffectedEmploymentFullTimeDate'],
   properties: {
     unemployability: {
       type: 'object',
+      required: ['disabilityAffectedEmploymentFullTimeDate'],
       properties: {
         disabilityAffectedEmploymentFullTimeDate: {
           $ref: '#/definitions/date',
