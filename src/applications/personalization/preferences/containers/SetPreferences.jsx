@@ -78,7 +78,7 @@ class SetPreferences extends React.Component {
   userHasNotMadeChange = () =>
     isEqual(
       this.props.preferences.dashboard,
-      this.props.preferences.dashboardBackup,
+      this.props.preferences.savedDashboard,
     );
 
   // hydrate benefit options from the backend with data from the benefitChoices
