@@ -351,6 +351,10 @@ import {
 } from './secondaryUploadSourcesChoice';
 
 import * as ancillaryFormsWizardSummary from './ancillaryFormsWizardSummary';
+import {
+  uiSchema as incomeDetailsUISchema,
+  schema as incomeDetailsSchema,
+} from './incomeDetails';
 
 export const alternateNames = {
   uiSchema: alternateNamesUISchema,
@@ -708,3 +712,8 @@ export const secondaryUploadSourcesChoice = {
 };
 
 export { ancillaryFormsWizardSummary };
+
+export const incomeDetails = {
+  uiSchema: incomeDetailsUISchema,
+  schema: incomeDetailsSchema,
+};

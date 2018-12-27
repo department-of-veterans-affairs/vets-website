@@ -79,10 +79,10 @@ describe('781a getPtsdClassification', () => {
     };
 
     expect(getPtsdClassification(formData, '781a').incidentText).to.equal(
-      'Military sexual trauma',
+      'Sexual trauma',
     );
     expect(getPtsdClassification(formData, '781a').incidentTitle).to.equal(
-      'Military sexual trauma',
+      'Sexual trauma',
     );
   });
 
@@ -95,10 +95,10 @@ describe('781a getPtsdClassification', () => {
     };
 
     expect(getPtsdClassification(formData, '781a').incidentText).to.equal(
-      'Personal assault and Military sexual trauma',
+      'Personal assault and Sexual trauma',
     );
     expect(getPtsdClassification(formData, '781a').incidentTitle).to.equal(
-      'Personal assault & Military sexual trauma',
+      'Personal assault & Sexual trauma',
     );
   });
 });

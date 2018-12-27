@@ -525,7 +525,7 @@ export function incidentLocationSchemas() {
       },
       additionalDetails: {
         'ui:title':
-          'Additional details (Include address, landmark, military installation, or other location.)',
+          'Additional details (This could include an address, landmark, military installation, or other location.)',
         'ui:widget': 'textarea',
       },
       'ui:order': ['country', 'state', 'city', 'additionalDetails'],
